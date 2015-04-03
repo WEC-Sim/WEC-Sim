@@ -1,0 +1,183 @@
+.. _code_structure:
+
+Code Structure
+==============
+This section provides a description of the WEC-Sim source code and its structure. The WEC-Sim source code is a series of MATLAB m-files that read the user input data, perform preprocessing calculations, and run the Simulink/SimMechanics time-domain simulations.
+
+Code Conventions
+----------------
+All units within WEC-Sim are in the MKS (meters-kilograms-seconds system) and angular measurements are specified in radians unless otherwise specified.
+
+The WEC-Sim coordinate system assumes that the X axis is in the direction of wave propagation if the wave heading angle is equal to zero, the Z axis is in the vertical upwards direction, and the Y axis direction
+is defned by the right-hand rule (as shown below).
+
+.. ::figure:coordinateSystem.png
+   :width: 400pt
+
+Input File Structure
+--------------------
+
+The WEC-Sim input file (``wecSimInputFile.m``) is required for each run. The input file MUST be placed inside the case directory for the run and MUST be named ``wecSimInputFile.m``. The input file contains information needed to run WEC-Sim simulations. Descriptions of the four primary functions the WEC-Sim input file serves will be given in the following sections. Example WEC-Sim input files are provided in the `Applications Section <https://github.com/WEC-Sim/WEC-Sim/wiki/3.-Applications>`_, and are also provided in the WEC-Sim source code in the applications folder.
+
+Simulation Class
+~~~~~~~~~~~~~~~~~~~~~~~~
+Within the input file, users specify simulation class (``simulationClass``) parameters using the ``simu`` object. Simulation class parameters include simulation start time (``simu.startTime``), end time (``simu.endTime``), and time step (``simu.dt``). Users also specify the name of the Simulink/SimMechanics WEC model within the `` simu.simMechanicsFile`` variable. All simulation class parameters are specified as variables within the ``simu`` object (as members of the ``simulationClass``).The simulation parameters that are available for the user to set within the simulation class are described in more detail in Section 2.3.1.
+
+Wave Class
+~~~~~~~~~~
+Within the input file, users MUST specify wave class (``waveClass``) parameters defining wave conditions for the simulation using the ``waves`` object. The user MUST specify the wave condition within the waves variable. The options that are available for the user to set within the wave class are discussed in more detail in Section 2.3.2.
+
+Body Class
+~~~~~~~~~~
+Within in the input file, users MUST specify body class (``bodyClass``) parameters using the ``body`` object for each body. WEC-Sim assumes that every WEC is composed of rigid bodies exposed to wave forcing. For each body, users MUST specify body properties within the body class in the input file. Body class parameters include mass (``body(#).mass``), moment of inertia (``body(#).momOfInertia``), center of gravity (``body(#).cg``), and the WAMIT files that describe the hydrodynamic properties (refer to sample input file in the Applications Section. The body parameters that are available for the user to set within the body class are described in more detail in Section 2.3.3.
+
+Constraint Class
+~~~~~~~~~~~~~~~~
+WEC-Sim constraint blocks connect WEC bodies to on another other (and possibly to the seabed) by constraining DOFs. The properties of the constraint class (``constraintClass``) are defined in the ``constraint`` object. The parameters available for user specification are described in in Section 2.3.4.
+
+
+PTO Class
+~~~~~~~~~
+WEC-Sim Power Take-Off (PTO) blocks connect WEC bodies to one other (and possibly to the seabed) by constraining DOFs and applying linear damping and stiffness. The properties of the PTO class (``ptoClass``) are defined in the ``pto`` object. The parameters available for user specification are described in Section 2.3.5.
+
+Input Parameters
+----------------
+All information required to run WEC-Sim simulations is contained within the simu, waves, body, pto, and constraint objects (instances of the simulationClass, waveClass, bodyClass, constraintClass and ptoClass).  The user can interact with these variables within the WEC-Sim input file (``wecSimInputFile.m``). The remainder of this section describes the parameters defined within the WEC-Sim objects, and how to interact with the WEC-Sim objects to define input parameters. 
+
+simulationClass
+~~~~~~~~~~~~~~~
+
+The simulation class (``simulationClass``) contains the simulation parameters and solver settings needed to execute the WEC-Sim code. Users can set relevant simulation properties in the ``wecSimInputFile.m``. Users MUST specify the name of the Simulink/SimMechanics WEC model, which can be set by entering the following command in the input file::
+
+	simu.simMechanicsFile=’<WEC Model Name>.slx’
+
+The WEC-Sim code has default values defined for all the other simulation parameters. Available simulation parameters and the default values can be found by typing ``doc simulationClass`` in the MATLAB Command Window.
+
+.. ::figure: _static/simuClass.png
+
+These default values can be overwritten by the user, as demonstrated in the Applications Section. For example, the end time of a simulation can be set by entering the following command::
+
+simu.endTime = <user specified end time>
+
+Note: By default, running the irregular wave (irregular and irregularImport), regular wave with convolution integral (regularCIC) or no wave with convolution integral (noWaveCIC), WEC-Sim calculates the fluid memory term using the convolution integral formulation. Users have the option to use the state space model by specifying the following in the WEC-Sim input file::
+
+	simu.ssCalc=1
+
+waveClass
+~~~~~~~~~
+The wave class (``waveClass``) contains all the information that defines the wave conditions for the time-domain simulation. Typing ``doc waveClass`` in the MATLAB Command Window provides more information on the wave class functionality, available wave parameters, and default values.
+
+.. ::figure: _static/waveClass.png
+
+The table below lists the types of wave environments that are currently supported by WEC-Sim. 
+
+===============================  =====================================   ========================================================
+Option                           Additional required inputs              Description
+waves.type =’noWave’             waves.noWaveHydrodynamicCoeffT          Free decay test with constant hydrodynamic coefficients
+waves.type =’noWaveCIC’          None                                    Free decay test with convolution integral
+waves.type =’regular’            waves.H waves.T                         Sinusoidal steady-state Reponse Scenario
+waves.type =’regularCIC’         waves.H waves.T                         Regular waves with convolution integral
+waves.type =’irregular’          waves.H waves.T waves.spectrumType      Irregular waves with typical wave spectrum
+waves.type =’irregularImport’    waves.spectrumDataFile                  Irregular waves with user-defined wave spectrum
+===============================  =====================================   ========================================================
+
+noWave
+.........
+The noWave case (``waves.type=’noWave’``) is for running WEC-Sim simulations without waves, using constant added mass and radiation damping coefficients. This "wave" case is typically used to run decay tests for comparisons. Users must still provide hydro coefficients from a BEM solve before executing WEC-Sim. In addition, users MUST specify the period from which the hydrodynamic coefficients are selected by defining the following in the input file::
+ 
+	waves.noWaveHydrodynamicCoeffT = <user specified wave period>
+
+noWaveCIC
+.........
+The noWaveCIC case (``waves.type=’noWaveCIC’``) is the same as the noWave case described above, 
+with the addition of the convolution integral calculation. The wave type is the same as noWave, except the radiation forces are calculated using the convolution integral and the infinite frequency added mass.
+
+regular
+.........
+The regular wave case (``waves.type=’regular’``) is for running simulations using regular waves with constant added mass and radiation damping coefficients. Wave period (``wave.T``) and wave height (``wave.H``) need to be specified in the input file. Using this option, WEC-Sim assumes that the system dynamic response is in sinusoidal steady-state form, where constant added mass and damping coefficients are used (instead of the convolution integral) to calculate wave radiation forces.
+
+regularCIC
+...........
+The regular wave with convolution integral case (``waves.type=’regularCIC’``) is the same as regular wave case (described above), except the radiation forces are calculated using the convolution integral and the infinite frequency added mass.
+
+irregular
+.........
+The irregular wave case (``waves.type=’irregular’``)is the wave type for irregular wave simulations using a given wave spectrum. Significant wave height (``wave.H``), peak period (``wave.T``) and wave spectrum type (``waves.spectrumtype``) need to be specified in the input file. The available spectral formulations are listed below.
+
+
+WEC-Sim wave spectrum options (with `waves.type=irregular`)
+
+==================  ========================
+Wave Spectrum Type  Input File Parameter
+Pierson–Moskowitz   waves.spectrumType=’PM’
+Bretschneider	    waves.spectrumType=’BS’
+JONSWAP             waves.spectrumType=’JS’
+==================  ========================
+
+irregularImport
+................
+The irregular waves with user-defined spectrum case (``waves.type=’irregularImport’``) is the wave case for irregular wave simulations using user-defined wave spectrum (ex: from buoy data). Users need to specify the wave spectrum file name in WEC-Sim input file as follows::
+
+	waves.spectrumDataFile=’<wave spectrum file>.txt’
+
+The user-defined wave spectrum must be defined with the wave frequency (Hz) in the first row, and the spectral energy density (m^2/Hz) in the second row. An example of which is given in the ``ndbcBuoyData.txt`` file in the applications folder of the WEC-Sim source code. This format can be copied directly from NDBC buoy data. For more information on NDBC buoy data measurement descriptions, refer to the [http://www.ndbc.noaa.gov/measdes.shtml NDBC website].
+
+Note: By default, the phase for irregular waves (irregular and irregularImport) is generated randomly. Users have the ability to seed the random phase by specifying the following in the WEC-Sim input file::
+
+	waves.randPreDefined=1
+
+This gives the user an option to generate the same "random" wave time-series as needed (the default for random phase is ``waves.randPreDefined=0``). 
+
+bodyClass
+~~~~~~~~~~~~~~~
+The body class (``bodyClass``) contains the mass and hydrodynamic properties of each body that comprises the WEC being simulated. Each body must have an iteration of the body class initiated in the input file. It is recommended that body objects are named body(<#>). Each body object MUST be initiated by entering the following command in the WEC-Sim input file::
+
+	body(<#>)=bodyClass('body name')
+
+Users can specify the mass and hydrodynamic properties for each after the body object is initiated. Each body must have an iteration of the body class initiated, and have the following parameters defined::
+
+	body(<#>).hydroDataType
+	body(<#>).hydroDataLocation
+	body(<#>).mass
+	body(<#>).cg
+	body(<#>).momOfInertia
+
+Users have the option of accepting the default values for the remaining body parameters, or specify their own values. The available wave parameters, and default values defined in the body class can be found by typing ``doc bodyClass`` in the MATLAB Command Window.
+
+.. ::figure _static/bodyClass.png 
+
+For example, the viscous drag can be specified by entering the (nondimensional) viscous drag coefficient and the characteristic area (in m^2) in vector format the WEC-Sim input file as follows::
+
+	body(<#>).cd= [0 0 1.3 0 0 0]
+	body(<#>).characteristicArea= [0 0 100 0 0 0]
+
+constraintClass
+~~~~~~~~~~~~~~~
+The constraint class (``constraintClass``) is used to connect bodies to the Global Reference Frame. The constraint variable should be initiated by entering the following command in the WEC-Sim input file::
+
+	constraint(<#>)=constraintClass('<constraint name>')
+
+For rotational constraint (ex: pitch), the user also needs to specify its location of the rotational
+joint with respect to the global reference frame in the ``constraint(<#>).loc`` variable
+
+The available constraint parameters, and default values defined in the constraint class can be found by typing ``doc constraintClass`` in the MATLAB Command Window.
+
+.. ::figure: _static/constraintClass.png
+
+ptoClass
+~~~~~~~~
+
+The pto class (``ptoClass``) extracts power from relative body motion with respect to a fixed reference frame or another body. The pto objects can also constrain motion to certain degrees of freedom (for example relative heave motion between the float and spar of a point absorber). The pto variable should be initiated by entering the following command in the WEC-Sim input file::
+
+	pto(<#>) = ptoClass('<pto name>')
+
+For rotational ptos (Local RY), users also needs to specify the pto location. In the PTO class, users can also
+specify linear damping (``pto(<#>).c``) and stiffness (``pto(<#>).k``) values to represent the PTO system (both have a default value of 0). Users can overwrite the default values in the input file, for example to specify a damping value by entering the following in the WEC-Sim input file::
+
+	pto(<#>).c = <pto damping value>
+
+The available pto parameters, and default values defined in the pto class can be found by typing `` doc ptoClass`` in the MATLAB Command Window.
+
+.. ::figure: _static/ptoClass.png
+   :width: 400pt
+
