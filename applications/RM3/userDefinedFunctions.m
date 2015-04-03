@@ -1,16 +1,13 @@
 %Example of user input MATLAB file for post processing
 
-% Plot x forces for body 1
-plotForces(output,1,1)
+%Plot heave response for body 1
+output.plotResponse(1,3);
 
-% Plot x forces for body 2
-plotForces(output,2,1)
+%Plot heave response for body 2
+output.plotResponse(2,3);
 
- % Plot y forces for body 1
-plotForces(output,1,2)
- 
-% Plot moments about x for body 1
-plotForces(output,1,4)
+%Plot heave forces for body 1
+output.plotForces(1,3);
 
-% Plot z-direction (heave) response for body 1 
-plotResponse(output,1,3)
+%Plot pitch moments for body 2
+output.plotForces(2,5);

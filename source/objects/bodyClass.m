@@ -1,5 +1,4 @@
-% This class defines the properities of rigid bodies the comprise WECs
-%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 % Copyright 2014 the National Renewable Energy Laboratory and Sandia Corporation
 % 
 % Licensed under the Apache License, Version 2.0 (the "License");
@@ -13,210 +12,243 @@
 % WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
 % See the License for the specific language governing permissions and
 % limitations under the License.
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
 classdef bodyClass<handle
-    properties
-        name                    = 'NOT DEFINED'                            % Name of the body used (default = 'NOT DEFINED')
-        massCalcMethod          = 'wamitDisplacement'                      % Method of calculating the center of gravity (default = dependent)
-        cgCalcMethod            = 'wamit'                                  % Method of setting the body cg (options: 'user' or 'wamit', default = 'wamit')
-        hydroDataType           = 'wamit'                                  % Code used to generate hydrodynamic coefficients (options: 'wamit', default = 'wamit')
-        hydroDataLocation       = 'NOT DEFINED'                            % Location of the wamit .out file (default = 'NOT DEFINED')
-        geometry                = 'NOT DEFINED'                            % Location of the .stl file that defines the geometry of the body (default = 'NOT DEFINED') 
-        geom                    = struct('file'          ,'NOT DEFINED',...% Structure that defines the geometry for visualization and non-linear buoyancy and excitation force calculations
-                                         'dir'           ,'NOT DEFINED',...
-                                         'filename'      ,'NOT DEFINED',...
-                                         'fileExtension' ,'NOT DEFINED')                   
-        hydro                   = struct('dir'           ,'NOT DEFINED',...% Structure that contains the hydrodynamic data for the body (This structure is currently populated by reading WAMIT data)
-                                         'name'          ,'NOT DEFINED',... 
-                                         'bodyNum'       , 999,...
-                                         'data'          , struct)
-        hydroForce              = struct                                   % Structure used to calculate hydrodynamic forces acting on the body
-        mooring                 = struct('type'          ,'NOT DEFINED',...% Data structure that contains the mooring stiffness and damping matrices
-                                         'dir'           ,'NOT DEFINED',...
-                                         'c'             , zeros(6),...
-                                         'k'             , zeros(6),...
-                                         'preTension'    , zeros(6,1))                                         
-        mass                    = 'wamitDisplacement'                      % Body mass (options: 'wamitDisplacment' or [mass], default = 'wamitDisplacement')  
-        momOfInertia            = [999 999 999]                            % Moment of inertia (format: [Ixx Iyy Izz], default = [999 999 999])
-        cg                      = 'wamit'                                  % Center of gravity (format: [x y z]
-        initLinDisp             = [0 0 0]                                  % Initial displacment of center fo gravity - used for decay tests (format: [displacment in m], default = [0 0 0])
-        initAngularDispAxis     = [1 0 0]                                  % Initial displacment of cog - axis of rotation - used for decay tests (format: [x y z], default = [1 0 0])
-        initAngularDispAngle    = 0                                        % Initial displacement of cog - Angle of rotation - used for decay tests (format: [radians], default = 0)
-        cd                      = [0 0 0 0 0 0]                            % Drag coefficient (format [Cd_x Cd_y Cd_z Cd_rotationX Cd_rotationY Cd_rotationZ], default = [0 0 0 0 0 0]
-        characteristicArea      = [0 0 0 0 0 0]                            % Characteristic area for viscous drag calculations (format [Area Area Area Area Area Area], default = [0 0 0 0 0 0]). 
-        storage                 = struct;                                  % Structure to store simulation data for post processing
-        fixed                     = 0                                      % Default is 0. If the value is equal to 1, it means the body is fixed to the ground and the mass, MOI and CG will equal to the defaut value and are meaning less in the calculation. 
-    end     
-    methods
-        
-        function obj = bodyClass(name) 
+    properties (SetAccess = 'private', GetAccess = 'public')%hdf5 file 
+        hydroData         = struct()                                            % Hydrodynamic data from BEM or user defined; see structure of hydroData in ----
+    end
+    
+    properties (SetAccess = 'public', GetAccess = 'public')%input file 
+        mass              = []                                                  % Mass in kg
+        momOfInertia      = []                                                  % Moment of inertia [Ixx Iyy Izz] in kg*m^2
+        geometryFile      = 'NONE'                                              % Location of geomtry stl file
+        mooring           = struct('c',          zeros(6,6), ...                % Mooring damping, 6 x 6 matrix
+                                   'k',          zeros(6,6), ...                % Mooring stiffness, 6 x 6 matrix
+                                   'preTension', 0)                             % Mooring preTension, Vector length 6
+        viscDrag          = struct('cd',                   [0 0 0 0 0 0], ...   % Viscous (quadratic) drag cd, vector length 6
+                                   'characteristicArea',   [0 0 0 0 0 0])       % Characteristic area for viscous drag, vector length 6
+        initDisp          = struct('initLinDisp',          [0 0 0], ...         % Initial displacement of center fo gravity - used for decay tests (format: [displacment in m], default = [0 0 0])
+                                   'initAngularDispAxis',  [0 1 0], ...         % Initial displacement of cog - axis of rotation - used for decay tests (format: [x y z], default = [1 0 0])
+                                   'initAngularDispAngle', 0)                   % Initial displacement of cog - Angle of rotation - used for decay tests (format: [radians], default = 0)
+        linearDamping     = [0 0 0 0 0 0]
+    end
+    
+    properties (SetAccess = 'private', GetAccess = 'public')%internal  
+        hydroForce        = struct()                                            % Hydrodynamic forces and coefficients used during simulation; see structure of hydroData in ----        
+        massCalcMethod    = []                                                  % Method used to obtain mass: 'user', 'fixed', 'equilibrium'
+        bodyNumber        = []                                                  % bodyNumber in WEC-Sim as defined in the input file. Can be different from the BEM body number.
+    end
+
+    methods (Access = 'public') %modify object = T; output = F         
+        function obj = bodyClass(filename,iBod)                        
         % Initilization function
-                 fprintf('Initializing the Body Class... \n')
-                 obj.name = name;
+        % Read in hdf5 file
+            if exist(filename,'file') == 0
+                error('The hdf5 file %s does not exist',file)                
+            end
+            name = ['body' num2str(iBod)];
+            obj.hydroData.properties = h5load(filename, [name '/properties']);
+            obj.hydroData.hydro_coeffs = h5load(filename, [name '/hydro_coeffs']);
+            obj.hydroData.simulation_parameters = h5load(filename, '/simulation_parameters');
+            obj.hydroData.properties.name = obj.hydroData.properties.name{1};
         end
-
-        function obj = setGeom(obj)
-        % Setup the device geometry file
-                 if exist(obj.geometry,'file') == 0
-                     error('The geometry file %s does not exist',file)                
-                 else
-                     obj.geom.file = obj.geometry;
-                 end                        
-                 [obj.geom.dir,obj.geom.filename,obj.geom.fileExtension]... 
-                 = fileparts(obj.geom.file); 
+      
+        function hydroForcePre(obj,w,CIkt,numFreq,dt,rho,waveType,iBod,ssCalc)
+        % HydroForce Pre-processing calculations
+        % 1. Set the linear hydrodynamic restoring coefficient, viscous
+        %    drag, and linear damping matrices
+        % 2. Set the wave excitation force
+            obj.bodyNumber = iBod;
+            obj.setMassMatrix(rho)
+            k = obj.hydroData.hydro_coeffs.linear_restoring_stiffness;
+            obj.hydroForce.linearHydroRestCoef =  k + k' - diag(diag(k));
+            obj.hydroForce.visDrag = diag(0.5*rho.*obj.viscDrag.cd.*obj.viscDrag.characteristicArea);
+            obj.hydroForce.linearDamping = diag(obj.linearDamping);
+            switch waveType   
+                case {'noWave','regular'}
+                    obj.regExcitation(w);
+                    obj.constAddedMassAndDamping(w,CIkt);
+                case {'noWaveCIC','regularCIC'}
+                    obj.regExcitation(w);
+                    obj.irfInfAddedMassAndDamping(CIkt,dt,ssCalc,iBod);
+                case {'irregular','irregularImport'}
+                    obj.irrExcitation(w,numFreq);
+                    obj.irfInfAddedMassAndDamping(CIkt,dt,ssCalc,iBod);
+                otherwise
+                    error('Unexpected wave environment type setting')
+            end
         end
-
-        function obj = setMass(obj,simu) 
-        % Function to set the mass of the body       
-        % Inputs: the simu variable
-             if obj.fixed ==1
-                obj.mass='wamitDisplacement';
-             end
-             if strcmp(obj.mass,'wamitDisplacement')
-                obj.massCalcMethod = obj.mass;
-                obj.mass=obj.hydro.data.vol*simu.rho;
-             elseif isfloat(obj.mass)
-                obj.massCalcMethod = 'user';
-             else
-                 error('body.mass must be set to "wamitDisplacement" or the body mass in kg');
-             end             
-        end        
         
-        function obj = setMomOfInertia(obj)
-        % Set body moment inertia properties       
-                 if obj.fixed ==1
-                   obj.momOfInertia=[999 999 999]; %Default value
-                 end
-                 if length(obj.momOfInertia) ~= 3
-                     error('The moment of inertia must be a vector in the form [Ixx Iyy Izz]')
-                 end
-        end        
-
-        function obj = setCg(obj)
-        % Set the body CG        
-        % Set the CG of the body from WAMIT files
-        % calcType = 'wamit' or 'user'
-        % cg = center of gravity, only needed for 'user' option
-             if strcmp(obj.cg,'wamit')
-                obj.cgCalcMethod = obj.cg;
-                obj.cg=obj.hydro.data.cg;
-             elseif isfloat(obj.cg)
-                obj.cgCalcMethod = 'user';
-             else
-                 error('body.cg must be set to "wamit" or a location vector in meter');
-             end      
-             if length(obj.cg) ~= 3
-                 error('The center of gravity must be a vector in the form [x y z]')
-             end
+        function adjustMassMatrix(obj)                                 
+        % Merge diagonal term of add mass matrix to the mass matrix     
+        % 1. Storage the the original mass and added-mass properties
+        % 2. Add diagonal added-mass inertia to moment of inertia
+        % 3. Add the maximum diagonal traslational added-mass to body mass
+            iBod = obj.bodyNumber;
+            obj.hydroForce.storage.mass = obj.mass;
+            obj.hydroForce.storage.momOfInertia = obj.momOfInertia;
+            obj.hydroForce.storage.fAddedMass = obj.hydroForce.fAddedMass;
+            tmp.fadm=diag(obj.hydroForce.fAddedMass(:,1+(iBod-1)*6:6+(iBod-1)*6));
+            obj.mass = obj.mass+max(tmp.fadm(1:3));
+            obj.momOfInertia = obj.momOfInertia+tmp.fadm(4:6)';
+            obj.hydroForce.fAddedMass(1,1+(iBod-1)*6) = obj.hydroForce.fAddedMass(1,1+(iBod-1)*6) - max(tmp.fadm(1:3));
+            obj.hydroForce.fAddedMass(2,2+(iBod-1)*6) = obj.hydroForce.fAddedMass(2,2+(iBod-1)*6) - max(tmp.fadm(1:3));
+            obj.hydroForce.fAddedMass(3,3+(iBod-1)*6) = obj.hydroForce.fAddedMass(3,3+(iBod-1)*6) - max(tmp.fadm(1:3));
+            obj.hydroForce.fAddedMass(4,4+(iBod-1)*6) = 0;
+            obj.hydroForce.fAddedMass(5,5+(iBod-1)*6) = 0;
+            obj.hydroForce.fAddedMass(6,6+(iBod-1)*6) = 0;
         end
-                
-        function obj = setMooring(obj,type,inputFile)
-%       Setup mooring forces for each body        
-                 obj.mooring.type = type;
-                 obj.mooring.inputFile = inputFile;
-                 switch obj.mooring.type
-                        case 'linear'
-                        fprintf('\tReading linear mooring coefficients\n')
-                        run(obj.mooring.inputFile);
-                        obj.mooring.c = c;
-                        obj.mooring.k = k;
-                        obj.mooring.preTension = preTension;
-                        otherwise
-                        error('only linear mooring systems are supported at this time')
-                 end
-        end        
+        
+        function restoreMassMatrix(obj)                                
+        % Restore the mass and added-mass matrix back to the original value
+            tmp = struct;
+            tmp.mass = obj.mass;
+            tmp.momOfInertia = obj.momOfInertia;
+            tmp.hydroForce_fAddedMass = obj.hydroForce.fAddedMass;
+            obj.mass = obj.hydroForce.storage.mass;
+            obj.momOfInertia = obj.hydroForce.storage.momOfInertia;
+            obj.hydroForce.fAddedMass = obj.hydroForce.storage.fAddedMass;
+            obj.hydroForce.storage = tmp; clear tmp
+        end
+        
+        function storeForceAddedMass(obj,am_mod)                       
+        % Store the modified added mass force history (input)
+            obj.hydroForce.storage.output_forceAddedMass = am_mod;
+        end
 
-        function hydroForcePre(bodyTemp,waves,simu)
-        % HydroForce Pre-processing calculations        
-            for kk = 1:simu.numWecBodies
-                bodyTemp(kk).hydroForce.linearHyroRestCoef =  bodyTemp(kk).hydro.data.linearHyroRestCoef;
-                bodyTemp(kk).hydroForce.visDampingCoef = diag(0.5*simu.rho.*bodyTemp(kk).cd.*bodyTemp(kk).characteristicArea);
-                switch waves.type   
-                    case {'noWave','regular'}
-                        bodyTemp(kk) = regExcitation(bodyTemp(kk),waves);
-                        bodyTemp(kk) = constAddedMassAndDamping(bodyTemp(kk),waves,simu);
-                    case {'noWaveCIC','regularCIC'}
-                        bodyTemp(kk) = regExcitation(bodyTemp(kk),waves);
-                        bodyTemp(kk) = irfInfAddedMassAndDamping(bodyTemp(kk),simu);
-                    case {'irregular','irregularImport'}
-                        bodyTemp(kk) = irrExcitation(bodyTemp(kk),waves);
-                        bodyTemp(kk) = irfInfAddedMassAndDamping(bodyTemp(kk),simu);
-                    otherwise
-                        error('Only noWave, noWaveCIC, regular, regularCIC, irregular, and irregularImport waves are supported at this time')
+        function listInfo(obj)                                         
+        % List body info
+            fprintf('\n\t***** Body Number %G, Name: %s *****\n',obj.hydroData.properties.body_number,obj.hydroData.properties.name)
+            fprintf('\tBody CG                          (m) = [%G,%G,%G]\n',obj.hydroData.properties.cg)
+            fprintf('\tBody Mass                       (kg) = %G \n',obj.mass);
+            fprintf('\tBody Diagonal MOI              (kgm2)= [%G,%G,%G]\n',obj.momOfInertia)
+        end
+    end
+    
+    methods (Access = 'public') %modify object = F; output = T         
+        function fam = forceAddedMass(obj,acc)                         
+        % 1. Stores the modified added mass force time history (input)
+        % 2. Calculates and outputs the real added mass force time history
+            iBod = obj.bodyNumber;
+            fam = zeros(size(acc));
+            for i =1:6
+                tmp = zeros(length(acc(:,i)),1);
+                for j =1:6
+                    jj = (iBod-1)*6+j;
+                    iam = obj.hydroForce.fAddedMass(i,jj);
+                    tmp = tmp + acc(:,j) .* iam;
+                end
+                fam(:,i) = tmp;
+            end
+            clear tmp
+        end
+    end
+    
+    methods (Access = 'protected') %modify object = T; output = F      
+        function regExcitation(obj,w)                                  
+        % Used by hydroForcePre
+        % Regular wave excitation force
+            obj.hydroForce.fExt.re=zeros(1,6);
+            obj.hydroForce.fExt.im=zeros(1,6);
+            for ii=1:6
+                obj.hydroForce.fExt.re(ii) = interp1(obj.hydroData.simulation_parameters.w,obj.hydroData.hydro_coeffs.excitation.re(:,ii),w,'spline');
+                obj.hydroForce.fExt.im(ii) = interp1(obj.hydroData.simulation_parameters.w,obj.hydroData.hydro_coeffs.excitation.im(:,ii),w,'spline');      
+            end
+        end
+        
+        function irrExcitation(obj,wv, numFreq)                        
+        % Used by hydroForcePre
+        % Irregular wave excitation force
+            obj.hydroForce.fExt.re=zeros(numFreq,6);
+            obj.hydroForce.fExt.im=zeros(numFreq,6);
+            for ii=1:6
+                obj.hydroForce.fExt.re(:,ii) = interp1(obj.hydroData.simulation_parameters.w,obj.hydroData.hydro_coeffs.excitation.re(:,ii),wv,'spline');
+                obj.hydroForce.fExt.im(:,ii) = interp1(obj.hydroData.simulation_parameters.w,obj.hydroData.hydro_coeffs.excitation.im(:,ii),wv,'spline');
+            end
+        end
+
+        function constAddedMassAndDamping(obj,w,CIkt)                  
+        % Used by hydroForcePre
+        % Added mass and damping for a specific frequency
+            am = obj.hydroData.hydro_coeffs.added_mass.all;
+            rd = obj.hydroData.hydro_coeffs.radiation_damping.all;
+            lenJ = length(obj.hydroData.hydro_coeffs.added_mass.all(1,:,1));
+            obj.hydroForce.fAddedMass=zeros(6,lenJ);
+            obj.hydroForce.fDamping  =zeros(6,lenJ);
+            for ii=1:6
+                for jj=1:lenJ
+                    obj.hydroForce.fAddedMass(ii,jj) = interp1(obj.hydroData.simulation_parameters.w,squeeze(am(ii,jj,:)),w,'spline');
+                    obj.hydroForce.fDamping  (ii,jj) = interp1(obj.hydroData.simulation_parameters.w,squeeze(rd(ii,jj,:)),w,'spline');
                 end
             end
+            obj.hydroForce.irkb=zeros(CIkt+1,6,lenJ);
+            obj.hydroForce.ssRadf.A = zeros(6,6);
+            obj.hydroForce.ssRadf.B = zeros(6,6);
+            obj.hydroForce.ssRadf.C = zeros(6,6);
+            obj.hydroForce.ssRadf.D = zeros(6,6);
         end
- 
-        function obj = setHydroData(obj,num,simu)
-        % Set hydrodynamic data from a BEM solution
-        % Inputs: simu data object
-            % Check for errors
-            if strcmp(obj.hydroDataType,'NOT DEFINED')
-                error('The hydroDataType must be defined')
-            end
-            if strcmp(obj.hydroDataLocation,'NOT DEFINED')
-                error('The hydroDataLocation must be defined')
-            end
+        
+        function irfInfAddedMassAndDamping(obj,CIkt,dt,ssCalc,iBod)
+            % Used by hydroForcePre
+            % Added mass at infinite frequency
+            % Convolution integral raditation damping
+            lenJ = length(obj.hydroData.hydro_coeffs.added_mass.all(1,:,1));
+            irfk = obj.hydroData.hydro_coeffs.impulse_response_fun.K;
+            irft = obj.hydroData.hydro_coeffs.impulse_response_fun.t;
             
-            % Set relevant variables
-            [obj.hydro.dir name ext] = fileparts(obj.hydroDataLocation);
-            obj.hydro.name = [name ext];
-            clear name ext
-            obj.hydro.dataSource = obj.hydroDataType;
-            obj.hydro.bodyNum = num;
+            obj.hydroForce.irkb=zeros(CIkt+1,6,lenJ);
+            CTTime = 0:dt:CIkt*dt;
+            for ii=1:6
+                for jj=1:lenJ
+                    obj.hydroForce.irkb(:,ii,jj) = interp1(irft,squeeze(irfk(ii,jj,:)),CTTime,'spline');
+                end
+            end
+            obj.hydroForce.ssRadf.A = zeros(6,6);
+            obj.hydroForce.ssRadf.B = zeros(6,6);
+            obj.hydroForce.ssRadf.C = zeros(6,6);
+            obj.hydroForce.ssRadf.D = zeros(6,6);
             
-            switch obj.hydro.dataSource
-                case 'wamit'
-                    hydroTemp = readWamitData([obj.hydro.dir filesep obj.hydro.name],obj.hydro.bodyNum,simu);
-                    obj.hydro.data = hydroTemp; 
-                    clear hydroTemp
-                otherwise
-                    error('only WAMIT is supported at this time')
+            if ssCalc == 1
+                for ii = 1:6
+                    for jj = (iBod-1)*6+1:(iBod-1)*6+6
+                        jInd = jj-(iBod-1)*6;
+                        arraySize = obj.hydroData.hydro_coeffs.state_space.it(ii,jj);
+                        if ii == 1 && jInd == 1 % Begin construction of combined state, input, and output matrices
+                            Af(1:arraySize,1:arraySize) = obj.hydroData.hydro_coeffs.state_space.A.all(ii,jj,1:arraySize,1:arraySize);
+                            Bf(1:arraySize,jInd)        = obj.hydroData.hydro_coeffs.state_space.B.all(ii,jj,1:arraySize,1);
+                            Cf(ii,1:arraySize)          = obj.hydroData.hydro_coeffs.state_space.C.all(ii,jj,1,1:arraySize);
+                        else
+                            Af(size(Af,1)+1:size(Af,1)+arraySize,...
+                               size(Af,2)+1:size(Af,2)+arraySize)      = obj.hydroData.hydro_coeffs.state_space.A.all(ii,jj,1:arraySize,1:arraySize);
+                            Bf(size(Bf,1)+1:size(Bf,1)+arraySize,jInd) = obj.hydroData.hydro_coeffs.state_space.B.all(ii,jj,1:arraySize,1);
+                            Cf(ii,size(Cf,2)+1:size(Cf,2)+arraySize)   = obj.hydroData.hydro_coeffs.state_space.C.all(ii,jj,1,1:arraySize);
+                        end
+                    end
+                end
+                
+                obj.hydroForce.ssRadf.A = Af;
+                obj.hydroForce.ssRadf.B = Bf;
+                obj.hydroForce.ssRadf.C = Cf;
+                %obj.hydroForce.ssRadf.D is a 6 by (numBodiesx6) array of zeros;
             end
-        end
-       
-        function obj=offsetGeom(obj,offset)
-        % Function to move the position of the STL
-            fprintf('Offsetting STL geometry by the center of gravity from WAMIT...\n')
-            obj.geom.Vertices(:,1) = obj.geom.Vertices(:,1) + offset(1);
-            obj.geom.Vertices(:,2) = obj.geom.Vertices(:,2) + offset(2);
-            obj.geom.Vertices(:,3) = obj.geom.Vertices(:,3) + offset(3);
+            obj.hydroForce.fAddedMass=obj.hydroData.hydro_coeffs.added_mass.inf_freq;
+            obj.hydroForce.fDamping=zeros(6,lenJ);
         end
         
-        function adjustMassMatrix(bodyObjs)
-        % Merge diagnal term of add mass matrix to the mass matrix     
-        % 1. Storage the the original mass and added-mass properties
-        % 2. Add diagnal added-mass inertia to moment of inertia
-        % 3. Add the maximum diagnal traslational added-mass to body mass
-            L=length(bodyObjs); tmp(L).fadm=0;
-            for i=1:L
-               bodyObjs(i).storage.mass = bodyObjs(i).mass;
-               bodyObjs(i).storage.momOfInertia = bodyObjs(i).momOfInertia;
-               bodyObjs(i).storage.hydroForce = bodyObjs(i).hydroForce;
-               
-               tmp(i).fadm=diag(bodyObjs(i).hydroForce.fAddedMass);
-               bodyObjs(i).mass = bodyObjs(i).mass+max(tmp(i).fadm(1:3));
-               bodyObjs(i).momOfInertia = bodyObjs(i).momOfInertia+tmp(i).fadm(4:6)';
-               bodyObjs(i).hydroForce.fAddedMass(1,1) = ...
-                   bodyObjs(i).hydroForce.fAddedMass(1,1) - max(tmp(i).fadm(1:3));
-               bodyObjs(i).hydroForce.fAddedMass(2,2) = ...
-                   bodyObjs(i).hydroForce.fAddedMass(2,2) - max(tmp(i).fadm(1:3));
-               bodyObjs(i).hydroForce.fAddedMass(3,3) = ...
-                   bodyObjs(i).hydroForce.fAddedMass(3,3) - max(tmp(i).fadm(1:3));
-               bodyObjs(i).hydroForce.fAddedMass(4,4) = 0;
-               bodyObjs(i).hydroForce.fAddedMass(5,5) = 0;
-               bodyObjs(i).hydroForce.fAddedMass(6,6) = 0;
+        function setMassMatrix(obj, rho)                               
+        % Used by hydroForcePre
+        % Sets mass for the special cases of body at equilibrium or fixed
+            if strcmp(obj.mass, 'equilibrium')
+                obj.massCalcMethod = obj.mass;
+                obj.mass = obj.hydroData.properties.disp_vol * rho;
+            elseif strcmp(obj.mass, 'fixed')
+                obj.massCalcMethod = obj.mass;
+                obj.mass = 999;
+                obj.momOfInertia = [999 999 999];
+            else
+                obj.massCalcMethod = 'user';
             end
         end
-        
-        function restoreMassMatrix(bodyObjs)
-        % Restore the mass and added-mass matrix back to the original value
-            L=length(bodyObjs);
-            for i=1:L
-               bodyObjs(i).mass = bodyObjs(i).storage.mass;
-               bodyObjs(i).momOfInertia = bodyObjs(i).storage.momOfInertia;
-               bodyObjs(i).hydroForce = bodyObjs(i).storage.hydroForce;
-            end
-        end
-        
     end
 end
