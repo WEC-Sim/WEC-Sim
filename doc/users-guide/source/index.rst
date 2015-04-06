@@ -1,4 +1,5 @@
 .. figure:: _static/wec_sim_header.png
+   :target: https://github.com/WEC-Sim/WEC-Sim
 
 .. toctree::
    :maxdepth: 4
@@ -6,11 +7,12 @@
 
    license.rst
    release_notes.rst
-   theory.rst
    getting_started.rst
+   running_wec_sim.rst
    code_structure.rst
-   applications.rst
+   tutorials.rst
    trouble_shooting.rst
+   theory.rst
    references.rst
 
 Project Overview
