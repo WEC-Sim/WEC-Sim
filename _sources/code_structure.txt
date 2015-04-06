@@ -57,7 +57,7 @@ The WEC-Sim code has default values defined for all the other simulation paramet
 
 These default values can be overwritten by the user, as demonstrated in the Applications Section. For example, the end time of a simulation can be set by entering the following command::
 
-simu.endTime = <user specified end time>
+	simu.endTime = <user specified end time>
 
 Note: By default, running the irregular wave (irregular and irregularImport), regular wave with convolution integral (regularCIC) or no wave with convolution integral (noWaveCIC), WEC-Sim calculates the fluid memory term using the convolution integral formulation. Users have the option to use the state space model by specifying the following in the WEC-Sim input file::
 
@@ -181,3 +181,106 @@ The available pto parameters, and default values defined in the pto class can be
 .. ::figure: _static/ptoClass.png
    :width: 400pt
 
+Library Structure
+------------------
+
+The WEC-Sim library is divided into 4 sublibraries. The user should be able to model their WEC device using the available WEC-Sim blocks, and possibly some SimMechanics blocks. The table below lists the WEC-Sim  blocks and their organization into sublibraries.
+
++-----------------+--------------------------+
+|           WEC-Sim Library                  |
++================+===========================+
+|Sublibrary      |Blocks                     |
++----------------+---------------------------+
+|Body Elements   |Rigid Body                 | 
++----------------+---------------------------+
+|Frames          |Global Reference Frame     |
++----------------+---------------------------+
+|Constraints     |Heave                      |
+|                |Surge                      |
+|                |Surge                      |
+|                |Fixed                      |
+|                |Floating                   |
++----------------+---------------------------+
+|                |Rotational PTO (Local RY)  | 
+|PTOs            |Translational PTO (Local X)|
+|                |Translational PTO (Local Z)| 
++----------------+---------------------------+
+
+		
+In the following sections, we will describe the four sublibraries and their general purpose. The Body Elements sublibrary contains the Rigid Body block used to simulate the different bodies. The Frames sublibrary contains the Global Reference Frame block necessary for every simulation. The Constraints sublibrary contains blocks that are used to constrain the DOF of the bodies, without including any additional forcing or resistance. The PTOs sublibrary contains blocks used to both simulate a PTO system and restrict the body motion. Both constraints and PTOs can be used to restrict the relative motion between multibody systems. %\end{section{Library Structure Overview
+
+Body Elements Sublibrary
+~~~~~~~~~~~~~~~~~~~~~~~~~
+
+The Body Elements sublibrary (Figure~\ref{fig:bLib) contains one block, Rigid Body block. It is used to represent rigid bodies. At least one instance of this block is required in each model.
+
+.. ::figure: _static/bodiesLib.PNG
+   :width: 400pt
+
+Rigid Body Block
+............................
+The Rigid Body block is used to represent a rigid body in the simulation. The user has to name the blocks 'body(i)' where i=1,2,... The mass properties, hydrodynamic data, geometry file, mooring, and other properties are then specified in the input file. Within the body block the wave radiation, wave excitation, hydrostatic restoring, viscous damping and mooring forces are calculated.
+
+Frames Sublibrary
+~~~~~~~~~~~~~~~~~~~~~~~~~
+The Frames sublibrary, shown in above, contains one block that is necessary in every model. The Global Reference Frame block defines global references and can be thought of as the seabed.
+
+Global Reference Frame Block
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+The Global Reference Frame block defines the solver configuration, seabed and free surface description, simulation time, and other global settings. It can be useful to think of the Global Reference Frame as being the seabed when creating a model. Every model requires one instance of the Global Reference Frame block. The Global Reference Frame block uses the simulation class variable simu and the wave class variable waves, which must be defined in the input file.
+
+.. ::figure: _static/framesLib.PNG
+   :width: 400pt
+
+Constraints Sublibrary
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+The blocks within the Constraints sublibrary, shown above, are used to define the DOF of a specific body. Constraints blocks define only the DOF, but do not otherwise apply any forcing or resistance to the body motion. Each Constraints block has two connections, a base (B) and a follower (F). The Constraints block restricts the motion of the block that is connected to the follower relative to the block that is connected to the base. The base of these blocks is typically the Global Reference Frame (which can be thought of as the seabed) and the follower is a Rigid Body.
+
+There are five Constraints blocks, including three that restrict motion to one DOF (Heave, Surge, Pitch), a free-floating (Floating) block, and a rigid connection (Fixed) block. The rest of this section will describe each Constraints block in more detail.
+
+.. ::figure: _static/constraintsLib.PNG
+   :width: 400pt
+
+Floating Block
+.....................
+The Floating block is used to simulate a free-floating body. It constrains the motion of the follower to be along the XZ plane of the base. That is, it allows translation in the X- and Z-axis, and rotation about the Y-axis. It  is usually used with the base connected to the Global Reference Frame (seabed), in which case the motion of the follower is along the global XZ plane.
+
+Heave Block
+.....................
+The Heave block constrains the motion of the follower relative to the base to be along the Z-axis. In the case of the base connected to the Global Reference Frame (seabed), the body is allowed to move only in the vertical (Z) direction. In the case of the Heave block connecting two bodies, the relative motion of the two bodies is constrained to be only along their Z-axes. The Z-axis of the follower and base will always be parallel and their perpendicular distance will be constant. The actual direction of movement of the follower depends on the orientation of the base.
+
+Surge Block
+.....................
+The Surge block constrains the motion of the follower relative to the base to be along the X-axis. If the base is connected to the Global Reference Frame (seabed), the body is allowed to move only in the horizontal (X) direction. If Surge block is connects two bodies, the relative motion of the two bodies is constrained to be only along their X-axes. The X-axis of the follower and base will always be parallel and their perpendicular distance will be constant. The actual direction of movement of the follower depends on the orientation of the base.
+
+Pitch Block
+.....................
+The Pitch block constrains the relative motion between the follower and the base to be pitch rotation only (about the Y-axis). The distance from both body-fixed coordinate systems to the point of rotation stays constant. The orientation of both body-fixed Y-axes also stays constant. The user MUST enter the point about which the rotation occurs as the constraint's location in the input file.
+
+Fixed Block
+.....................
+The Fixed block is a rigid connection that constrains all motion between the base and follower. It restricts translation in the X- and Z-axis, and rotation about the Y-axis.  Its most common use is for a rigid body fixed to the seabed.
+
+PTOs Sublibrary
+~~~~~~~~~~~~~~~~~~~~~~~
+The PTOs sublibrary, shown below, is used to simulate simple PTO systems and to restrict relative motion between multiple bodies or between one body and the seabed. The PTO blocks can simulate simple PTO systems by applying a linear stiffness and damping to the connection. Similar to the Constraints blocks, the PTO blocks have a base (B) and a follower (F). Users MUST name each PTO block 'pto(i)' where i=1,2,..., and then define their properties in the input file.
+
+Translation PTO (Local Z) Block
+......................................
+The Translation PTO (Local Z) is identical to the Heave constraint, but applies a linear stiffness and damping coefficient to the connection. The user has to name the PTOs as described earlier. The user then specifies the stiffness coefficient (in N/m), and damping coefficient (in Ns/m) in the input file.
+
+.. ::figure: _static/ptosLib.PNG
+   :width: 400 pt
+
+Translation PTO (Local X) Block
+......................................
+The Translation PTO (Local X) is identical to the Surge constraint, but additionally applies a linear stiffness and damping coefficient to the connection. The user has to name the PTOs as described earlier. The user then specifies the stiffness coefficient (in N/m), and damping coefficient (in Ns/m) in the input file.
+	        
+Rotational PTO (Local RY) Block
+......................................
+The Rotational PTO (Local RY) is identical to the Pitch constraint, but adds a linear rotational stiffness and damping coefficient to the connection. The user has to name the PTOs as described earlier. The user then specifies the stiffness coefficient (in Nm/rad) and damping coefficient (in Nms/rad) in the input file.
+
+		
+Other SimMechanics Blocks
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+In some situations, users may have to use SimMechanics blocks not included in the WEC-Sim Library to build their WEC model. One commonly used block is the Rigid Transform, which can be used to rotate the frames on PTOs, constraints, and bodies. This is also explained in the SimMechanics {User's Guide.
