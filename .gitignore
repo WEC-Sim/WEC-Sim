@@ -2,8 +2,6 @@ view_html.sh
 *.sublime-workspace
 *.sublime-project
 
-doc/WEC-Sim-doc/build/*
-
 *~
 *.acn
 *.acr
