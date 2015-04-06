@@ -1,4 +1,0 @@
-.. _library_structure:
-
-Library Structure
-=================
