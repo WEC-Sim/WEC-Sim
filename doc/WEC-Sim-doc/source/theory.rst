@@ -228,9 +228,9 @@ Mooring Forces
 The mooring load is represented using a linear quasi-static mooring stiffness, which can be calculated by
 
 .. math::
-	F_{m}=-K_{m}X,
+	F_{m}=-K_{m}X-C_{m}\dot{X},
 
-where :math:`K_{m}` is the stiffness matrix for the mooring system, and :math:`X` is the response of the body.
+where :math:`K_{m}` and :math:`C_{m}` are the stiffness and damping matrices for the mooring system, and :math:`X` and :math:`\dot{X}` are the response and velocity of the body, respectively.
 
 Viscous Drag
 -----------------------
