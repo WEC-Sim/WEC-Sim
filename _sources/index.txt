@@ -1,12 +1,12 @@
-WEC-Sim Documentation
-=====================
-
 .. figure:: _static/wec_sim_header.png
+
 Contents
---------
+=================
 
 .. toctree::
    :maxdepth: 2
+   :hidden:
+
 
    license.rst
    theory.rst
@@ -17,12 +17,12 @@ Contents
    references.rst
 
 Project Overview
-------------------------
+====================
 
 WEC-Sim is an open-source wave energy converter (WEC) simulation tool. The code is developed in MATLAB/SIMULINK using the multi-body dynamics solver SimMechanics. WEC-Sim has the ability to model devices that are comprised of rigid bodies, power-take-off systems, and mooring systems. Simulations are performed in the time-domain by solving the governing WEC equations of motion in 6 degrees-of-freedom. The WEC-Sim project is funded by the U.S. Department of Energy’s Wind and Water Power Technologies Office and the code development effort is a collaboration between the `National Renewable Energy Laboratory (NREL) <https://nwtc.nrel.gov/WEC-Sim>`_ and `Sandia National Laboratories (SNL) <http://energy.sandia.gov/energy/renewable-energy/water-power/wec-sim-wave-energy-converter-simulator/>`_.
 
 Principal Developers
---------------------
+======================
 * Michael Lawson (PI - NREL)
 * Kelley Ruehl (PI - SNL)
 * Yi-Hsiang Yu (NREL)
@@ -30,7 +30,7 @@ Principal Developers
 * Nathan Tom (NREL)
 
 Contributors
-------------
+=======================
 * Adam Nelessen (Georgia Tech)
 * Sam Kanner (University of California at Berkeley)
 * Chris McComb (Carnegie Mellon University)
@@ -44,9 +44,8 @@ The National Renewable Energy Laboratory is a national laboratory of the U.S. De
 Sandia National Laboratories is a multi-program laboratory managed and operated by Sandia Corporation, a wholly owned subsidiary of Lockheed Martin Corporation, for the U.S. Department of Energy’s National Nuclear Security Administration under contract DE-AC04-94AL85000.
 
 .. Indices and tables
-.. ------------------
+.. ======
 
 .. * :ref:`genindex`
 .. * :ref:`modindex`
 .. * :ref:`search`
-
