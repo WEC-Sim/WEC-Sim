@@ -13,7 +13,7 @@ print w.data[0].num_bodies
 # Calculate IRF and plot
 for i in xrange(w.data[0].num_bodies):
 	w.data[i].calc_irf()
-	w.data[i].calc_ss()
+#	w.data[i].calc_ss()
 	w.data[i].plot_irf([[0,0],[2,2]]	)
 	w.data[i].plot_am_rd([[0,0],[2,2]])
 
