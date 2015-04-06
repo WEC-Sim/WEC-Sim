@@ -12,10 +12,10 @@ RM3 Two-Body Point Absorber
 
 The first application of the WEC-Sim code is the Reference Model 3 (RM3) two-body point absorber design. Although the WEC is free to move in all 6DOF in response to wave motion, power is captured only in the relative heave direction. The RM3 device was selected because the design has already been well characterized both numerically and experimentally as a result of the DOE-funded Reference Model Project, more information on this project available on the  `Reference Model website <http://energy.sandia.gov/rmp>`_. In addition, the device has relatively simple operating principles and is representative of designs WEC industry is currently pursuing. RM3 is a simple two-body point absorber, consisting of a float and a reaction plate. The full-scale dimensions of the RM3 and its mass properties are are shown below.
 
-.. ::figure _static/RM3_Geom.jpg
+.. figure:: _static/RM3_Geom.jpg
    :width: 400pt
 
-.. ::figure _static/RM3_MassProps.jpg
+.. figure:: _static/RM3_MassProps.jpg
    :width: 400pt
 
 Hydrodynamic Data Pre-Processing
@@ -41,7 +41,7 @@ The first step to initiate a WEC-Sim simulation is to create the Simulink model 
 
 * Step 1: Place two ``Rigid Body`` blocks from the WEC-Sim library in the Simulink model file, one for each RM3 rigid body, as shown in the figure below. 
 
-.. ::figure _static/RM3_WECSim_Body.jpg
+.. figure:: _static/RM3_WECSim_Body.jpg
    :width: 400pt
 
 
@@ -50,7 +50,7 @@ The first step to initiate a WEC-Sim simulation is to create the Simulink model 
 
 * Step 3: Place the ``Global Reference Frame`` from the WEC-Sim library in the Simulink model file, as shown in the figure below. The global reference frame acts as the seabed to which all other bodies are linked through joints or constraints.
 
-.. ::figure _static/RM3_WECSim_GlobalRef.jpg
+.. figure:: _static/RM3_WECSim_GlobalRef.jpg
    :width: 400pt
 
 
@@ -59,7 +59,7 @@ The first step to initiate a WEC-Sim simulation is to create the Simulink model 
 
 * Step 5: Place a ``Translational PTO (Local Z)`` block to connect the float to the spar. This is necessary because the float is restricted to heave motion relative to the plate. For the RM3 simulation, the translational PTO block is used to model the WEC's PTO as a linear damper. The parameters are defined in the RM3 MATLAB input file.
 
-.. ::figure _static/RM3_WECSim.JPG
+.. figure:: _static/RM3_WECSim.JPG
    :width: 400pt
 
 
@@ -70,14 +70,14 @@ Input File
 
 In this section, we define the WEC-Sim MATLAB input file for the RM3 model. Each of the lines are commented to explain the purpose of the defined parameters. For the RM3 model, the user must define the simulation parameters, body properties, PTO, and constraint definitions. The specified input parameters for RM3 are shown in the figure below.
 
-.. ::figure _static/RM3wecSimInputFile.png
+.. figure:: _static/RM3wecSimInputFile.png
    :width: 400pt
 
 Simulation
 ~~~~~~~~~~~~~~~~~
 Once the WEC-Sim Simulink model is set up and the RM3 properties are defined in the MATLAB input file, the user can then run the RM3 model in WEC-Sim by running the ``wecSim`` command from the MATLAB Command Window. The figure below shows the final RM3 Simulink model and the WEC-Sim GUI during the simulation.
 
-.. ::figure _static/RM3_WECSim_GUI.JPG
+.. figure:: _static/RM3_WECSim_GUI.JPG
    :width: 400pt
 
 Outputs and Postprocessing
@@ -98,10 +98,10 @@ Geometry Definition
 
 As the second application of the WEC-Sim code, the oscillating surge WEC (OSWEC) device. We selected the OSWEC because its design is fundamentally different from the RM3. This is critical because WECs span an extensive design space, and it is important to model devices in WEC-Sim that operate under different principles.  The OSWEC is fixed to the ground and has a flap that is connected through a hinge to the base that restricts the flap to pitch about the hinge. The full-scale dimensions of the OSWEC and the mass properties are shown in the figure and table below.
 
-.. ::figure _static/OSWEC_Geom.png
+.. figure:: _static/OSWEC_Geom.png
    :width: 400pt
 
-.. ::figure: /OSWEC_MassProps.JPG
+.. figure::: /OSWEC_MassProps.JPG
    :width: 400pt
 
 Hydrodynamic Data Pre-Processing
@@ -123,7 +123,7 @@ The first step to set up a WEC-Sim simulation is to populate the Simulink model 
 
 * Step 1: Place two ``Rigid Body`` blocks from the WEC-Sim library in the Simulink model file, one for each OSWEC rigid body, as shown in the figure below. 
 
-.. ::figure: _static/OSWEC_WECSim_Body.jpg
+.. figure::: _static/OSWEC_WECSim_Body.jpg
    :width: 400pt
 
 
@@ -132,7 +132,7 @@ The first step to set up a WEC-Sim simulation is to populate the Simulink model 
 
 * Step 3: Place the ``Global Reference`` block from the WEC-Sim library in the Simulink model file, as shown in the figure below. The global reference frame acts as the base to which all other bodies are linked through joints or constraints.
 
-.. ::figure: _static/OSWEC_WECSim_GlobalRef.jpg
+.. figure::: _static/OSWEC_WECSim_GlobalRef.jpg
 
 
 * Step 4: Place a ``Fixed constraint`` block to connect the base to the seafloor. This is done because the OSWEC base is fixed relative to the global reference frame. Step 4 and 5 connections are shown in the figure below.
@@ -140,7 +140,7 @@ The first step to set up a WEC-Sim simulation is to populate the Simulink model 
 
 * Step 5: Place a ``Rotational PTO`` block to connect the base to the flap. This is done because the flap is restricted to pitch motion relative to the base.  For the OSWEC simulation, the ``Rotational PTO`` is used to model the WEC's PTO as a linear rotary damper. The input parameters are defined in the OSWEC MATLAB input file. 
 
-.. ::figure: _static/OSWEC_WECSim.JPG
+.. figure::: _static/OSWEC_WECSim.JPG
    :width: 400pt
 
 
@@ -150,7 +150,7 @@ OSWEC MATLAB Input File
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 In this section, the WEC-Sim MATLAB input file, ``wecSimInputFile.m``, for the OSWEC model is defined. Each of the lines are commented to explain the purpose of the defined parameters. For the OSWEC model, the user must define the simulation parameters, body properties, PTO, and constraint definitions. Each of the specified parameters for OSWEC are defined below.
 
-.. ::figure _static/OSWECwecSimInputFile.png
+.. figure:: _static/OSWECwecSimInputFile.png
    :width: 400pt
 
 OSWEC WEC-Sim Simulation
@@ -158,5 +158,5 @@ OSWEC WEC-Sim Simulation
 
 Once the WEC-Sim Simulink model is set up and the OSWEC properties are defined in the MATLAB input file, the user can then run the OSWEC model in WEC-Sim by running the ``wecSim`` command from the MATLAB Command Window..  The figure below shows the final OSWEC Simulink model and the WEC-Sim GUI showing the OSWEC during the simulation. For more information on using WEC-Sim to model the OSWEC device, refer to <ref>y._yu_development_2014</ref> and <ref>y._yu_design_2014</ref>.
 
-.. ::figure: _static/OSWEC_WECSim_GUI.png
+.. figure::: _static/OSWEC_WECSim_GUI.png
    :width: 400pt

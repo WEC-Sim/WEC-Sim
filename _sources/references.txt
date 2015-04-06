@@ -1,0 +1,4 @@
+References
+===========
+
+.. bibliography:: WEC-Sim.bib

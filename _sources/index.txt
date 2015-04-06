@@ -1,9 +1,6 @@
 WEC-Sim Documentation
 =====================
 
-.. .. figure:: _static/wec_sim_header.png
-..    :width: 600pt
-
 Contents
 --------
 
@@ -16,6 +13,7 @@ Contents
    code_structure.rst
    applications.rst
    trouble_shooting.rst
+   references.rst
 
 Project Overview
 ------------------------

@@ -65,7 +65,16 @@
           
               <ul class="current">
 <li class="toctree-l1"><a class="reference internal" href="license.html">License</a></li>
-<li class="toctree-l1"><a class="reference internal" href="theory.html">Theory</a></li>
+<li class="toctree-l1"><a class="reference internal" href="theory.html">Theory</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="theory.html#introduction">Introduction</a></li>
+<li class="toctree-l2"><a class="reference internal" href="theory.html#boundary-element-method">Boundary Element Method</a></li>
+<li class="toctree-l2"><a class="reference internal" href="theory.html#coordinate-system-in-wec-sim">Coordinate System in WEC-Sim</a></li>
+<li class="toctree-l2"><a class="reference internal" href="theory.html#time-domain-numerical-method">Time-Domain Numerical Method</a></li>
+<li class="toctree-l2"><a class="reference internal" href="theory.html#power-take-off-forces">Power Take-off Forces</a></li>
+<li class="toctree-l2"><a class="reference internal" href="theory.html#mooring-forces">Mooring Forces</a></li>
+<li class="toctree-l2"><a class="reference internal" href="theory.html#viscous-drag">Viscous Drag</a></li>
+</ul>
+</li>
 <li class="toctree-l1"><a class="reference internal" href="getting_started.html">Getting Started</a><ul>
 <li class="toctree-l2"><a class="reference internal" href="getting_started.html#downloading-and-installing-wec-sim">Downloading and Installing WEC-Sim</a></li>
 <li class="toctree-l2"><a class="reference internal" href="getting_started.html#running-wec-sim">Running WEC-Sim</a></li>
@@ -87,6 +96,7 @@
 <li class="toctree-l2"><a class="reference internal" href="trouble_shooting.html#tips">Tips</a></li>
 </ul>
 </li>
+<li class="toctree-l1"><a class="reference internal" href="references.html">References</a></li>
 </ul>
 
           
@@ -130,6 +140,12 @@
 <div class="section" id="geometry-definition">
 <h3>3.1.1 Geometry Definition<a class="headerlink" href="#geometry-definition" title="Permalink to this headline">¶</a></h3>
 <p>The first application of the WEC-Sim code is the Reference Model 3 (RM3) two-body point absorber design. Although the WEC is free to move in all 6DOF in response to wave motion, power is captured only in the relative heave direction. The RM3 device was selected because the design has already been well characterized both numerically and experimentally as a result of the DOE-funded Reference Model Project, more information on this project available on the  <a class="reference external" href="http://energy.sandia.gov/rmp">Reference Model website</a>. In addition, the device has relatively simple operating principles and is representative of designs WEC industry is currently pursuing. RM3 is a simple two-body point absorber, consisting of a float and a reaction plate. The full-scale dimensions of the RM3 and its mass properties are are shown below.</p>
+<div class="figure">
+<a class="reference internal image-reference" href="_images/RM3_Geom.jpg"><img alt="_images/RM3_Geom.jpg" src="_images/RM3_Geom.jpg" style="width: 400pt;" /></a>
+</div>
+<div class="figure">
+<a class="reference internal image-reference" href="_images/RM3_MassProps.jpg"><img alt="_images/RM3_MassProps.jpg" src="_images/RM3_MassProps.jpg" style="width: 400pt;" /></a>
+</div>
 </div>
 <div class="section" id="hydrodynamic-data-pre-processing">
 <h3>Hydrodynamic Data Pre-Processing<a class="headerlink" href="#hydrodynamic-data-pre-processing" title="Permalink to this headline">¶</a></h3>
@@ -152,24 +168,39 @@
 <ul class="simple">
 <li>Step 1: Place two <code class="docutils literal"><span class="pre">Rigid</span> <span class="pre">Body</span></code> blocks from the WEC-Sim library in the Simulink model file, one for each RM3 rigid body, as shown in the figure below.</li>
 </ul>
+<div class="figure">
+<a class="reference internal image-reference" href="_images/RM3_WECSim_Body.jpg"><img alt="_images/RM3_WECSim_Body.jpg" src="_images/RM3_WECSim_Body.jpg" style="width: 400pt;" /></a>
+</div>
 <ul class="simple">
 <li>Step 2: Double click on the <code class="docutils literal"><span class="pre">Rigid</span> <span class="pre">Body</span></code> block, and rename the instances of the body. The first body should be titled &#8216;body(1)&#8217;, and the second body should be titled <code class="docutils literal"><span class="pre">'body(2)'</span></code>. Additional properties of these body blocks are defined in the following RM3 MATLAB input file.</li>
 <li>Step 3: Place the <code class="docutils literal"><span class="pre">Global</span> <span class="pre">Reference</span> <span class="pre">Frame</span></code> from the WEC-Sim library in the Simulink model file, as shown in the figure below. The global reference frame acts as the seabed to which all other bodies are linked through joints or constraints.</li>
 </ul>
+<div class="figure">
+<a class="reference internal image-reference" href="_images/RM3_WECSim_GlobalRef.jpg"><img alt="_images/RM3_WECSim_GlobalRef.jpg" src="_images/RM3_WECSim_GlobalRef.jpg" style="width: 400pt;" /></a>
+</div>
 <ul class="simple">
 <li>Step 4: Use the <code class="docutils literal"><span class="pre">Floating</span> <span class="pre">constraint</span></code> block to connect the plate to the seabed. This is done because the RM3 is free to move relative to the global reference frame. Step 4 and 5 connections are shown in the figure below.</li>
 <li>Step 5: Place a <code class="docutils literal"><span class="pre">Translational</span> <span class="pre">PTO</span> <span class="pre">(Local</span> <span class="pre">Z)</span></code> block to connect the float to the spar. This is necessary because the float is restricted to heave motion relative to the plate. For the RM3 simulation, the translational PTO block is used to model the WEC&#8217;s PTO as a linear damper. The parameters are defined in the RM3 MATLAB input file.</li>
 </ul>
+<div class="figure">
+<a class="reference internal image-reference" href="_images/RM3_WECSim.JPG"><img alt="_images/RM3_WECSim.JPG" src="_images/RM3_WECSim.JPG" style="width: 400pt;" /></a>
+</div>
 <p>When setting up a WEC-Sim model, it is important to note the base and follower frames. For example, for the constraint between the plate and the reference frame should be the base because the plate moves relative to it.  Similarly, for the PTO between the float and the plate, the plate should be defined as the base and the float as the follower.</p>
 </div>
 <div class="section" id="input-file">
 <h4>Input File<a class="headerlink" href="#input-file" title="Permalink to this headline">¶</a></h4>
 <p>In this section, we define the WEC-Sim MATLAB input file for the RM3 model. Each of the lines are commented to explain the purpose of the defined parameters. For the RM3 model, the user must define the simulation parameters, body properties, PTO, and constraint definitions. The specified input parameters for RM3 are shown in the figure below.</p>
+<div class="figure">
+<a class="reference internal image-reference" href="_images/RM3wecSimInputFile.png"><img alt="_images/RM3wecSimInputFile.png" src="_images/RM3wecSimInputFile.png" style="width: 400pt;" /></a>
+</div>
 </div>
 </div>
 <div class="section" id="simulation">
 <h3>Simulation<a class="headerlink" href="#simulation" title="Permalink to this headline">¶</a></h3>
 <p>Once the WEC-Sim Simulink model is set up and the RM3 properties are defined in the MATLAB input file, the user can then run the RM3 model in WEC-Sim by running the <code class="docutils literal"><span class="pre">wecSim</span></code> command from the MATLAB Command Window. The figure below shows the final RM3 Simulink model and the WEC-Sim GUI during the simulation.</p>
+<div class="figure">
+<a class="reference internal image-reference" href="_images/RM3_WECSim_GUI.JPG"><img alt="_images/RM3_WECSim_GUI.JPG" src="_images/RM3_WECSim_GUI.JPG" style="width: 400pt;" /></a>
+</div>
 <div class="section" id="outputs-and-postprocessing">
 <h4>Outputs and Postprocessing<a class="headerlink" href="#outputs-and-postprocessing" title="Permalink to this headline">¶</a></h4>
 <p>This example has a <code class="docutils literal"><span class="pre">userDefinedFunctions.m</span></code> which plots different forces and responses. The user is encouraged to modify this file. Additionally, after the WEC-Sim run is done, the user has access to the <code class="docutils literal"><span class="pre">output</span></code> variable in the workspace which contains all the simulation outputs.</p>
@@ -185,6 +216,9 @@
 <div class="section" id="id2">
 <h3>Geometry Definition<a class="headerlink" href="#id2" title="Permalink to this headline">¶</a></h3>
 <p>As the second application of the WEC-Sim code, the oscillating surge WEC (OSWEC) device. We selected the OSWEC because its design is fundamentally different from the RM3. This is critical because WECs span an extensive design space, and it is important to model devices in WEC-Sim that operate under different principles.  The OSWEC is fixed to the ground and has a flap that is connected through a hinge to the base that restricts the flap to pitch about the hinge. The full-scale dimensions of the OSWEC and the mass properties are shown in the figure and table below.</p>
+<div class="figure">
+<a class="reference internal image-reference" href="_images/OSWEC_Geom.png"><img alt="_images/OSWEC_Geom.png" src="_images/OSWEC_Geom.png" style="width: 400pt;" /></a>
+</div>
 </div>
 <div class="section" id="id3">
 <h3>Hydrodynamic Data Pre-Processing<a class="headerlink" href="#id3" title="Permalink to this headline">¶</a></h3>
@@ -214,6 +248,9 @@
 <div class="section" id="oswec-matlab-input-file">
 <h3>OSWEC MATLAB Input File<a class="headerlink" href="#oswec-matlab-input-file" title="Permalink to this headline">¶</a></h3>
 <p>In this section, the WEC-Sim MATLAB input file, <code class="docutils literal"><span class="pre">wecSimInputFile.m</span></code>, for the OSWEC model is defined. Each of the lines are commented to explain the purpose of the defined parameters. For the OSWEC model, the user must define the simulation parameters, body properties, PTO, and constraint definitions. Each of the specified parameters for OSWEC are defined below.</p>
+<div class="figure">
+<a class="reference internal image-reference" href="_images/OSWECwecSimInputFile.png"><img alt="_images/OSWECwecSimInputFile.png" src="_images/OSWECwecSimInputFile.png" style="width: 400pt;" /></a>
+</div>
 </div>
 <div class="section" id="oswec-wec-sim-simulation">
 <h3>OSWEC WEC-Sim Simulation<a class="headerlink" href="#oswec-wec-sim-simulation" title="Permalink to this headline">¶</a></h3>
@@ -270,6 +307,7 @@
       <script type="text/javascript" src="_static/jquery.js"></script>
       <script type="text/javascript" src="_static/underscore.js"></script>
       <script type="text/javascript" src="_static/doctools.js"></script>
+      <script type="text/javascript" src="https://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
 
   
 
