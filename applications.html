@@ -152,44 +152,117 @@
 <div class="figure">
 <a class="reference internal image-reference" href="_images/RM3_Geom.jpg"><img alt="_images/RM3_Geom.jpg" src="_images/RM3_Geom.jpg" style="width: 400pt;" /></a>
 </div>
-<div class="figure">
-<a class="reference internal image-reference" href="_images/RM3_MassProps.jpg"><img alt="_images/RM3_MassProps.jpg" src="_images/RM3_MassProps.jpg" style="width: 400pt;" /></a>
-</div>
+<table border="1" class="docutils">
+<colgroup>
+<col width="13%" />
+<col width="20%" />
+<col width="22%" />
+<col width="22%" />
+<col width="22%" />
+</colgroup>
+<thead valign="bottom">
+<tr class="row-odd"><th class="head" colspan="5">Float Full Scale Properties</th>
+</tr>
+</thead>
+<tbody valign="top">
+<tr class="row-even"><td rowspan="2">CG (m)</td>
+<td rowspan="2">Mass
+(tonne)</td>
+<td colspan="3" rowspan="2">Moment of
+Inertia (kg-m^2)</td>
+</tr>
+<tr class="row-odd"></tr>
+<tr class="row-even"><td>0</td>
+<td rowspan="3">727.01</td>
+<td>20,907,301</td>
+<td>0</td>
+<td>0</td>
+</tr>
+<tr class="row-odd"><td>0</td>
+<td>0</td>
+<td>21,306,091</td>
+<td>4305</td>
+</tr>
+<tr class="row-even"><td>-0.72</td>
+<td>&nbsp;</td>
+<td>4305</td>
+<td>37,085,481</td>
+</tr>
+</tbody>
+</table>
+<table border="1" class="docutils">
+<colgroup>
+<col width="13%" />
+<col width="20%" />
+<col width="22%" />
+<col width="22%" />
+<col width="22%" />
+</colgroup>
+<thead valign="bottom">
+<tr class="row-odd"><th class="head" colspan="5">Plate Full Scale Properties</th>
+</tr>
+</thead>
+<tbody valign="top">
+<tr class="row-even"><td rowspan="2">CG (m)</td>
+<td rowspan="2">Mass
+(tonne)</td>
+<td colspan="3" rowspan="2">Moment of
+Inertia (kg-m^2)</td>
+</tr>
+<tr class="row-odd"></tr>
+<tr class="row-even"><td>0</td>
+<td rowspan="3">878.30</td>
+<td>94,419,615</td>
+<td>0</td>
+<td>0</td>
+</tr>
+<tr class="row-odd"><td>0</td>
+<td>0</td>
+<td>94,407,091</td>
+<td>217,593</td>
+</tr>
+<tr class="row-even"><td>-21.29</td>
+<td>&nbsp;</td>
+<td>217,593</td>
+<td>28,542,225</td>
+</tr>
+</tbody>
+</table>
 </div>
 <div class="section" id="hydrodynamic-data-pre-processing">
 <h3>Hydrodynamic Data Pre-Processing<a class="headerlink" href="#hydrodynamic-data-pre-processing" title="Permalink to this headline">¶</a></h3>
-<p>The hydrodynamic data for each body must be supplied in &#8216;&#8217;bemio&#8217;&#8217; hydrodynamic data format generated using the <a class="reference external" href="https://github.com/WEC-Sim/bemiobemio">bemio</a> code. More information on how to use &#8216;&#8217;bemio&#8217;&#8217; can be found here - <a class="reference external" href="http://wec-sim.github.io/bemio/">http://wec-sim.github.io/bemio/</a>. The hydrodynamic data for each body can be supplied in one single &#8216;&#8217;hdf5&#8217;&#8217; file, or several (ie. one per body). In this application case, a single file is provided. This file was created based on a WAIMT run of the RM3 geometry, using the WAMIT output file and the WAMIT reader from the  bemio. The WAMIT <code class="docutils literal"><span class="pre">*.out</span></code> file and the python bemio script used to create the &#8216;&#8217;hdf5&#8217;&#8217; are included as well. All these files are located in the &#8216;&#8217;/hydroData&#8217;&#8217; directory of the RM3 application case.</p>
+<p>The hydrodynamic data for each body must be supplied in &#8216;&#8217;bemio&#8217;&#8217; hydrodynamic data format generated using the <a class="reference external" href="https://github.com/WEC-Sim/bemiobemio">bemio</a> code. More information on how to use &#8216;&#8217;bemio&#8217;&#8217; can be found here - <a class="reference external" href="http://wec-sim.github.io/bemio/">http://wec-sim.github.io/bemio/</a>. The hydrodynamic data for each body can be supplied in one single &#8216;&#8217;hdf5&#8217;&#8217; file, or several (ie. one per body). In this application case, a single file is provided. This file was created based on a WAIMT run of the RM3 geometry, using the WAMIT output file and the WAMIT reader from the  bemio. The WAMIT <tt class="docutils literal"><span class="pre">*.out</span></tt> file and the python bemio script used to create the &#8216;&#8217;hdf5&#8217;&#8217; are included as well. All these files are located in the &#8216;&#8217;/hydroData&#8217;&#8217; directory of the RM3 application case.</p>
 </div>
 <div class="section" id="modeling-rm3-in-wec-sim">
 <h3>Modeling RM3 in WEC-Sim<a class="headerlink" href="#modeling-rm3-in-wec-sim" title="Permalink to this headline">¶</a></h3>
 <p>In this section,   a step by step tutorial on how to set up and run the RM3 simulation in WEC-Sim is provided.</p>
-<p>All WEC-Sim models consist of a input file (<code class="docutils literal"><span class="pre">wecSimInputFile.m</span></code>), and a Simulink model file (<code class="docutils literal"><span class="pre">RM3.slx</span></code>). To run the WEC-Sim simulation, the user needs to provide results from the frequency-domain BEM solver, to populate the WEC-Sim hydrodynamic coefficients. These results must be provided in the form of one or several  <code class="docutils literal"><span class="pre">*.h5</span></code> file(s) as described in Section 3.1.2. The user also needs to specify the 3-D geometry file for each body  in the form of a <code class="docutils literal"><span class="pre">*.stl</span></code> file with the origin of the coordinate system at the center of gravity. this is used for the WEC-Sim visualization. For the RM3 run consisting of a buoy and a spar plate, these files correspond to the <code class="docutils literal"><span class="pre">float.stl</span></code> and <code class="docutils literal"><span class="pre">plate.stl</span></code> files respectively. The RM3 <code class="docutils literal"><span class="pre">*.stl</span></code> files are located in the &#8216;&#8217;/geometry&#8217;&#8217; directory. Additionally users have the option of supplying a <code class="docutils literal"><span class="pre">userDefinedFunctions.m</span></code> file for post-processing immediately after the WEC-Sim run is complete. In summary, the files needed to run a WEC-Sim case are the following:</p>
+<p>All WEC-Sim models consist of a input file (<tt class="docutils literal"><span class="pre">wecSimInputFile.m</span></tt>), and a Simulink model file (<tt class="docutils literal"><span class="pre">RM3.slx</span></tt>). To run the WEC-Sim simulation, the user needs to provide results from the frequency-domain BEM solver, to populate the WEC-Sim hydrodynamic coefficients. These results must be provided in the form of one or several  <tt class="docutils literal"><span class="pre">*.h5</span></tt> file(s) as described in Section 3.1.2. The user also needs to specify the 3-D geometry file for each body  in the form of a <tt class="docutils literal"><span class="pre">*.stl</span></tt> file with the origin of the coordinate system at the center of gravity. this is used for the WEC-Sim visualization. For the RM3 run consisting of a buoy and a spar plate, these files correspond to the <tt class="docutils literal"><span class="pre">float.stl</span></tt> and <tt class="docutils literal"><span class="pre">plate.stl</span></tt> files respectively. The RM3 <tt class="docutils literal"><span class="pre">*.stl</span></tt> files are located in the &#8216;&#8217;/geometry&#8217;&#8217; directory. Additionally users have the option of supplying a <tt class="docutils literal"><span class="pre">userDefinedFunctions.m</span></tt> file for post-processing immediately after the WEC-Sim run is complete. In summary, the files needed to run a WEC-Sim case are the following:</p>
 <ul class="simple">
-<li>Input file: <code class="docutils literal"><span class="pre">wecSimInputFile.m</span></code></li>
-<li>Simulink model: <code class="docutils literal"><span class="pre">rm3.slx</span></code></li>
-<li>Geometry file for each body: <code class="docutils literal"><span class="pre">float.stl</span></code> and <code class="docutils literal"><span class="pre">plate.stl</span></code></li>
-<li>Hydrodynamic data file(s): <code class="docutils literal"><span class="pre">rm3.h5</span></code></li>
-<li>Optional user defined postprocessing file: <code class="docutils literal"><span class="pre">userDefinedFunctions.m</span></code></li>
+<li>Input file: <tt class="docutils literal"><span class="pre">wecSimInputFile.m</span></tt></li>
+<li>Simulink model: <tt class="docutils literal"><span class="pre">rm3.slx</span></tt></li>
+<li>Geometry file for each body: <tt class="docutils literal"><span class="pre">float.stl</span></tt> and <tt class="docutils literal"><span class="pre">plate.stl</span></tt></li>
+<li>Hydrodynamic data file(s): <tt class="docutils literal"><span class="pre">rm3.h5</span></tt></li>
+<li>Optional user defined postprocessing file: <tt class="docutils literal"><span class="pre">userDefinedFunctions.m</span></tt></li>
 </ul>
 <div class="section" id="simulink-model">
 <h4>Simulink Model<a class="headerlink" href="#simulink-model" title="Permalink to this headline">¶</a></h4>
-<p>The first step to initiate a WEC-Sim simulation is to create the Simulink model file by dragging and dropping blocks from the WEC-Sim library into the <code class="docutils literal"><span class="pre">rm3.slx</span></code> file.</p>
+<p>The first step to initiate a WEC-Sim simulation is to create the Simulink model file by dragging and dropping blocks from the WEC-Sim library into the <tt class="docutils literal"><span class="pre">rm3.slx</span></tt> file.</p>
 <ul class="simple">
-<li>Step 1: Place two <code class="docutils literal"><span class="pre">Rigid</span> <span class="pre">Body</span></code> blocks from the WEC-Sim library in the Simulink model file, one for each RM3 rigid body, as shown in the figure below.</li>
+<li>Step 1: Place two <tt class="docutils literal"><span class="pre">Rigid</span> <span class="pre">Body</span></tt> blocks from the WEC-Sim library in the Simulink model file, one for each RM3 rigid body, as shown in the figure below.</li>
 </ul>
 <div class="figure">
 <a class="reference internal image-reference" href="_images/RM3_WECSim_Body.jpg"><img alt="_images/RM3_WECSim_Body.jpg" src="_images/RM3_WECSim_Body.jpg" style="width: 400pt;" /></a>
 </div>
 <ul class="simple">
-<li>Step 2: Double click on the <code class="docutils literal"><span class="pre">Rigid</span> <span class="pre">Body</span></code> block, and rename the instances of the body. The first body should be titled &#8216;body(1)&#8217;, and the second body should be titled <code class="docutils literal"><span class="pre">'body(2)'</span></code>. Additional properties of these body blocks are defined in the following RM3 MATLAB input file.</li>
-<li>Step 3: Place the <code class="docutils literal"><span class="pre">Global</span> <span class="pre">Reference</span> <span class="pre">Frame</span></code> from the WEC-Sim library in the Simulink model file, as shown in the figure below. The global reference frame acts as the seabed to which all other bodies are linked through joints or constraints.</li>
+<li>Step 2: Double click on the <tt class="docutils literal"><span class="pre">Rigid</span> <span class="pre">Body</span></tt> block, and rename the instances of the body. The first body should be titled &#8216;body(1)&#8217;, and the second body should be titled <tt class="docutils literal"><span class="pre">'body(2)'</span></tt>. Additional properties of these body blocks are defined in the following RM3 MATLAB input file.</li>
+<li>Step 3: Place the <tt class="docutils literal"><span class="pre">Global</span> <span class="pre">Reference</span> <span class="pre">Frame</span></tt> from the WEC-Sim library in the Simulink model file, as shown in the figure below. The global reference frame acts as the seabed to which all other bodies are linked through joints or constraints.</li>
 </ul>
 <div class="figure">
 <a class="reference internal image-reference" href="_images/RM3_WECSim_GlobalRef.jpg"><img alt="_images/RM3_WECSim_GlobalRef.jpg" src="_images/RM3_WECSim_GlobalRef.jpg" style="width: 400pt;" /></a>
 </div>
 <ul class="simple">
-<li>Step 4: Use the <code class="docutils literal"><span class="pre">Floating</span> <span class="pre">constraint</span></code> block to connect the plate to the seabed. This is done because the RM3 is free to move relative to the global reference frame. Step 4 and 5 connections are shown in the figure below.</li>
-<li>Step 5: Place a <code class="docutils literal"><span class="pre">Translational</span> <span class="pre">PTO</span> <span class="pre">(Local</span> <span class="pre">Z)</span></code> block to connect the float to the spar. This is necessary because the float is restricted to heave motion relative to the plate. For the RM3 simulation, the translational PTO block is used to model the WEC&#8217;s PTO as a linear damper. The parameters are defined in the RM3 MATLAB input file.</li>
+<li>Step 4: Use the <tt class="docutils literal"><span class="pre">Floating</span> <span class="pre">constraint</span></tt> block to connect the plate to the seabed. This is done because the RM3 is free to move relative to the global reference frame. Step 4 and 5 connections are shown in the figure below.</li>
+<li>Step 5: Place a <tt class="docutils literal"><span class="pre">Translational</span> <span class="pre">PTO</span> <span class="pre">(Local</span> <span class="pre">Z)</span></tt> block to connect the float to the spar. This is necessary because the float is restricted to heave motion relative to the plate. For the RM3 simulation, the translational PTO block is used to model the WEC&#8217;s PTO as a linear damper. The parameters are defined in the RM3 MATLAB input file.</li>
 </ul>
 <div class="figure">
 <a class="reference internal image-reference" href="_images/RM3_WECSim.JPG"><img alt="_images/RM3_WECSim.JPG" src="_images/RM3_WECSim.JPG" style="width: 400pt;" /></a>
@@ -206,64 +279,98 @@
 </div>
 <div class="section" id="simulation">
 <h3>Simulation<a class="headerlink" href="#simulation" title="Permalink to this headline">¶</a></h3>
-<p>Once the WEC-Sim Simulink model is set up and the RM3 properties are defined in the MATLAB input file, the user can then run the RM3 model in WEC-Sim by running the <code class="docutils literal"><span class="pre">wecSim</span></code> command from the MATLAB Command Window. The figure below shows the final RM3 Simulink model and the WEC-Sim GUI during the simulation.</p>
+<p>Once the WEC-Sim Simulink model is set up and the RM3 properties are defined in the MATLAB input file, the user can then run the RM3 model in WEC-Sim by running the <tt class="docutils literal"><span class="pre">wecSim</span></tt> command from the MATLAB Command Window. The figure below shows the final RM3 Simulink model and the WEC-Sim GUI during the simulation.</p>
 <div class="figure">
 <a class="reference internal image-reference" href="_images/RM3_WECSim_GUI.JPG"><img alt="_images/RM3_WECSim_GUI.JPG" src="_images/RM3_WECSim_GUI.JPG" style="width: 400pt;" /></a>
 </div>
 <div class="section" id="outputs-and-postprocessing">
 <h4>Outputs and Postprocessing<a class="headerlink" href="#outputs-and-postprocessing" title="Permalink to this headline">¶</a></h4>
-<p>This example has a <code class="docutils literal"><span class="pre">userDefinedFunctions.m</span></code> which plots different forces and responses. The user is encouraged to modify this file. Additionally, after the WEC-Sim run is done, the user has access to the <code class="docutils literal"><span class="pre">output</span></code> variable in the workspace which contains all the simulation outputs.</p>
+<p>This example has a <tt class="docutils literal"><span class="pre">userDefinedFunctions.m</span></tt> which plots different forces and responses. The user is encouraged to modify this file. Additionally, after the WEC-Sim run is done, the user has access to the <tt class="docutils literal"><span class="pre">output</span></tt> variable in the workspace which contains all the simulation outputs.</p>
 </div>
 <div class="section" id="running-different-wave-cases">
 <h4>Running Different Wave Cases<a class="headerlink" href="#running-different-wave-cases" title="Permalink to this headline">¶</a></h4>
-<p>The input file in the RM3 example has three different wave examples: regular waves, irregular waves with a defined spectrum, and irregular waves with a user defined spectrum. By default the regular waves case is used. To run either of the other two cases the user needs to comment out the regular wave case and un-comment the desired case. Additionally the user can create any other desired wave.</p>
+<p>The input file in the RM3 example has four different wave examples:
+* Regular waves
+* Irregular waves with using Pierson–Moskowitz spectrum with convolution integral calculation
+* Irregular waves with using Bretschneider Spectrum with state space calculation
+* Irregular waves with defined spectrum, and irregular waves with a user defined spectrum</p>
+<p>By default the regular waves case is used. To run either of the other three cases the user needs to comment out the regular wave case and uncomment the desired case. Additionally, the user can create any other desired wave.</p>
+<p>Note: If <tt class="docutils literal"><span class="pre">simu.ssCalc=1</span></tt> is uncommented, the user needs to make sure the the state space hydrodynamic coefficients are included in the <tt class="docutils literal"><span class="pre">&lt;hydro-data</span> <span class="pre">name&gt;.hd5</span></tt> file. User can generate the state space hydrodynamic coefficients and export the values in the <tt class="docutils literal"><span class="pre">&lt;hydro-data</span> <span class="pre">name&gt;.hd5</span></tt> file using <a class="reference external" href="https://github.com/WEC-Sim/bemio">bemio</a> code. More details are discribed in the <a class="reference external" href="http://wec-sim.github.io/bemio/api.html#calculating-impulse-response-functions-and-sate-space-coefficients">Calculating Impulse Response Functions and Sate Space Coefficients</a> section in the <a class="reference external" href="http://wec-sim.github.io/bemio/index.html">bemio Documentation and Users Guide</a>.</p>
 </div>
 </div>
 </div>
 <div class="section" id="oscillating-surge-pitch-device">
 <h2>Oscillating Surge-Pitch Device<a class="headerlink" href="#oscillating-surge-pitch-device" title="Permalink to this headline">¶</a></h2>
-<div class="section" id="id2">
-<h3>Geometry Definition<a class="headerlink" href="#id2" title="Permalink to this headline">¶</a></h3>
+<div class="section" id="id3">
+<h3>Geometry Definition<a class="headerlink" href="#id3" title="Permalink to this headline">¶</a></h3>
 <p>As the second application of the WEC-Sim code, the oscillating surge WEC (OSWEC) device. We selected the OSWEC because its design is fundamentally different from the RM3. This is critical because WECs span an extensive design space, and it is important to model devices in WEC-Sim that operate under different principles.  The OSWEC is fixed to the ground and has a flap that is connected through a hinge to the base that restricts the flap to pitch about the hinge. The full-scale dimensions of the OSWEC and the mass properties are shown in the figure and table below.</p>
 <div class="figure">
 <a class="reference internal image-reference" href="_images/OSWEC_Geom.png"><img alt="_images/OSWEC_Geom.png" src="_images/OSWEC_Geom.png" style="width: 400pt;" /></a>
 </div>
+<table border="1" class="docutils">
+<colgroup>
+<col width="22%" />
+<col width="33%" />
+<col width="44%" />
+</colgroup>
+<thead valign="bottom">
+<tr class="row-odd"><th class="head" colspan="3">Flap Full Scale Properties</th>
+</tr>
+</thead>
+<tbody valign="top">
+<tr class="row-even"><td rowspan="2">CG (m)</td>
+<td rowspan="2">Mass (kg)</td>
+<td rowspan="2">Pitch Moment
+of Inertia
+(kg-m^2)</td>
+</tr>
+<tr class="row-odd"></tr>
+<tr class="row-even"><td>0</td>
+<td rowspan="3">127,000</td>
+<td rowspan="3">1,850,000</td>
+</tr>
+<tr class="row-odd"><td>0</td>
+</tr>
+<tr class="row-even"><td>-3.9</td>
+</tr>
+</tbody>
+</table>
 </div>
-<div class="section" id="id3">
-<h3>Hydrodynamic Data Pre-Processing<a class="headerlink" href="#id3" title="Permalink to this headline">¶</a></h3>
-<p>The hydrodynamic data for each body must be supplied in &#8216;&#8217;bemio&#8217;&#8217; hydrodynamic data format generated using the <a class="reference external" href="https://github.com/WEC-Sim/bemio">bemio</a> code.  More information on how to use &#8216;&#8217;bemio&#8217;&#8217; can be found here - <a class="reference external" href="http://wec-sim.github.io/bemio/">http://wec-sim.github.io/bemio/</a>. The hydrodynamic data for each body can be supplied in one single &#8216;&#8217;hdf5&#8217;&#8217; file, or several (ie. one per body). In this application case, a single file is provided. This file was created based on a WAIMT run of the RM3 geometry, using the WAMIT output file and the WAMIT reader from the  <a class="reference external" href="https://github.com/WEC-Sim/bemio/releases">bemio open source BEM parser</a> . The WAMIT <code class="docutils literal"><span class="pre">*.out</span></code> file and the python bemio script used to create the &#8216;&#8217;hdf5&#8217;&#8217; are included as well. All these files are located in the &#8216;&#8217;/hydroData&#8217;&#8217; directory of the RM3 application case.</p>
+<div class="section" id="id4">
+<h3>Hydrodynamic Data Pre-Processing<a class="headerlink" href="#id4" title="Permalink to this headline">¶</a></h3>
+<p>The hydrodynamic data for each body must be supplied in &#8216;&#8217;bemio&#8217;&#8217; hydrodynamic data format generated using the <a class="reference external" href="https://github.com/WEC-Sim/bemio">bemio</a> code.  More information on how to use &#8216;&#8217;bemio&#8217;&#8217; can be found here - <a class="reference external" href="http://wec-sim.github.io/bemio/">http://wec-sim.github.io/bemio/</a>. The hydrodynamic data for each body can be supplied in one single &#8216;&#8217;hdf5&#8217;&#8217; file, or several (ie. one per body). In this application case, a single file is provided. This file was created based on a WAIMT run of the RM3 geometry, using the WAMIT output file and the WAMIT reader from the  <a class="reference external" href="https://github.com/WEC-Sim/bemio/releases">bemio open source BEM parser</a> . The WAMIT <tt class="docutils literal"><span class="pre">*.out</span></tt> file and the python bemio script used to create the &#8216;&#8217;hdf5&#8217;&#8217; are included as well. All these files are located in the &#8216;&#8217;/hydroData&#8217;&#8217; directory of the RM3 application case.</p>
 </div>
 <div class="section" id="modeling-oswec-in-wec-sim">
 <h3>Modeling OSWEC in WEC-Sim<a class="headerlink" href="#modeling-oswec-in-wec-sim" title="Permalink to this headline">¶</a></h3>
 <p>In this section, we provide a step by step tutorial on how to set up and run the OSWEC simulation in WEC-Sim.</p>
-<p>All WEC-Sim models consist of a input file (<code class="docutils literal"><span class="pre">wecSimInputFile.m</span></code>), and a Simulink model file (<code class="docutils literal"><span class="pre">OSWEC.slx</span></code>). The BEM hydrodynamic results were also pregenerated using WAMIT. The WAMIT output file corresponds to the <code class="docutils literal"><span class="pre">oswec.out</span></code> file, contained in the wamit subfolder. In addition, the user needs to specify the 3-D geometry file in the form of a <code class="docutils literal"><span class="pre">&lt;WEC</span> <span class="pre">model</span> <span class="pre">name&gt;.stl</span></code> file about the center of gravity for the WEC-Sim visualizations. For the OSWEC run consisting of a flap and a base, these files correspond to the <code class="docutils literal"><span class="pre">flap.stl</span></code> and <code class="docutils literal"><span class="pre">base.stl</span></code> files, respectively, which are located in the geometry subfolder.</p>
+<p>All WEC-Sim models consist of a input file (<tt class="docutils literal"><span class="pre">wecSimInputFile.m</span></tt>), and a Simulink model file (<tt class="docutils literal"><span class="pre">OSWEC.slx</span></tt>). The BEM hydrodynamic results were also pregenerated using WAMIT. The WAMIT output file corresponds to the <tt class="docutils literal"><span class="pre">oswec.out</span></tt> file, contained in the wamit subfolder. In addition, the user needs to specify the 3-D geometry file in the form of a <tt class="docutils literal"><span class="pre">&lt;WEC</span> <span class="pre">model</span> <span class="pre">name&gt;.stl</span></tt> file about the center of gravity for the WEC-Sim visualizations. For the OSWEC run consisting of a flap and a base, these files correspond to the <tt class="docutils literal"><span class="pre">flap.stl</span></tt> and <tt class="docutils literal"><span class="pre">base.stl</span></tt> files, respectively, which are located in the geometry subfolder.</p>
 </div>
 <div class="section" id="oswec-simulink-model-file">
 <h3>OSWEC Simulink Model File<a class="headerlink" href="#oswec-simulink-model-file" title="Permalink to this headline">¶</a></h3>
-<p>The first step to set up a WEC-Sim simulation is to populate the Simulink model file by dragging and dropping blocks from the WEC-Sim library into the <code class="docutils literal"><span class="pre">&lt;WEC</span> <span class="pre">model</span> <span class="pre">name&gt;.slx</span></code> file.</p>
+<p>The first step to set up a WEC-Sim simulation is to populate the Simulink model file by dragging and dropping blocks from the WEC-Sim library into the <tt class="docutils literal"><span class="pre">&lt;WEC</span> <span class="pre">model</span> <span class="pre">name&gt;.slx</span></tt> file.</p>
 <ul class="simple">
-<li>Step 1: Place two <code class="docutils literal"><span class="pre">Rigid</span> <span class="pre">Body</span></code> blocks from the WEC-Sim library in the Simulink model file, one for each OSWEC rigid body, as shown in the figure below.</li>
+<li>Step 1: Place two <tt class="docutils literal"><span class="pre">Rigid</span> <span class="pre">Body</span></tt> blocks from the WEC-Sim library in the Simulink model file, one for each OSWEC rigid body, as shown in the figure below.</li>
 </ul>
 <ul class="simple">
 <li>Step 2: Double click on the body block, and rename the instances of the body. The first body should be titled body(1), and the second body should be titled body(2). Additional properties of these body blocks are defined in the OSWEC MATLAB input file.</li>
-<li>Step 3: Place the <code class="docutils literal"><span class="pre">Global</span> <span class="pre">Reference</span></code> block from the WEC-Sim library in the Simulink model file, as shown in the figure below. The global reference frame acts as the base to which all other bodies are linked through joints or constraints.</li>
+<li>Step 3: Place the <tt class="docutils literal"><span class="pre">Global</span> <span class="pre">Reference</span></tt> block from the WEC-Sim library in the Simulink model file, as shown in the figure below. The global reference frame acts as the base to which all other bodies are linked through joints or constraints.</li>
 </ul>
 <ul class="simple">
-<li>Step 4: Place a <code class="docutils literal"><span class="pre">Fixed</span> <span class="pre">constraint</span></code> block to connect the base to the seafloor. This is done because the OSWEC base is fixed relative to the global reference frame. Step 4 and 5 connections are shown in the figure below.</li>
-<li>Step 5: Place a <code class="docutils literal"><span class="pre">Rotational</span> <span class="pre">PTO</span></code> block to connect the base to the flap. This is done because the flap is restricted to pitch motion relative to the base.  For the OSWEC simulation, the <code class="docutils literal"><span class="pre">Rotational</span> <span class="pre">PTO</span></code> is used to model the WEC&#8217;s PTO as a linear rotary damper. The input parameters are defined in the OSWEC MATLAB input file.</li>
+<li>Step 4: Place a <tt class="docutils literal"><span class="pre">Fixed</span> <span class="pre">constraint</span></tt> block to connect the base to the seafloor. This is done because the OSWEC base is fixed relative to the global reference frame. Step 4 and 5 connections are shown in the figure below.</li>
+<li>Step 5: Place a <tt class="docutils literal"><span class="pre">Rotational</span> <span class="pre">PTO</span></tt> block to connect the base to the flap. This is done because the flap is restricted to pitch motion relative to the base.  For the OSWEC simulation, the <tt class="docutils literal"><span class="pre">Rotational</span> <span class="pre">PTO</span></tt> is used to model the WEC&#8217;s PTO as a linear rotary damper. The input parameters are defined in the OSWEC MATLAB input file.</li>
 </ul>
 <p>When setting up a WEC-Sim model, it is important to note the base and follower frames. For example, for the constraint between the base and the seabed, the seabed should be defined as the base because it is the Global Reference Frame.</p>
 </div>
 <div class="section" id="oswec-matlab-input-file">
 <h3>OSWEC MATLAB Input File<a class="headerlink" href="#oswec-matlab-input-file" title="Permalink to this headline">¶</a></h3>
-<p>In this section, the WEC-Sim MATLAB input file, <code class="docutils literal"><span class="pre">wecSimInputFile.m</span></code>, for the OSWEC model is defined. Each of the lines are commented to explain the purpose of the defined parameters. For the OSWEC model, the user must define the simulation parameters, body properties, PTO, and constraint definitions. Each of the specified parameters for OSWEC are defined below.</p>
+<p>In this section, the WEC-Sim MATLAB input file, <tt class="docutils literal"><span class="pre">wecSimInputFile.m</span></tt>, for the OSWEC model is defined. Each of the lines are commented to explain the purpose of the defined parameters. For the OSWEC model, the user must define the simulation parameters, body properties, PTO, and constraint definitions. Each of the specified parameters for OSWEC are defined below.</p>
 <div class="figure">
 <a class="reference internal image-reference" href="_images/OSWECwecSimInputFile.png"><img alt="_images/OSWECwecSimInputFile.png" src="_images/OSWECwecSimInputFile.png" style="width: 400pt;" /></a>
 </div>
 </div>
 <div class="section" id="oswec-wec-sim-simulation">
 <h3>OSWEC WEC-Sim Simulation<a class="headerlink" href="#oswec-wec-sim-simulation" title="Permalink to this headline">¶</a></h3>
-<p>Once the WEC-Sim Simulink model is set up and the OSWEC properties are defined in the MATLAB input file, the user can then run the OSWEC model in WEC-Sim by running the <code class="docutils literal"><span class="pre">wecSim</span></code> command from the MATLAB Command Window..  The figure below shows the final OSWEC Simulink model and the WEC-Sim GUI showing the OSWEC during the simulation. For more information on using WEC-Sim to model the OSWEC device, refer to &lt;ref&gt;y._yu_development_2014&lt;/ref&gt; and &lt;ref&gt;y._yu_design_2014&lt;/ref&gt;.</p>
+<p>Once the WEC-Sim Simulink model is set up and the OSWEC properties are defined in the MATLAB input file, the user can then run the OSWEC model in WEC-Sim by running the <tt class="docutils literal"><span class="pre">wecSim</span></tt> command from the MATLAB Command Window..  The figure below shows the final OSWEC Simulink model and the WEC-Sim GUI showing the OSWEC during the simulation. For more information on using WEC-Sim to model the OSWEC device, refer to &lt;ref&gt;y._yu_development_2014&lt;/ref&gt; and &lt;ref&gt;y._yu_design_2014&lt;/ref&gt;.</p>
 </div>
 </div>
 </div>
@@ -316,7 +423,7 @@
       <script type="text/javascript" src="_static/jquery.js"></script>
       <script type="text/javascript" src="_static/underscore.js"></script>
       <script type="text/javascript" src="_static/doctools.js"></script>
-      <script type="text/javascript" src="https://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+      <script type="text/javascript" src="http://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
 
   
 
