@@ -1,10 +1,23 @@
 WEC-Sim Documentation
 =====================
 
-.. figure:: _static/wec_sim_header.png
-   :width: 600pt
+.. .. figure:: _static/wec_sim_header.png
+..    :width: 600pt
 
-WEC-Sim Project Overview
+Contents
+--------
+
+.. toctree::
+   :maxdepth: 2
+
+   license.rst
+   theory.rst
+   getting_started.rst
+   code_structure.rst
+   applications.rst
+   trouble_shooting.rst
+
+Project Overview
 ------------------------
 
 WEC-Sim is an open-source wave energy converter (WEC) simulation tool. The code is developed in MATLAB/SIMULINK using the multi-body dynamics solver SimMechanics. WEC-Sim has the ability to model devices that are comprised of rigid bodies, power-take-off systems, and mooring systems. Simulations are performed in the time-domain by solving the governing WEC equations of motion in 6 degrees-of-freedom. The WEC-Sim project is funded by the U.S. Department of Energy’s Wind and Water Power Technologies Office and the code development effort is a collaboration between the `National Renewable Energy Laboratory (NREL) <https://nwtc.nrel.gov/WEC-Sim>`_ and `Sandia National Laboratories (SNL) <http://energy.sandia.gov/energy/renewable-energy/water-power/wec-sim-wave-energy-converter-simulator/>`_.
@@ -38,19 +51,13 @@ WEC-Sim in the News
 * `RenewableEnergy World - Marine Energy Making Waves on Both Sides of the Pond <http://www.renewableenergyworld.com/rea/news/article/2014/11/marine-energy-making-waves-on-both-sides-of-the-pond?cmpid=rss>`_
 * `openORE <http://openore.org/2014/07/02/wec-sim-now-available/>`_
 
-Contents
---------
+Acknowledgments
+===============
+The WEC-Sim project is sponsored by the U.S. Department of Energy’s Wind and Water Power Technologies Office. WEC-Sim code development is a collaboration between the National Renewable Energy Laboratory (NREL) and Sandia National Laboratories (SNL).
 
-.. toctree::
-   :maxdepth: 2
+The National Renewable Energy Laboratory is a national laboratory of the U.S. Department of Energy, Office of Energy Efficiency and Renewable Energy, operated by the Alliance for Sustainable Energy, LLC. under contract No. DE-AC36-08GO28308.
 
-   acknowledgments.rst
-   introduction.rst
-   theory.rst
-   getting_started.rst
-   code_structure.rst
-   applications.rst
-   trouble_shooting.rst
+Sandia National Laboratories is a multi-program laboratory managed and operated by Sandia Corporation, a wholly owned subsidiary of Lockheed Martin Corporation, for the U.S. Department of Energy’s National Nuclear Security Administration under contract DE-AC04-94AL85000.
 
 Indices and tables
 ------------------

@@ -31,7 +31,7 @@
 
   
     <link rel="top" title="WEC-Sim 1.1a0 documentation" href="#"/>
-        <link rel="next" title="Acknowledgments" href="acknowledgments.html"/> 
+        <link rel="next" title="License" href="license.html"/> 
 
   
   <script src="https://cdnjs.cloudflare.com/ajax/libs/modernizr/2.6.2/modernizr.min.js"></script>
@@ -63,8 +63,7 @@
           
           
               <ul>
-<li class="toctree-l1"><a class="reference internal" href="acknowledgments.html">Acknowledgments</a></li>
-<li class="toctree-l1"><a class="reference internal" href="introduction.html">Introduction</a></li>
+<li class="toctree-l1"><a class="reference internal" href="license.html">License</a></li>
 <li class="toctree-l1"><a class="reference internal" href="theory.html">Theory</a></li>
 <li class="toctree-l1"><a class="reference internal" href="getting_started.html">Getting Started</a><ul>
 <li class="toctree-l2"><a class="reference internal" href="getting_started.html#downloading-and-installing-wec-sim">Downloading and Installing WEC-Sim</a></li>
@@ -124,11 +123,38 @@
             
   <div class="section" id="wec-sim-documentation">
 <h1>WEC-Sim Documentation<a class="headerlink" href="#wec-sim-documentation" title="Permalink to this headline">¶</a></h1>
-<div class="figure">
-<a class="reference internal image-reference" href="_images/wec_sim_header.png"><img alt="_images/wec_sim_header.png" src="_images/wec_sim_header.png" style="width: 600pt;" /></a>
+<div class="section" id="contents">
+<h2>Contents<a class="headerlink" href="#contents" title="Permalink to this headline">¶</a></h2>
+<div class="toctree-wrapper compound">
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="license.html">License</a></li>
+<li class="toctree-l1"><a class="reference internal" href="theory.html">Theory</a></li>
+<li class="toctree-l1"><a class="reference internal" href="getting_started.html">Getting Started</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="getting_started.html#downloading-and-installing-wec-sim">Downloading and Installing WEC-Sim</a></li>
+<li class="toctree-l2"><a class="reference internal" href="getting_started.html#running-wec-sim">Running WEC-Sim</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="code_structure.html">Code Structure</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="code_structure.html#code-conventions">Code Conventions</a></li>
+<li class="toctree-l2"><a class="reference internal" href="code_structure.html#input-file-structure">Input File Structure</a></li>
+<li class="toctree-l2"><a class="reference internal" href="code_structure.html#input-parameters">Input Parameters</a></li>
+<li class="toctree-l2"><a class="reference internal" href="code_structure.html#library-structure">Library Structure</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="applications.html">Applications</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="applications.html#rm3-two-body-point-absorber">RM3 Two-Body Point Absorber</a></li>
+<li class="toctree-l2"><a class="reference internal" href="applications.html#oscillating-surge-pitch-device">Oscillating Surge-Pitch Device</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="trouble_shooting.html">Trouble Shooting</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="trouble_shooting.html#tips">Tips</a></li>
+</ul>
+</li>
+</ul>
 </div>
-<div class="section" id="wec-sim-project-overview">
-<h2>WEC-Sim Project Overview<a class="headerlink" href="#wec-sim-project-overview" title="Permalink to this headline">¶</a></h2>
+</div>
+<div class="section" id="project-overview">
+<h2>Project Overview<a class="headerlink" href="#project-overview" title="Permalink to this headline">¶</a></h2>
 <p>WEC-Sim is an open-source wave energy converter (WEC) simulation tool. The code is developed in MATLAB/SIMULINK using the multi-body dynamics solver SimMechanics. WEC-Sim has the ability to model devices that are comprised of rigid bodies, power-take-off systems, and mooring systems. Simulations are performed in the time-domain by solving the governing WEC equations of motion in 6 degrees-of-freedom. The WEC-Sim project is funded by the U.S. Department of Energy’s Wind and Water Power Technologies Office and the code development effort is a collaboration between the <a class="reference external" href="https://nwtc.nrel.gov/WEC-Sim">National Renewable Energy Laboratory (NREL)</a> and <a class="reference external" href="http://energy.sandia.gov/energy/renewable-energy/water-power/wec-sim-wave-energy-converter-simulator/">Sandia National Laboratories (SNL)</a>.</p>
 </div>
 <div class="section" id="principal-developers">
@@ -163,37 +189,12 @@
 <li><a class="reference external" href="http://openore.org/2014/07/02/wec-sim-now-available/">openORE</a></li>
 </ul>
 </div>
-<div class="section" id="contents">
-<h2>Contents<a class="headerlink" href="#contents" title="Permalink to this headline">¶</a></h2>
-<div class="toctree-wrapper compound">
-<ul>
-<li class="toctree-l1"><a class="reference internal" href="acknowledgments.html">Acknowledgments</a></li>
-<li class="toctree-l1"><a class="reference internal" href="introduction.html">Introduction</a></li>
-<li class="toctree-l1"><a class="reference internal" href="theory.html">Theory</a></li>
-<li class="toctree-l1"><a class="reference internal" href="getting_started.html">Getting Started</a><ul>
-<li class="toctree-l2"><a class="reference internal" href="getting_started.html#downloading-and-installing-wec-sim">Downloading and Installing WEC-Sim</a></li>
-<li class="toctree-l2"><a class="reference internal" href="getting_started.html#running-wec-sim">Running WEC-Sim</a></li>
-</ul>
-</li>
-<li class="toctree-l1"><a class="reference internal" href="code_structure.html">Code Structure</a><ul>
-<li class="toctree-l2"><a class="reference internal" href="code_structure.html#code-conventions">Code Conventions</a></li>
-<li class="toctree-l2"><a class="reference internal" href="code_structure.html#input-file-structure">Input File Structure</a></li>
-<li class="toctree-l2"><a class="reference internal" href="code_structure.html#input-parameters">Input Parameters</a></li>
-<li class="toctree-l2"><a class="reference internal" href="code_structure.html#library-structure">Library Structure</a></li>
-</ul>
-</li>
-<li class="toctree-l1"><a class="reference internal" href="applications.html">Applications</a><ul>
-<li class="toctree-l2"><a class="reference internal" href="applications.html#rm3-two-body-point-absorber">RM3 Two-Body Point Absorber</a></li>
-<li class="toctree-l2"><a class="reference internal" href="applications.html#oscillating-surge-pitch-device">Oscillating Surge-Pitch Device</a></li>
-</ul>
-</li>
-<li class="toctree-l1"><a class="reference internal" href="trouble_shooting.html">Trouble Shooting</a><ul>
-<li class="toctree-l2"><a class="reference internal" href="trouble_shooting.html#tips">Tips</a></li>
-</ul>
-</li>
-</ul>
 </div>
-</div>
+<div class="section" id="acknowledgments">
+<h1>Acknowledgments<a class="headerlink" href="#acknowledgments" title="Permalink to this headline">¶</a></h1>
+<p>The WEC-Sim project is sponsored by the U.S. Department of Energy’s Wind and Water Power Technologies Office. WEC-Sim code development is a collaboration between the National Renewable Energy Laboratory (NREL) and Sandia National Laboratories (SNL).</p>
+<p>The National Renewable Energy Laboratory is a national laboratory of the U.S. Department of Energy, Office of Energy Efficiency and Renewable Energy, operated by the Alliance for Sustainable Energy, LLC. under contract No. DE-AC36-08GO28308.</p>
+<p>Sandia National Laboratories is a multi-program laboratory managed and operated by Sandia Corporation, a wholly owned subsidiary of Lockheed Martin Corporation, for the U.S. Department of Energy’s National Nuclear Security Administration under contract DE-AC04-94AL85000.</p>
 <div class="section" id="indices-and-tables">
 <h2>Indices and tables<a class="headerlink" href="#indices-and-tables" title="Permalink to this headline">¶</a></h2>
 <ul class="simple">
@@ -210,7 +211,7 @@
   
     <div class="rst-footer-buttons" role="navigation" aria-label="footer navigation">
       
-        <a href="acknowledgments.html" class="btn btn-neutral float-right" title="Acknowledgments">Next <span class="fa fa-arrow-circle-right"></span></a>
+        <a href="license.html" class="btn btn-neutral float-right" title="License">Next <span class="fa fa-arrow-circle-right"></span></a>
       
       
     </div>
