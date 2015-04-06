@@ -96,7 +96,12 @@
 <li class="toctree-l2"><a class="reference internal" href="trouble_shooting.html#tips">Tips</a></li>
 </ul>
 </li>
-<li class="toctree-l1"><a class="reference internal" href="references.html">References</a></li>
+<li class="toctree-l1"><a class="reference internal" href="references.html">Publications and References</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="references.html#publications">Publications</a></li>
+<li class="toctree-l2"><a class="reference internal" href="references.html#wec-sim-in-the-news">WEC-Sim in the News</a></li>
+<li class="toctree-l2"><a class="reference internal" href="references.html#references">References</a></li>
+</ul>
+</li>
 </ul>
 
           
@@ -136,27 +141,27 @@
 <span id="id1"></span><h1>Theory<a class="headerlink" href="#theory" title="Permalink to this headline">¶</a></h1>
 <div class="section" id="introduction">
 <h2>Introduction<a class="headerlink" href="#introduction" title="Permalink to this headline">¶</a></h2>
-<p>Modeling a WEC involves the interaction between the incident waves, device motion, PTO mechanism, and mooring (Figure XXXX). WEC-Sim uses a radiation and diffraction method [Li2012][Babarit2012] to predict power performance and design optimization. The radiation and diffraction method generally obtains the hydrodynamic forces from a frequency-domain boundary element method (BEM) solver using linear coefficients to solve the system dynamics in the time domain.</p>
+<p>Modeling a WEC involves the interaction between the incident waves, device motion, PTO mechanism, and mooring (<a class="reference internal" href="#wec-sim-methodology"><span>WEC-Sim methodology</span></a>). WEC-Sim uses a radiation and diffraction method <a class="reference internal" href="references.html#li2012" id="id2">[6]</a><a class="reference internal" href="references.html#babarit2012" id="id3">[3]</a> to predict power performance and design optimization. The radiation and diffraction method generally obtains the hydrodynamic forces from a frequency-domain boundary element method (BEM) solver using linear coefficients to solve the system dynamics in the time domain.</p>
 <div class="figure" id="id15">
-<img alt="_images/Physics.png" src="_images/Physics.png" />
-<p class="caption"><span class="caption-text">Methodology for WEC-Sim</span></p>
+<span id="wec-sim-methodology"></span><img alt="_images/Physics.png" src="_images/Physics.png" />
+<p class="caption"><span class="caption-text">WEC-Sim methodology</span></p>
 </div>
 </div>
 <div class="section" id="boundary-element-method">
 <h2>Boundary Element Method<a class="headerlink" href="#boundary-element-method" title="Permalink to this headline">¶</a></h2>
-<p>A common approach to determining the hydrodynamic forces is to presume that they are the sum of incident, radiated, and diffracted wave components. These forcing components are modeled using linear coefficients ideally obtained from a frequency-domain potential flow BEM solver (e.g., WAMIT [Lee2006], AWQA-FER [AQWA], and Nemoh [NEMOH]). The BEM solutions are obtained by solving the Laplace equation for the velocity potential, which assumes the flow is inviscid, incompressible, and irrotational. More details on the theory for the frequency-domain BEM can be found in [Lee2006].</p>
+<p>A common approach to determining the hydrodynamic forces is to presume that they are the sum of incident, radiated, and diffracted wave components. These forcing components are modeled using linear coefficients ideally obtained from a frequency-domain potential flow BEM solver (e.g., WAMIT <a class="reference internal" href="references.html#lee2006" id="id4">[5]</a>, AWQA-FER <a class="reference internal" href="references.html#aqwa" id="id5">[1]</a>, and Nemoh <a class="reference internal" href="references.html#nemoh" id="id6">[2]</a>). The BEM solutions are obtained by solving the Laplace equation for the velocity potential, which assumes the flow is inviscid, incompressible, and irrotational. More details on the theory for the frequency-domain BEM can be found in <a class="reference internal" href="references.html#lee2006" id="id7">[5]</a>.</p>
 </div>
 <div class="section" id="coordinate-system-in-wec-sim">
 <h2>Coordinate System in WEC-Sim<a class="headerlink" href="#coordinate-system-in-wec-sim" title="Permalink to this headline">¶</a></h2>
-<p>The figure below illustrates a 3-D floating point absorber subject to incoming waves in water. The figure also defines the coordinates and the 6 DOF in WEC-Sim. The WEC-Sim coordinate system  assumes that the  X axis is in the direction of wave propagation if the wave heading angle is equal to zero. The Z axis is in the vertical upwards direction, and the Y axis direction is defined by the right-hand rule. In the vectors and matrices used in the code, surge (x), sway (y), and heave (z) correspond to the first, second and third position respectively. Roll (Rx), Pitch (Ry), and Yaw (Rz) correspond to the fourth, fifth, and sixth position respectively.</p>
+<p>The <a class="reference internal" href="#coordinate-system"><span>WEC-Sim coordinate system</span></a> figure illustrates a 3-D floating point absorber subject to incoming waves in water. The figure also defines the coordinates and the 6 DOF in WEC-Sim. The WEC-Sim coordinate system  assumes that the  X axis is in the direction of wave propagation if the wave heading angle is equal to zero. The Z axis is in the vertical upwards direction, and the Y axis direction is defined by the right-hand rule. In the vectors and matrices used in the code, surge (x), sway (y), and heave (z) correspond to the first, second and third position respectively. Roll (Rx), Pitch (Ry), and Yaw (Rz) correspond to the fourth, fifth, and sixth position respectively.</p>
 <div class="figure" id="id16">
 <span id="coordinate-system"></span><img alt="_images/coordinateSystem.png" src="_images/coordinateSystem.png" />
-<p class="caption"><span class="caption-text">Sketch defining the coordinate system</span></p>
+<p class="caption"><span class="caption-text">WEC-Sim coordinate system</span></p>
 </div>
 </div>
 <div class="section" id="time-domain-numerical-method">
 <h2>Time-Domain Numerical Method<a class="headerlink" href="#time-domain-numerical-method" title="Permalink to this headline">¶</a></h2>
-<p>The dynamic response of the system was calculated by solving the equation of motion for WEC systems [Babarit2012][Nolte2014]:. The equation of motion for a floating body, about its center of gravity, can be given as:</p>
+<p>The dynamic response of the system was calculated by solving the equation of motion for WEC systems <a class="reference internal" href="references.html#babarit2012" id="id8">[3]</a><a class="reference internal" href="references.html#nolte2014" id="id9">[7]</a>. The equation of motion for a floating body, about its center of gravity, can be given as:</p>
 <div class="math">
 \[m\ddot{X}=F_{ext}+F_{rad}+F_{PTO}+F_{v}+F_{B}+F_{m},\]</div>
 <p>where <span class="math">\(\ddot{X}\)</span> is the (translational and rotational) acceleration vector of the device, <span class="math">\(m\)</span> is the mass matrix, <span class="math">\(F_{ext}\)</span> is the wave excitation force vector, <span class="math">\(F_{rad}\)</span> is the force vector resulting from wave radiation, <span class="math">\(F_{PTO}\)</span> is the PTO force vector, <span class="math">\(F_{v}\)</span> is the viscous damping force vector, <span class="math">\(F_{B}\)</span> is the net buoyancy restoring force vector, and <span class="math">\(F_{m}\)</span> is the force vector resulting from the mooring connection.</p>
@@ -174,7 +179,7 @@
 </div>
 <div class="section" id="convolution-integral-formulation">
 <h3>Convolution Integral Formulation<a class="headerlink" href="#convolution-integral-formulation" title="Permalink to this headline">¶</a></h3>
-<p>To include the fluid memory effect on the system, the convolution integral calculation, which is based upon the Cummins equation [Cummins1962], is used The radiation term can be calculated by</p>
+<p>To include the fluid memory effect on the system, the convolution integral calculation, which is based upon the Cummins equation <a class="reference internal" href="references.html#cummins1962" id="id10">[4]</a>, is used The radiation term can be calculated by</p>
 <p>where <span class="math">\(A_{\infty}\)</span> is the added mass matrix at infinite frequency and <span class="math">\(K\)</span> is the impulse response function.</p>
 <p>For regular waves, Eq. XXXXX is used to calculate the wave excitation force. For irregular waves, the free surface elevation is constructed from a linear superposition of a number of regular wave components. It is often characterized using a wave spectrum (Figure ref{fig:An-example-of PM Spectrum}) that describes the wave energy distribution over a range of wave frequencies, characterized by a significant wave height and peak wave period. The irregular excitation force can be calculated as the real part of an integral term across all wave frequencies as follows</p>
 <div class="math">
@@ -193,7 +198,7 @@
 <p>where <span class="math">\(f\)</span> is the wave frequency (in Hertz) and <span class="math">\(\exp\)</span> stands for the exponential function.</p>
 <div class="section" id="pierson-moskowitz">
 <h4>Pierson&#8211;Moskowitz<a class="headerlink" href="#pierson-moskowitz" title="Permalink to this headline">¶</a></h4>
-<p>One of the simplest spectra was proposed by [PM]. It assumed that after the wind blew steadily for a long time over a large area, the waves would come into equilibrium with the wind. This is the concept of a fully developed sea, where a &#8220;long time&#8221; is roughly 10,000 wave periods, and a &#8220;large area&#8221; is roughly 5,000 wave-lengths on a side.  The spectrum is calculated from</p>
+<p>One of the simplest spectra was proposed by <a class="reference internal" href="references.html#pm" id="id11">[8]</a>. It assumed that after the wind blew steadily for a long time over a large area, the waves would come into equilibrium with the wind. This is the concept of a fully developed sea, where a &#8220;long time&#8221; is roughly 10,000 wave periods, and a &#8220;large area&#8221; is roughly 5,000 wave-lengths on a side.  The spectrum is calculated from</p>
 <div class="math">
 \[S\left( f \right) = \frac{\alpha_{PM}g^{2}}{\left( 2 \pi \right)^{4}}f^{-5}\exp\left[-\frac{5}{4} \left( \frac{f_{p}}{f}\right)^{4} \right]~~\]\[A = \frac{\alpha_{PM}g^{2}}{\left( 2 \pi \right)^{4}},\]\[B = \frac{5}{4} {f_{p}}^{4}~~\]</div>
 <p>where <span class="math">\(\alpha_{PM}\)</span> = 0.0081, <span class="math">\(g\)</span> is gravitational acceleration, and <span class="math">\(f_{p}\)</span> is the peak frequency of the spectrum.  However, this spectrum representation does not allow the user to define the significant wave height.  To facilitate the creation of a power matrix, in WEC-Sim the <span class="math">\(\alpha_{PM}\)</span> coefficient was calculated such that the desired significant wave height of the sea state was met.  The <span class="math">\(\alpha_{PM}\)</span> fit was calculated as follows:</p>
@@ -216,7 +221,7 @@
 <div class="section" id="jonswap-joint-north-sea-wave-project-spectrum">
 <h4>JONSWAP (Joint North Sea Wave Project) Spectrum<a class="headerlink" href="#jonswap-joint-north-sea-wave-project-spectrum" title="Permalink to this headline">¶</a></h4>
 <p><strong>WEC-Sim Default Spectrum</strong></p>
-<p>The spectrum was purposed by Hasselmann et al. [HK],and  the original formulation was given as</p>
+<p>The spectrum was purposed by Hasselmann et al. <a class="reference internal" href="references.html#hk" id="id12">[9]</a>,and  the original formulation was given as</p>
 <div class="math">
 \[S\left( f \right) = \frac{ \alpha_{j} g^{2} }{ (2\pi)^{4}} f^{-5}\exp\left[-\frac{5}{4} \left( \frac{f_{p}}{f}\right)^{4} \right]\gamma^\Gamma \nonumber\]\[Gamma = \exp \left[ -\left( \frac{\frac{f}{f_{p}}-1}{\sqrt{2} \sigma}\right)^{2} \right],\]\[\begin{split}\sigma = \begin{cases} 0.07 &amp; f \leq f_{p}0.09 &amp; f &gt; f_{p} \end{cases} ,\end{split}\]\[A =\frac{ \alpha_{j} g^{2} }{ (2\pi)^{4}}~~,\]\[B = \frac{5}{4} {f_{p}}^{4},\]</div>
 <p>where <span class="math">\(\alpha_{j}\)</span> is a nondimensional variable that is a function of the wind speed and fetch length.</p>
@@ -271,7 +276,7 @@ S^{*}\left( f \right) = \frac{ g^{2} }{ (2\pi)^{4}} f^{-5}\exp\left[-\frac{5}{4}
 <div><div class="math">
 \[F_{V}=\frac{1}{2}C_{d}\rho A_{D}\dot{X}|\dot{X}|,\]</div>
 </div></blockquote>
-<p>where <span class="math">\(C_{d}\)</span> is the viscous drag coefficient, <span class="math">\(\rho\)</span> is the fluid density, and <span class="math">\(A_{D}\)</span> is the characteristic area. The viscous drag coefficient for the device must be carefully selected [Li2012][Babarit2012]; however, it is dependent on device geometry, scale, and relative velocity between the body and the flow around it. The drag coefficient becomes much larger when the Reynolds and the Keulegan-Carpenter number are smaller. Note that empirical data on the drag coefficient can be found in various literature and standards. The available data may, however, be limited to existing simple geometries. For practical point absorber geometry, the hydrodynamic forces may have to be evaluated by conducting wave tank tests or prescribed motion computational fluid dynamic simulations.</p>
+<p>where <span class="math">\(C_{d}\)</span> is the viscous drag coefficient, <span class="math">\(\rho\)</span> is the fluid density, and <span class="math">\(A_{D}\)</span> is the characteristic area. The viscous drag coefficient for the device must be carefully selected <a class="reference internal" href="references.html#li2012" id="id13">[6]</a><a class="reference internal" href="references.html#babarit2012" id="id14">[3]</a>; however, it is dependent on device geometry, scale, and relative velocity between the body and the flow around it. The drag coefficient becomes much larger when the Reynolds and the Keulegan-Carpenter number are smaller. Note that empirical data on the drag coefficient can be found in various literature and standards. The available data may, however, be limited to existing simple geometries. For practical point absorber geometry, the hydrodynamic forces may have to be evaluated by conducting wave tank tests or prescribed motion computational fluid dynamic simulations.</p>
 </div>
 </div>
 
@@ -293,7 +298,7 @@ S^{*}\left( f \right) = \frac{ g^{2} }{ (2\pi)^{4}} f^{-5}\exp\left[-\frac{5}{4}
 
   <div role="contentinfo">
     <p>
-        &copy; Copyright 2015, Michael Lawson, Kelley Ruehl, Yi-Hsiang Yu, Carlos Michelen.
+        &copy; Copyright 2015, National Renewable Energy Laboratory and Sandia Corporation.
     </p>
   </div>
 

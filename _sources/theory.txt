@@ -4,11 +4,13 @@ Theory
 ======
 Introduction
 --------------
-Modeling a WEC involves the interaction between the incident waves, device motion, PTO mechanism, and mooring (Figure XXXX). WEC-Sim uses a radiation and diffraction method :cite:`Li2012,Babarit2012` to predict power performance and design optimization. The radiation and diffraction method generally obtains the hydrodynamic forces from a frequency-domain boundary element method (BEM) solver using linear coefficients to solve the system dynamics in the time domain.
+Modeling a WEC involves the interaction between the incident waves, device motion, PTO mechanism, and mooring (:ref:`wec_sim_methodology`). WEC-Sim uses a radiation and diffraction method :cite:`Li2012,Babarit2012` to predict power performance and design optimization. The radiation and diffraction method generally obtains the hydrodynamic forces from a frequency-domain boundary element method (BEM) solver using linear coefficients to solve the system dynamics in the time domain.
+
+.. _wec_sim_methodology:
 
 .. figure:: _static/Physics.png
 	
-   Methodology for WEC-Sim
+   WEC-Sim methodology
 
 
 Boundary Element Method
@@ -17,18 +19,18 @@ A common approach to determining the hydrodynamic forces is to presume that they
 
 Coordinate System in WEC-Sim
 ------------------------------
-The figure below illustrates a 3-D floating point absorber subject to incoming waves in water. The figure also defines the coordinates and the 6 DOF in WEC-Sim. The WEC-Sim coordinate system  assumes that the  X axis is in the direction of wave propagation if the wave heading angle is equal to zero. The Z axis is in the vertical upwards direction, and the Y axis direction is defined by the right-hand rule. In the vectors and matrices used in the code, surge (x), sway (y), and heave (z) correspond to the first, second and third position respectively. Roll (Rx), Pitch (Ry), and Yaw (Rz) correspond to the fourth, fifth, and sixth position respectively.
+The :ref:`coordinate_system` figure illustrates a 3-D floating point absorber subject to incoming waves in water. The figure also defines the coordinates and the 6 DOF in WEC-Sim. The WEC-Sim coordinate system  assumes that the  X axis is in the direction of wave propagation if the wave heading angle is equal to zero. The Z axis is in the vertical upwards direction, and the Y axis direction is defined by the right-hand rule. In the vectors and matrices used in the code, surge (x), sway (y), and heave (z) correspond to the first, second and third position respectively. Roll (Rx), Pitch (Ry), and Yaw (Rz) correspond to the fourth, fifth, and sixth position respectively.
 
 .. _coordinate_system:
 
 .. figure:: _static/coordinateSystem.png
 
-   Sketch defining the coordinate system
+   WEC-Sim coordinate system
 
 
 Time-Domain Numerical Method
 ------------------------------------
-The dynamic response of the system was calculated by solving the equation of motion for WEC systems :cite:`Babarit2012,Nolte2014`:. The equation of motion for a floating body, about its center of gravity, can be given as:
+The dynamic response of the system was calculated by solving the equation of motion for WEC systems :cite:`Babarit2012,Nolte2014`. The equation of motion for a floating body, about its center of gravity, can be given as:
 
 .. math::
 
