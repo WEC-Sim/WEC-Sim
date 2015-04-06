@@ -1,7 +1,5 @@
-.. _applications:
-
-Applications
-============
+WEC-Sim Tutorials
+==================
 This section describes how to use the WEC-Sim code to model two different WECs.  The first application models a two-body point absorber WEC, and the second application models an OSWEC. The files corresponding to these two examples are included in the applications directory of the WEC-Sim source code.
 
 RM3 Two-Body Point Absorber
@@ -15,12 +13,35 @@ The first application of the WEC-Sim code is the Reference Model 3 (RM3) two-bod
 .. figure:: _static/RM3_Geom.jpg
    :width: 400pt
 
-.. figure:: _static/RM3_MassProps.jpg
-   :width: 400pt
++-------------------------------------------------+
+|Float Full Scale Properties                      |
++======+=========+================================+
+|      |Mass     |Moment of                       |
++CG (m)+(tonne)  +Inertia (kg-m^2)                +
++------+---------+----------+----------+----------+
+|  0   |         |20,907,301|0         |0         |
++------+         +----------+----------+----------+
+|  0   |727.01   |0         |21,306,091|4305      |
++------+         +----------+----------+----------+
+|-0.72 |         |          |4305      |37,085,481|
++------+---------+----------+----------+----------+   
+
++-------------------------------------------------+
+|Plate Full Scale Properties                      |
++======+=========+================================+
+|      |Mass     |Moment of                       |
++CG (m)+(tonne)  +Inertia (kg-m^2)                +
++------+---------+----------+----------+----------+
+|  0   |         |94,419,615|0         |0         |
++------+         +----------+----------+----------+
+|  0   |878.30   |0         |94,407,091|217,593   |
++------+         +----------+----------+----------+
+|-21.29|         |          |217,593   |28,542,225|
++------+---------+----------+----------+----------+ 
 
 Hydrodynamic Data Pre-Processing
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-The hydrodynamic data for each body must be supplied in ''bemio'' hydrodynamic data format generated using the `bemio <https://github.com/WEC-Sim/bemio bemio>`_ code. More information on how to use ''bemio'' can be found here - http://wec-sim.github.io/bemio/. The hydrodynamic data for each body can be supplied in one single ''hdf5'' file, or several (ie. one per body). In this application case, a single file is provided. This file was created based on a WAIMT run of the RM3 geometry, using the WAMIT output file and the WAMIT reader from the  bemio. The WAMIT ``*.out`` file and the python bemio script used to create the ''hdf5'' are included as well. All these files are located in the ''/hydroData'' directory of the RM3 application case.
+The hydrodynamic data for each body must be supplied in `bemio` hydrodynamic data format generated using the `bemio <http://wec-sim.github.io/bemio/>`_ code. The hydrodynamic data for each body can be supplied in one single ''hdf5'' file, or several (ie. one per body). In this application case, a single file is provided. This file was created based on a WAIMT run of the RM3 geometry, using the WAMIT output file and the WAMIT reader from the  bemio. The WAMIT ``*.out`` file and the python `bemio` script used to create the `hdf5` are included as well. All these files are located in the ``/hydroData`` directory of the RM3 application case.
 
 Modeling RM3 in WEC-Sim
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
@@ -88,7 +109,15 @@ This example has a ``userDefinedFunctions.m`` which plots different forces and r
 Running Different Wave Cases
 .................................
 
-The input file in the RM3 example has three different wave examples: regular waves, irregular waves with a defined spectrum, and irregular waves with a user defined spectrum. By default the regular waves case is used. To run either of the other two cases the user needs to comment out the regular wave case and un-comment the desired case. Additionally the user can create any other desired wave.
+The input file in the RM3 example has four different wave examples: 
+* Regular waves
+* Irregular waves with using Pierson–Moskowitz spectrum with convolution integral calculation
+* Irregular waves with using Bretschneider Spectrum with state space calculation
+* Irregular waves with defined spectrum, and irregular waves with a user defined spectrum
+
+By default the regular waves case is used. To run either of the other three cases the user needs to comment out the regular wave case and uncomment the desired case. Additionally, the user can create any other desired wave. 
+
+Note: If ``simu.ssCalc=1`` is uncommented, the user needs to make sure the the state space hydrodynamic coefficients are included in the ``<hydro-data name>.hd5`` file. User can generate the state space hydrodynamic coefficients and export the values in the ``<hydro-data name>.hd5`` file using the bemio code. More details are discribed in the `Calculating Impulse Response Functions and Sate Space Coefficients <http://wec-sim.github.io/bemio/api.html#calculating-impulse-response-functions-and-sate-space-coefficients>`_ section in the `bemio` Documentation and Users Guide
 
 Oscillating Surge-Pitch Device
 --------------------------------
@@ -101,13 +130,25 @@ As the second application of the WEC-Sim code, the oscillating surge WEC (OSWEC)
 .. figure:: _static/OSWEC_Geom.png
    :width: 400pt
 
-.. figure::: /OSWEC_MassProps.JPG
-   :width: 400pt
++-----------------------------+
+|Flap Full Scale Properties   |
++======+=========+============+
+|      |         |Pitch Moment|
++CG (m)+Mass (kg)+of Inertia  +
+|      |         |(kg-m^2)    |
++------+---------+------------+
+|  0   |         |            |
++------+         +            +
+|  0   |127,000  |1,850,000   |
++------+         +            +
+| -3.9 |         |            |
++------+---------+------------+
+
 
 Hydrodynamic Data Pre-Processing
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
-The hydrodynamic data for each body must be supplied in ''bemio'' hydrodynamic data format generated using the `bemio <https://github.com/WEC-Sim/bemio>`_ code.  More information on how to use ''bemio'' can be found here - http://wec-sim.github.io/bemio/. The hydrodynamic data for each body can be supplied in one single ''hdf5'' file, or several (ie. one per body). In this application case, a single file is provided. This file was created based on a WAIMT run of the RM3 geometry, using the WAMIT output file and the WAMIT reader from the  `bemio open source BEM parser <https://github.com/WEC-Sim/bemio/releases>`_ . The WAMIT ``*.out`` file and the python bemio script used to create the ''hdf5'' are included as well. All these files are located in the ''/hydroData'' directory of the RM3 application case.
+The hydrodynamic data for each body must be supplied in `bemio` hydrodynamic data format generated using the `bemio`_ code.  More information on how to use `bemio` can be found here - http://wec-sim.github.io/bemio/. The hydrodynamic data for each body can be supplied in one single ''hdf5'' file, or several (ie. one per body). In this application case, a single file is provided. This file was created based on a WAIMT run of the RM3 geometry, using the WAMIT output file and the WAMIT reader from the  `bemio open source BEM parser <https://github.com/WEC-Sim/bemio/releases>`_ . The WAMIT ``*.out`` file and the python bemio script used to create the ''hdf5'' are included as well. All these files are located in the ''/hydroData'' directory of the RM3 application case.
 
 Modeling OSWEC in WEC-Sim
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~

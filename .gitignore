@@ -1,8 +1,7 @@
 view_html.sh
 *.sublime-workspace
 *.sublime-project
-
-doc/WEC-Sim-doc/html/.git
+*vis-temp*
 
 *~
 *.acn
