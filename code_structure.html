@@ -140,6 +140,9 @@
 <p>All units within WEC-Sim are in the MKS (meters-kilograms-seconds system) and angular measurements are specified in radians unless otherwise specified.</p>
 <p>The WEC-Sim coordinate system assumes that the X axis is in the direction of wave propagation if the wave heading angle is equal to zero, the Z axis is in the vertical upwards direction, and the Y axis direction
 is defned by the right-hand rule (as shown below).</p>
+<div class="figure">
+<a class="reference internal image-reference" href="_images/coordinateSystem.png"><img alt="_images/coordinateSystem.png" src="_images/coordinateSystem.png" style="width: 400pt;" /></a>
+</div>
 </div>
 <div class="section" id="input-file-structure">
 <h2>Input File Structure<a class="headerlink" href="#input-file-structure" title="Permalink to this headline">¶</a></h2>
@@ -175,6 +178,9 @@ is defned by the right-hand rule (as shown below).</p>
 </pre></div>
 </div>
 <p>The WEC-Sim code has default values defined for all the other simulation parameters. Available simulation parameters and the default values can be found by typing <code class="docutils literal"><span class="pre">doc</span> <span class="pre">simulationClass</span></code> in the MATLAB Command Window.</p>
+<div class="figure">
+<img alt="_images/simuClass.png" src="_images/simuClass.png" />
+</div>
 <p>These default values can be overwritten by the user, as demonstrated in the Applications Section. For example, the end time of a simulation can be set by entering the following command:</p>
 <div class="highlight-python"><div class="highlight"><pre>simu.endTime = &lt;user specified end time&gt;
 </pre></div>
@@ -187,6 +193,9 @@ is defned by the right-hand rule (as shown below).</p>
 <div class="section" id="waveclass">
 <h3>waveClass<a class="headerlink" href="#waveclass" title="Permalink to this headline">¶</a></h3>
 <p>The wave class (<code class="docutils literal"><span class="pre">waveClass</span></code>) contains all the information that defines the wave conditions for the time-domain simulation. Typing <code class="docutils literal"><span class="pre">doc</span> <span class="pre">waveClass</span></code> in the MATLAB Command Window provides more information on the wave class functionality, available wave parameters, and default values.</p>
+<div class="figure">
+<img alt="_images/waveClass.png" src="_images/waveClass.png" />
+</div>
 <p>The table below lists the types of wave environments that are currently supported by WEC-Sim.</p>
 <table border="1" class="docutils">
 <colgroup>
@@ -314,6 +323,9 @@ body(&lt;#&gt;).characteristicArea= [0 0 100 0 0 0]
 <p>For rotational constraint (ex: pitch), the user also needs to specify its location of the rotational
 joint with respect to the global reference frame in the <code class="docutils literal"><span class="pre">constraint(&lt;#&gt;).loc</span></code> variable</p>
 <p>The available constraint parameters, and default values defined in the constraint class can be found by typing <code class="docutils literal"><span class="pre">doc</span> <span class="pre">constraintClass</span></code> in the MATLAB Command Window.</p>
+<div class="figure">
+<img alt="_images/constraintClass.png" src="_images/constraintClass.png" />
+</div>
 </div>
 <div class="section" id="ptoclass">
 <h3>ptoClass<a class="headerlink" href="#ptoclass" title="Permalink to this headline">¶</a></h3>
@@ -327,6 +339,9 @@ specify linear damping (<code class="docutils literal"><span class="pre">pto(&lt
 </pre></div>
 </div>
 <p>The available pto parameters, and default values defined in the pto class can be found by typing `` doc ptoClass`` in the MATLAB Command Window.</p>
+<div class="figure">
+<a class="reference internal image-reference" href="_images/ptoClass.png"><img alt="_images/ptoClass.png" src="_images/ptoClass.png" style="width: 400pt;" /></a>
+</div>
 </div>
 </div>
 <div class="section" id="library-structure">
@@ -370,6 +385,9 @@ Translational PTO (Local Z)</td>
 <div class="section" id="body-elements-sublibrary">
 <h3>Body Elements Sublibrary<a class="headerlink" href="#body-elements-sublibrary" title="Permalink to this headline">¶</a></h3>
 <p>The Body Elements sublibrary (Figure~ref{fig:bLib) contains one block, Rigid Body block. It is used to represent rigid bodies. At least one instance of this block is required in each model.</p>
+<div class="figure">
+<a class="reference internal image-reference" href="_images/bodiesLib.PNG"><img alt="_images/bodiesLib.PNG" src="_images/bodiesLib.PNG" style="width: 400pt;" /></a>
+</div>
 <div class="section" id="rigid-body-block">
 <h4>Rigid Body Block<a class="headerlink" href="#rigid-body-block" title="Permalink to this headline">¶</a></h4>
 <p>The Rigid Body block is used to represent a rigid body in the simulation. The user has to name the blocks &#8216;body(i)&#8217; where i=1,2,... The mass properties, hydrodynamic data, geometry file, mooring, and other properties are then specified in the input file. Within the body block the wave radiation, wave excitation, hydrostatic restoring, viscous damping and mooring forces are calculated.</p>
@@ -382,11 +400,17 @@ Translational PTO (Local Z)</td>
 <div class="section" id="global-reference-frame-block">
 <h3>Global Reference Frame Block<a class="headerlink" href="#global-reference-frame-block" title="Permalink to this headline">¶</a></h3>
 <p>The Global Reference Frame block defines the solver configuration, seabed and free surface description, simulation time, and other global settings. It can be useful to think of the Global Reference Frame as being the seabed when creating a model. Every model requires one instance of the Global Reference Frame block. The Global Reference Frame block uses the simulation class variable simu and the wave class variable waves, which must be defined in the input file.</p>
+<div class="figure">
+<a class="reference internal image-reference" href="_images/framesLib.PNG"><img alt="_images/framesLib.PNG" src="_images/framesLib.PNG" style="width: 400pt;" /></a>
+</div>
 </div>
 <div class="section" id="constraints-sublibrary">
 <h3>Constraints Sublibrary<a class="headerlink" href="#constraints-sublibrary" title="Permalink to this headline">¶</a></h3>
 <p>The blocks within the Constraints sublibrary, shown above, are used to define the DOF of a specific body. Constraints blocks define only the DOF, but do not otherwise apply any forcing or resistance to the body motion. Each Constraints block has two connections, a base (B) and a follower (F). The Constraints block restricts the motion of the block that is connected to the follower relative to the block that is connected to the base. The base of these blocks is typically the Global Reference Frame (which can be thought of as the seabed) and the follower is a Rigid Body.</p>
 <p>There are five Constraints blocks, including three that restrict motion to one DOF (Heave, Surge, Pitch), a free-floating (Floating) block, and a rigid connection (Fixed) block. The rest of this section will describe each Constraints block in more detail.</p>
+<div class="figure">
+<a class="reference internal image-reference" href="_images/constraintsLib.PNG"><img alt="_images/constraintsLib.PNG" src="_images/constraintsLib.PNG" style="width: 400pt;" /></a>
+</div>
 <div class="section" id="floating-block">
 <h4>Floating Block<a class="headerlink" href="#floating-block" title="Permalink to this headline">¶</a></h4>
 <p>The Floating block is used to simulate a free-floating body. It constrains the motion of the follower to be along the XZ plane of the base. That is, it allows translation in the X- and Z-axis, and rotation about the Y-axis. It  is usually used with the base connected to the Global Reference Frame (seabed), in which case the motion of the follower is along the global XZ plane.</p>
@@ -414,6 +438,9 @@ Translational PTO (Local Z)</td>
 <div class="section" id="translation-pto-local-z-block">
 <h4>Translation PTO (Local Z) Block<a class="headerlink" href="#translation-pto-local-z-block" title="Permalink to this headline">¶</a></h4>
 <p>The Translation PTO (Local Z) is identical to the Heave constraint, but applies a linear stiffness and damping coefficient to the connection. The user has to name the PTOs as described earlier. The user then specifies the stiffness coefficient (in N/m), and damping coefficient (in Ns/m) in the input file.</p>
+<div class="figure">
+<a class="reference internal image-reference" href="_images/ptosLib.PNG"><img alt="_images/ptosLib.PNG" src="_images/ptosLib.PNG" style="width: 400pt;" /></a>
+</div>
 </div>
 <div class="section" id="translation-pto-local-x-block">
 <h4>Translation PTO (Local X) Block<a class="headerlink" href="#translation-pto-local-x-block" title="Permalink to this headline">¶</a></h4>
