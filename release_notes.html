@@ -1,6 +1,5 @@
 
 
-
 <!DOCTYPE html>
 <!--[if IE 8]><html class="no-js lt-ie9" lang="en" > <![endif]-->
 <!--[if gt IE 8]><!--> <html class="no-js" lang="en" > <!--<![endif]-->
@@ -8,7 +7,7 @@
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   
-  <title>Index &mdash; WEC-Sim 1.1a0 documentation</title>
+  <title>Release Notes &mdash; WEC-Sim 1.1a0 documentation</title>
   
 
   
@@ -31,7 +30,9 @@
   
 
   
-    <link rel="top" title="WEC-Sim 1.1a0 documentation" href="index.html"/> 
+    <link rel="top" title="WEC-Sim 1.1a0 documentation" href="index.html"/>
+        <link rel="next" title="Theory" href="theory.html"/>
+        <link rel="prev" title="License" href="license.html"/> 
 
   
   <script src="https://cdnjs.cloudflare.com/ajax/libs/modernizr/2.6.2/modernizr.min.js"></script>
@@ -62,10 +63,10 @@
         
           
           
-              <ul>
+              <ul class="current">
 <li class="toctree-l1"><a class="reference internal" href="license.html">License</a></li>
-<li class="toctree-l1"><a class="reference internal" href="release_notes.html">Release Notes</a><ul>
-<li class="toctree-l2"><a class="reference internal" href="release_notes.html#wec-sim-1-1">WEC-Sim-1.1</a></li>
+<li class="toctree-l1 current"><a class="current reference internal" href="">Release Notes</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="#wec-sim-1-1">WEC-Sim-1.1</a></li>
 </ul>
 </li>
 <li class="toctree-l1"><a class="reference internal" href="theory.html">Theory</a><ul>
@@ -129,8 +130,10 @@
   <ul class="wy-breadcrumbs">
     <li><a href="index.html">Docs</a> &raquo;</li>
       
-    <li></li>
+    <li>Release Notes</li>
       <li class="wy-breadcrumbs-aside">
+        
+          <a href="_sources/release_notes.txt" rel="nofollow"> View page source</a>
         
       </li>
   </ul>
@@ -138,16 +141,42 @@
 </div>
           <div role="main" class="document">
             
-
-<h1 id="index">Index</h1>
-
-<div class="genindex-jumpbox">
- 
+  <div class="section" id="release-notes">
+<h1>Release Notes<a class="headerlink" href="#release-notes" title="Permalink to this headline">¶</a></h1>
+<div class="section" id="wec-sim-1-1">
+<h2>WEC-Sim-1.1<a class="headerlink" href="#wec-sim-1-1" title="Permalink to this headline">¶</a></h2>
+<div class="section" id="new-in-v1-1">
+<h3>New in v1.1<a class="headerlink" href="#new-in-v1-1" title="Permalink to this headline">¶</a></h3>
+<ol class="arabic simple">
+<li>Improvements in code stability through modifications to the added mass, radiation damping calculations, and impulse response function calculations</li>
+<li>Implementation of state space representation of convolution integral term in the Cummins Equation</li>
+<li>Implementation of a new input format for hydrodynamic data. Specifically, we developed a new boundary element method data format (the <strong>bemio</strong> format) using the [Hierarchical Data Format 5 (HDF5)](<a class="reference external" href="http://www.hdfgroup.org/">http://www.hdfgroup.org/</a>). A python library that provides functionality to read data from WAMIT, NEMOH, and AQWA and write the data to the bemio format used by WEC-Sim is provided.</li>
+<li>Documentation moved to GitHub wiki</li>
+</ol>
+</div>
+<div class="section" id="backwards-compatibility-with-wec-sim-1-0">
+<h3>Backwards compatibility with WEC-Sim-1.0<a class="headerlink" href="#backwards-compatibility-with-wec-sim-1-0" title="Permalink to this headline">¶</a></h3>
+<ul class="simple">
+<li>Simulink models created in WEC-Sim-1.0 provided users have not broke the library link in the .slx model file.</li>
+<li>The input files need to be modified to be compatible with WEC-Sim-1.1 due to changes in hydrodynamic data input format (see WEC-Sim-1.1 documentation), some variable name changes, and code structure improvements.</li>
+<li>MATLAB 2014b is required to run WEC-Sim-1.1.</li>
+</ul>
+</div>
+</div>
 </div>
 
 
           </div>
           <footer>
+  
+    <div class="rst-footer-buttons" role="navigation" aria-label="footer navigation">
+      
+        <a href="theory.html" class="btn btn-neutral float-right" title="Theory">Next <span class="fa fa-arrow-circle-right"></span></a>
+      
+      
+        <a href="license.html" class="btn btn-neutral" title="License"><span class="fa fa-arrow-circle-left"></span> Previous</a>
+      
+    </div>
   
 
   <hr/>
