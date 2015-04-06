@@ -12,12 +12,20 @@ waves = waveClass('regularCIC');
 waves.H = 2.5;                          %Wave Height [m]
 waves.T = 8;                            %Wave Period [s]
 
-% %Irregular Waves using PM Spectrum
+% %Irregular Waves using PM Spectrum with Convolution Integral Calculation
 % waves = waveClass('irregular');       
 %                                %Create the Wave Variable and Specify Type
 % waves.H = 2.5;                        %Significant Wave Height [m]
 % waves.T = 8;                          %Peak Period [s]
 % waves.spectrumType = 'PM';
+
+% %Irregular Waves using BS Spectrum with State Space Calculation
+% waves = waveClass('irregular');       
+%                                %Create the Wave Variable and Specify Type
+% waves.H = 2.5;                        %Significant Wave Height [m]
+% waves.T = 8;                          %Peak Period [s]
+% waves.spectrumType = 'BS';
+% simu.ssCalc = 1;						%Control option to use state space model 
 
 % %Irregular Waves using User-Defined Spectrum
 % waves = waveClass('irregularImport');         
