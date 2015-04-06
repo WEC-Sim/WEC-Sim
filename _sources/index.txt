@@ -5,6 +5,7 @@
    :hidden:
 
    license.rst
+   release_notes.rst
    theory.rst
    getting_started.rst
    code_structure.rst
