@@ -1,57 +1,127 @@
-<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
-  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
 
 
-<html xmlns="http://www.w3.org/1999/xhtml">
-  <head>
-    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
-    
-    <title>Code Structure &mdash; WEC-Sim 1.1a0 documentation</title>
-    
-    <link rel="stylesheet" href="_static/alabaster.css" type="text/css" />
-    <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
-    
-    <script type="text/javascript">
-      var DOCUMENTATION_OPTIONS = {
-        URL_ROOT:    './',
-        VERSION:     '1.1a0',
-        COLLAPSE_INDEX: false,
-        FILE_SUFFIX: '.html',
-        HAS_SOURCE:  true
-      };
-    </script>
-    <script type="text/javascript" src="_static/jquery.js"></script>
-    <script type="text/javascript" src="_static/underscore.js"></script>
-    <script type="text/javascript" src="_static/doctools.js"></script>
-    <link rel="top" title="WEC-Sim 1.1a0 documentation" href="index.html" />
-    <link rel="next" title="Applications" href="applications.html" />
-    <link rel="prev" title="Library Structure" href="library_structure.html" />
-   
+<!DOCTYPE html>
+<!--[if IE 8]><html class="no-js lt-ie9" lang="en" > <![endif]-->
+<!--[if gt IE 8]><!--> <html class="no-js" lang="en" > <!--<![endif]-->
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
   
-  <meta name="viewport" content="width=device-width, initial-scale=0.9, maximum-scale=0.9">
+  <title>Code Structure &mdash; WEC-Sim 1.1a0 documentation</title>
+  
 
-  </head>
-  <body role="document">
-    <div class="related" role="navigation" aria-label="related navigation">
-      <h3>Navigation</h3>
-      <ul>
-        <li class="right" style="margin-right: 10px">
-          <a href="genindex.html" title="General Index"
-             accesskey="I">index</a></li>
-        <li class="right" >
-          <a href="applications.html" title="Applications"
-             accesskey="N">next</a> |</li>
-        <li class="right" >
-          <a href="library_structure.html" title="Library Structure"
-             accesskey="P">previous</a> |</li>
-        <li class="nav-item nav-item-0"><a href="index.html">WEC-Sim 1.1a0 documentation</a> &raquo;</li> 
-      </ul>
-    </div>  
+  
+  
 
-    <div class="document">
-      <div class="documentwrapper">
-        <div class="bodywrapper">
-          <div class="body" role="main">
+  
+  <link href='https://fonts.googleapis.com/css?family=Lato:400,700,400italic,700italic|Roboto+Slab:400,700|Inconsolata:400,700&subset=latin,cyrillic' rel='stylesheet' type='text/css'>
+
+  
+  
+    
+
+  
+
+  
+  
+    <link rel="stylesheet" href="_static/css/theme.css" type="text/css" />
+  
+
+  
+
+  
+    <link rel="top" title="WEC-Sim 1.1a0 documentation" href="index.html"/>
+        <link rel="next" title="Applications" href="applications.html"/>
+        <link rel="prev" title="Getting Started" href="getting_started.html"/> 
+
+  
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/modernizr/2.6.2/modernizr.min.js"></script>
+
+</head>
+
+<body class="wy-body-for-nav" role="document">
+
+  <div class="wy-grid-for-nav">
+
+    
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-nav-search">
+        
+          <a href="index.html" class="fa fa-home"> WEC-Sim</a>
+        
+        
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+      </div>
+
+      <div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="main navigation">
+        
+          
+          
+              <ul class="current">
+<li class="toctree-l1"><a class="reference internal" href="acknowledgments.html">Acknowledgments</a></li>
+<li class="toctree-l1"><a class="reference internal" href="introduction.html">Introduction</a></li>
+<li class="toctree-l1"><a class="reference internal" href="theory.html">Theory</a></li>
+<li class="toctree-l1"><a class="reference internal" href="getting_started.html">Getting Started</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="getting_started.html#downloading-and-installing-wec-sim">Downloading and Installing WEC-Sim</a></li>
+<li class="toctree-l2"><a class="reference internal" href="getting_started.html#running-wec-sim">Running WEC-Sim</a></li>
+</ul>
+</li>
+<li class="toctree-l1 current"><a class="current reference internal" href="">Code Structure</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="#code-conventions">Code Conventions</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#input-file-structure">Input File Structure</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#input-parameters">Input Parameters</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#library-structure">Library Structure</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="applications.html">Applications</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="applications.html#rm3-two-body-point-absorber">RM3 Two-Body Point Absorber</a></li>
+<li class="toctree-l2"><a class="reference internal" href="applications.html#oscillating-surge-pitch-device">Oscillating Surge-Pitch Device</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="trouble_shooting.html">Trouble Shooting</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="trouble_shooting.html#tips">Tips</a></li>
+</ul>
+</li>
+</ul>
+
+          
+        
+      </div>
+      &nbsp;
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap">
+
+      
+      <nav class="wy-nav-top" role="navigation" aria-label="top navigation">
+        <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+        <a href="index.html">WEC-Sim</a>
+      </nav>
+
+
+      
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          <div role="navigation" aria-label="breadcrumbs navigation">
+  <ul class="wy-breadcrumbs">
+    <li><a href="index.html">Docs</a> &raquo;</li>
+      
+    <li>Code Structure</li>
+      <li class="wy-breadcrumbs-aside">
+        
+          <a href="_sources/code_structure.txt" rel="nofollow"> View page source</a>
+        
+      </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document">
             
   <div class="section" id="code-structure">
 <span id="id1"></span><h1>Code Structure<a class="headerlink" href="#code-structure" title="Permalink to this headline">¶</a></h1>
@@ -97,7 +167,9 @@ is defned by the right-hand rule (as shown below).</p>
 </div>
 <p>The WEC-Sim code has default values defined for all the other simulation parameters. Available simulation parameters and the default values can be found by typing <code class="docutils literal"><span class="pre">doc</span> <span class="pre">simulationClass</span></code> in the MATLAB Command Window.</p>
 <p>These default values can be overwritten by the user, as demonstrated in the Applications Section. For example, the end time of a simulation can be set by entering the following command:</p>
-<p>simu.endTime = &lt;user specified end time&gt;</p>
+<div class="highlight-python"><div class="highlight"><pre>simu.endTime = &lt;user specified end time&gt;
+</pre></div>
+</div>
 <p>Note: By default, running the irregular wave (irregular and irregularImport), regular wave with convolution integral (regularCIC) or no wave with convolution integral (noWaveCIC), WEC-Sim calculates the fluid memory term using the convolution integral formulation. Users have the option to use the state space model by specifying the following in the WEC-Sim input file:</p>
 <div class="highlight-python"><div class="highlight"><pre><span class="n">simu</span><span class="o">.</span><span class="n">ssCalc</span><span class="o">=</span><span class="mi">1</span>
 </pre></div>
@@ -248,90 +320,172 @@ specify linear damping (<code class="docutils literal"><span class="pre">pto(&lt
 <p>The available pto parameters, and default values defined in the pto class can be found by typing `` doc ptoClass`` in the MATLAB Command Window.</p>
 </div>
 </div>
+<div class="section" id="library-structure">
+<h2>Library Structure<a class="headerlink" href="#library-structure" title="Permalink to this headline">¶</a></h2>
+<p>The WEC-Sim library is divided into 4 sublibraries. The user should be able to model their WEC device using the available WEC-Sim blocks, and possibly some SimMechanics blocks. The table below lists the WEC-Sim  blocks and their organization into sublibraries.</p>
+<table border="1" class="docutils">
+<colgroup>
+<col width="38%" />
+<col width="0%" />
+<col width="62%" />
+</colgroup>
+<thead valign="bottom">
+<tr class="row-odd"><th class="head" colspan="3">WEC-Sim Library</th>
+</tr>
+</thead>
+<tbody valign="top">
+<tr class="row-even"><td>Sublibrary</td>
+<td colspan="2">Blocks</td>
+</tr>
+<tr class="row-odd"><td>Body Elements</td>
+<td colspan="2">Rigid Body</td>
+</tr>
+<tr class="row-even"><td>Frames</td>
+<td colspan="2">Global Reference Frame</td>
+</tr>
+<tr class="row-odd"><td>Constraints</td>
+<td colspan="2">Heave
+Surge
+Surge
+Fixed
+Floating</td>
+</tr>
+<tr class="row-even"><td>PTOs</td>
+<td colspan="2">Rotational PTO (Local RY)
+Translational PTO (Local X)
+Translational PTO (Local Z)</td>
+</tr>
+</tbody>
+</table>
+<p>In the following sections, we will describe the four sublibraries and their general purpose. The Body Elements sublibrary contains the Rigid Body block used to simulate the different bodies. The Frames sublibrary contains the Global Reference Frame block necessary for every simulation. The Constraints sublibrary contains blocks that are used to constrain the DOF of the bodies, without including any additional forcing or resistance. The PTOs sublibrary contains blocks used to both simulate a PTO system and restrict the body motion. Both constraints and PTOs can be used to restrict the relative motion between multibody systems. %end{section{Library Structure Overview</p>
+<div class="section" id="body-elements-sublibrary">
+<h3>Body Elements Sublibrary<a class="headerlink" href="#body-elements-sublibrary" title="Permalink to this headline">¶</a></h3>
+<p>The Body Elements sublibrary (Figure~ref{fig:bLib) contains one block, Rigid Body block. It is used to represent rigid bodies. At least one instance of this block is required in each model.</p>
+<div class="section" id="rigid-body-block">
+<h4>Rigid Body Block<a class="headerlink" href="#rigid-body-block" title="Permalink to this headline">¶</a></h4>
+<p>The Rigid Body block is used to represent a rigid body in the simulation. The user has to name the blocks &#8216;body(i)&#8217; where i=1,2,... The mass properties, hydrodynamic data, geometry file, mooring, and other properties are then specified in the input file. Within the body block the wave radiation, wave excitation, hydrostatic restoring, viscous damping and mooring forces are calculated.</p>
+</div>
+</div>
+<div class="section" id="frames-sublibrary">
+<h3>Frames Sublibrary<a class="headerlink" href="#frames-sublibrary" title="Permalink to this headline">¶</a></h3>
+<p>The Frames sublibrary, shown in above, contains one block that is necessary in every model. The Global Reference Frame block defines global references and can be thought of as the seabed.</p>
+</div>
+<div class="section" id="global-reference-frame-block">
+<h3>Global Reference Frame Block<a class="headerlink" href="#global-reference-frame-block" title="Permalink to this headline">¶</a></h3>
+<p>The Global Reference Frame block defines the solver configuration, seabed and free surface description, simulation time, and other global settings. It can be useful to think of the Global Reference Frame as being the seabed when creating a model. Every model requires one instance of the Global Reference Frame block. The Global Reference Frame block uses the simulation class variable simu and the wave class variable waves, which must be defined in the input file.</p>
+</div>
+<div class="section" id="constraints-sublibrary">
+<h3>Constraints Sublibrary<a class="headerlink" href="#constraints-sublibrary" title="Permalink to this headline">¶</a></h3>
+<p>The blocks within the Constraints sublibrary, shown above, are used to define the DOF of a specific body. Constraints blocks define only the DOF, but do not otherwise apply any forcing or resistance to the body motion. Each Constraints block has two connections, a base (B) and a follower (F). The Constraints block restricts the motion of the block that is connected to the follower relative to the block that is connected to the base. The base of these blocks is typically the Global Reference Frame (which can be thought of as the seabed) and the follower is a Rigid Body.</p>
+<p>There are five Constraints blocks, including three that restrict motion to one DOF (Heave, Surge, Pitch), a free-floating (Floating) block, and a rigid connection (Fixed) block. The rest of this section will describe each Constraints block in more detail.</p>
+<div class="section" id="floating-block">
+<h4>Floating Block<a class="headerlink" href="#floating-block" title="Permalink to this headline">¶</a></h4>
+<p>The Floating block is used to simulate a free-floating body. It constrains the motion of the follower to be along the XZ plane of the base. That is, it allows translation in the X- and Z-axis, and rotation about the Y-axis. It  is usually used with the base connected to the Global Reference Frame (seabed), in which case the motion of the follower is along the global XZ plane.</p>
+</div>
+<div class="section" id="heave-block">
+<h4>Heave Block<a class="headerlink" href="#heave-block" title="Permalink to this headline">¶</a></h4>
+<p>The Heave block constrains the motion of the follower relative to the base to be along the Z-axis. In the case of the base connected to the Global Reference Frame (seabed), the body is allowed to move only in the vertical (Z) direction. In the case of the Heave block connecting two bodies, the relative motion of the two bodies is constrained to be only along their Z-axes. The Z-axis of the follower and base will always be parallel and their perpendicular distance will be constant. The actual direction of movement of the follower depends on the orientation of the base.</p>
+</div>
+<div class="section" id="surge-block">
+<h4>Surge Block<a class="headerlink" href="#surge-block" title="Permalink to this headline">¶</a></h4>
+<p>The Surge block constrains the motion of the follower relative to the base to be along the X-axis. If the base is connected to the Global Reference Frame (seabed), the body is allowed to move only in the horizontal (X) direction. If Surge block is connects two bodies, the relative motion of the two bodies is constrained to be only along their X-axes. The X-axis of the follower and base will always be parallel and their perpendicular distance will be constant. The actual direction of movement of the follower depends on the orientation of the base.</p>
+</div>
+<div class="section" id="pitch-block">
+<h4>Pitch Block<a class="headerlink" href="#pitch-block" title="Permalink to this headline">¶</a></h4>
+<p>The Pitch block constrains the relative motion between the follower and the base to be pitch rotation only (about the Y-axis). The distance from both body-fixed coordinate systems to the point of rotation stays constant. The orientation of both body-fixed Y-axes also stays constant. The user MUST enter the point about which the rotation occurs as the constraint&#8217;s location in the input file.</p>
+</div>
+<div class="section" id="fixed-block">
+<h4>Fixed Block<a class="headerlink" href="#fixed-block" title="Permalink to this headline">¶</a></h4>
+<p>The Fixed block is a rigid connection that constrains all motion between the base and follower. It restricts translation in the X- and Z-axis, and rotation about the Y-axis.  Its most common use is for a rigid body fixed to the seabed.</p>
+</div>
+</div>
+<div class="section" id="ptos-sublibrary">
+<h3>PTOs Sublibrary<a class="headerlink" href="#ptos-sublibrary" title="Permalink to this headline">¶</a></h3>
+<p>The PTOs sublibrary, shown below, is used to simulate simple PTO systems and to restrict relative motion between multiple bodies or between one body and the seabed. The PTO blocks can simulate simple PTO systems by applying a linear stiffness and damping to the connection. Similar to the Constraints blocks, the PTO blocks have a base (B) and a follower (F). Users MUST name each PTO block &#8216;pto(i)&#8217; where i=1,2,..., and then define their properties in the input file.</p>
+<div class="section" id="translation-pto-local-z-block">
+<h4>Translation PTO (Local Z) Block<a class="headerlink" href="#translation-pto-local-z-block" title="Permalink to this headline">¶</a></h4>
+<p>The Translation PTO (Local Z) is identical to the Heave constraint, but applies a linear stiffness and damping coefficient to the connection. The user has to name the PTOs as described earlier. The user then specifies the stiffness coefficient (in N/m), and damping coefficient (in Ns/m) in the input file.</p>
+</div>
+<div class="section" id="translation-pto-local-x-block">
+<h4>Translation PTO (Local X) Block<a class="headerlink" href="#translation-pto-local-x-block" title="Permalink to this headline">¶</a></h4>
+<p>The Translation PTO (Local X) is identical to the Surge constraint, but additionally applies a linear stiffness and damping coefficient to the connection. The user has to name the PTOs as described earlier. The user then specifies the stiffness coefficient (in N/m), and damping coefficient (in Ns/m) in the input file.</p>
+</div>
+<div class="section" id="rotational-pto-local-ry-block">
+<h4>Rotational PTO (Local RY) Block<a class="headerlink" href="#rotational-pto-local-ry-block" title="Permalink to this headline">¶</a></h4>
+<p>The Rotational PTO (Local RY) is identical to the Pitch constraint, but adds a linear rotational stiffness and damping coefficient to the connection. The user has to name the PTOs as described earlier. The user then specifies the stiffness coefficient (in Nm/rad) and damping coefficient (in Nms/rad) in the input file.</p>
+</div>
+</div>
+<div class="section" id="other-simmechanics-blocks">
+<h3>Other SimMechanics Blocks<a class="headerlink" href="#other-simmechanics-blocks" title="Permalink to this headline">¶</a></h3>
+<p>In some situations, users may have to use SimMechanics blocks not included in the WEC-Sim Library to build their WEC model. One commonly used block is the Rigid Transform, which can be used to rotate the frames on PTOs, constraints, and bodies. This is also explained in the SimMechanics {User&#8217;s Guide.</p>
+</div>
+</div>
 </div>
 
 
           </div>
-        </div>
-      </div>
-      <div class="sphinxsidebar" role="navigation" aria-label="main navigation">
-        <div class="sphinxsidebarwrapper">
-  <h3><a href="index.html">Table Of Contents</a></h3>
-  <ul>
-<li><a class="reference internal" href="#">Code Structure</a><ul>
-<li><a class="reference internal" href="#code-conventions">Code Conventions</a></li>
-<li><a class="reference internal" href="#input-file-structure">Input File Structure</a><ul>
-<li><a class="reference internal" href="#simulation-class">Simulation Class</a></li>
-<li><a class="reference internal" href="#wave-class">Wave Class</a></li>
-<li><a class="reference internal" href="#body-class">Body Class</a></li>
-<li><a class="reference internal" href="#constraint-class">Constraint Class</a></li>
-<li><a class="reference internal" href="#pto-class">PTO Class</a></li>
-</ul>
-</li>
-<li><a class="reference internal" href="#input-parameters">Input Parameters</a><ul>
-<li><a class="reference internal" href="#simulationclass">simulationClass</a></li>
-<li><a class="reference internal" href="#waveclass">waveClass</a><ul>
-<li><a class="reference internal" href="#nowave">noWave</a></li>
-<li><a class="reference internal" href="#nowavecic">noWaveCIC</a></li>
-<li><a class="reference internal" href="#regular">regular</a></li>
-<li><a class="reference internal" href="#regularcic">regularCIC</a></li>
-<li><a class="reference internal" href="#irregular">irregular</a></li>
-<li><a class="reference internal" href="#irregularimport">irregularImport</a></li>
-</ul>
-</li>
-<li><a class="reference internal" href="#bodyclass">bodyClass</a></li>
-<li><a class="reference internal" href="#constraintclass">constraintClass</a></li>
-<li><a class="reference internal" href="#ptoclass">ptoClass</a></li>
-</ul>
-</li>
-</ul>
-</li>
-</ul>
+          <footer>
+  
+    <div class="rst-footer-buttons" role="navigation" aria-label="footer navigation">
+      
+        <a href="applications.html" class="btn btn-neutral float-right" title="Applications">Next <span class="fa fa-arrow-circle-right"></span></a>
+      
+      
+        <a href="getting_started.html" class="btn btn-neutral" title="Getting Started"><span class="fa fa-arrow-circle-left"></span> Previous</a>
+      
+    </div>
+  
 
-  <h4>Previous topic</h4>
-  <p class="topless"><a href="library_structure.html"
-                        title="previous chapter">Library Structure</a></p>
-  <h4>Next topic</h4>
-  <p class="topless"><a href="applications.html"
-                        title="next chapter">Applications</a></p>
-  <div role="note" aria-label="source link">
-    <h3>This Page</h3>
-    <ul class="this-page-menu">
-      <li><a href="_sources/code_structure.txt"
-            rel="nofollow">Show Source</a></li>
-    </ul>
-   </div>
-<div id="searchbox" style="display: none" role="search">
-  <h3>Quick search</h3>
-    <form class="search" action="search.html" method="get">
-      <input type="text" name="q" />
-      <input type="submit" value="Go" />
-      <input type="hidden" name="check_keywords" value="yes" />
-      <input type="hidden" name="area" value="default" />
-    </form>
-    <p class="searchtip" style="font-size: 90%">
-    Enter search terms or a module, class or function name.
+  <hr/>
+
+  <div role="contentinfo">
+    <p>
+        &copy; Copyright 2015, Michael Lawson, Kelley Ruehl, Yi-Hsiang Yu, Carlos Michelen.
     </p>
-</div>
-<script type="text/javascript">$('#searchbox').show(0);</script>
+  </div>
+
+  Built with <a href="http://sphinx-doc.org/">Sphinx</a> using a <a href="https://github.com/snide/sphinx_rtd_theme">theme</a> provided by <a href="https://readthedocs.org">Read the Docs</a>.
+  
+</footer>
         </div>
       </div>
-      <div class="clearer"></div>
-    </div>
-    <div class="footer">
-      &copy;2015, Michael Lawson, Kelley Ruehl, Yi-Hsiang Yu, Carlos Michelen.
-      
-      |
-      Powered by <a href="http://sphinx-doc.org/">Sphinx 1.3.1</a>
-      &amp; <a href="https://github.com/bitprophet/alabaster">Alabaster 0.7.3</a>
-      
-      |
-      <a href="_sources/code_structure.txt"
-          rel="nofollow">Page source</a></li>
-    </div>
 
-    
+    </section>
 
-    
-  </body>
+  </div>
+  
+
+
+  
+
+    <script type="text/javascript">
+        var DOCUMENTATION_OPTIONS = {
+            URL_ROOT:'./',
+            VERSION:'1.1a0',
+            COLLAPSE_INDEX:false,
+            FILE_SUFFIX:'.html',
+            HAS_SOURCE:  true
+        };
+    </script>
+      <script type="text/javascript" src="_static/jquery.js"></script>
+      <script type="text/javascript" src="_static/underscore.js"></script>
+      <script type="text/javascript" src="_static/doctools.js"></script>
+
+  
+
+  
+  
+    <script type="text/javascript" src="_static/js/theme.js"></script>
+  
+
+  
+  
+  <script type="text/javascript">
+      jQuery(function () {
+          SphinxRtdTheme.StickyNav.enable();
+      });
+  </script>
+   
+
+</body>
 </html>

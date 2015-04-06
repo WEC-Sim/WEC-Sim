@@ -4,22 +4,6 @@ WEC-Sim Documentation
 .. figure:: _static/wec_sim_header.png
    :width: 600pt
 
-Contents
---------
-
-.. toctree::
-   :maxdepth: 2
-
-   acknowledgments.rst
-   introduction.rst
-   theory.rst
-   getting_started.rst
-   library_structure.rst
-   code_structure.rst
-   applications.rst
-   trouble_shooting.rst
-
-
 WEC-Sim Project Overview
 ------------------------
 
@@ -53,6 +37,20 @@ WEC-Sim in the News
 --------------------
 * `RenewableEnergy World - Marine Energy Making Waves on Both Sides of the Pond <http://www.renewableenergyworld.com/rea/news/article/2014/11/marine-energy-making-waves-on-both-sides-of-the-pond?cmpid=rss>`_
 * `openORE <http://openore.org/2014/07/02/wec-sim-now-available/>`_
+
+Contents
+--------
+
+.. toctree::
+   :maxdepth: 2
+
+   acknowledgments.rst
+   introduction.rst
+   theory.rst
+   getting_started.rst
+   code_structure.rst
+   applications.rst
+   trouble_shooting.rst
 
 Indices and tables
 ------------------
