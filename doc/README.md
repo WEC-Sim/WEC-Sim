@@ -1,13 +1,13 @@
-# WEC-Sim 'doc' Folder Contents
-* **WEC-Sim-doc:** WEC-Sim documentation. Open ./WEC-Sim-doc/html/index.html to view the documentation in a web browser. The documentation is also available on http://wec-sim.github.io/WEC-Sim/.
+# WEC-Sim Documentation
+The documentation can be viewed on http://wec-sim.github.io/WEC-Sim/.
+
+# 'doc' Folder Contents
+* **WEC-Sim-doc:** Documentation source code
 * **publications:** Peer-reviewed publications on the WEC-Sim project
 * **tutorials:** Contains a video tutorial on how to setup the RM3 simulation in WEC-Sim-1.0. Note that this video is not completely consistent with WEC-Sim-1.1.
 * **source:** Documentaion source files
 
 # Developer Information
-## Compile Documentation
-* Type 'make  html' in the documentation folder to compile the documentation
-* Sphinx must be installed to compile the documentation and the following sphinx packages must be installed using the pip commands provided below:
-  * pip install sphinx_rtd_theme 
+Documentation can be modified by editing the code in the WEC-Sim-doc folder. To recompile the documentation run 'make  html' in the documentation folder. Sphinx must be installed to compile the documentation and the following sphinx packages must be installed using the pip commands provided below:
+  * pip install sphinx_rtd_theme
   * pip install sphinxcontrib-bibtex
-
