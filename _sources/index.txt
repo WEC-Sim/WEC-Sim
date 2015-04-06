@@ -1,12 +1,8 @@
 .. figure:: _static/wec_sim_header.png
 
-Contents
-=================
-
 .. toctree::
-   :maxdepth: 2
+   :maxdepth: 4
    :hidden:
-
 
    license.rst
    theory.rst
