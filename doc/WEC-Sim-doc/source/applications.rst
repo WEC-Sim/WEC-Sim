@@ -15,8 +15,31 @@ The first application of the WEC-Sim code is the Reference Model 3 (RM3) two-bod
 .. figure:: _static/RM3_Geom.jpg
    :width: 400pt
 
-.. figure:: _static/RM3_MassProps.jpg
-   :width: 400pt
++-------------------------------------------------+
+|Float Full Scale Properties                      |
++======+=========+================================+
+|      |Mass     |Moment of                       |
++CG (m)+(tonne)  +Inertia (kg-m^2)                +
++------+---------+----------+----------+----------+
+|  0   |         |20,907,301|0         |0         |
++------+         +----------+----------+----------+
+|  0   |727.01   |0         |21,306,091|4305      |
++------+         +----------+----------+----------+
+|-0.72 |         |          |4305      |37,085,481|
++------+---------+----------+----------+----------+   
+
++-------------------------------------------------+
+|Plate Full Scale Properties                      |
++======+=========+================================+
+|      |Mass     |Moment of                       |
++CG (m)+(tonne)  +Inertia (kg-m^2)                +
++------+---------+----------+----------+----------+
+|  0   |         |94,419,615|0         |0         |
++------+         +----------+----------+----------+
+|  0   |878.30   |0         |94,407,091|217,593   |
++------+         +----------+----------+----------+
+|-21.29|         |          |217,593   |28,542,225|
++------+---------+----------+----------+----------+ 
 
 Hydrodynamic Data Pre-Processing
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
@@ -88,7 +111,15 @@ This example has a ``userDefinedFunctions.m`` which plots different forces and r
 Running Different Wave Cases
 .................................
 
-The input file in the RM3 example has three different wave examples: regular waves, irregular waves with a defined spectrum, and irregular waves with a user defined spectrum. By default the regular waves case is used. To run either of the other two cases the user needs to comment out the regular wave case and un-comment the desired case. Additionally the user can create any other desired wave.
+The input file in the RM3 example has four different wave examples: 
+* Regular waves
+* Irregular waves with using Pierson–Moskowitz spectrum with convolution integral calculation
+* Irregular waves with using Bretschneider Spectrum with state space calculation
+* Irregular waves with defined spectrum, and irregular waves with a user defined spectrum
+
+By default the regular waves case is used. To run either of the other three cases the user needs to comment out the regular wave case and uncomment the desired case. Additionally, the user can create any other desired wave. 
+
+Note: If ``simu.ssCalc=1`` is uncommented, the user needs to make sure the the state space hydrodynamic coefficients are included in the ``<hydro-data name>.hd5`` file. User can generate the state space hydrodynamic coefficients and export the values in the ``<hydro-data name>.hd5`` file using `bemio <https://github.com/WEC-Sim/bemio>`_ code. More details are discribed in the `Calculating Impulse Response Functions and Sate Space Coefficients <http://wec-sim.github.io/bemio/api.html#calculating-impulse-response-functions-and-sate-space-coefficients>`_ section in the `bemio Documentation and Users Guide <http://wec-sim.github.io/bemio/index.html>`_.
 
 Oscillating Surge-Pitch Device
 --------------------------------
@@ -101,8 +132,20 @@ As the second application of the WEC-Sim code, the oscillating surge WEC (OSWEC)
 .. figure:: _static/OSWEC_Geom.png
    :width: 400pt
 
-.. figure::: /OSWEC_MassProps.JPG
-   :width: 400pt
++-----------------------------+
+|Flap Full Scale Properties   |
++======+=========+============+
+|      |         |Pitch Moment|
++CG (m)+Mass (kg)+of Inertia  +
+|      |         |(kg-m^2)    |
++------+---------+------------+
+|  0   |         |            |
++------+         +            +
+|  0   |127,000  |1,850,000   |
++------+         +            +
+| -3.9 |         |            |
++------+---------+------------+
+
 
 Hydrodynamic Data Pre-Processing
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
