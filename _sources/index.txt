@@ -1,12 +1,17 @@
 .. figure:: _static/wec_sim_header.png
    :target: https://github.com/WEC-Sim/WEC-Sim
 
+.. bibliography:: WEC-Sim.bib
+   :style: plain
+   :hidden:
+
 .. toctree::
    :maxdepth: 4
    :hidden:
 
    license.rst
    release_notes.rst
+   downloading.rst
    theory.rst
    getting_started.rst
    code_structure.rst
