@@ -3,6 +3,7 @@ Release Notes
 
 WEC-Sim-1.1
 ---------------------------
+
 New in v1.1
 ~~~~~~~~~~~~~~~~~~
 #. Improvements in code stability through modifications to the added mass, radiation damping calculations, and impulse response function calculations
@@ -15,3 +16,11 @@ Backwards compatibility with WEC-Sim-1.0
 * Simulink models created in WEC-Sim-1.0 provided users have not broke the library link in the .slx model file.
 * The input files need to be modified to be compatible with WEC-Sim-1.1 due to changes in hydrodynamic data input format (see WEC-Sim-1.1 documentation), some variable name changes, and code structure improvements.
 * MATLAB 2014b is required to run WEC-Sim-1.1.
+
+Knows Issues
+~~~~~~~~~~~~~~
+* Flowchart update in Getting Started (done)
+* State space in applications section (done)
+* State space in theory section (waiting for Nathan's latex file)
+* Mooring update in theory scion (done)
+* New features in dev branch

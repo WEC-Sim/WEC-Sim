@@ -57,7 +57,7 @@ Steps To Run WEC-Sim
 
 The overview of the WEC-Sim work flow is shown in the figure below. We describe the steps for setting up and running a WEC-Sim simulations in the following:
 
-.. figure:: _static/WECSimWorkflow.jpg
+.. figure:: _static/WECSimWorkflow.png
    :width: 400pt
 
 Step 1: Pre-Processing
