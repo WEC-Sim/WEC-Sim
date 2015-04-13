@@ -1,6 +1,6 @@
-Running `WEC-Sim`
+Running WEC-Sim
 ==========================
-This section gives an overview of the `WEC-Sim` work flow. First we describe the `WEC-Sim` file structure describe the steps for setting up and running a `WEC-Sim` simulation. Detailed descriptions and options for input parameters for the input file are described in the `Code Overview Section`_. Specific examples of using `WEC-Sim` to simulate WEC devices are presented in the Application Section.
+This section gives an overview of the `WEC-Sim` work flow. First we describe the `WEC-Sim` file structure describe the steps for setting up and running a `WEC-Sim` simulation. Detailed descriptions and options for input parameters for the input file are described in the Code Structure section. Specific examples of using `WEC-Sim` to simulate WEC devices are presented in the Application Section.
 
 File Structure Overview
 -----------------------------

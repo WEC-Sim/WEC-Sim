@@ -7,7 +7,7 @@
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   
-  <title>Applications &mdash; WEC-Sim 1.1a0 documentation</title>
+  <title>WEC-Sim Tutorials &mdash; WEC-Sim 1.1a0 documentation</title>
   
 
   
@@ -74,7 +74,11 @@
 <li class="toctree-l2"><a class="reference internal" href="getting_started.html#downloading-and-installing-bemio">Downloading and Installing <cite>bemio</cite></a></li>
 <li class="toctree-l2"><a class="reference internal" href="getting_started.html#downloading-wec-sim">Downloading <cite>WEC-Sim</cite></a></li>
 <li class="toctree-l2"><a class="reference internal" href="getting_started.html#installing-wec-sim">Installing WEC-Sim</a></li>
-<li class="toctree-l2"><a class="reference internal" href="getting_started.html#running-wec-sim">Running <cite>WEC-Sim</cite></a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="running_wec_sim.html">Running WEC-Sim</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="running_wec_sim.html#file-structure-overview">File Structure Overview</a></li>
+<li class="toctree-l2"><a class="reference internal" href="running_wec_sim.html#steps-to-run-wec-sim">Steps To Run <cite>WEC-Sim</cite></a></li>
 </ul>
 </li>
 <li class="toctree-l1"><a class="reference internal" href="code_structure.html">Code Structure</a><ul>
@@ -84,7 +88,7 @@
 <li class="toctree-l2"><a class="reference internal" href="code_structure.html#library-structure">Library Structure</a></li>
 </ul>
 </li>
-<li class="toctree-l1 current"><a class="current reference internal" href="">Applications</a><ul>
+<li class="toctree-l1 current"><a class="current reference internal" href="">WEC-Sim Tutorials</a><ul>
 <li class="toctree-l2"><a class="reference internal" href="#rm3-two-body-point-absorber">RM3 Two-Body Point Absorber</a></li>
 <li class="toctree-l2"><a class="reference internal" href="#oscillating-surge-pitch-device">Oscillating Surge-Pitch Device</a></li>
 </ul>
@@ -134,10 +138,10 @@
   <ul class="wy-breadcrumbs">
     <li><a href="index.html">Docs</a> &raquo;</li>
       
-    <li>Applications</li>
+    <li>WEC-Sim Tutorials</li>
       <li class="wy-breadcrumbs-aside">
         
-          <a href="_sources/applications.txt" rel="nofollow"> View page source</a>
+          <a href="_sources/tutorials.txt" rel="nofollow"> View page source</a>
         
       </li>
   </ul>
@@ -145,8 +149,8 @@
 </div>
           <div role="main" class="document">
             
-  <div class="section" id="applications">
-<span id="id1"></span><h1>Applications<a class="headerlink" href="#applications" title="Permalink to this headline">¶</a></h1>
+  <div class="section" id="wec-sim-tutorials">
+<h1>WEC-Sim Tutorials<a class="headerlink" href="#wec-sim-tutorials" title="Permalink to this headline">¶</a></h1>
 <p>This section describes how to use the WEC-Sim code to model two different WECs.  The first application models a two-body point absorber WEC, and the second application models an OSWEC. The files corresponding to these two examples are included in the applications directory of the WEC-Sim source code.</p>
 <div class="section" id="rm3-two-body-point-absorber">
 <h2>RM3 Two-Body Point Absorber<a class="headerlink" href="#rm3-two-body-point-absorber" title="Permalink to this headline">¶</a></h2>
@@ -235,7 +239,7 @@ Inertia (kg-m^2)</td>
 </div>
 <div class="section" id="hydrodynamic-data-pre-processing">
 <h3>Hydrodynamic Data Pre-Processing<a class="headerlink" href="#hydrodynamic-data-pre-processing" title="Permalink to this headline">¶</a></h3>
-<p>The hydrodynamic data for each body must be supplied in &#8216;&#8217;bemio&#8217;&#8217; hydrodynamic data format generated using the <a class="reference external" href="https://github.com/WEC-Sim/bemiobemio">bemio</a> code. More information on how to use &#8216;&#8217;bemio&#8217;&#8217; can be found here - <a class="reference external" href="http://wec-sim.github.io/bemio/">http://wec-sim.github.io/bemio/</a>. The hydrodynamic data for each body can be supplied in one single &#8216;&#8217;hdf5&#8217;&#8217; file, or several (ie. one per body). In this application case, a single file is provided. This file was created based on a WAIMT run of the RM3 geometry, using the WAMIT output file and the WAMIT reader from the  bemio. The WAMIT <code class="docutils literal"><span class="pre">*.out</span></code> file and the python bemio script used to create the &#8216;&#8217;hdf5&#8217;&#8217; are included as well. All these files are located in the &#8216;&#8217;/hydroData&#8217;&#8217; directory of the RM3 application case.</p>
+<p>The hydrodynamic data for each body must be supplied in <cite>bemio</cite> hydrodynamic data format generated using the <a class="reference external" href="http://wec-sim.github.io/bemio/">bemio</a> code. The hydrodynamic data for each body can be supplied in one single &#8216;&#8217;hdf5&#8217;&#8217; file, or several (ie. one per body). In this application case, a single file is provided. This file was created based on a WAIMT run of the RM3 geometry, using the WAMIT output file and the WAMIT reader from the  bemio. The WAMIT <code class="docutils literal"><span class="pre">*.out</span></code> file and the python <cite>bemio</cite> script used to create the <cite>hdf5</cite> are included as well. All these files are located in the <code class="docutils literal"><span class="pre">/hydroData</span></code> directory of the RM3 application case.</p>
 </div>
 <div class="section" id="modeling-rm3-in-wec-sim">
 <h3>Modeling RM3 in WEC-Sim<a class="headerlink" href="#modeling-rm3-in-wec-sim" title="Permalink to this headline">¶</a></h3>
@@ -299,14 +303,14 @@ Inertia (kg-m^2)</td>
 * Irregular waves with using Bretschneider Spectrum with state space calculation
 * Irregular waves with defined spectrum, and irregular waves with a user defined spectrum</p>
 <p>By default the regular waves case is used. To run either of the other three cases the user needs to comment out the regular wave case and uncomment the desired case. Additionally, the user can create any other desired wave.</p>
-<p>Note: If <code class="docutils literal"><span class="pre">simu.ssCalc=1</span></code> is uncommented, the user needs to make sure the the state space hydrodynamic coefficients are included in the <code class="docutils literal"><span class="pre">&lt;hydro-data</span> <span class="pre">name&gt;.hd5</span></code> file. User can generate the state space hydrodynamic coefficients and export the values in the <code class="docutils literal"><span class="pre">&lt;hydro-data</span> <span class="pre">name&gt;.hd5</span></code> file using <a class="reference external" href="https://github.com/WEC-Sim/bemio">bemio</a> code. More details are discribed in the <a class="reference external" href="http://wec-sim.github.io/bemio/api.html#calculating-impulse-response-functions-and-sate-space-coefficients">Calculating Impulse Response Functions and Sate Space Coefficients</a> section in the <a class="reference external" href="http://wec-sim.github.io/bemio/index.html">bemio Documentation and Users Guide</a>.</p>
+<p>Note: If <code class="docutils literal"><span class="pre">simu.ssCalc=1</span></code> is uncommented, the user needs to make sure the the state space hydrodynamic coefficients are included in the <code class="docutils literal"><span class="pre">&lt;hydro-data</span> <span class="pre">name&gt;.hd5</span></code> file. User can generate the state space hydrodynamic coefficients and export the values in the <code class="docutils literal"><span class="pre">&lt;hydro-data</span> <span class="pre">name&gt;.hd5</span></code> file using the bemio code. More details are discribed in the <a class="reference external" href="http://wec-sim.github.io/bemio/api.html#calculating-impulse-response-functions-and-sate-space-coefficients">Calculating Impulse Response Functions and Sate Space Coefficients</a> section in the <cite>bemio</cite> Documentation and Users Guide</p>
 </div>
 </div>
 </div>
 <div class="section" id="oscillating-surge-pitch-device">
 <h2>Oscillating Surge-Pitch Device<a class="headerlink" href="#oscillating-surge-pitch-device" title="Permalink to this headline">¶</a></h2>
-<div class="section" id="id3">
-<h3>Geometry Definition<a class="headerlink" href="#id3" title="Permalink to this headline">¶</a></h3>
+<div class="section" id="id1">
+<h3>Geometry Definition<a class="headerlink" href="#id1" title="Permalink to this headline">¶</a></h3>
 <p>As the second application of the WEC-Sim code, the oscillating surge WEC (OSWEC) device. We selected the OSWEC because its design is fundamentally different from the RM3. This is critical because WECs span an extensive design space, and it is important to model devices in WEC-Sim that operate under different principles.  The OSWEC is fixed to the ground and has a flap that is connected through a hinge to the base that restricts the flap to pitch about the hinge. The full-scale dimensions of the OSWEC and the mass properties are shown in the figure and table below.</p>
 <div class="figure">
 <a class="reference internal image-reference" href="_images/OSWEC_Geom.png"><img alt="_images/OSWEC_Geom.png" src="_images/OSWEC_Geom.png" style="width: 400pt;" /></a>
@@ -340,9 +344,9 @@ of Inertia
 </tbody>
 </table>
 </div>
-<div class="section" id="id4">
-<h3>Hydrodynamic Data Pre-Processing<a class="headerlink" href="#id4" title="Permalink to this headline">¶</a></h3>
-<p>The hydrodynamic data for each body must be supplied in &#8216;&#8217;bemio&#8217;&#8217; hydrodynamic data format generated using the <a class="reference external" href="https://github.com/WEC-Sim/bemio">bemio</a> code.  More information on how to use &#8216;&#8217;bemio&#8217;&#8217; can be found here - <a class="reference external" href="http://wec-sim.github.io/bemio/">http://wec-sim.github.io/bemio/</a>. The hydrodynamic data for each body can be supplied in one single &#8216;&#8217;hdf5&#8217;&#8217; file, or several (ie. one per body). In this application case, a single file is provided. This file was created based on a WAIMT run of the RM3 geometry, using the WAMIT output file and the WAMIT reader from the  <a class="reference external" href="https://github.com/WEC-Sim/bemio/releases">bemio open source BEM parser</a> . The WAMIT <code class="docutils literal"><span class="pre">*.out</span></code> file and the python bemio script used to create the &#8216;&#8217;hdf5&#8217;&#8217; are included as well. All these files are located in the &#8216;&#8217;/hydroData&#8217;&#8217; directory of the RM3 application case.</p>
+<div class="section" id="id2">
+<h3>Hydrodynamic Data Pre-Processing<a class="headerlink" href="#id2" title="Permalink to this headline">¶</a></h3>
+<p>The hydrodynamic data for each body must be supplied in <cite>bemio</cite> hydrodynamic data format generated using the <a class="reference external" href="http://wec-sim.github.io/bemio/">bemio</a> code.  More information on how to use <cite>bemio</cite> can be found here - <a class="reference external" href="http://wec-sim.github.io/bemio/">http://wec-sim.github.io/bemio/</a>. The hydrodynamic data for each body can be supplied in one single &#8216;&#8217;hdf5&#8217;&#8217; file, or several (ie. one per body). In this application case, a single file is provided. This file was created based on a WAIMT run of the RM3 geometry, using the WAMIT output file and the WAMIT reader from the  <a class="reference external" href="https://github.com/WEC-Sim/bemio/releases">bemio open source BEM parser</a> . The WAMIT <code class="docutils literal"><span class="pre">*.out</span></code> file and the python bemio script used to create the &#8216;&#8217;hdf5&#8217;&#8217; are included as well. All these files are located in the &#8216;&#8217;/hydroData&#8217;&#8217; directory of the RM3 application case.</p>
 </div>
 <div class="section" id="modeling-oswec-in-wec-sim">
 <h3>Modeling OSWEC in WEC-Sim<a class="headerlink" href="#modeling-oswec-in-wec-sim" title="Permalink to this headline">¶</a></h3>

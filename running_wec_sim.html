@@ -30,7 +30,9 @@
   
 
   
-    <link rel="top" title="WEC-Sim 1.1a0 documentation" href="index.html"/> 
+    <link rel="top" title="WEC-Sim 1.1a0 documentation" href="index.html"/>
+        <link rel="next" title="Code Structure" href="code_structure.html"/>
+        <link rel="prev" title="Getting Started" href="getting_started.html"/> 
 
   
   <script src="https://cdnjs.cloudflare.com/ajax/libs/modernizr/2.6.2/modernizr.min.js"></script>
@@ -61,7 +63,7 @@
         
           
           
-              <ul>
+              <ul class="current">
 <li class="toctree-l1"><a class="reference internal" href="license.html">License</a></li>
 <li class="toctree-l1"><a class="reference internal" href="release_notes.html">Release Notes</a><ul>
 <li class="toctree-l2"><a class="reference internal" href="release_notes.html#wec-sim-1-1">WEC-Sim-1.1</a></li>
@@ -72,7 +74,11 @@
 <li class="toctree-l2"><a class="reference internal" href="getting_started.html#downloading-and-installing-bemio">Downloading and Installing <cite>bemio</cite></a></li>
 <li class="toctree-l2"><a class="reference internal" href="getting_started.html#downloading-wec-sim">Downloading <cite>WEC-Sim</cite></a></li>
 <li class="toctree-l2"><a class="reference internal" href="getting_started.html#installing-wec-sim">Installing WEC-Sim</a></li>
-<li class="toctree-l2"><a class="reference internal" href="getting_started.html#running-wec-sim">Running <cite>WEC-Sim</cite></a></li>
+</ul>
+</li>
+<li class="toctree-l1 current"><a class="current reference internal" href="">Running WEC-Sim</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="#file-structure-overview">File Structure Overview</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#steps-to-run-wec-sim">Steps To Run <cite>WEC-Sim</cite></a></li>
 </ul>
 </li>
 <li class="toctree-l1"><a class="reference internal" href="code_structure.html">Code Structure</a><ul>
@@ -82,9 +88,9 @@
 <li class="toctree-l2"><a class="reference internal" href="code_structure.html#library-structure">Library Structure</a></li>
 </ul>
 </li>
-<li class="toctree-l1"><a class="reference internal" href="applications.html">Applications</a><ul>
-<li class="toctree-l2"><a class="reference internal" href="applications.html#rm3-two-body-point-absorber">RM3 Two-Body Point Absorber</a></li>
-<li class="toctree-l2"><a class="reference internal" href="applications.html#oscillating-surge-pitch-device">Oscillating Surge-Pitch Device</a></li>
+<li class="toctree-l1"><a class="reference internal" href="tutorials.html">WEC-Sim Tutorials</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="tutorials.html#rm3-two-body-point-absorber">RM3 Two-Body Point Absorber</a></li>
+<li class="toctree-l2"><a class="reference internal" href="tutorials.html#oscillating-surge-pitch-device">Oscillating Surge-Pitch Device</a></li>
 </ul>
 </li>
 <li class="toctree-l1"><a class="reference internal" href="trouble_shooting.html">Trouble Shooting</a><ul>
@@ -132,7 +138,7 @@
   <ul class="wy-breadcrumbs">
     <li><a href="index.html">Docs</a> &raquo;</li>
       
-    <li>Running <cite>WEC-Sim</cite></li>
+    <li>Running WEC-Sim</li>
       <li class="wy-breadcrumbs-aside">
         
           <a href="_sources/running_wec_sim.txt" rel="nofollow"> View page source</a>
@@ -144,8 +150,8 @@
           <div role="main" class="document">
             
   <div class="section" id="running-wec-sim">
-<h1>Running <cite>WEC-Sim</cite><a class="headerlink" href="#running-wec-sim" title="Permalink to this headline">¶</a></h1>
-<p>This section gives an overview of the <cite>WEC-Sim</cite> work flow. First we describe the <cite>WEC-Sim</cite> file structure describe the steps for setting up and running a <cite>WEC-Sim</cite> simulation. Detailed descriptions and options for input parameters for the input file are described in the <a href="#id1"><span class="problematic" id="id2">`Code Overview Section`_</span></a>. Specific examples of using <cite>WEC-Sim</cite> to simulate WEC devices are presented in the Application Section.</p>
+<h1>Running WEC-Sim<a class="headerlink" href="#running-wec-sim" title="Permalink to this headline">¶</a></h1>
+<p>This section gives an overview of the <cite>WEC-Sim</cite> work flow. First we describe the <cite>WEC-Sim</cite> file structure describe the steps for setting up and running a <cite>WEC-Sim</cite> simulation. Detailed descriptions and options for input parameters for the input file are described in the Code Structure section. Specific examples of using <cite>WEC-Sim</cite> to simulate WEC devices are presented in the Application Section.</p>
 <div class="section" id="file-structure-overview">
 <h2>File Structure Overview<a class="headerlink" href="#file-structure-overview" title="Permalink to this headline">¶</a></h2>
 <p>All the information for a WEC-Sim run is contained within a case directory. Provided you have installed WEC-Sim correctly, this folder can be anywhere on your computer. The table below shows the structure for a case directory.</p>
@@ -233,6 +239,15 @@
 
           </div>
           <footer>
+  
+    <div class="rst-footer-buttons" role="navigation" aria-label="footer navigation">
+      
+        <a href="code_structure.html" class="btn btn-neutral float-right" title="Code Structure">Next <span class="fa fa-arrow-circle-right"></span></a>
+      
+      
+        <a href="getting_started.html" class="btn btn-neutral" title="Getting Started"><span class="fa fa-arrow-circle-left"></span> Previous</a>
+      
+    </div>
   
 
   <hr/>

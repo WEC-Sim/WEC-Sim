@@ -1,5 +1,3 @@
-.. _code_structure:
-
 Code Structure
 ==============
 This section provides a description of the WEC-Sim source code and its structure. The WEC-Sim source code is a series of MATLAB m-files that read the user input data, perform preprocessing calculations, and run the Simulink/SimMechanics time-domain simulations.
