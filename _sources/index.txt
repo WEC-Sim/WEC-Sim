@@ -10,7 +10,7 @@
    getting_started.rst
    running_wec_sim.rst
    code_structure.rst
-   applications.rst
+   tutorials.rst
    trouble_shooting.rst
    theory.rst
    references.rst
