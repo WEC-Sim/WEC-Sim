@@ -240,3 +240,8 @@ Generally, the effect of viscosity on the WEC dynamics needs to be considered as
 	F_{V}=\frac{1}{2}C_{d}\rho A_{D}\dot{X}|\dot{X}|,
 
 where :math:`C_{d}` is the viscous drag coefficient, :math:`\rho` is the fluid density, and :math:`A_{D}` is the characteristic area. The viscous drag coefficient for the device must be carefully selected :cite:`Li2012,Babarit2012`; however, it is dependent on device geometry, scale, and relative velocity between the body and the flow around it. The drag coefficient becomes much larger when the Reynolds and the Keulegan-Carpenter number are smaller. Note that empirical data on the drag coefficient can be found in various literature and standards. The available data may, however, be limited to existing simple geometries. For practical point absorber geometry, the hydrodynamic forces may have to be evaluated by conducting wave tank tests or prescribed motion computational fluid dynamic simulations.
+
+References
+--------------
+.. bibliography:: WEC-Sim.bib
+   :style: plain
