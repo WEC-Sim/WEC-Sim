@@ -31,7 +31,7 @@
 
   
     <link rel="top" title="WEC-Sim 1.1a0 documentation" href="index.html"/>
-        <link rel="next" title="Theory" href="theory.html"/>
+        <link rel="next" title="Getting Started" href="getting_started.html"/>
         <link rel="prev" title="License" href="license.html"/> 
 
   
@@ -69,19 +69,12 @@
 <li class="toctree-l2"><a class="reference internal" href="#wec-sim-1-1">WEC-Sim-1.1</a></li>
 </ul>
 </li>
-<li class="toctree-l1"><a class="reference internal" href="theory.html">Theory</a><ul>
-<li class="toctree-l2"><a class="reference internal" href="theory.html#introduction">Introduction</a></li>
-<li class="toctree-l2"><a class="reference internal" href="theory.html#boundary-element-method">Boundary Element Method</a></li>
-<li class="toctree-l2"><a class="reference internal" href="theory.html#coordinate-system-in-wec-sim">Coordinate System in WEC-Sim</a></li>
-<li class="toctree-l2"><a class="reference internal" href="theory.html#time-domain-numerical-method">Time-Domain Numerical Method</a></li>
-<li class="toctree-l2"><a class="reference internal" href="theory.html#power-take-off-forces">Power Take-off Forces</a></li>
-<li class="toctree-l2"><a class="reference internal" href="theory.html#mooring-forces">Mooring Forces</a></li>
-<li class="toctree-l2"><a class="reference internal" href="theory.html#viscous-drag">Viscous Drag</a></li>
-</ul>
-</li>
 <li class="toctree-l1"><a class="reference internal" href="getting_started.html">Getting Started</a><ul>
-<li class="toctree-l2"><a class="reference internal" href="getting_started.html#downloading-and-installing-wec-sim">Downloading and Installing WEC-Sim</a></li>
-<li class="toctree-l2"><a class="reference internal" href="getting_started.html#running-wec-sim">Running WEC-Sim</a></li>
+<li class="toctree-l2"><a class="reference internal" href="getting_started.html#matlab-requirements">MATLAB Requirements</a></li>
+<li class="toctree-l2"><a class="reference internal" href="getting_started.html#downloading-and-installing-bemio">Downloading and Installing <cite>bemio</cite></a></li>
+<li class="toctree-l2"><a class="reference internal" href="getting_started.html#downloading-wec-sim">Downloading <cite>WEC-Sim</cite></a></li>
+<li class="toctree-l2"><a class="reference internal" href="getting_started.html#installing-wec-sim">Installing WEC-Sim</a></li>
+<li class="toctree-l2"><a class="reference internal" href="getting_started.html#running-wec-sim">Running <cite>WEC-Sim</cite></a></li>
 </ul>
 </li>
 <li class="toctree-l1"><a class="reference internal" href="code_structure.html">Code Structure</a><ul>
@@ -98,6 +91,17 @@
 </li>
 <li class="toctree-l1"><a class="reference internal" href="trouble_shooting.html">Trouble Shooting</a><ul>
 <li class="toctree-l2"><a class="reference internal" href="trouble_shooting.html#tips">Tips</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="theory.html">Theory</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="theory.html#introduction">Introduction</a></li>
+<li class="toctree-l2"><a class="reference internal" href="theory.html#boundary-element-method">Boundary Element Method</a></li>
+<li class="toctree-l2"><a class="reference internal" href="theory.html#coordinate-system-in-wec-sim">Coordinate System in WEC-Sim</a></li>
+<li class="toctree-l2"><a class="reference internal" href="theory.html#time-domain-numerical-method">Time-Domain Numerical Method</a></li>
+<li class="toctree-l2"><a class="reference internal" href="theory.html#power-take-off-forces">Power Take-off Forces</a></li>
+<li class="toctree-l2"><a class="reference internal" href="theory.html#mooring-forces">Mooring Forces</a></li>
+<li class="toctree-l2"><a class="reference internal" href="theory.html#viscous-drag">Viscous Drag</a></li>
+<li class="toctree-l2"><a class="reference internal" href="theory.html#references">References</a></li>
 </ul>
 </li>
 <li class="toctree-l1"><a class="reference internal" href="references.html">Publications and References</a><ul>
@@ -150,7 +154,7 @@
 <ol class="arabic simple">
 <li>Improvements in code stability through modifications to the added mass, radiation damping calculations, and impulse response function calculations</li>
 <li>Implementation of state space representation of convolution integral term in the Cummins Equation</li>
-<li>Implementation of a new input format for hydrodynamic data. Specifically, we developed a new boundary element method data format (the <strong>bemio</strong> format) using the [Hierarchical Data Format 5 (HDF5)](<a class="reference external" href="http://www.hdfgroup.org/">http://www.hdfgroup.org/</a>). A python library that provides functionality to read data from WAMIT, NEMOH, and AQWA and write the data to the bemio format used by WEC-Sim is provided.</li>
+<li>Implementation of a new input format for hydrodynamic data. Specifically, we developed a new boundary element method data format (the <cite>bemio</cite> format) using the <a class="reference external" href="http://www.hdfgroup.org/">Hierarchical Data Format 5</a> (HDF5). A python library that provides functionality to read data from WAMIT, NEMOH, and AQWA and write the data to the bemio format used by WEC-Sim is provided.</li>
 <li>Documentation moved to GitHub wiki</li>
 </ol>
 </div>
@@ -162,16 +166,6 @@
 <li>MATLAB 2014b is required to run WEC-Sim-1.1.</li>
 </ul>
 </div>
-<div class="section" id="knows-issues">
-<h3>Knows Issues<a class="headerlink" href="#knows-issues" title="Permalink to this headline">¶</a></h3>
-<ul class="simple">
-<li>Flowchart update in Getting Started (done)</li>
-<li>State space in applications section (done)</li>
-<li>State space in theory section (waiting for Nathan&#8217;s latex file)</li>
-<li>Mooring update in theory scion (done)</li>
-<li>New features in dev branch</li>
-</ul>
-</div>
 </div>
 </div>
 
@@ -181,7 +175,7 @@
   
     <div class="rst-footer-buttons" role="navigation" aria-label="footer navigation">
       
-        <a href="theory.html" class="btn btn-neutral float-right" title="Theory">Next <span class="fa fa-arrow-circle-right"></span></a>
+        <a href="getting_started.html" class="btn btn-neutral float-right" title="Getting Started">Next <span class="fa fa-arrow-circle-right"></span></a>
       
       
         <a href="license.html" class="btn btn-neutral" title="License"><span class="fa fa-arrow-circle-left"></span> Previous</a>
