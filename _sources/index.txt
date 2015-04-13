@@ -8,6 +8,7 @@
    license.rst
    release_notes.rst
    getting_started.rst
+   running_wec_sim.rst
    code_structure.rst
    applications.rst
    trouble_shooting.rst
