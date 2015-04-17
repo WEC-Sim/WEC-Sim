@@ -7,7 +7,7 @@ New in v1.1
 ~~~~~~~~~~~~~~~~~~
 #. Improvements in code stability through modifications to the added mass, radiation damping calculations, and impulse response function calculations
 #. Implementation of state space representation of convolution integral term in the Cummins Equation
-#. Implementation of a new input format for hydrodynamic data. Specifically, we developed a new boundary element method data format (the **bemio** format) using the [Hierarchical Data Format 5 (HDF5)](http://www.hdfgroup.org/). A python library that provides functionality to read data from WAMIT, NEMOH, and AQWA and write the data to the bemio format used by WEC-Sim is provided.
+#. Implementation of a new input format for hydrodynamic data. Specifically, we developed a new boundary element method data format (the `bemio` format) using the `Hierarchical Data Format 5 <http://www.hdfgroup.org/>`_ (HDF5). A python library that provides functionality to read data from WAMIT, NEMOH, and AQWA and write the data to the bemio format used by WEC-Sim is provided.
 #. Documentation moved to GitHub wiki
 
 Backwards compatibility with WEC-Sim-1.0
