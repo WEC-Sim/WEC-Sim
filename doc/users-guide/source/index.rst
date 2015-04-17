@@ -7,11 +7,13 @@
 
    license.rst
    release_notes.rst
-   theory.rst
    getting_started.rst
+   running_wec_sim.rst
    code_structure.rst
-   applications.rst
+   tutorials.rst
    trouble_shooting.rst
+   theory.rst
+   state_space.rst
    references.rst
 
 Project Overview

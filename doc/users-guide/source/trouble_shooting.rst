@@ -1,5 +1,3 @@
-.. _trouble_shooting
-
 Trouble Shooting
 =================
 
