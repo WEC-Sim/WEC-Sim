@@ -13,7 +13,6 @@
    tutorials.rst
    trouble_shooting.rst
    theory.rst
-   state_space.rst
    references.rst
 
 Project Overview
