@@ -1,1 +1,0 @@
-To view the WEC-Sim documentation please visit WEBSITE HERE.
