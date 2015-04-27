@@ -9,6 +9,7 @@ These instructions provide guidance on how to edit the WEC-Sim users-guide.
 1. Sphinx
   1. Install using ``pip install sphinx``
   1. Install the bibtex extension for sphinx using ``pip install sphinxcontrib-bibtex``
+  1. Install the rtd theme for sphinx using ``pip install sphinx_rtd_theme``. You might have to manually move it to the ``sphinx/themes/`` directory.
 
 ## Edit WEC-Sim Users Guide
 The users guide is developed using [Sphinx](http://sphinx-doc.org/). To edit or add to the users guide, modify source files located in the ``$WECSIM_SOURCE/doc/users-guide/source`` folder. If you add a new file, be sure to include it in the ``index.html`` file.
