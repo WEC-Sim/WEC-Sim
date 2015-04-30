@@ -63,7 +63,9 @@ classdef waveClass<handle
             obj.setWaveProps(wDepth)
             switch obj.type
                 case {'noWave','noWaveCIC','regular','regularCIC'}
-                    obj.w = 2*pi/obj.T;
+                    if isempty(obj.w)
+                        obj.w = 2*pi/obj.T;
+                    end
                     obj.A = obj.H/2;
                     obj.waveElevReg(rampT, dt, maxIt);
                 case {'irregular','irregularImport'}
@@ -139,7 +141,7 @@ classdef waveClass<handle
                     obj.T = obj.noWaveHydrodynamicCoeffT;
                 case {'noWaveCIC'} 
                     obj.H = 0;
-                    obj.T = 0;
+                    obj.w = 0;
                 case {'irregularImport'}
                     obj.H = 0;
                     obj.T = 0;
