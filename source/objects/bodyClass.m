@@ -54,12 +54,29 @@ classdef bodyClass<handle
             obj.hydroData.properties.name = obj.hydroData.properties.name{1};
         end
       
-        function hydroForcePre(obj,w,CIkt,numFreq,dt,rho,waveType,iBod,ssCalc)
+        function hydroForcePre(obj,w,CIkt,numFreq,dt,rho,waveType,iBod,numBod,ssCalc)
         % HydroForce Pre-processing calculations
         % 1. Set the linear hydrodynamic restoring coefficient, viscous
         %    drag, and linear damping matrices
         % 2. Set the wave excitation force
             obj.bodyNumber = iBod;
+            obj.hydroData.hydro_coeffs.added_mass.all = obj.checkCoeffSize(iBod,numBod,obj.hydroData.hydro_coeffs.added_mass.all);
+            obj.hydroData.hydro_coeffs.added_mass.inf_freq = obj.checkCoeffSize(iBod,numBod,obj.hydroData.hydro_coeffs.added_mass.inf_freq);
+            obj.hydroData.hydro_coeffs.radiation_damping.all = obj.checkCoeffSize(iBod,numBod,obj.hydroData.hydro_coeffs.radiation_damping.all);
+            try 
+                    obj.hydroData.hydro_coeffs.impulse_response_fun.K = obj.checkCoeffSize(iBod,numBod,obj.hydroData.hydro_coeffs.impulse_response_fun.K);
+                    obj.hydroData.hydro_coeffs.impulse_response_fun.L = obj.checkCoeffSize(iBod,numBod,obj.hydroData.hydro_coeffs.impulse_response_fun.L);
+            catch
+            end
+            try 
+                obj.hydroData.hydro_coeffs.state_space.it = obj.checkCoeffSize(iBod,numBod,obj.hydroData.hydro_coeffs.state_space.it);
+                obj.hydroData.hydro_coeffs.state_space.r2t = obj.checkCoeffSize(iBod,numBod,obj.hydroData.hydro_coeffs.state_space.r2t);
+                obj.hydroData.hydro_coeffs.state_space.A = obj.checkCoeffSize(iBod,numBod,obj.hydroData.hydro_coeffs.state_space.A);
+                obj.hydroData.hydro_coeffs.state_space.B = obj.checkCoeffSize(iBod,numBod,obj.hydroData.hydro_coeffs.state_space.B);
+                obj.hydroData.hydro_coeffs.state_space.C = obj.checkCoeffSize(iBod,numBod,obj.hydroData.hydro_coeffs.state_space.C);
+                obj.hydroData.hydro_coeffs.state_space.D = obj.checkCoeffSize(iBod,numBod,obj.hydroData.hydro_coeffs.state_space.D);
+            catch 
+            end
             obj.setMassMatrix(rho)
             k = obj.hydroData.hydro_coeffs.linear_restoring_stiffness;
             obj.hydroForce.linearHydroRestCoef =  k + k' - diag(diag(k));
@@ -125,26 +142,7 @@ classdef bodyClass<handle
             fprintf('\tBody Diagonal MOI              (kgm2)= [%G,%G,%G]\n',obj.momOfInertia)
         end
     end
-    
-    methods (Access = 'public') %modify object = F; output = T         
-        function fam = forceAddedMass(obj,acc)                         
-        % 1. Stores the modified added mass force time history (input)
-        % 2. Calculates and outputs the real added mass force time history
-            iBod = obj.bodyNumber;
-            fam = zeros(size(acc));
-            for i =1:6
-                tmp = zeros(length(acc(:,i)),1);
-                for j =1:6
-                    jj = (iBod-1)*6+j;
-                    iam = obj.hydroForce.fAddedMass(i,jj);
-                    tmp = tmp + acc(:,j) .* iam;
-                end
-                fam(:,i) = tmp;
-            end
-            clear tmp
-        end
-    end
-    
+        
     methods (Access = 'protected') %modify object = T; output = F      
         function regExcitation(obj,w)                                  
         % Used by hydroForcePre
@@ -189,7 +187,7 @@ classdef bodyClass<handle
             obj.hydroForce.ssRadf.D = zeros(6,6);
         end
         
-        function irfInfAddedMassAndDamping(obj,CIkt,dt,ssCalc,iBod)
+        function irfInfAddedMassAndDamping(obj,CIkt,dt,ssCalc,iBod)    
             % Used by hydroForcePre
             % Added mass at infinite frequency
             % Convolution integral raditation damping
@@ -248,6 +246,44 @@ classdef bodyClass<handle
                 obj.momOfInertia = [999 999 999];
             else
                 obj.massCalcMethod = 'user';
+            end
+        end
+    end
+    
+    methods (Access = 'public') %modify object = F; output = T         
+        function fam = forceAddedMass(obj,acc)                         
+        % 1. Stores the modified added mass force time history (input)
+        % 2. Calculates and outputs the real added mass force time history
+            iBod = obj.bodyNumber;
+            fam = zeros(size(acc));
+            for i =1:6
+                tmp = zeros(length(acc(:,i)),1);
+                for j =1:6
+                    jj = (iBod-1)*6+j;
+                    iam = obj.hydroForce.fAddedMass(i,jj);
+                    tmp = tmp + acc(:,j) .* iam;
+                end
+                fam(:,i) = tmp;
+            end
+            clear tmp
+        end
+    end
+    
+    methods (Access = 'protected')  %modify object = F; output = T     
+        function newCoeff = checkCoeffSize(~,iBod,numBod,coeff)        
+            coefSize = size(coeff);
+            if coefSize(2) ~= 6*numBod
+                if coefSize(2) == 6
+                    coefSize(2) = 6*numBod;
+                    tmp = zeros(coefSize);
+                    tmp(:,((iBod-1)*6+1):((iBod)*6),:,:) = coeff;
+                    newCoeff = tmp;
+                    clear tmp
+                else
+                    error('Hydrodynamic coefficients must have dimensions of either 6x(6*numberOfBodies) or 6x6')
+                end
+            else
+                newCoeff = coeff;
             end
         end
     end
