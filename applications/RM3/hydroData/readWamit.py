@@ -6,7 +6,7 @@ plt.close('all')
 plt.interactive(True)
 
 # Load the data
-w = wio.WamitOutput(out_file='rm3.out')
+w = wio.WamitOutput(out_file='rm3_new.out')
 
 print w.data[0].num_bodies
 
@@ -18,4 +18,4 @@ for i in xrange(w.data[0].num_bodies):
 	w.data[i].plot_am_rd([[0,0],[2,2]])
 
 # Save the data in HDF5 format
-hd.write_hdf5(w.data,w.files['hdf5'])
+hd.write_hdf5(w)
