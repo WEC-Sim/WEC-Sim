@@ -27,6 +27,11 @@ if exist('pto','var') == 1
 end
 
 
+%%
+
+
+
+
 %% Check that the hydro data for each body is given for the same frequencies
 for ii = 1:simu.numWecBodies
     if length(body(1).hydroData.simulation_parameters.w) ~= length(body(ii).hydroData.simulation_parameters.w)
@@ -47,7 +52,7 @@ fprintf('\nWEC-Sim Wave Setup & Model Setup & Run WEC-Sim ...   \n')
 simu.rhoDensitySetup(body(1).hydroData.simulation_parameters.rho,body(1).hydroData.simulation_parameters.g)
 waves.waveSetup(body(1).hydroData.simulation_parameters.w, body(1).hydroData.simulation_parameters.water_depth, simu.rampT, simu.dt, simu.maxIt, simu.g); 
 for kk = 1:simu.numWecBodies
-    body(kk).hydroForcePre(waves.w,simu.CIkt,waves.numFreq,simu.dt,simu.rho,waves.type,kk,simu.ssCalc);
+    body(kk).hydroForcePre(waves.w,simu.CIkt,waves.numFreq,simu.dt,simu.rho,waves.type,kk,simu.numWecBodies,simu.ssCalc);
 end; clear kk
 
 
