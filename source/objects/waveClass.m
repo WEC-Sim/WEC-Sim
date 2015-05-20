@@ -180,20 +180,20 @@ classdef waveClass<handle
             if rampT==0    
                for i=1:maxIt+1;
                    t = (i-1)*dt;
-                   tmp=sqrt(2*obj.A.*df);
+                   tmp=sqrt(obj.A.*df);
                    tmp1 = tmp.*real(exp(sqrt(-1).*(obj.w.*t + obj.phaseRand)));
                    obj.waveAmpTime(i) = sum(tmp1);
                end
             else    
                for i=1:maxRampIT
                    t = (i-1)*dt;
-                   tmp=sqrt(2*obj.A.*df);
+                   tmp=sqrt(obj.A.*df);
                    tmp1 = tmp.*real(exp(sqrt(-1).*(obj.w.*t + obj.phaseRand)));
                    obj.waveAmpTime(i) = sum(tmp1)*(1+cos(pi+pi*(i-1)/maxRampIT))/2;
                end
                for i=maxRampIT+1:maxIt+1
                    t = (i-1)*dt;
-                   tmp=sqrt(2*obj.A.*df);
+                   tmp=sqrt(obj.A.*df);
                    tmp1 = tmp.*real(exp(sqrt(-1).*(obj.w.*t + obj.phaseRand)));
                    obj.waveAmpTime(i) = sum(tmp1);
                end   
