@@ -1,10 +1,7 @@
 view_html.sh
 *.sublime-workspace
 *.sublime-project
-<<<<<<< HEAD
-=======
 *vis-temp*
->>>>>>> 4aa7a90552a0e6cb8bc77220abf78326a62cfb0a
 
 *~
 *.acn
