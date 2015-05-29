@@ -32,8 +32,7 @@ classdef bodyClass<handle
                                    'initAngularDispAxis',  [0 1 0], ...         % Initial displacement of cog - axis of rotation - used for decay tests (format: [x y z], default = [1 0 0])
                                    'initAngularDispAngle', 0)                   % Initial displacement of cog - Angle of rotation - used for decay tests (format: [radians], default = 0)
         linearDamping     = [0 0 0 0 0 0]
-%         This is an assumed structure TBD by BEMIO
-        userDefinedExcIRF = zeros(201,6)    %'NOT DEFINED'                                       % Excitation IRF from BEMIO used for User-Defined Time-Series
+        userDefinedExcIRF = []                                                  % Excitation IRF from BEMIO used for User-Defined Time-Series
     end
     
     properties (SetAccess = 'private', GetAccess = 'public')%internal  
@@ -175,17 +174,16 @@ classdef bodyClass<handle
         function userDefinedExcitation(obj,waveAmpTime,dt)                        
         % Used by hydroForcePre
         % Calculated User-Defined wave excitation force with non-causal convolution
+            kt = obj.hydroData.hydro_coeffs.excitation.impulse_response_fun.t';
+            kernel = squeeze(obj.hydroData.hydro_coeffs.excitation.impulse_response_fun.f(:,1,:))';
+            obj.userDefinedExcIRF = interp1(kt,kernel,min(kt):dt:max(kt));
+            for jj = 1:6
+                obj.hydroForce.userDefinedFe(:,jj) = conv(waveAmpTime(:,2),obj.userDefinedExcIRF(:,jj),'same')*dt;  
+            end
             
             %this is initialization for other waveTypes
             obj.hydroForce.fExt.re=zeros(1,6); 
             obj.hydroForce.fExt.im=zeros(1,6); 
-            
-%             obj.userDefinedFe =  zeros(length(waveAmpTime),6);
-            % convolution calculation
-            for jj = 1:6
-                obj.hydroForce.userDefinedFe(:,jj) = conv(waveAmpTime(:,2),obj.userDefinedExcIRF(:,jj),'same')*dt;  
-            end
-        
         end
         
         function constAddedMassAndDamping(obj,w,CIkt)                  

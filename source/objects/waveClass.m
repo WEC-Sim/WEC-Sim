@@ -31,11 +31,11 @@ classdef waveClass<handle
         typeNum                     = []                                        % Number to represent different type of waves
         bemFreq                     = []                                        % Number of wave frequencies from WAMIT
         waterDepth                  = []                                        % [m] Water depth (from WAMIT)
-        waveAmpTime                 = []                                       % [m] Wave elevation time history
-        A                           = []                                         % [m] Wave amplitude for regular waves or sqrt(wave spectrum vector) for irregular waves
-        w                           = []                                         % [rad/s] Wave frequency (regular waves) or wave frequency vector (irregular waves)
-        phaseRand                   = 0;                                       % [rad] Random wave phase (only used for irregular waves)
-        dw                          = 0;                                         % [rad] Frequency spacing for irregular waves.
+        waveAmpTime                 = []                                        % [m] Wave elevation time history
+        A                           = []                                        % [m] Wave amplitude for regular waves or sqrt(wave spectrum vector) for irregular waves
+        w                           = []                                        % [rad/s] Wave frequency (regular waves) or wave frequency vector (irregular waves)
+        phaseRand                   = 0;                                        % [rad] Random wave phase (only used for irregular waves)
+        dw                          = 0;                                        % [rad] Frequency spacing for irregular waves.
     end
     
     methods (Access = 'public')                                        
@@ -88,17 +88,13 @@ classdef waveClass<handle
                     obj.setWavePhase;
                     obj.irregWaveSpectrum(g)
                     obj.waveElevIrreg(rampT, dt, maxIt, df);
-                case {'userDefined'}
+                case {'userDefined'}    %  This does not account for wave direction
                     % Import userDefined time-series here and interpolate                                       
                     data = importdata(obj.etaDataFile) ;    % Import time-series
                     t = [0:dt:endTime]';      % WEC-Sim simulation time [s]
-
-                    %   does not account for wave direction
-                    
-                    % create time-series 
-                    obj.waveElevUser(rampT, dt, maxIt, t, data);
-                        
-                    %this is initialization for other waveTypes
+                    obj.waveElevUser(rampT, dt, maxIt, data, t);
+                                                           
+                    % This is initialization for other waveTypes
                     obj.A = 0;  
                     obj.w = 0;
                     obj.dw = 0;
@@ -157,7 +153,12 @@ classdef waveClass<handle
         function setWaveProps(obj,wDepth)                                     
         % Used by waveSetup
         % Sets global and type-specific properties
-            obj.waterDepth = wDepth;
+            if ~isfloat(wDepth)
+                obj.waterDepth = 200;
+                warning('Invalid water depth given. waves.waterDepth set to 200m for vizualisation.')
+            else
+                obj.waterDepth = wDepth;
+            end
             switch obj.type
                 case {'noWave'}
                     if strcmp(obj.noWaveHydrodynamicCoeffT,'NOT DEFINED')
@@ -278,13 +279,13 @@ classdef waveClass<handle
             end
         end
         
-        function waveElevUser(obj,rampT,dt,maxIt,t,data)                 
+        function waveElevUser(obj,rampT,dt,maxIt,data, t)                 
         % Used by waveSetup
         % Calculate user-defined wave elevation time history
             obj.waveAmpTime = zeros(maxIt+1,2);
             maxRampIT=round(rampT/dt);
             data_t = data(:,1)';                    % Data Time [s]
-            data_x = data(:,2)';      % Wave Surface Elevation [m]
+            data_x = data(:,2)';                    % Wave Surface Elevation [m]
             obj.waveAmpTime(:,1) = t;
             obj.waveAmpTime(:,2) = interp1(data_t,data_x,t);
             if rampT~=0

@@ -95,10 +95,6 @@ for iBod = 1:simu.numWecBodies; body(iBod).adjustMassMatrix; end; clear iBod
 tDelayWarning = 'Simulink:blocks:TDelayTimeTooSmall';
 warning('off',tDelayWarning); clear tDelayWarning
 if simu.rampT == 0; simu.rampT = 10e-8; end
-if strcmp(simu.explorer,'on') &&  ~isfloat(waves.waterDepth)
-    waves.waterDepth = 200;
-    warning('Invalid water depth given. waves.waterDepth set to 200m for vizualisation.')
-end
 sim(simu.simMechanicsFile);
 if simu.rampT == 10e-8; simu.rampT = 0; end
 

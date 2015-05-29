@@ -33,13 +33,11 @@ simu.rampT = 100;                       %Wave Ramp Time Length [s]
 % waves = waveClass('irregularImport');         
 %                                %Create the Wave Variable and Specify Type
 % waves.spectrumDataFile = 'ndbcBuoyData.txt';  
-%                                   %Name of User-Defined Spectrum File
+%                                   %Name of User-Defined Spectrum File [2,:] = [omega, Sf]
 
 %% User-Defined Time-Series
 waves = waveClass('userDefined');   %Create the Wave Variable and Specify Type
-waves.etaDataFile = 'umpqua46229_6_2008.mat';  %Name of User-Defined Time-Series File
-
-
+waves.etaDataFile = 'umpqua46229_6_2008.mat';  % Name of User-Defined Time-Series File [:,2] = [time, wave_elev]
 
 %% Body Data
 body(1) = bodyClass('hydroData/rm3.h5',1);      
