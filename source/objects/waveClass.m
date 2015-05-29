@@ -26,8 +26,7 @@ classdef waveClass<handle
         etaDataFile                 = 'NOT DEFINED'                             % Data file that contains the times-series data file. See ---- for format specs        
         numFreq                     = 1001                                      % Number of interpolated wave frequencies (default = 'NOT DEFINED') 
     end
-          
-                    
+                            
     properties (SetAccess = 'private', GetAccess = 'public')%internal  
         typeNum                     = []                                        % Number to represent different type of waves
         bemFreq                     = []                                        % Number of wave frequencies from WAMIT
@@ -72,6 +71,8 @@ classdef waveClass<handle
                     end
                     obj.A = obj.H/2;
                     obj.waveElevReg(rampT, dt, maxIt);
+                    
+                    %this is initialization for other waveTypes
                     obj.userDefinedExcitation =  zeros(length(obj.waveAmpTime),6);
                 case {'irregular','irregularImport'}
                     numFqs=obj.numFreq;
@@ -83,15 +84,11 @@ classdef waveClass<handle
                     obj.setWavePhase;
                     obj.irregWaveSpectrum(g)
                     obj.waveElevIrreg(rampT, dt, maxIt, df);
-                    obj.userDefinedExcitation =  zeros(length(obj.waveAmpTime),6);
-                case {'userDefined'}
-                    % Import userDefined time-series here and interpolate
                     
                     %this is initialization for other waveTypes
-                    obj.A = 0;  
-                    obj.w = 0;
-                    obj.dw = 0;
-                    
+                    obj.userDefinedExcitation =  zeros(length(obj.waveAmpTime),6);
+                case {'userDefined'}
+                    % Import userDefined time-series here and interpolate                                       
                     data = importdata(obj.etaDataFile) ;    % Import time-series
                     data_t = data(:,1)';                    % Data Time [s]
                     data_x = data(:,2)';      % Wave Surface Elevation [m]
@@ -100,7 +97,12 @@ classdef waveClass<handle
                     obj.waveAmpTime(:,2) = interp1(data_t,data_x,t);
                    
                     %wave ramping maybe this should be a protected method           
-                    %ask for incident wave direction              
+                    %ask for incident wave direction      
+                    
+                    %this is initialization for other waveTypes
+                    obj.A = 0;  
+                    obj.w = 0;
+                    obj.dw = 0;
             end
         end
         
@@ -246,7 +248,7 @@ classdef waveClass<handle
             obj.A = 2 * Sf;
         end
                 
-        function waveElevIrreg(obj,rampT,dt,maxIt, df)                 
+        function waveElevIrreg(obj,rampT,dt,maxIt,df)                 
         % Used by waveSetup
         % Calculate irregular wave elevetaion time history
             obj.waveAmpTime = zeros(maxIt+1,2);

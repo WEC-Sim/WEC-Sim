@@ -40,7 +40,6 @@ classdef bodyClass<handle
         hydroForce        = struct()                                            % Hydrodynamic forces and coefficients used during simulation; see structure of hydroData in ----        
         massCalcMethod    = []                                                  % Method used to obtain mass: 'user', 'fixed', 'equilibrium'
         bodyNumber        = []                                                  % bodyNumber in WEC-Sim as defined in the input file. Can be different from the BEM body number.
-        userDefinedFe     = []                                                  % [N] User-defined wave excitation force 
     end
 
     methods (Access = 'public') %modify object = T; output = F         
@@ -184,7 +183,7 @@ classdef bodyClass<handle
 %             obj.userDefinedFe =  zeros(length(waveAmpTime),6);
             % convolution calculation
             for jj = 1:6
-                obj.userDefinedFe(:,jj) = conv(waveAmpTime(:,2),obj.userDefinedExcIRF(:,jj),'same')*dt;  
+                obj.hydroForce.userDefinedFe(:,jj) = conv(waveAmpTime(:,2),obj.userDefinedExcIRF(:,jj),'same')*dt;  
             end
         
         end
