@@ -6,20 +6,25 @@ simu.dt = 0.1;                          %Simulation Time-Step [s]
 simu.rampT = 100;                       %Wave Ramp Time Length [s]
 
 %% Wave Information
-%Regular Waves 
-waves = waveClass('regularCIC');        
-                                 %Create the Wave Variable and Specify Type
-waves.H = 2.5;                          %Wave Height [m]
-waves.T = 8;                            %Wave Period [s]
+%% noWaveCIC, no waves with radiation CIC  
+waves = waveClass('noWaveCIC'); 
 
-% %Irregular Waves using PM Spectrum with Convolution Integral Calculation
+%% Regular Waves  
+% waves = waveClass('regularCIC'); 
+% % waves = waveClass('regular');        
+%                                  %Create the Wave Variable and Specify Type
+%                                  
+% waves.H = 2.5;                          %Wave Height [m]
+% waves.T = 8;                            %Wave Period [s]
+
+%% Irregular Waves using PM Spectrum with Convolution Integral Calculation
 % waves = waveClass('irregular');       
 %                                %Create the Wave Variable and Specify Type
 % waves.H = 2.5;                        %Significant Wave Height [m]
 % waves.T = 8;                          %Peak Period [s]
 % waves.spectrumType = 'PM';
 
-% %Irregular Waves using BS Spectrum with State Space Calculation
+%% Irregular Waves using BS Spectrum with State Space Calculation
 % waves = waveClass('irregular');       
 %                                %Create the Wave Variable and Specify Type
 % waves.H = 2.5;                        %Significant Wave Height [m]
@@ -27,11 +32,15 @@ waves.T = 8;                            %Wave Period [s]
 % waves.spectrumType = 'BS';
 % simu.ssCalc = 1;						%Control option to use state space model 
 
-% %Irregular Waves using User-Defined Spectrum
+%% Irregular Waves using User-Defined Spectrum
 % waves = waveClass('irregularImport');         
 %                                %Create the Wave Variable and Specify Type
 % waves.spectrumDataFile = 'ndbcBuoyData.txt';  
-%                                   %Location of User Defined Spectrum File
+%                                   %Name of User-Defined Spectrum File [2,:] = [omega, Sf]
+
+%% User-Defined Time-Series
+% waves = waveClass('userDefined');   %Create the Wave Variable and Specify Type
+% waves.etaDataFile = 'umpqua46229_6_2008.mat';  % Name of User-Defined Time-Series File [:,2] = [time, wave_elev]
 
 %% Body Data
 body(1) = bodyClass('hydroData/rm3.h5',1);      
