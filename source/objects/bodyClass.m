@@ -32,12 +32,15 @@ classdef bodyClass<handle
                                    'initAngularDispAxis',  [0 1 0], ...         % Initial displacement of cog - axis of rotation - used for decay tests (format: [x y z], default = [1 0 0])
                                    'initAngularDispAngle', 0)                   % Initial displacement of cog - Angle of rotation - used for decay tests (format: [radians], default = 0)
         linearDamping     = [0 0 0 0 0 0]
+%         This is an assumed structure TBD by BEMIO
+        userDefinedExcIRF = zeros(201,6)    %'NOT DEFINED'                                       % Excitation IRF from BEMIO used for User-Defined Time-Series
     end
     
     properties (SetAccess = 'private', GetAccess = 'public')%internal  
         hydroForce        = struct()                                            % Hydrodynamic forces and coefficients used during simulation; see structure of hydroData in ----        
         massCalcMethod    = []                                                  % Method used to obtain mass: 'user', 'fixed', 'equilibrium'
         bodyNumber        = []                                                  % bodyNumber in WEC-Sim as defined in the input file. Can be different from the BEM body number.
+        userDefinedFe     = []                                                  % [N] User-defined wave excitation force 
     end
 
     methods (Access = 'public') %modify object = T; output = F         
@@ -54,7 +57,7 @@ classdef bodyClass<handle
             obj.hydroData.properties.name = obj.hydroData.properties.name{1};
         end
       
-        function hydroForcePre(obj,w,CIkt,numFreq,dt,rho,waveType,iBod,numBod,ssCalc)
+        function hydroForcePre(obj,w,CIkt,numFreq,dt,rho,waveType,waveAmpTime,iBod,numBod,ssCalc)
         % HydroForce Pre-processing calculations
         % 1. Set the linear hydrodynamic restoring coefficient, viscous
         %    drag, and linear damping matrices
@@ -91,6 +94,10 @@ classdef bodyClass<handle
                     obj.irfInfAddedMassAndDamping(CIkt,dt,ssCalc,iBod);
                 case {'irregular','irregularImport'}
                     obj.irrExcitation(w,numFreq);
+                    obj.irfInfAddedMassAndDamping(CIkt,dt,ssCalc,iBod);
+                case {'userDefined'}
+                    % This is where the excitation calculation happens
+                    obj.userDefinedExcitation(waveAmpTime,dt);
                     obj.irfInfAddedMassAndDamping(CIkt,dt,ssCalc,iBod);
                 otherwise
                     error('Unexpected wave environment type setting')
@@ -155,7 +162,7 @@ classdef bodyClass<handle
             end
         end
         
-        function irrExcitation(obj,wv, numFreq)                        
+        function irrExcitation(obj,wv,numFreq)                        
         % Used by hydroForcePre
         % Irregular wave excitation force
             obj.hydroForce.fExt.re=zeros(numFreq,6);
@@ -166,6 +173,22 @@ classdef bodyClass<handle
             end
         end
 
+        function userDefinedExcitation(obj,waveAmpTime,dt)                        
+        % Used by hydroForcePre
+        % Calculated User-Defined wave excitation force with non-causal convolution
+            
+            %this is initialization for other waveTypes
+            obj.hydroForce.fExt.re=zeros(1,6); 
+            obj.hydroForce.fExt.im=zeros(1,6); 
+            
+%             obj.userDefinedFe =  zeros(length(waveAmpTime),6);
+            % convolution calculation
+            for jj = 1:6
+                obj.userDefinedFe(:,jj) = conv(waveAmpTime(:,2),obj.userDefinedExcIRF(:,jj),'same')*dt;  
+            end
+        
+        end
+        
         function constAddedMassAndDamping(obj,w,CIkt)                  
         % Used by hydroForcePre
         % Added mass and damping for a specific frequency

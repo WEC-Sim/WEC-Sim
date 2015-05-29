@@ -7,13 +7,12 @@ simu.rampT = 100;                       %Wave Ramp Time Length [s]
 
 %% Wave Information
 %% Regular Waves  
-waves = waveClass('regularCIC'); 
-% waves = waveClass('regular');        
-
-                                 %Create the Wave Variable and Specify Type
-                                 
-waves.H = 2.5;                          %Wave Height [m]
-waves.T = 8;                            %Wave Period [s]
+% waves = waveClass('regularCIC'); 
+% % waves = waveClass('regular');        
+%                                  %Create the Wave Variable and Specify Type
+%                                  
+% waves.H = 2.5;                          %Wave Height [m]
+% waves.T = 8;                            %Wave Period [s]
 
 %% Irregular Waves using PM Spectrum with Convolution Integral Calculation
 % waves = waveClass('irregular');       
@@ -37,11 +36,8 @@ waves.T = 8;                            %Wave Period [s]
 %                                   %Name of User-Defined Spectrum File
 
 %% User-Defined Time-Series
-% waves = waveClass('userDefined');         
-%                                %Create the Wave Variable and Specify Type
-% waves.etaDataFile = 'umpqua46229_6_2008.mat';  
-%                                   %Name of User-Defined Time-Series File
-% waves.userDefinedExcIRF = zeros(6,
+waves = waveClass('userDefined');   %Create the Wave Variable and Specify Type
+waves.etaDataFile = 'umpqua46229_6_2008.mat';  %Name of User-Defined Time-Series File
 
 
 
