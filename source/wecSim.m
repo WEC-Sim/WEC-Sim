@@ -1,6 +1,6 @@
 %%% WEC-Sim run file
 %% Start WEC-Sim log
-bdclose('all'); clc; diary off; 
+bdclose('all'); clc; diary off; close all;
 if exist('simulation.log','file'); delete('simulation.log'); end
 diary('simulation.log')
 

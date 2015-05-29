@@ -60,6 +60,13 @@ classdef waveClass<handle
             end
         end
         
+        function obj = plotEta(obj)
+            figure
+            plot(obj.waveAmpTime(:,1),obj.waveAmpTime(:,2))
+            xlabel('Time (s)')
+            ylabel('Eta (m)')
+        end
+        
         function waveSetup(obj,bemFreq,wDepth,rampT,dt,maxIt,g,endTime)
         % Calculate and set wave properties based on wave type
             obj.bemFreq    = bemFreq;
@@ -71,9 +78,6 @@ classdef waveClass<handle
                     end
                     obj.A = obj.H/2;
                     obj.waveElevReg(rampT, dt, maxIt);
-                    
-                    %this is initialization for other waveTypes
-                    obj.userDefinedExcitation =  zeros(length(obj.waveAmpTime),6);
                 case {'irregular','irregularImport'}
                     numFqs=obj.numFreq;
                     WFQSt=min(bemFreq);
@@ -84,21 +88,19 @@ classdef waveClass<handle
                     obj.setWavePhase;
                     obj.irregWaveSpectrum(g)
                     obj.waveElevIrreg(rampT, dt, maxIt, df);
-                    
-                    %this is initialization for other waveTypes
-                    obj.userDefinedExcitation =  zeros(length(obj.waveAmpTime),6);
                 case {'userDefined'}
                     % Import userDefined time-series here and interpolate                                       
                     data = importdata(obj.etaDataFile) ;    % Import time-series
-                    data_t = data(:,1)';                    % Data Time [s]
-                    data_x = data(:,2)';      % Wave Surface Elevation [m]
+%                     data_t = data(:,1)';                    % Data Time [s]
+%                     data_x = data(:,2)';      % Wave Surface Elevation [m]
                     t = [0:dt:endTime]';      % WEC-Sim simulation time [s]
-                    obj.waveAmpTime(:,1) = t;
-                    obj.waveAmpTime(:,2) = interp1(data_t,data_x,t);
-                   
-                    %wave ramping maybe this should be a protected method           
-                    %ask for incident wave direction      
+%                     obj.waveAmpTime(:,1) = t;
+%                     obj.waveAmpTime(:,2) = interp1(data_t,data_x,t);
                     
+                    %wave ramping maybe this should be a protected method           
+                    %ask for incident wave direction  
+                    obj.waveElevUser(rampT, dt, maxIt, t, data);
+                        
                     %this is initialization for other waveTypes
                     obj.A = 0;  
                     obj.w = 0;
@@ -277,9 +279,25 @@ classdef waveClass<handle
                    obj.waveAmpTime(i,2) = sum(tmp1);
                end   
             end
+        end
+        
+        function waveElevUser(obj,rampT,dt,maxIt,t,data)                 
+        % Used by waveSetup
+        % Calculate user-defined wave elevation time history
+            obj.waveAmpTime = zeros(maxIt+1,2);
+            maxRampIT=round(rampT/dt);
+            data_t = data(:,1)';                    % Data Time [s]
+            data_x = data(:,2)';      % Wave Surface Elevation [m]
+            obj.waveAmpTime(:,1) = t;
+            obj.waveAmpTime(:,2) = interp1(data_t,data_x,t);
+            if rampT~=0
+               for i=1:maxRampIT
+                   obj.waveAmpTime(i,2) = obj.waveAmpTime(i,2)*(1+cos(pi+pi*(i-1)/maxRampIT))/2;
+               end
+            end
         end      
         
-        function printWaveSpectrumType(obj)                            
+        function printWaveSpectrumType(obj)
         % Used by listInfo
         % Lists the wave spectrum type
            if strcmp(obj.spectrumType,'BS')
