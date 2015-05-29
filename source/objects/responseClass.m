@@ -115,5 +115,6 @@ classdef responseClass<handle
 
             clear t FT FE FRD FR FV FM i
         end
+        
     end
 end
