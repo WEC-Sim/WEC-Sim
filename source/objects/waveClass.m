@@ -91,14 +91,11 @@ classdef waveClass<handle
                 case {'userDefined'}
                     % Import userDefined time-series here and interpolate                                       
                     data = importdata(obj.etaDataFile) ;    % Import time-series
-%                     data_t = data(:,1)';                    % Data Time [s]
-%                     data_x = data(:,2)';      % Wave Surface Elevation [m]
                     t = [0:dt:endTime]';      % WEC-Sim simulation time [s]
-%                     obj.waveAmpTime(:,1) = t;
-%                     obj.waveAmpTime(:,2) = interp1(data_t,data_x,t);
+
+                    %   does not account for wave direction
                     
-                    %wave ramping maybe this should be a protected method           
-                    %ask for incident wave direction  
+                    % create time-series 
                     obj.waveElevUser(rampT, dt, maxIt, t, data);
                         
                     %this is initialization for other waveTypes
