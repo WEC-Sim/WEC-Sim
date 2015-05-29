@@ -1,6 +1,6 @@
 %%% WEC-Sim run file
 %% Start WEC-Sim log
-bdclose('all'); clc; diary off; 
+bdclose('all'); clc; diary off; close all;
 if exist('simulation.log','file'); delete('simulation.log'); end
 diary('simulation.log')
 
@@ -50,9 +50,9 @@ end; clear ii; toc;
 tic;
 fprintf('\nWEC-Sim Wave Setup & Model Setup & Run WEC-Sim ...   \n')
 simu.rhoDensitySetup(body(1).hydroData.simulation_parameters.rho,body(1).hydroData.simulation_parameters.g)
-waves.waveSetup(body(1).hydroData.simulation_parameters.w, body(1).hydroData.simulation_parameters.water_depth, simu.rampT, simu.dt, simu.maxIt, simu.g); 
+waves.waveSetup(body(1).hydroData.simulation_parameters.w, body(1).hydroData.simulation_parameters.water_depth, simu.rampT, simu.dt, simu.maxIt, simu.g, simu.endTime); 
 for kk = 1:simu.numWecBodies
-    body(kk).hydroForcePre(waves.w,simu.CIkt,waves.numFreq,simu.dt,simu.rho,waves.type,kk,simu.numWecBodies,simu.ssCalc);
+    body(kk).hydroForcePre(waves.w,simu.CIkt,waves.numFreq,simu.dt,simu.rho,waves.type,waves.waveAmpTime,kk,simu.numWecBodies,simu.ssCalc);
 end; clear kk
 
 
@@ -95,10 +95,6 @@ for iBod = 1:simu.numWecBodies; body(iBod).adjustMassMatrix; end; clear iBod
 tDelayWarning = 'Simulink:blocks:TDelayTimeTooSmall';
 warning('off',tDelayWarning); clear tDelayWarning
 if simu.rampT == 0; simu.rampT = 10e-8; end
-if strcmp(simu.explorer,'on') &&  ~isfloat(waves.waterDepth)
-    waves.waterDepth = 200;
-    warning('Invalid water depth given. waves.waterDepth set to 200m for vizualisation.')
-end
 sim(simu.simMechanicsFile);
 if simu.rampT == 10e-8; simu.rampT = 0; end
 
