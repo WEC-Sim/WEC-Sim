@@ -20,21 +20,25 @@ classdef waveClass<handle
         T                           = 'NOT DEFINED'                             % [s] Wave period (regular waves) or peak period (irregular waves) (default = 8)
         H                           = 'NOT DEFINED'                             % [m] Wave height (regular waves) or significant wave height (irregular waves) (default = 1)
         noWaveHydrodynamicCoeffT    = 'NOT DEFINED'                             % Period of BEM simulation used to determine hydrodynamic coefficients for simulations with no wave. This option is only used with the 'noWave' wave type.
+        userDefinedExcIRF           = 'NOT DEFINED'                             % Excitation IRF from BEMIO used for User-Defined Time-Series
         spectrumType                = 'NOT DEFINED'                             % Type of wave spectrum. Only PM, BS, JS, and Imported spectrum are supported.
         randPreDefined              = 0;                                        % Only used for irregular waves. Default is equal to 0; if it equals to 1, the waves pahse is pre-defined
         spectrumDataFile            = 'NOT DEFINED'                             % Data file that contains the spectrum data file. See ---- for format specs        
+        etaDataFile                 = 'NOT DEFINED'                             % Data file that contains the times-series data file. See ---- for format specs        
         numFreq                     = 1001                                      % Number of interpolated wave frequencies (default = 'NOT DEFINED') 
     end
-    
+          
+                    
     properties (SetAccess = 'private', GetAccess = 'public')%internal  
         typeNum                     = []                                        % Number to represent different type of waves
         bemFreq                     = []                                        % Number of wave frequencies from WAMIT
         waterDepth                  = []                                        % [m] Water depth (from WAMIT)
         waveAmpTime                 = 999                                       % [m] Wave elevation time history
-        A                           = []                                        % [m] Wave amplitude for regular waves or sqrt(wave spectrum vector) for irregular waves
-        w                           = []                                        % [rad/s] Wave frequency (regular waves) or wave frequency vector (irregular waves)
+        A                           = []                                         % [m] Wave amplitude for regular waves or sqrt(wave spectrum vector) for irregular waves
+        w                           = []                                         % [rad/s] Wave frequency (regular waves) or wave frequency vector (irregular waves)
         phaseRand                   = 999                                       % [rad] Random wave phase (only used for irregular waves)
         dw                          = 0                                         % [rad] Frequency spacing for irregular waves.
+        userDefinedExcitation       = []                                % [N] User-defined wave excitation force 
     end
     
     methods (Access = 'public')                                        
@@ -43,21 +47,23 @@ classdef waveClass<handle
         % Set wave type and type number
             obj.type = type;
             switch obj.type
-                case {'noWave','regular'}
+                case {'noWave','regular'}       % No/Regular Waves 
                     obj.typeNum = 10;
-                case {'noWaveCIC','regularCIC'}
+                case {'noWaveCIC','regularCIC'} % No/Regular Waves w/Convolution Integral Calculation
                     obj.typeNum = 11;
-                case 'irregular'
+                case 'irregular'                % Irregular Waves
                     obj.typeNum = 20; 
-                case 'irregularImport' 
+                case 'irregularImport'          % Irregular Waves w/Predefined Phase
                     obj.typeNum = 21;
+                case 'userDefined'              % Import User-Defined Waves
+                    obj.typeNum = 30;
                 otherwise
                     error(['Unexpected wave environment type setting. ' ...
-                        'Only noWave, noWaveCIC, regular, regularCIC, irregular, and irregularImport waves are supported at this time'])
+                        'Only noWave, noWaveCIC, regular, regularCIC, irregular, irregularImport, and userDefined waves are supported at this time'])
             end
         end
         
-        function waveSetup(obj,bemFreq,wDepth,rampT,dt,maxIt,g)
+        function waveSetup(obj,bemFreq,wDepth,rampT,dt,maxIt,g,endTime)
         % Calculate and set wave properties based on wave type
             obj.bemFreq    = bemFreq;
             obj.setWaveProps(wDepth)
@@ -68,6 +74,7 @@ classdef waveClass<handle
                     end
                     obj.A = obj.H/2;
                     obj.waveElevReg(rampT, dt, maxIt);
+                    obj.userDefinedExcitation =  zeros(length(obj.waveAmpTime),6);
                 case {'irregular','irregularImport'}
                     numFqs=obj.numFreq;
                     WFQSt=min(bemFreq);
@@ -78,6 +85,27 @@ classdef waveClass<handle
                     obj.setWavePhase;
                     obj.irregWaveSpectrum(g)
                     obj.waveElevIrreg(rampT, dt, maxIt, df);
+                    obj.userDefinedExcitation =  zeros(length(obj.waveAmpTime),6);
+                case {'userDefined'}
+                    %import userDefined time-series here and interpolate
+                    %for dt, and call new convulation calc function in
+                    %protected method, 
+                    
+                    obj.A = 0;
+                    obj.w = 0;
+                    obj.dw = 0;
+                    
+                    data = importdata(obj.etaDataFile) ; %irreg wave input
+                    data_t = data(:,1)';      % Data Time [s]
+                    data_x = data(:,2)';      % Wave Surface Elevation [m]
+                    t = 0:dt:endTime;         % WEC-Sim simulation time [s]
+                    obj.waveAmpTime(:,1) = t;
+                    obj.waveAmpTime(:,2) = interp1(data_t,data_x,t);
+                    
+                    userDefinedExcitationCalc    %call on method
+                   
+                    %wave ramping maybe this should be a protected method           
+                    %ask for incident wave direction              
             end
         end
         
@@ -113,6 +141,8 @@ classdef waveClass<handle
                        fprintf('\tWave Type                            = Irregular Waves (Predefined Random Phase)\n')                    
                     end
                     obj.printWaveSpectrumType;
+                case 'userDefined'
+                    fprintf('\t Add userDefined Hs and Tp later \n')                    
             end
         end
     end
@@ -155,54 +185,29 @@ classdef waveClass<handle
         function waveElevReg(obj, rampT,dt,maxIt)                     
         % Used by waveSetup
         % Calculate regular wave elevation time history
-            obj.waveAmpTime = zeros(maxIt+1,1);
+            obj.waveAmpTime = zeros(maxIt+1,2);
             maxRampIT=round(rampT/dt);
             if rampT==0
                for i=1:maxIt+1
                    t = (i-1)*dt;
-                   obj.waveAmpTime(i) = obj.A*cos(obj.w*t);
+                   obj.waveAmpTime(1,i) = t;
+                   obj.waveAmpTime(2,i) = obj.A*cos(obj.w*t);
                end
             else
                for i=1:maxRampIT
                    t = (i-1)*dt;
-                   obj.waveAmpTime(i) = obj.A*cos(obj.w*t)*(1+cos(pi+pi*(i-1)/maxRampIT))/2;
+                   obj.waveAmpTime(1,i) = t;
+                   obj.waveAmpTime(2,i) = obj.A*cos(obj.w*t)*(1+cos(pi+pi*(i-1)/maxRampIT))/2;
                end
                for i=maxRampIT+1:maxIt+1;
                    t = (i-1)*dt;
-                   obj.waveAmpTime(i) = obj.A*cos(obj.w*t);
+                   obj.waveAmpTime(1,i) = t;
+                   obj.waveAmpTime(2,i) = obj.A*cos(obj.w*t);
                end       
             end
         end
         
-        function waveElevIrreg(obj,rampT,dt,maxIt, df)                 
-        % Used by waveSetup
-        % Calculate irregular wave elevetaion time history
-            obj.waveAmpTime = zeros(maxIt+1,1);
-            maxRampIT=round(rampT/dt);
-            if rampT==0    
-               for i=1:maxIt+1;
-                   t = (i-1)*dt;
-                   tmp=sqrt(obj.A.*df);
-                   tmp1 = tmp.*real(exp(sqrt(-1).*(obj.w.*t + obj.phaseRand)));
-                   obj.waveAmpTime(i) = sum(tmp1);
-               end
-            else    
-               for i=1:maxRampIT
-                   t = (i-1)*dt;
-                   tmp=sqrt(obj.A.*df);
-                   tmp1 = tmp.*real(exp(sqrt(-1).*(obj.w.*t + obj.phaseRand)));
-                   obj.waveAmpTime(i) = sum(tmp1)*(1+cos(pi+pi*(i-1)/maxRampIT))/2;
-               end
-               for i=maxRampIT+1:maxIt+1
-                   t = (i-1)*dt;
-                   tmp=sqrt(obj.A.*df);
-                   tmp1 = tmp.*real(exp(sqrt(-1).*(obj.w.*t + obj.phaseRand)));
-                   obj.waveAmpTime(i) = sum(tmp1);
-               end   
-            end
-        end
-            
-        function irregWaveSpectrum(obj,g)                              
+        function irregWaveSpectrum(obj,g)
         % Used by wavesIrreg (wavesIrreg used by waveSetup)
         % Calculate sqrt(wave spectrum vector) (obj.A)
             freq = obj.w/(2*pi);
@@ -245,6 +250,43 @@ classdef waveClass<handle
             end
             obj.A = 2 * Sf;
         end
+        
+        function userDefinedExcitationCalc(obj)
+            % Used by userDefined waves to calculate exctiation force obj.userDefinedExcitation)
+            obj.userDefinedExcitation =  zeros(length(obj.waveAmpTime),6);
+            %             obj.userDefinedExcitation(:,:) = conv(obj.waveAmpTime(:,2),obj.userDefinedExcIRF,'same')*simu.dt; % convolution
+        end
+        
+        function waveElevIrreg(obj,rampT,dt,maxIt, df)                 
+        % Used by waveSetup
+        % Calculate irregular wave elevetaion time history
+            obj.waveAmpTime = zeros(maxIt+1,2);
+            maxRampIT=round(rampT/dt);
+            if rampT==0    
+               for i=1:maxIt+1;
+                   t = (i-1)*dt;
+                   tmp=sqrt(obj.A.*df);
+                   tmp1 = tmp.*real(exp(sqrt(-1).*(obj.w.*t + obj.phaseRand)));
+                   obj.waveAmpTime(i,1) = t;
+                   obj.waveAmpTime(i,2) = sum(tmp1);
+               end
+            else    
+               for i=1:maxRampIT
+                   t = (i-1)*dt;
+                   tmp=sqrt(obj.A.*df);
+                   tmp1 = tmp.*real(exp(sqrt(-1).*(obj.w.*t + obj.phaseRand)));
+                   obj.waveAmpTime(i,1) = t;
+                   obj.waveAmpTime(i,2) = sum(tmp1)*(1+cos(pi+pi*(i-1)/maxRampIT))/2;
+               end
+               for i=maxRampIT+1:maxIt+1
+                   t = (i-1)*dt;
+                   tmp=sqrt(obj.A.*df);
+                   tmp1 = tmp.*real(exp(sqrt(-1).*(obj.w.*t + obj.phaseRand)));
+                   obj.waveAmpTime(i,1) = t;
+                   obj.waveAmpTime(i,2) = sum(tmp1);
+               end   
+            end
+        end      
         
         function printWaveSpectrumType(obj)                            
         % Used by listInfo
