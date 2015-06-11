@@ -156,8 +156,8 @@ classdef bodyClass<handle
             obj.hydroForce.fExt.re=zeros(1,6);
             obj.hydroForce.fExt.im=zeros(1,6);
             for ii=1:6
-                obj.hydroForce.fExt.re(ii) = interp1(obj.hydroData.simulation_parameters.w,obj.hydroData.hydro_coeffs.excitation.re(:,ii),w,'spline');
-                obj.hydroForce.fExt.im(ii) = interp1(obj.hydroData.simulation_parameters.w,obj.hydroData.hydro_coeffs.excitation.im(:,ii),w,'spline');      
+                obj.hydroForce.fExt.re(:,ii) = interp1(obj.hydroData.simulation_parameters.w,squeeze(obj.hydroData.hydro_coeffs.excitation.re(ii,1,:)),w,'spline'); %assumes first wave dir
+                obj.hydroForce.fExt.im(:,ii) = interp1(obj.hydroData.simulation_parameters.w,squeeze(obj.hydroData.hydro_coeffs.excitation.im(ii,1,:)),w,'spline'); %assumes first wave dir   
             end
         end
         
@@ -167,8 +167,8 @@ classdef bodyClass<handle
             obj.hydroForce.fExt.re=zeros(numFreq,6);
             obj.hydroForce.fExt.im=zeros(numFreq,6);
             for ii=1:6
-                obj.hydroForce.fExt.re(:,ii) = interp1(obj.hydroData.simulation_parameters.w,obj.hydroData.hydro_coeffs.excitation.re(:,ii),wv,'spline');
-                obj.hydroForce.fExt.im(:,ii) = interp1(obj.hydroData.simulation_parameters.w,obj.hydroData.hydro_coeffs.excitation.im(:,ii),wv,'spline');
+                obj.hydroForce.fExt.re(:,ii) = interp1(obj.hydroData.simulation_parameters.w,squeeze(obj.hydroData.hydro_coeffs.excitation.re(ii,1,:)),wv,'spline'); %assumes first wave dir
+                obj.hydroForce.fExt.im(:,ii) = interp1(obj.hydroData.simulation_parameters.w,squeeze(obj.hydroData.hydro_coeffs.excitation.im(ii,1,:)),wv,'spline'); %assumes first wave dir  
             end
         end
 
