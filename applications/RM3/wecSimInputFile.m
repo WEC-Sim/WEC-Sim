@@ -7,7 +7,7 @@ simu.rampT = 100;                       %Wave Ramp Time Length [s]
 
 %% Wave Information
 %% noWaveCIC, no waves with radiation CIC  
-waves = waveClass('noWaveCIC'); 
+% waves = waveClass('noWaveCIC'); 
 
 %% Regular Waves  
 % waves = waveClass('regularCIC'); 
@@ -39,8 +39,8 @@ waves = waveClass('noWaveCIC');
 %                                   %Name of User-Defined Spectrum File [2,:] = [omega, Sf]
 
 %% User-Defined Time-Series
-% waves = waveClass('userDefined');   %Create the Wave Variable and Specify Type
-% waves.etaDataFile = 'umpqua46229_6_2008.mat';  % Name of User-Defined Time-Series File [:,2] = [time, wave_elev]
+waves = waveClass('userDefined');   %Create the Wave Variable and Specify Type
+waves.etaDataFile = 'umpqua46229_6_2008.mat';  % Name of User-Defined Time-Series File [:,2] = [time, wave_elev]
 
 %% Body Data
 body(1) = bodyClass('hydroData/rm3.h5',1);      
