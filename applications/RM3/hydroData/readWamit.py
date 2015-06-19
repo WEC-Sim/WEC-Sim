@@ -1,21 +1,14 @@
 
-from bemio.io import wamit as wio
-from bemio.data_structures import bem as hd
-import matplotlib.pyplot as plt
-plt.close('all')
-plt.interactive(True)
+from bemio.io import wamit
+from bemio.io.output import write_hdf5
 
 # Load the data
-w = wio.WamitOutput(out_file='rm3_new.out')
+wamit_data = wamit.WamitOutput(out_file='rm3.out')
 
-print w.data[0].num_bodies
-
-# Calculate IRF and plot
-for i in xrange(w.data[0].num_bodies):
-	w.data[i].calc_irf()
-#	w.data[i].calc_ss()
-	w.data[i].plot_irf([[0,0],[2,2]]	)
-	w.data[i].plot_am_rd([[0,0],[2,2]])
+# Calculate IRF
+for i in xrange(wamit_data.data[0].num_bodies):
+	wamit_data.data[i].calc_irf_radiation()
+#	wamit_data.data[i].calc_ss_radiation()
 
 # Save the data in HDF5 format
-hd.write_hdf5(w)
+write_hdf5(wamit_data)
