@@ -7,7 +7,7 @@ wamit_data = wamit.WamitOutput(out_file='rm3.out')
 num_bodies = wamit_data.data[0].num_bodies
 
 # Calculate IRF
-for i in xrange():
+for i in xrange(num_bodies):
 	wamit_data.data[i].calc_irf_radiation()
 	wamit_data.data[i].calc_irf_excitation()
 
