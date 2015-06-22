@@ -7,7 +7,7 @@
   1. Install the bibtex extension for sphinx using ``pip install sphinxcontrib-bibtex``
   1. Install the rtd theme for sphinx using ``pip install sphinx_rtd_theme``. You might have to manually move it to the ``sphinx/themes/`` directory.
 
-## NOTE
+## Note
 The WEC-Sim documentation is located in the ``$WECSIM_SOURCE/doc/users-guide/`` folder, which will be referred to as the ``$USERS_GUIDE`` folder.
 
 ## Edit WEC-Sim Users Guide
