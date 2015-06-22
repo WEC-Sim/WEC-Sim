@@ -5,6 +5,7 @@
 <!--[if gt IE 8]><!--> <html class="no-js" lang="en" > <!--<![endif]-->
 <head>
   <meta charset="utf-8">
+  
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   
   <title>Getting Started &mdash; WEC-Sim 1.1 documentation</title>
@@ -14,7 +15,6 @@
   
 
   
-  <link href='https://fonts.googleapis.com/css?family=Lato:400,700,400italic,700italic|Roboto+Slab:400,700|Inconsolata:400,700&subset=latin,cyrillic' rel='stylesheet' type='text/css'>
 
   
   
@@ -35,7 +35,7 @@
         <link rel="prev" title="Release Notes" href="release_notes.html"/> 
 
   
-  <script src="https://cdnjs.cloudflare.com/ajax/libs/modernizr/2.6.2/modernizr.min.js"></script>
+  <script src="_static/js/modernizr.min.js"></script>
 
 </head>
 
@@ -47,8 +47,14 @@
     <nav data-toggle="wy-nav-shift" class="wy-nav-side">
       <div class="wy-side-nav-search">
         
-          <a href="index.html" class="fa fa-home"> WEC-Sim</a>
+
         
+          <a href="index.html" class="icon icon-home"> WEC-Sim
+        
+
+        
+        </a>
+
         
 <div role="search">
   <form id="rtd-search-form" class="wy-form" action="search.html" method="get">
@@ -57,6 +63,8 @@
     <input type="hidden" name="area" value="default" />
   </form>
 </div>
+
+        
       </div>
 
       <div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="main navigation">
@@ -66,31 +74,117 @@
               <ul class="current">
 <li class="toctree-l1"><a class="reference internal" href="license.html">License</a></li>
 <li class="toctree-l1"><a class="reference internal" href="release_notes.html">Release Notes</a><ul>
-<li class="toctree-l2"><a class="reference internal" href="release_notes.html#wec-sim-1-1">WEC-Sim-1.1</a></li>
+<li class="toctree-l2"><a class="reference internal" href="release_notes.html#wec-sim-1-1">WEC-Sim-1.1</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="release_notes.html#new-in-v1-1">New in v1.1</a></li>
+<li class="toctree-l3"><a class="reference internal" href="release_notes.html#backwards-compatibility-with-wec-sim-1-0">Backwards compatibility with WEC-Sim-1.0</a></li>
+</ul>
+</li>
 </ul>
 </li>
 <li class="toctree-l1 current"><a class="current reference internal" href="">Getting Started</a><ul>
 <li class="toctree-l2"><a class="reference internal" href="#matlab-requirements">MATLAB Requirements</a></li>
 <li class="toctree-l2"><a class="reference internal" href="#downloading-and-installing-bemio">Downloading and Installing <cite>bemio</cite></a></li>
-<li class="toctree-l2"><a class="reference internal" href="#downloading-wec-sim">Downloading <cite>WEC-Sim</cite></a></li>
-<li class="toctree-l2"><a class="reference internal" href="#installing-wec-sim">Installing WEC-Sim</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#downloading-wec-sim">Downloading <cite>WEC-Sim</cite></a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#clone-with-git-recommended-for-users">Clone with Git (Recommended for Users)</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#fork-with-git-recommended-for-developers">Fork with Git (Recommended for Developers)</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#download-code-archive">Download code archive</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="#installing-wec-sim">Installing WEC-Sim</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#step-1-add-wec-sim-source-code-to-matlab-path">Step 1: Add <cite>WEC-Sim</cite> Source Code to MATLAB Path</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#step-2-add-wec-sim-library-to-simulink">Step 2: Add <cite>WEC-Sim</cite> Library to Simulink</a></li>
+</ul>
+</li>
 </ul>
 </li>
 <li class="toctree-l1"><a class="reference internal" href="running_wec_sim.html">Running WEC-Sim</a><ul>
 <li class="toctree-l2"><a class="reference internal" href="running_wec_sim.html#file-structure-overview">File Structure Overview</a></li>
-<li class="toctree-l2"><a class="reference internal" href="running_wec_sim.html#steps-to-run-wec-sim">Steps To Run <cite>WEC-Sim</cite></a></li>
+<li class="toctree-l2"><a class="reference internal" href="running_wec_sim.html#steps-to-run-wec-sim">Steps To Run <cite>WEC-Sim</cite></a><ul>
+<li class="toctree-l3"><a class="reference internal" href="running_wec_sim.html#step-1-pre-processing">Step 1: Pre-Processing</a></li>
+<li class="toctree-l3"><a class="reference internal" href="running_wec_sim.html#step-2-build-device-simulink-simmechanics-model">Step 2: Build Device Simulink/SimMechanics Model</a></li>
+<li class="toctree-l3"><a class="reference internal" href="running_wec_sim.html#step-3-create-wec-sim-input-file">Step 3: Create <cite>WEC-Sim</cite> Input File</a></li>
+<li class="toctree-l3"><a class="reference internal" href="running_wec_sim.html#step-4-execute-wec-sim">Step 4: Execute <cite>WEC-Sim</cite></a></li>
+</ul>
+</li>
 </ul>
 </li>
 <li class="toctree-l1"><a class="reference internal" href="code_structure.html">Code Structure</a><ul>
 <li class="toctree-l2"><a class="reference internal" href="code_structure.html#code-conventions">Code Conventions</a></li>
-<li class="toctree-l2"><a class="reference internal" href="code_structure.html#input-file-structure">Input File Structure</a></li>
-<li class="toctree-l2"><a class="reference internal" href="code_structure.html#input-parameters">Input Parameters</a></li>
-<li class="toctree-l2"><a class="reference internal" href="code_structure.html#library-structure">Library Structure</a></li>
+<li class="toctree-l2"><a class="reference internal" href="code_structure.html#input-file-structure">Input File Structure</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="code_structure.html#simulation-class">Simulation Class</a></li>
+<li class="toctree-l3"><a class="reference internal" href="code_structure.html#wave-class">Wave Class</a></li>
+<li class="toctree-l3"><a class="reference internal" href="code_structure.html#body-class">Body Class</a></li>
+<li class="toctree-l3"><a class="reference internal" href="code_structure.html#constraint-class">Constraint Class</a></li>
+<li class="toctree-l3"><a class="reference internal" href="code_structure.html#pto-class">PTO Class</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="code_structure.html#input-parameters">Input Parameters</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="code_structure.html#simulationclass">simulationClass</a></li>
+<li class="toctree-l3"><a class="reference internal" href="code_structure.html#waveclass">waveClass</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="code_structure.html#nowave">noWave</a></li>
+<li class="toctree-l4"><a class="reference internal" href="code_structure.html#nowavecic">noWaveCIC</a></li>
+<li class="toctree-l4"><a class="reference internal" href="code_structure.html#regular">regular</a></li>
+<li class="toctree-l4"><a class="reference internal" href="code_structure.html#regularcic">regularCIC</a></li>
+<li class="toctree-l4"><a class="reference internal" href="code_structure.html#irregular">irregular</a></li>
+<li class="toctree-l4"><a class="reference internal" href="code_structure.html#irregularimport">irregularImport</a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="code_structure.html#bodyclass">bodyClass</a></li>
+<li class="toctree-l3"><a class="reference internal" href="code_structure.html#constraintclass">constraintClass</a></li>
+<li class="toctree-l3"><a class="reference internal" href="code_structure.html#ptoclass">ptoClass</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="code_structure.html#library-structure">Library Structure</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="code_structure.html#body-elements-sublibrary">Body Elements Sublibrary</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="code_structure.html#rigid-body-block">Rigid Body Block</a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="code_structure.html#frames-sublibrary">Frames Sublibrary</a></li>
+<li class="toctree-l3"><a class="reference internal" href="code_structure.html#global-reference-frame-block">Global Reference Frame Block</a></li>
+<li class="toctree-l3"><a class="reference internal" href="code_structure.html#constraints-sublibrary">Constraints Sublibrary</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="code_structure.html#floating-block">Floating Block</a></li>
+<li class="toctree-l4"><a class="reference internal" href="code_structure.html#heave-block">Heave Block</a></li>
+<li class="toctree-l4"><a class="reference internal" href="code_structure.html#surge-block">Surge Block</a></li>
+<li class="toctree-l4"><a class="reference internal" href="code_structure.html#pitch-block">Pitch Block</a></li>
+<li class="toctree-l4"><a class="reference internal" href="code_structure.html#fixed-block">Fixed Block</a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="code_structure.html#ptos-sublibrary">PTOs Sublibrary</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="code_structure.html#translation-pto-local-z-block">Translation PTO (Local Z) Block</a></li>
+<li class="toctree-l4"><a class="reference internal" href="code_structure.html#translation-pto-local-x-block">Translation PTO (Local X) Block</a></li>
+<li class="toctree-l4"><a class="reference internal" href="code_structure.html#rotational-pto-local-ry-block">Rotational PTO (Local RY) Block</a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="code_structure.html#other-simmechanics-blocks">Other SimMechanics Blocks</a></li>
+</ul>
+</li>
 </ul>
 </li>
 <li class="toctree-l1"><a class="reference internal" href="tutorials.html">WEC-Sim Tutorials</a><ul>
-<li class="toctree-l2"><a class="reference internal" href="tutorials.html#rm3-two-body-point-absorber">RM3 Two-Body Point Absorber</a></li>
-<li class="toctree-l2"><a class="reference internal" href="tutorials.html#oscillating-surge-pitch-device">Oscillating Surge-Pitch Device</a></li>
+<li class="toctree-l2"><a class="reference internal" href="tutorials.html#rm3-two-body-point-absorber">RM3 Two-Body Point Absorber</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="tutorials.html#geometry-definition">3.1.1 Geometry Definition</a></li>
+<li class="toctree-l3"><a class="reference internal" href="tutorials.html#hydrodynamic-data-pre-processing">Hydrodynamic Data Pre-Processing</a></li>
+<li class="toctree-l3"><a class="reference internal" href="tutorials.html#modeling-rm3-in-wec-sim">Modeling RM3 in WEC-Sim</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="tutorials.html#simulink-model">Simulink Model</a></li>
+<li class="toctree-l4"><a class="reference internal" href="tutorials.html#input-file">Input File</a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="tutorials.html#simulation">Simulation</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="tutorials.html#outputs-and-postprocessing">Outputs and Postprocessing</a></li>
+<li class="toctree-l4"><a class="reference internal" href="tutorials.html#running-different-wave-cases">Running Different Wave Cases</a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="tutorials.html#oscillating-surge-pitch-device">Oscillating Surge-Pitch Device</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="tutorials.html#id1">Geometry Definition</a></li>
+<li class="toctree-l3"><a class="reference internal" href="tutorials.html#id2">Hydrodynamic Data Pre-Processing</a></li>
+<li class="toctree-l3"><a class="reference internal" href="tutorials.html#modeling-oswec-in-wec-sim">Modeling OSWEC in WEC-Sim</a></li>
+<li class="toctree-l3"><a class="reference internal" href="tutorials.html#oswec-simulink-model-file">OSWEC Simulink Model File</a></li>
+<li class="toctree-l3"><a class="reference internal" href="tutorials.html#oswec-matlab-input-file">OSWEC MATLAB Input File</a></li>
+<li class="toctree-l3"><a class="reference internal" href="tutorials.html#oswec-wec-sim-simulation">OSWEC WEC-Sim Simulation</a></li>
+</ul>
+</li>
 </ul>
 </li>
 <li class="toctree-l1"><a class="reference internal" href="trouble_shooting.html">Trouble Shooting</a><ul>
@@ -101,10 +195,27 @@
 <li class="toctree-l2"><a class="reference internal" href="theory.html#introduction">Introduction</a></li>
 <li class="toctree-l2"><a class="reference internal" href="theory.html#boundary-element-method">Boundary Element Method</a></li>
 <li class="toctree-l2"><a class="reference internal" href="theory.html#coordinate-system-in-wec-sim">Coordinate System in WEC-Sim</a></li>
-<li class="toctree-l2"><a class="reference internal" href="theory.html#time-domain-numerical-method">Time-Domain Numerical Method</a></li>
+<li class="toctree-l2"><a class="reference internal" href="theory.html#time-domain-numerical-method">Time-Domain Numerical Method</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="theory.html#sinusoidal-steady-state-response-scenario">Sinusoidal Steady-State Response Scenario</a></li>
+<li class="toctree-l3"><a class="reference internal" href="theory.html#convolution-integral-formulation">Convolution Integral Formulation</a></li>
+<li class="toctree-l3"><a class="reference internal" href="theory.html#state-space-representation-of">State Space Representation of <span class="math">\(K_{r}\)</span></a><ul>
+<li class="toctree-l4"><a class="reference internal" href="theory.html#calculation-of-from-state-space-matrices">Calculation of <span class="math">\(K_{r}\)</span> from State Space Matrices</a></li>
+<li class="toctree-l4"><a class="reference internal" href="theory.html#laplace-transform-and-transfer-function">Laplace Transform and Transfer Function</a></li>
+<li class="toctree-l4"><a class="reference internal" href="theory.html#realization-theory">Realization Theory</a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="theory.html#wave-spectrum">Wave Spectrum</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="theory.html#pierson-moskowitz">Pierson&#8211;Moskowitz</a></li>
+<li class="toctree-l4"><a class="reference internal" href="theory.html#bretschneider-spectrum">Bretschneider Spectrum</a></li>
+<li class="toctree-l4"><a class="reference internal" href="theory.html#jonswap-joint-north-sea-wave-project-spectrum">JONSWAP (Joint North Sea Wave Project) Spectrum</a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="theory.html#ramp-function">Ramp Function</a></li>
+</ul>
+</li>
 <li class="toctree-l2"><a class="reference internal" href="theory.html#power-take-off-forces">Power Take-off Forces</a></li>
 <li class="toctree-l2"><a class="reference internal" href="theory.html#mooring-forces">Mooring Forces</a></li>
-<li class="toctree-l2"><a class="reference internal" href="theory.html#viscous-drag">Viscous Drag</a></li>
+<li class="toctree-l2"><a class="reference internal" href="theory.html#damping-forces">Damping Forces</a></li>
 <li class="toctree-l2"><a class="reference internal" href="theory.html#references">References</a></li>
 </ul>
 </li>
@@ -141,7 +252,9 @@
     <li>Getting Started</li>
       <li class="wy-breadcrumbs-aside">
         
-          <a href="_sources/getting_started.txt" rel="nofollow"> View page source</a>
+          
+            <a href="_sources/getting_started.txt" rel="nofollow"> View page source</a>
+          
         
       </li>
   </ul>
@@ -175,7 +288,7 @@
 </tr>
 </tbody>
 </table>
-<p>Ensure that the correct version of MATLAB and the required toolboxes are installed by using MATLAB&#8217;s <tt class="docutils literal"><span class="pre">ver</span></tt> command:</p>
+<p>Ensure that the correct version of MATLAB and the required toolboxes are installed by using MATLAB&#8217;s <code class="docutils literal"><span class="pre">ver</span></code> command:</p>
 <div class="highlight-matlabsession"><div class="highlight"><pre><span class="gp">&gt;&gt; </span><span class="n">ver</span>
 <span class="go">----------------------------------------------------------------------------------------------------</span>
 <span class="go">MATLAB Version: 8.4.0.150421 (R2014b)</span>
@@ -203,22 +316,22 @@
 <p><cite>WEC-Sim</cite> is distributed through the <cite>WEC-Sim</cite> GitHub web page &lt;<a class="reference external" href="https://github.com/WEC-Sim/wec-sim">https://github.com/WEC-Sim/wec-sim</a>&gt;`_. The three ways of obtaining the <cite>WEC-Sim</cite> are described in this section.</p>
 <div class="section" id="clone-with-git-recommended-for-users">
 <h3>Clone with Git (Recommended for Users)<a class="headerlink" href="#clone-with-git-recommended-for-users" title="Permalink to this headline">¶</a></h3>
-<p><tt class="docutils literal"><span class="pre">WEC-Sim</span></tt> can be obtained by cloning the repository with Git:</p>
+<p><code class="docutils literal"><span class="pre">WEC-Sim</span></code> can be obtained by cloning the repository with Git:</p>
 <div class="highlight-python"><div class="highlight"><pre>git clone https://github.com/WEC-Sim/wec-sim.git
 </pre></div>
 </div>
-<p>This method is recommended for most users because it makes it easy to update your local version of <tt class="docutils literal"><span class="pre">WEC-Sim</span></tt> to the latest version using Git&#8217;s pull command:</p>
+<p>This method is recommended for most users because it makes it easy to update your local version of <code class="docutils literal"><span class="pre">WEC-Sim</span></code> to the latest version using Git&#8217;s pull command:</p>
 <div class="highlight-python"><div class="highlight"><pre>git pull
 </pre></div>
 </div>
 </div>
 <div class="section" id="fork-with-git-recommended-for-developers">
 <h3>Fork with Git (Recommended for Developers)<a class="headerlink" href="#fork-with-git-recommended-for-developers" title="Permalink to this headline">¶</a></h3>
-<p>If you are planning to contribute to the <tt class="docutils literal"><span class="pre">WEC-Sim</span></tt> code base, please follow the <a class="reference external" href="https://help.github.com/articles/fork-a-repo/">forking instructions provided by GitHub</a>. If you implement an improvement you would like included in the <tt class="docutils literal"><span class="pre">WEC-Sim</span></tt> code base please make a <a class="reference external" href="https://help.github.com/articles/using-pull-requests/">pull request</a> so that your improvement can be merged into the code base.</p>
+<p>If you are planning to contribute to the <code class="docutils literal"><span class="pre">WEC-Sim</span></code> code base, please follow the <a class="reference external" href="https://help.github.com/articles/fork-a-repo/">forking instructions provided by GitHub</a>. If you implement an improvement you would like included in the <code class="docutils literal"><span class="pre">WEC-Sim</span></code> code base please make a <a class="reference external" href="https://help.github.com/articles/using-pull-requests/">pull request</a> so that your improvement can be merged into the code base.</p>
 </div>
 <div class="section" id="download-code-archive">
 <h3>Download code archive<a class="headerlink" href="#download-code-archive" title="Permalink to this headline">¶</a></h3>
-<p>The easiest way to obtain a copy of <tt class="docutils literal"><span class="pre">WEC-Sim</span></tt> is to download the code archive:</p>
+<p>The easiest way to obtain a copy of <code class="docutils literal"><span class="pre">WEC-Sim</span></code> is to download the code archive:</p>
 <ul class="simple">
 <li><cite>WEC-Sim</cite>-1.0 &lt;&gt;`_. FIX THIS LINK.</li>
 </ul>
@@ -230,11 +343,11 @@
 <p>Once you have obtained the WEC-Sim source code follow the steps described in this section to install WEC-Sim.</p>
 <div class="admonition note">
 <p class="first admonition-title">Note</p>
-<p class="last">The folder where the WEC-Sim code is located will be refereed to as the <tt class="docutils literal"><span class="pre">$WEC-SIM-SOURCE</span></tt>.</p>
+<p class="last">The folder where the WEC-Sim code is located will be refereed to as the <code class="docutils literal"><span class="pre">$WEC-SIM-SOURCE</span></code>.</p>
 </div>
 <div class="section" id="step-1-add-wec-sim-source-code-to-matlab-path">
 <h3>Step 1: Add <cite>WEC-Sim</cite> Source Code to MATLAB Path<a class="headerlink" href="#step-1-add-wec-sim-source-code-to-matlab-path" title="Permalink to this headline">¶</a></h3>
-<p>Open the <tt class="docutils literal"><span class="pre">$WEC-SIM-SOURCE/wecSimStartup.m</span></tt> file</p>
+<p>Open the <code class="docutils literal"><span class="pre">$WEC-SIM-SOURCE/wecSimStartup.m</span></code> file</p>
 <div class="highlight-matlab"><div class="highlight"><pre><span class="c">% wecSimStartup.m</span>
 <span class="c">% Copy the code in this file and place it in you &#39;startup.m&#39; file</span>
 
@@ -249,8 +362,8 @@
 <span class="n">clear</span> <span class="n">wecSimPath</span> <span class="n">folderToAdd</span>
 </pre></div>
 </div>
-<p>Copy the code in the <tt class="docutils literal"><span class="pre">wecSimStartup.m</span></tt> shown above and paste it into the <tt class="docutils literal"><span class="pre">startup.m</span></tt> file within the <a class="reference external" href="http://www.mathworks.com/help/matlab/matlab_env/matlab-startup-folder.html">MATLAB Startup Folder</a>. You can open the <tt class="docutils literal"><span class="pre">startup.m</span></tt> file by executing <tt class="docutils literal"><span class="pre">open</span> <span class="pre">startup.m</span></tt> from the MATLAB command line. Set the <tt class="docutils literal"><span class="pre">wecSimPath</span></tt> variable to the <tt class="docutils literal"><span class="pre">$WEC-SIM-SOURCE</span></tt> folder.</p>
-<p>To verify you have performed this process correctly, close and reopen MATLAB, and type the <tt class="docutils literal"><span class="pre">path</span></tt> command in the command window to ensure that the <cite>WEC-Sim</cite> directory is listed in the MATLAB Search Path:</p>
+<p>Copy the code in the <code class="docutils literal"><span class="pre">wecSimStartup.m</span></code> shown above and paste it into the <code class="docutils literal"><span class="pre">startup.m</span></code> file within the <a class="reference external" href="http://www.mathworks.com/help/matlab/matlab_env/matlab-startup-folder.html">MATLAB Startup Folder</a>. You can open the <code class="docutils literal"><span class="pre">startup.m</span></code> file by executing <code class="docutils literal"><span class="pre">open</span> <span class="pre">startup.m</span></code> from the MATLAB command line. Set the <code class="docutils literal"><span class="pre">wecSimPath</span></code> variable to the <code class="docutils literal"><span class="pre">$WEC-SIM-SOURCE</span></code> folder.</p>
+<p>To verify you have performed this process correctly, close and reopen MATLAB, and type the <code class="docutils literal"><span class="pre">path</span></code> command in the command window to ensure that the <cite>WEC-Sim</cite> directory is listed in the MATLAB Search Path:</p>
 <div class="highlight-matlabsession"><div class="highlight"><pre><span class="gp">&gt;&gt; </span><span class="n">path</span>
 
 <span class="go">        MATLABPATH</span>
@@ -268,7 +381,7 @@
 </div>
 <div class="section" id="step-2-add-wec-sim-library-to-simulink">
 <h3>Step 2: Add <cite>WEC-Sim</cite> Library to Simulink<a class="headerlink" href="#step-2-add-wec-sim-library-to-simulink" title="Permalink to this headline">¶</a></h3>
-<p>Open the Simulink Library Browser by typing <tt class="docutils literal"><span class="pre">simulink</span></tt> from the MATLAB Command Window. Once the Simulink Library Browser opens, <a class="reference external" href="http://www.mathworks.com/help/simulink/gui/use-the-library-browser.html?searchHighlight=simulink%20Refresh%20the%20Library%20Browser">Refresh the Simulink Library</a>. The <cite>WEC-Sim</cite> Library of Body Elements, Constraints, Frames and PTOs should now be visible (as shown below). The <cite>WEC-Sim</cite> library should now be accessible every time Simulink is opened. For more information on using and modifying library blocks refer to the <a class="reference external" href="http://www.mathworks.com/help/simulink/">Simulink Documentation</a>.</p>
+<p>Open the Simulink Library Browser by typing <code class="docutils literal"><span class="pre">simulink</span></code> from the MATLAB Command Window. Once the Simulink Library Browser opens, <a class="reference external" href="http://www.mathworks.com/help/simulink/gui/use-the-library-browser.html?searchHighlight=simulink%20Refresh%20the%20Library%20Browser">Refresh the Simulink Library</a>. The <cite>WEC-Sim</cite> Library of Body Elements, Constraints, Frames and PTOs should now be visible (as shown below). The <cite>WEC-Sim</cite> library should now be accessible every time Simulink is opened. For more information on using and modifying library blocks refer to the <a class="reference external" href="http://www.mathworks.com/help/simulink/">Simulink Documentation</a>.</p>
 </div>
 </div>
 </div>
@@ -279,10 +392,10 @@
   
     <div class="rst-footer-buttons" role="navigation" aria-label="footer navigation">
       
-        <a href="running_wec_sim.html" class="btn btn-neutral float-right" title="Running WEC-Sim">Next <span class="fa fa-arrow-circle-right"></span></a>
+        <a href="running_wec_sim.html" class="btn btn-neutral float-right" title="Running WEC-Sim" accesskey="n">Next <span class="fa fa-arrow-circle-right"></span></a>
       
       
-        <a href="release_notes.html" class="btn btn-neutral" title="Release Notes"><span class="fa fa-arrow-circle-left"></span> Previous</a>
+        <a href="release_notes.html" class="btn btn-neutral" title="Release Notes" accesskey="p"><span class="fa fa-arrow-circle-left"></span> Previous</a>
       
     </div>
   
@@ -294,10 +407,10 @@
         &copy; Copyright 2015, National Renewable Energy Laboratory and Sandia Corporation.
     </p>
   </div>
-
   Built with <a href="http://sphinx-doc.org/">Sphinx</a> using a <a href="https://github.com/snide/sphinx_rtd_theme">theme</a> provided by <a href="https://readthedocs.org">Read the Docs</a>.
-  
+
 </footer>
+
         </div>
       </div>
 
@@ -321,7 +434,7 @@
       <script type="text/javascript" src="_static/jquery.js"></script>
       <script type="text/javascript" src="_static/underscore.js"></script>
       <script type="text/javascript" src="_static/doctools.js"></script>
-      <script type="text/javascript" src="http://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+      <script type="text/javascript" src="https://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
 
   
 
