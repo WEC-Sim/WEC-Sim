@@ -19,13 +19,7 @@ In the ``$USERS_GUIDE`` folder type ``make html`` from the command line to build
   * Opening the ``$USER_GUIDE/USERS_GUIDE-LOCAL.html`` in a web browser
 
 ## Update the documentation on the http://wec-sim.github.io/WEC-Sim website
-The github.io website renders the documentation in any ``gh-pages`` branch as a website located at http://wec-sim.github.io/wec-sim. The easiest way to update the website is to make the ``$USERS_GUIDE/source/html`` folder a clone of ``gh-pages`` branch of WEC-Sim. The user can then push changes in the html documentation directly to the ``gh-pages`` branch. Here are the steps to do this in the :
-
-1. Delete all sub-folders in the ``$USERS_GUIDE/build`` folder.
-
-1. Clone 
-
-1. **Push the documentation to gh-pages:** You must push the content in the  ``$WECSIM_SOURCE/doc/users-guide/build/html`` folder to the WEC-Sim GitHub gh-pages. The gh-pages branch is rendered on the WEC-Sim Users Guide website - http://wec-sim.github.io/WEC-Sim/. The easiest way to do this is to clone the WEC-Sim ``gh-pages`` branch into the ``$HTML`` folder folder so you can easily push the html documentation to ``gh-pages``. Here is an example of how to do this in a Unix/Linux/Mac Terminal, note that windows instructions are very similar:
+The github.io website renders the documentation in any ``gh-pages`` branch as a website located at http://wec-sim.github.io/wec-sim. The easiest way to update the website is to make the ``$USERS_GUIDE/source/html`` folder a clone of ``gh-pages`` branch of WEC-Sim. The user can then push changes in the html documentation directly to the ``gh-pages`` branch. Here are the steps to do this in a Linux/Mac Terminal, note that windows instructions are very similar:
 
   ```Shell
   # Move to the build directory
