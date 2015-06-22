@@ -19,7 +19,7 @@ In the ``$USERS_GUIDE`` folder type ``make html`` from the command line to build
   * Opening the ``$USER_GUIDE/USERS_GUIDE-LOCAL.html`` in a web browser
 
 ## Update the documentation on the http://wec-sim.github.io/WEC-Sim website
-The github.io website renders the documentation in any ``gh-pages`` branch as a website located at http://wec-sim.github.io/wec-sim. The easiest way to update the website is to make the ``$USERS_GUIDE/source/html`` folder a clone of ``gh-pages`` branch of WEC-Sim. The user can then push changes in the html documentation directly to the ``gh-pages`` branch. Here are the steps to do this in the :
+The github.io website renders the documentation in the WEC-Sim ``gh-pages`` branch as a website located at http://wec-sim.github.io/wec-sim. The easiest way to update the website is to make the ``$USERS_GUIDE/source/html`` folder a clone of ``gh-pages`` branch of WEC-Sim. The user can then push changes in the html documentation directly to the ``gh-pages`` branch. Here are the steps to do this in the :
 
 1. Delete all sub-folders in the ``$USERS_GUIDE/build`` folder.
 
