@@ -7,7 +7,7 @@
   1. Install the bibtex extension for sphinx using ``pip install sphinxcontrib-bibtex``
   1. Install the rtd theme for sphinx using ``pip install sphinx_rtd_theme``. You might have to manually move it to the ``sphinx/themes/`` directory.
 
-## NOTE
+## Note
 The WEC-Sim documentation is located in the ``$WECSIM_SOURCE/doc/users-guide/`` folder, which will be referred to as the ``$USERS_GUIDE`` folder.
 
 ## Edit WEC-Sim Users Guide
@@ -19,7 +19,7 @@ In the ``$USERS_GUIDE`` folder type ``make html`` from the command line to build
   * Opening the ``$USER_GUIDE/USERS_GUIDE-LOCAL.html`` in a web browser
 
 ## Update the documentation on the http://wec-sim.github.io/WEC-Sim website
-The github.io website renders the documentation in any ``gh-pages`` branch as a website located at http://wec-sim.github.io/wec-sim. The easiest way to update the website is to make the ``$USERS_GUIDE/source/html`` folder a clone of ``gh-pages`` branch of WEC-Sim. The user can then push changes in the html documentation directly to the ``gh-pages`` branch. Here are the steps to do this in a Linux/Mac Terminal, note that windows instructions are very similar:
+The github.io website renders the documentation in the ``gh-pages`` branch as a website located at http://wec-sim.github.io/wec-sim. The easiest way to update the website is to make the ``$USERS_GUIDE/source/html`` folder a clone of ``gh-pages`` branch of WEC-Sim. The user can then push changes in the html documentation directly to the ``gh-pages`` branch. Here are the steps to do this in a Linux/Mac Terminal, note that windows instructions are very similar:
 
   ```Shell
   # Move to the build directory
@@ -40,7 +40,7 @@ The github.io website renders the documentation in any ``gh-pages`` branch as a 
   # Move $BEMIO_SOURCE/build/html directiory
   cd $BEMIO_SOURCE/build/html
 
-  # Use git to check the status of the gh-pages branch, then commit and push changes. Once this step is performed, the WEC-Sim website should be updated with any changes that were made to the source code.
+  # Use git to check the status of the gh-pages branch, then commit and push changes. Once this step is performed the WEC-Sim website should be updated with any changes that were made to the source code.
   git status
   git add -A
   git commit -m 'update to WEC-Sim documentation'
