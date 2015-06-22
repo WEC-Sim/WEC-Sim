@@ -6,14 +6,13 @@ plt.close('all')
 plt.interactive(True)
 
 # Load the data
-w = wamit.WamitOutput(out_file='oswec.out')
-
-print w.data[0].num_bodies
+wamit_data = wamit.WamitOutput(out_file='oswec.out')
+num_bodies = wamit_data.data[0].num_bodies
 
 # Calculate IRF and plot
-for i in xrange(w.data[0].num_bodies):
-	w.data[i].calc_irf_excitation()
-#	w.data[i].calc_ss_excitation()
+for i in xrange(num_bodies):
+	wamit_data.data[i].calc_irf_excitation()
+	wamit_data.data[i].calc_irf_radiation()
 
 # Save the data in HDF5 format
-write_hdf5(w)
+write_hdf5(wamit_data)
