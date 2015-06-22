@@ -1,8 +1,4 @@
-# How to view WEC-Sim Users Guide
-The Users Guide can be viewed online at http://wec-sim.github.io/WEC-Sim/.
-
-# How to edit and update the WEC-Sim Users Guide (for developers)
-These instructions provide guidance on how to edit the WEC-Sim users-guide.
+# How to edit and update the WEC-Sim Users Guide
 
 ## Required packages
 1. Python
@@ -11,39 +7,28 @@ These instructions provide guidance on how to edit the WEC-Sim users-guide.
   1. Install the bibtex extension for sphinx using ``pip install sphinxcontrib-bibtex``
   1. Install the rtd theme for sphinx using ``pip install sphinx_rtd_theme``. You might have to manually move it to the ``sphinx/themes/`` directory.
 
+## NOTE
+The WEC-Sim documentation is located in the ``$WECSIM_SOURCE/doc/users-guide/`` folder that will be referred to as the ``$USERS_GUIDE`` folder.
+
 ## Edit WEC-Sim Users Guide
-The users guide is developed using [Sphinx](http://sphinx-doc.org/). To edit or add to the users guide, modify source files located in the ``$WECSIM_SOURCE/doc/users-guide/source`` folder. If you add a new file, be sure to include it in the ``index.html`` file.
+The users guide is developed using [Sphinx](http://sphinx-doc.org/). To edit or add to the users guide, modify source files located in the ``$USERS_GUIDE/source`` folder using syntax described in the [Sphinx Documentation](http://sphinx-doc.org/contents.html).
 
 ## Build the HTML users guide
-in the ``$WECSIM_SOURCE/doc/users-guide/`` folder type ``make html`` from the command line.
+In the ``$USERS_GUIDE`` folder type ``make html`` from the command line to build the documentation. This builds a html formatted copy of the documentation in the ``$USERS_GUIDE/build/html`` folder. After building the HTML users guide, you can view the local copy of the documentation by:
+  * Opening the ``$HTML/index.html`` file in a web browser
+  * Opening the 
 
-## Update the WEC-Sim master branch
-Insure your changes to the WEC-Sim Users Guide are saved by pushing them to the WEC-Sim GitHub Website
-```
-git add $WECSIM_SOURCE/doc/users-guide/source/*
-git add $WECSIM_SOURCE/doc/users-guide/source/_static/*
-git commit -m 'Descriptive commit message'
-git push
-```
+## Update the documentation on the http://wec-sim.github.io/WEC-Sim website
+The github.io website renders the documentation in your ``gh-pages`` branch as a website located at http://<REPOSITIORY NAME>.github.io/<PROJECT NAME>. The easiest way to update the website is to make the ``$HTML`` folder a clone of ``gh-pages`` branch of WEC-Sim. Here are the steps to do this:
 
-Note that these commands will not push the HTML source to the WEC-Sim Online Users Guide. The procedure for how to do this is described in a later section.
+1. **Build the WEC-Sim HTML Users Guide as described above** 
 
+1. **Push the documentation to gh-pages:** You must push the content in the  ``$WECSIM_SOURCE/doc/users-guide/build/html`` folder to the WEC-Sim GitHub gh-pages. The gh-pages branch is rendered on the WEC-Sim Users Guide website - http://wec-sim.github.io/WEC-Sim/. The easiest way to do this is to clone the WEC-Sim ``gh-pages`` branch into the ``$HTML`` folder folder so you can easily push the html documentation to ``gh-pages``.
 
-
-## View the HTML users guide locally on your computer
-After building the HTML users guide, you can view it on your computer by opening the ``$WECSIM_SOURCE/doc/users-guide/build/html/index.html`` file in a web browser.
-
-## Update the documentation on the WEC-Sim Users Guide website
-Unfortunately, this is a bit complicated. The general procedure is this.
-1. **Check your WEC-Sim branch:** Insure you are in the WEC-Sim master branch by typing ``git status`` from within the $WECSIM_SOURCE folder.
-1. **Build the WEC-Sim HTML Users Guide:** Rnun the following commands to make the HTML documentation on your system
-```
-cd $WECSIM_SOURCE/doc/users-guide
-make html
-```
-1. **Push the documentation to gh-pages:** You must push the content in the  ``$WECSIM_SOURCE/doc/users-guide/build/html`` folder to the WEC-Sim GitHub gh-pages which is rendered on the WEC-Sim Users Guide website - http://wec-sim.github.io/WEC-Sim/. To do this you will make the ``$WECSIM_SOURCE/doc/users-guide/build/html`` folder a clone of the WEC-Sim gh-pages branch and push the html source code to gh-pages using the following steps:
-  * Insure the `html` folder is listed in the `$WECSIM_SOURCE/doc/users-guide/build/.gitignore` file
-
+  * Insure the `$build` folder is listed in the `$WECSIM_SOURCE/doc/users-guide/.gitignore` file.
+  * Delete all contents in the ``build
+  * Make the html documentation: ``$cd $WECSIM_SOURCE/doc/users-guide`` then ``make html``
+  * 
   * Move to the `$WECSIM_SOURCE/doc/users-guide/build/html folder and clone the WEC-Sim gh-pages branch
   ```
   cd $WECSIM_SOURCE/doc/users-guide/build/html
