@@ -5,6 +5,7 @@
 <!--[if gt IE 8]><!--> <html class="no-js" lang="en" > <!--<![endif]-->
 <head>
   <meta charset="utf-8">
+  
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   
   <title>Theory &mdash; WEC-Sim 1.1 documentation</title>
@@ -14,7 +15,6 @@
   
 
   
-  <link href='https://fonts.googleapis.com/css?family=Lato:400,700,400italic,700italic|Roboto+Slab:400,700|Inconsolata:400,700&subset=latin,cyrillic' rel='stylesheet' type='text/css'>
 
   
   
@@ -35,7 +35,7 @@
         <link rel="prev" title="Trouble Shooting" href="trouble_shooting.html"/> 
 
   
-  <script src="https://cdnjs.cloudflare.com/ajax/libs/modernizr/2.6.2/modernizr.min.js"></script>
+  <script src="_static/js/modernizr.min.js"></script>
 
 </head>
 
@@ -47,8 +47,14 @@
     <nav data-toggle="wy-nav-shift" class="wy-nav-side">
       <div class="wy-side-nav-search">
         
-          <a href="index.html" class="fa fa-home"> WEC-Sim</a>
+
         
+          <a href="index.html" class="icon icon-home"> WEC-Sim
+        
+
+        
+        </a>
+
         
 <div role="search">
   <form id="rtd-search-form" class="wy-form" action="search.html" method="get">
@@ -57,6 +63,8 @@
     <input type="hidden" name="area" value="default" />
   </form>
 </div>
+
+        
       </div>
 
       <div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="main navigation">
@@ -66,31 +74,117 @@
               <ul class="current">
 <li class="toctree-l1"><a class="reference internal" href="license.html">License</a></li>
 <li class="toctree-l1"><a class="reference internal" href="release_notes.html">Release Notes</a><ul>
-<li class="toctree-l2"><a class="reference internal" href="release_notes.html#wec-sim-1-1">WEC-Sim-1.1</a></li>
+<li class="toctree-l2"><a class="reference internal" href="release_notes.html#wec-sim-1-1">WEC-Sim-1.1</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="release_notes.html#new-in-v1-1">New in v1.1</a></li>
+<li class="toctree-l3"><a class="reference internal" href="release_notes.html#backwards-compatibility-with-wec-sim-1-0">Backwards compatibility with WEC-Sim-1.0</a></li>
+</ul>
+</li>
 </ul>
 </li>
 <li class="toctree-l1"><a class="reference internal" href="getting_started.html">Getting Started</a><ul>
 <li class="toctree-l2"><a class="reference internal" href="getting_started.html#matlab-requirements">MATLAB Requirements</a></li>
 <li class="toctree-l2"><a class="reference internal" href="getting_started.html#downloading-and-installing-bemio">Downloading and Installing <cite>bemio</cite></a></li>
-<li class="toctree-l2"><a class="reference internal" href="getting_started.html#downloading-wec-sim">Downloading <cite>WEC-Sim</cite></a></li>
-<li class="toctree-l2"><a class="reference internal" href="getting_started.html#installing-wec-sim">Installing WEC-Sim</a></li>
+<li class="toctree-l2"><a class="reference internal" href="getting_started.html#downloading-wec-sim">Downloading <cite>WEC-Sim</cite></a><ul>
+<li class="toctree-l3"><a class="reference internal" href="getting_started.html#clone-with-git-recommended-for-users">Clone with Git (Recommended for Users)</a></li>
+<li class="toctree-l3"><a class="reference internal" href="getting_started.html#fork-with-git-recommended-for-developers">Fork with Git (Recommended for Developers)</a></li>
+<li class="toctree-l3"><a class="reference internal" href="getting_started.html#download-code-archive">Download code archive</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="getting_started.html#installing-wec-sim">Installing WEC-Sim</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="getting_started.html#step-1-add-wec-sim-source-code-to-matlab-path">Step 1: Add <cite>WEC-Sim</cite> Source Code to MATLAB Path</a></li>
+<li class="toctree-l3"><a class="reference internal" href="getting_started.html#step-2-add-wec-sim-library-to-simulink">Step 2: Add <cite>WEC-Sim</cite> Library to Simulink</a></li>
+</ul>
+</li>
 </ul>
 </li>
 <li class="toctree-l1"><a class="reference internal" href="running_wec_sim.html">Running WEC-Sim</a><ul>
 <li class="toctree-l2"><a class="reference internal" href="running_wec_sim.html#file-structure-overview">File Structure Overview</a></li>
-<li class="toctree-l2"><a class="reference internal" href="running_wec_sim.html#steps-to-run-wec-sim">Steps To Run <cite>WEC-Sim</cite></a></li>
+<li class="toctree-l2"><a class="reference internal" href="running_wec_sim.html#steps-to-run-wec-sim">Steps To Run <cite>WEC-Sim</cite></a><ul>
+<li class="toctree-l3"><a class="reference internal" href="running_wec_sim.html#step-1-pre-processing">Step 1: Pre-Processing</a></li>
+<li class="toctree-l3"><a class="reference internal" href="running_wec_sim.html#step-2-build-device-simulink-simmechanics-model">Step 2: Build Device Simulink/SimMechanics Model</a></li>
+<li class="toctree-l3"><a class="reference internal" href="running_wec_sim.html#step-3-create-wec-sim-input-file">Step 3: Create <cite>WEC-Sim</cite> Input File</a></li>
+<li class="toctree-l3"><a class="reference internal" href="running_wec_sim.html#step-4-execute-wec-sim">Step 4: Execute <cite>WEC-Sim</cite></a></li>
+</ul>
+</li>
 </ul>
 </li>
 <li class="toctree-l1"><a class="reference internal" href="code_structure.html">Code Structure</a><ul>
 <li class="toctree-l2"><a class="reference internal" href="code_structure.html#code-conventions">Code Conventions</a></li>
-<li class="toctree-l2"><a class="reference internal" href="code_structure.html#input-file-structure">Input File Structure</a></li>
-<li class="toctree-l2"><a class="reference internal" href="code_structure.html#input-parameters">Input Parameters</a></li>
-<li class="toctree-l2"><a class="reference internal" href="code_structure.html#library-structure">Library Structure</a></li>
+<li class="toctree-l2"><a class="reference internal" href="code_structure.html#input-file-structure">Input File Structure</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="code_structure.html#simulation-class">Simulation Class</a></li>
+<li class="toctree-l3"><a class="reference internal" href="code_structure.html#wave-class">Wave Class</a></li>
+<li class="toctree-l3"><a class="reference internal" href="code_structure.html#body-class">Body Class</a></li>
+<li class="toctree-l3"><a class="reference internal" href="code_structure.html#constraint-class">Constraint Class</a></li>
+<li class="toctree-l3"><a class="reference internal" href="code_structure.html#pto-class">PTO Class</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="code_structure.html#input-parameters">Input Parameters</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="code_structure.html#simulationclass">simulationClass</a></li>
+<li class="toctree-l3"><a class="reference internal" href="code_structure.html#waveclass">waveClass</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="code_structure.html#nowave">noWave</a></li>
+<li class="toctree-l4"><a class="reference internal" href="code_structure.html#nowavecic">noWaveCIC</a></li>
+<li class="toctree-l4"><a class="reference internal" href="code_structure.html#regular">regular</a></li>
+<li class="toctree-l4"><a class="reference internal" href="code_structure.html#regularcic">regularCIC</a></li>
+<li class="toctree-l4"><a class="reference internal" href="code_structure.html#irregular">irregular</a></li>
+<li class="toctree-l4"><a class="reference internal" href="code_structure.html#irregularimport">irregularImport</a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="code_structure.html#bodyclass">bodyClass</a></li>
+<li class="toctree-l3"><a class="reference internal" href="code_structure.html#constraintclass">constraintClass</a></li>
+<li class="toctree-l3"><a class="reference internal" href="code_structure.html#ptoclass">ptoClass</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="code_structure.html#library-structure">Library Structure</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="code_structure.html#body-elements-sublibrary">Body Elements Sublibrary</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="code_structure.html#rigid-body-block">Rigid Body Block</a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="code_structure.html#frames-sublibrary">Frames Sublibrary</a></li>
+<li class="toctree-l3"><a class="reference internal" href="code_structure.html#global-reference-frame-block">Global Reference Frame Block</a></li>
+<li class="toctree-l3"><a class="reference internal" href="code_structure.html#constraints-sublibrary">Constraints Sublibrary</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="code_structure.html#floating-block">Floating Block</a></li>
+<li class="toctree-l4"><a class="reference internal" href="code_structure.html#heave-block">Heave Block</a></li>
+<li class="toctree-l4"><a class="reference internal" href="code_structure.html#surge-block">Surge Block</a></li>
+<li class="toctree-l4"><a class="reference internal" href="code_structure.html#pitch-block">Pitch Block</a></li>
+<li class="toctree-l4"><a class="reference internal" href="code_structure.html#fixed-block">Fixed Block</a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="code_structure.html#ptos-sublibrary">PTOs Sublibrary</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="code_structure.html#translation-pto-local-z-block">Translation PTO (Local Z) Block</a></li>
+<li class="toctree-l4"><a class="reference internal" href="code_structure.html#translation-pto-local-x-block">Translation PTO (Local X) Block</a></li>
+<li class="toctree-l4"><a class="reference internal" href="code_structure.html#rotational-pto-local-ry-block">Rotational PTO (Local RY) Block</a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="code_structure.html#other-simmechanics-blocks">Other SimMechanics Blocks</a></li>
+</ul>
+</li>
 </ul>
 </li>
 <li class="toctree-l1"><a class="reference internal" href="tutorials.html">WEC-Sim Tutorials</a><ul>
-<li class="toctree-l2"><a class="reference internal" href="tutorials.html#rm3-two-body-point-absorber">RM3 Two-Body Point Absorber</a></li>
-<li class="toctree-l2"><a class="reference internal" href="tutorials.html#oscillating-surge-pitch-device">Oscillating Surge-Pitch Device</a></li>
+<li class="toctree-l2"><a class="reference internal" href="tutorials.html#rm3-two-body-point-absorber">RM3 Two-Body Point Absorber</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="tutorials.html#geometry-definition">3.1.1 Geometry Definition</a></li>
+<li class="toctree-l3"><a class="reference internal" href="tutorials.html#hydrodynamic-data-pre-processing">Hydrodynamic Data Pre-Processing</a></li>
+<li class="toctree-l3"><a class="reference internal" href="tutorials.html#modeling-rm3-in-wec-sim">Modeling RM3 in WEC-Sim</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="tutorials.html#simulink-model">Simulink Model</a></li>
+<li class="toctree-l4"><a class="reference internal" href="tutorials.html#input-file">Input File</a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="tutorials.html#simulation">Simulation</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="tutorials.html#outputs-and-postprocessing">Outputs and Postprocessing</a></li>
+<li class="toctree-l4"><a class="reference internal" href="tutorials.html#running-different-wave-cases">Running Different Wave Cases</a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="tutorials.html#oscillating-surge-pitch-device">Oscillating Surge-Pitch Device</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="tutorials.html#id1">Geometry Definition</a></li>
+<li class="toctree-l3"><a class="reference internal" href="tutorials.html#id2">Hydrodynamic Data Pre-Processing</a></li>
+<li class="toctree-l3"><a class="reference internal" href="tutorials.html#modeling-oswec-in-wec-sim">Modeling OSWEC in WEC-Sim</a></li>
+<li class="toctree-l3"><a class="reference internal" href="tutorials.html#oswec-simulink-model-file">OSWEC Simulink Model File</a></li>
+<li class="toctree-l3"><a class="reference internal" href="tutorials.html#oswec-matlab-input-file">OSWEC MATLAB Input File</a></li>
+<li class="toctree-l3"><a class="reference internal" href="tutorials.html#oswec-wec-sim-simulation">OSWEC WEC-Sim Simulation</a></li>
+</ul>
+</li>
 </ul>
 </li>
 <li class="toctree-l1"><a class="reference internal" href="trouble_shooting.html">Trouble Shooting</a><ul>
@@ -101,7 +195,24 @@
 <li class="toctree-l2"><a class="reference internal" href="#introduction">Introduction</a></li>
 <li class="toctree-l2"><a class="reference internal" href="#boundary-element-method">Boundary Element Method</a></li>
 <li class="toctree-l2"><a class="reference internal" href="#coordinate-system-in-wec-sim">Coordinate System in WEC-Sim</a></li>
-<li class="toctree-l2"><a class="reference internal" href="#time-domain-numerical-method">Time-Domain Numerical Method</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#time-domain-numerical-method">Time-Domain Numerical Method</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#sinusoidal-steady-state-response-scenario">Sinusoidal Steady-State Response Scenario</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#convolution-integral-formulation">Convolution Integral Formulation</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#state-space-representation-of">State Space Representation of <span class="math">\(K_{r}\)</span></a><ul>
+<li class="toctree-l4"><a class="reference internal" href="#calculation-of-from-state-space-matrices">Calculation of <span class="math">\(K_{r}\)</span> from State Space Matrices</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#laplace-transform-and-transfer-function">Laplace Transform and Transfer Function</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#realization-theory">Realization Theory</a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="#wave-spectrum">Wave Spectrum</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="#pierson-moskowitz">Pierson&#8211;Moskowitz</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#bretschneider-spectrum">Bretschneider Spectrum</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#jonswap-joint-north-sea-wave-project-spectrum">JONSWAP (Joint North Sea Wave Project) Spectrum</a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="#ramp-function">Ramp Function</a></li>
+</ul>
+</li>
 <li class="toctree-l2"><a class="reference internal" href="#power-take-off-forces">Power Take-off Forces</a></li>
 <li class="toctree-l2"><a class="reference internal" href="#mooring-forces">Mooring Forces</a></li>
 <li class="toctree-l2"><a class="reference internal" href="#damping-forces">Damping Forces</a></li>
@@ -141,7 +252,9 @@
     <li>Theory</li>
       <li class="wy-breadcrumbs-aside">
         
-          <a href="_sources/theory.txt" rel="nofollow"> View page source</a>
+          
+            <a href="_sources/theory.txt" rel="nofollow"> View page source</a>
+          
         
       </li>
   </ul>
@@ -153,10 +266,10 @@
 <span id="id1"></span><h1>Theory<a class="headerlink" href="#theory" title="Permalink to this headline">¶</a></h1>
 <div class="section" id="introduction">
 <h2>Introduction<a class="headerlink" href="#introduction" title="Permalink to this headline">¶</a></h2>
-<p>Modeling a WEC involves the interaction between the incident waves, device motion, PTO mechanism, and mooring (<a class="reference internal" href="#wec-sim-methodology"><em>WEC-Sim methodology</em></a>). WEC-Sim uses a radiation and diffraction method <a class="reference internal" href="#li2012" id="id2">[1]</a><a class="reference internal" href="#babarit2012" id="id3">[2]</a> to predict power performance and design optimization. The radiation and diffraction method generally obtains the hydrodynamic forces from a frequency-domain boundary element method (BEM) solver using linear coefficients to solve the system dynamics in the time domain.</p>
-<div class="figure" id="wec-sim-methodology">
-<img alt="_images/Physics.png" src="_images/Physics.png" />
-<p class="caption">WEC-Sim methodology</p>
+<p>Modeling a WEC involves the interaction between the incident waves, device motion, PTO mechanism, and mooring (<a class="reference internal" href="#wec-sim-methodology"><span>WEC-Sim methodology</span></a>). WEC-Sim uses a radiation and diffraction method <a class="reference internal" href="#li2012" id="id2">[1]</a><a class="reference internal" href="#babarit2012" id="id3">[2]</a> to predict power performance and design optimization. The radiation and diffraction method generally obtains the hydrodynamic forces from a frequency-domain boundary element method (BEM) solver using linear coefficients to solve the system dynamics in the time domain.</p>
+<div class="figure" id="id22">
+<span id="wec-sim-methodology"></span><img alt="_images/Physics.png" src="_images/Physics.png" />
+<p class="caption"><span class="caption-text">WEC-Sim methodology</span></p>
 </div>
 </div>
 <div class="section" id="boundary-element-method">
@@ -165,10 +278,10 @@
 </div>
 <div class="section" id="coordinate-system-in-wec-sim">
 <h2>Coordinate System in WEC-Sim<a class="headerlink" href="#coordinate-system-in-wec-sim" title="Permalink to this headline">¶</a></h2>
-<p>The <a class="reference internal" href="#coordinate-system"><em>WEC-Sim coordinate system</em></a> figure illustrates a 3-D floating point absorber subject to incoming waves in water. The figure also defines the coordinates and the 6 DOF in WEC-Sim. The WEC-Sim coordinate system  assumes that the  X axis is in the direction of wave propagation if the wave heading angle is equal to zero. The Z axis is in the vertical upwards direction, and the Y axis direction is defined by the right-hand rule. In the vectors and matrices used in the code, surge (x), sway (y), and heave (z) correspond to the first, second and third position respectively. Roll (Rx), Pitch (Ry), and Yaw (Rz) correspond to the fourth, fifth, and sixth position respectively.</p>
-<div class="figure" id="coordinate-system">
-<img alt="_images/coordinateSystem.png" src="_images/coordinateSystem.png" />
-<p class="caption">WEC-Sim coordinate system</p>
+<p>The <a class="reference internal" href="#coordinate-system"><span>WEC-Sim coordinate system</span></a> figure illustrates a 3-D floating point absorber subject to incoming waves in water. The figure also defines the coordinates and the 6 DOF in WEC-Sim. The WEC-Sim coordinate system  assumes that the  X axis is in the direction of wave propagation if the wave heading angle is equal to zero. The Z axis is in the vertical upwards direction, and the Y axis direction is defined by the right-hand rule. In the vectors and matrices used in the code, surge (x), sway (y), and heave (z) correspond to the first, second and third position respectively. Roll (Rx), Pitch (Ry), and Yaw (Rz) correspond to the fourth, fifth, and sixth position respectively.</p>
+<div class="figure" id="id23">
+<span id="coordinate-system"></span><img alt="_images/coordinateSystem.png" src="_images/coordinateSystem.png" />
+<p class="caption"><span class="caption-text">WEC-Sim coordinate system</span></p>
 </div>
 </div>
 <div class="section" id="time-domain-numerical-method">
@@ -199,9 +312,9 @@
 <div class="math">
 \[F_{ext}=\Re\left[ R_{f} F_{X}(\omega_{r})e^{i(\omega_{r}t+\phi)} \intop_{0}^{\infty}\sqrt{2S(\omega_{r})d\omega_{r}} \right],\]</div>
 <p>where <span class="math">\(S\)</span> is the wave spectrum and <span class="math">\(\phi\)</span> is a random phase angle.</p>
-<div class="figure">
+<div class="figure" id="id24">
 <img alt="_images/WaveElevation.png" src="_images/WaveElevation.png" />
-<p class="caption">An example of wave spectrum and irregular wave elevation generated by WEC-Sim (Piersontextendash Moskowitz spectrum)label{fig:An-example-of PM Spectrum</p>
+<p class="caption"><span class="caption-text">An example of wave spectrum and irregular wave elevation generated by WEC-Sim (Piersontextendash Moskowitz spectrum)label{fig:An-example-of PM Spectrum</span></p>
 </div>
 </div>
 <div class="section" id="state-space-representation-of">
@@ -319,9 +432,9 @@ y &amp;=&amp; \mathbf{C_{r}} x~~,\end{split}\]</div>
 <div class="math">
 \[\begin{split}&amp; S\left( f \right) = \frac{155 }{ \left( 2\pi \right)^{4}} \frac{H_{m0}^{2}}{(0.834T_{p})^{4}} f^{-5}\exp\left[-\frac{5}{4} \left( \frac{f_{p}}{f}\right)^{4} \right]\gamma^\Gamma \nonumber &amp; \\\end{split}\]\[\begin{split}&amp; \approx \frac{310 }{ \left( 2\pi \right)^{4}} {H_{m0}}^{2} {f_{p}}^{4} f^{-5}\exp\left[-\frac{5}{4} \left( \frac{f_{p}}{f}\right)^{4} \right]\gamma^\Gamma~~, &amp;\\\end{split}\]\[\begin{split}&amp;\Gamma = \exp \left[ -\left( \frac{\frac{f}{f_{p}}-1}{\sqrt{2} \sigma}\right)^{2} \right]~~,~~ \sigma = \begin{cases} 0.07 &amp; f \leq f_{p} \\ 0.09 &amp; f &gt; f_{p} \end{cases} ~~, \\\end{split}\]\[\begin{split}&amp; A =\frac{310 }{ \left( 2\pi \right)^{4}} {H_{m0}}^{2} {f_{p}}^{4},~~B = \frac{5}{4} {f_{p}}^{4}~~. &amp;\end{split}\]</div>
 <p>Figure~ref{fig:JONSWAP} shows the comparison of the JONSWAP spectrum obtained from the <span class="math">\(\alpha_{j}\)</span> fit and the ITTC description .  It is clear that the two methods have very good agreement.</p>
-<div class="figure">
+<div class="figure" id="id25">
 <img alt="_images/Jonswap.png" src="_images/Jonswap.png" />
-<p class="caption">Comparison of <span class="math">\(\alpha_{j}\)</span> fit to the ITTC description of the JONSWAP spectrum with <span class="math">\(H_{m0}\)</span> = 2 m and peak period (<span class="math">\(T_{p}\)</span>) of 8 sec.label{fig:JONSWAP}}</p>
+<p class="caption"><span class="caption-text">Comparison of <span class="math">\(\alpha_{j}\)</span> fit to the ITTC description of the JONSWAP spectrum with <span class="math">\(H_{m0}\)</span> = 2 m and peak period (<span class="math">\(T_{p}\)</span>) of 8 sec.label{fig:JONSWAP}}</span></p>
 </div>
 </div>
 </div>
@@ -457,10 +570,10 @@ y &amp;=&amp; \mathbf{C_{r}} x~~,\end{split}\]</div>
   
     <div class="rst-footer-buttons" role="navigation" aria-label="footer navigation">
       
-        <a href="references.html" class="btn btn-neutral float-right" title="Publications and References">Next <span class="fa fa-arrow-circle-right"></span></a>
+        <a href="references.html" class="btn btn-neutral float-right" title="Publications and References" accesskey="n">Next <span class="fa fa-arrow-circle-right"></span></a>
       
       
-        <a href="trouble_shooting.html" class="btn btn-neutral" title="Trouble Shooting"><span class="fa fa-arrow-circle-left"></span> Previous</a>
+        <a href="trouble_shooting.html" class="btn btn-neutral" title="Trouble Shooting" accesskey="p"><span class="fa fa-arrow-circle-left"></span> Previous</a>
       
     </div>
   
@@ -472,10 +585,10 @@ y &amp;=&amp; \mathbf{C_{r}} x~~,\end{split}\]</div>
         &copy; Copyright 2015, National Renewable Energy Laboratory and Sandia Corporation.
     </p>
   </div>
-
   Built with <a href="http://sphinx-doc.org/">Sphinx</a> using a <a href="https://github.com/snide/sphinx_rtd_theme">theme</a> provided by <a href="https://readthedocs.org">Read the Docs</a>.
-  
+
 </footer>
+
         </div>
       </div>
 
@@ -499,7 +612,7 @@ y &amp;=&amp; \mathbf{C_{r}} x~~,\end{split}\]</div>
       <script type="text/javascript" src="_static/jquery.js"></script>
       <script type="text/javascript" src="_static/underscore.js"></script>
       <script type="text/javascript" src="_static/doctools.js"></script>
-      <script type="text/javascript" src="http://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+      <script type="text/javascript" src="https://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
 
   
 
