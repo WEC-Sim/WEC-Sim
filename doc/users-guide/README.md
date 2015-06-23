@@ -1,4 +1,6 @@
 # How to edit and update the WEC-Sim Users Guide
+## Note
+The WEC-Sim documentation is located in the ``$WECSIM_SOURCE/doc/users-guide/`` folder, which will be referred to as the ``$USERS_GUIDE`` folder.
 
 ## Required packages
 1. Python
@@ -7,14 +9,8 @@
   1. Install the bibtex extension for sphinx using ``pip install sphinxcontrib-bibtex``
   1. Install the rtd theme for sphinx using ``pip install sphinx_rtd_theme``. You might have to manually move it to the ``sphinx/themes/`` directory.
 
-## Note
-The WEC-Sim documentation is located in the ``$WECSIM_SOURCE/doc/users-guide/`` folder, which will be referred to as the ``$USERS_GUIDE`` folder.
-
-## Edit WEC-Sim Users Guide
-The users guide is developed using [Sphinx](http://sphinx-doc.org/). To edit or add to the users guide, modify the source files located in the ``$USERS_GUIDE/source`` folder using syntax and methods described in the [Sphinx Documentation](http://sphinx-doc.org/contents.html).
-
-## Build the HTML users guide
-In the ``$USERS_GUIDE`` folder type ``make html`` from the command line to build the documentation. This builds a html formatted copy of the documentation in the ``$USERS_GUIDE/build/html`` folder. After building the HTML users guide, you can view the local copy of the documentation by:
+## Edit and update WEC-Sim html users guide
+The users guide is developed using [Sphinx](http://sphinx-doc.org/) and rendered in html. To edit or add to the users guide, modify the source files located in the ``$USERS_GUIDE/source`` folder using syntax and methods described in the [Sphinx Documentation](http://sphinx-doc.org/contents.html). Once you are done editing, move to the ``$USERS_GUIDE`` folder type ``make html`` from the command line to build the documentation. This builds a html formatted copy of the documentation in the ``$USERS_GUIDE/build/html`` folder. After building the HTML users guide, you can view the local copy of the documentation by:
   * Opening the ``$USERS_GUIDE/build/index.html`` file in a web browser
   * Opening the ``$USER_GUIDE/USERS_GUIDE-LOCAL.html`` in a web browser
 
