@@ -1,0 +1,14 @@
+oswec.pot -- Technip Semi, ajg .ms2 file type .gdf, ILOWHI=1, IRR=1
+10.9                HBOT
+1           1                  IRAD, IDIFF
+ -400             NPER         
+ -0.04 0.04       PER          
+  -36             NBETA         
+0.0 10          BETA 
+2 		  NBODY
+flap.gdf 
+ 0. 0. -3.9 0.0   XBODY(1-4)
+ 1  1  1  1  1  1               IMODE(1-6)
+base.gdf 
+ 0. 0. -10.9 0.0   XBODY(1-4)
+ 1  1  1  1  1  1               IMODE(1-6)
