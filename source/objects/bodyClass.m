@@ -55,29 +55,29 @@ classdef bodyClass<handle
             obj.hydroData.properties.name = obj.hydroData.properties.name{1};
         end
       
-        function hydroForcePre(obj,w,CIkt,numFreq,dt,rho,waveType,waveAmpTime,iBod,numBod,ssCalc)
+        function hydroForcePre(obj,w,waveDir,CIkt,numFreq,dt,rho,waveType,waveAmpTime,iBod,numBod,ssCalc)
         % HydroForce Pre-processing calculations
         % 1. Set the linear hydrodynamic restoring coefficient, viscous
         %    drag, and linear damping matrices
         % 2. Set the wave excitation force
             obj.bodyNumber = iBod;
-            obj.hydroData.hydro_coeffs.added_mass.all = obj.checkCoeffSize(iBod,numBod,obj.hydroData.hydro_coeffs.added_mass.all);
-            obj.hydroData.hydro_coeffs.added_mass.inf_freq = obj.checkCoeffSize(iBod,numBod,obj.hydroData.hydro_coeffs.added_mass.inf_freq);
-            obj.hydroData.hydro_coeffs.radiation_damping.all = obj.checkCoeffSize(iBod,numBod,obj.hydroData.hydro_coeffs.radiation_damping.all);
-            try 
-                    obj.hydroData.hydro_coeffs.impulse_response_fun.K = obj.checkCoeffSize(iBod,numBod,obj.hydroData.hydro_coeffs.impulse_response_fun.K);
-                    obj.hydroData.hydro_coeffs.impulse_response_fun.L = obj.checkCoeffSize(iBod,numBod,obj.hydroData.hydro_coeffs.impulse_response_fun.L);
-            catch
-            end
-            try 
-                obj.hydroData.hydro_coeffs.state_space.it = obj.checkCoeffSize(iBod,numBod,obj.hydroData.hydro_coeffs.state_space.it);
-                obj.hydroData.hydro_coeffs.state_space.r2t = obj.checkCoeffSize(iBod,numBod,obj.hydroData.hydro_coeffs.state_space.r2t);
-                obj.hydroData.hydro_coeffs.state_space.A = obj.checkCoeffSize(iBod,numBod,obj.hydroData.hydro_coeffs.state_space.A);
-                obj.hydroData.hydro_coeffs.state_space.B = obj.checkCoeffSize(iBod,numBod,obj.hydroData.hydro_coeffs.state_space.B);
-                obj.hydroData.hydro_coeffs.state_space.C = obj.checkCoeffSize(iBod,numBod,obj.hydroData.hydro_coeffs.state_space.C);
-                obj.hydroData.hydro_coeffs.state_space.D = obj.checkCoeffSize(iBod,numBod,obj.hydroData.hydro_coeffs.state_space.D);
-            catch 
-            end
+            %obj.hydroData.hydro_coeffs.added_mass.all = obj.checkCoeffSize(iBod,numBod,obj.hydroData.hydro_coeffs.added_mass.all);
+            %obj.hydroData.hydro_coeffs.added_mass.inf_freq = obj.checkCoeffSize(iBod,numBod,obj.hydroData.hydro_coeffs.added_mass.inf_freq);
+            %obj.hydroData.hydro_coeffs.radiation_damping.all = obj.checkCoeffSize(iBod,numBod,obj.hydroData.hydro_coeffs.radiation_damping.all);
+            %try 
+            %        obj.hydroData.hydro_coeffs.impulse_response_fun.K = obj.checkCoeffSize(iBod,numBod,obj.hydroData.hydro_coeffs.impulse_response_fun.K);
+            %        obj.hydroData.hydro_coeffs.impulse_response_fun.L = obj.checkCoeffSize(iBod,numBod,obj.hydroData.hydro_coeffs.impulse_response_fun.L);
+            %catch
+            %end
+            %try 
+            %    obj.hydroData.hydro_coeffs.state_space.it = obj.checkCoeffSize(iBod,numBod,obj.hydroData.hydro_coeffs.state_space.it);
+            %    obj.hydroData.hydro_coeffs.state_space.r2t = obj.checkCoeffSize(iBod,numBod,obj.hydroData.hydro_coeffs.state_space.r2t);
+            %    obj.hydroData.hydro_coeffs.state_space.A = obj.checkCoeffSize(iBod,numBod,obj.hydroData.hydro_coeffs.state_space.A);
+            %    obj.hydroData.hydro_coeffs.state_space.B = obj.checkCoeffSize(iBod,numBod,obj.hydroData.hydro_coeffs.state_space.B);
+            %    obj.hydroData.hydro_coeffs.state_space.C = obj.checkCoeffSize(iBod,numBod,obj.hydroData.hydro_coeffs.state_space.C);
+            %    obj.hydroData.hydro_coeffs.state_space.D = obj.checkCoeffSize(iBod,numBod,obj.hydroData.hydro_coeffs.state_space.D);
+            %catch 
+            %end
             obj.setMassMatrix(rho)
             k = obj.hydroData.hydro_coeffs.linear_restoring_stiffness;
             obj.hydroForce.linearHydroRestCoef =  k + k' - diag(diag(k));
@@ -86,17 +86,17 @@ classdef bodyClass<handle
             obj.hydroForce.userDefinedFe = zeros(length(waveAmpTime(:,2)),6);   %initializing userDefinedFe for non user-defined cases            
             switch waveType   
                 case {'noWave','regular'}
-                    obj.regExcitation(w);
+                    obj.regExcitation(w,waveDir);
                     obj.constAddedMassAndDamping(w,CIkt);
                 case {'noWaveCIC','regularCIC'}
-                    obj.regExcitation(w);
+                    obj.regExcitation(w,waveDir);
                     obj.irfInfAddedMassAndDamping(CIkt,dt,ssCalc,iBod);
                 case {'irregular','irregularImport'}
-                    obj.irrExcitation(w,numFreq);
+                    obj.irrExcitation(w,numFreq,waveDir);
                     obj.irfInfAddedMassAndDamping(CIkt,dt,ssCalc,iBod);
                 case {'userDefined'}
                     % This is where the excitation calculation happens
-                    obj.userDefinedExcitation(waveAmpTime,dt);
+                    obj.userDefinedExcitation(waveAmpTime,dt,waveDir);
                     obj.irfInfAddedMassAndDamping(CIkt,dt,ssCalc,iBod);
                 otherwise
                     error('Unexpected wave environment type setting')
@@ -150,39 +150,76 @@ classdef bodyClass<handle
     end
         
     methods (Access = 'protected') %modify object = T; output = F      
-        function regExcitation(obj,w)                                  
+        function regExcitation(obj,w,waveDir)                                  
         % Used by hydroForcePre
         % Regular wave excitation force
             obj.hydroForce.fExt.re=zeros(1,6);
             obj.hydroForce.fExt.im=zeros(1,6);
             for ii=1:6
-                obj.hydroForce.fExt.re(:,ii) = interp1(obj.hydroData.simulation_parameters.w,squeeze(obj.hydroData.hydro_coeffs.excitation.re(ii,1,:)),w,'spline'); %assumes first wave dir
-                obj.hydroForce.fExt.im(:,ii) = interp1(obj.hydroData.simulation_parameters.w,squeeze(obj.hydroData.hydro_coeffs.excitation.im(ii,1,:)),w,'spline'); %assumes first wave dir   
+                if length(obj.hydroData.simulation_parameters.wave_dir) > 1
+                    [X,Y] = meshgrid(obj.hydroData.simulation_parameters.w, obj.hydroData.simulation_parameters.wave_dir);
+                    obj.hydroForce.fExt.re(ii) = interp2(X, Y, squeeze(obj.hydroData.hydro_coeffs.excitation.re(ii,:,:)), w, waveDir);
+                    obj.hydroForce.fExt.im(ii) = interp2(X, Y, squeeze(obj.hydroData.hydro_coeffs.excitation.im(ii,:,:)), w, waveDir);
+                elseif obj.hydroData.simulation_parameters.wave_dir == waveDir
+                    obj.hydroForce.fExt.re(ii) = interp1(obj.hydroData.simulation_parameters.w,squeeze(obj.hydroData.hydro_coeffs.excitation.re(ii,1,:)),w,'spline');
+                    obj.hydroForce.fExt.im(ii) = interp1(obj.hydroData.simulation_parameters.w,squeeze(obj.hydroData.hydro_coeffs.excitation.im(ii,1,:)),w,'spline');
+                else
+                    error('Wave direction specified does not match wave direction from BEM.')
+                end
             end
         end
         
-        function irrExcitation(obj,wv,numFreq)                        
+        function irrExcitation(obj,wv,numFreq,waveDir)                        
         % Used by hydroForcePre
         % Irregular wave excitation force
             obj.hydroForce.fExt.re=zeros(numFreq,6);
             obj.hydroForce.fExt.im=zeros(numFreq,6);
             for ii=1:6
-                obj.hydroForce.fExt.re(:,ii) = interp1(obj.hydroData.simulation_parameters.w,squeeze(obj.hydroData.hydro_coeffs.excitation.re(ii,1,:)),wv,'spline'); %assumes first wave dir
-                obj.hydroForce.fExt.im(:,ii) = interp1(obj.hydroData.simulation_parameters.w,squeeze(obj.hydroData.hydro_coeffs.excitation.im(ii,1,:)),wv,'spline'); %assumes first wave dir  
+                if length(obj.hydroData.simulation_parameters.wave_dir) > 1
+                    [X,Y] = meshgrid(obj.hydroData.simulation_parameters.w, obj.hydroData.simulation_parameters.wave_dir);
+                    obj.hydroForce.fExt.re(:,ii) = interp2(X, Y, squeeze(obj.hydroData.hydro_coeffs.excitation.re(ii,:,:)), wv, waveDir);
+                    obj.hydroForce.fExt.im(:,ii) = interp2(X, Y, squeeze(obj.hydroData.hydro_coeffs.excitation.im(ii,:,:)), wv, waveDir);
+                elseif obj.hydroData.simulation_parameters.wave_dir == waveDir
+                    obj.hydroForce.fExt.re(:,ii) = interp1(obj.hydroData.simulation_parameters.w,squeeze(obj.hydroData.hydro_coeffs.excitation.re(ii,1,:)),wv,'spline');
+                    obj.hydroForce.fExt.im(:,ii) = interp1(obj.hydroData.simulation_parameters.w,squeeze(obj.hydroData.hydro_coeffs.excitation.im(ii,1,:)),wv,'spline');
+                else
+                    error('Wave direction specified does not match wave direction from BEM.')
+                end
             end
         end
 
-        function userDefinedExcitation(obj,waveAmpTime,dt)                        
+        %function userDefinedExcitation(obj,waveAmpTime,dt)                        
+        %% Used by hydroForcePre
+        %% Calculated User-Defined wave excitation force with non-causal convolution
+        %    kt = obj.hydroData.hydro_coeffs.excitation.impulse_response_fun.t';
+        %    kernel = squeeze(obj.hydroData.hydro_coeffs.excitation.impulse_response_fun.f(:,1,:))';
+        %    obj.userDefinedExcIRF = interp1(kt,kernel,min(kt):dt:max(kt));
+        %    for jj = 1:6
+        %        obj.hydroForce.userDefinedFe(:,jj) = conv(waveAmpTime(:,2),obj.userDefinedExcIRF(:,jj),'same')*dt;  
+        %    end
+        %    % Initialization for other waveTypes
+        %    obj.hydroForce.fExt.re=zeros(1,6); 
+        %    obj.hydroForce.fExt.im=zeros(1,6); 
+        %end
+
+        function userDefinedExcitation(obj,waveAmpTime,dt,waveDir)                        
         % Used by hydroForcePre
         % Calculated User-Defined wave excitation force with non-causal convolution
-            kt = obj.hydroData.hydro_coeffs.excitation.impulse_response_fun.t';
-            kernel = squeeze(obj.hydroData.hydro_coeffs.excitation.impulse_response_fun.f(:,1,:))';
-            obj.userDefinedExcIRF = interp1(kt,kernel,min(kt):dt:max(kt));
-            for jj = 1:6
-                obj.hydroForce.userDefinedFe(:,jj) = conv(waveAmpTime(:,2),obj.userDefinedExcIRF(:,jj),'same')*dt;  
+            kt = obj.hydroData.hydro_coeffs.excitation.impulse_response_fun.t;
+            t =  min(kt):dt:max(kt);
+            for ii = 1:6
+                if length(obj.hydroData.simulation_parameters.wave_dir) > 1
+                    [X,Y] = meshgrid(kt, obj.hydroData.simulation_parameters.wave_dir);
+                    kernel = squeeze(obj.hydroData.hydro_coeffs.excitation.impulse_response_fun.f(ii,:,:));
+                    obj.userDefinedExcIRF = interp2(X, Y, kernel, t, waveDir);
+                elseif obj.hydroData.simulation_parameters.wave_dir == waveDir
+                    kernel = squeeze(obj.hydroData.hydro_coeffs.excitation.impulse_response_fun.f(ii,1,:));
+                    obj.userDefinedExcIRF = interp1(kt,kernel,min(kt):dt:max(kt));
+                else
+                    error('Wave direction specified does not match wave direction from BEM.')    
+                end
+                obj.hydroForce.userDefinedFe(:,ii) = conv(waveAmpTime(:,2),obj.userDefinedExcIRF,'same')*dt;
             end
-            
-            %this is initialization for other waveTypes
             obj.hydroForce.fExt.re=zeros(1,6); 
             obj.hydroForce.fExt.im=zeros(1,6); 
         end
