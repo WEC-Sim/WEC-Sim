@@ -105,12 +105,17 @@ To verify the path was set up correctly, close and reopen MATLAB, and type the `
 
 Step 2: Add WEC-Sim Library to Simulink
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-Open the Simulink Library Browser by typing ``simulink`` in the MATLAB Command Window. Once the Simulink Library Browser opens, `Refresh the Simulink Library <http://www.mathworks.com/help/simulink/gui/use-the-library-browser.html?searchHighlight=simulink%20Refresh%20the%20Library%20Browser>`_. The WEC-Sim Library of Body Elements, Constraints, Frames and PTOs should now be visible, as shown in the figure below. The WEC-Sim library should now be accessible every time Simulink is opened. For more information on using and modifying library blocks refer to the `Simulink Documentation <http://www.mathworks.com/help/simulink/>`_.
+Open the Simulink Library Browser by typing ``simulink`` in the MATLAB Command Window. Once the Simulink Library Browser opens, `Refresh the Simulink Library <http://www.mathworks.com/help/simulink/gui/use-the-library-browser.html?searchHighlight=simulink%20Refresh%20the%20Library%20Browser>`_. The WEC-Sim Library of Body Elements, Constraints, Frames and PTOs should now be visible, as shown in the  :ref:`wecSimLibary` figure below. The WEC-Sim library should now be accessible every time Simulink is opened. For more information on using and modifying library blocks refer to the `Simulink Documentation <http://www.mathworks.com/help/simulink/>`_.
 
 .. _wecSimLibary:
 
 .. figure:: _static/wecSimLibary.png
-WEC-Sim Simulink Library
+    :align: center
+    
+    ..
+    
+    *WEC-Sim Simulink Library*
+   
 
 Running WEC-Sim
 -----------------------------
