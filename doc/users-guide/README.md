@@ -26,7 +26,8 @@ The github.io website renders the documentation in the ``gh-pages`` branch as a 
   export USERS_GUIDE=<location of users guide folder on your computer>
   cd $USERS_GUIDE/build
 
-  # Remove the html folder in the build directory
+  # Remove the html folder in the build directory using the following Linux/Mac command.
+  # In MS Windows, simply remove this file using Windows Explorer
   rm -rf html
 
   # Clone the gh-pages branch into a folder named html
@@ -38,7 +39,7 @@ The github.io website renders the documentation in the ``gh-pages`` branch as a 
   # Build the html documentation
   make html
 
-  # Move $BEMIO_SOURCE/build/html directiory
+  # Move $BEMIO_SOURCE/build/html directory
   cd $USERS_GUIDE/build/html
 
   # Use git to check the status of the gh-pages branch, then commit and push changes. Once this step is performed the WEC-Sim website should be updated with any changes that were made to the source code.
