@@ -1,22 +1,22 @@
-Publications and References
-===============================
+References
+===========
 
 Publications
--------------
-[1] Kelley Ruehl, Carlos Michelen, Samuel Kanner, Michael Lawson, and Y. Yu, `Preliminary Verification and Validation of WEC-Sim, an Open-Source Wave Energy Converter Design Tool <http://energy.sandia.gov/wp/wp-content/gallery/uploads/SAND2014-2161C.pdf>`_,” in Proceedings of OMAE 2014, San Francisco, CA, 2014.
-
-[2] MJ Lawson, Y. Yu, Adam Nelessen, Kelley Ruehl, and Carlos Michelen, “`Implementing Nonlinear Buoyancy and Excitation Forces in the WEC-Sim Wave Energy Converter Modeling Tool <http://energy.sandia.gov/wp/wp-content/gallery/uploads/SAND2014-2381C.pdf>`_,” in Proceedings of OMAE 2014, San Francisco, CA, 2014.
-
-[3] Y. Yu, Michael Lawson, Kelley Ruehl, and Carlos Michelen, “`Development and Demonstration of the WEC-Sim Wave Energy Converter Simulation Tool <http://energy.sandia.gov/wp/wp-content/gallery/uploads/SAND2014-3013.pdf>`_,” in Proceedings of the 2nd Marine Energy Technology Symposium, Seattle, WA, 2014.
-
-[4] Y. Yu, Ye Li, Kathleen Hallett, and Chad Hotimsky, “`Design and Analysis for a Floating Oscillating Surge Wave Energy Converter <http://www.nrel.gov/docs/fy14osti/61283.pdf>`_,” in Proceedings of OMAE 2014, San Francisco, CA, 2014.
-
-WEC-Sim in the News
---------------------
-* `RenewableEnergy World - Marine Energy Making Waves on Both Sides of the Pond <http://www.renewableenergyworld.com/rea/news/article/2014/11/marine-energy-making-waves-on-both-sides-of-the-pond?cmpid=rss>`_
-* `openORE <http://openore.org/2014/07/02/wec-sim-now-available/>`_
-
-References
 --------------
-.. bibliography:: WEC-Sim.bib
+WEC-Sim publications are available online here: https://github.com/WEC-Sim/WEC-Sim/tree/master/doc/publications
+
+.. bibliography:: WEC-Sim_Publications.bib
+   :notcited:
    :style: plain
+   
+News Articles
+--------------
+* May 21, 2015 – US Department of Energy, `Revamped Simulation Tool to Power Up Wave Energy Development <http://energy.gov/eere/articles/revamped-simulation-tool-power-wave-energy-development/>`_
+* April 16, 2015 – Tidal Energy Today, `NREL, SNL release update for WEC simulator <http://tidalenergytoday.com/2015/04/16/nrel-snl-release-update-for-wec-simulator/>`_
+
+* April 15, 2015 – OpenORE, WEC-Sim Update! <http://openore.org/2015/04/15/wec-sim-update/>`_
+* November 17, 2014 – Renewable Energy World, `Marine Energy Making Waves on Both Sides of the Pond <http://www.renewableenergyworld.com/rea/news/article/2014/11/marine-energy-making-waves-on-both-sides-of-the-pond?cmpid=rss/>`_
+* August 28, 2014 – NASA’s Jet Propulsion Laboratory, `NASA helps harness an ocean of energy <http://climate.nasa.gov/news/1149/>`_
+* July 29th, 2014 – Sandia National Laboratories, Sandia, `NREL Release Wave Energy Converter Modeling and Simulation Code: WEC-Sim <http://energy.sandia.gov/sandia-nrel-release-wave-energy-converter-modeling-and-simulation-code-wec-sim/>`_
+* April 29th, 2014 – Sandia National Laboratories, `WEC-Sim Code Development Meeting at the National Renewable Energy Laboratory <http://energy.sandia.gov/wec-sim-code-development-meeting-at-the-national-renewable-energy-laboratory/>`_
+* August 28th, 2013 – Sandia National Laboratories, `Sandia-NREL Wave Energy Converter (WEC)-Sim Development Meeting <http://energy.sandia.gov/sandia-nrel-wave-energy-converter-wec-sim-development-meeting/>`_
