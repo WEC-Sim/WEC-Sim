@@ -4,10 +4,12 @@ This section provides a description of the WEC-Sim source code and its structure
 
 Code Conventions
 ----------------
-All units within WEC-Sim are in the MKS (meters-kilograms-seconds system) and angular measurements are specified in radians unless otherwise specified.
+All units within WEC-Sim are in the MKS (meters-kilograms-seconds system) and angular measurements are specified in radians (except for wave directionality which is defined in degrees).
 
 The WEC-Sim coordinate system assumes that the X axis is in the direction of wave propagation if the wave heading angle is equal to zero, the Z axis is in the vertical upwards direction, and the Y axis direction
-is defned by the right-hand rule (as shown below).
+is defned by the right-hand rule (as shown below). 
+
+Note: Incident wave direction heading defaults to BEM solution
 
 .. figure:: _static/coordinateSystem.png
    :width: 400pt
