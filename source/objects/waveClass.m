@@ -25,6 +25,7 @@ classdef waveClass<handle
         spectrumDataFile            = 'NOT DEFINED'                             % Data file that contains the spectrum data file. See ---- for format specs        
         etaDataFile                 = 'NOT DEFINED'                             % Data file that contains the times-series data file. See ---- for format specs        
         numFreq                     = 1001                                      % Number of interpolated wave frequencies (default = 'NOT DEFINED') 
+        waveDir                     = 0                                         % Wave Direction in degrees
     end
                             
     properties (SetAccess = 'private', GetAccess = 'public')%internal  
