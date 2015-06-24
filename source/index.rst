@@ -11,7 +11,7 @@
    getting_started.rst
    code_structure.rst
    tutorials.rst
-   troubleshooting.rst
+   online_forum.rst
    references.rst
    license.rst
 
@@ -34,7 +34,7 @@ Contributors
 * Sam Kanner (University of California at Berkeley)
 * Chris McComb (Carnegie Mellon University)
 
-Acknowledgments
+Funding
 ===============
 The WEC-Sim project is sponsored by the U.S. Department of Energy’s Wind and Water Power Technologies Office. WEC-Sim code development is a collaboration between the National Renewable Energy Laboratory (NREL) and Sandia National Laboratories (SNL).
 

@@ -1,4 +1,4 @@
-WEC-Sim Tutorials
+Tutorials
 ==================
 This section describes how to use the WEC-Sim code to model two different WECs.  The first application models a two-body point absorber WEC, and the second application models an OSWEC. The files corresponding to these two examples are included in the applications directory of the WEC-Sim source code.
 

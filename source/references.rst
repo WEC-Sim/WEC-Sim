@@ -3,7 +3,8 @@ References
 
 Publications
 --------------
-WEC-Sim publications are available online here: https://github.com/WEC-Sim/WEC-Sim/tree/master/doc/publications
+WEC-Sim publications are available online here: 
+https://github.com/WEC-Sim/WEC-Sim/tree/master/publications
 
 .. bibliography:: WEC-Sim_Publications.bib
    :notcited:
