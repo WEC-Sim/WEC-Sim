@@ -59,9 +59,13 @@ These default values can be overwritten by the user, as demonstrated in the Appl
 
 	simu.endTime = <user specified end time>
 
-Note: By default, running the irregular wave (irregular and irregularImport), regular wave with convolution integral (regularCIC) or no wave with convolution integral (noWaveCIC), WEC-Sim calculates the fluid memory term using the convolution integral formulation. Users have the option to use the state space model by specifying the following in the WEC-Sim input file::
+By default, running irregular waves (irregular and irregularImport), regular wave with convolution integral (regularCIC), and no wave with convolution integral (noWaveCIC), WEC-Sim calculates the fluid memory term using the convolution integral formulation. Users have the option to use the state space model by specifying the following in the WEC-Sim input file::
 
 	simu.ssCalc=1
+	
+.. Note::
+
+	WEC-Sim users are responsible for checking the quality of the radiation IRF fit, and the state space respresentation
 
 waveClass
 ~~~~~~~~~
@@ -71,15 +75,16 @@ The wave class (``waveClass``) contains all the information that defines the wav
 
 The table below lists the types of wave environments that are currently supported by WEC-Sim. 
 
-===============================  =====================================   ========================================================
-Option                           Additional required inputs              Description
-waves.type =’noWave’             waves.noWaveHydrodynamicCoeffT          Free decay test with constant hydrodynamic coefficients
-waves.type =’noWaveCIC’          None                                    Free decay test with convolution integral
-waves.type =’regular’            waves.H waves.T                         Sinusoidal steady-state Reponse Scenario
-waves.type =’regularCIC’         waves.H waves.T                         Regular waves with convolution integral
-waves.type =’irregular’          waves.H waves.T waves.spectrumType      Irregular waves with typical wave spectrum
-waves.type =’irregularImport’    waves.spectrumDataFile                  Irregular waves with user-defined wave spectrum
-===============================  =====================================   ========================================================
+================= =====================================  ========================================================
+waves.type        Additional required inputs             Description
+noWave            waves.noWaveHydrodynamicCoeffT         Free decay test with constant hydrodynamic coefficients
+noWaveCIC         None                                   Free decay test with convolution integral
+regular           waves.H waves.T                        Sinusoidal steady-state Reponse Scenario
+regularCIC        waves.H waves.T                        Regular waves with convolution integral
+irregular         waves.H waves.T, waves.spectrumType    Irregular waves with typical wave spectrum
+irregularImport   waves.spectrumDataFile                 Irregular waves with user-defined wave spectrum
+userDefined       waves.spectrumDataFile                 Irregular waves with user-defined wave spectrum                                                                            
+================= =====================================  ========================================================
 
 noWave
 .........
