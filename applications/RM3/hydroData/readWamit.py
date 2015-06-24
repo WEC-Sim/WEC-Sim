@@ -1,4 +1,4 @@
-
+# Import bemio modules
 from bemio.io import wamit
 from bemio.io.output import write_hdf5
 
@@ -9,6 +9,7 @@ num_bodies = wamit_data.data[0].num_bodies
 # Calculate IRF
 for i in xrange(num_bodies):
 	wamit_data.data[i].calc_irf_radiation()
+	wamit_data.data[i].calc_ss_radiation()
 	wamit_data.data[i].calc_irf_excitation()
 
 # Save the data in HDF5 format
