@@ -14,6 +14,7 @@ num_bodies = wamit_data.data[0].num_bodies
 for i in xrange(num_bodies):
 	wamit_data.data[i].calc_irf_excitation()
 	wamit_data.data[i].calc_irf_radiation()
+	wamit_data.data[i].calc_ss_radiation()
 
 # Save the data in HDF5 format
 write_hdf5(wamit_data)
