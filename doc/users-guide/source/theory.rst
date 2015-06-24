@@ -351,5 +351,5 @@ Generally, the effect of viscosity on the WEC dynamics needs to be considered as
 
 References
 --------------
-.. bibliography:: WEC-Sim.bib
+.. bibliography:: WEC-Sim_Theory.bib
    :style: unsrt
