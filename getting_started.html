@@ -354,20 +354,6 @@
 <div class="section" id="step-1-add-wec-sim-source-code-to-matlab-path">
 <h3>Step 1: Add WEC-Sim Source Code to MATLAB Path<a class="headerlink" href="#step-1-add-wec-sim-source-code-to-matlab-path" title="Permalink to this headline">¶</a></h3>
 <p>Open the <code class="docutils literal"><span class="pre">$WEC-SIM-SOURCE/wecSimStartup.m</span></code> file</p>
-<div class="highlight-matlab"><div class="highlight"><pre><span class="c">% wecSimStartup.m</span>
-<span class="c">% Copy the code in this file and place it in you &#39;startup.m&#39; file</span>
-
-<span class="c">% Set the wecSimPath variable to the location of the WEC-Sim source directory</span>
-<span class="n">wecSimPath</span> <span class="p">=</span> <span class="o">&lt;</span><span class="n">WEC</span><span class="o">-</span><span class="n">SIM</span> <span class="n">PATH</span><span class="o">&gt;</span><span class="p">;</span> 
-
-<span class="c">% Add the source folder to the MATLAB path</span>
-<span class="n">folderToAdd</span> <span class="p">=</span> <span class="s">&#39;source&#39;</span><span class="p">;</span>
-<span class="n">addpath</span><span class="p">(</span><span class="n">genpath</span><span class="p">([</span><span class="n">wecSimPath</span> <span class="n">filesep</span> <span class="n">folderToAdd</span><span class="p">]));</span>
-
-<span class="c">% Clear unneeded variables</span>
-<span class="n">clear</span> <span class="n">wecSimPath</span> <span class="n">folderToAdd</span>
-</pre></div>
-</div>
 <p>Copy the code in the <code class="docutils literal"><span class="pre">wecSimStartup.m</span></code> shown above and paste it into the <code class="docutils literal"><span class="pre">startup.m</span></code> file within the <a class="reference external" href="http://www.mathworks.com/help/matlab/matlab_env/matlab-startup-folder.html">MATLAB Startup Folder</a>. Set the <code class="docutils literal"><span class="pre">wecSimPath</span></code> variable to the <code class="docutils literal"><span class="pre">$WEC-SIM-SOURCE</span></code> folder, and open the <code class="docutils literal"><span class="pre">startup.m</span></code> file by executing <code class="docutils literal"><span class="pre">open</span> <span class="pre">startup.m</span></code> from the MATLAB Command Window.</p>
 <p>To verify the path was set up correctly, close and reopen MATLAB, and type the <code class="docutils literal"><span class="pre">path</span></code> command in the MATLAB Command Window to ensure that the WEC-Sim directory, <code class="docutils literal"><span class="pre">$WEC-SIM-SOURCE</span></code>, is listed in the MATLAB Search Path:</p>
 <div class="highlight-matlabsession"><div class="highlight"><pre><span class="gp">&gt;&gt; </span><span class="n">path</span>
