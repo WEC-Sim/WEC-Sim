@@ -265,6 +265,9 @@ The Pitch block constrains the relative motion between the follower and the base
 Fixed Block
 .....................
 The Fixed block is a rigid connection that constrains all motion between the base and follower. It restricts translation in the X- and Z-axis, and rotation about the Y-axis.  Its most common use is for a rigid body fixed to the seabed.
+   
+.. Note::
+	These are the contraints that are currently included in the WEC-Sim code. Please contact the WEC-Sim developers on the `Online Forum <http://ost.io/@WEC-Sim/WEC-Sim>`_ for support on how to develop new contraints. 
 
 PTOs Sublibrary
 ~~~~~~~~~~~~~~~~~~~~~~~
@@ -284,7 +287,9 @@ The Translation PTO (Local X) is identical to the Surge constraint, but addition
 Rotational PTO (Local RY) Block
 ......................................
 The Rotational PTO (Local RY) is identical to the Pitch constraint, but adds a linear rotational stiffness and damping coefficient to the connection. The user has to name the PTOs as described earlier. The user then specifies the stiffness coefficient (in Nm/rad) and damping coefficient (in Nms/rad) in the input file.
-
+   
+.. Note::
+	These are the ptos that are currently included in the WEC-Sim code. Please contact the WEC-Sim developers on the `Online Forum <http://ost.io/@WEC-Sim/WEC-Sim>`_ for support on how to develop new ptos. 
 		
 Other SimMechanics Blocks
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~

@@ -124,8 +124,8 @@
 <li class="toctree-l3"><a class="reference internal" href="#file-structure-overview">File Structure Overview</a></li>
 <li class="toctree-l3"><a class="reference internal" href="#steps-to-run-wec-sim">Steps To Run WEC-Sim</a><ul>
 <li class="toctree-l4"><a class="reference internal" href="#step-1-pre-processing">Step 1: Pre-Processing</a></li>
-<li class="toctree-l4"><a class="reference internal" href="#step-2-build-device-simulink-simmechanics-model">Step 2: Build Device Simulink/SimMechanics Model</a></li>
-<li class="toctree-l4"><a class="reference internal" href="#step-3-create-wec-sim-input-file">Step 3: Create WEC-Sim Input File</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#step2-build-wec-sim-simulink-model">Step2: Build WEC-Sim Simulink Model</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#step-3-setip-wec-sim-input-file">Step 3: Setip WEC-Sim Input File</a></li>
 <li class="toctree-l4"><a class="reference internal" href="#step-4-execute-wec-sim">Step 4: Execute WEC-Sim</a></li>
 </ul>
 </li>
@@ -430,8 +430,10 @@
 <div class="section" id="steps-to-run-wec-sim">
 <h3>Steps To Run WEC-Sim<a class="headerlink" href="#steps-to-run-wec-sim" title="Permalink to this headline">¶</a></h3>
 <p>The WEC-Sim work flow is shown in the figure below. We describe the steps for setting up and running a WEC-Sim simulations in the following:</p>
-<div class="figure">
-<a class="reference internal image-reference" href="_images/WECSimWorkflow.png"><img alt="_images/WECSimWorkflow.png" src="_images/WECSimWorkflow.png" style="width: 400pt;" /></a>
+<div class="figure align-center">
+<a class="reference internal image-reference" href="_images/wecSimWorkflow.png"><img alt="_images/wecSimWorkflow.png" src="_images/wecSimWorkflow.png" style="width: 400pt;" /></a>
+<div class="legend">
+<em>WEC-Sim Workflow</em></div>
 </div>
 <div class="section" id="step-1-pre-processing">
 <h4>Step 1: Pre-Processing<a class="headerlink" href="#step-1-pre-processing" title="Permalink to this headline">¶</a></h4>
@@ -441,20 +443,23 @@
 <li>Run the hydrodynamic model: WEC-Sim require pre-determined hydrodynamic coefficients. Typically, these hydrodynamic coefficients for each body of the WEC device are generated using a hydrodynamic model (e.g., WAMIT, NEMOH or AQWA).</li>
 <li>Run <cite>BEMIO</cite> to create WEC-Sim input hydrodynamic data file in HDF5 format: WEC-Sim will read the hydrodynamic data generated using a hydrodynamic model in HDF5 format (<code class="docutils literal"><span class="pre">&lt;hydro-data</span> <span class="pre">name&gt;.hd5</span></code>). The boundary-element method input/output (<cite>BEMIO</cite>) was developed for this purpose. Currently, bemio accepts the hydrodynamic coefficients from WAMIT, NEMOH and AQWA.</li>
 </ul>
-<p>Note:
-* To ensure that WEC-Sim uses the correct hydrodynamic coefficients to model the WEC system, the hydrodynamic coefficients MUST be given at the center of gravity for each body. If WAMIT is used, the center of gravity for each body MUST be at the origin of the body coordinate system (XBODY) in WAMIT simulations. More details on WAMIT setup are given in the WAMIT User Manual&lt;ref&gt;wamit&lt;/ref&gt;.
-* Current version of WEC-Sim does not account for the multidirectional wave heading and WEC-Sim will use whatever (single) wave heading was modeled in the hydrodynamic model.
-* Users are also allowed to specify their own hydrodynamic coefficients by modifying an existing HDF5 file or create their own HDF5 file with customized hydrodynamic coefficients following HDF5 format used in <cite>BEMIO</cite>.</p>
+<div class="admonition note">
+<p class="first admonition-title">Note</p>
+<ul class="last simple">
+<li>To ensure that WEC-Sim uses the correct hydrodynamic coefficients to model the WEC system, the hydrodynamic coefficients <strong>must</strong> be given at the center of gravity for each body. If WAMIT is used, the center of gravity for each body <strong>must</strong> be at the origin of the body coordinate system (XBODY) in WAMIT simulations. More details on WAMIT setup are given in the <a class="reference external" href="http://www.wamit.com/manual.htm">WAMIT User Manual</a>.</li>
+<li>Users are also allowed to specify their own hydrodynamic coefficients by modifying an existing HDF5 file or create their own HDF5 file with customized hydrodynamic coefficients following HDF5 format used in <cite>BEMIO</cite>.</li>
+</ul>
 </div>
-<div class="section" id="step-2-build-device-simulink-simmechanics-model">
-<h4>Step 2: Build Device Simulink/SimMechanics Model<a class="headerlink" href="#step-2-build-device-simulink-simmechanics-model" title="Permalink to this headline">¶</a></h4>
+</div>
+<div class="section" id="step2-build-wec-sim-simulink-model">
+<h4>Step2: Build WEC-Sim Simulink Model<a class="headerlink" href="#step2-build-wec-sim-simulink-model" title="Permalink to this headline">¶</a></h4>
 <p>Next, the user must build the device model using the Simulink/SimMechanics toolboxes and the WEC-Sim Library. Figure below shows an example of a a two-body point absorber modeled in Simulink/SimMechanics.</p>
 <div class="figure">
 <a class="reference internal image-reference" href="_images/exampleWecModel.png"><img alt="_images/exampleWecModel.png" src="_images/exampleWecModel.png" style="width: 400pt;" /></a>
 </div>
 </div>
-<div class="section" id="step-3-create-wec-sim-input-file">
-<h4>Step 3: Create WEC-Sim Input File<a class="headerlink" href="#step-3-create-wec-sim-input-file" title="Permalink to this headline">¶</a></h4>
+<div class="section" id="step-3-setip-wec-sim-input-file">
+<h4>Step 3: Setip WEC-Sim Input File<a class="headerlink" href="#step-3-setip-wec-sim-input-file" title="Permalink to this headline">¶</a></h4>
 <p>A WEC-Sim input file needs to be created in the case directory, and it MUST be named <code class="docutils literal"><span class="pre">wecSimInputFile.m</span></code>. An example of the input file for a two-body point absorber is shown in the following figure. In the input file, the simulation settings, sea state, body mass properties, PTO, and constraints are specified. In addition, users MUST specify the Simulink/SimMechanics model file name in the <code class="docutils literal"><span class="pre">wecSimInputFile.m</span></code>, which is:</p>
 <div class="highlight-python"><div class="highlight"><pre>simu.simMechanicsFile=&lt;WEC Model Name&gt;.slx.
 </pre></div>
