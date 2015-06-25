@@ -106,7 +106,7 @@ Step 2: Add WEC-Sim Library to Simulink
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 Open the Simulink Library Browser by typing ``simulink`` in the MATLAB Command Window. Once the Simulink Library Browser opens, `Refresh the Simulink Library <http://www.mathworks.com/help/simulink/gui/use-the-library-browser.html>`_. The WEC-Sim Library of Body Elements, Constraints, Frames and PTOs should now be visible, as shown in the figure below. The WEC-Sim library should now be accessible every time Simulink is opened. For more information on using and modifying library blocks refer to the `Simulink Documentation <http://www.mathworks.com/help/simulink/>`_.
 
-.. figure:: _static/wecSimLibary.png
+.. figure:: _static/WEC-Sim_Library.jpg
    :align: center
     
    ..
@@ -171,7 +171,7 @@ Step 3: Create WEC-Sim Input File
 
 A WEC-Sim input file needs to be created in the case directory, and it MUST be named ``wecSimInputFile.m``. An example of the input file for a two-body point absorber is shown in the following figure. In the input file, the simulation settings, sea state, body mass properties, PTO, and constraints are specified. In addition, users MUST specify the Simulink/SimMechanics model file name in the ``wecSimInputFile.m``, which is::
 
-	   simu.simMechanicsFile=’<WEC Model Name>.slx’.
+	   simu.simMechanicsFile=<WEC Model Name>.slx.
 
 .. figure:: _static/runWECSim_mod.png
    :width: 400pt
