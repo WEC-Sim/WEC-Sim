@@ -71,7 +71,7 @@ classdef waveClass<handle
         function waveSetup(obj,bemFreq,wDepth,rampT,dt,maxIt,g,endTime)
         % Calculate and set wave properties based on wave type
             obj.bemFreq    = bemFreq;
-            obj.setWaveProps(wDepth)
+            obj.setWaveProps(wDepth,bemFreq)
             switch obj.type
                 case {'noWave','noWaveCIC','regular','regularCIC'}
                     if isempty(obj.w)
@@ -151,7 +151,7 @@ classdef waveClass<handle
             obj.phaseRand = obj.phaseRand';
         end
         
-        function setWaveProps(obj,wDepth)                                     
+        function setWaveProps(obj,wDepth,bemFreq)                                     
         % Used by waveSetup
         % Sets global and type-specific properties
             if ~isfloat(wDepth)
@@ -169,7 +169,7 @@ classdef waveClass<handle
                     obj.T = obj.noWaveHydrodynamicCoeffT;
                 case {'noWaveCIC'} 
                     obj.H = 0;
-                    obj.w = 0;
+                    obj.w = max(bemFreq);
                 case {'irregularImport'}
                     obj.H = 0;
                     obj.T = 0;
