@@ -26,12 +26,6 @@ if exist('pto','var') == 1
     end
 end
 
-
-%%
-
-
-
-
 %% Check that the hydro data for each body is given for the same frequencies
 for ii = 1:simu.numWecBodies
     if length(body(1).hydroData.simulation_parameters.w) ~= length(body(ii).hydroData.simulation_parameters.w)
@@ -46,6 +40,10 @@ for ii = 1:simu.numWecBodies
 end; clear ii; toc;
 
 
+
+
+
+
 %% HydroForces Pre-Processing: Wave Setup & HydroForcePre
 tic;
 fprintf('\nWEC-Sim Wave Setup & Model Setup & Run WEC-Sim ...   \n')
@@ -55,6 +53,16 @@ for kk = 1:simu.numWecBodies
     body(kk).hydroForcePre(waves.w,waves.waveDir,simu.CIkt,waves.numFreq,simu.dt,simu.rho,waves.type,waves.waveAmpTime,kk,simu.numWecBodies,simu.ssCalc);
 end; clear kk
 
+
+
+%% Check that waveDir and freq are within range of hydro data 
+
+if  waves.waveDir <  min(body(1).hydroData.simulation_parameters.wave_dir) || waves.waveDir >  max(body(1).hydroData.simulation_parameters.wave_dir)
+    error('waves.waveDir outside of range of available hydro data')
+end
+if  waves.w <  min(body(1).hydroData.simulation_parameters.w) || waves.w >  max(body(1).hydroData.simulation_parameters.w)
+    error('waves.w outside of range of available hydro data')
+end
 
 %% Output All the Simulation and Model Setting
 simu.listInfo(waves.typeNum);
