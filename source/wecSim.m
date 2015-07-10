@@ -1,6 +1,7 @@
 %%% WEC-Sim run file
 %% Start WEC-Sim log
-bdclose('all'); clc; diary off; close all;
+bdclose('all'); clc; diary off; close all; clear all
+% NOTE: The clear all will need to be removed for batch runs
 if exist('simulation.log','file'); delete('simulation.log'); end
 diary('simulation.log')
 
