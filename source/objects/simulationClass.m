@@ -21,10 +21,10 @@ classdef simulationClass<handle
     end
     
     properties (Access = public)
-        numWecBodies        = [] % make these dependent variables                                % Number of hydrodynamic bodies that comprise the WEC device (default = 'NOT DEFINED') 
-        numPtos             = []                                            % Number of power take-off elements in the model (default = 'NOT DEFINED') 
-        numConstraints      = []                                            % Number of contraints in the wec model (default = 'NOT DEFINED')
-        caseDir             = []                                            % WEC-Sim case directory (default = 'NOT DEFINED') 
+        numWecBodies        = [] % make these dependent variables          % Number of hydrodynamic bodies that comprise the WEC device (default = 'NOT DEFINED') 
+        numPtos             = []                                           % Number of power take-off elements in the model (default = 'NOT DEFINED') 
+        numConstraints      = []                                           % Number of contraints in the wec model (default = 'NOT DEFINED')
+        caseDir             = []                                           % WEC-Sim case directory (default = 'NOT DEFINED') 
         simMechanicsFile    = 'NOT DEFINED'                                % Simulink/SimMecahnics model file (default = 'NOT DEFINED')
         inputFile           = 'wecSimInputFile'                            % Name of WEC-Sim input file (default = 'wecSimInputFile')
         hydroDataWamit      = 0                                            % Equal to 1 if data from 1 WAMIT file, Equal to 0 if data from more than 1 input file (default = 0)
@@ -34,19 +34,20 @@ classdef simulationClass<handle
         rampT               = 100                                          % Ramp time for wave forcing (default = 100 s)
         domainSize          = 200                                          % Size of free surface and seabed. This variable is only used for visualization (default = 200 m)
         CITime              = 60                                           % Convolution integral time (default = 60 s)
-        ssCalc              = 0
-        ssReal              = 'TD'
-        ssImport            = [];
-        ssMax               = 10
-        R2Thresh            = 0.95
+        ssCalc              = 0                                            % Option for converlution integral or state-space calculation: converlution integral->'0', state-space->'1', (default = 0)
+%        ssReal              = 'TD'
+%        ssImport            = [];
+%        ssMax               = 10
+%        R2Thresh            = 0.95
         mode                = 'normal'                                     %'normal','accelerator','rapid-accelerator' (default = 'normal') 
         solver              = 'ode4'                                       % PDE solver used by the Simulink/SimMechanics simulation (default = 'ode4')
         explorer            = 'on'                                         % SimMechanics Explorer 'on' or 'off' (default = 'on'
         numT                = []
         numDTPerT           = []
         numRampT            = []        
-        rho                 = []                                           % Density of water (default = 1000 kg/m^3)
-        g                   = []                                           % Acceleration due to gravity (default = 9.81 m/s)
+        rho                 = 1000                                           % Density of water (default = 1000 kg/m^3)
+        g                   = 9.81                                           % Acceleration due to gravity (default = 9.81 m/s)
+        nlHydro             = 0                                            % Option for nonlinear hydrohanamics calculation: linear->'0', nonlinear->'1', (default = 0)
     end
     
     properties (Dependent)
