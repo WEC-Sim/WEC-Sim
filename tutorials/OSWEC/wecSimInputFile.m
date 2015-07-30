@@ -8,6 +8,7 @@ simu.simMechanicsFile = 'OSWEC.slx';          % Specify Simulink Model File
 simu.endTime=400;
 simu.dt = 0.1;
 simu.rampT = 100;
+simu.CITime = 30;
 
 %% Wave Information
 
