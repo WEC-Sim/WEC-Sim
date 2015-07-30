@@ -1,0 +1,41 @@
+
+WEC-Sim Read Input File ...   
+Elapsed time is 3.807786 seconds.
+
+WEC-Sim Pre-processing ...   
+Elapsed time is 0.013419 seconds.
+
+WEC-Sim Wave Setup & Model Setup & Run WEC-Sim ...   
+
+WEC-Sim Simulation Settings:
+	Time Marching Solver                 = Fourth-Order Runge-Kutta Formula 
+	Start Time                     (sec) = 0
+	End Time                       (sec) = 500
+	Time Step Size                 (sec) = 0.02
+	Ramp Function Time             (sec) = 0
+	Convolution Integral Interval  (sec) = 10
+	Total Number of Time Step            = 25000 
+
+Wave Environment: 
+	 Add userDefined Hs and Tp later 
+
+List of Body: Number of Bodies = 1 
+
+	***** Body Number 0, Name: rbWAMIT *****
+	Body CG                          (m) = [0,0,-0.2]
+	Body Mass                       (kg) = 8.99 
+	Body Diagonal MOI              (kgm2)= [1E+10,1E+10,1E+10]
+
+List of PTO(s): No PTO in the system
+
+List of Constraint(s): Number of Constraints = 1 
+
+	***** Constraint Name: Constraint1 *****
+
+
+Simulating the WEC device defined in the SimMechanics model model.slx...   
+### Generating code for Physical Networks associated with solver block 'model/Global Reference Frame/Solver Configuration' ... 
+done.
+### Building the rapid accelerator target for model: model
+### Successfully built the rapid accelerator target for model: model
+Elapsed time is 86.102514 seconds.
