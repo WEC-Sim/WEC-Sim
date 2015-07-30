@@ -18,7 +18,7 @@ classdef bodyClass<handle
     properties (SetAccess = 'private', GetAccess = 'public')%hdf5 file
         hydroData         = struct()                                            % Hydrodynamic data from BEM or user defined; see structure of hydroData in ----
     end
-    
+
     properties (SetAccess = 'public', GetAccess = 'public')%input file
         mass              = []                                                  % Mass in kg
         momOfInertia      = []                                                  % Moment of inertia [Ixx Iyy Izz] in kg*m^2
@@ -34,24 +34,30 @@ classdef bodyClass<handle
         linearDamping     = [0 0 0 0 0 0]
         userDefinedExcIRF = []                                                  % Excitation IRF from BEMIO used for User-Defined Time-Series
     end
-    
+
     properties (SetAccess = 'public', GetAccess = 'public')%body geometry stl files
         bodyGeometry      = struct('numFace', [], ...
             'numVertex', [], ...
             'face', [], ...
             'vertex', [])
     end
-    
+
     properties (SetAccess = 'public', GetAccess = 'public')%internal
         hydroForce        = struct()                                            % Hydrodynamic forces and coefficients used during simulation; see structure of hydroData in ----
         massCalcMethod    = []                                                  % Method used to obtain mass: 'user', 'fixed', 'equilibrium'
         bodyNumber        = []                                                  % bodyNumber in WEC-Sim as defined in the input file. Can be different from the BEM body number.
     end
-    
+
     methods (Access = 'public') %modify object = T; output = F
-        function obj = bodyClass(filename,iBod)
+        function obj = bodyClass(filename,iBod,ignoreH5Error)
             % Initilization function
-            % Read in hdf5 file
+            switch nargin
+                case 2
+                    ignoreH5Error = false
+                case 1
+                    error('Body class initilization requires at least the filename and iBod arguments')
+                otherwise
+            end
             if exist(filename,'file') == 0
                 error('The hdf5 file %s does not exist',file)
             end
@@ -60,8 +66,19 @@ classdef bodyClass<handle
             obj.hydroData.hydro_coeffs = h5load(filename, [name '/hydro_coeffs']);
             obj.hydroData.simulation_parameters = h5load(filename, '/simulation_parameters');
             obj.hydroData.properties.name = obj.hydroData.properties.name{1};
+            if ignoreH5Error == false
+                try
+                    bemio_version = h5load(filename,'bemio_information/version')
+                catch
+                    bemio_version = '<1.1'
+                end
+                if strcmp(bemio_version,'1.1') == 0
+                    
+                    error(['bemio .h5 file for body ', obj.hydroData.properties.name, ' was generated using bemio version: ', bemio_version '. Please reprocess the hydrodynamic data with the latest version of bemio for te best results. Bemio can be downloaded or updated from https://github.com/WEC-Sim/bemio. You can override this error by specifying the ignoreH5Error variable in in the BodyClass initilization in the wecSimInputFile.'])
+                end
+            end
         end
-        
+
         function hydroForcePre(obj,w,waveDir,CIkt,numFreq,dt,rho,g,waveType,waveAmpTime,iBod,numBod,ssCalc,nlHydro)
             % HydroForce Pre-processing calculations
             % 1. Set the linear hydrodynamic restoring coefficient, viscous
@@ -69,22 +86,22 @@ classdef bodyClass<handle
             % 2. Set the wave excitation force
             obj.bodyNumber = iBod;
 %             obj.dimensionalizedHydroData(rho,g);
-            
+
             %obj.hydroData.hydro_coeffs.added_mass.all = obj.checkCoeffSize(iBod,numBod,obj.hydroData.hydro_coeffs.added_mass.all);
             %obj.hydroData.hydro_coeffs.added_mass.inf_freq = obj.checkCoeffSize(iBod,numBod,obj.hydroData.hydro_coeffs.added_mass.inf_freq);
             %obj.hydroData.hydro_coeffs.radiation_damping.all = obj.checkCoeffSize(iBod,numBod,obj.hydroData.hydro_coeffs.radiation_damping.all);
             %try
-            %        obj.hydroData.hydro_coeffs.impulse_response_fun.K = obj.checkCoeffSize(iBod,numBod,obj.hydroData.hydro_coeffs.impulse_response_fun.K);
-            %        obj.hydroData.hydro_coeffs.impulse_response_fun.L = obj.checkCoeffSize(iBod,numBod,obj.hydroData.hydro_coeffs.impulse_response_fun.L);
+            %        obj.hydroData.hydro_coeffs.radiation_damping.impulse_response_fun.K = obj.checkCoeffSize(iBod,numBod,obj.hydroData.hydro_coeffs.radiation_damping.impulse_response_fun.K);
+            %        obj.hydroData.hydro_coeffs.radiation_damping.impulse_response_fun.L = obj.checkCoeffSize(iBod,numBod,obj.hydroData.hydro_coeffs.radiation_damping.impulse_response_fun.L);
             %catch
             %end
             %try
-            %    obj.hydroData.hydro_coeffs.state_space.it = obj.checkCoeffSize(iBod,numBod,obj.hydroData.hydro_coeffs.state_space.it);
-            %    obj.hydroData.hydro_coeffs.state_space.r2t = obj.checkCoeffSize(iBod,numBod,obj.hydroData.hydro_coeffs.state_space.r2t);
-            %    obj.hydroData.hydro_coeffs.state_space.A = obj.checkCoeffSize(iBod,numBod,obj.hydroData.hydro_coeffs.state_space.A);
-            %    obj.hydroData.hydro_coeffs.state_space.B = obj.checkCoeffSize(iBod,numBod,obj.hydroData.hydro_coeffs.state_space.B);
-            %    obj.hydroData.hydro_coeffs.state_space.C = obj.checkCoeffSize(iBod,numBod,obj.hydroData.hydro_coeffs.state_space.C);
-            %    obj.hydroData.hydro_coeffs.state_space.D = obj.checkCoeffSize(iBod,numBod,obj.hydroData.hydro_coeffs.state_space.D);
+            %    obj.hydroData.hydro_coeffs.radiation_damping.state_space.it = obj.checkCoeffSize(iBod,numBod,obj.hydroData.hydro_coeffs.radiation_damping.state_space.it);
+            %    obj.hydroData.hydro_coeffs.radiation_damping.state_space.r2t = obj.checkCoeffSize(iBod,numBod,obj.hydroData.hydro_coeffs.radiation_damping.state_space.r2t);
+            %    obj.hydroData.hydro_coeffs.radiation_damping.state_space.A = obj.checkCoeffSize(iBod,numBod,obj.hydroData.hydro_coeffs.radiation_damping.state_space.A);
+            %    obj.hydroData.hydro_coeffs.radiation_damping.state_space.B = obj.checkCoeffSize(iBod,numBod,obj.hydroData.hydro_coeffs.radiation_damping.state_space.B);
+            %    obj.hydroData.hydro_coeffs.radiation_damping.state_space.C = obj.checkCoeffSize(iBod,numBod,obj.hydroData.hydro_coeffs.radiation_damping.state_space.C);
+            %    obj.hydroData.hydro_coeffs.radiation_damping.state_space.D = obj.checkCoeffSize(iBod,numBod,obj.hydroData.hydro_coeffs.radiation_damping.state_space.D);
             %catch
             %end
             obj.setMassMatrix(rho,nlHydro)
@@ -116,7 +133,7 @@ classdef bodyClass<handle
                     error('Unexpected wave environment type setting')
             end
         end
-        
+
         function adjustMassMatrix(obj)
             % Merge diagonal term of add mass matrix to the mass matrix
             % 1. Storage the the original mass and added-mass properties
@@ -136,7 +153,7 @@ classdef bodyClass<handle
             obj.hydroForce.fAddedMass(5,5+(iBod-1)*6) = 0;
             obj.hydroForce.fAddedMass(6,6+(iBod-1)*6) = 0;
         end
-        
+
         function restoreMassMatrix(obj)
             % Restore the mass and added-mass matrix back to the original value
             tmp = struct;
@@ -148,12 +165,12 @@ classdef bodyClass<handle
             obj.hydroForce.fAddedMass = obj.hydroForce.storage.fAddedMass;
             obj.hydroForce.storage = tmp; clear tmp
         end
-        
+
         function storeForceAddedMass(obj,am_mod)
             % Store the modified added mass force history (input)
             obj.hydroForce.storage.output_forceAddedMass = am_mod;
         end
-        
+
         function listInfo(obj)
             % List body info
             fprintf('\n\t***** Body Number %G, Name: %s *****\n',obj.hydroData.properties.body_number,obj.hydroData.properties.name)
@@ -161,7 +178,7 @@ classdef bodyClass<handle
             fprintf('\tBody Mass                       (kg) = %G \n',obj.mass);
             fprintf('\tBody Diagonal MOI              (kgm2)= [%G,%G,%G]\n',obj.momOfInertia)
         end
-        
+
         function bodyGeo(obj,fname)
             numFace = 0;
             numVertex = 0;
@@ -207,21 +224,21 @@ classdef bodyClass<handle
                         end
                     end
                 end
-                
+
             end
             obj.bodyGeometry.numFace = numFace;
             obj.bodyGeometry.numVertex = numVertex;
         end
-                
+
     end
-    
-    
+
+
     methods (Access = 'protected') %modify object = T; output = F
         function noExcitation(obj)
             obj.hydroForce.fExt.re=zeros(1,6);
             obj.hydroForce.fExt.im=zeros(1,6);
         end
-        
+
         function regExcitation(obj,w,waveDir,rho,g)
             % Used by hydroForcePre
             % Regular wave excitation force
@@ -242,7 +259,7 @@ classdef bodyClass<handle
                 end
             end
         end
-        
+
         function irrExcitation(obj,wv,numFreq,waveDir,rho,g)
             % Used by hydroForcePre
             % Irregular wave excitation force
@@ -263,7 +280,7 @@ classdef bodyClass<handle
                 end
             end
         end
-        
+
         %function userDefinedExcitation(obj,waveAmpTime,dt)
         %% Used by hydroForcePre
         %% Calculated User-Defined wave excitation force with non-causal convolution
@@ -277,7 +294,7 @@ classdef bodyClass<handle
         %    obj.hydroForce.fExt.re=zeros(1,6);
         %    obj.hydroForce.fExt.im=zeros(1,6);
         %end
-        
+
         function userDefinedExcitation(obj,waveAmpTime,dt,waveDir,rho,g)
             % Used by hydroForcePre
             % Calculated User-Defined wave excitation force with non-causal convolution
@@ -300,7 +317,7 @@ classdef bodyClass<handle
             obj.hydroForce.fExt.re=zeros(1,6);
             obj.hydroForce.fExt.im=zeros(1,6);
         end
-        
+
         function constAddedMassAndDamping(obj,w,CIkt,rho)
             % Used by hydroForcePre
             % Added mass and damping for a specific frequency
@@ -324,15 +341,15 @@ classdef bodyClass<handle
             obj.hydroForce.ssRadf.C = zeros(6,6);
             obj.hydroForce.ssRadf.D = zeros(6,6);
         end
-        
+
         function irfInfAddedMassAndDamping(obj,CIkt,dt,ssCalc,iBod,rho)
             % Used by hydroForcePre
             % Added mass at infinite frequency
             % Convolution integral raditation damping
             lenJ = length(obj.hydroData.hydro_coeffs.added_mass.all(1,:,1));
-            irfk = obj.hydroData.hydro_coeffs.impulse_response_fun.K  .*rho;
-            irft = obj.hydroData.hydro_coeffs.impulse_response_fun.t;
-            
+            irfk = obj.hydroData.hydro_coeffs.radiation_damping.impulse_response_fun.K  .*rho;
+            irft = obj.hydroData.hydro_coeffs.radiation_damping.impulse_response_fun.t;
+
             obj.hydroForce.irkb=zeros(CIkt+1,6,lenJ);
             CTTime = 0:dt:CIkt*dt;
             for ii=1:6
@@ -344,25 +361,25 @@ classdef bodyClass<handle
             obj.hydroForce.ssRadf.B = zeros(6,6);
             obj.hydroForce.ssRadf.C = zeros(6,6);
             obj.hydroForce.ssRadf.D = zeros(6,6);
-            
+
             if ssCalc == 1
                 for ii = 1:6
                     for jj = (iBod-1)*6+1:(iBod-1)*6+6
                         jInd = jj-(iBod-1)*6;
-                        arraySize = obj.hydroData.hydro_coeffs.state_space.it(ii,jj);
+                        arraySize = obj.hydroData.hydro_coeffs.radiation_damping.state_space.it(ii,jj);
                         if ii == 1 && jInd == 1 % Begin construction of combined state, input, and output matrices
-                            Af(1:arraySize,1:arraySize) = obj.hydroData.hydro_coeffs.state_space.A.all(ii,jj,1:arraySize,1:arraySize);
-                            Bf(1:arraySize,jInd)        = obj.hydroData.hydro_coeffs.state_space.B.all(ii,jj,1:arraySize,1);
-                            Cf(ii,1:arraySize)          = obj.hydroData.hydro_coeffs.state_space.C.all(ii,jj,1,1:arraySize);
+                            Af(1:arraySize,1:arraySize) = obj.hydroData.hydro_coeffs.radiation_damping.state_space.A.all(ii,jj,1:arraySize,1:arraySize);
+                            Bf(1:arraySize,jInd)        = obj.hydroData.hydro_coeffs.radiation_damping.state_space.B.all(ii,jj,1:arraySize,1);
+                            Cf(ii,1:arraySize)          = obj.hydroData.hydro_coeffs.radiation_damping.state_space.C.all(ii,jj,1,1:arraySize);
                         else
                             Af(size(Af,1)+1:size(Af,1)+arraySize,...
-                                size(Af,2)+1:size(Af,2)+arraySize)     = obj.hydroData.hydro_coeffs.state_space.A.all(ii,jj,1:arraySize,1:arraySize);
-                            Bf(size(Bf,1)+1:size(Bf,1)+arraySize,jInd) = obj.hydroData.hydro_coeffs.state_space.B.all(ii,jj,1:arraySize,1);
-                            Cf(ii,size(Cf,2)+1:size(Cf,2)+arraySize)   = obj.hydroData.hydro_coeffs.state_space.C.all(ii,jj,1,1:arraySize);
+                                size(Af,2)+1:size(Af,2)+arraySize)     = obj.hydroData.hydro_coeffs.radiation_damping.state_space.A.all(ii,jj,1:arraySize,1:arraySize);
+                            Bf(size(Bf,1)+1:size(Bf,1)+arraySize,jInd) = obj.hydroData.hydro_coeffs.radiation_damping.state_space.B.all(ii,jj,1:arraySize,1);
+                            Cf(ii,size(Cf,2)+1:size(Cf,2)+arraySize)   = obj.hydroData.hydro_coeffs.radiation_damping.state_space.C.all(ii,jj,1,1:arraySize);
                         end
                     end
                 end
-                
+
                 obj.hydroForce.ssRadf.A = Af;
                 obj.hydroForce.ssRadf.B = Bf;
                 obj.hydroForce.ssRadf.C = Cf .*rho;
@@ -371,7 +388,7 @@ classdef bodyClass<handle
             obj.hydroForce.fAddedMass=obj.hydroData.hydro_coeffs.added_mass.inf_freq .*rho;
             obj.hydroForce.fDamping=zeros(6,lenJ);
         end
-        
+
         function setMassMatrix(obj, rho, nlHydro)
             % Used by hydroForcePre
             % Sets mass for the special cases of body at equilibrium or fixed
@@ -400,7 +417,7 @@ classdef bodyClass<handle
             end
         end
     end
-    
+
     methods (Access = 'public') %modify object = F; output = T
         function fam = forceAddedMass(obj,acc)
             % 1. Stores the modified added mass force time history (input)
@@ -419,7 +436,7 @@ classdef bodyClass<handle
             clear tmp
         end
     end
-    
+
     methods (Access = 'protected')  %modify object = F; output = T
         function newCoeff = checkCoeffSize(~,iBod,numBod,coeff)
             coefSize = size(coeff);

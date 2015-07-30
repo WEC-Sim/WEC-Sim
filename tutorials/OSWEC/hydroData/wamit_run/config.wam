@@ -1,6 +1,0 @@
-! generic configuration file:  config.wam
- RAMGBMAX=0.5
- NCPU=4
- USERID_PATH=C:\WAMITv7   (directory for *.exe, *.dll, and userid.wam)
- LICENSE_PATH=wind-was12@7054
-
