@@ -7,7 +7,7 @@ diary('simulation.log')
 
 
 %% Read input file
-fprintf('\nWEC-Sim Read Input File ...   \n'); tic; 
+fprintf('\nWEC-Sim Read Input File ...   \n'); tic;
 evalc('wecSimInputFile');
 toc;
 
@@ -67,12 +67,12 @@ end; clear ii; toc;
 %% HydroForces Pre-Processing: Wave Setup & HydroForcePre
 tic;
 fprintf('\nWEC-Sim Wave Setup & Model Setup & Run WEC-Sim ...   \n')
-waves.waveSetup(body(1).hydroData.simulation_parameters.w, body(1).hydroData.simulation_parameters.water_depth, simu.rampT, simu.dt, simu.maxIt, simu.g, simu.endTime); 
+waves.waveSetup(body(1).hydroData.simulation_parameters.w, body(1).hydroData.simulation_parameters.water_depth, simu.rampT, simu.dt, simu.maxIt, simu.g, simu.endTime);
 for kk = 1:simu.numWecBodies
     body(kk).hydroForcePre(waves.w,waves.waveDir,simu.CIkt,waves.numFreq,simu.dt,simu.rho,simu.g,waves.type,waves.waveAmpTime,kk,simu.numWecBodies,simu.ssCalc,simu.nlHydro);
 end; clear kk
 
-%% Check that waveDir and freq are within range of hydro data 
+%% Check that waveDir and freq are within range of hydro data
 if  waves.waveDir <  min(body(1).hydroData.simulation_parameters.wave_dir) || waves.waveDir >  max(body(1).hydroData.simulation_parameters.wave_dir)
     error('waves.waveDir outside of range of available hydro data')
 end
@@ -112,6 +112,13 @@ else
 end
 fprintf('\n')
 
+for iBod = 1:simu.numWecBodies
+    if simu.CITime > max(body(iBod).hydroData.hydro_coeffs.excitation.impulse_response_fun.t)
+      error('simu.CITime is larger than the length of the IRF');
+    end
+end
+
+
 %% Load simMechanics file & Run Simulation
 fprintf('\nSimulating the WEC device defined in the SimMechanics model %s...   \n',simu.simMechanicsFile)
 simu.loadSimMechModel(simu.simMechanicsFile);
@@ -119,7 +126,7 @@ for iBod = 1:simu.numWecBodies; body(iBod).adjustMassMatrix; end; clear iBod
 tDelayWarning = 'Simulink:blocks:TDelayTimeTooSmall';
 warning('off',tDelayWarning); clear tDelayWarning
 if simu.rampT == 0; simu.rampT = 10e-8; end
-sim(simu.simMechanicsFile); 
+sim(simu.simMechanicsFile);
 clear nlHydro sv_linearHydro sv_nonlinearHydro ssCalc sv_converlution sv_stateSpace typeNum sv_noWave sv_regularWaves sv_irregularWaves sv_udfWaves sv_meanFS sv_instFS;
 if simu.rampT == 10e-8; simu.rampT = 0; end
 
@@ -168,11 +175,10 @@ end; clear iBod
 
 % User Defined Post-Processing
 if exist('userDefinedFunctions.m','file') == 2
-    userDefinedFunctions;                
+    userDefinedFunctions;
 end
 
 
-clear ans; toc; 
+clear ans; toc;
 diary off; movefile('simulation.log',simu.logFile)
 save(simu.caseFile)
-
