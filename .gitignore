@@ -51,6 +51,8 @@ view_html.sh
 
 .DS_Store
 
+# MATLAB
 */output/
 */output_previous/
-*/slprj/
+*/slprj
+*build_exception*
