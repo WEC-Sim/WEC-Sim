@@ -1,4 +1,4 @@
-from bemio.io import wamit
+from bemio.io.wamit import read
 from bemio.io.output import write_hdf5
 import os
 
@@ -7,15 +7,14 @@ plt.close('all')
 plt.interactive(True)
 
 # Load the data
-wamit_data = wamit.WamitOutput(out_file='./wamit_run/oswec.out')
-num_bodies = wamit_data.data[0].num_bodies
+wamit_data = read(out_file='./wamit_data/oswec.out')
+num_bodies = wamit_data.body[0].num_bodies
 
 # Calculate IRF and plot
 for i in xrange(num_bodies):
-	wamit_data.data[i].calc_irf_excitation()
-	wamit_data.data[i].calc_irf_radiation()
-	wamit_data.data[i].calc_ss_radiation()
+	wamit_data.body[i].calc_irf_excitation(t_end=30.)
+	wamit_data.body[i].calc_irf_radiation(t_end=30.)
+	# wamit_data.body[i].calc_ss_radiation()
 
 # Save the data in HDF5 format
-write_hdf5(wamit_data)
-os.rename('./wamit_run/oswec.h5', './oswec.h5')
+write_hdf5(wamit_data,out_file='oswec.h5')
