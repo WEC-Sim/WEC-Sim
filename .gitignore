@@ -54,5 +54,5 @@ view_html.sh
 # MATLAB
 */output/
 */output_previous/
-*/slprj/
+*/slprj
 *build_exception*
