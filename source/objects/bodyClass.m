@@ -49,9 +49,15 @@ classdef bodyClass<handle
     end
 
     methods (Access = 'public') %modify object = T; output = F
-        function obj = bodyClass(filename,iBod)
+        function obj = bodyClass(filename,iBod,ignoreH5Error)
             % Initilization function
-            % Read in hdf5 file
+            switch nargin
+                case 2
+                    ignoreH5Error = false
+                case 1
+                    error('Body class initilization requires at least the filename and iBod arguments')
+                otherwise
+            end
             if exist(filename,'file') == 0
                 error('The hdf5 file %s does not exist',file)
             end
@@ -60,6 +66,17 @@ classdef bodyClass<handle
             obj.hydroData.hydro_coeffs = h5load(filename, [name '/hydro_coeffs']);
             obj.hydroData.simulation_parameters = h5load(filename, '/simulation_parameters');
             obj.hydroData.properties.name = obj.hydroData.properties.name{1};
+            if ignoreH5Error == false
+                try
+                    bemio_version = h5load(filename,'bemio_information/version')
+                catch
+                    bemio_version = '<1.1'
+                end
+                if strcmp(bemio_version,'1.1') == 0
+                    
+                    error(['bemio .h5 file for body ', obj.hydroData.properties.name, ' was generated using bemio version: ', bemio_version '. Please reprocess the hydrodynamic data with the latest version of bemio for te best results. Bemio can be downloaded or updated from https://github.com/WEC-Sim/bemio. You can override this error by specifying the ignoreH5Error variable in in the BodyClass initilization in the wecSimInputFile.'])
+                end
+            end
         end
 
         function hydroForcePre(obj,w,waveDir,CIkt,numFreq,dt,rho,g,waveType,waveAmpTime,iBod,numBod,ssCalc,nlHydro)
