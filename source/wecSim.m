@@ -1,6 +1,7 @@
 %%% WEC-Sim run file
 %% Start WEC-Sim log
-bdclose('all'); clc; diary off; close all; clear all;
+bdclose('all'); clc; diary off; close all; 
+clear body waves simu output pto constraint %clear all;
 % NOTE: The clear all will need to be removed for batch runs
 if exist('simulation.log','file'); delete('simulation.log'); end
 diary('simulation.log')
@@ -168,9 +169,9 @@ clear bodiesOutput ptosOutput constraintsOutput
 
 for iBod = 1:simu.numWecBodies
 %     body(iBod).storeForceAddedMass(output.bodies(iBod).forceAddedMass)
-    output.bodies(iBod).forceTotal = output.bodies(iBod).forceTotal - output.bodies(iBod).forceAddedMass;
-    output.bodies(iBod).forceAddedMass = body(iBod).forceAddedMass(output.bodies(iBod).acceleration);
     output.bodies(iBod).forceTotal = output.bodies(iBod).forceTotal + output.bodies(iBod).forceAddedMass;
+    output.bodies(iBod).forceAddedMass = body(iBod).forceAddedMass(output.bodies(iBod).acceleration);
+    output.bodies(iBod).forceTotal = output.bodies(iBod).forceTotal - output.bodies(iBod).forceAddedMass;
 end; clear iBod
 
 % User Defined Post-Processing
