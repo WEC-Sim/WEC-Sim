@@ -23,8 +23,7 @@ The github.io website renders the documentation in the WEC-Sim/gh-pages branch a
   # Build the html documentation in cmd
   make html
 
-  # Use git shell to check the status of the gh-pages branch, then commit and push changes. 
-  the WEC-Sim website should be updated with any changes that were made to the source code.
+  # Use Git-shell to check status of the gh-pages branch, then commit and push changes. 
   git status
   git add -A
   git commit -m 'update to WEC-Sim documentation'
