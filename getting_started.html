@@ -73,8 +73,9 @@
           
               <ul class="current">
 <li class="toctree-l1"><a class="reference internal" href="release_notes.html">Release Notes</a><ul>
-<li class="toctree-l2"><a class="reference internal" href="release_notes.html#new-features-in-wec-sim-v1-1">New Features in WEC-Sim v1.1</a></li>
-<li class="toctree-l2"><a class="reference internal" href="release_notes.html#compatibility-with-wec-sim-v1-0">Compatibility with WEC-Sim v1.0</a></li>
+<li class="toctree-l2"><a class="reference internal" href="release_notes.html#new-features-in-wec-sim-v1-2">New Features in WEC-Sim v1.2</a></li>
+<li class="toctree-l2"><a class="reference internal" href="release_notes.html#wec-sim-v1-1-release-notes">WEC-Sim v1.1 Release Notes</a></li>
+<li class="toctree-l2"><a class="reference internal" href="release_notes.html#wec-sim-backward-compatibility">WEC-Sim Backward Compatibility</a></li>
 <li class="toctree-l2"><a class="reference internal" href="release_notes.html#features-under-development">Features Under Development</a></li>
 </ul>
 </li>
@@ -261,7 +262,7 @@
 <p>This section provides instructions on how to download and install the WEC-Sim code, the BEMIO preprocessing code, and how to run WEC-Sim simulations.</p>
 <div class="section" id="matlab-toolbox-requirements">
 <h2>MATLAB Toolbox Requirements<a class="headerlink" href="#matlab-toolbox-requirements" title="Permalink to this headline">¶</a></h2>
-<p>WEC-Sim v1.1 was developed in <strong>MATLAB R2014b</strong>, and requires the following toolboxes:</p>
+<p>WEC-Sim was developed in <strong>MATLAB R2014b</strong>, and requires the following toolboxes:</p>
 <table border="1" class="docutils">
 <colgroup>
 <col width="49%" />
@@ -329,7 +330,7 @@
 </div>
 <div class="section" id="option-3-static-code-download">
 <h3>Option 3: Static Code Download<a class="headerlink" href="#option-3-static-code-download" title="Permalink to this headline">¶</a></h3>
-<p>The easiest way to obtain a copy of WEC-Sim is to download the latest tagged release of the WEC-Sim code available on Github, <a class="reference external" href="https://github.com/WEC-Sim/WEC-Sim/releases">WEC-Sim v1.1</a>.</p>
+<p>The easiest way to obtain a copy of WEC-Sim is to download the latest tagged release of the WEC-Sim code available on Github, <a class="reference external" href="https://github.com/WEC-Sim/WEC-Sim/releases">WEC-Sim Release</a>.</p>
 <div class="admonition note">
 <p class="first admonition-title">Note</p>
 <p class="last">This is a static download of the WEC-Sim code. If you chose this method, you will have to re-download the code in order to receive code updates.</p>
@@ -397,35 +398,6 @@
 <div class="section" id="file-structure-overview">
 <h3>File Structure Overview<a class="headerlink" href="#file-structure-overview" title="Permalink to this headline">¶</a></h3>
 <p>All the information for a WEC-Sim run is contained within a case directory. Provided you have installed WEC-Sim correctly, this folder can be anywhere on your computer. The table below shows the structure for a case directory.</p>
-<table border="1" class="docutils">
-<colgroup>
-<col width="27%" />
-<col width="41%" />
-<col width="32%" />
-</colgroup>
-<tbody valign="top">
-<tr class="row-odd"><td><strong>Information</strong></td>
-<td><strong>File name</strong></td>
-<td><strong>Location</strong></td>
-</tr>
-<tr class="row-even"><td>Input file</td>
-<td>wecSimInputFile.m</td>
-<td><code class="docutils literal"><span class="pre">$CASE</span></code></td>
-</tr>
-<tr class="row-odd"><td>WEC Model</td>
-<td>&lt;WEC Model Name&gt;.slx</td>
-<td><code class="docutils literal"><span class="pre">$CASE</span></code></td>
-</tr>
-<tr class="row-even"><td>Hydrodynamic Data</td>
-<td>&lt;hydro-data name&gt;.hd5</td>
-<td><code class="docutils literal"><span class="pre">$CASE</span></code>/hydroData</td>
-</tr>
-<tr class="row-odd"><td>Geometry</td>
-<td>&lt;STL File Name&gt;.stl</td>
-<td><code class="docutils literal"><span class="pre">$CASE</span></code>/geometry</td>
-</tr>
-</tbody>
-</table>
 </div>
 <div class="section" id="steps-to-run-wec-sim">
 <h3>Steps To Run WEC-Sim<a class="headerlink" href="#steps-to-run-wec-sim" title="Permalink to this headline">¶</a></h3>
@@ -441,7 +413,7 @@
 <ul class="simple">
 <li>Creating the device geometry using a CAD model: Users need to create representations of the WEC bodies to generate mesh for their hydrodynamic model and also need to export a their CAD model in STL format, which are used to visualize the WEC bodies in the WEC-Sim/MATLAB graphical user interface.</li>
 <li>Run the hydrodynamic model: WEC-Sim require pre-determined hydrodynamic coefficients. Typically, these hydrodynamic coefficients for each body of the WEC device are generated using a hydrodynamic model (e.g., WAMIT, NEMOH or AQWA).</li>
-<li>Run <cite>BEMIO</cite> to create WEC-Sim input hydrodynamic data file in HDF5 format: WEC-Sim will read the hydrodynamic data generated using a hydrodynamic model in HDF5 format (<code class="docutils literal"><span class="pre">&lt;hydro-data</span> <span class="pre">name&gt;.hd5</span></code>). The boundary-element method input/output (<cite>BEMIO</cite>) was developed for this purpose. Currently, bemio accepts the hydrodynamic coefficients from WAMIT, NEMOH and AQWA.</li>
+<li>Run <cite>BEMIO</cite> to create WEC-Sim input hydrodynamic data file in HDF5 format: WEC-Sim will read the hydrodynamic data generated using a hydrodynamic model in HDF5 format (<code class="docutils literal"><span class="pre">&lt;hydro-data</span> <span class="pre">name&gt;.h5</span></code>). The boundary-element method input/output (<cite>BEMIO</cite>) was developed for this purpose. Currently, bemio accepts the hydrodynamic coefficients from WAMIT, NEMOH and AQWA.</li>
 </ul>
 <div class="admonition note">
 <p class="first admonition-title">Note</p>

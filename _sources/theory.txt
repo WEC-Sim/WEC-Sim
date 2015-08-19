@@ -19,7 +19,7 @@ Modeling a WEC involves the interaction between the incident waves, device motio
 
 Boundary Element Method
 ----------------------------------
-A common approach to determining the hydrodynamic forces is to presume that they are the sum of incident, radiated, and diffracted wave components. These forcing components are modeled using linear coefficients ideally obtained from a frequency-domain potential flow BEM solver (e.g., WAMIT :cite:`Lee2006`, AWQA-FER :cite:`AQWA`, and Nemoh :cite:`NEMOH`). The BEM solutions are obtained by solving the Laplace equation for the velocity potential, which assumes the flow is inviscid, incompressible, and irrotational. More details on the theory for the frequency-domain BEM can be found in :cite:`Lee2006`.
+A common approach to determining the hydrodynamic forces is to presume that they are the sum of incident, radiated, and diffracted wave components. These forcing components are modeled using linear coefficients ideally obtained from a frequency-domain potential flow BEM solver (e.g., WAMIT :cite:`Lee2006`, AQWA-FER :cite:`AQWA`, and Nemoh :cite:`NEMOH`). The BEM solutions are obtained by solving the Laplace equation for the velocity potential, which assumes the flow is inviscid, incompressible, and irrotational. More details on the theory for the frequency-domain BEM can be found in :cite:`Lee2006`.
 
 Coordinate System in WEC-Sim
 ------------------------------

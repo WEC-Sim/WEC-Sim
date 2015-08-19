@@ -96,7 +96,7 @@ In this section, we define the WEC-Sim MATLAB input file for the RM3 model. Each
 
 Simulation
 ~~~~~~~~~~~~~~~~~
-Once the WEC-Sim Simulink model is set up and the RM3 properties are defined in the MATLAB input file, the user can then run the RM3 model in WEC-Sim by running the ``wecSim`` command from the MATLAB Command Window. The figure below shows the final RM3 Simulink model and the WEC-Sim GUI during the simulation.
+Once the WEC-Sim Simulink model is set up and the RM3 properties are defined in the MATLAB input file, the user can then run the RM3 model in WEC-Sim by running the ``wecSim`` command from the MATLAB Command Window. The figure below shows the final RM3 Simulink model and the WEC-Sim GUI during the simulation. For more information on using WEC-Sim to model the RM3 device, refer to :cite:`ruehl_preliminary_2014`.
 
 .. figure:: _static/RM3_WECSim_GUI.JPG
    :width: 400pt
@@ -197,7 +197,12 @@ In this section, the WEC-Sim MATLAB input file, ``wecSimInputFile.m``, for the O
 OSWEC WEC-Sim Simulation
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
-Once the WEC-Sim Simulink model is set up and the OSWEC properties are defined in the MATLAB input file, the user can then run the OSWEC model in WEC-Sim by running the ``wecSim`` command from the MATLAB Command Window..  The figure below shows the final OSWEC Simulink model and the WEC-Sim GUI showing the OSWEC during the simulation. For more information on using WEC-Sim to model the OSWEC device, refer to <ref>y._yu_development_2014</ref> and <ref>y._yu_design_2014</ref>.
+Once the WEC-Sim Simulink model is set up and the OSWEC properties are defined in the MATLAB input file, the user can then run the OSWEC model in WEC-Sim by running the ``wecSim`` command from the MATLAB Command Window..  The figure below shows the final OSWEC Simulink model and the WEC-Sim GUI showing the OSWEC during the simulation. For more information on using WEC-Sim to model the OSWEC device, refer to :cite:`y._yu_development_2014,y._yu_design_2014`.
 
 .. figure::: _static/OSWEC_WECSim_GUI.png
    :width: 400pt
+
+References
+--------------
+.. bibliography:: WEC-Sim_Publications.bib
+   :style: unsrt
