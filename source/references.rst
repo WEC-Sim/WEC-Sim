@@ -14,7 +14,6 @@ News Articles
 --------------
 * May 21, 2015 – US Department of Energy, `Revamped Simulation Tool to Power Up Wave Energy Development <http://energy.gov/eere/articles/revamped-simulation-tool-power-wave-energy-development/>`_
 * April 16, 2015 – Tidal Energy Today, `NREL, SNL release update for WEC simulator <http://tidalenergytoday.com/2015/04/16/nrel-snl-release-update-for-wec-simulator/>`_
-
 * April 15, 2015 – OpenORE, WEC-Sim Update! <http://openore.org/2015/04/15/wec-sim-update/>`_
 * November 17, 2014 – Renewable Energy World, `Marine Energy Making Waves on Both Sides of the Pond <http://www.renewableenergyworld.com/rea/news/article/2014/11/marine-energy-making-waves-on-both-sides-of-the-pond?cmpid=rss/>`_
 * August 28, 2014 – NASA’s Jet Propulsion Laboratory, `NASA helps harness an ocean of energy <http://climate.nasa.gov/news/1149/>`_

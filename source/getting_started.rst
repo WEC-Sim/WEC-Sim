@@ -6,7 +6,7 @@ This section provides instructions on how to download and install the WEC-Sim co
 
 MATLAB Toolbox Requirements
 ------------------------------
-WEC-Sim v1.1 was developed in **MATLAB R2014b**, and requires the following toolboxes:
+WEC-Sim was developed in **MATLAB R2014b**, and requires the following toolboxes:
 
 ====================  ===================		
 **Required Toolbox**  **Supported Version**
@@ -61,7 +61,7 @@ If you are planning to contribute to the WEC-Sim code, please follow the `forkin
 
 Option 3: Static Code Download 
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-The easiest way to obtain a copy of WEC-Sim is to download the latest tagged release of the WEC-Sim code available on Github, `WEC-Sim v1.1 <https://github.com/WEC-Sim/WEC-Sim/releases>`_.
+The easiest way to obtain a copy of WEC-Sim is to download the latest tagged release of the WEC-Sim code available on Github, `WEC-Sim Release <https://github.com/WEC-Sim/WEC-Sim/releases>`_.
 
 .. Note::
 	This is a static download of the WEC-Sim code. If you chose this method, you will have to re-download the code in order to receive code updates.
@@ -130,7 +130,7 @@ All the information for a WEC-Sim run is contained within a case directory. Prov
 **Information**     **File name**               **Location**
 Input file          wecSimInputFile.m           ``$CASE``
 WEC Model           <WEC Model Name>.slx        ``$CASE``
-Hydrodynamic Data   <hydro-data name>.hd5       ``$CASE``/hydroData
+Hydrodynamic Data   <hydro-data name>.h5       ``$CASE``/bemio
 Geometry            <STL File Name>.stl         ``$CASE``/geometry
 =================   ==========================  ====================
 
@@ -156,7 +156,7 @@ In the pre-processing step, users need to create the model geometry, calculate t
 
 * Creating the device geometry using a CAD model: Users need to create representations of the WEC bodies to generate mesh for their hydrodynamic model and also need to export a their CAD model in STL format, which are used to visualize the WEC bodies in the WEC-Sim/MATLAB graphical user interface.
 * Run the hydrodynamic model: WEC-Sim require pre-determined hydrodynamic coefficients. Typically, these hydrodynamic coefficients for each body of the WEC device are generated using a hydrodynamic model (e.g., WAMIT, NEMOH or AQWA).
-* Run `BEMIO` to create WEC-Sim input hydrodynamic data file in HDF5 format: WEC-Sim will read the hydrodynamic data generated using a hydrodynamic model in HDF5 format (``<hydro-data name>.hd5``). The boundary-element method input/output (`BEMIO`) was developed for this purpose. Currently, bemio accepts the hydrodynamic coefficients from WAMIT, NEMOH and AQWA. 
+* Run `BEMIO` to create WEC-Sim input hydrodynamic data file in HDF5 format: WEC-Sim will read the hydrodynamic data generated using a hydrodynamic model in HDF5 format (``<hydro-data name>.h5``). The boundary-element method input/output (`BEMIO`) was developed for this purpose. Currently, bemio accepts the hydrodynamic coefficients from WAMIT, NEMOH and AQWA. 
 
 .. Note::
 	* To ensure that WEC-Sim uses the correct hydrodynamic coefficients to model the WEC system, the hydrodynamic coefficients **must** be given at the center of gravity for each body. If WAMIT is used, the center of gravity for each body **must** be at the origin of the body coordinate system (XBODY) in WAMIT simulations. More details on WAMIT setup are given in the `WAMIT User Manual <http://www.wamit.com/manual.htm>`_.

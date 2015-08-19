@@ -73,8 +73,9 @@
           
               <ul class="current">
 <li class="toctree-l1 current"><a class="current reference internal" href="">Release Notes</a><ul>
-<li class="toctree-l2"><a class="reference internal" href="#new-features-in-wec-sim-v1-1">New Features in WEC-Sim v1.1</a></li>
-<li class="toctree-l2"><a class="reference internal" href="#compatibility-with-wec-sim-v1-0">Compatibility with WEC-Sim v1.0</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#wec-sim-v1-2-release-notes">WEC-Sim v1.2 Release Notes</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#wec-sim-v1-1-release-notes">WEC-Sim v1.1 Release Notes</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#wec-sim-backward-compatibility">WEC-Sim Backward Compatibility</a></li>
 <li class="toctree-l2"><a class="reference internal" href="#features-under-development">Features Under Development</a></li>
 </ul>
 </li>
@@ -210,6 +211,7 @@
 <li class="toctree-l3"><a class="reference internal" href="tutorials.html#oswec-wec-sim-simulation">OSWEC WEC-Sim Simulation</a></li>
 </ul>
 </li>
+<li class="toctree-l2"><a class="reference internal" href="tutorials.html#references">References</a></li>
 </ul>
 </li>
 <li class="toctree-l1"><a class="reference internal" href="online_forum.html">Online Forum</a></li>
@@ -258,8 +260,20 @@
             
   <div class="section" id="release-notes">
 <h1>Release Notes<a class="headerlink" href="#release-notes" title="Permalink to this headline">¶</a></h1>
-<div class="section" id="new-features-in-wec-sim-v1-1">
-<h2>New Features in WEC-Sim v1.1<a class="headerlink" href="#new-features-in-wec-sim-v1-1" title="Permalink to this headline">¶</a></h2>
+<div class="section" id="wec-sim-v1-2-release-notes">
+<h2>WEC-Sim v1.2 Release Notes<a class="headerlink" href="#wec-sim-v1-2-release-notes" title="Permalink to this headline">¶</a></h2>
+<ul class="simple">
+<li>Nonlinear Froude-Krylov hydrodynamics and hydrostatics</li>
+<li>State space radiation</li>
+<li>Wave directionality</li>
+<li>User-defined wave elevation time-series</li>
+<li>Imports non-dimensionalized BEMIO hydrodynamic data (instead of fully dimensional coefficients)</li>
+<li>&#8216;Variant Subsystems&#8217; implemented to improve code stability (instead of if statements)</li>
+<li>Bug fixes</li>
+</ul>
+</div>
+<div class="section" id="wec-sim-v1-1-release-notes">
+<h2>WEC-Sim v1.1 Release Notes<a class="headerlink" href="#wec-sim-v1-1-release-notes" title="Permalink to this headline">¶</a></h2>
 <ul class="simple">
 <li><a class="reference external" href="https://github.com/WEC-Sim/WEC-Sim/releases">WEC-Sim v1.1 download</a> available on GitHub</li>
 <li>Improvements in code stability through modifications to the added mass, radiation damping calculations, and impulse response function calculations</li>
@@ -268,21 +282,18 @@
 <li>Documentation available on <a class="reference external" href="http://wec-sim.github.io/WEC-Sim">WEC-Sim website</a></li>
 </ul>
 </div>
-<div class="section" id="compatibility-with-wec-sim-v1-0">
-<h2>Compatibility with WEC-Sim v1.0<a class="headerlink" href="#compatibility-with-wec-sim-v1-0" title="Permalink to this headline">¶</a></h2>
+<div class="section" id="wec-sim-backward-compatibility">
+<h2>WEC-Sim Backward Compatibility<a class="headerlink" href="#wec-sim-backward-compatibility" title="Permalink to this headline">¶</a></h2>
 <ul class="simple">
 <li>Simulink models created in WEC-Sim v1.0 will work provided users have not broken the library link in the .slx model file.</li>
-<li>The input files need to be modified to be compatible with WEC-Sim v1.1 due to changes in hydrodynamic data input format, variable name changes, and code structure improvements.</li>
-<li>MATLAB 2014b is required to run WEC-Sim v1.1.</li>
+<li>The input files need to be modified to be compatible with WEC-Sim due to changes in hydrodynamic data input format, variable name changes, and code structure improvements.</li>
 </ul>
 </div>
 <div class="section" id="features-under-development">
 <h2>Features Under Development<a class="headerlink" href="#features-under-development" title="Permalink to this headline">¶</a></h2>
 <ul class="simple">
-<li>User-defined irregular wave input</li>
-<li>Morison elements</li>
-<li>Wave-directionality</li>
-<li>Non-linear hydrostatics and hydrodynamics</li>
+<li>Morison Elements</li>
+<li>Body2Body Interactions</li>
 <li>NOTE: features currently under development are available on the <a class="reference external" href="https://github.com/WEC-Sim/WEC-Sim/tree/dev">WEC-Sim &#8216;dev&#8217; branch</a></li>
 </ul>
 </div>
