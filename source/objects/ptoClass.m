@@ -15,7 +15,7 @@
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
 classdef ptoClass<handle
-    properties                                                         
+    properties (SetAccess = 'public', GetAccess = 'public')%input file 
         name                    = 'NOT DEFINED'                                 % Name of the pto 
         k                       = 0                                             % PTO stiffness. Default = 0
         c                       = 0                                             % PTO damping. Default = 0
@@ -23,7 +23,7 @@ classdef ptoClass<handle
     end 
     
     properties (SetAccess = 'public', GetAccess = 'public')%internal
-        ptoNum                  = []
+        ptoNum                  = []                                            % PTO number.
     end
     
     methods                                                            

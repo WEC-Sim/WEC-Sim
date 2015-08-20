@@ -61,13 +61,10 @@ classdef waveClass<handle
                     obj.typeNum = 21;
                 case 'userDefined'     % Import User-Defined Waves
                     obj.typeNum = 30;
-                otherwise
-                    error(['Unexpected wave environment type setting. ' ...
-                        'Only noWave, noWaveCIC, regular, regularCIC, irregular, irregularImport, and userDefined waves are supported at this time'])
             end
         end
         
-        function obj = plotEta(obj)
+        function plotEta(obj)
             figure
             plot(obj.waveAmpTime(:,1),obj.waveAmpTime(:,2))
             xlabel('Time (s)')
@@ -106,14 +103,8 @@ classdef waveClass<handle
                     data = importdata(obj.etaDataFile) ;    % Import time-series
                     t = [0:dt:endTime]';      % WEC-Sim simulation time [s]
                     obj.waveElevUser(rampT, dt, maxIt, data, t);
-                    
-                    % This is initialization for other waveTypes
-                    obj.A = 0;
-                    obj.w = 0;
-                    obj.dw = 0;
             end
             obj.waveNumber(g)
-            
         end
         
         function listInfo(obj)
@@ -149,7 +140,8 @@ classdef waveClass<handle
                     end
                     obj.printWaveSpectrumType;
                 case 'userDefined'
-                    fprintf('\t Add userDefined Hs and Tp later \n')
+                    fprintf( '\tWave Type                                = User-Defined Wave Elevation Time-Series\n')
+                    fprintf(['\tWave Elevation Time-Series File          = ' obj.etaDataFile '  \n'])
             end
         end
         
@@ -160,8 +152,28 @@ classdef waveClass<handle
                     obj.k = obj.w.^2./g./tanh(obj.k.*obj.waterDepth);
                 end
             end
+        end    
+
+        function checkinputs(obj)
+            % noWaveHydrodynamicCoeffT defined for noWave case
+            if strcmp(obj.type,'noWave')
+                if strcmp(obj.noWaveHydrodynamicCoeffT,'NOT DEFINED')
+                    error('The noWaveHydrodynamicCoeffT variable must be defined when using the "noWave" wave type');
+                end
+            end
+            % spectrumDataFile defined for irregularImport case
+            if strcmp(obj.type,'irregularImport')
+                if strcmp(obj.spectrumDataFile,'NOT DEFINED')
+                    error('The spectrumDataFile variable must be defined when using the "irregularImport" wave type');
+                end
+            end
+            % types
+            types = {'noWave', 'noWaveCIC', 'regular', 'regularCIC', 'irregular', 'irregularImport', 'userDefined'};
+            if sum(strcmp(types,obj.type)) ~= 1
+                error(['Unexpected wave environment type setting. ' ...
+                    'Only noWave, noWaveCIC, regular, regularCIC, irregular, irregularImport, and userDefined waves are supported at this time'])
+            end
         end
-        
     end
     
     methods (Access = 'protected')
@@ -190,9 +202,6 @@ classdef waveClass<handle
             end
             switch obj.type
                 case {'noWave'}
-                    if strcmp(obj.noWaveHydrodynamicCoeffT,'NOT DEFINED')
-                        error('The noWaveHydrodynamicCoeffT variable must be defined when using the "noWave" wave type');
-                    end
                     obj.H = 0;
                     obj.T = obj.noWaveHydrodynamicCoeffT;
                 case {'noWaveCIC'}
@@ -203,9 +212,6 @@ classdef waveClass<handle
                     obj.H = 0;
                     obj.T = 0;
                     obj.spectrumType = 'Imported';
-                    if strcmp(obj.spectrumDataFile,'NOT DEFINED')
-                        error('The spectrumDataFile variable must be defined when using the "irregularImport" wave type');
-                    end
             end
         end
         
