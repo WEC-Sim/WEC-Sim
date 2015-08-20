@@ -21,7 +21,7 @@ classdef constraintClass<handle
     end
     
     properties (SetAccess = 'public', GetAccess = 'public')%internal
-        constraintNum           = []
+        constraintNum           = []                                            % Constraint number
     end
     
     methods (Access = 'public')                                        

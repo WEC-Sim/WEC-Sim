@@ -16,9 +16,9 @@
 
 classdef responseClass<handle
     properties (SetAccess = 'public', GetAccess = 'public')
-         bodies              = struct()
-         ptos                = struct()
-         constraints         = struct()
+         bodies              = struct()                                         % Output from the different body blocks
+         ptos                = struct()                                         % Output from the different PTO blocks
+         constraints         = struct()                                         % Output from the different constraint blocks
     end
     
     methods (Access = 'public')
@@ -67,7 +67,6 @@ classdef responseClass<handle
             pos=obj.bodies(bodyNum).position(:,comp) - obj.bodies(bodyNum).position(1,comp);
             vel=obj.bodies(bodyNum).velocity(:,comp);
             acc=obj.bodies(bodyNum).acceleration(:,comp);
-
             figure()
             plot(t,pos,'k-',...
                 t,vel,'b-',...
@@ -76,7 +75,6 @@ classdef responseClass<handle
             xlabel('Time (s)')
             ylabel('Response in (m) or (radians)')
             title(['body' num2str(bodyNum) ' (' obj.bodies(bodyNum).name ') ' DOF{comp} ' Response'])
-            
             clear t pos vel acc i
         end
 
@@ -94,7 +92,6 @@ classdef responseClass<handle
             FV=-1*obj.bodies(bodyNum).forceViscous(:,comp);
             FLD=-1*obj.bodies(bodyNum).forceLinearDamping(:,comp);
             FM=-1*obj.bodies(bodyNum).forceMooring(:,comp);
-
             figure();
             plot(t,FT,...
                 t,FE,...
