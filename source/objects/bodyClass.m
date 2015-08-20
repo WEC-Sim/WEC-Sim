@@ -61,11 +61,42 @@ classdef bodyClass<handle
             if exist(filename,'file') == 0
                 error('The hdf5 file %s does not exist',file)
             end
-            name = ['body' num2str(iBod)];
-            obj.hydroData.properties = h5load(filename, [name '/properties']);
-            obj.hydroData.hydro_coeffs = h5load(filename, [name '/hydro_coeffs']);
-            obj.hydroData.simulation_parameters = h5load(filename, '/simulation_parameters');
-            obj.hydroData.properties.name = obj.hydroData.properties.name{1};
+            name = ['/body' num2str(iBod)];
+            % obj.hydroData.properties = h5load(filename, [name '/properties']);
+            % obj.hydroData.hydro_coeffs = h5load(filename, [name '/hydro_coeffs']);
+            % obj.hydroData.simulation_parameters = h5load(filename, '/simulation_parameters');
+            % obj.hydroData.properties.name = obj.hydroData.properties.name{1};
+
+            obj.hydroData.simulation_parameters.scaled = h5read(filename,'/simulation_parameters/scaled')
+            obj.hydroData.simulation_parameters.wave_dir = h5read(filename,'/simulation_parameters/wave_dir')
+            obj.hydroData.simulation_parameters.water_depth = h5read(filename,'/simulation_parameters/water_depth')
+            obj.hydroData.simulation_parameters.w = h5read(filename,'/simulation_parameters/w')
+            obj.hydroData.simulation_parameters.T = h5read(filename,'/simulation_parameters/T')
+
+            obj.hydroData.properties.name = h5read(filename,[name '/properties/name'])
+            obj.hydroData.properties.name = obj.hydroData.properties.name{1}
+            obj.hydroData.properties.body_number = h5read(filename,[name '/properties/body_number'])
+            obj.hydroData.properties.cg = h5read(filename,[name '/properties/cg'])
+            obj.hydroData.properties.disp_vol = h5read(filename,[name '/properties/disp_vol'])
+
+            obj.hydroData.hydro_coeffs.linear_restoring_stiffness = h5load(filename, [name '/hydro_coeffs/linear_restoring_stiffness']);
+            obj.hydroData.hydro_coeffs.excitation.re = h5load(filename, [name '/hydro_coeffs/excitation/re']);
+            obj.hydroData.hydro_coeffs.excitation.im = h5load(filename, [name '/hydro_coeffs/excitation/im']);
+            obj.hydroData.hydro_coeffs.excitation.impulse_response_fun.f = h5load(filename, [name '/hydro_coeffs/excitation/impulse_response_fun/f']);
+            obj.hydroData.hydro_coeffs.excitation.impulse_response_fun.t = h5load(filename, [name '/hydro_coeffs/excitation/impulse_response_fun/t']);
+            obj.hydroData.hydro_coeffs.added_mass.all = h5load(filename, [name '/hydro_coeffs/added_mass/all']);
+            obj.hydroData.hydro_coeffs.added_mass.inf_freq = h5load(filename, [name '/hydro_coeffs/added_mass/inf_freq']);
+            obj.hydroData.hydro_coeffs.radiation_damping.all = h5load(filename, [name '/hydro_coeffs/radiation_damping/all']);
+            obj.hydroData.hydro_coeffs.radiation_damping.impulse_response_fun.K = h5load(filename, [name '/hydro_coeffs/radiation_damping/impulse_response_fun/K']);
+            obj.hydroData.hydro_coeffs.radiation_damping.impulse_response_fun.t = h5load(filename, [name '/hydro_coeffs/radiation_damping/impulse_response_fun/t']);
+            obj.hydroData.hydro_coeffs.radiation_damping.state_space.it = h5load(filename, [name '/hydro_coeffs/radiation_damping/state_space/it']);
+            obj.hydroData.hydro_coeffs.radiation_damping.state_space.A.all = h5load(filename, [name '/hydro_coeffs/radiation_damping/state_space/A/all']);
+            obj.hydroData.hydro_coeffs.radiation_damping.state_space.B.all = h5load(filename, [name '/hydro_coeffs/radiation_damping/state_space/B/all']);
+            obj.hydroData.hydro_coeffs.radiation_damping.state_space.C.all = h5load(filename, [name '/hydro_coeffs/radiation_damping/state_space/C/all']);
+            obj.hydroData.hydro_coeffs.radiation_damping.state_space.D.all = h5load(filename, [name '/hydro_coeffs/radiation_damping/state_space/D/all']);
+
+
+
             if ignoreH5Error == false
                 try
                     bemio_version = h5load(filename,'bemio_information/version')
@@ -78,7 +109,7 @@ classdef bodyClass<handle
                 end
 
                 if obj.hydroData.simulation_parameters.scaled ~= false
-                    error(['bemio .h5 file for body ', obj.hydroData.properties.name, ' were scaled (i.e. simulation_parameters/scaled ~= false). Please reprocess the hydrodynamic data using the `scale=False` in bemio. Please see https://github.com/WEC-Sim/bemio for more information. You can override this error by specifying the ignoreH5Error variable in in the BodyClass initilization in the wecSimInputFile.m.'])
+                    error(['bemio .h5 file for body git ', obj.hydroData.properties.name, ' were scaled (i.e. simulation_parameters/scaled ~= false). Please reprocess the hydrodynamic data using the `scale=False` in bemio. Please see https://github.com/WEC-Sim/bemio for more information. You can override this error by specifying the ignoreH5Error variable in in the BodyClass initilization in the wecSimInputFile.m.'])
                 end
             end
         end
@@ -89,25 +120,7 @@ classdef bodyClass<handle
             %    drag, and linear damping matrices
             % 2. Set the wave excitation force
             obj.bodyNumber = iBod;
-%             obj.dimensionalizedHydroData(rho,g);
 
-            %obj.hydroData.hydro_coeffs.added_mass.all = obj.checkCoeffSize(iBod,numBod,obj.hydroData.hydro_coeffs.added_mass.all);
-            %obj.hydroData.hydro_coeffs.added_mass.inf_freq = obj.checkCoeffSize(iBod,numBod,obj.hydroData.hydro_coeffs.added_mass.inf_freq);
-            %obj.hydroData.hydro_coeffs.radiation_damping.all = obj.checkCoeffSize(iBod,numBod,obj.hydroData.hydro_coeffs.radiation_damping.all);
-            %try
-            %        obj.hydroData.hydro_coeffs.radiation_damping.impulse_response_fun.K = obj.checkCoeffSize(iBod,numBod,obj.hydroData.hydro_coeffs.radiation_damping.impulse_response_fun.K);
-            %        obj.hydroData.hydro_coeffs.radiation_damping.impulse_response_fun.L = obj.checkCoeffSize(iBod,numBod,obj.hydroData.hydro_coeffs.radiation_damping.impulse_response_fun.L);
-            %catch
-            %end
-            %try
-            %    obj.hydroData.hydro_coeffs.radiation_damping.state_space.it = obj.checkCoeffSize(iBod,numBod,obj.hydroData.hydro_coeffs.radiation_damping.state_space.it);
-            %    obj.hydroData.hydro_coeffs.radiation_damping.state_space.r2t = obj.checkCoeffSize(iBod,numBod,obj.hydroData.hydro_coeffs.radiation_damping.state_space.r2t);
-            %    obj.hydroData.hydro_coeffs.radiation_damping.state_space.A = obj.checkCoeffSize(iBod,numBod,obj.hydroData.hydro_coeffs.radiation_damping.state_space.A);
-            %    obj.hydroData.hydro_coeffs.radiation_damping.state_space.B = obj.checkCoeffSize(iBod,numBod,obj.hydroData.hydro_coeffs.radiation_damping.state_space.B);
-            %    obj.hydroData.hydro_coeffs.radiation_damping.state_space.C = obj.checkCoeffSize(iBod,numBod,obj.hydroData.hydro_coeffs.radiation_damping.state_space.C);
-            %    obj.hydroData.hydro_coeffs.radiation_damping.state_space.D = obj.checkCoeffSize(iBod,numBod,obj.hydroData.hydro_coeffs.radiation_damping.state_space.D);
-            %catch
-            %end
             obj.setMassMatrix(rho,nlHydro)
             k = obj.hydroData.hydro_coeffs.linear_restoring_stiffness;
             obj.hydroForce.linearHydroRestCoef =  (k + k' - diag(diag(k))).*rho .*g;
@@ -285,19 +298,7 @@ classdef bodyClass<handle
             end
         end
 
-        %function userDefinedExcitation(obj,waveAmpTime,dt)
-        %% Used by hydroForcePre
-        %% Calculated User-Defined wave excitation force with non-causal convolution
-        %    kt = obj.hydroData.hydro_coeffs.excitation.impulse_response_fun.t';
-        %    kernel = squeeze(obj.hydroData.hydro_coeffs.excitation.impulse_response_fun.f(:,1,:))';
-        %    obj.userDefinedExcIRF = interp1(kt,kernel,min(kt):dt:max(kt));
-        %    for jj = 1:6
-        %        obj.hydroForce.userDefinedFe(:,jj) = conv(waveAmpTime(:,2),obj.userDefinedExcIRF(:,jj),'same')*dt;
-        %    end
-        %    % Initialization for other waveTypes
-        %    obj.hydroForce.fExt.re=zeros(1,6);
-        %    obj.hydroForce.fExt.im=zeros(1,6);
-        %end
+
 
         function userDefinedExcitation(obj,waveAmpTime,dt,waveDir,rho,g)
             % Used by hydroForcePre
