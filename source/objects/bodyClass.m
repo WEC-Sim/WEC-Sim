@@ -62,11 +62,6 @@ classdef bodyClass<handle
                 error('The hdf5 file %s does not exist',file)
             end
             name = ['/body' num2str(iBod)];
-            % obj.hydroData.properties = h5load(filename, [name '/properties']);
-            % obj.hydroData.hydro_coeffs = h5load(filename, [name '/hydro_coeffs']);
-            % obj.hydroData.simulation_parameters = h5load(filename, '/simulation_parameters');
-            % obj.hydroData.properties.name = obj.hydroData.properties.name{1};
-
             obj.hydroData.simulation_parameters.scaled = h5read(filename,'/simulation_parameters/scaled')
             obj.hydroData.simulation_parameters.wave_dir = h5read(filename,'/simulation_parameters/wave_dir')
             obj.hydroData.simulation_parameters.water_depth = h5read(filename,'/simulation_parameters/water_depth')
