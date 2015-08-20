@@ -79,7 +79,7 @@ classdef simulationClass<handle
         end
 
         function setupSim(obj)
-          % setup based on values specified in input file
+            % setup based on values specified in input file
             obj.time = [obj.startTime:obj.dt:obj.endTime];
             obj.maxIt = floor((obj.endTime - obj.startTime) / obj.dt);
             obj.CIkt = ceil(obj.CITime/obj.dt);
@@ -88,9 +88,9 @@ classdef simulationClass<handle
             obj.logFile = [obj.caseDir filesep 'output' filesep obj.simMechanicsFile(1:end-4) '_simulationLog.txt'];
             mkdir(obj.outputDir)
             try
-                obj.wecSimVersion = getWecSimVer
+                obj.version = getWecSimVer;
             catch
-                obj.wecSimVersion = 'No git version available'
+                obj.version = 'No git version available';
             end
         end
 

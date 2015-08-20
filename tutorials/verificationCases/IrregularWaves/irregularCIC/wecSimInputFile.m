@@ -45,7 +45,7 @@ body(1).mass = 'equilibrium';
     %Weight.
 body(1).momOfInertia = [20907301 21306090.66 37085481.11];
     %Moment of Inertia [kg*m^2]
-body(1).geometryFile = '/../../../RM3/geometry/float.stl';    %Location of Geomtry File
+body(1).geometryFile = '../../../RM3/geometry/float.stl';    %Location of Geomtry File
 
 body(2) = bodyClass('../../../RM3/hydroData/rm3.h5',2);
 body(2).mass = 'equilibrium';
