@@ -15,72 +15,76 @@
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
 classdef bodyClass<handle
-    properties (SetAccess = 'private', GetAccess = 'public')%hdf5 file
-        hydroData         = struct()                                            % Hydrodynamic data from BEM or user defined; see structure of hydroData in ----
+    properties (SetAccess = 'private', GetAccess = 'public') %hdf5 file
+        hydroData         = struct()                                            % Hydrodynamic data from BEM or user defined.
     end
 
-    properties (SetAccess = 'public', GetAccess = 'public')%input file
+    properties (SetAccess = 'public', GetAccess = 'public') %input file
         mass              = []                                                  % Mass in kg
         momOfInertia      = []                                                  % Moment of inertia [Ixx Iyy Izz] in kg*m^2
         geometryFile      = 'NONE'                                              % Location of geomtry stl file
         mooring           = struct('c',          zeros(6,6), ...                % Mooring damping, 6 x 6 matrix
-            'k',          zeros(6,6), ...                % Mooring stiffness, 6 x 6 matrix
-            'preTension', 0)                             % Mooring preTension, Vector length 6
+                                    'k',          zeros(6,6), ...               % Mooring stiffness, 6 x 6 matrix
+                                    'preTension', 0)                            % Mooring preTension, Vector length 6
         viscDrag          = struct('cd',                   [0 0 0 0 0 0], ...   % Viscous (quadratic) drag cd, vector length 6
-            'characteristicArea',   [0 0 0 0 0 0])       % Characteristic area for viscous drag, vector length 6
+                                    'characteristicArea',   [0 0 0 0 0 0])      % Characteristic area for viscous drag, vector length 6
         initDisp          = struct('initLinDisp',          [0 0 0], ...         % Initial displacement of center fo gravity - used for decay tests (format: [displacment in m], default = [0 0 0])
-            'initAngularDispAxis',  [0 1 0], ...         % Initial displacement of cog - axis of rotation - used for decay tests (format: [x y z], default = [1 0 0])
-            'initAngularDispAngle', 0)                   % Initial displacement of cog - Angle of rotation - used for decay tests (format: [radians], default = 0)
-        linearDamping     = [0 0 0 0 0 0]
+                                    'initAngularDispAxis',  [0 1 0], ...        % Initial displacement of cog - axis of rotation - used for decay tests (format: [x y z], default = [1 0 0])
+                                    'initAngularDispAngle', 0)                  % Initial displacement of cog - Angle of rotation - used for decay tests (format: [radians], default = 0)
+        linearDamping     = [0 0 0 0 0 0]                                       % Linear drag coefficient, vector length 6
         userDefinedExcIRF = []                                                  % Excitation IRF from BEMIO used for User-Defined Time-Series
     end
 
-    properties (SetAccess = 'public', GetAccess = 'public')%body geometry stl files
-        bodyGeometry      = struct('numFace', [], ...
-            'numVertex', [], ...
-            'face', [], ...
-            'vertex', [])
+    properties (SetAccess = 'public', GetAccess = 'public') %body geometry stl file
+        bodyGeometry      = struct('numFace', [], ...                           % Number of faces
+                                    'numVertex', [], ...                        % Number of vertices
+                                    'face', [], ...                             % List of faces
+                                    'vertex', [])                               % List of vertices
     end
 
-    properties (SetAccess = 'public', GetAccess = 'public')%internal
-        hydroForce        = struct()                                            % Hydrodynamic forces and coefficients used during simulation; see structure of hydroData in ----
+    properties (SetAccess = 'public', GetAccess = 'public') %internal
+        hydroForce        = struct()                                            % Hydrodynamic forces and coefficients used during simulation.
+        h5File            = ''                                                  % hdf5 file containing the hydrodynamic data
+        hydroDataBodyNum  = []                                                  % Body number within the hdf5 file.
+        bemioFlag         = 1                                                   % Flag. 1 = Bemio was used to generate the data. 0 =Bemio was not used to generate the data.
         massCalcMethod    = []                                                  % Method used to obtain mass: 'user', 'fixed', 'equilibrium'
         bodyNumber        = []                                                  % bodyNumber in WEC-Sim as defined in the input file. Can be different from the BEM body number.
     end
 
     methods (Access = 'public') %modify object = T; output = F
-        function obj = bodyClass(filename,iBod,ignoreH5Error)
-            % Initilization function
-            switch nargin
-                case 2
-                    ignoreH5Error = false
-                case 1
-                    error('Body class initilization requires at least the filename and iBod arguments')
-                otherwise
-            end
-            if exist(filename,'file') == 0
-                error('The hdf5 file %s does not exist',file)
-            end
-            name = ['body' num2str(iBod)];
-            obj.hydroData.properties = h5load(filename, [name '/properties']);
-            obj.hydroData.hydro_coeffs = h5load(filename, [name '/hydro_coeffs']);
-            obj.hydroData.simulation_parameters = h5load(filename, '/simulation_parameters');
-            obj.hydroData.properties.name = obj.hydroData.properties.name{1};
-            if ignoreH5Error == false
-                try
-                    bemio_version = h5load(filename,'bemio_information/version')
-                catch
-                    bemio_version = '<1.1'
-                end
-                if strcmp(bemio_version,'1.1') == 0
+        function obj = bodyClass(filename,iBod)
+            obj.h5File = filename;
+            obj.hydroDataBodyNum = iBod;
+        end
 
-                    error(['bemio .h5 file for body ', obj.hydroData.properties.name, ' was generated using bemio version: ', bemio_version '. Please reprocess the hydrodynamic data with the latest version of bemio for te best results. Bemio can be downloaded or updated from https://github.com/WEC-Sim/bemio. You can override this error by specifying the ignoreH5Error variable in in the BodyClass initilization in the wecSimInputFile.'])
-                end
+        function readH5File(obj)
+            name = ['/body' num2str(obj.hydroDataBodyNum)];
+            obj.hydroData.simulation_parameters.scaled = h5read(filename,'/simulation_parameters/scaled')
+            obj.hydroData.simulation_parameters.wave_dir = h5read(filename,'/simulation_parameters/wave_dir')
+            obj.hydroData.simulation_parameters.water_depth = h5read(filename,'/simulation_parameters/water_depth')
+            obj.hydroData.simulation_parameters.w = h5read(filename,'/simulation_parameters/w')
+            obj.hydroData.simulation_parameters.T = h5read(filename,'/simulation_parameters/T')
+            obj.hydroData.properties.name = h5read(filename,[name '/properties/name'])
+            obj.hydroData.properties.name = obj.hydroData.properties.name{1}
+            obj.hydroData.properties.body_number = h5read(filename,[name '/properties/body_number'])
+            obj.hydroData.properties.cg = h5read(filename,[name '/properties/cg'])
+            obj.hydroData.properties.disp_vol = h5read(filename,[name '/properties/disp_vol'])
+            obj.hydroData.hydro_coeffs.linear_restoring_stiffness = h5load(filename, [name '/hydro_coeffs/linear_restoring_stiffness']);
+            obj.hydroData.hydro_coeffs.excitation.re = h5load(filename, [name '/hydro_coeffs/excitation/re']);
+            obj.hydroData.hydro_coeffs.excitation.im = h5load(filename, [name '/hydro_coeffs/excitation/im']);
+            obj.hydroData.hydro_coeffs.excitation.impulse_response_fun.f = h5load(filename, [name '/hydro_coeffs/excitation/impulse_response_fun/f']);
+            obj.hydroData.hydro_coeffs.excitation.impulse_response_fun.t = h5load(filename, [name '/hydro_coeffs/excitation/impulse_response_fun/t']);
+            obj.hydroData.hydro_coeffs.added_mass.all = h5load(filename, [name '/hydro_coeffs/added_mass/all']);
+            obj.hydroData.hydro_coeffs.added_mass.inf_freq = h5load(filename, [name '/hydro_coeffs/added_mass/inf_freq']);
+            obj.hydroData.hydro_coeffs.radiation_damping.all = h5load(filename, [name '/hydro_coeffs/radiation_damping/all']);
+            obj.hydroData.hydro_coeffs.radiation_damping.impulse_response_fun.K = h5load(filename, [name '/hydro_coeffs/radiation_damping/impulse_response_fun/K']);
+            obj.hydroData.hydro_coeffs.radiation_damping.impulse_response_fun.t = h5load(filename, [name '/hydro_coeffs/radiation_damping/impulse_response_fun/t']);
+            obj.hydroData.hydro_coeffs.radiation_damping.state_space.it = h5load(filename, [name '/hydro_coeffs/radiation_damping/state_space/it']);
+            obj.hydroData.hydro_coeffs.radiation_damping.state_space.A.all = h5load(filename, [name '/hydro_coeffs/radiation_damping/state_space/A/all']);
+            obj.hydroData.hydro_coeffs.radiation_damping.state_space.B.all = h5load(filename, [name '/hydro_coeffs/radiation_damping/state_space/B/all']);
+            obj.hydroData.hydro_coeffs.radiation_damping.state_space.C.all = h5load(filename, [name '/hydro_coeffs/radiation_damping/state_space/C/all']);
+            obj.hydroData.hydro_coeffs.radiation_damping.state_space.D.all = h5load(filename, [name '/hydro_coeffs/radiation_damping/state_space/D/all']);
 
-                if obj.hydroData.simulation_parameters.scaled ~= false
-                    error(['bemio .h5 file for body ', obj.hydroData.properties.name, ' were scaled (i.e. simulation_parameters/scaled ~= false). Please reprocess the hydrodynamic data using the `scale=False` in bemio. Please see https://github.com/WEC-Sim/bemio for more information. You can override this error by specifying the ignoreH5Error variable in in the BodyClass initilization in the wecSimInputFile.m.'])
-                end
-            end
         end
 
         function hydroForcePre(obj,w,waveDir,CIkt,numFreq,dt,rho,g,waveType,waveAmpTime,iBod,numBod,ssCalc,nlHydro)
@@ -89,25 +93,6 @@ classdef bodyClass<handle
             %    drag, and linear damping matrices
             % 2. Set the wave excitation force
             obj.bodyNumber = iBod;
-%             obj.dimensionalizedHydroData(rho,g);
-
-            %obj.hydroData.hydro_coeffs.added_mass.all = obj.checkCoeffSize(iBod,numBod,obj.hydroData.hydro_coeffs.added_mass.all);
-            %obj.hydroData.hydro_coeffs.added_mass.inf_freq = obj.checkCoeffSize(iBod,numBod,obj.hydroData.hydro_coeffs.added_mass.inf_freq);
-            %obj.hydroData.hydro_coeffs.radiation_damping.all = obj.checkCoeffSize(iBod,numBod,obj.hydroData.hydro_coeffs.radiation_damping.all);
-            %try
-            %        obj.hydroData.hydro_coeffs.radiation_damping.impulse_response_fun.K = obj.checkCoeffSize(iBod,numBod,obj.hydroData.hydro_coeffs.radiation_damping.impulse_response_fun.K);
-            %        obj.hydroData.hydro_coeffs.radiation_damping.impulse_response_fun.L = obj.checkCoeffSize(iBod,numBod,obj.hydroData.hydro_coeffs.radiation_damping.impulse_response_fun.L);
-            %catch
-            %end
-            %try
-            %    obj.hydroData.hydro_coeffs.radiation_damping.state_space.it = obj.checkCoeffSize(iBod,numBod,obj.hydroData.hydro_coeffs.radiation_damping.state_space.it);
-            %    obj.hydroData.hydro_coeffs.radiation_damping.state_space.r2t = obj.checkCoeffSize(iBod,numBod,obj.hydroData.hydro_coeffs.radiation_damping.state_space.r2t);
-            %    obj.hydroData.hydro_coeffs.radiation_damping.state_space.A = obj.checkCoeffSize(iBod,numBod,obj.hydroData.hydro_coeffs.radiation_damping.state_space.A);
-            %    obj.hydroData.hydro_coeffs.radiation_damping.state_space.B = obj.checkCoeffSize(iBod,numBod,obj.hydroData.hydro_coeffs.radiation_damping.state_space.B);
-            %    obj.hydroData.hydro_coeffs.radiation_damping.state_space.C = obj.checkCoeffSize(iBod,numBod,obj.hydroData.hydro_coeffs.radiation_damping.state_space.C);
-            %    obj.hydroData.hydro_coeffs.radiation_damping.state_space.D = obj.checkCoeffSize(iBod,numBod,obj.hydroData.hydro_coeffs.radiation_damping.state_space.D);
-            %catch
-            %end
             obj.setMassMatrix(rho,nlHydro)
             k = obj.hydroData.hydro_coeffs.linear_restoring_stiffness;
             obj.hydroForce.linearHydroRestCoef =  (k + k' - diag(diag(k))).*rho .*g;
@@ -133,14 +118,12 @@ classdef bodyClass<handle
                 case {'userDefined'}
                     obj.userDefinedExcitation(waveAmpTime,dt,waveDir,rho,g);
                     obj.irfInfAddedMassAndDamping(CIkt,dt,ssCalc,iBod,rho);
-                otherwise
-                    error('Unexpected wave environment type setting')
             end
         end
 
         function adjustMassMatrix(obj)
             % Merge diagonal term of add mass matrix to the mass matrix
-            % 1. Storage the the original mass and added-mass properties
+            % 1. Store the original mass and added-mass properties
             % 2. Add diagonal added-mass inertia to moment of inertia
             % 3. Add the maximum diagonal traslational added-mass to body mass
             iBod = obj.bodyNumber;
@@ -170,9 +153,10 @@ classdef bodyClass<handle
             obj.hydroForce.storage = tmp; clear tmp
         end
 
-        function storeForceAddedMass(obj,am_mod)
-            % Store the modified added mass force history (input)
+        function storeForceAddedMass(obj,am_mod,ft_mod)
+            % Store the modified added mass and total forces history (inputs)
             obj.hydroForce.storage.output_forceAddedMass = am_mod;
+            obj.hydroForce.storage.output_forceTotal = ft_mod;
         end
 
         function listInfo(obj)
@@ -186,9 +170,7 @@ classdef bodyClass<handle
         function bodyGeo(obj,fname)
             numFace = 0;
             numVertex = 0;
-            %            obj.bodyGeometry.numVertex= 0
             fid = fopen(fname, 'r');
-            if fid == -1; error(['ERROR: Could not locate and open file ' fname]); end
             readingInput = 'reading';
             while readingInput == 'reading'
                 temp = fgetl(fid);
@@ -234,8 +216,35 @@ classdef bodyClass<handle
             obj.bodyGeometry.numVertex = numVertex;
         end
 
-    end
+        function checkinputs(obj)
+            % hydro data file
+            if exist(obj.h5File,'file') == 0
+                error('The hdf5 file %s does not exist',obj.h5File)
+            end
+            % geometry file
+            if exist(obj.geometryFile,'file') == 0
+                error('Could not locate and open geometry file %s',obj.geometryFile)
+            end
+        end
 
+        function checkBemio(obj)
+            % BEMIO version and normalization
+            if obj.bemioFlag == 1
+                try
+                    bemio_version = h5load(obj.h5File,'bemio_information/version');
+                catch
+                    bemio_version = '<1.1'
+                    warning('If BEMIO was not used to generate the h5 file, set body(i).bemioFlag = 0')
+                end
+                if strcmp(bemio_version,'1.1') == 0
+                    error(['bemio .h5 file for body ', obj.hydroData.properties.name, ' was generated using bemio version: ', bemio_version '. Please reprocess the hydrodynamic data with the latest version of bemio for te best results. Bemio can be downloaded or updated from https://github.com/WEC-Sim/bemio. You can override this error by specifying the ignoreH5Error variable in in the BodyClass initilization in the wecSimInputFile.'])
+                end
+                if obj.hydroData.simulation_parameters.scaled ~= false
+                    error(['bemio .h5 file for body ', obj.hydroData.properties.name, ' were scaled (i.e. simulation_parameters/scaled ~= false). Please reprocess the hydrodynamic data using the `scale=False` in bemio. Please see https://github.com/WEC-Sim/bemio for more information. You can override this error by specifying the ignoreH5Error variable in in the BodyClass initilization in the wecSimInputFile.m.'])
+                end
+            end
+        end
+    end
 
     methods (Access = 'protected') %modify object = T; output = F
         function noExcitation(obj)
@@ -258,8 +267,6 @@ classdef bodyClass<handle
                 elseif obj.hydroData.simulation_parameters.wave_dir == waveDir
                     obj.hydroForce.fExt.re(ii) = interp1(obj.hydroData.simulation_parameters.w,squeeze(re(ii,1,:)),w,'spline');
                     obj.hydroForce.fExt.im(ii) = interp1(obj.hydroData.simulation_parameters.w,squeeze(im(ii,1,:)),w,'spline');
-                else
-                    error('Wave direction specified does not match wave direction from BEM.')
                 end
             end
         end
@@ -279,25 +286,9 @@ classdef bodyClass<handle
                 elseif obj.hydroData.simulation_parameters.wave_dir == waveDir
                     obj.hydroForce.fExt.re(:,ii) = interp1(obj.hydroData.simulation_parameters.w,squeeze(re(ii,1,:)),wv,'spline');
                     obj.hydroForce.fExt.im(:,ii) = interp1(obj.hydroData.simulation_parameters.w,squeeze(im(ii,1,:)),wv,'spline');
-                else
-                    error('Wave direction specified does not match wave direction from BEM.')
                 end
             end
         end
-
-        %function userDefinedExcitation(obj,waveAmpTime,dt)
-        %% Used by hydroForcePre
-        %% Calculated User-Defined wave excitation force with non-causal convolution
-        %    kt = obj.hydroData.hydro_coeffs.excitation.impulse_response_fun.t';
-        %    kernel = squeeze(obj.hydroData.hydro_coeffs.excitation.impulse_response_fun.f(:,1,:))';
-        %    obj.userDefinedExcIRF = interp1(kt,kernel,min(kt):dt:max(kt));
-        %    for jj = 1:6
-        %        obj.hydroForce.userDefinedFe(:,jj) = conv(waveAmpTime(:,2),obj.userDefinedExcIRF(:,jj),'same')*dt;
-        %    end
-        %    % Initialization for other waveTypes
-        %    obj.hydroForce.fExt.re=zeros(1,6);
-        %    obj.hydroForce.fExt.im=zeros(1,6);
-        %end
 
         function userDefinedExcitation(obj,waveAmpTime,dt,waveDir,rho,g)
             % Used by hydroForcePre
@@ -313,8 +304,6 @@ classdef bodyClass<handle
                 elseif obj.hydroData.simulation_parameters.wave_dir == waveDir
                     kernel = squeeze(kf(ii,1,:));
                     obj.userDefinedExcIRF = interp1(kt,kernel,min(kt):dt:max(kt));
-                else
-                    error('Wave direction specified does not match wave direction from BEM.')
                 end
                 obj.hydroForce.userDefinedFe(:,ii) = conv(waveAmpTime(:,2),obj.userDefinedExcIRF,'same')*dt;
             end
@@ -365,7 +354,6 @@ classdef bodyClass<handle
             obj.hydroForce.ssRadf.B = zeros(6,6);
             obj.hydroForce.ssRadf.C = zeros(6,6);
             obj.hydroForce.ssRadf.D = zeros(6,6);
-
             if ssCalc == 1
                 for ii = 1:6
                     for jj = (iBod-1)*6+1:(iBod-1)*6+6
@@ -383,7 +371,6 @@ classdef bodyClass<handle
                         end
                     end
                 end
-
                 obj.hydroForce.ssRadf.A = Af;
                 obj.hydroForce.ssRadf.B = Bf;
                 obj.hydroForce.ssRadf.C = Cf .*rho;
@@ -424,8 +411,7 @@ classdef bodyClass<handle
 
     methods (Access = 'public') %modify object = F; output = T
         function fam = forceAddedMass(obj,acc)
-            % 1. Stores the modified added mass force time history (input)
-            % 2. Calculates and outputs the real added mass force time history
+            % Calculates and outputs the real added mass force time history
             iBod = obj.bodyNumber;
             fam = zeros(size(acc));
             for i =1:6
@@ -438,25 +424,6 @@ classdef bodyClass<handle
                 fam(:,i) = tmp;
             end
             clear tmp
-        end
-    end
-
-    methods (Access = 'protected')  %modify object = F; output = T
-        function newCoeff = checkCoeffSize(~,iBod,numBod,coeff)
-            coefSize = size(coeff);
-            if coefSize(2) ~= 6*numBod
-                if coefSize(2) == 6
-                    coefSize(2) = 6*numBod;
-                    tmp = zeros(coefSize);
-                    tmp(:,((iBod-1)*6+1):((iBod)*6),:,:) = coeff;
-                    newCoeff = tmp;
-                    clear tmp
-                else
-                    error('Hydrodynamic coefficients must have dimensions of either 6x(6*numberOfBodies) or 6x6')
-                end
-            else
-                newCoeff = coeff;
-            end
         end
     end
 end
