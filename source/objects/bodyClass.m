@@ -59,16 +59,17 @@ classdef bodyClass<handle
 
         function readH5File(obj)
             name = ['/body' num2str(obj.hydroDataBodyNum)];
-            obj.hydroData.simulation_parameters.scaled = h5read(filename,'/simulation_parameters/scaled')
-            obj.hydroData.simulation_parameters.wave_dir = h5read(filename,'/simulation_parameters/wave_dir')
-            obj.hydroData.simulation_parameters.water_depth = h5read(filename,'/simulation_parameters/water_depth')
-            obj.hydroData.simulation_parameters.w = h5read(filename,'/simulation_parameters/w')
-            obj.hydroData.simulation_parameters.T = h5read(filename,'/simulation_parameters/T')
-            obj.hydroData.properties.name = h5read(filename,[name '/properties/name'])
-            obj.hydroData.properties.name = obj.hydroData.properties.name{1}
-            obj.hydroData.properties.body_number = h5read(filename,[name '/properties/body_number'])
-            obj.hydroData.properties.cg = h5read(filename,[name '/properties/cg'])
-            obj.hydroData.properties.disp_vol = h5read(filename,[name '/properties/disp_vol'])
+            filename = obj.h5File;
+            obj.hydroData.simulation_parameters.scaled = h5read(filename,'/simulation_parameters/scaled');
+            obj.hydroData.simulation_parameters.wave_dir = h5read(filename,'/simulation_parameters/wave_dir');
+            obj.hydroData.simulation_parameters.water_depth = h5read(filename,'/simulation_parameters/water_depth');
+            obj.hydroData.simulation_parameters.w = h5read(filename,'/simulation_parameters/w');
+            obj.hydroData.simulation_parameters.T = h5read(filename,'/simulation_parameters/T');
+            obj.hydroData.properties.name = h5read(filename,[name '/properties/name']);
+            obj.hydroData.properties.name = obj.hydroData.properties.name{1};
+            obj.hydroData.properties.body_number = h5read(filename,[name '/properties/body_number']);
+            obj.hydroData.properties.cg = h5read(filename,[name '/properties/cg']);
+            obj.hydroData.properties.disp_vol = h5read(filename,[name '/properties/disp_vol']);
             obj.hydroData.hydro_coeffs.linear_restoring_stiffness = h5load(filename, [name '/hydro_coeffs/linear_restoring_stiffness']);
             obj.hydroData.hydro_coeffs.excitation.re = h5load(filename, [name '/hydro_coeffs/excitation/re']);
             obj.hydroData.hydro_coeffs.excitation.im = h5load(filename, [name '/hydro_coeffs/excitation/im']);
@@ -84,7 +85,6 @@ classdef bodyClass<handle
             obj.hydroData.hydro_coeffs.radiation_damping.state_space.B.all = h5load(filename, [name '/hydro_coeffs/radiation_damping/state_space/B/all']);
             obj.hydroData.hydro_coeffs.radiation_damping.state_space.C.all = h5load(filename, [name '/hydro_coeffs/radiation_damping/state_space/C/all']);
             obj.hydroData.hydro_coeffs.radiation_damping.state_space.D.all = h5load(filename, [name '/hydro_coeffs/radiation_damping/state_space/D/all']);
-
         end
 
         function hydroForcePre(obj,w,waveDir,CIkt,numFreq,dt,rho,g,waveType,waveAmpTime,iBod,numBod,ssCalc,nlHydro)
