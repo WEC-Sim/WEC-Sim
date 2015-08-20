@@ -48,6 +48,9 @@ classdef simulationClass<handle
         rho                 = 1000                                           % Density of water (default = 1000 kg/m^3)
         g                   = 9.81                                           % Acceleration due to gravity (default = 9.81 m/s)
         nlHydro             = 0                                            % Option for nonlinear hydrohanamics calculation: linear->'0', nonlinear->'1', (default = 0)
+        
+        wecSimVersion       = 'NOT DEFINED'
+        simulationDate      = datetime
     end
 
     properties (Dependent)
@@ -68,6 +71,13 @@ classdef simulationClass<handle
              if exist(obj.inputFile,'file') ~= 2
                  error('The input file %s does not exist in the directory %s',file,pwd)
              end
+             
+             try
+                obj.wecSimVersion = getWecSimVer
+             catch
+                obj.wecSimVersion = 'No git ver available'
+             end
+             
              fprintf(['WEC-Sim: An open-source code for simulating '...
                       'wave energy converters\n'])
              fprintf('Version: %s\n\n',obj.version)
