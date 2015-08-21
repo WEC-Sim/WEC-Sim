@@ -198,6 +198,8 @@ end
 % PTO-Sim
 if exist('ptosim','var')
     ptosimOutput = ptosim.response;
+else
+    ptosimOutput = [];
 end
 % All
 output = responseClass(bodiesOutput,ptosOutput,constraintsOutput,ptosimOutput);
