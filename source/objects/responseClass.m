@@ -19,10 +19,11 @@ classdef responseClass<handle
          bodies              = struct()                                         % Output from the different body blocks
          ptos                = struct()                                         % Output from the different PTO blocks
          constraints         = struct()                                         % Output from the different constraint blocks
+         ptosim              = struct()                                         % Output from PTO-Sim blocks
     end
     
     methods (Access = 'public')
-        function obj = responseClass(bodiesOutput,ptosOutput,constraintsOutput)                      
+        function obj = responseClass(bodiesOutput,ptosOutput,constraintsOutput,ptosimOutput)                      
         % Initilization function
         % Read and format ouputs from bodies, PTOs, and constraints.
             % Bodies
@@ -56,6 +57,9 @@ classdef responseClass<handle
                     end
                 end
             end
+            % PTO-Sim
+            obj.ptosim=ptosimOutput;
+            obj.ptosim.time = obj.ptos.time;
         end
         
         function plotResponse(obj,bodyNum,comp)
