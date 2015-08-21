@@ -33,7 +33,12 @@ for ii = 1:simu.numWecBodies
     % read h5 files
     body(ii).readH5File;
     body(ii).checkBemio;
-end; clear ii 
+end; clear ii
+% PTO-Sim input
+if exist('ptoSimInputFile.m','file') == 2 
+    ptoSimInputFile 
+    ptosim.countblocks;
+end
 toc
 
 
@@ -190,9 +195,13 @@ if exist('constraint','var')
 else
     constraintsOutput = 0;
 end
+% PTO-Sim
+if exist('ptosim','var')
+    ptosimOutput = ptosim.response;
+end
 % All
-output = responseClass(bodiesOutput,ptosOutput,constraintsOutput);
-clear bodiesOutput ptosOutput constraintsOutput
+output = responseClass(bodiesOutput,ptosOutput,constraintsOutput,ptosimOutput);
+clear bodiesOutput ptosOutput constraintsOutput ptosimOutput
 % Calculate correct added mass and total forces
 for iBod = 1:simu.numWecBodies
     body(iBod).restoreMassMatrix
