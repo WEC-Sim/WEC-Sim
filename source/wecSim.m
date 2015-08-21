@@ -33,6 +33,8 @@ for ii = 1:simu.numWecBodies
     % read h5 files
     body(ii).readH5File;
     body(ii).checkBemio;
+%% Kelley added this line
+    body(ii).bodyTotal = simu.numWecBodies;
 end; clear ii 
 toc
 
