@@ -199,7 +199,7 @@ end
 if exist('ptosim','var')
     ptosimOutput = ptosim.response;
 else
-    ptosimOutput = [];
+    ptosimOutput = 0;
 end
 % All
 output = responseClass(bodiesOutput,ptosOutput,constraintsOutput,ptosimOutput);
