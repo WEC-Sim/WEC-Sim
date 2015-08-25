@@ -58,8 +58,10 @@ classdef responseClass<handle
                 end
             end
             % PTO-Sim
-            obj.ptosim=ptosimOutput;
-            obj.ptosim.time = obj.ptos.time;
+            if isstruct(ptosimOutput)
+                obj.ptosim=ptosimOutput;
+                obj.ptosim.time = obj.bodies(1).time;
+            end
         end
         
         function plotResponse(obj,bodyNum,comp)
