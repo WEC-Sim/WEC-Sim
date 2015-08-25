@@ -112,7 +112,7 @@ classdef ptoSimClass<handle
             signals.accummulator = {'pressure','volume'};
             signals.hydraulicMotor = {'angVel','volFlowM','torque'};
             signals.rotaryGenerator = {'elecPower','genPower'};
-            signals.linearGenerator = {'absPower','force','fricForce','Iabc','Vabc','vel'};
+            signals.linearGenerator = {'absPower','force','fricForce','Ia','Ib','Ic','Va','Vb','Vc','vel','elecPower'};
             signals.motionMechanism = {'ptoTorque','angPosition','angVelocity'};
             
             ptosimOutput = struct;
