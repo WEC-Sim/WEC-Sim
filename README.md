@@ -1,7 +1,7 @@
 # How to revise the WEC-Sim Users Guide
 
 ## Required Packages
-1. Python
+1. Python (https://www.python.org/downloads/)
 1. Sphinx
   1. Install using ``pip install sphinx``
   1. Install the bibtex extension for sphinx using ``pip install sphinxcontrib-bibtex``
