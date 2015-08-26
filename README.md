@@ -2,7 +2,7 @@
 
 ## Required Packages
 1. Python (https://www.python.org/downloads/)
-1. Sphinx
+1. Sphinx (http://sphinx-doc.org/latest/install.html#windows-install-python-and-sphinx)
   1. Install using ``pip install sphinx``
   1. Install the bibtex extension for sphinx using ``pip install sphinxcontrib-bibtex``
   1. Install the rtd theme for sphinx using ``pip install sphinx_rtd_theme``. You might have to manually move it to the ``sphinx/themes/`` directory.
