@@ -30,6 +30,7 @@ Principal Developers
 
 Contributors
 -------------
+* Ratanak So (Oregon State University)
 * Adam Nelessen (Georgia Tech)
 * Sam Kanner (University of California at Berkeley)
 * Chris McComb (Carnegie Mellon University)
