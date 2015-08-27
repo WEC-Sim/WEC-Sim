@@ -5,7 +5,7 @@ simu.simMechanicsFile = 'OSWEC1_w_CFHydraulic.slx';          % Specify Simulink 
 %                              ('normal','accelerator','rapid-accelerator')
 % simu.explorer='on';                         % Turn SimMechanics Explorer (on/off)
 % simu.startTime = 0;                         % Simulation Start Time [s]
-simu.endTime=300;
+simu.endTime=500;
 simu.dt = 0.001;
 simu.rampT = 100;
 simu.CITime = 30;

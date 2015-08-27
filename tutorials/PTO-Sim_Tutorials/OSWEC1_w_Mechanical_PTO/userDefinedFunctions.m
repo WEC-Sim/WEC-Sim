@@ -54,5 +54,5 @@ set(findall(gcf,'type','axes'),'fontsize',16)
 xlabel('Time (s)')
 ylabel('Power (kW)') 
 title('Absorbed Power and Electrical Power')
-legend('absPower','elecPoewr')
+legend('absPower','elecPower')
 grid on
