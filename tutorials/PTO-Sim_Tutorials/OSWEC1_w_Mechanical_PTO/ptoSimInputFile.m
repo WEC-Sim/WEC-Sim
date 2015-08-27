@@ -1,6 +1,6 @@
 %%  Linear Generator PTO-Sim  
  
-ptosim = ptoSimClass('Linear Generator');
+ptosim = ptoSimClass('Direct Drive Linear Generator');
 
 %% Linear Generator
 
@@ -15,6 +15,9 @@ ptosim.linearGenerator.lambda_sq_0 = 0;
 ptosim.linearGenerator.lambda_sd_0 = ptosim.linearGenerator.lambda_fd;
 ptosim.linearGenerator.Rload = -117.6471;           % Load Resistance [ohm]
 
+%% Rotary to Linear Crank
 
-
+ptosim.motionMechanism.crank = 3;
+ptosim.motionMechanism.offset = 1.3;
+ptosim.motionMechanism.rodLength = 5;
 

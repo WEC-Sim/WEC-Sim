@@ -60,8 +60,7 @@ ptosim.hydraulicMotor.angVelInit = 0;                       % Initial speed
 ptosim.hydraulicMotor.alpha = 1;                            % Swash plate angle ratio 
 ptosim.hydraulicMotor.D = 7.6800e-05;                       % Motor displacement [m^3]
 ptosim.hydraulicMotor.J = 20;                               % Total moment of inertia (motor & generator) [kg-m^2]
-ptosim.hydraulicMotor.bg = 3;                               % Generator Damping [kg-m^2/s]
-ptosim.hydraulicMotor.bf = 0.05*ptosim.hydraulicMotor.bg;   % Fricton [kg-m^2/s]
+ptosim.hydraulicMotor.fric = 0.05;                          % Fricton [kg-m^2/s]
 
 
 %% Lookup Table Generator
@@ -71,6 +70,7 @@ ptosim.rotaryGenerator.table = table;
 ptosim.rotaryGenerator.TgenBase = 2000;                     
 ptosim.rotaryGenerator.omegaBase = 300;
 ptosim.rotaryGenerator.driveEff = 0.98;
+ptosim.rotaryGenerator.genDamping = 3;                       % Generator Damping [kg-m^2/s]
 
 
 %% Rotary to Linear Crank
