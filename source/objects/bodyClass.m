@@ -51,6 +51,7 @@ classdef bodyClass<handle
         bodyNumber        = []                                                  % bodyNumber in WEC-Sim as defined in the input file. Can be different from the BEM body number.
 %% Kelley added this line
         bodyTotal         = []                                                  % bodyTotal is the total number of WEC-Sim bodies (body block iterations)
+%          
     end
 
     methods (Access = 'public') %modify object = T; output = F
@@ -94,7 +95,9 @@ classdef bodyClass<handle
             % 1. Set the linear hydrodynamic restoring coefficient, viscous
             %    drag, and linear damping matrices
             % 2. Set the wave excitation force
-            obj.bodyNumber = iBod;
+%% Kelley added these lines
+%             obj.bodyNumber = iBod;
+%%
             obj.setMassMatrix(rho,nlHydro)
             k = obj.hydroData.hydro_coeffs.linear_restoring_stiffness;
             obj.hydroForce.linearHydroRestCoef =  (k + k' - diag(diag(k))).*rho .*g;
@@ -313,7 +316,7 @@ classdef bodyClass<handle
             obj.hydroForce.fExt.im=zeros(1,6);
         end
 
-        function constAddedMassAndDamping(obj,w,CIkt,rho)
+        function constAddedMassAndDamping(obj,w,rho)    %% Kwlley removed CIkt
             % Used by hydroForcePre
             % Added mass and damping for a specific frequency
             am = obj.hydroData.hydro_coeffs.added_mass.all .*rho;
@@ -330,11 +333,13 @@ classdef bodyClass<handle
                     obj.hydroForce.fDamping  (ii,jj) = interp1(obj.hydroData.simulation_parameters.w,squeeze(rd(ii,jj,:)),w,'spline');
                 end
             end
-            obj.hydroForce.irkb=zeros(CIkt+1,6,lenJ);
-            obj.hydroForce.ssRadf.A = zeros(6,6);
-            obj.hydroForce.ssRadf.B = zeros(6,6);
-            obj.hydroForce.ssRadf.C = zeros(6,6);
-            obj.hydroForce.ssRadf.D = zeros(6,6);
+%             obj.hydroForce.irkb=zeros(CIkt+1,6,lenJ);
+%% Kelley added these lines
+%             obj.hydroForce.ssRadf.A = zeros(6,lenJ);
+%             obj.hydroForce.ssRadf.B = zeros(6,lenJ);
+%             obj.hydroForce.ssRadf.C = zeros(6,lenJ);
+%             obj.hydroForce.ssRadf.D = zeros(6,lenJ);
+%             %%
         end
 
         function irfInfAddedMassAndDamping(obj,CIkt,dt,ssCalc,iBod,rho)
@@ -352,24 +357,26 @@ classdef bodyClass<handle
                     obj.hydroForce.irkb(:,ii,jj) = interp1(irft,squeeze(irfk(ii,jj,:)),CTTime,'spline');
                 end
             end
-            obj.hydroForce.ssRadf.A = zeros(6,6);
-            obj.hydroForce.ssRadf.B = zeros(6,6);
-            obj.hydroForce.ssRadf.C = zeros(6,6);
-            obj.hydroForce.ssRadf.D = zeros(6,6);
+%% Kelley added these lines
+%             obj.hydroForce.ssRadf.A = zeros(6,lenJ);
+%             obj.hydroForce.ssRadf.B = zeros(6,lenJ);
+%             obj.hydroForce.ssRadf.C = zeros(6,lenJ);
+%             obj.hydroForce.ssRadf.D = zeros(6,lenJ);
+%%
             if ssCalc == 1
 %% NOTE: Kelley needs to change this input structure to 6n
                 for ii = 1:6
-                    for jj = (iBod-1)*6+1:(iBod-1)*6+6
-                        jInd = jj-(iBod-1)*6;
+                    for jj = 1:iBod*6
+%                         jInd = jj-(iBod-1)*6;
                         arraySize = obj.hydroData.hydro_coeffs.radiation_damping.state_space.it(ii,jj);
-                        if ii == 1 && jInd == 1 % Begin construction of combined state, input, and output matrices
+                        if ii == 1 && jj == 1 % Begin construction of combined state, input, and output matrices
                             Af(1:arraySize,1:arraySize) = obj.hydroData.hydro_coeffs.radiation_damping.state_space.A.all(ii,jj,1:arraySize,1:arraySize);
-                            Bf(1:arraySize,jInd)        = obj.hydroData.hydro_coeffs.radiation_damping.state_space.B.all(ii,jj,1:arraySize,1);
+                            Bf(1:arraySize,jj)        = obj.hydroData.hydro_coeffs.radiation_damping.state_space.B.all(ii,jj,1:arraySize,1);
                             Cf(ii,1:arraySize)          = obj.hydroData.hydro_coeffs.radiation_damping.state_space.C.all(ii,jj,1,1:arraySize);
                         else
                             Af(size(Af,1)+1:size(Af,1)+arraySize,...
                                 size(Af,2)+1:size(Af,2)+arraySize)     = obj.hydroData.hydro_coeffs.radiation_damping.state_space.A.all(ii,jj,1:arraySize,1:arraySize);
-                            Bf(size(Bf,1)+1:size(Bf,1)+arraySize,jInd) = obj.hydroData.hydro_coeffs.radiation_damping.state_space.B.all(ii,jj,1:arraySize,1);
+                            Bf(size(Bf,1)+1:size(Bf,1)+arraySize,jj) = obj.hydroData.hydro_coeffs.radiation_damping.state_space.B.all(ii,jj,1:arraySize,1);
                             Cf(ii,size(Cf,2)+1:size(Cf,2)+arraySize)   = obj.hydroData.hydro_coeffs.radiation_damping.state_space.C.all(ii,jj,1,1:arraySize);
                         end
                     end
@@ -377,7 +384,7 @@ classdef bodyClass<handle
                 obj.hydroForce.ssRadf.A = Af;
                 obj.hydroForce.ssRadf.B = Bf;
                 obj.hydroForce.ssRadf.C = Cf .*rho;
-                %obj.hydroForce.ssRadf.D is a 6 by (numBodiesx6) array of zeros;
+                obj.hydroForce.ssRadf.D = zeros(6,iBod*6); %is a [6 x (numBodies*6)] array of zeros;
             end
             obj.hydroForce.fAddedMass=obj.hydroData.hydro_coeffs.added_mass.inf_freq .*rho;
             obj.hydroForce.fDamping=zeros(6,lenJ);

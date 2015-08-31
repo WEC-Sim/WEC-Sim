@@ -33,8 +33,10 @@ for ii = 1:simu.numWecBodies
     % read h5 files
     body(ii).readH5File;
     body(ii).checkBemio;
-%% Kelley added this line
+%% Kelley added these lines
+    body(ii).bodyNumber = ii;
     body(ii).bodyTotal = simu.numWecBodies;
+%
 end; clear ii 
 toc
 
@@ -146,6 +148,9 @@ for iBod = 1:simu.numWecBodies
     body(iBod).adjustMassMatrix; 
 end; clear iBod
 warning('off','Simulink:blocks:TDelayTimeTooSmall');
+%% Kelley added these lines
+warning('off','Simulink:blocks:BusSelDupBusCreatorSigNames');
+%%
 if simu.rampT == 0
     simu.rampT = 10e-8; 
 end
