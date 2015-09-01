@@ -363,7 +363,7 @@ classdef bodyClass<handle
 %             obj.hydroForce.ssRadf.C = zeros(6,lenJ);
 %             obj.hydroForce.ssRadf.D = zeros(6,lenJ);
 %%
-            if ssCalc == 1
+            if ssCalc == 1      % if using State Space
 %% NOTE: Kelley needs to change this input structure to 6n
                 for ii = 1:6
                     for jj = 1:iBod*6

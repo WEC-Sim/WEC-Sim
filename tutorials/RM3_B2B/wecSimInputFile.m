@@ -1,13 +1,13 @@
 %% Simulation Data
 simu = simulationClass();               %Create the Simulation Variable
-simu.simMechanicsFile = 'RM3_C2C.slx';      %Location of Simulink Model File
+simu.simMechanicsFile = 'RM3_B2B.slx';      %Location of Simulink Model File
 simu.endTime=400;                       %Simulation End Time [s]
 simu.dt = 0.1;                          %Simulation Time-Step [s]
 simu.rampT = 100;                       %Wave Ramp Time Length [s]
 
 %% Wave Information
 %% noWaveCIC, no waves with radiation CIC  
-% waves = waveClass('noWaveCIC'); 
+waves = waveClass('noWaveCIC'); 
 
 %% Regular Waves  
 % waves = waveClass('regularCIC'); 
@@ -25,12 +25,12 @@ simu.rampT = 100;                       %Wave Ramp Time Length [s]
 % waves.spectrumType = 'PM';
 
 %% Irregular Waves using BS Spectrum with State Space Calculation
-waves = waveClass('irregular');       
-                               %Create the Wave Variable and Specify Type
-waves.H = 2.5;                        %Significant Wave Height [m]
-waves.T = 8;                          %Peak Period [s]
-waves.spectrumType = 'BS';
-simu.ssCalc = 1;						%Control option to use state space model 
+% waves = waveClass('irregular');       
+%                                %Create the Wave Variable and Specify Type
+% waves.H = 2.5;                        %Significant Wave Height [m]
+% waves.T = 8;                          %Peak Period [s]
+% waves.spectrumType = 'BS';
+% simu.ssCalc = 1;						%Control option to use state space model 
 
 %% Irregular Waves using User-Defined Spectrum
 % waves = waveClass('irregularImport');         
