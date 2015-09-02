@@ -47,28 +47,31 @@ fprintf('\nWEC-Sim Pre-processing ...   \n');
 
 
 %% Set variant subsystems options
-% Non-linear hydro
-if simu.nlHydro >0
-    for kk = 1:simu.numWecBodies
-        body(kk).bodyGeo(body(kk).geometryFile)
-    end; clear kk
-end
-nlHydro = simu.nlHydro;
-sv_linearHydro=Simulink.Variant('nlHydro==0');
-sv_nonlinearHydro=Simulink.Variant('nlHydro>0');
-sv_meanFS=Simulink.Variant('nlHydro<2');
-sv_instFS=Simulink.Variant('nlHydro==2');
-% States-space
-ssCalc = simu.ssCalc;
-sv_convolution=Simulink.Variant('ssCalc==0');
-sv_stateSpace=Simulink.Variant('ssCalc==1');
-% Wave type
-typeNum = waves.typeNum;
-sv_noWave=Simulink.Variant('typeNum<10');
-sv_regularWaves=Simulink.Variant('typeNum>=10 && typeNum<20');
-sv_irregularWaves=Simulink.Variant('typeNum>=20 && typeNum<30');
-sv_udfWaves=Simulink.Variant('typeNum>=30');
-
+% Non-linear Hydro
+    if simu.nlHydro >0
+        for kk = 1:simu.numWecBodies
+            body(kk).bodyGeo(body(kk).geometryFile)
+        end; clear kk
+    end
+    nlHydro = simu.nlHydro;
+    sv_linearHydro=Simulink.Variant('nlHydro==0');
+    sv_nonlinearHydro=Simulink.Variant('nlHydro>0');
+    sv_meanFS=Simulink.Variant('nlHydro<2');
+    sv_instFS=Simulink.Variant('nlHydro==2');
+% State-Space
+    ssCalc = simu.ssCalc;
+    sv_convolution=Simulink.Variant('ssCalc==0');
+    sv_stateSpace=Simulink.Variant('ssCalc==1');
+% Wave Type
+    typeNum = waves.typeNum;
+    sv_noWave=Simulink.Variant('typeNum<10');
+    sv_regularWaves=Simulink.Variant('typeNum>=10 && typeNum<20');
+    sv_irregularWaves=Simulink.Variant('typeNum>=20 && typeNum<30');
+    sv_udfWaves=Simulink.Variant('typeNum>=30');
+% Body2Body
+    B2B = simu.b2b;
+    sv_noB2B=Simulink.Variant('B2B==0');
+    sv_B2B=Simulink.Variant('B2B==1');
 
 %% HydroForce Pre-Processing: Wave Setup & HydroForcePre.
 % simulation setup
@@ -77,7 +80,7 @@ simu.setupSim;
 waves.waveSetup(body(1).hydroData.simulation_parameters.w, body(1).hydroData.simulation_parameters.water_depth, simu.rampT, simu.dt, simu.maxIt, simu.g, simu.endTime);
 % hydroForcePre
 for kk = 1:simu.numWecBodies
-    body(kk).hydroForcePre(waves.w,waves.waveDir,simu.CIkt,waves.numFreq,simu.dt,simu.rho,simu.g,waves.type,waves.waveAmpTime,kk,simu.numWecBodies,simu.ssCalc,simu.nlHydro);
+    body(kk).hydroForcePre(waves.w,waves.waveDir,simu.CIkt,waves.numFreq,simu.dt,simu.rho,simu.g,waves.type,waves.waveAmpTime,kk,simu.numWecBodies,simu.ssCalc,simu.nlHydro,B2B);
 end; clear kk
 
 %% Check body-wave-simu compatability

@@ -32,7 +32,8 @@ classdef simulationClass<handle
         explorer            = 'on'                                         % SimMechanics Explorer 'on' or 'off' (default = 'on'
         rho                 = 1000                                         % Density of water (default = 1000 kg/m^3)
         g                   = 9.81                                         % Acceleration due to gravity (default = 9.81 m/s)
-        nlHydro             = 0                                            % Option for nonlinear hydrohanamics calculation: linear->'0', nonlinear->'1', (default = 0)
+        nlHydro             = 0                                            % Option for nonlinear hydrodynamics calculation: linear->'0', nonlinear->'1', (default = 0)
+        b2b                 = 0                                            % Option for body2body interactions: off->'0', on->'1', (default = 0)
     end
 
     properties (SetAccess = 'public', GetAccess = 'public')%internal
