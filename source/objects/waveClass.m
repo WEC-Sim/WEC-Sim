@@ -89,15 +89,13 @@ classdef waveClass<handle
                     obj.A = obj.H/2;
                     obj.waveElevReg(rampT, dt, maxIt);
                 case {'irregular','irregularImport'}
-                    numFqs=obj.numFreq;
                     WFQSt=min(bemFreq);
                     WFQEd=max(bemFreq);
-                    df  = (WFQEd-WFQSt)/(numFqs-1);
-                    obj.w = (WFQSt:df:WFQEd)';
-                    obj.dw=(obj.w(end)-obj.w(1))/(obj.numFreq-1);
+                    obj.dw=(WFQEd-WFQSt)/(obj.numFreq-1);
+                    obj.w = (WFQSt:obj.dw:WFQEd)';
                     obj.setWavePhase;
                     obj.irregWaveSpectrum(g)
-                    obj.waveElevIrreg(rampT, dt, maxIt, df);
+                    obj.waveElevIrreg(rampT, dt, maxIt, obj.dw);
                 case {'userDefined'}    %  This does not account for wave direction
                     % Import userDefined time-series here and interpolate
                     data = importdata(obj.etaDataFile) ;    % Import time-series

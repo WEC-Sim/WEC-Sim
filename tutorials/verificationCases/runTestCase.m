@@ -34,9 +34,15 @@ cd ..
 %% Plot Comparisons
 cd RegularWaves;
 printPlot;
+try
+    delete('regular.mat', 'regularCIC.mat','regularSS.mat')
+end
 cd ..
 
 cd IrregularWaves;
 printPlot;
+try
+    delete('irregularCIC.mat','irregularSS.mat')
+end
 cd ..
 
