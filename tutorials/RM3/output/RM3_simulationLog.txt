@@ -1,0 +1,52 @@
+
+WEC-Sim Read Input File ...   
+Elapsed time is 4.803630 seconds.
+
+WEC-Sim Pre-processing ...   
+[Warning: Invalid water depth given. waves.waterDepth set to 200m for vizualisation.] 
+[> In <a href="matlab: opentoline('C:\Users\rso\Documents\GitHub\WEC-Sim_NAK\source\objects\waveClass.m',198,1)">waveClass>waveClass.setWaveProps at 198</a>
+  In <a href="matlab: opentoline('C:\Users\rso\Documents\GitHub\WEC-Sim_NAK\source\objects\waveClass.m',77,1)">waveClass>waveClass.waveSetup at 77</a>
+  In <a href="matlab: opentoline('C:\Users\rso\Documents\GitHub\WEC-Sim_NAK\source\wecSim.m',78,1)">wecSim at 78</a>] 
+Elapsed time is 0.164379 seconds.
+
+WEC-Sim Simulation Settings:
+	Time Marching Solver                 = Fourth-Order Runge-Kutta Formula 
+	Start Time                     (sec) = 0
+	End Time                       (sec) = 400
+	Time Step Size                 (sec) = 0.1
+	Ramp Function Time             (sec) = 100
+	Convolution Integral Interval  (sec) = 60
+	Total Number of Time Step            = 4000 
+
+Wave Environment: 
+	Wave Type                                = User-Defined Wave Elevation Time-Series
+	Wave Elevation Time-Series File          = umpqua46229_6_2008.mat  
+
+List of Body: Number of Bodies = 2 
+
+	***** Body Number 0, Name: buoy_a *****
+	Body CG                          (m) = [0,0,-0.72]
+	Body Mass                       (kg) = 728897 
+	Body Diagonal MOI              (kgm2)= [2.09073E+07,2.13061E+07,3.70855E+07]
+
+	***** Body Number 1, Name: buoy_b *****
+	Body CG                          (m) = [0,0,-21.29]
+	Body Mass                       (kg) = 881826 
+	Body Diagonal MOI              (kgm2)= [9.44196E+07,9.44071E+07,2.85422E+07]
+
+List of PTO(s): Number of PTOs = 1 
+
+	***** PTO Name: PTO1 *****
+	PTO Stiffness           (N/m;Nm/rad) = 0
+	PTO Damping           (Ns/m;Nsm/rad) = 1.2E+06
+
+List of Constraint(s): Number of Constraints = 1 
+
+	***** Constraint Name: Constraint1 *****
+
+
+Simulating the WEC device defined in the SimMechanics model RM3.slx...   
+Elapsed time is 41.283732 seconds.
+
+Post-processing and saving...   
+Elapsed time is 1.691063 seconds.
