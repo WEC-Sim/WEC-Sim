@@ -90,13 +90,14 @@ classdef bodyClass<handle
             obj.hydroData.hydro_coeffs.radiation_damping.state_space.D.all = h5load(filename, [name '/hydro_coeffs/radiation_damping/state_space/D/all']);
         end
 
-        function hydroForcePre(obj,w,waveDir,CIkt,numFreq,dt,rho,g,waveType,waveAmpTime,iBod,numBod,ssCalc,nlHydro,B2B)
+%% Kelley added this
+        function hydroForcePre(obj,w,waveDir,CIkt,numFreq,dt,rho,g,waveType,waveAmpTime,iBod,ssCalc,nlHydro,B2B)
             % HydroForce Pre-processing calculations
             % 1. Set the linear hydrodynamic restoring coefficient, viscous
             %    drag, and linear damping matrices
             % 2. Set the wave excitation force
-%% Kelley added these lines
-%             obj.bodyNumber = iBod;
+            
+%             obj.bodyNumber = iBod;    %this is in wecSim.m
 %%
             obj.setMassMatrix(rho,nlHydro)
             k = obj.hydroData.hydro_coeffs.linear_restoring_stiffness;
@@ -107,13 +108,13 @@ classdef bodyClass<handle
             switch waveType
                 case {'noWave'}
                     obj.noExcitation()
-                    obj.constAddedMassAndDamping(w,CIkt,rho);
+                    obj.constAddedMassAndDamping(w,CIkt,rho,B2B);
                 case {'noWaveCIC'}
                     obj.noExcitation()
                     obj.irfInfAddedMassAndDamping(CIkt,dt,ssCalc,iBod,rho,B2B);
                 case {'regular'}
                     obj.regExcitation(w,waveDir,rho,g);
-                    obj.constAddedMassAndDamping(w,CIkt,rho);
+                    obj.constAddedMassAndDamping(w,CIkt,rho,B2B);
                 case {'regularCIC'}
                     obj.regExcitation(w,waveDir,rho,g);
                     obj.irfInfAddedMassAndDamping(CIkt,dt,ssCalc,iBod,rho,B2B);
@@ -126,7 +127,7 @@ classdef bodyClass<handle
             end
         end
 
-        function adjustMassMatrix(obj)
+        function adjustMassMatrix(obj,B2B)
             % Merge diagonal term of add mass matrix to the mass matrix
             % 1. Store the original mass and added-mass properties
             % 2. Add diagonal added-mass inertia to moment of inertia
@@ -135,15 +136,35 @@ classdef bodyClass<handle
             obj.hydroForce.storage.mass = obj.mass;
             obj.hydroForce.storage.momOfInertia = obj.momOfInertia;
             obj.hydroForce.storage.fAddedMass = obj.hydroForce.fAddedMass;
-            tmp.fadm=diag(obj.hydroForce.fAddedMass(:,1+(iBod-1)*6:6+(iBod-1)*6));
-            obj.mass = obj.mass+max(tmp.fadm(1:3));
-            obj.momOfInertia = obj.momOfInertia+tmp.fadm(4:6)';
-            obj.hydroForce.fAddedMass(1,1+(iBod-1)*6) = obj.hydroForce.fAddedMass(1,1+(iBod-1)*6) - max(tmp.fadm(1:3));
-            obj.hydroForce.fAddedMass(2,2+(iBod-1)*6) = obj.hydroForce.fAddedMass(2,2+(iBod-1)*6) - max(tmp.fadm(1:3));
-            obj.hydroForce.fAddedMass(3,3+(iBod-1)*6) = obj.hydroForce.fAddedMass(3,3+(iBod-1)*6) - max(tmp.fadm(1:3));
-            obj.hydroForce.fAddedMass(4,4+(iBod-1)*6) = 0;
-            obj.hydroForce.fAddedMass(5,5+(iBod-1)*6) = 0;
-            obj.hydroForce.fAddedMass(6,6+(iBod-1)*6) = 0;
+            if B2B == 1
+                tmp.fadm=diag(obj.hydroForce.fAddedMass(:,1+(iBod-1)*6:6+(iBod-1)*6));
+                obj.mass = obj.mass+max(tmp.fadm(1:3));
+                obj.momOfInertia = obj.momOfInertia+tmp.fadm(4:6)';
+                obj.hydroForce.fAddedMass(1,1+(iBod-1)*6) = obj.hydroForce.fAddedMass(1,1+(iBod-1)*6) - max(tmp.fadm(1:3));
+                obj.hydroForce.fAddedMass(2,2+(iBod-1)*6) = obj.hydroForce.fAddedMass(2,2+(iBod-1)*6) - max(tmp.fadm(1:3));
+                obj.hydroForce.fAddedMass(3,3+(iBod-1)*6) = obj.hydroForce.fAddedMass(3,3+(iBod-1)*6) - max(tmp.fadm(1:3));
+                obj.hydroForce.fAddedMass(4,4+(iBod-1)*6) = 0;
+                obj.hydroForce.fAddedMass(5,5+(iBod-1)*6) = 0;
+                obj.hydroForce.fAddedMass(6,6+(iBod-1)*6) = 0;
+            else 
+                tmp.fadm=diag(obj.hydroForce.fAddedMass);
+                obj.mass = obj.mass+max(tmp.fadm(1:3));
+                obj.momOfInertia = obj.momOfInertia+tmp.fadm(4:6)';
+                obj.hydroForce.fAddedMass(1,1) = obj.hydroForce.fAddedMass(1,1) - max(tmp.fadm(1:3));
+                obj.hydroForce.fAddedMass(2,2) = obj.hydroForce.fAddedMass(2,2) - max(tmp.fadm(1:3));
+                obj.hydroForce.fAddedMass(3,3) = obj.hydroForce.fAddedMass(3,3) - max(tmp.fadm(1:3));
+                obj.hydroForce.fAddedMass(4,4) = 0;
+                obj.hydroForce.fAddedMass(5,5) = 0;
+                obj.hydroForce.fAddedMass(6,6) = 0;
+            end
+%             obj.mass = obj.mass+max(tmp.fadm(1:3));
+%             obj.momOfInertia = obj.momOfInertia+tmp.fadm(4:6)';
+%             obj.hydroForce.fAddedMass(1,1+(iBod-1)*6) = obj.hydroForce.fAddedMass(1,1+(iBod-1)*6) - max(tmp.fadm(1:3));
+%             obj.hydroForce.fAddedMass(2,2+(iBod-1)*6) = obj.hydroForce.fAddedMass(2,2+(iBod-1)*6) - max(tmp.fadm(1:3));
+%             obj.hydroForce.fAddedMass(3,3+(iBod-1)*6) = obj.hydroForce.fAddedMass(3,3+(iBod-1)*6) - max(tmp.fadm(1:3));
+%             obj.hydroForce.fAddedMass(4,4+(iBod-1)*6) = 0;
+%             obj.hydroForce.fAddedMass(5,5+(iBod-1)*6) = 0;
+%             obj.hydroForce.fAddedMass(6,6+(iBod-1)*6) = 0;
         end
 
         function restoreMassMatrix(obj)
@@ -315,8 +336,9 @@ classdef bodyClass<handle
             obj.hydroForce.fExt.re=zeros(1,6);
             obj.hydroForce.fExt.im=zeros(1,6);
         end
-
-        function constAddedMassAndDamping(obj,w,CIkt,rho)    
+        
+%% Kelley added these lines
+        function constAddedMassAndDamping(obj,w,CIkt,rho,B2B)    
             % Used by hydroForcePre
             % Added mass and damping for a specific frequency
             am = obj.hydroData.hydro_coeffs.added_mass.all .*rho;
@@ -324,32 +346,51 @@ classdef bodyClass<handle
             for i=1:length(obj.hydroData.simulation_parameters.w)
                 rd(:,:,i) = rd(:,:,i) .*obj.hydroData.simulation_parameters.w(i);
             end
-            lenJ = length(obj.hydroData.hydro_coeffs.added_mass.all(1,:,1));
+            
+            % Change matrix size: B2B [6x6n], noB2B [6x6]
+            if B2B == 1
+                lenJ = 6*obj.bodyTotal;
+            else
+                lenJ = 6;                
+            end
+            
             obj.hydroForce.fAddedMass=zeros(6,lenJ);
-            obj.hydroForce.fDamping  =zeros(6,lenJ);
+            obj.hydroForce.fDamping=zeros(6,lenJ);
+            obj.hydroForce.totDOF  =zeros(6,lenJ);
             for ii=1:6
                 for jj=1:lenJ
                     obj.hydroForce.fAddedMass(ii,jj) = interp1(obj.hydroData.simulation_parameters.w,squeeze(am(ii,jj,:)),w,'spline');
                     obj.hydroForce.fDamping  (ii,jj) = interp1(obj.hydroData.simulation_parameters.w,squeeze(rd(ii,jj,:)),w,'spline');
                 end
             end
-%% Kelley added these lines            
+         
             obj.hydroForce.irkb=zeros(CIkt+1,6,lenJ);   %is this needed?
 %             obj.hydroForce.ssRadf.A = zeros(6,lenJ);
 %             obj.hydroForce.ssRadf.B = zeros(6,lenJ);
 %             obj.hydroForce.ssRadf.C = zeros(6,lenJ);
 %             obj.hydroForce.ssRadf.D = zeros(6,lenJ);
         end
-
+% Kelley finish
 %% Kelley added these lines        
         function irfInfAddedMassAndDamping(obj,CIkt,dt,ssCalc,iBod,rho,B2B)
             % Used by hydroForcePre
             % Added mass at infinite frequency
             % Convolution integral raditation damping
-            lenJ = length(obj.hydroData.hydro_coeffs.added_mass.all(1,:,1));
+            % State Space Formulation
+            
+            % B2B
+            if B2B == 1;                 
+                lenJ = obj.bodyTotal*6;                    
+            % noB2B
+            else   
+                lenJ = 6;
+            end                       
             irfk = obj.hydroData.hydro_coeffs.radiation_damping.impulse_response_fun.K  .*rho;
             irft = obj.hydroData.hydro_coeffs.radiation_damping.impulse_response_fun.t;
-
+            
+            % Radition IRF
+% This doesnt need to be run always, because of variant subsys, add if
+% statment
             obj.hydroForce.irkb=zeros(CIkt+1,6,lenJ);
             CTTime = 0:dt:CIkt*dt;
             for ii=1:6
@@ -358,17 +399,14 @@ classdef bodyClass<handle
                 end
             end
 
-%             obj.hydroForce.ssRadf.A = zeros(6,6);
-%             obj.hydroForce.ssRadf.B = zeros(6,6);
-%             obj.hydroForce.ssRadf.C = zeros(6,6);
-%             obj.hydroForce.ssRadf.D = zeros(6,6);
-
-            if ssCalc == 1      % if using State Space
-                if B2B == 1;    % Only use this if using B2B      
-                    for ii = 1:6    %% Kelley changed this input structure to 6n                
-                        for jj = 1:obj.bodyTotal*6
+            % State Space Formulation
+            if ssCalc == 1      
+                % SS & B2B
+                if B2B == 1;    
+                    for ii = 1:6                  
+                        for jj = 1:lenJ
                             arraySize = obj.hydroData.hydro_coeffs.radiation_damping.state_space.it(ii,jj);
-                            if ii == 1 && jj == 1 % Begin construction of combined state, input, and output matrices
+                            if ii == 1 && jj == 1           % Begin construction of combined state, input, and output matrices
                                 Af(1:arraySize,1:arraySize) = obj.hydroData.hydro_coeffs.radiation_damping.state_space.A.all(ii,jj,1:arraySize,1:arraySize);
                                 Bf(1:arraySize,jj)        = obj.hydroData.hydro_coeffs.radiation_damping.state_space.B.all(ii,jj,1:arraySize,1);
                                 Cf(ii,1:arraySize)          = obj.hydroData.hydro_coeffs.radiation_damping.state_space.C.all(ii,jj,1,1:arraySize);
@@ -380,11 +418,10 @@ classdef bodyClass<handle
                             end
                         end
                     end
-                    obj.hydroForce.ssRadf.A = Af;
-                    obj.hydroForce.ssRadf.B = Bf;
-                    obj.hydroForce.ssRadf.C = Cf .*rho;
-                    obj.hydroForce.ssRadf.D = zeros(6,obj.bodyTotal*6); %is a [6 x (numBodies*6)] array of zeros;
-                else    % for non B2B cases
+                    obj.hydroForce.ssRadf.D = zeros(6,lenJ);     % [6 x (bodyTotal*6)] array of zeros;
+                    
+                % SS & noB2B
+                else
                     for ii = 1:6
                         for jj = (iBod-1)*6+1:(iBod-1)*6+6
                             jInd = jj-(iBod-1)*6;
@@ -401,16 +438,25 @@ classdef bodyClass<handle
                             end
                         end
                     end
-                    obj.hydroForce.ssRadf.A = Af;
-                    obj.hydroForce.ssRadf.B = Bf;
-                    obj.hydroForce.ssRadf.C = Cf .*rho;
                     obj.hydroForce.ssRadf.D = zeros(6,6);
                 end
+                obj.hydroForce.ssRadf.A = Af;
+                obj.hydroForce.ssRadf.B = Bf;
+                obj.hydroForce.ssRadf.C = Cf .*rho;
             end
-            obj.hydroForce.fAddedMass=obj.hydroData.hydro_coeffs.added_mass.inf_freq .*rho;
+            
+            % non-State Space Formulation
+% this is needed because of location of variant subsys           
+            % noSS & B2B
+            if B2B == 1;  
+                obj.hydroForce.fAddedMass=obj.hydroData.hydro_coeffs.added_mass.inf_freq .*rho;                
+            % noSS and noB2B
+            else  
+                obj.hydroForce.fAddedMass=obj.hydroData.hydro_coeffs.added_mass.inf_freq(1:6,(iBod-1)*6+1:(iBod-1)*6+6) .*rho;
+            end
             obj.hydroForce.fDamping=zeros(6,lenJ);
         end
-%% end of Kelley revisions
+%% Kelley finish
 
         function setMassMatrix(obj, rho, nlHydro)
             % Used by hydroForcePre
@@ -442,14 +488,19 @@ classdef bodyClass<handle
     end
 
     methods (Access = 'public') %modify object = F; output = T
-        function fam = forceAddedMass(obj,acc)
+        function fam = forceAddedMass(obj,acc,B2B)
             % Calculates and outputs the real added mass force time history
+% this could be cleaner            
             iBod = obj.bodyNumber;
-            fam = zeros(size(acc));
+            fam = zeros(size(acc));                    
             for i =1:6
                 tmp = zeros(length(acc(:,i)),1);
-                for j =1:6
-                    jj = (iBod-1)*6+j;
+                for j =1:6     
+                    if B2B == 1
+                        jj = (iBod-1)*6+j;
+                    else 
+                        jj = j;
+                    end
                     iam = obj.hydroForce.fAddedMass(i,jj);
                     tmp = tmp + acc(:,j) .* iam;
                 end

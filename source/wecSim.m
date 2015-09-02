@@ -34,8 +34,8 @@ for ii = 1:simu.numWecBodies
     body(ii).readH5File;
     body(ii).checkBemio;
 %% Kelley added these lines
-    body(ii).bodyNumber = ii;
-    body(ii).bodyTotal = simu.numWecBodies;
+    body(ii).bodyNumber = ii;                   % current body number
+    body(ii).bodyTotal = simu.numWecBodies;     % total body numbers
 %
 end; clear ii 
 toc
@@ -79,10 +79,11 @@ simu.setupSim;
 % wave setup
 waves.waveSetup(body(1).hydroData.simulation_parameters.w, body(1).hydroData.simulation_parameters.water_depth, simu.rampT, simu.dt, simu.maxIt, simu.g, simu.endTime);
 % hydroForcePre
+%% Kelley changed this
 for kk = 1:simu.numWecBodies
-    body(kk).hydroForcePre(waves.w,waves.waveDir,simu.CIkt,waves.numFreq,simu.dt,simu.rho,simu.g,waves.type,waves.waveAmpTime,kk,simu.numWecBodies,simu.ssCalc,simu.nlHydro,B2B);
+    body(kk).hydroForcePre(waves.w,waves.waveDir,simu.CIkt,waves.numFreq,simu.dt,simu.rho,simu.g,waves.type,waves.waveAmpTime,kk,simu.ssCalc,simu.nlHydro,B2B);
 end; clear kk
-
+%
 %% Check body-wave-simu compatability
 % Check that the hydro data for each body is given for the same frequencies
 for ii = 1:simu.numWecBodies
@@ -148,7 +149,7 @@ tic
 fprintf('\nSimulating the WEC device defined in the SimMechanics model %s...   \n',simu.simMechanicsFile)
 % Modify some stuff for simulation
 for iBod = 1:simu.numWecBodies
-    body(iBod).adjustMassMatrix; 
+    body(iBod).adjustMassMatrix(B2B); 
 end; clear iBod
 warning('off','Simulink:blocks:TDelayTimeTooSmall');
 %% Kelley added these lines
@@ -207,7 +208,7 @@ clear bodiesOutput ptosOutput constraintsOutput
 for iBod = 1:simu.numWecBodies
     body(iBod).restoreMassMatrix
     output.bodies(iBod).forceTotal = output.bodies(iBod).forceTotal + output.bodies(iBod).forceAddedMass;
-    output.bodies(iBod).forceAddedMass = body(iBod).forceAddedMass(output.bodies(iBod).acceleration);
+    output.bodies(iBod).forceAddedMass = body(iBod).forceAddedMass(output.bodies(iBod).acceleration,B2B);
     output.bodies(iBod).forceTotal = output.bodies(iBod).forceTotal - output.bodies(iBod).forceAddedMass;
 end; clear iBod
 % User Defined Post-Processing
