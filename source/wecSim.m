@@ -3,7 +3,7 @@
 %% Start WEC-Sim log
 bdclose('all'); clc; diary off; close all; 
 clear body waves simu output pto constraint ptoSim
-if exist('simulation.log','file'); delete('simulation.log'); end
+delete('*.log');
 diary('simulation.log')
 
 
@@ -78,7 +78,7 @@ simu.setupSim;
 waves.waveSetup(body(1).hydroData.simulation_parameters.w, body(1).hydroData.simulation_parameters.water_depth, simu.rampT, simu.dt, simu.maxIt, simu.g, simu.endTime);
 % hydroForcePre
 for kk = 1:simu.numWecBodies
-    body(kk).hydroForcePre(waves.w,waves.waveDir,simu.CIkt,waves.numFreq,simu.dt,simu.rho,simu.g,waves.type,waves.waveAmpTime,kk,simu.numWecBodies,simu.ssCalc,simu.nlHydro);
+    body(kk).hydroForcePre(waves.w,waves.waveDir,simu.CIkt,simu.CTTime,waves.numFreq,simu.dt,simu.rho,simu.g,waves.type,waves.waveAmpTime,kk,simu.numWecBodies,simu.ssCalc,simu.nlHydro);
 end; clear kk
 
 %% Check body-wave-simu compatability
@@ -146,7 +146,7 @@ tic
 fprintf('\nSimulating the WEC device defined in the SimMechanics model %s...   \n',simu.simMechanicsFile)
 % Modify some stuff for simulation
 for iBod = 1:simu.numWecBodies
-    body(iBod).adjustMassMatrix; 
+    body(iBod).adjustMassMatrix(simu.adjMassWeightFun); 
 end; clear iBod
 warning('off','Simulink:blocks:TDelayTimeTooSmall');
 if simu.rampT == 0

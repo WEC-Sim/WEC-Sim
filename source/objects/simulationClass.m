@@ -33,6 +33,7 @@ classdef simulationClass<handle
         rho                 = 1000                                         % Density of water (default = 1000 kg/m^3)
         g                   = 9.81                                         % Acceleration due to gravity (default = 9.81 m/s)
         nlHydro             = 0                                            % Option for nonlinear hydrohanamics calculation: linear->'0', nonlinear->'1', (default = 0)
+        adjMassWeightFun    = 2                                            % Weighting function for adjusting added mass term in the translational direction (default = 2)
     end
 
     properties (SetAccess = 'public', GetAccess = 'public')%internal
@@ -56,8 +57,8 @@ classdef simulationClass<handle
     end
 
     methods
-        function obj = simulationClass(file)
-            fprintf(['WEC-Sim: An open-source code for simulating wave energy converters\n'])
+        function obj = simulationClass()
+            fprintf('WEC-Sim: An open-source code for simulating wave energy converters\n')
             fprintf('Version: %s\n\n',obj.version)
             fprintf('Initializing the Simulation Class...\n')
             obj.caseDir = pwd; 
@@ -80,10 +81,10 @@ classdef simulationClass<handle
 
         function setupSim(obj)
             % setup based on values specified in input file
-            obj.time = [obj.startTime:obj.dt:obj.endTime];
+            obj.time = obj.startTime:obj.dt:obj.endTime;
             obj.maxIt = floor((obj.endTime - obj.startTime) / obj.dt);
-            obj.CIkt = ceil(obj.CITime/obj.dt);
-            obj.CTTime = 0:obj.dt:obj.dt*obj.CIkt;
+            obj.CTTime = 0:obj.dt:obj.CITime;
+            obj.CIkt = length(obj.CTTime);
             obj.caseFile = [obj.caseDir filesep 'output' filesep obj.simMechanicsFile(1:end-4) '_matlabWorkspace.mat'];
             obj.logFile = [obj.caseDir filesep 'output' filesep obj.simMechanicsFile(1:end-4) '_simulationLog.txt'];
             mkdir(obj.outputDir)
