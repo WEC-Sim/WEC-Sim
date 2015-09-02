@@ -20,7 +20,7 @@ classdef bodyClass<handle
     end
 
     properties (SetAccess = 'public', GetAccess = 'public') %input file
-        mass              = []                                                  % Mass in kg
+        mass              = []                                                  % Mass in kg or specify 'equilibrium' to have mass= dis vol * density
         momOfInertia      = []                                                  % Moment of inertia [Ixx Iyy Izz] in kg*m^2
         geometryFile      = 'NONE'                                              % Location of geomtry stl file
         mooring           = struct('c',          zeros(6,6), ...                % Mooring damping, 6 x 6 matrix
