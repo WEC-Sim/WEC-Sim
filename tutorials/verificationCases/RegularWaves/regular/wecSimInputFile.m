@@ -6,7 +6,6 @@ simu.dt = 0.1;                          %Simulation Time-Step [s]
 simu.rampT = 100;                       %Wave Ramp Time Length [s]
 %simu.mode='rapid-accelerator';
 simu.explorer = 'off';
-simu.CITime = 20;
 
 %% Wave Information
 %Regular Waves
