@@ -87,7 +87,7 @@ classdef bodyClass<handle
             try obj.hydroData.hydro_coeffs.radiation_damping.state_space.D.all = h5load(filename, [name '/hydro_coeffs/radiation_damping/state_space/D/all']); end
         end
 
-        function hydroForcePre(obj,w,waveDir,CIkt,numFreq,dt,rho,g,waveType,waveAmpTime,iBod,numBod,ssCalc,nlHydro)
+        function hydroForcePre(obj,w,waveDir,CIkt,CTTime,numFreq,dt,rho,g,waveType,waveAmpTime,iBod,numBod,ssCalc,nlHydro)
             % HydroForce Pre-processing calculations
             % 1. Set the linear hydrodynamic restoring coefficient, viscous
             %    drag, and linear damping matrices
@@ -111,17 +111,17 @@ classdef bodyClass<handle
                     obj.constAddedMassAndDamping(w,CIkt,rho);
                 case {'regularCIC'}
                     obj.regExcitation(w,waveDir,rho,g);
-                    obj.irfInfAddedMassAndDamping(CIkt,dt,ssCalc,iBod,rho);
+                    obj.irfInfAddedMassAndDamping(CIkt,CTTime,ssCalc,iBod,rho);
                 case {'irregular','irregularImport'}
                     obj.irrExcitation(w,numFreq,waveDir,rho,g);
-                    obj.irfInfAddedMassAndDamping(CIkt,dt,ssCalc,iBod,rho);
+                    obj.irfInfAddedMassAndDamping(CIkt,CTTime,ssCalc,iBod,rho);
                 case {'userDefined'}
                     obj.userDefinedExcitation(waveAmpTime,dt,waveDir,rho,g);
-                    obj.irfInfAddedMassAndDamping(CIkt,dt,ssCalc,iBod,rho);
+                    obj.irfInfAddedMassAndDamping(CIkt,CTTime,ssCalc,iBod,rho);
             end
         end
 
-        function adjustMassMatrix(obj)
+        function adjustMassMatrix(obj,adjMassWeightFun)
             % Merge diagonal term of add mass matrix to the mass matrix
             % 1. Store the original mass and added-mass properties
             % 2. Add diagonal added-mass inertia to moment of inertia
@@ -131,11 +131,12 @@ classdef bodyClass<handle
             obj.hydroForce.storage.momOfInertia = obj.momOfInertia;
             obj.hydroForce.storage.fAddedMass = obj.hydroForce.fAddedMass;
             tmp.fadm=diag(obj.hydroForce.fAddedMass(:,1+(iBod-1)*6:6+(iBod-1)*6));
-            obj.mass = obj.mass+max(tmp.fadm(1:3));
+            tmp.adjmass = sum(tmp.fadm(1:3))*adjMassWeightFun;
+            obj.mass = obj.mass + tmp.adjmass;
             obj.momOfInertia = obj.momOfInertia+tmp.fadm(4:6)';
-            obj.hydroForce.fAddedMass(1,1+(iBod-1)*6) = obj.hydroForce.fAddedMass(1,1+(iBod-1)*6) - max(tmp.fadm(1:3));
-            obj.hydroForce.fAddedMass(2,2+(iBod-1)*6) = obj.hydroForce.fAddedMass(2,2+(iBod-1)*6) - max(tmp.fadm(1:3));
-            obj.hydroForce.fAddedMass(3,3+(iBod-1)*6) = obj.hydroForce.fAddedMass(3,3+(iBod-1)*6) - max(tmp.fadm(1:3));
+            obj.hydroForce.fAddedMass(1,1+(iBod-1)*6) = obj.hydroForce.fAddedMass(1,1+(iBod-1)*6) - tmp.adjmass;
+            obj.hydroForce.fAddedMass(2,2+(iBod-1)*6) = obj.hydroForce.fAddedMass(2,2+(iBod-1)*6) - tmp.adjmass;
+            obj.hydroForce.fAddedMass(3,3+(iBod-1)*6) = obj.hydroForce.fAddedMass(3,3+(iBod-1)*6) - tmp.adjmass;
             obj.hydroForce.fAddedMass(4,4+(iBod-1)*6) = 0;
             obj.hydroForce.fAddedMass(5,5+(iBod-1)*6) = 0;
             obj.hydroForce.fAddedMass(6,6+(iBod-1)*6) = 0;
@@ -328,14 +329,14 @@ classdef bodyClass<handle
                     obj.hydroForce.fDamping  (ii,jj) = interp1(obj.hydroData.simulation_parameters.w,squeeze(rd(ii,jj,:)),w,'spline');
                 end
             end
-            obj.hydroForce.irkb=zeros(CIkt+1,6,lenJ);
+            obj.hydroForce.irkb=zeros(CIkt,6,lenJ);
             obj.hydroForce.ssRadf.A = zeros(6,6);
             obj.hydroForce.ssRadf.B = zeros(6,6);
             obj.hydroForce.ssRadf.C = zeros(6,6);
             obj.hydroForce.ssRadf.D = zeros(6,6);
         end
 
-        function irfInfAddedMassAndDamping(obj,CIkt,dt,ssCalc,iBod,rho)
+        function irfInfAddedMassAndDamping(obj,CIkt,CTTime,ssCalc,iBod,rho)
             % Used by hydroForcePre
             % Added mass at infinite frequency
             % Convolution integral raditation damping
@@ -343,8 +344,7 @@ classdef bodyClass<handle
             irfk = obj.hydroData.hydro_coeffs.radiation_damping.impulse_response_fun.K  .*rho;
             irft = obj.hydroData.hydro_coeffs.radiation_damping.impulse_response_fun.t;
 
-            obj.hydroForce.irkb=zeros(CIkt+1,6,lenJ);
-            CTTime = 0:dt:CIkt*dt;
+            obj.hydroForce.irkb=zeros(CIkt,6,lenJ);
             for ii=1:6
                 for jj=1:lenJ
                     obj.hydroForce.irkb(:,ii,jj) = interp1(irft,squeeze(irfk(ii,jj,:)),CTTime,'spline');
