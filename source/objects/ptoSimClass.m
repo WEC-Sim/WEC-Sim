@@ -42,7 +42,7 @@ classdef ptoSimClass<handle
                        
         valve                  = struct('number'          ,[])
         
-        accummulator           = struct('VI0'             ,'NOT DEFINED',...
+        accumulator            = struct('VI0'             ,'NOT DEFINED',...
                                         'pIrated'         ,'NOT DEFINED',...
                                         'pIupper_limit'   ,'NOT DEFINED',...
                                         'pIlower_limit'   ,'NOT DEFINED',...
@@ -94,7 +94,7 @@ classdef ptoSimClass<handle
         end    
         
         function countblocks(obj)
-            names = {'pistonCF','pistonNCF','checkValve','valve','accummulator','hydraulicMotor','rotaryGenerator','linearGenerator','motionMechanism'};
+            names = {'pistonCF','pistonNCF','checkValve','valve','accumulator','hydraulicMotor','rotaryGenerator','linearGenerator','motionMechanism'};
             for jj = 1:length(names)
                 for kk = 1:length(obj.(names{jj}))
                     obj.(names{jj})(kk).number = kk;
@@ -103,13 +103,13 @@ classdef ptoSimClass<handle
         end
         
         function ptosimOutput = response(obj)
-            names = {'pistonCF','pistonNCF','checkValve','valve','accummulator','hydraulicMotor','rotaryGenerator','linearGenerator','motionMechanism'};
+            names = {'pistonCF','pistonNCF','checkValve','valve','accumulator','hydraulicMotor','rotaryGenerator','linearGenerator','motionMechanism'};
             
             signals.pistonCF = {'absPower','force','pos','vel'};
             signals.pistonNCF = {'absPower','force','topPressure','bottomPressure'};
             signals.checkValve = {'volFlow1','volFlow2','volFlow3','volFlow4'};
             signals.valve = {'volFlow'};
-            signals.accummulator = {'pressure','volume'};
+            signals.accumulator = {'pressure','volume'};
             signals.hydraulicMotor = {'angVel','volFlowM'};
             signals.rotaryGenerator = {'elecPower','genPower'};
             signals.linearGenerator = {'absPower','force','fricForce','Ia','Ib','Ic','Va','Vb','Vc','vel','elecPower'};
