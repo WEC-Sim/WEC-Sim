@@ -10,29 +10,29 @@ ptosim.pistonNCF.botA = 0.0378;    % Bottom piston area [m^2]
 
 %% Low Pressure Accumulator
 
-ptosim.accummulator(2).VI0 = 6;                                                           % Initial volume                                 
-ptosim.accummulator(2).pIrated = 16e6;                                                    % Rated working pressure
-ptosim.accummulator(2).pIupper_limit = (4/3)*ptosim.accummulator(2).pIrated;              % Upper working pressure
-ptosim.accummulator(2).pIlower_limit = (0.5)*ptosim.accummulator(2).pIupper_limit;        % Lower working pressure
-ptosim.accummulator(2).pIprecharge = 0.9*ptosim.accummulator(2).pIlower_limit;            % Precharge pressure
-ptosim.accummulator(2).VImax = ptosim.accummulator(2).VI0*(1-(ptosim.accummulator(2).pIprecharge/ptosim.accummulator(2).pIupper_limit)^(1/1.4));
-ptosim.accummulator(2).VImin = ptosim.accummulator(2).VI0*(1-(ptosim.accummulator(2).pIprecharge/ptosim.accummulator(2).pIlower_limit)^(1/1.4));
-ptosim.accummulator(2).VIeq = ptosim.accummulator(2).VImax;
-ptosim.accummulator(2).pIeq = ptosim.accummulator(2).pIprecharge/(1-ptosim.accummulator(2).VIeq/ptosim.accummulator(2).VI0)^(1.4);
+ptosim.accumulator(2).VI0 = 6;                                                           % Initial volume                                 
+ptosim.accumulator(2).pIrated = 16e6;                                                    % Rated working pressure
+ptosim.accumulator(2).pIupper_limit = (4/3)*ptosim.accumulator(2).pIrated;              % Upper working pressure
+ptosim.accumulator(2).pIlower_limit = (0.5)*ptosim.accumulator(2).pIupper_limit;        % Lower working pressure
+ptosim.accumulator(2).pIprecharge = 0.9*ptosim.accumulator(2).pIlower_limit;            % Precharge pressure
+ptosim.accumulator(2).VImax = ptosim.accumulator(2).VI0*(1-(ptosim.accumulator(2).pIprecharge/ptosim.accumulator(2).pIupper_limit)^(1/1.4));
+ptosim.accumulator(2).VImin = ptosim.accumulator(2).VI0*(1-(ptosim.accumulator(2).pIprecharge/ptosim.accumulator(2).pIlower_limit)^(1/1.4));
+ptosim.accumulator(2).VIeq = ptosim.accumulator(2).VImax;
+ptosim.accumulator(2).pIeq = ptosim.accumulator(2).pIprecharge/(1-ptosim.accumulator(2).VIeq/ptosim.accumulator(2).VI0)^(1.4);
 
 
 %% High Pressure Accumulator
 
-ptosim.accummulator(1).VI0 = 8.5;                                                                 % Initial volume                               
-ptosim.accummulator(1).del_p_r = 15e6;
-ptosim.accummulator(1).pIrated = ptosim.accummulator(1).del_p_r + ptosim.accummulator(2).pIrated; % Rated working pressure
-ptosim.accummulator(1).pIeq = ptosim.accummulator(2).pIeq;
-ptosim.accummulator(1).pIlower_limit = ptosim.accummulator(1).pIeq;
-ptosim.accummulator(1).pIupper_limit = 1.5*ptosim.accummulator(1).pIlower_limit;
-ptosim.accummulator(1).pIprecharge = 0.9*ptosim.accummulator(1).pIlower_limit;
-ptosim.accummulator(1).VIeq = ptosim.accummulator(1).VI0*(1-(ptosim.accummulator(1).pIprecharge/ptosim.accummulator(1).pIeq)^(1/1.4));
-ptosim.accummulator(1).VImax = ptosim.accummulator(1).VI0*(1-(ptosim.accummulator(1).pIprecharge/ptosim.accummulator(1).pIupper_limit)^(1/1.4));
-ptosim.accummulator(1).VImin = ptosim.accummulator(1).VI0*(1-(ptosim.accummulator(1).pIprecharge/ptosim.accummulator(1).pIlower_limit)^(1/1.4));
+ptosim.accumulator(1).VI0 = 8.5;                                                                 % Initial volume                               
+ptosim.accumulator(1).del_p_r = 15e6;
+ptosim.accumulator(1).pIrated = ptosim.accumulator(1).del_p_r + ptosim.accumulator(2).pIrated; % Rated working pressure
+ptosim.accumulator(1).pIeq = ptosim.accumulator(2).pIeq;
+ptosim.accumulator(1).pIlower_limit = ptosim.accumulator(1).pIeq;
+ptosim.accumulator(1).pIupper_limit = 1.5*ptosim.accumulator(1).pIlower_limit;
+ptosim.accumulator(1).pIprecharge = 0.9*ptosim.accumulator(1).pIlower_limit;
+ptosim.accumulator(1).VIeq = ptosim.accumulator(1).VI0*(1-(ptosim.accumulator(1).pIprecharge/ptosim.accumulator(1).pIeq)^(1/1.4));
+ptosim.accumulator(1).VImax = ptosim.accumulator(1).VI0*(1-(ptosim.accumulator(1).pIprecharge/ptosim.accumulator(1).pIupper_limit)^(1/1.4));
+ptosim.accumulator(1).VImin = ptosim.accumulator(1).VI0*(1-(ptosim.accumulator(1).pIprecharge/ptosim.accumulator(1).pIlower_limit)^(1/1.4));
 
 
 %% Hydraulic Motor
