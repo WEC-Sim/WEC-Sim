@@ -15,7 +15,7 @@ waves = waveClass('regularCIC');
                                  %Create the Wave Variable and Specify Type
                                  
 waves.H = 2.5;                          %Wave Height [m]
-waves.T = 8;                            %Wave Period [s]
+waves.T = 14;                            %Wave Period [s]
 
 %% Irregular Waves using PM Spectrum with Convolution Integral Calculation
 % waves = waveClass('irregular');       
