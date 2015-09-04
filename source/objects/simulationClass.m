@@ -23,6 +23,7 @@ classdef simulationClass<handle
         startTime           = 0                                            % Simulation start time (default = 0 s)
         endTime             = 500                                          % Simulation end time (default = 500 s)
         dt                  = 0.1                                          % Simulation time step (default = 0.1 s)
+        dtOut               = []                                           % Output sampling time (default = dt)
         rampT               = 100                                          % Ramp time for wave forcing (default = 100 s)
         domainSize          = 200                                          % Size of free surface and seabed. This variable is only used for visualization (default = 200 m)
         CITime              = 60                                           % Convolution integral time (default = 60 s)
@@ -83,6 +84,10 @@ classdef simulationClass<handle
             % setup based on values specified in input file
             obj.time = obj.startTime:obj.dt:obj.endTime;
             obj.maxIt = floor((obj.endTime - obj.startTime) / obj.dt);
+            % Set dtOut if it was not specificed in input file
+            if isempty(obj.dtOut) || obj.dtOut < obj.dt
+                obj.dtOut = obj.dt;
+            end
             obj.CTTime = 0:obj.dt:obj.CITime;
             obj.CIkt = length(obj.CTTime);
             obj.caseFile = [obj.caseDir filesep 'output' filesep obj.simMechanicsFile(1:end-4) '_matlabWorkspace.mat'];
