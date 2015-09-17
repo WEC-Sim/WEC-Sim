@@ -169,52 +169,13 @@ classdef bodyClass<handle
         end
 
         function bodyGeo(obj,fname)
-            numFace = 0;
-            numVertex = 0;
-            fid = fopen(fname, 'r');
-            readingInput = 'reading';
-            while readingInput == 'reading'
-                temp = fgetl(fid);
-                if temp == -1;
-                    break;
-                end
-                tmp = 'outer loop';
-                if isempty(strfind(temp, tmp)) == 0
-                    numFace = numFace + 1;
-                    for i=1:3
-                        temp = fgetl(fid);
-                        tmpVertex= textscan(temp, 'vertex %f %f %f');
-                        if numVertex == 0
-                            numVertex = numVertex + 1;
-                            obj.bodyGeometry.vertex(numVertex,1) = tmpVertex{1};
-                            obj.bodyGeometry.vertex(numVertex,2) = tmpVertex{2};
-                            obj.bodyGeometry.vertex(numVertex,3) = tmpVertex{3};
-                            obj.bodyGeometry.face(numFace,i) = numVertex;
-                        else
-                            j=0;check=1;
-                            while (j<numVertex && abs(check) > 10e-8)
-                                j=j+1;
-                                check = (tmpVertex{1}-obj.bodyGeometry.vertex(j,1))^2 ...
-                                    + (tmpVertex{2}-obj.bodyGeometry.vertex(j,2))^2 ...
-                                    + (tmpVertex{3}-obj.bodyGeometry.vertex(j,3))^2;
-                                numVertexPointer = j;
-                            end
-                            if abs(check) > 10e-8
-                                numVertex = numVertex + 1;
-                                obj.bodyGeometry.vertex(numVertex,1) = tmpVertex{1};
-                                obj.bodyGeometry.vertex(numVertex,2) = tmpVertex{2};
-                                obj.bodyGeometry.vertex(numVertex,3) = tmpVertex{3};
-                                obj.bodyGeometry.face(numFace,i) = numVertex;
-                            else
-                                obj.bodyGeometry.face(numFace,i) = numVertexPointer;
-                            end
-                        end
-                    end
-                end
-
+            try
+                [obj.bodyGeometry.vertex, obj.bodyGeometry.face, ~] = import_stl_fast(fname,1,1);
+            catch
+                [obj.bodyGeometry.vertex, obj.bodyGeometry.face, ~] = import_stl_fast(fname,1,2);
             end
-            obj.bodyGeometry.numFace = numFace;
-            obj.bodyGeometry.numVertex = numVertex;
+            obj.bodyGeometry.numFace = length(obj.bodyGeometry.face);
+            obj.bodyGeometry.numVertex = length(obj.bodyGeometry.vertex);
         end
 
         function checkinputs(obj)
