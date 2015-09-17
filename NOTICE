@@ -17,4 +17,4 @@ Several libraries developed by external parties are used by
 WEC-Sim. License information for these libraries is as
 follows:
 
-./functions/import_stl_fast.m - BSD license - http://www.mathworks.com/matlabcentral/fileexchange/38591-xlwrite-generate-xlsx-files-without-excel-on-maclinuxwin
+source/functions/import_stl_fast/import_stl_fast.m - see license in import_stl_fast.m 
