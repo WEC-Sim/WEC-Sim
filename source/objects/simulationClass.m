@@ -93,11 +93,7 @@ classdef simulationClass<handle
             obj.caseFile = [obj.caseDir filesep 'output' filesep obj.simMechanicsFile(1:end-4) '_matlabWorkspace.mat'];
             obj.logFile = [obj.caseDir filesep 'output' filesep obj.simMechanicsFile(1:end-4) '_simulationLog.txt'];
             mkdir(obj.outputDir)
-            try
-                obj.version = getWecSimVer;
-            catch
-                obj.version = 'No git version available';
-            end
+            obj.getWecSimVer;
         end
 
         function checkinputs(obj)
@@ -131,6 +127,17 @@ classdef simulationClass<handle
                 fprintf('\tConvolution Integral Interval  (sec) = %G\n',obj.CITime)
             end
             fprintf('\tTotal Number of Time Step            = %u \n',obj.maxIt)
+        end
+
+        function getWecSimVer(obj)
+            try
+                ws_exe = which('wecSim');
+                ws_dir = fileparts(ws_exe);
+                git_ver_file = [ws_dir '/../.git/refs/heads/master'];
+                obj.version = textread(git_ver_file,'%s');
+            catch
+                obj.version = 'No git version available';
+            end
         end
     end
 end
