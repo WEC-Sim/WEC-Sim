@@ -24,8 +24,8 @@ classdef responseClass<handle
     
     methods (Access = 'public')
         function obj = responseClass(bodiesOutput,ptosOutput,constraintsOutput,ptosimOutput)                      
-        % Initilization function
-        % Read and format ouputs from bodies, PTOs, and constraints.
+            % Initilization function
+            % Read and format ouputs from bodies, PTOs, and constraints.
             % Bodies
             signals = {'position','velocity','acceleration','forceTotal','forceExcitation','forceRadiationDamping','forceAddedMass','forceRestoring','forceViscous','forceMooring','forceLinearDamping'};
             for ii = 1:length(bodiesOutput)
@@ -65,9 +65,9 @@ classdef responseClass<handle
         end
         
         function plotResponse(obj,bodyNum,comp)
-        %plots response of a body in a given DOF
-        %   'bodyNum' is the body number to plot
-        %   'comp' is the response direction to be plotted (1-6)
+            %plots response of a body in a given DOF
+            %   'bodyNum' is the body number to plot
+            %   'comp' is the response direction to be plotted (1-6)
             DOF = {'Surge','Sway','Heave','Roll','Pitch','Yaw'};
             t=obj.bodies(bodyNum).time;
             pos=obj.bodies(bodyNum).position(:,comp) - obj.bodies(bodyNum).position(1,comp);
@@ -85,9 +85,9 @@ classdef responseClass<handle
         end
 
         function plotForces(obj,bodyNum,comp)
-        %plots force components for a body.
-        %   bodyNum is the body number to plot
-        %   'comp' is the force component to be plotted (1-6)
+            %plots force components for a body.
+            %   bodyNum is the body number to plot
+            %   'comp' is the force component to be plotted (1-6)
             DOF = {'Surge','Sway','Heave','Roll','Pitch','Yaw'};
             t=obj.bodies(bodyNum).time;
             FT=obj.bodies(bodyNum).forceTotal(:,comp);
@@ -115,5 +115,38 @@ classdef responseClass<handle
             clear t FT FE FRD FR FV FM i
         end
         
+        function write_paraview(obj, bodies, t, model, simdate, wavetype)
+            % open file
+            fid = fopen(['vtk' filesep model(1:end-4) '.pvd'], 'w');
+            % write header
+            fprintf(fid, '<?xml version="1.0"?>\n');
+            fprintf(fid, ['<!-- WEC-Sim Visualization using ParaView -->\n']);
+            fprintf(fid, ['<!--   model: ' model ' - ran on ' simdate ' -->\n']);
+            fprintf(fid, ['<!--   wave:  ' wavetype ' -->\n']);
+            fprintf(fid, ['<!--   bodies:  ' num2str(length(bodies)) ' -->\n']);
+            for ii = 1:length(bodies)
+                fprintf(fid, ['<!--     body ' num2str(ii) ':  ' bodies{ii} ' -->\n']);
+            end
+            fprintf(fid, '<VTKFile type="Collection" version="0.1">\n');
+            fprintf(fid, '  <Collection>\n');
+            % write wave
+            fprintf(fid,['  <!-- Wave:  ' wavetype ' -->\n']);
+            for jj = 1:length(t)
+                 fprintf(fid, ['    <DataSet timestep="' num2str(t(jj)) '" group="" part="" \n']);
+                 fprintf(fid, ['             file="waves' filesep 'waves_' num2str(jj) '.vtp"/>\n']);
+            end 
+            % write bodies
+            for ii = 1:length(bodies)
+                fprintf(fid,['  <!-- Body' num2str(ii) ':  ' bodies{ii} ' -->\n']);
+                for jj = 1:length(t)
+                     fprintf(fid, ['    <DataSet timestep="' num2str(t(jj)) '" group="" part="" \n']);
+                     fprintf(fid, ['             file="body' num2str(ii) '_' bodies{ii} filesep bodies{ii} '_' num2str(jj) '.vtp"/>\n']);
+                end
+            end
+            % close file
+            fprintf(fid, '  </Collection>\n');
+            fprintf(fid, '</VTKFile>');
+            fclose(fid);
+        end
     end
 end
