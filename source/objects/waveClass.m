@@ -26,6 +26,8 @@ classdef waveClass<handle
         etaDataFile                 = 'NOT DEFINED'                        % Data file that contains the times-series data file. See ---- for format specs
         numFreq                     = 1001                                 % Number of interpolated wave frequencies (default = 'NOT DEFINED')
         waveDir                     = 0                                    % Wave Direction in degrees
+        viz                         = struct('numPointsX', 50, ...         % Visualization number of points in x direction.
+                                            'numPointsY', 50)              % Visualization number of points in y direction.
     end
     
     properties (SetAccess = 'private', GetAccess = 'public')%internal
@@ -171,6 +173,93 @@ classdef waveClass<handle
                 error(['Unexpected wave environment type setting. ' ...
                     'Only noWave, noWaveCIC, regular, regularCIC, irregular, irregularImport, and userDefined waves are supported at this time'])
             end
+        end
+
+        function write_paraview_vtp(obj, t, numPointsX, numPointsY, domainSize, model, simdate)
+            % ground plane
+            filename = ['vtk' filesep 'ground.txt'];
+            fid = fopen(filename, 'w');
+            fprintf(fid,[num2str(domainSize) '\n']);
+            fprintf(fid,[num2str(obj.waterDepth) '\n']);
+            fclose(fid);
+            % wave
+            x = linspace(-domainSize, domainSize, numPointsX);
+            y = linspace(-domainSize, domainSize, numPointsY);
+            [X,Y] = meshgrid(x,y);
+            lx = length(x);
+            ly = length(y);
+            numVertex = lx * ly;
+            numFace = (lx-1) * (ly-1);
+            for it = 1:length(t)
+                % open file
+                filename = ['vtk' filesep 'waves' filesep 'waves_' num2str(it) '.vtp'];
+                fid = fopen(filename, 'w');
+                % calculate wave elevation
+                switch obj.type
+                case{'noWave','noWaveCIC','userDefined'}
+                    Z = zeros(size(X));
+                case{'regular','regularCIC'}
+                    Xt = X*cos(obj.waveDir*pi/180) + Y*sin(obj.waveDir*pi/180);
+                    Z = obj.A * cos(-1 * obj.k * Xt  +  obj.w * t(it));
+                case{'irregular','irregularImport'}
+                    Z = zeros(size(X));
+                    Xt = X*cos(obj.waveDir*pi/180) + Y*sin(obj.waveDir*pi/180);
+                    for iw = 1:length(obj.w)
+                        Z = Z + sqrt(obj.A(iw)*obj.dw) * cos(-1*obj.k(iw)*Xt + obj.w(iw)*t(it) + obj.phaseRand(iw));
+                    end
+                end
+                % write header
+                fprintf(fid, '<?xml version="1.0"?>\n');
+                fprintf(fid, ['<!-- WEC-Sim Visualization using ParaView -->\n']);
+                fprintf(fid, ['<!--   model: ' model ' - ran on ' simdate ' -->\n']);
+                fprintf(fid, ['<!--   wave:  ' obj.type ' -->\n']);
+                fprintf(fid, ['<!--   time:  ' num2str(t(it)) ' -->\n']);
+                fprintf(fid, '<VTKFile type="PolyData" version="0.1">\n');
+                fprintf(fid, '  <PolyData>\n');
+                % write wave info
+                fprintf(fid,['    <Piece NumberOfPoints="' num2str(numVertex) '" NumberOfPolys="' num2str(numFace) '">\n']);
+                % write points
+                fprintf(fid,'      <Points>\n');
+                fprintf(fid,'        <DataArray type="Float32" NumberOfComponents="3" format="ascii">\n');
+                for jj = 1:length(y)
+                    for ii = 1:length(x)
+                        pt = [X(jj,ii), Y(jj,ii), Z(jj,ii)];
+                        fprintf(fid, '          %5.5f %5.5f %5.5f\n', pt);
+                    end; clear ii
+                    clear pt
+                end; clear jj
+                fprintf(fid,'        </DataArray>\n');
+                fprintf(fid,'      </Points>\n');
+                % write squares connectivity
+                fprintf(fid,'      <Polys>\n');
+                fprintf(fid,'        <DataArray type="Int32" Name="connectivity" format="ascii">\n');
+                for jj = 1:ly-1
+                    for ii = 1:lx-1
+                        p1 = (jj-1)*lx + (ii-1);
+                        p2 = p1+1;
+                        p3 = p2 + lx;
+                        p4 = p1 + lx;
+                        fprintf(fid, '          %i %i %i %i\n', [p1,p2,p3,p4]);
+                    end; clear ii
+                end; clear jj
+                fprintf(fid,'        </DataArray>\n');
+                fprintf(fid,'        <DataArray type="Int32" Name="offsets" format="ascii">\n');
+                fprintf(fid, '         ');
+                for ii = 1:numFace
+                    n = ii * 4;
+                    fprintf(fid, ' %i', n);
+                end; clear ii n
+                fprintf(fid, '\n');
+                fprintf(fid,'        </DataArray>\n');
+                fprintf(fid, '      </Polys>\n');
+                % end file
+                fprintf(fid, '    </Piece>\n');
+                fprintf(fid, '  </PolyData>\n');
+                fprintf(fid, '</VTKFile>');
+                % close file
+                fclose(fid);
+            end; clear it
+            clear  numPoints numVertex numFace x y lx ly X Y Z fid filename p1 p2 p3 p4
         end
     end
     
