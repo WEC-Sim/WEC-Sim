@@ -8,7 +8,7 @@
   
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   
-  <title>Theory &mdash; WEC-Sim 1.1 documentation</title>
+  <title>Theory &mdash; WEC-Sim  documentation</title>
   
 
   
@@ -30,7 +30,7 @@
   
 
   
-    <link rel="top" title="WEC-Sim 1.1 documentation" href="index.html"/>
+    <link rel="top" title="WEC-Sim  documentation" href="index.html"/>
         <link rel="next" title="Getting Started" href="getting_started.html"/>
         <link rel="prev" title="Release Notes" href="release_notes.html"/> 
 
@@ -102,7 +102,12 @@
 <li class="toctree-l3"><a class="reference internal" href="#ramp-function">Ramp Function</a></li>
 </ul>
 </li>
-<li class="toctree-l2"><a class="reference internal" href="#power-take-off-forces">Power Take-off Forces</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#power-take-off-pto-forces">Power Take-off (PTO) Forces</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#linear-spring-damper-pto">Linear Spring-damper PTO</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#hydraulic-pto">Hydraulic PTO</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#mechanical-pto">Mechanical PTO</a></li>
+</ul>
+</li>
 <li class="toctree-l2"><a class="reference internal" href="#mooring-forces">Mooring Forces</a></li>
 <li class="toctree-l2"><a class="reference internal" href="#damping-forces">Damping Forces</a></li>
 <li class="toctree-l2"><a class="reference internal" href="#references">References</a></li>
@@ -482,12 +487,15 @@ y &amp;=&amp; \mathbf{C_{r}} x~~\end{split}\]</div>
 <p>where <span class="math">\(t\)</span> is the simulation time and <span class="math">\(t_{r}\)</span> is the ramp time.</p>
 </div>
 </div>
-<div class="section" id="power-take-off-forces">
-<h2>Power Take-off Forces<a class="headerlink" href="#power-take-off-forces" title="Permalink to this headline">¶</a></h2>
+<div class="section" id="power-take-off-pto-forces">
+<h2>Power Take-off (PTO) Forces<a class="headerlink" href="#power-take-off-pto-forces" title="Permalink to this headline">¶</a></h2>
+<div class="section" id="linear-spring-damper-pto">
+<h3>Linear Spring-damper PTO<a class="headerlink" href="#linear-spring-damper-pto" title="Permalink to this headline">¶</a></h3>
 <p>The PTO mechanism is represented as a linear spring-damper system, where the reaction force is given by:</p>
 <div class="math">
 \[F_{PTO}=-K{}_{PTO}X_{rel}-C_{PTO}\dot{X}_{rel}\]</div>
-<p>where <span class="math">\(K_{PTO}\)</span> is the stiffness of the PTO, <span class="math">\(C_{PTO}\)</span> is the damping of the PTO, and <span class="math">\(X_{rel}\)</span> and <span class="math">\(\dot{X}_{rel}\)</span> are the relative motion and velocity between two bodies.  The power consumed by the PTO is given by:</p>
+<p>where <span class="math">\(K_{PTO}\)</span> is the stiffness of the PTO, <span class="math">\(C_{PTO}\)</span> is the damping of the PTO, and <span class="math">\(X_{rel}\)</span> and <span class="math">\(\dot{X}_{rel}\)</span> are the relative motion and velocity between two bodies.</p>
+<p>The power consumed by the PTO is given by:</p>
 <blockquote>
 <div><div class="math">
 \[P_{PTO} = -F_{PTO}\dot{X}_{rel}=\left(K_{PTO}X_{rel}\dot{X}_{rel}+C_{PTO}\dot{X}^{2}_{rel}\right)\]</div>
@@ -495,6 +503,27 @@ y &amp;=&amp; \mathbf{C_{r}} x~~\end{split}\]</div>
 <p>However, the relative motion and velocity between two bodies is out of phase by <span class="math">\(\pi/2\)</span>, resulting in a time-averaged product of 0. This allows the absorbed power to be written as</p>
 <div class="math">
 \[P_{PTO} =C_{PTO}\dot{X}^{2}_{rel}\]</div>
+</div>
+<div class="section" id="hydraulic-pto">
+<h3>Hydraulic PTO<a class="headerlink" href="#hydraulic-pto" title="Permalink to this headline">¶</a></h3>
+<p>The PTO mechanism is modeled as a hydraulic system <a class="reference internal" href="#so" id="id21">[14]</a>, where the reaction force is given by:</p>
+<div class="math">
+\[F_{PTO}=\Delta{} p_{piston}A_{piston}\]</div>
+<p>where <span class="math">\(\Delta{} p_{piston}\)</span> is the differential pressure of hydraulic piston, and <span class="math">\(A_{piston}\)</span> is the piston area.</p>
+<p>The power absorbed by the PTO is given by:</p>
+<div class="math">
+\[P_{PTO}=-F_{PTO}\dot{X}_{rel}\]</div>
+</div>
+<div class="section" id="mechanical-pto">
+<h3>Mechanical PTO<a class="headerlink" href="#mechanical-pto" title="Permalink to this headline">¶</a></h3>
+<p>The PTO mechanism is modeled as a direct drive linear generator system <a class="reference internal" href="#so" id="id22">[14]</a>, where the reaction force is given by:</p>
+<div class="math">
+\[F_{PTO}=(\frac{\pi}{\tau_{pm}})\lambda_{fd}i_{sq}\]</div>
+<p>where <span class="math">\(\tau_{pm}\)</span> is the magnet pole pitch (the distance measured of the magnet from the center of one pole to the center of the next pole), <span class="math">\(\lambda_{fd}\)</span> is the flux linkage of the stator <span class="math">\(d\)</span>-axis winding due to flux produced by the rotor magnets, and <span class="math">\(i_{sq}\)</span> is the stator <span class="math">\(q\)</span>-axis current.</p>
+<p>The power absorbed by the PTO is given by:</p>
+<div class="math">
+\[P_{PTO}=-F_{PTO}\dot{X}_{rel}\]</div>
+</div>
 </div>
 <div class="section" id="mooring-forces">
 <h2>Mooring Forces<a class="headerlink" href="#mooring-forces" title="Permalink to this headline">¶</a></h2>
@@ -511,20 +540,20 @@ y &amp;=&amp; \mathbf{C_{r}} x~~\end{split}\]</div>
 \[F_{v}=-C_{ld}\dot{X}+\frac{1}{2}C_{d}\rho A_{D}\dot{X}|\dot{X}|\]</div>
 </div></blockquote>
 <p>where <span class="math">\(C_{ld}\)</span> is the linear damping coefficient, <span class="math">\(C_{d}\)</span> is the (quadratic) viscous drag coefficient, <span class="math">\(\rho\)</span> is the fluid density, and <span class="math">\(A_{D}\)</span> is the characteristic area.</p>
-<p>Generally, the effect of viscosity on the WEC dynamics needs to be considered as neglecting this effect may lead to an overestimation of the power generation of the system, particularly when a linear model is applied. A common way of modeling the viscous damping is to add a (Morison-equation-type) quadratic damping term to the equation of motion. The viscous drag coefficient for the device must be carefully selected <a class="reference internal" href="#li2012" id="id21">[1]</a><a class="reference internal" href="#babarit2012" id="id22">[2]</a>; however, it is dependent on device geometry, scale, and relative velocity between the body and the flow around it. The drag coefficient becomes much larger when the Reynolds and the Keulegan-Carpenter number are smaller. Note that empirical data on the drag coefficient can be found in various literature and standards. The available data may, however, be limited to existing simple geometries. For practical point absorber geometry, the hydrodynamic forces may have to be evaluated by conducting wave tank tests or prescribed motion computational fluid dynamic simulations.</p>
+<p>Generally, the effect of viscosity on the WEC dynamics needs to be considered as neglecting this effect may lead to an overestimation of the power generation of the system, particularly when a linear model is applied. A common way of modeling the viscous damping is to add a (Morison-equation-type) quadratic damping term to the equation of motion. The viscous drag coefficient for the device must be carefully selected <a class="reference internal" href="#li2012" id="id23">[1]</a><a class="reference internal" href="#babarit2012" id="id24">[2]</a>; however, it is dependent on device geometry, scale, and relative velocity between the body and the flow around it. The drag coefficient becomes much larger when the Reynolds and the Keulegan-Carpenter number are smaller. Note that empirical data on the drag coefficient can be found in various literature and standards. The available data may, however, be limited to existing simple geometries. For practical point absorber geometry, the hydrodynamic forces may have to be evaluated by conducting wave tank tests or prescribed motion computational fluid dynamic simulations.</p>
 </div>
 <div class="section" id="references">
 <h2>References<a class="headerlink" href="#references" title="Permalink to this headline">¶</a></h2>
 <p id="bibtex-bibliography-theory-0"><table class="docutils citation" frame="void" id="li2012" rules="none">
 <colgroup><col class="label" /><col /></colgroup>
 <tbody valign="top">
-<tr><td class="label">[1]</td><td><em>(<a class="fn-backref" href="#id2">1</a>, <a class="fn-backref" href="#id21">2</a>)</em> Ye&nbsp;Li and Yi-Hsiang Yu. A Synthesis of Numerical Methods for Modeling Wave Energy Converter-Point Absorbers. <em>Renewable and Sustainable Energy Reviews</em>, 16(6):4352–4364, 2012.</td></tr>
+<tr><td class="label">[1]</td><td><em>(<a class="fn-backref" href="#id2">1</a>, <a class="fn-backref" href="#id23">2</a>)</em> Ye&nbsp;Li and Yi-Hsiang Yu. A Synthesis of Numerical Methods for Modeling Wave Energy Converter-Point Absorbers. <em>Renewable and Sustainable Energy Reviews</em>, 16(6):4352–4364, 2012.</td></tr>
 </tbody>
 </table>
 <table class="docutils citation" frame="void" id="babarit2012" rules="none">
 <colgroup><col class="label" /><col /></colgroup>
 <tbody valign="top">
-<tr><td class="label">[2]</td><td><em>(<a class="fn-backref" href="#id3">1</a>, <a class="fn-backref" href="#id9">2</a>, <a class="fn-backref" href="#id22">3</a>)</em> Aurélien Babarit, J.&nbsp;Hals, M.J. Muliawan, A.&nbsp;Kurniawan, T.&nbsp;Moan, and J.&nbsp;Krokstad. Numerical Benchmarking Study of a Selection of Wave Energy Converters. <em>Renewable Energy</em>, 41:44–63, 2012.</td></tr>
+<tr><td class="label">[2]</td><td><em>(<a class="fn-backref" href="#id3">1</a>, <a class="fn-backref" href="#id9">2</a>, <a class="fn-backref" href="#id24">3</a>)</em> Aurélien Babarit, J.&nbsp;Hals, M.J. Muliawan, A.&nbsp;Kurniawan, T.&nbsp;Moan, and J.&nbsp;Krokstad. Numerical Benchmarking Study of a Selection of Wave Energy Converters. <em>Renewable Energy</em>, 41:44–63, 2012.</td></tr>
 </tbody>
 </table>
 <table class="docutils citation" frame="void" id="lee2006" rules="none">
@@ -593,6 +622,12 @@ y &amp;=&amp; \mathbf{C_{r}} x~~\end{split}\]</div>
 <tr><td class="label"><a class="fn-backref" href="#id20">[13]</a></td><td>K. Hasselman, T.P. Barnett, E. Bouws, H. Carlson, D.E. Cartwright, K. Enke, J.A. Ewing, H. Gienapp, D.E. Hasselmann, P. Kruseman, A. Meerburg, P. Mller, D.J. Olbers, K. Richter, W. Sell, and H. Walden. Measurements of wind-wave growth and swell decay during the Joint North Sea Wave Project (JONSWAP). Technical Report 12, German Hydrographic Institute, 1973.</td></tr>
 </tbody>
 </table>
+<table class="docutils citation" frame="void" id="so" rules="none">
+<colgroup><col class="label" /><col /></colgroup>
+<tbody valign="top">
+<tr><td class="label">[14]</td><td><em>(<a class="fn-backref" href="#id21">1</a>, <a class="fn-backref" href="#id22">2</a>)</em> R. So, A. Simmons, T. Brekken, K. Ruehl, and C. Michelen. Development of PTO-SIM: A Power Performance Module for the Open-Souse Wave Energy Converter Code WEC-SIM. In <em>Proceedings of OMAE 2015</em>. 2015.</td></tr>
+</tbody>
+</table>
 </p>
 </div>
 </div>
@@ -636,7 +671,7 @@ y &amp;=&amp; \mathbf{C_{r}} x~~\end{split}\]</div>
     <script type="text/javascript">
         var DOCUMENTATION_OPTIONS = {
             URL_ROOT:'./',
-            VERSION:'1.1',
+            VERSION:'',
             COLLAPSE_INDEX:false,
             FILE_SUFFIX:'.html',
             HAS_SOURCE:  true
