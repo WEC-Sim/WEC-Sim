@@ -2,7 +2,7 @@
 
 Getting Started
 ===============
-This section provides instructions on how to download and install the WEC-Sim code, the BEMIO preprocessing code, and how to run WEC-Sim simulations.
+This section provides instructions on how to download and install the `WEC-Sim <https://github.com/WEC-Sim/WEC-Sim>`_ code, the `BEMIO <https://github.com/WEC-Sim/bemio>`_preprocessing code, and how to run WEC-Sim simulations.
 
 MATLAB Toolbox Requirements
 ------------------------------
