@@ -336,15 +336,22 @@ A ramp function (:math:`R_{f}`), necessary to avoid strong transient flows at th
 
 where :math:`t` is the simulation time and :math:`t_{r}` is the ramp time.
 
-Power Take-off Forces
+Power Take-off (PTO) Forces
 ---------------------------
+
+Linear Spring-damper PTO
+~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+
 The PTO mechanism is represented as a linear spring-damper system, where the reaction force is given by: 
 
 .. math::
 
 	F_{PTO}=-K{}_{PTO}X_{rel}-C_{PTO}\dot{X}_{rel}
 
-where :math:`K_{PTO}` is the stiffness of the PTO, :math:`C_{PTO}` is the damping of the PTO, and :math:`X_{rel}` and :math:`\dot{X}_{rel}` are the relative motion and velocity between two bodies.  The power consumed by the PTO is given by:
+where :math:`K_{PTO}` is the stiffness of the PTO, :math:`C_{PTO}` is the damping of the PTO, and :math:`X_{rel}` and :math:`\dot{X}_{rel}` are the relative motion and velocity between two bodies.  
+
+The power consumed by the PTO is given by:
 
  .. math::
 	
@@ -355,6 +362,41 @@ However, the relative motion and velocity between two bodies is out of phase by 
 
 .. math::
 	P_{PTO} =C_{PTO}\dot{X}^{2}_{rel}
+
+Hydraulic PTO
+~~~~~~~~~~~~~~~~
+
+The PTO mechanism is modeled as a hydraulic system :cite:`So`, where the reaction force is given by:
+
+.. math::
+
+	F_{PTO}=\Delta{} p_{piston}A_{piston}
+
+where :math:`\Delta{} p_{piston}` is the differential pressure of hydraulic piston, and :math:`A_{piston}` is the piston area. 
+
+The power absorbed by the PTO is given by:  
+
+.. math::
+
+	P_{PTO}=-F_{PTO}\dot{X}_{rel}
+
+
+Mechanical PTO
+~~~~~~~~~~~~~~~~
+
+The PTO mechanism is modeled as a direct drive linear generator system :cite:`So`, where the reaction force is given by:
+
+.. math::
+
+	F_{PTO}=(\frac{\pi}{\tau_{pm}})\lambda_{fd}i_{sq}
+
+where :math:`\tau_{pm}` is the magnet pole pitch (the distance measured of the magnet from the center of one pole to the center of the next pole), :math:`\lambda_{fd}` is the flux linkage of the stator :math:`d`-axis winding due to flux produced by the rotor magnets, and :math:`i_{sq}` is the stator :math:`q`-axis current. 
+
+The power absorbed by the PTO is given by:  
+
+.. math::
+
+	P_{PTO}=-F_{PTO}\dot{X}_{rel}
 
 Mooring Forces
 -------------------------
