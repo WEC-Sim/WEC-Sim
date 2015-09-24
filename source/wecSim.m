@@ -262,6 +262,9 @@ if simu.paraview == 1
         body(ii).write_paraview_vtp(output.bodies(ii).time, output.bodies(ii).position, bodyname, simu.simMechanicsFile, datestr(simu.simulationDate), cellareas, hspressure, wpressurenl, wpressurel);
         bodies{ii} = bodyname;
         fprintf(fid,[bodyname '\n']);
+        fprintf(fid,[num2str(body(ii).viz.color) '\n']);
+        fprintf(fid,[num2str(body(ii).viz.opacity) '\n']);
+        fprintf(fid,'\n');
         clear hspressure wpressurenl wpressurel cellareas bodyname  
     end; clear ii
     fclose(fid);
