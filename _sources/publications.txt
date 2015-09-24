@@ -11,7 +11,7 @@ Publications
 
 [5] N. Tom, M. Lawson, and Y. Yu, “`Demonstration of the Recent Additions in Modeling Capabilities for the WEC-Sim Wave Energy Converter Design Tool <http://www.google.com/url?sa=t&rct=j&q=&esrc=s&source=web&cd=1&cad=rja&uact=8&ved=0CB8QFjAA&url=http%3A%2F%2Fwww.nrel.gov%2Fdocs%2Ffy15osti%2F63528.pdf&ei=w5CIVcbTJ9W7ogSB6qq4AQ&usg=AFQjCNEcr-aodhB3FD7sUK_9BHrw9kedmA&sig2=RgLIzYdR73b7caGC2PqRhA&bvm=bv.96339352,d.cGU>`_,” in Proceedings of OMAE 2015, St. John’s, Newfoundland, Canada, 2015.
 
-[6] R. So, A. Simmons, T. Brekken, K. Ruehl, and C. Michelen, “`Development of PTO-SIM: A Power Performance Module for the Open-Souse Wave Energy Converter Code WEC-SIM <http://energy.sandia.gov/wp-content/uploads/2014/06/SAND2015-2069C.pdf>`_,” in Proceedings of OMAE 2015, St. John’s, Newfoundland, Canada, 2015.
+[6] R. So, A. Simmons, T. Brekken, K. Ruehl, and C. Michelen, “`Development of PTO-SIM: A Power Performance Module for the Open-Source Wave Energy Converter Code WEC-SIM <http://energy.sandia.gov/wp-content/uploads/2014/06/SAND2015-2069C.pdf>`_,” in Proceedings of OMAE 2015, St. John’s, Newfoundland, Canada, 2015.
 
 [7] M. Lawson, B. Garzon, F. Wendt, Y. Yu, and C. Michelen, “`COER Hydrodynamics Modeling Competition: Modeling the Dynamic Response of a Floating Body Using the WEC-SIM and FAST Simulation Tools <http://energy.sandia.gov/wp-content/uploads/2014/06/SAND2015-2044C.pdf>`_,” in Proceedings of OMAE 2015, St. John’s, Newfoundland, Canada, 2015.
 
