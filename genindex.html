@@ -1,0 +1,365 @@
+
+
+
+<!DOCTYPE html>
+<!--[if IE 8]><html class="no-js lt-ie9" lang="en" > <![endif]-->
+<!--[if gt IE 8]><!--> <html class="no-js" lang="en" > <!--<![endif]-->
+<head>
+  <meta charset="utf-8">
+  
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  
+  <title>Index &mdash; WEC-Sim  documentation</title>
+  
+
+  
+  
+
+  
+
+  
+  
+    
+
+  
+
+  
+  
+    <link rel="stylesheet" href="_static/css/theme.css" type="text/css" />
+  
+
+  
+
+  
+    <link rel="top" title="WEC-Sim  documentation" href="index.html"/> 
+
+  
+  <script src="_static/js/modernizr.min.js"></script>
+
+</head>
+
+<body class="wy-body-for-nav" role="document">
+
+  <div class="wy-grid-for-nav">
+
+    
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-nav-search">
+        
+
+        
+          <a href="index.html" class="icon icon-home"> WEC-Sim
+        
+
+        
+        </a>
+
+        
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+
+        
+      </div>
+
+      <div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="main navigation">
+        
+          
+          
+              <ul>
+<li class="toctree-l1"><a class="reference internal" href="release_notes.html">Release Notes</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="release_notes.html#id1">WEC-Sim v1.2</a></li>
+<li class="toctree-l2"><a class="reference internal" href="release_notes.html#id2">WEC-Sim v1.1</a></li>
+<li class="toctree-l2"><a class="reference internal" href="release_notes.html#wec-sim-v1-0">WEC-Sim v1.0</a></li>
+<li class="toctree-l2"><a class="reference internal" href="release_notes.html#backward-compatibility">Backward Compatibility</a></li>
+<li class="toctree-l2"><a class="reference internal" href="release_notes.html#features-under-development">Features Under Development</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="theory.html">Theory</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="theory.html#introduction">Introduction</a></li>
+<li class="toctree-l2"><a class="reference internal" href="theory.html#coordinate-system">Coordinate System</a></li>
+<li class="toctree-l2"><a class="reference internal" href="theory.html#boundary-element-method">Boundary Element Method</a></li>
+<li class="toctree-l2"><a class="reference internal" href="theory.html#time-domain-numerical-method">Time-Domain Numerical Method</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="theory.html#sinusoidal-steady-state-response-scenario">Sinusoidal Steady-State Response Scenario</a></li>
+<li class="toctree-l3"><a class="reference internal" href="theory.html#convolution-integral-formulation">Convolution Integral Formulation</a></li>
+<li class="toctree-l3"><a class="reference internal" href="theory.html#state-space-representation-of">State Space Representation of <span class="math">\(K_{r}\)</span></a><ul>
+<li class="toctree-l4"><a class="reference internal" href="theory.html#calculation-of-from-state-space-matrices">Calculation of <span class="math">\(K_{r}\)</span> from State Space Matrices</a></li>
+<li class="toctree-l4"><a class="reference internal" href="theory.html#laplace-transform-and-transfer-function">Laplace Transform and Transfer Function</a></li>
+<li class="toctree-l4"><a class="reference internal" href="theory.html#realization-theory">Realization Theory</a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="theory.html#wave-spectrum">Wave Spectrum</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="theory.html#pierson-moskowitz">Pierson&#8211;Moskowitz</a></li>
+<li class="toctree-l4"><a class="reference internal" href="theory.html#bretschneider-spectrum">Bretschneider Spectrum</a></li>
+<li class="toctree-l4"><a class="reference internal" href="theory.html#jonswap-joint-north-sea-wave-project-spectrum">JONSWAP (Joint North Sea Wave Project) Spectrum</a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="theory.html#ramp-function">Ramp Function</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="theory.html#power-take-off-pto-forces">Power Take-off (PTO) Forces</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="theory.html#linear-spring-damper-pto">Linear Spring-damper PTO</a></li>
+<li class="toctree-l3"><a class="reference internal" href="theory.html#hydraulic-pto">Hydraulic PTO</a></li>
+<li class="toctree-l3"><a class="reference internal" href="theory.html#mechanical-pto">Mechanical PTO</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="theory.html#mooring-forces">Mooring Forces</a></li>
+<li class="toctree-l2"><a class="reference internal" href="theory.html#damping-forces">Damping Forces</a></li>
+<li class="toctree-l2"><a class="reference internal" href="theory.html#references">References</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="getting_started.html">Getting Started</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="getting_started.html#matlab-toolbox-requirements">MATLAB Toolbox Requirements</a></li>
+<li class="toctree-l2"><a class="reference internal" href="getting_started.html#downloading-and-installing-bemio">Downloading and Installing BEMIO</a></li>
+<li class="toctree-l2"><a class="reference internal" href="getting_started.html#downloading-wec-sim">Downloading WEC-Sim</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="getting_started.html#option-1-clone-with-github-recommended-for-users">Option 1: Clone with GitHub (Recommended for Users)</a></li>
+<li class="toctree-l3"><a class="reference internal" href="getting_started.html#option-2-fork-with-git-recommended-for-developers">Option 2: Fork with Git (Recommended for Developers)</a></li>
+<li class="toctree-l3"><a class="reference internal" href="getting_started.html#option-3-static-code-download">Option 3: Static Code Download</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="getting_started.html#installing-wec-sim">Installing WEC-Sim</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="getting_started.html#step-1-add-wec-sim-source-code-to-matlab-path">Step 1: Add WEC-Sim Source Code to MATLAB Path</a></li>
+<li class="toctree-l3"><a class="reference internal" href="getting_started.html#step-2-add-wec-sim-library-to-simulink">Step 2: Add WEC-Sim Library to Simulink</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="getting_started.html#running-wec-sim">Running WEC-Sim</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="getting_started.html#file-structure-overview">File Structure Overview</a></li>
+<li class="toctree-l3"><a class="reference internal" href="getting_started.html#steps-to-run-wec-sim">Steps To Run WEC-Sim</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="getting_started.html#step-1-pre-processing">Step 1: Pre-Processing</a></li>
+<li class="toctree-l4"><a class="reference internal" href="getting_started.html#step2-build-wec-sim-simulink-model">Step2: Build WEC-Sim Simulink Model</a></li>
+<li class="toctree-l4"><a class="reference internal" href="getting_started.html#step-3-setip-wec-sim-input-file">Step 3: Setip WEC-Sim Input File</a></li>
+<li class="toctree-l4"><a class="reference internal" href="getting_started.html#step-4-execute-wec-sim">Step 4: Execute WEC-Sim</a></li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="code_structure.html">Code Structure</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="code_structure.html#code-conventions">Code Conventions</a></li>
+<li class="toctree-l2"><a class="reference internal" href="code_structure.html#input-file-structure">Input File Structure</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="code_structure.html#simulation-class">Simulation Class</a></li>
+<li class="toctree-l3"><a class="reference internal" href="code_structure.html#wave-class">Wave Class</a></li>
+<li class="toctree-l3"><a class="reference internal" href="code_structure.html#body-class">Body Class</a></li>
+<li class="toctree-l3"><a class="reference internal" href="code_structure.html#constraint-class">Constraint Class</a></li>
+<li class="toctree-l3"><a class="reference internal" href="code_structure.html#pto-class">PTO Class</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="code_structure.html#input-parameters">Input Parameters</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="code_structure.html#simulationclass">simulationClass</a></li>
+<li class="toctree-l3"><a class="reference internal" href="code_structure.html#waveclass">waveClass</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="code_structure.html#nowave">noWave</a></li>
+<li class="toctree-l4"><a class="reference internal" href="code_structure.html#nowavecic">noWaveCIC</a></li>
+<li class="toctree-l4"><a class="reference internal" href="code_structure.html#regular">regular</a></li>
+<li class="toctree-l4"><a class="reference internal" href="code_structure.html#regularcic">regularCIC</a></li>
+<li class="toctree-l4"><a class="reference internal" href="code_structure.html#irregular">irregular</a></li>
+<li class="toctree-l4"><a class="reference internal" href="code_structure.html#irregularimport">irregularImport</a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="code_structure.html#bodyclass">bodyClass</a></li>
+<li class="toctree-l3"><a class="reference internal" href="code_structure.html#constraintclass">constraintClass</a></li>
+<li class="toctree-l3"><a class="reference internal" href="code_structure.html#ptoclass">ptoClass</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="code_structure.html#library-structure">Library Structure</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="code_structure.html#body-elements-sublibrary">Body Elements Sublibrary</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="code_structure.html#rigid-body-block">Rigid Body Block</a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="code_structure.html#frames-sublibrary">Frames Sublibrary</a></li>
+<li class="toctree-l3"><a class="reference internal" href="code_structure.html#global-reference-frame-block">Global Reference Frame Block</a></li>
+<li class="toctree-l3"><a class="reference internal" href="code_structure.html#constraints-sublibrary">Constraints Sublibrary</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="code_structure.html#floating-block">Floating Block</a></li>
+<li class="toctree-l4"><a class="reference internal" href="code_structure.html#heave-block">Heave Block</a></li>
+<li class="toctree-l4"><a class="reference internal" href="code_structure.html#surge-block">Surge Block</a></li>
+<li class="toctree-l4"><a class="reference internal" href="code_structure.html#pitch-block">Pitch Block</a></li>
+<li class="toctree-l4"><a class="reference internal" href="code_structure.html#fixed-block">Fixed Block</a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="code_structure.html#ptos-sublibrary">PTOs Sublibrary</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="code_structure.html#translation-pto-local-z-block">Translation PTO (Local Z) Block</a></li>
+<li class="toctree-l4"><a class="reference internal" href="code_structure.html#translation-pto-local-x-block">Translation PTO (Local X) Block</a></li>
+<li class="toctree-l4"><a class="reference internal" href="code_structure.html#rotational-pto-local-ry-block">Rotational PTO (Local RY) Block</a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="code_structure.html#other-simmechanics-blocks">Other SimMechanics Blocks</a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="tutorials.html">Tutorials</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="tutorials.html#rm3-two-body-point-absorber">RM3 Two-Body Point Absorber</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="tutorials.html#geometry-definition">Geometry Definition</a></li>
+<li class="toctree-l3"><a class="reference internal" href="tutorials.html#hydrodynamic-data-pre-processing">Hydrodynamic Data Pre-Processing</a></li>
+<li class="toctree-l3"><a class="reference internal" href="tutorials.html#modeling-rm3-in-wec-sim">Modeling RM3 in WEC-Sim</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="tutorials.html#simulink-model">Simulink Model</a></li>
+<li class="toctree-l4"><a class="reference internal" href="tutorials.html#input-file">Input File</a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="tutorials.html#simulation">Simulation</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="tutorials.html#outputs-and-postprocessing">Outputs and Postprocessing</a></li>
+<li class="toctree-l4"><a class="reference internal" href="tutorials.html#running-different-wave-cases">Running Different Wave Cases</a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="tutorials.html#rm3-with-pto-sim">RM3 with PTO-Sim</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="tutorials.html#rm3-with-hydraulic-pto">RM3 with Hydraulic PTO</a></li>
+<li class="toctree-l3"><a class="reference internal" href="tutorials.html#modeling-rm3-with-hydraulic-pto">Modeling RM3 with Hydraulic PTO</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="tutorials.html#id5">Simulink Model</a></li>
+<li class="toctree-l4"><a class="reference internal" href="tutorials.html#id7">Input File</a></li>
+<li class="toctree-l4"><a class="reference internal" href="tutorials.html#simulation-and-postprocessing">Simulation and Postprocessing</a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="tutorials.html#rm3-with-mechanical-pto">RM3 with Mechanical PTO</a></li>
+<li class="toctree-l3"><a class="reference internal" href="tutorials.html#modeling-rm3-with-mechanical-pto">Modeling RM3 with Mechanical PTO</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="tutorials.html#id8">Simulink Model</a></li>
+<li class="toctree-l4"><a class="reference internal" href="tutorials.html#input-file-simulation-and-postprocessing">Input File, Simulation, and Postprocessing</a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="tutorials.html#oscillating-surge-pitch-device">Oscillating Surge-Pitch Device</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="tutorials.html#id9">Geometry Definition</a></li>
+<li class="toctree-l3"><a class="reference internal" href="tutorials.html#id10">Hydrodynamic Data Pre-Processing</a></li>
+<li class="toctree-l3"><a class="reference internal" href="tutorials.html#modeling-oswec-in-wec-sim">Modeling OSWEC in WEC-Sim</a></li>
+<li class="toctree-l3"><a class="reference internal" href="tutorials.html#oswec-simulink-model-file">OSWEC Simulink Model File</a></li>
+<li class="toctree-l3"><a class="reference internal" href="tutorials.html#oswec-matlab-input-file">OSWEC MATLAB Input File</a></li>
+<li class="toctree-l3"><a class="reference internal" href="tutorials.html#oswec-wec-sim-simulation">OSWEC WEC-Sim Simulation</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="tutorials.html#oswec-with-pto-sim">OSWEC with PTO-Sim</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="tutorials.html#oswec-with-hydraulic-pto">OSWEC with Hydraulic PTO</a></li>
+<li class="toctree-l3"><a class="reference internal" href="tutorials.html#modeling-of-oswec-with-hydraulic-pto">Modeling of OSWEC with Hydraulic PTO</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="tutorials.html#id13">Simulink Model</a></li>
+<li class="toctree-l4"><a class="reference internal" href="tutorials.html#id14">Input File, Simulation, and Postprocessing</a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="tutorials.html#other-pto-sim-tutorials">Other PTO-Sim Tutorials</a></li>
+<li class="toctree-l2"><a class="reference internal" href="tutorials.html#references">References</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="online_forum.html">Online Forum</a></li>
+<li class="toctree-l1"><a class="reference internal" href="publications.html">Publications</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="publications.html#news-articles">News Articles</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="license.html">License</a></li>
+<li class="toctree-l1"><a class="reference internal" href="appendix.html">Appendix</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="appendix.html#visualizatoin-using-paraview">Visualizatoin Using Paraview</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="appendix.html#getting-started-installation">Getting Started - Installation</a></li>
+<li class="toctree-l3"><a class="reference internal" href="appendix.html#setting-up-paraview-output">Setting Up Paraview Output</a></li>
+<li class="toctree-l3"><a class="reference internal" href="appendix.html#outputs-and-opening-in-paraview">Outputs and Opening in Paraview</a></li>
+<li class="toctree-l3"><a class="reference internal" href="appendix.html#basic-visualization-manipulation">Basic Visualization Manipulation</a></li>
+<li class="toctree-l3"><a class="reference internal" href="appendix.html#visualizing-non-linear-hydro-forces">Visualizing Non-Linear Hydro Forces</a></li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+
+          
+        
+      </div>
+      &nbsp;
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap">
+
+      
+      <nav class="wy-nav-top" role="navigation" aria-label="top navigation">
+        <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+        <a href="index.html">WEC-Sim</a>
+      </nav>
+
+
+      
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          <div role="navigation" aria-label="breadcrumbs navigation">
+  <ul class="wy-breadcrumbs">
+    <li><a href="index.html">Docs</a> &raquo;</li>
+      
+    <li></li>
+      <li class="wy-breadcrumbs-aside">
+        
+          
+        
+      </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document">
+            
+
+<h1 id="index">Index</h1>
+
+<div class="genindex-jumpbox">
+ 
+</div>
+
+
+          </div>
+          <footer>
+  
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>
+        &copy; Copyright 2015, National Renewable Energy Laboratory and Sandia Corporation.
+    </p>
+  </div>
+  Built with <a href="http://sphinx-doc.org/">Sphinx</a> using a <a href="https://github.com/snide/sphinx_rtd_theme">theme</a> provided by <a href="https://readthedocs.org">Read the Docs</a>.
+
+</footer>
+
+        </div>
+      </div>
+
+    </section>
+
+  </div>
+  
+
+
+  
+
+    <script type="text/javascript">
+        var DOCUMENTATION_OPTIONS = {
+            URL_ROOT:'./',
+            VERSION:'',
+            COLLAPSE_INDEX:false,
+            FILE_SUFFIX:'.html',
+            HAS_SOURCE:  true
+        };
+    </script>
+      <script type="text/javascript" src="_static/jquery.js"></script>
+      <script type="text/javascript" src="_static/underscore.js"></script>
+      <script type="text/javascript" src="_static/doctools.js"></script>
+      <script type="text/javascript" src="https://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+
+  
+
+  
+  
+    <script type="text/javascript" src="_static/js/theme.js"></script>
+  
+
+  
+  
+  <script type="text/javascript">
+      jQuery(function () {
+          SphinxRtdTheme.StickyNav.enable();
+      });
+  </script>
+   
+
+</body>
+</html>

@@ -1,0 +1,870 @@
+
+
+<!DOCTYPE html>
+<!--[if IE 8]><html class="no-js lt-ie9" lang="en" > <![endif]-->
+<!--[if gt IE 8]><!--> <html class="no-js" lang="en" > <!--<![endif]-->
+<head>
+  <meta charset="utf-8">
+  
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  
+  <title>Tutorials &mdash; WEC-Sim  documentation</title>
+  
+
+  
+  
+
+  
+
+  
+  
+    
+
+  
+
+  
+  
+    <link rel="stylesheet" href="_static/css/theme.css" type="text/css" />
+  
+
+  
+
+  
+    <link rel="top" title="WEC-Sim  documentation" href="index.html"/>
+        <link rel="next" title="Online Forum" href="online_forum.html"/>
+        <link rel="prev" title="Code Structure" href="code_structure.html"/> 
+
+  
+  <script src="_static/js/modernizr.min.js"></script>
+
+</head>
+
+<body class="wy-body-for-nav" role="document">
+
+  <div class="wy-grid-for-nav">
+
+    
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-nav-search">
+        
+
+        
+          <a href="index.html" class="icon icon-home"> WEC-Sim
+        
+
+        
+        </a>
+
+        
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+
+        
+      </div>
+
+      <div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="main navigation">
+        
+          
+          
+              <ul class="current">
+<li class="toctree-l1"><a class="reference internal" href="release_notes.html">Release Notes</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="release_notes.html#id1">WEC-Sim v1.2</a></li>
+<li class="toctree-l2"><a class="reference internal" href="release_notes.html#id2">WEC-Sim v1.1</a></li>
+<li class="toctree-l2"><a class="reference internal" href="release_notes.html#wec-sim-v1-0">WEC-Sim v1.0</a></li>
+<li class="toctree-l2"><a class="reference internal" href="release_notes.html#backward-compatibility">Backward Compatibility</a></li>
+<li class="toctree-l2"><a class="reference internal" href="release_notes.html#features-under-development">Features Under Development</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="theory.html">Theory</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="theory.html#introduction">Introduction</a></li>
+<li class="toctree-l2"><a class="reference internal" href="theory.html#coordinate-system">Coordinate System</a></li>
+<li class="toctree-l2"><a class="reference internal" href="theory.html#boundary-element-method">Boundary Element Method</a></li>
+<li class="toctree-l2"><a class="reference internal" href="theory.html#time-domain-numerical-method">Time-Domain Numerical Method</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="theory.html#sinusoidal-steady-state-response-scenario">Sinusoidal Steady-State Response Scenario</a></li>
+<li class="toctree-l3"><a class="reference internal" href="theory.html#convolution-integral-formulation">Convolution Integral Formulation</a></li>
+<li class="toctree-l3"><a class="reference internal" href="theory.html#state-space-representation-of">State Space Representation of <span class="math">\(K_{r}\)</span></a><ul>
+<li class="toctree-l4"><a class="reference internal" href="theory.html#calculation-of-from-state-space-matrices">Calculation of <span class="math">\(K_{r}\)</span> from State Space Matrices</a></li>
+<li class="toctree-l4"><a class="reference internal" href="theory.html#laplace-transform-and-transfer-function">Laplace Transform and Transfer Function</a></li>
+<li class="toctree-l4"><a class="reference internal" href="theory.html#realization-theory">Realization Theory</a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="theory.html#wave-spectrum">Wave Spectrum</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="theory.html#pierson-moskowitz">Pierson&#8211;Moskowitz</a></li>
+<li class="toctree-l4"><a class="reference internal" href="theory.html#bretschneider-spectrum">Bretschneider Spectrum</a></li>
+<li class="toctree-l4"><a class="reference internal" href="theory.html#jonswap-joint-north-sea-wave-project-spectrum">JONSWAP (Joint North Sea Wave Project) Spectrum</a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="theory.html#ramp-function">Ramp Function</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="theory.html#power-take-off-pto-forces">Power Take-off (PTO) Forces</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="theory.html#linear-spring-damper-pto">Linear Spring-damper PTO</a></li>
+<li class="toctree-l3"><a class="reference internal" href="theory.html#hydraulic-pto">Hydraulic PTO</a></li>
+<li class="toctree-l3"><a class="reference internal" href="theory.html#mechanical-pto">Mechanical PTO</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="theory.html#mooring-forces">Mooring Forces</a></li>
+<li class="toctree-l2"><a class="reference internal" href="theory.html#damping-forces">Damping Forces</a></li>
+<li class="toctree-l2"><a class="reference internal" href="theory.html#references">References</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="getting_started.html">Getting Started</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="getting_started.html#matlab-toolbox-requirements">MATLAB Toolbox Requirements</a></li>
+<li class="toctree-l2"><a class="reference internal" href="getting_started.html#downloading-and-installing-bemio">Downloading and Installing BEMIO</a></li>
+<li class="toctree-l2"><a class="reference internal" href="getting_started.html#downloading-wec-sim">Downloading WEC-Sim</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="getting_started.html#option-1-clone-with-github-recommended-for-users">Option 1: Clone with GitHub (Recommended for Users)</a></li>
+<li class="toctree-l3"><a class="reference internal" href="getting_started.html#option-2-fork-with-git-recommended-for-developers">Option 2: Fork with Git (Recommended for Developers)</a></li>
+<li class="toctree-l3"><a class="reference internal" href="getting_started.html#option-3-static-code-download">Option 3: Static Code Download</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="getting_started.html#installing-wec-sim">Installing WEC-Sim</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="getting_started.html#step-1-add-wec-sim-source-code-to-matlab-path">Step 1: Add WEC-Sim Source Code to MATLAB Path</a></li>
+<li class="toctree-l3"><a class="reference internal" href="getting_started.html#step-2-add-wec-sim-library-to-simulink">Step 2: Add WEC-Sim Library to Simulink</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="getting_started.html#running-wec-sim">Running WEC-Sim</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="getting_started.html#file-structure-overview">File Structure Overview</a></li>
+<li class="toctree-l3"><a class="reference internal" href="getting_started.html#steps-to-run-wec-sim">Steps To Run WEC-Sim</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="getting_started.html#step-1-pre-processing">Step 1: Pre-Processing</a></li>
+<li class="toctree-l4"><a class="reference internal" href="getting_started.html#step2-build-wec-sim-simulink-model">Step2: Build WEC-Sim Simulink Model</a></li>
+<li class="toctree-l4"><a class="reference internal" href="getting_started.html#step-3-setip-wec-sim-input-file">Step 3: Setip WEC-Sim Input File</a></li>
+<li class="toctree-l4"><a class="reference internal" href="getting_started.html#step-4-execute-wec-sim">Step 4: Execute WEC-Sim</a></li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="code_structure.html">Code Structure</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="code_structure.html#code-conventions">Code Conventions</a></li>
+<li class="toctree-l2"><a class="reference internal" href="code_structure.html#input-file-structure">Input File Structure</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="code_structure.html#simulation-class">Simulation Class</a></li>
+<li class="toctree-l3"><a class="reference internal" href="code_structure.html#wave-class">Wave Class</a></li>
+<li class="toctree-l3"><a class="reference internal" href="code_structure.html#body-class">Body Class</a></li>
+<li class="toctree-l3"><a class="reference internal" href="code_structure.html#constraint-class">Constraint Class</a></li>
+<li class="toctree-l3"><a class="reference internal" href="code_structure.html#pto-class">PTO Class</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="code_structure.html#input-parameters">Input Parameters</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="code_structure.html#simulationclass">simulationClass</a></li>
+<li class="toctree-l3"><a class="reference internal" href="code_structure.html#waveclass">waveClass</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="code_structure.html#nowave">noWave</a></li>
+<li class="toctree-l4"><a class="reference internal" href="code_structure.html#nowavecic">noWaveCIC</a></li>
+<li class="toctree-l4"><a class="reference internal" href="code_structure.html#regular">regular</a></li>
+<li class="toctree-l4"><a class="reference internal" href="code_structure.html#regularcic">regularCIC</a></li>
+<li class="toctree-l4"><a class="reference internal" href="code_structure.html#irregular">irregular</a></li>
+<li class="toctree-l4"><a class="reference internal" href="code_structure.html#irregularimport">irregularImport</a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="code_structure.html#bodyclass">bodyClass</a></li>
+<li class="toctree-l3"><a class="reference internal" href="code_structure.html#constraintclass">constraintClass</a></li>
+<li class="toctree-l3"><a class="reference internal" href="code_structure.html#ptoclass">ptoClass</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="code_structure.html#library-structure">Library Structure</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="code_structure.html#body-elements-sublibrary">Body Elements Sublibrary</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="code_structure.html#rigid-body-block">Rigid Body Block</a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="code_structure.html#frames-sublibrary">Frames Sublibrary</a></li>
+<li class="toctree-l3"><a class="reference internal" href="code_structure.html#global-reference-frame-block">Global Reference Frame Block</a></li>
+<li class="toctree-l3"><a class="reference internal" href="code_structure.html#constraints-sublibrary">Constraints Sublibrary</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="code_structure.html#floating-block">Floating Block</a></li>
+<li class="toctree-l4"><a class="reference internal" href="code_structure.html#heave-block">Heave Block</a></li>
+<li class="toctree-l4"><a class="reference internal" href="code_structure.html#surge-block">Surge Block</a></li>
+<li class="toctree-l4"><a class="reference internal" href="code_structure.html#pitch-block">Pitch Block</a></li>
+<li class="toctree-l4"><a class="reference internal" href="code_structure.html#fixed-block">Fixed Block</a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="code_structure.html#ptos-sublibrary">PTOs Sublibrary</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="code_structure.html#translation-pto-local-z-block">Translation PTO (Local Z) Block</a></li>
+<li class="toctree-l4"><a class="reference internal" href="code_structure.html#translation-pto-local-x-block">Translation PTO (Local X) Block</a></li>
+<li class="toctree-l4"><a class="reference internal" href="code_structure.html#rotational-pto-local-ry-block">Rotational PTO (Local RY) Block</a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="code_structure.html#other-simmechanics-blocks">Other SimMechanics Blocks</a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l1 current"><a class="current reference internal" href="">Tutorials</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="#rm3-two-body-point-absorber">RM3 Two-Body Point Absorber</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#geometry-definition">Geometry Definition</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#hydrodynamic-data-pre-processing">Hydrodynamic Data Pre-Processing</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#modeling-rm3-in-wec-sim">Modeling RM3 in WEC-Sim</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="#simulink-model">Simulink Model</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#input-file">Input File</a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="#simulation">Simulation</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="#outputs-and-postprocessing">Outputs and Postprocessing</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#running-different-wave-cases">Running Different Wave Cases</a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="#rm3-with-pto-sim">RM3 with PTO-Sim</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#rm3-with-hydraulic-pto">RM3 with Hydraulic PTO</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#modeling-rm3-with-hydraulic-pto">Modeling RM3 with Hydraulic PTO</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="#id5">Simulink Model</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#id7">Input File</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#simulation-and-postprocessing">Simulation and Postprocessing</a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="#rm3-with-mechanical-pto">RM3 with Mechanical PTO</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#modeling-rm3-with-mechanical-pto">Modeling RM3 with Mechanical PTO</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="#id8">Simulink Model</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#input-file-simulation-and-postprocessing">Input File, Simulation, and Postprocessing</a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="#oscillating-surge-pitch-device">Oscillating Surge-Pitch Device</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#id9">Geometry Definition</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#id10">Hydrodynamic Data Pre-Processing</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#modeling-oswec-in-wec-sim">Modeling OSWEC in WEC-Sim</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#oswec-simulink-model-file">OSWEC Simulink Model File</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#oswec-matlab-input-file">OSWEC MATLAB Input File</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#oswec-wec-sim-simulation">OSWEC WEC-Sim Simulation</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="#oswec-with-pto-sim">OSWEC with PTO-Sim</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#oswec-with-hydraulic-pto">OSWEC with Hydraulic PTO</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#modeling-of-oswec-with-hydraulic-pto">Modeling of OSWEC with Hydraulic PTO</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="#id13">Simulink Model</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#id14">Input File, Simulation, and Postprocessing</a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="#other-pto-sim-tutorials">Other PTO-Sim Tutorials</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#references">References</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="online_forum.html">Online Forum</a></li>
+<li class="toctree-l1"><a class="reference internal" href="publications.html">Publications</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="publications.html#news-articles">News Articles</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="license.html">License</a></li>
+<li class="toctree-l1"><a class="reference internal" href="appendix.html">Appendix</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="appendix.html#visualizatoin-using-paraview">Visualizatoin Using Paraview</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="appendix.html#getting-started-installation">Getting Started - Installation</a></li>
+<li class="toctree-l3"><a class="reference internal" href="appendix.html#setting-up-paraview-output">Setting Up Paraview Output</a></li>
+<li class="toctree-l3"><a class="reference internal" href="appendix.html#outputs-and-opening-in-paraview">Outputs and Opening in Paraview</a></li>
+<li class="toctree-l3"><a class="reference internal" href="appendix.html#basic-visualization-manipulation">Basic Visualization Manipulation</a></li>
+<li class="toctree-l3"><a class="reference internal" href="appendix.html#visualizing-non-linear-hydro-forces">Visualizing Non-Linear Hydro Forces</a></li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+
+          
+        
+      </div>
+      &nbsp;
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap">
+
+      
+      <nav class="wy-nav-top" role="navigation" aria-label="top navigation">
+        <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+        <a href="index.html">WEC-Sim</a>
+      </nav>
+
+
+      
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          <div role="navigation" aria-label="breadcrumbs navigation">
+  <ul class="wy-breadcrumbs">
+    <li><a href="index.html">Docs</a> &raquo;</li>
+      
+    <li>Tutorials</li>
+      <li class="wy-breadcrumbs-aside">
+        
+          
+            <a href="_sources/tutorials.txt" rel="nofollow"> View page source</a>
+          
+        
+      </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document">
+            
+  <div class="section" id="tutorials">
+<h1>Tutorials<a class="headerlink" href="#tutorials" title="Permalink to this headline">¶</a></h1>
+<p>This section describes how to use the WEC-Sim code to model two different WECs. The first application models a two-body point absorber WEC, and the second application models an OSWEC. RM3 Two-Body Point Absorber and Oscillating Surge-Pitch Device sections use a simple linear damper while RM3 with PTO-Sim and OSWEC with PTO-Sim can model PTO as hydraulic or mechanical. The files corresponding to these examples are included in the tutorials directory of the WEC-Sim source code.</p>
+<div class="section" id="rm3-two-body-point-absorber">
+<h2>RM3 Two-Body Point Absorber<a class="headerlink" href="#rm3-two-body-point-absorber" title="Permalink to this headline">¶</a></h2>
+<div class="section" id="geometry-definition">
+<h3>Geometry Definition<a class="headerlink" href="#geometry-definition" title="Permalink to this headline">¶</a></h3>
+<p>The first application of the WEC-Sim code is the Reference Model 3 (RM3) two-body point absorber design. Although the WEC is free to move in all 6DOF in response to wave motion, power is captured only in the relative heave direction. The RM3 device was selected because the design has already been well characterized both numerically and experimentally as a result of the DOE-funded Reference Model Project, more information on this project available on the  <a class="reference external" href="http://energy.sandia.gov/rmp">Reference Model website</a>. In addition, the device has relatively simple operating principles and is representative of designs WEC industry is currently pursuing. RM3 is a simple two-body point absorber, consisting of a float and a reaction plate. The full-scale dimensions of the RM3 and its mass properties are are shown below.</p>
+<div class="figure">
+<a class="reference internal image-reference" href="_images/RM3_Geom.jpg"><img alt="_images/RM3_Geom.jpg" src="_images/RM3_Geom.jpg" style="width: 400pt;" /></a>
+</div>
+<table border="1" class="docutils">
+<colgroup>
+<col width="13%" />
+<col width="20%" />
+<col width="22%" />
+<col width="22%" />
+<col width="22%" />
+</colgroup>
+<thead valign="bottom">
+<tr class="row-odd"><th class="head" colspan="5">Float Full Scale Properties</th>
+</tr>
+</thead>
+<tbody valign="top">
+<tr class="row-even"><td rowspan="2">CG (m)</td>
+<td rowspan="2">Mass
+(tonne)</td>
+<td colspan="3" rowspan="2">Moment of
+Inertia (kg-m^2)</td>
+</tr>
+<tr class="row-odd"></tr>
+<tr class="row-even"><td>0</td>
+<td rowspan="3">727.01</td>
+<td>20,907,301</td>
+<td>0</td>
+<td>0</td>
+</tr>
+<tr class="row-odd"><td>0</td>
+<td>0</td>
+<td>21,306,091</td>
+<td>4305</td>
+</tr>
+<tr class="row-even"><td>-0.72</td>
+<td>&nbsp;</td>
+<td>4305</td>
+<td>37,085,481</td>
+</tr>
+</tbody>
+</table>
+<table border="1" class="docutils">
+<colgroup>
+<col width="13%" />
+<col width="20%" />
+<col width="22%" />
+<col width="22%" />
+<col width="22%" />
+</colgroup>
+<thead valign="bottom">
+<tr class="row-odd"><th class="head" colspan="5">Plate Full Scale Properties</th>
+</tr>
+</thead>
+<tbody valign="top">
+<tr class="row-even"><td rowspan="2">CG (m)</td>
+<td rowspan="2">Mass
+(tonne)</td>
+<td colspan="3" rowspan="2">Moment of
+Inertia (kg-m^2)</td>
+</tr>
+<tr class="row-odd"></tr>
+<tr class="row-even"><td>0</td>
+<td rowspan="3">878.30</td>
+<td>94,419,615</td>
+<td>0</td>
+<td>0</td>
+</tr>
+<tr class="row-odd"><td>0</td>
+<td>0</td>
+<td>94,407,091</td>
+<td>217,593</td>
+</tr>
+<tr class="row-even"><td>-21.29</td>
+<td>&nbsp;</td>
+<td>217,593</td>
+<td>28,542,225</td>
+</tr>
+</tbody>
+</table>
+</div>
+<div class="section" id="hydrodynamic-data-pre-processing">
+<h3>Hydrodynamic Data Pre-Processing<a class="headerlink" href="#hydrodynamic-data-pre-processing" title="Permalink to this headline">¶</a></h3>
+<p>The hydrodynamic data for each body must be supplied in <cite>bemio</cite> hydrodynamic data format generated using the <a class="reference external" href="http://wec-sim.github.io/bemio/">bemio</a> code. The hydrodynamic data for each body can be supplied in one single &#8216;&#8217;hdf5&#8217;&#8217; file, or several (ie. one per body). In this application case, a single file is provided. This file was created based on a WAIMT run of the RM3 geometry, using the WAMIT output file and the WAMIT reader from the  bemio. The WAMIT <code class="docutils literal"><span class="pre">*.out</span></code> file and the python <cite>bemio</cite> script used to create the <cite>hdf5</cite> are included as well. All these files are located in the <code class="docutils literal"><span class="pre">/hydroData</span></code> directory of the RM3 application case.</p>
+</div>
+<div class="section" id="modeling-rm3-in-wec-sim">
+<h3>Modeling RM3 in WEC-Sim<a class="headerlink" href="#modeling-rm3-in-wec-sim" title="Permalink to this headline">¶</a></h3>
+<p>In this section,   a step by step tutorial on how to set up and run the RM3 simulation in WEC-Sim is provided.</p>
+<p>All WEC-Sim models consist of a input file (<code class="docutils literal"><span class="pre">wecSimInputFile.m</span></code>), and a Simulink model file (<code class="docutils literal"><span class="pre">RM3.slx</span></code>). To run the WEC-Sim simulation, the user needs to provide results from the frequency-domain BEM solver, to populate the WEC-Sim hydrodynamic coefficients. These results must be provided in the form of one or several  <code class="docutils literal"><span class="pre">*.h5</span></code> file(s) as described in Section 3.1.2. The user also needs to specify the 3-D geometry file for each body  in the form of a <code class="docutils literal"><span class="pre">*.stl</span></code> file with the origin of the coordinate system at the center of gravity. this is used for the WEC-Sim visualization. For the RM3 run consisting of a buoy and a spar plate, these files correspond to the <code class="docutils literal"><span class="pre">float.stl</span></code> and <code class="docutils literal"><span class="pre">plate.stl</span></code> files respectively. The RM3 <code class="docutils literal"><span class="pre">*.stl</span></code> files are located in the &#8216;&#8217;/geometry&#8217;&#8217; directory. Additionally users have the option of supplying a <code class="docutils literal"><span class="pre">userDefinedFunctions.m</span></code> file for post-processing immediately after the WEC-Sim run is complete. In summary, the files needed to run a WEC-Sim case are the following:</p>
+<ul class="simple">
+<li>Input file: <code class="docutils literal"><span class="pre">wecSimInputFile.m</span></code></li>
+<li>Simulink model: <code class="docutils literal"><span class="pre">rm3.slx</span></code></li>
+<li>Geometry file for each body: <code class="docutils literal"><span class="pre">float.stl</span></code> and <code class="docutils literal"><span class="pre">plate.stl</span></code></li>
+<li>Hydrodynamic data file(s): <code class="docutils literal"><span class="pre">rm3.h5</span></code></li>
+<li>Optional user defined postprocessing file: <code class="docutils literal"><span class="pre">userDefinedFunctions.m</span></code></li>
+</ul>
+<div class="section" id="simulink-model">
+<h4>Simulink Model<a class="headerlink" href="#simulink-model" title="Permalink to this headline">¶</a></h4>
+<p>The first step to initiate a WEC-Sim simulation is to create the Simulink model file by dragging and dropping blocks from the WEC-Sim library into the <code class="docutils literal"><span class="pre">rm3.slx</span></code> file.</p>
+<ul class="simple">
+<li>Step 1: Place two <code class="docutils literal"><span class="pre">Rigid</span> <span class="pre">Body</span></code> blocks from the WEC-Sim library in the Simulink model file, one for each RM3 rigid body, as shown in the figure below.</li>
+</ul>
+<div class="figure">
+<a class="reference internal image-reference" href="_images/RM3_WECSim_Body.jpg"><img alt="_images/RM3_WECSim_Body.jpg" src="_images/RM3_WECSim_Body.jpg" style="width: 400pt;" /></a>
+</div>
+<ul class="simple">
+<li>Step 2: Double click on the <code class="docutils literal"><span class="pre">Rigid</span> <span class="pre">Body</span></code> block, and rename the instances of the body. The first body should be titled &#8216;body(1)&#8217;, and the second body should be titled <code class="docutils literal"><span class="pre">'body(2)'</span></code>. Additional properties of these body blocks are defined in the following RM3 MATLAB input file.</li>
+<li>Step 3: Place the <code class="docutils literal"><span class="pre">Global</span> <span class="pre">Reference</span> <span class="pre">Frame</span></code> from the WEC-Sim library in the Simulink model file, as shown in the figure below. The global reference frame acts as the seabed to which all other bodies are linked through joints or constraints.</li>
+</ul>
+<div class="figure">
+<a class="reference internal image-reference" href="_images/RM3_WECSim_GlobalRef.jpg"><img alt="_images/RM3_WECSim_GlobalRef.jpg" src="_images/RM3_WECSim_GlobalRef.jpg" style="width: 400pt;" /></a>
+</div>
+<ul class="simple">
+<li>Step 4: Use the <code class="docutils literal"><span class="pre">Floating</span> <span class="pre">constraint</span></code> block to connect the plate to the seabed. This is done because the RM3 is free to move relative to the global reference frame. Step 4 and 5 connections are shown in the figure below.</li>
+<li>Step 5: Place a <code class="docutils literal"><span class="pre">Translational</span> <span class="pre">PTO</span> <span class="pre">(Local</span> <span class="pre">Z)</span></code> block to connect the float to the spar. This is necessary because the float is restricted to heave motion relative to the plate. For the RM3 simulation, the translational PTO block is used to model the WEC&#8217;s PTO as a linear damper. The parameters are defined in the RM3 MATLAB input file.</li>
+</ul>
+<div class="figure">
+<a class="reference internal image-reference" href="_images/RM3_WECSim.JPG"><img alt="_images/RM3_WECSim.JPG" src="_images/RM3_WECSim.JPG" style="width: 400pt;" /></a>
+</div>
+<p>When setting up a WEC-Sim model, it is important to note the base and follower frames. For example, for the constraint between the plate and the reference frame should be the base because the plate moves relative to it.  Similarly, for the PTO between the float and the plate, the plate should be defined as the base and the float as the follower.</p>
+</div>
+<div class="section" id="input-file">
+<h4>Input File<a class="headerlink" href="#input-file" title="Permalink to this headline">¶</a></h4>
+<p>In this section, we define the WEC-Sim MATLAB input file for the RM3 model. Each of the lines are commented to explain the purpose of the defined parameters. For the RM3 model, the user must define the simulation parameters, body properties, PTO, and constraint definitions. The specified input parameters for RM3 are shown in the figure below.</p>
+<div class="figure">
+<a class="reference internal image-reference" href="_images/RM3wecSimInputFile.png"><img alt="_images/RM3wecSimInputFile.png" src="_images/RM3wecSimInputFile.png" style="width: 400pt;" /></a>
+</div>
+</div>
+</div>
+<div class="section" id="simulation">
+<span id="rm3-with-wec-sim"></span><span id="id1"></span><h3>Simulation<a class="headerlink" href="#simulation" title="Permalink to this headline">¶</a></h3>
+<p>Once the WEC-Sim Simulink model is set up and the RM3 properties are defined in the MATLAB input file, the user can then run the RM3 model in WEC-Sim by running the <code class="docutils literal"><span class="pre">wecSim</span></code> command from the MATLAB Command Window. The figure below shows the final RM3 Simulink model and the WEC-Sim GUI during the simulation. For more information on using WEC-Sim to model the RM3 device, refer to <a class="reference internal" href="#ruehl-preliminary-2014" id="id2">[1]</a>.</p>
+<div class="figure">
+<a class="reference internal image-reference" href="_images/RM3_WECSim_GUI.JPG"><img alt="_images/RM3_WECSim_GUI.JPG" src="_images/RM3_WECSim_GUI.JPG" style="width: 400pt;" /></a>
+</div>
+<div class="section" id="outputs-and-postprocessing">
+<h4>Outputs and Postprocessing<a class="headerlink" href="#outputs-and-postprocessing" title="Permalink to this headline">¶</a></h4>
+<p>This example has a <code class="docutils literal"><span class="pre">userDefinedFunctions.m</span></code> which plots different forces and responses. The user is encouraged to modify this file. Additionally, after the WEC-Sim run is done, the user has access to the <code class="docutils literal"><span class="pre">output</span></code> variable in the workspace which contains all the simulation outputs.</p>
+</div>
+<div class="section" id="running-different-wave-cases">
+<h4>Running Different Wave Cases<a class="headerlink" href="#running-different-wave-cases" title="Permalink to this headline">¶</a></h4>
+<p>The input file in the RM3 example has four different wave examples:
+* Regular waves
+* Irregular waves with using Pierson–Moskowitz spectrum with convolution integral calculation
+* Irregular waves with using Bretschneider Spectrum with state space calculation
+* Irregular waves with defined spectrum, and irregular waves with a user defined spectrum</p>
+<p>By default the regular waves case is used. To run either of the other three cases the user needs to comment out the regular wave case and uncomment the desired case. Additionally, the user can create any other desired wave.</p>
+<p>Note: If <code class="docutils literal"><span class="pre">simu.ssCalc=1</span></code> is uncommented, the user needs to make sure the the state space hydrodynamic coefficients are included in the <code class="docutils literal"><span class="pre">&lt;hydro-data</span> <span class="pre">name&gt;.hd5</span></code> file. User can generate the state space hydrodynamic coefficients and export the values in the <code class="docutils literal"><span class="pre">&lt;hydro-data</span> <span class="pre">name&gt;.hd5</span></code> file using the bemio code. More details are discribed in the <a class="reference external" href="http://wec-sim.github.io/bemio/api.html#calculating-impulse-response-functions-and-sate-space-coefficients">Calculating Impulse Response Functions and Sate Space Coefficients</a> section in the <cite>bemio</cite> Documentation and Users Guide</p>
+</div>
+</div>
+</div>
+<div class="section" id="rm3-with-pto-sim">
+<span id="id3"></span><h2>RM3 with PTO-Sim<a class="headerlink" href="#rm3-with-pto-sim" title="Permalink to this headline">¶</a></h2>
+<p>This section describes how to use RM3 with PTO-Sim, the WEC-Sim module responsible for accurately modeling a WEC&#8217;s conversion of mechanical power to electrical power. While the PTO used in the WEC-Sim example above is modeled as a simple linear damper, PTO-Sim is capable of modeling many power conversion chains (PCC) such as mechanical drivetrain and hydraulic drivetrain. PTO-Sim is made of native Simulink blocks coupled with WEC-Sim, using WEC-Sim&#8217;s user-defined PTO blocks, where the WEC-Sim response (relative displacement and velocity for linear motion and angular position and velocity for rotary motion) is the PTO-Sim input. Similarly, the PTO force or torque is the WEC-Sim input. For more information on how PTO-Sim works, refer to <a class="reference internal" href="#so-development-2015" id="id4">[2]</a>.</p>
+<p>Two tutorials will be given in this section, one for the RM3 with a hydraulic PTO, and another for the RM3 with a mechanical PTO.</p>
+<div class="section" id="rm3-with-hydraulic-pto">
+<h3>RM3 with Hydraulic PTO<a class="headerlink" href="#rm3-with-hydraulic-pto" title="Permalink to this headline">¶</a></h3>
+<p>The hydraulic PTO example used in this section consists of a piston, a rectifying valve, a high pressure accumulator, a hydraulic motor coupled to a rotary generator, and a low pressure accumulator.</p>
+<div class="figure">
+<a class="reference internal image-reference" href="_images/HYDPHYMODEL.PNG"><img alt="_images/HYDPHYMODEL.PNG" src="_images/HYDPHYMODEL.PNG" style="width: 400pt;" /></a>
+</div>
+<p>There are two ways of modeling the hydraulic PTO: with a compressible fluid hydraulic, and with a non-compressible fluid hydraulic. The compressible fluid model uses the properties of fluid such as an effective bulk modulus and density while the non-compressible fluid does not.</p>
+</div>
+<div class="section" id="modeling-rm3-with-hydraulic-pto">
+<h3>Modeling RM3 with Hydraulic PTO<a class="headerlink" href="#modeling-rm3-with-hydraulic-pto" title="Permalink to this headline">¶</a></h3>
+<p>In this section, a step by step tutorial on how to set up and run the RM3 simulation with PTO-Sim is provided. All the files used in WEC-Sim will remain the same. An additional file that is needed is the PTO-Sim input file (<code class="docutils literal"><span class="pre">ptoSimInputFile.m</span></code>). If the rotary generator lookup table is used, a datasheet that contains generator efficiency, torque, and angular velocity is needed and should be named as <code class="docutils literal"><span class="pre">table</span></code> in Workspace (<code class="docutils literal"><span class="pre">table.eff</span></code>, <code class="docutils literal"><span class="pre">table.Tpu</span></code>,and <code class="docutils literal"><span class="pre">table.omegapu</span></code>). More details, refer to <a class="reference internal" href="#step-8">Step 8</a>. In summary, the files need to run RM3 with PTO-Sim case are the following:</p>
+<ul class="simple">
+<li>WEC-Sim input file: <code class="docutils literal"><span class="pre">wecSimInputFile.m</span></code> (make sure to set the PTO linear damping to zero)</li>
+<li>Simulink model: <code class="docutils literal"><span class="pre">RM3.slx</span></code></li>
+<li>Geometry file for each body: <code class="docutils literal"><span class="pre">float.stl</span></code> and <code class="docutils literal"><span class="pre">plate.stl</span></code></li>
+<li>Hydrodynamic data file(s): <code class="docutils literal"><span class="pre">rm3.h5</span></code></li>
+<li>Optional user defined postprocessing file: <code class="docutils literal"><span class="pre">userDefinedFunction.m</span></code></li>
+<li>PTO-Sim input file: <code class="docutils literal"><span class="pre">ptoSimInputFile.m</span></code></li>
+<li>Datasheet for the rotary generator: <code class="docutils literal"><span class="pre">table</span></code> (<code class="docutils literal"><span class="pre">table.eff</span></code>, <code class="docutils literal"><span class="pre">table.Tpu</span></code>,and <code class="docutils literal"><span class="pre">table.omegapu</span></code>)</li>
+</ul>
+<div class="section" id="id5">
+<span id="id6"></span><h4>Simulink Model<a class="headerlink" href="#id5" title="Permalink to this headline">¶</a></h4>
+<p>The Simulink model can be built as following:</p>
+<ul class="simple">
+<li>Step 1: User can get started from RM3 example.</li>
+</ul>
+<div class="figure">
+<a class="reference internal image-reference" href="_images/COPYRM3.PNG"><img alt="_images/COPYRM3.PNG" src="_images/COPYRM3.PNG" style="width: 400pt;" /></a>
+</div>
+<ul class="simple">
+<li>Step 2: Open <code class="docutils literal"><span class="pre">RM3.slx</span></code> file and replace Translational PTO (local Z) with Translational PTO UD Force (Local Z).</li>
+</ul>
+<div class="figure">
+<a class="reference internal image-reference" href="_images/TRANSLATIONALPTOUD.PNG"><img alt="_images/TRANSLATIONALPTOUD.PNG" src="_images/TRANSLATIONALPTOUD.PNG" style="width: 400pt;" /></a>
+</div>
+<ul class="simple">
+<li>Step 3: Use a subsystem and rename it to PTO-Sim where input is response and output is force.</li>
+</ul>
+<div class="figure">
+<a class="reference internal image-reference" href="_images/RM3WITHPTOSIMBLOCK.PNG"><img alt="_images/RM3WITHPTOSIMBLOCK.PNG" src="_images/RM3WITHPTOSIMBLOCK.PNG" style="width: 400pt;" /></a>
+</div>
+<ul class="simple">
+<li>Step 4: Go inside PTO-Sim block and add one bus selector and two selector blocks. Since PTO-Sim block is connected to the WEC-Sim translational joint block, you can select position and velocity and therefore &lt;signal1&gt; and &lt;signal2&gt; will change to &lt;position&gt; and &lt;velocity&gt;. Because the heave motion is driving the piston, selection index of each selector needs to be changed to 3.</li>
+</ul>
+<div class="figure">
+<a class="reference internal image-reference" href="_images/SELECTORS.PNG"><img alt="_images/SELECTORS.PNG" src="_images/SELECTORS.PNG" style="width: 400pt;" /></a>
+</div>
+<ul class="simple">
+<li>Step 5: Go to Simulink Library Browser to access PTO-Sim Library.</li>
+</ul>
+<div class="figure">
+<a class="reference internal image-reference" href="_images/OPENPTOSIMLIB.PNG"><img alt="_images/OPENPTOSIMLIB.PNG" src="_images/OPENPTOSIMLIB.PNG" style="width: 400pt;" /></a>
+</div>
+<ul class="simple">
+<li>Step 6: By looking at the physical hydraulic PTO model as shown above, user can simply drag and drop PTO-Sim library blocks. Piston, valves, accummulator blocks are located under Hydraulic block. Rotary generator lookup table is under Generator block.</li>
+</ul>
+<div class="figure">
+<a class="reference internal image-reference" href="_images/USEPTOSIMLIB.PNG"><img alt="_images/USEPTOSIMLIB.PNG" src="_images/USEPTOSIMLIB.PNG" style="width: 400pt;" /></a>
+</div>
+<ul class="simple">
+<li>Step 7: Since two accumulators are needed for the high pressure accumulator and low pressure accumulator, user need to douple-click on each block and give a number to each accumulator. For example, <code class="docutils literal"><span class="pre">ptosim.accumulator(1)</span></code> is called high pressure accumulator and <code class="docutils literal"><span class="pre">ptosim.accumulator(2)</span></code> is called low pressure accumulator.</li>
+</ul>
+<div class="figure">
+<a class="reference internal image-reference" href="_images/MULTIPLEACCUMULATORS.PNG"><img alt="_images/MULTIPLEACCUMULATORS.PNG" src="_images/MULTIPLEACCUMULATORS.PNG" style="width: 400pt;" /></a>
+</div>
+<ul class="simple" id="step-8">
+<li>Step 8: If a rotary generator lookup table is used, this block assumes user will provide the datasheet. After the datasheet is loaded into <code class="docutils literal"><span class="pre">Workspace</span></code>, it needs to be named as <code class="docutils literal"><span class="pre">table</span></code> because the word <code class="docutils literal"><span class="pre">table</span></code> is used inside Simulink lookup table block. The datasheet in tutorials is taken from ABB datasheet part number M3BJ315SMC. The lookup table takes three inputs: efficiency (<code class="docutils literal"><span class="pre">table.eff</span></code>), anglular velocity (<code class="docutils literal"><span class="pre">table.Tpu</span></code>), and generator torque (<code class="docutils literal"><span class="pre">table.omegapu</span></code>), respectively.</li>
+</ul>
+<div class="figure">
+<a class="reference internal image-reference" href="_images/ROTARYHIGHLEVELBLOCK.PNG"><img alt="_images/ROTARYHIGHLEVELBLOCK.PNG" src="_images/ROTARYHIGHLEVELBLOCK.PNG" style="width: 400pt;" /></a>
+</div>
+<div class="figure">
+<a class="reference internal image-reference" href="_images/ROTARYBLOCK.PNG"><img alt="_images/ROTARYBLOCK.PNG" src="_images/ROTARYBLOCK.PNG" style="width: 400pt;" /></a>
+</div>
+<div class="figure">
+<a class="reference internal image-reference" href="_images/ROTARYGENLOOKUPTABLE.PNG"><img alt="_images/ROTARYGENLOOKUPTABLE.PNG" src="_images/ROTARYGENLOOKUPTABLE.PNG" style="width: 400pt;" /></a>
+</div>
+<ul class="simple">
+<li>Step 9: After the high pressure and low pressure accumulators have been identified, and the rotary generator lookup table datasheet has been setup, all the blocks can be connected together.</li>
+</ul>
+<p>Position and velocity from selectors are used as inputs of compressible fluid piston. This block also needs to know top and bottom volumetric flows which come from the rectifying check valve. The piston then outputs PTO force that will be used by WEC-Sim. Two other outputs are the piston pressures. Rectifying check valve takes both the pressures from the piston and accumulators. Both high and low pressure accumulators takes the volumetric flows from the rectifying check valve and hydraulic motor. Hydraulic motor uses the knowledge of the pressures from both accumulator and generator torque from the rotary generator. The rotary generator needs angular velocity from the hydraulic motor. Figure below shows how to connect all the blocks together.</p>
+<div class="figure">
+<a class="reference internal image-reference" href="_images/HYDPTOSIM.PNG"><img alt="_images/HYDPTOSIM.PNG" src="_images/HYDPTOSIM.PNG" style="width: 400pt;" /></a>
+</div>
+</div>
+<div class="section" id="id7">
+<h4>Input File<a class="headerlink" href="#id7" title="Permalink to this headline">¶</a></h4>
+<p>In this section, PTO-Sim input file (<code class="docutils literal"><span class="pre">ptoSimInputFile.m</span></code>) is defined and categorized into sections such as piston, rectifying check valve, high pressure accumulator, hydraulic motor, low pressure accumulator, and rotary generator.</p>
+<div class="figure">
+<a class="reference internal image-reference" href="_images/PTOSIMINPUTFILE.PNG"><img alt="_images/PTOSIMINPUTFILE.PNG" src="_images/PTOSIMINPUTFILE.PNG" style="width: 400pt;" /></a>
+</div>
+</div>
+<div class="section" id="simulation-and-postprocessing">
+<h4>Simulation and Postprocessing<a class="headerlink" href="#simulation-and-postprocessing" title="Permalink to this headline">¶</a></h4>
+<p>Simulation and postprocessing are the same process as described in WEC-Sim <a class="reference internal" href="#simulation">Simulation</a> example above.</p>
+</div>
+</div>
+<div class="section" id="rm3-with-mechanical-pto">
+<h3>RM3 with Mechanical PTO<a class="headerlink" href="#rm3-with-mechanical-pto" title="Permalink to this headline">¶</a></h3>
+<p>A mehchanical PTO is used in this example is modeled as a direct drive linear generator. The main components of this example consist of magnets and coil where the magnet assembly is attached to the heaving float and the coil is locacted inside the spar. As the float moves up and down, the magnet assembly creates a change in magnetic field surrond the spar that contains the coil. Therefore, current is induced in the coil and electricity is generated.</p>
+<div class="figure">
+<a class="reference internal image-reference" href="_images/MECHANICALPTO.PNG"><img alt="_images/MECHANICALPTO.PNG" src="_images/MECHANICALPTO.PNG" style="width: 400pt;" /></a>
+</div>
+</div>
+<div class="section" id="modeling-rm3-with-mechanical-pto">
+<h3>Modeling RM3 with Mechanical PTO<a class="headerlink" href="#modeling-rm3-with-mechanical-pto" title="Permalink to this headline">¶</a></h3>
+<div class="section" id="id8">
+<h4>Simulink Model<a class="headerlink" href="#id8" title="Permalink to this headline">¶</a></h4>
+<p>Step 1 through 3 are the same as in <a class="reference internal" href="#id5">RM3 with hydraulic PTO</a>.</p>
+<ul class="simple">
+<li>Step 4: Go inside PTO-Sim block and add one bus selector and one selector blocks. Only velocity is needed for this example.</li>
+</ul>
+<div class="figure">
+<a class="reference internal image-reference" href="_images/SELECTORS2.PNG"><img alt="_images/SELECTORS2.PNG" src="_images/SELECTORS2.PNG" style="width: 400pt;" /></a>
+</div>
+<ul class="simple">
+<li>Step 5: Go to PTO-Sim library.</li>
+<li>Step 6: By looking at the physical mechanical PTO model as shown above, user can simply drag and drop PTO-Sim library blocks. In this case, only the direct drive linear generator is needed and it is located under generator box.</li>
+</ul>
+<div class="figure">
+<a class="reference internal image-reference" href="_images/USEPTOSIMLIB2.PNG"><img alt="_images/USEPTOSIMLIB2.PNG" src="_images/USEPTOSIMLIB2.PNG" style="width: 400pt;" /></a>
+</div>
+<ul class="simple">
+<li>Step 7: Simply connect velocity from the selector to the input of the direct drive linear generator. The ouput PTO force is fed back to WEC-Sim.</li>
+</ul>
+<div class="figure">
+<a class="reference internal image-reference" href="_images/DDLINEARGENPTOSIM.PNG"><img alt="_images/DDLINEARGENPTOSIM.PNG" src="_images/DDLINEARGENPTOSIM.PNG" style="width: 400pt;" /></a>
+</div>
+</div>
+<div class="section" id="input-file-simulation-and-postprocessing">
+<h4>Input File, Simulation, and Postprocessing<a class="headerlink" href="#input-file-simulation-and-postprocessing" title="Permalink to this headline">¶</a></h4>
+<p>The same as <a class="reference internal" href="#rm3-with-wec-sim">RM3 with WEC-Sim</a>.</p>
+</div>
+</div>
+</div>
+<div class="section" id="oscillating-surge-pitch-device">
+<h2>Oscillating Surge-Pitch Device<a class="headerlink" href="#oscillating-surge-pitch-device" title="Permalink to this headline">¶</a></h2>
+<div class="section" id="id9">
+<h3>Geometry Definition<a class="headerlink" href="#id9" title="Permalink to this headline">¶</a></h3>
+<p>As the second application of the WEC-Sim code, the oscillating surge WEC (OSWEC) device. We selected the OSWEC because its design is fundamentally different from the RM3. This is critical because WECs span an extensive design space, and it is important to model devices in WEC-Sim that operate under different principles.  The OSWEC is fixed to the ground and has a flap that is connected through a hinge to the base that restricts the flap to pitch about the hinge. The full-scale dimensions of the OSWEC and the mass properties are shown in the figure and table below.</p>
+<div class="figure">
+<a class="reference internal image-reference" href="_images/OSWEC_Geom.png"><img alt="_images/OSWEC_Geom.png" src="_images/OSWEC_Geom.png" style="width: 400pt;" /></a>
+</div>
+<table border="1" class="docutils">
+<colgroup>
+<col width="22%" />
+<col width="33%" />
+<col width="44%" />
+</colgroup>
+<thead valign="bottom">
+<tr class="row-odd"><th class="head" colspan="3">Flap Full Scale Properties</th>
+</tr>
+</thead>
+<tbody valign="top">
+<tr class="row-even"><td rowspan="2">CG (m)</td>
+<td rowspan="2">Mass (kg)</td>
+<td rowspan="2">Pitch Moment
+of Inertia
+(kg-m^2)</td>
+</tr>
+<tr class="row-odd"></tr>
+<tr class="row-even"><td>0</td>
+<td rowspan="3">127,000</td>
+<td rowspan="3">1,850,000</td>
+</tr>
+<tr class="row-odd"><td>0</td>
+</tr>
+<tr class="row-even"><td>-3.9</td>
+</tr>
+</tbody>
+</table>
+</div>
+<div class="section" id="id10">
+<h3>Hydrodynamic Data Pre-Processing<a class="headerlink" href="#id10" title="Permalink to this headline">¶</a></h3>
+<p>The hydrodynamic data for each body must be supplied in <cite>bemio</cite> hydrodynamic data format generated using the <a class="reference external" href="http://wec-sim.github.io/bemio/">bemio</a> code.  More information on how to use <cite>bemio</cite> can be found here - <a class="reference external" href="http://wec-sim.github.io/bemio/">http://wec-sim.github.io/bemio/</a>. The hydrodynamic data for each body can be supplied in one single &#8216;&#8217;hdf5&#8217;&#8217; file, or several (ie. one per body). In this application case, a single file is provided. This file was created based on a WAIMT run of the RM3 geometry, using the WAMIT output file and the WAMIT reader from the  <a class="reference external" href="https://github.com/WEC-Sim/bemio/releases">bemio open source BEM parser</a> . The WAMIT <code class="docutils literal"><span class="pre">*.out</span></code> file and the python bemio script used to create the &#8216;&#8217;hdf5&#8217;&#8217; are included as well. All these files are located in the &#8216;&#8217;/hydroData&#8217;&#8217; directory of the RM3 application case.</p>
+</div>
+<div class="section" id="modeling-oswec-in-wec-sim">
+<h3>Modeling OSWEC in WEC-Sim<a class="headerlink" href="#modeling-oswec-in-wec-sim" title="Permalink to this headline">¶</a></h3>
+<p>In this section, we provide a step by step tutorial on how to set up and run the OSWEC simulation in WEC-Sim.</p>
+<p>All WEC-Sim models consist of a input file (<code class="docutils literal"><span class="pre">wecSimInputFile.m</span></code>), and a Simulink model file (<code class="docutils literal"><span class="pre">OSWEC.slx</span></code>). The BEM hydrodynamic results were also pregenerated using WAMIT. The WAMIT output file corresponds to the <code class="docutils literal"><span class="pre">oswec.out</span></code> file, contained in the wamit subfolder. In addition, the user needs to specify the 3-D geometry file in the form of a <code class="docutils literal"><span class="pre">&lt;WEC</span> <span class="pre">model</span> <span class="pre">name&gt;.stl</span></code> file about the center of gravity for the WEC-Sim visualizations. For the OSWEC run consisting of a flap and a base, these files correspond to the <code class="docutils literal"><span class="pre">flap.stl</span></code> and <code class="docutils literal"><span class="pre">base.stl</span></code> files, respectively, which are located in the geometry subfolder.</p>
+</div>
+<div class="section" id="oswec-simulink-model-file">
+<h3>OSWEC Simulink Model File<a class="headerlink" href="#oswec-simulink-model-file" title="Permalink to this headline">¶</a></h3>
+<p>The first step to set up a WEC-Sim simulation is to populate the Simulink model file by dragging and dropping blocks from the WEC-Sim library into the <code class="docutils literal"><span class="pre">&lt;WEC</span> <span class="pre">model</span> <span class="pre">name&gt;.slx</span></code> file.</p>
+<ul class="simple">
+<li>Step 1: Place two <code class="docutils literal"><span class="pre">Rigid</span> <span class="pre">Body</span></code> blocks from the WEC-Sim library in the Simulink model file, one for each OSWEC rigid body, as shown in the figure below.</li>
+</ul>
+<ul class="simple">
+<li>Step 2: Double click on the body block, and rename the instances of the body. The first body should be titled body(1), and the second body should be titled body(2). Additional properties of these body blocks are defined in the OSWEC MATLAB input file.</li>
+<li>Step 3: Place the <code class="docutils literal"><span class="pre">Global</span> <span class="pre">Reference</span></code> block from the WEC-Sim library in the Simulink model file, as shown in the figure below. The global reference frame acts as the base to which all other bodies are linked through joints or constraints.</li>
+</ul>
+<ul class="simple">
+<li>Step 4: Place a <code class="docutils literal"><span class="pre">Fixed</span> <span class="pre">constraint</span></code> block to connect the base to the seafloor. This is done because the OSWEC base is fixed relative to the global reference frame. Step 4 and 5 connections are shown in the figure below.</li>
+<li>Step 5: Place a <code class="docutils literal"><span class="pre">Rotational</span> <span class="pre">PTO</span></code> block to connect the base to the flap. This is done because the flap is restricted to pitch motion relative to the base.  For the OSWEC simulation, the <code class="docutils literal"><span class="pre">Rotational</span> <span class="pre">PTO</span></code> is used to model the WEC&#8217;s PTO as a linear rotary damper. The input parameters are defined in the OSWEC MATLAB input file.</li>
+</ul>
+<p>When setting up a WEC-Sim model, it is important to note the base and follower frames. For example, for the constraint between the base and the seabed, the seabed should be defined as the base because it is the Global Reference Frame.</p>
+</div>
+<div class="section" id="oswec-matlab-input-file">
+<h3>OSWEC MATLAB Input File<a class="headerlink" href="#oswec-matlab-input-file" title="Permalink to this headline">¶</a></h3>
+<p>In this section, the WEC-Sim MATLAB input file, <code class="docutils literal"><span class="pre">wecSimInputFile.m</span></code>, for the OSWEC model is defined. Each of the lines are commented to explain the purpose of the defined parameters. For the OSWEC model, the user must define the simulation parameters, body properties, PTO, and constraint definitions. Each of the specified parameters for OSWEC are defined below.</p>
+<div class="figure">
+<a class="reference internal image-reference" href="_images/OSWECwecSimInputFile.png"><img alt="_images/OSWECwecSimInputFile.png" src="_images/OSWECwecSimInputFile.png" style="width: 400pt;" /></a>
+</div>
+</div>
+<div class="section" id="oswec-wec-sim-simulation">
+<h3>OSWEC WEC-Sim Simulation<a class="headerlink" href="#oswec-wec-sim-simulation" title="Permalink to this headline">¶</a></h3>
+<p>Once the WEC-Sim Simulink model is set up and the OSWEC properties are defined in the MATLAB input file, the user can then run the OSWEC model in WEC-Sim by running the <code class="docutils literal"><span class="pre">wecSim</span></code> command from the MATLAB Command Window..  The figure below shows the final OSWEC Simulink model and the WEC-Sim GUI showing the OSWEC during the simulation. For more information on using WEC-Sim to model the OSWEC device, refer to <a class="reference internal" href="#y-yu-development-2014" id="id11">[3]</a><a class="reference internal" href="#y-yu-design-2014" id="id12">[4]</a>.</p>
+</div>
+</div>
+<div class="section" id="oswec-with-pto-sim">
+<h2>OSWEC with PTO-Sim<a class="headerlink" href="#oswec-with-pto-sim" title="Permalink to this headline">¶</a></h2>
+<p>This section describes how to use OSWEC with PTO-Sim. The same process as described in <a class="reference internal" href="#rm3-with-pto-sim">RM3 with PTO-Sim</a>. However, since OSWEC is a rotary device, it takes torque as an input and a rotary to linear motion conversion block is needed.</p>
+<div class="section" id="oswec-with-hydraulic-pto">
+<h3>OSWEC with Hydraulic PTO<a class="headerlink" href="#oswec-with-hydraulic-pto" title="Permalink to this headline">¶</a></h3>
+<p>A hydraulic PTO or mechanical PTO can be used with OSWEC but for simplicity a hydraulic PTO will be used as an example.</p>
+<div class="figure">
+<a class="reference internal image-reference" href="_images/OSWECPHYMODEL.PNG"><img alt="_images/OSWECPHYMODEL.PNG" src="_images/OSWECPHYMODEL.PNG" style="width: 400pt;" /></a>
+</div>
+</div>
+<div class="section" id="modeling-of-oswec-with-hydraulic-pto">
+<h3>Modeling of OSWEC with Hydraulic PTO<a class="headerlink" href="#modeling-of-oswec-with-hydraulic-pto" title="Permalink to this headline">¶</a></h3>
+<p>The same as <a class="reference internal" href="#id5">RM3 with hydraulic PTO</a>.</p>
+<div class="section" id="id13">
+<h4>Simulink Model<a class="headerlink" href="#id13" title="Permalink to this headline">¶</a></h4>
+<p>The Simulink model can be built as following:</p>
+<ul class="simple">
+<li>Step 1: Copy OSWEC tutorial folder to get started.</li>
+</ul>
+<div class="figure">
+<a class="reference internal image-reference" href="_images/COPYOSWEC.PNG"><img alt="_images/COPYOSWEC.PNG" src="_images/COPYOSWEC.PNG" style="width: 400pt;" /></a>
+</div>
+<ul class="simple">
+<li>Step 2: Open <code class="docutils literal"><span class="pre">OSWEC.slx</span></code> file and replace Rotary PTO (Local RY) with Rotational PTO UD Torque (Local RY).</li>
+</ul>
+<div class="figure">
+<a class="reference internal image-reference" href="_images/OSWECWITHPTOSIMBLOCK.PNG"><img alt="_images/OSWECWITHPTOSIMBLOCK.PNG" src="_images/OSWECWITHPTOSIMBLOCK.PNG" style="width: 400pt;" /></a>
+</div>
+<ul class="simple">
+<li>Step 3: Use a subsystem and rename it to PTO-Sim where input is response and output is torque.</li>
+</ul>
+<div class="figure">
+<a class="reference internal image-reference" href="_images/OSWECWITHPTOSIMBLOCK1.PNG"><img alt="_images/OSWECWITHPTOSIMBLOCK1.PNG" src="_images/OSWECWITHPTOSIMBLOCK1.PNG" style="width: 400pt;" /></a>
+</div>
+<ul class="simple">
+<li>Step 4: Go inside PTO-Sim block and drag and drop one bus selector and two selector blocks. Since pitch is driving the piston, selection index of each selector needs to be changed to 5. Next, go to PTO-Sim library and drag and drop all the blocks for the hydraulic PTO. The rotary to linear adjustable rod block can be found under rotary to linear conversion box.</li>
+</ul>
+<div class="figure">
+<a class="reference internal image-reference" href="_images/USEPTOSIMLIB3.PNG"><img alt="_images/USEPTOSIMLIB3.PNG" src="_images/USEPTOSIMLIB3.PNG" style="width: 400pt;" /></a>
+</div>
+<ul class="simple">
+<li>Step 5: The rotary to linear adjustable rod block takes angular position and velocity from index slector blocks and PTO force from compressible fluid piston block. The outputs of the rotary to linear adjustable rod block are linear position, velocity, and torque. Linear position and velocity are used as inputs for compressible fluid piston and torque is fed back to WEC-Sim. The rest of the connects are the same as in RM3 with hydraulic PTO. User is encouraged to go up one level to check the connections between PTO-Sim and WEC-Sim.</li>
+</ul>
+<div class="figure">
+<a class="reference internal image-reference" href="_images/HYDPTOSIMOSWEC.PNG"><img alt="_images/HYDPTOSIMOSWEC.PNG" src="_images/HYDPTOSIMOSWEC.PNG" style="width: 400pt;" /></a>
+</div>
+</div>
+<div class="section" id="id14">
+<h4>Input File, Simulation, and Postprocessing<a class="headerlink" href="#id14" title="Permalink to this headline">¶</a></h4>
+<p>The same as <a class="reference internal" href="#id5">RM3 with hydraulic PTO</a>.</p>
+</div>
+</div>
+</div>
+<div class="section" id="other-pto-sim-tutorials">
+<h2>Other PTO-Sim Tutorials<a class="headerlink" href="#other-pto-sim-tutorials" title="Permalink to this headline">¶</a></h2>
+<p>Other PTO-Sim tuturails that were not discussed above are located under tutorials/PTO-Sim_Tutorials.</p>
+<table border="1" class="docutils">
+<colgroup>
+<col width="62%" />
+<col width="38%" />
+</colgroup>
+<thead valign="bottom">
+<tr class="row-odd"><th class="head" colspan="2">PTO-Sim Tutorials</th>
+</tr>
+</thead>
+<tbody valign="top">
+<tr class="row-even"><td>PTO Types</td>
+<td>Folder Names</td>
+</tr>
+<tr class="row-odd"><td>RM3 with non-compressible fluid hydraulic</td>
+<td>RM3_w_NCF_Hydraulic_PTO</td>
+</tr>
+<tr class="row-even"><td>RM3 with compressible fluid hydraulic</td>
+<td>RM3_w_CF_Hydraulic_PTO</td>
+</tr>
+<tr class="row-odd"><td>RM3 with direct drive linear generator</td>
+<td>RM3_w_Mechanical_PTO</td>
+</tr>
+<tr class="row-even"><td>OSWEC with non-compressible fluid hydraulic (adjustable rod)</td>
+<td>OSWEC_w_NCF_Hydraulic_PTO</td>
+</tr>
+<tr class="row-odd"><td>OSWEC with compressible fluid hydraulic (adjustable rod)</td>
+<td>OSWEC_w_CF_Hydraulic_PTO</td>
+</tr>
+<tr class="row-even"><td>OSWEC with direct drive linear generator (adjustable rod)</td>
+<td>OSWEC_w_Mechanical_PTO</td>
+</tr>
+<tr class="row-odd"><td>OSWEC with non-compressible fluid hydraulic (crank)</td>
+<td>OSWEC1_w_NCF_Hydraulic_PTO</td>
+</tr>
+<tr class="row-even"><td>OSWEC with compressible fluid hydraulic (crank)</td>
+<td>OSWEC1_w_CF_Hydraulic_PTO</td>
+</tr>
+<tr class="row-odd"><td>OSWEC with direct drive linear generator (crank)</td>
+<td>OSWEC1_w_Mechanical_PTO</td>
+</tr>
+</tbody>
+</table>
+</div>
+<div class="section" id="references">
+<h2>References<a class="headerlink" href="#references" title="Permalink to this headline">¶</a></h2>
+<p id="bibtex-bibliography-tutorials-0"><table class="docutils citation" frame="void" id="ruehl-preliminary-2014" rules="none">
+<colgroup><col class="label" /><col /></colgroup>
+<tbody valign="top">
+<tr><td class="label"><a class="fn-backref" href="#id2">[1]</a></td><td>K. Ruehl, C. Michelen, S. Kanner, M. Lawson, and Y. Yu. Preliminary Verification and Validation of WEC-Sim, an Open-Source Wave Energy Converter Design Tool. In <em>Proceedings of OMAE 2014</em>. San Francisco, CA, 2014.</td></tr>
+</tbody>
+</table>
+<table class="docutils citation" frame="void" id="so-development-2015" rules="none">
+<colgroup><col class="label" /><col /></colgroup>
+<tbody valign="top">
+<tr><td class="label"><a class="fn-backref" href="#id4">[2]</a></td><td>R. So, A. Simmons, T. Brekken, K. Ruehl, and C. Michelen. Development of PTO-SIM: A Power Performance Module for the Open-Souse Wave Energy Converter Code WEC-SIM. In <em>Proceedings of OMAE 2015</em>. St. John’s, Newfoundland, Canada, 2015.</td></tr>
+</tbody>
+</table>
+<table class="docutils citation" frame="void" id="y-yu-development-2014" rules="none">
+<colgroup><col class="label" /><col /></colgroup>
+<tbody valign="top">
+<tr><td class="label"><a class="fn-backref" href="#id11">[3]</a></td><td>Y. Yu, M. Lawson, K. Ruehl, and C. Michelen. Development and Demonstration of the WEC-Sim Wave Energy Converter Simulation Tool. In <em>Proceedings of the 2nd Marine Energy Technology Symposium</em>. Seattle, WA, USA, 2014.</td></tr>
+</tbody>
+</table>
+<table class="docutils citation" frame="void" id="y-yu-design-2014" rules="none">
+<colgroup><col class="label" /><col /></colgroup>
+<tbody valign="top">
+<tr><td class="label"><a class="fn-backref" href="#id12">[4]</a></td><td>Y. Yu, Y. Li, K. Hallett, and C. Hotimsky. Design and Analysis for a Floating Oscillating Surge Wave Energy Converter. In <em>Proceedings of OMAE 2014</em>. San Francisco, CA, 2014.</td></tr>
+</tbody>
+</table>
+</p>
+</div>
+</div>
+
+
+          </div>
+          <footer>
+  
+    <div class="rst-footer-buttons" role="navigation" aria-label="footer navigation">
+      
+        <a href="online_forum.html" class="btn btn-neutral float-right" title="Online Forum" accesskey="n">Next <span class="fa fa-arrow-circle-right"></span></a>
+      
+      
+        <a href="code_structure.html" class="btn btn-neutral" title="Code Structure" accesskey="p"><span class="fa fa-arrow-circle-left"></span> Previous</a>
+      
+    </div>
+  
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>
+        &copy; Copyright 2015, National Renewable Energy Laboratory and Sandia Corporation.
+    </p>
+  </div>
+  Built with <a href="http://sphinx-doc.org/">Sphinx</a> using a <a href="https://github.com/snide/sphinx_rtd_theme">theme</a> provided by <a href="https://readthedocs.org">Read the Docs</a>.
+
+</footer>
+
+        </div>
+      </div>
+
+    </section>
+
+  </div>
+  
+
+
+  
+
+    <script type="text/javascript">
+        var DOCUMENTATION_OPTIONS = {
+            URL_ROOT:'./',
+            VERSION:'',
+            COLLAPSE_INDEX:false,
+            FILE_SUFFIX:'.html',
+            HAS_SOURCE:  true
+        };
+    </script>
+      <script type="text/javascript" src="_static/jquery.js"></script>
+      <script type="text/javascript" src="_static/underscore.js"></script>
+      <script type="text/javascript" src="_static/doctools.js"></script>
+      <script type="text/javascript" src="https://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+
+  
+
+  
+  
+    <script type="text/javascript" src="_static/js/theme.js"></script>
+  
+
+  
+  
+  <script type="text/javascript">
+      jQuery(function () {
+          SphinxRtdTheme.StickyNav.enable();
+      });
+  </script>
+   
+
+</body>
+</html>

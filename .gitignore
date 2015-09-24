@@ -56,3 +56,6 @@ view_html.sh
 */output_previous/
 */slprj
 *build_exception*
+=======
+*.tws
+

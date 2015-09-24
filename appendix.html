@@ -1,0 +1,495 @@
+
+
+<!DOCTYPE html>
+<!--[if IE 8]><html class="no-js lt-ie9" lang="en" > <![endif]-->
+<!--[if gt IE 8]><!--> <html class="no-js" lang="en" > <!--<![endif]-->
+<head>
+  <meta charset="utf-8">
+  
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  
+  <title>Appendix &mdash; WEC-Sim  documentation</title>
+  
+
+  
+  
+
+  
+
+  
+  
+    
+
+  
+
+  
+  
+    <link rel="stylesheet" href="_static/css/theme.css" type="text/css" />
+  
+
+  
+
+  
+    <link rel="top" title="WEC-Sim  documentation" href="index.html"/>
+        <link rel="prev" title="License" href="license.html"/> 
+
+  
+  <script src="_static/js/modernizr.min.js"></script>
+
+</head>
+
+<body class="wy-body-for-nav" role="document">
+
+  <div class="wy-grid-for-nav">
+
+    
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-nav-search">
+        
+
+        
+          <a href="index.html" class="icon icon-home"> WEC-Sim
+        
+
+        
+        </a>
+
+        
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+
+        
+      </div>
+
+      <div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="main navigation">
+        
+          
+          
+              <ul class="current">
+<li class="toctree-l1"><a class="reference internal" href="release_notes.html">Release Notes</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="release_notes.html#id1">WEC-Sim v1.2</a></li>
+<li class="toctree-l2"><a class="reference internal" href="release_notes.html#id2">WEC-Sim v1.1</a></li>
+<li class="toctree-l2"><a class="reference internal" href="release_notes.html#wec-sim-v1-0">WEC-Sim v1.0</a></li>
+<li class="toctree-l2"><a class="reference internal" href="release_notes.html#backward-compatibility">Backward Compatibility</a></li>
+<li class="toctree-l2"><a class="reference internal" href="release_notes.html#features-under-development">Features Under Development</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="theory.html">Theory</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="theory.html#introduction">Introduction</a></li>
+<li class="toctree-l2"><a class="reference internal" href="theory.html#coordinate-system">Coordinate System</a></li>
+<li class="toctree-l2"><a class="reference internal" href="theory.html#boundary-element-method">Boundary Element Method</a></li>
+<li class="toctree-l2"><a class="reference internal" href="theory.html#time-domain-numerical-method">Time-Domain Numerical Method</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="theory.html#sinusoidal-steady-state-response-scenario">Sinusoidal Steady-State Response Scenario</a></li>
+<li class="toctree-l3"><a class="reference internal" href="theory.html#convolution-integral-formulation">Convolution Integral Formulation</a></li>
+<li class="toctree-l3"><a class="reference internal" href="theory.html#state-space-representation-of">State Space Representation of <span class="math">\(K_{r}\)</span></a><ul>
+<li class="toctree-l4"><a class="reference internal" href="theory.html#calculation-of-from-state-space-matrices">Calculation of <span class="math">\(K_{r}\)</span> from State Space Matrices</a></li>
+<li class="toctree-l4"><a class="reference internal" href="theory.html#laplace-transform-and-transfer-function">Laplace Transform and Transfer Function</a></li>
+<li class="toctree-l4"><a class="reference internal" href="theory.html#realization-theory">Realization Theory</a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="theory.html#wave-spectrum">Wave Spectrum</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="theory.html#pierson-moskowitz">Pierson&#8211;Moskowitz</a></li>
+<li class="toctree-l4"><a class="reference internal" href="theory.html#bretschneider-spectrum">Bretschneider Spectrum</a></li>
+<li class="toctree-l4"><a class="reference internal" href="theory.html#jonswap-joint-north-sea-wave-project-spectrum">JONSWAP (Joint North Sea Wave Project) Spectrum</a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="theory.html#ramp-function">Ramp Function</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="theory.html#power-take-off-pto-forces">Power Take-off (PTO) Forces</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="theory.html#linear-spring-damper-pto">Linear Spring-damper PTO</a></li>
+<li class="toctree-l3"><a class="reference internal" href="theory.html#hydraulic-pto">Hydraulic PTO</a></li>
+<li class="toctree-l3"><a class="reference internal" href="theory.html#mechanical-pto">Mechanical PTO</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="theory.html#mooring-forces">Mooring Forces</a></li>
+<li class="toctree-l2"><a class="reference internal" href="theory.html#damping-forces">Damping Forces</a></li>
+<li class="toctree-l2"><a class="reference internal" href="theory.html#references">References</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="getting_started.html">Getting Started</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="getting_started.html#matlab-toolbox-requirements">MATLAB Toolbox Requirements</a></li>
+<li class="toctree-l2"><a class="reference internal" href="getting_started.html#downloading-and-installing-bemio">Downloading and Installing BEMIO</a></li>
+<li class="toctree-l2"><a class="reference internal" href="getting_started.html#downloading-wec-sim">Downloading WEC-Sim</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="getting_started.html#option-1-clone-with-github-recommended-for-users">Option 1: Clone with GitHub (Recommended for Users)</a></li>
+<li class="toctree-l3"><a class="reference internal" href="getting_started.html#option-2-fork-with-git-recommended-for-developers">Option 2: Fork with Git (Recommended for Developers)</a></li>
+<li class="toctree-l3"><a class="reference internal" href="getting_started.html#option-3-static-code-download">Option 3: Static Code Download</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="getting_started.html#installing-wec-sim">Installing WEC-Sim</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="getting_started.html#step-1-add-wec-sim-source-code-to-matlab-path">Step 1: Add WEC-Sim Source Code to MATLAB Path</a></li>
+<li class="toctree-l3"><a class="reference internal" href="getting_started.html#step-2-add-wec-sim-library-to-simulink">Step 2: Add WEC-Sim Library to Simulink</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="getting_started.html#running-wec-sim">Running WEC-Sim</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="getting_started.html#file-structure-overview">File Structure Overview</a></li>
+<li class="toctree-l3"><a class="reference internal" href="getting_started.html#steps-to-run-wec-sim">Steps To Run WEC-Sim</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="getting_started.html#step-1-pre-processing">Step 1: Pre-Processing</a></li>
+<li class="toctree-l4"><a class="reference internal" href="getting_started.html#step2-build-wec-sim-simulink-model">Step2: Build WEC-Sim Simulink Model</a></li>
+<li class="toctree-l4"><a class="reference internal" href="getting_started.html#step-3-setip-wec-sim-input-file">Step 3: Setip WEC-Sim Input File</a></li>
+<li class="toctree-l4"><a class="reference internal" href="getting_started.html#step-4-execute-wec-sim">Step 4: Execute WEC-Sim</a></li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="code_structure.html">Code Structure</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="code_structure.html#code-conventions">Code Conventions</a></li>
+<li class="toctree-l2"><a class="reference internal" href="code_structure.html#input-file-structure">Input File Structure</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="code_structure.html#simulation-class">Simulation Class</a></li>
+<li class="toctree-l3"><a class="reference internal" href="code_structure.html#wave-class">Wave Class</a></li>
+<li class="toctree-l3"><a class="reference internal" href="code_structure.html#body-class">Body Class</a></li>
+<li class="toctree-l3"><a class="reference internal" href="code_structure.html#constraint-class">Constraint Class</a></li>
+<li class="toctree-l3"><a class="reference internal" href="code_structure.html#pto-class">PTO Class</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="code_structure.html#input-parameters">Input Parameters</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="code_structure.html#simulationclass">simulationClass</a></li>
+<li class="toctree-l3"><a class="reference internal" href="code_structure.html#waveclass">waveClass</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="code_structure.html#nowave">noWave</a></li>
+<li class="toctree-l4"><a class="reference internal" href="code_structure.html#nowavecic">noWaveCIC</a></li>
+<li class="toctree-l4"><a class="reference internal" href="code_structure.html#regular">regular</a></li>
+<li class="toctree-l4"><a class="reference internal" href="code_structure.html#regularcic">regularCIC</a></li>
+<li class="toctree-l4"><a class="reference internal" href="code_structure.html#irregular">irregular</a></li>
+<li class="toctree-l4"><a class="reference internal" href="code_structure.html#irregularimport">irregularImport</a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="code_structure.html#bodyclass">bodyClass</a></li>
+<li class="toctree-l3"><a class="reference internal" href="code_structure.html#constraintclass">constraintClass</a></li>
+<li class="toctree-l3"><a class="reference internal" href="code_structure.html#ptoclass">ptoClass</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="code_structure.html#library-structure">Library Structure</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="code_structure.html#body-elements-sublibrary">Body Elements Sublibrary</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="code_structure.html#rigid-body-block">Rigid Body Block</a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="code_structure.html#frames-sublibrary">Frames Sublibrary</a></li>
+<li class="toctree-l3"><a class="reference internal" href="code_structure.html#global-reference-frame-block">Global Reference Frame Block</a></li>
+<li class="toctree-l3"><a class="reference internal" href="code_structure.html#constraints-sublibrary">Constraints Sublibrary</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="code_structure.html#floating-block">Floating Block</a></li>
+<li class="toctree-l4"><a class="reference internal" href="code_structure.html#heave-block">Heave Block</a></li>
+<li class="toctree-l4"><a class="reference internal" href="code_structure.html#surge-block">Surge Block</a></li>
+<li class="toctree-l4"><a class="reference internal" href="code_structure.html#pitch-block">Pitch Block</a></li>
+<li class="toctree-l4"><a class="reference internal" href="code_structure.html#fixed-block">Fixed Block</a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="code_structure.html#ptos-sublibrary">PTOs Sublibrary</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="code_structure.html#translation-pto-local-z-block">Translation PTO (Local Z) Block</a></li>
+<li class="toctree-l4"><a class="reference internal" href="code_structure.html#translation-pto-local-x-block">Translation PTO (Local X) Block</a></li>
+<li class="toctree-l4"><a class="reference internal" href="code_structure.html#rotational-pto-local-ry-block">Rotational PTO (Local RY) Block</a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="code_structure.html#other-simmechanics-blocks">Other SimMechanics Blocks</a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="tutorials.html">Tutorials</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="tutorials.html#rm3-two-body-point-absorber">RM3 Two-Body Point Absorber</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="tutorials.html#geometry-definition">Geometry Definition</a></li>
+<li class="toctree-l3"><a class="reference internal" href="tutorials.html#hydrodynamic-data-pre-processing">Hydrodynamic Data Pre-Processing</a></li>
+<li class="toctree-l3"><a class="reference internal" href="tutorials.html#modeling-rm3-in-wec-sim">Modeling RM3 in WEC-Sim</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="tutorials.html#simulink-model">Simulink Model</a></li>
+<li class="toctree-l4"><a class="reference internal" href="tutorials.html#input-file">Input File</a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="tutorials.html#simulation">Simulation</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="tutorials.html#outputs-and-postprocessing">Outputs and Postprocessing</a></li>
+<li class="toctree-l4"><a class="reference internal" href="tutorials.html#running-different-wave-cases">Running Different Wave Cases</a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="tutorials.html#rm3-with-pto-sim">RM3 with PTO-Sim</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="tutorials.html#rm3-with-hydraulic-pto">RM3 with Hydraulic PTO</a></li>
+<li class="toctree-l3"><a class="reference internal" href="tutorials.html#modeling-rm3-with-hydraulic-pto">Modeling RM3 with Hydraulic PTO</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="tutorials.html#id5">Simulink Model</a></li>
+<li class="toctree-l4"><a class="reference internal" href="tutorials.html#id7">Input File</a></li>
+<li class="toctree-l4"><a class="reference internal" href="tutorials.html#simulation-and-postprocessing">Simulation and Postprocessing</a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="tutorials.html#rm3-with-mechanical-pto">RM3 with Mechanical PTO</a></li>
+<li class="toctree-l3"><a class="reference internal" href="tutorials.html#modeling-rm3-with-mechanical-pto">Modeling RM3 with Mechanical PTO</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="tutorials.html#id8">Simulink Model</a></li>
+<li class="toctree-l4"><a class="reference internal" href="tutorials.html#input-file-simulation-and-postprocessing">Input File, Simulation, and Postprocessing</a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="tutorials.html#oscillating-surge-pitch-device">Oscillating Surge-Pitch Device</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="tutorials.html#id9">Geometry Definition</a></li>
+<li class="toctree-l3"><a class="reference internal" href="tutorials.html#id10">Hydrodynamic Data Pre-Processing</a></li>
+<li class="toctree-l3"><a class="reference internal" href="tutorials.html#modeling-oswec-in-wec-sim">Modeling OSWEC in WEC-Sim</a></li>
+<li class="toctree-l3"><a class="reference internal" href="tutorials.html#oswec-simulink-model-file">OSWEC Simulink Model File</a></li>
+<li class="toctree-l3"><a class="reference internal" href="tutorials.html#oswec-matlab-input-file">OSWEC MATLAB Input File</a></li>
+<li class="toctree-l3"><a class="reference internal" href="tutorials.html#oswec-wec-sim-simulation">OSWEC WEC-Sim Simulation</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="tutorials.html#oswec-with-pto-sim">OSWEC with PTO-Sim</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="tutorials.html#oswec-with-hydraulic-pto">OSWEC with Hydraulic PTO</a></li>
+<li class="toctree-l3"><a class="reference internal" href="tutorials.html#modeling-of-oswec-with-hydraulic-pto">Modeling of OSWEC with Hydraulic PTO</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="tutorials.html#id13">Simulink Model</a></li>
+<li class="toctree-l4"><a class="reference internal" href="tutorials.html#id14">Input File, Simulation, and Postprocessing</a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="tutorials.html#other-pto-sim-tutorials">Other PTO-Sim Tutorials</a></li>
+<li class="toctree-l2"><a class="reference internal" href="tutorials.html#references">References</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="online_forum.html">Online Forum</a></li>
+<li class="toctree-l1"><a class="reference internal" href="publications.html">Publications</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="publications.html#news-articles">News Articles</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="license.html">License</a></li>
+<li class="toctree-l1 current"><a class="current reference internal" href="">Appendix</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="#visualizatoin-using-paraview">Visualizatoin Using Paraview</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#getting-started-installation">Getting Started - Installation</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#setting-up-paraview-output">Setting Up Paraview Output</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#outputs-and-opening-in-paraview">Outputs and Opening in Paraview</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#basic-visualization-manipulation">Basic Visualization Manipulation</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#visualizing-non-linear-hydro-forces">Visualizing Non-Linear Hydro Forces</a></li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+
+          
+        
+      </div>
+      &nbsp;
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap">
+
+      
+      <nav class="wy-nav-top" role="navigation" aria-label="top navigation">
+        <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+        <a href="index.html">WEC-Sim</a>
+      </nav>
+
+
+      
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          <div role="navigation" aria-label="breadcrumbs navigation">
+  <ul class="wy-breadcrumbs">
+    <li><a href="index.html">Docs</a> &raquo;</li>
+      
+    <li>Appendix</li>
+      <li class="wy-breadcrumbs-aside">
+        
+          
+            <a href="_sources/appendix.txt" rel="nofollow"> View page source</a>
+          
+        
+      </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document">
+            
+  <div class="section" id="appendix">
+<h1>Appendix<a class="headerlink" href="#appendix" title="Permalink to this headline">¶</a></h1>
+<div class="section" id="visualizatoin-using-paraview">
+<h2>Visualizatoin Using Paraview<a class="headerlink" href="#visualizatoin-using-paraview" title="Permalink to this headline">¶</a></h2>
+<p>This section describes how to setup, output, and use Paraview files for visualizing a WEC-Sim simulation. This improves on SimMechanics&#8217;s explorer by:</p>
+<ul class="simple">
+<li>Visualization of the wave field</li>
+<li>Visualization of the cell-by-cell non-linear hydrodynamic forces (when using non-linear hydro)</li>
+<li>Allow data manipulation and more visualization options</li>
+</ul>
+<p>On the other hand the SimMechanics explorer shows the following information not shown in Paraview vizualition:</p>
+<ul class="simple">
+<li>Location of the center of gravity</li>
+<li>Location of the different frames including PTO and Constraint frames</li>
+</ul>
+<p>Visualization with paraview requires many files to be written, which makes the WEC-Sim simulation take significantly more time, and makes the directory significantly larger. It should only be turned on when vizualisation is desired. The user also needs to have some familiarity with using Paraview.</p>
+<div class="section" id="getting-started-installation">
+<h3>Getting Started - Installation<a class="headerlink" href="#getting-started-installation" title="Permalink to this headline">¶</a></h3>
+<p>You will need to install <a class="reference external" href="http://www.paraview.org/">Paraview</a> and install and setup Python.
+Next you will need to add some WEC-Sim specific macros,as follows:</p>
+<ul class="simple">
+<li>Open Paraview</li>
+<li>Click on <code class="docutils literal"><span class="pre">Macros</span> <span class="pre">=&gt;</span> <span class="pre">Add</span> <span class="pre">new</span> <span class="pre">macro</span></code></li>
+<li>Navigate to the WEC-Sim <code class="docutils literal"><span class="pre">source/functions/paraview_macros</span></code> directory</li>
+<li>Select the first file and click <code class="docutils literal"><span class="pre">OK</span></code></li>
+<li>Repeat this for all files in the <code class="docutils literal"><span class="pre">paraview_macros</span> <span class="pre">directory.</span></code></li>
+</ul>
+</div>
+<div class="section" id="setting-up-paraview-output">
+<h3>Setting Up Paraview Output<a class="headerlink" href="#setting-up-paraview-output" title="Permalink to this headline">¶</a></h3>
+<p>The following table shows the variables that can be specfied in the <code class="docutils literal"><span class="pre">wecSimInputFile</span></code> to control the Paraview visualization. The <code class="docutils literal"><span class="pre">body.viz</span></code> properties are also used in the SimMechanics explorer visualization.</p>
+<table border="1" class="docutils">
+<colgroup>
+<col width="30%" />
+<col width="70%" />
+</colgroup>
+<thead valign="bottom">
+<tr class="row-odd"><th class="head" colspan="2">WEC-Sim Visualization using Paraview</th>
+</tr>
+</thead>
+<tbody valign="top">
+<tr class="row-even"><td>Variable</td>
+<td>Description</td>
+</tr>
+<tr class="row-odd"><td><code class="docutils literal"><span class="pre">simu.paraview</span></code></td>
+<td>0 to not ouput Paraview files [default]
+1 to output Paraview files</td>
+</tr>
+<tr class="row-even"><td><code class="docutils literal"><span class="pre">simu.nlHydro</span></code></td>
+<td>0 for no non-linear hydro [default]
+1 for non-linear hydro with mean free surface
+2 for non-linear hydro with instantaneous fs</td>
+</tr>
+<tr class="row-odd"><td><code class="docutils literal"><span class="pre">simu.domainSize</span></code></td>
+<td>size of ground and water planes in meters [default 200]</td>
+</tr>
+<tr class="row-even"><td><code class="docutils literal"><span class="pre">simu.dtOut</span></code></td>
+<td>simulation output sampling time step [default dt]</td>
+</tr>
+<tr class="row-odd"><td><code class="docutils literal"><span class="pre">body(i).viz.color</span></code></td>
+<td>[RGB] body color [default [1 1 0]]</td>
+</tr>
+<tr class="row-even"><td><code class="docutils literal"><span class="pre">body(i).viz.opacity</span></code></td>
+<td>body opacity [default 1]</td>
+</tr>
+<tr class="row-odd"><td><code class="docutils literal"><span class="pre">waves.viz.numPointsX</span></code></td>
+<td>wave plane discretization: number of X points [default 50]</td>
+</tr>
+<tr class="row-even"><td><code class="docutils literal"><span class="pre">waves.viz.numPointsY</span></code></td>
+<td>wave plane discretization: number of Y points [default 50]</td>
+</tr>
+</tbody>
+</table>
+</div>
+<div class="section" id="outputs-and-opening-in-paraview">
+<h3>Outputs and Opening in Paraview<a class="headerlink" href="#outputs-and-opening-in-paraview" title="Permalink to this headline">¶</a></h3>
+<p>When <code class="docutils literal"><span class="pre">simu.paraview</span></code> is set to 1 a directory called <code class="docutils literal"><span class="pre">vtk</span></code> is created.
+All files necessary for Paraview vizualisation are located there.
+To view in Paraview:</p>
+<ul class="simple">
+<li>Open the <code class="docutils literal"><span class="pre">vtk/filename.pvd</span></code> file in Paraview</li>
+<li>Click <code class="docutils literal"><span class="pre">Apply</span></code></li>
+<li>With the model selected in the pipeline, run the <code class="docutils literal"><span class="pre">WEC-Sim</span></code> macro</li>
+<li>Move the camera to desired view</li>
+<li>Click the green arrow (play) button</li>
+</ul>
+<p>The WEC-Sim macro:</p>
+<ul class="simple">
+<li>Extracts each body, sets the color and opacity, and renames them</li>
+<li>Extracts the waves, sets color and opacity, and renames</li>
+<li>Creates the ground plane</li>
+<li>Sets the camera to <code class="docutils literal"><span class="pre">parallel</span> <span class="pre">view</span></code></li>
+</ul>
+</div>
+<div class="section" id="basic-visualization-manipulation">
+<h3>Basic Visualization Manipulation<a class="headerlink" href="#basic-visualization-manipulation" title="Permalink to this headline">¶</a></h3>
+<p>After opening the <code class="docutils literal"><span class="pre">.pvd</span></code> file and running the <code class="docutils literal"><span class="pre">WEC-Sim</span></code> macro you can do a number of things to visualize the simulation in different ways.
+You can color waves and bodies by any of the available properties and apply any of the Paraview filters.</p>
+<p>The video below shows three different views of the OSWEC model described in the tutorials.
+On the bottom right view the wave elevation is used to color the free surface. The top right view uses the <code class="docutils literal"><span class="pre">slice</span></code> filter.</p>
+<iframe width="420" height="315" src="https://www.youtube.com/embed/KcsLi38Xjv0" frameborder="0" allowfullscreen></iframe></div>
+<div class="section" id="visualizing-non-linear-hydro-forces">
+<h3>Visualizing Non-Linear Hydro Forces<a class="headerlink" href="#visualizing-non-linear-hydro-forces" title="Permalink to this headline">¶</a></h3>
+<p>When using non-linear hydro the paraview files also contain cell data for the bodies.
+The cell data are:</p>
+<ul class="simple">
+<li>Cell areas</li>
+<li>Hydrostatic pressures</li>
+<li>Linear Froude-Krylov pressures</li>
+<li>Non-linear Froude-Krylov pressures</li>
+</ul>
+<p>The <code class="docutils literal"><span class="pre">pressureGlyphs</span></code> macro calculates cell normals, and cell centers. It then creates the following glyphs:</p>
+<ul class="simple">
+<li>Hydrostatic Pressure</li>
+<li>Linear Froude-Krylov pressure</li>
+<li>Non-linear Froude-Krylov pressure</li>
+<li>Total pressure (hydostatic plus non-linear Foude-Krylov)</li>
+<li>Froude-Krylov delta (non-linear minus linear)</li>
+</ul>
+<p>The video below shows three different views of the RM3 model described in the turoeials.
+The top right shows glyphs of the non-linear Froude-Krylov pressure acting on the float.
+The bottom right shows the float colored by hydrostatic pressure.</p>
+<blockquote>
+<div><iframe width="420" height="315" src="https://www.youtube.com/embed/VIPXsS8h9pg" frameborder="0" allowfullscreen></iframe></div></blockquote>
+</div>
+</div>
+</div>
+
+
+          </div>
+          <footer>
+  
+    <div class="rst-footer-buttons" role="navigation" aria-label="footer navigation">
+      
+      
+        <a href="license.html" class="btn btn-neutral" title="License" accesskey="p"><span class="fa fa-arrow-circle-left"></span> Previous</a>
+      
+    </div>
+  
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>
+        &copy; Copyright 2015, National Renewable Energy Laboratory and Sandia Corporation.
+    </p>
+  </div>
+  Built with <a href="http://sphinx-doc.org/">Sphinx</a> using a <a href="https://github.com/snide/sphinx_rtd_theme">theme</a> provided by <a href="https://readthedocs.org">Read the Docs</a>.
+
+</footer>
+
+        </div>
+      </div>
+
+    </section>
+
+  </div>
+  
+
+
+  
+
+    <script type="text/javascript">
+        var DOCUMENTATION_OPTIONS = {
+            URL_ROOT:'./',
+            VERSION:'',
+            COLLAPSE_INDEX:false,
+            FILE_SUFFIX:'.html',
+            HAS_SOURCE:  true
+        };
+    </script>
+      <script type="text/javascript" src="_static/jquery.js"></script>
+      <script type="text/javascript" src="_static/underscore.js"></script>
+      <script type="text/javascript" src="_static/doctools.js"></script>
+      <script type="text/javascript" src="https://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+
+  
+
+  
+  
+    <script type="text/javascript" src="_static/js/theme.js"></script>
+  
+
+  
+  
+  <script type="text/javascript">
+      jQuery(function () {
+          SphinxRtdTheme.StickyNav.enable();
+      });
+  </script>
+   
+
+</body>
+</html>
