@@ -49,8 +49,12 @@ for i in range(bodies):
 	extractBlock1_2.BlockIndices = [2+(i*2)+1, 2+(i*2)+2]
 	extractBlock1_2Display = Show(extractBlock1_2, renderView1)
 	extractBlock1_2Display.ColorArrayName = [None, '']
-	extractBlock1_2Display.DiffuseColor = [1.0, 1.0, 0.0]
-	name = f.readline()
+	name = f.readline()[:-1]
+	color = np.fromstring(f.readline()[:-1],sep=' ')
+	opacity = np.fromstring(f.readline()[:-1],sep=' ')
 	RenameSource('body_'+str(i+1)+': '+name , extractBlock1_2)
+	extractBlock1_2Display.DiffuseColor = color
+	extractBlock1_2Display.Opacity = opacity 
+	f.readline()
 f.close()
 
