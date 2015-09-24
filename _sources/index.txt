@@ -14,6 +14,7 @@
    online_forum.rst
    publications.rst
    license.rst
+   appendix.rst
 
 Project Overview
 ====================

@@ -8,7 +8,7 @@
   
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   
-  <title>Release Notes &mdash; WEC-Sim  documentation</title>
+  <title>Appendix &mdash; WEC-Sim  documentation</title>
   
 
   
@@ -31,8 +31,7 @@
 
   
     <link rel="top" title="WEC-Sim  documentation" href="index.html"/>
-        <link rel="next" title="Theory" href="theory.html"/>
-        <link rel="prev" title="Project Overview" href="index.html"/> 
+        <link rel="prev" title="License" href="license.html"/> 
 
   
   <script src="_static/js/modernizr.min.js"></script>
@@ -72,12 +71,12 @@
           
           
               <ul class="current">
-<li class="toctree-l1 current"><a class="current reference internal" href="">Release Notes</a><ul>
-<li class="toctree-l2"><a class="reference internal" href="#id1">WEC-Sim v1.2</a></li>
-<li class="toctree-l2"><a class="reference internal" href="#id2">WEC-Sim v1.1</a></li>
-<li class="toctree-l2"><a class="reference internal" href="#wec-sim-v1-0">WEC-Sim v1.0</a></li>
-<li class="toctree-l2"><a class="reference internal" href="#backward-compatibility">Backward Compatibility</a></li>
-<li class="toctree-l2"><a class="reference internal" href="#features-under-development">Features Under Development</a></li>
+<li class="toctree-l1"><a class="reference internal" href="release_notes.html">Release Notes</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="release_notes.html#id1">WEC-Sim v1.2</a></li>
+<li class="toctree-l2"><a class="reference internal" href="release_notes.html#id2">WEC-Sim v1.1</a></li>
+<li class="toctree-l2"><a class="reference internal" href="release_notes.html#wec-sim-v1-0">WEC-Sim v1.0</a></li>
+<li class="toctree-l2"><a class="reference internal" href="release_notes.html#backward-compatibility">Backward Compatibility</a></li>
+<li class="toctree-l2"><a class="reference internal" href="release_notes.html#features-under-development">Features Under Development</a></li>
 </ul>
 </li>
 <li class="toctree-l1"><a class="reference internal" href="theory.html">Theory</a><ul>
@@ -252,13 +251,13 @@
 </ul>
 </li>
 <li class="toctree-l1"><a class="reference internal" href="license.html">License</a></li>
-<li class="toctree-l1"><a class="reference internal" href="appendix.html">Appendix</a><ul>
-<li class="toctree-l2"><a class="reference internal" href="appendix.html#visualizatoin-using-paraview">Visualizatoin Using Paraview</a><ul>
-<li class="toctree-l3"><a class="reference internal" href="appendix.html#getting-started-installation">Getting Started - Installation</a></li>
-<li class="toctree-l3"><a class="reference internal" href="appendix.html#setting-up-paraview-output">Setting Up Paraview Output</a></li>
-<li class="toctree-l3"><a class="reference internal" href="appendix.html#outputs-and-opening-in-paraview">Outputs and Opening in Paraview</a></li>
-<li class="toctree-l3"><a class="reference internal" href="appendix.html#basic-visualization-manipulation">Basic Visualization Manipulation</a></li>
-<li class="toctree-l3"><a class="reference internal" href="appendix.html#visualizing-non-linear-hydro-forces">Visualizing Non-Linear Hydro Forces</a></li>
+<li class="toctree-l1 current"><a class="current reference internal" href="">Appendix</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="#visualizatoin-using-paraview">Visualizatoin Using Paraview</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#getting-started-installation">Getting Started - Installation</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#setting-up-paraview-output">Setting Up Paraview Output</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#outputs-and-opening-in-paraview">Outputs and Opening in Paraview</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#basic-visualization-manipulation">Basic Visualization Manipulation</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#visualizing-non-linear-hydro-forces">Visualizing Non-Linear Hydro Forces</a></li>
 </ul>
 </li>
 </ul>
@@ -287,11 +286,11 @@
   <ul class="wy-breadcrumbs">
     <li><a href="index.html">Docs</a> &raquo;</li>
       
-    <li>Release Notes</li>
+    <li>Appendix</li>
       <li class="wy-breadcrumbs-aside">
         
           
-            <a href="_sources/release_notes.txt" rel="nofollow"> View page source</a>
+            <a href="_sources/appendix.txt" rel="nofollow"> View page source</a>
           
         
       </li>
@@ -300,54 +299,130 @@
 </div>
           <div role="main" class="document">
             
-  <div class="section" id="release-notes">
-<h1>Release Notes<a class="headerlink" href="#release-notes" title="Permalink to this headline">¶</a></h1>
-<div class="section" id="id1">
-<h2><a class="reference external" href="https://github.com/WEC-Sim/WEC-Sim/releases">WEC-Sim v1.2</a><a class="headerlink" href="#id1" title="Permalink to this headline">¶</a></h2>
+  <div class="section" id="appendix">
+<h1>Appendix<a class="headerlink" href="#appendix" title="Permalink to this headline">¶</a></h1>
+<div class="section" id="visualizatoin-using-paraview">
+<h2>Visualizatoin Using Paraview<a class="headerlink" href="#visualizatoin-using-paraview" title="Permalink to this headline">¶</a></h2>
+<p>This section describes how to setup, output, and use Paraview files for visualizing a WEC-Sim simulation. This improves on SimMechanics&#8217;s explorer by:</p>
 <ul class="simple">
-<li>Nonlinear Froude-Krylov hydrodynamics and hydrostatics</li>
-<li>State space radiation</li>
-<li>Wave directionality</li>
-<li>User-defined wave elevation time-series</li>
-<li>Imports non-dimensionalized BEMIO hydrodynamic data (instead of fully dimensional coefficients)</li>
-<li>&#8216;Variant Subsystems&#8217; implemented to improve code stability (instead of if statements)</li>
-<li>Bug fixes</li>
+<li>Visualization of the wave field</li>
+<li>Visualization of the cell-by-cell non-linear hydrodynamic forces (when using non-linear hydro)</li>
+<li>Allow data manipulation and more visualization options</li>
+</ul>
+<p>On the other hand the SimMechanics explorer shows the following information not shown in Paraview vizualition:</p>
+<ul class="simple">
+<li>Location of the center of gravity</li>
+<li>Location of the different frames including PTO and Constraint frames</li>
+</ul>
+<p>Visualization with paraview requires many files to be written, which makes the WEC-Sim simulation take significantly more time, and makes the directory significantly larger. It should only be turned on when vizualisation is desired. The user also needs to have some familiarity with using Paraview.</p>
+<div class="section" id="getting-started-installation">
+<h3>Getting Started - Installation<a class="headerlink" href="#getting-started-installation" title="Permalink to this headline">¶</a></h3>
+<p>You will need to install <a class="reference external" href="http://www.paraview.org/">Paraview</a> and install and setup Python.
+Next you will need to add some WEC-Sim specific macros,as follows:</p>
+<ul class="simple">
+<li>Open Paraview</li>
+<li>Click on <code class="docutils literal"><span class="pre">Macros</span> <span class="pre">=&gt;</span> <span class="pre">Add</span> <span class="pre">new</span> <span class="pre">macro</span></code></li>
+<li>Navigate to the WEC-Sim <code class="docutils literal"><span class="pre">source/functions/paraview_macros</span></code> directory</li>
+<li>Select the first file and click <code class="docutils literal"><span class="pre">OK</span></code></li>
+<li>Repeat this for all files in the <code class="docutils literal"><span class="pre">paraview_macros</span> <span class="pre">directory.</span></code></li>
 </ul>
 </div>
-<div class="section" id="id2">
-<h2><a class="reference external" href="https://github.com/WEC-Sim/WEC-Sim/releases">WEC-Sim v1.1</a><a class="headerlink" href="#id2" title="Permalink to this headline">¶</a></h2>
+<div class="section" id="setting-up-paraview-output">
+<h3>Setting Up Paraview Output<a class="headerlink" href="#setting-up-paraview-output" title="Permalink to this headline">¶</a></h3>
+<p>The following table shows the variables that can be specfied in the <code class="docutils literal"><span class="pre">wecSimInputFile</span></code> to control the Paraview visualization. The <code class="docutils literal"><span class="pre">body.viz</span></code> properties are also used in the SimMechanics explorer visualization.</p>
+<table border="1" class="docutils">
+<colgroup>
+<col width="30%" />
+<col width="70%" />
+</colgroup>
+<thead valign="bottom">
+<tr class="row-odd"><th class="head" colspan="2">WEC-Sim Visualization using Paraview</th>
+</tr>
+</thead>
+<tbody valign="top">
+<tr class="row-even"><td>Variable</td>
+<td>Description</td>
+</tr>
+<tr class="row-odd"><td><code class="docutils literal"><span class="pre">simu.paraview</span></code></td>
+<td>0 to not ouput Paraview files [default]
+1 to output Paraview files</td>
+</tr>
+<tr class="row-even"><td><code class="docutils literal"><span class="pre">simu.nlHydro</span></code></td>
+<td>0 for no non-linear hydro [default]
+1 for non-linear hydro with mean free surface
+2 for non-linear hydro with instantaneous fs</td>
+</tr>
+<tr class="row-odd"><td><code class="docutils literal"><span class="pre">simu.domainSize</span></code></td>
+<td>size of ground and water planes in meters [default 200]</td>
+</tr>
+<tr class="row-even"><td><code class="docutils literal"><span class="pre">simu.dtOut</span></code></td>
+<td>simulation output sampling time step [default dt]</td>
+</tr>
+<tr class="row-odd"><td><code class="docutils literal"><span class="pre">body(i).viz.color</span></code></td>
+<td>[RGB] body color [default [1 1 0]]</td>
+</tr>
+<tr class="row-even"><td><code class="docutils literal"><span class="pre">body(i).viz.opacity</span></code></td>
+<td>body opacity [default 1]</td>
+</tr>
+<tr class="row-odd"><td><code class="docutils literal"><span class="pre">waves.viz.numPointsX</span></code></td>
+<td>wave plane discretization: number of X points [default 50]</td>
+</tr>
+<tr class="row-even"><td><code class="docutils literal"><span class="pre">waves.viz.numPointsY</span></code></td>
+<td>wave plane discretization: number of Y points [default 50]</td>
+</tr>
+</tbody>
+</table>
+</div>
+<div class="section" id="outputs-and-opening-in-paraview">
+<h3>Outputs and Opening in Paraview<a class="headerlink" href="#outputs-and-opening-in-paraview" title="Permalink to this headline">¶</a></h3>
+<p>When <code class="docutils literal"><span class="pre">simu.paraview</span></code> is set to 1 a directory called <code class="docutils literal"><span class="pre">vtk</span></code> is created.
+All files necessary for Paraview vizualisation are located there.
+To view in Paraview:</p>
 <ul class="simple">
-<li><a class="reference external" href="https://github.com/WEC-Sim/WEC-Sim/releases">WEC-Sim v1.1 download</a> available on GitHub</li>
-<li>Improvements in code stability through modifications to the added mass, radiation damping calculations, and impulse response function calculations</li>
-<li>Implementation of state space representation of radiation damping convolution integral calculation</li>
-<li>New hydrodynamic data format based on <a class="reference external" href="http://wec-sim.github.io/bemio/#">BEMIO</a> output, a python code that reads data from WAMIT, NEMOH, and AQWA and writes to the <a class="reference external" href="http://www.hdfgroup.org/">Hierarchical Data Format 5</a> (HDF5) format used by WEC-Sim.</li>
-<li>Documentation available on WEC-Sim Website</li>
+<li>Open the <code class="docutils literal"><span class="pre">vtk/filename.pvd</span></code> file in Paraview</li>
+<li>Click <code class="docutils literal"><span class="pre">Apply</span></code></li>
+<li>With the model selected in the pipeline, run the <code class="docutils literal"><span class="pre">WEC-Sim</span></code> macro</li>
+<li>Move the camera to desired view</li>
+<li>Click the green arrow (play) button</li>
+</ul>
+<p>The WEC-Sim macro:</p>
+<ul class="simple">
+<li>Extracts each body, sets the color and opacity, and renames them</li>
+<li>Extracts the waves, sets color and opacity, and renames</li>
+<li>Creates the ground plane</li>
+<li>Sets the camera to <code class="docutils literal"><span class="pre">parallel</span> <span class="pre">view</span></code></li>
 </ul>
 </div>
-<div class="section" id="wec-sim-v1-0">
-<h2>WEC-Sim v1.0<a class="headerlink" href="#wec-sim-v1-0" title="Permalink to this headline">¶</a></h2>
+<div class="section" id="basic-visualization-manipulation">
+<h3>Basic Visualization Manipulation<a class="headerlink" href="#basic-visualization-manipulation" title="Permalink to this headline">¶</a></h3>
+<p>After opening the <code class="docutils literal"><span class="pre">.pvd</span></code> file and running the <code class="docutils literal"><span class="pre">WEC-Sim</span></code> macro you can do a number of things to visualize the simulation in different ways.
+You can color waves and bodies by any of the available properties and apply any of the Paraview filters.</p>
+<p>The video below shows three different views of the OSWEC model described in the tutorials.
+On the bottom right view the wave elevation is used to color the free surface. The top right view uses the <code class="docutils literal"><span class="pre">slice</span></code> filter.</p>
+<iframe width="420" height="315" src="https://www.youtube.com/embed/KcsLi38Xjv0" frameborder="0" allowfullscreen></iframe></div>
+<div class="section" id="visualizing-non-linear-hydro-forces">
+<h3>Visualizing Non-Linear Hydro Forces<a class="headerlink" href="#visualizing-non-linear-hydro-forces" title="Permalink to this headline">¶</a></h3>
+<p>When using non-linear hydro the paraview files also contain cell data for the bodies.
+The cell data are:</p>
 <ul class="simple">
-<li>Initial release of the WEC-Sim code</li>
-<li>Available as a static download on OpenEI (NOTE: now redirects to WEC-Sim website)</li>
-<li>Documentation available in PDF</li>
+<li>Cell areas</li>
+<li>Hydrostatic pressures</li>
+<li>Linear Froude-Krylov pressures</li>
+<li>Non-linear Froude-Krylov pressures</li>
 </ul>
-</div>
-<div class="section" id="backward-compatibility">
-<h2>Backward Compatibility<a class="headerlink" href="#backward-compatibility" title="Permalink to this headline">¶</a></h2>
+<p>The <code class="docutils literal"><span class="pre">pressureGlyphs</span></code> macro calculates cell normals, and cell centers. It then creates the following glyphs:</p>
 <ul class="simple">
-<li>Simulink models created in previous versions of WEC-Sim will work provided users have not broken the library link in the .slx model file.</li>
-<li>The input files need to be modified to be compatible with WEC-Sim due to changes in hydrodynamic data input format, variable name changes, and code structure improvements.</li>
+<li>Hydrostatic Pressure</li>
+<li>Linear Froude-Krylov pressure</li>
+<li>Non-linear Froude-Krylov pressure</li>
+<li>Total pressure (hydostatic plus non-linear Foude-Krylov)</li>
+<li>Froude-Krylov delta (non-linear minus linear)</li>
 </ul>
-</div>
-<div class="section" id="features-under-development">
-<h2>Features Under Development<a class="headerlink" href="#features-under-development" title="Permalink to this headline">¶</a></h2>
-<ul class="simple">
-<li>Morison Elements</li>
-<li>Body2Body Interactions</li>
-</ul>
-<div class="admonition note">
-<p class="first admonition-title">Note</p>
-<p class="last">Features under development are available on the <a class="reference external" href="https://github.com/WEC-Sim/WEC-Sim/tree/dev">WEC-Sim &#8216;dev&#8217; branch</a></p>
+<p>The video below shows three different views of the RM3 model described in the turoeials.
+The top right shows glyphs of the non-linear Froude-Krylov pressure acting on the float.
+The bottom right shows the float colored by hydrostatic pressure.</p>
+<blockquote>
+<div><iframe width="420" height="315" src="https://www.youtube.com/embed/VIPXsS8h9pg" frameborder="0" allowfullscreen></iframe></div></blockquote>
 </div>
 </div>
 </div>
@@ -358,10 +433,8 @@
   
     <div class="rst-footer-buttons" role="navigation" aria-label="footer navigation">
       
-        <a href="theory.html" class="btn btn-neutral float-right" title="Theory" accesskey="n">Next <span class="fa fa-arrow-circle-right"></span></a>
       
-      
-        <a href="index.html" class="btn btn-neutral" title="Project Overview" accesskey="p"><span class="fa fa-arrow-circle-left"></span> Previous</a>
+        <a href="license.html" class="btn btn-neutral" title="License" accesskey="p"><span class="fa fa-arrow-circle-left"></span> Previous</a>
       
     </div>
   
