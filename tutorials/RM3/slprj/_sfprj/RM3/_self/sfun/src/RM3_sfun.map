@@ -1,0 +1,687 @@
+ RM3_sfun
+
+ Timestamp is 55d7a1ef (Fri Aug 21 16:10:55 2015)
+
+ Preferred load address is 0000000180000000
+
+ Start         Length     Name                   Class
+ 0001:00000000 0001bcd4H .text                   CODE
+ 0001:0001bce0 00000092H .text$x                 CODE
+ 0002:00000000 000004b0H .idata$5                DATA
+ 0002:000004b0 00000008H .CRT$XCA                DATA
+ 0002:000004b8 00000008H .CRT$XCZ                DATA
+ 0002:000004c0 00000008H .CRT$XIA                DATA
+ 0002:000004c8 00000008H .CRT$XIAA               DATA
+ 0002:000004d0 00000008H .CRT$XIZ                DATA
+ 0002:000004e0 000006f4H .rdata                  DATA
+ 0002:00000bd8 00000008H .rtc$IAA                DATA
+ 0002:00000be0 00000008H .rtc$IZZ                DATA
+ 0002:00000be8 00000008H .rtc$TAA                DATA
+ 0002:00000bf0 00000008H .rtc$TZZ                DATA
+ 0002:00000bf8 000009d4H .xdata                  DATA
+ 0002:000015cc 0000008cH .idata$2                DATA
+ 0002:00001658 00000014H .idata$3                DATA
+ 0002:00001670 000004b0H .idata$4                DATA
+ 0002:00001b20 00000d14H .idata$6                DATA
+ 0002:00002840 0000004eH .edata                  DATA
+ 0003:00000000 00007348H .data                   DATA
+ 0003:00007350 000006e0H .bss                    DATA
+ 0004:00000000 00000b4cH .pdata                  DATA
+
+  Address         Publics by Value              Rva+Base               Lib:Object
+
+ 0000:00000000       ___safe_se_handler_table   0000000000000000     <absolute>
+ 0000:00000000       ___safe_se_handler_count   0000000000000000     <absolute>
+ 0000:00000000       __ImageBase                0000000180000000     <linker-defined>
+ 0001:00000000       RM3_initializer            0000000180001000 f   RM3_sfun.obj
+ 0001:00000010       RM3_terminator             0000000180001010 f   RM3_sfun.obj
+ 0001:00000020       sf_RM3_method_dispatcher   0000000180001020 f   RM3_sfun.obj
+ 0001:00000040       sf_RM3_uses_exported_functions 0000000180001040 f   RM3_sfun.obj
+ 0001:00000080       sf_RM3_process_check_sum_call 0000000180001080 f   RM3_sfun.obj
+ 0001:00000480       sf_RM3_autoinheritance_info 0000000180001480 f   RM3_sfun.obj
+ 0001:000005a0       sf_RM3_get_eml_resolved_functions_info 00000001800015a0 f   RM3_sfun.obj
+ 0001:00000680       sf_RM3_third_party_uses_info 0000000180001680 f   RM3_sfun.obj
+ 0001:000007a0       sf_RM3_jit_fallback_info   00000001800017a0 f   RM3_sfun.obj
+ 0001:000008c0       sf_RM3_updateBuildInfo_args_info 00000001800018c0 f   RM3_sfun.obj
+ 0001:000009e0       sf_RM3_get_post_codegen_info 00000001800019e0 f   RM3_sfun.obj
+ 0001:00000a80       RM3_debug_initialize       0000000180001a80 f   RM3_sfun.obj
+ 0001:00000b00       RM3_register_exported_symbols 0000000180001b00 f   RM3_sfun.obj
+ 0001:00000b10       load_RM3_optimization_info 0000000180001b10 f   RM3_sfun.obj
+ 0001:00000b60       unload_RM3_optimization_info 0000000180001b60 f   RM3_sfun.obj
+ 0001:00000b90       sf_process_check_sum_call  0000000180001b90 f   RM3_sfun_registry.obj
+ 0001:00000c00       sf_process_machine_uses_exported_functions_call 0000000180001c00 f   RM3_sfun_registry.obj
+ 0001:00000da0       sf_process_autoinheritance_call 0000000180001da0 f   RM3_sfun_registry.obj
+ 0001:00000fe0       sf_process_get_third_party_uses_info_call 0000000180001fe0 f   RM3_sfun_registry.obj
+ 0001:00001220       sf_process_get_jit_fallback_info_call 0000000180002220 f   RM3_sfun_registry.obj
+ 0001:00001460       sf_process_get_updateBuildInfo_args_info_call 0000000180002460 f   RM3_sfun_registry.obj
+ 0001:000016a0       sf_process_get_eml_resolved_functions_info_call 00000001800026a0 f   RM3_sfun_registry.obj
+ 0001:00001890       sf_process_get_post_codegen_info 0000000180002890 f   RM3_sfun_registry.obj
+ 0001:00001a30       sf_mex_unlock_call         0000000180002a30 f   RM3_sfun_registry.obj
+ 0001:00001ae0       sf_machine_global_initializer_called 0000000180002ae0 f   RM3_sfun_registry.obj
+ 0001:00001b10       sf_machine_global_method_dispatcher 0000000180002b10 f   RM3_sfun_registry.obj
+ 0001:00001bb0       sf_machine_global_terminator 0000000180002bb0 f   RM3_sfun_registry.obj
+ 0001:00001c00       sf_register_machine_exported_symbols 0000000180002c00 f   RM3_sfun_registry.obj
+ 0001:00001c30       callCustomFcn              0000000180002c30 f   RM3_sfun_registry.obj
+ 0001:00001c40       sf_machine_global_initializer 0000000180002c40 f   RM3_sfun_registry.obj
+ 0001:00001cd0       mdlGetSimState             0000000180002cd0 f   RM3_sfun_registry.obj
+ 0001:00001d50       mdlSetSimState             0000000180002d50 f   RM3_sfun_registry.obj
+ 0001:00001d90       _ssSetStateAbsTol          0000000180002d90 f   RM3_sfun_registry.obj
+ 0001:00001e70       _ssGetAbsTol               0000000180002e70 f   RM3_sfun_registry.obj
+ 0001:00001ee0       _ssSetInputPortMatrixDimensions 0000000180002ee0 f   RM3_sfun_registry.obj
+ 0001:00001ff0       _ssSetOutputPortMatrixDimensions 0000000180002ff0 f   RM3_sfun_registry.obj
+ 0001:00002100       _ssSetInputPortVectorDimension 0000000180003100 f   RM3_sfun_registry.obj
+ 0001:000021d0       _ssSetOutputPortVectorDimension 00000001800031d0 f   RM3_sfun_registry.obj
+ 0001:000022a0       ssIsRunTimeParamTunable    00000001800032a0 f   RM3_sfun_registry.obj
+ 0001:00002310       ssGetSFuncBlockHandle      0000000180003310 f   RM3_sfun_registry.obj
+ 0001:00002380       _ssGetCurrentInputPortWidth 0000000180003380 f   RM3_sfun_registry.obj
+ 0001:000024a0       _ssGetCurrentOutputPortWidth 00000001800034a0 f   RM3_sfun_registry.obj
+ 0001:000025c0       _ssGetCallSystemNumFcnCallDestinations 00000001800035c0 f   RM3_sfun_registry.obj
+ 0001:00002630       ssWarning                  0000000180003630 f   RM3_sfun_registry.obj
+ 0001:00002740       ssGetIsZeroCrossControlDisabled 0000000180003740 f   RM3_sfun_registry.obj
+ 0001:000027b0       ssSetIsInputPortUsedForContZcSignal 00000001800037b0 f   RM3_sfun_registry.obj
+ 0001:00002820       ssSetZcSignalIsZcElementDisc 0000000180003820 f   RM3_sfun_registry.obj
+ 0001:000028d0       ssSetZcSignalName          00000001800038d0 f   RM3_sfun_registry.obj
+ 0001:00002940       ssSetZcSignalWidth         0000000180003940 f   RM3_sfun_registry.obj
+ 0001:000029b0       ssSetZcSignalZcEventType   00000001800039b0 f   RM3_sfun_registry.obj
+ 0001:00002a20       ssSetZcSignalType          0000000180003a20 f   RM3_sfun_registry.obj
+ 0001:00002a90       ssSetZcSignalZcTol         0000000180003a90 f   RM3_sfun_registry.obj
+ 0001:00002b00       ssSetZcSignalNeedsEventNotification 0000000180003b00 f   RM3_sfun_registry.obj
+ 0001:00002b70       ssCreateAndAddZcSignalInfo 0000000180003b70 f   RM3_sfun_registry.obj
+ 0001:00002be0       ssCloneAndAddZcSignalInfo  0000000180003be0 f   RM3_sfun_registry.obj
+ 0001:00002c50       ssGetNumZcSignals          0000000180003c50 f   RM3_sfun_registry.obj
+ 0001:00002cc0       ssGetZcSignalVector        0000000180003cc0 f   RM3_sfun_registry.obj
+ 0001:00002d30       ssGetZcSignalZcEvents      0000000180003d30 f   RM3_sfun_registry.obj
+ 0001:00002da0       ssGetZcSignalName          0000000180003da0 f   RM3_sfun_registry.obj
+ 0001:00002e10       ssGetZcSignalWidth         0000000180003e10 f   RM3_sfun_registry.obj
+ 0001:00002e80       ssGetZcSignalZcEventType   0000000180003e80 f   RM3_sfun_registry.obj
+ 0001:00002ef0       ssGetZcSignalType          0000000180003ef0 f   RM3_sfun_registry.obj
+ 0001:00002f60       ssGetZcSignalZcTol         0000000180003f60 f   RM3_sfun_registry.obj
+ 0001:00002fe0       ssGetZcSignalNeedsEventNotification 0000000180003fe0 f   RM3_sfun_registry.obj
+ 0001:00003050       ssGetZcSignalIsZcElementDisc 0000000180004050 f   RM3_sfun_registry.obj
+ 0001:000030f0       ssGetIsInputPortElementContinuous 00000001800040f0 f   RM3_sfun_registry.obj
+ 0001:00003190       _ssGetInputPortSignalPtrsFcn 0000000180004190 f   RM3_sfun_registry.obj
+ 0001:00003450       _ssGetInputPortSignalFcn   0000000180004450 f   RM3_sfun_registry.obj
+ 0001:00003670       _ssSetInputPortDirectFeedThroughFcn 0000000180004670 f   RM3_sfun_registry.obj
+ 0001:000037d0       _ssSetInputPortReusableFcn 00000001800047d0 f   RM3_sfun_registry.obj
+ 0001:000038c0       _ssSetOutputPortReusableFcn 00000001800048c0 f   RM3_sfun_registry.obj
+ 0001:000039a0       ssGetDTypeIdFromMxArray    00000001800049a0 f   RM3_sfun_registry.obj
+ 0001:00003ac0       ssWriteRTWStr              0000000180004ac0 f   RM3_sfun_registry.obj
+ 0001:00003b20       ssWriteRTWMxVectParam      0000000180004b20 f   RM3_sfun_registry.obj
+ 0001:00003b80       ssWriteRTWMx2dMatParam     0000000180004b80 f   RM3_sfun_registry.obj
+ 0001:00003c00       ssWriteRTWNameValuePair    0000000180004c00 f   RM3_sfun_registry.obj
+ 0001:000040f0       ssWriteRTWParameters       00000001800050f0 f   RM3_sfun_registry.obj
+ 0001:000046f0       ssWriteRTWParamSettings    00000001800056f0 f   RM3_sfun_registry.obj
+ 0001:00004dc0       ssWriteRTWWorkVect         0000000180005dc0 f   RM3_sfun_registry.obj
+ 0001:000052c0       mexFunction                00000001800062c0 f   RM3_sfun_registry.obj
+ 0001:000077e0       ProcessMexSfunctionEveryCall 00000001800087e0 f   RM3_sfun_registry.obj
+ 0001:00007962       sf_debug_set_machine_data_thresholds 0000000180008962 f   sf_runtime:sf_runtime.dll
+ 0001:00007968       sf_debug_set_machine_event_thresholds 0000000180008968 f   sf_runtime:sf_runtime.dll
+ 0001:0000796e       sf_debug_initialize_machine 000000018000896e f   sf_runtime:sf_runtime.dll
+ 0001:00007974       sf_load_rtw_optimization_info 0000000180008974 f   sf_runtime:sf_runtime.dll
+ 0001:0000797a       sf_debug_terminate         000000018000897a f   sf_runtime:sf_runtime.dll
+ 0001:00007980       sf_debug_create_debug_instance_struct 0000000180008980 f   sf_runtime:sf_runtime.dll
+ 0001:00007986       sim_mode_is_rtw_gen        0000000180008986 f   sf_runtime:sf_runtime.dll
+ 0001:0000798c       sf_debug_api               000000018000898c f   sf_runtime:sf_runtime.dll
+ 0001:00007992       callMdlMethodAndReportError 0000000180008992 f   sf_runtime:sf_runtime.dll
+ 0001:00007998       call_sf_machine_global_method_dispatcher 0000000180008998 f   sf_runtime:sf_runtime.dll
+ 0001:0000799e       sf_clear_error_manager_info 000000018000899e f   sf_runtime:sf_runtime.dll
+ 0001:000079a4       sf_mex_error_direct_call   00000001800089a4 f   sf_runtime:sf_runtime.dll
+ 0001:000079aa       mxCreateLogicalScalar      00000001800089aa f   libmx:libmx.dll
+ 0001:000079b0       mxGetScalar                00000001800089b0 f   libmx:libmx.dll
+ 0001:000079b6       mxGetPr                    00000001800089b6 f   libmx:libmx.dll
+ 0001:000079bc       mxCreateDoubleMatrix_730   00000001800089bc f   libmx:libmx.dll
+ 0001:000079c2       mxGetString_730            00000001800089c2 f   libmx:libmx.dll
+ 0001:000079c8       mxIsChar                   00000001800089c8 f   libmx:libmx.dll
+ 0001:000079ce       mxDestroyArray             00000001800089ce f   libmx:libmx.dll
+ 0001:000079d4       mxCreateString             00000001800089d4 f   libmx:libmx.dll
+ 0001:000079da       mxGetClassID               00000001800089da f   libmx:libmx.dll
+ 0001:000079e0       mxIsNumeric                00000001800089e0 f   libmx:libmx.dll
+ 0001:000079e6       mxIsComplex                00000001800089e6 f   libmx:libmx.dll
+ 0001:000079ec       mxGetN                     00000001800089ec f   libmx:libmx.dll
+ 0001:000079f2       mxGetM                     00000001800089f2 f   libmx:libmx.dll
+ 0001:000079f8       mxCalloc                   00000001800089f8 f   libmx:libmx.dll
+ 0001:000079fe       mexMakeArrayPersistent     00000001800089fe f   libmex:libmex.dll
+ 0001:00007a04       mexUnlock                  0000000180008a04 f   libmex:libmex.dll
+ 0001:00007a0a       mexIsLocked                0000000180008a0a f   libmex:libmex.dll
+ 0001:00007a10       mexWarnMsgTxt              0000000180008a10 f   libmex:libmex.dll
+ 0001:00007a16       mexCallMATLABWithObject    0000000180008a16 f   libmex:libmex.dll
+ 0001:00007a1c       mexErrMsgTxt               0000000180008a1c f   libmex:libmex.dll
+ 0001:00007a22       mexLock                    0000000180008a22 f   libmex:libmex.dll
+ 0001:00007a30       WECSim_Lib_initializer     0000000180008a30 f   WECSim_Lib_sfun:WECSim_Lib_sfun.obj
+ 0001:00007a40       WECSim_Lib_terminator      0000000180008a40 f   WECSim_Lib_sfun:WECSim_Lib_sfun.obj
+ 0001:00007a50       sf_WECSim_Lib_method_dispatcher 0000000180008a50 f   WECSim_Lib_sfun:WECSim_Lib_sfun.obj
+ 0001:00007ac0       sf_WECSim_Lib_uses_exported_functions 0000000180008ac0 f   WECSim_Lib_sfun:WECSim_Lib_sfun.obj
+ 0001:00007b00       sf_WECSim_Lib_process_check_sum_call 0000000180008b00 f   WECSim_Lib_sfun:WECSim_Lib_sfun.obj
+ 0001:00007de0       sf_WECSim_Lib_autoinheritance_info 0000000180008de0 f   WECSim_Lib_sfun:WECSim_Lib_sfun.obj
+ 0001:00007fa0       sf_WECSim_Lib_get_eml_resolved_functions_info 0000000180008fa0 f   WECSim_Lib_sfun:WECSim_Lib_sfun.obj
+ 0001:00008110       sf_WECSim_Lib_third_party_uses_info 0000000180009110 f   WECSim_Lib_sfun:WECSim_Lib_sfun.obj
+ 0001:00008290       sf_WECSim_Lib_jit_fallback_info 0000000180009290 f   WECSim_Lib_sfun:WECSim_Lib_sfun.obj
+ 0001:00008410       sf_WECSim_Lib_updateBuildInfo_args_info 0000000180009410 f   WECSim_Lib_sfun:WECSim_Lib_sfun.obj
+ 0001:00008590       sf_WECSim_Lib_get_post_codegen_info 0000000180009590 f   WECSim_Lib_sfun:WECSim_Lib_sfun.obj
+ 0001:00008690       WECSim_Lib_debug_initialize 0000000180009690 f   WECSim_Lib_sfun:WECSim_Lib_sfun.obj
+ 0001:00008720       WECSim_Lib_register_exported_symbols 0000000180009720 f   WECSim_Lib_sfun:WECSim_Lib_sfun.obj
+ 0001:00008730       load_WECSim_Lib_optimization_info 0000000180009730 f   WECSim_Lib_sfun:WECSim_Lib_sfun.obj
+ 0001:00008780       unload_WECSim_Lib_optimization_info 0000000180009780 f   WECSim_Lib_sfun:WECSim_Lib_sfun.obj
+ 0001:000087b0       sf_c8_WECSim_Lib_get_eml_resolved_functions_info 00000001800097b0 f   WECSim_Lib_sfun:c8_WECSim_Lib.obj
+ 0001:0000b9c0       sf_c8_WECSim_Lib_get_check_sum 000000018000c9c0 f   WECSim_Lib_sfun:c8_WECSim_Lib.obj
+ 0001:0000ba40       sf_c8_WECSim_Lib_get_autoinheritance_info 000000018000ca40 f   WECSim_Lib_sfun:c8_WECSim_Lib.obj
+ 0001:0000bea0       sf_c8_WECSim_Lib_third_party_uses_info 000000018000cea0 f   WECSim_Lib_sfun:c8_WECSim_Lib.obj
+ 0001:0000bed0       sf_c8_WECSim_Lib_jit_fallback_info 000000018000ced0 f   WECSim_Lib_sfun:c8_WECSim_Lib.obj
+ 0001:0000bfa0       sf_c8_WECSim_Lib_updateBuildInfo_args_info 000000018000cfa0 f   WECSim_Lib_sfun:c8_WECSim_Lib.obj
+ 0001:0000bfd0       sf_c8_WECSim_Lib_get_post_codegen_info 000000018000cfd0 f   WECSim_Lib_sfun:c8_WECSim_Lib.obj
+ 0001:0000c0a0       c8_WECSim_Lib_method_dispatcher 000000018000d0a0 f   WECSim_Lib_sfun:c8_WECSim_Lib.obj
+ 0001:0000eca0       sf_c2_WECSim_Lib_get_eml_resolved_functions_info 000000018000fca0 f   WECSim_Lib_sfun:c2_WECSim_Lib.obj
+ 0001:000145f0       sf_c2_WECSim_Lib_get_check_sum 00000001800155f0 f   WECSim_Lib_sfun:c2_WECSim_Lib.obj
+ 0001:00014670       sf_c2_WECSim_Lib_get_autoinheritance_info 0000000180015670 f   WECSim_Lib_sfun:c2_WECSim_Lib.obj
+ 0001:00014eb0       sf_c2_WECSim_Lib_third_party_uses_info 0000000180015eb0 f   WECSim_Lib_sfun:c2_WECSim_Lib.obj
+ 0001:00014ee0       sf_c2_WECSim_Lib_jit_fallback_info 0000000180015ee0 f   WECSim_Lib_sfun:c2_WECSim_Lib.obj
+ 0001:00014fb0       sf_c2_WECSim_Lib_updateBuildInfo_args_info 0000000180015fb0 f   WECSim_Lib_sfun:c2_WECSim_Lib.obj
+ 0001:00014fe0       sf_c2_WECSim_Lib_get_post_codegen_info 0000000180015fe0 f   WECSim_Lib_sfun:c2_WECSim_Lib.obj
+ 0001:000150b0       c2_WECSim_Lib_method_dispatcher 00000001800160b0 f   WECSim_Lib_sfun:c2_WECSim_Lib.obj
+ 0001:0001b0ac       __GSHandlerCheckCommon     000000018001c0ac f   MSVCRT:gshandler.obj
+ 0001:0001b110       __GSHandlerCheck           000000018001c110 f   MSVCRT:gshandler.obj
+ 0001:0001b12e       strcmp                     000000018001c12e f   MSVCRT:MSVCR100.dll
+ 0001:0001b150       __security_check_cookie    000000018001c150 f   MSVCRT:amdsecgs.obj
+ 0001:0001b170       free                       000000018001c170 f   MSVCRT:MSVCR100.dll
+ 0001:0001b176       sprintf                    000000018001c176 f   MSVCRT:MSVCR100.dll
+ 0001:0001b17c       malloc                     000000018001c17c f   MSVCRT:MSVCR100.dll
+ 0001:0001b182       strlen                     000000018001c182 f   MSVCRT:MSVCR100.dll
+ 0001:0001b188       strcat                     000000018001c188 f   MSVCRT:MSVCR100.dll
+ 0001:0001b18e       memcpy                     000000018001c18e f   MSVCRT:MSVCR100.dll
+ 0001:0001b194       NtCurrentTeb               000000018001c194 f i MSVCRT:crtdll.obj
+ 0001:0001b200       _CRT_INIT                  000000018001c200 f   MSVCRT:crtdll.obj
+ 0001:0001b598       _DllMainCRTStartup         000000018001c598 f   MSVCRT:crtdll.obj
+ 0001:0001b5d6       memset                     000000018001c5d6 f   MSVCRT:MSVCR100.dll
+ 0001:0001b5f0       __chkstk                   000000018001c5f0 f   MSVCRT:chkstk.obj
+ 0001:0001b5f0       _alloca_probe              000000018001c5f0     MSVCRT:chkstk.obj
+ 0001:0001b640       __report_gsfailure         000000018001c640 f   MSVCRT:gs_report.obj
+ 0001:0001b78c       __clean_type_info_names    000000018001c78c f   MSVCRT:tncleanup.obj
+ 0001:0001b798       _onexit                    000000018001c798 f   MSVCRT:atonexit.obj
+ 0001:0001b848       atexit                     000000018001c848 f   MSVCRT:atonexit.obj
+ 0001:0001b860       _RTC_Initialize            000000018001c860 f   MSVCRT:_initsect_.obj
+ 0001:0001b898       _RTC_Terminate             000000018001c898 f   MSVCRT:_initsect_.obj
+ 0001:0001b8d0       _malloc_crt                000000018001c8d0 f   MSVCRT:MSVCR100.dll
+ 0001:0001b8e0       _ValidateImageBase         000000018001c8e0 f   MSVCRT:pesect.obj
+ 0001:0001b910       _FindPESection             000000018001c910 f   MSVCRT:pesect.obj
+ 0001:0001b960       _IsNonwritableInCurrentImage 000000018001c960 f   MSVCRT:pesect.obj
+ 0001:0001b9a2       _initterm                  000000018001c9a2 f   MSVCRT:MSVCR100.dll
+ 0001:0001b9a8       _initterm_e                000000018001c9a8 f   MSVCRT:MSVCR100.dll
+ 0001:0001b9ae       _encoded_null              000000018001c9ae f   MSVCRT:MSVCR100.dll
+ 0001:0001b9b4       _amsg_exit                 000000018001c9b4 f   MSVCRT:MSVCR100.dll
+ 0001:0001b9ba       __C_specific_handler       000000018001c9ba f   MSVCRT:MSVCR100.dll
+ 0001:0001b9c0       __CppXcptFilter            000000018001c9c0 f   MSVCRT:MSVCR100.dll
+ 0001:0001b9c8       DllMain                    000000018001c9c8 f   MSVCRT:dllmain.obj
+ 0001:0001b9ec       __security_init_cookie     000000018001c9ec f   MSVCRT:gs_support.obj
+ 0001:0001baa0       __crt_debugger_hook        000000018001caa0 f   MSVCRT:MSVCR100.dll
+ 0001:0001baa6       __clean_type_info_names_internal 000000018001caa6 f   MSVCRT:MSVCR100.dll
+ 0001:0001baac       _unlock                    000000018001caac f   MSVCRT:MSVCR100.dll
+ 0001:0001bab2       __dllonexit                000000018001cab2 f   MSVCRT:MSVCR100.dll
+ 0001:0001bab8       _lock                      000000018001cab8 f   MSVCRT:MSVCR100.dll
+ 0001:0001babe       EncodePointer              000000018001cabe f   kernel32:KERNEL32.dll
+ 0001:0001bac4       DecodePointer              000000018001cac4 f   kernel32:KERNEL32.dll
+ 0001:0001baca       Sleep                      000000018001caca f   kernel32:KERNEL32.dll
+ 0001:0001bad0       TerminateProcess           000000018001cad0 f   kernel32:KERNEL32.dll
+ 0001:0001bad6       GetCurrentProcess          000000018001cad6 f   kernel32:KERNEL32.dll
+ 0001:0001badc       UnhandledExceptionFilter   000000018001cadc f   kernel32:KERNEL32.dll
+ 0001:0001bae2       SetUnhandledExceptionFilter 000000018001cae2 f   kernel32:KERNEL32.dll
+ 0001:0001bae8       IsDebuggerPresent          000000018001cae8 f   kernel32:KERNEL32.dll
+ 0001:0001baee       RtlVirtualUnwind           000000018001caee f   kernel32:KERNEL32.dll
+ 0001:0001baf4       RtlLookupFunctionEntry     000000018001caf4 f   kernel32:KERNEL32.dll
+ 0001:0001bafa       RtlCaptureContext          000000018001cafa f   kernel32:KERNEL32.dll
+ 0001:0001bb00       DisableThreadLibraryCalls  000000018001cb00 f   kernel32:KERNEL32.dll
+ 0001:0001bb06       QueryPerformanceCounter    000000018001cb06 f   kernel32:KERNEL32.dll
+ 0001:0001bb0c       GetTickCount               000000018001cb0c f   kernel32:KERNEL32.dll
+ 0001:0001bb12       GetCurrentThreadId         000000018001cb12 f   kernel32:KERNEL32.dll
+ 0001:0001bb18       GetCurrentProcessId        000000018001cb18 f   kernel32:KERNEL32.dll
+ 0001:0001bb1e       GetSystemTimeAsFileTime    000000018001cb1e f   kernel32:KERNEL32.dll
+ 0001:0001bb24       sf_mex_emlrtNameCapturePostProcessR2012a 000000018001cb24 f   sf_runtime:sf_runtime.dll
+ 0001:0001bb2a       sf_mex_assign              000000018001cb2a f   sf_runtime:sf_runtime.dll
+ 0001:0001bb30       sf_mex_createstruct        000000018001cb30 f   sf_runtime:sf_runtime.dll
+ 0001:0001bb36       sf_mex_destroy             000000018001cb36 f   sf_runtime:sf_runtime.dll
+ 0001:0001bb3c       sf_mex_duplicatearraysafe  000000018001cb3c f   sf_runtime:sf_runtime.dll
+ 0001:0001bb42       sf_mex_createcellmatrix    000000018001cb42 f   sf_runtime:sf_runtime.dll
+ 0001:0001bb48       sf_mex_addfield            000000018001cb48 f   sf_runtime:sf_runtime.dll
+ 0001:0001bb4e       sf_mex_create              000000018001cb4e f   sf_runtime:sf_runtime.dll
+ 0001:0001bb54       sf_mex_error_message       000000018001cb54 f   sf_runtime:sf_runtime.dll
+ 0001:0001bb5a       sf_set_rtw_dwork_info      000000018001cb5a f   sf_runtime:sf_runtime.dll
+ 0001:0001bb60       sf_mark_chart_reusable_outputs 000000018001cb60 f   sf_runtime:sf_runtime.dll
+ 0001:0001bb66       sf_mark_chart_expressionable_inputs 000000018001cb66 f   sf_runtime:sf_runtime.dll
+ 0001:0001bb6c       sf_update_buildInfo        000000018001cb6c f   sf_runtime:sf_runtime.dll
+ 0001:0001bb72       sf_rtw_info_uint_prop      000000018001cb72 f   sf_runtime:sf_runtime.dll
+ 0001:0001bb78       sf_is_chart_inlinable      000000018001cb78 f   sf_runtime:sf_runtime.dll
+ 0001:0001bb7e       sim_mode_is_external       000000018001cb7e f   sf_runtime:sf_runtime.dll
+ 0001:0001bb84       ssGetOutputPortSignal_wrapper 000000018001cb84 f   sf_runtime:sf_runtime.dll
+ 0001:0001bb8a       ssGetInputPortSignal_wrapper 000000018001cb8a f   sf_runtime:sf_runtime.dll
+ 0001:0001bb90       sf_mex_decode_encoded_mx_struct_array 000000018001cb90 f   sf_runtime:sf_runtime.dll
+ 0001:0001bb96       sf_debug_reset_current_state_configuration 000000018001cb96 f   sf_runtime:sf_runtime.dll
+ 0001:0001bb9c       sf_debug_set_instance_data_value_ptr 000000018001cb9c f   sf_runtime:sf_runtime.dll
+ 0001:0001bba2       sf_debug_set_chart_data_compiled_props 000000018001cba2 f   sf_runtime:sf_runtime.dll
+ 0001:0001bba8       cv_eml_init_fcn            000000018001cba8 f   sf_runtime:sf_runtime.dll
+ 0001:0001bbae       cv_eml_init_script         000000018001cbae f   sf_runtime:sf_runtime.dll
+ 0001:0001bbb4       sf_debug_cv_init_trans     000000018001cbb4 f   sf_runtime:sf_runtime.dll
+ 0001:0001bbba       sf_debug_cv_init_state     000000018001cbba f   sf_runtime:sf_runtime.dll
+ 0001:0001bbc0       sf_debug_cv_init_chart     000000018001cbc0 f   sf_runtime:sf_runtime.dll
+ 0001:0001bbc6       sf_debug_set_chart_decomposition 000000018001cbc6 f   sf_runtime:sf_runtime.dll
+ 0001:0001bbcc       sf_debug_set_chart_substate_count 000000018001cbcc f   sf_runtime:sf_runtime.dll
+ 0001:0001bbd2       sf_debug_set_chart_state_info 000000018001cbd2 f   sf_runtime:sf_runtime.dll
+ 0001:0001bbd8       sf_debug_set_chart_data_props 000000018001cbd8 f   sf_runtime:sf_runtime.dll
+ 0001:0001bbde       sf_debug_set_chart_event_thresholds 000000018001cbde f   sf_runtime:sf_runtime.dll
+ 0001:0001bbe4       sf_debug_set_chart_disable_implicit_casting 000000018001cbe4 f   sf_runtime:sf_runtime.dll
+ 0001:0001bbea       sf_debug_initialize_chart  000000018001cbea f   sf_runtime:sf_runtime.dll
+ 0001:0001bbf0       sf_mex_dup                 000000018001cbf0 f   sf_runtime:sf_runtime.dll
+ 0001:0001bbf6       sf_mex_import              000000018001cbf6 f   sf_runtime:sf_runtime.dll
+ 0001:0001bbfc       sf_get_time                000000018001cbfc f   sf_runtime:sf_runtime.dll
+ 0001:0001bc02       sf_debug_check_for_state_inconsistency 000000018001cc02 f   sf_runtime:sf_runtime.dll
+ 0001:0001bc08       sf_debug_symbol_scope_pop  000000018001cc08 f   sf_runtime:sf_runtime.dll
+ 0001:0001bc0e       eml_debug_line_call        000000018001cc0e f   sf_runtime:sf_runtime.dll
+ 0001:0001bc14       cv_eml_eval                000000018001cc14 f   sf_runtime:sf_runtime.dll
+ 0001:0001bc1a       sf_debug_symbol_scope_add_eml 000000018001cc1a f   sf_runtime:sf_runtime.dll
+ 0001:0001bc20       sf_debug_symbol_scope_add_eml_importable 000000018001cc20 f   sf_runtime:sf_runtime.dll
+ 0001:0001bc26       sf_debug_symbol_scope_push_eml 000000018001cc26 f   sf_runtime:sf_runtime.dll
+ 0001:0001bc2c       sf_debug_data_range_wrapper 000000018001cc2c f   sf_runtime:sf_runtime.dll
+ 0001:0001bc32       sf_debug_call              000000018001cc32 f   sf_runtime:sf_runtime.dll
+ 0001:0001bc38       sf_debug_symbol_scope_push 000000018001cc38 f   sf_runtime:sf_runtime.dll
+ 0001:0001bc3e       sf_mex_call_debug          000000018001cc3e f   sf_runtime:sf_runtime.dll
+ 0001:0001bc44       sf_mex_setcell             000000018001cc44 f   sf_runtime:sf_runtime.dll
+ 0001:0001bc4a       sf_mex_getcell             000000018001cc4a f   sf_runtime:sf_runtime.dll
+ 0001:0001bc50       sf_clear_rtw_identifier    000000018001cc50 f   sf_runtime:sf_runtime.dll
+ 0001:0001bc56       cv_eml_init_relational     000000018001cc56 f   sf_runtime:sf_runtime.dll
+ 0001:0001bc5c       cv_eml_init_for            000000018001cc5c f   sf_runtime:sf_runtime.dll
+ 0001:0001bc62       cv_eml_init_if             000000018001cc62 f   sf_runtime:sf_runtime.dll
+ 0001:0001bc68       sf_mex_listen_for_ctrl_c   000000018001cc68 f   sf_runtime:sf_runtime.dll
+ 0001:0001bc6e       sf_debug_eml_data_array_bounds_error_check 000000018001cc6e f   sf_runtime:sf_runtime.dll
+ 0001:0001bc74       sf_debug_integer_check     000000018001cc74 f   sf_runtime:sf_runtime.dll
+ 0001:0001bc7a       cv_eval_relational         000000018001cc7a f   sf_runtime:sf_runtime.dll
+ 0001:0001bc80       mxDuplicateArray           000000018001cc80 f   libmx:libmx.dll
+ 0001:0001bc86       mxCreateDoubleScalar       000000018001cc86 f   libmx:libmx.dll
+ 0001:0001bc8c       mxSetField_730             000000018001cc8c f   libmx:libmx.dll
+ 0001:0001bc92       mxCreateStructMatrix_730   000000018001cc92 f   libmx:libmx.dll
+ 0001:0001bc98       mxCreateCellMatrix_730     000000018001cc98 f   libmx:libmx.dll
+ 0001:0001bc9e       mxCreateCellArray_730      000000018001cc9e f   libmx:libmx.dll
+ 0001:0001bca4       mxCreateStructArray_730    000000018001cca4 f   libmx:libmx.dll
+ 0001:0001bcaa       mxIsEmpty                  000000018001ccaa f   libmx:libmx.dll
+ 0001:0001bcb0       utMalloc                   000000018001ccb0 f   libut:libut.dll
+ 0001:0001bcb6       utFree                     000000018001ccb6 f   libut:libut.dll
+ 0001:0001bcbc       muDoubleScalarAsin         000000018001ccbc f   libmwmathutil:libmwmathutil.dll
+ 0001:0001bcc2       muDoubleScalarAtan2        000000018001ccc2 f   libmwmathutil:libmwmathutil.dll
+ 0001:0001bcc8       muDoubleScalarAbs          000000018001ccc8 f   libmwmathutil:libmwmathutil.dll
+ 0001:0001bcce       muDoubleScalarFloor        000000018001ccce f   libmwmathutil:libmwmathutil.dll
+ 0002:00000000       __imp_DecodePointer        000000018001d000     kernel32:KERNEL32.dll
+ 0002:00000008       __imp_Sleep                000000018001d008     kernel32:KERNEL32.dll
+ 0002:00000010       __imp_TerminateProcess     000000018001d010     kernel32:KERNEL32.dll
+ 0002:00000018       __imp_GetCurrentProcess    000000018001d018     kernel32:KERNEL32.dll
+ 0002:00000020       __imp_UnhandledExceptionFilter 000000018001d020     kernel32:KERNEL32.dll
+ 0002:00000028       __imp_GetSystemTimeAsFileTime 000000018001d028     kernel32:KERNEL32.dll
+ 0002:00000030       __imp_GetCurrentProcessId  000000018001d030     kernel32:KERNEL32.dll
+ 0002:00000038       __imp_GetCurrentThreadId   000000018001d038     kernel32:KERNEL32.dll
+ 0002:00000040       __imp_GetTickCount         000000018001d040     kernel32:KERNEL32.dll
+ 0002:00000048       __imp_QueryPerformanceCounter 000000018001d048     kernel32:KERNEL32.dll
+ 0002:00000050       __imp_DisableThreadLibraryCalls 000000018001d050     kernel32:KERNEL32.dll
+ 0002:00000058       __imp_RtlCaptureContext    000000018001d058     kernel32:KERNEL32.dll
+ 0002:00000060       __imp_RtlLookupFunctionEntry 000000018001d060     kernel32:KERNEL32.dll
+ 0002:00000068       __imp_RtlVirtualUnwind     000000018001d068     kernel32:KERNEL32.dll
+ 0002:00000070       __imp_IsDebuggerPresent    000000018001d070     kernel32:KERNEL32.dll
+ 0002:00000078       __imp_SetUnhandledExceptionFilter 000000018001d078     kernel32:KERNEL32.dll
+ 0002:00000080       __imp_EncodePointer        000000018001d080     kernel32:KERNEL32.dll
+ 0002:00000088       \177KERNEL32_NULL_THUNK_DATA 000000018001d088     kernel32:KERNEL32.dll
+ 0002:00000090       __imp___C_specific_handler 000000018001d090     MSVCRT:MSVCR100.dll
+ 0002:00000098       __imp___CppXcptFilter      000000018001d098     MSVCRT:MSVCR100.dll
+ 0002:000000a0       __imp__amsg_exit           000000018001d0a0     MSVCRT:MSVCR100.dll
+ 0002:000000a8       __imp__encoded_null        000000018001d0a8     MSVCRT:MSVCR100.dll
+ 0002:000000b0       __imp__onexit              000000018001d0b0     MSVCRT:MSVCR100.dll
+ 0002:000000b8       __imp__lock                000000018001d0b8     MSVCRT:MSVCR100.dll
+ 0002:000000c0       __imp___dllonexit          000000018001d0c0     MSVCRT:MSVCR100.dll
+ 0002:000000c8       __imp__unlock              000000018001d0c8     MSVCRT:MSVCR100.dll
+ 0002:000000d0       __imp___clean_type_info_names_internal 000000018001d0d0     MSVCRT:MSVCR100.dll
+ 0002:000000d8       __imp__initterm_e          000000018001d0d8     MSVCRT:MSVCR100.dll
+ 0002:000000e0       __imp__initterm            000000018001d0e0     MSVCRT:MSVCR100.dll
+ 0002:000000e8       __imp__malloc_crt          000000018001d0e8     MSVCRT:MSVCR100.dll
+ 0002:000000f0       __imp_memset               000000018001d0f0     MSVCRT:MSVCR100.dll
+ 0002:000000f8       __imp_memcpy               000000018001d0f8     MSVCRT:MSVCR100.dll
+ 0002:00000100       __imp_strcat               000000018001d100     MSVCRT:MSVCR100.dll
+ 0002:00000108       __imp_strlen               000000018001d108     MSVCRT:MSVCR100.dll
+ 0002:00000110       __imp_malloc               000000018001d110     MSVCRT:MSVCR100.dll
+ 0002:00000118       __imp_strcmp               000000018001d118     MSVCRT:MSVCR100.dll
+ 0002:00000120       __imp_free                 000000018001d120     MSVCRT:MSVCR100.dll
+ 0002:00000128       __imp_sprintf              000000018001d128     MSVCRT:MSVCR100.dll
+ 0002:00000130       __imp___crt_debugger_hook  000000018001d130     MSVCRT:MSVCR100.dll
+ 0002:00000138       \177MSVCR100_NULL_THUNK_DATA 000000018001d138     MSVCRT:MSVCR100.dll
+ 0002:00000140       __imp_mexLock              000000018001d140     libmex:libmex.dll
+ 0002:00000148       __imp_mexErrMsgTxt         000000018001d148     libmex:libmex.dll
+ 0002:00000150       __imp_mexCallMATLABWithObject 000000018001d150     libmex:libmex.dll
+ 0002:00000158       __imp_mexWarnMsgTxt        000000018001d158     libmex:libmex.dll
+ 0002:00000160       __imp_mexIsLocked          000000018001d160     libmex:libmex.dll
+ 0002:00000168       __imp_mexUnlock            000000018001d168     libmex:libmex.dll
+ 0002:00000170       __imp_mexMakeArrayPersistent 000000018001d170     libmex:libmex.dll
+ 0002:00000178       \177libmex_NULL_THUNK_DATA 000000018001d178     libmex:libmex.dll
+ 0002:00000180       __imp_muDoubleScalarAtan2  000000018001d180     libmwmathutil:libmwmathutil.dll
+ 0002:00000188       __imp_muDoubleScalarAbs    000000018001d188     libmwmathutil:libmwmathutil.dll
+ 0002:00000190       __imp_muDoubleScalarFloor  000000018001d190     libmwmathutil:libmwmathutil.dll
+ 0002:00000198       __imp_muDoubleScalarAsin   000000018001d198     libmwmathutil:libmwmathutil.dll
+ 0002:000001a0       \177libmwmathutil_NULL_THUNK_DATA 000000018001d1a0     libmwmathutil:libmwmathutil.dll
+ 0002:000001a8       __imp_mxCalloc             000000018001d1a8     libmx:libmx.dll
+ 0002:000001b0       __imp_mxGetM               000000018001d1b0     libmx:libmx.dll
+ 0002:000001b8       __imp_mxGetN               000000018001d1b8     libmx:libmx.dll
+ 0002:000001c0       __imp_mxIsComplex          000000018001d1c0     libmx:libmx.dll
+ 0002:000001c8       __imp_mxIsNumeric          000000018001d1c8     libmx:libmx.dll
+ 0002:000001d0       __imp_mxGetClassID         000000018001d1d0     libmx:libmx.dll
+ 0002:000001d8       __imp_mxCreateString       000000018001d1d8     libmx:libmx.dll
+ 0002:000001e0       __imp_mxDestroyArray       000000018001d1e0     libmx:libmx.dll
+ 0002:000001e8       __imp_mxIsChar             000000018001d1e8     libmx:libmx.dll
+ 0002:000001f0       __imp_mxGetString_730      000000018001d1f0     libmx:libmx.dll
+ 0002:000001f8       __imp_mxCreateDoubleMatrix_730 000000018001d1f8     libmx:libmx.dll
+ 0002:00000200       __imp_mxGetPr              000000018001d200     libmx:libmx.dll
+ 0002:00000208       __imp_mxGetScalar          000000018001d208     libmx:libmx.dll
+ 0002:00000210       __imp_mxCreateLogicalScalar 000000018001d210     libmx:libmx.dll
+ 0002:00000218       __imp_mxCreateDoubleScalar 000000018001d218     libmx:libmx.dll
+ 0002:00000220       __imp_mxSetField_730       000000018001d220     libmx:libmx.dll
+ 0002:00000228       __imp_mxIsEmpty            000000018001d228     libmx:libmx.dll
+ 0002:00000230       __imp_mxCreateStructArray_730 000000018001d230     libmx:libmx.dll
+ 0002:00000238       __imp_mxCreateCellArray_730 000000018001d238     libmx:libmx.dll
+ 0002:00000240       __imp_mxCreateCellMatrix_730 000000018001d240     libmx:libmx.dll
+ 0002:00000248       __imp_mxCreateStructMatrix_730 000000018001d248     libmx:libmx.dll
+ 0002:00000250       __imp_mxDuplicateArray     000000018001d250     libmx:libmx.dll
+ 0002:00000258       \177libmx_NULL_THUNK_DATA  000000018001d258     libmx:libmx.dll
+ 0002:00000260       __imp_utFree               000000018001d260     libut:libut.dll
+ 0002:00000268       __imp_utMalloc             000000018001d268     libut:libut.dll
+ 0002:00000270       \177libut_NULL_THUNK_DATA  000000018001d270     libut:libut.dll
+ 0002:00000278       __imp_sf_mex_destroy       000000018001d278     sf_runtime:sf_runtime.dll
+ 0002:00000280       __imp_sf_mex_duplicatearraysafe 000000018001d280     sf_runtime:sf_runtime.dll
+ 0002:00000288       __imp_sf_mex_createcellmatrix 000000018001d288     sf_runtime:sf_runtime.dll
+ 0002:00000290       __imp_sf_mex_addfield      000000018001d290     sf_runtime:sf_runtime.dll
+ 0002:00000298       __imp_sf_mex_create        000000018001d298     sf_runtime:sf_runtime.dll
+ 0002:000002a0       __imp_sf_mex_error_message 000000018001d2a0     sf_runtime:sf_runtime.dll
+ 0002:000002a8       __imp_sf_set_rtw_dwork_info 000000018001d2a8     sf_runtime:sf_runtime.dll
+ 0002:000002b0       __imp_sf_mark_chart_reusable_outputs 000000018001d2b0     sf_runtime:sf_runtime.dll
+ 0002:000002b8       __imp_sf_mark_chart_expressionable_inputs 000000018001d2b8     sf_runtime:sf_runtime.dll
+ 0002:000002c0       __imp_sf_update_buildInfo  000000018001d2c0     sf_runtime:sf_runtime.dll
+ 0002:000002c8       __imp_sf_rtw_info_uint_prop 000000018001d2c8     sf_runtime:sf_runtime.dll
+ 0002:000002d0       __imp_sf_is_chart_inlinable 000000018001d2d0     sf_runtime:sf_runtime.dll
+ 0002:000002d8       __imp_sim_mode_is_external 000000018001d2d8     sf_runtime:sf_runtime.dll
+ 0002:000002e0       __imp_ssGetOutputPortSignal_wrapper 000000018001d2e0     sf_runtime:sf_runtime.dll
+ 0002:000002e8       __imp_ssGetInputPortSignal_wrapper 000000018001d2e8     sf_runtime:sf_runtime.dll
+ 0002:000002f0       __imp_sf_mex_decode_encoded_mx_struct_array 000000018001d2f0     sf_runtime:sf_runtime.dll
+ 0002:000002f8       __imp_sf_debug_reset_current_state_configuration 000000018001d2f8     sf_runtime:sf_runtime.dll
+ 0002:00000300       __imp_sf_debug_set_instance_data_value_ptr 000000018001d300     sf_runtime:sf_runtime.dll
+ 0002:00000308       __imp_sf_debug_set_chart_data_compiled_props 000000018001d308     sf_runtime:sf_runtime.dll
+ 0002:00000310       __imp_cv_eml_init_fcn      000000018001d310     sf_runtime:sf_runtime.dll
+ 0002:00000318       __imp_sf_mex_createstruct  000000018001d318     sf_runtime:sf_runtime.dll
+ 0002:00000320       __imp_sf_debug_cv_init_trans 000000018001d320     sf_runtime:sf_runtime.dll
+ 0002:00000328       __imp_sf_debug_cv_init_state 000000018001d328     sf_runtime:sf_runtime.dll
+ 0002:00000330       __imp_sf_debug_cv_init_chart 000000018001d330     sf_runtime:sf_runtime.dll
+ 0002:00000338       __imp_sf_debug_set_chart_decomposition 000000018001d338     sf_runtime:sf_runtime.dll
+ 0002:00000340       __imp_sf_debug_set_chart_substate_count 000000018001d340     sf_runtime:sf_runtime.dll
+ 0002:00000348       __imp_sf_debug_set_chart_state_info 000000018001d348     sf_runtime:sf_runtime.dll
+ 0002:00000350       __imp_sf_debug_set_chart_data_props 000000018001d350     sf_runtime:sf_runtime.dll
+ 0002:00000358       __imp_sf_debug_set_chart_event_thresholds 000000018001d358     sf_runtime:sf_runtime.dll
+ 0002:00000360       __imp_sf_debug_set_chart_disable_implicit_casting 000000018001d360     sf_runtime:sf_runtime.dll
+ 0002:00000368       __imp_sf_debug_initialize_chart 000000018001d368     sf_runtime:sf_runtime.dll
+ 0002:00000370       __imp_sf_mex_dup           000000018001d370     sf_runtime:sf_runtime.dll
+ 0002:00000378       __imp_sf_mex_import        000000018001d378     sf_runtime:sf_runtime.dll
+ 0002:00000380       __imp_sf_get_time          000000018001d380     sf_runtime:sf_runtime.dll
+ 0002:00000388       __imp_sf_debug_check_for_state_inconsistency 000000018001d388     sf_runtime:sf_runtime.dll
+ 0002:00000390       __imp_sf_debug_symbol_scope_pop 000000018001d390     sf_runtime:sf_runtime.dll
+ 0002:00000398       __imp_eml_debug_line_call  000000018001d398     sf_runtime:sf_runtime.dll
+ 0002:000003a0       __imp_cv_eml_eval          000000018001d3a0     sf_runtime:sf_runtime.dll
+ 0002:000003a8       __imp_sf_debug_symbol_scope_add_eml 000000018001d3a8     sf_runtime:sf_runtime.dll
+ 0002:000003b0       __imp_sf_debug_symbol_scope_add_eml_importable 000000018001d3b0     sf_runtime:sf_runtime.dll
+ 0002:000003b8       __imp_sf_debug_symbol_scope_push_eml 000000018001d3b8     sf_runtime:sf_runtime.dll
+ 0002:000003c0       __imp_sf_debug_data_range_wrapper 000000018001d3c0     sf_runtime:sf_runtime.dll
+ 0002:000003c8       __imp_sf_debug_call        000000018001d3c8     sf_runtime:sf_runtime.dll
+ 0002:000003d0       __imp_sf_debug_symbol_scope_push 000000018001d3d0     sf_runtime:sf_runtime.dll
+ 0002:000003d8       __imp_sf_mex_call_debug    000000018001d3d8     sf_runtime:sf_runtime.dll
+ 0002:000003e0       __imp_sf_mex_setcell       000000018001d3e0     sf_runtime:sf_runtime.dll
+ 0002:000003e8       __imp_sf_mex_getcell       000000018001d3e8     sf_runtime:sf_runtime.dll
+ 0002:000003f0       __imp_sf_clear_rtw_identifier 000000018001d3f0     sf_runtime:sf_runtime.dll
+ 0002:000003f8       __imp_cv_eml_init_relational 000000018001d3f8     sf_runtime:sf_runtime.dll
+ 0002:00000400       __imp_cv_eml_init_for      000000018001d400     sf_runtime:sf_runtime.dll
+ 0002:00000408       __imp_cv_eml_init_if       000000018001d408     sf_runtime:sf_runtime.dll
+ 0002:00000410       __imp_sf_mex_listen_for_ctrl_c 000000018001d410     sf_runtime:sf_runtime.dll
+ 0002:00000418       __imp_sf_debug_eml_data_array_bounds_error_check 000000018001d418     sf_runtime:sf_runtime.dll
+ 0002:00000420       __imp_sf_debug_integer_check 000000018001d420     sf_runtime:sf_runtime.dll
+ 0002:00000428       __imp_cv_eval_relational   000000018001d428     sf_runtime:sf_runtime.dll
+ 0002:00000430       __imp_sf_mex_assign        000000018001d430     sf_runtime:sf_runtime.dll
+ 0002:00000438       __imp_sf_mex_emlrtNameCapturePostProcessR2012a 000000018001d438     sf_runtime:sf_runtime.dll
+ 0002:00000440       __imp_sf_debug_create_debug_instance_struct 000000018001d440     sf_runtime:sf_runtime.dll
+ 0002:00000448       __imp_sim_mode_is_rtw_gen  000000018001d448     sf_runtime:sf_runtime.dll
+ 0002:00000450       __imp_sf_debug_api         000000018001d450     sf_runtime:sf_runtime.dll
+ 0002:00000458       __imp_callMdlMethodAndReportError 000000018001d458     sf_runtime:sf_runtime.dll
+ 0002:00000460       __imp_call_sf_machine_global_method_dispatcher 000000018001d460     sf_runtime:sf_runtime.dll
+ 0002:00000468       __imp_sf_clear_error_manager_info 000000018001d468     sf_runtime:sf_runtime.dll
+ 0002:00000470       __imp_sf_mex_error_direct_call 000000018001d470     sf_runtime:sf_runtime.dll
+ 0002:00000478       __imp_cv_eml_init_script   000000018001d478     sf_runtime:sf_runtime.dll
+ 0002:00000480       __imp_sf_debug_terminate   000000018001d480     sf_runtime:sf_runtime.dll
+ 0002:00000488       __imp_sf_load_rtw_optimization_info 000000018001d488     sf_runtime:sf_runtime.dll
+ 0002:00000490       __imp_sf_debug_initialize_machine 000000018001d490     sf_runtime:sf_runtime.dll
+ 0002:00000498       __imp_sf_debug_set_machine_event_thresholds 000000018001d498     sf_runtime:sf_runtime.dll
+ 0002:000004a0       __imp_sf_debug_set_machine_data_thresholds 000000018001d4a0     sf_runtime:sf_runtime.dll
+ 0002:000004a8       \177sf_runtime_NULL_THUNK_DATA 000000018001d4a8     sf_runtime:sf_runtime.dll
+ 0002:000004b0       __xc_a                     000000018001d4b0     MSVCRT:cinitexe.obj
+ 0002:000004b8       __xc_z                     000000018001d4b8     MSVCRT:cinitexe.obj
+ 0002:000004c0       __xi_a                     000000018001d4c0     MSVCRT:cinitexe.obj
+ 0002:000004d0       __xi_z                     000000018001d4d0     MSVCRT:cinitexe.obj
+ 0002:000004e0       __real@41efcd9c2b400000    000000018001d4e0     RM3_sfun.obj
+ 0002:000004e8       __real@41dbedaeb1000000    000000018001d4e8     RM3_sfun.obj
+ 0002:000004f0       __real@41d165d50ec00000    000000018001d4f0     RM3_sfun.obj
+ 0002:000004f8       __real@41ee382b87c00000    000000018001d4f8     RM3_sfun.obj
+ 0002:00000500       __real@41e1914a24400000    000000018001d500     RM3_sfun.obj
+ 0002:00000508       __real@41ead1319ec00000    000000018001d508     RM3_sfun.obj
+ 0002:00000510       __real@41ddae3573400000    000000018001d510     RM3_sfun.obj
+ 0002:00000518       __real@41e6cf0aa2400000    000000018001d518     RM3_sfun.obj
+ 0002:00000520       __real@41b936ba31000000    000000018001d520     RM3_sfun.obj
+ 0002:00000528       __real@41b3df4ba5000000    000000018001d528     RM3_sfun.obj
+ 0002:00000530       __real@41e3a374fe000000    000000018001d530     RM3_sfun.obj
+ 0002:00000538       __real@41bb5a48fd000000    000000018001d538     RM3_sfun.obj
+ 0002:00000540       __real@41c15261de000000    000000018001d540     RM3_sfun.obj
+ 0002:00000548       __real@41cbccc24a000000    000000018001d548     RM3_sfun.obj
+ 0002:00000550       __real@41e055b54bc00000    000000018001d550     RM3_sfun.obj
+ 0002:00000558       __real@41c57cc570800000    000000018001d558     RM3_sfun.obj
+ 0002:00000560       DYNAMIC_DIMENSION_DEF      000000018001d560     RM3_sfun_registry.obj
+ 0002:00000580       _ssBadLevel2InputAccessMsg 000000018001d580     RM3_sfun_registry.obj
+ 0002:00000710       _ssBadLevel2DirectFeedMsg  000000018001d710     RM3_sfun_registry.obj
+ 0002:00000850       _ssBadLevel2DirectFeedSolutionMsg 000000018001d850     RM3_sfun_registry.obj
+ 0002:000008c0       _ssBadLevel2ZeroDirectFeedMsg 000000018001d8c0     RM3_sfun_registry.obj
+ 0002:00000a00       _ssBadLevel2ZeroDirectFeedMsg2 000000018001da00     RM3_sfun_registry.obj
+ 0002:00000ae8       __real@0000000000000000    000000018001dae8     RM3_sfun_registry.obj
+ 0002:00000af0       __real@bff0000000000000    000000018001daf0     RM3_sfun_registry.obj
+ 0002:00000af8       __real@41602cbca0000000    000000018001daf8     RM3_sfun_registry.obj
+ 0002:00000b00       __real@41d0a31956400000    000000018001db00     WECSim_Lib_sfun:WECSim_Lib_sfun.obj
+ 0002:00000b08       __real@41e0985acae00000    000000018001db08     WECSim_Lib_sfun:WECSim_Lib_sfun.obj
+ 0002:00000b10       __real@41c310626a800000    000000018001db10     WECSim_Lib_sfun:WECSim_Lib_sfun.obj
+ 0002:00000b18       __real@41c6ce6837800000    000000018001db18     WECSim_Lib_sfun:WECSim_Lib_sfun.obj
+ 0002:00000b20       __real@41e23084dee00000    000000018001db20     WECSim_Lib_sfun:c8_WECSim_Lib.obj
+ 0002:00000b28       __real@41ee78f2bf800000    000000018001db28     WECSim_Lib_sfun:c8_WECSim_Lib.obj
+ 0002:00000b30       __real@41edb03748e00000    000000018001db30     WECSim_Lib_sfun:c8_WECSim_Lib.obj
+ 0002:00000b38       __real@41dcc78beac00000    000000018001db38     WECSim_Lib_sfun:c8_WECSim_Lib.obj
+ 0002:00000b40       __real@4008000000000000    000000018001db40     WECSim_Lib_sfun:c8_WECSim_Lib.obj
+ 0002:00000b48       __real@4024000000000000    000000018001db48     WECSim_Lib_sfun:c8_WECSim_Lib.obj
+ 0002:00000b50       __real@3ff0000000000000    000000018001db50     WECSim_Lib_sfun:c8_WECSim_Lib.obj
+ 0002:00000b58       __real@4010000000000000    000000018001db58     WECSim_Lib_sfun:c8_WECSim_Lib.obj
+ 0002:00000b60       __real@4000000000000000    000000018001db60     WECSim_Lib_sfun:c8_WECSim_Lib.obj
+ 0002:00000b68       __real@41e5b856a9600000    000000018001db68     WECSim_Lib_sfun:c2_WECSim_Lib.obj
+ 0002:00000b70       __real@41efd80bea200000    000000018001db70     WECSim_Lib_sfun:c2_WECSim_Lib.obj
+ 0002:00000b78       __real@41b497a748000000    000000018001db78     WECSim_Lib_sfun:c2_WECSim_Lib.obj
+ 0002:00000b80       __real@41e02d966b800000    000000018001db80     WECSim_Lib_sfun:c2_WECSim_Lib.obj
+ 0002:00000b88       __real@4082c80000000000    000000018001db88     WECSim_Lib_sfun:c2_WECSim_Lib.obj
+ 0002:00000b90       __real@4018000000000000    000000018001db90     WECSim_Lib_sfun:c2_WECSim_Lib.obj
+ 0002:00000b98       __real@3e45798ee2308c3a    000000018001db98     WECSim_Lib_sfun:c2_WECSim_Lib.obj
+ 0002:00000ba0       __real@4014000000000000    000000018001dba0     WECSim_Lib_sfun:c2_WECSim_Lib.obj
+ 0002:00000ba8       _pDefaultRawDllMain        000000018001dba8     MSVCRT:crtdll.obj
+ 0002:00000ba8       _pRawDllMain               000000018001dba8     MSVCRT:crtdll.obj
+ 0002:00000bc0       ?ProcessDetach@NativeDll@<CrtImplementationDetails>@@0IB 000000018001dbc0     MSVCRT:tncleanup.obj
+ 0002:00000bc4       ?ProcessAttach@NativeDll@<CrtImplementationDetails>@@0IB 000000018001dbc4     MSVCRT:tncleanup.obj
+ 0002:00000bc8       ?ThreadAttach@NativeDll@<CrtImplementationDetails>@@0IB 000000018001dbc8     MSVCRT:tncleanup.obj
+ 0002:00000bcc       ?ThreadDetach@NativeDll@<CrtImplementationDetails>@@0IB 000000018001dbcc     MSVCRT:tncleanup.obj
+ 0002:00000bd0       ?ProcessVerifier@NativeDll@<CrtImplementationDetails>@@0IB 000000018001dbd0     MSVCRT:tncleanup.obj
+ 0002:00000bd8       __rtc_iaa                  000000018001dbd8     MSVCRT:_initsect_.obj
+ 0002:00000be0       __rtc_izz                  000000018001dbe0     MSVCRT:_initsect_.obj
+ 0002:00000be8       __rtc_taa                  000000018001dbe8     MSVCRT:_initsect_.obj
+ 0002:00000bf0       __rtc_tzz                  000000018001dbf0     MSVCRT:_initsect_.obj
+ 0002:000015cc       __IMPORT_DESCRIPTOR_sf_runtime 000000018001e5cc     sf_runtime:sf_runtime.dll
+ 0002:000015e0       __IMPORT_DESCRIPTOR_libmx  000000018001e5e0     libmx:libmx.dll
+ 0002:000015f4       __IMPORT_DESCRIPTOR_libmex 000000018001e5f4     libmex:libmex.dll
+ 0002:00001608       __IMPORT_DESCRIPTOR_MSVCR100 000000018001e608     MSVCRT:MSVCR100.dll
+ 0002:0000161c       __IMPORT_DESCRIPTOR_KERNEL32 000000018001e61c     kernel32:KERNEL32.dll
+ 0002:00001630       __IMPORT_DESCRIPTOR_libut  000000018001e630     libut:libut.dll
+ 0002:00001644       __IMPORT_DESCRIPTOR_libmwmathutil 000000018001e644     libmwmathutil:libmwmathutil.dll
+ 0002:00001658       __NULL_IMPORT_DESCRIPTOR   000000018001e658     sf_runtime:sf_runtime.dll
+ 0003:000002f8       DYNAMIC_DIMENSION          00000001800202f8     RM3_sfun_registry.obj
+ 0003:00007328       __security_cookie          0000000180027328     MSVCRT:gs_cookie.obj
+ 0003:00007330       __security_cookie_complement 0000000180027330     MSVCRT:gs_cookie.obj
+ 0003:00007338       _fltused                   0000000180027338     MSVCRT:dllsupp.obj
+ 0003:00007340       __native_dllmain_reason    0000000180027340     MSVCRT:natstart.obj
+ 0003:00007344       __native_vcclrit_reason    0000000180027344     MSVCRT:natstart.obj
+ 0003:00007428       sfGlobalDebugInstanceStruct 0000000180027428     RM3_sfun_registry.obj
+ 0003:000079f0       ?__type_info_root_node@@3U__type_info_node@@A 00000001800279f0     MSVCRT:tncleanup.obj
+ 0003:00007a00       _RM3MachineNumber_         0000000180027a00     <common>
+ 0003:00007a04       _WECSim_LibMachineNumber_  0000000180027a04     <common>
+ 0003:00007a08       __native_startup_state     0000000180027a08     <common>
+ 0003:00007a10       __native_startup_lock      0000000180027a10     <common>
+ 0003:00007a18       __onexitend                0000000180027a18     <common>
+ 0003:00007a20       __onexitbegin              0000000180027a20     <common>
+ 0003:00007a28       __dyn_tls_init_callback    0000000180027a28     <common>
+
+ entry point at        0001:0001b598
+
+ Static symbols
+
+ 0001:00001d10       getChartInfoFromSimStruct  0000000180002d10 f   RM3_sfun_registry.obj
+ 0001:000033b0       _ssFatalError              00000001800043b0 f   RM3_sfun_registry.obj
+ 0001:00006460       ProcessMexSfunctionCmdLineCall 0000000180007460 f   RM3_sfun_registry.obj
+ 0001:00006600       sf_debug_api_wrapper       0000000180007600 f   RM3_sfun_registry.obj
+ 0001:00006650       mdlStart                   0000000180007650 f   RM3_sfun_registry.obj
+ 0001:00006680       mdl_start_processing       0000000180007680 f   RM3_sfun_registry.obj
+ 0001:00006740       mdlTerminate               0000000180007740 f   RM3_sfun_registry.obj
+ 0001:00006770       mdl_terminate_processing   0000000180007770 f   RM3_sfun_registry.obj
+ 0001:000067f0       mdlInitializeSampleTimes   00000001800077f0 f   RM3_sfun_registry.obj
+ 0001:00006820       mdlZeroCrossings           0000000180007820 f   RM3_sfun_registry.obj
+ 0001:00006850       mdl_zeroCrossings_processing 0000000180007850 f   RM3_sfun_registry.obj
+ 0001:00006890       mdlDerivatives             0000000180007890 f   RM3_sfun_registry.obj
+ 0001:000068c0       mdl_derivatives_processing 00000001800078c0 f   RM3_sfun_registry.obj
+ 0001:00006910       mdlInitializeConditions    0000000180007910 f   RM3_sfun_registry.obj
+ 0001:00006940       mdl_initialize_conditions_processing 0000000180007940 f   RM3_sfun_registry.obj
+ 0001:00006990       mdlEnable                  0000000180007990 f   RM3_sfun_registry.obj
+ 0001:000069c0       mdl_enable_processing      00000001800079c0 f   RM3_sfun_registry.obj
+ 0001:00006a00       mdlDisable                 0000000180007a00 f   RM3_sfun_registry.obj
+ 0001:00006a30       mdl_disable_processing     0000000180007a30 f   RM3_sfun_registry.obj
+ 0001:00006a70       mdlOutputs                 0000000180007a70 f   RM3_sfun_registry.obj
+ 0001:00006aa0       mdl_outputs_processing     0000000180007aa0 f   RM3_sfun_registry.obj
+ 0001:00006b80       mdl_outputs_continuous_legacy 0000000180007b80 f   RM3_sfun_registry.obj
+ 0001:00006c70       mdlGetTimeOfNextVarHit     0000000180007c70 f   RM3_sfun_registry.obj
+ 0001:00006cc0       _ProcessMexSfunctionCmdLineCall 0000000180007cc0 f   RM3_sfun_registry.obj
+ 0001:00007410       mdlSetWorkWidths           0000000180008410 f   RM3_sfun_registry.obj
+ 0001:00007440       mdlProcessParameters       0000000180008440 f   RM3_sfun_registry.obj
+ 0001:00007470       mdlInitializeSizes         0000000180008470 f   RM3_sfun_registry.obj
+ 0001:000074a0       mdlExtModeExec             00000001800084a0 f   RM3_sfun_registry.obj
+ 0001:000074d0       mdl_ext_mode_exec_processing 00000001800084d0 f   RM3_sfun_registry.obj
+ 0001:00007510       mdlRTW                     0000000180008510 f   RM3_sfun_registry.obj
+ 0001:00007550       _CreateSimStruct           0000000180008550 f   RM3_sfun_registry.obj
+ 0001:000076e0       _RegNumInputPortsCB        00000001800086e0 f   RM3_sfun_registry.obj
+ 0001:00007760       _RegNumOutputPortsCB       0000000180008760 f   RM3_sfun_registry.obj
+ 0001:00008820       c8_info_helper             0000000180009820 f   WECSim_Lib_sfun:c8_WECSim_Lib.obj
+ 0001:0000b8c0       c8_emlrt_marshallOut       000000018000c8c0 f   WECSim_Lib_sfun:c8_WECSim_Lib.obj
+ 0001:0000b950       c8_b_emlrt_marshallOut     000000018000c950 f   WECSim_Lib_sfun:c8_WECSim_Lib.obj
+ 0001:0000c110       mdlProcessParameters_c8_WECSim_Lib 000000018000d110 f   WECSim_Lib_sfun:c8_WECSim_Lib.obj
+ 0001:0000c1f0       initialize_params_c8_WECSim_Lib 000000018000d1f0 f   WECSim_Lib_sfun:c8_WECSim_Lib.obj
+ 0001:0000c200       mdlSetWorkWidths_c8_WECSim_Lib 000000018000d200 f   WECSim_Lib_sfun:c8_WECSim_Lib.obj
+ 0001:0000c6d0       sf_get_instance_specialization 000000018000d6d0 f   WECSim_Lib_sfun:c8_WECSim_Lib.obj
+ 0001:0000c6e0       mdlStart_c8_WECSim_Lib     000000018000d6e0 f   WECSim_Lib_sfun:c8_WECSim_Lib.obj
+ 0001:0000c960       init_dsm_address_info      000000018000d960 f   WECSim_Lib_sfun:c8_WECSim_Lib.obj
+ 0001:0000c970       init_simulink_io_address   000000018000d970 f   WECSim_Lib_sfun:c8_WECSim_Lib.obj
+ 0001:0000c9c0       sf_get_sim_state_info_c8_WECSim_Lib 000000018000d9c0 f   WECSim_Lib_sfun:c8_WECSim_Lib.obj
+ 0001:0000ca80       chart_debug_initialization 000000018000da80 f   WECSim_Lib_sfun:c8_WECSim_Lib.obj
+ 0001:0000d1b0       init_script_number_translation 000000018000e1b0 f   WECSim_Lib_sfun:c8_WECSim_Lib.obj
+ 0001:0000d1d0       c8_sf_marshallOut          000000018000e1d0 f   WECSim_Lib_sfun:c8_WECSim_Lib.obj
+ 0001:0000d330       c8_sf_marshallIn           000000018000e330 f   WECSim_Lib_sfun:c8_WECSim_Lib.obj
+ 0001:0000d430       c8_b_emlrt_marshallIn      000000018000e430 f   WECSim_Lib_sfun:c8_WECSim_Lib.obj
+ 0001:0000d520       c8_b_sf_marshallOut        000000018000e520 f   WECSim_Lib_sfun:c8_WECSim_Lib.obj
+ 0001:0000d680       sf_opaque_initialize_c8_WECSim_Lib 000000018000e680 f   WECSim_Lib_sfun:c8_WECSim_Lib.obj
+ 0001:0000d6c0       initialize_c8_WECSim_Lib   000000018000e6c0 f   WECSim_Lib_sfun:c8_WECSim_Lib.obj
+ 0001:0000d710       sf_opaque_enable_c8_WECSim_Lib 000000018000e710 f   WECSim_Lib_sfun:c8_WECSim_Lib.obj
+ 0001:0000d730       enable_c8_WECSim_Lib       000000018000e730 f   WECSim_Lib_sfun:c8_WECSim_Lib.obj
+ 0001:0000d760       sf_opaque_disable_c8_WECSim_Lib 000000018000e760 f   WECSim_Lib_sfun:c8_WECSim_Lib.obj
+ 0001:0000d780       disable_c8_WECSim_Lib      000000018000e780 f   WECSim_Lib_sfun:c8_WECSim_Lib.obj
+ 0001:0000d7b0       sf_opaque_gateway_c8_WECSim_Lib 000000018000e7b0 f   WECSim_Lib_sfun:c8_WECSim_Lib.obj
+ 0001:0000d7d0       sf_gateway_c8_WECSim_Lib   000000018000e7d0 f   WECSim_Lib_sfun:c8_WECSim_Lib.obj
+ 0001:0000e1a0       c8_c_sf_marshallOut        000000018000f1a0 f   WECSim_Lib_sfun:c8_WECSim_Lib.obj
+ 0001:0000e250       c8_b_sf_marshallIn         000000018000f250 f   WECSim_Lib_sfun:c8_WECSim_Lib.obj
+ 0001:0000e2f0       c8_c_emlrt_marshallIn      000000018000f2f0 f   WECSim_Lib_sfun:c8_WECSim_Lib.obj
+ 0001:0000e380       c8_mpower                  000000018000f380 f   WECSim_Lib_sfun:c8_WECSim_Lib.obj
+ 0001:0000e3f0       c8_eml_scalar_eg           000000018000f3f0 f   WECSim_Lib_sfun:c8_WECSim_Lib.obj
+ 0001:0000e400       c8_atan2                   000000018000f400 f   WECSim_Lib_sfun:c8_WECSim_Lib.obj
+ 0001:0000e460       c8_eml_error               000000018000f460 f   WECSim_Lib_sfun:c8_WECSim_Lib.obj
+ 0001:0000e680       sf_opaque_get_sim_state_c8_WECSim_Lib 000000018000f680 f   WECSim_Lib_sfun:c8_WECSim_Lib.obj
+ 0001:0000e6d0       get_sim_state_c8_WECSim_Lib 000000018000f6d0 f   WECSim_Lib_sfun:c8_WECSim_Lib.obj
+ 0001:0000e8b0       sf_opaque_set_sim_state_c8_WECSim_Lib 000000018000f8b0 f   WECSim_Lib_sfun:c8_WECSim_Lib.obj
+ 0001:0000e900       set_sim_state_c8_WECSim_Lib 000000018000f900 f   WECSim_Lib_sfun:c8_WECSim_Lib.obj
+ 0001:0000ea10       c8_update_debugger_state_c8_WECSim_Lib 000000018000fa10 f   WECSim_Lib_sfun:c8_WECSim_Lib.obj
+ 0001:0000ea20       c8_emlrt_marshallIn        000000018000fa20 f   WECSim_Lib_sfun:c8_WECSim_Lib.obj
+ 0001:0000ea90       c8_e_emlrt_marshallIn      000000018000fa90 f   WECSim_Lib_sfun:c8_WECSim_Lib.obj
+ 0001:0000eaf0       c8_f_emlrt_marshallIn      000000018000faf0 f   WECSim_Lib_sfun:c8_WECSim_Lib.obj
+ 0001:0000eb80       sf_opaque_terminate_c8_WECSim_Lib 000000018000fb80 f   WECSim_Lib_sfun:c8_WECSim_Lib.obj
+ 0001:0000ec20       finalize_c8_WECSim_Lib     000000018000fc20 f   WECSim_Lib_sfun:c8_WECSim_Lib.obj
+ 0001:0000ec30       sf_opaque_init_subchart_simstructs 000000018000fc30 f   WECSim_Lib_sfun:c8_WECSim_Lib.obj
+ 0001:0000ec50       initSimStructsc8_WECSim_Lib 000000018000fc50 f   WECSim_Lib_sfun:c8_WECSim_Lib.obj
+ 0001:0000ec60       mdlRTW_c8_WECSim_Lib       000000018000fc60 f   WECSim_Lib_sfun:c8_WECSim_Lib.obj
+ 0001:0000ed10       c2_info_helper             000000018000fd10 f   WECSim_Lib_sfun:c2_WECSim_Lib.obj
+ 0001:000144f0       c2_emlrt_marshallOut       00000001800154f0 f   WECSim_Lib_sfun:c2_WECSim_Lib.obj
+ 0001:00014580       c2_b_emlrt_marshallOut     0000000180015580 f   WECSim_Lib_sfun:c2_WECSim_Lib.obj
+ 0001:00015120       mdlProcessParameters_c2_WECSim_Lib 0000000180016120 f   WECSim_Lib_sfun:c2_WECSim_Lib.obj
+ 0001:00015200       initialize_params_c2_WECSim_Lib 0000000180016200 f   WECSim_Lib_sfun:c2_WECSim_Lib.obj
+ 0001:00015210       mdlSetWorkWidths_c2_WECSim_Lib 0000000180016210 f   WECSim_Lib_sfun:c2_WECSim_Lib.obj
+ 0001:00015770       sf_get_instance_specialization 0000000180016770 f   WECSim_Lib_sfun:c2_WECSim_Lib.obj
+ 0001:00015780       mdlStart_c2_WECSim_Lib     0000000180016780 f   WECSim_Lib_sfun:c2_WECSim_Lib.obj
+ 0001:00015a00       init_dsm_address_info      0000000180016a00 f   WECSim_Lib_sfun:c2_WECSim_Lib.obj
+ 0001:00015a10       init_simulink_io_address   0000000180016a10 f   WECSim_Lib_sfun:c2_WECSim_Lib.obj
+ 0001:00015ac0       sf_get_sim_state_info_c2_WECSim_Lib 0000000180016ac0 f   WECSim_Lib_sfun:c2_WECSim_Lib.obj
+ 0001:00015b80       chart_debug_initialization 0000000180016b80 f   WECSim_Lib_sfun:c2_WECSim_Lib.obj
+ 0001:000169b0       init_script_number_translation 00000001800179b0 f   WECSim_Lib_sfun:c2_WECSim_Lib.obj
+ 0001:000169d0       c2_c_sf_marshallOut        00000001800179d0 f   WECSim_Lib_sfun:c2_WECSim_Lib.obj
+ 0001:00016b20       c2_c_sf_marshallIn         0000000180017b20 f   WECSim_Lib_sfun:c2_WECSim_Lib.obj
+ 0001:00016c30       c2_f_emlrt_marshallIn      0000000180017c30 f   WECSim_Lib_sfun:c2_WECSim_Lib.obj
+ 0001:00016d30       c2_d_sf_marshallOut        0000000180017d30 f   WECSim_Lib_sfun:c2_WECSim_Lib.obj
+ 0001:00016ea0       c2_e_sf_marshallOut        0000000180017ea0 f   WECSim_Lib_sfun:c2_WECSim_Lib.obj
+ 0001:00017160       c2_f_sf_marshallOut        0000000180018160 f   WECSim_Lib_sfun:c2_WECSim_Lib.obj
+ 0001:00017210       sf_opaque_initialize_c2_WECSim_Lib 0000000180018210 f   WECSim_Lib_sfun:c2_WECSim_Lib.obj
+ 0001:00017250       initialize_c2_WECSim_Lib   0000000180018250 f   WECSim_Lib_sfun:c2_WECSim_Lib.obj
+ 0001:000172b0       sf_opaque_enable_c2_WECSim_Lib 00000001800182b0 f   WECSim_Lib_sfun:c2_WECSim_Lib.obj
+ 0001:000172d0       enable_c2_WECSim_Lib       00000001800182d0 f   WECSim_Lib_sfun:c2_WECSim_Lib.obj
+ 0001:00017300       sf_opaque_disable_c2_WECSim_Lib 0000000180018300 f   WECSim_Lib_sfun:c2_WECSim_Lib.obj
+ 0001:00017320       disable_c2_WECSim_Lib      0000000180018320 f   WECSim_Lib_sfun:c2_WECSim_Lib.obj
+ 0001:00017350       sf_opaque_gateway_c2_WECSim_Lib 0000000180018350 f   WECSim_Lib_sfun:c2_WECSim_Lib.obj
+ 0001:00017370       sf_gateway_c2_WECSim_Lib   0000000180018370 f   WECSim_Lib_sfun:c2_WECSim_Lib.obj
+ 0001:000176c0       c2_chartstep_c2_WECSim_Lib 00000001800186c0 f   WECSim_Lib_sfun:c2_WECSim_Lib.obj
+ 0001:00019480       c2_sf_marshallOut          000000018001a480 f   WECSim_Lib_sfun:c2_WECSim_Lib.obj
+ 0001:000195a0       c2_sf_marshallIn           000000018001a5a0 f   WECSim_Lib_sfun:c2_WECSim_Lib.obj
+ 0001:00019640       c2_b_emlrt_marshallIn      000000018001a640 f   WECSim_Lib_sfun:c2_WECSim_Lib.obj
+ 0001:00019700       c2_b_sf_marshallOut        000000018001a700 f   WECSim_Lib_sfun:c2_WECSim_Lib.obj
+ 0001:00019980       c2_b_sf_marshallIn         000000018001a980 f   WECSim_Lib_sfun:c2_WECSim_Lib.obj
+ 0001:00019ad0       c2_d_emlrt_marshallIn      000000018001aad0 f   WECSim_Lib_sfun:c2_WECSim_Lib.obj
+ 0001:00019c10       c2_d_sf_marshallIn         000000018001ac10 f   WECSim_Lib_sfun:c2_WECSim_Lib.obj
+ 0001:00019cb0       c2_g_emlrt_marshallIn      000000018001acb0 f   WECSim_Lib_sfun:c2_WECSim_Lib.obj
+ 0001:00019d40       c2_e_sf_marshallIn         000000018001ad40 f   WECSim_Lib_sfun:c2_WECSim_Lib.obj
+ 0001:00019e50       c2_h_emlrt_marshallIn      000000018001ae50 f   WECSim_Lib_sfun:c2_WECSim_Lib.obj
+ 0001:00019f60       c2_abs                     000000018001af60 f   WECSim_Lib_sfun:c2_WECSim_Lib.obj
+ 0001:00019fa0       c2_trapz                   000000018001afa0 f   WECSim_Lib_sfun:c2_WECSim_Lib.obj
+ 0001:0001a610       c2_b_floor                 000000018001b610 f   WECSim_Lib_sfun:c2_WECSim_Lib.obj
+ 0001:0001a640       sf_opaque_get_sim_state_c2_WECSim_Lib 000000018001b640 f   WECSim_Lib_sfun:c2_WECSim_Lib.obj
+ 0001:0001a690       get_sim_state_c2_WECSim_Lib 000000018001b690 f   WECSim_Lib_sfun:c2_WECSim_Lib.obj
+ 0001:0001aaf0       sf_opaque_set_sim_state_c2_WECSim_Lib 000000018001baf0 f   WECSim_Lib_sfun:c2_WECSim_Lib.obj
+ 0001:0001ab40       set_sim_state_c2_WECSim_Lib 000000018001bb40 f   WECSim_Lib_sfun:c2_WECSim_Lib.obj
+ 0001:0001ad40       c2_update_debugger_state_c2_WECSim_Lib 000000018001bd40 f   WECSim_Lib_sfun:c2_WECSim_Lib.obj
+ 0001:0001ad50       c2_emlrt_marshallIn        000000018001bd50 f   WECSim_Lib_sfun:c2_WECSim_Lib.obj
+ 0001:0001adc0       c2_c_emlrt_marshallIn      000000018001bdc0 f   WECSim_Lib_sfun:c2_WECSim_Lib.obj
+ 0001:0001ae30       c2_e_emlrt_marshallIn      000000018001be30 f   WECSim_Lib_sfun:c2_WECSim_Lib.obj
+ 0001:0001aea0       c2_j_emlrt_marshallIn      000000018001bea0 f   WECSim_Lib_sfun:c2_WECSim_Lib.obj
+ 0001:0001af00       c2_k_emlrt_marshallIn      000000018001bf00 f   WECSim_Lib_sfun:c2_WECSim_Lib.obj
+ 0001:0001af90       sf_opaque_terminate_c2_WECSim_Lib 000000018001bf90 f   WECSim_Lib_sfun:c2_WECSim_Lib.obj
+ 0001:0001b030       finalize_c2_WECSim_Lib     000000018001c030 f   WECSim_Lib_sfun:c2_WECSim_Lib.obj
+ 0001:0001b040       sf_opaque_init_subchart_simstructs 000000018001c040 f   WECSim_Lib_sfun:c2_WECSim_Lib.obj
+ 0001:0001b060       initSimStructsc2_WECSim_Lib 000000018001c060 f   WECSim_Lib_sfun:c2_WECSim_Lib.obj
+ 0001:0001b070       mdlRTW_c2_WECSim_Lib       000000018001c070 f   WECSim_Lib_sfun:c2_WECSim_Lib.obj
+ 0001:0001b1a0       pre_c_init                 000000018001c1a0 f   MSVCRT:crtdll.obj
+ 0001:0001b45c       __DllMainCRTStartup        000000018001c45c f   MSVCRT:crtdll.obj
+ 0001:0001bce0       __DllMainCRTStartup$filt$0 000000018001cce0 f   MSVCRT:crtdll.obj
+ 0001:0001bd10       __DllMainCRTStartup$fin$1  000000018001cd10 f   MSVCRT:crtdll.obj
+ 0001:0001bd2a       _onexit$fin$0              000000018001cd2a f   MSVCRT:atonexit.obj
+ 0001:0001bd50       _IsNonwritableInCurrentImage$filt$0 000000018001cd50 f   MSVCRT:pesect.obj

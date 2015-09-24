@@ -1,0 +1,712 @@
+
+
+<!DOCTYPE html>
+<!--[if IE 8]><html class="no-js lt-ie9" lang="en" > <![endif]-->
+<!--[if gt IE 8]><!--> <html class="no-js" lang="en" > <!--<![endif]-->
+<head>
+  <meta charset="utf-8">
+  
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  
+  <title>Theory &mdash; WEC-Sim  documentation</title>
+  
+
+  
+  
+
+  
+
+  
+  
+    
+
+  
+
+  
+  
+    <link rel="stylesheet" href="_static/css/theme.css" type="text/css" />
+  
+
+  
+
+  
+    <link rel="top" title="WEC-Sim  documentation" href="index.html"/>
+        <link rel="next" title="Getting Started" href="getting_started.html"/>
+        <link rel="prev" title="Release Notes" href="release_notes.html"/> 
+
+  
+  <script src="_static/js/modernizr.min.js"></script>
+
+</head>
+
+<body class="wy-body-for-nav" role="document">
+
+  <div class="wy-grid-for-nav">
+
+    
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-nav-search">
+        
+
+        
+          <a href="index.html" class="icon icon-home"> WEC-Sim
+        
+
+        
+        </a>
+
+        
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+
+        
+      </div>
+
+      <div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="main navigation">
+        
+          
+          
+              <ul class="current">
+<li class="toctree-l1"><a class="reference internal" href="release_notes.html">Release Notes</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="release_notes.html#id1">WEC-Sim v1.2</a></li>
+<li class="toctree-l2"><a class="reference internal" href="release_notes.html#id2">WEC-Sim v1.1</a></li>
+<li class="toctree-l2"><a class="reference internal" href="release_notes.html#wec-sim-v1-0">WEC-Sim v1.0</a></li>
+<li class="toctree-l2"><a class="reference internal" href="release_notes.html#backward-compatibility">Backward Compatibility</a></li>
+<li class="toctree-l2"><a class="reference internal" href="release_notes.html#features-under-development">Features Under Development</a></li>
+</ul>
+</li>
+<li class="toctree-l1 current"><a class="current reference internal" href="">Theory</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="#introduction">Introduction</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#coordinate-system">Coordinate System</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#boundary-element-method">Boundary Element Method</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#time-domain-numerical-method">Time-Domain Numerical Method</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#sinusoidal-steady-state-response-scenario">Sinusoidal Steady-State Response Scenario</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#convolution-integral-formulation">Convolution Integral Formulation</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#state-space-representation-of">State Space Representation of <span class="math">\(K_{r}\)</span></a><ul>
+<li class="toctree-l4"><a class="reference internal" href="#calculation-of-from-state-space-matrices">Calculation of <span class="math">\(K_{r}\)</span> from State Space Matrices</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#laplace-transform-and-transfer-function">Laplace Transform and Transfer Function</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#realization-theory">Realization Theory</a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="#wave-spectrum">Wave Spectrum</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="#pierson-moskowitz">Pierson&#8211;Moskowitz</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#bretschneider-spectrum">Bretschneider Spectrum</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#jonswap-joint-north-sea-wave-project-spectrum">JONSWAP (Joint North Sea Wave Project) Spectrum</a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="#ramp-function">Ramp Function</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="#power-take-off-pto-forces">Power Take-off (PTO) Forces</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#linear-spring-damper-pto">Linear Spring-damper PTO</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#hydraulic-pto">Hydraulic PTO</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#mechanical-pto">Mechanical PTO</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="#mooring-forces">Mooring Forces</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#damping-forces">Damping Forces</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#references">References</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="getting_started.html">Getting Started</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="getting_started.html#matlab-toolbox-requirements">MATLAB Toolbox Requirements</a></li>
+<li class="toctree-l2"><a class="reference internal" href="getting_started.html#downloading-and-installing-bemio">Downloading and Installing BEMIO</a></li>
+<li class="toctree-l2"><a class="reference internal" href="getting_started.html#downloading-wec-sim">Downloading WEC-Sim</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="getting_started.html#option-1-clone-with-github-recommended-for-users">Option 1: Clone with GitHub (Recommended for Users)</a></li>
+<li class="toctree-l3"><a class="reference internal" href="getting_started.html#option-2-fork-with-git-recommended-for-developers">Option 2: Fork with Git (Recommended for Developers)</a></li>
+<li class="toctree-l3"><a class="reference internal" href="getting_started.html#option-3-static-code-download">Option 3: Static Code Download</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="getting_started.html#installing-wec-sim">Installing WEC-Sim</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="getting_started.html#step-1-add-wec-sim-source-code-to-matlab-path">Step 1: Add WEC-Sim Source Code to MATLAB Path</a></li>
+<li class="toctree-l3"><a class="reference internal" href="getting_started.html#step-2-add-wec-sim-library-to-simulink">Step 2: Add WEC-Sim Library to Simulink</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="getting_started.html#running-wec-sim">Running WEC-Sim</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="getting_started.html#file-structure-overview">File Structure Overview</a></li>
+<li class="toctree-l3"><a class="reference internal" href="getting_started.html#steps-to-run-wec-sim">Steps To Run WEC-Sim</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="getting_started.html#step-1-pre-processing">Step 1: Pre-Processing</a></li>
+<li class="toctree-l4"><a class="reference internal" href="getting_started.html#step2-build-wec-sim-simulink-model">Step2: Build WEC-Sim Simulink Model</a></li>
+<li class="toctree-l4"><a class="reference internal" href="getting_started.html#step-3-setip-wec-sim-input-file">Step 3: Setip WEC-Sim Input File</a></li>
+<li class="toctree-l4"><a class="reference internal" href="getting_started.html#step-4-execute-wec-sim">Step 4: Execute WEC-Sim</a></li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="code_structure.html">Code Structure</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="code_structure.html#code-conventions">Code Conventions</a></li>
+<li class="toctree-l2"><a class="reference internal" href="code_structure.html#input-file-structure">Input File Structure</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="code_structure.html#simulation-class">Simulation Class</a></li>
+<li class="toctree-l3"><a class="reference internal" href="code_structure.html#wave-class">Wave Class</a></li>
+<li class="toctree-l3"><a class="reference internal" href="code_structure.html#body-class">Body Class</a></li>
+<li class="toctree-l3"><a class="reference internal" href="code_structure.html#constraint-class">Constraint Class</a></li>
+<li class="toctree-l3"><a class="reference internal" href="code_structure.html#pto-class">PTO Class</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="code_structure.html#input-parameters">Input Parameters</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="code_structure.html#simulationclass">simulationClass</a></li>
+<li class="toctree-l3"><a class="reference internal" href="code_structure.html#waveclass">waveClass</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="code_structure.html#nowave">noWave</a></li>
+<li class="toctree-l4"><a class="reference internal" href="code_structure.html#nowavecic">noWaveCIC</a></li>
+<li class="toctree-l4"><a class="reference internal" href="code_structure.html#regular">regular</a></li>
+<li class="toctree-l4"><a class="reference internal" href="code_structure.html#regularcic">regularCIC</a></li>
+<li class="toctree-l4"><a class="reference internal" href="code_structure.html#irregular">irregular</a></li>
+<li class="toctree-l4"><a class="reference internal" href="code_structure.html#irregularimport">irregularImport</a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="code_structure.html#bodyclass">bodyClass</a></li>
+<li class="toctree-l3"><a class="reference internal" href="code_structure.html#constraintclass">constraintClass</a></li>
+<li class="toctree-l3"><a class="reference internal" href="code_structure.html#ptoclass">ptoClass</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="code_structure.html#library-structure">Library Structure</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="code_structure.html#body-elements-sublibrary">Body Elements Sublibrary</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="code_structure.html#rigid-body-block">Rigid Body Block</a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="code_structure.html#frames-sublibrary">Frames Sublibrary</a></li>
+<li class="toctree-l3"><a class="reference internal" href="code_structure.html#global-reference-frame-block">Global Reference Frame Block</a></li>
+<li class="toctree-l3"><a class="reference internal" href="code_structure.html#constraints-sublibrary">Constraints Sublibrary</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="code_structure.html#floating-block">Floating Block</a></li>
+<li class="toctree-l4"><a class="reference internal" href="code_structure.html#heave-block">Heave Block</a></li>
+<li class="toctree-l4"><a class="reference internal" href="code_structure.html#surge-block">Surge Block</a></li>
+<li class="toctree-l4"><a class="reference internal" href="code_structure.html#pitch-block">Pitch Block</a></li>
+<li class="toctree-l4"><a class="reference internal" href="code_structure.html#fixed-block">Fixed Block</a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="code_structure.html#ptos-sublibrary">PTOs Sublibrary</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="code_structure.html#translation-pto-local-z-block">Translation PTO (Local Z) Block</a></li>
+<li class="toctree-l4"><a class="reference internal" href="code_structure.html#translation-pto-local-x-block">Translation PTO (Local X) Block</a></li>
+<li class="toctree-l4"><a class="reference internal" href="code_structure.html#rotational-pto-local-ry-block">Rotational PTO (Local RY) Block</a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="code_structure.html#other-simmechanics-blocks">Other SimMechanics Blocks</a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="tutorials.html">Tutorials</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="tutorials.html#rm3-two-body-point-absorber">RM3 Two-Body Point Absorber</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="tutorials.html#geometry-definition">Geometry Definition</a></li>
+<li class="toctree-l3"><a class="reference internal" href="tutorials.html#hydrodynamic-data-pre-processing">Hydrodynamic Data Pre-Processing</a></li>
+<li class="toctree-l3"><a class="reference internal" href="tutorials.html#modeling-rm3-in-wec-sim">Modeling RM3 in WEC-Sim</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="tutorials.html#simulink-model">Simulink Model</a></li>
+<li class="toctree-l4"><a class="reference internal" href="tutorials.html#input-file">Input File</a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="tutorials.html#simulation">Simulation</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="tutorials.html#outputs-and-postprocessing">Outputs and Postprocessing</a></li>
+<li class="toctree-l4"><a class="reference internal" href="tutorials.html#running-different-wave-cases">Running Different Wave Cases</a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="tutorials.html#rm3-with-pto-sim">RM3 with PTO-Sim</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="tutorials.html#rm3-with-hydraulic-pto">RM3 with Hydraulic PTO</a></li>
+<li class="toctree-l3"><a class="reference internal" href="tutorials.html#modeling-rm3-with-hydraulic-pto">Modeling RM3 with Hydraulic PTO</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="tutorials.html#id5">Simulink Model</a></li>
+<li class="toctree-l4"><a class="reference internal" href="tutorials.html#id7">Input File</a></li>
+<li class="toctree-l4"><a class="reference internal" href="tutorials.html#simulation-and-postprocessing">Simulation and Postprocessing</a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="tutorials.html#rm3-with-mechanical-pto">RM3 with Mechanical PTO</a></li>
+<li class="toctree-l3"><a class="reference internal" href="tutorials.html#modeling-rm3-with-mechanical-pto">Modeling RM3 with Mechanical PTO</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="tutorials.html#id8">Simulink Model</a></li>
+<li class="toctree-l4"><a class="reference internal" href="tutorials.html#input-file-simulation-and-postprocessing">Input File, Simulation, and Postprocessing</a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="tutorials.html#oscillating-surge-pitch-device">Oscillating Surge-Pitch Device</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="tutorials.html#id9">Geometry Definition</a></li>
+<li class="toctree-l3"><a class="reference internal" href="tutorials.html#id10">Hydrodynamic Data Pre-Processing</a></li>
+<li class="toctree-l3"><a class="reference internal" href="tutorials.html#modeling-oswec-in-wec-sim">Modeling OSWEC in WEC-Sim</a></li>
+<li class="toctree-l3"><a class="reference internal" href="tutorials.html#oswec-simulink-model-file">OSWEC Simulink Model File</a></li>
+<li class="toctree-l3"><a class="reference internal" href="tutorials.html#oswec-matlab-input-file">OSWEC MATLAB Input File</a></li>
+<li class="toctree-l3"><a class="reference internal" href="tutorials.html#oswec-wec-sim-simulation">OSWEC WEC-Sim Simulation</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="tutorials.html#oswec-with-pto-sim">OSWEC with PTO-Sim</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="tutorials.html#oswec-with-hydraulic-pto">OSWEC with Hydraulic PTO</a></li>
+<li class="toctree-l3"><a class="reference internal" href="tutorials.html#modeling-of-oswec-with-hydraulic-pto">Modeling of OSWEC with Hydraulic PTO</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="tutorials.html#id13">Simulink Model</a></li>
+<li class="toctree-l4"><a class="reference internal" href="tutorials.html#id14">Input File, Simulation, and Postprocessing</a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="tutorials.html#other-pto-sim-tutorials">Other PTO-Sim Tutorials</a></li>
+<li class="toctree-l2"><a class="reference internal" href="tutorials.html#references">References</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="online_forum.html">Online Forum</a></li>
+<li class="toctree-l1"><a class="reference internal" href="publications.html">Publications</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="publications.html#news-articles">News Articles</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="license.html">License</a></li>
+<li class="toctree-l1"><a class="reference internal" href="appendix.html">Appendix</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="appendix.html#visualizatoin-using-paraview">Visualizatoin Using Paraview</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="appendix.html#getting-started-installation">Getting Started - Installation</a></li>
+<li class="toctree-l3"><a class="reference internal" href="appendix.html#setting-up-paraview-output">Setting Up Paraview Output</a></li>
+<li class="toctree-l3"><a class="reference internal" href="appendix.html#outputs-and-opening-in-paraview">Outputs and Opening in Paraview</a></li>
+<li class="toctree-l3"><a class="reference internal" href="appendix.html#basic-visualization-manipulation">Basic Visualization Manipulation</a></li>
+<li class="toctree-l3"><a class="reference internal" href="appendix.html#visualizing-non-linear-hydro-forces">Visualizing Non-Linear Hydro Forces</a></li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+
+          
+        
+      </div>
+      &nbsp;
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap">
+
+      
+      <nav class="wy-nav-top" role="navigation" aria-label="top navigation">
+        <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+        <a href="index.html">WEC-Sim</a>
+      </nav>
+
+
+      
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          <div role="navigation" aria-label="breadcrumbs navigation">
+  <ul class="wy-breadcrumbs">
+    <li><a href="index.html">Docs</a> &raquo;</li>
+      
+    <li>Theory</li>
+      <li class="wy-breadcrumbs-aside">
+        
+          
+            <a href="_sources/theory.txt" rel="nofollow"> View page source</a>
+          
+        
+      </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document">
+            
+  <div class="section" id="theory">
+<span id="id1"></span><h1>Theory<a class="headerlink" href="#theory" title="Permalink to this headline">¶</a></h1>
+<div class="section" id="introduction">
+<h2>Introduction<a class="headerlink" href="#introduction" title="Permalink to this headline">¶</a></h2>
+<p>Modeling a WEC involves the interaction between the incident waves, device motion, PTO mechanism, and mooring. WEC-Sim uses a radiation and diffraction method <a class="reference internal" href="#li2012" id="id2">[1]</a><a class="reference internal" href="#babarit2012" id="id3">[2]</a> to predict power performance and design optimization. The radiation and diffraction method generally obtains the hydrodynamic forces from a frequency-domain boundary element method (BEM) solver using linear coefficients to solve the system dynamics in the time domain.</p>
+<div class="figure align-center" id="wec-sim-methodology">
+<img alt="_images/Physics.png" src="_images/Physics.png" />
+<div class="legend">
+<em>WEC-Sim Methodology</em></div>
+</div>
+</div>
+<div class="section" id="coordinate-system">
+<h2>Coordinate System<a class="headerlink" href="#coordinate-system" title="Permalink to this headline">¶</a></h2>
+<p>The <span class="xref std std-ref">coordinate_system</span> figure illustrates a 3-D floating point absorber subject to incoming waves in water. The figure also defines the coordinates and the 6 DOF in WEC-Sim. The WEC-Sim coordinate system  assumes that the  X axis is in the direction of wave propagation if the wave heading angle is equal to zero. The Z axis is in the vertical upwards direction, and the Y axis direction is defined by the right-hand rule. In the vectors and matrices used in the code, surge (x), sway (y), and heave (z) correspond to the first, second and third position respectively. Roll (Rx), Pitch (Ry), and Yaw (Rz) correspond to the fourth, fifth, and sixth position respectively.</p>
+<div class="figure align-center" id="id4">
+<img alt="_images/coordinateSystem.png" src="_images/coordinateSystem.png" />
+<div class="legend">
+<em>WEC-Sim Coordinate System</em></div>
+</div>
+</div>
+<div class="section" id="boundary-element-method">
+<h2>Boundary Element Method<a class="headerlink" href="#boundary-element-method" title="Permalink to this headline">¶</a></h2>
+<p>A common approach to determining the hydrodynamic forces is to use the linear wave theory assumption that waves are the sum of incident, radiated, and diffracted wave components. In WEC-Sim, these wave forcing components are modeled using linear coefficients  obtained from a frequency-domain potential flow BEM solver (e.g., WAMIT <a class="reference internal" href="#lee2006" id="id5">[3]</a>, AQWA-FER <a class="reference internal" href="#aqwa" id="id6">[4]</a>, and Nemoh <a class="reference internal" href="#nemoh" id="id7">[5]</a>). The BEM solutions are obtained by solving the Laplace equation for the velocity potential, which assumes the flow is inviscid, incompressible, and irrotational. More details on the theory for the frequency-domain BEM can be found in <a class="reference internal" href="#lee2006" id="id8">[3]</a>.</p>
+<p>WEC-Sim imports non-dimensionalized hydrodynamic coefficients from a <code class="docutils literal"><span class="pre">*.h5</span></code>  data structure generated by <a class="reference external" href="http://wec-sim.github.io/bemio/">BEMIO</a> for the WAMIT, AQWA or Nemoh BEM solvers. Alternatively, the <code class="docutils literal"><span class="pre">*.h5</span></code> data structure can be manually defined by the user. The WEC-Sim code then scales the hydrodynamic coefficients according to the scaling defined below, where <span class="math">\(\rho\)</span> is the water density, <span class="math">\(\omega\)</span> is the wave frequency in rad/s, and g is gravity:</p>
+<div class="math">
+\[|\overline{F_{X}(\omega)}|=\frac{|F_{X}(\omega)|}{\rho g}\]\[\overline{A(\omega)} = \frac{A(\omega)}{\rho}\]\[\overline{B(\omega)} = \frac{B(\omega)}{\rho \omega}\]\[\overline{K} = \frac{K}{\rho g}\]</div>
+</div>
+<div class="section" id="time-domain-numerical-method">
+<h2>Time-Domain Numerical Method<a class="headerlink" href="#time-domain-numerical-method" title="Permalink to this headline">¶</a></h2>
+<p>The dynamic response of the system is calculated by solving the equation of motion for WEC systems <a class="reference internal" href="#babarit2012" id="id9">[2]</a><a class="reference internal" href="#nolte2014" id="id10">[6]</a>. The equation of motion for a floating body, about its center of gravity, can be given as:</p>
+<div class="math">
+\[m\ddot{X}=F_{ext}+F_{rad}+F_{PTO}+F_{v}+F_{B}+F_{m}\]</div>
+<p>where <span class="math">\(\ddot{X}\)</span> is the (translational and rotational) acceleration vector of the device, <span class="math">\(m\)</span> is the mass matrix, <span class="math">\(F_{ext}\)</span> is the wave excitation force vector, <span class="math">\(F_{rad}\)</span> is the force vector resulting from wave radiation, <span class="math">\(F_{PTO}\)</span> is the PTO force vector, <span class="math">\(F_{v}\)</span> is the damping force vector, <span class="math">\(F_{B}\)</span> is the net buoyancy restoring force vector, and <span class="math">\(F_{m}\)</span> is the force vector resulting from the mooring connection.</p>
+<p>Both <span class="math">\(F_{ext}\)</span> and <span class="math">\(F_{rad}\)</span> are calculated from values provided by the frequency-domain BEM solver. The radiation term includes an added-mass and wave damping term associated with the acceleration and velocity of the floating body, respectively. The wave excitation term includes a Froude-Krylov force component generated by the undisturbed incident waves and a diffraction component that results from the presence of the floating body. WEC-Sim can be used for regular and irregular wave simulations, but note that <span class="math">\(F_{ext}\)</span> and <span class="math">\(F_{rad}\)</span> are calculated differently for sinusoidal steady-state response scenarios and random sea simulations. The sinusoidal steady-state response is often used for simple WEC designs with regular incoming waves. However, for random sea simulations or any simulations where fluid memory effects of the system are essential, the convolution integral method is recommended to represent the fluid memory retardation force on the floating body.</p>
+<div class="section" id="sinusoidal-steady-state-response-scenario">
+<h3>Sinusoidal Steady-State Response Scenario<a class="headerlink" href="#sinusoidal-steady-state-response-scenario" title="Permalink to this headline">¶</a></h3>
+<p>This approach assumes that the system response is in sinusoidal steady-state form, and is only valid for regular wave simulations. The radiation term can be calculated using the added mass and the wave radiation damping term for a given wave frequency, which is obtained from</p>
+<div class="math">
+\[F_{rad}=-A(\omega)\ddot{X}-B(\omega)\dot{X}\]</div>
+<p>where <span class="math">\(A(\omega)\)</span> and <span class="math">\(B(\omega)\)</span> are the added-mass and wave radiation damping matrices, respectively. <span class="math">\(\omega\)</span> is the wave frequency in rad/sec, and <span class="math">\(\dot{X}\)</span> is the velocity vector of the floating body.</p>
+<p>The free surface profile is based on linear wave theory for a given wave height, wave frequency, and water depth. The regular wave excitation force is obtained from</p>
+<div class="math">
+\[F_{ext}=\Re\left[ R_{f}\frac{H}{2}F_{X}(\omega)e^{i(\omega t)} \right]\]</div>
+<p>where <span class="math">\(\Re\)</span> denotes the real part of the formula, <span class="math">\(R_{f}\)</span> is the ramp function, <span class="math">\(H\)</span> is the wave height, and <span class="math">\(F_{X}\)</span> is the excitation vector, including the magnitude and phase of the force.</p>
+</div>
+<div class="section" id="convolution-integral-formulation">
+<h3>Convolution Integral Formulation<a class="headerlink" href="#convolution-integral-formulation" title="Permalink to this headline">¶</a></h3>
+<p>To include the fluid memory effect on the system, the convolution integral calculation, which is based upon the Cummins equation <a class="reference internal" href="#cummins1962" id="id11">[7]</a>, is used The radiation term can be calculated by</p>
+<div class="math">
+\[F_{rad}=-A_{\infty}\ddot{X}-\intop_{0}^{t}K(t-\tau)\dot{X}(\tau)d\tau\]</div>
+<p>where <span class="math">\(A_{\infty}\)</span> is the added mass matrix at infinite frequency and <span class="math">\(K\)</span> is the radiation impulse response function.</p>
+<p>For regular waves, the equation discribed in the last subsection is used to calculate the wave excitation force. For irregular waves, the free surface elevation is constructed from a linear superposition of a number of regular wave components. It is often characterized using a wave spectrum that describes the wave energy distribution over a range of wave frequencies, characterized by a significant wave height and peak wave period. The irregular excitation force can be calculated as the real part of an integral term across all wave frequencies as follows</p>
+<div class="math">
+\[F_{ext}=\Re\left[ R_{f} F_{X}(\omega_{r})e^{i(\omega_{r}t+\phi)} \intop_{0}^{\infty}\sqrt{2S(\omega_{r})d\omega_{r}} \right]\]</div>
+<p>where <span class="math">\(S\)</span> is the wave spectrum and <span class="math">\(\phi\)</span> is a random phase angle.</p>
+<div class="figure align-center">
+<img alt="_images/WaveElevation.png" src="_images/WaveElevation.png" />
+<div class="legend">
+<em>Example irregular wave elevation generated by WEC-Sim</em></div>
+</div>
+</div>
+<div class="section" id="state-space-representation-of">
+<h3>State Space Representation of <span class="math">\(K_{r}\)</span><a class="headerlink" href="#state-space-representation-of" title="Permalink to this headline">¶</a></h3>
+<p>It is highly desirable to represent the radiation convolution integral discribed in the last subsection in state space (SS) form <a class="reference internal" href="#yu1996" id="id12">[8]</a>.  This has been shown to dramatically increase computational speeds <a class="reference internal" href="#taghipour2008" id="id13">[9]</a> and allow for conventional control methods, that rely on linear state space models, to be used.  An approximation will need to be made as <span class="math">\(K_{r}\)</span> is solved from a set of partial differential equations where as a linear state space is constructed from a set of ordinary differential equations.  In general it is desired to make the following approximation:</p>
+<div class="math">
+\[\begin{split}\mathbf{\dot{X}_{r}} \left( t \right) = \mathbf{A_{r}} \mathbf{X_{r}} \left( t \right) + \mathbf{B_{r}} \mathbf{\dot{\zeta}} (t);~~\mathbf{X_{r} }\left( 0 \right) = 0~~ \nonumber \\
+\int_{-\infty}^{t} \mathbf{K_{r}} \left( t- \tau \right) d\tau \approx \mathbf{C_{r}} \mathbf{X_{r}} \left( t \right) + \mathbf{D_{r}} \mathbf{\dot{\zeta}} \left( t \right)~~\end{split}\]</div>
+<p>with <span class="math">\(\mathbf{A_{r}},~\mathbf{B_{r}},~\mathbf{C_{r}},~\mathbf{C_{r}},~\mathbf{D_{r}}\)</span> being the time-invariant state, input, output, and feed through matrices, while <span class="math">\(\dot{\zeta}\)</span> is the input to the system.</p>
+<div class="section" id="calculation-of-from-state-space-matrices">
+<h4>Calculation of <span class="math">\(K_{r}\)</span> from State Space Matrices<a class="headerlink" href="#calculation-of-from-state-space-matrices" title="Permalink to this headline">¶</a></h4>
+<p>The impulse response of a single-input state-space model represented by:</p>
+<div class="math">
+\[\begin{split}\dot{x} &amp;=&amp;  \mathbf{A_{r}}x + \mathbf{B_{r}} u~~\\
+y &amp;=&amp; C_{r} \mathbf{x}~~\end{split}\]</div>
+<p>which is the same as the unforced response, (<span class="math">\(u=0\)</span>), with the initial states set to <span class="math">\(\mathbf{B_{r}}\)</span>:</p>
+<div class="math">
+\[\begin{split}\dot{x} &amp;=&amp; \mathbf{A_{r}} x~~,~~x(0)= \mathbf{B_{r}}~~\\
+y &amp;=&amp; \mathbf{C_{r}} x~~\end{split}\]</div>
+<p>The impulse response of a continuous system with a nonzero <span class="math">\(D\)</span> matrix is infinite at <span class="math">\(t=0\)</span>, therefore the lower continuity value <span class="math">\(\mathbf{C_{r}}\mathbf{B_{r}}\)</span> is reported at <span class="math">\(t=0\)</span>. The general solution to a linear time invariant (LTI) system is given by:</p>
+<div class="math">
+\[x(t) = e^{\mathbf{A_{r}}t} x(0) + \int_{0}^{t} e^{\mathbf{A_{r}}(t-\tau)} \mathbf{B_{r}} u (\tau) d\tau~~\]</div>
+<p>where <span class="math">\(e^{\mathbf{A_{r}}}\)</span> is called the matrix exponential and the calculation of <span class="math">\(K_{r}\)</span> follows:</p>
+<div class="math">
+\[K_{r}(t) = \mathbf{C_{r}}e^{\mathbf{A_{r}}t}\mathbf{B_{r}}~~\]</div>
+</div>
+<div class="section" id="laplace-transform-and-transfer-function">
+<h4>Laplace Transform and Transfer Function<a class="headerlink" href="#laplace-transform-and-transfer-function" title="Permalink to this headline">¶</a></h4>
+<p>The Laplace transform is a common integral transform in mathematics.  It is a linear operator of a function that transforms <span class="math">\(f(t)\)</span> to a function <span class="math">\(F \left( s \right)\)</span> with complex argument <span class="math">\(s\)</span>, which is calculated from the integral</p>
+<div class="math">
+\[F \left( s \right) = \int_{0}^{\infty} f \left( t \right) e^{-st} dt~~\]</div>
+<p>where the derivative of <span class="math">\(f \left( t \right)\)</span> has the following laplace transform</p>
+<div class="math">
+\[sF \left( s \right) = \int_{0}^{\infty} \frac{df \left( t \right)}{dt} e^{-st} dt~~\]</div>
+<p>The Laplace transform has some useful relationships, the first relation used later in this document is the initial value theorem:</p>
+<div class="math">
+\[f \left( 0^{+} \right) = \lim_{s \rightarrow \infty} s F \left( s \right)~~\]</div>
+<p>and the final value theorem:</p>
+<div class="math">
+\[f \left( \infty \right) = \lim_{s \rightarrow 0} s F \left( s \right)~~\]</div>
+<p>Consider a linear input/output system described by the following differential equation</p>
+<div class="math">
+\[\frac{d^{m}y}{dt^{m}}+a_{1}\frac{d^{m-1}y}{dt^{m-1}}+\ldots + a_{m}y = b_{0}\frac{d^{n}u}{dt^{n}} + b_{1}\frac{d^{n}u}{dt^{n}} + \ldots + b_{n} u~~\]</div>
+<p>where <span class="math">\(y\)</span> is the output and <span class="math">\(u\)</span> the input.  After taking the Laplace Transform of equation above, the differential equation is now completely described by two polynomials</p>
+<div class="math">
+\[\begin{split}&amp; A \left( s \right) = s^{m} + a_{1} s^{m-1} + \ldots + a_{m-1}s + a_{m}~~&amp; \\
+&amp; B \left( s \right) = b_{0}s^{n} + b_{1}s^{n-1} + \ldots + b_{n-1}s + b_{n}~~&amp;\end{split}\]</div>
+<p>where <span class="math">\(A \left( s \right)\)</span> is characteristic polynomial of the system.  The polynomials can be inserted into the above equation leading to:</p>
+<div class="math">
+\[G \left( s \right)=\frac{Y\left( s \right)}{U \left( s \right)} = \frac{s^{m} + a_{1} s^{m-1} + \ldots + a_{m-1}s + a_{m} }{b_{0}s^{n} + b_{1}s^{n-1} + \ldots + b_{n-1}s + b_{n}}~~\]</div>
+<p>where <span class="math">\(G\left( s \right)\)</span> is the transfer function.  If the state, input, output, and feedthrough matrices are known the transfer function of the system can be calculated from:</p>
+<div class="math">
+\[G \left( s \right) = C \left( sI - A \right)^{-1}B + D~~\]</div>
+<p>The frequency response of the system can be obtained by substituting <span class="math">\(j\sigma\)</span> for <span class="math">\(s\)</span>, for the frequency range of interest, where the magnitude and phase of <span class="math">\(G \left( j\sigma \right)\)</span> can be calculated with the results commonly presented in a Bode plot.</p>
+</div>
+<div class="section" id="realization-theory">
+<h4>Realization Theory<a class="headerlink" href="#realization-theory" title="Permalink to this headline">¶</a></h4>
+<p>The state space realization of the hydrodynamic radiation coefficients can be pursued in the time domain (TD). This consists of finding the minimal order of the system and the discrete time state matrices (<span class="math">\(\mathbf{A_{d}},~\mathbf{B_{d}},~\mathbf{C_{d}},~\mathbf{D_{d}}\)</span>) from a matrix assembly from the samples of the impulse response function.  This problem is easier to handle for a discrete-time system than for continuous-time, the reason being that impulse response function of a discrete-time system is given by the Markov parameters of the system:</p>
+<div class="math">
+\[\mathbf{\tilde{K}_{r}} \left( t_{k} \right) = \mathbf{C_{d}}\mathbf{A_{d}}^{k}\mathbf{B_{d}}~~\]</div>
+<p>where <span class="math">\(t_{k}=k\Delta t\)</span> for <span class="math">\(k=0,~1,~2,~\ldots\)</span> with <span class="math">\(\Delta t\)</span> being the sampling period.  The above equation does not include the feedthrough matrix as it results in an infinite value at <span class="math">\(t=0\)</span> and in order to keep the causality of the system.</p>
+<p>The most common algorithm to obtain the realization is to perform a Singular Value Decomposition (SVD) on the Hankel matrix of the impulse response function as proposed by Kung <a class="reference internal" href="#kung1978" id="id14">[10]</a>.  The order of the system and state-space parameters are determined from the number of significant values and the factors of the SVD.  Performing an SVD produces:</p>
+<div class="math">
+\[\begin{split}&amp; H = \begin{bmatrix}
+        \mathbf{K_{r}}(2) &amp; \mathbf{K_{r}}(3) &amp; \ldots &amp; \mathbf{K_{r}}(n) \\
+        \mathbf{K_{r}}(3) &amp; \mathbf{K_{r}}(4) &amp; \ldots &amp; 0 \\
+        \vdots &amp; \vdots &amp; \ddots &amp; \vdots \\
+        \mathbf{K_{r}}(n) &amp; 0 &amp; \cdots &amp; 0
+\end{bmatrix} &amp;\\\end{split}\]</div>
+<div class="math">
+\[\begin{split}&amp; H = \mathbf{U} \Sigma \mathbf{V^{*}} &amp;\end{split}\]</div>
+<p>where <span class="math">\(H\)</span> is the Hankel matrix and <span class="math">\(\Sigma\)</span> is a diagonal matrix containing the Hankel singular vales in descending order.  Examination of the Hankel singular values reveals there are only a small number of significant states and model reduction can be performed without a significant loss in accuracy <a class="reference internal" href="#taghipour2008" id="id15">[9]</a><a class="reference internal" href="#kristiansen2005" id="id16">[11]</a>.  Further detail into the SVD method and calculation of the state space parameters will not be discussed and the reader is referred to <a class="reference internal" href="#taghipour2008" id="id17">[9]</a><a class="reference internal" href="#kristiansen2005" id="id18">[11]</a>.</p>
+</div>
+</div>
+<div class="section" id="wave-spectrum">
+<h3>Wave Spectrum<a class="headerlink" href="#wave-spectrum" title="Permalink to this headline">¶</a></h3>
+<p>The ability to generate regular waves provides an opportunity to observe the response of a model under specific conditions. Sea states with constant wave heights and periods are rarely found outside wave tank test. Normal sea conditions are more accurately represented by random-wave time series that model the superposition of various wave forms with different amplitudes and periods. This superposition of waves is characterized by a sea spectrum. Through statistical analysis, spectra are characterized by specific parameters such as significant wave height, peak period, wind speed, fetch length, and others. The common types of spectra that are used by the offshore industry are discussed in the following sections.  The general form of the sea spectrums available in WEC-Sim is given by:</p>
+<div class="math">
+\[S\left( f \right) = A f^{-5}\exp\left[-B f^{-4} \right]~~\]</div>
+<p>where <span class="math">\(f\)</span> is the wave frequency (in Hertz) and <span class="math">\(\exp\)</span> stands for the exponential function.</p>
+<div class="section" id="pierson-moskowitz">
+<h4>Pierson&#8211;Moskowitz<a class="headerlink" href="#pierson-moskowitz" title="Permalink to this headline">¶</a></h4>
+<p>One of the simplest spectra was proposed by <a class="reference internal" href="#pm" id="id19">[12]</a>. It assumed that after the wind blew steadily for a long time over a large area, the waves would come into equilibrium with the wind. This is the concept of a fully developed sea, where a &#8220;long time&#8221; is roughly 10,000 wave periods, and a &#8220;large area&#8221; is roughly 5,000 wave-lengths on a side.  The spectrum is calculated from</p>
+<div class="math">
+\[\begin{split}&amp; S\left( f \right) = \frac{\alpha_{PM}g^{2}}{\left( 2 \pi \right)^{4}}f^{-5}\exp\left[-\frac{5}{4} \left( \frac{f_{p}}{f}\right)^{4} \right]~~ &amp;\\\end{split}\]\[\begin{split}&amp; A = \frac{\alpha_{PM}g^{2}}{\left( 2 \pi \right)^{4}},~~B = \frac{5}{4} {f_{p}}^{4}~~ &amp;\end{split}\]</div>
+<p>where <span class="math">\(\alpha_{PM}\)</span> = 0.0081, <span class="math">\(g\)</span> is gravity, and <span class="math">\(f_{p}\)</span> is the peak frequency of the spectrum. However, this spectrum representation does not allow the user to define the significant wave height. To facilitate the creation of a power matrix, in WEC-Sim the <span class="math">\(\alpha_{PM}\)</span> coefficient was calculated such that the desired significant wave height of the sea state was met.  The <span class="math">\(\alpha_{PM}\)</span> fit was calculated as follows:</p>
+<div class="math">
+\[\alpha_{PM} = \frac{H_{m0}^{2}}{16\int_{0}^{\infty} S^{*} \left( f \right) df}~~\]\[S^{*}\left( f \right) = \frac{ g^{2} }{ (2\pi)^{4}} f^{-5}\exp\left[-\frac{5}{4} \left( \frac{f_{p}}{f}\right)^{4} \right]~~\]</div>
+<p>Note that related to the spectrum is a series of characteristic numbers called the spectral moments. These numbers, denoted <span class="math">\(m_{k}~,~k=0, 1, 2,...\)</span> are defined as</p>
+<div class="math">
+\[m_{k} = \int_{0}^{\infty} f^{k} S \left( f \right) df ~~\]</div>
+<p>The spectral moment, <span class="math">\(m_{0}\)</span> is the variance of the free surface, which allows one to define</p>
+<div class="math">
+\[H_{m0} = 4 \sqrt{m_{0}}~~\]</div>
+</div>
+<div class="section" id="bretschneider-spectrum">
+<h4>Bretschneider Spectrum<a class="headerlink" href="#bretschneider-spectrum" title="Permalink to this headline">¶</a></h4>
+<p>This two-parameter spectrum is based on significant wave height and peak wave frequency.  For a given significant wave height, the peak frequency can be varied to cover a range of conditions including developing and decaying seas. In general, the parameters depend on wind speed (most important), wind direction, as well as fetch and locations of storm fronts. The spectrum is given as</p>
+<div class="math">
+\[\begin{split}&amp; S\left( f \right) = \frac{{H_{m0}}^2}{4}\left(1.057f_{p}\right)^{4}f^{-5}\exp\left[-\frac{5}{4} \left( \frac{f_{p}}{f}\right)^{4} \right]~~ &amp;\\\end{split}\]\[\begin{split}&amp; A =\frac{{H_{m0}}^2}{4}\left(1.057f_{p}\right)^{4} \approx \frac{5}{16} {H_{m0}}^2 {f_{p}}^{4}~~ &amp;\\\end{split}\]\[\begin{split}&amp; B = \left(1.057f_{p}\right)^{4} \approx \frac{5}{4} {f_{p}}^{4}~~ &amp;\end{split}\]</div>
+<p>where <span class="math">\(H_{m0}\)</span> is the significant wave height which is generally defined as the mean wave height of the one third highest waves.</p>
+</div>
+<div class="section" id="jonswap-joint-north-sea-wave-project-spectrum">
+<h4>JONSWAP (Joint North Sea Wave Project) Spectrum<a class="headerlink" href="#jonswap-joint-north-sea-wave-project-spectrum" title="Permalink to this headline">¶</a></h4>
+<div class="admonition note">
+<p class="first admonition-title">Note</p>
+<p class="last">This is the WEC-Sim default spectrum</p>
+</div>
+<p>The spectrum was purposed by Hasselmann et al. <a class="reference internal" href="#hk" id="id20">[13]</a>, and the original formulation was given as</p>
+<div class="math">
+\[\begin{split}&amp; S\left( f \right) = \frac{ \alpha_{j} g^{2} }{ (2\pi)^{4}} f^{-5}\exp\left[-\frac{5}{4} \left( \frac{f_{p}}{f}\right)^{4} \right]\gamma^\Gamma \nonumber &amp; \\\end{split}\]\[\begin{split}&amp;\Gamma = \exp \left[ -\left( \frac{\frac{f}{f_{p}}-1}{\sqrt{2} \sigma}\right)^{2} \right],~~ \sigma = \begin{cases} 0.07 &amp; f \leq f_{p} \\0.09 &amp; f &gt; f_{p} \end{cases} ~~ &amp;\\\end{split}\]\[\begin{split}&amp; A =\frac{ \alpha_{j} g^{2} }{ (2\pi)^{4}},~~B = \frac{5}{4} {f_{p}}^{4}~~ &amp;\end{split}\]</div>
+<p>where <span class="math">\(\alpha_{j}\)</span> is a nondimensional variable that is a function of the wind speed and fetch length.</p>
+<p>Empirical fits were applied in an attempt to find a mean value that would capture the spectral shape of most measured sea states. To fit <span class="math">\(\alpha_{j}\)</span> to match the desired significant wave height the following calculation must be performed</p>
+<div class="math">
+\[\alpha_{j} = \frac{H_{m0}^{2}}{16\int_{0}^{\infty} S^{*} \left( f \right) df}\]\[S^{*}\left( f \right) = \frac{ g^{2} }{ (2\pi)^{4}} f^{-5}\exp\left[-\frac{5}{4} \left( \frac{f_{p}}{f}\right)^{4} \right]\gamma^\Gamma ~~\]</div>
+<p><strong>Spectrum purposed at ITTC</strong></p>
+<p>Another form of JONSWAP spectrum was purposed at the 17th International Towing Tank Conference (ITTC). It was defined as</p>
+<div class="math">
+\[\begin{split}&amp; S\left( f \right) = \frac{155 }{ \left( 2\pi \right)^{4}} \frac{H_{m0}^{2}}{(0.834T_{p})^{4}} f^{-5}\exp\left[-\frac{5}{4} \left( \frac{f_{p}}{f}\right)^{4} \right]\gamma^\Gamma \nonumber &amp; \\\end{split}\]\[\begin{split}&amp; \approx \frac{310 }{ \left( 2\pi \right)^{4}} {H_{m0}}^{2} {f_{p}}^{4} f^{-5}\exp\left[-\frac{5}{4} \left( \frac{f_{p}}{f}\right)^{4} \right]\gamma^\Gamma~~ &amp;\\\end{split}\]\[\begin{split}&amp;\Gamma = \exp \left[ -\left( \frac{\frac{f}{f_{p}}-1}{\sqrt{2} \sigma}\right)^{2} \right],~~ \sigma = \begin{cases} 0.07 &amp; f \leq f_{p} \\ 0.09 &amp; f &gt; f_{p} \end{cases} ~~ \\\end{split}\]\[\begin{split}&amp; A =\frac{310 }{ \left( 2\pi \right)^{4}} {H_{m0}}^{2} {f_{p}}^{4},~~B = \frac{5}{4} {f_{p}}^{4}~~ &amp;\end{split}\]</div>
+<p>The figure below shows the comparison of the JONSWAP spectrum obtained from the <span class="math">\(\alpha_{j}\)</span> fit and the ITTC description .  It is clear that the two methods have very good agreement.</p>
+<div class="figure align-center">
+<img alt="_images/Jonswap.png" src="_images/Jonswap.png" />
+<div class="legend">
+<em>Comparison of</em> <span class="math">\(\alpha_{j}\)</span> <em>fit to the ITTC description of the JONSWAP spectrum with</em> <span class="math">\(H_{m0}\)</span> = 2m <em>and</em> <span class="math">\(T_{p}\)</span> = 8s</div>
+</div>
+</div>
+</div>
+<div class="section" id="ramp-function">
+<h3>Ramp Function<a class="headerlink" href="#ramp-function" title="Permalink to this headline">¶</a></h3>
+<p>A ramp function (<span class="math">\(R_{f}\)</span>), necessary to avoid strong transient flows at the earlier time steps of the simulation, is used to calculate the wave excitation force. The ramp function is given by</p>
+<div class="math">
+\[\begin{split}R_{f}=\begin{cases}
+\frac{1}{2}(1+\cos(\pi+\frac{\pi t}{t_{r}}) &amp; \frac{t}{t_{r}}&lt;1\\
+1 &amp; \frac{t}{t_{r}}\geq1
+\end{cases}\end{split}\]</div>
+<p>where <span class="math">\(t\)</span> is the simulation time and <span class="math">\(t_{r}\)</span> is the ramp time.</p>
+</div>
+</div>
+<div class="section" id="power-take-off-pto-forces">
+<h2>Power Take-off (PTO) Forces<a class="headerlink" href="#power-take-off-pto-forces" title="Permalink to this headline">¶</a></h2>
+<div class="section" id="linear-spring-damper-pto">
+<h3>Linear Spring-damper PTO<a class="headerlink" href="#linear-spring-damper-pto" title="Permalink to this headline">¶</a></h3>
+<p>The PTO mechanism is represented as a linear spring-damper system, where the reaction force is given by:</p>
+<div class="math">
+\[F_{PTO}=-K{}_{PTO}X_{rel}-C_{PTO}\dot{X}_{rel}\]</div>
+<p>where <span class="math">\(K_{PTO}\)</span> is the stiffness of the PTO, <span class="math">\(C_{PTO}\)</span> is the damping of the PTO, and <span class="math">\(X_{rel}\)</span> and <span class="math">\(\dot{X}_{rel}\)</span> are the relative motion and velocity between two bodies.</p>
+<p>The power consumed by the PTO is given by:</p>
+<blockquote>
+<div><div class="math">
+\[P_{PTO} = -F_{PTO}\dot{X}_{rel}=\left(K_{PTO}X_{rel}\dot{X}_{rel}+C_{PTO}\dot{X}^{2}_{rel}\right)\]</div>
+</div></blockquote>
+<p>However, the relative motion and velocity between two bodies is out of phase by <span class="math">\(\pi/2\)</span>, resulting in a time-averaged product of 0. This allows the absorbed power to be written as</p>
+<div class="math">
+\[P_{PTO} =C_{PTO}\dot{X}^{2}_{rel}\]</div>
+</div>
+<div class="section" id="hydraulic-pto">
+<h3>Hydraulic PTO<a class="headerlink" href="#hydraulic-pto" title="Permalink to this headline">¶</a></h3>
+<p>The PTO mechanism is modeled as a hydraulic system <a class="reference internal" href="#so" id="id21">[14]</a>, where the reaction force is given by:</p>
+<div class="math">
+\[F_{PTO}=\Delta{} p_{piston}A_{piston}\]</div>
+<p>where <span class="math">\(\Delta{} p_{piston}\)</span> is the differential pressure of hydraulic piston, and <span class="math">\(A_{piston}\)</span> is the piston area.</p>
+<p>The power absorbed by the PTO is given by:</p>
+<div class="math">
+\[P_{PTO}=-F_{PTO}\dot{X}_{rel}\]</div>
+</div>
+<div class="section" id="mechanical-pto">
+<h3>Mechanical PTO<a class="headerlink" href="#mechanical-pto" title="Permalink to this headline">¶</a></h3>
+<p>The PTO mechanism is modeled as a direct drive linear generator system <a class="reference internal" href="#so" id="id22">[14]</a>, where the reaction force is given by:</p>
+<div class="math">
+\[F_{PTO}=(\frac{\pi}{\tau_{pm}})\lambda_{fd}i_{sq}\]</div>
+<p>where <span class="math">\(\tau_{pm}\)</span> is the magnet pole pitch (the distance measured of the magnet from the center of one pole to the center of the next pole), <span class="math">\(\lambda_{fd}\)</span> is the flux linkage of the stator <span class="math">\(d\)</span>-axis winding due to flux produced by the rotor magnets, and <span class="math">\(i_{sq}\)</span> is the stator <span class="math">\(q\)</span>-axis current.</p>
+<p>The power absorbed by the PTO is given by:</p>
+<div class="math">
+\[P_{PTO}=-F_{PTO}\dot{X}_{rel}\]</div>
+</div>
+</div>
+<div class="section" id="mooring-forces">
+<h2>Mooring Forces<a class="headerlink" href="#mooring-forces" title="Permalink to this headline">¶</a></h2>
+<p>The mooring load is represented using a linear quasi-static mooring stiffness, which can be calculated by</p>
+<div class="math">
+\[F_{m}=-K_{m}X-C_{m}\dot{X}\]</div>
+<p>where <span class="math">\(K_{m}\)</span> and <span class="math">\(C_{m}\)</span> are the stiffness and damping matrices for the mooring system, and <span class="math">\(X\)</span> and <span class="math">\(\dot{X}\)</span> are the response and velocity of the body, respectively.</p>
+</div>
+<div class="section" id="damping-forces">
+<h2>Damping Forces<a class="headerlink" href="#damping-forces" title="Permalink to this headline">¶</a></h2>
+<p>The effect of damping to the system is included by specifying linear and quadratic damping term to the equation of motion,</p>
+<blockquote>
+<div><div class="math">
+\[F_{v}=-C_{ld}\dot{X}+\frac{1}{2}C_{d}\rho A_{D}\dot{X}|\dot{X}|\]</div>
+</div></blockquote>
+<p>where <span class="math">\(C_{ld}\)</span> is the linear damping coefficient, <span class="math">\(C_{d}\)</span> is the (quadratic) viscous drag coefficient, <span class="math">\(\rho\)</span> is the fluid density, and <span class="math">\(A_{D}\)</span> is the characteristic area.</p>
+<p>Generally, the effect of viscosity on the WEC dynamics needs to be considered as neglecting this effect may lead to an overestimation of the power generation of the system, particularly when a linear model is applied. A common way of modeling the viscous damping is to add a (Morison-equation-type) quadratic damping term to the equation of motion. The viscous drag coefficient for the device must be carefully selected <a class="reference internal" href="#li2012" id="id23">[1]</a><a class="reference internal" href="#babarit2012" id="id24">[2]</a>; however, it is dependent on device geometry, scale, and relative velocity between the body and the flow around it. The drag coefficient becomes much larger when the Reynolds and the Keulegan-Carpenter number are smaller. Note that empirical data on the drag coefficient can be found in various literature and standards. The available data may, however, be limited to existing simple geometries. For practical point absorber geometry, the hydrodynamic forces may have to be evaluated by conducting wave tank tests or prescribed motion computational fluid dynamic simulations.</p>
+</div>
+<div class="section" id="references">
+<h2>References<a class="headerlink" href="#references" title="Permalink to this headline">¶</a></h2>
+<p id="bibtex-bibliography-theory-0"><table class="docutils citation" frame="void" id="li2012" rules="none">
+<colgroup><col class="label" /><col /></colgroup>
+<tbody valign="top">
+<tr><td class="label">[1]</td><td><em>(<a class="fn-backref" href="#id2">1</a>, <a class="fn-backref" href="#id23">2</a>)</em> Ye&nbsp;Li and Yi-Hsiang Yu. A Synthesis of Numerical Methods for Modeling Wave Energy Converter-Point Absorbers. <em>Renewable and Sustainable Energy Reviews</em>, 16(6):4352–4364, 2012.</td></tr>
+</tbody>
+</table>
+<table class="docutils citation" frame="void" id="babarit2012" rules="none">
+<colgroup><col class="label" /><col /></colgroup>
+<tbody valign="top">
+<tr><td class="label">[2]</td><td><em>(<a class="fn-backref" href="#id3">1</a>, <a class="fn-backref" href="#id9">2</a>, <a class="fn-backref" href="#id24">3</a>)</em> Aurélien Babarit, J.&nbsp;Hals, M.J. Muliawan, A.&nbsp;Kurniawan, T.&nbsp;Moan, and J.&nbsp;Krokstad. Numerical Benchmarking Study of a Selection of Wave Energy Converters. <em>Renewable Energy</em>, 41:44–63, 2012.</td></tr>
+</tbody>
+</table>
+<table class="docutils citation" frame="void" id="lee2006" rules="none">
+<colgroup><col class="label" /><col /></colgroup>
+<tbody valign="top">
+<tr><td class="label">[3]</td><td><em>(<a class="fn-backref" href="#id5">1</a>, <a class="fn-backref" href="#id8">2</a>)</em> CH&nbsp;Lee and JN&nbsp;Newman. WAMIT User Manual. 2006.</td></tr>
+</tbody>
+</table>
+<table class="docutils citation" frame="void" id="aqwa" rules="none">
+<colgroup><col class="label" /><col /></colgroup>
+<tbody valign="top">
+<tr><td class="label"><a class="fn-backref" href="#id6">[4]</a></td><td>ANSYS Aqwa. <a class="reference external" href="http://www.ansys.com/Products/Other+Products/ANSYS+AQWA">URL: http://www.ansys.com/Products/Other+Products/ANSYS+AQWA</a>.</td></tr>
+</tbody>
+</table>
+<table class="docutils citation" frame="void" id="nemoh" rules="none">
+<colgroup><col class="label" /><col /></colgroup>
+<tbody valign="top">
+<tr><td class="label"><a class="fn-backref" href="#id7">[5]</a></td><td>Nemoh a Open source BEM. <a class="reference external" href="http://openore.org/tag/nemoh/">URL: http://openore.org/tag/nemoh/</a>.</td></tr>
+</tbody>
+</table>
+<table class="docutils citation" frame="void" id="nolte2014" rules="none">
+<colgroup><col class="label" /><col /></colgroup>
+<tbody valign="top">
+<tr><td class="label"><a class="fn-backref" href="#id10">[6]</a></td><td>Jerica&nbsp;D. Nolte and R.&nbsp;C. Ertekin. Wave power calculations for a wave energy conversion device connected to a drogue. <em>Journal of Renewable and Sustainable Energy</em>, 2014.</td></tr>
+</tbody>
+</table>
+<table class="docutils citation" frame="void" id="cummins1962" rules="none">
+<colgroup><col class="label" /><col /></colgroup>
+<tbody valign="top">
+<tr><td class="label"><a class="fn-backref" href="#id11">[7]</a></td><td>WE&nbsp;Cummins. The Impulse Response Function and Ship Motions. Technical Report, David Taylor Model Dasin-DTNSRDC, 1962.</td></tr>
+</tbody>
+</table>
+<table class="docutils citation" frame="void" id="yu1996" rules="none">
+<colgroup><col class="label" /><col /></colgroup>
+<tbody valign="top">
+<tr><td class="label"><a class="fn-backref" href="#id12">[8]</a></td><td>Z.&nbsp;Yu and J.&nbsp;Falnes. State-space Modelling of a Vertical Cylinder in Heave. <em>Applied Ocean Research</em>, 5:265–275, 1996.</td></tr>
+</tbody>
+</table>
+<table class="docutils citation" frame="void" id="taghipour2008" rules="none">
+<colgroup><col class="label" /><col /></colgroup>
+<tbody valign="top">
+<tr><td class="label">[9]</td><td><em>(<a class="fn-backref" href="#id13">1</a>, <a class="fn-backref" href="#id15">2</a>, <a class="fn-backref" href="#id17">3</a>)</em> R.&nbsp;Taghipour, T.&nbsp;Perez, and T.&nbsp;Moan. Hybrid Frequency-time Domain Models for Dynamic Response Analysis of Marine Structures. <em>Ocean Engineering</em>, 7:685–705, 2008.</td></tr>
+</tbody>
+</table>
+<table class="docutils citation" frame="void" id="kung1978" rules="none">
+<colgroup><col class="label" /><col /></colgroup>
+<tbody valign="top">
+<tr><td class="label"><a class="fn-backref" href="#id14">[10]</a></td><td>Sun-Yuan Kung. A new identification and model reduction algorithm via singular value decomposition. In <em>Proc. 12th Asilomar Conf. Circuits, Syst. Comput., Pacific Grove, CA</em>, 705–714. 1978.</td></tr>
+</tbody>
+</table>
+<table class="docutils citation" frame="void" id="kristiansen2005" rules="none">
+<colgroup><col class="label" /><col /></colgroup>
+<tbody valign="top">
+<tr><td class="label">[11]</td><td><em>(<a class="fn-backref" href="#id16">1</a>, <a class="fn-backref" href="#id18">2</a>)</em> Erlend Kristiansen, Åsmund Hjulstad, and Olav Egeland. State-space representation of radiation forces in time-domain vessel models. <em>Ocean Engineering</em>, 32(17):2195–2216, 2005.</td></tr>
+</tbody>
+</table>
+<table class="docutils citation" frame="void" id="pm" rules="none">
+<colgroup><col class="label" /><col /></colgroup>
+<tbody valign="top">
+<tr><td class="label"><a class="fn-backref" href="#id19">[12]</a></td><td>W.&nbsp;J. Pierson and L.&nbsp;A. Moskowitz. Proposed Spectral Form for Fully Developed Wind Seas Based on the Similarity Theory of S. A. Kitaigorodskii. <em>Geophysical Research</em>, 69:5181–5190, 1964.</td></tr>
+</tbody>
+</table>
+<table class="docutils citation" frame="void" id="hk" rules="none">
+<colgroup><col class="label" /><col /></colgroup>
+<tbody valign="top">
+<tr><td class="label"><a class="fn-backref" href="#id20">[13]</a></td><td>K. Hasselman, T.P. Barnett, E. Bouws, H. Carlson, D.E. Cartwright, K. Enke, J.A. Ewing, H. Gienapp, D.E. Hasselmann, P. Kruseman, A. Meerburg, P. Mller, D.J. Olbers, K. Richter, W. Sell, and H. Walden. Measurements of wind-wave growth and swell decay during the Joint North Sea Wave Project (JONSWAP). Technical Report 12, German Hydrographic Institute, 1973.</td></tr>
+</tbody>
+</table>
+<table class="docutils citation" frame="void" id="so" rules="none">
+<colgroup><col class="label" /><col /></colgroup>
+<tbody valign="top">
+<tr><td class="label">[14]</td><td><em>(<a class="fn-backref" href="#id21">1</a>, <a class="fn-backref" href="#id22">2</a>)</em> R. So, A. Simmons, T. Brekken, K. Ruehl, and C. Michelen. Development of PTO-SIM: A Power Performance Module for the Open-Souse Wave Energy Converter Code WEC-SIM. In <em>Proceedings of OMAE 2015</em>. 2015.</td></tr>
+</tbody>
+</table>
+</p>
+</div>
+</div>
+
+
+          </div>
+          <footer>
+  
+    <div class="rst-footer-buttons" role="navigation" aria-label="footer navigation">
+      
+        <a href="getting_started.html" class="btn btn-neutral float-right" title="Getting Started" accesskey="n">Next <span class="fa fa-arrow-circle-right"></span></a>
+      
+      
+        <a href="release_notes.html" class="btn btn-neutral" title="Release Notes" accesskey="p"><span class="fa fa-arrow-circle-left"></span> Previous</a>
+      
+    </div>
+  
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>
+        &copy; Copyright 2015, National Renewable Energy Laboratory and Sandia Corporation.
+    </p>
+  </div>
+  Built with <a href="http://sphinx-doc.org/">Sphinx</a> using a <a href="https://github.com/snide/sphinx_rtd_theme">theme</a> provided by <a href="https://readthedocs.org">Read the Docs</a>.
+
+</footer>
+
+        </div>
+      </div>
+
+    </section>
+
+  </div>
+  
+
+
+  
+
+    <script type="text/javascript">
+        var DOCUMENTATION_OPTIONS = {
+            URL_ROOT:'./',
+            VERSION:'',
+            COLLAPSE_INDEX:false,
+            FILE_SUFFIX:'.html',
+            HAS_SOURCE:  true
+        };
+    </script>
+      <script type="text/javascript" src="_static/jquery.js"></script>
+      <script type="text/javascript" src="_static/underscore.js"></script>
+      <script type="text/javascript" src="_static/doctools.js"></script>
+      <script type="text/javascript" src="https://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+
+  
+
+  
+  
+    <script type="text/javascript" src="_static/js/theme.js"></script>
+  
+
+  
+  
+  <script type="text/javascript">
+      jQuery(function () {
+          SphinxRtdTheme.StickyNav.enable();
+      });
+  </script>
+   
+
+</body>
+</html>
