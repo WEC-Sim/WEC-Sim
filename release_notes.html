@@ -73,11 +73,12 @@
           
               <ul class="current">
 <li class="toctree-l1 current"><a class="current reference internal" href="">Release Notes</a><ul>
-<li class="toctree-l2"><a class="reference internal" href="#id1">WEC-Sim v1.2</a></li>
-<li class="toctree-l2"><a class="reference internal" href="#id2">WEC-Sim v1.1</a></li>
-<li class="toctree-l2"><a class="reference internal" href="#wec-sim-v1-0">WEC-Sim v1.0</a></li>
-<li class="toctree-l2"><a class="reference internal" href="#backward-compatibility">Backward Compatibility</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#id1">Current WEC-Sim Release</a></li>
 <li class="toctree-l2"><a class="reference internal" href="#features-under-development">Features Under Development</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#id2">WEC-Sim v1.2</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#id4">WEC-Sim v1.1</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#id6">WEC-Sim v1.0</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#backward-compatibility">Backward Compatibility</a></li>
 </ul>
 </li>
 <li class="toctree-l1"><a class="reference internal" href="theory.html">Theory</a><ul>
@@ -303,40 +304,9 @@
   <div class="section" id="release-notes">
 <h1>Release Notes<a class="headerlink" href="#release-notes" title="Permalink to this headline">¶</a></h1>
 <div class="section" id="id1">
-<h2><a class="reference external" href="https://github.com/WEC-Sim/WEC-Sim/releases">WEC-Sim v1.2</a><a class="headerlink" href="#id1" title="Permalink to this headline">¶</a></h2>
+<h2><a class="reference external" href="https://github.com/WEC-Sim/WEC-Sim/releases">Current WEC-Sim Release</a><a class="headerlink" href="#id1" title="Permalink to this headline">¶</a></h2>
 <ul class="simple">
-<li>Nonlinear Froude-Krylov hydrodynamics and hydrostatics</li>
-<li>State space radiation</li>
-<li>Wave directionality</li>
-<li>User-defined wave elevation time-series</li>
-<li>Imports non-dimensionalized BEMIO hydrodynamic data (instead of fully dimensional coefficients)</li>
-<li>&#8216;Variant Subsystems&#8217; implemented to improve code stability (instead of if statements)</li>
-<li>Bug fixes</li>
-</ul>
-</div>
-<div class="section" id="id2">
-<h2><a class="reference external" href="https://github.com/WEC-Sim/WEC-Sim/releases">WEC-Sim v1.1</a><a class="headerlink" href="#id2" title="Permalink to this headline">¶</a></h2>
-<ul class="simple">
-<li><a class="reference external" href="https://github.com/WEC-Sim/WEC-Sim/releases">WEC-Sim v1.1 download</a> available on GitHub</li>
-<li>Improvements in code stability through modifications to the added mass, radiation damping calculations, and impulse response function calculations</li>
-<li>Implementation of state space representation of radiation damping convolution integral calculation</li>
-<li>New hydrodynamic data format based on <a class="reference external" href="http://wec-sim.github.io/bemio/#">BEMIO</a> output, a python code that reads data from WAMIT, NEMOH, and AQWA and writes to the <a class="reference external" href="http://www.hdfgroup.org/">Hierarchical Data Format 5</a> (HDF5) format used by WEC-Sim.</li>
-<li>Documentation available on WEC-Sim Website</li>
-</ul>
-</div>
-<div class="section" id="wec-sim-v1-0">
-<h2>WEC-Sim v1.0<a class="headerlink" href="#wec-sim-v1-0" title="Permalink to this headline">¶</a></h2>
-<ul class="simple">
-<li>Initial release of the WEC-Sim code</li>
-<li>Available as a static download on OpenEI (NOTE: now redirects to WEC-Sim website)</li>
-<li>Documentation available in PDF</li>
-</ul>
-</div>
-<div class="section" id="backward-compatibility">
-<h2>Backward Compatibility<a class="headerlink" href="#backward-compatibility" title="Permalink to this headline">¶</a></h2>
-<ul class="simple">
-<li>Simulink models created in previous versions of WEC-Sim will work provided users have not broken the library link in the .slx model file.</li>
-<li>The input files need to be modified to be compatible with WEC-Sim due to changes in hydrodynamic data input format, variable name changes, and code structure improvements.</li>
+<li>minor updates and bug fixes</li>
 </ul>
 </div>
 <div class="section" id="features-under-development">
@@ -349,6 +319,44 @@
 <p class="first admonition-title">Note</p>
 <p class="last">Features under development are available on the <a class="reference external" href="https://github.com/WEC-Sim/WEC-Sim/tree/dev">WEC-Sim &#8216;dev&#8217; branch</a></p>
 </div>
+</div>
+<div class="section" id="id2">
+<h2><a class="reference external" href="https://github.com/WEC-Sim/WEC-Sim/releases/tag/v1.2">WEC-Sim v1.2</a><a class="headerlink" href="#id2" title="Permalink to this headline">¶</a></h2>
+<ul class="simple">
+<li>Nonlinear Froude-Krylov hydrodynamics and hydrostatics</li>
+<li>State space radiation</li>
+<li>Wave directionality</li>
+<li>User-defined wave elevation time-series</li>
+<li>Imports non-dimensionalized BEMIO hydrodynamic data (instead of fully dimensional coefficients)</li>
+<li>&#8216;Variant Subsystems&#8217; implemented to improve code stability (instead of if statements)</li>
+<li>Bug fixes</li>
+<li><a class="reference external" href="https://github.com/WEC-Sim/WEC-Sim/releases/tag/v1.2">WEC-Sim v1.2</a> available on GitHub</li>
+</ul>
+</div>
+<div class="section" id="id4">
+<h2><a class="reference external" href="https://github.com/WEC-Sim/WEC-Sim/releases/tag/v1.1">WEC-Sim v1.1</a><a class="headerlink" href="#id4" title="Permalink to this headline">¶</a></h2>
+<ul class="simple">
+<li><a class="reference external" href="https://github.com/WEC-Sim/WEC-Sim/releases/tag/v1.1">WEC-Sim v1.1</a> available on GitHub</li>
+<li>Improvements in code stability through modifications to the added mass, radiation damping calculations, and impulse response function calculations</li>
+<li>Implementation of state space representation of radiation damping convolution integral calculation</li>
+<li>New hydrodynamic data format based on <a class="reference external" href="http://wec-sim.github.io/bemio/#">BEMIO</a> output, a python code that reads data from WAMIT, NEMOH, and AQWA and writes to the <a class="reference external" href="http://www.hdfgroup.org/">Hierarchical Data Format 5</a> (HDF5) format used by WEC-Sim.</li>
+<li>Documentation available on WEC-Sim Website</li>
+</ul>
+</div>
+<div class="section" id="id6">
+<h2><a class="reference external" href="https://github.com/WEC-Sim/WEC-Sim/releases/tag/v1.0">WEC-Sim v1.0</a><a class="headerlink" href="#id6" title="Permalink to this headline">¶</a></h2>
+<ul class="simple">
+<li>Initial release of the WEC-Sim code</li>
+<li>Available as a static download (initially on OpenEI, now redirects to WEC-Sim website)</li>
+<li>Documentation available in PDF</li>
+</ul>
+</div>
+<div class="section" id="backward-compatibility">
+<h2>Backward Compatibility<a class="headerlink" href="#backward-compatibility" title="Permalink to this headline">¶</a></h2>
+<ul class="simple">
+<li>Simulink models created in previous versions of WEC-Sim will work provided users have not broken the library link in the .slx model file.</li>
+<li>The input files need to be modified to be compatible with WEC-Sim due to changes in hydrodynamic data input format, variable name changes, and code structure improvements.</li>
+</ul>
 </div>
 </div>
 
