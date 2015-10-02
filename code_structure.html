@@ -73,11 +73,12 @@
           
               <ul class="current">
 <li class="toctree-l1"><a class="reference internal" href="release_notes.html">Release Notes</a><ul>
-<li class="toctree-l2"><a class="reference internal" href="release_notes.html#id1">WEC-Sim v1.2</a></li>
-<li class="toctree-l2"><a class="reference internal" href="release_notes.html#id2">WEC-Sim v1.1</a></li>
-<li class="toctree-l2"><a class="reference internal" href="release_notes.html#wec-sim-v1-0">WEC-Sim v1.0</a></li>
-<li class="toctree-l2"><a class="reference internal" href="release_notes.html#backward-compatibility">Backward Compatibility</a></li>
+<li class="toctree-l2"><a class="reference internal" href="release_notes.html#id1">Current WEC-Sim Release</a></li>
 <li class="toctree-l2"><a class="reference internal" href="release_notes.html#features-under-development">Features Under Development</a></li>
+<li class="toctree-l2"><a class="reference internal" href="release_notes.html#id2">WEC-Sim v1.2</a></li>
+<li class="toctree-l2"><a class="reference internal" href="release_notes.html#id4">WEC-Sim v1.1</a></li>
+<li class="toctree-l2"><a class="reference internal" href="release_notes.html#id6">WEC-Sim v1.0</a></li>
+<li class="toctree-l2"><a class="reference internal" href="release_notes.html#backward-compatibility">Backward Compatibility</a></li>
 </ul>
 </li>
 <li class="toctree-l1"><a class="reference internal" href="theory.html">Theory</a><ul>
@@ -166,6 +167,7 @@
 <li class="toctree-l3"><a class="reference internal" href="#ptoclass">ptoClass</a></li>
 </ul>
 </li>
+<li class="toctree-l2"><a class="reference internal" href="#output-structure">Output Structure</a></li>
 <li class="toctree-l2"><a class="reference internal" href="#library-structure">Library Structure</a><ul>
 <li class="toctree-l3"><a class="reference internal" href="#body-elements-sublibrary">Body Elements Sublibrary</a><ul>
 <li class="toctree-l4"><a class="reference internal" href="#rigid-body-block">Rigid Body Block</a></li>
@@ -310,7 +312,7 @@
 is defned by the right-hand rule (as shown below).</p>
 <p>Note: Incident wave direction heading defaults to BEM solution</p>
 <div class="figure">
-<a class="reference internal image-reference" href="_images/coordinateSystem.png"><img alt="_images/coordinateSystem.png" src="_images/coordinateSystem.png" style="width: 400pt;" /></a>
+<a class="reference internal image-reference" href="_static/coordinateSystem.png"><img alt="_static/coordinateSystem.png" src="_static/coordinateSystem.png" style="width: 400pt;" /></a>
 </div>
 </div>
 <div class="section" id="input-file-structure">
@@ -348,7 +350,7 @@ is defned by the right-hand rule (as shown below).</p>
 </div>
 <p>The WEC-Sim code has default values defined for all the other simulation parameters. Available simulation parameters and the default values can be found by typing <code class="docutils literal"><span class="pre">doc</span> <span class="pre">simulationClass</span></code> in the MATLAB Command Window.</p>
 <div class="figure">
-<img alt="_images/simuClass.png" src="_images/simuClass.png" />
+<img alt="_static/simuClass.png" src="_static/simuClass.png" />
 </div>
 <p>These default values can be overwritten by the user, as demonstrated in the Applications Section. For example, the end time of a simulation can be set by entering the following command:</p>
 <div class="highlight-python"><div class="highlight"><pre>simu.endTime = &lt;user specified end time&gt;
@@ -367,7 +369,7 @@ is defned by the right-hand rule (as shown below).</p>
 <h3>waveClass<a class="headerlink" href="#waveclass" title="Permalink to this headline">¶</a></h3>
 <p>The wave class (<code class="docutils literal"><span class="pre">waveClass</span></code>) contains all the information that defines the wave conditions for the time-domain simulation. Typing <code class="docutils literal"><span class="pre">doc</span> <span class="pre">waveClass</span></code> in the MATLAB Command Window provides more information on the wave class functionality, available wave parameters, and default values.</p>
 <div class="figure">
-<img alt="_images/waveClass.png" src="_images/waveClass.png" />
+<img alt="_static/waveClass.png" src="_static/waveClass.png" />
 </div>
 <p>The table below lists the types of wave environments that are currently supported by WEC-Sim.</p>
 <table border="1" class="docutils">
@@ -501,7 +503,7 @@ body(&lt;#&gt;).characteristicArea= [0 0 100 0 0 0]
 joint with respect to the global reference frame in the <code class="docutils literal"><span class="pre">constraint(&lt;#&gt;).loc</span></code> variable</p>
 <p>The available constraint parameters, and default values defined in the constraint class can be found by typing <code class="docutils literal"><span class="pre">doc</span> <span class="pre">constraintClass</span></code> in the MATLAB Command Window.</p>
 <div class="figure">
-<img alt="_images/constraintClass.png" src="_images/constraintClass.png" />
+<img alt="_static/constraintClass.png" src="_static/constraintClass.png" />
 </div>
 </div>
 <div class="section" id="ptoclass">
@@ -517,9 +519,90 @@ specify linear damping (<code class="docutils literal"><span class="pre">pto(&lt
 </div>
 <p>The available pto parameters, and default values defined in the pto class can be found by typing `` doc ptoClass`` in the MATLAB Command Window.</p>
 <div class="figure">
-<a class="reference internal image-reference" href="_images/ptoClass.png"><img alt="_images/ptoClass.png" src="_images/ptoClass.png" style="width: 400pt;" /></a>
+<a class="reference internal image-reference" href="_static/ptoClass.png"><img alt="_static/ptoClass.png" src="_static/ptoClass.png" style="width: 400pt;" /></a>
 </div>
 </div>
+</div>
+<div class="section" id="output-structure">
+<h2>Output Structure<a class="headerlink" href="#output-structure" title="Permalink to this headline">¶</a></h2>
+<p>After WEC-Sim is done running there will be a new variable, called <code class="docutils literal"><span class="pre">output</span></code>, in your Matlab workspace.
+The <code class="docutils literal"><span class="pre">output</span></code> variable is an instance of the <code class="docutils literal"><span class="pre">responseClass</span></code> class. It contains all the relevant time-series results of the simulation. The structure of the <code class="docutils literal"><span class="pre">output</span></code> variable is shown in the table below. Time series are given as [(# of timesteps) x 6] arrays, where 6 are the degrees of freedom.</p>
+<table border="1" class="docutils">
+<colgroup>
+<col width="22%" />
+<col width="38%" />
+<col width="40%" />
+</colgroup>
+<thead valign="bottom">
+<tr class="row-odd"><th class="head" colspan="3">output</th>
+</tr>
+</thead>
+<tbody valign="top">
+<tr class="row-even"><td>bodies(i)</td>
+<td><p class="first">name</p>
+<p>postion</p>
+<p>velocity</p>
+<p>acceleration</p>
+<p>forceTotal</p>
+<p>forceExcitation</p>
+<p>forceRadiationDamping</p>
+<p>forceAddedMass</p>
+<p>forceRestoring</p>
+<p>forceViscous</p>
+<p>forceMooring</p>
+<p class="last">forceLinearDamping</p>
+</td>
+<td><p class="first">string</p>
+<p>array: (# of timesteps) x 1</p>
+<p>array: (# of timesteps) x 6</p>
+<p>array: (# of timesteps) x 6</p>
+<p>array: (# of timesteps) x 6</p>
+<p>array: (# of timesteps) x 6</p>
+<p>array: (# of timesteps) x 6</p>
+<p>array: (# of timesteps) x 6</p>
+<p>array: (# of timesteps) x 6</p>
+<p>array: (# of timesteps) x 6</p>
+<p>array: (# of timesteps) x 6</p>
+<p class="last">array: (# of timesteps) x 6</p>
+</td>
+</tr>
+<tr class="row-odd"><td>ptos(i)</td>
+<td><p class="first">name</p>
+<p>postion</p>
+<p>velocity</p>
+<p>acceleration</p>
+<p>forceTotal</p>
+<p>forceActuation</p>
+<p>forceConstraint</p>
+<p>forceInternalMechanics</p>
+<p class="last">powerInternalMechanics</p>
+</td>
+<td><p class="first">string</p>
+<p>array: (# of timesteps) x 1</p>
+<p>array: (# of timesteps) x 6</p>
+<p>array: (# of timesteps) x 6</p>
+<p>array: (# of timesteps) x 6</p>
+<p>array: (# of timesteps) x 6</p>
+<p>array: (# of timesteps) x 6</p>
+<p>array: (# of timesteps) x 6</p>
+<p class="last">array: (# of timesteps) x 6</p>
+</td>
+</tr>
+<tr class="row-even"><td>constraints(i)</td>
+<td><p class="first">name</p>
+<p class="last">constraintForces</p>
+</td>
+<td><p class="first">string</p>
+<p class="last">array: (# of timesteps) x 1</p>
+</td>
+</tr>
+<tr class="row-odd"><td>ptosim</td>
+<td>See PTO-Sim section for
+details</td>
+<td>&nbsp;</td>
+</tr>
+</tbody>
+</table>
 </div>
 <div class="section" id="library-structure">
 <h2>Library Structure<a class="headerlink" href="#library-structure" title="Permalink to this headline">¶</a></h2>
@@ -563,7 +646,7 @@ Translational PTO (Local Z)</td>
 <h3>Body Elements Sublibrary<a class="headerlink" href="#body-elements-sublibrary" title="Permalink to this headline">¶</a></h3>
 <p>The Body Elements sublibrary (Figure~ref{fig:bLib) contains one block, Rigid Body block. It is used to represent rigid bodies. At least one instance of this block is required in each model.</p>
 <div class="figure">
-<a class="reference internal image-reference" href="_images/bodiesLib.PNG"><img alt="_images/bodiesLib.PNG" src="_images/bodiesLib.PNG" style="width: 400pt;" /></a>
+<a class="reference internal image-reference" href="_static/bodiesLib.PNG"><img alt="_static/bodiesLib.PNG" src="_static/bodiesLib.PNG" style="width: 400pt;" /></a>
 </div>
 <div class="section" id="rigid-body-block">
 <h4>Rigid Body Block<a class="headerlink" href="#rigid-body-block" title="Permalink to this headline">¶</a></h4>
@@ -578,7 +661,7 @@ Translational PTO (Local Z)</td>
 <h3>Global Reference Frame Block<a class="headerlink" href="#global-reference-frame-block" title="Permalink to this headline">¶</a></h3>
 <p>The Global Reference Frame block defines the solver configuration, seabed and free surface description, simulation time, and other global settings. It can be useful to think of the Global Reference Frame as being the seabed when creating a model. Every model requires one instance of the Global Reference Frame block. The Global Reference Frame block uses the simulation class variable simu and the wave class variable waves, which must be defined in the input file.</p>
 <div class="figure">
-<a class="reference internal image-reference" href="_images/framesLib.PNG"><img alt="_images/framesLib.PNG" src="_images/framesLib.PNG" style="width: 400pt;" /></a>
+<a class="reference internal image-reference" href="_static/framesLib.PNG"><img alt="_static/framesLib.PNG" src="_static/framesLib.PNG" style="width: 400pt;" /></a>
 </div>
 </div>
 <div class="section" id="constraints-sublibrary">
@@ -586,7 +669,7 @@ Translational PTO (Local Z)</td>
 <p>The blocks within the Constraints sublibrary, shown above, are used to define the DOF of a specific body. Constraints blocks define only the DOF, but do not otherwise apply any forcing or resistance to the body motion. Each Constraints block has two connections, a base (B) and a follower (F). The Constraints block restricts the motion of the block that is connected to the follower relative to the block that is connected to the base. The base of these blocks is typically the Global Reference Frame (which can be thought of as the seabed) and the follower is a Rigid Body.</p>
 <p>There are five Constraints blocks, including three that restrict motion to one DOF (Heave, Surge, Pitch), a free-floating (Floating) block, and a rigid connection (Fixed) block. The rest of this section will describe each Constraints block in more detail.</p>
 <div class="figure">
-<a class="reference internal image-reference" href="_images/constraintsLib.PNG"><img alt="_images/constraintsLib.PNG" src="_images/constraintsLib.PNG" style="width: 400pt;" /></a>
+<a class="reference internal image-reference" href="_static/constraintsLib.PNG"><img alt="_static/constraintsLib.PNG" src="_static/constraintsLib.PNG" style="width: 400pt;" /></a>
 </div>
 <div class="section" id="floating-block">
 <h4>Floating Block<a class="headerlink" href="#floating-block" title="Permalink to this headline">¶</a></h4>
@@ -620,7 +703,7 @@ Translational PTO (Local Z)</td>
 <h4>Translation PTO (Local Z) Block<a class="headerlink" href="#translation-pto-local-z-block" title="Permalink to this headline">¶</a></h4>
 <p>The Translation PTO (Local Z) is identical to the Heave constraint, but applies a linear stiffness and damping coefficient to the connection. The user has to name the PTOs as described earlier. The user then specifies the stiffness coefficient (in N/m), and damping coefficient (in Ns/m) in the input file.</p>
 <div class="figure">
-<a class="reference internal image-reference" href="_images/ptosLib.PNG"><img alt="_images/ptosLib.PNG" src="_images/ptosLib.PNG" style="width: 400pt;" /></a>
+<a class="reference internal image-reference" href="_static/ptosLib.PNG"><img alt="_static/ptosLib.PNG" src="_static/ptosLib.PNG" style="width: 400pt;" /></a>
 </div>
 </div>
 <div class="section" id="translation-pto-local-x-block">

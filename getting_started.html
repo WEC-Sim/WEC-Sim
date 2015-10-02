@@ -73,11 +73,12 @@
           
               <ul class="current">
 <li class="toctree-l1"><a class="reference internal" href="release_notes.html">Release Notes</a><ul>
-<li class="toctree-l2"><a class="reference internal" href="release_notes.html#id1">WEC-Sim v1.2</a></li>
-<li class="toctree-l2"><a class="reference internal" href="release_notes.html#id2">WEC-Sim v1.1</a></li>
-<li class="toctree-l2"><a class="reference internal" href="release_notes.html#wec-sim-v1-0">WEC-Sim v1.0</a></li>
-<li class="toctree-l2"><a class="reference internal" href="release_notes.html#backward-compatibility">Backward Compatibility</a></li>
+<li class="toctree-l2"><a class="reference internal" href="release_notes.html#id1">Current WEC-Sim Release</a></li>
 <li class="toctree-l2"><a class="reference internal" href="release_notes.html#features-under-development">Features Under Development</a></li>
+<li class="toctree-l2"><a class="reference internal" href="release_notes.html#id2">WEC-Sim v1.2</a></li>
+<li class="toctree-l2"><a class="reference internal" href="release_notes.html#id4">WEC-Sim v1.1</a></li>
+<li class="toctree-l2"><a class="reference internal" href="release_notes.html#id6">WEC-Sim v1.0</a></li>
+<li class="toctree-l2"><a class="reference internal" href="release_notes.html#backward-compatibility">Backward Compatibility</a></li>
 </ul>
 </li>
 <li class="toctree-l1"><a class="reference internal" href="theory.html">Theory</a><ul>
@@ -166,6 +167,7 @@
 <li class="toctree-l3"><a class="reference internal" href="code_structure.html#ptoclass">ptoClass</a></li>
 </ul>
 </li>
+<li class="toctree-l2"><a class="reference internal" href="code_structure.html#output-structure">Output Structure</a></li>
 <li class="toctree-l2"><a class="reference internal" href="code_structure.html#library-structure">Library Structure</a><ul>
 <li class="toctree-l3"><a class="reference internal" href="code_structure.html#body-elements-sublibrary">Body Elements Sublibrary</a><ul>
 <li class="toctree-l4"><a class="reference internal" href="code_structure.html#rigid-body-block">Rigid Body Block</a></li>
@@ -390,20 +392,6 @@
 <div class="section" id="step-1-add-wec-sim-source-code-to-matlab-path">
 <h3>Step 1: Add WEC-Sim Source Code to MATLAB Path<a class="headerlink" href="#step-1-add-wec-sim-source-code-to-matlab-path" title="Permalink to this headline">¶</a></h3>
 <p>Open the <code class="docutils literal"><span class="pre">$WEC-SIM-SOURCE/wecSimStartup.m</span></code> file</p>
-<div class="highlight-matlab"><div class="highlight"><pre><span class="c">% wecSimStartup.m</span>
-<span class="c">% Copy the code in this file and place it in you &#39;startup.m&#39; file</span>
-
-<span class="c">% Set the wecSimPath variable to the location of the WEC-Sim source directory</span>
-<span class="n">wecSimPath</span> <span class="p">=</span> <span class="o">&lt;</span><span class="n">WEC</span><span class="o">-</span><span class="n">SIM</span> <span class="n">PATH</span><span class="o">&gt;</span><span class="p">;</span> 
-
-<span class="c">% Add the source folder to the MATLAB path</span>
-<span class="n">folderToAdd</span> <span class="p">=</span> <span class="s">&#39;source&#39;</span><span class="p">;</span>
-<span class="n">addpath</span><span class="p">(</span><span class="n">genpath</span><span class="p">([</span><span class="n">wecSimPath</span> <span class="n">filesep</span> <span class="n">folderToAdd</span><span class="p">]));</span>
-
-<span class="c">% Clear unneeded variables</span>
-<span class="n">clear</span> <span class="n">wecSimPath</span> <span class="n">folderToAdd</span>
-</pre></div>
-</div>
 <p>Copy the code in the <code class="docutils literal"><span class="pre">wecSimStartup.m</span></code> shown above and paste it into the <code class="docutils literal"><span class="pre">startup.m</span></code> file located in the <a class="reference external" href="http://www.mathworks.com/help/matlab/matlab_env/matlab-startup-folder.html">MATLAB Startup Folder</a>. Set the <code class="docutils literal"><span class="pre">wecSimPath</span></code> variable to the <code class="docutils literal"><span class="pre">$WEC-SIM-SOURCE</span></code> folder, and open the <code class="docutils literal"><span class="pre">startup.m</span></code> file by executing <code class="docutils literal"><span class="pre">open</span> <span class="pre">startup.m</span></code> from the MATLAB Command Window.</p>
 <p>To verify the path was set up correctly, close and reopen MATLAB, and type the <code class="docutils literal"><span class="pre">path</span></code> command in the MATLAB Command Window to ensure that the WEC-Sim directory, <code class="docutils literal"><span class="pre">$WEC-SIM-SOURCE</span></code>, is listed in the MATLAB Search Path:</p>
 <div class="highlight-matlabsession"><div class="highlight"><pre><span class="gp">&gt;&gt; </span><span class="n">path</span>
@@ -425,7 +413,7 @@
 <h3>Step 2: Add WEC-Sim Library to Simulink<a class="headerlink" href="#step-2-add-wec-sim-library-to-simulink" title="Permalink to this headline">¶</a></h3>
 <p>Open the Simulink Library Browser by typing <code class="docutils literal"><span class="pre">simulink</span></code> in the MATLAB Command Window. Once the Simulink Library Browser opens, <a class="reference external" href="http://www.mathworks.com/help/simulink/gui/use-the-library-browser.html">Refresh the Simulink Library</a>. The WEC-Sim Library of Body Elements, Constraints, Frames and PTOs should now be visible, as shown in the figure below. The WEC-Sim library should now be accessible every time Simulink is opened. For more information on using and modifying library blocks refer to the <a class="reference external" href="http://www.mathworks.com/help/simulink/">Simulink Documentation</a>.</p>
 <div class="figure align-center">
-<img alt="_images/WEC-Sim_Library.jpg" src="_images/WEC-Sim_Library.jpg" />
+<img alt="_static/WEC-Sim_Library.jpg" src="_static/WEC-Sim_Library.jpg" />
 <div class="legend">
 <em>WEC-Sim Library</em></div>
 </div>
@@ -446,7 +434,7 @@
 <h3>Steps To Run WEC-Sim<a class="headerlink" href="#steps-to-run-wec-sim" title="Permalink to this headline">¶</a></h3>
 <p>The WEC-Sim work flow is shown in the figure below. We describe the steps for setting up and running a WEC-Sim simulations in the following:</p>
 <div class="figure align-center">
-<a class="reference internal image-reference" href="_images/wecSimWorkflow.png"><img alt="_images/wecSimWorkflow.png" src="_images/wecSimWorkflow.png" style="width: 400pt;" /></a>
+<a class="reference internal image-reference" href="_static/wecSimWorkflow.png"><img alt="_static/wecSimWorkflow.png" src="_static/wecSimWorkflow.png" style="width: 400pt;" /></a>
 <div class="legend">
 <em>WEC-Sim Workflow</em></div>
 </div>
@@ -470,7 +458,7 @@
 <h4>Step2: Build WEC-Sim Simulink Model<a class="headerlink" href="#step2-build-wec-sim-simulink-model" title="Permalink to this headline">¶</a></h4>
 <p>Next, the user must build the device model using the Simulink/SimMechanics toolboxes and the WEC-Sim Library. Figure below shows an example of a a two-body point absorber modeled in Simulink/SimMechanics.</p>
 <div class="figure">
-<a class="reference internal image-reference" href="_images/exampleWecModel.png"><img alt="_images/exampleWecModel.png" src="_images/exampleWecModel.png" style="width: 400pt;" /></a>
+<a class="reference internal image-reference" href="_static/exampleWecModel.png"><img alt="_static/exampleWecModel.png" src="_static/exampleWecModel.png" style="width: 400pt;" /></a>
 </div>
 </div>
 <div class="section" id="step-3-setip-wec-sim-input-file">
@@ -480,7 +468,7 @@
 </pre></div>
 </div>
 <div class="figure">
-<a class="reference internal image-reference" href="_images/runWECSim_mod.png"><img alt="_images/runWECSim_mod.png" src="_images/runWECSim_mod.png" style="width: 400pt;" /></a>
+<a class="reference internal image-reference" href="_static/runWECSim_mod.png"><img alt="_static/runWECSim_mod.png" src="_static/runWECSim_mod.png" style="width: 400pt;" /></a>
 </div>
 </div>
 <div class="section" id="step-4-execute-wec-sim">

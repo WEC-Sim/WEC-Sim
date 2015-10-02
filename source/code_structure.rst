@@ -186,6 +186,66 @@ The available pto parameters, and default values defined in the pto class can be
 .. figure:: _static/ptoClass.png
    :width: 400pt
 
+Output Structure
+----------------
+After WEC-Sim is done running there will be a new variable, called ``output``, in your Matlab workspace.
+The ``output`` variable is an instance of the ``responseClass`` class. It contains all the relevant time-series results of the simulation. The structure of the ``output`` variable is shown in the table below. Time series are given as [(# of timesteps) x 6] arrays, where 6 are the degrees of freedom.
+
++--------------------------------------------------------------------------+
+|output                                                                    |
++================+===========================+=============================+
+|bodies(i)       | name                      | string                      |
+|                |                           |                             |
+|                | postion                   | array: (# of timesteps) x 1 |
+|                |                           |                             |
+|                | velocity                  | array: (# of timesteps) x 6 |
+|                |                           |                             |
+|                | acceleration              | array: (# of timesteps) x 6 |
+|                |                           |                             |
+|                | forceTotal                | array: (# of timesteps) x 6 |
+|                |                           |                             |
+|                | forceExcitation           | array: (# of timesteps) x 6 |
+|                |                           |                             |
+|                | forceRadiationDamping     | array: (# of timesteps) x 6 |
+|                |                           |                             |
+|                | forceAddedMass            | array: (# of timesteps) x 6 |
+|                |                           |                             |
+|                | forceRestoring            | array: (# of timesteps) x 6 |
+|                |                           |                             |
+|                | forceViscous              | array: (# of timesteps) x 6 |
+|                |                           |                             |
+|                | forceMooring              | array: (# of timesteps) x 6 |
+|                |                           |                             |
+|                | forceLinearDamping        | array: (# of timesteps) x 6 |
++----------------+---------------------------+-----------------------------+
+|ptos(i)         | name                      | string                      |
+|                |                           |                             |
+|                | postion                   | array: (# of timesteps) x 1 |
+|                |                           |                             |
+|                | velocity                  | array: (# of timesteps) x 6 |
+|                |                           |                             |
+|                | acceleration              | array: (# of timesteps) x 6 |
+|                |                           |                             |
+|                | forceTotal                | array: (# of timesteps) x 6 |
+|                |                           |                             |
+|                | forceActuation            | array: (# of timesteps) x 6 |
+|                |                           |                             |
+|                | forceConstraint           | array: (# of timesteps) x 6 |
+|                |                           |                             |
+|                | forceInternalMechanics    | array: (# of timesteps) x 6 |
+|                |                           |                             |
+|                | powerInternalMechanics    | array: (# of timesteps) x 6 |
++----------------+---------------------------+-----------------------------+
+|constraints(i)  | name                      | string                      |
+|                |                           |                             |
+|                | constraintForces          | array: (# of timesteps) x 1 |
++----------------+---------------------------+-----------------------------+
+|ptosim          | See PTO-Sim section for   |                             |
+|                | details                   |                             |
++----------------+---------------------------+-----------------------------+
+
+
+
 Library Structure
 ------------------
 
