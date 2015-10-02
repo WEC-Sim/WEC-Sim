@@ -2,7 +2,7 @@
 
 Getting Started
 ===============
-This section provides instructions on how to download and install the `WEC-Sim <https://github.com/WEC-Sim/WEC-Sim>`_ code, the `BEMIO <https://github.com/WEC-Sim/bemio>`_preprocessing code, and how to run WEC-Sim simulations.
+This section provides instructions on how to download and install the `WEC-Sim <https://github.com/WEC-Sim/WEC-Sim>`_ code, the `BEMIO <https://github.com/WEC-Sim/bemio>`_ preprocessing code, and how to run WEC-Sim simulations.
 
 MATLAB Toolbox Requirements
 ------------------------------
@@ -79,10 +79,14 @@ Step 1: Add WEC-Sim Source Code to MATLAB Path
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 Open the ``$WEC-SIM-SOURCE/wecSimStartup.m`` file
 
-.. literalinclude:: _scripts/wecSimStartup.m
+.. literalinclude:: wecSimStartup.m
    :language: matlab
 
 Copy the code in the ``wecSimStartup.m`` shown above and paste it into the ``startup.m`` file located in the `MATLAB Startup Folder <http://www.mathworks.com/help/matlab/matlab_env/matlab-startup-folder.html>`_. Set the ``wecSimPath`` variable to the ``$WEC-SIM-SOURCE`` folder, and open the ``startup.m`` file by executing ``open startup.m`` from the MATLAB Command Window. 
+
+.. code-block:: matlabsession
+
+	>> open startup.m
 
 To verify the path was set up correctly, close and reopen MATLAB, and type the ``path`` command in the MATLAB Command Window to ensure that the WEC-Sim directory, ``$WEC-SIM-SOURCE``, is listed in the MATLAB Search Path:
 
@@ -92,19 +96,25 @@ To verify the path was set up correctly, close and reopen MATLAB, and type the `
 
 		MATLABPATH
 
-	/Users/username/Applications/WEC-Sim/source
-	/Users/username/Applications/WEC-Sim/source/functions
-	/Users/username/Applications/WEC-Sim/source/lib
-	/Users/username/Applications/WEC-Sim/source/lib/WEC-Sim
-	/Users/username/Applications/WEC-Sim/source/objects
-	/Users/username/Applications/WEC-Sim
+	/Users/username/Github/WEC-Sim/source
+	/Users/username/Github/WEC-Sim/source/functions
+	/Users/username/Github/WEC-Sim/source/lib
+	/Users/username/Github/WEC-Sim/source/lib/WEC-Sim
+	/Users/username/Github/WEC-Sim/source/objects
+	/Users/username/Github/WEC-Sim
 	/Users/username/Documents/MATLAB
 	...
 
 
 Step 2: Add WEC-Sim Library to Simulink
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-Open the Simulink Library Browser by typing ``simulink`` in the MATLAB Command Window. Once the Simulink Library Browser opens, `Refresh the Simulink Library <http://www.mathworks.com/help/simulink/gui/use-the-library-browser.html>`_. The WEC-Sim Library of Body Elements, Constraints, Frames and PTOs should now be visible, as shown in the figure below. The WEC-Sim library should now be accessible every time Simulink is opened. For more information on using and modifying library blocks refer to the `Simulink Documentation <http://www.mathworks.com/help/simulink/>`_.
+Open the Simulink Library Browser by typing ``simulink`` in the MATLAB Command Window. 
+
+.. code-block:: matlabsession
+
+	>> simulink
+	
+Once the Simulink Library Browser opens, `Refresh the Simulink Library <http://www.mathworks.com/help/simulink/gui/use-the-library-browser.html>`_. The WEC-Sim Library of Body Elements, Constraints, Frames and PTOs should now be visible, as shown in the figure below. The WEC-Sim library should now be accessible every time Simulink is opened. For more information on using and modifying library blocks refer to the `Simulink Documentation <http://www.mathworks.com/help/simulink/>`_.
 
 .. figure:: _static/WEC-Sim_Library.jpg
    :align: center
@@ -130,7 +140,7 @@ All the information for a WEC-Sim run is contained within a case directory. Prov
 **Information**     **File name**               **Location**
 Input file          wecSimInputFile.m           ``$CASE``
 WEC Model           <WEC Model Name>.slx        ``$CASE``
-Hydrodynamic Data   <hydro-data name>.h5       ``$CASE``/bemio
+Hydrodynamic Data   <hydro-data name>.h5        ``$CASE``/bemio
 Geometry            <STL File Name>.stl         ``$CASE``/geometry
 =================   ==========================  ====================
 
@@ -186,4 +196,4 @@ Finally, execute the simulation by running the ``wecSim`` command from the MATLA
 
 .. Note::
 
-	WEC-Sim simulations should always be executed from the MATLAB Command Window and no from the Simulink/SimMechanics model. This ensures that the correct variables are in the MATLAB workspace during simulation.
+	WEC-Sim simulations should always be executed from the MATLAB Command Window and not from the Simulink/SimMechanics model. This ensures that the correct variables are in the MATLAB workspace during simulation.
