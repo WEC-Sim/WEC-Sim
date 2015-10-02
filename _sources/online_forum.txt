@@ -1,3 +1,5 @@
+.. _online_forum:
+
 Online Forum
 =================
 

@@ -73,11 +73,11 @@
           
               <ul class="current">
 <li class="toctree-l1"><a class="reference internal" href="release_notes.html">Release Notes</a><ul>
-<li class="toctree-l2"><a class="reference internal" href="release_notes.html#id1">Current WEC-Sim Release</a></li>
+<li class="toctree-l2"><a class="reference internal" href="release_notes.html#id2">Current WEC-Sim Release</a></li>
 <li class="toctree-l2"><a class="reference internal" href="release_notes.html#features-under-development">Features Under Development</a></li>
-<li class="toctree-l2"><a class="reference internal" href="release_notes.html#id2">WEC-Sim v1.2</a></li>
-<li class="toctree-l2"><a class="reference internal" href="release_notes.html#id4">WEC-Sim v1.1</a></li>
-<li class="toctree-l2"><a class="reference internal" href="release_notes.html#id6">WEC-Sim v1.0</a></li>
+<li class="toctree-l2"><a class="reference internal" href="release_notes.html#id3">WEC-Sim v1.2</a></li>
+<li class="toctree-l2"><a class="reference internal" href="release_notes.html#id5">WEC-Sim v1.1</a></li>
+<li class="toctree-l2"><a class="reference internal" href="release_notes.html#id7">WEC-Sim v1.0</a></li>
 <li class="toctree-l2"><a class="reference internal" href="release_notes.html#backward-compatibility">Backward Compatibility</a></li>
 </ul>
 </li>
@@ -303,7 +303,7 @@
           <div role="main" class="document">
             
   <div class="section" id="tutorials">
-<h1>Tutorials<a class="headerlink" href="#tutorials" title="Permalink to this headline">¶</a></h1>
+<span id="tutotials"></span><h1>Tutorials<a class="headerlink" href="#tutorials" title="Permalink to this headline">¶</a></h1>
 <p>This section describes how to use the WEC-Sim code to model two different WECs. The first application models a two-body point absorber WEC, and the second application models an OSWEC. RM3 Two-Body Point Absorber and Oscillating Surge-Pitch Device sections use a simple linear damper while RM3 with PTO-Sim and OSWEC with PTO-Sim can model PTO as hydraulic or mechanical. The files corresponding to these examples are included in the tutorials directory of the WEC-Sim source code.</p>
 <div class="section" id="rm3-two-body-point-absorber">
 <h2>RM3 Two-Body Point Absorber<a class="headerlink" href="#rm3-two-body-point-absorber" title="Permalink to this headline">¶</a></h2>
@@ -440,7 +440,7 @@ Inertia (kg-m^2)</td>
 </div>
 <div class="section" id="simulation">
 <span id="rm3-with-wec-sim"></span><span id="id1"></span><h3>Simulation<a class="headerlink" href="#simulation" title="Permalink to this headline">¶</a></h3>
-<p>Once the WEC-Sim Simulink model is set up and the RM3 properties are defined in the MATLAB input file, the user can then run the RM3 model in WEC-Sim by running the <code class="docutils literal"><span class="pre">wecSim</span></code> command from the MATLAB Command Window. The figure below shows the final RM3 Simulink model and the WEC-Sim GUI during the simulation. For more information on using WEC-Sim to model the RM3 device, refer to [ruehl_preliminary_2014].</p>
+<p>Once the WEC-Sim Simulink model is set up and the RM3 properties are defined in the MATLAB input file, the user can then run the RM3 model in WEC-Sim by running the <code class="docutils literal"><span class="pre">wecSim</span></code> command from the MATLAB Command Window. The figure below shows the final RM3 Simulink model and the WEC-Sim GUI during the simulation. For more information on using WEC-Sim to model the RM3 device, refer to <a class="reference internal" href="#ruehl-preliminary-2014" id="id2">[1]</a>.</p>
 <div class="figure">
 <a class="reference internal image-reference" href="_images/RM3_WECSim_GUI.JPG"><img alt="_images/RM3_WECSim_GUI.JPG" src="_images/RM3_WECSim_GUI.JPG" style="width: 400pt;" /></a>
 </div>
@@ -462,7 +462,7 @@ Inertia (kg-m^2)</td>
 </div>
 <div class="section" id="rm3-with-pto-sim">
 <span id="id3"></span><h2>RM3 with PTO-Sim<a class="headerlink" href="#rm3-with-pto-sim" title="Permalink to this headline">¶</a></h2>
-<p>This section describes how to use RM3 with PTO-Sim, the WEC-Sim module responsible for accurately modeling a WEC&#8217;s conversion of mechanical power to electrical power. While the PTO used in the WEC-Sim example above is modeled as a simple linear damper, PTO-Sim is capable of modeling many power conversion chains (PCC) such as mechanical drivetrain and hydraulic drivetrain. PTO-Sim is made of native Simulink blocks coupled with WEC-Sim, using WEC-Sim&#8217;s user-defined PTO blocks, where the WEC-Sim response (relative displacement and velocity for linear motion and angular position and velocity for rotary motion) is the PTO-Sim input. Similarly, the PTO force or torque is the WEC-Sim input. For more information on how PTO-Sim works, refer to [so_development_2015].</p>
+<p>This section describes how to use RM3 with PTO-Sim, the WEC-Sim module responsible for accurately modeling a WEC&#8217;s conversion of mechanical power to electrical power. While the PTO used in the WEC-Sim example above is modeled as a simple linear damper, PTO-Sim is capable of modeling many power conversion chains (PCC) such as mechanical drivetrain and hydraulic drivetrain. PTO-Sim is made of native Simulink blocks coupled with WEC-Sim, using WEC-Sim&#8217;s user-defined PTO blocks, where the WEC-Sim response (relative displacement and velocity for linear motion and angular position and velocity for rotary motion) is the PTO-Sim input. Similarly, the PTO force or torque is the WEC-Sim input. For more information on how PTO-Sim works, refer to <a class="reference internal" href="#so-development-2015" id="id4">[2]</a>.</p>
 <p>Two tutorials will be given in this section, one for the RM3 with a hydraulic PTO, and another for the RM3 with a mechanical PTO.</p>
 <div class="section" id="rm3-with-hydraulic-pto">
 <h3>RM3 with Hydraulic PTO<a class="headerlink" href="#rm3-with-hydraulic-pto" title="Permalink to this headline">¶</a></h3>
@@ -670,7 +670,7 @@ of Inertia
 </div>
 <div class="section" id="oswec-wec-sim-simulation">
 <h3>OSWEC WEC-Sim Simulation<a class="headerlink" href="#oswec-wec-sim-simulation" title="Permalink to this headline">¶</a></h3>
-<p>Once the WEC-Sim Simulink model is set up and the OSWEC properties are defined in the MATLAB input file, the user can then run the OSWEC model in WEC-Sim by running the <code class="docutils literal"><span class="pre">wecSim</span></code> command from the MATLAB Command Window..  The figure below shows the final OSWEC Simulink model and the WEC-Sim GUI showing the OSWEC during the simulation. For more information on using WEC-Sim to model the OSWEC device, refer to [y._yu_development_2014][y._yu_design_2014].</p>
+<p>Once the WEC-Sim Simulink model is set up and the OSWEC properties are defined in the MATLAB input file, the user can then run the OSWEC model in WEC-Sim by running the <code class="docutils literal"><span class="pre">wecSim</span></code> command from the MATLAB Command Window..  The figure below shows the final OSWEC Simulink model and the WEC-Sim GUI showing the OSWEC during the simulation. For more information on using WEC-Sim to model the OSWEC device, refer to <a class="reference internal" href="#y-yu-development-2014" id="id11">[3]</a><a class="reference internal" href="#y-yu-design-2014" id="id12">[4]</a>.</p>
 </div>
 </div>
 <div class="section" id="oswec-with-pto-sim">
@@ -774,7 +774,31 @@ of Inertia
 </div>
 <div class="section" id="references">
 <h2>References<a class="headerlink" href="#references" title="Permalink to this headline">¶</a></h2>
-<p id="bibtex-bibliography-tutorials-0"></p>
+<p id="bibtex-bibliography-tutorials-0"><table class="docutils citation" frame="void" id="ruehl-preliminary-2014" rules="none">
+<colgroup><col class="label" /><col /></colgroup>
+<tbody valign="top">
+<tr><td class="label"><a class="fn-backref" href="#id2">[1]</a></td><td>K. Ruehl, C. Michelen, S. Kanner, M. Lawson, and Y. Yu. Preliminary Verification and Validation of WEC-Sim, an Open-Source Wave Energy Converter Design Tool. In <em>Proceedings of OMAE 2014</em>. San Francisco, CA, 2014.</td></tr>
+</tbody>
+</table>
+<table class="docutils citation" frame="void" id="so-development-2015" rules="none">
+<colgroup><col class="label" /><col /></colgroup>
+<tbody valign="top">
+<tr><td class="label"><a class="fn-backref" href="#id4">[2]</a></td><td>R. So, A. Simmons, T. Brekken, K. Ruehl, and C. Michelen. Development of PTO-SIM: A Power Performance Module for the Open-Souse Wave Energy Converter Code WEC-SIM. In <em>Proceedings of OMAE 2015</em>. St. John’s, Newfoundland, Canada, 2015.</td></tr>
+</tbody>
+</table>
+<table class="docutils citation" frame="void" id="y-yu-development-2014" rules="none">
+<colgroup><col class="label" /><col /></colgroup>
+<tbody valign="top">
+<tr><td class="label"><a class="fn-backref" href="#id11">[3]</a></td><td>Y. Yu, M. Lawson, K. Ruehl, and C. Michelen. Development and Demonstration of the WEC-Sim Wave Energy Converter Simulation Tool. In <em>Proceedings of the 2nd Marine Energy Technology Symposium</em>. Seattle, WA, USA, 2014.</td></tr>
+</tbody>
+</table>
+<table class="docutils citation" frame="void" id="y-yu-design-2014" rules="none">
+<colgroup><col class="label" /><col /></colgroup>
+<tbody valign="top">
+<tr><td class="label"><a class="fn-backref" href="#id12">[4]</a></td><td>Y. Yu, Y. Li, K. Hallett, and C. Hotimsky. Design and Analysis for a Floating Oscillating Surge Wave Energy Converter. In <em>Proceedings of OMAE 2014</em>. San Francisco, CA, 2014.</td></tr>
+</tbody>
+</table>
+</p>
 </div>
 </div>
 
