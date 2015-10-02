@@ -1,19 +1,22 @@
+.. _release_notes:
+
 Release Notes
 =============
 
 `Current WEC-Sim Release <https://github.com/WEC-Sim/WEC-Sim/releases>`_
---------------------------------
+--------------------------------------------------------------------------------
 * minor updates and bug fixes
 
 Features Under Development
 ---------------------------
 * Morison Elements
 * Body2Body Interactions
+
 .. Note::
 	Features under development are available on the `WEC-Sim 'dev' branch <https://github.com/WEC-Sim/WEC-Sim/tree/dev>`_
 	
 `WEC-Sim v1.2 <https://github.com/WEC-Sim/WEC-Sim/releases/tag/v1.2>`_
---------------------------------
+------------------------------------------------------------------------
 * Nonlinear Froude-Krylov hydrodynamics and hydrostatics
 * State space radiation
 * Wave directionality
@@ -24,7 +27,7 @@ Features Under Development
 * `WEC-Sim v1.2 <https://github.com/WEC-Sim/WEC-Sim/releases/tag/v1.2>`_ available on GitHub
 
 `WEC-Sim v1.1 <https://github.com/WEC-Sim/WEC-Sim/releases/tag/v1.1>`_
---------------------------------
+------------------------------------------------------------------------
 * `WEC-Sim v1.1 <https://github.com/WEC-Sim/WEC-Sim/releases/tag/v1.1>`_ available on GitHub
 * Improvements in code stability through modifications to the added mass, radiation damping calculations, and impulse response function calculations
 * Implementation of state space representation of radiation damping convolution integral calculation
@@ -32,7 +35,7 @@ Features Under Development
 * Documentation available on WEC-Sim Website
 
 `WEC-Sim v1.0 <https://github.com/WEC-Sim/WEC-Sim/releases/tag/v1.0>`_
---------------------
+----------------------------------------------------------------------------
 * Initial release of the WEC-Sim code
 * Available as a static download (initially on OpenEI, now redirects to WEC-Sim website)
 * Documentation available in PDF 

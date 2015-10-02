@@ -1,4 +1,6 @@
-﻿Tutorials
+.. _tutotials:
+
+Tutorials
 ==================
 This section describes how to use the WEC-Sim code to model two different WECs. The first application models a two-body point absorber WEC, and the second application models an OSWEC. RM3 Two-Body Point Absorber and Oscillating Surge-Pitch Device sections use a simple linear damper while RM3 with PTO-Sim and OSWEC with PTO-Sim can model PTO as hydraulic or mechanical. The files corresponding to these examples are included in the tutorials directory of the WEC-Sim source code.
 
@@ -443,5 +445,5 @@ Other PTO-Sim tuturails that were not discussed above are located under tutorial
 
 References
 --------------
-.. bibliography:: WEC-Sim_Publications.bib
+.. bibliography:: WEC-Sim_Tutorials.bib
    :style: unsrt
