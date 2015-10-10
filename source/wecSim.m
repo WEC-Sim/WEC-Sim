@@ -3,7 +3,7 @@
 %% Start WEC-Sim log
 bdclose('all'); clc; diary off; close all; 
 clear body waves simu output pto constraint ptoSim
-if exist('simulation.log','file'); delete('simulation.log'); end
+delete('*.log');
 diary('simulation.log')
 
 
@@ -49,7 +49,7 @@ fprintf('\nWEC-Sim Pre-processing ...   \n');
 
 %% Set variant subsystems options
 % Non-linear hydro
-if simu.nlHydro >0
+if (simu.nlHydro >0) || (simu.paraview == 1)
     for kk = 1:simu.numWecBodies
         body(kk).bodyGeo(body(kk).geometryFile)
     end; clear kk
@@ -78,7 +78,7 @@ simu.setupSim;
 waves.waveSetup(body(1).hydroData.simulation_parameters.w, body(1).hydroData.simulation_parameters.water_depth, simu.rampT, simu.dt, simu.maxIt, simu.g, simu.endTime);
 % hydroForcePre
 for kk = 1:simu.numWecBodies
-    body(kk).hydroForcePre(waves.w,waves.waveDir,simu.CIkt,waves.numFreq,simu.dt,simu.rho,simu.g,waves.type,waves.waveAmpTime,kk,simu.numWecBodies,simu.ssCalc,simu.nlHydro);
+    body(kk).hydroForcePre(waves.w,waves.waveDir,simu.CIkt,simu.CTTime,waves.numFreq,simu.dt,simu.rho,simu.g,waves.type,waves.waveAmpTime,kk,simu.numWecBodies,simu.ssCalc,simu.nlHydro);
 end; clear kk
 
 %% Check body-wave-simu compatability
@@ -111,7 +111,7 @@ for iBod = 1:simu.numWecBodies
 end
 
 
-%% End Post-Processing and Output All the Simulation and Model Setting
+%% End Pre-Processing and Output All the Simulation and Model Setting
 toc
 simu.listInfo(waves.typeNum);
 waves.listInfo
@@ -146,7 +146,7 @@ tic
 fprintf('\nSimulating the WEC device defined in the SimMechanics model %s...   \n',simu.simMechanicsFile)
 % Modify some stuff for simulation
 for iBod = 1:simu.numWecBodies
-    body(iBod).adjustMassMatrix; 
+    body(iBod).adjustMassMatrix(simu.adjMassWeightFun); 
 end; clear iBod
 warning('off','Simulink:blocks:TDelayTimeTooSmall');
 if simu.rampT == 0
@@ -215,6 +215,66 @@ end; clear iBod
 if exist('userDefinedFunctions.m','file') == 2
     userDefinedFunctions;
 end
+% ParaView Visualization
+if simu.paraview == 1
+    fprintf('    ...writing ParaView files...   \n')
+    if exist('vtk','dir') ~= 0
+        try
+            rmdir('vtk','s')
+        catch
+            error('The vtk directory could not be removed. Please close any files in the vtk directory and try running WEC-Sim again')
+        end
+    end
+    mkdir('vtk')
+    mkdir(['vtk' filesep 'waves'])
+    % bodies
+    filename = ['vtk' filesep 'bodies.txt'];
+    fid = fopen(filename, 'w');
+    for ii = 1:simu.numWecBodies
+        bodyname = output.bodies(ii).name;
+        mkdir(['vtk' filesep 'body' num2str(ii) '_' bodyname]);
+        % cell areas
+        try
+            eval(['av = body' num2str(ii) '_areas_out.signals.values;']);
+            cellareas = squeeze(sqrt(av(:,1,:).^2 + av(:,2,:).^2 + av(:,3,:).^2))';
+            clear av
+        catch
+            cellareas = [];
+        end
+        % hydrostatic pressure
+        try
+            eval(['hspressure = body' num2str(ii) '_hspressure_out.signals.values;']);
+        catch
+            hspressure = [];
+        end
+        % wave (freude-krylov) nonlinear pressure
+        try
+            eval(['wpressurenl = body' num2str(ii) '_wavenonlinearpressure_out.signals.values;']);
+        catch
+            wpressurenl = [];
+        end
+        % wave (freude-krylov) linear pressure
+        try
+            eval(['wpressurel = body' num2str(ii) '_wavelinearpressure_out.signals.values;']);
+        catch
+            wpressurel = [];
+        end
+        body(ii).write_paraview_vtp(output.bodies(ii).time, output.bodies(ii).position, bodyname, simu.simMechanicsFile, datestr(simu.simulationDate), cellareas, hspressure, wpressurenl, wpressurel);
+        bodies{ii} = bodyname;
+        fprintf(fid,[bodyname '\n']);
+        fprintf(fid,[num2str(body(ii).viz.color) '\n']);
+        fprintf(fid,[num2str(body(ii).viz.opacity) '\n']);
+        fprintf(fid,'\n');
+        clear hspressure wpressurenl wpressurel cellareas bodyname  
+    end; clear ii
+    fclose(fid);
+    % waves
+    waves.write_paraview_vtp(output.bodies(1).time, waves.viz.numPointsX, waves.viz.numPointsY, simu.domainSize, simu.simMechanicsFile, datestr(simu.simulationDate));
+    % all
+    output.write_paraview(bodies, output.bodies(1).time, simu.simMechanicsFile, datestr(simu.simulationDate), waves.type);
+    clear bodies fid filename
+end
+clear body*_areas_out body*_hspressure_out body*_wavenonlinearpressure_out body*_wavelinearpressure_out  
 % 
 clear ans; 
 toc

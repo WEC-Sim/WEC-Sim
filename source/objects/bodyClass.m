@@ -20,7 +20,7 @@ classdef bodyClass<handle
     end
 
     properties (SetAccess = 'public', GetAccess = 'public') %input file
-        mass              = []                                                  % Mass in kg
+        mass              = []                                                  % Mass in kg or specify 'equilibrium' to have mass= dis vol * density
         momOfInertia      = []                                                  % Moment of inertia [Ixx Iyy Izz] in kg*m^2
         geometryFile      = 'NONE'                                              % Location of geomtry stl file
         mooring           = struct('c',          zeros(6,6), ...                % Mooring damping, 6 x 6 matrix
@@ -33,6 +33,8 @@ classdef bodyClass<handle
                                     'initAngularDispAngle', 0)                  % Initial displacement of cog - Angle of rotation - used for decay tests (format: [radians], default = 0)
         linearDamping     = [0 0 0 0 0 0]                                       % Linear drag coefficient, vector length 6
         userDefinedExcIRF = []                                                  % Excitation IRF from BEMIO used for User-Defined Time-Series
+        viz               = struct('color', [1 1 0], ...                        % Visualization color for either SimMechanics Explorer or Paraview.
+                                    'opacity', 1)                               % Visualization opacity for either SimMechanics Explorer or Paraview.
     end
 
     properties (SetAccess = 'public', GetAccess = 'public') %body geometry stl file
@@ -87,7 +89,7 @@ classdef bodyClass<handle
             try obj.hydroData.hydro_coeffs.radiation_damping.state_space.D.all = h5load(filename, [name '/hydro_coeffs/radiation_damping/state_space/D/all']); end
         end
 
-        function hydroForcePre(obj,w,waveDir,CIkt,numFreq,dt,rho,g,waveType,waveAmpTime,iBod,numBod,ssCalc,nlHydro)
+        function hydroForcePre(obj,w,waveDir,CIkt,CTTime,numFreq,dt,rho,g,waveType,waveAmpTime,iBod,numBod,ssCalc,nlHydro)
             % HydroForce Pre-processing calculations
             % 1. Set the linear hydrodynamic restoring coefficient, viscous
             %    drag, and linear damping matrices
@@ -111,17 +113,17 @@ classdef bodyClass<handle
                     obj.constAddedMassAndDamping(w,CIkt,rho);
                 case {'regularCIC'}
                     obj.regExcitation(w,waveDir,rho,g);
-                    obj.irfInfAddedMassAndDamping(CIkt,dt,ssCalc,iBod,rho);
+                    obj.irfInfAddedMassAndDamping(CIkt,CTTime,ssCalc,iBod,rho);
                 case {'irregular','irregularImport'}
                     obj.irrExcitation(w,numFreq,waveDir,rho,g);
-                    obj.irfInfAddedMassAndDamping(CIkt,dt,ssCalc,iBod,rho);
+                    obj.irfInfAddedMassAndDamping(CIkt,CTTime,ssCalc,iBod,rho);
                 case {'userDefined'}
                     obj.userDefinedExcitation(waveAmpTime,dt,waveDir,rho,g);
-                    obj.irfInfAddedMassAndDamping(CIkt,dt,ssCalc,iBod,rho);
+                    obj.irfInfAddedMassAndDamping(CIkt,CTTime,ssCalc,iBod,rho);
             end
         end
 
-        function adjustMassMatrix(obj)
+        function adjustMassMatrix(obj,adjMassWeightFun)
             % Merge diagonal term of add mass matrix to the mass matrix
             % 1. Store the original mass and added-mass properties
             % 2. Add diagonal added-mass inertia to moment of inertia
@@ -131,11 +133,12 @@ classdef bodyClass<handle
             obj.hydroForce.storage.momOfInertia = obj.momOfInertia;
             obj.hydroForce.storage.fAddedMass = obj.hydroForce.fAddedMass;
             tmp.fadm=diag(obj.hydroForce.fAddedMass(:,1+(iBod-1)*6:6+(iBod-1)*6));
-            obj.mass = obj.mass+max(tmp.fadm(1:3));
+            tmp.adjmass = sum(tmp.fadm(1:3))*adjMassWeightFun;
+            obj.mass = obj.mass + tmp.adjmass;
             obj.momOfInertia = obj.momOfInertia+tmp.fadm(4:6)';
-            obj.hydroForce.fAddedMass(1,1+(iBod-1)*6) = obj.hydroForce.fAddedMass(1,1+(iBod-1)*6) - max(tmp.fadm(1:3));
-            obj.hydroForce.fAddedMass(2,2+(iBod-1)*6) = obj.hydroForce.fAddedMass(2,2+(iBod-1)*6) - max(tmp.fadm(1:3));
-            obj.hydroForce.fAddedMass(3,3+(iBod-1)*6) = obj.hydroForce.fAddedMass(3,3+(iBod-1)*6) - max(tmp.fadm(1:3));
+            obj.hydroForce.fAddedMass(1,1+(iBod-1)*6) = obj.hydroForce.fAddedMass(1,1+(iBod-1)*6) - tmp.adjmass;
+            obj.hydroForce.fAddedMass(2,2+(iBod-1)*6) = obj.hydroForce.fAddedMass(2,2+(iBod-1)*6) - tmp.adjmass;
+            obj.hydroForce.fAddedMass(3,3+(iBod-1)*6) = obj.hydroForce.fAddedMass(3,3+(iBod-1)*6) - tmp.adjmass;
             obj.hydroForce.fAddedMass(4,4+(iBod-1)*6) = 0;
             obj.hydroForce.fAddedMass(5,5+(iBod-1)*6) = 0;
             obj.hydroForce.fAddedMass(6,6+(iBod-1)*6) = 0;
@@ -168,52 +171,13 @@ classdef bodyClass<handle
         end
 
         function bodyGeo(obj,fname)
-            numFace = 0;
-            numVertex = 0;
-            fid = fopen(fname, 'r');
-            readingInput = 'reading';
-            while readingInput == 'reading'
-                temp = fgetl(fid);
-                if temp == -1;
-                    break;
-                end
-                tmp = 'outer loop';
-                if isempty(strfind(temp, tmp)) == 0
-                    numFace = numFace + 1;
-                    for i=1:3
-                        temp = fgetl(fid);
-                        tmpVertex= textscan(temp, 'vertex %f %f %f');
-                        if numVertex == 0
-                            numVertex = numVertex + 1;
-                            obj.bodyGeometry.vertex(numVertex,1) = tmpVertex{1};
-                            obj.bodyGeometry.vertex(numVertex,2) = tmpVertex{2};
-                            obj.bodyGeometry.vertex(numVertex,3) = tmpVertex{3};
-                            obj.bodyGeometry.face(numFace,i) = numVertex;
-                        else
-                            j=0;check=1;
-                            while (j<numVertex && abs(check) > 10e-8)
-                                j=j+1;
-                                check = (tmpVertex{1}-obj.bodyGeometry.vertex(j,1))^2 ...
-                                    + (tmpVertex{2}-obj.bodyGeometry.vertex(j,2))^2 ...
-                                    + (tmpVertex{3}-obj.bodyGeometry.vertex(j,3))^2;
-                                numVertexPointer = j;
-                            end
-                            if abs(check) > 10e-8
-                                numVertex = numVertex + 1;
-                                obj.bodyGeometry.vertex(numVertex,1) = tmpVertex{1};
-                                obj.bodyGeometry.vertex(numVertex,2) = tmpVertex{2};
-                                obj.bodyGeometry.vertex(numVertex,3) = tmpVertex{3};
-                                obj.bodyGeometry.face(numFace,i) = numVertex;
-                            else
-                                obj.bodyGeometry.face(numFace,i) = numVertexPointer;
-                            end
-                        end
-                    end
-                end
-
+            try
+                [obj.bodyGeometry.vertex, obj.bodyGeometry.face, ~] = import_stl_fast(fname,1,1);
+            catch
+                [obj.bodyGeometry.vertex, obj.bodyGeometry.face, ~] = import_stl_fast(fname,1,2);
             end
-            obj.bodyGeometry.numFace = numFace;
-            obj.bodyGeometry.numVertex = numVertex;
+            obj.bodyGeometry.numFace = length(obj.bodyGeometry.face);
+            obj.bodyGeometry.numVertex = length(obj.bodyGeometry.vertex);
         end
 
         function checkinputs(obj)
@@ -328,14 +292,14 @@ classdef bodyClass<handle
                     obj.hydroForce.fDamping  (ii,jj) = interp1(obj.hydroData.simulation_parameters.w,squeeze(rd(ii,jj,:)),w,'spline');
                 end
             end
-            obj.hydroForce.irkb=zeros(CIkt+1,6,lenJ);
+            obj.hydroForce.irkb=zeros(CIkt,6,lenJ);
             obj.hydroForce.ssRadf.A = zeros(6,6);
             obj.hydroForce.ssRadf.B = zeros(6,6);
             obj.hydroForce.ssRadf.C = zeros(6,6);
             obj.hydroForce.ssRadf.D = zeros(6,6);
         end
 
-        function irfInfAddedMassAndDamping(obj,CIkt,dt,ssCalc,iBod,rho)
+        function irfInfAddedMassAndDamping(obj,CIkt,CTTime,ssCalc,iBod,rho)
             % Used by hydroForcePre
             % Added mass at infinite frequency
             % Convolution integral raditation damping
@@ -343,8 +307,7 @@ classdef bodyClass<handle
             irfk = obj.hydroData.hydro_coeffs.radiation_damping.impulse_response_fun.K  .*rho;
             irft = obj.hydroData.hydro_coeffs.radiation_damping.impulse_response_fun.t;
 
-            obj.hydroForce.irkb=zeros(CIkt+1,6,lenJ);
-            CTTime = 0:dt:CIkt*dt;
+            obj.hydroForce.irkb=zeros(CIkt,6,lenJ);
             for ii=1:6
                 for jj=1:lenJ
                     obj.hydroForce.irkb(:,ii,jj) = interp1(irft,squeeze(irfk(ii,jj,:)),CTTime,'spline');
@@ -425,5 +388,130 @@ classdef bodyClass<handle
             end
             clear tmp
         end
+
+        function xn = rotateXYZ(obj,x,ax,t)
+            % function to rotate a point about an arbitrary axis
+            % x: 3-componenet coordiantes
+            % ax: axis about which to rotate (must be a normal vector)
+            % t: rotation angle
+            % xn: new coordinates after rotation
+            rotMat = zeros(3);
+            rotMat(1,1) = ax(1)*ax(1)*(1-cos(t))    + cos(t);
+            rotMat(1,2) = ax(2)*ax(1)*(1-cos(t))    + ax(3)*sin(t);
+            rotMat(1,3) = ax(3)*ax(1)*(1-cos(t))    - ax(2)*sin(t);
+            rotMat(2,1) = ax(1)*ax(2)*(1-cos(t))    - ax(3)*sin(t);
+            rotMat(2,2) = ax(2)*ax(2)*(1-cos(t))    + cos(t);
+            rotMat(2,3) = ax(3)*ax(2)*(1-cos(t))    + ax(1)*sin(t);
+            rotMat(3,1) = ax(1)*ax(3)*(1-cos(t))    + ax(2)*sin(t);
+            rotMat(3,2) = ax(2)*ax(3)*(1-cos(t))    - ax(1)*sin(t);
+            rotMat(3,3) = ax(3)*ax(3)*(1-cos(t))    + cos(t);
+            xn = x*rotMat;
+        end
+
+        function verts_out = offsetXYZ(obj,verts,x)
+            % Function to move the position vertices
+            verts_out(:,1) = verts(:,1) + x(1);
+            verts_out(:,2) = verts(:,2) + x(2);
+            verts_out(:,3) = verts(:,3) + x(3);
+        end
+
+        function write_paraview_vtp(obj, t, pos_all, bodyname, model, simdate,cellareas,hspressure,wavenonlinearpressure,wavelinearpressure)
+            numVertex = obj.bodyGeometry.numVertex;
+            numFace = obj.bodyGeometry.numFace;
+            vertex = obj.bodyGeometry.vertex;
+            face = obj.bodyGeometry.face;
+            for it = 1:length(t)
+                % calculate new position
+                pos = pos_all(it,:);
+                vertex_mod = obj.rotateXYZ(vertex,[1 0 0],pos(4));
+                vertex_mod = obj.rotateXYZ(vertex_mod,[0 1 0],pos(5));
+                vertex_mod = obj.rotateXYZ(vertex_mod,[0 0 1],pos(6));
+                vertex_mod = obj.offsetXYZ(vertex_mod,pos(1:3));
+                % open file
+                filename = ['vtk' filesep 'body' num2str(obj.bodyNumber) '_' bodyname filesep bodyname '_' num2str(it) '.vtp'];
+                fid = fopen(filename, 'w');
+                % write header
+                fprintf(fid, '<?xml version="1.0"?>\n');
+                fprintf(fid, ['<!-- WEC-Sim Visualization using ParaView -->\n']);
+                fprintf(fid, ['<!--   model: ' model ' - ran on ' simdate ' -->\n']);
+                fprintf(fid, ['<!--   body:  ' bodyname ' -->\n']);
+                fprintf(fid, ['<!--   time:  ' num2str(t(it)) ' -->\n']);
+                fprintf(fid, '<VTKFile type="PolyData" version="0.1">\n');
+                fprintf(fid, '  <PolyData>\n');
+                % write body info
+                fprintf(fid,['    <Piece NumberOfPoints="' num2str(numVertex) '" NumberOfPolys="' num2str(numFace) '">\n']);
+                % write points
+                fprintf(fid,'      <Points>\n');
+                fprintf(fid,'        <DataArray type="Float32" NumberOfComponents="3" format="ascii">\n');
+                for ii = 1:numVertex    
+                    fprintf(fid, '          %5.5f %5.5f %5.5f\n', vertex_mod(ii,:));
+                end; 
+                clear vertex_mod
+                fprintf(fid,'        </DataArray>\n');
+                fprintf(fid,'      </Points>\n');
+                % write tirangles connectivity
+                fprintf(fid,'      <Polys>\n');
+                fprintf(fid,'        <DataArray type="Int32" Name="connectivity" format="ascii">\n');
+                for ii = 1:numFace
+                    fprintf(fid, '          %i %i %i\n', face(ii,:)-1);
+                end; 
+                fprintf(fid,'        </DataArray>\n');
+                fprintf(fid,'        <DataArray type="Int32" Name="offsets" format="ascii">\n');
+                fprintf(fid, '         ');
+                for ii = 1:numFace
+                    n = ii * 3;
+                    fprintf(fid, ' %i', n);
+                end;
+                fprintf(fid, '\n');
+                fprintf(fid,'        </DataArray>\n');
+                fprintf(fid, '      </Polys>\n');
+                % write cell data
+                fprintf(fid,'      <CellData>\n');
+                  % Cell Areas
+                if ~isempty(cellareas)
+                    fprintf(fid,'        <DataArray type="Float32" Name="Cell Area" NumberOfComponents="1" format="ascii">\n');
+                    for ii = 1:numFace
+                        fprintf(fid, '          %i', cellareas(it,ii));
+                    end; 
+                    fprintf(fid, '\n');
+                    fprintf(fid,'        </DataArray>\n');
+                end
+                  % Hydrostatic Pressure
+                if ~isempty(hspressure)
+                    fprintf(fid,'        <DataArray type="Float32" Name="Hydrostatic Pressure" NumberOfComponents="1" format="ascii">\n');
+                    for ii = 1:numFace
+                        fprintf(fid, '          %i', hspressure(it,ii));
+                    end; 
+                    fprintf(fid, '\n');
+                    fprintf(fid,'        </DataArray>\n');
+                end
+                  % Non-Linear Froude-Krylov Wave Pressure
+                if ~isempty(wavenonlinearpressure)
+                    fprintf(fid,'        <DataArray type="Float32" Name="Wave Pressure NonLinear" NumberOfComponents="1" format="ascii">\n');
+                    for ii = 1:numFace
+                        fprintf(fid, '          %i', wavenonlinearpressure(it,ii));
+                    end; 
+                    fprintf(fid, '\n');
+                    fprintf(fid,'        </DataArray>\n');
+                end
+                  % Linear Froude-Krylov Wave Pressure
+                if ~isempty(wavelinearpressure)
+                    fprintf(fid,'        <DataArray type="Float32" Name="Wave Pressure Linear" NumberOfComponents="1" format="ascii">\n');
+                    for ii = 1:numFace
+                        fprintf(fid, '          %i', wavelinearpressure(it,ii));
+                    end; 
+                    fprintf(fid, '\n');
+                    fprintf(fid,'        </DataArray>\n');
+                end
+                fprintf(fid,'      </CellData>\n');
+                % end file
+                fprintf(fid, '    </Piece>\n');
+                fprintf(fid, '  </PolyData>\n');
+                fprintf(fid, '</VTKFile>');
+                % close file
+                fclose(fid);
+            end
+        end
+
     end
 end

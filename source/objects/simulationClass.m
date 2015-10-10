@@ -23,6 +23,7 @@ classdef simulationClass<handle
         startTime           = 0                                            % Simulation start time (default = 0 s)
         endTime             = 500                                          % Simulation end time (default = 500 s)
         dt                  = 0.1                                          % Simulation time step (default = 0.1 s)
+        dtOut               = []                                           % Output sampling time (default = dt)
         rampT               = 100                                          % Ramp time for wave forcing (default = 100 s)
         domainSize          = 200                                          % Size of free surface and seabed. This variable is only used for visualization (default = 200 m)
         CITime              = 60                                           % Convolution integral time (default = 60 s)
@@ -33,6 +34,8 @@ classdef simulationClass<handle
         rho                 = 1000                                         % Density of water (default = 1000 kg/m^3)
         g                   = 9.81                                         % Acceleration due to gravity (default = 9.81 m/s)
         nlHydro             = 0                                            % Option for nonlinear hydrohanamics calculation: linear->'0', nonlinear->'1', (default = 0)
+        paraview            = 0                                            % Option for writing vtp files for paraview visualization.
+        adjMassWeightFun    = 2                                            % Weighting function for adjusting added mass term in the translational direction (default = 2)
     end
 
     properties (SetAccess = 'public', GetAccess = 'public')%internal
@@ -56,8 +59,8 @@ classdef simulationClass<handle
     end
 
     methods
-        function obj = simulationClass(file)
-            fprintf(['WEC-Sim: An open-source code for simulating wave energy converters\n'])
+        function obj = simulationClass()
+            fprintf('WEC-Sim: An open-source code for simulating wave energy converters\n')
             fprintf('Version: %s\n\n',obj.version)
             fprintf('Initializing the Simulation Class...\n')
             obj.caseDir = pwd; 
@@ -80,18 +83,18 @@ classdef simulationClass<handle
 
         function setupSim(obj)
             % setup based on values specified in input file
-            obj.time = [obj.startTime:obj.dt:obj.endTime];
+            obj.time = obj.startTime:obj.dt:obj.endTime;
             obj.maxIt = floor((obj.endTime - obj.startTime) / obj.dt);
-            obj.CIkt = ceil(obj.CITime/obj.dt);
-            obj.CTTime = 0:obj.dt:obj.dt*obj.CIkt;
+            % Set dtOut if it was not specificed in input file
+            if isempty(obj.dtOut) || obj.dtOut < obj.dt
+                obj.dtOut = obj.dt;
+            end
+            obj.CTTime = 0:obj.dt:obj.CITime;
+            obj.CIkt = length(obj.CTTime);
             obj.caseFile = [obj.caseDir filesep 'output' filesep obj.simMechanicsFile(1:end-4) '_matlabWorkspace.mat'];
             obj.logFile = [obj.caseDir filesep 'output' filesep obj.simMechanicsFile(1:end-4) '_simulationLog.txt'];
             mkdir(obj.outputDir)
-            try
-                obj.version = getWecSimVer;
-            catch
-                obj.version = 'No git version available';
-            end
+            obj.getWecSimVer;
         end
 
         function checkinputs(obj)
@@ -125,6 +128,17 @@ classdef simulationClass<handle
                 fprintf('\tConvolution Integral Interval  (sec) = %G\n',obj.CITime)
             end
             fprintf('\tTotal Number of Time Step            = %u \n',obj.maxIt)
+        end
+
+        function getWecSimVer(obj)
+            try
+                ws_exe = which('wecSim');
+                ws_dir = fileparts(ws_exe);
+                git_ver_file = [ws_dir '/../.git/refs/heads/master'];
+                obj.version = textread(git_ver_file,'%s');
+            catch
+                obj.version = 'No git version available';
+            end
         end
     end
 end

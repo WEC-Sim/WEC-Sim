@@ -53,7 +53,6 @@ ptosim.rotaryGenerator.omegaBase = 300;
 ptosim.rotaryGenerator.driveEff = 0.98;
 ptosim.rotaryGenerator.genDamping = 3;                       % Generator Damping [kg-m^2/s]
 
-
 %% Rotary to Linear Adjustable Rod
 
 ptosim.motionMechanism.crank = 3;
