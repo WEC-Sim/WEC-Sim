@@ -1,6 +1,6 @@
 %% Compressible Fluid Hydraulic PTO-Sim
 
-ptosim = ptoSimClass('Compressible_Fluid_Hydraulic');
+ptosim = ptoSimClass('Compressible Fluid Hydraulic');
 
 %% Valve 
 

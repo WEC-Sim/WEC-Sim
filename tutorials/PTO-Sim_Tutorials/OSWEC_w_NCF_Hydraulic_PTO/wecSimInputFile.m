@@ -9,22 +9,22 @@ simu.endTime=500;
 simu.dt = 0.01;
 simu.rampT = 100;
 simu.CITime = 30;
-simu.ssCalc = 1;
+%simu.ssCalc = 1;
 %% Wave Information
 
 %Regular Waves 
-waves = waveClass('regular');
-%waves = waveClass('regularCIC');
-waves.H = 2.5;
-waves.T = 8;
+% waves = waveClass('regular');
+% %waves = waveClass('regularCIC');
+% waves.H = 2.5;
+% waves.T = 8;
 
 
 % %Irregular Waves using PM Spectrum
-% waves = waveClass('irregular');
-% waves.H = 2.5;
-% waves.T = 8;
-% waves.spectrumType = 'PM';
-
+waves = waveClass('irregular');
+waves.H = 2.5;
+waves.T = 8;
+waves.spectrumType = 'PM';
+waves.randPreDefined=1;
 % %Irregular Waves using User-Defined Spectrum
 % waves = waveClass('irregularImport');
 % waves.spectrumDataFile = 'ndbcBuoyData.txt';
@@ -34,6 +34,7 @@ body(1) = bodyClass('hydroData/oswec.h5',1);   % Initialize bodyClass for Flap
 body(1).mass = 127000;                         % User-Defined mass [kg]
 body(1).momOfInertia = [1.85e6 1.85e6 1.85e6]; % Moment of Inertia [kg-m^2]
 body(1).geometryFile = 'geometry/flap.stl';    % Geometry File
+body(1).linearDamping = [0, 0, 0, 0, 1*10^7, 0];
 
 body(2) = bodyClass('hydroData/oswec.h5',2);   % Initialize bodyClass for Base
 body(2).geometryFile = 'geometry/base.stl';    % Geometry File

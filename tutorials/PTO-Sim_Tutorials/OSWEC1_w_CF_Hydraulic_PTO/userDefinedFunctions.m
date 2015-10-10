@@ -34,4 +34,10 @@ legend('absPower','mechPower','elecPower')
 grid on
 
 
-
+figure();
+plot(output.ptosim.time,output.ptosim.hydraulicMotor.angVel)
+set(findall(gcf,'type','axes'),'fontsize',16)
+xlabel('Time (s)')
+ylabel('Speed (rad/s)')
+title('Speed')
+grid on

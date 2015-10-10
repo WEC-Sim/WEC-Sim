@@ -2,7 +2,7 @@
 simu = simulationClass();               %Create the Simulation Variable
 simu.simMechanicsFile = 'RM3_w_CFHydraulic.slx';      %Location of Simulink Model File
 simu.endTime=500;                       %Simulation End Time [s]
-simu.dt = 0.001;                          %Simulation Time-Step [s]
+simu.dt = 0.01;                          %Simulation Time-Step [s]
 simu.rampT = 100;                       %Wave Ramp Time Length [s]
 
 %% Wave Information
@@ -10,20 +10,20 @@ simu.rampT = 100;                       %Wave Ramp Time Length [s]
 % waves = waveClass('noWaveCIC'); 
 
 %% Regular Waves  
-%waves = waveClass('regularCIC'); 
- waves = waveClass('regular');        
-                                 %Create the Wave Variable and Specify Type
-                                 
-waves.H = 2.5;                          %Wave Height [m]
-waves.T = 8;                            %Wave Period [s]
+% waves = waveClass('regularCIC'); 
+%  %waves = waveClass('regular');        
+%                                  %Create the Wave Variable and Specify Type
+%                                  
+% waves.H = 2.5;                          %Wave Height [m]
+% waves.T = 8;                            %Wave Period [s]
 
 %% Irregular Waves using PM Spectrum with Convolution Integral Calculation
-% waves = waveClass('irregular');       
-%                                %Create the Wave Variable and Specify Type
-% waves.H = 2.5;                        %Significant Wave Height [m]
-% waves.T = 8;                          %Peak Period [s]
-% waves.spectrumType = 'PM';
-
+waves = waveClass('irregular');       
+                               %Create the Wave Variable and Specify Type
+waves.H = 2.5;                        %Significant Wave Height [m]
+waves.T = 8;                          %Peak Period [s]
+waves.spectrumType = 'PM';
+waves.randPreDefined=1;
 %% Irregular Waves using BS Spectrum with State Space Calculation
 % waves = waveClass('irregular');       
 %                                %Create the Wave Variable and Specify Type

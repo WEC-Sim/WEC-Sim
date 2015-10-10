@@ -1,3 +1,5 @@
+
+
 %% Simulation Data
 simu = simulationClass();               %Create the Simulation Variable
 simu.simMechanicsFile = 'RM3_w_NCFHydraulic.slx';      %Location of Simulink Model File
@@ -10,27 +12,27 @@ simu.rampT = 100;                       %Wave Ramp Time Length [s]
 % waves = waveClass('noWaveCIC'); 
 
 %% Regular Waves  
-waves = waveClass('regularCIC'); 
-% waves = waveClass('regular');        
-                                 %Create the Wave Variable and Specify Type
-                                 
-waves.H = 2.5;                          %Wave Height [m]
-waves.T = 14;                            %Wave Period [s]
+% waves = waveClass('regularCIC'); 
+% %waves = waveClass('regular');        
+%                                  %Create the Wave Variable and Specify Type
+%                                  
+% waves.H = 2.5;                          %Wave Height [m]
+% waves.T = 8;                            %Wave Period [s]
 
 %% Irregular Waves using PM Spectrum with Convolution Integral Calculation
-% waves = waveClass('irregular');       
-%                                Create the Wave Variable and Specify Type
-% waves.H = 2.5;                        %Significant Wave Height [m]
-% waves.T = 8;                          %Peak Period [s]
-% waves.spectrumType = 'PM';
-
+waves = waveClass('irregular');       
+                              % Create the Wave Variable and Specify Type
+waves.H = 2.5;                        %Significant Wave Height [m]
+waves.T = 8;                          %Peak Period [s]
+waves.spectrumType = 'PM';
+waves.randPreDefined=1;
 %% Irregular Waves using BS Spectrum with State Space Calculation
 % waves = waveClass('irregular');       
 %                                %Create the Wave Variable and Specify Type
 % waves.H = 2.5;                        %Significant Wave Height [m]
 % waves.T = 8;                          %Peak Period [s]
 % waves.spectrumType = 'BS';
- simu.ssCalc = 1;						%Control option to use state space model 
+  simu.ssCalc = 1;						%Control option to use state space model 
 
 %% Irregular Waves using User-Defined Spectrum
 % waves = waveClass('irregularImport');         
@@ -52,6 +54,7 @@ body(1).mass = 'equilibrium';
 body(1).momOfInertia = [20907301 21306090.66 37085481.11]; 
     %Moment of Inertia [kg*m^2]     
 body(1).geometryFile = 'geometry/float.stl';    %Location of Geomtry File
+
 
 body(2) = bodyClass('hydroData/rm3.h5',2);     
 body(2).mass = 'equilibrium';                   

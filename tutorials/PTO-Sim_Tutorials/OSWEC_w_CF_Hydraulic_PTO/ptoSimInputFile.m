@@ -1,6 +1,6 @@
 %% Compressible Fluid Hydraulic PTO-Sim
 
-ptosim = ptoSimClass('Compressible_Fluid_Hydraulic');
+ptosim = ptoSimClass('Compressible Fluid Hydraulic');
 
 %% Valve 
 
@@ -71,7 +71,6 @@ ptosim.rotaryGenerator.TgenBase = 2000;
 ptosim.rotaryGenerator.omegaBase = 300;
 ptosim.rotaryGenerator.driveEff = 0.98;
 ptosim.rotaryGenerator.genDamping = 3;                       % Generator Damping [kg-m^2/s]
-
 
 %% Rotary to Linear Adjustable Rod
 
