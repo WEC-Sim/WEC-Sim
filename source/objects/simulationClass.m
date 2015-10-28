@@ -24,6 +24,7 @@ classdef simulationClass<handle
         endTime             = 500                                          % Simulation end time (default = 500 s)
         dt                  = 0.1                                          % Simulation time step (default = 0.1 s)
         dtOut               = []                                           % Output sampling time (default = dt)
+        dtFeNonlin          = []                                           % Sample time to calculate nonlinear forces (default = dt)
         rampT               = 100                                          % Ramp time for wave forcing (default = 100 s)
         domainSize          = 200                                          % Size of free surface and seabed. This variable is only used for visualization (default = 200 m)
         CITime              = 60                                           % Convolution integral time (default = 60 s)
@@ -89,6 +90,10 @@ classdef simulationClass<handle
             % Set dtOut if it was not specificed in input file
             if isempty(obj.dtOut) || obj.dtOut < obj.dt
                 obj.dtOut = obj.dt;
+            end
+            % Set dtFeNonlin if it was not specificed in input file
+            if isempty(obj.dtFeNonlin) || obj.dtFeNonlin < obj.dt
+                obj.dtFeNonlin = obj.dt;
             end
             obj.CTTime = 0:obj.dt:obj.CITime;
             obj.CIkt = length(obj.CTTime);
