@@ -2,20 +2,25 @@
 simu = simulationClass();               %Create the Simulation Variable
 simu.simMechanicsFile = 'RM3.slx';      %Location of Simulink Model File
 simu.endTime=400;                       %Simulation End Time [s]
-simu.dt = 0.1;                          %Simulation Time-Step [s]
-simu.rampT = 100;                       %Wave Ramp Time Length [s]
+simu.dt = 0.1; 							%Simulation Time-Step [s]
+%simu.dt = 0.005;                        %Simulation Time-Step [s]
+%simu.dtFeNonlin = 0.05;
+simu.rampT = 100;                        %Wave Ramp Time Length [s]
+%simu.nlHydro = 1;
+%simu.mode = 'rapid';
+%simu.explorer = 'off';
 
 %% Wave Information
 %% noWaveCIC, no waves with radiation CIC  
 % waves = waveClass('noWaveCIC'); 
 
 %% Regular Waves  
-% waves = waveClass('regularCIC'); 
+waves = waveClass('regularCIC'); 
 % % waves = waveClass('regular');        
-%                                  %Create the Wave Variable and Specify Type
-%                                  
-% waves.H = 2.5;                          %Wave Height [m]
-% waves.T = 8;                            %Wave Period [s]
+                                 %Create the Wave Variable and Specify Type
+                                 
+waves.H = 2.5;                          %Wave Height [m]
+waves.T = 8;                            %Wave Period [s]
 
 %% Irregular Waves using PM Spectrum with Convolution Integral Calculation
 % waves = waveClass('irregular');       
@@ -39,8 +44,8 @@ simu.rampT = 100;                       %Wave Ramp Time Length [s]
 %                                   %Name of User-Defined Spectrum File [2,:] = [omega, Sf]
 
 %% User-Defined Time-Series
-waves = waveClass('userDefined');   %Create the Wave Variable and Specify Type
-waves.etaDataFile = 'umpqua46229_6_2008.mat';  % Name of User-Defined Time-Series File [:,2] = [time, wave_elev]
+% waves = waveClass('userDefined');   %Create the Wave Variable and Specify Type
+% waves.etaDataFile = 'umpqua46229_6_2008.mat';  % Name of User-Defined Time-Series File [:,2] = [time, wave_elev]
 
 %% Body Data
 body(1) = bodyClass('hydroData/rm3.h5',1);      
