@@ -33,6 +33,13 @@ for ii = 1:simu.numWecBodies
     % read h5 files
     body(ii).readH5File;
     body(ii).checkBemio;
+    body(ii).bodyNumber = ii;
+    body(ii).bodyTotal = simu.numWecBodies;
+    if simu.b2b==1
+        body(ii).lenJ = zeros(6*body(ii).bodyTotal,1);
+    else
+        body(ii).lenJ = zeros(6,1);
+    end
 end; clear ii
 % PTO-Sim input
 if exist('ptoSimInputFile.m','file') == 2 
@@ -60,16 +67,26 @@ sv_nonlinearHydro=Simulink.Variant('nlHydro>0');
 sv_meanFS=Simulink.Variant('nlHydro<2');
 sv_instFS=Simulink.Variant('nlHydro==2');
 % States-space
-ssCalc = simu.ssCalc;
-sv_convolution=Simulink.Variant('ssCalc==0');
-sv_stateSpace=Simulink.Variant('ssCalc==1');
+if waves.typeNum==0 || waves.typeNum==10 %'noWave' & 'regular'
+    radiation_option = 1;
+elseif simu.ssCalc == 1
+    radiation_option = 3;
+else
+    radiation_option = 2;
+end
+sv_constantCoeff=Simulink.Variant('radiation_option==1');
+sv_convolution=Simulink.Variant('radiation_option==2');
+sv_stateSpace=Simulink.Variant('radiation_option==3');
 % Wave type
 typeNum = waves.typeNum;
 sv_noWave=Simulink.Variant('typeNum<10');
 sv_regularWaves=Simulink.Variant('typeNum>=10 && typeNum<20');
 sv_irregularWaves=Simulink.Variant('typeNum>=20 && typeNum<30');
 sv_udfWaves=Simulink.Variant('typeNum>=30');
-
+% Body2Body
+B2B = simu.b2b;
+sv_noB2B=Simulink.Variant('B2B==0');
+sv_B2B=Simulink.Variant('B2B==1');
 
 %% HydroForce Pre-Processing: Wave Setup & HydroForcePre.
 % simulation setup
@@ -78,7 +95,7 @@ simu.setupSim;
 waves.waveSetup(body(1).hydroData.simulation_parameters.w, body(1).hydroData.simulation_parameters.water_depth, simu.rampT, simu.dt, simu.maxIt, simu.g, simu.endTime);
 % hydroForcePre
 for kk = 1:simu.numWecBodies
-    body(kk).hydroForcePre(waves.w,waves.waveDir,simu.CIkt,simu.CTTime,waves.numFreq,simu.dt,simu.rho,simu.g,waves.type,waves.waveAmpTime,kk,simu.numWecBodies,simu.ssCalc,simu.nlHydro);
+    body(kk).hydroForcePre(waves.w,waves.waveDir,simu.CIkt,simu.CTTime,waves.numFreq,simu.dt,simu.rho,simu.g,waves.type,waves.waveAmpTime,kk,simu.numWecBodies,simu.ssCalc,simu.nlHydro,simu.b2b);
 end; clear kk
 
 %% Check body-wave-simu compatability
@@ -146,9 +163,10 @@ tic
 fprintf('\nSimulating the WEC device defined in the SimMechanics model %s...   \n',simu.simMechanicsFile)
 % Modify some stuff for simulation
 for iBod = 1:simu.numWecBodies
-    body(iBod).adjustMassMatrix(simu.adjMassWeightFun); 
+    body(iBod).adjustMassMatrix(simu.adjMassWeightFun,simu.b2b); 
 end; clear iBod
 warning('off','Simulink:blocks:TDelayTimeTooSmall');
+warning('off','Simulink:blocks:BusSelDupBusCreatorSigNames');
 if simu.rampT == 0
     simu.rampT = 10e-8; 
 end
@@ -156,7 +174,8 @@ end
 simu.loadSimMechModel(simu.simMechanicsFile);
 sim(simu.simMechanicsFile);
 % Restore modified stuff
-clear nlHydro sv_linearHydro sv_nonlinearHydro ssCalc sv_convolution sv_stateSpace typeNum sv_noWave sv_regularWaves sv_irregularWaves sv_udfWaves sv_meanFS sv_instFS;
+clear nlHydro sv_linearHydro sv_nonlinearHydro ssCalc radiation_option sv_convolution sv_stateSpace sv_constantCoeff typeNum B2B sv_B2B sv_noB2B;
+clear sv_noWave sv_regularWaves sv_irregularWaves sv_udfWaves sv_meanFS sv_instFS;
 if simu.rampT == 10e-8; 
     simu.rampT = 0; 
 end
@@ -208,7 +227,7 @@ clear bodiesOutput ptosOutput constraintsOutput ptosimOutput
 for iBod = 1:simu.numWecBodies
     body(iBod).restoreMassMatrix
     output.bodies(iBod).forceTotal = output.bodies(iBod).forceTotal + output.bodies(iBod).forceAddedMass;
-    output.bodies(iBod).forceAddedMass = body(iBod).forceAddedMass(output.bodies(iBod).acceleration);
+    output.bodies(iBod).forceAddedMass = body(iBod).forceAddedMass(output.bodies(iBod).acceleration,simu.b2b);
     output.bodies(iBod).forceTotal = output.bodies(iBod).forceTotal - output.bodies(iBod).forceAddedMass;
 end; clear iBod
 % User Defined Post-Processing
