@@ -345,11 +345,11 @@ classdef bodyClass<handle
             obj.hydroForce.fDamping=zeros(6,lenJ);             
             irfk = obj.hydroData.hydro_coeffs.radiation_damping.impulse_response_fun.K  .*rho;
             irft = obj.hydroData.hydro_coeffs.radiation_damping.impulse_response_fun.t;
-            %obj.hydroForce.irkb=zeros(CIkt+1,6,lenJ);
             %obj.hydroForce.irkb=zeros(CIkt,6,lenJ);
             for ii=1:6
                 for jj=1:lenJ
-                    obj.hydroForce.irkb(:,ii,jj) = interp1(irft,squeeze(irfk(ii,jj,:)),CTTime,'spline');
+                    jjj = (iBod-1)*6+jj;
+                    obj.hydroForce.irkb(:,ii,jj) = interp1(irft,squeeze(irfk(ii,jjj,:)),CTTime,'spline');
                 end
             end
             % State Space Formulation
