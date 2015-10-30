@@ -21,7 +21,6 @@ view_html.sh
 *.glg
 *.glo
 *.gls
-*.h
 *.idx
 *.ilg
 *.ind
