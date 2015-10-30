@@ -24,24 +24,24 @@ classdef bodyClass<handle
         momOfInertia      = []                                                  % Moment of inertia [Ixx Iyy Izz] in kg*m^2
         geometryFile      = 'NONE'                                              % Location of geomtry stl file
         mooring           = struct('c',          zeros(6,6), ...                % Mooring damping, 6 x 6 matrix
-                                    'k',          zeros(6,6), ...               % Mooring stiffness, 6 x 6 matrix
-                                    'preTension', 0)                            % Mooring preTension, Vector length 6
+                                   'k',          zeros(6,6), ...                % Mooring stiffness, 6 x 6 matrix
+                                   'preTension', [0 0 0 0 0 0])                 % Mooring preTension, Vector length 6
         viscDrag          = struct('cd',                   [0 0 0 0 0 0], ...   % Viscous (quadratic) drag cd, vector length 6
-                                    'characteristicArea',   [0 0 0 0 0 0])      % Characteristic area for viscous drag, vector length 6
+                                   'characteristicArea',   [0 0 0 0 0 0])       % Characteristic area for viscous drag, vector length 6
         initDisp          = struct('initLinDisp',          [0 0 0], ...         % Initial displacement of center fo gravity - used for decay tests (format: [displacment in m], default = [0 0 0])
-                                    'initAngularDispAxis',  [0 1 0], ...        % Initial displacement of cog - axis of rotation - used for decay tests (format: [x y z], default = [1 0 0])
-                                    'initAngularDispAngle', 0)                  % Initial displacement of cog - Angle of rotation - used for decay tests (format: [radians], default = 0)
+                                   'initAngularDispAxis',  [0 1 0], ...         % Initial displacement of cog - axis of rotation - used for decay tests (format: [x y z], default = [1 0 0])
+                                   'initAngularDispAngle', 0)                   % Initial displacement of cog - Angle of rotation - used for decay tests (format: [radians], default = 0)
         linearDamping     = [0 0 0 0 0 0]                                       % Linear drag coefficient, vector length 6
         userDefinedExcIRF = []                                                  % Excitation IRF from BEMIO used for User-Defined Time-Series
         viz               = struct('color', [1 1 0], ...                        % Visualization color for either SimMechanics Explorer or Paraview.
-                                    'opacity', 1)                               % Visualization opacity for either SimMechanics Explorer or Paraview.
+                                   'opacity', 1)                                % Visualization opacity for either SimMechanics Explorer or Paraview.
     end
 
     properties (SetAccess = 'public', GetAccess = 'public') %body geometry stl file
         bodyGeometry      = struct('numFace', [], ...                           % Number of faces
-                                    'numVertex', [], ...                        % Number of vertices
-                                    'face', [], ...                             % List of faces
-                                    'vertex', [])                               % List of vertices
+                                   'numVertex', [], ...                         % Number of vertices
+                                   'face', [], ...                              % List of faces
+                                   'vertex', [])                                % List of vertices
     end
 
     properties (SetAccess = 'public', GetAccess = 'public') %internal
