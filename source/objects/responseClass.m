@@ -48,7 +48,7 @@ classdef responseClass<handle
             end
             % Constraints
             if isstruct(constraintsOutput)
-                signals = {'constraintForces'};
+                signals = {'position','velocity','acceleration','forceTotal','forceConstraint','forceMooring'}; 
                 for ii = 1:length(constraintsOutput)
                     obj.constraints(ii).name = constraintsOutput(ii).name;
                     obj.constraints(ii).time = constraintsOutput(ii).time;
