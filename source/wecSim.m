@@ -66,6 +66,10 @@ sv_linearHydro=Simulink.Variant('nlHydro==0');
 sv_nonlinearHydro=Simulink.Variant('nlHydro>0');
 sv_meanFS=Simulink.Variant('nlHydro<2');
 sv_instFS=Simulink.Variant('nlHydro==2');
+% MoorDyn Coupling
+moorDyn = simu.moorDyn;
+sv_mooringMatrix=Simulink.Variant('moorDyn==0');
+sv_moorDyn      =Simulink.Variant('moorDyn==1');
 % States-space
 if waves.typeNum==0 || waves.typeNum==10 %'noWave' & 'regular'
     radiation_option = 1;
@@ -167,18 +171,14 @@ for iBod = 1:simu.numWecBodies
 end; clear iBod
 warning('off','Simulink:blocks:TDelayTimeTooSmall');
 warning('off','Simulink:blocks:BusSelDupBusCreatorSigNames');
-if simu.rampT == 0
-    simu.rampT = 10e-8; 
-end
-% Simulation
+warning('off','MATLAB:loadlibrary:FunctionNotFound');
+warning('off','MATLAB:loadlibrary:parsewarnings');
+
 simu.loadSimMechModel(simu.simMechanicsFile);
 sim(simu.simMechanicsFile);
 % Restore modified stuff
 clear nlHydro sv_linearHydro sv_nonlinearHydro ssCalc radiation_option sv_convolution sv_stateSpace sv_constantCoeff typeNum B2B sv_B2B sv_noB2B;
-clear sv_noWave sv_regularWaves sv_irregularWaves sv_udfWaves sv_meanFS sv_instFS;
-if simu.rampT == 10e-8; 
-    simu.rampT = 0; 
-end
+clear sv_noWave sv_regularWaves sv_irregularWaves sv_udfWaves sv_meanFS sv_instFS moorDyn sv_mooringMatrix sv_moorDyn;
 toc
 
 
@@ -295,7 +295,7 @@ if simu.paraview == 1
 end
 clear body*_areas_out body*_hspressure_out body*_wavenonlinearpressure_out body*_wavelinearpressure_out  
 % 
-clear ans; 
+clear ans table; 
 toc
 diary off 
 movefile('simulation.log',simu.logFile)
