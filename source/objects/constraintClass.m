@@ -18,6 +18,9 @@ classdef constraintClass<handle
     properties (SetAccess = 'public', GetAccess = 'public')%input file 
         name                    = 'NOT DEFINED'                                 % Name of the constraint used 
         loc                     = [999 999 999]                                 % Constraint location. Default = [0 0 0]        
+        mooring           = struct('c',          zeros(6,6), ...                % Mooring damping, 6 x 6 matrix
+                                   'k',          zeros(6,6), ...                % Mooring stiffness, 6 x 6 matrix
+                                   'preTension', [0 0 0 0 0 0])                 % Mooring preTension, Vector length 6
     end
     
     properties (SetAccess = 'public', GetAccess = 'public')%internal
