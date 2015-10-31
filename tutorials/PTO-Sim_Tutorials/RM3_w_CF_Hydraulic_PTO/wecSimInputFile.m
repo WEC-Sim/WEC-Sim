@@ -10,8 +10,8 @@ simu.rampT = 100;                       %Wave Ramp Time Length [s]
 % waves = waveClass('noWaveCIC'); 
 
 %% Regular Waves  
-% waves = waveClass('regularCIC'); 
-%  %waves = waveClass('regular');        
+%waves = waveClass('regularCIC'); 
+% waves = waveClass('regular');        
 %                                  %Create the Wave Variable and Specify Type
 %                                  
 % waves.H = 2.5;                          %Wave Height [m]
