@@ -27,7 +27,8 @@ classdef waveClass<handle
         numFreq                     = 1001                                 % Number of interpolated wave frequencies (default = 'NOT DEFINED')
         waveDir                     = 0                                    % Wave Direction in degrees
         viz                         = struct('numPointsX', 50, ...         % Visualization number of points in x direction.
-                                            'numPointsY', 50)              % Visualization number of points in y direction.
+                                             'numPointsY', 50)             % Visualization number of points in y direction.
+        statisticsDataLoad          = [];                                   % File name to load wave statistics data
     end
     
     properties (SetAccess = 'private', GetAccess = 'public')%internal
