@@ -83,7 +83,7 @@ classdef waveClass<handle
                         obj.w = 2*pi/obj.T;
                     end
                     obj.A = obj.H/2;
-                    obj.waveElevNowave(maxIt);
+                    obj.waveElevNowave(maxIt,dt);
                 case {'regular','regularCIC'}
                     if isempty(obj.w)
                         obj.w = 2*pi/obj.T;
@@ -302,8 +302,9 @@ classdef waveClass<handle
             end
         end
         
-        function waveElevNowave(obj,maxIt)
+        function waveElevNowave(obj,maxIt,dt)
             obj.waveAmpTime = zeros(maxIt+1,2);
+            obj.waveAmpTime(:,1) = [0:maxIt]*dt;
         end
         
         function waveElevReg(obj, rampT,dt,maxIt)
