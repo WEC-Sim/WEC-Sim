@@ -108,7 +108,7 @@ classdef bodyClass<handle
                     obj.constAddedMassAndDamping(w,CIkt,rho,B2B);
                 case {'noWaveCIC'}
                     obj.noExcitation()
-                    obj.irfInfAddedMassAndDamping(CIkt,dt,ssCalc,iBod,rho,B2B);
+                    obj.irfInfAddedMassAndDamping(CIkt,CTTime,ssCalc,iBod,rho,B2B);
                 case {'regular'}
                     obj.regExcitation(w,waveDir,rho,g);
                     obj.constAddedMassAndDamping(w,CIkt,rho,B2B);
@@ -358,7 +358,7 @@ classdef bodyClass<handle
                         jjj = (iBod-1)*6+jj;
                         obj.hydroForce.irkb(:,ii,jj) = interp1(irft,squeeze(irfk(ii,jjj,:)),CTTime,'spline');
                     end
-                end                
+                end
             end
             % State Space Formulation
             if ssCalc == 1
