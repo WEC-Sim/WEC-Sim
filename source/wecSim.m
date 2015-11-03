@@ -11,6 +11,16 @@ diary('simulation.log')
 tic
 fprintf('\nWEC-Sim Read Input File ...   \n'); 
 evalc('wecSimInputFile');
+
+% Multiple Condistions Run Input
+if exist('mcr','var') == 1; 
+   for n=1:length(mcr.cases(1,:))
+     combine = sprintf('%s=%g',char(mcr.header{n}),mcr.cases(imcr,n));
+     evalc(combine);
+   end; clear n combine;
+end
+
+
 % Count number of bodies, PTOs, and constraints blocks
 simu.numWecBodies = length(body(1,:));
 if exist('constraint','var') == 1
@@ -25,6 +35,7 @@ if exist('pto','var') == 1
         pto(ii).ptoNum = ii;
     end; clear ii
 end
+
 % check user inputs
 waves.checkinputs;
 simu.checkinputs;
