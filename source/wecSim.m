@@ -101,7 +101,6 @@ waves.waveSetup(body(1).hydroData.simulation_parameters.w, body(1).hydroData.sim
 for kk = 1:simu.numWecBodies
     body(kk).hydroForcePre(waves.w,waves.waveDir,simu.CIkt,simu.CTTime,waves.numFreq,simu.dt,simu.rho,simu.g,waves.type,waves.waveAmpTime,kk,simu.numWecBodies,simu.ssCalc,simu.nlHydro,simu.b2b);
 end; clear kk
-
 %% Check body-wave-simu compatability
 % Check that the hydro data for each body is given for the same frequencies
 for ii = 1:simu.numWecBodies
@@ -119,7 +118,7 @@ end; clear ii;
 if  waves.waveDir <  min(body(1).hydroData.simulation_parameters.wave_dir) || waves.waveDir >  max(body(1).hydroData.simulation_parameters.wave_dir)
     error('waves.waveDir outside of range of available hydro data')
 end
-if strcmp(waves.type,'userDefined') ~= 1
+if strcmp(waves.type,'userDefined')~=1 && strcmp(waves.type,'noWave')~=1 && strcmp(waves.type,'noWaveCIC')~=1
     if  min(waves.w) <  min(body(1).hydroData.simulation_parameters.w) || max(waves.w) >  max(body(1).hydroData.simulation_parameters.w)
         error('waves.w outside of range of available hydro data')
     end
@@ -161,7 +160,6 @@ else
 end
 fprintf('\n')
 
-
 %% Load simMechanics file & Run Simulation
 tic
 fprintf('\nSimulating the WEC device defined in the SimMechanics model %s...   \n',simu.simMechanicsFile)
@@ -180,7 +178,6 @@ sim(simu.simMechanicsFile);
 clear nlHydro sv_linearHydro sv_nonlinearHydro ssCalc radiation_option sv_convolution sv_stateSpace sv_constantCoeff typeNum B2B sv_B2B sv_noB2B;
 clear sv_noWave sv_regularWaves sv_irregularWaves sv_udfWaves sv_meanFS sv_instFS moorDyn sv_mooringMatrix sv_moorDyn;
 toc
-
 
 %% Post processing and Saving Results
 tic
@@ -295,7 +292,7 @@ if simu.paraview == 1
 end
 clear body*_areas_out body*_hspressure_out body*_wavenonlinearpressure_out body*_wavelinearpressure_out  
 % 
-clear ans table; 
+clear ans table tout; 
 toc
 diary off 
 movefile('simulation.log',simu.logFile)
