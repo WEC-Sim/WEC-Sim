@@ -64,5 +64,5 @@ end
 warning('off','MATLAB:DELETE:FileNotFound'); delete('mcrCase*.mat')
 for imcr=1:length(mcr.cases(:,1))
     wecSim;
-    if exist('userDefinedFunctions.m','file') == 2; userDefinedFunctionsMCR; end
+    if exist('userDefinedFunctionsMCR.m','file') == 2; userDefinedFunctionsMCR; end
 end; clear imcr ans;
