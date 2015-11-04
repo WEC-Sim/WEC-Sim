@@ -1,4 +1,6 @@
-clear all
+clear mcr imcr i j k l1 l2 m n name nseed kkk len numConditions
+clear body waves simu output pto constraint ptoSim
+
 evalc('wecSimInputFile');
 
 if isempty(simu.mcrCaseFile) == 0
