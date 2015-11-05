@@ -98,7 +98,7 @@ classdef bodyClass<handle
             % 2. Set the wave excitation force
             obj.setMassMatrix(rho,nlHydro)
             k = obj.hydroData.hydro_coeffs.linear_restoring_stiffness;
-            obj.hydroForce.linearHydroRestCoef =  (k + k' - diag(diag(k))).*rho .*g;
+            obj.hydroForce.linearHydroRestCoef = k .*rho .*g;
             obj.hydroForce.visDrag = diag(0.5*rho.*obj.viscDrag.cd.*obj.viscDrag.characteristicArea);
             obj.hydroForce.linearDamping = diag(obj.linearDamping);
             obj.hydroForce.userDefinedFe = zeros(length(waveAmpTime(:,2)),6);   %initializing userDefinedFe for non user-defined cases
