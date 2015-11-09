@@ -1,4 +1,4 @@
-.. _tutotials:
+﻿.. _tutotials:
 
 Tutorials
 ==================
@@ -367,6 +367,9 @@ OSWEC with Hydraulic PTO
 A hydraulic PTO or mechanical PTO can be used with OSWEC but for simplicity a hydraulic PTO will be used as an example.
 
 .. figure:: _static/OSWECPHYMODEL.PNG
+   :width: 400pt
+
+.. figure:: _static/MoTIONMECHANISM.PNG
    :width: 400pt
 
 Modeling of OSWEC with Hydraulic PTO
