@@ -70,7 +70,7 @@ classdef bodyClass<handle
             obj.hydroData.simulation_parameters.w = h5read(filename,'/simulation_parameters/w');
             obj.hydroData.simulation_parameters.T = h5read(filename,'/simulation_parameters/T');
             obj.hydroData.properties.name = h5read(filename,[name '/properties/name']);
-            obj.hydroData.properties.name = obj.hydroData.properties.name{1};
+            try obj.hydroData.properties.name = obj.hydroData.properties.name{1}; end
             obj.hydroData.properties.body_number = h5read(filename,[name '/properties/body_number']);
             obj.hydroData.properties.cg = h5read(filename,[name '/properties/cg']);
             obj.hydroData.properties.disp_vol = h5read(filename,[name '/properties/disp_vol']);
