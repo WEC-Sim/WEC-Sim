@@ -135,12 +135,13 @@ if strcmp(waves.type,'userDefined')~=1 && strcmp(waves.type,'noWave')~=1 && strc
     end
 end
 % Check CITime
-for iBod = 1:simu.numWecBodies
-    if simu.CITime > max(body(iBod).hydroData.hydro_coeffs.excitation.impulse_response_fun.t)
-      error('simu.CITime is larger than the length of the IRF');
+if waves.typeNum~=0 && waves.typeNum~=10
+    for iBod = 1:simu.numWecBodies
+        if simu.CITime > max(body(iBod).hydroData.hydro_coeffs.excitation.impulse_response_fun.t)
+          error('simu.CITime is larger than the length of the IRF');
+        end
     end
 end
-
 
 %% End Pre-Processing and Output All the Simulation and Model Setting
 toc
