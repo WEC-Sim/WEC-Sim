@@ -77,6 +77,10 @@ sv_linearHydro=Simulink.Variant('nlHydro==0');
 sv_nonlinearHydro=Simulink.Variant('nlHydro>0');
 sv_meanFS=Simulink.Variant('nlHydro<2');
 sv_instFS=Simulink.Variant('nlHydro==2');
+% Morrison Element
+morrisonElement = simu.morrisonElement;
+sv_MEOff=Simulink.Variant('morrisonElement==0');
+sv_MEOn=Simulink.Variant('morrisonElement==1');
 % MoorDyn Coupling
 moorDyn = simu.moorDyn;
 sv_mooringMatrix=Simulink.Variant('moorDyn==0');
@@ -188,7 +192,7 @@ simu.loadSimMechModel(simu.simMechanicsFile);
 sim(simu.simMechanicsFile);
 % Restore modified stuff
 clear nlHydro sv_linearHydro sv_nonlinearHydro ssCalc radiation_option sv_convolution sv_stateSpace sv_constantCoeff typeNum B2B sv_B2B sv_noB2B;
-clear sv_noWave sv_regularWaves sv_irregularWaves sv_udfWaves sv_meanFS sv_instFS moorDyn sv_mooringMatrix sv_moorDyn;
+clear sv_noWave sv_regularWaves sv_irregularWaves sv_udfWaves sv_meanFS sv_instFS moorDyn sv_mooringMatrix sv_moorDyn sv_MEOn sv_MEOff morrisonElement;
 toc
 
 %% Post processing and Saving Results

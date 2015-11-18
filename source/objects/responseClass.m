@@ -27,7 +27,7 @@ classdef responseClass<handle
             % Initilization function
             % Read and format ouputs from bodies, PTOs, and constraints.
             % Bodies
-            signals = {'position','velocity','acceleration','forceTotal','forceExcitation','forceRadiationDamping','forceAddedMass','forceRestoring','forceViscous','forceMooring','forceLinearDamping'};
+            signals = {'position','velocity','acceleration','forceTotal','forceExcitation','forceRadiationDamping','forceAddedMass','forceRestoring','forceMorrisonAndViscous','forceMooring','forceLinearDamping'};
             for ii = 1:length(bodiesOutput)
                 obj.bodies(ii).name = bodiesOutput(ii).name;
                 obj.bodies(ii).time = bodiesOutput(ii).time;
@@ -95,7 +95,7 @@ classdef responseClass<handle
             FRD=-1*obj.bodies(bodyNum).forceRadiationDamping(:,comp);
             FAM=-1*obj.bodies(bodyNum).forceAddedMass(:,comp);
             FR=-1*obj.bodies(bodyNum).forceRestoring(:,comp);
-            FV=-1*obj.bodies(bodyNum).forceViscous(:,comp);
+            FMV=-1*obj.bodies(bodyNum).forceMorrisonAndViscous(:,comp);
             FLD=-1*obj.bodies(bodyNum).forceLinearDamping(:,comp);
             FM=-1*obj.bodies(bodyNum).forceMooring(:,comp);
             figure();
@@ -104,7 +104,7 @@ classdef responseClass<handle
                 t,FRD,...
                 t,FAM,...
                 t,FR,...
-                t,FV,...
+                t,FMV,...
                 t,FLD,...
                 t,FM)
             legend('forceTotal','forceExcitation','forceRadiationDamping','forceAddedMass','forceRestoring','forceViscous','forceLinearDamping','forceMooring')
