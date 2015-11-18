@@ -10,8 +10,8 @@ simu.rampT = 100;                       %Wave Ramp Time Length [s]
 % waves = waveClass('noWaveCIC'); 
 
 %% Regular Waves  
-waves = waveClass('regularCIC'); 
-% waves = waveClass('regular');        
+%waves = waveClass('regularCIC'); 
+waves = waveClass('regular');        
                                  %Create the Wave Variable and Specify Type
                                  
 waves.H = 2.5;                          %Wave Height [m]
@@ -43,7 +43,7 @@ simu.ssCalc = 1;						%Control option to use state space model
 % waves.etaDataFile = 'umpqua46229_6_2008.mat';  % Name of User-Defined Time-Series File [:,2] = [time, wave_elev]
 
 %% Body Data
-body(1) = bodyClass('hydroData/rm3.h5',1);      
+body(1) = bodyClass('../../RM3/hydroData/rm3.h5',1);      
     %Create the body(1) Variable, Set Location of Hydrodynamic Data File 
     %and Body Number Within this File.        
 body(1).mass = 'equilibrium';                   
@@ -51,12 +51,12 @@ body(1).mass = 'equilibrium';
     %Weight.
 body(1).momOfInertia = [20907301 21306090.66 37085481.11]; 
     %Moment of Inertia [kg*m^2]     
-body(1).geometryFile = 'geometry/float.stl';    %Location of Geomtry File
+body(1).geometryFile = '../../RM3/geometry/float.stl';    %Location of Geomtry File
 
-body(2) = bodyClass('hydroData/rm3.h5',2);     
+body(2) = bodyClass('../../RM3/hydroData/rm3.h5',2);     
 body(2).mass = 'equilibrium';                   
 body(2).momOfInertia = [94419614.57 94407091.24 28542224.82];
-body(2).geometryFile = 'geometry/plate.stl'; 
+body(2).geometryFile = '../../RM3/geometry/plate.stl'; 
 
 %% PTO and Constraint Parameters
 constraint(1) = constraintClass('Constraint1'); 
