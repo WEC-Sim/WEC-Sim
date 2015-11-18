@@ -35,6 +35,11 @@ classdef bodyClass<handle
         userDefinedExcIRF = []                                                  % Excitation IRF from BEMIO used for User-Defined Time-Series
         viz               = struct('color', [1 1 0], ...                        % Visualization color for either SimMechanics Explorer or Paraview.
                                    'opacity', 1)                                % Visualization opacity for either SimMechanics Explorer or Paraview.
+        morrisonElement   = struct('cd',                 [0 0 0], ...           % Viscous (quadratic) drag cd, vector length 3
+                                   'ca',                 [0 0 0], ...           % Added mass coefficent for Morrison Element (format [Ca_x Ca_y Ca_z], default = [0 0 0])
+                                   'characteristicArea', [0 0 0], ...           % Characteristic area for Morrison Elements calculations (format [Area_x Area_y Area_z], default = [0 0 0])
+                                   'VME',                 0     , ...           % Characteristic volume for Morrison Element (default = 0)
+                                   'rgME',               [0 0 0])               % Vector from center of gravity to point of application for Morrison Element (format [X Y Z], default = [0 0 0]).
     end
 
     properties (SetAccess = 'public', GetAccess = 'public') %body geometry stl file

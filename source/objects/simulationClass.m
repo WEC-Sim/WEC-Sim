@@ -41,6 +41,7 @@ classdef simulationClass<handle
         moorDyn             = 0                                            % MoorDyn Coupling option (default = 0 for using mooring stiffness and damping matrix)
         numIntMidTimeSteps  = 5 ;                                          % Number of intermidiate time steps (default = 5 for ode4 method)
         mcrCaseFile         = []                                           % mat file that contain a list of the multiple conditions runs with given conditions  
+        morrisonElement     = 0;                                           % Option for Morrison Element calculation: Off->'0', On->'1', (default = 0)
     end
 
     properties (SetAccess = 'public', GetAccess = 'public')%internal
