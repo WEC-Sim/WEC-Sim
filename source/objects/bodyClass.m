@@ -45,8 +45,11 @@ classdef bodyClass<handle
     properties (SetAccess = 'public', GetAccess = 'public') %body geometry stl file
         bodyGeometry      = struct('numFace', [], ...                           % Number of faces
                                    'numVertex', [], ...                         % Number of vertices
+                                   'vertex', [], ...                            % List of vertices
                                    'face', [], ...                              % List of faces
-                                   'vertex', [])                                % List of vertices
+                                   'norm', [], ...                              % List of normal vectors
+                                   'area', [], ...                              % List of cell areas 
+                                   'center', [])                                % List of cell centers 
     end
 
     properties (SetAccess = 'public', GetAccess = 'public') %internal
@@ -191,14 +194,64 @@ classdef bodyClass<handle
 
         function bodyGeo(obj,fname)
             try
-                [obj.bodyGeometry.vertex, obj.bodyGeometry.face, ~] = import_stl_fast(fname,1,1);
+                [obj.bodyGeometry.vertex, obj.bodyGeometry.face, obj.bodyGeometry.norm] = import_stl_fast(fname,1,1);
             catch
-                [obj.bodyGeometry.vertex, obj.bodyGeometry.face, ~] = import_stl_fast(fname,1,2);
+                [obj.bodyGeometry.vertex, obj.bodyGeometry.face, obj.bodyGeometry.norm] = import_stl_fast(fname,1,2);
             end
             obj.bodyGeometry.numFace = length(obj.bodyGeometry.face);
             obj.bodyGeometry.numVertex = length(obj.bodyGeometry.vertex);
+            obj.triArea();
+            obj.triCenter();
         end
 
+        function triArea(obj)
+            % Function to calculate the area of a triangle
+            points = obj.bodyGeometry.vertex;
+            faces = obj.bodyGeometry.face;
+            tnorm = obj.bodyGeometry.norm;
+            v1 = points(faces(:,3),:)-points(faces(:,1),:);
+            v2 = points(faces(:,2),:)-points(faces(:,1),:);
+            av_tmp =  1/2.*(cross(v1,v2));
+            area_mag = sqrt(av_tmp(:,1).^2 + av_tmp(:,2).^2 + av_tmp(:,3).^2);
+            obj.bodyGeometry.area = area_mag;
+            % Check STL file
+            av = zeros(length(area_mag),3);
+            av(:,1) = area_mag.*tnorm(:,1);
+            av(:,2) = area_mag.*tnorm(:,2);
+            av(:,3) = area_mag.*tnorm(:,3);
+            if sum(sum(sign(av_tmp))) ~= sum(sum(sign(av)))
+                warning(['The order of triangle vertices in ' obj.geometryFile ' do not follow the right hand rule. ' ...
+                    'This will causes visualization errors in the SimMechanics Explorer'])
+            end
+            norm_mag = sqrt(tnorm(:,1).^2 + tnorm(:,2).^2 + tnorm(:,3).^2);
+            check = sum(norm_mag)/length(norm_mag);
+            if check>1.01 || check<0.99
+                error(['length of normal vectors in ' obj.geometryFile ' is not equal to one.'])
+            end
+        end
+
+        function triCenter(obj)
+            %Function to caculate the center coordinate of a triangle
+            points = obj.bodyGeometry.vertex;
+            faces = obj.bodyGeometry.face;
+            c = zeros(length(faces),3);
+            c(:,1) = (points(faces(:,1),1)+points(faces(:,2),1)+points(faces(:,3),1))./3;
+            c(:,2) = (points(faces(:,1),2)+points(faces(:,2),2)+points(faces(:,3),2))./3;
+            c(:,3) = (points(faces(:,1),3)+points(faces(:,2),3)+points(faces(:,3),3))./3;
+            obj.bodyGeometry.center = c;
+        end
+
+        function plotStl(obj)
+            c = obj.bodyGeometry.center;
+            tri = obj.bodyGeometry.face;
+            p = obj.bodyGeometry.vertex;
+            n = obj.bodyGeometry.norm;
+            figure()
+            hold on 
+            trimesh(tri,p(:,1),p(:,2),p(:,3))
+            quiver3(c(:,1),c(:,2),c(:,3),n(:,1),n(:,2),n(:,3))
+        end
+        
         function checkinputs(obj)
             % hydro data file
             if exist(obj.h5File,'file') == 0
@@ -410,19 +463,16 @@ classdef bodyClass<handle
         function setMassMatrix(obj, rho, nlHydro)
             % Used by hydroForcePre
             % Sets mass for the special cases of body at equilibrium or fixed
-            cg = obj.hydroData.properties.cg;
             if strcmp(obj.mass, 'equilibrium')
                 obj.massCalcMethod = obj.mass;
                 if nlHydro == 0
                     obj.mass = obj.hydroData.properties.disp_vol * rho;
                 else
-                    faces = obj.bodyGeometry.face;
-                    points= obj.bodyGeometry.vertex;
-                    v1 = points(faces(:,3),:)-points(faces(:,1),:);
-                    v2 = points(faces(:,2),:)-points(faces(:,1),:);
-                    av =  1/2.*(cross(v1,v2));
-                    z = (points(faces(:,1),3)+points(faces(:,2),3)+points(faces(:,3),3))./3+cg(3);
-                    z(z>0)=0;
+                    cg = obj.hydroData.properties.cg;
+                    z = obj.bodyGeometry.center(:,3) + cg(3);
+                    z(z>0) = 0;
+                    area = obj.bodyGeometry.area;
+                    av = [area area area] .* -obj.bodyGeometry.norm;
                     tmp = rho*[z z z].*-av;
                     obj.mass = sum(tmp(:,3));
                 end
@@ -483,11 +533,12 @@ classdef bodyClass<handle
             verts_out(:,3) = verts(:,3) + x(3);
         end
 
-        function write_paraview_vtp(obj, t, pos_all, bodyname, model, simdate,cellareas,hspressure,wavenonlinearpressure,wavelinearpressure)
+        function write_paraview_vtp(obj, t, pos_all, bodyname, model, simdate, hspressure,wavenonlinearpressure,wavelinearpressure)
             numVertex = obj.bodyGeometry.numVertex;
             numFace = obj.bodyGeometry.numFace;
             vertex = obj.bodyGeometry.vertex;
             face = obj.bodyGeometry.face;
+            cellareas = obj.bodyGeometry.area;
             for it = 1:length(t)
                 % calculate new position
                 pos = pos_all(it,:);
@@ -535,15 +586,13 @@ classdef bodyClass<handle
                 fprintf(fid, '      </Polys>\n');
                 % write cell data
                 fprintf(fid,'      <CellData>\n');
-                  % Cell Areas
-                if ~isempty(cellareas)
-                    fprintf(fid,'        <DataArray type="Float32" Name="Cell Area" NumberOfComponents="1" format="ascii">\n');
-                    for ii = 1:numFace
-                        fprintf(fid, '          %i', cellareas(it,ii));
-                    end; 
-                    fprintf(fid, '\n');
-                    fprintf(fid,'        </DataArray>\n');
-                end
+                % Cell Areas
+                fprintf(fid,'        <DataArray type="Float32" Name="Cell Area" NumberOfComponents="1" format="ascii">\n');
+                for ii = 1:numFace
+                    fprintf(fid, '          %i', cellareas(ii));
+                end; 
+                fprintf(fid, '\n');
+                fprintf(fid,'        </DataArray>\n');
                   % Hydrostatic Pressure
                 if ~isempty(hspressure)
                     fprintf(fid,'        <DataArray type="Float32" Name="Hydrostatic Pressure" NumberOfComponents="1" format="ascii">\n');

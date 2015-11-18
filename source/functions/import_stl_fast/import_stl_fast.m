@@ -68,13 +68,17 @@ fclose(fid);
 
 %extract normal vectors and vertices
 tnorm = cell2mat(C(1:3));
-tnorm = tnorm(1:end-1,:); %strip off junk from last line
+tnorm = double(tnorm);
 
 v1 = cell2mat(C(4:6));
 v2 = cell2mat(C(7:9));
 v3 = cell2mat(C(10:12));
 
-if (C{4}(end)== NaN)
+if isnan(C{1}(end))
+    tnorm = tnorm(1:end-1,:); %strip off junk from last line
+end
+
+if isnan(C{4}(end))
     v1 = v1(1:end-1,:); %strip off junk from last line
     v2 = v2(1:end-1,:); %strip off junk from last line
     v3 = v3(1:end-1,:); %strip off junk from last line
@@ -111,7 +115,7 @@ t=zeros(3,fnum);
 t(:)=1:c;
 
 %now we have to keep unique points fro vertex
-[p,i,j]=unique(v,'rows'); %now v=p(j) p(i)=v;
+[p,~,j]=unique(v,'rows'); %now v=p(j) v(i)=p;
 t(:)=j(t(:));
 t=t';
 
