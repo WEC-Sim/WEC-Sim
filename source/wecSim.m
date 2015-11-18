@@ -265,14 +265,6 @@ if simu.paraview == 1
     for ii = 1:simu.numWecBodies
         bodyname = output.bodies(ii).name;
         mkdir(['vtk' filesep 'body' num2str(ii) '_' bodyname]);
-        % cell areas
-        try
-            eval(['av = body' num2str(ii) '_areas_out.signals.values;']);
-            cellareas = squeeze(sqrt(av(:,1,:).^2 + av(:,2,:).^2 + av(:,3,:).^2))';
-            clear av
-        catch
-            cellareas = [];
-        end
         % hydrostatic pressure
         try
             eval(['hspressure = body' num2str(ii) '_hspressure_out.signals.values;']);
@@ -291,7 +283,7 @@ if simu.paraview == 1
         catch
             wpressurel = [];
         end
-        body(ii).write_paraview_vtp(output.bodies(ii).time, output.bodies(ii).position, bodyname, simu.simMechanicsFile, datestr(simu.simulationDate), cellareas, hspressure, wpressurenl, wpressurel);
+        body(ii).write_paraview_vtp(output.bodies(ii).time, output.bodies(ii).position, bodyname, simu.simMechanicsFile, datestr(simu.simulationDate), hspressure, wpressurenl, wpressurel);
         bodies{ii} = bodyname;
         fprintf(fid,[bodyname '\n']);
         fprintf(fid,[num2str(body(ii).viz.color) '\n']);
@@ -306,7 +298,7 @@ if simu.paraview == 1
     output.write_paraview(bodies, output.bodies(1).time, simu.simMechanicsFile, datestr(simu.simulationDate), waves.type);
     clear bodies fid filename
 end
-clear body*_areas_out body*_hspressure_out body*_wavenonlinearpressure_out body*_wavelinearpressure_out  
+clear body*_hspressure_out body*_wavenonlinearpressure_out body*_wavelinearpressure_out  
 % 
 clear ans table tout; 
 toc
