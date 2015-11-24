@@ -20,8 +20,11 @@ classdef bodyClass<handle
     end
 
     properties (SetAccess = 'public', GetAccess = 'public') %input file
+        name              = []                                                  % Body name. For WEC bodies this is given in the h5 file.
         mass              = []                                                  % Mass in kg or specify 'equilibrium' to have mass= dis vol * density
         momOfInertia      = []                                                  % Moment of inertia [Ixx Iyy Izz] in kg*m^2
+        cg                = []                                                  % Center of gravity [x y z] in meters. For WEC bodies this is given in the h5 file.
+        dispVol           = []                                                  % Displaced volume at equilibrium position in meters cubed. For WEC bodies this is given in the h5 file.
         geometryFile      = 'NONE'                                              % Location of geomtry stl file
         mooring           = struct('c',          zeros(6,6), ...                % Mooring damping, 6 x 6 matrix
                                    'k',          zeros(6,6), ...                % Mooring stiffness, 6 x 6 matrix
@@ -40,6 +43,7 @@ classdef bodyClass<handle
                                    'characteristicArea', [0 0 0], ...           % Characteristic area for Morrison Elements calculations (format [Area_x Area_y Area_z], default = [0 0 0])
                                    'VME',                 0     , ...           % Characteristic volume for Morrison Element (default = 0)
                                    'rgME',               [0 0 0])               % Vector from center of gravity to point of application for Morrison Element (format [X Y Z], default = [0 0 0]).
+        nhBody            = 0                                                   % Flag for non-hydro body
     end
 
     properties (SetAccess = 'public', GetAccess = 'public') %body geometry stl file
@@ -105,6 +109,9 @@ classdef bodyClass<handle
             %    drag, and linear damping matrices
             % 2. Set the wave excitation force
             obj.setMassMatrix(rho,nlHydro)
+            obj.cg = obj.hydroData.properties.cg';
+            obj.dispVol = obj.hydroData.properties.disp_vol;
+            obj.name = obj.hydroData.properties.name;
             k = obj.hydroData.hydro_coeffs.linear_restoring_stiffness;
             obj.hydroForce.linearHydroRestCoef = k .*rho .*g;
             obj.hydroForce.visDrag = diag(0.5*rho.*obj.viscDrag.cd.*obj.viscDrag.characteristicArea);
@@ -254,12 +261,20 @@ classdef bodyClass<handle
         
         function checkinputs(obj)
             % hydro data file
-            if exist(obj.h5File,'file') == 0
+            if exist(obj.h5File,'file')==0 && obj.nhBody==0
                 error('The hdf5 file %s does not exist',obj.h5File)
             end
             % geometry file
             if exist(obj.geometryFile,'file') == 0
                 error('Could not locate and open geometry file %s',obj.geometryFile)
+            end
+            % cg 
+            if ~isempty(obj.cg) && obj.nhBody==0
+                error('For hydrodynamic bodies the cg from the h5 file is used and cannot be specified in input file.')
+            end
+            % displaced volume 
+            if ~isempty(obj.dispVol) && obj.nhBody==0
+                error('For hydrodynamic bodies the displaced volume from the h5 file is used and cannot be specified in input file.')
             end
         end
 
@@ -593,7 +608,7 @@ classdef bodyClass<handle
                 end; 
                 fprintf(fid, '\n');
                 fprintf(fid,'        </DataArray>\n');
-                  % Hydrostatic Pressure
+                % Hydrostatic Pressure
                 if ~isempty(hspressure)
                     fprintf(fid,'        <DataArray type="Float32" Name="Hydrostatic Pressure" NumberOfComponents="1" format="ascii">\n');
                     for ii = 1:numFace
@@ -602,7 +617,7 @@ classdef bodyClass<handle
                     fprintf(fid, '\n');
                     fprintf(fid,'        </DataArray>\n');
                 end
-                  % Non-Linear Froude-Krylov Wave Pressure
+                % Non-Linear Froude-Krylov Wave Pressure
                 if ~isempty(wavenonlinearpressure)
                     fprintf(fid,'        <DataArray type="Float32" Name="Wave Pressure NonLinear" NumberOfComponents="1" format="ascii">\n');
                     for ii = 1:numFace
@@ -611,7 +626,7 @@ classdef bodyClass<handle
                     fprintf(fid, '\n');
                     fprintf(fid,'        </DataArray>\n');
                 end
-                  % Linear Froude-Krylov Wave Pressure
+                % Linear Froude-Krylov Wave Pressure
                 if ~isempty(wavelinearpressure)
                     fprintf(fid,'        <DataArray type="Float32" Name="Wave Pressure Linear" NumberOfComponents="1" format="ascii">\n');
                     for ii = 1:numFace
