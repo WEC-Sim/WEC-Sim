@@ -71,6 +71,13 @@ classdef bodyClass<handle
         function obj = bodyClass(filename,iBod)
             obj.h5File = filename;
             obj.hydroDataBodyNum = iBod;
+            if ~isempty(filename)
+                name = ['/body' num2str(obj.hydroDataBodyNum)];
+                obj.cg = h5read(filename,[name '/properties/cg']);
+                obj.cg = obj.cg';
+                obj.dispVol = h5read(filename,[name '/properties/disp_vol']);
+                obj.name = h5read(filename,[name '/properties/name']);
+            end
         end
 
         function readH5File(obj)
@@ -109,9 +116,6 @@ classdef bodyClass<handle
             %    drag, and linear damping matrices
             % 2. Set the wave excitation force
             obj.setMassMatrix(rho,nlHydro)
-            obj.cg = obj.hydroData.properties.cg';
-            obj.dispVol = obj.hydroData.properties.disp_vol;
-            obj.name = obj.hydroData.properties.name;
             k = obj.hydroData.hydro_coeffs.linear_restoring_stiffness;
             obj.hydroForce.linearHydroRestCoef = k .*rho .*g;
             obj.hydroForce.visDrag = diag(0.5*rho.*obj.viscDrag.cd.*obj.viscDrag.characteristicArea);
@@ -191,6 +195,17 @@ classdef bodyClass<handle
             obj.hydroForce.storage.output_forceTotal = ft_mod;
         end
 
+        function setInitDisp(obj, x_rot, ax_rot, ang_rot, addLinDisp)
+            cg = obj.cg;
+            relCoord = cg - x_rot;
+            rotatedRelCoord = obj.rotateXYZ(relCoord,ax_rot,ang_rot);
+            newCoord = rotatedRelCoord + x_rot;
+            linDisp = newCoord-cg;
+            obj.initDisp.initLinDisp= linDisp + addLinDisp; 
+            obj.initDisp.initAngularDispAxis = ax_rot;
+            obj.initDisp.initAngularDispAngle = ang_rot;
+        end
+
         function listInfo(obj)
             % List body info
             fprintf('\n\t***** Body Number %G, Name: %s *****\n',obj.hydroData.properties.body_number,obj.hydroData.properties.name)
@@ -267,14 +282,6 @@ classdef bodyClass<handle
             % geometry file
             if exist(obj.geometryFile,'file') == 0
                 error('Could not locate and open geometry file %s',obj.geometryFile)
-            end
-            % cg 
-            if ~isempty(obj.cg) && obj.nhBody==0
-                error('For hydrodynamic bodies the cg from the h5 file is used and cannot be specified in input file.')
-            end
-            % displaced volume 
-            if ~isempty(obj.dispVol) && obj.nhBody==0
-                error('For hydrodynamic bodies the displaced volume from the h5 file is used and cannot be specified in input file.')
             end
         end
 
