@@ -196,6 +196,11 @@ classdef bodyClass<handle
         end
 
         function setInitDisp(obj, x_rot, ax_rot, ang_rot, addLinDisp)
+            % function to set the initial displacement when having initial rotation
+            % x_rot: rotation point
+            % ax_rot: axis about which to rotate (must be a normal vector)
+            % ang_rot: rotation angle in radians
+            % addLinDisp: initial linear displacement (in addition to the displacement caused by rotation)
             cg = obj.cg;
             relCoord = cg - x_rot;
             rotatedRelCoord = obj.rotateXYZ(relCoord,ax_rot,ang_rot);
