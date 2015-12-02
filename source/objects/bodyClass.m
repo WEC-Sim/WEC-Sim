@@ -495,8 +495,8 @@ classdef bodyClass<handle
                 if nlHydro == 0
                     obj.mass = obj.hydroData.properties.disp_vol * rho;
                 else
-                    cg = obj.hydroData.properties.cg;
-                    z = obj.bodyGeometry.center(:,3) + cg(3);
+                    cg_tmp = obj.hydroData.properties.cg;
+                    z = obj.bodyGeometry.center(:,3) + cg_tmp(3);
                     z(z>0) = 0;
                     area = obj.bodyGeometry.area;
                     av = [area area area] .* -obj.bodyGeometry.norm;
