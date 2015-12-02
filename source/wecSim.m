@@ -77,6 +77,12 @@ fprintf('\nWEC-Sim Pre-processing ...   \n');
 simu.setupSim;
 % wave setup
 waves.waveSetup(body(1).hydroData.simulation_parameters.w, body(1).hydroData.simulation_parameters.water_depth, simu.rampT, simu.dt, simu.maxIt, simu.g, simu.endTime);
+% Non-linear hydro
+if (simu.nlHydro >0) || (simu.paraview == 1)
+    for kk = 1:length(body(1,:))
+        body(kk).bodyGeo(body(kk).geometryFile)
+    end; clear kk
+end
 % hydroForcePre
 for kk = 1:simu.numWecBodies
     body(kk).hydroForcePre(waves.w,waves.waveDir,simu.CIkt,simu.CTTime,waves.numFreq,simu.dt,simu.rho,simu.g,waves.type,waves.waveAmpTime,kk,simu.numWecBodies,simu.ssCalc,simu.nlHydro,simu.b2b);
@@ -116,12 +122,6 @@ end
 
 
 %% Set variant subsystems options
-% Non-linear hydro
-if (simu.nlHydro >0) || (simu.paraview == 1)
-    for kk = 1:length(body(1,:))
-        body(kk).bodyGeo(body(kk).geometryFile)
-    end; clear kk
-end
 nlHydro = simu.nlHydro;
 sv_linearHydro=Simulink.Variant('nlHydro==0');
 sv_nonlinearHydro=Simulink.Variant('nlHydro>0');
