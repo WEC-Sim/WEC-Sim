@@ -205,6 +205,7 @@ warning('off','Simulink:blocks:TDelayTimeTooSmall');
 warning('off','Simulink:blocks:BusSelDupBusCreatorSigNames');
 warning('off','MATLAB:loadlibrary:FunctionNotFound');
 warning('off','MATLAB:loadlibrary:parsewarnings');
+warning('off','Simulink:blocks:DivideByZero');
 % run simulation
 simu.loadSimMechModel(simu.simMechanicsFile);
 sim(simu.simMechanicsFile);
