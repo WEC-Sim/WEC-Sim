@@ -41,25 +41,27 @@ else
         end
     end
     
-    for n=1:size(pto,2)
-        if (length(pto(n).c)>1 || length(pto(n).k)>1)
-            numConditions=numConditions+2;
-            name = sprintf('pto(%i).c', n);
-            mcr.header{numConditions-1} = name;
-            name = sprintf('pto(%i).k', n);
-            mcr.header{numConditions  } = name;
-            
-            len = length(mcr.cases(:,1)); kkk = 0;
-            for l2=1:length(pto(n).k)
-                for l1=1:length(pto(n).c)
-                    kkk=kkk+1;
-                    mcr.cases(len*(kkk-1)+1:len*(kkk-1)+len,1:numConditions-2) = mcr.cases(1:len,1:numConditions-2);
-                    mcr.cases(len*(kkk-1)+1:len*(kkk-1)+len,  numConditions-1) = pto(n).c(l1);
-                    mcr.cases(len*(kkk-1)+1:len*(kkk-1)+len,    numConditions) = pto(n).k(l2);
+    if exist('pto','var')
+        for n=1:size(pto,2)
+            if (length(pto(n).c)>1 || length(pto(n).k)>1)
+                numConditions=numConditions+2;
+                name = sprintf('pto(%i).c', n);
+                mcr.header{numConditions-1} = name;
+                name = sprintf('pto(%i).k', n);
+                mcr.header{numConditions  } = name;
+                
+                len = length(mcr.cases(:,1)); kkk = 0;
+                for l2=1:length(pto(n).k)
+                    for l1=1:length(pto(n).c)
+                        kkk=kkk+1;
+                        mcr.cases(len*(kkk-1)+1:len*(kkk-1)+len,1:numConditions-2) = mcr.cases(1:len,1:numConditions-2);
+                        mcr.cases(len*(kkk-1)+1:len*(kkk-1)+len,  numConditions-1) = pto(n).c(l1);
+                        mcr.cases(len*(kkk-1)+1:len*(kkk-1)+len,    numConditions) = pto(n).k(l2);
+                    end
                 end
             end
-        end
-    end; clear i j k l1 l2 m n name nseed kkk len numConditions
+        end; clear i j k l1 l2 m n name nseed kkk len numConditions
+    end
 end
 
 % Run WEC-Sim
