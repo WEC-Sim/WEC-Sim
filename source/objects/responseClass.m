@@ -133,14 +133,14 @@ classdef responseClass<handle
             fprintf(fid,['  <!-- Wave:  ' wavetype ' -->\n']);
             for jj = 1:length(t)
                  fprintf(fid, ['    <DataSet timestep="' num2str(t(jj)) '" group="" part="" \n']);
-                 fprintf(fid, ['             file="waves' filesep 'waves_' num2str(jj) '.vtp"/>\n']);
+                 fprintf(fid, ['             file="waves' '/' 'waves_' num2str(jj) '.vtp"/>\n']);
             end 
             % write bodies
             for ii = 1:length(bodies)
                 fprintf(fid,['  <!-- Body' num2str(ii) ':  ' bodies{ii} ' -->\n']);
                 for jj = 1:length(t)
                      fprintf(fid, ['    <DataSet timestep="' num2str(t(jj)) '" group="" part="" \n']);
-                     fprintf(fid, ['             file="body' num2str(ii) '_' bodies{ii} filesep bodies{ii} '_' num2str(jj) '.vtp"/>\n']);
+                     fprintf(fid, ['             file="body' num2str(ii) '_' bodies{ii} '/' bodies{ii} '_' num2str(jj) '.vtp"/>\n']);
                 end
             end
             % close file
