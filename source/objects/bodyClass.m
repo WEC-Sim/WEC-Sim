@@ -77,6 +77,7 @@ classdef bodyClass<handle
                 obj.cg = obj.cg';
                 obj.dispVol = h5read(filename,[name '/properties/disp_vol']);
                 obj.name = h5read(filename,[name '/properties/name']);
+                try obj.name = obj.name{1}; end
             end
         end
 
