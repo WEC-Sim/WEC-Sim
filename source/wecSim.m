@@ -267,6 +267,10 @@ end; clear iBod
 if exist('userDefinedFunctions.m','file') == 2
     userDefinedFunctions;
 end
+% ASCII files
+if simu.outputtxt==1
+    output.writetxt();
+end
 % ParaView Visualization
 if simu.paraview == 1
     fprintf('    ...writing ParaView files...   \n')
