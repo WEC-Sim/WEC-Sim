@@ -115,6 +115,118 @@ classdef responseClass<handle
             clear t FT FE FRD FR FV FM i
         end
         
+        function writetxt(obj)
+            % bodies
+            signals = {'position','velocity','acceleration','forceTotal','forceExcitation','forceRadiationDamping','forceAddedMass','forceRestoring','forceMorrisonAndViscous','forceMooring','forceLinearDamping'};
+            header = {'time', ...
+                      'position_1'               ,'position_2'               ,'position_3'               ,'position_4'               ,'position_5'               ,'position_6'               , ...
+                      'velocity_1'               ,'velocity_2'               ,'velocity_3'               ,'velocity_4'               ,'velocity_5'               ,'velocity_6'               , ...
+                      'acceleration_1'           ,'acceleration_2'           ,'acceleration_3'           ,'acceleration_4'           ,'acceleration_5'           ,'acceleration_6'           , ...
+                      'forceTotal_1'             ,'forceTotal_2'             ,'forceTotal_3'             ,'forceTotal_4'             ,'forceTotal_5'             ,'forceTotal_6'             , ...
+                      'forceExcitation_1'        ,'forceExcitation_2'        ,'forceExcitation_3'        ,'forceExcitation_4'        ,'forceExcitation_5'        ,'forceExcitation_6'        , ...
+                      'forceRadiationDamping_1'  ,'forceRadiationDamping_2'  ,'forceRadiationDamping_3'  ,'forceRadiationDamping_4'  ,'forceRadiationDamping_5'  ,'forceRadiationDamping_6'  , ...
+                      'forceAddedMass_1'         ,'forceAddedMass_2'         ,'forceAddedMass_3'         ,'forceAddedMass_4'         ,'forceAddedMass_5'         ,'forceAddedMass_6'         , ...
+                      'forceRestoring_1'         ,'forceRestoring_2'         ,'forceRestoring_3'         ,'forceRestoring_4'         ,'forceRestoring_5'         ,'forceRestoring_6'         , ...
+                      'forceMorrisonAndViscous_1','forceMorrisonAndViscous_2','forceMorrisonAndViscous_3','forceMorrisonAndViscous_4','forceMorrisonAndViscous_5','forceMorrisonAndViscous_6', ...
+                      'forceMooring_1'           ,'forceMooring_2'           ,'forceMooring_3'           ,'forceMooring_4'           ,'forceMooring_5'           ,'forceMooring_6'           , ...
+                      'forceLinearDamping_1'     ,'forceLinearDamping_2'     ,'forceLinearDamping_3'     ,'forceLinearDamping_4'     ,'forceLinearDamping_5'     ,'forceLinearDamping_6'     };
+            for ii=1:length(signals)
+                tmp(ii) = length(signals{ii});
+            end
+            numChar = max(tmp)+2; clear tmp;
+            ncols = 1 + length(signals)*6;
+            tmp = size(obj.bodies(1).time);
+            nrows = tmp(1); clear tmp;
+            header_fmt = ['%' num2str(numChar) 's ']; 
+            data_fmt = [repmat('%10.5f ',1,ncols) '\n'];
+            for ibod = 1:length(obj.bodies)
+                filename = ['output/body' num2str(ibod) '_' obj.bodies(ibod).name '.txt'];
+                fid = fopen(filename,'w+');
+                data = zeros(nrows,ncols);
+                data(:,1) = obj.bodies(ibod).time;
+                fprintf(fid,header_fmt,header{1});
+                for isignal=1:length(signals)
+                    for idof = 1:6
+                        fprintf(fid,header_fmt,header{1 + (isignal-1)*6+idof});
+                    end
+                    data(:, 1+(isignal-1)*6+1:1+(isignal-1)*6+6) = obj.bodies(ibod).(signals{isignal});
+                end
+                fprintf(fid,'\n');
+                fprintf(fid,data_fmt,data');
+                fclose(fid);
+            end
+            % ptos
+            signals = {'position','velocity','acceleration','forceTotal','forceActuation','forceConstraint','forceInternalMechanics','powerInternalMechanics'};
+            header = {'time', ...
+                      'position_1'              ,'position_2'              ,'position_3'              ,'position_4'              ,'position_5'              ,'position_6'              , ...
+                      'velocity_1'              ,'velocity_2'              ,'velocity_3'              ,'velocity_4'              ,'velocity_5'              ,'velocity_6'              , ...
+                      'acceleration_1'          ,'acceleration_2'          ,'acceleration_3'          ,'acceleration_4'          ,'acceleration_5'          ,'acceleration_6'          , ...
+                      'forceTotal_1'            ,'forceTotal_2'            ,'forceTotal_3'            ,'forceTotal_4'            ,'forceTotal_5'            ,'forceTotal_6'            , ...
+                      'forceActuation_1'        ,'forceActuation_2'        ,'forceActuation_3'        ,'forceActuation_4'        ,'forceActuation_5'        ,'forceActuation_6'        , ...
+                      'forceConstraint_1'       ,'forceConstraint_2'       ,'forceConstraint_3'       ,'forceConstraint_4'       ,'forceConstraint_5'       ,'forceConstraint_6'       , ...
+                      'forceInternalMechanics_1','forceInternalMechanics_2','forceInternalMechanics_3','forceInternalMechanics_4','forceInternalMechanics_5','forceInternalMechanics_6', ...
+                      'powerInternalMechanics_1','powerInternalMechanics_2','powerInternalMechanics_3','powerInternalMechanics_4','powerInternalMechanics_5','powerInternalMechanics_6', };
+            for ii=1:length(signals)
+                tmp(ii) = length(signals{ii});
+            end
+            numChar = max(tmp)+2; clear tmp;
+            ncols = 1 + length(signals)*6;
+            tmp = size(obj.ptos(1).time);
+            nrows = tmp(1); clear tmp;
+            header_fmt = ['%' num2str(numChar) 's ']; 
+            data_fmt = [repmat('%10.5f ',1,ncols) '\n'];
+            for ipto = 1:length(obj.ptos)
+                filename = ['output/pto' num2str(ipto) '_' obj.ptos(ipto).name '.txt'];
+                fid = fopen(filename,'w+');
+                data = zeros(nrows,ncols);
+                data(:,1) = obj.ptos(ipto).time;
+                fprintf(fid,header_fmt,header{1});
+                for isignal=1:length(signals)
+                    for idof = 1:6
+                        fprintf(fid,header_fmt,header{1 + (isignal-1)*6+idof});
+                    end
+                    data(:, 1+(isignal-1)*6+1:1+(isignal-1)*6+6) = obj.ptos(ipto).(signals{isignal});
+                end
+                fprintf(fid,'\n');
+                fprintf(fid,data_fmt,data');
+                fclose(fid);
+            end
+            % constraints
+            signals = {'position','velocity','acceleration','forceTotal','forceConstraint','forceMooring'};
+            header = {'time', ...
+                      'position_1'       ,'position_2'       ,'position_3'       ,'position_4'       ,'position_5'       ,'position_6'       , ...
+                      'velocity_1'       ,'velocity_2'       ,'velocity_3'       ,'velocity_4'       ,'velocity_5'       ,'velocity_6'       , ...
+                      'acceleration_1'   ,'acceleration_2'   ,'acceleration_3'   ,'acceleration_4'   ,'acceleration_5'   ,'acceleration_6'   , ...
+                      'forceTotal_1'     ,'forceTotal_2'     ,'forceTotal_3'     ,'forceTotal_4'     ,'forceTotal_5'     ,'forceTotal_6'     , ...
+                      'forceConstraint_1','forceConstraint_2','forceConstraint_3','forceConstraint_4','forceConstraint_5','forceConstraint_6', ...
+                      'forceMooring_1'   ,'forceMooring_2'   ,'forceMooring_3'   ,'forceMooring_4'   ,'forceMooring_5'   ,'forceMooring_6'     };
+            for ii=1:length(signals)
+                tmp(ii) = length(signals{ii});
+            end
+            numChar = max(tmp)+2; clear tmp;
+            ncols = 1 + length(signals)*6;
+            tmp = size(obj.constraints(1).time);
+            nrows = tmp(1); clear tmp;
+            header_fmt = ['%' num2str(numChar) 's ']; 
+            data_fmt = [repmat('%10.5f ',1,ncols) '\n'];
+            for icon = 1:length(obj.constraints)
+                filename = ['output/constraint' num2str(icon) '_' obj.constraints(icon).name '.txt'];
+                fid = fopen(filename,'w+');
+                data = zeros(nrows,ncols);
+                data(:,1) = obj.constraints(icon).time;
+                fprintf(fid,header_fmt,header{1});
+                for isignal=1:length(signals)
+                    for idof = 1:6
+                        fprintf(fid,header_fmt,header{1 + (isignal-1)*6+idof});
+                    end
+                    data(:, 1+(isignal-1)*6+1:1+(isignal-1)*6+6) = obj.constraints(icon).(signals{isignal});
+                end
+                fprintf(fid,'\n');
+                fprintf(fid,data_fmt,data');
+                fclose(fid);
+            end
+        end
+
         function write_paraview(obj, bodies, t, model, simdate, wavetype)
             % open file
             fid = fopen(['vtk' filesep model(1:end-4) '.pvd'], 'w');
