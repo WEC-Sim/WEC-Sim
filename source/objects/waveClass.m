@@ -37,7 +37,7 @@ classdef waveClass<handle
         waterDepth                  = []                                   % [m] Water depth (from WAMIT)
         deepWaterWave               = []                                   % Deep water or not, depending on input from WAMIT, NEMOH and AQWA
         waveAmpTime                 = []                                   % [m] Wave elevation time history
-        A                           = []                                   % [m] Wave amplitude for regular waves or sqrt(wave spectrum vector) for irregular waves
+        A                           = []                                   % [m] Wave amplitude for regular waves or 2*(wave spectrum vector) for irregular waves
         w                           = []                                   % [rad/s] Wave frequency (regular waves) or wave frequency vector (irregular waves)
         phaseRand                   = 0;                                   % [rad] Random wave phase (only used for irregular waves)
         dw                          = 0;                                   % [rad] Frequency spacing for irregular waves.
