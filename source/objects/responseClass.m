@@ -228,8 +228,14 @@ classdef responseClass<handle
         end
 
         function write_paraview(obj, bodies, t, model, simdate, wavetype)
+            % set fileseperator to fs
+            if strcmp(filesep, '\')
+                fs = '\\';
+            else
+                fs = filesep;
+            end
             % open file
-            fid = fopen(['vtk' filesep model(1:end-4) '.pvd'], 'w');
+            fid = fopen(['vtk' fs model(1:end-4) '.pvd'], 'w');
             % write header
             fprintf(fid, '<?xml version="1.0"?>\n');
             fprintf(fid, ['<!-- WEC-Sim Visualization using ParaView -->\n']);
@@ -245,14 +251,14 @@ classdef responseClass<handle
             fprintf(fid,['  <!-- Wave:  ' wavetype ' -->\n']);
             for jj = 1:length(t)
                  fprintf(fid, ['    <DataSet timestep="' num2str(t(jj)) '" group="" part="" \n']);
-                 fprintf(fid, ['             file="waves' '/' 'waves_' num2str(jj) '.vtp"/>\n']);
+                 fprintf(fid, ['             file="waves' fs 'waves_' num2str(jj) '.vtp"/>\n']);
             end 
             % write bodies
             for ii = 1:length(bodies)
                 fprintf(fid,['  <!-- Body' num2str(ii) ':  ' bodies{ii} ' -->\n']);
                 for jj = 1:length(t)
                      fprintf(fid, ['    <DataSet timestep="' num2str(t(jj)) '" group="" part="" \n']);
-                     fprintf(fid, ['             file="body' num2str(ii) '_' bodies{ii} '/' bodies{ii} '_' num2str(jj) '.vtp"/>\n']);
+                     fprintf(fid, ['             file="body' num2str(ii) '_' bodies{ii} fs bodies{ii} '_' num2str(jj) '.vtp"/>\n']);
                 end
             end
             % close file
