@@ -94,7 +94,7 @@ For regular waves, the equation discribed in the last subsection is used to calc
 
 .. math::
 
-	F_{ext}=\Re\left[ R_{f} F_{X}(\omega_{r})e^{i(\omega_{r}t+\phi)} \intop_{0}^{\infty}\sqrt{2S(\omega_{r})d\omega_{r}} \right]
+	F_{ext}=\Re\left[ R_{f} \intop_{0}^{\infty}F_{X}(\omega_{r})e^{i(\omega_{r}t+\phi)} \sqrt{2S(\omega_{r})d\omega_{r}} \right]
 
 where :math:`S` is the wave spectrum and :math:`\phi` is a random phase angle. 
 
