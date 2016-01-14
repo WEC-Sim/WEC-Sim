@@ -33,6 +33,7 @@ Publications
 
 News Articles
 --------------
+* December, 2015 – Oregon State University, `O.H. Hinsdale Wave Research Laboratory, Wave Energy Converter Simulator: WEC-Sim <http://content.govdelivery.com/accounts/USDOESNLEC/bulletins/11aa071#link_1442851512452>`_ 
 * Sept 23, 2015 - Sandia Wind & Water Power Newsletter, `WEC-Sim Leveraged to Model Floating Offshore Wind Experiments, and PTO-Sim: A Power Performance Module for WEC-Sim <http://content.govdelivery.com/accounts/USDOESNLEC/bulletins/11aa071#link_1442851512452>`_ 
 * May 21, 2015 – US Department of Energy, `Revamped Simulation Tool to Power Up Wave Energy Development <http://energy.gov/eere/articles/revamped-simulation-tool-power-wave-energy-development/>`_
 * April 16, 2015 – Tidal Energy Today, `NREL, SNL release update for WEC simulator <http://tidalenergytoday.com/2015/04/16/nrel-snl-release-update-for-wec-simulator/>`_
