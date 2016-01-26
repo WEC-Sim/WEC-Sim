@@ -1,6 +1,6 @@
 
 # How to update the [WEC-Sim](http://wec-sim.github.io/WEC-Sim) website
-=======
+
 ## Download and install required packages
 1. Download and Install [Python27](https://www.python.org/downloads/)
 
@@ -18,7 +18,7 @@
   * Install on command prompt using ``pip install sphinxcontrib-bibtex``
   * Install the rtd theme using ``pip install sphinx_rtd_theme``. 
  
-**NOTE:** You may have to manually move it to the ``sphinx/themes/`` directory.
+ **NOTE:** You may have to manually move it to the ``sphinx/themes/`` directory.
 
 ## Modify the [WEC-Sim](http://wec-sim.github.io/WEC-Sim) website content
 The WEC-Sim documentation is located on the WEC-Sim/gh-pages branch, https://github.com/WEC-Sim/WEC-Sim/tree/gh-pages, which will be referred to as the ``$USERS_GUIDE``.
