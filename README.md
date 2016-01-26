@@ -14,15 +14,12 @@ Please visit the [WEC-Sim website](http://wec-sim.github.io/WEC-Sim) for more in
   	1. [Windows](http://sphinx-doc.org/latest/install.html#windows-install-python-and-sphinx)
   	1. [MAC/LINUX](http://www.sphinx-doc.org/en/stable/install.html#mac-os-x-install-sphinx-using-macports)
 	  	1. Install on cmd using ``pip install -U Sphinx``
-
-..NOTE::
-  May need to configure PROXY
+ NOTE: You may need to configure PROXY
 
 1. Install bibtex extension for Sphinx
 	  1. Install on cmd using ``pip install sphinxcontrib-bibtex``
 	  1. Install the rtd theme using ``pip install sphinx_rtd_theme``. 
-..NOTE::
-  You might have to manually move it to the ``sphinx/themes/`` directory.
+ NOTE: You may have to manually move it to the ``sphinx/themes/`` directory.
 
 ## Edit WEC-Sim Users Guide
 The WEC-Sim documentation is located on the WEC-Sim/gh-pages branch, https://github.com/WEC-Sim/WEC-Sim/tree/gh-pages, which will be referred to as the ``$USERS_GUIDE``.
