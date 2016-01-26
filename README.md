@@ -4,15 +4,18 @@ Please visit the [WEC-Sim website](http://wec-sim.github.io/WEC-Sim) for more in
 # How to update the WEC-Sim website
 
 ## Download and Install Required Packages
-1. Download and Install [Python](https://www.python.org/downloads/)
-	1. Add Python and Python Scripts to system path
-     		1. Windows - modify the PATH in environmental variables to include: C:\PYTHON27;C:\PYTHON27\Scripts (http://stackoverflow.com/questions/3701646/how-to-add-to-the-pythonpath-in-windows-7)
-     	2. MAC/LINUX -  
+1. Download and Install [Python27](https://www.python.org/downloads/)
+
+1. Add Python and Python Scripts to system path
+	1. [Windows](http://stackoverflow.com/questions/3701646/how-to-add-to-the-pythonpath-in-windows-7) - modify the PATH in environmental variables to include: C:\PYTHON27;C:\PYTHON27\Scripts 
+	1. MAC/LINUX -  
+
 1. Download and Install [Sphinx](http://www.sphinx-doc.org/en/stable/index.html)
   	1. Windows - (http://sphinx-doc.org/latest/install.html#windows-install-python-and-sphinx)
   	1. MAC/LINUX - (http://www.sphinx-doc.org/en/stable/install.html#mac-os-x-install-sphinx-using-macports)
 	  	1. Install on cmd using ``pip install -U Sphinx``
   ::NOTE: May need to configure PROXY
+
 1. Install bibtex extension for Sphinx
 	  1. Install on cmd using ``pip install sphinxcontrib-bibtex``
 	  1. Install the rtd theme using ``pip install sphinx_rtd_theme``. 
