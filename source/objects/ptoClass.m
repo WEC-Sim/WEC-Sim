@@ -20,6 +20,10 @@ classdef ptoClass<handle
         k                       = 0                                             % PTO stiffness. Default = 0
         c                       = 0                                             % PTO damping. Default = 0
         loc                     = [999 999 999]                                 % PTO location. Default = [0 0 0]        
+        orientation             = struct('z', [0, 0, 1], ...                    % Vector defining the direction of the Z-coordinate for the PTO.
+                                         'y', [0, 1, 0], ...                    % Vector defining the direction of the Y-coordinate for the PTO.
+                                         'x', [], ...                           % Internally calculated vector defining the direction of the X-coordinate for the PTO.
+                                         'rotationMatrix',[])                   % Internally calculated rotation matrix to go form standard coordinate orientation to the PTO's coordinate orientation.
     end 
     
     properties (SetAccess = 'public', GetAccess = 'public')%internal
@@ -57,6 +61,19 @@ classdef ptoClass<handle
             end
         end
         
+        function obj = setOrientation(obj)
+            obj.orientation.z = obj.orientation.z / norm(obj.orientation.z);
+            obj.orientation.y = obj.orientation.y / norm(obj.orientation.y);
+            z = obj.orientation.z;
+            y = obj.orientation.y;
+            if abs(dot(y,z))>0.001
+                error('The Y and Z vectors defining the constraint''s orientation must be orthogonal.')
+            end
+            x = cross(y,z)/norm(cross(y,z));
+            obj.orientation.x = x;
+            obj.orientation.rotationMatrix  = [x',y',z'];
+        end
+
         function setInitLoc(obj, loc_at_rest, x_rot, ax_rot, ang_rot, addLinDisp)
             % function to set the initial location when having initial displacement
             % loc_at_rest: location at rest 
