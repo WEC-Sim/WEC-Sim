@@ -279,7 +279,7 @@ for ii = 1:length(body(1,:))
         wpressurenl{ii} = [];
         wpressurel{ii} = [];
     end
-end
+end; clear ii
 % All
 output = responseClass(bodiesOutput,ptosOutput,constraintsOutput,ptosimOutput,waves.type,waves.waveAmpTime,hspressure, wpressurenl, wpressurel);
 clear bodiesOutput ptosOutput constraintsOutput ptosimOutput
