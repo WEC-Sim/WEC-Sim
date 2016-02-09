@@ -38,6 +38,14 @@ if exist('pto','var') == 1
         pto(ii).setOrientation();
     end; clear ii
 end
+% Mooring Configuration: count
+if exist('mooring','var') == 1
+    simu.numMoorings = length(mooring(1,:));
+    for ii = 1:simu.numMoorings
+        mooring(ii).mooringNum = ii;
+        mooring(ii).setLoc;
+    end; clear ii
+end
 % Bodies: count, check inputs, read hdf5 file
 numHydroBodies = 0;
 for ii = 1:length(body(1,:))
