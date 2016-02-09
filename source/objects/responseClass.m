@@ -77,14 +77,19 @@ classdef responseClass<handle
         end
         
         function obj = loadMoorDyn(obj,numLines)
+            %TODO: load Lines.out
+            %TODO: load lines.txt
+            % load Line#.out
             for iline=1:numLines
-                eval(['obj.MoorDyn.Line' numstr(iline) '=struct();']);
-                filename = ['mooring/Line' num2str(iline) '.txt'];
+                eval(['obj.moorDyn.Line' num2str(iline) '=struct();']);
+                filename = ['mooring/Line' num2str(iline) '.out'];
                 fid = fopen(filename);
                 header = strsplit(fgetl(fid));
-                data = dlmread(filename,'',1,0) ;
-                for icol=1:length(header)
-                    eval(['obj.MoorDyn.Line' numstr(iline) '.' header{icol} ' = data(:,' num2str(icol) ');']);
+                data = dlmread(filename,'',1,0);
+                tmp = size(data);
+                ncol = tmp(2);
+                for icol=1:ncol
+                    eval(['obj.moorDyn.Line' num2str(iline) '.' header{icol} ' = data(:,' num2str(icol) ');']);
                 end
             end
         end
