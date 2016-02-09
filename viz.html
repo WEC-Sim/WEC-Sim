@@ -8,7 +8,7 @@
   
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   
-  <title>Advanced Features &mdash; WEC-Sim  documentation</title>
+  <title>Visualization Using Paraview &mdash; WEC-Sim  documentation</title>
   
 
   
@@ -80,6 +80,7 @@
 <li class="toctree-l1"><a class="reference internal" href="theory.html">Theory</a></li>
 <li class="toctree-l1"><a class="reference internal" href="code_structure.html">Code Structure</a></li>
 <li class="toctree-l1"><a class="reference internal" href="tutorials.html">Tutorials</a></li>
+<li class="toctree-l1"><a class="reference internal" href="features.html">Advanced Features</a></li>
 <li class="toctree-l1"><a class="reference internal" href="online_forum.html">Online Forum</a></li>
 <li class="toctree-l1"><a class="reference internal" href="publications.html">Publications</a></li>
 <li class="toctree-l1"><a class="reference internal" href="license.html">License</a></li>
@@ -113,11 +114,11 @@
   <ul class="wy-breadcrumbs">
     <li><a href="index.html">Docs</a> &raquo;</li>
       
-    <li>Advanced Features</li>
+    <li>Visualization Using Paraview</li>
       <li class="wy-breadcrumbs-aside">
         
           
-            <a href="_sources/appendix.txt" rel="nofollow"> View page source</a>
+            <a href="_sources/viz.txt" rel="nofollow"> View page source</a>
           
         
       </li>
@@ -127,10 +128,8 @@
           <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
            <div itemprop="articleBody">
             
-  <div class="section" id="advanced-features">
-<span id="features"></span><h1>Advanced Features<a class="headerlink" href="#advanced-features" title="Permalink to this headline">¶</a></h1>
-<div class="section" id="visualizatoin-using-paraview">
-<h2>Visualizatoin Using Paraview<a class="headerlink" href="#visualizatoin-using-paraview" title="Permalink to this headline">¶</a></h2>
+  <div class="section" id="visualization-using-paraview">
+<span id="viz"></span><h1>Visualization Using Paraview<a class="headerlink" href="#visualization-using-paraview" title="Permalink to this headline">¶</a></h1>
 <p>This section describes how to setup, output, and use Paraview files for visualizing a WEC-Sim simulation. This improves on SimMechanics&#8217;s explorer by:</p>
 <ul class="simple">
 <li>Visualization of the wave field</li>
@@ -144,7 +143,7 @@
 </ul>
 <p>Visualization with paraview requires many files to be written, which makes the WEC-Sim simulation take significantly more time, and makes the directory significantly larger. It should only be turned on when vizualisation is desired. The user also needs to have some familiarity with using Paraview.</p>
 <div class="section" id="getting-started-installation">
-<h3>Getting Started - Installation<a class="headerlink" href="#getting-started-installation" title="Permalink to this headline">¶</a></h3>
+<h2>Getting Started - Installation<a class="headerlink" href="#getting-started-installation" title="Permalink to this headline">¶</a></h2>
 <p>You will need to install <a class="reference external" href="http://www.paraview.org/">Paraview</a> and install and setup Python.
 Next you will need to add some WEC-Sim specific macros,as follows:</p>
 <ul class="simple">
@@ -156,7 +155,7 @@ Next you will need to add some WEC-Sim specific macros,as follows:</p>
 </ul>
 </div>
 <div class="section" id="setting-up-paraview-output">
-<h3>Setting Up Paraview Output<a class="headerlink" href="#setting-up-paraview-output" title="Permalink to this headline">¶</a></h3>
+<h2>Setting Up Paraview Output<a class="headerlink" href="#setting-up-paraview-output" title="Permalink to this headline">¶</a></h2>
 <p>The following table shows the variables that can be specfied in the <code class="docutils literal"><span class="pre">wecSimInputFile</span></code> to control the Paraview visualization. The <code class="docutils literal"><span class="pre">body.viz</span></code> properties are also used in the SimMechanics explorer visualization.</p>
 <table border="1" class="docutils">
 <colgroup>
@@ -202,7 +201,7 @@ Next you will need to add some WEC-Sim specific macros,as follows:</p>
 </table>
 </div>
 <div class="section" id="outputs-and-opening-in-paraview">
-<h3>Outputs and Opening in Paraview<a class="headerlink" href="#outputs-and-opening-in-paraview" title="Permalink to this headline">¶</a></h3>
+<h2>Outputs and Opening in Paraview<a class="headerlink" href="#outputs-and-opening-in-paraview" title="Permalink to this headline">¶</a></h2>
 <p>When <code class="docutils literal"><span class="pre">simu.paraview</span></code> is set to 1 a directory called <code class="docutils literal"><span class="pre">vtk</span></code> is created.
 All files necessary for Paraview vizualisation are located there.
 To view in Paraview:</p>
@@ -222,14 +221,14 @@ To view in Paraview:</p>
 </ul>
 </div>
 <div class="section" id="basic-visualization-manipulation">
-<h3>Basic Visualization Manipulation<a class="headerlink" href="#basic-visualization-manipulation" title="Permalink to this headline">¶</a></h3>
+<h2>Basic Visualization Manipulation<a class="headerlink" href="#basic-visualization-manipulation" title="Permalink to this headline">¶</a></h2>
 <p>After opening the <code class="docutils literal"><span class="pre">.pvd</span></code> file and running the <code class="docutils literal"><span class="pre">WEC-Sim</span></code> macro you can do a number of things to visualize the simulation in different ways.
 You can color waves and bodies by any of the available properties and apply any of the Paraview filters.</p>
 <p>The video below shows three different views of the OSWEC model described in the tutorials.
 On the bottom right view the wave elevation is used to color the free surface. The top right view uses the <code class="docutils literal"><span class="pre">slice</span></code> filter.</p>
 <iframe width="420" height="315" src="https://www.youtube.com/embed/KcsLi38Xjv0" frameborder="0" allowfullscreen></iframe></div>
 <div class="section" id="visualizing-non-linear-hydro-forces">
-<h3>Visualizing Non-Linear Hydro Forces<a class="headerlink" href="#visualizing-non-linear-hydro-forces" title="Permalink to this headline">¶</a></h3>
+<h2>Visualizing Non-Linear Hydro Forces<a class="headerlink" href="#visualizing-non-linear-hydro-forces" title="Permalink to this headline">¶</a></h2>
 <p>When using non-linear hydro the paraview files also contain cell data for the bodies.
 The cell data are:</p>
 <ul class="simple">
@@ -251,7 +250,6 @@ The top right shows glyphs of the non-linear Froude-Krylov pressure acting on th
 The bottom right shows the float colored by hydrostatic pressure.</p>
 <blockquote>
 <div><iframe width="420" height="315" src="https://www.youtube.com/embed/VIPXsS8h9pg" frameborder="0" allowfullscreen></iframe></div></blockquote>
-</div>
 </div>
 </div>
 
