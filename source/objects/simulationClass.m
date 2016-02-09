@@ -39,7 +39,6 @@ classdef simulationClass<handle
         b2b                 = 0                                            % Option for body2body interactions: off->'0', on->'1', (default = 0)
         paraview            = 0                                            % Option for writing vtp files for paraview visualization.
         adjMassWeightFun    = 2                                            % Weighting function for adjusting added mass term in the translational direction (default = 2)
-        moorDyn             = 0                                            % MoorDyn Coupling option (default = 0 for using mooring stiffness and damping matrix)
         numIntMidTimeSteps  = 5                                            % Number of intermidiate time steps (default = 5 for ode4 method)
         mcrCaseFile         = []                                           % mat file that contain a list of the multiple conditions runs with given conditions  
         morrisonElement     = 0                                            % Option for Morrison Element calculation: Off->'0', On->'1', (default = 0)
