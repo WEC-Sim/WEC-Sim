@@ -40,10 +40,12 @@ classdef responseClass<handle
                 for jj = 1:length(signals)
                     obj.bodies(ii).(signals{jj}) = bodiesOutput(ii).signals.values(:, (jj-1)*6+1:(jj-1)*6+6);
                 end
-                obj.bodies(ii).cellPressures_time = hspressure{ii}.time;
-                obj.bodies(ii).cellPressures_hydrostatic = hspressure{ii}.signals.values;
-                obj.bodies(ii).cellPressures_waveLinear = wpressurenl{ii}.signals.values;
-                obj.bodies(ii).cellPressures_waveNonLinear = wpressurel{ii}.signals.values;
+                if ~isempty(hspressure{ii})
+                    obj.bodies(ii).cellPressures_time = hspressure{ii}.time;
+                    obj.bodies(ii).cellPressures_hydrostatic = hspressure{ii}.signals.values;
+                    obj.bodies(ii).cellPressures_waveLinear = wpressurenl{ii}.signals.values;
+                    obj.bodies(ii).cellPressures_waveNonLinear = wpressurel{ii}.signals.values;
+                end
             end
             % PTOs
             if isstruct(ptosOutput)
