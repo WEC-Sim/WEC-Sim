@@ -70,12 +70,11 @@ for ii = 1:simu.numWecBodies
     end
 end; clear ii
 % PTO-Sim: read input, count
-if exist('ptoSimInputFile.m','file') == 2 
+if exist('./ptoSimInputFile.m','file') == 2 
     ptoSimInputFile 
     ptosim.countblocks;
 end
 toc
-
 
 %% Pre-processing start
 tic
@@ -96,7 +95,6 @@ end
 for kk = 1:simu.numWecBodies
     body(kk).hydroForcePre(waves.w,waves.waveDir,simu.CIkt,simu.CTTime,waves.numFreq,simu.dt,simu.rho,simu.g,waves.type,waves.waveAmpTime,kk,simu.numWecBodies,simu.ssCalc,simu.nlHydro,simu.b2b);
 end; clear kk
-
 
 %% Check body-wave-simu compatability
 % Check that the hydro data for each body is given for the same frequencies
@@ -216,7 +214,7 @@ simu.loadSimMechModel(simu.simMechanicsFile);
 sim(simu.simMechanicsFile);
 % Restore modified stuff
 clear nlHydro sv_linearHydro sv_nonlinearHydro ssCalc radiation_option sv_convolution sv_stateSpace sv_constantCoeff typeNum B2B sv_B2B sv_noB2B;
-clear nhbod* sv_b* sv_noWave sv_regularWaves sv_irregularWaves sv_udfWaves sv_meanFS sv_MEOn sv_MEOff morrisonElement;
+clear nhbod* sv_b* sv_noWave sv_regularWaves sv_irregularWaves sv_udfWaves sv_instFS sv_meanFS sv_MEOn sv_MEOff morrisonElement;
 toc
 
 
