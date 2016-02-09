@@ -25,6 +25,7 @@ classdef simulationClass<handle
         dt                  = 0.1                                          % Simulation time step (default = 0.1 s)
         dtOut               = []                                           % Output sampling time (default = dt)
         dtFeNonlin          = []                                           % Sample time to calculate nonlinear forces (default = dt)
+        dtCITime            = []                                           % Sample time to calculate Convolution Integral (default = dt)
         rampT               = 100                                          % Ramp time for wave forcing (default = 100 s)
         domainSize          = 200                                          % Size of free surface and seabed. This variable is only used for visualization (default = 200 m)
         CITime              = 60                                           % Convolution integral time (default = 60 s)
@@ -60,6 +61,7 @@ classdef simulationClass<handle
         numWecBodies        = []                                           % Number of hydrodynamic bodies that comprise the WEC device (default = 'NOT DEFINED')
         numPtos             = []                                           % Number of power take-off elements in the model (default = 'NOT DEFINED')
         numConstraints      = []                                           % Number of contraints in the wec model (default = 'NOT DEFINED')
+        numMoorings         = []                                           % Number of moorings in the wec model (default = 'NOT DEFINED')
         numT                = [] % Yu: for power matrices                  %
         numDTPerT           = [] % Yu: for power matrices                  %
         numRampT            = [] % Yu: for power matrices                  %
@@ -100,7 +102,11 @@ classdef simulationClass<handle
             if isempty(obj.dtFeNonlin) || obj.dtFeNonlin < obj.dt
                 obj.dtFeNonlin = obj.dt;
             end
-            obj.CTTime = 0:obj.dt:obj.CITime;
+            % Set dtCITime if it was not specificed in input file
+            if isempty(obj.dtCITime) || obj.dtCITime < obj.dt
+                obj.dtCITime = obj.dt;
+            end
+            obj.CTTime = 0:obj.dtCITime:obj.CITime;            
             obj.CIkt = length(obj.CTTime);
             obj.caseFile = [obj.caseDir filesep 'output' filesep obj.simMechanicsFile(1:end-4) '_matlabWorkspace.mat'];
             obj.logFile = [obj.caseDir filesep 'output' filesep obj.simMechanicsFile(1:end-4) '_simulationLog.txt'];
