@@ -21,22 +21,24 @@ classdef mooringClass<handle
         matrix                  = struct('c',          zeros(6,6), ...          % Mooring damping, 6 x 6 matrix. 
                                          'k',          zeros(6,6), ...          % Mooring stiffness, 6 x 6 matrix.
                                          'preTension', [0 0 0 0 0 0])           % Mooring preTension, Vector length 6.
-        initDisp                = struct('initLinDisp',          [0 0 0], ...         % Initial displacement of center of Reference location, default = [0 0 0]
+        initDisp                = struct('initLinDisp', [0 0 0], ...            % Initial displacement of center of Reference location, default = [0 0 0]
                                    'initAngularDispAxis',  [0 1 0], ...         % Initial displacement axis of rotation default = [0 1 0]
                                    'initAngularDispAngle', 0)                   % Initial angle of rotation default = 0
+    end
+
+    properties (SetAccess = 'public', GetAccess = 'public') %internal
         loc                     = []                                            % Initial 6DOF location, default = [0 0 0 0 0 0]
         mooringNum              = []                                            % Mooring number
     end
-            
+
     methods (Access = 'public')                                        
         function obj = mooringClass(name)
             % Initilization function
             obj.name = name;
-            obj.loc = [obj.ref 0 0 0];
         end
 
         function setLoc(obj)
-            obj.loc = obj.loc + [obj.initDisp.initLinDisp 0 0 0];
+            obj.loc = [obj.ref + obj.initDisp.initLinDisp 0 0 0];
         end
 
         function listInfo(obj)
