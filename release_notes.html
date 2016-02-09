@@ -30,9 +30,7 @@
   
 
   
-    <link rel="top" title="WEC-Sim  documentation" href="index.html"/>
-        <link rel="next" title="Theory" href="theory.html"/>
-        <link rel="prev" title="Project Overview" href="index.html"/> 
+    <link rel="top" title="WEC-Sim  documentation" href="index.html"/> 
 
   
   <script src="_static/js/modernizr.min.js"></script>
@@ -77,24 +75,15 @@
           
             
             
-                <ul class="current">
-<li class="toctree-l1 current"><a class="current reference internal" href="">Release Notes</a><ul>
-<li class="toctree-l2"><a class="reference internal" href="#id2">Current WEC-Sim Release</a></li>
-<li class="toctree-l2"><a class="reference internal" href="#features-under-development">Features Under Development</a></li>
-<li class="toctree-l2"><a class="reference internal" href="#id3">WEC-Sim v1.2</a></li>
-<li class="toctree-l2"><a class="reference internal" href="#id5">WEC-Sim v1.1</a></li>
-<li class="toctree-l2"><a class="reference internal" href="#id7">WEC-Sim v1.0</a></li>
-<li class="toctree-l2"><a class="reference internal" href="#backward-compatibility">Backward Compatibility</a></li>
-</ul>
-</li>
-<li class="toctree-l1"><a class="reference internal" href="theory.html">Theory</a></li>
+                <ul>
 <li class="toctree-l1"><a class="reference internal" href="getting_started.html">Getting Started</a></li>
+<li class="toctree-l1"><a class="reference internal" href="theory.html">Theory</a></li>
 <li class="toctree-l1"><a class="reference internal" href="code_structure.html">Code Structure</a></li>
 <li class="toctree-l1"><a class="reference internal" href="tutorials.html">Tutorials</a></li>
+<li class="toctree-l1"><a class="reference internal" href="appendix.html">Advanced Features</a></li>
 <li class="toctree-l1"><a class="reference internal" href="online_forum.html">Online Forum</a></li>
 <li class="toctree-l1"><a class="reference internal" href="publications.html">Publications</a></li>
 <li class="toctree-l1"><a class="reference internal" href="license.html">License</a></li>
-<li class="toctree-l1"><a class="reference internal" href="appendix.html">Appendix</a></li>
 </ul>
 
             
@@ -142,25 +131,17 @@
   <div class="section" id="release-notes">
 <span id="id1"></span><h1>Release Notes<a class="headerlink" href="#release-notes" title="Permalink to this headline">¶</a></h1>
 <div class="section" id="id2">
-<h2><a class="reference external" href="https://github.com/WEC-Sim/WEC-Sim/releases">Current WEC-Sim Release</a><a class="headerlink" href="#id2" title="Permalink to this headline">¶</a></h2>
+<h2><a class="reference external" href="https://github.com/WEC-Sim/WEC-Sim/releases/tag/v1.3">WEC-Sim v1.3</a><a class="headerlink" href="#id2" title="Permalink to this headline">¶</a></h2>
 <ul class="simple">
-<li>minor updates and bug fixes</li>
-</ul>
-</div>
-<div class="section" id="features-under-development">
-<h2>Features Under Development<a class="headerlink" href="#features-under-development" title="Permalink to this headline">¶</a></h2>
-<ul class="simple">
+<li><a class="reference external" href="https://github.com/WEC-Sim/WEC-Sim/releases/tag/v1.3">WEC-Sim v1.3</a> available on GitHub</li>
 <li>Morison Elements</li>
 <li>Body2Body Interactions</li>
 </ul>
-<div class="admonition note">
-<p class="first admonition-title">Note</p>
-<p class="last">Features under development are available on the <a class="reference external" href="https://github.com/WEC-Sim/WEC-Sim/tree/dev">WEC-Sim &#8216;dev&#8217; branch</a></p>
 </div>
-</div>
-<div class="section" id="id3">
-<h2><a class="reference external" href="https://github.com/WEC-Sim/WEC-Sim/releases/tag/v1.2">WEC-Sim v1.2</a><a class="headerlink" href="#id3" title="Permalink to this headline">¶</a></h2>
+<div class="section" id="id4">
+<h2><a class="reference external" href="https://github.com/WEC-Sim/WEC-Sim/releases/tag/v1.2">WEC-Sim v1.2</a><a class="headerlink" href="#id4" title="Permalink to this headline">¶</a></h2>
 <ul class="simple">
+<li><a class="reference external" href="https://github.com/WEC-Sim/WEC-Sim/releases/tag/v1.2">WEC-Sim v1.2</a> available on GitHub</li>
 <li>Nonlinear Froude-Krylov hydrodynamics and hydrostatics</li>
 <li>State space radiation</li>
 <li>Wave directionality</li>
@@ -168,11 +149,16 @@
 <li>Imports non-dimensionalized BEMIO hydrodynamic data (instead of fully dimensional coefficients)</li>
 <li>&#8216;Variant Subsystems&#8217; implemented to improve code stability (instead of if statements)</li>
 <li>Bug fixes</li>
-<li><a class="reference external" href="https://github.com/WEC-Sim/WEC-Sim/releases/tag/v1.2">WEC-Sim v1.2</a> available on GitHub</li>
 </ul>
+<div class="admonition note">
+<p class="first admonition-title">Note</p>
+<p class="last">Backward Compatibility:
+- Simulink models created in previous versions of WEC-Sim will work provided users have not broken the library link in the .slx model file.
+- The input files need to be modified to be compatible with WEC-Sim due to changes in hydrodynamic data input format, variable name changes, and code structure improvements.</p>
 </div>
-<div class="section" id="id5">
-<h2><a class="reference external" href="https://github.com/WEC-Sim/WEC-Sim/releases/tag/v1.1">WEC-Sim v1.1</a><a class="headerlink" href="#id5" title="Permalink to this headline">¶</a></h2>
+</div>
+<div class="section" id="id6">
+<h2><a class="reference external" href="https://github.com/WEC-Sim/WEC-Sim/releases/tag/v1.1">WEC-Sim v1.1</a><a class="headerlink" href="#id6" title="Permalink to this headline">¶</a></h2>
 <ul class="simple">
 <li><a class="reference external" href="https://github.com/WEC-Sim/WEC-Sim/releases/tag/v1.1">WEC-Sim v1.1</a> available on GitHub</li>
 <li>Improvements in code stability through modifications to the added mass, radiation damping calculations, and impulse response function calculations</li>
@@ -181,19 +167,12 @@
 <li>Documentation available on WEC-Sim Website</li>
 </ul>
 </div>
-<div class="section" id="id7">
-<h2><a class="reference external" href="https://github.com/WEC-Sim/WEC-Sim/releases/tag/v1.0">WEC-Sim v1.0</a><a class="headerlink" href="#id7" title="Permalink to this headline">¶</a></h2>
+<div class="section" id="id8">
+<h2><a class="reference external" href="https://github.com/WEC-Sim/WEC-Sim/releases/tag/v1.0">WEC-Sim v1.0</a><a class="headerlink" href="#id8" title="Permalink to this headline">¶</a></h2>
 <ul class="simple">
 <li>Initial release of the WEC-Sim code</li>
 <li>Available as a static download (initially on OpenEI, now redirects to WEC-Sim website)</li>
 <li>Documentation available in PDF</li>
-</ul>
-</div>
-<div class="section" id="backward-compatibility">
-<h2>Backward Compatibility<a class="headerlink" href="#backward-compatibility" title="Permalink to this headline">¶</a></h2>
-<ul class="simple">
-<li>Simulink models created in previous versions of WEC-Sim will work provided users have not broken the library link in the .slx model file.</li>
-<li>The input files need to be modified to be compatible with WEC-Sim due to changes in hydrodynamic data input format, variable name changes, and code structure improvements.</li>
 </ul>
 </div>
 </div>
@@ -202,15 +181,6 @@
            </div>
           </div>
           <footer>
-  
-    <div class="rst-footer-buttons" role="navigation" aria-label="footer navigation">
-      
-        <a href="theory.html" class="btn btn-neutral float-right" title="Theory" accesskey="n">Next <span class="fa fa-arrow-circle-right"></span></a>
-      
-      
-        <a href="index.html" class="btn btn-neutral" title="Project Overview" accesskey="p"><span class="fa fa-arrow-circle-left"></span> Previous</a>
-      
-    </div>
   
 
   <hr/>
