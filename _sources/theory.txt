@@ -17,7 +17,7 @@ Modeling a WEC involves the interaction between the incident waves, device motio
 
 
 Coordinate System
--------------------
+------------------------------
 The :ref:`coordinate_system` figure illustrates a 3-D floating point absorber subject to incoming waves in water. The figure also defines the coordinates and the 6 DOF in WEC-Sim. The WEC-Sim coordinate system  assumes that the  X axis is in the direction of wave propagation if the wave heading angle is equal to zero. The Z axis is in the vertical upwards direction, and the Y axis direction is defined by the right-hand rule. In the vectors and matrices used in the code, surge (x), sway (y), and heave (z) correspond to the first, second and third position respectively. Roll (Rx), Pitch (Ry), and Yaw (Rz) correspond to the fourth, fifth, and sixth position respectively.
 
 .. _coordinate_system:
@@ -399,12 +399,26 @@ The power absorbed by the PTO is given by:
 
 Mooring Forces
 -------------------------
-The mooring load is represented using a linear quasi-static mooring stiffness, which can be calculated by
+The mooring load is represented using a linear quasi-static mooring stiffness or by using the mooring forces calculated from MoorDyn, which is an open-source lumped-mass mooring dynamics model. 
+
+When linear quasi-static mooring stiffness is used, the mooring load can be calculated by
 
 .. math::
 	F_{m}=-K_{m}X-C_{m}\dot{X}
 
 where :math:`K_{m}` and :math:`C_{m}` are the stiffness and damping matrices for the mooring system, and :math:`X` and :math:`\dot{X}` are the response and velocity of the body, respectively.
+
+When coupling with MoorDyn, each mooring line in a mooring system is discretized into evenly-sized line segments connected by node points (:ref:`MoorDyn` figure). The line mass is lumped at these node points, along with gravitational and buoyancy forces, hydrodynamic loads, and reactions from contact with the seabed.  Hydrodynamic drag and added mass are calculated based on Morison's equation.  A mooring line's axial stiffness is modeled by applying a linear stiffness to each line segment, in tension only.  A damping term is also applied in each segment to dampen non-physical resonances caused by the lumped-mass discretization.  Bending and torsional stiffnesses are neglected.  Bottom contact is represented by vertical stiffness and damping forces when nodes pass below the seabed :cite:`Hall2015ValidationData`.  
+
+.. _MoorDyn:
+
+.. figure:: _static/MoorDyn_Graphic.png
+   :scale: 70 %
+   :align: center
+    
+    ..
+
+    *MoorDyn mooring model elements*
 
 Damping Forces
 -----------------------
