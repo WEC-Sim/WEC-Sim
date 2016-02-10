@@ -65,22 +65,18 @@ classdef bodyClass<handle
     end
 
     methods (Access = 'public') %modify object = T; output = F
-        function obj = bodyClass(filename,iBod)
+        function obj = bodyClass(filename)
             obj.h5File = filename;
-            obj.hydroDataBodyNum = iBod;
-            if ~isempty(filename)
-                name = ['/body' num2str(obj.hydroDataBodyNum)];
-                obj.cg = h5read(filename,[name '/properties/cg']);
-                obj.cg = obj.cg';
-                obj.dispVol = h5read(filename,[name '/properties/disp_vol']);
-                obj.name = h5read(filename,[name '/properties/name']);
-                try obj.name = obj.name{1}; end
-            end
         end
 
         function readH5File(obj)
-            name = ['/body' num2str(obj.hydroDataBodyNum)];
             filename = obj.h5File;
+            name = ['/body' num2str(obj.bodyNumber)];
+            obj.cg = h5read(filename,[name '/properties/cg']);
+            obj.cg = obj.cg';
+            obj.dispVol = h5read(filename,[name '/properties/disp_vol']);
+            obj.name = h5read(filename,[name '/properties/name']);
+            try obj.name = obj.name{1}; end
             obj.hydroData.simulation_parameters.scaled = h5read(filename,'/simulation_parameters/scaled');
             obj.hydroData.simulation_parameters.wave_dir = h5read(filename,'/simulation_parameters/wave_dir');
             obj.hydroData.simulation_parameters.water_depth = h5read(filename,'/simulation_parameters/water_depth');
