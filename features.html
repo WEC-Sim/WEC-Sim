@@ -83,14 +83,9 @@
 <li class="toctree-l1"><a class="reference internal" href="code_structure.html">Code Structure</a></li>
 <li class="toctree-l1"><a class="reference internal" href="tutorials.html">Tutorials</a></li>
 <li class="toctree-l1 current"><a class="current reference internal" href="">Advanced Features</a><ul>
-<li class="toctree-l2"><a class="reference internal" href="#visualization-using-paraview">Visualization Using Paraview</a><ul>
-<li class="toctree-l3"><a class="reference internal" href="#getting-started-installation">Getting Started - Installation</a></li>
-<li class="toctree-l3"><a class="reference internal" href="#setting-up-paraview-output">Setting Up Paraview Output</a></li>
-<li class="toctree-l3"><a class="reference internal" href="#outputs-and-opening-in-paraview">Outputs and Opening in Paraview</a></li>
-<li class="toctree-l3"><a class="reference internal" href="#basic-visualization-manipulation">Basic Visualization Manipulation</a></li>
-<li class="toctree-l3"><a class="reference internal" href="#visualizing-non-linear-hydro-forces">Visualizing Non-Linear Hydro Forces</a></li>
-</ul>
-</li>
+<li class="toctree-l2"><a class="reference internal" href="#nonlinear-hydrodynamic-forces">Nonlinear Hydrodynamic Forces</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#state-space-representation">State-Space Representation</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#body-to-body-interaction">Body-To-Body Interaction</a></li>
 <li class="toctree-l2"><a class="reference internal" href="#pto-sim">PTO-Sim</a><ul>
 <li class="toctree-l3"><a class="reference internal" href="#rm3-with-pto-sim">RM3 with PTO-Sim</a><ul>
 <li class="toctree-l4"><a class="reference internal" href="#rm3-with-hydraulic-pto">RM3 with Hydraulic PTO</a></li>
@@ -105,6 +100,14 @@
 </ul>
 </li>
 <li class="toctree-l2"><a class="reference internal" href="#moordyn">MoorDyn</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#visualization-using-paraview">Visualization Using Paraview</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#getting-started-installation">Getting Started - Installation</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#setting-up-paraview-output">Setting Up Paraview Output</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#outputs-and-opening-in-paraview">Outputs and Opening in Paraview</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#basic-visualization-manipulation">Basic Visualization Manipulation</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#visualizing-non-linear-hydro-forces">Visualizing Non-Linear Hydro Forces</a></li>
+</ul>
+</li>
 </ul>
 </li>
 <li class="toctree-l1"><a class="reference internal" href="online_forum.html">Online Forum</a></li>
@@ -156,128 +159,24 @@
             
   <div class="section" id="advanced-features">
 <span id="features"></span><h1>Advanced Features<a class="headerlink" href="#advanced-features" title="Permalink to this headline">¶</a></h1>
-<div class="section" id="visualization-using-paraview">
-<span id="viz"></span><h2>Visualization Using Paraview<a class="headerlink" href="#visualization-using-paraview" title="Permalink to this headline">¶</a></h2>
-<p>This section describes how to setup, output, and use Paraview files for visualizing a WEC-Sim simulation. This improves on SimMechanics&#8217;s explorer by:</p>
-<ul class="simple">
-<li>Visualization of the wave field</li>
-<li>Visualization of the cell-by-cell non-linear hydrodynamic forces (when using non-linear hydro)</li>
-<li>Allow data manipulation and more visualization options</li>
-</ul>
-<p>On the other hand the SimMechanics explorer shows the following information not shown in Paraview vizualition:</p>
-<ul class="simple">
-<li>Location of the center of gravity</li>
-<li>Location of the different frames including PTO and Constraint frames</li>
-</ul>
-<p>Visualization with paraview requires many files to be written, which makes the WEC-Sim simulation take significantly more time, and makes the directory significantly larger. It should only be turned on when vizualisation is desired. The user also needs to have some familiarity with using Paraview.</p>
-<div class="section" id="getting-started-installation">
-<h3>Getting Started - Installation<a class="headerlink" href="#getting-started-installation" title="Permalink to this headline">¶</a></h3>
-<p>You will need to install <a class="reference external" href="http://www.paraview.org/">Paraview</a> and install and setup Python.
-Next you will need to add some WEC-Sim specific macros,as follows:</p>
-<ul class="simple">
-<li>Open Paraview</li>
-<li>Click on <code class="docutils literal"><span class="pre">Macros</span> <span class="pre">=&gt;</span> <span class="pre">Add</span> <span class="pre">new</span> <span class="pre">macro</span></code></li>
-<li>Navigate to the WEC-Sim <code class="docutils literal"><span class="pre">source/functions/paraview_macros</span></code> directory</li>
-<li>Select the first file and click <code class="docutils literal"><span class="pre">OK</span></code></li>
-<li>Repeat this for all files in the <code class="docutils literal"><span class="pre">paraview_macros</span> <span class="pre">directory.</span></code></li>
-</ul>
+<div class="section" id="nonlinear-hydrodynamic-forces">
+<h2>Nonlinear Hydrodynamic Forces<a class="headerlink" href="#nonlinear-hydrodynamic-forces" title="Permalink to this headline">¶</a></h2>
+<p>As described previously, WEC-Sim in based on linear hydrodynamic wave theory, which is reasonable if, the motion of the WEC device is small with respect to the device dimensions, and the submerged surface area remains approximately constant. If the system hydrodynamics are <em>slightly</em> nonlinear, WEC-Sim’s nonlinear hydrodynamics option, <strong>simu.nlHydro = 2</strong>, may be used to improve the simulation accuracy. That being said, WEC-Sim cannot, and is not intended to, model highly nonlinear hydrodynamic events such as wave slamming, overtopping, etc.</p>
+<p>Specifying the nonlinear hydrodynamics option in WEC-Sim prompts the calculation of the buoyancy force and Froude-Krylov portion of the excitation force based on the instantaneous position of the body and wave elevation, rather than the BEM calculated linear hydrodynamic force coefficients. The nonlinear buoyancy and the Froude-Krylov force components are obtained by integrating the static and dynamic pressures, respectively, over the instantaneous submerged surface area, as determined by the position of the body and wave elevation at each time step. Where, the static pressure is simply, <span class="math">\(P_{S} = \rho gz\)</span>, and the dynamic pressure is calculated based on the wave type specified; for example,  <span class="math">\(P_{D} = \frac{1}{2}\rho gHe^{kz} \sin{(\omega t - kx)}\)</span>, for an infinite depth regular wave. Currently, WEC-Sim’s nonlinear hydrodynamic option may be invoked with regular and irregular waves, finite and infinite depth waves, but not with user-defined irregular waves.</p>
+<p>When the nonlinear hydrodynamics option is specified, the .stl geometry file, which is only used for visualization purposes in linear simulations, is also used as the discretized body surface on which the nonlinear pressure forces are integrated. As such, when the nonlinear hydrodynamics option is used, additional care must be taken in creating the .stl file. The simulation accuracy will increase with increased surface resolution (i.e. the number of discretized surface panels specified in the .stl file), but the computation time will also significantly increase. An option available to reduce the nonlinear simulation time is to specify a nonlinear time step, <strong>simu.dtFeNonlin</strong>. The nonlinear time step specifies the interval at which the nonlinear hydrodynamic forces are calculated, separately, and presumably at a larger interval than the system level simulation time step (<strong>simu.dt</strong>). As the ratio of the nonlinear to system time step increases, the computation time is reduced, but again, at the expense of the simulation accuracy.</p>
 </div>
-<div class="section" id="setting-up-paraview-output">
-<h3>Setting Up Paraview Output<a class="headerlink" href="#setting-up-paraview-output" title="Permalink to this headline">¶</a></h3>
-<p>The following table shows the variables that can be specfied in the <code class="docutils literal"><span class="pre">wecSimInputFile</span></code> to control the Paraview visualization. The <code class="docutils literal"><span class="pre">body.viz</span></code> properties are also used in the SimMechanics explorer visualization.</p>
-<table border="1" class="docutils">
-<colgroup>
-<col width="30%" />
-<col width="70%" />
-</colgroup>
-<thead valign="bottom">
-<tr class="row-odd"><th class="head" colspan="2">WEC-Sim Visualization using Paraview</th>
-</tr>
-</thead>
-<tbody valign="top">
-<tr class="row-even"><td>Variable</td>
-<td>Description</td>
-</tr>
-<tr class="row-odd"><td><code class="docutils literal"><span class="pre">simu.paraview</span></code></td>
-<td>0 to not ouput Paraview files [default]
-1 to output Paraview files</td>
-</tr>
-<tr class="row-even"><td><code class="docutils literal"><span class="pre">simu.nlHydro</span></code></td>
-<td>0 for no non-linear hydro [default]
-1 for non-linear hydro with mean free surface
-2 for non-linear hydro with instantaneous fs</td>
-</tr>
-<tr class="row-odd"><td><code class="docutils literal"><span class="pre">simu.domainSize</span></code></td>
-<td>size of ground and water planes in meters [default 200]</td>
-</tr>
-<tr class="row-even"><td><code class="docutils literal"><span class="pre">simu.dtOut</span></code></td>
-<td>simulation output sampling time step [default dt]</td>
-</tr>
-<tr class="row-odd"><td><code class="docutils literal"><span class="pre">body(i).viz.color</span></code></td>
-<td>[RGB] body color [default [1 1 0]]</td>
-</tr>
-<tr class="row-even"><td><code class="docutils literal"><span class="pre">body(i).viz.opacity</span></code></td>
-<td>body opacity [default 1]</td>
-</tr>
-<tr class="row-odd"><td><code class="docutils literal"><span class="pre">waves.viz.numPointsX</span></code></td>
-<td>wave plane discretization: number of X points [default 50]</td>
-</tr>
-<tr class="row-even"><td><code class="docutils literal"><span class="pre">waves.viz.numPointsY</span></code></td>
-<td>wave plane discretization: number of Y points [default 50]</td>
-</tr>
-</tbody>
-</table>
+<div class="section" id="state-space-representation">
+<h2>State-Space Representation<a class="headerlink" href="#state-space-representation" title="Permalink to this headline">¶</a></h2>
+<div class="admonition note">
+<p class="first admonition-title">Note</p>
+<p class="last">Coming soon!</p>
 </div>
-<div class="section" id="outputs-and-opening-in-paraview">
-<h3>Outputs and Opening in Paraview<a class="headerlink" href="#outputs-and-opening-in-paraview" title="Permalink to this headline">¶</a></h3>
-<p>When <code class="docutils literal"><span class="pre">simu.paraview</span></code> is set to 1 a directory called <code class="docutils literal"><span class="pre">vtk</span></code> is created.
-All files necessary for Paraview vizualisation are located there.
-To view in Paraview:</p>
-<ul class="simple">
-<li>Open the <code class="docutils literal"><span class="pre">vtk/filename.pvd</span></code> file in Paraview</li>
-<li>Click <code class="docutils literal"><span class="pre">Apply</span></code></li>
-<li>With the model selected in the pipeline, run the <code class="docutils literal"><span class="pre">WEC-Sim</span></code> macro</li>
-<li>Move the camera to desired view</li>
-<li>Click the green arrow (play) button</li>
-</ul>
-<p>The WEC-Sim macro:</p>
-<ul class="simple">
-<li>Extracts each body, sets the color and opacity, and renames them</li>
-<li>Extracts the waves, sets color and opacity, and renames</li>
-<li>Creates the ground plane</li>
-<li>Sets the camera to <code class="docutils literal"><span class="pre">parallel</span> <span class="pre">view</span></code></li>
-</ul>
 </div>
-<div class="section" id="basic-visualization-manipulation">
-<h3>Basic Visualization Manipulation<a class="headerlink" href="#basic-visualization-manipulation" title="Permalink to this headline">¶</a></h3>
-<p>After opening the <code class="docutils literal"><span class="pre">.pvd</span></code> file and running the <code class="docutils literal"><span class="pre">WEC-Sim</span></code> macro you can do a number of things to visualize the simulation in different ways.
-You can color waves and bodies by any of the available properties and apply any of the Paraview filters.</p>
-<p>The video below shows three different views of the OSWEC model described in the tutorials.
-On the bottom right view the wave elevation is used to color the free surface. The top right view uses the <code class="docutils literal"><span class="pre">slice</span></code> filter.</p>
-<iframe width="420" height="315" src="https://www.youtube.com/embed/KcsLi38Xjv0" frameborder="0" allowfullscreen></iframe></div>
-<div class="section" id="visualizing-non-linear-hydro-forces">
-<h3>Visualizing Non-Linear Hydro Forces<a class="headerlink" href="#visualizing-non-linear-hydro-forces" title="Permalink to this headline">¶</a></h3>
-<p>When using non-linear hydro the paraview files also contain cell data for the bodies.
-The cell data are:</p>
-<ul class="simple">
-<li>Cell areas</li>
-<li>Hydrostatic pressures</li>
-<li>Linear Froude-Krylov pressures</li>
-<li>Non-linear Froude-Krylov pressures</li>
-</ul>
-<p>The <code class="docutils literal"><span class="pre">pressureGlyphs</span></code> macro calculates cell normals, and cell centers. It then creates the following glyphs:</p>
-<ul class="simple">
-<li>Hydrostatic Pressure</li>
-<li>Linear Froude-Krylov pressure</li>
-<li>Non-linear Froude-Krylov pressure</li>
-<li>Total pressure (hydostatic plus non-linear Foude-Krylov)</li>
-<li>Froude-Krylov delta (non-linear minus linear)</li>
-</ul>
-<p>The video below shows three different views of the RM3 model described in the turoeials.
-The top right shows glyphs of the non-linear Froude-Krylov pressure acting on the float.
-The bottom right shows the float colored by hydrostatic pressure.</p>
-<blockquote>
-<div><iframe width="420" height="315" src="https://www.youtube.com/embed/VIPXsS8h9pg" frameborder="0" allowfullscreen></iframe></div></blockquote>
+<div class="section" id="body-to-body-interaction">
+<h2>Body-To-Body Interaction<a class="headerlink" href="#body-to-body-interaction" title="Permalink to this headline">¶</a></h2>
+<div class="admonition note">
+<p class="first admonition-title">Note</p>
+<p class="last">Coming soon!</p>
 </div>
 </div>
 <div class="section" id="pto-sim">
@@ -526,6 +425,130 @@ The bottom right shows the float colored by hydrostatic pressure.</p>
 <div class="admonition note">
 <p class="first admonition-title">Note</p>
 <p class="last">Coming soon!</p>
+</div>
+</div>
+<div class="section" id="visualization-using-paraview">
+<span id="viz"></span><h2>Visualization Using Paraview<a class="headerlink" href="#visualization-using-paraview" title="Permalink to this headline">¶</a></h2>
+<p>This section describes how to setup, output, and use Paraview files for visualizing a WEC-Sim simulation. This improves on SimMechanics&#8217;s explorer by:</p>
+<ul class="simple">
+<li>Visualization of the wave field</li>
+<li>Visualization of the cell-by-cell non-linear hydrodynamic forces (when using non-linear hydro)</li>
+<li>Allow data manipulation and more visualization options</li>
+</ul>
+<p>On the other hand the SimMechanics explorer shows the following information not shown in Paraview vizualition:</p>
+<ul class="simple">
+<li>Location of the center of gravity</li>
+<li>Location of the different frames including PTO and Constraint frames</li>
+</ul>
+<p>Visualization with paraview requires many files to be written, which makes the WEC-Sim simulation take significantly more time, and makes the directory significantly larger. It should only be turned on when vizualisation is desired. The user also needs to have some familiarity with using Paraview.</p>
+<div class="section" id="getting-started-installation">
+<h3>Getting Started - Installation<a class="headerlink" href="#getting-started-installation" title="Permalink to this headline">¶</a></h3>
+<p>You will need to install <a class="reference external" href="http://www.paraview.org/">Paraview</a> and install and setup Python.
+Next you will need to add some WEC-Sim specific macros,as follows:</p>
+<ul class="simple">
+<li>Open Paraview</li>
+<li>Click on <code class="docutils literal"><span class="pre">Macros</span> <span class="pre">=&gt;</span> <span class="pre">Add</span> <span class="pre">new</span> <span class="pre">macro</span></code></li>
+<li>Navigate to the WEC-Sim <code class="docutils literal"><span class="pre">source/functions/paraview_macros</span></code> directory</li>
+<li>Select the first file and click <code class="docutils literal"><span class="pre">OK</span></code></li>
+<li>Repeat this for all files in the <code class="docutils literal"><span class="pre">paraview_macros</span> <span class="pre">directory.</span></code></li>
+</ul>
+</div>
+<div class="section" id="setting-up-paraview-output">
+<h3>Setting Up Paraview Output<a class="headerlink" href="#setting-up-paraview-output" title="Permalink to this headline">¶</a></h3>
+<p>The following table shows the variables that can be specfied in the <code class="docutils literal"><span class="pre">wecSimInputFile</span></code> to control the Paraview visualization. The <code class="docutils literal"><span class="pre">body.viz</span></code> properties are also used in the SimMechanics explorer visualization.</p>
+<table border="1" class="docutils">
+<colgroup>
+<col width="30%" />
+<col width="70%" />
+</colgroup>
+<thead valign="bottom">
+<tr class="row-odd"><th class="head" colspan="2">WEC-Sim Visualization using Paraview</th>
+</tr>
+</thead>
+<tbody valign="top">
+<tr class="row-even"><td>Variable</td>
+<td>Description</td>
+</tr>
+<tr class="row-odd"><td><code class="docutils literal"><span class="pre">simu.paraview</span></code></td>
+<td>0 to not ouput Paraview files [default]
+1 to output Paraview files</td>
+</tr>
+<tr class="row-even"><td><code class="docutils literal"><span class="pre">simu.nlHydro</span></code></td>
+<td>0 for no non-linear hydro [default]
+1 for non-linear hydro with mean free surface
+2 for non-linear hydro with instantaneous fs</td>
+</tr>
+<tr class="row-odd"><td><code class="docutils literal"><span class="pre">simu.domainSize</span></code></td>
+<td>size of ground and water planes in meters [default 200]</td>
+</tr>
+<tr class="row-even"><td><code class="docutils literal"><span class="pre">simu.dtOut</span></code></td>
+<td>simulation output sampling time step [default dt]</td>
+</tr>
+<tr class="row-odd"><td><code class="docutils literal"><span class="pre">body(i).viz.color</span></code></td>
+<td>[RGB] body color [default [1 1 0]]</td>
+</tr>
+<tr class="row-even"><td><code class="docutils literal"><span class="pre">body(i).viz.opacity</span></code></td>
+<td>body opacity [default 1]</td>
+</tr>
+<tr class="row-odd"><td><code class="docutils literal"><span class="pre">waves.viz.numPointsX</span></code></td>
+<td>wave plane discretization: number of X points [default 50]</td>
+</tr>
+<tr class="row-even"><td><code class="docutils literal"><span class="pre">waves.viz.numPointsY</span></code></td>
+<td>wave plane discretization: number of Y points [default 50]</td>
+</tr>
+</tbody>
+</table>
+</div>
+<div class="section" id="outputs-and-opening-in-paraview">
+<h3>Outputs and Opening in Paraview<a class="headerlink" href="#outputs-and-opening-in-paraview" title="Permalink to this headline">¶</a></h3>
+<p>When <code class="docutils literal"><span class="pre">simu.paraview</span></code> is set to 1 a directory called <code class="docutils literal"><span class="pre">vtk</span></code> is created.
+All files necessary for Paraview vizualisation are located there.
+To view in Paraview:</p>
+<ul class="simple">
+<li>Open the <code class="docutils literal"><span class="pre">vtk/filename.pvd</span></code> file in Paraview</li>
+<li>Click <code class="docutils literal"><span class="pre">Apply</span></code></li>
+<li>With the model selected in the pipeline, run the <code class="docutils literal"><span class="pre">WEC-Sim</span></code> macro</li>
+<li>Move the camera to desired view</li>
+<li>Click the green arrow (play) button</li>
+</ul>
+<p>The WEC-Sim macro:</p>
+<ul class="simple">
+<li>Extracts each body, sets the color and opacity, and renames them</li>
+<li>Extracts the waves, sets color and opacity, and renames</li>
+<li>Creates the ground plane</li>
+<li>Sets the camera to <code class="docutils literal"><span class="pre">parallel</span> <span class="pre">view</span></code></li>
+</ul>
+</div>
+<div class="section" id="basic-visualization-manipulation">
+<h3>Basic Visualization Manipulation<a class="headerlink" href="#basic-visualization-manipulation" title="Permalink to this headline">¶</a></h3>
+<p>After opening the <code class="docutils literal"><span class="pre">.pvd</span></code> file and running the <code class="docutils literal"><span class="pre">WEC-Sim</span></code> macro you can do a number of things to visualize the simulation in different ways.
+You can color waves and bodies by any of the available properties and apply any of the Paraview filters.</p>
+<p>The video below shows three different views of the OSWEC model described in the tutorials.
+On the bottom right view the wave elevation is used to color the free surface. The top right view uses the <code class="docutils literal"><span class="pre">slice</span></code> filter.</p>
+<iframe width="420" height="315" src="https://www.youtube.com/embed/KcsLi38Xjv0" frameborder="0" allowfullscreen></iframe></div>
+<div class="section" id="visualizing-non-linear-hydro-forces">
+<h3>Visualizing Non-Linear Hydro Forces<a class="headerlink" href="#visualizing-non-linear-hydro-forces" title="Permalink to this headline">¶</a></h3>
+<p>When using non-linear hydro the paraview files also contain cell data for the bodies.
+The cell data are:</p>
+<ul class="simple">
+<li>Cell areas</li>
+<li>Hydrostatic pressures</li>
+<li>Linear Froude-Krylov pressures</li>
+<li>Non-linear Froude-Krylov pressures</li>
+</ul>
+<p>The <code class="docutils literal"><span class="pre">pressureGlyphs</span></code> macro calculates cell normals, and cell centers. It then creates the following glyphs:</p>
+<ul class="simple">
+<li>Hydrostatic Pressure</li>
+<li>Linear Froude-Krylov pressure</li>
+<li>Non-linear Froude-Krylov pressure</li>
+<li>Total pressure (hydostatic plus non-linear Foude-Krylov)</li>
+<li>Froude-Krylov delta (non-linear minus linear)</li>
+</ul>
+<p>The video below shows three different views of the RM3 model described in the turoeials.
+The top right shows glyphs of the non-linear Froude-Krylov pressure acting on the float.
+The bottom right shows the float colored by hydrostatic pressure.</p>
+<blockquote>
+<div><iframe width="420" height="315" src="https://www.youtube.com/embed/VIPXsS8h9pg" frameborder="0" allowfullscreen></iframe></div></blockquote>
 </div>
 </div>
 </div>
