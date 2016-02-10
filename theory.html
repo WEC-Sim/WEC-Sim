@@ -400,10 +400,15 @@ y &amp;=&amp; \mathbf{C_{r}} x~~\end{split}\]</div>
 </div>
 <div class="section" id="mooring-forces">
 <h2>Mooring Forces<a class="headerlink" href="#mooring-forces" title="Permalink to this headline">¶</a></h2>
-<p>The mooring load is represented using a linear quasi-static mooring stiffness, which can be calculated by</p>
+<p>The mooring load is represented using a linear quasi-static mooring stiffness or by using the mooring forces calculated from MoorDyn, which is an open-source lumped-mass mooring dynamics model.</p>
+<p>When linear quasi-static mooring stiffness is used, the mooring load can be calculated by</p>
 <div class="math">
 \[F_{m}=-K_{m}X-C_{m}\dot{X}\]</div>
 <p>where <span class="math">\(K_{m}\)</span> and <span class="math">\(C_{m}\)</span> are the stiffness and damping matrices for the mooring system, and <span class="math">\(X\)</span> and <span class="math">\(\dot{X}\)</span> are the response and velocity of the body, respectively.</p>
+<p>When coupling with MoorDyn, each mooring line in a mooring system is discretized into evenly-sized line segments connected by node points (<a class="reference internal" href="moordyn.html#moordyn"><span>MoorDyn</span></a> figure). The line mass is lumped at these node points, along with gravitational and buoyancy forces, hydrodynamic loads, and reactions from contact with the seabed.  Hydrodynamic drag and added mass are calculated based on Morison&#8217;s equation.  A mooring line&#8217;s axial stiffness is modeled by applying a linear stiffness to each line segment, in tension only.  A damping term is also applied in each segment to dampen non-physical resonances caused by the lumped-mass discretization.  Bending and torsional stiffnesses are neglected.  Bottom contact is represented by vertical stiffness and damping forces when nodes pass below the seabed <a class="reference internal" href="#hall2015validationdata" id="id23">[15]</a>.</p>
+<div class="figure align-center" id="moordyn">
+<a class="reference internal image-reference" href="_static/MoorDyn_Graphic.png"><img alt="_static/MoorDyn_Graphic.png" src="_static/MoorDyn_Graphic.png" /></a>
+</div>
 </div>
 <div class="section" id="damping-forces">
 <h2>Damping Forces<a class="headerlink" href="#damping-forces" title="Permalink to this headline">¶</a></h2>
@@ -413,7 +418,7 @@ y &amp;=&amp; \mathbf{C_{r}} x~~\end{split}\]</div>
 \[F_{v}=-C_{ld}\dot{X}+\frac{1}{2}C_{d}\rho A_{D}\dot{X}|\dot{X}|\]</div>
 </div></blockquote>
 <p>where <span class="math">\(C_{ld}\)</span> is the linear damping coefficient, <span class="math">\(C_{d}\)</span> is the (quadratic) viscous drag coefficient, <span class="math">\(\rho\)</span> is the fluid density, and <span class="math">\(A_{D}\)</span> is the characteristic area.</p>
-<p>Generally, the effect of viscosity on the WEC dynamics needs to be considered as neglecting this effect may lead to an overestimation of the power generation of the system, particularly when a linear model is applied. A common way of modeling the viscous damping is to add a (Morison-equation-type) quadratic damping term to the equation of motion. The viscous drag coefficient for the device must be carefully selected <a class="reference internal" href="#li2012" id="id23">[1]</a><a class="reference internal" href="#babarit2012" id="id24">[2]</a>; however, it is dependent on device geometry, scale, and relative velocity between the body and the flow around it. The drag coefficient becomes much larger when the Reynolds and the Keulegan-Carpenter number are smaller. Note that empirical data on the drag coefficient can be found in various literature and standards. The available data may, however, be limited to existing simple geometries. For practical point absorber geometry, the hydrodynamic forces may have to be evaluated by conducting wave tank tests or prescribed motion computational fluid dynamic simulations.</p>
+<p>Generally, the effect of viscosity on the WEC dynamics needs to be considered as neglecting this effect may lead to an overestimation of the power generation of the system, particularly when a linear model is applied. A common way of modeling the viscous damping is to add a (Morison-equation-type) quadratic damping term to the equation of motion. The viscous drag coefficient for the device must be carefully selected <a class="reference internal" href="#li2012" id="id24">[1]</a><a class="reference internal" href="#babarit2012" id="id25">[2]</a>; however, it is dependent on device geometry, scale, and relative velocity between the body and the flow around it. The drag coefficient becomes much larger when the Reynolds and the Keulegan-Carpenter number are smaller. Note that empirical data on the drag coefficient can be found in various literature and standards. The available data may, however, be limited to existing simple geometries. For practical point absorber geometry, the hydrodynamic forces may have to be evaluated by conducting wave tank tests or prescribed motion computational fluid dynamic simulations.</p>
 </div>
 <div class="section" id="nonlinear-forces">
 <h2>Nonlinear Forces<a class="headerlink" href="#nonlinear-forces" title="Permalink to this headline">¶</a></h2>
@@ -426,13 +431,13 @@ y &amp;=&amp; \mathbf{C_{r}} x~~\end{split}\]</div>
 <p id="bibtex-bibliography-theory-0"><table class="docutils citation" frame="void" id="li2012" rules="none">
 <colgroup><col class="label" /><col /></colgroup>
 <tbody valign="top">
-<tr><td class="label">[1]</td><td><em>(<a class="fn-backref" href="#id2">1</a>, <a class="fn-backref" href="#id23">2</a>)</em> Ye&nbsp;Li and Yi-Hsiang Yu. A Synthesis of Numerical Methods for Modeling Wave Energy Converter-Point Absorbers. <em>Renewable and Sustainable Energy Reviews</em>, 16(6):4352–4364, 2012.</td></tr>
+<tr><td class="label">[1]</td><td><em>(<a class="fn-backref" href="#id2">1</a>, <a class="fn-backref" href="#id24">2</a>)</em> Ye&nbsp;Li and Yi-Hsiang Yu. A Synthesis of Numerical Methods for Modeling Wave Energy Converter-Point Absorbers. <em>Renewable and Sustainable Energy Reviews</em>, 16(6):4352–4364, 2012.</td></tr>
 </tbody>
 </table>
 <table class="docutils citation" frame="void" id="babarit2012" rules="none">
 <colgroup><col class="label" /><col /></colgroup>
 <tbody valign="top">
-<tr><td class="label">[2]</td><td><em>(<a class="fn-backref" href="#id3">1</a>, <a class="fn-backref" href="#id9">2</a>, <a class="fn-backref" href="#id24">3</a>)</em> Aurélien Babarit, J.&nbsp;Hals, M.J. Muliawan, A.&nbsp;Kurniawan, T.&nbsp;Moan, and J.&nbsp;Krokstad. Numerical Benchmarking Study of a Selection of Wave Energy Converters. <em>Renewable Energy</em>, 41:44–63, 2012.</td></tr>
+<tr><td class="label">[2]</td><td><em>(<a class="fn-backref" href="#id3">1</a>, <a class="fn-backref" href="#id9">2</a>, <a class="fn-backref" href="#id25">3</a>)</em> Aurélien Babarit, J.&nbsp;Hals, M.J. Muliawan, A.&nbsp;Kurniawan, T.&nbsp;Moan, and J.&nbsp;Krokstad. Numerical Benchmarking Study of a Selection of Wave Energy Converters. <em>Renewable Energy</em>, 41:44–63, 2012.</td></tr>
 </tbody>
 </table>
 <table class="docutils citation" frame="void" id="lee2006" rules="none">
@@ -505,6 +510,12 @@ y &amp;=&amp; \mathbf{C_{r}} x~~\end{split}\]</div>
 <colgroup><col class="label" /><col /></colgroup>
 <tbody valign="top">
 <tr><td class="label">[14]</td><td><em>(<a class="fn-backref" href="#id21">1</a>, <a class="fn-backref" href="#id22">2</a>)</em> R. So, A. Simmons, T. Brekken, K. Ruehl, and C. Michelen. Development of PTO-SIM: A Power Performance Module for the Open-Souse Wave Energy Converter Code WEC-SIM. In <em>Proceedings of OMAE 2015</em>. 2015.</td></tr>
+</tbody>
+</table>
+<table class="docutils citation" frame="void" id="hall2015validationdata" rules="none">
+<colgroup><col class="label" /><col /></colgroup>
+<tbody valign="top">
+<tr><td class="label"><a class="fn-backref" href="#id23">[15]</a></td><td>Matthew Hall and Andrew Goupee. Validation of a lumped-mass mooring line model with deepcwind semisubmersible model test data. <em>Ocean Engineering</em>, 104:590–603, 2015. <a class="reference external" href="http://dx.doi.org/10.1016/j.oceaneng.2015.05.035">doi:10.1016/j.oceaneng.2015.05.035</a>.</td></tr>
 </tbody>
 </table>
 </p>
