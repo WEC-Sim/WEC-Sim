@@ -48,7 +48,7 @@ waves.T = 8;                            %Wave Period [s]
 % waves.etaDataFile = 'umpqua46229_6_2008.mat';  % Name of User-Defined Time-Series File [:,2] = [time, wave_elev]
 
 %% Body Data
-body(1) = bodyClass('hydroData/rm3.h5',1);      
+body(1) = bodyClass('hydroData/rm3.h5');      
     %Create the body(1) Variable, Set Location of Hydrodynamic Data File 
     %and Body Number Within this File.        
 body(1).mass = 'equilibrium';                   
@@ -58,7 +58,7 @@ body(1).momOfInertia = [20907301 21306090.66 37085481.11];
     %Moment of Inertia [kg*m^2]     
 body(1).geometryFile = 'geometry/float.stl';    %Location of Geomtry File
 
-body(2) = bodyClass('hydroData/rm3.h5',2);     
+body(2) = bodyClass('hydroData/rm3.h5');     
 body(2).mass = 'equilibrium';                   
 body(2).momOfInertia = [94419614.57 94407091.24 28542224.82];
 body(2).geometryFile = 'geometry/plate.stl'; 
