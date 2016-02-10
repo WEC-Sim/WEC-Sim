@@ -4,7 +4,6 @@ simu.simMechanicsFile = 'RM3MoorDyn.slx';      %Location of Simulink Model File
 simu.endTime=400;                       %Simulation End Time [s]
 simu.dt = 0.1;                          %Simulation Time-Step [s]
 simu.rampT = 40;                        %Wave Ramp Time Length [s]
-simu.moorDyn =1;                        % Note: MoorDyn Coupling does not work with 'rapid-accelerator' mode
 simu.mode='accelerator';                
 simu.explorer = 'off';
 
@@ -71,3 +70,6 @@ pto(1) = ptoClass('PTO1');
 pto(1).k=0;                                     %PTO Stiffness [N/m]
 pto(1).c=1200000;                               %PTO Daming [N/(m/s)]
 pto(1).loc = [0 0 0];                           %PTO Location [m]
+
+mooring(1) = mooringClass('mooring');
+mooring(1).moorDynLines = 3;

@@ -24,11 +24,14 @@ classdef mooringClass<handle
         initDisp                = struct('initLinDisp', [0 0 0], ...            % Initial displacement of center of Reference location, default = [0 0 0]
                                    'initAngularDispAxis',  [0 1 0], ...         % Initial displacement axis of rotation default = [0 1 0]
                                    'initAngularDispAngle', 0)                   % Initial angle of rotation default = 0
+        moorDynLines            = 0                                             % Number of lines in MoorDyn
     end
 
     properties (SetAccess = 'public', GetAccess = 'public') %internal
         loc                     = []                                            % Initial 6DOF location, default = [0 0 0 0 0 0]
         mooringNum              = []                                            % Mooring number
+        moorDyn                 = 0                                             % Flag to indicate wether it is a MoorDyn block.
+        moorDynInputRaw         = []                                            % MoorDyn input file, each line read as a string into a cell array.
     end
 
     methods (Access = 'public')                                        
@@ -37,8 +40,12 @@ classdef mooringClass<handle
             obj.name = name;
         end
 
-        function setLoc(obj)
+        function obj = setLoc(obj)
             obj.loc = [obj.ref + obj.initDisp.initLinDisp 0 0 0];
+        end
+
+        function obj = moorDynInput(obj)
+            obj.moorDynInputRaw = textread('./mooring/lines.txt', '%s', 'delimiter', '\n');
         end
 
         function listInfo(obj)
