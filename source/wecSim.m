@@ -250,6 +250,17 @@ if exist('constraint','var')
 else
     constraintsOutput = 0;
 end
+% Mooring
+if exist('mooring','var')
+    for iMoor = 1:simu.numMoorings
+        eval(['mooring' num2str(iMoor) '_out.name = mooring(' num2str(iMoor) ').name;']);
+        if iMoor == 1; mooringOutput = mooring1_out; end
+        mooringOutput(iMoor) = eval(['mooring' num2str(iMoor) '_out']);
+        eval(['clear mooring' num2str(iMoor) '_out']);
+    end; clear iMoor
+else
+    mooringOutput = 0;
+end
 % PTO-Sim
 if exist('ptosim','var')
     ptosimOutput = ptosim.response;
@@ -275,8 +286,14 @@ for ii = 1:length(body(1,:))
     end
 end; clear ii
 % All
-output = responseClass(bodiesOutput,ptosOutput,constraintsOutput,ptosimOutput,waves.type,waves.waveAmpTime,hspressure, wpressurenl, wpressurel);
-clear bodiesOutput ptosOutput constraintsOutput ptosimOutput
+output = responseClass(bodiesOutput,ptosOutput,constraintsOutput,ptosimOutput,mooringOutput,waves.type,waves.waveAmpTime,hspressure, wpressurenl, wpressurel);
+clear bodiesOutput ptosOutput constraintsOutput ptosimOutput mooringOutput
+% MoorDyn
+for iMoor = 1:simu.numMoorings
+    if mooring(iMoor).moorDyn==1
+        output.loadMoorDyn(mooring(iMoor).moorDynLines)
+    end
+end; clear iMoor
 % Calculate correct added mass and total forces
 for iBod = 1:simu.numWecBodies
     body(iBod).restoreMassMatrix
