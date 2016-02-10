@@ -25,10 +25,7 @@ classdef bodyClass<handle
         momOfInertia      = []                                                  % Moment of inertia [Ixx Iyy Izz] in kg*m^2
         cg                = []                                                  % Center of gravity [x y z] in meters. For WEC bodies this is given in the h5 file.
         dispVol           = []                                                  % Displaced volume at equilibrium position in meters cubed. For WEC bodies this is given in the h5 file.
-        geometryFile      = 'NONE'                                              % Location of geomtry stl file
-        mooring           = struct('c',          zeros(6,6), ...                % Mooring damping, 6 x 6 matrix
-                                   'k',          zeros(6,6), ...                % Mooring stiffness, 6 x 6 matrix
-                                   'preTension', [0 0 0 0 0 0])                 % Mooring preTension, Vector length 6
+        geometryFile      = 'NONE'                                              % Location of geomtry stl files
         viscDrag          = struct('cd',                   [0 0 0 0 0 0], ...   % Viscous (quadratic) drag cd, vector length 6
                                    'characteristicArea',   [0 0 0 0 0 0])       % Characteristic area for viscous drag, vector length 6
         initDisp          = struct('initLinDisp',          [0 0 0], ...         % Initial displacement of center fo gravity - used for decay tests (format: [displacment in m], default = [0 0 0])

@@ -21,11 +21,12 @@ classdef responseClass<handle
          ptos                = struct()                                         % Output from the different PTO blocks
          constraints         = struct()                                         % Output from the different constraint blocks
          ptosim              = struct()                                         % Output from PTO-Sim blocks
+         mooring             = struct()                                         % Output from mooring blocks
          moorDyn             = struct()                                         % Output from MoorDyn
     end
     
     methods (Access = 'public')
-        function obj = responseClass(bodiesOutput,ptosOutput,constraintsOutput,ptosimOutput,wave_type,wave_elev,hspressure,wpressurenl,wpressurel)                      
+        function obj = responseClass(bodiesOutput,ptosOutput,constraintsOutput,ptosimOutput,mooringOutput,wave_type,wave_elev,hspressure,wpressurenl,wpressurel)                      
             % Initilization function
             % Read and format ouputs.
             % Wave
@@ -33,7 +34,7 @@ classdef responseClass<handle
             obj.wave.time = wave_elev(:,1);
             obj.wave.elevation = wave_elev(:,2);
             % Bodies
-            signals = {'position','velocity','acceleration','forceTotal','forceExcitation','forceRadiationDamping','forceAddedMass','forceRestoring','forceMorrisonAndViscous','forceMooring','forceLinearDamping'};
+            signals = {'position','velocity','acceleration','forceTotal','forceExcitation','forceRadiationDamping','forceAddedMass','forceRestoring','forceMorrisonAndViscous','forceLinearDamping'};
             for ii = 1:length(bodiesOutput)
                 obj.bodies(ii).name = bodiesOutput(ii).name;
                 obj.bodies(ii).time = bodiesOutput(ii).time;
@@ -69,6 +70,17 @@ classdef responseClass<handle
                     end
                 end
             end
+            % Mooring
+            if isstruct(mooringOutput)
+                signals = {'position','velocity','forceMooring'}; 
+                for ii = 1:length(mooringOutput)
+                    obj.mooring(ii).name = mooringOutput(ii).name;
+                    obj.mooring(ii).time = mooringOutput(ii).time;
+                    for jj = 1:length(signals)
+                        obj.mooring(ii).(signals{jj}) = mooringOutput(ii).signals.values(:, (jj-1)*6+1:(jj-1)*6+6);
+                    end
+                end
+            end
             % PTO-Sim
             if isstruct(ptosimOutput)
                 obj.ptosim=ptosimOutput;
@@ -76,18 +88,26 @@ classdef responseClass<handle
             end
         end
         
-        function obj = loadMoorDyn(obj,numLines)
-            %TODO: load Lines.out
-            %TODO: load lines.txt
+        function obj = loadMoorDyn(obj,numLines)            
+            % load Lines.out
+            %filename = './mooring/Lines.out';
+            %fid = fopen(filename, 'r');
+            %header = strsplit(fgetl(fid));
+            %data = dlmread(filename,'',1,0);
+            %tmp = size(data);
+            %ncol = tmp(2);clear tmp
+            %for icol=1:ncol
+            %    eval(['obj.moorDyn.Lines.' header{icol} ' = data(:,' num2str(icol) ');']);
+            %end
             % load Line#.out
             for iline=1:numLines
                 eval(['obj.moorDyn.Line' num2str(iline) '=struct();']);
-                filename = ['mooring/Line' num2str(iline) '.out'];
+                filename = ['./mooring/Line' num2str(iline) '.out'];
                 fid = fopen(filename);
                 header = strsplit(fgetl(fid));
                 data = dlmread(filename,'',1,0);
                 tmp = size(data);
-                ncol = tmp(2);
+                ncol = tmp(2);clear tmp
                 for icol=1:ncol
                     eval(['obj.moorDyn.Line' num2str(iline) '.' header{icol} ' = data(:,' num2str(icol) ');']);
                 end
@@ -127,7 +147,6 @@ classdef responseClass<handle
             FR=-1*obj.bodies(bodyNum).forceRestoring(:,comp);
             FMV=-1*obj.bodies(bodyNum).forceMorrisonAndViscous(:,comp);
             FLD=-1*obj.bodies(bodyNum).forceLinearDamping(:,comp);
-            FM=-1*obj.bodies(bodyNum).forceMooring(:,comp);
             figure();
             plot(t,FT,...
                 t,FE,...
@@ -135,9 +154,8 @@ classdef responseClass<handle
                 t,FAM,...
                 t,FR,...
                 t,FMV,...
-                t,FLD,...
-                t,FM)
-            legend('forceTotal','forceExcitation','forceRadiationDamping','forceAddedMass','forceRestoring','forceViscous','forceLinearDamping','forceMooring')
+                t,FLD)
+            legend('forceTotal','forceExcitation','forceRadiationDamping','forceAddedMass','forceRestoring','forceViscous','forceLinearDamping')
             xlabel('Time (s)')
             ylabel('Force(N) or Torque (N*m)')
             title(['body' num2str(bodyNum) ' (' obj.bodies(bodyNum).name ') ' DOF{comp} '  Forces'])
@@ -170,7 +188,7 @@ classdef responseClass<handle
             fprintf(fid,data_fmt,data');
             fclose(fid);
             % bodies
-            signals = {'position','velocity','acceleration','forceTotal','forceExcitation','forceRadiationDamping','forceAddedMass','forceRestoring','forceMorrisonAndViscous','forceMooring','forceLinearDamping'};
+            signals = {'position','velocity','acceleration','forceTotal','forceExcitation','forceRadiationDamping','forceAddedMass','forceRestoring','forceMorrisonAndViscous','forceLinearDamping'};
             header = {'time', ...
                       'position_1'               ,'position_2'               ,'position_3'               ,'position_4'               ,'position_5'               ,'position_6'               , ...
                       'velocity_1'               ,'velocity_2'               ,'velocity_3'               ,'velocity_4'               ,'velocity_5'               ,'velocity_6'               , ...
@@ -181,7 +199,6 @@ classdef responseClass<handle
                       'forceAddedMass_1'         ,'forceAddedMass_2'         ,'forceAddedMass_3'         ,'forceAddedMass_4'         ,'forceAddedMass_5'         ,'forceAddedMass_6'         , ...
                       'forceRestoring_1'         ,'forceRestoring_2'         ,'forceRestoring_3'         ,'forceRestoring_4'         ,'forceRestoring_5'         ,'forceRestoring_6'         , ...
                       'forceMorrisonAndViscous_1','forceMorrisonAndViscous_2','forceMorrisonAndViscous_3','forceMorrisonAndViscous_4','forceMorrisonAndViscous_5','forceMorrisonAndViscous_6', ...
-                      'forceMooring_1'           ,'forceMooring_2'           ,'forceMooring_3'           ,'forceMooring_4'           ,'forceMooring_5'           ,'forceMooring_6'           , ...
                       'forceLinearDamping_1'     ,'forceLinearDamping_2'     ,'forceLinearDamping_3'     ,'forceLinearDamping_4'     ,'forceLinearDamping_5'     ,'forceLinearDamping_6'     };
             for ii=1:length(signals)
                 tmp(ii) = length(signals{ii});
@@ -322,6 +339,39 @@ classdef responseClass<handle
                             fprintf(fid,header_fmt,header{1 + (isignal-1)*6+idof});
                         end
                         data(:, 1+(isignal-1)*6+1:1+(isignal-1)*6+6) = obj.constraints(icon).(signals{isignal});
+                    end
+                    fprintf(fid,'\n');
+                    fprintf(fid,data_fmt,data');
+                    fclose(fid);
+                end
+            end
+            % mooring
+            if isfield(obj.mooring,'name')
+                signals = {'position','velocity','forceMooring'};
+                header = {'time', ...
+                          'position_1'       ,'position_2'       ,'position_3'       ,'position_4'       ,'position_5'       ,'position_6'       , ...
+                          'velocity_1'       ,'velocity_2'       ,'velocity_3'       ,'velocity_4'       ,'velocity_5'       ,'velocity_6'       , ...
+                          'forceMooring_1','forceMooring_2','forceMooring_3','forceMooring_4','forceMooring_5','forceMooring_6'     };
+                for ii=1:length(signals)
+                    tmp(ii) = length(signals{ii});
+                end
+                numChar = max(tmp)+2; clear tmp;
+                ncols = 1 + length(signals)*6;
+                tmp = size(obj.mooring(1).time);
+                nrows = tmp(1); clear tmp;
+                header_fmt = ['%' num2str(numChar) 's ']; 
+                data_fmt = [repmat('%10.5f ',1,ncols) '\n'];
+                for imoor = 1:length(obj.mooring)
+                    filename = ['output/mooring' num2str(imoor) '_' obj.mooring(imoor).name '.txt'];
+                    fid = fopen(filename,'w+');
+                    data = zeros(nrows,ncols);
+                    data(:,1) = obj.mooring(imoor).time;
+                    fprintf(fid,header_fmt,header{1});
+                    for isignal=1:length(signals)
+                        for idof = 1:6
+                            fprintf(fid,header_fmt,header{1 + (isignal-1)*6+idof});
+                        end
+                        data(:, 1+(isignal-1)*6+1:1+(isignal-1)*6+6) = obj.mooring(imoor).(signals{isignal});
                     end
                     fprintf(fid,'\n');
                     fprintf(fid,data_fmt,data');
