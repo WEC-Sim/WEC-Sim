@@ -181,7 +181,6 @@ classdef responseClass<handle
             data(:,1) = obj.wave.time;
             data(:,2) = obj.wave.elevation;
             for ii = 1:length(header)
-                header{ii}
                 fprintf(fid,header_fmt,header{ii});
             end
             fprintf(fid,'\n');
@@ -224,7 +223,7 @@ classdef responseClass<handle
                 fprintf(fid,'\n');
                 fprintf(fid,data_fmt,data');
                 fclose(fid);
-                if ~isempty(obj.bodies(ibod).cellPressures_hydrostatic)
+                if isfield(obj.bodies(ibod),'cellPressures_hydrostatic')
                     filename = ['output/body' num2str(ibod) '_' obj.bodies(ibod).name '_cellPressure_hydrostatic.txt'];
                     fid = fopen(filename,'w+');
                     header_2 = {'time'};
@@ -344,6 +343,37 @@ classdef responseClass<handle
                     fprintf(fid,data_fmt,data');
                     fclose(fid);
                 end
+            end
+            % ptoSim
+            if isfield(obj.ptosim,'time')
+                f1 = fields(obj.ptosim);
+                count = 1;
+                header = {'time'};
+                data = obj.ptosim.time;
+                for ifld1=1:(length(f1)-1)
+                    f2 = fields(obj.ptosim.(f1{ifld1}));
+                    for iins = 1:length(obj.ptosim.(f1{ifld1}))
+                        for ifld2 = 1:length(f2)
+                            count = count+1;
+                            header{count} = [f1{ifld1} num2str(iins) '_' f2{ifld2}];
+                            data(:,count) = obj.ptosim.(f1{ifld1}).(f2{ifld2});
+                        end
+                    end
+                end
+                for ii=1:length(header)
+                    tmp(ii) = length(header{ii});
+                end
+                numChar = max(tmp)+2; clear tmp;
+                header_fmt = ['%' num2str(numChar) 's ']; 
+                data_fmt = [repmat('%10.5f ',1,length(header)) '\n'];
+                filename = ['output/ptosim.txt'];
+                fid = fopen(filename,'w+');
+                for ii=1:length(header)
+                    fprintf(fid,header_fmt,header{ii});
+                end
+                fprintf(fid,'\n');
+                fprintf(fid,data_fmt,data');
+                fclose(fid);
             end
             % mooring
             if isfield(obj.mooring,'name')
