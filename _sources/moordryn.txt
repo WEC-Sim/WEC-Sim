@@ -1,5 +1,0 @@
-.. _moordyn:
-
-MoorDyn
-----------------------------
-add content here
