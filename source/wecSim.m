@@ -291,7 +291,7 @@ clear bodiesOutput ptosOutput constraintsOutput ptosimOutput mooringOutput
 % MoorDyn
 for iMoor = 1:simu.numMoorings
     if mooring(iMoor).moorDyn==1
-        output.loadMoorDyn(mooring(iMoor).moorDynLines)
+        output.loadMoorDyn(mooring(iMoor).moorDynLines);
     end
 end; clear iMoor
 % Calculate correct added mass and total forces
