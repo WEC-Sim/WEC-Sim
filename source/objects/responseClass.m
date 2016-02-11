@@ -89,6 +89,8 @@ classdef responseClass<handle
         end
         
         function obj = loadMoorDyn(obj,numLines)            
+            % Read MoorDyn outputs
+
             % load Lines.out
             %filename = './mooring/Lines.out';
             %fid = fopen(filename, 'r');
@@ -115,7 +117,7 @@ classdef responseClass<handle
         end
 
         function plotResponse(obj,bodyNum,comp)
-            %plots response of a body in a given DOF
+            % Plots response of a body in a given DOF
             %   'bodyNum' is the body number to plot
             %   'comp' is the response direction to be plotted (1-6)
             DOF = {'Surge','Sway','Heave','Roll','Pitch','Yaw'};
@@ -135,7 +137,7 @@ classdef responseClass<handle
         end
 
         function plotForces(obj,bodyNum,comp)
-            %plots force components for a body.
+            % Plots force components for a body.
             %   bodyNum is the body number to plot
             %   'comp' is the force component to be plotted (1-6)
             DOF = {'Surge','Sway','Heave','Roll','Pitch','Yaw'};
@@ -164,6 +166,7 @@ classdef responseClass<handle
         end
         
         function writetxt(obj)
+            % Writes all outputs as a text file
             % wave
             filename = ['output/wave.txt'];
             fid = fopen(filename,'w+');
@@ -411,6 +414,7 @@ classdef responseClass<handle
         end
 
         function write_paraview(obj, bodies, t, model, simdate, wavetype)
+            % Writes vtp files for visualization with ParaView
             % set fileseperator to fs
             if strcmp(filesep, '\')
                 fs = '\\';

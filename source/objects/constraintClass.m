@@ -18,10 +18,11 @@ classdef constraintClass<handle
     properties (SetAccess = 'public', GetAccess = 'public')%input file 
         name                    = 'NOT DEFINED'                                 % Name of the constraint used 
         loc                     = [999 999 999]                                 % Constraint location. Default = [0 0 0]        
-        orientation             = struct('z', [0, 0, 1], ...                    % Vector defining the direction of the Z-coordinate for the constraint.
-                                         'y', [0, 1, 0], ...                    % Vector defining the direction of the Y-coordinate for the constraint.
-                                         'x', [], ...                           % Internally calculated vector defining the direction of the X-coordinate for the constraint.
-                                         'rotationMatrix',[])                   % Internally calculated rotation matrix to go form standard coordinate orientation to the constraint's coordinate orientation.
+        orientation             = struct(...                                    % Structure difining axis orientation parameters
+                                         'z', [0, 0, 1], ...                        % Vector defining the direction of the Z-coordinate for the constraint.
+                                         'y', [0, 1, 0], ...                        % Vector defining the direction of the Y-coordinate for the constraint.
+                                         'x', [], ...                               % Internally calculated vector defining the direction of the X-coordinate for the constraint.
+                                         'rotationMatrix',[])                       % Internally calculated rotation matrix to go form standard coordinate orientation to the constraint's coordinate orientation.
     end
     
     properties (SetAccess = 'public', GetAccess = 'public')%internal
@@ -35,8 +36,8 @@ classdef constraintClass<handle
         end
         
         function obj = checkLoc(obj,action)
-            % Used in mask Initialization.
             % Checks if location is set and outputs a warning or error.
+            % Used in mask Initialization.
             switch action
               case 'W'
                 if obj.loc == 999 % Because "Allow library block to modify its content" is selected in block's mask initialization, this command runs twice, but warnings cannot be displayed during the first initialization. 
@@ -60,6 +61,7 @@ classdef constraintClass<handle
         end
         
         function obj = setOrientation(obj)
+            % Sets orientation based on user input
             obj.orientation.z = obj.orientation.z / norm(obj.orientation.z);
             obj.orientation.y = obj.orientation.y / norm(obj.orientation.y);
             z = obj.orientation.z;

@@ -22,13 +22,14 @@ classdef waveClass<handle
         noWaveHydrodynamicCoeffT    = 'NOT DEFINED'                        % Period of BEM simulation used to determine hydrodynamic coefficients for simulations with no wave. This option is only used with the 'noWave' wave type.
         spectrumType                = 'NOT DEFINED'                        % Type of wave spectrum. Only PM, BS, JS, and Imported spectrum are supported.
         randPreDefined              = 0;                                   % Only used for irregular waves. Default is equal to 0; if equals to 1,2,3,...,etc, the waves pahse is seeded.
-        spectrumDataFile            = 'NOT DEFINED'                        % Data file that contains the spectrum data file. See ---- for format specs
-        etaDataFile                 = 'NOT DEFINED'                        % Data file that contains the times-series data file. See ---- for format specs
+        spectrumDataFile            = 'NOT DEFINED'                        % Data file that contains the spectrum data file. 
+        etaDataFile                 = 'NOT DEFINED'                        % Data file that contains the times-series data file. 
         numFreq                     = 1001                                 % Number of interpolated wave frequencies (default = 'NOT DEFINED')
         waveDir                     = 0                                    % Wave Direction in degrees
-        viz                         = struct('numPointsX', 50, ...         % Visualization number of points in x direction.
-                                             'numPointsY', 50)             % Visualization number of points in y direction.
-        statisticsDataLoad          = [];                                   % File name to load wave statistics data
+        viz                         = struct(...                           %Structure defining visualization options
+                                             'numPointsX', 50, ...              % Visualization number of points in x direction.
+                                             'numPointsY', 50)                  % Visualization number of points in y direction.
+        statisticsDataLoad          = [];                                  % File name to load wave statistics data
     end
     
     properties (SetAccess = 'private', GetAccess = 'public')%internal
@@ -68,6 +69,7 @@ classdef waveClass<handle
         end
         
         function plotEta(obj)
+            % Plot wave elevation time-history
             figure
             plot(obj.waveAmpTime(:,1),obj.waveAmpTime(:,2))
             xlabel('Time (s)')
@@ -147,6 +149,7 @@ classdef waveClass<handle
         end
         
         function waveNumber(obj,g)
+            % Calculate wave number
             obj.k = obj.w.^2./g;
             if obj.deepWaterWave == 0
                 for i=1:100
@@ -156,6 +159,7 @@ classdef waveClass<handle
         end    
 
         function checkinputs(obj)
+            % Check user inputs
             % noWaveHydrodynamicCoeffT defined for noWave case
             if strcmp(obj.type,'noWave')
                 if strcmp(obj.noWaveHydrodynamicCoeffT,'NOT DEFINED')
@@ -177,6 +181,7 @@ classdef waveClass<handle
         end
 
         function write_paraview_vtp(obj, t, numPointsX, numPointsY, domainSize, model, simdate)
+            % Write vtp files for visualization using Paraview 
             % ground plane
             filename = ['vtk' filesep 'ground.txt'];
             fid = fopen(filename, 'w');
@@ -266,8 +271,8 @@ classdef waveClass<handle
     
     methods (Access = 'protected')
         function setWavePhase(obj)
-            % Used by waveSetup
             % Sets the irregular wave's random phase
+            % Used by waveSetup
             if obj.randPreDefined ~= 0  
                rng(obj.randPreDefined); % Phase seed = 1,2,3,...,etc
             else 
@@ -278,8 +283,8 @@ classdef waveClass<handle
         end
         
         function setWaveProps(obj,wDepth,bemFreq)
-            % Used by waveSetup
             % Sets global and type-specific properties
+            % Used by waveSetup
             if ~isfloat(wDepth)
                 obj.deepWaterWave = 1;
                 obj.waterDepth = 200;
@@ -304,13 +309,14 @@ classdef waveClass<handle
         end
         
         function waveElevNowave(obj,maxIt,dt)
+            % Set noWave levation time-history
             obj.waveAmpTime = zeros(maxIt+1,2);
             obj.waveAmpTime(:,1) = [0:maxIt]*dt;
         end
         
         function waveElevReg(obj, rampT,dt,maxIt)
-            % Used by waveSetup
             % Calculate regular wave elevation time history
+            % Used by waveSetup
             obj.waveAmpTime = zeros(maxIt+1,2);
             maxRampIT=round(rampT/dt);
             if rampT==0
@@ -334,8 +340,8 @@ classdef waveClass<handle
         end
         
         function irregWaveSpectrum(obj,g)
+            % Calculate wave spectrum vector (obj.A)
             % Used by wavesIrreg (wavesIrreg used by waveSetup)
-            % Calculate sqrt(wave spectrum vector) (obj.A)
             freq = obj.w/(2*pi);
             Tp = obj.T;
             Hs = obj.H;
@@ -378,8 +384,8 @@ classdef waveClass<handle
         end
         
         function waveElevIrreg(obj,rampT,dt,maxIt,df)
-            % Used by waveSetup
             % Calculate irregular wave elevetaion time history
+            % Used by waveSetup
             obj.waveAmpTime = zeros(maxIt+1,2);
             maxRampIT=round(rampT/dt);
             if rampT==0
@@ -409,8 +415,8 @@ classdef waveClass<handle
         end
         
         function waveElevUser(obj,rampT,dt,maxIt,data, t)
-            % Used by waveSetup
             % Calculate user-defined wave elevation time history
+            % Used by waveSetup
             obj.waveAmpTime = zeros(maxIt+1,2);
             maxRampIT=round(rampT/dt);
             data_t = data(:,1)';                    % Data Time [s]
@@ -425,8 +431,8 @@ classdef waveClass<handle
         end
         
         function printWaveSpectrumType(obj)
-            % Used by listInfo
             % Lists the wave spectrum type
+            % Used by listInfo
             if strcmp(obj.spectrumType,'BS')
                 fprintf('\tSpectrum Type                        = Bretschneider \n')
             elseif strcmp(obj.spectrumType,'JS')
