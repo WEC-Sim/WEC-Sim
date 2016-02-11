@@ -26,31 +26,36 @@ classdef bodyClass<handle
         cg                = []                                                  % Center of gravity [x y z] in meters. For WEC bodies this is given in the h5 file.
         dispVol           = []                                                  % Displaced volume at equilibrium position in meters cubed. For WEC bodies this is given in the h5 file.
         geometryFile      = 'NONE'                                              % Location of geomtry stl files
-        viscDrag          = struct('cd',                   [0 0 0 0 0 0], ...   % Viscous (quadratic) drag cd, vector length 6
-                                   'characteristicArea',   [0 0 0 0 0 0])       % Characteristic area for viscous drag, vector length 6
-        initDisp          = struct('initLinDisp',          [0 0 0], ...         % Initial displacement of center fo gravity - used for decay tests (format: [displacment in m], default = [0 0 0])
-                                   'initAngularDispAxis',  [0 1 0], ...         % Initial displacement of cog - axis of rotation - used for decay tests (format: [x y z], default = [1 0 0])
-                                   'initAngularDispAngle', 0)                   % Initial displacement of cog - Angle of rotation - used for decay tests (format: [radians], default = 0)
+        viscDrag          = struct(...                                          % Structure defining the viscous (quadratic) drag
+                                   'cd',                   [0 0 0 0 0 0], ...       % Viscous (quadratic) drag cd, vector length 6
+                                   'characteristicArea',   [0 0 0 0 0 0])           % Characteristic area for viscous drag, vector length 6
+        initDisp          = struct(...                                          % Structure defining the initial displacement
+                                   'initLinDisp',          [0 0 0], ...             % Initial displacement of center fo gravity - used for decay tests (format: [displacment in m], default = [0 0 0])
+                                   'initAngularDispAxis',  [0 1 0], ...             % Initial displacement of cog - axis of rotation - used for decay tests (format: [x y z], default = [1 0 0])
+                                   'initAngularDispAngle', 0)                       % Initial displacement of cog - Angle of rotation - used for decay tests (format: [radians], default = 0)
         linearDamping     = [0 0 0 0 0 0]                                       % Linear drag coefficient, vector length 6
         userDefinedExcIRF = []                                                  % Excitation IRF from BEMIO used for User-Defined Time-Series
-        viz               = struct('color', [1 1 0], ...                        % Visualization color for either SimMechanics Explorer or Paraview.
-                                   'opacity', 1)                                % Visualization opacity for either SimMechanics Explorer or Paraview.
-        morrisonElement   = struct('cd',                 [0 0 0], ...           % Viscous (quadratic) drag cd, vector length 3
-                                   'ca',                 [0 0 0], ...           % Added mass coefficent for Morrison Element (format [Ca_x Ca_y Ca_z], default = [0 0 0])
-                                   'characteristicArea', [0 0 0], ...           % Characteristic area for Morrison Elements calculations (format [Area_x Area_y Area_z], default = [0 0 0])
-                                   'VME',                 0     , ...           % Characteristic volume for Morrison Element (default = 0)
-                                   'rgME',               [0 0 0])               % Vector from center of gravity to point of application for Morrison Element (format [X Y Z], default = [0 0 0]).
+        viz               = struct(...                                          % Structur defining visualization properties
+                                   'color', [1 1 0], ...                            % Visualization color for either SimMechanics Explorer or Paraview.
+                                   'opacity', 1)                                    % Visualization opacity for either SimMechanics Explorer or Paraview.
+        morrisonElement   = struct(...                                          % Structure defining the Morrison Elements
+                                   'cd',                 [0 0 0], ...               % Viscous (quadratic) drag cd, vector length 3
+                                   'ca',                 [0 0 0], ...               % Added mass coefficent for Morrison Element (format [Ca_x Ca_y Ca_z], default = [0 0 0])
+                                   'characteristicArea', [0 0 0], ...               % Characteristic area for Morrison Elements calculations (format [Area_x Area_y Area_z], default = [0 0 0])
+                                   'VME',                 0     , ...               % Characteristic volume for Morrison Element (default = 0)
+                                   'rgME',               [0 0 0])                   % Vector from center of gravity to point of application for Morrison Element (format [X Y Z], default = [0 0 0]).
         nhBody            = 0                                                   % Flag for non-hydro body
     end
 
     properties (SetAccess = 'public', GetAccess = 'public') %body geometry stl file
-        bodyGeometry      = struct('numFace', [], ...                           % Number of faces
-                                   'numVertex', [], ...                         % Number of vertices
-                                   'vertex', [], ...                            % List of vertices
-                                   'face', [], ...                              % List of faces
-                                   'norm', [], ...                              % List of normal vectors
-                                   'area', [], ...                              % List of cell areas 
-                                   'center', [])                                % List of cell centers 
+        bodyGeometry      = struct(...                                          % Structure defining body's mesh
+                                   'numFace', [], ...                               % Number of faces
+                                   'numVertex', [], ...                             % Number of vertices
+                                   'vertex', [], ...                                % List of vertices
+                                   'face', [], ...                                  % List of faces
+                                   'norm', [], ...                                  % List of normal vectors
+                                   'area', [], ...                                  % List of cell areas 
+                                   'center', [])                                    % List of cell centers 
     end
 
     properties (SetAccess = 'public', GetAccess = 'public') %internal
@@ -66,10 +71,12 @@ classdef bodyClass<handle
 
     methods (Access = 'public') %modify object = T; output = F
         function obj = bodyClass(filename)
+            % Initilization function
             obj.h5File = filename;
         end
 
         function readH5File(obj)
+            % Reads h5 file
             filename = obj.h5File;
             name = ['/body' num2str(obj.bodyNumber)];
             obj.cg = h5read(filename,[name '/properties/cg']);
@@ -138,7 +145,7 @@ classdef bodyClass<handle
         end
 
         function adjustMassMatrix(obj,adjMassWeightFun,B2B)
-            % Merge diagonal term of add mass matrix to the mass matrix
+            % Merge diagonal term of added mass matrix to the mass matrix
             % 1. Store the original mass and added-mass properties
             % 2. Add diagonal added-mass inertia to moment of inertia
             % 3. Add the maximum diagonal traslational added-mass to body mass
@@ -190,7 +197,7 @@ classdef bodyClass<handle
         end
 
         function setInitDisp(obj, x_rot, ax_rot, ang_rot, addLinDisp)
-            % function to set the initial displacement when having initial rotation
+            % Function to set the initial displacement when having initial rotation
             % x_rot: rotation point
             % ax_rot: axis about which to rotate (must be a normal vector)
             % ang_rot: rotation angle in radians
@@ -214,6 +221,7 @@ classdef bodyClass<handle
         end
 
         function bodyGeo(obj,fname)
+            % Reads mesh file and calculates areas and centroids
             try
                 [obj.bodyGeometry.vertex, obj.bodyGeometry.face, obj.bodyGeometry.norm] = import_stl_fast(fname,1,1);
             catch
@@ -267,6 +275,7 @@ classdef bodyClass<handle
         end
 
         function plotStl(obj)
+            % Plots the body's mesh and normal vectors
             c = obj.bodyGeometry.center;
             tri = obj.bodyGeometry.face;
             p = obj.bodyGeometry.vertex;
@@ -278,6 +287,7 @@ classdef bodyClass<handle
         end
         
         function checkinputs(obj)
+            % Checks the user inputs
             % hydro data file
             if exist(obj.h5File,'file')==0 && obj.nhBody==0
                 error('The hdf5 file %s does not exist',obj.h5File)
@@ -289,7 +299,7 @@ classdef bodyClass<handle
         end
 
         function checkBemio(obj)
-            % BEMIO version and normalization
+            % Cjecks BEMIO version and normalization
             if obj.bemioFlag == 1
                 try
                     bemio_version = h5load(obj.h5File,'bemio_information/version');
@@ -309,13 +319,14 @@ classdef bodyClass<handle
 
     methods (Access = 'protected') %modify object = T; output = F
         function noExcitation(obj)
+            % Set exciation force for no excitation case
             obj.hydroForce.fExt.re=zeros(1,6);
             obj.hydroForce.fExt.im=zeros(1,6);
         end
 
         function regExcitation(obj,w,waveDir,rho,g)
-            % Used by hydroForcePre
             % Regular wave excitation force
+            % Used by hydroForcePre
             re = obj.hydroData.hydro_coeffs.excitation.re(:,:,:) .*rho.*g;
             im = obj.hydroData.hydro_coeffs.excitation.im(:,:,:) .*rho.*g;
             obj.hydroForce.fExt.re=zeros(1,6);
@@ -333,8 +344,8 @@ classdef bodyClass<handle
         end
 
         function irrExcitation(obj,wv,numFreq,waveDir,rho,g)
-            % Used by hydroForcePre
             % Irregular wave excitation force
+            % Used by hydroForcePre
             re = obj.hydroData.hydro_coeffs.excitation.re(:,:,:) .*rho.*g;
             im = obj.hydroData.hydro_coeffs.excitation.im(:,:,:) .*rho.*g;
             obj.hydroForce.fExt.re=zeros(numFreq,6);
@@ -352,8 +363,8 @@ classdef bodyClass<handle
         end
 
         function userDefinedExcitation(obj,waveAmpTime,dt,waveDir,rho,g)
-            % Used by hydroForcePre
             % Calculated User-Defined wave excitation force with non-causal convolution
+            % Used by hydroForcePre
             kf = obj.hydroData.hydro_coeffs.excitation.impulse_response_fun.f .*rho .*g;
             kt = obj.hydroData.hydro_coeffs.excitation.impulse_response_fun.t;
             t =  min(kt):dt:max(kt);
@@ -373,8 +384,8 @@ classdef bodyClass<handle
         end
 
         function constAddedMassAndDamping(obj,w,CIkt,rho,B2B)
+            % Set added mass and damping for a specific frequency
             % Used by hydroForcePre
-            % Added mass and damping for a specific frequency
             am = obj.hydroData.hydro_coeffs.added_mass.all .*rho;
             rd = obj.hydroData.hydro_coeffs.radiation_damping.all .*rho;
             for i=1:length(obj.hydroData.simulation_parameters.w)
@@ -409,6 +420,7 @@ classdef bodyClass<handle
         end
 
         function irfInfAddedMassAndDamping(obj,CIkt,CTTime,ssCalc,iBod,rho,B2B)
+            % Set radiation force properties using impulse response function
             % Used by hydroForcePre
             % Added mass at infinite frequency
             % Convolution integral raditation damping
@@ -486,8 +498,8 @@ classdef bodyClass<handle
         end
 
         function setMassMatrix(obj, rho, nlHydro)
-            % Used by hydroForcePre
             % Sets mass for the special cases of body at equilibrium or fixed
+            % Used by hydroForcePre
             if strcmp(obj.mass, 'equilibrium')
                 obj.massCalcMethod = obj.mass;
                 if nlHydro == 0
@@ -533,7 +545,7 @@ classdef bodyClass<handle
         end
 
         function xn = rotateXYZ(obj,x,ax,t)
-            % function to rotate a point about an arbitrary axis
+            % Function to rotate a point about an arbitrary axis
             % x: 3-componenet coordiantes
             % ax: axis about which to rotate (must be a normal vector)
             % t: rotation angle
@@ -559,6 +571,7 @@ classdef bodyClass<handle
         end
 
         function write_paraview_vtp(obj, t, pos_all, bodyname, model, simdate, hspressure,wavenonlinearpressure,wavelinearpressure)
+            % Writes vtp files for visualization with ParaView
             numVertex = obj.bodyGeometry.numVertex;
             numFace = obj.bodyGeometry.numFace;
             vertex = obj.bodyGeometry.vertex;
