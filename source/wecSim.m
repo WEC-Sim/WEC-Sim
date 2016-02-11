@@ -14,10 +14,13 @@ fprintf('\nWEC-Sim Read Input File ...   \n');
 evalc('wecSimInputFile');
 % Read Inputs for Multiple Conditions Run 
 if exist('mcr','var') == 1; 
-   for n=1:length(mcr.cases(1,:))
-     combine = sprintf('%s=%g',char(mcr.header{n}),mcr.cases(imcr,n));
-     evalc(combine);
-   end; clear n combine;
+    for n=1:length(mcr.cases(1,:))
+        if iscell(mcr.cases)
+            eval([mcr.header{n} '= mcr.cases{imcr,n}']);
+        else
+            eval([mcr.header{n} '= mcr.cases(imcr,n)']);
+        end
+    end; clear n combine;
 end
 % Waves and Simu: check inputs
 waves.checkinputs;
