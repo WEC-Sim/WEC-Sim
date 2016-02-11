@@ -19,7 +19,6 @@ classdef simulationClass<handle
 
     properties (SetAccess = 'public', GetAccess = 'public')%input file
         simMechanicsFile    = 'NOT DEFINED'                                % Simulink/SimMecahnics model file (default = 'NOT DEFINED')
-        hydroDataWamit      = 0 %change name                               % Equal to 1 if data from 1 WAMIT file, Equal to 0 if data from more than 1 input file (default = 0)
         startTime           = 0                                            % Simulation start time (default = 0 s)
         endTime             = 500                                          % Simulation end time (default = 500 s)
         dt                  = 0.1                                          % Simulation time step (default = 0.1 s)
@@ -61,13 +60,11 @@ classdef simulationClass<handle
         numPtos             = []                                           % Number of power take-off elements in the model (default = 'NOT DEFINED')
         numConstraints      = []                                           % Number of contraints in the wec model (default = 'NOT DEFINED')
         numMoorings         = []                                           % Number of moorings in the wec model (default = 'NOT DEFINED')
-        numT                = [] % Yu: for power matrices                  %
-        numDTPerT           = [] % Yu: for power matrices                  %
-        numRampT            = [] % Yu: for power matrices                  %
     end
 
     methods
         function obj = simulationClass()
+            % Initilization function
             fprintf('WEC-Sim: An open-source code for simulating wave energy converters\n')
             fprintf('Version: %s\n\n',obj.version)
             fprintf('Initializing the Simulation Class...\n')
@@ -90,7 +87,7 @@ classdef simulationClass<handle
         end
 
         function setupSim(obj)
-            % setup based on values specified in input file
+            % Sets simulation properties based on values specified in input file
             obj.time = obj.startTime:obj.dt:obj.endTime;
             obj.maxIt = floor((obj.endTime - obj.startTime) / obj.dt);
             % Set dtOut if it was not specificed in input file
@@ -114,6 +111,7 @@ classdef simulationClass<handle
         end
 
         function checkinputs(obj)
+            % Checks user input
             % Check simMechanics file exists
             if exist(obj.simMechanicsFile,'file') ~= 4
                 error('The simMecahnics file, %s, does not exist in the case directory',value)
@@ -129,11 +127,13 @@ classdef simulationClass<handle
         end
 
         function rhoDensitySetup(obj,rho,g)
+            % Assigns density and gravity values
             obj.rho = rho;
             obj.g   = g;
         end
 
         function listInfo(obj,waveTypeNum)
+            % Lists simulation info
             fprintf('\nWEC-Sim Simulation Settings:\n');
             fprintf('\tTime Marching Solver                 = Fourth-Order Runge-Kutta Formula \n')
             fprintf('\tStart Time                     (sec) = %G\n',obj.startTime)
@@ -147,6 +147,7 @@ classdef simulationClass<handle
         end
 
         function getWecSimVer(obj)
+            % Determines WEC-Sim version used
             try
                 ws_exe = which('wecSim');
                 ws_dir = fileparts(ws_exe);
