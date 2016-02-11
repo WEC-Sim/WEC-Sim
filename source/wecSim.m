@@ -9,7 +9,7 @@ diary('simulation.log')
 
 %% Read input file
 tic
-try fprintf('wecSimMRC Case %g\n',imcr); end
+try fprintf('wecSimMCR Case %g\n',imcr); end
 fprintf('\nWEC-Sim Read Input File ...   \n'); 
 evalc('wecSimInputFile');
 % Read Inputs for Multiple Conditions Run 
