@@ -2,15 +2,18 @@
 
 PTO-Sim
 ----------------------------
+PTO-Sim is the WEC-Sim module responsible for accurately modeling a WEC's conversion of mechanical power to electrical power. 
+While the PTO blocks native to WEC-Sim are modeled as a simple linear spring-damper systems, PTO-Sim is capable of modeling many power conversion chains (PCC) such as mechanical drivetrain and hydraulic drivetrain. 
+PTO-Sim is made of native Simulink blocks coupled with WEC-Sim, using WEC-Sim's user-defined PTO blocks, where the WEC-Sim response (relative displacement and velocity for linear motion and angular position and velocity for rotary motion) is the PTO-Sim input. 
+Similarly, the PTO force or torque is the WEC-Sim input. 
+For more information on how PTO-Sim works, refer to [So et al., 2015].
 
 
-.. _`RM3 with PTO-Sim`:
 
-RM3 with PTO-Sim
+Tutotrial: RM3 with PTO-Sim
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
-This section describes how to use RM3 with PTO-Sim, the WEC-Sim module responsible for accurately modeling a WEC's conversion of mechanical power to electrical power. While the PTO used in the WEC-Sim example above is modeled as a simple linear damper, PTO-Sim is capable of modeling many power conversion chains (PCC) such as mechanical drivetrain and hydraulic drivetrain. PTO-Sim is made of native Simulink blocks coupled with WEC-Sim, using WEC-Sim's user-defined PTO blocks, where the WEC-Sim response (relative displacement and velocity for linear motion and angular position and velocity for rotary motion) is the PTO-Sim input. Similarly, the PTO force or torque is the WEC-Sim input. For more information on how PTO-Sim works, refer to :cite:`so_development_2015`.
-
+This section describes how to use RM3 with PTO-Sim.
 Two tutorials will be given in this section, one for the RM3 with a hydraulic PTO, and another for the RM3 with a mechanical PTO.
 
 RM3 with Hydraulic PTO
@@ -149,8 +152,8 @@ The same as `RM3 with PTO-Sim`_.
 
 
 
-OSWEC with PTO-Sim
-~~~~~~~~~~~~~~~~~~~~~~~~~
+Tutotrial: OSWEC with PTO-Sim
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
 This section describes how to use OSWEC with PTO-Sim. The same process as described in `RM3 with PTO-Sim`_. However, since OSWEC is a rotary device, it takes torque as an input and a rotary to linear motion conversion block is needed.
 
