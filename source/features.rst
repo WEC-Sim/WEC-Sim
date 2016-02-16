@@ -22,6 +22,9 @@ An option available to reduce the nonlinear simulation time is to specify a nonl
 The nonlinear time step specifies the interval at which the nonlinear hydrodynamic forces are calculated, separately, and presumably at a larger interval than the system level simulation time step (**simu.dt**). 
 As the ratio of the nonlinear to system time step increases, the computation time is reduced, but again, at the expense of the simulation accuracy.
 
+.. Note::
+	'simu.nlHydro = 1;' option.
+
 State-Space Representation
 -----------------------
 .. Note::
