@@ -18,11 +18,11 @@ classdef constraintClass<handle
     properties (SetAccess = 'public', GetAccess = 'public')%input file 
         name                    = 'NOT DEFINED'                                 % Name of the constraint used 
         loc                     = [999 999 999]                                 % Constraint location. Default = [0 0 0]        
-        mooring                 = struct('initLinDispAngle',[0 0 0 0 0 0],...   % Mooring initial displacement and angle , Vector length 6.
-                                         'c',          zeros(6,6), ...          % Mooring damping, 6 x 6 matrix. 
-                                         'k',          zeros(6,6), ...          % Mooring stiffness, 6 x 6 matrix.
-                                         'preTension', [0 0 0 0 0 0])           % Mooring preTension, Vector length 6.
-        initDisp                = 0                                             % Pitch constraint only. Initial angular displacement of joint [radians]. Use with caution: frame must be rotated back before attachement to next body.
+        orientation             = struct(...                                    % Structure difining axis orientation parameters
+                                         'z', [0, 0, 1], ...                        % Vector defining the direction of the Z-coordinate for the constraint.
+                                         'y', [0, 1, 0], ...                        % Vector defining the direction of the Y-coordinate for the constraint.
+                                         'x', [], ...                               % Internally calculated vector defining the direction of the X-coordinate for the constraint.
+                                         'rotationMatrix',[])                       % Internally calculated rotation matrix to go form standard coordinate orientation to the constraint's coordinate orientation.
     end
     
     properties (SetAccess = 'public', GetAccess = 'public')%internal
@@ -36,8 +36,8 @@ classdef constraintClass<handle
         end
         
         function obj = checkLoc(obj,action)
-            % Used in mask Initialization.
             % Checks if location is set and outputs a warning or error.
+            % Used in mask Initialization.
             switch action
               case 'W'
                 if obj.loc == 999 % Because "Allow library block to modify its content" is selected in block's mask initialization, this command runs twice, but warnings cannot be displayed during the first initialization. 
@@ -60,7 +60,21 @@ classdef constraintClass<handle
             end
         end
         
-        function setInitLoc(obj, loc_at_rest, x_rot, ax_rot, ang_rot, addLinDisp)
+        function obj = setOrientation(obj)
+            % Sets orientation based on user input
+            obj.orientation.z = obj.orientation.z / norm(obj.orientation.z);
+            obj.orientation.y = obj.orientation.y / norm(obj.orientation.y);
+            z = obj.orientation.z;
+            y = obj.orientation.y;
+            if abs(dot(y,z))>0.001
+                error('The Y and Z vectors defining the constraint''s orientation must be orthogonal.')
+            end
+            x = cross(y,z)/norm(cross(y,z));
+            obj.orientation.x = x;
+            obj.orientation.rotationMatrix  = [x',y',z'];
+        end
+
+        function obj = setInitLoc(obj, loc_at_rest, x_rot, ax_rot, ang_rot, addLinDisp)
             % function to set the initial location when having initial displacement
             % loc_at_rest: location at rest 
             % x_rot: rotation point
