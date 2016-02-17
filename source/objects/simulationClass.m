@@ -19,12 +19,12 @@ classdef simulationClass<handle
 
     properties (SetAccess = 'public', GetAccess = 'public')%input file
         simMechanicsFile    = 'NOT DEFINED'                                % Simulink/SimMecahnics model file (default = 'NOT DEFINED')
-        hydroDataWamit      = 0 %change name                               % Equal to 1 if data from 1 WAMIT file, Equal to 0 if data from more than 1 input file (default = 0)
         startTime           = 0                                            % Simulation start time (default = 0 s)
         endTime             = 500                                          % Simulation end time (default = 500 s)
         dt                  = 0.1                                          % Simulation time step (default = 0.1 s)
         dtOut               = []                                           % Output sampling time (default = dt)
         dtFeNonlin          = []                                           % Sample time to calculate nonlinear forces (default = dt)
+        dtCITime            = []                                           % Sample time to calculate Convolution Integral (default = dt)
         rampT               = 100                                          % Ramp time for wave forcing (default = 100 s)
         domainSize          = 200                                          % Size of free surface and seabed. This variable is only used for visualization (default = 200 m)
         CITime              = 60                                           % Convolution integral time (default = 60 s)
@@ -38,7 +38,6 @@ classdef simulationClass<handle
         b2b                 = 0                                            % Option for body2body interactions: off->'0', on->'1', (default = 0)
         paraview            = 0                                            % Option for writing vtp files for paraview visualization.
         adjMassWeightFun    = 2                                            % Weighting function for adjusting added mass term in the translational direction (default = 2)
-        moorDyn             = 0                                            % MoorDyn Coupling option (default = 0 for using mooring stiffness and damping matrix)
         numIntMidTimeSteps  = 5                                            % Number of intermidiate time steps (default = 5 for ode4 method)
         mcrCaseFile         = []                                           % mat file that contain a list of the multiple conditions runs with given conditions  
         morrisonElement     = 0                                            % Option for Morrison Element calculation: Off->'0', On->'1', (default = 0)
@@ -60,13 +59,12 @@ classdef simulationClass<handle
         numWecBodies        = []                                           % Number of hydrodynamic bodies that comprise the WEC device (default = 'NOT DEFINED')
         numPtos             = []                                           % Number of power take-off elements in the model (default = 'NOT DEFINED')
         numConstraints      = []                                           % Number of contraints in the wec model (default = 'NOT DEFINED')
-        numT                = [] % Yu: for power matrices                  %
-        numDTPerT           = [] % Yu: for power matrices                  %
-        numRampT            = [] % Yu: for power matrices                  %
+        numMoorings         = []                                           % Number of moorings in the wec model (default = 'NOT DEFINED')
     end
 
     methods
         function obj = simulationClass()
+            % Initilization function
             fprintf('WEC-Sim: An open-source code for simulating wave energy converters\n')
             fprintf('Version: %s\n\n',obj.version)
             fprintf('Initializing the Simulation Class...\n')
@@ -89,7 +87,7 @@ classdef simulationClass<handle
         end
 
         function setupSim(obj)
-            % setup based on values specified in input file
+            % Sets simulation properties based on values specified in input file
             obj.time = obj.startTime:obj.dt:obj.endTime;
             obj.maxIt = floor((obj.endTime - obj.startTime) / obj.dt);
             % Set dtOut if it was not specificed in input file
@@ -100,7 +98,11 @@ classdef simulationClass<handle
             if isempty(obj.dtFeNonlin) || obj.dtFeNonlin < obj.dt
                 obj.dtFeNonlin = obj.dt;
             end
-            obj.CTTime = 0:obj.dt:obj.CITime;
+            % Set dtCITime if it was not specificed in input file
+            if isempty(obj.dtCITime) || obj.dtCITime < obj.dt
+                obj.dtCITime = obj.dt;
+            end
+            obj.CTTime = 0:obj.dtCITime:obj.CITime;            
             obj.CIkt = length(obj.CTTime);
             obj.caseFile = [obj.caseDir filesep 'output' filesep obj.simMechanicsFile(1:end-4) '_matlabWorkspace.mat'];
             obj.logFile = [obj.caseDir filesep 'output' filesep obj.simMechanicsFile(1:end-4) '_simulationLog.txt'];
@@ -109,6 +111,7 @@ classdef simulationClass<handle
         end
 
         function checkinputs(obj)
+            % Checks user input
             % Check simMechanics file exists
             if exist(obj.simMechanicsFile,'file') ~= 4
                 error('The simMecahnics file, %s, does not exist in the case directory',value)
@@ -124,11 +127,13 @@ classdef simulationClass<handle
         end
 
         function rhoDensitySetup(obj,rho,g)
+            % Assigns density and gravity values
             obj.rho = rho;
             obj.g   = g;
         end
 
         function listInfo(obj,waveTypeNum)
+            % Lists simulation info
             fprintf('\nWEC-Sim Simulation Settings:\n');
             fprintf('\tTime Marching Solver                 = Fourth-Order Runge-Kutta Formula \n')
             fprintf('\tStart Time                     (sec) = %G\n',obj.startTime)
@@ -142,6 +147,7 @@ classdef simulationClass<handle
         end
 
         function getWecSimVer(obj)
+            % Determines WEC-Sim version used
             try
                 ws_exe = which('wecSim');
                 ws_dir = fileparts(ws_exe);
