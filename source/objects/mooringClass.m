@@ -47,6 +47,41 @@ classdef mooringClass<handle
             obj.loc = [obj.ref + obj.initDisp.initLinDisp 0 0 0];
         end
 
+        function setInitDisp(obj, x_rot, ax_rot, ang_rot, addLinDisp)
+            % Function to set the initial displacement when having initial rotation
+            % x_rot: rotation point
+            % ax_rot: axis about which to rotate (must be a normal vector)
+            % ang_rot: rotation angle in radians
+            % addLinDisp: initial linear displacement (in addition to the displacement caused by rotation)
+            loc = obj.ref;
+            relCoord = loc - x_rot;
+            rotatedRelCoord = obj.rotateXYZ(relCoord,ax_rot,ang_rot);
+            newCoord = rotatedRelCoord + x_rot;
+            linDisp = newCoord-loc;
+            obj.initDisp.initLinDisp= linDisp + addLinDisp; 
+            obj.initDisp.initAngularDispAxis = ax_rot;
+            obj.initDisp.initAngularDispAngle = ang_rot;
+        end
+
+        function xn = rotateXYZ(obj,x,ax,t)
+            % Function to rotate a point about an arbitrary axis
+            % x: 3-componenet coordiantes
+            % ax: axis about which to rotate (must be a normal vector)
+            % t: rotation angle
+            % xn: new coordinates after rotation
+            rotMat = zeros(3);
+            rotMat(1,1) = ax(1)*ax(1)*(1-cos(t))    + cos(t);
+            rotMat(1,2) = ax(2)*ax(1)*(1-cos(t))    + ax(3)*sin(t);
+            rotMat(1,3) = ax(3)*ax(1)*(1-cos(t))    - ax(2)*sin(t);
+            rotMat(2,1) = ax(1)*ax(2)*(1-cos(t))    - ax(3)*sin(t);
+            rotMat(2,2) = ax(2)*ax(2)*(1-cos(t))    + cos(t);
+            rotMat(2,3) = ax(3)*ax(2)*(1-cos(t))    + ax(1)*sin(t);
+            rotMat(3,1) = ax(1)*ax(3)*(1-cos(t))    + ax(2)*sin(t);
+            rotMat(3,2) = ax(2)*ax(3)*(1-cos(t))    - ax(1)*sin(t);
+            rotMat(3,3) = ax(3)*ax(3)*(1-cos(t))    + cos(t);
+            xn = x*rotMat;
+        end
+
         function obj = moorDynInput(obj)
             % Reads MoorDyn input file
             obj.moorDynInputRaw = textread('./mooring/lines.txt', '%s', 'delimiter', '\n');
