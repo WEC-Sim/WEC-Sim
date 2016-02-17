@@ -25,6 +25,10 @@ classdef ptoClass<handle
                                          'y', [0, 1, 0], ...                        % Vector defining the direction of the Y-coordinate for the PTO.
                                          'x', [], ...                               % Internally calculated vector defining the direction of the X-coordinate for the PTO.
                                          'rotationMatrix',[])                       % Internally calculated rotation matrix to go form standard coordinate orientation to the PTO's coordinate orientation.
+        initDisp                = struct(...                                    % Structure defining the initial displacement
+                                         'initLinDisp',          [0 0 0], ...       % Initial displacement - used for decay tests (format: [displacment in m], default = [0 0 0])
+                                         'initAngularDispAxis',  [0 1 0], ...       % Initial displacement - axis of rotation - used for decay tests (format: [x y z], default = [1 0 0])
+                                         'initAngularDispAngle', 0)                 % Initial displacement - Angle of rotation - used for decay tests (format: [radians], default = 0)
     end 
     
     properties (SetAccess = 'public', GetAccess = 'public')%internal
@@ -76,18 +80,20 @@ classdef ptoClass<handle
             obj.orientation.rotationMatrix  = [x',y',z'];
         end
 
-        function setInitLoc(obj, loc_at_rest, x_rot, ax_rot, ang_rot, addLinDisp)
-            % Function to set the initial location when having initial displacement
-            % loc_at_rest: location at rest 
+        function setInitDisp(obj, x_rot, ax_rot, ang_rot, addLinDisp)
+            % Function to set the initial displacement when having initial rotation
             % x_rot: rotation point
             % ax_rot: axis about which to rotate (must be a normal vector)
             % ang_rot: rotation angle in radians
             % addLinDisp: initial linear displacement (in addition to the displacement caused by rotation)
-            loc = loc_at_rest;
+            loc = obj.loc;
             relCoord = loc - x_rot;
             rotatedRelCoord = obj.rotateXYZ(relCoord,ax_rot,ang_rot);
             newCoord = rotatedRelCoord + x_rot;
-            obj.loc= newCoord + addLinDisp;
+            linDisp = newCoord-loc;
+            obj.initDisp.initLinDisp= linDisp + addLinDisp; 
+            obj.initDisp.initAngularDispAxis = ax_rot;
+            obj.initDisp.initAngularDispAngle = ang_rot;
         end
 
         function xn = rotateXYZ(obj,x,ax,t)
