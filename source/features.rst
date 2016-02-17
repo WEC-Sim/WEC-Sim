@@ -128,13 +128,11 @@ The initial location of a body or mooring block is set by specifying the CG or l
 To specify an initial displacement, the body, and mooring blocks have a :code:`.initDisp` property with which you can specify a translation and angular rotation about an arbitrary axis.
 For the constraint and PTO blocks, the :code:`.loc` property must be set to the location at time = 0.
 
-To help setup this initial displacement for all bodies, constraints, PTOs, and moorings, in the case where the whole system is experiencing the same displacement, there are different methods available.
-To do this you would use the :code:`body(i).setInitDisp(...);`, :code:`constraint(i).setInitLoc(...)`, and :code:`pto(i).setInitLoc(...)` method in the *input file*.
+There are methods available to help setup this initial displacement for all bodies, constraints, PTOs, and moorings.
+To do this you would use the :code:`body(i).setInitDisp(...);`, :code:`constraint(i).setInitDisp(...)`, :code:`pto(i).setInitDisp(...)`, and :code:`mooring(i).setInitDisp(...)` method in the *input file*.
 A description of the rquired input can be found in the method's header comments.
+Note that :code:`body(i).cg`, :code:`constraint(i).loc`, :code:`pto(i).loc`, and :code:`mooring.ref` must be defined prior to using the object's :code:`.setInitDisp` method.
 
-.. Note::
-
-	The PTO and Constraint class should have a 'initDisp' property and a 'setInitDisp' method for consistency with the other classes. the mooring class should also have a 'setInitDisp' method.
 
 
 Advanced Body Mass and Geometry
