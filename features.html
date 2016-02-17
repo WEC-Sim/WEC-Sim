@@ -306,6 +306,10 @@ The simulation accuracy will increase with increased surface resolution (i.e. th
 An option available to reduce the nonlinear simulation time is to specify a nonlinear time step, <strong>simu.dtFeNonlin</strong>.
 The nonlinear time step specifies the interval at which the nonlinear hydrodynamic forces are calculated, separately, and presumably at a larger interval than the system level simulation time step (<strong>simu.dt</strong>).
 As the ratio of the nonlinear to system time step increases, the computation time is reduced, but again, at the expense of the simulation accuracy.</p>
+<div class="admonition note">
+<p class="first admonition-title">Note</p>
+<p class="last">&#8216;simu.nlHydro = 1;&#8217; option.</p>
+</div>
 </div>
 <div class="section" id="state-space-representation">
 <h2>State-Space Representation<a class="headerlink" href="#state-space-representation" title="Permalink to this headline">¶</a></h2>
@@ -405,13 +409,10 @@ A roll-pitch constraint can also be obtained with two rotational constraints in 
 The initial location of a body or mooring block is set by specifying the CG or location at the stability position (as with any WEC-Sim simulation) and then specifying an initial displacement.
 To specify an initial displacement, the body, and mooring blocks have a <code class="code docutils literal"><span class="pre">.initDisp</span></code> property with which you can specify a translation and angular rotation about an arbitrary axis.
 For the constraint and PTO blocks, the <code class="code docutils literal"><span class="pre">.loc</span></code> property must be set to the location at time = 0.</p>
-<p>To help setup this initial displacement for all bodies, constraints, PTOs, and moorings, in the case where the whole system is experiencing the same displacement, there are different methods available.
-To do this you would use the <code class="code docutils literal"><span class="pre">body(i).setInitDisp(...);</span></code>, <code class="code docutils literal"><span class="pre">constraint(i).setInitLoc(...)</span></code>, and <code class="code docutils literal"><span class="pre">pto(i).setInitLoc(...)</span></code> method in the <em>input file</em>.
-A description of the rquired input can be found in the method&#8217;s header comments.</p>
-<div class="admonition note">
-<p class="first admonition-title">Note</p>
-<p class="last">The PTO and Constraint class should have a &#8216;initDisp&#8217; property and a &#8216;setInitDisp&#8217; method for consistency with the other classes. the mooring class should also have a &#8216;setInitDisp&#8217; method.</p>
-</div>
+<p>There are methods available to help setup this initial displacement for all bodies, constraints, PTOs, and moorings.
+To do this you would use the <code class="code docutils literal"><span class="pre">body(i).setInitDisp(...);</span></code>, <code class="code docutils literal"><span class="pre">constraint(i).setInitDisp(...)</span></code>, <code class="code docutils literal"><span class="pre">pto(i).setInitDisp(...)</span></code>, and <code class="code docutils literal"><span class="pre">mooring(i).setInitDisp(...)</span></code> method in the <em>input file</em>.
+A description of the rquired input can be found in the method&#8217;s header comments.
+Note that <code class="code docutils literal"><span class="pre">body(i).cg</span></code>, <code class="code docutils literal"><span class="pre">constraint(i).loc</span></code>, <code class="code docutils literal"><span class="pre">pto(i).loc</span></code>, and <code class="code docutils literal"><span class="pre">mooring.ref</span></code> must be defined prior to using the object&#8217;s <code class="code docutils literal"><span class="pre">.setInitDisp</span></code> method.</p>
 </div>
 <div class="section" id="advanced-body-mass-and-geometry">
 <h2>Advanced Body Mass and Geometry<a class="headerlink" href="#advanced-body-mass-and-geometry" title="Permalink to this headline">¶</a></h2>
