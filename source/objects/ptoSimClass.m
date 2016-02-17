@@ -16,84 +16,82 @@
 
 classdef ptoSimClass<handle
     properties
-        
-        name = 'NOT DEFINED'
-        
-        pistonCF               = struct('Ap'              ,'NOT DEFINED',...
-                                        'Vo'              ,'NOT DEFINED',...
-                                        'Beta_e'          ,'NOT DEFINED',...
-                                        'pAi'             ,'NOT DEFINED',...
-                                        'pBi'             ,'NOT DEFINED',...
-                                        'number'          ,[])
+        name = 'NOT DEFINED'                                                        % PTO Name
+        pistonCF               = struct(...                                         % Piston (compressible fluid) block properties
+                                        'Ap'              ,'NOT DEFINED',...            %
+                                        'Vo'              ,'NOT DEFINED',...            %
+                                        'Beta_e'          ,'NOT DEFINED',...            %
+                                        'pAi'             ,'NOT DEFINED',...            %
+                                        'pBi'             ,'NOT DEFINED',...            %
+                                        'number'          ,[])                          %
+        pistonNCF              = struct(...                                         % Piston (non-compressible fluid) block properties
+                                        'topA'            ,'NOT DEFINED',...            %
+                                        'botA'            ,'NOT DEFINED',...            %
+                                        'number'          ,[])                          %
+        checkValve             = struct(...                                         % Check Valve block properties
+                                        'Cd'              ,'NOT DEFINED',...            %
+                                        'Amax'            ,'NOT DEFINED',...            %
+                                        'Amin'            ,'NOT DEFINED',...            %
+                                        'pMax'            ,'NOT DEFINED',...            %
+                                        'pMin'            ,'NOT DEFINED',...            %
+                                        'rho'             ,'NOT DEFINED',...            %
+                                        'k1'              ,'NOT DEFINED',...            %
+                                        'k2'              ,'NOT DEFINED',...            %
+                                        'number'          ,[])                          %
                        
-        pistonNCF              = struct('topA'            ,'NOT DEFINED',...
-                                        'botA'            ,'NOT DEFINED',...
-                                        'number'          ,[])
-                     
-        checkValve             = struct('Cd'              ,'NOT DEFINED',...
-                                        'Amax'            ,'NOT DEFINED',...
-                                        'Amin'            ,'NOT DEFINED',...
-                                        'pMax'            ,'NOT DEFINED',...
-                                        'pMin'            ,'NOT DEFINED',...
-                                        'rho'             ,'NOT DEFINED',...
-                                        'k1'              ,'NOT DEFINED',...
-                                        'k2'              ,'NOT DEFINED',...
-                                        'number'          ,[])
-                       
-        valve                  = struct('number'          ,[])
-        
-        accumulator            = struct('VI0'             ,'NOT DEFINED',...
-                                        'pIrated'         ,'NOT DEFINED',...
-                                        'pIupper_limit'   ,'NOT DEFINED',...
-                                        'pIlower_limit'   ,'NOT DEFINED',...
-                                        'pIprecharge'     ,'NOT DEFINED',...
-                                        'VImax'           ,'NOT DEFINED',...
-                                        'VImin'           ,'NOT DEFINED',...
-                                        'VIeq'            ,'NOT DEFINED',...
-                                        'pIeq'            ,'NOT DEFINED',...
-                                        'number'          ,[])
-                                                              
-        hydraulicMotor         = struct('angVelInit'      ,'NOT DEFINED',...
-                                        'alpha'           ,'NOT DEFINED',...
-                                        'D'               ,'NOT DEFINED',...
-                                        'J'               ,'NOT DEFINED',...
-                                        'fric'            ,'NOT DEFINED',...
-                                        'number'          ,[])
-                       
-        rotaryGenerator        = struct('TgenBase'        ,'NOT DEFINED',...
-                                        'omegaBase'       ,'NOT DEFINED',...
-                                        'driveEff'        ,'NOT DEFINED',...
-                                        'genDamping'      ,'NOT DEFINED',...
-                                        'number'           ,[])
-                       
-        linearGenerator        = struct('Rs'              ,'NOT DEFINED',...
-                                        'Bfric'           ,'NOT DEFINED',...
-                                        'tau_p'           ,'NOT DEFINED',...
-                                        'lambda_fd'       ,'NOT DEFINED',...
-                                        'Ls'              ,'NOT DEFINED',...
-                                        'theta_d_0'       ,'NOT DEFINED',...
-                                        'lambda_sq_0'     ,'NOT DEFINED',...
-                                        'lambda_sd_0'     ,'NOT DEFINED',...
-                                        'Rload'           ,'NOT DEFINED',...
-                                        'number'          ,[])
-                                                       
-         motionMechanism       = struct('crank'           ,'NOT DEFINED',...
-                                        'offset'          ,'NOT DEFINED',...
-                                        'rodInit'         ,'NOT DEFINED',...
-                                        'rodLength'       ,'NOT DEFINED',...
-                                        'number'          ,[])
-                           
-                           
-                         
+        valve                  = struct(...                                         % Valve block properties
+                                        'number'          ,[])                          %
+        accumulator            = struct(...                                         % Accumulator block properties
+                                        'VI0'             ,'NOT DEFINED',...            %
+                                        'pIrated'         ,'NOT DEFINED',...            %
+                                        'pIupper_limit'   ,'NOT DEFINED',...            %
+                                        'pIlower_limit'   ,'NOT DEFINED',...            %
+                                        'pIprecharge'     ,'NOT DEFINED',...            %
+                                        'VImax'           ,'NOT DEFINED',...            %
+                                        'VImin'           ,'NOT DEFINED',...            %
+                                        'VIeq'            ,'NOT DEFINED',...            %
+                                        'pIeq'            ,'NOT DEFINED',...            %
+                                        'number'          ,[])                          %
+        hydraulicMotor         = struct(...                                         % Hydraulic Motor block properties
+                                        'angVelInit'      ,'NOT DEFINED',...            %
+                                        'alpha'           ,'NOT DEFINED',...            %
+                                        'D'               ,'NOT DEFINED',...            %
+                                        'J'               ,'NOT DEFINED',...            %
+                                        'fric'            ,'NOT DEFINED',...            %
+                                        'number'          ,[])                          %
+        rotaryGenerator        = struct(...                                         % Rotatary generator block properties
+                                        'TgenBase'        ,'NOT DEFINED',...            %
+                                        'omegaBase'       ,'NOT DEFINED',...            %
+                                        'driveEff'        ,'NOT DEFINED',...            %
+                                        'genDamping'      ,'NOT DEFINED',...            %
+                                        'number'           ,[])                         %
+        linearGenerator        = struct(...                                         % Linear Generator block properties
+                                        'Rs'              ,'NOT DEFINED',...            %
+                                        'Bfric'           ,'NOT DEFINED',...            %
+                                        'tau_p'           ,'NOT DEFINED',...            %
+                                        'lambda_fd'       ,'NOT DEFINED',...            %
+                                        'Ls'              ,'NOT DEFINED',...            %
+                                        'theta_d_0'       ,'NOT DEFINED',...            %
+                                        'lambda_sq_0'     ,'NOT DEFINED',...            %
+                                        'lambda_sd_0'     ,'NOT DEFINED',...            %
+                                        'Rload'           ,'NOT DEFINED',...            %
+                                        'number'          ,[])                          %
+         motionMechanism       = struct(...                                         % Motion mechanism block properties
+                                        'crank'           ,'NOT DEFINED',...            %
+                                        'offset'          ,'NOT DEFINED',...            %
+                                        'rodInit'         ,'NOT DEFINED',...            %
+                                        'rodLength'       ,'NOT DEFINED',...            %
+                                        'number'          ,[])                          %                 
     end
-    
     
     methods
         function obj        = ptoSimClass(name)
-                 obj.name   = name;
+            % Initilization function
+            obj.name   = name;
         end    
         
         function countblocks(obj)
+            % Counts and numbers the instances of each type of block
             names = {'pistonCF','pistonNCF','checkValve','valve','accumulator','hydraulicMotor','rotaryGenerator','linearGenerator','motionMechanism'};
             for jj = 1:length(names)
                 for kk = 1:length(obj.(names{jj}))
@@ -103,6 +101,7 @@ classdef ptoSimClass<handle
         end
         
         function ptosimOutput = response(obj)
+            % Create PTO-Sim output
             names = {'pistonCF','pistonNCF','checkValve','valve','accumulator','hydraulicMotor','rotaryGenerator','linearGenerator','motionMechanism'};
             
             signals.pistonCF = {'absPower','force','pos','vel'};
@@ -127,8 +126,6 @@ classdef ptoSimClass<handle
                     evalin('base',['clear ' names{ii} num2str(jj) '_out']);
                 end
             end
-            
-
         end
     end 
 end
