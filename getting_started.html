@@ -80,7 +80,7 @@
                 <ul class="current">
 <li class="toctree-l1 current"><a class="current reference internal" href="">Getting Started</a><ul>
 <li class="toctree-l2"><a class="reference internal" href="#matlab-toolbox-requirements">MATLAB Toolbox Requirements</a></li>
-<li class="toctree-l2"><a class="reference internal" href="#downloading-and-installing-bemio">Downloading and Installing BEMIO</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#id2">BEMIO</a></li>
 <li class="toctree-l2"><a class="reference internal" href="#downloading-wec-sim">Downloading WEC-Sim</a><ul>
 <li class="toctree-l3"><a class="reference internal" href="#option-1-clone-with-github-recommended-for-users">Option 1: Clone with GitHub (Recommended for Users)</a></li>
 <li class="toctree-l3"><a class="reference internal" href="#option-2-fork-with-git-recommended-for-developers">Option 2: Fork with Git (Recommended for Developers)</a></li>
@@ -101,6 +101,7 @@
 <li class="toctree-l1"><a class="reference internal" href="online_forum.html">Online Forum</a></li>
 <li class="toctree-l1"><a class="reference internal" href="publications.html">Publications</a></li>
 <li class="toctree-l1"><a class="reference internal" href="license.html">License</a></li>
+<li class="toctree-l1"><a class="reference internal" href="release_notes.html">Release Notes</a></li>
 </ul>
 
             
@@ -147,7 +148,7 @@
             
   <div class="section" id="getting-started">
 <span id="id1"></span><h1>Getting Started<a class="headerlink" href="#getting-started" title="Permalink to this headline">¶</a></h1>
-<p>This section provides instructions on how to download and install the <a class="reference external" href="https://github.com/WEC-Sim/WEC-Sim">WEC-Sim</a> code, the <a class="reference external" href="https://github.com/WEC-Sim/bemio">BEMIO</a> preprocessing code, and how to run WEC-Sim simulations.</p>
+<p>This section provides instructions on how to download and install the <a class="reference external" href="https://github.com/WEC-Sim/bemio">BEMIO</a> preprocessing code, and the <a class="reference external" href="https://github.com/WEC-Sim/WEC-Sim">WEC-Sim</a> code.</p>
 <div class="section" id="matlab-toolbox-requirements">
 <h2>MATLAB Toolbox Requirements<a class="headerlink" href="#matlab-toolbox-requirements" title="Permalink to this headline">¶</a></h2>
 <p>WEC-Sim was developed in <strong>MATLAB R2015b</strong>, and requires the following toolboxes:</p>
@@ -175,13 +176,10 @@
 </tbody>
 </table>
 <p>Ensure that the correct version of MATLAB and the required toolboxes are installed by typing <code class="docutils literal"><span class="pre">ver</span></code> in the MATLAB Command Window:</p>
-<div class="highlight-matlabsession"><div class="highlight"><pre><span class="gp">&gt;&gt; </span><span class="n">ver</span>
+<div class="highlight-matlabsession"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt; </span><span class="n">ver</span>
 <span class="go">--------------------------------------------------------------------------------------</span>
 <span class="go">MATLAB Version: 8.6.0.267246 (R2015b)</span>
-<span class="go">MATLAB License Number: 680411</span>
-<span class="go">Operating System: Microsoft Windows 8.1 Enterprise Version 6.3 (Build 9600)</span>
-<span class="go">Java Version: Java 1.7.0_60-b19 with Oracle Corporation Java HotSpot(TM) 64-Bit Server VM mixed mode</span>
-<span class="go">----------------------------------------------------------------------------------------------------</span>
+<span class="go">--------------------------------------------------------------------------------------</span>
 <span class="go">MATLAB                                                Version 8.6         (R2015b)</span>
 <span class="go">Simulink                                              Version 8.6         (R2015b)</span>
 <span class="go">SimMechanics                                          Version 4.7         (R2015b)</span>
@@ -190,24 +188,24 @@
 </div>
 <div class="admonition note">
 <p class="first admonition-title">Note</p>
-<p class="last">WEC-Sim may work with other versions of MATLAB, but <strong>MATLAB 2015b</strong> is the only version that is currently supported.</p>
+<p class="last"><strong>MATLAB 2015b</strong> is the only version that is supported.</p>
 </div>
 </div>
-<div class="section" id="downloading-and-installing-bemio">
-<h2>Downloading and Installing BEMIO<a class="headerlink" href="#downloading-and-installing-bemio" title="Permalink to this headline">¶</a></h2>
-<p>BEMIO is the hydrodynamic data preprocessor that is required to run WEC-Sim. Instructions on how to download and install BEMIO are on the <a class="reference external" href="http://wec-sim.github.io/bemio/installing.html">BEMIO website</a></p>
+<div class="section" id="id2">
+<h2>BEMIO<a class="headerlink" href="#id2" title="Permalink to this headline">¶</a></h2>
+<p>Boundary Element Method Input/Output (BEMIO) is the hydrodynamic data preprocessor that is required to run WEC-Sim. Instructions on how to download and install BEMIO are on the <a class="reference external" href="http://wec-sim.github.io/bemio/installing.html">BEMIO website</a></p>
 </div>
 <div class="section" id="downloading-wec-sim">
 <h2>Downloading WEC-Sim<a class="headerlink" href="#downloading-wec-sim" title="Permalink to this headline">¶</a></h2>
 <p>WEC-Sim is distributed through the <a class="reference external" href="https://github.com/WEC-Sim/wec-sim">WEC-Sim GitHub site</a>. There are three ways of obtaining the WEC-Sim code, each of which are described in this section.</p>
 <div class="section" id="option-1-clone-with-github-recommended-for-users">
 <h3>Option 1: Clone with GitHub (Recommended for Users)<a class="headerlink" href="#option-1-clone-with-github-recommended-for-users" title="Permalink to this headline">¶</a></h3>
-<p>WEC-Sim can be obtained by cloning the repository with Git:</p>
-<div class="highlight-python"><div class="highlight"><pre>git clone https://github.com/WEC-Sim/WEC-Sim
+<p>WEC-Sim can be obtained by locally cloning the repository hosted on GitHub using the shell:</p>
+<div class="highlight-python"><div class="highlight"><pre><span></span>&gt;&gt; git clone https://github.com/WEC-Sim/WEC-Sim
 </pre></div>
 </div>
-<p>This method is recommended for most users because it makes it easy to update your local version of WEC-Sim to the latest version using Git&#8217;s pull command:</p>
-<div class="highlight-python"><div class="highlight"><pre>git pull
+<p>This method is recommended for users because the local copy of WEC-Sim can easily be updated to the latest version of the code hosted on the GitHub repository by using the pull command:</p>
+<div class="highlight-python"><div class="highlight"><pre><span></span>&gt;&gt; git pull
 </pre></div>
 </div>
 </div>
@@ -217,7 +215,7 @@
 </div>
 <div class="section" id="option-3-static-code-download">
 <h3>Option 3: Static Code Download<a class="headerlink" href="#option-3-static-code-download" title="Permalink to this headline">¶</a></h3>
-<p>The easiest way to obtain a copy of WEC-Sim is to download the latest tagged release of the WEC-Sim code available on Github, <a class="reference external" href="https://github.com/WEC-Sim/WEC-Sim/releases">WEC-Sim Release</a>.</p>
+<p>The easiest way to obtain a copy of WEC-Sim is to download the static release of latest tagged <a class="reference external" href="https://github.com/WEC-Sim/WEC-Sim/releases">WEC-Sim Release</a>.</p>
 <div class="admonition note">
 <p class="first admonition-title">Note</p>
 <p class="last">This is a static download of the WEC-Sim code. If you chose this method, you will have to re-download the code in order to receive code updates.</p>
@@ -229,52 +227,34 @@
 <p>Once you have downloaded the WEC-Sim source code, follow the steps described in this section to install WEC-Sim.</p>
 <div class="admonition note">
 <p class="first admonition-title">Note</p>
-<p class="last">The folder where the WEC-Sim code is located will be refereed to as <code class="docutils literal"><span class="pre">$WEC-SIM-SOURCE</span></code>.</p>
+<p class="last">The directory where the WEC-Sim source code is located is refereed to as <code class="docutils literal"><span class="pre">$wecSim</span></code></p>
 </div>
 <div class="section" id="step-1-add-wec-sim-source-code-to-matlab-path">
 <h3>Step 1: Add WEC-Sim Source Code to MATLAB Path<a class="headerlink" href="#step-1-add-wec-sim-source-code-to-matlab-path" title="Permalink to this headline">¶</a></h3>
-<p>Open the <code class="docutils literal"><span class="pre">$WEC-SIM-SOURCE/wecSimStartup.m</span></code> file</p>
-<div class="highlight-matlab"><div class="highlight"><pre><span class="c">% wecSimStartup.m</span>
-<span class="c">% Copy the code in this file and place it in you &#39;startup.m&#39; file</span>
+<p>Open the <code class="docutils literal"><span class="pre">$wecSim/wecSimStartup.m</span></code> file</p>
+<div class="highlight-matlab"><div class="highlight"><pre><span></span><span class="c">% Set the wecSimPath variable to the location of the WEC-Sim source directory</span>
+<span class="c">% Copy the code in this file and place it in your&#39;startup.m&#39; file</span>
 
-<span class="c">% Set the wecSimPath variable to the location of the WEC-Sim source directory</span>
-<span class="n">wecSimPath</span> <span class="p">=</span> <span class="o">&lt;</span><span class="n">WEC</span><span class="o">-</span><span class="n">SIM</span> <span class="n">PATH</span><span class="o">&gt;</span><span class="p">;</span> 
-
-<span class="c">% Add the source folder to the MATLAB path</span>
-<span class="n">folderToAdd</span> <span class="p">=</span> <span class="s">&#39;source&#39;</span><span class="p">;</span>
-<span class="n">addpath</span><span class="p">(</span><span class="n">genpath</span><span class="p">([</span><span class="n">wecSimPath</span> <span class="n">filesep</span> <span class="n">folderToAdd</span><span class="p">]));</span>
-
-<span class="c">% Clear unneeded variables</span>
-<span class="n">clear</span> <span class="n">wecSimPath</span> <span class="n">folderToAdd</span>
+<span class="n">wecSimPath</span> <span class="p">=</span> <span class="o">&lt;</span><span class="n">wecSim</span><span class="o">&gt;</span><span class="p">;</span>
+<span class="n">addpath</span><span class="p">(</span><span class="n">genpath</span><span class="p">(</span><span class="n">wecSimPath</span><span class="p">));</span>
 </pre></div>
 </div>
-<p>Copy the code in the <code class="docutils literal"><span class="pre">wecSimStartup.m</span></code> shown above and paste it into the <code class="docutils literal"><span class="pre">startup.m</span></code> file located in the <a class="reference external" href="http://www.mathworks.com/help/matlab/matlab_env/matlab-startup-folder.html">MATLAB Startup Folder</a>. Set the <code class="docutils literal"><span class="pre">wecSimPath</span></code> variable to the <code class="docutils literal"><span class="pre">$WEC-SIM-SOURCE</span></code> folder, and open the <code class="docutils literal"><span class="pre">startup.m</span></code> file by executing <code class="docutils literal"><span class="pre">open</span> <span class="pre">startup.m</span></code> from the MATLAB Command Window.</p>
-<div class="highlight-matlabsession"><div class="highlight"><pre><span class="gp">&gt;&gt; </span><span class="n">open</span> <span class="n">startup</span><span class="p">.</span><span class="n">m</span>
+<p>Copy the code in the <code class="docutils literal"><span class="pre">wecSimStartup.m</span></code> shown above and paste it into the <code class="docutils literal"><span class="pre">startup.m</span></code> file located in the <a class="reference external" href="http://www.mathworks.com/help/matlab/matlab_env/matlab-startup-folder.html">MATLAB Startup Folder</a>. Set the <code class="docutils literal"><span class="pre">wecSimPath</span></code> variable to the <code class="docutils literal"><span class="pre">$wecSim</span></code> folder, and open the <code class="docutils literal"><span class="pre">startup.m</span></code> file by typing <code class="docutils literal"><span class="pre">open</span> <span class="pre">startup.m</span></code> into the MATLAB Command Window:</p>
+<div class="highlight-matlabsession"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt; </span><span class="n">open</span> <span class="n">startup</span><span class="p">.</span><span class="n">m</span>
 </pre></div>
 </div>
-<p>To verify the path was set up correctly, close and reopen MATLAB, and type the <code class="docutils literal"><span class="pre">path</span></code> command in the MATLAB Command Window to ensure that the WEC-Sim directory, <code class="docutils literal"><span class="pre">$WEC-SIM-SOURCE</span></code>, is listed in the MATLAB Search Path:</p>
-<div class="highlight-matlabsession"><div class="highlight"><pre><span class="gp">&gt;&gt; </span><span class="n">path</span>
-
-<span class="go">        MATLABPATH</span>
-
-<span class="go">/Users/username/Github/WEC-Sim/source</span>
-<span class="go">/Users/username/Github/WEC-Sim/source/functions</span>
-<span class="go">/Users/username/Github/WEC-Sim/source/lib</span>
-<span class="go">/Users/username/Github/WEC-Sim/source/lib/WEC-Sim</span>
-<span class="go">/Users/username/Github/WEC-Sim/source/objects</span>
-<span class="go">/Users/username/Github/WEC-Sim</span>
-<span class="go">/Users/username/Documents/MATLAB</span>
-<span class="go">...</span>
+<p>Verify the path was set up correctly by checking that the WEC-Sim source directory (<code class="docutils literal"><span class="pre">$wecSim</span></code>) is listed in the MATLAB. This is done by typing <code class="docutils literal"><span class="pre">path</span></code> into the MATLAB Command Window:</p>
+<div class="highlight-matlabsession"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt; </span><span class="n">path</span>
 </pre></div>
 </div>
 </div>
 <div class="section" id="step-2-add-wec-sim-library-to-simulink">
 <h3>Step 2: Add WEC-Sim Library to Simulink<a class="headerlink" href="#step-2-add-wec-sim-library-to-simulink" title="Permalink to this headline">¶</a></h3>
-<p>Open the Simulink Library Browser by typing <code class="docutils literal"><span class="pre">simulink</span></code> in the MATLAB Command Window.</p>
-<div class="highlight-matlabsession"><div class="highlight"><pre><span class="gp">&gt;&gt; </span><span class="n">simulink</span>
+<p>Open the Simulink Library Browser by typing <code class="docutils literal"><span class="pre">simulink</span></code> into the MATLAB Command Window:</p>
+<div class="highlight-matlabsession"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt; </span><span class="n">simulink</span>
 </pre></div>
 </div>
-<p>Once the Simulink Library Browser opens, <a class="reference external" href="http://www.mathworks.com/help/simulink/gui/use-the-library-browser.html">Refresh the Simulink Library</a>. The WEC-Sim Library of Body Elements, Constraints, Frames and PTOs should now be visible, as shown in the figure below. The WEC-Sim library should now be accessible every time Simulink is opened. For more information on using and modifying library blocks refer to the <a class="reference external" href="http://www.mathworks.com/help/simulink/">Simulink Documentation</a>.</p>
+<p>Once the Simulink Library Browser opens, <a class="reference external" href="http://www.mathworks.com/help/simulink/gui/use-the-library-browser.html">Refresh the Simulink Library</a>. The WEC-Sim Library of Body Elements, Constraints, Frames Moorings, and PTOs should now be visible, as shown in the figure below. The WEC-Sim library should now be accessible every time Simulink is opened. For more information on using and modifying library blocks refer to the <a class="reference external" href="http://www.mathworks.com/help/simulink/">Simulink Documentation</a>.</p>
 <div class="figure align-center">
 <img alt="_images/WEC-Sim_Library.jpg" src="_images/WEC-Sim_Library.jpg" />
 <div class="legend">

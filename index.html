@@ -85,6 +85,7 @@
 <li class="toctree-l1"><a class="reference internal" href="online_forum.html">Online Forum</a></li>
 <li class="toctree-l1"><a class="reference internal" href="publications.html">Publications</a></li>
 <li class="toctree-l1"><a class="reference internal" href="license.html">License</a></li>
+<li class="toctree-l1"><a class="reference internal" href="release_notes.html">Release Notes</a></li>
 </ul>
 
             
@@ -136,69 +137,28 @@
 </div>
 <div class="section" id="id1">
 <h1><a class="reference external" href="https://github.com/WEC-Sim/WEC-Sim">WEC-Sim (Wave Energy Converter SIMulator)</a><a class="headerlink" href="#id1" title="Permalink to this headline">¶</a></h1>
-<p><a class="reference external" href="https://github.com/WEC-Sim/WEC-Sim">WEC-Sim (Wave Energy Converter SIMulator)</a> is an open-source wave energy converter (WEC) simulation tool. The code is developed in MATLAB/SIMULINK using the multi-body dynamics solver SimMechanics. WEC-Sim has the ability to model devices that are comprised of rigid bodies, power-take-off systems, and mooring systems. Simulations are performed in the time-domain by solving the governing WEC equations of motion in 6 degrees-of-freedom. The WEC-Sim project is funded by the U.S. Department of Energy’s Wind and Water Power Technologies Office and the code development effort is a collaboration between the <a class="reference external" href="http://www.nrel.gov/water/">National Renewable Energy Laboratory (NREL)</a> and <a class="reference external" href="http://energy.sandia.gov/energy/renewable-energy/water-power/technology-development/wec-sim-wave-energy-converter-simulator/">Sandia National Laboratories (SNL)</a>.</p>
-<div class="section" id="release-notes">
-<span id="id3"></span><h2>Release Notes<a class="headerlink" href="#release-notes" title="Permalink to this headline">¶</a></h2>
-<div class="section" id="id4">
-<h3><a class="reference external" href="https://github.com/WEC-Sim/WEC-Sim/releases/tag/v1.3">WEC-Sim v1.3</a><a class="headerlink" href="#id4" title="Permalink to this headline">¶</a></h3>
+<p>WEC-Sim (Wave Energy Converter SIMulator) is an open-source wave energy converter (WEC) simulation tool. The code is developed in MATLAB/SIMULINK using the multi-body dynamics solver SimMechanics. WEC-Sim has the ability to model devices that are comprised of rigid bodies, power-take-off systems, and mooring systems. Simulations are performed in the time-domain by solving the governing WEC equations of motion in 6 degrees-of-freedom. The WEC-Sim project is funded by the U.S. Department of Energy’s Wind and Water Power Technologies Office and the code development effort is a collaboration between the <a class="reference external" href="http://www.nrel.gov/water/">National Renewable Energy Laboratory (NREL)</a> and <a class="reference external" href="http://energy.sandia.gov/energy/renewable-energy/water-power/technology-development/wec-sim-wave-energy-converter-simulator/">Sandia National Laboratories (SNL)</a>.</p>
+<div class="section" id="id2">
+<h2><a class="reference external" href="https://github.com/WEC-Sim/WEC-Sim/releases/tag/v2.0pre">WEC-Sim v2.0 Pre-Release</a><a class="headerlink" href="#id2" title="Permalink to this headline">¶</a></h2>
 <ul class="simple">
-<li><a class="reference external" href="https://github.com/WEC-Sim/WEC-Sim/releases/tag/v1.3">WEC-Sim v1.3</a> available on GitHub</li>
-<li>Morison Elements</li>
-<li>Body2Body Interactions</li>
+<li>Updated WEC-Sim Library (generalized joints)</li>
+<li>Mooring implemented in mooringClass (no longer in body or joint)</li>
 </ul>
 </div>
-<div class="section" id="id6">
-<h3><a class="reference external" href="https://github.com/WEC-Sim/WEC-Sim/releases/tag/v1.2">WEC-Sim v1.2</a><a class="headerlink" href="#id6" title="Permalink to this headline">¶</a></h3>
-<ul class="simple">
-<li><a class="reference external" href="https://github.com/WEC-Sim/WEC-Sim/releases/tag/v1.2">WEC-Sim v1.2</a> available on GitHub</li>
-<li>Nonlinear Froude-Krylov hydrodynamics and hydrostatics</li>
-<li>State space radiation</li>
-<li>Wave directionality</li>
-<li>User-defined wave elevation time-series</li>
-<li>Imports non-dimensionalized BEMIO hydrodynamic data (instead of fully dimensional coefficients)</li>
-<li>&#8216;Variant Subsystems&#8217; implemented to improve code stability (instead of if statements)</li>
-<li>Bug fixes</li>
-</ul>
-<div class="admonition note">
-<p class="first admonition-title">Note</p>
-<p class="last">Backward Compatibility:
-- Simulink models created in previous versions of WEC-Sim will work provided users have not broken the library link in the .slx model file.
-- The input files need to be modified to be compatible with WEC-Sim due to changes in hydrodynamic data input format, variable name changes, and code structure improvements.</p>
-</div>
-</div>
-<div class="section" id="id8">
-<h3><a class="reference external" href="https://github.com/WEC-Sim/WEC-Sim/releases/tag/v1.1">WEC-Sim v1.1</a><a class="headerlink" href="#id8" title="Permalink to this headline">¶</a></h3>
-<ul class="simple">
-<li><a class="reference external" href="https://github.com/WEC-Sim/WEC-Sim/releases/tag/v1.1">WEC-Sim v1.1</a> available on GitHub</li>
-<li>Improvements in code stability through modifications to the added mass, radiation damping calculations, and impulse response function calculations</li>
-<li>Implementation of state space representation of radiation damping convolution integral calculation</li>
-<li>New hydrodynamic data format based on <a class="reference external" href="http://wec-sim.github.io/bemio/#">BEMIO</a> output, a python code that reads data from WAMIT, NEMOH, and AQWA and writes to the <a class="reference external" href="http://www.hdfgroup.org/">Hierarchical Data Format 5</a> (HDF5) format used by WEC-Sim.</li>
-<li>Documentation available on WEC-Sim Website</li>
-</ul>
-</div>
-<div class="section" id="id10">
-<h3><a class="reference external" href="https://github.com/WEC-Sim/WEC-Sim/releases/tag/v1.0">WEC-Sim v1.0</a><a class="headerlink" href="#id10" title="Permalink to this headline">¶</a></h3>
-<ul class="simple">
-<li>Initial release of the WEC-Sim code</li>
-<li>Available as a static download (initially on OpenEI, now redirects to WEC-Sim website)</li>
-<li>Documentation available in PDF</li>
-</ul>
-</div>
-</div>
-<div class="section" id="wec-sim-development-team">
-<h2>WEC-Sim Development Team<a class="headerlink" href="#wec-sim-development-team" title="Permalink to this headline">¶</a></h2>
-<div class="section" id="current-pis">
-<h3>Current PIs<a class="headerlink" href="#current-pis" title="Permalink to this headline">¶</a></h3>
+<div class="section" id="wec-sim-developers">
+<h2>WEC-Sim Developers<a class="headerlink" href="#wec-sim-developers" title="Permalink to this headline">¶</a></h2>
+<div class="section" id="project-pis">
+<h3>Project PIs<a class="headerlink" href="#project-pis" title="Permalink to this headline">¶</a></h3>
 <ul class="simple">
 <li>Yi-Hsiang Yu (NREL)</li>
-<li>Kelley Ruehl (SNL)</li>
+<li>Kelley Ruehl (Sandia)</li>
 </ul>
 </div>
 <div class="section" id="contributors">
 <h3>Contributors<a class="headerlink" href="#contributors" title="Permalink to this headline">¶</a></h3>
 <ul class="simple">
 <li>Michael Lawson (NREL)</li>
-<li>Carlos Michelen (SNL)</li>
+<li>Carlos Michelen (Sandia)</li>
 <li>Nathan Tom (NREL)</li>
 <li>Ratanak So (Oregon State University)</li>
 <li>Matt Hall (University of Maine)</li>

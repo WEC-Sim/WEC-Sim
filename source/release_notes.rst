@@ -3,16 +3,24 @@
 Release Notes
 -------------
 
+`WEC-Sim v2.0 Pre-Release <https://github.com/WEC-Sim/WEC-Sim/releases/tag/v2.0pre>`_
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+* Updated WEC-Sim Library (generalized joints)
+* Mooring implemented in mooringClass (no longer in body or joint)
 
 `WEC-Sim v1.3 <https://github.com/WEC-Sim/WEC-Sim/releases/tag/v1.3>`_
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-* `WEC-Sim v1.3 <https://github.com/WEC-Sim/WEC-Sim/releases/tag/v1.3>`_ available on GitHub
-* Morison Elements
+* Added Morison Elements
 * Body2Body Interactions
+* Multiple Case Runs (wecSimMCR)
+* Moordyn
+* Added Non-hydro Bodies
+* Morrison Forces
+* Joint Updates
+* Visualization with Paraview
 	
 `WEC-Sim v1.2 <https://github.com/WEC-Sim/WEC-Sim/releases/tag/v1.2>`_
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-* `WEC-Sim v1.2 <https://github.com/WEC-Sim/WEC-Sim/releases/tag/v1.2>`_ available on GitHub
 * Nonlinear Froude-Krylov hydrodynamics and hydrostatics
 * State space radiation
 * Wave directionality
@@ -38,7 +46,7 @@ Release Notes
 `WEC-Sim v1.0 <https://github.com/WEC-Sim/WEC-Sim/releases/tag/v1.0>`_
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 * Initial release of the WEC-Sim code
-* Available as a static download (initially on OpenEI, now redirects to WEC-Sim website)
+* Available as a static download (oringially on OpenEI, now redirected to WEC-Sim website)
 * Documentation available in PDF 
 
 

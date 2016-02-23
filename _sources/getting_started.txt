@@ -2,7 +2,7 @@
 
 Getting Started
 ===============
-This section provides instructions on how to download and install the `WEC-Sim <https://github.com/WEC-Sim/WEC-Sim>`_ code, the `BEMIO <https://github.com/WEC-Sim/bemio>`_ preprocessing code, and how to run WEC-Sim simulations.
+This section provides instructions on how to download and install the `BEMIO <https://github.com/WEC-Sim/bemio>`_ preprocessing code, and the `WEC-Sim <https://github.com/WEC-Sim/WEC-Sim>`_ code.
 
 MATLAB Toolbox Requirements
 ------------------------------
@@ -23,10 +23,7 @@ Ensure that the correct version of MATLAB and the required toolboxes are install
 	>> ver
 	--------------------------------------------------------------------------------------
 	MATLAB Version: 8.6.0.267246 (R2015b)
-	MATLAB License Number: 680411
-	Operating System: Microsoft Windows 8.1 Enterprise Version 6.3 (Build 9600)
-	Java Version: Java 1.7.0_60-b19 with Oracle Corporation Java HotSpot(TM) 64-Bit Server VM mixed mode
-	----------------------------------------------------------------------------------------------------
+	--------------------------------------------------------------------------------------
 	MATLAB                                                Version 8.6         (R2015b)
 	Simulink                                              Version 8.6         (R2015b)
 	SimMechanics                                          Version 4.7         (R2015b)
@@ -34,11 +31,11 @@ Ensure that the correct version of MATLAB and the required toolboxes are install
 
 .. Note::
 
-	WEC-Sim may work with other versions of MATLAB, but **MATLAB 2015b** is the only version that is currently supported.
+	**MATLAB 2015b** is the only version that is supported.
 
-Downloading and Installing BEMIO
+BEMIO
 -----------------------------------
-BEMIO is the hydrodynamic data preprocessor that is required to run WEC-Sim. Instructions on how to download and install BEMIO are on the `BEMIO website <http://wec-sim.github.io/bemio/installing.html>`_
+Boundary Element Method Input/Output (BEMIO) is the hydrodynamic data preprocessor that is required to run WEC-Sim. Instructions on how to download and install BEMIO are on the `BEMIO website <http://wec-sim.github.io/bemio/installing.html>`_
 
 Downloading WEC-Sim
 ------------------------
@@ -46,13 +43,13 @@ WEC-Sim is distributed through the `WEC-Sim GitHub site <https://github.com/WEC-
  
 Option 1: Clone with GitHub (Recommended for Users)
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-WEC-Sim can be obtained by cloning the repository with Git::
+WEC-Sim can be obtained by locally cloning the repository hosted on GitHub using the shell::
 
-	git clone https://github.com/WEC-Sim/WEC-Sim
+	>> git clone https://github.com/WEC-Sim/WEC-Sim
 
-This method is recommended for most users because it makes it easy to update your local version of WEC-Sim to the latest version using Git's pull command::
+This method is recommended for users because the local copy of WEC-Sim can easily be updated to the latest version of the code hosted on the GitHub repository by using the pull command::
 
-	git pull
+	>> git pull
 
 Option 2: Fork with Git (Recommended for Developers)
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
@@ -60,7 +57,7 @@ If you are planning to contribute to the WEC-Sim code, please follow the `forkin
 
 Option 3: Static Code Download 
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-The easiest way to obtain a copy of WEC-Sim is to download the latest tagged release of the WEC-Sim code available on Github, `WEC-Sim Release <https://github.com/WEC-Sim/WEC-Sim/releases>`_.
+The easiest way to obtain a copy of WEC-Sim is to download the static release of latest tagged `WEC-Sim Release <https://github.com/WEC-Sim/WEC-Sim/releases>`_.
 
 .. Note::
 	This is a static download of the WEC-Sim code. If you chose this method, you will have to re-download the code in order to receive code updates.
@@ -72,48 +69,37 @@ Once you have downloaded the WEC-Sim source code, follow the steps described in 
 
 .. Note::
 	
-	The folder where the WEC-Sim code is located will be refereed to as ``$WEC-SIM-SOURCE``.
+	The directory where the WEC-Sim source code is located is refereed to as ``$wecSim``
 
 Step 1: Add WEC-Sim Source Code to MATLAB Path
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-Open the ``$WEC-SIM-SOURCE/wecSimStartup.m`` file
+Open the ``$wecSim/wecSimStartup.m`` file
 
 .. literalinclude:: wecSimStartup.m
    :language: matlab
 
-Copy the code in the ``wecSimStartup.m`` shown above and paste it into the ``startup.m`` file located in the `MATLAB Startup Folder <http://www.mathworks.com/help/matlab/matlab_env/matlab-startup-folder.html>`_. Set the ``wecSimPath`` variable to the ``$WEC-SIM-SOURCE`` folder, and open the ``startup.m`` file by executing ``open startup.m`` from the MATLAB Command Window. 
+Copy the code in the ``wecSimStartup.m`` shown above and paste it into the ``startup.m`` file located in the `MATLAB Startup Folder <http://www.mathworks.com/help/matlab/matlab_env/matlab-startup-folder.html>`_. Set the ``wecSimPath`` variable to the ``$wecSim`` folder, and open the ``startup.m`` file by typing ``open startup.m`` into the MATLAB Command Window: 
 
 .. code-block:: matlabsession
 
 	>> open startup.m
 
-To verify the path was set up correctly, close and reopen MATLAB, and type the ``path`` command in the MATLAB Command Window to ensure that the WEC-Sim directory, ``$WEC-SIM-SOURCE``, is listed in the MATLAB Search Path:
+Verify the path was set up correctly by checking that the WEC-Sim source directory (``$wecSim``) is listed in the MATLAB. This is done by typing ``path`` into the MATLAB Command Window:
 
 .. code-block:: matlabsession
 
 	>> path
 
-		MATLABPATH
-
-	/Users/username/Github/WEC-Sim/source
-	/Users/username/Github/WEC-Sim/source/functions
-	/Users/username/Github/WEC-Sim/source/lib
-	/Users/username/Github/WEC-Sim/source/lib/WEC-Sim
-	/Users/username/Github/WEC-Sim/source/objects
-	/Users/username/Github/WEC-Sim
-	/Users/username/Documents/MATLAB
-	...
-
 
 Step 2: Add WEC-Sim Library to Simulink
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-Open the Simulink Library Browser by typing ``simulink`` in the MATLAB Command Window. 
+Open the Simulink Library Browser by typing ``simulink`` into the MATLAB Command Window:
 
 .. code-block:: matlabsession
 
 	>> simulink
 	
-Once the Simulink Library Browser opens, `Refresh the Simulink Library <http://www.mathworks.com/help/simulink/gui/use-the-library-browser.html>`_. The WEC-Sim Library of Body Elements, Constraints, Frames and PTOs should now be visible, as shown in the figure below. The WEC-Sim library should now be accessible every time Simulink is opened. For more information on using and modifying library blocks refer to the `Simulink Documentation <http://www.mathworks.com/help/simulink/>`_.
+Once the Simulink Library Browser opens, `Refresh the Simulink Library <http://www.mathworks.com/help/simulink/gui/use-the-library-browser.html>`_. The WEC-Sim Library of Body Elements, Constraints, Frames Moorings, and PTOs should now be visible, as shown in the figure below. The WEC-Sim library should now be accessible every time Simulink is opened. For more information on using and modifying library blocks refer to the `Simulink Documentation <http://www.mathworks.com/help/simulink/>`_.
 
 .. figure:: _static/WEC-Sim_Library.jpg
    :align: center

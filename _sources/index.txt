@@ -13,32 +13,30 @@
    online_forum.rst
    publications.rst
    license.rst
+   release_notes.rst
 
 
 `WEC-Sim (Wave Energy Converter SIMulator) <https://github.com/WEC-Sim/WEC-Sim>`_ 
 ====================================================================================
 
-`WEC-Sim (Wave Energy Converter SIMulator) <https://github.com/WEC-Sim/WEC-Sim>`_ is an open-source wave energy converter (WEC) simulation tool. The code is developed in MATLAB/SIMULINK using the multi-body dynamics solver SimMechanics. WEC-Sim has the ability to model devices that are comprised of rigid bodies, power-take-off systems, and mooring systems. Simulations are performed in the time-domain by solving the governing WEC equations of motion in 6 degrees-of-freedom. The WEC-Sim project is funded by the U.S. Department of Energy’s Wind and Water Power Technologies Office and the code development effort is a collaboration between the `National Renewable Energy Laboratory (NREL) <http://www.nrel.gov/water/>`_ and `Sandia National Laboratories (SNL) <http://energy.sandia.gov/energy/renewable-energy/water-power/technology-development/wec-sim-wave-energy-converter-simulator/>`_.
+WEC-Sim (Wave Energy Converter SIMulator) is an open-source wave energy converter (WEC) simulation tool. The code is developed in MATLAB/SIMULINK using the multi-body dynamics solver SimMechanics. WEC-Sim has the ability to model devices that are comprised of rigid bodies, power-take-off systems, and mooring systems. Simulations are performed in the time-domain by solving the governing WEC equations of motion in 6 degrees-of-freedom. The WEC-Sim project is funded by the U.S. Department of Energy’s Wind and Water Power Technologies Office and the code development effort is a collaboration between the `National Renewable Energy Laboratory (NREL) <http://www.nrel.gov/water/>`_ and `Sandia National Laboratories (SNL) <http://energy.sandia.gov/energy/renewable-energy/water-power/technology-development/wec-sim-wave-energy-converter-simulator/>`_.
 
-..
-	Release Notes
-
-
-.. include:: release_notes.rst
+`WEC-Sim v2.0 Pre-Release <https://github.com/WEC-Sim/WEC-Sim/releases/tag/v2.0pre>`_
+---------------------------------------------------------------------------------------
+* Updated WEC-Sim Library (generalized joints)
+* Mooring implemented in mooringClass (no longer in body or joint)
    
 
-WEC-Sim Development Team
-------------------------
-
-Current PIs
+WEC-Sim Developers
+------------------
+Project PIs
 ~~~~~~~~~~~~~~~~
 * Yi-Hsiang Yu (NREL)
-* Kelley Ruehl (SNL)
-
+* Kelley Ruehl (Sandia)
 Contributors
 ~~~~~~~~~~~~~~~~
 * Michael Lawson (NREL)
-* Carlos Michelen (SNL)
+* Carlos Michelen (Sandia)
 * Nathan Tom (NREL)
 * Ratanak So (Oregon State University)
 * Matt Hall (University of Maine)
