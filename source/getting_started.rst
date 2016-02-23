@@ -6,14 +6,14 @@ This section provides instructions on how to download and install the `WEC-Sim <
 
 MATLAB Toolbox Requirements
 ------------------------------
-WEC-Sim was developed in **MATLAB R2014b**, and requires the following toolboxes:
+WEC-Sim was developed in **MATLAB R2015b**, and requires the following toolboxes:
 
 ====================  ===================		
 **Required Toolbox**  **Supported Version**
-MATLAB		      Version 8.4 (R2014b)
-Simulink              Version 8.4 (R2014b)
-SimMechanics          Version 4.5 (R2014b)
-Simscape              Version 3.12 (R2014b)
+MATLAB		      Version 8.6 (R2015b)
+Simulink              Version 8.6 (R2015b)
+SimMechanics          Version 4.7 (R2015b)
+Simscape              Version 3.14 (R2015b)
 ====================  ===================	
 
 Ensure that the correct version of MATLAB and the required toolboxes are installed by typing ``ver`` in the MATLAB Command Window:
@@ -22,20 +22,19 @@ Ensure that the correct version of MATLAB and the required toolboxes are install
 
 	>> ver
 	--------------------------------------------------------------------------------------
-	MATLAB Version: 8.4.0.150421 (R2014b)
-	MATLAB License Number: 844783
-	Operating System: Mac OS X  Version: 10.9.5 Build: 13F34 
-	Java Version: Java 1.7.0_55-b13 with Oracle Corporation Java HotSpot(TM) 
-	64-Bit Server VM mixed mode
-	--------------------------------------------------------------------------------------
-	MATLAB                                                Version 8.4        (R2014b)
-	Simulink                                              Version 8.4        (R2014b)
-	SimMechanics                                          Version 4.5        (R2014b)
-	Simscape                                              Version 3.12       (R2014b)
+	MATLAB Version: 8.6.0.267246 (R2015b)
+	MATLAB License Number: 680411
+	Operating System: Microsoft Windows 8.1 Enterprise Version 6.3 (Build 9600)
+	Java Version: Java 1.7.0_60-b19 with Oracle Corporation Java HotSpot(TM) 64-Bit Server VM mixed mode
+	----------------------------------------------------------------------------------------------------
+	MATLAB                                                Version 8.6         (R2015b)
+	Simulink                                              Version 8.6         (R2015b)
+	SimMechanics                                          Version 4.7         (R2015b)
+	Simscape                                              Version 3.14        (R2015b)
 
 .. Note::
 
-	WEC-Sim may work with other versions of MATLAB, but **MATLAB 2014b** is the only version that is currently supported.
+	WEC-Sim may work with other versions of MATLAB, but **MATLAB 2015b** is the only version that is currently supported.
 
 Downloading and Installing BEMIO
 -----------------------------------
