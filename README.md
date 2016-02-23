@@ -16,7 +16,7 @@
 
 1. Install BibTeX extension for Sphinx
   * Install on command prompt using ``pip install sphinxcontrib-bibtex``
-  * Install the rtd theme using ``pip install sphinx_rtd_theme``. 
+  * Install the rtd theme using ``pip install sphinx_rtd_theme``
  
  **NOTE:** You may have to manually move it to the ``sphinx/themes/`` directory.
 
