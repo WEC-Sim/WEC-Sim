@@ -236,7 +236,7 @@
 <div class="section" id="step-3-setip-wec-sim-input-file">
 <h4>Step 3: Setip WEC-Sim Input File<a class="headerlink" href="#step-3-setip-wec-sim-input-file" title="Permalink to this headline">¶</a></h4>
 <p>A WEC-Sim input file needs to be created in the case directory, and it MUST be named <code class="docutils literal"><span class="pre">wecSimInputFile.m</span></code>. An example of the input file for a two-body point absorber is shown in the following figure. In the input file, the simulation settings, sea state, body mass properties, PTO, and constraints are specified. In addition, users MUST specify the Simulink/SimMechanics model file name in the <code class="docutils literal"><span class="pre">wecSimInputFile.m</span></code>, which is:</p>
-<div class="highlight-python"><div class="highlight"><pre><span></span>simu.simMechanicsFile=&lt;WEC Model Name&gt;.slx.
+<div class="highlight-python"><div class="highlight"><pre>simu.simMechanicsFile=&lt;WEC Model Name&gt;.slx.
 </pre></div>
 </div>
 <div class="figure">
