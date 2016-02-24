@@ -69,7 +69,7 @@ Once you have downloaded the WEC-Sim source code, follow the steps described in 
 
 .. Note::
 	
-	The directory where the WEC-Sim source code is located is refereed to as ``$wecSim``
+	The WEC-Sim source code directory will be referred to as **$wecSim**
 
 Step 1: Add WEC-Sim Source Code to MATLAB Path
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
@@ -108,4 +108,3 @@ Once the Simulink Library Browser opens, `Refresh the Simulink Library <http://w
     
    *WEC-Sim Library*
    
-

@@ -8,6 +8,10 @@ Release Notes
 * Updated WEC-Sim Library (generalized joints)
 * Mooring implemented in mooringClass (no longer in body or joint)
 
+.. Note::
+
+	Backward Compatibility: **WEC-Sim v2.0 is not backwork compatible**
+
 `WEC-Sim v1.3 <https://github.com/WEC-Sim/WEC-Sim/releases/tag/v1.3>`_
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 * Added Morison Elements
@@ -31,13 +35,11 @@ Release Notes
 
 .. Note::
 
-	Backward Compatibility: 
-	- Simulink models created in previous versions of WEC-Sim will work provided users have not broken the library link in the .slx model file.
-	- The input files need to be modified to be compatible with WEC-Sim due to changes in hydrodynamic data input format, variable name changes, and code structure improvements.
+	Backward Compatibility: **WEC-Sim v1.2 is not backwork compatible**
 
 `WEC-Sim v1.1 <https://github.com/WEC-Sim/WEC-Sim/releases/tag/v1.1>`_
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-* `WEC-Sim v1.1 <https://github.com/WEC-Sim/WEC-Sim/releases/tag/v1.1>`_ available on GitHub
+* WEC-Sim v1.1, `now available on GitHub <https://github.com/WEC-Sim/WEC-Sim/releases/tag/v1.1>`_ 
 * Improvements in code stability through modifications to the added mass, radiation damping calculations, and impulse response function calculations
 * Implementation of state space representation of radiation damping convolution integral calculation
 * New hydrodynamic data format based on `BEMIO <http://wec-sim.github.io/bemio/#>`_ output, a python code that reads data from WAMIT, NEMOH, and AQWA and writes to the `Hierarchical Data Format 5 <http://www.hdfgroup.org/>`_ (HDF5) format used by WEC-Sim.
@@ -45,8 +47,8 @@ Release Notes
 
 `WEC-Sim v1.0 <https://github.com/WEC-Sim/WEC-Sim/releases/tag/v1.0>`_
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-* Initial release of the WEC-Sim code
-* Available as a static download (oringially on OpenEI, now redirected to WEC-Sim website)
+* Initial release of WEC-Sim (oringially on OpenEI, now available on GitHub)
+* Available as a static download 
 * Documentation available in PDF 
 
 
