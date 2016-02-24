@@ -226,7 +226,7 @@ is defned by the right-hand rule (as shown below).</p>
 <div class="section" id="simulationclass">
 <h3>simulationClass<a class="headerlink" href="#simulationclass" title="Permalink to this headline">¶</a></h3>
 <p>The simulation class (<code class="docutils literal"><span class="pre">simulationClass</span></code>) contains the simulation parameters and solver settings needed to execute the WEC-Sim code. Users can set relevant simulation properties in the <code class="docutils literal"><span class="pre">wecSimInputFile.m</span></code>. Users MUST specify the name of the Simulink/SimMechanics WEC model, which can be set by entering the following command in the input file:</p>
-<div class="highlight-python"><div class="highlight"><pre><span></span>simu.simMechanicsFile=’&lt;WEC Model Name&gt;.slx’
+<div class="highlight-python"><div class="highlight"><pre>simu.simMechanicsFile=’&lt;WEC Model Name&gt;.slx’
 </pre></div>
 </div>
 <p>The WEC-Sim code has default values defined for all the other simulation parameters. Available simulation parameters and the default values can be found by typing <code class="docutils literal"><span class="pre">doc</span> <span class="pre">simulationClass</span></code> in the MATLAB Command Window.</p>
@@ -234,11 +234,11 @@ is defned by the right-hand rule (as shown below).</p>
 <img alt="_images/simuClass.png" src="_images/simuClass.png" />
 </div>
 <p>These default values can be overwritten by the user, as demonstrated in the Applications Section. For example, the end time of a simulation can be set by entering the following command:</p>
-<div class="highlight-python"><div class="highlight"><pre><span></span>simu.endTime = &lt;user specified end time&gt;
+<div class="highlight-python"><div class="highlight"><pre>simu.endTime = &lt;user specified end time&gt;
 </pre></div>
 </div>
 <p>By default, running irregular waves (irregular and irregularImport), regular wave with convolution integral (regularCIC), and no wave with convolution integral (noWaveCIC), WEC-Sim calculates the fluid memory term using the convolution integral formulation. Users have the option to use the state space model by specifying the following in the WEC-Sim input file:</p>
-<div class="highlight-python"><div class="highlight"><pre><span></span><span class="n">simu</span><span class="o">.</span><span class="n">ssCalc</span><span class="o">=</span><span class="mi">1</span>
+<div class="highlight-python"><div class="highlight"><pre><span class="n">simu</span><span class="o">.</span><span class="n">ssCalc</span><span class="o">=</span><span class="mi">1</span>
 </pre></div>
 </div>
 <div class="admonition note">
@@ -297,7 +297,7 @@ is defned by the right-hand rule (as shown below).</p>
 <div class="section" id="nowave">
 <h4>noWave<a class="headerlink" href="#nowave" title="Permalink to this headline">¶</a></h4>
 <p>The noWave case (<code class="docutils literal"><span class="pre">waves.type=’noWave’</span></code>) is for running WEC-Sim simulations without waves, using constant added mass and radiation damping coefficients. This &#8220;wave&#8221; case is typically used to run decay tests for comparisons. Users must still provide hydro coefficients from a BEM solve before executing WEC-Sim. In addition, users MUST specify the period from which the hydrodynamic coefficients are selected by defining the following in the input file:</p>
-<div class="highlight-python"><div class="highlight"><pre><span></span>waves.noWaveHydrodynamicCoeffT = &lt;user specified wave period&gt;
+<div class="highlight-python"><div class="highlight"><pre>waves.noWaveHydrodynamicCoeffT = &lt;user specified wave period&gt;
 </pre></div>
 </div>
 </div>
@@ -342,12 +342,12 @@ with the addition of the convolution integral calculation. The wave type is the 
 <div class="section" id="irregularimport">
 <h4>irregularImport<a class="headerlink" href="#irregularimport" title="Permalink to this headline">¶</a></h4>
 <p>The irregular waves with user-defined spectrum case (<code class="docutils literal"><span class="pre">waves.type=’irregularImport’</span></code>) is the wave case for irregular wave simulations using user-defined wave spectrum (ex: from buoy data). Users need to specify the wave spectrum file name in WEC-Sim input file as follows:</p>
-<div class="highlight-python"><div class="highlight"><pre><span></span>waves.spectrumDataFile=’&lt;wave spectrum file&gt;.txt’
+<div class="highlight-python"><div class="highlight"><pre>waves.spectrumDataFile=’&lt;wave spectrum file&gt;.txt’
 </pre></div>
 </div>
 <p>The user-defined wave spectrum must be defined with the wave frequency (Hz) in the first row, and the spectral energy density (m^2/Hz) in the second row. An example of which is given in the <code class="docutils literal"><span class="pre">ndbcBuoyData.txt</span></code> file in the applications folder of the WEC-Sim source code. This format can be copied directly from NDBC buoy data. For more information on NDBC buoy data measurement descriptions, refer to the [<a class="reference external" href="http://www.ndbc.noaa.gov/measdes.shtml">http://www.ndbc.noaa.gov/measdes.shtml</a> NDBC website].</p>
 <p>Note: By default, the phase for irregular waves (irregular and irregularImport) is generated randomly. Users have the ability to seed the random phase by specifying the following in the WEC-Sim input file:</p>
-<div class="highlight-python"><div class="highlight"><pre><span></span><span class="n">waves</span><span class="o">.</span><span class="n">randPreDefined</span><span class="o">=</span><span class="mi">1</span>
+<div class="highlight-python"><div class="highlight"><pre><span class="n">waves</span><span class="o">.</span><span class="n">randPreDefined</span><span class="o">=</span><span class="mi">1</span>
 </pre></div>
 </div>
 <p>This gives the user an option to generate the same &#8220;random&#8221; wave time-series as needed (the default for random phase is <code class="docutils literal"><span class="pre">waves.randPreDefined=0</span></code>).</p>
@@ -356,11 +356,11 @@ with the addition of the convolution integral calculation. The wave type is the 
 <div class="section" id="bodyclass">
 <h3>bodyClass<a class="headerlink" href="#bodyclass" title="Permalink to this headline">¶</a></h3>
 <p>The body class (<code class="docutils literal"><span class="pre">bodyClass</span></code>) contains the mass and hydrodynamic properties of each body that comprises the WEC being simulated. Each body must have an iteration of the body class initiated in the input file. It is recommended that body objects are named body(&lt;#&gt;). Each body object MUST be initiated by entering the following command in the WEC-Sim input file:</p>
-<div class="highlight-python"><div class="highlight"><pre><span></span>body(&lt;#&gt;)=bodyClass(&#39;body name&#39;)
+<div class="highlight-python"><div class="highlight"><pre>body(&lt;#&gt;)=bodyClass(&#39;body name&#39;)
 </pre></div>
 </div>
 <p>Users can specify the mass and hydrodynamic properties for each after the body object is initiated. Each body must have an iteration of the body class initiated, and have the following parameters defined:</p>
-<div class="highlight-python"><div class="highlight"><pre><span></span>body(&lt;#&gt;).hydroDataType
+<div class="highlight-python"><div class="highlight"><pre>body(&lt;#&gt;).hydroDataType
 body(&lt;#&gt;).hydroDataLocation
 body(&lt;#&gt;).mass
 body(&lt;#&gt;).cg
@@ -369,7 +369,7 @@ body(&lt;#&gt;).momOfInertia
 </div>
 <p>Users have the option of accepting the default values for the remaining body parameters, or specify their own values. The available wave parameters, and default values defined in the body class can be found by typing <code class="docutils literal"><span class="pre">doc</span> <span class="pre">bodyClass</span></code> in the MATLAB Command Window.</p>
 <p>For example, the viscous drag can be specified by entering the (nondimensional) viscous drag coefficient and the characteristic area (in m^2) in vector format the WEC-Sim input file as follows:</p>
-<div class="highlight-python"><div class="highlight"><pre><span></span>body(&lt;#&gt;).cd= [0 0 1.3 0 0 0]
+<div class="highlight-python"><div class="highlight"><pre>body(&lt;#&gt;).cd= [0 0 1.3 0 0 0]
 body(&lt;#&gt;).characteristicArea= [0 0 100 0 0 0]
 </pre></div>
 </div>
@@ -377,7 +377,7 @@ body(&lt;#&gt;).characteristicArea= [0 0 100 0 0 0]
 <div class="section" id="constraintclass">
 <h3>constraintClass<a class="headerlink" href="#constraintclass" title="Permalink to this headline">¶</a></h3>
 <p>The constraint class (<code class="docutils literal"><span class="pre">constraintClass</span></code>) is used to connect bodies to the Global Reference Frame. The constraint variable should be initiated by entering the following command in the WEC-Sim input file:</p>
-<div class="highlight-python"><div class="highlight"><pre><span></span>constraint(&lt;#&gt;)=constraintClass(&#39;&lt;constraint name&gt;&#39;)
+<div class="highlight-python"><div class="highlight"><pre>constraint(&lt;#&gt;)=constraintClass(&#39;&lt;constraint name&gt;&#39;)
 </pre></div>
 </div>
 <p>For rotational constraint (ex: pitch), the user also needs to specify its location of the rotational
@@ -390,12 +390,12 @@ joint with respect to the global reference frame in the <code class="docutils li
 <div class="section" id="ptoclass">
 <h3>ptoClass<a class="headerlink" href="#ptoclass" title="Permalink to this headline">¶</a></h3>
 <p>The pto class (<code class="docutils literal"><span class="pre">ptoClass</span></code>) extracts power from relative body motion with respect to a fixed reference frame or another body. The pto objects can also constrain motion to certain degrees of freedom (for example relative heave motion between the float and spar of a point absorber). The pto variable should be initiated by entering the following command in the WEC-Sim input file:</p>
-<div class="highlight-python"><div class="highlight"><pre><span></span>pto(&lt;#&gt;) = ptoClass(&#39;&lt;pto name&gt;&#39;)
+<div class="highlight-python"><div class="highlight"><pre>pto(&lt;#&gt;) = ptoClass(&#39;&lt;pto name&gt;&#39;)
 </pre></div>
 </div>
 <p>For rotational ptos (Local RY), users also needs to specify the pto location. In the PTO class, users can also
 specify linear damping (<code class="docutils literal"><span class="pre">pto(&lt;#&gt;).c</span></code>) and stiffness (<code class="docutils literal"><span class="pre">pto(&lt;#&gt;).k</span></code>) values to represent the PTO system (both have a default value of 0). Users can overwrite the default values in the input file, for example to specify a damping value by entering the following in the WEC-Sim input file:</p>
-<div class="highlight-python"><div class="highlight"><pre><span></span>pto(&lt;#&gt;).c = &lt;pto damping value&gt;
+<div class="highlight-python"><div class="highlight"><pre>pto(&lt;#&gt;).c = &lt;pto damping value&gt;
 </pre></div>
 </div>
 <p>The available pto parameters, and default values defined in the pto class can be found by typing `` doc ptoClass`` in the MATLAB Command Window.</p>
