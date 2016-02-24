@@ -3,6 +3,7 @@
 
 Advanced Features
 ===================
+This sections provides an overview of the advanced features of the WEC-Sim code that were not covered in the `Tutorials <http://wec-sim.github.io/WEC-Sim/tutorials.html>`_ section.
 
 Advanced Methodologies
 -----------------------

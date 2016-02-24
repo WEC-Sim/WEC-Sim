@@ -1,7 +1,7 @@
 .. _publications:
 
 Publications
-===========
+============
 
 [1] Y. Yu, M. Lawson, K. Ruehl, and C. Michelen, “`Development and Demonstration of the WEC-Sim Wave Energy Converter Simulation Tool <http://energy.sandia.gov/wp-content/gallery/uploads/SAND2014-3013.pdf>`_,” in Proceedings of the 2nd Marine Energy Technology Symposium, Seattle, WA, 2014.   
 
@@ -27,8 +27,15 @@ Publications
 
 [12] A. Combourieu, M. Lawson, A. Babarit, K. Ruehl, A. Roy, R. Costello, P. L. Weywada, and H. Bailey, “`WEC3: Wave Energy Converters modeling Code Comparison project <http://energy.sandia.gov/wordpress/../wp-content/uploads/2014/06/2015-EWTEC_2015_WEC3_Combourieu.pdf>`_,” in Proceedings of EWTEC 2015, Nantes, France, 2015.
 
+[13] B. Bosma, K. Ruehl, A. Simmons, B. Gunawan, P. Lomonaco, and C. Kelley, “WEC-Sim Phase 1 Validation Testing – Experimental Setup and Initial Results,” in Proceedings of OMAE 2016, Busan, South Korea, 2016. (Article in Press)
+
+[14] K. Ruehl, C. Michelen, B. Bosma, and Y.-H. Yu, “WEC-Sim Phase 1 Validation Testing – Numerical Modeling of Experiments,” in Proceedings of OMAE 2016, Busan, South Korea, 2016.  (Article in Press)
+
+
+
+
 .. Note::
-	WEC-Sim publications are available online here: https://github.com/WEC-Sim/WEC-Sim/tree/master/publications
+	WEC-Sim publications are also available here: https://github.com/WEC-Sim/WEC-Sim/tree/master/publications
 
 
 News Articles
