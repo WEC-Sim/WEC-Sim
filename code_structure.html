@@ -88,49 +88,30 @@
 <li class="toctree-l3"><a class="reference internal" href="#body-class">Body Class</a></li>
 <li class="toctree-l3"><a class="reference internal" href="#constraint-class">Constraint Class</a></li>
 <li class="toctree-l3"><a class="reference internal" href="#pto-class">PTO Class</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#mooring-class">Mooring Class</a></li>
 </ul>
 </li>
-<li class="toctree-l2"><a class="reference internal" href="#input-parameters">Input Parameters</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="#wec-sim-classes">WEC-Sim Classes</a><ul>
 <li class="toctree-l3"><a class="reference internal" href="#simulationclass">simulationClass</a></li>
-<li class="toctree-l3"><a class="reference internal" href="#waveclass">waveClass</a><ul>
-<li class="toctree-l4"><a class="reference internal" href="#nowave">noWave</a></li>
-<li class="toctree-l4"><a class="reference internal" href="#nowavecic">noWaveCIC</a></li>
-<li class="toctree-l4"><a class="reference internal" href="#regular">regular</a></li>
-<li class="toctree-l4"><a class="reference internal" href="#regularcic">regularCIC</a></li>
-<li class="toctree-l4"><a class="reference internal" href="#irregular">irregular</a></li>
-<li class="toctree-l4"><a class="reference internal" href="#irregularimport">irregularImport</a></li>
-</ul>
-</li>
+<li class="toctree-l3"><a class="reference internal" href="#waveclass">waveClass</a></li>
 <li class="toctree-l3"><a class="reference internal" href="#bodyclass">bodyClass</a></li>
 <li class="toctree-l3"><a class="reference internal" href="#constraintclass">constraintClass</a></li>
 <li class="toctree-l3"><a class="reference internal" href="#ptoclass">ptoClass</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#mooringclass">mooringClass</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#responseclass">responseClass</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="#wec-sim-library-input-simulink-model">WEC-Sim Library &amp; Input Simulink Model</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#body-elements-sub-library">Body Elements Sub-library</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#frames-sub-library">Frames Sub-library</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#constraints-sub-library">Constraints Sub-library</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#ptos-sub-library">PTOs Sub-library</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#mooring-sub-library">Mooring Sub-library</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#other-simulink-and-simmechanics-blocks">Other Simulink and SimMechanics Blocks</a></li>
 </ul>
 </li>
 <li class="toctree-l2"><a class="reference internal" href="#output-structure">Output Structure</a></li>
-<li class="toctree-l2"><a class="reference internal" href="#library-structure">Library Structure</a><ul>
-<li class="toctree-l3"><a class="reference internal" href="#body-elements-sublibrary">Body Elements Sublibrary</a><ul>
-<li class="toctree-l4"><a class="reference internal" href="#rigid-body-block">Rigid Body Block</a></li>
-</ul>
-</li>
-<li class="toctree-l3"><a class="reference internal" href="#frames-sublibrary">Frames Sublibrary</a></li>
-<li class="toctree-l3"><a class="reference internal" href="#global-reference-frame-block">Global Reference Frame Block</a></li>
-<li class="toctree-l3"><a class="reference internal" href="#constraints-sublibrary">Constraints Sublibrary</a><ul>
-<li class="toctree-l4"><a class="reference internal" href="#floating-block">Floating Block</a></li>
-<li class="toctree-l4"><a class="reference internal" href="#heave-block">Heave Block</a></li>
-<li class="toctree-l4"><a class="reference internal" href="#surge-block">Surge Block</a></li>
-<li class="toctree-l4"><a class="reference internal" href="#pitch-block">Pitch Block</a></li>
-<li class="toctree-l4"><a class="reference internal" href="#fixed-block">Fixed Block</a></li>
-</ul>
-</li>
-<li class="toctree-l3"><a class="reference internal" href="#ptos-sublibrary">PTOs Sublibrary</a><ul>
-<li class="toctree-l4"><a class="reference internal" href="#translation-pto-local-z-block">Translation PTO (Local Z) Block</a></li>
-<li class="toctree-l4"><a class="reference internal" href="#translation-pto-local-x-block">Translation PTO (Local X) Block</a></li>
-<li class="toctree-l4"><a class="reference internal" href="#rotational-pto-local-ry-block">Rotational PTO (Local RY) Block</a></li>
-</ul>
-</li>
-<li class="toctree-l3"><a class="reference internal" href="#other-simmechanics-blocks">Other SimMechanics Blocks</a></li>
-</ul>
-</li>
+<li class="toctree-l2"><a class="reference internal" href="#wec-sim-functions-external-codes">WEC-Sim Functions &amp; External Codes</a></li>
 </ul>
 </li>
 <li class="toctree-l1"><a class="reference internal" href="tutorials.html">Tutorials</a></li>
@@ -185,70 +166,104 @@
             
   <div class="section" id="code-structure">
 <span id="id1"></span><h1>Code Structure<a class="headerlink" href="#code-structure" title="Permalink to this headline">¶</a></h1>
-<p>This section provides a description of the WEC-Sim source code and its structure. The WEC-Sim source code is a series of MATLAB m-files that read the user input data, perform preprocessing calculations, and run the Simulink/SimMechanics time-domain simulations.</p>
+<p>This section provides a description of the WEC-Sim source code and its structure.
+The WEC-Sim source code is a series of MATLAB m-files that read the user input data, perform preprocessing calculations, and run the Simulink/SimMechanics time-domain simulations.
+The code consists of object class definitions, a Simulink library, the main <code class="docutils literal"><span class="pre">wecSim.m</span></code> function, and other supporting functions.</p>
 <div class="section" id="code-conventions">
 <h2>Code Conventions<a class="headerlink" href="#code-conventions" title="Permalink to this headline">¶</a></h2>
 <p>All units within WEC-Sim are in the MKS (meters-kilograms-seconds system) and angular measurements are specified in radians (except for wave directionality which is defined in degrees).</p>
-<p>The WEC-Sim coordinate system assumes that the X axis is in the direction of wave propagation if the wave heading angle is equal to zero, the Z axis is in the vertical upwards direction, and the Y axis direction
-is defned by the right-hand rule (as shown below).</p>
-<p>Note: Incident wave direction heading defaults to BEM solution</p>
+<p>The WEC-Sim coordinate system assumes that the X axis is in the direction of wave propagation if the wave heading angle is equal to zero, the Z axis is in the vertical upwards direction, and the Y axis direction is defined by the right-hand rule (as shown below).</p>
 <div class="figure">
 <a class="reference internal image-reference" href="_images/coordinateSystem.png"><img alt="_images/coordinateSystem.png" src="_images/coordinateSystem.png" style="width: 400pt;" /></a>
 </div>
 </div>
 <div class="section" id="input-file-structure">
 <h2>Input File Structure<a class="headerlink" href="#input-file-structure" title="Permalink to this headline">¶</a></h2>
-<p>The WEC-Sim input file (<code class="docutils literal"><span class="pre">wecSimInputFile.m</span></code>) is required for each run. The input file MUST be placed inside the case directory for the run and MUST be named <code class="docutils literal"><span class="pre">wecSimInputFile.m</span></code>. The input file contains information needed to run WEC-Sim simulations. Descriptions of the four primary functions the WEC-Sim input file serves will be given in the following sections. Example WEC-Sim input files are provided in the <a class="reference external" href="https://github.com/WEC-Sim/WEC-Sim/wiki/3.-Applications">Applications Section</a>, and are also provided in the WEC-Sim source code in the applications folder.</p>
+<p>The WEC-Sim input file (<code class="docutils literal"><span class="pre">wecSimInputFile.m</span></code>) is required for each run.
+The input file must be placed inside the case directory for the run and must be named <code class="docutils literal"><span class="pre">wecSimInputFile.m</span></code>.
+The input file contains information needed to run WEC-Sim simulations.
+This section describes the structure, requirements, and options for the WEC-Sim input file.
+Example WEC-Sim input files are provided in the <a class="reference external" href="http://wec-sim.github.io/WEC-Sim/tutorials.html">Tutorials Section</a>, and are also provided in the WEC-Sim source code in the tutorials folder.
+WEC-Sim is an object oriented code, and input file reflects this.
+The main structure of the input file consists of initializing all the required objects and then specifying any additional properties for each.
+For details on the available additional properties for each class refer to the WEC-Sim Classes Section.
+Each WEC-Sim simulation (and input file) requires one instance of the simulation class and wave class, at least one instance of the body class, and at least one instance of the constraint or PTO classes.</p>
 <div class="section" id="simulation-class">
 <h3>Simulation Class<a class="headerlink" href="#simulation-class" title="Permalink to this headline">¶</a></h3>
-<p>Within the input file, users specify simulation class (<code class="docutils literal"><span class="pre">simulationClass</span></code>) parameters using the <code class="docutils literal"><span class="pre">simu</span></code> object. Simulation class parameters include simulation start time (<code class="docutils literal"><span class="pre">simu.startTime</span></code>), end time (<code class="docutils literal"><span class="pre">simu.endTime</span></code>), and time step (<code class="docutils literal"><span class="pre">simu.dt</span></code>). Users also specify the name of the Simulink/SimMechanics WEC model within the `` simu.simMechanicsFile`` variable. All simulation class parameters are specified as variables within the <code class="docutils literal"><span class="pre">simu</span></code> object (as members of the <code class="docutils literal"><span class="pre">simulationClass</span></code>).The simulation parameters that are available for the user to set within the simulation class are described in more detail in Section 2.3.1.</p>
+<p>Within the input file, users specify simulation class (<code class="docutils literal"><span class="pre">simulationClass</span></code>) parameters using the <code class="docutils literal"><span class="pre">simu</span></code> object.
+To initialize the <code class="docutils literal"><span class="pre">simu</span></code> object include the following line: <code class="docutils literal"><span class="pre">simu=simulationClass();</span></code>.
+Simulation class parameters include simulation start time (<code class="docutils literal"><span class="pre">simu.startTime</span></code>), end time (<code class="docutils literal"><span class="pre">simu.endTime</span></code>), and time step (<code class="docutils literal"><span class="pre">simu.dt</span></code>).
+Users also specify the name of the Simulink/SimMechanics WEC model within the `` simu.simMechanicsFile`` variable.
+All simulation class parameters are specified as variables within the <code class="docutils literal"><span class="pre">simu</span></code> object (as members of the <code class="docutils literal"><span class="pre">simulationClass</span></code>).</p>
 </div>
 <div class="section" id="wave-class">
 <h3>Wave Class<a class="headerlink" href="#wave-class" title="Permalink to this headline">¶</a></h3>
-<p>Within the input file, users MUST specify wave class (<code class="docutils literal"><span class="pre">waveClass</span></code>) parameters defining wave conditions for the simulation using the <code class="docutils literal"><span class="pre">waves</span></code> object. The user MUST specify the wave condition within the waves variable. The options that are available for the user to set within the wave class are discussed in more detail in Section 2.3.2.</p>
+<p>Within the input file, users must specify wave class (<code class="docutils literal"><span class="pre">waveClass</span></code>) parameters defining wave conditions for the simulation using the <code class="docutils literal"><span class="pre">waves</span></code> object.
+The user must specify the wave condition within the waves variable.
+The options that are available for the user to set within the wave class are discussed in more detail in Section 2.3.2.
+The wave class is initialized with <code class="docutils literal"><span class="pre">waves</span> <span class="pre">=</span> <span class="pre">waveClass('type');</span></code>, where <cite>type</cite> is one of the wave type options.</p>
 </div>
 <div class="section" id="body-class">
 <h3>Body Class<a class="headerlink" href="#body-class" title="Permalink to this headline">¶</a></h3>
-<p>Within in the input file, users MUST specify body class (<code class="docutils literal"><span class="pre">bodyClass</span></code>) parameters using the <code class="docutils literal"><span class="pre">body</span></code> object for each body. WEC-Sim assumes that every WEC is composed of rigid bodies exposed to wave forcing. For each body, users MUST specify body properties within the body class in the input file. Body class parameters include mass (<code class="docutils literal"><span class="pre">body(#).mass</span></code>), moment of inertia (<code class="docutils literal"><span class="pre">body(#).momOfInertia</span></code>), center of gravity (<code class="docutils literal"><span class="pre">body(#).cg</span></code>), and the WAMIT files that describe the hydrodynamic properties (refer to sample input file in the Applications Section. The body parameters that are available for the user to set within the body class are described in more detail in Section 2.3.3.</p>
+<p>Within in the input file, users must specify body class (<code class="docutils literal"><span class="pre">bodyClass</span></code>) parameters using the <code class="docutils literal"><span class="pre">body</span></code> object for each body.
+WEC-Sim assumes that every WEC is composed of rigid bodies exposed to wave forcing.
+For each body, users must specify body properties within the body class in the input file.
+Body class parameters include mass (<code class="docutils literal"><span class="pre">body(#).mass</span></code>), and moment of inertia (<code class="docutils literal"><span class="pre">body(#).momOfInertia</span></code>).
+Each instance of the body class is initialized with the line <code class="docutils literal"><span class="pre">body(#)</span> <span class="pre">=</span> <span class="pre">bodyClass('bem_data.h5');</span></code>, where # is the body number, and &#8216;bem_data.h5&#8217; is the name of the h5 file containing the BEM results.</p>
 </div>
 <div class="section" id="constraint-class">
 <h3>Constraint Class<a class="headerlink" href="#constraint-class" title="Permalink to this headline">¶</a></h3>
-<p>WEC-Sim constraint blocks connect WEC bodies to on another other (and possibly to the seabed) by constraining DOFs. The properties of the constraint class (<code class="docutils literal"><span class="pre">constraintClass</span></code>) are defined in the <code class="docutils literal"><span class="pre">constraint</span></code> object. The parameters available for user specification are described in in Section 2.3.4.</p>
+<p>WEC-Sim constraint blocks connect WEC bodies to on one another (and possibly to the seabed) by constraining DOFs.
+The properties of the constraint class (<code class="docutils literal"><span class="pre">constraintClass</span></code>) are defined in the <code class="docutils literal"><span class="pre">constraint</span></code> object.
+An instance of the constraint class is initialized with the line <code class="docutils literal"><span class="pre">constraint(#)=</span> <span class="pre">constraintClass('name');</span></code>, where # is the constraint number and <cite>name</cite> is a unique, Matlab variable naming compliant, name assigned to that constraint.
+See the <a class="reference external" href="http://wec-sim.github.io/WEC-Sim/tutorials.html">Advanced Constraints and PTOS Section</a> for more detail on the constraint options.</p>
 </div>
 <div class="section" id="pto-class">
 <h3>PTO Class<a class="headerlink" href="#pto-class" title="Permalink to this headline">¶</a></h3>
-<p>WEC-Sim Power Take-Off (PTO) blocks connect WEC bodies to one other (and possibly to the seabed) by constraining DOFs and applying linear damping and stiffness. The properties of the PTO class (<code class="docutils literal"><span class="pre">ptoClass</span></code>) are defined in the <code class="docutils literal"><span class="pre">pto</span></code> object. The parameters available for user specification are described in Section 2.3.5.</p>
+<p>WEC-Sim Power Take-Off (PTO) blocks connect WEC bodies to one other (and possibly to the seabed) by constraining DOFs and applying linear damping and stiffness.
+The properties of the PTO class (<code class="docutils literal"><span class="pre">ptoClass</span></code>) are defined in the <code class="docutils literal"><span class="pre">pto</span></code> object.
+An instance of the PTO class is initialized with the line <code class="docutils literal"><span class="pre">pto(#)=</span> <span class="pre">ptoClass('name');</span></code>, where # is the pto number and <cite>name</cite> is a unique, Matlab variable naming compliant, name assigned to that PTO.
+See the <a class="reference external" href="http://wec-sim.github.io/WEC-Sim/tutorials.html">Advanced Constraints and PTOS Section</a> for more detail on the pto options.</p>
+</div>
+<div class="section" id="mooring-class">
+<h3>Mooring Class<a class="headerlink" href="#mooring-class" title="Permalink to this headline">¶</a></h3>
+<p>The WEC-Sim mooring block allows for simulating mooring in two different ways: as linear stiffness, pre-tension, and damping matrices, or using MoorDyn.
+The properties of the mooring class (<code class="docutils literal"><span class="pre">mooringClass</span></code>) are defined in the <code class="docutils literal"><span class="pre">mooring</span></code> object.
+An instance of the mooring class is initialized with the line <code class="docutils literal"><span class="pre">mooring(#)=</span> <span class="pre">mooringClass('name');</span></code>, where # is the pto number and <cite>name</cite> is a unique, Matlab variable naming compliant, name assigned to that mooring.
+See the <a class="reference external" href="http://wec-sim.github.io/WEC-Sim/features.html#mooring-modeling">Mooring Modeling Section</a> for more detail on the mooring options.</p>
 </div>
 </div>
-<div class="section" id="input-parameters">
-<h2>Input Parameters<a class="headerlink" href="#input-parameters" title="Permalink to this headline">¶</a></h2>
-<p>All information required to run WEC-Sim simulations is contained within the simu, waves, body, pto, and constraint objects (instances of the simulationClass, waveClass, bodyClass, constraintClass and ptoClass).  The user can interact with these variables within the WEC-Sim input file (<code class="docutils literal"><span class="pre">wecSimInputFile.m</span></code>). The remainder of this section describes the parameters defined within the WEC-Sim objects, and how to interact with the WEC-Sim objects to define input parameters.</p>
+<div class="section" id="wec-sim-classes">
+<h2>WEC-Sim Classes<a class="headerlink" href="#wec-sim-classes" title="Permalink to this headline">¶</a></h2>
+<p>All information required to run WEC-Sim simulations is contained within the simu, waves, body(i), pto(i), constraint(i), and mooring(i) objects (instances of the simulationClass, waveClass, bodyClass, constraintClass, ptoClass, and mooringClass).
+The user can interact with these variables within the WEC-Sim input file (<code class="docutils literal"><span class="pre">wecSimInputFile.m</span></code>).
+The remainder of this section describes the parameters defined within the WEC-Sim objects, and how to interact with the WEC-Sim objects to define input parameters.
+There are two ways to look at all the available properties and methods a class has.
+The first is to type <code class="docutils literal"><span class="pre">doc</span> <span class="pre">className</span></code> in Matlab, and the second is to open the class definition script under <code class="docutils literal"><span class="pre">source/objects</span></code>.
+The later provides more information since it also defines the different fields in a structure.</p>
 <div class="section" id="simulationclass">
 <h3>simulationClass<a class="headerlink" href="#simulationclass" title="Permalink to this headline">¶</a></h3>
-<p>The simulation class (<code class="docutils literal"><span class="pre">simulationClass</span></code>) contains the simulation parameters and solver settings needed to execute the WEC-Sim code. Users can set relevant simulation properties in the <code class="docutils literal"><span class="pre">wecSimInputFile.m</span></code>. Users MUST specify the name of the Simulink/SimMechanics WEC model, which can be set by entering the following command in the input file:</p>
-<div class="highlight-python"><div class="highlight"><pre>simu.simMechanicsFile=’&lt;WEC Model Name&gt;.slx’
+<p>The simulation class (<code class="docutils literal"><span class="pre">simulationClass</span></code>) contains the simulation parameters and solver settings needed to execute the WEC-Sim code.
+Users can set relevant simulation properties in the <code class="docutils literal"><span class="pre">wecSimInputFile.m</span></code>.
+Users must specify the name of the Simulink/SimMechanics WEC model, which can be set by entering the following command in the input file:</p>
+<div class="highlight-python"><div class="highlight"><pre><span></span>simu.simMechanicsFile=’&lt;WEC Model Name&gt;.slx’
 </pre></div>
 </div>
-<p>The WEC-Sim code has default values defined for all the other simulation parameters. Available simulation parameters and the default values can be found by typing <code class="docutils literal"><span class="pre">doc</span> <span class="pre">simulationClass</span></code> in the MATLAB Command Window.</p>
+<p>The WEC-Sim code has default values defined for all the other simulation parameters.
+Available simulation parameters and the default values can be found by typing <code class="docutils literal"><span class="pre">doc</span> <span class="pre">simulationClass</span></code> in the MATLAB command window or opening the <cite>.m</cite> file in <a href="#id3"><span class="problematic" id="id4">`</span></a>/source/objects/.</p>
 <div class="figure">
 <img alt="_images/simuClass.png" src="_images/simuClass.png" />
 </div>
-<p>These default values can be overwritten by the user, as demonstrated in the Applications Section. For example, the end time of a simulation can be set by entering the following command:</p>
-<div class="highlight-python"><div class="highlight"><pre>simu.endTime = &lt;user specified end time&gt;
+<p>These default values can be overwritten by the user, as demonstrated in the Applications Section.
+For example, the end time of a simulation can be set by entering the following command:</p>
+<div class="highlight-python"><div class="highlight"><pre><span></span>simu.endTime = &lt;user specified end time&gt;
 </pre></div>
-</div>
-<p>By default, running irregular waves (irregular and irregularImport), regular wave with convolution integral (regularCIC), and no wave with convolution integral (noWaveCIC), WEC-Sim calculates the fluid memory term using the convolution integral formulation. Users have the option to use the state space model by specifying the following in the WEC-Sim input file:</p>
-<div class="highlight-python"><div class="highlight"><pre><span class="n">simu</span><span class="o">.</span><span class="n">ssCalc</span><span class="o">=</span><span class="mi">1</span>
-</pre></div>
-</div>
-<div class="admonition note">
-<p class="first admonition-title">Note</p>
-<p class="last">WEC-Sim users are responsible for checking the quality of the radiation IRF fit, and the state space respresentation</p>
 </div>
 </div>
 <div class="section" id="waveclass">
 <h3>waveClass<a class="headerlink" href="#waveclass" title="Permalink to this headline">¶</a></h3>
-<p>The wave class (<code class="docutils literal"><span class="pre">waveClass</span></code>) contains all the information that defines the wave conditions for the time-domain simulation. Typing <code class="docutils literal"><span class="pre">doc</span> <span class="pre">waveClass</span></code> in the MATLAB Command Window provides more information on the wave class functionality, available wave parameters, and default values.</p>
+<p>The wave class (<code class="docutils literal"><span class="pre">waveClass</span></code>) contains all the information that defines the wave conditions for the time-domain simulation.
+Typing <code class="docutils literal"><span class="pre">doc</span> <span class="pre">waveClass</span></code> in the MATLAB command window  or opening the <cite>.m</cite> file in <a href="#id5"><span class="problematic" id="id6">`</span></a>/source/objects/ provides more information on the wave class functionality, available wave parameters, and default values.</p>
 <div class="figure">
 <img alt="_images/waveClass.png" src="_images/waveClass.png" />
 </div>
@@ -256,8 +271,8 @@ is defned by the right-hand rule (as shown below).</p>
 <table border="1" class="docutils">
 <colgroup>
 <col width="15%" />
-<col width="34%" />
-<col width="51%" />
+<col width="32%" />
+<col width="53%" />
 </colgroup>
 <tbody valign="top">
 <tr class="row-odd"><td>waves.type</td>
@@ -274,7 +289,7 @@ is defned by the right-hand rule (as shown below).</p>
 </tr>
 <tr class="row-even"><td>regular</td>
 <td>waves.H waves.T</td>
-<td>Sinusoidal steady-state Reponse Scenario</td>
+<td>Sinusoidal steady-state Response Scenario</td>
 </tr>
 <tr class="row-odd"><td>regularCIC</td>
 <td>waves.H waves.T</td>
@@ -290,33 +305,26 @@ is defned by the right-hand rule (as shown below).</p>
 </tr>
 <tr class="row-even"><td>userDefined</td>
 <td>waves.spectrumDataFile</td>
-<td>Irregular waves with user-defined wave spectrum</td>
+<td>Irregular waves with user-defined wave elevation time-history</td>
 </tr>
 </tbody>
 </table>
-<div class="section" id="nowave">
-<h4>noWave<a class="headerlink" href="#nowave" title="Permalink to this headline">¶</a></h4>
-<p>The noWave case (<code class="docutils literal"><span class="pre">waves.type=’noWave’</span></code>) is for running WEC-Sim simulations without waves, using constant added mass and radiation damping coefficients. This &#8220;wave&#8221; case is typically used to run decay tests for comparisons. Users must still provide hydro coefficients from a BEM solve before executing WEC-Sim. In addition, users MUST specify the period from which the hydrodynamic coefficients are selected by defining the following in the input file:</p>
-<div class="highlight-python"><div class="highlight"><pre>waves.noWaveHydrodynamicCoeffT = &lt;user specified wave period&gt;
+<p>The noWave case (<code class="docutils literal"><span class="pre">waves.type=’noWave’</span></code>) is for running WEC-Sim simulations without waves, using constant added mass and radiation damping coefficients.
+This &#8220;wave&#8221; case is typically used to run decay tests for comparisons.
+Users must still provide hydro coefficients from a BEM solve before executing WEC-Sim.
+In addition, users must specify the period from which the hydrodynamic coefficients are selected by defining the following in the input file:</p>
+<div class="highlight-python"><div class="highlight"><pre><span></span>waves.noWaveHydrodynamicCoeffT = &lt;user specified wave period&gt;
 </pre></div>
 </div>
-</div>
-<div class="section" id="nowavecic">
-<h4>noWaveCIC<a class="headerlink" href="#nowavecic" title="Permalink to this headline">¶</a></h4>
-<p>The noWaveCIC case (<code class="docutils literal"><span class="pre">waves.type=’noWaveCIC’</span></code>) is the same as the noWave case described above,
-with the addition of the convolution integral calculation. The wave type is the same as noWave, except the radiation forces are calculated using the convolution integral and the infinite frequency added mass.</p>
-</div>
-<div class="section" id="regular">
-<h4>regular<a class="headerlink" href="#regular" title="Permalink to this headline">¶</a></h4>
-<p>The regular wave case (<code class="docutils literal"><span class="pre">waves.type=’regular’</span></code>) is for running simulations using regular waves with constant added mass and radiation damping coefficients. Wave period (<code class="docutils literal"><span class="pre">wave.T</span></code>) and wave height (<code class="docutils literal"><span class="pre">wave.H</span></code>) need to be specified in the input file. Using this option, WEC-Sim assumes that the system dynamic response is in sinusoidal steady-state form, where constant added mass and damping coefficients are used (instead of the convolution integral) to calculate wave radiation forces.</p>
-</div>
-<div class="section" id="regularcic">
-<h4>regularCIC<a class="headerlink" href="#regularcic" title="Permalink to this headline">¶</a></h4>
-<p>The regular wave with convolution integral case (<code class="docutils literal"><span class="pre">waves.type=’regularCIC’</span></code>) is the same as regular wave case (described above), except the radiation forces are calculated using the convolution integral and the infinite frequency added mass.</p>
-</div>
-<div class="section" id="irregular">
-<h4>irregular<a class="headerlink" href="#irregular" title="Permalink to this headline">¶</a></h4>
-<p>The irregular wave case (<code class="docutils literal"><span class="pre">waves.type=’irregular’</span></code>)is the wave type for irregular wave simulations using a given wave spectrum. Significant wave height (<code class="docutils literal"><span class="pre">wave.H</span></code>), peak period (<code class="docutils literal"><span class="pre">wave.T</span></code>) and wave spectrum type (<code class="docutils literal"><span class="pre">waves.spectrumtype</span></code>) need to be specified in the input file. The available spectral formulations are listed below.</p>
+<p>The noWaveCIC case (<code class="docutils literal"><span class="pre">waves.type=’noWaveCIC’</span></code>) is the same as the noWave case described above, with the addition of the convolution integral calculation.
+The wave type is the same as noWave, except the radiation forces are calculated using the convolution integral and the infinite frequency added mass.</p>
+<p>The regular wave case (<code class="docutils literal"><span class="pre">waves.type=’regular’</span></code>) is for running simulations using regular waves with constant added mass and radiation damping coefficients.
+Wave period (<code class="docutils literal"><span class="pre">wave.T</span></code>) and wave height (<code class="docutils literal"><span class="pre">wave.H</span></code>) need to be specified in the input file.
+Using this option, WEC-Sim assumes that the system dynamic response is in sinusoidal steady-state form, where constant added mass and damping coefficients are used (instead of the convolution integral) to calculate wave radiation forces.</p>
+<p>The regular wave with convolution integral case (<code class="docutils literal"><span class="pre">waves.type=’regularCIC’</span></code>) is the same as regular wave case, except the radiation forces are calculated using the convolution integral and the infinite frequency added mass.</p>
+<p>The irregular wave case (<code class="docutils literal"><span class="pre">waves.type=’irregular’</span></code>)is the wave type for irregular wave simulations using a given wave spectrum.
+Significant wave height (<code class="docutils literal"><span class="pre">wave.H</span></code>), peak period (<code class="docutils literal"><span class="pre">wave.T</span></code>) and wave spectrum type (<code class="docutils literal"><span class="pre">waves.spectrumtype</span></code>) need to be specified in the input file.
+The available spectral formulations are listed below.</p>
 <p>WEC-Sim wave spectrum options (with <cite>waves.type=irregular</cite>)</p>
 <table border="1" class="docutils">
 <colgroup>
@@ -338,168 +346,114 @@ with the addition of the convolution integral calculation. The wave type is the 
 </tr>
 </tbody>
 </table>
-</div>
-<div class="section" id="irregularimport">
-<h4>irregularImport<a class="headerlink" href="#irregularimport" title="Permalink to this headline">¶</a></h4>
-<p>The irregular waves with user-defined spectrum case (<code class="docutils literal"><span class="pre">waves.type=’irregularImport’</span></code>) is the wave case for irregular wave simulations using user-defined wave spectrum (ex: from buoy data). Users need to specify the wave spectrum file name in WEC-Sim input file as follows:</p>
-<div class="highlight-python"><div class="highlight"><pre>waves.spectrumDataFile=’&lt;wave spectrum file&gt;.txt’
+<p>The irregular waves with user-defined spectrum case (<code class="docutils literal"><span class="pre">waves.type=’irregularImport’</span></code>) is the wave case for irregular wave simulations using user-defined wave spectrum (ex: from buoy data).
+Users need to specify the wave spectrum file name in WEC-Sim input file as follows:</p>
+<div class="highlight-python"><div class="highlight"><pre><span></span>waves.spectrumDataFile=’&lt;wave spectrum file&gt;.txt’
 </pre></div>
 </div>
-<p>The user-defined wave spectrum must be defined with the wave frequency (Hz) in the first row, and the spectral energy density (m^2/Hz) in the second row. An example of which is given in the <code class="docutils literal"><span class="pre">ndbcBuoyData.txt</span></code> file in the applications folder of the WEC-Sim source code. This format can be copied directly from NDBC buoy data. For more information on NDBC buoy data measurement descriptions, refer to the [<a class="reference external" href="http://www.ndbc.noaa.gov/measdes.shtml">http://www.ndbc.noaa.gov/measdes.shtml</a> NDBC website].</p>
+<p>The user-defined wave spectrum must be defined with the wave frequency (Hz) in the first row, and the spectral energy density (m^2/Hz) in the second row.
+An example of this is given in the <code class="docutils literal"><span class="pre">ndbcBuoyData.txt</span></code> file in the applications folder of the WEC-Sim source code.
+This format can be copied directly from NDBC buoy data.
+For more information on NDBC buoy data measurement descriptions, refer to the [<a class="reference external" href="http://www.ndbc.noaa.gov/measdes.shtml">http://www.ndbc.noaa.gov/measdes.shtml</a> NDBC website].</p>
 <p>Note: By default, the phase for irregular waves (irregular and irregularImport) is generated randomly. Users have the ability to seed the random phase by specifying the following in the WEC-Sim input file:</p>
-<div class="highlight-python"><div class="highlight"><pre><span class="n">waves</span><span class="o">.</span><span class="n">randPreDefined</span><span class="o">=</span><span class="mi">1</span>
+<div class="highlight-python"><div class="highlight"><pre><span></span><span class="n">waves</span><span class="o">.</span><span class="n">randPreDefined</span><span class="o">=</span><span class="mi">1</span>
 </pre></div>
 </div>
 <p>This gives the user an option to generate the same &#8220;random&#8221; wave time-series as needed (the default for random phase is <code class="docutils literal"><span class="pre">waves.randPreDefined=0</span></code>).</p>
 </div>
-</div>
 <div class="section" id="bodyclass">
 <h3>bodyClass<a class="headerlink" href="#bodyclass" title="Permalink to this headline">¶</a></h3>
-<p>The body class (<code class="docutils literal"><span class="pre">bodyClass</span></code>) contains the mass and hydrodynamic properties of each body that comprises the WEC being simulated. Each body must have an iteration of the body class initiated in the input file. It is recommended that body objects are named body(&lt;#&gt;). Each body object MUST be initiated by entering the following command in the WEC-Sim input file:</p>
-<div class="highlight-python"><div class="highlight"><pre>body(&lt;#&gt;)=bodyClass(&#39;body name&#39;)
+<p>The body class (<code class="docutils literal"><span class="pre">bodyClass</span></code>) contains the mass and hydrodynamic properties of each body that comprises the WEC being simulated.
+Each body must have an iteration of the body class initiated in the input file.
+Each body object must be initiated by entering the following command in the WEC-Sim input file:</p>
+<div class="highlight-python"><div class="highlight"><pre><span></span>body(&lt;#&gt;)=bodyClass(&#39;h5filename&#39;)
 </pre></div>
 </div>
-<p>Users can specify the mass and hydrodynamic properties for each after the body object is initiated. Each body must have an iteration of the body class initiated, and have the following parameters defined:</p>
-<div class="highlight-python"><div class="highlight"><pre>body(&lt;#&gt;).hydroDataType
-body(&lt;#&gt;).hydroDataLocation
-body(&lt;#&gt;).mass
-body(&lt;#&gt;).cg
-body(&lt;#&gt;).momOfInertia
-</pre></div>
+<p>The available body parameters, and default values defined in the body class can be found by typing <code class="docutils literal"><span class="pre">doc</span> <span class="pre">bodyClass</span></code> in the MATLAB command window or opening the <cite>.m</cite> file in <a href="#id7"><span class="problematic" id="id8">`</span></a>/source/objects/.</p>
+<div class="figure">
+<img alt="_images/bodyClass.png" src="_images/bodyClass.png" />
 </div>
-<p>Users have the option of accepting the default values for the remaining body parameters, or specify their own values. The available wave parameters, and default values defined in the body class can be found by typing <code class="docutils literal"><span class="pre">doc</span> <span class="pre">bodyClass</span></code> in the MATLAB Command Window.</p>
-<p>For example, the viscous drag can be specified by entering the (nondimensional) viscous drag coefficient and the characteristic area (in m^2) in vector format the WEC-Sim input file as follows:</p>
-<div class="highlight-python"><div class="highlight"><pre>body(&lt;#&gt;).cd= [0 0 1.3 0 0 0]
-body(&lt;#&gt;).characteristicArea= [0 0 100 0 0 0]
+<p>For example, the viscous drag can be specified by entering the viscous drag coefficient and the characteristic area in vector format the WEC-Sim input file as follows:</p>
+<div class="highlight-python"><div class="highlight"><pre><span></span>body(&lt;#&gt;).viscDrag.cd= [0 0 1.3 0 0 0]
+body(&lt;#&gt;).viscDrag.characteristicArea= [0 0 100 0 0 0]
 </pre></div>
 </div>
 </div>
 <div class="section" id="constraintclass">
 <h3>constraintClass<a class="headerlink" href="#constraintclass" title="Permalink to this headline">¶</a></h3>
-<p>The constraint class (<code class="docutils literal"><span class="pre">constraintClass</span></code>) is used to connect bodies to the Global Reference Frame. The constraint variable should be initiated by entering the following command in the WEC-Sim input file:</p>
-<div class="highlight-python"><div class="highlight"><pre>constraint(&lt;#&gt;)=constraintClass(&#39;&lt;constraint name&gt;&#39;)
+<p>The constraint class (<code class="docutils literal"><span class="pre">constraintClass</span></code>) is used to define the motion of bodies relative to the reference fram and each other.
+The constraint variable should be initiated by entering the following command in the WEC-Sim input file:</p>
+<div class="highlight-python"><div class="highlight"><pre><span></span>constraint(&lt;#&gt;)=constraintClass(&#39;&lt;constraint name&gt;&#39;)
 </pre></div>
 </div>
-<p>For rotational constraint (ex: pitch), the user also needs to specify its location of the rotational
-joint with respect to the global reference frame in the <code class="docutils literal"><span class="pre">constraint(&lt;#&gt;).loc</span></code> variable</p>
-<p>The available constraint parameters, and default values defined in the constraint class can be found by typing <code class="docutils literal"><span class="pre">doc</span> <span class="pre">constraintClass</span></code> in the MATLAB Command Window.</p>
+<p>For rotational constraint (ex: pitch), the user also needs to specify the location of the rotational joint with respect to the global reference frame in the <code class="docutils literal"><span class="pre">constraint(&lt;#&gt;).loc</span></code> variable.</p>
+<p>The available constraint parameters, and default values defined in the constraint class can be found by typing <code class="docutils literal"><span class="pre">doc</span> <span class="pre">constraintClass</span></code> in the MATLAB command window  or opening the <cite>.m</cite> file in <a href="#id9"><span class="problematic" id="id10">`</span></a>/source/objects/.</p>
 <div class="figure">
 <img alt="_images/constraintClass.png" src="_images/constraintClass.png" />
 </div>
 </div>
 <div class="section" id="ptoclass">
 <h3>ptoClass<a class="headerlink" href="#ptoclass" title="Permalink to this headline">¶</a></h3>
-<p>The pto class (<code class="docutils literal"><span class="pre">ptoClass</span></code>) extracts power from relative body motion with respect to a fixed reference frame or another body. The pto objects can also constrain motion to certain degrees of freedom (for example relative heave motion between the float and spar of a point absorber). The pto variable should be initiated by entering the following command in the WEC-Sim input file:</p>
-<div class="highlight-python"><div class="highlight"><pre>pto(&lt;#&gt;) = ptoClass(&#39;&lt;pto name&gt;&#39;)
+<p>The pto class (<code class="docutils literal"><span class="pre">ptoClass</span></code>) extracts power from relative body motion with respect to a fixed reference frame or another body.
+The pto objects can also constrain motion to certain degrees of freedom.
+The pto variable should be initiated by entering the following command in the WEC-Sim input file:</p>
+<div class="highlight-python"><div class="highlight"><pre><span></span>pto(&lt;#&gt;) = ptoClass(&#39;&lt;pto name&gt;&#39;)
 </pre></div>
 </div>
-<p>For rotational ptos (Local RY), users also needs to specify the pto location. In the PTO class, users can also
-specify linear damping (<code class="docutils literal"><span class="pre">pto(&lt;#&gt;).c</span></code>) and stiffness (<code class="docutils literal"><span class="pre">pto(&lt;#&gt;).k</span></code>) values to represent the PTO system (both have a default value of 0). Users can overwrite the default values in the input file, for example to specify a damping value by entering the following in the WEC-Sim input file:</p>
-<div class="highlight-python"><div class="highlight"><pre>pto(&lt;#&gt;).c = &lt;pto damping value&gt;
+<p>For rotational ptos, users also needs to specify the pto location.
+In the PTO class, users can also specify linear damping (<code class="docutils literal"><span class="pre">pto(&lt;#&gt;).c</span></code>) and stiffness (<code class="docutils literal"><span class="pre">pto(&lt;#&gt;).k</span></code>) values to represent the PTO system (both have a default value of 0).
+Users can overwrite the default values in the input file, for example to specify a damping value by entering the following in the WEC-Sim input file:</p>
+<div class="highlight-python"><div class="highlight"><pre><span></span>pto(&lt;#&gt;).c = &lt;pto damping value&gt;
 </pre></div>
 </div>
-<p>The available pto parameters, and default values defined in the pto class can be found by typing `` doc ptoClass`` in the MATLAB Command Window.</p>
+<p>The available pto parameters, and default values defined in the pto class can be found by typing `` doc ptoClass`` in the MATLAB command window  or opening the <cite>.m</cite> file in <a href="#id11"><span class="problematic" id="id12">`</span></a>/source/objects/.</p>
 <div class="figure">
 <a class="reference internal image-reference" href="_images/ptoClass.png"><img alt="_images/ptoClass.png" src="_images/ptoClass.png" style="width: 400pt;" /></a>
 </div>
 </div>
+<div class="section" id="mooringclass">
+<h3>mooringClass<a class="headerlink" href="#mooringclass" title="Permalink to this headline">¶</a></h3>
+<p>The mooring class (<code class="docutils literal"><span class="pre">mooringClass</span></code>) allows for different fidelity simulation of mooring systems.
+The mooring variable should be initiated by entering the following command in the WEC-Sim input file:</p>
+<div class="highlight-python"><div class="highlight"><pre><span></span>mooring(&lt;#&gt;) = mooringClass(&#39;&lt;mooring name&gt;&#39;)
+</pre></div>
 </div>
-<div class="section" id="output-structure">
-<h2>Output Structure<a class="headerlink" href="#output-structure" title="Permalink to this headline">¶</a></h2>
-<p>After WEC-Sim is done running there will be a new variable, called <code class="docutils literal"><span class="pre">output</span></code>, in your Matlab workspace.
-The <code class="docutils literal"><span class="pre">output</span></code> variable is an instance of the <code class="docutils literal"><span class="pre">responseClass</span></code> class. It contains all the relevant time-series results of the simulation. The structure of the <code class="docutils literal"><span class="pre">output</span></code> variable is shown in the table below. Time series are given as [(# of timesteps) x 6] arrays, where 6 are the degrees of freedom.</p>
+<p>The available mooring parameters, and default values defined in the mooring class can be found by typing `` doc mooringClass`` in the MATLAB command window  or opening the <cite>.m</cite> file in <a href="#id13"><span class="problematic" id="id14">`</span></a>/source/objects/.</p>
+<div class="figure">
+<a class="reference internal image-reference" href="_images/mooringClass.png"><img alt="_images/mooringClass.png" src="_images/mooringClass.png" style="width: 400pt;" /></a>
+</div>
+</div>
+<div class="section" id="responseclass">
+<h3>responseClass<a class="headerlink" href="#responseclass" title="Permalink to this headline">¶</a></h3>
+<p>The response class is not initialized by the user.
+Instead it is created at the end of a WEC-Sim simulation.
+It contains all the output time-series and methods to plot and interact with the results.
+The available parameters are explained in the Output Structure Section.</p>
+<div class="figure">
+<a class="reference internal image-reference" href="_images/responseClass.png"><img alt="_images/responseClass.png" src="_images/responseClass.png" style="width: 400pt;" /></a>
+</div>
+</div>
+</div>
+<div class="section" id="wec-sim-library-input-simulink-model">
+<h2>WEC-Sim Library &amp; Input Simulink Model<a class="headerlink" href="#wec-sim-library-input-simulink-model" title="Permalink to this headline">¶</a></h2>
+<p>In addition to the <cite>wecSimInputFile.m</cite> a WEC-Sim simulation requires a simulink model that represents the WEC system components and connectivities.
+Similar to how the input file uses the WEC-Sim classes, the Simulink model uses the WEC-Sim blocks from the WEC-Sim library.
+There should be a one-to-one between the objects defined in the input file and the blocks used in the Simulink model.</p>
+<p>The WEC-Sim library is divided into 5 sub-libraries.
+The user should be able to model their WEC device using the available WEC-Sim blocks, and possibly some SimMechanics blocks.
+The table below lists the WEC-Sim blocks and their organization into sub-libraries.</p>
 <table border="1" class="docutils">
 <colgroup>
-<col width="22%" />
-<col width="38%" />
-<col width="40%" />
-</colgroup>
-<thead valign="bottom">
-<tr class="row-odd"><th class="head" colspan="3">output</th>
-</tr>
-</thead>
-<tbody valign="top">
-<tr class="row-even"><td>bodies(i)</td>
-<td><p class="first">name</p>
-<p>postion</p>
-<p>velocity</p>
-<p>acceleration</p>
-<p>forceTotal</p>
-<p>forceExcitation</p>
-<p>forceRadiationDamping</p>
-<p>forceAddedMass</p>
-<p>forceRestoring</p>
-<p>forceViscous</p>
-<p>forceMooring</p>
-<p class="last">forceLinearDamping</p>
-</td>
-<td><p class="first">string</p>
-<p>array: (# of timesteps) x 1</p>
-<p>array: (# of timesteps) x 6</p>
-<p>array: (# of timesteps) x 6</p>
-<p>array: (# of timesteps) x 6</p>
-<p>array: (# of timesteps) x 6</p>
-<p>array: (# of timesteps) x 6</p>
-<p>array: (# of timesteps) x 6</p>
-<p>array: (# of timesteps) x 6</p>
-<p>array: (# of timesteps) x 6</p>
-<p>array: (# of timesteps) x 6</p>
-<p class="last">array: (# of timesteps) x 6</p>
-</td>
-</tr>
-<tr class="row-odd"><td>ptos(i)</td>
-<td><p class="first">name</p>
-<p>postion</p>
-<p>velocity</p>
-<p>acceleration</p>
-<p>forceTotal</p>
-<p>forceActuation</p>
-<p>forceConstraint</p>
-<p>forceInternalMechanics</p>
-<p class="last">powerInternalMechanics</p>
-</td>
-<td><p class="first">string</p>
-<p>array: (# of timesteps) x 1</p>
-<p>array: (# of timesteps) x 6</p>
-<p>array: (# of timesteps) x 6</p>
-<p>array: (# of timesteps) x 6</p>
-<p>array: (# of timesteps) x 6</p>
-<p>array: (# of timesteps) x 6</p>
-<p>array: (# of timesteps) x 6</p>
-<p class="last">array: (# of timesteps) x 6</p>
-</td>
-</tr>
-<tr class="row-even"><td>constraints(i)</td>
-<td><p class="first">name</p>
-<p class="last">constraintForces</p>
-</td>
-<td><p class="first">string</p>
-<p class="last">array: (# of timesteps) x 1</p>
-</td>
-</tr>
-<tr class="row-odd"><td>ptosim</td>
-<td>See PTO-Sim section for
-details</td>
-<td>&nbsp;</td>
-</tr>
-</tbody>
-</table>
-</div>
-<div class="section" id="library-structure">
-<h2>Library Structure<a class="headerlink" href="#library-structure" title="Permalink to this headline">¶</a></h2>
-<p>The WEC-Sim library is divided into 4 sublibraries. The user should be able to model their WEC device using the available WEC-Sim blocks, and possibly some SimMechanics blocks. The table below lists the WEC-Sim  blocks and their organization into sublibraries.</p>
-<table border="1" class="docutils">
-<colgroup>
-<col width="38%" />
+<col width="32%" />
 <col width="0%" />
-<col width="62%" />
+<col width="68%" />
 </colgroup>
 <thead valign="bottom">
 <tr class="row-odd"><th class="head" colspan="3">WEC-Sim Library</th>
 </tr>
 </thead>
 <tbody valign="top">
-<tr class="row-even"><td>Sublibrary</td>
+<tr class="row-even"><td>Sub-library</td>
 <td colspan="2">Blocks</td>
 </tr>
 <tr class="row-odd"><td>Body Elements</td>
@@ -509,101 +463,280 @@ details</td>
 <td colspan="2">Global Reference Frame</td>
 </tr>
 <tr class="row-odd"><td>Constraints</td>
-<td colspan="2">Heave
-Surge
-Surge
-Fixed
-Floating</td>
+<td colspan="2">Fixed
+Translational
+Rotational
+Floating (3DOF)
+Floating (6DOF)</td>
 </tr>
 <tr class="row-even"><td>PTOs</td>
-<td colspan="2">Rotational PTO (Local RY)
-Translational PTO (Local X)
-Translational PTO (Local Z)</td>
+<td colspan="2">Translational PTO
+Rotational PTO
+Translational PTO Actuation Force
+Rotational PTO Actuation Torque
+Translational PTO Actuation Motion
+Rotational PTO Actuation Motion</td>
+</tr>
+<tr class="row-odd"><td>Mooring</td>
+<td colspan="2">MooringMatrix
+MoorDyn</td>
 </tr>
 </tbody>
 </table>
-<p>In the following sections, we will describe the four sublibraries and their general purpose. The Body Elements sublibrary contains the Rigid Body block used to simulate the different bodies. The Frames sublibrary contains the Global Reference Frame block necessary for every simulation. The Constraints sublibrary contains blocks that are used to constrain the DOF of the bodies, without including any additional forcing or resistance. The PTOs sublibrary contains blocks used to both simulate a PTO system and restrict the body motion. Both constraints and PTOs can be used to restrict the relative motion between multibody systems. %end{section{Library Structure Overview</p>
-<div class="section" id="body-elements-sublibrary">
-<h3>Body Elements Sublibrary<a class="headerlink" href="#body-elements-sublibrary" title="Permalink to this headline">¶</a></h3>
-<p>The Body Elements sublibrary (Figure~ref{fig:bLib) contains one block, Rigid Body block. It is used to represent rigid bodies. At least one instance of this block is required in each model.</p>
+<div class="figure">
+<a class="reference internal image-reference" href="_images/subLibs.PNG"><img alt="_images/subLibs.PNG" src="_images/subLibs.PNG" style="width: 400pt;" /></a>
+</div>
+<p>This section describes the five sub-libraries and their general purpose.
+The Body Elements sub-library contains the Rigid Body block used to simulate the different bodies.
+The Frames sub-library contains the Global Reference Frame block necessary for every simulation.
+The Constraints sub-library contains blocks that are used to constrain the DOF of the bodies, without including any additional forcing or resistance.
+The PTOs sub-library contains blocks used to both simulate a PTO system and restrict the body motion.
+Both constraints and PTOs can be used to restrict the relative motion between multi-body systems.
+The Mooring sub-library contains blocks used to simulate mooring systems.</p>
+<div class="section" id="body-elements-sub-library">
+<h3>Body Elements Sub-library<a class="headerlink" href="#body-elements-sub-library" title="Permalink to this headline">¶</a></h3>
+<p>The Body Elements sub-library (Figure~ref{fig:bLib) contains one block, the Rigid Body block.
+It is used to represent rigid bodies.
+At least one instance of this block is required in each model.</p>
 <div class="figure">
 <a class="reference internal image-reference" href="_images/bodiesLib.PNG"><img alt="_images/bodiesLib.PNG" src="_images/bodiesLib.PNG" style="width: 400pt;" /></a>
 </div>
-<div class="section" id="rigid-body-block">
-<h4>Rigid Body Block<a class="headerlink" href="#rigid-body-block" title="Permalink to this headline">¶</a></h4>
-<p>The Rigid Body block is used to represent a rigid body in the simulation. The user has to name the blocks &#8216;body(i)&#8217; where i=1,2,... The mass properties, hydrodynamic data, geometry file, mooring, and other properties are then specified in the input file. Within the body block the wave radiation, wave excitation, hydrostatic restoring, viscous damping and mooring forces are calculated.</p>
+<p>The Rigid Body block is used to represent a rigid body in the simulation. The user has to name the blocks &#8216;body(i)&#8217; where i=1,2,...
+The mass properties, hydrodynamic data, geometry file, mooring, and other properties are then specified in the input file.
+Within the body block the wave radiation, wave excitation, hydrostatic restoring, viscous damping and mooring forces are calculated.</p>
 </div>
-</div>
-<div class="section" id="frames-sublibrary">
-<h3>Frames Sublibrary<a class="headerlink" href="#frames-sublibrary" title="Permalink to this headline">¶</a></h3>
-<p>The Frames sublibrary, shown in above, contains one block that is necessary in every model. The Global Reference Frame block defines global references and can be thought of as the seabed.</p>
-</div>
-<div class="section" id="global-reference-frame-block">
-<h3>Global Reference Frame Block<a class="headerlink" href="#global-reference-frame-block" title="Permalink to this headline">¶</a></h3>
-<p>The Global Reference Frame block defines the solver configuration, seabed and free surface description, simulation time, and other global settings. It can be useful to think of the Global Reference Frame as being the seabed when creating a model. Every model requires one instance of the Global Reference Frame block. The Global Reference Frame block uses the simulation class variable simu and the wave class variable waves, which must be defined in the input file.</p>
+<div class="section" id="frames-sub-library">
+<h3>Frames Sub-library<a class="headerlink" href="#frames-sub-library" title="Permalink to this headline">¶</a></h3>
+<p>The Frames sub-library contains one block that is necessary in every model.
+The Global Reference Frame block defines the global coordinates, solver configuration, seabed and free surface description, simulation time, and other global settings.
+It can be useful to think of the Global Reference Frame as being the seabed when creating a model.
+Every model requires one instance of the Global Reference Frame block.
+The Global Reference Frame block uses the simulation class variable simu and the wave class variable waves, which must be defined in the input file.</p>
 <div class="figure">
 <a class="reference internal image-reference" href="_images/framesLib.PNG"><img alt="_images/framesLib.PNG" src="_images/framesLib.PNG" style="width: 400pt;" /></a>
 </div>
 </div>
-<div class="section" id="constraints-sublibrary">
-<h3>Constraints Sublibrary<a class="headerlink" href="#constraints-sublibrary" title="Permalink to this headline">¶</a></h3>
-<p>The blocks within the Constraints sublibrary, shown above, are used to define the DOF of a specific body. Constraints blocks define only the DOF, but do not otherwise apply any forcing or resistance to the body motion. Each Constraints block has two connections, a base (B) and a follower (F). The Constraints block restricts the motion of the block that is connected to the follower relative to the block that is connected to the base. The base of these blocks is typically the Global Reference Frame (which can be thought of as the seabed) and the follower is a Rigid Body.</p>
-<p>There are five Constraints blocks, including three that restrict motion to one DOF (Heave, Surge, Pitch), a free-floating (Floating) block, and a rigid connection (Fixed) block. The rest of this section will describe each Constraints block in more detail.</p>
+<div class="section" id="constraints-sub-library">
+<h3>Constraints Sub-library<a class="headerlink" href="#constraints-sub-library" title="Permalink to this headline">¶</a></h3>
+<p>The blocks within the Constraints sub-library are used to define the DOF of a specific body.
+Constraints blocks define only the DOF, but do not otherwise apply any forcing or resistance to the body motion.
+Each Constraints block has two connections, a base (B) and a follower (F).
+The Constraints block restricts the motion of the block that is connected to the follower relative to the block that is connected to the base.
+For a single body system the base would be the Global Reference Frame (which can be thought of as the seabed) and the follower is a Rigid Body.</p>
 <div class="figure">
 <a class="reference internal image-reference" href="_images/constraintsLib.PNG"><img alt="_images/constraintsLib.PNG" src="_images/constraintsLib.PNG" style="width: 400pt;" /></a>
 </div>
-<div class="section" id="floating-block">
-<h4>Floating Block<a class="headerlink" href="#floating-block" title="Permalink to this headline">¶</a></h4>
-<p>The Floating block is used to simulate a free-floating body. It constrains the motion of the follower to be along the XZ plane of the base. That is, it allows translation in the X- and Z-axis, and rotation about the Y-axis. It  is usually used with the base connected to the Global Reference Frame (seabed), in which case the motion of the follower is along the global XZ plane.</p>
+<table border="1" class="docutils">
+<colgroup>
+<col width="26%" />
+<col width="8%" />
+<col width="66%" />
+</colgroup>
+<thead valign="bottom">
+<tr class="row-odd"><th class="head" colspan="3">Constraint Sub-Library</th>
+</tr>
+</thead>
+<tbody valign="top">
+<tr class="row-even"><td>Block</td>
+<td>DOFs</td>
+<td>Description</td>
+</tr>
+<tr class="row-odd"><td>Fixed</td>
+<td>0</td>
+<td>Rigid connection. Constrains all motion
+between the base and follower</td>
+</tr>
+<tr class="row-even"><td>Translational</td>
+<td>1</td>
+<td>Constrains the motion of the follower
+relative to the base to be translation
+along the constraint&#8217;s Z-axis</td>
+</tr>
+<tr class="row-odd"><td>Rotational</td>
+<td>1</td>
+<td>Constrains the motion of the follower
+relative to the base to be rotation
+about the constraint&#8217;s Y-axis</td>
+</tr>
+<tr class="row-even"><td>Floating (3DOF)</td>
+<td>3</td>
+<td>Constrains the motion of the follower
+relative to the base to planar motion
+with translation along the constraint&#8217;s
+X- and Z- and rotation about the Y- axis</td>
+</tr>
+<tr class="row-odd"><td>Floating (6DOF)</td>
+<td>6</td>
+<td>Allows for unconstrained motion of the
+follower relative to the base</td>
+</tr>
+</tbody>
+</table>
 </div>
-<div class="section" id="heave-block">
-<h4>Heave Block<a class="headerlink" href="#heave-block" title="Permalink to this headline">¶</a></h4>
-<p>The Heave block constrains the motion of the follower relative to the base to be along the Z-axis. In the case of the base connected to the Global Reference Frame (seabed), the body is allowed to move only in the vertical (Z) direction. In the case of the Heave block connecting two bodies, the relative motion of the two bodies is constrained to be only along their Z-axes. The Z-axis of the follower and base will always be parallel and their perpendicular distance will be constant. The actual direction of movement of the follower depends on the orientation of the base.</p>
-</div>
-<div class="section" id="surge-block">
-<h4>Surge Block<a class="headerlink" href="#surge-block" title="Permalink to this headline">¶</a></h4>
-<p>The Surge block constrains the motion of the follower relative to the base to be along the X-axis. If the base is connected to the Global Reference Frame (seabed), the body is allowed to move only in the horizontal (X) direction. If Surge block is connects two bodies, the relative motion of the two bodies is constrained to be only along their X-axes. The X-axis of the follower and base will always be parallel and their perpendicular distance will be constant. The actual direction of movement of the follower depends on the orientation of the base.</p>
-</div>
-<div class="section" id="pitch-block">
-<h4>Pitch Block<a class="headerlink" href="#pitch-block" title="Permalink to this headline">¶</a></h4>
-<p>The Pitch block constrains the relative motion between the follower and the base to be pitch rotation only (about the Y-axis). The distance from both body-fixed coordinate systems to the point of rotation stays constant. The orientation of both body-fixed Y-axes also stays constant. The user MUST enter the point about which the rotation occurs as the constraint&#8217;s location in the input file.</p>
-</div>
-<div class="section" id="fixed-block">
-<h4>Fixed Block<a class="headerlink" href="#fixed-block" title="Permalink to this headline">¶</a></h4>
-<p>The Fixed block is a rigid connection that constrains all motion between the base and follower. It restricts translation in the X- and Z-axis, and rotation about the Y-axis.  Its most common use is for a rigid body fixed to the seabed.</p>
-<div class="admonition note">
-<p class="first admonition-title">Note</p>
-<p class="last">These are the contraints that are currently included in the WEC-Sim code. Please contact the WEC-Sim developers on the <a class="reference external" href="http://ost.io/&#64;WEC-Sim/WEC-Sim">Online Forum</a> for support on how to develop new contraints.</p>
-</div>
-</div>
-</div>
-<div class="section" id="ptos-sublibrary">
-<h3>PTOs Sublibrary<a class="headerlink" href="#ptos-sublibrary" title="Permalink to this headline">¶</a></h3>
-<p>The PTOs sublibrary, shown below, is used to simulate simple PTO systems and to restrict relative motion between multiple bodies or between one body and the seabed. The PTO blocks can simulate simple PTO systems by applying a linear stiffness and damping to the connection. Similar to the Constraints blocks, the PTO blocks have a base (B) and a follower (F). Users MUST name each PTO block &#8216;pto(i)&#8217; where i=1,2,..., and then define their properties in the input file.</p>
-<div class="section" id="translation-pto-local-z-block">
-<h4>Translation PTO (Local Z) Block<a class="headerlink" href="#translation-pto-local-z-block" title="Permalink to this headline">¶</a></h4>
-<p>The Translation PTO (Local Z) is identical to the Heave constraint, but applies a linear stiffness and damping coefficient to the connection. The user has to name the PTOs as described earlier. The user then specifies the stiffness coefficient (in N/m), and damping coefficient (in Ns/m) in the input file.</p>
+<div class="section" id="ptos-sub-library">
+<h3>PTOs Sub-library<a class="headerlink" href="#ptos-sub-library" title="Permalink to this headline">¶</a></h3>
+<p>The PTOs sub-library is used to simulate simple PTO systems and to restrict relative motion between multiple bodies or between one body and the seabed.
+The PTO blocks can simulate simple PTO systems by applying a linear stiffness and damping to the connection.
+Similar to the Constraints blocks, the PTO blocks have a base (B) and a follower (F).
+Users must name each PTO block &#8216;pto(i)&#8217; where i=1,2,..., and then define their properties in the input file.</p>
 <div class="figure">
 <a class="reference internal image-reference" href="_images/ptosLib.PNG"><img alt="_images/ptosLib.PNG" src="_images/ptosLib.PNG" style="width: 400pt;" /></a>
 </div>
+<p>The Translational and Rotational PTOs are identical to the Translational and Rotational constraints, but allow for the application of linear damping and stiffness forces.
+Additionally there are two other variations of the Translational and Rotational PTOs.
+The Actuation Force/Torque PTOs allow the user to define the PTO force/torque at each time-step and provide the position, velocity and acceleration of the PTO at each time-step.
+The user can use the response information to calculate the PTO force/torque.
+The Actuation Motion PTOs allow the user to define the motion of the PTO.
+These can be usefull to simulate forced-oscillation tests.</p>
 </div>
-<div class="section" id="translation-pto-local-x-block">
-<h4>Translation PTO (Local X) Block<a class="headerlink" href="#translation-pto-local-x-block" title="Permalink to this headline">¶</a></h4>
-<p>The Translation PTO (Local X) is identical to the Surge constraint, but additionally applies a linear stiffness and damping coefficient to the connection. The user has to name the PTOs as described earlier. The user then specifies the stiffness coefficient (in N/m), and damping coefficient (in Ns/m) in the input file.</p>
-</div>
-<div class="section" id="rotational-pto-local-ry-block">
-<h4>Rotational PTO (Local RY) Block<a class="headerlink" href="#rotational-pto-local-ry-block" title="Permalink to this headline">¶</a></h4>
-<p>The Rotational PTO (Local RY) is identical to the Pitch constraint, but adds a linear rotational stiffness and damping coefficient to the connection. The user has to name the PTOs as described earlier. The user then specifies the stiffness coefficient (in Nm/rad) and damping coefficient (in Nms/rad) in the input file.</p>
-<div class="admonition note">
-<p class="first admonition-title">Note</p>
-<p class="last">These are the ptos that are currently included in the WEC-Sim code. Please contact the WEC-Sim developers on the <a class="reference external" href="http://ost.io/&#64;WEC-Sim/WEC-Sim">Online Forum</a> for support on how to develop new ptos.</p>
-</div>
+<div class="section" id="mooring-sub-library">
+<h3>Mooring Sub-library<a class="headerlink" href="#mooring-sub-library" title="Permalink to this headline">¶</a></h3>
+<p>The mooring sub-library is used to simulate mooring systems.
+The MooringMatrix block applies linear damping and stiffness based on the motion of the follower relative to the base.
+The MoorDyn block uses the compiled MoorDyn executables and a MoorDyn input file to simulate a realistic mooring system.
+There can be at most one MoorDyn block per Simulink model.
+There is no restrictions on the number of MooringMatrix blocks.</p>
+<div class="figure">
+<a class="reference internal image-reference" href="_images/mooringLib.PNG"><img alt="_images/mooringLib.PNG" src="_images/mooringLib.PNG" style="width: 400pt;" /></a>
 </div>
 </div>
-<div class="section" id="other-simmechanics-blocks">
-<h3>Other SimMechanics Blocks<a class="headerlink" href="#other-simmechanics-blocks" title="Permalink to this headline">¶</a></h3>
-<p>In some situations, users may have to use SimMechanics blocks not included in the WEC-Sim Library to build their WEC model. One commonly used block is the Rigid Transform, which can be used to rotate the frames on PTOs, constraints, and bodies. This is also explained in the SimMechanics {User&#8217;s Guide.</p>
+<div class="section" id="other-simulink-and-simmechanics-blocks">
+<h3>Other Simulink and SimMechanics Blocks<a class="headerlink" href="#other-simulink-and-simmechanics-blocks" title="Permalink to this headline">¶</a></h3>
+<p>In some situations, users may have to use SimMechanics and Simulink blocks not included in the WEC-Sim Library to build their WEC model.</p>
 </div>
+</div>
+<div class="section" id="output-structure">
+<h2>Output Structure<a class="headerlink" href="#output-structure" title="Permalink to this headline">¶</a></h2>
+<p>After WEC-Sim is done running there will be a new variable, called <code class="docutils literal"><span class="pre">output</span></code>, in your Matlab workspace.
+The <code class="docutils literal"><span class="pre">output</span></code> variable is an instance of the <code class="docutils literal"><span class="pre">responseClass</span></code> class.
+It contains all the relevant time-series results of the simulation.
+The structure of the <code class="docutils literal"><span class="pre">output</span></code> variable is shown in the table below.
+Time series are given as [(# of time-steps) x 6] arrays, where 6 are the degrees of freedom.
+In addition to these time-series, the output for each object contains the object&#8217;s name or type and the time vector.</p>
+<p>In addition to the responseClass <code class="docutils literal"><span class="pre">output</span></code> variable, the outputs can be written to ASCII files by using <code class="docutils literal"><span class="pre">simu.outputtxt</span> <span class="pre">=</span> <span class="pre">1;</span></code> in the input file.</p>
+<table border="1" class="docutils">
+<colgroup>
+<col width="21%" />
+<col width="38%" />
+<col width="41%" />
+</colgroup>
+<thead valign="bottom">
+<tr class="row-odd"><th class="head" colspan="3">output</th>
+</tr>
+</thead>
+<tbody valign="top">
+<tr class="row-even"><td>wave</td>
+<td>elevation</td>
+<td>array: (# of time-steps) x 1</td>
+</tr>
+<tr class="row-odd"><td>bodies(i)</td>
+<td><p class="first">position</p>
+<p>velocity</p>
+<p>acceleration</p>
+<p>forceTotal</p>
+<p>forceExcitation</p>
+<p>forceRadiationDamping</p>
+<p>forceAddedMass</p>
+<p>forceRestoring</p>
+<p>forceMorrisonAndViscous</p>
+<p>forceLinearDamping</p>
+<p>cellPressures_time</p>
+<p>cellPressures_hydrostatic</p>
+<p>cellPressures_waveLinear</p>
+<p class="last">cellPressures_waveNonLinear</p>
+</td>
+<td><p class="first">array: (# of time-steps) x 6</p>
+<p>array: (# of time-steps) x 6</p>
+<p>array: (# of time-steps) x 6</p>
+<p>array: (# of time-steps) x 6</p>
+<p>array: (# of time-steps) x 6</p>
+<p>array: (# of time-steps) x 6</p>
+<p>array: (# of time-steps) x 6</p>
+<p>array: (# of time-steps) x 6</p>
+<p>array: (# of time-steps) x 6</p>
+<p>array: (# of time-steps) x 6</p>
+<dl class="last docutils">
+<dt>array: (# nlHydro time-steps)</dt>
+<dd>x (# cells)</dd>
+<dt>array: (# nlHydro time-steps)</dt>
+<dd>x (# cells)</dd>
+<dt>array: (# nlHydro time-steps)</dt>
+<dd>x (# cells)</dd>
+<dt>array: (# nlHydro time-steps)</dt>
+<dd>x (# cells)</dd>
+</dl>
+</td>
+</tr>
+<tr class="row-even"><td>ptos(i)</td>
+<td><p class="first">position</p>
+<p>velocity</p>
+<p>acceleration</p>
+<p>forceTotal</p>
+<p>forceActuation</p>
+<p>forceConstraint</p>
+<p>forceInternalMechanics</p>
+<p class="last">powerInternalMechanics</p>
+</td>
+<td><p class="first">array: (# of time-steps) x 6</p>
+<p>array: (# of time-steps) x 6</p>
+<p>array: (# of time-steps) x 6</p>
+<p>array: (# of time-steps) x 6</p>
+<p>array: (# of time-steps) x 6</p>
+<p>array: (# of time-steps) x 6</p>
+<p>array: (# of time-steps) x 6</p>
+<p class="last">array: (# of time-steps) x 6</p>
+</td>
+</tr>
+<tr class="row-odd"><td>constraints(i)</td>
+<td><p class="first">position</p>
+<p>velocity</p>
+<p>acceleration</p>
+<p class="last">forceConstraint</p>
+</td>
+<td><p class="first">array: (# of time-steps) x 6</p>
+<p>array: (# of time-steps) x 6</p>
+<p>array: (# of time-steps) x 6</p>
+<p class="last">array: (# of time-steps) x 6</p>
+</td>
+</tr>
+<tr class="row-even"><td>mooring(i)</td>
+<td><p class="first">position</p>
+<p>velocity</p>
+<p class="last">forceMooring</p>
+</td>
+<td><p class="first">array: (# of time-steps) x 6</p>
+<p>array: (# of time-steps) x 6</p>
+<p class="last">array: (# of time-steps) x 6</p>
+</td>
+</tr>
+<tr class="row-odd"><td>moorDyn</td>
+<td><p class="first">Lines</p>
+<p class="last">Line# (for each line)</p>
+</td>
+<td><dl class="first last docutils">
+<dt>struct: outputs in the</dt>
+<dd>Lines.out file</dd>
+<dt>struct: outputs in the</dt>
+<dd>Line#.out file</dd>
+</dl>
+</td>
+</tr>
+<tr class="row-even"><td>ptosim</td>
+<td>See PTO-Sim section for
+details</td>
+<td>&nbsp;</td>
+</tr>
+</tbody>
+</table>
+</div>
+<div class="section" id="wec-sim-functions-external-codes">
+<h2>WEC-Sim Functions &amp; External Codes<a class="headerlink" href="#wec-sim-functions-external-codes" title="Permalink to this headline">¶</a></h2>
+<p>While the bulk of the WEC-Sim code consists of the WEC-Sim classes and the WEC-Sim library, the source code also includes supporting functions and external codes.
+These include third party Matlab functions to read <cite>hdf5</cite> an <cite>stl</cite> files, WEC-Sim Matlab functions to write hdf5 files and run WEC-Sim in batch mode, MoorDyn compiled executables, python macros for ParaView vizualisation, and the PTO-Sim class and library.
+Additionally, <a class="reference external" href="http://wec-sim.github.io/bemio/">BEMIO</a> is a code developed by the WEC-Sim team to interact with solutions from the most common BEM codes.
+BEMIO can be used to create the hydrodynamic <cite>h5</cite> file required by WEC-Sim.
+WEC-Sim only includes the compiled executables of MoorDyn.
+Since MoorDyn is also an open source code anyone can obtain the code, modify and recompile it, and replace the executable within WEC-Sim&#8217;s source directory.</p>
 </div>
 </div>
 
