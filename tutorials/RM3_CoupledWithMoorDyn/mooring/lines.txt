@@ -26,7 +26,7 @@ Line     LineType  UnstrLen  NumSegs   NodeAnch  NodeFair  Flags/Outputs
 70       WtrDpth      - water depth
 5.0      CdScaleIC    - factor by which to scale drag coefficients during dynamic relaxation IC gen
 0.001    threshIC     - threshold for IC con
+0        WriteUnits   - option to skip units line in output files if zero
 -------------------------- OUTPUTS --------------------------------
-FairTen1 FairTen2 FairTen3
-Con2px Con2py Con2pz
+FairTen1 FairTen2 FairTen3 Con2px Con2py Con2pz
 --------------------- need this line ------------------
