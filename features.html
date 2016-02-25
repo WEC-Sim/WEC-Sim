@@ -528,12 +528,20 @@ Two tutorials will be given in this section, one for the RM3 with a hydraulic PT
 </div>
 <div class="section" id="mooring-modeling">
 <span id="moordyn"></span><h2>Mooring Modeling<a class="headerlink" href="#mooring-modeling" title="Permalink to this headline">¶</a></h2>
-<p>Floating WEC systems are often connected to mooring lines to keep the device in position. WEC-Sim allows the user to model the mooring dynamics in the simulation by specifying the mooring matrix or coupling with MoorDyn. To include mooring connections, the user can use the mooring block (i.e., Mooring Matrix block or MoorDyn block) given in the WEC-Sim library under the mooring lib and connect it between the body and the Global reference frame. Please see the following Tutorial subsection for more information.</p>
+<p>Floating WEC systems are often connected to mooring lines to keep the device in position. WEC-Sim allows the user to model the mooring dynamics in the simulation by specifying the mooring matrix or coupling with MoorDyn. To include mooring connections, the user can use the mooring block (i.e., Mooring Matrix block or MoorDyn block) given in the WEC-Sim library under Moorings lib and connect it between the body and the Global reference frame. Please see the following Tutorial subsection for more information.</p>
 <div class="section" id="using-mooring-matrix">
 <h3>Using Mooring Matrix<a class="headerlink" href="#using-mooring-matrix" title="Permalink to this headline">¶</a></h3>
+<p>When the mooring matrix block is used, the  mooring matrix can be specified in the WEC-Sim input file (<code class="docutils literal"><span class="pre">wecSimInputFile.m</span></code>). The options inlcude:</p>
+<ul class="simple">
+<li>Mooring stiffness matrix - <code class="code docutils literal"><span class="pre">mooring(i).mooring.k</span> <span class="pre">=</span> <span class="pre">[6x6]</span></code></li>
+<li>Mooring damping matrix - <code class="code docutils literal"><span class="pre">mooring(i).mooring.c</span> <span class="pre">=</span> <span class="pre">[6x6]</span></code></li>
+<li>Mooring pretension - <code class="code docutils literal"><span class="pre">mooring(i).mooring.preTension</span> <span class="pre">=</span> <span class="pre">[6x1]</span></code></li>
+</ul>
+<p>Note: More than one mooring matrix can be speficied in the WEC-Sim model.</p>
 </div>
 <div class="section" id="using-moordyn">
 <h3>Using MoorDyn<a class="headerlink" href="#using-moordyn" title="Permalink to this headline">¶</a></h3>
+<p>When the moorDyn block is used</p>
 </div>
 <div class="section" id="tutorial-rm3-with-moordyn">
 <h3>Tutorial: RM3 with MoorDyn<a class="headerlink" href="#tutorial-rm3-with-moordyn" title="Permalink to this headline">¶</a></h3>
