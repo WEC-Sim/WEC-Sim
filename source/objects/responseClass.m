@@ -106,7 +106,7 @@ classdef responseClass<handle
                 eval(['obj.moorDyn.Line' num2str(iline) '=struct();']);
                 filename = ['./mooring/Line' num2str(iline) '.out'];
                 fid = fopen(filename);
-                header = strsplit(fgetl(fid));
+                header = strsplit(strtrim(fgetl(fid)));
                 data = dlmread(filename,'',1,0);
                 tmp = size(data);
                 ncol = tmp(2);clear tmp
