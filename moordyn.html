@@ -134,23 +134,26 @@
 <p>Floating WEC systems are often connected to mooring lines to keep the device in position. WEC-Sim allows the user to model the mooring dynamics in the simulation by specifying the mooring matrix or coupling with MoorDyn. To include mooring connections, the user can use the mooring block (i.e., Mooring Matrix block or MoorDyn block) given in the WEC-Sim library under Moorings lib and connect it between the body and the Global reference frame. Please see the following Tutorial subsection for more information.</p>
 <div class="section" id="using-mooring-matrix">
 <h2>Using Mooring Matrix<a class="headerlink" href="#using-mooring-matrix" title="Permalink to this headline">¶</a></h2>
-<p>When the mooring matrix block is used, the  mooring matrix can be specified in the WEC-Sim input file (<code class="docutils literal"><span class="pre">wecSimInputFile.m</span></code>). The options inlcude:</p>
+<p>When the mooring matrix block is used, the user first needs to initiate the mooring class by setting <code class="code docutils literal"><span class="pre">mooring(i)</span> <span class="pre">=</span> <span class="pre">mooringClass('mooring</span> <span class="pre">name')</span></code> in the WEC-Sim input file (<code class="docutils literal"><span class="pre">wecSimInputFile.m</span></code>). Typically, the mooring connection location also need to be specified, <code class="code docutils literal"><span class="pre">mooring(i).ref</span> <span class="pre">=</span> <span class="pre">[1x3]</span></code> (the default connection location is <code class="docutils literal"><span class="pre">[0</span> <span class="pre">0</span> <span class="pre">0]</span></code>). The user can also define the mooring matrix properties in the WEC-Sim input file using:</p>
 <ul class="simple">
-<li>Mooring stiffness matrix - <code class="code docutils literal"><span class="pre">mooring(i).mooring.k</span> <span class="pre">=</span> <span class="pre">[6x6]</span></code></li>
-<li>Mooring damping matrix - <code class="code docutils literal"><span class="pre">mooring(i).mooring.c</span> <span class="pre">=</span> <span class="pre">[6x6]</span></code></li>
-<li>Mooring pretension - <code class="code docutils literal"><span class="pre">mooring(i).mooring.preTension</span> <span class="pre">=</span> <span class="pre">[6x1]</span></code></li>
+<li>Mooring stiffness matrix - <code class="code docutils literal"><span class="pre">mooring(i).matrix.k</span> <span class="pre">=</span> <span class="pre">[6x6]</span></code></li>
+<li>Mooring damping matrix - <code class="code docutils literal"><span class="pre">mooring(i).matrix.c</span> <span class="pre">=</span> <span class="pre">[6x6]</span></code></li>
+<li>Mooring pretension - <code class="code docutils literal"><span class="pre">mooring(i).matrix.preTension</span> <span class="pre">=</span> <span class="pre">[1x6]</span></code></li>
 </ul>
-<p>Note: More than one mooring matrix can be speficied in the WEC-Sim model.</p>
+<p>Note: i indicates the mooring number, and more than one mooring can be specified in the WEC-Sim model when the mooring matrix block is used.</p>
 </div>
 <div class="section" id="using-moordyn">
 <h2>Using MoorDyn<a class="headerlink" href="#using-moordyn" title="Permalink to this headline">¶</a></h2>
-<p>When the moorDyn block is used</p>
+<p>When the mooring matrix block is used, the user needs to initiate the mooring class by setting <code class="code docutils literal"><span class="pre">mooring</span> <span class="pre">=</span> <span class="pre">mooringClass('mooring</span> <span class="pre">name')</span></code> in the WEC-Sim input file (wecSimInputFile.m), followed by number of mooring lines is defined in MoorDyn (<code class="docutils literal"><span class="pre">mooring(1).moorDynLines</span> <span class="pre">=</span> <span class="pre">&lt;Number</span> <span class="pre">of</span> <span class="pre">mooring</span> <span class="pre">lines&gt;</span></code>)</p>
+<p>A mooring folder that includes a moorDyn input file (<code class="docutils literal"><span class="pre">lines.txt</span></code>) is required in the simulation folder. A WEC-Sim/MoorDyn coupling example is provided in the tutorial, which will be described in the following subsection.</p>
+<p>Note: WEC-Sim/MoorDyn coupling only allows one mooring configuration in the simulation.</p>
 </div>
 <div class="section" id="tutorial-rm3-with-moordyn">
 <h2>Tutorial: RM3 with MoorDyn<a class="headerlink" href="#tutorial-rm3-with-moordyn" title="Permalink to this headline">¶</a></h2>
+<p>This section describes how to simulate a mooring connected WEC system in WEC-Sim using MoorDyn. The RM3 two-body floating point absorber is connected to a three-point catenary mooring system with an angle of 120 between the lines in this example case.</p>
 <div class="admonition note">
 <p class="first admonition-title">Note</p>
-<p class="last">Coming soon!</p>
+<p class="last">Details Coming soon!</p>
 </div>
 </div>
 </div>
