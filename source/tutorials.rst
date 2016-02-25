@@ -3,14 +3,19 @@
 
 Tutorials
 ==================
-This section provides an overview of the WEC-Sim work flow. First the WEC-Sim file structure is described, then steps for setting up and running a WEC-Sim simulation are described. Finally, examples of using WEC-Sim to simulate WEC devices are presented. Detailed descriptions and options for input files parameters are described in the `Code Structure <http://wec-sim.github.io/WEC-Sim/code_structure.html>`_ section. 
+This section provides an overview of the WEC-Sim work flow. First the WEC-Sim file structure is described, then steps for setting up and running the WEC-Sim code are described. Additionally, two example applications of using WEC-Sim to model WECs are given. For more information about the implementation and additional features, refer to the `Code Structure <http://wec-sim.github.io/WEC-Sim/code_structure.html>`_ section, and to `Advanced Features <http://wec-sim.github.io/WEC-Sim/features.html>`_ section respectively. 
+
+Running WEC-Sim
+---------------------
+The section provides an overview of the WEC-Sim file structure, and outlines the steps to run WEC-Sim.
+
 
 File Structure Overview
------------------------------
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 All files required for a WEC-Sim simulation must be contained within a case directory. This directory can be located anywhere on your computer. The table below list the WEC-Sim case directory structure and required files.
 
 ==================   ==========================  ====================
-**Information**      **File name**               **Location**
+**Information**      **File name**               **Directory**
 Input File           wecSimInputFile.m           ``$CASE``
 Simulink Model       <Simulink_model_name>.slx   ``$CASE``
 Hydrodynamic Data    <hydrodata_file_name>.h5    ``$CASE``/hydroData
@@ -21,55 +26,47 @@ Geometry File        <STL_file_name>.stl         ``$CASE``/geometry
 
 	The WEC-Sim case directory will be referred to as **$CASE**
 
-Running WEC-Sim
-----------------
-The section outlines the steps to run a WEC-Sim simulation.
-
-Step 1: Pre-Processing 
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+Step 1: WEC-Sim Pre-Processing 
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 In the pre-processing step, users need to create the model geometry, calculate the hydrodynamic coefficients and convert the hydrodynamic coefficients into HDF5 format for WEC-Sim read:
 
-* **3D WEC Model**: Create 3D models of each WEC body, and generate a meshes for each body. Export the 3D CAD model in STL format; STL files are used to visualize the WEC bodies in the WEC-Sim/MATLAB GUI, and used for WEC-Sim non-linear hydro.
-* **Run the BEM code**: WEC-Sim requires hydrodynamic coefficients from a BEM code. Typically, these hydrodynamic coefficients for each body of the WEC device are generated using a BEM code (e.g., WAMIT, NEMOH or AQWA).
-* **Run** `BEMIO <http://wec-sim.github.io/bemio/>`_ **to create HDF5 file**: WEC-Sim will read the hydrodynamic data in HDF5 format (``<hydrodata_file_name>.h5``). BEMIO was developed to parse BEM solutions into the required HDF5 data stucture (BEMIO currently parses hydrodynamic coefficients from WAMIT, NEMOH and AQWA). 
+* **3D WEC Model**: Create 3D models of the WEC, and generate a meshes for each body. Export the 3D CAD model in STL format. STL files are used to visualize the WEC bodies in the WEC-Sim/MATLAB GUI, and used for `WEC-Sim non-linear hydro <http://wec-sim.github.io/WEC-Sim/features.html#nonlinear-hydrodynamic-forces>`_.
+* **Generate hydrodynamic coefficients**: WEC-Sim requires frequency-domain hydrodynamic coefficients (added mass, radiation damping, and wave excitation). Typically, these hydrodynamic coefficients for each body of the WEC device are generated using a boundary element method (BEM) code (e.g., WAMIT, NEMOH or AQWA).
+* **Create HDF5 file**: WEC-Sim reads the hydrodynamic data in HDF5 format from the (``<hydrodata_file_name>.h5``) file. `BEMIO <http://wec-sim.github.io/bemio/>`_ was developed to parse BEM solutions (from WAMIT, NEMOH and AQWA) into the required HDF5 data structure. 
 
 .. Note::
-	* To ensure that WEC-Sim uses the correct hydrodynamic coefficients to model the WEC system, the hydrodynamic coefficients **must** be given at the center of gravity for each body. If WAMIT is used, the center of gravity for each body **must** be at the origin of the body coordinate system (XBODY) in WAMIT simulations. More details on WAMIT setup are given in the `WAMIT User Manual <http://www.wamit.com/manual.htm>`_.
-	* Users are also allowed to specify their own hydrodynamic coefficients by modifying an existing HDF5 file or create their own HDF5 file with customized hydrodynamic coefficients following HDF5 format used in BEMIO.
+	* WEC-Sim requires that all hydrodynamic coefficients must be given at the center of gravity for each body. 
+	* If WAMIT is used, the center of gravity for each body must be at the origin of the body coordinate system (XBODY). More details on WAMIT setup are given in the `WAMIT User Manual <http://www.wamit.com/manual.htm>`_.
+	* Users are able to specify their own hydrodynamic coefficients by creating their own HDF5 file with customized hydrodynamic coefficients following HDF5 format created in BEMIO.
 
-Step2: Build WEC-Sim Simulink Model
+Step 2: Build WEC-Sim model in Simulink
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-Next, the user must build the device model using the Simulink/SimMechanics toolboxes and the WEC-Sim Library. Figure below shows an example of a a two-body point absorber modeled in Simulink/SimMechanics.
+In this step, users build their WEC model using the WEC-Sim Library developed in Simulink/SimMechanics. The figure below shows an example of a a two-body point absorber modeled using WEC-Sim Library.
 
 .. figure:: _static/exampleWecModel.png
    :width: 400pt
 
-Step 3: Setip WEC-Sim Input File
+Step 3: Write WEC-Sim input file
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-A WEC-Sim input file needs to be created in the case directory, and it MUST be named ``wecSimInputFile.m``. An example of the input file for a two-body point absorber is shown in the following figure. In the input file, the simulation settings, sea state, body mass properties, PTO, and constraints are specified. In addition, users MUST specify the Simulink/SimMechanics model file name in the ``wecSimInputFile.m``, which is::
-
-	   simu.simMechanicsFile=<WEC Model Name>.slx.
+The WEC-Sim input file must be created in the ``$CASE`` directory, and must be named ``wecSimInputFile.m``. The figure below shows an example of a WEC-Sim input file. The input file specifies the simulation settings, body mass properties, wave conditions, joints, and mooring. Additionally, the WEC-Sim input file must specify the filename of the WEC-Sim Simulink model, ``<Simulink_model_name>.slx``.
 
 .. figure:: _static/runWECSim_mod.png
    :width: 400pt
 
 Step 4: Execute WEC-Sim
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-Finally, execute the simulation by running the ``wecSim`` command from the MATLAB Command Window. The wecSim command must be executed in the WEC-Sim case directory where the ``wecSimInputFile.m`` is located.
+Execute the WEC-Sim code by typing ``wecSim`` into the MATLAB Command Window. The WEC-Sim code must be executed in the ``$CASE`` directory.
 
 .. Note::
 
-	WEC-Sim simulations should always be executed from the MATLAB Command Window and not from the Simulink/SimMechanics model. This ensures that the correct variables are in the MATLAB workspace during simulation.
-
-
-This section describes how to use the WEC-Sim code to model two different WECs. The first application models a two-body point absorber WEC, and the second application models an OSWEC. RM3 Two-Body Point Absorber and Oscillating Surge-Pitch Device sections use a simple linear damper while RM3 with PTO-Sim and OSWEC with PTO-Sim can model PTO as hydraulic or mechanical. The files corresponding to these examples are included in the tutorials directory of the WEC-Sim source code.
+	WEC-Sim simulations should always be executed from the MATLAB Command Window, not from the Simulink/SimMechanics model.
 
 
 Two-Body Point Absorber (RM3)
 -----------------------------
-Geometry Definition
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-The first application of the WEC-Sim code is the Reference Model 3 (RM3) two-body point absorber design. Although the WEC is free to move in all 6DOF in response to wave motion, power is captured only in the relative heave direction. The RM3 device was selected because the design has already been well characterized both numerically and experimentally as a result of the DOE-funded Reference Model Project, more information on this project available on the  `Reference Model website <http://energy.sandia.gov/rmp>`_. In addition, the device has relatively simple operating principles and is representative of designs WEC industry is currently pursuing. RM3 is a simple two-body point absorber, consisting of a float and a reaction plate. The full-scale dimensions of the RM3 and its mass properties are are shown below.
+The sections describes application of the WEC-Sim code to model the Reference Model 3 (RM3) two-body point absorber WEC. This example application is provided in the WEC-Sim code release in the `tutorials <https://github.com/WEC-Sim/WEC-Sim/tree/master/tutorials>`_ directory.
+
+The RM3 two-body point absorber WEC has been characterized both numerically and experimentally as a result of the DOE-funded `Reference Model Project <http://energy.sandia.gov/rmp>`_. The RM3 is a two-body point absorber, consisting of a float and a reaction plate. Full-scale dimensions of the RM3 and its mass properties are shown below.
 
 .. figure:: _static/RM3_Geom.jpg
    :width: 400pt
@@ -100,55 +97,57 @@ The first application of the WEC-Sim code is the Reference Model 3 (RM3) two-bod
 |-21.29|         |          |217,593   |28,542,225|
 +------+---------+----------+----------+----------+ 
 
-Hydrodynamic Data Pre-Processing
+File Structure Overview
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+Below is an overview of the files required to run the RM3 simulation in WEC-Sim. For the RM3 WEC, consisting of a buoy and a plate, there are two corresponding geometry files: ``float.stl`` and ``plate.stl``. In addition to the required files listed below, users may supply a ``userDefinedFunctions.m`` file for post-processing results once the WEC-Sim run is complete. 
+
+==================   =====================  =========================
+**Information**      **File name**          **Directory**
+Input File           wecSimInputFile.m      /tutorials/rm3/
+Simulink Model       rm3.slx   		    /tutorials/rm3/
+Hydrodynamic Data    rm3.h5    		    /tutorials/rm3/hydroData/
+Geometry File        float.stl & plate.stl  /tutorials/rm3/geometry/
+==================   =====================  =========================
+
+Step 1: WEC-Sim Pre-Processing
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-The hydrodynamic data for each body must be supplied in `bemio` hydrodynamic data format generated using the `bemio <http://wec-sim.github.io/bemio/>`_ code. The hydrodynamic data for each body can be supplied in one single ''hdf5'' file, or several (ie. one per body). In this application case, a single file is provided. This file was created based on a WAIMT run of the RM3 geometry, using the WAMIT output file and the WAMIT reader from the  bemio. The WAMIT ``*.out`` file and the python `bemio` script used to create the `hdf5` are included as well. All these files are located in the ``/hydroData`` directory of the RM3 application case.
+Hydrodynamic data for each RM3 body must be parsed into a HDF5 file using the `BEMIO <http://wec-sim.github.io/bemio/>`_ hydrodynamic data format. The RM3 HDF5 file (``rm3.h5``) was created based on a WAMIT run of the RM3 geometry. The RM3 WAMIT ``rm3.out`` file and the BEMIO ``readWAMIT.py`` script used to generate the HDF5 are included in the ``/hydroData`` directory.
 
-Modeling RM3 in WEC-Sim
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-In this section,   a step by step tutorial on how to set up and run the RM3 simulation in WEC-Sim is provided. 
+Step 2: Build WEC-Sim model in Simulink
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+The WEC-Sim Simulink model is created by dragging and dropping blocks from the WEC-Sim library into the ``rm3.slx`` file. 
 
-All WEC-Sim models consist of a input file (``wecSimInputFile.m``), and a Simulink model file (``RM3.slx``). To run the WEC-Sim simulation, the user needs to provide results from the frequency-domain BEM solver, to populate the WEC-Sim hydrodynamic coefficients. These results must be provided in the form of one or several  ``*.h5`` file(s) as described in Section 3.1.2. The user also needs to specify the 3-D geometry file for each body  in the form of a ``*.stl`` file with the origin of the coordinate system at the center of gravity. this is used for the WEC-Sim visualization. For the RM3 run consisting of a buoy and a spar plate, these files correspond to the ``float.stl`` and ``plate.stl`` files respectively. The RM3 ``*.stl`` files are located in the ''/geometry'' directory. Additionally users have the option of supplying a ``userDefinedFunctions.m`` file for post-processing immediately after the WEC-Sim run is complete. In summary, the files needed to run a WEC-Sim case are the following:
-
-* Input file: ``wecSimInputFile.m``
-* Simulink model: ``rm3.slx``
-* Geometry file for each body: ``float.stl`` and ``plate.stl``
-* Hydrodynamic data file(s): ``rm3.h5`` 
-* Optional user defined postprocessing file: ``userDefinedFunctions.m``
-
-RM3 Simulink Model
-~~~~~~~~~~~~~~~~~~~~~~~~~~~
-The first step to initiate a WEC-Sim simulation is to create the Simulink model file by dragging and dropping blocks from the WEC-Sim library into the ``rm3.slx`` file. 
-
-* Step 1: Place two ``Rigid Body`` blocks from the WEC-Sim library in the Simulink model file, one for each RM3 rigid body, as shown in the figure below. 
+* Place two **Rigid Body** blocks from the WEC-Sim Library in the Simulink model file, one for each RM3 rigid body.
 
 .. figure:: _static/RM3_WECSim_Body.jpg
    :width: 400pt
 
 
-* Step 2: Double click on the ``Rigid Body`` block, and rename the instances of the body. The first body should be titled 'body(1)', and the second body should be titled ``'body(2)'``. Additional properties of these body blocks are defined in the following RM3 MATLAB input file.
+* Double click on the **Rigid Body** block, and rename each instance of the body. The first body must be called **body(1)**, and the second body should be called **body(2)**. 
 
 
-* Step 3: Place the ``Global Reference Frame`` from the WEC-Sim library in the Simulink model file, as shown in the figure below. The global reference frame acts as the seabed to which all other bodies are linked through joints or constraints.
+* Place the **Global Reference Frame** from the WEC-Sim Library in the Simulink model file. The global reference frame acts as the seabed.
 
 .. figure:: _static/RM3_WECSim_GlobalRef.jpg
    :width: 400pt
 
 
-* Step 4: Use the ``Floating constraint`` block to connect the plate to the seabed. This is done because the RM3 is free to move relative to the global reference frame. Step 4 and 5 connections are shown in the figure below. 
+* Place the **Floating (3DOF)** block to connect the plate to the seabed. This constrains the plate to move in 3DOF relative to the **Global Reference Frame**. 
 
 
-* Step 5: Place a ``Translational PTO (Local Z)`` block to connect the float to the spar. This is necessary because the float is restricted to heave motion relative to the plate. For the RM3 simulation, the translational PTO block is used to model the WEC's PTO as a linear damper. The parameters are defined in the RM3 MATLAB input file.
+* Place the **Translational PTO** block to connect the float to the spar. This constrains the float to move in heave relative to the spar, and allows definition of PTO damping. 
 
 .. figure:: _static/RM3_WECSim.JPG
    :width: 400pt
 
+.. Note::
 
-When setting up a WEC-Sim model, it is important to note the base and follower frames. For example, for the constraint between the plate and the reference frame should be the base because the plate moves relative to it.  Similarly, for the PTO between the float and the plate, the plate should be defined as the base and the float as the follower.
+	When setting up a WEC-Sim model, it is very important to note the base and follower frames.
 
-RM3 Input File
-~~~~~~~~~~~~~~~~~~~~~~~~~~~
-In this section, we define the WEC-Sim MATLAB input file for the RM3 model. Each of the lines are commented to explain the purpose of the defined parameters. For the RM3 model, the user must define the simulation parameters, body properties, PTO, and constraint definitions. The specified input parameters for RM3 are shown in the figure below.
+
+Step 3: Write WEC-Sim input file
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+The WEC-Sim input file defines simulation parameters, body properties, joints, and mooring for the RM3 model. The ``wecSimInputFile.m`` for the RM3 is provided in the RM3 case directory, and shown below.
 
 .. figure:: _static/RM3wecSimInputFile.png
    :width: 400pt
@@ -157,16 +156,16 @@ In this section, we define the WEC-Sim MATLAB input file for the RM3 model. Each
 .. _`RM3 with WEC-Sim`:
 .. _Simulation:
 
-RM3 WEC-Sim Simulation
-~~~~~~~~~~~~~~~~~~~~~~~~~
-Once the WEC-Sim Simulink model is set up and the RM3 properties are defined in the MATLAB input file, the user can then run the RM3 model in WEC-Sim by running the ``wecSim`` command from the MATLAB Command Window. The figure below shows the final RM3 Simulink model and the WEC-Sim GUI during the simulation. For more information on using WEC-Sim to model the RM3 device, refer to :cite:`ruehl_preliminary_2014`.
+Step 4: Execute WEC-Sim
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+To execute the WEC-Sim code for the RM3 tutorial, type ``wecSim`` into the MATLAB Command Window. Below is a figure showing the final RM3 Simulink model and the WEC-Sim GUI during the simulation. For more information on using WEC-Sim to model the RM3 device, refer to :cite:`ruehl_preliminary_2014`.
 
 .. figure:: _static/RM3_WECSim_GUI.JPG
    :width: 400pt
 
-Outputs and Postprocessing
+Output and Post-processing
 ++++++++++++++++++++++++++++
-This example has a ``userDefinedFunctions.m`` which plots different forces and responses. The user is encouraged to modify this file. Additionally, after the WEC-Sim run is done, the user has access to the ``output`` variable in the workspace which contains all the simulation outputs.
+The RM3 example includes a ``userDefinedFunctions.m`` which plots RM3 forces and responses. This file can be modified by users for post-processing. Additionally, once the WEC-Sim run is complete, the WEC-Sim results are saved to the **output** variable in the MATLAB workspace.
 
 Running Different Wave Cases
 ++++++++++++++++++++++++++++
@@ -178,7 +177,7 @@ The input file in the RM3 example has four different wave examples:
 
 By default the regular waves case is used. To run either of the other three cases the user needs to comment out the regular wave case and uncomment the desired case. Additionally, the user can create any other desired wave. 
 
-Note: If ``simu.ssCalc=1`` is uncommented, the user needs to make sure the the state space hydrodynamic coefficients are included in the ``<hydro-data name>.hd5`` file. User can generate the state space hydrodynamic coefficients and export the values in the ``<hydro-data name>.hd5`` file using the bemio code. More details are discribed in the `Calculating Impulse Response Functions and Sate Space Coefficients <http://wec-sim.github.io/bemio/api.html#calculating-impulse-response-functions-and-sate-space-coefficients>`_ section in the `bemio` Documentation and Users Guide
+Note: If ``simu.ssCalc=1`` is uncommented, the user needs to make sure the state space hydrodynamic coefficients are included in the ``<hydro-data name>.hd5`` file. User can generate the state space hydrodynamic coefficients and export the values in the ``<hydro-data name>.hd5`` file using the bemio code. More details are described in the `Calculating Impulse Response Functions and Sate Space Coefficients <http://wec-sim.github.io/bemio/api.html#calculating-impulse-response-functions-and-sate-space-coefficients>`_ section in the `bemio` Documentation and Users Guide
 
   
 Oscillating Surge WEC (OSWEC)
