@@ -29,7 +29,6 @@ Tutorial: RM3 with MoorDyn
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 This section describes how to simulate a mooring connected WEC system in WEC-Sim using MoorDyn. The RM3 two-body floating point absorber is connected to a three-point catenary mooring system with an angle of 120 between the lines in this example case.
 
-
 .. Note::
 
-	Coming soon!
+	Details Coming soon!
