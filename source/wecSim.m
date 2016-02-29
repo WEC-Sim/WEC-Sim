@@ -330,7 +330,7 @@ if simu.paraview == 1
     for ii = 1:length(body(1,:))
         bodyname = output.bodies(ii).name;
         mkdir(['vtk' filesep 'body' num2str(ii) '_' bodyname]);
-        body(ii).write_paraview_vtp(output.bodies(ii).time, output.bodies(ii).position, bodyname, simu.simMechanicsFile, datestr(simu.simulationDate), hspressure{ii}.signals.values, wpressurenl{ii}.signals.values, wpressurel{ii}.signals.values);
+        body(ii).write_paraview_vtp(output.bodies(ii).time, output.bodies(ii).position, bodyname, simu.simMechanicsFile, datestr(simu.simulationDate), hspressure{ii}, wpressurenl{ii}, wpressurel{ii});
         bodies{ii} = bodyname;
         fprintf(fid,[bodyname '\n']);
         fprintf(fid,[num2str(body(ii).viz.color) '\n']);
