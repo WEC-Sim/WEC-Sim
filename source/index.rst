@@ -26,7 +26,7 @@ WEC-Sim (Wave Energy Converter SIMulator) is an open-source wave energy converte
 The WEC-Sim development team will host a two-day WEC-SIm Training course at Oregon State University, Kearney Hall on **March 8th & 9th, 2016**. Please contact Arielle.Cardinal@nrel.gov by February 29th if you are 
 interested in attending or with questions.
 
-`WEC-Sim v2.0 Pre-Release <https://github.com/WEC-Sim/WEC-Sim/releases/tag/v2.0pre>`_
+`WEC-Sim v2.0 <https://github.com/WEC-Sim/WEC-Sim/releases/tag/v2.0>`_
 -------------------------------------------------------------------------------------
 * Updated WEC-Sim Library (generalized joints)
 * Mooring implemented in mooringClass (no longer in body or joint)
