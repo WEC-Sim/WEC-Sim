@@ -635,7 +635,7 @@ classdef bodyClass<handle
                 if ~isempty(hspressure)
                     fprintf(fid,'        <DataArray type="Float32" Name="Hydrostatic Pressure" NumberOfComponents="1" format="ascii">\n');
                     for ii = 1:numFace
-                        fprintf(fid, '          %i', hspressure(it,ii));
+                        fprintf(fid, '          %i', hspressure.signals.values(it,ii));
                     end; 
                     fprintf(fid, '\n');
                     fprintf(fid,'        </DataArray>\n');
@@ -644,7 +644,7 @@ classdef bodyClass<handle
                 if ~isempty(wavenonlinearpressure)
                     fprintf(fid,'        <DataArray type="Float32" Name="Wave Pressure NonLinear" NumberOfComponents="1" format="ascii">\n');
                     for ii = 1:numFace
-                        fprintf(fid, '          %i', wavenonlinearpressure(it,ii));
+                        fprintf(fid, '          %i', wavenonlinearpressure.signals.values(it,ii));
                     end; 
                     fprintf(fid, '\n');
                     fprintf(fid,'        </DataArray>\n');
@@ -653,7 +653,7 @@ classdef bodyClass<handle
                 if ~isempty(wavelinearpressure)
                     fprintf(fid,'        <DataArray type="Float32" Name="Wave Pressure Linear" NumberOfComponents="1" format="ascii">\n');
                     for ii = 1:numFace
-                        fprintf(fid, '          %i', wavelinearpressure(it,ii));
+                        fprintf(fid, '          %i', wavelinearpressure.signals.values(it,ii));
                     end; 
                     fprintf(fid, '\n');
                     fprintf(fid,'        </DataArray>\n');
