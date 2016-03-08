@@ -394,7 +394,7 @@ Inertia (kg-m^2)</td>
 <h3>Step 3: Write WEC-Sim input file<a class="headerlink" href="#id7" title="Permalink to this headline">¶</a></h3>
 <p>The WEC-Sim input file defines simulation parameters, body properties, joints, and mooring for the RM3 model. The <code class="docutils literal"><span class="pre">wecSimInputFile.m</span></code> for the RM3 is provided in the RM3 case directory, and shown below.</p>
 <p><em>RM3 wecSimInputFile</em></p>
-<div class="highlight-matlab"><div class="highlight"><pre><span class="c">%% Simulation Data</span>
+<div class="highlight-matlab"><div class="highlight"><pre><span></span><span class="c">%% Simulation Data</span>
 <span class="n">simu</span> <span class="p">=</span> <span class="n">simulationClass</span><span class="p">();</span>               <span class="c">%Create the Simulation Variable</span>
 <span class="n">simu</span><span class="p">.</span><span class="n">simMechanicsFile</span> <span class="p">=</span> <span class="s">&#39;RM3.slx&#39;</span><span class="p">;</span>      <span class="c">%Specify Simulink Model File</span>
 <span class="n">simu</span><span class="p">.</span><span class="n">endTime</span><span class="p">=</span><span class="mi">400</span><span class="p">;</span>                       <span class="c">%Simulation End Time [s]</span>
@@ -565,7 +565,7 @@ of Inertia
 <h3>Step 3: Write WEC-Sim input file<a class="headerlink" href="#id15" title="Permalink to this headline">¶</a></h3>
 <p>The WEC-Sim input file defines simulation parameters, body properties, joints, and mooring for the OSWEC model. The <code class="docutils literal"><span class="pre">wecSimInputFile.m</span></code> for the OSWEC is provided in the RM3 case directory, and shown below.</p>
 <p><em>OSWEC wecSimInputFile</em></p>
-<div class="highlight-matlab"><div class="highlight"><pre><span class="c">%% Simulation Data</span>
+<div class="highlight-matlab"><div class="highlight"><pre><span></span><span class="c">%% Simulation Data</span>
 <span class="n">simu</span> <span class="p">=</span> <span class="n">simulationClass</span><span class="p">();</span>               <span class="c">%Create the Simulation Variable</span>
 <span class="n">simu</span><span class="p">.</span><span class="n">simMechanicsFile</span> <span class="p">=</span> <span class="s">&#39;OSWEC.slx&#39;</span><span class="p">;</span>    <span class="c">%Specify Simulink Model File</span>
 <span class="n">simu</span><span class="p">.</span><span class="n">endTime</span><span class="p">=</span><span class="mi">400</span><span class="p">;</span>                       <span class="c">%Simulation End Time [s]</span>
