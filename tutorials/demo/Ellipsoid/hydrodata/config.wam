@@ -1,0 +1,6 @@
+! generic configuration file:  config.wam
+ RAMGBMAX=0.5
+ NCPU=4
+ USERID_PATH=.\WAMIT   (directory for *.exe, *.dll, and userid.wam)
+
+
