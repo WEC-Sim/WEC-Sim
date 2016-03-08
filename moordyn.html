@@ -151,10 +151,27 @@
 <div class="section" id="tutorial-rm3-with-moordyn">
 <h2>Tutorial: RM3 with MoorDyn<a class="headerlink" href="#tutorial-rm3-with-moordyn" title="Permalink to this headline">¶</a></h2>
 <p>This section describes how to simulate a mooring connected WEC system in WEC-Sim using MoorDyn. The RM3 two-body floating point absorber is connected to a three-point catenary mooring system with an angle of 120 between the lines in this example case.</p>
-<div class="admonition note">
-<p class="first admonition-title">Note</p>
-<p class="last">Details Coming soon!</p>
+<ul class="simple">
+<li>WEC Model: To couple WEC-Sim with MoorDyn, the MoorDyn Block is added in parallel to the constraint block</li>
+</ul>
+<div class="figure align-center" id="wecsimmoordyn">
+<a class="reference internal image-reference" href="_images/WECSimMoorDyn.png"><img alt="_images/WECSimMoorDyn.png" src="_images/WECSimMoorDyn.png" style="width: 400pt;" /></a>
 </div>
+<ul class="simple">
+<li>WEC-Sim input file: In the <code class="docutils literal"><span class="pre">wecSimInput.m</span></code> file, the user need to initiate the mooring class and define the number of mooring lines.</li>
+</ul>
+<div class="figure align-center" id="wecsiminputmoordyn">
+<a class="reference internal image-reference" href="_images/WECSimInputMoorDyn.png"><img alt="_images/WECSimInputMoorDyn.png" src="_images/WECSimInputMoorDyn.png" style="width: 400pt;" /></a>
+</div>
+<ul class="simple">
+<li>MoorDyn Input File: A mooring folder that includes a moorDyn input file (<code class="docutils literal"><span class="pre">lines.txt</span></code>) is created. The moorDyn input file (<code class="docutils literal"><span class="pre">lines.txt</span></code>) is shown in the figure below. More details on how to setup the MooDyn input file were described in the MoorDyn User Guide <a class="reference internal" href="theory.html#hall2015moordynguide" id="id1">[1]</a>.</li>
+</ul>
+<div class="figure align-center" id="moordyninput">
+<a class="reference internal image-reference" href="_images/moorDynInput.png"><img alt="_images/moorDynInput.png" src="_images/moorDynInput.png" style="width: 400pt;" /></a>
+</div>
+<ul class="simple">
+<li>Simulation and Postprocessing: Simulation and postprocessing are the same process as described in WEC-Sim Simulation example above.</li>
+</ul>
 </div>
 </div>
 
