@@ -225,10 +225,12 @@ For example, the radiation damping force for body 2 in a 3-body system with body
 </div>
 <div class="section" id="different-time-step-size">
 <h3>Different Time Step Size<a class="headerlink" href="#different-time-step-size" title="Permalink to this headline">¶</a></h3>
-<div class="admonition note">
-<p class="first admonition-title">Note</p>
-<p class="last">Coming soon!</p>
-</div>
+<p>Typically, 100~500 time steps per wave period is sufficient to provide accurate results for the hydrodynamic force calculations in WEC-Sim simulation. However, smaller time steps may be needed when coupling WEC-Sim with MoorDyn or using PTO-Sim. To reduce the required overall WEC-Sim simulation time, a different time step size can be specified in the WEC-Sim input file (<code class="docutils literal"><span class="pre">wecSimInputFile.m</span></code>) to account for nonlinear hydrodynamics and for convolution integral calculations, respectively.</p>
+<p>N is number of increment steps (default: N=1):</p>
+<ul class="simple">
+<li>Nonlinear hydrodynamics calculation - <code class="code docutils literal"><span class="pre">simu.dtFeNonlin=N*simu.dt</span></code></li>
+<li>Convolution integral calculation - <code class="code docutils literal"><span class="pre">simu.dtCITime=N*simu.dt</span></code></li>
+</ul>
 </div>
 <div class="section" id="non-hydrodynamic-bodies">
 <h3>Non-Hydrodynamic Bodies<a class="headerlink" href="#non-hydrodynamic-bodies" title="Permalink to this headline">¶</a></h3>
@@ -561,7 +563,7 @@ Two tutorials will be given in this section, one for the RM3 with a hydraulic PT
 <a class="reference internal image-reference" href="_images/WECSimInputMoorDyn.png"><img alt="_images/WECSimInputMoorDyn.png" src="_images/WECSimInputMoorDyn.png" style="width: 400pt;" /></a>
 </div>
 <ul class="simple">
-<li>MoorDyn Input File: A mooring folder that includes a moorDyn input file (<code class="docutils literal"><span class="pre">lines.txt</span></code>) is created. The moorDyn input file (<code class="docutils literal"><span class="pre">lines.txt</span></code>) is shown in the figure below. More details on how to setup the MooDyn input file were described in <a class="reference internal" href="theory.html#hall2015moordynguide" id="id4">[15]</a>.</li>
+<li>MoorDyn Input File: A mooring folder that includes a moorDyn input file (<code class="docutils literal"><span class="pre">lines.txt</span></code>) is created. The moorDyn input file (<code class="docutils literal"><span class="pre">lines.txt</span></code>) is shown in the figure below. More details on how to setup the MooDyn input file were described in the MoorDyn User Guide <a class="reference internal" href="theory.html#hall2015moordynguide" id="id4">[1]</a>.</li>
 </ul>
 <div class="figure align-center" id="moordyninput">
 <a class="reference internal image-reference" href="_images/moorDynInput.png"><img alt="_images/moorDynInput.png" src="_images/moorDynInput.png" style="width: 400pt;" /></a>

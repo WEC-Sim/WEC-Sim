@@ -46,15 +46,16 @@ Simulation Options
 
 Multiple Condition Runs
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-.. Note::
-
-	Coming soon!
+WEC-Sim also allows user to run multiple conditions in one WEC-Sim simulation by typing wecSim in the ``wecSimMCR`` into the MATLAB Command Window.
 
 Different Time Step Size
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-.. Note::
+Typically, 100~500 time steps per wave period is sufficient to provide accurate results for the hydrodynamic force calculations in WEC-Sim simulation. However, smaller time steps may be needed when coupling WEC-Sim with MoorDyn or using PTO-Sim. To reduce the required overall WEC-Sim simulation time, a different time step size can be specified in the WEC-Sim input file (``wecSimInputFile.m``) to account for nonlinear hydrodynamics and for convolution integral calculations, respectively.
 
-	Coming soon!
+N is number of increment steps (default: N=1):
+
+* Nonlinear hydrodynamics calculation - :code:`simu.dtFeNonlin=N*simu.dt` 
+* Convolution integral calculation - :code:`simu.dtCITime=N*simu.dt` 
 
 Non-Hydrodynamic Bodies
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
