@@ -46,9 +46,7 @@ Simulation Options
 
 Multiple Condition Runs
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-.. Note::
-
-	Coming soon!
+WEC-Sim also allows user to run multiple conditions in one WEC-Sim simulation by typing wecSim in the ``wecSimMCR`` into the MATLAB Command Window.
 
 Different Time Step Size
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
