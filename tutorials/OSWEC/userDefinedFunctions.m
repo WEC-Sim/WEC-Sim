@@ -1,13 +1,10 @@
-% %Example of user input MATLAB file for post processing
-% 
-% % Plot x forces for body 1
-% plotForces(output,1,1)
-% 
-% % Plot x forces for body 2
-% plotForces(output,2,1)
-% 
-%  % Plot y forces for body 1
-% plotForces(output,1,2)
-%  
-% % Plot moments about x for body 1
-% plotForces(output,1,4)
+%Example of user input MATLAB file for post processing
+
+% Plot RY forces for body 1
+plotForces(output,1,5)
+
+%Plot RY response for body 1
+output.plotResponse(1,5);
+
+% Plot x forces for body 2
+plotForces(output,2,1)
