@@ -65,11 +65,7 @@ The easiest way to obtain a copy of WEC-Sim is to download the static release of
 
 Installing WEC-Sim
 ---------------------
-Once you have downloaded the WEC-Sim source code, follow the steps described in this section to install WEC-Sim.
-
-.. Note::
-	
-	The WEC-Sim source code directory will be referred to as **$wecSim**
+Once you have downloaded the WEC-Sim source code, follow the steps described in this section to install WEC-Sim. The WEC-Sim source code directory will be referred to as **$wecSim**
 
 Step 1: Add WEC-Sim Source Code to MATLAB Path
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~

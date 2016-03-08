@@ -6,11 +6,6 @@ This section provides a description of the WEC-Sim source code and its structure
 The WEC-Sim source code is a series of MATLAB m-files that read the user input data, perform preprocessing calculations, and run the Simulink/SimMechanics time-domain simulations.
 The code consists of object class definitions, a Simulink library, the main ``wecSim.m`` function, and other supporting functions.
 
-
-
-
-
-
 Code Conventions
 ----------------
 All units within WEC-Sim are in the MKS (meters-kilograms-seconds system) and angular measurements are specified in radians (except for wave directionality which is defined in degrees).
@@ -19,10 +14,6 @@ The WEC-Sim coordinate system assumes that the X axis is in the direction of wav
 
 .. figure:: _static/coordinateSystem.png
    :width: 400pt
-
-
-
-
 
 Input File Structure
 --------------------
@@ -74,17 +65,12 @@ The properties of the PTO class (``ptoClass``) are defined in the ``pto`` object
 An instance of the PTO class is initialized with the line ``pto(#)= ptoClass('name');``, where # is the pto number and `name` is a unique, Matlab variable naming compliant, name assigned to that PTO.
 See the `Advanced Constraints and PTOS Section <http://wec-sim.github.io/WEC-Sim/tutorials.html>`_ for more detail on the pto options.
 
-
-
 Mooring Class
 ~~~~~~~~~~~~~
 The WEC-Sim mooring block allows for simulating mooring in two different ways: as linear stiffness, pre-tension, and damping matrices, or using MoorDyn.
 The properties of the mooring class (``mooringClass``) are defined in the ``mooring`` object. 
 An instance of the mooring class is initialized with the line ``mooring(#)= mooringClass('name');``, where # is the pto number and `name` is a unique, Matlab variable naming compliant, name assigned to that mooring.
 See the `Mooring Modeling Section <http://wec-sim.github.io/WEC-Sim/features.html#mooring-modeling>`_ for more detail on the mooring options.
-
-
-
 
 
 WEC-Sim Classes
@@ -102,7 +88,7 @@ The simulation class (``simulationClass``) contains the simulation parameters an
 Users can set relevant simulation properties in the ``wecSimInputFile.m``. 
 Users must specify the name of the Simulink/SimMechanics WEC model, which can be set by entering the following command in the input file::
 
-	simu.simMechanicsFile=’<WEC Model Name>.slx’
+	simu.simMechanicsFile=<WEC Model Name>.slx
 
 The WEC-Sim code has default values defined for all the other simulation parameters. 
 Available simulation parameters and the default values can be found by typing ``doc simulationClass`` in the MATLAB command window or opening the `.m` file in `/source/objects/.
@@ -132,43 +118,40 @@ regular           waves.H waves.T                        Sinusoidal steady-state
 regularCIC        waves.H waves.T                        Regular waves with convolution integral
 irregular         waves.H waves.T, waves.spectrumType    Irregular waves with typical wave spectrum
 irregularImport   waves.spectrumDataFile                 Irregular waves with user-defined wave spectrum
-userDefined       waves.spectrumDataFile                 Irregular waves with user-defined wave elevation time-history                                                                            
+userDefined       waves.etaDataFile                 	 Irregular waves with user-defined wave elevation time-history                                                                            
 ================= =====================================  =============================================================
 
-The noWave case (``waves.type=’noWave’``) is for running WEC-Sim simulations without waves, using constant added mass and radiation damping coefficients. 
+The **noWave** case (``waves.type=noWave``) is for running WEC-Sim simulations without waves, using constant added mass and radiation damping coefficients. 
 This "wave" case is typically used to run decay tests for comparisons. 
 Users must still provide hydro coefficients from a BEM solve before executing WEC-Sim. 
 In addition, users must specify the period from which the hydrodynamic coefficients are selected by defining the following in the input file::
  
 	waves.noWaveHydrodynamicCoeffT = <user specified wave period>
 
-The noWaveCIC case (``waves.type=’noWaveCIC’``) is the same as the noWave case described above, with the addition of the convolution integral calculation. 
+The **noWaveCIC** case (``waves.type=noWaveCIC``) is the same as the noWave case described above, with the addition of the convolution integral calculation. 
 The wave type is the same as noWave, except the radiation forces are calculated using the convolution integral and the infinite frequency added mass.
 
-The regular wave case (``waves.type=’regular’``) is for running simulations using regular waves with constant added mass and radiation damping coefficients. 
+The **regular** wave case (``waves.type=regular``) is for running simulations using regular waves with constant added mass and radiation damping coefficients. 
 Wave period (``wave.T``) and wave height (``wave.H``) need to be specified in the input file. 
 Using this option, WEC-Sim assumes that the system dynamic response is in sinusoidal steady-state form, where constant added mass and damping coefficients are used (instead of the convolution integral) to calculate wave radiation forces.
 
-The regular wave with convolution integral case (``waves.type=’regularCIC’``) is the same as regular wave case, except the radiation forces are calculated using the convolution integral and the infinite frequency added mass.
+The **regularCIC**, regular wave with convolution integral case (``waves.type=regularCIC``), is the same as regular wave case, except the radiation forces are calculated using the convolution integral and the infinite frequency added mass.
 
-The irregular wave case (``waves.type=’irregular’``)is the wave type for irregular wave simulations using a given wave spectrum. 
+The **irregular** wave case (``waves.type=irregular``)is the wave type for irregular wave simulations using a given wave spectrum. 
 Significant wave height (``wave.H``), peak period (``wave.T``) and wave spectrum type (``waves.spectrumtype``) need to be specified in the input file. 
-The available spectral formulations are listed below.
+The available spectral formulations are listed below:
 
+======================  ==========================
+**Wave Spectrum Type**  **Input File Parameter**
+Pierson Moskowitz   	waves.spectrumType=PM
+Bretschneider	    	waves.spectrumType=BS
+JONSWAP             	waves.spectrumType=JS
+======================  ==========================
 
-WEC-Sim wave spectrum options (with `waves.type=irregular`)
-
-==================  ========================
-Wave Spectrum Type  Input File Parameter
-Pierson–Moskowitz   waves.spectrumType=’PM’
-Bretschneider	    waves.spectrumType=’BS’
-JONSWAP             waves.spectrumType=’JS’
-==================  ========================
-
-The irregular waves with user-defined spectrum case (``waves.type=’irregularImport’``) is the wave case for irregular wave simulations using user-defined wave spectrum (ex: from buoy data). 
+The irregular waves with user-defined spectrum case (``waves.type=irregularImport``) is the wave case for irregular wave simulations using user-defined wave spectrum (ex: from buoy data). 
 Users need to specify the wave spectrum file name in WEC-Sim input file as follows::
 
-	waves.spectrumDataFile=’<wave spectrum file>.txt’
+	waves.spectrumDataFile=<wave spectrum file>.txt
 
 The user-defined wave spectrum must be defined with the wave frequency (Hz) in the first row, and the spectral energy density (m^2/Hz) in the second row. 
 An example of this is given in the ``ndbcBuoyData.txt`` file in the applications folder of the WEC-Sim source code. 
