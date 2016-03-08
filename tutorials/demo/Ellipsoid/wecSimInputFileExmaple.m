@@ -9,7 +9,10 @@ simu.explorer='off';                             % Turn SimMechanics Explorer
                                                  % (on/off)                                                                                             
 simu.CITime         = 30;
 simu.rampT          = 5;
-
+simu.nlHydro        = 2;
+simu.dtFeNonlin     = 0.5;
+simu.dtCITime       = 0.2;
+simu.paraview       = 1;
 % Wave Information
 waves = waveClass('irregular');                  %Create the Wave Variable and Specify Type        
 waves.H = 5;                                     % Wave Height [m]
