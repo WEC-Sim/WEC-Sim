@@ -11,13 +11,51 @@ Advanced Methodologies
 Nonlinear Hydrodynamic Forces
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
-WEC-Sim has the option to include the nonlinear restoring and Froude-Krylov forces when solving the system dynamics of WECs, accounting the weakly nonlinear effect on the body hydrodynamics. The nonlinear hydrodynamics option can be used by setting :code:`simu.b2b = 2` or :code:`simu.b2b = 1` in your WEC-Sim input file (``wecSimInputFile.m``). 
+WEC-Sim has the option to include the nonlinear restoring and Froude-Krylov forces when solving the system dynamics of WECs, accounting the weakly nonlinear effect on the body hydrodynamics. 
 
-Typically, :code:`simu.b2b = 2` is recommended if nonlinear hydrodynamic effects need to be used. Note that :code:`simu.b2b = 1` only considered the nonlinear restoring and Froude-Krylov forces based on the body position and mean wave elevation. Currently, WEC-Sim’s nonlinear hydrodynamic option may be invoked with regular and irregular waves, finite and infinite depth waves, but not with user-defined irregular waves. 
+Settings
+..........................
+The nonlinear hydrodynamics option can be used by setting :code:`simu.b2b = 2` or :code:`simu.b2b = 1` in your WEC-Sim input file (``wecSimInputFile.m``). Typically, :code:`simu.b2b = 2` is recommended if nonlinear hydrodynamic effects need to be used. Note that :code:`simu.b2b = 1` only considered the nonlinear restoring and Froude-Krylov forces based on the body position and mean wave elevation. Currently, WEC-Sim’s nonlinear hydrodynamic option may be invoked with regular and irregular waves, finite and infinite depth waves, but not with user-defined irregular waves. 
 
 When the nonlinear hydrodynamics option is specified, the geometry file (``*.stl``), which is only used for visualization purposes in linear simulations, is also used as the discretized body surface on which the nonlinear pressure forces are integrated. A good mesh resolution is required for the geometry file when using the nonlinear hydrodynamic force option. The simulation accuracy will increase with increased surface resolution (i.e. the number of discretized surface panels specified in the .stl file), but the computation time will also significantly increase. 
 
 An option available to reduce the nonlinear simulation time is to specify a nonlinear time step, :code:`simu.dtFeNonlin=N*simu.dt`, where N is number of increment steps. The nonlinear time step specifies the interval at which the nonlinear hydrodynamic forces are calculated. As the ratio of the nonlinear to system time step increases, the computation time is reduced, but again, at the expense of the simulation accuracy.
+
+Tutorial - Nonlinear Hydrodynamics modeling of a heaving ellipsoid
+..........................
+
+The body tested in the study is an ellipsoid with a cross- section characterized by semi-major and -minor axes of 5.0 m and 2.5 m in the wave propagation and normal directions, respectively . The ellipsoid is at its equilibrium position with its origin located at the mean water surface. The mass of the body is then set to 1.342×105 kg, and the center of gravity is located 2 m below the origin.
+
+.. _nonlinearEllipsoid:
+
+.. figure:: _static/nonlinearEllipsoid.png
+    :width: 350pt
+    :align: center
+
+* Discretized body surface panel (``ellipsoid.stl``)
+
+.. _nonlinearMesh:
+
+.. figure:: _static/nonlinearMesh.png
+    :width: 250pt
+    :align: center
+
+* Single-body heave only WEC model(``nonLinearHydro.slx``)
+
+.. _nonlinearWEC:
+
+.. figure:: _static/nonlinearWEC.png
+    :width: 450pt
+    :align: center
+
+* WEC-Sim input file*
+
+.. _nonLinaerwecSimInputFile:
+
+.. literalinclude:: nonLinaerwecSimInputFile.m
+   :language: matlab
+
+* Simulation and Postprocessing: Simulation and postprocessing are the same process as described in Tutorial Section.
 
 State-Space Representation
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
@@ -58,9 +96,10 @@ WEC-Sim also allows user to run multiple conditions in one WEC-Sim simulation by
 
 ``statisticsDataLoad = "<Excel file name>.m"``
 
-* Option 3: Provide a MCR case file and specify the file name in the WEC-Sim input file
+* Option 3: Provide a MCR case file and specify the file name in the WEC-Sim input file,
 
 ``simu.mcrCaseFile    = '<File name>.mat'``
+
 
 Different Time Step Size
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
