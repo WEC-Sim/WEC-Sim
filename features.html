@@ -84,7 +84,11 @@
 <li class="toctree-l1"><a class="reference internal" href="tutorials.html">Tutorials</a></li>
 <li class="toctree-l1 current"><a class="current reference internal" href="">Advanced Features</a><ul>
 <li class="toctree-l2"><a class="reference internal" href="#advanced-methodologies">Advanced Methodologies</a><ul>
-<li class="toctree-l3"><a class="reference internal" href="#nonlinear-hydrodynamic-forces">Nonlinear Hydrodynamic Forces</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#nonlinear-hydrodynamic-forces">Nonlinear Hydrodynamic Forces</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="#settings">Settings</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#tutorial-nonlinear-hydrodynamics-modeling-of-a-heaving-ellipsoid">Tutorial - Nonlinear Hydrodynamics modeling of a heaving ellipsoid</a></li>
+</ul>
+</li>
 <li class="toctree-l3"><a class="reference internal" href="#state-space-representation">State-Space Representation</a></li>
 <li class="toctree-l3"><a class="reference internal" href="#body-to-body-interaction">Body-To-Body Interaction</a></li>
 <li class="toctree-l3"><a class="reference internal" href="#morison-element">Morison Element</a></li>
@@ -187,10 +191,78 @@
 <h2>Advanced Methodologies<a class="headerlink" href="#advanced-methodologies" title="Permalink to this headline">¶</a></h2>
 <div class="section" id="nonlinear-hydrodynamic-forces">
 <h3>Nonlinear Hydrodynamic Forces<a class="headerlink" href="#nonlinear-hydrodynamic-forces" title="Permalink to this headline">¶</a></h3>
-<p>WEC-Sim has the option to include the nonlinear restoring and Froude-Krylov forces when solving the system dynamics of WECs, accounting the weakly nonlinear effect on the body hydrodynamics. The nonlinear hydrodynamics option can be used by setting <code class="code docutils literal"><span class="pre">simu.b2b</span> <span class="pre">=</span> <span class="pre">2</span></code> or <code class="code docutils literal"><span class="pre">simu.b2b</span> <span class="pre">=</span> <span class="pre">1</span></code> in your WEC-Sim input file (<code class="docutils literal"><span class="pre">wecSimInputFile.m</span></code>).</p>
-<p>Typically, <code class="code docutils literal"><span class="pre">simu.b2b</span> <span class="pre">=</span> <span class="pre">2</span></code> is recommended if nonlinear hydrodynamic effects need to be used. Note that <code class="code docutils literal"><span class="pre">simu.b2b</span> <span class="pre">=</span> <span class="pre">1</span></code> only considered the nonlinear restoring and Froude-Krylov forces based on the body position and mean wave elevation. Currently, WEC-Sim’s nonlinear hydrodynamic option may be invoked with regular and irregular waves, finite and infinite depth waves, but not with user-defined irregular waves.</p>
+<p>WEC-Sim has the option to include the nonlinear restoring and Froude-Krylov forces when solving the system dynamics of WECs, accounting the weakly nonlinear effect on the body hydrodynamics.</p>
+<div class="section" id="settings">
+<h4>Settings<a class="headerlink" href="#settings" title="Permalink to this headline">¶</a></h4>
+<p>The nonlinear hydrodynamics option can be used by setting <code class="code docutils literal"><span class="pre">simu.b2b</span> <span class="pre">=</span> <span class="pre">2</span></code> or <code class="code docutils literal"><span class="pre">simu.b2b</span> <span class="pre">=</span> <span class="pre">1</span></code> in your WEC-Sim input file (<code class="docutils literal"><span class="pre">wecSimInputFile.m</span></code>). Typically, <code class="code docutils literal"><span class="pre">simu.b2b</span> <span class="pre">=</span> <span class="pre">2</span></code> is recommended if nonlinear hydrodynamic effects need to be used. Note that <code class="code docutils literal"><span class="pre">simu.b2b</span> <span class="pre">=</span> <span class="pre">1</span></code> only considered the nonlinear restoring and Froude-Krylov forces based on the body position and mean wave elevation. Currently, WEC-Sim’s nonlinear hydrodynamic option may be invoked with regular and irregular waves, finite and infinite depth waves, but not with user-defined irregular waves.</p>
 <p>When the nonlinear hydrodynamics option is specified, the geometry file (<code class="docutils literal"><span class="pre">*.stl</span></code>), which is only used for visualization purposes in linear simulations, is also used as the discretized body surface on which the nonlinear pressure forces are integrated. A good mesh resolution is required for the geometry file when using the nonlinear hydrodynamic force option. The simulation accuracy will increase with increased surface resolution (i.e. the number of discretized surface panels specified in the .stl file), but the computation time will also significantly increase.</p>
 <p>An option available to reduce the nonlinear simulation time is to specify a nonlinear time step, <code class="code docutils literal"><span class="pre">simu.dtFeNonlin=N*simu.dt</span></code>, where N is number of increment steps. The nonlinear time step specifies the interval at which the nonlinear hydrodynamic forces are calculated. As the ratio of the nonlinear to system time step increases, the computation time is reduced, but again, at the expense of the simulation accuracy.</p>
+</div>
+<div class="section" id="tutorial-nonlinear-hydrodynamics-modeling-of-a-heaving-ellipsoid">
+<h4>Tutorial - Nonlinear Hydrodynamics modeling of a heaving ellipsoid<a class="headerlink" href="#tutorial-nonlinear-hydrodynamics-modeling-of-a-heaving-ellipsoid" title="Permalink to this headline">¶</a></h4>
+<p>The body tested in the study is an ellipsoid with a cross- section characterized by semi-major and -minor axes of 5.0 m and 2.5 m in the wave propagation and normal directions, respectively . The ellipsoid is at its equilibrium position with its origin located at the mean water surface. The mass of the body is then set to 1.342×105 kg, and the center of gravity is located 2 m below the origin.</p>
+<div class="figure align-center" id="nonlinearellipsoid">
+<a class="reference internal image-reference" href="_images/nonlinearEllipsoid.png"><img alt="_images/nonlinearEllipsoid.png" src="_images/nonlinearEllipsoid.png" style="width: 350pt;" /></a>
+</div>
+<ul class="simple">
+<li>Discretized body surface panel (<code class="docutils literal"><span class="pre">ellipsoid.stl</span></code>)</li>
+</ul>
+<div class="figure align-center" id="nonlinearmesh">
+<a class="reference internal image-reference" href="_images/nonlinearMesh.png"><img alt="_images/nonlinearMesh.png" src="_images/nonlinearMesh.png" style="width: 250pt;" /></a>
+</div>
+<ul class="simple">
+<li>Single-body heave only WEC model(<code class="docutils literal"><span class="pre">nonLinearHydro.slx</span></code>)</li>
+</ul>
+<div class="figure align-center" id="nonlinearwec">
+<a class="reference internal image-reference" href="_images/nonlinearWEC.png"><img alt="_images/nonlinearWEC.png" src="_images/nonlinearWEC.png" style="width: 450pt;" /></a>
+</div>
+<ul class="simple">
+<li>WEC-Sim input file*</li>
+</ul>
+<div class="highlight-matlab" id="nonlinaerwecsiminputfile"><div class="highlight"><pre><span class="c">%% Simulation Data</span>
+<span class="n">simu</span> <span class="p">=</span> <span class="n">simulationClass</span><span class="p">();</span>                        <span class="c">%Create the Simulation Variable</span>
+<span class="n">simu</span><span class="p">.</span><span class="n">endTime</span><span class="p">=</span><span class="mi">50</span><span class="p">;</span>                                 <span class="c">% Simulation End Time [s]</span>
+<span class="n">simu</span><span class="p">.</span><span class="n">dt</span> <span class="p">=</span> <span class="mf">0.1</span><span class="p">;</span>                                   <span class="c">% Simulation Delta_Time [s]         </span>
+<span class="n">simu</span><span class="p">.</span><span class="n">simMechanicsFile</span> <span class="p">=</span> <span class="s">&#39;nonLinearHydro.slx&#39;</span><span class="p">;</span>    <span class="c">% Specify Simulink Model File          </span>
+<span class="n">simu</span><span class="p">.</span><span class="n">mode</span><span class="p">=</span><span class="s">&#39;rapid-accelerator&#39;</span><span class="p">;</span>                   <span class="c">% Specify Simulation Mode </span>
+<span class="n">simu</span><span class="p">.</span><span class="n">rho</span><span class="p">=</span><span class="mi">1025</span><span class="p">;</span>                                   <span class="c">% kg/m^3</span>
+<span class="n">simu</span><span class="p">.</span><span class="n">explorer</span><span class="p">=</span><span class="s">&#39;off&#39;</span><span class="p">;</span>                             <span class="c">% Turn SimMechanics Explorer </span>
+                                                 <span class="c">% (on/off)                                                                                             </span>
+<span class="n">simu</span><span class="p">.</span><span class="n">CITime</span>         <span class="p">=</span> <span class="mi">30</span><span class="p">;</span>
+<span class="n">simu</span><span class="p">.</span><span class="n">rampT</span>          <span class="p">=</span> <span class="mi">5</span><span class="p">;</span>
+<span class="n">simu</span><span class="p">.</span><span class="n">nlHydro</span>        <span class="p">=</span> <span class="mi">2</span><span class="p">;</span>
+<span class="n">simu</span><span class="p">.</span><span class="n">dtFeNonlin</span>     <span class="p">=</span> <span class="mf">0.5</span><span class="p">;</span>
+<span class="n">simu</span><span class="p">.</span><span class="n">dtCITime</span>       <span class="p">=</span> <span class="mf">0.2</span><span class="p">;</span>
+
+<span class="c">% Wave Information</span>
+<span class="n">waves</span> <span class="p">=</span> <span class="n">waveClass</span><span class="p">(</span><span class="s">&#39;irregular&#39;</span><span class="p">);</span>                  <span class="c">%Create the Wave Variable and Specify Type        </span>
+<span class="n">waves</span><span class="p">.</span><span class="n">H</span> <span class="p">=</span> <span class="mi">2</span><span class="p">;</span>                                     <span class="c">% Wave Height [m]</span>
+<span class="n">waves</span><span class="p">.</span><span class="n">T</span> <span class="p">=</span> <span class="mi">6</span><span class="p">;</span>                                     <span class="c">% Wave period [s]</span>
+<span class="n">waves</span><span class="p">.</span><span class="n">spectrumType</span> <span class="p">=</span> <span class="s">&#39;BS&#39;</span><span class="p">;</span>                       <span class="c">% Specify Wave Spectrum Type</span>
+<span class="c">% waves.randPreDefined = 1;</span>
+
+<span class="c">%Body Data</span>
+<span class="n">body</span><span class="p">(</span><span class="mi">1</span><span class="p">)</span> <span class="p">=</span> <span class="n">bodyClass</span><span class="p">(</span><span class="s">&#39;hydrodata/ellipsoid.h5&#39;</span><span class="p">);</span> <span class="c">% Initialize bodyClass for Float</span>
+<span class="n">body</span><span class="p">(</span><span class="mi">1</span><span class="p">).</span><span class="n">mass</span> <span class="p">=</span> <span class="s">&#39;equilibrium&#39;</span><span class="p">;</span>                    <span class="c">% Mass from WAMIT [kg]</span>
+<span class="n">body</span><span class="p">(</span><span class="mi">1</span><span class="p">).</span><span class="n">momOfInertia</span> <span class="p">=</span> <span class="p">[</span><span class="mf">1.375264e6</span> <span class="mf">1.375264e6</span> <span class="mf">1.341721e6</span><span class="p">];</span>    
+<span class="n">body</span><span class="p">(</span><span class="mi">1</span><span class="p">).</span><span class="n">geometryFile</span> <span class="p">=</span> <span class="s">&#39;geometry/ellipsoid.stl&#39;</span> <span class="p">;</span>    
+<span class="n">body</span><span class="p">(</span><span class="mi">1</span><span class="p">).</span><span class="n">viscDrag</span><span class="p">.</span><span class="n">cd</span><span class="p">=[</span><span class="mi">1</span> <span class="mi">0</span> <span class="mi">1</span> <span class="mi">0</span> <span class="mi">1</span> <span class="mi">0</span><span class="p">];</span>
+<span class="n">body</span><span class="p">(</span><span class="mi">1</span><span class="p">).</span><span class="n">viscDrag</span><span class="p">.</span><span class="n">characteristicArea</span><span class="p">=[</span><span class="mi">25</span> <span class="mi">0</span> <span class="nb">pi</span><span class="o">*</span><span class="mi">5</span>^<span class="mi">2</span> <span class="mi">0</span> <span class="nb">pi</span><span class="o">*</span><span class="mi">5</span>^<span class="mi">5</span> <span class="mi">0</span><span class="p">];</span>
+
+<span class="c">% PTO and Constraint Parameters</span>
+<span class="n">constraint</span><span class="p">(</span><span class="mi">1</span><span class="p">)</span> <span class="p">=</span> <span class="n">constraintClass</span><span class="p">(</span><span class="s">&#39;Constraint1&#39;</span><span class="p">);</span> 
+<span class="n">constraint</span><span class="p">(</span><span class="mi">1</span><span class="p">).</span><span class="n">loc</span> <span class="p">=</span> <span class="p">[</span><span class="mi">0</span> <span class="mi">0</span> <span class="o">-</span><span class="mi">25</span><span class="p">];</span>                   <span class="c">%Constraint Location [m]</span>
+
+<span class="n">pto</span><span class="p">(</span><span class="mi">1</span><span class="p">)</span> <span class="p">=</span> <span class="n">ptoClass</span><span class="p">(</span><span class="s">&#39;PTO1&#39;</span><span class="p">);</span>                       <span class="c">% Initialize ptoClass for PTO1</span>
+<span class="n">pto</span><span class="p">(</span><span class="mi">1</span><span class="p">).</span><span class="n">k</span><span class="p">=</span><span class="mi">0</span><span class="p">;</span>                                      <span class="c">% PTO Stiffness Coeff [N/m]</span>
+<span class="n">pto</span><span class="p">(</span><span class="mi">1</span><span class="p">).</span><span class="n">c</span><span class="p">=</span><span class="mi">0</span><span class="p">;</span>                                      <span class="c">% PTO Damping Coeff [Ns/m]</span>
+<span class="n">pto</span><span class="p">(</span><span class="mi">1</span><span class="p">).</span><span class="n">loc</span> <span class="p">=</span> <span class="p">[</span><span class="mi">0</span> <span class="mi">0</span> <span class="o">-</span><span class="mf">12.5</span><span class="p">];</span>
+</pre></div>
+</div>
+<ul class="simple">
+<li>Simulation and Postprocessing: Simulation and postprocessing are the same process as described in Tutorial Section.</li>
+</ul>
+</div>
 </div>
 <div class="section" id="state-space-representation">
 <h3>State-Space Representation<a class="headerlink" href="#state-space-representation" title="Permalink to this headline">¶</a></h3>
@@ -229,7 +301,7 @@ For example, the radiation damping force for body 2 in a 3-body system with body
 </ul>
 <p><code class="docutils literal"><span class="pre">statisticsDataLoad</span> <span class="pre">=</span> <span class="pre">&quot;&lt;Excel</span> <span class="pre">file</span> <span class="pre">name&gt;.m&quot;</span></code></p>
 <ul class="simple">
-<li>Option 3: Provide a MCR case file and specify the file name in the WEC-Sim input file</li>
+<li>Option 3: Provide a MCR case file and specify the file name in the WEC-Sim input file,</li>
 </ul>
 <p><code class="docutils literal"><span class="pre">simu.mcrCaseFile</span>&nbsp;&nbsp;&nbsp; <span class="pre">=</span> <span class="pre">'&lt;File</span> <span class="pre">name&gt;.mat'</span></code></p>
 </div>
@@ -613,7 +685,7 @@ Two tutorials will be given in this section, one for the RM3 with a hydraulic PT
 <a class="reference internal image-reference" href="_images/moorDynInput.png"><img alt="_images/moorDynInput.png" src="_images/moorDynInput.png" style="width: 400pt;" /></a>
 </div>
 <ul class="simple">
-<li>Simulation and Postprocessing: Simulation and postprocessing are the same process as described in WEC-Sim Simulation example above.</li>
+<li>Simulation and Postprocessing: Simulation and postprocessing are the same process as described in Tutorial Section.</li>
 </ul>
 </div>
 </div>

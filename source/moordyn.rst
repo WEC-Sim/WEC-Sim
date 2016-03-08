@@ -55,4 +55,4 @@ This section describes how to simulate a mooring connected WEC system in WEC-Sim
     :width: 400pt
     :align: center
     
-* Simulation and Postprocessing: Simulation and postprocessing are the same process as described in WEC-Sim Simulation example above.
+* Simulation and Postprocessing: Simulation and postprocessing are the same process as described in Tutorial Section.
