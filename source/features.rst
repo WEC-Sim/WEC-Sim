@@ -46,7 +46,22 @@ Simulation Options
 
 Multiple Condition Runs
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-WEC-Sim also allows user to run multiple conditions in one WEC-Sim simulation by typing wecSim in the ``wecSimMCR`` into the MATLAB Command Window.
+WEC-Sim also allows user to run multiple conditions in one WEC-Sim simulation by typing ``wecSimMCR`` into the MATLAB Command Window. In WEC-Sim, the multiple condition run option can be execute in three ways:
+
+* Option 1: Specify a range of sea states and PTO damping coefficients in the WEC-Sim input file. For examples:
+
+``waves.H = 1:0.5:5; waves.T = 5:1:15;``
+
+``pto(1).k=1000:1000:10000; pto(1).c=1200000:1200000:3600000;``        
+
+* Option 2: Specify the file name of the excel file that contains a set of wave statistic data in the WEC-Sim input file. This option is generally useful for power matrix generation.
+
+``statisticsDataLoad = "<Excel file name>.m"``
+
+* Option 3: Provide a MCR case file and specify the file name in the WEC-Sim input file,
+
+``simu.mcrCaseFile    = '<File name>.mat'``
+
 
 Different Time Step Size
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
