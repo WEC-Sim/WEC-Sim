@@ -1,0 +1,45 @@
+
+WEC-Sim Read Input File ...   
+Elapsed time is 6.162585 seconds.
+
+WEC-Sim Pre-processing ...   
+Elapsed time is 1.876407 seconds.
+
+WEC-Sim Simulation Settings:
+	Time Marching Solver                 = Fourth-Order Runge-Kutta Formula 
+	Start Time                     (sec) = 0
+	End Time                       (sec) = 50
+	Time Step Size                 (sec) = 0.1
+	Ramp Function Time             (sec) = 5
+	Convolution Integral Interval  (sec) = 30
+	Total Number of Time Step            = 500 
+
+Wave Environment: 
+	Wave Type                            = Irregular Waves (Arbitrary Random Phase)
+	Spectrum Type                        = Bretschneider 
+	Significant Wave Height Hs (m)       = 2
+	Peak Wave Period Tp (sec)            = 6
+
+List of Body: Number of Bodies = 1 
+
+	***** Body Number 0, Name: ellipsoid *****
+	Body CG                          (m) = [0,0,-2]
+	Body Mass                       (kg) = 133376 
+	Body Diagonal MOI              (kgm2)= [1.37526E+06,1.37526E+06,1.34172E+06]
+
+List of PTO(s): Number of PTOs = 1 
+
+	***** PTO Name: PTO1 *****
+	PTO Stiffness           (N/m;Nm/rad) = 0
+	PTO Damping           (Ns/m;Nsm/rad) = 0
+
+List of Constraint(s): Number of Constraints = 1 
+
+	***** Constraint Name: Constraint1 *****
+
+
+Simulating the WEC device defined in the SimMechanics model nonLinearHydro.slx...   
+Elapsed time is 202.382332 seconds.
+
+Post-processing and saving...   
+Elapsed time is 0.103220 seconds.
