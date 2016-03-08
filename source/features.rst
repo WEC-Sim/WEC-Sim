@@ -11,11 +11,17 @@ Advanced Methodologies
 Nonlinear Hydrodynamic Forces
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
+<<<<<<< HEAD
 WEC-Sim has the option to include the nonlinear restoring and Froude-Krylov forces when solving the system dynamics of WECs, accounting the weakly nonlinear effect on the body hydrodynamics. 
 
 Settings
 ..........................
 The nonlinear hydrodynamics option can be used by setting :code:`simu.b2b = 2` or :code:`simu.b2b = 1` in your WEC-Sim input file (``wecSimInputFile.m``). Typically, :code:`simu.b2b = 2` is recommended if nonlinear hydrodynamic effects need to be used. Note that :code:`simu.b2b = 1` only considered the nonlinear restoring and Froude-Krylov forces based on the body position and mean wave elevation. Currently, WEC-Sim’s nonlinear hydrodynamic option may be invoked with regular and irregular waves, finite and infinite depth waves, but not with user-defined irregular waves. 
+=======
+WEC-Sim has the option to include the nonlinear restoring and Froude-Krylov forces when solving the system dynamics of WECs, accounting the weakly nonlinear effect on the body hydrodynamics. The nonlinear hydrodynamics option can be used by setting :code:`simu.nlHydro = 2` or :code:`simu.nlHydro = 1` in your WEC-Sim input file (``wecSimInputFile.m``). 
+
+Typically, :code:`simu.nlHydro = 2` is recommended if nonlinear hydrodynamic effects need to be used. Note that :code:`simu.nlHydro = 1` only considered the nonlinear restoring and Froude-Krylov forces based on the body position and mean wave elevation. Currently, WEC-Sim's nonlinear hydrodynamic option may be invoked with regular and irregular waves, finite and infinite depth waves, but not with user-defined irregular waves. 
+>>>>>>> origin/gh-pages
 
 When the nonlinear hydrodynamics option is specified, the geometry file (``*.stl``), which is only used for visualization purposes in linear simulations, is also used as the discretized body surface on which the nonlinear pressure forces are integrated. A good mesh resolution is required for the geometry file when using the nonlinear hydrodynamic force option. The simulation accuracy will increase with increased surface resolution (i.e. the number of discretized surface panels specified in the .stl file), but the computation time will also significantly increase. 
 
