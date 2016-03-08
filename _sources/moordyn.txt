@@ -43,9 +43,8 @@ This section describes how to simulate a mooring connected WEC system in WEC-Sim
 
 .. _WECSimInputMoorDyn:
 
-.. figure:: _static/WECSimInputMoorDyn.png
-    :width: 400pt
-    :align: center
+.. literalinclude:: RM3MooDynwecSimInputFile.m
+   :language: matlab
 
 
 * MoorDyn Input File: A mooring folder that includes a moorDyn input file (``lines.txt``) is created. The moorDyn input file (``lines.txt``) is shown in the figure below. More details on how to setup the MooDyn input file were described in the MoorDyn User Guide :cite:`Hall2015MoorDynGuide`.

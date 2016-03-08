@@ -218,7 +218,20 @@ For example, the radiation damping force for body 2 in a 3-body system with body
 <h2>Simulation Options<a class="headerlink" href="#simulation-options" title="Permalink to this headline">¶</a></h2>
 <div class="section" id="multiple-condition-runs">
 <h3>Multiple Condition Runs<a class="headerlink" href="#multiple-condition-runs" title="Permalink to this headline">¶</a></h3>
-<p>WEC-Sim also allows user to run multiple conditions in one WEC-Sim simulation by typing wecSim in the <code class="docutils literal"><span class="pre">wecSimMCR</span></code> into the MATLAB Command Window.</p>
+<p>WEC-Sim also allows user to run multiple conditions in one WEC-Sim simulation by typing <code class="docutils literal"><span class="pre">wecSimMCR</span></code> into the MATLAB Command Window. In WEC-Sim, the multiple condition run option can be execute in three ways:</p>
+<ul class="simple">
+<li>Option 1: Specify a range of sea states and PTO damping coefficients in the WEC-Sim input file. For examples:</li>
+</ul>
+<p><code class="docutils literal"><span class="pre">waves.H</span> <span class="pre">=</span> <span class="pre">1:0.5:5;</span> <span class="pre">waves.T</span> <span class="pre">=</span> <span class="pre">5:1:15;</span></code></p>
+<p><code class="docutils literal"><span class="pre">pto(1).k=1000:1000:10000;</span> <span class="pre">pto(1).c=1200000:1200000:3600000;</span></code></p>
+<ul class="simple">
+<li>Option 2: Specify the file name of the excel file that contains a set of wave statistic data in the WEC-Sim input file. This option is generally useful for power matrix generation.</li>
+</ul>
+<p><code class="docutils literal"><span class="pre">statisticsDataLoad</span> <span class="pre">=</span> <span class="pre">&quot;&lt;Excel</span> <span class="pre">file</span> <span class="pre">name&gt;.m&quot;</span></code></p>
+<ul class="simple">
+<li>Option 3: Provide a MCR case file and specify the file name in the WEC-Sim input file</li>
+</ul>
+<p><code class="docutils literal"><span class="pre">simu.mcrCaseFile</span>&nbsp;&nbsp;&nbsp; <span class="pre">=</span> <span class="pre">'&lt;File</span> <span class="pre">name&gt;.mat'</span></code></p>
 </div>
 <div class="section" id="different-time-step-size">
 <h3>Different Time Step Size<a class="headerlink" href="#different-time-step-size" title="Permalink to this headline">¶</a></h3>
@@ -556,8 +569,42 @@ Two tutorials will be given in this section, one for the RM3 with a hydraulic PT
 <ul class="simple">
 <li>WEC-Sim input file: In the <code class="docutils literal"><span class="pre">wecSimInput.m</span></code> file, the user need to initiate the mooring class and define the number of mooring lines.</li>
 </ul>
-<div class="figure align-center" id="wecsiminputmoordyn">
-<a class="reference internal image-reference" href="_images/WECSimInputMoorDyn.png"><img alt="_images/WECSimInputMoorDyn.png" src="_images/WECSimInputMoorDyn.png" style="width: 400pt;" /></a>
+<div class="highlight-matlab" id="wecsiminputmoordyn"><div class="highlight"><pre><span class="c">%% Simulation Data</span>
+<span class="n">simu</span> <span class="p">=</span> <span class="n">simulationClass</span><span class="p">();</span>               <span class="c">%Create the Simulation Variable</span>
+<span class="n">simu</span><span class="p">.</span><span class="n">simMechanicsFile</span> <span class="p">=</span> <span class="s">&#39;RM3.slx&#39;</span><span class="p">;</span>      <span class="c">%Location of Simulink Model File</span>
+<span class="n">simu</span><span class="p">.</span><span class="n">endTime</span><span class="p">=</span><span class="mi">400</span><span class="p">;</span>                       <span class="c">%Simulation End Time [s]</span>
+<span class="n">simu</span><span class="p">.</span><span class="n">dt</span> <span class="p">=</span> <span class="mf">0.1</span><span class="p">;</span> 							<span class="c">%Simulation Time-Step [s]</span>
+<span class="n">simu</span><span class="p">.</span><span class="n">rampT</span> <span class="p">=</span> <span class="mi">100</span><span class="p">;</span>                        <span class="c">%Wave Ramp Time Length [s]</span>
+
+<span class="c">%% Wave Information</span>
+<span class="n">waves</span> <span class="p">=</span> <span class="n">waveClass</span><span class="p">(</span><span class="s">&#39;irregular&#39;</span><span class="p">);</span>       
+<span class="n">waves</span><span class="p">.</span><span class="n">H</span> <span class="p">=</span> <span class="mf">2.5</span><span class="p">;</span>                        <span class="c">%Significant Wave Height [m]</span>
+<span class="n">waves</span><span class="p">.</span><span class="n">T</span> <span class="p">=</span> <span class="mi">8</span><span class="p">;</span>                          <span class="c">%Peak Period [s]</span>
+<span class="n">waves</span><span class="p">.</span><span class="n">spectrumType</span> <span class="p">=</span> <span class="s">&#39;BS&#39;</span><span class="p">;</span>
+
+<span class="c">%% Body Data</span>
+<span class="n">body</span><span class="p">(</span><span class="mi">1</span><span class="p">)</span> <span class="p">=</span> <span class="n">bodyClass</span><span class="p">(</span><span class="s">&#39;hydroData/rm3.h5&#39;</span><span class="p">);</span>      
+<span class="n">body</span><span class="p">(</span><span class="mi">1</span><span class="p">).</span><span class="n">mass</span> <span class="p">=</span> <span class="s">&#39;equilibrium&#39;</span><span class="p">;</span>                   
+<span class="n">body</span><span class="p">(</span><span class="mi">1</span><span class="p">).</span><span class="n">momOfInertia</span> <span class="p">=</span> <span class="p">[</span><span class="mi">20907301</span> <span class="mf">21306090.66</span> <span class="mf">37085481.11</span><span class="p">];</span> 
+<span class="n">body</span><span class="p">(</span><span class="mi">1</span><span class="p">).</span><span class="n">geometryFile</span> <span class="p">=</span> <span class="s">&#39;geometry/float.stl&#39;</span><span class="p">;</span>    <span class="c">%Location of Geomtry File</span>
+
+<span class="n">body</span><span class="p">(</span><span class="mi">2</span><span class="p">)</span> <span class="p">=</span> <span class="n">bodyClass</span><span class="p">(</span><span class="s">&#39;hydroData/rm3.h5&#39;</span><span class="p">);</span>     
+<span class="n">body</span><span class="p">(</span><span class="mi">2</span><span class="p">).</span><span class="n">mass</span> <span class="p">=</span> <span class="s">&#39;equilibrium&#39;</span><span class="p">;</span>                   
+<span class="n">body</span><span class="p">(</span><span class="mi">2</span><span class="p">).</span><span class="n">momOfInertia</span> <span class="p">=</span> <span class="p">[</span><span class="mf">94419614.57</span> <span class="mf">94407091.24</span> <span class="mf">28542224.82</span><span class="p">];</span>
+<span class="n">body</span><span class="p">(</span><span class="mi">2</span><span class="p">).</span><span class="n">geometryFile</span> <span class="p">=</span> <span class="s">&#39;geometry/plate.stl&#39;</span><span class="p">;</span> 
+
+<span class="c">%% PTO and Constraint Parameters</span>
+<span class="n">constraint</span><span class="p">(</span><span class="mi">1</span><span class="p">)</span> <span class="p">=</span> <span class="n">constraintClass</span><span class="p">(</span><span class="s">&#39;Constraint1&#39;</span><span class="p">);</span> <span class="c">%Create Constraint Variable and Set Constraint Name</span>
+<span class="n">constraint</span><span class="p">(</span><span class="mi">1</span><span class="p">).</span><span class="n">loc</span> <span class="p">=</span> <span class="p">[</span><span class="mi">0</span> <span class="mi">0</span> <span class="mi">0</span><span class="p">];</span>                    <span class="c">%Constraint Location [m]</span>
+
+<span class="n">pto</span><span class="p">(</span><span class="mi">1</span><span class="p">)</span> <span class="p">=</span> <span class="n">ptoClass</span><span class="p">(</span><span class="s">&#39;PTO1&#39;</span><span class="p">);</span>                      <span class="c">%Create PTO Variable and Set PTO Name</span>
+<span class="n">pto</span><span class="p">(</span><span class="mi">1</span><span class="p">).</span><span class="n">k</span><span class="p">=</span><span class="mi">0</span><span class="p">;</span>                                     <span class="c">%PTO Stiffness [N/m]</span>
+<span class="n">pto</span><span class="p">(</span><span class="mi">1</span><span class="p">).</span><span class="n">c</span><span class="p">=</span><span class="mi">1200000</span><span class="p">;</span>                               <span class="c">%PTO Daming [N/(m/s)]</span>
+<span class="n">pto</span><span class="p">(</span><span class="mi">1</span><span class="p">).</span><span class="n">loc</span> <span class="p">=</span> <span class="p">[</span><span class="mi">0</span> <span class="mi">0</span> <span class="mi">0</span><span class="p">];</span>                           <span class="c">%PTO Location [m]</span>
+
+<span class="n">mooring</span><span class="p">(</span><span class="mi">1</span><span class="p">)</span> <span class="p">=</span> <span class="n">mooringClass</span><span class="p">(</span><span class="s">&#39;mooring&#39;</span><span class="p">);</span>
+<span class="n">mooring</span><span class="p">(</span><span class="mi">1</span><span class="p">).</span><span class="n">moorDynLines</span> <span class="p">=</span> <span class="mi">3</span><span class="p">;</span>
+</pre></div>
 </div>
 <ul class="simple">
 <li>MoorDyn Input File: A mooring folder that includes a moorDyn input file (<code class="docutils literal"><span class="pre">lines.txt</span></code>) is created. The moorDyn input file (<code class="docutils literal"><span class="pre">lines.txt</span></code>) is shown in the figure below. More details on how to setup the MooDyn input file were described in the MoorDyn User Guide <a class="reference internal" href="theory.html#hall2015moordynguide" id="id4">[1]</a>.</li>
