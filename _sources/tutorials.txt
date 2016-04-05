@@ -262,13 +262,9 @@ To execute the WEC-Sim code for the OSWEC tutorial, type ``wecSim`` into the MAT
    :width: 600pt
 
 
-Floating Oscillating Surge WEC (FOSWEC)
+Other Examples: Applications Repository
 ---------------------------------------
-.. Note::
-
-	Coming soon!
-
-
+The `WEC-Sim Applications <https://github.com/WEC-Sim/WEC-Sim_Applications>`_ repository contains applications of the WEC-Sim code, including turorials by the WEC-Sim team as well as user-shared examples.
 
 References
 --------------
