@@ -8,6 +8,7 @@ PTO-Sim is made of native Simulink blocks coupled with WEC-Sim, using WEC-Sim's 
 Similarly, the PTO force or torque is the WEC-Sim input. 
 For more information on how PTO-Sim works, refer to [So et al., 2015].
 
+The files for the tutorials described in this section can be found in the `WEC-Sim Applications <https://github.com/WEC-Sim/WEC-Sim_Applications>`_ repository.
 
 
 Tutotrial: RM3 with PTO-Sim
@@ -218,21 +219,21 @@ Other PTO-Sim tuturails that were not discussed above are located under tutorial
 +==================================================================+========================================+
 |                       PTO Types                                  |               Folder Names             |                
 +------------------------------------------------------------------+----------------------------------------+
-|   RM3 with non-compressible fluid hydraulic                      |   RM3_w_NCF_Hydraulic_PTO              |
+|   RM3 with non-compressible fluid hydraulic                      |   PTO-Sim_RM3_w_NCF_Hydraulic_PTO      |
 +------------------------------------------------------------------+----------------------------------------+
-|   RM3 with compressible fluid hydraulic                          |   RM3_w_CF_Hydraulic_PTO               |
+|   RM3 with compressible fluid hydraulic                          |   PTO-Sim_RM3_w_CF_Hydraulic_PTO       |
 +------------------------------------------------------------------+----------------------------------------+
-|   RM3 with direct drive linear generator                         |   RM3_w_Mechanical_PTO                 |
+|   RM3 with direct drive linear generator                         |   PTO-Sim_RM3_w_Mechanical_PTO         |
 +------------------------------------------------------------------+----------------------------------------+
-|   OSWEC with non-compressible fluid hydraulic (adjustable rod)   |   OSWEC_w_NCF_Hydraulic_PTO            |
+|   OSWEC with non-compressible fluid hydraulic (adjustable rod)   |   PTO-Sim_OSWEC_w_NCF_Hydraulic_PTO    |
 +------------------------------------------------------------------+----------------------------------------+
-|   OSWEC with compressible fluid hydraulic (adjustable rod)       |   OSWEC_w_CF_Hydraulic_PTO             |
+|   OSWEC with compressible fluid hydraulic (adjustable rod)       |   PTO-Sim_OSWEC_w_CF_Hydraulic_PTO     |
 +------------------------------------------------------------------+----------------------------------------+
-|   OSWEC with direct drive linear generator (adjustable rod)      |   OSWEC_w_Mechanical_PTO               | 
+|   OSWEC with direct drive linear generator (adjustable rod)      |   PTO-Sim_OSWEC_w_Mechanical_PTO       | 
 +------------------------------------------------------------------+----------------------------------------+
-|   OSWEC with non-compressible fluid hydraulic (crank)            |   OSWEC1_w_NCF_Hydraulic_PTO           |
+|   OSWEC with non-compressible fluid hydraulic (crank)            |   PTO-Sim_OSWEC1_w_NCF_Hydraulic_PTO   |
 +------------------------------------------------------------------+----------------------------------------+
-|   OSWEC with compressible fluid hydraulic (crank)                |   OSWEC1_w_CF_Hydraulic_PTO            |
+|   OSWEC with compressible fluid hydraulic (crank)                |   PTO-Sim_OSWEC1_w_CF_Hydraulic_PTO    |
 +------------------------------------------------------------------+----------------------------------------+
-|   OSWEC with direct drive linear generator (crank)               |   OSWEC1_w_Mechanical_PTO              |
+|   OSWEC with direct drive linear generator (crank)               |   PTO-Sim_OSWEC1_w_Mechanical_PTO      |
 +------------------------------------------------------------------+----------------------------------------+

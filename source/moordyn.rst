@@ -21,7 +21,8 @@ Using MoorDyn
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 When the mooring matrix block is used, the user needs to initiate the mooring class by setting :code:`mooring = mooringClass('mooring name')` in the WEC-Sim input file (wecSimInputFile.m), followed by number of mooring lines is defined in MoorDyn (``mooring(1).moorDynLines = <Number of mooring lines>``)
 
-A mooring folder that includes a moorDyn input file (``lines.txt``) is required in the simulation folder. A WEC-Sim/MoorDyn coupling example is provided in the tutorial, which will be described in the following subsection.
+A mooring folder that includes a moorDyn input file (``lines.txt``) is required in the simulation folder. 
+A WEC-Sim/MoorDyn coupling example is provided in the `WEC-Sim Applications <https://github.com/WEC-Sim/WEC-Sim_Applications/tree/master/MoorDyn_RM3>`_ repository, and will be described in the following subsection.
 
 Note: WEC-Sim/MoorDyn coupling only allows one mooring configuration in the simulation.
 

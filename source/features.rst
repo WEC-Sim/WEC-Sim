@@ -186,7 +186,7 @@ Some cases in which you might want to create your own h5 file are:
 Matlab and Python have functions to read and write *h5* files easily.
 WEC-Sim includes three functions to help you create your own h5 file. 
 These are found under **/source/functions/writeH5/**.
-The header comments of each function explain the inputs and outputs, and an example of how to use it is shown in **/tutorials/write_hdf5/create_h5file.m**.
+The header comments of each function explain the inputs and outputs, and an example of how to use it is shown in the `WEC-Sim Applications <https://github.com/WEC-Sim/WEC-Sim_Applications/tree/master/write_hdf5>`_ repository.
 The first step is to have all the required coefficients and properties in Matlab in the correct format.
 Then the functions provided are used to create and populate the *h5* file. 
 
