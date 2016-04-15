@@ -180,13 +180,14 @@ classdef waveClass<handle
             end
         end
 
-        function write_paraview_vtp(obj, t, numPointsX, numPointsY, domainSize, model, simdate)
+        function write_paraview_vtp(obj, t, numPointsX, numPointsY, domainSize, model, simdate, mooring)
             % Write vtp files for visualization using Paraview 
             % ground plane
             filename = ['vtk' filesep 'ground.txt'];
             fid = fopen(filename, 'w');
             fprintf(fid,[num2str(domainSize) '\n']);
             fprintf(fid,[num2str(obj.waterDepth) '\n']);
+            fprintf(fid,[num2str(mooring) '\n']);
             fclose(fid);
             % wave
             x = linspace(-domainSize, domainSize, numPointsX);
@@ -291,7 +292,7 @@ classdef waveClass<handle
                 warning('Invalid water depth given. waves.waterDepth set to 200m for vizualisation.')
             else
                 obj.deepWaterWave = 0;
-                obj.waterDepth = wDepth;
+                obj.waterDepth = double(wDepth);
             end
             switch obj.type
                 case {'noWave'}
