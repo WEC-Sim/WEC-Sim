@@ -29,6 +29,7 @@ ground = np.loadtxt(f)
 f.close()
 gextent = ground[0]
 gdepth = -ground[1]
+MoorDyn = ground[2]
 plane1 = Plane()
 plane1.Origin = [-gextent,-gextent,gdepth]
 plane1.Point1 = [gextent,-gextent,gdepth]
@@ -43,6 +44,8 @@ RenameSource('ground', plane1)
 filename = dir + os.sep + 'bodies.txt'
 f = open(filename,'r')
 bodies = model.GetDataInformation().GetCompositeDataInformation().GetNumberOfChildren() - 1
+if MoorDyn:
+	bodies = bodies-1
 for i in range(bodies):
 	SetActiveSource(model)
 	extractBlock1_2 = ExtractBlock(Input=model)
@@ -57,4 +60,15 @@ for i in range(bodies):
 	extractBlock1_2Display.Opacity = opacity 
 	f.readline()
 f.close()
+
+# mooring
+if MoorDyn:
+	SetActiveSource(model)
+	extractBlock1_3 = ExtractBlock(Input=model)
+	extractBlock1_3.BlockIndices = [2+((bodies-1)*2)+1+2, 2+((bodies-1)*2)+2+2]
+	extractBlock1_3Display = Show(extractBlock1_3, renderView1)
+	extractBlock1_3Display.ColorArrayName = [None, '']
+	RenameSource('MoorDyn', extractBlock1_3)
+	extractBlock1_3Display.DiffuseColor = [0.0, 0.0, 0.0]
+	extractBlock1_3Display.Opacity = 1.0
 
