@@ -92,15 +92,15 @@ classdef responseClass<handle
             % Read MoorDyn outputs
 
             % load Lines.out
-            %filename = './mooring/Lines.out';
-            %fid = fopen(filename, 'r');
-            %header = strsplit(fgetl(fid));
-            %data = dlmread(filename,'',1,0);
-            %tmp = size(data);
-            %ncol = tmp(2);clear tmp
-            %for icol=1:ncol
-            %    eval(['obj.moorDyn.Lines.' header{icol} ' = data(:,' num2str(icol) ');']);
-            %end
+            filename = './mooring/Lines.out';
+            fid = fopen(filename, 'r');
+            header = strsplit(fgetl(fid));
+            data = dlmread(filename,'',1,0);
+            tmp = size(data);
+            ncol = tmp(2);clear tmp
+            for icol=1:ncol
+               eval(['obj.moorDyn.Lines.' header{icol} ' = data(:,' num2str(icol) ');']);
+            end
             % load Line#.out
             for iline=1:numLines
                 eval(['obj.moorDyn.Line' num2str(iline) '=struct();']);
