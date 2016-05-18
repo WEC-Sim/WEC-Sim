@@ -147,11 +147,15 @@ end
 
 
 %% Set variant subsystems options
+% Nonlinear Hydro
 nlHydro = simu.nlHydro;
-sv_linearHydro=Simulink.Variant('nlHydro==0');
-sv_nonlinearHydro=Simulink.Variant('nlHydro>0');
-sv_meanFS=Simulink.Variant('nlHydro<2');
+sv_linearHS=Simulink.Variant('nlHydro==0');
+sv_linearFK=Simulink.Variant('nlHydro==0 || nlHydro>2');
+sv_nonlinearHS=Simulink.Variant('nlHydro>0');
+sv_nonlinearFK=Simulink.Variant('nlHydro>0 && nlHydro<3');
+sv_meanFS=Simulink.Variant('nlHydro<2 || nlHydro>2');
 sv_instFS=Simulink.Variant('nlHydro==2');
+
 % Morrison Element
 morrisonElement = simu.morrisonElement;
 sv_MEOff=Simulink.Variant('morrisonElement==0');
@@ -290,7 +294,7 @@ hspressure = {};
 wpressurenl = {};
 wpressurel = {};
 for ii = 1:length(body(1,:))
-    if simu.nlHydro~=0 && body(ii).nhBody==0
+    if simu.nlHydro~=0 && body(ii).nhBody==0 && simu.saveHydroPress==1
         % hydrostatic pressure
         eval(['hspressure{' num2str(ii) '} = body' num2str(ii) '_hspressure_out;']);
         % wave (Froude-Krylov) nonlinear pressure
