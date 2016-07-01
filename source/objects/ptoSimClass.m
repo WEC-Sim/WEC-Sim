@@ -65,7 +65,7 @@ classdef ptoSimClass<handle
                                         'driveEff'        ,'NOT DEFINED',...            %
                                         'genDamping'      ,'NOT DEFINED',...            %
                                         'number'           ,[])                         %
-        linearGenerator        = struct(...                                         % Linear Generator block properties
+        pmLinearGenerator        = struct(...                                         % Direct Drive Linear Generator block properties
                                         'Rs'              ,'NOT DEFINED',...            %
                                         'Bfric'           ,'NOT DEFINED',...            %
                                         'tau_p'           ,'NOT DEFINED',...            %
@@ -76,6 +76,18 @@ classdef ptoSimClass<handle
                                         'lambda_sd_0'     ,'NOT DEFINED',...            %
                                         'Rload'           ,'NOT DEFINED',...            %
                                         'number'          ,[])                          %
+         pmRotaryGenerator     = struct(...                                         % Direct Drive Rotary Generator block properties
+                                        'Rs'              ,'NOT DEFINED',...            %
+                                        'Bfric'           ,'NOT DEFINED',...            %
+                                        'tau_p'           ,'NOT DEFINED',...            %
+                                        'lambda_fd'       ,'NOT DEFINED',...            %
+                                        'Ls'              ,'NOT DEFINED',...            %
+                                        'theta_d_0'       ,'NOT DEFINED',...            %
+                                        'lambda_sq_0'     ,'NOT DEFINED',...            %
+                                        'lambda_sd_0'     ,'NOT DEFINED',...            %
+                                        'Rload'           ,'NOT DEFINED',...            %
+                                        'radius'          ,'NOT DEFINED',...
+                                        'number'          ,[])                          %                           
          motionMechanism       = struct(...                                         % Motion mechanism block properties
                                         'crank'           ,'NOT DEFINED',...            %
                                         'offset'          ,'NOT DEFINED',...            %
@@ -92,7 +104,7 @@ classdef ptoSimClass<handle
         
         function countblocks(obj)
             % Counts and numbers the instances of each type of block
-            names = {'pistonCF','pistonNCF','checkValve','valve','accumulator','hydraulicMotor','rotaryGenerator','linearGenerator','motionMechanism'};
+            names = {'pistonCF','pistonNCF','checkValve','valve','accumulator','hydraulicMotor','rotaryGenerator','pmLinearGenerator','pmRotaryGenerator','motionMechanism'};
             for jj = 1:length(names)
                 for kk = 1:length(obj.(names{jj}))
                     obj.(names{jj})(kk).number = kk;
@@ -102,7 +114,7 @@ classdef ptoSimClass<handle
         
         function ptosimOutput = response(obj)
             % Create PTO-Sim output
-            names = {'pistonCF','pistonNCF','checkValve','valve','accumulator','hydraulicMotor','rotaryGenerator','linearGenerator','motionMechanism'};
+            names = {'pistonCF','pistonNCF','checkValve','valve','accumulator','hydraulicMotor','rotaryGenerator','pmLinearGenerator','pmRotaryGenerator','motionMechanism'};
             
             signals.pistonCF = {'absPower','force','pos','vel'};
             signals.pistonNCF = {'absPower','force','topPressure','bottomPressure'};
@@ -111,7 +123,8 @@ classdef ptoSimClass<handle
             signals.accumulator = {'pressure','volume'};
             signals.hydraulicMotor = {'angVel','volFlowM'};
             signals.rotaryGenerator = {'elecPower','genPower'};
-            signals.linearGenerator = {'absPower','force','fricForce','Ia','Ib','Ic','Va','Vb','Vc','vel','elecPower'};
+            signals.pmLinearGenerator = {'absPower','force','fricForce','Ia','Ib','Ic','Va','Vb','Vc','vel','elecPower'};
+            signals.pmRotaryGenerator = {'absPower','torque','fricTorque','Ia','Ib','Ic','Va','Vb','Vc','vel','elecPower'};
             signals.motionMechanism = {'ptoTorque','angPosition','angVelocity'};
             
             ptosimOutput = struct;
