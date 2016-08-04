@@ -52,6 +52,7 @@ Contributors
 * Michael Lawson (NREL)
 * Carlos Michelen (Sandia)
 * Nathan Tom (NREL)
+* Jennifer Van Rij (NREL)
 * Ratanak So (Oregon State University)
 * Matt Hall (University of Maine)
 * Adam Nelessen (Georgia Tech)
