@@ -5,7 +5,10 @@ simu.simMechanicsFile = 'RM3.slx';      %Location of Simulink Model File
 % simu.explorer='on';                   %Turn SimMechanics Explorer (on/off)
 % simu.startTime = 0;                   %Simulation Start Time [s]
 simu.endTime=400;                       %Simulation End bdcloseTime [s]
-simu.dt = 0.1; 							%Simulation Time-Step [s]
+simu.solver = 'ode4';                   %simu.solver = 'ode4' for fixed step & simu.solver = 'ode45' for variable step 
+simu.dtFixedStep = 0.1; 				%Simulation time-step for fixed step [s]
+simu.dt = 0.1; 							%Simulation time-step [s] for a convolution function in the radiation force calculation 
+simu.dtMax = 0.1;                       %Maximum simulation time-step for variable step [s]
 simu.rampT = 100;                       %Wave Ramp Time Length [s]
 
 %% Wave Information 
