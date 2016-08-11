@@ -21,7 +21,9 @@ classdef simulationClass<handle
         simMechanicsFile    = 'NOT DEFINED'                                % Simulink/SimMecahnics model file (default = 'NOT DEFINED')
         startTime           = 0                                            % Simulation start time (default = 0 s)
         endTime             = 500                                          % Simulation end time (default = 500 s)
-        dt                  = 0.1                                          % Simulation time step (default = 0.1 s)
+        dt                  = 0.1                                          % Simulation time step for CITime (default = 0.1 s)
+        dtFixedStep         = 0.1                                          % Simulation time step for fixed step (default = 0.1 s)
+        dtMax               = 0.1                                          % Maximum simulation time step for variable step (default = 0.1 s) 
         dtOut               = []                                           % Output sampling time (default = dt)
         dtFeNonlin          = []                                           % Sample time to calculate nonlinear forces (default = dt)
         dtCITime            = []                                           % Sample time to calculate Convolution Integral (default = dt)
@@ -31,6 +33,8 @@ classdef simulationClass<handle
         ssCalc              = 0                                            % Option for convolution integral or state-space calculation: convolution integral->'0', state-space->'1', (default = 0)
         mode                = 'normal'                                     %'normal','accelerator','rapid-accelerator' (default = 'normal')
         solver              = 'ode4'                                       % PDE solver used by the Simulink/SimMechanics simulation (default = 'ode4')
+        autoRateTranBlk     = 'on'                                         % Automatically handle rate transition for data transfer
+        zeroCrossCont       = 'DisableAll'                                 % Disable zero cross control 
         explorer            = 'on'                                         % SimMechanics Explorer 'on' or 'off' (default = 'on'
         rho                 = 1000                                         % Density of water (default = 1000 kg/m^3)
         g                   = 9.81                                         % Acceleration due to gravity (default = 9.81 m/s)
@@ -82,7 +86,10 @@ classdef simulationClass<handle
                  'StopTime',num2str(obj.endTime),...
                  'SimulationMode',obj.mode,...
                  'StartTime',num2str(obj.startTime),...
-                 'FixedStep',num2str(obj.dt),...
+                 'FixedStep',num2str(obj.dtFixedStep),...
+                 'MaxStep',num2str(obj.dtMax),...
+                 'AutoInsertRateTranBlk',obj.autoRateTranBlk,...
+                 'ZeroCrossControl',obj.zeroCrossCont,...
                  'SimMechanicsOpenEditorOnUpdate',obj.explorer);
         end
 
@@ -135,7 +142,7 @@ classdef simulationClass<handle
         function listInfo(obj,waveTypeNum)
             % Lists simulation info
             fprintf('\nWEC-Sim Simulation Settings:\n');
-            fprintf('\tTime Marching Solver                 = Fourth-Order Runge-Kutta Formula \n')
+            %fprintf('\tTime Marching Solver                 = Fourth-Order Runge-Kutta Formula \n')
             fprintf('\tStart Time                     (sec) = %G\n',obj.startTime)
             fprintf('\tEnd Time                       (sec) = %G\n',obj.endTime)
             fprintf('\tTime Step Size                 (sec) = %G\n',obj.dt)
