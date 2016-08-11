@@ -45,7 +45,8 @@ waves.T = 8;                            %Wave Period [s]
 %% Float
 body(1) = bodyClass('hydroData/rm3.h5');      
     %Create the body(1) Variable, Set Location of Hydrodynamic Data File 
-    %and Body Number Within this File.        
+    %and Body Number Within this File.   
+body(1).bemioFlag = 0;  % If using the new MATLAB based BEMIO
 body(1).mass = 'equilibrium';                   
     %Body Mass. The 'equilibrium' Option Sets it to the Displaced Water 
     %Weight.
@@ -53,7 +54,8 @@ body(1).momOfInertia = [20907301 21306090.66 37085481.11];  %Moment of Inertia [
 body(1).geometryFile = 'geometry/float.stl';    %Location of Geomtry File
 
 %% Spar/Plate
-body(2) = bodyClass('hydroData/rm3.h5');     
+body(2) = bodyClass('hydroData/rm3.h5'); 
+body(2).bemioFlag = 0;  % If using the new MATLAB based BEMIO
 body(2).mass = 'equilibrium';                   
 body(2).momOfInertia = [94419614.57 94407091.24 28542224.82];
 body(2).geometryFile = 'geometry/plate.stl'; 
