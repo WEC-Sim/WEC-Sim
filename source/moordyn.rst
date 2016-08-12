@@ -36,7 +36,7 @@ This section describes how to simulate a mooring connected WEC system in WEC-Sim
 .. _WECSimmoorDyn:
 
 .. figure:: _static/WECSimMoorDyn.png
-    :width: 400pt
+    :width: 320pt
     :align: center
     
 
