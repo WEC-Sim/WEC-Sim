@@ -82,7 +82,7 @@
 <li class="toctree-l1"><a class="reference internal" href="theory.html">Theory</a></li>
 <li class="toctree-l1"><a class="reference internal" href="code_structure.html">Code Structure</a></li>
 <li class="toctree-l1"><a class="reference internal" href="tutorials.html">Tutorials</a></li>
-<li class="toctree-l1 current"><a class="current reference internal" href="">Advanced Features</a><ul>
+<li class="toctree-l1 current"><a class="current reference internal" href="#">Advanced Features</a><ul>
 <li class="toctree-l2"><a class="reference internal" href="#advanced-methodologies">Advanced Methodologies</a><ul>
 <li class="toctree-l3"><a class="reference internal" href="#nonlinear-hydrodynamic-forces">Nonlinear Hydrodynamic Forces</a><ul>
 <li class="toctree-l4"><a class="reference internal" href="#settings">Settings</a></li>
@@ -162,7 +162,7 @@
         <div class="rst-content">
           
 
-
+ 
 
 
 
@@ -219,7 +219,7 @@
 <ul class="simple">
 <li>WEC-Sim input file</li>
 </ul>
-<div class="highlight-matlab" id="nonlinaerwecsiminputfile"><div class="highlight"><pre><span class="c">%% Simulation Data</span>
+<div class="highlight-matlab" id="nonlinaerwecsiminputfile"><div class="highlight"><pre><span></span><span class="c">%% Simulation Data</span>
 <span class="n">simu</span> <span class="p">=</span> <span class="n">simulationClass</span><span class="p">();</span>                        <span class="c">%Create the Simulation Variable</span>
 <span class="n">simu</span><span class="p">.</span><span class="n">endTime</span><span class="p">=</span><span class="mi">50</span><span class="p">;</span>                                 <span class="c">% Simulation End Time [s]</span>
 <span class="n">simu</span><span class="p">.</span><span class="n">dt</span> <span class="p">=</span> <span class="mf">0.1</span><span class="p">;</span>                                   <span class="c">% Simulation Delta_Time [s]         </span>
@@ -643,7 +643,7 @@ A WEC-Sim/MoorDyn coupling example is provided in the <a class="reference extern
 <ul class="simple">
 <li>WEC-Sim input file: In the <code class="docutils literal"><span class="pre">wecSimInput.m</span></code> file, the user need to initiate the mooring class and define the number of mooring lines.</li>
 </ul>
-<div class="highlight-matlab" id="wecsiminputmoordyn"><div class="highlight"><pre><span class="c">%% Simulation Data</span>
+<div class="highlight-matlab" id="wecsiminputmoordyn"><div class="highlight"><pre><span></span><span class="c">%% Simulation Data</span>
 <span class="n">simu</span> <span class="p">=</span> <span class="n">simulationClass</span><span class="p">();</span>               <span class="c">%Create the Simulation Variable</span>
 <span class="n">simu</span><span class="p">.</span><span class="n">simMechanicsFile</span> <span class="p">=</span> <span class="s">&#39;RM3.slx&#39;</span><span class="p">;</span>      <span class="c">%Location of Simulink Model File</span>
 <span class="n">simu</span><span class="p">.</span><span class="n">endTime</span><span class="p">=</span><span class="mi">400</span><span class="p">;</span>                       <span class="c">%Simulation End Time [s]</span>
