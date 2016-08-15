@@ -21,9 +21,8 @@ classdef simulationClass<handle
         simMechanicsFile    = 'NOT DEFINED'                                % Simulink/SimMecahnics model file (default = 'NOT DEFINED')
         startTime           = 0                                            % Simulation start time (default = 0 s)
         endTime             = 500                                          % Simulation end time (default = 500 s)
-        dt                  = 0.1                                          % Simulation time step for CITime (default = 0.1 s)
-        dtFixedStep         = 0.1                                          % Simulation time step for fixed step (default = 0.1 s)
-        dtMax               = 0.1                                          % Maximum simulation time step for variable step (default = 0.1 s) 
+        dt                  = 0.1                                          % Simulation time step (default = 0.1 s)
+        dtMax               = []                                          % Maximum simulation time step for variable step (default = 0.1 s) 
         dtOut               = []                                           % Output sampling time (default = dt)
         dtFeNonlin          = []                                           % Sample time to calculate nonlinear forces (default = dt)
         dtCITime            = []                                           % Sample time to calculate Convolution Integral (default = dt)
@@ -86,7 +85,7 @@ classdef simulationClass<handle
                  'StopTime',num2str(obj.endTime),...
                  'SimulationMode',obj.mode,...
                  'StartTime',num2str(obj.startTime),...
-                 'FixedStep',num2str(obj.dtFixedStep),...
+                 'FixedStep',num2str(obj.dt),...
                  'MaxStep',num2str(obj.dtMax),...
                  'AutoInsertRateTranBlk',obj.autoRateTranBlk,...
                  'ZeroCrossControl',obj.zeroCrossCont,...
@@ -108,6 +107,10 @@ classdef simulationClass<handle
             % Set dtCITime if it was not specificed in input file
             if isempty(obj.dtCITime) || obj.dtCITime < obj.dt
                 obj.dtCITime = obj.dt;
+            end
+            % Set dtMax if it was not specificed in input file
+            if isempty(obj.dtMax) || obj.dtMax < obj.dt
+                obj.dtMax = obj.dt;
             end
             obj.CTTime = 0:obj.dtCITime:obj.CITime;            
             obj.CIkt = length(obj.CTTime);
