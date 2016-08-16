@@ -90,8 +90,7 @@ Users must specify the name of the Simulink/SimMechanics WEC model, which can be
 
 	simu.simMechanicsFile=<WEC Model Name>.slx
 
-The WEC-Sim code has default values defined for all the other simulation parameters. 
-Available simulation parameters and the default values can be found by typing ``doc simulationClass`` in the MATLAB command window or opening the `.m` file in `/source/objects/.
+The WEC-Sim code has default values defined for all the other simulation parameters. Available simulation parameters and the default values can be found by typing ``doc simulationClass`` in the MATLAB command window or opening the `.m` file in `/source/objects/.
 
 .. figure:: _static/simuClass.png
 
@@ -289,7 +288,7 @@ Both constraints and PTOs can be used to restrict the relative motion between mu
 The Mooring sub-library contains blocks used to simulate mooring systems.
 
 Body Elements Sub-library
-~~~~~~~~~~~~~~~~~~~~~~~~
+~~~~~~~~~~~~~~~~~~~~~~~~~~
 The Body Elements sub-library (Figure~\ref{fig:bLib) contains one block, the Rigid Body block. 
 It is used to represent rigid bodies. 
 At least one instance of this block is required in each model.
@@ -302,7 +301,7 @@ The mass properties, hydrodynamic data, geometry file, mooring, and other proper
 Within the body block the wave radiation, wave excitation, hydrostatic restoring, viscous damping and mooring forces are calculated.
 
 Frames Sub-library
-~~~~~~~~~~~~~~~~~
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 The Frames sub-library contains one block that is necessary in every model. 
 The Global Reference Frame block defines the global coordinates, solver configuration, seabed and free surface description, simulation time, and other global settings. 
 It can be useful to think of the Global Reference Frame as being the seabed when creating a model. 
@@ -313,7 +312,7 @@ The Global Reference Frame block uses the simulation class variable simu and the
    :width: 400pt
 
 Constraints Sub-library
-~~~~~~~~~~~~~~~~~~~~~~
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 The blocks within the Constraints sub-library are used to define the DOF of a specific body. 
 Constraints blocks define only the DOF, but do not otherwise apply any forcing or resistance to the body motion. 
 Each Constraints block has two connections, a base (B) and a follower (F). 
@@ -352,7 +351,7 @@ For a single body system the base would be the Global Reference Frame (which can
 
 
 PTOs Sub-library
-~~~~~~~~~~~~~~~
+~~~~~~~~~~~~~~~~~~~~~~~~~~
 The PTOs sub-library is used to simulate simple PTO systems and to restrict relative motion between multiple bodies or between one body and the seabed. 
 The PTO blocks can simulate simple PTO systems by applying a linear stiffness and damping to the connection. 
 Similar to the Constraints blocks, the PTO blocks have a base (B) and a follower (F). 
@@ -369,7 +368,7 @@ The Actuation Motion PTOs allow the user to define the motion of the PTO.
 These can be usefull to simulate forced-oscillation tests.
 
 Mooring Sub-library
-~~~~~~~~~~~~~~~~~~
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 The mooring sub-library is used to simulate mooring systems.
 The MooringMatrix block applies linear damping and stiffness based on the motion of the follower relative to the base.
 The MoorDyn block uses the compiled MoorDyn executables and a MoorDyn input file to simulate a realistic mooring system. 
@@ -380,7 +379,7 @@ There is no restrictions on the number of MooringMatrix blocks.
    :width: 400 pt
 
 Other Simulink and SimMechanics Blocks
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 In some situations, users may have to use SimMechanics and Simulink blocks not included in the WEC-Sim Library to build their WEC model. 
 
 

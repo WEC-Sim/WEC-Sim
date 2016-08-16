@@ -114,7 +114,7 @@ In this section, PTO-Sim input file (``ptoSimInputFile.m``) is defined and categ
 Simulation and Postprocessing
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
-Simulation and postprocessing are the same process as described in WEC-Sim Simulation_ example above.
+Simulation and postprocessing are the same process as described in WEC-Sim Simulation example above.
 
 
 RM3 with Mechanical PTO
@@ -147,11 +147,9 @@ Step 1 through 3 are the same as in `RM3 with hydraulic PTO`_.
    :width: 400pt
 
 Input File, Simulation, and Postprocessing
-^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
-The same as `RM3 with PTO-Sim`_. 
-
-
+The same as RM3 with PTO-Sim. 
 
 Tutotrial: OSWEC with PTO-Sim
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
