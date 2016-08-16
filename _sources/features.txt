@@ -9,7 +9,7 @@ Advanced Methodologies
 -----------------------
 
 Nonlinear Hydrodynamic Forces
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
 WEC-Sim has the option to include the nonlinear restoring and Froude-Krylov forces when solving the system dynamics of WECs, accounting the weakly nonlinear effect on the body hydrodynamics. 
 
@@ -21,8 +21,8 @@ When the nonlinear hydrodynamics option is specified, the geometry file (``*.stl
 
 An option available to reduce the nonlinear simulation time is to specify a nonlinear time step, :code:`simu.dtFeNonlin=N*simu.dt`, where N is number of increment steps. The nonlinear time step specifies the interval at which the nonlinear hydrodynamic forces are calculated. As the ratio of the nonlinear to system time step increases, the computation time is reduced, but again, at the expense of the simulation accuracy.
 
-Tutorial - Nonlinear Hydrodynamics modeling of a heaving ellipsoid
-..........................
+Tutorial - Heaving Ellipsoid
+...................................................................
 
 The body tested in the study is an ellipsoid with a cross- section characterized by semi-major and -minor axes of 5.0 m and 2.5 m in the wave propagation and normal directions, respectively . The ellipsoid is at its equilibrium position with its origin located at the mean water surface. The mass of the body is then set to 1.342×105 kg, and the center of gravity is located 2 m below the origin.
 
@@ -94,7 +94,7 @@ WEC-Sim also allows user to run multiple conditions in one WEC-Sim simulation by
 
 * Option 2: Specify the file name of the excel file that contains a set of wave statistic data in the WEC-Sim input file. This option is generally useful for power matrix generation.
 
-``statisticsDataLoad = "<Excel file name>.m"``
+``statisticsDataLoad = "<Excel file name>.xls"``
 
 * Option 3: Provide a MCR case file and specify the file name in the WEC-Sim input file,
 
@@ -158,7 +158,7 @@ For example, a massless rigid rod between two bodies, hinged at each body, can b
 A roll-pitch constraint can also be obtained with two rotational constraints in series; one rotating in pitch, and the other in roll, and both at the same location. 
 
 Advanced Body Mass and Geometry
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 The mass of each body must be specified in the *input file*.
 For the case of a floating body, the user has the option of setting :code:`body(i) = 'equilibrium'` in which case WEC-Sim will calculate the correct mass based on displaced volume and water density.
 For the case of a fixed body, for which the mass is unknown and not important to the dynamics, you can specify :code:`body(i) = 'fixed'` which will set the mass to 999 kg and moment of inertia to [999 999 999].
@@ -174,7 +174,7 @@ You can then visualize the geometry using the :code:`body(i).plotStl` method.
 .. include:: viz.rst
 
 BEMIO: Writing Your Own h5 File
-------------------------
+---------------------------------
 The most common way of creating an h5 file is using BEMIO to post-process the outputs of a BEM code.
 This requires a single BEM solution that contains all hydrodynamic bodies and accounts for body interactions.
 Some cases in which you might want to create your own h5 file are:

@@ -4,7 +4,7 @@ Release Notes
 -------------
 
 `WEC-Sim v2.0 Pre-Release <https://github.com/WEC-Sim/WEC-Sim/releases/tag/v2.0pre>`_
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 * Updated WEC-Sim Library (generalized joints)
 * Mooring implemented in mooringClass (no longer in body or joint)
 

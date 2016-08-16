@@ -107,7 +107,7 @@
         <div class="rst-content">
           
 
- 
+
 
 
 
@@ -130,7 +130,7 @@
            <div itemprop="articleBody">
             
   <div class="section" id="mooring-modeling">
-<span id="moordyn"></span><h1>Mooring Modeling<a class="headerlink" href="#mooring-modeling" title="Permalink to this headline">¶</a></h1>
+<h1>Mooring Modeling<a class="headerlink" href="#mooring-modeling" title="Permalink to this headline">¶</a></h1>
 <p>Floating WEC systems are often connected to mooring lines to keep the device in position. WEC-Sim allows the user to model the mooring dynamics in the simulation by specifying the mooring matrix or coupling with MoorDyn. To include mooring connections, the user can use the mooring block (i.e., Mooring Matrix block or MoorDyn block) given in the WEC-Sim library under Moorings lib and connect it between the body and the Global reference frame. Please see the following Tutorial subsection for more information.</p>
 <div class="section" id="using-mooring-matrix">
 <h2>Using Mooring Matrix<a class="headerlink" href="#using-mooring-matrix" title="Permalink to this headline">¶</a></h2>
@@ -144,7 +144,7 @@
 </div>
 <div class="section" id="using-moordyn">
 <h2>Using MoorDyn<a class="headerlink" href="#using-moordyn" title="Permalink to this headline">¶</a></h2>
-<p>When the mooring matrix block is used, the user needs to initiate the mooring class by setting <code class="code docutils literal"><span class="pre">mooring</span> <span class="pre">=</span> <span class="pre">mooringClass('mooring</span> <span class="pre">name')</span></code> in the WEC-Sim input file (wecSimInputFile.m), followed by number of mooring lines is defined in MoorDyn (<code class="docutils literal"><span class="pre">mooring(1).moorDynLines</span> <span class="pre">=</span> <span class="pre">&lt;Number</span> <span class="pre">of</span> <span class="pre">mooring</span> <span class="pre">lines&gt;</span></code>)</p>
+<p>When the MoorDyn block is used, the user needs to initiate the mooring class by setting <code class="code docutils literal"><span class="pre">mooring</span> <span class="pre">=</span> <span class="pre">mooringClass('mooring</span> <span class="pre">name')</span></code> in the WEC-Sim input file (wecSimInputFile.m), followed by number of mooring lines is defined in MoorDyn (<code class="docutils literal"><span class="pre">mooring(1).moorDynLines</span> <span class="pre">=</span> <span class="pre">&lt;Number</span> <span class="pre">of</span> <span class="pre">mooring</span> <span class="pre">lines&gt;</span></code>)</p>
 <p>A mooring folder that includes a moorDyn input file (<code class="docutils literal"><span class="pre">lines.txt</span></code>) is required in the simulation folder.
 A WEC-Sim/MoorDyn coupling example is provided in the <a class="reference external" href="https://github.com/WEC-Sim/WEC-Sim_Applications/tree/master/MoorDyn_RM3">WEC-Sim Applications</a> repository, and will be described in the following subsection.</p>
 <p>Note: WEC-Sim/MoorDyn coupling only allows one mooring configuration in the simulation.</p>
@@ -161,18 +161,21 @@ A WEC-Sim/MoorDyn coupling example is provided in the <a class="reference extern
 <ul class="simple">
 <li>WEC-Sim input file: In the <code class="docutils literal"><span class="pre">wecSimInput.m</span></code> file, the user need to initiate the mooring class and define the number of mooring lines.</li>
 </ul>
-<div class="highlight-matlab" id="wecsiminputmoordyn"><div class="highlight"><pre><span></span><span class="c">%% Simulation Data</span>
+<div class="highlight-matlab" id="wecsiminputmoordyn"><div class="highlight"><pre><span class="c">%% Simulation Data</span>
 <span class="n">simu</span> <span class="p">=</span> <span class="n">simulationClass</span><span class="p">();</span>               <span class="c">%Create the Simulation Variable</span>
-<span class="n">simu</span><span class="p">.</span><span class="n">simMechanicsFile</span> <span class="p">=</span> <span class="s">&#39;RM3.slx&#39;</span><span class="p">;</span>      <span class="c">%Location of Simulink Model File</span>
+<span class="n">simu</span><span class="p">.</span><span class="n">simMechanicsFile</span> <span class="p">=</span> <span class="s">&#39;RM3MoorDyn.slx&#39;</span><span class="p">;</span>      <span class="c">%Location of Simulink Model File</span>
 <span class="n">simu</span><span class="p">.</span><span class="n">endTime</span><span class="p">=</span><span class="mi">400</span><span class="p">;</span>                       <span class="c">%Simulation End Time [s]</span>
-<span class="n">simu</span><span class="p">.</span><span class="n">dt</span> <span class="p">=</span> <span class="mf">0.1</span><span class="p">;</span> 							<span class="c">%Simulation Time-Step [s]</span>
-<span class="n">simu</span><span class="p">.</span><span class="n">rampT</span> <span class="p">=</span> <span class="mi">100</span><span class="p">;</span>                        <span class="c">%Wave Ramp Time Length [s]</span>
+<span class="n">simu</span><span class="p">.</span><span class="n">dt</span> <span class="p">=</span> <span class="mf">0.01</span><span class="p">;</span>                          <span class="c">%Simulation Time-Step [s]</span>
+<span class="n">simu</span><span class="p">.</span><span class="n">rampT</span> <span class="p">=</span> <span class="mi">40</span><span class="p">;</span>                        <span class="c">%Wave Ramp Time Length [s]</span>
+<span class="n">simu</span><span class="p">.</span><span class="n">mode</span><span class="p">=</span><span class="s">&#39;accelerator&#39;</span><span class="p">;</span>                
+<span class="n">simu</span><span class="p">.</span><span class="n">explorer</span> <span class="p">=</span> <span class="s">&#39;off&#39;</span><span class="p">;</span>
+<span class="n">simu</span><span class="p">.</span><span class="n">dtCITime</span> <span class="p">=</span> <span class="mf">0.05</span><span class="p">;</span>
+<span class="c">%simu.paraview = 1;</span>
 
 <span class="c">%% Wave Information</span>
-<span class="n">waves</span> <span class="p">=</span> <span class="n">waveClass</span><span class="p">(</span><span class="s">&#39;irregular&#39;</span><span class="p">);</span>       
-<span class="n">waves</span><span class="p">.</span><span class="n">H</span> <span class="p">=</span> <span class="mf">2.5</span><span class="p">;</span>                        <span class="c">%Significant Wave Height [m]</span>
-<span class="n">waves</span><span class="p">.</span><span class="n">T</span> <span class="p">=</span> <span class="mi">8</span><span class="p">;</span>                          <span class="c">%Peak Period [s]</span>
-<span class="n">waves</span><span class="p">.</span><span class="n">spectrumType</span> <span class="p">=</span> <span class="s">&#39;BS&#39;</span><span class="p">;</span>
+<span class="c">%% User-Defined Time-Series</span>
+<span class="n">waves</span> <span class="p">=</span> <span class="n">waveClass</span><span class="p">(</span><span class="s">&#39;userDefined&#39;</span><span class="p">);</span>   <span class="c">%Create the Wave Variable and Specify Type</span>
+<span class="n">waves</span><span class="p">.</span><span class="n">etaDataFile</span> <span class="p">=</span> <span class="s">&#39;umpqua46229_6_2008.mat&#39;</span><span class="p">;</span>  <span class="c">% Name of User-Defined Time-Series File [:,2] = [time, wave_elev]</span>
 
 <span class="c">%% Body Data</span>
 <span class="n">body</span><span class="p">(</span><span class="mi">1</span><span class="p">)</span> <span class="p">=</span> <span class="n">bodyClass</span><span class="p">(</span><span class="s">&#39;hydroData/rm3.h5&#39;</span><span class="p">);</span>      
@@ -183,19 +186,23 @@ A WEC-Sim/MoorDyn coupling example is provided in the <a class="reference extern
 <span class="n">body</span><span class="p">(</span><span class="mi">2</span><span class="p">)</span> <span class="p">=</span> <span class="n">bodyClass</span><span class="p">(</span><span class="s">&#39;hydroData/rm3.h5&#39;</span><span class="p">);</span>     
 <span class="n">body</span><span class="p">(</span><span class="mi">2</span><span class="p">).</span><span class="n">mass</span> <span class="p">=</span> <span class="s">&#39;equilibrium&#39;</span><span class="p">;</span>                   
 <span class="n">body</span><span class="p">(</span><span class="mi">2</span><span class="p">).</span><span class="n">momOfInertia</span> <span class="p">=</span> <span class="p">[</span><span class="mf">94419614.57</span> <span class="mf">94407091.24</span> <span class="mf">28542224.82</span><span class="p">];</span>
-<span class="n">body</span><span class="p">(</span><span class="mi">2</span><span class="p">).</span><span class="n">geometryFile</span> <span class="p">=</span> <span class="s">&#39;geometry/plate.stl&#39;</span><span class="p">;</span> 
+<span class="n">body</span><span class="p">(</span><span class="mi">2</span><span class="p">).</span><span class="n">geometryFile</span> <span class="p">=</span> <span class="s">&#39;geometry/plate.stl&#39;</span><span class="p">;</span>
+<span class="n">body</span><span class="p">(</span><span class="mi">2</span><span class="p">).</span><span class="n">initDisp</span><span class="p">.</span><span class="n">initLinDisp</span> <span class="p">=</span> <span class="p">[</span><span class="mi">0</span> <span class="mi">0</span> <span class="o">-</span><span class="mf">0.21</span><span class="p">];</span>
 
 <span class="c">%% PTO and Constraint Parameters</span>
-<span class="n">constraint</span><span class="p">(</span><span class="mi">1</span><span class="p">)</span> <span class="p">=</span> <span class="n">constraintClass</span><span class="p">(</span><span class="s">&#39;Constraint1&#39;</span><span class="p">);</span> <span class="c">%Create Constraint Variable and Set Constraint Name</span>
+<span class="n">constraint</span><span class="p">(</span><span class="mi">1</span><span class="p">)</span> <span class="p">=</span> <span class="n">constraintClass</span><span class="p">(</span><span class="s">&#39;Constraint1&#39;</span><span class="p">);</span> 
 <span class="n">constraint</span><span class="p">(</span><span class="mi">1</span><span class="p">).</span><span class="n">loc</span> <span class="p">=</span> <span class="p">[</span><span class="mi">0</span> <span class="mi">0</span> <span class="mi">0</span><span class="p">];</span>                    <span class="c">%Constraint Location [m]</span>
 
-<span class="n">pto</span><span class="p">(</span><span class="mi">1</span><span class="p">)</span> <span class="p">=</span> <span class="n">ptoClass</span><span class="p">(</span><span class="s">&#39;PTO1&#39;</span><span class="p">);</span>                      <span class="c">%Create PTO Variable and Set PTO Name</span>
+<span class="n">pto</span><span class="p">(</span><span class="mi">1</span><span class="p">)</span> <span class="p">=</span> <span class="n">ptoClass</span><span class="p">(</span><span class="s">&#39;PTO1&#39;</span><span class="p">);</span>                      
 <span class="n">pto</span><span class="p">(</span><span class="mi">1</span><span class="p">).</span><span class="n">k</span><span class="p">=</span><span class="mi">0</span><span class="p">;</span>                                     <span class="c">%PTO Stiffness [N/m]</span>
 <span class="n">pto</span><span class="p">(</span><span class="mi">1</span><span class="p">).</span><span class="n">c</span><span class="p">=</span><span class="mi">1200000</span><span class="p">;</span>                               <span class="c">%PTO Daming [N/(m/s)]</span>
 <span class="n">pto</span><span class="p">(</span><span class="mi">1</span><span class="p">).</span><span class="n">loc</span> <span class="p">=</span> <span class="p">[</span><span class="mi">0</span> <span class="mi">0</span> <span class="mi">0</span><span class="p">];</span>                           <span class="c">%PTO Location [m]</span>
 
 <span class="n">mooring</span><span class="p">(</span><span class="mi">1</span><span class="p">)</span> <span class="p">=</span> <span class="n">mooringClass</span><span class="p">(</span><span class="s">&#39;mooring&#39;</span><span class="p">);</span>
-<span class="n">mooring</span><span class="p">(</span><span class="mi">1</span><span class="p">).</span><span class="n">moorDynLines</span> <span class="p">=</span> <span class="mi">3</span><span class="p">;</span>
+<span class="n">mooring</span><span class="p">(</span><span class="mi">1</span><span class="p">).</span><span class="n">moorDynLines</span> <span class="p">=</span> <span class="mi">6</span><span class="p">;</span>
+<span class="n">mooring</span><span class="p">(</span><span class="mi">1</span><span class="p">).</span><span class="n">moorDynNodes</span><span class="p">(</span><span class="mi">1</span><span class="p">:</span><span class="mi">3</span><span class="p">)</span> <span class="p">=</span> <span class="mi">16</span><span class="p">;</span>
+<span class="n">mooring</span><span class="p">(</span><span class="mi">1</span><span class="p">).</span><span class="n">moorDynNodes</span><span class="p">(</span><span class="mi">4</span><span class="p">:</span><span class="mi">6</span><span class="p">)</span> <span class="p">=</span> <span class="mi">6</span><span class="p">;</span>
+<span class="n">mooring</span><span class="p">(</span><span class="mi">1</span><span class="p">).</span><span class="n">initDisp</span><span class="p">.</span><span class="n">initLinDisp</span> <span class="p">=</span> <span class="p">[</span><span class="mi">0</span> <span class="mi">0</span> <span class="o">-</span><span class="mf">0.21</span><span class="p">];</span>
 </pre></div>
 </div>
 <ul class="simple">

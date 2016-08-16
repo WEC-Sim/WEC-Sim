@@ -424,11 +424,11 @@ When coupling with MoorDyn, each mooring line in a mooring system is discretized
 
 
 Additional Added-mass & Damping Forces
------------------------
+----------------------------------------
 To account for additional drag contributions and calibrate numerical models compared to experiments rather than inertial forces that arise because of mass properties, addition added-mass and damping forces can be included by adding  linear and quadratic damping terms and by using Morison Equation.  
 
 Linear & Quadratic Damping Forces
-~~~~~~~~~~~~~~~~
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 The effect of damping to the system is included by specifying linear and quadratic damping term to the equation of motion,
 
  .. math::
@@ -450,7 +450,7 @@ where :math:`v` is the fluid particle velocity, and :math:`\forall` is the displ
 Note that WEC-Sim currently does not consider buoyancy effects when calculating the forces from Morison elements. 
 
 Nonlinear Hydrodynamic Forces
------------------------
+------------------------------
 The linear model assumes the that the body motion and the waves consist of small amplitudes in comparison to the wavelengths. A weakly nonlinear approach is applied to account for the nonlinear hydrodynamic forces induced by the instantaneous water surface elevation and body position. Rather than the BEM calculated linear hydrodynamic force coefficients, the nonlinear buoyancy and the Froude-Krylov force components can be obtained by integrating the static and dynamic pressures over each panel along the wetted body surface at each time step. 
 Because linear wave theory is used to determine the flow velocity and pressure field, the values become unrealistically large for wetted panel that are above the mean water level. To correct this, the Wheeler stretching method :cite:`wheeler1969methods` is used, which forces the water column (based on the instantaneous wave elevation) to have a height that equals to the water depth when calculating the flow velocity and pressure.
 
