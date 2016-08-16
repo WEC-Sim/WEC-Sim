@@ -35,10 +35,12 @@ Course Outline
 
 Please contact Arielle.Cardinal@nrel.gov by August 10th if you are interested in attending. For other inquiries please contact krish.thiagarajan@maine.edu.
 
-`WEC-Sim v2.1 <https://github.com/WEC-Sim/WEC-Sim/releases/tag/v2.1.1pre>`_
+`WEC-Sim v2.1pre <https://github.com/WEC-Sim/WEC-Sim/releases/tag/v2.1.1pre>`_
 -------------------------------------------------------------------------------------
-* Updated WEC-Sim Library (generalized joints)
-* Mooring implemented in mooringClass (no longer in body or joint)
+* MATLAB version of BEMIO
+* Variable time step option
+* Tag for the WEC-Sim training class at University of Maine
+* Not direct backwards compatible if mooring blocks are used.
    
 
 WEC-Sim Developers
