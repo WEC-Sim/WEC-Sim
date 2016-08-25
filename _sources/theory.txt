@@ -146,6 +146,7 @@ where :math:`e^{\mathbf{A_{r}}}` is called the matrix exponential and the calcul
 .. math::
 
 	K_{r}(t) = \mathbf{C_{r}}e^{\mathbf{A_{r}}t}\mathbf{B_{r}}~~
+
 Laplace Transform and Transfer Function
 ......................................................
 The Laplace transform is a common integral transform in mathematics.  It is a linear operator of a function that transforms :math:`f(t)` to a function :math:`F \left( s \right)` with complex argument :math:`s`, which is calculated from the integral
@@ -401,7 +402,7 @@ The power absorbed by the PTO is given by:
 
 Mooring Forces
 -------------------------
-The mooring load is represented using a linear quasi-static mooring stiffness or by using the mooring forces calculated from MoorDyn :cite:`Hall2015MoorDynGuide`, which is an open-source lumped-mass mooring dynamics model. 
+The mooring load is represented using a linear quasi-static mooring stiffness or by using the mooring forces calculated from `MoorDyn <http://www.matt-hall.ca/moordyn>`_ :cite:`Hall2015MoorDynGuide`, which is an open-source lumped-mass mooring dynamics model, developed by Matt Hall. 
 
 When linear quasi-static mooring stiffness is used, the mooring load can be calculated by
 
@@ -418,9 +419,9 @@ When coupling with MoorDyn, each mooring line in a mooring system is discretized
    :scale: 70 %
    :align: center
     
-    ..
+   ..
 
-    *MoorDyn mooring model elements*
+   *MoorDyn mooring model elements*
 
 
 Additional Added-mass & Damping Forces

@@ -56,7 +56,7 @@ Contributors
 * Nathan Tom (NREL)
 * Jennifer Van Rij (NREL)
 * Ratanak So (Oregon State University)
-* Matt Hall (University of Maine)
+* `Matt Hall (University of Prince Edward Island) <http://www.matt-hall.ca>`_
 * Adam Nelessen (Georgia Tech)
 * Sam Kanner (University of California at Berkeley)
 * Chris McComb (Carnegie Mellon University)
