@@ -122,7 +122,7 @@ classdef simulationClass<handle
                 try
                     rmdir(obj.outputDir,'s')
                 catch
-                    error('The output directory could not be removed. Please close any files in the output directory and try running WEC-Sim again')
+%                    error('The output directory could not be removed. Please close any files in the output directory and try running WEC-Sim again')
                 end
              end
         end

@@ -16,7 +16,8 @@
 %%
 
 %% Start WEC-Sim log
-bdclose('all'); clc; diary off; close all; 
+%bdclose('all'); 
+clc; diary off; close all; 
 clear body waves simu output pto constraint ptoSim mooring
 delete('*.log');
 diary('simulation.log')
@@ -234,6 +235,7 @@ warning('off','Simulink:blocks:DivideByZero');
 % run simulation
 simu.loadSimMechModel(simu.simMechanicsFile);
 sim(simu.simMechanicsFile);
+%sldebug(simu.simMechanicsFile);
 % Restore modified stuff
 clear nlHydro sv_linearHS sv_nonlinearHS sv_linearFK sv_nonlinearFK ssCalc radiation_option sv_convolution sv_stateSpace sv_constantCoeff typeNum B2B sv_B2B sv_noB2B;
 clear nhbod* sv_b* sv_noWave sv_regularWaves sv_irregularWaves sv_udfWaves sv_instFS sv_meanFS sv_MEOn sv_MEOff morrisonElement;
@@ -334,7 +336,7 @@ end
 % ParaView Visualization
 if simu.paraview == 1
     fprintf('    ...writing ParaView files...   \n')
-    if exist('vtk','dir') ~= 0
+    if exist('./vtk','dir') ~= 0
         try
             rmdir('vtk','s')
         catch
@@ -384,6 +386,6 @@ clear body*_hspressure_out body*_wavenonlinearpressure_out body*_wavelinearpress
 clear ans table tout; 
 toc
 diary off 
-movefile('simulation.log',simu.logFile)
+%movefile('simulation.log',simu.logFile)
 save(simu.caseFile)
 

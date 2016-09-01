@@ -274,16 +274,33 @@ classdef bodyClass<handle
             obj.bodyGeometry.center = c;
         end
 
-        function plotStl(obj)
+        function plotStl(obj, varargin)
             % Plots the body's mesh and normal vectors
             c = obj.bodyGeometry.center;
             tri = obj.bodyGeometry.face;
             p = obj.bodyGeometry.vertex;
             n = obj.bodyGeometry.norm;
-            figure()
+            if isempty(varargin)
+                figure()
+            else
+                if ~varargin{1}
+                    figure();
+                end
+                if length(varargin) > 1
+                    x = varargin{2};
+                    p(:,1) = p(:,1) + x(1);
+                    p(:,2) = p(:,2) + x(2);
+                    p(:,3) = p(:,3) + x(3);
+                    c(:,1) = c(:,1) + x(1);
+                    c(:,2) = c(:,2) + x(2);
+                    c(:,3) = c(:,3) + x(3);
+                end
+            end
             hold on 
             trimesh(tri,p(:,1),p(:,2),p(:,3))
-            quiver3(c(:,1),c(:,2),c(:,3),n(:,1),n(:,2),n(:,3))
+            if length(varargin) < 2
+                quiver3(c(:,1),c(:,2),c(:,3),n(:,1),n(:,2),n(:,3))
+            end
         end
         
         function checkinputs(obj)
