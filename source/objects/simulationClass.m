@@ -46,6 +46,7 @@ classdef simulationClass<handle
         mcrCaseFile         = []                                           % mat file that contain a list of the multiple conditions runs with given conditions  
         morrisonElement     = 0                                            % Option for Morrison Element calculation: Off->'0', On->'1', (default = 0)
         outputtxt           = 0                                            % Option to save results as ASCII files.
+        viewExactFS         = 0                                            % Option to view the exact free surface in the Simscape explorer window. (default = 0). Only implemented for waves at direction = 0
     end
 
     properties (SetAccess = 'public', GetAccess = 'public')%internal

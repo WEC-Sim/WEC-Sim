@@ -16,7 +16,7 @@
 %%
 
 %% Start WEC-Sim log
-%bdclose('all'); 
+bdclose('all'); 
 clc; diary off; close all; 
 clear body waves simu output pto constraint ptoSim mooring
 delete('*.log');
@@ -146,8 +146,21 @@ if waves.typeNum~=0 && waves.typeNum~=10
     end
 end
 
+%% Free surface view
+dom = simu.domainSize;
+Nx = 64; Ny = 1; 
+fs_dx = 2*dom/Nx; fs_dy = 2*dom/Ny; 
+fs_x = (-dom+fs_dx/2):fs_dx:(-dom+Nx*fs_dx); 
+%fs_y = (-dom+fs_dy/2):fs_dy:(-dom+Ny*fs_dy); 
+% currently the y dimension is not implemented
+clear dom Nx Ny
 
 %% Set variant subsystems options
+% Free surface view
+viewFS = simu.viewExactFS;
+sv_viewMeanFS = Simulink.Variant('viewFS <= 0');
+sv_viewExactFS = Simulink.Variant('viewFS > 0');
+
 % Nonlinear Hydro
 nlHydro = simu.nlHydro;
 sv_linearHS=Simulink.Variant('nlHydro==0');
