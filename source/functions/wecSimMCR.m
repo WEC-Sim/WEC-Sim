@@ -21,12 +21,14 @@ else
             end
         end
     else
-        for i=1:length(waves.H)
-            for j=1:length(waves.T)
-                kkk = kkk+1;
-                mcr.cases(kkk,1) = waves.H(i);
-                mcr.cases(kkk,2) = waves.T(j);
+        for j=1:length(waves.T)
+            kkk = kkk+1;
+            if length(waves.H) > 1
+                mcr.cases(kkk,1) = waves.H(j);
+            else
+                mcr.cases(kkk,1) = waves.H(1);
             end
+            mcr.cases(kkk,2) = waves.T(j);
         end
     end
     

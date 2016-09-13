@@ -38,6 +38,7 @@ classdef simulationClass<handle
         rho                 = 1000                                         % Density of water (default = 1000 kg/m^3)
         g                   = 9.81                                         % Acceleration due to gravity (default = 9.81 m/s)
         nlHydro             = 0                                            % Option for nonlinear hydrohanamics calculation: linear->'0', nonlinear->'1', (default = 0)
+        saveHydroPress      = 1                                            % Option to save the suface pressure. Only applied if nlHydr ~= 0.  
         b2b                 = 0                                            % Option for body2body interactions: off->'0', on->'1', (default = 0)
         paraview            = 0                                            % Option for writing vtp files for paraview visualization.
         adjMassWeightFun    = 2                                            % Weighting function for adjusting added mass term in the translational direction (default = 2)
@@ -45,6 +46,7 @@ classdef simulationClass<handle
         mcrCaseFile         = []                                           % mat file that contain a list of the multiple conditions runs with given conditions  
         morrisonElement     = 0                                            % Option for Morrison Element calculation: Off->'0', On->'1', (default = 0)
         outputtxt           = 0                                            % Option to save results as ASCII files.
+        viewExactFS         = 0                                            % Option to view the exact free surface in the Simscape explorer window. (default = 0). Only implemented for waves at direction = 0
     end
 
     properties (SetAccess = 'public', GetAccess = 'public')%internal
@@ -131,7 +133,7 @@ classdef simulationClass<handle
                 try
                     rmdir(obj.outputDir,'s')
                 catch
-                    error('The output directory could not be removed. Please close any files in the output directory and try running WEC-Sim again')
+%                    error('The output directory could not be removed. Please close any files in the output directory and try running WEC-Sim again')
                 end
              end
         end

@@ -16,7 +16,8 @@
 %%
 
 %% Start WEC-Sim log
-bdclose('all'); clc; diary off; close all; 
+bdclose('all'); 
+clc; diary off; close all; 
 clear body waves simu output pto constraint ptoSim mooring
 delete('*.log');
 diary('simulation.log')
@@ -145,13 +146,30 @@ if waves.typeNum~=0 && waves.typeNum~=10
     end
 end
 
+%% Free surface view
+dom = simu.domainSize;
+Nx = 64; Ny = 1; 
+fs_dx = 2*dom/Nx; fs_dy = 2*dom/Ny; 
+fs_x = (-dom+fs_dx/2):fs_dx:(-dom+Nx*fs_dx); 
+%fs_y = (-dom+fs_dy/2):fs_dy:(-dom+Ny*fs_dy); 
+% currently the y dimension is not implemented
+clear dom Nx Ny
 
 %% Set variant subsystems options
+% Free surface view
+viewFS = simu.viewExactFS;
+sv_viewMeanFS = Simulink.Variant('viewFS <= 0');
+sv_viewExactFS = Simulink.Variant('viewFS > 0');
+
+% Nonlinear Hydro
 nlHydro = simu.nlHydro;
-sv_linearHydro=Simulink.Variant('nlHydro==0');
-sv_nonlinearHydro=Simulink.Variant('nlHydro>0');
-sv_meanFS=Simulink.Variant('nlHydro<2');
+sv_linearHS=Simulink.Variant('nlHydro==0');
+sv_linearFK=Simulink.Variant('nlHydro==0 || nlHydro>2');
+sv_nonlinearHS=Simulink.Variant('nlHydro>0');
+sv_nonlinearFK=Simulink.Variant('nlHydro>0 && nlHydro<3');
+sv_meanFS=Simulink.Variant('nlHydro<2 || nlHydro>2');
 sv_instFS=Simulink.Variant('nlHydro==2');
+
 % Morrison Element
 morrisonElement = simu.morrisonElement;
 sv_MEOff=Simulink.Variant('morrisonElement==0');
@@ -230,8 +248,9 @@ warning('off','Simulink:blocks:DivideByZero');
 % run simulation
 simu.loadSimMechModel(simu.simMechanicsFile);
 sim(simu.simMechanicsFile);
+%sldebug(simu.simMechanicsFile);
 % Restore modified stuff
-clear nlHydro sv_linearHydro sv_nonlinearHydro ssCalc radiation_option sv_convolution sv_stateSpace sv_constantCoeff typeNum B2B sv_B2B sv_noB2B;
+clear nlHydro sv_linearHS sv_nonlinearHS sv_linearFK sv_nonlinearFK ssCalc radiation_option sv_convolution sv_stateSpace sv_constantCoeff typeNum B2B sv_B2B sv_noB2B;
 clear nhbod* sv_b* sv_noWave sv_regularWaves sv_irregularWaves sv_udfWaves sv_instFS sv_meanFS sv_MEOn sv_MEOff morrisonElement;
 toc
 
@@ -290,7 +309,7 @@ hspressure = {};
 wpressurenl = {};
 wpressurel = {};
 for ii = 1:length(body(1,:))
-    if simu.nlHydro~=0 && body(ii).nhBody==0
+    if simu.nlHydro~=0 && body(ii).nhBody==0 && simu.saveHydroPress==1
         % hydrostatic pressure
         eval(['hspressure{' num2str(ii) '} = body' num2str(ii) '_hspressure_out;']);
         % wave (Froude-Krylov) nonlinear pressure
@@ -330,7 +349,7 @@ end
 % ParaView Visualization
 if simu.paraview == 1
     fprintf('    ...writing ParaView files...   \n')
-    if exist('vtk','dir') ~= 0
+    if exist('./vtk','dir') ~= 0
         try
             rmdir('vtk','s')
         catch
@@ -380,6 +399,6 @@ clear body*_hspressure_out body*_wavenonlinearpressure_out body*_wavelinearpress
 clear ans table tout; 
 toc
 diary off 
-movefile('simulation.log',simu.logFile)
+%movefile('simulation.log',simu.logFile)
 save(simu.caseFile)
 
