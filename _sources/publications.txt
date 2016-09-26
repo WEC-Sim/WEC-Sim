@@ -3,23 +3,23 @@
 Publications
 ============
 
-[1] Y. Yu, M. Lawson, K. Ruehl, and C. Michelen, “`Development and Demonstration of the WEC-Sim Wave Energy Converter Simulation Tool <http://energy.sandia.gov/wp-content/gallery/uploads/SAND2014-3013.pdf>`_,” in Proceedings of the 2nd Marine Energy Technology Symposium, Seattle, WA, 2014.   
+[1] Y. Yu, M. Lawson, K. Ruehl, and C. Michelen, “`Development and Demonstration of the WEC-Sim Wave Energy Converter Simulation Tool <http://vtechworks.lib.vt.edu/bitstream/handle/10919/49236/137-Lawson.pdf?sequence=1&isAllowed=y>`_,” in Proceedings of the 2nd Marine Energy Technology Symposium, Seattle, WA, 2014.   
 
 [2] Y. Yu, Y. Li, K. Hallett, and C. Hotimsky, “`Design and Analysis for a Floating Oscillating Surge Wave Energy Converter <http://www.nrel.gov/docs/fy14osti/61283.pdf>`_,” in Proceedings of OMAE 2014, San Francisco, CA, 2014.     
 
-[3] M. Lawson, Y. Yu, A. Nelessen, K. Ruehl, and C. Michelen, “`Implementing Nonlinear Buoyancy and Excitation Forces in the WEC-Sim Wave Energy Converter Modeling Tool <http://energy.sandia.gov/wp-content/gallery/uploads/SAND2014-2381C.pdf>`_,” in Proceedings of OMAE 2014, San Francisco, CA, 2014.
+[3] M. Lawson, Y. Yu, A. Nelessen, K. Ruehl, and C. Michelen, “`Implementing Nonlinear Buoyancy and Excitation Forces in the WEC-Sim Wave Energy Converter Modeling Tool <http://www.nrel.gov/docs/fy14osti/61529.pdf>`_,” in Proceedings of OMAE 2014, San Francisco, CA, 2014.
 
 [4] K. Ruehl, C. Michelen, S. Kanner, M. Lawson, and Y. Yu, “`Preliminary Verification and Validation of WEC-Sim, an Open-Source Wave Energy Converter Design Tool <http://energy.sandia.gov/wp-content/gallery/uploads/SAND2014-2161C.pdf>`_,” in Proceedings of OMAE 2014, San Francisco, CA, 2014.
 
 [5] M. Lawson, Y.-H. Yu, K. Ruehl, and C. Michelen, “`Improving and Validating the WEC-Sim Wave Energy Converter Code <http://energy.sandia.gov/wordpress/../wp-content/uploads/2014/06/2015-METS2015-WEC-Sim-update_Lawson.pdf>`_," in Proceedings of the 3rd Marine Energy Technology Symposium, DC, 2015.
 
-[6] N. Tom, M. Lawson, and Y. Yu, “`Demonstration of the Recent Additions in Modeling Capabilities for the WEC-Sim Wave Energy Converter Design Tool <http://www.google.com/url?sa=t&rct=j&q=&esrc=s&source=web&cd=1&cad=rja&uact=8&ved=0CB8QFjAA&url=http%3A%2F%2Fwww.nrel.gov%2Fdocs%2Ffy15osti%2F63528.pdf&ei=w5CIVcbTJ9W7ogSB6qq4AQ&usg=AFQjCNEcr-aodhB3FD7sUK_9BHrw9kedmA&sig2=RgLIzYdR73b7caGC2PqRhA&bvm=bv.96339352,d.cGU>`_,” in Proceedings of OMAE 2015, St. John’s, Newfoundland, Canada, 2015.
+[6] N. Tom, M. Lawson, and Y. Yu, “`Demonstration of the Recent Additions in Modeling Capabilities for the WEC-Sim Wave Energy Converter Design Tool <http://www.nrel.gov/docs/fy15osti/63528.pdf>`_,” in Proceedings of OMAE 2015, St. John’s, Newfoundland, Canada, 2015.
 
 [7] R. So, A. Simmons, T. Brekken, K. Ruehl, and C. Michelen, “`Development of PTO-SIM: A Power Performance Module for the Open-Source Wave Energy Converter Code WEC-SIM <http://energy.sandia.gov/wp-content/uploads/2014/06/SAND2015-2069C.pdf>`_,” in Proceedings of OMAE 2015, St. John’s, Newfoundland, Canada, 2015.
 
-[8] M. Lawson, B. Garzon, F. Wendt, Y. Yu, and C. Michelen, “`COER Hydrodynamics Modeling Competition: Modeling the Dynamic Response of a Floating Body Using the WEC-SIM and FAST Simulation Tools <http://energy.sandia.gov/wp-content/uploads/2014/06/SAND2015-2044C.pdf>`_,” in Proceedings of OMAE 2015, St. John’s, Newfoundland, Canada, 2015.
+[8] M. Lawson, B. Garzon, F. Wendt, Y. Yu, and C. Michelen, “`COER Hydrodynamics Modeling Competition: Modeling the Dynamic Response of a Floating Body Using the WEC-SIM and FAST Simulation Tools <http://www.nrel.gov/docs/fy15osti/63594.pdf>`_,” in Proceedings of OMAE 2015, St. John’s, Newfoundland, Canada, 2015.
 
-[9] N. Tom, M. Lawson, and Y. Yu, “`Recent Additions in the Modeling Capabilities for the WEC-Sim-v1.1 Wave Energy Converter Design Tool <http://www.google.com/url?sa=t&rct=j&q=&esrc=s&source=web&cd=2&cad=rja&uact=8&ved=0CCcQFjAB&url=http%3A%2F%2Fwww.nrel.gov%2Fdocs%2Ffy15osti%2F63905.pdf&ei=w5CIVcbTJ9W7ogSB6qq4AQ&usg=AFQjCNGly0fajL79LYLIn1rR8K60ZKA7rw&sig2=Lpi2tgkBgf2x7vvmOxiBkg&bvm=bv.96339352,d.cGU>`_,” in Proceedings of ISOPE, Kona, HI, 2015.
+[9] N. Tom, M. Lawson, and Y. Yu, “`Recent Additions in the Modeling Capabilities for the WEC-Sim-v1.1 Wave Energy Converter Design Tool <http://www.nrel.gov/docs/fy15osti/63905.pdf>`_,” in Proceedings of ISOPE, Kona, HI, 2015.
 
 [10] R. So, S. Casey, S. Kanner, A. Simmons, and Brekken, T. K. A., “`PTO-Sim: Development of a Power Take Off Modeling Tool for Ocean Wave Energy Conversion <http://energy.sandia.gov/wordpress/../wp-content/uploads/2014/06/2015-IEEE-PES_PTO-Sim_Nak.pdf>`_,” in Proceedings of IEEE PES, 2015.
 
@@ -31,7 +31,9 @@ Publications
 
 [14] K. Ruehl, C. Michelen, B. Bosma, and Y.-H. Yu, “WEC-Sim Phase 1 Validation Testing – Numerical Modeling of Experiments,” in Proceedings of OMAE 2016, Busan, South Korea, 2016.  (Article in Press)
 
+[15] Sirnivas S., Yu Y.-H., Hall M., and Bosma B., 2016, “`Coupled Mooring Analyses for the WEC-Sim Wave Energy Converter Design Tool <http://www.nrel.gov/docs/fy16osti/65918.pdf>`_,” 35th International Conference on Ocean, Offshore and Arctic Engineering, OMAE, Busan, South Korea.
 
+[16] Quon E., Platt A., Yu Y., and Lawson M., 2016, “`Application of the Most Likely Extreme Response Method for Wave Energy Converters <http://www.nrel.gov/docs/fy16osti/65926.pdf>`_,” 35th International Conference on Ocean, Offshore and Arctic Engineering, OMAE, ed., OMAE, Busan, South Korea.
 
 
 .. Note::

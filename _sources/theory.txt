@@ -402,7 +402,7 @@ The power absorbed by the PTO is given by:
 
 Mooring Forces
 -------------------------
-The mooring load is represented using a linear quasi-static mooring stiffness or by using the mooring forces calculated from `MoorDyn <http://www.matt-hall.ca/moordyn>`_ :cite:`Hall2015MoorDynGuide`, which is an open-source lumped-mass mooring dynamics model, developed by Matt Hall. 
+The mooring load is represented using a linear quasi-static mooring stiffness or by using the mooring forces calculated from `MoorDyn <http://www.matt-hall.ca/moordyn>`_ :cite:`Hall2015MoorDynGuide`, which is an open-source lumped-mass mooring dynamics model. 
 
 When linear quasi-static mooring stiffness is used, the mooring load can be calculated by
 
