@@ -6,15 +6,15 @@ This section provides instructions on how to download and install the `WEC-Sim <
 
 MATLAB Toolbox Requirements
 ------------------------------
-WEC-Sim was developed in **MATLAB R2015b**, and requires the following toolboxes:
+WEC-Sim was developed in **MATLAB R2015b** and should be compatible with later version. WEC-Sim requires the following toolboxes:
 
-====================  ===================		
-**Required Toolbox**  **Supported Version**
-MATLAB		      Version 8.6 (R2015b)
-Simulink              Version 8.6 (R2015b)
-SimMechanics          Version 4.7 (R2015b)
-Simscape              Version 3.14 (R2015b)
-====================  ===================	
+=================================================================  ===================		
+**Required Toolbox**                                               **Supported Version**
+MATLAB		                                                       Version 8.6 (R2015b)
+Simulink                                                           Version 8.6 (R2015b)
+Simscape                                                           Version 3.14 (R2015b)
+SimMechanics (now Simscape Multibody in R2016a or later version)   Version 4.7 (R2015b)
+=================================================================  ===================	
 
 Ensure that the correct version of MATLAB and the required toolboxes are installed by typing ``ver`` in the MATLAB Command Window:
 
@@ -30,8 +30,7 @@ Ensure that the correct version of MATLAB and the required toolboxes are install
 	Simscape                                              Version 3.14        (R2015b)
 
 .. Note::
-
-	**MATLAB 2015b** is the only version that is supported.
+	**SimMechanics** is now called **Simscape Multibody** in **R2016a** or later version.
 
 Downloading WEC-Sim
 ------------------------
