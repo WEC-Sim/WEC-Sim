@@ -129,12 +129,12 @@ for n = 1:N
         for k = 1:hydro(F).Nf
             tmp = textscan(raw{n+k},'%f');
             hydro(F).ex_ma(:,i,k) = tmp{1,1}(2:2:end);  % Magnitude of excitaing force
-            hydro(F).ex_ph(:,i,k) = tmp{1,1}(3:2:end);  % Phase of exciting force
+            hydro(F).ex_ph(:,i,k) = -tmp{1,1}(3:2:end);  % Phase of exciting force
         end
     end
 end
-hydro(F).ex_re = hydro(F).ex_ma.*cos(-hydro(F).ex_ph);  % Real part of exciting force (-ph, since NEMOH's x-dir is flipped)
-hydro(F).ex_im = hydro(F).ex_ma.*sin(-hydro(F).ex_ph);  % Imaginary part of exciting force
+hydro(F).ex_re = hydro(F).ex_ma.*cos(hydro(F).ex_ph);  % Real part of exciting force (-ph, since NEMOH's x-dir is flipped)
+hydro(F).ex_im = hydro(F).ex_ma.*sin(hydro(F).ex_ph);  % Imaginary part of exciting force
 waitbar(5/5);
 
 hydro = Normalize(hydro);
