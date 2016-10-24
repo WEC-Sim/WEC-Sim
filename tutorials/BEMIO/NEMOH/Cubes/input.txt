@@ -1,0 +1,7 @@
+--- Calculation parameters ------------------------------------------------------------------------------------
+0				! Indiq_solver		! - 		! Solver (0) Direct Gauss (1) GMRES (2) GMRES with FMM acceleration (2 not implemented yet)
+20				! IRES			! - 		! Restart parameter for GMRES
+5.E-07				! TOL_GMRES		! -		! Stopping criterion for GMRES
+100				! MAXIT			! - 		! Maximum iterations for GMRES
+1				! Sav_potential		! -		! Save potential for visualization
+

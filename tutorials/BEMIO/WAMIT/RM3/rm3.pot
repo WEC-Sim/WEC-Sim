@@ -1,0 +1,14 @@
+rm3.pot -- file type .gdf, ILOWHI=0, IRR=1
+0.                             HBOT
+1           1                  	IRAD, IDIFF
+ -262                         	NPER
+ -0.02 0.02                    	PER 
+  1                          	NBETA 
+0.0                       	BETA 
+ 2 				NBODY
+float.gdf 
+ 0.0 0.0 -0.72 0.0 		XBODY(1-4)
+ 1  1  1  1  1  1               IMODE(1-6)
+spar.gdf 
+ 0.0 0.0 -21.29 0.0 		XBODY(1-4)
+ 1  1  1  1  1  1               IMODE(1-6)
