@@ -1,0 +1,11 @@
+coer_comp.pot -- file type .gdf, ILOWHI=0, IRR=1
+2.2                             HBOT
+1           1                  	IRAD, IDIFF
+ -802                         	NPER
+ -0.1 0.1                    	PER 
+ -10                        	NBETA 
+0.0 10.0                      	BETA 
+ 1 				NBODY
+coer_comp.gdf 
+ 0.0 0.0 -0.2 0.0 		XBODY(1-4)
+ 1  1  1  1  1  1               IMODE(1-6)
