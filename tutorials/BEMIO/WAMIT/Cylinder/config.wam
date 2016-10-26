@@ -1,0 +1,6 @@
+ generic configuration file:  config.wam
+ RAMGBMAX=6.0
+ NCPU=6
+ USERID_PATH=\wamitv7\license   (directory for *.exe, *.dll, and userid.wam)
+ LICENSE_PATH=\wamitv7\license
+

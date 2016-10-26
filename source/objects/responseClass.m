@@ -92,15 +92,15 @@ classdef responseClass<handle
             % Read MoorDyn outputs
 
             % load Lines.out
-            %filename = './mooring/Lines.out';
-            %fid = fopen(filename, 'r');
-            %header = strsplit(fgetl(fid));
-            %data = dlmread(filename,'',1,0);
-            %tmp = size(data);
-            %ncol = tmp(2);clear tmp
-            %for icol=1:ncol
-            %    eval(['obj.moorDyn.Lines.' header{icol} ' = data(:,' num2str(icol) ');']);
-            %end
+            filename = './mooring/Lines.out';
+            fid = fopen(filename, 'r');
+            header = strsplit(fgetl(fid));
+            data = dlmread(filename,'',1,0);
+            tmp = size(data);
+            ncol = tmp(2);clear tmp
+            for icol=1:ncol
+               eval(['obj.moorDyn.Lines.' header{icol} ' = data(:,' num2str(icol) ');']);
+            end
             % load Line#.out
             for iline=1:numLines
                 eval(['obj.moorDyn.Line' num2str(iline) '=struct();']);
@@ -413,7 +413,7 @@ classdef responseClass<handle
             end 
         end
 
-        function write_paraview(obj, bodies, t, model, simdate, wavetype)
+        function write_paraview(obj, bodies, t, model, simdate, wavetype, mooring)
             % Writes vtp files for visualization with ParaView
             % set fileseperator to fs
             if strcmp(filesep, '\')
@@ -447,6 +447,14 @@ classdef responseClass<handle
                      fprintf(fid, ['    <DataSet timestep="' num2str(t(jj)) '" group="" part="" \n']);
                      fprintf(fid, ['             file="body' num2str(ii) '_' bodies{ii} fs bodies{ii} '_' num2str(jj) '.vtp"/>\n']);
                 end
+            end
+            % write mooring
+            if mooring==1
+                fprintf(fid,['  <!-- Mooring:  MoorDyn -->\n']);
+                for jj = 1:length(t)
+                     fprintf(fid, ['    <DataSet timestep="' num2str(t(jj)) '" group="" part="" \n']);
+                     fprintf(fid, ['             file="mooring' fs 'mooring_' num2str(jj) '.vtp"/>\n']);
+                end 
             end
             % close file
             fprintf(fid, '  </Collection>\n');

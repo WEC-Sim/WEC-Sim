@@ -1,0 +1,52 @@
+--- Environment ------------------------------------------------------------------------------------------------------------------ 
+1000.000000				! RHO 			! KG/M**3 	! Fluid specific volume 
+9.810000				! G			! M/S**2	! Gravity 
+0.                 			! DEPTH			! M		! Water depth
+0.	0.              		! XEFF YEFF		! M		! Wave measurement point
+--- Description of floating bodies -----------------------------------------------------------------------------------------------
+2				! Number of bodies
+--- Body 1 -----------------------------------------------------------------------------------------------------------------------
+mesh\float.dat      		! Name of mesh file
+1980 900			! Number of points and number of panels 	
+6				! Number of degrees of freedom
+1 1. 0.	0. 0. 0. 0.		! Surge
+1 0. 1.	0. 0. 0. 0.		! Sway
+1 0. 0. 1. 0. 0. 0.		! Heave
+2 1. 0. 0. 0. 0. -0.720000	! Roll about a point
+2 0. 1. 0. 0. 0. -0.720000	! Pitch about a point
+2 0. 0. 1. 0. 0. -0.720000	! Yaw about a point
+6				! Number of resulting generalised forces
+1 1. 0.	0. 0. 0. 0.		! Force in x direction
+1 0. 1.	0. 0. 0. 0.		! Force in y direction
+1 0. 0. 1. 0. 0. 0.		! Force in z direction
+2 1. 0. 0. 0. 0. -0.720000	! Moment force in x direction about a point
+2 0. 1. 0. 0. 0. -0.720000	! Moment force in y direction about a point
+2 0. 0. 1. 0. 0. -0.720000	! Moment force in z direction about a point
+0				! Number of lines of additional information 
+--- Body 2 -----------------------------------------------------------------------------------------------------------------------
+mesh\spar.dat      		! Name of mesh file
+4068 2052			! Number of points and number of panels 	
+6				! Number of degrees of freedom
+1 1. 0.	0. 0. 0. 0.		! Surge
+1 0. 1.	0. 0. 0. 0.		! Sway
+1 0. 0. 1. 0. 0. 0.		! Heave
+2 1. 0. 0. 0. 0. -21.290000	! Roll about a point
+2 0. 1. 0. 0. 0. -21.290000	! Pitch about a point
+2 0. 0. 1. 0. 0. -21.290000	! Yaw about a point
+6				! Number of resulting generalised forces
+1 1. 0.	0. 0. 0. 0.		! Force in x direction
+1 0. 1.	0. 0. 0. 0.		! Force in y direction
+1 0. 0. 1. 0. 0. 0.		! Force in z direction
+2 1. 0. 0. 0. 0. -21.290000	! Moment force in x direction about a point
+2 0. 1. 0. 0. 0. -21.290000	! Moment force in y direction about a point
+2 0. 0. 1. 0. 0. -21.290000	! Moment force in z direction about a point
+0				! Number of lines of additional information 
+--- Load cases to be solved -------------------------------------------------------------------------------------------------------
+260	0.02	5.20		! Number of wave frequencies, Min, and Max (rad/s)
+1	0.	0.		! Number of wave directions, Min and Max (degrees)
+--- Post processing ---------------------------------------------------------------------------------------------------------------
+0	0.1	10.		! IRF 				! IRF calculation (0 for no calculation), time step and duration
+0				! Show pressure
+0	0.	180.		! Kochin function 		! Number of directions of calculation (0 for no calculations), Min and Max (degrees)
+0	50	400.	400.	! Free surface elevation 	! Number of points in x direction (0 for no calcutions) and y direction and dimensions of domain in x and y direction
+---
