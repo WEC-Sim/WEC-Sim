@@ -19,5 +19,10 @@ hydro(F).ex_ma = hydro(F).ex_ma/(hydro(F).g*hydro(F).rho);
 hydro(F).ex_re = hydro(F).ex_re/(hydro(F).g*hydro(F).rho);
 hydro(F).ex_im = hydro(F).ex_im/(hydro(F).g*hydro(F).rho);
 
+if isfield(hydro(F),'diff_ma')
+    hydro(F).diff_ma = hydro(F).diff_ma/(hydro(F).g*hydro(F).rho);
+    hydro(F).diff_re = hydro(F).diff_re/(hydro(F).g*hydro(F).rho);
+    hydro(F).diff_im = hydro(F).diff_im/(hydro(F).g*hydro(F).rho);
+end
 end
 

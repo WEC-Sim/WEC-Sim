@@ -42,14 +42,24 @@ for i = 1:hydro.Nb
     H5_Create_Write_Att(filename,['/body' num2str(i) '/hydro_coeffs/excitation/mag'],permute(hydro.ex_ma((6*i-5):(6*i),:,:),[3 2 1]),'Magnitude of excitation force','');
     H5_Create_Write_Att(filename,['/body' num2str(i) '/hydro_coeffs/excitation/phase'],permute(hydro.ex_ph((6*i-5):(6*i),:,:),[3 2 1]),'Phase angle of excitation force','rad');
     H5_Create_Write_Att(filename,['/body' num2str(i) '/hydro_coeffs/excitation/re'],permute(hydro.ex_re((6*i-5):(6*i),:,:),[3 2 1]),'Real component of excitation force','');
-    H5_Create_Write_Att(filename,['/body' num2str(i) '/hydro_coeffs/excitation/impulse_response_fun/f'],permute(hydro.ex_K((6*i-5):(6*i),:,:),[3 2 1]),'Impulse response function','');
-    H5_Create_Write_Att(filename,['/body' num2str(i) '/hydro_coeffs/excitation/impulse_response_fun/t'],hydro.ex_t,'Time vector for the impulse resonse function','s');
-    H5_Create_Write_Att(filename,['/body' num2str(i) '/hydro_coeffs/excitation/impulse_response_fun/w'],hydro.ex_w,'Interpolated frequencies used to compute the impulse response function','s');
+    if isfield(hydro,'ex_K')
+        H5_Create_Write_Att(filename,['/body' num2str(i) '/hydro_coeffs/excitation/impulse_response_fun/f'],permute(hydro.ex_K((6*i-5):(6*i),:,:),[3 2 1]),'Impulse response function','');
+        H5_Create_Write_Att(filename,['/body' num2str(i) '/hydro_coeffs/excitation/impulse_response_fun/t'],hydro.ex_t,'Time vector for the impulse resonse function','s');
+        H5_Create_Write_Att(filename,['/body' num2str(i) '/hydro_coeffs/excitation/impulse_response_fun/w'],hydro.ex_w,'Interpolated frequencies used to compute the impulse response function','s');
+    end
+    if isfield(hydro,'diff_ma')
+        H5_Create_Write_Att(filename,['/body' num2str(i) '/hydro_coeffs/diffraction/im'],permute(hydro.diff_im((6*i-5):(6*i),:,:),[3 2 1]),'Imaginary component of diffraction force','');
+        H5_Create_Write_Att(filename,['/body' num2str(i) '/hydro_coeffs/diffraction/mag'],permute(hydro.diff_ma((6*i-5):(6*i),:,:),[3 2 1]),'Magnitude of diffraction force','');
+        H5_Create_Write_Att(filename,['/body' num2str(i) '/hydro_coeffs/diffraction/phase'],permute(hydro.diff_ph((6*i-5):(6*i),:,:),[3 2 1]),'Phase angle of diffraction force','rad');
+        H5_Create_Write_Att(filename,['/body' num2str(i) '/hydro_coeffs/diffraction/re'],permute(hydro.diff_re((6*i-5):(6*i),:,:),[3 2 1]),'Real component of diffraction force','');
+    end
     H5_Create_Write_Att(filename,['/body' num2str(i) '/hydro_coeffs/radiation_damping/all'],permute(hydro.B((6*i-5):(6*i),:,:),[3 2 1]),'Radiation damping','');
-    H5_Create_Write_Att(filename,['/body' num2str(i) '/hydro_coeffs/radiation_damping/impulse_response_fun/K'],permute(hydro.ra_K((6*i-5):(6*i),:,:),[3 2 1]),'Impulse response function','');
-    %     H5_Create_Write_Att(filename,['/body' num2str(i) '/hydro_coeffs/radiation_damping/impulse_response_fun/L'],permute(hydro.ra_L((6*i-5):(6*i),:,:),[3 2 1]),'Time derivative of the impulse resonse function','');  % Not used
-    H5_Create_Write_Att(filename,['/body' num2str(i) '/hydro_coeffs/radiation_damping/impulse_response_fun/t'],hydro.ra_t,'Time vector for the impulse resonse function','s');
-    H5_Create_Write_Att(filename,['/body' num2str(i) '/hydro_coeffs/radiation_damping/impulse_response_fun/w'],hydro.ra_w,'Interpolated frequencies used to compute the impulse response function','s');
+    if isfield(hydro,'ra_K')
+        H5_Create_Write_Att(filename,['/body' num2str(i) '/hydro_coeffs/radiation_damping/impulse_response_fun/K'],permute(hydro.ra_K((6*i-5):(6*i),:,:),[3 2 1]),'Impulse response function','');
+        %     H5_Create_Write_Att(filename,['/body' num2str(i) '/hydro_coeffs/radiation_damping/impulse_response_fun/L'],permute(hydro.ra_L((6*i-5):(6*i),:,:),[3 2 1]),'Time derivative of the impulse resonse function','');  % Not used
+        H5_Create_Write_Att(filename,['/body' num2str(i) '/hydro_coeffs/radiation_damping/impulse_response_fun/t'],hydro.ra_t,'Time vector for the impulse resonse function','s');
+        H5_Create_Write_Att(filename,['/body' num2str(i) '/hydro_coeffs/radiation_damping/impulse_response_fun/w'],hydro.ra_w,'Interpolated frequencies used to compute the impulse response function','s');
+    end
     if isfield(hydro,'ss_A')==1 % Only write state space variables if they were calculated
         H5_Create_Write_Att(filename,['/body' num2str(i) '/hydro_coeffs/radiation_damping/state_space/A/all'],permute(hydro.ss_A((6*i-5):(6*i),:,:,:),[4 3 2 1]),'State Space A Coefficient','');
         H5_Create_Write_Att(filename,['/body' num2str(i) '/hydro_coeffs/radiation_damping/state_space/B/all'],permute(hydro.ss_B((6*i-5):(6*i),:,:,:),[4 3 2 1]),'State Space B Coefficient','');
@@ -63,8 +73,10 @@ for i = 1:hydro.Nb
         for k = 1:6*hydro.Nb
             H5_Create_Write_Att(filename,['/body' num2str(i) '/hydro_coeffs/added_mass/components/' num2str(j-6*i+6) '_' num2str(k)],[hydro.T',permute(hydro.A(j,k,:),[3 2 1])]','Added mass components as a function of frequency','');
             H5_Create_Write_Att(filename,['/body' num2str(i) '/hydro_coeffs/radiation_damping/components/' num2str(j-6*i+6) '_' num2str(k)],[hydro.T',permute(hydro.B(j,k,:),[3 2 1])]','Radiation damping components as a function of frequency','');
-            H5_Create_Write_Att(filename,['/body' num2str(i) '/hydro_coeffs/radiation_damping/impulse_response_fun/components/K/' num2str(j-6*i+6) '_' num2str(k)],[hydro.ra_t',permute(hydro.ra_K(j,k,:),[3 2 1])]','Components of the IRF','');
-            %             H5_Create_Write_Att(filename,['/body' num2str(i) '/hydro_coeffs/radiation_damping/impulse_response_fun/components/L/' num2str(j-6*i+6) '_' num2str(k)],[hydro.ra_t',permute(hydro.ra_L(j,k,:),[3 2 1])]','Components of the ddt(IRF):K','');  % Not used
+            if isfield(hydro, 'ra_K')
+                H5_Create_Write_Att(filename,['/body' num2str(i) '/hydro_coeffs/radiation_damping/impulse_response_fun/components/K/' num2str(j-6*i+6) '_' num2str(k)],[hydro.ra_t',permute(hydro.ra_K(j,k,:),[3 2 1])]','Components of the IRF','');
+                %             H5_Create_Write_Att(filename,['/body' num2str(i) '/hydro_coeffs/radiation_damping/impulse_response_fun/components/L/' num2str(j-6*i+6) '_' num2str(k)],[hydro.ra_t',permute(hydro.ra_L(j,k,:),[3 2 1])]','Components of the ddt(IRF):K','');  % Not used
+            end
             if isfield(hydro,'ss_A')==1 % Only if state space variables have been calculated
                 H5_Create_Write_Att(filename,['/body' num2str(i) '/hydro_coeffs/radiation_damping/state_space/A/components/' num2str(j-6*i+6) '_' num2str(k)],permute(hydro.ss_A(j,k,:,:),[4 3 2 1]),'Components of the State Space A Coefficient','');
                 H5_Create_Write_Att(filename,['/body' num2str(i) '/hydro_coeffs/radiation_damping/state_space/B/components/' num2str(j-6*i+6) '_' num2str(k)],permute(hydro.ss_B(j,k,:,:),[4 3 2 1]),'Components of the State Space B Coefficient','');
@@ -80,7 +92,15 @@ for i = 1:hydro.Nb
             H5_Create_Write_Att(filename,['/body' num2str(i) '/hydro_coeffs/excitation/components/mag/' num2str(j-6*i+6) '_' num2str(k)],[hydro.T',permute(hydro.ex_ma(j,k,:),[3 2 1])]','Magnitude of excitation force as a function of frequency','');
             H5_Create_Write_Att(filename,['/body' num2str(i) '/hydro_coeffs/excitation/components/phase/' num2str(j-6*i+6) '_' num2str(k)],[hydro.T',permute(hydro.ex_ph(j,k,:),[3 2 1])]','Phase of excitation force as a function of frequency','');
             H5_Create_Write_Att(filename,['/body' num2str(i) '/hydro_coeffs/excitation/components/re/' num2str(j-6*i+6) '_' num2str(k)],[hydro.T',permute(hydro.ex_re(j,k,:),[3 2 1])]','Real component of excitation force as a function of frequency','');
-            H5_Create_Write_Att(filename,['/body' num2str(i) '/hydro_coeffs/excitation/impulse_response_fun/components/f/' num2str(j-6*i+6) '_' num2str(k)],[hydro.ex_t',permute(hydro.ex_K(j,k,:),[3 2 1])]','Components of the IRF:f','');
+            if isfield(hydro, 'ex_K')
+                H5_Create_Write_Att(filename,['/body' num2str(i) '/hydro_coeffs/excitation/impulse_response_fun/components/f/' num2str(j-6*i+6) '_' num2str(k)],[hydro.ex_t',permute(hydro.ex_K(j,k,:),[3 2 1])]','Components of the IRF:f','');
+            end
+            if isfield(hydro, 'diff_ma')
+                H5_Create_Write_Att(filename,['/body' num2str(i) '/hydro_coeffs/diffraction/components/im/' num2str(j-6*i+6) '_' num2str(k)],[hydro.T',permute(hydro.diff_im(j,k,:),[3 2 1])]','Imaginary component of diffraction force as a function of frequency','');
+                H5_Create_Write_Att(filename,['/body' num2str(i) '/hydro_coeffs/diffraction/components/mag/' num2str(j-6*i+6) '_' num2str(k)],[hydro.T',permute(hydro.diff_ma(j,k,:),[3 2 1])]','Magnitude of diffraction force as a function of frequency','');
+                H5_Create_Write_Att(filename,['/body' num2str(i) '/hydro_coeffs/diffraction/components/phase/' num2str(j-6*i+6) '_' num2str(k)],[hydro.T',permute(hydro.diff_ph(j,k,:),[3 2 1])]','Phase of diffraction force as a function of frequency','');
+                H5_Create_Write_Att(filename,['/body' num2str(i) '/hydro_coeffs/diffraction/components/re/' num2str(j-6*i+6) '_' num2str(k)],[hydro.T',permute(hydro.diff_re(j,k,:),[3 2 1])]','Real component of diffraction force as a function of frequency','');
+            end
         end
     end
     waitbar((1+(i+i+i))/N);
