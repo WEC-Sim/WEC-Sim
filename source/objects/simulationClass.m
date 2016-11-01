@@ -34,10 +34,10 @@ classdef simulationClass<handle
         solver              = 'ode4'                                       % PDE solver used by the Simulink/SimMechanics simulation (default = 'ode4')
         autoRateTranBlk     = 'on'                                         % Automatically handle rate transition for data transfer
         zeroCrossCont       = 'DisableAll'                                 % Disable zero cross control 
-        explorer            = 'on'                                         % SimMechanics Explorer 'on' or 'off' (default = 'on'
+        explorer            = 'on'                                         % SimMechanics Explorer 'on' or 'off' (default = 'on')
         rho                 = 1000                                         % Density of water (default = 1000 kg/m^3)
         g                   = 9.81                                         % Acceleration due to gravity (default = 9.81 m/s)
-        nlHydro             = 0                                            % Option for nonlinear hydrohanamics calculation: linear->'0', nonlinear->'1', (default = 0)
+        nlHydro             = 0                                            % Option for nonlinear hydrohanamics calculation: linear->'0', nonlinear (body motion only)->'1', nonlinear->'2', nonlinear->'3' (use diffraction) (default = 0)
         b2b                 = 0                                            % Option for body2body interactions: off->'0', on->'1', (default = 0)
         paraview            = 0                                            % Option for writing vtp files for paraview visualization.
         adjMassWeightFun    = 2                                            % Weighting function for adjusting added mass term in the translational direction (default = 2)

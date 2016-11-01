@@ -97,6 +97,8 @@ classdef bodyClass<handle
             obj.hydroData.hydro_coeffs.linear_restoring_stiffness = h5load(filename, [name '/hydro_coeffs/linear_restoring_stiffness']);
             obj.hydroData.hydro_coeffs.excitation.re = h5load(filename, [name '/hydro_coeffs/excitation/re']);
             obj.hydroData.hydro_coeffs.excitation.im = h5load(filename, [name '/hydro_coeffs/excitation/im']);
+            try obj.hydroData.hydro_coeffs.diffraction.re = h5load(filename, [name '/hydro_coeffs/diffraction/re']);end
+            try obj.hydroData.hydro_coeffs.diffraction.im = h5load(filename, [name '/hydro_coeffs/diffraction/im']);end
             try obj.hydroData.hydro_coeffs.excitation.impulse_response_fun.f = h5load(filename, [name '/hydro_coeffs/excitation/impulse_response_fun/f']); end
             try obj.hydroData.hydro_coeffs.excitation.impulse_response_fun.t = h5load(filename, [name '/hydro_coeffs/excitation/impulse_response_fun/t']); end
             obj.hydroData.hydro_coeffs.added_mass.all = h5load(filename, [name '/hydro_coeffs/added_mass/all']);
@@ -341,6 +343,23 @@ classdef bodyClass<handle
                     obj.hydroForce.fExt.im(ii) = interp1(obj.hydroData.simulation_parameters.w,squeeze(im(ii,1,:)),w,'spline');
                 end
             end
+            % Diffraction Force
+            if isfield(obj.hydroData.hydro_coeffs,'diffraction')
+                re = obj.hydroData.hydro_coeffs.diffraction.re(:,:,:) .*rho.*g;
+                im = obj.hydroData.hydro_coeffs.diffraction.im(:,:,:) .*rho.*g;
+                obj.hydroForce.fDiff.re=zeros(1,6);
+                obj.hydroForce.fDiff.im=zeros(1,6);
+                for ii=1:6
+                    if length(obj.hydroData.simulation_parameters.wave_dir) > 1
+                        [X,Y] = meshgrid(obj.hydroData.simulation_parameters.w, obj.hydroData.simulation_parameters.wave_dir);
+                        obj.hydroForce.fDiff.re(ii) = interp2(X, Y, squeeze(re(ii,:,:)), w, waveDir);
+                        obj.hydroForce.fDiff.im(ii) = interp2(X, Y, squeeze(im(ii,:,:)), w, waveDir);
+                    elseif obj.hydroData.simulation_parameters.wave_dir == waveDir
+                        obj.hydroForce.fDiff.re(ii) = interp1(obj.hydroData.simulation_parameters.w,squeeze(re(ii,1,:)),w,'spline');
+                        obj.hydroForce.fDiff.im(ii) = interp1(obj.hydroData.simulation_parameters.w,squeeze(im(ii,1,:)),w,'spline');
+                    end
+                end    
+            end
         end
 
         function irrExcitation(obj,wv,numFreq,waveDir,rho,g)
@@ -358,6 +377,23 @@ classdef bodyClass<handle
                 elseif obj.hydroData.simulation_parameters.wave_dir == waveDir
                     obj.hydroForce.fExt.re(:,ii) = interp1(obj.hydroData.simulation_parameters.w,squeeze(re(ii,1,:)),wv,'spline');
                     obj.hydroForce.fExt.im(:,ii) = interp1(obj.hydroData.simulation_parameters.w,squeeze(im(ii,1,:)),wv,'spline');
+                end
+            end
+            % Diffraction
+            if isfield(obj.hydroData.hydro_coeffs,'diffraction')
+                re = obj.hydroData.hydro_coeffs.diffraction.re(:,:,:) .*rho.*g;
+                im = obj.hydroData.hydro_coeffs.diffraction.im(:,:,:) .*rho.*g;
+                obj.hydroForce.fDiff.re=zeros(numFreq,6);
+                obj.hydroForce.fDiff.im=zeros(numFreq,6);
+                for ii=1:6
+                    if length(obj.hydroData.simulation_parameters.wave_dir) > 1
+                        [X,Y] = meshgrid(obj.hydroData.simulation_parameters.w, obj.hydroData.simulation_parameters.wave_dir);
+                        obj.hydroForce.fDiff.re(:,ii) = interp2(X, Y, squeeze(re(ii,:,:)), wv, waveDir);
+                        obj.hydroForce.fDiff.im(:,ii) = interp2(X, Y, squeeze(im(ii,:,:)), wv, waveDir);
+                    elseif obj.hydroData.simulation_parameters.wave_dir == waveDir
+                        obj.hydroForce.fDiff.re(:,ii) = interp1(obj.hydroData.simulation_parameters.w,squeeze(re(ii,1,:)),wv,'spline');
+                        obj.hydroForce.fDiff.im(:,ii) = interp1(obj.hydroData.simulation_parameters.w,squeeze(im(ii,1,:)),wv,'spline');
+                    end
                 end
             end
         end

@@ -86,6 +86,9 @@ for ii = 1:simu.numWecBodies
     else
         body(ii).lenJ = zeros(6,1);
     end
+    if simu.nlHydro == 3 && ~isfield(body(ii).hydroData.hydro_coeffs, 'diffraction') 
+        error('Diffraction Coefficients Not Available. Try setting simu.nlHydro = 2.')
+    end
 end; clear ii
 % PTO-Sim: read input, count
 if exist('./ptoSimInputFile.m','file') == 2 
@@ -149,9 +152,11 @@ end
 %% Set variant subsystems options
 nlHydro = simu.nlHydro;
 sv_linearHydro=Simulink.Variant('nlHydro==0');
-sv_nonlinearHydro=Simulink.Variant('nlHydro>0');
+sv_nonlinearHydro=Simulink.Variant('nlHydro==1 || nlHydro==2');
+sv_nonlinearHydro_full=Simulink.Variant('nlHydro==3');
+sv_nonlinearHydroStatic=Simulink.Variant('nlHydro>0');
 sv_meanFS=Simulink.Variant('nlHydro<2');
-sv_instFS=Simulink.Variant('nlHydro==2');
+sv_instFS=Simulink.Variant('nlHydro>=2');
 % Morrison Element
 morrisonElement = simu.morrisonElement;
 sv_MEOff=Simulink.Variant('morrisonElement==0');
@@ -286,11 +291,19 @@ else
     ptosimOutput = 0;
 end
 % Cell-by-cell values
-hspressure = {};
-wpressurenl = {};
-wpressurel = {};
+hspressure  = cell(1,length(body(1,:)));
+wpressurenl = cell(1,length(body(1,:)));
+wpressurel  = cell(1,length(body(1,:)));
 for ii = 1:length(body(1,:))
-    if simu.nlHydro~=0 && body(ii).nhBody==0
+    if simu.nlHydro==3 && body(ii).nhBody==0
+        % hydrostatic pressure
+        eval(['hspressure{' num2str(ii) '} = body' num2str(ii) '_hspressure_out;']);
+        % wave (Froude-Krylov) nonlinear pressure - For nlHydro = 3,
+        % nonlienarpressure contains TOTAL FK pressure
+        eval(['wpressurenl{' num2str(ii) '} = body' num2str(ii) '_wavenonlinearpressure_out;']);
+        % wave (Froude-Krylov) linear pressure
+        wpressurel{ii} = [];
+    elseif simu.nlHydro~=0 && body(ii).nhBody==0
         % hydrostatic pressure
         eval(['hspressure{' num2str(ii) '} = body' num2str(ii) '_hspressure_out;']);
         % wave (Froude-Krylov) nonlinear pressure
@@ -350,6 +363,7 @@ if simu.paraview == 1
     % bodies
     filename = ['vtk' filesep 'bodies.txt'];
     fid = fopen(filename, 'w');
+    bodies = cell(1,length(body(1,:)));
     for ii = 1:length(body(1,:))
         bodyname = output.bodies(ii).name;
         mkdir(['vtk' filesep 'body' num2str(ii) '_' bodyname]);
