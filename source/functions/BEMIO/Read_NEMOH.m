@@ -58,7 +58,7 @@ for n = 1:N
         hydro(F).beta = linspace(tmp{2},tmp{3},tmp{1});  % Wave headings
     end
 end
-waitbar(1/5);
+waitbar(1/6);
 
 %% Hydrostatics file(s)
 for m = 1:hydro(F).Nb
@@ -78,7 +78,7 @@ for m = 1:hydro(F).Nb
     tmp = textscan(raw{4},'%s %s %f');
     hydro(F).Vo(m) = tmp{3};  % Displacement volume
 end
-waitbar(2/5);
+waitbar(2/6);
 
 %% KH file(s)
 for m = 1:hydro(F).Nb
@@ -95,7 +95,7 @@ for m = 1:hydro(F).Nb
         hydro(F).C(i,:,m) = tmp{1,1}(1:6);  % Linear restoring stiffness
     end
 end
-waitbar(3/5);
+waitbar(3/6);
 
 %% Radiation Coefficient file
 fileID = fopen([filedir 'Results\RadiationCoefficients.tec']);
@@ -114,7 +114,7 @@ for n = 1:N
         end
     end
 end
-waitbar(4/5);
+waitbar(4/6);
 
 %% Excitation Force file
 fileID = fopen([filedir 'Results\ExcitationForce.tec']);
@@ -135,7 +135,29 @@ for n = 1:N
 end
 hydro(F).ex_re = hydro(F).ex_ma.*cos(hydro(F).ex_ph);  % Real part of exciting force (-ph, since NEMOH's x-dir is flipped)
 hydro(F).ex_im = hydro(F).ex_ma.*sin(hydro(F).ex_ph);  % Imaginary part of exciting force
-waitbar(5/5);
+waitbar(5/6);
+
+
+%% Excitation Force file
+fileID = fopen([filedir 'Results\DiffractionForce.tec']);
+raw = textscan(fileID,'%[^\n\r]');
+raw = raw{:};
+fclose(fileID);
+N = length(raw);
+i = 0;
+for n = 1:N
+    if isempty(strfind(raw{n},'Diffraction force'))==0
+        i = i+1;
+        for k = 1:hydro(F).Nf
+            tmp = textscan(raw{n+k},'%f');
+            hydro(F).ex_ma(:,i,k) = tmp{1,1}(2:2:end);  % Magnitude of excitaing force
+            hydro(F).ex_ph(:,i,k) = -tmp{1,1}(3:2:end);  % Phase of exciting force
+        end
+    end
+end
+hydro(F).diff_re = hydro(F).diff_ma.*cos(hydro(F).diff_ph);  % Real part of exciting force (-ph, since NEMOH's x-dir is flipped)
+hydro(F).diff_im = hydro(F).diff_ma.*sin(hydro(F).diff_ph);  % Imaginary part of exciting force
+waitbar(6/6);
 
 hydro = Normalize(hydro);
 close(p);
