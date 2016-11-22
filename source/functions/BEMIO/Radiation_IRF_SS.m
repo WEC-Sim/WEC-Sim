@@ -1,5 +1,17 @@
 function hydro = Radiation_IRF_SS(hydro,Omax,R2t)
 
+% Calculates the state space (SS) realization of the normalized radiation IRF.
+% If this function is used, it must be implemented after the Radiation_IRF function.
+% 
+% hydro = Radiation_IRF_SS(hydro, Omax, R2t)
+%     hydro – data structure
+%     Omax –  maximum order of the SS realization, the default is 10
+%     R2t –   R2R2 threshold (coefficient of determination) for the SS realization,
+%             where R2R2 may range from 0 to 1, and the default is 0.95
+% 
+% Default values are indicated by [].
+% See ‘…\WEC-Sim\tutorials\BEMIO\...’ for examples of usage.
+
 p = waitbar(0,'Calculating state space radiation IRFs...');  % Progress bar
 
 % Set defaults if empty
@@ -8,17 +20,16 @@ if isempty(R2t)==1;     R2t = 0.95; end
 
 t = hydro.ra_t;
 dt = t(2)-t(1);
-hydro.ss_A = zeros(6*hydro.Nb,6*hydro.Nb,Omax,Omax);
-hydro.ss_B = zeros(6*hydro.Nb,6*hydro.Nb,Omax,1);
-hydro.ss_C = zeros(6*hydro.Nb,6*hydro.Nb,1,Omax);
-hydro.ss_D = zeros(6*hydro.Nb,6*hydro.Nb,1);
-hydro.ss_K = zeros(6*hydro.Nb,6*hydro.Nb,length(t));
-hydro.ss_conv = zeros(6*hydro.Nb,6*hydro.Nb);
-hydro.ss_R2 = zeros(6*hydro.Nb,6*hydro.Nb);
-hydro.O = zeros(6*hydro.Nb,6*hydro.Nb);
+hydro.ss_A = zeros(sum(hydro.dof),sum(hydro.dof),Omax,Omax);
+hydro.ss_B = zeros(sum(hydro.dof),sum(hydro.dof),Omax,1);
+hydro.ss_C = zeros(sum(hydro.dof),sum(hydro.dof),1,Omax);
+hydro.ss_D = zeros(sum(hydro.dof),sum(hydro.dof),1);
+hydro.ss_K = zeros(sum(hydro.dof),sum(hydro.dof),length(t));
+hydro.ss_conv = zeros(sum(hydro.dof),sum(hydro.dof));
+hydro.ss_R2 = zeros(sum(hydro.dof),sum(hydro.dof));
 
-for i=1:6*hydro.Nb
-    for j=1:6*hydro.Nb
+for i=1:sum(hydro.dof)
+    for j=1:sum(hydro.dof)
         
         K = squeeze(hydro.ra_K(i,j,:));
         R2i = norm(K-mean(K));  % Initial R2
@@ -67,7 +78,7 @@ for i=1:6*hydro.Nb
             hydro.ss_O(i,j) = O;
         end
     end
-    waitbar(i/(6*hydro.Nb))
+    waitbar(i/(sum(hydro.dof)))
 end
 close(p)
 

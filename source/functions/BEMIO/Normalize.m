@@ -1,10 +1,16 @@
 function hydro = Normalize(hydro)
 
-% Normalize AQWA and NEMOH data in the same way that WAMIT data is normalized
-% Cn = C/(rho*g);   Linear restoring stiffness
-% An = A/rho;       Added mass
-% Bn = B/(rho*w);   Radiation damping
-% Xn = X/(rho*g);   Excitation force
+% Normalizes NEMOH and AQWA hydrodynamic coefficients in the same manner
+% that WAMIT outputs are normalized. Specifically,the linear restoring
+% stiffness is normalized as, C(i,j)/(rho*g); added mass is normalized as,
+% A(i,j)/rho; radiation damping is normalized as, B(i,j)/(rho*w); and,
+% exciting forces are normalized as, X(i)/(rho*g).
+% 
+% hydro = Normalize(hydro)
+%     hydro – data structure
+% 
+% Typically, this function is not called directly by the user; it is
+% automatically implemented within the Read_NEMOH and Read_AQWA functions.
 
 [a,b] = size(hydro);  % Normalize last data set in
 F = b;
