@@ -1,12 +1,26 @@
 function hydro = Read_NEMOH(hydro,filedir)
 
+% Reads data from a NEMOH working folder.
+%
+% hydro = Read_NEMOH(hydro, filedir)
+%     hydro –   data structure
+%     filedir – NEMOH working folder, must include:
+%         - Nemoh.cal
+%         - Mesh/Hydrostatics.dat (or Hydrostatiscs_0.dat, Hydrostatics_1.dat,
+%           etc. for multiple bodies)
+%         - Mesh/KH.dat (or KH_0.dat, KH_1.dat, etc. for multiple bodies)
+%         - Results/RadiationCoefficients.tec
+%         - Results/ExcitationForce.tec
+%
+% See ‘…\WEC-Sim\tutorials\BEMIO\NEMOH\...’ for examples of usage.
+
 [a,b] = size(hydro);  % Check on what is already there
 if b==1
     if isfield(hydro(b),'Nb')==0  F = 1;
     else  F = 2;
     end
 elseif b>1  F = b+1;
-end  
+end
 
 p = waitbar(0,'Reading NEMOH output file...');  % Progress bar
 
@@ -44,7 +58,7 @@ for n = 1:N
     if isempty(strfind(raw{n},'Name of mesh file'))==0
         b = b+1;
         tmp = strsplit(raw{n},{'.','\'});
-        hydro(F).body{b} = tmp{length(tmp)-1};  % Body names        
+        hydro(F).body{b} = tmp{length(tmp)-1};  % Body names
     end
     if isempty(strfind(raw{n},'Number of wave frequencies'))==0
         tmp = textscan(raw{n},'%f %f %f');
@@ -62,6 +76,7 @@ waitbar(1/5);
 
 %% Hydrostatics file(s)
 for m = 1:hydro(F).Nb
+    hydro(F).dof(m) = 6;  % Default degrees of freedom for each body is 6
     if hydro(F).Nb == 1
         fileID = fopen([filedir 'Mesh\Hydrostatics.dat']);
     else
