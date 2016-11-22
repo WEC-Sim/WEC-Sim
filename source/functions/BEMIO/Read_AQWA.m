@@ -1,5 +1,14 @@
 function hydro = Read_AQWA(hydro,ah1_filename,lis_filename)
 
+% Reads data from AQWA output files.
+% 
+% hydro = Read_AQWA(hydro, ah1_filename, lis_filename)
+%     hydro –         data structure
+%     ah1_filename –  .AH1 AQWA output file
+%     lis_filename –  .LIS AQWA output file
+% 
+% See ‘…\WEC-Sim\tutorials\BEMIO\AQWA\...’ for examples of usage.
+
 [a,b] = size(hydro);  % Check on what is already there
 if b==1
     if isfield(hydro(b),'Nb')==0  F = 1;
@@ -30,6 +39,7 @@ tmp = str2num(raw1{n});
 hydro(F).Nb = tmp(1); % Number of bodies
 for i=1:hydro(F).Nb
     hydro(F).body{i} = ['body' num2str(i)]; %Body name
+    hydro(F).dof(i) = 6;  % Default degrees of freedom for each body is 6
 end
 hydro(F).Nh = tmp(2);  % Number of wave headings
 hydro(F).Nf = tmp(3);  % Number of wave frequencies
