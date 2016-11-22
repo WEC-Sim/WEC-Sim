@@ -1,5 +1,17 @@
 function hydro = Read_WAMIT(hydro,filename,ex_coeff)
 
+% Reads data from a WAMIT output file.
+%
+% hydro = Read_WAMIT(hydro, filename, ex_coeff)
+%     hydro –     data structure
+%     filename –  WAMIT output file
+%     ex_coeff -  flag indicating the type of excitation force coefficients
+%                 to read, ‘diffraction’ (default, []), ‘haskind’, or ‘rao’
+%
+% See ‘…\WEC-Sim\tutorials\BEMIO\WAMIT\...’ for examples of usage.
+% Note: If generalized body modes are used, the output directory must also
+% include the *.cfg and *.frc files.
+
 [a,b] = size(hydro);  % Check on what is already there
 if b==1
     if isfield(hydro(b),'Nb')==0  F = 1;
@@ -40,7 +52,7 @@ for n = 1:N
         hydro(F).g = tmp{2};  % Gravity
     end
     if isempty(strfind(raw{n},'Water depth:'))==0
-        tmp = textscan(raw{n},'%s %s %f','TreatAsEmpty',{'infinite'},'EmptyValue',Inf);
+        tmp = textscan(raw{n},'%s %s %f %s %s %f','TreatAsEmpty',{'infinite'},'EmptyValue',Inf);
         hydro(F).h = tmp{3};  % Water depth
     end
     if isempty(strfind(raw{n},'XBODY ='))==0
@@ -80,7 +92,8 @@ for n = 1:N
         end
         i = 4;
         while (isempty(strfind(raw{n+i},'*******************************'))~=0 & ...
-                isempty(strfind(raw{n+i},'EXCITING FORCES AND MOMENTS'))~=0)
+                isempty(strfind(raw{n+i},'EXCITING FORCES AND MOMENTS'))~=0 & ...
+                isempty(strfind(raw{n+i},'RESPONSE AMPLITUDE OPERATORS'))~=0)
             tmp = textscan(raw{n+i},'%f');
             if T==0
                 A0(tmp{1}(1),tmp{1}(2)) = tmp{1}(3);  % Added mass, inf T (zero f)
@@ -98,7 +111,9 @@ for n = 1:N
     if ((isempty(strfind(raw{n},'HASKIND EXCITING FORCES AND MOMENTS'))==0 & ...
             strcmp(ex_coeff,'haskind')==1) |...
             (isempty(strfind(raw{n},'DIFFRACTION EXCITING FORCES AND MOMENTS'))==0 & ...
-            strcmp(ex_coeff,'diffraction')==1))
+            strcmp(ex_coeff,'diffraction')==1) |...
+            (isempty(strfind(raw{n},'RESPONSE AMPLITUDE OPERATORS'))==0 & ...
+            strcmp(ex_coeff,'rao')==1))
         hydro(F).Nh = 0;  % Number of wave headings
         i = n+1;
         while isempty(strfind(raw{i},'Wave Heading'))==0
@@ -106,22 +121,74 @@ for n = 1:N
             tmp = textscan(raw{i}(find(raw{i}==':')+1:end),'%f');
             hydro(F).beta(hydro(F).Nh) = tmp{1};  % Wave headings
             i = i+2;
-            for j = 1:6*hydro(F).Nb
+            while (isempty(strfind(raw{i},'*******************************'))~=0 & ...
+                    isempty(strfind(raw{i},'EXCITING FORCES AND MOMENTS'))~=0 & ...
+                    isempty(strfind(raw{i},'RESPONSE AMPLITUDE OPERATORS'))~=0 & ...
+                    isempty(strfind(raw{i},'Wave Heading'))~=0)
                 tmp = textscan(raw{i},'%f');
                 ma = tmp{1}(2);  % Magnitude of exciting force
                 ph = deg2rad(tmp{1}(3));  % Phase of exciting force
                 re = ma.*cos(ph);  % Real part of exciting force
                 im = ma.*sin(ph);  % Imaginary part of exciting force
-                hydro(F).ex_ma(j,hydro(F).Nh,hydro(F).Nf) = ma;
-                hydro(F).ex_ph(j,hydro(F).Nh,hydro(F).Nf) = ph;
-                hydro(F).ex_re(j,hydro(F).Nh,hydro(F).Nf) = re;
-                hydro(F).ex_im(j,hydro(F).Nh,hydro(F).Nf) = im;
-                if (i+1<=N)  i = i+1;  end
+                hydro(F).ex_ma(tmp{1}(1),hydro(F).Nh,hydro(F).Nf) = ma;
+                hydro(F).ex_ph(tmp{1}(1),hydro(F).Nh,hydro(F).Nf) = ph;
+                hydro(F).ex_re(tmp{1}(1),hydro(F).Nh,hydro(F).Nf) = re;
+                hydro(F).ex_im(tmp{1}(1),hydro(F).Nh,hydro(F).Nf) = im;
+                i = i+1;
+                if i>N break; end
             end
+            if i>N break; end
         end
     end
     d = floor(10*n/N);  % Update progress bar every 10%, otherwise slows computation
     if d>e  waitbar(n/N);  e = d;  end
+end
+
+for i = 1:hydro(F).Nb
+    hydro(F).dof(i) = 6;  % Default degrees of freedom for each body is 6
+end
+tmp = strsplit(filename,{' ','.'});
+if exist([tmp{1} '.cfg'],'file')==2
+    fileID = fopen([tmp{1} '.cfg']);  % Read in number of possible generalized body modes
+    raw = textscan(fileID,'%[^\n\r]');  % Read/copy raw output from .cfg file
+    raw = raw{:};
+    fclose(fileID);
+    N = length(raw);
+    for n = 1:N
+        if isempty(strfind(raw{n},'NEWMDS'))==0
+            tmp = strsplit(raw{n},{'(',')','=',' '});
+            if raw{n}(7) == '('
+                hydro(F).dof(str2num(tmp{2})) = hydro(F).dof(str2num(tmp{2}))+str2num(tmp{3});
+            else
+                hydro(F).dof(1) = hydro(F).dof(1)+str2num(tmp{2});
+            end
+        end
+    end
+    
+    if sum(hydro(F).dof) > hydro(F).Nb*6  % If there are generalized body modes
+        tmp = strsplit(filename,{' ','.'});
+        fileID = fopen([tmp{1} '.frc']);  % Read in number of modes for each body
+        raw = textscan(fileID,'%[^\n\r]');  % Read/copy raw output
+        raw = raw{:};
+        fclose(fileID);        
+        n = 5;
+        for j = 1:3  % gbm[:,:,1] - Mass, gbm[:,:,1] - Damping, gbm[:,:,1] - Stiffness
+            if raw{n}=='0'
+                hydro(F).gbm(:,:,j) = zeros(sum(hydro(F).dof));
+                n = n+1;
+            elseif raw{n}=='1'
+                for i = 1:sum(hydro(F).dof)
+                    n = n+1;
+                    tmp = textscan(raw{n},'%f');
+                    hydro(F).gbm(i,:,j) = tmp{1,1}(:);
+                end
+                n = n+1;
+            elseif raw{n}=='2'
+                hydro(F).gbm(:,:,j) = zeros(sum(hydro(F).dof));
+                n = n+2;
+            end
+        end
+    end
 end
 
 close(p);

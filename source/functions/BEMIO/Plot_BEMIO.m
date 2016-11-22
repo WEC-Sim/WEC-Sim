@@ -1,5 +1,12 @@
 function Plot_BEMIO(hydro)
 
+% Plots the added mass, radiation damping, radiation IRF, excitation force magnitude, excitation force phase, and excitation IRF for each body in the heave, surge and pitch degrees of freedom.
+% 
+% Plot_BEMIO(hydro)
+%     hydro – data structure
+% 
+% See ‘…\WEC-Sim\tutorials\BEMIO\...’ for examples of usage.
+
 p = waitbar(0,'Plotting BEMIO results…');  % Progress bar
 
 %% Added Mass
@@ -10,13 +17,16 @@ Subtitles = {'Surge','Heave','Pitch'};
 XLables = {'$$\omega (rad/s)$$','$$\omega (rad/s)$$','$$\omega (rad/s)$$'};
 YLables = {'$$\bar{A}_{1,1}(\omega)$$','$$\bar{A}_{3,3}(\omega)$$','$$\bar{A}_{5,5}(\omega)$$'};
 X = hydro.w;
-for i = 1:hydro.Nb
-    Y(1,i,:) = squeeze(hydro.A(6*i-5,6*i-5,:));
+a = 0;
+for i = 1:hydro.Nb    
+    m = hydro.dof(i);
+    Y(1,i,:) = squeeze(hydro.A(a+1,a+1,:));
     Legends{1,i} = [hydro.body{i}];
-    Y(2,i,:) = squeeze(hydro.A(6*i-3,6*i-3,:));
+    Y(2,i,:) = squeeze(hydro.A(a+3,a+3,:));
     Legends{2,i} = [hydro.body{i}];
-    Y(3,i,:) = squeeze(hydro.A(6*i-1,6*i-1,:));
+    Y(3,i,:) = squeeze(hydro.A(a+5,a+5,:));
     Legends{3,i} = [hydro.body{i}];
+    a = a + m;
 end
 Notes = {'Notes:',...
     ['$$\bullet$$ $$\bar{A}_{i,j}(\omega)$$ should tend towards a constant, ',...
@@ -36,13 +46,16 @@ Subtitles = {'Surge','Heave','Pitch'};
 XLables = {'$$\omega (rad/s)$$','$$\omega (rad/s)$$','$$\omega (rad/s)$$'};
 YLables = {'$$\bar{B}_{1,1}(\omega)$$','$$\bar{B}_{3,3}(\omega)$$','$$\bar{B}_{5,5}(\omega)$$'};
 X = hydro.w;
+a = 0;
 for i = 1:hydro.Nb
-    Y(1,i,:) = squeeze(hydro.B(6*i-5,6*i-5,:));
+    m = hydro.dof(i);
+    Y(1,i,:) = squeeze(hydro.B(a+1,a+1,:));
     Legends{1,i} = [hydro.body{i}];
-    Y(2,i,:) = squeeze(hydro.B(6*i-3,6*i-3,:));
+    Y(2,i,:) = squeeze(hydro.B(a+3,a+3,:));
     Legends{2,i} = [hydro.body{i}];
-    Y(3,i,:) = squeeze(hydro.B(6*i-1,6*i-1,:));
+    Y(3,i,:) = squeeze(hydro.B(a+5,a+5,:));
     Legends{3,i} = [hydro.body{i}];
+    a = a + m;
 end
 Notes = {'Notes:',...
     ['$$\bullet$$ $$\bar{B}_{i,j}(\omega)$$ should tend towards zero within ',...
@@ -64,23 +77,26 @@ XLables = {'$$t (s)$$','$$t (s)$$','$$t (s)$$'};
 YLables = {'$$\bar{K}_{1,1}(t)$$','$$\bar{K}_{3,3}(t)$$','$$\bar{K}_{3,3}(t)$$'};
 X = hydro.ra_t;
 n = 1;
+a = 0;
 for i = 1:hydro.Nb
-    Y(1,n,:) = squeeze(hydro.ra_K(6*i-5,6*i-5,:));
+    m = hydro.dof(i);
+    Y(1,n,:) = squeeze(hydro.ra_K(a+1,a+1,:));
     Legends{1,n} = [hydro.body{i}];
-    Y(2,n,:) = squeeze(hydro.ra_K(6*i-3,6*i-3,:));
+    Y(2,n,:) = squeeze(hydro.ra_K(a+3,a+3,:));
     Legends{2,n} = [hydro.body{i}];
-    Y(3,n,:) = squeeze(hydro.ra_K(6*i-1,6*i-1,:));
+    Y(3,n,:) = squeeze(hydro.ra_K(a+5,a+5,:));
     Legends{3,n} = [hydro.body{i}];
     if isfield(hydro,'ss_A')==1
         n = n+1;
-        Y(1,n,:) = squeeze(hydro.ss_K(6*i-5,6*i-5,:));
+        Y(1,n,:) = squeeze(hydro.ss_K(a+1,a+1,:));
         Legends{1,n} = [hydro.body{i},' (SS)'];
-        Y(2,n,:) = squeeze(hydro.ss_K(6*i-3,6*i-3,:));
+        Y(2,n,:) = squeeze(hydro.ss_K(a+3,a+3,:));
         Legends{2,n} = [hydro.body{i},' (SS)'];
-        Y(3,n,:) = squeeze(hydro.ss_K(6*i-1,6*i-1,:));
+        Y(3,n,:) = squeeze(hydro.ss_K(a+5,a+5,:));
         Legends{3,n} = [hydro.body{i},' (SS)'];
     end
     n = n+1;
+    a = a + m;
 end
 Notes = {'Notes:',...
     ['$$\bullet$$ The IRF should tend towards zero within the specified timeframe. ',...
@@ -104,13 +120,16 @@ YLables = {['$$\bar{X_1}(\omega,\beta$$',' = ',num2str(hydro.beta(B)),'$$^{\circ
     ['$$\bar{X_3}(\omega,\beta$$',' = ',num2str(hydro.beta(B)),'$$^{\circ}$$)'],...
     ['$$\bar{X_5}(\omega,\beta$$',' = ',num2str(hydro.beta(B)),'$$^{\circ}$$)']};
 X = hydro.w;
+a = 0;
 for i = 1:hydro.Nb
-    Y(1,i,:) = squeeze(hydro.ex_ma(6*i-5,B,:));
+    m = hydro.dof(i);
+    Y(1,i,:) = squeeze(hydro.ex_ma(a+1,B,:));
     Legends{1,i} = [hydro.body{i}];
-    Y(2,i,:) = squeeze(hydro.ex_ma(6*i-3,B,:));
+    Y(2,i,:) = squeeze(hydro.ex_ma(a+3,B,:));
     Legends{2,i} = [hydro.body{i}];
-    Y(3,i,:) = squeeze(hydro.ex_ma(6*i-1,B,:));
+    Y(3,i,:) = squeeze(hydro.ex_ma(a+5,B,:));
     Legends{3,i} = [hydro.body{i}];
+    a = a + m;
 end
 Notes = {''};
 FormatPlot(Fig4,Title,Subtitles,XLables,YLables,X,Y,Legends,Notes)
@@ -127,13 +146,16 @@ YLables = {['$$\phi_1(\omega,\beta$$',' = ',num2str(hydro.beta(B)),'$$^{\circ})$
     ['$$\phi_3(\omega,\beta$$',' = ',num2str(hydro.beta(B)),'$$^{\circ}$$)'],...
     ['$$\phi_5(\omega,\beta$$',' = ',num2str(hydro.beta(B)),'$$^{\circ}$$)']};
 X = hydro.w;
+a = 0;
 for i = 1:hydro.Nb
-    Y(1,i,:) = squeeze(hydro.ex_ph(6*i-5,B,:));
+    m = hydro.dof(i);
+    Y(1,i,:) = squeeze(hydro.ex_ph(a+1,B,:));
     Legends{1,i} = [hydro.body{i}];
-    Y(2,i,:) = squeeze(hydro.ex_ph(6*i-3,B,:));
+    Y(2,i,:) = squeeze(hydro.ex_ph(a+3,B,:));
     Legends{2,i} = [hydro.body{i}];
-    Y(3,i,:) = squeeze(hydro.ex_ph(6*i-1,B,:));
+    Y(3,i,:) = squeeze(hydro.ex_ph(a+5,B,:));
     Legends{3,i} = [hydro.body{i}];
+    a = a + m;
 end
 Notes = {''};
 FormatPlot(Fig5,Title,Subtitles,XLables,YLables,X,Y,Legends,Notes)
@@ -151,13 +173,16 @@ YLables = {['$$\bar{K}_1(t,\beta$$',' = ',num2str(hydro.beta(B)),'$$^{\circ}$$)'
     ['$$\bar{K}_3(t,\beta$$',' = ',num2str(hydro.beta(B)),'$$^{\circ}$$)'],...
     ['$$\bar{K}_5(t,\beta$$',' = ',num2str(hydro.beta(B)),'$$^{\circ}$$)']};
 X = hydro.ex_t;
+a = 0;
 for i = 1:hydro.Nb
-    Y(1,i,:) = squeeze(hydro.ex_K(6*i-5,B,:));
+    m = hydro.dof(i);
+    Y(1,i,:) = squeeze(hydro.ex_K(a+1,B,:));
     Legends{1,i} = [hydro.body{i}];
-    Y(2,i,:) = squeeze(hydro.ex_K(6*i-3,B,:));
+    Y(2,i,:) = squeeze(hydro.ex_K(a+3,B,:));
     Legends{2,i} = [hydro.body{i}];
-    Y(3,i,:) = squeeze(hydro.ex_K(6*i-1,B,:));
+    Y(3,i,:) = squeeze(hydro.ex_K(a+5,B,:));
     Legends{3,i} = [hydro.body{i}];
+    a = a + m;
 end
 Notes = {'Notes:',...
     ['$$\bullet$$ The IRF should tend towards zero within the specified timeframe. ',...
@@ -170,6 +195,12 @@ FormatPlot(Fig6,Title,Subtitles,XLables,YLables,X,Y,Legends,Notes)
 waitbar(6/6);
 
 close(p);
+% saveas(Fig1,'Added_Mass.png');
+% saveas(Fig2,'Radiation_Damping.png');
+% saveas(Fig3,'Radiation_IRFs.png');
+% saveas(Fig4,'Excitation_Magnitude.png');
+% saveas(Fig5,'Excitation_Phase.png');
+% saveas(Fig6,'Excitation_IRFs.png');
 end
 
 
