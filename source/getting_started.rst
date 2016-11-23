@@ -6,15 +6,15 @@ This section provides instructions on how to download and install the `WEC-Sim <
 
 MATLAB Toolbox Requirements
 ------------------------------
-WEC-Sim was developed in **MATLAB R2015b** and should be compatible with later version. WEC-Sim requires the following toolboxes:
+WEC-Sim was developed in **MATLAB R2015b**, and requires the following toolboxes:
 
-=================================================================  ===================		
-**Required Toolbox**                                               **Supported Version**
-MATLAB		                                                       Version 8.6 (R2015b)
-Simulink                                                           Version 8.6 (R2015b)
-Simscape                                                           Version 3.14 (R2015b)
-SimMechanics (now Simscape Multibody in R2016a or later version)   Version 4.7 (R2015b)
-=================================================================  ===================	
+==============================================  ====================		
+**Required Toolbox**                            **Supported Version**
+MATLAB		                                Version 8.6 (R2015b)
+Simulink                                        Version 8.6 (R2015b)
+Simscape                                        Version 3.14 (R2015b)
+SimMechanics (Simscape Multibody in R2016a)   	Version 4.7 (R2015b)
+==============================================  ====================	
 
 Ensure that the correct version of MATLAB and the required toolboxes are installed by typing ``ver`` in the MATLAB Command Window:
 
@@ -34,11 +34,11 @@ Ensure that the correct version of MATLAB and the required toolboxes are install
 
 Downloading WEC-Sim
 ------------------------
-WEC-Sim is distributed through the `WEC-Sim GitHub site <https://github.com/WEC-Sim/wec-sim>`_. There are three ways of obtaining the WEC-Sim code, each of which are described in this section.
+WEC-Sim is distributed through the `WEC-Sim GitHub site <https://github.com/WEC-Sim/wec-sim>`_. There are three ways of obtaining WEC-Sim, each of which are described in the following section.
  
 Option 1: Clone with GitHub (Recommended for Users)
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-WEC-Sim can be obtained by locally cloning the repository hosted on GitHub using the shell::
+WEC-Sim can be obtained by locally `cloning <https://help.github.com/articles/cloning-a-repository/>`_ the repository hosted on GitHub using the shell::
 
 	>> git clone https://github.com/WEC-Sim/WEC-Sim
 

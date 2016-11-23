@@ -3,10 +3,26 @@
 Release Notes
 -------------
 
-`WEC-Sim v2.0 Pre-Release <https://github.com/WEC-Sim/WEC-Sim/releases/tag/v2.0pre>`_
+`WEC-Sim v2.1 Pre-Release <https://github.com/WEC-Sim/WEC-Sim/releases/tag/v2.1pre>`_
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-* Updated WEC-Sim Library (generalized joints)
-* Mooring implemented in mooringClass (no longer in body or joint)
+* MATLAB version of BEMIO
+* Variable time step option
+* Tagged release for the WEC-Sim training class at University of Maine
+
+.. Note::
+
+	Backward Compatibility: **WEC-Sim v2.1 is not backwork compatible**
+
+`WEC-Sim v2.0 <https://github.com/WEC-Sim/WEC-Sim/releases/tag/v2.0>`_
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+* Updated WEC-Sim Library (generalized joints/constraints/PTOs)
+* Body-to-body interactions for radiation forces
+* Morrison forces
+* Batch run mode (MCR)
+* Mooring sub-library implemented in mooringClass (no longer in body or joint)
+* More realistic PTO and mooring modelling through PTO-Sim and integration with MoorDyn
+* Non-hydrodynamic body option
+* Visualization using ParaView
 
 .. Note::
 
