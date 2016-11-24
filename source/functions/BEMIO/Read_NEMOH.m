@@ -150,8 +150,8 @@ for n = 1:N
         i = i+1;
         for k = 1:hydro(F).Nf
             tmp = textscan(raw{n+k},'%f');
-            hydro(F).ex_ma(:,i,k) = tmp{1,1}(2:2:end);  % Magnitude of excitaing force
-            hydro(F).ex_ph(:,i,k) = -tmp{1,1}(3:2:end);  % Phase of exciting force
+            hydro(F).diff_ma(:,i,k) = tmp{1,1}(2:2:end);  % Magnitude of excitaing force
+            hydro(F).diff_ph(:,i,k) = -tmp{1,1}(3:2:end);  % Phase of exciting force
         end
     end
 end
