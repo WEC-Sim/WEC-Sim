@@ -16,6 +16,7 @@ extensions = [
     'sphinx.ext.viewcode',
     'sphinxcontrib.bibtex',
     'sphinx.ext.mathjax',
+    'sphinxcontrib.googleanalytics', 
 ]
 
 # import sphinx_bootstrap_theme
@@ -275,3 +276,7 @@ texinfo_documents = [
 
 # If true, do not generate a @detailmenu in the "Top" node's menu.
 #texinfo_no_detailmenu = False
+
+
+# google analytics
+googleanalytics_id = 'UA-88158104-1'
