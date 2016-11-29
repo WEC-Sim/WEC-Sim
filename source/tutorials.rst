@@ -261,7 +261,7 @@ To execute the WEC-Sim code for the OSWEC tutorial, type ``wecSim`` into the MAT
 
 Other Examples: Applications Repository
 ---------------------------------------
-The `WEC-Sim Applications <https://github.com/WEC-Sim/WEC-Sim_Applications>`_ repository contains applications of the WEC-Sim code, including turorials by the WEC-Sim team as well as user-shared examples.
+The `WEC-Sim Applications <https://github.com/WEC-Sim/WEC-Sim_Applications>`_ repository contains applications of the WEC-Sim code, including tutorials by the WEC-Sim team as well as user-shared examples.
 
 References
 --------------

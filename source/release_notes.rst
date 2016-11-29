@@ -11,7 +11,7 @@ Release Notes
 
 .. Note::
 
-	Backward Compatibility: **WEC-Sim v2.1 is not backwork compatible**
+	Backward Compatibility: **WEC-Sim v2.1 is not backword compatible**
 
 `WEC-Sim v2.0 <https://github.com/WEC-Sim/WEC-Sim/releases/tag/v2.0>`_
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
@@ -26,7 +26,7 @@ Release Notes
 
 .. Note::
 
-	Backward Compatibility: **WEC-Sim v2.0 is not backwork compatible**
+	Backward Compatibility: **WEC-Sim v2.0 is not backword compatible**
 
 `WEC-Sim v1.3 <https://github.com/WEC-Sim/WEC-Sim/releases/tag/v1.3>`_
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
@@ -51,7 +51,7 @@ Release Notes
 
 .. Note::
 
-	Backward Compatibility: **WEC-Sim v1.2 is not backwork compatible**
+	Backward Compatibility: **WEC-Sim v1.2 is not backword compatible**
 
 `WEC-Sim v1.1 <https://github.com/WEC-Sim/WEC-Sim/releases/tag/v1.1>`_
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
