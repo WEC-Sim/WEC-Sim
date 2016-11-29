@@ -167,9 +167,15 @@ To read in the geometry (stl) into Matlab use the :code:`body(i).bodyGeo` method
 This is done automatically when using non-linear hydrodynamics or outputting ParaView visualization files.
 You can then visualize the geometry using the :code:`body(i).plotStl` method.
 
+.. PTO-Sim
+
 .. include:: ptosim.rst
 
+.. MoorDyn
+
 .. include:: moordyn.rst
+
+.. ParaView
 
 .. include:: viz.rst
 
