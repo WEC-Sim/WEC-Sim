@@ -31,9 +31,9 @@ evalc('wecSimInputFile');
 if exist('mcr','var') == 1; 
     for n=1:length(mcr.cases(1,:))
         if iscell(mcr.cases)
-            eval([mcr.header{n} '= mcr.cases{imcr,n}']);
+            eval([mcr.header{n} '= mcr.cases{imcr,n};']);
         else
-            eval([mcr.header{n} '= mcr.cases(imcr,n)']);
+            eval([mcr.header{n} '= mcr.cases(imcr,n);']);
         end
     end; clear n combine;
 end
@@ -75,10 +75,22 @@ for ii = 1:length(body(1,:))
         body(ii).massCalcMethod = 'user';
     end
 end
+% Determine if hydro data needs to be reloaded from h5 file, or if hydroData
+% was stored in memory from a previous run.
+readH5File = true;
+if exist('mcr','var') == 1
+    if reloadHydroDataFlag == false && imcr > 1
+        readH5File = false;
+    end
+end
 simu.numWecBodies = numHydroBodies; clear numHydroBodies
 for ii = 1:simu.numWecBodies
     body(ii).checkinputs;
-    body(ii).readH5File;
+    if readH5File == true
+        body(ii).readH5File;
+    else
+        body(ii).loadHydroData(hydroData(ii));
+    end
     body(ii).checkBemio;
     body(ii).bodyTotal = simu.numWecBodies;
     if simu.b2b==1
@@ -86,7 +98,7 @@ for ii = 1:simu.numWecBodies
     else
         body(ii).lenJ = zeros(6,1);
     end
-end; clear ii
+end; clear ii readH5File
 % PTO-Sim: read input, count
 if exist('./ptoSimInputFile.m','file') == 2 
     ptoSimInputFile 
