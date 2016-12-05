@@ -110,6 +110,15 @@ classdef bodyClass<handle
             try obj.hydroData.hydro_coeffs.radiation_damping.state_space.C.all = h5load(filename, [name '/hydro_coeffs/radiation_damping/state_space/C/all']); end
             try obj.hydroData.hydro_coeffs.radiation_damping.state_space.D.all = h5load(filename, [name '/hydro_coeffs/radiation_damping/state_space/D/all']); end
         end
+        
+        function loadHydroData(obj, hydroData)
+            % Loads hydroData structure from matlab variable as alternative
+            % to reading the h5 file. Used in wecSimMCR
+            obj.hydroData = hydroData;
+            obj.cg        = hydroData.properties.cg';
+            obj.dispVol   = hydroData.properties.disp_vol;
+            obj.name      = hydroData.properties.name;
+        end
 
         function hydroForcePre(obj,w,waveDir,CIkt,CTTime,numFreq,dt,rho,g,waveType,waveAmpTime,iBod,numBod,ssCalc,nlHydro,B2B)
             % HydroForce Pre-processing calculations
