@@ -12,6 +12,7 @@ The Boundary Element Method Input/Output (BEMIO) functions are used to preproces
 .. Note:: 
 	Previously, the python based `BEMIO code <http://wec-sim.github.io/bemio/installing.html>`_ was used for this purpose. To avoid the inefficiencies associated with supporting two code platforms, the python BEMIO functions have been converted to MATLAB, and will now be automatically downloaded with the WEC-Sim code. The python based BEMIO code will remain available, but will no longer be actively supported. Also, the mesh manipulation capabilities of the  python based BEMIO code have not yet been converted to MATLAB, however, it is intended that they will be in a future release. 
 
+
 BEMIO Functions
 ~~~~~~~~~~~~~~~~
 
@@ -101,49 +102,51 @@ BEMIO Functions
 .. Note::
 	In the future, this will likely be changed to a userDefinedBEMIO.m function, similar to WEC-Sim’s userDefinedFunctions.m, such that users can interactively modify or plot any BEM hydrodynamic variable of interest.
 
+
 BEMIO *hydro* Data Structure
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
 ============  ========================  ======================================
 **Variable**  **Format**                **Description**
-A             [6*Nb,6*Nb,Nf]            added mass
-Ainf          [6*Nb,6*Nb]               infinite frequency added mass
-B             [6*Nb,6*Nb,Nf]            radiation damping
+A             [6*N,6*N,Nf]              added mass
+Ainf          [6*N,6*N]                 infinite frequency added mass
+B             [6*N,6*N,Nf]              radiation damping
 beta          [1,Nh]                    wave headings (deg)
-body          {1,Nb}                    body names
-C             [6,6,Nb]                  hydrostatic restoring stiffness
-cb            [3,Nb]                    center of buoyancy
-cg            [3,Nb]                    center of gravity
+body          {1,N}                     body names
+C             [6,6,N]                   hydrostatic restoring stiffness
+cb            [3,N]                     center of buoyancy
+cg            [3,N]                     center of gravity
 code          string                    BEM code (WAMIT, AQWA, or NEMOH)
-ex_im         [6*Nb,Nh,Nf]              imaginary component of excitation
-ex_K          [6*Nb,Nh,length(ex_t)]    excitation IRF
-ex_ma         [6*Nb,Nh,Nf]              magnitude of excitation force
-ex_ph         [6*Nb,Nh,Nf]              phase of excitation force
-ex_re         [6*Nb,Nh,Nf]              real component of excitation
+ex_im         [6*N,Nh,Nf]               imaginary component of excitation
+ex_K          [6*N,Nh,length(ex_t)]     excitation IRF
+ex_ma         [6*N,Nh,Nf]               magnitude of excitation force
+ex_ph         [6*N,Nh,Nf]               phase of excitation force
+ex_re         [6*N,Nh,Nf]               real component of excitation
 ex_t          [1,length(ex_t)]          time steps in the excitation IRF
 ex_w          [1,length(ex_w)]          frequency step in the excitation IRF
 file          string                    BEM output filename
 g             [1,1]                     gravity
 h             [1,1]                     water depth
-Nb            [1,1]                     number of bodies
+N             [1,1]                     number of bodies
 Nf            [1,1]                     number of wave frequencies
 Nh            [1,1]                     number of wave headings
-ra_K          [6*Nb,6*Nb,length(ra_t)]  radiation IRF
+ra_K          [6*N,6*N,length(ra_t)]    radiation IRF
 ra_t          [1,length(ra_t)]          time steps in the radiation IRF
 ra_w          [1,length(ra_w)]          frequency steps in the radiation IRF  
 rho           [1,1]                     density
-ss_A          [6*Nb,6*Nb,ss_O,ss_O]     state space A matrix
-ss_B          [6*Nb,6*Nb,ss_O,1]        state space B matrix
-ss_C          [6*Nb,6*Nb,1,ss_O]        state space C matrix
-ss_conv       [6*Nb,6*Nb]               state space convergence flag
-ss_D          [6*Nb,6*Nb,1]             state space D matrix
-ss_K          [6*Nb,6*Nb,length(ra_t)]  state space radiation IRF
-ss_O          [6*Nb,6*Nb]               state space order
-ss_R2         [6*Nb,6*Nb]               state space R2 fit
+ss_A          [6*N,6*N,ss_O,ss_O]       state space A matrix
+ss_B          [6*N,6*N,ss_O,1]          state space B matrix
+ss_C          [6*N,6*N,1,ss_O]          state space C matrix
+ss_conv       [6*N,6*N]                 state space convergence flag
+ss_D          [6*N,6*N,1]               state space D matrix
+ss_K          [6*N,6*N,length(ra_t)]    state space radiation IRF
+ss_O          [6*N,6*N]                 state space order
+ss_R2         [6*N,6*N]                 state space R2 fit
 T             [1,Nf]                    wave periods
-Vo            [1,Nb]                    displaced volume
+Vo            [1,N]                     displaced volume
 w             [1,Nf]                    wave frequencies
 ============  ========================  ======================================
+
 
 BEMIO Tutorials
 ~~~~~~~~~~~~~~~~
@@ -152,11 +155,6 @@ BEMIO Tutorials
 	Coming soon!
 
 
-
-
-
-	
-	
 Writing Your Own h5 File
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 The most common way of creating an h5 file is using BEMIO to post-process the outputs of a BEM code.

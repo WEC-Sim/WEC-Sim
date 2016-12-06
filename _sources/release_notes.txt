@@ -7,7 +7,6 @@ Release Notes
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 * MATLAB version of BEMIO
 * Variable time step option
-* Tagged release for the WEC-Sim training class at University of Maine
 
 .. Note::
 
@@ -46,7 +45,7 @@ Release Notes
 * Wave directionality
 * User-defined wave elevation time-series
 * Imports non-dimensionalized BEMIO hydrodynamic data (instead of fully dimensional coefficients)
-* 'Variant Subsystems' implemented to improve code stability (instead of if statements)
+* Variant Subsystems implemented to improve code stability (instead of if statements)
 * Bug fixes
 
 .. Note::

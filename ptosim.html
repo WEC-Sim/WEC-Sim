@@ -19,7 +19,7 @@
     </script>
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   
-  <title>PTO-Sim &mdash; WEC-Sim  documentation</title>
+  <title>Power Take-Off/PTO-Sim &mdash; WEC-Sim  documentation</title>
   
 
   
@@ -126,7 +126,7 @@
   <ul class="wy-breadcrumbs">
     <li><a href="index.html">Docs</a> &raquo;</li>
       
-    <li>PTO-Sim</li>
+    <li>Power Take-Off/PTO-Sim</li>
       <li class="wy-breadcrumbs-aside">
         
           
@@ -140,27 +140,25 @@
           <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
            <div itemprop="articleBody">
             
-  <div class="section" id="pto-sim">
-<span id="ptosim"></span><h1>PTO-Sim<a class="headerlink" href="#pto-sim" title="Permalink to this headline">¶</a></h1>
+  <div class="section" id="power-take-off-pto-sim">
+<span id="ptosim"></span><h1>Power Take-Off/PTO-Sim<a class="headerlink" href="#power-take-off-pto-sim" title="Permalink to this headline">¶</a></h1>
 <p>PTO-Sim is the WEC-Sim module responsible for accurately modeling a WEC&#8217;s conversion of mechanical power to electrical power.
 While the PTO blocks native to WEC-Sim are modeled as a simple linear spring-damper systems, PTO-Sim is capable of modeling many power conversion chains (PCC) such as mechanical drivetrain and hydraulic drivetrain.
 PTO-Sim is made of native Simulink blocks coupled with WEC-Sim, using WEC-Sim&#8217;s user-defined PTO blocks, where the WEC-Sim response (relative displacement and velocity for linear motion and angular position and velocity for rotary motion) is the PTO-Sim input.
 Similarly, the PTO force or torque is the WEC-Sim input.
 For more information on how PTO-Sim works, refer to [So et al., 2015].</p>
 <p>The files for the tutorials described in this section can be found in the <a class="reference external" href="https://github.com/WEC-Sim/WEC-Sim_Applications">WEC-Sim Applications</a> repository.</p>
-<div class="section" id="tutotrial-rm3-with-pto-sim">
-<h2>Tutotrial: RM3 with PTO-Sim<a class="headerlink" href="#tutotrial-rm3-with-pto-sim" title="Permalink to this headline">¶</a></h2>
-<p>This section describes how to use RM3 with PTO-Sim.
-Two tutorials will be given in this section, one for the RM3 with a hydraulic PTO, and another for the RM3 with a mechanical PTO.</p>
+<div class="section" id="tutorial-rm3-with-pto-sim">
+<h2>Tutorial: RM3 with PTO-Sim<a class="headerlink" href="#tutorial-rm3-with-pto-sim" title="Permalink to this headline">¶</a></h2>
+<p>This section describes how to use RM3 with PTO-Sim. Two tutorials will be given in this section, one for the RM3 with a hydraulic PTO, and another for the RM3 with a mechanical PTO.</p>
 <div class="section" id="rm3-with-hydraulic-pto">
 <h3>RM3 with Hydraulic PTO<a class="headerlink" href="#rm3-with-hydraulic-pto" title="Permalink to this headline">¶</a></h3>
-<p>The hydraulic PTO example used in this section consists of a piston, a rectifying valve, a high pressure accumulator, a hydraulic motor coupled to a rotary generator, and a low pressure accumulator.</p>
+<blockquote>
+<div><p>The hydraulic PTO example used in this section consists of a piston, a rectifying valve, a high pressure accumulator, a hydraulic motor coupled to a rotary generator, and a low pressure accumulator.</p>
 <div class="figure">
 <a class="reference internal image-reference" href="_images/HYDPHYMODEL.PNG"><img alt="_images/HYDPHYMODEL.PNG" src="_images/HYDPHYMODEL.PNG" style="width: 400pt;" /></a>
 </div>
 <p>There are two ways of modeling the hydraulic PTO: with a compressible fluid hydraulic, and with a non-compressible fluid hydraulic. The compressible fluid model uses the properties of fluid such as an effective bulk modulus and density while the non-compressible fluid does not.</p>
-<div class="section" id="modeling-rm3-with-hydraulic-pto">
-<h4>Modeling RM3 with Hydraulic PTO<a class="headerlink" href="#modeling-rm3-with-hydraulic-pto" title="Permalink to this headline">¶</a></h4>
 <p>In this section, a step by step tutorial on how to set up and run the RM3 simulation with PTO-Sim is provided. All the files used in WEC-Sim will remain the same. An additional file that is needed is the PTO-Sim input file (<code class="docutils literal"><span class="pre">ptoSimInputFile.m</span></code>). If the rotary generator lookup table is used, a datasheet that contains generator efficiency, torque, and angular velocity is needed and should be named as <code class="docutils literal"><span class="pre">table</span></code> in Workspace (<code class="docutils literal"><span class="pre">table.eff</span></code>, <code class="docutils literal"><span class="pre">table.Tpu</span></code>,and <code class="docutils literal"><span class="pre">table.omegapu</span></code>). More details, refer to <a class="reference internal" href="#step-8">Step 8</a>. In summary, the files need to run RM3 with PTO-Sim case are the following:</p>
 <ul class="simple">
 <li>WEC-Sim input file: <code class="docutils literal"><span class="pre">wecSimInputFile.m</span></code> (make sure to set the PTO linear damping to zero)</li>
@@ -171,9 +169,6 @@ Two tutorials will be given in this section, one for the RM3 with a hydraulic PT
 <li>PTO-Sim input file: <code class="docutils literal"><span class="pre">ptoSimInputFile.m</span></code></li>
 <li>Datasheet for the rotary generator: <code class="docutils literal"><span class="pre">table</span></code> (<code class="docutils literal"><span class="pre">table.eff</span></code>, <code class="docutils literal"><span class="pre">table.Tpu</span></code>,and <code class="docutils literal"><span class="pre">table.omegapu</span></code>)</li>
 </ul>
-</div>
-<div class="section" id="simulink-model">
-<h4>Simulink Model<a class="headerlink" href="#simulink-model" title="Permalink to this headline">¶</a></h4>
 <p>The Simulink model can be built as following:</p>
 <ul class="simple">
 <li>Step 1: User can get started from RM3 example.</li>
@@ -236,27 +231,20 @@ Two tutorials will be given in this section, one for the RM3 with a hydraulic PT
 <div class="figure">
 <a class="reference internal image-reference" href="_images/HYDPTOSIM.PNG"><img alt="_images/HYDPTOSIM.PNG" src="_images/HYDPTOSIM.PNG" style="width: 400pt;" /></a>
 </div>
-</div>
-<div class="section" id="input-file">
-<h4>Input File<a class="headerlink" href="#input-file" title="Permalink to this headline">¶</a></h4>
 <p>In this section, PTO-Sim input file (<code class="docutils literal"><span class="pre">ptoSimInputFile.m</span></code>) is defined and categorized into sections such as piston, rectifying check valve, high pressure accumulator, hydraulic motor, low pressure accumulator, and rotary generator.</p>
 <div class="figure">
 <a class="reference internal image-reference" href="_images/PTOSIMINPUTFILE.PNG"><img alt="_images/PTOSIMINPUTFILE.PNG" src="_images/PTOSIMINPUTFILE.PNG" style="width: 400pt;" /></a>
 </div>
-</div>
-<div class="section" id="simulation-and-postprocessing">
-<h4>Simulation and Postprocessing<a class="headerlink" href="#simulation-and-postprocessing" title="Permalink to this headline">¶</a></h4>
 <p>Simulation and postprocessing are the same process as described in WEC-Sim Simulation example above.</p>
-</div>
+</div></blockquote>
 </div>
 <div class="section" id="rm3-with-mechanical-pto">
 <h3>RM3 with Mechanical PTO<a class="headerlink" href="#rm3-with-mechanical-pto" title="Permalink to this headline">¶</a></h3>
-<p>A mehchanical PTO is used in this example is modeled as a direct drive linear generator. The main components of this example consist of magnets and coil where the magnet assembly is attached to the heaving float and the coil is locacted inside the spar. As the float moves up and down, the magnet assembly creates a change in magnetic field surrond the spar that contains the coil. Therefore, current is induced in the coil and electricity is generated.</p>
+<blockquote>
+<div><p>A mehchanical PTO is used in this example is modeled as a direct drive linear generator. The main components of this example consist of magnets and coil where the magnet assembly is attached to the heaving float and the coil is locacted inside the spar. As the float moves up and down, the magnet assembly creates a change in magnetic field surrond the spar that contains the coil. Therefore, current is induced in the coil and electricity is generated.</p>
 <div class="figure">
 <a class="reference internal image-reference" href="_images/MECHANICALPTO.PNG"><img alt="_images/MECHANICALPTO.PNG" src="_images/MECHANICALPTO.PNG" style="width: 400pt;" /></a>
 </div>
-<div class="section" id="id1">
-<h4>Simulink Model<a class="headerlink" href="#id1" title="Permalink to this headline">¶</a></h4>
 <p>Step 1 through 3 are the same as in <a class="reference internal" href="#rm3-with-hydraulic-pto">RM3 with hydraulic PTO</a>.</p>
 <ul class="simple">
 <li>Step 4: Go inside PTO-Sim block and add one bus selector and one selector blocks. Only velocity is needed for this example.</li>
@@ -277,31 +265,24 @@ Two tutorials will be given in this section, one for the RM3 with a hydraulic PT
 <div class="figure">
 <a class="reference internal image-reference" href="_images/DDLINEARGENPTOSIM.PNG"><img alt="_images/DDLINEARGENPTOSIM.PNG" src="_images/DDLINEARGENPTOSIM.PNG" style="width: 400pt;" /></a>
 </div>
-</div>
-<div class="section" id="input-file-simulation-and-postprocessing">
-<h4>Input File, Simulation, and Postprocessing<a class="headerlink" href="#input-file-simulation-and-postprocessing" title="Permalink to this headline">¶</a></h4>
 <p>The same as RM3 with PTO-Sim.</p>
+</div></blockquote>
 </div>
 </div>
-</div>
-<div class="section" id="tutotrial-oswec-with-pto-sim">
-<h2>Tutotrial: OSWEC with PTO-Sim<a class="headerlink" href="#tutotrial-oswec-with-pto-sim" title="Permalink to this headline">¶</a></h2>
-<p>This section describes how to use OSWEC with PTO-Sim. The same process as described in <a href="#id4"><span class="problematic" id="id5">`RM3 with PTO-Sim`_</span></a>. However, since OSWEC is a rotary device, it takes torque as an input and a rotary to linear motion conversion block is needed.</p>
+<div class="section" id="tutorial-oswec-with-pto-sim">
+<h2>Tutorial: OSWEC with PTO-Sim<a class="headerlink" href="#tutorial-oswec-with-pto-sim" title="Permalink to this headline">¶</a></h2>
+<p>This section describes how to use OSWEC with PTO-Sim. The same process as described in <a href="#id1"><span class="problematic" id="id2">`RM3 with PTO-Sim`_</span></a>. However, since OSWEC is a rotary device, it takes torque as an input and a rotary to linear motion conversion block is needed.</p>
 <div class="section" id="oswec-with-hydraulic-pto">
 <h3>OSWEC with Hydraulic PTO<a class="headerlink" href="#oswec-with-hydraulic-pto" title="Permalink to this headline">¶</a></h3>
-<p>A hydraulic PTO or mechanical PTO can be used with OSWEC but for simplicity a hydraulic PTO will be used as an example.</p>
+<blockquote>
+<div><p>A hydraulic PTO or mechanical PTO can be used with OSWEC but for simplicity a hydraulic PTO will be used as an example.</p>
 <div class="figure">
 <a class="reference internal image-reference" href="_images/OSWECPHYMODEL.PNG"><img alt="_images/OSWECPHYMODEL.PNG" src="_images/OSWECPHYMODEL.PNG" style="width: 400pt;" /></a>
 </div>
 <div class="figure">
 <a class="reference internal image-reference" href="_images/MoTIONMECHANISM.PNG"><img alt="_images/MoTIONMECHANISM.PNG" src="_images/MoTIONMECHANISM.PNG" style="width: 400pt;" /></a>
 </div>
-<div class="section" id="modeling-of-oswec-with-hydraulic-pto">
-<h4>Modeling of OSWEC with Hydraulic PTO<a class="headerlink" href="#modeling-of-oswec-with-hydraulic-pto" title="Permalink to this headline">¶</a></h4>
 <p>The same as <a class="reference internal" href="#rm3-with-hydraulic-pto">RM3 with hydraulic PTO</a>.</p>
-</div>
-<div class="section" id="id2">
-<h4>Simulink Model<a class="headerlink" href="#id2" title="Permalink to this headline">¶</a></h4>
 <p>The Simulink model can be built as following:</p>
 <ul class="simple">
 <li>Step 1: Copy OSWEC tutorial folder to get started.</li>
@@ -333,17 +314,15 @@ Two tutorials will be given in this section, one for the RM3 with a hydraulic PT
 <div class="figure">
 <a class="reference internal image-reference" href="_images/HYDPTOSIMOSWEC.PNG"><img alt="_images/HYDPTOSIMOSWEC.PNG" src="_images/HYDPTOSIMOSWEC.PNG" style="width: 400pt;" /></a>
 </div>
-</div>
-<div class="section" id="id3">
-<h4>Input File, Simulation, and Postprocessing<a class="headerlink" href="#id3" title="Permalink to this headline">¶</a></h4>
 <p>The same as <a class="reference internal" href="#rm3-with-hydraulic-pto">RM3 with hydraulic PTO</a>.</p>
-</div>
+</div></blockquote>
 </div>
 </div>
 <div class="section" id="other-pto-sim-tutorials">
 <h2>Other PTO-Sim Tutorials<a class="headerlink" href="#other-pto-sim-tutorials" title="Permalink to this headline">¶</a></h2>
 <p>Other PTO-Sim tuturails that were not discussed above are located under tutorials/PTO-Sim_Tutorials.</p>
-<table border="1" class="docutils">
+<blockquote>
+<div><table border="1" class="docutils">
 <colgroup>
 <col width="62%" />
 <col width="38%" />
@@ -385,6 +364,7 @@ Two tutorials will be given in this section, one for the RM3 with a hydraulic PT
 </tr>
 </tbody>
 </table>
+</div></blockquote>
 </div>
 </div>
 

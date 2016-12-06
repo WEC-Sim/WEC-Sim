@@ -313,15 +313,15 @@
 <td><strong>Description</strong></td>
 </tr>
 <tr class="row-even"><td>A</td>
-<td>[6*Nb,6*Nb,Nf]</td>
+<td>[6*N,6*N,Nf]</td>
 <td>added mass</td>
 </tr>
 <tr class="row-odd"><td>Ainf</td>
-<td>[6*Nb,6*Nb]</td>
+<td>[6*N,6*N]</td>
 <td>infinite frequency added mass</td>
 </tr>
 <tr class="row-even"><td>B</td>
-<td>[6*Nb,6*Nb,Nf]</td>
+<td>[6*N,6*N,Nf]</td>
 <td>radiation damping</td>
 </tr>
 <tr class="row-odd"><td>beta</td>
@@ -329,19 +329,19 @@
 <td>wave headings (deg)</td>
 </tr>
 <tr class="row-even"><td>body</td>
-<td>{1,Nb}</td>
+<td>{1,N}</td>
 <td>body names</td>
 </tr>
 <tr class="row-odd"><td>C</td>
-<td>[6,6,Nb]</td>
+<td>[6,6,N]</td>
 <td>hydrostatic restoring stiffness</td>
 </tr>
 <tr class="row-even"><td>cb</td>
-<td>[3,Nb]</td>
+<td>[3,N]</td>
 <td>center of buoyancy</td>
 </tr>
 <tr class="row-odd"><td>cg</td>
-<td>[3,Nb]</td>
+<td>[3,N]</td>
 <td>center of gravity</td>
 </tr>
 <tr class="row-even"><td>code</td>
@@ -349,23 +349,23 @@
 <td>BEM code (WAMIT, AQWA, or NEMOH)</td>
 </tr>
 <tr class="row-odd"><td>ex_im</td>
-<td>[6*Nb,Nh,Nf]</td>
+<td>[6*N,Nh,Nf]</td>
 <td>imaginary component of excitation</td>
 </tr>
 <tr class="row-even"><td>ex_K</td>
-<td>[6*Nb,Nh,length(ex_t)]</td>
+<td>[6*N,Nh,length(ex_t)]</td>
 <td>excitation IRF</td>
 </tr>
 <tr class="row-odd"><td>ex_ma</td>
-<td>[6*Nb,Nh,Nf]</td>
+<td>[6*N,Nh,Nf]</td>
 <td>magnitude of excitation force</td>
 </tr>
 <tr class="row-even"><td>ex_ph</td>
-<td>[6*Nb,Nh,Nf]</td>
+<td>[6*N,Nh,Nf]</td>
 <td>phase of excitation force</td>
 </tr>
 <tr class="row-odd"><td>ex_re</td>
-<td>[6*Nb,Nh,Nf]</td>
+<td>[6*N,Nh,Nf]</td>
 <td>real component of excitation</td>
 </tr>
 <tr class="row-even"><td>ex_t</td>
@@ -388,7 +388,7 @@
 <td>[1,1]</td>
 <td>water depth</td>
 </tr>
-<tr class="row-odd"><td>Nb</td>
+<tr class="row-odd"><td>N</td>
 <td>[1,1]</td>
 <td>number of bodies</td>
 </tr>
@@ -401,7 +401,7 @@
 <td>number of wave headings</td>
 </tr>
 <tr class="row-even"><td>ra_K</td>
-<td>[6*Nb,6*Nb,length(ra_t)]</td>
+<td>[6*N,6*N,length(ra_t)]</td>
 <td>radiation IRF</td>
 </tr>
 <tr class="row-odd"><td>ra_t</td>
@@ -417,35 +417,35 @@
 <td>density</td>
 </tr>
 <tr class="row-even"><td>ss_A</td>
-<td>[6*Nb,6*Nb,ss_O,ss_O]</td>
+<td>[6*N,6*N,ss_O,ss_O]</td>
 <td>state space A matrix</td>
 </tr>
 <tr class="row-odd"><td>ss_B</td>
-<td>[6*Nb,6*Nb,ss_O,1]</td>
+<td>[6*N,6*N,ss_O,1]</td>
 <td>state space B matrix</td>
 </tr>
 <tr class="row-even"><td>ss_C</td>
-<td>[6*Nb,6*Nb,1,ss_O]</td>
+<td>[6*N,6*N,1,ss_O]</td>
 <td>state space C matrix</td>
 </tr>
 <tr class="row-odd"><td>ss_conv</td>
-<td>[6*Nb,6*Nb]</td>
+<td>[6*N,6*N]</td>
 <td>state space convergence flag</td>
 </tr>
 <tr class="row-even"><td>ss_D</td>
-<td>[6*Nb,6*Nb,1]</td>
+<td>[6*N,6*N,1]</td>
 <td>state space D matrix</td>
 </tr>
 <tr class="row-odd"><td>ss_K</td>
-<td>[6*Nb,6*Nb,length(ra_t)]</td>
+<td>[6*N,6*N,length(ra_t)]</td>
 <td>state space radiation IRF</td>
 </tr>
 <tr class="row-even"><td>ss_O</td>
-<td>[6*Nb,6*Nb]</td>
+<td>[6*N,6*N]</td>
 <td>state space order</td>
 </tr>
 <tr class="row-odd"><td>ss_R2</td>
-<td>[6*Nb,6*Nb]</td>
+<td>[6*N,6*N]</td>
 <td>state space R2 fit</td>
 </tr>
 <tr class="row-even"><td>T</td>
@@ -453,7 +453,7 @@
 <td>wave periods</td>
 </tr>
 <tr class="row-odd"><td>Vo</td>
-<td>[1,Nb]</td>
+<td>[1,N]</td>
 <td>displaced volume</td>
 </tr>
 <tr class="row-even"><td>w</td>
