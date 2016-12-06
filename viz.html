@@ -156,7 +156,8 @@
 <p>Visualization with paraview requires many files to be written, which makes the WEC-Sim simulation take significantly more time, and makes the directory significantly larger. It should only be turned on when vizualisation is desired. The user also needs to have some familiarity with using Paraview.</p>
 <div class="section" id="getting-started-installation">
 <h2>Getting Started - Installation<a class="headerlink" href="#getting-started-installation" title="Permalink to this headline">¶</a></h2>
-<p>You will need to install <a class="reference external" href="http://www.paraview.org/">Paraview</a> and install and setup Python.
+<blockquote>
+<div><p>You will need to install <a class="reference external" href="http://www.paraview.org/">Paraview</a> and install and setup Python.
 Next you will need to add some WEC-Sim specific macros,as follows:</p>
 <ul class="simple">
 <li>Open Paraview</li>
@@ -165,10 +166,12 @@ Next you will need to add some WEC-Sim specific macros,as follows:</p>
 <li>Select the first file and click <code class="docutils literal"><span class="pre">OK</span></code></li>
 <li>Repeat this for all files in the <code class="docutils literal"><span class="pre">paraview_macros</span> <span class="pre">directory.</span></code></li>
 </ul>
+</div></blockquote>
 </div>
 <div class="section" id="setting-up-paraview-output">
 <h2>Setting Up Paraview Output<a class="headerlink" href="#setting-up-paraview-output" title="Permalink to this headline">¶</a></h2>
-<p>The following table shows the variables that can be specfied in the <code class="docutils literal"><span class="pre">wecSimInputFile</span></code> to control the Paraview visualization. The <code class="docutils literal"><span class="pre">body.viz</span></code> properties are also used in the SimMechanics explorer visualization.</p>
+<blockquote>
+<div>The following table shows the variables that can be specfied in the <code class="docutils literal"><span class="pre">wecSimInputFile</span></code> to control the Paraview visualization. The <code class="docutils literal"><span class="pre">body.viz</span></code> properties are also used in the SimMechanics explorer visualization.</div></blockquote>
 <table border="1" class="docutils">
 <colgroup>
 <col width="30%" />
@@ -214,7 +217,8 @@ Next you will need to add some WEC-Sim specific macros,as follows:</p>
 </div>
 <div class="section" id="outputs-and-opening-in-paraview">
 <h2>Outputs and Opening in Paraview<a class="headerlink" href="#outputs-and-opening-in-paraview" title="Permalink to this headline">¶</a></h2>
-<p>When <code class="docutils literal"><span class="pre">simu.paraview</span></code> is set to 1 a directory called <code class="docutils literal"><span class="pre">vtk</span></code> is created.
+<blockquote>
+<div><p>When <code class="docutils literal"><span class="pre">simu.paraview</span></code> is set to 1 a directory called <code class="docutils literal"><span class="pre">vtk</span></code> is created.
 All files necessary for Paraview vizualisation are located there.
 To view in Paraview:</p>
 <ul class="simple">
@@ -231,17 +235,21 @@ To view in Paraview:</p>
 <li>Creates the ground plane</li>
 <li>Sets the camera to <code class="docutils literal"><span class="pre">parallel</span> <span class="pre">view</span></code></li>
 </ul>
+</div></blockquote>
 </div>
 <div class="section" id="basic-visualization-manipulation">
 <h2>Basic Visualization Manipulation<a class="headerlink" href="#basic-visualization-manipulation" title="Permalink to this headline">¶</a></h2>
-<p>After opening the <code class="docutils literal"><span class="pre">.pvd</span></code> file and running the <code class="docutils literal"><span class="pre">WEC-Sim</span></code> macro you can do a number of things to visualize the simulation in different ways.
+<blockquote>
+<div><p>After opening the <code class="docutils literal"><span class="pre">.pvd</span></code> file and running the <code class="docutils literal"><span class="pre">WEC-Sim</span></code> macro you can do a number of things to visualize the simulation in different ways.
 You can color waves and bodies by any of the available properties and apply any of the Paraview filters.</p>
 <p>The video below shows three different views of the OSWEC model described in the tutorials.
 On the bottom right view the wave elevation is used to color the free surface. The top right view uses the <code class="docutils literal"><span class="pre">slice</span></code> filter.</p>
-<iframe width="420" height="315" src="https://www.youtube.com/embed/KcsLi38Xjv0" frameborder="0" allowfullscreen></iframe></div>
+<iframe width="420" height="315" src="https://www.youtube.com/embed/KcsLi38Xjv0" frameborder="0" allowfullscreen></iframe></div></blockquote>
+</div>
 <div class="section" id="visualizing-non-linear-hydro-forces">
 <h2>Visualizing Non-Linear Hydro Forces<a class="headerlink" href="#visualizing-non-linear-hydro-forces" title="Permalink to this headline">¶</a></h2>
-<p>When using non-linear hydro the paraview files also contain cell data for the bodies.
+<blockquote>
+<div><p>When using non-linear hydro the paraview files also contain cell data for the bodies.
 The cell data are:</p>
 <ul class="simple">
 <li>Cell areas</li>
@@ -262,6 +270,7 @@ The top right shows glyphs of the non-linear Froude-Krylov pressure acting on th
 The bottom right shows the float colored by hydrostatic pressure.</p>
 <blockquote>
 <div><iframe width="420" height="315" src="https://www.youtube.com/embed/VIPXsS8h9pg" frameborder="0" allowfullscreen></iframe></div></blockquote>
+</div></blockquote>
 </div>
 </div>
 
