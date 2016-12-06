@@ -25,6 +25,7 @@ classdef waveClass<handle
         spectrumDataFile            = 'NOT DEFINED'                        % Data file that contains the spectrum data file. 
         etaDataFile                 = 'NOT DEFINED'                        % Data file that contains the times-series data file. 
         numFreq                     = 1001                                 % Number of interpolated wave frequencies (default = 'NOT DEFINED')
+        freqRange                   = [];                                  % Min and max frequency for irregular waves. 2x1 vector, rad/s, (default = frequency range in BEM data) 
         waveDir                     = 0                                    % Wave Direction in degrees
         viz                         = struct(...                           %Structure defining visualization options
                                              'numPointsX', 50, ...              % Visualization number of points in x direction.
@@ -34,8 +35,8 @@ classdef waveClass<handle
     
     properties (SetAccess = 'private', GetAccess = 'public')%internal
         typeNum                     = []                                   % Number to represent different type of waves
-        bemFreq                     = []                                   % Number of wave frequencies from WAMIT
-        waterDepth                  = []                                   % [m] Water depth (from WAMIT)
+        bemFreq                     = []                                   % Number of wave frequencies from BEM
+        waterDepth                  = []                                   % [m] Water depth (from BEM)
         deepWaterWave               = []                                   % Deep water or not, depending on input from WAMIT, NEMOH and AQWA
         waveAmpTime                 = []                                   % [m] Wave elevation time history
         A                           = []                                   % [m] Wave amplitude for regular waves or 2*(wave spectrum vector) for irregular waves
@@ -79,7 +80,7 @@ classdef waveClass<handle
         function waveSetup(obj,bemFreq,wDepth,rampT,dt,maxIt,g,endTime)
             % Calculate and set wave properties based on wave type
             obj.bemFreq    = bemFreq;
-            obj.setWaveProps(wDepth,bemFreq)
+            obj.setWaveProps(wDepth)
             switch obj.type
                 case {'noWave','noWaveCIC'}
                     if isempty(obj.w)
@@ -96,6 +97,18 @@ classdef waveClass<handle
                 case {'irregular','irregularImport'}
                     WFQSt=min(bemFreq);
                     WFQEd=max(bemFreq);
+                    if ~isempty(obj.freqRange)
+                        if obj.freqRange(1) > WFQSt && obj.freqRange(1) > 0
+                            WFQSt = obj.freqRange(1);
+                        else
+                            warning('Min frequency range outside BEM data. Setting min frequency to min BEM frequency')
+                        end
+                        if obj.freqRange(2) < WFQEd && obj.freqRange(2) > WFQSt
+                            WFQEd = obj.freqRange(2);
+                        else
+                            warning('Max frequency range outside BEM data. Setting max frequency to max BEM frequency')
+                        end
+                    end
                     obj.dw=(WFQEd-WFQSt)/(obj.numFreq-1);
                     obj.w = (WFQSt:obj.dw:WFQEd)';
                     obj.setWavePhase;
@@ -283,7 +296,7 @@ classdef waveClass<handle
             obj.phaseRand = obj.phaseRand';
         end
         
-        function setWaveProps(obj,wDepth,bemFreq)
+        function setWaveProps(obj,wDepth)
             % Sets global and type-specific properties
             % Used by waveSetup
             if ~isfloat(wDepth)
@@ -300,7 +313,7 @@ classdef waveClass<handle
                     obj.T = obj.noWaveHydrodynamicCoeffT;
                 case {'noWaveCIC'}
                     obj.H = 0;
-                    obj.w = max(bemFreq);
+                    obj.w = max(obj.bemFreq);
                     obj.T=2*pi/obj.w;
                 case {'irregularImport'}
                     obj.H = 0;
