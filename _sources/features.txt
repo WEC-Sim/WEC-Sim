@@ -5,11 +5,9 @@ Advanced Features
 ===================
 This sections provides an overview of the advanced features of the WEC-Sim code that were not covered in the `Tutorials <http://wec-sim.github.io/WEC-Sim/tutorials.html>`_ section.
 
-Advanced Methodologies
------------------------
 
 Nonlinear Hydrodynamic Forces
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+---------------------------------
 
 WEC-Sim has the option to include the nonlinear restoring and Froude-Krylov forces when solving the system dynamics of WECs, accounting the weakly nonlinear effect on the body hydrodynamics. 
 
@@ -57,12 +55,13 @@ The body tested in the study is an ellipsoid with a cross- section characterized
 
 * Simulation and Postprocessing: Simulation and postprocessing are the same process as described in Tutorial Section.
 
+
 State-Space Representation
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+---------------------------------
 The convolution integral term in the equation of motion can be linearized using the state-space representation, as described in the Theory Section. To use the state-space representation option in the simulation, the user can specify  :code:`simu.ssCalc = 1` in the WEC-Sim input file (``wecSimInputFile.m``). 
 
 Body-To-Body Interaction
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+---------------------------------
 WEC-Sim allows for body-to-body interactions in the radiation force calculation.
 That is, the motion of a body causes a force on all other bodies.
 The radiation matrices for each body (radiation damping and added mass) required by WEC-Sim and contained in the ``*.h5`` file are of size **[(6\*N), 6]**, where **N** is the total number of hydrodynamic bodies.
@@ -72,18 +71,17 @@ For example, the radiation damping force for body 2 in a 3-body system with body
 
 To use body-to-body interactions in your WEC-Sim simulation, simply set :code:`simu.b2b = 1` in your input file.
 
-Morison Element
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+Morison Elements
+---------------------------------
 .. Note::
 
 	Coming soon!
 
 
-Simulation Options
------------------------
 
 Multiple Condition Runs (MCR)
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+---------------------------------
 WEC-Sim allows users to perform batch runs by typing ``wecSimMCR`` into the MATLAB Command Window. This command executes the Multiple Condition Run (MCR) option, which can be initiated three different ways:
 
 #. Specify a range of sea states and PTO damping coefficients in the WEC-Sim input file, example: 
@@ -102,7 +100,7 @@ WEC-Sim allows users to perform batch runs by typing ``wecSimMCR`` into the MATL
 
 
 Different Time Step Size
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+---------------------------------
 Typically, 100~500 time steps per wave period is sufficient to provide accurate results for the hydrodynamic force calculations in WEC-Sim simulation. However, smaller time steps may be needed when coupling WEC-Sim with MoorDyn or using PTO-Sim. To reduce the required overall WEC-Sim simulation time, a different time step size can be specified in the WEC-Sim input file (``wecSimInputFile.m``) to account for nonlinear hydrodynamics and for convolution integral calculations, respectively.
 
 N is number of increment steps (default: N=1):
@@ -112,7 +110,7 @@ N is number of increment steps (default: N=1):
 * Convolution integral calculation - :code:`simu.dtCITime=N*simu.dt` 
 
 Non-Hydrodynamic Bodies
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+---------------------------------
 For some cases, in order to obtain the correct dynamics, it might be important to model bodies that do not have hydrodynamic forces acting on them.
 This could be bodies that are completely outside of the water, but are still connected through a joint to the WEC bodies, or it could be bodies deeply submerged to the point where the hydrodynamics can be neglected.
 WEC-Sim allows for bodies which have no hydrodynamic forces acting on them, and for which no BEM data is provided.
@@ -122,11 +120,8 @@ Specify :code:`body(i).nhBody = 1;` and specify body name, mass, moments of iner
 You can also specify visualization options and initial displacement.
 
 
-Advanced Applications
------------------------
-
 Decay Tests
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+---------------------------------
 When performing simulations of decay tests you must use one of the no-wave cases, and setup the initial (time = 0) location of each body, constraint, PTO, and mooring block.
 The initial location of a body or mooring block is set by specifying the CG or location at the stability position (as with any WEC-Sim simulation) and then specifying an initial displacement.
 To specify an initial displacement, the body, and mooring blocks have a :code:`.initDisp` property with which you can specify a translation and angular rotation about an arbitrary axis.
@@ -139,7 +134,7 @@ Note that :code:`body(i).cg`, :code:`constraint(i).loc`, :code:`pto(i).loc`, and
 
 
 Advanced Constraints and PTOs
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+---------------------------------
 The default linear and rotational constraints and PTOs are allow for heave and pitch motions of the follower relative to the base.
 To obtain a linear or rotational constraint in a different direction you must modify the constraint's or PTO's coordinate orientation.
 The important thing to remember is that a linear constraint or PTO will always allow motion along the joint's Z-axis, and a rotational constraint or PTO will allow rotation about the joint's Y-axis.
@@ -159,7 +154,7 @@ For example, a massless rigid rod between two bodies, hinged at each body, can b
 A roll-pitch constraint can also be obtained with two rotational constraints in series; one rotating in pitch, and the other in roll, and both at the same location. 
 
 Advanced Body Mass and Geometry
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+---------------------------------
 The mass of each body must be specified in the *input file*.
 For the case of a floating body, the user has the option of setting :code:`body(i) = 'equilibrium'` in which case WEC-Sim will calculate the correct mass based on displaced volume and water density.
 For the case of a fixed body, for which the mass is unknown and not important to the dynamics, you can specify :code:`body(i) = 'fixed'` which will set the mass to 999 kg and moment of inertia to [999 999 999].
@@ -180,31 +175,6 @@ You can then visualize the geometry using the :code:`body(i).plotStl` method.
 
 .. include:: viz.rst
 
-BEMIO: Writing Your Own h5 File
----------------------------------
-The most common way of creating an h5 file is using BEMIO to post-process the outputs of a BEM code.
-This requires a single BEM solution that contains all hydrodynamic bodies and accounts for body interactions.
-Some cases in which you might want to create your own h5 file are:
+.. BEMIO
 
-* Use experimentally determined coefficients, or a mix of BEM and experimental coefficients.
-* Combine results from different BEM files and have the coefficient matrices be the correct size for the new total number of bodies.
-* Modify the BEM results for any other reason.
-
-Matlab and Python have functions to read and write *h5* files easily.
-WEC-Sim includes three functions to help you create your own h5 file. 
-These are found under **/source/functions/writeH5/**.
-The header comments of each function explain the inputs and outputs, and an example of how to use it is shown in the `WEC-Sim Applications <https://github.com/WEC-Sim/WEC-Sim_Applications/tree/master/write_hdf5>`_ repository.
-The first step is to have all the required coefficients and properties in Matlab in the correct format.
-Then the functions provided are used to create and populate the *h5* file. 
-
-.. Note::
-
-	The new *h5* file will not have the impulse response function coefficients required for the convolution integral.
-	BEMIO is currently being modified to allow for reading an existing *h5* file.
-	This would allow you to read in the *h5* file you created, calculate the required impulse response functions and state space coefficients and re-write the *h5* file.
-
-.. Note::
-
-	BEMIO is currently being modified to allow for the combination of different *h5* files into a single file.
-	This would allow for the BEM of different bodies to be done separately, and BEMIO would take care of making the coefficient matrices the correct size.
-
+.. include:: bemio.rst
