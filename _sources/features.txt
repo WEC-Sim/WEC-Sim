@@ -82,23 +82,23 @@ Morison Element
 Simulation Options
 -----------------------
 
-Multiple Condition Runs
+Multiple Condition Runs (MCR)
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-WEC-Sim also allows user to run multiple conditions in one WEC-Sim simulation by typing ``wecSimMCR`` into the MATLAB Command Window. In WEC-Sim, the multiple condition run option can be execute in three ways:
+WEC-Sim allows users to perform batch runs by typing ``wecSimMCR`` into the MATLAB Command Window. This command executes the Multiple Condition Run (MCR) option, which can be initiated three different ways:
 
-* Option 1: Specify a range of sea states and PTO damping coefficients in the WEC-Sim input file. For examples:
+#. Specify a range of sea states and PTO damping coefficients in the WEC-Sim input file, example: 
+	``waves.H = 1:0.5:5; waves.T = 5:1:15;``
+	``pto(1).k=1000:1000:10000; pto(1).c=1200000:1200000:3600000;``        
 
-``waves.H = 1:0.5:5; waves.T = 5:1:15;``
+#.  Specify the excel filename that contains a set of wave statistic data in the WEC-Sim input file. This option is generally useful for power matrix generation, example:
+	``statisticsDataLoad = "<Excel file name>.xls"``
 
-``pto(1).k=1000:1000:10000; pto(1).c=1200000:1200000:3600000;``        
+#.  Provide a MCR case *.mat file, and specify the filename in the WEC-Sim input file, example:
+	``simu.mcrCaseFile    = '<File name>.mat'``
 
-* Option 2: Specify the file name of the excel file that contains a set of wave statistic data in the WEC-Sim input file. This option is generally useful for power matrix generation.
+.. Note::
 
-``statisticsDataLoad = "<Excel file name>.xls"``
-
-* Option 3: Provide a MCR case file and specify the file name in the WEC-Sim input file,
-
-``simu.mcrCaseFile    = '<File name>.mat'``
+	For Multiple Condition Runs, the *.h5 hydrodynamic data is only loaded once. To override this default (and reload the *.h5 hydrodynamic data between runs),  set ``simu.reloadH5Data =1`` in the WEC-Sim input file. 
 
 
 Different Time Step Size
@@ -108,6 +108,7 @@ Typically, 100~500 time steps per wave period is sufficient to provide accurate 
 N is number of increment steps (default: N=1):
 
 * Nonlinear hydrodynamics calculation - :code:`simu.dtFeNonlin=N*simu.dt` 
+
 * Convolution integral calculation - :code:`simu.dtCITime=N*simu.dt` 
 
 Non-Hydrodynamic Bodies

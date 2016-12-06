@@ -3,7 +3,7 @@
 Release Notes
 -------------
 
-`WEC-Sim v2.1 Pre-Release <https://github.com/WEC-Sim/WEC-Sim/releases/tag/v2.1pre>`_
+`WEC-Sim v2.1 <https://github.com/WEC-Sim/WEC-Sim/releases/tag/v2.1>`_
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 * MATLAB version of BEMIO
 * Variable time step option
