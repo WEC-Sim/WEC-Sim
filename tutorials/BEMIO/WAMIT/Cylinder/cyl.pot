@@ -5,7 +5,7 @@ cyl.pot -- file type .gdf, ILOWHI=0, IRR=1
  -0.04 0.04                    PER 
   1                            NBETA 
 0.0                            BETA 
- 1 			       NBODY
+ 1 NBODY
 cyl.gdf 
  0 0.0 0.0 0.0   XBODY(1-4)
  1  1  1  1  1  1               IMODE(1-6)
