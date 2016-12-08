@@ -2,6 +2,7 @@
 =========
 This section provides an overview of the WEC-Sim work flow. First the WEC-Sim file structure is described, then steps for setting up and running the WEC-Sim code are described. Two example applications of using WEC-Sim to model WECs are given. For more information about the implementation and additional features, refer to the `Code Structure <http://wec-sim.github.io/WEC-Sim/code_structure.html>`_ section, and to `Advanced Features <http://wec-sim.github.io/WEC-Sim/features.html>`_ section respectively. 
 
+
 Running WEC-Sim
 ---------------------
 The section provides an overview of the WEC-Sim file structure, and outlines the steps to run WEC-Sim.

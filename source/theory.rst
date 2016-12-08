@@ -4,6 +4,7 @@ Theory
 ======
 The section provides an overview of the underlying theory behind the WEC-Sim code.
 
+
 Introduction
 --------------
 Modeling a WEC involves the interaction between the incident waves, device motion, PTO mechanism, and mooring. WEC-Sim uses a radiation and diffraction method :cite:`Li2012,Babarit2012` to predict power performance and design optimization. The radiation and diffraction method generally obtains the hydrodynamic forces from a frequency-domain boundary element method (BEM) solver using linear coefficients to solve the system dynamics in the time domain.
@@ -279,9 +280,6 @@ where :math:`H_{m0}` is the significant wave height which is generally defined a
 
 JONSWAP (Joint North Sea Wave Project) Spectrum
 ....................................................
-.. Note::
-
-	This is the WEC-Sim default spectrum
 
 The spectrum was purposed by Hasselmann et al. :cite:`HK`, and the original formulation was given as
 
