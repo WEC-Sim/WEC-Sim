@@ -10,11 +10,10 @@
    code_structure.rst   
    tutorials.rst
    features.rst
-   online_forum.rst
-   publications.rst
    license.rst
+   publications.rst
    release_notes.rst
-
+   online_forum.rst
 
 `WEC-Sim (Wave Energy Converter SIMulator) <https://github.com/WEC-Sim/WEC-Sim>`_ 
 ====================================================================================
@@ -23,8 +22,8 @@ WEC-Sim (Wave Energy Converter SIMulator) is an open-source wave energy converte
 
    
 
-WEC-Sim Developers
-------------------
+Developers and Contributors
+------------------------------------
 * Yi-Hsiang Yu (NREL - PI)
 * Kelley Ruehl (Sandia - PI)
 * Michael Lawson (NREL)
@@ -37,8 +36,8 @@ WEC-Sim Developers
 * Sam Kanner (University of California at Berkeley)
 * Chris McComb (Carnegie Mellon University)
 
-Funding
--------------
+Projecy Funding
+-----------------
 The WEC-Sim project is sponsored by the U.S. Department of Energy’s Water Power Technologies Office. WEC-Sim code development is a collaboration between the National Renewable Energy Laboratory (NREL) and Sandia National Laboratories (Sandia).
 
 The National Renewable Energy Laboratory is a national laboratory of the U.S. Department of Energy, Office of Energy Efficiency and Renewable Energy, operated by the Alliance for Sustainable Energy, LLC. under contract No. DE-AC36-08GO28308.

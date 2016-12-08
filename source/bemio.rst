@@ -1,6 +1,5 @@
 BEMIO
 ------------------------------
-
 The Boundary Element Method Input/Output (BEMIO) functions are used to preprocess the BEM hydrodynamic data prior to running WEC-Sim, this includes:
 
 * Read BEM results from WAMIT, NEMOH, or AQWA.
@@ -16,7 +15,7 @@ The Boundary Element Method Input/Output (BEMIO) functions are used to preproces
 BEMIO Functions
 ~~~~~~~~~~~~~~~~
 
-**Read_WAMIT:** Reads data from a WAMIT output file
+	**Read_WAMIT:** Reads data from a WAMIT output file
 
 	*hydro = Read_WAMIT(hydro, filename, ex_coeff)*
 		* *hydro* – data structure
