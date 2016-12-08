@@ -36,7 +36,7 @@ Developers and Contributors
 * Sam Kanner (University of California at Berkeley)
 * Chris McComb (Carnegie Mellon University)
 
-Projecy Funding
+Project Funding
 -----------------
 The WEC-Sim project is sponsored by the U.S. Department of Energy’s Water Power Technologies Office. WEC-Sim code development is a collaboration between the National Renewable Energy Laboratory (NREL) and Sandia National Laboratories (Sandia).
 
