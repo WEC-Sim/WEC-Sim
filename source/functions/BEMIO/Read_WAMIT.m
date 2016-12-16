@@ -10,7 +10,8 @@ function hydro = Read_WAMIT(hydro,filename,ex_coeff)
 %
 % See ‘…\WEC-Sim\tutorials\BEMIO\WAMIT\...’ for examples of usage.
 % Note: If generalized body modes are used, the output directory must also
-% include the *.cfg and *.frc files.
+% include the *.cfg and *.frc files. And, if simu.nlHydro = 3 will be used,
+% the output directory must also include the .3fk and .3sc files.
 
 [a,b] = size(hydro);  % Check on what is already there
 if b==1
@@ -144,10 +145,55 @@ for n = 1:N
     if d>e  waitbar(n/N);  e = d;  end
 end
 
+%% Scattering Force
+tmp = strsplit(filename,{' ','.out'});
+if exist([tmp{1} '.3sc'],'file')==2
+    fileID = fopen([tmp{1} '.3sc']);
+    raw = textscan(fileID,'%[^\n\r]');
+    raw = raw{:};
+    fclose(fileID);
+    n = 1;
+    for i = 1:hydro(F).Nf
+        for j = 1:hydro(F).Nh
+            for k = 1:round(size(find(hydro(F).ex_ma),1)/hydro(F).Nf/hydro(F).Nh)  % Number of non-zero dof
+                n = n+1;
+                tmp = textscan(raw{n},'%f');
+                hydro(F).sc_ma(tmp{1,1}(3),j,i) = tmp{1,1}(4);
+                hydro(F).sc_ph(tmp{1,1}(3),j,i) = deg2rad(tmp{1,1}(5));
+                hydro(F).sc_re(tmp{1,1}(3),j,i) = tmp{1,1}(6);
+                hydro(F).sc_im(tmp{1,1}(3),j,i) = tmp{1,1}(7);
+            end
+        end
+    end
+end
+
+%% Froude-Krylov force
+tmp = strsplit(filename,{' ','.out'});
+if exist([tmp{1} '.3fk'],'file')==2
+    fileID = fopen([tmp{1} '.3fk']);
+    raw = textscan(fileID,'%[^\n\r]');
+    raw = raw{:};
+    fclose(fileID);
+    n = 1;
+    for i = 1:hydro(F).Nf
+        for j = 1:hydro(F).Nh
+            for k = 1:round(size(find(hydro(F).ex_ma),1)/hydro(F).Nf/hydro(F).Nh)  % Number of non-zero dof
+                n = n+1;
+                tmp = textscan(raw{n},'%f');
+                hydro(F).fk_ma(tmp{1,1}(3),j,i) = tmp{1,1}(4);
+                hydro(F).fk_ph(tmp{1,1}(3),j,i) = deg2rad(tmp{1,1}(5));
+                hydro(F).fk_re(tmp{1,1}(3),j,i) = tmp{1,1}(6);
+                hydro(F).fk_im(tmp{1,1}(3),j,i) = tmp{1,1}(7);
+            end
+        end
+    end
+end
+
+%% Generalized body modes
 for i = 1:hydro(F).Nb
     hydro(F).dof(i) = 6;  % Default degrees of freedom for each body is 6
 end
-tmp = strsplit(filename,{' ','.'});
+tmp = strsplit(filename,{' ','.out'});
 if exist([tmp{1} '.cfg'],'file')==2
     fileID = fopen([tmp{1} '.cfg']);  % Read in number of possible generalized body modes
     raw = textscan(fileID,'%[^\n\r]');  % Read/copy raw output from .cfg file
@@ -164,13 +210,12 @@ if exist([tmp{1} '.cfg'],'file')==2
             end
         end
     end
-    
     if sum(hydro(F).dof) > hydro(F).Nb*6  % If there are generalized body modes
-        tmp = strsplit(filename,{' ','.'});
+        tmp = strsplit(filename,{' ','.out'});
         fileID = fopen([tmp{1} '.frc']);  % Read in number of modes for each body
         raw = textscan(fileID,'%[^\n\r]');  % Read/copy raw output
         raw = raw{:};
-        fclose(fileID);        
+        fclose(fileID);
         n = 5;
         for j = 1:3  % gbm[:,:,1] - Mass, gbm[:,:,1] - Damping, gbm[:,:,1] - Stiffness
             if raw{n}=='0'
@@ -191,8 +236,9 @@ if exist([tmp{1} '.cfg'],'file')==2
     end
 end
 
-close(p);
+hydro = Normalize(hydro);  % For WAMIT this just sorts the data, if neccessary
 
+close(p);
 end
 
 
