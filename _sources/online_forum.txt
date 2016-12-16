@@ -10,5 +10,5 @@ Please post questions about WEC-Sim to the `Online Forum <https://github.com/WEC
 
 Survey
 --------------
-Please fill out our WEC-Sim `Online Questionnaire <https://docs.google.com/forms/d/13eRnz3MHtLIsixdhC85zL8goG0dnun7PV44iCDfPa6M/edit>`_. Feedback from this questionnaire will help guide future development of the WEC-Sim code. 
+Please fill out our WEC-Sim `Online Questionnaire <https://goo.gl/forms/CZlzrKFDc8njwHwr1>`_. Feedback from this questionnaire will help guide future development of the WEC-Sim code. 
 
