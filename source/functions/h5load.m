@@ -55,11 +55,8 @@ for j_item=0:num_objs-1,
   objtype = H5G.get_objtype_by_idx(loc, j_item);
   objname = H5G.get_objname_by_idx(loc, j_item);
 
-  % objtype index factory according to matlab version
-  v = ver('MATLAB');
-  if datenum(v.Date)>datenum('04-Aug-2008')
+  % objtype index 
   objtype = objtype+1;
-  end
   
   if objtype == 1
     % Group
