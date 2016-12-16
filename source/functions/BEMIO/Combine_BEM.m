@@ -40,6 +40,16 @@ if n>1
     hydro(n).ex_ma = [];
     hydro(n).ex_ph = [];
     hydro(n).ex_re = [];
+    if isfield(hydro(F),'sc_ma')
+        hydro(n).fk_im = [];
+        hydro(n).fk_ma = [];
+        hydro(n).fk_ph = [];
+        hydro(n).fk_re = [];
+        hydro(n).sc_im = [];
+        hydro(n).sc_ma = [];
+        hydro(n).sc_ph = [];
+        hydro(n).sc_re = [];
+    end
     hydro(n).file = [];
     hydro(n).g = 9.807;
     hydro(n).h = hydro(1).h;
@@ -49,7 +59,7 @@ if n>1
     hydro(n).rho = 1000;
     hydro(n).T = hydro(1).T;
     hydro(n).Vo = [];
-    hydro(n).w = hydro(1).w;    
+    hydro(n).w = hydro(1).w;
     for i = 1:(n-1)
         hydro(n).body = [hydro(n).body, hydro(i).body];
         hydro(n).C = cat(3, hydro(n).C, hydro(i).C);
@@ -61,6 +71,16 @@ if n>1
         hydro(n).ex_ma = cat(1, hydro(n).ex_ma, hydro(i).ex_ma);
         hydro(n).ex_ph = cat(1, hydro(n).ex_ph, hydro(i).ex_ph);
         hydro(n).ex_re = cat(1, hydro(n).ex_re, hydro(i).ex_re);
+        if isfield(hydro(F),'sc_ma')
+            hydro(n).fk_im = cat(1, hydro(n).fk_im, hydro(i).fk_im);
+            hydro(n).fk_ma = cat(1, hydro(n).fk_ma, hydro(i).fk_ma);
+            hydro(n).fk_ph = cat(1, hydro(n).fk_ph, hydro(i).fk_ph);
+            hydro(n).fk_re = cat(1, hydro(n).fk_re, hydro(i).fk_re);
+            hydro(n).sc_im = cat(1, hydro(n).sc_im, hydro(i).sc_im);
+            hydro(n).sc_ma = cat(1, hydro(n).sc_ma, hydro(i).sc_ma);
+            hydro(n).sc_ph = cat(1, hydro(n).sc_ph, hydro(i).sc_ph);
+            hydro(n).sc_re = cat(1, hydro(n).sc_re, hydro(i).sc_re);
+        end
         hydro(n).file = [hydro(n).file, hydro(i).file];
         hydro(n).Nb = hydro(n).Nb + hydro(i).Nb;
         hydro(n).Vo = [hydro(n).Vo, hydro(i).Vo];
