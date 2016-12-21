@@ -85,7 +85,6 @@ for ii = 1:simu.numWecBodies
     else 
         body(ii).readH5File;
     end
-    body(ii).checkBemio;    % remove this later
     body(ii).bodyTotal = simu.numWecBodies;
     if simu.b2b==1
         body(ii).lenJ = zeros(6*body(ii).bodyTotal,1);

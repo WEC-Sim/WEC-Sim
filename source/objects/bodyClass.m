@@ -62,7 +62,6 @@ classdef bodyClass<handle
         hydroForce        = struct()                                            % Hydrodynamic forces and coefficients used during simulation.
         h5File            = ''                                                  % hdf5 file containing the hydrodynamic data
         hydroDataBodyNum  = []                                                  % Body number within the hdf5 file.
-        bemioFlag         = 1                                                   % Flag. 1 = Bemio was used to generate the data. 0 =Bemio was not used to generate the data.
         massCalcMethod    = []                                                  % Method used to obtain mass: 'user', 'fixed', 'equilibrium'
         bodyNumber        = []                                                  % bodyNumber in WEC-Sim as defined in the input file. Can be different from the BEM body number.
         bodyTotal         = []                                                  % Total number of WEC-Sim bodies (body block iterations)
@@ -304,24 +303,6 @@ classdef bodyClass<handle
             % geometry file
             if exist(obj.geometryFile,'file') == 0
                 error('Could not locate and open geometry file %s',obj.geometryFile)
-            end
-        end
-
-        function checkBemio(obj)
-            % Cjecks BEMIO version and normalization
-            if obj.bemioFlag == 1
-                try
-                    bemio_version = h5load(obj.h5File,'bemio_information/version');
-                catch
-                    bemio_version = '<1.1'
-                    warning('If BEMIO was not used to generate the h5 file, set body(i).bemioFlag = 0')
-                end
-                if strcmp(bemio_version,'1.1') == 0
-                    error(['bemio .h5 file for body ', obj.hydroData.properties.name, ' was generated using bemio version: ', bemio_version '. Please reprocess the hydrodynamic data with the latest version of bemio for te best results. Bemio can be downloaded or updated from https://github.com/WEC-Sim/bemio. You can override this error by specifying the ignoreH5Error variable in in the BodyClass initilization in the wecSimInputFile.'])
-                end
-                if obj.hydroData.simulation_parameters.scaled ~= false
-                    error(['bemio .h5 file for body ', obj.hydroData.properties.name, ' were scaled (i.e. simulation_parameters/scaled ~= false). Please reprocess the hydrodynamic data using the `scale=False` in bemio. Please see https://github.com/WEC-Sim/bemio for more information. You can override this error by specifying the ignoreH5Error variable in in the BodyClass initilization in the wecSimInputFile.m.'])
-                end
             end
         end
     end
