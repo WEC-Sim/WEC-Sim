@@ -47,13 +47,11 @@ body(1).mass = 'equilibrium';
 body(1).momOfInertia = [20907301 21306090.66 37085481.11];
     %Moment of Inertia [kg*m^2]
 body(1).geometryFile = '../../../RM3/geometry/float.stl';    %Location of Geomtry File
-body(1).bemioFlag = 0;  % If using the new MATLAB based BEMIO
 
 body(2) = bodyClass('../../../RM3/hydroData/rm3.h5');
 body(2).mass = 'equilibrium';
 body(2).momOfInertia = [94419614.57 94407091.24 28542224.82];
 body(2).geometryFile = '../../../RM3/geometry/plate.stl';
-body(2).bemioFlag = 0;  % If using the new MATLAB based BEMIO
 
 %% PTO and Constraint Parameters
 constraint(1) = constraintClass('Constraint1');
