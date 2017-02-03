@@ -3,8 +3,8 @@ function hydro = Read_NEMOH(hydro,filedir)
 % Reads data from a NEMOH working folder.
 %
 % hydro = Read_NEMOH(hydro, filedir)
-%     hydro –   data structure
-%     filedir – NEMOH working folder, must include:
+%     hydro â€“   data structure
+%     filedir â€“ NEMOH working folder, must include:
 %         - Nemoh.cal
 %         - Mesh/Hydrostatics.dat (or Hydrostatiscs_0.dat, Hydrostatics_1.dat,
 %           etc. for multiple bodies)
@@ -14,7 +14,7 @@ function hydro = Read_NEMOH(hydro,filedir)
 %         - Results/DiffractionForce.tec - If simu.nlHydro = 3 will be used
 %         - Results/FKForce.tec - If simu.nlHydro = 3 will be used
 %
-% See ‘…\WEC-Sim\tutorials\BEMIO\NEMOH\...’ for examples of usage.
+% See â€˜â€¦\WEC-Sim\tutorials\BEMIO\NEMOH\...â€™ for examples of usage.
 
 [a,b] = size(hydro);  % Check on what is already there
 if b==1
@@ -155,7 +155,7 @@ hydro(F).ex_im = hydro(F).ex_ma.*sin(hydro(F).ex_ph);  % Imaginary part of excit
 waitbar(5/7);
 
 %% Diffraction Force file (scattering)
-if exist('Results\DiffractionForce.tec','file')==2
+if exist([fileDir 'Results\DiffractionForce.tec'],'file')==2
     fileID = fopen([filedir 'Results\DiffractionForce.tec']);
     raw = textscan(fileID,'%[^\n\r]');
     raw = raw{:};
@@ -178,7 +178,7 @@ end
 waitbar(6/7);
 
 %% Froude-Krylov force file
-if exist('Results\FKForce.tec','file')==2
+if exist([filedir 'Results\FKForce.tec'],'file')==2
     fileID = fopen([filedir 'Results\FKForce.tec']);
     raw = textscan(fileID,'%[^\n\r]');
     raw = raw{:};
