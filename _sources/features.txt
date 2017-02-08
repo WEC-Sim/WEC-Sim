@@ -127,11 +127,11 @@ Body Mass and Geometry Features
 ---------------------------------
 The mass of each body must be specified in the  WEC-Sim input file. The following features are available:
 
-* **Floating Body** - the user may set :code:`body(i) = 'equilibrium'` which will calculate the body mass based on displaced volume and water density.
+* **Floating Body** - the user may set :code:`body(i).mass = 'equilibrium'` which will calculate the body mass based on displaced volume and water density. If :code:`simu.nlhydro = 0`, then the mass is calculated using the dispaced volume contained in the ``*.h5`` file. If :code:`simu.nlhydro = 1` or :code:`simu.nlhydro = 2`, then the mass is calculated using the displaced volume of the provided STL geometry file.
 
-* **Fixed Body** - if the mass is unknown (or not important to the dynamics), the user may specify :code:`body(i) = 'fixed'` which will set the mass to 999 kg and moment of inertia to [999 999 999] kg-m^2.
+* **Fixed Body** - if the mass is unknown (or not important to the dynamics), the user may specify :code:`body(i).mass = 'fixed'` which will set the mass to 999 kg and moment of inertia to [999 999 999] kg-m^2.
 
-* **Import STL** - to read in the geometry (stl) into Matlab use the :code:`body(i).bodyGeo` method in the bodyClass. This method will import the mesh details (vertices, faces, normals, areas, centroids) into the :code:`body(i).bodyGeometry` property. This method is this used for non-linear hydrodynamics and ParaView visualization files. Users can then visualize the geometry using the :code:`body(i).plotStl` method.
+* **Import STL** - to read in the geometry (stl) into Matlab use the :code:`body(i).bodyGeo` method in the bodyClass. This method will import the mesh details (vertices, faces, normals, areas, centroids) into the :code:`body(i).bodyGeometry` property. This method is also used for non-linear hydrodynamics and ParaView visualization files. Users can then visualize the geometry using the :code:`body(i).plotStl` method.
 
 
 Constraint and PTO Features
