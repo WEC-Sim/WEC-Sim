@@ -18,11 +18,13 @@
 classdef simulationClass<handle
 
     properties (SetAccess = 'public', GetAccess = 'public')%input file
-        simMechanicsFile    = 'NOT DEFINED'                                % Simulink/SimMecahnics model file (default = 'NOT DEFINED')
+        multibodySolver     = 'SimMechanics';                              % solver to use for mulitbody dynamics, can be SimMechanics or MBDyn
+        simMechanicsFile    = ''                                           % Simulink/SimMechanics model file (default = '', first .slx file found in dir will be used)
+        mBDynFile           = ''                                           % Simulink/SimMechanics model file (default = '', first .mbd file found in dir will be used)
         startTime           = 0                                            % Simulation start time (default = 0 s)
         endTime             = 500                                          % Simulation end time (default = 500 s)
         dt                  = 0.1                                          % Simulation time step (default = 0.1 s)
-        dtMax               = []                                          % Maximum simulation time step for variable step (default = 0.1 s) 
+        dtMax               = []                                           % Maximum simulation time step for variable step (default = 0.1 s) 
         dtOut               = []                                           % Output sampling time (default = dt)
         dtFeNonlin          = []                                           % Sample time to calculate nonlinear forces (default = dt)
         dtCITime            = []                                           % Sample time to calculate Convolution Integral (default = dt)
@@ -45,10 +47,15 @@ classdef simulationClass<handle
         mcrCaseFile         = []                                           % mat file that contain a list of the multiple conditions runs with given conditions  
         morrisonElement     = 0                                            % Option for Morrison Element calculation: Off->'0', On->'1', (default = 0)
         outputtxt           = 0                                            % Option to save results as ASCII files.
-        reloadH5Data        = 0                                            % Option to re-load hydro data from hf5 file between runs: Off->'0', On->'1', (default = 0)     
+        reloadH5Data        = 0                                            % Option to re-load hydro data from hf5 file between runs: Off->'0', On->'1', (default = 0)
+        numWecBodies        = []                                           % Number of hydrodynamic bodies that comprise the WEC device (default = 'NOT DEFINED')
+        numPtos             = []                                           % Number of power take-off elements in the model (default = 'NOT DEFINED')
+        numConstraints      = []                                           % Number of contraints in the wec model (default = 'NOT DEFINED')
+        numMoorings         = []                                           % Number of moorings in the wec model (default = 'NOT DEFINED')
     end
 
-    properties (SetAccess = 'public', GetAccess = 'public')%internal
+    properties (SetAccess = 'protected', GetAccess = 'public')%internal
+        simMechanicsModel   = '';
         version             = 'NOT DEFINED'                                % WEC-Sim version
         simulationDate      = datetime                                     % Simulation date and time
         outputDir           = 'output'                                     % Data output directory name
@@ -60,37 +67,45 @@ classdef simulationClass<handle
         CIkt                = []                                           % Number of timesteps in the convolution integral length
         maxIt               = []                                           % Total number of simulation time steps (default = dependent)        CIkt                                                               % Calculate the number of convolution integral timesteps (default = dependent)
         CTTime              = []                                           % Convolution integral time series (default = dependent)
-        numWecBodies        = []                                           % Number of hydrodynamic bodies that comprise the WEC device (default = 'NOT DEFINED')
-        numPtos             = []                                           % Number of power take-off elements in the model (default = 'NOT DEFINED')
-        numConstraints      = []                                           % Number of contraints in the wec model (default = 'NOT DEFINED')
-        numMoorings         = []                                           % Number of moorings in the wec model (default = 'NOT DEFINED')
     end
 
     methods
-        function obj = simulationClass()
+        function obj = simulationClass(casedir)
             % Initilization function
             fprintf('WEC-Sim: An open-source code for simulating wave energy converters\n')
             fprintf('Version: %s\n\n',obj.version)
             fprintf('Initializing the Simulation Class...\n')
-            obj.caseDir = pwd; 
-            fprintf('\tCase Dir: %s \n',obj.caseDir)
-            obj.outputDir = ['.' filesep obj.outputDir];
+            
+            if nargin < 1
+                obj.caseDir = pwd ();
+            else
+                obj.caseDir = casedir;
+            end
+            
+            fprintf('\tCase Dir: %s \n', obj.caseDir)
+            
+            if exist (obj.caseDir, 'dir') ~= 7
+                error ('The WEC case directory, %s, does not appear to exist', obj.caseDir);
+            end
+            
+            obj.outputDir = fullfile (obj.caseDir, obj.outputDir);
+            
         end
 
-        function obj = loadSimMechModel(obj,fName)
+        function obj = loadSimMechModel(obj)
             % Loads the model and sets the simulation parameters
-            load_system(fName);
-                 obj.simMechanicsFile = fName;
-                 [~,modelName,~] = fileparts(obj.simMechanicsFile);
-                 set_param(modelName,'Solver',obj.solver,...
-                 'StopTime',num2str(obj.endTime),...
-                 'SimulationMode',obj.mode,...
-                 'StartTime',num2str(obj.startTime),...
-                 'FixedStep',num2str(obj.dt),...
-                 'MaxStep',num2str(obj.dtMax),...
-                 'AutoInsertRateTranBlk',obj.autoRateTranBlk,...
-                 'ZeroCrossControl',obj.zeroCrossCont,...
-                 'SimMechanicsOpenEditorOnUpdate',obj.explorer);
+            load_system (obj.simMechanicsFile);
+            
+            set_param ( obj.simMechanicsModel, ...
+                        'Solver', obj.solver,...
+                        'StopTime', num2str(obj.endTime),...
+                        'SimulationMode', obj.mode,...
+                        'StartTime', num2str(obj.startTime),...
+                        'FixedStep', num2str(obj.dt),...
+                        'MaxStep', num2str(obj.dtMax),...
+                        'AutoInsertRateTranBlk', obj.autoRateTranBlk,...
+                        'ZeroCrossControl', obj.zeroCrossCont,...
+                        'SimMechanicsOpenEditorOnUpdate', obj.explorer );
         end
 
         function setupSim(obj)
@@ -115,18 +130,76 @@ classdef simulationClass<handle
             end
             obj.CTTime = 0:obj.dtCITime:obj.CITime;            
             obj.CIkt = length(obj.CTTime);
-            obj.caseFile = [obj.caseDir filesep 'output' filesep obj.simMechanicsFile(1:end-4) '_matlabWorkspace.mat'];
-            obj.logFile = [obj.caseDir filesep 'output' filesep obj.simMechanicsFile(1:end-4) '_simulationLog.txt'];
+            obj.caseFile = fullfile (obj.caseDir, 'output', [obj.simMechanicsModel, '_matlabWorkspace.mat']);
+            obj.logFile = fullfile (obj.caseDir, 'output', [obj.simMechanicsModel, '_simulationLog.txt']);
             mkdir(obj.outputDir)
             obj.getWecSimVer;
         end
 
         function checkinputs(obj)
-            % Checks user input
-            % Check simMechanics file exists
-            if exist(obj.simMechanicsFile,'file') ~= 4
-                error('The simMecahnics file, %s, does not exist in the case directory',value)
+            % Validate user input for simulation
+            
+            if exist (obj.caseDir, 'dir') ~= 7
+                error ('The WEC input data directory, %s, does not appear exist', obj.caseDir);
             end
+            
+            if strcmpi (obj.multibodySolver, 'SimMechanics')
+                
+                if isempty (obj.simMechanicsFile)
+                    % find all slx files
+                    slxfiles = dir (fullfile (obj.caseDir, '*.slx'));
+                    
+                    if isempty (slxfiles)
+                        error ('No simMechanics files were found in the case directory %s', obj.caseDir)
+                    end
+                    
+                    % if any found use the first one (warn if multiple)
+                    obj.simMechanicsFile = fullfile (slxfiles(1).folder, slxfiles(1).name);
+                    
+                    if numel (slxfiles) > 1
+                        warning ('You did not specify a specific SimMechanics slx file and multiple were found in the case directory, the following file will be used:\n%s', ...
+                            obj.simMechanicsFile);
+                    end
+                    
+                end
+                
+                % Check simMechanics file exists
+                exf = exist(obj.simMechanicsFile, 'file');
+                if ~(exf == 4 || exf == 2)
+                    error ('The simMechanics file:\n\t%s\ndoes not appear to exist.', obj.simMechanicsFile)
+                end
+                
+                if exf == 2
+                    warning ('The simMechanics file:\n\t%s\nis not in your matlab path');
+                end
+                
+                [~,obj.simMechanicsModel,~] = fileparts (obj.simMechanicsFile);
+                
+            elseif strcmpi (obj.multibodySolver, 'MBDyn')
+                
+                if isempty (obj.mBDynFile)
+                    % find all slx files
+                    mbdfiles = dir (fullfile (obj.caseDir, '*.mbd'));
+                    
+                    if isempty (mbdfiles)
+                        error ('No MBDyn input files were found in the case directory %s', obj.caseDir)
+                    end
+                    
+                    % if any found use the first one (warn if multiple)
+                    obj.mBDynFile = fullfile (mbdfiles(1).folder, mbdfiles(1).name);
+                    
+                    if numel (mbdfiles) > 1
+                        warning ('You did not specify a specific MBDyn mbd file and multiple were found in the case directory, the following file will be used:\n%s', ...
+                            obj.mBDynFile);
+                    end
+                    
+                end
+                
+                if exist(obj.mBDynFile, 'file') ~= 2
+                    error ('The mBDynFile file, %s, does not exist in the case directory', obj.mBDynFile)
+                end
+            end
+            
             % Remove existing output folder
             if exist(obj.outputDir,'dir') ~= 0
                 try
