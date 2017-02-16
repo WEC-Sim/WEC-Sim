@@ -44,7 +44,7 @@ STL File Generation
 	
 .. Note::
 
-	 The WEC-Sim team is currently looking into a free and open source alternative to Rhino3d.
+	 All STL files must be saved as ASCII (not binary)
  
 
 Non-Linear Tutorial - Heaving Ellipsoid
