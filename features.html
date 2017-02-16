@@ -102,9 +102,10 @@
 </ul>
 </li>
 <li class="toctree-l2"><a class="reference internal" href="#state-space-representation">State-Space Representation</a></li>
-<li class="toctree-l2"><a class="reference internal" href="#nonlinear-hydrodynamics">Nonlinear Hydrodynamics</a><ul>
-<li class="toctree-l3"><a class="reference internal" href="#nonlinear-options">Nonlinear Options</a></li>
-<li class="toctree-l3"><a class="reference internal" href="#tutorial-heaving-ellipsoid">Tutorial - Heaving Ellipsoid</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#non-linear-hydrodynamics">Non-Linear Hydrodynamics</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#non-linear-settings">Non-Linear Settings</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#stl-file-generation">STL File Generation</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#non-linear-tutorial-heaving-ellipsoid">Non-Linear Tutorial - Heaving Ellipsoid</a></li>
 </ul>
 </li>
 <li class="toctree-l2"><a class="reference internal" href="#non-hydrodynamic-bodies">Non-Hydrodynamic Bodies</a></li>
@@ -210,13 +211,13 @@
 </ul>
 <div class="admonition note">
 <p class="first admonition-title">Note</p>
-<p class="last">Previously, the python based <a class="reference external" href="http://wec-sim.github.io/bemio/installing.html">BEMIO code</a> was used for this purpose. To avoid the inefficiencies associated with supporting two code platforms, the python BEMIO functions have been converted to MATLAB, and will now be automatically downloaded with the WEC-Sim code. The python based BEMIO code will remain available, but will no longer be actively supported. Also, the mesh manipulation capabilities of the  python based BEMIO code have not yet been converted to MATLAB, however, it is intended that they will be in a future release.</p>
+<p class="last">Previously, the <a class="reference external" href="http://wec-sim.github.io/bemio/installing.html">python based BEMIO code</a> was used for this purpose. To avoid the inefficiencies associated with supporting two code platforms, the python BEMIO functions have been converted to MATLAB, and will now be automatically downloaded with the WEC-Sim code. The python based BEMIO code will remain available, but will no longer be actively supported. Also, the mesh manipulation capabilities of the  python based BEMIO code have not yet been converted to MATLAB, however, it is intended that they will be in a future release.</p>
 </div>
 <div class="section" id="bemio-functions">
 <h3>BEMIO Functions<a class="headerlink" href="#bemio-functions" title="Permalink to this headline">¶</a></h3>
+<p><strong>Read_WAMIT:</strong> Reads data from a WAMIT output file</p>
 <blockquote>
-<div><p><strong>Read_WAMIT:</strong> Reads data from a WAMIT output file</p>
-<dl class="docutils">
+<div><dl class="docutils">
 <dt><em>hydro = Read_WAMIT(hydro, filename, ex_coeff)</em></dt>
 <dd><ul class="first last simple">
 <li><em>hydro</em> – data structure</li>
@@ -559,102 +560,92 @@ This would allow for the BEM of different bodies to be done separately, and BEMI
 </div>
 <div class="section" id="state-space-representation">
 <h2>State-Space Representation<a class="headerlink" href="#state-space-representation" title="Permalink to this headline">¶</a></h2>
-<p>The convolution integral term in the equation of motion can be linearized using the state-space representation, as described in the Theory Section. To use state-space representation, the following simulationClass variable must be defined in the WEC-Sim input file:</p>
+<p>The convolution integral term in the equation of motion can be linearized using the state-space representation, as described in the Theory Section. To use state-space representation, the <strong>simu.ssCalc</strong> simulationClass variable must be defined in the WEC-Sim input file, for example:</p>
 <blockquote>
-<div><ul class="simple">
-<li>State-space: <code class="code docutils literal"><span class="pre">simu.ssCalc</span> <span class="pre">=</span> <span class="pre">1</span></code></li>
-</ul>
-</div></blockquote>
+<div><code class="code docutils literal"><span class="pre">simu.ssCalc</span> <span class="pre">=</span> <span class="pre">1</span></code></div></blockquote>
 </div>
-<div class="section" id="nonlinear-hydrodynamics">
-<h2>Nonlinear Hydrodynamics<a class="headerlink" href="#nonlinear-hydrodynamics" title="Permalink to this headline">¶</a></h2>
-<p>WEC-Sim has the option to include the nonlinear restoring and Froude-Krylov forces when solving the system dynamics of WECs, accounting the weakly nonlinear effect on the body hydrodynamics. To use non-linear hydrodyanmics, the following simulationClass variable must be defined in the WEC-Sim input file:</p>
+<div class="section" id="non-linear-hydrodynamics">
+<h2>Non-Linear Hydrodynamics<a class="headerlink" href="#non-linear-hydrodynamics" title="Permalink to this headline">¶</a></h2>
+<p>WEC-Sim has the option to include the non-linear hydrostatic restoring and Froude-Krylov forces when solving the system dynamics of WECs, accounting for the weakly nonlinear effect on the body hydrodynamics. To use non-linear hydrodyanmics, the <strong>simu.nlHydro</strong> simulationClass variable must be defined in the WEC-Sim input file, for example:</p>
 <blockquote>
-<div><ul class="simple">
-<li>Non-linear hydro: <code class="code docutils literal"><span class="pre">simu.nlHydro</span> <span class="pre">=</span> <span class="pre">1</span></code> or  <code class="code docutils literal"><span class="pre">simu.nlHydro</span> <span class="pre">=</span> <span class="pre">2</span></code></li>
-</ul>
-</div></blockquote>
-<div class="section" id="nonlinear-options">
-<h3>Nonlinear Options<a class="headerlink" href="#nonlinear-options" title="Permalink to this headline">¶</a></h3>
+<div><code class="code docutils literal"><span class="pre">simu.nlHydro</span> <span class="pre">=</span> <span class="pre">2</span></code></div></blockquote>
+<div class="section" id="non-linear-settings">
+<h3>Non-Linear Settings<a class="headerlink" href="#non-linear-settings" title="Permalink to this headline">¶</a></h3>
 <blockquote>
-<div><p>The nonlinear hydrodynamics option can be used by setting <code class="code docutils literal"><span class="pre">simu.nlHydro</span> <span class="pre">=</span> <span class="pre">2</span></code> or <code class="code docutils literal"><span class="pre">simu.nlHydro</span> <span class="pre">=</span> <span class="pre">1</span></code> in your WEC-Sim input file. Typically, <code class="code docutils literal"><span class="pre">simu.nlHydro</span> <span class="pre">=</span> <span class="pre">2</span></code> is recommended if nonlinear hydrodynamic effects need to be used. Note that <code class="code docutils literal"><span class="pre">simu.nlHydro</span> <span class="pre">=</span> <span class="pre">1</span></code> only consideres the nonlinear restoring and Froude-Krylov forces based on the body position and mean wave elevation.</p>
-<p>When the nonlinear hydrodynamics option is specified, the geometry file (<code class="docutils literal"><span class="pre">*.stl</span></code>) (only used for visualization purposes in linear simulations) is also used as the discretized body surface on which the nonlinear pressure forces are integrated. A good mesh resolution is required for the geometry file when using the nonlinear hydrodynamic force option. The simulation accuracy will increase with increased surface resolution (i.e. the number of discretized surface panels specified in the .stl file), but the computation time will also significantly increase.</p>
-<p>An option available to reduce the nonlinear simulation time is to specify a nonlinear time step, <code class="code docutils literal"><span class="pre">simu.dtFeNonlin=N*simu.dt</span></code>, where N is number of increment steps. The nonlinear time step specifies the interval at which the nonlinear hydrodynamic forces are calculated. As the ratio of the nonlinear to system time step increases, the computation time is reduced, but again, at the expense of the simulation accuracy.</p>
+<div><p><strong>simu.nlHydro</strong>  -
+The nonlinear hydrodynamics option can be used by setting <code class="code docutils literal"><span class="pre">simu.nlHydro</span> <span class="pre">=</span> <span class="pre">2</span></code> or <code class="code docutils literal"><span class="pre">simu.nlHydro</span> <span class="pre">=</span> <span class="pre">1</span></code> in your WEC-Sim input file. Typically, <code class="code docutils literal"><span class="pre">simu.nlHydro</span> <span class="pre">=</span> <span class="pre">2</span></code> is recommended if nonlinear hydrodynamic effects need to be used. Note that <code class="code docutils literal"><span class="pre">simu.nlHydro</span> <span class="pre">=</span> <span class="pre">1</span></code> only consideres the nonlinear restoring and Froude-Krylov forces based on the body position and mean wave elevation.</p>
+<p><strong>simu.dtFeNonlin</strong> -
+An option available to reduce the nonlinear simulation time is to specify a nonlinear time step, <code class="code docutils literal"><span class="pre">simu.dtFeNonlin=N*simu.dt</span></code>, where N is number of increment steps. The nonlinear time step specifies the interval at which the nonlinear hydrodynamic forces are calculated. As the ratio of the nonlinear to system time step increases, the computation time is reduced, but again, at the expense of the simulation accuracy.</p>
 </div></blockquote>
 <div class="admonition note">
 <p class="first admonition-title">Note</p>
-<p class="last">WEC-Sim&#8217;s nonlinear hydrodynamic options may be used with regular and irregular waves, finite and infinite depth waves, but not with user-defined irregular waves.</p>
+<p class="last">WEC-Sim&#8217;s nonlinear hydrodynamic option may be used for regular or irregular waves, but not with user-defined irregular waves.</p>
 </div>
 </div>
-<div class="section" id="tutorial-heaving-ellipsoid">
-<h3>Tutorial - Heaving Ellipsoid<a class="headerlink" href="#tutorial-heaving-ellipsoid" title="Permalink to this headline">¶</a></h3>
+<div class="section" id="stl-file-generation">
+<h3>STL File Generation<a class="headerlink" href="#stl-file-generation" title="Permalink to this headline">¶</a></h3>
+<blockquote>
+<div><p>When the nonlinear non-linear option is turned on, the geometry file (<code class="docutils literal"><span class="pre">*.stl</span></code>) (previously only used for visualization purposes in linear simulations) is used as the discretized body surface on which the non-linear pressure forces are integrated. A good STL mesh resolution is required for the WEC body geometry file(s) when using the non-linear hydrodynamics in WEC-Sim. The simulation accuracy will increase with increased surface resolution (i.e. the number of discretized surface panels specified in the .stl file), but the computation time will also increase.</p>
+<p>There are many ways to generate an STL file, however it is important to verify the quality of the mesh before running WEC-Sim simulations with the non-linear hydro flag turned on. An STL file can be exported from from most CAD programs, but few allow adaquate mesh refinement. A good program to perform STL mesh refinement is <a class="reference external" href="https://www.rhino3d.com/">Rhino3d</a>. Some helpful resources explaining how to generate and refine an STL mesh in Rhino3d are: <a class="reference external" href="https://wiki.mcneel.com/rhino/meshfaqdetails">https://wiki.mcneel.com/rhino/meshfaqdetails</a> and <a class="reference external" href="https://vimeo.com/80925936">https://vimeo.com/80925936</a>.</p>
+</div></blockquote>
+<div class="admonition note">
+<p class="first admonition-title">Note</p>
+<p class="last">The WEC-Sim team is currently looking into a free and open source alternative to Rhino3d.</p>
+</div>
+</div>
+<div class="section" id="non-linear-tutorial-heaving-ellipsoid">
+<h3>Non-Linear Tutorial - Heaving Ellipsoid<a class="headerlink" href="#non-linear-tutorial-heaving-ellipsoid" title="Permalink to this headline">¶</a></h3>
 <blockquote>
 <div><p>The body tested in the study is an ellipsoid with a cross- section characterized by semi-major and -minor axes of 5.0 m and 2.5 m in the wave propagation and normal directions, respectively . The ellipsoid is at its equilibrium position with its origin located at the mean water surface. The mass of the body is then set to 1.342×105 kg, and the center of gravity is located 2 m below the origin.</p>
 <div class="figure align-center" id="nonlinearellipsoid">
 <a class="reference internal image-reference" href="_images/nonlinearEllipsoid.png"><img alt="_images/nonlinearEllipsoid.png" src="_images/nonlinearEllipsoid.png" style="width: 350pt;" /></a>
 </div>
-<ul class="simple">
-<li>Discretized body surface panel (<code class="docutils literal"><span class="pre">ellipsoid.stl</span></code>)</li>
-</ul>
+<p>STL file with the discretized body surface is shown below (<code class="docutils literal"><span class="pre">ellipsoid.stl</span></code>)</p>
 <div class="figure align-center" id="nonlinearmesh">
 <a class="reference internal image-reference" href="_images/nonlinearMesh.png"><img alt="_images/nonlinearMesh.png" src="_images/nonlinearMesh.png" style="width: 250pt;" /></a>
 </div>
-<ul class="simple">
-<li>Single-body heave only WEC model(<code class="docutils literal"><span class="pre">nonLinearHydro.slx</span></code>)</li>
-</ul>
+<p>The single-body heave only WEC model is shown below (<code class="docutils literal"><span class="pre">nonLinearHydro.slx</span></code>)</p>
 <div class="figure align-center" id="nonlinearwec">
 <a class="reference internal image-reference" href="_images/nonlinearWEC.png"><img alt="_images/nonlinearWEC.png" src="_images/nonlinearWEC.png" style="width: 450pt;" /></a>
 </div>
-<ul class="simple">
-<li>WEC-Sim input file</li>
-</ul>
-<div class="highlight-matlab" id="nonlinaerwecsiminputfile"><div class="highlight"><pre><span></span><span class="c">% DOF=5;  % comment out since will do all of them.</span>
-
-<span class="c">%% Simulation Data</span>
+<p>The WEC-Sim input file used to run the non-linear hydro WEC-Sim simulation:</p>
+<div class="highlight-matlab" id="nonlinaerwecsiminputfile"><div class="highlight"><pre><span></span><span class="c">%% Simulation Settings</span>
 <span class="n">simu</span> <span class="p">=</span> <span class="n">simulationClass</span><span class="p">();</span>               <span class="c">%Create the Simulation Variable</span>
-<span class="n">simu</span><span class="p">.</span><span class="n">endTime</span><span class="p">=</span><span class="mi">100</span><span class="p">;</span>                           <span class="c">% Simulation End Time [s]</span>
-<span class="n">simu</span><span class="p">.</span><span class="n">dt</span> <span class="p">=</span> <span class="mf">0.05</span><span class="p">;</span>                              <span class="c">% Simulation Delta_Time [s]         </span>
-<span class="n">simu</span><span class="p">.</span><span class="n">simMechanicsFile</span> <span class="p">=</span> <span class="s">&#39;ellipsoid.slx&#39;</span><span class="p">;</span>          <span class="c">% Specify Simulink Model File          </span>
-<span class="c">%simu.mode=&#39;rapid-accelerator&#39;;              % Specify Simulation Mode </span>
+<span class="n">simu</span><span class="p">.</span><span class="n">endTime</span><span class="p">=</span><span class="mi">100</span><span class="p">;</span>                       	<span class="c">% Simulation End Time [s]</span>
+<span class="n">simu</span><span class="p">.</span><span class="n">dt</span> <span class="p">=</span> <span class="mf">0.05</span><span class="p">;</span>                              	<span class="c">% Simulation Delta_Time [s]         </span>
+<span class="n">simu</span><span class="p">.</span><span class="n">simMechanicsFile</span> <span class="p">=</span> <span class="s">&#39;ellipsoid.slx&#39;</span><span class="p">;</span>     	<span class="c">% Specify Simulink Model File          </span>
 <span class="n">simu</span><span class="p">.</span><span class="n">rho</span><span class="p">=</span><span class="mi">1025</span><span class="p">;</span>
 <span class="n">simu</span><span class="p">.</span><span class="n">mode</span><span class="p">=</span><span class="s">&#39;normal&#39;</span><span class="p">;</span>                                                
-<span class="n">simu</span><span class="p">.</span><span class="n">explorer</span><span class="p">=</span><span class="s">&#39;off&#39;</span><span class="p">;</span>                         <span class="c">% Turn SimMechanics Explorer                                             % (on/off)                                                                                             </span>
+<span class="n">simu</span><span class="p">.</span><span class="n">explorer</span><span class="p">=</span><span class="s">&#39;on&#39;</span><span class="p">;</span>                    <span class="c">% Turn SimMechanics Explorer on                                            % (on/off)                                                                                             </span>
 <span class="n">simu</span><span class="p">.</span><span class="n">CITime</span>         <span class="p">=</span> <span class="mi">30</span><span class="p">;</span>
 <span class="n">simu</span><span class="p">.</span><span class="n">rampT</span>          <span class="p">=</span> <span class="mi">50</span><span class="p">;</span>
-<span class="n">simu</span><span class="p">.</span><span class="n">nlHydro</span>        <span class="p">=</span> <span class="mi">2</span><span class="p">;</span>
-<span class="c">%simu.dtCITime       = 0.1;</span>
+<span class="n">simu</span><span class="p">.</span><span class="n">nlHydro</span>        <span class="p">=</span> <span class="mi">2</span><span class="p">;</span>		<span class="c">% Turns non-linear hydro on</span>
 
 <span class="c">% Wave Information</span>
-<span class="n">waves</span> <span class="p">=</span> <span class="n">waveClass</span><span class="p">(</span><span class="s">&#39;regular&#39;</span><span class="p">);</span>              <span class="c">%Create the Wave Variable and Specify Type        </span>
-<span class="n">waves</span><span class="p">.</span><span class="n">H</span> <span class="p">=</span> <span class="mi">4</span><span class="p">;</span>                              <span class="c">% Wave Height [m]</span>
-<span class="n">waves</span><span class="p">.</span><span class="n">T</span> <span class="p">=</span> <span class="mi">6</span><span class="p">;</span>                              <span class="c">% Wave period [s]</span>
-
-<span class="c">% % Wave Information: Irregular Waves using PM Spectrum</span>
-<span class="c">% waves.spectrumType = &#39;BS&#39;;                   % Specify Wave Spectrum Type</span>
-<span class="c">% waves.randPreDefined = 1;</span>
+<span class="n">waves</span> <span class="p">=</span> <span class="n">waveClass</span><span class="p">(</span><span class="s">&#39;regular&#39;</span><span class="p">);</span>           <span class="c">%Create the Wave Variable and Specify Type        </span>
+<span class="n">waves</span><span class="p">.</span><span class="n">H</span> <span class="p">=</span> <span class="mi">4</span><span class="p">;</span>                            <span class="c">% Wave Height [m]</span>
+<span class="n">waves</span><span class="p">.</span><span class="n">T</span> <span class="p">=</span> <span class="mi">6</span><span class="p">;</span>                          	<span class="c">% Wave period [s]</span>
 
 <span class="c">%Body Data</span>
-<span class="n">body</span><span class="p">(</span><span class="mi">1</span><span class="p">)</span> <span class="p">=</span> <span class="n">bodyClass</span><span class="p">(</span><span class="s">&#39;wamit/ellipsoid.h5&#39;</span><span class="p">);</span><span class="c">% Initialize bodyClass for Float</span>
-<span class="n">body</span><span class="p">(</span><span class="mi">1</span><span class="p">).</span><span class="n">mass</span> <span class="p">=</span> <span class="s">&#39;equilibrium&#39;</span><span class="p">;</span>               <span class="c">% Mass from WAMIT [kg]</span>
-<span class="n">body</span><span class="p">(</span><span class="mi">1</span><span class="p">).</span><span class="n">momOfInertia</span> <span class="p">=</span> <span class="c">...                  % Moment of Inertia [kg-m^2]</span>
+<span class="n">body</span><span class="p">(</span><span class="mi">1</span><span class="p">)</span> <span class="p">=</span> <span class="n">bodyClass</span><span class="p">(</span><span class="s">&#39;wamit/ellipsoid.h5&#39;</span><span class="p">);</span>	<span class="c">% Initialize bodyClass for Float</span>
+<span class="n">body</span><span class="p">(</span><span class="mi">1</span><span class="p">).</span><span class="n">mass</span> <span class="p">=</span> <span class="s">&#39;equilibrium&#39;</span><span class="p">;</span>               	<span class="c">% Mass from WAMIT [kg]</span>
+<span class="n">body</span><span class="p">(</span><span class="mi">1</span><span class="p">).</span><span class="n">momOfInertia</span> <span class="p">=</span> <span class="c">...                  	% Moment of Inertia [kg-m^2]</span>
     <span class="p">[</span><span class="mf">1.375264e6</span> <span class="mf">1.375264e6</span> <span class="mf">1.341721e6</span><span class="p">];</span>      
-<span class="n">body</span><span class="p">(</span><span class="mi">1</span><span class="p">).</span><span class="n">geometryFile</span> <span class="p">=</span> <span class="s">&#39;geometry/elipsoid.stl&#39;</span> <span class="p">;</span>    
+<span class="n">body</span><span class="p">(</span><span class="mi">1</span><span class="p">).</span><span class="n">geometryFile</span> <span class="p">=</span> <span class="s">&#39;geometry/elipsoid.stl&#39;</span> <span class="p">;</span> 	<span class="c">% Discretized body geometry for nlHydro</span>
 <span class="n">body</span><span class="p">(</span><span class="mi">1</span><span class="p">).</span><span class="n">viscDrag</span><span class="p">.</span><span class="n">cd</span><span class="p">=[</span><span class="mi">1</span> <span class="mi">0</span> <span class="mi">1</span> <span class="mi">0</span> <span class="mi">1</span> <span class="mi">0</span><span class="p">];</span>
 <span class="n">body</span><span class="p">(</span><span class="mi">1</span><span class="p">).</span><span class="n">viscDrag</span><span class="p">.</span><span class="n">characteristicArea</span><span class="p">=[</span><span class="mi">25</span> <span class="mi">0</span> <span class="nb">pi</span><span class="o">*</span><span class="mi">5</span>^<span class="mi">2</span> <span class="mi">0</span> <span class="nb">pi</span><span class="o">*</span><span class="mi">5</span>^<span class="mi">5</span> <span class="mi">0</span><span class="p">];</span>
 
 <span class="c">% PTO and Constraint Parameters</span>
 <span class="n">constraint</span><span class="p">(</span><span class="mi">1</span><span class="p">)</span> <span class="p">=</span> <span class="n">constraintClass</span><span class="p">(</span><span class="s">&#39;Constraint1&#39;</span><span class="p">);</span> 
-<span class="n">constraint</span><span class="p">(</span><span class="mi">1</span><span class="p">).</span><span class="n">loc</span> <span class="p">=</span> <span class="p">[</span><span class="mi">0</span> <span class="mi">0</span> <span class="o">-</span><span class="mf">12.5</span><span class="p">];</span>                    <span class="c">%Constraint Location [m]</span>
+<span class="n">constraint</span><span class="p">(</span><span class="mi">1</span><span class="p">).</span><span class="n">loc</span> <span class="p">=</span> <span class="p">[</span><span class="mi">0</span> <span class="mi">0</span> <span class="o">-</span><span class="mf">12.5</span><span class="p">];</span>      	<span class="c">%Constraint Location [m]</span>
 
-<span class="n">pto</span><span class="p">(</span><span class="mi">1</span><span class="p">)</span> <span class="p">=</span> <span class="n">ptoClass</span><span class="p">(</span><span class="s">&#39;PTO1&#39;</span><span class="p">);</span>            <span class="c">% Initialize ptoClass for PTO1</span>
-<span class="n">pto</span><span class="p">(</span><span class="mi">1</span><span class="p">).</span><span class="n">k</span><span class="p">=</span><span class="mi">0</span><span class="p">;</span>                           <span class="c">% PTO Stiffness Coeff [N/m]</span>
-<span class="n">pto</span><span class="p">(</span><span class="mi">1</span><span class="p">).</span><span class="n">c</span><span class="p">=</span><span class="mi">1200000</span><span class="p">;</span>                           <span class="c">% PTO Damping Coeff [Ns/m]</span>
+<span class="n">pto</span><span class="p">(</span><span class="mi">1</span><span class="p">)</span> <span class="p">=</span> <span class="n">ptoClass</span><span class="p">(</span><span class="s">&#39;PTO1&#39;</span><span class="p">);</span>         	<span class="c">% Initialize ptoClass for PTO1</span>
+<span class="n">pto</span><span class="p">(</span><span class="mi">1</span><span class="p">).</span><span class="n">k</span><span class="p">=</span><span class="mi">0</span><span class="p">;</span>                           	<span class="c">% PTO Stiffness Coeff [N/m]</span>
+<span class="n">pto</span><span class="p">(</span><span class="mi">1</span><span class="p">).</span><span class="n">c</span><span class="p">=</span><span class="mi">1200000</span><span class="p">;</span>                     	<span class="c">% PTO Damping Coeff [Ns/m]</span>
 <span class="n">pto</span><span class="p">(</span><span class="mi">1</span><span class="p">).</span><span class="n">loc</span> <span class="p">=</span> <span class="p">[</span><span class="mi">0</span> <span class="mi">0</span> <span class="o">-</span><span class="mf">12.5</span><span class="p">];</span>
 </pre></div>
 </div>
-<ul class="simple">
-<li>Simulation and Post-processing: Simulation and post-processing are the same process as described in Tutorial Section.</li>
-</ul>
+<p>Simulation and post-processing is the same process as described in <cite>Tutorial Section &lt;http://wec-sim.github.io/WEC-Sim/tutorials.html&gt;_</cite>.</p>
 </div></blockquote>
 </div>
 </div>
@@ -662,23 +653,17 @@ This would allow for the BEM of different bodies to be done separately, and BEMI
 <h2>Non-Hydrodynamic Bodies<a class="headerlink" href="#non-hydrodynamic-bodies" title="Permalink to this headline">¶</a></h2>
 <p>For some simulations, it might be important to model bodies that do not have hydrodynamic forces acting on them. This could be bodies that are completely outside of the water, but are still connected through a joint to the WEC bodies, or it could be bodies deeply submerged to the point where the hydrodynamics may be neglected. WEC-Sim allows for bodies which have no hydrodynamic forces acting on them, and for which no BEM data is provided.</p>
 <p>To do this, use a Body Block from the WEC-Sim  Library and initialize it in the WEC-Sim input file as any other body, but leave the name of the <code class="docutils literal"><span class="pre">h5</span></code> file as an empty string. Specify <code class="code docutils literal"><span class="pre">body(i).nhBody</span> <span class="pre">=</span> <span class="pre">1;</span></code> and specify body name, mass, moments of inertia, cg, geometry file, location, and displaced volume. You can also specify visualization options and initial displacement.</p>
-<p>To use non-hydrodynamic bodies, the following bodyClass variable must be defined in the WEC-Sim input file:</p>
+<p>To use non-hydrodynamic bodies, the following bodyClass variable must be defined in the WEC-Sim input file, for example:</p>
 <blockquote>
-<div><ul class="simple">
-<li>Non-hydro body: <code class="code docutils literal"><span class="pre">body(i).nhBody</span> <span class="pre">=</span> <span class="pre">1</span></code></li>
-</ul>
-</div></blockquote>
+<div><code class="code docutils literal"><span class="pre">body(i).nhBody</span> <span class="pre">=</span> <span class="pre">1</span></code></div></blockquote>
 </div>
 <div class="section" id="body-to-body-interactions">
 <h2>Body-To-Body Interactions<a class="headerlink" href="#body-to-body-interactions" title="Permalink to this headline">¶</a></h2>
 <p>WEC-Sim allows for body-to-body interactions in the radiation force calculation, thus allowing the motion of one body to impart a force on all other bodies. The radiation matrices for each body (radiation damping and added mass) required by WEC-Sim and contained in the <code class="docutils literal"><span class="pre">*.h5</span></code> file. <strong>For body-to-body interactions with N total hydrodynamic bodies, the</strong> <code class="docutils literal"><span class="pre">*h5</span></code> <strong>data structure is [(6*N), 6]</strong>.</p>
 <p>When body-to-body interactions are used, the augmented [(6*N), 6] matrices are multiplied by concatenated velocity and acceleration vectors of all hydrodynamic bodies. For example, the radiation damping force for body(2) in a 3-body system with body-to-body interactions would be calculated as the product of a [1,18] velocity vector, and a [18,6] radiation damping coefficients matrix.</p>
-<p>To use body-to-body interactions, the following simulationClass variable must be defined in the WEC-Sim input file:</p>
+<p>To use body-to-body interactions, the following simulationClass variable must be defined in the WEC-Sim input file, for example:</p>
 <blockquote>
-<div><ul class="simple">
-<li>Body-to-body interactions: <code class="code docutils literal"><span class="pre">simu.b2b</span> <span class="pre">=</span> <span class="pre">1</span></code></li>
-</ul>
-</div></blockquote>
+<div><code class="code docutils literal"><span class="pre">simu.b2b</span> <span class="pre">=</span> <span class="pre">1</span></code></div></blockquote>
 <div class="admonition note">
 <p class="first admonition-title">Note</p>
 <p class="last">By default, body-to-body interactions  are off (<code class="code docutils literal"><span class="pre">simu.b2b</span> <span class="pre">=</span> <span class="pre">0</span></code>), and only the <em>[1+6*(i-1):6*i, 1:6]</em> sub-matrices are used for each body (where <strong>i</strong> is the body number).</p>
