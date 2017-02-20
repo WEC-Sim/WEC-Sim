@@ -155,7 +155,7 @@ hydro(F).ex_im = hydro(F).ex_ma.*sin(hydro(F).ex_ph);  % Imaginary part of excit
 waitbar(5/7);
 
 %% Diffraction Force file (scattering)
-if exist([fileDir 'Results\DiffractionForce.tec'],'file')==2
+if exist([filedir 'Results\DiffractionForce.tec'],'file')==2
     fileID = fopen([filedir 'Results\DiffractionForce.tec']);
     raw = textscan(fileID,'%[^\n\r]');
     raw = raw{:};
