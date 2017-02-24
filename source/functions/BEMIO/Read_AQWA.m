@@ -147,14 +147,14 @@ for ln = 1:length(raw2);
 end
 
 % Eventually update this to read in excitation force components from .LIS file here
-% hydro(F).sc_ma = zeros(size(hydro(F).ex_ma));
-% hydro(F).sc_ph = zeros(size(hydro(F).ex_ph));
-% hydro(F).sc_re = zeros(size(hydro(F).ex_re));
-% hydro(F).sc_im = zeros(size(hydro(F).ex_im));
-% hydro(F).fk_ma = zeros(size(hydro(F).ex_ma));  
-% hydro(F).fk_ph = zeros(size(hydro(F).ex_ph));
-% hydro(F).fk_re = zeros(size(hydro(F).ex_re));
-% hydro(F).fk_im = zeros(size(hydro(F).ex_im));
+hydro(F).sc_ma = NaN(size(hydro(F).ex_ma));
+hydro(F).sc_ph = NaN(size(hydro(F).ex_ph));
+hydro(F).sc_re = NaN(size(hydro(F).ex_re));
+hydro(F).sc_im = NaN(size(hydro(F).ex_im));
+hydro(F).fk_ma = NaN(size(hydro(F).ex_ma));  
+hydro(F).fk_ph = NaN(size(hydro(F).ex_ph));
+hydro(F).fk_re = NaN(size(hydro(F).ex_re));
+hydro(F).fk_im = NaN(size(hydro(F).ex_im));
 
 hydro = Normalize(hydro);  % Normalize the data according the WAMIT convention
 
