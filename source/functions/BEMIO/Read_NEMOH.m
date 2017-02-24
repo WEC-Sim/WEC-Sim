@@ -155,6 +155,10 @@ hydro(F).ex_im = hydro(F).ex_ma.*sin(hydro(F).ex_ph);  % Imaginary part of excit
 waitbar(5/7);
 
 %% Diffraction Force file (scattering)
+hydro(F).sc_ma = NaN(size(hydro(F).ex_ma));
+hydro(F).sc_ph = NaN(size(hydro(F).ex_ph));
+hydro(F).sc_re = NaN(size(hydro(F).ex_re));
+hydro(F).sc_im = NaN(size(hydro(F).ex_im));
 if exist([filedir 'Results\DiffractionForce.tec'],'file')==2
     fileID = fopen([filedir 'Results\DiffractionForce.tec']);
     raw = textscan(fileID,'%[^\n\r]');
@@ -178,6 +182,10 @@ end
 waitbar(6/7);
 
 %% Froude-Krylov force file
+hydro(F).fk_ma = NaN(size(hydro(F).ex_ma));  
+hydro(F).fk_ph = NaN(size(hydro(F).ex_ph));
+hydro(F).fk_re = NaN(size(hydro(F).ex_re));
+hydro(F).fk_im = NaN(size(hydro(F).ex_im));
 if exist([filedir 'Results\FKForce.tec'],'file')==2
     fileID = fopen([filedir 'Results\FKForce.tec']);
     raw = textscan(fileID,'%[^\n\r]');
