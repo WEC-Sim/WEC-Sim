@@ -101,6 +101,7 @@ classdef responseClass<handle
             for icol=1:ncol
                eval(['obj.moorDyn.Lines.' header{icol} ' = data(:,' num2str(icol) ');']);
             end
+            fclose(fid);
             % load Line#.out
             for iline=1:numLines
                 eval(['obj.moorDyn.Line' num2str(iline) '=struct();']);
