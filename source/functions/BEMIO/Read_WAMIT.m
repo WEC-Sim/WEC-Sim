@@ -131,10 +131,10 @@ for n = 1:N
                 ph = deg2rad(tmp{1}(3));  % Phase of exciting force
                 re = ma.*cos(ph);  % Real part of exciting force
                 im = ma.*sin(ph);  % Imaginary part of exciting force
-                hydro(F).ex_ma(tmp{1}(1),hydro(F).Nh,hydro(F).Nf) = ma;
-                hydro(F).ex_ph(tmp{1}(1),hydro(F).Nh,hydro(F).Nf) = ph;
-                hydro(F).ex_re(tmp{1}(1),hydro(F).Nh,hydro(F).Nf) = re;
-                hydro(F).ex_im(tmp{1}(1),hydro(F).Nh,hydro(F).Nf) = im;
+                hydro(F).ex_ma(abs(tmp{1}(1)),hydro(F).Nh,hydro(F).Nf) = ma;
+                hydro(F).ex_ph(abs(tmp{1}(1)),hydro(F).Nh,hydro(F).Nf) = ph;
+                hydro(F).ex_re(abs(tmp{1}(1)),hydro(F).Nh,hydro(F).Nf) = re;
+                hydro(F).ex_im(abs(tmp{1}(1)),hydro(F).Nh,hydro(F).Nf) = im;
                 i = i+1;
                 if i>N break; end
             end
