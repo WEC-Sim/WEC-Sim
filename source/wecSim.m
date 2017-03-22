@@ -71,7 +71,6 @@ for ii = 1:length(body(1,:))
     if body(ii).nhBody==0
         numHydroBodies = numHydroBodies + 1;
     else
-        body(ii).bemioFlag = 0;
         body(ii).massCalcMethod = 'user';
     end
 end
@@ -386,5 +385,7 @@ clear ans table tout;
 toc
 diary off 
 movefile('simulation.log',simu.logFile)
-save(simu.caseFile)
+if simu.saveMat==1
+    save(simu.caseFile)
+end
 
