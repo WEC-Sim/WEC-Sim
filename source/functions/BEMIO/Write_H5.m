@@ -49,6 +49,7 @@ for i = 1:hydro.Nb
         H5_Create_Write_Att(filename,['/body' num2str(i) '/properties/gbm_mass'],permute(hydro.gbm((n+1):(n+m),:,1),[3 2 1]),'Generalized body modes mass','kg');
         H5_Create_Write_Att(filename,['/body' num2str(i) '/properties/gbm_damping'],permute(hydro.gbm((n+1):(n+m),:,2),[3 2 1]),'Generalized body modes damping','N/m');
         H5_Create_Write_Att(filename,['/body' num2str(i) '/properties/gbm_stiffness'],permute(hydro.gbm((n+1):(n+m),:,3),[3 2 1]),'Generalized body modes stiffness','N-s/m');
+        H5_Create_Write_Att(filename,['/body' num2str(i) '/properties/gbm_hydrostatic_stiffness'],permute(hydro.gbm((n+1):(n+m),:,4),[3 2 1]),'Hydrostatic stiffness','N/m');
     end
     H5_Create_Write_Att(filename,['/body' num2str(i) '/hydro_coeffs/linear_restoring_stiffness'],hydro.C(:,:,i),'Hydrostatic stiffness matrix','');
     H5_Create_Write_Att(filename,['/body' num2str(i) '/hydro_coeffs/added_mass/inf_freq'],permute(hydro.Ainf((n+1):(n+m),:),[2 1]),'Infinite frequency added mass','kg');
@@ -57,16 +58,14 @@ for i = 1:hydro.Nb
     H5_Create_Write_Att(filename,['/body' num2str(i) '/hydro_coeffs/excitation/mag'],permute(hydro.ex_ma((n+1):(n+m),:,:),[3 2 1]),'Magnitude of excitation force','');
     H5_Create_Write_Att(filename,['/body' num2str(i) '/hydro_coeffs/excitation/phase'],permute(hydro.ex_ph((n+1):(n+m),:,:),[3 2 1]),'Phase angle of excitation force','rad');
     H5_Create_Write_Att(filename,['/body' num2str(i) '/hydro_coeffs/excitation/re'],permute(hydro.ex_re((n+1):(n+m),:,:),[3 2 1]),'Real component of excitation force','');
-    if isfield(hydro,'sc_ma') % Only if Froude-Krylov and scattering forces have been read in
-        H5_Create_Write_Att(filename,['/body' num2str(i) '/hydro_coeffs/excitation/scattering/im'],permute(hydro.sc_im((n+1):(n+m),:,:),[3 2 1]),'Imaginary component of scattering force','');
-        H5_Create_Write_Att(filename,['/body' num2str(i) '/hydro_coeffs/excitation/scattering/mag'],permute(hydro.sc_ma((n+1):(n+m),:,:),[3 2 1]),'Magnitude of scattering force','');
-        H5_Create_Write_Att(filename,['/body' num2str(i) '/hydro_coeffs/excitation/scattering/phase'],permute(hydro.sc_ph((n+1):(n+m),:,:),[3 2 1]),'Phase angle of scattering force','rad');
-        H5_Create_Write_Att(filename,['/body' num2str(i) '/hydro_coeffs/excitation/scattering/re'],permute(hydro.sc_re((n+1):(n+m),:,:),[3 2 1]),'Real component of scattering force','');
-        H5_Create_Write_Att(filename,['/body' num2str(i) '/hydro_coeffs/excitation/froude-krylov/im'],permute(hydro.fk_im((n+1):(n+m),:,:),[3 2 1]),'Imaginary component of Froude-Krylov force','');
-        H5_Create_Write_Att(filename,['/body' num2str(i) '/hydro_coeffs/excitation/froude-krylov/mag'],permute(hydro.fk_ma((n+1):(n+m),:,:),[3 2 1]),'Magnitude of Froude-Krylov force','');
-        H5_Create_Write_Att(filename,['/body' num2str(i) '/hydro_coeffs/excitation/froude-krylov/phase'],permute(hydro.fk_ph((n+1):(n+m),:,:),[3 2 1]),'Phase angle of Froude-Krylov force','rad');
-        H5_Create_Write_Att(filename,['/body' num2str(i) '/hydro_coeffs/excitation/froude-krylov/re'],permute(hydro.fk_re((n+1):(n+m),:,:),[3 2 1]),'Real component of Froude-Krylov force','');
-    end
+    H5_Create_Write_Att(filename,['/body' num2str(i) '/hydro_coeffs/excitation/scattering/im'],permute(hydro.sc_im((n+1):(n+m),:,:),[3 2 1]),'Imaginary component of scattering force','');
+    H5_Create_Write_Att(filename,['/body' num2str(i) '/hydro_coeffs/excitation/scattering/mag'],permute(hydro.sc_ma((n+1):(n+m),:,:),[3 2 1]),'Magnitude of scattering force','');
+    H5_Create_Write_Att(filename,['/body' num2str(i) '/hydro_coeffs/excitation/scattering/phase'],permute(hydro.sc_ph((n+1):(n+m),:,:),[3 2 1]),'Phase angle of scattering force','rad');
+    H5_Create_Write_Att(filename,['/body' num2str(i) '/hydro_coeffs/excitation/scattering/re'],permute(hydro.sc_re((n+1):(n+m),:,:),[3 2 1]),'Real component of scattering force','');
+    H5_Create_Write_Att(filename,['/body' num2str(i) '/hydro_coeffs/excitation/froude-krylov/im'],permute(hydro.fk_im((n+1):(n+m),:,:),[3 2 1]),'Imaginary component of Froude-Krylov force','');
+    H5_Create_Write_Att(filename,['/body' num2str(i) '/hydro_coeffs/excitation/froude-krylov/mag'],permute(hydro.fk_ma((n+1):(n+m),:,:),[3 2 1]),'Magnitude of Froude-Krylov force','');
+    H5_Create_Write_Att(filename,['/body' num2str(i) '/hydro_coeffs/excitation/froude-krylov/phase'],permute(hydro.fk_ph((n+1):(n+m),:,:),[3 2 1]),'Phase angle of Froude-Krylov force','rad');
+    H5_Create_Write_Att(filename,['/body' num2str(i) '/hydro_coeffs/excitation/froude-krylov/re'],permute(hydro.fk_re((n+1):(n+m),:,:),[3 2 1]),'Real component of Froude-Krylov force','');
     H5_Create_Write_Att(filename,['/body' num2str(i) '/hydro_coeffs/excitation/impulse_response_fun/f'],permute(hydro.ex_K((n+1):(n+m),:,:),[3 2 1]),'Impulse response function','');
     H5_Create_Write_Att(filename,['/body' num2str(i) '/hydro_coeffs/excitation/impulse_response_fun/t'],hydro.ex_t,'Time vector for the impulse resonse function','s');
     H5_Create_Write_Att(filename,['/body' num2str(i) '/hydro_coeffs/excitation/impulse_response_fun/w'],hydro.ex_w,'Interpolated frequencies used to compute the impulse response function','s');
@@ -106,16 +105,14 @@ for i = 1:hydro.Nb
             H5_Create_Write_Att(filename,['/body' num2str(i) '/hydro_coeffs/excitation/components/phase/' num2str(j-m*i+m) '_' num2str(k)],[hydro.T',permute(hydro.ex_ph(j,k,:),[3 2 1])]','Phase of excitation force as a function of frequency','');
             H5_Create_Write_Att(filename,['/body' num2str(i) '/hydro_coeffs/excitation/components/re/' num2str(j-m*i+m) '_' num2str(k)],[hydro.T',permute(hydro.ex_re(j,k,:),[3 2 1])]','Real component of excitation force as a function of frequency','');
             H5_Create_Write_Att(filename,['/body' num2str(i) '/hydro_coeffs/excitation/impulse_response_fun/components/f/' num2str(j-m*i+m) '_' num2str(k)],[hydro.ex_t',permute(hydro.ex_K(j,k,:),[3 2 1])]','Components of the IRF:f','');
-            if isfield(hydro,'sc_ma') % Only if Froude-Krylov and scattering forces have been read in
-                H5_Create_Write_Att(filename,['/body' num2str(i) '/hydro_coeffs/excitation/scattering/components/im/' num2str(j-m*i+m) '_' num2str(k)],[hydro.T',permute(hydro.sc_im(j,k,:),[3 2 1])]','Imaginary component of scattering force as a function of frequency','');
-                H5_Create_Write_Att(filename,['/body' num2str(i) '/hydro_coeffs/excitation/scattering/components/mag/' num2str(j-m*i+m) '_' num2str(k)],[hydro.T',permute(hydro.sc_ma(j,k,:),[3 2 1])]','Magnitude of scattering force as a function of frequency','');
-                H5_Create_Write_Att(filename,['/body' num2str(i) '/hydro_coeffs/excitation/scattering/components/phase/' num2str(j-m*i+m) '_' num2str(k)],[hydro.T',permute(hydro.sc_ph(j,k,:),[3 2 1])]','Phase of scattering force as a function of frequency','');
-                H5_Create_Write_Att(filename,['/body' num2str(i) '/hydro_coeffs/excitation/scattering/components/re/' num2str(j-m*i+m) '_' num2str(k)],[hydro.T',permute(hydro.sc_re(j,k,:),[3 2 1])]','Real component of scattering force as a function of frequency','');
-                H5_Create_Write_Att(filename,['/body' num2str(i) '/hydro_coeffs/excitation/froude-krylov/components/im/' num2str(j-m*i+m) '_' num2str(k)],[hydro.T',permute(hydro.fk_im(j,k,:),[3 2 1])]','Imaginary component of Froude-Krylov force as a function of frequency','');
-                H5_Create_Write_Att(filename,['/body' num2str(i) '/hydro_coeffs/excitation/froude-krylov/components/mag/' num2str(j-m*i+m) '_' num2str(k)],[hydro.T',permute(hydro.fk_ma(j,k,:),[3 2 1])]','Magnitude of Froude-Krylov force as a function of frequency','');
-                H5_Create_Write_Att(filename,['/body' num2str(i) '/hydro_coeffs/excitation/froude-krylov/components/phase/' num2str(j-m*i+m) '_' num2str(k)],[hydro.T',permute(hydro.fk_ph(j,k,:),[3 2 1])]','Phase of Froude-Krylov force as a function of frequency','');
-                H5_Create_Write_Att(filename,['/body' num2str(i) '/hydro_coeffs/excitation/froude-krylov/components/re/' num2str(j-m*i+m) '_' num2str(k)],[hydro.T',permute(hydro.fk_re(j,k,:),[3 2 1])]','Real component of Froude-Krylov force as a function of frequency','');
-            end            
+            H5_Create_Write_Att(filename,['/body' num2str(i) '/hydro_coeffs/excitation/scattering/components/im/' num2str(j-m*i+m) '_' num2str(k)],[hydro.T',permute(hydro.sc_im(j,k,:),[3 2 1])]','Imaginary component of scattering force as a function of frequency','');
+            H5_Create_Write_Att(filename,['/body' num2str(i) '/hydro_coeffs/excitation/scattering/components/mag/' num2str(j-m*i+m) '_' num2str(k)],[hydro.T',permute(hydro.sc_ma(j,k,:),[3 2 1])]','Magnitude of scattering force as a function of frequency','');
+            H5_Create_Write_Att(filename,['/body' num2str(i) '/hydro_coeffs/excitation/scattering/components/phase/' num2str(j-m*i+m) '_' num2str(k)],[hydro.T',permute(hydro.sc_ph(j,k,:),[3 2 1])]','Phase of scattering force as a function of frequency','');
+            H5_Create_Write_Att(filename,['/body' num2str(i) '/hydro_coeffs/excitation/scattering/components/re/' num2str(j-m*i+m) '_' num2str(k)],[hydro.T',permute(hydro.sc_re(j,k,:),[3 2 1])]','Real component of scattering force as a function of frequency','');
+            H5_Create_Write_Att(filename,['/body' num2str(i) '/hydro_coeffs/excitation/froude-krylov/components/im/' num2str(j-m*i+m) '_' num2str(k)],[hydro.T',permute(hydro.fk_im(j,k,:),[3 2 1])]','Imaginary component of Froude-Krylov force as a function of frequency','');
+            H5_Create_Write_Att(filename,['/body' num2str(i) '/hydro_coeffs/excitation/froude-krylov/components/mag/' num2str(j-m*i+m) '_' num2str(k)],[hydro.T',permute(hydro.fk_ma(j,k,:),[3 2 1])]','Magnitude of Froude-Krylov force as a function of frequency','');
+            H5_Create_Write_Att(filename,['/body' num2str(i) '/hydro_coeffs/excitation/froude-krylov/components/phase/' num2str(j-m*i+m) '_' num2str(k)],[hydro.T',permute(hydro.fk_ph(j,k,:),[3 2 1])]','Phase of Froude-Krylov force as a function of frequency','');
+            H5_Create_Write_Att(filename,['/body' num2str(i) '/hydro_coeffs/excitation/froude-krylov/components/re/' num2str(j-m*i+m) '_' num2str(k)],[hydro.T',permute(hydro.fk_re(j,k,:),[3 2 1])]','Real component of Froude-Krylov force as a function of frequency','');
         end
     end
     waitbar((1+(i+i+i))/N);

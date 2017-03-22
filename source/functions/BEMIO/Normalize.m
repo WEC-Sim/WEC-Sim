@@ -26,16 +26,14 @@ if issorted(hydro(F).w)==0  % Sort, if necessary
     hydro(F).ex_ph = hydro(F).ex_ph(:,:,I);
     hydro(F).ex_re = hydro(F).ex_re(:,:,I);
     hydro(F).ex_im = hydro(F).ex_im(:,:,I);
-    if isfield(hydro(F),'sc_ma')
-        hydro(F).sc_ma = hydro(F).sc_ma(:,:,I);
-        hydro(F).sc_ph = hydro(F).sc_ph(:,:,I);
-        hydro(F).sc_re = hydro(F).sc_re(:,:,I);
-        hydro(F).sc_im = hydro(F).sc_im(:,:,I);
-        hydro(F).fk_ma = hydro(F).fk_ma(:,:,I);
-        hydro(F).fk_ph = hydro(F).fk_ph(:,:,I);
-        hydro(F).fk_re = hydro(F).fk_re(:,:,I);
-        hydro(F).fk_im = hydro(F).fk_im(:,:,I);
-    end
+    hydro(F).sc_ma = hydro(F).sc_ma(:,:,I);
+    hydro(F).sc_ph = hydro(F).sc_ph(:,:,I);
+    hydro(F).sc_re = hydro(F).sc_re(:,:,I);
+    hydro(F).sc_im = hydro(F).sc_im(:,:,I);
+    hydro(F).fk_ma = hydro(F).fk_ma(:,:,I);
+    hydro(F).fk_ph = hydro(F).fk_ph(:,:,I);
+    hydro(F).fk_re = hydro(F).fk_re(:,:,I);
+    hydro(F).fk_im = hydro(F).fk_im(:,:,I);
 end
 
 if strcmp(hydro(F).code,'WAMIT')==0  % Normalize
@@ -48,14 +46,12 @@ if strcmp(hydro(F).code,'WAMIT')==0  % Normalize
     hydro(F).ex_ma = hydro(F).ex_ma/(hydro(F).g*hydro(F).rho);
     hydro(F).ex_re = hydro(F).ex_re/(hydro(F).g*hydro(F).rho);
     hydro(F).ex_im = hydro(F).ex_im/(hydro(F).g*hydro(F).rho);
-    if isfield(hydro(F),'sc_ma')
-        hydro(F).sc_ma = hydro(F).sc_ma/(hydro(F).g*hydro(F).rho);
-        hydro(F).sc_re = hydro(F).sc_re/(hydro(F).g*hydro(F).rho);
-        hydro(F).sc_im = hydro(F).sc_im/(hydro(F).g*hydro(F).rho);
-        hydro(F).fk_ma = hydro(F).fk_ma/(hydro(F).g*hydro(F).rho);
-        hydro(F).fk_re = hydro(F).fk_re/(hydro(F).g*hydro(F).rho);
-        hydro(F).fk_im = hydro(F).fk_im/(hydro(F).g*hydro(F).rho);
-    end
+    hydro(F).sc_ma = hydro(F).sc_ma/(hydro(F).g*hydro(F).rho);
+    hydro(F).sc_re = hydro(F).sc_re/(hydro(F).g*hydro(F).rho);
+    hydro(F).sc_im = hydro(F).sc_im/(hydro(F).g*hydro(F).rho);
+    hydro(F).fk_ma = hydro(F).fk_ma/(hydro(F).g*hydro(F).rho);
+    hydro(F).fk_re = hydro(F).fk_re/(hydro(F).g*hydro(F).rho);
+    hydro(F).fk_im = hydro(F).fk_im/(hydro(F).g*hydro(F).rho);
 end
 
 end
