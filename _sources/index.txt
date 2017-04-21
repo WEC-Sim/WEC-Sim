@@ -8,8 +8,9 @@
    getting_started.rst
    theory.rst
    code_structure.rst   
-   tutorials.rst
    features.rst
+   tutorials.rst
+   webinars.rst
    license.rst
    publications.rst
    release_notes.rst
@@ -20,8 +21,7 @@
 
 WEC-Sim (Wave Energy Converter SIMulator) is an open-source wave energy converter (WEC) simulation tool. The code is developed in MATLAB/SIMULINK using the multi-body dynamics solver Simscape Multibody. WEC-Sim has the ability to model devices that are comprised of rigid bodies, power-take-off systems, and mooring systems. Simulations are performed in the time-domain by solving the governing WEC equations of motion in 6 degrees-of-freedom. The WEC-Sim project is funded by the U.S. Department of Energy’s Water Power Technologies Office and the code development effort is a collaboration between the `National Renewable Energy Laboratory (NREL) <http://www.nrel.gov/water/>`_ and `Sandia National Laboratories (Sandia) <http://energy.sandia.gov/energy/renewable-energy/water-power/>`_.
 
-   
-
+    
 Developers and Contributors
 ------------------------------------
 * Yi-Hsiang Yu (NREL - PI)
