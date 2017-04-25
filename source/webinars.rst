@@ -1,10 +1,11 @@
 ﻿Webinars
 =========
-This section hosts the WEC-Sim advanced features webinars.
+This section hosts the four WEC-Sim advanced features webinars, dates and topics of which are listed below.
+	
 
 	==================  ====================================		
-	**Date**    	    **Webinar Topic**
-	April 18, 2017	    bemio and mcr
+	**Date**    	    **Topic**
+	April 18, 2017      bemio and mcr
 	May 24, 2017        nl-hydro, b2b, non-hydro and drag
 	June 7, 2017        pto and control
 	July 18, 2017       mooring and vizualization
@@ -14,7 +15,7 @@ This section hosts the WEC-Sim advanced features webinars.
 WEC-Sim Webinar #1 - BEMIO & MCR
 -----------------------------------------
 
-Here are the slides for WEC-Sim Webinar #1 - BEMIO & MCR, hosted on  April 18, 2017.
+The presenations and recordings from WEC-Sim Webinar #1 on BEMIO & MCR, hosted on  April 18, 2017, are available below.
 
 
 .. figure:: _static/WEC-Sim_Webinar1.png
@@ -22,12 +23,17 @@ Here are the slides for WEC-Sim Webinar #1 - BEMIO & MCR, hosted on  April 18, 2
 
 
 
-BEMIO
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-.. Note:: 
-	Add bemio webinar video
+WEC-Sim Webinar #1 - BEMIO (part 1)
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+	
+	.. raw:: html
+	
+		<iframe width="560" height="315" src="https://www.youtube.com/embed/ds7nibQx63g?ecver=1" frameborder="0" allowfullscreen></iframe>
 
-MCR
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-.. Note:: 
-	Add MCR webinar video
+WEC-Sim Webinar #1 - MCR (part 2)
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+
+	.. raw:: html
+	
+		<iframe width="560" height="315" src="https://www.youtube.com/embed/C9R_mGNI5yA?ecver=1" frameborder="0" allowfullscreen></iframe>
