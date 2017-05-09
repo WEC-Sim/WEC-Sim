@@ -1,0 +1,3 @@
+[submodule "wec-sim_applications"]
+	path = wec-sim_applications
+	url = https://github.com/WEC-Sim/WEC-Sim_Applications
