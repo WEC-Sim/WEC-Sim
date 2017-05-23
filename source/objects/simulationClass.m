@@ -47,6 +47,7 @@ classdef simulationClass<handle
         outputtxt           = 0                                            % Option to save results as ASCII files.
         reloadH5Data        = 0                                            % Option to re-load hydro data from hf5 file between runs: Off->'0', On->'1', (default = 0)     
         saveMat             = 1                                            % Option to save *.mat file for each run: Off->'0', On->'1', (default = 1)   
+        pressureDis         = 0                                            % Option to save pressure distribution: Off->'0', On->'1', (default = 0)
     end
 
     properties (SetAccess = 'public', GetAccess = 'public')%internal
