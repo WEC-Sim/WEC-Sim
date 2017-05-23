@@ -294,7 +294,7 @@ hspressure = {};
 wpressurenl = {};
 wpressurel = {};
 for ii = 1:length(body(1,:))
-    if simu.nlHydro~=0 && body(ii).nhBody==0 %&& simu.pressureDis == 1 
+    if simu.nlHydro~=0 && body(ii).nhBody==0 && simu.pressureDis == 1 
         % hydrostatic pressure
         eval(['hspressure{' num2str(ii) '} = body' num2str(ii) '_hspressure_out;']);
         % wave (Froude-Krylov) nonlinear pressure
