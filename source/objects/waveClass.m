@@ -299,7 +299,7 @@ classdef waveClass<handle
         function setWaveProps(obj,wDepth)
             % Sets global and type-specific properties
             % Used by waveSetup
-            if ~isfinite(wDepth)
+            if strcmp(wDepth,'infinite')       
                 obj.deepWaterWave = 1;
                 obj.waterDepth = 200;
                 warning('Infinite water depth given. waves.waterDepth set to 200m for vizualisation.')
