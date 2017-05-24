@@ -187,7 +187,7 @@ classdef simulationClass<handle
                     end
                     
                     % if any found use the first one (warn if multiple)
-                    obj.mBDynFile = fullfile (mbdfiles(1).folder, mbdfiles(1).name);
+                    obj.mBDynFile = fullfile (obj.caseDir, mbdfiles(1).name);
                     
                     if numel (mbdfiles) > 1
                         warning ('You did not specify a specific MBDyn mbd file and multiple were found in the case directory, the following file will be used:\n%s', ...
