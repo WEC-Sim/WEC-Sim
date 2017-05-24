@@ -182,7 +182,8 @@ classdef simulationClass<handle
                     mbdfiles = dir (fullfile (obj.caseDir, '*.mbd'));
                     
                     if isempty (mbdfiles)
-                        error ('No MBDyn input files were found in the case directory %s', obj.caseDir)
+                        warning ('No MBDyn input files were found in the case directory %s', obj.caseDir)
+                        return;
                     end
                     
                     % if any found use the first one (warn if multiple)
