@@ -1,5 +1,5 @@
 BEMIO
-------------------------------
+------
 The Boundary Element Method Input/Output (BEMIO) functions are used to preprocess the BEM hydrodynamic data prior to running WEC-Sim, this includes:
 
 * Read BEM results from WAMIT, NEMOH, or AQWA.
@@ -151,8 +151,7 @@ w             [1,Nf]                    wave frequencies
 BEMIO Tutorials
 ~~~~~~~~~~~~~~~~
 
-.. Note::
-	Coming soon!
+The BEMIO tutorials are included in the `BEMIO folder <https://github.com/WEC-Sim/WEC-Sim/tree/master/tutorials/BEMIO>`_ in the WEC-Sim tutorials. For more inforation about BEMIO, refer to the webinar `available here <http://wec-sim.github.io/WEC-Sim/webinars.html#wec-sim-webinar-1-bemio-mcr>`_, and
 
 
 Writing Your Own h5 File

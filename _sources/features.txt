@@ -21,6 +21,9 @@ Non-Linear Hydrodynamics
 WEC-Sim has the option to include the non-linear hydrostatic restoring and Froude-Krylov forces when solving the system dynamics of WECs, accounting for the weakly nonlinear effect on the body hydrodynamics. To use non-linear hydrodyanmics, the **simu.nlHydro** simulationClass variable must be defined in the WEC-Sim input file, for example: 
 
 	:code:`simu.nlHydro = 2`  
+	
+For more information about non-linear hydrodynamics, refer to the webinar `available here <http://wec-sim.github.io/WEC-Sim/webinars.html#wec-sim-webinar-2-nonlinear-hydro-non-hydro-b2b>`_, 
+
 
 Non-Linear Settings
 ~~~~~~~~~~~~~~~~~~~~~
@@ -94,6 +97,8 @@ To use non-hydrodynamic bodies, the following bodyClass variable must be defined
 	:code:`body(i).nhBody = 1` 
 
 
+For more information about non-hydro bodies, refer to the webinar `available here <http://wec-sim.github.io/WEC-Sim/webinars.html#wec-sim-webinar-2-nonlinear-hydro-non-hydro-b2b>`_, 
+
 Body-To-Body Interactions
 ---------------------------------
 WEC-Sim allows for body-to-body interactions in the radiation force calculation, thus allowing the motion of one body to impart a force on all other bodies. The radiation matrices for each body (radiation damping and added mass) required by WEC-Sim and contained in the ``*.h5`` file. **For body-to-body interactions with N total hydrodynamic bodies, the** ``*h5`` **data structure is [(6\*N), 6]**.
@@ -103,6 +108,8 @@ When body-to-body interactions are used, the augmented [(6\*N), 6] matrices are 
 To use body-to-body interactions, the following simulationClass variable must be defined in the WEC-Sim input file, for example:
 
 	:code:`simu.b2b = 1`
+	
+For more information about b2b interactions, refer to the webinar `available here <http://wec-sim.github.io/WEC-Sim/webinars.html#wec-sim-webinar-2-nonlinear-hydro-non-hydro-b2b>`_, 	
 
 .. Note::
 
@@ -179,6 +186,8 @@ WEC-Sim allows users to perform batch runs by typing ``wecSimMCR`` into the MATL
 
 	**Option 3.**  Provide a MCR case *.mat file, and specify the filename in the WEC-Sim input file, example:
 	``simu.mcrCaseFile    = '<File name>.mat'``
+
+For more information about MCR, refer to the webinar `available here <http://wec-sim.github.io/WEC-Sim/webinars.html#wec-sim-webinar-1-bemio-mcr>`_
 
 .. Note::
 
