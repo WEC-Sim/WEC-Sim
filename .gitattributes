@@ -1,2 +1,3 @@
 $ cat .gitattributes
 *.3 linguist-documentation
+*.1 linguist-documentation 
