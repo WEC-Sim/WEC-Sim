@@ -43,9 +43,9 @@ classdef responseClass<handle
                 end
                 if ~isempty(hspressure{ii})
                     obj.bodies(ii).cellPressures_time = hspressure{ii}.time;
-                    obj.bodies(ii).cellPressures_hydrostatic = hspressure{ii}.signals.values;
-                    obj.bodies(ii).cellPressures_waveLinear = wpressurenl{ii}.signals.values;
-                    obj.bodies(ii).cellPressures_waveNonLinear = wpressurel{ii}.signals.values;
+                    obj.bodies(ii).cellPressures_hydrostatic   = hspressure{ii}.signals.values;
+                    obj.bodies(ii).cellPressures_waveLinear    = wpressurel{ii}.signals.values;
+                    obj.bodies(ii).cellPressures_waveNonLinear = wpressurenl{ii}.signals.values;
                 end
             end
             % PTOs
