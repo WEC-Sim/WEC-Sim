@@ -1,3 +1,4 @@
 $ cat .gitattributes
 *.3 linguist-documentation
 *.1 linguist-documentation 
+*.h5 filter=lfs diff=lfs merge=lfs -text
