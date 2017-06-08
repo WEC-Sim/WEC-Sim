@@ -36,10 +36,6 @@ Publications
 [16] Quon E., Platt A., Yu Y., and Lawson M., 2016, “`Application of the Most Likely Extreme Response Method for Wave Energy Converters <http://www.nrel.gov/docs/fy16osti/65926.pdf>`_,” 35th International Conference on Ocean, Offshore and Arctic Engineering, OMAE, ed., OMAE, Busan, South Korea.
 
 
-.. Note::
-	WEC-Sim publications are also available here: https://github.com/WEC-Sim/WEC-Sim/tree/master/publications
-
-
 News Articles
 --------------
 * November 2016 – Oregon State University, College of Engineering, `Ripples upon ripples <http://eecs.oregonstate.edu/feature-stories/ripples-upon-ripples>`_ 
