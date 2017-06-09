@@ -55,15 +55,14 @@ The presenation and recordings of WEC-Sim Webinar #2 on Nonlinear Hydro, Non-Hyd
 
 WEC-Sim Webinar #2 - Non-Linear Hydro (part 1)
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+		
+	.. raw:: html
 	
-.. Note::
-
-	 Coming soon
+		<iframe width="560" height="315" src="https://www.youtube.com/embed/jC2HIcy2E6M?ecver=1" frameborder="0" allowfullscreen></iframe>
 
 WEC-Sim Webinar #2 - Non-Hydro & B2B (part 2)
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-
-
-.. Note::
-
-	 Coming soon		
+	
+	.. raw:: html
+	
+		<iframe width="560" height="315" src="https://www.youtube.com/embed/RIPfL_nV00U?ecver=1" frameborder="0" allowfullscreen></iframe>
