@@ -55,3 +55,13 @@ view_html.sh
 */output_previous/
 */slprj
 *build_exception*
+
+source/functions/moorDyn/DLL 32bit/MoorDyn.dll
+
+source/functions/moorDyn/LICENSE.txt
+
+source/functions/moorDyn/Lines.*
+
+source/functions/moorDyn/MoorDyn.h
+
+source/functions/moorDyn/MoorDyn_caller.m
