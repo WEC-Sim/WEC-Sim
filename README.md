@@ -6,23 +6,26 @@
   * Windows - Download and install Python27 directly or with [Anaconda](https://www.continuum.io/downloads )
   * MAC/LINUX -  Python is already installed on MAC/LINUX 
 
-1. Add Python and Python Scripts to system path
-  * Windows - modify the PATH in environmental variables to include: C:\PYTHON27;C:\PYTHON27\Scripts ([more info here](http://stackoverflow.com/questions/3701646/how-to-add-to-the-pythonpath-in-windows-7))
+2. Add Python and Python Scripts to system path
+  * Windows - modify the PATH in environmental variables to include: C:\PYTHON27;C:\PYTHON27\Scripts ([more info here](http://stackoverflow.com/questions/3701646/how-to-add-to-the-pythonpath-in-windows-7)), with anaconda this is done automatically. 
   * MAC/LINUX -  Python is already added to path
 
-2. Download/Install [Sphinx](http://www.sphinx-doc.org/en/stable/index.html), the python documentation package
+3. Download/Install [Sphinx](http://www.sphinx-doc.org/en/stable/index.html), the python documentation package
+
+ **NOTE:** You may need to configure PROXY, in cmd set ``http_proxy=server:port#``
+ 
   * Windows - Install on command line using ``pip install -U Sphinx`` ([more info here](http://sphinx-doc.org/latest/install.html#windows-install-python-and-sphinx))
 
   * MAC/LINUX - Install on command line using ``pip install -U Sphinx`` ([more info here](http://www.sphinx-doc.org/en/stable/install.html#mac-os-x-install-sphinx-using-macports))
- **NOTE:** You may need to configure PROXY, in cmd set ``http_proxy=wwwproxy.sandia.gov:80``
 
-3. Download/Install BibTeX extension for Sphinx
+
+4. Download/Install BibTeX extension for Sphinx
   * Install on command prompt using ``pip install sphinxcontrib-bibtex``
   * Install the rtd theme using ``pip install sphinx_rtd_theme``
  
  **NOTE:** You may have to manually move it to the ``sphinx/themes/`` directory.
 
-4. Download/Install the Google Analytics extenstion for Sphinx ([more info here](http://www.milos.curuvija.com/miscellaneous/sphinx/sphinx_google_analytics_integration.html#)
+5. Download/Install the Google Analytics extenstion for Sphinx ([more info here](http://www.milos.curuvija.com/miscellaneous/sphinx/sphinx_google_analytics_integration.html#)
   * Download sphinx-contrib [here](https://bitbucket.org/birkenfeld/sphinx-contrib/)
   * cd to directory on commmand line``cd sphinx-contrib/googleanalytics`` 
   * Install on command line using ``python setup.py install`` 
