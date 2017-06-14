@@ -56,7 +56,7 @@ Option 3. Static Code Download (Not Recommended)
 	The easiest way to obtain a copy of WEC-Sim is to download the latest `WEC-Sim Release <https://github.com/WEC-Sim/WEC-Sim/releases>`_.
 
 	.. Note::
-		This is a static download of the WEC-Sim code. If you chose this method, you will have to re-download the code in order to receive code updates.
+		This is a static download of the WEC-Sim code. If you choose this method, you will have to re-download the code in order to receive code updates.
 
 
 Install WEC-Sim
@@ -71,7 +71,7 @@ Step 1. Add WEC-Sim Source Code to MATLAB Path
 	.. literalinclude:: wecSimStartup.m
 	   :language: matlab
 
-	Copy the code in the ``wecSimStartup.m`` shown above and paste it into the ``startup.m`` file located in the `MATLAB Startup Folder <http://www.mathworks.com/help/matlab/matlab_env/matlab-startup-folder.html>`_. Set the ``wecSimPath`` variable to the ``$wecSim`` folder, and open the ``startup.m`` file by typing ``open startup.m`` into the MATLAB Command Window: 
+	Copy the code in the ``wecSimStartup.m`` shown above and paste it into the ``startup.m`` file located in the `MATLAB Startup Folder <http://www.mathworks.com/help/matlab/matlab_env/matlab-startup-folder.html>`_. Set the ``wecSimPath`` variable to the ``$wecSim`` folder and open the ``startup.m`` file by typing ``open startup.m`` into the MATLAB Command Window: 
 
 	.. code-block:: matlabsession
 
@@ -92,7 +92,7 @@ Step 2. Add WEC-Sim Library to Simulink
 
 		>> simulink
 
-	Once the Simulink Library Browser opens, `Refresh the Simulink Library <http://www.mathworks.com/help/simulink/gui/use-the-library-browser.html>`_. The WEC-Sim Library (Body Elements, Constraints, Frames Moorings, and PTOs) should now be visible, as shown in the figure below. The WEC-Sim Library should now be accessible every time Simulink is opened. For more information on using and modifying library blocks refer to the `Simulink Documentation <http://www.mathworks.com/help/simulink/>`_.
+	Once the Simulink Library Browser opens, `refresh the Simulink Library <http://www.mathworks.com/help/simulink/gui/use-the-library-browser.html>`_. The WEC-Sim Library (Body Elements, Constraints, Frames Moorings, and PTOs) should now be visible, as shown in the figure below. The WEC-Sim Library should now be accessible every time Simulink is opened. For more information on using and modifying library blocks refer to the `Simulink Documentation <http://www.mathworks.com/help/simulink/>`_.
 
 	.. figure:: _static/WEC-Sim_Library.jpg
 	   :align: center

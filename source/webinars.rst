@@ -73,9 +73,8 @@ WEC-Sim Webinar #3 - PTO and Control
 The presenation and recordings of WEC-Sim Webinar #3 on PTO and Control hosted on June 13, 2017 are available below. Download the presentation by clicking the image below.
 
 
-.. Note::
-
-	slides coming soon
+.. figure:: _static/WEC-Sim_Webinar3.png
+   :target: http://wec-sim.github.io/WEC-Sim/_downloads/WEC-Sim_Webinar3.pdf
 
 
 
@@ -89,6 +88,6 @@ WEC-Sim Webinar #3 - PTO (part 1)
 WEC-Sim Webinar #3 - Desalination Application (part 2)
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 	
-.. Note::
-
-	recording coming soon		
+	.. raw:: html
+		
+		<iframe width="560" height="315" src="https://www.youtube.com/embed/Q7qb0eHg9-s" frameborder="0" allowfullscreen></iframe>
