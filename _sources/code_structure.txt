@@ -480,7 +480,7 @@ In addition to the responseClass ``output`` variable, the outputs can be written
 WEC-Sim Functions & External Codes
 ----------------------------------
 While the bulk of the WEC-Sim code consists of the WEC-Sim classes and the WEC-Sim library, the source code also includes supporting functions and external codes.
-These include third party Matlab functions to read `hdf5` and `stl` files, WEC-Sim Matlab functions to write hdf5 files and run WEC-Sim in batch mode, MoorDyn compiled executables, python macros for ParaView vizualisation, and the PTO-Sim class and library.
+These include third party Matlab functions to read `hdf5` and `stl` files, WEC-Sim Matlab functions to write `hdf5` files and run WEC-Sim in batch mode, MoorDyn compiled executables, python macros for ParaView vizualisation, and the PTO-Sim class and library.
 Additionally, BEMIO can be used to create the hydrodynamic `h5` file required by WEC-Sim.
 WEC-Sim only includes the compiled executables of MoorDyn.
 Since MoorDyn is also an open source code anyone can obtain the code, modify and recompile it, and replace the executable within WEC-Sim's source directory.

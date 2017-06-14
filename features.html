@@ -24,8 +24,6 @@
 
   
   
-  
-  
 
   
 
@@ -43,9 +41,6 @@
   
 
   
-        <link rel="index" title="Index"
-              href="genindex.html"/>
-        <link rel="search" title="Search" href="search.html"/>
     <link rel="top" title="WEC-Sim  documentation" href="index.html"/>
         <link rel="next" title="Tutorials" href="tutorials.html"/>
         <link rel="prev" title="Code Structure" href="code_structure.html"/> 
@@ -57,7 +52,6 @@
 
 <body class="wy-body-for-nav" role="document">
 
-   
   <div class="wy-grid-for-nav">
 
     
@@ -94,14 +88,11 @@
           
             
             
-              
-            
-            
-              <ul class="current">
+                <ul class="current">
 <li class="toctree-l1"><a class="reference internal" href="getting_started.html">Getting Started</a></li>
 <li class="toctree-l1"><a class="reference internal" href="theory.html">Theory</a></li>
 <li class="toctree-l1"><a class="reference internal" href="code_structure.html">Code Structure</a></li>
-<li class="toctree-l1 current"><a class="current reference internal" href="#">Advanced Features</a><ul>
+<li class="toctree-l1 current"><a class="current reference internal" href="">Advanced Features</a><ul>
 <li class="toctree-l2"><a class="reference internal" href="#bemio">BEMIO</a><ul>
 <li class="toctree-l3"><a class="reference internal" href="#bemio-functions">BEMIO Functions</a></li>
 <li class="toctree-l3"><a class="reference internal" href="#bemio-hydro-data-structure">BEMIO <em>hydro</em> Data Structure</a></li>
@@ -174,10 +165,8 @@
 
       
       <nav class="wy-nav-top" role="navigation" aria-label="top navigation">
-        
-          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
-          <a href="index.html">WEC-Sim</a>
-        
+        <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+        <a href="index.html">WEC-Sim</a>
       </nav>
 
 
@@ -190,36 +179,19 @@
 
 
 
-
-
-
-
-
-
-
-
-
-
 <div role="navigation" aria-label="breadcrumbs navigation">
-
   <ul class="wy-breadcrumbs">
-    
-      <li><a href="index.html">Docs</a> &raquo;</li>
-        
-      <li>Advanced Features</li>
-    
-    
+    <li><a href="index.html">Docs</a> &raquo;</li>
+      
+    <li>Advanced Features</li>
       <li class="wy-breadcrumbs-aside">
         
-            
-            <a href="_sources/features.rst.txt" rel="nofollow"> View page source</a>
+          
+            <a href="_sources/features.txt" rel="nofollow"> View page source</a>
           
         
       </li>
-    
   </ul>
-
-  
   <hr/>
 </div>
           <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
@@ -764,7 +736,7 @@ A roll-pitch constraint can also be obtained with two rotational constraints in 
 <p><strong>Option 2.</strong>  Specify the excel filename that contains a set of wave statistic data in the WEC-Sim input file. This option is generally useful for power matrix generation, example:
 <code class="docutils literal"><span class="pre">statisticsDataLoad</span> <span class="pre">=</span> <span class="pre">&quot;&lt;Excel</span> <span class="pre">file</span> <span class="pre">name&gt;.xls&quot;</span></code></p>
 <p><strong>Option 3.</strong>  Provide a MCR case <a href="#id4"><span class="problematic" id="id5">*</span></a>.mat file, and specify the filename in the WEC-Sim input file, example:
-<code class="docutils literal"><span class="pre">simu.mcrCaseFile</span>&#160;&#160;&#160; <span class="pre">=</span> <span class="pre">'&lt;File</span> <span class="pre">name&gt;.mat'</span></code></p>
+<code class="docutils literal"><span class="pre">simu.mcrCaseFile</span>&nbsp;&nbsp;&nbsp; <span class="pre">=</span> <span class="pre">'&lt;File</span> <span class="pre">name&gt;.mat'</span></code></p>
 </div></blockquote>
 <p>For more information about MCR, refer to the webinar <a class="reference external" href="http://wec-sim.github.io/WEC-Sim/webinars.html#wec-sim-webinar-1-bemio-mcr">available here</a></p>
 <div class="admonition note">
@@ -1240,18 +1212,15 @@ The bottom right shows the float colored by hydrostatic pressure.</p>
 
 
            </div>
-           <div class="articleComments">
-            
-           </div>
           </div>
           <footer>
   
     <div class="rst-footer-buttons" role="navigation" aria-label="footer navigation">
       
-        <a href="tutorials.html" class="btn btn-neutral float-right" title="Tutorials" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right"></span></a>
+        <a href="tutorials.html" class="btn btn-neutral float-right" title="Tutorials" accesskey="n">Next <span class="fa fa-arrow-circle-right"></span></a>
       
       
-        <a href="code_structure.html" class="btn btn-neutral" title="Code Structure" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left"></span> Previous</a>
+        <a href="code_structure.html" class="btn btn-neutral" title="Code Structure" accesskey="p"><span class="fa fa-arrow-circle-left"></span> Previous</a>
       
     </div>
   
@@ -1285,14 +1254,13 @@ The bottom right shows the float colored by hydrostatic pressure.</p>
             VERSION:'',
             COLLAPSE_INDEX:false,
             FILE_SUFFIX:'.html',
-            HAS_SOURCE:  true,
-            SOURCELINK_SUFFIX: '.txt'
+            HAS_SOURCE:  true
         };
     </script>
       <script type="text/javascript" src="_static/jquery.js"></script>
       <script type="text/javascript" src="_static/underscore.js"></script>
       <script type="text/javascript" src="_static/doctools.js"></script>
-      <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.0/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+      <script type="text/javascript" src="https://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
 
   
 
