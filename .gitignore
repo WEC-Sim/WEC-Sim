@@ -26,6 +26,7 @@ view_html.sh
 *.ilg
 *.ind
 *.ist
+*.js
 *.lib
 *.lof
 *.log
@@ -43,6 +44,7 @@ view_html.sh
 *.mtc3
 *.o
 *.obj
+*.rst.txt
 *.synctex
 *.synctex.gz
 *.synctex.gz(busy)
