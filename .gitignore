@@ -1,8 +1,6 @@
-view_html.sh
-*.sublime-workspace
-*.sublime-project
-*vis-temp*
+$ cat .gitignore
 
+# File Types
 *~
 *.acn
 *.acr
@@ -42,26 +40,31 @@ view_html.sh
 *.mtc3
 *.o
 *.obj
+*.sublime-workspace
+*.sublime-project
 *.synctex
 *.synctex.gz
 *.synctex.gz(busy)
 *.toc
+*.tws
 *.zip
 
-.DS_Store
-
 # MATLAB
-*/output/
-*/output_previous/
-*/slprj
+**/output/
+**/output_previous/
+**/slprj/
 *build_exception*
 
-source/functions/moorDyn/DLL 32bit/MoorDyn.dll
+# Tutorials
+!/tutorials/verificationCases/RegularWaves/*.mat
+!/tutorials/verificationCases/IrregularWaves/*.mat
+/tutorials/BEMIO/**/*.h5
 
-source/functions/moorDyn/LICENSE.txt
+# moorDyn
+source/functions/moorDyn/*
+!source/functions/moorDyn/README.md
 
-source/functions/moorDyn/Lines.*
-
-source/functions/moorDyn/MoorDyn.h
-
-source/functions/moorDyn/MoorDyn_caller.m
+# Other
+.DS_Store
+view_html.sh
+*vis-temp*
