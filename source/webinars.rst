@@ -20,7 +20,7 @@ WEC-Sim Webinar #1 - BEMIO & MCR
 The presenation and recordings of WEC-Sim Webinar #1 on BEMIO & MCR hosted on April 18, 2017 are available below. Download the presentation by clicking the image below.
 
 
-.. figure:: _static/WEC-Sim_Webinar1.png
+.. figure:: _static/WEC-Sim_Webinar1.png 
    :target: http://wec-sim.github.io/WEC-Sim/_downloads/WEC-Sim_Webinar1.pdf
 
 
@@ -48,7 +48,7 @@ WEC-Sim Webinar #2 - Nonlinear Hydro, Non-Hydro & B2B
 The presenation and recordings of WEC-Sim Webinar #2 on Nonlinear Hydro, Non-Hydro & B2B hosted on May 24, 2017 are available below. Download the presentation by clicking the image below.
 
 
-.. figure:: _static/WEC-Sim_Webinar2.png
+.. figure:: _static/WEC-Sim_Webinar2.png   
    :target: http://wec-sim.github.io/WEC-Sim/_downloads/WEC-Sim_Webinar2.pdf
 
 
@@ -73,7 +73,7 @@ WEC-Sim Webinar #3 - PTO and Control
 The presenation and recordings of WEC-Sim Webinar #3 on PTO and Control hosted on June 13, 2017 are available below. Download the presentation by clicking the image below.
 
 
-.. figure:: _static/WEC-Sim_Webinar3.png
+.. figure:: _static/WEC-Sim_Webinar3.png   
    :target: http://wec-sim.github.io/WEC-Sim/_downloads/WEC-Sim_Webinar3.pdf
 
 

@@ -181,7 +181,6 @@
 <li>Mooring damping matrix - <code class="code docutils literal"><span class="pre">mooring(i).matrix.c</span> <span class="pre">=</span> <span class="pre">[6x6]</span></code></li>
 <li>Mooring pretension - <code class="code docutils literal"><span class="pre">mooring(i).matrix.preTension</span> <span class="pre">=</span> <span class="pre">[1x6]</span></code></li>
 </ul>
-<p>Note: i indicates the mooring number, and more than one mooring can be specified in the WEC-Sim model when the mooring matrix block is used.</p>
 </div></blockquote>
 </div>
 <div class="section" id="using-moordyn">
@@ -189,14 +188,13 @@
 <blockquote>
 <div><p>When the MoorDyn block is used, the user needs to initiate the mooring class by setting <code class="code docutils literal"><span class="pre">mooring</span> <span class="pre">=</span> <span class="pre">mooringClass('mooring</span> <span class="pre">name')</span></code> in the WEC-Sim input file (wecSimInputFile.m), followed by number of mooring lines is defined in MoorDyn (<code class="docutils literal"><span class="pre">mooring(1).moorDynLines</span> <span class="pre">=</span> <span class="pre">&lt;Number</span> <span class="pre">of</span> <span class="pre">mooring</span> <span class="pre">lines&gt;</span></code>)</p>
 <p>A mooring folder that includes a moorDyn input file (<code class="docutils literal"><span class="pre">lines.txt</span></code>) is required in the simulation folder.
-A WEC-Sim/MoorDyn coupling example is provided in the <a class="reference external" href="https://github.com/WEC-Sim/WEC-Sim_Applications/tree/master/MoorDyn_RM3">WEC-Sim Applications</a> repository, and will be described in the following subsection.</p>
-<p>Note: WEC-Sim/MoorDyn coupling only allows one mooring configuration in the simulation.</p>
+A WEC-Sim/MoorDyn coupling example is provided in the <a class="reference external" href="https://github.com/WEC-Sim/WEC-Sim_Applications/tree/master/RM3_MoorDyn">WEC-Sim Applications</a> repository and will be described in the following subsection.</p>
 </div></blockquote>
 </div>
 <div class="section" id="tutorial-rm3-with-moordyn">
 <h2>Tutorial: RM3 with MoorDyn<a class="headerlink" href="#tutorial-rm3-with-moordyn" title="Permalink to this headline">¶</a></h2>
 <blockquote>
-<div><p>This section describes how to simulate a mooring connected WEC system in WEC-Sim using MoorDyn. The RM3 two-body floating point absorber is connected to a three-point catenary mooring system with an angle of 120 between the lines in this example case.</p>
+<div><p>This section describes how to simulate a mooring connected WEC system in WEC-Sim using MoorDyn. The RM3 two-body floating point absorber is connected to a three-point catenary mooring system with an angle of 120 between the lines in this example case. The RM3 with MoorDyn folder is located under <a class="reference external" href="https://github.com/WEC-Sim/WEC-Sim_Applications">WEC-Sim_Applications</a>.</p>
 <ul class="simple">
 <li>WEC Model: To couple WEC-Sim with MoorDyn, the MoorDyn Block is added in parallel to the constraint block</li>
 </ul>
@@ -251,7 +249,7 @@ A WEC-Sim/MoorDyn coupling example is provided in the <a class="reference extern
 </pre></div>
 </div>
 <ul class="simple">
-<li>MoorDyn Input File: A mooring folder that includes a moorDyn input file (<code class="docutils literal"><span class="pre">lines.txt</span></code>) is created. The moorDyn input file (<code class="docutils literal"><span class="pre">lines.txt</span></code>) is shown in the figure below. More details on how to setup the MooDyn input file were described in the MoorDyn User Guide <a class="reference internal" href="theory.html#hall2015moordynguide" id="id1">[1]</a>.</li>
+<li>MoorDyn Input File: A mooring folder that includes a moorDyn input file (<code class="docutils literal"><span class="pre">lines.txt</span></code>) is created. The moorDyn input file (<code class="docutils literal"><span class="pre">lines.txt</span></code>) is shown in the figure below. More details on how to setup the MooDyn input file were described in the MoorDyn User Guide <a class="reference internal" href="theory.html#hall2015moordynguide" id="id2">[1]</a>.</li>
 </ul>
 <div class="figure align-center" id="moordyninput">
 <a class="reference internal image-reference" href="_images/moorDynInput.png"><img alt="_images/moorDynInput.png" src="_images/moorDynInput.png" style="width: 400pt;" /></a>
@@ -259,6 +257,10 @@ A WEC-Sim/MoorDyn coupling example is provided in the <a class="reference extern
 <ul class="simple">
 <li>Simulation and Postprocessing: Simulation and postprocessing are the same process as described in Tutorial Section.</li>
 </ul>
+<div class="admonition note">
+<p class="first admonition-title">Note</p>
+<p class="last">You may need to install the MinGW-w64 compiler to run this simulation.</p>
+</div>
 </div></blockquote>
 </div>
 </div>
