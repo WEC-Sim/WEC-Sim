@@ -24,8 +24,6 @@
 
   
   
-  
-  
 
   
 
@@ -43,9 +41,6 @@
   
 
   
-        <link rel="index" title="Index"
-              href="genindex.html"/>
-        <link rel="search" title="Search" href="search.html"/>
     <link rel="top" title="WEC-Sim  documentation" href="index.html"/>
         <link rel="next" title="Advanced Features" href="features.html"/>
         <link rel="prev" title="Theory" href="theory.html"/> 
@@ -57,7 +52,6 @@
 
 <body class="wy-body-for-nav" role="document">
 
-   
   <div class="wy-grid-for-nav">
 
     
@@ -94,13 +88,10 @@
           
             
             
-              
-            
-            
-              <ul class="current">
+                <ul class="current">
 <li class="toctree-l1"><a class="reference internal" href="getting_started.html">Getting Started</a></li>
 <li class="toctree-l1"><a class="reference internal" href="theory.html">Theory</a></li>
-<li class="toctree-l1 current"><a class="current reference internal" href="#">Code Structure</a><ul>
+<li class="toctree-l1 current"><a class="current reference internal" href="">Code Structure</a><ul>
 <li class="toctree-l2"><a class="reference internal" href="#code-conventions">Code Conventions</a></li>
 <li class="toctree-l2"><a class="reference internal" href="#input-file-structure">Input File Structure</a><ul>
 <li class="toctree-l3"><a class="reference internal" href="#simulation-class">Simulation Class</a></li>
@@ -153,10 +144,8 @@
 
       
       <nav class="wy-nav-top" role="navigation" aria-label="top navigation">
-        
-          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
-          <a href="index.html">WEC-Sim</a>
-        
+        <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+        <a href="index.html">WEC-Sim</a>
       </nav>
 
 
@@ -169,36 +158,19 @@
 
 
 
-
-
-
-
-
-
-
-
-
-
 <div role="navigation" aria-label="breadcrumbs navigation">
-
   <ul class="wy-breadcrumbs">
-    
-      <li><a href="index.html">Docs</a> &raquo;</li>
-        
-      <li>Code Structure</li>
-    
-    
+    <li><a href="index.html">Docs</a> &raquo;</li>
+      
+    <li>Code Structure</li>
       <li class="wy-breadcrumbs-aside">
         
-            
-            <a href="_sources/code_structure.rst.txt" rel="nofollow"> View page source</a>
+          
+            <a href="_sources/code_structure.txt" rel="nofollow"> View page source</a>
           
         
       </li>
-    
   </ul>
-
-  
   <hr/>
 </div>
           <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
@@ -286,7 +258,7 @@ The later provides more information since it also defines the different fields i
 <p>The simulation class (<code class="docutils literal"><span class="pre">simulationClass</span></code>) contains the simulation parameters and solver settings needed to execute the WEC-Sim code.
 Users can set relevant simulation properties in the <code class="docutils literal"><span class="pre">wecSimInputFile.m</span></code>.
 Users must specify the name of the Simulink/SimMechanics WEC model, which can be set by entering the following command in the input file:</p>
-<div class="highlight-default"><div class="highlight"><pre><span></span><span class="n">simu</span><span class="o">.</span><span class="n">simMechanicsFile</span><span class="o">=&lt;</span><span class="n">WEC</span> <span class="n">Model</span> <span class="n">Name</span><span class="o">&gt;.</span><span class="n">slx</span>
+<div class="highlight-python"><div class="highlight"><pre><span></span>simu.simMechanicsFile=&lt;WEC Model Name&gt;.slx
 </pre></div>
 </div>
 <p>The WEC-Sim code has default values defined for all the other simulation parameters. Available simulation parameters and the default values can be found by typing <code class="docutils literal"><span class="pre">doc</span> <span class="pre">simulationClass</span></code> in the MATLAB command window or opening the <cite>.m</cite> file in <a href="#id3"><span class="problematic" id="id4">`</span></a>/source/objects/.</p>
@@ -295,7 +267,7 @@ Users must specify the name of the Simulink/SimMechanics WEC model, which can be
 </div>
 <p>These default values can be overwritten by the user, as demonstrated in the Applications Section.
 For example, the end time of a simulation can be set by entering the following command:</p>
-<div class="highlight-default"><div class="highlight"><pre><span></span><span class="n">simu</span><span class="o">.</span><span class="n">endTime</span> <span class="o">=</span> <span class="o">&lt;</span><span class="n">user</span> <span class="n">specified</span> <span class="n">end</span> <span class="n">time</span><span class="o">&gt;</span>
+<div class="highlight-python"><div class="highlight"><pre><span></span>simu.endTime = &lt;user specified end time&gt;
 </pre></div>
 </div>
 </div>
@@ -352,7 +324,7 @@ Typing <code class="docutils literal"><span class="pre">doc</span> <span class="
 This &#8220;wave&#8221; case is typically used to run decay tests for comparisons.
 Users must still provide hydro coefficients from a BEM solve before executing WEC-Sim.
 In addition, users must specify the period from which the hydrodynamic coefficients are selected by defining the following in the input file:</p>
-<div class="highlight-default"><div class="highlight"><pre><span></span><span class="n">waves</span><span class="o">.</span><span class="n">noWaveHydrodynamicCoeffT</span> <span class="o">=</span> <span class="o">&lt;</span><span class="n">user</span> <span class="n">specified</span> <span class="n">wave</span> <span class="n">period</span><span class="o">&gt;</span>
+<div class="highlight-python"><div class="highlight"><pre><span></span>waves.noWaveHydrodynamicCoeffT = &lt;user specified wave period&gt;
 </pre></div>
 </div>
 <p>The <strong>noWaveCIC</strong> case (<code class="docutils literal"><span class="pre">waves.type=noWaveCIC</span></code>) is the same as the noWave case described above, with the addition of the convolution integral calculation.
@@ -386,7 +358,7 @@ The available spectral formulations are listed below:</p>
 </table>
 <p>The irregular waves with user-defined spectrum case (<code class="docutils literal"><span class="pre">waves.type=irregularImport</span></code>) is the wave case for irregular wave simulations using user-defined wave spectrum (ex: from buoy data).
 Users need to specify the wave spectrum file name in WEC-Sim input file as follows:</p>
-<div class="highlight-default"><div class="highlight"><pre><span></span><span class="n">waves</span><span class="o">.</span><span class="n">spectrumDataFile</span><span class="o">=&lt;</span><span class="n">wave</span> <span class="n">spectrum</span> <span class="n">file</span><span class="o">&gt;.</span><span class="n">txt</span>
+<div class="highlight-python"><div class="highlight"><pre><span></span>waves.spectrumDataFile=&lt;wave spectrum file&gt;.txt
 </pre></div>
 </div>
 <p>The user-defined wave spectrum must be defined with the wave frequency (Hz) in the first row, and the spectral energy density (m^2/Hz) in the second row.
@@ -394,7 +366,7 @@ An example of this is given in the <code class="docutils literal"><span class="p
 This format can be copied directly from NDBC buoy data.
 For more information on NDBC buoy data measurement descriptions, refer to the [<a class="reference external" href="http://www.ndbc.noaa.gov/measdes.shtml">http://www.ndbc.noaa.gov/measdes.shtml</a> NDBC website].</p>
 <p>Note: By default, the phase for irregular waves (irregular and irregularImport) is generated randomly. Users have the ability to seed the random phase by specifying the following in the WEC-Sim input file:</p>
-<div class="highlight-default"><div class="highlight"><pre><span></span><span class="n">waves</span><span class="o">.</span><span class="n">randPreDefined</span><span class="o">=</span><span class="mi">1</span>
+<div class="highlight-python"><div class="highlight"><pre><span></span><span class="n">waves</span><span class="o">.</span><span class="n">randPreDefined</span><span class="o">=</span><span class="mi">1</span>
 </pre></div>
 </div>
 <p>This gives the user an option to generate the same &#8220;random&#8221; wave time-series as needed (the default for random phase is <code class="docutils literal"><span class="pre">waves.randPreDefined=0</span></code>).</p>
@@ -404,7 +376,7 @@ For more information on NDBC buoy data measurement descriptions, refer to the [<
 <p>The body class (<code class="docutils literal"><span class="pre">bodyClass</span></code>) contains the mass and hydrodynamic properties of each body that comprises the WEC being simulated.
 Each body must have an iteration of the body class initiated in the input file.
 Each body object must be initiated by entering the following command in the WEC-Sim input file:</p>
-<div class="highlight-default"><div class="highlight"><pre><span></span><span class="n">body</span><span class="p">(</span><span class="o">&lt;</span><span class="c1">#&gt;)=bodyClass(&#39;h5filename&#39;)</span>
+<div class="highlight-python"><div class="highlight"><pre><span></span>body(&lt;#&gt;)=bodyClass(&#39;h5filename&#39;)
 </pre></div>
 </div>
 <p>The available body parameters, and default values defined in the body class can be found by typing <code class="docutils literal"><span class="pre">doc</span> <span class="pre">bodyClass</span></code> in the MATLAB command window or opening the <cite>.m</cite> file in <a href="#id7"><span class="problematic" id="id8">`</span></a>/source/objects/.</p>
@@ -412,8 +384,8 @@ Each body object must be initiated by entering the following command in the WEC-
 <img alt="_images/bodyClass.png" src="_images/bodyClass.png" />
 </div>
 <p>For example, the viscous drag can be specified by entering the viscous drag coefficient and the characteristic area in vector format the WEC-Sim input file as follows:</p>
-<div class="highlight-default"><div class="highlight"><pre><span></span><span class="n">body</span><span class="p">(</span><span class="o">&lt;</span><span class="c1">#&gt;).viscDrag.cd= [0 0 1.3 0 0 0]</span>
-<span class="n">body</span><span class="p">(</span><span class="o">&lt;</span><span class="c1">#&gt;).viscDrag.characteristicArea= [0 0 100 0 0 0]</span>
+<div class="highlight-python"><div class="highlight"><pre><span></span>body(&lt;#&gt;).viscDrag.cd= [0 0 1.3 0 0 0]
+body(&lt;#&gt;).viscDrag.characteristicArea= [0 0 100 0 0 0]
 </pre></div>
 </div>
 </div>
@@ -421,7 +393,7 @@ Each body object must be initiated by entering the following command in the WEC-
 <h3>constraintClass<a class="headerlink" href="#constraintclass" title="Permalink to this headline">¶</a></h3>
 <p>The constraint class (<code class="docutils literal"><span class="pre">constraintClass</span></code>) is used to define the motion of bodies relative to the reference fram and each other.
 The constraint variable should be initiated by entering the following command in the WEC-Sim input file:</p>
-<div class="highlight-default"><div class="highlight"><pre><span></span><span class="n">constraint</span><span class="p">(</span><span class="o">&lt;</span><span class="c1">#&gt;)=constraintClass(&#39;&lt;constraint name&gt;&#39;)</span>
+<div class="highlight-python"><div class="highlight"><pre><span></span>constraint(&lt;#&gt;)=constraintClass(&#39;&lt;constraint name&gt;&#39;)
 </pre></div>
 </div>
 <p>For rotational constraint (ex: pitch), the user also needs to specify the location of the rotational joint with respect to the global reference frame in the <code class="docutils literal"><span class="pre">constraint(&lt;#&gt;).loc</span></code> variable.</p>
@@ -435,13 +407,13 @@ The constraint variable should be initiated by entering the following command in
 <p>The pto class (<code class="docutils literal"><span class="pre">ptoClass</span></code>) extracts power from relative body motion with respect to a fixed reference frame or another body.
 The pto objects can also constrain motion to certain degrees of freedom.
 The pto variable should be initiated by entering the following command in the WEC-Sim input file:</p>
-<div class="highlight-default"><div class="highlight"><pre><span></span><span class="n">pto</span><span class="p">(</span><span class="o">&lt;</span><span class="c1">#&gt;) = ptoClass(&#39;&lt;pto name&gt;&#39;)</span>
+<div class="highlight-python"><div class="highlight"><pre><span></span>pto(&lt;#&gt;) = ptoClass(&#39;&lt;pto name&gt;&#39;)
 </pre></div>
 </div>
 <p>For rotational ptos, users also needs to specify the pto location.
 In the PTO class, users can also specify linear damping (<code class="docutils literal"><span class="pre">pto(&lt;#&gt;).c</span></code>) and stiffness (<code class="docutils literal"><span class="pre">pto(&lt;#&gt;).k</span></code>) values to represent the PTO system (both have a default value of 0).
 Users can overwrite the default values in the input file, for example to specify a damping value by entering the following in the WEC-Sim input file:</p>
-<div class="highlight-default"><div class="highlight"><pre><span></span><span class="n">pto</span><span class="p">(</span><span class="o">&lt;</span><span class="c1">#&gt;).c = &lt;pto damping value&gt;</span>
+<div class="highlight-python"><div class="highlight"><pre><span></span>pto(&lt;#&gt;).c = &lt;pto damping value&gt;
 </pre></div>
 </div>
 <p>The available pto parameters, and default values defined in the pto class can be found by typing `` doc ptoClass`` in the MATLAB command window  or opening the <cite>.m</cite> file in <a href="#id11"><span class="problematic" id="id12">`</span></a>/source/objects/.</p>
@@ -453,7 +425,7 @@ Users can overwrite the default values in the input file, for example to specify
 <h3>mooringClass<a class="headerlink" href="#mooringclass" title="Permalink to this headline">¶</a></h3>
 <p>The mooring class (<code class="docutils literal"><span class="pre">mooringClass</span></code>) allows for different fidelity simulation of mooring systems.
 The mooring variable should be initiated by entering the following command in the WEC-Sim input file:</p>
-<div class="highlight-default"><div class="highlight"><pre><span></span><span class="n">mooring</span><span class="p">(</span><span class="o">&lt;</span><span class="c1">#&gt;) = mooringClass(&#39;&lt;mooring name&gt;&#39;)</span>
+<div class="highlight-python"><div class="highlight"><pre><span></span>mooring(&lt;#&gt;) = mooringClass(&#39;&lt;mooring name&gt;&#39;)
 </pre></div>
 </div>
 <p>The available mooring parameters, and default values defined in the mooring class can be found by typing `` doc mooringClass`` in the MATLAB command window  or opening the <cite>.m</cite> file in <a href="#id13"><span class="problematic" id="id14">`</span></a>/source/objects/.</p>
@@ -762,7 +734,7 @@ In addition to these time-series, the output for each object contains the object
 <tr class="row-even"><td>ptosim</td>
 <td>See PTO-Sim section for
 details</td>
-<td>&#160;</td>
+<td>&nbsp;</td>
 </tr>
 </tbody>
 </table>
@@ -779,18 +751,15 @@ Since MoorDyn is also an open source code anyone can obtain the code, modify and
 
 
            </div>
-           <div class="articleComments">
-            
-           </div>
           </div>
           <footer>
   
     <div class="rst-footer-buttons" role="navigation" aria-label="footer navigation">
       
-        <a href="features.html" class="btn btn-neutral float-right" title="Advanced Features" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right"></span></a>
+        <a href="features.html" class="btn btn-neutral float-right" title="Advanced Features" accesskey="n">Next <span class="fa fa-arrow-circle-right"></span></a>
       
       
-        <a href="theory.html" class="btn btn-neutral" title="Theory" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left"></span> Previous</a>
+        <a href="theory.html" class="btn btn-neutral" title="Theory" accesskey="p"><span class="fa fa-arrow-circle-left"></span> Previous</a>
       
     </div>
   
@@ -824,14 +793,13 @@ Since MoorDyn is also an open source code anyone can obtain the code, modify and
             VERSION:'',
             COLLAPSE_INDEX:false,
             FILE_SUFFIX:'.html',
-            HAS_SOURCE:  true,
-            SOURCELINK_SUFFIX: '.txt'
+            HAS_SOURCE:  true
         };
     </script>
       <script type="text/javascript" src="_static/jquery.js"></script>
       <script type="text/javascript" src="_static/underscore.js"></script>
       <script type="text/javascript" src="_static/doctools.js"></script>
-      <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.0/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+      <script type="text/javascript" src="https://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
 
   
 

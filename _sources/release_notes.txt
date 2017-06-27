@@ -3,10 +3,27 @@
 Release Notes
 -------------
 
+`WEC-Sim v2.2 <https://github.com/WEC-Sim/WEC-Sim/releases/tag/v2.2>`_
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+* Updated WEC-Sim's parser for moorDyn
+* Added option to save pressure data for non-linear hydro (`simu.pressureDis`)
+* ** Repository cleanup **
+		* Implemented `Git LFS <https://git-lfs.github.com/>`_ for tracking *.h5 files
+		* Added `WEC-Sim_Applications <https://github.com/WEC-Sim/WEC-Sim_Applications>`_ repository as a `submodule <https://git-scm.com/book/en/v2/Git-Tools-Submodules>`_
+		* Moved `moorDyn <https://github.com/WEC-Sim/moorDyn>`_ to its own repository
+		* Removed publications from repository, `available on website <http://wec-sim.github.io/WEC-Sim/publications.html>`_
+
+.. Note::
+
+	GitHub repository history was re-written to make repository *much* smaller. Re-cloning the repository is highly recommended - it should be much faster than before. 
+
+
 `WEC-Sim v2.1 <https://github.com/WEC-Sim/WEC-Sim/releases/tag/v2.1>`_
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-* MATLAB version of BEMIO
-* Variable time step option
+* MATLAB version of BEMIO (to replace python version)
+* Variable time-step option by @ratanakso 
+* Update to MCR, option to not re-load *.h5 file by @bradling 
+* Update to waveClass to allow for definition of min/max wave frequency by @bradling 
 
 .. Note::
 

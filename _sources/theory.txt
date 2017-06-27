@@ -21,7 +21,7 @@ Modeling a WEC involves the interaction between the incident waves, device motio
 
 Coordinate System
 ------------------------------
-The :ref:`coordinate_system` figure illustrates a 3-D floating point absorber subject to incoming waves in water. The figure also defines the coordinates and the 6 DOF in WEC-Sim. The WEC-Sim coordinate system  assumes that the  X axis is in the direction of wave propagation if the wave heading angle is equal to zero. The Z axis is in the vertical upwards direction, and the Y axis direction is defined by the right-hand rule. In the vectors and matrices used in the code, surge (x), sway (y), and heave (z) correspond to the first, second and third position respectively. Roll (Rx), Pitch (Ry), and Yaw (Rz) correspond to the fourth, fifth, and sixth position respectively.
+The :ref:`coordinate_system` figure illustrates a 3-D floating point absorber subject to incoming waves in water. The figure also defines the coordinates and the 6 DOF in WEC-Sim. The WEC-Sim coordinate system  assumes that the  X-axis is in the direction of wave propagation if the wave heading angle is equal to zero. The Z-axis is in the vertical upwards direction, and the Y-axis direction is defined by the right-hand rule. In the vectors and matrices used in the code, Surge (x), Sway (y), and Heave (z) correspond to the first, second and third position respectively. Roll (Rx), Pitch (Ry), and Yaw (Rz) correspond to the fourth, fifth, and sixth position respectively.
 
 .. _coordinate_system:
 
@@ -53,7 +53,7 @@ WEC-Sim imports non-dimensionalized hydrodynamic coefficients from a ``*.h5``  d
 
 Time-Domain Numerical Method
 ------------------------------------
-The dynamic response of the system is calculated by solving the equation of motion for WEC systems :cite:`Babarit2012,Nolte2014`. The equation of motion for a floating body, about its center of gravity, can be given as:
+The dynamic response of the system is calculated by solving the equation of motion for WEC systems :cite:`Babarit2012,Nolte2014`. The equation of motion for a floating body about its center of gravity can be given as:
 
 .. math::
 
@@ -66,7 +66,7 @@ Both :math:`F_{ext}` and :math:`F_{rad}` are calculated from values provided by 
 
 Sinusoidal Steady-State Response Scenario
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-This approach assumes that the system response is in sinusoidal steady-state form, and is only valid for regular wave simulations. The radiation term can be calculated using the added mass and the wave radiation damping term for a given wave frequency, which is obtained from
+This approach assumes that the system response is in sinusoidal steady-state form; therefore, it is only valid for regular wave simulations. The radiation term can be calculated using the added mass and the wave radiation damping term for a given wave frequency, which is obtained from
 
 .. math::
 
@@ -85,7 +85,7 @@ where :math:`\Re` denotes the real part of the formula, :math:`R_{f}` is the ram
 
 Convolution Integral Formulation
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-To include the fluid memory effect on the system, the convolution integral calculation, which is based upon the Cummins equation :cite:`Cummins1962`, is used The radiation term can be calculated by
+To include the fluid memory effect on the system, the convolution integral calculation, which is based upon the Cummins equation :cite:`Cummins1962`, is used. The radiation term can be calculated by
 
 .. math::
 
@@ -110,7 +110,7 @@ where :math:`S` is the wave spectrum and :math:`\phi` is a random phase angle.
 
 State Space Representation of :math:`K_{r}`
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-It is highly desirable to represent the radiation convolution integral discribed in the last subsection in state space (SS) form :cite:`Yu1996`.  This has been shown to dramatically increase computational speeds :cite:`Taghipour2008` and allow for conventional control methods, that rely on linear state space models, to be used.  An approximation will need to be made as :math:`K_{r}` is solved from a set of partial differential equations where as a linear state space is constructed from a set of ordinary differential equations.  In general it is desired to make the following approximation:
+It is highly desirable to represent the radiation convolution integral discribed in the last subsection in state space (SS) form :cite:`Yu1996`.  This has been shown to dramatically increase computational speeds :cite:`Taghipour2008` and allow for conventional control methods that rely on linear state space models to be used.  An approximation will need to be made as :math:`K_{r}` is solved from a set of partial differential equations where as a `linear state space` is constructed from a set of ordinary differential equations.  In general, it is desired to make the following approximation:
 
 .. math::
 
@@ -136,7 +136,7 @@ which is the same as the unforced response, (:math:`u=0`), with the initial stat
 	\dot{x} &=& \mathbf{A_{r}} x~~,~~x(0)= \mathbf{B_{r}}~~\\
 	y &=& \mathbf{C_{r}} x~~
 
-The impulse response of a continuous system with a nonzero :math:`D` matrix is infinite at :math:`t=0`, therefore the lower continuity value :math:`\mathbf{C_{r}}\mathbf{B_{r}}` is reported at :math:`t=0`. The general solution to a linear time invariant (LTI) system is given by:
+The impulse response of a continuous system with a nonzero :math:`D` matrix is infinite at :math:`t=0`; therefore, the lower continuity value :math:`\mathbf{C_{r}}\mathbf{B_{r}}` is reported at :math:`t=0`. The general solution to a linear time invariant (LTI) system is given by:
 
 .. math::
 
@@ -162,7 +162,7 @@ where the derivative of :math:`f \left( t \right)` has the following laplace tra
 
 	sF \left( s \right) = \int_{0}^{\infty} \frac{df \left( t \right)}{dt} e^{-st} dt~~
 
-The Laplace transform has some useful relationships, the first relation used later in this document is the initial value theorem:
+The Laplace transform has some useful relationships. The first relation used later in this document is the initial value theorem:
 
 .. math::
 
@@ -180,7 +180,7 @@ Consider a linear input/output system described by the following differential eq
 
 	\frac{d^{m}y}{dt^{m}}+a_{1}\frac{d^{m-1}y}{dt^{m-1}}+\ldots + a_{m}y = b_{0}\frac{d^{n}u}{dt^{n}} + b_{1}\frac{d^{n}u}{dt^{n}} + \ldots + b_{n} u~~
 
-where :math:`y` is the output and :math:`u` the input.  After taking the Laplace Transform of equation above, the differential equation is now completely described by two polynomials
+where :math:`y` is the output and :math:`u` is the input.  After taking the Laplace Transform of the equation above, the differential equation is now completely described by two polynomials
 
 .. math::
 
@@ -193,7 +193,7 @@ where :math:`A \left( s \right)` is characteristic polynomial of the system.  Th
 
 	G \left( s \right)=\frac{Y\left( s \right)}{U \left( s \right)} = \frac{s^{m} + a_{1} s^{m-1} + \ldots + a_{m-1}s + a_{m} }{b_{0}s^{n} + b_{1}s^{n-1} + \ldots + b_{n-1}s + b_{n}}~~
 
-where :math:`G\left( s \right)` is the transfer function.  If the state, input, output, and feedthrough matrices are known the transfer function of the system can be calculated from:
+where :math:`G\left( s \right)` is the transfer function.  If the state, input, output, and feedthrough matrices are known, the transfer function of the system can be calculated from:
 
 .. math::
 
@@ -203,7 +203,7 @@ The frequency response of the system can be obtained by substituting :math:`j\si
 
 Realization Theory
 ......................................................
-The state space realization of the hydrodynamic radiation coefficients can be pursued in the time domain (TD). This consists of finding the minimal order of the system and the discrete time state matrices (:math:`\mathbf{A_{d}},~\mathbf{B_{d}},~\mathbf{C_{d}},~\mathbf{D_{d}}`) from a matrix assembly from the samples of the impulse response function.  This problem is easier to handle for a discrete-time system than for continuous-time, the reason being that impulse response function of a discrete-time system is given by the Markov parameters of the system:
+The state space realization of the hydrodynamic radiation coefficients can be pursued in the time domain (TD). This consists of finding the minimal order of the system and the discrete time state matrices (:math:`\mathbf{A_{d}},~\mathbf{B_{d}},~\mathbf{C_{d}},~\mathbf{D_{d}}`) from a matrix assembly from the samples of the impulse response function.  This problem is easier to handle for a discrete-time system than for continuous-time. The reason being is that the impulse response function of a discrete-time system is given by the Markov parameters of the system:
 
 .. math::
 
@@ -226,7 +226,7 @@ The most common algorithm to obtain the realization is to perform a Singular Val
 
 	& H = \mathbf{U} \Sigma \mathbf{V^{*}} &
 
-where :math:`H` is the Hankel matrix and :math:`\Sigma` is a diagonal matrix containing the Hankel singular vales in descending order.  Examination of the Hankel singular values reveals there are only a small number of significant states and model reduction can be performed without a significant loss in accuracy :cite:`Taghipour2008,Kristiansen2005`.  Further detail into the SVD method and calculation of the state space parameters will not be discussed and the reader is referred to :cite:`Taghipour2008,Kristiansen2005`.
+where :math:`H` is the Hankel matrix and :math:`\Sigma` is a diagonal matrix containing the Hankel singular vales in descending order.  Examination of the Hankel singular values reveals there are only a small number of significant states and that model reduction can be performed without a significant loss in accuracy :cite:`Taghipour2008,Kristiansen2005`.  Further detail into the SVD method and calculation of the state space parameters will not be discussed and the reader is referred to :cite:`Taghipour2008,Kristiansen2005`.
 
 Wave Spectrum
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
@@ -240,14 +240,14 @@ where :math:`f` is the wave frequency (in Hertz) and :math:`\exp` stands for the
 
 Pierson--Moskowitz
 ...............................
-One of the simplest spectra was proposed by :cite:`PM`. It assumed that after the wind blew steadily for a long time over a large area, the waves would come into equilibrium with the wind. This is the concept of a fully developed sea, where a "long time" is roughly 10,000 wave periods, and a "large area" is roughly 5,000 wave-lengths on a side.  The spectrum is calculated from
+One of the simplest spectra was proposed by :cite:`PM`. It assumed that after the wind blew steadily for a long time over a large area, the waves would come into equilibrium with the wind. This is the concept of a fully developed sea where a "long time" is roughly 10,000 wave periods and a "large area" is roughly 5,000 wave-lengths on a side.  The spectrum is calculated from
 
 .. math::
 	& S\left( f \right) = \frac{\alpha_{PM}g^{2}}{\left( 2 \pi \right)^{4}}f^{-5}\exp\left[-\frac{5}{4} \left( \frac{f_{p}}{f}\right)^{4} \right]~~ &\\
 
 	& A = \frac{\alpha_{PM}g^{2}}{\left( 2 \pi \right)^{4}},~~B = \frac{5}{4} {f_{p}}^{4}~~ &
 
-where :math:`\alpha_{PM}` = 0.0081, :math:`g` is gravity, and :math:`f_{p}` is the peak frequency of the spectrum. However, this spectrum representation does not allow the user to define the significant wave height. To facilitate the creation of a power matrix, in WEC-Sim the :math:`\alpha_{PM}` coefficient was calculated such that the desired significant wave height of the sea state was met.  The :math:`\alpha_{PM}` fit was calculated as follows:
+where :math:`\alpha_{PM}` = 0.0081, :math:`g` is gravity and :math:`f_{p}` is the peak frequency of the spectrum. However, this spectrum representation does not allow the user to define the significant wave height. To facilitate the creation of a power matrix in WEC-Sim, the :math:`\alpha_{PM}` coefficient was calculated such that the desired significant wave height of the sea state was met.  The :math:`\alpha_{PM}` fit was calculated as follows:
 
 .. math::
 	\alpha_{PM} = \frac{H_{m0}^{2}}{16\int_{0}^{\infty} S^{*} \left( f \right) df}~~
@@ -260,14 +260,14 @@ Note that related to the spectrum is a series of characteristic numbers called t
 .. math::
 	m_{k} = \int_{0}^{\infty} f^{k} S \left( f \right) df ~~
 
-The spectral moment, :math:`m_{0}` is the variance of the free surface, which allows one to define
+The spectral moment, :math:`m_{0}` is the variance of the free surface which allows one to define
 
 .. math::
 	H_{m0} = 4 \sqrt{m_{0}}~~
 
 Bretschneider Spectrum
 ................................
-This two-parameter spectrum is based on significant wave height and peak wave frequency.  For a given significant wave height, the peak frequency can be varied to cover a range of conditions including developing and decaying seas. In general, the parameters depend on wind speed (most important), wind direction, as well as fetch and locations of storm fronts. The spectrum is given as
+This two-parameter spectrum is based on significant wave height and peak wave frequency.  For a given significant wave height, the peak frequency can be varied to cover a range of conditions including developing and decaying seas. In general, the parameters depend on wind speed (most important), wind direction, fetch, and locations of storm fronts. The spectrum is given as
 
 .. math::
 	& S\left( f \right) = \frac{{H_{m0}}^2}{4}\left(1.057f_{p}\right)^{4}f^{-5}\exp\left[-\frac{5}{4} \left( \frac{f_{p}}{f}\right)^{4} \right]~~ &\\
@@ -343,7 +343,7 @@ Linear Spring-damper PTO
 ~~~~~~~~~~~~~~~~~~~~~~~~~~
 
 
-The PTO mechanism is represented as a linear spring-damper system, where the reaction force is given by: 
+The PTO mechanism is represented as a linear spring-damper system where the reaction force is given by: 
 
 .. math::
 
@@ -372,7 +372,7 @@ The PTO mechanism is modeled as a hydraulic system :cite:`So`, where the reactio
 
 	F_{PTO}=\Delta{} p_{piston}A_{piston}
 
-where :math:`\Delta{} p_{piston}` is the differential pressure of hydraulic piston, and :math:`A_{piston}` is the piston area. 
+where :math:`\Delta{} p_{piston}` is the differential pressure of hydraulic piston and :math:`A_{piston}` is the piston area. 
 
 The power absorbed by the PTO is given by:  
 
@@ -409,7 +409,7 @@ When linear quasi-static mooring stiffness is used, the mooring load can be calc
 
 where :math:`K_{m}` and :math:`C_{m}` are the stiffness and damping matrices for the mooring system, and :math:`X` and :math:`\dot{X}` are the response and velocity of the body, respectively.
 
-When coupling with MoorDyn, each mooring line in a mooring system is discretized into evenly-sized line segments connected by node points (:ref:`MoorDyn` figure). The line mass is lumped at these node points, along with gravitational and buoyancy forces, hydrodynamic loads, and reactions from contact with the seabed.  Hydrodynamic drag and added mass are calculated based on Morison's equation.  A mooring line's axial stiffness is modeled by applying a linear stiffness to each line segment, in tension only.  A damping term is also applied in each segment to dampen non-physical resonances caused by the lumped-mass discretization.  Bending and torsional stiffnesses are neglected.  Bottom contact is represented by vertical stiffness and damping forces when nodes pass below the seabed :cite:`Hall2015ValidationData`.  
+When coupling with MoorDyn, each mooring line in a mooring system is discretized into evenly-sized line segments connected by node points (:ref:`MoorDyn` figure). The line mass is lumped at these node points along with gravitational and buoyancy forces, hydrodynamic loads, and reactions from contact with the seabed.  Hydrodynamic drag and added mass are calculated based on Morison's equation.  A mooring line's axial stiffness is modeled by applying a linear stiffness to each line segment in tension only.  A damping term is also applied in each segment to dampen non-physical resonances caused by the lumped-mass discretization.  Bending and torsional stiffnesses are neglected.  Bottom contact is represented by vertical stiffness and damping forces when nodes pass below the seabed :cite:`Hall2015ValidationData`.  
 
 .. _MoorDyn:
 
@@ -424,11 +424,11 @@ When coupling with MoorDyn, each mooring line in a mooring system is discretized
 
 Additional Added-mass & Damping Forces
 ----------------------------------------
-To account for additional drag contributions and calibrate numerical models compared to experiments rather than inertial forces that arise because of mass properties, addition added-mass and damping forces can be included by adding  linear and quadratic damping terms and by using Morison Equation.  
+To account for additional drag contributions and calibrate numerical models compared to experiments rather than inertial forces that arise because of mass properties, additional added-mass and damping forces can be included by adding linear and quadratic damping terms and by using Morison Equation.  
 
 Linear & Quadratic Damping Forces
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-The effect of damping to the system is included by specifying linear and quadratic damping term to the equation of motion,
+The effect of damping to the system is included by specifying linear and quadratic damping terms to the equation of motion,
 
  .. math::
 	F_{v}=-C_{ld}\dot{X}-\frac{1}{2}C_{d}\rho A_{D}\dot{X}|\dot{X}|
@@ -439,7 +439,7 @@ Generally, the effect of viscosity on the WEC dynamics needs to be considered as
 
 Morison Elements 
 ~~~~~~~~~~~~~~~~
-The Morison Equation assumes that the fluid forces in an oscillating flow on a structure of slender cylinders or other similar geometries arise partly from pressure effects from potential flow and partly from viscous effects. A slender cylinder implies that the diameter, D, is small relative to the wave length, :math:`λ_w`, which is generally met when :math:`D/λ_w < 0.1 − 0.2`. If this condition is not met, wave diffraction effects must be taken into account. Assuming that the geometries are slender the resulting force can be approximated by a modified Morison formulation :cite:`Morison1950`. The formulation for each element on the body can be given as
+The Morison Equation assumes that the fluid forces in an oscillating flow on a structure of slender cylinders or other similar geometries arise partly from pressure effects from potential flow and partly from viscous effects. A slender cylinder implies that the diameter, D, is small relative to the wave length, :math:`λ_w`, which is generally met when :math:`D/λ_w < 0.1 − 0.2`. If this condition is not met, wave diffraction effects must be taken into account. Assuming that the geometries are slender, the resulting force can be approximated by a modified Morison formulation :cite:`Morison1950`. The formulation for each element on the body can be given as
 
  .. math::
 	F_{ME}=\rho∀\dot{v}+\rho\forall C_{a}(\dot{v}-\dot{X})+\frac{1}{2}C_{d}\rho A_{D}(v-\dot{X})|v-\dot{X}|
@@ -450,8 +450,8 @@ Note that WEC-Sim currently does not consider buoyancy effects when calculating 
 
 Nonlinear Hydrodynamic Forces
 ------------------------------
-The linear model assumes the that the body motion and the waves consist of small amplitudes in comparison to the wavelengths. A weakly nonlinear approach is applied to account for the nonlinear hydrodynamic forces induced by the instantaneous water surface elevation and body position. Rather than the BEM calculated linear hydrodynamic force coefficients, the nonlinear buoyancy and the Froude-Krylov force components can be obtained by integrating the static and dynamic pressures over each panel along the wetted body surface at each time step. 
-Because linear wave theory is used to determine the flow velocity and pressure field, the values become unrealistically large for wetted panel that are above the mean water level. To correct this, the Wheeler stretching method :cite:`wheeler1969methods` is used, which forces the water column (based on the instantaneous wave elevation) to have a height that equals to the water depth when calculating the flow velocity and pressure.
+The linear model assumes that the body motion and the waves consist of small amplitudes in comparison to the wavelengths. A weakly nonlinear approach is applied to account for the nonlinear hydrodynamic forces induced by the instantaneous water surface elevation and body position. Rather than the BEM calculated linear hydrodynamic force coefficients, the nonlinear buoyancy and the Froude-Krylov force components can be obtained by integrating the static and dynamic pressures over each panel along the wetted body surface at each time step. 
+Because linear wave theory is used to determine the flow velocity and pressure field, the values become unrealistically large for wetted panel that are above the mean water level. To correct this, the Wheeler stretching method :cite:`wheeler1969methods` ,which forces the water column (based on the instantaneous wave elevation) to have a height that equals to the water depth when calculating the flow velocity and pressure, is used.
 
  .. math::
 	z^* = \frac{D(D+z)}{(D+\eta)} - D

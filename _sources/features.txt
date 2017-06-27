@@ -116,29 +116,29 @@ For more information about b2b interactions, refer to the webinar `available her
 	By default, body-to-body interactions  are off (:code:`simu.b2b = 0`), and only the *[1+6\*(i-1):6\*i, 1:6]* sub-matrices are used for each body (where **i** is the body number).
 
 Time-Step Features
----------------------------------
+------------------
 
 Fixed Time-Step (ode4)
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-	When running WEC-Sim with a fixed time-step, 100-500 time-steps per wave period is typically sufficient to provide accurate hydrodynamic force calculations. However, smaller time steps may be required (such as when coupling WEC-Sim with MoorDyn or PTO-Sim). To reduce the required WEC-Sim simulation time, a different time step size may be specified for nonlinear hydrodynamics and for convolution integral calculations. 
+	When running WEC-Sim with a fixed time-step, 100-200 time-steps per wave period is recommended to provide accurate hydrodynamic force calculations (ex: simu.dt = T/100, where T is wave periods). However, a smaller time-step may be required (such as when coupling WEC-Sim with MoorDyn or PTO-Sim). To reduce the required WEC-Sim simulation time, a different time-step  may be specified for nonlinear hydrodynamics and for convolution integral calculations. For all simulations, the time-step should be chosen based on numerical stability and a convergence study should be performed.
 
-	The following variables may be changed in the simulationClass:
+	The following variables may be changed in the simulationClass (where N is number of increment steps, default: N=1):
 
 	* Fixed time-step: :code:`simu.dt` 
 	* Output time-step: :code:`simu.dtOut` 
 	* Nonlinear hydrodynamics time-step: :code:`simu.dtFeNonlin=N*simu.dt` 
-	* Convolution integral time-step: :code:`simu.dtCITime=N*simu.dt` 
+	* Convolution integral time-step: :code:`simu.dtCITime=N*simu.dt` 	
 
 .. Note::
 
-	ode4 with a fixed time-step is the WEC-Sim default solver (where N is number of increment steps, default: N=1)
+	Fixed time-step using ode4 the WEC-Sim default solver 
 
 Variable Time-Step (ode45)
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-	To run WEC-Sim with a variable time-step, the following variables must be changed in the simulationClass:
+	To run WEC-Sim with a variable time-step, the following variables must be defined in the simulationClass:
 
-	* Change numerical solver: :code:`simu.solver='ode45'` 
-	* Set max time-step: :code:`simu.dtMax` 
+	* Numerical solver: :code:`simu.solver='ode45'` 
+	* Max time-step: :code:`simu.dt` 
 
 
 Body Mass and Geometry Features

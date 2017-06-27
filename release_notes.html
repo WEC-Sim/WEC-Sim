@@ -24,8 +24,6 @@
 
   
   
-  
-  
 
   
 
@@ -43,9 +41,6 @@
   
 
   
-        <link rel="index" title="Index"
-              href="genindex.html"/>
-        <link rel="search" title="Search" href="search.html"/>
     <link rel="top" title="WEC-Sim  documentation" href="index.html"/>
         <link rel="next" title="Contact Us" href="contact.html"/>
         <link rel="prev" title="Publications" href="publications.html"/> 
@@ -57,7 +52,6 @@
 
 <body class="wy-body-for-nav" role="document">
 
-   
   <div class="wy-grid-for-nav">
 
     
@@ -94,10 +88,7 @@
           
             
             
-              
-            
-            
-              <ul class="current">
+                <ul class="current">
 <li class="toctree-l1"><a class="reference internal" href="getting_started.html">Getting Started</a></li>
 <li class="toctree-l1"><a class="reference internal" href="theory.html">Theory</a></li>
 <li class="toctree-l1"><a class="reference internal" href="code_structure.html">Code Structure</a></li>
@@ -106,13 +97,14 @@
 <li class="toctree-l1"><a class="reference internal" href="webinars.html">Webinars</a></li>
 <li class="toctree-l1"><a class="reference internal" href="license.html">License</a></li>
 <li class="toctree-l1"><a class="reference internal" href="publications.html">Publications</a></li>
-<li class="toctree-l1 current"><a class="current reference internal" href="#">Release Notes</a><ul>
-<li class="toctree-l2"><a class="reference internal" href="#id2">WEC-Sim v2.1</a></li>
-<li class="toctree-l2"><a class="reference internal" href="#id3">WEC-Sim v2.0</a></li>
-<li class="toctree-l2"><a class="reference internal" href="#id4">WEC-Sim v1.3</a></li>
-<li class="toctree-l2"><a class="reference internal" href="#id5">WEC-Sim v1.2</a></li>
-<li class="toctree-l2"><a class="reference internal" href="#id6">WEC-Sim v1.1</a></li>
-<li class="toctree-l2"><a class="reference internal" href="#id7">WEC-Sim v1.0</a></li>
+<li class="toctree-l1 current"><a class="current reference internal" href="">Release Notes</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="#id2">WEC-Sim v2.2</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#id5">WEC-Sim v2.1</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#id8">WEC-Sim v2.0</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#id9">WEC-Sim v1.3</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#id10">WEC-Sim v1.2</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#id11">WEC-Sim v1.1</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#id12">WEC-Sim v1.0</a></li>
 </ul>
 </li>
 <li class="toctree-l1"><a class="reference internal" href="contact.html">Contact Us</a></li>
@@ -128,10 +120,8 @@
 
       
       <nav class="wy-nav-top" role="navigation" aria-label="top navigation">
-        
-          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
-          <a href="index.html">WEC-Sim</a>
-        
+        <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+        <a href="index.html">WEC-Sim</a>
       </nav>
 
 
@@ -144,36 +134,19 @@
 
 
 
-
-
-
-
-
-
-
-
-
-
 <div role="navigation" aria-label="breadcrumbs navigation">
-
   <ul class="wy-breadcrumbs">
-    
-      <li><a href="index.html">Docs</a> &raquo;</li>
-        
-      <li>Release Notes</li>
-    
-    
+    <li><a href="index.html">Docs</a> &raquo;</li>
+      
+    <li>Release Notes</li>
       <li class="wy-breadcrumbs-aside">
         
-            
-            <a href="_sources/release_notes.rst.txt" rel="nofollow"> View page source</a>
+          
+            <a href="_sources/release_notes.txt" rel="nofollow"> View page source</a>
           
         
       </li>
-    
   </ul>
-
-  
   <hr/>
 </div>
           <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
@@ -182,18 +155,44 @@
   <div class="section" id="release-notes">
 <span id="id1"></span><h1>Release Notes<a class="headerlink" href="#release-notes" title="Permalink to this headline">¶</a></h1>
 <div class="section" id="id2">
-<h2><a class="reference external" href="https://github.com/WEC-Sim/WEC-Sim/releases/tag/v2.1">WEC-Sim v2.1</a><a class="headerlink" href="#id2" title="Permalink to this headline">¶</a></h2>
+<h2><a class="reference external" href="https://github.com/WEC-Sim/WEC-Sim/releases/tag/v2.2">WEC-Sim v2.2</a><a class="headerlink" href="#id2" title="Permalink to this headline">¶</a></h2>
+<ul>
+<li><p class="first">Updated WEC-Sim&#8217;s parser for moorDyn</p>
+</li>
+<li><p class="first">Added option to save pressure data for non-linear hydro (<cite>simu.pressureDis</cite>)</p>
+</li>
+<li><dl class="first docutils">
+<dt>** Repository cleanup **</dt>
+<dd><ul class="first last simple">
+<li>Implemented <a class="reference external" href="https://git-lfs.github.com/">Git LFS</a> for tracking <a href="#id3"><span class="problematic" id="id4">*</span></a>.h5 files</li>
+<li>Added <a class="reference external" href="https://github.com/WEC-Sim/WEC-Sim_Applications">WEC-Sim_Applications</a> repository as a <a class="reference external" href="https://git-scm.com/book/en/v2/Git-Tools-Submodules">submodule</a></li>
+<li>Moved <a class="reference external" href="https://github.com/WEC-Sim/moorDyn">moorDyn</a> to its own repository</li>
+<li>Removed publications from repository, <a class="reference external" href="http://wec-sim.github.io/WEC-Sim/publications.html">available on website</a></li>
+</ul>
+</dd>
+</dl>
+</li>
+</ul>
+<div class="admonition note">
+<p class="first admonition-title">Note</p>
+<p class="last">GitHub repository history was re-written to make repository <em>much</em> smaller. Re-cloning the repository is highly recommended - it should be much faster than before.</p>
+</div>
+</div>
+<div class="section" id="id5">
+<h2><a class="reference external" href="https://github.com/WEC-Sim/WEC-Sim/releases/tag/v2.1">WEC-Sim v2.1</a><a class="headerlink" href="#id5" title="Permalink to this headline">¶</a></h2>
 <ul class="simple">
-<li>MATLAB version of BEMIO</li>
-<li>Variable time step option</li>
+<li>MATLAB version of BEMIO (to replace python version)</li>
+<li>Variable time-step option by &#64;ratanakso</li>
+<li>Update to MCR, option to not re-load <a href="#id6"><span class="problematic" id="id7">*</span></a>.h5 file by &#64;bradling</li>
+<li>Update to waveClass to allow for definition of min/max wave frequency by &#64;bradling</li>
 </ul>
 <div class="admonition note">
 <p class="first admonition-title">Note</p>
 <p class="last">Backward Compatibility: <strong>WEC-Sim v2.1 is not backword compatible</strong></p>
 </div>
 </div>
-<div class="section" id="id3">
-<h2><a class="reference external" href="https://github.com/WEC-Sim/WEC-Sim/releases/tag/v2.0">WEC-Sim v2.0</a><a class="headerlink" href="#id3" title="Permalink to this headline">¶</a></h2>
+<div class="section" id="id8">
+<h2><a class="reference external" href="https://github.com/WEC-Sim/WEC-Sim/releases/tag/v2.0">WEC-Sim v2.0</a><a class="headerlink" href="#id8" title="Permalink to this headline">¶</a></h2>
 <ul class="simple">
 <li>Updated WEC-Sim Library (generalized joints/constraints/PTOs)</li>
 <li>Body-to-body interactions for radiation forces</li>
@@ -209,8 +208,8 @@
 <p class="last">Backward Compatibility: <strong>WEC-Sim v2.0 is not backword compatible</strong></p>
 </div>
 </div>
-<div class="section" id="id4">
-<h2><a class="reference external" href="https://github.com/WEC-Sim/WEC-Sim/releases/tag/v1.3">WEC-Sim v1.3</a><a class="headerlink" href="#id4" title="Permalink to this headline">¶</a></h2>
+<div class="section" id="id9">
+<h2><a class="reference external" href="https://github.com/WEC-Sim/WEC-Sim/releases/tag/v1.3">WEC-Sim v1.3</a><a class="headerlink" href="#id9" title="Permalink to this headline">¶</a></h2>
 <ul class="simple">
 <li>Added Morison Elements</li>
 <li>Body2Body Interactions</li>
@@ -222,8 +221,8 @@
 <li>Visualization with Paraview</li>
 </ul>
 </div>
-<div class="section" id="id5">
-<h2><a class="reference external" href="https://github.com/WEC-Sim/WEC-Sim/releases/tag/v1.2">WEC-Sim v1.2</a><a class="headerlink" href="#id5" title="Permalink to this headline">¶</a></h2>
+<div class="section" id="id10">
+<h2><a class="reference external" href="https://github.com/WEC-Sim/WEC-Sim/releases/tag/v1.2">WEC-Sim v1.2</a><a class="headerlink" href="#id10" title="Permalink to this headline">¶</a></h2>
 <ul class="simple">
 <li>Nonlinear Froude-Krylov hydrodynamics and hydrostatics</li>
 <li>State space radiation</li>
@@ -238,8 +237,8 @@
 <p class="last">Backward Compatibility: <strong>WEC-Sim v1.2 is not backword compatible</strong></p>
 </div>
 </div>
-<div class="section" id="id6">
-<h2><a class="reference external" href="https://github.com/WEC-Sim/WEC-Sim/releases/tag/v1.1">WEC-Sim v1.1</a><a class="headerlink" href="#id6" title="Permalink to this headline">¶</a></h2>
+<div class="section" id="id11">
+<h2><a class="reference external" href="https://github.com/WEC-Sim/WEC-Sim/releases/tag/v1.1">WEC-Sim v1.1</a><a class="headerlink" href="#id11" title="Permalink to this headline">¶</a></h2>
 <ul class="simple">
 <li>WEC-Sim v1.1, <a class="reference external" href="https://github.com/WEC-Sim/WEC-Sim/releases/tag/v1.1">now available on GitHub</a></li>
 <li>Improvements in code stability through modifications to the added mass, radiation damping calculations, and impulse response function calculations</li>
@@ -248,8 +247,8 @@
 <li>Documentation available on WEC-Sim Website</li>
 </ul>
 </div>
-<div class="section" id="id7">
-<h2><a class="reference external" href="https://github.com/WEC-Sim/WEC-Sim/releases/tag/v1.0">WEC-Sim v1.0</a><a class="headerlink" href="#id7" title="Permalink to this headline">¶</a></h2>
+<div class="section" id="id12">
+<h2><a class="reference external" href="https://github.com/WEC-Sim/WEC-Sim/releases/tag/v1.0">WEC-Sim v1.0</a><a class="headerlink" href="#id12" title="Permalink to this headline">¶</a></h2>
 <ul class="simple">
 <li>Initial release of WEC-Sim (oringially on OpenEI, now available on GitHub)</li>
 <li>Available as a static download</li>
@@ -260,18 +259,15 @@
 
 
            </div>
-           <div class="articleComments">
-            
-           </div>
           </div>
           <footer>
   
     <div class="rst-footer-buttons" role="navigation" aria-label="footer navigation">
       
-        <a href="contact.html" class="btn btn-neutral float-right" title="Contact Us" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right"></span></a>
+        <a href="contact.html" class="btn btn-neutral float-right" title="Contact Us" accesskey="n">Next <span class="fa fa-arrow-circle-right"></span></a>
       
       
-        <a href="publications.html" class="btn btn-neutral" title="Publications" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left"></span> Previous</a>
+        <a href="publications.html" class="btn btn-neutral" title="Publications" accesskey="p"><span class="fa fa-arrow-circle-left"></span> Previous</a>
       
     </div>
   
@@ -305,14 +301,13 @@
             VERSION:'',
             COLLAPSE_INDEX:false,
             FILE_SUFFIX:'.html',
-            HAS_SOURCE:  true,
-            SOURCELINK_SUFFIX: '.txt'
+            HAS_SOURCE:  true
         };
     </script>
       <script type="text/javascript" src="_static/jquery.js"></script>
       <script type="text/javascript" src="_static/underscore.js"></script>
       <script type="text/javascript" src="_static/doctools.js"></script>
-      <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.0/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+      <script type="text/javascript" src="https://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
 
   
 
