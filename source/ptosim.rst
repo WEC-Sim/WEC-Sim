@@ -1,3 +1,5 @@
+
+
 .. _ptosim:
 
 Power Take-Off/PTO-Sim
@@ -13,7 +15,7 @@ The files for the tutorials described in this section can be found in the `WEC-S
 
 Tutorial: RM3 with PTO-Sim
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-This section describes how to use RM3 with PTO-Sim. Two tutorials will be given in this section, one for the RM3 with a hydraulic PTO, and another for the RM3 with a mechanical PTO.
+This section describes how to use RM3 with PTO-Sim. Two tutorials will be given in this section: one for the RM3 with a hydraulic PTO (non-compressible and compressible) and another for the RM3 with a direct drive PTO, both of which can be found in the `WEC-Sim Applications <https://github.com/WEC-Sim/WEC-Sim_Applications>`_ repository.
 
 RM3 with Hydraulic PTO
 ..........................
@@ -91,7 +93,7 @@ RM3 with Hydraulic PTO
 
 	* Step 9: After the high pressure and low pressure accumulators have been identified, and the rotary generator lookup table datasheet has been setup, all the blocks can be connected together. 
 
-	Position and velocity from selectors are used as inputs of compressible fluid piston. This block also needs to know top and bottom volumetric flows which come from the rectifying check valve. The piston then outputs PTO force that will be used by WEC-Sim. Two other outputs are the piston pressures. Rectifying check valve takes both the pressures from the piston and accumulators. Both high and low pressure accumulators takes the volumetric flows from the rectifying check valve and hydraulic motor. Hydraulic motor uses the knowledge of the pressures from both accumulator and generator torque from the rotary generator. The rotary generator needs angular velocity from the hydraulic motor. Figure below shows how to connect all the blocks together.
+	Position and velocity from selectors are used as inputs of compressible fluid piston. This block also needs to know top and bottom volumetric flows which come from the rectifying check valve. The piston then outputs PTO force that will be used by WEC-Sim. Two other outputs are the piston pressures. The rectifying check valve takes both the pressures from the piston and accumulators. Both high and low pressure accumulators takes the volumetric flows from the rectifying check valve and hydraulic motor. The hydraulic motor uses the knowledge of the pressures from both accumulator and generator torque from the rotary generator. The rotary generator needs angular velocity from the hydraulic motor. The figure below shows how to connect all the blocks together.
 
 
 	.. figure:: _static/HYDPTOSIM.PNG
@@ -110,9 +112,9 @@ RM3 with Hydraulic PTO
 	Simulation and postprocessing are the same process as described in WEC-Sim Simulation example above.
 
 
-RM3 with Mechanical PTO
+RM3 with Direct Drive PTO
 ..............................
-	A mehchanical PTO is used in this example is modeled as a direct drive linear generator. The main components of this example consist of magnets and coil where the magnet assembly is attached to the heaving float and the coil is locacted inside the spar. As the float moves up and down, the magnet assembly creates a change in magnetic field surrond the spar that contains the coil. Therefore, current is induced in the coil and electricity is generated.
+	A mehchanical PTO is used in this example and is modeled as a direct drive linear generator. The main components of this example consist of magnets and a coil where the magnet assembly is attached to the heaving float and the coil is locacted inside the spar. As the float moves up and down, the magnet assembly creates a change in the magnetic field surrounding the spar that contains the coil: therefore, current is induced in the coil and electricity is generated.
 
 	.. figure:: _static/MECHANICALPTO.PNG
 	   :width: 400pt
@@ -128,7 +130,7 @@ RM3 with Mechanical PTO
 	   :width: 400pt
 
 	* Step 5: Go to PTO-Sim library.
-	* Step 6: By looking at the physical mechanical PTO model as shown above, user can simply drag and drop PTO-Sim library blocks. In this case, only the direct drive linear generator is needed and it is located under generator box.
+	* Step 6: By looking at the physical mechanical PTO model as shown above, the user can simply drag and drop PTO-Sim library blocks. In this case, only the direct drive linear generator is needed, and it is located under generator box.
 
 	.. figure:: _static/USEPTOSIMLIB2.PNG
 	   :width: 400pt
@@ -141,14 +143,12 @@ RM3 with Mechanical PTO
 	Input File, Simulation, and Postprocessing
 	^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
-	The same as RM3 with PTO-Sim. 
-
 
 
 Tutorial: OSWEC with PTO-Sim
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
-This section describes how to use OSWEC with PTO-Sim. The same process as described in `RM3 with PTO-Sim`_. However, since OSWEC is a rotary device, it takes torque as an input and a rotary to linear motion conversion block is needed.
+This section describes how to use OSWEC with PTO-Sim. The same process as described in `RM3 with PTO-Sim <http://wec-sim.github.io/WEC-Sim/features.html#tutorial-rm3-with-pto-sim>`_ ; however, since OSWEC is a rotary device, it takes torque as an input and a rotary to linear motion conversion block is needed. The tutorials can be found on the `WEC-Sim_Applications <https://github.com/WEC-Sim/WEC-Sim_Applications>`_ repository (both for a crank and for a rod).
 
 OSWEC with Hydraulic PTO
 .................................
@@ -191,7 +191,7 @@ OSWEC with Hydraulic PTO
 	.. figure:: _static/USEPTOSIMLIB3.PNG
 	   :width: 400pt
 
-	* Step 5: The rotary to linear adjustable rod block takes angular position and velocity from index slector blocks and PTO force from compressible fluid piston block. The outputs of the rotary to linear adjustable rod block are linear position, velocity, and torque. Linear position and velocity are used as inputs for compressible fluid piston and torque is fed back to WEC-Sim. The rest of the connects are the same as in RM3 with hydraulic PTO. User is encouraged to go up one level to check the connections between PTO-Sim and WEC-Sim.  
+	* Step 5: The rotary to linear adjustable rod block takes angular position and velocity from index selector blocks and PTO force from compressible fluid piston block. The outputs of the rotary to linear adjustable rod block are linear position, velocity, and torque. Linear position and velocity are used as inputs for compressible fluid piston and torque is fed back to WEC-Sim. The rest of the connects are the same as in RM3 with hydraulic PTO. The user is encouraged to go up one level to check the connections between PTO-Sim and WEC-Sim.  
 
 	.. figure:: _static/HYDPTOSIMOSWEC.PNG
 	   :width: 400pt
@@ -205,28 +205,18 @@ OSWEC with Hydraulic PTO
 Other PTO-Sim Tutorials
 ~~~~~~~~~~~~~~~~~~~~~~~
 
-Other PTO-Sim tuturails that were not discussed above are located under tutorials/PTO-Sim_Tutorials.
+Other PTO-Sim tutorials that were not discussed above can be found on the `WEC-Sim_Applications <https://github.com/WEC-Sim/WEC-Sim_Applications>`_ repository.
 
-	+-----------------------------------------------------------------------------------------------------------+
-	|                                                          PTO-Sim Tutorials                                |                                                                      
-	+==================================================================+========================================+
-	|                       PTO Types                                  |               Folder Names             |                
-	+------------------------------------------------------------------+----------------------------------------+
-	|   RM3 with non-compressible fluid hydraulic                      |   PTO-Sim_RM3_w_NCF_Hydraulic_PTO      |
-	+------------------------------------------------------------------+----------------------------------------+
-	|   RM3 with compressible fluid hydraulic                          |   PTO-Sim_RM3_w_CF_Hydraulic_PTO       |
-	+------------------------------------------------------------------+----------------------------------------+
-	|   RM3 with direct drive linear generator                         |   PTO-Sim_RM3_w_Mechanical_PTO         |
-	+------------------------------------------------------------------+----------------------------------------+
-	|   OSWEC with non-compressible fluid hydraulic (adjustable rod)   |   PTO-Sim_OSWEC_w_NCF_Hydraulic_PTO    |
-	+------------------------------------------------------------------+----------------------------------------+
-	|   OSWEC with compressible fluid hydraulic (adjustable rod)       |   PTO-Sim_OSWEC_w_CF_Hydraulic_PTO     |
-	+------------------------------------------------------------------+----------------------------------------+
-	|   OSWEC with direct drive linear generator (adjustable rod)      |   PTO-Sim_OSWEC_w_Mechanical_PTO       | 
-	+------------------------------------------------------------------+----------------------------------------+
-	|   OSWEC with non-compressible fluid hydraulic (crank)            |   PTO-Sim_OSWEC1_w_NCF_Hydraulic_PTO   |
-	+------------------------------------------------------------------+----------------------------------------+
-	|   OSWEC with compressible fluid hydraulic (crank)                |   PTO-Sim_OSWEC1_w_CF_Hydraulic_PTO    |
-	+------------------------------------------------------------------+----------------------------------------+
-	|   OSWEC with direct drive linear generator (crank)               |   PTO-Sim_OSWEC1_w_Mechanical_PTO      |
-	+------------------------------------------------------------------+----------------------------------------+
+	+--------------------------------+-------------------------------------------+
+	|     **PTO-Sim Application**    |               **Description**             |                
+	+--------------------------------+-------------------------------------------+
+	|   RM3_Hydraulic_PTO            | RM3 with hydraulic PTO                    |
+	+--------------------------------+-------------------------------------------+
+	|   RM3_cHydraulic_PTO           | RM3 with compressible hydraulic PTO       |
+	+--------------------------------+-------------------------------------------+
+	|   RM3_DD_PTO                   | RM3 with direct drive linear generator    |
+	+--------------------------------+-------------------------------------------+
+	|   OSWEC_Hydraulic_PTO          | OSWEC with hydraulic PTO (adjustable rod) |
+	+--------------------------------+-------------------------------------------+
+	|   OSWEC_Hydraulic_Crank_PTO    | OSWEC with hydraulic PTO (crank)          |
+	+--------------------------------+-------------------------------------------+

@@ -127,7 +127,7 @@
 <li class="toctree-l2"><a class="reference internal" href="#power-take-off-pto-sim">Power Take-Off/PTO-Sim</a><ul>
 <li class="toctree-l3"><a class="reference internal" href="#tutorial-rm3-with-pto-sim">Tutorial: RM3 with PTO-Sim</a><ul>
 <li class="toctree-l4"><a class="reference internal" href="#rm3-with-hydraulic-pto">RM3 with Hydraulic PTO</a></li>
-<li class="toctree-l4"><a class="reference internal" href="#rm3-with-mechanical-pto">RM3 with Mechanical PTO</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#rm3-with-direct-drive-pto">RM3 with Direct Drive PTO</a></li>
 </ul>
 </li>
 <li class="toctree-l3"><a class="reference internal" href="#tutorial-oswec-with-pto-sim">Tutorial: OSWEC with PTO-Sim</a><ul>
@@ -212,7 +212,7 @@
 </ul>
 <div class="admonition note">
 <p class="first admonition-title">Note</p>
-<p class="last">Previously, the <a class="reference external" href="http://wec-sim.github.io/bemio/installing.html">python based BEMIO code</a> was used for this purpose. To avoid the inefficiencies associated with supporting two code platforms, the python BEMIO functions have been converted to MATLAB, and will now be automatically downloaded with the WEC-Sim code. The python based BEMIO code will remain available, but will no longer be actively supported. Also, the mesh manipulation capabilities of the  python based BEMIO code have not yet been converted to MATLAB, however, it is intended that they will be in a future release.</p>
+<p class="last">Previously, the <a class="reference external" href="http://wec-sim.github.io/bemio/installing.html">python based BEMIO code</a> was used for this purpose. To avoid the inefficiencies associated with supporting two code platforms, the python BEMIO functions have been converted to MATLAB and will now be automatically downloaded with the WEC-Sim code. The python based BEMIO code will remain available but will no longer be actively supported. Also, the mesh manipulation capabilities of the  python based BEMIO code have not yet been converted to MATLAB; however, it is intended that they will be in a future release.</p>
 </div>
 <div class="section" id="bemio-functions">
 <h3>BEMIO Functions<a class="headerlink" href="#bemio-functions" title="Permalink to this headline">¶</a></h3>
@@ -276,7 +276,7 @@
 </dd>
 </dl>
 </div></blockquote>
-<p><strong>Combine_BEM:</strong> Combines multiple BEM outputs into one hydrodynamic ‘system.’ This function requires that all BEM outputs have the same water depth, wave frequencies, and wave headings. This function would be implemented following multiple Read functions and before the IRF, Write_H5, or Plot_BEMIO functions.</p>
+<p><strong>Combine_BEM:</strong> Combines multiple BEM outputs into one hydrodynamic &#8220;system&#8221;. This function requires that all BEM outputs have the same water depth, wave frequencies, and wave headings. This function would be implemented following multiple Read functions and before the IRF, Write_H5, or Plot_BEMIO functions.</p>
 <blockquote>
 <div><dl class="docutils">
 <dt><em>hydro = Combine_BEM(hydro)</em></dt>
@@ -342,7 +342,7 @@
 </div></blockquote>
 <div class="admonition note">
 <p class="first admonition-title">Note</p>
-<p class="last">Technically, this step should not be necessary - the MATLAB data structure <em>hydro</em> is written to a .h5 file by BEMIO, and then read back into a new MATLAB data structure <em>hydroData</em> for each body by WEC-Sim. The reasons this step was retained were first, to remain compatible with the python based BEMIO output, and second, for the simpler data visualization and verification capabilities offered by the .h5 file viewer.</p>
+<p class="last">Technically, this step should not be necessary - the MATLAB data structure <em>hydro</em> is written to a .h5 file by BEMIO and then read back into a new MATLAB data structure <em>hydroData</em> for each body by WEC-Sim. The reasons this step was retained were, first, to remain compatible with the python based BEMIO output and, second, for the simpler data visualization and verification capabilities offered by the .h5 file viewer.</p>
 </div>
 <p><strong>Plot_BEMIO:</strong> Plots the added mass, radiation damping, radiation IRF, excitation force magnitude, excitation force phase, and excitation IRF for each body in the heave, surge and pitch degrees of freedom.</p>
 <blockquote>
@@ -533,21 +533,21 @@
 This requires a single BEM solution that contains all hydrodynamic bodies and accounts for body interactions.
 Some cases in which you might want to create your own h5 file are:</p>
 <ul class="simple">
-<li>Use experimentally determined coefficients, or a mix of BEM and experimental coefficients.</li>
+<li>Use experimentally determined coefficients or a mix of BEM and experimental coefficients.</li>
 <li>Combine results from different BEM files and have the coefficient matrices be the correct size for the new total number of bodies.</li>
 <li>Modify the BEM results for any other reason.</li>
 </ul>
-<p>Matlab and Python have functions to read and write <em>h5</em> files easily.
-WEC-Sim includes three functions to help you create your own h5 file.
+<p>MATLAB and Python have functions to read and write <em>h5</em> files easily.
+WEC-Sim includes three functions to help you create your own <em>h5</em> file.
 These are found under <strong>/source/functions/writeH5/</strong>.
-The header comments of each function explain the inputs and outputs, and an example of how to use it is shown in the <a class="reference external" href="https://github.com/WEC-Sim/WEC-Sim_Applications/tree/master/write_hdf5">WEC-Sim Applications</a> repository.
+The header comments of each function explain the inputs and outputs. An example of how to use it is shown in the <a class="reference external" href="https://github.com/WEC-Sim/WEC-Sim_Applications/tree/master/write_hdf5">WEC-Sim Applications</a> repository.
 The first step is to have all the required coefficients and properties in Matlab in the correct format.
 Then the functions provided are used to create and populate the <em>h5</em> file.</p>
 <div class="admonition note">
 <p class="first admonition-title">Note</p>
 <p class="last">The new <em>h5</em> file will not have the impulse response function coefficients required for the convolution integral.
 BEMIO is currently being modified to allow for reading an existing <em>h5</em> file.
-This would allow you to read in the <em>h5</em> file you created, calculate the required impulse response functions and state space coefficients and re-write the <em>h5</em> file.</p>
+This would allow you to read in the <em>h5</em> file you created, calculate the required impulse response functions and state space coefficients, and re-write the <em>h5</em> file.</p>
 </div>
 <div class="admonition note">
 <p class="first admonition-title">Note</p>
@@ -558,7 +558,7 @@ This would allow for the BEM of different bodies to be done separately, and BEMI
 </div>
 <div class="section" id="state-space-representation">
 <h2>State-Space Representation<a class="headerlink" href="#state-space-representation" title="Permalink to this headline">¶</a></h2>
-<p>The convolution integral term in the equation of motion can be linearized using the state-space representation, as described in the Theory Section. To use state-space representation, the <strong>simu.ssCalc</strong> simulationClass variable must be defined in the WEC-Sim input file, for example:</p>
+<p>The convolution integral term in the equation of motion can be linearized using the state-space representation as described in the Theory Section. To use state-space representation, the <strong>simu.ssCalc</strong> simulationClass variable must be defined in the WEC-Sim input file, for example:</p>
 <blockquote>
 <div><code class="code docutils literal"><span class="pre">simu.ssCalc</span> <span class="pre">=</span> <span class="pre">1</span></code></div></blockquote>
 </div>
@@ -572,20 +572,20 @@ This would allow for the BEM of different bodies to be done separately, and BEMI
 <h3>Non-Linear Settings<a class="headerlink" href="#non-linear-settings" title="Permalink to this headline">¶</a></h3>
 <blockquote>
 <div><p><strong>simu.nlHydro</strong>  -
-The nonlinear hydrodynamics option can be used by setting <code class="code docutils literal"><span class="pre">simu.nlHydro</span> <span class="pre">=</span> <span class="pre">2</span></code> or <code class="code docutils literal"><span class="pre">simu.nlHydro</span> <span class="pre">=</span> <span class="pre">1</span></code> in your WEC-Sim input file. Typically, <code class="code docutils literal"><span class="pre">simu.nlHydro</span> <span class="pre">=</span> <span class="pre">2</span></code> is recommended if nonlinear hydrodynamic effects need to be used. Note that <code class="code docutils literal"><span class="pre">simu.nlHydro</span> <span class="pre">=</span> <span class="pre">1</span></code> only consideres the nonlinear restoring and Froude-Krylov forces based on the body position and mean wave elevation.</p>
+The nonlinear hydrodynamics option can be used by setting <code class="code docutils literal"><span class="pre">simu.nlHydro</span> <span class="pre">=</span> <span class="pre">2</span></code> or <code class="code docutils literal"><span class="pre">simu.nlHydro</span> <span class="pre">=</span> <span class="pre">1</span></code> in your WEC-Sim input file. Typically, <code class="code docutils literal"><span class="pre">simu.nlHydro</span> <span class="pre">=</span> <span class="pre">2</span></code> is recommended if nonlinear hydrodynamic effects need to be used. Note that <code class="code docutils literal"><span class="pre">simu.nlHydro</span> <span class="pre">=</span> <span class="pre">1</span></code> only considers the nonlinear restoring and Froude-Krylov forces based on the body position and mean wave elevation.</p>
 <p><strong>simu.dtFeNonlin</strong> -
-An option available to reduce the nonlinear simulation time is to specify a nonlinear time step, <code class="code docutils literal"><span class="pre">simu.dtFeNonlin=N*simu.dt</span></code>, where N is number of increment steps. The nonlinear time step specifies the interval at which the nonlinear hydrodynamic forces are calculated. As the ratio of the nonlinear to system time step increases, the computation time is reduced, but again, at the expense of the simulation accuracy.</p>
+An option available to reduce the nonlinear simulation time is to specify a nonlinear time step, <code class="code docutils literal"><span class="pre">simu.dtFeNonlin=N*simu.dt</span></code>, where N is number of increment steps. The nonlinear time step specifies the interval at which the nonlinear hydrodynamic forces are calculated. As the ratio of the nonlinear to system time step increases, the computation time is reduced, again, at the expense of the simulation accuracy.</p>
 </div></blockquote>
 <div class="admonition note">
 <p class="first admonition-title">Note</p>
-<p class="last">WEC-Sim&#8217;s nonlinear hydrodynamic option may be used for regular or irregular waves, but not with user-defined irregular waves.</p>
+<p class="last">WEC-Sim&#8217;s nonlinear hydrodynamic option may be used for regular or irregular waves but not with user-defined irregular waves.</p>
 </div>
 </div>
 <div class="section" id="stl-file-generation">
 <h3>STL File Generation<a class="headerlink" href="#stl-file-generation" title="Permalink to this headline">¶</a></h3>
 <blockquote>
-<div><p>When the nonlinear non-linear option is turned on, the geometry file (<code class="docutils literal"><span class="pre">*.stl</span></code>) (previously only used for visualization purposes in linear simulations) is used as the discretized body surface on which the non-linear pressure forces are integrated. A good STL mesh resolution is required for the WEC body geometry file(s) when using the non-linear hydrodynamics in WEC-Sim. The simulation accuracy will increase with increased surface resolution (i.e. the number of discretized surface panels specified in the .stl file), but the computation time will also increase.</p>
-<p>There are many ways to generate an STL file, however it is important to verify the quality of the mesh before running WEC-Sim simulations with the non-linear hydro flag turned on. An STL file can be exported from from most CAD programs, but few allow adaquate mesh refinement. A good program to perform STL mesh refinement is <a class="reference external" href="https://www.rhino3d.com/">Rhino3d</a>. Some helpful resources explaining how to generate and refine an STL mesh in Rhino3d are: <a class="reference external" href="https://wiki.mcneel.com/rhino/meshfaqdetails">https://wiki.mcneel.com/rhino/meshfaqdetails</a> and <a class="reference external" href="https://vimeo.com/80925936">https://vimeo.com/80925936</a>.</p>
+<div><p>When the nonlinear option is turned on, the geometry file (<code class="docutils literal"><span class="pre">*.stl</span></code>) (previously only used for visualization purposes in linear simulations) is used as the discretized body surface on which the non-linear pressure forces are integrated. A good STL mesh resolution is required for the WEC body geometry file(s) when using the non-linear hydrodynamics in WEC-Sim. The simulation accuracy will increase with increased surface resolution (i.e. the number of discretized surface panels specified in the .stl file), but the computation time will also increase.</p>
+<p>There are many ways to generate an STL file; however, it is important to verify the quality of the mesh before running WEC-Sim simulations with the non-linear hydro flag turned on. An STL file can be exported from from most CAD programs, but few allow adaquate mesh refinement. A good program to perform STL mesh refinement is <a class="reference external" href="https://www.rhino3d.com/">Rhino3d</a>. Some helpful resources explaining how to generate and refine an STL mesh in Rhino3d are: <a class="reference external" href="https://wiki.mcneel.com/rhino/meshfaqdetails">https://wiki.mcneel.com/rhino/meshfaqdetails</a> and <a class="reference external" href="https://vimeo.com/80925936">https://vimeo.com/80925936</a>.</p>
 </div></blockquote>
 <div class="admonition note">
 <p class="first admonition-title">Note</p>
@@ -650,8 +650,8 @@ An option available to reduce the nonlinear simulation time is to specify a nonl
 </div>
 <div class="section" id="non-hydrodynamic-bodies">
 <h2>Non-Hydrodynamic Bodies<a class="headerlink" href="#non-hydrodynamic-bodies" title="Permalink to this headline">¶</a></h2>
-<p>For some simulations, it might be important to model bodies that do not have hydrodynamic forces acting on them. This could be bodies that are completely outside of the water, but are still connected through a joint to the WEC bodies, or it could be bodies deeply submerged to the point where the hydrodynamics may be neglected. WEC-Sim allows for bodies which have no hydrodynamic forces acting on them, and for which no BEM data is provided.</p>
-<p>To do this, use a Body Block from the WEC-Sim  Library and initialize it in the WEC-Sim input file as any other body, but leave the name of the <code class="docutils literal"><span class="pre">h5</span></code> file as an empty string. Specify <code class="code docutils literal"><span class="pre">body(i).nhBody</span> <span class="pre">=</span> <span class="pre">1;</span></code> and specify body name, mass, moments of inertia, cg, geometry file, location, and displaced volume. You can also specify visualization options and initial displacement.</p>
+<p>For some simulations, it might be important to model bodies that do not have hydrodynamic forces acting on them. This could be bodies that are completely outside of the water but are still connected through a joint to the WEC bodies, or it could be bodies deeply submerged to the point where the hydrodynamics may be neglected. WEC-Sim allows for bodies which have no hydrodynamic forces acting on them and for which no BEM data is provided.</p>
+<p>To do this, use a Body Block from the WEC-Sim  Library and initialize it in the WEC-Sim input file as any other body but leave the name of the <code class="docutils literal"><span class="pre">h5</span></code> file as an empty string. Specify <code class="code docutils literal"><span class="pre">body(i).nhBody</span> <span class="pre">=</span> <span class="pre">1;</span></code> and specify body name, mass, moments of inertia, cg, geometry file, location, and displaced volume. You can also specify visualization options and initial displacement.</p>
 <p>To use non-hydrodynamic bodies, the following bodyClass variable must be defined in the WEC-Sim input file, for example:</p>
 <blockquote>
 <div><code class="code docutils literal"><span class="pre">body(i).nhBody</span> <span class="pre">=</span> <span class="pre">1</span></code></div></blockquote>
@@ -660,7 +660,7 @@ An option available to reduce the nonlinear simulation time is to specify a nonl
 <div class="section" id="body-to-body-interactions">
 <h2>Body-To-Body Interactions<a class="headerlink" href="#body-to-body-interactions" title="Permalink to this headline">¶</a></h2>
 <p>WEC-Sim allows for body-to-body interactions in the radiation force calculation, thus allowing the motion of one body to impart a force on all other bodies. The radiation matrices for each body (radiation damping and added mass) required by WEC-Sim and contained in the <code class="docutils literal"><span class="pre">*.h5</span></code> file. <strong>For body-to-body interactions with N total hydrodynamic bodies, the</strong> <code class="docutils literal"><span class="pre">*h5</span></code> <strong>data structure is [(6*N), 6]</strong>.</p>
-<p>When body-to-body interactions are used, the augmented [(6*N), 6] matrices are multiplied by concatenated velocity and acceleration vectors of all hydrodynamic bodies. For example, the radiation damping force for body(2) in a 3-body system with body-to-body interactions would be calculated as the product of a [1,18] velocity vector, and a [18,6] radiation damping coefficients matrix.</p>
+<p>When body-to-body interactions are used, the augmented [(6*N), 6] matrices are multiplied by concatenated velocity and acceleration vectors of all hydrodynamic bodies. For example, the radiation damping force for body(2) in a 3-body system with body-to-body interactions would be calculated as the product of a [1,18] velocity vector and a [18,6] radiation damping coefficients matrix.</p>
 <p>To use body-to-body interactions, the following simulationClass variable must be defined in the WEC-Sim input file, for example:</p>
 <blockquote>
 <div><code class="code docutils literal"><span class="pre">simu.b2b</span> <span class="pre">=</span> <span class="pre">1</span></code></div></blockquote>
@@ -715,11 +715,11 @@ An option available to reduce the nonlinear simulation time is to specify a nonl
 To obtain a linear or rotational constraint in a different direction you must modify the constraint&#8217;s or PTO&#8217;s coordinate orientation.
 The important thing to remember is that a linear constraint or PTO will always allow motion along the joint&#8217;s Z-axis, and a rotational constraint or PTO will allow rotation about the joint&#8217;s Y-axis.
 To obtain translation along or rotation about a different direction relative to the global frame, you must modify the orientation of the joint&#8217;s coordinate frame.
-This is done by setting the constraint&#8217;s or PTO&#8217;s <code class="code docutils literal"><span class="pre">orientation.z</span></code> and <code class="code docutils literal"><span class="pre">orientation.y</span></code> properties, which specify the new direction of the Z- and Y- joint coordinates.
+This is done by setting the constraint&#8217;s or PTO&#8217;s <code class="code docutils literal"><span class="pre">orientation.z</span></code> and <code class="code docutils literal"><span class="pre">orientation.y</span></code> properties which specify the new direction of the Z- and Y- joint coordinates.
 The Z- and Y- directions must be perpendicular to each other.</p>
 <p>As an example, if you want to constrain body 2 to surge motion relative to body 1 using a linear constraint, you would need the constraint&#8217;s Z-axis to point in the direction of the global surge (X) direction.
 This would be done by setting <code class="code docutils literal"><span class="pre">constraint(i).orientation.z=[1,0,0]</span></code> and the Y-direction to any perpendicular direction (can be left as the default y=[0 1 0]).
-In this example the Y-direction would only have an effect on the coordinate on which the constraint forces are reported, but not on the dynamics of the system.
+In this example, the Y-direction would only have an effect on the coordinate on which the constraint forces are reported but not on the dynamics of the system.
 Similarly if you want to obtain a yaw constraint you would use a rotational constraint and align the constraint&#8217;s Y-axis with the global Z-axis.
 This would be done by setting <code class="code docutils literal"><span class="pre">constraint(i).orientation.y=[0,0,1]</span></code> and the  z-direction to a perpendicular direction (say [0,-1,0]).</p>
 <p>Additionally, by combining constraints and PTOs in series you can obtain different motion constraints.
@@ -735,23 +735,23 @@ A roll-pitch constraint can also be obtained with two rotational constraints in 
 <code class="docutils literal"><span class="pre">pto(1).k=1000:1000:10000;</span> <span class="pre">pto(1).c=1200000:1200000:3600000;</span></code></p>
 <p><strong>Option 2.</strong>  Specify the excel filename that contains a set of wave statistic data in the WEC-Sim input file. This option is generally useful for power matrix generation, example:
 <code class="docutils literal"><span class="pre">statisticsDataLoad</span> <span class="pre">=</span> <span class="pre">&quot;&lt;Excel</span> <span class="pre">file</span> <span class="pre">name&gt;.xls&quot;</span></code></p>
-<p><strong>Option 3.</strong>  Provide a MCR case <a href="#id4"><span class="problematic" id="id5">*</span></a>.mat file, and specify the filename in the WEC-Sim input file, example:
-<code class="docutils literal"><span class="pre">simu.mcrCaseFile</span>&nbsp;&nbsp;&nbsp; <span class="pre">=</span> <span class="pre">'&lt;File</span> <span class="pre">name&gt;.mat'</span></code></p>
+<p><strong>Option 3.</strong>  Provide a MCR case <em>.mat</em> file, and specify the filename in the WEC-Sim input file, example:
+<code class="docutils literal"><span class="pre">simu.mcrCaseFile</span> <span class="pre">=</span> <span class="pre">&quot;&lt;File</span> <span class="pre">name&gt;.mat&quot;</span></code></p>
 </div></blockquote>
 <p>For more information about MCR, refer to the webinar <a class="reference external" href="http://wec-sim.github.io/WEC-Sim/webinars.html#wec-sim-webinar-1-bemio-mcr">available here</a></p>
 <div class="admonition note">
 <p class="first admonition-title">Note</p>
-<p class="last">For Multiple Condition Runs, the <a href="#id7"><span class="problematic" id="id8">*</span></a>.h5 hydrodynamic data is only loaded once. To override this default (and reload the <a href="#id9"><span class="problematic" id="id10">*</span></a>.h5 hydrodynamic data between runs),  set <code class="docutils literal"><span class="pre">simu.reloadH5Data</span> <span class="pre">=1</span></code> in the WEC-Sim input file.</p>
+<p class="last">For Multiple Condition Runs, the <em>.h5</em> hydrodynamic data is only loaded once. To override this default (and reload the <em>.h5</em> hydrodynamic data between runs),  set <code class="docutils literal"><span class="pre">simu.reloadH5Data</span> <span class="pre">=1</span></code> in the WEC-Sim input file.</p>
 </div>
 </div>
 <div class="section" id="decay-tests">
 <h2>Decay Tests<a class="headerlink" href="#decay-tests" title="Permalink to this headline">¶</a></h2>
-<p>When performing simulations of decay tests you must use one of the no-wave cases, and setup the initial (time = 0) location of each body, constraint, PTO, and mooring block.
+<p>When performing simulations of decay tests, you must use one of the no-wave cases and setup the initial (time = 0) location of each body, constraint, PTO, and mooring block.
 The initial location of a body or mooring block is set by specifying the CG or location at the stability position (as with any WEC-Sim simulation) and then specifying an initial displacement.
-To specify an initial displacement, the body, and mooring blocks have a <code class="code docutils literal"><span class="pre">.initDisp</span></code> property with which you can specify a translation and angular rotation about an arbitrary axis.
+To specify an initial displacement, the body and mooring blocks have a <code class="code docutils literal"><span class="pre">.initDisp</span></code> property with which you can specify a translation and angular rotation about an arbitrary axis.
 For the constraint and PTO blocks, the <code class="code docutils literal"><span class="pre">.loc</span></code> property must be set to the location at time = 0.</p>
 <p>There are methods available to help setup this initial displacement for all bodies, constraints, PTOs, and moorings.
-To do this you would use the <code class="code docutils literal"><span class="pre">body(i).setInitDisp(...);</span></code>, <code class="code docutils literal"><span class="pre">constraint(i).setInitDisp(...)</span></code>, <code class="code docutils literal"><span class="pre">pto(i).setInitDisp(...)</span></code>, and <code class="code docutils literal"><span class="pre">mooring(i).setInitDisp(...)</span></code> method in the WEC-Sim input file.
+To do this, you would use the <code class="code docutils literal"><span class="pre">body(i).setInitDisp(...);</span></code>, <code class="code docutils literal"><span class="pre">constraint(i).setInitDisp(...)</span></code>, <code class="code docutils literal"><span class="pre">pto(i).setInitDisp(...)</span></code>, and <code class="code docutils literal"><span class="pre">mooring(i).setInitDisp(...)</span></code> method in the WEC-Sim input file.
 A description of the required input can be found in the method&#8217;s header comments.
 Note that <code class="code docutils literal"><span class="pre">body(i).cg</span></code>, <code class="code docutils literal"><span class="pre">constraint(i).loc</span></code>, <code class="code docutils literal"><span class="pre">pto(i).loc</span></code>, and <code class="code docutils literal"><span class="pre">mooring.ref</span></code> must be defined prior to using the object&#8217;s <code class="code docutils literal"><span class="pre">.setInitDisp</span></code> method.</p>
 </div>
@@ -767,7 +767,6 @@ Note that <code class="code docutils literal"><span class="pre">body(i).cg</span
 <li>Mooring damping matrix - <code class="code docutils literal"><span class="pre">mooring(i).matrix.c</span> <span class="pre">=</span> <span class="pre">[6x6]</span></code></li>
 <li>Mooring pretension - <code class="code docutils literal"><span class="pre">mooring(i).matrix.preTension</span> <span class="pre">=</span> <span class="pre">[1x6]</span></code></li>
 </ul>
-<p>Note: i indicates the mooring number, and more than one mooring can be specified in the WEC-Sim model when the mooring matrix block is used.</p>
 </div></blockquote>
 </div>
 <div class="section" id="using-moordyn">
@@ -775,14 +774,13 @@ Note that <code class="code docutils literal"><span class="pre">body(i).cg</span
 <blockquote>
 <div><p>When the MoorDyn block is used, the user needs to initiate the mooring class by setting <code class="code docutils literal"><span class="pre">mooring</span> <span class="pre">=</span> <span class="pre">mooringClass('mooring</span> <span class="pre">name')</span></code> in the WEC-Sim input file (wecSimInputFile.m), followed by number of mooring lines is defined in MoorDyn (<code class="docutils literal"><span class="pre">mooring(1).moorDynLines</span> <span class="pre">=</span> <span class="pre">&lt;Number</span> <span class="pre">of</span> <span class="pre">mooring</span> <span class="pre">lines&gt;</span></code>)</p>
 <p>A mooring folder that includes a moorDyn input file (<code class="docutils literal"><span class="pre">lines.txt</span></code>) is required in the simulation folder.
-A WEC-Sim/MoorDyn coupling example is provided in the <a class="reference external" href="https://github.com/WEC-Sim/WEC-Sim_Applications/tree/master/MoorDyn_RM3">WEC-Sim Applications</a> repository, and will be described in the following subsection.</p>
-<p>Note: WEC-Sim/MoorDyn coupling only allows one mooring configuration in the simulation.</p>
+A WEC-Sim/MoorDyn coupling example is provided in the <a class="reference external" href="https://github.com/WEC-Sim/WEC-Sim_Applications/tree/master/RM3_MoorDyn">WEC-Sim Applications</a> repository and will be described in the following subsection.</p>
 </div></blockquote>
 </div>
 <div class="section" id="tutorial-rm3-with-moordyn">
 <h3>Tutorial: RM3 with MoorDyn<a class="headerlink" href="#tutorial-rm3-with-moordyn" title="Permalink to this headline">¶</a></h3>
 <blockquote>
-<div><p>This section describes how to simulate a mooring connected WEC system in WEC-Sim using MoorDyn. The RM3 two-body floating point absorber is connected to a three-point catenary mooring system with an angle of 120 between the lines in this example case.</p>
+<div><p>This section describes how to simulate a mooring connected WEC system in WEC-Sim using MoorDyn. The RM3 two-body floating point absorber is connected to a three-point catenary mooring system with an angle of 120 between the lines in this example case. The RM3 with MoorDyn folder is located under <a class="reference external" href="https://github.com/WEC-Sim/WEC-Sim_Applications">WEC-Sim_Applications</a>.</p>
 <ul class="simple">
 <li>WEC Model: To couple WEC-Sim with MoorDyn, the MoorDyn Block is added in parallel to the constraint block</li>
 </ul>
@@ -837,7 +835,7 @@ A WEC-Sim/MoorDyn coupling example is provided in the <a class="reference extern
 </pre></div>
 </div>
 <ul class="simple">
-<li>MoorDyn Input File: A mooring folder that includes a moorDyn input file (<code class="docutils literal"><span class="pre">lines.txt</span></code>) is created. The moorDyn input file (<code class="docutils literal"><span class="pre">lines.txt</span></code>) is shown in the figure below. More details on how to setup the MooDyn input file were described in the MoorDyn User Guide <a class="reference internal" href="theory.html#hall2015moordynguide" id="id12">[1]</a>.</li>
+<li>MoorDyn Input File: A mooring folder that includes a moorDyn input file (<code class="docutils literal"><span class="pre">lines.txt</span></code>) is created. The moorDyn input file (<code class="docutils literal"><span class="pre">lines.txt</span></code>) is shown in the figure below. More details on how to setup the MooDyn input file were described in the MoorDyn User Guide <a class="reference internal" href="theory.html#hall2015moordynguide" id="id7">[1]</a>.</li>
 </ul>
 <div class="figure align-center" id="moordyninput">
 <a class="reference internal image-reference" href="_images/moorDynInput.png"><img alt="_images/moorDynInput.png" src="_images/moorDynInput.png" style="width: 400pt;" /></a>
@@ -845,6 +843,10 @@ A WEC-Sim/MoorDyn coupling example is provided in the <a class="reference extern
 <ul class="simple">
 <li>Simulation and Postprocessing: Simulation and postprocessing are the same process as described in Tutorial Section.</li>
 </ul>
+<div class="admonition note">
+<p class="first admonition-title">Note</p>
+<p class="last">You may need to install the MinGW-w64 compiler to run this simulation.</p>
+</div>
 </div></blockquote>
 </div>
 </div>
@@ -858,7 +860,7 @@ For more information on how PTO-Sim works, refer to [So et al., 2015].</p>
 <p>The files for the tutorials described in this section can be found in the <a class="reference external" href="https://github.com/WEC-Sim/WEC-Sim_Applications">WEC-Sim Applications</a> repository.</p>
 <div class="section" id="tutorial-rm3-with-pto-sim">
 <h3>Tutorial: RM3 with PTO-Sim<a class="headerlink" href="#tutorial-rm3-with-pto-sim" title="Permalink to this headline">¶</a></h3>
-<p>This section describes how to use RM3 with PTO-Sim. Two tutorials will be given in this section, one for the RM3 with a hydraulic PTO, and another for the RM3 with a mechanical PTO.</p>
+<p>This section describes how to use RM3 with PTO-Sim. Two tutorials will be given in this section: one for the RM3 with a hydraulic PTO (non-compressible and compressible) and another for the RM3 with a direct drive PTO, both of which can be found in the <a class="reference external" href="https://github.com/WEC-Sim/WEC-Sim_Applications">WEC-Sim Applications</a> repository.</p>
 <div class="section" id="rm3-with-hydraulic-pto">
 <h4>RM3 with Hydraulic PTO<a class="headerlink" href="#rm3-with-hydraulic-pto" title="Permalink to this headline">¶</a></h4>
 <blockquote>
@@ -935,7 +937,7 @@ For more information on how PTO-Sim works, refer to [So et al., 2015].</p>
 <ul class="simple">
 <li>Step 9: After the high pressure and low pressure accumulators have been identified, and the rotary generator lookup table datasheet has been setup, all the blocks can be connected together.</li>
 </ul>
-<p>Position and velocity from selectors are used as inputs of compressible fluid piston. This block also needs to know top and bottom volumetric flows which come from the rectifying check valve. The piston then outputs PTO force that will be used by WEC-Sim. Two other outputs are the piston pressures. Rectifying check valve takes both the pressures from the piston and accumulators. Both high and low pressure accumulators takes the volumetric flows from the rectifying check valve and hydraulic motor. Hydraulic motor uses the knowledge of the pressures from both accumulator and generator torque from the rotary generator. The rotary generator needs angular velocity from the hydraulic motor. Figure below shows how to connect all the blocks together.</p>
+<p>Position and velocity from selectors are used as inputs of compressible fluid piston. This block also needs to know top and bottom volumetric flows which come from the rectifying check valve. The piston then outputs PTO force that will be used by WEC-Sim. Two other outputs are the piston pressures. The rectifying check valve takes both the pressures from the piston and accumulators. Both high and low pressure accumulators takes the volumetric flows from the rectifying check valve and hydraulic motor. The hydraulic motor uses the knowledge of the pressures from both accumulator and generator torque from the rotary generator. The rotary generator needs angular velocity from the hydraulic motor. The figure below shows how to connect all the blocks together.</p>
 <div class="figure">
 <a class="reference internal image-reference" href="_images/HYDPTOSIM.PNG"><img alt="_images/HYDPTOSIM.PNG" src="_images/HYDPTOSIM.PNG" style="width: 400pt;" /></a>
 </div>
@@ -946,10 +948,10 @@ For more information on how PTO-Sim works, refer to [So et al., 2015].</p>
 <p>Simulation and postprocessing are the same process as described in WEC-Sim Simulation example above.</p>
 </div></blockquote>
 </div>
-<div class="section" id="rm3-with-mechanical-pto">
-<h4>RM3 with Mechanical PTO<a class="headerlink" href="#rm3-with-mechanical-pto" title="Permalink to this headline">¶</a></h4>
+<div class="section" id="rm3-with-direct-drive-pto">
+<h4>RM3 with Direct Drive PTO<a class="headerlink" href="#rm3-with-direct-drive-pto" title="Permalink to this headline">¶</a></h4>
 <blockquote>
-<div><p>A mehchanical PTO is used in this example is modeled as a direct drive linear generator. The main components of this example consist of magnets and coil where the magnet assembly is attached to the heaving float and the coil is locacted inside the spar. As the float moves up and down, the magnet assembly creates a change in magnetic field surrond the spar that contains the coil. Therefore, current is induced in the coil and electricity is generated.</p>
+<div><p>A mehchanical PTO is used in this example and is modeled as a direct drive linear generator. The main components of this example consist of magnets and a coil where the magnet assembly is attached to the heaving float and the coil is locacted inside the spar. As the float moves up and down, the magnet assembly creates a change in the magnetic field surrounding the spar that contains the coil: therefore, current is induced in the coil and electricity is generated.</p>
 <div class="figure">
 <a class="reference internal image-reference" href="_images/MECHANICALPTO.PNG"><img alt="_images/MECHANICALPTO.PNG" src="_images/MECHANICALPTO.PNG" style="width: 400pt;" /></a>
 </div>
@@ -962,7 +964,7 @@ For more information on how PTO-Sim works, refer to [So et al., 2015].</p>
 </div>
 <ul class="simple">
 <li>Step 5: Go to PTO-Sim library.</li>
-<li>Step 6: By looking at the physical mechanical PTO model as shown above, user can simply drag and drop PTO-Sim library blocks. In this case, only the direct drive linear generator is needed and it is located under generator box.</li>
+<li>Step 6: By looking at the physical mechanical PTO model as shown above, the user can simply drag and drop PTO-Sim library blocks. In this case, only the direct drive linear generator is needed, and it is located under generator box.</li>
 </ul>
 <div class="figure">
 <a class="reference internal image-reference" href="_images/USEPTOSIMLIB2.PNG"><img alt="_images/USEPTOSIMLIB2.PNG" src="_images/USEPTOSIMLIB2.PNG" style="width: 400pt;" /></a>
@@ -973,13 +975,12 @@ For more information on how PTO-Sim works, refer to [So et al., 2015].</p>
 <div class="figure">
 <a class="reference internal image-reference" href="_images/DDLINEARGENPTOSIM.PNG"><img alt="_images/DDLINEARGENPTOSIM.PNG" src="_images/DDLINEARGENPTOSIM.PNG" style="width: 400pt;" /></a>
 </div>
-<p>The same as RM3 with PTO-Sim.</p>
 </div></blockquote>
 </div>
 </div>
 <div class="section" id="tutorial-oswec-with-pto-sim">
 <h3>Tutorial: OSWEC with PTO-Sim<a class="headerlink" href="#tutorial-oswec-with-pto-sim" title="Permalink to this headline">¶</a></h3>
-<p>This section describes how to use OSWEC with PTO-Sim. The same process as described in <a href="#id14"><span class="problematic" id="id15">`RM3 with PTO-Sim`_</span></a>. However, since OSWEC is a rotary device, it takes torque as an input and a rotary to linear motion conversion block is needed.</p>
+<p>This section describes how to use OSWEC with PTO-Sim. The same process as described in <a class="reference external" href="http://wec-sim.github.io/WEC-Sim/features.html#tutorial-rm3-with-pto-sim">RM3 with PTO-Sim</a> ; however, since OSWEC is a rotary device, it takes torque as an input and a rotary to linear motion conversion block is needed. The tutorials can be found on the <a class="reference external" href="https://github.com/WEC-Sim/WEC-Sim_Applications">WEC-Sim_Applications</a> repository (both for a crank and for a rod).</p>
 <div class="section" id="oswec-with-hydraulic-pto">
 <h4>OSWEC with Hydraulic PTO<a class="headerlink" href="#oswec-with-hydraulic-pto" title="Permalink to this headline">¶</a></h4>
 <blockquote>
@@ -1017,7 +1018,7 @@ For more information on how PTO-Sim works, refer to [So et al., 2015].</p>
 <a class="reference internal image-reference" href="_images/USEPTOSIMLIB3.PNG"><img alt="_images/USEPTOSIMLIB3.PNG" src="_images/USEPTOSIMLIB3.PNG" style="width: 400pt;" /></a>
 </div>
 <ul class="simple">
-<li>Step 5: The rotary to linear adjustable rod block takes angular position and velocity from index slector blocks and PTO force from compressible fluid piston block. The outputs of the rotary to linear adjustable rod block are linear position, velocity, and torque. Linear position and velocity are used as inputs for compressible fluid piston and torque is fed back to WEC-Sim. The rest of the connects are the same as in RM3 with hydraulic PTO. User is encouraged to go up one level to check the connections between PTO-Sim and WEC-Sim.</li>
+<li>Step 5: The rotary to linear adjustable rod block takes angular position and velocity from index selector blocks and PTO force from compressible fluid piston block. The outputs of the rotary to linear adjustable rod block are linear position, velocity, and torque. Linear position and velocity are used as inputs for compressible fluid piston and torque is fed back to WEC-Sim. The rest of the connects are the same as in RM3 with hydraulic PTO. The user is encouraged to go up one level to check the connections between PTO-Sim and WEC-Sim.</li>
 </ul>
 <div class="figure">
 <a class="reference internal image-reference" href="_images/HYDPTOSIMOSWEC.PNG"><img alt="_images/HYDPTOSIMOSWEC.PNG" src="_images/HYDPTOSIMOSWEC.PNG" style="width: 400pt;" /></a>
@@ -1028,47 +1029,31 @@ For more information on how PTO-Sim works, refer to [So et al., 2015].</p>
 </div>
 <div class="section" id="other-pto-sim-tutorials">
 <h3>Other PTO-Sim Tutorials<a class="headerlink" href="#other-pto-sim-tutorials" title="Permalink to this headline">¶</a></h3>
-<p>Other PTO-Sim tuturails that were not discussed above are located under tutorials/PTO-Sim_Tutorials.</p>
+<p>Other PTO-Sim tutorials that were not discussed above can be found on the <a class="reference external" href="https://github.com/WEC-Sim/WEC-Sim_Applications">WEC-Sim_Applications</a> repository.</p>
 <blockquote>
 <div><table border="1" class="docutils">
 <colgroup>
-<col width="62%" />
-<col width="38%" />
+<col width="43%" />
+<col width="57%" />
 </colgroup>
-<thead valign="bottom">
-<tr class="row-odd"><th class="head" colspan="2">PTO-Sim Tutorials</th>
-</tr>
-</thead>
 <tbody valign="top">
-<tr class="row-even"><td>PTO Types</td>
-<td>Folder Names</td>
+<tr class="row-odd"><td><strong>PTO-Sim Application</strong></td>
+<td><strong>Description</strong></td>
 </tr>
-<tr class="row-odd"><td>RM3 with non-compressible fluid hydraulic</td>
-<td>PTO-Sim_RM3_w_NCF_Hydraulic_PTO</td>
+<tr class="row-even"><td>RM3_Hydraulic_PTO</td>
+<td>RM3 with hydraulic PTO</td>
 </tr>
-<tr class="row-even"><td>RM3 with compressible fluid hydraulic</td>
-<td>PTO-Sim_RM3_w_CF_Hydraulic_PTO</td>
+<tr class="row-odd"><td>RM3_cHydraulic_PTO</td>
+<td>RM3 with compressible hydraulic PTO</td>
 </tr>
-<tr class="row-odd"><td>RM3 with direct drive linear generator</td>
-<td>PTO-Sim_RM3_w_Mechanical_PTO</td>
+<tr class="row-even"><td>RM3_DD_PTO</td>
+<td>RM3 with direct drive linear generator</td>
 </tr>
-<tr class="row-even"><td>OSWEC with non-compressible fluid hydraulic (adjustable rod)</td>
-<td>PTO-Sim_OSWEC_w_NCF_Hydraulic_PTO</td>
+<tr class="row-odd"><td>OSWEC_Hydraulic_PTO</td>
+<td>OSWEC with hydraulic PTO (adjustable rod)</td>
 </tr>
-<tr class="row-odd"><td>OSWEC with compressible fluid hydraulic (adjustable rod)</td>
-<td>PTO-Sim_OSWEC_w_CF_Hydraulic_PTO</td>
-</tr>
-<tr class="row-even"><td>OSWEC with direct drive linear generator (adjustable rod)</td>
-<td>PTO-Sim_OSWEC_w_Mechanical_PTO</td>
-</tr>
-<tr class="row-odd"><td>OSWEC with non-compressible fluid hydraulic (crank)</td>
-<td>PTO-Sim_OSWEC1_w_NCF_Hydraulic_PTO</td>
-</tr>
-<tr class="row-even"><td>OSWEC with compressible fluid hydraulic (crank)</td>
-<td>PTO-Sim_OSWEC1_w_CF_Hydraulic_PTO</td>
-</tr>
-<tr class="row-odd"><td>OSWEC with direct drive linear generator (crank)</td>
-<td>PTO-Sim_OSWEC1_w_Mechanical_PTO</td>
+<tr class="row-even"><td>OSWEC_Hydraulic_Crank_PTO</td>
+<td>OSWEC with hydraulic PTO (crank)</td>
 </tr>
 </tbody>
 </table>

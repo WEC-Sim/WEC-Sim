@@ -35,7 +35,7 @@ WEC-Sim was developed in **MATLAB R2015b**, and requires the following toolboxes
 
 Download WEC-Sim
 ------------------------
-There are three ways of obtaining the WEC-Sim code, which is distributed through the `WEC-Sim GitHub repository <https://github.com/WEC-Sim/wec-sim>`_: 
+There are three ways of obtaining the WEC-Sim code which is distributed through the `WEC-Sim GitHub repository <https://github.com/WEC-Sim/wec-sim>`_: 
  
 Option 1. Clone with GitHub (Recommended for Users)
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
@@ -86,11 +86,11 @@ Step 1. Add WEC-Sim Source Code to MATLAB Path
 
 Step 2. Add WEC-Sim Library to Simulink
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-	Open the Simulink Library Browser by typing ``simulink`` into the MATLAB Command Window:
+	Open the Simulink Library Browser by typing ``slLibraryBrowser`` into the MATLAB Command Window:
 
 	.. code-block:: matlabsession
 
-		>> simulink
+		>> slLibraryBrowser
 
 	Once the Simulink Library Browser opens, `refresh the Simulink Library <http://www.mathworks.com/help/simulink/gui/use-the-library-browser.html>`_. The WEC-Sim Library (Body Elements, Constraints, Frames Moorings, and PTOs) should now be visible, as shown in the figure below. The WEC-Sim Library should now be accessible every time Simulink is opened. For more information on using and modifying library blocks refer to the `Simulink Documentation <http://www.mathworks.com/help/simulink/>`_.
 

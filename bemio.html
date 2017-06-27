@@ -153,7 +153,7 @@
 </ul>
 <div class="admonition note">
 <p class="first admonition-title">Note</p>
-<p class="last">Previously, the <a class="reference external" href="http://wec-sim.github.io/bemio/installing.html">python based BEMIO code</a> was used for this purpose. To avoid the inefficiencies associated with supporting two code platforms, the python BEMIO functions have been converted to MATLAB, and will now be automatically downloaded with the WEC-Sim code. The python based BEMIO code will remain available, but will no longer be actively supported. Also, the mesh manipulation capabilities of the  python based BEMIO code have not yet been converted to MATLAB, however, it is intended that they will be in a future release.</p>
+<p class="last">Previously, the <a class="reference external" href="http://wec-sim.github.io/bemio/installing.html">python based BEMIO code</a> was used for this purpose. To avoid the inefficiencies associated with supporting two code platforms, the python BEMIO functions have been converted to MATLAB and will now be automatically downloaded with the WEC-Sim code. The python based BEMIO code will remain available but will no longer be actively supported. Also, the mesh manipulation capabilities of the  python based BEMIO code have not yet been converted to MATLAB; however, it is intended that they will be in a future release.</p>
 </div>
 <div class="section" id="bemio-functions">
 <h2>BEMIO Functions<a class="headerlink" href="#bemio-functions" title="Permalink to this headline">¶</a></h2>
@@ -217,7 +217,7 @@
 </dd>
 </dl>
 </div></blockquote>
-<p><strong>Combine_BEM:</strong> Combines multiple BEM outputs into one hydrodynamic ‘system.’ This function requires that all BEM outputs have the same water depth, wave frequencies, and wave headings. This function would be implemented following multiple Read functions and before the IRF, Write_H5, or Plot_BEMIO functions.</p>
+<p><strong>Combine_BEM:</strong> Combines multiple BEM outputs into one hydrodynamic &#8220;system&#8221;. This function requires that all BEM outputs have the same water depth, wave frequencies, and wave headings. This function would be implemented following multiple Read functions and before the IRF, Write_H5, or Plot_BEMIO functions.</p>
 <blockquote>
 <div><dl class="docutils">
 <dt><em>hydro = Combine_BEM(hydro)</em></dt>
@@ -283,7 +283,7 @@
 </div></blockquote>
 <div class="admonition note">
 <p class="first admonition-title">Note</p>
-<p class="last">Technically, this step should not be necessary - the MATLAB data structure <em>hydro</em> is written to a .h5 file by BEMIO, and then read back into a new MATLAB data structure <em>hydroData</em> for each body by WEC-Sim. The reasons this step was retained were first, to remain compatible with the python based BEMIO output, and second, for the simpler data visualization and verification capabilities offered by the .h5 file viewer.</p>
+<p class="last">Technically, this step should not be necessary - the MATLAB data structure <em>hydro</em> is written to a .h5 file by BEMIO and then read back into a new MATLAB data structure <em>hydroData</em> for each body by WEC-Sim. The reasons this step was retained were, first, to remain compatible with the python based BEMIO output and, second, for the simpler data visualization and verification capabilities offered by the .h5 file viewer.</p>
 </div>
 <p><strong>Plot_BEMIO:</strong> Plots the added mass, radiation damping, radiation IRF, excitation force magnitude, excitation force phase, and excitation IRF for each body in the heave, surge and pitch degrees of freedom.</p>
 <blockquote>
@@ -474,21 +474,21 @@
 This requires a single BEM solution that contains all hydrodynamic bodies and accounts for body interactions.
 Some cases in which you might want to create your own h5 file are:</p>
 <ul class="simple">
-<li>Use experimentally determined coefficients, or a mix of BEM and experimental coefficients.</li>
+<li>Use experimentally determined coefficients or a mix of BEM and experimental coefficients.</li>
 <li>Combine results from different BEM files and have the coefficient matrices be the correct size for the new total number of bodies.</li>
 <li>Modify the BEM results for any other reason.</li>
 </ul>
-<p>Matlab and Python have functions to read and write <em>h5</em> files easily.
-WEC-Sim includes three functions to help you create your own h5 file.
+<p>MATLAB and Python have functions to read and write <em>h5</em> files easily.
+WEC-Sim includes three functions to help you create your own <em>h5</em> file.
 These are found under <strong>/source/functions/writeH5/</strong>.
-The header comments of each function explain the inputs and outputs, and an example of how to use it is shown in the <a class="reference external" href="https://github.com/WEC-Sim/WEC-Sim_Applications/tree/master/write_hdf5">WEC-Sim Applications</a> repository.
+The header comments of each function explain the inputs and outputs. An example of how to use it is shown in the <a class="reference external" href="https://github.com/WEC-Sim/WEC-Sim_Applications/tree/master/write_hdf5">WEC-Sim Applications</a> repository.
 The first step is to have all the required coefficients and properties in Matlab in the correct format.
 Then the functions provided are used to create and populate the <em>h5</em> file.</p>
 <div class="admonition note">
 <p class="first admonition-title">Note</p>
 <p class="last">The new <em>h5</em> file will not have the impulse response function coefficients required for the convolution integral.
 BEMIO is currently being modified to allow for reading an existing <em>h5</em> file.
-This would allow you to read in the <em>h5</em> file you created, calculate the required impulse response functions and state space coefficients and re-write the <em>h5</em> file.</p>
+This would allow you to read in the <em>h5</em> file you created, calculate the required impulse response functions and state space coefficients, and re-write the <em>h5</em> file.</p>
 </div>
 <div class="admonition note">
 <p class="first admonition-title">Note</p>

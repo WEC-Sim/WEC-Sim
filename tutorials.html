@@ -177,13 +177,13 @@
             
   <div class="section" id="tutorials">
 <span id="id1"></span><h1>Tutorials<a class="headerlink" href="#tutorials" title="Permalink to this headline">¶</a></h1>
-<p>This section provides an overview of the WEC-Sim work flow. First the WEC-Sim file structure is described, then steps for setting up and running the WEC-Sim code are described. Two example applications of using WEC-Sim to model WECs are given. For more information about the implementation and additional features, refer to the <a class="reference external" href="http://wec-sim.github.io/WEC-Sim/code_structure.html">Code Structure</a> section, and to <a class="reference external" href="http://wec-sim.github.io/WEC-Sim/features.html">Advanced Features</a> section respectively.</p>
+<p>This section provides an overview of the WEC-Sim work flow. First, the WEC-Sim file structure is described; then, steps for setting up and running the WEC-Sim code are described. Two example applications of using WEC-Sim to model WECs are given. For more information about the implementation and additional features, refer to the <a class="reference external" href="http://wec-sim.github.io/WEC-Sim/code_structure.html">Code Structure</a> section and to the <a class="reference external" href="http://wec-sim.github.io/WEC-Sim/features.html">Advanced Features</a> section respectively.</p>
 <div class="section" id="running-wec-sim">
 <h2>Running WEC-Sim<a class="headerlink" href="#running-wec-sim" title="Permalink to this headline">¶</a></h2>
-<p>The section provides an overview of the WEC-Sim file structure, and outlines the steps to run WEC-Sim.</p>
+<p>This section provides an overview of the WEC-Sim file structure and outlines the steps to run WEC-Sim.</p>
 <div class="section" id="file-structure-overview">
 <h3>File Structure Overview<a class="headerlink" href="#file-structure-overview" title="Permalink to this headline">¶</a></h3>
-<p>All files required for a WEC-Sim simulation must be contained within a case directory, referred to as <strong>$CASE</strong>. This directory can be located anywhere on your computer. The table below list the WEC-Sim case directory structure and required files.</p>
+<p>All files required for a WEC-Sim simulation must be contained within a case directory referred to as <strong>$CASE</strong>. This directory can be located anywhere on your computer. The table below list the WEC-Sim case directory structure and required files.</p>
 <table border="1" class="docutils">
 <colgroup>
 <col width="28%" />
@@ -216,9 +216,9 @@
 </div>
 <div class="section" id="step-1-wec-sim-pre-processing">
 <h3>Step 1: WEC-Sim Pre-Processing<a class="headerlink" href="#step-1-wec-sim-pre-processing" title="Permalink to this headline">¶</a></h3>
-<p>In the pre-processing step, users need to create the model geometry, calculate the hydrodynamic coefficients and convert the hydrodynamic coefficients into HDF5 format for WEC-Sim read:</p>
+<p>In the pre-processing step, users need to create the model geometry, calculate the hydrodynamic coefficients, and convert the hydrodynamic coefficients into HDF5 format for WEC-Sim read:</p>
 <ul class="simple">
-<li><strong>3D WEC Model</strong>: Create 3D models of the WEC, and generate a meshes for each body. Export the 3D CAD model in STL format. STL files are used to visualize the WEC bodies in the WEC-Sim/MATLAB GUI, and used for <a class="reference external" href="http://wec-sim.github.io/WEC-Sim/features.html#nonlinear-hydrodynamic-forces">WEC-Sim non-linear hydro</a>.</li>
+<li><strong>3D WEC Model</strong>: Create 3D models of the WEC and generate a meshes for each body. Export the 3D CAD model in STL format. STL files are used to visualize the WEC bodies in the WEC-Sim/MATLAB GUI, and they are used for <a class="reference external" href="http://wec-sim.github.io/WEC-Sim/features.html#nonlinear-hydrodynamic-forces">WEC-Sim non-linear hydro</a>.</li>
 <li><strong>Generate hydrodynamic coefficients</strong>: WEC-Sim requires frequency-domain hydrodynamic coefficients (added mass, radiation damping, and wave excitation). Typically, these hydrodynamic coefficients for each body of the WEC device are generated using a boundary element method (BEM) code (e.g., WAMIT, NEMOH or AQWA).</li>
 <li><strong>Create HDF5 file</strong>: WEC-Sim reads the hydrodynamic data in HDF5 format from the (<code class="docutils literal"><span class="pre">&lt;hydrodata_file_name&gt;.h5</span></code>) file. <a class="reference external" href="http://wec-sim.github.io/bemio/">BEMIO</a> was developed to parse BEM solutions (from WAMIT, NEMOH and AQWA) into the required HDF5 data structure.</li>
 </ul>
@@ -256,8 +256,8 @@
 </div>
 <div class="section" id="two-body-point-absorber-rm3">
 <h2>Two-Body Point Absorber (RM3)<a class="headerlink" href="#two-body-point-absorber-rm3" title="Permalink to this headline">¶</a></h2>
-<p>The sections describes application of the WEC-Sim code to model the Reference Model 3 (RM3) two-body point absorber WEC. This example application is provided in the WEC-Sim code release in the <a class="reference external" href="https://github.com/WEC-Sim/WEC-Sim/tree/master/tutorials">tutorials</a> directory.</p>
-<p>The RM3 two-body point absorber WEC has been characterized both numerically and experimentally as a result of the DOE-funded <a class="reference external" href="http://energy.sandia.gov/rmp">Reference Model Project</a>. The RM3 is a two-body point absorber, consisting of a float and a reaction plate. Full-scale dimensions of the RM3 and its mass properties are shown below.</p>
+<p>This section describes the application of the WEC-Sim code to model the Reference Model 3 (RM3) two-body point absorber WEC. This example application is provided in the WEC-Sim code release in the <a class="reference external" href="https://github.com/WEC-Sim/WEC-Sim/tree/master/tutorials">tutorials</a> directory.</p>
+<p>The RM3 two-body point absorber WEC has been characterized both numerically and experimentally as a result of the DOE-funded <a class="reference external" href="http://energy.sandia.gov/rmp">Reference Model Project</a>. The RM3 is a two-body point absorber consisting of a float and a reaction plate. Full-scale dimensions of the RM3 and its mass properties are shown below.</p>
 <div class="figure">
 <a class="reference internal image-reference" href="_images/RM3_Geom.jpg"><img alt="_images/RM3_Geom.jpg" src="_images/RM3_Geom.jpg" style="width: 400pt;" /></a>
 </div>
@@ -293,7 +293,7 @@ Inertia (kg-m^2)</td>
 <td>4305</td>
 </tr>
 <tr class="row-even"><td>-0.72</td>
-<td>&nbsp;</td>
+<td>0</td>
 <td>4305</td>
 <td>37,085,481</td>
 </tr>
@@ -331,7 +331,7 @@ Inertia (kg-m^2)</td>
 <td>217,593</td>
 </tr>
 <tr class="row-even"><td>-21.29</td>
-<td>&nbsp;</td>
+<td>0</td>
 <td>217,593</td>
 <td>28,542,225</td>
 </tr>
@@ -339,7 +339,7 @@ Inertia (kg-m^2)</td>
 </table>
 <div class="section" id="id3">
 <h3>File Structure Overview<a class="headerlink" href="#id3" title="Permalink to this headline">¶</a></h3>
-<p>Below is an overview of the files required to run the RM3 simulation in WEC-Sim. For the RM3 WEC, consisting of a buoy and a plate, there are two corresponding geometry files: <code class="docutils literal"><span class="pre">float.stl</span></code> and <code class="docutils literal"><span class="pre">plate.stl</span></code>. In addition to the required files listed below, users may supply a <code class="docutils literal"><span class="pre">userDefinedFunctions.m</span></code> file for post-processing results once the WEC-Sim run is complete.</p>
+<p>Below is an overview of the files required to run the RM3 simulation in WEC-Sim. For the RM3 WEC, there are two corresponding geometry files: <code class="docutils literal"><span class="pre">float.stl</span></code> and <code class="docutils literal"><span class="pre">plate.stl</span></code>. In addition to the required files listed below, users may supply a <code class="docutils literal"><span class="pre">userDefinedFunctions.m</span></code> file for post-processing results once the WEC-Sim run is complete.</p>
 <table border="1" class="docutils">
 <colgroup>
 <col width="28%" />
@@ -475,8 +475,8 @@ Inertia (kg-m^2)</td>
 </div>
 <div class="section" id="oscillating-surge-wec-oswec">
 <h2>Oscillating Surge WEC (OSWEC)<a class="headerlink" href="#oscillating-surge-wec-oswec" title="Permalink to this headline">¶</a></h2>
-<p>The sections describes application of the WEC-Sim code to model the Oscillating Surge WEC (OSWEC). This example application is provided in the WEC-Sim code release in the <a class="reference external" href="https://github.com/WEC-Sim/WEC-Sim/tree/master/tutorials">tutorials</a> directory.</p>
-<p>The OSWEC was selected because its design is fundamentally different from the RM3. This is critical because WECs span an extensive design space, and it is important to model devices in WEC-Sim that operate under different principles.  The OSWEC is fixed to the ground and has a flap that is connected through a hinge to the base that restricts the flap to pitch about the hinge. The full-scale dimensions of the OSWEC and the mass properties are shown in the figure and table below.</p>
+<p>This section describes the application of the WEC-Sim code to model the Oscillating Surge WEC (OSWEC). This example application is provided in the WEC-Sim code release in the <a class="reference external" href="https://github.com/WEC-Sim/WEC-Sim/tree/master/tutorials">tutorials</a> directory.</p>
+<p>The OSWEC was selected because its design is fundamentally different from the RM3. This is critical because WECs span an extensive design space, and it is important to model devices in WEC-Sim that operate under different principles.  The OSWEC is fixed to the ground and has a flap that is connected through a hinge to the base that restricts the flap in order to pitch about the hinge. The full-scale dimensions of the OSWEC and the mass properties are shown in the figure and table below.</p>
 <div class="figure">
 <a class="reference internal image-reference" href="_images/OSWEC_Geom.png"><img alt="_images/OSWEC_Geom.png" src="_images/OSWEC_Geom.png" style="width: 400pt;" /></a>
 </div>
@@ -510,7 +510,7 @@ of Inertia
 </table>
 <div class="section" id="id11">
 <h3>File Structure Overview<a class="headerlink" href="#id11" title="Permalink to this headline">¶</a></h3>
-<p>Below is an overview of the files required to run the OSWEC simulation in WEC-Sim. For the OSWEC, consisting of a flap and a base, there are two corresponding geometry files: <code class="docutils literal"><span class="pre">flap.stl</span></code> and <code class="docutils literal"><span class="pre">base.stl</span></code>. In addition to the required files listed below, users may supply a <code class="docutils literal"><span class="pre">userDefinedFunctions.m</span></code> file for post-processing results once the WEC-Sim run is complete.</p>
+<p>Below is an overview of the files required to run the OSWEC simulation in WEC-Sim. For the OSWEC, there are two corresponding geometry files: <code class="docutils literal"><span class="pre">flap.stl</span></code> and <code class="docutils literal"><span class="pre">base.stl</span></code>. In addition to the required files listed below, users may supply a <code class="docutils literal"><span class="pre">userDefinedFunctions.m</span></code> file for post-processing results once the WEC-Sim run is complete.</p>
 <table border="1" class="docutils">
 <colgroup>
 <col width="27%" />

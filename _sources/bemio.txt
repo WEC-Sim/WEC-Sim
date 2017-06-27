@@ -9,7 +9,7 @@ The Boundary Element Method Input/Output (BEMIO) functions are used to preproces
 * Plot typical hydrodynamic data for user verification.
 
 .. Note:: 
-	Previously, the `python based BEMIO code <http://wec-sim.github.io/bemio/installing.html>`_ was used for this purpose. To avoid the inefficiencies associated with supporting two code platforms, the python BEMIO functions have been converted to MATLAB, and will now be automatically downloaded with the WEC-Sim code. The python based BEMIO code will remain available, but will no longer be actively supported. Also, the mesh manipulation capabilities of the  python based BEMIO code have not yet been converted to MATLAB, however, it is intended that they will be in a future release. 
+	Previously, the `python based BEMIO code <http://wec-sim.github.io/bemio/installing.html>`_ was used for this purpose. To avoid the inefficiencies associated with supporting two code platforms, the python BEMIO functions have been converted to MATLAB and will now be automatically downloaded with the WEC-Sim code. The python based BEMIO code will remain available but will no longer be actively supported. Also, the mesh manipulation capabilities of the  python based BEMIO code have not yet been converted to MATLAB; however, it is intended that they will be in a future release. 
 
 
 
@@ -50,7 +50,7 @@ BEMIO Functions
 	*hydro = Normalize(hydro)*
 		* *hydro* – data structure
 
-**Combine_BEM:** Combines multiple BEM outputs into one hydrodynamic ‘system.’ This function requires that all BEM outputs have the same water depth, wave frequencies, and wave headings. This function would be implemented following multiple Read functions and before the IRF, Write_H5, or Plot_BEMIO functions.
+**Combine_BEM:** Combines multiple BEM outputs into one hydrodynamic "system". This function requires that all BEM outputs have the same water depth, wave frequencies, and wave headings. This function would be implemented following multiple Read functions and before the IRF, Write_H5, or Plot_BEMIO functions.
 
 	*hydro = Combine_BEM(hydro)*
 		* *hydro* – data structure
@@ -92,7 +92,7 @@ BEMIO Functions
 		* *hydro* – data structure
 
 .. Note::
- 	Technically, this step should not be necessary - the MATLAB data structure *hydro* is written to a .h5 file by BEMIO, and then read back into a new MATLAB data structure *hydroData* for each body by WEC-Sim. The reasons this step was retained were first, to remain compatible with the python based BEMIO output, and second, for the simpler data visualization and verification capabilities offered by the .h5 file viewer.
+ 	Technically, this step should not be necessary - the MATLAB data structure *hydro* is written to a .h5 file by BEMIO and then read back into a new MATLAB data structure *hydroData* for each body by WEC-Sim. The reasons this step was retained were, first, to remain compatible with the python based BEMIO output and, second, for the simpler data visualization and verification capabilities offered by the .h5 file viewer.
 
 **Plot_BEMIO:** Plots the added mass, radiation damping, radiation IRF, excitation force magnitude, excitation force phase, and excitation IRF for each body in the heave, surge and pitch degrees of freedom. 
 
@@ -160,14 +160,14 @@ The most common way of creating an h5 file is using BEMIO to post-process the ou
 This requires a single BEM solution that contains all hydrodynamic bodies and accounts for body interactions.
 Some cases in which you might want to create your own h5 file are:
 
-* Use experimentally determined coefficients, or a mix of BEM and experimental coefficients.
+* Use experimentally determined coefficients or a mix of BEM and experimental coefficients.
 * Combine results from different BEM files and have the coefficient matrices be the correct size for the new total number of bodies.
 * Modify the BEM results for any other reason.
 
-Matlab and Python have functions to read and write *h5* files easily.
-WEC-Sim includes three functions to help you create your own h5 file. 
+MATLAB and Python have functions to read and write *h5* files easily.
+WEC-Sim includes three functions to help you create your own *h5* file. 
 These are found under **/source/functions/writeH5/**.
-The header comments of each function explain the inputs and outputs, and an example of how to use it is shown in the `WEC-Sim Applications <https://github.com/WEC-Sim/WEC-Sim_Applications/tree/master/write_hdf5>`_ repository.
+The header comments of each function explain the inputs and outputs. An example of how to use it is shown in the `WEC-Sim Applications <https://github.com/WEC-Sim/WEC-Sim_Applications/tree/master/write_hdf5>`_ repository.
 The first step is to have all the required coefficients and properties in Matlab in the correct format.
 Then the functions provided are used to create and populate the *h5* file. 
 
@@ -175,7 +175,7 @@ Then the functions provided are used to create and populate the *h5* file.
 
 	The new *h5* file will not have the impulse response function coefficients required for the convolution integral.
 	BEMIO is currently being modified to allow for reading an existing *h5* file.
-	This would allow you to read in the *h5* file you created, calculate the required impulse response functions and state space coefficients and re-write the *h5* file.
+	This would allow you to read in the *h5* file you created, calculate the required impulse response functions and state space coefficients, and re-write the *h5* file.
 
 .. Note::
 
