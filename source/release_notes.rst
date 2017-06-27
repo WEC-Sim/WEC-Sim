@@ -7,7 +7,7 @@ Release Notes
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 * Updated WEC-Sim's parser for moorDyn
 * Added option to save pressure data for non-linear hydro (`simu.pressureDis`)
-* ** Repository cleanup **
+* Repository cleanup
 		* Implemented `Git LFS <https://git-lfs.github.com/>`_ for tracking *.h5 files
 		* Added `WEC-Sim_Applications <https://github.com/WEC-Sim/WEC-Sim_Applications>`_ repository as a `submodule <https://git-scm.com/book/en/v2/Git-Tools-Submodules>`_
 		* Moved `moorDyn <https://github.com/WEC-Sim/moorDyn>`_ to its own repository
