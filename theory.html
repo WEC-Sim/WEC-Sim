@@ -130,7 +130,6 @@
 </li>
 <li class="toctree-l1"><a class="reference internal" href="code_structure.html">Code Structure</a></li>
 <li class="toctree-l1"><a class="reference internal" href="features.html">Advanced Features</a></li>
-<li class="toctree-l1"><a class="reference internal" href="tutorials.html">Tutorials</a></li>
 <li class="toctree-l1"><a class="reference internal" href="webinars.html">Webinars</a></li>
 <li class="toctree-l1"><a class="reference internal" href="license.html">License</a></li>
 <li class="toctree-l1"><a class="reference internal" href="publications.html">Publications</a></li>
@@ -310,11 +309,7 @@ y &amp;=&amp; \mathbf{C_{r}} x~~\end{split}\]</div>
         \mathbf{K_{r}}(n) &amp; 0 &amp; \cdots &amp; 0
 \end{bmatrix} &amp;\\\end{split}\]</div>
 <div class="math">
-<<<<<<< HEAD
 \[\begin{split}&amp; H = \mathbf{U} \Sigma \mathbf{V^{*}} &amp;\end{split}\]</div>
-=======
-\[&amp; H = \mathbf{U} \Sigma \mathbf{V^{*}} &amp;\]</div>
->>>>>>> 48e016c04970dbf04c6ed5c1ca234b7a7a21aca3
 <p>where <span class="math">\(H\)</span> is the Hankel matrix and <span class="math">\(\Sigma\)</span> is a diagonal matrix containing the Hankel singular vales in descending order.  Examination of the Hankel singular values reveals there are only a small number of significant states and that model reduction can be performed without a significant loss in accuracy <a class="reference internal" href="#taghipour2008" id="id15">[10]</a><a class="reference internal" href="#kristiansen2005" id="id16">[12]</a>.  Further detail into the SVD method and calculation of the state space parameters will not be discussed and the reader is referred to <a class="reference internal" href="#taghipour2008" id="id17">[10]</a><a class="reference internal" href="#kristiansen2005" id="id18">[12]</a>.</p>
 </div>
 </div>
@@ -328,11 +323,7 @@ y &amp;=&amp; \mathbf{C_{r}} x~~\end{split}\]</div>
 <h4>Pierson&#8211;Moskowitz<a class="headerlink" href="#pierson-moskowitz" title="Permalink to this headline">¶</a></h4>
 <p>One of the simplest spectra was proposed by <a class="reference internal" href="#pm" id="id19">[13]</a>. It assumed that after the wind blew steadily for a long time over a large area, the waves would come into equilibrium with the wind. This is the concept of a fully developed sea where a &#8220;long time&#8221; is roughly 10,000 wave periods and a &#8220;large area&#8221; is roughly 5,000 wave-lengths on a side.  The spectrum is calculated from</p>
 <div class="math">
-<<<<<<< HEAD
 \[\begin{split}&amp; S\left( f \right) = \frac{\alpha_{PM}g^{2}}{\left( 2 \pi \right)^{4}}f^{-5}\exp\left[-\frac{5}{4} \left( \frac{f_{p}}{f}\right)^{4} \right]~~ &amp;\\\end{split}\]\[\begin{split}&amp; A = \frac{\alpha_{PM}g^{2}}{\left( 2 \pi \right)^{4}},~~B = \frac{5}{4} {f_{p}}^{4}~~ &amp;\end{split}\]</div>
-=======
-\[ \begin{align}\begin{aligned}\begin{split}&amp; S\left( f \right) = \frac{\alpha_{PM}g^{2}}{\left( 2 \pi \right)^{4}}f^{-5}\exp\left[-\frac{5}{4} \left( \frac{f_{p}}{f}\right)^{4} \right]~~ &amp;\\\end{split}\\&amp; A = \frac{\alpha_{PM}g^{2}}{\left( 2 \pi \right)^{4}},~~B = \frac{5}{4} {f_{p}}^{4}~~ &amp;\end{aligned}\end{align} \]</div>
->>>>>>> 48e016c04970dbf04c6ed5c1ca234b7a7a21aca3
 <p>where <span class="math">\(\alpha_{PM}\)</span> = 0.0081, <span class="math">\(g\)</span> is gravity and <span class="math">\(f_{p}\)</span> is the peak frequency of the spectrum. However, this spectrum representation does not allow the user to define the significant wave height. To facilitate the creation of a power matrix in WEC-Sim, the <span class="math">\(\alpha_{PM}\)</span> coefficient was calculated such that the desired significant wave height of the sea state was met.  The <span class="math">\(\alpha_{PM}\)</span> fit was calculated as follows:</p>
 <div class="math">
 \[\alpha_{PM} = \frac{H_{m0}^{2}}{16\int_{0}^{\infty} S^{*} \left( f \right) df}~~\]\[S^{*}\left( f \right) = \frac{ g^{2} }{ (2\pi)^{4}} f^{-5}\exp\left[-\frac{5}{4} \left( \frac{f_{p}}{f}\right)^{4} \right]~~\]</div>

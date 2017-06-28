@@ -1,6 +1,8 @@
 Mooring/MoorDyn
 ------------------
-Floating WEC systems are often connected to mooring lines to keep the device in position. WEC-Sim allows the user to model the mooring dynamics in the simulation by specifying the mooring matrix or coupling with MoorDyn. To include mooring connections, the user can use the mooring block (i.e., Mooring Matrix block or MoorDyn block) given in the WEC-Sim library under Moorings lib and connect it between the body and the Global reference frame. Please see the following Tutorial subsection for more information.
+Floating WEC systems are often connected to mooring lines to keep the device in position. WEC-Sim allows the user to model the mooring dynamics in the simulation by specifying the mooring matrix or coupling with MoorDyn. To include mooring connections, the user can use the mooring block (i.e., Mooring Matrix block or MoorDyn block) given in the WEC-Sim library under Moorings lib and connect it between the body and the Global reference frame. Refer the `MoorDyn Tutorial <http://wec-sim.github.io/WEC-Sim/features.html#tutorial-rm3-with-moordyn>`_ section for more information.
+
+MoorDyn is hosted on  a seperate `MoorDyn repository <https://github.com/WEC-Sim/moorDyn>`_. It must be download seperately, and all files and folders should be placed in the **WEC-Sim/source/functions/moorDyn** folder.
 
 
 Using Mooring Matrix
@@ -21,14 +23,14 @@ Using MoorDyn
 	When the MoorDyn block is used, the user needs to initiate the mooring class by setting :code:`mooring = mooringClass('mooring name')` in the WEC-Sim input file (wecSimInputFile.m), followed by number of mooring lines is defined in MoorDyn (``mooring(1).moorDynLines = <Number of mooring lines>``)
 
 	A mooring folder that includes a moorDyn input file (``lines.txt``) is required in the simulation folder. 
-	A WEC-Sim/MoorDyn coupling example is provided in the `WEC-Sim Applications <https://github.com/WEC-Sim/WEC-Sim_Applications/tree/master/RM3_MoorDyn>`_ repository and will be described in the following subsection.
+	
 
 	.. Note: 
 		WEC-Sim/MoorDyn coupling only allows one mooring configuration in the simulation.
 
 Tutorial: RM3 with MoorDyn
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-	This section describes how to simulate a mooring connected WEC system in WEC-Sim using MoorDyn. The RM3 two-body floating point absorber is connected to a three-point catenary mooring system with an angle of 120 between the lines in this example case. The RM3 with MoorDyn folder is located under `WEC-Sim_Applications <https://github.com/WEC-Sim/WEC-Sim_Applications>`_.
+	This section describes how to simulate a mooring connected WEC system in WEC-Sim using MoorDyn. The RM3 two-body floating point absorber is connected to a three-point catenary mooring system with an angle of 120 between the lines in this example case. The RM3 with MoorDyn folder is located under `WEC-Sim Applications repository <https://github.com/WEC-Sim/WEC-Sim_Applications>`_.
 
 
 	* WEC Model: To couple WEC-Sim with MoorDyn, the MoorDyn Block is added in parallel to the constraint block

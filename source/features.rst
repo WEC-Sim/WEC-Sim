@@ -22,7 +22,7 @@ WEC-Sim has the option to include the non-linear hydrostatic restoring and Froud
 
 	:code:`simu.nlHydro = 2`  
 	
-For more information about non-linear hydrodynamics, refer to the webinar `available here <http://wec-sim.github.io/WEC-Sim/webinars.html#wec-sim-webinar-2-nonlinear-hydro-non-hydro-b2b>`_, 
+For more information, refer to the `non-linear hydrodynamics webinar <http://wec-sim.github.io/WEC-Sim/webinars.html#wec-sim-webinar-2-nonlinear-hydro-non-hydro-b2b>`_, and the `WEC-Sim Applications repository <https://github.com/WEC-Sim/WEC-Sim_Applications>`_ non-linear hydrodynamics example. 
 
 
 Non-Linear Settings
@@ -83,7 +83,7 @@ Non-Linear Tutorial - Heaving Ellipsoid
 	.. literalinclude:: nonLinaerwecSimInputFile.m
 	   :language: matlab
 
-	Simulation and post-processing is the same process as described in `Tutorial Section <http://wec-sim.github.io/WEC-Sim/tutorials.html>_`.
+	Simulation and post-processing is the same process as described in `Tutorial Section <http://wec-sim.github.io/WEC-Sim/tutorials.html>`_.
 
 
 Non-Hydrodynamic Bodies
@@ -97,7 +97,7 @@ To use non-hydrodynamic bodies, the following bodyClass variable must be defined
 	:code:`body(i).nhBody = 1` 
 
 
-For more information about non-hydro bodies, refer to the webinar `available here <http://wec-sim.github.io/WEC-Sim/webinars.html#wec-sim-webinar-2-nonlinear-hydro-non-hydro-b2b>`_, 
+For more information, refer to the `non-hydro bodies webinar <http://wec-sim.github.io/WEC-Sim/webinars.html#wec-sim-webinar-2-nonlinear-hydro-non-hydro-b2b>`_, and the `WEC-Sim_Application repository <https://github.com/WEC-Sim/WEC-Sim_Applications>`_ non-hydro body example. 
 
 Body-To-Body Interactions
 ---------------------------------
@@ -109,7 +109,7 @@ To use body-to-body interactions, the following simulationClass variable must be
 
 	:code:`simu.b2b = 1`
 	
-For more information about b2b interactions, refer to the webinar `available here <http://wec-sim.github.io/WEC-Sim/webinars.html#wec-sim-webinar-2-nonlinear-hydro-non-hydro-b2b>`_, 	
+For more information, refer to the `B2B webinar <http://wec-sim.github.io/WEC-Sim/webinars.html#wec-sim-webinar-2-nonlinear-hydro-non-hydro-b2b>`_, and the `WEC-Sim_Application repository <https://github.com/WEC-Sim/WEC-Sim_Applications>`_ B2B example.  	
 
 .. Note::
 
@@ -117,6 +117,8 @@ For more information about b2b interactions, refer to the webinar `available her
 
 Time-Step Features
 ------------------
+The default WEC-Sim solver is 'ode4'. Refer to the `WEC-Sim_Application repository <https://github.com/WEC-Sim/WEC-Sim_Applications>`_ non-linear hydro example for a comparisons between 'ode4' to 'ode45'.  	
+
 
 Fixed Time-Step (ode4)
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
@@ -129,16 +131,13 @@ Fixed Time-Step (ode4)
 	* Nonlinear hydrodynamics time-step: :code:`simu.dtFeNonlin=N*simu.dt` 
 	* Convolution integral time-step: :code:`simu.dtCITime=N*simu.dt` 	
 
-.. Note::
-
-	Fixed time-step using ode4 the WEC-Sim default solver 
-
 Variable Time-Step (ode45)
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 	To run WEC-Sim with a variable time-step, the following variables must be defined in the simulationClass:
 
 	* Numerical solver: :code:`simu.solver='ode45'` 
 	* Max time-step: :code:`simu.dt` 
+
 
 
 Body Mass and Geometry Features
@@ -187,7 +186,7 @@ WEC-Sim allows users to perform batch runs by typing ``wecSimMCR`` into the MATL
 	**Option 3.**  Provide a MCR case *.mat* file, and specify the filename in the WEC-Sim input file, example:
 	``simu.mcrCaseFile = "<File name>.mat"``
 
-For more information about MCR, refer to the webinar `available here <http://wec-sim.github.io/WEC-Sim/webinars.html#wec-sim-webinar-1-bemio-mcr>`_
+For more information, refer to the `MCR webinar <http://wec-sim.github.io/WEC-Sim/webinars.html#wec-sim-webinar-1-bemio-mcr>`_, and the `WEC-Sim_Application repository <https://github.com/WEC-Sim/WEC-Sim_Applications>`_ MCR example. 
 
 .. Note::
 
@@ -205,6 +204,8 @@ There are methods available to help setup this initial displacement for all bodi
 To do this, you would use the :code:`body(i).setInitDisp(...);`, :code:`constraint(i).setInitDisp(...)`, :code:`pto(i).setInitDisp(...)`, and :code:`mooring(i).setInitDisp(...)` method in the WEC-Sim input file.
 A description of the required input can be found in the method's header comments.
 Note that :code:`body(i).cg`, :code:`constraint(i).loc`, :code:`pto(i).loc`, and :code:`mooring.ref` must be defined prior to using the object's :code:`.setInitDisp` method.
+
+For more information, refer to the `WEC-Sim_Application repository <https://github.com/WEC-Sim/WEC-Sim_Applications>`_ IEA OES Task 10 example.
 
 
 .. MoorDyn

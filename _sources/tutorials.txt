@@ -1,11 +1,7 @@
 ﻿.. _tutorials:
 
-Tutorials
-=========
-This section provides an overview of the WEC-Sim work flow. First, the WEC-Sim file structure is described; then, steps for setting up and running the WEC-Sim code are described. Two example applications of using WEC-Sim to model WECs are given. For more information about the implementation and additional features, refer to the `Code Structure <http://wec-sim.github.io/WEC-Sim/code_structure.html>`_ section and to the `Advanced Features <http://wec-sim.github.io/WEC-Sim/features.html>`_ section respectively. 
 
-
-Running WEC-Sim
+Run WEC-Sim
 ---------------------
 This section provides an overview of the WEC-Sim file structure and outlines the steps to run WEC-Sim.
 
@@ -58,8 +54,14 @@ Execute the WEC-Sim code by typing ``wecSim`` into the MATLAB Command Window. Th
 	WEC-Sim simulations should always be executed from the MATLAB Command Window, not from the Simulink/SimMechanics model.
 
 
+
+Tutorials
+---------
+This section provides an overview of the WEC-Sim work flow. First, the WEC-Sim file structure is described; then, steps for setting up and running the WEC-Sim code are described. Two example applications of using WEC-Sim to model WECs are given. For more information about the implementation and additional features, refer to the `Code Structure <http://wec-sim.github.io/WEC-Sim/code_structure.html>`_ section and to the `Advanced Features <http://wec-sim.github.io/WEC-Sim/features.html>`_ section respectively. 
+
+
 Two-Body Point Absorber (RM3)
------------------------------
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 This section describes the application of the WEC-Sim code to model the Reference Model 3 (RM3) two-body point absorber WEC. This example application is provided in the WEC-Sim code release in the `tutorials <https://github.com/WEC-Sim/WEC-Sim/tree/master/tutorials>`_ directory.
 
 The RM3 two-body point absorber WEC has been characterized both numerically and experimentally as a result of the DOE-funded `Reference Model Project <http://energy.sandia.gov/rmp>`_. The RM3 is a two-body point absorber consisting of a float and a reaction plate. Full-scale dimensions of the RM3 and its mass properties are shown below.
@@ -94,7 +96,7 @@ The RM3 two-body point absorber WEC has been characterized both numerically and 
 +------+---------+----------+----------+----------+ 
 
 File Structure Overview
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+++++++++++++++++++++++++++++
 Below is an overview of the files required to run the RM3 simulation in WEC-Sim. For the RM3 WEC, there are two corresponding geometry files: ``float.stl`` and ``plate.stl``. In addition to the required files listed below, users may supply a ``userDefinedFunctions.m`` file for post-processing results once the WEC-Sim run is complete. 
 
 ==================   =====================  =========================
@@ -106,11 +108,11 @@ Geometry File        float.stl & plate.stl  /tutorials/rm3/geometry/
 ==================   =====================  =========================
 
 Step 1: WEC-Sim Pre-Processing
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+++++++++++++++++++++++++++++
 Hydrodynamic data for each RM3 body must be parsed into a HDF5 file using the `BEMIO <http://wec-sim.github.io/bemio/>`_ hydrodynamic data format. The RM3 HDF5 file (``rm3.h5``) was created based on a WAMIT run of the RM3 geometry. The RM3 WAMIT ``rm3.out`` file and the BEMIO ``readWAMIT.py`` script were used to generate the HDF5 are included in the ``/hydroData`` directory.
 
 Step 2: Build WEC-Sim model in Simulink
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+++++++++++++++++++++++++++++++++++++++++++++++++++++++++
 The WEC-Sim Simulink model is created by dragging and dropping blocks from the *WEC-Sim Library* into the ``rm3.slx`` file. 
 
 * Place two **Rigid Body** blocks from the *WEC-Sim Library* in the Simulink model file, one for each RM3 rigid body.
@@ -140,7 +142,7 @@ The WEC-Sim Simulink model is created by dragging and dropping blocks from the *
 
 
 Step 3: Write WEC-Sim input file
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
++++++++++++++++++++++++++++++++++
 The WEC-Sim input file defines simulation parameters, body properties, joints, and mooring for the RM3 model. The ``wecSimInputFile.m`` for the RM3 is provided in the RM3 case directory, and shown below.
 
 *RM3 wecSimInputFile*
@@ -150,18 +152,16 @@ The WEC-Sim input file defines simulation parameters, body properties, joints, a
       
 
 Step 4: Execute WEC-Sim
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+++++++++++++++++++++++++++++
 To execute the WEC-Sim code for the RM3 tutorial, type ``wecSim`` into the MATLAB Command Window. Below is a figure showing the final RM3 Simulink model and the WEC-Sim GUI during the simulation. For more information on using WEC-Sim to model the RM3 device, refer to :cite:`ruehl_preliminary_2014`.
 
 .. figure:: _static/RM3_WECSim_GUI.JPG
    :width: 600pt
 
-Output and Post-processing
-++++++++++++++++++++++++++++
+** Output and Post-processing **
 The RM3 example includes a ``userDefinedFunctions.m`` which plots RM3 forces and responses. This file can be modified by users for post-processing. Additionally, once the WEC-Sim run is complete, the WEC-Sim results are saved to the **output** variable in the MATLAB workspace.
 
-Running Different Wave Cases
-++++++++++++++++++++++++++++
+** Running Different Wave Cases **
 The default wave case for the RM3 tutorial is regularCIC, however the input file for the RM3 tutorial includes several different wave cases: 
 
 * noWaveCIC - no wave with convolution integral calculation
@@ -177,7 +177,7 @@ The default wave case for the RM3 tutorial is regularCIC, however the input file
 
   
 Oscillating Surge WEC (OSWEC)
------------------------------
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 This section describes the application of the WEC-Sim code to model the Oscillating Surge WEC (OSWEC). This example application is provided in the WEC-Sim code release in the `tutorials <https://github.com/WEC-Sim/WEC-Sim/tree/master/tutorials>`_ directory.
 
 The OSWEC was selected because its design is fundamentally different from the RM3. This is critical because WECs span an extensive design space, and it is important to model devices in WEC-Sim that operate under different principles.  The OSWEC is fixed to the ground and has a flap that is connected through a hinge to the base that restricts the flap in order to pitch about the hinge. The full-scale dimensions of the OSWEC and the mass properties are shown in the figure and table below.
@@ -201,7 +201,7 @@ The OSWEC was selected because its design is fundamentally different from the RM
 
 
 File Structure Overview
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+++++++++++++++++++++++++++++
 Below is an overview of the files required to run the OSWEC simulation in WEC-Sim. For the OSWEC, there are two corresponding geometry files: ``flap.stl`` and ``base.stl``. In addition to the required files listed below, users may supply a ``userDefinedFunctions.m`` file for post-processing results once the WEC-Sim run is complete. 
 
 ==================   =====================  ===========================
@@ -213,11 +213,11 @@ Geometry File        flap.stl & base.stl    /tutorials/oswec/geometry/
 ==================   =====================  ===========================
 
 Step 1: WEC-Sim Pre-Processing
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+++++++++++++++++++++++++++++++++++++++++++++++++++++++++
 Hydrodynamic data for each OSWEC body must be parsed into a HDF5 file using the `BEMIO <http://wec-sim.github.io/bemio/>`_ hydrodynamic data format. The OSWEC HDF5 file (``oswec.h5``) was created based on a WAMIT run of the RM3 geometry. The OSWEC WAMIT ``oswec.out`` file and the BEMIO ``readWAMIT.py`` script used to generate the HDF5 are included in the ``/hydroData`` directory.
 
 Step 2: Build WEC-Sim model in Simulink
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+++++++++++++++++++++++++++++++++++++++++++++++++++++++++
 The WEC-Sim Simulink model is created by dragging and dropping blocks from the *WEC-Sim Library* into the ``oswec.slx`` file. 
 
 * Place two **Rigid Body** blocks from the *WEC-Sim Library* in the Simulink model file, one for each OSWEC rigid body. 
@@ -246,7 +246,7 @@ The WEC-Sim Simulink model is created by dragging and dropping blocks from the *
 	When setting up a WEC-Sim model, it is very important to note the base and follower frames.
 
 Step 3: Write WEC-Sim input file
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+++++++++++++++++++++++++++++++++++++++++++++++++++++++++
 The WEC-Sim input file defines simulation parameters, body properties, joints, and mooring for the OSWEC model. The ``wecSimInputFile.m`` for the OSWEC is provided in the RM3 case directory, and shown below.
 
 *OSWEC wecSimInputFile*
@@ -255,7 +255,7 @@ The WEC-Sim input file defines simulation parameters, body properties, joints, a
    :language: matlab
 
 Step 4: Execute WEC-Sim
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+++++++++++++++++++++++++++++
 To execute the WEC-Sim code for the OSWEC tutorial, type ``wecSim`` into the MATLAB Command Window. Below is a figure showing the final OSWEC Simulink model and the WEC-Sim GUI during the simulation. For more information on using WEC-Sim to model the OSWEC device, refer to :cite:`y._yu_development_2014,y._yu_design_2014`.
 
 .. figure:: _static/OSWEC_WECSim_GUI.jpg
@@ -263,10 +263,10 @@ To execute the WEC-Sim code for the OSWEC tutorial, type ``wecSim`` into the MAT
 
 
 Other Examples: Applications Repository
----------------------------------------
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 The `WEC-Sim Applications <https://github.com/WEC-Sim/WEC-Sim_Applications>`_ repository contains applications of the WEC-Sim code, including tutorials by the WEC-Sim team as well as user-shared examples.
 
 References
---------------
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 .. bibliography:: WEC-Sim_Tutorials.bib
    :style: unsrt

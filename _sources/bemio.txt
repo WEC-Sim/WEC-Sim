@@ -8,6 +8,9 @@ The Boundary Element Method Input/Output (BEMIO) functions are used to preproces
 * Save the resulting data in Hierarchical Data Format 5 (HDF5).
 * Plot typical hydrodynamic data for user verification.
 
+For more inforation, refer to the `BEMIO tutorial <http://wec-sim.github.io/WEC-Sim/features.html#bemio-tutorials>`_ section and the  `BEMIO webinar <http://wec-sim.github.io/WEC-Sim/webinars.html#wec-sim-webinar-1-bemio-mcr>`_.
+
+
 .. Note:: 
 	Previously, the `python based BEMIO code <http://wec-sim.github.io/bemio/installing.html>`_ was used for this purpose. To avoid the inefficiencies associated with supporting two code platforms, the python BEMIO functions have been converted to MATLAB and will now be automatically downloaded with the WEC-Sim code. The python based BEMIO code will remain available but will no longer be actively supported. Also, the mesh manipulation capabilities of the  python based BEMIO code have not yet been converted to MATLAB; however, it is intended that they will be in a future release. 
 
@@ -151,7 +154,7 @@ w             [1,Nf]                    wave frequencies
 BEMIO Tutorials
 ~~~~~~~~~~~~~~~~
 
-The BEMIO tutorials are included in the `BEMIO folder <https://github.com/WEC-Sim/WEC-Sim/tree/master/tutorials/BEMIO>`_ in the WEC-Sim tutorials. For more inforation about BEMIO, refer to the webinar `available here <http://wec-sim.github.io/WEC-Sim/webinars.html#wec-sim-webinar-1-bemio-mcr>`_, and
+The BEMIO tutorials are included in the `BEMIO tutorial folder <https://github.com/WEC-Sim/WEC-Sim/tree/master/tutorials/BEMIO>`_ in the WEC-Sim source code. For more inforation, refer to the `BEMIO webinar <http://wec-sim.github.io/WEC-Sim/webinars.html#wec-sim-webinar-1-bemio-mcr>`_.
 
 
 Writing Your Own h5 File

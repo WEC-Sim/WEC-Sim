@@ -1,5 +1,3 @@
-
-
 .. _ptosim:
 
 Power Take-Off/PTO-Sim
@@ -10,12 +8,12 @@ PTO-Sim is made of native Simulink blocks coupled with WEC-Sim, using WEC-Sim's 
 Similarly, the PTO force or torque is the WEC-Sim input. 
 For more information on how PTO-Sim works, refer to [So et al., 2015].
 
-The files for the tutorials described in this section can be found in the `WEC-Sim Applications <https://github.com/WEC-Sim/WEC-Sim_Applications>`_ repository.
+The files for the tutorials described in this section can be found in the `WEC-Sim Applications repository <https://github.com/WEC-Sim/WEC-Sim_Applications>`_.
 
 
 Tutorial: RM3 with PTO-Sim
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-This section describes how to use RM3 with PTO-Sim. Two tutorials will be given in this section: one for the RM3 with a hydraulic PTO (non-compressible and compressible) and another for the RM3 with a direct drive PTO, both of which can be found in the `WEC-Sim Applications <https://github.com/WEC-Sim/WEC-Sim_Applications>`_ repository.
+This section describes how to use RM3 with PTO-Sim. Two tutorials will be given in this section: one for the RM3 with a hydraulic PTO (non-compressible and compressible) and another for the RM3 with a direct drive PTO.
 
 RM3 with Hydraulic PTO
 ..........................
@@ -205,7 +203,7 @@ OSWEC with Hydraulic PTO
 Other PTO-Sim Tutorials
 ~~~~~~~~~~~~~~~~~~~~~~~
 
-Other PTO-Sim tutorials that were not discussed above can be found on the `WEC-Sim_Applications <https://github.com/WEC-Sim/WEC-Sim_Applications>`_ repository.
+Other PTO-Sim tutorials that were not discussed above can be found on the `WEC-Sim_Applications repository <https://github.com/WEC-Sim/WEC-Sim_Applications>`_.
 
 	+--------------------------------+-------------------------------------------+
 	|     **PTO-Sim Application**    |               **Description**             |                
