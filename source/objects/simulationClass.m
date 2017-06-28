@@ -22,7 +22,7 @@ classdef simulationClass<handle
         startTime           = 0                                            % Simulation start time (default = 0 s)
         endTime             = 500                                          % Simulation end time (default = 500 s)
         dt                  = 0.1                                          % Simulation time step (default = 0.1 s)
-        dtMax               = []                                          % Maximum simulation time step for variable step (default = 0.1 s) 
+%         dtMax               = []                                           % Maximum simulation time step for variable step (default = dt) 
         dtOut               = []                                           % Output sampling time (default = dt)
         dtFeNonlin          = []                                           % Sample time to calculate nonlinear forces (default = dt)
         dtCITime            = []                                           % Sample time to calculate Convolution Integral (default = dt)
@@ -89,7 +89,7 @@ classdef simulationClass<handle
                  'SimulationMode',obj.mode,...
                  'StartTime',num2str(obj.startTime),...
                  'FixedStep',num2str(obj.dt),...
-                 'MaxStep',num2str(obj.dtMax),...
+                 'MaxStep',num2str(obj.dt),...
                  'AutoInsertRateTranBlk',obj.autoRateTranBlk,...
                  'ZeroCrossControl',obj.zeroCrossCont,...
                  'SimMechanicsOpenEditorOnUpdate',obj.explorer);
@@ -111,10 +111,10 @@ classdef simulationClass<handle
             if isempty(obj.dtCITime) || obj.dtCITime < obj.dt
                 obj.dtCITime = obj.dt;
             end
-            % Set dtMax if it was not specificed in input file
-            if isempty(obj.dtMax) || obj.dtMax < obj.dt
-                obj.dtMax = obj.dt;
-            end
+%             % Set dtMax if it was not specificed in input file
+%             if isempty(obj.dtMax) || obj.dtMax > obj.dt
+%                 obj.dtMax = obj.dt;
+%             end
             obj.CTTime = 0:obj.dtCITime:obj.CITime;            
             obj.CIkt = length(obj.CTTime);
             obj.caseFile = [obj.caseDir filesep 'output' filesep obj.simMechanicsFile(1:end-4) '_matlabWorkspace.mat'];
