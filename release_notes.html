@@ -24,6 +24,8 @@
 
   
   
+  
+  
 
   
 
@@ -41,6 +43,9 @@
   
 
   
+        <link rel="index" title="Index"
+              href="genindex.html"/>
+        <link rel="search" title="Search" href="search.html"/>
     <link rel="top" title="WEC-Sim  documentation" href="index.html"/>
         <link rel="next" title="Contact Us" href="contact.html"/>
         <link rel="prev" title="Publications" href="publications.html"/> 
@@ -52,6 +57,7 @@
 
 <body class="wy-body-for-nav" role="document">
 
+   
   <div class="wy-grid-for-nav">
 
     
@@ -88,7 +94,10 @@
           
             
             
-                <ul class="current">
+              
+            
+            
+              <ul class="current">
 <li class="toctree-l1"><a class="reference internal" href="getting_started.html">Getting Started</a></li>
 <li class="toctree-l1"><a class="reference internal" href="theory.html">Theory</a></li>
 <li class="toctree-l1"><a class="reference internal" href="code_structure.html">Code Structure</a></li>
@@ -96,7 +105,7 @@
 <li class="toctree-l1"><a class="reference internal" href="webinars.html">Webinars</a></li>
 <li class="toctree-l1"><a class="reference internal" href="license.html">License</a></li>
 <li class="toctree-l1"><a class="reference internal" href="publications.html">Publications</a></li>
-<li class="toctree-l1 current"><a class="current reference internal" href="">Release Notes</a><ul>
+<li class="toctree-l1 current"><a class="current reference internal" href="#">Release Notes</a><ul>
 <li class="toctree-l2"><a class="reference internal" href="#id2">WEC-Sim v2.2</a></li>
 <li class="toctree-l2"><a class="reference internal" href="#id5">WEC-Sim v2.1</a></li>
 <li class="toctree-l2"><a class="reference internal" href="#id8">WEC-Sim v2.0</a></li>
@@ -119,8 +128,10 @@
 
       
       <nav class="wy-nav-top" role="navigation" aria-label="top navigation">
-        <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
-        <a href="index.html">WEC-Sim</a>
+        
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="index.html">WEC-Sim</a>
+        
       </nav>
 
 
@@ -133,19 +144,36 @@
 
 
 
+
+
+
+
+
+
+
+
+
+
 <div role="navigation" aria-label="breadcrumbs navigation">
+
   <ul class="wy-breadcrumbs">
-    <li><a href="index.html">Docs</a> &raquo;</li>
-      
-    <li>Release Notes</li>
+    
+      <li><a href="index.html">Docs</a> &raquo;</li>
+        
+      <li>Release Notes</li>
+    
+    
       <li class="wy-breadcrumbs-aside">
         
-          
-            <a href="_sources/release_notes.txt" rel="nofollow"> View page source</a>
+            
+            <a href="_sources/release_notes.rst.txt" rel="nofollow"> View page source</a>
           
         
       </li>
+    
   </ul>
+
+  
   <hr/>
 </div>
           <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
@@ -155,14 +183,12 @@
 <span id="id1"></span><h1>Release Notes<a class="headerlink" href="#release-notes" title="Permalink to this headline">¶</a></h1>
 <div class="section" id="id2">
 <h2><a class="reference external" href="https://github.com/WEC-Sim/WEC-Sim/releases/tag/v2.2">WEC-Sim v2.2</a><a class="headerlink" href="#id2" title="Permalink to this headline">¶</a></h2>
-<ul>
-<li><p class="first">Added option to save pressure data for non-linear hydro (<cite>simu.pressureDis</cite>)</p>
-</li>
-<li><p class="first">Update to moorDyn parser (doesn&#8217;t require line#.out)</p>
-</li>
+<ul class="simple">
+<li>Added option to save pressure data for non-linear hydro (<cite>simu.pressureDis</cite>)</li>
+<li>Update to moorDyn parser (doesn&#8217;t require line#.out)</li>
 <li><dl class="first docutils">
 <dt>Repository cleanup</dt>
-<dd><ul class="first last simple">
+<dd><ul class="first last">
 <li>Implemented <a class="reference external" href="https://git-lfs.github.com/">Git LFS</a> for tracking <a href="#id3"><span class="problematic" id="id4">*</span></a>.h5 files</li>
 <li>Added <a class="reference external" href="https://github.com/WEC-Sim/WEC-Sim_Applications">WEC-Sim Application  repository</a> as a <a class="reference external" href="https://git-scm.com/book/en/v2/Git-Tools-Submodules">submodule</a></li>
 <li>Moved <a class="reference external" href="https://github.com/WEC-Sim/moorDyn">moorDyn</a> to its own repository</li>
@@ -258,15 +284,18 @@
 
 
            </div>
+           <div class="articleComments">
+            
+           </div>
           </div>
           <footer>
   
     <div class="rst-footer-buttons" role="navigation" aria-label="footer navigation">
       
-        <a href="contact.html" class="btn btn-neutral float-right" title="Contact Us" accesskey="n">Next <span class="fa fa-arrow-circle-right"></span></a>
+        <a href="contact.html" class="btn btn-neutral float-right" title="Contact Us" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right"></span></a>
       
       
-        <a href="publications.html" class="btn btn-neutral" title="Publications" accesskey="p"><span class="fa fa-arrow-circle-left"></span> Previous</a>
+        <a href="publications.html" class="btn btn-neutral" title="Publications" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left"></span> Previous</a>
       
     </div>
   
@@ -300,13 +329,14 @@
             VERSION:'',
             COLLAPSE_INDEX:false,
             FILE_SUFFIX:'.html',
-            HAS_SOURCE:  true
+            HAS_SOURCE:  true,
+            SOURCELINK_SUFFIX: '.txt'
         };
     </script>
       <script type="text/javascript" src="_static/jquery.js"></script>
       <script type="text/javascript" src="_static/underscore.js"></script>
       <script type="text/javascript" src="_static/doctools.js"></script>
-      <script type="text/javascript" src="https://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+      <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.0/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
 
   
 

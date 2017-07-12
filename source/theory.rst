@@ -442,7 +442,7 @@ Morison Elements
 The Morison Equation assumes that the fluid forces in an oscillating flow on a structure of slender cylinders or other similar geometries arise partly from pressure effects from potential flow and partly from viscous effects. A slender cylinder implies that the diameter, D, is small relative to the wave length, :math:`λ_w`, which is generally met when :math:`D/λ_w < 0.1 − 0.2`. If this condition is not met, wave diffraction effects must be taken into account. Assuming that the geometries are slender, the resulting force can be approximated by a modified Morison formulation :cite:`Morison1950`. The formulation for each element on the body can be given as
 
  .. math::
-	F_{ME}=\rho∀\dot{v}+\rho\forall C_{a}(\dot{v}-\dot{X})+\frac{1}{2}C_{d}\rho A_{D}(v-\dot{X})|v-\dot{X}|
+	F_{ME}=\rho∀\dot{v}+\rho\forall C_{a}(\dot{v}-\ddot{X})+\frac{1}{2}C_{d}\rho A_{D}(v-\dot{X})|v-\dot{X}|
 
 where :math:`v` is the fluid particle velocity, and :math:`\forall` is the displaced volume. 
 

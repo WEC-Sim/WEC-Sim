@@ -2,33 +2,29 @@
 # How to update the [WEC-Sim website](http://wec-sim.github.io/WEC-Sim)
 
 ## Download/Install Required Packages
-1. Download and Install [Python27](https://www.python.org/downloads/)
-  * Windows - Download and install Python27 directly or with [Anaconda](https://www.continuum.io/downloads )
-  * MAC/LINUX -  Python is already installed on MAC/LINUX 
-
+1. Download and Install Python 
+ - Windows: Download and install [Python27](https://www.python.org/downloads/) or [Anaconda](https:/www.continuum.io/downloads)
+ 
+ **NOTE:** MAC/LINUX: Skip Steps 1/2, Python is already installed and added to path
+ 
 2. Add Python and Python Scripts to system path
-  * Windows - modify the PATH in environmental variables to include: C:\PYTHON27;C:\PYTHON27\Scripts ([more info here](http://stackoverflow.com/questions/3701646/how-to-add-to-the-pythonpath-in-windows-7)), with anaconda this is done automatically. 
-  * MAC/LINUX -  Python is already added to path
-
- **NOTE:** You may need to configure PROXY, in cmd set ``http_proxy=server:port#``
+ - Windows: Modify the PATH in environmental variables to include: C:\PYTHON27;C:\PYTHON27\Scripts ([more info here](http://stackoverflow.com/questions/3701646/how-to-add-to-the-pythonpath-in-windows-7)), with Anaconda this is done automatically. 
 
 3. Download/Install [Sphinx](http://www.sphinx-doc.org/en/stable/index.html), the python documentation package
+ - Install Sphinx in command prompt ``pip install -U Sphinx`` ([windows info here](http://sphinx-doc.org/latest/install.html#windows-install-python-and-sphinx)) ([MAC/LINUX info here](http://www.sphinx-doc.org/en/stable/install.html#mac-os-x-install-sphinx-using-macports))
 
-  * Windows - Install on command line using ``pip install -U Sphinx`` ([more info here](http://sphinx-doc.org/latest/install.html#windows-install-python-and-sphinx))
-
-  * MAC/LINUX - Install on command line using ``pip install -U Sphinx`` ([more info here](http://www.sphinx-doc.org/en/stable/install.html#mac-os-x-install-sphinx-using-macports))
-
+ **NOTE:** You may need to configure PROXY, in command prompt ``set http_proxy=<server>:<port#>``
 
 4. Download/Install BibTeX extension for Sphinx
-  * Install on command prompt using ``pip install sphinxcontrib-bibtex``
-  * Install the rtd theme using ``pip install sphinx_rtd_theme``
+ - Install BibTex ``pip install sphinxcontrib-bibtex``
+ - Install rtd theme ``pip install sphinx_rtd_theme``
  
  **NOTE:** You may have to manually move it to the ``sphinx/themes/`` directory.
 
-5. Download/Install the Google Analytics extenstion for Sphinx ([more info here](http://www.milos.curuvija.com/miscellaneous/sphinx/sphinx_google_analytics_integration.html#)
-  * Download sphinx-contrib [here](https://bitbucket.org/birkenfeld/sphinx-contrib/)
-  * cd to directory on commmand line``cd sphinx-contrib/googleanalytics`` 
-  * Install on command line using ``python setup.py install`` 
+5. Download/Install the Google Analytics extenstion for Sphinx ([more info here](http://www.milos.curuvija.com/miscellaneous/sphinx/sphinx_google_analytics_integration.html#))
+ - Download sphinx-contrib [here](https://bitbucket.org/birkenfeld/sphinx-contrib/)
+ - cd to directory in commmand prompt``cd sphinx-contrib/googleanalytics`` 
+ - Install google analytics ``python setup.py install`` 
 
  **NOTE:** You may want to manually move it to the ``sphinx-contrib/`` directory.
 
