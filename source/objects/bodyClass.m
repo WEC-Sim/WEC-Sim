@@ -367,6 +367,8 @@ classdef bodyClass<handle
                 elseif obj.hydroData.simulation_parameters.wave_dir == waveDir
                     kernel = squeeze(kf(ii,1,:));
                     obj.userDefinedExcIRF = interp1(kt,kernel,min(kt):dt:max(kt));
+                else
+                    error('Default wave direction different from hydro database value. Wave direction should be specified on input file.')
                 end
                 obj.hydroForce.userDefinedFe(:,ii) = conv(waveAmpTime(:,2),obj.userDefinedExcIRF,'same')*dt;
             end
