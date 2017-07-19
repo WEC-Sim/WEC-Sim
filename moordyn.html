@@ -24,6 +24,8 @@
 
   
   
+  
+  
 
   
 
@@ -41,6 +43,9 @@
   
 
   
+        <link rel="index" title="Index"
+              href="genindex.html"/>
+        <link rel="search" title="Search" href="search.html"/>
     <link rel="top" title="WEC-Sim  documentation" href="index.html"/> 
 
   
@@ -50,6 +55,7 @@
 
 <body class="wy-body-for-nav" role="document">
 
+   
   <div class="wy-grid-for-nav">
 
     
@@ -86,7 +92,10 @@
           
             
             
-                <ul>
+              
+            
+            
+              <ul>
 <li class="toctree-l1"><a class="reference internal" href="getting_started.html">Getting Started</a></li>
 <li class="toctree-l1"><a class="reference internal" href="theory.html">Theory</a></li>
 <li class="toctree-l1"><a class="reference internal" href="code_structure.html">Code Structure</a></li>
@@ -108,8 +117,10 @@
 
       
       <nav class="wy-nav-top" role="navigation" aria-label="top navigation">
-        <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
-        <a href="index.html">WEC-Sim</a>
+        
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="index.html">WEC-Sim</a>
+        
       </nav>
 
 
@@ -122,19 +133,36 @@
 
 
 
+
+
+
+
+
+
+
+
+
+
 <div role="navigation" aria-label="breadcrumbs navigation">
+
   <ul class="wy-breadcrumbs">
-    <li><a href="index.html">Docs</a> &raquo;</li>
-      
-    <li>Mooring/MoorDyn</li>
+    
+      <li><a href="index.html">Docs</a> &raquo;</li>
+        
+      <li>Mooring/MoorDyn</li>
+    
+    
       <li class="wy-breadcrumbs-aside">
         
-          
-            <a href="_sources/moordyn.txt" rel="nofollow"> View page source</a>
+            
+            <a href="_sources/moordyn.rst.txt" rel="nofollow"> View page source</a>
           
         
       </li>
+    
   </ul>
+
+  
   <hr/>
 </div>
           <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
@@ -167,7 +195,7 @@
 <blockquote>
 <div><p>This section describes how to simulate a mooring connected WEC system in WEC-Sim using MoorDyn. The RM3 two-body floating point absorber is connected to a three-point catenary mooring system with an angle of 120 between the lines in this example case. The RM3 with MoorDyn folder is located under <a class="reference external" href="https://github.com/WEC-Sim/WEC-Sim_Applications">WEC-Sim Applications repository</a>.</p>
 <ul class="simple">
-<li>WEC Model: To couple WEC-Sim with MoorDyn, the MoorDyn Block is added in parallel to the constraint block</li>
+<li>WEC Model: Start out by following the instructions on how to model the <a class="reference external" href="http://wec-sim.github.io/WEC-Sim/getting_started.html#id2">RM3 Two-Body Point Absorber</a>. To couple WEC-Sim with MoorDyn, the MoorDyn Block is added in parallel to the constraint block</li>
 </ul>
 <div class="figure align-center" id="wecsimmoordyn">
 <a class="reference internal image-reference" href="_images/WECSimMoorDyn.png"><img alt="_images/WECSimMoorDyn.png" src="_images/WECSimMoorDyn.png" style="width: 320pt;" /></a>
@@ -238,6 +266,9 @@
 
 
            </div>
+           <div class="articleComments">
+            
+           </div>
           </div>
           <footer>
   
@@ -271,13 +302,14 @@
             VERSION:'',
             COLLAPSE_INDEX:false,
             FILE_SUFFIX:'.html',
-            HAS_SOURCE:  true
+            HAS_SOURCE:  true,
+            SOURCELINK_SUFFIX: '.txt'
         };
     </script>
       <script type="text/javascript" src="_static/jquery.js"></script>
       <script type="text/javascript" src="_static/underscore.js"></script>
       <script type="text/javascript" src="_static/doctools.js"></script>
-      <script type="text/javascript" src="https://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+      <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.0/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
 
   
 

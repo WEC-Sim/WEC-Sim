@@ -33,7 +33,7 @@ Simulation Class
 Within the input file, users specify simulation class (``simulationClass``) parameters using the ``simu`` object. 
 To initialize the ``simu`` object, include the following line: ``simu=simulationClass();``.
 Simulation class parameters include simulation start time (``simu.startTime``), end time (``simu.endTime``), and time step (``simu.dt``). 
-Users also specify the name of the Simulink/SimMechanics WEC model within the `` simu.simMechanicsFile`` variable. 
+Users also specify the name of the Simulink/SimMechanics WEC model within the ``simu.simMechanicsFile`` variable. 
 All simulation class parameters are specified as variables within the ``simu`` object (as members of the ``simulationClass``).
 
 
@@ -209,7 +209,7 @@ Users can overwrite the default values in the input file. For example, users can
 
 	pto(<#>).c = <pto damping value>
 
-The available pto parameters and default values defined in the pto class can be found by typing `` doc ptoClass`` in the MATLAB command window  or opening the `.m` file in `/source/objects/`.
+The available pto parameters and default values defined in the pto class can be found by typing ``doc ptoClass`` in the MATLAB command window  or opening the `.m` file in `/source/objects/`.
 
 .. figure:: _static/ptoClass.png
    :width: 400pt
@@ -222,7 +222,7 @@ The mooring variable should be initiated by entering the following command in th
 
 	mooring(<#>) = mooringClass('<mooring name>')
 
-The available mooring parameters and default values defined in the mooring class can be found by typing `` doc mooringClass`` in the MATLAB command window  or opening the `.m` file in `/source/objects/`.
+The available mooring parameters and default values defined in the mooring class can be found by typing ``doc mooringClass`` in the MATLAB command window  or opening the `.m` file in `/source/objects/`.
 
 .. figure:: _static/mooringClass.png
    :width: 400pt
@@ -288,7 +288,7 @@ The Mooring sub-library contains blocks used to simulate mooring systems.
 
 Body Elements Sub-library
 ~~~~~~~~~~~~~~~~~~~~~~~~~~
-The Body Elements sub-library (Figure~\ref{fig:bLib) contains one block: the Rigid Body block. 
+The Body Elements sub-library (shown below) contains one block: the Rigid Body block. 
 It is used to represent rigid bodies. 
 At least one instance of this block is required in each model.
 

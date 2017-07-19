@@ -24,6 +24,8 @@
 
   
   
+  
+  
 
   
 
@@ -41,6 +43,9 @@
   
 
   
+        <link rel="index" title="Index"
+              href="genindex.html"/>
+        <link rel="search" title="Search" href="search.html"/>
     <link rel="top" title="WEC-Sim  documentation" href="index.html"/>
         <link rel="next" title="Theory" href="theory.html"/>
         <link rel="prev" title="WEC-Sim (Wave Energy Converter SIMulator)" href="index.html"/> 
@@ -52,6 +57,7 @@
 
 <body class="wy-body-for-nav" role="document">
 
+   
   <div class="wy-grid-for-nav">
 
     
@@ -88,8 +94,11 @@
           
             
             
-                <ul class="current">
-<li class="toctree-l1 current"><a class="current reference internal" href="">Getting Started</a><ul>
+              
+            
+            
+              <ul class="current">
+<li class="toctree-l1 current"><a class="current reference internal" href="#">Getting Started</a><ul>
 <li class="toctree-l2"><a class="reference internal" href="#matlab-toolbox-requirements">MATLAB Toolbox Requirements</a></li>
 <li class="toctree-l2"><a class="reference internal" href="#download-wec-sim">Download WEC-Sim</a><ul>
 <li class="toctree-l3"><a class="reference internal" href="#option-1-clone-with-github-recommended-for-users">Option 1. Clone with GitHub (Recommended for Users)</a></li>
@@ -153,8 +162,10 @@
 
       
       <nav class="wy-nav-top" role="navigation" aria-label="top navigation">
-        <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
-        <a href="index.html">WEC-Sim</a>
+        
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="index.html">WEC-Sim</a>
+        
       </nav>
 
 
@@ -167,19 +178,36 @@
 
 
 
+
+
+
+
+
+
+
+
+
+
 <div role="navigation" aria-label="breadcrumbs navigation">
+
   <ul class="wy-breadcrumbs">
-    <li><a href="index.html">Docs</a> &raquo;</li>
-      
-    <li>Getting Started</li>
+    
+      <li><a href="index.html">Docs</a> &raquo;</li>
+        
+      <li>Getting Started</li>
+    
+    
       <li class="wy-breadcrumbs-aside">
         
-          
-            <a href="_sources/getting_started.txt" rel="nofollow"> View page source</a>
+            
+            <a href="_sources/getting_started.rst.txt" rel="nofollow"> View page source</a>
           
         
       </li>
+    
   </ul>
+
+  
   <hr/>
 </div>
           <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
@@ -215,6 +243,10 @@
 </tr>
 </tbody>
 </table>
+<div class="admonition note">
+<p class="first admonition-title">Note</p>
+<p class="last"><strong>SimMechanics</strong> is now called <strong>Simscape Multibody</strong> in <strong>R2016a</strong></p>
+</div>
 <p>Ensure that the correct version of MATLAB and the required toolboxes are installed by typing <code class="docutils literal"><span class="pre">ver</span></code> in the MATLAB Command Window:</p>
 <div class="highlight-matlabsession"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt; </span><span class="n">ver</span>
 <span class="go">--------------------------------------------------------------------------------------</span>
@@ -226,10 +258,6 @@
 <span class="go">Simscape                                              Version 3.14        (R2015b)</span>
 </pre></div>
 </div>
-<div class="admonition note">
-<p class="first admonition-title">Note</p>
-<p class="last"><strong>SimMechanics</strong> is now called <strong>Simscape Multibody</strong> in <strong>R2016a</strong></p>
-</div>
 </div></blockquote>
 </div>
 <div class="section" id="download-wec-sim">
@@ -239,11 +267,11 @@
 <h3>Option 1. Clone with GitHub (Recommended for Users)<a class="headerlink" href="#option-1-clone-with-github-recommended-for-users" title="Permalink to this headline">¶</a></h3>
 <blockquote>
 <div><p>WEC-Sim can be obtained by locally <a class="reference external" href="https://help.github.com/articles/cloning-a-repository/">cloning</a> the repository hosted on GitHub using the shell:</p>
-<div class="highlight-python"><div class="highlight"><pre><span></span>&gt;&gt; git clone https://github.com/WEC-Sim/WEC-Sim
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="o">&gt;&gt;</span> <span class="n">git</span> <span class="n">clone</span> <span class="n">https</span><span class="p">:</span><span class="o">//</span><span class="n">github</span><span class="o">.</span><span class="n">com</span><span class="o">/</span><span class="n">WEC</span><span class="o">-</span><span class="n">Sim</span><span class="o">/</span><span class="n">WEC</span><span class="o">-</span><span class="n">Sim</span>
 </pre></div>
 </div>
 <p>This method is recommended for users because the local copy of WEC-Sim can easily be updated to the latest version of the code hosted on the GitHub repository by using the pull command:</p>
-<div class="highlight-python"><div class="highlight"><pre><span></span>&gt;&gt; git pull
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="o">&gt;&gt;</span> <span class="n">git</span> <span class="n">pull</span>
 </pre></div>
 </div>
 </div></blockquote>
@@ -576,7 +604,7 @@ Inertia (kg-m^2)</td>
 </div>
 <div class="section" id="id9">
 <h4>Step 4: Execute WEC-Sim<a class="headerlink" href="#id9" title="Permalink to this headline">¶</a></h4>
-<p>To execute the WEC-Sim code for the RM3 tutorial, type <code class="docutils literal"><span class="pre">wecSim</span></code> into the MATLAB Command Window. Below is a figure showing the final RM3 Simulink model and the WEC-Sim GUI during the simulation. For more information on using WEC-Sim to model the RM3 device, refer to <a class="reference internal" href="tutorials.html#ruehl-preliminary-2014" id="id10">[1]</a>.</p>
+<p>To execute the WEC-Sim code for the RM3 tutorial, type <code class="docutils literal"><span class="pre">wecSim</span></code> into the MATLAB Command Window. Below is a figure showing the final RM3 Simulink model and the WEC-Sim GUI during the simulation. For more information on using WEC-Sim to model the RM3 device, refer to <a class="reference internal" href="#ruehl-preliminary-2014" id="id10">[1]</a>.</p>
 <div class="figure">
 <a class="reference internal image-reference" href="_images/RM3_WECSim_GUI.JPG"><img alt="_images/RM3_WECSim_GUI.JPG" src="_images/RM3_WECSim_GUI.JPG" style="width: 600pt;" /></a>
 </div>
@@ -743,7 +771,7 @@ of Inertia
 </div>
 <div class="section" id="id17">
 <h4>Step 4: Execute WEC-Sim<a class="headerlink" href="#id17" title="Permalink to this headline">¶</a></h4>
-<p>To execute the WEC-Sim code for the OSWEC tutorial, type <code class="docutils literal"><span class="pre">wecSim</span></code> into the MATLAB Command Window. Below is a figure showing the final OSWEC Simulink model and the WEC-Sim GUI during the simulation. For more information on using WEC-Sim to model the OSWEC device, refer to <a class="reference internal" href="tutorials.html#y-yu-development-2014" id="id18">[2]</a><a class="reference internal" href="tutorials.html#y-yu-design-2014" id="id19">[3]</a>.</p>
+<p>To execute the WEC-Sim code for the OSWEC tutorial, type <code class="docutils literal"><span class="pre">wecSim</span></code> into the MATLAB Command Window. Below is a figure showing the final OSWEC Simulink model and the WEC-Sim GUI during the simulation. For more information on using WEC-Sim to model the OSWEC device, refer to <a class="reference internal" href="#y-yu-development-2014" id="id18">[2]</a><a class="reference internal" href="#y-yu-design-2014" id="id19">[3]</a>.</p>
 <div class="figure">
 <a class="reference internal image-reference" href="_images/OSWEC_WECSim_GUI.jpg"><img alt="_images/OSWEC_WECSim_GUI.jpg" src="_images/OSWEC_WECSim_GUI.jpg" style="width: 600pt;" /></a>
 </div>
@@ -780,15 +808,18 @@ of Inertia
 
 
            </div>
+           <div class="articleComments">
+            
+           </div>
           </div>
           <footer>
   
     <div class="rst-footer-buttons" role="navigation" aria-label="footer navigation">
       
-        <a href="theory.html" class="btn btn-neutral float-right" title="Theory" accesskey="n">Next <span class="fa fa-arrow-circle-right"></span></a>
+        <a href="theory.html" class="btn btn-neutral float-right" title="Theory" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right"></span></a>
       
       
-        <a href="index.html" class="btn btn-neutral" title="WEC-Sim (Wave Energy Converter SIMulator)" accesskey="p"><span class="fa fa-arrow-circle-left"></span> Previous</a>
+        <a href="index.html" class="btn btn-neutral" title="WEC-Sim (Wave Energy Converter SIMulator)" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left"></span> Previous</a>
       
     </div>
   
@@ -822,13 +853,14 @@ of Inertia
             VERSION:'',
             COLLAPSE_INDEX:false,
             FILE_SUFFIX:'.html',
-            HAS_SOURCE:  true
+            HAS_SOURCE:  true,
+            SOURCELINK_SUFFIX: '.txt'
         };
     </script>
       <script type="text/javascript" src="_static/jquery.js"></script>
       <script type="text/javascript" src="_static/underscore.js"></script>
       <script type="text/javascript" src="_static/doctools.js"></script>
-      <script type="text/javascript" src="https://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+      <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.0/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
 
   
 

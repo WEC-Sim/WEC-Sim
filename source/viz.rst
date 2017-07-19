@@ -61,7 +61,7 @@ Setting Up Paraview Output
 
 Outputs and Opening in Paraview
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-	When ``simu.paraview`` is set to 1 a directory called ``vtk`` is created. 
+	When ``simu.paraview`` is set to 1, a directory called ``vtk`` is created. 
 	All files necessary for Paraview vizualisation are located there.
 	To view in Paraview:
 
