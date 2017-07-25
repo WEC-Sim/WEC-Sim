@@ -56,7 +56,7 @@ RM3 with Hydraulic PTO
 	.. figure:: _static/RM3WITHPTOSIMBLOCK.PNG
 	   :width: 400pt
 
-	* Step 4: Go inside PTO-Sim block and add one bus selector and two selector blocks. Since PTO-Sim block is connected to the WEC-Sim translational joint block, you can select position and velocity and therefore <signal1> and <signal2> will change to <position> and <velocity>. Because the heave motion is driving the piston, selection index of each selector needs to be changed to 3.
+	* Step 4: Go inside PTO-Sim block and add one bus selector and two selector blocks. Since PTO-Sim block is connected to the WEC-Sim translational joint block, you can select position and velocity and therefore "signal1" and "signal2" will change to "position" and "velocity". Because the heave motion is driving the piston, selection index of each selector needs to be changed to 3.
 
 	.. figure:: _static/SELECTORS.PNG
 	   :width: 400pt
