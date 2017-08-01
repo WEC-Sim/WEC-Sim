@@ -47,6 +47,7 @@ $ cat .gitignore
 *.synctex.gz(busy)
 *.toc
 *.tws
+*.vtp
 *.zip
 
 # MATLAB
