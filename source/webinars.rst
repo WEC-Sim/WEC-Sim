@@ -113,5 +113,6 @@ WEC-Sim Webinar #4 - Mooring (part 1)
 WEC-Sim Webinar #4 - Visualization (part 2)
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
-	.. Note::
-		Coming Soon
+	.. raw:: html
+	
+		<iframe width="560" height="315" src="https://www.youtube.com/embed/z5BTQyfbXGo" frameborder="0" allowfullscreen></iframe>
