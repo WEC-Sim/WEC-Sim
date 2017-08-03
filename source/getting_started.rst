@@ -102,6 +102,6 @@ Step 2. Add WEC-Sim Library to Simulink
 
 	   *WEC-Sim Library*
 
-.. Tutorials
 
-.. include:: tutorials.rst
+
+

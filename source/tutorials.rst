@@ -1,5 +1,7 @@
 ﻿.. _tutorials:
 
+Tutorials
+==========
 
 Run WEC-Sim
 ---------------------
