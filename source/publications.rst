@@ -35,9 +35,13 @@ Publications
 
 [16] Quon E., Platt A., Yu Y., and Lawson M., 2016, “`Application of the Most Likely Extreme Response Method for Wave Energy Converters <http://www.nrel.gov/docs/fy16osti/65926.pdf>`_,” 35th International Conference on Ocean, Offshore and Arctic Engineering, OMAE, ed., OMAE, Busan, South Korea.
 
+[17] Van Rij, J., Yu, Y.-H., & Guo, Y., “Structural loads analysis for wave energy converters,” in Proceedings of the 36th International Conference on Ocean, Offshore and Arctic Engineering, OMAE 2016, Trondheim, Norway, 2017.
+
+[18] Yu, Y.-H., & Jenne, D., “Analysis of a wave-powered, reverse-osmosis system and its economic availability in the United States,” in Proceedings of the 36th International Conference on Ocean, Offshore and Arctic Engineering, OMAE 2016, Trondheim, Norway, 2017.
 
 News Articles
 --------------
+
 * November 2016 – Oregon State University, College of Engineering, `Ripples upon ripples <http://eecs.oregonstate.edu/feature-stories/ripples-upon-ripples>`_ 
 
 * April 2016 - US Department of Energy, `EERE Success Story—Open-Source Testing Reaches New Milestone for Wave Energy <http://energy.gov/eere/success-stories/articles/eere-success-story-open-source-testing-reaches-new-milestone-wave>`_

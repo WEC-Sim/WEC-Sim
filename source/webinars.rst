@@ -7,10 +7,11 @@ The WEC-Sim team is hosting a series of advanced features webinars.  Dates and t
 
 	==================  ====================================		
 	**Date**    	    **Topic**
-	April 18, 2017      bemio and mcr
-	May 24, 2017        nonlinear hydro, non-hydro, and b2b
-	June 13, 2017       pto and control
-	July 18, 2017       mooring and vizualization
+	April 18, 2017      BEMIO and MCR
+	May 24, 2017        Nonlinear Hydro, Non-hydro, and B2B
+	June 13, 2017       PTO and Control
+	July 18, 2017       Mooring and Vizualization
+	August 17, 2017     WEC-Sim Training Course
 	==================  ====================================
 	
 
