@@ -19,7 +19,7 @@
     </script>
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   
-  <title>Tutorials &mdash; WEC-Sim  documentation</title>
+  <title>Examples &mdash; WEC-Sim  documentation</title>
   
 
   
@@ -46,7 +46,9 @@
         <link rel="index" title="Index"
               href="genindex.html"/>
         <link rel="search" title="Search" href="search.html"/>
-    <link rel="top" title="WEC-Sim  documentation" href="index.html"/> 
+    <link rel="top" title="WEC-Sim  documentation" href="index.html"/>
+        <link rel="next" title="Theory" href="theory.html"/>
+        <link rel="prev" title="Getting Started" href="getting_started.html"/> 
 
   
   <script src="_static/js/modernizr.min.js"></script>
@@ -95,9 +97,40 @@
               
             
             
-              <ul>
+              <ul class="current">
 <li class="toctree-l1"><a class="reference internal" href="getting_started.html">Getting Started</a></li>
-<li class="toctree-l1"><a class="reference internal" href="examples.html">Examples</a></li>
+<li class="toctree-l1 current"><a class="current reference internal" href="#">Examples</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="#run-wec-sim">Run WEC-Sim</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#file-structure-overview">File Structure Overview</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#step-1-wec-sim-pre-processing">Step 1: WEC-Sim Pre-Processing</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#step-2-build-wec-sim-model-in-simulink">Step 2: Build WEC-Sim model in Simulink</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#step-3-write-wec-sim-input-file">Step 3: Write WEC-Sim input file</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#step-4-execute-wec-sim">Step 4: Execute WEC-Sim</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="#tutorials">Tutorials</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#two-body-point-absorber-rm3">Two-Body Point Absorber (RM3)</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="#id3">File Structure Overview</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#id4">Step 1: WEC-Sim Pre-Processing</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#id6">Step 2: Build WEC-Sim model in Simulink</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#id7">Step 3: Write WEC-Sim input file</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#id8">Step 4: Execute WEC-Sim</a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="#oscillating-surge-wec-oswec">Oscillating Surge WEC (OSWEC)</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="#id11">File Structure Overview</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#id12">Step 1: WEC-Sim Pre-Processing</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#id14">Step 2: Build WEC-Sim model in Simulink</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#id15">Step 3: Write WEC-Sim input file</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#id16">Step 4: Execute WEC-Sim</a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="#references">References</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="#wec-sim-applications">WEC-Sim Applications</a></li>
+</ul>
+</li>
 <li class="toctree-l1"><a class="reference internal" href="theory.html">Theory</a></li>
 <li class="toctree-l1"><a class="reference internal" href="code_structure.html">Code Structure</a></li>
 <li class="toctree-l1"><a class="reference internal" href="features.html">Advanced Features</a></li>
@@ -150,13 +183,13 @@
     
       <li><a href="index.html">Docs</a> &raquo;</li>
         
-      <li>Tutorials</li>
+      <li>Examples</li>
     
     
       <li class="wy-breadcrumbs-aside">
         
             
-            <a href="_sources/tutorials.rst.txt" rel="nofollow"> View page source</a>
+            <a href="_sources/examples.rst.txt" rel="nofollow"> View page source</a>
           
         
       </li>
@@ -169,8 +202,9 @@
           <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
            <div itemprop="articleBody">
             
-  <div class="section" id="tutorials">
-<span id="id1"></span><h1>Tutorials<a class="headerlink" href="#tutorials" title="Permalink to this headline">¶</a></h1>
+  <div class="section" id="examples">
+<span id="id1"></span><h1>Examples<a class="headerlink" href="#examples" title="Permalink to this headline">¶</a></h1>
+<p>This section gives instructions on how to run the WEC-Sim code, and provides WEC-Sim tutorials and applications.</p>
 <div class="section" id="run-wec-sim">
 <h2>Run WEC-Sim<a class="headerlink" href="#run-wec-sim" title="Permalink to this headline">¶</a></h2>
 <p>This section provides an overview of the WEC-Sim file structure and outlines the steps to run WEC-Sim.</p>
@@ -247,8 +281,8 @@
 </div>
 </div>
 </div>
-<div class="section" id="id2">
-<h2>Tutorials<a class="headerlink" href="#id2" title="Permalink to this headline">¶</a></h2>
+<div class="section" id="tutorials">
+<h2>Tutorials<a class="headerlink" href="#tutorials" title="Permalink to this headline">¶</a></h2>
 <p>This section provides an overview of the WEC-Sim work flow. First, the WEC-Sim file structure is described; then, steps for setting up and running the WEC-Sim code are described. Two example applications of using WEC-Sim to model WECs are given. For more information about the implementation and additional features, refer to the <a class="reference external" href="http://wec-sim.github.io/WEC-Sim/code_structure.html">Code Structure</a> section and to the <a class="reference external" href="http://wec-sim.github.io/WEC-Sim/features.html">Advanced Features</a> section respectively.</p>
 <div class="section" id="two-body-point-absorber-rm3">
 <h3>Two-Body Point Absorber (RM3)<a class="headerlink" href="#two-body-point-absorber-rm3" title="Permalink to this headline">¶</a></h3>
@@ -333,8 +367,8 @@ Inertia (kg-m^2)</td>
 </tr>
 </tbody>
 </table>
-<div class="section" id="id4">
-<h4>File Structure Overview<a class="headerlink" href="#id4" title="Permalink to this headline">¶</a></h4>
+<div class="section" id="id3">
+<h4>File Structure Overview<a class="headerlink" href="#id3" title="Permalink to this headline">¶</a></h4>
 <p>Below is an overview of the files required to run the RM3 simulation in WEC-Sim. For the RM3 WEC, there are two corresponding geometry files: <code class="docutils literal"><span class="pre">float.stl</span></code> and <code class="docutils literal"><span class="pre">plate.stl</span></code>. In addition to the required files listed below, users may supply a <code class="docutils literal"><span class="pre">userDefinedFunctions.m</span></code> file for post-processing results once the WEC-Sim run is complete.</p>
 <table border="1" class="docutils">
 <colgroup>
@@ -366,12 +400,12 @@ Inertia (kg-m^2)</td>
 </tbody>
 </table>
 </div>
-<div class="section" id="id5">
-<h4>Step 1: WEC-Sim Pre-Processing<a class="headerlink" href="#id5" title="Permalink to this headline">¶</a></h4>
+<div class="section" id="id4">
+<h4>Step 1: WEC-Sim Pre-Processing<a class="headerlink" href="#id4" title="Permalink to this headline">¶</a></h4>
 <p>Hydrodynamic data for each RM3 body must be parsed into a HDF5 file using the <a class="reference external" href="http://wec-sim.github.io/bemio/">BEMIO</a> hydrodynamic data format. The RM3 HDF5 file (<code class="docutils literal"><span class="pre">rm3.h5</span></code>) was created based on a WAMIT run of the RM3 geometry. The RM3 WAMIT <code class="docutils literal"><span class="pre">rm3.out</span></code> file and the BEMIO <code class="docutils literal"><span class="pre">readWAMIT.py</span></code> script were used to generate the HDF5 are included in the <code class="docutils literal"><span class="pre">/hydroData</span></code> directory.</p>
 </div>
-<div class="section" id="id7">
-<h4>Step 2: Build WEC-Sim model in Simulink<a class="headerlink" href="#id7" title="Permalink to this headline">¶</a></h4>
+<div class="section" id="id6">
+<h4>Step 2: Build WEC-Sim model in Simulink<a class="headerlink" href="#id6" title="Permalink to this headline">¶</a></h4>
 <p>The WEC-Sim Simulink model is created by dragging and dropping blocks from the <em>WEC-Sim Library</em> into the <code class="docutils literal"><span class="pre">rm3.slx</span></code> file.</p>
 <ul class="simple">
 <li>Place two <strong>Rigid Body</strong> blocks from the <em>WEC-Sim Library</em> in the Simulink model file, one for each RM3 rigid body.</li>
@@ -398,8 +432,8 @@ Inertia (kg-m^2)</td>
 <p class="last">When setting up a WEC-Sim model, it is very important to note the base and follower frames.</p>
 </div>
 </div>
-<div class="section" id="id8">
-<h4>Step 3: Write WEC-Sim input file<a class="headerlink" href="#id8" title="Permalink to this headline">¶</a></h4>
+<div class="section" id="id7">
+<h4>Step 3: Write WEC-Sim input file<a class="headerlink" href="#id7" title="Permalink to this headline">¶</a></h4>
 <p>The WEC-Sim input file defines simulation parameters, body properties, joints, and mooring for the RM3 model. The <code class="docutils literal"><span class="pre">wecSimInputFile.m</span></code> for the RM3 is provided in the RM3 case directory, and shown below.</p>
 <p><em>RM3 wecSimInputFile</em></p>
 <div class="highlight-matlab"><div class="highlight"><pre><span></span><span class="c">%% Simulation Data</span>
@@ -441,9 +475,9 @@ Inertia (kg-m^2)</td>
 </pre></div>
 </div>
 </div>
-<div class="section" id="id9">
-<h4>Step 4: Execute WEC-Sim<a class="headerlink" href="#id9" title="Permalink to this headline">¶</a></h4>
-<p>To execute the WEC-Sim code for the RM3 tutorial, type <code class="docutils literal"><span class="pre">wecSim</span></code> into the MATLAB Command Window. Below is a figure showing the final RM3 Simulink model and the WEC-Sim GUI during the simulation. For more information on using WEC-Sim to model the RM3 device, refer to <a class="reference internal" href="#ruehl-preliminary-2014" id="id10">[1]</a>.</p>
+<div class="section" id="id8">
+<h4>Step 4: Execute WEC-Sim<a class="headerlink" href="#id8" title="Permalink to this headline">¶</a></h4>
+<p>To execute the WEC-Sim code for the RM3 tutorial, type <code class="docutils literal"><span class="pre">wecSim</span></code> into the MATLAB Command Window. Below is a figure showing the final RM3 Simulink model and the WEC-Sim GUI during the simulation. For more information on using WEC-Sim to model the RM3 device, refer to <a class="reference internal" href="tutorials.html#ruehl-preliminary-2014" id="id9">[1]</a>.</p>
 <div class="figure">
 <a class="reference internal image-reference" href="_images/RM3_WECSim_GUI.JPG"><img alt="_images/RM3_WECSim_GUI.JPG" src="_images/RM3_WECSim_GUI.JPG" style="width: 600pt;" /></a>
 </div>
@@ -500,8 +534,8 @@ of Inertia
 </tr>
 </tbody>
 </table>
-<div class="section" id="id12">
-<h4>File Structure Overview<a class="headerlink" href="#id12" title="Permalink to this headline">¶</a></h4>
+<div class="section" id="id11">
+<h4>File Structure Overview<a class="headerlink" href="#id11" title="Permalink to this headline">¶</a></h4>
 <p>Below is an overview of the files required to run the OSWEC simulation in WEC-Sim. For the OSWEC, there are two corresponding geometry files: <code class="docutils literal"><span class="pre">flap.stl</span></code> and <code class="docutils literal"><span class="pre">base.stl</span></code>. In addition to the required files listed below, users may supply a <code class="docutils literal"><span class="pre">userDefinedFunctions.m</span></code> file for post-processing results once the WEC-Sim run is complete.</p>
 <table border="1" class="docutils">
 <colgroup>
@@ -533,12 +567,12 @@ of Inertia
 </tbody>
 </table>
 </div>
-<div class="section" id="id13">
-<h4>Step 1: WEC-Sim Pre-Processing<a class="headerlink" href="#id13" title="Permalink to this headline">¶</a></h4>
+<div class="section" id="id12">
+<h4>Step 1: WEC-Sim Pre-Processing<a class="headerlink" href="#id12" title="Permalink to this headline">¶</a></h4>
 <p>Hydrodynamic data for each OSWEC body must be parsed into a HDF5 file using the <a class="reference external" href="http://wec-sim.github.io/bemio/">BEMIO</a> hydrodynamic data format. The OSWEC HDF5 file (<code class="docutils literal"><span class="pre">oswec.h5</span></code>) was created based on a WAMIT run of the RM3 geometry. The OSWEC WAMIT <code class="docutils literal"><span class="pre">oswec.out</span></code> file and the BEMIO <code class="docutils literal"><span class="pre">readWAMIT.py</span></code> script used to generate the HDF5 are included in the <code class="docutils literal"><span class="pre">/hydroData</span></code> directory.</p>
 </div>
-<div class="section" id="id15">
-<h4>Step 2: Build WEC-Sim model in Simulink<a class="headerlink" href="#id15" title="Permalink to this headline">¶</a></h4>
+<div class="section" id="id14">
+<h4>Step 2: Build WEC-Sim model in Simulink<a class="headerlink" href="#id14" title="Permalink to this headline">¶</a></h4>
 <p>The WEC-Sim Simulink model is created by dragging and dropping blocks from the <em>WEC-Sim Library</em> into the <code class="docutils literal"><span class="pre">oswec.slx</span></code> file.</p>
 <ul class="simple">
 <li>Place two <strong>Rigid Body</strong> blocks from the <em>WEC-Sim Library</em> in the Simulink model file, one for each OSWEC rigid body.</li>
@@ -565,8 +599,8 @@ of Inertia
 <p class="last">When setting up a WEC-Sim model, it is very important to note the base and follower frames.</p>
 </div>
 </div>
-<div class="section" id="id16">
-<h4>Step 3: Write WEC-Sim input file<a class="headerlink" href="#id16" title="Permalink to this headline">¶</a></h4>
+<div class="section" id="id15">
+<h4>Step 3: Write WEC-Sim input file<a class="headerlink" href="#id15" title="Permalink to this headline">¶</a></h4>
 <p>The WEC-Sim input file defines simulation parameters, body properties, joints, and mooring for the OSWEC model. The <code class="docutils literal"><span class="pre">wecSimInputFile.m</span></code> for the OSWEC is provided in the RM3 case directory, and shown below.</p>
 <p><em>OSWEC wecSimInputFile</em></p>
 <div class="highlight-matlab"><div class="highlight"><pre><span></span><span class="c">%% Simulation Data</span>
@@ -608,40 +642,40 @@ of Inertia
 </pre></div>
 </div>
 </div>
-<div class="section" id="id17">
-<h4>Step 4: Execute WEC-Sim<a class="headerlink" href="#id17" title="Permalink to this headline">¶</a></h4>
-<p>To execute the WEC-Sim code for the OSWEC tutorial, type <code class="docutils literal"><span class="pre">wecSim</span></code> into the MATLAB Command Window. Below is a figure showing the final OSWEC Simulink model and the WEC-Sim GUI during the simulation. For more information on using WEC-Sim to model the OSWEC device, refer to <a class="reference internal" href="#y-yu-development-2014" id="id18">[2]</a><a class="reference internal" href="#y-yu-design-2014" id="id19">[3]</a>.</p>
+<div class="section" id="id16">
+<h4>Step 4: Execute WEC-Sim<a class="headerlink" href="#id16" title="Permalink to this headline">¶</a></h4>
+<p>To execute the WEC-Sim code for the OSWEC tutorial, type <code class="docutils literal"><span class="pre">wecSim</span></code> into the MATLAB Command Window. Below is a figure showing the final OSWEC Simulink model and the WEC-Sim GUI during the simulation. For more information on using WEC-Sim to model the OSWEC device, refer to <a class="reference internal" href="tutorials.html#y-yu-development-2014" id="id17">[2]</a><a class="reference internal" href="tutorials.html#y-yu-design-2014" id="id18">[3]</a>.</p>
 <div class="figure">
 <a class="reference internal image-reference" href="_images/OSWEC_WECSim_GUI.jpg"><img alt="_images/OSWEC_WECSim_GUI.jpg" src="_images/OSWEC_WECSim_GUI.jpg" style="width: 600pt;" /></a>
 </div>
 </div>
 </div>
-<div class="section" id="other-examples-applications-repository">
-<h3>Other Examples: Applications Repository<a class="headerlink" href="#other-examples-applications-repository" title="Permalink to this headline">¶</a></h3>
-<p>The <a class="reference external" href="https://github.com/WEC-Sim/WEC-Sim_Applications">WEC-Sim Applications</a> repository contains applications of the WEC-Sim code, including tutorials by the WEC-Sim team as well as user-shared examples.</p>
-</div>
 <div class="section" id="references">
 <h3>References<a class="headerlink" href="#references" title="Permalink to this headline">¶</a></h3>
-<p id="bibtex-bibliography-tutorials-0"><table class="docutils citation" frame="void" id="ruehl-preliminary-2014" rules="none">
+<p id="bibtex-bibliography-examples-0"><table class="docutils citation" frame="void" id="ruehl-preliminary-2014" rules="none">
 <colgroup><col class="label" /><col /></colgroup>
 <tbody valign="top">
-<tr><td class="label"><a class="fn-backref" href="#id10">[1]</a></td><td>K. Ruehl, C. Michelen, S. Kanner, M. Lawson, and Y. Yu. Preliminary Verification and Validation of WEC-Sim, an Open-Source Wave Energy Converter Design Tool. In <em>Proceedings of OMAE 2014</em>. San Francisco, CA, 2014.</td></tr>
+<tr><td class="label"><a class="fn-backref" href="#id9">[1]</a></td><td>K. Ruehl, C. Michelen, S. Kanner, M. Lawson, and Y. Yu. Preliminary Verification and Validation of WEC-Sim, an Open-Source Wave Energy Converter Design Tool. In <em>Proceedings of OMAE 2014</em>. San Francisco, CA, 2014.</td></tr>
 </tbody>
 </table>
 <table class="docutils citation" frame="void" id="y-yu-development-2014" rules="none">
 <colgroup><col class="label" /><col /></colgroup>
 <tbody valign="top">
-<tr><td class="label"><a class="fn-backref" href="#id18">[2]</a></td><td>Y. Yu, M. Lawson, K. Ruehl, and C. Michelen. Development and Demonstration of the WEC-Sim Wave Energy Converter Simulation Tool. In <em>Proceedings of the 2nd Marine Energy Technology Symposium</em>. Seattle, WA, USA, 2014.</td></tr>
+<tr><td class="label"><a class="fn-backref" href="#id17">[2]</a></td><td>Y. Yu, M. Lawson, K. Ruehl, and C. Michelen. Development and Demonstration of the WEC-Sim Wave Energy Converter Simulation Tool. In <em>Proceedings of the 2nd Marine Energy Technology Symposium</em>. Seattle, WA, USA, 2014.</td></tr>
 </tbody>
 </table>
 <table class="docutils citation" frame="void" id="y-yu-design-2014" rules="none">
 <colgroup><col class="label" /><col /></colgroup>
 <tbody valign="top">
-<tr><td class="label"><a class="fn-backref" href="#id19">[3]</a></td><td>Y. Yu, Y. Li, K. Hallett, and C. Hotimsky. Design and Analysis for a Floating Oscillating Surge Wave Energy Converter. In <em>Proceedings of OMAE 2014</em>. San Francisco, CA, 2014.</td></tr>
+<tr><td class="label"><a class="fn-backref" href="#id18">[3]</a></td><td>Y. Yu, Y. Li, K. Hallett, and C. Hotimsky. Design and Analysis for a Floating Oscillating Surge Wave Energy Converter. In <em>Proceedings of OMAE 2014</em>. San Francisco, CA, 2014.</td></tr>
 </tbody>
 </table>
 </p>
 </div>
+</div>
+<div class="section" id="wec-sim-applications">
+<h2>WEC-Sim Applications<a class="headerlink" href="#wec-sim-applications" title="Permalink to this headline">¶</a></h2>
+<p>The <a class="reference external" href="https://github.com/WEC-Sim/WEC-Sim_Applications">WEC-Sim Applications</a> repository contains applications of the WEC-Sim code, including tutorials by the WEC-Sim team as well as user-shared examples. The WEC-Sim Applications respository is included as a <a class="reference external" href="https://git-scm.com/book/en/v2/Git-Tools-Submodules">submodule</a> of the WEC-Sim respository.</p>
 </div>
 </div>
 
@@ -652,6 +686,15 @@ of Inertia
            </div>
           </div>
           <footer>
+  
+    <div class="rst-footer-buttons" role="navigation" aria-label="footer navigation">
+      
+        <a href="theory.html" class="btn btn-neutral float-right" title="Theory" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right"></span></a>
+      
+      
+        <a href="getting_started.html" class="btn btn-neutral" title="Getting Started" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left"></span> Previous</a>
+      
+    </div>
   
 
   <hr/>

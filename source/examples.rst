@@ -1,10 +1,11 @@
-﻿.. _tutorials:
+﻿.. _examples:
 
-Tutorials
-==========
+Examples
+========
+This section gives instructions on how to run the WEC-Sim code, and provides WEC-Sim tutorials and applications.
 
 Run WEC-Sim
----------------------
+------------
 This section provides an overview of the WEC-Sim file structure and outlines the steps to run WEC-Sim.
 
 
@@ -263,12 +264,13 @@ To execute the WEC-Sim code for the OSWEC tutorial, type ``wecSim`` into the MAT
 .. figure:: _static/OSWEC_WECSim_GUI.jpg
    :width: 600pt
 
-
-Other Examples: Applications Repository
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-The `WEC-Sim Applications <https://github.com/WEC-Sim/WEC-Sim_Applications>`_ repository contains applications of the WEC-Sim code, including tutorials by the WEC-Sim team as well as user-shared examples.
-
 References
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 .. bibliography:: WEC-Sim_Tutorials.bib
-   :style: unsrt
+   :style: unsrt   
+
+
+WEC-Sim Applications 
+--------------------
+The `WEC-Sim Applications <https://github.com/WEC-Sim/WEC-Sim_Applications>`_ repository contains applications of the WEC-Sim code, including tutorials by the WEC-Sim team as well as user-shared examples. The WEC-Sim Applications respository is included as a `submodule <https://git-scm.com/book/en/v2/Git-Tools-Submodules>`_ of the WEC-Sim respository.
+

@@ -7,18 +7,18 @@ This section provides instructions on how to download and install the WEC-Sim co
 
 MATLAB Toolbox Requirements
 ------------------------------
-WEC-Sim was developed in **MATLAB R2015b**, and requires the following toolboxes:
-
-	==========================  ====================		
-	**Required Toolbox**        **Supported Version**
-	MATLAB		            Version 8.6 (R2015b)
-	Simulink                    Version 8.6 (R2015b)
+WEC-Sim is developed in MATLAB/Simulink, and requires the toolboxes listed below. WEC-Sim's Simulink Library was saved in Matlab version R2015b, thus it is the oldest WEC-Sim compatible release. Any release newer than R2015b should also be compatible with WEC-Sim.
+ 
+	==========================  ============================		
+	**Required Toolbox**        **Oldest Compatible Version**
+	MATLAB		            Version 8.6  (R2015b)
+	Simulink                    Version 8.6  (R2015b)
 	Simscape                    Version 3.14 (R2015b)
-	SimMechanics   		    Version 4.7 (R2015b)
-	==========================  ====================	
+	Simscape Multibody   	    Version 4.7  (R2015b)
+	==========================  ============================	
 	
 	.. Note::
-		**SimMechanics** is now called **Simscape Multibody** in **R2016a**
+		**Simscape Multibody** was called **SimMechanics** prior to **R2016a**
 
 	Ensure that the correct version of MATLAB and the required toolboxes are installed by typing ``ver`` in the MATLAB Command Window:
 
@@ -26,12 +26,12 @@ WEC-Sim was developed in **MATLAB R2015b**, and requires the following toolboxes
 
 		>> ver
 		--------------------------------------------------------------------------------------
-		MATLAB Version: 8.6.0.267246 (R2015b)
+		MATLAB Version: 9.2.0.556344 (R2017a)
 		--------------------------------------------------------------------------------------
-		MATLAB                                                Version 8.6         (R2015b)
-		Simulink                                              Version 8.6         (R2015b)
-		SimMechanics                                          Version 4.7         (R2015b)
-		Simscape                                              Version 3.14        (R2015b)
+		MATLAB                                                Version 9.2         (R2017a)
+		Simulink                                              Version 8.9         (R2017a)
+		Simscape                                              Version 4.2         (R2017a)
+		Simscape Multibody                                    Version 5.0         (R2017a)
 		
 
 Download WEC-Sim
@@ -54,10 +54,7 @@ Option 2. Fork with Git (Recommended for Developers)
 
 Option 3. Static Code Download (Not Recommended)
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-	The easiest way to obtain a copy of WEC-Sim is to download the latest `WEC-Sim Release <https://github.com/WEC-Sim/WEC-Sim/releases>`_.
-
-	.. Note::
-		This is a static download of the WEC-Sim code. If you choose this method, you will have to re-download the code in order to receive code updates.
+	The easiest way to obtain a copy of WEC-Sim is to download the latest `WEC-Sim Release <https://github.com/WEC-Sim/WEC-Sim/releases>`_. 		This is a static download of the WEC-Sim code. If you choose this method, you will have to re-download the code in order to receive code updates.
 
 
 Install WEC-Sim

@@ -99,7 +99,7 @@
             
               <ul class="current">
 <li class="toctree-l1"><a class="reference internal" href="getting_started.html">Getting Started</a></li>
-<li class="toctree-l1"><a class="reference internal" href="tutorials.html">Tutorials</a></li>
+<li class="toctree-l1"><a class="reference internal" href="examples.html">Examples</a></li>
 <li class="toctree-l1"><a class="reference internal" href="theory.html">Theory</a></li>
 <li class="toctree-l1 current"><a class="current reference internal" href="#">Code Structure</a><ul>
 <li class="toctree-l2"><a class="reference internal" href="#code-conventions">Code Conventions</a></li>
@@ -233,7 +233,7 @@ Each WEC-Sim simulation (and input file) requires one instance of the simulation
 <p>Within the input file, users specify simulation class (<code class="docutils literal"><span class="pre">simulationClass</span></code>) parameters using the <code class="docutils literal"><span class="pre">simu</span></code> object.
 To initialize the <code class="docutils literal"><span class="pre">simu</span></code> object, include the following line: <code class="docutils literal"><span class="pre">simu=simulationClass();</span></code>.
 Simulation class parameters include simulation start time (<code class="docutils literal"><span class="pre">simu.startTime</span></code>), end time (<code class="docutils literal"><span class="pre">simu.endTime</span></code>), and time step (<code class="docutils literal"><span class="pre">simu.dt</span></code>).
-Users also specify the name of the Simulink/SimMechanics WEC model within the <code class="docutils literal"><span class="pre">simu.simMechanicsFile</span></code> variable.
+Users also specify the name of the Simulink/SimMechanics WEC model within the `` simu.simMechanicsFile`` variable.
 All simulation class parameters are specified as variables within the <code class="docutils literal"><span class="pre">simu</span></code> object (as members of the <code class="docutils literal"><span class="pre">simulationClass</span></code>).</p>
 </div>
 <div class="section" id="wave-class">
@@ -445,7 +445,7 @@ Users can overwrite the default values in the input file. For example, users can
 <div class="highlight-default"><div class="highlight"><pre><span></span><span class="n">pto</span><span class="p">(</span><span class="o">&lt;</span><span class="c1">#&gt;).c = &lt;pto damping value&gt;</span>
 </pre></div>
 </div>
-<p>The available pto parameters and default values defined in the pto class can be found by typing <code class="docutils literal"><span class="pre">doc</span> <span class="pre">ptoClass</span></code> in the MATLAB command window  or opening the <cite>.m</cite> file in <cite>/source/objects/</cite>.</p>
+<p>The available pto parameters and default values defined in the pto class can be found by typing `` doc ptoClass`` in the MATLAB command window  or opening the <cite>.m</cite> file in <cite>/source/objects/</cite>.</p>
 <div class="figure">
 <a class="reference internal image-reference" href="_images/ptoClass.png"><img alt="_images/ptoClass.png" src="_images/ptoClass.png" style="width: 400pt;" /></a>
 </div>
@@ -457,7 +457,7 @@ The mooring variable should be initiated by entering the following command in th
 <div class="highlight-default"><div class="highlight"><pre><span></span><span class="n">mooring</span><span class="p">(</span><span class="o">&lt;</span><span class="c1">#&gt;) = mooringClass(&#39;&lt;mooring name&gt;&#39;)</span>
 </pre></div>
 </div>
-<p>The available mooring parameters and default values defined in the mooring class can be found by typing <code class="docutils literal"><span class="pre">doc</span> <span class="pre">mooringClass</span></code> in the MATLAB command window  or opening the <cite>.m</cite> file in <cite>/source/objects/</cite>.</p>
+<p>The available mooring parameters and default values defined in the mooring class can be found by typing `` doc mooringClass`` in the MATLAB command window  or opening the <cite>.m</cite> file in <cite>/source/objects/</cite>.</p>
 <div class="figure">
 <a class="reference internal image-reference" href="_images/mooringClass.png"><img alt="_images/mooringClass.png" src="_images/mooringClass.png" style="width: 400pt;" /></a>
 </div>
@@ -534,7 +534,7 @@ Both constraints and PTOs can be used to restrict the relative motion between mu
 The Mooring sub-library contains blocks used to simulate mooring systems.</p>
 <div class="section" id="body-elements-sub-library">
 <h3>Body Elements Sub-library<a class="headerlink" href="#body-elements-sub-library" title="Permalink to this headline">¶</a></h3>
-<p>The Body Elements sub-library (shown below) contains one block: the Rigid Body block.
+<p>The Body Elements sub-library (Figure~ref{fig:bLib) contains one block: the Rigid Body block.
 It is used to represent rigid bodies.
 At least one instance of this block is required in each model.</p>
 <div class="figure">

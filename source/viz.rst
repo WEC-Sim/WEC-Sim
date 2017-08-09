@@ -1,8 +1,7 @@
 .. _viz:
 
 Visualization/Paraview
--------------------------
-
+----------------------
 This section describes how to setup, output, and use Paraview files for visualizing a WEC-Sim simulation. This improves on SimMechanics's explorer by:
 
 * Visualization of the wave field
