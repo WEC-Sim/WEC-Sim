@@ -24,13 +24,14 @@ classdef waveClass<handle
         randPreDefined              = 0;                                   % Only used for irregular waves. Default is equal to 0; if equals to 1,2,3,...,etc, the waves pahse is seeded.
         spectrumDataFile            = 'NOT DEFINED'                        % Data file that contains the spectrum data file. 
         etaDataFile                 = 'NOT DEFINED'                        % Data file that contains the times-series data file. 
-        numFreq                     = 1001                                 % Number of interpolated wave frequencies (default = 'NOT DEFINED')
+        numFreq                     = 'NOT DEFINED'                        % Number of interpolated wave frequencies (default = 'NOT DEFINED') and bins when using the 'EqualEnergy' frequency discretization option.
         freqRange                   = [];                                  % Min and max frequency for irregular waves. 2x1 vector, rad/s, (default = frequency range in BEM data) 
         waveDir                     = 0                                    % Wave Direction in degrees
         viz                         = struct(...                           %Structure defining visualization options
                                              'numPointsX', 50, ...              % Visualization number of points in x direction.
                                              'numPointsY', 50)                  % Visualization number of points in y direction.
         statisticsDataLoad          = [];                                  % File name to load wave statistics data
+        freqDisc                    = 'NOT DEFINED'                        % Method of frequency discretization for irregular waves. Options for this variable are 'EqualEnergy' or 'Traditional'. The default is 'Traditional'.
     end
     
     properties (SetAccess = 'private', GetAccess = 'public')%internal
@@ -109,8 +110,67 @@ classdef waveClass<handle
                             warning('Max frequency range outside BEM data. Setting max frequency to max BEM frequency')
                         end
                     end
-                    obj.dw=(WFQEd-WFQSt)/(obj.numFreq-1);
-                    obj.w = (WFQSt:obj.dw:WFQEd)';
+                    if strcmp(obj.freqDisc, 'EqualEnergy') == 1
+                    g = 9.807;
+                    w_vec = WFQSt:(WFQEd-WFQSt)/500000:WFQEd;
+                    obj.numFreq = obj.numFreq+1;
+                if strcmp(obj.spectrumType,'BS') == 1
+                    %%% Bretscheider relationship between peak and average period
+                    T0 = obj.T/1.296;
+                    AA = 172.75*obj.H^2/T0^4;
+                    B = 691/T0^4;
+                    Sf = AA./w_vec.^5.*exp(-B./w_vec.^4);
+                elseif strcmp(obj.spectrumType,'PM') == 1
+                    U19 = sqrt(obj.H*g/0.21);
+                    w0 = g/U19;
+                    alpha = 8.1*10^-3;
+                    beta = 0.74;
+                    Sf = alpha*g^2./w_vec.^5.*exp(-beta*(w0./w_vec).^4);
+                else
+                    freq = w_vec'/(2*pi);
+                    gamma = 3.3;
+                    siga = 0.07;sigb = 0.09;
+                    fp = 1/obj.T;
+                    [lind,~] = find(freq<=fp);
+                    [hind,~] = find(freq>fp);
+                    Gf = zeros(size(freq));
+                    Gf(lind) = gamma.^exp(-(freq(lind)-fp).^2/(2*siga^2*fp^2));
+                    Gf(hind) = gamma.^exp(-(freq(hind)-fp).^2/(2*sigb^2*fp^2));
+                    Sf = g^2*(2*pi)^(-4)*freq.^(-5).*exp(-(5/4).*(freq/fp).^(-4));
+                    Amp = obj.H^(2)/16/trapz(freq,Sf.*Gf);
+                    S = Amp*Sf.*Gf;
+                    Sf = S./(2*pi);
+                 end
+                    m0 = trapz(w_vec,abs(Sf));
+                    a_targ = m0/(obj.numFreq-1);
+                    SF = cumtrapz(w_vec,Sf);
+                    wn(1) = 1;
+                    for kk = 1:obj.numFreq-2
+                        jj = 1;
+                        tmpa{kk}(1) = 0;
+                        while tmpa{kk}(jj)-kk*a_targ < 0
+                            tmpa{kk}(jj+1) = SF(wn(kk)+jj);
+                            jj = jj+1;
+                            if wn(kk)+jj >=length(Sf)
+                                break
+                            end
+                        end
+                        [a_targ_real(kk),wna(kk)] = min(abs(tmpa{kk}-kk*a_targ));
+                        wn(kk+1) = wna(kk)+wn(kk);
+                        a_bins(kk) = trapz(w_vec(wn(kk):wn(kk+1)),abs(Sf(wn(kk):wn(kk+1))));
+
+                        
+                    end
+                    
+                    obj.w = w_vec(wn(1:end))';
+                   
+                    obj.numFreq = length(obj.w);
+                    obj.dw = [obj.w(1)-0; diff(obj.w)];
+                    else 
+                        obj.dw=(WFQEd-WFQSt)/(obj.numFreq-1);
+                        obj.w = (WFQSt:obj.dw:WFQEd)';
+                    end
+                    
                     obj.setWavePhase;
                     obj.irregWaveSpectrum(g)
                     obj.waveElevIrreg(rampT, dt, maxIt, obj.dw);
@@ -292,7 +352,7 @@ classdef waveClass<handle
             else 
                 rng('shuffle');         % Phase seed shuffled
             end
-            obj.phaseRand = 2*pi*rand(1,obj.numFreq);
+            obj.phaseRand = 2*pi*rand(1,length(obj.w));
             obj.phaseRand = obj.phaseRand';
         end
         
