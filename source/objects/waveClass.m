@@ -16,34 +16,33 @@
 
 classdef waveClass<handle
     properties (SetAccess = 'public', GetAccess = 'public')%input file
-        type                        = 'NOT DEFINED'                        % Wave type. Options for this varaibale are 'noWave' (no waves), 'regular' (regular waves), 'regularCIC' (regular waves using convolution integral to calculate radiation effects), 'irregular' (irregular waves), 'irregularPRE' (irregular waves with pre defined phase). The default is 'regular'.
-        T                           = 'NOT DEFINED'                        % [s] Wave period (regular waves) or peak period (irregular waves) (default = 8)
-        H                           = 'NOT DEFINED'                        % [m] Wave height (regular waves) or significant wave height (irregular waves) (default = 1)
-        noWaveHydrodynamicCoeffT    = 'NOT DEFINED'                        % Period of BEM simulation used to determine hydrodynamic coefficients for simulations with no wave. This option is only used with the 'noWave' wave type.
-        spectrumType                = 'NOT DEFINED'                        % Type of wave spectrum. Only PM, BS, JS, and Imported spectrum are supported.
-        randPreDefined              = 0;                                   % Only used for irregular waves. Default is equal to 0; if equals to 1,2,3,...,etc, the waves pahse is seeded.
-        spectrumDataFile            = 'NOT DEFINED'                        % Data file that contains the spectrum data file. 
-        etaDataFile                 = 'NOT DEFINED'                        % Data file that contains the times-series data file. 
-        numFreq                     = 1001                                 % Number of interpolated wave frequencies (default = 'NOT DEFINED')
-        freqRange                   = [];                                  % Min and max frequency for irregular waves. 2x1 vector, rad/s, (default = frequency range in BEM data) 
-        waveDir                     = 0                                    % Wave Direction in degrees
-        viz                         = struct(...                           %Structure defining visualization options
+        type                        = 'NOT DEFINED'                         % Wave types (Default = 'NOT DEFINED'): 'noWave', 'noWaveCIC', 'regular', 'regularCIC', 'irregular', 'spectrumImport', and 'etaImport'
+        T                           = 'NOT DEFINED'                         % [s] Wave period (regular waves), peak period (irregular waves), period of BEM data used for hydrodynamic coefficients ('noWave') (Default = 'NOT DEFINED')
+        H                           = 'NOT DEFINED'                         % [m] Wave height (regular waves) or significant wave height (irregular waves) (Default = 'NOT DEFINED')
+        spectrumType                = 'NOT DEFINED'                         % Wave spectrum types (Default = 'NOT DEFINED'): 'PM', 'BS', and 'JS' 
+        randPreDefined              = 0;                                    % Only used for irregular waves (Default = 0); if equals to 1,2,3,...,etc, the waves phase is seeded.
+        spectrumDataFile            = 'NOT DEFINED'                         % Data file that contains the spectrum data file (Default = 'NOT DEFINED')
+        etaDataFile                 = 'NOT DEFINED'                         % Data file that contains the times-series data file (Default = 'NOT DEFINED')
+        numFreq                     = 1001;                                 % Number of interpolated wave frequencies (default = 'NOT DEFINED') and bins when using the 'EqualEnergy' frequency discretization option.       
+        freqRange                   = [];                                   % Min and max frequency for irregular waves. 2x1 vector, rad/s, (default = frequency range in BEM data) 
+        waveDir                     = 0                                     % [deg] Incident wave direction (Default = 0)
+        viz                         = struct(...                            % Structure defining visualization options
                                              'numPointsX', 50, ...              % Visualization number of points in x direction.
                                              'numPointsY', 50)                  % Visualization number of points in y direction.
-        statisticsDataLoad          = [];                                  % File name to load wave statistics data
+        statisticsDataLoad          = [];                                   % File name to load wave statistics data for wecSimMCR
     end
     
     properties (SetAccess = 'private', GetAccess = 'public')%internal
-        typeNum                     = []                                   % Number to represent different type of waves
-        bemFreq                     = []                                   % Number of wave frequencies from BEM
-        waterDepth                  = []                                   % [m] Water depth (from BEM)
-        deepWaterWave               = []                                   % Deep water or not, depending on input from WAMIT, NEMOH and AQWA
-        waveAmpTime                 = []                                   % [m] Wave elevation time history
-        A                           = []                                   % [m] Wave amplitude for regular waves or 2*(wave spectrum vector) for irregular waves
-        w                           = []                                   % [rad/s] Wave frequency (regular waves) or wave frequency vector (irregular waves)
-        phaseRand                   = 0;                                   % [rad] Random wave phase (only used for irregular waves)
-        dw                          = 0;                                   % [rad] Frequency spacing for irregular waves.
-        k                           = []                                   % Wave Number
+        typeNum                     = []                                    % Number to represent different type of waves
+        bemFreq                     = []                                    % Number of wave frequencies from BEM
+        waterDepth                  = []                                    % [m] Water depth (from BEM)
+        deepWaterWave               = []                                    % Deep water, depends on input from WAMIT, NEMOH and AQWA
+        waveAmpTime                 = []                                    % [m] Wave elevation time history
+        A                           = []                                    % [m] Wave amplitude for regular waves or 2*(wave spectrum vector) for irregular waves
+        w                           = []                                    % [rad/s] Wave frequency (regular waves) or wave frequency vector (irregular waves)
+        phaseRand                   = 0;                                    % [rad] Random wave phase (only used for irregular waves)
+        dw                          = 0;                                    % [rad/s] Frequency spacing for irregular waves.
+        k                           = []                                    % [rad/m] Wave number
     end
     
     methods (Access = 'public')
@@ -52,19 +51,19 @@ classdef waveClass<handle
             % Set wave type and type number
             obj.type = type;
             switch obj.type
-                case {'noWave'}        % No/Regular Waves
+                case {'noWave'}        % No Waves with Constant Hydrodynamic Coefficients
                     obj.typeNum = 0;
-                case {'noWaveCIC'}     % No/Regular Waves w/Convolution Integral Calculation
+                case {'noWaveCIC'}     % No Waves w/Convolution Integral Calculation
                     obj.typeNum = 1;
-                case {'regular'}       % No/Regular Waves
+                case {'regular'}       % Regular Waves with Constant Hydrodynamic Coefficients
                     obj.typeNum = 10;
-                case {'regularCIC'}    % No/Regular Waves w/Convolution Integral Calculation
+                case {'regularCIC'}    % Regular Waves w/Convolution Integral Calculation
                     obj.typeNum = 11;
-                case 'irregular'       % Irregular Waves
+                case 'irregular'       % Irregular Waves with 'PM', BS' or 'JS' wave spectrum
                     obj.typeNum = 20;
-                case 'irregularImport' % Irregular Waves w/Predefined Phase
+                case 'spectrumImport' % Irregular waves with imported wave spectrum
                     obj.typeNum = 21;
-                case 'userDefined'     % Import User-Defined Waves
+                case 'etaImport'     % Waves with imported wave elevation time-history  
                     obj.typeNum = 30;
             end
         end
@@ -94,28 +93,28 @@ classdef waveClass<handle
                     end
                     obj.A = obj.H/2;
                     obj.waveElevReg(rampT, dt, maxIt);
-                case {'irregular','irregularImport'}
+                case {'irregular','spectrumImport'}
                     WFQSt=min(bemFreq);
                     WFQEd=max(bemFreq);
                     if ~isempty(obj.freqRange)
                         if obj.freqRange(1) > WFQSt && obj.freqRange(1) > 0
                             WFQSt = obj.freqRange(1);
                         else
-                            warning('Min frequency range outside BEM data. Setting min frequency to min BEM frequency')
+                            warning('Min frequency range outside BEM data, min frequency set to min BEM frequency')
                         end
                         if obj.freqRange(2) < WFQEd && obj.freqRange(2) > WFQSt
                             WFQEd = obj.freqRange(2);
                         else
-                            warning('Max frequency range outside BEM data. Setting max frequency to max BEM frequency')
+                            warning('Max frequency range outside BEM data, max frequency set to max BEM frequency')
                         end
-                    end
+                    end                   
                     obj.dw=(WFQEd-WFQSt)/(obj.numFreq-1);
                     obj.w = (WFQSt:obj.dw:WFQEd)';
                     obj.setWavePhase;
                     obj.irregWaveSpectrum(g)
                     obj.waveElevIrreg(rampT, dt, maxIt, obj.dw);
-                case {'userDefined'}    %  This does not account for wave direction
-                    % Import userDefined time-series here and interpolate
+                case {'etaImport'}    %  This does not account for wave direction
+                    % Import etaImport time-series here and interpolate
                     data = importdata(obj.etaDataFile) ;    % Import time-series
                     t = [0:dt:endTime]';      % WEC-Sim simulation time [s]
                     obj.waveElevUser(rampT, dt, maxIt, data, t);
@@ -128,17 +127,18 @@ classdef waveClass<handle
             fprintf('\nWave Environment: \n')
             switch obj.type
                 case 'noWave'
-                    fprintf('\tWave Type                            = No Wave\n')
+                    fprintf('\tWave Type                            = No Wave (Constant Hydrodynamic Coefficients)\n')
+                    fprintf('\tHydro Data Wave Period, T (sec)    	= %G\n',obj.T)
                 case 'regular'
-                    fprintf('\tWave Type                            = Regular Waves (Sinusoidal Steady-State)\n')
-                    fprintf('\tWave Height H (m)                    = %G\n',obj.H)
-                    fprintf('\tWave Period T (sec)                  = %G\n',obj.T)
+                    fprintf('\tWave Type                            = Regular Waves (Constant Hydrodynamic Coefficients)\n')
+                    fprintf('\tWave Height, H (m)                   = %G\n',obj.H)
+                    fprintf('\tWave Period, T (sec)                 = %G\n',obj.T)
                 case 'noWaveCIC'
                     fprintf('\tWave Type                            = No Wave (Convolution Integral Calculation)\n')
                 case 'regularCIC'
                     fprintf('\tWave Type                            = Regular Waves (Convolution Integral Calculation)\n')
-                    fprintf('\tWave Height H (m)                    = %G\n',obj.H)
-                    fprintf('\tWave Period T (sec)                  = %G\n',obj.T)
+                    fprintf('\tWave Height, H (m)                   = %G\n',obj.H)
+                    fprintf('\tWave Period, T (sec)                 = %G\n',obj.T)
                 case 'irregular'
                     if obj.randPreDefined == 0
                         fprintf('\tWave Type                            = Irregular Waves (Arbitrary Random Phase)\n')
@@ -146,18 +146,18 @@ classdef waveClass<handle
                         fprintf('\tWave Type                            = Irregular Waves (Predefined Random Phase)\n')
                     end
                     obj.printWaveSpectrumType;
-                    fprintf('\tSignificant Wave Height Hs (m)       = %G\n',obj.H)
-                    fprintf('\tPeak Wave Period Tp (sec)            = %G\n',obj.T)
-                case 'irregularImport'
+                    fprintf('\tSignificant Wave Height, Hs      (m) = %G\n',obj.H)
+                    fprintf('\tPeak Wave Period, Tp           (sec) = %G\n',obj.T)
+                case 'spectrumImport'
                     if obj.randPreDefined == 0
-                        fprintf('\tWave Type                            = Irregular Waves (Arbitrary Random Phase)\n')
+                        fprintf('\tWave Type                     	= Irregular waves with imported wave spectrum (Arbitrary Random Phase)\n')
                     else
-                        fprintf('\tWave Type                            = Irregular Waves (Predefined Random Phase)\n')
+                        fprintf('\tWave Type                        = Irregular waves with imported wave spectrum (Predefined Random Phase)\n')
                     end
                     obj.printWaveSpectrumType;
-                case 'userDefined'
-                    fprintf( '\tWave Type                                = User-Defined Wave Elevation Time-Series\n')
-                    fprintf(['\tWave Elevation Time-Series File          = ' obj.etaDataFile '  \n'])
+                case 'etaImport'
+                    fprintf( '\tWave Type                           = Waves with imported wave elevation time-history\n')
+                    fprintf(['\tWave Elevation Time-Series File    	= ' obj.etaDataFile '  \n'])
             end
         end
         
@@ -173,23 +173,23 @@ classdef waveClass<handle
 
         function checkinputs(obj)
             % Check user inputs
-            % noWaveHydrodynamicCoeffT defined for noWave case
+            % 'noWave' period undefined for hydro data
             if strcmp(obj.type,'noWave')
-                if strcmp(obj.noWaveHydrodynamicCoeffT,'NOT DEFINED')
-                    error('The noWaveHydrodynamicCoeffT variable must be defined when using the "noWave" wave type');
+                if strcmp(obj.T,'NOT DEFINED')
+                    error('"waves.T" must be defined for the hydrodynamic data period when using the "noWave" wave type');
                 end
             end
-            % spectrumDataFile defined for irregularImport case
-            if strcmp(obj.type,'irregularImport')
+            % spectrumDataFile defined for spectrumImport case
+            if strcmp(obj.type,'spectrumImport')
                 if strcmp(obj.spectrumDataFile,'NOT DEFINED')
-                    error('The spectrumDataFile variable must be defined when using the "irregularImport" wave type');
+                    error('The spectrumDataFile variable must be defined when using the "spectrumImport" wave type');
                 end
             end
             % types
-            types = {'noWave', 'noWaveCIC', 'regular', 'regularCIC', 'irregular', 'irregularImport', 'userDefined'};
+            types = {'noWave', 'noWaveCIC', 'regular', 'regularCIC', 'irregular', 'spectrumImport', 'etaImport'};
             if sum(strcmp(types,obj.type)) ~= 1
-                error(['Unexpected wave environment type setting. ' ...
-                    'Only noWave, noWaveCIC, regular, regularCIC, irregular, irregularImport, and userDefined waves are supported at this time'])
+                error(['Unexpected wave environment type setting, choose from: ' ...
+                    '"noWave", "noWaveCIC", "regular", "regularCIC", "irregular", "spectrumImport", and "etaImport".'])
             end
         end
 
@@ -216,12 +216,12 @@ classdef waveClass<handle
                 fid = fopen(filename, 'w');
                 % calculate wave elevation
                 switch obj.type
-                case{'noWave','noWaveCIC','userDefined'}
+                case{'noWave','noWaveCIC','etaImport'}
                     Z = zeros(size(X));
                 case{'regular','regularCIC'}
                     Xt = X*cos(obj.waveDir*pi/180) + Y*sin(obj.waveDir*pi/180);
                     Z = obj.A * cos(-1 * obj.k * Xt  +  obj.w * t(it));
-                case{'irregular','irregularImport'}
+                case{'irregular','spectrumImport'}
                     Z = zeros(size(X));
                     Xt = X*cos(obj.waveDir*pi/180) + Y*sin(obj.waveDir*pi/180);
                     for iw = 1:length(obj.w)
@@ -302,7 +302,7 @@ classdef waveClass<handle
             if strcmp(wDepth,'infinite')       
                 obj.deepWaterWave = 1;
                 obj.waterDepth = 200;
-                warning('Infinite water depth given. waves.waterDepth set to 200m for vizualisation.')
+                fprintf('\tInfinite water depth specified in BEM, "waves.waterDepth" set to 200m for vizualisation.\n') 
             else
                 obj.deepWaterWave = 0;
                 obj.waterDepth = double(wDepth);
@@ -310,15 +310,15 @@ classdef waveClass<handle
             switch obj.type
                 case {'noWave'}
                     obj.H = 0;
-                    obj.T = obj.noWaveHydrodynamicCoeffT;
+                    obj.T = obj.T;
                 case {'noWaveCIC'}
                     obj.H = 0;
                     obj.w = max(obj.bemFreq);
                     obj.T=2*pi/obj.w;
-                case {'irregularImport'}
+                case {'spectrumImport'}
                     obj.H = 0;
                     obj.T = 0;
-                    obj.spectrumType = 'Imported';
+                    obj.spectrumType = 'spectrumImport';
             end
         end
         
@@ -387,7 +387,7 @@ classdef waveClass<handle
                     S_f = (A_irreg*freq.^(-5).*exp(-B*freq.^(-4)));
                     alpha = Hs^(2)/16/trapz(freq,S_f);
                     Sf = alpha*S_f./(2*pi);
-                case 'Imported' % Imported Spectrum
+                case 'spectrumImport' % Imported Wave Spectrum
                     data = dlmread(obj.spectrumDataFile);
                     freq_data = data(1,:);
                     Sf_data = data(2,:);
@@ -429,7 +429,7 @@ classdef waveClass<handle
         end
         
         function waveElevUser(obj,rampT,dt,maxIt,data, t)
-            % Calculate user-defined wave elevation time history
+            % Calculate imported wave elevation time history
             % Used by waveSetup
             obj.waveAmpTime = zeros(maxIt+1,2);
             maxRampIT=round(rampT/dt);
@@ -453,7 +453,7 @@ classdef waveClass<handle
                 fprintf('\tSpectrum Type                        = JONSWAP \n')
             elseif strcmp(obj.spectrumType,'PM')
                 fprintf('\tSpectrum Type                        = Pierson-Moskowitz  \n')
-            elseif strcmp(obj.spectrumType,'Imported')
+            elseif strcmp(obj.spectrumType,'spectrumImport')
                 fprintf('\tSpectrum Type                        = User-Defined \n')
             end
         end
