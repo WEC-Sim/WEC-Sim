@@ -76,7 +76,7 @@ classdef waveClass<handle
             ylabel('Eta (m)')
         end
         
-        function waveSetup(obj,bemFreq,wDepth,rampT,dt,maxIt,g,endTime)
+        function waveSetup(obj,bemFreq,wDepth,rampTime,dt,maxIt,g,endTime)
             % Calculate and set wave properties based on wave type
             obj.bemFreq    = bemFreq;
             obj.setWaveProps(wDepth)
@@ -92,7 +92,7 @@ classdef waveClass<handle
                         obj.w = 2*pi/obj.T;
                     end
                     obj.A = obj.H/2;
-                    obj.waveElevReg(rampT, dt, maxIt);
+                    obj.waveElevReg(rampTime, dt, maxIt);
                 case {'irregular','spectrumImport'}
                     WFQSt=min(bemFreq);
                     WFQEd=max(bemFreq);
@@ -112,12 +112,12 @@ classdef waveClass<handle
                     obj.w = (WFQSt:obj.dw:WFQEd)';
                     obj.setWavePhase;
                     obj.irregWaveSpectrum(g)
-                    obj.waveElevIrreg(rampT, dt, maxIt, obj.dw);
+                    obj.waveElevIrreg(rampTime, dt, maxIt, obj.dw);
                 case {'etaImport'}    %  This does not account for wave direction
-                    % Import etaImport time-series here and interpolate
+                    % Import 'etaImport' time-series here and interpolate
                     data = importdata(obj.etaDataFile) ;    % Import time-series
                     t = [0:dt:endTime]';      % WEC-Sim simulation time [s]
-                    obj.waveElevUser(rampT, dt, maxIt, data, t);
+                    obj.waveElevUser(rampTime, dt, maxIt, data, t);
             end
             obj.waveNumber(g)
         end
@@ -179,13 +179,13 @@ classdef waveClass<handle
                     error('"waves.T" must be defined for the hydrodynamic data period when using the "noWave" wave type');
                 end
             end
-            % spectrumDataFile defined for spectrumImport case
+            % spectrumDataFile defined for 'spectrumImport' case
             if strcmp(obj.type,'spectrumImport')
                 if strcmp(obj.spectrumDataFile,'NOT DEFINED')
                     error('The spectrumDataFile variable must be defined when using the "spectrumImport" wave type');
                 end
             end
-            % types
+            % check waves types
             types = {'noWave', 'noWaveCIC', 'regular', 'regularCIC', 'irregular', 'spectrumImport', 'etaImport'};
             if sum(strcmp(types,obj.type)) ~= 1
                 error(['Unexpected wave environment type setting, choose from: ' ...
@@ -328,12 +328,12 @@ classdef waveClass<handle
             obj.waveAmpTime(:,1) = [0:maxIt]*dt;
         end
         
-        function waveElevReg(obj, rampT,dt,maxIt)
+        function waveElevReg(obj, rampTime,dt,maxIt)
             % Calculate regular wave elevation time history
             % Used by waveSetup
             obj.waveAmpTime = zeros(maxIt+1,2);
-            maxRampIT=round(rampT/dt);
-            if rampT==0
+            maxRampIT=round(rampTime/dt);
+            if rampTime==0
                 for i=1:maxIt+1
                     t = (i-1)*dt;
                     obj.waveAmpTime(i,1) = t;
@@ -397,12 +397,12 @@ classdef waveClass<handle
             obj.A = 2 * Sf;
         end
         
-        function waveElevIrreg(obj,rampT,dt,maxIt,df)
+        function waveElevIrreg(obj,rampTime,dt,maxIt,df)
             % Calculate irregular wave elevetaion time history
             % Used by waveSetup
             obj.waveAmpTime = zeros(maxIt+1,2);
-            maxRampIT=round(rampT/dt);
-            if rampT==0
+            maxRampIT=round(rampTime/dt);
+            if rampTime==0
                 for i=1:maxIt+1;
                     t = (i-1)*dt;
                     tmp=sqrt(obj.A.*df);
@@ -428,16 +428,16 @@ classdef waveClass<handle
             end
         end
         
-        function waveElevUser(obj,rampT,dt,maxIt,data, t)
+        function waveElevUser(obj,rampTime,dt,maxIt,data, t)
             % Calculate imported wave elevation time history
             % Used by waveSetup
             obj.waveAmpTime = zeros(maxIt+1,2);
-            maxRampIT=round(rampT/dt);
+            maxRampIT=round(rampTime/dt);
             data_t = data(:,1)';                    % Data Time [s]
             data_x = data(:,2)';                    % Wave Surface Elevation [m]
             obj.waveAmpTime(:,1) = t;
             obj.waveAmpTime(:,2) = interp1(data_t,data_x,t);
-            if rampT~=0
+            if rampTime~=0
                 for i=1:maxRampIT
                     obj.waveAmpTime(i,2) = obj.waveAmpTime(i,2)*(1+cos(pi+pi*(i-1)/maxRampIT))/2;
                 end

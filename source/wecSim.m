@@ -106,7 +106,7 @@ fprintf('\nWEC-Sim Pre-processing ...   \n');
 % simulation setup
 simu.setupSim;
 % wave setup
-waves.waveSetup(body(1).hydroData.simulation_parameters.w, body(1).hydroData.simulation_parameters.water_depth, simu.rampT, simu.dt, simu.maxIt, simu.g, simu.endTime);
+waves.waveSetup(body(1).hydroData.simulation_parameters.w, body(1).hydroData.simulation_parameters.water_depth, simu.rampTime, simu.dt, simu.maxIt, simu.g, simu.endTime);
 % Non-linear hydro
 if (simu.nlHydro >0) || (simu.paraview == 1)
     for kk = 1:length(body(1,:))

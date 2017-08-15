@@ -4,20 +4,19 @@ simu.simMechanicsFile = 'RM3.slx';      % Specify Simulink Model File
 simu.mode = 'normal';                   % Specify Simulation Mode ('normal','accelerator','rapid-accelerator')
 simu.explorer='on';                     % Turn SimMechanics Explorer (on/off)
 simu.startTime = 0;                     % Simulation Start Time [s]
-simu.endTime=400;                       % Simulation End bdcloseTime [s]
+simu.rampTime = 100;                   	% Wave Ramp Time [s]
+simu.endTime=400;                       % Simulation End Time [s]
 simu.solver = 'ode4';                   % simu.solver = 'ode4' for fixed step & simu.solver = 'ode45' for variable step 
 simu.dt = 0.1; 							% Simulation time-step [s]
-simu.rampT = 100;                       % Wave Ramp Time Length [s]
 
 %% Wave Information 
 % % noWaveCIC, no waves with radiation CIC  
-waves = waveClass('noWave');       % Initialize Wave Class and Specify Type  
-waves.noWaveHydrodynamicCoeffT = 8;
+% waves = waveClass('noWaveCIC');       % Initialize Wave Class and Specify Type  
 
 % Regular Waves  
-% waves = waveClass('regular');           % Initialize Wave Class and Specify Type                                 
-% waves.H = 2.5;                          % Wave Height [m]
-% waves.T = 8;                            % Wave Period [s]
+waves = waveClass('regular');           % Initialize Wave Class and Specify Type                                 
+waves.H = 2.5;                          % Wave Height [m]
+waves.T = 8;                            % Wave Period [s]
 
 % % Irregular Waves using PM Spectrum 
 % waves = waveClass('irregular');         % Initialize Wave Class and Specify Type
