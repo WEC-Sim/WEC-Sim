@@ -151,7 +151,7 @@ classdef simulationClass<handle
             if waveTypeNum > 10
                 fprintf('\tConvolution Integral Interval  (sec) = %G\n',obj.CITime)
             end
-            fprintf('\tTotal Number of Time Step            = %u \n',obj.maxIt)
+            fprintf('\tTotal Number of Time Steps           = %u \n',obj.maxIt)
         end
 
         function getWecSimVer(obj)
