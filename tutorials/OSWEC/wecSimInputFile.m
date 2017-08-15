@@ -15,19 +15,24 @@ simu.CITime = 30;                       % Specify CI Time [s]
 % waves = waveClass('noWaveCIC');       % Initialize Wave Class and Specify Type  
 
 % % Regular Waves 
-waves = waveClass('regular');           % Initialize Wave Class and Specify Type                                 
-waves.H = 2.5;                          % Wave Height [m]
-waves.T = 8;                            % Wave Period [s]
+% waves = waveClass('regular');           % Initialize Wave Class and Specify Type                                 
+% waves.H = 2.5;                          % Wave Height [m]
+% waves.T = 8;                            % Wave Period [s]
 
-% % Irregular Waves using PM Spectrum
+% Irregular Waves using PM Spectrum
 % waves = waveClass('irregular');         % Initialize Wave Class and Specify Type
 % waves.H = 2.5;                          % Significant Wave Height [m]
 % waves.T = 8;                            % Peak Period [s]
 % waves.spectrumType = 'PM';              % Specify Spectrum Type
 
-% % Irregular Waves using User-Defined Spectrum
-% waves = waveClass('irregularImport');
-% waves.spectrumDataFile = 'ndbcBuoyData.txt';
+% Irregular Waves with imported wave spectrum
+waves = waveClass('spectrumImport');
+waves.spectrumDataFile = 'ndbcBuoyData.txt';
+
+% % Waves with imported wave elevation time-history  
+% waves = waveClass('etaImport');         % Create the Wave Variable and Specify Type
+% waves.etaDataFile = 'umpqua46229_6_2008.mat'; % Name of User-Defined Time-Series File [:,2] = [time, wave_elev]
+
 
 %% Body Data
 % Flap
