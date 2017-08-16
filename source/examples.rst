@@ -111,7 +111,7 @@ Geometry File        float.stl & plate.stl  /tutorials/rm3/geometry/
 ==================   =====================  =========================
 
 Step 1: WEC-Sim Pre-Processing
-++++++++++++++++++++++++++++
++++++++++++++++++++++++++++++++++++
 Hydrodynamic data for each RM3 body must be parsed into a HDF5 file using the `BEMIO <http://wec-sim.github.io/bemio/>`_ hydrodynamic data format. The RM3 HDF5 file (``rm3.h5``) was created based on a WAMIT run of the RM3 geometry. The RM3 WAMIT ``rm3.out`` file and the BEMIO ``readWAMIT.py`` script were used to generate the HDF5 are included in the ``/hydroData`` directory.
 
 Step 2: Build WEC-Sim model in Simulink
@@ -148,7 +148,7 @@ Step 3: Write WEC-Sim input file
 +++++++++++++++++++++++++++++++++
 The WEC-Sim input file defines simulation parameters, body properties, joints, and mooring for the RM3 model. The ``wecSimInputFile.m`` for the RM3 is provided in the RM3 case directory, and shown below.
 
-*RM3 wecSimInputFile*
+*wecSimInputFile for RM3*
 
 .. literalinclude:: RM3wecSimInputFile.m
    :language: matlab
@@ -216,7 +216,7 @@ Geometry File        flap.stl & base.stl    /tutorials/oswec/geometry/
 ==================   =====================  ===========================
 
 Step 1: WEC-Sim Pre-Processing
-++++++++++++++++++++++++++++++++++++++++++++++++++++++++
++++++++++++++++++++++++++++++++++++++++++++
 Hydrodynamic data for each OSWEC body must be parsed into a HDF5 file using the `BEMIO <http://wec-sim.github.io/bemio/>`_ hydrodynamic data format. The OSWEC HDF5 file (``oswec.h5``) was created based on a WAMIT run of the RM3 geometry. The OSWEC WAMIT ``oswec.out`` file and the BEMIO ``readWAMIT.py`` script used to generate the HDF5 are included in the ``/hydroData`` directory.
 
 Step 2: Build WEC-Sim model in Simulink
@@ -250,9 +250,9 @@ The WEC-Sim Simulink model is created by dragging and dropping blocks from the *
 
 Step 3: Write WEC-Sim input file
 ++++++++++++++++++++++++++++++++++++++++++++++++++++++++
-The WEC-Sim input file defines simulation parameters, body properties, joints, and mooring for the OSWEC model. The ``wecSimInputFile.m`` for the OSWEC is provided in the RM3 case directory, and shown below.
+The WEC-Sim input file defines simulation parameters, body properties, joints, and mooring for the OSWEC model. The ``wecSimInputFile.m`` for the OSWEC is provided in the OSWEC case directory, and shown below.
 
-*OSWEC wecSimInputFile*
+*wecSimInputFile.m for OSWEC*
 
 .. literalinclude:: OSWECwecSimInputFile.m
    :language: matlab

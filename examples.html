@@ -435,49 +435,50 @@ Inertia (kg-m^2)</td>
 <div class="section" id="id7">
 <h4>Step 3: Write WEC-Sim input file<a class="headerlink" href="#id7" title="Permalink to this headline">¶</a></h4>
 <p>The WEC-Sim input file defines simulation parameters, body properties, joints, and mooring for the RM3 model. The <code class="docutils literal"><span class="pre">wecSimInputFile.m</span></code> for the RM3 is provided in the RM3 case directory, and shown below.</p>
-<p><em>RM3 wecSimInputFile</em></p>
+<p><em>wecSimInputFile for RM3</em></p>
 <div class="highlight-matlab"><div class="highlight"><pre><span></span><span class="c">%% Simulation Data</span>
-<span class="n">simu</span> <span class="p">=</span> <span class="n">simulationClass</span><span class="p">();</span>               <span class="c">%Create the Simulation Variable</span>
-<span class="n">simu</span><span class="p">.</span><span class="n">simMechanicsFile</span> <span class="p">=</span> <span class="s">&#39;RM3.slx&#39;</span><span class="p">;</span>      <span class="c">%Specify Simulink Model File</span>
-<span class="n">simu</span><span class="p">.</span><span class="n">endTime</span><span class="p">=</span><span class="mi">400</span><span class="p">;</span>                       <span class="c">%Simulation End Time [s]</span>
-<span class="n">simu</span><span class="p">.</span><span class="n">dt</span> <span class="p">=</span> <span class="mf">0.1</span><span class="p">;</span> 							<span class="c">%Simulation Time-Step [s]</span>
-<span class="n">simu</span><span class="p">.</span><span class="n">rampT</span> <span class="p">=</span> <span class="mi">100</span><span class="p">;</span>                       <span class="c">%Wave Ramp Time Length [s]</span>
+<span class="n">simu</span> <span class="p">=</span> <span class="n">simulationClass</span><span class="p">();</span>               <span class="c">% Initialize simulationClass</span>
+<span class="n">simu</span><span class="p">.</span><span class="n">simMechanicsFile</span> <span class="p">=</span> <span class="s">&#39;RM3.slx&#39;</span><span class="p">;</span>      <span class="c">% Specify Simulink Model File</span>
+<span class="n">simu</span><span class="p">.</span><span class="n">startTime</span> <span class="p">=</span> <span class="mi">0</span><span class="p">;</span>                     <span class="c">% Simulation Start Time [s]</span>
+<span class="n">simu</span><span class="p">.</span><span class="n">rampTime</span> <span class="p">=</span> <span class="mi">100</span><span class="p">;</span>                   	<span class="c">% Wave Ramp Time [s]</span>
+<span class="n">simu</span><span class="p">.</span><span class="n">endTime</span><span class="p">=</span><span class="mi">400</span><span class="p">;</span>                       <span class="c">% Simulation End Time [s]</span>
+<span class="n">simu</span><span class="p">.</span><span class="n">dt</span> <span class="p">=</span> <span class="mf">0.1</span><span class="p">;</span>                          <span class="c">% Simulation time-step [s]</span>
 
 <span class="c">%% Wave Information  </span>
-<span class="c">%% Regular Waves  </span>
-<span class="n">waves</span> <span class="p">=</span> <span class="n">waveClass</span><span class="p">(</span><span class="s">&#39;regularCIC&#39;</span><span class="p">);</span>        <span class="c">%Create the Wave Variable and Specify Type                               </span>
-<span class="n">waves</span><span class="p">.</span><span class="n">H</span> <span class="p">=</span> <span class="mf">2.5</span><span class="p">;</span>                          <span class="c">%Wave Height [m]</span>
-<span class="n">waves</span><span class="p">.</span><span class="n">T</span> <span class="p">=</span> <span class="mi">8</span><span class="p">;</span>                            <span class="c">%Wave Period [s]</span>
+<span class="c">% Regular Waves with convolution integtral calculation</span>
+<span class="n">waves</span> <span class="p">=</span> <span class="n">waveClass</span><span class="p">(</span><span class="s">&#39;regularCIC&#39;</span><span class="p">);</span>        <span class="c">% Initialize waveClass and Specify Type                               </span>
+<span class="n">waves</span><span class="p">.</span><span class="n">H</span> <span class="p">=</span> <span class="mf">2.5</span><span class="p">;</span>                          <span class="c">% Wave Height [m]</span>
+<span class="n">waves</span><span class="p">.</span><span class="n">T</span> <span class="p">=</span> <span class="mi">8</span><span class="p">;</span>                            <span class="c">% Wave Period [s]</span>
 
 <span class="c">%% Body Data</span>
-<span class="c">%% Float</span>
-<span class="n">body</span><span class="p">(</span><span class="mi">1</span><span class="p">)</span> <span class="p">=</span> <span class="n">bodyClass</span><span class="p">(</span><span class="s">&#39;hydroData/rm3.h5&#39;</span><span class="p">);</span>        <span class="c">%Initialize bodyClass      </span>
-<span class="n">body</span><span class="p">(</span><span class="mi">1</span><span class="p">).</span><span class="n">mass</span> <span class="p">=</span> <span class="s">&#39;equilibrium&#39;</span><span class="p">;</span>                   <span class="c">%Define mass [kg]   </span>
-<span class="n">body</span><span class="p">(</span><span class="mi">1</span><span class="p">).</span><span class="n">momOfInertia</span> <span class="p">=</span> <span class="p">[</span><span class="mi">20907301</span> <span class="mf">21306090.66</span> <span class="mf">37085481.11</span><span class="p">];</span>  <span class="c">%Moment of Inertia [kg*m^2]     </span>
-<span class="n">body</span><span class="p">(</span><span class="mi">1</span><span class="p">).</span><span class="n">geometryFile</span> <span class="p">=</span> <span class="s">&#39;geometry/float.stl&#39;</span><span class="p">;</span>    <span class="c">%Geometry File</span>
+<span class="c">% Float</span>
+<span class="n">body</span><span class="p">(</span><span class="mi">1</span><span class="p">)</span> <span class="p">=</span> <span class="n">bodyClass</span><span class="p">(</span><span class="s">&#39;hydroData/rm3.h5&#39;</span><span class="p">);</span>        <span class="c">% Initialize bodyClass for Float and Specify *.h5 data </span>
+<span class="n">body</span><span class="p">(</span><span class="mi">1</span><span class="p">).</span><span class="n">geometryFile</span> <span class="p">=</span> <span class="s">&#39;geometry/float.stl&#39;</span><span class="p">;</span>    <span class="c">% Geometry File</span>
+<span class="n">body</span><span class="p">(</span><span class="mi">1</span><span class="p">).</span><span class="n">mass</span> <span class="p">=</span> <span class="s">&#39;equilibrium&#39;</span><span class="p">;</span>                   <span class="c">% Displaced Water Mass [kg]</span>
+<span class="n">body</span><span class="p">(</span><span class="mi">1</span><span class="p">).</span><span class="n">momOfInertia</span> <span class="p">=</span> <span class="p">[</span><span class="mi">20907301</span> <span class="mf">21306090.66</span> <span class="mf">37085481.11</span><span class="p">];</span>  <span class="c">% Moment of Inertia [kg*m^2]     </span>
 
-<span class="c">%% Spar/Plate</span>
-<span class="n">body</span><span class="p">(</span><span class="mi">2</span><span class="p">)</span> <span class="p">=</span> <span class="n">bodyClass</span><span class="p">(</span><span class="s">&#39;hydroData/rm3.h5&#39;</span><span class="p">);</span>        <span class="c">%Initialize bodyClass</span>
-<span class="n">body</span><span class="p">(</span><span class="mi">2</span><span class="p">).</span><span class="n">mass</span> <span class="p">=</span> <span class="s">&#39;equilibrium&#39;</span><span class="p">;</span>                   <span class="c">%Define mass [kg]                     </span>
-<span class="n">body</span><span class="p">(</span><span class="mi">2</span><span class="p">).</span><span class="n">momOfInertia</span> <span class="p">=</span> <span class="p">[</span><span class="mf">94419614.57</span> <span class="mf">94407091.24</span> <span class="mf">28542224.82</span><span class="p">];</span>  <span class="c">%Moment of Inertia [kg*m^2]</span>
-<span class="n">body</span><span class="p">(</span><span class="mi">2</span><span class="p">).</span><span class="n">geometryFile</span> <span class="p">=</span> <span class="s">&#39;geometry/plate.stl&#39;</span><span class="p">;</span>    <span class="c">%Geometry File</span>
+<span class="c">% Spar/Plate</span>
+<span class="n">body</span><span class="p">(</span><span class="mi">2</span><span class="p">)</span> <span class="p">=</span> <span class="n">bodyClass</span><span class="p">(</span><span class="s">&#39;hydroData/rm3.h5&#39;</span><span class="p">);</span>        <span class="c">% Initialize bodyClass for Spar and Specify *.h5 data </span>
+<span class="n">body</span><span class="p">(</span><span class="mi">2</span><span class="p">).</span><span class="n">geometryFile</span> <span class="p">=</span> <span class="s">&#39;geometry/plate.stl&#39;</span><span class="p">;</span>    <span class="c">% Geometry File</span>
+<span class="n">body</span><span class="p">(</span><span class="mi">2</span><span class="p">).</span><span class="n">mass</span> <span class="p">=</span> <span class="s">&#39;equilibrium&#39;</span><span class="p">;</span>                   <span class="c">% Displaced Water Mass [kg]</span>
+<span class="n">body</span><span class="p">(</span><span class="mi">2</span><span class="p">).</span><span class="n">momOfInertia</span> <span class="p">=</span> <span class="p">[</span><span class="mf">94419614.57</span> <span class="mf">94407091.24</span> <span class="mf">28542224.82</span><span class="p">];</span> <span class="c">% Moment of Inertia [kg*m^2]</span>
 
 <span class="c">%% PTO and Constraint Parameters</span>
-<span class="c">%% Floating (3DOF) Joint</span>
-<span class="n">constraint</span><span class="p">(</span><span class="mi">1</span><span class="p">)</span> <span class="p">=</span> <span class="n">constraintClass</span><span class="p">(</span><span class="s">&#39;Constraint1&#39;</span><span class="p">);</span> <span class="c">%Create Constraint Variable and Set Constraint Name</span>
-<span class="n">constraint</span><span class="p">(</span><span class="mi">1</span><span class="p">).</span><span class="n">loc</span> <span class="p">=</span> <span class="p">[</span><span class="mi">0</span> <span class="mi">0</span> <span class="mi">0</span><span class="p">];</span>                    <span class="c">%Constraint Location [m]</span>
+<span class="c">% Floating (3DOF) Joint</span>
+<span class="n">constraint</span><span class="p">(</span><span class="mi">1</span><span class="p">)</span> <span class="p">=</span> <span class="n">constraintClass</span><span class="p">(</span><span class="s">&#39;Constraint1&#39;</span><span class="p">);</span> <span class="c">% Initialize constraintClass for Constraint1</span>
+<span class="n">constraint</span><span class="p">(</span><span class="mi">1</span><span class="p">).</span><span class="n">loc</span> <span class="p">=</span> <span class="p">[</span><span class="mi">0</span> <span class="mi">0</span> <span class="mi">0</span><span class="p">];</span>                    <span class="c">% Constraint Location [m]</span>
 
-<span class="c">%% Translational PTO</span>
-<span class="n">pto</span><span class="p">(</span><span class="mi">1</span><span class="p">)</span> <span class="p">=</span> <span class="n">ptoClass</span><span class="p">(</span><span class="s">&#39;PTO1&#39;</span><span class="p">);</span>                      <span class="c">%Create PTO Variable and Set PTO Name</span>
-<span class="n">pto</span><span class="p">(</span><span class="mi">1</span><span class="p">).</span><span class="n">k</span><span class="p">=</span><span class="mi">0</span><span class="p">;</span>                                     <span class="c">%PTO Stiffness [N/m]</span>
-<span class="n">pto</span><span class="p">(</span><span class="mi">1</span><span class="p">).</span><span class="n">c</span><span class="p">=</span><span class="mi">1200000</span><span class="p">;</span>                               <span class="c">%PTO Daming [N/(m/s)]</span>
-<span class="n">pto</span><span class="p">(</span><span class="mi">1</span><span class="p">).</span><span class="n">loc</span> <span class="p">=</span> <span class="p">[</span><span class="mi">0</span> <span class="mi">0</span> <span class="mi">0</span><span class="p">];</span>                           <span class="c">%PTO Location [m]</span>
+<span class="c">% Translational PTO</span>
+<span class="n">pto</span><span class="p">(</span><span class="mi">1</span><span class="p">)</span> <span class="p">=</span> <span class="n">ptoClass</span><span class="p">(</span><span class="s">&#39;PTO1&#39;</span><span class="p">);</span>                      <span class="c">% Initialize ptoClass for PTO1</span>
+<span class="n">pto</span><span class="p">(</span><span class="mi">1</span><span class="p">).</span><span class="n">k</span> <span class="p">=</span> <span class="mi">0</span><span class="p">;</span>                                   <span class="c">% PTO Stiffness [N/m]</span>
+<span class="n">pto</span><span class="p">(</span><span class="mi">1</span><span class="p">).</span><span class="n">c</span> <span class="p">=</span> <span class="mi">1200000</span><span class="p">;</span>                             <span class="c">% PTO Damping [N/(m/s)]</span>
+<span class="n">pto</span><span class="p">(</span><span class="mi">1</span><span class="p">).</span><span class="n">loc</span> <span class="p">=</span> <span class="p">[</span><span class="mi">0</span> <span class="mi">0</span> <span class="mi">0</span><span class="p">];</span>                           <span class="c">% PTO Location [m]</span>
 </pre></div>
 </div>
 </div>
 <div class="section" id="id8">
 <h4>Step 4: Execute WEC-Sim<a class="headerlink" href="#id8" title="Permalink to this headline">¶</a></h4>
-<p>To execute the WEC-Sim code for the RM3 tutorial, type <code class="docutils literal"><span class="pre">wecSim</span></code> into the MATLAB Command Window. Below is a figure showing the final RM3 Simulink model and the WEC-Sim GUI during the simulation. For more information on using WEC-Sim to model the RM3 device, refer to <a class="reference internal" href="tutorials.html#ruehl-preliminary-2014" id="id9">[1]</a>.</p>
+<p>To execute the WEC-Sim code for the RM3 tutorial, type <code class="docutils literal"><span class="pre">wecSim</span></code> into the MATLAB Command Window. Below is a figure showing the final RM3 Simulink model and the WEC-Sim GUI during the simulation. For more information on using WEC-Sim to model the RM3 device, refer to <a class="reference internal" href="#ruehl-preliminary-2014" id="id9">[1]</a>.</p>
 <div class="figure">
 <a class="reference internal image-reference" href="_images/RM3_WECSim_GUI.JPG"><img alt="_images/RM3_WECSim_GUI.JPG" src="_images/RM3_WECSim_GUI.JPG" style="width: 600pt;" /></a>
 </div>
@@ -601,50 +602,51 @@ of Inertia
 </div>
 <div class="section" id="id15">
 <h4>Step 3: Write WEC-Sim input file<a class="headerlink" href="#id15" title="Permalink to this headline">¶</a></h4>
-<p>The WEC-Sim input file defines simulation parameters, body properties, joints, and mooring for the OSWEC model. The <code class="docutils literal"><span class="pre">wecSimInputFile.m</span></code> for the OSWEC is provided in the RM3 case directory, and shown below.</p>
-<p><em>OSWEC wecSimInputFile</em></p>
+<p>The WEC-Sim input file defines simulation parameters, body properties, joints, and mooring for the OSWEC model. The <code class="docutils literal"><span class="pre">wecSimInputFile.m</span></code> for the OSWEC is provided in the OSWEC case directory, and shown below.</p>
+<p><em>wecSimInputFile.m for OSWEC</em></p>
 <div class="highlight-matlab"><div class="highlight"><pre><span></span><span class="c">%% Simulation Data</span>
-<span class="n">simu</span> <span class="p">=</span> <span class="n">simulationClass</span><span class="p">();</span>               <span class="c">%Create the Simulation Variable</span>
-<span class="n">simu</span><span class="p">.</span><span class="n">simMechanicsFile</span> <span class="p">=</span> <span class="s">&#39;OSWEC.slx&#39;</span><span class="p">;</span>    <span class="c">%Specify Simulink Model File</span>
-<span class="n">simu</span><span class="p">.</span><span class="n">endTime</span><span class="p">=</span><span class="mi">400</span><span class="p">;</span>                       <span class="c">%Simulation End Time [s]</span>
-<span class="n">simu</span><span class="p">.</span><span class="n">dt</span> <span class="p">=</span> <span class="mf">0.1</span><span class="p">;</span> 							<span class="c">%Simulation Time-Step [s]</span>
-<span class="n">simu</span><span class="p">.</span><span class="n">rampT</span> <span class="p">=</span> <span class="mi">100</span><span class="p">;</span>                       <span class="c">%Wave Ramp Time Length [s]</span>
-<span class="n">simu</span><span class="p">.</span><span class="n">CITime</span> <span class="p">=</span> <span class="mi">30</span><span class="p">;</span>                       <span class="c">%Specify CI Time [s]</span>
+<span class="n">simu</span> <span class="p">=</span> <span class="n">simulationClass</span><span class="p">();</span>               <span class="c">% Initialize simulationClass</span>
+<span class="n">simu</span><span class="p">.</span><span class="n">simMechanicsFile</span> <span class="p">=</span> <span class="s">&#39;OSWEC.slx&#39;</span><span class="p">;</span>    <span class="c">% Specify Simulink Model File</span>
+<span class="n">simu</span><span class="p">.</span><span class="n">startTime</span> <span class="p">=</span> <span class="mi">0</span><span class="p">;</span>                     <span class="c">% Simulation Start Time [s]</span>
+<span class="n">simu</span><span class="p">.</span><span class="n">rampTime</span> <span class="p">=</span> <span class="mi">100</span><span class="p">;</span>                    <span class="c">% Wave Ramp Time [s]</span>
+<span class="n">simu</span><span class="p">.</span><span class="n">endTime</span><span class="p">=</span><span class="mi">400</span><span class="p">;</span>                       <span class="c">% Simulation End Time [s]   </span>
+<span class="n">simu</span><span class="p">.</span><span class="n">dt</span> <span class="p">=</span> <span class="mf">0.01</span><span class="p">;</span>                         <span class="c">% Simulation Time-Step [s]</span>
+<span class="n">simu</span><span class="p">.</span><span class="n">CITime</span> <span class="p">=</span> <span class="mi">30</span><span class="p">;</span>                       <span class="c">% Specify CI Time [s]</span>
 
 <span class="c">%% Wave Information</span>
-<span class="c">%% Regular Waves </span>
-<span class="n">waves</span> <span class="p">=</span> <span class="n">waveClass</span><span class="p">(</span><span class="s">&#39;regular&#39;</span><span class="p">);</span>
-<span class="n">waves</span><span class="p">.</span><span class="n">H</span> <span class="p">=</span> <span class="mf">2.5</span><span class="p">;</span>
-<span class="n">waves</span><span class="p">.</span><span class="n">T</span> <span class="p">=</span> <span class="mi">8</span><span class="p">;</span>
+<span class="c">% Regular Waves </span>
+<span class="n">waves</span> <span class="p">=</span> <span class="n">waveClass</span><span class="p">(</span><span class="s">&#39;regular&#39;</span><span class="p">);</span>           <span class="c">% Initialize waveClass and Specify Type                                 </span>
+<span class="n">waves</span><span class="p">.</span><span class="n">H</span> <span class="p">=</span> <span class="mf">2.5</span><span class="p">;</span>                          <span class="c">% Wave Height [m]</span>
+<span class="n">waves</span><span class="p">.</span><span class="n">T</span> <span class="p">=</span> <span class="mi">8</span><span class="p">;</span>                            <span class="c">% Wave Period [s]</span>
 
 <span class="c">%% Body Data</span>
-<span class="c">%% Flap</span>
-<span class="n">body</span><span class="p">(</span><span class="mi">1</span><span class="p">)</span> <span class="p">=</span> <span class="n">bodyClass</span><span class="p">(</span><span class="s">&#39;hydroData/oswec.h5&#39;</span><span class="p">);</span>     <span class="c">% Initialize bodyClass for Flap</span>
-<span class="n">body</span><span class="p">(</span><span class="mi">1</span><span class="p">).</span><span class="n">mass</span> <span class="p">=</span> <span class="mi">127000</span><span class="p">;</span>                         <span class="c">% User-Defined mass [kg]</span>
-<span class="n">body</span><span class="p">(</span><span class="mi">1</span><span class="p">).</span><span class="n">momOfInertia</span> <span class="p">=</span> <span class="p">[</span><span class="mf">1.85e6</span> <span class="mf">1.85e6</span> <span class="mf">1.85e6</span><span class="p">];</span> <span class="c">% Moment of Inertia [kg-m^2]</span>
-<span class="n">body</span><span class="p">(</span><span class="mi">1</span><span class="p">).</span><span class="n">geometryFile</span> <span class="p">=</span> <span class="s">&#39;geometry/flap.stl&#39;</span><span class="p">;</span>    <span class="c">% Geometry File</span>
+<span class="c">% Flap</span>
+<span class="n">body</span><span class="p">(</span><span class="mi">1</span><span class="p">)</span> <span class="p">=</span> <span class="n">bodyClass</span><span class="p">(</span><span class="s">&#39;hydroData/oswec.h5&#39;</span><span class="p">);</span>      <span class="c">% Initialize bodyClass for Flap and Specify *.h5 data </span>
+<span class="n">body</span><span class="p">(</span><span class="mi">1</span><span class="p">).</span><span class="n">geometryFile</span> <span class="p">=</span> <span class="s">&#39;geometry/flap.stl&#39;</span><span class="p">;</span>     <span class="c">% Geometry File</span>
+<span class="n">body</span><span class="p">(</span><span class="mi">1</span><span class="p">).</span><span class="n">mass</span> <span class="p">=</span> <span class="mi">127000</span><span class="p">;</span>                          <span class="c">% User-Defined mass [kg]</span>
+<span class="n">body</span><span class="p">(</span><span class="mi">1</span><span class="p">).</span><span class="n">momOfInertia</span> <span class="p">=</span> <span class="p">[</span><span class="mf">1.85e6</span> <span class="mf">1.85e6</span> <span class="mf">1.85e6</span><span class="p">];</span>  <span class="c">% Moment of Inertia [kg-m^2]</span>
 
-<span class="c">%% Base</span>
-<span class="n">body</span><span class="p">(</span><span class="mi">2</span><span class="p">)</span> <span class="p">=</span> <span class="n">bodyClass</span><span class="p">(</span><span class="s">&#39;hydroData/oswec.h5&#39;</span><span class="p">);</span>     <span class="c">% Initialize bodyClass for Base</span>
-<span class="n">body</span><span class="p">(</span><span class="mi">2</span><span class="p">).</span><span class="n">geometryFile</span> <span class="p">=</span> <span class="s">&#39;geometry/base.stl&#39;</span><span class="p">;</span>    <span class="c">% Geometry File</span>
-<span class="n">body</span><span class="p">(</span><span class="mi">2</span><span class="p">).</span><span class="n">mass</span> <span class="p">=</span> <span class="s">&#39;fixed&#39;</span><span class="p">;</span>                        <span class="c">% Creates Fixed Body</span>
+<span class="c">% Base</span>
+<span class="n">body</span><span class="p">(</span><span class="mi">2</span><span class="p">)</span> <span class="p">=</span> <span class="n">bodyClass</span><span class="p">(</span><span class="s">&#39;hydroData/oswec.h5&#39;</span><span class="p">);</span>      <span class="c">% Initialize bodyClass for Base</span>
+<span class="n">body</span><span class="p">(</span><span class="mi">2</span><span class="p">).</span><span class="n">geometryFile</span> <span class="p">=</span> <span class="s">&#39;geometry/base.stl&#39;</span><span class="p">;</span>     <span class="c">% Geometry File</span>
+<span class="n">body</span><span class="p">(</span><span class="mi">2</span><span class="p">).</span><span class="n">mass</span> <span class="p">=</span> <span class="s">&#39;fixed&#39;</span><span class="p">;</span>                         <span class="c">% Creates Fixed Body</span>
 
 <span class="c">%% PTO and Constraint Parameters</span>
-<span class="c">%% Fixed</span>
-<span class="n">constraint</span><span class="p">(</span><span class="mi">1</span><span class="p">)=</span> <span class="n">constraintClass</span><span class="p">(</span><span class="s">&#39;Constraint1&#39;</span><span class="p">);</span> <span class="c">% Initialize ConstraintClass for Constraint1</span>
-<span class="n">constraint</span><span class="p">(</span><span class="mi">1</span><span class="p">).</span><span class="n">loc</span> <span class="p">=</span> <span class="p">[</span><span class="mi">0</span> <span class="mi">0</span> <span class="o">-</span><span class="mi">10</span><span class="p">];</span>
+<span class="c">% Fixed</span>
+<span class="n">constraint</span><span class="p">(</span><span class="mi">1</span><span class="p">)=</span> <span class="n">constraintClass</span><span class="p">(</span><span class="s">&#39;Constraint1&#39;</span><span class="p">);</span>  <span class="c">% Initialize constraintClass for Constraint1</span>
+<span class="n">constraint</span><span class="p">(</span><span class="mi">1</span><span class="p">).</span><span class="n">loc</span> <span class="p">=</span> <span class="p">[</span><span class="mi">0</span> <span class="mi">0</span> <span class="o">-</span><span class="mi">10</span><span class="p">];</span>                  <span class="c">% Constraint Location [m]</span>
 
-<span class="c">%% Rotational PTO</span>
-<span class="n">pto</span><span class="p">(</span><span class="mi">1</span><span class="p">)</span> <span class="p">=</span> <span class="n">ptoClass</span><span class="p">(</span><span class="s">&#39;PTO1&#39;</span><span class="p">);</span>                     <span class="c">% Initialize ptoClass for PTO1</span>
-<span class="n">pto</span><span class="p">(</span><span class="mi">1</span><span class="p">).</span><span class="n">k</span> <span class="p">=</span> <span class="mi">0</span><span class="p">;</span>                                  <span class="c">% PTO Stiffness Coeff [Nm/rad]</span>
-<span class="n">pto</span><span class="p">(</span><span class="mi">1</span><span class="p">).</span><span class="n">c</span> <span class="p">=</span> <span class="mi">0</span><span class="p">;</span>                                  <span class="c">% PTO Damping Coeff [Nsm/rad]</span>
-<span class="n">pto</span><span class="p">(</span><span class="mi">1</span><span class="p">).</span><span class="n">loc</span> <span class="p">=</span> <span class="p">[</span><span class="mi">0</span> <span class="mi">0</span> <span class="o">-</span><span class="mf">8.9</span><span class="p">];</span>                       <span class="c">% PTO Global Location [m]</span>
+<span class="c">% Rotational PTO</span>
+<span class="n">pto</span><span class="p">(</span><span class="mi">1</span><span class="p">)</span> <span class="p">=</span> <span class="n">ptoClass</span><span class="p">(</span><span class="s">&#39;PTO1&#39;</span><span class="p">);</span>                      <span class="c">% Initialize ptoClass for PTO1</span>
+<span class="n">pto</span><span class="p">(</span><span class="mi">1</span><span class="p">).</span><span class="n">k</span> <span class="p">=</span> <span class="mi">0</span><span class="p">;</span>                                   <span class="c">% PTO Stiffness [Nm/rad]</span>
+<span class="n">pto</span><span class="p">(</span><span class="mi">1</span><span class="p">).</span><span class="n">c</span> <span class="p">=</span> <span class="mi">0</span><span class="p">;</span>                                   <span class="c">% PTO Damping [Nsm/rad]</span>
+<span class="n">pto</span><span class="p">(</span><span class="mi">1</span><span class="p">).</span><span class="n">loc</span> <span class="p">=</span> <span class="p">[</span><span class="mi">0</span> <span class="mi">0</span> <span class="o">-</span><span class="mf">8.9</span><span class="p">];</span>                        <span class="c">% PTO Location [m]</span>
 </pre></div>
 </div>
 </div>
 <div class="section" id="id16">
 <h4>Step 4: Execute WEC-Sim<a class="headerlink" href="#id16" title="Permalink to this headline">¶</a></h4>
-<p>To execute the WEC-Sim code for the OSWEC tutorial, type <code class="docutils literal"><span class="pre">wecSim</span></code> into the MATLAB Command Window. Below is a figure showing the final OSWEC Simulink model and the WEC-Sim GUI during the simulation. For more information on using WEC-Sim to model the OSWEC device, refer to <a class="reference internal" href="tutorials.html#y-yu-development-2014" id="id17">[2]</a><a class="reference internal" href="tutorials.html#y-yu-design-2014" id="id18">[3]</a>.</p>
+<p>To execute the WEC-Sim code for the OSWEC tutorial, type <code class="docutils literal"><span class="pre">wecSim</span></code> into the MATLAB Command Window. Below is a figure showing the final OSWEC Simulink model and the WEC-Sim GUI during the simulation. For more information on using WEC-Sim to model the OSWEC device, refer to <a class="reference internal" href="#y-yu-development-2014" id="id17">[2]</a><a class="reference internal" href="#y-yu-design-2014" id="id18">[3]</a>.</p>
 <div class="figure">
 <a class="reference internal image-reference" href="_images/OSWEC_WECSim_GUI.jpg"><img alt="_images/OSWEC_WECSim_GUI.jpg" src="_images/OSWEC_WECSim_GUI.jpg" style="width: 600pt;" /></a>
 </div>

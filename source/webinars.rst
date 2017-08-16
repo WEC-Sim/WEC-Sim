@@ -69,7 +69,7 @@ WEC-Sim Webinar #2 - Non-Hydro & B2B (part 2)
 		<iframe width="560" height="315" src="https://www.youtube.com/embed/RIPfL_nV00U?ecver=1" frameborder="0" allowfullscreen></iframe>
 		
 WEC-Sim Webinar #3 - PTO and Control
-------------------------------------
+-------------------------------------
 
 The presentation and recordings of WEC-Sim Webinar #3 on PTO and Control hosted on June 13, 2017 are available below. Download the presentation by clicking the image below.
 
