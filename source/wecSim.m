@@ -105,20 +105,39 @@ fprintf('\nWEC-Sim Pre-processing ...   \n');
 %% HydroForce Pre-Processing: Wave Setup & HydroForcePre.
 % simulation setup
 simu.setupSim;
+
 % wave setup
 waves.waveSetup(body(1).hydroData.simulation_parameters.w, body(1).hydroData.simulation_parameters.water_depth, simu.rampTime, simu.dt, simu.maxIt, simu.g, simu.endTime);
+% Check that waveDir and freq are within range of hydro data
+if  waves.waveDir <  min(body(1).hydroData.simulation_parameters.wave_dir) || waves.waveDir >  max(body(1).hydroData.simulation_parameters.wave_dir)
+    error('waves.waveDir outside of range of available hydro data')
+end
+if strcmp(waves.type,'etaImport')~=1 && strcmp(waves.type,'noWave')~=1 && strcmp(waves.type,'noWaveCIC')~=1
+    if  min(waves.w) <  min(body(1).hydroData.simulation_parameters.w) || max(waves.w) >  max(body(1).hydroData.simulation_parameters.w)
+        error('waves.w outside of range of available hydro data')
+    end
+end
+
+% hydroForcePre
+for kk = 1:simu.numWecBodies
+    body(kk).hydroForcePre(waves.w,waves.waveDir,simu.CIkt,simu.CTTime,waves.numFreq,simu.dt,simu.rho,simu.g,waves.type,waves.waveAmpTime,kk,simu.numWecBodies,simu.ssCalc,simu.nlHydro,simu.b2b);
+end; clear kk
+
 % Non-linear hydro
 if (simu.nlHydro >0) || (simu.paraview == 1)
     for kk = 1:length(body(1,:))
         body(kk).bodyGeo(body(kk).geometryFile)
     end; clear kk
 end
-% hydroForcePre
-for kk = 1:simu.numWecBodies
-    body(kk).hydroForcePre(waves.w,waves.waveDir,simu.CIkt,simu.CTTime,waves.numFreq,simu.dt,simu.rho,simu.g,waves.type,waves.waveAmpTime,kk,simu.numWecBodies,simu.ssCalc,simu.nlHydro,simu.b2b);
-end; clear kk
+% Check CITime
+if waves.typeNum~=0 && waves.typeNum~=10
+    for iBod = 1:simu.numWecBodies
+        if simu.CITime > max(body(iBod).hydroData.hydro_coeffs.radiation_damping.impulse_response_fun.t)
+          error('simu.CITime is larger than the length of the IRF');
+        end
+    end
+end
 
-%% Check body-wave-simu compatability
 % Check that the hydro data for each body is given for the same frequencies
 for ii = 1:simu.numWecBodies
     if length(body(1).hydroData.simulation_parameters.w) ~= length(body(ii).hydroData.simulation_parameters.w)
@@ -131,23 +150,7 @@ for ii = 1:simu.numWecBodies
        end
     end
 end; clear ii; 
-% Check that waveDir and freq are within range of hydro data
-if  waves.waveDir <  min(body(1).hydroData.simulation_parameters.wave_dir) || waves.waveDir >  max(body(1).hydroData.simulation_parameters.wave_dir)
-    error('waves.waveDir outside of range of available hydro data')
-end
-if strcmp(waves.type,'etaImport')~=1 && strcmp(waves.type,'noWave')~=1 && strcmp(waves.type,'noWaveCIC')~=1
-    if  min(waves.w) <  min(body(1).hydroData.simulation_parameters.w) || max(waves.w) >  max(body(1).hydroData.simulation_parameters.w)
-        error('waves.w outside of range of available hydro data')
-    end
-end
-% Check CITime
-if waves.typeNum~=0 && waves.typeNum~=10
-    for iBod = 1:simu.numWecBodies
-        if simu.CITime > max(body(iBod).hydroData.hydro_coeffs.radiation_damping.impulse_response_fun.t)
-          error('simu.CITime is larger than the length of the IRF');
-        end
-    end
-end
+
 
 
 %% Set variant subsystems options
@@ -240,90 +243,9 @@ clear nlHydro sv_linearHydro sv_nonlinearHydro ssCalc radiation_option sv_convol
 clear nhbod* sv_b* sv_noWave sv_regularWaves sv_irregularWaves sv_udfWaves sv_instFS sv_meanFS sv_MEOn sv_MEOff morrisonElement;
 toc
 
-
-%% Post processing and Saving Results
 tic
-fprintf('\nPost-processing and saving...   \n')
-% Bodies
-for iBod = 1:length(body(1,:))
-    eval(['body' num2str(iBod) '_out.name = body(' num2str(iBod) ').name;']);
-    if iBod == 1; bodiesOutput = body1_out; end
-    bodiesOutput(iBod) = eval(['body' num2str(iBod) '_out']);
-    eval(['clear body' num2str(iBod) '_out'])
-end; clear iBod
-% PTOs
-if exist('pto','var')
-    for iPto = 1:simu.numPtos
-        eval(['pto' num2str(iPto) '_out.name = pto(' num2str(iPto) ').name;'])
-        if iPto == 1; ptosOutput = pto1_out; end
-        ptosOutput(iPto) = eval(['pto' num2str(iPto) '_out']);
-        eval(['clear pto' num2str(iPto) '_out'])
-    end; clear iPto
-else
-    ptosOutput = 0;
-end
-% Constraints
-if exist('constraint','var')
-    for iCon = 1:simu.numConstraints
-        eval(['constraint' num2str(iCon) '_out.name = constraint(' num2str(iCon) ').name;'])
-        if iCon == 1; constraintsOutput = constraint1_out; end
-        constraintsOutput(iCon) = eval(['constraint' num2str(iCon) '_out']);
-        eval(['clear constraint' num2str(iCon) '_out'])
-    end; clear iCon
-else
-    constraintsOutput = 0;
-end
-% Mooring
-if exist('mooring','var')
-    for iMoor = 1:simu.numMoorings
-        eval(['mooring' num2str(iMoor) '_out.name = mooring(' num2str(iMoor) ').name;']);
-        if iMoor == 1; mooringOutput = mooring1_out; end
-        mooringOutput(iMoor) = eval(['mooring' num2str(iMoor) '_out']);
-        eval(['clear mooring' num2str(iMoor) '_out']);
-    end; clear iMoor
-else
-    mooringOutput = 0;
-end
-% PTO-Sim
-if exist('ptosim','var')
-    ptosimOutput = ptosim.response;
-else
-    ptosimOutput = 0;
-end
-% Cell-by-cell values
-hspressure = {};
-wpressurenl = {};
-wpressurel = {};
-for ii = 1:length(body(1,:))
-    if simu.nlHydro~=0 && body(ii).nhBody==0 && simu.pressureDis == 1 
-        % hydrostatic pressure
-        eval(['hspressure{' num2str(ii) '} = body' num2str(ii) '_hspressure_out;']);
-        % wave (Froude-Krylov) nonlinear pressure
-        eval(['wpressurenl{' num2str(ii) '} = body' num2str(ii) '_wavenonlinearpressure_out;']);
-        % wave (Froude-Krylov) linear pressure
-        eval(['wpressurel{' num2str(ii) '} = body' num2str(ii) '_wavelinearpressure_out;']);
-    else
-        hspressure{ii} = [];
-        wpressurenl{ii} = [];
-        wpressurel{ii} = [];
-    end
-end; clear ii
-% All
-output = responseClass(bodiesOutput,ptosOutput,constraintsOutput,ptosimOutput,mooringOutput,waves.type,waves.waveAmpTime,hspressure, wpressurenl, wpressurel);
-clear bodiesOutput ptosOutput constraintsOutput ptosimOutput mooringOutput
-% MoorDyn
-for iMoor = 1:simu.numMoorings
-    if mooring(iMoor).moorDyn==1
-        output.loadMoorDyn(mooring(iMoor).moorDynLines);
-    end
-end; clear iMoor
-% Calculate correct added mass and total forces
-for iBod = 1:simu.numWecBodies
-    body(iBod).restoreMassMatrix
-    output.bodies(iBod).forceTotal = output.bodies(iBod).forceTotal + output.bodies(iBod).forceAddedMass;
-    output.bodies(iBod).forceAddedMass = body(iBod).forceAddedMass(output.bodies(iBod).acceleration,simu.b2b);
-    output.bodies(iBod).forceTotal = output.bodies(iBod).forceTotal - output.bodies(iBod).forceAddedMass;
-end; clear iBod
+%% Post processing and Saving Results
+postProcess
 % User Defined Post-Processing
 if exist('userDefinedFunctions.m','file') == 2
     userDefinedFunctions;
@@ -332,54 +254,7 @@ end
 if simu.outputtxt==1
     output.writetxt();
 end
-% ParaView Visualization
-if simu.paraview == 1
-    fprintf('    ...writing ParaView files...   \n')
-    if exist('vtk','dir') ~= 0
-        try
-            rmdir('vtk','s')
-        catch
-            error('The vtk directory could not be removed. Please close any files in the vtk directory and try running WEC-Sim again')
-        end
-    end
-    mkdir('vtk')
-    % check mooring
-    moordynFlag = 0;
-    if exist('mooring','var')
-        for iMoor = 1:simu.numMoorings
-            if mooring(iMoor).moorDyn==1
-                moordynFlag = 1;
-            end
-        end
-    end
-    % bodies
-    filename = ['vtk' filesep 'bodies.txt'];
-    fid = fopen(filename, 'w');
-    for ii = 1:length(body(1,:))
-        bodyname = output.bodies(ii).name;
-        mkdir(['vtk' filesep 'body' num2str(ii) '_' bodyname]);
-        body(ii).write_paraview_vtp(output.bodies(ii).time, output.bodies(ii).position, bodyname, simu.simMechanicsFile, datestr(simu.simulationDate), hspressure{ii}, wpressurenl{ii}, wpressurel{ii});
-        bodies{ii} = bodyname;
-        fprintf(fid,[bodyname '\n']);
-        fprintf(fid,[num2str(body(ii).viz.color) '\n']);
-        fprintf(fid,[num2str(body(ii).viz.opacity) '\n']);
-        fprintf(fid,'\n');
-    end; clear ii
-    fclose(fid);
-    % waves
-    mkdir(['vtk' filesep 'waves'])
-    waves.write_paraview_vtp(output.bodies(1).time, waves.viz.numPointsX, waves.viz.numPointsY, simu.domainSize, simu.simMechanicsFile, datestr(simu.simulationDate),moordynFlag);
-    % mooring
-    if moordynFlag == 1
-        mkdir(['vtk' filesep 'mooring'])
-        mooring.write_paraview_vtp(output.moorDyn, simu.simMechanicsFile, output.bodies(1).time, datestr(simu.simulationDate), mooring.moorDynLines, mooring.moorDynNodes)
-    end
-    % all
-    output.write_paraview(bodies, output.bodies(1).time, simu.simMechanicsFile, datestr(simu.simulationDate), waves.type, moordynFlag);
-    clear bodies fid filename
-end
-clear body*_hspressure_out body*_wavenonlinearpressure_out body*_wavelinearpressure_out  hspressure wpressurenl wpressurel cellareas bodyname 
-
+paraViewVisualization
 
 %% Save files
 clear ans table tout; 
