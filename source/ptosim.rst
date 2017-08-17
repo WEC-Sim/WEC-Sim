@@ -1,7 +1,7 @@
 .. _ptosim:
 
 Power Take-Off/PTO-Sim
-----------------------------
+----------------------
 PTO-Sim is the WEC-Sim module responsible for accurately modeling a WEC's conversion of mechanical power to electrical power. 
 While the PTO blocks native to WEC-Sim are modeled as a simple linear spring-damper systems, PTO-Sim is capable of modeling many power conversion chains (PCC) such as mechanical drivetrain and hydraulic drivetrain. 
 PTO-Sim is made of native Simulink blocks coupled with WEC-Sim, using WEC-Sim's user-defined PTO blocks, where the WEC-Sim response (relative displacement and velocity for linear motion and angular position and velocity for rotary motion) is the PTO-Sim input. 
@@ -56,7 +56,7 @@ RM3 with Hydraulic PTO
 	.. figure:: _static/RM3WITHPTOSIMBLOCK.PNG
 	   :width: 400pt
 
-	* Step 4: Go inside PTO-Sim block and add one bus selector and two selector blocks. Since PTO-Sim block is connected to the WEC-Sim translational joint block, you can select position and velocity and therefore <signal1> and <signal2> will change to <position> and <velocity>. Because the heave motion is driving the piston, selection index of each selector needs to be changed to 3.
+	* Step 4: Go inside PTO-Sim block and add one bus selector and two selector blocks. Since PTO-Sim block is connected to the WEC-Sim translational joint block, you can select position and velocity and therefore "signal1" and "signal2" will change to "position" and "velocity". Because the heave motion is driving the piston, selection index of each selector needs to be changed to 3.
 
 	.. figure:: _static/SELECTORS.PNG
 	   :width: 400pt

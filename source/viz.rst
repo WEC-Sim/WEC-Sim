@@ -1,8 +1,7 @@
 .. _viz:
 
 Visualization/Paraview
--------------------------
-
+----------------------
 This section describes how to setup, output, and use Paraview files for visualizing a WEC-Sim simulation. This improves on SimMechanics's explorer by:
 
 * Visualization of the wave field
@@ -61,7 +60,7 @@ Setting Up Paraview Output
 
 Outputs and Opening in Paraview
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-	When ``simu.paraview`` is set to 1 a directory called ``vtk`` is created. 
+	When ``simu.paraview`` is set to 1, a directory called ``vtk`` is created. 
 	All files necessary for Paraview vizualisation are located there.
 	To view in Paraview:
 

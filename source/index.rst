@@ -6,6 +6,7 @@
    :hidden:
 
    getting_started.rst
+   examples.rst
    theory.rst
    code_structure.rst   
    features.rst

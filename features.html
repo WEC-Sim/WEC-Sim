@@ -24,6 +24,8 @@
 
   
   
+  
+  
 
   
 
@@ -41,6 +43,9 @@
   
 
   
+        <link rel="index" title="Index"
+              href="genindex.html"/>
+        <link rel="search" title="Search" href="search.html"/>
     <link rel="top" title="WEC-Sim  documentation" href="index.html"/>
         <link rel="next" title="Webinars" href="webinars.html"/>
         <link rel="prev" title="Code Structure" href="code_structure.html"/> 
@@ -52,6 +57,7 @@
 
 <body class="wy-body-for-nav" role="document">
 
+   
   <div class="wy-grid-for-nav">
 
     
@@ -88,11 +94,15 @@
           
             
             
-                <ul class="current">
+              
+            
+            
+              <ul class="current">
 <li class="toctree-l1"><a class="reference internal" href="getting_started.html">Getting Started</a></li>
+<li class="toctree-l1"><a class="reference internal" href="examples.html">Examples</a></li>
 <li class="toctree-l1"><a class="reference internal" href="theory.html">Theory</a></li>
 <li class="toctree-l1"><a class="reference internal" href="code_structure.html">Code Structure</a></li>
-<li class="toctree-l1 current"><a class="current reference internal" href="">Advanced Features</a><ul>
+<li class="toctree-l1 current"><a class="current reference internal" href="#">Advanced Features</a><ul>
 <li class="toctree-l2"><a class="reference internal" href="#bemio">BEMIO</a><ul>
 <li class="toctree-l3"><a class="reference internal" href="#bemio-functions">BEMIO Functions</a></li>
 <li class="toctree-l3"><a class="reference internal" href="#bemio-hydro-data-structure">BEMIO <em>hydro</em> Data Structure</a></li>
@@ -164,8 +174,10 @@
 
       
       <nav class="wy-nav-top" role="navigation" aria-label="top navigation">
-        <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
-        <a href="index.html">WEC-Sim</a>
+        
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="index.html">WEC-Sim</a>
+        
       </nav>
 
 
@@ -178,19 +190,36 @@
 
 
 
+
+
+
+
+
+
+
+
+
+
 <div role="navigation" aria-label="breadcrumbs navigation">
+
   <ul class="wy-breadcrumbs">
-    <li><a href="index.html">Docs</a> &raquo;</li>
-      
-    <li>Advanced Features</li>
+    
+      <li><a href="index.html">Docs</a> &raquo;</li>
+        
+      <li>Advanced Features</li>
+    
+    
       <li class="wy-breadcrumbs-aside">
         
-          
-            <a href="_sources/features.txt" rel="nofollow"> View page source</a>
+            
+            <a href="_sources/features.rst.txt" rel="nofollow"> View page source</a>
           
         
       </li>
+    
   </ul>
+
+  
   <hr/>
 </div>
           <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
@@ -585,7 +614,7 @@ An option available to reduce the nonlinear simulation time is to specify a nonl
 <h3>STL File Generation<a class="headerlink" href="#stl-file-generation" title="Permalink to this headline">¶</a></h3>
 <blockquote>
 <div><p>When the nonlinear option is turned on, the geometry file (<code class="docutils literal"><span class="pre">*.stl</span></code>) (previously only used for visualization purposes in linear simulations) is used as the discretized body surface on which the non-linear pressure forces are integrated. A good STL mesh resolution is required for the WEC body geometry file(s) when using the non-linear hydrodynamics in WEC-Sim. The simulation accuracy will increase with increased surface resolution (i.e. the number of discretized surface panels specified in the .stl file), but the computation time will also increase.</p>
-<p>There are many ways to generate an STL file; however, it is important to verify the quality of the mesh before running WEC-Sim simulations with the non-linear hydro flag turned on. An STL file can be exported from from most CAD programs, but few allow adaquate mesh refinement. A good program to perform STL mesh refinement is <a class="reference external" href="https://www.rhino3d.com/">Rhino3d</a>. Some helpful resources explaining how to generate and refine an STL mesh in Rhino3d are: <a class="reference external" href="https://wiki.mcneel.com/rhino/meshfaqdetails">https://wiki.mcneel.com/rhino/meshfaqdetails</a> and <a class="reference external" href="https://vimeo.com/80925936">https://vimeo.com/80925936</a>.</p>
+<p>There are many ways to generate an STL file; however, it is important to verify the quality of the mesh before running WEC-Sim simulations with the non-linear hydro flag turned on. An STL file can be exported from from most CAD programs, but few allow adaquate mesh refinement. A good program to perform STL mesh refinement is <a class="reference external" href="https://www.rhino3d.com/">Rhino3d</a>. Some helpful resources explaining how to generate and refine an STL mesh in Rhino3d can be found <a class="reference external" href="https://wiki.mcneel.com/rhino/meshfaqdetails">here</a> and <a class="reference external" href="https://vimeo.com/80925936">here</a>.</p>
 </div></blockquote>
 <div class="admonition note">
 <p class="first admonition-title">Note</p>
@@ -780,7 +809,7 @@ Note that <code class="code docutils literal"><span class="pre">body(i).cg</span
 <blockquote>
 <div><p>This section describes how to simulate a mooring connected WEC system in WEC-Sim using MoorDyn. The RM3 two-body floating point absorber is connected to a three-point catenary mooring system with an angle of 120 between the lines in this example case. The RM3 with MoorDyn folder is located under <a class="reference external" href="https://github.com/WEC-Sim/WEC-Sim_Applications">WEC-Sim Applications repository</a>.</p>
 <ul class="simple">
-<li>WEC Model: To couple WEC-Sim with MoorDyn, the MoorDyn Block is added in parallel to the constraint block</li>
+<li>WEC Model: Start out by following the instructions on how to model the <a class="reference external" href="http://wec-sim.github.io/WEC-Sim/getting_started.html#id2">RM3 Two-Body Point Absorber</a>. To couple WEC-Sim with MoorDyn, the MoorDyn Block is added in parallel to the constraint block</li>
 </ul>
 <div class="figure align-center" id="wecsimmoordyn">
 <a class="reference internal image-reference" href="_images/WECSimMoorDyn.png"><img alt="_images/WECSimMoorDyn.png" src="_images/WECSimMoorDyn.png" style="width: 320pt;" /></a>
@@ -833,7 +862,7 @@ Note that <code class="code docutils literal"><span class="pre">body(i).cg</span
 </pre></div>
 </div>
 <ul class="simple">
-<li>MoorDyn Input File: A mooring folder that includes a moorDyn input file (<code class="docutils literal"><span class="pre">lines.txt</span></code>) is created. The moorDyn input file (<code class="docutils literal"><span class="pre">lines.txt</span></code>) is shown in the figure below. More details on how to setup the MooDyn input file were described in the MoorDyn User Guide <a class="reference internal" href="theory.html#hall2015moordynguide" id="id7">[1]</a>.</li>
+<li>MoorDyn Input File: A mooring folder that includes a moorDyn input file (<code class="docutils literal"><span class="pre">lines.txt</span></code>) is created. The moorDyn input file (<code class="docutils literal"><span class="pre">lines.txt</span></code>) is shown in the figure below. More details on how to setup the MooDyn input file were described in the MoorDyn User Guide <a class="reference internal" href="theory.html#hall2015moordynguide" id="id8">[1]</a>.</li>
 </ul>
 <div class="figure align-center" id="moordyninput">
 <a class="reference internal image-reference" href="_images/moorDynInput.png"><img alt="_images/moorDynInput.png" src="_images/moorDynInput.png" style="width: 400pt;" /></a>
@@ -897,7 +926,7 @@ For more information on how PTO-Sim works, refer to [So et al., 2015].</p>
 <a class="reference internal image-reference" href="_images/RM3WITHPTOSIMBLOCK.PNG"><img alt="_images/RM3WITHPTOSIMBLOCK.PNG" src="_images/RM3WITHPTOSIMBLOCK.PNG" style="width: 400pt;" /></a>
 </div>
 <ul class="simple">
-<li>Step 4: Go inside PTO-Sim block and add one bus selector and two selector blocks. Since PTO-Sim block is connected to the WEC-Sim translational joint block, you can select position and velocity and therefore &lt;signal1&gt; and &lt;signal2&gt; will change to &lt;position&gt; and &lt;velocity&gt;. Because the heave motion is driving the piston, selection index of each selector needs to be changed to 3.</li>
+<li>Step 4: Go inside PTO-Sim block and add one bus selector and two selector blocks. Since PTO-Sim block is connected to the WEC-Sim translational joint block, you can select position and velocity and therefore &#8220;signal1&#8221; and &#8220;signal2&#8221; will change to &#8220;position&#8221; and &#8220;velocity&#8221;. Because the heave motion is driving the piston, selection index of each selector needs to be changed to 3.</li>
 </ul>
 <div class="figure">
 <a class="reference internal image-reference" href="_images/SELECTORS.PNG"><img alt="_images/SELECTORS.PNG" src="_images/SELECTORS.PNG" style="width: 400pt;" /></a>
@@ -1136,7 +1165,7 @@ Next you will need to add some WEC-Sim specific macros,as follows:</p>
 <div class="section" id="outputs-and-opening-in-paraview">
 <h3>Outputs and Opening in Paraview<a class="headerlink" href="#outputs-and-opening-in-paraview" title="Permalink to this headline">¶</a></h3>
 <blockquote>
-<div><p>When <code class="docutils literal"><span class="pre">simu.paraview</span></code> is set to 1 a directory called <code class="docutils literal"><span class="pre">vtk</span></code> is created.
+<div><p>When <code class="docutils literal"><span class="pre">simu.paraview</span></code> is set to 1, a directory called <code class="docutils literal"><span class="pre">vtk</span></code> is created.
 All files necessary for Paraview vizualisation are located there.
 To view in Paraview:</p>
 <ul class="simple">
@@ -1195,15 +1224,18 @@ The bottom right shows the float colored by hydrostatic pressure.</p>
 
 
            </div>
+           <div class="articleComments">
+            
+           </div>
           </div>
           <footer>
   
     <div class="rst-footer-buttons" role="navigation" aria-label="footer navigation">
       
-        <a href="webinars.html" class="btn btn-neutral float-right" title="Webinars" accesskey="n">Next <span class="fa fa-arrow-circle-right"></span></a>
+        <a href="webinars.html" class="btn btn-neutral float-right" title="Webinars" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right"></span></a>
       
       
-        <a href="code_structure.html" class="btn btn-neutral" title="Code Structure" accesskey="p"><span class="fa fa-arrow-circle-left"></span> Previous</a>
+        <a href="code_structure.html" class="btn btn-neutral" title="Code Structure" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left"></span> Previous</a>
       
     </div>
   
@@ -1237,13 +1269,14 @@ The bottom right shows the float colored by hydrostatic pressure.</p>
             VERSION:'',
             COLLAPSE_INDEX:false,
             FILE_SUFFIX:'.html',
-            HAS_SOURCE:  true
+            HAS_SOURCE:  true,
+            SOURCELINK_SUFFIX: '.txt'
         };
     </script>
       <script type="text/javascript" src="_static/jquery.js"></script>
       <script type="text/javascript" src="_static/underscore.js"></script>
       <script type="text/javascript" src="_static/doctools.js"></script>
-      <script type="text/javascript" src="https://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+      <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.0/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
 
   
 

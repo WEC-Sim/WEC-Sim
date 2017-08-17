@@ -7,10 +7,11 @@ The WEC-Sim team is hosting a series of advanced features webinars.  Dates and t
 
 	==================  ====================================		
 	**Date**    	    **Topic**
-	April 18, 2017      bemio and mcr
-	May 24, 2017        nonlinear hydro, non-hydro, and b2b
-	June 13, 2017       pto and control
-	July 18, 2017       mooring and vizualization
+	April 18, 2017      BEMIO and MCR
+	May 24, 2017        Nonlinear Hydro, Non-hydro, and B2B
+	June 13, 2017       PTO and Control
+	July 18, 2017       Mooring and Vizualization
+	August 17, 2017     WEC-Sim Training Course
 	==================  ====================================
 	
 
@@ -68,9 +69,9 @@ WEC-Sim Webinar #2 - Non-Hydro & B2B (part 2)
 		<iframe width="560" height="315" src="https://www.youtube.com/embed/RIPfL_nV00U?ecver=1" frameborder="0" allowfullscreen></iframe>
 		
 WEC-Sim Webinar #3 - PTO and Control
-------------------------------------
+-------------------------------------
 
-The presenation and recordings of WEC-Sim Webinar #3 on PTO and Control hosted on June 13, 2017 are available below. Download the presentation by clicking the image below.
+The presentation and recordings of WEC-Sim Webinar #3 on PTO and Control hosted on June 13, 2017 are available below. Download the presentation by clicking the image below.
 
 
 .. figure:: _static/WEC-Sim_Webinar3.png   
@@ -91,3 +92,28 @@ WEC-Sim Webinar #3 - Desalination Application (part 2)
 	.. raw:: html
 		
 		<iframe width="560" height="315" src="https://www.youtube.com/embed/Q7qb0eHg9-s" frameborder="0" allowfullscreen></iframe>
+		
+WEC-Sim Webinar #4 - Mooring and Visualization
+-----------------------------------------------
+
+The presentation and recordings of WEC-Sim Webinar #4 on Mooring and Visualization hosted on July 18, 2017 are available below. Download the presentation by clicking the image below.
+
+
+.. figure:: _static/WEC-Sim_Webinar4.png   
+   :target: http://wec-sim.github.io/WEC-Sim/_downloads/WEC-Sim_Webinar4.pdf
+   
+   
+   
+WEC-Sim Webinar #4 - Mooring (part 1)
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+	.. raw:: html
+	
+		<iframe width="560" height="315" src="https://www.youtube.com/embed/J22-9apMWm0" frameborder="0" allowfullscreen></iframe>
+		
+WEC-Sim Webinar #4 - Visualization (part 2)
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+	.. raw:: html
+	
+		<iframe width="560" height="315" src="https://www.youtube.com/embed/z5BTQyfbXGo" frameborder="0" allowfullscreen></iframe>

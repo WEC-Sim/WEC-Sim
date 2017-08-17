@@ -1,7 +1,7 @@
 .. _features:
 
 Advanced Features
-===================
+=================
 This sections provides an overview of the advanced features of the WEC-Sim code that were not covered in the `Tutorials <http://wec-sim.github.io/WEC-Sim/tutorials.html>`_ section.
 
 
@@ -43,7 +43,7 @@ STL File Generation
 ~~~~~~~~~~~~~~~~~~~~~~
 	When the nonlinear option is turned on, the geometry file (``*.stl``) (previously only used for visualization purposes in linear simulations) is used as the discretized body surface on which the non-linear pressure forces are integrated. A good STL mesh resolution is required for the WEC body geometry file(s) when using the non-linear hydrodynamics in WEC-Sim. The simulation accuracy will increase with increased surface resolution (i.e. the number of discretized surface panels specified in the .stl file), but the computation time will also increase. 
 	
-	There are many ways to generate an STL file; however, it is important to verify the quality of the mesh before running WEC-Sim simulations with the non-linear hydro flag turned on. An STL file can be exported from from most CAD programs, but few allow adaquate mesh refinement. A good program to perform STL mesh refinement is `Rhino3d <https://www.rhino3d.com/>`_. Some helpful resources explaining how to generate and refine an STL mesh in Rhino3d are: https://wiki.mcneel.com/rhino/meshfaqdetails and https://vimeo.com/80925936.	
+	There are many ways to generate an STL file; however, it is important to verify the quality of the mesh before running WEC-Sim simulations with the non-linear hydro flag turned on. An STL file can be exported from from most CAD programs, but few allow adaquate mesh refinement. A good program to perform STL mesh refinement is `Rhino3d <https://www.rhino3d.com/>`_. Some helpful resources explaining how to generate and refine an STL mesh in Rhino3d can be found `here <https://wiki.mcneel.com/rhino/meshfaqdetails>`_ and `here <https://vimeo.com/80925936>`_.	
 	
 .. Note::
 

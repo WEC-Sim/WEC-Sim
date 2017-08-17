@@ -4,7 +4,6 @@ Theory
 ======
 The section provides an overview of the underlying theory behind the WEC-Sim code.
 
-
 Introduction
 --------------
 Modeling a wave energy converter (WEC) involves the interaction between the incident waves, device motion, power-take-off (PTO mechanism), and mooring. WEC-Sim uses a radiation and diffraction method :cite:`Li2012,Babarit2012` to predict power performance and design optimization. The radiation and diffraction method generally obtains the hydrodynamic forces from a frequency-domain boundary element method (BEM) solver using linear coefficients to solve the system dynamics in the time domain.
@@ -192,7 +191,8 @@ can be reproduced exactly by the SVD as
 
 .. math::
 
-	& H = \mathbf{U} \Sigma \mathbf{V^{*}} &
+	H = \mathbf{U} \Sigma \mathbf{V^{*}}
+
 
 where :math:`\Sigma` is a diagonal matrix containing the Hankel singular vales in descending order.  Examination of the Hankel singular values reveals there are only a small number of significant states and that the rank of :math:`H` can be greatly reduced without a significant loss in accuracy :cite:`Taghipour2008,Kristiansen2005`. Further detail into the SVD method and calculation of the state space parameters will not be discussed and the reader is referred to :cite:`Taghipour2008,Kristiansen2005`.
 
@@ -364,7 +364,7 @@ When linear quasi-static mooring stiffness is used, the mooring load can be calc
 
 where :math:`K_{m}` and :math:`C_{m}` are the stiffness and damping matrices for the mooring system, and :math:`X` and :math:`\dot{X}` are the response and velocity of the body, respectively.
 
-When coupling with MoorDyn, each mooring line in a mooring system is discretized into evenly-sized line segments connected by node points (:ref:`MoorDyn` figure). The line mass is lumped at these node points along with gravitational and buoyancy forces, hydrodynamic loads, and reactions from contact with the seabed.  Hydrodynamic drag and added mass are calculated based on Morison's equation.  A mooring line's axial stiffness is modeled by applying a linear stiffness to each line segment in tension only.  A damping term is also applied in each segment to dampen non-physical resonances caused by the lumped-mass discretization.  Bending and torsional stiffnesses are neglected.  Bottom contact is represented by vertical stiffness and damping forces when nodes pass below the seabed :cite:`Hall2015ValidationData`.  
+When coupling with MoorDyn, each mooring line in a mooring system is discretized into evenly-sized line segments connected by node points (as seen in the MoorDyn figure below). The line mass is lumped at these node points along with gravitational and buoyancy forces, hydrodynamic loads, and reactions from contact with the seabed.  Hydrodynamic drag and added mass are calculated based on Morison's equation.  A mooring line's axial stiffness is modeled by applying a linear stiffness to each line segment in tension only.  A damping term is also applied in each segment to dampen non-physical resonances caused by the lumped-mass discretization.  Bending and torsional stiffnesses are neglected.  Bottom contact is represented by vertical stiffness and damping forces when nodes pass below the seabed :cite:`Hall2015ValidationData`.  
 
 .. _MoorDyn:
 
