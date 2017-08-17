@@ -4,6 +4,7 @@ Theory
 ======
 The section provides an overview of the underlying theory behind the WEC-Sim code.
 
+
 Introduction
 --------------
 Modeling a wave energy converter (WEC) involves the interaction between the incident waves, device motion, power-take-off (PTO mechanism), and mooring. WEC-Sim uses a radiation and diffraction method :cite:`Li2012,Babarit2012` to predict power performance and design optimization. The radiation and diffraction method generally obtains the hydrodynamic forces from a frequency-domain boundary element method (BEM) solver using linear coefficients to solve the system dynamics in the time domain.
@@ -144,8 +145,8 @@ The impulse response of a single-input zero-state state-space model is represent
 
 .. math::
 
-	\dot{x_{r}} &=&  \mathbf{A_{r}}x_{r} + \mathbf{B_{r}} u~~\\
-	y &=& \mathbf{C_{r}}x_{r}~~
+	\dot{x} &=&  \mathbf{A_{r}}x + \mathbf{B_{r}} u~~\\
+	y &=& \mathbf{C_{r}}x~~
 
 where :math:`u` is an impulse. If the initial state is set to :math:`x(0)= \mathbf{B_{r}} u` the response of the unforced (:math:`u=0`) system
 
@@ -193,58 +194,60 @@ can be reproduced exactly by the SVD as
 
 	H = \mathbf{U} \Sigma \mathbf{V^{*}}
 
-
 where :math:`\Sigma` is a diagonal matrix containing the Hankel singular vales in descending order.  Examination of the Hankel singular values reveals there are only a small number of significant states and that the rank of :math:`H` can be greatly reduced without a significant loss in accuracy :cite:`Taghipour2008,Kristiansen2005`. Further detail into the SVD method and calculation of the state space parameters will not be discussed and the reader is referred to :cite:`Taghipour2008,Kristiansen2005`.
 
 Wave Spectrum
 --------------------------------------------
-The ability to generate regular waves provides an opportunity to observe the response of a model under specific conditions. Sea states with constant wave heights and periods are rarely found outside wave tank test. Normal sea conditions are more accurately represented by random-wave time series that model the superposition of various wave forms with different amplitudes and periods. This superposition of waves is characterized by a sea spectrum. Through statistical analysis, spectra are characterized by specific parameters such as significant wave height, peak period, wind speed, fetch length, and others. The common types of spectra that are used by the offshore industry are discussed in the following sections.  The general form of the sea spectrums available in WEC-Sim is given by:
+A superposition of regular waves of distinct amplitudes and periods is characterized in the frequency domain by a wave spectrum. Through statistical analysis, spectra are characterized by specific parameters such as significant wave height, peak period, wind speed, fetch length, and others. Common types of spectra that are used by the offshore industry are discussed in the following sections.  The general form of the sea spectrums available in WEC-Sim is given by:
 
 .. math::
 
 	S\left( f \right) = A f^{-5}\exp\left[-B f^{-4} \right]~~
 
-where :math:`f` is the wave frequency (in Hertz) and :math:`\exp` stands for the exponential function.
+where :math:`f` is the wave frequency (in Hertz), :math:`A` is wave amplitude (m), and :math:`\exp` stands for the exponential function. Spectral moments of the wave spectrum, denoted :math:`m_{k}~,~k=0, 1, 2,...`, are defined as
+
+.. math::
+	m_{k} = \int_{0}^{\infty} f^{k} S \left( f \right) df ~~
+.
+The spectral moment, :math:`m_{0}` is the variance of the free surface which allows one to define
+
+.. math::
+	H_{m0} = 4 \sqrt{m_{0}}~~
+	
+where :math:`H_{m0}` is a definition of the significant wave height (m), the mean wave height of the tallest third of waves. 
 
 Pierson--Moskowitz
 ...............................
 One of the simplest spectra was proposed by :cite:`PM`. It assumed that after the wind blew steadily for a long time over a large area, the waves would come into equilibrium with the wind. This is the concept of a fully developed sea where a "long time" is roughly 10,000 wave periods and a "large area" is roughly 5,000 wave-lengths on a side.  The spectrum is calculated from
 
 .. math::
-	& S\left( f \right) = \frac{\alpha_{PM}g^{2}}{\left( 2 \pi \right)^{4}}f^{-5}\exp\left[-\frac{5}{4} \left( \frac{f_{p}}{f}\right)^{4} \right]~~ &\\
+	& S\left( f \right) = \frac{\alpha_{PM}g^{2}}{\left( 2 \pi \right)^{4}}f^{-5}\exp\left[-\frac{5}{4} \left( \frac{f_{p}}{f}\right)^{4} \right]~~ &\\.
 
-	& A = \frac{\alpha_{PM}g^{2}}{\left( 2 \pi \right)^{4}},~~B = \frac{5}{4} {f_{p}}^{4}~~ &
+In the general form, this implies
 
-where :math:`\alpha_{PM}` = 0.0081, :math:`g` is gravity and :math:`f_{p}` is the peak frequency of the spectrum. However, this spectrum representation does not allow the user to define the significant wave height. To facilitate the creation of a power matrix in WEC-Sim, the :math:`\alpha_{PM}` coefficient was calculated such that the desired significant wave height of the sea state was met.  The :math:`\alpha_{PM}` fit was calculated as follows:
+.. math::
+	A = \frac{\alpha_{PM}g^{2}}{\left( 2 \pi \right)^{4}},~~B = \frac{5}{4} {f_{p}}^{4}~~
+
+where where parameter :math:`\alpha_{PM}` = 0.0081 typically, :math:`g=9.81` m/s is gravitational acceleration and :math:`f_{p}` is the peak frequency of the spectrum. However, this spectrum representation does not allow the user to define the significant wave height: WEC-Sim calculates the value of :math:`\alpha_{PM}` such that a power matrix can be developed as a function of the desired significant wave height.  The :math:`\alpha_{PM}` parameter was calculated as follows:
 
 .. math::
 	\alpha_{PM} = \frac{H_{m0}^{2}}{16\int_{0}^{\infty} S^{*} \left( f \right) df}~~
 	
 	S^{*}\left( f \right) = \frac{ g^{2} }{ (2\pi)^{4}} f^{-5}\exp\left[-\frac{5}{4} \left( \frac{f_{p}}{f}\right)^{4} \right]~~
 
-
-Note that related to the spectrum is a series of characteristic numbers called the spectral moments. These numbers, denoted :math:`m_{k}~,~k=0, 1, 2,...` are defined as
-
-.. math::
-	m_{k} = \int_{0}^{\infty} f^{k} S \left( f \right) df ~~
-
-The spectral moment, :math:`m_{0}` is the variance of the free surface which allows one to define
-
-.. math::
-	H_{m0} = 4 \sqrt{m_{0}}~~
-
 Bretschneider Spectrum
 ................................
-This two-parameter spectrum is based on significant wave height and peak wave frequency.  For a given significant wave height, the peak frequency can be varied to cover a range of conditions including developing and decaying seas. In general, the parameters depend on wind speed (most important), wind direction, fetch, and locations of storm fronts. The spectrum is given as
+This two-parameter spectrum is based on significant wave height and peak wave frequency.  For a given significant wave height, the peak frequency can be varied to cover a range of conditions including developing and decaying seas. In general, the parameters depend on strongly on wind speed, and also wind direction, fetch, and locations of storm fronts. The spectrum is given as
 
 .. math::
 	& S\left( f \right) = \frac{{H_{m0}}^2}{4}\left(1.057f_{p}\right)^{4}f^{-5}\exp\left[-\frac{5}{4} \left( \frac{f_{p}}{f}\right)^{4} \right]~~ &\\
 	
+implying the coefficients of the general form
+
+.. math::	
 	& A =\frac{{H_{m0}}^2}{4}\left(1.057f_{p}\right)^{4} \approx \frac{5}{16} {H_{m0}}^2 {f_{p}}^{4}~~ &\\ 
 	
-	& B = \left(1.057f_{p}\right)^{4} \approx \frac{5}{4} {f_{p}}^{4}~~ &
-
-where :math:`H_{m0}` is the significant wave height which is generally defined as the mean wave height of the one third highest waves.
+	& B = \left(1.057f_{p}\right)^{4} \approx \frac{5}{4} {f_{p}}^{4}~~ &.
 
 JONSWAP (Joint North Sea Wave Project) Spectrum
 ....................................................
@@ -256,11 +259,16 @@ The spectrum was purposed by Hasselmann et al. :cite:`HK`, and the original form
 	
 	&\Gamma = \exp \left[ -\left( \frac{\frac{f}{f_{p}}-1}{\sqrt{2} \sigma}\right)^{2} \right],~~ \sigma = \begin{cases} 0.07 & f \leq f_{p} \\0.09 & f > f_{p} \end{cases} ~~ &\\
 	
-	& A =\frac{ \alpha_{j} g^{2} }{ (2\pi)^{4}},~~B = \frac{5}{4} {f_{p}}^{4}~~ &
+with general form coefficients thus defined
+
+.. math::
+	& A =\frac{\alpha_{j} g^{2}}{(2\pi)^{4}} & \\
+	
+	& B=\frac{5}{4}{f_{p}}^{4} &\\
 
 where :math:`\alpha_{j}` is a nondimensional variable that is a function of the wind speed and fetch length. 
 
-Empirical fits were applied in an attempt to find a mean value that would capture the spectral shape of most measured sea states. To fit :math:`\alpha_{j}` to match the desired significant wave height the following calculation must be performed
+Empirical fits were applied in an attempt to find a mean value that would capture the spectral shape of most measured sea states. For a given significant wave height, :math:`\alpha_{j}` can be calculated 
 
 .. math::
 	\alpha_{j} = \frac{H_{m0}^{2}}{16\int_{0}^{\infty} S^{*} \left( f \right) df}
@@ -279,7 +287,11 @@ Another form of JONSWAP spectrum was purposed at the 17th International Towing T
 
 	&\Gamma = \exp \left[ -\left( \frac{\frac{f}{f_{p}}-1}{\sqrt{2} \sigma}\right)^{2} \right],~~ \sigma = \begin{cases} 0.07 & f \leq f_{p} \\ 0.09 & f > f_{p} \end{cases} ~~ \\
 
-	& A =\frac{310 }{ \left( 2\pi \right)^{4}} {H_{m0}}^{2} {f_{p}}^{4},~~B = \frac{5}{4} {f_{p}}^{4}~~ &
+implying the general form coefficients
+
+.. math::
+
+	A =\frac{310 }{ \left( 2\pi \right)^{4}} {H_{m0}}^{2} {f_{p}}^{4},~~B = \frac{5}{4} {f_{p}}^{4}~~
 
 The figure below shows the comparison of the JONSWAP spectrum obtained from the :math:`\alpha_{j}` fit and the ITTC description .  It is clear that the two methods have very good agreement.
 
@@ -291,12 +303,13 @@ The figure below shows the comparison of the JONSWAP spectrum obtained from the 
     *Comparison of* :math:`\alpha_{j}` *fit to the ITTC description of the JONSWAP spectrum with* :math:`H_{m0}` = 2m *and* :math:`T_{p}` = 8s
 
 
-Power Take-off (PTO) Forces
+Power Take-off Forces
 ---------------------------
+
+Throughout the following sections, unless specification is made between linear and rotary PTOs, units are not explicitly stated.
 
 Linear Spring-damper PTO
 ~~~~~~~~~~~~~~~~~~~~~~~~~~
-
 
 The PTO mechanism is represented as a linear spring-damper system where the reaction force is given by: 
 
@@ -304,7 +317,7 @@ The PTO mechanism is represented as a linear spring-damper system where the reac
 
 	F_{PTO}=-K{}_{PTO}X_{rel}-C_{PTO}\dot{X}_{rel}
 
-where :math:`K_{PTO}` is the stiffness of the PTO, :math:`C_{PTO}` is the damping of the PTO, and :math:`X_{rel}` and :math:`\dot{X}_{rel}` are the relative motion and velocity between two bodies.  
+where :math:`K_{PTO}` is the stiffness of the PTO, :math:`C_{PTO}` is the damping of the PTO, and :math:`X_{rel}` and :math:`\dot{X}_{rel}` are the relative motion and velocity between two bodies. 
 
 The power consumed by the PTO is given by:
 
@@ -339,13 +352,13 @@ The power absorbed by the PTO is given by:
 Mechanical PTO
 ~~~~~~~~~~~~~~~~
 
-The PTO mechanism is modeled as a direct drive linear generator system :cite:`So`, where the reaction force is given by:
+The PTO mechanism is modeled as a direct-drive linear generator system :cite:`So`, where the reaction force is given by:
 
 .. math::
 
 	F_{PTO}=(\frac{\pi}{\tau_{pm}})\lambda_{fd}i_{sq}
 
-where :math:`\tau_{pm}` is the magnet pole pitch (the distance measured of the magnet from the center of one pole to the center of the next pole), :math:`\lambda_{fd}` is the flux linkage of the stator :math:`d`-axis winding due to flux produced by the rotor magnets, and :math:`i_{sq}` is the stator :math:`q`-axis current. 
+where :math:`\tau_{pm}` is the magnet pole pitch (the center-to-center distance of adjacent magnetic poles, m), :math:`\lambda_{fd}` is the flux linkage of the stator :math:`d`-axis winding due to flux produced by the rotor magnets (Volt-second), and :math:`i_{sq}` is the stator :math:`q`-axis current (Amps).
 
 The power absorbed by the PTO is given by:  
 
@@ -362,9 +375,9 @@ When linear quasi-static mooring stiffness is used, the mooring load can be calc
 .. math::
 	F_{m}=-K_{m}X-C_{m}\dot{X}
 
-where :math:`K_{m}` and :math:`C_{m}` are the stiffness and damping matrices for the mooring system, and :math:`X` and :math:`\dot{X}` are the response and velocity of the body, respectively.
+where :math:`K_{m}` and :math:`C_{m}` are the stiffness and damping matrices for the mooring system, and :math:`X` and :math:`\dot{X}` are the displacement and velocity of the body, respectively.
 
-When coupling with MoorDyn, each mooring line in a mooring system is discretized into evenly-sized line segments connected by node points (as seen in the MoorDyn figure below). The line mass is lumped at these node points along with gravitational and buoyancy forces, hydrodynamic loads, and reactions from contact with the seabed.  Hydrodynamic drag and added mass are calculated based on Morison's equation.  A mooring line's axial stiffness is modeled by applying a linear stiffness to each line segment in tension only.  A damping term is also applied in each segment to dampen non-physical resonances caused by the lumped-mass discretization.  Bending and torsional stiffnesses are neglected.  Bottom contact is represented by vertical stiffness and damping forces when nodes pass below the seabed :cite:`Hall2015ValidationData`.  
+MoorDyn discretizes each mooring line in a mooring system into evenly-sized line segments connected by node points (:ref:`MoorDyn` figure). The line mass is lumped at these node points along with gravitational and buoyancy forces, hydrodynamic loads, and reactions from contact with the seabed.  Hydrodynamic drag and added mass are calculated based on Morison's equation.  A mooring line's axial stiffness is modeled by applying a linear stiffness to each line segment in tension only.  A damping term is also applied in each segment to dampen non-physical resonances caused by the lumped-mass discretization.  Bending and torsional stiffnesses are neglected.  Bottom contact is represented by vertical stiffness and damping forces applied at the nodes when a node is located below the seabed. :cite:`Hall2015ValidationData`.  
 
 .. _MoorDyn:
 
@@ -379,18 +392,18 @@ When coupling with MoorDyn, each mooring line in a mooring system is discretized
 
 Additional Added-mass & Damping Forces
 ----------------------------------------
-To account for additional drag contributions and calibrate numerical models compared to experiments rather than inertial forces that arise because of mass properties, additional added-mass and damping forces can be included by adding linear and quadratic damping terms and by using Morison Equation.  
+Additional added-mass and damping forces can be added to force definitions. This facilitates experimental validation of the WEC-Sim code, particularly in the even that the BEM hydrodynamic outputs are not sufficiently representative of actual device properties.  
 
 Linear & Quadratic Damping Forces
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-The effect of damping to the system is included by specifying linear and quadratic damping terms to the equation of motion,
+Linear and quadratic damping forces add flexibility to the definition of viscous forcing
 
  .. math::
 	F_{v}=-C_{ld}\dot{X}-\frac{1}{2}C_{d}\rho A_{D}\dot{X}|\dot{X}|
 
-where :math:`C_{ld}` is the linear damping coefficient, :math:`C_{d}` is the (quadratic) viscous drag coefficient, :math:`\rho` is the fluid density, and :math:`A_{D}` is the characteristic area.
+where :math:`C_{ld}` is the linear damping coefficient, :math:`C_{d}` is the (quadratic) viscous drag coefficient, :math:`\rho` is the fluid density, and :math:`A_{D}` is the characteristic area for drag calculation.
 
-Generally, the effect of viscosity on the WEC dynamics needs to be considered as neglecting this effect may lead to an overestimation of the power generation of the system, particularly when a linear model is applied. A common way of modeling the viscous damping is to add an quadratic damping term to the equation of motion. The viscous drag coefficient for the device must be carefully selected :cite:`Li2012,Babarit2012`; however, it is dependent on device geometry, scale, and relative velocity between the body and the flow around it. The drag coefficient becomes much larger when the Reynolds and the Keulegan-Carpenter number are smaller. Note that empirical data on the drag coefficient can be found in various literature and standards. The available data may, however, be limited to existing simple geometries. For practical point absorber geometry, the hydrodynamic forces may have to be evaluated by conducting wave tank tests or prescribed motion computational fluid dynamic simulations.
+Because BEM codes are potential flow solvers and neglect the effects of viscosity, :math:`F_{v}` generally must be included to accurately model device performance. However, it can be difficult to select representative drag coefficients, as they depend on device geometry, scale, and relative velocity between the body and the flow around it. Empirical data on the drag coefficient can be found in various literature and standards, but is generally limited to simple geometries evaluated at a limited number of scales and flow conditions. For realistic device geometries, the use of computational fluid dynamic simulations or experimental data is encouraged.
 
 Morison Elements 
 ~~~~~~~~~~~~~~~~
@@ -399,14 +412,14 @@ The Morison Equation assumes that the fluid forces in an oscillating flow on a s
  .. math::
 	F_{ME}=\rho∀\dot{v}+\rho\forall C_{a}(\dot{v}-\ddot{X})+\frac{1}{2}C_{d}\rho A_{D}(v-\dot{X})|v-\dot{X}|
 
-where :math:`v` is the fluid particle velocity, and :math:`\forall` is the displaced volume. 
+where :math:`v` is the fluid particle velocity, :math:`C_{a}` is the coefficient of added mass, and :math:`\forall` is the displaced volume. 
 
 Note that WEC-Sim currently does not consider buoyancy effects when calculating the forces from Morison elements. 
 
 Nonlinear Hydrodynamic Forces
 ------------------------------
 The linear model assumes that the body motion and the waves consist of small amplitudes in comparison to the wavelengths. A weakly nonlinear approach is applied to account for the nonlinear hydrodynamic forces induced by the instantaneous water surface elevation and body position. Rather than the BEM calculated linear hydrodynamic force coefficients, the nonlinear buoyancy and the Froude-Krylov force components can be obtained by integrating the static and dynamic pressures over each panel along the wetted body surface at each time step. 
-Because linear wave theory is used to determine the flow velocity and pressure field, the values become unrealistically large for wetted panel that are above the mean water level. To correct this, the Wheeler stretching method :cite:`wheeler1969methods` ,which forces the water column (based on the instantaneous wave elevation) to have a height that equals to the water depth when calculating the flow velocity and pressure, is used.
+Because linear wave theory is used to determine the flow velocity and pressure field, the values become unrealistically large for wetted panels that are above the mean water level. To correct this, the Wheeler stretching method is applied :cite:`wheeler1969methods`, which applies a correction to the instantaneous wave elevation that forces its height to equal to the water depth when calculating the flow velocity and pressure,
 
  .. math::
 	z^* = \frac{D(D+z)}{(D+\eta)} - D
