@@ -6,6 +6,14 @@ This section provides a description of the WEC-Sim source code and its structure
 The WEC-Sim source code consists of a series of MATLAB ``*.m`` objects (defined in WEC-Sim as classes) and Simulink ``*.slx`` library blocks which are executed by the ``wecSim.m`` script. Executing ``wecSim.m`` parses the user input data, performs preprocessing calculations in each of the classes, selects and initializes variant subsystems in the Simulink model, and runs the time-domain simulations in WEC-Sim. 
 
 
+=========================   ================  ====================
+**File Type**               **File name**     **Directory**
+WEC-Sim Executable Script   wecSim.m          ``$Source``
+WEC-Sim MATLAB Objects      <object>Class.m   ``$Source/objects``
+WEC-Sim Simulink Libary     <block>_Lib.slx   ``$Source/lib``
+=========================   ================  ====================
+
+
 Input File 
 ------------
 A WEC-Sim input file (``wecSimInputFile.m``) is required for each run. 

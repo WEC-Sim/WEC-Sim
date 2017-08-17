@@ -209,6 +209,31 @@
 <span id="id1"></span><h1>Code Structure<a class="headerlink" href="#code-structure" title="Permalink to this headline">¶</a></h1>
 <p>This section provides a description of the WEC-Sim source code and its structure.
 The WEC-Sim source code consists of a series of MATLAB <code class="docutils literal"><span class="pre">*.m</span></code> objects (defined in WEC-Sim as classes) and Simulink <code class="docutils literal"><span class="pre">*.slx</span></code> library blocks which are executed by the <code class="docutils literal"><span class="pre">wecSim.m</span></code> script. Executing <code class="docutils literal"><span class="pre">wecSim.m</span></code> parses the user input data, performs preprocessing calculations in each of the classes, selects and initializes variant subsystems in the Simulink model, and runs the time-domain simulations in WEC-Sim.</p>
+<table border="1" class="docutils">
+<colgroup>
+<col width="41%" />
+<col width="26%" />
+<col width="33%" />
+</colgroup>
+<tbody valign="top">
+<tr class="row-odd"><td><strong>File Type</strong></td>
+<td><strong>File name</strong></td>
+<td><strong>Directory</strong></td>
+</tr>
+<tr class="row-even"><td>WEC-Sim Executable Script</td>
+<td>wecSim.m</td>
+<td><code class="docutils literal"><span class="pre">$Source</span></code></td>
+</tr>
+<tr class="row-odd"><td>WEC-Sim MATLAB Objects</td>
+<td>&lt;object&gt;Class.m</td>
+<td><code class="docutils literal"><span class="pre">$Source/objects</span></code></td>
+</tr>
+<tr class="row-even"><td>WEC-Sim Simulink Libary</td>
+<td>&lt;block&gt;_Lib.slx</td>
+<td><code class="docutils literal"><span class="pre">$Source/lib</span></code></td>
+</tr>
+</tbody>
+</table>
 <div class="section" id="input-file">
 <h2>Input File<a class="headerlink" href="#input-file" title="Permalink to this headline">¶</a></h2>
 <p>A WEC-Sim input file (<code class="docutils literal"><span class="pre">wecSimInputFile.m</span></code>) is required for each run.

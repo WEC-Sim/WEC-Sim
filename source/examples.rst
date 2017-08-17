@@ -14,11 +14,11 @@ File Structure Overview
 All files required for a WEC-Sim simulation must be contained within a case directory referred to as **$CASE**. This directory can be located anywhere on your computer. The table below list the WEC-Sim case directory structure and required files. 
 
 ==================   ==========================  ====================
-**Information**      **File name**               **Directory**
+**File Type**        **File name**               **Directory**
 Input File           wecSimInputFile.m           ``$CASE``
 Simulink Model       <Simulink_model_name>.slx   ``$CASE``
-Hydrodynamic Data    <hydrodata_file_name>.h5    ``$CASE``/hydroData
-Geometry File        <STL_file_name>.stl         ``$CASE``/geometry
+Hydrodynamic Data    <hydrodata_file_name>.h5    ``$CASE/hydroData``
+Geometry File        <STL_file_name>.stl         ``$CASE/geometry``
 ==================   ==========================  ====================
 
 Step 1: WEC-Sim Pre-Processing 
