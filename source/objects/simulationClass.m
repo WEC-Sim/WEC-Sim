@@ -20,12 +20,10 @@ classdef simulationClass<handle
     properties (SetAccess = 'public', GetAccess = 'public')%input file
         simMechanicsFile    = 'NOT DEFINED'                                % Simulink/SimMecahnics model file (default = 'NOT DEFINED')
         startTime           = 0                                            % Simulation start time (default = 0 s)
-%         rampT
         rampTime            = 100                                          % Ramp time for wave forcing (default = 100 s)
         endTime             = 500                                          % Simulation end time (default = 500 s)
         dt                  = 0.1                                          % Simulation time step (default = 0.1 s)
         dtOut               = []                                           % Output sampling time (default = dt)
-%         dtFeNonlin
         dtNL                = []                                           % Sample time to calculate nonlinear forces (default = dt)
         dtCITime            = []                                           % Sample time to calculate Convolution Integral (default = dt)
         CITime              = 60                                           % Convolution integral time (default = 60 s)
