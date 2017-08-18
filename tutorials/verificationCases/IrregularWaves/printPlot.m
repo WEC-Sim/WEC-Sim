@@ -13,8 +13,15 @@
 % See the License for the specific language governing permissions and
 % limitations under the License.
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+% Plots solver-to-solver comparison for the newly run simulation for the
+% irregular waves.
+
+cd irregularCIC
 load('irregularCIC.mat')       % Load WEC-Sim Run Data
+cd .. ; cd irregularSS
 load('irregularSS.mat')        % Load WEC-Sim Run Data
+cd ..
 
 fprintf('\nIrregular wave with convolution Integral')
 fprintf(['\nBody1_Heave Max Diff = ' num2str(irregularCIC.B1_H_max) ...
@@ -42,7 +49,7 @@ h=figure('units','normalized','outerposition',[0 0 1 1]);
 startTime = 100;
 subplot(2,3,1)
 plot(irregularCIC.B1.WEC_Sim_new.time,irregularCIC.B1.WEC_Sim_new.heave,'r--',...
-      irregularSS.B1.WEC_Sim_new.time, irregularSS.B1.WEC_Sim_new.heave,'b-.')
+      irregularCIC.B1.WEC_Sim_new.time, irregularSS.B1.WEC_Sim_new.heave,'b-.')
 xlabel('time(s)')
 ylabel('Heave(m)')
 title('Float 1DOF 1200PTO')

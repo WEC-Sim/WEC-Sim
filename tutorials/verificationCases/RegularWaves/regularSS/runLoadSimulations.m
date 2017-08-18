@@ -19,6 +19,8 @@
 % and Tp=8[s]. The RM3 WEC models has 2 bodies, restricted to heave motion
 % only, and has PTO damping=1200[kN-s/m]. 
 
+global plotNO
+locdir=pwd;
 %% Run Simulation
 wecSim;                     % Run Simulation
 
@@ -36,7 +38,8 @@ Rel.WEC_Sim_new.time=B1.WEC_Sim_new.time;
 Rel.WEC_Sim_new.heave=B1.WEC_Sim_new.heave-B2.WEC_Sim_new.heave;
 
 %% Load Data
-load('output_org.mat')    % Load Previous WEC-Sim Data
+
+load('regssoutput_org.mat')    % Load Previous WEC-Sim Data
 
 %% Post-Process Data
 % Body 1
@@ -61,6 +64,20 @@ clear Hshift1 Hshift2
 regularSS.B1  = B1;
 regularSS.B2  = B2;
 regularSS.Rel = Rel;
+
+save('regularSS','regularSS');
+
+%% Plot Old vs. New Comparison
+
+if plotNO==1;
+    cd ../..
+    plotOldNew(B1,B2,Rel,[regularSS.B1_H_max ,regularSS.B1_H_I],...
+        [regularSS.B2_H_max ,regularSS.B2_H_I],...
+        [regularSS.Rel_H_max,regularSS.Rel_H_I], 'RegularSS');
+    cd(locdir)
+end
+
+%% Clear output and .slx directory
 
 try
 	rmdir('output','s')
