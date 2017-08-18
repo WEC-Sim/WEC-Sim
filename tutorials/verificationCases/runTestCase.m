@@ -13,36 +13,49 @@
 % See the License for the specific language governing permissions and
 % limitations under the License.
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% As specified by user input, runs regular and irregular WEC-Sim runs for
+% RM3, plots a comparison of simulation results vs. stored verification
+% runs, and plots solver-to-solver comparison. 
+
+%% User Input
+global plotNO; 
+runReg=0; % 1 to run regular wave simulations
+runIrreg=0; % 1 to run irregular wave simulations 
+plotNO=0; % 1 to plot new run vs. stored run for comparison for each solver
+plotSolvers=1; % 1 to plot new run comparison by sln method
 
 %% Run and Load Simulations
 
-
-cd RegularWaves;
-try
-    delete('regular.mat', 'regularCIC.mat','regularSS.mat')
+if runReg==1;
+cd RegularWaves/regular;
+runLoadSimulations;
+cd .. ;
+savefig('figReg')
+cd regularCIC;
+runLoadSimulations;
+cd .. ; savefig('figRegCIC'); cd regularSS;
+runLoadSimulations;
+cd .. ;
+savefig('figRegSS')
+cd .. ;  
 end
+
+if runIrreg==1;
+cd IrregularWaves/irregularCIC;
+runLoadSimulations;
+cd ..; savefig('figIrregCIC') ; cd irregularSS
 runLoadSimulations;
 cd ..
-
-cd IrregularWaves;
-try
-    delete('irregularCIC.mat','irregularSS.mat')
+savefig('figIrregSS')
+cd .. ;
 end
-runLoadSimulations;
-cd ..
 
-%% Plot Comparisons
+%% Plot Solver Comparisons
+
+if plotSolvers==1
 cd RegularWaves;
 printPlot;
-try
-    delete('regular.mat', 'regularCIC.mat','regularSS.mat')
-end
-cd ..
-
-cd IrregularWaves;
+cd .. ; cd IrregularWaves;
 printPlot;
-try
-    delete('irregularCIC.mat','irregularSS.mat')
-end
 cd ..
-
+end
