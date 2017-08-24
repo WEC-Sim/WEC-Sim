@@ -2,13 +2,13 @@ clc; clear all; close all;
 hydro = struct();
 
 %% Parse a WAMIT output file
-hydro = Read_WAMIT(hydro,'..\..\..\tutorials\BEMIO\WAMIT\RM3\rm3.out',[]);
+%hydro = Read_WAMIT(hydro,'..\..\..\tutorials\BEMIO\WAMIT\RM3\rm3.out',[]);
 
 %% Parse a NEMOH output directory
 % hydro = Read_NEMOH(hydro,'..\..\..\tutorials\BEMIO\NEMOH\RM3\');
 
 %% Parse AQWA output files
-% hydro = Read_AQWA(hydro,'..\..\..\tutorials\BEMIO\AQWA\Example\aqwa_example_data.AH1','..\..\..\tutorials\BEMIO\AQWA\Example\aqwa_example_data.LIS');
+hydro = Read_AQWA(hydro,'..\..\..\tutorials\BEMIO\AQWA\Example\aqwa_example_data.AH1','..\..\..\tutorials\BEMIO\AQWA\Example\aqwa_example_data.LIS');
 
 %% Combine multiple BEM outputs, if using multiple BEM outputs
 % hydro = Combine_BEM(hydro);
