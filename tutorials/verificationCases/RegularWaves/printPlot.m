@@ -13,10 +13,18 @@
 % See the License for the specific language governing permissions and
 % limitations under the License.
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+% Plots solver-to-solver comparison for the newly run simulation for the
+% regular waves.
+
 %% Load Data
+cd regular
 load('regular.mat')       % Load WEC-Sim Run Data
+cd .. ; cd regularCIC
 load('regularCIC.mat')    % Load WEC-Sim Run Data
+cd .. ; cd regularSS
 load('regularSS.mat')     % Load WEC-Sim Run Data
+cd .. 
 
 fprintf('\nRegular wave with sinusoidal assumption')
 fprintf(['\nBody1_Heave Max Diff = ' num2str(regular.B1_H_max) ...
