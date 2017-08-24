@@ -15,10 +15,12 @@
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
 %% Run the WEC-Sim RM3 Test Case for 1DOF w/PTO
-% This script will run the RM3 in WEC-Sim for regular waves with Hs=2.5[m] 
+% This script will run the RM3 in WEC-Sim for irregular waves with Hs=2.5[m] 
 % and Tp=8[s]. The RM3 WEC models has 2 bodies, restricted to heave motion
 % only, and has PTO damping=1200[kN-s/m]. 
-%
+
+global plotNO
+locdir=pwd;
 %% Run Simulation
 wecSim;                     % Run Simulation
 
@@ -36,7 +38,8 @@ Rel.WEC_Sim_new.time=B1.WEC_Sim_new.time;
 Rel.WEC_Sim_new.heave=B1.WEC_Sim_new.heave-B2.WEC_Sim_new.heave;
 
 %% Load Data
-load('output_org.mat')    % Load Previous WEC-Sim Data
+irrSSoutput_new=output;        % Keeps new run in workspace
+load('irrSSoutput_org.mat')    % Load Previous WEC-Sim Data
 
 %% Post-Process Data
 % Body 1
@@ -61,6 +64,18 @@ clear Hshift1 Hshift2
 irregularSS.B1  = B1;
 irregularSS.B2  = B2;
 irregularSS.Rel = Rel;
+
+save('irregularSS','irregularSS')
+
+%% Plot Old vs. New Comparison
+if plotNO==1 % global variable 
+    cd ../..
+    plotOldNew(B1,B2,Rel,[irregularSS.B1_H_max ,irregularSS.B1_H_I],...
+        [irregularSS.B2_H_max ,irregularSS.B2_H_I],...
+        [irregularSS.Rel_H_max,irregularSS.Rel_H_I],'IrregularSS');
+    cd(locdir)
+end
+%% Clear output and .slx directory
 
 try
 	rmdir('output','s')
