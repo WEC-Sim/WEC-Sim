@@ -30,6 +30,7 @@ classdef waveClass<handle
                                              'numPointsX', 50, ...              % Visualization number of points in x direction.
                                              'numPointsY', 50)                  % Visualization number of points in y direction.
         statisticsDataLoad          = [];                                   % File name to load wave statistics data for wecSimMCR
+        freqDisc                    = 'Traditional'                         % Method of frequency discretization for irregular waves. Options for this variable are 'EqualEnergy' or ''. The default is 'Traditional'.
     end
     
     properties (SetAccess = 'private', GetAccess = 'public')%internal
@@ -43,6 +44,8 @@ classdef waveClass<handle
         phaseRand                   = 0;                                    % [rad] Random wave phase (only used for irregular waves)
         dw                          = 0;                                    % [rad/s] Frequency spacing for irregular waves.
         k                           = []                                    % [rad/m] Wave number
+        freqSpace                   = 500000;                               % Number of frequencies used to find bins of equal areas (only used in 'EqualEnergy')
+        numBins                     = 500;                                  % Number of bins used for the 'EqualEnergy' frequency discretization method. The number of bins is equal to the number of frequencies selected +1.
     end
     
     methods (Access = 'public')
@@ -108,8 +111,15 @@ classdef waveClass<handle
                             warning('Max frequency range outside BEM data, max frequency set to max BEM frequency')
                         end
                     end                   
-                    obj.dw=(WFQEd-WFQSt)/(obj.numFreq-1);
-                    obj.w = (WFQSt:obj.dw:WFQEd)';
+                    switch obj.freqDisc
+                        case {'Traditional'}
+                            obj.dw=(WFQEd-WFQSt)/(obj.numFreq-1);
+                            obj.w = (WFQSt:obj.dw:WFQEd)';
+                        case {'EqualEnergy'}
+                            obj.w = WFQSt:(WFQEd-WFQSt)/obj.freqSpace:WFQEd;
+                            obj.dw = mean(diff(obj.w));
+                            obj.numFreq = obj.numBins-1;
+                    end
                     obj.setWavePhase;
                     obj.irregWaveSpectrum(g)
                     obj.waveElevIrreg(rampTime, dt, maxIt, obj.dw);
@@ -363,8 +373,8 @@ classdef waveClass<handle
                 case 'BS' % Bretschneider Sprectrum from Tucker and Pitt (2001)
                     B = (1.057/Tp)^4;
                     A_irreg = B*(Hs/2)^2;
-                    S_f = (A_irreg*freq.^(-5).*exp(-B*freq.^(-4)));
-                    Sf = S_f./(2*pi);
+                    S_f = (A_irreg*freq.^(-5).*exp(-B*freq.^(-4)));         % Wave Spectrum [m^2-s]
+                    Sf = S_f./(2*pi);                                       % Wave Spectrum [m^2-s/rad]
                 case 'JS' % JONSWAP Spectrum from Hasselmann et. al (1973)
                     [r,~] = size(freq);
                     if r == 1; freq = sort(freq)';
@@ -377,24 +387,77 @@ classdef waveClass<handle
                     Gf = zeros(size(freq));
                     Gf(lind) = gamma.^exp(-(freq(lind)-fp).^2/(2*siga^2*fp^2));
                     Gf(hind) = gamma.^exp(-(freq(hind)-fp).^2/(2*sigb^2*fp^2));
-                    Sf = g^2*(2*pi)^(-4)*freq.^(-5).*exp(-(5/4).*(freq/fp).^(-4));
+                    Sf = g^2*(2*pi)^(-4)*freq.^(-5).*exp(-(5/4).*(freq/fp).^(-4));  
                     Amp = Hs^(2)/16/trapz(freq,Sf.*Gf);
-                    S = Amp*Sf.*Gf;
-                    Sf = S./(2*pi);
+                    S_f = Amp*Sf.*Gf;                                       % Wave Spectrum [m^2-s]
+                    Sf = S_f'./(2*pi);                                       % Wave Spectrum [m^2-s/rad]
+                    freq = freq';
                 case 'PM' % Pierson-Moskowitz Spectrum from Tucker and Pitt (2001)
                     B = (5/4)*(1/Tp)^(4);
                     A_irreg = g^2*(2*pi)^(-4);
                     S_f = (A_irreg*freq.^(-5).*exp(-B*freq.^(-4)));
                     alpha = Hs^(2)/16/trapz(freq,S_f);
-                    Sf = alpha*S_f./(2*pi);
+                    Sf = alpha*S_f./(2*pi);                                 % Wave Spectrum [m^2-s/rad]
+                    S_f = Sf*2*pi;                                          % Wave Spectrum [m^2-s]
                 case 'spectrumImport' % Imported Wave Spectrum
                     data = dlmread(obj.spectrumDataFile);
                     freq_data = data(1,:);
                     Sf_data = data(2,:);
-                    S_f = interp1(freq_data,Sf_data,freq,'pchip',0);
-                    Sf = S_f./(2*pi);
+                    S_f = interp1(freq_data,Sf_data,freq,'pchip',0);        % Wave Spectrum [m^2-s]
+                    Sf = S_f./(2*pi);                                       % Wave Spectrum [m^2-s/rad]
             end
-            obj.A = 2 * Sf;
+            obj.A = 2 * Sf;                                                 % Wave Amplitude [m]
+            switch obj.freqDisc
+                case {'EqualEnergy'}
+                    m0 = trapz(freq,abs(S_f));
+                    a_targ = m0/(obj.numBins);
+                    SF = cumtrapz(freq,S_f);
+                    wn(1) = 1;
+                    for kk = 1:obj.numBins
+                        jj = 1;
+                        tmpa{kk}(1) = 0;
+                        while tmpa{kk}(jj)-kk*a_targ < 0
+                            tmpa{kk}(jj+1) = SF(wn(kk)+jj);
+                            jj = jj+1;
+                            if wn(kk)+jj >=length(S_f)
+                                break
+                            end
+                        end
+                        [a_targ_real(kk),wna(kk)] = min(abs(tmpa{kk}-kk*a_targ));
+                        wn(kk+1) = wna(kk)+wn(kk);
+                        a_bins(kk) = trapz(freq(wn(kk):wn(kk+1)),abs(S_f(wn(kk):wn(kk+1))));
+                    end
+
+                    obj.w = 2*pi*freq(wn(2:end-1))';
+                    obj.dw = [obj.w(1)-2*pi*freq(wn(1)); diff(obj.w)];
+                    obj.numFreq = length(obj.w);
+                    obj.A = 2*Sf(wn(2:end-1))';
+                    HsTest = 4*sqrt(m0);
+                    [~,I] = max(abs(Sf(wn(2:end-1))'));
+                    wp = obj.w(I);
+                    TpTest = 2*pi/wp;         
+                    
+                    figure
+                    plot(2*pi./obj.w,Sf(wn(2:end-1)),'*-')
+                    hold on
+                    line([TpTest,TpTest],[0,1])
+                    xlim([0 20])
+                    title({'Tp = ' TpTest 'Hs = ' HsTest})
+                    
+                case {'Traditional'}
+                    obj.A = 2 * Sf;
+                    HsTest = 4*sqrt(trapz(obj.w,Sf));
+                    [~,I] = max(abs(Sf));
+                    wp = obj.w(I);
+                    TpTest = 2*pi/wp;
+                    
+                    figure
+                    plot(2*pi./obj.w,Sf,'*-')
+                    hold on
+                    line([TpTest,TpTest],[0,1])
+                    xlim([0 20])
+                    title({'Tp = ' TpTest 'Hs = ' HsTest})
+            end                         
         end
         
         function waveElevIrreg(obj,rampTime,dt,maxIt,df)
