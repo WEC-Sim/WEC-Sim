@@ -1,12 +1,12 @@
 function hydro = Read_AQWA(hydro,ah1_filename,lis_filename)
 
 % Reads data from AQWA output files.
-% 
+%
 % hydro = Read_AQWA(hydro, ah1_filename, lis_filename)
 %     hydro –         data structure
 %     ah1_filename –  .AH1 AQWA output file
 %     lis_filename –  .LIS AQWA output file
-% 
+%
 % See ‘…\WEC-Sim\tutorials\BEMIO\AQWA\...’ for examples of usage.
 
 [a,b] = size(hydro);  % Check on what is already there
@@ -122,42 +122,78 @@ for ln = n:length(raw1);
         end
         hydro(F).ex_re = hydro(F).ex_ma.*cos(hydro(F).ex_ph*pi/180); % Real part of exciting force
         hydro(F).ex_im = hydro(F).ex_ma.*sin(hydro(F).ex_ph*pi/180); % Imaginary part of exciting force
-    end    
+    end
     d = floor(10*ln/N);  %Update waitbar every 10%, or slows computation time
     if (d>e) waitbar(ln/N); e = d; end
 end
 
 hydro(F).Vo = [];
 hydro(F).cb = [];
-for ln = 1:length(raw2);
-    if isempty(strfind(raw2{ln},'MESH BASED DISPLACEMENT'))==0
+lnlog=zeros(length(raw2),1); % initialize line find log
+for ln=1:length(raw2);
+    if isempty(find(ln==lnlog))==0
+        continue
+    elseif isempty(strfind(raw2{ln},'MESH BASED DISPLACEMENT'))==0
         tmp = textscan(raw2{ln}(find(raw2{ln}=='=')+1:end),'%f');
         hydro(F).Vo = [hydro(F).Vo tmp{1}];   % Volume
-    end
-    if isempty(strfind(raw2{ln},'POSITION OF THE CENTRE OF BUOYANCY'))==0
+    elseif isempty(strfind(raw2{ln},'POSITION OF THE CENTRE OF BUOYANCY'))==0
         cb = [];
         for i=1:3
             tmp = textscan(raw2{(ln-1)+i}(find(raw2{(ln-1)+i}=='=')+1:end),'%f');
             cb = [cb; tmp{1}];
         end
         hydro(F).cb = [hydro(F).cb cb]; % Center of buoyancy
+    
+    elseif isempty(strfind(raw2{ln},'FROUDE KRYLOV + DIFFRACTION FORCES-VARIATION WITH WAVE PERIOD'))==0
+        k=str2num(raw2{ln-2}(end-8));                       % Body number flag
+        for j=1:hydro(F).Nh
+            for i=1:hydro(F).Nf
+                tmp1 = str2num(raw2{ln+6+(j-1)*(hydro(F).Nf+9)+(i-1)});
+                if i==1;
+                    ind = tmp1(1:3); tmp1(1:3)=[];
+                else
+                    ind = tmp1(1:2); tmp1(1:2)=[];    
+                end   
+                tmp2 = tmp1(2:2:end);
+                tmp1(2:2:end)=[];
+                hydro(F).fk_ma((k-1)*6+1:k*6,j,i) = tmp1;  % mag of froude Krylov force
+                hydro(F).fk_ph((k-1)*6+1:k*6,j,i) = tmp2;  % phase of froude Krylov force
+            end
+        end
+        
+        hydro(F).fk_re = hydro(F).fk_ma.*cos(hydro(F).fk_ph*pi/180); % real part of Froude Krylov force
+        hydro(F).fk_im = hydro(F).fk_ma.*sin(hydro(F).fk_ph*pi/180); % imaginary part of Froude Krylov force
+        lnlog(ln:ln+6+(j-1)*(hydro(F).Nf+9)+(i-1))=[ln:ln+6+(j-1)*(hydro(F).Nf+9)+(i-1)]; % avoids repeating line operations for repeated matches
+        
+    elseif isempty(strfind(raw2{ln},'DIFFRACTION FORCES-VARIATION WITH WAVE PERIOD/FREQUENCY'))==0 ...
+            && isempty(strfind(raw2{ln},'FROUDE KRYLOV +'))==1
+        kdiff=str2num(raw2{ln-2}(end-8));                       % Body number flag
+        for j=1:hydro(F).Nh
+            for i=1:hydro(F).Nf
+                tmp1 = str2num(raw2{ln+6+(j-1)*(hydro(F).Nf+9)+(i-1)});
+                if i==1;
+                    ind = tmp1(1:3); tmp1(1:3)=[];
+                else
+                    ind = tmp1(1:2); tmp1(1:2)=[];
+                end
+                tmp2 = tmp1(2:2:end);
+                tmp1(2:2:end)=[];
+                hydro(F).sc_ma((kdiff-1)*6+1:kdiff*6,j,i) = tmp1;  % mag of scattering force
+                hydro(F).sc_ph((kdiff-1)*6+1:kdiff*6,j,i) = tmp2;  % phase of scattering force
+            end
+        end
+        
+        hydro(F).sc_re = hydro(F).sc_ma.*cos(hydro(F).sc_ph*pi/180); % real part of scattering force
+        hydro(F).sc_im = hydro(F).sc_ma.*sin(hydro(F).sc_ph*pi/180); % imaginary part of scattering force
+        lnlog(ln:ln+6+(j-1)*(hydro(F).Nf+9)+(i-1))=[ln:ln+6+(j-1)*(hydro(F).Nf+9)+(i-1)];
+        
     end
-    d = floor(10*(ln+length(raw1))/N);  %Update waitbar every 10%, or slows computation time
+    d = floor(10*(ln+length(raw2))/N);  %Update waitbar every 10%, or slows computation time
     if (d>e) waitbar((ln+length(raw1))/N); e = d; end
+
 end
-
-% Eventually update this to read in excitation force components from .LIS file here
-hydro(F).sc_ma = NaN(size(hydro(F).ex_ma));
-hydro(F).sc_ph = NaN(size(hydro(F).ex_ph));
-hydro(F).sc_re = NaN(size(hydro(F).ex_re));
-hydro(F).sc_im = NaN(size(hydro(F).ex_im));
-hydro(F).fk_ma = NaN(size(hydro(F).ex_ma));  
-hydro(F).fk_ph = NaN(size(hydro(F).ex_ph));
-hydro(F).fk_re = NaN(size(hydro(F).ex_re));
-hydro(F).fk_im = NaN(size(hydro(F).ex_im));
-
 hydro = Normalize(hydro);  % Normalize the data according the WAMIT convention
-
 close(p);
 end
+
 
