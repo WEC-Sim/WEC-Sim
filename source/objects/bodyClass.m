@@ -129,7 +129,7 @@ classdef bodyClass<handle
             obj.hydroForce.linearHydroRestCoef = k .*rho .*g;
             obj.hydroForce.visDrag = diag(0.5*rho.*obj.viscDrag.cd.*obj.viscDrag.characteristicArea);
             obj.hydroForce.linearDamping = diag(obj.linearDamping);
-            obj.hydroForce.userDefinedFe = zeros(length(waveAmpTime(:,2)),6);   %initializing userDefinedFe for non user-defined cases
+            obj.hydroForce.userDefinedFe = zeros(length(waveAmpTime(:,2)),6);   %initializing userDefinedFe for non imported wave cases
             switch waveType
                 case {'noWave'}
                     obj.noExcitation()
@@ -143,10 +143,10 @@ classdef bodyClass<handle
                 case {'regularCIC'}
                     obj.regExcitation(w,waveDir,rho,g);
                     obj.irfInfAddedMassAndDamping(CIkt,CTTime,ssCalc,iBod,rho,B2B);
-                case {'irregular','irregularImport'}
+                case {'irregular','spectrumImport'}
                     obj.irrExcitation(w,numFreq,waveDir,rho,g);
                     obj.irfInfAddedMassAndDamping(CIkt,CTTime,ssCalc,iBod,rho,B2B);
-                case {'userDefined'}
+                case {'etaImport'}
                     obj.userDefinedExcitation(waveAmpTime,dt,waveDir,rho,g);
                     obj.irfInfAddedMassAndDamping(CIkt,CTTime,ssCalc,iBod,rho,B2B);
             end
