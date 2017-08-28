@@ -30,7 +30,7 @@ classdef waveClass<handle
                                              'numPointsX', 50, ...              % Visualization number of points in x direction.
                                              'numPointsY', 50)                  % Visualization number of points in y direction.
         statisticsDataLoad          = [];                                   % File name to load wave statistics data for wecSimMCR
-        freqDisc                    = 'Traditional'                         % Method of frequency discretization for irregular waves. Options for this variable are 'EqualEnergy' or ''. The default is 'Traditional'.
+        freqDisc                    = 'Traditional'                         % Method of frequency discretization for irregular waves. Options for this variable are 'EqualEnergy' or 'Traditional'. (default = 'EqualEnergy').
     end
     
     properties (SetAccess = 'private', GetAccess = 'public')%internal
@@ -46,6 +46,7 @@ classdef waveClass<handle
         k                           = []                                    % [rad/m] Wave number
         freqSpace                   = 500000;                               % Number of frequencies used to find bins of equal areas (only used in 'EqualEnergy')
         numBins                     = 500;                                  % Number of bins used for the 'EqualEnergy' frequency discretization method. The number of bins is equal to the number of frequencies selected +1.
+        Sf                          = [];                                   % Wave Spectrum [m^2-s/rad]
     end
     
     methods (Access = 'public')
@@ -71,12 +72,36 @@ classdef waveClass<handle
             end
         end
         
-        function plotEta(obj)
+        function plotEta(obj,rampTime)
             % Plot wave elevation time-history
             figure
             plot(obj.waveAmpTime(:,1),obj.waveAmpTime(:,2))
+            title('Wave Surfave Elevation')
+            if nargin==2
+                hold on
+                line([rampTime,rampTime],[min(obj.waveAmpTime(:,2)),max(obj.waveAmpTime(:,2))],'Color','k')
+                title(['Wave Surfave Elevation, Ramp Time ' num2str(rampTime) ' (s)'])
+            end
             xlabel('Time (s)')
             ylabel('Eta (m)')
+        end
+        
+        function plotSpectrum(obj)
+            % Plot wave spetrum
+            m0 = trapz(obj.w,obj.Sf);
+            HsTest = 4*sqrt(m0);
+            [~,I] = max(abs(obj.Sf));
+            wp = obj.w(I);
+            TpTest = 2*pi/wp; 
+            
+            figure
+            plot(obj.w,obj.Sf,'*-')
+            hold on
+            line([wp,wp],[0,max(obj.Sf)],'Color','k')
+            xlim([0 max(obj.w)])  
+            title(['"' obj.spectrumType, '", Tp = ' num2str(TpTest) ' (s), '  'Hs = ' num2str(HsTest), ' (m)'])    
+            xlabel('Frequency (rad/s)')
+            ylabel('Spectrum (m^2-s/rad)');                        
         end
         
         function waveSetup(obj,bemFreq,wDepth,rampTime,dt,maxIt,g,endTime)
@@ -355,7 +380,7 @@ classdef waveClass<handle
                     obj.waveAmpTime(i,1) = t;
                     obj.waveAmpTime(i,2) = obj.A*cos(obj.w*t)*(1+cos(pi+pi*(i-1)/maxRampIT))/2;
                 end
-                for i=maxRampIT+1:maxIt+1;
+                for i=maxRampIT+1:maxIt+1
                     t = (i-1)*dt;
                     obj.waveAmpTime(i,1) = t;
                     obj.waveAmpTime(i,2) = obj.A*cos(obj.w*t);
@@ -373,8 +398,8 @@ classdef waveClass<handle
                 case 'BS' % Bretschneider Sprectrum from Tucker and Pitt (2001)
                     B = (1.057/Tp)^4;
                     A_irreg = B*(Hs/2)^2;
-                    S_f = (A_irreg*freq.^(-5).*exp(-B*freq.^(-4)));         % Wave Spectrum [m^2-s]
-                    Sf = S_f./(2*pi);                                       % Wave Spectrum [m^2-s/rad]
+                    S_f = (A_irreg*freq.^(-5).*exp(-B*freq.^(-4)));             % Wave Spectrum [m^2-s]
+                    obj.Sf = S_f./(2*pi);                                       % Wave Spectrum [m^2-s/rad] for 'Traditional'
                 case 'JS' % JONSWAP Spectrum from Hasselmann et. al (1973)
                     [r,~] = size(freq);
                     if r == 1; freq = sort(freq)';
@@ -387,26 +412,25 @@ classdef waveClass<handle
                     Gf = zeros(size(freq));
                     Gf(lind) = gamma.^exp(-(freq(lind)-fp).^2/(2*siga^2*fp^2));
                     Gf(hind) = gamma.^exp(-(freq(hind)-fp).^2/(2*sigb^2*fp^2));
-                    Sf = g^2*(2*pi)^(-4)*freq.^(-5).*exp(-(5/4).*(freq/fp).^(-4));  
-                    Amp = Hs^(2)/16/trapz(freq,Sf.*Gf);
-                    S_f = Amp*Sf.*Gf;                                       % Wave Spectrum [m^2-s]
-                    Sf = S_f'./(2*pi);                                       % Wave Spectrum [m^2-s/rad]
+                    obj.Sf = g^2*(2*pi)^(-4)*freq.^(-5).*exp(-(5/4).*(freq/fp).^(-4));  
+                    Amp = Hs^(2)/16/trapz(freq,obj.Sf.*Gf);
+                    S_f = Amp*obj.Sf.*Gf;                                       % Wave Spectrum [m^2-s]
+                    obj.Sf = S_f./(2*pi);                                       % Wave Spectrum [m^2-s/rad] for 'Traditional'
                     freq = freq';
                 case 'PM' % Pierson-Moskowitz Spectrum from Tucker and Pitt (2001)
                     B = (5/4)*(1/Tp)^(4);
                     A_irreg = g^2*(2*pi)^(-4);
                     S_f = (A_irreg*freq.^(-5).*exp(-B*freq.^(-4)));
                     alpha = Hs^(2)/16/trapz(freq,S_f);
-                    Sf = alpha*S_f./(2*pi);                                 % Wave Spectrum [m^2-s/rad]
-                    S_f = Sf*2*pi;                                          % Wave Spectrum [m^2-s]
+                    obj.Sf = alpha*S_f./(2*pi);                                 % Wave Spectrum [m^2-s/rad] for 'Traditional'
+                    S_f = obj.Sf*2*pi;                                          % Wave Spectrum [m^2-s]
                 case 'spectrumImport' % Imported Wave Spectrum
                     data = dlmread(obj.spectrumDataFile);
                     freq_data = data(1,:);
                     Sf_data = data(2,:);
-                    S_f = interp1(freq_data,Sf_data,freq,'pchip',0);        % Wave Spectrum [m^2-s]
-                    Sf = S_f./(2*pi);                                       % Wave Spectrum [m^2-s/rad]
+                    S_f = interp1(freq_data,Sf_data,freq,'pchip',0);            % Wave Spectrum [m^2-s]
+                    obj.Sf = S_f./(2*pi);                                       % Wave Spectrum [m^2-s/rad] for 'Traditional'
             end
-            obj.A = 2 * Sf;                                                 % Wave Amplitude [m]
             switch obj.freqDisc
                 case {'EqualEnergy'}
                     m0 = trapz(freq,abs(S_f));
@@ -427,46 +451,25 @@ classdef waveClass<handle
                         wn(kk+1) = wna(kk)+wn(kk);
                         a_bins(kk) = trapz(freq(wn(kk):wn(kk+1)),abs(S_f(wn(kk):wn(kk+1))));
                     end
-
                     obj.w = 2*pi*freq(wn(2:end-1))';
                     obj.dw = [obj.w(1)-2*pi*freq(wn(1)); diff(obj.w)];
                     obj.numFreq = length(obj.w);
-                    obj.A = 2*Sf(wn(2:end-1))';
-                    HsTest = 4*sqrt(m0);
-                    [~,I] = max(abs(Sf(wn(2:end-1))'));
-                    wp = obj.w(I);
-                    TpTest = 2*pi/wp;         
-                    
-                    figure
-                    plot(2*pi./obj.w,Sf(wn(2:end-1)),'*-')
-                    hold on
-                    line([TpTest,TpTest],[0,1])
-                    xlim([0 20])
-                    title({'Tp = ' TpTest 'Hs = ' HsTest})
-                    
-                case {'Traditional'}
-                    obj.A = 2 * Sf;
-                    HsTest = 4*sqrt(trapz(obj.w,Sf));
-                    [~,I] = max(abs(Sf));
-                    wp = obj.w(I);
-                    TpTest = 2*pi/wp;
-                    
-                    figure
-                    plot(2*pi./obj.w,Sf,'*-')
-                    hold on
-                    line([TpTest,TpTest],[0,1])
-                    xlim([0 20])
-                    title({'Tp = ' TpTest 'Hs = ' HsTest})
-            end                         
+                    if strcmp(obj.spectrumType,'JS') ==1 
+                        obj.Sf = obj.Sf(wn(2:end-1));                           % Wave Spectrum [m^2-s/rad] for 'EqualEnergy' 
+                    else
+                        obj.Sf = obj.Sf(wn(2:end-1))';                          % Wave Spectrum [m^2-s/rad] for 'EqualEnergy' 
+                    end                                    
+            end             
+            obj.A = 2 * obj.Sf;                                                 % Wave Amplitude [m]
         end
         
         function waveElevIrreg(obj,rampTime,dt,maxIt,df)
             % Calculate irregular wave elevetaion time history
             % Used by waveSetup
             obj.waveAmpTime = zeros(maxIt+1,2);
-            maxRampIT=round(rampTime/dt);
+            maxRampIT=round(rampTime/dt);         
             if rampTime==0
-                for i=1:maxIt+1;
+                for i=1:maxIt+1
                     t = (i-1)*dt;
                     tmp=sqrt(obj.A.*df);
                     tmp1 = tmp.*real(exp(sqrt(-1).*(obj.w.*t + obj.phaseRand)));
@@ -517,7 +520,7 @@ classdef waveClass<handle
             elseif strcmp(obj.spectrumType,'PM')
                 fprintf('\tSpectrum Type                        = Pierson-Moskowitz  \n')
             elseif strcmp(obj.spectrumType,'spectrumImport')
-                fprintf('\tSpectrum Type                        = User-Defined \n')
+                fprintf('\tSpectrum Type                        = Imported Spectrum \n')
             end
         end
     end
