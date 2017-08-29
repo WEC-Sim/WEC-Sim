@@ -47,7 +47,7 @@
               href="genindex.html"/>
         <link rel="search" title="Search" href="search.html"/>
     <link rel="top" title="WEC-Sim  documentation" href="index.html"/>
-        <link rel="next" title="Advanced Features" href="features.html"/>
+        <link rel="next" title="Examples" href="examples.html"/>
         <link rel="prev" title="Theory" href="theory.html"/> 
 
   
@@ -99,10 +99,10 @@
             
               <ul class="current">
 <li class="toctree-l1"><a class="reference internal" href="getting_started.html">Getting Started</a></li>
-<li class="toctree-l1"><a class="reference internal" href="examples.html">Examples</a></li>
+<li class="toctree-l1"><a class="reference internal" href="overview.html">Overview</a></li>
 <li class="toctree-l1"><a class="reference internal" href="theory.html">Theory</a></li>
 <li class="toctree-l1 current"><a class="current reference internal" href="#">Code Structure</a><ul>
-<li class="toctree-l2"><a class="reference internal" href="#input-file">Input File</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#wec-sim-source-code">WEC-Sim Source Code</a></li>
 <li class="toctree-l2"><a class="reference internal" href="#wec-sim-objects">WEC-Sim Objects</a><ul>
 <li class="toctree-l3"><a class="reference internal" href="#simulation-class">Simulation Class</a></li>
 <li class="toctree-l3"><a class="reference internal" href="#wave-class">Wave Class</a><ul>
@@ -133,9 +133,9 @@
 </li>
 <li class="toctree-l2"><a class="reference internal" href="#output-structure">Output Structure</a></li>
 <li class="toctree-l2"><a class="reference internal" href="#functions-external-codes">Functions &amp; External Codes</a></li>
-<li class="toctree-l2"><a class="reference internal" href="#code-conventions">Code Conventions</a></li>
 </ul>
 </li>
+<li class="toctree-l1"><a class="reference internal" href="examples.html">Examples</a></li>
 <li class="toctree-l1"><a class="reference internal" href="features.html">Advanced Features</a></li>
 <li class="toctree-l1"><a class="reference internal" href="webinars.html">Webinars</a></li>
 <li class="toctree-l1"><a class="reference internal" href="license.html">License</a></li>
@@ -207,8 +207,10 @@
             
   <div class="section" id="code-structure">
 <span id="id1"></span><h1>Code Structure<a class="headerlink" href="#code-structure" title="Permalink to this headline">¶</a></h1>
-<p>This section provides a description of the WEC-Sim source code and its structure.
-The WEC-Sim source code consists of a series of MATLAB <code class="docutils literal"><span class="pre">*.m</span></code> objects (defined in WEC-Sim as classes) and Simulink <code class="docutils literal"><span class="pre">*.slx</span></code> library blocks which are executed by the <code class="docutils literal"><span class="pre">wecSim.m</span></code> script. Executing <code class="docutils literal"><span class="pre">wecSim.m</span></code> parses the user input data, performs preprocessing calculations in each of the classes, selects and initializes variant subsystems in the Simulink model, and runs the time-domain simulations in WEC-Sim.</p>
+<p>This section provides a description of the WEC-Sim source code and its structure. For more information about the WEC-Sim code structure, refer to the Online Training Course on <a class="reference external" href="http://wec-sim.github.io/WEC-Sim/webinars.html#code-structure-overview">WEC-Sim Code Structure</a>.</p>
+<div class="section" id="wec-sim-source-code">
+<h2>WEC-Sim Source Code<a class="headerlink" href="#wec-sim-source-code" title="Permalink to this headline">¶</a></h2>
+<p>The WEC-Sim source code consists of a series of MATLAB <code class="docutils literal"><span class="pre">*.m</span></code> objects (defined in WEC-Sim as classes) and Simulink <code class="docutils literal"><span class="pre">*.slx</span></code> library blocks which are executed by the <code class="docutils literal"><span class="pre">wecSim.m</span></code> script. Executing <code class="docutils literal"><span class="pre">wecSim.m</span></code> parses the user input data, performs preprocessing calculations in each of the classes, selects and initializes variant subsystems in the Simulink model, and runs the time-domain simulations in WEC-Sim. The WEC-Sim source code files are containted within a source directory referred to as <code class="docutils literal"><span class="pre">$SOURCE</span></code>.</p>
 <table border="1" class="docutils">
 <colgroup>
 <col width="41%" />
@@ -222,68 +224,18 @@ The WEC-Sim source code consists of a series of MATLAB <code class="docutils lit
 </tr>
 <tr class="row-even"><td>WEC-Sim Executable Script</td>
 <td>wecSim.m</td>
-<td><code class="docutils literal"><span class="pre">$Source</span></code></td>
+<td><code class="docutils literal"><span class="pre">$SOURCE</span></code></td>
 </tr>
 <tr class="row-odd"><td>WEC-Sim MATLAB Objects</td>
 <td>&lt;object&gt;Class.m</td>
-<td><code class="docutils literal"><span class="pre">$Source/objects</span></code></td>
+<td><code class="docutils literal"><span class="pre">$SOURCE/objects</span></code></td>
 </tr>
 <tr class="row-even"><td>WEC-Sim Simulink Libary</td>
 <td>&lt;block&gt;_Lib.slx</td>
-<td><code class="docutils literal"><span class="pre">$Source/lib</span></code></td>
+<td><code class="docutils literal"><span class="pre">$SOURCE/lib</span></code></td>
 </tr>
 </tbody>
 </table>
-<div class="section" id="input-file">
-<h2>Input File<a class="headerlink" href="#input-file" title="Permalink to this headline">¶</a></h2>
-<p>A WEC-Sim input file (<code class="docutils literal"><span class="pre">wecSimInputFile.m</span></code>) is required for each run.
-The input file must be named <code class="docutils literal"><span class="pre">wecSimInputFile.m</span></code> and must be placed within the case directory.
-The main structure of the input file consists of initializing all the objects necessary to run WEC-Sim simulations, and defining any user specified properties for each object.
-The input file for each WEC-Sim simulation requires initialization and definition of the simulation and wave classes, at least one instance of the body class, and at least one instance of the constraint or PTO classes.
-For details about WEC-Sim&#8217;s objects and available properties for each object, refer to the <a class="reference external" href="http://wec-sim.github.io/WEC-Sim/code_structure.html#wec-sim-objects">WEC-Sim Objects Section</a>.</p>
-<p>An example WEC-Sim input file is shown below for the OSWEC Tutorial - addtional examples are provided in the <a class="reference external" href="http://wec-sim.github.io/WEC-Sim/tutorials.html">Tutorials Section</a>, and are also provided in the WEC-Sim source code tutorials folder.
-WEC-Sim is an object oriented code and the input file reflects this.
-The WEC-Sim input file (<code class="docutils literal"><span class="pre">wecSimInputFile.m</span></code>) for the OSWEC intializes and specifies properties for simulation, body, constraint and pto classes.</p>
-<p><em>wecSimInputFile.m for OSWEC</em></p>
-<div class="highlight-matlab"><div class="highlight"><pre><span></span><span class="c">%% Simulation Data</span>
-<span class="n">simu</span> <span class="p">=</span> <span class="n">simulationClass</span><span class="p">();</span>               <span class="c">% Initialize simulationClass</span>
-<span class="n">simu</span><span class="p">.</span><span class="n">simMechanicsFile</span> <span class="p">=</span> <span class="s">&#39;OSWEC.slx&#39;</span><span class="p">;</span>    <span class="c">% Specify Simulink Model File</span>
-<span class="n">simu</span><span class="p">.</span><span class="n">startTime</span> <span class="p">=</span> <span class="mi">0</span><span class="p">;</span>                     <span class="c">% Simulation Start Time [s]</span>
-<span class="n">simu</span><span class="p">.</span><span class="n">rampTime</span> <span class="p">=</span> <span class="mi">100</span><span class="p">;</span>                    <span class="c">% Wave Ramp Time [s]</span>
-<span class="n">simu</span><span class="p">.</span><span class="n">endTime</span><span class="p">=</span><span class="mi">400</span><span class="p">;</span>                       <span class="c">% Simulation End Time [s]   </span>
-<span class="n">simu</span><span class="p">.</span><span class="n">dt</span> <span class="p">=</span> <span class="mf">0.01</span><span class="p">;</span>                         <span class="c">% Simulation Time-Step [s]</span>
-<span class="n">simu</span><span class="p">.</span><span class="n">CITime</span> <span class="p">=</span> <span class="mi">30</span><span class="p">;</span>                       <span class="c">% Specify CI Time [s]</span>
-
-<span class="c">%% Wave Information</span>
-<span class="c">% Regular Waves </span>
-<span class="n">waves</span> <span class="p">=</span> <span class="n">waveClass</span><span class="p">(</span><span class="s">&#39;regular&#39;</span><span class="p">);</span>           <span class="c">% Initialize waveClass and Specify Type                                 </span>
-<span class="n">waves</span><span class="p">.</span><span class="n">H</span> <span class="p">=</span> <span class="mf">2.5</span><span class="p">;</span>                          <span class="c">% Wave Height [m]</span>
-<span class="n">waves</span><span class="p">.</span><span class="n">T</span> <span class="p">=</span> <span class="mi">8</span><span class="p">;</span>                            <span class="c">% Wave Period [s]</span>
-
-<span class="c">%% Body Data</span>
-<span class="c">% Flap</span>
-<span class="n">body</span><span class="p">(</span><span class="mi">1</span><span class="p">)</span> <span class="p">=</span> <span class="n">bodyClass</span><span class="p">(</span><span class="s">&#39;hydroData/oswec.h5&#39;</span><span class="p">);</span>      <span class="c">% Initialize bodyClass for Flap and Specify *.h5 data </span>
-<span class="n">body</span><span class="p">(</span><span class="mi">1</span><span class="p">).</span><span class="n">geometryFile</span> <span class="p">=</span> <span class="s">&#39;geometry/flap.stl&#39;</span><span class="p">;</span>     <span class="c">% Geometry File</span>
-<span class="n">body</span><span class="p">(</span><span class="mi">1</span><span class="p">).</span><span class="n">mass</span> <span class="p">=</span> <span class="mi">127000</span><span class="p">;</span>                          <span class="c">% User-Defined mass [kg]</span>
-<span class="n">body</span><span class="p">(</span><span class="mi">1</span><span class="p">).</span><span class="n">momOfInertia</span> <span class="p">=</span> <span class="p">[</span><span class="mf">1.85e6</span> <span class="mf">1.85e6</span> <span class="mf">1.85e6</span><span class="p">];</span>  <span class="c">% Moment of Inertia [kg-m^2]</span>
-
-<span class="c">% Base</span>
-<span class="n">body</span><span class="p">(</span><span class="mi">2</span><span class="p">)</span> <span class="p">=</span> <span class="n">bodyClass</span><span class="p">(</span><span class="s">&#39;hydroData/oswec.h5&#39;</span><span class="p">);</span>      <span class="c">% Initialize bodyClass for Base</span>
-<span class="n">body</span><span class="p">(</span><span class="mi">2</span><span class="p">).</span><span class="n">geometryFile</span> <span class="p">=</span> <span class="s">&#39;geometry/base.stl&#39;</span><span class="p">;</span>     <span class="c">% Geometry File</span>
-<span class="n">body</span><span class="p">(</span><span class="mi">2</span><span class="p">).</span><span class="n">mass</span> <span class="p">=</span> <span class="s">&#39;fixed&#39;</span><span class="p">;</span>                         <span class="c">% Creates Fixed Body</span>
-
-<span class="c">%% PTO and Constraint Parameters</span>
-<span class="c">% Fixed</span>
-<span class="n">constraint</span><span class="p">(</span><span class="mi">1</span><span class="p">)=</span> <span class="n">constraintClass</span><span class="p">(</span><span class="s">&#39;Constraint1&#39;</span><span class="p">);</span>  <span class="c">% Initialize constraintClass for Constraint1</span>
-<span class="n">constraint</span><span class="p">(</span><span class="mi">1</span><span class="p">).</span><span class="n">loc</span> <span class="p">=</span> <span class="p">[</span><span class="mi">0</span> <span class="mi">0</span> <span class="o">-</span><span class="mi">10</span><span class="p">];</span>                  <span class="c">% Constraint Location [m]</span>
-
-<span class="c">% Rotational PTO</span>
-<span class="n">pto</span><span class="p">(</span><span class="mi">1</span><span class="p">)</span> <span class="p">=</span> <span class="n">ptoClass</span><span class="p">(</span><span class="s">&#39;PTO1&#39;</span><span class="p">);</span>                      <span class="c">% Initialize ptoClass for PTO1</span>
-<span class="n">pto</span><span class="p">(</span><span class="mi">1</span><span class="p">).</span><span class="n">k</span> <span class="p">=</span> <span class="mi">0</span><span class="p">;</span>                                   <span class="c">% PTO Stiffness [Nm/rad]</span>
-<span class="n">pto</span><span class="p">(</span><span class="mi">1</span><span class="p">).</span><span class="n">c</span> <span class="p">=</span> <span class="mi">0</span><span class="p">;</span>                                   <span class="c">% PTO Damping [Nsm/rad]</span>
-<span class="n">pto</span><span class="p">(</span><span class="mi">1</span><span class="p">).</span><span class="n">loc</span> <span class="p">=</span> <span class="p">[</span><span class="mi">0</span> <span class="mi">0</span> <span class="o">-</span><span class="mf">8.9</span><span class="p">];</span>                        <span class="c">% PTO Location [m]</span>
-</pre></div>
-</div>
 </div>
 <div class="section" id="wec-sim-objects">
 <h2>WEC-Sim Objects<a class="headerlink" href="#wec-sim-objects" title="Permalink to this headline">¶</a></h2>
@@ -780,14 +732,6 @@ These include third party Matlab functions to read <code class="docutils literal
 Additionally, BEMIO can be used to create the hydrodynamic <code class="docutils literal"><span class="pre">*.h5</span></code> file required by WEC-Sim.
 MoorDyn is an open source code that must be downloaded seperately. Users may obtain, modify, and recompile the code as well as desired.</p>
 </div>
-<div class="section" id="code-conventions">
-<h2>Code Conventions<a class="headerlink" href="#code-conventions" title="Permalink to this headline">¶</a></h2>
-<p>All units within WEC-Sim are in the MKS (meters-kilograms-seconds system) and angular measurements are specified in radians (except for wave directionality which is defined in degrees).</p>
-<p>The WEC-Sim coordinate system assumes that the X-axis is in the direction of wave propagation if the wave heading angle is equal to zero, the Z-axis is in the vertical upwards direction, and the Y-axis direction is defined by the right-hand rule (as shown below).</p>
-<div class="figure">
-<a class="reference internal image-reference" href="_images/coordinateSystem.png"><img alt="_images/coordinateSystem.png" src="_images/coordinateSystem.png" style="width: 400pt;" /></a>
-</div>
-</div>
 </div>
 
 
@@ -800,7 +744,7 @@ MoorDyn is an open source code that must be downloaded seperately. Users may obt
   
     <div class="rst-footer-buttons" role="navigation" aria-label="footer navigation">
       
-        <a href="features.html" class="btn btn-neutral float-right" title="Advanced Features" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right"></span></a>
+        <a href="examples.html" class="btn btn-neutral float-right" title="Examples" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right"></span></a>
       
       
         <a href="theory.html" class="btn btn-neutral" title="Theory" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left"></span> Previous</a>

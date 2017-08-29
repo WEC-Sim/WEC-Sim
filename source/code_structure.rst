@@ -2,34 +2,21 @@
 
 Code Structure
 ==============
-This section provides a description of the WEC-Sim source code and its structure. 
-The WEC-Sim source code consists of a series of MATLAB ``*.m`` objects (defined in WEC-Sim as classes) and Simulink ``*.slx`` library blocks which are executed by the ``wecSim.m`` script. Executing ``wecSim.m`` parses the user input data, performs preprocessing calculations in each of the classes, selects and initializes variant subsystems in the Simulink model, and runs the time-domain simulations in WEC-Sim. 
+This section provides a description of the WEC-Sim source code and its structure. For more information about the WEC-Sim code structure, refer to the Online Training Course on `WEC-Sim Code Structure <http://wec-sim.github.io/WEC-Sim/webinars.html#code-structure-overview>`_.
 
+
+WEC-Sim Source Code
+--------------------------------
+
+The WEC-Sim source code consists of a series of MATLAB ``*.m`` objects (defined in WEC-Sim as classes) and Simulink ``*.slx`` library blocks which are executed by the ``wecSim.m`` script. Executing ``wecSim.m`` parses the user input data, performs preprocessing calculations in each of the classes, selects and initializes variant subsystems in the Simulink model, and runs the time-domain simulations in WEC-Sim. The WEC-Sim source code files are containted within a source directory referred to as ``$SOURCE``.
 
 =========================   ================  ====================
 **File Type**               **File name**     **Directory**
-WEC-Sim Executable Script   wecSim.m          ``$Source``
-WEC-Sim MATLAB Objects      <object>Class.m   ``$Source/objects``
-WEC-Sim Simulink Libary     <block>_Lib.slx   ``$Source/lib``
+WEC-Sim Executable Script   wecSim.m          ``$SOURCE``
+WEC-Sim MATLAB Objects      <object>Class.m   ``$SOURCE/objects``
+WEC-Sim Simulink Libary     <block>_Lib.slx   ``$SOURCE/lib``
 =========================   ================  ====================
 
-
-Input File 
-------------
-A WEC-Sim input file (``wecSimInputFile.m``) is required for each run. 
-The input file must be named ``wecSimInputFile.m`` and must be placed within the case directory. 
-The main structure of the input file consists of initializing all the objects necessary to run WEC-Sim simulations, and defining any user specified properties for each object.
-The input file for each WEC-Sim simulation requires initialization and definition of the simulation and wave classes, at least one instance of the body class, and at least one instance of the constraint or PTO classes.
-For details about WEC-Sim's objects and available properties for each object, refer to the `WEC-Sim Objects Section <http://wec-sim.github.io/WEC-Sim/code_structure.html#wec-sim-objects>`_.
-
-An example WEC-Sim input file is shown below for the OSWEC Tutorial - addtional examples are provided in the `Tutorials Section <http://wec-sim.github.io/WEC-Sim/tutorials.html>`_, and are also provided in the WEC-Sim source code tutorials folder.
-WEC-Sim is an object oriented code and the input file reflects this.
-The WEC-Sim input file (``wecSimInputFile.m``) for the OSWEC intializes and specifies properties for simulation, body, constraint and pto classes.
-
-*wecSimInputFile.m for OSWEC*
-
-.. literalinclude:: OSWECwecSimInputFile.m
-   :language: matlab
 
 
 WEC-Sim Objects
@@ -468,15 +455,5 @@ While the bulk of the WEC-Sim code consists of the WEC-Sim classes and the WEC-S
 These include third party Matlab functions to read ``*.h5`` and ``*.stl`` files, WEC-Sim Matlab functions to write ``*.h5`` files and run WEC-Sim in batch mode, MoorDyn compiled executables, python macros for ParaView vizualisation, and the PTO-Sim class and library.
 Additionally, BEMIO can be used to create the hydrodynamic ``*.h5`` file required by WEC-Sim.
 MoorDyn is an open source code that must be downloaded seperately. Users may obtain, modify, and recompile the code as well as desired.
-
-
-Code Conventions
-----------------
-All units within WEC-Sim are in the MKS (meters-kilograms-seconds system) and angular measurements are specified in radians (except for wave directionality which is defined in degrees).
-
-The WEC-Sim coordinate system assumes that the X-axis is in the direction of wave propagation if the wave heading angle is equal to zero, the Z-axis is in the vertical upwards direction, and the Y-axis direction is defined by the right-hand rule (as shown below). 
-
-.. figure:: _static/coordinateSystem.png
-   :width: 400pt
 
 

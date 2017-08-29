@@ -13,7 +13,7 @@ Modeling a wave energy converter (WEC) involves the interaction between the inci
 
 .. figure:: _static/Physics.png
     :align: center
-    
+        
     ..
     
     *WEC-Sim Methodology*
@@ -31,6 +31,15 @@ The :ref:`coordinate_system` figure illustrates a 3-D floating point absorber su
     ..
 
     *WEC-Sim Coordinate System*
+
+
+Units
+------------------------------
+All units within WEC-Sim are in the MKS (meters-kilograms-seconds system) and angular measurements are specified in radians (except for wave directionality which is defined in degrees).
+
+
+
+
 
 
 Time-Domain Numerical Method

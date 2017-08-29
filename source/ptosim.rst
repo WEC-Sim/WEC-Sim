@@ -35,6 +35,7 @@ RM3 with Hydraulic PTO
 	* Optional user defined postprocessing file: ``userDefinedFunction.m``
 	* PTO-Sim input file: ``ptoSimInputFile.m``
 	* Datasheet for the rotary generator: ``table`` (``table.eff``, ``table.Tpu``,and ``table.omegapu``)
+	* For the hydraulic PTOs: ``variableMotorVolume.m``
 
 
 	Simulink Model
