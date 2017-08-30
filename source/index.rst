@@ -10,7 +10,7 @@
    theory.rst
    code_structure.rst   
    tutorials.rst
-   features.rst
+   advanced_features.rst
    webinars.rst
    license.rst
    publications.rst

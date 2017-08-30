@@ -1,4 +1,3 @@
-.. _moordyn:
 
 Mooring/MoorDyn
 ---------------

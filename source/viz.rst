@@ -1,4 +1,3 @@
-.. _viz:
 
 Visualization/Paraview
 ----------------------

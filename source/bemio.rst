@@ -1,4 +1,3 @@
-.. _bemio:
 
 BEMIO
 -----

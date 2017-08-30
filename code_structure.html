@@ -136,7 +136,7 @@
 </ul>
 </li>
 <li class="toctree-l1"><a class="reference internal" href="tutorials.html">Tutorials</a></li>
-<li class="toctree-l1"><a class="reference internal" href="features.html">Advanced Features</a></li>
+<li class="toctree-l1"><a class="reference internal" href="advanced_features.html">Advanced Features</a></li>
 <li class="toctree-l1"><a class="reference internal" href="webinars.html">Webinars</a></li>
 <li class="toctree-l1"><a class="reference internal" href="license.html">License</a></li>
 <li class="toctree-l1"><a class="reference internal" href="publications.html">Publications</a></li>
@@ -207,10 +207,13 @@
             
   <div class="section" id="code-structure">
 <span id="id1"></span><h1>Code Structure<a class="headerlink" href="#code-structure" title="Permalink to this headline">¶</a></h1>
-<p>This section provides a description of the WEC-Sim source code and its structure. For more information about the WEC-Sim code structure, refer to the Online Training Course on <a class="reference external" href="http://wec-sim.github.io/WEC-Sim/webinars.html#code-structure-overview">WEC-Sim Code Structure</a>.</p>
+<p>This section provides a description of the WEC-Sim source code and its structure.
+For more information about the WEC-Sim code structure, refer to the Online Training Course on <a class="reference external" href="http://wec-sim.github.io/WEC-Sim/webinars.html#code-structure-overview">WEC-Sim Code Structure</a>.</p>
 <div class="section" id="wec-sim-source-code">
 <h2>WEC-Sim Source Code<a class="headerlink" href="#wec-sim-source-code" title="Permalink to this headline">¶</a></h2>
-<p>The WEC-Sim source code consists of a series of MATLAB <code class="docutils literal"><span class="pre">*.m</span></code> objects (defined in WEC-Sim as classes) and Simulink <code class="docutils literal"><span class="pre">*.slx</span></code> library blocks which are executed by the <code class="docutils literal"><span class="pre">wecSim.m</span></code> script. Executing <code class="docutils literal"><span class="pre">wecSim.m</span></code> parses the user input data, performs preprocessing calculations in each of the classes, selects and initializes variant subsystems in the Simulink model, and runs the time-domain simulations in WEC-Sim. The WEC-Sim source code files are containted within a source directory referred to as <code class="docutils literal"><span class="pre">$SOURCE</span></code>.</p>
+<p>The WEC-Sim source code consists of a series of MATLAB <code class="docutils literal"><span class="pre">*.m</span></code> objects (defined in WEC-Sim as classes) and Simulink <code class="docutils literal"><span class="pre">*.slx</span></code> library blocks which are executed by the <code class="docutils literal"><span class="pre">wecSim.m</span></code> script.
+Executing <code class="docutils literal"><span class="pre">wecSim.m</span></code> parses the user input data, performs preprocessing calculations in each of the classes, selects and initializes variant subsystems in the Simulink model, and runs the time-domain simulations in WEC-Sim.
+The WEC-Sim source code files are containted within a source directory referred to as <code class="docutils literal"><span class="pre">$SOURCE</span></code>.</p>
 <table border="1" class="docutils">
 <colgroup>
 <col width="41%" />

@@ -2,13 +2,16 @@
 
 Code Structure
 ==============
-This section provides a description of the WEC-Sim source code and its structure. For more information about the WEC-Sim code structure, refer to the Online Training Course on `WEC-Sim Code Structure <http://wec-sim.github.io/WEC-Sim/webinars.html#code-structure-overview>`_.
+This section provides a description of the WEC-Sim source code and its structure. 
+For more information about the WEC-Sim code structure, refer to the Online Training Course on `WEC-Sim Code Structure <http://wec-sim.github.io/WEC-Sim/webinars.html#code-structure-overview>`_.
 
 
 WEC-Sim Source Code
 --------------------------------
 
-The WEC-Sim source code consists of a series of MATLAB ``*.m`` objects (defined in WEC-Sim as classes) and Simulink ``*.slx`` library blocks which are executed by the ``wecSim.m`` script. Executing ``wecSim.m`` parses the user input data, performs preprocessing calculations in each of the classes, selects and initializes variant subsystems in the Simulink model, and runs the time-domain simulations in WEC-Sim. The WEC-Sim source code files are containted within a source directory referred to as ``$SOURCE``.
+The WEC-Sim source code consists of a series of MATLAB ``*.m`` objects (defined in WEC-Sim as classes) and Simulink ``*.slx`` library blocks which are executed by the ``wecSim.m`` script. 
+Executing ``wecSim.m`` parses the user input data, performs preprocessing calculations in each of the classes, selects and initializes variant subsystems in the Simulink model, and runs the time-domain simulations in WEC-Sim. 
+The WEC-Sim source code files are containted within a source directory referred to as ``$SOURCE``.
 
 =========================   ================  ====================
 **File Type**               **File name**     **Directory**
