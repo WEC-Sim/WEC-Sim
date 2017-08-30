@@ -2,7 +2,12 @@
 
 Overview
 ================
-A visual representation of the WEC-Sim workflow is shown below. A description of this workflow is provided in the following sections. 
+
+This section provides an overview of the WEC-Sim work flow. 
+First, the WEC-Sim file structure is described; then, steps for setting up and running the WEC-Sim code are described. 
+A visual representation of the WEC-Sim workflow is shown below. 
+A description of this workflow is provided in the following sections. 
+For information about the implementation and structure of the WEC-Sim source code, refer to the `Code Structure <http://wec-sim.github.io/WEC-Sim/code_structure.html>`_ section.
 
 .. figure:: _static/WEC-Sim_flowChart.png
    :width: 500pt
@@ -14,13 +19,13 @@ WEC-Sim Model Files
 
 All files required for a WEC-Sim simulation must be contained within a case directory referred to as ``$CASE``. This directory can be located anywhere on your computer. The table below list the WEC-Sim case directory structure and required files. 
 
-==================   ==========================  ====================
-**File Type**        **File name**               **Directory**
-Input File           wecSimInputFile.m           ``$CASE``
-Simulink Model       <Simulink_model_name>.slx   ``$CASE``
-Hydrodynamic Data    <hydrodata_file_name>.h5    ``$CASE/hydroData``
-Geometry File        <STL_file_name>.stl         ``$CASE/geometry``
-==================   ==========================  ====================
+==================   ====================== ====================
+**File Type**        **File Name**     	    **Directory**
+Input File           ``wecSimInputFile.m``  ``$CASE``
+Simulink Model       ``*.slx``              ``$CASE``
+Hydrodynamic Data    ``*.h5``   	    ``$CASE/hydroData``
+Geometry File        ``*.stl`` 		    ``$CASE/geometry``
+==================   ====================== ====================
 
 
 Input File 
@@ -29,9 +34,9 @@ A WEC-Sim input file (``wecSimInputFile.m``) is required for each run.
 The input file must be named ``wecSimInputFile.m`` and must be placed within the case directory. 
 The main structure of the input file consists of initializing all the objects necessary to run WEC-Sim simulations, and defining any user specified properties for each object.
 The input file for each WEC-Sim simulation requires initialization and definition of the simulation and wave classes, at least one instance of the body class, and at least one instance of the constraint or PTO classes.
-For details about WEC-Sim's objects and available properties for each object, refer to the `WEC-Sim Objects Section <http://wec-sim.github.io/WEC-Sim/code_structure.html#wec-sim-objects>`_.
+For details about WEC-Sim's objects and available properties for each object, refer to the `WEC-Sim Objects <http://wec-sim.github.io/WEC-Sim/code_structure.html#wec-sim-objects>`_ section.
 
-An example WEC-Sim input file is shown below for the OSWEC Tutorial - additional examples are provided in the `Tutorials Section <http://wec-sim.github.io/WEC-Sim/tutorials.html>`_, and are also provided in the WEC-Sim source code tutorials folder.
+An example WEC-Sim input file is shown below for the OSWEC Tutorial - additional examples are provided in the `Tutorials <http://wec-sim.github.io/WEC-Sim/tutorials.html>`_  section, and are also provided in the WEC-Sim source code tutorials folder.
 WEC-Sim is an object oriented code and the input file reflects this.
 The WEC-Sim input file (``wecSimInputFile.m``) for the OSWEC intializes and specifies properties for simulation, body, constraint and pto classes.
  
@@ -42,7 +47,7 @@ The WEC-Sim input file (``wecSimInputFile.m``) for the OSWEC intializes and spec
 
 Simulink Model 
 ~~~~~~~~~~~~~~
-In addition to an input file, all WEC-Sim runs require a Simulink model file (``<Simulink_model_name>.slx``). An example Simulink model file for the OSWEC is shown below. For more information about the OSWEC, refer to the `Tutorials Section <http://wec-sim.github.io/WEC-Sim/tutorials.html>`_.
+In addition to an input file, all WEC-Sim runs require a Simulink model file (``<Simulink_model_name>.slx``). An example Simulink model file for the OSWEC is shown below. For more information about the OSWEC, refer to the `Tutorials <http://wec-sim.github.io/WEC-Sim/tutorials.html>`_ section.
 
 .. figure:: _static/OSWEC_Model.png
    :width: 400pt

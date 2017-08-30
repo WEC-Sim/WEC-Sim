@@ -9,7 +9,7 @@
    overview.rst
    theory.rst
    code_structure.rst   
-   examples.rst
+   tutorials.rst
    features.rst
    webinars.rst
    license.rst

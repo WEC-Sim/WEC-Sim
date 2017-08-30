@@ -198,7 +198,7 @@ Within the ``wecSimInputFile.m``, users must initalize each iteration the constr
 For rotational constraint (ex: pitch), the user also needs to specify the location of the rotational joint with respect to the global reference frame in the ``constraint(<#>).loc`` variable. 
 
 Available constraint properties, default values, and functions can be found by typing ``doc constraintClass`` in the MATLAB command window, or opening the `constraintClass.m` file in ``//WEC-Sim/source/objects`` directory by typing ``open constraintClass`` in MATLAB Command Window.
-See the `Constraint and PTO Features Section <http://wec-sim.github.io/WEC-Sim/features.html#constraint-and-pto-features>`_ for more detail on the constraint options.
+See the `Constraint and PTO Features <http://wec-sim.github.io/WEC-Sim/features.html#constraint-and-pto-features>`_ section for more detail on the constraint options.
 
 
 PTO Class
@@ -221,7 +221,7 @@ Users can overwrite the default values in the input file. For example, users can
 
 
 Available pto properties, default values, and functions can be found by typing ``doc ptoClass`` in the MATLAB command window, or opening the `ptoClass.m` file in ``//WEC-Sim/source/objects`` directory by typing ``open ptoClass`` in MATLAB Command Window.
-See the `Constraint and PTO Features Section <http://wec-sim.github.io/WEC-Sim/features.html#constraint-and-pto-features>`_ for more detail on the constraint options.
+See the `Constraint and PTO Features <http://wec-sim.github.io/WEC-Sim/features.html#constraint-and-pto-features>`_ section for more detail on the constraint options.
 
 
 Mooring Class
@@ -234,7 +234,7 @@ Within the ``wecSimInputFile.m``, users must initalize the mooring class and spe
 
 
 The mooring class (``mooringClass``) allows for different fidelity simulation of mooring systems.
-See the `Mooring/MoorDyn Section <http://wec-sim.github.io/WEC-Sim/features.html#mooring-moordyn>`_ for more detail on the mooring options.
+See the `Mooring/MoorDyn <http://wec-sim.github.io/WEC-Sim/features.html#mooring-moordyn>`_ section for more detail on the mooring options.
 
 Available mooring properties, default values, and functions can be found by typing ``doc mooringClass`` in the MATLAB command window, or opening the `mooringClass.m` file in ``//WEC-Sim/source/objects`` directory by typing ``open mooringClass`` in MATLAB Command Window.
 
@@ -244,7 +244,7 @@ Response Class
 The response class is not initialized by the user.
 Instead, it is created at the end of a WEC-Sim simulation.
 It contains all the output time-series and methods to plot and interact with the results.
-The available parameters are explained in the `Output Structure Section <http://wec-sim.github.io/WEC-Sim/code_structure.html#output-structure>`_.
+The available parameters are explained in the `Output Structure <http://wec-sim.github.io/WEC-Sim/code_structure.html#output-structure>`_ section.
 
 
 WEC-Sim Library

@@ -48,7 +48,7 @@
         <link rel="search" title="Search" href="search.html"/>
     <link rel="top" title="WEC-Sim  documentation" href="index.html"/>
         <link rel="next" title="Webinars" href="webinars.html"/>
-        <link rel="prev" title="Examples" href="examples.html"/> 
+        <link rel="prev" title="Tutorials" href="tutorials.html"/> 
 
   
   <script src="_static/js/modernizr.min.js"></script>
@@ -102,7 +102,7 @@
 <li class="toctree-l1"><a class="reference internal" href="overview.html">Overview</a></li>
 <li class="toctree-l1"><a class="reference internal" href="theory.html">Theory</a></li>
 <li class="toctree-l1"><a class="reference internal" href="code_structure.html">Code Structure</a></li>
-<li class="toctree-l1"><a class="reference internal" href="examples.html">Examples</a></li>
+<li class="toctree-l1"><a class="reference internal" href="tutorials.html">Tutorials</a></li>
 <li class="toctree-l1 current"><a class="current reference internal" href="#">Advanced Features</a><ul>
 <li class="toctree-l2"><a class="reference internal" href="#bemio">BEMIO</a><ul>
 <li class="toctree-l3"><a class="reference internal" href="#bemio-functions">BEMIO Functions</a></li>
@@ -230,7 +230,7 @@
 <span id="features"></span><h1>Advanced Features<a class="headerlink" href="#advanced-features" title="Permalink to this headline">¶</a></h1>
 <p>This sections provides an overview of the advanced features of the WEC-Sim code that were not covered in the <a class="reference external" href="http://wec-sim.github.io/WEC-Sim/tutorials.html">Tutorials</a> section.</p>
 <div class="section" id="bemio">
-<h2>BEMIO<a class="headerlink" href="#bemio" title="Permalink to this headline">¶</a></h2>
+<span id="id1"></span><h2>BEMIO<a class="headerlink" href="#bemio" title="Permalink to this headline">¶</a></h2>
 <p>The Boundary Element Method Input/Output (BEMIO) functions are used to preprocess the BEM hydrodynamic data prior to running WEC-Sim, this includes:</p>
 <ul class="simple">
 <li>Read BEM results from WAMIT, NEMOH, or AQWA.</li>
@@ -784,7 +784,7 @@ Note that <code class="code docutils literal"><span class="pre">body(i).cg</span
 <p>For more information, refer to the <a class="reference external" href="https://github.com/WEC-Sim/WEC-Sim_Applications">WEC-Sim_Application repository</a> IEA OES Task 10 example.</p>
 </div>
 <div class="section" id="mooring-moordyn">
-<h2>Mooring/MoorDyn<a class="headerlink" href="#mooring-moordyn" title="Permalink to this headline">¶</a></h2>
+<span id="moordyn"></span><h2>Mooring/MoorDyn<a class="headerlink" href="#mooring-moordyn" title="Permalink to this headline">¶</a></h2>
 <p>Floating WEC systems are often connected to mooring lines to keep the device in position. WEC-Sim allows the user to model the mooring dynamics in the simulation by specifying the mooring matrix or coupling with MoorDyn. To include mooring connections, the user can use the mooring block (i.e., Mooring Matrix block or MoorDyn block) given in the WEC-Sim library under Moorings lib and connect it between the body and the Global reference frame. Refer the <a class="reference external" href="http://wec-sim.github.io/WEC-Sim/features.html#tutorial-rm3-with-moordyn">MoorDyn Tutorial</a> section for more information.</p>
 <p>MoorDyn is hosted on  a seperate <a class="reference external" href="https://github.com/WEC-Sim/moorDyn">MoorDyn repository</a>. It must be download seperately, and all files and folders should be placed in the <strong>WEC-Sim/source/functions/moorDyn</strong> folder.</p>
 <div class="section" id="using-mooring-matrix">
@@ -863,7 +863,7 @@ Note that <code class="code docutils literal"><span class="pre">body(i).cg</span
 </pre></div>
 </div>
 <ul class="simple">
-<li>MoorDyn Input File: A mooring folder that includes a moorDyn input file (<code class="docutils literal"><span class="pre">lines.txt</span></code>) is created. The moorDyn input file (<code class="docutils literal"><span class="pre">lines.txt</span></code>) is shown in the figure below. More details on how to setup the MooDyn input file were described in the MoorDyn User Guide <a class="reference internal" href="theory.html#hall2015moordynguide" id="id8">[2]</a>.</li>
+<li>MoorDyn Input File: A mooring folder that includes a moorDyn input file (<code class="docutils literal"><span class="pre">lines.txt</span></code>) is created. The moorDyn input file (<code class="docutils literal"><span class="pre">lines.txt</span></code>) is shown in the figure below. More details on how to setup the MooDyn input file were described in the MoorDyn User Guide <a class="reference internal" href="theory.html#hall2015moordynguide" id="id9">[2]</a>.</li>
 </ul>
 <div class="figure align-center" id="moordyninput">
 <a class="reference internal image-reference" href="_images/moorDynInput.png"><img alt="_images/moorDynInput.png" src="_images/moorDynInput.png" style="width: 400pt;" /></a>
@@ -1237,7 +1237,7 @@ The bottom right shows the float colored by hydrostatic pressure.</p>
         <a href="webinars.html" class="btn btn-neutral float-right" title="Webinars" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right"></span></a>
       
       
-        <a href="examples.html" class="btn btn-neutral" title="Examples" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left"></span> Previous</a>
+        <a href="tutorials.html" class="btn btn-neutral" title="Tutorials" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left"></span> Previous</a>
       
     </div>
   

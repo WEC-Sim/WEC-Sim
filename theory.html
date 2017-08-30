@@ -135,7 +135,7 @@
 </ul>
 </li>
 <li class="toctree-l1"><a class="reference internal" href="code_structure.html">Code Structure</a></li>
-<li class="toctree-l1"><a class="reference internal" href="examples.html">Examples</a></li>
+<li class="toctree-l1"><a class="reference internal" href="tutorials.html">Tutorials</a></li>
 <li class="toctree-l1"><a class="reference internal" href="features.html">Advanced Features</a></li>
 <li class="toctree-l1"><a class="reference internal" href="webinars.html">Webinars</a></li>
 <li class="toctree-l1"><a class="reference internal" href="license.html">License</a></li>
@@ -429,7 +429,7 @@ The spectral moment, <span class="math">\(m_{0}\)</span> is the variance of the 
 <div class="math">
 \[F_{m}=-K_{m}X-C_{m}\dot{X}\]</div>
 <p>where <span class="math">\(K_{m}\)</span> and <span class="math">\(C_{m}\)</span> are the stiffness and damping matrices for the mooring system, and <span class="math">\(X\)</span> and <span class="math">\(\dot{X}\)</span> are the displacement and velocity of the body, respectively.</p>
-<p>MoorDyn discretizes each mooring line in a mooring system into evenly-sized line segments connected by node points (<span class="xref std std-ref">MoorDyn</span> figure). The line mass is lumped at these node points along with gravitational and buoyancy forces, hydrodynamic loads, and reactions from contact with the seabed.  Hydrodynamic drag and added mass are calculated based on Morison&#8217;s equation.  A mooring line&#8217;s axial stiffness is modeled by applying a linear stiffness to each line segment in tension only.  A damping term is also applied in each segment to dampen non-physical resonances caused by the lumped-mass discretization.  Bending and torsional stiffnesses are neglected.  Bottom contact is represented by vertical stiffness and damping forces applied at the nodes when a node is located below the seabed. <a class="reference internal" href="#hall2015validationdata" id="id24">[17]</a>.</p>
+<p>MoorDyn discretizes each mooring line in a mooring system into evenly-sized line segments connected by node points (<a class="reference internal" href="moordyn.html#moordyn"><span class="std std-ref">Mooring/MoorDyn</span></a> figure). The line mass is lumped at these node points along with gravitational and buoyancy forces, hydrodynamic loads, and reactions from contact with the seabed.  Hydrodynamic drag and added mass are calculated based on Morison&#8217;s equation.  A mooring line&#8217;s axial stiffness is modeled by applying a linear stiffness to each line segment in tension only.  A damping term is also applied in each segment to dampen non-physical resonances caused by the lumped-mass discretization.  Bending and torsional stiffnesses are neglected.  Bottom contact is represented by vertical stiffness and damping forces applied at the nodes when a node is located below the seabed. <a class="reference internal" href="#hall2015validationdata" id="id24">[17]</a>.</p>
 <div class="figure align-center" id="id25">
 <a class="reference internal image-reference" href="_images/MoorDyn_Graphic.png"><img alt="_images/MoorDyn_Graphic.png" src="_images/MoorDyn_Graphic.png" style="width: 529.2px; height: 324.8px;" /></a>
 <div class="legend">

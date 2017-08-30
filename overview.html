@@ -116,7 +116,7 @@
 </li>
 <li class="toctree-l1"><a class="reference internal" href="theory.html">Theory</a></li>
 <li class="toctree-l1"><a class="reference internal" href="code_structure.html">Code Structure</a></li>
-<li class="toctree-l1"><a class="reference internal" href="examples.html">Examples</a></li>
+<li class="toctree-l1"><a class="reference internal" href="tutorials.html">Tutorials</a></li>
 <li class="toctree-l1"><a class="reference internal" href="features.html">Advanced Features</a></li>
 <li class="toctree-l1"><a class="reference internal" href="webinars.html">Webinars</a></li>
 <li class="toctree-l1"><a class="reference internal" href="license.html">License</a></li>
@@ -188,7 +188,11 @@
             
   <div class="section" id="overview">
 <span id="id1"></span><h1>Overview<a class="headerlink" href="#overview" title="Permalink to this headline">¶</a></h1>
-<p>A visual representation of the WEC-Sim workflow is shown below. A description of this workflow is provided in the following sections.</p>
+<p>This section provides an overview of the WEC-Sim work flow.
+First, the WEC-Sim file structure is described; then, steps for setting up and running the WEC-Sim code are described.
+A visual representation of the WEC-Sim workflow is shown below.
+A description of this workflow is provided in the following sections.
+For information about the implementation and structure of the WEC-Sim source code, refer to the <a class="reference external" href="http://wec-sim.github.io/WEC-Sim/code_structure.html">Code Structure</a> section.</p>
 <div class="figure">
 <a class="reference internal image-reference" href="_images/WEC-Sim_flowChart.png"><img alt="_images/WEC-Sim_flowChart.png" src="_images/WEC-Sim_flowChart.png" style="width: 500pt;" /></a>
 </div>
@@ -197,29 +201,29 @@
 <p>All files required for a WEC-Sim simulation must be contained within a case directory referred to as <code class="docutils literal"><span class="pre">$CASE</span></code>. This directory can be located anywhere on your computer. The table below list the WEC-Sim case directory structure and required files.</p>
 <table border="1" class="docutils">
 <colgroup>
-<col width="28%" />
-<col width="41%" />
-<col width="31%" />
+<col width="30%" />
+<col width="37%" />
+<col width="33%" />
 </colgroup>
 <tbody valign="top">
 <tr class="row-odd"><td><strong>File Type</strong></td>
-<td><strong>File name</strong></td>
+<td><strong>File Name</strong></td>
 <td><strong>Directory</strong></td>
 </tr>
 <tr class="row-even"><td>Input File</td>
-<td>wecSimInputFile.m</td>
+<td><code class="docutils literal"><span class="pre">wecSimInputFile.m</span></code></td>
 <td><code class="docutils literal"><span class="pre">$CASE</span></code></td>
 </tr>
 <tr class="row-odd"><td>Simulink Model</td>
-<td>&lt;Simulink_model_name&gt;.slx</td>
+<td><code class="docutils literal"><span class="pre">*.slx</span></code></td>
 <td><code class="docutils literal"><span class="pre">$CASE</span></code></td>
 </tr>
 <tr class="row-even"><td>Hydrodynamic Data</td>
-<td>&lt;hydrodata_file_name&gt;.h5</td>
+<td><code class="docutils literal"><span class="pre">*.h5</span></code></td>
 <td><code class="docutils literal"><span class="pre">$CASE/hydroData</span></code></td>
 </tr>
 <tr class="row-odd"><td>Geometry File</td>
-<td>&lt;STL_file_name&gt;.stl</td>
+<td><code class="docutils literal"><span class="pre">*.stl</span></code></td>
 <td><code class="docutils literal"><span class="pre">$CASE/geometry</span></code></td>
 </tr>
 </tbody>
@@ -230,8 +234,8 @@
 The input file must be named <code class="docutils literal"><span class="pre">wecSimInputFile.m</span></code> and must be placed within the case directory.
 The main structure of the input file consists of initializing all the objects necessary to run WEC-Sim simulations, and defining any user specified properties for each object.
 The input file for each WEC-Sim simulation requires initialization and definition of the simulation and wave classes, at least one instance of the body class, and at least one instance of the constraint or PTO classes.
-For details about WEC-Sim&#8217;s objects and available properties for each object, refer to the <a class="reference external" href="http://wec-sim.github.io/WEC-Sim/code_structure.html#wec-sim-objects">WEC-Sim Objects Section</a>.</p>
-<p>An example WEC-Sim input file is shown below for the OSWEC Tutorial - additional examples are provided in the <a class="reference external" href="http://wec-sim.github.io/WEC-Sim/tutorials.html">Tutorials Section</a>, and are also provided in the WEC-Sim source code tutorials folder.
+For details about WEC-Sim&#8217;s objects and available properties for each object, refer to the <a class="reference external" href="http://wec-sim.github.io/WEC-Sim/code_structure.html#wec-sim-objects">WEC-Sim Objects</a> section.</p>
+<p>An example WEC-Sim input file is shown below for the OSWEC Tutorial - additional examples are provided in the <a class="reference external" href="http://wec-sim.github.io/WEC-Sim/tutorials.html">Tutorials</a>  section, and are also provided in the WEC-Sim source code tutorials folder.
 WEC-Sim is an object oriented code and the input file reflects this.
 The WEC-Sim input file (<code class="docutils literal"><span class="pre">wecSimInputFile.m</span></code>) for the OSWEC intializes and specifies properties for simulation, body, constraint and pto classes.</p>
 <div class="highlight-matlab"><div class="highlight"><pre><span></span><span class="c">%% Simulation Data</span>
@@ -276,7 +280,7 @@ The WEC-Sim input file (<code class="docutils literal"><span class="pre">wecSimI
 </div>
 <div class="section" id="simulink-model">
 <h3>Simulink Model<a class="headerlink" href="#simulink-model" title="Permalink to this headline">¶</a></h3>
-<p>In addition to an input file, all WEC-Sim runs require a Simulink model file (<code class="docutils literal"><span class="pre">&lt;Simulink_model_name&gt;.slx</span></code>). An example Simulink model file for the OSWEC is shown below. For more information about the OSWEC, refer to the <a class="reference external" href="http://wec-sim.github.io/WEC-Sim/tutorials.html">Tutorials Section</a>.</p>
+<p>In addition to an input file, all WEC-Sim runs require a Simulink model file (<code class="docutils literal"><span class="pre">&lt;Simulink_model_name&gt;.slx</span></code>). An example Simulink model file for the OSWEC is shown below. For more information about the OSWEC, refer to the <a class="reference external" href="http://wec-sim.github.io/WEC-Sim/tutorials.html">Tutorials</a> section.</p>
 <div class="figure">
 <a class="reference internal image-reference" href="_images/OSWEC_Model.png"><img alt="_images/OSWEC_Model.png" src="_images/OSWEC_Model.png" style="width: 400pt;" /></a>
 </div>
