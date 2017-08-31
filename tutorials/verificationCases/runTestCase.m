@@ -19,9 +19,9 @@
 
 %% User Input
 global plotNO; 
-runReg=0; % 1 to run regular wave simulations
-runIrreg=0; % 1 to run irregular wave simulations 
-plotNO=0; % 1 to plot new run vs. stored run for comparison for each solver
+runReg=1; % 1 to run regular wave simulations
+runIrreg=1; % 1 to run irregular wave simulations 
+plotNO=1; % 1 to plot new run vs. stored run for comparison for each solver
 plotSolvers=1; % 1 to plot new run comparison by sln method
 
 %% Run and Load Simulations
