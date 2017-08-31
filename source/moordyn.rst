@@ -1,9 +1,10 @@
 
 Mooring/MoorDyn
 ---------------
-Floating WEC systems are often connected to mooring lines to keep the device in position. WEC-Sim allows the user to model the mooring dynamics in the simulation by specifying the mooring matrix or coupling with MoorDyn. To include mooring connections, the user can use the mooring block (i.e., Mooring Matrix block or MoorDyn block) given in the WEC-Sim library under Moorings lib and connect it between the body and the Global reference frame. Refer the `MoorDyn Tutorial <http://wec-sim.github.io/WEC-Sim/features.html#tutorial-rm3-with-moordyn>`_ section for more information.
+Floating WEC systems are often connected to mooring lines to keep the device in position. WEC-Sim allows the user to model the mooring dynamics in the simulation by specifying the mooring matrix or coupling with MoorDyn. To include mooring connections, the user can use the mooring block (i.e., Mooring Matrix block or MoorDyn block) given in the WEC-Sim library under Moorings lib and connect it between the body and the Global reference frame. 
+Refer the `MoorDyn Tutorial <http://wec-sim.github.io/WEC-Sim/advanced_features.html#tutorial-rm3-with-moordyn>`_ section, and the `Mooring Webinar <http://wec-sim.github.io/WEC-Sim/webinars.html#webinar-4-mooring-and-visualization>`_ for more information.
 
-MoorDyn is hosted on  a seperate `MoorDyn repository <https://github.com/WEC-Sim/moorDyn>`_. It must be download seperately, and all files and folders should be placed in the **WEC-Sim/source/functions/moorDyn** folder.
+MoorDyn is hosted on  a seperate `MoorDyn repository <https://github.com/WEC-Sim/moorDyn>`_. It must be download seperately, and all files and folders should be placed in the ``$Source/functions/moorDyn`` directory.
 
 
 Using Mooring Matrix
@@ -34,7 +35,7 @@ Tutorial: RM3 with MoorDyn
 	This section describes how to simulate a mooring connected WEC system in WEC-Sim using MoorDyn. The RM3 two-body floating point absorber is connected to a three-point catenary mooring system with an angle of 120 between the lines in this example case. The RM3 with MoorDyn folder is located under `WEC-Sim Applications repository <https://github.com/WEC-Sim/WEC-Sim_Applications>`_.
 
 
-	* WEC Model: Start out by following the instructions on how to model the `RM3 Two-Body Point Absorber <http://wec-sim.github.io/WEC-Sim/getting_started.html#id2>`_. To couple WEC-Sim with MoorDyn, the MoorDyn Block is added in parallel to the constraint block
+	* **WEC-Sim Simulink Model**: Start out by following the instructions on how to model the `RM3 Two-Body Point Absorber <http://wec-sim.github.io/WEC-Sim/tutorials.html#two-body-point-absorber-rm3>`_. To couple WEC-Sim with MoorDyn, the MoorDyn Block is added in parallel to the constraint block
 
 	.. _WECSimmoorDyn:
 
@@ -43,7 +44,7 @@ Tutorial: RM3 with MoorDyn
 	    :align: center
 
 
-	* WEC-Sim input file: In the ``wecSimInput.m`` file, the user need to initiate the mooring class and define the number of mooring lines.
+	* **WEC-Sim Input File**: In the ``wecSimInputFile.m`` file, the user need to initiate the mooring class and define the number of mooring lines.
 
 	.. _WECSimInputMoorDyn:
 
@@ -51,7 +52,7 @@ Tutorial: RM3 with MoorDyn
 	   :language: matlab
 
 
-	* MoorDyn Input File: A mooring folder that includes a moorDyn input file (``lines.txt``) is created. The moorDyn input file (``lines.txt``) is shown in the figure below. More details on how to setup the MooDyn input file were described in the MoorDyn User Guide :cite:`Hall2015MoorDynGuide`.
+	* **MoorDyn Input File**: A mooring folder that includes a moorDyn input file (``lines.txt``) is created. The moorDyn input file (``lines.txt``) is shown in the figure below. More details on how to setup the MooDyn input file were described in the MoorDyn User Guide :cite:`Hall2015MoorDynGuide`.
 
 	.. _moorDynInput:
 
@@ -59,7 +60,7 @@ Tutorial: RM3 with MoorDyn
 	    :width: 400pt
 	    :align: center
 
-	* Simulation and Postprocessing: Simulation and postprocessing are the same process as described in Tutorial Section.
+	* **Simulation and Postprocessing**: Simulation and postprocessing are the same process as described in Tutorial Section.
 	
 	.. Note::
 		You may need to install the MinGW-w64 compiler to run this simulation.

@@ -9,7 +9,7 @@ The Boundary Element Method Input/Output (BEMIO) functions are used to preproces
 * Save the resulting data in Hierarchical Data Format 5 (HDF5).
 * Plot typical hydrodynamic data for user verification.
 
-For more inforation, refer to the `BEMIO tutorial <http://wec-sim.github.io/WEC-Sim/features.html#bemio-tutorials>`_ section and the  `BEMIO webinar <http://wec-sim.github.io/WEC-Sim/webinars.html#wec-sim-webinar-1-bemio-mcr>`_.
+For more inforation, refer to the `BEMIO tutorial <http://wec-sim.github.io/WEC-Sim/advanced_features.html#bemio-tutorials>`_ section and the  `BEMIO webinar <http://wec-sim.github.io/WEC-Sim/webinars.html#webinar-1-bemio-and-mcr>`_.
 
 
 .. Note:: 
@@ -40,7 +40,7 @@ BEMIO Functions
 			* Results/ExcitationForce.tec
 
 .. Note:: 
-	Instructions on how to download and use the open source BEM code NEMOH are provided on the `NEMOH website <http://lheea.ec-nantes.fr/doku.php/emo/nemoh/start>`_. The NEMOH Mesh.exe code creates the Hydrostatics.dat and KH.dat files (among other files) for one input body at a time. For the Read_NEMOH function to work correctly in the case of a multiple body system, the user must manually rename Hydrostatics.dat and KH.dat files to Hydrostatics_0.dat, Hydrostatics_1.dat, …, and KH_0.dat, KH_1.dat,…, corresponding to the body order specified in the Nemoh.cal file.
+	Instructions on how to download and use the open source BEM code NEMOH are provided on the `NEMOH website <https://lheea.ec-nantes.fr/logiciels-et-brevets/nemoh-presentation-192863.kjsp>`_. The NEMOH Mesh.exe code creates the Hydrostatics.dat and KH.dat files (among other files) for one input body at a time. For the Read_NEMOH function to work correctly in the case of a multiple body system, the user must manually rename Hydrostatics.dat and KH.dat files to Hydrostatics_0.dat, Hydrostatics_1.dat, …, and KH_0.dat, KH_1.dat,…, corresponding to the body order specified in the Nemoh.cal file.
 
 **Read_AQWA:** Reads data from AQWA output files
 
@@ -90,13 +90,13 @@ BEMIO Functions
 			* *w_min* – minimum frequency to use in the IRF calculation, the default is the minimum frequency from the BEM data
 			* *w_max* – maximum frequency to use in the IRF calculation, the default is the maximum frequency from the BEM data.
 
-**Write_H5:** Writes the hydro data structure to a .h5 file. 
+**Write_H5:** Writes the hydro data structure to a ``*.h5`` file. 
 
 	Write_H5(hydro)
 		* *hydro* – data structure
 
 .. Note::
- 	Technically, this step should not be necessary - the MATLAB data structure *hydro* is written to a .h5 file by BEMIO and then read back into a new MATLAB data structure *hydroData* for each body by WEC-Sim. The reasons this step was retained were, first, to remain compatible with the python based BEMIO output and, second, for the simpler data visualization and verification capabilities offered by the .h5 file viewer.
+ 	Technically, this step should not be necessary - the MATLAB data structure *hydro* is written to a ``*.h5`` file by BEMIO and then read back into a new MATLAB data structure *hydroData* for each body by WEC-Sim. The reasons this step was retained were, first, to remain compatible with the python based BEMIO output and, second, for the simpler data visualization and verification capabilities offered by the ``*.h5`` file viewer.
 
 **Plot_BEMIO:** Plots the added mass, radiation damping, radiation IRF, excitation force magnitude, excitation force phase, and excitation IRF for each body in the heave, surge and pitch degrees of freedom. 
 
@@ -155,12 +155,12 @@ w             [1,Nf]                    wave frequencies
 BEMIO Tutorials
 ~~~~~~~~~~~~~~~~
 
-The BEMIO tutorials are included in the `BEMIO tutorial folder <https://github.com/WEC-Sim/WEC-Sim/tree/master/tutorials/BEMIO>`_ in the WEC-Sim source code. For more inforation, refer to the `BEMIO webinar <http://wec-sim.github.io/WEC-Sim/webinars.html#wec-sim-webinar-1-bemio-mcr>`_.
+The BEMIO tutorials are included in the ``$Source/tutorials/BEMIO`` directory in the WEC-Sim source code. For more inforation, refer to the `BEMIO webinar <http://wec-sim.github.io/WEC-Sim/webinars.html#webinar-1-bemio-and-mcr>`_.
 
 
 Writing Your Own h5 File
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-The most common way of creating an h5 file is using BEMIO to post-process the outputs of a BEM code.
+The most common way of creating a ``*.h5`` file is using BEMIO to post-process the outputs of a BEM code.
 This requires a single BEM solution that contains all hydrodynamic bodies and accounts for body interactions.
 Some cases in which you might want to create your own h5 file are:
 
@@ -168,21 +168,22 @@ Some cases in which you might want to create your own h5 file are:
 * Combine results from different BEM files and have the coefficient matrices be the correct size for the new total number of bodies.
 * Modify the BEM results for any other reason.
 
-MATLAB and Python have functions to read and write *h5* files easily.
-WEC-Sim includes three functions to help you create your own *h5* file. 
-These are found under **/source/functions/writeH5/**.
-The header comments of each function explain the inputs and outputs. An example of how to use it is shown in the `WEC-Sim Applications <https://github.com/WEC-Sim/WEC-Sim_Applications/tree/master/write_hdf5>`_ repository.
+MATLAB and Python have functions to read and write ``*.h5`` files easily.
+WEC-Sim includes three functions to help you create your own ``*.h5`` file. 
+These are found under ``$Source/functions/writeH5/``.
+The header comments of each function explain the inputs and outputs. 
+An example of how to use ``write_hdf5``  is provided in the `WEC-Sim Applications <https://github.com/WEC-Sim/WEC-Sim_Applications>`_ repository.
 The first step is to have all the required coefficients and properties in Matlab in the correct format.
-Then the functions provided are used to create and populate the *h5* file. 
+Then the functions provided are used to create and populate the ``*.h5`` file. 
 
 .. Note::
 
-	The new *h5* file will not have the impulse response function coefficients required for the convolution integral.
-	BEMIO is currently being modified to allow for reading an existing *h5* file.
-	This would allow you to read in the *h5* file you created, calculate the required impulse response functions and state space coefficients, and re-write the *h5* file.
+	The new ``*.h5`` file will not have the impulse response function coefficients required for the convolution integral.
+	BEMIO is currently being modified to allow for reading an existing ``*.h5`` file.
+	This would allow you to read in the ``*.h5`` file you created, calculate the required impulse response functions and state space coefficients, and re-write the ``*.h5`` file.
 
 .. Note::
 
-	BEMIO is currently being modified to allow for the combination of different *h5* files into a single file.
+	BEMIO is currently being modified to allow for the combination of different ``*.h5`` files into a single file.
 	This would allow for the BEM of different bodies to be done separately, and BEMIO would take care of making the coefficient matrices the correct size.
 	

@@ -5,7 +5,7 @@ Tutorials
 This section provides step-by-step instructions on how to run the WEC-Sim code using the provided Tutorials (located in the WEC-Sim ``$Source/tutorials`` directory). 
 Two WEC-Sim tutorials are provided: the Two-Body Point Absorber (RM3), and the Oscillating Surge WEC (OSWEC). 
 For information about the implementation of the WEC-Sim code refer to the `Code Structure <http://wec-sim.github.io/WEC-Sim/code_structure.html>`_ section. 
-For informational about additional WEC-Sim features, refer to the `Advanced Features <http://wec-sim.github.io/WEC-Sim/features.html>`_ section. 
+For informational about additional WEC-Sim features, refer to the `Advanced Features <http://wec-sim.github.io/WEC-Sim/advanced_features.html>`_ section. 
 
 
 Two-Body Point Absorber (RM3)
@@ -18,7 +18,7 @@ Device Geometry
 The RM3 two-body point absorber WEC has been characterized both numerically and experimentally as a result of the DOE-funded `Reference Model Project <http://energy.sandia.gov/rmp>`_. 
 The RM3 is a two-body point absorber consisting of a float and a reaction plate. Full-scale dimensions of the RM3 and its mass properties are shown below.
 
-.. figure:: _static/RM3_Geom.jpg
+.. figure:: _static/RM3_Geom.png
    :width: 400pt
 
 +-------------------------------------------------+
@@ -65,7 +65,7 @@ Run Tutorial
 
 **Step 1: WEC-Sim Pre-Processing**
 
-Hydrodynamic data for each RM3 body must be parsed into a HDF5 file using the `BEMIO <http://wec-sim.github.io/bemio/>`_ hydrodynamic data format. The RM3 HDF5 file (``rm3.h5``) was created based on a WAMIT run of the RM3 geometry. The RM3 WAMIT ``rm3.out`` file and the BEMIO ``readWAMIT.py`` script were used to generate the HDF5 are included in the ``/hydroData`` directory.
+Hydrodynamic data for each RM3 body must be parsed into a HDF5 file using the `BEMIO <http://wec-sim.github.io/WEC-Sim/advanced_features.html#bemio>`_ hydrodynamic data format. The RM3 HDF5 file (``rm3.h5``) was created based on a WAMIT run of the RM3 geometry. The RM3 WAMIT ``rm3.out`` file and the BEMIO ``readWAMIT.py`` script were used to generate the HDF5 are included in the ``/hydroData`` directory.
 
 
 **Step 2: Build WEC-Sim model in Simulink**
@@ -133,12 +133,14 @@ The input file for the RM3 tutorial includes several different wave cases:
 
 .. Note::
 
-	If state space is used (``simu.ssCalc=1``), the user needs to make sure the state space hydrodynamic coefficients are included in the ``rm3.hd5`` file. 
+	If state space is used (``simu.ssCalc=1``), the user needs to make sure the state space hydrodynamic coefficients are included in the ``rm3.h5`` file. 
 
   
 Oscillating Surge WEC (OSWEC)
 ----------------------------------
-This section describes the application of the WEC-Sim code to model the Oscillating Surge WEC (OSWEC). This example application is provided in the WEC-Sim code release in the `tutorials <https://github.com/WEC-Sim/WEC-Sim/tree/master/tutorials>`_ directory.
+This section describes the application of the WEC-Sim code to model the Oscillating Surge WEC (OSWEC). 
+This example application is provided in the WEC-Sim code release in the ``$Source/tutorials`` directory.
+
 
 Device Geometry
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
@@ -180,7 +182,7 @@ Run Tutorial
 
 **Step 1: WEC-Sim Pre-Processing**
 
-Hydrodynamic data for each OSWEC body must be parsed into a HDF5 file using the `BEMIO <http://wec-sim.github.io/bemio/>`_ hydrodynamic data format. The OSWEC HDF5 file (``oswec.h5``) was created based on a WAMIT run of the RM3 geometry. The OSWEC WAMIT ``oswec.out`` file and the BEMIO ``readWAMIT.py`` script used to generate the HDF5 are included in the ``/hydroData`` directory.
+Hydrodynamic data for each OSWEC body must be parsed into a HDF5 file using the `BEMIO <http://wec-sim.github.io/WEC-Sim/advanced_features.html#bemio>`_ hydrodynamic data format. The OSWEC HDF5 file (``oswec.h5``) was created based on a WAMIT run of the RM3 geometry. The OSWEC WAMIT ``oswec.out`` file and the BEMIO ``readWAMIT.py`` script used to generate the HDF5 are included in the ``/hydroData`` directory.
 
 **Step 2: Build WEC-Sim model in Simulink**
 

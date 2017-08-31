@@ -3,7 +3,20 @@
 Advanced Features
 ===========================
 This sections provides an overview of the advanced features of the WEC-Sim code that were not covered in the WEC-Sim
-`Tutorials <http://wec-sim.github.io/WEC-Sim/tutorials.html>`_ section.
+`Tutorials <http://wec-sim.github.io/WEC-Sim/tutorials.html>`_ section. Below is a doagram of some of the various WEC-Sim that can be used. This section provides information on how they can be turned on, and what they do. 
+
+.. codeFeatures:
+
+.. figure:: _static/codeFeatures.png
+   :width: 400pt
+   :align: center   
+    
+   ..
+
+   *WEC-Sim Advanced Features*
+
+
+
 
 
 .. BEMIO
@@ -24,7 +37,7 @@ WEC-Sim has the option to include the non-linear hydrostatic restoring and Froud
 
 	:code:`simu.nlHydro = 2`  
 	
-For more information, refer to the `non-linear hydrodynamics webinar <http://wec-sim.github.io/WEC-Sim/webinars.html#wec-sim-webinar-2-nonlinear-hydro-non-hydro-b2b>`_, and the `WEC-Sim Applications repository <https://github.com/WEC-Sim/WEC-Sim_Applications>`_ non-linear hydrodynamics example. 
+For more information, refer to the `non-linear hydrodynamics webinar <http://wec-sim.github.io/WEC-Sim/webinars.html#webinar-2-nonlinear-hydro-non-hydro-and-b2b>`_, and the `WEC-Sim Applications repository <https://github.com/WEC-Sim/WEC-Sim_Applications>`_ non-linear hydrodynamics example. 
 
 
 Non-Linear Settings
@@ -32,8 +45,8 @@ Non-Linear Settings
 	**simu.nlHydro**  - 
 	The nonlinear hydrodynamics option can be used by setting :code:`simu.nlHydro = 2` or :code:`simu.nlHydro = 1` in your WEC-Sim input file. Typically, :code:`simu.nlHydro = 2` is recommended if nonlinear hydrodynamic effects need to be used. Note that :code:`simu.nlHydro = 1` only considers the nonlinear restoring and Froude-Krylov forces based on the body position and mean wave elevation. 
 
-	**simu.dtFeNonlin** - 
-	An option available to reduce the nonlinear simulation time is to specify a nonlinear time step, :code:`simu.dtFeNonlin=N*simu.dt`, where N is number of increment steps. The nonlinear time step specifies the interval at which the nonlinear hydrodynamic forces are calculated. As the ratio of the nonlinear to system time step increases, the computation time is reduced, again, at the expense of the simulation accuracy.
+	**simu.dtNL** - 
+	An option available to reduce the nonlinear simulation time is to specify a nonlinear time step, :code:`simu.dtNL=N*simu.dt`, where N is number of increment steps. The nonlinear time step specifies the interval at which the nonlinear hydrodynamic forces are calculated. As the ratio of the nonlinear to system time step increases, the computation time is reduced, again, at the expense of the simulation accuracy.
 
 
 .. Note::
@@ -99,7 +112,7 @@ To use non-hydrodynamic bodies, the following bodyClass variable must be defined
 	:code:`body(i).nhBody = 1` 
 
 
-For more information, refer to the `non-hydro bodies webinar <http://wec-sim.github.io/WEC-Sim/webinars.html#wec-sim-webinar-2-nonlinear-hydro-non-hydro-b2b>`_, and the `WEC-Sim_Application repository <https://github.com/WEC-Sim/WEC-Sim_Applications>`_ non-hydro body example. 
+For more information, refer to the `non-hydro bodies webinar <http://wec-sim.github.io/WEC-Sim/webinars.html#webinar-2-nonlinear-hydro-non-hydro-and-b2b>`_, and the `WEC-Sim Applications repository <https://github.com/WEC-Sim/WEC-Sim_Applications>`_ non-hydro body example. 
 
 Body-To-Body Interactions
 ---------------------------------
@@ -111,7 +124,7 @@ To use body-to-body interactions, the following simulationClass variable must be
 
 	:code:`simu.b2b = 1`
 	
-For more information, refer to the `B2B webinar <http://wec-sim.github.io/WEC-Sim/webinars.html#wec-sim-webinar-2-nonlinear-hydro-non-hydro-b2b>`_, and the `WEC-Sim_Application repository <https://github.com/WEC-Sim/WEC-Sim_Applications>`_ B2B example.  	
+For more information, refer to the `B2B webinar <http://wec-sim.github.io/WEC-Sim/webinars.html#webinar-2-nonlinear-hydro-non-hydro-and-b2b>`_, and the `WEC-Sim Applications repository <https://github.com/WEC-Sim/WEC-Sim_Applications>`_ B2B example.  	
 
 .. Note::
 
@@ -119,8 +132,7 @@ For more information, refer to the `B2B webinar <http://wec-sim.github.io/WEC-Si
 
 Time-Step Features
 ------------------
-The default WEC-Sim solver is 'ode4'. Refer to the `WEC-Sim_Application repository <https://github.com/WEC-Sim/WEC-Sim_Applications>`_ non-linear hydro example for a comparisons between 'ode4' to 'ode45'.  	
-
+The default WEC-Sim solver is 'ode4'. Refer to the `WEC-Sim Applications repository <https://github.com/WEC-Sim/WEC-Sim_Applications>`_ non-linear hydro example for a comparisons between 'ode4' to 'ode45'.  	
 
 Fixed Time-Step (ode4)
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
@@ -139,6 +151,15 @@ Variable Time-Step (ode45)
 
 	* Numerical solver: :code:`simu.solver='ode45'` 
 	* Max time-step: :code:`simu.dt` 
+
+
+Irregular Wave Features
+-------------------------
+The default frequency discretization for WEC-Sim is to use 1001 wave frequencies. This ensures that there are a sufficient number of bins to accurately generate teh desired sea state. However, this means that the hydrodynamic forces are calculated at every time-step for each of the 1001 frequency bins. In order to speed up the irregular wave simulation time, irregular sea states may now be generated using **Equal Energy Bins**. 
+
+To use equal energy bins, the following waveClass variable must be defined in the WEC-Sim input file:
+
+	:code:`waves.freqDisc = 'EqualEnergy';`
 
 
 
@@ -188,7 +209,7 @@ WEC-Sim allows users to perform batch runs by typing ``wecSimMCR`` into the MATL
 	**Option 3.**  Provide a MCR case *.mat* file, and specify the filename in the WEC-Sim input file, example:
 	``simu.mcrCaseFile = "<File name>.mat"``
 
-For more information, refer to the `MCR webinar <http://wec-sim.github.io/WEC-Sim/webinars.html#wec-sim-webinar-1-bemio-mcr>`_, and the `WEC-Sim_Application repository <https://github.com/WEC-Sim/WEC-Sim_Applications>`_ MCR example. 
+For more information, refer to the `MCR webinar <http://wec-sim.github.io/WEC-Sim/webinars.html#webinar-1-bemio-and-mcr>`_, and the `WEC-Sim Applications repository <https://github.com/WEC-Sim/WEC-Sim_Applications>`_ MCR example. 
 
 .. Note::
 
@@ -207,7 +228,7 @@ To do this, you would use the :code:`body(i).setInitDisp(...);`, :code:`constrai
 A description of the required input can be found in the method's header comments.
 Note that :code:`body(i).cg`, :code:`constraint(i).loc`, :code:`pto(i).loc`, and :code:`mooring.ref` must be defined prior to using the object's :code:`.setInitDisp` method.
 
-For more information, refer to the `WEC-Sim_Application repository <https://github.com/WEC-Sim/WEC-Sim_Applications>`_ IEA OES Task 10 example.
+For more information, refer to the `WEC-Sim Applications repository <https://github.com/WEC-Sim/WEC-Sim_Applications>`_ IEA OES Task 10 example.
 
 
 .. MoorDyn

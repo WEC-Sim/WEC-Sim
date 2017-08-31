@@ -1,7 +1,10 @@
 
 Visualization/Paraview
 ----------------------
-This section describes how to setup, output, and use Paraview files for visualizing a WEC-Sim simulation. This improves on SimMechanics's explorer by:
+This section describes how to setup, output, and use Paraview files for visualizing a WEC-Sim simulation. 
+For more information about using Paraview for visualization, refer to the `visualization webinar <http://wec-sim.github.io/WEC-Sim/webinars.html#webinar-4-mooring-and-visualization>`_, and the `WEC-Sim Applications repository <https://github.com/WEC-Sim/WEC-Sim_Applications>`_.
+
+Using Paraview visualization improves on SimMechanics's explorer by:
 
 * Visualization of the wave field
 * Visualization of the cell-by-cell non-linear hydrodynamic forces (when using non-linear hydro)
@@ -12,7 +15,8 @@ On the other hand the SimMechanics explorer shows the following information not 
 * Location of the center of gravity
 * Location of the different frames including PTO and Constraint frames
 
-Visualization with paraview requires many files to be written, which makes the WEC-Sim simulation take significantly more time, and makes the directory significantly larger. It should only be turned on when vizualisation is desired. The user also needs to have some familiarity with using Paraview.
+Visualization with paraview requires many files to be written, which makes the WEC-Sim simulation take significantly more time, and makes the directory significantly larger. 
+It should only be turned on when vizualisation is desired. The user also needs to have some familiarity with using Paraview.
 
 
 Getting Started - Installation

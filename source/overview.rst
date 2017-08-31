@@ -71,14 +71,14 @@ Hydrodynamic Data
 ~~~~~~~~~~~~~~~~~~~~
 The WEC-Sim code also requires a hydrodynamic data from a BEM soltuion in the form of a ``*.h5`` file.
 This ``*.h5`` hydrodynamic data file can be generated using the BEMIO pre-processor.
-BEMIO (Boundary Element Method Input/Output) is a code developed by the WEC-Sim team to process BEM output files from WAMIT, NEMOH, and AQWA into a data structure than can be read by WEC-Sim. For more information about the BEMIO pre-processor, refer to the `BEMIO <http://wec-sim.github.io/WEC-Sim/features.html#bemio>`_ section.
+BEMIO (Boundary Element Method Input/Output) is a code developed by the WEC-Sim team to process BEM output files from WAMIT, NEMOH, and AQWA into a data structure than can be read by WEC-Sim. For more information about the BEMIO pre-processor, refer to the `BEMIO <http://wec-sim.github.io/WEC-Sim/advanced_features.html#bemio>`_ section.
 
 Geometry File
 ~~~~~~~~~~~~~~
 The WEC-Sim code also requires a geometry file in the form of a ``*.stl`` file. 
 This ``*.stl`` file is used by the WEC-Sim code to generate the Simscape Explorer visualization, and by non-linear hydrodynamics to determine the instantaneous wetted surface at each time step. 
 When running WEC-Sim with linear hydrodynamics, the ``*.stl`` is only used for visualization. 
-However, when running WEC-Sim with non-linear hydrodynamics, the quality of the ``*.stl`` mesh is critical, refer to the `Non-Linear Hydrodynamics <http://wec-sim.github.io/WEC-Sim/features.html#non-linear-hydrodynamics>`_ section for more information. 
+However, when running WEC-Sim with non-linear hydrodynamics, the quality of the ``*.stl`` mesh is critical, refer to the `Non-Linear Hydrodynamics <http://wec-sim.github.io/WEC-Sim/advanced_features.html#non-linear-hydrodynamics>`_ section for more information. 
 
 
 Running WEC-Sim
@@ -90,8 +90,8 @@ Step 1: WEC-Sim Pre-Processing
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 In the pre-processing step, users need to create the WEC geometry, run a BEM code to calculate the hydrodynamic coefficients, and convert the hydrodynamic coefficients into the ``*.h5`` format for WEC-Sim to read:
 
-* **WEC Geometry**: Create 3D models of the WEC geometry and generate a meshes for each body. Export the WEC geometry file to a ``*.stl`` format. ``*.stl`` files are used to visualize the WEC response in Simscape Explorer, and they are used for `Non-Linear Hydrodynamics <http://wec-sim.github.io/WEC-Sim/features.html#non-linear-hydrodynamics>`_.
-* **Hydrodynamic Data**: WEC-Sim requires frequency-domain hydrodynamic coefficients (e.g. added mass, radiation damping, and wave excitation) in the form of a ``*.h5`` file. The hydrodynamic coefficients for each body may be generated using a boundary element method (BEM) code and parsed into a ``*.h5`` data structure using `BEMIO <http://wec-sim.github.io/WEC-Sim/features.html#bemio>`_. BEMIO was developed by the WEC-Sim team to parse BEM solutions from WAMIT, NEMOH and AQWA into the format required by WEC-Sim. 
+* **WEC Geometry**: Create 3D models of the WEC geometry and generate a meshes for each body. Export the WEC geometry file to a ``*.stl`` format. ``*.stl`` files are used to visualize the WEC response in Simscape Explorer, and they are used for `Non-Linear Hydrodynamics <http://wec-sim.github.io/WEC-Sim/advanced_features.html#non-linear-hydrodynamics>`_.
+* **Hydrodynamic Data**: WEC-Sim requires frequency-domain hydrodynamic coefficients (e.g. added mass, radiation damping, and wave excitation) in the form of a ``*.h5`` file. The hydrodynamic coefficients for each body may be generated using a boundary element method (BEM) code and parsed into a ``*.h5`` data structure using `BEMIO <http://wec-sim.github.io/WEC-Sim/advanced_features.html#bemio>`_. BEMIO was developed by the WEC-Sim team to parse BEM solutions from WAMIT, NEMOH and AQWA into the format required by WEC-Sim. 
 
 .. Note::
 	* WEC-Sim requires that all hydrodynamic coefficients must be given at the center of gravity for each body. 
