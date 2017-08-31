@@ -19,11 +19,11 @@
 
 %% Load Data
 cd regular
-load('regular.mat')       % Load WEC-Sim Run Data
+load('regoutput_org.mat')       % Load WEC-Sim Run Data
 cd .. ; cd regularCIC
-load('regularCIC.mat')    % Load WEC-Sim Run Data
+load('regCICoutput_org.mat')    % Load WEC-Sim Run Data
 cd .. ; cd regularSS
-load('regularSS.mat')     % Load WEC-Sim Run Data
+load('regssoutput_org.mat')     % Load WEC-Sim Run Data
 cd .. 
 
 fprintf('\nRegular wave with sinusoidal assumption')
