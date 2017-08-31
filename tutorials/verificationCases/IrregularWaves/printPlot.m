@@ -18,9 +18,9 @@
 % irregular waves.
 
 cd irregularCIC
-load('irregularCIC.mat')       % Load WEC-Sim Run Data
+load('irrCICoutput_org.mat')       % Load WEC-Sim Run Data
 cd .. ; cd irregularSS
-load('irregularSS.mat')        % Load WEC-Sim Run Data
+load('irrSSoutput_org.mat')        % Load WEC-Sim Run Data
 cd ..
 
 fprintf('\nIrregular wave with convolution Integral')

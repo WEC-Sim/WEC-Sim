@@ -2,7 +2,6 @@
 
 %Plot wave surface elevation
 waves.plotEta(simu.rampTime);
-waves.plotSpectrum();
 
 %Plot heave response for body 1
 output.plotResponse(1,3);
