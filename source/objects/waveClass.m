@@ -99,7 +99,7 @@ classdef waveClass<handle
             hold on
             line([wp,wp],[0,max(obj.Sf)],'Color','k')
             xlim([0 max(obj.w)])  
-            title(['"' obj.spectrumType, '", Tp = ' num2str(TpTest) ' (s), '  'Hs = ' num2str(HsTest), ' (m)'])    
+            title([obj.spectrumType, ', T_p = ' num2str(TpTest) ' (s), '  'H_s = ' num2str(HsTest), ' (m)'])    
             xlabel('Frequency (rad/s)')
             ylabel('Spectrum (m^2-s/rad)');                        
         end
@@ -395,10 +395,17 @@ classdef waveClass<handle
             Tp = obj.T;
             Hs = obj.H;
             switch obj.spectrumType
+                case 'PM' % Pierson-Moskowitz Spectrum from Tucker and Pitt (2001)
+                    B_PM = (5/4)*(1/Tp)^(4);
+                    A_PM = g^2*(2*pi)^(-4);
+                    S_f_temp = (A_PM*freq.^(-5).*exp(-B_PM*freq.^(-4)));
+                    alpha_PM = Hs^(2)/16/trapz(freq,S_f_temp);
+                    obj.Sf = alpha_PM*S_f_temp./(2*pi);                              % Wave Spectrum [m^2-s/rad] for 'Traditional'
+                    S_f = obj.Sf*2*pi;                                          % Wave Spectrum [m^2-s]                
                 case 'BS' % Bretschneider Sprectrum from Tucker and Pitt (2001)
-                    B = (1.057/Tp)^4;
-                    A_irreg = B*(Hs/2)^2;
-                    S_f = (A_irreg*freq.^(-5).*exp(-B*freq.^(-4)));             % Wave Spectrum [m^2-s]
+                    B_BS = (1.057/Tp)^4;
+                    A_BS = B_BS*(Hs/2)^2;
+                    S_f = (A_BS*freq.^(-5).*exp(-B_BS*freq.^(-4)));             % Wave Spectrum [m^2-s]
                     obj.Sf = S_f./(2*pi);                                       % Wave Spectrum [m^2-s/rad] for 'Traditional'
                 case 'JS' % JONSWAP Spectrum from Hasselmann et. al (1973)
                     [r,~] = size(freq);
@@ -412,18 +419,11 @@ classdef waveClass<handle
                     Gf = zeros(size(freq));
                     Gf(lind) = gamma.^exp(-(freq(lind)-fp).^2/(2*siga^2*fp^2));
                     Gf(hind) = gamma.^exp(-(freq(hind)-fp).^2/(2*sigb^2*fp^2));
-                    obj.Sf = g^2*(2*pi)^(-4)*freq.^(-5).*exp(-(5/4).*(freq/fp).^(-4));  
-                    Amp = Hs^(2)/16/trapz(freq,obj.Sf.*Gf);
-                    S_f = Amp*obj.Sf.*Gf;                                       % Wave Spectrum [m^2-s]
+                    Sf_temp = g^2*(2*pi)^(-4)*freq.^(-5).*exp(-(5/4).*(freq/fp).^(-4));  
+                    alpha_JS = Hs^(2)/16/trapz(freq,Sf_temp.*Gf);
+                    S_f = alpha_JS*Sf_temp.*Gf;                                 % Wave Spectrum [m^2-s]
                     obj.Sf = S_f./(2*pi);                                       % Wave Spectrum [m^2-s/rad] for 'Traditional'
                     freq = freq';
-                case 'PM' % Pierson-Moskowitz Spectrum from Tucker and Pitt (2001)
-                    B = (5/4)*(1/Tp)^(4);
-                    A_irreg = g^2*(2*pi)^(-4);
-                    S_f = (A_irreg*freq.^(-5).*exp(-B*freq.^(-4)));
-                    alpha = Hs^(2)/16/trapz(freq,S_f);
-                    obj.Sf = alpha*S_f./(2*pi);                                 % Wave Spectrum [m^2-s/rad] for 'Traditional'
-                    S_f = obj.Sf*2*pi;                                          % Wave Spectrum [m^2-s]
                 case 'spectrumImport' % Imported Wave Spectrum
                     data = dlmread(obj.spectrumDataFile);
                     freq_data = data(1,:);

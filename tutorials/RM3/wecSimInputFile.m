@@ -24,6 +24,13 @@ waves.T = 8;                            % Wave Period [s]
 % waves.T = 8;                            % Peak Period [s]
 % waves.spectrumType = 'PM';              % Specify Wave Spectrum Type
 
+% % Irregular Waves using JS Spectrum with Equal Energy
+% waves = waveClass('irregular');         % Initialize Wave Class and Specify Type
+% waves.H = 2.5;                          % Significant Wave Height [m]
+% waves.T = 8;                            % Peak Period [s]
+% waves.spectrumType = 'JS';              % Specify Wave Spectrum Type
+% waves.freqDisc = 'EqualEnergy';
+
 % % Irregular Waves using BS Spectrum with State Space Calculation
 % waves = waveClass('irregular');         % Initialize Wave Class and Specify Type
 % waves.H = 2.5;                          % Significant Wave Height [m]
