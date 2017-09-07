@@ -39,11 +39,11 @@ waves.T = 8;                            % Wave Period [s]
 % simu.ssCalc = 1;                        % Turn on State Space
 
 % % Irregular Waves with imported spectrum
-% waves = waveClass('spectrumImport');    %Create the Wave Variable and Specify Type
+% waves = waveClass('spectrumImport');    % Create the Wave Variable and Specify Type
 % waves.spectrumDataFile = 'ndbcBuoyData.txt';  %Name of User-Defined Spectrum File [2,:] = [omega, Sf]
 
 % % Waves with imported wave elevation time-history  
-% waves = waveClass('etaImport');     %Create the Wave Variable and Specify Type
+% waves = waveClass('etaImport');         % Create the Wave Variable and Specify Type
 % waves.etaDataFile = 'umpqua46229_6_2008.mat'; % Name of User-Defined Time-Series File [:,2] = [time, wave_elev]
 
 %% Body Data
@@ -51,7 +51,7 @@ waves.T = 8;                            % Wave Period [s]
 body(1) = bodyClass('hydroData/rm3.h5');      
     %Create the body(1) Variable, Set Location of Hydrodynamic Data File 
     %and Body Number Within this File.   
-body(1).geometryFile = 'geometry/float.stl';    %Location of Geomtry File
+body(1).geometryFile = 'geometry/float.stl';    % Location of Geomtry File
 body(1).mass = 'equilibrium';                   
     %Body Mass. The 'equilibrium' Option Sets it to the Displaced Water 
     %Weight.
