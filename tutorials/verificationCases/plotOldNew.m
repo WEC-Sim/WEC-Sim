@@ -46,7 +46,7 @@ a=text(10,1.5,str1);set(a,'FontSize',12)
 a=text(10,1.2,str2);set(a,'FontSize',12)
 b=get(n(1),'LineWidth')+1;
 set(n(1),'LineWidth',b)
-xlim([0 150])
+xlim([0 200])
 ylim([-2 2])
 
 subplot(2,3,4)
@@ -58,7 +58,7 @@ a=get(m(1),'LineWidth')+1;
 set(m(1),'LineWidth',a)
 xlabel('time(s)')
 ylabel('Heave(m)')
-xlim([100 150])
+xlim([100 200])
 ylim([-2 2])
 
 %Second Column: Body 2 Heave
@@ -74,7 +74,7 @@ a=text(10,0.18,str1);set(a,'FontSize',12)
 a=text(10,0.15,str2);set(a,'FontSize',12)
 b=get(n(1),'LineWidth')+1;
 set(n(1),'LineWidth',b)
-xlim([0 150])
+xlim([0 200])
 ylim([-0.2 0.2])
 
 subplot(2,3,5)
@@ -86,7 +86,7 @@ a=get(m(1),'LineWidth')+1;
 set(m(1),'LineWidth',a)
 xlabel('time(s)')
 ylabel('Heave(m)')
-xlim([100 150])
+xlim([100 200])
 ylim([-0.2 0.2])
 
 %Third Column: Relative Heave
@@ -102,7 +102,7 @@ a=text(10,1.5,str1);set(a,'FontSize',12)
 a=text(10,1.2,str2);set(a,'FontSize',12)
 b=get(n(1),'LineWidth')+1;
 set(n(1),'LineWidth',b)
-xlim([0 150])
+xlim([0 200])
 ylim([-2 2])
 l=legend('WEC-Sim Org','WEC-Sim New');
 set(l,'Position',[0.92 0.90 0.07 0.07],'Units','normalized',...
@@ -117,7 +117,7 @@ a=get(m(1),'LineWidth')+1;
 set(m(1),'LineWidth',a)
 xlabel('time(s)')
 ylabel('Heave(m)')
-xlim([100 150])
+xlim([100 200])
 ylim([-2 2])
 
 end

@@ -30,7 +30,7 @@ classdef waveClass<handle
                                              'numPointsX', 50, ...              % Visualization number of points in x direction.
                                              'numPointsY', 50)                  % Visualization number of points in y direction.
         statisticsDataLoad          = [];                                   % File name to load wave statistics data for wecSimMCR
-        freqDisc                    = 'Traditional'                         % Method of frequency discretization for irregular waves. Options for this variable are 'EqualEnergy' or 'Traditional'. (default = 'EqualEnergy').
+        freqDisc                    = 'EqualEnergy'                         % Method of frequency discretization for irregular waves. Options for this variable are 'EqualEnergy' or 'Traditional'. (default = 'EqualEnergy').
     end
     
     properties (SetAccess = 'private', GetAccess = 'public')%internal
