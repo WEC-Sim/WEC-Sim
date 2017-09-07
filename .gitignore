@@ -16,6 +16,7 @@ $ cat .gitignore
 *.DS_Store
 *.dvi
 *.exp
+*.fig
 *.glg
 *.glo
 *.gls
@@ -60,6 +61,11 @@ $ cat .gitignore
 !/tutorials/verificationCases/RegularWaves/*.mat
 !/tutorials/verificationCases/IrregularWaves/*.mat
 /tutorials/BEMIO/**/*.h5
+!/tutorials/verificationCases/IrregularWaves/irregularSS/irregularSS_org.mat
+!/tutorials/verificationCases/IrregularWaves/irregularCIC/irregularCIC_org.mat
+!/tutorials/verificationCases/RegularWaves/regular/regular_org.mat
+!/tutorials/verificationCases/RegularWaves/regularCIC/regularCIC_org.mat
+!/tutorials/verificationCases/RegularWaves/regularSS/regularSS_org.mat
 
 # moorDyn
 source/functions/moorDyn/*
