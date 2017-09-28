@@ -136,31 +136,53 @@ The default WEC-Sim solver is 'ode4'. Refer to the `WEC-Sim Applications reposit
 
 Fixed Time-Step (ode4)
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-	When running WEC-Sim with a fixed time-step, 100-200 time-steps per wave period is recommended to provide accurate hydrodynamic force calculations (ex: simu.dt = T/100, where T is wave periods). However, a smaller time-step may be required (such as when coupling WEC-Sim with MoorDyn or PTO-Sim). To reduce the required WEC-Sim simulation time, a different time-step  may be specified for nonlinear hydrodynamics and for convolution integral calculations. For all simulations, the time-step should be chosen based on numerical stability and a convergence study should be performed.
+When running WEC-Sim with a fixed time-step, 100-200 time-steps per wave period is recommended to provide accurate hydrodynamic force calculations (ex: simu.dt = T/100, where T is wave periods). However, a smaller time-step may be required (such as when coupling WEC-Sim with MoorDyn or PTO-Sim). To reduce the required WEC-Sim simulation time, a different time-step  may be specified for nonlinear hydrodynamics and for convolution integral calculations. For all simulations, the time-step should be chosen based on numerical stability and a convergence study should be performed.
 
-	The following variables may be changed in the simulationClass (where N is number of increment steps, default: N=1):
+The following variables may be changed in the simulationClass (where N is number of increment steps, default: N=1):
 
-	* Fixed time-step: :code:`simu.dt` 
-	* Output time-step: :code:`simu.dtOut` 
-	* Nonlinear hydrodynamics time-step: :code:`simu.dtFeNonlin=N*simu.dt` 
-	* Convolution integral time-step: :code:`simu.dtCITime=N*simu.dt` 	
+* Fixed time-step: :code:`simu.dt` 
+* Output time-step: :code:`simu.dtOut` 
+* Nonlinear hydrodynamics time-step: :code:`simu.dtFeNonlin=N*simu.dt` 
+* Convolution integral time-step: :code:`simu.dtCITime=N*simu.dt` 	
 
 Variable Time-Step (ode45)
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-	To run WEC-Sim with a variable time-step, the following variables must be defined in the simulationClass:
+To run WEC-Sim with a variable time-step, the following variables must be defined in the simulationClass:
 
-	* Numerical solver: :code:`simu.solver='ode45'` 
-	* Max time-step: :code:`simu.dt` 
+* Numerical solver: :code:`simu.solver='ode45'` 
+* Max time-step: :code:`simu.dt` 
 
 
-Irregular Wave Features
+Wave Features
 -------------------------
-The default frequency discretization for WEC-Sim is to use 1001 wave frequencies. This ensures that there are a sufficient number of bins to accurately generate teh desired sea state. However, this means that the hydrodynamic forces are calculated at every time-step for each of the 1001 frequency bins. In order to speed up the irregular wave simulation time, irregular sea states may now be generated using **Equal Energy Bins**. 
+This section provides an overview of some features included in WEC-Sim's wave implementation. For more information, refer to `Wave Class <http://wec-sim.github.io/WEC-Sim/code_structure.html#wave-class>`_. 
+
+Irregular Wave Binning
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+The default frequency discretization for WEC-Sim is to use 1001 wave frequencies. This ensures that there are a sufficient number of bins to accurately generate teh desired sea state. However, this means that the hydrodynamic forces are calculated at every time-step for each of the 1001 frequency bins. In order to speed up the irregular wave simulation time, irregular sea states may now be generated using ``EqualEnergy`` bins. 
 
 To use equal energy bins, the following waveClass variable must be defined in the WEC-Sim input file:
 
 	:code:`waves.freqDisc = 'EqualEnergy';`
 
+
+Wave Directionality
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+WEC-Sim has the ability to model waves with various angles of incidence. To define wave directionality in WEC-Sim, the following waveClass variable must be defined in the WEC-Sim input file:
+
+	:code:`waves.waveDir = 0;`  		
+	
+The default incident wave direction has a heading of 0 (Default = 0), to change the heading ``waves.waveDir`` must be defined in [deg].
+	
+
+
+Irregular Waves with Seeded Phase
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+In order to reproduce the same time-series every time an irregular wave simualtion is run, the following waveClass variable must be defined in the WEC-Sim input file:
+
+	:code:`waves.randPreDefined = 0;`
+	
+By setting ``waves.randPreDefined``  equal to 1,2,3,...,etc, the random wave phase used by WEC-Sim is seeded, thus producing the same random value for each simulation. 
 
 
 Body Mass and Geometry Features
