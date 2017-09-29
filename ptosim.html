@@ -199,9 +199,8 @@ For more information on how PTO-Sim works, refer to [So et al., 2015], and the <
 <li>Datasheet for the rotary generator: <code class="docutils literal"><span class="pre">table</span></code> (<code class="docutils literal"><span class="pre">table.eff</span></code>, <code class="docutils literal"><span class="pre">table.Tpu</span></code>,and <code class="docutils literal"><span class="pre">table.omegapu</span></code>)</li>
 <li>For the hydraulic PTOs: <code class="docutils literal"><span class="pre">variableMotorVolume.m</span></code></li>
 </ul>
-<div class="section" id="simulink-model">
-<h4><strong>Simulink Model</strong><a class="headerlink" href="#simulink-model" title="Permalink to this headline">¶</a></h4>
-<p>The Simulink model can be built as following:</p>
+<p><strong>Simulink Model</strong>
+The Simulink model can be built as following:</p>
 <ul class="simple">
 <li>Step 1: Navigate to the RM3 tutorial <code class="docutils literal"><span class="pre">$Source/tutorals/RM3</span></code>.</li>
 <li>Step 2: Open <code class="docutils literal"><span class="pre">RM3.slx</span></code> file and replace Translational PTO (local Z) with Translational PTO UD Force (Local Z).</li>
@@ -258,18 +257,13 @@ For more information on how PTO-Sim works, refer to [So et al., 2015], and the <
 <div class="figure">
 <a class="reference internal image-reference" href="_images/HYDPTOSIM.PNG"><img alt="_images/HYDPTOSIM.PNG" src="_images/HYDPTOSIM.PNG" style="width: 400pt;" /></a>
 </div>
-</div>
-<div class="section" id="input-file">
-<h4><strong>Input File</strong><a class="headerlink" href="#input-file" title="Permalink to this headline">¶</a></h4>
-<p>In this section, PTO-Sim input file (<code class="docutils literal"><span class="pre">ptoSimInputFile.m</span></code>) is defined and categorized into sections such as piston, rectifying check valve, high pressure accumulator, hydraulic motor, low pressure accumulator, and rotary generator.</p>
+<p><strong>Input File</strong>
+In this section, PTO-Sim input file (<code class="docutils literal"><span class="pre">ptoSimInputFile.m</span></code>) is defined and categorized into sections such as piston, rectifying check valve, high pressure accumulator, hydraulic motor, low pressure accumulator, and rotary generator.</p>
 <div class="figure">
 <a class="reference internal image-reference" href="_images/PTOSIMINPUTFILE.PNG"><img alt="_images/PTOSIMINPUTFILE.PNG" src="_images/PTOSIMINPUTFILE.PNG" style="width: 400pt;" /></a>
 </div>
-</div>
-<div class="section" id="simulation-and-postprocessing">
-<h4><strong>Simulation and Postprocessing</strong><a class="headerlink" href="#simulation-and-postprocessing" title="Permalink to this headline">¶</a></h4>
-<p>Simulation and postprocessing are the same process as described in WEC-Sim Simulation example above.</p>
-</div>
+<p><strong>Simulation and Postprocessing</strong>
+Simulation and postprocessing are the same process as described in WEC-Sim Simulation example above.</p>
 </div>
 <div class="section" id="rm3-with-direct-drive-pto">
 <h3>RM3 with Direct Drive PTO<a class="headerlink" href="#rm3-with-direct-drive-pto" title="Permalink to this headline">¶</a></h3>
@@ -277,9 +271,8 @@ For more information on how PTO-Sim works, refer to [So et al., 2015], and the <
 <div class="figure">
 <a class="reference internal image-reference" href="_images/MECHANICALPTO.PNG"><img alt="_images/MECHANICALPTO.PNG" src="_images/MECHANICALPTO.PNG" style="width: 400pt;" /></a>
 </div>
-<div class="section" id="id1">
-<h4><strong>Simulink Model</strong><a class="headerlink" href="#id1" title="Permalink to this headline">¶</a></h4>
-<p>Step 1 through 3 are the same as in <a class="reference internal" href="#rm3-with-hydraulic-pto">RM3 with hydraulic PTO</a>.</p>
+<p><strong>Simulink Model</strong>
+Step 1 through 3 are the same as in <a class="reference internal" href="#rm3-with-hydraulic-pto">RM3 with hydraulic PTO</a>.</p>
 <ul class="simple">
 <li>Step 4: Go inside PTO-Sim block and add one bus selector and one selector blocks. Only velocity is needed for this example.</li>
 </ul>
@@ -299,11 +292,8 @@ For more information on how PTO-Sim works, refer to [So et al., 2015], and the <
 <div class="figure">
 <a class="reference internal image-reference" href="_images/DDLINEARGENPTOSIM.PNG"><img alt="_images/DDLINEARGENPTOSIM.PNG" src="_images/DDLINEARGENPTOSIM.PNG" style="width: 400pt;" /></a>
 </div>
-</div>
-<div class="section" id="input-file-simulation-and-postprocessing">
-<h4><strong>Input File, Simulation, and Postprocessing</strong><a class="headerlink" href="#input-file-simulation-and-postprocessing" title="Permalink to this headline">¶</a></h4>
-<p>The same as <a class="reference internal" href="#rm3-with-hydraulic-pto">RM3 with hydraulic PTO</a>.</p>
-</div>
+<p><strong>Input File, Simulation, and Postprocessing</strong>
+The same as <a class="reference internal" href="#rm3-with-hydraulic-pto">RM3 with hydraulic PTO</a>.</p>
 </div>
 </div>
 <div class="section" id="tutorial-oswec-with-pto-sim">
@@ -318,13 +308,10 @@ For more information on how PTO-Sim works, refer to [So et al., 2015], and the <
 <div class="figure">
 <a class="reference internal image-reference" href="_images/MoTIONMECHANISM.PNG"><img alt="_images/MoTIONMECHANISM.PNG" src="_images/MoTIONMECHANISM.PNG" style="width: 400pt;" /></a>
 </div>
-<div class="section" id="modeling-of-oswec-with-hydraulic-pto">
-<h4><strong>Modeling of OSWEC with Hydraulic PTO</strong><a class="headerlink" href="#modeling-of-oswec-with-hydraulic-pto" title="Permalink to this headline">¶</a></h4>
-<p>The same as <a class="reference internal" href="#rm3-with-hydraulic-pto">RM3 with hydraulic PTO</a>.</p>
-</div>
-<div class="section" id="id3">
-<h4><strong>Simulink Model</strong><a class="headerlink" href="#id3" title="Permalink to this headline">¶</a></h4>
-<p>The Simulink model can be built as following:</p>
+<p><strong>Modeling of OSWEC with Hydraulic PTO</strong>
+The same as <a class="reference internal" href="#rm3-with-hydraulic-pto">RM3 with hydraulic PTO</a>.</p>
+<p><strong>Simulink Model</strong>
+The Simulink model can be built as following:</p>
 <ul class="simple">
 <li>Step 1: Copy OSWEC tutorial folder to get started  <code class="docutils literal"><span class="pre">$Source\tutorials\OSWEC</span></code>.</li>
 <li>Step 2: Open <code class="docutils literal"><span class="pre">OSWEC.slx</span></code> file and replace Rotary PTO (Local RY) with Rotational PTO UD Torque (Local RY).</li>
@@ -350,11 +337,8 @@ For more information on how PTO-Sim works, refer to [So et al., 2015], and the <
 <div class="figure">
 <a class="reference internal image-reference" href="_images/HYDPTOSIMOSWEC.PNG"><img alt="_images/HYDPTOSIMOSWEC.PNG" src="_images/HYDPTOSIMOSWEC.PNG" style="width: 400pt;" /></a>
 </div>
-</div>
-<div class="section" id="id4">
-<h4><strong>Input File, Simulation, and Postprocessing</strong><a class="headerlink" href="#id4" title="Permalink to this headline">¶</a></h4>
-<p>The same as <a class="reference internal" href="#rm3-with-hydraulic-pto">RM3 with hydraulic PTO</a>.</p>
-</div>
+<p><strong>Input File, Simulation, and Postprocessing</strong>
+The same as <a class="reference internal" href="#rm3-with-hydraulic-pto">RM3 with hydraulic PTO</a>.</p>
 </div>
 </div>
 <div class="section" id="other-pto-sim-tutorials">

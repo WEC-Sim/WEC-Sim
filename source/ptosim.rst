@@ -1,6 +1,6 @@
 
 Power Take-Off/PTO-Sim
-----------------------
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 PTO-Sim is the WEC-Sim module responsible for accurately modeling a WEC's conversion of mechanical power to electrical power. 
 While the PTO blocks native to WEC-Sim are modeled as a simple linear spring-damper systems, PTO-Sim is capable of modeling many power conversion chains (PCC) such as mechanical drivetrain and hydraulic drivetrain. 
 PTO-Sim is made of native Simulink blocks coupled with WEC-Sim, using WEC-Sim's user-defined PTO blocks, where the WEC-Sim response (relative displacement and velocity for linear motion and angular position and velocity for rotary motion) is the PTO-Sim input. 
@@ -12,12 +12,12 @@ The files for the PTO-Sim tutorials described in this section can be found in th
 
 
 Tutorial: RM3 with PTO-Sim
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
++++++++++++++++++++++++++++++++++
 This section describes how to use RM3 with PTO-Sim. Two tutorials will be given in this section: one for the RM3 with a hydraulic PTO (non-compressible and compressible) and another for the RM3 with a direct drive PTO.
 
 
 RM3 with Hydraulic PTO
-+++++++++++++++++++++++++++++++++
+^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 The hydraulic PTO example used in this section consists of a piston, a rectifying valve, a high pressure accumulator, a hydraulic motor coupled to a rotary generator, and a low pressure accumulator.   
 
 .. figure:: _static/HYDPHYMODEL.PNG
@@ -38,7 +38,6 @@ In this section, a step by step tutorial on how to set up and run the RM3 simula
 
 
 **Simulink Model**
-^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 The Simulink model can be built as following:
 
 * Step 1: Navigate to the RM3 tutorial ``$Source/tutorals/RM3``.
@@ -97,19 +96,17 @@ Position and velocity from selectors are used as inputs of compressible fluid pi
 
 
 **Input File**
-^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 In this section, PTO-Sim input file (``ptoSimInputFile.m``) is defined and categorized into sections such as piston, rectifying check valve, high pressure accumulator, hydraulic motor, low pressure accumulator, and rotary generator.
 
 .. figure:: _static/PTOSIMINPUTFILE.PNG
    :width: 400pt
 
 **Simulation and Postprocessing**
-^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 Simulation and postprocessing are the same process as described in WEC-Sim Simulation example above.
 
 
 RM3 with Direct Drive PTO
-+++++++++++++++++++++++++++++++++
+^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 A mechanical PTO is used in this example and is modeled as a direct drive linear generator. The main components of this example consist of magnets and a coil where the magnet assembly is attached to the heaving float and the coil is locacted inside the spar. As the float moves up and down, the magnet assembly creates a change in the magnetic field surrounding the spar that contains the coil: therefore, current is induced in the coil and electricity is generated.
 
 .. figure:: _static/MECHANICALPTO.PNG
@@ -117,7 +114,6 @@ A mechanical PTO is used in this example and is modeled as a direct drive linear
 
 
 **Simulink Model**
-^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 Step 1 through 3 are the same as in `RM3 with hydraulic PTO`_.
 
 * Step 4: Go inside PTO-Sim block and add one bus selector and one selector blocks. Only velocity is needed for this example.
@@ -137,18 +133,15 @@ Step 1 through 3 are the same as in `RM3 with hydraulic PTO`_.
    :width: 400pt
 
 **Input File, Simulation, and Postprocessing**
-^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 The same as `RM3 with hydraulic PTO`_.
 
 
 Tutorial: OSWEC with PTO-Sim
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-
++++++++++++++++++++++++++++++++++
 This section describes how to use OSWEC with PTO-Sim. The same process as described in `RM3 with PTO-Sim <http://wec-sim.github.io/WEC-Sim/features.html#tutorial-rm3-with-pto-sim>`_ ; however, since OSWEC is a rotary device, it takes torque as an input and a rotary to linear motion conversion block is needed. The tutorials can be found on the `WEC-Sim Applications <https://github.com/WEC-Sim/WEC-Sim_Applications>`_ repository (both for a crank and for a rod).
 
 OSWEC with Hydraulic PTO
-+++++++++++++++++++++++++++++++++
-
+^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 A hydraulic PTO or mechanical PTO can be used with OSWEC but for simplicity a hydraulic PTO will be used as an example.
 
 .. figure:: _static/OSWECPHYMODEL.PNG
@@ -158,13 +151,9 @@ A hydraulic PTO or mechanical PTO can be used with OSWEC but for simplicity a hy
    :width: 400pt
 
 **Modeling of OSWEC with Hydraulic PTO**
-^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
-
 The same as `RM3 with hydraulic PTO`_.
 
 **Simulink Model**
-^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
-
 The Simulink model can be built as following:
 
 * Step 1: Copy OSWEC tutorial folder to get started  ``$Source\tutorials\OSWEC``. 
@@ -191,12 +180,11 @@ The Simulink model can be built as following:
    :width: 400pt
 
 **Input File, Simulation, and Postprocessing**
-^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 The same as `RM3 with hydraulic PTO`_.
 
 
 Other PTO-Sim Tutorials
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+++++++++++++++++++++++++
 
 Other PTO-Sim tutorials that were not discussed above can be found on the `WEC-Sim Applications <https://github.com/WEC-Sim/WEC-Sim_Applications>`_ repository.
 

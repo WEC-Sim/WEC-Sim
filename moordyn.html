@@ -19,7 +19,7 @@
     </script>
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   
-  <title>Mooring/MoorDyn &mdash; WEC-Sim  documentation</title>
+  <title>Mooring Features &mdash; WEC-Sim  documentation</title>
   
 
   
@@ -151,7 +151,7 @@
     
       <li><a href="index.html">Docs</a> &raquo;</li>
         
-      <li>Mooring/MoorDyn</li>
+      <li>Mooring Features</li>
     
     
       <li class="wy-breadcrumbs-aside">
@@ -170,33 +170,34 @@
           <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
            <div itemprop="articleBody">
             
-  <div class="section" id="mooring-moordyn">
-<h1>Mooring/MoorDyn<a class="headerlink" href="#mooring-moordyn" title="Permalink to this headline">¶</a></h1>
+  <div class="section" id="mooring-features">
+<h1>Mooring Features<a class="headerlink" href="#mooring-features" title="Permalink to this headline">¶</a></h1>
 <p>Floating WEC systems are often connected to mooring lines to keep the device in position. WEC-Sim allows the user to model the mooring dynamics in the simulation by specifying the mooring matrix or coupling with MoorDyn. To include mooring connections, the user can use the mooring block (i.e., Mooring Matrix block or MoorDyn block) given in the WEC-Sim library under Moorings lib and connect it between the body and the Global reference frame.
 Refer the <a class="reference external" href="http://wec-sim.github.io/WEC-Sim/advanced_features.html#tutorial-rm3-with-moordyn">MoorDyn Tutorial</a> section, and the <a class="reference external" href="http://wec-sim.github.io/WEC-Sim/webinars.html#webinar-4-mooring-and-visualization">Mooring Webinar</a> for more information.</p>
 <p>MoorDyn is hosted on  a seperate <a class="reference external" href="https://github.com/WEC-Sim/moorDyn">MoorDyn repository</a>. It must be download seperately, and all files and folders should be placed in the <code class="docutils literal"><span class="pre">$Source/functions/moorDyn</span></code> directory.</p>
-<div class="section" id="using-mooring-matrix">
-<h2>Using Mooring Matrix<a class="headerlink" href="#using-mooring-matrix" title="Permalink to this headline">¶</a></h2>
+<div class="section" id="mooring-matrix">
+<h2>Mooring Matrix<a class="headerlink" href="#mooring-matrix" title="Permalink to this headline">¶</a></h2>
+<p>When the mooring matrix block is used, the user first needs to initiate the mooring class by setting <code class="code docutils literal"><span class="pre">mooring(i)</span> <span class="pre">=</span> <span class="pre">mooringClass('mooring</span> <span class="pre">name')</span></code> in the WEC-Sim input file (<code class="docutils literal"><span class="pre">wecSimInputFile.m</span></code>). Typically, the mooring connection location also need to be specified, <code class="code docutils literal"><span class="pre">mooring(i).ref</span> <span class="pre">=</span> <span class="pre">[1x3]</span></code> (the default connection location is <code class="docutils literal"><span class="pre">[0</span> <span class="pre">0</span> <span class="pre">0]</span></code>). The user can also define the mooring matrix properties in the WEC-Sim input file using:</p>
+<ul>
+<li><p class="first">Mooring stiffness matrix - <code class="code docutils literal"><span class="pre">mooring(i).matrix.k</span> <span class="pre">=</span> <span class="pre">[6x6]</span></code></p>
+</li>
+<li><p class="first">Mooring damping matrix - <code class="code docutils literal"><span class="pre">mooring(i).matrix.c</span> <span class="pre">=</span> <span class="pre">[6x6]</span></code></p>
+</li>
+<li><p class="first">Mooring pretension - <code class="code docutils literal"><span class="pre">mooring(i).matrix.preTension</span> <span class="pre">=</span> <span class="pre">[1x6]</span></code></p>
 <blockquote>
-<div><p>When the mooring matrix block is used, the user first needs to initiate the mooring class by setting <code class="code docutils literal"><span class="pre">mooring(i)</span> <span class="pre">=</span> <span class="pre">mooringClass('mooring</span> <span class="pre">name')</span></code> in the WEC-Sim input file (<code class="docutils literal"><span class="pre">wecSimInputFile.m</span></code>). Typically, the mooring connection location also need to be specified, <code class="code docutils literal"><span class="pre">mooring(i).ref</span> <span class="pre">=</span> <span class="pre">[1x3]</span></code> (the default connection location is <code class="docutils literal"><span class="pre">[0</span> <span class="pre">0</span> <span class="pre">0]</span></code>). The user can also define the mooring matrix properties in the WEC-Sim input file using:</p>
-<ul class="simple">
-<li>Mooring stiffness matrix - <code class="code docutils literal"><span class="pre">mooring(i).matrix.k</span> <span class="pre">=</span> <span class="pre">[6x6]</span></code></li>
-<li>Mooring damping matrix - <code class="code docutils literal"><span class="pre">mooring(i).matrix.c</span> <span class="pre">=</span> <span class="pre">[6x6]</span></code></li>
-<li>Mooring pretension - <code class="code docutils literal"><span class="pre">mooring(i).matrix.preTension</span> <span class="pre">=</span> <span class="pre">[1x6]</span></code></li>
+<div></div></blockquote>
+</li>
 </ul>
-</div></blockquote>
 </div>
-<div class="section" id="using-moordyn">
-<h2>Using MoorDyn<a class="headerlink" href="#using-moordyn" title="Permalink to this headline">¶</a></h2>
-<blockquote>
-<div><p>When the MoorDyn block is used, the user needs to initiate the mooring class by setting <code class="code docutils literal"><span class="pre">mooring</span> <span class="pre">=</span> <span class="pre">mooringClass('mooring</span> <span class="pre">name')</span></code> in the WEC-Sim input file (wecSimInputFile.m), followed by number of mooring lines is defined in MoorDyn (<code class="docutils literal"><span class="pre">mooring(1).moorDynLines</span> <span class="pre">=</span> <span class="pre">&lt;Number</span> <span class="pre">of</span> <span class="pre">mooring</span> <span class="pre">lines&gt;</span></code>)</p>
+<div class="section" id="moordyn">
+<h2>MoorDyn<a class="headerlink" href="#moordyn" title="Permalink to this headline">¶</a></h2>
+<p>When the MoorDyn block is used, the user needs to initiate the mooring class by setting <code class="code docutils literal"><span class="pre">mooring</span> <span class="pre">=</span> <span class="pre">mooringClass('mooring</span> <span class="pre">name')</span></code> in the WEC-Sim input file (wecSimInputFile.m), followed by number of mooring lines is defined in MoorDyn (<code class="docutils literal"><span class="pre">mooring(1).moorDynLines</span> <span class="pre">=</span> <span class="pre">&lt;Number</span> <span class="pre">of</span> <span class="pre">mooring</span> <span class="pre">lines&gt;</span></code>)</p>
 <p>A mooring folder that includes a moorDyn input file (<code class="docutils literal"><span class="pre">lines.txt</span></code>) is required in the simulation folder.</p>
-</div></blockquote>
-</div>
-<div class="section" id="tutorial-rm3-with-moordyn">
-<h2>Tutorial: RM3 with MoorDyn<a class="headerlink" href="#tutorial-rm3-with-moordyn" title="Permalink to this headline">¶</a></h2>
 <blockquote>
-<div><p>This section describes how to simulate a mooring connected WEC system in WEC-Sim using MoorDyn. The RM3 two-body floating point absorber is connected to a three-point catenary mooring system with an angle of 120 between the lines in this example case. The RM3 with MoorDyn folder is located under <a class="reference external" href="https://github.com/WEC-Sim/WEC-Sim_Applications">WEC-Sim Applications repository</a>.</p>
+<div></div></blockquote>
+<div class="section" id="tutorial-rm3-with-moordyn">
+<h3>Tutorial: RM3 with MoorDyn<a class="headerlink" href="#tutorial-rm3-with-moordyn" title="Permalink to this headline">¶</a></h3>
+<p>This section describes how to simulate a mooring connected WEC system in WEC-Sim using MoorDyn. The RM3 two-body floating point absorber is connected to a three-point catenary mooring system with an angle of 120 between the lines in this example case. The RM3 with MoorDyn folder is located under <a class="reference external" href="https://github.com/WEC-Sim/WEC-Sim_Applications">WEC-Sim Applications repository</a>.</p>
 <ul class="simple">
 <li><strong>WEC-Sim Simulink Model</strong>: Start out by following the instructions on how to model the <a class="reference external" href="http://wec-sim.github.io/WEC-Sim/tutorials.html#two-body-point-absorber-rm3">RM3 Two-Body Point Absorber</a>. To couple WEC-Sim with MoorDyn, the MoorDyn Block is added in parallel to the constraint block</li>
 </ul>
@@ -256,14 +257,17 @@ Refer the <a class="reference external" href="http://wec-sim.github.io/WEC-Sim/a
 <div class="figure align-center" id="moordyninput">
 <a class="reference internal image-reference" href="_images/moorDynInput.png"><img alt="_images/moorDynInput.png" src="_images/moorDynInput.png" style="width: 400pt;" /></a>
 </div>
-<ul class="simple">
-<li><strong>Simulation and Postprocessing</strong>: Simulation and postprocessing are the same process as described in Tutorial Section.</li>
-</ul>
-<div class="admonition note">
+<ul>
+<li><p class="first"><strong>Simulation and Postprocessing</strong>: Simulation and postprocessing are the same process as described in Tutorial Section.</p>
+<blockquote>
+<div><div class="admonition note">
 <p class="first admonition-title">Note</p>
 <p class="last">You may need to install the MinGW-w64 compiler to run this simulation.</p>
 </div>
 </div></blockquote>
+</li>
+</ul>
+</div>
 </div>
 </div>
 
