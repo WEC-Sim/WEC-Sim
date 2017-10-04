@@ -72,6 +72,7 @@ classdef constraintClass<handle
                 error('The Y and Z vectors defining the constraint''s orientation must be orthogonal.')
             end
             x = cross(y,z)/norm(cross(y,z));
+            x = x(:)';
             obj.orientation.x = x;
             obj.orientation.rotationMatrix  = [x',y',z'];
         end
