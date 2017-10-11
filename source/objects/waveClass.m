@@ -428,7 +428,17 @@ classdef waveClass<handle
                     data = dlmread(obj.spectrumDataFile);
                     freq_data = data(1,:);
                     Sf_data = data(2,:);
-                    S_f = interp1(freq_data,Sf_data,freq,'pchip',0);            % Wave Spectrum [m^2-s]
+                    if size(data,1) > 2
+                        phaseRand_data = data(3,:);
+                        freq_loc = find (freq_data>=min(obj.bemFreq)/2/pi & freq_data<=max(obj.bemFreq)/2/pi);
+                        obj.w    = freq_data(freq_loc)'.*2.*pi;
+                        obj.numFreq = length(obj.w);
+                        obj.phaseRand = phaseRand_data(freq_loc)';
+                        obj.dw=(obj.w(end)-obj.w(1))/(obj.numFreq-1);                        
+                        S_f = Sf_data(freq_loc)';
+                    else
+                        S_f = interp1(freq_data,Sf_data,freq,'pchip',0);            % Wave Spectrum [m^2-s]
+                    end
                     obj.Sf = S_f./(2*pi);                                       % Wave Spectrum [m^2-s/rad] for 'Traditional'
             end
             switch obj.freqDisc
