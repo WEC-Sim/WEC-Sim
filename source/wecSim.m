@@ -118,17 +118,18 @@ if strcmp(waves.type,'etaImport')~=1 && strcmp(waves.type,'noWave')~=1 && strcmp
     end
 end
 
-% hydroForcePre
-for kk = 1:simu.numWecBodies
-    body(kk).hydroForcePre(waves.w,waves.waveDir,simu.CIkt,simu.CTTime,waves.numFreq,simu.dt,simu.rho,simu.g,waves.type,waves.waveAmpTime,kk,simu.numWecBodies,simu.ssCalc,simu.nlHydro,simu.b2b);
-end; clear kk
-
 % Non-linear hydro
 if (simu.nlHydro >0) || (simu.paraview == 1)
     for kk = 1:length(body(1,:))
         body(kk).bodyGeo(body(kk).geometryFile)
     end; clear kk
 end
+
+% hydroForcePre
+for kk = 1:simu.numWecBodies
+    body(kk).hydroForcePre(waves.w,waves.waveDir,simu.CIkt,simu.CTTime,waves.numFreq,simu.dt,simu.rho,simu.g,waves.type,waves.waveAmpTime,kk,simu.numWecBodies,simu.ssCalc,simu.nlHydro,simu.b2b);
+end; clear kk
+
 % Check CITime
 if waves.typeNum~=0 && waves.typeNum~=10
     for iBod = 1:simu.numWecBodies
