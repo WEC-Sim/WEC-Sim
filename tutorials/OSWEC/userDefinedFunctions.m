@@ -1,5 +1,12 @@
 %Example of user input MATLAB file for post processing
 
+%Plot waves
+waves.plotEta(simu.rampTime);
+try 
+    waves.plotSpectrum();
+catch
+end
+
 % Plot RY forces for body 1
 plotForces(output,1,5)
 

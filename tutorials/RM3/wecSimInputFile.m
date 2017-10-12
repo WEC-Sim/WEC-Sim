@@ -18,28 +18,35 @@ waves = waveClass('regular');           % Initialize Wave Class and Specify Type
 waves.H = 2.5;                          % Wave Height [m]
 waves.T = 8;                            % Wave Period [s]
 
+% % Regular Waves with CIC
+% waves = waveClass('regularCIC');           % Initialize Wave Class and Specify Type                                 
+% waves.H = 2.5;                          % Wave Height [m]
+% waves.T = 8;                            % Wave Period [s]
+
 % % Irregular Waves using PM Spectrum 
 % waves = waveClass('irregular');         % Initialize Wave Class and Specify Type
 % waves.H = 2.5;                          % Significant Wave Height [m]
 % waves.T = 8;                            % Peak Period [s]
 % waves.spectrumType = 'PM';              % Specify Wave Spectrum Type
 
-% % Irregular Waves using JS Spectrum with Equal Energy
+% % Irregular Waves using JS Spectrum with Equal Energy and Seeded Phase
 % waves = waveClass('irregular');         % Initialize Wave Class and Specify Type
 % waves.H = 2.5;                          % Significant Wave Height [m]
 % waves.T = 8;                            % Peak Period [s]
 % waves.spectrumType = 'JS';              % Specify Wave Spectrum Type
-% waves.freqDisc = 'EqualEnergy';
+% waves.freqDisc = 'EqualEnergy';         % Uses 'EqualEnergy' bins (default) 
+% waves.phaseSeed = 1;                    % Phase is seeded so eta is the same
 
-% % Irregular Waves using BS Spectrum with State Space Calculation
+% % Irregular Waves using BS Spectrum with Traditional and State Space 
 % waves = waveClass('irregular');         % Initialize Wave Class and Specify Type
 % waves.H = 2.5;                          % Significant Wave Height [m]
 % waves.T = 8;                            % Peak Period [s]
 % waves.spectrumType = 'BS';              % Specify Wave Spectrum Type
 % simu.ssCalc = 1;                        % Turn on State Space
+% waves.freqDisc = 'Traditional';         % Uses 1001 frequnecies
 
 % % Irregular Waves with imported spectrum
-% waves = waveClass('spectrumImport');    % Create the Wave Variable and Specify Type
+% waves = waveClass('spectrumImport');        % Create the Wave Variable and Specify Type
 % waves.spectrumDataFile = 'ndbcBuoyData.txt';  %Name of User-Defined Spectrum File [2,:] = [omega, Sf]
 
 % % Waves with imported wave elevation time-history  
