@@ -24,6 +24,7 @@ classdef waveClass<handle
         spectrumDataFile            = 'NOT DEFINED'                         % Data file that contains the spectrum data file (Default = 'NOT DEFINED')
         etaDataFile                 = 'NOT DEFINED'                         % Data file that contains the times-series data file (Default = 'NOT DEFINED')
         freqRange                   = [];                                   % Min and max frequency for irregular waves. 2x1 vector, rad/s, (default = frequency range in BEM data)
+        numFreq                     = [];                                   % Number of frequencies used, varies depending on method: 'Traditional, 'EqualEnergy' or 'Imported' (Default=1000 for Traditional and 500 for Equal Energy)
         waveDir                     = 0                                     % [deg] Incident wave direction (Default = 0)
         viz                         = struct(...                            % Structure defining visualization options
             'numPointsX', 50, ...              % Visualization number of points in x direction.
@@ -43,7 +44,6 @@ classdef waveClass<handle
         phase                       = 0;                                    % [rad] Wave phase (only used for irregular waves)
         dw                          = 0;                                    % [rad/s] Frequency spacing for irregular waves.
         k                           = []                                    % [rad/m] Wave number
-        numFreq                     = [];                                   % Number of frequencies used, varies depending on method: 'Traditional, 'EqualEnergy' or 'Imported'
         Sf                          = [];                                   % Wave Spectrum [m^2-s/rad]
     end
     
@@ -136,15 +136,18 @@ classdef waveClass<handle
                     end
                     switch obj.freqDisc
                         case {'Traditional'}
-                            obj.numFreq = 1001;
+                            if ~isempty(obj.numFreq)
+                                obj.numFreq = 1000;
+                            end
                             obj.dw=(WFQEd-WFQSt)/(obj.numFreq-1);
                             obj.w = (WFQSt:obj.dw:WFQEd)';
                         case {'EqualEnergy'}
                             obj.numFreq = 500000;
                             obj.w = WFQSt:(WFQEd-WFQSt)/obj.numFreq:WFQEd;
                             obj.dw = mean(diff(obj.w));
-                            numBins = 500;
-                            obj.numFreq = numBins-1;
+                            if ~isempty(obj.numFreq)
+                                obj.numFreq = 500;
+                            end
                         case {'Imported'}
                             data = dlmread(obj.spectrumDataFile);
                             freq_data = data(1,:);
@@ -460,7 +463,7 @@ classdef waveClass<handle
             switch obj.freqDisc
                 case {'EqualEnergy'}
                     m0 = trapz(freq,abs(S_f));
-                    numBins = 500;
+                    numBins = obj.numFreq+1;
                     a_targ = m0/(numBins);
                     SF = cumtrapz(freq,S_f);
                     wn(1) = 1;
