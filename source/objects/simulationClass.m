@@ -26,6 +26,7 @@ classdef simulationClass<handle
         dtOut               = []                                           % Output sampling time (default = dt)
         dtNL                = []                                           % Sample time to calculate nonlinear forces (default = dt)
         dtCITime            = []                                           % Sample time to calculate Convolution Integral (default = dt)
+        dtME                = []                                           % Sample time to calculate Morison Element forces (default = dt)
         CITime              = 60                                           % Convolution integral time (default = 60 s)
         domainSize          = 200                                          % Size of free surface and seabed. This variable is only used for visualization (default = 200 m)
         ssCalc              = 0                                            % Option for convolution integral or state-space calculation: convolution integral->'0', state-space->'1', (default = 0)
@@ -111,6 +112,10 @@ classdef simulationClass<handle
             if isempty(obj.dtCITime) || obj.dtCITime < obj.dt
                 obj.dtCITime = obj.dt;
             end
+            % Set dtME if it was not specificed in input file
+            if isempty(obj.dtME) || obj.dtME < obj.dt
+                obj.dtME = obj.dt;
+            end            
             obj.CTTime = 0:obj.dtCITime:obj.CITime;            
             obj.CIkt = length(obj.CTTime);
             obj.caseFile = [obj.caseDir filesep 'output' filesep obj.simMechanicsFile(1:end-4) '_matlabWorkspace.mat'];
