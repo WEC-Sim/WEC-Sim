@@ -139,8 +139,8 @@ classdef waveClass<handle
                             if ~isempty(obj.numFreq)
                                 obj.numFreq = 1000;
                             end
-                            obj.dw=(WFQEd-WFQSt)/(obj.numFreq-1);
-                            obj.w = (WFQSt:obj.dw:WFQEd)';
+                            obj.w = (WFQSt:(WFQEd-WFQSt)/(obj.numFreq-1):WFQEd)';
+                            obj.dw= ones(obj.numFreq,1).*(WFQEd-WFQSt)./(obj.numFreq-1);
                         case {'EqualEnergy'}
                             obj.numFreq = 500000;
                             obj.w = WFQSt:(WFQEd-WFQSt)/obj.numFreq:WFQEd;
@@ -154,7 +154,9 @@ classdef waveClass<handle
                             freq_loc = freq_data>=min(obj.bemFreq)/2/pi & freq_data<=max(obj.bemFreq)/2/pi;
                             obj.w    = freq_data(freq_loc)'.*2.*pi;
                             obj.numFreq = length(obj.w);
-                            obj.dw=(obj.w(end)-obj.w(1))/(obj.numFreq-1);
+                            obj.dw(1              ,1)= obj.w(2)-obj.w(1);
+                            obj.dw(2:obj.numFreq-1,1)=(obj.w(3:end)-obj.w(1:end-2))/2;
+                            obj.dw(obj.numFreq    ,1)= obj.w(end)-obj.w(end-1);
                     end
                     obj.setWavePhase;
                     obj.irregWaveSpectrum(g)
