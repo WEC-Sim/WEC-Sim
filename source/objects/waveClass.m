@@ -136,16 +136,16 @@ classdef waveClass<handle
                     end
                     switch obj.freqDisc
                         case {'Traditional'}
-                            if ~isempty(obj.numFreq)
+                            if isempty(obj.numFreq)
                                 obj.numFreq = 1000;
                             end
                             obj.w = (WFQSt:(WFQEd-WFQSt)/(obj.numFreq-1):WFQEd)';
                             obj.dw= ones(obj.numFreq,1).*(WFQEd-WFQSt)./(obj.numFreq-1);
                         case {'EqualEnergy'}
-                            obj.numFreq = 500000;
-                            obj.w = WFQSt:(WFQEd-WFQSt)/obj.numFreq:WFQEd;
+                            numFreq_interp = 500000;
+                            obj.w = WFQSt:(WFQEd-WFQSt)/numFreq_interp:WFQEd;
                             obj.dw = mean(diff(obj.w));
-                            if ~isempty(obj.numFreq)
+                            if isempty(obj.numFreq)
                                 obj.numFreq = 500;
                             end
                         case {'Imported'}
