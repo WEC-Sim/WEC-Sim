@@ -20,6 +20,7 @@ classdef waveClass<handle
         T                           = 'NOT DEFINED'                         % [s] Wave period (regular waves), peak period (irregular waves), period of BEM data used for hydrodynamic coefficients ('noWave') (Default = 'NOT DEFINED')
         H                           = 'NOT DEFINED'                         % [m] Wave height (regular waves) or significant wave height (irregular waves) (Default = 'NOT DEFINED')
         spectrumType                = 'NOT DEFINED'                         % Wave spectrum types (Default = 'NOT DEFINED'): 'PM', 'BS', and 'JS'
+        gamma                       = 3.3                                   % Only used for 'JS' spectrum type to define gamma (Default = 3.3)
         phaseSeed                   = 0;                                    % Only used for irregular waves (Default = 0); if equals to 1,2,3,...,etc, the waves phase is seeded.
         spectrumDataFile            = 'NOT DEFINED'                         % Data file that contains the spectrum data file (Default = 'NOT DEFINED')
         etaDataFile                 = 'NOT DEFINED'                         % Data file that contains the times-series data file (Default = 'NOT DEFINED')
@@ -441,13 +442,12 @@ classdef waveClass<handle
                     if r == 1; freq = sort(freq)';
                     else freq = sort(freq); end
                     fp = 1/Tp;
-                    gamma = 3.3;
-                    siga = 0.07;sigb = 0.09;
+                    siga = 0.07;sigb = 0.09;                                    % cutoff frequencies for gamma function
                     [lind,~] = find(freq<=fp);
                     [hind,~] = find(freq>fp);
                     Gf = zeros(size(freq));
-                    Gf(lind) = gamma.^exp(-(freq(lind)-fp).^2/(2*siga^2*fp^2));
-                    Gf(hind) = gamma.^exp(-(freq(hind)-fp).^2/(2*sigb^2*fp^2));
+                    Gf(lind) = obj.gamma.^exp(-(freq(lind)-fp).^2/(2*siga^2*fp^2));
+                    Gf(hind) = obj.gamma.^exp(-(freq(hind)-fp).^2/(2*sigb^2*fp^2));
                     Sf_temp = g^2*(2*pi)^(-4)*freq.^(-5).*exp(-(5/4).*(freq/fp).^(-4));
                     alpha_JS = Hs^(2)/16/trapz(freq,Sf_temp.*Gf);
                     S_f = alpha_JS*Sf_temp.*Gf;                                 % Wave Spectrum [m^2-s]
