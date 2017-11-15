@@ -281,7 +281,7 @@ JONSWAP (Joint North Sea Wave Project) Spectrum
 The spectrum was purposed by Hasselmann et al. :cite:`HK`, and the original formulation was given as:
 
 .. math::
-	& S\left( f \right) = \frac{ \alpha_{js} g^{2} }{ (2\pi)^{4}} f^{-5}\exp\left[-\frac{5}{4} \left( \frac{f_{p}}{f}\right)^{4} \right]\gamma^\Gamma \nonumber = S^{*}  ~~ &\\ 
+	& S\left( f \right) = \frac{ \alpha_{js} g^{2} }{ (2\pi)^{4}} f^{-5}\exp\left[-\frac{5}{4} \left( \frac{f_{p}}{f}\right)^{4} \right]\gamma^\Gamma \nonumber  ~~ &\\ 
 	
 	&\Gamma = \exp \left[ -\left( \frac{\frac{f}{f_{p}}-1}{\sqrt{2} \sigma}\right)^{2} \right],~~ \sigma = \begin{cases} 0.07 & f \leq f_{p} \\0.09 & f > f_{p} \end{cases} ~~ &\\
 	
@@ -294,7 +294,7 @@ with general form coefficients thus defined:
 
 where :math:`\alpha_{j}` is a nondimensional variable that is a function of the wind speed and fetch length. 
 Empirical fits were applied in an attempt to find a mean value that would capture the spectral shape of most measured sea states. 
-For a given significant wave height, setting :math:`\gamma = 3.3` , :math:`\alpha_{j}` , and :math:`S^{*}\left( f \right)` can be calculated by: 
+For a given significant wave height, setting :math:`\gamma = 3.3` (default) , :math:`\alpha_{js}` , and :math:`S^{*}\left( f \right)` can be calculated by: 
 
 .. math::
 	\alpha_{js} = \frac{H_{m0}^{2}}{16\int_{0}^{\infty} S^{*} \left( f \right) df}

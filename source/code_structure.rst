@@ -140,7 +140,7 @@ The ``irregular`` case is defined by including the following in the input file::
 	waves = waveClass('irregular');
 	waves.T = <user specified wave period>;
 	waves.H = <user specified wave height>;
-	waves.spectrumType = <user specified spectrum>;
+	waves.spectrumType = '<user specified spectrum>';
 
 spectrumImport
 ++++++++++++++++
@@ -153,7 +153,7 @@ For more information on NDBC buoy data measurement descriptions, refer to the `N
 The ``spectrumImport`` case is defined by including the following in the input file::
 
 	waves = waveClass('spectrumImport');
-	waves.spectrumDataFile=<wave spectrum file>.txt;
+	waves.spectrumDataFile='<wave spectrum file>.txt';
 	
 
 etaImport
@@ -163,7 +163,7 @@ The ``etaImport`` case is the wave type for wave simulations using user-defined 
 The ``etaImport`` case is defined by including the following in the input file::
 
 	waves = waveClass('etaImport');
-	waves.etaDataFile =<eta file>.txt;
+	waves.etaDataFile ='<eta file>.txt';
 
 
 Body Class

@@ -384,7 +384,7 @@ The available wave spectra and their corresponding <code class="docutils literal
 <div class="highlight-default"><div class="highlight"><pre><span></span><span class="n">waves</span> <span class="o">=</span> <span class="n">waveClass</span><span class="p">(</span><span class="s1">&#39;irregular&#39;</span><span class="p">);</span>
 <span class="n">waves</span><span class="o">.</span><span class="n">T</span> <span class="o">=</span> <span class="o">&lt;</span><span class="n">user</span> <span class="n">specified</span> <span class="n">wave</span> <span class="n">period</span><span class="o">&gt;</span><span class="p">;</span>
 <span class="n">waves</span><span class="o">.</span><span class="n">H</span> <span class="o">=</span> <span class="o">&lt;</span><span class="n">user</span> <span class="n">specified</span> <span class="n">wave</span> <span class="n">height</span><span class="o">&gt;</span><span class="p">;</span>
-<span class="n">waves</span><span class="o">.</span><span class="n">spectrumType</span> <span class="o">=</span> <span class="o">&lt;</span><span class="n">user</span> <span class="n">specified</span> <span class="n">spectrum</span><span class="o">&gt;</span><span class="p">;</span>
+<span class="n">waves</span><span class="o">.</span><span class="n">spectrumType</span> <span class="o">=</span> <span class="s1">&#39;&lt;user specified spectrum&gt;&#39;</span><span class="p">;</span>
 </pre></div>
 </div>
 </div>
@@ -397,7 +397,7 @@ This format can be copied directly from NDBC buoy data.
 For more information on NDBC buoy data measurement descriptions, refer to the <a class="reference external" href="http://www.ndbc.noaa.gov/measdes.shtml">NDBC website</a>.</p>
 <p>The <code class="docutils literal"><span class="pre">spectrumImport</span></code> case is defined by including the following in the input file:</p>
 <div class="highlight-default"><div class="highlight"><pre><span></span><span class="n">waves</span> <span class="o">=</span> <span class="n">waveClass</span><span class="p">(</span><span class="s1">&#39;spectrumImport&#39;</span><span class="p">);</span>
-<span class="n">waves</span><span class="o">.</span><span class="n">spectrumDataFile</span><span class="o">=&lt;</span><span class="n">wave</span> <span class="n">spectrum</span> <span class="n">file</span><span class="o">&gt;.</span><span class="n">txt</span><span class="p">;</span>
+<span class="n">waves</span><span class="o">.</span><span class="n">spectrumDataFile</span><span class="o">=</span><span class="s1">&#39;&lt;wave spectrum file&gt;.txt&#39;</span><span class="p">;</span>
 </pre></div>
 </div>
 </div>
@@ -406,7 +406,7 @@ For more information on NDBC buoy data measurement descriptions, refer to the <a
 <p>The <code class="docutils literal"><span class="pre">etaImport</span></code> case is the wave type for wave simulations using user-defined time-series (ex: from experiments).</p>
 <p>The <code class="docutils literal"><span class="pre">etaImport</span></code> case is defined by including the following in the input file:</p>
 <div class="highlight-default"><div class="highlight"><pre><span></span><span class="n">waves</span> <span class="o">=</span> <span class="n">waveClass</span><span class="p">(</span><span class="s1">&#39;etaImport&#39;</span><span class="p">);</span>
-<span class="n">waves</span><span class="o">.</span><span class="n">etaDataFile</span> <span class="o">=&lt;</span><span class="n">eta</span> <span class="n">file</span><span class="o">&gt;.</span><span class="n">txt</span><span class="p">;</span>
+<span class="n">waves</span><span class="o">.</span><span class="n">etaDataFile</span> <span class="o">=</span><span class="s1">&#39;&lt;eta file&gt;.txt&#39;</span><span class="p">;</span>
 </pre></div>
 </div>
 </div>

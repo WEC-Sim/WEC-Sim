@@ -389,13 +389,13 @@ y &amp;=&amp; \mathbf{C_{r}} x~~\end{split}\]</div>
 <h3>JONSWAP (Joint North Sea Wave Project) Spectrum<a class="headerlink" href="#jonswap-joint-north-sea-wave-project-spectrum" title="Permalink to this headline">¶</a></h3>
 <p>The spectrum was purposed by Hasselmann et al. <a class="reference internal" href="#hk" id="id20">[14]</a>, and the original formulation was given as:</p>
 <div class="math">
-\[ \begin{align}\begin{aligned}\begin{split}&amp; S\left( f \right) = \frac{ \alpha_{js} g^{2} }{ (2\pi)^{4}} f^{-5}\exp\left[-\frac{5}{4} \left( \frac{f_{p}}{f}\right)^{4} \right]\gamma^\Gamma \nonumber = S^{*}  ~~ &amp;\\\end{split}\\\begin{split}&amp;\Gamma = \exp \left[ -\left( \frac{\frac{f}{f_{p}}-1}{\sqrt{2} \sigma}\right)^{2} \right],~~ \sigma = \begin{cases} 0.07 &amp; f \leq f_{p} \\0.09 &amp; f &gt; f_{p} \end{cases} ~~ &amp;\\\end{split}\end{aligned}\end{align} \]</div>
+\[ \begin{align}\begin{aligned}\begin{split}&amp; S\left( f \right) = \frac{ \alpha_{js} g^{2} }{ (2\pi)^{4}} f^{-5}\exp\left[-\frac{5}{4} \left( \frac{f_{p}}{f}\right)^{4} \right]\gamma^\Gamma \nonumber  ~~ &amp;\\\end{split}\\\begin{split}&amp;\Gamma = \exp \left[ -\left( \frac{\frac{f}{f_{p}}-1}{\sqrt{2} \sigma}\right)^{2} \right],~~ \sigma = \begin{cases} 0.07 &amp; f \leq f_{p} \\0.09 &amp; f &gt; f_{p} \end{cases} ~~ &amp;\\\end{split}\end{aligned}\end{align} \]</div>
 <p>with general form coefficients thus defined:</p>
 <div class="math">
 \[ \begin{align}\begin{aligned}\begin{split}&amp; A =\frac{\alpha_{js} g^{2}}{(2\pi)^{4}} &amp; \\\end{split}\\\begin{split}&amp; B=\frac{5}{4}{f_{p}}^{4} &amp;\\\end{split}\end{aligned}\end{align} \]</div>
 <p>where <span class="math">\(\alpha_{j}\)</span> is a nondimensional variable that is a function of the wind speed and fetch length.
 Empirical fits were applied in an attempt to find a mean value that would capture the spectral shape of most measured sea states.
-For a given significant wave height, setting <span class="math">\(\gamma = 3.3\)</span> , <span class="math">\(\alpha_{j}\)</span> , and <span class="math">\(S^{*}\left( f \right)\)</span> can be calculated by:</p>
+For a given significant wave height, setting <span class="math">\(\gamma = 3.3\)</span> (default) , <span class="math">\(\alpha_{js}\)</span> , and <span class="math">\(S^{*}\left( f \right)\)</span> can be calculated by:</p>
 <div class="math">
 \[ \begin{align}\begin{aligned}\alpha_{js} = \frac{H_{m0}^{2}}{16\int_{0}^{\infty} S^{*} \left( f \right) df}\\S^{*}\left( f \right) = \frac{ g^{2} }{ (2\pi)^{4}} f^{-5}\exp\left[-\frac{5}{4} \left( \frac{f_{p}}{f}\right)^{4} \right]\gamma^\Gamma ~~\end{aligned}\end{align} \]</div>
 <p>Where:</p>
