@@ -396,11 +396,13 @@ classdef waveClass<handle
         
         function waveElevNowave(obj,maxIt,dt)
             % Set noWave levation time-history
-            obj.waveAmpTime = zeros(maxIt+1,2);
-            obj.waveAmpTime(:,1) = [0:maxIt]*dt;
+            obj.waveAmpTime         = zeros(maxIt+1,2);
+            obj.waveAmpTimex        = zeros(maxIt+1,2);
+            obj.waveAmpTime(:,1)    = [0:maxIt]*dt;
+            obj.waveAmpTimex(:,1)   = [0:maxIt]*dt;
         end
         
-        function waveElevReg(obj, rampTime,dt,maxIt,wavegaugeloc)
+        function waveElevReg(obj, rampTime,dt,maxIt)
             % Calculate regular wave elevation time history
             % Used by waveSetup
             obj.waveAmpTime = zeros(maxIt+1,2);
