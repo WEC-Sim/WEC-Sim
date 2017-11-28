@@ -32,6 +32,7 @@ classdef waveClass<handle
             'numPointsY', 50)                  % Visualization number of points in y direction.
         statisticsDataLoad          = [];                                   % File name to load wave statistics data for wecSimMCR
         freqDisc                    = 'EqualEnergy'                         % Method of frequency discretization for irregular waves. Options for this variable are 'EqualEnergy' or 'Traditional'. (default = 'EqualEnergy').
+        wavegaugeloc                = 0;                                    % [m] Wave gauge location assumed to be along the x-axis
     end
     
     properties (SetAccess = 'private', GetAccess = 'public')%internal
@@ -107,7 +108,7 @@ classdef waveClass<handle
             ylabel('Spectrum (m^2-s/rad)');
         end
         
-        function waveSetup(obj,bemFreq,wDepth,rampTime,dt,maxIt,g,endTime,wavegaugeloc)
+        function waveSetup(obj,bemFreq,wDepth,rampTime,dt,maxIt,g,endTime)
             % Calculate and set wave properties based on wave type
             obj.bemFreq    = bemFreq;
             obj.setWaveProps(wDepth)
@@ -124,7 +125,7 @@ classdef waveClass<handle
                     end
                     obj.A = obj.H/2;
                     obj.waveNumber(g)
-                    obj.waveElevReg(rampTime, dt, maxIt,wavegaugeloc);
+                    obj.waveElevReg(rampTime, dt, maxIt);
                 case {'irregular','spectrumImport'}
                     WFQSt=min(bemFreq);
                     WFQEd=max(bemFreq);
@@ -167,7 +168,7 @@ classdef waveClass<handle
                     obj.setWavePhase;
                     obj.irregWaveSpectrum(g)
                     obj.waveNumber(g)
-                    obj.waveElevIrreg(rampTime, dt, maxIt, obj.dw,wavegaugeloc);
+                    obj.waveElevIrreg(rampTime, dt, maxIt, obj.dw);
                 case {'etaImport'}    %  This does not account for wave direction
                     % Import 'etaImport' time-series here and interpolate
                     data = importdata(obj.etaDataFile) ;    % Import time-series
@@ -410,7 +411,7 @@ classdef waveClass<handle
                     obj.waveAmpTime(i,1)    = t;
                     obj.waveAmpTime(i,2)    = obj.A*cos(obj.w*t);
                     obj.waveAmpTimex(i,1)   = t;
-                    obj.waveAmpTimex(i,2)   = obj.A*cos(obj.w*t-obj.k*wavegaugeloc);
+                    obj.waveAmpTimex(i,2)   = obj.A*cos(obj.w*t-obj.k*obj.wavegaugeloc);
                 end
             else
                 for i=1:maxRampIT
@@ -418,14 +419,14 @@ classdef waveClass<handle
                     obj.waveAmpTime(i,1)    = t;
                     obj.waveAmpTime(i,2)    = obj.A*cos(obj.w*t)*(1+cos(pi+pi*(i-1)/maxRampIT))/2;
                     obj.waveAmpTimex(i,1)   = t;
-                    obj.waveAmpTimex(i,2)   = obj.A*cos(obj.w*t-obj.k*wavegaugeloc)*(1+cos(pi+pi*(i-1)/maxRampIT))/2;
+                    obj.waveAmpTimex(i,2)   = obj.A*cos(obj.w*t-obj.k*obj.wavegaugeloc)*(1+cos(pi+pi*(i-1)/maxRampIT))/2;
                 end
                 for i=maxRampIT+1:maxIt+1
                     t = (i-1)*dt;
                     obj.waveAmpTime(i,1)    = t;
                     obj.waveAmpTime(i,2)    = obj.A*cos(obj.w*t);
                     obj.waveAmpTimex(i,1)   = t;
-                    obj.waveAmpTimex(i,2)   = obj.A*cos(obj.w*t-obj.k*wavegaugeloc);
+                    obj.waveAmpTimex(i,2)   = obj.A*cos(obj.w*t-obj.k*obj.wavegaugeloc);
                 end
             end
         end
@@ -516,7 +517,7 @@ classdef waveClass<handle
                     t       = (i-1)*dt;
                     tmp     = sqrt(obj.A.*df);
                     tmp1    = tmp.*real(exp(sqrt(-1).*(obj.w.*t + obj.phase)));
-                    tmp1x   = tmp.*real(exp(sqrt(-1).*(obj.w.*t - obj.k*wavegaugeloc + obj.phase)));
+                    tmp1x   = tmp.*real(exp(sqrt(-1).*(obj.w.*t - obj.k*obj.wavegaugeloc + obj.phase)));
                     obj.waveAmpTime(i,1)    = t;
                     obj.waveAmpTime(i,2)    = sum(tmp1);
                     obj.waveAmpTimex(i,1)   = t;
@@ -527,7 +528,7 @@ classdef waveClass<handle
                     t = (i-1)*dt;
                     tmp=sqrt(obj.A.*df);
                     tmp1    = tmp.*real(exp(sqrt(-1).*(obj.w.*t + obj.phase)));
-                    tmp1x   = tmp.*real(exp(sqrt(-1).*(obj.w.*t - obj.k*wavegaugeloc + obj.phase)));
+                    tmp1x   = tmp.*real(exp(sqrt(-1).*(obj.w.*t - obj.k*obj.wavegaugeloc + obj.phase)));
                     obj.waveAmpTime(i,1)    = t;
                     obj.waveAmpTime(i,2)    = sum(tmp1)*(1+cos(pi+pi*(i-1)/maxRampIT))/2;
                     obj.waveAmpTimex(i,1)   = t;
@@ -537,7 +538,7 @@ classdef waveClass<handle
                     t = (i-1)*dt;
                     tmp=sqrt(obj.A.*df);
                     tmp1  = tmp.*real(exp(sqrt(-1).*(obj.w.*t + obj.phase)));
-                    tmp1x = tmp.*real(exp(sqrt(-1).*(obj.w.*t - obj.k*wavegaugeloc + obj.phase)));
+                    tmp1x = tmp.*real(exp(sqrt(-1).*(obj.w.*t - obj.k*obj.wavegaugeloc + obj.phase)));
                     obj.waveAmpTime(i,1)    = t;
                     obj.waveAmpTime(i,2)    = sum(tmp1);
                     obj.waveAmpTimex(i,1)   = t;
