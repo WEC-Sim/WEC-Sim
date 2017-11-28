@@ -13,7 +13,7 @@ waves = waveClass('irregular');             % Initialize Wave Class and Specify 
 waves.H = 2.5;                              % Significant Wave Height [m]
 waves.T = 8;                                % Peak Period [s]
 waves.spectrumType = 'BS';                  % Specify Wave Spectrum Type
-waves.randPreDefined = 1;
+waves.phaseSeed = 1;
 
 %% Body Data
 % Float
