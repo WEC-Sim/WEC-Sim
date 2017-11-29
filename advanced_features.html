@@ -111,6 +111,22 @@
 <li class="toctree-l3"><a class="reference internal" href="#writing-your-own-h5-file">Writing Your Own h5 File</a></li>
 </ul>
 </li>
+<li class="toctree-l2"><a class="reference internal" href="#simulation-features">Simulation Features</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#multiple-condition-runs-mcr">Multiple Condition Runs (MCR)</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#state-space-representation">State-Space Representation</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#time-step-features">Time-Step Features</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="#fixed-time-step-ode4">Fixed Time-Step (ode4)</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#variable-time-step-ode45">Variable Time-Step (ode45)</a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="#wave-features">Wave Features</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#irregular-wave-binning">Irregular Wave Binning</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#wave-directionality">Wave Directionality</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#irregular-waves-with-seeded-phase">Irregular Waves with Seeded Phase</a></li>
+</ul>
+</li>
 <li class="toctree-l2"><a class="reference internal" href="#body-features">Body Features</a><ul>
 <li class="toctree-l3"><a class="reference internal" href="#body-mass-and-geometry-features">Body Mass and Geometry Features</a></li>
 <li class="toctree-l3"><a class="reference internal" href="#non-linear-hydrodynamics">Non-Linear Hydrodynamics</a><ul>
@@ -121,22 +137,6 @@
 </li>
 <li class="toctree-l3"><a class="reference internal" href="#non-hydrodynamic-bodies">Non-Hydrodynamic Bodies</a></li>
 <li class="toctree-l3"><a class="reference internal" href="#body-to-body-interactions">Body-To-Body Interactions</a></li>
-</ul>
-</li>
-<li class="toctree-l2"><a class="reference internal" href="#wave-features">Wave Features</a><ul>
-<li class="toctree-l3"><a class="reference internal" href="#irregular-wave-binning">Irregular Wave Binning</a></li>
-<li class="toctree-l3"><a class="reference internal" href="#wave-directionality">Wave Directionality</a></li>
-<li class="toctree-l3"><a class="reference internal" href="#irregular-waves-with-seeded-phase">Irregular Waves with Seeded Phase</a></li>
-</ul>
-</li>
-<li class="toctree-l2"><a class="reference internal" href="#simulation-features">Simulation Features</a><ul>
-<li class="toctree-l3"><a class="reference internal" href="#multiple-condition-runs-mcr">Multiple Condition Runs (MCR)</a></li>
-<li class="toctree-l3"><a class="reference internal" href="#state-space-representation">State-Space Representation</a></li>
-<li class="toctree-l3"><a class="reference internal" href="#time-step-features">Time-Step Features</a><ul>
-<li class="toctree-l4"><a class="reference internal" href="#fixed-time-step-ode4">Fixed Time-Step (ode4)</a></li>
-<li class="toctree-l4"><a class="reference internal" href="#variable-time-step-ode45">Variable Time-Step (ode45)</a></li>
-</ul>
-</li>
 </ul>
 </li>
 <li class="toctree-l2"><a class="reference internal" href="#constraint-and-pto-features">Constraint and PTO Features</a><ul>
@@ -257,7 +257,7 @@
 <p>For more inforation, refer to the <a class="reference external" href="http://wec-sim.github.io/WEC-Sim/advanced_features.html#bemio-tutorials">BEMIO tutorial</a> section and the  <a class="reference external" href="http://wec-sim.github.io/WEC-Sim/webinars.html#webinar-1-bemio-and-mcr">BEMIO webinar</a>.</p>
 <div class="admonition note">
 <p class="first admonition-title">Note</p>
-<p class="last">Previously, the <a class="reference external" href="http://wec-sim.github.io/bemio/installing.html">python based BEMIO code</a> was used for this purpose. To avoid the inefficiencies associated with supporting two code platforms, the python BEMIO functions have been converted to MATLAB and will now be automatically downloaded with the WEC-Sim code. The python based BEMIO code will remain available but will no longer be actively supported. Also, the mesh manipulation capabilities of the  python based BEMIO code have not yet been converted to MATLAB; however, it is intended that they will be in a future release.</p>
+<p class="last">Previously the <a class="reference external" href="http://wec-sim.github.io/bemio/installing.html">python based BEMIO code</a> was used for this purpose. The python BEMIO functions have been converted to MATLAB and are included in the WEC-Sim source code. The python based BEMIO code will remain available but will no longer be  supported.</p>
 </div>
 <div class="section" id="bemio-functions">
 <h3>BEMIO Functions<a class="headerlink" href="#bemio-functions" title="Permalink to this headline">¶</a></h3>
@@ -602,8 +602,82 @@ This would allow for the BEM of different bodies to be done separately, and BEMI
 </div>
 </div>
 </div>
+<div class="section" id="simulation-features">
+<h2>Simulation Features<a class="headerlink" href="#simulation-features" title="Permalink to this headline">¶</a></h2>
+<p>This section provides an overview of some features included in WEC-Sim&#8217;s simulation class. For more information, refer to <a class="reference external" href="http://wec-sim.github.io/WEC-Sim/code_structure.html#simulation-class">Simulation Class</a>.</p>
+<div class="section" id="multiple-condition-runs-mcr">
+<h3>Multiple Condition Runs (MCR)<a class="headerlink" href="#multiple-condition-runs-mcr" title="Permalink to this headline">¶</a></h3>
+<p>WEC-Sim allows users to perform batch runs by typing <code class="docutils literal"><span class="pre">wecSimMCR</span></code> into the MATLAB Command Window. This command executes the Multiple Condition Run (MCR) option, which can be initiated three different ways:</p>
+<blockquote>
+<div><p><strong>Option 1.</strong> Specify a range of sea states and PTO damping coefficients in the WEC-Sim input file, example:
+<code class="docutils literal"><span class="pre">waves.H</span> <span class="pre">=</span> <span class="pre">1:0.5:5;</span> <span class="pre">waves.T</span> <span class="pre">=</span> <span class="pre">5:1:15;</span></code>
+<code class="docutils literal"><span class="pre">pto(1).k=1000:1000:10000;</span> <span class="pre">pto(1).c=1200000:1200000:3600000;</span></code></p>
+<p><strong>Option 2.</strong>  Specify the excel filename that contains a set of wave statistic data in the WEC-Sim input file. This option is generally useful for power matrix generation, example:
+<code class="docutils literal"><span class="pre">statisticsDataLoad</span> <span class="pre">=</span> <span class="pre">&quot;&lt;Excel</span> <span class="pre">file</span> <span class="pre">name&gt;.xls&quot;</span></code></p>
+<p><strong>Option 3.</strong>  Provide a MCR case <em>.mat</em> file, and specify the filename in the WEC-Sim input file, example:
+<code class="docutils literal"><span class="pre">simu.mcrCaseFile</span> <span class="pre">=</span> <span class="pre">&quot;&lt;File</span> <span class="pre">name&gt;.mat&quot;</span></code></p>
+</div></blockquote>
+<p>For Multiple Condition Runs, the <code class="docutils literal"><span class="pre">*.h5</span></code> hydrodynamic data is only loaded once. To reload the <code class="docutils literal"><span class="pre">*.h5</span></code> data between runs,  set <code class="docutils literal"><span class="pre">simu.reloadH5Data</span> <span class="pre">=1</span></code> in the WEC-Sim input file.</p>
+<p>For more information, refer to the <a class="reference external" href="http://wec-sim.github.io/WEC-Sim/webinars.html#webinar-1-bemio-and-mcr">MCR webinar</a>, and the <a class="reference external" href="https://github.com/WEC-Sim/WEC-Sim_Applications">WEC-Sim Applications repository</a> MCR example.</p>
+</div>
+<div class="section" id="state-space-representation">
+<h3>State-Space Representation<a class="headerlink" href="#state-space-representation" title="Permalink to this headline">¶</a></h3>
+<p>The convolution integral term in the equation of motion can be linearized using the state-space representation as described in the <a class="reference external" href="http://wec-sim.github.io/WEC-Sim/theory.html">Theory Section</a>. To use state-space representation, the <code class="docutils literal"><span class="pre">simu.ssCalc</span></code> simulationClass variable must be defined in the WEC-Sim input file, for example:</p>
+<blockquote>
+<div><code class="code docutils literal"><span class="pre">simu.ssCalc</span> <span class="pre">=</span> <span class="pre">1</span></code></div></blockquote>
+</div>
+<div class="section" id="time-step-features">
+<h3>Time-Step Features<a class="headerlink" href="#time-step-features" title="Permalink to this headline">¶</a></h3>
+<p>The default WEC-Sim solver is &#8216;ode4&#8217;. Refer to the <a class="reference external" href="https://github.com/WEC-Sim/WEC-Sim_Applications">WEC-Sim Applications repository</a> non-linear hydro example for a comparisons between &#8216;ode4&#8217; to &#8216;ode45&#8217;. The following variables may be changed in the simulationClass (where N is number of increment steps, default: N=1):</p>
+<ul class="simple">
+<li>Fixed time-step: <code class="code docutils literal"><span class="pre">simu.dt</span></code></li>
+<li>Output time-step: <code class="code docutils literal"><span class="pre">simu.dtOut</span></code></li>
+<li>Nonlinear hydrodynamics time-step: <code class="code docutils literal"><span class="pre">simu.dtNL=N*simu.dt</span></code></li>
+<li>Convolution integral time-step: <code class="code docutils literal"><span class="pre">simu.dtCITime=N*simu.dt</span></code></li>
+<li>Morison force time-step: <code class="code docutils literal"><span class="pre">simu.dtME</span></code></li>
+</ul>
+<div class="section" id="fixed-time-step-ode4">
+<h4>Fixed Time-Step (ode4)<a class="headerlink" href="#fixed-time-step-ode4" title="Permalink to this headline">¶</a></h4>
+<p>When running WEC-Sim with a fixed time-step, 100-200 time-steps per wave period is recommended to provide accurate hydrodynamic force calculations (ex: simu.dt = T/100, where T is wave periods). However, a smaller time-step may be required (such as when coupling WEC-Sim with MoorDyn or PTO-Sim). To reduce the required WEC-Sim simulation time, a different time-step  may be specified for nonlinear hydrodynamics and for convolution integral calculations. For all simulations, the time-step should be chosen based on numerical stability and a convergence study should be performed.</p>
+</div>
+<div class="section" id="variable-time-step-ode45">
+<h4>Variable Time-Step (ode45)<a class="headerlink" href="#variable-time-step-ode45" title="Permalink to this headline">¶</a></h4>
+<p>To run WEC-Sim with a variable time-step, the following variables must be defined in the simulationClass:</p>
+<ul class="simple">
+<li>Numerical solver: <code class="code docutils literal"><span class="pre">simu.solver='ode45'</span></code></li>
+<li>Max time-step: <code class="code docutils literal"><span class="pre">simu.dt</span></code></li>
+</ul>
+</div>
+</div>
+</div>
+<div class="section" id="wave-features">
+<h2>Wave Features<a class="headerlink" href="#wave-features" title="Permalink to this headline">¶</a></h2>
+<p>This section provides an overview of some features included in WEC-Sim&#8217;s wave implementation. For more information, refer to <a class="reference external" href="http://wec-sim.github.io/WEC-Sim/code_structure.html#wave-class">Wave Class</a>.</p>
+<div class="section" id="irregular-wave-binning">
+<h3>Irregular Wave Binning<a class="headerlink" href="#irregular-wave-binning" title="Permalink to this headline">¶</a></h3>
+<p>The default spectral binning implemented in WEC-Sim is to divide the wave spectra into equal energy bins. This feature speeds up the irregular wave simulation time. To use equal frequency bins, the following waveClass variable must be defined in the WEC-Sim input file:</p>
+<blockquote>
+<div><code class="code docutils literal"><span class="pre">waves.freqDisc</span> <span class="pre">=</span> <span class="pre">'Traditional';</span></code></div></blockquote>
+<p>When using the equal frequency formulation, users may specify the number of wave frequencies binned by defining <code class="docutils literal"><span class="pre">waves.numFreq</span></code> (default = 1001).  However, this means that the hydrodynamic forces are calculated at every time-step for each of the total number of frequency bins.</p>
+</div>
+<div class="section" id="wave-directionality">
+<h3>Wave Directionality<a class="headerlink" href="#wave-directionality" title="Permalink to this headline">¶</a></h3>
+<p>WEC-Sim has the ability to model waves with various angles of incidence. To define wave directionality in WEC-Sim, the following waveClass variable must be defined in the WEC-Sim input file:</p>
+<blockquote>
+<div><code class="code docutils literal"><span class="pre">waves.waveDir</span> <span class="pre">=</span> <span class="pre">0;</span></code></div></blockquote>
+<p>The default incident wave direction has a heading of 0 (Default = 0), to change the heading <code class="docutils literal"><span class="pre">waves.waveDir</span></code> must be defined in [deg].</p>
+</div>
+<div class="section" id="irregular-waves-with-seeded-phase">
+<h3>Irregular Waves with Seeded Phase<a class="headerlink" href="#irregular-waves-with-seeded-phase" title="Permalink to this headline">¶</a></h3>
+<p>By default, the phase for all irregular wave cases are generated randomly. In order to reproduce the same time-series every time an irregular wave simualtion is run, the following waveClass variable may be defined in the WEC-Sim input file:</p>
+<blockquote>
+<div>:code:` waves.phaseSeed = &lt;user defined seed&gt;;`</div></blockquote>
+<p>By setting <code class="docutils literal"><span class="pre">waves.phaseSeed</span></code>  equal to 1,2,3,...,etc, the random wave phase generated by WEC-Sim is seeded, thus producing the same random phase for each simulation.</p>
+</div>
+</div>
 <div class="section" id="body-features">
 <h2>Body Features<a class="headerlink" href="#body-features" title="Permalink to this headline">¶</a></h2>
+<p>This section provides an overview of some features included in WEC-Sim&#8217;s body class. For more information, refer to <a class="reference external" href="http://wec-sim.github.io/WEC-Sim/code_structure.html#body-class">Body Class</a>.</p>
 <div class="section" id="body-mass-and-geometry-features">
 <h3>Body Mass and Geometry Features<a class="headerlink" href="#body-mass-and-geometry-features" title="Permalink to this headline">¶</a></h3>
 <p>The mass of each body must be specified in the  WEC-Sim input file. The following features are available:</p>
@@ -716,83 +790,9 @@ An option available to reduce the nonlinear simulation time is to specify a nonl
 </div>
 </div>
 </div>
-<div class="section" id="wave-features">
-<h2>Wave Features<a class="headerlink" href="#wave-features" title="Permalink to this headline">¶</a></h2>
-<p>This section provides an overview of some features included in WEC-Sim&#8217;s wave implementation. For more information, refer to <a class="reference external" href="http://wec-sim.github.io/WEC-Sim/code_structure.html#wave-class">Wave Class</a>.</p>
-<div class="section" id="irregular-wave-binning">
-<h3>Irregular Wave Binning<a class="headerlink" href="#irregular-wave-binning" title="Permalink to this headline">¶</a></h3>
-<p>The default frequency discretization for WEC-Sim is to use 1001 wave frequencies. This ensures that there are a sufficient number of bins to accurately generate teh desired sea state. However, this means that the hydrodynamic forces are calculated at every time-step for each of the 1001 frequency bins. In order to speed up the irregular wave simulation time, irregular sea states may now be generated using <code class="docutils literal"><span class="pre">EqualEnergy</span></code> bins.</p>
-<p>To use equal energy bins, the following waveClass variable must be defined in the WEC-Sim input file:</p>
-<blockquote>
-<div><code class="code docutils literal"><span class="pre">waves.freqDisc</span> <span class="pre">=</span> <span class="pre">'EqualEnergy';</span></code></div></blockquote>
-</div>
-<div class="section" id="wave-directionality">
-<h3>Wave Directionality<a class="headerlink" href="#wave-directionality" title="Permalink to this headline">¶</a></h3>
-<p>WEC-Sim has the ability to model waves with various angles of incidence. To define wave directionality in WEC-Sim, the following waveClass variable must be defined in the WEC-Sim input file:</p>
-<blockquote>
-<div><code class="code docutils literal"><span class="pre">waves.waveDir</span> <span class="pre">=</span> <span class="pre">0;</span></code></div></blockquote>
-<p>The default incident wave direction has a heading of 0 (Default = 0), to change the heading <code class="docutils literal"><span class="pre">waves.waveDir</span></code> must be defined in [deg].</p>
-</div>
-<div class="section" id="irregular-waves-with-seeded-phase">
-<h3>Irregular Waves with Seeded Phase<a class="headerlink" href="#irregular-waves-with-seeded-phase" title="Permalink to this headline">¶</a></h3>
-<p>In order to reproduce the same time-series every time an irregular wave simualtion is run, the following waveClass variable must be defined in the WEC-Sim input file:</p>
-<blockquote>
-<div><code class="code docutils literal"><span class="pre">waves.randPreDefined</span> <span class="pre">=</span> <span class="pre">0;</span></code></div></blockquote>
-<p>By setting <code class="docutils literal"><span class="pre">waves.randPreDefined</span></code>  equal to 1,2,3,...,etc, the random wave phase used by WEC-Sim is seeded, thus producing the same random value for each simulation.</p>
-</div>
-</div>
-<div class="section" id="simulation-features">
-<h2>Simulation Features<a class="headerlink" href="#simulation-features" title="Permalink to this headline">¶</a></h2>
-<div class="section" id="multiple-condition-runs-mcr">
-<h3>Multiple Condition Runs (MCR)<a class="headerlink" href="#multiple-condition-runs-mcr" title="Permalink to this headline">¶</a></h3>
-<p>WEC-Sim allows users to perform batch runs by typing <code class="docutils literal"><span class="pre">wecSimMCR</span></code> into the MATLAB Command Window. This command executes the Multiple Condition Run (MCR) option, which can be initiated three different ways:</p>
-<blockquote>
-<div><p><strong>Option 1.</strong> Specify a range of sea states and PTO damping coefficients in the WEC-Sim input file, example:
-<code class="docutils literal"><span class="pre">waves.H</span> <span class="pre">=</span> <span class="pre">1:0.5:5;</span> <span class="pre">waves.T</span> <span class="pre">=</span> <span class="pre">5:1:15;</span></code>
-<code class="docutils literal"><span class="pre">pto(1).k=1000:1000:10000;</span> <span class="pre">pto(1).c=1200000:1200000:3600000;</span></code></p>
-<p><strong>Option 2.</strong>  Specify the excel filename that contains a set of wave statistic data in the WEC-Sim input file. This option is generally useful for power matrix generation, example:
-<code class="docutils literal"><span class="pre">statisticsDataLoad</span> <span class="pre">=</span> <span class="pre">&quot;&lt;Excel</span> <span class="pre">file</span> <span class="pre">name&gt;.xls&quot;</span></code></p>
-<p><strong>Option 3.</strong>  Provide a MCR case <em>.mat</em> file, and specify the filename in the WEC-Sim input file, example:
-<code class="docutils literal"><span class="pre">simu.mcrCaseFile</span> <span class="pre">=</span> <span class="pre">&quot;&lt;File</span> <span class="pre">name&gt;.mat&quot;</span></code></p>
-</div></blockquote>
-<p>For more information, refer to the <a class="reference external" href="http://wec-sim.github.io/WEC-Sim/webinars.html#webinar-1-bemio-and-mcr">MCR webinar</a>, and the <a class="reference external" href="https://github.com/WEC-Sim/WEC-Sim_Applications">WEC-Sim Applications repository</a> MCR example.</p>
-<div class="admonition note">
-<p class="first admonition-title">Note</p>
-<p class="last">For Multiple Condition Runs, the <em>.h5</em> hydrodynamic data is only loaded once. To override this default (and reload the <em>.h5</em> hydrodynamic data between runs),  set <code class="docutils literal"><span class="pre">simu.reloadH5Data</span> <span class="pre">=1</span></code> in the WEC-Sim input file.</p>
-</div>
-</div>
-<div class="section" id="state-space-representation">
-<h3>State-Space Representation<a class="headerlink" href="#state-space-representation" title="Permalink to this headline">¶</a></h3>
-<p>The convolution integral term in the equation of motion can be linearized using the state-space representation as described in the Theory Section. To use state-space representation, the <strong>simu.ssCalc</strong> simulationClass variable must be defined in the WEC-Sim input file, for example:</p>
-<blockquote>
-<div><code class="code docutils literal"><span class="pre">simu.ssCalc</span> <span class="pre">=</span> <span class="pre">1</span></code></div></blockquote>
-</div>
-<div class="section" id="time-step-features">
-<h3>Time-Step Features<a class="headerlink" href="#time-step-features" title="Permalink to this headline">¶</a></h3>
-<p>The default WEC-Sim solver is &#8216;ode4&#8217;. Refer to the <a class="reference external" href="https://github.com/WEC-Sim/WEC-Sim_Applications">WEC-Sim Applications repository</a> non-linear hydro example for a comparisons between &#8216;ode4&#8217; to &#8216;ode45&#8217;.</p>
-<div class="section" id="fixed-time-step-ode4">
-<h4>Fixed Time-Step (ode4)<a class="headerlink" href="#fixed-time-step-ode4" title="Permalink to this headline">¶</a></h4>
-<p>When running WEC-Sim with a fixed time-step, 100-200 time-steps per wave period is recommended to provide accurate hydrodynamic force calculations (ex: simu.dt = T/100, where T is wave periods). However, a smaller time-step may be required (such as when coupling WEC-Sim with MoorDyn or PTO-Sim). To reduce the required WEC-Sim simulation time, a different time-step  may be specified for nonlinear hydrodynamics and for convolution integral calculations. For all simulations, the time-step should be chosen based on numerical stability and a convergence study should be performed.</p>
-<p>The following variables may be changed in the simulationClass (where N is number of increment steps, default: N=1):</p>
-<ul class="simple">
-<li>Fixed time-step: <code class="code docutils literal"><span class="pre">simu.dt</span></code></li>
-<li>Output time-step: <code class="code docutils literal"><span class="pre">simu.dtOut</span></code></li>
-<li>Nonlinear hydrodynamics time-step: <code class="code docutils literal"><span class="pre">simu.dtFeNonlin=N*simu.dt</span></code></li>
-<li>Convolution integral time-step: <code class="code docutils literal"><span class="pre">simu.dtCITime=N*simu.dt</span></code></li>
-</ul>
-</div>
-<div class="section" id="variable-time-step-ode45">
-<h4>Variable Time-Step (ode45)<a class="headerlink" href="#variable-time-step-ode45" title="Permalink to this headline">¶</a></h4>
-<p>To run WEC-Sim with a variable time-step, the following variables must be defined in the simulationClass:</p>
-<ul class="simple">
-<li>Numerical solver: <code class="code docutils literal"><span class="pre">simu.solver='ode45'</span></code></li>
-<li>Max time-step: <code class="code docutils literal"><span class="pre">simu.dt</span></code></li>
-</ul>
-</div>
-</div>
-</div>
 <div class="section" id="constraint-and-pto-features">
 <h2>Constraint and PTO Features<a class="headerlink" href="#constraint-and-pto-features" title="Permalink to this headline">¶</a></h2>
+<p>This section provides an overview of some features included in WEC-Sim&#8217;s control and pto classes. For more information, refer to <a class="reference external" href="http://wec-sim.github.io/WEC-Sim/code_structure.html#constraint-class">Constraint Class</a> and <a class="reference external" href="http://wec-sim.github.io/WEC-Sim/code_structure.html#pto-class">PTO Class</a>.</p>
 <p>The default linear and rotational constraints and PTOs are allow for heave and pitch motions of the follower relative to the base.
 To obtain a linear or rotational constraint in a different direction you must modify the constraint&#8217;s or PTO&#8217;s coordinate orientation.
 The important thing to remember is that a linear constraint or PTO will always allow motion along the joint&#8217;s Z-axis, and a rotational constraint or PTO will allow rotation about the joint&#8217;s Y-axis.
@@ -804,6 +804,10 @@ This would be done by setting <code class="code docutils literal"><span class="p
 In this example, the Y-direction would only have an effect on the coordinate on which the constraint forces are reported but not on the dynamics of the system.
 Similarly if you want to obtain a yaw constraint you would use a rotational constraint and align the constraint&#8217;s Y-axis with the global Z-axis.
 This would be done by setting <code class="code docutils literal"><span class="pre">constraint(i).orientation.y=[0,0,1]</span></code> and the  z-direction to a perpendicular direction (say [0,-1,0]).</p>
+<div class="admonition note">
+<p class="first admonition-title">Note</p>
+<p class="last">When using the Actuation Force/Torque PTO or Actuation Motion PTO blocks, the loads and displacements are specified in the local (not global) coordinate system. This is true for both the sensed (measured) and actuated (commanded) loads and displacements.</p>
+</div>
 <p>Additionally, by combining constraints and PTOs in series you can obtain different motion constraints.
 For example, a massless rigid rod between two bodies, hinged at each body, can be obtained by using a two rotational constraints in series, both rotating in pitch, but with different locations.
 A roll-pitch constraint can also be obtained with two rotational constraints in series; one rotating in pitch, and the other in roll, and both at the same location.</p>
@@ -1014,6 +1018,7 @@ The same as <a class="reference internal" href="#rm3-with-hydraulic-pto">RM3 wit
 </div>
 <div class="section" id="mooring-features">
 <h2>Mooring Features<a class="headerlink" href="#mooring-features" title="Permalink to this headline">¶</a></h2>
+<p>This section provides an overview of some features included in WEC-Sim&#8217;s mooring class. For more information, refer to <a class="reference external" href="http://wec-sim.github.io/WEC-Sim/code_structure.html#mooring-class">Mooring Class</a>.</p>
 <p>Floating WEC systems are often connected to mooring lines to keep the device in position. WEC-Sim allows the user to model the mooring dynamics in the simulation by specifying the mooring matrix or coupling with MoorDyn. To include mooring connections, the user can use the mooring block (i.e., Mooring Matrix block or MoorDyn block) given in the WEC-Sim library under Moorings lib and connect it between the body and the Global reference frame.
 Refer the <a class="reference external" href="http://wec-sim.github.io/WEC-Sim/advanced_features.html#tutorial-rm3-with-moordyn">MoorDyn Tutorial</a> section, and the <a class="reference external" href="http://wec-sim.github.io/WEC-Sim/webinars.html#webinar-4-mooring-and-visualization">Mooring Webinar</a> for more information.</p>
 <p>MoorDyn is hosted on  a seperate <a class="reference external" href="https://github.com/WEC-Sim/moorDyn">MoorDyn repository</a>. It must be download seperately, and all files and folders should be placed in the <code class="docutils literal"><span class="pre">$Source/functions/moorDyn</span></code> directory.</p>

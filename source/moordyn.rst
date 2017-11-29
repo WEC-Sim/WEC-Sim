@@ -1,6 +1,8 @@
 
 Mooring Features
 ------------------
+This section provides an overview of some features included in WEC-Sim's mooring class. For more information, refer to `Mooring Class <http://wec-sim.github.io/WEC-Sim/code_structure.html#mooring-class>`_. 
+
 Floating WEC systems are often connected to mooring lines to keep the device in position. WEC-Sim allows the user to model the mooring dynamics in the simulation by specifying the mooring matrix or coupling with MoorDyn. To include mooring connections, the user can use the mooring block (i.e., Mooring Matrix block or MoorDyn block) given in the WEC-Sim library under Moorings lib and connect it between the body and the Global reference frame. 
 Refer the `MoorDyn Tutorial <http://wec-sim.github.io/WEC-Sim/advanced_features.html#tutorial-rm3-with-moordyn>`_ section, and the `Mooring Webinar <http://wec-sim.github.io/WEC-Sim/webinars.html#webinar-4-mooring-and-visualization>`_ for more information.
 
