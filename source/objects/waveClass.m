@@ -283,7 +283,7 @@ classdef waveClass<handle
                         Z = zeros(size(X));
                         Xt = X*cos(obj.waveDir*pi/180) + Y*sin(obj.waveDir*pi/180);
                         for iw = 1:length(obj.w)
-                            Z = Z + sqrt(obj.A(iw)*obj.dw) * cos(-1*obj.k(iw)*Xt + obj.w(iw)*t(it) + obj.phase(iw));
+                            Z = Z + sqrt(obj.A(iw).*obj.dw(iw)) * cos(-1*obj.k(iw)*Xt + obj.w(iw)*t(it) + obj.phase(iw));
                         end
                 end
                 % write header
