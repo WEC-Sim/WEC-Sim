@@ -81,6 +81,8 @@ classdef bodyClass<handle
             name = ['/body' num2str(obj.bodyNumber)];
             obj.cg = h5read(filename,[name '/properties/cg']);
             obj.cg = obj.cg';
+            obj.cb = h5read(filename,[name '/properties/cb']);
+            obj.cb = obj.cb';
             obj.dispVol = h5read(filename,[name '/properties/disp_vol']);
             obj.name = h5read(filename,[name '/properties/name']);
             try obj.name = obj.name{1}; end
@@ -117,6 +119,7 @@ classdef bodyClass<handle
             % to reading the h5 file. Used in wecSimMCR
             obj.hydroData = hydroData;
             obj.cg        = hydroData.properties.cg';
+            obj.cb        = hydroData.properties.cb';
             obj.dispVol   = hydroData.properties.disp_vol;
             obj.name      = hydroData.properties.name;
         end
