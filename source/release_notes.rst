@@ -8,7 +8,7 @@ Release Notes
 
 * Added option of `equal energy spacing <http://wec-sim.github.io/WEC-Sim/advanced_features.html#irregular-wave-binning>`_ for irregular waves (default).
 * Added option to calculate the wave elevation at a location different from the origin
-* Added option to define `gamma for JONSWAP spectrum <http://wec-sim.github.io/WEC-Sim/code_structure.html#irregular>`
+* Added option to define `gamma for JONSWAP spectrum <http://wec-sim.github.io/WEC-Sim/code_structure.html#irregular>`_
 * Improved the WEC-Sim simulation speed when using rapid-acceleration mode
 * Fixed path bug in BEMIO for LINUX/OSX users
 * Changed/Added following WEC-Sim parameters
