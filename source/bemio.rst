@@ -9,7 +9,7 @@ The Boundary Element Method Input/Output (BEMIO) functions are used to preproces
 * Save the resulting data in Hierarchical Data Format 5 (HDF5).
 * Plot typical hydrodynamic data for user verification.
 
-For more inforation, refer to the `BEMIO tutorial <http://wec-sim.github.io/WEC-Sim/advanced_features.html#bemio-tutorials>`_ section and the  `BEMIO webinar <http://wec-sim.github.io/WEC-Sim/webinars.html#webinar-1-bemio-and-mcr>`_.
+For more information, refer to the `BEMIO tutorial <http://wec-sim.github.io/WEC-Sim/advanced_features.html#bemio-tutorials>`_ section and the  `BEMIO webinar <http://wec-sim.github.io/WEC-Sim/webinars.html#webinar-1-bemio-and-mcr>`_.
 
 
 .. Note:: 
@@ -153,7 +153,7 @@ w             [1,Nf]                    wave frequencies
 BEMIO Tutorials
 ~~~~~~~~~~~~~~~~
 
-The BEMIO tutorials are included in the ``$Source/tutorials/BEMIO`` directory in the WEC-Sim source code. For more inforation, refer to the `BEMIO webinar <http://wec-sim.github.io/WEC-Sim/webinars.html#webinar-1-bemio-and-mcr>`_.
+The BEMIO tutorials are included in the ``$Source/tutorials/BEMIO`` directory in the WEC-Sim source code. For more information, refer to the `BEMIO webinar <http://wec-sim.github.io/WEC-Sim/webinars.html#webinar-1-bemio-and-mcr>`_.
 
 
 Writing Your Own h5 File

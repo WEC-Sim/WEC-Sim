@@ -108,13 +108,14 @@
 <li class="toctree-l1"><a class="reference internal" href="license.html">License</a></li>
 <li class="toctree-l1"><a class="reference internal" href="publications.html">Publications</a></li>
 <li class="toctree-l1 current"><a class="current reference internal" href="#">Release Notes</a><ul>
-<li class="toctree-l2"><a class="reference internal" href="#id2">WEC-Sim v2.2</a></li>
-<li class="toctree-l2"><a class="reference internal" href="#id5">WEC-Sim v2.1</a></li>
-<li class="toctree-l2"><a class="reference internal" href="#id8">WEC-Sim v2.0</a></li>
-<li class="toctree-l2"><a class="reference internal" href="#id9">WEC-Sim v1.3</a></li>
-<li class="toctree-l2"><a class="reference internal" href="#id10">WEC-Sim v1.2</a></li>
-<li class="toctree-l2"><a class="reference internal" href="#id11">WEC-Sim v1.1</a></li>
-<li class="toctree-l2"><a class="reference internal" href="#id12">WEC-Sim v1.0</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#id2">WEC-Sim v3.0</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#id3">WEC-Sim v2.2</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#id4">WEC-Sim v2.1</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#id5">WEC-Sim v2.0</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#id6">WEC-Sim v1.3</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#id7">WEC-Sim v1.2</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#id8">WEC-Sim v1.1</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#id9">WEC-Sim v1.0</a></li>
 </ul>
 </li>
 <li class="toctree-l1"><a class="reference internal" href="contact.html">Contact Us</a></li>
@@ -184,14 +185,36 @@
   <div class="section" id="release-notes">
 <span id="id1"></span><h1>Release Notes<a class="headerlink" href="#release-notes" title="Permalink to this headline">¶</a></h1>
 <div class="section" id="id2">
-<h2><a class="reference external" href="https://github.com/WEC-Sim/WEC-Sim/releases/tag/v2.2">WEC-Sim v2.2</a><a class="headerlink" href="#id2" title="Permalink to this headline">¶</a></h2>
+<h2><a class="reference external" href="https://github.com/WEC-Sim/WEC-Sim/releases/tag/v3.0">WEC-Sim v3.0</a><a class="headerlink" href="#id2" title="Permalink to this headline">¶</a></h2>
+<ul class="simple">
+<li>Added option of <a class="reference external" href="http://wec-sim.github.io/WEC-Sim/advanced_features.html#irregular-wave-binning">equal energy spacing</a> for irregular waves (default).</li>
+<li>Added option to calculate the wave elevation at a location different from the origin</li>
+<li>Added option to define <cite>gamma for JONSWAP spectrum &lt;http://wec-sim.github.io/WEC-Sim/code_structure.html#irregular&gt;</cite></li>
+<li>Improved the WEC-Sim simulation speed when using rapid-acceleration mode</li>
+<li>Fixed path bug in BEMIO for LINUX/OSX users</li>
+<li><dl class="first docutils">
+<dt>Changed/Added following WEC-Sim parameters</dt>
+<dd><ul class="first last">
+<li>waves.randPreDefined -&gt; <a class="reference external" href="http://wec-sim.github.io/WEC-Sim/advanced_features.html#irregular-waves-with-seeded-phase">waves.phaseSeed</a></li>
+<li>waves.phaseRand -&gt; waves.phase</li>
+<li>simu.dtFeNonlin -&gt; <a class="reference external" href="http://wec-sim.github.io/WEC-Sim/advanced_features.html#non-linear-hydrodynamics">simu.dtNL</a></li>
+<li>simu.rampT -&gt; <a class="reference external" href="http://wec-sim.github.io/WEC-Sim/code_structure.html#simulation-class">simu.rampTime</a></li>
+<li>Added simu.dtME  to allow specification of <a class="reference external" href="http://wec-sim.github.io/WEC-Sim/advanced_features.html#time-step-features">Morison force time-step</a></li>
+</ul>
+</dd>
+</dl>
+</li>
+</ul>
+</div>
+<div class="section" id="id3">
+<h2><a class="reference external" href="https://github.com/WEC-Sim/WEC-Sim/releases/tag/v2.2">WEC-Sim v2.2</a><a class="headerlink" href="#id3" title="Permalink to this headline">¶</a></h2>
 <ul class="simple">
 <li>Added option to save pressure data for non-linear hydro (<cite>simu.pressureDis</cite>)</li>
 <li>Update to moorDyn parser (doesn&#8217;t require line#.out)</li>
 <li><dl class="first docutils">
 <dt>Repository cleanup</dt>
 <dd><ul class="first last">
-<li>Implemented <a class="reference external" href="https://git-lfs.github.com/">Git LFS</a> for tracking <a href="#id3"><span class="problematic" id="id4">*</span></a>.h5 files</li>
+<li>Implemented <a class="reference external" href="https://git-lfs.github.com/">Git LFS</a> for tracking <code class="docutils literal"><span class="pre">*.h5</span></code> files</li>
 <li>Added <a class="reference external" href="https://github.com/WEC-Sim/WEC-Sim_Applications">WEC-Sim Application  repository</a> as a <a class="reference external" href="https://git-scm.com/book/en/v2/Git-Tools-Submodules">submodule</a></li>
 <li>Moved <a class="reference external" href="https://github.com/WEC-Sim/moorDyn">moorDyn</a> to its own repository</li>
 <li>Removed publications from repository, <a class="reference external" href="http://wec-sim.github.io/WEC-Sim/publications.html">available on website</a></li>
@@ -205,12 +228,12 @@
 <p class="last">GitHub repository history was re-written to make repository <em>much</em> smaller. Re-cloning the repository is highly recommended - it should be much faster than before.</p>
 </div>
 </div>
-<div class="section" id="id5">
-<h2><a class="reference external" href="https://github.com/WEC-Sim/WEC-Sim/releases/tag/v2.1">WEC-Sim v2.1</a><a class="headerlink" href="#id5" title="Permalink to this headline">¶</a></h2>
+<div class="section" id="id4">
+<h2><a class="reference external" href="https://github.com/WEC-Sim/WEC-Sim/releases/tag/v2.1">WEC-Sim v2.1</a><a class="headerlink" href="#id4" title="Permalink to this headline">¶</a></h2>
 <ul class="simple">
 <li>Added MATLAB version of BEMIO (to replace python version)</li>
 <li>Added variable time-step option with &#8216;ode45&#8217; by &#64;ratanakso</li>
-<li>Update to MCR, option to not re-load <a href="#id6"><span class="problematic" id="id7">*</span></a>.h5 file by &#64;bradling</li>
+<li>Update to MCR, option to not re-load <code class="docutils literal"><span class="pre">*.h5</span></code> file by &#64;bradling</li>
 <li>Update to waveClass to allow for definition of min/max wave frequency by &#64;bradling</li>
 </ul>
 <div class="admonition note">
@@ -218,15 +241,15 @@
 <p class="last">Backward Compatibility: <strong>WEC-Sim v2.1 is not backward compatible</strong></p>
 </div>
 </div>
-<div class="section" id="id8">
-<h2><a class="reference external" href="https://github.com/WEC-Sim/WEC-Sim/releases/tag/v2.0">WEC-Sim v2.0</a><a class="headerlink" href="#id8" title="Permalink to this headline">¶</a></h2>
+<div class="section" id="id5">
+<h2><a class="reference external" href="https://github.com/WEC-Sim/WEC-Sim/releases/tag/v2.0">WEC-Sim v2.0</a><a class="headerlink" href="#id5" title="Permalink to this headline">¶</a></h2>
 <ul class="simple">
 <li>Updated WEC-Sim Library (generalized joints/constraints/PTOs)</li>
 <li>Body-to-body interactions for radiation forces</li>
-<li>Morrison forces</li>
+<li>Morison forces</li>
 <li>Batch run mode (MCR)</li>
 <li>Mooring sub-library implemented in mooringClass (no longer in body or joint)</li>
-<li>More realistic PTO and mooring modelling through PTO-Sim and integration with MoorDyn</li>
+<li>More realistic PTO and mooring modeling through PTO-Sim and integration with MoorDyn</li>
 <li>Non-hydrodynamic body option</li>
 <li>Visualization using ParaView</li>
 </ul>
@@ -235,21 +258,21 @@
 <p class="last">Backward Compatibility: <strong>WEC-Sim v2.0 is not backward compatible</strong></p>
 </div>
 </div>
-<div class="section" id="id9">
-<h2><a class="reference external" href="https://github.com/WEC-Sim/WEC-Sim/releases/tag/v1.3">WEC-Sim v1.3</a><a class="headerlink" href="#id9" title="Permalink to this headline">¶</a></h2>
+<div class="section" id="id6">
+<h2><a class="reference external" href="https://github.com/WEC-Sim/WEC-Sim/releases/tag/v1.3">WEC-Sim v1.3</a><a class="headerlink" href="#id6" title="Permalink to this headline">¶</a></h2>
 <ul class="simple">
 <li>Added Morison Elements</li>
 <li>Body2Body Interactions</li>
 <li>Multiple Case Runs (wecSimMCR)</li>
 <li>Moordyn</li>
 <li>Added Non-hydro Bodies</li>
-<li>Morrison Forces</li>
+<li>Morison Forces</li>
 <li>Joint Updates</li>
 <li>Visualization with Paraview</li>
 </ul>
 </div>
-<div class="section" id="id10">
-<h2><a class="reference external" href="https://github.com/WEC-Sim/WEC-Sim/releases/tag/v1.2">WEC-Sim v1.2</a><a class="headerlink" href="#id10" title="Permalink to this headline">¶</a></h2>
+<div class="section" id="id7">
+<h2><a class="reference external" href="https://github.com/WEC-Sim/WEC-Sim/releases/tag/v1.2">WEC-Sim v1.2</a><a class="headerlink" href="#id7" title="Permalink to this headline">¶</a></h2>
 <ul class="simple">
 <li>Nonlinear Froude-Krylov hydrodynamics and hydrostatics</li>
 <li>State space radiation</li>
@@ -264,8 +287,8 @@
 <p class="last">Backward Compatibility: <strong>WEC-Sim v1.2 is not backward compatible</strong></p>
 </div>
 </div>
-<div class="section" id="id11">
-<h2><a class="reference external" href="https://github.com/WEC-Sim/WEC-Sim/releases/tag/v1.1">WEC-Sim v1.1</a><a class="headerlink" href="#id11" title="Permalink to this headline">¶</a></h2>
+<div class="section" id="id8">
+<h2><a class="reference external" href="https://github.com/WEC-Sim/WEC-Sim/releases/tag/v1.1">WEC-Sim v1.1</a><a class="headerlink" href="#id8" title="Permalink to this headline">¶</a></h2>
 <ul class="simple">
 <li>WEC-Sim v1.1, <a class="reference external" href="https://github.com/WEC-Sim/WEC-Sim/releases/tag/v1.1">now available on GitHub</a></li>
 <li>Improvements in code stability through modifications to the added mass, radiation damping calculations, and impulse response function calculations</li>
@@ -274,10 +297,10 @@
 <li>Documentation available on WEC-Sim Website</li>
 </ul>
 </div>
-<div class="section" id="id12">
-<h2><a class="reference external" href="https://github.com/WEC-Sim/WEC-Sim/releases/tag/v1.0">WEC-Sim v1.0</a><a class="headerlink" href="#id12" title="Permalink to this headline">¶</a></h2>
+<div class="section" id="id9">
+<h2><a class="reference external" href="https://github.com/WEC-Sim/WEC-Sim/releases/tag/v1.0">WEC-Sim v1.0</a><a class="headerlink" href="#id9" title="Permalink to this headline">¶</a></h2>
 <ul class="simple">
-<li>Initial release of WEC-Sim (oringially on OpenEI, now available on GitHub)</li>
+<li>Initial release of WEC-Sim (originally on OpenEI, now available on GitHub)</li>
 <li>Available as a static download</li>
 <li>Documentation available in PDF</li>
 </ul>

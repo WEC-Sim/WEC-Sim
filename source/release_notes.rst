@@ -3,12 +3,28 @@
 Release Notes
 =============
 
+`WEC-Sim v3.0 <https://github.com/WEC-Sim/WEC-Sim/releases/tag/v3.0>`_
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+* Added option of `equal energy spacing <http://wec-sim.github.io/WEC-Sim/advanced_features.html#irregular-wave-binning>`_ for irregular waves (default).
+* Added option to calculate the wave elevation at a location different from the origin
+* Added option to define `gamma for JONSWAP spectrum <http://wec-sim.github.io/WEC-Sim/code_structure.html#irregular>`
+* Improved the WEC-Sim simulation speed when using rapid-acceleration mode
+* Fixed path bug in BEMIO for LINUX/OSX users
+* Changed/Added following WEC-Sim parameters
+	* waves.randPreDefined -> `waves.phaseSeed <http://wec-sim.github.io/WEC-Sim/advanced_features.html#irregular-waves-with-seeded-phase>`_
+	* waves.phaseRand -> waves.phase           
+	* simu.dtFeNonlin -> `simu.dtNL <http://wec-sim.github.io/WEC-Sim/advanced_features.html#non-linear-hydrodynamics>`_
+	* simu.rampT -> `simu.rampTime <http://wec-sim.github.io/WEC-Sim/code_structure.html#simulation-class>`_
+	* Added simu.dtME  to allow specification of `Morison force time-step <http://wec-sim.github.io/WEC-Sim/advanced_features.html#time-step-features>`_
+
+
 `WEC-Sim v2.2 <https://github.com/WEC-Sim/WEC-Sim/releases/tag/v2.2>`_
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 * Added option to save pressure data for non-linear hydro (`simu.pressureDis`)
 * Update to moorDyn parser (doesn't require line#.out)  
 * Repository cleanup
-		* Implemented `Git LFS <https://git-lfs.github.com/>`_ for tracking *.h5 files
+		* Implemented `Git LFS <https://git-lfs.github.com/>`_ for tracking ``*.h5`` files
 		* Added `WEC-Sim Application  repository <https://github.com/WEC-Sim/WEC-Sim_Applications>`_ as a `submodule <https://git-scm.com/book/en/v2/Git-Tools-Submodules>`_
 		* Moved `moorDyn <https://github.com/WEC-Sim/moorDyn>`_ to its own repository
 		* Removed publications from repository, `available on website <http://wec-sim.github.io/WEC-Sim/publications.html>`_
@@ -22,7 +38,7 @@ Release Notes
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 * Added MATLAB version of BEMIO (to replace python version)
 * Added variable time-step option with 'ode45' by @ratanakso 
-* Update to MCR, option to not re-load *.h5 file by @bradling 
+* Update to MCR, option to not re-load ``*.h5`` file by @bradling 
 * Update to waveClass to allow for definition of min/max wave frequency by @bradling 
 
 .. Note::
@@ -33,10 +49,10 @@ Release Notes
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 * Updated WEC-Sim Library (generalized joints/constraints/PTOs)
 * Body-to-body interactions for radiation forces
-* Morrison forces
+* Morison forces
 * Batch run mode (MCR)
 * Mooring sub-library implemented in mooringClass (no longer in body or joint)
-* More realistic PTO and mooring modelling through PTO-Sim and integration with MoorDyn
+* More realistic PTO and mooring modeling through PTO-Sim and integration with MoorDyn
 * Non-hydrodynamic body option
 * Visualization using ParaView
 
@@ -51,7 +67,7 @@ Release Notes
 * Multiple Case Runs (wecSimMCR)
 * Moordyn
 * Added Non-hydro Bodies
-* Morrison Forces
+* Morison Forces
 * Joint Updates
 * Visualization with Paraview
 	
@@ -79,7 +95,7 @@ Release Notes
 
 `WEC-Sim v1.0 <https://github.com/WEC-Sim/WEC-Sim/releases/tag/v1.0>`_
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-* Initial release of WEC-Sim (oringially on OpenEI, now available on GitHub)
+* Initial release of WEC-Sim (originally on OpenEI, now available on GitHub)
 * Available as a static download 
 * Documentation available in PDF 
 

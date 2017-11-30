@@ -6,7 +6,7 @@ This section provides an overview of some features included in WEC-Sim's mooring
 Floating WEC systems are often connected to mooring lines to keep the device in position. WEC-Sim allows the user to model the mooring dynamics in the simulation by specifying the mooring matrix or coupling with MoorDyn. To include mooring connections, the user can use the mooring block (i.e., Mooring Matrix block or MoorDyn block) given in the WEC-Sim library under Moorings lib and connect it between the body and the Global reference frame. 
 Refer the `MoorDyn Tutorial <http://wec-sim.github.io/WEC-Sim/advanced_features.html#tutorial-rm3-with-moordyn>`_ section, and the `Mooring Webinar <http://wec-sim.github.io/WEC-Sim/webinars.html#webinar-4-mooring-and-visualization>`_ for more information.
 
-MoorDyn is hosted on  a seperate `MoorDyn repository <https://github.com/WEC-Sim/moorDyn>`_. It must be download seperately, and all files and folders should be placed in the ``$Source/functions/moorDyn`` directory.
+MoorDyn is hosted on  a separate `MoorDyn repository <https://github.com/WEC-Sim/moorDyn>`_. It must be download separately, and all files and folders should be placed in the ``$Source/functions/moorDyn`` directory.
 
 
 Mooring Matrix
@@ -62,7 +62,7 @@ This section describes how to simulate a mooring connected WEC system in WEC-Sim
     :width: 400pt
     :align: center
 
-* **Simulation and Postprocessing**: Simulation and postprocessing are the same process as described in Tutorial Section.
+* **Simulation and Post-processing**: Simulation and post-processing are the same process as described in Tutorial Section.
 
 	.. Note::
 		You may need to install the MinGW-w64 compiler to run this simulation.

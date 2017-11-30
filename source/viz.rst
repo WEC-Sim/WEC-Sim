@@ -10,13 +10,13 @@ Using Paraview visualization improves on SimMechanics's explorer by:
 * Visualization of the cell-by-cell non-linear hydrodynamic forces (when using non-linear hydro)
 * Allow data manipulation and more visualization options
 
-On the other hand the SimMechanics explorer shows the following information not shown in Paraview vizualition:
+On the other hand the SimMechanics explorer shows the following information not shown in Paraview visualizing:
 
 * Location of the center of gravity
 * Location of the different frames including PTO and Constraint frames
 
 Visualization with paraview requires many files to be written, which makes the WEC-Sim simulation take significantly more time, and makes the directory significantly larger. 
-It should only be turned on when vizualisation is desired. The user also needs to have some familiarity with using Paraview.
+It should only be turned on when visualization is desired. The user also needs to have some familiarity with using Paraview.
 
 
 Getting Started - Installation
@@ -33,14 +33,14 @@ Getting Started - Installation
 
 Setting Up Paraview Output
 ~~~~~~~~~~~~~~~~~~~~~~~~~~
-	The following table shows the variables that can be specfied in the ``wecSimInputFile`` to control the Paraview visualization. The ``body.viz`` properties are also used in the SimMechanics explorer visualization.
+	The following table shows the variables that can be specified in the ``wecSimInputFile`` to control the Paraview visualization. The ``body.viz`` properties are also used in the SimMechanics explorer visualization.
 
 +------------------------------------------------------------------------------------+
 |WEC-Sim Visualization using Paraview                                                |
 +=========================+==========================================================+
 |Variable                 |Description                                               |
 +-------------------------+----------------------------------------------------------+
-|``simu.paraview``        |0 to not ouput Paraview files [default]                   |
+|``simu.paraview``        |0 to not output Paraview files [default]                  |
 |                         |1 to output Paraview files                                |
 +-------------------------+----------------------------------------------------------+
 |``simu.nlHydro``         |0 for no non-linear hydro [default]                       |
@@ -64,7 +64,7 @@ Setting Up Paraview Output
 Outputs and Opening in Paraview
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 	When ``simu.paraview`` is set to 1, a directory called ``vtk`` is created. 
-	All files necessary for Paraview vizualisation are located there.
+	All files necessary for Paraview visualization are located there.
 	To view in Paraview:
 
 	* Open the ``vtk/filename.pvd`` file in Paraview
@@ -109,10 +109,10 @@ Visualizing Non-Linear Hydro Forces
 	* Hydrostatic Pressure
 	* Linear Froude-Krylov pressure
 	* Non-linear Froude-Krylov pressure
-	* Total pressure (hydostatic plus non-linear Foude-Krylov)
+	* Total pressure (hydrostatic plus non-linear Foude-Krylov)
 	* Froude-Krylov delta (non-linear minus linear)
 
-	The video below shows three different views of the RM3 model described in the turoeials.
+	The video below shows three different views of the RM3 model described in the tutorials.
 	The top right shows glyphs of the non-linear Froude-Krylov pressure acting on the float. 
 	The bottom right shows the float colored by hydrostatic pressure.
 

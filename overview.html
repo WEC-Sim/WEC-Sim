@@ -243,7 +243,7 @@ For details about WEC-Sim&#8217;s objects and available properties for each obje
 <p>An example WEC-Sim input file is shown below for the OSWEC Tutorial.
 Additional examples are provided in the <a class="reference external" href="http://wec-sim.github.io/WEC-Sim/tutorials.html">Tutorials</a>  section.
 WEC-Sim is an object oriented code and the input file reflects this.
-The WEC-Sim input file (<code class="docutils literal"><span class="pre">wecSimInputFile.m</span></code>) for the OSWEC intializes and specifies properties for simulation, body, constraint and pto classes.</p>
+The WEC-Sim input file (<code class="docutils literal"><span class="pre">wecSimInputFile.m</span></code>) for the OSWEC initializes and specifies properties for simulation, body, constraint and pto classes.</p>
 <div class="highlight-matlab"><div class="highlight"><pre><span></span><span class="c">%% Simulation Data</span>
 <span class="n">simu</span> <span class="p">=</span> <span class="n">simulationClass</span><span class="p">();</span>               <span class="c">% Initialize simulationClass</span>
 <span class="n">simu</span><span class="p">.</span><span class="n">simMechanicsFile</span> <span class="p">=</span> <span class="s">&#39;OSWEC.slx&#39;</span><span class="p">;</span>    <span class="c">% Specify Simulink Model File</span>
@@ -297,7 +297,7 @@ For more information about the OSWEC, and how to build WEC-Sim Simulink models, 
 </div>
 <div class="section" id="hydrodynamic-data">
 <h3>Hydrodynamic Data<a class="headerlink" href="#hydrodynamic-data" title="Permalink to this headline">¶</a></h3>
-<p>The WEC-Sim code also requires a hydrodynamic data from a BEM soltuion in the form of a <code class="docutils literal"><span class="pre">*.h5</span></code> file.
+<p>The WEC-Sim code also requires a hydrodynamic data from a BEM solution in the form of a <code class="docutils literal"><span class="pre">*.h5</span></code> file.
 This <code class="docutils literal"><span class="pre">*.h5</span></code> hydrodynamic data file can be generated using the BEMIO pre-processor.
 BEMIO (Boundary Element Method Input/Output) is a code developed by the WEC-Sim team to process BEM output files from WAMIT, NEMOH, and AQWA into a data structure than can be read by WEC-Sim. For more information about the BEMIO pre-processor, refer to the <a class="reference external" href="http://wec-sim.github.io/WEC-Sim/advanced_features.html#bemio">BEMIO</a> section.</p>
 </div>
@@ -332,7 +332,7 @@ However, when running WEC-Sim with non-linear hydrodynamics, the quality of the 
 <h3>Step 2: Build WEC-Sim Simulink Model<a class="headerlink" href="#step-2-build-wec-sim-simulink-model" title="Permalink to this headline">¶</a></h3>
 <p>In this step, users build their WEC-Sim Simulink model (<code class="docutils literal"><span class="pre">*.slx</span></code>) using the <a class="reference external" href="http://wec-sim.github.io/WEC-Sim/code_structure.html#wec-sim-library">WEC-Sim Library</a> developed in Simulink/Simscape.
 The <code class="docutils literal"><span class="pre">*.slx</span></code> Simulink model file must be located in the <code class="docutils literal"><span class="pre">$CASE</span></code> directory.
-The figure below shows an example WEC-Sim Simlulink model for the OSWEC tutorial.</p>
+The figure below shows an example WEC-Sim Simulink model for the OSWEC tutorial.</p>
 <div class="figure align-center">
 <a class="reference internal image-reference" href="_images/OSWEC_Model.png"><img alt="_images/OSWEC_Model.png" src="_images/OSWEC_Model.png" style="width: 400pt;" /></a>
 <div class="legend">

@@ -180,13 +180,13 @@ For more information about using Paraview for visualization, refer to the <a cla
 <li>Visualization of the cell-by-cell non-linear hydrodynamic forces (when using non-linear hydro)</li>
 <li>Allow data manipulation and more visualization options</li>
 </ul>
-<p>On the other hand the SimMechanics explorer shows the following information not shown in Paraview vizualition:</p>
+<p>On the other hand the SimMechanics explorer shows the following information not shown in Paraview visualizing:</p>
 <ul class="simple">
 <li>Location of the center of gravity</li>
 <li>Location of the different frames including PTO and Constraint frames</li>
 </ul>
 <p>Visualization with paraview requires many files to be written, which makes the WEC-Sim simulation take significantly more time, and makes the directory significantly larger.
-It should only be turned on when vizualisation is desired. The user also needs to have some familiarity with using Paraview.</p>
+It should only be turned on when visualization is desired. The user also needs to have some familiarity with using Paraview.</p>
 <div class="section" id="getting-started-installation">
 <h2>Getting Started - Installation<a class="headerlink" href="#getting-started-installation" title="Permalink to this headline">¶</a></h2>
 <blockquote>
@@ -204,7 +204,7 @@ Next you will need to add some WEC-Sim specific macros,as follows:</p>
 <div class="section" id="setting-up-paraview-output">
 <h2>Setting Up Paraview Output<a class="headerlink" href="#setting-up-paraview-output" title="Permalink to this headline">¶</a></h2>
 <blockquote>
-<div>The following table shows the variables that can be specfied in the <code class="docutils literal"><span class="pre">wecSimInputFile</span></code> to control the Paraview visualization. The <code class="docutils literal"><span class="pre">body.viz</span></code> properties are also used in the SimMechanics explorer visualization.</div></blockquote>
+<div>The following table shows the variables that can be specified in the <code class="docutils literal"><span class="pre">wecSimInputFile</span></code> to control the Paraview visualization. The <code class="docutils literal"><span class="pre">body.viz</span></code> properties are also used in the SimMechanics explorer visualization.</div></blockquote>
 <table border="1" class="docutils">
 <colgroup>
 <col width="30%" />
@@ -219,7 +219,7 @@ Next you will need to add some WEC-Sim specific macros,as follows:</p>
 <td>Description</td>
 </tr>
 <tr class="row-odd"><td><code class="docutils literal"><span class="pre">simu.paraview</span></code></td>
-<td>0 to not ouput Paraview files [default]
+<td>0 to not output Paraview files [default]
 1 to output Paraview files</td>
 </tr>
 <tr class="row-even"><td><code class="docutils literal"><span class="pre">simu.nlHydro</span></code></td>
@@ -252,7 +252,7 @@ Next you will need to add some WEC-Sim specific macros,as follows:</p>
 <h2>Outputs and Opening in Paraview<a class="headerlink" href="#outputs-and-opening-in-paraview" title="Permalink to this headline">¶</a></h2>
 <blockquote>
 <div><p>When <code class="docutils literal"><span class="pre">simu.paraview</span></code> is set to 1, a directory called <code class="docutils literal"><span class="pre">vtk</span></code> is created.
-All files necessary for Paraview vizualisation are located there.
+All files necessary for Paraview visualization are located there.
 To view in Paraview:</p>
 <ul class="simple">
 <li>Open the <code class="docutils literal"><span class="pre">vtk/filename.pvd</span></code> file in Paraview</li>
@@ -295,10 +295,10 @@ The cell data are:</p>
 <li>Hydrostatic Pressure</li>
 <li>Linear Froude-Krylov pressure</li>
 <li>Non-linear Froude-Krylov pressure</li>
-<li>Total pressure (hydostatic plus non-linear Foude-Krylov)</li>
+<li>Total pressure (hydrostatic plus non-linear Foude-Krylov)</li>
 <li>Froude-Krylov delta (non-linear minus linear)</li>
 </ul>
-<p>The video below shows three different views of the RM3 model described in the turoeials.
+<p>The video below shows three different views of the RM3 model described in the tutorials.
 The top right shows glyphs of the non-linear Froude-Krylov pressure acting on the float.
 The bottom right shows the float colored by hydrostatic pressure.</p>
 <blockquote>

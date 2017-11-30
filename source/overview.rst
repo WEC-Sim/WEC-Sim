@@ -45,7 +45,7 @@ For details about WEC-Sim's objects and available properties for each object, re
 An example WEC-Sim input file is shown below for the OSWEC Tutorial. 
 Additional examples are provided in the `Tutorials <http://wec-sim.github.io/WEC-Sim/tutorials.html>`_  section.
 WEC-Sim is an object oriented code and the input file reflects this.
-The WEC-Sim input file (``wecSimInputFile.m``) for the OSWEC intializes and specifies properties for simulation, body, constraint and pto classes.
+The WEC-Sim input file (``wecSimInputFile.m``) for the OSWEC initializes and specifies properties for simulation, body, constraint and pto classes.
  
     
 .. literalinclude:: OSWECwecSimInputFile.m
@@ -69,7 +69,7 @@ For more information about the OSWEC, and how to build WEC-Sim Simulink models, 
 
 Hydrodynamic Data
 ~~~~~~~~~~~~~~~~~~~~
-The WEC-Sim code also requires a hydrodynamic data from a BEM soltuion in the form of a ``*.h5`` file.
+The WEC-Sim code also requires a hydrodynamic data from a BEM solution in the form of a ``*.h5`` file.
 This ``*.h5`` hydrodynamic data file can be generated using the BEMIO pre-processor.
 BEMIO (Boundary Element Method Input/Output) is a code developed by the WEC-Sim team to process BEM output files from WAMIT, NEMOH, and AQWA into a data structure than can be read by WEC-Sim. For more information about the BEMIO pre-processor, refer to the `BEMIO <http://wec-sim.github.io/WEC-Sim/advanced_features.html#bemio>`_ section.
 
@@ -102,7 +102,7 @@ Step 2: Build WEC-Sim Simulink Model
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 In this step, users build their WEC-Sim Simulink model (``*.slx``) using the `WEC-Sim Library <http://wec-sim.github.io/WEC-Sim/code_structure.html#wec-sim-library>`_ developed in Simulink/Simscape. 
 The ``*.slx`` Simulink model file must be located in the ``$CASE`` directory. 
-The figure below shows an example WEC-Sim Simlulink model for the OSWEC tutorial.
+The figure below shows an example WEC-Sim Simulink model for the OSWEC tutorial.
 
 
 .. figure:: _static/OSWEC_Model.png

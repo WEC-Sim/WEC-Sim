@@ -7,7 +7,7 @@ Recordings of each are available below, along with the presentation slides.
 	
 Online Training Course
 ----------------------		
-The WEC-Sim team hosted a WEC-Sim Online Training couse on August 17, 2017.  
+The WEC-Sim team hosted a WEC-Sim Online Training course on August 17, 2017.  
 Recordings of each of the course topics are available below, along with the presentation slides. 
 
 	
@@ -69,7 +69,7 @@ The WEC-Sim team hosted a series of Advanced Features Webinars.  Dates and topic
 	1	     April 18, 2017   BEMIO and MCR
 	2	     May 24, 2017     Nonlinear Hydro, Non-hydro, and B2B
 	3	     June 13, 2017    PTO and Control
-	4	     July 18, 2017    Mooring and Vizualization
+	4	     July 18, 2017    Mooring and Visualization
 	===========  ===============  ====================================
 
 
