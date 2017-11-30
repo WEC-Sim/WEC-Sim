@@ -67,7 +67,7 @@ for n = 1:N
     end
     if isempty(strfind(raw{n},'Center of Buoyancy (Xb,Yb,Zb):'))==0
         tmp = textscan(raw{n}(find(raw{n}==':')+1:end),'%f');
-        hydro(F).cb(:,hydro(F).Nb) = tmp{1};  % Center of buoyancy
+        hydro(F).cb(:,hydro(F).Nb) = hydro(F).cg(:,hydro(F).Nb) + tmp{1};  % Center of buoyancy
     end
     if isempty(strfind(raw{n},'Hydrostatic and gravitational'))==0
         hydro(F).C(:,:,hydro(F).Nb) = zeros(6,6);  % Linear restoring stiffness

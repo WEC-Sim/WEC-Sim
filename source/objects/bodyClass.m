@@ -24,6 +24,7 @@ classdef bodyClass<handle
         mass              = []                                                  % Mass in kg or specify 'equilibrium' to have mass= dis vol * density
         momOfInertia      = []                                                  % Moment of inertia [Ixx Iyy Izz] in kg*m^2
         cg                = []                                                  % Center of gravity [x y z] in meters. For WEC bodies this is given in the h5 file.
+        cb                = []                                                  % Center of buoyancy [x y z] in meters. For WEC bodies this is given in the h5 file.
         dispVol           = []                                                  % Displaced volume at equilibrium position in meters cubed. For WEC bodies this is given in the h5 file.
         geometryFile      = 'NONE'                                              % Location of geomtry stl files
         viscDrag          = struct(...                                          % Structure defining the viscous (quadratic) drag
@@ -92,6 +93,7 @@ classdef bodyClass<handle
             try obj.hydroData.properties.name = obj.hydroData.properties.name{1}; end
             obj.hydroData.properties.body_number = h5read(filename,[name '/properties/body_number']);
             obj.hydroData.properties.cg = h5read(filename,[name '/properties/cg']);
+            obj.hydroData.properties.cb = h5read(filename,[name '/properties/cb']);
             obj.hydroData.properties.disp_vol = h5read(filename,[name '/properties/disp_vol']);
             obj.hydroData.hydro_coeffs.linear_restoring_stiffness = h5load(filename, [name '/hydro_coeffs/linear_restoring_stiffness']);
             obj.hydroData.hydro_coeffs.excitation.re = h5load(filename, [name '/hydro_coeffs/excitation/re']);
