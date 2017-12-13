@@ -1,20 +1,15 @@
 WEC-Sim (Wave Energy Converter SIMulator)
 Copyright 2014 the National Renewable Energy Laboratory and Sandia Corporation
 
-Principal developers:
-Kelley Ruehl (Sandia National Laboratories)
-Carlos Michelen (Sandia National Laboratories)
+Sandia and NREL Developers:
 Yi-Hsiang Yu (National Renewable Energy Laboratory)
+Kelley Ruehl (Sandia National Laboratories)
 Michael Lawson (National Renewable Energy Laboratory)
+Carlos Michelen (Sandia National Laboratories)
+Jennifer Van Rij (National Renewable Energy Laboratory)
 Nathan Tom (National Renewable Energy Laboratory)
-
-Contributors:
-Adam Nelesses (Georgia Institute of Technology)
-Sam Kanner (University of California at Berkeley)
-Chris McComb (Carnegie Mellon University)
 
 Several libraries developed by external parties are used by
 WEC-Sim. License information for these libraries is as
 follows:
-
 source/functions/import_stl_fast/import_stl_fast.m - see license in import_stl_fast.m 
