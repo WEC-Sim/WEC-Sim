@@ -27,8 +27,8 @@ e = 0;
 if isempty(ex_coeff)==1;  ex_coeff = 'diffraction';  end  % 'diffraction' or 'haskind'
 
 hydro(F).code = 'WAMIT';
-tmp = strsplit(filename,{' ','\','.'});
-hydro(F).file = tmp{length(tmp)-1};  % Base name
+[filepath,name,ext] = fileparts(filename);
+hydro(F).file = name;  % Base name
 
 fileID = fopen(filename);
 raw = textscan(fileID,'%[^\n\r]');  % Read/copy raw output
