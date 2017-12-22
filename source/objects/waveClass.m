@@ -174,6 +174,8 @@ classdef waveClass<handle
                     data = importdata(obj.etaDataFile) ;    % Import time-series
                     t = [0:dt:endTime]';      % WEC-Sim simulation time [s]
                     obj.waveElevUser(rampTime, dt, maxIt, data, t);
+                    obj.waveAmpTimex        = zeros(maxIt+1,2);
+                    obj.waveAmpTimex(:,1)   = [0:maxIt]*dt;
             end
             %obj.waveNumber(g)
         end
