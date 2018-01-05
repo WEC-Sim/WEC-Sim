@@ -184,16 +184,3 @@ Then the functions provided are used to create and populate the ``*.h5`` file.
 
 	BEMIO is currently being modified to allow for the combination of different ``*.h5`` files into a single file.
 	This would allow for the BEM of different bodies to be done separately, and BEMIO would take care of making the coefficient matrices the correct size.
-
-Refining STL File
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-An STL file with suitably small panel areas is required for the nonlinear hydrodynamics option in WEC-Sim to yield accurate results. Softwares used to generate ``*.stl`` files often represent flat panels with straight edges with the minimum number of required triangles. This can result in ``*.stl`` files with large panel areas. 
-
-The script ``refine_stl`` in the BEMIO directory performs a simple mesh refinement on an ``*.stl`` file by subdividing each panel with an area above the specified threshold into four smaller panels with new vertices at the mid-points of the original panel edges. This procedure is iterated for each panel until all panels have an area below the specified threshold, as in the example rectangle. 
-
-
-.. figure:: _static/rectangles.png 
-   :width: 300pt 
-   :align: center
-
-In this way, the each new panel retains the aspect ratio of the original panel. Note that the linear discretization of curved edges is not refined via this algorithm. The header comments of the function explain the inputs and outputs. This function calls ``import_stl_fast``, included with the WEC-Sim distribution, to import the ``.*stl`` file.

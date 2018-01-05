@@ -164,6 +164,15 @@ There are many ways to generate an STL file; however, it is important to verify 
 
 	 All STL files must be saved as ASCII (not binary)
  
+**Refining STL File** - The script ``refine_stl`` in the BEMIO directory performs a simple mesh refinement on an ``*.stl`` file by subdividing each panel with an area above the specified threshold into four smaller panels with new vertices at the mid-points of the original panel edges. This procedure is iterated for each panel until all panels have an area below the specified threshold, as in the example rectangle. 
+
+
+.. figure:: _static/rectangles.png 
+   :width: 300pt 
+   :align: center
+
+In this way, the each new panel retains the aspect ratio of the original panel. Note that the linear discretization of curved edges is not refined via this algorithm. The header comments of the function explain the inputs and outputs. This function calls ``import_stl_fast``, included with the WEC-Sim distribution, to import the ``.*stl`` file.
+
 
 Non-Linear Tutorial - Heaving Ellipsoid
 ++++++++++++++++++++++++++++++++++++++++++++++++++

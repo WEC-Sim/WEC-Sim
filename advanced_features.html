@@ -109,7 +109,6 @@
 <li class="toctree-l3"><a class="reference internal" href="#bemio-hydro-data-structure">BEMIO <em>hydro</em> Data Structure</a></li>
 <li class="toctree-l3"><a class="reference internal" href="#bemio-tutorials">BEMIO Tutorials</a></li>
 <li class="toctree-l3"><a class="reference internal" href="#writing-your-own-h5-file">Writing Your Own h5 File</a></li>
-<li class="toctree-l3"><a class="reference internal" href="#refining-stl-file">Refining STL File</a></li>
 </ul>
 </li>
 <li class="toctree-l2"><a class="reference internal" href="#simulation-features">Simulation Features</a><ul>
@@ -603,15 +602,6 @@ This would allow you to read in the <code class="docutils literal"><span class="
 This would allow for the BEM of different bodies to be done separately, and BEMIO would take care of making the coefficient matrices the correct size.</p>
 </div>
 </div>
-<div class="section" id="refining-stl-file">
-<h3>Refining STL File<a class="headerlink" href="#refining-stl-file" title="Permalink to this headline">¶</a></h3>
-<p>An STL file with suitably small panel areas is required for the nonlinear hydrodynamics option in WEC-Sim to yield accurate results. Softwares used to generate <code class="docutils literal"><span class="pre">*.stl</span></code> files often represent flat panels with straight edges with the minimum number of required triangles. This can result in <code class="docutils literal"><span class="pre">*.stl</span></code> files with large panel areas.</p>
-<p>The script <code class="docutils literal"><span class="pre">refine_stl</span></code> in the BEMIO directory performs a simple mesh refinement on an <code class="docutils literal"><span class="pre">*.stl</span></code> file by subdividing each panel with an area above the specified threshold into four smaller panels with new vertices at the mid-points of the original panel edges. This procedure is iterated for each panel until all panels have an area below the specified threshold, as in the example rectangle.</p>
-<div class="figure align-center">
-<a class="reference internal image-reference" href="_images/rectangles.png"><img alt="_images/rectangles.png" src="_images/rectangles.png" style="width: 300pt;" /></a>
-</div>
-<p>In this way, the each new panel retains the aspect ratio of the original panel. Note that the linear discretization of curved edges is not refined via this algorithm. The header comments of the function explain the inputs and outputs. This function calls <code class="docutils literal"><span class="pre">import_stl_fast</span></code>, included with the WEC-Sim distribution, to import the <code class="docutils literal"><span class="pre">.*stl</span></code> file.</p>
-</div>
 </div>
 <div class="section" id="simulation-features">
 <h2>Simulation Features<a class="headerlink" href="#simulation-features" title="Permalink to this headline">¶</a></h2>
@@ -730,6 +720,11 @@ An option available to reduce the nonlinear simulation time is to specify a nonl
 <p class="first admonition-title">Note</p>
 <p class="last">All STL files must be saved as ASCII (not binary)</p>
 </div>
+<p><strong>Refining STL File</strong> - The script <code class="docutils literal"><span class="pre">refine_stl</span></code> in the BEMIO directory performs a simple mesh refinement on an <code class="docutils literal"><span class="pre">*.stl</span></code> file by subdividing each panel with an area above the specified threshold into four smaller panels with new vertices at the mid-points of the original panel edges. This procedure is iterated for each panel until all panels have an area below the specified threshold, as in the example rectangle.</p>
+<div class="figure align-center">
+<a class="reference internal image-reference" href="_images/rectangles.png"><img alt="_images/rectangles.png" src="_images/rectangles.png" style="width: 300pt;" /></a>
+</div>
+<p>In this way, the each new panel retains the aspect ratio of the original panel. Note that the linear discretization of curved edges is not refined via this algorithm. The header comments of the function explain the inputs and outputs. This function calls <code class="docutils literal"><span class="pre">import_stl_fast</span></code>, included with the WEC-Sim distribution, to import the <code class="docutils literal"><span class="pre">.*stl</span></code> file.</p>
 </div>
 <div class="section" id="non-linear-tutorial-heaving-ellipsoid">
 <h4>Non-Linear Tutorial - Heaving Ellipsoid<a class="headerlink" href="#non-linear-tutorial-heaving-ellipsoid" title="Permalink to this headline">¶</a></h4>
