@@ -247,7 +247,7 @@
 </dd>
 </dl>
 </div></blockquote>
-<p><strong>Combine_BEM:</strong> Combines multiple BEM outputs into one hydrodynamic &#8220;system&#8221;. This function requires that all BEM outputs have the same water depth, wave frequencies, and wave headings. This function would be implemented following multiple Read functions and before the IRF, Write_H5, or Plot_BEMIO functions.</p>
+<p><strong>Combine_BEM:</strong> Combines multiple BEM outputs into one hydrodynamic “system”. This function requires that all BEM outputs have the same water depth, wave frequencies, and wave headings. This function would be implemented following multiple Read functions and before the IRF, Write_H5, or Plot_BEMIO functions.</p>
 <blockquote>
 <div><dl class="docutils">
 <dt><em>hydro = Combine_BEM(hydro)</em></dt>
@@ -527,6 +527,15 @@ This would allow you to read in the <code class="docutils literal"><span class="
 This would allow for the BEM of different bodies to be done separately, and BEMIO would take care of making the coefficient matrices the correct size.</p>
 </div>
 </div>
+<div class="section" id="refining-stl-file">
+<h2>Refining STL File<a class="headerlink" href="#refining-stl-file" title="Permalink to this headline">¶</a></h2>
+<p>An STL file with suitably small panel areas is required for the nonlinear hydrodynamics option in WEC-Sim to yield accurate results. Softwares used to generate <code class="docutils literal"><span class="pre">*.stl</span></code> files often represent flat panels with straight edges with the minimum number of required triangles. This can result in <code class="docutils literal"><span class="pre">*.stl</span></code> files with large panel areas.</p>
+<p>The script <code class="docutils literal"><span class="pre">refine_stl</span></code> in the BEMIO directory performs a simple mesh refinement on an <code class="docutils literal"><span class="pre">*.stl</span></code> file by subdividing each panel with an area above the specified threshold into four smaller panels with new vertices at the mid-points of the original panel edges. This procedure is iterated for each panel until all panels have an area below the specified threshold, as in the example rectangle.</p>
+<div class="figure align-center">
+<a class="reference internal image-reference" href="_images/rectangles.png"><img alt="_images/rectangles.png" src="_images/rectangles.png" style="width: 300pt;" /></a>
+</div>
+<p>In this way, the each new panel retains the aspect ratio of the original panel. Note that the linear discretization of curved edges is not refined via this algorithm. The header comments of the function explain the inputs and outputs. This function calls <code class="docutils literal"><span class="pre">import_stl_fast</span></code>, included with the WEC-Sim distribution, to import the <code class="docutils literal"><span class="pre">.*stl</span></code> file.</p>
+</div>
 </div>
 
 
@@ -574,7 +583,7 @@ This would allow for the BEM of different bodies to be done separately, and BEMI
       <script type="text/javascript" src="_static/jquery.js"></script>
       <script type="text/javascript" src="_static/underscore.js"></script>
       <script type="text/javascript" src="_static/doctools.js"></script>
-      <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.0/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+      <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.1/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
 
   
 

@@ -383,7 +383,7 @@ The available wave spectra and their corresponding <code class="docutils literal
 </pre></div>
 </div>
 <p>Users have the option of defining gamma for the JONSWAP spectrum by specifying <code class="docutils literal"><span class="pre">waves.gamma</span> <span class="pre">=</span> <span class="pre">&lt;user</span> <span class="pre">specified</span> <span class="pre">gamma&gt;;</span></code>. If gamma is not defined, the default value of gamma equal to 3 is used.</p>
-<p>Refer to the following section for more information about WEC-Sim&#8217;s irregular <a class="reference external" href="http://wec-sim.github.io/WEC-Sim/advanced_features.html#wave-features">Wave Features</a>.</p>
+<p>Refer to the following section for more information about WEC-Sim’s irregular <a class="reference external" href="http://wec-sim.github.io/WEC-Sim/advanced_features.html#wave-features">Wave Features</a>.</p>
 </div>
 <div class="section" id="spectrumimport">
 <h4>spectrumImport<a class="headerlink" href="#spectrumimport" title="Permalink to this headline">¶</a></h4>
@@ -413,7 +413,7 @@ For more information on NDBC buoy data measurement descriptions, refer to the <a
 <h3>Body Class<a class="headerlink" href="#body-class" title="Permalink to this headline">¶</a></h3>
 <p>The body class file, <code class="docutils literal"><span class="pre">bodyClass.m</span></code>, is located in the <code class="docutils literal"><span class="pre">//WEC-Sim/source/objects</span></code> directory.
 The body class contains the mass and hydrodynamic properties of each body that comprises the WEC being simulated.
-Within the <code class="docutils literal"><span class="pre">wecSimInputFile.m</span></code>, users must initialize each iteration of the body class (<code class="docutils literal"><span class="pre">bodyClass</span></code>), and specify the location of the  hydrodynamic data file (<code class="docutils literal"><span class="pre">*.h5</span></code>) and geometry file (<code class="docutils literal"><span class="pre">*.stl</span></code>) for each body. The body class is defined by including the following lines in the WEC-Sim input file, where # is the body number &#8216;&lt;bem_data&gt;.h5&#8217; is the name of the h5 file containing the BEM results:</p>
+Within the <code class="docutils literal"><span class="pre">wecSimInputFile.m</span></code>, users must initialize each iteration of the body class (<code class="docutils literal"><span class="pre">bodyClass</span></code>), and specify the location of the  hydrodynamic data file (<code class="docutils literal"><span class="pre">*.h5</span></code>) and geometry file (<code class="docutils literal"><span class="pre">*.stl</span></code>) for each body. The body class is defined by including the following lines in the WEC-Sim input file, where # is the body number ‘&lt;bem_data&gt;.h5’ is the name of the h5 file containing the BEM results:</p>
 <div class="highlight-default"><div class="highlight"><pre><span></span><span class="n">body</span><span class="p">(</span><span class="o">&lt;</span><span class="c1">#&gt;)=bodyClass(&#39;&lt;bem_data&gt;.h5&#39;)</span>
 <span class="n">body</span><span class="p">(</span><span class="o">&lt;</span><span class="c1">#&gt;).geometryFile = &#39;&lt;geom&gt;.stl&#39;;</span>
 </pre></div>
@@ -505,7 +505,7 @@ The Mooring library contains blocks used to simulate mooring systems.</p>
 <p>The Body Elements library shown below contains one block: the <code class="docutils literal"><span class="pre">Rigid</span> <span class="pre">Body</span></code> block.
 It is used to represent rigid bodies.
 At least one instance of this block is required in each model.</p>
-<p>The <code class="docutils literal"><span class="pre">Rigid</span> <span class="pre">Body</span></code> block is used to represent a rigid body in the simulation. The user has to name the blocks <code class="docutils literal"><span class="pre">body(i)</span></code> (where i=1,2,...).
+<p>The <code class="docutils literal"><span class="pre">Rigid</span> <span class="pre">Body</span></code> block is used to represent a rigid body in the simulation. The user has to name the blocks <code class="docutils literal"><span class="pre">body(i)</span></code> (where i=1,2,…).
 The mass properties, hydrodynamic data, geometry file, mooring, and other properties are then specified in the input file.
 Within the body block, the wave radiation, wave excitation, hydrostatic restoring, viscous damping, and mooring forces are calculated.</p>
 <div class="figure">
@@ -558,19 +558,19 @@ between the base and follower</td>
 <td>1</td>
 <td>Constrains the motion of the follower
 relative to the base to be translation
-along the constraint&#8217;s Z-axis</td>
+along the constraint’s Z-axis</td>
 </tr>
 <tr class="row-odd"><td><code class="docutils literal"><span class="pre">Rotational</span></code></td>
 <td>1</td>
 <td>Constrains the motion of the follower
 relative to the base to be rotation
-about the constraint&#8217;s Y-axis</td>
+about the constraint’s Y-axis</td>
 </tr>
 <tr class="row-even"><td><code class="docutils literal"><span class="pre">Floating</span> <span class="pre">(3DOF)</span></code></td>
 <td>3</td>
 <td>Constrains the motion of the follower
 relative to the base to planar motion
-with translation along the constraint&#8217;s
+with translation along the constraint’s
 X- and Z- and rotation about the Y- axis</td>
 </tr>
 <tr class="row-odd"><td><code class="docutils literal"><span class="pre">Floating</span> <span class="pre">(6DOF)</span></code></td>
@@ -586,7 +586,7 @@ follower relative to the base</td>
 <p>The PTOs library is used to simulate linear PTO systems and to restrict relative motion between multiple bodies or between one body and the seabed.
 The PTO blocks can simulate simple PTO systems by applying a linear stiffness and damping to the connection.
 Similar to the Constraints blocks, the PTO blocks have a base (B) and a follower (F).
-Users must name each PTO block <code class="docutils literal"><span class="pre">pto(i)</span></code> (where i=1,2,...) and then define their properties in the input file.</p>
+Users must name each PTO block <code class="docutils literal"><span class="pre">pto(i)</span></code> (where i=1,2,…) and then define their properties in the input file.</p>
 <p>The <code class="docutils literal"><span class="pre">Translational</span> <span class="pre">PTO</span></code> and <code class="docutils literal"><span class="pre">Rotational</span> <span class="pre">PTO</span></code> are identical to the <code class="docutils literal"><span class="pre">Translational</span></code> and <code class="docutils literal"><span class="pre">Rotational</span></code> constraints, but they allow for the application of linear damping and stiffness forces.
 Additionally, there are two other variations of the Translational and Rotational PTOs.
 The Actuation Force/Torque PTOs allow the user to define the PTO force/torque at each time-step and provide the position, velocity and acceleration of the PTO at each time-step.
@@ -624,7 +624,7 @@ The <code class="docutils literal"><span class="pre">output</span></code> variab
 It contains all the relevant time-series results of the simulation.
 The structure of the <code class="docutils literal"><span class="pre">output</span></code> variable is shown in the table below.
 Time series are given as [(# of time-steps) x 6] arrays, where 6 is the degrees of freedom.
-In addition to these time-series, the output for each object contains the object&#8217;s name or type and the time vector.</p>
+In addition to these time-series, the output for each object contains the object’s name or type and the time vector.</p>
 <p>In addition to the responseClass <code class="docutils literal"><span class="pre">output</span></code> variable, the outputs can be written to ASCII files by using <code class="docutils literal"><span class="pre">simu.outputtxt</span> <span class="pre">=</span> <span class="pre">1;</span></code> in the input file.</p>
 <table border="1" class="docutils">
 <colgroup>
@@ -794,7 +794,7 @@ MoorDyn is an open source code that must be downloaded separately. Users may obt
       <script type="text/javascript" src="_static/jquery.js"></script>
       <script type="text/javascript" src="_static/underscore.js"></script>
       <script type="text/javascript" src="_static/doctools.js"></script>
-      <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.0/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+      <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.1/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
 
   
 

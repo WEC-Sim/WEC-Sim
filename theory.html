@@ -118,7 +118,7 @@
 </ul>
 </li>
 <li class="toctree-l2"><a class="reference internal" href="#wave-spectrum">Wave Spectrum</a><ul>
-<li class="toctree-l3"><a class="reference internal" href="#pierson-moskowitz">Pierson&#8211;Moskowitz</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#pierson-moskowitz">Pierson–Moskowitz</a></li>
 <li class="toctree-l3"><a class="reference internal" href="#bretschneider-spectrum">Bretschneider Spectrum</a></li>
 <li class="toctree-l3"><a class="reference internal" href="#jonswap-joint-north-sea-wave-project-spectrum">JONSWAP (Joint North Sea Wave Project) Spectrum</a></li>
 </ul>
@@ -360,8 +360,8 @@ y &amp;=&amp; \mathbf{C_{r}} x~~\end{split}\]</div>
 \[H_{m0} = 4 \sqrt{m_{0}}~~\]</div>
 <p>where <span class="math">\(H_{m0}\)</span> is a definition of the significant wave height (m), the mean wave height of the tallest third of waves.</p>
 <div class="section" id="pierson-moskowitz">
-<h3>Pierson&#8211;Moskowitz<a class="headerlink" href="#pierson-moskowitz" title="Permalink to this headline">¶</a></h3>
-<p>One of the simplest spectra was proposed by <a class="reference internal" href="#pm" id="id19">[13]</a>. It assumed that after the wind blew steadily for a long time over a large area, the waves would come into equilibrium with the wind. This is the concept of a fully developed sea where a &#8220;long time&#8221; is roughly 10,000 wave periods and a &#8220;large area&#8221; is roughly 5,000 wave-lengths on a side.  The spectrum is calculated from:</p>
+<h3>Pierson–Moskowitz<a class="headerlink" href="#pierson-moskowitz" title="Permalink to this headline">¶</a></h3>
+<p>One of the simplest spectra was proposed by <a class="reference internal" href="#pm" id="id19">[13]</a>. It assumed that after the wind blew steadily for a long time over a large area, the waves would come into equilibrium with the wind. This is the concept of a fully developed sea where a “long time” is roughly 10,000 wave periods and a “large area” is roughly 5,000 wave-lengths on a side.  The spectrum is calculated from:</p>
 <div class="math">
 \[\begin{split}&amp; S\left( f \right) = \frac{\alpha_{PM}g^{2}}{\left( 2 \pi \right)^{4}}f^{-5}\exp\left[-\frac{5}{4} \left( \frac{f_{p}}{f}\right)^{4} \right]~~ &amp;\\\end{split}\]</div>
 <p>This implies coefficients of the general form:</p>
@@ -448,7 +448,7 @@ The power absorbed by the PTO is given by:</p>
 <div class="math">
 \[F_{m}=-K_{m}X-C_{m}\dot{X}\]</div>
 <p>where <span class="math">\(K_{m}\)</span> and <span class="math">\(C_{m}\)</span> are the stiffness and damping matrices for the mooring system, and <span class="math">\(X\)</span> and <span class="math">\(\dot{X}\)</span> are the displacement and velocity of the body, respectively.</p>
-<p>MoorDyn discretizes each mooring line in a mooring system into evenly-sized line segments connected by node points (see <a class="reference internal" href="#moordynfig"><span class="std std-ref">MoorDyn figure</span></a>). The line mass is lumped at these node points along with gravitational and buoyancy forces, hydrodynamic loads, and reactions from contact with the seabed.  Hydrodynamic drag and added mass are calculated based on Morison&#8217;s equation.  A mooring line&#8217;s axial stiffness is modeled by applying a linear stiffness to each line segment in tension only.  A damping term is also applied in each segment to dampen non-physical resonances caused by the lumped-mass discretization.  Bending and torsional stiffnesses are neglected.  Bottom contact is represented by vertical stiffness and damping forces applied at the nodes when a node is located below the seabed. <a class="reference internal" href="#hall2015validationdata" id="id24">[16]</a>.</p>
+<p>MoorDyn discretizes each mooring line in a mooring system into evenly-sized line segments connected by node points (see <a class="reference internal" href="#moordynfig"><span class="std std-ref">MoorDyn figure</span></a>). The line mass is lumped at these node points along with gravitational and buoyancy forces, hydrodynamic loads, and reactions from contact with the seabed.  Hydrodynamic drag and added mass are calculated based on Morison’s equation.  A mooring line’s axial stiffness is modeled by applying a linear stiffness to each line segment in tension only.  A damping term is also applied in each segment to dampen non-physical resonances caused by the lumped-mass discretization.  Bending and torsional stiffnesses are neglected.  Bottom contact is represented by vertical stiffness and damping forces applied at the nodes when a node is located below the seabed. <a class="reference internal" href="#hall2015validationdata" id="id24">[16]</a>.</p>
 <div class="figure align-center" id="moordynfig">
 <a class="reference internal image-reference" href="_images/MoorDyn_Graphic.png"><img alt="_images/MoorDyn_Graphic.png" src="_images/MoorDyn_Graphic.png" style="width: 529.2px; height: 324.8px;" /></a>
 <div class="legend">
@@ -597,19 +597,13 @@ Because linear wave theory is used to determine the flow velocity and pressure f
 <table class="docutils citation" frame="void" id="morison1950" rules="none">
 <colgroup><col class="label" /><col /></colgroup>
 <tbody valign="top">
-<tr><td class="label"><a class="fn-backref" href="#id25">[17]</a></td><td>J&nbsp;R Morison, M&nbsp;P O&#8217;brien, J&nbsp;W Johnson, and S&nbsp;A Schaaf. The force exerted by surface waves on piles. <em>Petroleum Transactions, AIME</em>, 189:149–154, 1950.</td></tr>
+<tr><td class="label"><a class="fn-backref" href="#id25">[17]</a></td><td>J&nbsp;R Morison, M&nbsp;P O’brien, J&nbsp;W Johnson, and S&nbsp;A Schaaf. The force exerted by surface waves on piles. <em>Petroleum Transactions, AIME</em>, 189:149–154, 1950.</td></tr>
 </tbody>
 </table>
 <table class="docutils citation" frame="void" id="wheeler1969methods" rules="none">
 <colgroup><col class="label" /><col /></colgroup>
 <tbody valign="top">
 <tr><td class="label"><a class="fn-backref" href="#id26">[18]</a></td><td>J&nbsp;D Wheeler and others. Methods for calculating forces produced by irregular waves. In <em>Offshore Technology Conference</em>. 1969.</td></tr>
-</tbody>
-</table>
-<table class="docutils citation" frame="void" id="ruehl-preliminary-2014" rules="none">
-<colgroup><col class="label" /><col /></colgroup>
-<tbody valign="top">
-<tr><td class="label">[1]</td><td>K. Ruehl, C. Michelen, S. Kanner, M. Lawson, and Y. Yu. Preliminary Verification and Validation of WEC-Sim, an Open-Source Wave Energy Converter Design Tool. In <em>Proceedings of OMAE 2014</em>. San Francisco, CA, 2014.</td></tr>
 </tbody>
 </table>
 </p>
@@ -670,7 +664,7 @@ Because linear wave theory is used to determine the flow velocity and pressure f
       <script type="text/javascript" src="_static/jquery.js"></script>
       <script type="text/javascript" src="_static/underscore.js"></script>
       <script type="text/javascript" src="_static/doctools.js"></script>
-      <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.0/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+      <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.1/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
 
   
 

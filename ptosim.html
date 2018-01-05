@@ -172,9 +172,9 @@
             
   <div class="section" id="power-take-off-pto-sim">
 <h1>Power Take-Off/PTO-Sim<a class="headerlink" href="#power-take-off-pto-sim" title="Permalink to this headline">¶</a></h1>
-<p>PTO-Sim is the WEC-Sim module responsible for accurately modeling a WEC&#8217;s conversion of mechanical power to electrical power.
+<p>PTO-Sim is the WEC-Sim module responsible for accurately modeling a WEC’s conversion of mechanical power to electrical power.
 While the PTO blocks native to WEC-Sim are modeled as a simple linear spring-damper systems, PTO-Sim is capable of modeling many power conversion chains (PCC) such as mechanical drivetrain and hydraulic drivetrain.
-PTO-Sim is made of native Simulink blocks coupled with WEC-Sim, using WEC-Sim&#8217;s user-defined PTO blocks, where the WEC-Sim response (relative displacement and velocity for linear motion and angular position and velocity for rotary motion) is the PTO-Sim input.
+PTO-Sim is made of native Simulink blocks coupled with WEC-Sim, using WEC-Sim’s user-defined PTO blocks, where the WEC-Sim response (relative displacement and velocity for linear motion and angular position and velocity for rotary motion) is the PTO-Sim input.
 Similarly, the PTO force or torque is the WEC-Sim input.
 For more information on how PTO-Sim works, refer to [So et al., 2015], and the <a class="reference external" href="http://wec-sim.github.io/WEC-Sim/webinars.html#webinar-3-pto-and-control">PTO and Control webinar</a>.</p>
 <p>The files for the PTO-Sim tutorials described in this section can be found in the <a class="reference external" href="https://github.com/WEC-Sim/WEC-Sim_Applications">WEC-Sim Applications</a> repository.</p>
@@ -215,7 +215,7 @@ The Simulink model can be built as following:</p>
 <a class="reference internal image-reference" href="_images/RM3WITHPTOSIMBLOCK.PNG"><img alt="_images/RM3WITHPTOSIMBLOCK.PNG" src="_images/RM3WITHPTOSIMBLOCK.PNG" style="width: 400pt;" /></a>
 </div>
 <ul class="simple">
-<li>Step 4: Go inside PTO-Sim block and add one bus selector and two selector blocks. Since PTO-Sim block is connected to the WEC-Sim translational joint block, you can select position and velocity and therefore &#8220;signal1&#8221; and &#8220;signal2&#8221; will change to &#8220;position&#8221; and &#8220;velocity&#8221;. Because the heave motion is driving the piston, selection index of each selector needs to be changed to 3.</li>
+<li>Step 4: Go inside PTO-Sim block and add one bus selector and two selector blocks. Since PTO-Sim block is connected to the WEC-Sim translational joint block, you can select position and velocity and therefore “signal1” and “signal2” will change to “position” and “velocity”. Because the heave motion is driving the piston, selection index of each selector needs to be changed to 3.</li>
 </ul>
 <div class="figure">
 <a class="reference internal image-reference" href="_images/SELECTORS.PNG"><img alt="_images/SELECTORS.PNG" src="_images/SELECTORS.PNG" style="width: 400pt;" /></a>
@@ -420,7 +420,7 @@ The same as <a class="reference internal" href="#rm3-with-hydraulic-pto">RM3 wit
       <script type="text/javascript" src="_static/jquery.js"></script>
       <script type="text/javascript" src="_static/underscore.js"></script>
       <script type="text/javascript" src="_static/doctools.js"></script>
-      <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.0/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+      <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.1/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
 
   
 

@@ -109,6 +109,7 @@
 <li class="toctree-l3"><a class="reference internal" href="#bemio-hydro-data-structure">BEMIO <em>hydro</em> Data Structure</a></li>
 <li class="toctree-l3"><a class="reference internal" href="#bemio-tutorials">BEMIO Tutorials</a></li>
 <li class="toctree-l3"><a class="reference internal" href="#writing-your-own-h5-file">Writing Your Own h5 File</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#refining-stl-file">Refining STL File</a></li>
 </ul>
 </li>
 <li class="toctree-l2"><a class="reference internal" href="#simulation-features">Simulation Features</a><ul>
@@ -322,7 +323,7 @@
 </dd>
 </dl>
 </div></blockquote>
-<p><strong>Combine_BEM:</strong> Combines multiple BEM outputs into one hydrodynamic &#8220;system&#8221;. This function requires that all BEM outputs have the same water depth, wave frequencies, and wave headings. This function would be implemented following multiple Read functions and before the IRF, Write_H5, or Plot_BEMIO functions.</p>
+<p><strong>Combine_BEM:</strong> Combines multiple BEM outputs into one hydrodynamic “system”. This function requires that all BEM outputs have the same water depth, wave frequencies, and wave headings. This function would be implemented following multiple Read functions and before the IRF, Write_H5, or Plot_BEMIO functions.</p>
 <blockquote>
 <div><dl class="docutils">
 <dt><em>hydro = Combine_BEM(hydro)</em></dt>
@@ -602,10 +603,19 @@ This would allow you to read in the <code class="docutils literal"><span class="
 This would allow for the BEM of different bodies to be done separately, and BEMIO would take care of making the coefficient matrices the correct size.</p>
 </div>
 </div>
+<div class="section" id="refining-stl-file">
+<h3>Refining STL File<a class="headerlink" href="#refining-stl-file" title="Permalink to this headline">¶</a></h3>
+<p>An STL file with suitably small panel areas is required for the nonlinear hydrodynamics option in WEC-Sim to yield accurate results. Softwares used to generate <code class="docutils literal"><span class="pre">*.stl</span></code> files often represent flat panels with straight edges with the minimum number of required triangles. This can result in <code class="docutils literal"><span class="pre">*.stl</span></code> files with large panel areas.</p>
+<p>The script <code class="docutils literal"><span class="pre">refine_stl</span></code> in the BEMIO directory performs a simple mesh refinement on an <code class="docutils literal"><span class="pre">*.stl</span></code> file by subdividing each panel with an area above the specified threshold into four smaller panels with new vertices at the mid-points of the original panel edges. This procedure is iterated for each panel until all panels have an area below the specified threshold, as in the example rectangle.</p>
+<div class="figure align-center">
+<a class="reference internal image-reference" href="_images/rectangles.png"><img alt="_images/rectangles.png" src="_images/rectangles.png" style="width: 300pt;" /></a>
+</div>
+<p>In this way, the each new panel retains the aspect ratio of the original panel. Note that the linear discretization of curved edges is not refined via this algorithm. The header comments of the function explain the inputs and outputs. This function calls <code class="docutils literal"><span class="pre">import_stl_fast</span></code>, included with the WEC-Sim distribution, to import the <code class="docutils literal"><span class="pre">.*stl</span></code> file.</p>
+</div>
 </div>
 <div class="section" id="simulation-features">
 <h2>Simulation Features<a class="headerlink" href="#simulation-features" title="Permalink to this headline">¶</a></h2>
-<p>This section provides an overview of some features included in WEC-Sim&#8217;s simulation class. For more information, refer to <a class="reference external" href="http://wec-sim.github.io/WEC-Sim/code_structure.html#simulation-class">Simulation Class</a>.</p>
+<p>This section provides an overview of some features included in WEC-Sim’s simulation class. For more information, refer to <a class="reference external" href="http://wec-sim.github.io/WEC-Sim/code_structure.html#simulation-class">Simulation Class</a>.</p>
 <div class="section" id="multiple-condition-runs-mcr">
 <h3>Multiple Condition Runs (MCR)<a class="headerlink" href="#multiple-condition-runs-mcr" title="Permalink to this headline">¶</a></h3>
 <p>WEC-Sim allows users to perform batch runs by typing <code class="docutils literal"><span class="pre">wecSimMCR</span></code> into the MATLAB Command Window. This command executes the Multiple Condition Run (MCR) option, which can be initiated three different ways:</p>
@@ -629,7 +639,7 @@ This would allow for the BEM of different bodies to be done separately, and BEMI
 </div>
 <div class="section" id="time-step-features">
 <h3>Time-Step Features<a class="headerlink" href="#time-step-features" title="Permalink to this headline">¶</a></h3>
-<p>The default WEC-Sim solver is &#8216;ode4&#8217;. Refer to the <a class="reference external" href="https://github.com/WEC-Sim/WEC-Sim_Applications">WEC-Sim Applications repository</a> non-linear hydro example for a comparisons between &#8216;ode4&#8217; to &#8216;ode45&#8217;. The following variables may be changed in the simulationClass (where N is number of increment steps, default: N=1):</p>
+<p>The default WEC-Sim solver is ‘ode4’. Refer to the <a class="reference external" href="https://github.com/WEC-Sim/WEC-Sim_Applications">WEC-Sim Applications repository</a> non-linear hydro example for a comparisons between ‘ode4’ to ‘ode45’. The following variables may be changed in the simulationClass (where N is number of increment steps, default: N=1):</p>
 <ul class="simple">
 <li>Fixed time-step: <code class="code docutils literal"><span class="pre">simu.dt</span></code></li>
 <li>Output time-step: <code class="code docutils literal"><span class="pre">simu.dtOut=N*simu.dt</span></code></li>
@@ -653,7 +663,7 @@ This would allow for the BEM of different bodies to be done separately, and BEMI
 </div>
 <div class="section" id="wave-features">
 <h2>Wave Features<a class="headerlink" href="#wave-features" title="Permalink to this headline">¶</a></h2>
-<p>This section provides an overview of some features included in WEC-Sim&#8217;s wave implementation. For more information, refer to <a class="reference external" href="http://wec-sim.github.io/WEC-Sim/code_structure.html#wave-class">Wave Class</a>.</p>
+<p>This section provides an overview of some features included in WEC-Sim’s wave implementation. For more information, refer to <a class="reference external" href="http://wec-sim.github.io/WEC-Sim/code_structure.html#wave-class">Wave Class</a>.</p>
 <div class="section" id="irregular-wave-binning">
 <h3>Irregular Wave Binning<a class="headerlink" href="#irregular-wave-binning" title="Permalink to this headline">¶</a></h3>
 <p>The default spectral binning implemented in WEC-Sim is to divide the wave spectra into equal energy bins. This feature speeds up the irregular wave simulation time. To use equal frequency bins, the following waveClass variable must be defined in the WEC-Sim input file:</p>
@@ -673,7 +683,7 @@ This would allow for the BEM of different bodies to be done separately, and BEMI
 <p>By default, the phase for all irregular wave cases are generated randomly. In order to reproduce the same time-series every time an irregular wave simulation is run, the following waveClass variable may be defined in the WEC-Sim input file:</p>
 <blockquote>
 <div><code class="code docutils literal"><span class="pre">waves.phaseSeed</span> <span class="pre">=</span> <span class="pre">&lt;user</span> <span class="pre">defined</span> <span class="pre">seed&gt;;</span></code></div></blockquote>
-<p>By setting <code class="docutils literal"><span class="pre">waves.phaseSeed</span></code>  equal to 1,2,3,...,etc, the random wave phase generated by WEC-Sim is seeded, thus producing the same random phase for each simulation.</p>
+<p>By setting <code class="docutils literal"><span class="pre">waves.phaseSeed</span></code>  equal to 1,2,3,…,etc, the random wave phase generated by WEC-Sim is seeded, thus producing the same random phase for each simulation.</p>
 </div>
 <div class="section" id="wave-gauge-placement">
 <h3>Wave Gauge Placement<a class="headerlink" href="#wave-gauge-placement" title="Permalink to this headline">¶</a></h3>
@@ -685,7 +695,7 @@ This would allow for the BEM of different bodies to be done separately, and BEMI
 </div>
 <div class="section" id="body-features">
 <h2>Body Features<a class="headerlink" href="#body-features" title="Permalink to this headline">¶</a></h2>
-<p>This section provides an overview of some features included in WEC-Sim&#8217;s body class. For more information, refer to <a class="reference external" href="http://wec-sim.github.io/WEC-Sim/code_structure.html#body-class">Body Class</a>.</p>
+<p>This section provides an overview of some features included in WEC-Sim’s body class. For more information, refer to <a class="reference external" href="http://wec-sim.github.io/WEC-Sim/code_structure.html#body-class">Body Class</a>.</p>
 <div class="section" id="body-mass-and-geometry-features">
 <h3>Body Mass and Geometry Features<a class="headerlink" href="#body-mass-and-geometry-features" title="Permalink to this headline">¶</a></h3>
 <p>The mass of each body must be specified in the  WEC-Sim input file. The following features are available:</p>
@@ -709,7 +719,7 @@ The nonlinear hydrodynamics option can be used by setting <code class="code docu
 An option available to reduce the nonlinear simulation time is to specify a nonlinear time step, <code class="code docutils literal"><span class="pre">simu.dtNL=N*simu.dt</span></code>, where N is number of increment steps. The nonlinear time step specifies the interval at which the nonlinear hydrodynamic forces are calculated. As the ratio of the nonlinear to system time step increases, the computation time is reduced, again, at the expense of the simulation accuracy.</p>
 <div class="admonition note">
 <p class="first admonition-title">Note</p>
-<p class="last">WEC-Sim&#8217;s nonlinear hydrodynamic option may be used for regular or irregular waves but not with user-defined irregular waves.</p>
+<p class="last">WEC-Sim’s nonlinear hydrodynamic option may be used for regular or irregular waves but not with user-defined irregular waves.</p>
 </div>
 </div>
 <div class="section" id="stl-file-generation">
@@ -800,17 +810,17 @@ An option available to reduce the nonlinear simulation time is to specify a nonl
 </div>
 <div class="section" id="constraint-and-pto-features">
 <h2>Constraint and PTO Features<a class="headerlink" href="#constraint-and-pto-features" title="Permalink to this headline">¶</a></h2>
-<p>This section provides an overview of some features included in WEC-Sim&#8217;s control and pto classes. For more information, refer to <a class="reference external" href="http://wec-sim.github.io/WEC-Sim/code_structure.html#constraint-class">Constraint Class</a> and <a class="reference external" href="http://wec-sim.github.io/WEC-Sim/code_structure.html#pto-class">PTO Class</a>.</p>
+<p>This section provides an overview of some features included in WEC-Sim’s control and pto classes. For more information, refer to <a class="reference external" href="http://wec-sim.github.io/WEC-Sim/code_structure.html#constraint-class">Constraint Class</a> and <a class="reference external" href="http://wec-sim.github.io/WEC-Sim/code_structure.html#pto-class">PTO Class</a>.</p>
 <p>The default linear and rotational constraints and PTOs are allow for heave and pitch motions of the follower relative to the base.
-To obtain a linear or rotational constraint in a different direction you must modify the constraint&#8217;s or PTO&#8217;s coordinate orientation.
-The important thing to remember is that a linear constraint or PTO will always allow motion along the joint&#8217;s Z-axis, and a rotational constraint or PTO will allow rotation about the joint&#8217;s Y-axis.
-To obtain translation along or rotation about a different direction relative to the global frame, you must modify the orientation of the joint&#8217;s coordinate frame.
-This is done by setting the constraint&#8217;s or PTO&#8217;s <code class="code docutils literal"><span class="pre">orientation.z</span></code> and <code class="code docutils literal"><span class="pre">orientation.y</span></code> properties which specify the new direction of the Z- and Y- joint coordinates.
+To obtain a linear or rotational constraint in a different direction you must modify the constraint’s or PTO’s coordinate orientation.
+The important thing to remember is that a linear constraint or PTO will always allow motion along the joint’s Z-axis, and a rotational constraint or PTO will allow rotation about the joint’s Y-axis.
+To obtain translation along or rotation about a different direction relative to the global frame, you must modify the orientation of the joint’s coordinate frame.
+This is done by setting the constraint’s or PTO’s <code class="code docutils literal"><span class="pre">orientation.z</span></code> and <code class="code docutils literal"><span class="pre">orientation.y</span></code> properties which specify the new direction of the Z- and Y- joint coordinates.
 The Z- and Y- directions must be perpendicular to each other.</p>
-<p>As an example, if you want to constrain body 2 to surge motion relative to body 1 using a linear constraint, you would need the constraint&#8217;s Z-axis to point in the direction of the global surge (X) direction.
+<p>As an example, if you want to constrain body 2 to surge motion relative to body 1 using a linear constraint, you would need the constraint’s Z-axis to point in the direction of the global surge (X) direction.
 This would be done by setting <code class="code docutils literal"><span class="pre">constraint(i).orientation.z=[1,0,0]</span></code> and the Y-direction to any perpendicular direction (can be left as the default y=[0 1 0]).
 In this example, the Y-direction would only have an effect on the coordinate on which the constraint forces are reported but not on the dynamics of the system.
-Similarly if you want to obtain a yaw constraint you would use a rotational constraint and align the constraint&#8217;s Y-axis with the global Z-axis.
+Similarly if you want to obtain a yaw constraint you would use a rotational constraint and align the constraint’s Y-axis with the global Z-axis.
 This would be done by setting <code class="code docutils literal"><span class="pre">constraint(i).orientation.y=[0,0,1]</span></code> and the  z-direction to a perpendicular direction (say [0,-1,0]).</p>
 <div class="admonition note">
 <p class="first admonition-title">Note</p>
@@ -821,9 +831,9 @@ For example, a massless rigid rod between two bodies, hinged at each body, can b
 A roll-pitch constraint can also be obtained with two rotational constraints in series; one rotating in pitch, and the other in roll, and both at the same location.</p>
 <div class="section" id="power-take-off-pto-sim">
 <h3>Power Take-Off/PTO-Sim<a class="headerlink" href="#power-take-off-pto-sim" title="Permalink to this headline">¶</a></h3>
-<p>PTO-Sim is the WEC-Sim module responsible for accurately modeling a WEC&#8217;s conversion of mechanical power to electrical power.
+<p>PTO-Sim is the WEC-Sim module responsible for accurately modeling a WEC’s conversion of mechanical power to electrical power.
 While the PTO blocks native to WEC-Sim are modeled as a simple linear spring-damper systems, PTO-Sim is capable of modeling many power conversion chains (PCC) such as mechanical drivetrain and hydraulic drivetrain.
-PTO-Sim is made of native Simulink blocks coupled with WEC-Sim, using WEC-Sim&#8217;s user-defined PTO blocks, where the WEC-Sim response (relative displacement and velocity for linear motion and angular position and velocity for rotary motion) is the PTO-Sim input.
+PTO-Sim is made of native Simulink blocks coupled with WEC-Sim, using WEC-Sim’s user-defined PTO blocks, where the WEC-Sim response (relative displacement and velocity for linear motion and angular position and velocity for rotary motion) is the PTO-Sim input.
 Similarly, the PTO force or torque is the WEC-Sim input.
 For more information on how PTO-Sim works, refer to [So et al., 2015], and the <a class="reference external" href="http://wec-sim.github.io/WEC-Sim/webinars.html#webinar-3-pto-and-control">PTO and Control webinar</a>.</p>
 <p>The files for the PTO-Sim tutorials described in this section can be found in the <a class="reference external" href="https://github.com/WEC-Sim/WEC-Sim_Applications">WEC-Sim Applications</a> repository.</p>
@@ -864,7 +874,7 @@ The Simulink model can be built as following:</p>
 <a class="reference internal image-reference" href="_images/RM3WITHPTOSIMBLOCK.PNG"><img alt="_images/RM3WITHPTOSIMBLOCK.PNG" src="_images/RM3WITHPTOSIMBLOCK.PNG" style="width: 400pt;" /></a>
 </div>
 <ul class="simple">
-<li>Step 4: Go inside PTO-Sim block and add one bus selector and two selector blocks. Since PTO-Sim block is connected to the WEC-Sim translational joint block, you can select position and velocity and therefore &#8220;signal1&#8221; and &#8220;signal2&#8221; will change to &#8220;position&#8221; and &#8220;velocity&#8221;. Because the heave motion is driving the piston, selection index of each selector needs to be changed to 3.</li>
+<li>Step 4: Go inside PTO-Sim block and add one bus selector and two selector blocks. Since PTO-Sim block is connected to the WEC-Sim translational joint block, you can select position and velocity and therefore “signal1” and “signal2” will change to “position” and “velocity”. Because the heave motion is driving the piston, selection index of each selector needs to be changed to 3.</li>
 </ul>
 <div class="figure">
 <a class="reference internal image-reference" href="_images/SELECTORS.PNG"><img alt="_images/SELECTORS.PNG" src="_images/SELECTORS.PNG" style="width: 400pt;" /></a>
@@ -1026,7 +1036,7 @@ The same as <a class="reference internal" href="#rm3-with-hydraulic-pto">RM3 wit
 </div>
 <div class="section" id="mooring-features">
 <h2>Mooring Features<a class="headerlink" href="#mooring-features" title="Permalink to this headline">¶</a></h2>
-<p>This section provides an overview of some features included in WEC-Sim&#8217;s mooring class. For more information, refer to <a class="reference external" href="http://wec-sim.github.io/WEC-Sim/code_structure.html#mooring-class">Mooring Class</a>.</p>
+<p>This section provides an overview of some features included in WEC-Sim’s mooring class. For more information, refer to <a class="reference external" href="http://wec-sim.github.io/WEC-Sim/code_structure.html#mooring-class">Mooring Class</a>.</p>
 <p>Floating WEC systems are often connected to mooring lines to keep the device in position. WEC-Sim allows the user to model the mooring dynamics in the simulation by specifying the mooring matrix or coupling with MoorDyn. To include mooring connections, the user can use the mooring block (i.e., Mooring Matrix block or MoorDyn block) given in the WEC-Sim library under Moorings lib and connect it between the body and the Global reference frame.
 Refer the <a class="reference external" href="http://wec-sim.github.io/WEC-Sim/advanced_features.html#tutorial-rm3-with-moordyn">MoorDyn Tutorial</a> section, and the <a class="reference external" href="http://wec-sim.github.io/WEC-Sim/webinars.html#webinar-4-mooring-and-visualization">Mooring Webinar</a> for more information.</p>
 <p>MoorDyn is hosted on  a separate <a class="reference external" href="https://github.com/WEC-Sim/moorDyn">MoorDyn repository</a>. It must be download separately, and all files and folders should be placed in the <code class="docutils literal"><span class="pre">$Source/functions/moorDyn</span></code> directory.</p>
@@ -1129,7 +1139,7 @@ Refer the <a class="reference external" href="http://wec-sim.github.io/WEC-Sim/a
 <h2>Visualization/Paraview<a class="headerlink" href="#visualization-paraview" title="Permalink to this headline">¶</a></h2>
 <p>This section describes how to setup, output, and use Paraview files for visualizing a WEC-Sim simulation.
 For more information about using Paraview for visualization, refer to the <a class="reference external" href="http://wec-sim.github.io/WEC-Sim/webinars.html#webinar-4-mooring-and-visualization">visualization webinar</a>, and the <a class="reference external" href="https://github.com/WEC-Sim/WEC-Sim_Applications">WEC-Sim Applications repository</a>.</p>
-<p>Using Paraview visualization improves on SimMechanics&#8217;s explorer by:</p>
+<p>Using Paraview visualization improves on SimMechanics’s explorer by:</p>
 <ul class="simple">
 <li>Visualization of the wave field</li>
 <li>Visualization of the cell-by-cell non-linear hydrodynamic forces (when using non-linear hydro)</li>
@@ -1269,8 +1279,8 @@ To specify an initial displacement, the body and mooring blocks have a <code cla
 For the constraint and PTO blocks, the <code class="code docutils literal"><span class="pre">.loc</span></code> property must be set to the location at time = 0.</p>
 <p>There are methods available to help setup this initial displacement for all bodies, constraints, PTOs, and moorings.
 To do this, you would use the <code class="code docutils literal"><span class="pre">body(i).setInitDisp(...);</span></code>, <code class="code docutils literal"><span class="pre">constraint(i).setInitDisp(...)</span></code>, <code class="code docutils literal"><span class="pre">pto(i).setInitDisp(...)</span></code>, and <code class="code docutils literal"><span class="pre">mooring(i).setInitDisp(...)</span></code> method in the WEC-Sim input file.
-A description of the required input can be found in the method&#8217;s header comments.
-Note that <code class="code docutils literal"><span class="pre">body(i).cg</span></code>, <code class="code docutils literal"><span class="pre">constraint(i).loc</span></code>, <code class="code docutils literal"><span class="pre">pto(i).loc</span></code>, and <code class="code docutils literal"><span class="pre">mooring.ref</span></code> must be defined prior to using the object&#8217;s <code class="code docutils literal"><span class="pre">.setInitDisp</span></code> method.</p>
+A description of the required input can be found in the method’s header comments.
+Note that <code class="code docutils literal"><span class="pre">body(i).cg</span></code>, <code class="code docutils literal"><span class="pre">constraint(i).loc</span></code>, <code class="code docutils literal"><span class="pre">pto(i).loc</span></code>, and <code class="code docutils literal"><span class="pre">mooring.ref</span></code> must be defined prior to using the object’s <code class="code docutils literal"><span class="pre">.setInitDisp</span></code> method.</p>
 <p>For more information, refer to the <a class="reference external" href="https://github.com/WEC-Sim/WEC-Sim_Applications">WEC-Sim Applications repository</a> IEA OES Task 10 example.</p>
 </div>
 </div>
@@ -1329,7 +1339,7 @@ Note that <code class="code docutils literal"><span class="pre">body(i).cg</span
       <script type="text/javascript" src="_static/jquery.js"></script>
       <script type="text/javascript" src="_static/underscore.js"></script>
       <script type="text/javascript" src="_static/doctools.js"></script>
-      <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.0/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+      <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.1/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
 
   
 
