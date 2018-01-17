@@ -113,10 +113,11 @@ classdef waveClass<handle
             obj.bemFreq    = bemFreq;
             obj.setWaveProps(wDepth)
             switch obj.type
-                case {'noWave','noWaveCIC'}
+                case {'noWave','noWaveCIC'}                    
                     if isempty(obj.w)
                         obj.w = 2*pi/obj.T;
                     end
+                    obj.waveNumber(g)
                     obj.A = obj.H/2;
                     obj.waveElevNowave(maxIt,dt);
                 case {'regular','regularCIC'}
@@ -177,7 +178,6 @@ classdef waveClass<handle
                     obj.waveAmpTimex        = zeros(maxIt+1,2);
                     obj.waveAmpTimex(:,1)   = [0:maxIt]*dt;
             end
-            %obj.waveNumber(g)
         end
         
         function listInfo(obj)
@@ -250,7 +250,7 @@ classdef waveClass<handle
             if sum(strcmp(types,obj.type)) ~= 1
                 error(['Unexpected wave environment type setting, choose from: ' ...
                     '"noWave", "noWaveCIC", "regular", "regularCIC", "irregular", "spectrumImport", and "etaImport".'])
-            end
+            end               
         end
         
         function write_paraview_vtp(obj, t, numPointsX, numPointsY, domainSize, model, simdate, mooring)
@@ -383,7 +383,6 @@ classdef waveClass<handle
             switch obj.type
                 case {'noWave'}
                     obj.H = 0;
-                    obj.T = obj.T;
                 case {'noWaveCIC'}
                     obj.H = 0;
                     obj.w = max(obj.bemFreq);

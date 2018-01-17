@@ -152,6 +152,15 @@ for ii = 1:simu.numWecBodies
     end
 end; clear ii; 
 
+% check for etaImport with nlHydro
+if strcmp(waves.type,'etaImport') && simu.nlHydro == 1
+    error(['Cannot run WEC-Sim with non-linear hydro (simu.nlHydro) and "etaImport" wave type'])
+end        
+
+% check for etaImport with morrisonElement
+if strcmp(waves.type,'etaImport') && simu.morrisonElement == 1
+    error(['Cannot run WEC-Sim with Morrison Element (simu.morrisonElement) and "etaImport" wave type'])
+end    
 
 
 %% Set variant subsystems options
