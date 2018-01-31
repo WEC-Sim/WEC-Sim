@@ -3,11 +3,11 @@ function hydro = Read_AQWA(hydro,ah1_filename,lis_filename)
 % Reads data from AQWA output files.
 %
 % hydro = Read_AQWA(hydro, ah1_filename, lis_filename)
-%     hydro –         data structure
-%     ah1_filename –  .AH1 AQWA output file
-%     lis_filename –  .LIS AQWA output file
+%     hydro ?         data structure
+%     ah1_filename ?  .AH1 AQWA output file
+%     lis_filename ?  .LIS AQWA output file
 %
-% See ‘…\WEC-Sim\tutorials\BEMIO\AQWA\...’ for examples of usage.
+% See ??\WEC-Sim\tutorials\BEMIO\AQWA\...? for examples of usage.
 
 [a,b] = size(hydro);  % Check on what is already there
 if b==1
@@ -116,12 +116,12 @@ for ln = n:length(raw1);
                     tmp2 = str2num(raw1{ln+(k-1)*hydro(F).Nh*hydro(F).Nf*2+(j-1)*hydro(F).Nf*2+(i-1)*2+2});
                     ind = tmp1(1:3); tmp1(1:3)=[];
                     hydro(F).ex_ma(((ind(1)-1)*6+1):(ind(1)*6),ind(2),ind(3)) = tmp1; % Magnitude of exciting force
-                    hydro(F).ex_ph(((ind(1)-1)*6+1):(ind(1)*6),ind(2),ind(3)) = tmp2; % Phase of exciting force
+                    hydro(F).ex_ph(((ind(1)-1)*6+1):(ind(1)*6),ind(2),ind(3)) = -tmp2*pi/180; % Phase of exciting force
                 end
             end
         end
-        hydro(F).ex_re = hydro(F).ex_ma.*cos(hydro(F).ex_ph*pi/180); % Real part of exciting force
-        hydro(F).ex_im = hydro(F).ex_ma.*sin(hydro(F).ex_ph*pi/180); % Imaginary part of exciting force
+        hydro(F).ex_re = hydro(F).ex_ma.*cos(hydro(F).ex_ph); % Real part of exciting force
+        hydro(F).ex_im = hydro(F).ex_ma.*sin(hydro(F).ex_ph); % Imaginary part of exciting force
     end
     d = floor(10*ln/N);  %Update waitbar every 10%, or slows computation time
     if (d>e) waitbar(ln/N); e = d; end
@@ -195,5 +195,3 @@ end
 hydro = Normalize(hydro);  % Normalize the data according the WAMIT convention
 close(p);
 end
-
-
