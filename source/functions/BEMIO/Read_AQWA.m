@@ -34,7 +34,15 @@ raw2 = raw2{:};
 fclose(fileID);
 N = length([raw1(:);raw2(:)]);
 
-n = 2;
+
+% n=2;
+n = 1;
+TF = 1;
+while TF == 1
+    n=n+1;
+    TF = startsWith(raw1(n),'*');    
+end
+
 tmp = str2num(raw1{n});
 hydro(F).Nb = tmp(1); % Number of bodies
 for i=1:hydro(F).Nb
