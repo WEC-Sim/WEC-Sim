@@ -3,7 +3,7 @@
 Code Structure
 ==============
 This section provides a description of the WEC-Sim source code and its structure. 
-For more information about the WEC-Sim code structure, refer to the Online Training Course on `WEC-Sim Code Structure <http://wec-sim.github.io/WEC-Sim/webinars.html#code-structure-overview>`_.
+For more information about the WEC-Sim code structure, refer to the `webinar on WEC-Sim Code Structure <http://wec-sim.github.io/WEC-Sim/webinars.html#code-structure-overview>`_.
 
 
 WEC-Sim Source Code
@@ -208,7 +208,7 @@ For rotational constraint (ex: pitch), the user also needs to specify the locati
 
 Available constraint properties, default values, and functions can be found by typing ``doc constraintClass`` in the MATLAB command window, or opening the `constraintClass.m` file in ``//WEC-Sim/source/objects`` directory by typing ``open constraintClass`` in MATLAB Command Window.
 
-Refer to the following section for more information about WEC-Sim `Constraint and PTO Features <http://wec-sim.github.io/WEC-Sim/advanced_features.html#constraint-and-pto-features>`_.
+Refer to the following section for more information about WEC-Sim `Constraint Features <http://wec-sim.github.io/WEC-Sim/advanced_features.html#constraint-and-pto-features>`_.
 
 
 PTO Class
@@ -232,7 +232,7 @@ Users can overwrite the default values in the input file. For example, users can
 
 Available pto properties, default values, and functions can be found by typing ``doc ptoClass`` in the MATLAB command window, or opening the `ptoClass.m` file in ``//WEC-Sim/source/objects`` directory by typing ``open ptoClass`` in MATLAB Command Window.
 
-Refer to the following section for more information about WEC-Sim `Constraint and PTO Features <http://wec-sim.github.io/WEC-Sim/advanced_features.html#constraint-and-pto-features>`_.
+Refer to the following section for more information about WEC-Sim `PTO Features <http://wec-sim.github.io/WEC-Sim/advanced_features.html#constraint-and-pto-features>`_.
 
 
 Mooring Class

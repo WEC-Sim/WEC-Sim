@@ -1,7 +1,7 @@
 .. _advanced_features:
 
 Advanced Features
-===========================
+=================
 This sections provides an overview of the advanced features of the WEC-Sim code that were not covered in the WEC-Sim
 `Tutorials <http://wec-sim.github.io/WEC-Sim/tutorials.html>`_ section. Below is a diagram of some of the various WEC-Sim that can be used. This section provides information on how they can be turned on, and what they do. 
 
@@ -240,6 +240,21 @@ For more information, refer to the `B2B webinar <http://wec-sim.github.io/WEC-Si
 
 	By default, body-to-body interactions  are off (:code:`simu.b2b = 0`), and only the *[1+6\*(i-1):6\*i, 1:6]* sub-matrices are used for each body (where **i** is the body number).
 	
+
+Morison Elements 
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+To use Morison Elements, the following simulationClass variable must be defined in the WEC-Sim input file, for example:
+
+	:code:`simu.morrisonElement  = 1`
+	
+Morison Elements must then be defined for each body using the :code:`body(#).morrisonElement` property of the body class. This proporty recquires definition of :code:`body(#).morrisonElement.cd`, :code:`body(#).morrisonElement.ca`, :code:`body(#).morrisonElement.characteristicArea`, :code:`body(#).morrisonElement.VME`, and :code:`body(#).morrisonElement.rgME` (each of which have a default value of zero). 
+
+The Morison Element time-step may also be defined as :code:`simu.dtME = N*simu.dt`, where N is number of increment steps.
+
+.. Note::
+
+	Morison Elements cannot but used with :code:`etaImport`.
+
 
 Constraint and PTO Features
 ---------------------------------

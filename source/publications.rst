@@ -43,13 +43,17 @@ Publications
 
 [20] Yu, Y.-H., & Jenne, D., “`Analysis of a wave-powered, reverse-osmosis system and its economic availability in the United States <https://www.nrel.gov/docs/fy17osti/67973.pdf>`_,” in Proceedings of the 36th International Conference on Ocean, Offshore and Arctic Engineering, OMAE 2017, Trondheim, Norway, 2017.
 
-[21] J. Ringwood et al., “A competition for WEC control systems,” in Proceedings of the 12th European Wave and Tidal Conference, EWTEC 2017, Cork, Ireland, 2017.
+[21] J. Ringwood et al., “`A competition for WEC control systems <http://www.eeng.nuim.ie/jringwood/Respubs/C284JREW.pdf>`_,” in Proceedings of the 12th European Wave and Tidal Conference, EWTEC 2017, Cork, Ireland, 2017.
 
-[22] F. Wendt et al., “International Energy Agency Ocean Energy Systems Task 10 Wave Energy Converter Modeling Verification and Validation,” in Proceedings of the 12th European Wave and Tidal Conference, EWTEC 2017, Cork, Ireland, 2017.
+[22] F. Wendt et al., “`International Energy Agency Ocean Energy Systems Task 10 Wave Energy Converter Modeling Verification and Validation <https://www.nrel.gov/docs/fy18osti/68465.pdf>`_,” in Proceedings of the 12th European Wave and Tidal Conference, EWTEC 2017, Cork, Ireland, 2017.
 
 
 News Articles
 --------------
+* December 2017 - NUI Maynooth Centre for Ocean Energy Research, `WEC Control Competition (WECCCOMP)  <http://www.eeng.nuim.ie/coer/wec-control-competition-released/>`_
+
+* November 2017 -  MATLAB Newsletter, `Modeling and Simulating Next-Generation Wave Farm Technology <https://www.mathworks.com/company/newsletters/articles/modeling-and-simulating-next-generation-wave-farm-technology.html>`_
+
 * May 2017 - Tidal Energy Today, `Video: US national labs share wave modeling know-how <http://tidalenergytoday.com/2017/05/19/video-us-national-labs-share-wave-modeling-know-how/>`_
 
 * April 2017 - Tidal Energy Today, `Sandia Labs sets up wave energy webinars <http://tidalenergytoday.com/2017/04/11/sandia-labs-sets-up-wave-energy-webinars/>`_
