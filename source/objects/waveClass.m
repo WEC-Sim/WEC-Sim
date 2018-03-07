@@ -32,7 +32,9 @@ classdef waveClass<handle
             'numPointsY', 50)                  % Visualization number of points in y direction.
         statisticsDataLoad          = [];                                   % File name to load wave statistics data for wecSimMCR
         freqDisc                    = 'EqualEnergy'                         % Method of frequency discretization for irregular waves. Options for this variable are 'EqualEnergy' or 'Traditional'. (default = 'EqualEnergy').
-        wavegaugeloc                = 0;                                    % [m] Wave gauge location assumed to be along the x-axis
+        wavegauge1loc               = 0;                                    % [m] Wave gauge 1 location assumed to be along the x-axis
+        wavegauge2loc               = 0;                                    % [m] Wave gauge 2 location assumed to be along the x-axis
+        wavegauge3loc               = 0;                                    % [m] Wave gauge 3 location assumed to be along the x-axis
     end
     
     properties (SetAccess = 'private', GetAccess = 'public')%internal
@@ -41,7 +43,9 @@ classdef waveClass<handle
         waterDepth                  = []                                    % [m] Water depth (from BEM)
         deepWaterWave               = []                                    % Deep water, depends on input from WAMIT, NEMOH and AQWA
         waveAmpTime                 = []                                    % [m] Wave elevation time history
-        waveAmpTimex                = []                                    % [m] Wave elevation time history at a wave gauge location specified by user
+        waveAmpTime1                = []                                    % [m] Wave elevation time history at a wave gauge 1 location specified by user
+        waveAmpTime2                = []                                    % [m] Wave elevation time history at a wave gauge 2 location specified by user
+        waveAmpTime3                = []                                    % [m] Wave elevation time history at a wave gauge 3 location specified by user
         A                           = []                                    % [m] Wave amplitude for regular waves or 2*(wave spectrum vector) for irregular waves
         w                           = []                                    % [rad/s] Wave frequency (regular waves) or wave frequency vector (irregular waves)
         phase                       = 0;                                    % [rad] Wave phase (only used for irregular waves)
@@ -175,8 +179,12 @@ classdef waveClass<handle
                     data = importdata(obj.etaDataFile) ;    % Import time-series
                     t = [0:dt:endTime]';      % WEC-Sim simulation time [s]
                     obj.waveElevUser(rampTime, dt, maxIt, data, t);
-                    obj.waveAmpTimex        = zeros(maxIt+1,2);
-                    obj.waveAmpTimex(:,1)   = [0:maxIt]*dt;
+                    obj.waveAmpTime1        = zeros(maxIt+1,2);
+                    obj.waveAmpTime1(:,1)   = [0:maxIt]*dt;
+                    obj.waveAmpTime2        = zeros(maxIt+1,2);
+                    obj.waveAmpTime2(:,1)   = [0:maxIt]*dt;
+                    obj.waveAmpTime3        = zeros(maxIt+1,2);
+                    obj.waveAmpTime3(:,1)   = [0:maxIt]*dt;
             end
         end
         
@@ -398,9 +406,13 @@ classdef waveClass<handle
         function waveElevNowave(obj,maxIt,dt)
             % Set noWave levation time-history
             obj.waveAmpTime         = zeros(maxIt+1,2);
-            obj.waveAmpTimex        = zeros(maxIt+1,2);
             obj.waveAmpTime(:,1)    = [0:maxIt]*dt;
-            obj.waveAmpTimex(:,1)   = [0:maxIt]*dt;
+            obj.waveAmpTime1        = zeros(maxIt+1,2);
+            obj.waveAmpTime1(:,1)   = [0:maxIt]*dt;
+            obj.waveAmpTime2        = zeros(maxIt+1,2);
+            obj.waveAmpTime2(:,1)   = [0:maxIt]*dt;
+            obj.waveAmpTime3        = zeros(maxIt+1,2);
+            obj.waveAmpTime3(:,1)   = [0:maxIt]*dt;
         end
         
         function waveElevReg(obj, rampTime,dt,maxIt)
@@ -413,23 +425,35 @@ classdef waveClass<handle
                     t = (i-1)*dt;
                     obj.waveAmpTime(i,1)    = t;
                     obj.waveAmpTime(i,2)    = obj.A*cos(obj.w*t);
-                    obj.waveAmpTimex(i,1)   = t;
-                    obj.waveAmpTimex(i,2)   = obj.A*cos(obj.w*t-obj.k*obj.wavegaugeloc);
+                    obj.waveAmpTime1(i,1)   = t;
+                    obj.waveAmpTime1(i,2)   = obj.A*cos(obj.w*t-obj.k*obj.wavegauge1loc);
+                    obj.waveAmpTime2(i,1)   = t;
+                    obj.waveAmpTime2(i,2)   = obj.A*cos(obj.w*t-obj.k*obj.wavegauge2loc);
+                    obj.waveAmpTime3(i,1)   = t;
+                    obj.waveAmpTime3(i,2)   = obj.A*cos(obj.w*t-obj.k*obj.wavegauge3loc);
                 end
             else
                 for i=1:maxRampIT
                     t = (i-1)*dt;
                     obj.waveAmpTime(i,1)    = t;
                     obj.waveAmpTime(i,2)    = obj.A*cos(obj.w*t)*(1+cos(pi+pi*(i-1)/maxRampIT))/2;
-                    obj.waveAmpTimex(i,1)   = t;
-                    obj.waveAmpTimex(i,2)   = obj.A*cos(obj.w*t-obj.k*obj.wavegaugeloc)*(1+cos(pi+pi*(i-1)/maxRampIT))/2;
+                    obj.waveAmpTime1(i,1)   = t;
+                    obj.waveAmpTime1(i,2)   = obj.A*cos(obj.w*t-obj.k*obj.wavegauge1loc)*(1+cos(pi+pi*(i-1)/maxRampIT))/2;
+                    obj.waveAmpTime2(i,1)   = t;
+                    obj.waveAmpTime2(i,2)   = obj.A*cos(obj.w*t-obj.k*obj.wavegauge2loc)*(1+cos(pi+pi*(i-1)/maxRampIT))/2;
+                    obj.waveAmpTime3(i,1)   = t;
+                    obj.waveAmpTime3(i,2)   = obj.A*cos(obj.w*t-obj.k*obj.wavegauge3loc)*(1+cos(pi+pi*(i-1)/maxRampIT))/2;
                 end
                 for i=maxRampIT+1:maxIt+1
                     t = (i-1)*dt;
                     obj.waveAmpTime(i,1)    = t;
                     obj.waveAmpTime(i,2)    = obj.A*cos(obj.w*t);
-                    obj.waveAmpTimex(i,1)   = t;
-                    obj.waveAmpTimex(i,2)   = obj.A*cos(obj.w*t-obj.k*obj.wavegaugeloc);
+                    obj.waveAmpTime1(i,1)   = t;
+                    obj.waveAmpTime1(i,2)   = obj.A*cos(obj.w*t-obj.k*obj.wavegauge1loc);
+                    obj.waveAmpTime2(i,1)   = t;
+                    obj.waveAmpTime2(i,2)   = obj.A*cos(obj.w*t-obj.k*obj.wavegauge2loc);
+                    obj.waveAmpTime3(i,1)   = t;
+                    obj.waveAmpTime3(i,2)   = obj.A*cos(obj.w*t-obj.k*obj.wavegauge3loc);
                 end
             end
         end
@@ -510,7 +534,7 @@ classdef waveClass<handle
             obj.A = 2 * obj.Sf;                                                 % Wave Amplitude [m]
         end
         
-        function waveElevIrreg(obj,rampTime,dt,maxIt,df,wavegaugeloc)
+        function waveElevIrreg(obj,rampTime,dt,maxIt,df)
             % Calculate irregular wave elevetaion time history
             % Used by waveSetup
             obj.waveAmpTime = zeros(maxIt+1,2);
@@ -520,32 +544,50 @@ classdef waveClass<handle
                     t       = (i-1)*dt;
                     tmp     = sqrt(obj.A.*df);
                     tmp1    = tmp.*real(exp(sqrt(-1).*(obj.w.*t + obj.phase)));
-                    tmp1x   = tmp.*real(exp(sqrt(-1).*(obj.w.*t - obj.k*obj.wavegaugeloc + obj.phase)));
+                    tmp11   = tmp.*real(exp(sqrt(-1).*(obj.w.*t - obj.k*obj.wavegauge1loc + obj.phase)));
+                    tmp12   = tmp.*real(exp(sqrt(-1).*(obj.w.*t - obj.k*obj.wavegauge2loc + obj.phase)));
+                    tmp13   = tmp.*real(exp(sqrt(-1).*(obj.w.*t - obj.k*obj.wavegauge3loc + obj.phase)));
                     obj.waveAmpTime(i,1)    = t;
                     obj.waveAmpTime(i,2)    = sum(tmp1);
-                    obj.waveAmpTimex(i,1)   = t;
-                    obj.waveAmpTimex(i,2)   = sum(tmp1x);
+                    obj.waveAmpTime1(i,1)   = t;
+                    obj.waveAmpTime1(i,2)   = sum(tmp11);
+                    obj.waveAmpTime2(i,1)   = t;
+                    obj.waveAmpTime2(i,2)   = sum(tmp12);
+                    obj.waveAmpTime3(i,1)   = t;
+                    obj.waveAmpTime3(i,2)   = sum(tmp13);
                 end
             else
                 for i=1:maxRampIT
                     t = (i-1)*dt;
                     tmp=sqrt(obj.A.*df);
                     tmp1    = tmp.*real(exp(sqrt(-1).*(obj.w.*t + obj.phase)));
-                    tmp1x   = tmp.*real(exp(sqrt(-1).*(obj.w.*t - obj.k*obj.wavegaugeloc + obj.phase)));
+                    tmp11   = tmp.*real(exp(sqrt(-1).*(obj.w.*t - obj.k*obj.wavegauge1loc + obj.phase)));
+                    tmp12   = tmp.*real(exp(sqrt(-1).*(obj.w.*t - obj.k*obj.wavegauge2loc + obj.phase)));
+                    tmp13   = tmp.*real(exp(sqrt(-1).*(obj.w.*t - obj.k*obj.wavegauge3loc + obj.phase)));
                     obj.waveAmpTime(i,1)    = t;
                     obj.waveAmpTime(i,2)    = sum(tmp1)*(1+cos(pi+pi*(i-1)/maxRampIT))/2;
-                    obj.waveAmpTimex(i,1)   = t;
-                    obj.waveAmpTimex(i,2)   = sum(tmp1x)*(1+cos(pi+pi*(i-1)/maxRampIT))/2;
+                    obj.waveAmpTime1(i,1)   = t;
+                    obj.waveAmpTime1(i,2)   = sum(tmp11)*(1+cos(pi+pi*(i-1)/maxRampIT))/2;
+                    obj.waveAmpTime2(i,1)   = t;
+                    obj.waveAmpTime2(i,2)   = sum(tmp12)*(1+cos(pi+pi*(i-1)/maxRampIT))/2;
+                    obj.waveAmpTime3(i,1)   = t;
+                    obj.waveAmpTime3(i,2)   = sum(tmp13)*(1+cos(pi+pi*(i-1)/maxRampIT))/2;
                 end
                 for i=maxRampIT+1:maxIt+1
                     t = (i-1)*dt;
                     tmp=sqrt(obj.A.*df);
                     tmp1  = tmp.*real(exp(sqrt(-1).*(obj.w.*t + obj.phase)));
-                    tmp1x = tmp.*real(exp(sqrt(-1).*(obj.w.*t - obj.k*obj.wavegaugeloc + obj.phase)));
+                    tmp11 = tmp.*real(exp(sqrt(-1).*(obj.w.*t - obj.k*obj.wavegauge1loc + obj.phase)));
+                    tmp12 = tmp.*real(exp(sqrt(-1).*(obj.w.*t - obj.k*obj.wavegauge2loc + obj.phase)));
+                    tmp13 = tmp.*real(exp(sqrt(-1).*(obj.w.*t - obj.k*obj.wavegauge3loc + obj.phase)));
                     obj.waveAmpTime(i,1)    = t;
                     obj.waveAmpTime(i,2)    = sum(tmp1);
-                    obj.waveAmpTimex(i,1)   = t;
-                    obj.waveAmpTimex(i,2)   = sum(tmp1x);
+                    obj.waveAmpTime1(i,1)   = t;
+                    obj.waveAmpTime1(i,2)   = sum(tmp11);
+                    obj.waveAmpTime2(i,1)   = t;
+                    obj.waveAmpTime2(i,2)   = sum(tmp12);
+                    obj.waveAmpTime3(i,1)   = t;
+                    obj.waveAmpTime3(i,2)   = sum(tmp13);
                 end
             end
         end
