@@ -678,10 +678,17 @@ This would allow for the BEM of different bodies to be done separately, and BEMI
 </div>
 <div class="section" id="wave-gauge-placement">
 <h3>Wave Gauge Placement<a class="headerlink" href="#wave-gauge-placement" title="Permalink to this headline">¶</a></h3>
-<p>By default, the wave surface elevation is calculated at the origin. Users may specify an x-location to calculate the wave surface elevation offset from the origin in the global x direction by defining the following waveClass variable in the WEC-Sim input file:</p>
+<p>By default, the wave surface elevation is calculated at the origin. Users are allowed up to 3 other x-locations to calculate the wave surface elevation offset from the origin in the global x-direction by defining the waveClass variable, <code class="docutils literal"><span class="pre">waves.wavegauge&lt;i&gt;loc</span></code>, in the WEC-Sim input file:</p>
 <blockquote>
-<div><code class="code docutils literal"><span class="pre">waves.waveAmpTimex</span> <span class="pre">=</span> <span class="pre">&lt;user</span> <span class="pre">defined</span> <span class="pre">x-location&gt;;</span></code></div></blockquote>
-<p>This feature only works with planar waves propagating along the positive x direction when <code class="docutils literal"><span class="pre">waves.waveDir</span> <span class="pre">=</span> <span class="pre">0</span></code>.</p>
+<div><code class="code docutils literal"><span class="pre">waves.wavegauge&lt;i&gt;loc</span> <span class="pre">=</span> <span class="pre">user</span> <span class="pre">defined</span> <span class="pre">wave</span> <span class="pre">gauge</span> <span class="pre">i</span> <span class="pre">x-location</span> <span class="pre">(y-position</span> <span class="pre">assumed</span> <span class="pre">to</span> <span class="pre">be</span> <span class="pre">0</span> <span class="pre">m)</span></code></div></blockquote>
+<p>where i = 1, 2, or 3</p>
+<p>The WEC-Sim numerical wave gauges output the undisturbed linear incident wave elevation at the wave gauge locations defined above. The numerical wave gauges do not handle the incident wave interaction with the radiated or diffracted waves that are generated because of the presence and motion of the WEC hydrodynamic bodies. This option provides the following wave elevation time series:</p>
+<blockquote>
+<div><code class="code docutils literal"><span class="pre">waves.waveAmpTime&lt;i&gt;</span> <span class="pre">=</span> <span class="pre">incident</span> <span class="pre">wave</span> <span class="pre">elevation</span> <span class="pre">time</span> <span class="pre">series</span> <span class="pre">at</span> <span class="pre">wave</span> <span class="pre">gauge</span> <span class="pre">i</span></code></div></blockquote>
+<div class="admonition note">
+<p class="first admonition-title">Note</p>
+<p class="last">This feature only works with planar waves propagating along the positive x-direction when <code class="docutils literal"><span class="pre">waves.waveDir</span> <span class="pre">=</span> <span class="pre">0</span></code>.</p>
+</div>
 </div>
 </div>
 <div class="section" id="body-features">

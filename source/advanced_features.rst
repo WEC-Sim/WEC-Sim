@@ -109,11 +109,18 @@ By setting ``waves.phaseSeed``  equal to 1,2,3,...,etc, the random wave phase ge
 
 Wave Gauge Placement 
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-By default, the wave surface elevation is calculated at the origin. Users may specify an x-location to calculate the wave surface elevation offset from the origin in the global x direction by defining the following waveClass variable in the WEC-Sim input file:
+By default, the wave surface elevation is calculated at the origin. Users are allowed up to 3 other x-locations to calculate the wave surface elevation offset from the origin in the global x-direction by defining the waveClass variable, ``waves.wavegauge<i>loc``, in the WEC-Sim input file:
 
-	:code:`waves.waveAmpTimex = <user defined x-location>;`
+	:code:`waves.wavegauge<i>loc = user defined wave gauge i x-location (y-position assumed to be 0 m)`
+where i = 1, 2, or 3
 
-This feature only works with planar waves propagating along the positive x direction when ``waves.waveDir = 0``. 
+The WEC-Sim numerical wave gauges output the undisturbed linear incident wave elevation at the wave gauge locations defined above. The numerical wave gauges do not handle the incident wave interaction with the radiated or diffracted waves that are generated because of the presence and motion of the WEC hydrodynamic bodies. This option provides the following wave elevation time series:
+
+	:code:`waves.waveAmpTime<i> = incident wave elevation time series at wave gauge i`
+
+.. Note::
+
+	This feature only works with planar waves propagating along the positive x-direction when ``waves.waveDir = 0``.
 
 
 Body Features
