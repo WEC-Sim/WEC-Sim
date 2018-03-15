@@ -53,11 +53,11 @@ Library {
 	Object {
 	  $ObjectID		  6
 	  IsActive		  [1]
-	  ViewObjType		  "SimulinkSubsys"
-	  LoadSaveID		  "509"
+	  ViewObjType		  "SimulinkTopLevel"
+	  LoadSaveID		  "0"
 	  Extents		  [1347.0, 649.0]
-	  ZoomFactor		  [1.75]
-	  Offset		  [0.0, 0.0]
+	  ZoomFactor		  [1.0]
+	  Offset		  [-176.76649746192902, -248.65482233502541]
 	}
 	PropName		"EditorsInfo"
       }
@@ -69,9 +69,9 @@ Library {
   ModifiedByFormat	  "%<Auto>"
   LastModifiedBy	  "yyu"
   ModifiedDateFormat	  "%<Auto>"
-  LastModifiedDate	  "Thu Mar 15 13:59:45 2018"
-  RTWModifiedTimeStamp	  389028968
-  ModelVersionFormat	  "1.%<AutoIncrement:614>"
+  LastModifiedDate	  "Thu Mar 15 14:53:56 2018"
+  RTWModifiedTimeStamp	  443026429
+  ModelVersionFormat	  "1.%<AutoIncrement:615>"
   ConfigurationManager	  "none"
   SampleTimeColors	  off
   SampleTimeAnnotations	  off
@@ -1225,8 +1225,8 @@ Library {
   }
   System {
     Name		    "PTOSim_Lib"
-    Location		    [-6, -6, 1375, 879]
-    Open		    off
+    Location		    [0, 23, 1381, 834]
+    Open		    on
     ModelBrowserVisibility  off
     ModelBrowserWidth	    200
     ScreenColor		    "white"
@@ -1237,12 +1237,12 @@ Library {
     TiledPaperMargins	    [0.500000, 0.500000, 0.500000, 0.500000]
     TiledPageScale	    1
     ShowPageBoundaries	    off
-    ZoomFactor		    "197"
+    ZoomFactor		    "100"
     ReportName		    "simulink-default.rpt"
     SIDHighWatermark	    "5279"
     Block {
       BlockType		      SubSystem
-      Name		      " Generator"
+      Name		      "Generator"
       SID		      "509"
       RequirementInfo	      "{}  %GIDa_5439fdb4_7c29_433c_8677_23bf92e18f11"
       Ports		      []
@@ -1251,9 +1251,9 @@ Library {
       RequestExecContextInheritance off
       Variant		      off
       System {
-	Name			" Generator"
+	Name			"Generator"
 	Location		[0, 23, 1381, 834]
-	Open			on
+	Open			off
 	ModelBrowserVisibility	off
 	ModelBrowserWidth	200
 	ScreenColor		"white"
@@ -1264,7 +1264,7 @@ Library {
 	TiledPaperMargins	[0.500000, 0.500000, 0.500000, 0.500000]
 	TiledPageScale		1
 	ShowPageBoundaries	off
-	ZoomFactor		"175"
+	ZoomFactor		"150"
 	Block {
 	  BlockType		  SubSystem
 	  Name			  "Direct Drive Linear\nGenerator"
@@ -7216,7 +7216,7 @@ Library {
       Variant		      off
       System {
 	Name			"Hydraulic"
-	Location		[-6, 23, 1375, 908]
+	Location		[0, 23, 1381, 834]
 	Open			on
 	ModelBrowserVisibility	off
 	ModelBrowserWidth	200
