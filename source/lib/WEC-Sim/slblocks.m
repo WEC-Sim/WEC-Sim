@@ -18,5 +18,6 @@ function blkStruct = slblocks
 
 Browser.Library='WECSim_Lib';
 Browser.Name='WEC-Sim';
+Browser.Choice=1; % Option to generate the required repository info in memory.
 
 blkStruct.Browser=Browser;
