@@ -62,3 +62,7 @@ view_html.sh
 *.tws
 
 */experimental_runs/
+
+# moorDyn
+source/functions/moorDyn/*
+!source/functions/moorDyn/README.md
