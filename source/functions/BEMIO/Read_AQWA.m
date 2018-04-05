@@ -20,41 +20,43 @@ end
 p = waitbar(0,'Reading AQWA output file...'); %Progress bar
 e = 0;
 
-hydro(F).code = 'AQWA';
-tmp = strsplit(ah1_filename,{' ','\','.'});
-hydro(F).file = tmp{length(tmp)-1};  % Base filename
+hydro(F).code   = 'AQWA';
+V182            = 0; % Set AqwaVersion flag "Version 18.2 or larger" to 0
+tmp             = strsplit(ah1_filename,{' ','\','.'});
+hydro(F).file   = tmp{length(tmp)-1};  % Base filename
 
-fileID = fopen(ah1_filename);
-raw1 = textscan(fileID,'%[^\n\r]'); %Read/copy raw output, ah1
-raw1 = raw1{:};
+fileID          = fopen(ah1_filename);
+raw1            = textscan(fileID,'%[^\n\r]'); %Read/copy raw output, ah1
+raw1            = raw1{:};
 fclose(fileID);
-fileID = fopen(lis_filename);
-raw2 = textscan(fileID,'%[^\n\r]'); %Read/copy raw output, lis
-raw2 = raw2{:};
+fileID          = fopen(lis_filename);
+raw2            = textscan(fileID,'%[^\n\r]'); %Read/copy raw output, lis
+raw2            = raw2{:};
 fclose(fileID);
-N = length([raw1(:);raw2(:)]);
+N               = length([raw1(:);raw2(:)]);
 
 
 % n=2;
 n = 1;
 TF = 1;
 while TF == 1
-    n=n+1;
-    TF = startsWith(raw1(n),'*');    
+    if isempty(strfind(raw1{n},'LHFR'))==0; V182 = 1; end % Change Aqwa Version flag to 1 if specific string is found in header
+    n   = n+1;
+    TF  = startsWith(raw1(n),'*');
 end
 
-tmp = str2num(raw1{n});
+tmp         = str2num(raw1{n});
 hydro(F).Nb = tmp(1); % Number of bodies
 for i=1:hydro(F).Nb
-    hydro(F).body{i} = ['body' num2str(i)]; %Body name
-    hydro(F).dof(i) = 6;  % Default degrees of freedom for each body is 6
+    hydro(F).body{i}    = ['body' num2str(i)]; %Body name
+    hydro(F).dof(i)     = 6;  % Default degrees of freedom for each body is 6
 end
-hydro(F).Nh = tmp(2);  % Number of wave headings
-hydro(F).Nf = tmp(3);  % Number of wave frequencies
-hydro(F).beta = [];
+hydro(F).Nh     = tmp(2);  % Number of wave headings
+hydro(F).Nf     = tmp(3);  % Number of wave frequencies
+hydro(F).beta   = [];
 for i = 1:ceil(hydro(F).Nh/6)
-    hydro(F).beta = [hydro(F).beta str2num(raw1{n})]; % Wave headings
-    n=n+1;
+    hydro(F).beta   = [hydro(F).beta str2num(raw1{n})]; % Wave headings
+    n               = n+1;
 end
 hydro(F).beta(1:3) = [];
 hydro(F).w = [];
@@ -66,10 +68,16 @@ hydro(F).T = 2*pi./hydro(F).w;
 
 for ln = n:length(raw1);
     if isempty(strfind(raw1{ln},'GENERAL'))==0
-        tmp = str2num(raw1{ln+1});
-        hydro(F).h = tmp(1);   % Water depth
-        hydro(F).rho = tmp(2); % Water density
-        hydro(F).g = tmp(3);   % Gravity
+        if V182 == 1  % General information columns in Versions>18.2
+            hydro(F).h      = tmp(2);   % Water depth
+            hydro(F).rho    = tmp(3); % Water density
+            hydro(F).g      = tmp(4);   % Gravity
+        else          % General information columns in Versions<18.2
+            hydro(F).h      = tmp(1);   % Water depth
+            hydro(F).rho    = tmp(2); % Water density
+            hydro(F).g      = tmp(3);   % Gravity
+        end
+        clear V182
     end
     if isempty(strfind(raw1{ln},'COG'))==0
         for i=1:hydro(F).Nb
@@ -151,7 +159,7 @@ for ln=1:length(raw2);
             cb = [cb; tmp{1}];
         end
         hydro(F).cb = [hydro(F).cb cb]; % Center of buoyancy
-    
+        
     elseif isempty(strfind(raw2{ln},'FROUDE KRYLOV + DIFFRACTION FORCES-VARIATION WITH WAVE PERIOD'))==0
         k=str2num(raw2{ln-2}(end-8));                       % Body number flag
         for j=1:hydro(F).Nh
@@ -160,8 +168,8 @@ for ln=1:length(raw2);
                 if i==1;
                     ind = tmp1(1:3); tmp1(1:3)=[];
                 else
-                    ind = tmp1(1:2); tmp1(1:2)=[];    
-                end   
+                    ind = tmp1(1:2); tmp1(1:2)=[];
+                end
                 tmp2 = tmp1(2:2:end);
                 tmp1(2:2:end)=[];
                 hydro(F).fk_ma((k-1)*6+1:k*6,j,i) = tmp1;  % mag of froude Krylov force
@@ -198,7 +206,7 @@ for ln=1:length(raw2);
     end
     d = floor(10*(ln+length(raw2))/N);  %Update waitbar every 10%, or slows computation time
     if (d>e) waitbar((ln+length(raw1))/N); e = d; end
-
+    
 end
 hydro = Normalize(hydro);  % Normalize the data according the WAMIT convention
 close(p);
