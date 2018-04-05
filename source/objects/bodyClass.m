@@ -28,7 +28,8 @@ classdef bodyClass<handle
         dispVol           = []                                                  % Displaced volume at equilibrium position in meters cubed. For WEC bodies this is given in the h5 file.
         geometryFile      = 'NONE'                                              % Location of geomtry stl files
         viscDrag          = struct(...                                          % Structure defining the viscous (quadratic) drag
-                                   'cd',                   [0 0 0 0 0 0], ...       % Viscous (quadratic) drag cd, vector length 6
+                                   'Drag',                 zeros(6), ...              % Viscous (quadratic) drag, matrix 6x6
+                                   'cd',                   [0 0 0 0 0 0], ...       % Viscous (quadratic) drag cd coefficient, vector length 6
                                    'characteristicArea',   [0 0 0 0 0 0])           % Characteristic area for viscous drag, vector length 6
         initDisp          = struct(...                                          % Structure defining the initial displacement
                                    'initLinDisp',          [0 0 0], ...             % Initial displacement of center fo gravity - used for decay tests (format: [displacment in m], default = [0 0 0])
@@ -132,7 +133,11 @@ classdef bodyClass<handle
             obj.setMassMatrix(rho,nlHydro)
             k = obj.hydroData.hydro_coeffs.linear_restoring_stiffness;
             obj.hydroForce.linearHydroRestCoef = k .*rho .*g;
-            obj.hydroForce.visDrag = diag(0.5*rho.*obj.viscDrag.cd.*obj.viscDrag.characteristicArea);
+            if  any(any(obj.viscDrag.cd)) == 1
+                obj.hydroForce.visDrag = diag(0.5*rho.*obj.viscDrag.cd.*obj.viscDrag.characteristicArea);
+            else
+                obj.hydroForce.visDrag = obj.viscDrag.Drag;
+            end
             obj.hydroForce.linearDamping = diag(obj.linearDamping);
             obj.hydroForce.userDefinedFe = zeros(length(waveAmpTime(:,2)),6);   %initializing userDefinedFe for non imported wave cases
             switch waveType
