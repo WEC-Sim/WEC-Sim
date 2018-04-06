@@ -161,7 +161,7 @@ for ln=1:length(raw2);
         hydro(F).cb = [hydro(F).cb cb]; % Center of buoyancy
         
     elseif isempty(strfind(raw2{ln},'FROUDE KRYLOV + DIFFRACTION FORCES-VARIATION WITH WAVE PERIOD'))==0
-        k=str2num(raw2{ln-2}(end-8));                       % Body number flag
+        k=str2num(raw2{ln-2}(end-9:end-8));                       % Body number flag
         for j=1:hydro(F).Nh
             for i=1:hydro(F).Nf
                 tmp1 = str2num(raw2{ln+6+(j-1)*(hydro(F).Nf+9)+(i-1)});
@@ -183,7 +183,7 @@ for ln=1:length(raw2);
         
     elseif isempty(strfind(raw2{ln},'DIFFRACTION FORCES-VARIATION WITH WAVE PERIOD/FREQUENCY'))==0 ...
             && isempty(strfind(raw2{ln},'FROUDE KRYLOV +'))==1
-        kdiff=str2num(raw2{ln-2}(end-8));                       % Body number flag
+        kdiff=str2num(raw2{ln-2}(end-9:end-8));                       % Body number flag
         for j=1:hydro(F).Nh
             for i=1:hydro(F).Nf
                 tmp1 = str2num(raw2{ln+6+(j-1)*(hydro(F).Nf+9)+(i-1)});
