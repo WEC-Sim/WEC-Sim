@@ -393,8 +393,14 @@ classdef waveClass<handle
                     obj.H = 0;
                 case {'noWaveCIC'}
                     obj.H = 0;
-                    obj.w = max(obj.bemFreq);
-                    obj.T=2*pi/obj.w;
+                    if isempty(obj.w) && strcmp(obj.T,'NOT DEFINED')
+                        obj.w = min(obj.bemFreq);
+                        obj.T=2*pi/obj.w;
+                    elseif isempty(obj.w)
+                        obj.w = 2*pi/obj.T;
+                    else
+                        obj.T = 2*pi/obj.w;
+                    end
                 case {'spectrumImport'}
                     obj.H = 0;
                     obj.T = 0;
