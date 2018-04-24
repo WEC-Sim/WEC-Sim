@@ -28,16 +28,17 @@ classdef bodyClass<handle
         dispVol           = []                                                  % Displaced volume at equilibrium position in meters cubed. For WEC bodies this is given in the h5 file.
         geometryFile      = 'NONE'                                              % Location of geomtry stl files
         viscDrag          = struct(...                                          % Structure defining the viscous (quadratic) drag
-                                   'Drag',                 zeros(6), ...              % Viscous (quadratic) drag, matrix 6x6
+                                   'Drag',                 zeros(6), ...            % Viscous (quadratic) drag, matrix 6x6
                                    'cd',                   [0 0 0 0 0 0], ...       % Viscous (quadratic) drag cd coefficient, vector length 6
                                    'characteristicArea',   [0 0 0 0 0 0])           % Characteristic area for viscous drag, vector length 6
         initDisp          = struct(...                                          % Structure defining the initial displacement
                                    'initLinDisp',          [0 0 0], ...             % Initial displacement of center fo gravity - used for decay tests (format: [displacment in m], default = [0 0 0])
                                    'initAngularDispAxis',  [0 1 0], ...             % Initial displacement of cog - axis of rotation - used for decay tests (format: [x y z], default = [1 0 0])
                                    'initAngularDispAngle', 0)                       % Initial displacement of cog - Angle of rotation - used for decay tests (format: [radians], default = 0)
-        linearDamping     = [0 0 0 0 0 0]                                       % Linear drag coefficient, vector length 6
+        hydroStiffness   = zeros(6)                                             % Hydrostatic stiffness matrix overrides BEMIO definition, matrix 6x6
+        linearDamping     = [0 0 0 0 0 0]                                       % Linear damping coefficient, vector length 6
         userDefinedExcIRF = []                                                  % Excitation IRF from BEMIO used for User-Defined Time-Series
-        viz               = struct(...                                          % Structur defining visualization properties
+        viz               = struct(...                                          % Structure defining visualization properties
                                    'color', [1 1 0], ...                            % Visualization color for either SimMechanics Explorer or Paraview.
                                    'opacity', 1)                                    % Visualization opacity for either SimMechanics Explorer or Paraview.
         morrisonElement   = struct(...                                          % Structure defining the Morrison Elements
@@ -131,12 +132,16 @@ classdef bodyClass<handle
             %    drag, and linear damping matrices
             % 2. Set the wave excitation force
             obj.setMassMatrix(rho,nlHydro)
-            k = obj.hydroData.hydro_coeffs.linear_restoring_stiffness;
-            obj.hydroForce.linearHydroRestCoef = k .*rho .*g;
-            if  any(any(obj.viscDrag.cd)) == 1
-                obj.hydroForce.visDrag = diag(0.5*rho.*obj.viscDrag.cd.*obj.viscDrag.characteristicArea);
+            if any(any(obj.hydroStiffness)) == 1  %check if obj.hydroStiffness is defined
+                obj.hydroForce.linearHydroRestCoef = obj.hydroStiffness;
             else
-                obj.hydroForce.visDrag = obj.viscDrag.Drag;
+                k = obj.hydroData.hydro_coeffs.linear_restoring_stiffness;
+                obj.hydroForce.linearHydroRestCoef = k .*rho .*g;
+            end
+            if  any(any(obj.viscDrag.Drag)) == 1  %check if obj.viscDrag.Drag is defined
+                obj.hydroForce.visDrag = obj.viscDrag.Drag;                
+            else
+                obj.hydroForce.visDrag = diag(0.5*rho.*obj.viscDrag.cd.*obj.viscDrag.characteristicArea);
             end
             obj.hydroForce.linearDamping = diag(obj.linearDamping);
             obj.hydroForce.userDefinedFe = zeros(length(waveAmpTime(:,2)),6);   %initializing userDefinedFe for non imported wave cases
