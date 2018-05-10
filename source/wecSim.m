@@ -81,7 +81,16 @@ for ii = 1:simu.numWecBodies
     % was stored in memory from a previous run.
     if exist('mcr','var') == 1 && simu.reloadH5Data == 0 && imcr > 1 
         body(ii).loadHydroData(hydroData(ii));
-    else 
+    else
+        % check for correct h5 file
+        try
+            h5Info = dir('.\*\*.h5');
+            h5Info.bytes;        
+            if h5Info.bytes < 1000
+                error(['The *.h5 file for this run is incorrect. Please install git-lfs or download the *.h5 file directly from the WEC-Sim release page'])
+            end    
+        end
+        clearvars h5Info        
         body(ii).readH5File;
     end
     body(ii).bodyTotal = simu.numWecBodies;

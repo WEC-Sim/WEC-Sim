@@ -675,6 +675,5 @@ classdef bodyClass<handle
                 fclose(fid);
             end
         end
-
     end
 end
