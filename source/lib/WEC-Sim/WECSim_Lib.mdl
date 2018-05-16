@@ -1,5 +1,5 @@
 Library {
-  Name			  "WECSim_Lib"
+  Name			  "WECSim_Lib_update"
   Version		  8.6
   SavedCharacterEncoding  "windows-1252"
   LibraryType		  "BlockLibrary"
@@ -23,74 +23,39 @@ Library {
     $PropName		    "BdWindowsInfo"
     $ObjectID		    1
     $ClassName		    "Simulink.BDWindowsInfo"
-    Array {
-      Type		      "Simulink.WindowInfo"
-      Dimension		      2
+    Object {
+      $PropName		      "WindowsInfo"
+      $ObjectID		      2
+      $ClassName	      "Simulink.WindowInfo"
+      IsActive		      [1]
+      Location		      [-8.0, -8.0, 1936.0, 1176.0]
       Object {
-	$ObjectID		2
-	IsActive		[0]
-	Location		[-8.0, -8.0, 1936.0, 1176.0]
-	Object {
-	  $PropName		  "ModelBrowserInfo"
-	  $ObjectID		  3
-	  $ClassName		  "Simulink.ModelBrowserInfo"
-	  Visible		  [1]
-	  DockPosition		  "Left"
-	  Width			  [50]
-	  Height		  [50]
-	  Filter		  [59]
-	}
-	Object {
-	  $PropName		  "ExplorerBarInfo"
-	  $ObjectID		  4
-	  $ClassName		  "Simulink.ExplorerBarInfo"
-	  Visible		  [1]
-	}
-	Object {
-	  $PropName		  "EditorsInfo"
-	  $ObjectID		  5
-	  $ClassName		  "Simulink.EditorInfo"
-	  IsActive		  [1]
-	  ViewObjType		  "SimulinkSubsys"
-	  LoadSaveID		  "468"
-	  Extents		  [1689.0, 1004.0]
-	  ZoomFactor		  [8.835106382978724]
-	  Offset		  [-786.58458759783264, -106.81878386514148]
-	}
+	$PropName		"ModelBrowserInfo"
+	$ObjectID		3
+	$ClassName		"Simulink.ModelBrowserInfo"
+	Visible			[1]
+	DockPosition		"Left"
+	Width			[50]
+	Height			[50]
+	Filter			[59]
       }
       Object {
-	$ObjectID		7
+	$PropName		"ExplorerBarInfo"
+	$ObjectID		4
+	$ClassName		"Simulink.ExplorerBarInfo"
+	Visible			[1]
+      }
+      Object {
+	$PropName		"EditorsInfo"
+	$ObjectID		5
+	$ClassName		"Simulink.EditorInfo"
 	IsActive		[1]
-	Location		[-8.0, -8.0, 1936.0, 1176.0]
-	Object {
-	  $PropName		  "ModelBrowserInfo"
-	  $ObjectID		  8
-	  $ClassName		  "Simulink.ModelBrowserInfo"
-	  Visible		  [1]
-	  DockPosition		  "Left"
-	  Width			  [50]
-	  Height		  [50]
-	  Filter		  [59]
-	}
-	Object {
-	  $PropName		  "ExplorerBarInfo"
-	  $ObjectID		  9
-	  $ClassName		  "Simulink.ExplorerBarInfo"
-	  Visible		  [1]
-	}
-	Object {
-	  $PropName		  "EditorsInfo"
-	  $ObjectID		  10
-	  $ClassName		  "Simulink.EditorInfo"
-	  IsActive		  [1]
-	  ViewObjType		  "SimulinkTopLevel"
-	  LoadSaveID		  "0"
-	  Extents		  [1689.0, 1004.0]
-	  ZoomFactor		  [4.5821596244131459]
-	  Offset		  [-159.30174180327867, 50.944672131147556]
-	}
+	ViewObjType		"SimulinkTopLevel"
+	LoadSaveID		"0"
+	Extents			[1689.0, 1004.0]
+	ZoomFactor		[4.5821596244131459]
+	Offset			[-159.30174180327867, 50.944672131147556]
       }
-      PropName		      "WindowsInfo"
     }
   }
   Created		  "Tue Nov 19 08:17:54 2013"
@@ -99,9 +64,9 @@ Library {
   ModifiedByFormat	  "%<Auto>"
   LastModifiedBy	  "ntom"
   ModifiedDateFormat	  "%<Auto>"
-  LastModifiedDate	  "Fri Apr 06 11:24:53 2018"
-  RTWModifiedTimeStamp	  444914693
-  ModelVersionFormat	  "1.%<AutoIncrement:760>"
+  LastModifiedDate	  "Wed May 16 14:46:03 2018"
+  RTWModifiedTimeStamp	  448382762
+  ModelVersionFormat	  "1.%<AutoIncrement:764>"
   SampleTimeColors	  off
   SampleTimeAnnotations	  off
   LibraryLinkDisplay	  "all"
@@ -163,13 +128,13 @@ Library {
     Type		    "Handle"
     Dimension		    1
     Simulink.ConfigSet {
-      $ObjectID		      12
+      $ObjectID		      7
       Version		      "1.15.1"
       Array {
 	Type			"Handle"
 	Dimension		9
 	Simulink.SolverCC {
-	  $ObjectID		  13
+	  $ObjectID		  8
 	  Version		  "1.15.1"
 	  StartTime		  "0.0"
 	  StopTime		  "10.0"
@@ -205,7 +170,7 @@ Library {
 	  InsertRTBMode		  "Whenever possible"
 	}
 	Simulink.DataIOCC {
-	  $ObjectID		  14
+	  $ObjectID		  9
 	  Version		  "1.15.1"
 	  Decimation		  "1"
 	  ExternalInput		  "[t, u]"
@@ -241,7 +206,7 @@ Library {
 	  LoggingIntervals	  "[-inf, inf]"
 	}
 	Simulink.OptimizationCC {
-	  $ObjectID		  15
+	  $ObjectID		  10
 	  Version		  "1.15.1"
 	  Array {
 	    Type		    "Cell"
@@ -298,7 +263,7 @@ Library {
 	  AccelVerboseBuild	  off
 	}
 	Simulink.DebuggingCC {
-	  $ObjectID		  16
+	  $ObjectID		  11
 	  Version		  "1.15.1"
 	  RTPrefix		  "error"
 	  ConsistencyChecking	  "none"
@@ -388,7 +353,7 @@ Library {
 	  IntegerSaturationMsg	  "warning"
 	}
 	Simulink.HardwareCC {
-	  $ObjectID		  17
+	  $ObjectID		  12
 	  Version		  "1.15.1"
 	  ProdBitPerChar	  8
 	  ProdBitPerShort	  16
@@ -428,7 +393,7 @@ Library {
 	  ProdEqTarget		  on
 	}
 	Simulink.ModelReferenceCC {
-	  $ObjectID		  18
+	  $ObjectID		  13
 	  Version		  "1.15.1"
 	  UpdateModelReferenceTargets "IfOutOfDateOrStructuralChange"
 	  EnableRefExpFcnMdlSchedulingChecks on
@@ -444,7 +409,7 @@ Library {
 	  SupportModelReferenceSimTargetCustomCode off
 	}
 	Simulink.SFSimCC {
-	  $ObjectID		  19
+	  $ObjectID		  14
 	  Version		  "1.15.1"
 	  SFSimEcho		  on
 	  SimCtrlC		  on
@@ -456,7 +421,7 @@ Library {
 	}
 	Simulink.RTWCC {
 	  $BackupClass		  "Simulink.RTWCC"
-	  $ObjectID		  20
+	  $ObjectID		  15
 	  Version		  "1.15.1"
 	  Array {
 	    Type		    "Cell"
@@ -527,7 +492,7 @@ Library {
 	    Type		    "Handle"
 	    Dimension		    2
 	    Simulink.CodeAppCC {
-	      $ObjectID		      21
+	      $ObjectID		      16
 	      Version		      "1.15.1"
 	      Array {
 		Type			"Cell"
@@ -599,7 +564,7 @@ Library {
 	    }
 	    Simulink.GRTTargetCC {
 	      $BackupClass	      "Simulink.TargetCC"
-	      $ObjectID		      22
+	      $ObjectID		      17
 	      Version		      "1.15.1"
 	      Array {
 		Type			"Cell"
@@ -687,7 +652,7 @@ Library {
 	  }
 	}
 	SlCovCC.ConfigComp {
-	  $ObjectID		  23
+	  $ObjectID		  18
 	  Version		  "1.15.1"
 	  Description		  "Simulink Coverage Configuration Component"
 	  Name			  "Simulink Coverage"
@@ -1114,7 +1079,7 @@ Library {
     }
   }
   System {
-    Name		    "WECSim_Lib"
+    Name		    "WECSim_Lib_update"
     Location		    [-8, -8, 1928, 1168]
     Open		    off
     ModelBrowserVisibility  on
@@ -1141,7 +1106,7 @@ Library {
       Variant		      off
       Object {
 	$PropName		"MaskObject"
-	$ObjectID		24
+	$ObjectID		19
 	$ClassName		"Simulink.Mask"
 	Display			"text(0,0,' ')"
       }
@@ -1173,7 +1138,7 @@ Library {
 	  Variant		  on
 	  Object {
 	    $PropName		    "MaskObject"
-	    $ObjectID		    25
+	    $ObjectID		    20
 	    $ClassName		    "Simulink.Mask"
 	    Initialization	    "if exist('body','var')\n    % Hydro Body\n    h = [gcb '/Hydrodynamic Body'];\n    responseNa"
 	    "me = ['sv_b' num2str(body.bodyNumber) '_hydroBody'];\n    set_param(h,'VariantControl',responseName);\n    % Non-"
@@ -1182,7 +1147,7 @@ Library {
 	    SelfModifiable	    "on"
 	    Object {
 	      $PropName		      "Parameters"
-	      $ObjectID		      26
+	      $ObjectID		      21
 	      $ClassName	      "Simulink.MaskParameter"
 	      Type		      "edit"
 	      Name		      "body"
@@ -1219,7 +1184,7 @@ Library {
 	      VariantControl	      "sv_b1_hydroBody"
 	      Object {
 		$PropName		"MaskObject"
-		$ObjectID		27
+		$ObjectID		22
 		$ClassName		"Simulink.Mask"
 		Initialization		"if exist('body','var')\n    % geometry file name\n    h=[gcb '/Structure/Body Properties'];\n    ge"
 		"omFile=body.geometryFile;\n    set_param(h,'ExtGeomFileName',geomFile);\n    % toWorkSpace: outputs\n    h=[gcb '/To"
@@ -1243,7 +1208,7 @@ Library {
 		SelfModifiable		"on"
 		Object {
 		  $PropName		  "Parameters"
-		  $ObjectID		  28
+		  $ObjectID		  23
 		  $ClassName		  "Simulink.MaskParameter"
 		  Type			  "edit"
 		  Name			  "body"
@@ -1458,7 +1423,7 @@ Library {
 		    Variant		    off
 		    Object {
 		    $PropName		    "MaskObject"
-		    $ObjectID		    29
+		    $ObjectID		    24
 		    $ClassName		    "Simulink.Mask"
 		    Description		    "This is used to"
 		    Initialization	    "%In the initialization tab we place the code modifying the block\n\ncb = gcb;\n% position of"
@@ -1486,7 +1451,7 @@ Library {
 		    SelfModifiable	    "on"
 		    Object {
 		    $PropName		    "Parameters"
-		    $ObjectID		    30
+		    $ObjectID		    25
 		    $ClassName		    "Simulink.MaskParameter"
 		    Type		    "edit"
 		    Name		    "body"
@@ -1499,11 +1464,11 @@ Library {
 		    Type		    "Simulink.dialog.Group"
 		    Dimension		    2
 		    Object {
-		    $ObjectID		    31
+		    $ObjectID		    26
 		    Prompt		    "Coupling Block"
 		    Object {
 		    $PropName		    "DialogControls"
-		    $ObjectID		    32
+		    $ObjectID		    27
 		    $ClassName		    "Simulink.dialog.Text"
 		    Prompt		    "This block transfers the velocity and acceleration vectors between bodies allowing for the coupled "
 		    "hydrodynamic forces to be calculated.  This block should not be included if there is only one body or if the hyd"
@@ -1513,11 +1478,11 @@ Library {
 		    Name		    "DescGroupVar"
 		    }
 		    Object {
-		    $ObjectID		    33
+		    $ObjectID		    28
 		    Prompt		    "Simulink:studio:ToolBarParametersMenu"
 		    Object {
 		    $PropName		    "DialogControls"
-		    $ObjectID		    34
+		    $ObjectID		    29
 		    $ClassName		    "Simulink.dialog.parameter.Edit"
 		    PromptLocation	    "left"
 		    Name		    "body"
@@ -1981,7 +1946,7 @@ Library {
 		  TagVisibility		  "global"
 		  Object {
 		    $PropName		    "MaskObject"
-		    $ObjectID		    35
+		    $ObjectID		    30
 		    $ClassName		    "Simulink.Mask"
 		  }
 		}
@@ -1996,7 +1961,7 @@ Library {
 		  TagVisibility		  "global"
 		  Object {
 		    $PropName		    "MaskObject"
-		    $ObjectID		    36
+		    $ObjectID		    31
 		    $ClassName		    "Simulink.Mask"
 		  }
 		}
@@ -2772,7 +2737,7 @@ Library {
 		    TiledPageScale	    1
 		    ShowPageBoundaries	    off
 		    ZoomFactor		    "100"
-		    SIDHighWatermark	    "276"
+		    SIDHighWatermark	    "285"
 		    SIDPrevWatermark	    "156"
 		    Block {
 		    BlockType		    Inport
@@ -2857,20 +2822,20 @@ Library {
 		    Block {
 		    BlockType		    Demux
 		    Name		    " Demux "
-		    SID			    "1666:2833:2901::275"
+		    SID			    "1666:2833:2901::284"
 		    Ports		    [1, 1]
 		    Position		    [270, 230, 320, 270]
-		    ZOrder		    164
+		    ZOrder		    173
 		    Outputs		    "1"
 		    }
 		    Block {
 		    BlockType		    S-Function
 		    Name		    " SFunction "
-		    SID			    "1666:2833:2901::274"
-		    Tag			    "Stateflow S-Function WECSim_Lib 1"
+		    SID			    "1666:2833:2901::283"
+		    Tag			    "Stateflow S-Function WECSim_Lib_update 1"
 		    Ports		    [9, 3]
 		    Position		    [180, 100, 230, 300]
-		    ZOrder		    163
+		    ZOrder		    172
 		    FunctionName	    "sf_sfun"
 		    PortCounts		    "[9 3]"
 		    SFunctionDeploymentMode off
@@ -2887,9 +2852,9 @@ Library {
 		    Block {
 		    BlockType		    Terminator
 		    Name		    " Terminator "
-		    SID			    "1666:2833:2901::276"
+		    SID			    "1666:2833:2901::285"
 		    Position		    [460, 241, 480, 259]
-		    ZOrder		    165
+		    ZOrder		    174
 		    }
 		    Block {
 		    BlockType		    Outport
@@ -2909,63 +2874,63 @@ Library {
 		    IconDisplay		    "Port number"
 		    }
 		    Line {
-		    ZOrder		    241
+		    ZOrder		    280
 		    SrcBlock		    "x"
 		    SrcPort		    1
 		    DstBlock		    " SFunction "
 		    DstPort		    1
 		    }
 		    Line {
-		    ZOrder		    242
+		    ZOrder		    281
 		    SrcBlock		    "elv"
 		    SrcPort		    1
 		    DstBlock		    " SFunction "
 		    DstPort		    2
 		    }
 		    Line {
-		    ZOrder		    243
+		    ZOrder		    282
 		    SrcBlock		    "center"
 		    SrcPort		    1
 		    DstBlock		    " SFunction "
 		    DstPort		    3
 		    }
 		    Line {
-		    ZOrder		    244
+		    ZOrder		    283
 		    SrcBlock		    "tnorm"
 		    SrcPort		    1
 		    DstBlock		    " SFunction "
 		    DstPort		    4
 		    }
 		    Line {
-		    ZOrder		    245
+		    ZOrder		    284
 		    SrcBlock		    "area"
 		    SrcPort		    1
 		    DstBlock		    " SFunction "
 		    DstPort		    5
 		    }
 		    Line {
-		    ZOrder		    246
+		    ZOrder		    285
 		    SrcBlock		    "rho"
 		    SrcPort		    1
 		    DstBlock		    " SFunction "
 		    DstPort		    6
 		    }
 		    Line {
-		    ZOrder		    247
+		    ZOrder		    286
 		    SrcBlock		    "g"
 		    SrcPort		    1
 		    DstBlock		    " SFunction "
 		    DstPort		    7
 		    }
 		    Line {
-		    ZOrder		    248
+		    ZOrder		    287
 		    SrcBlock		    "cg"
 		    SrcPort		    1
 		    DstBlock		    " SFunction "
 		    DstPort		    8
 		    }
 		    Line {
-		    ZOrder		    249
+		    ZOrder		    288
 		    SrcBlock		    "mass"
 		    SrcPort		    1
 		    DstBlock		    " SFunction "
@@ -2973,7 +2938,7 @@ Library {
 		    }
 		    Line {
 		    Name		    "f"
-		    ZOrder		    250
+		    ZOrder		    289
 		    Labels		    [0, 0]
 		    SrcBlock		    " SFunction "
 		    SrcPort		    2
@@ -2982,7 +2947,7 @@ Library {
 		    }
 		    Line {
 		    Name		    "p"
-		    ZOrder		    251
+		    ZOrder		    290
 		    Labels		    [0, 0]
 		    SrcBlock		    " SFunction "
 		    SrcPort		    3
@@ -2990,14 +2955,14 @@ Library {
 		    DstPort		    1
 		    }
 		    Line {
-		    ZOrder		    252
+		    ZOrder		    291
 		    SrcBlock		    " Demux "
 		    SrcPort		    1
 		    DstBlock		    " Terminator "
 		    DstPort		    1
 		    }
 		    Line {
-		    ZOrder		    253
+		    ZOrder		    292
 		    SrcBlock		    " SFunction "
 		    SrcPort		    1
 		    DstBlock		    " Demux "
@@ -3672,7 +3637,7 @@ Library {
 		    TiledPageScale	    1
 		    ShowPageBoundaries	    off
 		    ZoomFactor		    "100"
-		    SIDHighWatermark	    "293"
+		    SIDHighWatermark	    "302"
 		    SIDPrevWatermark	    "267"
 		    Block {
 		    BlockType		    Inport
@@ -3847,20 +3812,20 @@ Library {
 		    Block {
 		    BlockType		    Demux
 		    Name		    " Demux "
-		    SID			    "1666:2833:4797::292"
+		    SID			    "1666:2833:4797::301"
 		    Ports		    [1, 1]
 		    Position		    [270, 230, 320, 270]
-		    ZOrder		    44
+		    ZOrder		    53
 		    Outputs		    "1"
 		    }
 		    Block {
 		    BlockType		    S-Function
 		    Name		    " SFunction "
-		    SID			    "1666:2833:4797::291"
-		    Tag			    "Stateflow S-Function WECSim_Lib 8"
+		    SID			    "1666:2833:4797::300"
+		    Tag			    "Stateflow S-Function WECSim_Lib_update 8"
 		    Ports		    [19, 2]
 		    Position		    [180, 75, 230, 475]
-		    ZOrder		    43
+		    ZOrder		    52
 		    FunctionName	    "sf_sfun"
 		    PortCounts		    "[19 2]"
 		    SFunctionDeploymentMode off
@@ -3873,9 +3838,9 @@ Library {
 		    Block {
 		    BlockType		    Terminator
 		    Name		    " Terminator "
-		    SID			    "1666:2833:4797::293"
+		    SID			    "1666:2833:4797::302"
 		    Position		    [460, 241, 480, 259]
-		    ZOrder		    45
+		    ZOrder		    54
 		    }
 		    Block {
 		    BlockType		    Outport
@@ -3886,133 +3851,133 @@ Library {
 		    IconDisplay		    "Port number"
 		    }
 		    Line {
-		    ZOrder		    45
+		    ZOrder		    111
 		    SrcBlock		    "r"
 		    SrcPort		    1
 		    DstBlock		    " SFunction "
 		    DstPort		    1
 		    }
 		    Line {
-		    ZOrder		    46
+		    ZOrder		    112
 		    SrcBlock		    "Vel"
 		    SrcPort		    1
 		    DstBlock		    " SFunction "
 		    DstPort		    2
 		    }
 		    Line {
-		    ZOrder		    47
+		    ZOrder		    113
 		    SrcBlock		    "Accel"
 		    SrcPort		    1
 		    DstBlock		    " SFunction "
 		    DstPort		    3
 		    }
 		    Line {
-		    ZOrder		    48
+		    ZOrder		    114
 		    SrcBlock		    "Disp"
 		    SrcPort		    1
 		    DstBlock		    " SFunction "
 		    DstPort		    4
 		    }
 		    Line {
-		    ZOrder		    49
+		    ZOrder		    115
 		    SrcBlock		    "Area"
 		    SrcPort		    1
 		    DstBlock		    " SFunction "
 		    DstPort		    5
 		    }
 		    Line {
-		    ZOrder		    50
+		    ZOrder		    116
 		    SrcBlock		    "Cd"
 		    SrcPort		    1
 		    DstBlock		    " SFunction "
 		    DstPort		    6
 		    }
 		    Line {
-		    ZOrder		    51
+		    ZOrder		    117
 		    SrcBlock		    "Vol"
 		    SrcPort		    1
 		    DstBlock		    " SFunction "
 		    DstPort		    7
 		    }
 		    Line {
-		    ZOrder		    52
+		    ZOrder		    118
 		    SrcBlock		    "Ca"
 		    SrcPort		    1
 		    DstBlock		    " SFunction "
 		    DstPort		    8
 		    }
 		    Line {
-		    ZOrder		    53
+		    ZOrder		    119
 		    SrcBlock		    "Time"
 		    SrcPort		    1
 		    DstBlock		    " SFunction "
 		    DstPort		    9
 		    }
 		    Line {
-		    ZOrder		    54
+		    ZOrder		    120
 		    SrcBlock		    "rho"
 		    SrcPort		    1
 		    DstBlock		    " SFunction "
 		    DstPort		    10
 		    }
 		    Line {
-		    ZOrder		    55
+		    ZOrder		    121
 		    SrcBlock		    "waveDir"
 		    SrcPort		    1
 		    DstBlock		    " SFunction "
 		    DstPort		    11
 		    }
 		    Line {
-		    ZOrder		    56
+		    ZOrder		    122
 		    SrcBlock		    "waterDepth"
 		    SrcPort		    1
 		    DstBlock		    " SFunction "
 		    DstPort		    12
 		    }
 		    Line {
-		    ZOrder		    57
+		    ZOrder		    123
 		    SrcBlock		    "k"
 		    SrcPort		    1
 		    DstBlock		    " SFunction "
 		    DstPort		    13
 		    }
 		    Line {
-		    ZOrder		    58
+		    ZOrder		    124
 		    SrcBlock		    "w"
 		    SrcPort		    1
 		    DstBlock		    " SFunction "
 		    DstPort		    14
 		    }
 		    Line {
-		    ZOrder		    59
+		    ZOrder		    125
 		    SrcBlock		    "A"
 		    SrcPort		    1
 		    DstBlock		    " SFunction "
 		    DstPort		    15
 		    }
 		    Line {
-		    ZOrder		    60
+		    ZOrder		    126
 		    SrcBlock		    "rampTime"
 		    SrcPort		    1
 		    DstBlock		    " SFunction "
 		    DstPort		    16
 		    }
 		    Line {
-		    ZOrder		    61
+		    ZOrder		    127
 		    SrcBlock		    "g"
 		    SrcPort		    1
 		    DstBlock		    " SFunction "
 		    DstPort		    17
 		    }
 		    Line {
-		    ZOrder		    62
+		    ZOrder		    128
 		    SrcBlock		    "randPhase"
 		    SrcPort		    1
 		    DstBlock		    " SFunction "
 		    DstPort		    18
 		    }
 		    Line {
-		    ZOrder		    63
+		    ZOrder		    129
 		    SrcBlock		    "dw"
 		    SrcPort		    1
 		    DstBlock		    " SFunction "
@@ -4020,7 +3985,7 @@ Library {
 		    }
 		    Line {
 		    Name		    "f"
-		    ZOrder		    64
+		    ZOrder		    130
 		    Labels		    [0, 0]
 		    SrcBlock		    " SFunction "
 		    SrcPort		    2
@@ -4028,14 +3993,14 @@ Library {
 		    DstPort		    1
 		    }
 		    Line {
-		    ZOrder		    65
+		    ZOrder		    131
 		    SrcBlock		    " Demux "
 		    SrcPort		    1
 		    DstBlock		    " Terminator "
 		    DstPort		    1
 		    }
 		    Line {
-		    ZOrder		    66
+		    ZOrder		    132
 		    SrcBlock		    " SFunction "
 		    SrcPort		    1
 		    DstBlock		    " Demux "
@@ -4420,7 +4385,7 @@ Library {
 		    TiledPageScale	    1
 		    ShowPageBoundaries	    off
 		    ZoomFactor		    "100"
-		    SIDHighWatermark	    "189"
+		    SIDHighWatermark	    "198"
 		    SIDPrevWatermark	    "173"
 		    Block {
 		    BlockType		    Inport
@@ -4505,20 +4470,20 @@ Library {
 		    Block {
 		    BlockType		    Demux
 		    Name		    " Demux "
-		    SID			    "1666:2833:4779::188"
+		    SID			    "1666:2833:4779::197"
 		    Ports		    [1, 1]
 		    Position		    [270, 230, 320, 270]
-		    ZOrder		    29
+		    ZOrder		    38
 		    Outputs		    "1"
 		    }
 		    Block {
 		    BlockType		    S-Function
 		    Name		    " SFunction "
-		    SID			    "1666:2833:4779::187"
-		    Tag			    "Stateflow S-Function WECSim_Lib 4"
+		    SID			    "1666:2833:4779::196"
+		    Tag			    "Stateflow S-Function WECSim_Lib_update 4"
 		    Ports		    [9, 2]
 		    Position		    [180, 100, 230, 300]
-		    ZOrder		    28
+		    ZOrder		    37
 		    FunctionName	    "sf_sfun"
 		    PortCounts		    "[9 2]"
 		    SFunctionDeploymentMode off
@@ -4531,9 +4496,9 @@ Library {
 		    Block {
 		    BlockType		    Terminator
 		    Name		    " Terminator "
-		    SID			    "1666:2833:4779::189"
+		    SID			    "1666:2833:4779::198"
 		    Position		    [460, 241, 480, 259]
-		    ZOrder		    30
+		    ZOrder		    39
 		    }
 		    Block {
 		    BlockType		    Outport
@@ -4544,63 +4509,63 @@ Library {
 		    IconDisplay		    "Port number"
 		    }
 		    Line {
-		    ZOrder		    25
+		    ZOrder		    61
 		    SrcBlock		    "r"
 		    SrcPort		    1
 		    DstBlock		    " SFunction "
 		    DstPort		    1
 		    }
 		    Line {
-		    ZOrder		    26
+		    ZOrder		    62
 		    SrcBlock		    "Vel"
 		    SrcPort		    1
 		    DstBlock		    " SFunction "
 		    DstPort		    2
 		    }
 		    Line {
-		    ZOrder		    27
+		    ZOrder		    63
 		    SrcBlock		    "Accel"
 		    SrcPort		    1
 		    DstBlock		    " SFunction "
 		    DstPort		    3
 		    }
 		    Line {
-		    ZOrder		    28
+		    ZOrder		    64
 		    SrcBlock		    "Disp"
 		    SrcPort		    1
 		    DstBlock		    " SFunction "
 		    DstPort		    4
 		    }
 		    Line {
-		    ZOrder		    29
+		    ZOrder		    65
 		    SrcBlock		    "Area"
 		    SrcPort		    1
 		    DstBlock		    " SFunction "
 		    DstPort		    5
 		    }
 		    Line {
-		    ZOrder		    30
+		    ZOrder		    66
 		    SrcBlock		    "Cd"
 		    SrcPort		    1
 		    DstBlock		    " SFunction "
 		    DstPort		    6
 		    }
 		    Line {
-		    ZOrder		    31
+		    ZOrder		    67
 		    SrcBlock		    "Vol"
 		    SrcPort		    1
 		    DstBlock		    " SFunction "
 		    DstPort		    7
 		    }
 		    Line {
-		    ZOrder		    32
+		    ZOrder		    68
 		    SrcBlock		    "Ca"
 		    SrcPort		    1
 		    DstBlock		    " SFunction "
 		    DstPort		    8
 		    }
 		    Line {
-		    ZOrder		    33
+		    ZOrder		    69
 		    SrcBlock		    "rho"
 		    SrcPort		    1
 		    DstBlock		    " SFunction "
@@ -4608,7 +4573,7 @@ Library {
 		    }
 		    Line {
 		    Name		    "f"
-		    ZOrder		    34
+		    ZOrder		    70
 		    Labels		    [0, 0]
 		    SrcBlock		    " SFunction "
 		    SrcPort		    2
@@ -4616,14 +4581,14 @@ Library {
 		    DstPort		    1
 		    }
 		    Line {
-		    ZOrder		    35
+		    ZOrder		    71
 		    SrcBlock		    " Demux "
 		    SrcPort		    1
 		    DstBlock		    " Terminator "
 		    DstPort		    1
 		    }
 		    Line {
-		    ZOrder		    36
+		    ZOrder		    72
 		    SrcBlock		    " SFunction "
 		    SrcPort		    1
 		    DstBlock		    " Demux "
@@ -4889,7 +4854,7 @@ Library {
 		    TiledPageScale	    1
 		    ShowPageBoundaries	    off
 		    ZoomFactor		    "100"
-		    SIDHighWatermark	    "272"
+		    SIDHighWatermark	    "281"
 		    SIDPrevWatermark	    "248"
 		    Block {
 		    BlockType		    Inport
@@ -5046,20 +5011,20 @@ Library {
 		    Block {
 		    BlockType		    Demux
 		    Name		    " Demux "
-		    SID			    "1666:2833:4786::271"
+		    SID			    "1666:2833:4786::280"
 		    Ports		    [1, 1]
 		    Position		    [270, 230, 320, 270]
-		    ZOrder		    39
+		    ZOrder		    48
 		    Outputs		    "1"
 		    }
 		    Block {
 		    BlockType		    S-Function
 		    Name		    " SFunction "
-		    SID			    "1666:2833:4786::270"
-		    Tag			    "Stateflow S-Function WECSim_Lib 5"
+		    SID			    "1666:2833:4786::279"
+		    Tag			    "Stateflow S-Function WECSim_Lib_update 5"
 		    Ports		    [17, 2]
 		    Position		    [180, 80, 230, 440]
-		    ZOrder		    38
+		    ZOrder		    47
 		    FunctionName	    "sf_sfun"
 		    PortCounts		    "[17 2]"
 		    SFunctionDeploymentMode off
@@ -5072,9 +5037,9 @@ Library {
 		    Block {
 		    BlockType		    Terminator
 		    Name		    " Terminator "
-		    SID			    "1666:2833:4786::272"
+		    SID			    "1666:2833:4786::281"
 		    Position		    [460, 241, 480, 259]
-		    ZOrder		    40
+		    ZOrder		    49
 		    }
 		    Block {
 		    BlockType		    Outport
@@ -5085,119 +5050,119 @@ Library {
 		    IconDisplay		    "Port number"
 		    }
 		    Line {
-		    ZOrder		    41
+		    ZOrder		    101
 		    SrcBlock		    "r"
 		    SrcPort		    1
 		    DstBlock		    " SFunction "
 		    DstPort		    1
 		    }
 		    Line {
-		    ZOrder		    42
+		    ZOrder		    102
 		    SrcBlock		    "Vel"
 		    SrcPort		    1
 		    DstBlock		    " SFunction "
 		    DstPort		    2
 		    }
 		    Line {
-		    ZOrder		    43
+		    ZOrder		    103
 		    SrcBlock		    "Accel"
 		    SrcPort		    1
 		    DstBlock		    " SFunction "
 		    DstPort		    3
 		    }
 		    Line {
-		    ZOrder		    44
+		    ZOrder		    104
 		    SrcBlock		    "Disp"
 		    SrcPort		    1
 		    DstBlock		    " SFunction "
 		    DstPort		    4
 		    }
 		    Line {
-		    ZOrder		    45
+		    ZOrder		    105
 		    SrcBlock		    "Area"
 		    SrcPort		    1
 		    DstBlock		    " SFunction "
 		    DstPort		    5
 		    }
 		    Line {
-		    ZOrder		    46
+		    ZOrder		    106
 		    SrcBlock		    "Cd"
 		    SrcPort		    1
 		    DstBlock		    " SFunction "
 		    DstPort		    6
 		    }
 		    Line {
-		    ZOrder		    47
+		    ZOrder		    107
 		    SrcBlock		    "Vol"
 		    SrcPort		    1
 		    DstBlock		    " SFunction "
 		    DstPort		    7
 		    }
 		    Line {
-		    ZOrder		    48
+		    ZOrder		    108
 		    SrcBlock		    "Ca"
 		    SrcPort		    1
 		    DstBlock		    " SFunction "
 		    DstPort		    8
 		    }
 		    Line {
-		    ZOrder		    49
+		    ZOrder		    109
 		    SrcBlock		    "Time"
 		    SrcPort		    1
 		    DstBlock		    " SFunction "
 		    DstPort		    9
 		    }
 		    Line {
-		    ZOrder		    50
+		    ZOrder		    110
 		    SrcBlock		    "rho"
 		    SrcPort		    1
 		    DstBlock		    " SFunction "
 		    DstPort		    10
 		    }
 		    Line {
-		    ZOrder		    51
+		    ZOrder		    111
 		    SrcBlock		    "waveDir"
 		    SrcPort		    1
 		    DstBlock		    " SFunction "
 		    DstPort		    11
 		    }
 		    Line {
-		    ZOrder		    52
+		    ZOrder		    112
 		    SrcBlock		    "waterDepth"
 		    SrcPort		    1
 		    DstBlock		    " SFunction "
 		    DstPort		    12
 		    }
 		    Line {
-		    ZOrder		    53
+		    ZOrder		    113
 		    SrcBlock		    "k"
 		    SrcPort		    1
 		    DstBlock		    " SFunction "
 		    DstPort		    13
 		    }
 		    Line {
-		    ZOrder		    54
+		    ZOrder		    114
 		    SrcBlock		    "w"
 		    SrcPort		    1
 		    DstBlock		    " SFunction "
 		    DstPort		    14
 		    }
 		    Line {
-		    ZOrder		    55
+		    ZOrder		    115
 		    SrcBlock		    "A"
 		    SrcPort		    1
 		    DstBlock		    " SFunction "
 		    DstPort		    15
 		    }
 		    Line {
-		    ZOrder		    56
+		    ZOrder		    116
 		    SrcBlock		    "rampTime"
 		    SrcPort		    1
 		    DstBlock		    " SFunction "
 		    DstPort		    16
 		    }
 		    Line {
-		    ZOrder		    57
+		    ZOrder		    117
 		    SrcBlock		    "g"
 		    SrcPort		    1
 		    DstBlock		    " SFunction "
@@ -5205,7 +5170,7 @@ Library {
 		    }
 		    Line {
 		    Name		    "f"
-		    ZOrder		    58
+		    ZOrder		    118
 		    Labels		    [0, 0]
 		    SrcBlock		    " SFunction "
 		    SrcPort		    2
@@ -5213,14 +5178,14 @@ Library {
 		    DstPort		    1
 		    }
 		    Line {
-		    ZOrder		    59
+		    ZOrder		    119
 		    SrcBlock		    " Demux "
 		    SrcPort		    1
 		    DstBlock		    " Terminator "
 		    DstPort		    1
 		    }
 		    Line {
-		    ZOrder		    60
+		    ZOrder		    120
 		    SrcBlock		    " SFunction "
 		    SrcPort		    1
 		    DstBlock		    " Demux "
@@ -5913,7 +5878,7 @@ Library {
 		    TiledPageScale	    1
 		    ShowPageBoundaries	    off
 		    ZoomFactor		    "100"
-		    SIDHighWatermark	    "282"
+		    SIDHighWatermark	    "291"
 		    SIDPrevWatermark	    "161"
 		    Block {
 		    BlockType		    Inport
@@ -6025,20 +5990,20 @@ Library {
 		    Block {
 		    BlockType		    Demux
 		    Name		    " Demux "
-		    SID			    "1666:2833:3682::281"
+		    SID			    "1666:2833:3682::290"
 		    Ports		    [1, 1]
 		    Position		    [270, 230, 320, 270]
-		    ZOrder		    167
+		    ZOrder		    176
 		    Outputs		    "1"
 		    }
 		    Block {
 		    BlockType		    S-Function
 		    Name		    " SFunction "
-		    SID			    "1666:2833:3682::280"
-		    Tag			    "Stateflow S-Function WECSim_Lib 12"
+		    SID			    "1666:2833:3682::289"
+		    Tag			    "Stateflow S-Function WECSim_Lib_update 12"
 		    Ports		    [12, 2]
 		    Position		    [180, 95, 230, 355]
-		    ZOrder		    166
+		    ZOrder		    175
 		    FunctionName	    "sf_sfun"
 		    PortCounts		    "[12 2]"
 		    SFunctionDeploymentMode off
@@ -6051,9 +6016,9 @@ Library {
 		    Block {
 		    BlockType		    Terminator
 		    Name		    " Terminator "
-		    SID			    "1666:2833:3682::282"
+		    SID			    "1666:2833:3682::291"
 		    Position		    [460, 241, 480, 259]
-		    ZOrder		    168
+		    ZOrder		    177
 		    }
 		    Block {
 		    BlockType		    Outport
@@ -6064,84 +6029,84 @@ Library {
 		    IconDisplay		    "Port number"
 		    }
 		    Line {
-		    ZOrder		    248
+		    ZOrder		    293
 		    SrcBlock		    "x"
 		    SrcPort		    1
 		    DstBlock		    " SFunction "
 		    DstPort		    1
 		    }
 		    Line {
-		    ZOrder		    249
+		    ZOrder		    294
 		    SrcBlock		    "center"
 		    SrcPort		    1
 		    DstBlock		    " SFunction "
 		    DstPort		    2
 		    }
 		    Line {
-		    ZOrder		    250
+		    ZOrder		    295
 		    SrcBlock		    "cg"
 		    SrcPort		    1
 		    DstBlock		    " SFunction "
 		    DstPort		    3
 		    }
 		    Line {
-		    ZOrder		    251
+		    ZOrder		    296
 		    SrcBlock		    "AH"
 		    SrcPort		    1
 		    DstBlock		    " SFunction "
 		    DstPort		    4
 		    }
 		    Line {
-		    ZOrder		    252
+		    ZOrder		    297
 		    SrcBlock		    "w"
 		    SrcPort		    1
 		    DstBlock		    " SFunction "
 		    DstPort		    5
 		    }
 		    Line {
-		    ZOrder		    253
+		    ZOrder		    298
 		    SrcBlock		    "dw"
 		    SrcPort		    1
 		    DstBlock		    " SFunction "
 		    DstPort		    6
 		    }
 		    Line {
-		    ZOrder		    254
+		    ZOrder		    299
 		    SrcBlock		    "k"
 		    SrcPort		    1
 		    DstBlock		    " SFunction "
 		    DstPort		    7
 		    }
 		    Line {
-		    ZOrder		    255
+		    ZOrder		    300
 		    SrcBlock		    "typeNum"
 		    SrcPort		    1
 		    DstBlock		    " SFunction "
 		    DstPort		    8
 		    }
 		    Line {
-		    ZOrder		    256
+		    ZOrder		    301
 		    SrcBlock		    "t"
 		    SrcPort		    1
 		    DstBlock		    " SFunction "
 		    DstPort		    9
 		    }
 		    Line {
-		    ZOrder		    257
+		    ZOrder		    302
 		    SrcBlock		    "rampT"
 		    SrcPort		    1
 		    DstBlock		    " SFunction "
 		    DstPort		    10
 		    }
 		    Line {
-		    ZOrder		    258
+		    ZOrder		    303
 		    SrcBlock		    "phaseRand"
 		    SrcPort		    1
 		    DstBlock		    " SFunction "
 		    DstPort		    11
 		    }
 		    Line {
-		    ZOrder		    259
+		    ZOrder		    304
 		    SrcBlock		    "waveDir"
 		    SrcPort		    1
 		    DstBlock		    " SFunction "
@@ -6149,7 +6114,7 @@ Library {
 		    }
 		    Line {
 		    Name		    "f"
-		    ZOrder		    260
+		    ZOrder		    305
 		    Labels		    [0, 0]
 		    SrcBlock		    " SFunction "
 		    SrcPort		    2
@@ -6157,14 +6122,14 @@ Library {
 		    DstPort		    1
 		    }
 		    Line {
-		    ZOrder		    261
+		    ZOrder		    306
 		    SrcBlock		    " Demux "
 		    SrcPort		    1
 		    DstBlock		    " Terminator "
 		    DstPort		    1
 		    }
 		    Line {
-		    ZOrder		    262
+		    ZOrder		    307
 		    SrcBlock		    " SFunction "
 		    SrcPort		    1
 		    DstBlock		    " Demux "
@@ -6524,7 +6489,7 @@ Library {
 		  Variant		  off
 		  Object {
 		    $PropName		    "MaskObject"
-		    $ObjectID		    37
+		    $ObjectID		    32
 		    $ClassName		    "Simulink.Mask"
 		  }
 		  System {
@@ -6715,7 +6680,7 @@ Library {
 		    TiledPageScale	    1
 		    ShowPageBoundaries	    off
 		    ZoomFactor		    "100"
-		    SIDHighWatermark	    "510"
+		    SIDHighWatermark	    "519"
 		    Block {
 		    BlockType		    Inport
 		    Name		    "Q"
@@ -6727,20 +6692,20 @@ Library {
 		    Block {
 		    BlockType		    Demux
 		    Name		    " Demux "
-		    SID			    "1666:2833:3706::509"
+		    SID			    "1666:2833:3706::518"
 		    Ports		    [1, 1]
 		    Position		    [270, 230, 320, 270]
-		    ZOrder		    176
+		    ZOrder		    185
 		    Outputs		    "1"
 		    }
 		    Block {
 		    BlockType		    S-Function
 		    Name		    " SFunction "
-		    SID			    "1666:2833:3706::508"
-		    Tag			    "Stateflow S-Function WECSim_Lib 13"
+		    SID			    "1666:2833:3706::517"
+		    Tag			    "Stateflow S-Function WECSim_Lib_update 13"
 		    Ports		    [1, 2]
 		    Position		    [180, 100, 230, 160]
-		    ZOrder		    175
+		    ZOrder		    184
 		    FunctionName	    "sf_sfun"
 		    PortCounts		    "[1 2]"
 		    SFunctionDeploymentMode off
@@ -6753,9 +6718,9 @@ Library {
 		    Block {
 		    BlockType		    Terminator
 		    Name		    " Terminator "
-		    SID			    "1666:2833:3706::510"
+		    SID			    "1666:2833:3706::519"
 		    Position		    [460, 241, 480, 259]
-		    ZOrder		    177
+		    ZOrder		    186
 		    }
 		    Block {
 		    BlockType		    Outport
@@ -6766,7 +6731,7 @@ Library {
 		    IconDisplay		    "Port number"
 		    }
 		    Line {
-		    ZOrder		    57
+		    ZOrder		    69
 		    SrcBlock		    "Q"
 		    SrcPort		    1
 		    DstBlock		    " SFunction "
@@ -6774,7 +6739,7 @@ Library {
 		    }
 		    Line {
 		    Name		    "E"
-		    ZOrder		    58
+		    ZOrder		    70
 		    Labels		    [0, 0]
 		    SrcBlock		    " SFunction "
 		    SrcPort		    2
@@ -6782,14 +6747,14 @@ Library {
 		    DstPort		    1
 		    }
 		    Line {
-		    ZOrder		    59
+		    ZOrder		    71
 		    SrcBlock		    " Demux "
 		    SrcPort		    1
 		    DstBlock		    " Terminator "
 		    DstPort		    1
 		    }
 		    Line {
-		    ZOrder		    60
+		    ZOrder		    72
 		    SrcBlock		    " SFunction "
 		    SrcPort		    1
 		    DstBlock		    " Demux "
@@ -8210,7 +8175,7 @@ Library {
 		    TiledPageScale	    1
 		    ShowPageBoundaries	    off
 		    ZoomFactor		    "100"
-		    SIDHighWatermark	    "137"
+		    SIDHighWatermark	    "146"
 		    SIDPrevWatermark	    "27"
 		    Block {
 		    BlockType		    Inport
@@ -8277,20 +8242,20 @@ Library {
 		    Block {
 		    BlockType		    Demux
 		    Name		    " Demux "
-		    SID			    "1666:2833:4735::136"
+		    SID			    "1666:2833:4735::145"
 		    Ports		    [1, 1]
 		    Position		    [270, 230, 320, 270]
-		    ZOrder		    116
+		    ZOrder		    125
 		    Outputs		    "1"
 		    }
 		    Block {
 		    BlockType		    S-Function
 		    Name		    " SFunction "
-		    SID			    "1666:2833:4735::135"
-		    Tag			    "Stateflow S-Function WECSim_Lib 15"
+		    SID			    "1666:2833:4735::144"
+		    Tag			    "Stateflow S-Function WECSim_Lib_update 15"
 		    Ports		    [7, 2]
 		    Position		    [180, 100, 230, 260]
-		    ZOrder		    115
+		    ZOrder		    124
 		    FunctionName	    "sf_sfun"
 		    PortCounts		    "[7 2]"
 		    SFunctionDeploymentMode off
@@ -8303,9 +8268,9 @@ Library {
 		    Block {
 		    BlockType		    Terminator
 		    Name		    " Terminator "
-		    SID			    "1666:2833:4735::137"
+		    SID			    "1666:2833:4735::146"
 		    Position		    [460, 241, 480, 259]
-		    ZOrder		    117
+		    ZOrder		    126
 		    }
 		    Block {
 		    BlockType		    Outport
@@ -8316,49 +8281,49 @@ Library {
 		    IconDisplay		    "Port number"
 		    }
 		    Line {
-		    ZOrder		    141
+		    ZOrder		    171
 		    SrcBlock		    "A"
 		    SrcPort		    1
 		    DstBlock		    " SFunction "
 		    DstPort		    1
 		    }
 		    Line {
-		    ZOrder		    142
+		    ZOrder		    172
 		    SrcBlock		    "w"
 		    SrcPort		    1
 		    DstBlock		    " SFunction "
 		    DstPort		    2
 		    }
 		    Line {
-		    ZOrder		    143
+		    ZOrder		    173
 		    SrcBlock		    "fExtRE"
 		    SrcPort		    1
 		    DstBlock		    " SFunction "
 		    DstPort		    3
 		    }
 		    Line {
-		    ZOrder		    144
+		    ZOrder		    174
 		    SrcBlock		    "fExtIM"
 		    SrcPort		    1
 		    DstBlock		    " SFunction "
 		    DstPort		    4
 		    }
 		    Line {
-		    ZOrder		    145
+		    ZOrder		    175
 		    SrcBlock		    "phaseRand"
 		    SrcPort		    1
 		    DstBlock		    " SFunction "
 		    DstPort		    5
 		    }
 		    Line {
-		    ZOrder		    146
+		    ZOrder		    176
 		    SrcBlock		    "dw"
 		    SrcPort		    1
 		    DstBlock		    " SFunction "
 		    DstPort		    6
 		    }
 		    Line {
-		    ZOrder		    147
+		    ZOrder		    177
 		    SrcBlock		    "time"
 		    SrcPort		    1
 		    DstBlock		    " SFunction "
@@ -8366,7 +8331,7 @@ Library {
 		    }
 		    Line {
 		    Name		    "Fext"
-		    ZOrder		    148
+		    ZOrder		    178
 		    Labels		    [0, 0]
 		    SrcBlock		    " SFunction "
 		    SrcPort		    2
@@ -8374,14 +8339,14 @@ Library {
 		    DstPort		    1
 		    }
 		    Line {
-		    ZOrder		    149
+		    ZOrder		    179
 		    SrcBlock		    " Demux "
 		    SrcPort		    1
 		    DstBlock		    " Terminator "
 		    DstPort		    1
 		    }
 		    Line {
-		    ZOrder		    150
+		    ZOrder		    180
 		    SrcBlock		    " SFunction "
 		    SrcPort		    1
 		    DstBlock		    " Demux "
@@ -9317,7 +9282,7 @@ Library {
 		    TiledPageScale	    1
 		    ShowPageBoundaries	    off
 		    ZoomFactor		    "100"
-		    SIDHighWatermark	    "291"
+		    SIDHighWatermark	    "300"
 		    SIDPrevWatermark	    "163"
 		    Block {
 		    BlockType		    Inport
@@ -9474,20 +9439,20 @@ Library {
 		    Block {
 		    BlockType		    Demux
 		    Name		    " Demux "
-		    SID			    "1666:2833:3835::290"
+		    SID			    "1666:2833:3835::299"
 		    Ports		    [1, 1]
 		    Position		    [270, 245, 320, 285]
-		    ZOrder		    172
+		    ZOrder		    181
 		    Outputs		    "1"
 		    }
 		    Block {
 		    BlockType		    S-Function
 		    Name		    " SFunction "
-		    SID			    "1666:2833:3835::289"
-		    Tag			    "Stateflow S-Function WECSim_Lib 16"
+		    SID			    "1666:2833:3835::298"
+		    Tag			    "Stateflow S-Function WECSim_Lib_update 16"
 		    Ports		    [17, 4]
 		    Position		    [180, 80, 230, 440]
-		    ZOrder		    171
+		    ZOrder		    180
 		    FunctionName	    "sf_sfun"
 		    PortCounts		    "[17 4]"
 		    SFunctionDeploymentMode off
@@ -9508,9 +9473,9 @@ Library {
 		    Block {
 		    BlockType		    Terminator
 		    Name		    " Terminator "
-		    SID			    "1666:2833:3835::291"
+		    SID			    "1666:2833:3835::300"
 		    Position		    [460, 256, 480, 274]
-		    ZOrder		    173
+		    ZOrder		    182
 		    }
 		    Block {
 		    BlockType		    Outport
@@ -9539,119 +9504,119 @@ Library {
 		    IconDisplay		    "Port number"
 		    }
 		    Line {
-		    ZOrder		    360
+		    ZOrder		    426
 		    SrcBlock		    "x"
 		    SrcPort		    1
 		    DstBlock		    " SFunction "
 		    DstPort		    1
 		    }
 		    Line {
-		    ZOrder		    361
+		    ZOrder		    427
 		    SrcBlock		    "elv"
 		    SrcPort		    1
 		    DstBlock		    " SFunction "
 		    DstPort		    2
 		    }
 		    Line {
-		    ZOrder		    362
+		    ZOrder		    428
 		    SrcBlock		    "center"
 		    SrcPort		    1
 		    DstBlock		    " SFunction "
 		    DstPort		    3
 		    }
 		    Line {
-		    ZOrder		    363
+		    ZOrder		    429
 		    SrcBlock		    "tnorm"
 		    SrcPort		    1
 		    DstBlock		    " SFunction "
 		    DstPort		    4
 		    }
 		    Line {
-		    ZOrder		    364
+		    ZOrder		    430
 		    SrcBlock		    "area"
 		    SrcPort		    1
 		    DstBlock		    " SFunction "
 		    DstPort		    5
 		    }
 		    Line {
-		    ZOrder		    365
+		    ZOrder		    431
 		    SrcBlock		    "rho"
 		    SrcPort		    1
 		    DstBlock		    " SFunction "
 		    DstPort		    6
 		    }
 		    Line {
-		    ZOrder		    366
+		    ZOrder		    432
 		    SrcBlock		    "g"
 		    SrcPort		    1
 		    DstBlock		    " SFunction "
 		    DstPort		    7
 		    }
 		    Line {
-		    ZOrder		    367
+		    ZOrder		    433
 		    SrcBlock		    "cg"
 		    SrcPort		    1
 		    DstBlock		    " SFunction "
 		    DstPort		    8
 		    }
 		    Line {
-		    ZOrder		    368
+		    ZOrder		    434
 		    SrcBlock		    "AH"
 		    SrcPort		    1
 		    DstBlock		    " SFunction "
 		    DstPort		    9
 		    }
 		    Line {
-		    ZOrder		    369
+		    ZOrder		    435
 		    SrcBlock		    "w"
 		    SrcPort		    1
 		    DstBlock		    " SFunction "
 		    DstPort		    10
 		    }
 		    Line {
-		    ZOrder		    370
+		    ZOrder		    436
 		    SrcBlock		    "dw"
 		    SrcPort		    1
 		    DstBlock		    " SFunction "
 		    DstPort		    11
 		    }
 		    Line {
-		    ZOrder		    371
+		    ZOrder		    437
 		    SrcBlock		    "wDepth"
 		    SrcPort		    1
 		    DstBlock		    " SFunction "
 		    DstPort		    12
 		    }
 		    Line {
-		    ZOrder		    372
+		    ZOrder		    438
 		    SrcBlock		    "deepWaterWave"
 		    SrcPort		    1
 		    DstBlock		    " SFunction "
 		    DstPort		    13
 		    }
 		    Line {
-		    ZOrder		    373
+		    ZOrder		    439
 		    SrcBlock		    "k"
 		    SrcPort		    1
 		    DstBlock		    " SFunction "
 		    DstPort		    14
 		    }
 		    Line {
-		    ZOrder		    374
+		    ZOrder		    440
 		    SrcBlock		    "typeNum"
 		    SrcPort		    1
 		    DstBlock		    " SFunction "
 		    DstPort		    15
 		    }
 		    Line {
-		    ZOrder		    375
+		    ZOrder		    441
 		    SrcBlock		    "t"
 		    SrcPort		    1
 		    DstBlock		    " SFunction "
 		    DstPort		    16
 		    }
 		    Line {
-		    ZOrder		    376
+		    ZOrder		    442
 		    SrcBlock		    "phaseRand"
 		    SrcPort		    1
 		    DstBlock		    " SFunction "
@@ -9659,7 +9624,7 @@ Library {
 		    }
 		    Line {
 		    Name		    "f"
-		    ZOrder		    377
+		    ZOrder		    443
 		    Labels		    [0, 0]
 		    SrcBlock		    " SFunction "
 		    SrcPort		    2
@@ -9669,7 +9634,7 @@ Library {
 		    }
 		    Line {
 		    Name		    "wp"
-		    ZOrder		    378
+		    ZOrder		    444
 		    Labels		    [0, 0]
 		    SrcBlock		    " SFunction "
 		    SrcPort		    3
@@ -9678,7 +9643,7 @@ Library {
 		    }
 		    Line {
 		    Name		    "wpMeanFS"
-		    ZOrder		    379
+		    ZOrder		    445
 		    Labels		    [0, 0]
 		    SrcBlock		    " SFunction "
 		    SrcPort		    4
@@ -9686,14 +9651,14 @@ Library {
 		    DstPort		    1
 		    }
 		    Line {
-		    ZOrder		    380
+		    ZOrder		    446
 		    SrcBlock		    " Demux "
 		    SrcPort		    1
 		    DstBlock		    " Terminator "
 		    DstPort		    1
 		    }
 		    Line {
-		    ZOrder		    381
+		    ZOrder		    447
 		    SrcBlock		    " SFunction "
 		    SrcPort		    1
 		    DstBlock		    " Demux "
@@ -10786,27 +10751,27 @@ Library {
 		    Variant		    off
 		    Object {
 		    $PropName		    "MaskObject"
-		    $ObjectID		    38
+		    $ObjectID		    33
 		    $ClassName		    "Simulink.Mask"
 		    Array {
 		    Type		    "Simulink.MaskParameter"
 		    Dimension		    3
 		    Object {
-		    $ObjectID		    39
+		    $ObjectID		    34
 		    Type		    "edit"
 		    Name		    "IRKB"
 		    Prompt		    "IRKB"
 		    Value		    "body.hydroForce.irkb"
 		    }
 		    Object {
-		    $ObjectID		    40
+		    $ObjectID		    35
 		    Type		    "edit"
 		    Name		    "lenJ"
 		    Prompt		    "lenJ"
 		    Value		    "length(body.lenJ)"
 		    }
 		    Object {
-		    $ObjectID		    41
+		    $ObjectID		    36
 		    Type		    "edit"
 		    Name		    "CTTime"
 		    Prompt		    "CTTime"
@@ -10830,7 +10795,7 @@ Library {
 		    TiledPageScale	    1
 		    ShowPageBoundaries	    off
 		    ZoomFactor		    "100"
-		    SIDHighWatermark	    "98"
+		    SIDHighWatermark	    "107"
 		    Block {
 		    BlockType		    Inport
 		    Name		    "v"
@@ -10842,20 +10807,20 @@ Library {
 		    Block {
 		    BlockType		    Demux
 		    Name		    " Demux "
-		    SID			    "1666:2833:4747::97"
+		    SID			    "1666:2833:4747::106"
 		    Ports		    [1, 1]
 		    Position		    [270, 230, 320, 270]
-		    ZOrder		    80
+		    ZOrder		    89
 		    Outputs		    "1"
 		    }
 		    Block {
 		    BlockType		    S-Function
 		    Name		    " SFunction "
-		    SID			    "1666:2833:4747::96"
-		    Tag			    "Stateflow S-Function WECSim_Lib 3"
+		    SID			    "1666:2833:4747::105"
+		    Tag			    "Stateflow S-Function WECSim_Lib_update 3"
 		    Ports		    [1, 2]
 		    Position		    [180, 100, 230, 160]
-		    ZOrder		    79
+		    ZOrder		    88
 		    FunctionName	    "sf_sfun"
 		    Parameters		    "CTTime,IRKB,lenJ"
 		    PortCounts		    "[1 2]"
@@ -10869,9 +10834,9 @@ Library {
 		    Block {
 		    BlockType		    Terminator
 		    Name		    " Terminator "
-		    SID			    "1666:2833:4747::98"
+		    SID			    "1666:2833:4747::107"
 		    Position		    [460, 241, 480, 259]
-		    ZOrder		    81
+		    ZOrder		    90
 		    }
 		    Block {
 		    BlockType		    Outport
@@ -10882,7 +10847,7 @@ Library {
 		    IconDisplay		    "Port number"
 		    }
 		    Line {
-		    ZOrder		    57
+		    ZOrder		    69
 		    SrcBlock		    "v"
 		    SrcPort		    1
 		    DstBlock		    " SFunction "
@@ -10890,7 +10855,7 @@ Library {
 		    }
 		    Line {
 		    Name		    "F_FM"
-		    ZOrder		    58
+		    ZOrder		    70
 		    Labels		    [0, 0]
 		    SrcBlock		    " SFunction "
 		    SrcPort		    2
@@ -10898,14 +10863,14 @@ Library {
 		    DstPort		    1
 		    }
 		    Line {
-		    ZOrder		    59
+		    ZOrder		    71
 		    SrcBlock		    " Demux "
 		    SrcPort		    1
 		    DstBlock		    " Terminator "
 		    DstPort		    1
 		    }
 		    Line {
-		    ZOrder		    60
+		    ZOrder		    72
 		    SrcBlock		    " SFunction "
 		    SrcPort		    1
 		    DstBlock		    " Demux "
@@ -11536,7 +11501,7 @@ Library {
 	      VariantControl	      "sv_b1_nonHydroBody"
 	      Object {
 		$PropName		"MaskObject"
-		$ObjectID		42
+		$ObjectID		37
 		$ClassName		"Simulink.Mask"
 		Initialization		"if exist('body','var')\n    % geometry file name\n    h=[gcb '/Structure/Body Properties'];\n    ge"
 		"omFile=body.geometryFile;\n    set_param(h,'ExtGeomFileName',geomFile);\n    % toWorkSpace: outputs\n    h=[gcb '/To"
@@ -11545,7 +11510,7 @@ Library {
 		SelfModifiable		"on"
 		Object {
 		  $PropName		  "Parameters"
-		  $ObjectID		  43
+		  $ObjectID		  38
 		  $ClassName		  "Simulink.MaskParameter"
 		  Type			  "edit"
 		  Name			  "body"
@@ -11705,7 +11670,7 @@ Library {
 		  Variant		  off
 		  Object {
 		    $PropName		    "MaskObject"
-		    $ObjectID		    44
+		    $ObjectID		    39
 		    $ClassName		    "Simulink.Mask"
 		  }
 		  System {
@@ -11896,7 +11861,7 @@ Library {
 		    TiledPageScale	    1
 		    ShowPageBoundaries	    off
 		    ZoomFactor		    "100"
-		    SIDHighWatermark	    "511"
+		    SIDHighWatermark	    "520"
 		    Block {
 		    BlockType		    Inport
 		    Name		    "Q"
@@ -11908,20 +11873,20 @@ Library {
 		    Block {
 		    BlockType		    Demux
 		    Name		    " Demux "
-		    SID			    "1666:3911:3926::510"
+		    SID			    "1666:3911:3926::519"
 		    Ports		    [1, 1]
 		    Position		    [270, 230, 320, 270]
-		    ZOrder		    179
+		    ZOrder		    188
 		    Outputs		    "1"
 		    }
 		    Block {
 		    BlockType		    S-Function
 		    Name		    " SFunction "
-		    SID			    "1666:3911:3926::509"
-		    Tag			    "Stateflow S-Function WECSim_Lib 18"
+		    SID			    "1666:3911:3926::518"
+		    Tag			    "Stateflow S-Function WECSim_Lib_update 18"
 		    Ports		    [1, 2]
 		    Position		    [180, 100, 230, 160]
-		    ZOrder		    178
+		    ZOrder		    187
 		    FunctionName	    "sf_sfun"
 		    PortCounts		    "[1 2]"
 		    SFunctionDeploymentMode off
@@ -11934,9 +11899,9 @@ Library {
 		    Block {
 		    BlockType		    Terminator
 		    Name		    " Terminator "
-		    SID			    "1666:3911:3926::511"
+		    SID			    "1666:3911:3926::520"
 		    Position		    [460, 241, 480, 259]
-		    ZOrder		    180
+		    ZOrder		    189
 		    }
 		    Block {
 		    BlockType		    Outport
@@ -11947,7 +11912,7 @@ Library {
 		    IconDisplay		    "Port number"
 		    }
 		    Line {
-		    ZOrder		    57
+		    ZOrder		    69
 		    SrcBlock		    "Q"
 		    SrcPort		    1
 		    DstBlock		    " SFunction "
@@ -11955,7 +11920,7 @@ Library {
 		    }
 		    Line {
 		    Name		    "E"
-		    ZOrder		    58
+		    ZOrder		    70
 		    Labels		    [0, 0]
 		    SrcBlock		    " SFunction "
 		    SrcPort		    2
@@ -11963,14 +11928,14 @@ Library {
 		    DstPort		    1
 		    }
 		    Line {
-		    ZOrder		    59
+		    ZOrder		    71
 		    SrcBlock		    " Demux "
 		    SrcPort		    1
 		    DstBlock		    " Terminator "
 		    DstPort		    1
 		    }
 		    Line {
-		    ZOrder		    60
+		    ZOrder		    72
 		    SrcBlock		    " SFunction "
 		    SrcPort		    1
 		    DstBlock		    " Demux "
@@ -13671,7 +13636,7 @@ Library {
       Variant		      off
       Object {
 	$PropName		"MaskObject"
-	$ObjectID		45
+	$ObjectID		40
 	$ClassName		"Simulink.Mask"
 	Display			"text(0,0,' ')"
       }
@@ -13702,7 +13667,7 @@ Library {
 	  Variant		  off
 	  Object {
 	    $PropName		    "MaskObject"
-	    $ObjectID		    46
+	    $ObjectID		    41
 	    $ClassName		    "Simulink.Mask"
 	    Type		    "Constraints"
 	    Description		    "Constraints the follower to no motion relative to the base.\n\n\nThe variable name input below "
@@ -13725,7 +13690,7 @@ Library {
 	    SelfModifiable	    "on"
 	    Object {
 	      $PropName		      "Parameters"
-	      $ObjectID		      47
+	      $ObjectID		      42
 	      $ClassName	      "Simulink.MaskParameter"
 	      Type		      "edit"
 	      Name		      "constraint"
@@ -13734,20 +13699,20 @@ Library {
 	    }
 	    Object {
 	      $PropName		      "DialogControls"
-	      $ObjectID		      48
+	      $ObjectID		      43
 	      $ClassName	      "Simulink.dialog.Group"
 	      Prompt		      "%<MaskType>"
 	      Array {
 		Type			"Simulink.dialog.Control"
 		Dimension		2
 		Object {
-		  $ObjectID		  49
+		  $ObjectID		  44
 		  $ClassName		  "Simulink.dialog.Text"
 		  Prompt		  "%<MaskDescription>"
 		  Name			  "DescTextVar"
 		}
 		Object {
-		  $ObjectID		  50
+		  $ObjectID		  45
 		  $ClassName		  "Simulink.dialog.parameter.Edit"
 		  Name			  "constraint"
 		}
@@ -14265,7 +14230,7 @@ Library {
 	  Variant		  off
 	  Object {
 	    $PropName		    "MaskObject"
-	    $ObjectID		    51
+	    $ObjectID		    46
 	    $ClassName		    "Simulink.Mask"
 	    Type		    "Constraints"
 	    Description		    "Constraints the follower to planar motion relative to the base, linear \nmotions in the constra"
@@ -14290,7 +14255,7 @@ Library {
 	    SelfModifiable	    "on"
 	    Object {
 	      $PropName		      "Parameters"
-	      $ObjectID		      52
+	      $ObjectID		      47
 	      $ClassName	      "Simulink.MaskParameter"
 	      Type		      "edit"
 	      Name		      "constraint"
@@ -14299,20 +14264,20 @@ Library {
 	    }
 	    Object {
 	      $PropName		      "DialogControls"
-	      $ObjectID		      53
+	      $ObjectID		      48
 	      $ClassName	      "Simulink.dialog.Group"
 	      Prompt		      "%<MaskType>"
 	      Array {
 		Type			"Simulink.dialog.Control"
 		Dimension		2
 		Object {
-		  $ObjectID		  54
+		  $ObjectID		  49
 		  $ClassName		  "Simulink.dialog.Text"
 		  Prompt		  "%<MaskDescription>"
 		  Name			  "DescTextVar"
 		}
 		Object {
-		  $ObjectID		  55
+		  $ObjectID		  50
 		  $ClassName		  "Simulink.dialog.parameter.Edit"
 		  Name			  "constraint"
 		}
@@ -15654,7 +15619,7 @@ Library {
 	  Variant		  off
 	  Object {
 	    $PropName		    "MaskObject"
-	    $ObjectID		    56
+	    $ObjectID		    51
 	    $ClassName		    "Simulink.Mask"
 	    Type		    "Constraints"
 	    Description		    "Allows unconstrained motion of the follower relative to the base in all 6 \ndegrees of freedom."
@@ -15677,7 +15642,7 @@ Library {
 	    SelfModifiable	    "on"
 	    Object {
 	      $PropName		      "Parameters"
-	      $ObjectID		      57
+	      $ObjectID		      52
 	      $ClassName	      "Simulink.MaskParameter"
 	      Type		      "edit"
 	      Name		      "constraint"
@@ -15686,20 +15651,20 @@ Library {
 	    }
 	    Object {
 	      $PropName		      "DialogControls"
-	      $ObjectID		      58
+	      $ObjectID		      53
 	      $ClassName	      "Simulink.dialog.Group"
 	      Prompt		      "%<MaskType>"
 	      Array {
 		Type			"Simulink.dialog.Control"
 		Dimension		2
 		Object {
-		  $ObjectID		  59
+		  $ObjectID		  54
 		  $ClassName		  "Simulink.dialog.Text"
 		  Prompt		  "%<MaskDescription>"
 		  Name			  "DescTextVar"
 		}
 		Object {
-		  $ObjectID		  60
+		  $ObjectID		  55
 		  $ClassName		  "Simulink.dialog.parameter.Edit"
 		  Name			  "constraint"
 		}
@@ -17006,7 +16971,7 @@ Library {
 	  Variant		  off
 	  Object {
 	    $PropName		    "MaskObject"
-	    $ObjectID		    61
+	    $ObjectID		    56
 	    $ClassName		    "Simulink.Mask"
 	    Type		    "Constraints"
 	    Description		    "Constraints the follower to rotational motion relative to the base, about \nthe constraint's Y-"
@@ -17031,7 +16996,7 @@ Library {
 	    SelfModifiable	    "on"
 	    Object {
 	      $PropName		      "Parameters"
-	      $ObjectID		      62
+	      $ObjectID		      57
 	      $ClassName	      "Simulink.MaskParameter"
 	      Type		      "edit"
 	      Name		      "constraint"
@@ -18076,7 +18041,7 @@ Library {
 	  Variant		  off
 	  Object {
 	    $PropName		    "MaskObject"
-	    $ObjectID		    63
+	    $ObjectID		    58
 	    $ClassName		    "Simulink.Mask"
 	    Type		    "Constraints"
 	    Description		    "Constraints the follower to translational motion relative to the base, in the constraint's Z-di"
@@ -18100,7 +18065,7 @@ Library {
 	    SelfModifiable	    "on"
 	    Object {
 	      $PropName		      "Parameters"
-	      $ObjectID		      64
+	      $ObjectID		      59
 	      $ClassName	      "Simulink.MaskParameter"
 	      Type		      "edit"
 	      Name		      "constraint"
@@ -18109,20 +18074,20 @@ Library {
 	    }
 	    Object {
 	      $PropName		      "DialogControls"
-	      $ObjectID		      65
+	      $ObjectID		      60
 	      $ClassName	      "Simulink.dialog.Group"
 	      Prompt		      "%<MaskType>"
 	      Array {
 		Type			"Simulink.dialog.Control"
 		Dimension		2
 		Object {
-		  $ObjectID		  66
+		  $ObjectID		  61
 		  $ClassName		  "Simulink.dialog.Text"
 		  Prompt		  "%<MaskDescription>"
 		  Name			  "DescTextVar"
 		}
 		Object {
-		  $ObjectID		  67
+		  $ObjectID		  62
 		  $ClassName		  "Simulink.dialog.parameter.Edit"
 		  Name			  "constraint"
 		}
@@ -18832,7 +18797,7 @@ Library {
       Variant		      off
       Object {
 	$PropName		"MaskObject"
-	$ObjectID		68
+	$ObjectID		63
 	$ClassName		"Simulink.Mask"
 	Display			"text(0,0,' ')"
       }
@@ -18864,7 +18829,7 @@ Library {
 	  Variant		  off
 	  Object {
 	    $PropName		    "MaskObject"
-	    $ObjectID		    69
+	    $ObjectID		    64
 	    $ClassName		    "Simulink.Mask"
 	    Type		    "Frames"
 	    Description		    "This block contains Global References, including solver configurations, free surface and seabed"
@@ -18877,7 +18842,7 @@ Library {
 	      Type		      "Simulink.MaskParameter"
 	      Dimension		      2
 	      Object {
-		$ObjectID		70
+		$ObjectID		65
 		Type			"edit"
 		Name			"waves"
 		Prompt			"Wave Class Name"
@@ -18885,7 +18850,7 @@ Library {
 		Enabled			"off"
 	      }
 	      Object {
-		$ObjectID		71
+		$ObjectID		66
 		Type			"edit"
 		Name			"simu"
 		Prompt			"Simulation Class Name"
@@ -19308,7 +19273,7 @@ Library {
       Variant		      off
       Object {
 	$PropName		"MaskObject"
-	$ObjectID		72
+	$ObjectID		67
 	$ClassName		"Simulink.Mask"
 	Display			"text(0,0,' ')"
       }
@@ -19340,7 +19305,7 @@ Library {
 	  Variant		  off
 	  Object {
 	    $PropName		    "MaskObject"
-	    $ObjectID		    73
+	    $ObjectID		    68
 	    $ClassName		    "Simulink.Mask"
 	    Type		    "BodyElements"
 	    Description		    "This block represents a rigid body. The variable name input below must be 'body(i)' where i=1,2"
@@ -19354,7 +19319,7 @@ Library {
 	    IconUnits		    "normalized"
 	    Object {
 	      $PropName		      "Parameters"
-	      $ObjectID		      74
+	      $ObjectID		      69
 	      $ClassName	      "Simulink.MaskParameter"
 	      Type		      "edit"
 	      Name		      "mooring"
@@ -19661,7 +19626,7 @@ Library {
 		    TiledPageScale	    1
 		    ShowPageBoundaries	    off
 		    ZoomFactor		    "100"
-		    SIDHighWatermark	    "127"
+		    SIDHighWatermark	    "136"
 		    Block {
 		    BlockType		    Inport
 		    Name		    "X"
@@ -19700,20 +19665,20 @@ Library {
 		    Block {
 		    BlockType		    Demux
 		    Name		    " Demux "
-		    SID			    "4051:12293::126"
+		    SID			    "4051:12293::135"
 		    Ports		    [1, 1]
 		    Position		    [270, 230, 320, 270]
-		    ZOrder		    108
+		    ZOrder		    117
 		    Outputs		    "1"
 		    }
 		    Block {
 		    BlockType		    S-Function
 		    Name		    " SFunction "
-		    SID			    "4051:12293::125"
-		    Tag			    "Stateflow S-Function WECSim_Lib 7"
+		    SID			    "4051:12293::134"
+		    Tag			    "Stateflow S-Function WECSim_Lib_update 7"
 		    Ports		    [4, 2]
 		    Position		    [180, 102, 230, 203]
-		    ZOrder		    107
+		    ZOrder		    116
 		    FunctionName	    "sf_sfun"
 		    PortCounts		    "[4 2]"
 		    SFunctionDeploymentMode off
@@ -19726,9 +19691,9 @@ Library {
 		    Block {
 		    BlockType		    Terminator
 		    Name		    " Terminator "
-		    SID			    "4051:12293::127"
+		    SID			    "4051:12293::136"
 		    Position		    [460, 241, 480, 259]
-		    ZOrder		    109
+		    ZOrder		    118
 		    }
 		    Block {
 		    BlockType		    Outport
@@ -19739,28 +19704,28 @@ Library {
 		    IconDisplay		    "Port number"
 		    }
 		    Line {
-		    ZOrder		    155
+		    ZOrder		    176
 		    SrcBlock		    "X"
 		    SrcPort		    1
 		    DstBlock		    " SFunction "
 		    DstPort		    1
 		    }
 		    Line {
-		    ZOrder		    156
+		    ZOrder		    177
 		    SrcBlock		    "XD"
 		    SrcPort		    1
 		    DstBlock		    " SFunction "
 		    DstPort		    2
 		    }
 		    Line {
-		    ZOrder		    157
+		    ZOrder		    178
 		    SrcBlock		    "Time"
 		    SrcPort		    1
 		    DstBlock		    " SFunction "
 		    DstPort		    3
 		    }
 		    Line {
-		    ZOrder		    158
+		    ZOrder		    179
 		    SrcBlock		    "CoupTime"
 		    SrcPort		    1
 		    DstBlock		    " SFunction "
@@ -19768,7 +19733,7 @@ Library {
 		    }
 		    Line {
 		    Name		    "FLines"
-		    ZOrder		    159
+		    ZOrder		    180
 		    Labels		    [0, 0]
 		    SrcBlock		    " SFunction "
 		    SrcPort		    2
@@ -19776,14 +19741,14 @@ Library {
 		    DstPort		    1
 		    }
 		    Line {
-		    ZOrder		    160
+		    ZOrder		    181
 		    SrcBlock		    " Demux "
 		    SrcPort		    1
 		    DstBlock		    " Terminator "
 		    DstPort		    1
 		    }
 		    Line {
-		    ZOrder		    161
+		    ZOrder		    182
 		    SrcBlock		    " SFunction "
 		    SrcPort		    1
 		    DstBlock		    " Demux "
@@ -19955,7 +19920,7 @@ Library {
 	      Variant		      off
 	      Object {
 		$PropName		"MaskObject"
-		$ObjectID		75
+		$ObjectID		70
 		$ClassName		"Simulink.Mask"
 	      }
 	      System {
@@ -20145,7 +20110,7 @@ Library {
 		    TiledPageScale	    1
 		    ShowPageBoundaries	    off
 		    ZoomFactor		    "100"
-		    SIDHighWatermark	    "482"
+		    SIDHighWatermark	    "491"
 		    Block {
 		    BlockType		    Inport
 		    Name		    "Q"
@@ -20157,20 +20122,20 @@ Library {
 		    Block {
 		    BlockType		    Demux
 		    Name		    " Demux "
-		    SID			    "4051:12229::481"
+		    SID			    "4051:12229::490"
 		    Ports		    [1, 1]
 		    Position		    [270, 230, 320, 270]
-		    ZOrder		    155
+		    ZOrder		    164
 		    Outputs		    "1"
 		    }
 		    Block {
 		    BlockType		    S-Function
 		    Name		    " SFunction "
-		    SID			    "4051:12229::480"
-		    Tag			    "Stateflow S-Function WECSim_Lib 6"
+		    SID			    "4051:12229::489"
+		    Tag			    "Stateflow S-Function WECSim_Lib_update 6"
 		    Ports		    [1, 2]
 		    Position		    [180, 100, 230, 160]
-		    ZOrder		    154
+		    ZOrder		    163
 		    FunctionName	    "sf_sfun"
 		    PortCounts		    "[1 2]"
 		    SFunctionDeploymentMode off
@@ -20183,9 +20148,9 @@ Library {
 		    Block {
 		    BlockType		    Terminator
 		    Name		    " Terminator "
-		    SID			    "4051:12229::482"
+		    SID			    "4051:12229::491"
 		    Position		    [460, 241, 480, 259]
-		    ZOrder		    156
+		    ZOrder		    165
 		    }
 		    Block {
 		    BlockType		    Outport
@@ -20196,7 +20161,7 @@ Library {
 		    IconDisplay		    "Port number"
 		    }
 		    Line {
-		    ZOrder		    89
+		    ZOrder		    101
 		    SrcBlock		    "Q"
 		    SrcPort		    1
 		    DstBlock		    " SFunction "
@@ -20204,7 +20169,7 @@ Library {
 		    }
 		    Line {
 		    Name		    "E"
-		    ZOrder		    90
+		    ZOrder		    102
 		    Labels		    [0, 0]
 		    SrcBlock		    " SFunction "
 		    SrcPort		    2
@@ -20212,14 +20177,14 @@ Library {
 		    DstPort		    1
 		    }
 		    Line {
-		    ZOrder		    91
+		    ZOrder		    103
 		    SrcBlock		    " Demux "
 		    SrcPort		    1
 		    DstBlock		    " Terminator "
 		    DstPort		    1
 		    }
 		    Line {
-		    ZOrder		    92
+		    ZOrder		    104
 		    SrcBlock		    " SFunction "
 		    SrcPort		    1
 		    DstBlock		    " Demux "
@@ -21540,7 +21505,7 @@ Library {
 	  Variant		  off
 	  Object {
 	    $PropName		    "MaskObject"
-	    $ObjectID		    76
+	    $ObjectID		    71
 	    $ClassName		    "Simulink.Mask"
 	    Type		    "BodyElements"
 	    Description		    "This block represents a rigid body. The variable name input below must be 'body(i)' where i=1,2"
@@ -21553,7 +21518,7 @@ Library {
 	    IconUnits		    "normalized"
 	    Object {
 	      $PropName		      "Parameters"
-	      $ObjectID		      77
+	      $ObjectID		      72
 	      $ClassName	      "Simulink.MaskParameter"
 	      Type		      "edit"
 	      Name		      "mooring"
@@ -21924,7 +21889,7 @@ Library {
 	      Variant		      off
 	      Object {
 		$PropName		"MaskObject"
-		$ObjectID		78
+		$ObjectID		73
 		$ClassName		"Simulink.Mask"
 	      }
 	      System {
@@ -22114,7 +22079,7 @@ Library {
 		    TiledPageScale	    1
 		    ShowPageBoundaries	    off
 		    ZoomFactor		    "100"
-		    SIDHighWatermark	    "485"
+		    SIDHighWatermark	    "494"
 		    Block {
 		    BlockType		    Inport
 		    Name		    "Q"
@@ -22126,20 +22091,20 @@ Library {
 		    Block {
 		    BlockType		    Demux
 		    Name		    " Demux "
-		    SID			    "4054:12229::484"
+		    SID			    "4054:12229::493"
 		    Ports		    [1, 1]
 		    Position		    [270, 230, 320, 270]
-		    ZOrder		    158
+		    ZOrder		    167
 		    Outputs		    "1"
 		    }
 		    Block {
 		    BlockType		    S-Function
 		    Name		    " SFunction "
-		    SID			    "4054:12229::483"
-		    Tag			    "Stateflow S-Function WECSim_Lib 9"
+		    SID			    "4054:12229::492"
+		    Tag			    "Stateflow S-Function WECSim_Lib_update 9"
 		    Ports		    [1, 2]
 		    Position		    [180, 100, 230, 160]
-		    ZOrder		    157
+		    ZOrder		    166
 		    FunctionName	    "sf_sfun"
 		    PortCounts		    "[1 2]"
 		    SFunctionDeploymentMode off
@@ -22152,9 +22117,9 @@ Library {
 		    Block {
 		    BlockType		    Terminator
 		    Name		    " Terminator "
-		    SID			    "4054:12229::485"
+		    SID			    "4054:12229::494"
 		    Position		    [460, 241, 480, 259]
-		    ZOrder		    159
+		    ZOrder		    168
 		    }
 		    Block {
 		    BlockType		    Outport
@@ -22165,7 +22130,7 @@ Library {
 		    IconDisplay		    "Port number"
 		    }
 		    Line {
-		    ZOrder		    89
+		    ZOrder		    101
 		    SrcBlock		    "Q"
 		    SrcPort		    1
 		    DstBlock		    " SFunction "
@@ -22173,7 +22138,7 @@ Library {
 		    }
 		    Line {
 		    Name		    "E"
-		    ZOrder		    90
+		    ZOrder		    102
 		    Labels		    [0, 0]
 		    SrcBlock		    " SFunction "
 		    SrcPort		    2
@@ -22181,14 +22146,14 @@ Library {
 		    DstPort		    1
 		    }
 		    Line {
-		    ZOrder		    91
+		    ZOrder		    103
 		    SrcBlock		    " Demux "
 		    SrcPort		    1
 		    DstBlock		    " Terminator "
 		    DstPort		    1
 		    }
 		    Line {
-		    ZOrder		    92
+		    ZOrder		    104
 		    SrcBlock		    " SFunction "
 		    SrcPort		    1
 		    DstBlock		    " Demux "
@@ -23482,13 +23447,13 @@ Library {
       Variant		      off
       Object {
 	$PropName		"MaskObject"
-	$ObjectID		79
+	$ObjectID		74
 	$ClassName		"Simulink.Mask"
 	Display			"text(0,0,' ')"
       }
       System {
 	Name			"PTOs"
-	Location		[-6, -6, 1287, 687]
+	Location		[-8, -8, 1928, 1168]
 	Open			off
 	ModelBrowserVisibility	on
 	ModelBrowserWidth	200
@@ -23513,7 +23478,7 @@ Library {
 	  Variant		  off
 	  Object {
 	    $PropName		    "MaskObject"
-	    $ObjectID		    80
+	    $ObjectID		    75
 	    $ClassName		    "Simulink.Mask"
 	    Type		    "PTO"
 	    Description		    "Constraints the follower to rotational motion relative to the base, about \nthe PTO's Y-directi"
@@ -23539,7 +23504,7 @@ Library {
 	    SelfModifiable	    "on"
 	    Object {
 	      $PropName		      "Parameters"
-	      $ObjectID		      81
+	      $ObjectID		      76
 	      $ClassName	      "Simulink.MaskParameter"
 	      Type		      "edit"
 	      Name		      "pto"
@@ -23549,7 +23514,7 @@ Library {
 	  }
 	  System {
 	    Name		    "Rotational PTO"
-	    Location		    [0, 23, 1280, 1022]
+	    Location		    [-8, -8, 1928, 1168]
 	    Open		    off
 	    ModelBrowserVisibility  on
 	    ModelBrowserWidth	    200
@@ -23561,7 +23526,7 @@ Library {
 	    TiledPaperMargins	    [0.500000, 0.500000, 0.500000, 0.500000]
 	    TiledPageScale	    1
 	    ShowPageBoundaries	    off
-	    ZoomFactor		    "53"
+	    ZoomFactor		    "103"
 	    SIDHighWatermark	    "1775"
 	    SIDPrevWatermark	    "1728"
 	    Block {
@@ -24401,7 +24366,7 @@ Library {
 	      TranslationLengthUnit   "m"
 	      TranslationStandardOffset_conf "compiletime"
 	      TranslationStandardAxis "+Z"
-	      TranslationCartesianOffset "constraint.loc"
+	      TranslationCartesianOffset "0"
 	      TranslationCartesianOffset_conf "compiletime"
 	      TranslationROffset      "0"
 	      TranslationROffsetUnits "m"
@@ -24449,7 +24414,7 @@ Library {
 	      TranslationLengthUnit   "m"
 	      TranslationStandardOffset_conf "compiletime"
 	      TranslationStandardAxis "+Z"
-	      TranslationCartesianOffset "constraint.loc"
+	      TranslationCartesianOffset "0"
 	      TranslationCartesianOffset_conf "compiletime"
 	      TranslationROffset      "0"
 	      TranslationROffsetUnits "m"
@@ -24496,7 +24461,7 @@ Library {
 	      TranslationLengthUnit   "m"
 	      TranslationStandardOffset_conf "compiletime"
 	      TranslationStandardAxis "+Z"
-	      TranslationCartesianOffset "constraint.loc"
+	      TranslationCartesianOffset "0"
 	      TranslationCartesianOffset_conf "compiletime"
 	      TranslationROffset      "0"
 	      TranslationROffsetUnits "m"
@@ -24544,7 +24509,7 @@ Library {
 	      TranslationLengthUnit   "m"
 	      TranslationStandardOffset_conf "compiletime"
 	      TranslationStandardAxis "+Z"
-	      TranslationCartesianOffset "constraint.loc"
+	      TranslationCartesianOffset "0"
 	      TranslationCartesianOffset_conf "compiletime"
 	      TranslationROffset      "0"
 	      TranslationROffsetUnits "m"
@@ -25239,7 +25204,7 @@ Library {
 	  Variant		  off
 	  Object {
 	    $PropName		    "MaskObject"
-	    $ObjectID		    82
+	    $ObjectID		    77
 	    $ClassName		    "Simulink.Mask"
 	    Type		    "PTO"
 	    Description		    "Constraints the follower to rotational motion relative to the base, about \nthe PTO's Y-directi"
@@ -25266,7 +25231,7 @@ Library {
 	    SelfModifiable	    "on"
 	    Object {
 	      $PropName		      "Parameters"
-	      $ObjectID		      83
+	      $ObjectID		      78
 	      $ClassName	      "Simulink.MaskParameter"
 	      Type		      "edit"
 	      Name		      "pto"
@@ -27051,7 +27016,7 @@ Library {
 	  Variant		  off
 	  Object {
 	    $PropName		    "MaskObject"
-	    $ObjectID		    84
+	    $ObjectID		    79
 	    $ClassName		    "Simulink.Mask"
 	    Type		    "PTO"
 	    Description		    "Constraints the follower to rotational motion relative to the base, about \nthe PTO's Y-directi"
@@ -27079,7 +27044,7 @@ Library {
 	    SelfModifiable	    "on"
 	    Object {
 	      $PropName		      "Parameters"
-	      $ObjectID		      85
+	      $ObjectID		      80
 	      $ClassName	      "Simulink.MaskParameter"
 	      Type		      "edit"
 	      Name		      "pto"
@@ -28812,7 +28777,7 @@ Library {
 	  Variant		  off
 	  Object {
 	    $PropName		    "MaskObject"
-	    $ObjectID		    86
+	    $ObjectID		    81
 	    $ClassName		    "Simulink.Mask"
 	    Type		    "PTO"
 	    Description		    "Constraints the follower to translational motion relative to the base, in \nthe PTO's Z-directi"
@@ -28839,7 +28804,7 @@ Library {
 	    IconRotate		    "port"
 	    Object {
 	      $PropName		      "Parameters"
-	      $ObjectID		      87
+	      $ObjectID		      82
 	      $ClassName	      "Simulink.MaskParameter"
 	      Type		      "edit"
 	      Name		      "pto"
@@ -30020,7 +29985,7 @@ Library {
 	  Variant		  off
 	  Object {
 	    $PropName		    "MaskObject"
-	    $ObjectID		    88
+	    $ObjectID		    83
 	    $ClassName		    "Simulink.Mask"
 	    Type		    "PTO"
 	    Description		    "Constraints the follower to translational motion relative to the base, in \nthe PTO's Z-directi"
@@ -30049,7 +30014,7 @@ Library {
 	    IconRotate		    "port"
 	    Object {
 	      $PropName		      "Parameters"
-	      $ObjectID		      89
+	      $ObjectID		      84
 	      $ClassName	      "Simulink.MaskParameter"
 	      Type		      "edit"
 	      Name		      "pto"
@@ -31334,7 +31299,7 @@ Library {
 	  Variant		  off
 	  Object {
 	    $PropName		    "MaskObject"
-	    $ObjectID		    90
+	    $ObjectID		    85
 	    $ClassName		    "Simulink.Mask"
 	    Type		    "PTO"
 	    Description		    "Constraints the follower to translational motion relative to the base, in \nthe PTO's Z-directi"
@@ -31362,7 +31327,7 @@ Library {
 	    IconRotate		    "port"
 	    Object {
 	      $PropName		      "Parameters"
-	      $ObjectID		      91
+	      $ObjectID		      86
 	      $ClassName	      "Simulink.MaskParameter"
 	      Type		      "edit"
 	      Name		      "pto"
@@ -32628,7 +32593,7 @@ Library {
 Stateflow {
   machine {
     id			    1
-    name		    "WECSim_Lib"
+    name		    "WECSim_Lib_update"
     created		    "19-Nov-2013 16:00:53"
     isLibrary		    1
     sfVersion		    80000006
