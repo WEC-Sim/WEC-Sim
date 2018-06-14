@@ -69,10 +69,12 @@ hydro(F).T = 2*pi./hydro(F).w;
 for ln = n:length(raw1);
     if isempty(strfind(raw1{ln},'GENERAL'))==0
         if V182 == 1  % General information columns in Versions>18.2
+            tmp = str2num(raw1{ln+1});
             hydro(F).h      = tmp(2);   % Water depth
             hydro(F).rho    = tmp(3); % Water density
             hydro(F).g      = tmp(4);   % Gravity
         else          % General information columns in Versions<18.2
+            tmp = str2num(raw1{ln+1});
             hydro(F).h      = tmp(1);   % Water depth
             hydro(F).rho    = tmp(2); % Water density
             hydro(F).g      = tmp(3);   % Gravity
@@ -106,7 +108,8 @@ for ln = n:length(raw1);
             end
         end
     end
-    if (isempty(strfind(raw1{ln},'ADDEDMASS'))==0 | isempty(strfind(raw1{ln},'DAMPING'))==0)
+    if ((isempty(strfind(raw1{ln},'ADDEDMASS'))==0) && isempty(strfind(raw1{ln},'LF'))==1 && isempty(strfind(raw1{ln},'HF'))==1) || ...
+            (isempty(strfind(raw1{ln},'DAMPING'))==0 && isempty(strfind(raw1{ln},'LF'))==1)
         if isempty(strfind(raw1{ln},'ADDEDMASS'))==0 f = 0; else f = 1; end
         for m=1:hydro(F).Nb
             for k=1:hydro(F).Nb
