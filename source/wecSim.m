@@ -83,13 +83,11 @@ for ii = 1:simu.numWecBodies
         body(ii).loadHydroData(hydroData(ii));
     else
         % check for correct h5 file
-        try
-            h5Info = dir('.\*\*.h5');
-            h5Info.bytes;        
-            if h5Info.bytes < 1000
-                error(['The *.h5 file for this run is incorrect. Please install git-lfs or download the *.h5 file directly from the WEC-Sim release page'])
-            end    
-        end
+        h5Info = dir(body(ii).h5File);
+        h5Info.bytes;        
+        if h5Info.bytes < 1000
+            error(['This is not the correct *.h5 file. Please install git-lfs to access the correct *.h5 file, or run \hydroData\bemio.m to generate a new *.h5 file'])
+        end    
         clearvars h5Info        
         body(ii).readH5File;
     end
