@@ -43,15 +43,20 @@ Download WEC-Sim
 ------------------------
 There are three ways of obtaining the WEC-Sim code which is distributed through the `WEC-Sim GitHub repository <https://github.com/WEC-Sim/wec-sim>`_: 
  
-Option 1. Clone with GitHub (Recommended for Users)
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-	WEC-Sim can be obtained by locally `cloning <https://help.github.com/articles/cloning-a-repository/>`_ the repository hosted on GitHub using the shell::
+Option 1. Clone Repository from GitHub (Recommended for Users)
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+	The WEC-Sim source code can be obtained by `cloning <https://help.github.com/articles/cloning-a-repository/>`_ the WEC-Sim repository hosted on GitHub and installing Git Large File Storage (git lfs) to access large files (i.e. ``*.h5`` files). This is accomplished by typing the following lines into Git BASH::
 
 		>> git clone https://github.com/WEC-Sim/WEC-Sim
+		>> git lfs install
 
 	This method is recommended for users because the local copy of WEC-Sim can easily be updated to the latest version of the code hosted on the GitHub repository by using the pull command::
 
 		>> git pull
+		
+	.. Note::
+		If git lfs is not included in your version of Git, you may may need to manually install `Git Large File Storage <https://git-lfs.github.com/>`_ to download the correct ``*.h5`` files. Alternatively, WEC-Sim users can run the ``\hydroData\bemio.m`` script to generate a new ``*.h5`` file.
+		
 
 Option 2. Fork with Git (Recommended for Developers)
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
@@ -59,11 +64,9 @@ Option 2. Fork with Git (Recommended for Developers)
 
 Option 3. Static Code Download (Not Recommended)
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-	The easiest way to obtain a copy of WEC-Sim is to download the latest `WEC-Sim Release <https://github.com/WEC-Sim/WEC-Sim/releases>`_. 		This is a static download of the WEC-Sim code. If you choose this method, you will have to re-download the code in order to receive code updates.
+	The easiest way to obtain a copy of WEC-Sim is to download the latest `WEC-Sim Release <https://github.com/WEC-Sim/WEC-Sim/releases>`_. This is a static download of the WEC-Sim code. If you choose this method, you will have to re-download the code in order to receive code updates.
 
 
-	.. Note::
-		GitHub users may need to manually install `Git Large File Storage (git-lfs) <https://git-lfs.github.com/>`_ to download the ``*.h5`` files.
 
 
 Install WEC-Sim
