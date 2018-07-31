@@ -8,7 +8,7 @@ Similarly, the PTO force or torque is the WEC-Sim input.
 For more information on how PTO-Sim works, refer to [So et al., 2015], and the `PTO and Control webinar <http://wec-sim.github.io/WEC-Sim/webinars.html#webinar-3-pto-and-control>`_.
 
 
-The files for the PTO-Sim tutorials described in this section can be found in the `WEC-Sim Applications <https://github.com/WEC-Sim/WEC-Sim_Applications>`_ repository.
+The files for the PTO-Sim tutorials described in this section can be found in the `WEC-Sim Applications repository <https://github.com/WEC-Sim/WEC-Sim_Applications>`_ **PTO-Sim** example.
 
 
 Tutorial: RM3 with PTO-Sim

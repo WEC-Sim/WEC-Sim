@@ -109,7 +109,7 @@
 <li class="toctree-l3"><a class="reference internal" href="#ramp-function">Ramp Function</a></li>
 <li class="toctree-l3"><a class="reference internal" href="#sinusoidal-steady-state-response">Sinusoidal Steady-State Response</a></li>
 <li class="toctree-l3"><a class="reference internal" href="#convolution-integral-formulation">Convolution Integral Formulation</a></li>
-<li class="toctree-l3"><a class="reference internal" href="#state-space-representation">State Space Representation</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#state-space">State Space</a><ul>
 <li class="toctree-l4"><a class="reference internal" href="#calculation-of-from-state-space-matrices">Calculation of <span class="math">\(K_{r}\)</span> from State Space Matrices</a></li>
 <li class="toctree-l4"><a class="reference internal" href="#realization-theory">Realization Theory</a></li>
 </ul>
@@ -118,8 +118,8 @@
 </li>
 <li class="toctree-l2"><a class="reference internal" href="#wave-spectra">Wave Spectra</a><ul>
 <li class="toctree-l3"><a class="reference internal" href="#pierson-moskowitz">Pierson&#8211;Moskowitz</a></li>
-<li class="toctree-l3"><a class="reference internal" href="#bretschneider-spectrum">Bretschneider Spectrum</a></li>
-<li class="toctree-l3"><a class="reference internal" href="#jonswap-joint-north-sea-wave-project-spectrum">JONSWAP (Joint North Sea Wave Project) Spectrum</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#bretschneider">Bretschneider</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#jonswap">JONSWAP</a></li>
 </ul>
 </li>
 <li class="toctree-l2"><a class="reference internal" href="#power-take-off-forces">Power Take-off Forces</a><ul>
@@ -130,8 +130,8 @@
 </li>
 <li class="toctree-l2"><a class="reference internal" href="#mooring-forces">Mooring Forces</a></li>
 <li class="toctree-l2"><a class="reference internal" href="#non-linear-hydrodynamic-forces">Non-Linear Hydrodynamic Forces</a></li>
-<li class="toctree-l2"><a class="reference internal" href="#non-linear-drag-and-morison-elements">Non-Linear Drag and Morison Elements</a><ul>
-<li class="toctree-l3"><a class="reference internal" href="#linear-quadratic-damping-forces">Linear &amp; Quadratic Damping Forces</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#viscous-damping-and-morison-elements">Viscous Damping and Morison Elements</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#viscous-damping">Viscous Damping</a></li>
 <li class="toctree-l3"><a class="reference internal" href="#morison-elements">Morison Elements</a></li>
 </ul>
 </li>
@@ -295,10 +295,10 @@ For irregular waves, the free surface elevation is constructed from a linear sup
 Each regular wave component is extracted from a wave spectrum, <span class="math">\(S(\omega)\)</span>, describing the wave energy distribution over a range,of wave frequencies, characterized by a significant wave height and peak wave period. The irregular excitation force can be calculated as the real part of an integral term across all wave frequencies as follows</p>
 <div class="math">
 \[F_{exc}(t)=\Re\left[ R_{f} \intop_{0}^{\infty}F_{exc}(\omega_{r})e^{i(\omega_{r}t+\phi)} \sqrt{2S(\omega_{r})}d\omega_{r} \right]\]</div>
-<p>where <span class="math">\(\phi\)</span> is the phase angle. For repeatable simulation of an irregular wave field <span class="math">\(S(\omega)\)</span>, WEC-Sim allows specification of <span class="math">\(\phi\)</span>, refer to the following <a class="reference external" href="http://wec-sim.github.io/WEC-Sim/advanced_features.html#irregular-waves-with-seeded-phase">wave features</a> secion.</p>
+<p>where <span class="math">\(\phi\)</span> is the phase angle. For repeatable simulation of an irregular wave field <span class="math">\(S(\omega)\)</span>, WEC-Sim allows specification of <span class="math">\(\phi\)</span>, refer to the following <a class="reference external" href="http://wec-sim.github.io/WEC-Sim/advanced_features.html#irregular-waves-with-seeded-phase">wave features</a> section.</p>
 </div>
-<div class="section" id="state-space-representation">
-<h3>State Space Representation<a class="headerlink" href="#state-space-representation" title="Permalink to this headline">¶</a></h3>
+<div class="section" id="state-space">
+<h3>State Space<a class="headerlink" href="#state-space" title="Permalink to this headline">¶</a></h3>
 <p>It is highly desirable to represent the radiation convolution integral described in the last subsection in state space (SS) form <a class="reference internal" href="#yu1996" id="id12">[9]</a>.  This has been shown to dramatically increase computational speeds <a class="reference internal" href="#taghipour2008" id="id13">[10]</a> and allow utilization of conventional control methods that rely on linear state space models.  An approximation will need to be made as <span class="math">\(K_{r}\)</span> is solved from a set of partial differential equations where as a <cite>linear state space</cite> is constructed from a set of ordinary differential equations.  In general, a linear system is desired such that:</p>
 <div class="math">
 \[\begin{split}\dot{X}_{r} \left( t \right) = \mathbf{A_{r}} X_{r} \left( t \right) + \mathbf{B_{r}} \mathbf{\dot{\zeta}} (t);~~X_{r}\left( 0 \right) = 0~~ \nonumber \\
@@ -356,7 +356,7 @@ y &amp;=&amp; \mathbf{C_{r}} x~~\end{split}\]</div>
 <p>where <span class="math">\(H_{m0}\)</span> is a definition of the significant wave height (m), the mean wave height of the tallest third of waves.</p>
 <div class="section" id="pierson-moskowitz">
 <h3>Pierson&#8211;Moskowitz<a class="headerlink" href="#pierson-moskowitz" title="Permalink to this headline">¶</a></h3>
-<p>One of the simplest spectra was proposed by <a class="reference internal" href="#pm" id="id19">[13]</a>. It assumed that after the wind blew steadily for a long time over a large area, the waves would come into equilibrium with the wind. This is the concept of a fully developed sea where a &#8220;long time&#8221; is roughly 10,000 wave periods and a &#8220;large area&#8221; is roughly 5,000 wave-lengths on a side.  The spectrum is calculated from:</p>
+<p>One of the simplest spectra, the Pierson&#8211;Moskowitz spectrum, was proposed by <a class="reference internal" href="#pm" id="id19">[13]</a>. It assumed that after the wind blew steadily for a long time over a large area, the waves would come into equilibrium with the wind. This is the concept of a fully developed sea where a &#8220;long time&#8221; is roughly 10,000 wave periods and a &#8220;large area&#8221; is roughly 5,000 wave-lengths on a side.  The spectrum is calculated from:</p>
 <div class="math">
 \[\begin{split}&amp; S\left( f \right) = \frac{\alpha_{PM}g^{2}}{\left( 2 \pi \right)^{4}}f^{-5}\exp\left[-\frac{5}{4} \left( \frac{f_{p}}{f}\right)^{4} \right]~~ &amp;\\\end{split}\]</div>
 <p>This implies coefficients of the general form:</p>
@@ -369,9 +369,9 @@ y &amp;=&amp; \mathbf{C_{r}} x~~\end{split}\]</div>
 <div class="math">
 \[\begin{split}&amp; S\left( f \right) =  S^{*}\left( f \right) \alpha_{pm}&amp; \\\end{split}\]</div>
 </div>
-<div class="section" id="bretschneider-spectrum">
-<h3>Bretschneider Spectrum<a class="headerlink" href="#bretschneider-spectrum" title="Permalink to this headline">¶</a></h3>
-<p>This two-parameter spectrum is based on significant wave height and peak wave frequency.  For a given significant wave height, the peak frequency can be varied to cover a range of conditions including developing and decaying seas. In general, the parameters depend on strongly on wind speed, and also wind direction, fetch, and locations of storm fronts. The spectrum is given as:</p>
+<div class="section" id="bretschneider">
+<h3>Bretschneider<a class="headerlink" href="#bretschneider" title="Permalink to this headline">¶</a></h3>
+<p>The two-parameter Bretschneider spectrum is based on significant wave height and peak wave frequency.  For a given significant wave height, the peak frequency can be varied to cover a range of conditions including developing and decaying seas. In general, the parameters depend on strongly on wind speed, and also wind direction, fetch, and locations of storm fronts. The spectrum is given as:</p>
 <div class="math">
 \[\begin{split}&amp; S\left( f \right) = \frac{{H_{m0}}^2}{4}\left(1.057f_{p}\right)^{4}f^{-5}\exp\left[-\frac{5}{4} \left( \frac{f_{p}}{f}\right)^{4} \right]~~ &amp;\\\end{split}\]</div>
 <p>This implies coefficients of the general form:</p>
@@ -379,9 +379,9 @@ y &amp;=&amp; \mathbf{C_{r}} x~~\end{split}\]</div>
 \[ \begin{align}\begin{aligned}\begin{split}&amp; A =\frac{{H_{m0}}^2}{4}\left(1.057f_{p}\right)^{4} \approx \frac{5}{16} {H_{m0}}^2 {f_{p}}^{4} \approx \frac{B}{4}{H_{m0}}^2~~ &amp;\\\end{split}\\\begin{split}
 &amp; B = \left(1.057f_{p}\right)^{4} \approx \frac{5}{4} {f_{p}}^{4}~~ &amp;\\\end{split}\end{aligned}\end{align} \]</div>
 </div>
-<div class="section" id="jonswap-joint-north-sea-wave-project-spectrum">
-<h3>JONSWAP (Joint North Sea Wave Project) Spectrum<a class="headerlink" href="#jonswap-joint-north-sea-wave-project-spectrum" title="Permalink to this headline">¶</a></h3>
-<p>The spectrum was purposed by Hasselmann et al. <a class="reference internal" href="#hk" id="id20">[14]</a>, and the original formulation was given as:</p>
+<div class="section" id="jonswap">
+<h3>JONSWAP<a class="headerlink" href="#jonswap" title="Permalink to this headline">¶</a></h3>
+<p>The JONSWAP (Joint North Sea Wave Project) spectrum was purposed by Hasselmann et al. <a class="reference internal" href="#hk" id="id20">[14]</a>, and the original formulation was given as:</p>
 <div class="math">
 \[ \begin{align}\begin{aligned}\begin{split}&amp; S\left( f \right) = \frac{ \alpha_{js} g^{2} }{ (2\pi)^{4}} f^{-5}\exp\left[-\frac{5}{4} \left( \frac{f_{p}}{f}\right)^{4} \right]\gamma^\Gamma \nonumber  ~~ &amp;\\\end{split}\\\begin{split}&amp;\Gamma = \exp \left[ -\left( \frac{\frac{f}{f_{p}}-1}{\sqrt{2} \sigma}\right)^{2} \right],~~ \sigma = \begin{cases} 0.07 &amp; f \leq f_{p} \\0.09 &amp; f &gt; f_{p} \end{cases} ~~ &amp;\\\end{split}\end{aligned}\end{align} \]</div>
 <p>with general form coefficients thus defined:</p>
@@ -434,7 +434,10 @@ The power absorbed by the PTO is given by:</p>
 The power absorbed by the PTO is given by:</p>
 <div class="math">
 \[P_{PTO}=-F_{PTO}\dot{X}_{rel}\]</div>
-<p>Refer to the following section for more information about simulating <a class="reference external" href="https://wec-sim.github.io/WEC-Sim/advanced_features.html#constraint-and-pto-features">PTO systems</a> in WEC-Sim.</p>
+<div class="admonition note">
+<p class="first admonition-title">Note</p>
+<p class="last">For more information about application of pto systems in WEC-Sim, refer to <a class="reference external" href="https://wec-sim.github.io/WEC-Sim/advanced_features.html#constraint-and-pto-features">PTO Features</a>.</p>
+</div>
 </div>
 </div>
 <div class="section" id="mooring-forces">
@@ -450,7 +453,10 @@ The power absorbed by the PTO is given by:</p>
 <div class="legend">
 <em>MoorDyn mooring model elements</em></div>
 </div>
-<p>Refer to the following section for more information about simulating <a class="reference external" href="https://wec-sim.github.io/WEC-Sim/advanced_features.html#mooring-features">mooring systems</a> in WEC-Sim.</p>
+<div class="admonition note">
+<p class="first admonition-title">Note</p>
+<p class="last">For more information about application of mooring systems in WEC-Sim, refer to <a class="reference external" href="https://wec-sim.github.io/WEC-Sim/advanced_features.html#mooring-features">Mooring Features</a> .</p>
+</div>
 </div>
 <div class="section" id="non-linear-hydrodynamic-forces">
 <h2>Non-Linear Hydrodynamic Forces<a class="headerlink" href="#non-linear-hydrodynamic-forces" title="Permalink to this headline">¶</a></h2>
@@ -465,19 +471,22 @@ Because linear wave theory is used to determine the flow velocity and pressure f
 <p class="first admonition-title">Note</p>
 <p class="last">The nonlinear WEC-Sim method is not intended to model highly nonlinear hydrodynamic events, such as wave slamming and wave breaking.</p>
 </div>
-<p>Refer to the following section for more information about implementing <a class="reference external" href="https://wec-sim.github.io/WEC-Sim/advanced_features.html#non-linear-hydrodynamics">non-linear hydrodynamics</a> in WEC-Sim.</p>
+<div class="admonition note">
+<p class="first admonition-title">Note</p>
+<p class="last">For more information about application of non-linear hydrodynamics in WEC-Sim, refer to <a class="reference external" href="https://wec-sim.github.io/WEC-Sim/advanced_features.html#non-linear-hydrodynamics">Non-Linear Hydrodynamics</a>.</p>
 </div>
-<div class="section" id="non-linear-drag-and-morison-elements">
-<h2>Non-Linear Drag and Morison Elements<a class="headerlink" href="#non-linear-drag-and-morison-elements" title="Permalink to this headline">¶</a></h2>
-<p>Additional added-mass and damping forces can be added to force definitions. This facilitates experimental validation of the WEC-Sim code, particularly in the even that the BEM hydrodynamic outputs are not sufficiently representative of actual device properties.</p>
-<div class="section" id="linear-quadratic-damping-forces">
-<h3>Linear &amp; Quadratic Damping Forces<a class="headerlink" href="#linear-quadratic-damping-forces" title="Permalink to this headline">¶</a></h3>
-<p>Linear and quadratic damping forces add flexibility to the definition of viscous forcing</p>
+</div>
+<div class="section" id="viscous-damping-and-morison-elements">
+<h2>Viscous Damping and Morison Elements<a class="headerlink" href="#viscous-damping-and-morison-elements" title="Permalink to this headline">¶</a></h2>
+<p>Additional damping and added-mass can be added to force definitions. This facilitates experimental validation of the WEC-Sim code, particularly in the event that the BEM hydrodynamic outputs are not sufficiently representative of physical system.</p>
+<div class="section" id="viscous-damping">
+<h3>Viscous Damping<a class="headerlink" href="#viscous-damping" title="Permalink to this headline">¶</a></h3>
+<p>Linear damping and quadratic drag forces add flexibility to the definition of viscous forcing</p>
 <blockquote>
 <div><div class="math">
-\[F_{v}=-C_{ld}\dot{X}-\frac{1}{2}C_{d}\rho A_{D}\dot{X}|\dot{X}|\]</div>
+\[ \begin{align}\begin{aligned}\begin{split}&amp; F_{v}=-C_{v}\dot{X}-\frac{C_{d} \rho A_{d}}{2}\dot{X}|\dot{X}| &amp; \\\end{split}\\\begin{split}&amp;  =-C_{v}\dot{X}-C_{D}\dot{X}|\dot{X}| &amp; \\\end{split}\end{aligned}\end{align} \]</div>
 </div></blockquote>
-<p>where <span class="math">\(C_{ld}\)</span> is the linear damping coefficient, <span class="math">\(C_{d}\)</span> is the (quadratic) viscous drag coefficient, <span class="math">\(\rho\)</span> is the fluid density, and <span class="math">\(A_{D}\)</span> is the characteristic area for drag calculation.</p>
+<p>where <span class="math">\(C_{v}\)</span> is the linear damping coefficient, <span class="math">\(C_{d}\)</span> is the quadratic drag coefficient, <span class="math">\(\rho\)</span> is the fluid density, and <span class="math">\(A_{d}\)</span> is the characteristic area for drag calculation. Alternatively, one can define <span class="math">\(C_{D}\)</span> directly.</p>
 <p>Because BEM codes are potential flow solvers and neglect the effects of viscosity, <span class="math">\(F_{v}\)</span> generally must be included to accurately model device performance. However, it can be difficult to select representative drag coefficients, as they depend on device geometry, scale, and relative velocity between the body and the flow around it. Empirical data on the drag coefficient can be found in various literature and standards, but is generally limited to simple geometries evaluated at a limited number of scales and flow conditions. For realistic device geometries, the use of computational fluid dynamic simulations or experimental data is encouraged.</p>
 </div>
 <div class="section" id="morison-elements">
@@ -485,14 +494,17 @@ Because linear wave theory is used to determine the flow velocity and pressure f
 <p>The Morison Equation assumes that the fluid forces in an oscillating flow on a structure of slender cylinders or other similar geometries arise partly from pressure effects from potential flow and partly from viscous effects. A slender cylinder implies that the diameter, D, is small relative to the wave length, <span class="math">\(λ_w\)</span>, which is generally met when <span class="math">\(D/λ_w &lt; 0.1 − 0.2\)</span>. If this condition is not met, wave diffraction effects must be taken into account. Assuming that the geometries are slender, the resulting force can be approximated by a modified Morison formulation <a class="reference internal" href="#morison1950" id="id26">[18]</a>. The formulation for each element on the body can be given as</p>
 <blockquote>
 <div><div class="math">
-\[F_{ME}=\rho∀\dot{v}+\rho\forall C_{a}(\dot{v}-\ddot{X})+\frac{1}{2}C_{d}\rho A_{D}(v-\dot{X})|v-\dot{X}|\]</div>
+\[F_{ME}=\rho∀\dot{v}+\rho\forall C_{a}(\dot{v}-\ddot{X})+\frac{C_{d}\rho A_{d}}{2}(v-\dot{X})|v-\dot{X}|\]</div>
 </div></blockquote>
 <p>where <span class="math">\(v\)</span> is the fluid particle velocity, <span class="math">\(C_{a}\)</span> is the coefficient of added mass, and <span class="math">\(\forall\)</span> is the displaced volume.</p>
 <div class="admonition note">
 <p class="first admonition-title">Note</p>
 <p class="last">WEC-Sim  does not consider buoyancy effects when calculating the forces from Morison elements.</p>
 </div>
-<p>Refer to the following section for more information about implementing <a class="reference external" href="https://wec-sim.github.io/WEC-Sim/advanced_features.html#morison-elements">Morison Elements</a> in WEC-Sim.</p>
+<div class="admonition note">
+<p class="first admonition-title">Note</p>
+<p class="last">For more information about application of morison elements in WEC-Sim, refer to <a class="reference external" href="https://wec-sim.github.io/WEC-Sim/advanced_features.html#viscous-damping-and-morison-elements">Morison Elements</a>.</p>
+</div>
 </div>
 </div>
 <div class="section" id="references">

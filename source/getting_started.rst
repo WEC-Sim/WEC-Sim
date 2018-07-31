@@ -35,8 +35,8 @@ We recommend running WEC-Sim in MATLAB 2016b or newer.
 		Simscape Multibody                                    Version 5.1         (R2017b)
 		
 
-	.. Note::
-		**Simscape Multibody** was called **SimMechanics** prior to **R2016a**
+.. Note::
+	**Simscape Multibody** was called **SimMechanics** prior to **R2016a**
 
 
 Download WEC-Sim

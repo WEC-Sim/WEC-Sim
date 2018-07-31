@@ -38,12 +38,12 @@ where :math:`H` is the wave height, :math:`\omega` is the wave frequency, :math:
 
 
 Units
-------------------------------
+------
 All units within WEC-Sim are in the MKS (meters-kilograms-seconds system) and angular measurements are specified in radians (except for wave directionality which is defined in degrees).
 
 
 Boundary Element Method
-----------------------------------
+-------------------------
 In WEC-Sim, wave forcing components are modeled using linear coefficients  obtained from a frequency-domain potential flow Boundary Element Method (BEM) solver (e.g., WAMIT :cite:`Lee2006`, AQWA :cite:`AQWA`, and Nemoh :cite:`NEMOH`). 
 The BEM solutions are obtained by solving the Laplace equation for the velocity potential, which assumes the flow is inviscid, incompressible, and irrotational. More details on the theory for the frequency-domain BEM can be found in :cite:`Lee2006`.
 
@@ -64,7 +64,7 @@ The WEC-Sim code then scales the hydrodynamic coefficients according to the scal
 
 
 Time-Domain Formulation
-------------------------------------
+-------------------------
 A common approach to determining the hydrodynamic forces is to use the linear wave theory assumption that waves are the sum of incident, radiated, and diffracted wave components. 
 The dynamic response of the system is calculated by solving the equation of motion for WEC systems :cite:`Babarit2012,Nolte2014`. 
 The equation of motion for a floating body about its center of gravity can be given as:
@@ -83,14 +83,14 @@ The buoyancy term :math:`F_{B}(t)` depends on the hydrostatic stiffness :math:`K
 
 
 Numerical Methods
----------------------------------------------
+------------------
 WEC-Sim can be used for regular and irregular wave simulations, but note that :math:`F_{exc}(t)` and :math:`F_{rad}(t)` are calculated differently for sinusoidal steady-state response scenarios and random sea simulations. 
 The sinusoidal steady-state response is often used for simple WEC designs with regular incoming waves. 
 However, for random sea simulations or any simulations where fluid memory effects of the system are essential, the convolution integral method is recommended to represent the fluid memory retardation force on the floating body. 
 To speed computation of the convolution integral, the state space representation method can be specified to approximate this calculation as a system of linear ordinary differential equations. 
 
 Ramp Function
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+~~~~~~~~~~~~~~~
 A ramp function (:math:`R_{f}`), necessary to avoid strong transient flows at the earlier time steps of the simulation, is used to calculate the wave excitation force. The ramp function is given by
 
 .. math::
@@ -139,10 +139,10 @@ Each regular wave component is extracted from a wave spectrum, :math:`S(\omega)`
 
 	F_{exc}(t)=\Re\left[ R_{f} \intop_{0}^{\infty}F_{exc}(\omega_{r})e^{i(\omega_{r}t+\phi)} \sqrt{2S(\omega_{r})}d\omega_{r} \right]
 
-where :math:`\phi` is the phase angle. For repeatable simulation of an irregular wave field :math:`S(\omega)`, WEC-Sim allows specification of :math:`\phi`, refer to the following `wave features <http://wec-sim.github.io/WEC-Sim/advanced_features.html#irregular-waves-with-seeded-phase>`_ secion. 
+where :math:`\phi` is the phase angle. For repeatable simulation of an irregular wave field :math:`S(\omega)`, WEC-Sim allows specification of :math:`\phi`, refer to the following `wave features <http://wec-sim.github.io/WEC-Sim/advanced_features.html#irregular-waves-with-seeded-phase>`_ section. 
 
-State Space Representation 
-~~~~~~~~~~~~~~~~~~~~~~~~~~~
+State Space  
+~~~~~~~~~~~~
 It is highly desirable to represent the radiation convolution integral described in the last subsection in state space (SS) form :cite:`Yu1996`.  This has been shown to dramatically increase computational speeds :cite:`Taghipour2008` and allow utilization of conventional control methods that rely on linear state space models.  An approximation will need to be made as :math:`K_{r}` is solved from a set of partial differential equations where as a `linear state space` is constructed from a set of ordinary differential equations.  In general, a linear system is desired such that:
 
 .. math::
@@ -231,8 +231,8 @@ The spectral moment, :math:`m_{0}` is the variance of the free surface which all
 where :math:`H_{m0}` is a definition of the significant wave height (m), the mean wave height of the tallest third of waves. 
 
 Pierson--Moskowitz
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-One of the simplest spectra was proposed by :cite:`PM`. It assumed that after the wind blew steadily for a long time over a large area, the waves would come into equilibrium with the wind. This is the concept of a fully developed sea where a "long time" is roughly 10,000 wave periods and a "large area" is roughly 5,000 wave-lengths on a side.  The spectrum is calculated from:
+~~~~~~~~~~~~~~~~~~~
+One of the simplest spectra, the Pierson--Moskowitz spectrum, was proposed by :cite:`PM`. It assumed that after the wind blew steadily for a long time over a large area, the waves would come into equilibrium with the wind. This is the concept of a fully developed sea where a "long time" is roughly 10,000 wave periods and a "large area" is roughly 5,000 wave-lengths on a side.  The spectrum is calculated from:
 
 .. math::
 	& S\left( f \right) = \frac{\alpha_{PM}g^{2}}{\left( 2 \pi \right)^{4}}f^{-5}\exp\left[-\frac{5}{4} \left( \frac{f_{p}}{f}\right)^{4} \right]~~ &\\
@@ -254,9 +254,9 @@ Where:
 .. math::
 	& S\left( f \right) =  S^{*}\left( f \right) \alpha_{pm}& \\ 	
 
-Bretschneider Spectrum
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-This two-parameter spectrum is based on significant wave height and peak wave frequency.  For a given significant wave height, the peak frequency can be varied to cover a range of conditions including developing and decaying seas. In general, the parameters depend on strongly on wind speed, and also wind direction, fetch, and locations of storm fronts. The spectrum is given as:
+Bretschneider 
+~~~~~~~~~~~~~~~
+The two-parameter Bretschneider spectrum is based on significant wave height and peak wave frequency.  For a given significant wave height, the peak frequency can be varied to cover a range of conditions including developing and decaying seas. In general, the parameters depend on strongly on wind speed, and also wind direction, fetch, and locations of storm fronts. The spectrum is given as:
 
 .. math::
 	& S\left( f \right) = \frac{{H_{m0}}^2}{4}\left(1.057f_{p}\right)^{4}f^{-5}\exp\left[-\frac{5}{4} \left( \frac{f_{p}}{f}\right)^{4} \right]~~ &\\
@@ -272,10 +272,9 @@ This implies coefficients of the general form:
 	
 	
 
-JONSWAP (Joint North Sea Wave Project) Spectrum
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-
-The spectrum was purposed by Hasselmann et al. :cite:`HK`, and the original formulation was given as:
+JONSWAP 
+~~~~~~~~
+The JONSWAP (Joint North Sea Wave Project) spectrum was purposed by Hasselmann et al. :cite:`HK`, and the original formulation was given as:
 
 .. math::
 	& S\left( f \right) = \frac{ \alpha_{js} g^{2} }{ (2\pi)^{4}} f^{-5}\exp\left[-\frac{5}{4} \left( \frac{f_{p}}{f}\right)^{4} \right]\gamma^\Gamma \nonumber  ~~ &\\ 
@@ -365,7 +364,9 @@ The power absorbed by the PTO is given by:
 
 	P_{PTO}=-F_{PTO}\dot{X}_{rel}
 
-Refer to the following section for more information about simulating `PTO systems <https://wec-sim.github.io/WEC-Sim/advanced_features.html#constraint-and-pto-features>`_ in WEC-Sim.
+.. Note:: 
+	For more information about application of pto systems in WEC-Sim, refer to `PTO Features <https://wec-sim.github.io/WEC-Sim/advanced_features.html#constraint-and-pto-features>`_.
+	
 
 Mooring Forces
 -------------------------
@@ -390,7 +391,8 @@ MoorDyn discretizes each mooring line in a mooring system into evenly-sized line
 
    *MoorDyn mooring model elements*
 
-Refer to the following section for more information about simulating `mooring systems <https://wec-sim.github.io/WEC-Sim/advanced_features.html#mooring-features>`_ in WEC-Sim.
+.. Note:: 
+	For more information about application of mooring systems in WEC-Sim, refer to `Mooring Features <https://wec-sim.github.io/WEC-Sim/advanced_features.html#mooring-features>`_ .
 
 
 Non-Linear Hydrodynamic Forces
@@ -407,20 +409,26 @@ where :math:`D` is the mean water depth, and :math:`\eta` is the z-value on the 
 	The nonlinear WEC-Sim method is not intended to model highly nonlinear hydrodynamic events, such as wave slamming and wave breaking. 
 
 
-Refer to the following section for more information about implementing `non-linear hydrodynamics <https://wec-sim.github.io/WEC-Sim/advanced_features.html#non-linear-hydrodynamics>`_ in WEC-Sim.
+.. Note:: 
+	For more information about application of non-linear hydrodynamics in WEC-Sim, refer to `Non-Linear Hydrodynamics <https://wec-sim.github.io/WEC-Sim/advanced_features.html#non-linear-hydrodynamics>`_.
 
-Non-Linear Drag and Morison Elements 
+
+
+Viscous Damping and Morison Elements
 ----------------------------------------
-Additional added-mass and damping forces can be added to force definitions. This facilitates experimental validation of the WEC-Sim code, particularly in the even that the BEM hydrodynamic outputs are not sufficiently representative of actual device properties.  
+Additional damping and added-mass can be added to force definitions. This facilitates experimental validation of the WEC-Sim code, particularly in the event that the BEM hydrodynamic outputs are not sufficiently representative of physical system.  
 
-Linear & Quadratic Damping Forces
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-Linear and quadratic damping forces add flexibility to the definition of viscous forcing
+Viscous Damping
+~~~~~~~~~~~~~~~~
+Linear damping and quadratic drag forces add flexibility to the definition of viscous forcing
 
  .. math::
-	F_{v}=-C_{ld}\dot{X}-\frac{1}{2}C_{d}\rho A_{D}\dot{X}|\dot{X}|
+	& F_{v}=-C_{v}\dot{X}-\frac{C_{d} \rho A_{d}}{2}\dot{X}|\dot{X}| & \\
 
-where :math:`C_{ld}` is the linear damping coefficient, :math:`C_{d}` is the (quadratic) viscous drag coefficient, :math:`\rho` is the fluid density, and :math:`A_{D}` is the characteristic area for drag calculation.
+	&  =-C_{v}\dot{X}-C_{D}\dot{X}|\dot{X}| & \\
+	              
+
+where :math:`C_{v}` is the linear damping coefficient, :math:`C_{d}` is the quadratic drag coefficient, :math:`\rho` is the fluid density, and :math:`A_{d}` is the characteristic area for drag calculation. Alternatively, one can define :math:`C_{D}` directly.
 
 Because BEM codes are potential flow solvers and neglect the effects of viscosity, :math:`F_{v}` generally must be included to accurately model device performance. However, it can be difficult to select representative drag coefficients, as they depend on device geometry, scale, and relative velocity between the body and the flow around it. Empirical data on the drag coefficient can be found in various literature and standards, but is generally limited to simple geometries evaluated at a limited number of scales and flow conditions. For realistic device geometries, the use of computational fluid dynamic simulations or experimental data is encouraged.
 
@@ -429,14 +437,15 @@ Morison Elements
 The Morison Equation assumes that the fluid forces in an oscillating flow on a structure of slender cylinders or other similar geometries arise partly from pressure effects from potential flow and partly from viscous effects. A slender cylinder implies that the diameter, D, is small relative to the wave length, :math:`λ_w`, which is generally met when :math:`D/λ_w < 0.1 − 0.2`. If this condition is not met, wave diffraction effects must be taken into account. Assuming that the geometries are slender, the resulting force can be approximated by a modified Morison formulation :cite:`Morison1950`. The formulation for each element on the body can be given as
 
  .. math::
-	F_{ME}=\rho∀\dot{v}+\rho\forall C_{a}(\dot{v}-\ddot{X})+\frac{1}{2}C_{d}\rho A_{D}(v-\dot{X})|v-\dot{X}|
+	F_{ME}=\rho∀\dot{v}+\rho\forall C_{a}(\dot{v}-\ddot{X})+\frac{C_{d}\rho A_{d}}{2}(v-\dot{X})|v-\dot{X}|
 
 where :math:`v` is the fluid particle velocity, :math:`C_{a}` is the coefficient of added mass, and :math:`\forall` is the displaced volume. 
 
 .. Note:: 
 	WEC-Sim  does not consider buoyancy effects when calculating the forces from Morison elements. 
 
-Refer to the following section for more information about implementing `Morison Elements <https://wec-sim.github.io/WEC-Sim/advanced_features.html#morison-elements>`_ in WEC-Sim.
+.. Note:: 
+	For more information about application of morison elements in WEC-Sim, refer to `Morison Elements <https://wec-sim.github.io/WEC-Sim/advanced_features.html#viscous-damping-and-morison-elements>`_.
 
 
 References

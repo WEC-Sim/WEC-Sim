@@ -1,7 +1,8 @@
 
 Mooring Features
 ------------------
-This section provides an overview of some features included in WEC-Sim's mooring class. For more information, refer to `Mooring Class <http://wec-sim.github.io/WEC-Sim/code_structure.html#mooring-class>`_. 
+This section provides an overview of WEC-Sim's mooring class features; for more information about the mooring class code structure, refer to `Mooring Class <http://wec-sim.github.io/WEC-Sim/code_structure.html#mooring-class>`_. 
+
 
 Floating WEC systems are often connected to mooring lines to keep the device in position. WEC-Sim allows the user to model the mooring dynamics in the simulation by specifying the mooring matrix or coupling with MoorDyn. To include mooring connections, the user can use the mooring block (i.e., Mooring Matrix block or MoorDyn block) given in the WEC-Sim library under Moorings lib and connect it between the body and the Global reference frame. 
 Refer the `MoorDyn Tutorial <http://wec-sim.github.io/WEC-Sim/advanced_features.html#tutorial-rm3-with-moordyn>`_ section, and the `Mooring Webinar <http://wec-sim.github.io/WEC-Sim/webinars.html#webinar-4-mooring-and-visualization>`_ for more information.
@@ -34,7 +35,7 @@ A mooring folder that includes a moorDyn input file (``lines.txt``) is required 
 
 Tutorial: RM3 with MoorDyn
 +++++++++++++++++++++++++++++++++
-This section describes how to simulate a mooring connected WEC system in WEC-Sim using MoorDyn. The RM3 two-body floating point absorber is connected to a three-point catenary mooring system with an angle of 120 between the lines in this example case. The RM3 with MoorDyn folder is located under `WEC-Sim Applications repository <https://github.com/WEC-Sim/WEC-Sim_Applications>`_.
+This section describes how to simulate a mooring connected WEC system in WEC-Sim using MoorDyn. The RM3 two-body floating point absorber is connected to a three-point catenary mooring system with an angle of 120 between the lines in this example case. The RM3 with MoorDyn folder is located under `WEC-Sim Applications <https://github.com/WEC-Sim/WEC-Sim_Applications>`_ repository.
 
 
 * **WEC-Sim Simulink Model**: Start out by following the instructions on how to model the `RM3 Two-Body Point Absorber <http://wec-sim.github.io/WEC-Sim/tutorials.html#two-body-point-absorber-rm3>`_. To couple WEC-Sim with MoorDyn, the MoorDyn Block is added in parallel to the constraint block
