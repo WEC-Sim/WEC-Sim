@@ -148,25 +148,26 @@ Users have the option of defining gamma for the JONSWAP spectrum by specifying `
 spectrumImport
 ++++++++++++++++
 The ``spectrumImport`` case is the wave type for irregular wave simulations using an imported wave spectrum (ex: from buoy data). 
-The user-defined wave spectrum must be defined with the wave frequency (Hz) in the first row and the spectral energy density (m^2/Hz) in the second row. 
-An example of this is given in the ``ndbcBuoyData.txt`` file in the tutorials directory folder of the WEC-Sim source code. 
-This format can be copied directly from NDBC buoy data. 
-For more information on NDBC buoy data measurement descriptions, refer to the `NDBC website <http://www.ndbc.noaa.gov/measdes.shtml>`_.
-
+The user-defined spectrum must be defined with the wave frequency (Hz) in the first column, and the spectral energy density (m^2/Hz) in the second column. 
+Users have the option to specify a third column with phase (rad); if phase is not specified by the user it will be randomly defined.
+An example of this is given in the ``spectrumData.mat`` file in the tutorials directory folder of the WEC-Sim source code. 
 The ``spectrumImport`` case is defined by including the following in the input file::
 
 	waves = waveClass('spectrumImport');
-	waves.spectrumDataFile='<wave spectrum file>.txt';
-	
+	waves.spectrumDataFile='<wave spectrum file>.mat';
 
+.. Note::
+	When using the ``spectrumImport`` option, users must specify a sufficient number of wave frequencies (typically ~1000) to adequately describe the wave spectra. These wave frequencies are the same that will be used to define the wave forces on the WEC, for more information refer to the `Irregular Wave Binning <http://wec-sim.github.io/WEC-Sim/advanced_features.html#irregular-wave-binning>`_ section.
+	
 etaImport
 +++++++++++
 The ``etaImport`` case is the wave type for wave simulations using user-defined time-series (ex: from experiments). 
-
+The user-defined wave surface elevation must be defined with the time (s) in the first column, and the wave surface elevation (m) in the second column. 
+An example of this is given in the ``etaData.mat`` file in the tutorials directory folder of the WEC-Sim source code. 
 The ``etaImport`` case is defined by including the following in the input file::
 
 	waves = waveClass('etaImport');
-	waves.etaDataFile ='<eta file>.txt';
+	waves.etaDataFile ='<eta file>.mat';
 	
 	
 .. Note::
