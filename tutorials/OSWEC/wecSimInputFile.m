@@ -1,7 +1,6 @@
 %% Simulation Data
 simu = simulationClass();               % Initialize Simulation Class
-%simu.simMechanicsFile = 'OSWEC.slx';    % Specify Simulink Model File
-simu.simMechanicsFile = 'OSWEC.mdl';    % Specify Simulink Model File
+simu.simMechanicsFile = 'OSWEC.slx';    % Specify Simulink Model File
 simu.mode = 'normal';                   % Specify Simulation Mode ('normal','accelerator','rapid-accelerator')
 simu.explorer='on';                     % Turn SimMechanics Explorer (on/off)
 simu.startTime = 0;                     % Simulation Start Time [s]
@@ -26,13 +25,13 @@ waves.H = 2.5;                          % Significant Wave Height [m]
 waves.T = 8;                            % Peak Period [s]
 waves.spectrumType = 'PM';              % Specify Spectrum Type
 
-% % Irregular Waves with imported wave spectrum
-% waves = waveClass('spectrumImport');
-% waves.spectrumDataFile = 'ndbcBuoyData.txt';
+% % Irregular Waves with imported spectrum
+% waves = waveClass('spectrumImport');        % Create the Wave Variable and Specify Type
+% waves.spectrumDataFile = 'spectrumData.mat';  %Name of User-Defined Spectrum File [:,2] = [f, Sf]
 
 % % Waves with imported wave elevation time-history  
 % waves = waveClass('etaImport');         % Create the Wave Variable and Specify Type
-% waves.etaDataFile = 'umpqua46229_6_2008.mat'; % Name of User-Defined Time-Series File [:,2] = [time, wave_elev]
+% waves.etaDataFile = 'etaData.mat'; % Name of User-Defined Time-Series File [:,2] = [time, eta]
 
 
 %% Body Data
@@ -55,5 +54,5 @@ constraint(1).loc = [0 0 -10];                  % Constraint Location [m]
 % Rotational PTO
 pto(1) = ptoClass('PTO1');                      % Initialize ptoClass for PTO1
 pto(1).k = 0;                                   % PTO Stiffness Coeff [Nm/rad]
-pto(1).c = 0;                                   % PTO Damping Coeff [Nsm/rad]
+pto(1).c = 12000;                               % PTO Damping Coeff [Nsm/rad]
 pto(1).loc = [0 0 -8.9];                        % PTO Location [m]

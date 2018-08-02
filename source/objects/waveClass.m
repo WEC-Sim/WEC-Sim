@@ -25,7 +25,7 @@ classdef waveClass<handle
         spectrumDataFile            = 'NOT DEFINED'                         % Data file that contains the spectrum data file (Default = 'NOT DEFINED')
         etaDataFile                 = 'NOT DEFINED'                         % Data file that contains the times-series data file (Default = 'NOT DEFINED')
         freqRange                   = [];                                   % Min and max frequency for irregular waves. 2x1 vector, rad/s, (default = frequency range in BEM data)
-        numFreq                     = [];                                   % Number of frequencies used, varies depending on method: 'Traditional, 'EqualEnergy' or 'Imported' (Default=1000 for Traditional and 500 for Equal Energy)
+        numFreq                     = [];                                   % Number of frequencies used, varies depending on method: Traditional = 1000, EqualEnergy = 500 or 'Imported' 
         waveDir                     = 0                                     % [deg] Incident wave direction (Default = 0)
         viz                         = struct(...                            % Structure defining visualization options
             'numPointsX', 50, ...              % Visualization number of points in x direction.
@@ -161,14 +161,14 @@ classdef waveClass<handle
                                 obj.numFreq = 500;
                             end
                         case {'Imported'}
-                            data = dlmread(obj.spectrumDataFile);
-                            freq_data = data(1,:);
+                            data = importdata(obj.spectrumDataFile);
+                            freq_data = data(:,1);
                             freq_loc = freq_data>=min(obj.bemFreq)/2/pi & freq_data<=max(obj.bemFreq)/2/pi;
-                            obj.w    = freq_data(freq_loc)'.*2.*pi;
+                            obj.w    = freq_data(freq_loc).*2.*pi;
                             obj.numFreq = length(obj.w);
-                            obj.dw(1              ,1)= obj.w(2)-obj.w(1);
+                            obj.dw(1,1)= obj.w(2)-obj.w(1);
                             obj.dw(2:obj.numFreq-1,1)=(obj.w(3:end)-obj.w(1:end-2))/2;
-                            obj.dw(obj.numFreq    ,1)= obj.w(end)-obj.w(end-1);
+                            obj.dw(obj.numFreq,1)= obj.w(end)-obj.w(end-1);
                     end
                     obj.setWavePhase;
                     obj.irregWaveSpectrum(g)
@@ -215,7 +215,7 @@ classdef waveClass<handle
                     fprintf('\tSignificant Wave Height, Hs      (m) = %G\n',obj.H)
                     fprintf('\tPeak Wave Period, Tp           (sec) = %G\n',obj.T)
                 case 'spectrumImport'
-                    if size(dlmread(obj.spectrumDataFile),1) == 3
+                    if size(importdata(obj.spectrumDataFile),2) == 3
                         fprintf('\tWave Type                            = Irregular waves with imported wave spectrum (Imported Phase)\n')
                     elseif obj.phaseSeed == 0
                         fprintf('\tWave Type                            = Irregular waves with imported wave spectrum (Random Phase)\n')
@@ -364,12 +364,12 @@ classdef waveClass<handle
                 case {'EqualEnergy','Traditional'}
                     obj.phase = 2*pi*rand(1,obj.numFreq);
                 case {'Imported'}
-                    data = dlmread(obj.spectrumDataFile);
-                    if size(data,1) == 3
-                        freq_data = data(1,:);
+                    data = importdata(obj.spectrumDataFile);
+                    if size(data,2) == 3
+                        freq_data = data(:,1);
                         freq_loc = freq_data>=min(obj.bemFreq)/2/pi & freq_data<=max(obj.bemFreq)/2/pi;
-                        phase_data = data(3,freq_loc);
-                        obj.phase = phase_data;
+                        phase_data = data(freq_loc,3);
+                        obj.phase = phase_data';
                     else
                         obj.phase = 2*pi*rand(1,obj.numFreq);
                     end
@@ -500,11 +500,11 @@ classdef waveClass<handle
                     obj.Sf = S_f./(2*pi);                                       % Wave Spectrum [m^2-s/rad] for 'Traditional'
                     freq = freq';
                 case 'spectrumImport' % Imported Wave Spectrum
-                    data = dlmread(obj.spectrumDataFile);
-                    freq_data = data(1,:);
-                    Sf_data = data(2,:);
+                    data = importdata(obj.spectrumDataFile);
+                    freq_data = data(:,1);
+                    Sf_data = data(:,2);
                     freq_loc = freq_data>=min(obj.bemFreq)/2/pi & freq_data<=max(obj.bemFreq)/2/pi;
-                    S_f = Sf_data(freq_loc)';
+                    S_f = Sf_data(freq_loc);
                     obj.Sf = S_f./(2*pi);                                       % Wave Spectrum [m^2-s/rad] for 'Traditional'
                     fprintf('\t"spectrumImport" uses the number of imported wave frequencies (not "Traditional" or "EqualEnergy")\n')
             end
