@@ -1,7 +1,6 @@
 %% Simulation Data
 simu = simulationClass();               % Initialize Simulation Class
-%simu.simMechanicsFile = 'RM3.slx';      % Specify Simulink Model File
-simu.simMechanicsFile = 'RM3.mdl';      % Specify Simulink Model File
+simu.simMechanicsFile = 'RM3.slx';      % Specify Simulink Model File
 simu.mode = 'normal';                   % Specify Simulation Mode ('normal','accelerator','rapid-accelerator')
 simu.explorer='on';                     % Turn SimMechanics Explorer (on/off)
 simu.startTime = 0;                     % Simulation Start Time [s]
@@ -14,15 +13,15 @@ simu.dt = 0.1; 							% Simulation time-step [s]
 % % noWaveCIC, no waves with radiation CIC  
 % waves = waveClass('noWaveCIC');       % Initialize Wave Class and Specify Type  
 
-% Regular Waves  
-waves = waveClass('regular');           % Initialize Wave Class and Specify Type                                 
-waves.H = 2.5;                          % Wave Height [m]
-waves.T = 8;                            % Wave Period [s]
-
-% % Regular Waves with CIC
-% waves = waveClass('regularCIC');           % Initialize Wave Class and Specify Type                                 
+% % Regular Waves  
+% waves = waveClass('regular');           % Initialize Wave Class and Specify Type                                 
 % waves.H = 2.5;                          % Wave Height [m]
 % waves.T = 8;                            % Wave Period [s]
+
+% Regular Waves with CIC
+waves = waveClass('regularCIC');           % Initialize Wave Class and Specify Type                                 
+waves.H = 2.5;                          % Wave Height [m]
+waves.T = 8;                            % Wave Period [s]
 
 % % Irregular Waves using PM Spectrum 
 % waves = waveClass('irregular');         % Initialize Wave Class and Specify Type
@@ -44,15 +43,15 @@ waves.T = 8;                            % Wave Period [s]
 % waves.T = 8;                            % Peak Period [s]
 % waves.spectrumType = 'BS';              % Specify Wave Spectrum Type
 % simu.ssCalc = 1;                        % Turn on State Space
-% waves.freqDisc = 'Traditional';         % Uses 1001 frequnecies
+% waves.freqDisc = 'Traditional';         % Uses 1000 frequnecies
 
 % % Irregular Waves with imported spectrum
 % waves = waveClass('spectrumImport');        % Create the Wave Variable and Specify Type
-% waves.spectrumDataFile = 'ndbcBuoyData.txt';  %Name of User-Defined Spectrum File [2,:] = [omega, Sf]
+% waves.spectrumDataFile = 'spectrumData.mat';  %Name of User-Defined Spectrum File [:,2] = [f, Sf]
 
 % % Waves with imported wave elevation time-history  
 % waves = waveClass('etaImport');         % Create the Wave Variable and Specify Type
-% waves.etaDataFile = 'umpqua46229_6_2008.mat'; % Name of User-Defined Time-Series File [:,2] = [time, wave_elev]
+% waves.etaDataFile = 'etaData.mat'; % Name of User-Defined Time-Series File [:,2] = [time, eta]
 
 %% Body Data
 % Float
