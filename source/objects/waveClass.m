@@ -150,7 +150,7 @@ classdef waveClass<handle
             %
             % Syntax
             %
-            % ws = waveClass (type)
+            % obj = waveClass (type)
             % 
             % Input
             %
@@ -176,7 +176,7 @@ classdef waveClass<handle
             %    
             % Output
             %
-            %  ws - wsim.waveSettings object
+            %  obj - waveClass object
             %
             %
             
@@ -465,11 +465,11 @@ classdef waveClass<handle
             %
             % Syntax
             %
-            % Z = waveElevationGrid (ws, t, X, Y)
+            % Z = waveElevationGrid (obj, t, X, Y)
             %
             % Input
             %
-            %  ws - wsim.waveSettings object
+            %  obj - waveClass object
             %
             %  t - the current time
             %
