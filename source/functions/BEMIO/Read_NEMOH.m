@@ -27,7 +27,7 @@ end
 p = waitbar(0,'Reading NEMOH output file...');  % Progress bar
 
 hydro(F).code = 'NEMOH';
-tmp = strsplit(filedir,{' ','\'});
+tmp = strsplit(filedir,{' ','\','/'});
 tmp(cellfun('isempty',tmp)) = [];
 hydro(F).file = tmp{length(tmp)};  % Base name
 
