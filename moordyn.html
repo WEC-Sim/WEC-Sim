@@ -180,11 +180,11 @@ Refer the <a class="reference external" href="http://wec-sim.github.io/WEC-Sim/a
 <h2>Mooring Matrix<a class="headerlink" href="#mooring-matrix" title="Permalink to this headline">¶</a></h2>
 <p>When the mooring matrix block is used, the user first needs to initiate the mooring class by setting <code class="code docutils literal"><span class="pre">mooring(i)</span> <span class="pre">=</span> <span class="pre">mooringClass('mooring</span> <span class="pre">name')</span></code> in the WEC-Sim input file (<code class="docutils literal"><span class="pre">wecSimInputFile.m</span></code>). Typically, the mooring connection location also need to be specified, <code class="code docutils literal"><span class="pre">mooring(i).ref</span> <span class="pre">=</span> <span class="pre">[1x3]</span></code> (the default connection location is <code class="docutils literal"><span class="pre">[0</span> <span class="pre">0</span> <span class="pre">0]</span></code>). The user can also define the mooring matrix properties in the WEC-Sim input file using:</p>
 <ul>
-<li><p class="first">Mooring stiffness matrix - <code class="code docutils literal"><span class="pre">mooring(i).matrix.k</span> <span class="pre">=</span> <span class="pre">[6x6]</span></code></p>
+<li><p class="first">Mooring stiffness matrix - <code class="code docutils literal"><span class="pre">mooring(i).matrix.k</span> <span class="pre">=</span> <span class="pre">[6x6]</span></code> in [N/m]</p>
 </li>
-<li><p class="first">Mooring damping matrix - <code class="code docutils literal"><span class="pre">mooring(i).matrix.c</span> <span class="pre">=</span> <span class="pre">[6x6]</span></code></p>
+<li><p class="first">Mooring damping matrix - <code class="code docutils literal"><span class="pre">mooring(i).matrix.c</span> <span class="pre">=</span> <span class="pre">[6x6]</span></code> in [Ns/m]</p>
 </li>
-<li><p class="first">Mooring pretension - <code class="code docutils literal"><span class="pre">mooring(i).matrix.preTension</span> <span class="pre">=</span> <span class="pre">[1x6]</span></code></p>
+<li><p class="first">Mooring pretension - <code class="code docutils literal"><span class="pre">mooring(i).matrix.preTension</span> <span class="pre">=</span> <span class="pre">[1x6]</span></code> in [N]</p>
 <blockquote>
 <div></div></blockquote>
 </li>

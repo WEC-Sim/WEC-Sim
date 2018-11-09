@@ -14,11 +14,11 @@ Mooring Matrix
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 When the mooring matrix block is used, the user first needs to initiate the mooring class by setting :code:`mooring(i) = mooringClass('mooring name')` in the WEC-Sim input file (``wecSimInputFile.m``). Typically, the mooring connection location also need to be specified, :code:`mooring(i).ref = [1x3]` (the default connection location is ``[0 0 0]``). The user can also define the mooring matrix properties in the WEC-Sim input file using:
 
-* Mooring stiffness matrix - :code:`mooring(i).matrix.k = [6x6]`
+* Mooring stiffness matrix - :code:`mooring(i).matrix.k = [6x6]` in [N/m]
 
-* Mooring damping matrix - :code:`mooring(i).matrix.c = [6x6]`
+* Mooring damping matrix - :code:`mooring(i).matrix.c = [6x6]` in [Ns/m]
 
-* Mooring pretension - :code:`mooring(i).matrix.preTension = [1x6]`
+* Mooring pretension - :code:`mooring(i).matrix.preTension = [1x6]` in [N]
 
 	.. Note: 
 		"i" indicates the mooring number. More than one mooring can be specified in the WEC-Sim model when the mooring matrix block is used. 
