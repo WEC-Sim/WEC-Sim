@@ -35,25 +35,17 @@
 
   
 
-  
-  
-    <link rel="stylesheet" href="_static/css/theme.css" type="text/css" />
-  
-
-  
-
-  
-        <link rel="index" title="Index"
-              href="genindex.html"/>
-        <link rel="search" title="Search" href="search.html"/>
-    <link rel="top" title="WEC-Sim  documentation" href="index.html"/> 
+  <link rel="stylesheet" href="_static/css/theme.css" type="text/css" />
+  <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
+    <link rel="index" title="Index" href="genindex.html" />
+    <link rel="search" title="Search" href="search.html" /> 
 
   
   <script src="_static/js/modernizr.min.js"></script>
 
 </head>
 
-<body class="wy-body-for-nav" role="document">
+<body class="wy-body-for-nav">
 
    
   <div class="wy-grid-for-nav">
@@ -118,7 +110,7 @@
     <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap">
 
       
-      <nav class="wy-nav-top" role="navigation" aria-label="top navigation">
+      <nav class="wy-nav-top" aria-label="top navigation">
         
           <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
           <a href="index.html">WEC-Sim</a>
@@ -126,9 +118,10 @@
       </nav>
 
 
-      
       <div class="wy-nav-content">
+        
         <div class="rst-content">
+        
           
 
 
@@ -157,7 +150,7 @@
       <li class="wy-breadcrumbs-aside">
         
             
-            <a href="_sources/bemio.rst.txt" rel="nofollow"> View page source</a>
+            <a href="_sources/bemio.txt" rel="nofollow"> View page source</a>
           
         
       </li>
@@ -174,13 +167,13 @@
 <h1>BEMIO<a class="headerlink" href="#bemio" title="Permalink to this headline">¶</a></h1>
 <p>The Boundary Element Method Input/Output (BEMIO) functions are used to preprocess the BEM hydrodynamic data prior to running WEC-Sim, this includes:</p>
 <ul class="simple">
-<li>Read BEM results from WAMIT, NEMOH, or AQWA.</li>
+<li>Read BEM results from <strong>WAMIT</strong>, <strong>NEMOH</strong>, or <strong>AQWA</strong>.</li>
 <li>Calculate the radiation and excitation impulse response functions (IRFs).</li>
 <li>Calculate state space realization coefficients for the radiation IRF.</li>
 <li>Save the resulting data in Hierarchical Data Format 5 (HDF5).</li>
 <li>Plot typical hydrodynamic data for user verification.</li>
 </ul>
-<p>For more information, refer to the <a class="reference external" href="http://wec-sim.github.io/WEC-Sim/advanced_features.html#bemio-tutorials">BEMIO tutorial</a> section and the  <a class="reference external" href="http://wec-sim.github.io/WEC-Sim/webinars.html#webinar-1-bemio-and-mcr">BEMIO webinar</a>.</p>
+<p>The BEMIO tutorials are included in the <code class="docutils literal"><span class="pre">$Source/tutorials/BEMIO</span></code> directory in the WEC-Sim source code. For more information, refer to the <a class="reference external" href="http://wec-sim.github.io/WEC-Sim/webinars.html#webinar-1-bemio-and-mcr">BEMIO webinar</a>.</p>
 <div class="admonition note">
 <p class="first admonition-title">Note</p>
 <p class="last">Previously the <a class="reference external" href="http://wec-sim.github.io/bemio/installing.html">python based BEMIO code</a> was used for this purpose. The python BEMIO functions have been converted to MATLAB and are included in the WEC-Sim source code. The python based BEMIO code will remain available but will no longer be  supported.</p>
@@ -223,7 +216,10 @@
 </div></blockquote>
 <div class="admonition note">
 <p class="first admonition-title">Note</p>
-<p class="last">Instructions on how to download and use the open source BEM code NEMOH are provided on the <a class="reference external" href="https://lheea.ec-nantes.fr/logiciels-et-brevets/nemoh-presentation-192863.kjsp">NEMOH website</a>. The NEMOH Mesh.exe code creates the Hydrostatics.dat and KH.dat files (among other files) for one input body at a time. For the Read_NEMOH function to work correctly in the case of a multiple body system, the user must manually rename Hydrostatics.dat and KH.dat files to Hydrostatics_0.dat, Hydrostatics_1.dat, …, and KH_0.dat, KH_1.dat,…, corresponding to the body order specified in the Nemoh.cal file.</p>
+<ul class="last simple">
+<li>Instructions on how to download and use the open source BEM code NEMOH are provided on the <a class="reference external" href="https://lheea.ec-nantes.fr/logiciels-et-brevets/nemoh-presentation-192863.kjsp">NEMOH website</a>.</li>
+<li>The NEMOH Mesh.exe code creates the <code class="docutils literal"><span class="pre">Hydrostatics.dat</span></code> and <code class="docutils literal"><span class="pre">KH.dat</span></code> files (among other files) for one input body at a time. For the Read_NEMOH function to work correctly in the case of a multiple body system, the user must manually rename <code class="docutils literal"><span class="pre">Hydrostatics.dat</span></code> and <code class="docutils literal"><span class="pre">KH.dat</span></code> files to <code class="docutils literal"><span class="pre">Hydrostatics_0.dat</span></code>, <code class="docutils literal"><span class="pre">Hydrostatics_1.dat</span></code>, …, and <code class="docutils literal"><span class="pre">KH_0.dat</span></code>, <code class="docutils literal"><span class="pre">KH_1.dat</span></code>,…, corresponding to the body order specified in the <code class="docutils literal"><span class="pre">Nemoh.cal</span></code> file.</li>
+</ul>
 </div>
 <p><strong>Read_AQWA:</strong> Reads data from AQWA output files</p>
 <blockquote>
@@ -494,10 +490,6 @@
 </tbody>
 </table>
 </div>
-<div class="section" id="bemio-tutorials">
-<h2>BEMIO Tutorials<a class="headerlink" href="#bemio-tutorials" title="Permalink to this headline">¶</a></h2>
-<p>The BEMIO tutorials are included in the <code class="docutils literal"><span class="pre">$Source/tutorials/BEMIO</span></code> directory in the WEC-Sim source code. For more information, refer to the <a class="reference external" href="http://wec-sim.github.io/WEC-Sim/webinars.html#webinar-1-bemio-and-mcr">BEMIO webinar</a>.</p>
-</div>
 <div class="section" id="writing-your-own-h5-file">
 <h2>Writing Your Own h5 File<a class="headerlink" href="#writing-your-own-h5-file" title="Permalink to this headline">¶</a></h2>
 <p>The most common way of creating a <code class="docutils literal"><span class="pre">*.h5</span></code> file is using BEMIO to post-process the outputs of a BEM code.
@@ -531,9 +523,7 @@ This would allow for the BEM of different bodies to be done separately, and BEMI
 
 
            </div>
-           <div class="articleComments">
-            
-           </div>
+           
           </div>
           <footer>
   
@@ -542,11 +532,11 @@ This would allow for the BEM of different bodies to be done separately, and BEMI
 
   <div role="contentinfo">
     <p>
-        &copy; Copyright 2015, National Renewable Energy Laboratory and Sandia Corporation.
+        &copy; Copyright 2015, National Renewable Energy Laboratory and Sandia Corporation
 
     </p>
   </div>
-  Built with <a href="http://sphinx-doc.org/">Sphinx</a> using a <a href="https://github.com/snide/sphinx_rtd_theme">theme</a> provided by <a href="https://readthedocs.org">Read the Docs</a>. 
+  Built with <a href="http://sphinx-doc.org/">Sphinx</a> using a <a href="https://github.com/rtfd/sphinx_rtd_theme">theme</a> provided by <a href="https://readthedocs.org">Read the Docs</a>. 
 
 </footer>
 
@@ -561,36 +551,34 @@ This would allow for the BEM of different bodies to be done separately, and BEMI
 
   
 
-    <script type="text/javascript">
-        var DOCUMENTATION_OPTIONS = {
-            URL_ROOT:'./',
-            VERSION:'',
-            COLLAPSE_INDEX:false,
-            FILE_SUFFIX:'.html',
-            HAS_SOURCE:  true,
-            SOURCELINK_SUFFIX: '.txt'
-        };
-    </script>
-      <script type="text/javascript" src="_static/jquery.js"></script>
-      <script type="text/javascript" src="_static/underscore.js"></script>
-      <script type="text/javascript" src="_static/doctools.js"></script>
-      <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.0/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+    
+    
+      <script type="text/javascript">
+          var DOCUMENTATION_OPTIONS = {
+              URL_ROOT:'./',
+              VERSION:'',
+              LANGUAGE:'None',
+              COLLAPSE_INDEX:false,
+              FILE_SUFFIX:'.html',
+              HAS_SOURCE:  true,
+              SOURCELINK_SUFFIX: ''
+          };
+      </script>
+        <script type="text/javascript" src="_static/jquery.js"></script>
+        <script type="text/javascript" src="_static/underscore.js"></script>
+        <script type="text/javascript" src="_static/doctools.js"></script>
+        <script type="text/javascript" src="https://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+    
 
   
 
-  
-  
-    <script type="text/javascript" src="_static/js/theme.js"></script>
-  
+  <script type="text/javascript" src="_static/js/theme.js"></script>
 
-  
-  
   <script type="text/javascript">
       jQuery(function () {
-          SphinxRtdTheme.StickyNav.enable();
+          SphinxRtdTheme.Navigation.enable(true);
       });
-  </script>
-   
+  </script> 
 
 </body>
 </html>

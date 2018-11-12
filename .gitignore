@@ -66,3 +66,4 @@ view_html.sh
 # moorDyn
 source/functions/moorDyn/*
 !source/functions/moorDyn/README.md
+WEC-Sim_Applications/

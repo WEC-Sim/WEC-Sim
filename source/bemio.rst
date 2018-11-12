@@ -3,14 +3,13 @@ BEMIO
 -----
 The Boundary Element Method Input/Output (BEMIO) functions are used to preprocess the BEM hydrodynamic data prior to running WEC-Sim, this includes:
 
-* Read BEM results from WAMIT, NEMOH, or AQWA.
+* Read BEM results from **WAMIT**, **NEMOH**, or **AQWA**.
 * Calculate the radiation and excitation impulse response functions (IRFs).
 * Calculate state space realization coefficients for the radiation IRF.
 * Save the resulting data in Hierarchical Data Format 5 (HDF5).
 * Plot typical hydrodynamic data for user verification.
 
-For more information, refer to the `BEMIO tutorial <http://wec-sim.github.io/WEC-Sim/advanced_features.html#bemio-tutorials>`_ section and the  `BEMIO webinar <http://wec-sim.github.io/WEC-Sim/webinars.html#webinar-1-bemio-and-mcr>`_.
-
+The BEMIO tutorials are included in the ``$Source/tutorials/BEMIO`` directory in the WEC-Sim source code. For more information, refer to the `BEMIO webinar <http://wec-sim.github.io/WEC-Sim/webinars.html#webinar-1-bemio-and-mcr>`_.
 
 .. Note:: 
 	Previously the `python based BEMIO code <http://wec-sim.github.io/bemio/installing.html>`_ was used for this purpose. The python BEMIO functions have been converted to MATLAB and are included in the WEC-Sim source code. The python based BEMIO code will remain available but will no longer be  supported. 
@@ -38,8 +37,9 @@ BEMIO Functions
 			* Results/ExcitationForce.tec
 
 .. Note:: 
-	Instructions on how to download and use the open source BEM code NEMOH are provided on the `NEMOH website <https://lheea.ec-nantes.fr/logiciels-et-brevets/nemoh-presentation-192863.kjsp>`_. The NEMOH Mesh.exe code creates the Hydrostatics.dat and KH.dat files (among other files) for one input body at a time. For the Read_NEMOH function to work correctly in the case of a multiple body system, the user must manually rename Hydrostatics.dat and KH.dat files to Hydrostatics_0.dat, Hydrostatics_1.dat, …, and KH_0.dat, KH_1.dat,…, corresponding to the body order specified in the Nemoh.cal file.
-
+	* Instructions on how to download and use the open source BEM code NEMOH are provided on the `NEMOH website <https://lheea.ec-nantes.fr/logiciels-et-brevets/nemoh-presentation-192863.kjsp>`_. 
+	* The NEMOH Mesh.exe code creates the ``Hydrostatics.dat`` and ``KH.dat`` files (among other files) for one input body at a time. For the Read_NEMOH function to work correctly in the case of a multiple body system, the user must manually rename ``Hydrostatics.dat`` and ``KH.dat`` files to ``Hydrostatics_0.dat``, ``Hydrostatics_1.dat``, …, and ``KH_0.dat``, ``KH_1.dat``,…, corresponding to the body order specified in the ``Nemoh.cal`` file.
+	
 **Read_AQWA:** Reads data from AQWA output files
 
 	*hydro = Read_AQWA(hydro, ah1_filename, lis_filename)*
@@ -148,12 +148,6 @@ T             [1,Nf]                    wave periods
 Vo            [1,N]                     displaced volume
 w             [1,Nf]                    wave frequencies
 ============  ========================  ======================================
-
-
-BEMIO Tutorials
-~~~~~~~~~~~~~~~~
-
-The BEMIO tutorials are included in the ``$Source/tutorials/BEMIO`` directory in the WEC-Sim source code. For more information, refer to the `BEMIO webinar <http://wec-sim.github.io/WEC-Sim/webinars.html#webinar-1-bemio-and-mcr>`_.
 
 
 Writing Your Own h5 File

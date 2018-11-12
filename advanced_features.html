@@ -35,27 +35,19 @@
 
   
 
-  
-  
-    <link rel="stylesheet" href="_static/css/theme.css" type="text/css" />
-  
-
-  
-
-  
-        <link rel="index" title="Index"
-              href="genindex.html"/>
-        <link rel="search" title="Search" href="search.html"/>
-    <link rel="top" title="WEC-Sim  documentation" href="index.html"/>
-        <link rel="next" title="Webinars" href="webinars.html"/>
-        <link rel="prev" title="Tutorials" href="tutorials.html"/> 
+  <link rel="stylesheet" href="_static/css/theme.css" type="text/css" />
+  <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
+    <link rel="index" title="Index" href="genindex.html" />
+    <link rel="search" title="Search" href="search.html" />
+    <link rel="next" title="Webinars" href="webinars.html" />
+    <link rel="prev" title="Tutorials" href="tutorials.html" /> 
 
   
   <script src="_static/js/modernizr.min.js"></script>
 
 </head>
 
-<body class="wy-body-for-nav" role="document">
+<body class="wy-body-for-nav">
 
    
   <div class="wy-grid-for-nav">
@@ -107,7 +99,6 @@
 <li class="toctree-l2"><a class="reference internal" href="#bemio">BEMIO</a><ul>
 <li class="toctree-l3"><a class="reference internal" href="#bemio-functions">BEMIO Functions</a></li>
 <li class="toctree-l3"><a class="reference internal" href="#bemio-hydro-data-structure">BEMIO <em>hydro</em> Data Structure</a></li>
-<li class="toctree-l3"><a class="reference internal" href="#bemio-tutorials">BEMIO Tutorials</a></li>
 <li class="toctree-l3"><a class="reference internal" href="#writing-your-own-h5-file">Writing Your Own h5 File</a></li>
 </ul>
 </li>
@@ -189,7 +180,7 @@
     <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap">
 
       
-      <nav class="wy-nav-top" role="navigation" aria-label="top navigation">
+      <nav class="wy-nav-top" aria-label="top navigation">
         
           <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
           <a href="index.html">WEC-Sim</a>
@@ -197,9 +188,10 @@
       </nav>
 
 
-      
       <div class="wy-nav-content">
+        
         <div class="rst-content">
+        
           
 
 
@@ -228,7 +220,7 @@
       <li class="wy-breadcrumbs-aside">
         
             
-            <a href="_sources/advanced_features.rst.txt" rel="nofollow"> View page source</a>
+            <a href="_sources/advanced_features.txt" rel="nofollow"> View page source</a>
           
         
       </li>
@@ -253,13 +245,13 @@
 <h2>BEMIO<a class="headerlink" href="#bemio" title="Permalink to this headline">¶</a></h2>
 <p>The Boundary Element Method Input/Output (BEMIO) functions are used to preprocess the BEM hydrodynamic data prior to running WEC-Sim, this includes:</p>
 <ul class="simple">
-<li>Read BEM results from WAMIT, NEMOH, or AQWA.</li>
+<li>Read BEM results from <strong>WAMIT</strong>, <strong>NEMOH</strong>, or <strong>AQWA</strong>.</li>
 <li>Calculate the radiation and excitation impulse response functions (IRFs).</li>
 <li>Calculate state space realization coefficients for the radiation IRF.</li>
 <li>Save the resulting data in Hierarchical Data Format 5 (HDF5).</li>
 <li>Plot typical hydrodynamic data for user verification.</li>
 </ul>
-<p>For more information, refer to the <a class="reference external" href="http://wec-sim.github.io/WEC-Sim/advanced_features.html#bemio-tutorials">BEMIO tutorial</a> section and the  <a class="reference external" href="http://wec-sim.github.io/WEC-Sim/webinars.html#webinar-1-bemio-and-mcr">BEMIO webinar</a>.</p>
+<p>The BEMIO tutorials are included in the <code class="docutils literal"><span class="pre">$Source/tutorials/BEMIO</span></code> directory in the WEC-Sim source code. For more information, refer to the <a class="reference external" href="http://wec-sim.github.io/WEC-Sim/webinars.html#webinar-1-bemio-and-mcr">BEMIO webinar</a>.</p>
 <div class="admonition note">
 <p class="first admonition-title">Note</p>
 <p class="last">Previously the <a class="reference external" href="http://wec-sim.github.io/bemio/installing.html">python based BEMIO code</a> was used for this purpose. The python BEMIO functions have been converted to MATLAB and are included in the WEC-Sim source code. The python based BEMIO code will remain available but will no longer be  supported.</p>
@@ -302,7 +294,10 @@
 </div></blockquote>
 <div class="admonition note">
 <p class="first admonition-title">Note</p>
-<p class="last">Instructions on how to download and use the open source BEM code NEMOH are provided on the <a class="reference external" href="https://lheea.ec-nantes.fr/logiciels-et-brevets/nemoh-presentation-192863.kjsp">NEMOH website</a>. The NEMOH Mesh.exe code creates the Hydrostatics.dat and KH.dat files (among other files) for one input body at a time. For the Read_NEMOH function to work correctly in the case of a multiple body system, the user must manually rename Hydrostatics.dat and KH.dat files to Hydrostatics_0.dat, Hydrostatics_1.dat, …, and KH_0.dat, KH_1.dat,…, corresponding to the body order specified in the Nemoh.cal file.</p>
+<ul class="last simple">
+<li>Instructions on how to download and use the open source BEM code NEMOH are provided on the <a class="reference external" href="https://lheea.ec-nantes.fr/logiciels-et-brevets/nemoh-presentation-192863.kjsp">NEMOH website</a>.</li>
+<li>The NEMOH Mesh.exe code creates the <code class="docutils literal"><span class="pre">Hydrostatics.dat</span></code> and <code class="docutils literal"><span class="pre">KH.dat</span></code> files (among other files) for one input body at a time. For the Read_NEMOH function to work correctly in the case of a multiple body system, the user must manually rename <code class="docutils literal"><span class="pre">Hydrostatics.dat</span></code> and <code class="docutils literal"><span class="pre">KH.dat</span></code> files to <code class="docutils literal"><span class="pre">Hydrostatics_0.dat</span></code>, <code class="docutils literal"><span class="pre">Hydrostatics_1.dat</span></code>, …, and <code class="docutils literal"><span class="pre">KH_0.dat</span></code>, <code class="docutils literal"><span class="pre">KH_1.dat</span></code>,…, corresponding to the body order specified in the <code class="docutils literal"><span class="pre">Nemoh.cal</span></code> file.</li>
+</ul>
 </div>
 <p><strong>Read_AQWA:</strong> Reads data from AQWA output files</p>
 <blockquote>
@@ -573,10 +568,6 @@
 </tbody>
 </table>
 </div>
-<div class="section" id="bemio-tutorials">
-<h3>BEMIO Tutorials<a class="headerlink" href="#bemio-tutorials" title="Permalink to this headline">¶</a></h3>
-<p>The BEMIO tutorials are included in the <code class="docutils literal"><span class="pre">$Source/tutorials/BEMIO</span></code> directory in the WEC-Sim source code. For more information, refer to the <a class="reference external" href="http://wec-sim.github.io/WEC-Sim/webinars.html#webinar-1-bemio-and-mcr">BEMIO webinar</a>.</p>
-</div>
 <div class="section" id="writing-your-own-h5-file">
 <h3>Writing Your Own h5 File<a class="headerlink" href="#writing-your-own-h5-file" title="Permalink to this headline">¶</a></h3>
 <p>The most common way of creating a <code class="docutils literal"><span class="pre">*.h5</span></code> file is using BEMIO to post-process the outputs of a BEM code.
@@ -729,7 +720,7 @@ An option available to reduce the nonlinear simulation time is to specify a nonl
 <div class="section" id="stl-file-generation">
 <h4>STL File Generation<a class="headerlink" href="#stl-file-generation" title="Permalink to this headline">¶</a></h4>
 <p>When the nonlinear option is turned on, the geometry file (<code class="docutils literal"><span class="pre">*.stl</span></code>) (previously only used for visualization purposes in linear simulations) is used as the discretized body surface on which the non-linear pressure forces are integrated. A good STL mesh resolution is required for the WEC body geometry file(s) when using the non-linear hydrodynamics in WEC-Sim. The simulation accuracy will increase with increased surface resolution (i.e. the number of discretized surface panels specified in the .stl file), but the computation time will also increase.</p>
-<p>There are many ways to generate an STL file; however, it is important to verify the quality of the mesh before running WEC-Sim simulations with the non-linear hydro flag turned on. An STL file can be exported from most CAD programs, but few allow adequate mesh refinement. A good program to perform STL mesh refinement is <a class="reference external" href="https://www.rhino3d.com/">Rhino3d</a>. Some helpful resources explaining how to generate and refine an STL mesh in Rhino3d can be found <a class="reference external" href="https://wiki.mcneel.com/rhino/meshfaqdetails">here</a> and <a class="reference external" href="https://www.youtube.com/watch?v=CrlXAMPfHWI">here</a>.</p>
+<p>There are many ways to generate an STL file; however, it is important to verify the quality of the mesh before running WEC-Sim simulations with the non-linear hydro flag turned on. An STL file can be exported from most CAD programs, but few allow adequate mesh refinement. A good program to perform STL mesh refinement is <a class="reference external" href="https://www.rhino3d.com/">Rhino</a>. Some helpful resources explaining how to generate and refine an STL mesh in Rhino can be found <a class="reference external" href="https://wiki.mcneel.com/rhino/meshfaqdetails">here</a> and <a class="reference external" href="https://www.youtube.com/watch?v=CrlXAMPfHWI">here</a>.</p>
 <div class="admonition note">
 <p class="first admonition-title">Note</p>
 <p class="last">All STL files must be saved as ASCII (not binary)</p>
@@ -1165,7 +1156,7 @@ Refer the <a class="reference external" href="http://wec-sim.github.io/WEC-Sim/a
 </pre></div>
 </div>
 <ul class="simple">
-<li><strong>MoorDyn Input File</strong>: A mooring folder that includes a moorDyn input file (<code class="docutils literal"><span class="pre">lines.txt</span></code>) is created. The moorDyn input file (<code class="docutils literal"><span class="pre">lines.txt</span></code>) is shown in the figure below. More details on how to setup the MooDyn input file were described in the MoorDyn User Guide <a class="reference internal" href="theory.html#hall2015moordynguide" id="id15">[1]</a>.</li>
+<li><strong>MoorDyn Input File</strong>: A mooring folder that includes a moorDyn input file (<code class="docutils literal"><span class="pre">lines.txt</span></code>) is created. The moorDyn input file (<code class="docutils literal"><span class="pre">lines.txt</span></code>) is shown in the figure below. More details on how to setup the MooDyn input file were described in the MoorDyn User Guide <a class="reference internal" href="theory.html#hall2015moordynguide" id="id14">[1]</a>.</li>
 </ul>
 <div class="figure align-center" id="moordyninput">
 <a class="reference internal image-reference" href="_images/moorDynInput.png"><img alt="_images/moorDynInput.png" src="_images/moorDynInput.png" style="width: 400pt;" /></a>
@@ -1335,9 +1326,7 @@ Note that <code class="code docutils literal"><span class="pre">body(i).cg</span
 
 
            </div>
-           <div class="articleComments">
-            
-           </div>
+           
           </div>
           <footer>
   
@@ -1355,11 +1344,11 @@ Note that <code class="code docutils literal"><span class="pre">body(i).cg</span
 
   <div role="contentinfo">
     <p>
-        &copy; Copyright 2015, National Renewable Energy Laboratory and Sandia Corporation.
+        &copy; Copyright 2015, National Renewable Energy Laboratory and Sandia Corporation
 
     </p>
   </div>
-  Built with <a href="http://sphinx-doc.org/">Sphinx</a> using a <a href="https://github.com/snide/sphinx_rtd_theme">theme</a> provided by <a href="https://readthedocs.org">Read the Docs</a>. 
+  Built with <a href="http://sphinx-doc.org/">Sphinx</a> using a <a href="https://github.com/rtfd/sphinx_rtd_theme">theme</a> provided by <a href="https://readthedocs.org">Read the Docs</a>. 
 
 </footer>
 
@@ -1374,36 +1363,34 @@ Note that <code class="code docutils literal"><span class="pre">body(i).cg</span
 
   
 
-    <script type="text/javascript">
-        var DOCUMENTATION_OPTIONS = {
-            URL_ROOT:'./',
-            VERSION:'',
-            COLLAPSE_INDEX:false,
-            FILE_SUFFIX:'.html',
-            HAS_SOURCE:  true,
-            SOURCELINK_SUFFIX: '.txt'
-        };
-    </script>
-      <script type="text/javascript" src="_static/jquery.js"></script>
-      <script type="text/javascript" src="_static/underscore.js"></script>
-      <script type="text/javascript" src="_static/doctools.js"></script>
-      <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.0/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+    
+    
+      <script type="text/javascript">
+          var DOCUMENTATION_OPTIONS = {
+              URL_ROOT:'./',
+              VERSION:'',
+              LANGUAGE:'None',
+              COLLAPSE_INDEX:false,
+              FILE_SUFFIX:'.html',
+              HAS_SOURCE:  true,
+              SOURCELINK_SUFFIX: ''
+          };
+      </script>
+        <script type="text/javascript" src="_static/jquery.js"></script>
+        <script type="text/javascript" src="_static/underscore.js"></script>
+        <script type="text/javascript" src="_static/doctools.js"></script>
+        <script type="text/javascript" src="https://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+    
 
   
 
-  
-  
-    <script type="text/javascript" src="_static/js/theme.js"></script>
-  
+  <script type="text/javascript" src="_static/js/theme.js"></script>
 
-  
-  
   <script type="text/javascript">
       jQuery(function () {
-          SphinxRtdTheme.StickyNav.enable();
+          SphinxRtdTheme.Navigation.enable(true);
       });
-  </script>
-   
+  </script> 
 
 </body>
 </html>
