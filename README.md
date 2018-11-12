@@ -13,8 +13,8 @@
 3. Download/Install the python documentation package [Sphinx](http://www.sphinx-doc.org/en/stable/index.html)
   - Install Sphinx in cmd ``pip install -U Sphinx`` ([windows info here](http://sphinx-doc.org/latest/install.html#windows-install-python-and-sphinx)) ([MAC/LINUX info here](http://www.sphinx-doc.org/en/stable/install.html#mac-os-x-install-sphinx-using-macports))
 
- **NOTE:** The make file may not work with the latest version of Sphinx (Version 1.4.8 is ok)
- 
+ **NOTE:** The ``Makefile`` may not work with the latest version of Sphinx (Version 1.4.8 is ok)
+
  **NOTE:** You may need to configure PROXY, in cmd ``set http_proxy=<server>:<port#>``
 
 4. Download/Install BibTeX extension for Sphinx
