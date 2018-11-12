@@ -39,7 +39,7 @@ BEMIO Functions
 .. Note:: 
 	* Instructions on how to download and use the open source BEM code NEMOH are provided on the `NEMOH website <https://lheea.ec-nantes.fr/logiciels-et-brevets/nemoh-presentation-192863.kjsp>`_. 
 	* The NEMOH Mesh.exe code creates the ``Hydrostatics.dat`` and ``KH.dat`` files (among other files) for one input body at a time. For the Read_NEMOH function to work correctly in the case of a multiple body system, the user must manually rename ``Hydrostatics.dat`` and ``KH.dat`` files to ``Hydrostatics_0.dat``, ``Hydrostatics_1.dat``, …, and ``KH_0.dat``, ``KH_1.dat``,…, corresponding to the body order specified in the ``Nemoh.cal`` file.
-	
+
 **Read_AQWA:** Reads data from AQWA output files
 
 	*hydro = Read_AQWA(hydro, ah1_filename, lis_filename)*
@@ -169,12 +169,10 @@ The first step is to have all the required coefficients and properties in Matlab
 Then the functions provided are used to create and populate the ``*.h5`` file. 
 
 .. Note::
-
-	The new ``*.h5`` file will not have the impulse response function coefficients required for the convolution integral.
 	BEMIO is currently being modified to allow for reading an existing ``*.h5`` file.
 	This would allow you to read in the ``*.h5`` file you created, calculate the required impulse response functions and state space coefficients, and re-write the ``*.h5`` file.
+..	The new ``*.h5`` file will not have the impulse response function coefficients required for the convolution integral.
 
 .. Note::
-
 	BEMIO is currently being modified to allow for the combination of different ``*.h5`` files into a single file.
 	This would allow for the BEM of different bodies to be done separately, and BEMIO would take care of making the coefficient matrices the correct size.
