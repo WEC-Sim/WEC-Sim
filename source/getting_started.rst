@@ -40,7 +40,7 @@ We recommend running WEC-Sim in MATLAB 2016b or newer.
 
 
 Download WEC-Sim
-------------------------
+----------------
 There are three ways of obtaining the WEC-Sim code which is distributed through the `WEC-Sim GitHub repository <https://github.com/WEC-Sim/wec-sim>`_: 
  
 Option 1. Clone Repository from GitHub (Recommended for Users)

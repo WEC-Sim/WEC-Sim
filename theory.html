@@ -98,6 +98,8 @@
             
             
               <ul class="current">
+<li class="toctree-l1"><a class="reference internal" href="terminology.html">Definitions</a></li>
+<li class="toctree-l1"><a class="reference internal" href="terminology.html#variables">Variables</a></li>
 <li class="toctree-l1"><a class="reference internal" href="getting_started.html">Getting Started</a></li>
 <li class="toctree-l1"><a class="reference internal" href="overview.html">Overview</a></li>
 <li class="toctree-l1 current"><a class="current reference internal" href="#">Theory</a><ul>
@@ -226,7 +228,7 @@
 <div class="legend">
 <em>WEC-Sim Coordinate System</em></div>
 </div>
-<p>The incident wave is defined as:</p>
+<p>The incident wave is defined as <span class="math">\(\eta(x,t)\)</span> :</p>
 <div class="math">
 \[\eta(x,t)= \frac{H}{2} \cos( \omega t - k x + \phi)\]</div>
 <p>where <span class="math">\(H\)</span> is the wave height, <span class="math">\(\omega\)</span> is the wave frequency, <span class="math">\(k\)</span> is the wave number, and <span class="math">\(\phi\)</span> is the wave phase for irregular waves.</p>
@@ -347,14 +349,16 @@ y &amp;=&amp; \mathbf{C_{r}} x~~\end{split}\]</div>
 <h2>Wave Spectra<a class="headerlink" href="#wave-spectra" title="Permalink to this headline">¶</a></h2>
 <p>The linear superposition of regular waves of distinct amplitudes and periods is characterized in the frequency domain by a wave spectrum. Through statistical analysis, spectra are characterized by specific parameters such as significant wave height, peak period, wind speed, fetch length, and others. Common types of spectra that are used by the offshore industry are discussed in the following sections.  The general form of the sea spectra available in WEC-Sim is given by:</p>
 <div class="math">
+\[S\left( f , \theta \right)= S\left( f \right)D\left( \theta \right)~~\]</div>
+<p>where <span class="math">\(S\left( f\right)\)</span> is the power spectrum, <span class="math">\(f\)</span> is the wave frequency (in Hertz), <span class="math">\(D\left( \theta \right)\)</span> is the diretional distribution, and <span class="math">\(\theta\)</span> is the wave direction (in Degrees).</p>
+<div class="math">
 \[S\left( f \right) = A f^{-5}\exp\left[-B f^{-4} \right]~~\]</div>
-<p>where <span class="math">\(f\)</span> is the wave frequency (in Hertz), <span class="math">\(A\)</span> is wave amplitude (m), and <span class="math">\(\exp\)</span> stands for the exponential function. Spectral moments of the wave spectrum, denoted <span class="math">\(m_{k}~,~k=0, 1, 2,...\)</span>, are defined as</p>
+<p>where <span class="math">\(A\)</span> is wave amplitude (m), and <span class="math">\(\exp\)</span> stands for the exponential function. Spectral moments of the wave spectrum, denoted <span class="math">\(m_{k}~,~k=0, 1, 2,...\)</span>, are defined as</p>
 <div class="math">
 \[m_{k} = \int_{0}^{\infty} f^{k} S \left( f \right) df ~~\]</div>
-<p>The spectral moment, <span class="math">\(m_{0}\)</span> is the variance of the free surface which allows one to define</p>
+<p>The spectral moment, <span class="math">\(m_{0}\)</span> is the variance of the free surface which allows one to define the mean wave height of the tallest third of waves, significant wave height  <span class="math">\(H_{m0}\)</span> (in m), as:</p>
 <div class="math">
 \[H_{m0} = 4 \sqrt{m_{0}}~~\]</div>
-<p>where <span class="math">\(H_{m0}\)</span> is a definition of the significant wave height (m), the mean wave height of the tallest third of waves.</p>
 <div class="section" id="pierson-moskowitz">
 <h3>Pierson&#8211;Moskowitz<a class="headerlink" href="#pierson-moskowitz" title="Permalink to this headline">¶</a></h3>
 <p>One of the simplest spectra, the Pierson&#8211;Moskowitz spectrum, was proposed by <a class="reference internal" href="#pm" id="id19">[13]</a>. It assumed that after the wind blew steadily for a long time over a large area, the waves would come into equilibrium with the wind. This is the concept of a fully developed sea where a &#8220;long time&#8221; is roughly 10,000 wave periods and a &#8220;large area&#8221; is roughly 5,000 wave-lengths on a side.  The spectrum is calculated from:</p>

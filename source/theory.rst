@@ -28,7 +28,7 @@ The :ref:`WEC-Sim Coordinate System <coordinate_system>` figure illustrates a 3-
 
     *WEC-Sim Coordinate System*
 
-The incident wave is defined as:
+The incident wave is defined as :math:`\eta(x,t)` :
 
 .. math::
 
@@ -182,7 +182,7 @@ where :math:`e^{\mathbf{A_{r}}}` is the matrix exponential and the calculation o
 	K_{r}(t) = \mathbf{C_{r}}e^{\mathbf{A_{r}}t}\mathbf{B_{r}}~~
 
 Realization Theory
-......................................................
+..................
 The state space realization of the hydrodynamic radiation coefficients can be pursued in the time domain (TD). This consists of finding the minimal order of the system and the discrete time state matrices (:math:`\mathbf{A_{d}},~\mathbf{B_{d}},~\mathbf{C_{d}},~\mathbf{D_{d}}`) from samples of the impulse response function.  This problem is easier to handle for a discrete-time system than for continuous-time. The reason being is that the impulse response function of a discrete-time system is given by the Markov parameters of the system:
 
 .. math::
@@ -211,24 +211,30 @@ can be reproduced exactly by the SVD as
 where :math:`\Sigma` is a diagonal matrix containing the Hankel singular vales in descending order.  Examination of the Hankel singular values reveals there are only a small number of significant states and that the rank of :math:`H` can be greatly reduced without a significant loss in accuracy :cite:`Taghipour2008,Kristiansen2005`. Further detail into the SVD method and calculation of the state space parameters will not be discussed and the reader is referred to :cite:`Taghipour2008,Kristiansen2005`.
 
 Wave Spectra
---------------------------------------------
+------------
 The linear superposition of regular waves of distinct amplitudes and periods is characterized in the frequency domain by a wave spectrum. Through statistical analysis, spectra are characterized by specific parameters such as significant wave height, peak period, wind speed, fetch length, and others. Common types of spectra that are used by the offshore industry are discussed in the following sections.  The general form of the sea spectra available in WEC-Sim is given by:
 
 .. math::
 
+	S\left( f , \theta \right)= S\left( f \right)D\left( \theta \right)~~
+	
+where :math:`S\left( f\right)` is the power spectrum, :math:`f` is the wave frequency (in Hertz), :math:`D\left( \theta \right)` is the diretional distribution, and :math:`\theta` is the wave direction (in Degrees).
+
+.. math::
+	
 	S\left( f \right) = A f^{-5}\exp\left[-B f^{-4} \right]~~
 
-where :math:`f` is the wave frequency (in Hertz), :math:`A` is wave amplitude (m), and :math:`\exp` stands for the exponential function. Spectral moments of the wave spectrum, denoted :math:`m_{k}~,~k=0, 1, 2,...`, are defined as
+where :math:`A` is wave amplitude (m), and :math:`\exp` stands for the exponential function. Spectral moments of the wave spectrum, denoted :math:`m_{k}~,~k=0, 1, 2,...`, are defined as
 
 .. math::
 	m_{k} = \int_{0}^{\infty} f^{k} S \left( f \right) df ~~
 
-The spectral moment, :math:`m_{0}` is the variance of the free surface which allows one to define
+The spectral moment, :math:`m_{0}` is the variance of the free surface which allows one to define the mean wave height of the tallest third of waves, significant wave height  :math:`H_{m0}` (in m), as:
 
 .. math::
 	H_{m0} = 4 \sqrt{m_{0}}~~
-	
-where :math:`H_{m0}` is a definition of the significant wave height (m), the mean wave height of the tallest third of waves. 
+
+
 
 Pierson--Moskowitz
 ~~~~~~~~~~~~~~~~~~~
