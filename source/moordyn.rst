@@ -1,6 +1,6 @@
 
 Mooring Features
-------------------
+----------------
 This section provides an overview of WEC-Sim's mooring class features; for more information about the mooring class code structure, refer to `Mooring Class <http://wec-sim.github.io/WEC-Sim/code_structure.html#mooring-class>`_. 
 
 

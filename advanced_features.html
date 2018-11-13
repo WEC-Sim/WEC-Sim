@@ -174,9 +174,10 @@
 </li>
 <li class="toctree-l1"><a class="reference internal" href="webinars.html">Webinars</a></li>
 <li class="toctree-l1"><a class="reference internal" href="license.html">License</a></li>
+<li class="toctree-l1"><a class="reference internal" href="acknowledgements.html">Acknowledgements</a></li>
 <li class="toctree-l1"><a class="reference internal" href="publications.html">Publications</a></li>
 <li class="toctree-l1"><a class="reference internal" href="release_notes.html">Release Notes</a></li>
-<li class="toctree-l1"><a class="reference internal" href="contact.html">Contact Us</a></li>
+<li class="toctree-l1"><a class="reference internal" href="contact.html">Online Forum</a></li>
 </ul>
 
             
@@ -250,7 +251,7 @@
 </div>
 <div class="section" id="bemio">
 <h2>BEMIO<a class="headerlink" href="#bemio" title="Permalink to this headline">¶</a></h2>
-<p>The Boundary Element Method Input/Output (BEMIO) functions are used to preprocess the BEM hydrodynamic data prior to running WEC-Sim, this includes:</p>
+<p>The Boundary Element Method Input/Output (BEMIO) functions are used to pre-process the BEM hydrodynamic data prior to running WEC-Sim. For more information about the WEC-Sim pre-processing workflow, refer to <a class="reference external" href="http://wec-sim.github.io/WEC-Sim/overview.html#step-1-wec-sim-pre-processing">Step 1: WEC-Sim Pre-Processing</a>. BEMIO functions perform the following tasks:</p>
 <ul class="simple">
 <li>Read BEM results from <strong>WAMIT</strong>, <strong>NEMOH</strong>, or <strong>AQWA</strong>.</li>
 <li>Calculate the radiation and excitation impulse response functions (IRFs).</li>
@@ -726,7 +727,7 @@ An option available to reduce the nonlinear simulation time is to specify a nonl
 <div class="section" id="stl-file-generation">
 <h4>STL File Generation<a class="headerlink" href="#stl-file-generation" title="Permalink to this headline">¶</a></h4>
 <p>When the nonlinear option is turned on, the geometry file (<code class="docutils literal"><span class="pre">*.stl</span></code>) (previously only used for visualization purposes in linear simulations) is used as the discretized body surface on which the non-linear pressure forces are integrated. A good STL mesh resolution is required for the WEC body geometry file(s) when using the non-linear hydrodynamics in WEC-Sim. The simulation accuracy will increase with increased surface resolution (i.e. the number of discretized surface panels specified in the .stl file), but the computation time will also increase.</p>
-<p>There are many ways to generate an STL file; however, it is important to verify the quality of the mesh before running WEC-Sim simulations with the non-linear hydro flag turned on. An STL file can be exported from most CAD programs, but few allow adequate mesh refinement. A good program to perform STL mesh refinement is <a class="reference external" href="https://www.rhino3d.com/">Rhino</a>. Some helpful resources explaining how to generate and refine an STL mesh in Rhino can be found <a class="reference external" href="https://wiki.mcneel.com/rhino/meshfaqdetails">here</a> and <a class="reference external" href="https://www.youtube.com/watch?v=CrlXAMPfHWI">here</a>.</p>
+<p>There are many ways to generate an STL file; however, it is important to verify the quality of the mesh before running WEC-Sim simulations with the non-linear hydro flag turned on. An STL file can be exported from most CAD programs, but few allow adequate mesh refinement. A good program to perform STL mesh refinement is <a class="reference external" href="https://www.rhino3d.com/">Rhino</a>. Some helpful resources explaining how to generate and refine an STL mesh in Rhino can be found <a class="reference external" href="https://wiki.mcneel.com/rhino/meshfaqdetails">on Rhino&#8217;s website</a> and <a class="reference external" href="https://www.youtube.com/watch?v=CrlXAMPfHWI">on Youtube</a>.</p>
 <div class="admonition note">
 <p class="first admonition-title">Note</p>
 <p class="last">All STL files must be saved as ASCII (not binary)</p>
@@ -1162,7 +1163,7 @@ Refer the <a class="reference external" href="http://wec-sim.github.io/WEC-Sim/a
 </pre></div>
 </div>
 <ul class="simple">
-<li><strong>MoorDyn Input File</strong>: A mooring folder that includes a moorDyn input file (<code class="docutils literal"><span class="pre">lines.txt</span></code>) is created. The moorDyn input file (<code class="docutils literal"><span class="pre">lines.txt</span></code>) is shown in the figure below. More details on how to setup the MooDyn input file were described in the MoorDyn User Guide <a class="reference internal" href="theory.html#hall2015moordynguide" id="id14">[1]</a>.</li>
+<li><strong>MoorDyn Input File</strong>: A mooring folder that includes a moorDyn input file (<code class="docutils literal"><span class="pre">lines.txt</span></code>) is created. The moorDyn input file (<code class="docutils literal"><span class="pre">lines.txt</span></code>) is shown in the figure below. More details on how to setup the MooDyn input file were described in the MoorDyn User Guide <a class="reference internal" href="theory.html#hall2015moordynguide" id="id13">[1]</a>.</li>
 </ul>
 <div class="figure align-center" id="moordyninput">
 <a class="reference internal image-reference" href="_images/moorDynInput.png"><img alt="_images/moorDynInput.png" src="_images/moorDynInput.png" style="width: 400pt;" /></a>

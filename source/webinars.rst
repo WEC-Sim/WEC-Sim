@@ -1,7 +1,7 @@
 ﻿.. _webinars:
 
 Webinars
-=========
+========
 The WEC-Sim team hosted a WEC-Sim Online Training Course, and a series of Advanced Features Webinars. 
 Recordings of each are available below, along with the presentation slides. 
 	

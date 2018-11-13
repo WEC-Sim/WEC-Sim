@@ -1,7 +1,7 @@
 
 BEMIO
 -----
-The Boundary Element Method Input/Output (BEMIO) functions are used to preprocess the BEM hydrodynamic data prior to running WEC-Sim, this includes:
+The Boundary Element Method Input/Output (BEMIO) functions are used to pre-process the BEM hydrodynamic data prior to running WEC-Sim. For more information about the WEC-Sim pre-processing workflow, refer to `Step 1: WEC-Sim Pre-Processing <http://wec-sim.github.io/WEC-Sim/overview.html#step-1-wec-sim-pre-processing>`_. BEMIO functions perform the following tasks:
 
 * Read BEM results from **WAMIT**, **NEMOH**, or **AQWA**.
 * Calculate the radiation and excitation impulse response functions (IRFs).

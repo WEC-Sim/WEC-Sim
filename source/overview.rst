@@ -1,7 +1,7 @@
 .. _overview:
 
 Overview
-=============
+========
 This section provides an overview of the WEC-Sim work flow. 
 First, the WEC-Sim file structure is described; then, steps for setting up and running the WEC-Sim code are described. 
 The WEC-Sim workflow diagram is shown below. 
