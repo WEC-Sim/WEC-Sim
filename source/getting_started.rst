@@ -55,7 +55,7 @@ Option 1. Clone Repository from GitHub (Recommended for Users)
 		>> git pull
 		
 	.. Note::
-		If git lfs is not included in your version of Git, you may may need to manually install `Git Large File Storage <https://git-lfs.github.com/>`_ to download the correct ``*.h5`` files. Alternatively, WEC-Sim users can run the ``\hydroData\bemio.m`` script to generate a new ``*.h5`` file.
+		If git lfs is not included in your version of Git, you may may need to manually install `Git Large File Storage <https://git-lfs.github.com/>`_ to download the correct ``*.h5`` files in the tutorials. Alternatively, WEC-Sim users can run the ``\hydroData\bemio.m`` script to generate a new ``*.h5`` file.
 		
 
 Option 2. Fork with Git (Recommended for Developers)
@@ -64,7 +64,7 @@ Option 2. Fork with Git (Recommended for Developers)
 
 Option 3. Static Code Download (Not Recommended)
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-	The easiest way to obtain a copy of WEC-Sim is to download the latest `WEC-Sim Release <https://github.com/WEC-Sim/WEC-Sim/releases>`_. This is a static download of the WEC-Sim code. If you choose this method, you will have to re-download the code in order to receive code updates.
+	The easiest way to obtain a copy of WEC-Sim is to download the latest `WEC-Sim Release <https://github.com/WEC-Sim/WEC-Sim/releases>`_. This is a static download of the WEC-Sim code. If you choose this method, you will have to re-download the package in order to receive code updates.
 
 
 

@@ -37,7 +37,7 @@ Input File           ``wecSimInputFile.m``  ``$CASE``
 Hydrodynamic Data
 ~~~~~~~~~~~~~~~~~~~~
 * The Hydrodynamic coefficients for each body may be generated using a boundary element method (BEM) code (e.g., **WAMIT**, **NEMOH** or **AQWA**). 
-* The WEC-Sim code also requires a hydrodynamic data from the BEM solution in the form of HDF5 format (``*.h5`` file).
+* The WEC-Sim code also requires hydrodynamic data from the BEM solution in the form of HDF5 format (``*.h5`` file).
 * This ``*.h5`` hydrodynamic data file can be generated using the BEMIO pre-processor.
 * BEMIO (Boundary Element Method Input/Output) is a code developed by the WEC-Sim team to process BEM output files from **WAMIT**, **NEMOH**, and **AQWA** into a data structure than can be read by WEC-Sim. 
 * For more information about the BEMIO pre-processor, refer to the `BEMIO <http://wec-sim.github.io/WEC-Sim/advanced_features.html#bemio>`_ section.
@@ -46,9 +46,9 @@ Hydrodynamic Data
 Geometry File
 ~~~~~~~~~~~~~~
 * The WEC-Sim code also requires a geometry file in the form of a ``*.stl`` file. 
-* This ``*.stl`` file is used by the WEC-Sim code to generate the Simscape Explorer visualization, and by non-linear hydrodynamics to determine the instantaneous wetted surface at each time step. 
+* This ``*.stl`` file is used by the WEC-Sim code to generate the Simscape Explorer visualization, and by the non-linear buoyancy and Froude-Krylov forces option to determine the instantaneous wetted surface at each time step. 
 * When running WEC-Sim with linear hydrodynamics, the ``*.stl`` is only used for visualization. 
-* When running WEC-Sim with non-linear hydrodynamics, the quality of the ``*.stl`` mesh is critical, refer to the `Non-Linear Hydrodynamics <http://wec-sim.github.io/WEC-Sim/advanced_features.html#non-linear-hydrodynamics>`_ section for more information. 
+* When running WEC-Sim with non-linear buoyancy and Froude-Krylov forces, the quality of the ``*.stl`` mesh is critical, refer to the `Non-Linear Buoyancy and Froude-Krylov Forces <http://wec-sim.github.io/WEC-Sim/advanced_features.html#non-linear-hydrodynamics>`_ section for more information. 
 
 
 Simulink Model 
@@ -97,7 +97,7 @@ In the pre-processing step, users need to create the WEC geometry, run a BEM cod
 
    * Create CAD models of the WEC geometry and export it to a ``*.stl`` format. 
    * The ``*.stl`` files are used to visualize the WEC response in Simscape Explorer
-   * They are also used for `Non-Linear Hydrodynamics <http://wec-sim.github.io/WEC-Sim/advanced_features.html#non-linear-hydrodynamics>`_ if the option is applied.
+   * They are also used for `Non-Linear Buoyancy and Froude-Krylov Forces <http://wec-sim.github.io/WEC-Sim/advanced_features.html#non-linear-hydrodynamics>`_ if the option is applied.
 
 * **Compute Hydrodynamic Coefficients**: WEC-Sim requires frequency-domain hydrodynamic coefficients (e.g. added mass, radiation damping, and wave excitation). 
 
@@ -125,9 +125,9 @@ In the pre-processing step, users need to create the WEC geometry, run a BEM cod
    * The hydrodynamic coefficients for each body generated from the BEM code can be parsed into a ``*.h5`` data structure using `BEMIO <http://wec-sim.github.io/WEC-Sim/advanced_features.html#bemio>`_, which was developed by the WEC-Sim team.
    * BEMIO currently suports WAMIT, NEMOH and AQWA. 
 
-.. Note:: Users are also able to specify their own hydrodynamic coefficients by creating their own ``*.h5`` file with customized hydrodynamic coefficients following ``*.h5`` format created by BEMIO.
+.. Note:: Users are also able to specify their own hydrodynamic coefficients by creating their own ``*.h5`` file with customized hydrodynamic coefficients following the ``*.h5`` format created by BEMIO.
 
-Step 2: Build WEC-Sim Simulink Model
+Step 2: Build a WEC-Sim Simulink Model
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 In this step, users build their WEC-Sim Simulink model (``*.slx``) using the `WEC-Sim Library <http://wec-sim.github.io/WEC-Sim/code_structure.html#wec-sim-library>`_ developed in Simulink/Simscape. 
 The ``*.slx`` Simulink model file must be located in the ``$CASE`` directory. 
@@ -143,9 +143,9 @@ The figure below shows an example WEC-Sim Simulink model for the OSWEC tutorial.
    *OSWEC Simulink Model*   
    
 
-Step 3: Write WEC-Sim Input File
+Step 3: Write the WEC-Sim Input File
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-The WEC-Sim input file must be located in the ``$CASE`` directory, and named ``wecSimInputFile.m``. The figure below shows an example of a WEC-Sim input file. The input file specifies the simulation settings, body mass properties, wave conditions, joints, and mooring. Additionally, the WEC-Sim input file must specify the location of the WEC-Sim Simulink model (``*.slx``) file, the geometry file(s) ``*.stl``, and the hydrodynamic data file (``*.stl``) .
+The WEC-Sim input file must be located in the ``$CASE`` directory, and named ``wecSimInputFile.m``. The figure below shows an example of a WEC-Sim input file. The input file specifies the simulation settings, body mass properties, wave conditions, joints, and mooring. Additionally, the WEC-Sim input file must specify the location of the WEC-Sim Simulink model (``*.slx``) file, the geometry file(s) ``*.stl``, and the hydrodynamic data file (``*.h5``) .
 
 .. figure:: _static/runWECSim_mod.png
    :width: 600pt
