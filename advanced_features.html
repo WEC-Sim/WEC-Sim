@@ -98,6 +98,7 @@
             
             
               <ul class="current">
+<li class="toctree-l1"><a class="reference internal" href="terminology.html">Terminology</a></li>
 <li class="toctree-l1"><a class="reference internal" href="getting_started.html">Getting Started</a></li>
 <li class="toctree-l1"><a class="reference internal" href="overview.html">Overview</a></li>
 <li class="toctree-l1"><a class="reference internal" href="theory.html">Theory</a></li>
@@ -123,6 +124,7 @@
 <li class="toctree-l2"><a class="reference internal" href="#wave-features">Wave Features</a><ul>
 <li class="toctree-l3"><a class="reference internal" href="#irregular-wave-binning">Irregular Wave Binning</a></li>
 <li class="toctree-l3"><a class="reference internal" href="#wave-directionality">Wave Directionality</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#wave-directional-spreading">Wave Directional Spreading</a></li>
 <li class="toctree-l3"><a class="reference internal" href="#irregular-waves-with-seeded-phase">Irregular Waves with Seeded Phase</a></li>
 <li class="toctree-l3"><a class="reference internal" href="#wave-gauge-placement">Wave Gauge Placement</a></li>
 </ul>
@@ -670,8 +672,15 @@ This would allow for the BEM of different bodies to be done separately, and BEMI
 <h3>Wave Directionality<a class="headerlink" href="#wave-directionality" title="Permalink to this headline">¶</a></h3>
 <p>WEC-Sim has the ability to model waves with various angles of incidence. To define wave directionality in WEC-Sim, the following waveClass variable must be defined in the WEC-Sim input file:</p>
 <blockquote>
-<div><code class="code docutils literal"><span class="pre">waves.waveDir</span> <span class="pre">=</span> <span class="pre">0;</span></code></div></blockquote>
-<p>The default incident wave direction has a heading of 0 (Default = 0), to change the heading <code class="docutils literal"><span class="pre">waves.waveDir</span></code> must be defined in [deg].</p>
+<div><code class="code docutils literal"><span class="pre">waves.waveDir</span> <span class="pre">=</span> <span class="pre">&lt;user</span> <span class="pre">defined</span> <span class="pre">wave</span> <span class="pre">direction&gt;;</span> <span class="pre">%[deg]</span></code></div></blockquote>
+<p>The incident wave direction has a default heading of 0 Degrees (Default = 0). For more information about the wave formulation, refer to <a class="reference external" href="http://wec-sim.github.io/WEC-Sim/theory.html#wave-spectra">Wave Theory</a>.</p>
+</div>
+<div class="section" id="wave-directional-spreading">
+<h3>Wave Directional Spreading<a class="headerlink" href="#wave-directional-spreading" title="Permalink to this headline">¶</a></h3>
+<p>WEC-Sim has the ability to model waves with directional spreading. To define wave directional spreading in WEC-Sim, the following waveClass variable must be defined in the WEC-Sim input file:</p>
+<blockquote>
+<div><code class="code docutils literal"><span class="pre">waves.waveSpread</span> <span class="pre">=</span> <span class="pre">&lt;user</span> <span class="pre">defined</span> <span class="pre">directional</span> <span class="pre">spreading&gt;;</span></code></div></blockquote>
+<p>The wave directional spreading has a default probability of 1 (Default = 1). For more information about the spectral formulation, refer to <a class="reference external" href="http://wec-sim.github.io/WEC-Sim/theory.html#wave-spectra">Wave Theory</a>.</p>
 </div>
 <div class="section" id="irregular-waves-with-seeded-phase">
 <h3>Irregular Waves with Seeded Phase<a class="headerlink" href="#irregular-waves-with-seeded-phase" title="Permalink to this headline">¶</a></h3>
@@ -684,7 +693,7 @@ This would allow for the BEM of different bodies to be done separately, and BEMI
 <h3>Wave Gauge Placement<a class="headerlink" href="#wave-gauge-placement" title="Permalink to this headline">¶</a></h3>
 <p>By default, the wave surface elevation is calculated at the origin. Users are allowed up to 3 other x-locations to calculate the wave surface elevation offset from the origin in the global x-direction by defining the waveClass variable, <code class="docutils literal"><span class="pre">waves.wavegauge&lt;i&gt;loc</span></code>, in the WEC-Sim input file:</p>
 <blockquote>
-<div><code class="code docutils literal"><span class="pre">waves.wavegauge&lt;i&gt;loc</span> <span class="pre">=</span> <span class="pre">user</span> <span class="pre">defined</span> <span class="pre">wave</span> <span class="pre">gauge</span> <span class="pre">i</span> <span class="pre">x-location</span> <span class="pre">(y-position</span> <span class="pre">assumed</span> <span class="pre">to</span> <span class="pre">be</span> <span class="pre">0</span> <span class="pre">m)</span></code></div></blockquote>
+<div><code class="code docutils literal"><span class="pre">waves.wavegauge&lt;i&gt;loc</span> <span class="pre">=</span> <span class="pre">&lt;user</span> <span class="pre">defined</span> <span class="pre">wave</span> <span class="pre">gauge</span> <span class="pre">i</span> <span class="pre">x-location&gt;;</span> <span class="pre">%(y-position</span> <span class="pre">assumed</span> <span class="pre">to</span> <span class="pre">be</span> <span class="pre">0</span> <span class="pre">m)</span></code></div></blockquote>
 <p>where i = 1, 2, or 3</p>
 <p>The WEC-Sim numerical wave gauges output the undisturbed linear incident wave elevation at the wave gauge locations defined above. The numerical wave gauges do not handle the incident wave interaction with the radiated or diffracted waves that are generated because of the presence and motion of the WEC hydrodynamic bodies. This option provides the following wave elevation time series:</p>
 <blockquote>
@@ -1163,7 +1172,7 @@ Refer the <a class="reference external" href="http://wec-sim.github.io/WEC-Sim/a
 </pre></div>
 </div>
 <ul class="simple">
-<li><strong>MoorDyn Input File</strong>: A mooring folder that includes a moorDyn input file (<code class="docutils literal"><span class="pre">lines.txt</span></code>) is created. The moorDyn input file (<code class="docutils literal"><span class="pre">lines.txt</span></code>) is shown in the figure below. More details on how to setup the MooDyn input file were described in the MoorDyn User Guide <a class="reference internal" href="theory.html#hall2015moordynguide" id="id13">[1]</a>.</li>
+<li><strong>MoorDyn Input File</strong>: A mooring folder that includes a moorDyn input file (<code class="docutils literal"><span class="pre">lines.txt</span></code>) is created. The moorDyn input file (<code class="docutils literal"><span class="pre">lines.txt</span></code>) is shown in the figure below. More details on how to setup the MooDyn input file were described in the MoorDyn User Guide <a class="reference internal" href="theory.html#hall2015moordynguide" id="id14">[1]</a>.</li>
 </ul>
 <div class="figure align-center" id="moordyninput">
 <a class="reference internal image-reference" href="_images/moorDynInput.png"><img alt="_images/moorDynInput.png" src="_images/moorDynInput.png" style="width: 400pt;" /></a>

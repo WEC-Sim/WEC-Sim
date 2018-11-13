@@ -97,10 +97,17 @@ Wave Directionality
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 WEC-Sim has the ability to model waves with various angles of incidence. To define wave directionality in WEC-Sim, the following waveClass variable must be defined in the WEC-Sim input file:
 
-	:code:`waves.waveDir = 0;`  		
+	:code:`waves.waveDir = <user defined wave direction>; %[deg]`  		
 	
-The default incident wave direction has a heading of 0 (Default = 0), to change the heading ``waves.waveDir`` must be defined in [deg].
+The incident wave direction has a default heading of 0 Degrees (Default = 0). For more information about the wave formulation, refer to `Wave Theory <http://wec-sim.github.io/WEC-Sim/theory.html#wave-spectra>`_.
+
+Wave Directional Spreading
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+WEC-Sim has the ability to model waves with directional spreading. To define wave directional spreading in WEC-Sim, the following waveClass variable must be defined in the WEC-Sim input file:
+
+	:code:`waves.waveSpread = <user defined directional spreading>;`  		
 	
+The wave directional spreading has a default probability of 1 (Default = 1). For more information about the spectral formulation, refer to `Wave Theory <http://wec-sim.github.io/WEC-Sim/theory.html#wave-spectra>`_.
 
 Irregular Waves with Seeded Phase
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
@@ -115,7 +122,7 @@ Wave Gauge Placement
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 By default, the wave surface elevation is calculated at the origin. Users are allowed up to 3 other x-locations to calculate the wave surface elevation offset from the origin in the global x-direction by defining the waveClass variable, ``waves.wavegauge<i>loc``, in the WEC-Sim input file:
 
-	:code:`waves.wavegauge<i>loc = user defined wave gauge i x-location (y-position assumed to be 0 m)`
+	:code:`waves.wavegauge<i>loc = <user defined wave gauge i x-location>; %(y-position assumed to be 0 m)`
 
 where i = 1, 2, or 3
 

@@ -86,7 +86,7 @@ Users must still provide hydro coefficients from a BEM solve before executing WE
 The ``noWave`` case is defined by including the following in the input file::
 
 	waves = waveClass('noWave');
-	waves.T = <user specified wave period>;
+	waves.T = <user defined wave period>; %[s]
 
 noWaveCIC
 +++++++++++
@@ -106,8 +106,8 @@ Wave period (``wave.T``) and wave height (``wave.H``) must be specified in the i
 The ``regular`` case is defined by including the following in the input file::
 
 	waves = waveClass('regular');
-	waves.T = <user specified wave period>;
-	waves.H = <user specified wave height>;
+	waves.T = <user defined wave period>; %[s]
+	waves.H = <user defined wave height>; %[m]
 
 regularCIC
 +++++++++++
@@ -118,8 +118,8 @@ Wave period (``wave.T``) and wave height (``wave.H``) must be specified in the i
 The ``regularCIC`` case is defined by including the following in the input file::
 
 	waves = waveClass('regularCIC');
-	waves.T = <user specified wave period>;
-	waves.H = <user specified wave height>;	
+	waves.T = <user defined wave period>; %[s]
+	waves.H = <user defined wave height>; %[m]	
 
 irregular
 +++++++++++
@@ -137,8 +137,8 @@ JONSWAP             	``JS``
 The ``irregular`` case is defined by including the following in the input file::
 
 	waves = waveClass('irregular');
-	waves.T = <user specified wave period>;
-	waves.H = <user specified wave height>;
+	waves.T = <user defined wave period>; %[s]
+	waves.H = <user defined wave height>; %[m]
 	waves.spectrumType = '<user specified spectrum>';
 
 

@@ -98,6 +98,7 @@
             
             
               <ul class="current">
+<li class="toctree-l1"><a class="reference internal" href="terminology.html">Terminology</a></li>
 <li class="toctree-l1"><a class="reference internal" href="getting_started.html">Getting Started</a></li>
 <li class="toctree-l1"><a class="reference internal" href="overview.html">Overview</a></li>
 <li class="toctree-l1"><a class="reference internal" href="theory.html">Theory</a></li>
@@ -317,7 +318,7 @@ The <code class="docutils literal"><span class="pre">noWave</span></code> case i
 Users must still provide hydro coefficients from a BEM solve before executing WEC-Sim and specify the period (<code class="docutils literal"><span class="pre">wave.T</span></code>) from which the hydrodynamic coefficients are selected.</p>
 <p>The <code class="docutils literal"><span class="pre">noWave</span></code> case is defined by including the following in the input file:</p>
 <div class="highlight-default"><div class="highlight"><pre><span></span><span class="n">waves</span> <span class="o">=</span> <span class="n">waveClass</span><span class="p">(</span><span class="s1">&#39;noWave&#39;</span><span class="p">);</span>
-<span class="n">waves</span><span class="o">.</span><span class="n">T</span> <span class="o">=</span> <span class="o">&lt;</span><span class="n">user</span> <span class="n">specified</span> <span class="n">wave</span> <span class="n">period</span><span class="o">&gt;</span><span class="p">;</span>
+<span class="n">waves</span><span class="o">.</span><span class="n">T</span> <span class="o">=</span> <span class="o">&lt;</span><span class="n">user</span> <span class="n">defined</span> <span class="n">wave</span> <span class="n">period</span><span class="o">&gt;</span><span class="p">;</span> <span class="o">%</span><span class="p">[</span><span class="n">s</span><span class="p">]</span>
 </pre></div>
 </div>
 </div>
@@ -337,8 +338,8 @@ Using this option, WEC-Sim assumes that the system dynamic response is in sinuso
 Wave period (<code class="docutils literal"><span class="pre">wave.T</span></code>) and wave height (<code class="docutils literal"><span class="pre">wave.H</span></code>) must be specified in the input file.</p>
 <p>The <code class="docutils literal"><span class="pre">regular</span></code> case is defined by including the following in the input file:</p>
 <div class="highlight-default"><div class="highlight"><pre><span></span><span class="n">waves</span> <span class="o">=</span> <span class="n">waveClass</span><span class="p">(</span><span class="s1">&#39;regular&#39;</span><span class="p">);</span>
-<span class="n">waves</span><span class="o">.</span><span class="n">T</span> <span class="o">=</span> <span class="o">&lt;</span><span class="n">user</span> <span class="n">specified</span> <span class="n">wave</span> <span class="n">period</span><span class="o">&gt;</span><span class="p">;</span>
-<span class="n">waves</span><span class="o">.</span><span class="n">H</span> <span class="o">=</span> <span class="o">&lt;</span><span class="n">user</span> <span class="n">specified</span> <span class="n">wave</span> <span class="n">height</span><span class="o">&gt;</span><span class="p">;</span>
+<span class="n">waves</span><span class="o">.</span><span class="n">T</span> <span class="o">=</span> <span class="o">&lt;</span><span class="n">user</span> <span class="n">defined</span> <span class="n">wave</span> <span class="n">period</span><span class="o">&gt;</span><span class="p">;</span> <span class="o">%</span><span class="p">[</span><span class="n">s</span><span class="p">]</span>
+<span class="n">waves</span><span class="o">.</span><span class="n">H</span> <span class="o">=</span> <span class="o">&lt;</span><span class="n">user</span> <span class="n">defined</span> <span class="n">wave</span> <span class="n">height</span><span class="o">&gt;</span><span class="p">;</span> <span class="o">%</span><span class="p">[</span><span class="n">m</span><span class="p">]</span>
 </pre></div>
 </div>
 </div>
@@ -349,8 +350,8 @@ The only difference is that the radiation forces are calculated using the convol
 Wave period (<code class="docutils literal"><span class="pre">wave.T</span></code>) and wave height (<code class="docutils literal"><span class="pre">wave.H</span></code>) must be specified in the input file.</p>
 <p>The <code class="docutils literal"><span class="pre">regularCIC</span></code> case is defined by including the following in the input file:</p>
 <div class="highlight-default"><div class="highlight"><pre><span></span><span class="n">waves</span> <span class="o">=</span> <span class="n">waveClass</span><span class="p">(</span><span class="s1">&#39;regularCIC&#39;</span><span class="p">);</span>
-<span class="n">waves</span><span class="o">.</span><span class="n">T</span> <span class="o">=</span> <span class="o">&lt;</span><span class="n">user</span> <span class="n">specified</span> <span class="n">wave</span> <span class="n">period</span><span class="o">&gt;</span><span class="p">;</span>
-<span class="n">waves</span><span class="o">.</span><span class="n">H</span> <span class="o">=</span> <span class="o">&lt;</span><span class="n">user</span> <span class="n">specified</span> <span class="n">wave</span> <span class="n">height</span><span class="o">&gt;</span><span class="p">;</span>
+<span class="n">waves</span><span class="o">.</span><span class="n">T</span> <span class="o">=</span> <span class="o">&lt;</span><span class="n">user</span> <span class="n">defined</span> <span class="n">wave</span> <span class="n">period</span><span class="o">&gt;</span><span class="p">;</span> <span class="o">%</span><span class="p">[</span><span class="n">s</span><span class="p">]</span>
+<span class="n">waves</span><span class="o">.</span><span class="n">H</span> <span class="o">=</span> <span class="o">&lt;</span><span class="n">user</span> <span class="n">defined</span> <span class="n">wave</span> <span class="n">height</span><span class="o">&gt;</span><span class="p">;</span> <span class="o">%</span><span class="p">[</span><span class="n">m</span><span class="p">]</span>
 </pre></div>
 </div>
 </div>
@@ -381,8 +382,8 @@ The available wave spectra and their corresponding <code class="docutils literal
 </table>
 <p>The <code class="docutils literal"><span class="pre">irregular</span></code> case is defined by including the following in the input file:</p>
 <div class="highlight-default"><div class="highlight"><pre><span></span><span class="n">waves</span> <span class="o">=</span> <span class="n">waveClass</span><span class="p">(</span><span class="s1">&#39;irregular&#39;</span><span class="p">);</span>
-<span class="n">waves</span><span class="o">.</span><span class="n">T</span> <span class="o">=</span> <span class="o">&lt;</span><span class="n">user</span> <span class="n">specified</span> <span class="n">wave</span> <span class="n">period</span><span class="o">&gt;</span><span class="p">;</span>
-<span class="n">waves</span><span class="o">.</span><span class="n">H</span> <span class="o">=</span> <span class="o">&lt;</span><span class="n">user</span> <span class="n">specified</span> <span class="n">wave</span> <span class="n">height</span><span class="o">&gt;</span><span class="p">;</span>
+<span class="n">waves</span><span class="o">.</span><span class="n">T</span> <span class="o">=</span> <span class="o">&lt;</span><span class="n">user</span> <span class="n">defined</span> <span class="n">wave</span> <span class="n">period</span><span class="o">&gt;</span><span class="p">;</span> <span class="o">%</span><span class="p">[</span><span class="n">s</span><span class="p">]</span>
+<span class="n">waves</span><span class="o">.</span><span class="n">H</span> <span class="o">=</span> <span class="o">&lt;</span><span class="n">user</span> <span class="n">defined</span> <span class="n">wave</span> <span class="n">height</span><span class="o">&gt;</span><span class="p">;</span> <span class="o">%</span><span class="p">[</span><span class="n">m</span><span class="p">]</span>
 <span class="n">waves</span><span class="o">.</span><span class="n">spectrumType</span> <span class="o">=</span> <span class="s1">&#39;&lt;user specified spectrum&gt;&#39;</span><span class="p">;</span>
 </pre></div>
 </div>
