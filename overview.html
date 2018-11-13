@@ -35,19 +35,27 @@
 
   
 
-  <link rel="stylesheet" href="_static/css/theme.css" type="text/css" />
-  <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
-    <link rel="index" title="Index" href="genindex.html" />
-    <link rel="search" title="Search" href="search.html" />
-    <link rel="next" title="Theory" href="theory.html" />
-    <link rel="prev" title="Getting Started" href="getting_started.html" /> 
+  
+  
+    <link rel="stylesheet" href="_static/css/theme.css" type="text/css" />
+  
+
+  
+
+  
+        <link rel="index" title="Index"
+              href="genindex.html"/>
+        <link rel="search" title="Search" href="search.html"/>
+    <link rel="top" title="WEC-Sim  documentation" href="index.html"/>
+        <link rel="next" title="Theory" href="theory.html"/>
+        <link rel="prev" title="Getting Started" href="getting_started.html"/> 
 
   
   <script src="_static/js/modernizr.min.js"></script>
 
 </head>
 
-<body class="wy-body-for-nav">
+<body class="wy-body-for-nav" role="document">
 
    
   <div class="wy-grid-for-nav">
@@ -128,7 +136,7 @@
     <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap">
 
       
-      <nav class="wy-nav-top" aria-label="top navigation">
+      <nav class="wy-nav-top" role="navigation" aria-label="top navigation">
         
           <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
           <a href="index.html">WEC-Sim</a>
@@ -136,10 +144,9 @@
       </nav>
 
 
+      
       <div class="wy-nav-content">
-        
         <div class="rst-content">
-        
           
 
 
@@ -168,7 +175,7 @@
       <li class="wy-breadcrumbs-aside">
         
             
-            <a href="_sources/overview.txt" rel="nofollow"> View page source</a>
+            <a href="_sources/overview.rst.txt" rel="nofollow"> View page source</a>
           
         
       </li>
@@ -360,6 +367,16 @@ The WEC-Sim input file (<code class="docutils literal"><span class="pre">wecSimI
 </dd>
 </dl>
 </li>
+<li><dl class="first docutils">
+<dt><strong>If AQWA is used:</strong></dt>
+<dd><ul class="first last">
+<li>The origin of the global coordinate system is at the mean water surface, and the origin of the body coordinate system for each body must be at the the center of gravity (defined using the AQWA GUI or in the <code class="docutils literal"><span class="pre">*.dat</span></code> input file).</li>
+<li>In order to run BEMIO, AQWA users must output both the default <code class="docutils literal"><span class="pre">*.LIS</span></code> file and output the <code class="docutils literal"><span class="pre">*.AH1</span></code> hydrodynamic database file. Both of these files are recquired to run BEMIO.</li>
+<li>More details on AQWA setup are given in the AQWA Reference Manual.</li>
+</ul>
+</dd>
+</dl>
+</li>
 </ul>
 </div>
 <ul class="simple">
@@ -410,7 +427,9 @@ The WEC-Sim source code is located in the <code class="docutils literal"><span c
 
 
            </div>
-           
+           <div class="articleComments">
+            
+           </div>
           </div>
           <footer>
   
@@ -428,11 +447,11 @@ The WEC-Sim source code is located in the <code class="docutils literal"><span c
 
   <div role="contentinfo">
     <p>
-        &copy; Copyright 2015, National Renewable Energy Laboratory and Sandia Corporation
+        &copy; Copyright 2015, National Renewable Energy Laboratory and Sandia Corporation.
 
     </p>
   </div>
-  Built with <a href="http://sphinx-doc.org/">Sphinx</a> using a <a href="https://github.com/rtfd/sphinx_rtd_theme">theme</a> provided by <a href="https://readthedocs.org">Read the Docs</a>. 
+  Built with <a href="http://sphinx-doc.org/">Sphinx</a> using a <a href="https://github.com/snide/sphinx_rtd_theme">theme</a> provided by <a href="https://readthedocs.org">Read the Docs</a>. 
 
 </footer>
 
@@ -447,34 +466,36 @@ The WEC-Sim source code is located in the <code class="docutils literal"><span c
 
   
 
-    
-    
-      <script type="text/javascript">
-          var DOCUMENTATION_OPTIONS = {
-              URL_ROOT:'./',
-              VERSION:'',
-              LANGUAGE:'None',
-              COLLAPSE_INDEX:false,
-              FILE_SUFFIX:'.html',
-              HAS_SOURCE:  true,
-              SOURCELINK_SUFFIX: ''
-          };
-      </script>
-        <script type="text/javascript" src="_static/jquery.js"></script>
-        <script type="text/javascript" src="_static/underscore.js"></script>
-        <script type="text/javascript" src="_static/doctools.js"></script>
-        <script type="text/javascript" src="https://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
-    
+    <script type="text/javascript">
+        var DOCUMENTATION_OPTIONS = {
+            URL_ROOT:'./',
+            VERSION:'',
+            COLLAPSE_INDEX:false,
+            FILE_SUFFIX:'.html',
+            HAS_SOURCE:  true,
+            SOURCELINK_SUFFIX: '.txt'
+        };
+    </script>
+      <script type="text/javascript" src="_static/jquery.js"></script>
+      <script type="text/javascript" src="_static/underscore.js"></script>
+      <script type="text/javascript" src="_static/doctools.js"></script>
+      <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.0/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
 
   
 
-  <script type="text/javascript" src="_static/js/theme.js"></script>
+  
+  
+    <script type="text/javascript" src="_static/js/theme.js"></script>
+  
 
+  
+  
   <script type="text/javascript">
       jQuery(function () {
-          SphinxRtdTheme.Navigation.enable(true);
+          SphinxRtdTheme.StickyNav.enable();
       });
-  </script> 
+  </script>
+   
 
 </body>
 </html>

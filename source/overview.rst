@@ -116,6 +116,10 @@ In the pre-processing step, users need to create the WEC geometry, run a BEM cod
       * Please refer to `NEMOH-Mesh <https://lheea.ec-nantes.fr/logiciels-et-brevets/nemoh-mesh-192932.kjsp?RH=1489593406974>`_ webpage for more mesh generation details.
       * The NEMOH Mesh.exe code creates the ``Hydrostatics.dat`` and ``KH.dat`` files (among other files) for one input body at a time. For the Read_NEMOH function to work correctly in the case of a multiple body system, the user must manually rename ``Hydrostatics.dat`` and ``KH.dat`` files to ``Hydrostatics_0.dat``, ``Hydrostatics_1.dat``, …, and ``KH_0.dat``, ``KH_1.dat``,…, corresponding to the body order specified in the ``Nemoh.cal`` file.
       * More details on NEMOH setup are given in the `Nemoh Homepage <https://lheea.ec-nantes.fr/logiciels-et-brevets/nemoh-running-192930.kjsp?RH=1489593406974>`_.
+   * **If AQWA is used:** 
+      * The origin of the global coordinate system is at the mean water surface, and the origin of the body coordinate system for each body must be at the the center of gravity (defined using the AQWA GUI or in the ``*.dat`` input file).
+      * In order to run BEMIO, AQWA users must output both the default ``*.LIS`` file and output the ``*.AH1`` hydrodynamic database file. Both of these files are recquired to run BEMIO. 
+      * More details on AQWA setup are given in the AQWA Reference Manual.
 
 * **Parse Hydrodynamic Coefficients into WEC-Sim Required Format**: 
    * The hydrodynamic coefficients for each body generated from the BEM code can be parsed into a ``*.h5`` data structure using `BEMIO <http://wec-sim.github.io/WEC-Sim/advanced_features.html#bemio>`_, which was developed by the WEC-Sim team.
