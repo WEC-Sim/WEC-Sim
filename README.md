@@ -43,6 +43,7 @@ The gh-pages website renders the documentation in the WEC-Sim/gh-pages branch as
   cd $WS_DOC
 
   # Build the html documentation in cmd
+  make clean
   make html
 
   # Use Git-shell to check status of the gh-pages branch, then commit and push changes. 
