@@ -34,7 +34,7 @@ The incident wave is defined as :math:`\eta(x,t)` :
 
 	\eta(x,t)= \frac{H}{2} \cos( \omega t - k (x\cos \beta + y\sin \beta) + \phi)
 
-where :math:`H` is the wave height, :math:`\omega` is the wave frequency, :math:`k` is the wave number, :math:'\beta' is the wave heading, and :math:`\phi` is the wave phase for irregular waves.   
+where :math:`H` is the wave height, :math:`\omega` is the wave frequency, :math:`k` is the wave number, :math:`\beta` is the wave heading, and :math:`\phi` is the wave phase for irregular waves.   
 
 
 Units
@@ -61,7 +61,7 @@ The WEC-Sim code scales the hydrodynamic coefficients according to the equations
 	
 	\overline{K_{hs}} = \frac{K_{hs}}{\rho g}
 
-where :math:'F_{exc}' is the wave-excitation force/torque coefficient, :math:'A' is the radiation added mass coefficient, :math:'B' is the radiation wave damping coefficient, and :math:'K_{hs}' is the linear hydrostatic restoring coefficient.
+where :math:`F_{exc}` is the wave-excitation force/torque coefficient, :math:`A` is the radiation added mass coefficient, :math:`B` is the radiation wave damping coefficient, and :math:`K_{hs}` is the linear hydrostatic restoring coefficient.
 
 Time-Domain Formulation
 -------------------------
