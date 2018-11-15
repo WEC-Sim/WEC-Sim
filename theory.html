@@ -35,27 +35,19 @@
 
   
 
-  
-  
-    <link rel="stylesheet" href="_static/css/theme.css" type="text/css" />
-  
-
-  
-
-  
-        <link rel="index" title="Index"
-              href="genindex.html"/>
-        <link rel="search" title="Search" href="search.html"/>
-    <link rel="top" title="WEC-Sim  documentation" href="index.html"/>
-        <link rel="next" title="Code Structure" href="code_structure.html"/>
-        <link rel="prev" title="Overview" href="overview.html"/> 
+  <link rel="stylesheet" href="_static/css/theme.css" type="text/css" />
+  <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
+    <link rel="index" title="Index" href="genindex.html" />
+    <link rel="search" title="Search" href="search.html" />
+    <link rel="next" title="Code Structure" href="code_structure.html" />
+    <link rel="prev" title="Overview" href="overview.html" /> 
 
   
   <script src="_static/js/modernizr.min.js"></script>
 
 </head>
 
-<body class="wy-body-for-nav" role="document">
+<body class="wy-body-for-nav">
 
    
   <div class="wy-grid-for-nav">
@@ -159,7 +151,7 @@
     <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap">
 
       
-      <nav class="wy-nav-top" role="navigation" aria-label="top navigation">
+      <nav class="wy-nav-top" aria-label="top navigation">
         
           <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
           <a href="index.html">WEC-Sim</a>
@@ -167,9 +159,10 @@
       </nav>
 
 
-      
       <div class="wy-nav-content">
+        
         <div class="rst-content">
+        
           
 
 
@@ -198,7 +191,7 @@
       <li class="wy-breadcrumbs-aside">
         
             
-            <a href="_sources/theory.rst.txt" rel="nofollow"> View page source</a>
+            <a href="_sources/theory.txt" rel="nofollow"> View page source</a>
           
         
       </li>
@@ -221,7 +214,7 @@
 </div>
 <div class="section" id="coordinate-system">
 <h2>Coordinate System<a class="headerlink" href="#coordinate-system" title="Permalink to this headline">¶</a></h2>
-<p>The <a class="reference internal" href="#id4"><span class="std std-ref">WEC-Sim Coordinate System</span></a> figure illustrates a 3-D floating point absorber subject to incoming waves in water. The figure also defines the coordinates and the 6 degree of freedom (DOF) in WEC-Sim. The WEC-Sim coordinate system  assumes that the positive X-axis defines a wave angle heading of zero (e.g., a wave propagating with along a zero-degree heading is moving in the +X direction). The Z-axis is in the vertical upwards direction, and the Y-axis direction is defined by the right-hand rule. In the vectors and matrices used in the code, Surge (x), Sway (y), and Heave (z) correspond to the first, second and third position respectively. Roll (Rx), Pitch (Ry), and Yaw (Rz) correspond to the fourth, fifth, and sixth position respectively.</p>
+<p>The <a class="reference internal" href="#id4"><span class="std std-ref">WEC-Sim Coordinate System</span></a> figure illustrates a 3-D floating point absorber subject to incoming waves in water. The figure also defines the coordinates and the 6 degree of freedom (DOF) in WEC-Sim. The WEC-Sim coordinate system assumes that the positive X-axis defines a wave angle heading of zero (e.g., a wave propagating with along a zero-degree heading is moving in the +X direction). The positive Z-axis is in the vertical upwards direction, and the positive Y-axis direction is defined by the right-hand rule. In the vectors and matrices used in the code, Surge (x), Sway (y), and Heave (z) correspond to the first, second and third position respectively. Roll (Rx), Pitch (Ry), and Yaw (Rz) correspond to the fourth, fifth, and sixth position respectively.</p>
 <div class="figure align-center" id="id4">
 <a class="reference internal image-reference" href="_images/coordinateSystem.png"><img alt="_images/coordinateSystem.png" src="_images/coordinateSystem.png" style="width: 400pt;" /></a>
 <div class="legend">
@@ -229,8 +222,8 @@
 </div>
 <p>The incident wave is defined as <span class="math">\(\eta(x,t)\)</span> :</p>
 <div class="math">
-\[\eta(x,t)= \frac{H}{2} \cos( \omega t - k x + \phi)\]</div>
-<p>where <span class="math">\(H\)</span> is the wave height, <span class="math">\(\omega\)</span> is the wave frequency, <span class="math">\(k\)</span> is the wave number, and <span class="math">\(\phi\)</span> is the wave phase for irregular waves.</p>
+\[\eta(x,t)= \frac{H}{2} \cos( \omega t - k (x\cos \beta + y\sin \beta) + \phi)\]</div>
+<p>where <span class="math">\(H\)</span> is the wave height, <span class="math">\(\omega\)</span> is the wave frequency, <span class="math">\(k\)</span> is the wave number, <span class="math">\(\beta\)</span> is the wave heading, and <span class="math">\(\phi\)</span> is the wave phase for irregular waves.</p>
 </div>
 <div class="section" id="units">
 <h2>Units<a class="headerlink" href="#units" title="Permalink to this headline">¶</a></h2>
@@ -242,14 +235,15 @@
 The BEM solutions are obtained by solving the Laplace equation for the velocity potential, which assumes the flow is inviscid, incompressible, and irrotational. More details on the theory for the frequency-domain BEM can be found in <a class="reference internal" href="#lee2006" id="id8">[4]</a>.</p>
 <p>WEC-Sim imports non-dimensionalized hydrodynamic coefficients from an <code class="docutils literal"><span class="pre">*.h5</span></code>  data structure generated by <a class="reference external" href="http://wec-sim.github.io/WEC-Sim/advanced_features.html#bemio">BEMIO</a> for the WAMIT, AQWA or Nemoh BEM solvers.
 Alternatively, the <code class="docutils literal"><span class="pre">*.h5</span></code> data structure can be manually defined by the user.
-The WEC-Sim code then scales the hydrodynamic coefficients according to the scaling defined below, where <span class="math">\(\rho\)</span> is the water density, <span class="math">\(\omega\)</span> is the wave frequency in rad/s, and g is gravity:</p>
+The WEC-Sim code scales the hydrodynamic coefficients according to the equations below, where <span class="math">\(\rho\)</span> is the water density, <span class="math">\(\omega\)</span> is the wave frequency in rad/s, and g is gravity:</p>
 <div class="math">
 \[ \begin{align}\begin{aligned}|\overline{F_{exc}(\omega)}|=\frac{|F_{exc}(\omega)|}{\rho g}\\\overline{A(\omega)} = \frac{A(\omega)}{\rho}\\\overline{B(\omega)} = \frac{B(\omega)}{\rho \omega}\\\overline{K_{hs}} = \frac{K_{hs}}{\rho g}\end{aligned}\end{align} \]</div>
+<p>where <span class="math">\(F_{exc}\)</span> is the wave-excitation force/torque coefficient, <span class="math">\(A\)</span> is the radiation added mass coefficient, <span class="math">\(B\)</span> is the radiation wave damping coefficient, and <span class="math">\(K_{hs}\)</span> is the linear hydrostatic restoring coefficient.</p>
 </div>
 <div class="section" id="time-domain-formulation">
 <h2>Time-Domain Formulation<a class="headerlink" href="#time-domain-formulation" title="Permalink to this headline">¶</a></h2>
-<p>A common approach to determining the hydrodynamic forces is to use the linear wave theory assumption that waves are the sum of incident, radiated, and diffracted wave components.
-The dynamic response of the system is calculated by solving the equation of motion for WEC systems <a class="reference internal" href="#babarit2012" id="id9">[3]</a><a class="reference internal" href="#nolte2014" id="id10">[7]</a>.
+<p>A common approach to determining the hydrodynamic forces is to use linear wave theory which assumes the waves are the sum of incident, radiated, and diffracted wave components.
+The dynamic response of the system is calculated by solving WEC system equations of motion <a class="reference internal" href="#babarit2012" id="id9">[3]</a><a class="reference internal" href="#nolte2014" id="id10">[7]</a>.
 The equation of motion for a floating body about its center of gravity can be given as:</p>
 <div class="math">
 \[m\ddot{X}=F_{exc}(t)+F_{rad}(t)+F_{PTO}(t)+F_{v}(t)+F_{ME}(t)+F_{B}(t)+F_{m}(t)\]</div>
@@ -633,9 +627,7 @@ Because linear wave theory is used to determine the flow velocity and pressure f
 
 
            </div>
-           <div class="articleComments">
-            
-           </div>
+           
           </div>
           <footer>
   
@@ -653,11 +645,11 @@ Because linear wave theory is used to determine the flow velocity and pressure f
 
   <div role="contentinfo">
     <p>
-        &copy; Copyright 2015, National Renewable Energy Laboratory and Sandia Corporation.
+        &copy; Copyright 2015, National Renewable Energy Laboratory and Sandia Corporation
 
     </p>
   </div>
-  Built with <a href="http://sphinx-doc.org/">Sphinx</a> using a <a href="https://github.com/snide/sphinx_rtd_theme">theme</a> provided by <a href="https://readthedocs.org">Read the Docs</a>. 
+  Built with <a href="http://sphinx-doc.org/">Sphinx</a> using a <a href="https://github.com/rtfd/sphinx_rtd_theme">theme</a> provided by <a href="https://readthedocs.org">Read the Docs</a>. 
 
 </footer>
 
@@ -672,36 +664,34 @@ Because linear wave theory is used to determine the flow velocity and pressure f
 
   
 
-    <script type="text/javascript">
-        var DOCUMENTATION_OPTIONS = {
-            URL_ROOT:'./',
-            VERSION:'',
-            COLLAPSE_INDEX:false,
-            FILE_SUFFIX:'.html',
-            HAS_SOURCE:  true,
-            SOURCELINK_SUFFIX: '.txt'
-        };
-    </script>
-      <script type="text/javascript" src="_static/jquery.js"></script>
-      <script type="text/javascript" src="_static/underscore.js"></script>
-      <script type="text/javascript" src="_static/doctools.js"></script>
-      <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.0/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+    
+    
+      <script type="text/javascript">
+          var DOCUMENTATION_OPTIONS = {
+              URL_ROOT:'./',
+              VERSION:'',
+              LANGUAGE:'None',
+              COLLAPSE_INDEX:false,
+              FILE_SUFFIX:'.html',
+              HAS_SOURCE:  true,
+              SOURCELINK_SUFFIX: ''
+          };
+      </script>
+        <script type="text/javascript" src="_static/jquery.js"></script>
+        <script type="text/javascript" src="_static/underscore.js"></script>
+        <script type="text/javascript" src="_static/doctools.js"></script>
+        <script type="text/javascript" src="https://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+    
 
   
 
-  
-  
-    <script type="text/javascript" src="_static/js/theme.js"></script>
-  
+  <script type="text/javascript" src="_static/js/theme.js"></script>
 
-  
-  
   <script type="text/javascript">
       jQuery(function () {
-          SphinxRtdTheme.StickyNav.enable();
+          SphinxRtdTheme.Navigation.enable(true);
       });
-  </script>
-   
+  </script> 
 
 </body>
 </html>
