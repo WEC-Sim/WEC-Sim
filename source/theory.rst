@@ -325,17 +325,13 @@ The PTO mechanism is represented as a linear spring-damper system where the reac
 	F_{PTO}=-K{}_{PTO}X_{rel}-C_{PTO}\dot{X}_{rel}
 
 where :math:`K_{PTO}` is the stiffness of the PTO, :math:`C_{PTO}` is the damping of the PTO, and :math:`X_{rel}` and :math:`\dot{X}_{rel}` are the relative motion and velocity between two bodies. 
-The power absorbed by the PTO is given by:
+The instantaneous power absorbed by the PTO is given by:
 
  .. math::
 	
 	P_{PTO} = -F_{PTO}\dot{X}_{rel}=\left(K_{PTO}X_{rel}\dot{X}_{rel}+C_{PTO}\dot{X}^{2}_{rel}\right)
 
 
-However, the relative motion and velocity between two bodies is out of phase by :math:`\pi/2`, resulting in a time-averaged product of 0. This allows the absorbed power to be written as
-
-.. math::
-	P_{PTO} =C_{PTO}\dot{X}^{2}_{rel}
 
 Hydraulic PTO
 ~~~~~~~~~~~~~~~~
