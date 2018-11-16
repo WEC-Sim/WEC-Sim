@@ -196,7 +196,7 @@ For more information on how PTO-Sim works, refer to [So et al., 2015], and the <
 <li>Simulink model: <code class="docutils literal"><span class="pre">RM3.slx</span></code></li>
 <li>Geometry file for each body: <code class="docutils literal"><span class="pre">float.stl</span></code> and <code class="docutils literal"><span class="pre">plate.stl</span></code></li>
 <li>Hydrodynamic data file(s): <code class="docutils literal"><span class="pre">rm3.h5</span></code></li>
-<li>Optional user defined postprocessing file: <code class="docutils literal"><span class="pre">userDefinedFunction.m</span></code></li>
+<li>Optional user defined post-processing file: <code class="docutils literal"><span class="pre">userDefinedFunction.m</span></code></li>
 <li>PTO-Sim input file: <code class="docutils literal"><span class="pre">ptoSimInputFile.m</span></code></li>
 <li>Datasheet for the rotary generator: <code class="docutils literal"><span class="pre">table</span></code> (<code class="docutils literal"><span class="pre">table.eff</span></code>, <code class="docutils literal"><span class="pre">table.Tpu</span></code>,and <code class="docutils literal"><span class="pre">table.omegapu</span></code>)</li>
 <li>For the hydraulic PTOs: <code class="docutils literal"><span class="pre">variableMotorVolume.m</span></code></li>
@@ -204,7 +204,7 @@ For more information on how PTO-Sim works, refer to [So et al., 2015], and the <
 <p><strong>Simulink Model</strong>
 The Simulink model can be built as following:</p>
 <ul class="simple">
-<li>Step 1: Navigate to the RM3 tutorial <code class="docutils literal"><span class="pre">$Source/tutorals/RM3</span></code>.</li>
+<li>Step 1: Navigate to the RM3 tutorial <code class="docutils literal"><span class="pre">$Source/tutorials/RM3</span></code>.</li>
 <li>Step 2: Open <code class="docutils literal"><span class="pre">RM3.slx</span></code> file and replace Translational PTO (local Z) with Translational PTO UD Force (Local Z).</li>
 </ul>
 <div class="figure">
@@ -229,19 +229,19 @@ The Simulink model can be built as following:</p>
 <a class="reference internal image-reference" href="_images/OPENPTOSIMLIB.PNG"><img alt="_images/OPENPTOSIMLIB.PNG" src="_images/OPENPTOSIMLIB.PNG" style="width: 400pt;" /></a>
 </div>
 <ul class="simple">
-<li>Step 6: By looking at the physical hydraulic PTO model as shown above, user can simply drag and drop PTO-Sim library blocks. Piston, valves, accummulator blocks are located under Hydraulic block. Rotary generator lookup table is under Generator block.</li>
+<li>Step 6: By looking at the physical hydraulic PTO model as shown above, user can simply drag and drop PTO-Sim library blocks. Piston, valves, accumulator blocks are located under Hydraulic block. Rotary generator lookup table is under Generator block.</li>
 </ul>
 <div class="figure">
 <a class="reference internal image-reference" href="_images/USEPTOSIMLIB.PNG"><img alt="_images/USEPTOSIMLIB.PNG" src="_images/USEPTOSIMLIB.PNG" style="width: 400pt;" /></a>
 </div>
 <ul class="simple">
-<li>Step 7: Since two accumulators are needed for the high pressure accumulator and low pressure accumulator, user need to douple-click on each block and give a number to each accumulator. For example, <code class="docutils literal"><span class="pre">ptosim.accumulator(1)</span></code> is called high pressure accumulator and <code class="docutils literal"><span class="pre">ptosim.accumulator(2)</span></code> is called low pressure accumulator.</li>
+<li>Step 7: Since two accumulators are needed for the high pressure accumulator and low pressure accumulator, user need to double-click on each block and give a number to each accumulator. For example, <code class="docutils literal"><span class="pre">ptosim.accumulator(1)</span></code> is called high pressure accumulator and <code class="docutils literal"><span class="pre">ptosim.accumulator(2)</span></code> is called low pressure accumulator.</li>
 </ul>
 <div class="figure">
 <a class="reference internal image-reference" href="_images/MULTIPLEACCUMULATORS.PNG"><img alt="_images/MULTIPLEACCUMULATORS.PNG" src="_images/MULTIPLEACCUMULATORS.PNG" style="width: 400pt;" /></a>
 </div>
 <ul class="simple" id="step-8">
-<li>Step 8: If a rotary generator lookup table is used, this block assumes user will provide the datasheet. After the datasheet is loaded into <code class="docutils literal"><span class="pre">Workspace</span></code>, it needs to be named as <code class="docutils literal"><span class="pre">table</span></code> because the word <code class="docutils literal"><span class="pre">table</span></code> is used inside Simulink lookup table block. The datasheet in tutorials is taken from ABB datasheet part number M3BJ315SMC. The lookup table takes three inputs: efficiency (<code class="docutils literal"><span class="pre">table.eff</span></code>), anglular velocity (<code class="docutils literal"><span class="pre">table.Tpu</span></code>), and generator torque (<code class="docutils literal"><span class="pre">table.omegapu</span></code>), respectively.</li>
+<li>Step 8: If a rotary generator lookup table is used, this block assumes user will provide the datasheet. After the datasheet is loaded into <code class="docutils literal"><span class="pre">Workspace</span></code>, it needs to be named as <code class="docutils literal"><span class="pre">table</span></code> because the word <code class="docutils literal"><span class="pre">table</span></code> is used inside Simulink lookup table block. The datasheet in tutorials is taken from ABB datasheet part number M3BJ315SMC. The lookup table takes three inputs: efficiency (<code class="docutils literal"><span class="pre">table.eff</span></code>), angular velocity (<code class="docutils literal"><span class="pre">table.Tpu</span></code>), and generator torque (<code class="docutils literal"><span class="pre">table.omegapu</span></code>), respectively.</li>
 </ul>
 <div class="figure">
 <a class="reference internal image-reference" href="_images/ROTARYHIGHLEVELBLOCK.PNG"><img alt="_images/ROTARYHIGHLEVELBLOCK.PNG" src="_images/ROTARYHIGHLEVELBLOCK.PNG" style="width: 400pt;" /></a>
@@ -264,12 +264,12 @@ In this section, PTO-Sim input file (<code class="docutils literal"><span class=
 <div class="figure">
 <a class="reference internal image-reference" href="_images/PTOSIMINPUTFILE.PNG"><img alt="_images/PTOSIMINPUTFILE.PNG" src="_images/PTOSIMINPUTFILE.PNG" style="width: 400pt;" /></a>
 </div>
-<p><strong>Simulation and Postprocessing</strong>
-Simulation and postprocessing are the same process as described in WEC-Sim Simulation example above.</p>
+<p><strong>Simulation and Post-processing</strong>
+Simulation and post-processing are the same process as described in WEC-Sim Simulation example above.</p>
 </div>
 <div class="section" id="rm3-with-direct-drive-pto">
 <h3>RM3 with Direct Drive PTO<a class="headerlink" href="#rm3-with-direct-drive-pto" title="Permalink to this headline">¶</a></h3>
-<p>A mechanical PTO is used in this example and is modeled as a direct drive linear generator. The main components of this example consist of magnets and a coil where the magnet assembly is attached to the heaving float and the coil is locacted inside the spar. As the float moves up and down, the magnet assembly creates a change in the magnetic field surrounding the spar that contains the coil: therefore, current is induced in the coil and electricity is generated.</p>
+<p>A mechanical PTO is used in this example and is modeled as a direct drive linear generator. The main components of this example consist of magnets and a coil where the magnet assembly is attached to the heaving float and the coil is located inside the spar. As the float moves up and down, the magnet assembly creates a change in the magnetic field surrounding the spar that contains the coil: therefore, current is induced in the coil and electricity is generated.</p>
 <div class="figure">
 <a class="reference internal image-reference" href="_images/MECHANICALPTO.PNG"><img alt="_images/MECHANICALPTO.PNG" src="_images/MECHANICALPTO.PNG" style="width: 400pt;" /></a>
 </div>
@@ -289,12 +289,12 @@ Step 1 through 3 are the same as in <a class="reference internal" href="#rm3-wit
 <a class="reference internal image-reference" href="_images/USEPTOSIMLIB2.PNG"><img alt="_images/USEPTOSIMLIB2.PNG" src="_images/USEPTOSIMLIB2.PNG" style="width: 400pt;" /></a>
 </div>
 <ul class="simple">
-<li>Step 7: Simply connect velocity from the selector to the input of the direct drive linear generator. The ouput PTO force is fed back to WEC-Sim.</li>
+<li>Step 7: Simply connect velocity from the selector to the input of the direct drive linear generator. The output PTO force is fed back to WEC-Sim.</li>
 </ul>
 <div class="figure">
 <a class="reference internal image-reference" href="_images/DDLINEARGENPTOSIM.PNG"><img alt="_images/DDLINEARGENPTOSIM.PNG" src="_images/DDLINEARGENPTOSIM.PNG" style="width: 400pt;" /></a>
 </div>
-<p><strong>Input File, Simulation, and Postprocessing</strong>
+<p><strong>Input File, Simulation, and Post-processing</strong>
 The same as <a class="reference internal" href="#rm3-with-hydraulic-pto">RM3 with hydraulic PTO</a>.</p>
 </div>
 </div>
@@ -339,7 +339,7 @@ The Simulink model can be built as following:</p>
 <div class="figure">
 <a class="reference internal image-reference" href="_images/HYDPTOSIMOSWEC.PNG"><img alt="_images/HYDPTOSIMOSWEC.PNG" src="_images/HYDPTOSIMOSWEC.PNG" style="width: 400pt;" /></a>
 </div>
-<p><strong>Input File, Simulation, and Postprocessing</strong>
+<p><strong>Input File, Simulation, and Post-processing</strong>
 The same as <a class="reference internal" href="#rm3-with-hydraulic-pto">RM3 with hydraulic PTO</a>.</p>
 </div>
 </div>

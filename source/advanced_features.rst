@@ -77,16 +77,16 @@ To run WEC-Sim with a variable time-step, the following variables must be define
 
 Wave Features
 -------------------------
-This section provides an overview of WEC-Sim's wave class features; for more information about the wave class code structure, refer to `Wave Class <http://wec-sim.github.io/WEC-Sim/code_structure.html#wave-class>`_. 
+This section provides an overview of WEC-Sim's wave class features. For more information about the wave class code structure, refer to `Wave Class <http://wec-sim.github.io/WEC-Sim/code_structure.html#wave-class>`_. 
 
 
 Irregular Wave Binning
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-WEC-Sim's default spectral binning method divides the wave spectrum into 499 bins with equal energy content, defined by 500 wave frequencies. As a result, the wave forces on the WEC using the equal energy method are only computed at each of the 500 wave frequencies. The equal energy formulation speeds up the irregular wave simulation time by reducing the number of frequencies the wave train is defined by, and thus the numer of frequencies for which the wave forces are calculated. The equal energy method is specified by defining the following wave class variable in the WEC-Sim input file:
+WEC-Sim's default spectral binning method divides the wave spectrum into 499 bins with equal energy content, defined by 500 wave frequencies. As a result, the wave forces on the WEC using the equal energy method are only computed at each of the 500 wave frequencies. The equal energy formulation speeds up the irregular wave simulation time by reducing the number of frequencies the wave train is defined by, and thus the number of frequencies for which the wave forces are calculated. The equal energy method is specified by defining the following wave class variable in the WEC-Sim input file:
 
 	:code:`waves.freqDisc = 'EqualEnergy';`
 
-By comparison, the traditional method divides the wave spectrum into a sufficiently large number of to define the wave spectrum. WEC-Sim's traditional formulation uses 999 bins, defined by 1000 wave frequencies of equal frequency distrubution. To override WEC-Sim's default using the equal energy method, and instead use traditional binning method, the following wave class variable must be defined in the WEC-Sim input file:
+By comparison, the traditional method divides the wave spectrum into a sufficiently large number of to define the wave spectrum. WEC-Sim's traditional formulation uses 999 bins, defined by 1000 wave frequencies of equal frequency distribution. To override WEC-Sim's default using the equal energy method, and instead use traditional binning method, the following wave class variable must be defined in the WEC-Sim input file:
 
 	:code:`waves.freqDisc = 'Traditional';`
 
@@ -94,16 +94,16 @@ Users may override the default number of wave frequencies by defining ``waves.nu
 
 
 Wave Directionality
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-WEC-Sim has the ability to model waves with various angles of incidence. To define wave directionality in WEC-Sim, the following waveClass variable must be defined in the WEC-Sim input file:
+~~~~~~~~~~~~~~~~~~~~
+WEC-Sim has the ability to model waves with various angles of incidence, :math:`\theta`. To define wave directionality in WEC-Sim, the following wave class variable must be defined in the WEC-Sim input file:
 
 	:code:`waves.waveDir = <user defined wave direction>; %[deg]`  		
 	
 The incident wave direction has a default heading of 0 Degrees (Default = 0). For more information about the wave formulation, refer to `Wave Theory <http://wec-sim.github.io/WEC-Sim/theory.html#wave-spectra>`_.
 
 Wave Directional Spreading
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-WEC-Sim has the ability to model waves with directional spreading. To define wave directional spreading in WEC-Sim, the following waveClass variable must be defined in the WEC-Sim input file:
+~~~~~~~~~~~~~~~~~~~~~~~~~~
+WEC-Sim has the ability to model waves with directional spreading, :math:`D\left( \theta \right)`. To define wave directional spreading in WEC-Sim, the following wave class variable must be defined in the WEC-Sim input file:
 
 	:code:`waves.waveSpread = <user defined directional spreading>;`  		
 	
@@ -111,7 +111,7 @@ The wave directional spreading has a default probability of 1 (Default = 1). For
 
 Irregular Waves with Seeded Phase
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-By default, the phase for all irregular wave cases are generated randomly. In order to reproduce the same time-series every time an irregular wave simulation is run, the following waveClass variable may be defined in the WEC-Sim input file:
+By default, the phase for all irregular wave cases are generated randomly. In order to reproduce the same time-series every time an irregular wave simulation is run, the following wave class variable may be defined in the WEC-Sim input file:
 
 	:code:`waves.phaseSeed = <user defined seed>;`
 	
@@ -120,7 +120,7 @@ By setting ``waves.phaseSeed``  equal to 1,2,3,...,etc, the random wave phase ge
 
 Wave Gauge Placement 
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-By default, the wave surface elevation is calculated at the origin. Users are allowed up to 3 other x-locations to calculate the wave surface elevation offset from the origin in the global x-direction by defining the waveClass variable, ``waves.wavegauge<i>loc``, in the WEC-Sim input file:
+By default, the wave surface elevation is calculated at the origin. Users are allowed up to 3 other x-locations to calculate the wave surface elevation offset from the origin in the global x-direction by defining the wave class variable, ``waves.wavegauge<i>loc``, in the WEC-Sim input file:
 
 	:code:`waves.wavegauge<i>loc = <user defined wave gauge i x-location>; %(y-position assumed to be 0 m)`
 
@@ -263,7 +263,7 @@ For more information, refer to the `B2B webinar <http://wec-sim.github.io/WEC-Si
 
 Viscous Damping and Morison Elements
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-WEC-Sim allows for definiton of additional damping and added-mass to force the definitions; for more information about the numerical formulation of viscous damping and Morison Elements, refer to the `Viscous Damping and Morison Elements <http://wec-sim.github.io/WEC-Sim/theory.html#non-linear-drag-and-morison-elements>`_ section.
+WEC-Sim allows for definition of additional damping and added-mass to force the definitions; for more information about the numerical formulation of viscous damping and Morison Elements, refer to the `Viscous Damping and Morison Elements <http://wec-sim.github.io/WEC-Sim/theory.html#non-linear-drag-and-morison-elements>`_ section.
 
 
 Viscous Damping

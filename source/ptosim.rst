@@ -31,7 +31,7 @@ In this section, a step by step tutorial on how to set up and run the RM3 simula
 * Simulink model: ``RM3.slx``
 * Geometry file for each body: ``float.stl`` and ``plate.stl``
 * Hydrodynamic data file(s): ``rm3.h5``
-* Optional user defined postprocessing file: ``userDefinedFunction.m``
+* Optional user defined post-processing file: ``userDefinedFunction.m``
 * PTO-Sim input file: ``ptoSimInputFile.m``
 * Datasheet for the rotary generator: ``table`` (``table.eff``, ``table.Tpu``,and ``table.omegapu``)
 * For the hydraulic PTOs: ``variableMotorVolume.m``
@@ -40,7 +40,7 @@ In this section, a step by step tutorial on how to set up and run the RM3 simula
 **Simulink Model**
 The Simulink model can be built as following:
 
-* Step 1: Navigate to the RM3 tutorial ``$Source/tutorals/RM3``.
+* Step 1: Navigate to the RM3 tutorial ``$Source/tutorials/RM3``.
 
 
 * Step 2: Open ``RM3.slx`` file and replace Translational PTO (local Z) with Translational PTO UD Force (Local Z). 
@@ -63,19 +63,19 @@ The Simulink model can be built as following:
 .. figure:: _static/OPENPTOSIMLIB.PNG
    :width: 400pt
 
-* Step 6: By looking at the physical hydraulic PTO model as shown above, user can simply drag and drop PTO-Sim library blocks. Piston, valves, accummulator blocks are located under Hydraulic block. Rotary generator lookup table is under Generator block. 
+* Step 6: By looking at the physical hydraulic PTO model as shown above, user can simply drag and drop PTO-Sim library blocks. Piston, valves, accumulator blocks are located under Hydraulic block. Rotary generator lookup table is under Generator block. 
 
 .. figure:: _static/USEPTOSIMLIB.PNG
    :width: 400pt
 
-* Step 7: Since two accumulators are needed for the high pressure accumulator and low pressure accumulator, user need to douple-click on each block and give a number to each accumulator. For example, ``ptosim.accumulator(1)`` is called high pressure accumulator and ``ptosim.accumulator(2)`` is called low pressure accumulator.
+* Step 7: Since two accumulators are needed for the high pressure accumulator and low pressure accumulator, user need to double-click on each block and give a number to each accumulator. For example, ``ptosim.accumulator(1)`` is called high pressure accumulator and ``ptosim.accumulator(2)`` is called low pressure accumulator.
 
 .. figure:: _static/MULTIPLEACCUMULATORS.PNG
    :width: 400pt
 
 .. _`Step 8`:
 
-* Step 8: If a rotary generator lookup table is used, this block assumes user will provide the datasheet. After the datasheet is loaded into ``Workspace``, it needs to be named as ``table`` because the word ``table`` is used inside Simulink lookup table block. The datasheet in tutorials is taken from ABB datasheet part number M3BJ315SMC. The lookup table takes three inputs: efficiency (``table.eff``), anglular velocity (``table.Tpu``), and generator torque (``table.omegapu``), respectively. 
+* Step 8: If a rotary generator lookup table is used, this block assumes user will provide the datasheet. After the datasheet is loaded into ``Workspace``, it needs to be named as ``table`` because the word ``table`` is used inside Simulink lookup table block. The datasheet in tutorials is taken from ABB datasheet part number M3BJ315SMC. The lookup table takes three inputs: efficiency (``table.eff``), angular velocity (``table.Tpu``), and generator torque (``table.omegapu``), respectively. 
 
 .. figure:: _static/ROTARYHIGHLEVELBLOCK.PNG
    :width: 400pt
@@ -101,13 +101,13 @@ In this section, PTO-Sim input file (``ptoSimInputFile.m``) is defined and categ
 .. figure:: _static/PTOSIMINPUTFILE.PNG
    :width: 400pt
 
-**Simulation and Postprocessing**
-Simulation and postprocessing are the same process as described in WEC-Sim Simulation example above.
+**Simulation and Post-processing**
+Simulation and post-processing are the same process as described in WEC-Sim Simulation example above.
 
 
 RM3 with Direct Drive PTO
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
-A mechanical PTO is used in this example and is modeled as a direct drive linear generator. The main components of this example consist of magnets and a coil where the magnet assembly is attached to the heaving float and the coil is locacted inside the spar. As the float moves up and down, the magnet assembly creates a change in the magnetic field surrounding the spar that contains the coil: therefore, current is induced in the coil and electricity is generated.
+A mechanical PTO is used in this example and is modeled as a direct drive linear generator. The main components of this example consist of magnets and a coil where the magnet assembly is attached to the heaving float and the coil is located inside the spar. As the float moves up and down, the magnet assembly creates a change in the magnetic field surrounding the spar that contains the coil: therefore, current is induced in the coil and electricity is generated.
 
 .. figure:: _static/MECHANICALPTO.PNG
    :width: 400pt
@@ -127,12 +127,12 @@ Step 1 through 3 are the same as in `RM3 with hydraulic PTO`_.
 .. figure:: _static/USEPTOSIMLIB2.PNG
    :width: 400pt
 
-* Step 7: Simply connect velocity from the selector to the input of the direct drive linear generator. The ouput PTO force is fed back to WEC-Sim. 
+* Step 7: Simply connect velocity from the selector to the input of the direct drive linear generator. The output PTO force is fed back to WEC-Sim. 
 
 .. figure:: _static/DDLINEARGENPTOSIM.PNG
    :width: 400pt
 
-**Input File, Simulation, and Postprocessing**
+**Input File, Simulation, and Post-processing**
 The same as `RM3 with hydraulic PTO`_.
 
 
@@ -179,7 +179,7 @@ The Simulink model can be built as following:
 .. figure:: _static/HYDPTOSIMOSWEC.PNG
    :width: 400pt
 
-**Input File, Simulation, and Postprocessing**
+**Input File, Simulation, and Post-processing**
 The same as `RM3 with hydraulic PTO`_.
 
 

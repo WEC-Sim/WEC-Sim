@@ -106,7 +106,7 @@ In the pre-processing step, users need to create the WEC geometry, run a BEM cod
 
 .. Note:: 
    * **If WAMIT is used:**
-      * The origin of the body coordinate system (XBODY, defined in ``*.pot``) as well as the mesh for each body must be at the the center of gravity.
+      * The origin of the body coordinate system (XBODY, defined in ``*.pot``) as well as the mesh for each body must be at the center of gravity.
       * The WAMIT mesh (``*.gdf``) can be generated using `Rhino <https://www.rhino3d.com>`_ or `MultiSurf <http://www.aerohydro.com/WAMIT.htm>`_.
       * More details on WAMIT setup are given in the `WAMIT User Manual <http://www.wamit.com/manual.htm>`_.
 
@@ -117,13 +117,13 @@ In the pre-processing step, users need to create the WEC geometry, run a BEM cod
       * The NEMOH Mesh.exe code creates the ``Hydrostatics.dat`` and ``KH.dat`` files (among other files) for one input body at a time. For the Read_NEMOH function to work correctly in the case of a multiple body system, the user must manually rename ``Hydrostatics.dat`` and ``KH.dat`` files to ``Hydrostatics_0.dat``, ``Hydrostatics_1.dat``, …, and ``KH_0.dat``, ``KH_1.dat``,…, corresponding to the body order specified in the ``Nemoh.cal`` file.
       * More details on NEMOH setup are given in the `Nemoh Homepage <https://lheea.ec-nantes.fr/logiciels-et-brevets/nemoh-running-192930.kjsp?RH=1489593406974>`_.
    * **If AQWA is used:** 
-      * The origin of the global coordinate system is at the mean water surface, and the origin of the body coordinate system for each body must be at the the center of gravity (defined using the AQWA GUI or in the ``*.dat`` input file).
-      * In order to run BEMIO, AQWA users must output both the default ``*.LIS`` file and output the ``*.AH1`` hydrodynamic database file. Both of these files are recquired to run BEMIO. 
+      * The origin of the global coordinate system is at the mean water surface, and the origin of the body coordinate system for each body must be at the center of gravity (defined using the AQWA GUI or in the ``*.dat`` input file).
+      * In order to run BEMIO, AQWA users must output both the default ``*.LIS`` file and output the ``*.AH1`` hydrodynamic database file. Both of these files are reacquired to run BEMIO. 
       * More details on AQWA setup are given in the AQWA Reference Manual.
 
 * **Parse Hydrodynamic Coefficients into WEC-Sim Required Format**: 
    * The hydrodynamic coefficients for each body generated from the BEM code can be parsed into a ``*.h5`` data structure using `BEMIO <http://wec-sim.github.io/WEC-Sim/advanced_features.html#bemio>`_, which was developed by the WEC-Sim team.
-   * BEMIO currently suports WAMIT, NEMOH and AQWA. 
+   * BEMIO currently supports WAMIT, NEMOH and AQWA. 
 
 .. Note:: Users are also able to specify their own hydrodynamic coefficients by creating their own ``*.h5`` file with customized hydrodynamic coefficients following the ``*.h5`` format created by BEMIO.
 

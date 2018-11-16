@@ -22,7 +22,7 @@ It should only be turned on when visualization is desired. The user also needs t
 Getting Started - Installation
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 	You will need to install `Paraview <http://www.paraview.org/>`_ and install and setup Python.  
-	Next you will need to add some WEC-Sim specific macros,as follows:
+	Next you will need to add some WEC-Sim specific macros, as follows:
 
 	* Open Paraview
 	* Click on ``Macros => Add new macro``
@@ -45,7 +45,7 @@ Setting Up Paraview Output
 +-------------------------+----------------------------------------------------------+
 |``simu.nlHydro``         |0 for no non-linear hydro [default]                       |
 |                         |1 for non-linear hydro with mean free surface             |
-|                         |2 for non-linear hydro with instantaneous fs              |
+|                         |2 for non-linear hydro with instantaneous free surface    |
 +-------------------------+----------------------------------------------------------+
 |``simu.domainSize``      |size of ground and water planes in meters [default 200]   |
 +-------------------------+----------------------------------------------------------+

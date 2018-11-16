@@ -350,7 +350,7 @@ The WEC-Sim input file (<code class="docutils literal"><span class="pre">wecSimI
 <li><dl class="first docutils">
 <dt><strong>If WAMIT is used:</strong></dt>
 <dd><ul class="first last">
-<li>The origin of the body coordinate system (XBODY, defined in <code class="docutils literal"><span class="pre">*.pot</span></code>) as well as the mesh for each body must be at the the center of gravity.</li>
+<li>The origin of the body coordinate system (XBODY, defined in <code class="docutils literal"><span class="pre">*.pot</span></code>) as well as the mesh for each body must be at the center of gravity.</li>
 <li>The WAMIT mesh (<code class="docutils literal"><span class="pre">*.gdf</span></code>) can be generated using <a class="reference external" href="https://www.rhino3d.com">Rhino</a> or <a class="reference external" href="http://www.aerohydro.com/WAMIT.htm">MultiSurf</a>.</li>
 <li>More details on WAMIT setup are given in the <a class="reference external" href="http://www.wamit.com/manual.htm">WAMIT User Manual</a>.</li>
 </ul>
@@ -372,8 +372,8 @@ The WEC-Sim input file (<code class="docutils literal"><span class="pre">wecSimI
 <li><dl class="first docutils">
 <dt><strong>If AQWA is used:</strong></dt>
 <dd><ul class="first last">
-<li>The origin of the global coordinate system is at the mean water surface, and the origin of the body coordinate system for each body must be at the the center of gravity (defined using the AQWA GUI or in the <code class="docutils literal"><span class="pre">*.dat</span></code> input file).</li>
-<li>In order to run BEMIO, AQWA users must output both the default <code class="docutils literal"><span class="pre">*.LIS</span></code> file and output the <code class="docutils literal"><span class="pre">*.AH1</span></code> hydrodynamic database file. Both of these files are recquired to run BEMIO.</li>
+<li>The origin of the global coordinate system is at the mean water surface, and the origin of the body coordinate system for each body must be at the center of gravity (defined using the AQWA GUI or in the <code class="docutils literal"><span class="pre">*.dat</span></code> input file).</li>
+<li>In order to run BEMIO, AQWA users must output both the default <code class="docutils literal"><span class="pre">*.LIS</span></code> file and output the <code class="docutils literal"><span class="pre">*.AH1</span></code> hydrodynamic database file. Both of these files are reacquired to run BEMIO.</li>
 <li>More details on AQWA setup are given in the AQWA Reference Manual.</li>
 </ul>
 </dd>
@@ -386,7 +386,7 @@ The WEC-Sim input file (<code class="docutils literal"><span class="pre">wecSimI
 <dt><strong>Parse Hydrodynamic Coefficients into WEC-Sim Required Format</strong>:</dt>
 <dd><ul class="first last">
 <li>The hydrodynamic coefficients for each body generated from the BEM code can be parsed into a <code class="docutils literal"><span class="pre">*.h5</span></code> data structure using <a class="reference external" href="http://wec-sim.github.io/WEC-Sim/advanced_features.html#bemio">BEMIO</a>, which was developed by the WEC-Sim team.</li>
-<li>BEMIO currently suports WAMIT, NEMOH and AQWA.</li>
+<li>BEMIO currently supports WAMIT, NEMOH and AQWA.</li>
 </ul>
 </dd>
 </dl>

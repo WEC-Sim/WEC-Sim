@@ -55,7 +55,7 @@ Option 1. Clone Repository from GitHub (Recommended for Users)
 		>> git pull
 		
 	.. Note::
-		If git lfs is not included in your version of Git, you may may need to manually install `Git Large File Storage <https://git-lfs.github.com/>`_ to download the correct ``*.h5`` files in the tutorials. Alternatively, WEC-Sim users can run the ``\hydroData\bemio.m`` script to generate a new ``*.h5`` file.
+		If git lfs is not included in your version of Git, you may need to manually install `Git Large File Storage <https://git-lfs.github.com/>`_ to download the correct ``*.h5`` files in the tutorials. Alternatively, WEC-Sim users can run the ``\hydroData\bemio.m`` script to generate a new ``*.h5`` file.
 		
 
 Option 2. Fork with Git (Recommended for Developers)

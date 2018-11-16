@@ -15,7 +15,7 @@ Modeling wave energy converters (WECs) involves the interaction between the inci
 
 
 Coordinate System
-------------------------------
+------------------
 The :ref:`WEC-Sim Coordinate System <coordinate_system>` figure illustrates a 3-D floating point absorber subject to incoming waves in water. The figure also defines the coordinates and the 6 degree of freedom (DOF) in WEC-Sim. The WEC-Sim coordinate system assumes that the positive X-axis defines a wave angle heading of zero (e.g., a wave propagating with along a zero-degree heading is moving in the +X direction). The positive Z-axis is in the vertical upwards direction, and the positive Y-axis direction is defined by the right-hand rule. In the vectors and matrices used in the code, Surge (x), Sway (y), and Heave (z) correspond to the first, second and third position respectively. Roll (Rx), Pitch (Ry), and Yaw (Rz) correspond to the fourth, fifth, and sixth position respectively.
 
 .. _coordinate_system:
@@ -28,22 +28,14 @@ The :ref:`WEC-Sim Coordinate System <coordinate_system>` figure illustrates a 3-
 
     *WEC-Sim Coordinate System*
 
-The incident wave is defined as :math:`\eta(x,t)` :
-
-.. math::
-
-	\eta(x,t)= \frac{H}{2} \cos( \omega t - k (x\cos \beta + y\sin \beta) + \phi)
-
-where :math:`H` is the wave height, :math:`\omega` is the wave frequency, :math:`k` is the wave number, :math:`\beta` is the wave heading, and :math:`\phi` is the wave phase for irregular waves.   
-
 
 Units
 ------
 All units within WEC-Sim are in the MKS (meters-kilograms-seconds system) and angular measurements are specified in radians (except for wave directionality which is defined in degrees).
 
 
-Boundary Element Method
--------------------------
+Boundary Element Method (BEM)
+-----------------------------
 In WEC-Sim, wave forcing components are modeled using linear coefficients  obtained from a frequency-domain potential flow Boundary Element Method (BEM) solver (e.g., WAMIT :cite:`Lee2006`, AQWA :cite:`AQWA`, and Nemoh :cite:`NEMOH`). 
 The BEM solutions are obtained by solving the Laplace equation for the velocity potential, which assumes the flow is inviscid, incompressible, and irrotational. More details on the theory for the frequency-domain BEM can be found in :cite:`Lee2006`.
 
@@ -210,6 +202,19 @@ can be reproduced exactly by the SVD as
 
 where :math:`\Sigma` is a diagonal matrix containing the Hankel singular vales in descending order.  Examination of the Hankel singular values reveals there are only a small number of significant states and that the rank of :math:`H` can be greatly reduced without a significant loss in accuracy :cite:`Taghipour2008,Kristiansen2005`. Further detail into the SVD method and calculation of the state space parameters will not be discussed and the reader is referred to :cite:`Taghipour2008,Kristiansen2005`.
 
+
+Regular Waves
+-------------
+
+The incident wave is defined as :math:`\eta(x,t)` :
+
+.. math::
+
+	\eta(x,t)= \frac{H}{2} \cos( \omega t - k (x\cos \theta + y\sin \theta) + \phi)
+
+where :math:`H` is the wave height, :math:`\omega` is the wave frequency, :math:`k` is the wave number, :math:`\theta` is the wave heading, and :math:`\phi` is the wave phase for irregular waves.   
+
+
 Wave Spectra
 ------------
 The linear superposition of regular waves of distinct amplitudes and periods is characterized in the frequency domain by a wave spectrum. Through statistical analysis, spectra are characterized by specific parameters such as significant wave height, peak period, wind speed, fetch length, and others. Common types of spectra that are used by the offshore industry are discussed in the following sections.  The general form of the sea spectra available in WEC-Sim is given by:
@@ -218,7 +223,7 @@ The linear superposition of regular waves of distinct amplitudes and periods is 
 
 	S\left( f , \theta \right)= S\left( f \right)D\left( \theta \right)~~
 	
-where :math:`S\left( f\right)` is the power spectrum, :math:`f` is the wave frequency (in Hertz), :math:`D\left( \theta \right)` is the diretional distribution, and :math:`\theta` is the wave direction (in Degrees).
+where :math:`S\left( f\right)` is the power spectrum, :math:`f` is the wave frequency (in Hertz), :math:`D\left( \theta \right)` is the directional distribution, and :math:`\theta` is the wave direction (in Degrees).
 
 .. math::
 	
@@ -236,8 +241,8 @@ The spectral moment, :math:`m_{0}` is the variance of the free surface which all
 
 
 
-Pierson--Moskowitz
-~~~~~~~~~~~~~~~~~~~
+Pierson--Moskowitz (PM)
+~~~~~~~~~~~~~~~~~~~~~~~
 One of the simplest spectra, the Pierson--Moskowitz spectrum, was proposed by :cite:`PM`. It assumed that after the wind blew steadily for a long time over a large area, the waves would come into equilibrium with the wind. This is the concept of a fully developed sea where a "long time" is roughly 10,000 wave periods and a "large area" is roughly 5,000 wave-lengths on a side.  The spectrum is calculated from:
 
 .. math::
@@ -260,8 +265,8 @@ Where:
 .. math::
 	& S\left( f \right) =  S^{*}\left( f \right) \alpha_{pm}& \\ 	
 
-Bretschneider 
-~~~~~~~~~~~~~~~
+Bretschneider (BS)
+~~~~~~~~~~~~~~~~~~
 The two-parameter Bretschneider spectrum is based on significant wave height and peak wave frequency.  For a given significant wave height, the peak frequency can be varied to cover a range of conditions including developing and decaying seas. In general, the parameters depend on strongly on wind speed, and also wind direction, fetch, and locations of storm fronts. The spectrum is given as:
 
 .. math::
@@ -278,8 +283,8 @@ This implies coefficients of the general form:
 	
 	
 
-JONSWAP 
-~~~~~~~~
+JONSWAP (JS)
+~~~~~~~~~~~~
 The JONSWAP (Joint North Sea Wave Project) spectrum was purposed by Hasselmann et al. :cite:`HK`, and the original formulation was given as:
 
 .. math::
@@ -310,13 +315,13 @@ Where:
 
 
 
-Power Take-off Forces
----------------------------
+Power Take-Off (PTO)
+--------------------
 
 Throughout the following sections, unless specification is made between linear and rotary PTOs, units are not explicitly stated.
 
 Linear PTO
-~~~~~~~~~~~~~~~~~~~~~~~~~~
+~~~~~~~~~~~
 
 The PTO mechanism is represented as a linear spring-damper system where the reaction force is given by: 
 
@@ -334,7 +339,7 @@ The instantaneous power absorbed by the PTO is given by:
 
 
 Hydraulic PTO
-~~~~~~~~~~~~~~~~
+~~~~~~~~~~~~~
 
 The PTO mechanism is modeled as a hydraulic system :cite:`So`, where the reaction force is given by:
 
@@ -351,7 +356,7 @@ The power absorbed by the PTO is given by:
 
 
 Mechanical PTO
-~~~~~~~~~~~~~~~~
+~~~~~~~~~~~~~~
 
 The PTO mechanism is modeled as a direct-drive linear generator system :cite:`So`, where the reaction force is given by:
 
@@ -370,10 +375,12 @@ The power absorbed by the PTO is given by:
 	For more information about application of pto systems in WEC-Sim, refer to `PTO Features <https://wec-sim.github.io/WEC-Sim/advanced_features.html#constraint-and-pto-features>`_.
 	
 
-Mooring Forces
--------------------------
+Mooring 
+-------
 The mooring load is represented using a linear quasi-static mooring stiffness or by using the mooring forces calculated from `MoorDyn <http://www.matt-hall.ca/moordyn>`_ :cite:`Hall2015MoorDynGuide`, which is an open-source lumped-mass mooring dynamics model. 
 
+Mooring Matrix
+~~~~~~~~~~~~~~
 When linear quasi-static mooring stiffness is used, the mooring load can be calculated by
 
 .. math::
@@ -381,6 +388,8 @@ When linear quasi-static mooring stiffness is used, the mooring load can be calc
 
 where :math:`K_{m}` and :math:`C_{m}` are the stiffness and damping matrices for the mooring system, and :math:`X` and :math:`\dot{X}` are the displacement and velocity of the body, respectively.
 
+MoorDyn
+~~~~~~~
 MoorDyn discretizes each mooring line in a mooring system into evenly-sized line segments connected by node points (see :ref:`MoorDyn figure <MoorDynFig>`). The line mass is lumped at these node points along with gravitational and buoyancy forces, hydrodynamic loads, and reactions from contact with the seabed.  Hydrodynamic drag and added mass are calculated based on Morison's equation.  A mooring line's axial stiffness is modeled by applying a linear stiffness to each line segment in tension only.  A damping term is also applied in each segment to dampen non-physical resonances caused by the lumped-mass discretization.  Bending and torsional stiffnesses are neglected.  Bottom contact is represented by vertical stiffness and damping forces applied at the nodes when a node is located below the seabed. :cite:`Hall2015ValidationData`.  
 
 .. _MoorDynFig:
@@ -397,8 +406,8 @@ MoorDyn discretizes each mooring line in a mooring system into evenly-sized line
 	For more information about application of mooring systems in WEC-Sim, refer to `Mooring Features <https://wec-sim.github.io/WEC-Sim/advanced_features.html#mooring-features>`_ .
 
 
-Non-Linear Hydrodynamic Forces
-------------------------------
+Non-Linear Hydrodynamics
+------------------------
 The linear model assumes that the body motion and the waves consist of small amplitudes in comparison to the wavelengths. A weakly nonlinear approach is applied to account for the nonlinear hydrodynamic forces induced by the instantaneous water surface elevation and body position. Rather than the BEM calculated linear hydrodynamic force coefficients, the nonlinear buoyancy and the Froude-Krylov force components can be obtained by integrating the static and dynamic pressures over each panel along the wetted body surface at each time step. 
 Because linear wave theory is used to determine the flow velocity and pressure field, the values become unrealistically large for wetted panels that are above the mean water level. To correct this, the Wheeler stretching method is applied :cite:`wheeler1969methods`, which applies a correction to the instantaneous wave elevation that forces its height to equal to the water depth when calculating the flow velocity and pressure,
 
@@ -417,7 +426,7 @@ where :math:`D` is the mean water depth, and :math:`\eta` is the z-value on the 
 
 
 Viscous Damping and Morison Elements
-----------------------------------------
+------------------------------------
 Additional damping and added-mass can be added to force definitions. This facilitates experimental validation of the WEC-Sim code, particularly in the event that the BEM hydrodynamic outputs are not sufficiently representative of physical system.  
 
 Viscous Damping
@@ -439,7 +448,7 @@ Morison Elements
 The Morison Equation assumes that the fluid forces in an oscillating flow on a structure of slender cylinders or other similar geometries arise partly from pressure effects from potential flow and partly from viscous effects. A slender cylinder implies that the diameter, D, is small relative to the wave length, :math:`λ_w`, which is generally met when :math:`D/λ_w < 0.1 − 0.2`. If this condition is not met, wave diffraction effects must be taken into account. Assuming that the geometries are slender, the resulting force can be approximated by a modified Morison formulation :cite:`Morison1950`. The formulation for each element on the body can be given as
 
  .. math::
-	F_{ME}=\rho∀\dot{v}+\rho\forall C_{a}(\dot{v}-\ddot{X})+\frac{C_{d}\rho A_{d}}{2}(v-\dot{X})|v-\dot{X}|
+	F_{ME}=\rho\dot{v}+\rho\forall C_{a}(\dot{v}-\ddot{X})+\frac{C_{d}\rho A_{d}}{2}(v-\dot{X})|v-\dot{X}|
 
 where :math:`v` is the fluid particle velocity, :math:`C_{a}` is the coefficient of added mass, and :math:`\forall` is the displaced volume. 
 
@@ -447,10 +456,10 @@ where :math:`v` is the fluid particle velocity, :math:`C_{a}` is the coefficient
 	WEC-Sim  does not consider buoyancy effects when calculating the forces from Morison elements. 
 
 .. Note:: 
-	For more information about application of morison elements in WEC-Sim, refer to `Morison Elements <https://wec-sim.github.io/WEC-Sim/advanced_features.html#viscous-damping-and-morison-elements>`_.
+	For more information about application of Morison elements in WEC-Sim, refer to `Morison Elements <https://wec-sim.github.io/WEC-Sim/advanced_features.html#viscous-damping-and-morison-elements>`_.
 
 
 References
---------------
+----------
 .. bibliography:: WEC-Sim_Theory.bib
    :style: unsrt

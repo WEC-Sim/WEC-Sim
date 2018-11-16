@@ -104,7 +104,7 @@
 <li class="toctree-l1 current"><a class="current reference internal" href="#">Theory</a><ul>
 <li class="toctree-l2"><a class="reference internal" href="#coordinate-system">Coordinate System</a></li>
 <li class="toctree-l2"><a class="reference internal" href="#units">Units</a></li>
-<li class="toctree-l2"><a class="reference internal" href="#boundary-element-method">Boundary Element Method</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#boundary-element-method-bem">Boundary Element Method (BEM)</a></li>
 <li class="toctree-l2"><a class="reference internal" href="#time-domain-formulation">Time-Domain Formulation</a></li>
 <li class="toctree-l2"><a class="reference internal" href="#numerical-methods">Numerical Methods</a><ul>
 <li class="toctree-l3"><a class="reference internal" href="#ramp-function">Ramp Function</a></li>
@@ -117,20 +117,25 @@
 </li>
 </ul>
 </li>
+<li class="toctree-l2"><a class="reference internal" href="#regular-waves">Regular Waves</a></li>
 <li class="toctree-l2"><a class="reference internal" href="#wave-spectra">Wave Spectra</a><ul>
-<li class="toctree-l3"><a class="reference internal" href="#pierson-moskowitz">Pierson&#8211;Moskowitz</a></li>
-<li class="toctree-l3"><a class="reference internal" href="#bretschneider">Bretschneider</a></li>
-<li class="toctree-l3"><a class="reference internal" href="#jonswap">JONSWAP</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#pierson-moskowitz-pm">Pierson&#8211;Moskowitz (PM)</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#bretschneider-bs">Bretschneider (BS)</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#jonswap-js">JONSWAP (JS)</a></li>
 </ul>
 </li>
-<li class="toctree-l2"><a class="reference internal" href="#power-take-off-forces">Power Take-off Forces</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="#power-take-off-pto">Power Take-Off (PTO)</a><ul>
 <li class="toctree-l3"><a class="reference internal" href="#linear-pto">Linear PTO</a></li>
 <li class="toctree-l3"><a class="reference internal" href="#hydraulic-pto">Hydraulic PTO</a></li>
 <li class="toctree-l3"><a class="reference internal" href="#mechanical-pto">Mechanical PTO</a></li>
 </ul>
 </li>
-<li class="toctree-l2"><a class="reference internal" href="#mooring-forces">Mooring Forces</a></li>
-<li class="toctree-l2"><a class="reference internal" href="#non-linear-hydrodynamic-forces">Non-Linear Hydrodynamic Forces</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#mooring">Mooring</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#mooring-matrix">Mooring Matrix</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#id24">MoorDyn</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="#non-linear-hydrodynamics">Non-Linear Hydrodynamics</a></li>
 <li class="toctree-l2"><a class="reference internal" href="#viscous-damping-and-morison-elements">Viscous Damping and Morison Elements</a><ul>
 <li class="toctree-l3"><a class="reference internal" href="#viscous-damping">Viscous Damping</a></li>
 <li class="toctree-l3"><a class="reference internal" href="#morison-elements">Morison Elements</a></li>
@@ -227,17 +232,13 @@
 <div class="legend">
 <em>WEC-Sim Coordinate System</em></div>
 </div>
-<p>The incident wave is defined as <span class="math">\(\eta(x,t)\)</span> :</p>
-<div class="math">
-\[\eta(x,t)= \frac{H}{2} \cos( \omega t - k (x\cos \beta + y\sin \beta) + \phi)\]</div>
-<p>where <span class="math">\(H\)</span> is the wave height, <span class="math">\(\omega\)</span> is the wave frequency, <span class="math">\(k\)</span> is the wave number, <span class="math">\(\beta\)</span> is the wave heading, and <span class="math">\(\phi\)</span> is the wave phase for irregular waves.</p>
 </div>
 <div class="section" id="units">
 <h2>Units<a class="headerlink" href="#units" title="Permalink to this headline">¶</a></h2>
 <p>All units within WEC-Sim are in the MKS (meters-kilograms-seconds system) and angular measurements are specified in radians (except for wave directionality which is defined in degrees).</p>
 </div>
-<div class="section" id="boundary-element-method">
-<h2>Boundary Element Method<a class="headerlink" href="#boundary-element-method" title="Permalink to this headline">¶</a></h2>
+<div class="section" id="boundary-element-method-bem">
+<h2>Boundary Element Method (BEM)<a class="headerlink" href="#boundary-element-method-bem" title="Permalink to this headline">¶</a></h2>
 <p>In WEC-Sim, wave forcing components are modeled using linear coefficients  obtained from a frequency-domain potential flow Boundary Element Method (BEM) solver (e.g., WAMIT <a class="reference internal" href="#lee2006" id="id5">[4]</a>, AQWA <a class="reference internal" href="#aqwa" id="id6">[5]</a>, and Nemoh <a class="reference internal" href="#nemoh" id="id7">[6]</a>).
 The BEM solutions are obtained by solving the Laplace equation for the velocity potential, which assumes the flow is inviscid, incompressible, and irrotational. More details on the theory for the frequency-domain BEM can be found in <a class="reference internal" href="#lee2006" id="id8">[4]</a>.</p>
 <p>WEC-Sim imports non-dimensionalized hydrodynamic coefficients from an <code class="docutils literal"><span class="pre">*.h5</span></code>  data structure generated by <a class="reference external" href="http://wec-sim.github.io/WEC-Sim/advanced_features.html#bemio">BEMIO</a> for the WAMIT, AQWA or Nemoh BEM solvers.
@@ -345,12 +346,19 @@ y &amp;=&amp; \mathbf{C_{r}} x~~\end{split}\]</div>
 </div>
 </div>
 </div>
+<div class="section" id="regular-waves">
+<h2>Regular Waves<a class="headerlink" href="#regular-waves" title="Permalink to this headline">¶</a></h2>
+<p>The incident wave is defined as <span class="math">\(\eta(x,t)\)</span> :</p>
+<div class="math">
+\[\eta(x,t)= \frac{H}{2} \cos( \omega t - k (x\cos \theta + y\sin \theta) + \phi)\]</div>
+<p>where <span class="math">\(H\)</span> is the wave height, <span class="math">\(\omega\)</span> is the wave frequency, <span class="math">\(k\)</span> is the wave number, <span class="math">\(\theta\)</span> is the wave heading, and <span class="math">\(\phi\)</span> is the wave phase for irregular waves.</p>
+</div>
 <div class="section" id="wave-spectra">
 <h2>Wave Spectra<a class="headerlink" href="#wave-spectra" title="Permalink to this headline">¶</a></h2>
 <p>The linear superposition of regular waves of distinct amplitudes and periods is characterized in the frequency domain by a wave spectrum. Through statistical analysis, spectra are characterized by specific parameters such as significant wave height, peak period, wind speed, fetch length, and others. Common types of spectra that are used by the offshore industry are discussed in the following sections.  The general form of the sea spectra available in WEC-Sim is given by:</p>
 <div class="math">
 \[S\left( f , \theta \right)= S\left( f \right)D\left( \theta \right)~~\]</div>
-<p>where <span class="math">\(S\left( f\right)\)</span> is the power spectrum, <span class="math">\(f\)</span> is the wave frequency (in Hertz), <span class="math">\(D\left( \theta \right)\)</span> is the diretional distribution, and <span class="math">\(\theta\)</span> is the wave direction (in Degrees).</p>
+<p>where <span class="math">\(S\left( f\right)\)</span> is the power spectrum, <span class="math">\(f\)</span> is the wave frequency (in Hertz), <span class="math">\(D\left( \theta \right)\)</span> is the directional distribution, and <span class="math">\(\theta\)</span> is the wave direction (in Degrees).</p>
 <div class="math">
 \[S\left( f \right) = A f^{-5}\exp\left[-B f^{-4} \right]~~\]</div>
 <p>where <span class="math">\(A\)</span> is wave amplitude (m), and <span class="math">\(\exp\)</span> stands for the exponential function. Spectral moments of the wave spectrum, denoted <span class="math">\(m_{k}~,~k=0, 1, 2,...\)</span>, are defined as</p>
@@ -359,8 +367,8 @@ y &amp;=&amp; \mathbf{C_{r}} x~~\end{split}\]</div>
 <p>The spectral moment, <span class="math">\(m_{0}\)</span> is the variance of the free surface which allows one to define the mean wave height of the tallest third of waves, significant wave height  <span class="math">\(H_{m0}\)</span> (in m), as:</p>
 <div class="math">
 \[H_{m0} = 4 \sqrt{m_{0}}~~\]</div>
-<div class="section" id="pierson-moskowitz">
-<h3>Pierson&#8211;Moskowitz<a class="headerlink" href="#pierson-moskowitz" title="Permalink to this headline">¶</a></h3>
+<div class="section" id="pierson-moskowitz-pm">
+<h3>Pierson&#8211;Moskowitz (PM)<a class="headerlink" href="#pierson-moskowitz-pm" title="Permalink to this headline">¶</a></h3>
 <p>One of the simplest spectra, the Pierson&#8211;Moskowitz spectrum, was proposed by <a class="reference internal" href="#pm" id="id19">[13]</a>. It assumed that after the wind blew steadily for a long time over a large area, the waves would come into equilibrium with the wind. This is the concept of a fully developed sea where a &#8220;long time&#8221; is roughly 10,000 wave periods and a &#8220;large area&#8221; is roughly 5,000 wave-lengths on a side.  The spectrum is calculated from:</p>
 <div class="math">
 \[\begin{split}&amp; S\left( f \right) = \frac{\alpha_{PM}g^{2}}{\left( 2 \pi \right)^{4}}f^{-5}\exp\left[-\frac{5}{4} \left( \frac{f_{p}}{f}\right)^{4} \right]~~ &amp;\\\end{split}\]</div>
@@ -374,8 +382,8 @@ y &amp;=&amp; \mathbf{C_{r}} x~~\end{split}\]</div>
 <div class="math">
 \[\begin{split}&amp; S\left( f \right) =  S^{*}\left( f \right) \alpha_{pm}&amp; \\\end{split}\]</div>
 </div>
-<div class="section" id="bretschneider">
-<h3>Bretschneider<a class="headerlink" href="#bretschneider" title="Permalink to this headline">¶</a></h3>
+<div class="section" id="bretschneider-bs">
+<h3>Bretschneider (BS)<a class="headerlink" href="#bretschneider-bs" title="Permalink to this headline">¶</a></h3>
 <p>The two-parameter Bretschneider spectrum is based on significant wave height and peak wave frequency.  For a given significant wave height, the peak frequency can be varied to cover a range of conditions including developing and decaying seas. In general, the parameters depend on strongly on wind speed, and also wind direction, fetch, and locations of storm fronts. The spectrum is given as:</p>
 <div class="math">
 \[\begin{split}&amp; S\left( f \right) = \frac{{H_{m0}}^2}{4}\left(1.057f_{p}\right)^{4}f^{-5}\exp\left[-\frac{5}{4} \left( \frac{f_{p}}{f}\right)^{4} \right]~~ &amp;\\\end{split}\]</div>
@@ -384,8 +392,8 @@ y &amp;=&amp; \mathbf{C_{r}} x~~\end{split}\]</div>
 \[ \begin{align}\begin{aligned}\begin{split}&amp; A =\frac{{H_{m0}}^2}{4}\left(1.057f_{p}\right)^{4} \approx \frac{5}{16} {H_{m0}}^2 {f_{p}}^{4} \approx \frac{B}{4}{H_{m0}}^2~~ &amp;\\\end{split}\\\begin{split}
 &amp; B = \left(1.057f_{p}\right)^{4} \approx \frac{5}{4} {f_{p}}^{4}~~ &amp;\\\end{split}\end{aligned}\end{align} \]</div>
 </div>
-<div class="section" id="jonswap">
-<h3>JONSWAP<a class="headerlink" href="#jonswap" title="Permalink to this headline">¶</a></h3>
+<div class="section" id="jonswap-js">
+<h3>JONSWAP (JS)<a class="headerlink" href="#jonswap-js" title="Permalink to this headline">¶</a></h3>
 <p>The JONSWAP (Joint North Sea Wave Project) spectrum was purposed by Hasselmann et al. <a class="reference internal" href="#hk" id="id20">[14]</a>, and the original formulation was given as:</p>
 <div class="math">
 \[ \begin{align}\begin{aligned}\begin{split}&amp; S\left( f \right) = \frac{ \alpha_{js} g^{2} }{ (2\pi)^{4}} f^{-5}\exp\left[-\frac{5}{4} \left( \frac{f_{p}}{f}\right)^{4} \right]\gamma^\Gamma \nonumber  ~~ &amp;\\\end{split}\\\begin{split}&amp;\Gamma = \exp \left[ -\left( \frac{\frac{f}{f_{p}}-1}{\sqrt{2} \sigma}\right)^{2} \right],~~ \sigma = \begin{cases} 0.07 &amp; f \leq f_{p} \\0.09 &amp; f &gt; f_{p} \end{cases} ~~ &amp;\\\end{split}\end{aligned}\end{align} \]</div>
@@ -402,8 +410,8 @@ For a given significant wave height, setting <span class="math">\(\gamma = 3.3\)
 \[\begin{split}&amp; S\left( f \right) =  S^{*}\left( f \right) \alpha_{js}&amp; \\\end{split}\]</div>
 </div>
 </div>
-<div class="section" id="power-take-off-forces">
-<h2>Power Take-off Forces<a class="headerlink" href="#power-take-off-forces" title="Permalink to this headline">¶</a></h2>
+<div class="section" id="power-take-off-pto">
+<h2>Power Take-Off (PTO)<a class="headerlink" href="#power-take-off-pto" title="Permalink to this headline">¶</a></h2>
 <p>Throughout the following sections, unless specification is made between linear and rotary PTOs, units are not explicitly stated.</p>
 <div class="section" id="linear-pto">
 <h3>Linear PTO<a class="headerlink" href="#linear-pto" title="Permalink to this headline">¶</a></h3>
@@ -442,14 +450,19 @@ The power absorbed by the PTO is given by:</p>
 </div>
 </div>
 </div>
-<div class="section" id="mooring-forces">
-<h2>Mooring Forces<a class="headerlink" href="#mooring-forces" title="Permalink to this headline">¶</a></h2>
+<div class="section" id="mooring">
+<h2>Mooring<a class="headerlink" href="#mooring" title="Permalink to this headline">¶</a></h2>
 <p>The mooring load is represented using a linear quasi-static mooring stiffness or by using the mooring forces calculated from <a class="reference external" href="http://www.matt-hall.ca/moordyn">MoorDyn</a> <a class="reference internal" href="#hall2015moordynguide" id="id23">[1]</a>, which is an open-source lumped-mass mooring dynamics model.</p>
+<div class="section" id="mooring-matrix">
+<h3>Mooring Matrix<a class="headerlink" href="#mooring-matrix" title="Permalink to this headline">¶</a></h3>
 <p>When linear quasi-static mooring stiffness is used, the mooring load can be calculated by</p>
 <div class="math">
 \[F_{m}=-K_{m}X-C_{m}\dot{X}\]</div>
 <p>where <span class="math">\(K_{m}\)</span> and <span class="math">\(C_{m}\)</span> are the stiffness and damping matrices for the mooring system, and <span class="math">\(X\)</span> and <span class="math">\(\dot{X}\)</span> are the displacement and velocity of the body, respectively.</p>
-<p>MoorDyn discretizes each mooring line in a mooring system into evenly-sized line segments connected by node points (see <a class="reference internal" href="#moordynfig"><span class="std std-ref">MoorDyn figure</span></a>). The line mass is lumped at these node points along with gravitational and buoyancy forces, hydrodynamic loads, and reactions from contact with the seabed.  Hydrodynamic drag and added mass are calculated based on Morison&#8217;s equation.  A mooring line&#8217;s axial stiffness is modeled by applying a linear stiffness to each line segment in tension only.  A damping term is also applied in each segment to dampen non-physical resonances caused by the lumped-mass discretization.  Bending and torsional stiffnesses are neglected.  Bottom contact is represented by vertical stiffness and damping forces applied at the nodes when a node is located below the seabed. <a class="reference internal" href="#hall2015validationdata" id="id24">[16]</a>.</p>
+</div>
+<div class="section" id="id24">
+<h3>MoorDyn<a class="headerlink" href="#id24" title="Permalink to this headline">¶</a></h3>
+<p>MoorDyn discretizes each mooring line in a mooring system into evenly-sized line segments connected by node points (see <a class="reference internal" href="#moordynfig"><span class="std std-ref">MoorDyn figure</span></a>). The line mass is lumped at these node points along with gravitational and buoyancy forces, hydrodynamic loads, and reactions from contact with the seabed.  Hydrodynamic drag and added mass are calculated based on Morison&#8217;s equation.  A mooring line&#8217;s axial stiffness is modeled by applying a linear stiffness to each line segment in tension only.  A damping term is also applied in each segment to dampen non-physical resonances caused by the lumped-mass discretization.  Bending and torsional stiffnesses are neglected.  Bottom contact is represented by vertical stiffness and damping forces applied at the nodes when a node is located below the seabed. <a class="reference internal" href="#hall2015validationdata" id="id25">[16]</a>.</p>
 <div class="figure align-center" id="moordynfig">
 <a class="reference internal image-reference" href="_images/MoorDyn_Graphic.png"><img alt="_images/MoorDyn_Graphic.png" src="_images/MoorDyn_Graphic.png" style="width: 529.2px; height: 324.8px;" /></a>
 <div class="legend">
@@ -460,10 +473,11 @@ The power absorbed by the PTO is given by:</p>
 <p class="last">For more information about application of mooring systems in WEC-Sim, refer to <a class="reference external" href="https://wec-sim.github.io/WEC-Sim/advanced_features.html#mooring-features">Mooring Features</a> .</p>
 </div>
 </div>
-<div class="section" id="non-linear-hydrodynamic-forces">
-<h2>Non-Linear Hydrodynamic Forces<a class="headerlink" href="#non-linear-hydrodynamic-forces" title="Permalink to this headline">¶</a></h2>
+</div>
+<div class="section" id="non-linear-hydrodynamics">
+<h2>Non-Linear Hydrodynamics<a class="headerlink" href="#non-linear-hydrodynamics" title="Permalink to this headline">¶</a></h2>
 <p>The linear model assumes that the body motion and the waves consist of small amplitudes in comparison to the wavelengths. A weakly nonlinear approach is applied to account for the nonlinear hydrodynamic forces induced by the instantaneous water surface elevation and body position. Rather than the BEM calculated linear hydrodynamic force coefficients, the nonlinear buoyancy and the Froude-Krylov force components can be obtained by integrating the static and dynamic pressures over each panel along the wetted body surface at each time step.
-Because linear wave theory is used to determine the flow velocity and pressure field, the values become unrealistically large for wetted panels that are above the mean water level. To correct this, the Wheeler stretching method is applied <a class="reference internal" href="#wheeler1969methods" id="id25">[17]</a>, which applies a correction to the instantaneous wave elevation that forces its height to equal to the water depth when calculating the flow velocity and pressure,</p>
+Because linear wave theory is used to determine the flow velocity and pressure field, the values become unrealistically large for wetted panels that are above the mean water level. To correct this, the Wheeler stretching method is applied <a class="reference internal" href="#wheeler1969methods" id="id26">[17]</a>, which applies a correction to the instantaneous wave elevation that forces its height to equal to the water depth when calculating the flow velocity and pressure,</p>
 <blockquote>
 <div><div class="math">
 \[z^* = \frac{D(D+z)}{(D+\eta)} - D\]</div>
@@ -493,10 +507,10 @@ Because linear wave theory is used to determine the flow velocity and pressure f
 </div>
 <div class="section" id="morison-elements">
 <h3>Morison Elements<a class="headerlink" href="#morison-elements" title="Permalink to this headline">¶</a></h3>
-<p>The Morison Equation assumes that the fluid forces in an oscillating flow on a structure of slender cylinders or other similar geometries arise partly from pressure effects from potential flow and partly from viscous effects. A slender cylinder implies that the diameter, D, is small relative to the wave length, <span class="math">\(λ_w\)</span>, which is generally met when <span class="math">\(D/λ_w &lt; 0.1 − 0.2\)</span>. If this condition is not met, wave diffraction effects must be taken into account. Assuming that the geometries are slender, the resulting force can be approximated by a modified Morison formulation <a class="reference internal" href="#morison1950" id="id26">[18]</a>. The formulation for each element on the body can be given as</p>
+<p>The Morison Equation assumes that the fluid forces in an oscillating flow on a structure of slender cylinders or other similar geometries arise partly from pressure effects from potential flow and partly from viscous effects. A slender cylinder implies that the diameter, D, is small relative to the wave length, <span class="math">\(λ_w\)</span>, which is generally met when <span class="math">\(D/λ_w &lt; 0.1 − 0.2\)</span>. If this condition is not met, wave diffraction effects must be taken into account. Assuming that the geometries are slender, the resulting force can be approximated by a modified Morison formulation <a class="reference internal" href="#morison1950" id="id28">[18]</a>. The formulation for each element on the body can be given as</p>
 <blockquote>
 <div><div class="math">
-\[F_{ME}=\rho∀\dot{v}+\rho\forall C_{a}(\dot{v}-\ddot{X})+\frac{C_{d}\rho A_{d}}{2}(v-\dot{X})|v-\dot{X}|\]</div>
+\[F_{ME}=\rho\dot{v}+\rho\forall C_{a}(\dot{v}-\ddot{X})+\frac{C_{d}\rho A_{d}}{2}(v-\dot{X})|v-\dot{X}|\]</div>
 </div></blockquote>
 <p>where <span class="math">\(v\)</span> is the fluid particle velocity, <span class="math">\(C_{a}\)</span> is the coefficient of added mass, and <span class="math">\(\forall\)</span> is the displaced volume.</p>
 <div class="admonition note">
@@ -505,7 +519,7 @@ Because linear wave theory is used to determine the flow velocity and pressure f
 </div>
 <div class="admonition note">
 <p class="first admonition-title">Note</p>
-<p class="last">For more information about application of morison elements in WEC-Sim, refer to <a class="reference external" href="https://wec-sim.github.io/WEC-Sim/advanced_features.html#viscous-damping-and-morison-elements">Morison Elements</a>.</p>
+<p class="last">For more information about application of Morison elements in WEC-Sim, refer to <a class="reference external" href="https://wec-sim.github.io/WEC-Sim/advanced_features.html#viscous-damping-and-morison-elements">Morison Elements</a>.</p>
 </div>
 </div>
 </div>
@@ -604,19 +618,25 @@ Because linear wave theory is used to determine the flow velocity and pressure f
 <table class="docutils citation" frame="void" id="hall2015validationdata" rules="none">
 <colgroup><col class="label" /><col /></colgroup>
 <tbody valign="top">
-<tr><td class="label"><a class="fn-backref" href="#id24">[16]</a></td><td>Matthew Hall and Andrew Goupee. Validation of a lumped-mass mooring line model with deepcwind semisubmersible model test data. <em>Ocean Engineering</em>, 104:590–603, 2015.</td></tr>
+<tr><td class="label"><a class="fn-backref" href="#id25">[16]</a></td><td>Matthew Hall and Andrew Goupee. Validation of a lumped-mass mooring line model with deepcwind semisubmersible model test data. <em>Ocean Engineering</em>, 104:590–603, 2015.</td></tr>
 </tbody>
 </table>
 <table class="docutils citation" frame="void" id="wheeler1969methods" rules="none">
 <colgroup><col class="label" /><col /></colgroup>
 <tbody valign="top">
-<tr><td class="label"><a class="fn-backref" href="#id25">[17]</a></td><td>J&nbsp;D Wheeler and others. Methods for calculating forces produced by irregular waves. In <em>Offshore Technology Conference</em>. 1969.</td></tr>
+<tr><td class="label"><a class="fn-backref" href="#id26">[17]</a></td><td>J&nbsp;D Wheeler and others. Methods for calculating forces produced by irregular waves. In <em>Offshore Technology Conference</em>. 1969.</td></tr>
 </tbody>
 </table>
 <table class="docutils citation" frame="void" id="morison1950" rules="none">
 <colgroup><col class="label" /><col /></colgroup>
 <tbody valign="top">
-<tr><td class="label"><a class="fn-backref" href="#id26">[18]</a></td><td>J&nbsp;R Morison, M&nbsp;P O&#8217;brien, J&nbsp;W Johnson, and S&nbsp;A Schaaf. The force exerted by surface waves on piles. <em>Petroleum Transactions, AIME</em>, 189:149–154, 1950.</td></tr>
+<tr><td class="label"><a class="fn-backref" href="#id28">[18]</a></td><td>J&nbsp;R Morison, M&nbsp;P O&#8217;brien, J&nbsp;W Johnson, and S&nbsp;A Schaaf. The force exerted by surface waves on piles. <em>Petroleum Transactions, AIME</em>, 189:149–154, 1950.</td></tr>
+</tbody>
+</table>
+<table class="docutils citation" frame="void" id="ruehl-preliminary-2014" rules="none">
+<colgroup><col class="label" /><col /></colgroup>
+<tbody valign="top">
+<tr><td class="label">[1]</td><td>K. Ruehl, C. Michelen, S. Kanner, M. Lawson, and Y. Yu. Preliminary Verification and Validation of WEC-Sim, an Open-Source Wave Energy Converter Design Tool. In <em>Proceedings of OMAE 2014</em>. San Francisco, CA, 2014.</td></tr>
 </tbody>
 </table>
 </p>

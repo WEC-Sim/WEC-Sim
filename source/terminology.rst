@@ -3,6 +3,11 @@
 Terminology
 ===========
 
+
+.. Note:: 
+	This section is a work in progress, * means may not be used in WEC-Sim doc
+
+
 Definitions
 -----------
 * BEM - Boundary Element Method
@@ -16,9 +21,12 @@ Definitions
 * Roll
 * Pitch
 * Yaw
-* 
-* 
-* 
+* $CASE
+* $SOURCE
+* PTO - Power Take-Off
+* PM - Pierson--Moskowitz 
+* BS - Bretschneider
+* JS - JONSWAP
 * 
 
 
@@ -37,15 +45,12 @@ Variables
 * :math:`m0` - Spectral moment
 * :math:`T_{p}` - Peak period (s)
 * :math:`T_{e}` - Energy period* (s)
-* :math:`F_exc{\omega}` - Wave excitiation
-* :math:`A_{\omega}` - Added mass
-* :math:`B_{\omega}` - Radiation damping
+* :math:`F_{exc}{\omega}` - Wave excitation
+* :math:`A{\omega}` - Added mass
+* :math:`B{\omega}` - Radiation damping
 * :math:`K_{hs}` - Hydrostatic stiffness
 * :math:`\rho` - Water density 
 * :math:`g` - Gravity
 * 
 * 
 * 
-
-.. Note:: 
-	This section is a work in progress, * means may not be used in WEC-Sim doc

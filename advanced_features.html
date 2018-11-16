@@ -657,41 +657,41 @@ This would allow for the BEM of different bodies to be done separately, and BEMI
 </div>
 <div class="section" id="wave-features">
 <h2>Wave Features<a class="headerlink" href="#wave-features" title="Permalink to this headline">¶</a></h2>
-<p>This section provides an overview of WEC-Sim&#8217;s wave class features; for more information about the wave class code structure, refer to <a class="reference external" href="http://wec-sim.github.io/WEC-Sim/code_structure.html#wave-class">Wave Class</a>.</p>
+<p>This section provides an overview of WEC-Sim&#8217;s wave class features. For more information about the wave class code structure, refer to <a class="reference external" href="http://wec-sim.github.io/WEC-Sim/code_structure.html#wave-class">Wave Class</a>.</p>
 <div class="section" id="irregular-wave-binning">
 <h3>Irregular Wave Binning<a class="headerlink" href="#irregular-wave-binning" title="Permalink to this headline">¶</a></h3>
-<p>WEC-Sim&#8217;s default spectral binning method divides the wave spectrum into 499 bins with equal energy content, defined by 500 wave frequencies. As a result, the wave forces on the WEC using the equal energy method are only computed at each of the 500 wave frequencies. The equal energy formulation speeds up the irregular wave simulation time by reducing the number of frequencies the wave train is defined by, and thus the numer of frequencies for which the wave forces are calculated. The equal energy method is specified by defining the following wave class variable in the WEC-Sim input file:</p>
+<p>WEC-Sim&#8217;s default spectral binning method divides the wave spectrum into 499 bins with equal energy content, defined by 500 wave frequencies. As a result, the wave forces on the WEC using the equal energy method are only computed at each of the 500 wave frequencies. The equal energy formulation speeds up the irregular wave simulation time by reducing the number of frequencies the wave train is defined by, and thus the number of frequencies for which the wave forces are calculated. The equal energy method is specified by defining the following wave class variable in the WEC-Sim input file:</p>
 <blockquote>
 <div><code class="code docutils literal"><span class="pre">waves.freqDisc</span> <span class="pre">=</span> <span class="pre">'EqualEnergy';</span></code></div></blockquote>
-<p>By comparison, the traditional method divides the wave spectrum into a sufficiently large number of to define the wave spectrum. WEC-Sim&#8217;s traditional formulation uses 999 bins, defined by 1000 wave frequencies of equal frequency distrubution. To override WEC-Sim&#8217;s default using the equal energy method, and instead use traditional binning method, the following wave class variable must be defined in the WEC-Sim input file:</p>
+<p>By comparison, the traditional method divides the wave spectrum into a sufficiently large number of to define the wave spectrum. WEC-Sim&#8217;s traditional formulation uses 999 bins, defined by 1000 wave frequencies of equal frequency distribution. To override WEC-Sim&#8217;s default using the equal energy method, and instead use traditional binning method, the following wave class variable must be defined in the WEC-Sim input file:</p>
 <blockquote>
 <div><code class="code docutils literal"><span class="pre">waves.freqDisc</span> <span class="pre">=</span> <span class="pre">'Traditional';</span></code></div></blockquote>
 <p>Users may override the default number of wave frequencies by defining <code class="docutils literal"><span class="pre">waves.numFreq</span></code>.  However, it is on the user to ensure that the wave spectrum is adequately defined by the number of wave frequencies, and that the wave forces are not impacted by this change.</p>
 </div>
 <div class="section" id="wave-directionality">
 <h3>Wave Directionality<a class="headerlink" href="#wave-directionality" title="Permalink to this headline">¶</a></h3>
-<p>WEC-Sim has the ability to model waves with various angles of incidence. To define wave directionality in WEC-Sim, the following waveClass variable must be defined in the WEC-Sim input file:</p>
+<p>WEC-Sim has the ability to model waves with various angles of incidence, <span class="math">\(\theta\)</span>. To define wave directionality in WEC-Sim, the following wave class variable must be defined in the WEC-Sim input file:</p>
 <blockquote>
 <div><code class="code docutils literal"><span class="pre">waves.waveDir</span> <span class="pre">=</span> <span class="pre">&lt;user</span> <span class="pre">defined</span> <span class="pre">wave</span> <span class="pre">direction&gt;;</span> <span class="pre">%[deg]</span></code></div></blockquote>
 <p>The incident wave direction has a default heading of 0 Degrees (Default = 0). For more information about the wave formulation, refer to <a class="reference external" href="http://wec-sim.github.io/WEC-Sim/theory.html#wave-spectra">Wave Theory</a>.</p>
 </div>
 <div class="section" id="wave-directional-spreading">
 <h3>Wave Directional Spreading<a class="headerlink" href="#wave-directional-spreading" title="Permalink to this headline">¶</a></h3>
-<p>WEC-Sim has the ability to model waves with directional spreading. To define wave directional spreading in WEC-Sim, the following waveClass variable must be defined in the WEC-Sim input file:</p>
+<p>WEC-Sim has the ability to model waves with directional spreading, <span class="math">\(D\left( \theta \right)\)</span>. To define wave directional spreading in WEC-Sim, the following wave class variable must be defined in the WEC-Sim input file:</p>
 <blockquote>
 <div><code class="code docutils literal"><span class="pre">waves.waveSpread</span> <span class="pre">=</span> <span class="pre">&lt;user</span> <span class="pre">defined</span> <span class="pre">directional</span> <span class="pre">spreading&gt;;</span></code></div></blockquote>
 <p>The wave directional spreading has a default probability of 1 (Default = 1). For more information about the spectral formulation, refer to <a class="reference external" href="http://wec-sim.github.io/WEC-Sim/theory.html#wave-spectra">Wave Theory</a>.</p>
 </div>
 <div class="section" id="irregular-waves-with-seeded-phase">
 <h3>Irregular Waves with Seeded Phase<a class="headerlink" href="#irregular-waves-with-seeded-phase" title="Permalink to this headline">¶</a></h3>
-<p>By default, the phase for all irregular wave cases are generated randomly. In order to reproduce the same time-series every time an irregular wave simulation is run, the following waveClass variable may be defined in the WEC-Sim input file:</p>
+<p>By default, the phase for all irregular wave cases are generated randomly. In order to reproduce the same time-series every time an irregular wave simulation is run, the following wave class variable may be defined in the WEC-Sim input file:</p>
 <blockquote>
 <div><code class="code docutils literal"><span class="pre">waves.phaseSeed</span> <span class="pre">=</span> <span class="pre">&lt;user</span> <span class="pre">defined</span> <span class="pre">seed&gt;;</span></code></div></blockquote>
 <p>By setting <code class="docutils literal"><span class="pre">waves.phaseSeed</span></code>  equal to 1,2,3,...,etc, the random wave phase generated by WEC-Sim is seeded, thus producing the same random phase for each simulation.</p>
 </div>
 <div class="section" id="wave-gauge-placement">
 <h3>Wave Gauge Placement<a class="headerlink" href="#wave-gauge-placement" title="Permalink to this headline">¶</a></h3>
-<p>By default, the wave surface elevation is calculated at the origin. Users are allowed up to 3 other x-locations to calculate the wave surface elevation offset from the origin in the global x-direction by defining the waveClass variable, <code class="docutils literal"><span class="pre">waves.wavegauge&lt;i&gt;loc</span></code>, in the WEC-Sim input file:</p>
+<p>By default, the wave surface elevation is calculated at the origin. Users are allowed up to 3 other x-locations to calculate the wave surface elevation offset from the origin in the global x-direction by defining the wave class variable, <code class="docutils literal"><span class="pre">waves.wavegauge&lt;i&gt;loc</span></code>, in the WEC-Sim input file:</p>
 <blockquote>
 <div><code class="code docutils literal"><span class="pre">waves.wavegauge&lt;i&gt;loc</span> <span class="pre">=</span> <span class="pre">&lt;user</span> <span class="pre">defined</span> <span class="pre">wave</span> <span class="pre">gauge</span> <span class="pre">i</span> <span class="pre">x-location&gt;;</span> <span class="pre">%(y-position</span> <span class="pre">assumed</span> <span class="pre">to</span> <span class="pre">be</span> <span class="pre">0</span> <span class="pre">m)</span></code></div></blockquote>
 <p>where i = 1, 2, or 3</p>
@@ -825,7 +825,7 @@ An option available to reduce the nonlinear simulation time is to specify a nonl
 </div>
 <div class="section" id="viscous-damping-and-morison-elements">
 <h3>Viscous Damping and Morison Elements<a class="headerlink" href="#viscous-damping-and-morison-elements" title="Permalink to this headline">¶</a></h3>
-<p>WEC-Sim allows for definiton of additional damping and added-mass to force the definitions; for more information about the numerical formulation of viscous damping and Morison Elements, refer to the <a class="reference external" href="http://wec-sim.github.io/WEC-Sim/theory.html#non-linear-drag-and-morison-elements">Viscous Damping and Morison Elements</a> section.</p>
+<p>WEC-Sim allows for definition of additional damping and added-mass to force the definitions; for more information about the numerical formulation of viscous damping and Morison Elements, refer to the <a class="reference external" href="http://wec-sim.github.io/WEC-Sim/theory.html#non-linear-drag-and-morison-elements">Viscous Damping and Morison Elements</a> section.</p>
 <div class="section" id="viscous-damping">
 <h4>Viscous Damping<a class="headerlink" href="#viscous-damping" title="Permalink to this headline">¶</a></h4>
 <p>A viscous damping force in the form of a linear damping coefficient <span class="math">\(C_{v}\)</span> can be applied to each body by defining the following body class parameter in the WEC-Sim input file (which has a default value of zero):</p>
@@ -908,7 +908,7 @@ For more information on how PTO-Sim works, refer to [So et al., 2015], and the <
 <li>Simulink model: <code class="docutils literal"><span class="pre">RM3.slx</span></code></li>
 <li>Geometry file for each body: <code class="docutils literal"><span class="pre">float.stl</span></code> and <code class="docutils literal"><span class="pre">plate.stl</span></code></li>
 <li>Hydrodynamic data file(s): <code class="docutils literal"><span class="pre">rm3.h5</span></code></li>
-<li>Optional user defined postprocessing file: <code class="docutils literal"><span class="pre">userDefinedFunction.m</span></code></li>
+<li>Optional user defined post-processing file: <code class="docutils literal"><span class="pre">userDefinedFunction.m</span></code></li>
 <li>PTO-Sim input file: <code class="docutils literal"><span class="pre">ptoSimInputFile.m</span></code></li>
 <li>Datasheet for the rotary generator: <code class="docutils literal"><span class="pre">table</span></code> (<code class="docutils literal"><span class="pre">table.eff</span></code>, <code class="docutils literal"><span class="pre">table.Tpu</span></code>,and <code class="docutils literal"><span class="pre">table.omegapu</span></code>)</li>
 <li>For the hydraulic PTOs: <code class="docutils literal"><span class="pre">variableMotorVolume.m</span></code></li>
@@ -916,7 +916,7 @@ For more information on how PTO-Sim works, refer to [So et al., 2015], and the <
 <p><strong>Simulink Model</strong>
 The Simulink model can be built as following:</p>
 <ul class="simple">
-<li>Step 1: Navigate to the RM3 tutorial <code class="docutils literal"><span class="pre">$Source/tutorals/RM3</span></code>.</li>
+<li>Step 1: Navigate to the RM3 tutorial <code class="docutils literal"><span class="pre">$Source/tutorials/RM3</span></code>.</li>
 <li>Step 2: Open <code class="docutils literal"><span class="pre">RM3.slx</span></code> file and replace Translational PTO (local Z) with Translational PTO UD Force (Local Z).</li>
 </ul>
 <div class="figure">
@@ -941,19 +941,19 @@ The Simulink model can be built as following:</p>
 <a class="reference internal image-reference" href="_images/OPENPTOSIMLIB.PNG"><img alt="_images/OPENPTOSIMLIB.PNG" src="_images/OPENPTOSIMLIB.PNG" style="width: 400pt;" /></a>
 </div>
 <ul class="simple">
-<li>Step 6: By looking at the physical hydraulic PTO model as shown above, user can simply drag and drop PTO-Sim library blocks. Piston, valves, accummulator blocks are located under Hydraulic block. Rotary generator lookup table is under Generator block.</li>
+<li>Step 6: By looking at the physical hydraulic PTO model as shown above, user can simply drag and drop PTO-Sim library blocks. Piston, valves, accumulator blocks are located under Hydraulic block. Rotary generator lookup table is under Generator block.</li>
 </ul>
 <div class="figure">
 <a class="reference internal image-reference" href="_images/USEPTOSIMLIB.PNG"><img alt="_images/USEPTOSIMLIB.PNG" src="_images/USEPTOSIMLIB.PNG" style="width: 400pt;" /></a>
 </div>
 <ul class="simple">
-<li>Step 7: Since two accumulators are needed for the high pressure accumulator and low pressure accumulator, user need to douple-click on each block and give a number to each accumulator. For example, <code class="docutils literal"><span class="pre">ptosim.accumulator(1)</span></code> is called high pressure accumulator and <code class="docutils literal"><span class="pre">ptosim.accumulator(2)</span></code> is called low pressure accumulator.</li>
+<li>Step 7: Since two accumulators are needed for the high pressure accumulator and low pressure accumulator, user need to double-click on each block and give a number to each accumulator. For example, <code class="docutils literal"><span class="pre">ptosim.accumulator(1)</span></code> is called high pressure accumulator and <code class="docutils literal"><span class="pre">ptosim.accumulator(2)</span></code> is called low pressure accumulator.</li>
 </ul>
 <div class="figure">
 <a class="reference internal image-reference" href="_images/MULTIPLEACCUMULATORS.PNG"><img alt="_images/MULTIPLEACCUMULATORS.PNG" src="_images/MULTIPLEACCUMULATORS.PNG" style="width: 400pt;" /></a>
 </div>
 <ul class="simple" id="step-8">
-<li>Step 8: If a rotary generator lookup table is used, this block assumes user will provide the datasheet. After the datasheet is loaded into <code class="docutils literal"><span class="pre">Workspace</span></code>, it needs to be named as <code class="docutils literal"><span class="pre">table</span></code> because the word <code class="docutils literal"><span class="pre">table</span></code> is used inside Simulink lookup table block. The datasheet in tutorials is taken from ABB datasheet part number M3BJ315SMC. The lookup table takes three inputs: efficiency (<code class="docutils literal"><span class="pre">table.eff</span></code>), anglular velocity (<code class="docutils literal"><span class="pre">table.Tpu</span></code>), and generator torque (<code class="docutils literal"><span class="pre">table.omegapu</span></code>), respectively.</li>
+<li>Step 8: If a rotary generator lookup table is used, this block assumes user will provide the datasheet. After the datasheet is loaded into <code class="docutils literal"><span class="pre">Workspace</span></code>, it needs to be named as <code class="docutils literal"><span class="pre">table</span></code> because the word <code class="docutils literal"><span class="pre">table</span></code> is used inside Simulink lookup table block. The datasheet in tutorials is taken from ABB datasheet part number M3BJ315SMC. The lookup table takes three inputs: efficiency (<code class="docutils literal"><span class="pre">table.eff</span></code>), angular velocity (<code class="docutils literal"><span class="pre">table.Tpu</span></code>), and generator torque (<code class="docutils literal"><span class="pre">table.omegapu</span></code>), respectively.</li>
 </ul>
 <div class="figure">
 <a class="reference internal image-reference" href="_images/ROTARYHIGHLEVELBLOCK.PNG"><img alt="_images/ROTARYHIGHLEVELBLOCK.PNG" src="_images/ROTARYHIGHLEVELBLOCK.PNG" style="width: 400pt;" /></a>
@@ -976,12 +976,12 @@ In this section, PTO-Sim input file (<code class="docutils literal"><span class=
 <div class="figure">
 <a class="reference internal image-reference" href="_images/PTOSIMINPUTFILE.PNG"><img alt="_images/PTOSIMINPUTFILE.PNG" src="_images/PTOSIMINPUTFILE.PNG" style="width: 400pt;" /></a>
 </div>
-<p><strong>Simulation and Postprocessing</strong>
-Simulation and postprocessing are the same process as described in WEC-Sim Simulation example above.</p>
+<p><strong>Simulation and Post-processing</strong>
+Simulation and post-processing are the same process as described in WEC-Sim Simulation example above.</p>
 </div>
 <div class="section" id="rm3-with-direct-drive-pto">
 <h5>RM3 with Direct Drive PTO<a class="headerlink" href="#rm3-with-direct-drive-pto" title="Permalink to this headline">¶</a></h5>
-<p>A mechanical PTO is used in this example and is modeled as a direct drive linear generator. The main components of this example consist of magnets and a coil where the magnet assembly is attached to the heaving float and the coil is locacted inside the spar. As the float moves up and down, the magnet assembly creates a change in the magnetic field surrounding the spar that contains the coil: therefore, current is induced in the coil and electricity is generated.</p>
+<p>A mechanical PTO is used in this example and is modeled as a direct drive linear generator. The main components of this example consist of magnets and a coil where the magnet assembly is attached to the heaving float and the coil is located inside the spar. As the float moves up and down, the magnet assembly creates a change in the magnetic field surrounding the spar that contains the coil: therefore, current is induced in the coil and electricity is generated.</p>
 <div class="figure">
 <a class="reference internal image-reference" href="_images/MECHANICALPTO.PNG"><img alt="_images/MECHANICALPTO.PNG" src="_images/MECHANICALPTO.PNG" style="width: 400pt;" /></a>
 </div>
@@ -1001,12 +1001,12 @@ Step 1 through 3 are the same as in <a class="reference internal" href="#rm3-wit
 <a class="reference internal image-reference" href="_images/USEPTOSIMLIB2.PNG"><img alt="_images/USEPTOSIMLIB2.PNG" src="_images/USEPTOSIMLIB2.PNG" style="width: 400pt;" /></a>
 </div>
 <ul class="simple">
-<li>Step 7: Simply connect velocity from the selector to the input of the direct drive linear generator. The ouput PTO force is fed back to WEC-Sim.</li>
+<li>Step 7: Simply connect velocity from the selector to the input of the direct drive linear generator. The output PTO force is fed back to WEC-Sim.</li>
 </ul>
 <div class="figure">
 <a class="reference internal image-reference" href="_images/DDLINEARGENPTOSIM.PNG"><img alt="_images/DDLINEARGENPTOSIM.PNG" src="_images/DDLINEARGENPTOSIM.PNG" style="width: 400pt;" /></a>
 </div>
-<p><strong>Input File, Simulation, and Postprocessing</strong>
+<p><strong>Input File, Simulation, and Post-processing</strong>
 The same as <a class="reference internal" href="#rm3-with-hydraulic-pto">RM3 with hydraulic PTO</a>.</p>
 </div>
 </div>
@@ -1051,7 +1051,7 @@ The Simulink model can be built as following:</p>
 <div class="figure">
 <a class="reference internal image-reference" href="_images/HYDPTOSIMOSWEC.PNG"><img alt="_images/HYDPTOSIMOSWEC.PNG" src="_images/HYDPTOSIMOSWEC.PNG" style="width: 400pt;" /></a>
 </div>
-<p><strong>Input File, Simulation, and Postprocessing</strong>
+<p><strong>Input File, Simulation, and Post-processing</strong>
 The same as <a class="reference internal" href="#rm3-with-hydraulic-pto">RM3 with hydraulic PTO</a>.</p>
 </div>
 </div>
@@ -1211,7 +1211,7 @@ It should only be turned on when visualization is desired. The user also needs t
 <h3>Getting Started - Installation<a class="headerlink" href="#getting-started-installation" title="Permalink to this headline">¶</a></h3>
 <blockquote>
 <div><p>You will need to install <a class="reference external" href="http://www.paraview.org/">Paraview</a> and install and setup Python.
-Next you will need to add some WEC-Sim specific macros,as follows:</p>
+Next you will need to add some WEC-Sim specific macros, as follows:</p>
 <ul class="simple">
 <li>Open Paraview</li>
 <li>Click on <code class="docutils literal"><span class="pre">Macros</span> <span class="pre">=&gt;</span> <span class="pre">Add</span> <span class="pre">new</span> <span class="pre">macro</span></code></li>
@@ -1245,7 +1245,7 @@ Next you will need to add some WEC-Sim specific macros,as follows:</p>
 <tr class="row-even"><td><code class="docutils literal"><span class="pre">simu.nlHydro</span></code></td>
 <td>0 for no non-linear hydro [default]
 1 for non-linear hydro with mean free surface
-2 for non-linear hydro with instantaneous fs</td>
+2 for non-linear hydro with instantaneous free surface</td>
 </tr>
 <tr class="row-odd"><td><code class="docutils literal"><span class="pre">simu.domainSize</span></code></td>
 <td>size of ground and water planes in meters [default 200]</td>
