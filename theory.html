@@ -124,7 +124,7 @@
 </li>
 <li class="toctree-l2"><a class="reference internal" href="#mooring">Mooring</a><ul>
 <li class="toctree-l3"><a class="reference internal" href="#mooring-matrix">Mooring Matrix</a></li>
-<li class="toctree-l3"><a class="reference internal" href="#id26">MoorDyn</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#id24">MoorDyn</a></li>
 </ul>
 </li>
 <li class="toctree-l2"><a class="reference internal" href="#non-linear-buoynancy-and-froude-krylov-wave-excitation">Non-Linear Buoynancy and Froude-Krylov Wave Excitation</a></li>
@@ -286,7 +286,7 @@ To speed computation of the convolution integral, the state space representation
 <p>To include the fluid memory effect, the convolution integral formulation based upon the Cummins equation <a class="reference internal" href="#cummins1962" id="id11">[8]</a> is used. The radiation term can be calculated by</p>
 <div class="math">
 \[F_{rad}(t)=-A_{\infty}\ddot{X}-\intop_{0}^{t}K_{r}(t-\tau)\dot{X}(\tau)d\tau\]</div>
-<p>where <span class="math">\(A_{\infty}\)</span> is the added mass matrix at infinite frequency and <span class="math">\(K_{r}\)</span> is the radiation impulse response function. This representation also assumes that there is no motion for :math:<a href="#id12"><span class="problematic" id="id13">`</span></a>t&lt;0&#8217;.</p>
+<p>where <span class="math">\(A_{\infty}\)</span> is the added mass matrix at infinite frequency and <span class="math">\(K_{r}\)</span> is the radiation impulse response function. This representation also assumes that there is no motion for <span class="math">\(t&lt;0\)</span>.</p>
 <p>For regular waves, the equation described in the last subsection is used to calculate the wave excitation vector.
 For irregular waves, the free surface elevation is constructed from a linear superposition of a number of regular wave components.
 Each regular wave component is extracted from a wave spectrum, <span class="math">\(S(\omega)\)</span>, describing the wave energy distribution over a range of wave frequencies, generally characterized by a significant wave height and peak wave period. The irregular excitation force can be calculated as the real part of an integral term across all wave frequencies as follows</p>
@@ -296,7 +296,7 @@ Each regular wave component is extracted from a wave spectrum, <span class="math
 </div>
 <div class="section" id="state-space">
 <h3>State Space<a class="headerlink" href="#state-space" title="Permalink to this headline">¶</a></h3>
-<p>It is highly desirable to represent the radiation convolution integral described in the last subsection in state space (SS) form <a class="reference internal" href="#yu1996" id="id14">[9]</a>.  This has been shown to dramatically increase computational speeds <a class="reference internal" href="#taghipour2008" id="id15">[10]</a> and allow utilization of conventional control methods that rely on linear state space models.  An approximation will need to be made as <span class="math">\(K_{r}\)</span> is solved from a set of partial differential equations where as a <cite>linear state space</cite> is constructed from a set of ordinary differential equations.  In general, a linear system is desired such that:</p>
+<p>It is highly desirable to represent the radiation convolution integral described in the last subsection in state space (SS) form <a class="reference internal" href="#yu1996" id="id12">[9]</a>.  This has been shown to dramatically increase computational speeds <a class="reference internal" href="#taghipour2008" id="id13">[10]</a> and allow utilization of conventional control methods that rely on linear state space models.  An approximation will need to be made as <span class="math">\(K_{r}\)</span> is solved from a set of partial differential equations where as a <cite>linear state space</cite> is constructed from a set of ordinary differential equations.  In general, a linear system is desired such that:</p>
 <div class="math">
 \[\begin{split}\dot{X}_{r} \left( t \right) = \mathbf{A_{r}} X_{r} \left( t \right) + \mathbf{B_{r}} \mathbf{u} (t);~~X_{r}\left( 0 \right) = 0~~ \nonumber \\
 \int_{0}^{t} \mathbf{K_{r}} \left( t- \tau \right) d\tau \approx \mathbf{C_{r}} X_{r} \left( t \right) + \mathbf{D_{r}} \mathbf{u} \left( t \right)~~\end{split}\]</div>
@@ -324,7 +324,7 @@ y &amp;=&amp; \mathbf{C_{r}} x~~\end{split}\]</div>
 <div class="math">
 \[\mathbf{\tilde{K}_{r}} \left( t_{k} \right) = \mathbf{C_{d}}\mathbf{A_{d}}^{k}\mathbf{B_{d}}~~\]</div>
 <p>where <span class="math">\(t_{k}=k\Delta t\)</span> for <span class="math">\(k=0,~1,~2,~\ldots\)</span> with <span class="math">\(\Delta t\)</span> being the sampling period.  The feedthrough matrix <span class="math">\(\mathbf{D_d}\)</span> is assumed to be zero in order to maintain causality of the system, as a non-zero <span class="math">\(\mathbf{D_d}\)</span> results in an infinite value at <span class="math">\(t=0\)</span>.</p>
-<p>The most common algorithm to obtain the realization is to perform a Singular Value Decomposition (SVD) on the Hankel matrix of the impulse response function, as proposed by Kung <a class="reference internal" href="#kung1978" id="id16">[11]</a>.  The order of the system and state-space parameters are determined from the number of significant singular values and the factors of the SVD.  The Hankel matrix (<span class="math">\(H\)</span>) of the impulse response function</p>
+<p>The most common algorithm to obtain the realization is to perform a Singular Value Decomposition (SVD) on the Hankel matrix of the impulse response function, as proposed by Kung <a class="reference internal" href="#kung1978" id="id14">[11]</a>.  The order of the system and state-space parameters are determined from the number of significant singular values and the factors of the SVD.  The Hankel matrix (<span class="math">\(H\)</span>) of the impulse response function</p>
 <div class="math">
 \[\begin{split}&amp; H = \begin{bmatrix}
         \mathbf{K_{r}}(2) &amp; \mathbf{K_{r}}(3) &amp; \ldots &amp; \mathbf{K_{r}}(n) \\
@@ -335,7 +335,7 @@ y &amp;=&amp; \mathbf{C_{r}} x~~\end{split}\]</div>
 <p>can be reproduced exactly by the SVD as</p>
 <div class="math">
 \[H = \mathbf{U} \Sigma \mathbf{V^{*}}\]</div>
-<p>where <span class="math">\(\Sigma\)</span> is a diagonal matrix containing the Hankel singular values in descending order.  Examination of the Hankel singular values reveals there are only a small number of significant states and that the rank of <span class="math">\(H\)</span> can be greatly reduced without a significant loss in accuracy <a class="reference internal" href="#taghipour2008" id="id17">[10]</a><a class="reference internal" href="#kristiansen2005" id="id18">[12]</a>. Further detail into the SVD method and calculation of the state space parameters will not be discussed here and the reader is referred to <a class="reference internal" href="#taghipour2008" id="id19">[10]</a><a class="reference internal" href="#kristiansen2005" id="id20">[12]</a>.</p>
+<p>where <span class="math">\(\Sigma\)</span> is a diagonal matrix containing the Hankel singular values in descending order.  Examination of the Hankel singular values reveals there are only a small number of significant states and that the rank of <span class="math">\(H\)</span> can be greatly reduced without a significant loss in accuracy <a class="reference internal" href="#taghipour2008" id="id15">[10]</a><a class="reference internal" href="#kristiansen2005" id="id16">[12]</a>. Further detail into the SVD method and calculation of the state space parameters will not be discussed here and the reader is referred to <a class="reference internal" href="#taghipour2008" id="id17">[10]</a><a class="reference internal" href="#kristiansen2005" id="id18">[12]</a>.</p>
 </div>
 </div>
 </div>
@@ -362,7 +362,7 @@ y &amp;=&amp; \mathbf{C_{r}} x~~\end{split}\]</div>
 \[H_{m0} = 4 \sqrt{m_{0}}~~\]</div>
 <div class="section" id="pierson-moskowitz-pm">
 <h3>Pierson&#8211;Moskowitz (PM)<a class="headerlink" href="#pierson-moskowitz-pm" title="Permalink to this headline">¶</a></h3>
-<p>One of the simplest spectra, the Pierson&#8211;Moskowitz spectrum, was proposed by <a class="reference internal" href="#pm" id="id21">[13]</a>. It assumed that after the wind blew steadily for a long time over a large area, the waves would come into equilibrium with the wind. This is the concept of a fully developed sea where a &#8220;long time&#8221; is roughly 10,000 wave periods and a &#8220;large area&#8221; is roughly 5,000 wave-lengths on a side.  The spectrum is calculated from:</p>
+<p>One of the simplest spectra, the Pierson&#8211;Moskowitz spectrum, was proposed by <a class="reference internal" href="#pm" id="id19">[13]</a>. It assumed that after the wind blew steadily for a long time over a large area, the waves would come into equilibrium with the wind. This is the concept of a fully developed sea where a &#8220;long time&#8221; is roughly 10,000 wave periods and a &#8220;large area&#8221; is roughly 5,000 wave-lengths on a side.  The spectrum is calculated from:</p>
 <div class="math">
 \[\begin{split}&amp; S\left( f \right) = \frac{\alpha_{PM}g^{2}}{\left( 2 \pi \right)^{4}}f^{-5}\exp\left[-\frac{5}{4} \left( \frac{f_{p}}{f}\right)^{4} \right]~~ &amp;\\\end{split}\]</div>
 <p>This implies coefficients of the general form:</p>
@@ -387,7 +387,7 @@ y &amp;=&amp; \mathbf{C_{r}} x~~\end{split}\]</div>
 </div>
 <div class="section" id="jonswap-js">
 <h3>JONSWAP (JS)<a class="headerlink" href="#jonswap-js" title="Permalink to this headline">¶</a></h3>
-<p>The JONSWAP (Joint North Sea Wave Project) spectrum was purposed by Hasselmann et al. <a class="reference internal" href="#hk" id="id22">[14]</a>, and the original formulation was given as:</p>
+<p>The JONSWAP (Joint North Sea Wave Project) spectrum was purposed by Hasselmann et al. <a class="reference internal" href="#hk" id="id20">[14]</a>, and the original formulation was given as:</p>
 <div class="math">
 \[ \begin{align}\begin{aligned}\begin{split}&amp; S\left( f \right) = \frac{ \alpha_{js} g^{2} }{ (2\pi)^{4}} f^{-5}\exp\left[-\frac{5}{4} \left( \frac{f_{p}}{f}\right)^{4} \right]\gamma^\Gamma \nonumber  ~~ &amp;\\\end{split}\\\begin{split}&amp;\Gamma = \exp \left[ -\left( \frac{\frac{f}{f_{p}}-1}{\sqrt{2} \sigma}\right)^{2} \right],~~ \sigma = \begin{cases} 0.07 &amp; f \leq f_{p} \\0.09 &amp; f &gt; f_{p} \end{cases} ~~ &amp;\\\end{split}\end{aligned}\end{align} \]</div>
 <p>with general form coefficients thus defined:</p>
@@ -420,7 +420,7 @@ The instantaneous power absorbed by the PTO is given by:</p>
 </div>
 <div class="section" id="hydraulic-pto">
 <h3>Hydraulic PTO<a class="headerlink" href="#hydraulic-pto" title="Permalink to this headline">¶</a></h3>
-<p>The PTO mechanism is modeled as a hydraulic system <a class="reference internal" href="#so" id="id23">[15]</a>, where the reaction force is given by:</p>
+<p>The PTO mechanism is modeled as a hydraulic system <a class="reference internal" href="#so" id="id21">[15]</a>, where the reaction force is given by:</p>
 <div class="math">
 \[F_{PTO}=\Delta{} p_{piston}A_{piston}\]</div>
 <p>where <span class="math">\(\Delta{} p_{piston}\)</span> is the differential pressure of the hydraulic piston and <span class="math">\(A_{piston}\)</span> is the piston area.
@@ -430,7 +430,7 @@ The instantaneous hydraulic power absorbed by the PTO is given by:</p>
 </div>
 <div class="section" id="mechanical-pto">
 <h3>Mechanical PTO<a class="headerlink" href="#mechanical-pto" title="Permalink to this headline">¶</a></h3>
-<p>The PTO mechanism is modeled as a direct-drive linear generator system <a class="reference internal" href="#so" id="id24">[15]</a>, where the reaction force is given by:</p>
+<p>The PTO mechanism is modeled as a direct-drive linear generator system <a class="reference internal" href="#so" id="id22">[15]</a>, where the reaction force is given by:</p>
 <div class="math">
 \[F_{PTO}=(\frac{\pi}{\tau_{pm}})\lambda_{fd}i_{sq}\]</div>
 <p>where <span class="math">\(\tau_{pm}\)</span> is the magnet pole pitch (the center-to-center distance of adjacent magnetic poles), <span class="math">\(\lambda_{fd}\)</span> is the flux linkage of the stator <span class="math">\(d\)</span>-axis winding due to flux produced by the rotor magnets, and <span class="math">\(i_{sq}\)</span> is the stator <span class="math">\(q\)</span>-axis current.
@@ -445,7 +445,7 @@ The instantaneous mechanical power absorbed by the PTO is given by:</p>
 </div>
 <div class="section" id="mooring">
 <h2>Mooring<a class="headerlink" href="#mooring" title="Permalink to this headline">¶</a></h2>
-<p>The mooring load is represented using a linear quasi-static mooring stiffness or by using the mooring forces calculated from <a class="reference external" href="http://www.matt-hall.ca/moordyn">MoorDyn</a> <a class="reference internal" href="#hall2015moordynguide" id="id25">[1]</a>, which is an open-source lumped-mass mooring dynamics model.</p>
+<p>The mooring load is represented using a linear quasi-static mooring stiffness or by using the mooring forces calculated from <a class="reference external" href="http://www.matt-hall.ca/moordyn">MoorDyn</a> <a class="reference internal" href="#hall2015moordynguide" id="id23">[1]</a>, which is an open-source lumped-mass mooring dynamics model.</p>
 <div class="section" id="mooring-matrix">
 <h3>Mooring Matrix<a class="headerlink" href="#mooring-matrix" title="Permalink to this headline">¶</a></h3>
 <p>When linear quasi-static mooring stiffness is used, the mooring load can be calculated by</p>
@@ -453,9 +453,9 @@ The instantaneous mechanical power absorbed by the PTO is given by:</p>
 \[F_{m}=-K_{m}X-C_{m}\dot{X}\]</div>
 <p>where <span class="math">\(K_{m}\)</span> and <span class="math">\(C_{m}\)</span> are the stiffness and damping matrices for the mooring system, and <span class="math">\(X\)</span> and <span class="math">\(\dot{X}\)</span> are the displacement and velocity of the body, respectively.</p>
 </div>
-<div class="section" id="id26">
-<h3>MoorDyn<a class="headerlink" href="#id26" title="Permalink to this headline">¶</a></h3>
-<p>MoorDyn discretizes each mooring line in a mooring system into evenly-sized line segments connected by node points (see <a class="reference internal" href="#moordynfig"><span class="std std-ref">MoorDyn figure</span></a>). The line mass is lumped at these node points along with gravitational and buoyancy forces, hydrodynamic loads, and reactions from contact with the seabed.  Hydrodynamic drag and added mass are calculated based on Morison&#8217;s equation.  A mooring line&#8217;s axial stiffness is modeled by applying a linear stiffness to each line segment in tension only.  A damping term is also applied in each segment to dampen non-physical resonances caused by the lumped-mass discretization.  Bending and torsional stiffnesses are neglected.  Bottom contact is represented by vertical stiffness and damping forces applied at the nodes when a node is located below the seabed. <a class="reference internal" href="#hall2015validationdata" id="id27">[16]</a>.</p>
+<div class="section" id="id24">
+<h3>MoorDyn<a class="headerlink" href="#id24" title="Permalink to this headline">¶</a></h3>
+<p>MoorDyn discretizes each mooring line in a mooring system into evenly-sized line segments connected by node points (see <a class="reference internal" href="#moordynfig"><span class="std std-ref">MoorDyn figure</span></a>). The line mass is lumped at these node points along with gravitational and buoyancy forces, hydrodynamic loads, and reactions from contact with the seabed.  Hydrodynamic drag and added mass are calculated based on Morison&#8217;s equation.  A mooring line&#8217;s axial stiffness is modeled by applying a linear stiffness to each line segment in tension only.  A damping term is also applied in each segment to dampen non-physical resonances caused by the lumped-mass discretization.  Bending and torsional stiffnesses are neglected.  Bottom contact is represented by vertical stiffness and damping forces applied at the nodes when a node is located below the seabed. <a class="reference internal" href="#hall2015validationdata" id="id25">[16]</a>.</p>
 <div class="figure align-center" id="moordynfig">
 <a class="reference internal image-reference" href="_images/MoorDyn_Graphic.png"><img alt="_images/MoorDyn_Graphic.png" src="_images/MoorDyn_Graphic.png" style="width: 529.2px; height: 324.8px;" /></a>
 <div class="legend">
@@ -470,7 +470,7 @@ The instantaneous mechanical power absorbed by the PTO is given by:</p>
 <div class="section" id="non-linear-buoynancy-and-froude-krylov-wave-excitation">
 <h2>Non-Linear Buoynancy and Froude-Krylov Wave Excitation<a class="headerlink" href="#non-linear-buoynancy-and-froude-krylov-wave-excitation" title="Permalink to this headline">¶</a></h2>
 <p>The linear model assumes that the body motion and the waves consist of small amplitudes in comparison to the wavelengths. A weakly nonlinear approach is applied to account for the nonlinear hydrodynamic forces induced by the instantaneous water surface elevation and body position. Rather than using the BEM calculated linear wave-excitation and hydrostatic coefficients, the nonlinear buoyancy and the Froude-Krylov force components can be obtained by integrating the static and dynamic pressures over each panel along the wetted body surface at each time step.
-Because linear wave theory is used to determine the flow velocity and pressure field, the values become unrealistically large for wetted panels that are above the mean water level. To correct this, the Wheeler stretching method is applied <a class="reference internal" href="#wheeler1969methods" id="id28">[17]</a>, which applies a correction to the instantaneous wave elevation that forces its height to be equal to the water depth when calculating the flow velocity and pressure,</p>
+Because linear wave theory is used to determine the flow velocity and pressure field, the values become unrealistically large for wetted panels that are above the mean water level. To correct this, the Wheeler stretching method is applied <a class="reference internal" href="#wheeler1969methods" id="id26">[17]</a>, which applies a correction to the instantaneous wave elevation that forces its height to be equal to the water depth when calculating the flow velocity and pressure,</p>
 <blockquote>
 <div><div class="math">
 \[z^* = \frac{D(D+z)}{(D+\eta)} - D\]</div>
@@ -500,7 +500,7 @@ Because linear wave theory is used to determine the flow velocity and pressure f
 </div>
 <div class="section" id="morison-elements">
 <h3>Morison Elements<a class="headerlink" href="#morison-elements" title="Permalink to this headline">¶</a></h3>
-<p>The Morison Equation assumes that the fluid forces in an oscillating flow on a structure of slender cylinders or other similar geometries arise partly from pressure effects from potential flow and partly from viscous effects. A slender cylinder implies that the diameter, D, is small relative to the wave length, <span class="math">\(?_w\)</span>, which is generally met when <span class="math">\(D/?_w &lt; 0.1 ? 0.2\)</span>. If this condition is not met, wave diffraction effects must be taken into account. Assuming that the geometries are slender, the resulting force can be approximated by a modified Morison formulation <a class="reference internal" href="#morison1950" id="id29">[18]</a>. The formulation for each element on the body can be given as</p>
+<p>The Morison Equation assumes that the fluid forces in an oscillating flow on a structure of slender cylinders or other similar geometries arise partly from pressure effects from potential flow and partly from viscous effects. A slender cylinder implies that the diameter, D, is small relative to the wave length, <span class="math">\(?_w\)</span>, which is generally met when <span class="math">\(D/?_w &lt; 0.1 ? 0.2\)</span>. If this condition is not met, wave diffraction effects must be taken into account. Assuming that the geometries are slender, the resulting force can be approximated by a modified Morison formulation <a class="reference internal" href="#morison1950" id="id27">[18]</a>. The formulation for each element on the body can be given as</p>
 <blockquote>
 <div><div class="math">
 \[F_{ME}=\rho\dot{v}+\rho\forall C_{a}(\dot{v}-\ddot{X})+\frac{C_{d}\rho A_{d}}{2}(v-\dot{X})|v-\dot{X}|\]</div>
@@ -521,7 +521,7 @@ Because linear wave theory is used to determine the flow velocity and pressure f
 <p id="bibtex-bibliography-theory-0"><table class="docutils citation" frame="void" id="hall2015moordynguide" rules="none">
 <colgroup><col class="label" /><col /></colgroup>
 <tbody valign="top">
-<tr><td class="label"><a class="fn-backref" href="#id25">[1]</a></td><td>Matthew Hall. Moordyn user’s guide. 2015.</td></tr>
+<tr><td class="label"><a class="fn-backref" href="#id23">[1]</a></td><td>Matthew Hall. Moordyn user’s guide. 2015.</td></tr>
 </tbody>
 </table>
 <table class="docutils citation" frame="void" id="li2012" rules="none">
@@ -569,61 +569,67 @@ Because linear wave theory is used to determine the flow velocity and pressure f
 <table class="docutils citation" frame="void" id="yu1996" rules="none">
 <colgroup><col class="label" /><col /></colgroup>
 <tbody valign="top">
-<tr><td class="label"><a class="fn-backref" href="#id14">[9]</a></td><td>Z.&nbsp;Yu and J.&nbsp;Falnes. State-space Modelling of a Vertical Cylinder in Heave. <em>Applied Ocean Research</em>, 5:265–275, 1996.</td></tr>
+<tr><td class="label"><a class="fn-backref" href="#id12">[9]</a></td><td>Z.&nbsp;Yu and J.&nbsp;Falnes. State-space Modelling of a Vertical Cylinder in Heave. <em>Applied Ocean Research</em>, 5:265–275, 1996.</td></tr>
 </tbody>
 </table>
 <table class="docutils citation" frame="void" id="taghipour2008" rules="none">
 <colgroup><col class="label" /><col /></colgroup>
 <tbody valign="top">
-<tr><td class="label">[10]</td><td><em>(<a class="fn-backref" href="#id15">1</a>, <a class="fn-backref" href="#id17">2</a>, <a class="fn-backref" href="#id19">3</a>)</em> R.&nbsp;Taghipour, T.&nbsp;Perez, and T.&nbsp;Moan. Hybrid Frequency-time Domain Models for Dynamic Response Analysis of Marine Structures. <em>Ocean Engineering</em>, 7:685–705, 2008.</td></tr>
+<tr><td class="label">[10]</td><td><em>(<a class="fn-backref" href="#id13">1</a>, <a class="fn-backref" href="#id15">2</a>, <a class="fn-backref" href="#id17">3</a>)</em> R.&nbsp;Taghipour, T.&nbsp;Perez, and T.&nbsp;Moan. Hybrid Frequency-time Domain Models for Dynamic Response Analysis of Marine Structures. <em>Ocean Engineering</em>, 7:685–705, 2008.</td></tr>
 </tbody>
 </table>
 <table class="docutils citation" frame="void" id="kung1978" rules="none">
 <colgroup><col class="label" /><col /></colgroup>
 <tbody valign="top">
-<tr><td class="label"><a class="fn-backref" href="#id16">[11]</a></td><td>Sun-Yuan Kung. A new identification and model reduction algorithm via singular value decomposition. In <em>Proc. 12th Asilomar Conf. Circuits, Syst. Comput., Pacific Grove, CA</em>, 705–714. 1978.</td></tr>
+<tr><td class="label"><a class="fn-backref" href="#id14">[11]</a></td><td>Sun-Yuan Kung. A new identification and model reduction algorithm via singular value decomposition. In <em>Proc. 12th Asilomar Conf. Circuits, Syst. Comput., Pacific Grove, CA</em>, 705–714. 1978.</td></tr>
 </tbody>
 </table>
 <table class="docutils citation" frame="void" id="kristiansen2005" rules="none">
 <colgroup><col class="label" /><col /></colgroup>
 <tbody valign="top">
-<tr><td class="label">[12]</td><td><em>(<a class="fn-backref" href="#id18">1</a>, <a class="fn-backref" href="#id20">2</a>)</em> Erlend Kristiansen, Åsmund Hjulstad, and Olav Egeland. State-space representation of radiation forces in time-domain vessel models. <em>Ocean Engineering</em>, 32(17):2195–2216, 2005.</td></tr>
+<tr><td class="label">[12]</td><td><em>(<a class="fn-backref" href="#id16">1</a>, <a class="fn-backref" href="#id18">2</a>)</em> Erlend Kristiansen, Åsmund Hjulstad, and Olav Egeland. State-space representation of radiation forces in time-domain vessel models. <em>Ocean Engineering</em>, 32(17):2195–2216, 2005.</td></tr>
 </tbody>
 </table>
 <table class="docutils citation" frame="void" id="pm" rules="none">
 <colgroup><col class="label" /><col /></colgroup>
 <tbody valign="top">
-<tr><td class="label"><a class="fn-backref" href="#id21">[13]</a></td><td>W.&nbsp;J. Pierson and L.&nbsp;A. Moskowitz. Proposed Spectral Form for Fully Developed Wind Seas Based on the Similarity Theory of S. A. Kitaigorodskii. <em>Geophysical Research</em>, 69:5181–5190, 1964.</td></tr>
+<tr><td class="label"><a class="fn-backref" href="#id19">[13]</a></td><td>W.&nbsp;J. Pierson and L.&nbsp;A. Moskowitz. Proposed Spectral Form for Fully Developed Wind Seas Based on the Similarity Theory of S. A. Kitaigorodskii. <em>Geophysical Research</em>, 69:5181–5190, 1964.</td></tr>
 </tbody>
 </table>
 <table class="docutils citation" frame="void" id="hk" rules="none">
 <colgroup><col class="label" /><col /></colgroup>
 <tbody valign="top">
-<tr><td class="label"><a class="fn-backref" href="#id22">[14]</a></td><td>K. Hasselman, T.P. Barnett, E. Bouws, H. Carlson, D.E. Cartwright, K. Enke, J.A. Ewing, H. Gienapp, D.E. Hasselmann, P. Kruseman, A. Meerburg, P. Mller, D.J. Olbers, K. Richter, W. Sell, and H. Walden. Measurements of wind-wave growth and swell decay during the Joint North Sea Wave Project (JONSWAP). Technical Report 12, German Hydrographic Institute, 1973.</td></tr>
+<tr><td class="label"><a class="fn-backref" href="#id20">[14]</a></td><td>K. Hasselman, T.P. Barnett, E. Bouws, H. Carlson, D.E. Cartwright, K. Enke, J.A. Ewing, H. Gienapp, D.E. Hasselmann, P. Kruseman, A. Meerburg, P. Mller, D.J. Olbers, K. Richter, W. Sell, and H. Walden. Measurements of wind-wave growth and swell decay during the Joint North Sea Wave Project (JONSWAP). Technical Report 12, German Hydrographic Institute, 1973.</td></tr>
 </tbody>
 </table>
 <table class="docutils citation" frame="void" id="so" rules="none">
 <colgroup><col class="label" /><col /></colgroup>
 <tbody valign="top">
-<tr><td class="label">[15]</td><td><em>(<a class="fn-backref" href="#id23">1</a>, <a class="fn-backref" href="#id24">2</a>)</em> R. So, A. Simmons, T. Brekken, K. Ruehl, and C. Michelen. Development of PTO-SIM: A Power Performance Module for the Open-Souse Wave Energy Converter Code WEC-SIM. In <em>Proceedings of OMAE 2015</em>. 2015.</td></tr>
+<tr><td class="label">[15]</td><td><em>(<a class="fn-backref" href="#id21">1</a>, <a class="fn-backref" href="#id22">2</a>)</em> R. So, A. Simmons, T. Brekken, K. Ruehl, and C. Michelen. Development of PTO-SIM: A Power Performance Module for the Open-Souse Wave Energy Converter Code WEC-SIM. In <em>Proceedings of OMAE 2015</em>. 2015.</td></tr>
 </tbody>
 </table>
 <table class="docutils citation" frame="void" id="hall2015validationdata" rules="none">
 <colgroup><col class="label" /><col /></colgroup>
 <tbody valign="top">
-<tr><td class="label"><a class="fn-backref" href="#id27">[16]</a></td><td>Matthew Hall and Andrew Goupee. Validation of a lumped-mass mooring line model with deepcwind semisubmersible model test data. <em>Ocean Engineering</em>, 104:590–603, 2015.</td></tr>
+<tr><td class="label"><a class="fn-backref" href="#id25">[16]</a></td><td>Matthew Hall and Andrew Goupee. Validation of a lumped-mass mooring line model with deepcwind semisubmersible model test data. <em>Ocean Engineering</em>, 104:590–603, 2015.</td></tr>
 </tbody>
 </table>
 <table class="docutils citation" frame="void" id="wheeler1969methods" rules="none">
 <colgroup><col class="label" /><col /></colgroup>
 <tbody valign="top">
-<tr><td class="label"><a class="fn-backref" href="#id28">[17]</a></td><td>J&nbsp;D Wheeler and others. Methods for calculating forces produced by irregular waves. In <em>Offshore Technology Conference</em>. 1969.</td></tr>
+<tr><td class="label"><a class="fn-backref" href="#id26">[17]</a></td><td>J&nbsp;D Wheeler and others. Methods for calculating forces produced by irregular waves. In <em>Offshore Technology Conference</em>. 1969.</td></tr>
 </tbody>
 </table>
 <table class="docutils citation" frame="void" id="morison1950" rules="none">
 <colgroup><col class="label" /><col /></colgroup>
 <tbody valign="top">
-<tr><td class="label"><a class="fn-backref" href="#id29">[18]</a></td><td>J&nbsp;R Morison, M&nbsp;P O&#8217;brien, J&nbsp;W Johnson, and S&nbsp;A Schaaf. The force exerted by surface waves on piles. <em>Petroleum Transactions, AIME</em>, 189:149–154, 1950.</td></tr>
+<tr><td class="label"><a class="fn-backref" href="#id27">[18]</a></td><td>J&nbsp;R Morison, M&nbsp;P O&#8217;brien, J&nbsp;W Johnson, and S&nbsp;A Schaaf. The force exerted by surface waves on piles. <em>Petroleum Transactions, AIME</em>, 189:149–154, 1950.</td></tr>
+</tbody>
+</table>
+<table class="docutils citation" frame="void" id="ruehl-preliminary-2014" rules="none">
+<colgroup><col class="label" /><col /></colgroup>
+<tbody valign="top">
+<tr><td class="label">[1]</td><td>K. Ruehl, C. Michelen, S. Kanner, M. Lawson, and Y. Yu. Preliminary Verification and Validation of WEC-Sim, an Open-Source Wave Energy Converter Design Tool. In <em>Proceedings of OMAE 2014</em>. San Francisco, CA, 2014.</td></tr>
 </tbody>
 </table>
 </p>

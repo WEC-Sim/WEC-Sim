@@ -303,12 +303,12 @@ Within the <code class="docutils literal"><span class="pre">wecSimInputFile.m</s
 </tr>
 </tbody>
 </table>
-<p>Available wave class properties, default values, and functions can be found by typing <code class="docutils literal"><span class="pre">doc</span> <span class="pre">waveClass</span></code> in the MATLAB command window, or by opening the <code class="docutils literal"><span class="pre">waveClass.m</span></code> file in <code class="docutils literal"><span class="pre">//WEC-Sim/source/objects</span></code> directory by typing <code class="docutils literal"><span class="pre">open</span> <span class="pre">wavenClass</span></code> in Matlab Command Window.</p>
+<p>Available wave class properties, default values, and functions can be found by typing <code class="docutils literal"><span class="pre">doc</span> <span class="pre">waveClass</span></code> in the MATLAB command window, or by opening the <code class="docutils literal"><span class="pre">waveClass.m</span></code> file in <code class="docutils literal"><span class="pre">//WEC-Sim/source/objects</span></code> directory by typing <code class="docutils literal"><span class="pre">open</span> <span class="pre">wavenClass</span></code> in the Matlab Command Window.</p>
 <div class="section" id="nowave">
 <h4>noWave<a class="headerlink" href="#nowave" title="Permalink to this headline">¶</a></h4>
-<p>The <code class="docutils literal"><span class="pre">noWave</span></code> case is for running WEC-Sim simulations with no waves and constant added mass and radiation damping coefficients.
+<p>The <code class="docutils literal"><span class="pre">noWave</span></code> case is for running WEC-Sim simulations with no waves and constant radiation added mass and wave damping coefficients.
 The <code class="docutils literal"><span class="pre">noWave</span></code> case is typically used to run decay tests.
-Users must still provide hydro coefficients from a BEM solve before executing WEC-Sim and specify the period (<code class="docutils literal"><span class="pre">wave.T</span></code>) from which the hydrodynamic coefficients are selected.</p>
+Users must still provide hydro coefficients from a BEM solver before executing WEC-Sim and specify the period (<code class="docutils literal"><span class="pre">wave.T</span></code>) from which the hydrodynamic coefficients are selected.</p>
 <p>The <code class="docutils literal"><span class="pre">noWave</span></code> case is defined by including the following in the input file:</p>
 <div class="highlight-default"><div class="highlight"><pre><span></span><span class="n">waves</span> <span class="o">=</span> <span class="n">waveClass</span><span class="p">(</span><span class="s1">&#39;noWave&#39;</span><span class="p">);</span>
 <span class="n">waves</span><span class="o">.</span><span class="n">T</span> <span class="o">=</span> <span class="o">&lt;</span><span class="n">user</span> <span class="n">defined</span> <span class="n">wave</span> <span class="n">period</span><span class="o">&gt;</span><span class="p">;</span> <span class="o">%</span><span class="p">[</span><span class="n">s</span><span class="p">]</span>
@@ -318,7 +318,7 @@ Users must still provide hydro coefficients from a BEM solve before executing WE
 <div class="section" id="nowavecic">
 <h4>noWaveCIC<a class="headerlink" href="#nowavecic" title="Permalink to this headline">¶</a></h4>
 <p>The <code class="docutils literal"><span class="pre">noWaveCIC</span></code> case is the same as the noWave case described above, but with the addition of the convolution integral calculation.
-The only differences is that the radiation forces are calculated using the convolution integral and the infinite frequency added mass.</p>
+The only difference is that the radiation forces are calculated using the convolution integral and the infinite frequency added mass.</p>
 <p>The <code class="docutils literal"><span class="pre">noWaveCIC</span></code> case is defined by including the following in the input file:</p>
 <div class="highlight-default"><div class="highlight"><pre><span></span><span class="n">waves</span> <span class="o">=</span> <span class="n">waveClass</span><span class="p">(</span><span class="s1">&#39;noWaveCIC&#39;</span><span class="p">);</span>
 </pre></div>
@@ -326,7 +326,7 @@ The only differences is that the radiation forces are calculated using the convo
 </div>
 <div class="section" id="regular">
 <h4>regular<a class="headerlink" href="#regular" title="Permalink to this headline">¶</a></h4>
-<p>The <code class="docutils literal"><span class="pre">regular</span></code> wave case  is for running simulations with regular waves and constant added mass and radiation damping coefficients.
+<p>The <code class="docutils literal"><span class="pre">regular</span></code> wave case  is used for running simulations in regular waves with constant radiation added mass and wave damping coefficients.
 Using this option, WEC-Sim assumes that the system dynamic response is in sinusoidal steady-state form, where constant added mass and damping coefficients are used (instead of the convolution integral) to calculate wave radiation forces.
 Wave period (<code class="docutils literal"><span class="pre">wave.T</span></code>) and wave height (<code class="docutils literal"><span class="pre">wave.H</span></code>) must be specified in the input file.</p>
 <p>The <code class="docutils literal"><span class="pre">regular</span></code> case is defined by including the following in the input file:</p>
@@ -380,7 +380,7 @@ The available wave spectra and their corresponding <code class="docutils literal
 <span class="n">waves</span><span class="o">.</span><span class="n">spectrumType</span> <span class="o">=</span> <span class="s1">&#39;&lt;user specified spectrum&gt;&#39;</span><span class="p">;</span>
 </pre></div>
 </div>
-<p>Users have the option of defining gamma for the JONSWAP spectrum by specifying <code class="docutils literal"><span class="pre">waves.gamma</span> <span class="pre">=</span> <span class="pre">&lt;user</span> <span class="pre">specified</span> <span class="pre">gamma&gt;;</span></code>. If gamma is not defined, the default value of gamma equal to 3 is used.</p>
+<p>Users have the option of defining gamma for the JONSWAP spectrum by specifying <code class="docutils literal"><span class="pre">waves.gamma</span> <span class="pre">=</span> <span class="pre">&lt;user</span> <span class="pre">specified</span> <span class="pre">gamma&gt;;</span></code>. If gamma is not defined, the default value of gamma equal to 3.3 is used.</p>
 </div>
 <div class="section" id="spectrumimport">
 <h4>spectrumImport<a class="headerlink" href="#spectrumimport" title="Permalink to this headline">¶</a></h4>
@@ -440,7 +440,7 @@ For example, viscous drag can be specified by entering the viscous drag coeffici
 <div class="section" id="constraint-class">
 <h3>Constraint Class<a class="headerlink" href="#constraint-class" title="Permalink to this headline">¶</a></h3>
 <p>The constraint class file, <code class="docutils literal"><span class="pre">constraintClass.m</span></code>, is located in the <code class="docutils literal"><span class="pre">//WEC-Sim/source/objects</span></code> directory.
-WEC-Sim constraint blocks connect WEC bodies to on one another (and possibly to the seabed) by constraining DOFs.
+WEC-Sim constraint blocks connect WEC bodies to one another (and possibly to the seabed) by constraining DOFs.
 The properties of the constraint class (<code class="docutils literal"><span class="pre">constraintClass</span></code>) are defined in the <code class="docutils literal"><span class="pre">constraint</span></code> object.
 Within the <code class="docutils literal"><span class="pre">wecSimInputFile.m</span></code>, users must initialize each iteration the constraint class (<code class="docutils literal"><span class="pre">constraintClass</span></code>) and specify the constraint <code class="docutils literal"><span class="pre">name</span></code>, by including the following lines:</p>
 <div class="highlight-default"><div class="highlight"><pre><span></span><span class="n">constraint</span><span class="p">(</span><span class="o">&lt;</span><span class="c1">#&gt;)=constraintClass(&#39;&lt;constraint name&gt;&#39;);</span>
@@ -484,7 +484,7 @@ Within the <code class="docutils literal"><span class="pre">wecSimInputFile.m</s
 <div class="highlight-default"><div class="highlight"><pre><span></span><span class="n">mooring</span><span class="p">(</span><span class="c1">#)= mooringClass(&#39;name&#39;);</span>
 </pre></div>
 </div>
-<p>The mooring class (<code class="docutils literal"><span class="pre">mooringClass</span></code>) allows for different fidelity simulation of mooring systems.
+<p>The mooring class (<code class="docutils literal"><span class="pre">mooringClass</span></code>) allows for different fidelity simulations of mooring systems.
 Available mooring properties, default values, and functions can be found by typing <code class="docutils literal"><span class="pre">doc</span> <span class="pre">mooringClass</span></code> in the MATLAB command window, or opening the <cite>mooringClass.m</cite> file in <code class="docutils literal"><span class="pre">//WEC-Sim/source/objects</span></code> directory by typing <code class="docutils literal"><span class="pre">open</span> <span class="pre">mooringClass</span></code> in MATLAB Command Window.</p>
 <div class="admonition note">
 <p class="first admonition-title">Note</p>
@@ -543,7 +543,7 @@ The <code class="docutils literal"><span class="pre">Global</span> <span class="
 <div class="section" id="constraints">
 <h3>Constraints<a class="headerlink" href="#constraints" title="Permalink to this headline">¶</a></h3>
 <p>The blocks within the Constraints library are used to define the DOF of a specific body.
-Constraints blocks define only the DOF, but do not otherwise apply any forcing or resistance to the body motion.
+Constraint blocks define only the DOF, but do not otherwise apply any forcing or resistance to the body motion.
 Each Constraint block has two connections: a base (B) and a follower (F).
 The Constraints block restricts the motion of the block that is connected to the follower relative to the block that is connected to the base.
 For a single body system, the base would be the <code class="docutils literal"><span class="pre">Global</span> <span class="pre">Reference</span> <span class="pre">Frame</span></code> and the follower is a <code class="docutils literal"><span class="pre">Rigid</span> <span class="pre">Body</span></code>.</p>
@@ -602,7 +602,7 @@ follower relative to the base</td>
 <h3>PTOs<a class="headerlink" href="#ptos" title="Permalink to this headline">¶</a></h3>
 <p>The PTOs library is used to simulate linear PTO systems and to restrict relative motion between multiple bodies or between one body and the seabed.
 The PTO blocks can simulate simple PTO systems by applying a linear stiffness and damping to the connection.
-Similar to the Constraints blocks, the PTO blocks have a base (B) and a follower (F).
+Similar to the Constraint blocks, the PTO blocks have a base (B) and a follower (F).
 Users must name each PTO block <code class="docutils literal"><span class="pre">pto(i)</span></code> (where i=1,2,...) and then define their properties in the input file.</p>
 <p>The <code class="docutils literal"><span class="pre">Translational</span> <span class="pre">PTO</span></code> and <code class="docutils literal"><span class="pre">Rotational</span> <span class="pre">PTO</span></code> are identical to the <code class="docutils literal"><span class="pre">Translational</span></code> and <code class="docutils literal"><span class="pre">Rotational</span></code> constraints, but they allow for the application of linear damping and stiffness forces.
 Additionally, there are two other variations of the Translational and Rotational PTOs.
@@ -631,7 +631,7 @@ There are no restrictions on the number of MooringMatrix blocks.</p>
 </div>
 <div class="section" id="simulink-simscape-blocks">
 <h3>Simulink/Simscape Blocks<a class="headerlink" href="#simulink-simscape-blocks" title="Permalink to this headline">¶</a></h3>
-<p>In some situations, users want  to use Simulink/Simscape blocks that are not included in the WEC-Sim Library to build their WEC model.</p>
+<p>In some situations, users may want to use Simulink/Simscape blocks that are not included in the WEC-Sim Library to build their WEC model.</p>
 </div>
 </div>
 <div class="section" id="id2">

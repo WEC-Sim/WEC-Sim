@@ -75,13 +75,13 @@ Users must specify additional wave class properties using the ``waves`` object d
 ``etaImport``       ``waves.etaDataFile``                      
 ================== =================================== 
 
-Available wave class properties, default values, and functions can be found by typing ``doc waveClass`` in the MATLAB command window, or by opening the ``waveClass.m`` file in ``//WEC-Sim/source/objects`` directory by typing ``open wavenClass`` in Matlab Command Window.
+Available wave class properties, default values, and functions can be found by typing ``doc waveClass`` in the MATLAB command window, or by opening the ``waveClass.m`` file in ``//WEC-Sim/source/objects`` directory by typing ``open wavenClass`` in the Matlab Command Window.
 
 noWave
 +++++++++++
-The ``noWave`` case is for running WEC-Sim simulations with no waves and constant added mass and radiation damping coefficients. 
+The ``noWave`` case is for running WEC-Sim simulations with no waves and constant radiation added mass and wave damping coefficients. 
 The ``noWave`` case is typically used to run decay tests. 
-Users must still provide hydro coefficients from a BEM solve before executing WEC-Sim and specify the period (``wave.T``) from which the hydrodynamic coefficients are selected. 
+Users must still provide hydro coefficients from a BEM solver before executing WEC-Sim and specify the period (``wave.T``) from which the hydrodynamic coefficients are selected. 
 
 The ``noWave`` case is defined by including the following in the input file::
 
@@ -91,7 +91,7 @@ The ``noWave`` case is defined by including the following in the input file::
 noWaveCIC
 +++++++++++
 The ``noWaveCIC`` case is the same as the noWave case described above, but with the addition of the convolution integral calculation. 
-The only differences is that the radiation forces are calculated using the convolution integral and the infinite frequency added mass. 
+The only difference is that the radiation forces are calculated using the convolution integral and the infinite frequency added mass. 
 
 The ``noWaveCIC`` case is defined by including the following in the input file::
 
@@ -99,7 +99,7 @@ The ``noWaveCIC`` case is defined by including the following in the input file::
 
 regular
 +++++++++
-The ``regular`` wave case  is for running simulations with regular waves and constant added mass and radiation damping coefficients. 
+The ``regular`` wave case  is used for running simulations in regular waves with constant radiation added mass and wave damping coefficients. 
 Using this option, WEC-Sim assumes that the system dynamic response is in sinusoidal steady-state form, where constant added mass and damping coefficients are used (instead of the convolution integral) to calculate wave radiation forces.
 Wave period (``wave.T``) and wave height (``wave.H``) must be specified in the input file. 
 
@@ -142,7 +142,7 @@ The ``irregular`` case is defined by including the following in the input file::
 	waves.spectrumType = '<user specified spectrum>';
 
 
-Users have the option of defining gamma for the JONSWAP spectrum by specifying ``waves.gamma = <user specified gamma>;``. If gamma is not defined, the default value of gamma equal to 3 is used.  
+Users have the option of defining gamma for the JONSWAP spectrum by specifying ``waves.gamma = <user specified gamma>;``. If gamma is not defined, the default value of gamma equal to 3.3 is used.  
 
 
 spectrumImport
@@ -200,7 +200,7 @@ Available body properties, default values, and functions can be found by typing 
 Constraint Class
 ~~~~~~~~~~~~~~~~~~
 The constraint class file, ``constraintClass.m``, is located in the ``//WEC-Sim/source/objects`` directory.  
-WEC-Sim constraint blocks connect WEC bodies to on one another (and possibly to the seabed) by constraining DOFs. 
+WEC-Sim constraint blocks connect WEC bodies to one another (and possibly to the seabed) by constraining DOFs. 
 The properties of the constraint class (``constraintClass``) are defined in the ``constraint`` object. 
 Within the ``wecSimInputFile.m``, users must initialize each iteration the constraint class (``constraintClass``) and specify the constraint ``name``, by including the following lines::
 
@@ -249,7 +249,7 @@ Within the ``wecSimInputFile.m``, users must initialize the mooring class and sp
 	mooring(#)= mooringClass('name');
 
 
-The mooring class (``mooringClass``) allows for different fidelity simulation of mooring systems.
+The mooring class (``mooringClass``) allows for different fidelity simulations of mooring systems.
 Available mooring properties, default values, and functions can be found by typing ``doc mooringClass`` in the MATLAB command window, or opening the `mooringClass.m` file in ``//WEC-Sim/source/objects`` directory by typing ``open mooringClass`` in MATLAB Command Window.
 
 .. Note::
@@ -311,7 +311,7 @@ The ``Global Reference Frame`` block uses the simulation class variable `simu` a
 Constraints 
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 The blocks within the Constraints library are used to define the DOF of a specific body. 
-Constraints blocks define only the DOF, but do not otherwise apply any forcing or resistance to the body motion. 
+Constraint blocks define only the DOF, but do not otherwise apply any forcing or resistance to the body motion. 
 Each Constraint block has two connections: a base (B) and a follower (F). 
 The Constraints block restricts the motion of the block that is connected to the follower relative to the block that is connected to the base. 
 For a single body system, the base would be the ``Global Reference Frame`` and the follower is a ``Rigid Body``.
@@ -352,7 +352,7 @@ PTOs
 ~~~~~~~~~~~~~~~~~~~~~~~~~~
 The PTOs library is used to simulate linear PTO systems and to restrict relative motion between multiple bodies or between one body and the seabed. 
 The PTO blocks can simulate simple PTO systems by applying a linear stiffness and damping to the connection. 
-Similar to the Constraints blocks, the PTO blocks have a base (B) and a follower (F). 
+Similar to the Constraint blocks, the PTO blocks have a base (B) and a follower (F). 
 Users must name each PTO block ``pto(i)`` (where i=1,2,...) and then define their properties in the input file.
 
 The ``Translational PTO`` and ``Rotational PTO`` are identical to the ``Translational`` and ``Rotational`` constraints, but they allow for the application of linear damping and stiffness forces.
@@ -383,7 +383,7 @@ There are no restrictions on the number of MooringMatrix blocks.
 
 Simulink/Simscape Blocks
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-In some situations, users want  to use Simulink/Simscape blocks that are not included in the WEC-Sim Library to build their WEC model. 
+In some situations, users may want to use Simulink/Simscape blocks that are not included in the WEC-Sim Library to build their WEC model. 
 
 
 Output Structure

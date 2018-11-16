@@ -121,7 +121,7 @@ To include the fluid memory effect, the convolution integral formulation based u
 
 	F_{rad}(t)=-A_{\infty}\ddot{X}-\intop_{0}^{t}K_{r}(t-\tau)\dot{X}(\tau)d\tau
 
-where :math:`A_{\infty}` is the added mass matrix at infinite frequency and :math:`K_{r}` is the radiation impulse response function. This representation also assumes that there is no motion for :math:`t<0'.
+where :math:`A_{\infty}` is the added mass matrix at infinite frequency and :math:`K_{r}` is the radiation impulse response function. This representation also assumes that there is no motion for :math:`t<0`.
 
 For regular waves, the equation described in the last subsection is used to calculate the wave excitation vector.
 For irregular waves, the free surface elevation is constructed from a linear superposition of a number of regular wave components. 
