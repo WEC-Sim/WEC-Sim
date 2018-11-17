@@ -5,7 +5,7 @@ The Boundary Element Method Input/Output (BEMIO) functions are used to pre-proce
 
 * Read BEM results from **WAMIT**, **NEMOH**, or **AQWA**.
 * Calculate the radiation and excitation impulse response functions (IRFs).
-* Calculate state space realization coefficients for the radiation IRF.
+* Calculate the state space realization for the radiation IRF.
 * Save the resulting data in Hierarchical Data Format 5 (HDF5).
 * Plot typical hydrodynamic data for user verification.
 
@@ -47,7 +47,7 @@ BEMIO Functions
 		* *ah1_filename* – .AH1 AQWA output file 
 		* *lis_filename* – .LIS AQWA output file
 
-**Normalize:** Normalizes NEMOH and AQWA hydrodynamics coefficients in the same manner that WAMIT outputs are normalized. Specifically, the linear restoring stiffness is normalized as, :math:`C_{i,j}/\rho g`; added mass is normalized as, :math:`A_{i,j}/\rho`; radiation damping is normalized as, :math:`B_{i,j}/\rho \omega`; and, exciting forces are normalized as, :math:`X_i/\rho g`. Typically, this function would not be called directly by the user; it is automatically implemented within the Read_NEMOH and Read_AQWA functions. 
+**Normalize:** Normalizes NEMOH and AQWA hydrodynamics coefficients in the same manner that WAMIT outputs are normalized. Specifically, the linear hydrostatic restoring stiffness is normalized as, :math:`C_{i,j}/\rho g`; the radiation added mass is normalized as, :math:`A_{i,j}/\rho`; radiation wave damping is normalized as, :math:`B_{i,j}/\rho \omega`; and the wave-exciting forces are normalized as, :math:`X_i/\rho g`. Typically, this function would not be called directly by the user; it is automatically implemented within the Read_NEMOH and Read_AQWA functions. 
 
 	*hydro = Normalize(hydro)*
 		* *hydro* – data structure
@@ -59,7 +59,7 @@ BEMIO Functions
 
 **Radiation_IRF:** Calculates the normalized radiation impulse response function.
 
-	:math:`\overline{K}_{i,j}(t) = {\frac{2}{\pi}}\intop_0^{\infty}{\frac{B_{i,j}(\omega)}{\rho}}\cos({\omega}t)d\omega`
+	:math:`\overline{K}_{r,i,j}(t) = {\frac{2}{\pi}}\intop_0^{\infty}{\frac{B_{i,j}(\omega)}{\rho}}\cos({\omega}t)d\omega`
 
 	*hydro = Radiation_IRF(hydro, t_end, n_t, n_w, w_min, w_max)*
 			* *hydro* – data structure
@@ -78,7 +78,7 @@ BEMIO Functions
 
 **Excitation_IRF:** Calculates the excitation impulse response function.
 
-	:math:`\overline{K}_i(t) = {\frac{1}{2\pi}}\intop_{-\infty}^{\infty}{\frac{X_i(\omega,\beta)e^{i{\omega}t}}{{\rho}g}}d\omega`
+	:math:`\overline{K}_{e,i,\beta}(t) = {\frac{1}{2\pi}}\intop_{-\infty}^{\infty}{\frac{X_i(\omega,\beta)e^{i{\omega}t}}{{\rho}g}}d\omega`
 
 	*hydro = Excitation_IRF(hydro, t_end, n_t, n_w, w_min, w_max)*
 			* *hydro* – data structure
@@ -96,7 +96,7 @@ BEMIO Functions
 .. Note::
  	Technically, this step should not be necessary - the MATLAB data structure *hydro* is written to a ``*.h5`` file by BEMIO and then read back into a new MATLAB data structure *hydroData* for each body by WEC-Sim. The reasons this step was retained were, first, to remain compatible with the python based BEMIO output and, second, for the simpler data visualization and verification capabilities offered by the ``*.h5`` file viewer.
 
-**Plot_BEMIO:** Plots the added mass, radiation damping, radiation IRF, excitation force magnitude, excitation force phase, and excitation IRF for each body in the heave, surge and pitch degrees of freedom. 
+**Plot_BEMIO:** Plots the radiation added mass, radiation wave damping, radiation IRF, excitation force magnitude, excitation force phase, and excitation IRF for each body in the heave, surge and pitch degrees of freedom. 
 
 	*Plot_BEMIO(hydro)*
 		* *hydro* – data structure
@@ -110,9 +110,9 @@ BEMIO *hydro* Data Structure
 
 ============  ========================  ======================================
 **Variable**  **Format**                **Description**
-A             [6*N,6*N,Nf]              added mass
+A             [6*N,6*N,Nf]              radiation added mass
 Ainf          [6*N,6*N]                 infinite frequency added mass
-B             [6*N,6*N,Nf]              radiation damping
+B             [6*N,6*N,Nf]              radiation wave damping
 beta          [1,Nh]                    wave headings (deg)
 body          {1,N}                     body names
 C             [6,6,N]                   hydrostatic restoring stiffness
@@ -129,13 +129,15 @@ ex_w          [1,length(ex_w)]          frequency step in the excitation IRF
 file          string                    BEM output filename
 g             [1,1]                     gravity
 h             [1,1]                     water depth
-N             [1,1]                     number of bodies
+Nb            [1,1]                     number of bodies
 Nf            [1,1]                     number of wave frequencies
 Nh            [1,1]                     number of wave headings
 ra_K          [6*N,6*N,length(ra_t)]    radiation IRF
 ra_t          [1,length(ra_t)]          time steps in the radiation IRF
 ra_w          [1,length(ra_w)]          frequency steps in the radiation IRF  
 rho           [1,1]                     density
+sc_ma         [6*N,Nh,Nf]               magnitude of scattering excitation component
+sc_ph         [6*N,Nh,Nf]               phase of scattering excitation component
 ss_A          [6*N,6*N,ss_O,ss_O]       state space A matrix
 ss_B          [6*N,6*N,ss_O,1]          state space B matrix
 ss_C          [6*N,6*N,1,ss_O]          state space C matrix

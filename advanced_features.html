@@ -250,7 +250,7 @@
 <ul class="simple">
 <li>Read BEM results from <strong>WAMIT</strong>, <strong>NEMOH</strong>, or <strong>AQWA</strong>.</li>
 <li>Calculate the radiation and excitation impulse response functions (IRFs).</li>
-<li>Calculate state space realization coefficients for the radiation IRF.</li>
+<li>Calculate the state space realization for the radiation IRF.</li>
 <li>Save the resulting data in Hierarchical Data Format 5 (HDF5).</li>
 <li>Plot typical hydrodynamic data for user verification.</li>
 </ul>
@@ -314,7 +314,7 @@
 </dd>
 </dl>
 </div></blockquote>
-<p><strong>Normalize:</strong> Normalizes NEMOH and AQWA hydrodynamics coefficients in the same manner that WAMIT outputs are normalized. Specifically, the linear restoring stiffness is normalized as, <span class="math">\(C_{i,j}/\rho g\)</span>; added mass is normalized as, <span class="math">\(A_{i,j}/\rho\)</span>; radiation damping is normalized as, <span class="math">\(B_{i,j}/\rho \omega\)</span>; and, exciting forces are normalized as, <span class="math">\(X_i/\rho g\)</span>. Typically, this function would not be called directly by the user; it is automatically implemented within the Read_NEMOH and Read_AQWA functions.</p>
+<p><strong>Normalize:</strong> Normalizes NEMOH and AQWA hydrodynamics coefficients in the same manner that WAMIT outputs are normalized. Specifically, the linear hydrostatic restoring stiffness is normalized as, <span class="math">\(C_{i,j}/\rho g\)</span>; the radiation added mass is normalized as, <span class="math">\(A_{i,j}/\rho\)</span>; radiation wave damping is normalized as, <span class="math">\(B_{i,j}/\rho \omega\)</span>; and the wave-exciting forces are normalized as, <span class="math">\(X_i/\rho g\)</span>. Typically, this function would not be called directly by the user; it is automatically implemented within the Read_NEMOH and Read_AQWA functions.</p>
 <blockquote>
 <div><dl class="docutils">
 <dt><em>hydro = Normalize(hydro)</em></dt>
@@ -336,7 +336,7 @@
 </div></blockquote>
 <p><strong>Radiation_IRF:</strong> Calculates the normalized radiation impulse response function.</p>
 <blockquote>
-<div><p><span class="math">\(\overline{K}_{i,j}(t) = {\frac{2}{\pi}}\intop_0^{\infty}{\frac{B_{i,j}(\omega)}{\rho}}\cos({\omega}t)d\omega\)</span></p>
+<div><p><span class="math">\(\overline{K}_{r,i,j}(t) = {\frac{2}{\pi}}\intop_0^{\infty}{\frac{B_{i,j}(\omega)}{\rho}}\cos({\omega}t)d\omega\)</span></p>
 <dl class="docutils">
 <dt><em>hydro = Radiation_IRF(hydro, t_end, n_t, n_w, w_min, w_max)</em></dt>
 <dd><ul class="first last simple">
@@ -364,7 +364,7 @@
 </div></blockquote>
 <p><strong>Excitation_IRF:</strong> Calculates the excitation impulse response function.</p>
 <blockquote>
-<div><p><span class="math">\(\overline{K}_i(t) = {\frac{1}{2\pi}}\intop_{-\infty}^{\infty}{\frac{X_i(\omega,\beta)e^{i{\omega}t}}{{\rho}g}}d\omega\)</span></p>
+<div><p><span class="math">\(\overline{K}_{e,i,\beta}(t) = {\frac{1}{2\pi}}\intop_{-\infty}^{\infty}{\frac{X_i(\omega,\beta)e^{i{\omega}t}}{{\rho}g}}d\omega\)</span></p>
 <dl class="docutils">
 <dt><em>hydro = Excitation_IRF(hydro, t_end, n_t, n_w, w_min, w_max)</em></dt>
 <dd><ul class="first last simple">
@@ -392,7 +392,7 @@
 <p class="first admonition-title">Note</p>
 <p class="last">Technically, this step should not be necessary - the MATLAB data structure <em>hydro</em> is written to a <code class="docutils literal"><span class="pre">*.h5</span></code> file by BEMIO and then read back into a new MATLAB data structure <em>hydroData</em> for each body by WEC-Sim. The reasons this step was retained were, first, to remain compatible with the python based BEMIO output and, second, for the simpler data visualization and verification capabilities offered by the <code class="docutils literal"><span class="pre">*.h5</span></code> file viewer.</p>
 </div>
-<p><strong>Plot_BEMIO:</strong> Plots the added mass, radiation damping, radiation IRF, excitation force magnitude, excitation force phase, and excitation IRF for each body in the heave, surge and pitch degrees of freedom.</p>
+<p><strong>Plot_BEMIO:</strong> Plots the radiation added mass, radiation wave damping, radiation IRF, excitation force magnitude, excitation force phase, and excitation IRF for each body in the heave, surge and pitch degrees of freedom.</p>
 <blockquote>
 <div><dl class="docutils">
 <dt><em>Plot_BEMIO(hydro)</em></dt>
@@ -411,9 +411,9 @@
 <h3>BEMIO <em>hydro</em> Data Structure<a class="headerlink" href="#bemio-hydro-data-structure" title="Permalink to this headline">¶</a></h3>
 <table border="1" class="docutils">
 <colgroup>
-<col width="16%" />
-<col width="32%" />
-<col width="51%" />
+<col width="15%" />
+<col width="30%" />
+<col width="55%" />
 </colgroup>
 <tbody valign="top">
 <tr class="row-odd"><td><strong>Variable</strong></td>
@@ -422,7 +422,7 @@
 </tr>
 <tr class="row-even"><td>A</td>
 <td>[6*N,6*N,Nf]</td>
-<td>added mass</td>
+<td>radiation added mass</td>
 </tr>
 <tr class="row-odd"><td>Ainf</td>
 <td>[6*N,6*N]</td>
@@ -430,7 +430,7 @@
 </tr>
 <tr class="row-even"><td>B</td>
 <td>[6*N,6*N,Nf]</td>
-<td>radiation damping</td>
+<td>radiation wave damping</td>
 </tr>
 <tr class="row-odd"><td>beta</td>
 <td>[1,Nh]</td>
@@ -496,7 +496,7 @@
 <td>[1,1]</td>
 <td>water depth</td>
 </tr>
-<tr class="row-odd"><td>N</td>
+<tr class="row-odd"><td>Nb</td>
 <td>[1,1]</td>
 <td>number of bodies</td>
 </tr>
@@ -523,6 +523,14 @@
 <tr class="row-odd"><td>rho</td>
 <td>[1,1]</td>
 <td>density</td>
+</tr>
+<tr class="row-even"><td>sc_ma</td>
+<td>[6*N,Nh,Nf]</td>
+<td>magnitude of scattering excitation component</td>
+</tr>
+<tr class="row-odd"><td>sc_ph</td>
+<td>[6*N,Nh,Nf]</td>
+<td>phase of scattering excitation component</td>
 </tr>
 <tr class="row-even"><td>ss_A</td>
 <td>[6*N,6*N,ss_O,ss_O]</td>
