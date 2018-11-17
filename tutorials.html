@@ -188,7 +188,7 @@
 <p>This section provides step-by-step instructions on how to run the WEC-Sim code using the provided Tutorials (located in the WEC-Sim <code class="docutils literal"><span class="pre">$Source/tutorials</span></code> directory).
 Two WEC-Sim tutorials are provided: the Two-Body Point Absorber (RM3), and the Oscillating Surge WEC (OSWEC).
 For information about the implementation of the WEC-Sim code refer to the <a class="reference external" href="http://wec-sim.github.io/WEC-Sim/code_structure.html">Code Structure</a> section.
-For informational about additional WEC-Sim features, refer to the <a class="reference external" href="http://wec-sim.github.io/WEC-Sim/advanced_features.html">Advanced Features</a> section.</p>
+For information about additional WEC-Sim features, refer to the <a class="reference external" href="http://wec-sim.github.io/WEC-Sim/advanced_features.html">Advanced Features</a> section.</p>
 <div class="section" id="two-body-point-absorber-rm3">
 <h2>Two-Body Point Absorber (RM3)<a class="headerlink" href="#two-body-point-absorber-rm3" title="Permalink to this headline">¶</a></h2>
 <p>This section describes the application of the WEC-Sim code to model the Reference Model 3 (RM3) two-body point absorber WEC.
@@ -313,7 +313,7 @@ Inertia (kg-m^2)</td>
 <div class="section" id="run-tutorial">
 <h3>Run Tutorial<a class="headerlink" href="#run-tutorial" title="Permalink to this headline">¶</a></h3>
 <p><strong>Step 1: WEC-Sim Pre-Processing</strong></p>
-<p>Hydrodynamic data for each RM3 body must be parsed into a HDF5 file using the <a class="reference external" href="http://wec-sim.github.io/WEC-Sim/advanced_features.html#bemio">BEMIO</a> hydrodynamic data format. The RM3 HDF5 file (<code class="docutils literal"><span class="pre">rm3.h5</span></code>) was created based on a WAMIT run of the RM3 geometry. The RM3 WAMIT <code class="docutils literal"><span class="pre">rm3.out</span></code> file and the BEMIO <code class="docutils literal"><span class="pre">readWAMIT.py</span></code> script were used to generate the HDF5 are included in the <code class="docutils literal"><span class="pre">/hydroData</span></code> directory.</p>
+<p>Hydrodynamic data for each RM3 body must be parsed into a HDF5 file using the <a class="reference external" href="http://wec-sim.github.io/WEC-Sim/advanced_features.html#bemio">BEMIO</a> hydrodynamic data format. The RM3 HDF5 file (<code class="docutils literal"><span class="pre">rm3.h5</span></code>) was created based on a WAMIT run of the RM3 geometry. The RM3 WAMIT <code class="docutils literal"><span class="pre">rm3.out</span></code> file and the BEMIO <code class="docutils literal"><span class="pre">bemio.m</span></code> script were used to generate the HDF5 are included in the <code class="docutils literal"><span class="pre">/hydroData</span></code> directory.</p>
 <p><strong>Step 2: Build WEC-Sim model in Simulink</strong></p>
 <p>The WEC-Sim Simulink model is created by dragging and dropping blocks from the <em>WEC-Sim Library</em> into the <code class="docutils literal"><span class="pre">rm3.slx</span></code> file.</p>
 <ul class="simple">
@@ -394,7 +394,7 @@ Inertia (kg-m^2)</td>
 <ul class="simple">
 <li>noWaveCIC - no wave with convolution integral calculation</li>
 <li>regularCIC - regular waves with convolution integral calculation</li>
-<li>irregular - irregular waves using a Pierson–Moskowitz spectrum with convolution integral calculation</li>
+<li>irregular - irregular waves using a Pierson?Moskowitz spectrum with convolution integral calculation</li>
 <li>irregular - irregular waves using a Bretschneider Spectrum with state space calculation</li>
 <li>irregularImport - irregular waves using a user-defined spectrum</li>
 <li>userDefined - user-defined time-series</li>
@@ -480,7 +480,7 @@ of Inertia
 <div class="section" id="id5">
 <h3>Run Tutorial<a class="headerlink" href="#id5" title="Permalink to this headline">¶</a></h3>
 <p><strong>Step 1: WEC-Sim Pre-Processing</strong></p>
-<p>Hydrodynamic data for each OSWEC body must be parsed into a HDF5 file using the <a class="reference external" href="http://wec-sim.github.io/WEC-Sim/advanced_features.html#bemio">BEMIO</a> hydrodynamic data format. The OSWEC HDF5 file (<code class="docutils literal"><span class="pre">oswec.h5</span></code>) was created based on a WAMIT run of the RM3 geometry. The OSWEC WAMIT <code class="docutils literal"><span class="pre">oswec.out</span></code> file and the BEMIO <code class="docutils literal"><span class="pre">readWAMIT.py</span></code> script used to generate the HDF5 are included in the <code class="docutils literal"><span class="pre">/hydroData</span></code> directory.</p>
+<p>Hydrodynamic data for each OSWEC body must be parsed into a HDF5 file using the <a class="reference external" href="http://wec-sim.github.io/WEC-Sim/advanced_features.html#bemio">BEMIO</a> hydrodynamic data format. The OSWEC HDF5 file (<code class="docutils literal"><span class="pre">oswec.h5</span></code>) was created based on a WAMIT run of the OSWEC geometry. The OSWEC WAMIT <code class="docutils literal"><span class="pre">oswec.out</span></code> file and the BEMIO <code class="docutils literal"><span class="pre">bemio.m</span></code> script used to generate the HDF5 are included in the <code class="docutils literal"><span class="pre">/hydroData</span></code> directory.</p>
 <p><strong>Step 2: Build WEC-Sim model in Simulink</strong></p>
 <p>The WEC-Sim Simulink model is created by dragging and dropping blocks from the <em>WEC-Sim Library</em> into the <code class="docutils literal"><span class="pre">oswec.slx</span></code> file.</p>
 <ul class="simple">
@@ -498,7 +498,7 @@ of Inertia
 </div>
 <ul class="simple">
 <li>Place the <strong>Fixed</strong> block to connect the base to the seabed. This constrains the base to be fixed relative to the <strong>Global Reference Frame</strong>.</li>
-<li>Place a <strong>Rotational PTO</strong> block to connect the base to the flap. This constrains the flap to move in pitch relative to the base, and allows definition of PTO damping.</li>
+<li>Place a <strong>Rotational PTO</strong> block to connect the base to the flap. This constrains the flap to move in pitch relative to the base, and allows for the definition of PTO damping.</li>
 </ul>
 <div class="figure">
 <a class="reference internal image-reference" href="_images/OSWEC_WECSim.JPG"><img alt="_images/OSWEC_WECSim.JPG" src="_images/OSWEC_WECSim.JPG" style="width: 600pt;" /></a>

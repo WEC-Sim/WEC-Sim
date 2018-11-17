@@ -1,11 +1,11 @@
-﻿.. _tutorials:
+.. _tutorials:
 
 Tutorials
 =========
 This section provides step-by-step instructions on how to run the WEC-Sim code using the provided Tutorials (located in the WEC-Sim ``$Source/tutorials`` directory). 
 Two WEC-Sim tutorials are provided: the Two-Body Point Absorber (RM3), and the Oscillating Surge WEC (OSWEC). 
 For information about the implementation of the WEC-Sim code refer to the `Code Structure <http://wec-sim.github.io/WEC-Sim/code_structure.html>`_ section. 
-For informational about additional WEC-Sim features, refer to the `Advanced Features <http://wec-sim.github.io/WEC-Sim/advanced_features.html>`_ section. 
+For information about additional WEC-Sim features, refer to the `Advanced Features <http://wec-sim.github.io/WEC-Sim/advanced_features.html>`_ section. 
 
 
 Two-Body Point Absorber (RM3)
@@ -65,7 +65,7 @@ Run Tutorial
 
 **Step 1: WEC-Sim Pre-Processing**
 
-Hydrodynamic data for each RM3 body must be parsed into a HDF5 file using the `BEMIO <http://wec-sim.github.io/WEC-Sim/advanced_features.html#bemio>`_ hydrodynamic data format. The RM3 HDF5 file (``rm3.h5``) was created based on a WAMIT run of the RM3 geometry. The RM3 WAMIT ``rm3.out`` file and the BEMIO ``readWAMIT.py`` script were used to generate the HDF5 are included in the ``/hydroData`` directory.
+Hydrodynamic data for each RM3 body must be parsed into a HDF5 file using the `BEMIO <http://wec-sim.github.io/WEC-Sim/advanced_features.html#bemio>`_ hydrodynamic data format. The RM3 HDF5 file (``rm3.h5``) was created based on a WAMIT run of the RM3 geometry. The RM3 WAMIT ``rm3.out`` file and the BEMIO ``bemio.m`` script were used to generate the HDF5 are included in the ``/hydroData`` directory.
 
 
 **Step 2: Build WEC-Sim model in Simulink**
@@ -126,7 +126,7 @@ The input file for the RM3 tutorial includes several different wave cases:
 
 * noWaveCIC - no wave with convolution integral calculation
 * regularCIC - regular waves with convolution integral calculation
-* irregular - irregular waves using a Pierson–Moskowitz spectrum with convolution integral calculation
+* irregular - irregular waves using a Pierson�Moskowitz spectrum with convolution integral calculation
 * irregular - irregular waves using a Bretschneider Spectrum with state space calculation
 * irregularImport - irregular waves using a user-defined spectrum
 * userDefined - user-defined time-series
@@ -182,7 +182,7 @@ Run Tutorial
 
 **Step 1: WEC-Sim Pre-Processing**
 
-Hydrodynamic data for each OSWEC body must be parsed into a HDF5 file using the `BEMIO <http://wec-sim.github.io/WEC-Sim/advanced_features.html#bemio>`_ hydrodynamic data format. The OSWEC HDF5 file (``oswec.h5``) was created based on a WAMIT run of the RM3 geometry. The OSWEC WAMIT ``oswec.out`` file and the BEMIO ``readWAMIT.py`` script used to generate the HDF5 are included in the ``/hydroData`` directory.
+Hydrodynamic data for each OSWEC body must be parsed into a HDF5 file using the `BEMIO <http://wec-sim.github.io/WEC-Sim/advanced_features.html#bemio>`_ hydrodynamic data format. The OSWEC HDF5 file (``oswec.h5``) was created based on a WAMIT run of the OSWEC geometry. The OSWEC WAMIT ``oswec.out`` file and the BEMIO ``bemio.m`` script used to generate the HDF5 are included in the ``/hydroData`` directory.
 
 **Step 2: Build WEC-Sim model in Simulink**
 
@@ -204,7 +204,7 @@ The WEC-Sim Simulink model is created by dragging and dropping blocks from the *
 * Place the **Fixed** block to connect the base to the seabed. This constrains the base to be fixed relative to the **Global Reference Frame**. 
 
 
-* Place a **Rotational PTO** block to connect the base to the flap. This constrains the flap to move in pitch relative to the base, and allows definition of PTO damping. 
+* Place a **Rotational PTO** block to connect the base to the flap. This constrains the flap to move in pitch relative to the base, and allows for the definition of PTO damping. 
 
 .. figure:: _static/OSWEC_WECSim.JPG
    :width: 600pt
