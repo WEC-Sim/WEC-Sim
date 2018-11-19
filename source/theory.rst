@@ -206,13 +206,13 @@ where :math:`\Sigma` is a diagonal matrix containing the Hankel singular values 
 Regular Waves
 -------------
 
-The incident wave is defined as :math:`\eta(x,t)` :
+The incident wave is defined as :math:`\eta(x,y,t)` :
 
 .. math::
 
-	\eta(x,y,t)= \frac{H}{2} \cos( \omega t - k (x\cos \theta + y\sin \theta) + \phi)
+	\eta(x,y,t)= \frac{H}{2} \cos( \omega t - k (x\cos \beta + y\sin \beta) + \phi)
 
-where :math:`H` is the wave height, :math:`\omega` is the wave frequency, :math:`k` is the wave number, :math:`\theta` is the wave heading, and :math:`\phi` is the randomized wave phase for irregular waves.   
+where :math:`H` is the wave height, :math:`\omega` is the wave frequency, :math:`k` is the wave number, :math:`\beta` is the wave heading, and :math:`\phi` is the randomized wave phase for irregular waves.   
 
 
 Wave Spectra

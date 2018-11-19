@@ -182,49 +182,56 @@
 <ul class="simple">
 <li>BEM - Boundary Element Method</li>
 <li>BEMIO - Boundary Element Method Input/Output</li>
-<li>Added Mass -</li>
-<li>Radiation Damping -</li>
-<li>Excitation -</li>
-<li>Surge</li>
-<li>Sway</li>
-<li>Heave</li>
-<li>Roll</li>
-<li>Pitch</li>
-<li>Yaw</li>
+<li>Radiation Added Mass -</li>
+<li>Radiation Wave Damping -</li>
+<li>Wave Excitation -</li>
+<li>Surge(x) - Motion along the X-axis</li>
+<li>Sway(y)  - Motion along the Y-axis</li>
+<li>Heave(z) - Motion along the Z-axis</li>
+<li>Roll(Rx)  - Rotation about the X-axis</li>
+<li>Pitch(Ry) - Rotation about the Y-axis</li>
+<li>Yaw(Rz) - Rotation about the Z-axis</li>
 <li>$CASE</li>
 <li>$SOURCE</li>
 <li>PTO - Power Take-Off</li>
-<li>PM - Pierson&#8211;Moskowitz</li>
-<li>BS - Bretschneider</li>
-<li>JS - JONSWAP</li>
+<li>PM - Pierson&#8211;Moskowitz Wave Specturm</li>
+<li>BS - Bretschneider Wave Spectrum</li>
+<li>JS - JONSWAP Wave Spectrum</li>
 <li></li>
 </ul>
 </div>
 <div class="section" id="variables">
 <h2>Variables<a class="headerlink" href="#variables" title="Permalink to this headline">¶</a></h2>
 <ul class="simple">
-<li><span class="math">\(\eta\)</span> - Incident wave</li>
-<li><span class="math">\(\omega\)</span> - Wave frequency (rad/s)</li>
+<li><span class="math">\(A\)</span> - Wave amplitude (m), half of the wave height (m)</li>
+<li><span class="math">\(A(\omega)\)</span> - Frequency dependent radiation added mass</li>
+<li><span class="math">\(B(\omega)\)</span> - Frequency dependent radiation wave damping</li>
+<li><span class="math">\(\beta\)</span> - Wave direction (Degrees)</li>
+<li><span class="math">\(\eta\)</span> - Incident wave (m)</li>
 <li><span class="math">\(f\)</span> - Wave frequency (Hz)</li>
-<li><span class="math">\(\theta\)</span> - Wave direction (Degrees)</li>
-<li><span class="math">\(k\)</span> - Wave number</li>
-<li><span class="math">\(\phi\)</span> - Wave phase (rad)</li>
+<li><span class="math">\(F_{B}(t)\)</span> - Net buoyancy restoring force (N) or torque (N.m)</li>
+<li><span class="math">\(F_{exc}({\omega})\)</span> - Wave excitation force (N) or torque (N.m)</li>
+<li><span class="math">\(F_{rad}(t)\)</span> - Wave radiation force (N) or torque (N.m)</li>
+<li><span class="math">\(F_{PTO}(t)\)</span> - Power take-off force (N) or torque (N.m)</li>
+<li><span class="math">\(F_{ME}(t)\)</span> - Morison element force (N) or torque (N.m)</li>
+<li><span class="math">\(F_{v}(t)\)</span> - Damping or friction force (N) or torque (N.m)</li>
+<li><span class="math">\(F_{m}(t)\)</span> - Mooring connection force (N) or torque (N.m)</li>
+<li><span class="math">\(g\)</span> - Gravity</li>
 <li><span class="math">\(H\)</span> - Wave height (m)</li>
 <li><span class="math">\(H_{s}\)</span> - Significant wave height, mean wave height of the tallest third of waves (m)</li>
 <li><span class="math">\(H_{m0}\)</span> - Spectrally derived significant wave height (m)</li>
-<li><span class="math">\(A\)</span> - Wave amplitude (m), half of the wave height (m)</li>
+<li><span class="math">\(k\)</span> - Wave number</li>
+<li><span class="math">\(K_{hs}\)</span> - linear hydrostatic restoring coefficient</li>
+<li><span class="math">\(m\)</span> - Mass of body (kg)</li>
 <li><span class="math">\(m0\)</span> - Spectral moment</li>
+<li><span class="math">\(\omega\)</span> - Wave frequency (rad/s)</li>
+<li><span class="math">\(\phi\)</span> - Wave phase (rad)</li>
+<li><span class="math">\(R_{f}\)</span> - Ramp function</li>
+<li><span class="math">\(\rho\)</span> - Water density (kg/m3)</li>
 <li><span class="math">\(T_{p}\)</span> - Peak period (s)</li>
 <li><span class="math">\(T_{e}\)</span> - Energy period* (s)</li>
-<li><span class="math">\(F_{exc}{\omega}\)</span> - Wave excitation</li>
-<li><span class="math">\(A{\omega}\)</span> - Added mass</li>
-<li><span class="math">\(B{\omega}\)</span> - Radiation damping</li>
-<li><span class="math">\(K_{hs}\)</span> - Hydrostatic stiffness</li>
-<li><span class="math">\(\rho\)</span> - Water density</li>
-<li><span class="math">\(g\)</span> - Gravity</li>
-<li></li>
-<li></li>
-<li></li>
+<li><span class="math">\(t_{r}\)</span> - Ramp time (s)</li>
+<li><span class="math">\(t\)</span> - Simulation time (s)</li>
 </ul>
 </div>
 </div>
