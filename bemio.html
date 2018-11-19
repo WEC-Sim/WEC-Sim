@@ -332,9 +332,9 @@
 <h2>BEMIO <em>hydro</em> Data Structure<a class="headerlink" href="#bemio-hydro-data-structure" title="Permalink to this headline">¶</a></h2>
 <table border="1" class="docutils">
 <colgroup>
-<col width="15%" />
-<col width="30%" />
-<col width="55%" />
+<col width="7%" />
+<col width="14%" />
+<col width="80%" />
 </colgroup>
 <tbody valign="top">
 <tr class="row-odd"><td><strong>Variable</strong></td>
@@ -342,15 +342,15 @@
 <td><strong>Description</strong></td>
 </tr>
 <tr class="row-even"><td>A</td>
-<td>[6*N,6*N,Nf]</td>
+<td>[6*Nb,6*Nb,Nf]</td>
 <td>radiation added mass</td>
 </tr>
 <tr class="row-odd"><td>Ainf</td>
-<td>[6*N,6*N]</td>
+<td>[6*Nb,6*Nb]</td>
 <td>infinite frequency added mass</td>
 </tr>
 <tr class="row-even"><td>B</td>
-<td>[6*N,6*N,Nf]</td>
+<td>[6*Nb,6*Nb,Nf]</td>
 <td>radiation wave damping</td>
 </tr>
 <tr class="row-odd"><td>beta</td>
@@ -358,142 +358,170 @@
 <td>wave headings (deg)</td>
 </tr>
 <tr class="row-even"><td>body</td>
-<td>{1,N}</td>
+<td>{1,Nb}</td>
 <td>body names</td>
 </tr>
 <tr class="row-odd"><td>C</td>
-<td>[6,6,N]</td>
+<td>[6,6,Nb]</td>
 <td>hydrostatic restoring stiffness</td>
 </tr>
 <tr class="row-even"><td>cb</td>
-<td>[3,N]</td>
+<td>[3,Nb]</td>
 <td>center of buoyancy</td>
 </tr>
 <tr class="row-odd"><td>cg</td>
-<td>[3,N]</td>
+<td>[3,Nb]</td>
 <td>center of gravity</td>
 </tr>
 <tr class="row-even"><td>code</td>
 <td>string</td>
 <td>BEM code (WAMIT, AQWA, or NEMOH)</td>
 </tr>
-<tr class="row-odd"><td>ex_im</td>
-<td>[6*N,Nh,Nf]</td>
-<td>imaginary component of excitation</td>
+<tr class="row-odd"><td>dof</td>
+<td>[6 + GBM, Nb]</td>
+<td>Degrees of freedom (DOF) for each body. Default DOF for each body is 6 plus number of possible generalized body modes (GBM).</td>
 </tr>
-<tr class="row-even"><td>ex_K</td>
-<td>[6*N,Nh,length(ex_t)]</td>
+<tr class="row-even"><td>ex_im</td>
+<td>[6*Nb,Nh,Nf]</td>
+<td>imaginary component of excitation force or torque</td>
+</tr>
+<tr class="row-odd"><td>ex_K</td>
+<td>[6*Nb,Nh,length(ex_t)]</td>
 <td>excitation IRF</td>
 </tr>
-<tr class="row-odd"><td>ex_ma</td>
-<td>[6*N,Nh,Nf]</td>
-<td>magnitude of excitation force</td>
+<tr class="row-even"><td>ex_ma</td>
+<td>[6*Nb,Nh,Nf]</td>
+<td>magnitude of excitation force or torque</td>
 </tr>
-<tr class="row-even"><td>ex_ph</td>
-<td>[6*N,Nh,Nf]</td>
-<td>phase of excitation force</td>
+<tr class="row-odd"><td>ex_ph</td>
+<td>[6*Nb,Nh,Nf]</td>
+<td>phase of excitation force or torque</td>
 </tr>
-<tr class="row-odd"><td>ex_re</td>
-<td>[6*N,Nh,Nf]</td>
-<td>real component of excitation</td>
+<tr class="row-even"><td>ex_re</td>
+<td>[6*Nb,Nh,Nf]</td>
+<td>real component of excitation force or torque</td>
 </tr>
-<tr class="row-even"><td>ex_t</td>
+<tr class="row-odd"><td>ex_t</td>
 <td>[1,length(ex_t)]</td>
 <td>time steps in the excitation IRF</td>
 </tr>
-<tr class="row-odd"><td>ex_w</td>
+<tr class="row-even"><td>ex_w</td>
 <td>[1,length(ex_w)]</td>
 <td>frequency step in the excitation IRF</td>
 </tr>
-<tr class="row-even"><td>file</td>
+<tr class="row-odd"><td>file</td>
 <td>string</td>
 <td>BEM output filename</td>
 </tr>
-<tr class="row-odd"><td>g</td>
+<tr class="row-even"><td>fk_im</td>
+<td>[6*Nb,Nh,Nf]</td>
+<td>imaginary component of Froude-Krylov contribution to the excitation force or torque</td>
+</tr>
+<tr class="row-odd"><td>fk_ma</td>
+<td>[6*Nb,Nh,Nf]</td>
+<td>magnitude of Froude-Krylov excitation component</td>
+</tr>
+<tr class="row-even"><td>fk_ph</td>
+<td>[6*Nb,Nh,Nf]</td>
+<td>phase of Froude-Krylov excitation component</td>
+</tr>
+<tr class="row-odd"><td>fk_re</td>
+<td>[6*Nb,Nh,Nf]</td>
+<td>real component of Froude-Krylov contribution to the excitation force or torque</td>
+</tr>
+<tr class="row-even"><td>g</td>
 <td>[1,1]</td>
 <td>gravity</td>
 </tr>
-<tr class="row-even"><td>h</td>
+<tr class="row-odd"><td>h</td>
 <td>[1,1]</td>
 <td>water depth</td>
 </tr>
-<tr class="row-odd"><td>Nb</td>
+<tr class="row-even"><td>Nb</td>
 <td>[1,1]</td>
 <td>number of bodies</td>
 </tr>
-<tr class="row-even"><td>Nf</td>
+<tr class="row-odd"><td>Nf</td>
 <td>[1,1]</td>
 <td>number of wave frequencies</td>
 </tr>
-<tr class="row-odd"><td>Nh</td>
+<tr class="row-even"><td>Nh</td>
 <td>[1,1]</td>
 <td>number of wave headings</td>
 </tr>
-<tr class="row-even"><td>ra_K</td>
-<td>[6*N,6*N,length(ra_t)]</td>
+<tr class="row-odd"><td>ra_K</td>
+<td>[6*Nb,6*Nb,length(ra_t)]</td>
 <td>radiation IRF</td>
 </tr>
-<tr class="row-odd"><td>ra_t</td>
+<tr class="row-even"><td>ra_t</td>
 <td>[1,length(ra_t)]</td>
 <td>time steps in the radiation IRF</td>
 </tr>
-<tr class="row-even"><td>ra_w</td>
+<tr class="row-odd"><td>ra_w</td>
 <td>[1,length(ra_w)]</td>
 <td>frequency steps in the radiation IRF</td>
 </tr>
-<tr class="row-odd"><td>rho</td>
+<tr class="row-even"><td>rho</td>
 <td>[1,1]</td>
 <td>density</td>
 </tr>
+<tr class="row-odd"><td>sc_im</td>
+<td>[6*Nb,Nh,Nf]</td>
+<td>imaginary component of scattering contribution to the excitation force or torque</td>
+</tr>
 <tr class="row-even"><td>sc_ma</td>
-<td>[6*N,Nh,Nf]</td>
+<td>[6*Nb,Nh,Nf]</td>
 <td>magnitude of scattering excitation component</td>
 </tr>
 <tr class="row-odd"><td>sc_ph</td>
-<td>[6*N,Nh,Nf]</td>
+<td>[6*Nb,Nh,Nf]</td>
 <td>phase of scattering excitation component</td>
 </tr>
-<tr class="row-even"><td>ss_A</td>
-<td>[6*N,6*N,ss_O,ss_O]</td>
+<tr class="row-even"><td>sc_re</td>
+<td>[6*Nb,Nh,Nf]</td>
+<td>real component of scattering contribution to the excitation force or torque</td>
+</tr>
+<tr class="row-odd"><td>ss_A</td>
+<td>[6*Nb,6*Nb,ss_O,ss_O]</td>
 <td>state space A matrix</td>
 </tr>
-<tr class="row-odd"><td>ss_B</td>
-<td>[6*N,6*N,ss_O,1]</td>
+<tr class="row-even"><td>ss_B</td>
+<td>[6*Nb,6*Nb,ss_O,1]</td>
 <td>state space B matrix</td>
 </tr>
-<tr class="row-even"><td>ss_C</td>
-<td>[6*N,6*N,1,ss_O]</td>
+<tr class="row-odd"><td>ss_C</td>
+<td>[6*Nb,6*Nb,1,ss_O]</td>
 <td>state space C matrix</td>
 </tr>
-<tr class="row-odd"><td>ss_conv</td>
-<td>[6*N,6*N]</td>
+<tr class="row-even"><td>ss_conv</td>
+<td>[6*Nb,6*Nb]</td>
 <td>state space convergence flag</td>
 </tr>
-<tr class="row-even"><td>ss_D</td>
-<td>[6*N,6*N,1]</td>
+<tr class="row-odd"><td>ss_D</td>
+<td>[6*Nb,6*Nb,1]</td>
 <td>state space D matrix</td>
 </tr>
-<tr class="row-odd"><td>ss_K</td>
-<td>[6*N,6*N,length(ra_t)]</td>
+<tr class="row-even"><td>ss_K</td>
+<td>[6*Nb,6*Nb,length(ra_t)]</td>
 <td>state space radiation IRF</td>
 </tr>
-<tr class="row-even"><td>ss_O</td>
-<td>[6*N,6*N]</td>
+<tr class="row-odd"><td>ss_O</td>
+<td>[6*Nb,6*Nb]</td>
 <td>state space order</td>
 </tr>
-<tr class="row-odd"><td>ss_R2</td>
-<td>[6*N,6*N]</td>
+<tr class="row-even"><td>ss_R2</td>
+<td>[6*Nb,6*Nb]</td>
 <td>state space R2 fit</td>
 </tr>
-<tr class="row-even"><td>T</td>
+<tr class="row-odd"><td>T</td>
 <td>[1,Nf]</td>
 <td>wave periods</td>
 </tr>
-<tr class="row-odd"><td>Vo</td>
-<td>[1,N]</td>
+<tr class="row-even"><td>Vo</td>
+<td>[1,Nb]</td>
 <td>displaced volume</td>
 </tr>
-<tr class="row-even"><td>w</td>
+<tr class="row-odd"><td>w</td>
 <td>[1,Nf]</td>
 <td>wave frequencies</td>
 </tr>
@@ -503,7 +531,7 @@
 <div class="section" id="writing-your-own-h5-file">
 <h2>Writing Your Own h5 File<a class="headerlink" href="#writing-your-own-h5-file" title="Permalink to this headline">¶</a></h2>
 <p>The most common way of creating a <code class="docutils literal"><span class="pre">*.h5</span></code> file is using BEMIO to post-process the outputs of a BEM code.
-This requires a single BEM solution that contains all hydrodynamic bodies and accounts for body interactions.
+This requires a single BEM solution that contains all hydrodynamic bodies and accounts for body-to-body interactions.
 Some cases in which you might want to create your own h5 file are:</p>
 <ul class="simple">
 <li>Use experimentally determined coefficients or a mix of BEM and experimental coefficients.</li>
