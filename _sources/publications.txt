@@ -3,13 +3,13 @@
 Publications
 ============
 
-[1] Y. Yu, M. Lawson, K. Ruehl, and C. Michelen, “`Development and Demonstration of the WEC-Sim Wave Energy Converter Simulation Tool <http://vtechworks.lib.vt.edu/bitstream/handle/10919/49236/137-Lawson.pdf?sequence=1&isAllowed=y>`_,” in Proceedings of the 2nd Marine Energy Technology Symposium, METS 2014, Seattle, WA, 2014.   
+[1] Y.-H. Yu, M. Lawson, K. Ruehl, and C. Michelen, “`Development and Demonstration of the WEC-Sim Wave Energy Converter Simulation Tool <http://vtechworks.lib.vt.edu/bitstream/handle/10919/49236/137-Lawson.pdf?sequence=1&isAllowed=y>`_,” in Proceedings of the 2nd Marine Energy Technology Symposium, METS 2014, Seattle, WA, 2014.   
 
-[2] Y. Yu, Y. Li, K. Hallett, and C. Hotimsky, “`Design and Analysis for a Floating Oscillating Surge Wave Energy Converter <http://www.nrel.gov/docs/fy14osti/61283.pdf>`_,” in Proceedings of the 33rd International Conference on Ocean, Offshore and Arctic Engineering, OMAE 2014, San Francisco, CA, 2014.    
+[2] Y.-H. Yu, Y. Li, K. Hallett, and C. Hotimsky, “`Design and Analysis for a Floating Oscillating Surge Wave Energy Converter <http://www.nrel.gov/docs/fy14osti/61283.pdf>`_,” in Proceedings of the 33rd International Conference on Ocean, Offshore and Arctic Engineering, OMAE 2014, San Francisco, CA, 2014.    
 
-[3] M. Lawson, Y. Yu, A. Nelessen, K. Ruehl, and C. Michelen, “`Implementing Nonlinear Buoyancy and Excitation Forces in the WEC-Sim Wave Energy Converter Modeling Tool <http://www.nrel.gov/docs/fy14osti/61529.pdf>`_,” in Proceedings of the 33rd International Conference on Ocean, Offshore and Arctic Engineering, OMAE 2014, San Francisco, CA, 2014.
+[3] M. Lawson, Y.-H. Yu, A. Nelessen, K. Ruehl, and C. Michelen, “`Implementing Nonlinear Buoyancy and Excitation Forces in the WEC-Sim Wave Energy Converter Modeling Tool <http://www.nrel.gov/docs/fy14osti/61529.pdf>`_,” in Proceedings of the 33rd International Conference on Ocean, Offshore and Arctic Engineering, OMAE 2014, San Francisco, CA, 2014.
 
-[4] K. Ruehl, C. Michelen, S. Kanner, M. Lawson, and Y. Yu, “`Preliminary Verification and Validation of WEC-Sim, an Open-Source Wave Energy Converter Design Tool <http://energy.sandia.gov/wp-content/gallery/uploads/SAND2014-2161C.pdf>`_,” in Proceedings of the 33rd International Conference on Ocean, Offshore and Arctic Engineering, OMAE 2014, San Francisco, CA, 2014.
+[4] K. Ruehl, C. Michelen, S. Kanner, M. Lawson, and Y.-H. Yu, “`Preliminary Verification and Validation of WEC-Sim, an Open-Source Wave Energy Converter Design Tool <http://energy.sandia.gov/wp-content/gallery/uploads/SAND2014-2161C.pdf>`_,” in Proceedings of the 33rd International Conference on Ocean, Offshore and Arctic Engineering, OMAE 2014, San Francisco, CA, 2014.
 
 [5] M. Lawson, Y.-H. Yu, K. Ruehl, and C. Michelen, “`Improving and Validating the WEC-Sim Wave Energy Converter Code <http://energy.sandia.gov/wordpress/../wp-content/uploads/2014/06/2015-METS2015-WEC-Sim-update_Lawson.pdf>`_," in Proceedings of the 3rd Marine Energy Technology Symposium, METS 2015, DC, 2015.
 
@@ -17,9 +17,9 @@ Publications
 
 [7] R. So, A. Simmons, T. Brekken, K. Ruehl, and C. Michelen, “`Development of PTO-SIM: A Power Performance Module for the Open-Source Wave Energy Converter Code WEC-SIM <http://energy.sandia.gov/wp-content/uploads/2014/06/SAND2015-2069C.pdf>`_,” in Proceedings of the 34th International Conference on Ocean, Offshore and Arctic Engineering, OMAE 2015, St. John’s, Newfoundland, Canada, 2015.
 
-[8] M. Lawson, B. Garzon, F. Wendt, Y. Yu, and C. Michelen, “`COER Hydrodynamics Modeling Competition: Modeling the Dynamic Response of a Floating Body Using the WEC-SIM and FAST Simulation Tools <http://www.nrel.gov/docs/fy15osti/63594.pdf>`_,” in Proceedings of the 34th International Conference on Ocean, Offshore and Arctic Engineering, OMAE 2015, St. John’s, Newfoundland, Canada, 2015.
+[8] M. Lawson, B. Garzon, F. Wendt, Y.-H. Yu, and C. Michelen, “`COER Hydrodynamics Modeling Competition: Modeling the Dynamic Response of a Floating Body Using the WEC-SIM and FAST Simulation Tools <http://www.nrel.gov/docs/fy15osti/63594.pdf>`_,” in Proceedings of the 34th International Conference on Ocean, Offshore and Arctic Engineering, OMAE 2015, St. John’s, Newfoundland, Canada, 2015.
 
-[9] N. Tom, M. Lawson, and Y. Yu, “`Recent Additions in the Modeling Capabilities for the WEC-Sim-v1.1 Wave Energy Converter Design Tool <http://www.nrel.gov/docs/fy15osti/63905.pdf>`_,” in Proceedings of the 25th International Offshore and Polar Engineering Conference, ISOPE 2015, Kona, HI, 2015.
+[9] N. Tom, M. Lawson, and Y.-H. Yu, “`Recent Additions in the Modeling Capabilities for the WEC-Sim-v1.1 Wave Energy Converter Design Tool <http://www.nrel.gov/docs/fy15osti/63905.pdf>`_,” in Proceedings of the 25th International Offshore and Polar Engineering Conference, ISOPE 2015, Kona, HI, 2015.
 
 [10] R. So, S. Casey, S. Kanner, A. Simmons, and Brekken, T. K. A., “`PTO-Sim: Development of a Power Take Off Modeling Tool for Ocean Wave Energy Conversion <http://energy.sandia.gov/wordpress/../wp-content/uploads/2014/06/2015-IEEE-PES_PTO-Sim_Nak.pdf>`_,” in Proceedings of the IEEE Power and Energy Society General Meeting, PES 2015, Denver, CO, 2015.
 
@@ -33,19 +33,25 @@ Publications
 
 [15] K. Ruehl, C. Michelen, B. Bosma, and Y.-H. Yu, “`WEC-Sim Phase 1 Validation Testing – Numerical Modeling of Experiments <http://energy.sandia.gov/wp-content/uploads/2014/06/OMAE2016-54986.pdf>`_,” in Proceedings of the 35th International Conference on Ocean, Offshore and Arctic Engineering, OMAE 2016, Busan, South Korea, 2016.
 
-[16] Sirnivas S., Yu Y.-H., Hall M., and Bosma B., 2016, “`Coupled Mooring Analyses for the WEC-Sim Wave Energy Converter Design Tool <http://www.nrel.gov/docs/fy16osti/65918.pdf>`_,” in Proceedings of the 35th International Conference on Ocean, Offshore and Arctic Engineering, OMAE 2016, Busan, South Korea, 2016.
+[16] S. Sirnivas, Y.-H. Yu, M. Hall, and B. Bosma, 2016, “`Coupled Mooring Analyses for the WEC-Sim Wave Energy Converter Design Tool <http://www.nrel.gov/docs/fy16osti/65918.pdf>`_,” in Proceedings of the 35th International Conference on Ocean, Offshore and Arctic Engineering, OMAE 2016, Busan, South Korea, 2016.
 
-[17] Quon E., Platt A., Yu Y., and Lawson M., 2016, “`Application of the Most Likely Extreme Response Method for Wave Energy Converters <http://www.nrel.gov/docs/fy16osti/65926.pdf>`_,” in Proceedings of the 35th International Conference on Ocean, Offshore and Arctic Engineering, OMAE 2016, Busan, South Korea, 2016.
+[17] E. Quon, A. Platt, Y.-H. Yu, and M. Lawson, 2016, “`Application of the Most Likely Extreme Response Method for Wave Energy Converters <http://www.nrel.gov/docs/fy16osti/65926.pdf>`_,” in Proceedings of the 35th International Conference on Ocean, Offshore and Arctic Engineering, OMAE 2016, Busan, South Korea, 2016.
 
 [18] R. So, C. Michelen, B. Bosma, P. Lenee-Bluhm, and T. K. A. Brekken, “`Statistical Analysis of a 1:7 Scale Field Test Wave Energy Converter Using WEC-Sim <http://ieeexplore.ieee.org/stamp/stamp.jsp?arnumber=7829405>`_,” IEEE Transactions on Sustainable Energy, vol. 8, no. 3, pp. 1118–1126, Jul. 2017.
 
-[19] Van Rij, J., Yu, Y.-H., & Guo, Y., “`Structural loads analysis for wave energy converters <https://www.nrel.gov/docs/fy17osti/68048.pdf>`_,” in Proceedings of the 36th International Conference on Ocean, Offshore and Arctic Engineering, OMAE 2017, Trondheim, Norway, 2017.
+[19] J. Van Rij, Y.-H. Yu, and Y. Guo, “`Structural loads analysis for wave energy converters <https://www.nrel.gov/docs/fy17osti/68048.pdf>`_,” in Proceedings of the 36th International Conference on Ocean, Offshore and Arctic Engineering, OMAE 2017, Trondheim, Norway, 2017.
 
-[20] Yu, Y.-H., & Jenne, D., “`Analysis of a wave-powered, reverse-osmosis system and its economic availability in the United States <https://www.nrel.gov/docs/fy17osti/67973.pdf>`_,” in Proceedings of the 36th International Conference on Ocean, Offshore and Arctic Engineering, OMAE 2017, Trondheim, Norway, 2017.
+[20] Y.-H. Yu and D. Jenne, “`Analysis of a wave-powered, reverse-osmosis system and its economic availability in the United States <https://www.nrel.gov/docs/fy17osti/67973.pdf>`_,” in Proceedings of the 36th International Conference on Ocean, Offshore and Arctic Engineering, OMAE 2017, Trondheim, Norway, 2017.
 
-[21] J. Ringwood et al., “`A competition for WEC control systems <http://www.eeng.nuim.ie/jringwood/Respubs/C284JREW.pdf>`_,” in Proceedings of the 12th European Wave and Tidal Conference, EWTEC 2017, Cork, Ireland, 2017.
+[21] J. Ringwood et al., “`A competition for WEC control systems <http://www.eeng.nuim.ie/jringwood/Respubs/C284JREW.pdf>`_,” in Proceedings of the 12th European Wave and Tidal Energy Conference, EWTEC 2017, Cork, Ireland, 2017.
 
-[22] F. Wendt et al., “`International Energy Agency Ocean Energy Systems Task 10 Wave Energy Converter Modeling Verification and Validation <https://www.nrel.gov/docs/fy18osti/68465.pdf>`_,” in Proceedings of the 12th European Wave and Tidal Conference, EWTEC 2017, Cork, Ireland, 2017.
+[22] F. Wendt et al., “`International Energy Agency Ocean Energy Systems Task 10 Wave Energy Converter Modeling Verification and Validation <https://www.nrel.gov/docs/fy18osti/68465.pdf>`_,” in Proceedings of the 12th European Wave and Tidal Energy Conference, EWTEC 2017, Cork, Ireland, 2017.
+
+[23] Y. Guo, Y.-H. Yu, and J. van Rij, “`Inclusion of structural flexibility in design load analysis for wave energy converters <https://www.nrel.gov/docs/fy17osti/68923.pdf>`_,” in Proceedings of the 12th European Wave and Tidal Energy Conference, EWTEC 2017, Cork, Ireland, 2017.
+
+[24] N. Tom, K. Ruehl, and F. Ferri, “`Numerical model development and validation for the WECCCOMP control competition <https://www.nrel.gov/docs/fy18osti/71003.pdf>`_,” in Proceedings of the 37th International Conference on Ocean, Offshore and Arctic Engineering, OMAE 2018, Madrid, Spain, 2018.
+
+[25] Y.-H. Yu, N. Tom, and D. Jenne, “`Numerical analysis on hydraulic power take-off for wave energy converter and power smoothing methods <https://www.nrel.gov/docs/fy19osti/71078.pdf>`_,” in Proceedings of the 37th International Conference on Ocean, Offshore and Arctic Engineering, OMAE 2018, Madrid, Spain, 2018.
 
 
 News Articles

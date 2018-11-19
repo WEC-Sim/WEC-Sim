@@ -3,7 +3,7 @@
 Acknowledgements
 ================
 
-WEC-Sim Contributors
+Past WEC-Sim Contributors
 --------------------
 * Ratanak So (Oregon State University)
 * Matt Hall (University of Prince Edward Island)
