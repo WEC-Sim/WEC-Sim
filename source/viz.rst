@@ -7,7 +7,7 @@ For more information about using Paraview for visualization, refer to the `visua
 Using Paraview visualization improves on SimMechanics's explorer by:
 
 * Visualization of the wave field
-* Visualization of the cell-by-cell non-linear hydrodynamic forces (when using non-linear hydro)
+* Visualization of the cell-by-cell non-linear hydrodynamic forces (when using nonlinear buoyancy and Froude-Krylov wave excitation)
 * Allow data manipulation and more visualization options
 
 On the other hand the SimMechanics explorer shows the following information not shown in Paraview visualizing:
@@ -94,9 +94,9 @@ Basic Visualization Manipulation
 		<iframe width="420" height="315" src="https://www.youtube.com/embed/KcsLi38Xjv0" frameborder="0" allowfullscreen></iframe>
 
 
-Visualizing Non-Linear Hydro Forces
+Visualizing Non-Linear Buoyancy and Froude-Krylov Wave Excitation
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-	When using non-linear hydro the paraview files also contain cell data for the bodies.
+	When using non-linear buoyancy and Froude-Krylov Wave Excitation the paraview files also contain cell data for the bodies.
 	The cell data are:
 
 	* Cell areas
