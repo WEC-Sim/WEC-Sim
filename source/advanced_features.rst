@@ -34,7 +34,7 @@ WEC-Sim allows users to perform batch runs by typing ``wecSimMCR`` into the MATL
 	``pto(1).k=1000:1000:10000; pto(1).c=1200000:1200000:3600000;``        
 
 	**Option 2.**  Specify the excel filename that contains a set of wave statistic data in the WEC-Sim input file. This option is generally useful for power matrix generation, example:
-	``statisticsDataLoad = "<Excel file name>.xls"``
+	``waves.statisticsDataLoad = "<Excel file name>.xls"``
 
 	**Option 3.**  Provide a MCR case *.mat* file, and specify the filename in the WEC-Sim input file, example:
 	``simu.mcrCaseFile = "<File name>.mat"``
@@ -46,7 +46,7 @@ For more information, refer to the `MCR webinar <http://wec-sim.github.io/WEC-Si
 
 State-Space Representation
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-The convolution integral term in the equation of motion can be linearized using the state-space representation as described in the `Theory Section <http://wec-sim.github.io/WEC-Sim/theory.html>`_. To use state-space representation, the ``simu.ssCalc`` simulationClass variable must be defined in the WEC-Sim input file, for example:
+The convolution integral term in the equation of motion can be linearized using the state-space representation as described in the `Theory Section <http://wec-sim.github.io/WEC-Sim/theory.html>`_. To use a state-space representation, the ``simu.ssCalc`` simulationClass variable must be defined in the WEC-Sim input file, for example:
 
 	:code:`simu.ssCalc = 1` 
 
@@ -57,14 +57,14 @@ The default WEC-Sim solver is 'ode4'. Refer to the `WEC-Sim Applications <https:
 
 * Fixed time-step: :code:`simu.dt` 
 * Output time-step: :code:`simu.dtOut=N*simu.dt` 
-* Nonlinear hydrodynamics time-step: :code:`simu.dtNL=N*simu.dt` 
+* Nonlinear Buoyancy and Froude-Krylov Excitation time-step: :code:`simu.dtNL=N*simu.dt` 
 * Convolution integral time-step: :code:`simu.dtCITime=N*simu.dt` 	
 * Morison force time-step: :code:`simu.dtME = N*N*simu.dt` 
 
 
 Fixed Time-Step (ode4)
 +++++++++++++++++++++++++
-When running WEC-Sim with a fixed time-step, 100-200 time-steps per wave period is recommended to provide accurate hydrodynamic force calculations (ex: simu.dt = T/100, where T is wave periods). However, a smaller time-step may be required (such as when coupling WEC-Sim with MoorDyn or PTO-Sim). To reduce the required WEC-Sim simulation time, a different time-step  may be specified for nonlinear hydrodynamics and for convolution integral calculations. For all simulations, the time-step should be chosen based on numerical stability and a convergence study should be performed.
+When running WEC-Sim with a fixed time-step, 100-200 time-steps per wave period is recommended to provide accurate hydrodynamic force calculations (ex: simu.dt = T/100, where T is wave period). However, a smaller time-step may be required (such as when coupling WEC-Sim with MoorDyn or PTO-Sim). To reduce the required WEC-Sim simulation time, a different time-step  may be specified for nonlinear buoyancy and Froude-Krylov excitation and for convolution integral calculations. For all simulations, the time-step should be chosen based on numerical stability and a convergence study should be performed.
 
 
 Variable Time-Step (ode45)
@@ -86,7 +86,7 @@ WEC-Sim's default spectral binning method divides the wave spectrum into 499 bin
 
 	:code:`waves.freqDisc = 'EqualEnergy';`
 
-By comparison, the traditional method divides the wave spectrum into a sufficiently large number of to define the wave spectrum. WEC-Sim's traditional formulation uses 999 bins, defined by 1000 wave frequencies of equal frequency distribution. To override WEC-Sim's default using the equal energy method, and instead use traditional binning method, the following wave class variable must be defined in the WEC-Sim input file:
+By comparison, the traditional method divides the wave spectrum into a sufficiently large number of equally spaced bins to define the wave spectrum. WEC-Sim's traditional formulation uses 999 bins, defined by 1000 wave frequencies of equal frequency distribution. To override WEC-Sim's default equal energy method, and instead use the traditional binning method, the following wave class variable must be defined in the WEC-Sim input file:
 
 	:code:`waves.freqDisc = 'Traditional';`
 
@@ -95,7 +95,7 @@ Users may override the default number of wave frequencies by defining ``waves.nu
 
 Wave Directionality
 ~~~~~~~~~~~~~~~~~~~~
-WEC-Sim has the ability to model waves with various angles of incidence, :math:`\theta`. To define wave directionality in WEC-Sim, the following wave class variable must be defined in the WEC-Sim input file:
+WEC-Sim has the ability to model waves with various angles of incidence, :math:`\beta`. To define wave directionality in WEC-Sim, the following wave class variable must be defined in the WEC-Sim input file:
 
 	:code:`waves.waveDir = <user defined wave direction>; %[deg]`  		
 	
@@ -103,7 +103,7 @@ The incident wave direction has a default heading of 0 Degrees (Default = 0). Fo
 
 Wave Directional Spreading
 ~~~~~~~~~~~~~~~~~~~~~~~~~~
-WEC-Sim has the ability to model waves with directional spreading, :math:`D\left( \theta \right)`. To define wave directional spreading in WEC-Sim, the following wave class variable must be defined in the WEC-Sim input file:
+WEC-Sim has the ability to model waves with directional spreading, :math:`D\left( \beta \right)`. To define wave directional spreading in WEC-Sim, the following wave class variable must be defined in the WEC-Sim input file:
 
 	:code:`waves.waveSpread = <user defined directional spreading>;`  		
 	
@@ -148,12 +148,12 @@ The mass of each body must be specified in the  WEC-Sim input file. The followin
 
 * **Fixed Body** - if the mass is unknown (or not important to the dynamics), the user may specify :code:`body(i).mass = 'fixed'` which will set the mass to 999 kg and moment of inertia to [999 999 999] kg-m^2.
 
-* **Import STL** - to read in the geometry (stl) into Matlab use the :code:`body(i).bodyGeo` method in the bodyClass. This method will import the mesh details (vertices, faces, normals, areas, centroids) into the :code:`body(i).bodyGeometry` property. This method is also used for non-linear hydrodynamics and ParaView visualization files. Users can then visualize the geometry using the :code:`body(i).plotStl` method.
+* **Import STL** - to read in the geometry (``*.stl``) into Matlab use the :code:`body(i).bodyGeo` method in the bodyClass. This method will import the mesh details (vertices, faces, normals, areas, centroids) into the :code:`body(i).bodyGeometry` property. This method is also used for non-linear buoyancy and Froude-Krylov excitation and ParaView visualization files. Users can then visualize the geometry using the :code:`body(i).plotStl` method.
 
 
-Non-Linear Hydrodynamics 
+Non-Linear Buoyancy and Froude-Krylov Excitation
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-WEC-Sim has the option to include the non-linear hydrostatic restoring and Froude-Krylov forces when solving the system dynamics of WECs, accounting for the weakly nonlinear effect on the body hydrodynamics. To use non-linear hydrodynamics, the **simu.nlHydro** simulationClass variable must be defined in the WEC-Sim input file, for example: 
+WEC-Sim has the option to include the non-linear hydrostatic restoring and Froude-Krylov forces when solving the system dynamics of WECs, accounting for the weakly nonlinear effect on the body hydrodynamics. To use nonlinear buoyancy and Froude-Krylov excitation, the **simu.nlHydro** simulationClass variable must be defined in the WEC-Sim input file, for example: 
 
 	:code:`simu.nlHydro = 2`  
 	
@@ -163,7 +163,7 @@ For more information, refer to the `non-linear hydrodynamics webinar <http://wec
 Non-Linear Settings
 +++++++++++++++++++++++++
 **simu.nlHydro**  - 
-The nonlinear hydrodynamics option can be used by setting :code:`simu.nlHydro = 2` or :code:`simu.nlHydro = 1` in your WEC-Sim input file. Typically, :code:`simu.nlHydro = 2` is recommended if nonlinear hydrodynamic effects need to be used. Note that :code:`simu.nlHydro = 1` only considers the nonlinear restoring and Froude-Krylov forces based on the body position and mean wave elevation. 
+The nonlinear hydrodynamics option can be used by setting :code:`simu.nlHydro = 2` or :code:`simu.nlHydro = 1` in your WEC-Sim input file. Typically, :code:`simu.nlHydro = 2` is recommended if nonlinear buoyancy and Froude-Krylov effects need to be used. Note that :code:`simu.nlHydro = 1` only considers the nonlinear hydrostatic and Froude-Krylov wave excitations based on the body position and mean wave elevation. 
 
 **simu.dtNL** - 
 An option available to reduce the nonlinear simulation time is to specify a nonlinear time step, :code:`simu.dtNL=N*simu.dt`, where N is number of increment steps. The nonlinear time step specifies the interval at which the nonlinear hydrodynamic forces are calculated. As the ratio of the nonlinear to system time step increases, the computation time is reduced, again, at the expense of the simulation accuracy.
@@ -171,12 +171,12 @@ An option available to reduce the nonlinear simulation time is to specify a nonl
 
 .. Note::
 
-	 WEC-Sim's nonlinear hydrodynamic option may be used for regular or irregular waves but not with user-defined irregular waves. 
+	 WEC-Sim's nonlinear buoyancy and Froude-Krylov wave excitation option may be used for regular or irregular waves but not with user-defined irregular waves. 
 
 
 STL File Generation
 +++++++++++++++++++++++++
-When the nonlinear option is turned on, the geometry file (``*.stl``) (previously only used for visualization purposes in linear simulations) is used as the discretized body surface on which the non-linear pressure forces are integrated. A good STL mesh resolution is required for the WEC body geometry file(s) when using the non-linear hydrodynamics in WEC-Sim. The simulation accuracy will increase with increased surface resolution (i.e. the number of discretized surface panels specified in the .stl file), but the computation time will also increase. 
+When the nonlinear option is turned on, the geometry file (``*.stl``) (previously only used for visualization purposes in linear simulations) is used as the discretized body surface on which the non-linear pressure forces are integrated. A good STL mesh resolution is required for the WEC body geometry file(s) when using the non-linear buoyancy and Froude-Krylov wave excitation in WEC-Sim. The simulation accuracy will increase with increased surface resolution (i.e. the number of discretized surface panels specified in the ``*.stl`` file), but the computation time will also increase. 
 
 There are many ways to generate an STL file; however, it is important to verify the quality of the mesh before running WEC-Sim simulations with the non-linear hydro flag turned on. An STL file can be exported from most CAD programs, but few allow adequate mesh refinement. A good program to perform STL mesh refinement is `Rhino <https://www.rhino3d.com/>`_. Some helpful resources explaining how to generate and refine an STL mesh in Rhino can be found `on Rhino's website <https://wiki.mcneel.com/rhino/meshfaqdetails>`_ and `on Youtube <https://www.youtube.com/watch?v=CrlXAMPfHWI>`_.	
 	
@@ -194,7 +194,7 @@ There are many ways to generate an STL file; however, it is important to verify 
 In this way, the each new panel retains the aspect ratio of the original panel. Note that the linear discretization of curved edges is not refined via this algorithm. The header comments of the function explain the inputs and outputs. This function calls ``import_stl_fast``, included with the WEC-Sim distribution, to import the ``.*stl`` file.
 
 
-Non-Linear Tutorial - Heaving Ellipsoid
+Non-Linear Buoyancy and Froude-Krylov Wave Excitation Tutorial - Heaving Ellipsoid
 ++++++++++++++++++++++++++++++++++++++++++++++++++
 The body tested in the study is an ellipsoid with a cross- section characterized by semi-major and -minor axes of 5.0 m and 2.5 m in the wave propagation and normal directions, respectively . The ellipsoid is at its equilibrium position with its origin located at the mean water surface. The mass of the body is then set to 1.342×105 kg, and the center of gravity is located 2 m below the origin.
 
@@ -246,7 +246,7 @@ For more information, refer to the `non-hydro bodies webinar <http://wec-sim.git
 
 Body-To-Body Interactions
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-WEC-Sim allows for body-to-body interactions in the radiation force calculation, thus allowing the motion of one body to impart a force on all other bodies. The radiation matrices for each body (radiation damping and added mass) required by WEC-Sim and contained in the ``*.h5`` file. **For body-to-body interactions with N total hydrodynamic bodies, the** ``*h5`` **data structure is [(6\*N), 6]**.
+WEC-Sim allows for body-to-body interactions in the radiation force calculation, thus allowing the motion of one body to impart a force on all other bodies. The radiation matrices for each body (radiation wave damping and added mass) required by WEC-Sim and contained in the ``*.h5`` file. **For body-to-body interactions with N total hydrodynamic bodies, the** ``*h5`` **data structure is [(6\*N), 6]**.
 
 When body-to-body interactions are used, the augmented [(6\*N), 6] matrices are multiplied by concatenated velocity and acceleration vectors of all hydrodynamic bodies. For example, the radiation damping force for body(2) in a 3-body system with body-to-body interactions would be calculated as the product of a [1,18] velocity vector and a [18,6] radiation damping coefficients matrix.
 
@@ -258,12 +258,12 @@ For more information, refer to the `B2B webinar <http://wec-sim.github.io/WEC-Si
 
 .. Note::
 
-	By default, body-to-body interactions  are off (:code:`simu.b2b = 0`), and only the :math:`[1+6(i-1):6i, 1:6]` sub-matrices are used for each body (where :math:`i` is the body number).
+	By default, body-to-body interactions  are off (:code:`simu.b2b = 0`), and only the :math:`[1+6(i-1):6i, 1+6(i-1):6i]` sub-matrices are used for each body (where :math:`i` is the body number).
 	
 
 Viscous Damping and Morison Elements
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-WEC-Sim allows for definition of additional damping and added-mass to force the definitions; for more information about the numerical formulation of viscous damping and Morison Elements, refer to the `Viscous Damping and Morison Elements <http://wec-sim.github.io/WEC-Sim/theory.html#non-linear-drag-and-morison-elements>`_ section.
+WEC-Sim allows for the definition of additional damping and added-mass terms; for more information about the numerical formulation of viscous damping and Morison Elements, refer to the `Viscous Damping and Morison Elements <http://wec-sim.github.io/WEC-Sim/theory.html#non-linear-drag-and-morison-elements>`_ section.
 
 
 Viscous Damping
@@ -272,7 +272,7 @@ A viscous damping force in the form of a linear damping coefficient :math:`C_{v}
 
 	body(i).linearDamping
 
-A quadratic drag force proportional to the square of the body's velocity can be applied to each body by defining the quadratic drag coefficient :math:`C_{d}`, and the characteristic area :math:`A_{d}` for drag calculation. This is achieved by defining the following body class parameters in the WEC-Sim input file (each of which have a default value of zero)::
+A quadratic drag force, proportional to the square of the body's velocity, can be applied to each body by defining the quadratic drag coefficient :math:`C_{d}`, and the characteristic area :math:`A_{d}` for drag calculation. This is achieved by defining the following body class parameters in the WEC-Sim input file (each of which have a default value of zero)::
 
 	body(i).viscDrag.cd
 	body(i).viscDrag.characteristicArea
@@ -308,7 +308,7 @@ Constraint and PTO Features
 This section provides an overview of  WEC-Sim's constraint and pto classes; for more information about the constraint and pto classes' code structure, refer to `Constraint Class <http://wec-sim.github.io/WEC-Sim/code_structure.html#constraint-class>`_ and `PTO Class <http://wec-sim.github.io/WEC-Sim/code_structure.html#pto-class>`_.
 
 
-The default linear and rotational constraints and PTOs are allow for heave and pitch motions of the follower relative to the base.
+The default linear and rotational constraints and PTOs allow for heave and pitch motions of the follower relative to the base.
 To obtain a linear or rotational constraint in a different direction you must modify the constraint's or PTO's coordinate orientation.
 The important thing to remember is that a linear constraint or PTO will always allow motion along the joint's Z-axis, and a rotational constraint or PTO will allow rotation about the joint's Y-axis.
 To obtain translation along or rotation about a different direction relative to the global frame, you must modify the orientation of the joint's coordinate frame.
