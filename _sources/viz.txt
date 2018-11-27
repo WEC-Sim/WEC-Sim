@@ -95,7 +95,7 @@ Basic Visualization Manipulation
 
 
 Visualizing Non-Linear Buoyancy and Froude-Krylov Wave Excitation
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 	When using non-linear buoyancy and Froude-Krylov Wave Excitation the paraview files also contain cell data for the bodies.
 	The cell data are:
 
