@@ -46,9 +46,9 @@ Hydrodynamic Data
 Geometry File
 ~~~~~~~~~~~~~~
 * The WEC-Sim code also requires a geometry file in the form of a ``*.stl`` file. 
-* This ``*.stl`` file is used by the WEC-Sim code to generate the Simscape Explorer visualization, and by the non-linear buoyancy and Froude-Krylov forces option to determine the instantaneous wetted surface at each time step. 
+* This ``*.stl`` file is used by the WEC-Sim code to generate the Simscape Explorer visualization, and by the nonlinear buoyancy and Froude-Krylov forces option to determine the instantaneous wetted surface at each time step. 
 * When running WEC-Sim with linear hydrodynamics, the ``*.stl`` is only used for visualization. 
-* When running WEC-Sim with non-linear buoyancy and Froude-Krylov forces, the quality of the ``*.stl`` mesh is critical, refer to the `Non-Linear Buoyancy and Froude-Krylov Forces <http://wec-sim.github.io/WEC-Sim/advanced_features.html#non-linear-hydrodynamics>`_ section for more information. 
+* When running WEC-Sim with nonlinear buoyancy and Froude-Krylov forces, the quality of the ``*.stl`` mesh is critical, refer to the `Nonlinear Buoyancy and Froude-Krylov Forces <http://wec-sim.github.io/WEC-Sim/advanced_features.html#non-linear-hydrodynamics>`_ section for more information. 
 
 
 Simulink Model 
@@ -97,7 +97,7 @@ In the pre-processing step, users need to create the WEC geometry, run a BEM cod
 
    * Create CAD models of the WEC geometry and export it to a ``*.stl`` format. 
    * The ``*.stl`` files are used to visualize the WEC response in Simscape Explorer
-   * They are also used for `Non-Linear Buoyancy and Froude-Krylov Forces <http://wec-sim.github.io/WEC-Sim/advanced_features.html#non-linear-hydrodynamics>`_ if the option is applied.
+   * They are also used for `Nonlinear Buoyancy and Froude-Krylov Forces <http://wec-sim.github.io/WEC-Sim/advanced_features.html#non-linear-hydrodynamics>`_ if the option is applied.
 
 * **Compute Hydrodynamic Coefficients**: WEC-Sim requires frequency-domain hydrodynamic coefficients (e.g. added mass, radiation damping, and wave excitation). 
 
