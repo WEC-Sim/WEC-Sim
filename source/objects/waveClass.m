@@ -640,10 +640,9 @@ classdef waveClass<handle
             switch obj.spectrumType
                 case 'PM' % Pierson-Moskowitz Spectrum from Tucker and Pitt (2001)
                     B_PM = (5/4)*(1/Tp)^(4);
-                    A_PM = g^2*(2*pi)^(-4);
-                    S_f_temp = (A_PM*freq.^(-5).*exp(-B_PM*freq.^(-4)));
-                    alpha_PM = Hs^(2)/16/trapz(freq,S_f_temp);
-                    obj.Sf = alpha_PM*S_f_temp./(2*pi);                              % Wave Spectrum [m^2-s/rad] for 'Traditional'
+                    A_PM = 0.0081*g^2*(2*pi)^(-4);
+                    S_f  = (A_PM*freq.^(-5).*exp(-B_PM*freq.^(-4)));
+                    obj.Sf = S_f./(2*pi);                         % Wave Spectrum [m^2-s/rad] for 'Traditional'
                     S_f = obj.Sf*2*pi;                                          % Wave Spectrum [m^2-s]
                 case 'BS' % Bretschneider Sprectrum from Tucker and Pitt (2001)
                     B_BS = (1.057/Tp)^4;
