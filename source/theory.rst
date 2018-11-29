@@ -129,9 +129,9 @@ Each regular wave component is extracted from a wave spectrum, :math:`S(\omega)`
 
 .. math::
 
-	F_{exc}(t)=\Re\left[ R_{f} \intop_{0}^{\infty}F_{exc}(\omega_{r})e^{i(\omega_{r}t+\phi)} \sqrt{2S(\omega_{r}d\omega)} \right]
+	F_{exc}(t)=\Re\left[ R_{f} \sum_{j=1}^{N}F_{exc}(\omega_{j})e^{i(\omega_{j}t+\phi_{j})} \sqrt{2S(\omega_{j})d\omega_{j}} \right]
 
-where :math:`\phi` is the randomized phase angle. For repeatable simulation of an irregular wave field :math:`S(\omega)`, WEC-Sim allows specification of :math:`\phi`, refer to the following `wave features <http://wec-sim.github.io/WEC-Sim/advanced_features.html#irregular-waves-with-seeded-phase>`_ section. 
+where :math:`\phi` is the randomized phase angle and :math:`N` is the number of frequency bands selected to discretize the wave spectrum. For repeatable simulation of an irregular wave field :math:`S(\omega)`, WEC-Sim allows specification of :math:`\phi`, refer to the following `wave features <http://wec-sim.github.io/WEC-Sim/advanced_features.html#irregular-waves-with-seeded-phase>`_ section. 
 
 State Space  
 ~~~~~~~~~~~~
@@ -253,17 +253,7 @@ This implies coefficients of the general form:
 .. math::
 	A = \frac{\alpha_{pm}g^{2}}{\left( 2 \pi \right)^{4}},~~B = \frac{5}{4} {f_{p}}^{4}~~
 
-where the parameter :math:`\alpha_{PM}` = 0.0081 typically, :math:`g=9.81` m/s is gravitational acceleration and :math:`f_{p}` is the peak frequency of the spectrum. However, this spectrum representation does not allow the user to define the significant wave height: WEC-Sim calculates the value of :math:`\alpha_{PM}` such that a power matrix can be developed as a function of the desired significant wave height.  The :math:`\alpha_{PM}` parameter was calculated as follows:
-
-.. math::
-	\alpha_{pm} = \frac{H_{m0}^{2}}{16\int_{0}^{\infty} S^{*} \left( f \right) df}~~
-	
-	S^{*}\left( f \right) = \frac{ g^{2} }{ (2\pi)^{4}} f^{-5}\exp\left[-\frac{5}{4} \left( \frac{f_{p}}{f}\right)^{4} \right]~~
-
-Where:
-
-.. math::
-	& S\left( f \right) =  S^{*}\left( f \right) \alpha_{pm}& \\ 	
+where the parameter :math:`\alpha_{PM}` = 0.0081 typically, :math:`g=9.81` m/s is gravitational acceleration and :math:`f_{p}` is the peak frequency of the spectrum. However, this spectrum representation does not allow the user to define the significant wave height.
 
 Bretschneider (BS)
 ~~~~~~~~~~~~~~~~~~
@@ -406,7 +396,7 @@ MoorDyn discretizes each mooring line in a mooring system into evenly-sized line
 	For more information about application of mooring systems in WEC-Sim, refer to `Mooring Features <https://wec-sim.github.io/WEC-Sim/advanced_features.html#mooring-features>`_ .
 
 
-Non-Linear Buoynancy and Froude-Krylov Wave Excitation
+Nonlinear Buoynancy and Froude-Krylov Wave Excitation
 ------------------------
 The linear model assumes that the body motion and the waves consist of small amplitudes in comparison to the wavelengths. A weakly nonlinear approach is applied to account for the nonlinear hydrodynamic forces induced by the instantaneous water surface elevation and body position. Rather than using the BEM calculated linear wave-excitation and hydrostatic coefficients, the nonlinear buoyancy and the Froude-Krylov force components can be obtained by integrating the static and dynamic pressures over each panel along the wetted body surface at each time step. 
 Because linear wave theory is used to determine the flow velocity and pressure field, the values become unrealistically large for wetted panels that are above the mean water level. To correct this, the Wheeler stretching method is applied :cite:`wheeler1969methods`, which applies a correction to the instantaneous wave elevation that forces its height to be equal to the water depth when calculating the flow velocity and pressure,
@@ -421,7 +411,7 @@ where :math:`D` is the mean water depth, and :math:`\eta` is the z-value on the 
 
 
 .. Note:: 
-	For more information about application of non-linear hydrodynamics in WEC-Sim, refer to `Non-Linear Buoyancy and Froude-Krylov Wave Excitation <https://wec-sim.github.io/WEC-Sim/advanced_features.html#non-linear-hydrodynamics>`_.
+	For more information about application of nonlinear hydrodynamics in WEC-Sim, refer to `Nonlinear Buoyancy and Froude-Krylov Wave Excitation <https://wec-sim.github.io/WEC-Sim/advanced_features.html#non-linear-hydrodynamics>`_.
 
 
 
@@ -445,7 +435,7 @@ Because BEM codes are potential flow solvers and neglect the effects of viscosit
 
 Morison Elements 
 ~~~~~~~~~~~~~~~~
-The Morison Equation assumes that the fluid forces in an oscillating flow on a structure of slender cylinders or other similar geometries arise partly from pressure effects from potential flow and partly from viscous effects. A slender cylinder implies that the diameter, D, is small relative to the wave length, :math:`?_w`, which is generally met when :math:`D/?_w < 0.1 ? 0.2`. If this condition is not met, wave diffraction effects must be taken into account. Assuming that the geometries are slender, the resulting force can be approximated by a modified Morison formulation :cite:`Morison1950`. The formulation for each element on the body can be given as
+The Morison Equation assumes that the fluid forces in an oscillating flow on a structure of slender cylinders or other similar geometries arise partly from pressure effects from potential flow and partly from viscous effects. A slender cylinder implies that the diameter, D, is small relative to the wave length, :math:`\lambda_w`, which is generally met when :math:`D/\lambda_w < 0.1 - 0.2`. If this condition is not met, wave diffraction effects must be taken into account. Assuming that the geometries are slender, the resulting force can be approximated by a modified Morison formulation :cite:`Morison1950`. The formulation for each element on the body can be given as
 
  .. math::
 	F_{ME}=\rho\dot{v}+\rho\forall C_{a}(\dot{v}-\ddot{X})+\frac{C_{d}\rho A_{d}}{2}(v-\dot{X})|v-\dot{X}|

@@ -127,7 +127,7 @@
 <li class="toctree-l3"><a class="reference internal" href="#id24">MoorDyn</a></li>
 </ul>
 </li>
-<li class="toctree-l2"><a class="reference internal" href="#non-linear-buoynancy-and-froude-krylov-wave-excitation">Non-Linear Buoynancy and Froude-Krylov Wave Excitation</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#nonlinear-buoynancy-and-froude-krylov-wave-excitation">Nonlinear Buoynancy and Froude-Krylov Wave Excitation</a></li>
 <li class="toctree-l2"><a class="reference internal" href="#viscous-damping-and-morison-elements">Viscous Damping and Morison Elements</a><ul>
 <li class="toctree-l3"><a class="reference internal" href="#viscous-damping">Viscous Damping</a></li>
 <li class="toctree-l3"><a class="reference internal" href="#morison-elements">Morison Elements</a></li>
@@ -291,8 +291,8 @@ To speed computation of the convolution integral, the state space representation
 For irregular waves, the free surface elevation is constructed from a linear superposition of a number of regular wave components.
 Each regular wave component is extracted from a wave spectrum, <span class="math">\(S(\omega)\)</span>, describing the wave energy distribution over a range of wave frequencies, generally characterized by a significant wave height and peak wave period. The irregular excitation force can be calculated as the real part of an integral term across all wave frequencies as follows</p>
 <div class="math">
-\[F_{exc}(t)=\Re\left[ R_{f} \intop_{0}^{\infty}F_{exc}(\omega_{r})e^{i(\omega_{r}t+\phi)} \sqrt{2S(\omega_{r}d\omega)} \right]\]</div>
-<p>where <span class="math">\(\phi\)</span> is the randomized phase angle. For repeatable simulation of an irregular wave field <span class="math">\(S(\omega)\)</span>, WEC-Sim allows specification of <span class="math">\(\phi\)</span>, refer to the following <a class="reference external" href="http://wec-sim.github.io/WEC-Sim/advanced_features.html#irregular-waves-with-seeded-phase">wave features</a> section.</p>
+\[F_{exc}(t)=\Re\left[ R_{f} \sum_{j=1}^{N}F_{exc}(\omega_{j})e^{i(\omega_{j}t+\phi_{j})} \sqrt{2S(\omega_{j})d\omega_{j}} \right]\]</div>
+<p>where <span class="math">\(\phi\)</span> is the randomized phase angle and <span class="math">\(N\)</span> is the number of frequency bands selected to discretize the wave spectrum. For repeatable simulation of an irregular wave field <span class="math">\(S(\omega)\)</span>, WEC-Sim allows specification of <span class="math">\(\phi\)</span>, refer to the following <a class="reference external" href="http://wec-sim.github.io/WEC-Sim/advanced_features.html#irregular-waves-with-seeded-phase">wave features</a> section.</p>
 </div>
 <div class="section" id="state-space">
 <h3>State Space<a class="headerlink" href="#state-space" title="Permalink to this headline">¶</a></h3>
@@ -368,12 +368,7 @@ y &amp;=&amp; \mathbf{C_{r}} x~~\end{split}\]</div>
 <p>This implies coefficients of the general form:</p>
 <div class="math">
 \[A = \frac{\alpha_{pm}g^{2}}{\left( 2 \pi \right)^{4}},~~B = \frac{5}{4} {f_{p}}^{4}~~\]</div>
-<p>where the parameter <span class="math">\(\alpha_{PM}\)</span> = 0.0081 typically, <span class="math">\(g=9.81\)</span> m/s is gravitational acceleration and <span class="math">\(f_{p}\)</span> is the peak frequency of the spectrum. However, this spectrum representation does not allow the user to define the significant wave height: WEC-Sim calculates the value of <span class="math">\(\alpha_{PM}\)</span> such that a power matrix can be developed as a function of the desired significant wave height.  The <span class="math">\(\alpha_{PM}\)</span> parameter was calculated as follows:</p>
-<div class="math">
-\[ \begin{align}\begin{aligned}\alpha_{pm} = \frac{H_{m0}^{2}}{16\int_{0}^{\infty} S^{*} \left( f \right) df}~~\\S^{*}\left( f \right) = \frac{ g^{2} }{ (2\pi)^{4}} f^{-5}\exp\left[-\frac{5}{4} \left( \frac{f_{p}}{f}\right)^{4} \right]~~\end{aligned}\end{align} \]</div>
-<p>Where:</p>
-<div class="math">
-\[\begin{split}&amp; S\left( f \right) =  S^{*}\left( f \right) \alpha_{pm}&amp; \\\end{split}\]</div>
+<p>where the parameter <span class="math">\(\alpha_{PM}\)</span> = 0.0081 typically, <span class="math">\(g=9.81\)</span> m/s is gravitational acceleration and <span class="math">\(f_{p}\)</span> is the peak frequency of the spectrum. However, this spectrum representation does not allow the user to define the significant wave height.</p>
 </div>
 <div class="section" id="bretschneider-bs">
 <h3>Bretschneider (BS)<a class="headerlink" href="#bretschneider-bs" title="Permalink to this headline">¶</a></h3>
@@ -467,8 +462,8 @@ The instantaneous mechanical power absorbed by the PTO is given by:</p>
 </div>
 </div>
 </div>
-<div class="section" id="non-linear-buoynancy-and-froude-krylov-wave-excitation">
-<h2>Non-Linear Buoynancy and Froude-Krylov Wave Excitation<a class="headerlink" href="#non-linear-buoynancy-and-froude-krylov-wave-excitation" title="Permalink to this headline">¶</a></h2>
+<div class="section" id="nonlinear-buoynancy-and-froude-krylov-wave-excitation">
+<h2>Nonlinear Buoynancy and Froude-Krylov Wave Excitation<a class="headerlink" href="#nonlinear-buoynancy-and-froude-krylov-wave-excitation" title="Permalink to this headline">¶</a></h2>
 <p>The linear model assumes that the body motion and the waves consist of small amplitudes in comparison to the wavelengths. A weakly nonlinear approach is applied to account for the nonlinear hydrodynamic forces induced by the instantaneous water surface elevation and body position. Rather than using the BEM calculated linear wave-excitation and hydrostatic coefficients, the nonlinear buoyancy and the Froude-Krylov force components can be obtained by integrating the static and dynamic pressures over each panel along the wetted body surface at each time step.
 Because linear wave theory is used to determine the flow velocity and pressure field, the values become unrealistically large for wetted panels that are above the mean water level. To correct this, the Wheeler stretching method is applied <a class="reference internal" href="#wheeler1969methods" id="id26">[17]</a>, which applies a correction to the instantaneous wave elevation that forces its height to be equal to the water depth when calculating the flow velocity and pressure,</p>
 <blockquote>
@@ -482,7 +477,7 @@ Because linear wave theory is used to determine the flow velocity and pressure f
 </div>
 <div class="admonition note">
 <p class="first admonition-title">Note</p>
-<p class="last">For more information about application of non-linear hydrodynamics in WEC-Sim, refer to <a class="reference external" href="https://wec-sim.github.io/WEC-Sim/advanced_features.html#non-linear-hydrodynamics">Non-Linear Buoyancy and Froude-Krylov Wave Excitation</a>.</p>
+<p class="last">For more information about application of nonlinear hydrodynamics in WEC-Sim, refer to <a class="reference external" href="https://wec-sim.github.io/WEC-Sim/advanced_features.html#non-linear-hydrodynamics">Nonlinear Buoyancy and Froude-Krylov Wave Excitation</a>.</p>
 </div>
 </div>
 <div class="section" id="viscous-damping-and-morison-elements">
@@ -500,7 +495,7 @@ Because linear wave theory is used to determine the flow velocity and pressure f
 </div>
 <div class="section" id="morison-elements">
 <h3>Morison Elements<a class="headerlink" href="#morison-elements" title="Permalink to this headline">¶</a></h3>
-<p>The Morison Equation assumes that the fluid forces in an oscillating flow on a structure of slender cylinders or other similar geometries arise partly from pressure effects from potential flow and partly from viscous effects. A slender cylinder implies that the diameter, D, is small relative to the wave length, <span class="math">\(?_w\)</span>, which is generally met when <span class="math">\(D/?_w &lt; 0.1 ? 0.2\)</span>. If this condition is not met, wave diffraction effects must be taken into account. Assuming that the geometries are slender, the resulting force can be approximated by a modified Morison formulation <a class="reference internal" href="#morison1950" id="id27">[18]</a>. The formulation for each element on the body can be given as</p>
+<p>The Morison Equation assumes that the fluid forces in an oscillating flow on a structure of slender cylinders or other similar geometries arise partly from pressure effects from potential flow and partly from viscous effects. A slender cylinder implies that the diameter, D, is small relative to the wave length, <span class="math">\(\lambda_w\)</span>, which is generally met when <span class="math">\(D/\lambda_w &lt; 0.1 - 0.2\)</span>. If this condition is not met, wave diffraction effects must be taken into account. Assuming that the geometries are slender, the resulting force can be approximated by a modified Morison formulation <a class="reference internal" href="#morison1950" id="id27">[18]</a>. The formulation for each element on the body can be given as</p>
 <blockquote>
 <div><div class="math">
 \[F_{ME}=\rho\dot{v}+\rho\forall C_{a}(\dot{v}-\ddot{X})+\frac{C_{d}\rho A_{d}}{2}(v-\dot{X})|v-\dot{X}|\]</div>
@@ -624,6 +619,12 @@ Because linear wave theory is used to determine the flow velocity and pressure f
 <colgroup><col class="label" /><col /></colgroup>
 <tbody valign="top">
 <tr><td class="label"><a class="fn-backref" href="#id27">[18]</a></td><td>J&nbsp;R Morison, M&nbsp;P O&#8217;brien, J&nbsp;W Johnson, and S&nbsp;A Schaaf. The force exerted by surface waves on piles. <em>Petroleum Transactions, AIME</em>, 189:149–154, 1950.</td></tr>
+</tbody>
+</table>
+<table class="docutils citation" frame="void" id="ruehl-preliminary-2014" rules="none">
+<colgroup><col class="label" /><col /></colgroup>
+<tbody valign="top">
+<tr><td class="label">[1]</td><td>K. Ruehl, C. Michelen, S. Kanner, M. Lawson, and Y. Yu. Preliminary Verification and Validation of WEC-Sim, an Open-Source Wave Energy Converter Design Tool. In <em>Proceedings of OMAE 2014</em>. San Francisco, CA, 2014.</td></tr>
 </tbody>
 </table>
 </p>
