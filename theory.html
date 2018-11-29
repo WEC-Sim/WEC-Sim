@@ -264,7 +264,7 @@ To speed computation of the convolution integral, the state space representation
 <h3>Ramp Function<a class="headerlink" href="#ramp-function" title="Permalink to this headline">¶</a></h3>
 <p>A ramp function (<span class="math">\(R_{f}\)</span>), necessary to avoid strong transient flows at the earlier time steps of the simulation, is used to calculate the wave excitation force. The ramp function is given by</p>
 <div class="math">
-\[\begin{split}R_{f}=\begin{cases}
+\[\begin{split}R_{f}(t)=\begin{cases}
 \frac{1}{2}(1+\cos(\pi+\frac{\pi t}{t_{r}}) &amp; \frac{t}{t_{r}}&lt;1\\
 1 &amp; \frac{t}{t_{r}}\geq1
 \end{cases}\end{split}\]</div>
@@ -278,7 +278,7 @@ To speed computation of the convolution integral, the state space representation
 <p>where <span class="math">\(\dot{X}\)</span> is the velocity vector of the floating body.</p>
 <p>The free surface profile is based on linear wave theory for a given wave height, wave frequency, and water depth. The regular wave excitation force is obtained from</p>
 <div class="math">
-\[F_{exc}(t)=\Re\left[ R_{f}\frac{H}{2}F_{exc}(\omega, \beta)e^{i\omega t} \right]\]</div>
+\[F_{exc}(t)=\Re\left[ R_{f}(t)\frac{H}{2}F_{exc}(\omega, \beta)e^{i\omega t} \right]\]</div>
 <p>where <span class="math">\(\Re\)</span> denotes the real part of the formula, <span class="math">\(R_{f}\)</span> is the ramp function, <span class="math">\(H\)</span> is the wave height, <span class="math">\(F_{exc}\)</span> is the frequency dependent complex wave-excitation amplitude vector, and <span class="math">\(\beta\)</span> is the wave heading.</p>
 </div>
 <div class="section" id="convolution-integral-formulation">
@@ -291,7 +291,7 @@ To speed computation of the convolution integral, the state space representation
 For irregular waves, the free surface elevation is constructed from a linear superposition of a number of regular wave components.
 Each regular wave component is extracted from a wave spectrum, <span class="math">\(S(\omega)\)</span>, describing the wave energy distribution over a range of wave frequencies, generally characterized by a significant wave height and peak wave period. The irregular excitation force can be calculated as the real part of an integral term across all wave frequencies as follows</p>
 <div class="math">
-\[F_{exc}(t)=\Re\left[ R_{f} \sum_{j=1}^{N}F_{exc}(\omega_{j})e^{i(\omega_{j}t+\phi_{j})} \sqrt{2S(\omega_{j})d\omega_{j}} \right]\]</div>
+\[F_{exc}(t)=\Re\left[ R_{f}(t) \sum_{j=1}^{N}F_{exc}(\omega_{j}, \beta)e^{i(\omega_{j}t+\phi_{j})} \sqrt{2S(\omega_{j})d\omega_{j}} \right]\]</div>
 <p>where <span class="math">\(\phi\)</span> is the randomized phase angle and <span class="math">\(N\)</span> is the number of frequency bands selected to discretize the wave spectrum. For repeatable simulation of an irregular wave field <span class="math">\(S(\omega)\)</span>, WEC-Sim allows specification of <span class="math">\(\phi\)</span>, refer to the following <a class="reference external" href="http://wec-sim.github.io/WEC-Sim/advanced_features.html#irregular-waves-with-seeded-phase">wave features</a> section.</p>
 </div>
 <div class="section" id="state-space">
@@ -350,8 +350,8 @@ y &amp;=&amp; \mathbf{C_{r}} x~~\end{split}\]</div>
 <h2>Wave Spectra<a class="headerlink" href="#wave-spectra" title="Permalink to this headline">¶</a></h2>
 <p>The linear superposition of regular waves of distinct amplitudes and periods is characterized in the frequency domain by a wave spectrum. Through statistical analysis, spectra are characterized by specific parameters such as significant wave height, peak period, wind speed, fetch length, and others. Common types of wave spectra that are used by the offshore industry are discussed in the following sections.  The general form of the wave spectra available in WEC-Sim is given by:</p>
 <div class="math">
-\[S\left( f , \theta \right)= S\left( f \right)D\left( \theta \right)~~\]</div>
-<p>where <span class="math">\(S\left( f\right)\)</span> is the wave power spectrum, <span class="math">\(f\)</span> is the wave frequency (in Hertz), <span class="math">\(D\left( \theta \right)\)</span> is the directional distribution, and <span class="math">\(\theta\)</span> is the wave direction (in Degrees).</p>
+\[S\left( f , \beta \right)= S\left( f \right)D\left( \beta \right)~~\]</div>
+<p>where <span class="math">\(S\left( f\right)\)</span> is the wave power spectrum, <span class="math">\(f\)</span> is the wave frequency (in Hertz), <span class="math">\(D\left( \beta \right)\)</span> is the directional distribution, and <span class="math">\(\beta\)</span> is the wave heading (in Degrees).</p>
 <div class="math">
 \[S\left( f \right) = A f^{-5}\exp\left[-B f^{-4} \right]~~\]</div>
 <p>where <span class="math">\(A\)</span> and :math&#8221;<cite>B</cite> are coefficients that vary depending on the wave spectrum and <span class="math">\(\exp\)</span> stands for the exponential function. Spectral moments of the wave spectrum, denoted <span class="math">\(m_{k}~,~k=0, 1, 2,...\)</span>, are defined as</p>

@@ -87,7 +87,7 @@ A ramp function (:math:`R_{f}`), necessary to avoid strong transient flows at th
 
 .. math::
 
-	R_{f}=\begin{cases}
+	R_{f}(t)=\begin{cases}
 	\frac{1}{2}(1+\cos(\pi+\frac{\pi t}{t_{r}}) & \frac{t}{t_{r}}<1\\
 	1 & \frac{t}{t_{r}}\geq1
 	\end{cases}
@@ -108,7 +108,7 @@ The free surface profile is based on linear wave theory for a given wave height,
 
 .. math::
 
-	F_{exc}(t)=\Re\left[ R_{f}\frac{H}{2}F_{exc}(\omega, \beta)e^{i\omega t} \right]
+	F_{exc}(t)=\Re\left[ R_{f}(t)\frac{H}{2}F_{exc}(\omega, \beta)e^{i\omega t} \right]
 
 
 where :math:`\Re` denotes the real part of the formula, :math:`R_{f}` is the ramp function, :math:`H` is the wave height, :math:`F_{exc}` is the frequency dependent complex wave-excitation amplitude vector, and :math:`\beta` is the wave heading.
@@ -129,7 +129,7 @@ Each regular wave component is extracted from a wave spectrum, :math:`S(\omega)`
 
 .. math::
 
-	F_{exc}(t)=\Re\left[ R_{f} \sum_{j=1}^{N}F_{exc}(\omega_{j})e^{i(\omega_{j}t+\phi_{j})} \sqrt{2S(\omega_{j})d\omega_{j}} \right]
+	F_{exc}(t)=\Re\left[ R_{f}(t) \sum_{j=1}^{N}F_{exc}(\omega_{j}, \beta)e^{i(\omega_{j}t+\phi_{j})} \sqrt{2S(\omega_{j})d\omega_{j}} \right]
 
 where :math:`\phi` is the randomized phase angle and :math:`N` is the number of frequency bands selected to discretize the wave spectrum. For repeatable simulation of an irregular wave field :math:`S(\omega)`, WEC-Sim allows specification of :math:`\phi`, refer to the following `wave features <http://wec-sim.github.io/WEC-Sim/advanced_features.html#irregular-waves-with-seeded-phase>`_ section. 
 
@@ -221,9 +221,9 @@ The linear superposition of regular waves of distinct amplitudes and periods is 
 
 .. math::
 
-	S\left( f , \theta \right)= S\left( f \right)D\left( \theta \right)~~
+	S\left( f , \beta \right)= S\left( f \right)D\left( \beta \right)~~
 	
-where :math:`S\left( f\right)` is the wave power spectrum, :math:`f` is the wave frequency (in Hertz), :math:`D\left( \theta \right)` is the directional distribution, and :math:`\theta` is the wave direction (in Degrees).
+where :math:`S\left( f\right)` is the wave power spectrum, :math:`f` is the wave frequency (in Hertz), :math:`D\left( \beta \right)` is the directional distribution, and :math:`\beta` is the wave heading (in Degrees).
 
 .. math::
 	
