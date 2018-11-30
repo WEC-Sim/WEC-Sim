@@ -116,7 +116,7 @@ simu.setupSim;
 % wave setup
 waves.waveSetup(body(1).hydroData.simulation_parameters.w, body(1).hydroData.simulation_parameters.water_depth, simu.rampTime, simu.dt, simu.maxIt, simu.g, simu.endTime);
 % Check that waveDir and freq are within range of hydro data
-if  waves.waveDir <  min(body(1).hydroData.simulation_parameters.wave_dir) || waves.waveDir >  max(body(1).hydroData.simulation_parameters.wave_dir)
+if  min(waves.waveDir) <  min(body(1).hydroData.simulation_parameters.wave_dir) || max(waves.waveDir) >  max(body(1).hydroData.simulation_parameters.wave_dir)
     error('waves.waveDir outside of range of available hydro data')
 end
 if strcmp(waves.type,'etaImport')~=1 && strcmp(waves.type,'noWave')~=1 && strcmp(waves.type,'noWaveCIC')~=1
