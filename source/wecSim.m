@@ -279,6 +279,6 @@ toc
 diary off 
 movefile('simulation.log',simu.logFile)
 if simu.saveMat==1
-    save(simu.caseFile)
+    save(simu.caseFile,'-v7.3')
 end
 
