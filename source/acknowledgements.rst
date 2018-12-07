@@ -6,15 +6,17 @@ Acknowledgements
 Past WEC-Sim Contributors
 -------------------------
 * Ratanak So (Oregon State University)
-* Matt Hall (University of Prince Edward Island)
+* Matt Hall (University of Maine)
 * Brad Ling (Azura Wave)
-* Adam Nelessen (Georgia Tech)
+* Adam Nelessen (Georgia Institute of Technology)
 * Sam Kanner (University of California at Berkeley)
 * Chris McComb (Carnegie Mellon University)
 * Sam Edwards (University of Michigan)
 * Dominic Forbush (University of Washington)
 * Michael Lawson (NREL)
-* Carlos Michelen (Virginia Tech)
+* Carlos Michelen (Sandia)
+
+The association with the listed organization is credited to when a contribution to WEC-Sim was made. The contributor may no longer be associated with the listed organizatoin at this time.
 
 Funding
 --------
