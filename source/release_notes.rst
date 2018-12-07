@@ -3,7 +3,7 @@
 Release Notes
 =============
 
-Current and Future Releases
+Current Releases
 ---------------------------
 
 `WEC-Sim v3.0 <https://github.com/WEC-Sim/WEC-Sim/releases/tag/v3.0>`_
@@ -28,11 +28,13 @@ Current and Future Releases
 	* Added simu.dtME  to allow specification of `Morison force time-step <http://wec-sim.github.io/WEC-Sim/advanced_features.html#time-step-features>`_
 
 
+Future Releases
+---------------------------
 
 WEC-Sim v4.0 (Summer 2019)
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
-* OpenWARP (BETA VERSION): NEMOH based BEM model with additional features, inclduing 
+* OpenWARP (BETA VERSION): NEMOH based BEM model with additional features, including 
 
 	* Parallel computing
 	* Irregular frequency removal
@@ -40,13 +42,13 @@ WEC-Sim v4.0 (Summer 2019)
 
 * Improve WEC-Sim capabilities and efficiency
 
-	* Improve the computaional efficiency for the nonlinear buoyancy and the Froude-Krylov forces calcaultion
-	* Include generalized body mode implementaion (BETA VERSION)
+	* Improve the computational efficiency for the nonlinear buoyancy and the Froude-Krylov forces calculation
+	* Include generalized body mode implementation (BETA VERSION)
 
 * WEC-Sim array modeling application and validation study
 
 
-Previsous Releases
+Previous Releases
 ------------------
 
 `WEC-Sim v2.2 <https://github.com/WEC-Sim/WEC-Sim/releases/tag/v2.2>`_
