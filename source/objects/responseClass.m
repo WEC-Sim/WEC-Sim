@@ -133,7 +133,7 @@ classdef responseClass<handle
             plot(t,pos,'k-',...
                 t,vel,'b-',...
                 t,acc,'r-')
-            legend('position','velocity','acceleration')
+            legend({'position','velocity','acceleration'})
             xlabel('Time (s)')
             ylabel('Response in (m) or (radians)')
             title(['body' num2str(bodyNum) ' (' obj.bodies(bodyNum).name ') ' DOF{comp} ' Response'])
