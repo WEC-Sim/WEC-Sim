@@ -116,7 +116,7 @@ simu.setupSim;
 % wave setup
 waves.waveSetup(body(1).hydroData.simulation_parameters.w, body(1).hydroData.simulation_parameters.water_depth, simu.rampTime, simu.dt, simu.maxIt, simu.g, simu.endTime);
 % Check that waveDir and freq are within range of hydro data
-if  min(waves.waveDir) <  min(body(1).hydroData.simulation_parameters.wave_dir) || max(waves.waveDir) >  max(body(1).hydroData.simulation_parameters.wave_dir)
+if  waves.waveDir <  min(body(1).hydroData.simulation_parameters.wave_dir) || waves.waveDir >  max(body(1).hydroData.simulation_parameters.wave_dir)
     error('waves.waveDir outside of range of available hydro data')
 end
 if strcmp(waves.type,'etaImport')~=1 && strcmp(waves.type,'noWave')~=1 && strcmp(waves.type,'noWaveCIC')~=1
@@ -254,7 +254,7 @@ warning('off','Simulink:blocks:DivideByZero');
 set_param(0, 'ErrorIfLoadNewModel', 'off')
 % run simulation
 simu.loadSimMechModel(simu.simMechanicsFile);
-sim(simu.simMechanicsFile);
+sim(simu.simMechanicsFile, [], simset('SrcWorkspace','parent'));
 % Restore modified stuff
 clear nlHydro sv_linearHydro sv_nonlinearHydro ssCalc radiation_option sv_convolution sv_stateSpace sv_constantCoeff typeNum B2B sv_B2B sv_noB2B;
 clear nhbod* sv_b* sv_noWave sv_regularWaves sv_irregularWaves sv_udfWaves sv_instFS sv_meanFS sv_MEOn sv_MEOff morrisonElement;
@@ -279,6 +279,6 @@ toc
 diary off 
 movefile('simulation.log',simu.logFile)
 if simu.saveMat==1
-    save(simu.caseFile,'-v7.3')
+    save(simu.caseFile)
 end
 
