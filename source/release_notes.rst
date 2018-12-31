@@ -6,6 +6,46 @@ Release Notes
 Current Releases
 ---------------------------
 
+`WEC-Sim v3.1 <https://github.com/WEC-Sim/WEC-Sim/releases/tag/v3.1>`_
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+* Added wave gauges for three locations
+
+* Added command line documentation for objects
+
+* Added error and warning flags
+
+* Converted Morrison Elements to script instead of block
+
+* Converted WEC-Sim and PTO-Sim library files back to slx format
+
+* Fixed plot error in MATLAB 2018b
+
+
+Future Releases
+---------------------------
+
+WEC-Sim v4.0 (Summer 2019)
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+* OpenWARP (BETA VERSION): NEMOH based BEM model with additional features, including 
+
+	* Parallel computing
+	* Irregular frequency removal
+	* GDF-to-DAT mesh converter
+
+* Improve WEC-Sim capabilities and efficiency
+
+	* Improve the computational efficiency for the nonlinear buoyancy and the Froude-Krylov forces calculation
+	* Include generalized body mode implementation (BETA VERSION)
+
+* Add WEC-Sim array modeling application and validation study to the WEC-Sim Applications repository 
+
+
+Previous Releases
+------------------
+
+
 `WEC-Sim v3.0 <https://github.com/WEC-Sim/WEC-Sim/releases/tag/v3.0>`_
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
@@ -27,29 +67,6 @@ Current Releases
 	* simu.rampT -> `simu.rampTime <http://wec-sim.github.io/WEC-Sim/code_structure.html#simulation-class>`_
 	* Added simu.dtME  to allow specification of `Morison force time-step <http://wec-sim.github.io/WEC-Sim/advanced_features.html#time-step-features>`_
 
-
-Future Releases
----------------------------
-
-WEC-Sim v4.0 (Summer 2019)
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-
-* OpenWARP (BETA VERSION): NEMOH based BEM model with additional features, including 
-
-	* Parallel computing
-	* Irregular frequency removal
-	* GDF-to-DAT mesh converter
-
-* Improve WEC-Sim capabilities and efficiency
-
-	* Improve the computational efficiency for the nonlinear buoyancy and the Froude-Krylov forces calculation
-	* Include generalized body mode implementation (BETA VERSION)
-
-* WEC-Sim array modeling application and validation study
-
-
-Previous Releases
-------------------
 
 `WEC-Sim v2.2 <https://github.com/WEC-Sim/WEC-Sim/releases/tag/v2.2>`_
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~

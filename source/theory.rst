@@ -397,7 +397,7 @@ MoorDyn discretizes each mooring line in a mooring system into evenly-sized line
 
 
 Nonlinear Buoynancy and Froude-Krylov Wave Excitation
-------------------------
+-----------------------------------------------------
 The linear model assumes that the body motion and the waves consist of small amplitudes in comparison to the wavelengths. A weakly nonlinear approach is applied to account for the nonlinear hydrodynamic forces induced by the instantaneous water surface elevation and body position. Rather than using the BEM calculated linear wave-excitation and hydrostatic coefficients, the nonlinear buoyancy and the Froude-Krylov force components can be obtained by integrating the static and dynamic pressures over each panel along the wetted body surface at each time step. 
 Because linear wave theory is used to determine the flow velocity and pressure field, the values become unrealistically large for wetted panels that are above the mean water level. To correct this, the Wheeler stretching method is applied :cite:`wheeler1969methods`, which applies a correction to the instantaneous wave elevation that forces its height to be equal to the water depth when calculating the flow velocity and pressure,
 
