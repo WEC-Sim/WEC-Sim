@@ -150,11 +150,10 @@ hydro(F).Vo = [];
 hydro(F).cb = [];
 lnlog=zeros(length(raw2),1); % initialize line find log
 for ln=1:length(raw2);
-    if isempty(find(ln==lnlog))==0
-        continue
-    elseif isempty(strfind(raw2{ln},'MESH BASED DISPLACEMENT'))==0
+    if isempty(strfind(raw2{ln},'MESH BASED DISPLACEMENT'))==0
         tmp = textscan(raw2{ln}(find(raw2{ln}=='=')+1:end),'%f');
         hydro(F).Vo = [hydro(F).Vo tmp{1}];   % Volume
+    
     elseif isempty(strfind(raw2{ln},'POSITION OF THE CENTRE OF BUOYANCY'))==0
         cb = [];
         for i=1:3
@@ -178,8 +177,7 @@ for ln=1:length(raw2);
                 hydro(F).fk_ma((k-1)*6+1:k*6,j,i) = tmp1;  % mag of froude Krylov force
                 hydro(F).fk_ph((k-1)*6+1:k*6,j,i) = tmp2;  % phase of froude Krylov force
             end
-        end
-        
+        end        
         hydro(F).fk_re = hydro(F).fk_ma.*cos(hydro(F).fk_ph*pi/180); % real part of Froude Krylov force
         hydro(F).fk_im = hydro(F).fk_ma.*sin(hydro(F).fk_ph*pi/180); % imaginary part of Froude Krylov force
         lnlog(ln:ln+6+(j-1)*(hydro(F).Nf+9)+(i-1))=[ln:ln+6+(j-1)*(hydro(F).Nf+9)+(i-1)]; % avoids repeating line operations for repeated matches
@@ -200,13 +198,12 @@ for ln=1:length(raw2);
                 hydro(F).sc_ma((kdiff-1)*6+1:kdiff*6,j,i) = tmp1;  % mag of scattering force
                 hydro(F).sc_ph((kdiff-1)*6+1:kdiff*6,j,i) = tmp2;  % phase of scattering force
             end
-        end
-        
+        end        
         hydro(F).sc_re = hydro(F).sc_ma.*cos(hydro(F).sc_ph*pi/180); % real part of scattering force
         hydro(F).sc_im = hydro(F).sc_ma.*sin(hydro(F).sc_ph*pi/180); % imaginary part of scattering force
-        lnlog(ln:ln+6+(j-1)*(hydro(F).Nf+9)+(i-1))=[ln:ln+6+(j-1)*(hydro(F).Nf+9)+(i-1)];
-        
+        lnlog(ln:ln+6+(j-1)*(hydro(F).Nf+9)+(i-1))=[ln:ln+6+(j-1)*(hydro(F).Nf+9)+(i-1)];        
     end
+    
     d = floor(10*(ln+length(raw2))/N);  %Update waitbar every 10%, or slows computation time
     if (d>e) waitbar((ln+length(raw1))/N); e = d; end
     
