@@ -28,34 +28,36 @@
   
 
   
+  <script type="text/javascript" src="_static/js/modernizr.min.js"></script>
+  
+    
+      <script type="text/javascript" id="documentation_options" data-url_root="./" src="_static/documentation_options.js"></script>
+        <script type="text/javascript" src="_static/jquery.js"></script>
+        <script type="text/javascript" src="_static/underscore.js"></script>
+        <script type="text/javascript" src="_static/doctools.js"></script>
+        <script type="text/javascript" src="_static/language_data.js"></script>
+    
+    <script type="text/javascript" src="_static/js/theme.js"></script>
 
-  
-  
     
 
   
-
   <link rel="stylesheet" href="_static/css/theme.css" type="text/css" />
   <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
     <link rel="index" title="Index" href="genindex.html" />
     <link rel="search" title="Search" href="search.html" />
     <link rel="next" title="Getting Started" href="getting_started.html" />
     <link rel="prev" title="WEC-Sim (Wave Energy Converter SIMulator)" href="index.html" /> 
-
-  
-  <script src="_static/js/modernizr.min.js"></script>
-
 </head>
 
 <body class="wy-body-for-nav">
 
    
   <div class="wy-grid-for-nav">
-
     
     <nav data-toggle="wy-nav-shift" class="wy-nav-side">
       <div class="wy-side-scroll">
-        <div class="wy-side-nav-search">
+        <div class="wy-side-nav-search" >
           
 
           
@@ -158,7 +160,7 @@
       <li class="wy-breadcrumbs-aside">
         
             
-            <a href="_sources/terminology.txt" rel="nofollow"> View page source</a>
+            <a href="_sources/terminology.rst.txt" rel="nofollow"> View page source</a>
           
         
       </li>
@@ -194,7 +196,7 @@
 <li>$CASE</li>
 <li>$SOURCE</li>
 <li>PTO - Power Take-Off</li>
-<li>PM - Pierson&#8211;Moskowitz Wave Specturm</li>
+<li>PM - Pierson–Moskowitz Wave Specturm</li>
 <li>BS - Bretschneider Wave Spectrum</li>
 <li>JS - JONSWAP Wave Spectrum</li>
 <li></li>
@@ -203,35 +205,35 @@
 <div class="section" id="variables">
 <h2>Variables<a class="headerlink" href="#variables" title="Permalink to this headline">¶</a></h2>
 <ul class="simple">
-<li><span class="math">\(A\)</span> - Wave amplitude (m), half of the wave height (m)</li>
-<li><span class="math">\(A(\omega)\)</span> - Frequency dependent radiation added mass</li>
-<li><span class="math">\(B(\omega)\)</span> - Frequency dependent radiation wave damping</li>
-<li><span class="math">\(\beta\)</span> - Wave direction (Degrees)</li>
-<li><span class="math">\(\eta\)</span> - Incident wave (m)</li>
-<li><span class="math">\(f\)</span> - Wave frequency (Hz)</li>
-<li><span class="math">\(F_{B}(t)\)</span> - Net buoyancy restoring force (N) or torque (N.m)</li>
-<li><span class="math">\(F_{exc}({\omega})\)</span> - Wave excitation force (N) or torque (N.m)</li>
-<li><span class="math">\(F_{rad}(t)\)</span> - Wave radiation force (N) or torque (N.m)</li>
-<li><span class="math">\(F_{PTO}(t)\)</span> - Power take-off force (N) or torque (N.m)</li>
-<li><span class="math">\(F_{ME}(t)\)</span> - Morison element force (N) or torque (N.m)</li>
-<li><span class="math">\(F_{v}(t)\)</span> - Damping or friction force (N) or torque (N.m)</li>
-<li><span class="math">\(F_{m}(t)\)</span> - Mooring connection force (N) or torque (N.m)</li>
-<li><span class="math">\(g\)</span> - Gravity</li>
-<li><span class="math">\(H\)</span> - Wave height (m)</li>
-<li><span class="math">\(H_{s}\)</span> - Significant wave height, mean wave height of the tallest third of waves (m)</li>
-<li><span class="math">\(H_{m0}\)</span> - Spectrally derived significant wave height (m)</li>
-<li><span class="math">\(k\)</span> - Wave number</li>
-<li><span class="math">\(K_{hs}\)</span> - linear hydrostatic restoring coefficient</li>
-<li><span class="math">\(m\)</span> - Mass of body (kg)</li>
-<li><span class="math">\(m0\)</span> - Spectral moment</li>
-<li><span class="math">\(\omega\)</span> - Wave frequency (rad/s)</li>
-<li><span class="math">\(\phi\)</span> - Wave phase (rad)</li>
-<li><span class="math">\(R_{f}\)</span> - Ramp function</li>
-<li><span class="math">\(\rho\)</span> - Water density (kg/m3)</li>
-<li><span class="math">\(T_{p}\)</span> - Peak period (s)</li>
-<li><span class="math">\(T_{e}\)</span> - Energy period* (s)</li>
-<li><span class="math">\(t_{r}\)</span> - Ramp time (s)</li>
-<li><span class="math">\(t\)</span> - Simulation time (s)</li>
+<li><span class="math notranslate nohighlight">\(A\)</span> - Wave amplitude (m), half of the wave height (m)</li>
+<li><span class="math notranslate nohighlight">\(A(\omega)\)</span> - Frequency dependent radiation added mass</li>
+<li><span class="math notranslate nohighlight">\(B(\omega)\)</span> - Frequency dependent radiation wave damping</li>
+<li><span class="math notranslate nohighlight">\(\beta\)</span> - Wave direction (Degrees)</li>
+<li><span class="math notranslate nohighlight">\(\eta\)</span> - Incident wave (m)</li>
+<li><span class="math notranslate nohighlight">\(f\)</span> - Wave frequency (Hz)</li>
+<li><span class="math notranslate nohighlight">\(F_{B}(t)\)</span> - Net buoyancy restoring force (N) or torque (N.m)</li>
+<li><span class="math notranslate nohighlight">\(F_{exc}({\omega})\)</span> - Wave excitation force (N) or torque (N.m)</li>
+<li><span class="math notranslate nohighlight">\(F_{rad}(t)\)</span> - Wave radiation force (N) or torque (N.m)</li>
+<li><span class="math notranslate nohighlight">\(F_{PTO}(t)\)</span> - Power take-off force (N) or torque (N.m)</li>
+<li><span class="math notranslate nohighlight">\(F_{ME}(t)\)</span> - Morison element force (N) or torque (N.m)</li>
+<li><span class="math notranslate nohighlight">\(F_{v}(t)\)</span> - Damping or friction force (N) or torque (N.m)</li>
+<li><span class="math notranslate nohighlight">\(F_{m}(t)\)</span> - Mooring connection force (N) or torque (N.m)</li>
+<li><span class="math notranslate nohighlight">\(g\)</span> - Gravity</li>
+<li><span class="math notranslate nohighlight">\(H\)</span> - Wave height (m)</li>
+<li><span class="math notranslate nohighlight">\(H_{s}\)</span> - Significant wave height, mean wave height of the tallest third of waves (m)</li>
+<li><span class="math notranslate nohighlight">\(H_{m0}\)</span> - Spectrally derived significant wave height (m)</li>
+<li><span class="math notranslate nohighlight">\(k\)</span> - Wave number</li>
+<li><span class="math notranslate nohighlight">\(K_{hs}\)</span> - linear hydrostatic restoring coefficient</li>
+<li><span class="math notranslate nohighlight">\(m\)</span> - Mass of body (kg)</li>
+<li><span class="math notranslate nohighlight">\(m0\)</span> - Spectral moment</li>
+<li><span class="math notranslate nohighlight">\(\omega\)</span> - Wave frequency (rad/s)</li>
+<li><span class="math notranslate nohighlight">\(\phi\)</span> - Wave phase (rad)</li>
+<li><span class="math notranslate nohighlight">\(R_{f}\)</span> - Ramp function</li>
+<li><span class="math notranslate nohighlight">\(\rho\)</span> - Water density (kg/m3)</li>
+<li><span class="math notranslate nohighlight">\(T_{p}\)</span> - Peak period (s)</li>
+<li><span class="math notranslate nohighlight">\(T_{e}\)</span> - Energy period* (s)</li>
+<li><span class="math notranslate nohighlight">\(t_{r}\)</span> - Ramp time (s)</li>
+<li><span class="math notranslate nohighlight">\(t\)</span> - Simulation time (s)</li>
 </ul>
 </div>
 </div>
@@ -247,7 +249,7 @@
         <a href="getting_started.html" class="btn btn-neutral float-right" title="Getting Started" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right"></span></a>
       
       
-        <a href="index.html" class="btn btn-neutral" title="WEC-Sim (Wave Energy Converter SIMulator)" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left"></span> Previous</a>
+        <a href="index.html" class="btn btn-neutral float-left" title="WEC-Sim (Wave Energy Converter SIMulator)" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left"></span> Previous</a>
       
     </div>
   
@@ -273,36 +275,16 @@
   
 
 
-  
-
-    
-    
-      <script type="text/javascript">
-          var DOCUMENTATION_OPTIONS = {
-              URL_ROOT:'./',
-              VERSION:'',
-              LANGUAGE:'None',
-              COLLAPSE_INDEX:false,
-              FILE_SUFFIX:'.html',
-              HAS_SOURCE:  true,
-              SOURCELINK_SUFFIX: ''
-          };
-      </script>
-        <script type="text/javascript" src="_static/jquery.js"></script>
-        <script type="text/javascript" src="_static/underscore.js"></script>
-        <script type="text/javascript" src="_static/doctools.js"></script>
-        <script type="text/javascript" src="https://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
-    
-
-  
-
-  <script type="text/javascript" src="_static/js/theme.js"></script>
-
   <script type="text/javascript">
       jQuery(function () {
           SphinxRtdTheme.Navigation.enable(true);
       });
-  </script> 
+  </script>
+
+  
+  
+    
+   
 
 </body>
 </html>

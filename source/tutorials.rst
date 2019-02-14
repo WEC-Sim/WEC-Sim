@@ -126,7 +126,7 @@ The input file for the RM3 tutorial includes several different wave cases:
 
 * noWaveCIC - no wave with convolution integral calculation
 * regularCIC - regular waves with convolution integral calculation
-* irregular - irregular waves using a Pierson–Moskowitz spectrum with convolution integral calculation
+* irregular - irregular waves using a Pierson-Moskowitz spectrum with convolution integral calculation
 * irregular - irregular waves using a Bretschneider Spectrum with state space calculation
 * irregularImport - irregular waves using a user-defined spectrum
 * userDefined - user-defined time-series

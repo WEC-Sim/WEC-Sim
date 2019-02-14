@@ -93,7 +93,7 @@ The WEC-Sim webinar on BEMIO and MCR was hosted on April 18, 2017. The presentat
 		
 
 Webinar 2 - Nonlinear Buoyancy and Froude-Krylov Wave Excitation, Non-Hydro and B2B
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 The WEC-Sim webinar on Nonlinear Buoyancy and Froude-Krylov Wave Excitation, Non-Hydro, and B2B was hosted on May 24, 2017. 
 The presentation is available for download here ( :download:`Webinar 2 Slides <_downloads/WEC-Sim_Webinar2.pdf>` ), and the recordings are available below. 
 
