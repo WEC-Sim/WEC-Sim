@@ -28,34 +28,32 @@
   
 
   
-  <script type="text/javascript" src="_static/js/modernizr.min.js"></script>
-  
-    
-      <script type="text/javascript" id="documentation_options" data-url_root="./" src="_static/documentation_options.js"></script>
-        <script type="text/javascript" src="_static/jquery.js"></script>
-        <script type="text/javascript" src="_static/underscore.js"></script>
-        <script type="text/javascript" src="_static/doctools.js"></script>
-        <script type="text/javascript" src="_static/language_data.js"></script>
-    
-    <script type="text/javascript" src="_static/js/theme.js"></script>
 
+  
+  
     
 
   
+
   <link rel="stylesheet" href="_static/css/theme.css" type="text/css" />
   <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
     <link rel="index" title="Index" href="genindex.html" />
     <link rel="search" title="Search" href="search.html" /> 
+
+  
+  <script src="_static/js/modernizr.min.js"></script>
+
 </head>
 
 <body class="wy-body-for-nav">
 
    
   <div class="wy-grid-for-nav">
+
     
     <nav data-toggle="wy-nav-shift" class="wy-nav-side">
       <div class="wy-side-scroll">
-        <div class="wy-side-nav-search" >
+        <div class="wy-side-nav-search">
           
 
           
@@ -154,7 +152,7 @@
       <li class="wy-breadcrumbs-aside">
         
             
-            <a href="_sources/moordyn.rst.txt" rel="nofollow"> View page source</a>
+            <a href="_sources/moordyn.txt" rel="nofollow"> View page source</a>
           
         
       </li>
@@ -169,19 +167,19 @@
             
   <div class="section" id="mooring-features">
 <h1>Mooring Features<a class="headerlink" href="#mooring-features" title="Permalink to this headline">¶</a></h1>
-<p>This section provides an overview of WEC-Sim’s mooring class features; for more information about the mooring class code structure, refer to <a class="reference external" href="http://wec-sim.github.io/WEC-Sim/code_structure.html#mooring-class">Mooring Class</a>.</p>
+<p>This section provides an overview of WEC-Sim&#8217;s mooring class features; for more information about the mooring class code structure, refer to <a class="reference external" href="http://wec-sim.github.io/WEC-Sim/code_structure.html#mooring-class">Mooring Class</a>.</p>
 <p>Floating WEC systems are often connected to mooring lines to keep the device in position. WEC-Sim allows the user to model the mooring dynamics in the simulation by specifying the mooring matrix or coupling with MoorDyn. To include mooring connections, the user can use the mooring block (i.e., Mooring Matrix block or MoorDyn block) given in the WEC-Sim library under Moorings lib and connect it between the body and the Global reference frame.
 Refer to the <a class="reference external" href="http://wec-sim.github.io/WEC-Sim/advanced_features.html#tutorial-rm3-with-moordyn">MoorDyn Tutorial</a> section, and the <a class="reference external" href="http://wec-sim.github.io/WEC-Sim/webinars.html#webinar-4-mooring-and-visualization">Mooring Webinar</a> for more information.</p>
-<p>MoorDyn is hosted on  a separate <a class="reference external" href="https://github.com/WEC-Sim/moorDyn">MoorDyn repository</a>. It must be download separately, and all files and folders should be placed in the <code class="docutils literal notranslate"><span class="pre">$Source/functions/moorDyn</span></code> directory.</p>
+<p>MoorDyn is hosted on  a separate <a class="reference external" href="https://github.com/WEC-Sim/moorDyn">MoorDyn repository</a>. It must be download separately, and all files and folders should be placed in the <code class="docutils literal"><span class="pre">$Source/functions/moorDyn</span></code> directory.</p>
 <div class="section" id="mooring-matrix">
 <h2>Mooring Matrix<a class="headerlink" href="#mooring-matrix" title="Permalink to this headline">¶</a></h2>
-<p>When the mooring matrix block is used, the user first needs to initiate the mooring class by setting <code class="code docutils literal notranslate"><span class="pre">mooring(i)</span> <span class="pre">=</span> <span class="pre">mooringClass('mooring</span> <span class="pre">name')</span></code> in the WEC-Sim input file (<code class="docutils literal notranslate"><span class="pre">wecSimInputFile.m</span></code>). Typically, the mooring connection location also needs to be specified, <code class="code docutils literal notranslate"><span class="pre">mooring(i).ref</span> <span class="pre">=</span> <span class="pre">[1x3]</span></code> (the default connection location is <code class="docutils literal notranslate"><span class="pre">[0</span> <span class="pre">0</span> <span class="pre">0]</span></code>). The user can also define the mooring matrix properties in the WEC-Sim input file using:</p>
+<p>When the mooring matrix block is used, the user first needs to initiate the mooring class by setting <code class="code docutils literal"><span class="pre">mooring(i)</span> <span class="pre">=</span> <span class="pre">mooringClass('mooring</span> <span class="pre">name')</span></code> in the WEC-Sim input file (<code class="docutils literal"><span class="pre">wecSimInputFile.m</span></code>). Typically, the mooring connection location also needs to be specified, <code class="code docutils literal"><span class="pre">mooring(i).ref</span> <span class="pre">=</span> <span class="pre">[1x3]</span></code> (the default connection location is <code class="docutils literal"><span class="pre">[0</span> <span class="pre">0</span> <span class="pre">0]</span></code>). The user can also define the mooring matrix properties in the WEC-Sim input file using:</p>
 <ul>
-<li><p class="first">Mooring stiffness matrix - <code class="code docutils literal notranslate"><span class="pre">mooring(i).matrix.k</span> <span class="pre">=</span> <span class="pre">[6x6]</span></code> in [N/m]</p>
+<li><p class="first">Mooring stiffness matrix - <code class="code docutils literal"><span class="pre">mooring(i).matrix.k</span> <span class="pre">=</span> <span class="pre">[6x6]</span></code> in [N/m]</p>
 </li>
-<li><p class="first">Mooring damping matrix - <code class="code docutils literal notranslate"><span class="pre">mooring(i).matrix.c</span> <span class="pre">=</span> <span class="pre">[6x6]</span></code> in [Ns/m]</p>
+<li><p class="first">Mooring damping matrix - <code class="code docutils literal"><span class="pre">mooring(i).matrix.c</span> <span class="pre">=</span> <span class="pre">[6x6]</span></code> in [Ns/m]</p>
 </li>
-<li><p class="first">Mooring pretension - <code class="code docutils literal notranslate"><span class="pre">mooring(i).matrix.preTension</span> <span class="pre">=</span> <span class="pre">[1x6]</span></code> in [N]</p>
+<li><p class="first">Mooring pretension - <code class="code docutils literal"><span class="pre">mooring(i).matrix.preTension</span> <span class="pre">=</span> <span class="pre">[1x6]</span></code> in [N]</p>
 <blockquote>
 <div></div></blockquote>
 </li>
@@ -189,8 +187,8 @@ Refer to the <a class="reference external" href="http://wec-sim.github.io/WEC-Si
 </div>
 <div class="section" id="moordyn">
 <h2>MoorDyn<a class="headerlink" href="#moordyn" title="Permalink to this headline">¶</a></h2>
-<p>When the MoorDyn block is used, the user needs to initiate the mooring class by setting <code class="code docutils literal notranslate"><span class="pre">mooring</span> <span class="pre">=</span> <span class="pre">mooringClass('mooring</span> <span class="pre">name')</span></code> in the WEC-Sim input file (wecSimInputFile.m), followed by the number of mooring lines that are defined in MoorDyn (<code class="docutils literal notranslate"><span class="pre">mooring(1).moorDynLines</span> <span class="pre">=</span> <span class="pre">&lt;Number</span> <span class="pre">of</span> <span class="pre">mooring</span> <span class="pre">lines&gt;</span></code>)</p>
-<p>A mooring folder that includes a moorDyn input file (<code class="docutils literal notranslate"><span class="pre">lines.txt</span></code>) is required in the simulation folder.</p>
+<p>When the MoorDyn block is used, the user needs to initiate the mooring class by setting <code class="code docutils literal"><span class="pre">mooring</span> <span class="pre">=</span> <span class="pre">mooringClass('mooring</span> <span class="pre">name')</span></code> in the WEC-Sim input file (wecSimInputFile.m), followed by the number of mooring lines that are defined in MoorDyn (<code class="docutils literal"><span class="pre">mooring(1).moorDynLines</span> <span class="pre">=</span> <span class="pre">&lt;Number</span> <span class="pre">of</span> <span class="pre">mooring</span> <span class="pre">lines&gt;</span></code>)</p>
+<p>A mooring folder that includes a moorDyn input file (<code class="docutils literal"><span class="pre">lines.txt</span></code>) is required in the simulation folder.</p>
 <blockquote>
 <div></div></blockquote>
 <div class="section" id="tutorial-rm3-with-moordyn">
@@ -203,9 +201,9 @@ Refer to the <a class="reference external" href="http://wec-sim.github.io/WEC-Si
 <a class="reference internal image-reference" href="_images/WECSimMoorDyn.png"><img alt="_images/WECSimMoorDyn.png" src="_images/WECSimMoorDyn.png" style="width: 320pt;" /></a>
 </div>
 <ul class="simple">
-<li><strong>WEC-Sim Input File</strong>: In the <code class="docutils literal notranslate"><span class="pre">wecSimInputFile.m</span></code> file, the user needs to initiate the mooring class and define the number of mooring lines.</li>
+<li><strong>WEC-Sim Input File</strong>: In the <code class="docutils literal"><span class="pre">wecSimInputFile.m</span></code> file, the user needs to initiate the mooring class and define the number of mooring lines.</li>
 </ul>
-<div class="highlight-matlab notranslate" id="wecsiminputmoordyn"><div class="highlight"><pre><span></span><span class="c">%% Simulation Data</span>
+<div class="highlight-matlab" id="wecsiminputmoordyn"><div class="highlight"><pre><span></span><span class="c">%% Simulation Data</span>
 <span class="n">simu</span> <span class="p">=</span> <span class="n">simulationClass</span><span class="p">();</span>               <span class="c">%Create the Simulation Variable</span>
 <span class="n">simu</span><span class="p">.</span><span class="n">simMechanicsFile</span> <span class="p">=</span> <span class="s">&#39;RM3MoorDyn.slx&#39;</span><span class="p">;</span>      <span class="c">%Location of Simulink Model File</span>
 <span class="n">simu</span><span class="p">.</span><span class="n">endTime</span><span class="p">=</span><span class="mi">400</span><span class="p">;</span>                       <span class="c">%Simulation End Time [s]</span>
@@ -250,7 +248,7 @@ Refer to the <a class="reference external" href="http://wec-sim.github.io/WEC-Si
 </pre></div>
 </div>
 <ul class="simple">
-<li><strong>MoorDyn Input File</strong>: A mooring folder that includes a moorDyn input file (<code class="docutils literal notranslate"><span class="pre">lines.txt</span></code>) is created. The moorDyn input file (<code class="docutils literal notranslate"><span class="pre">lines.txt</span></code>) is shown in the figure below. More details on how to setup the MooDyn input file are described in the MoorDyn User Guide <a class="reference internal" href="theory.html#hall2015moordynguide" id="id1">[1]</a>.</li>
+<li><strong>MoorDyn Input File</strong>: A mooring folder that includes a moorDyn input file (<code class="docutils literal"><span class="pre">lines.txt</span></code>) is created. The moorDyn input file (<code class="docutils literal"><span class="pre">lines.txt</span></code>) is shown in the figure below. More details on how to setup the MooDyn input file are described in the MoorDyn User Guide <a class="reference internal" href="theory.html#hall2015moordynguide" id="id1">[1]</a>.</li>
 </ul>
 <div class="figure align-center" id="moordyninput">
 <a class="reference internal image-reference" href="_images/moorDynInput.png"><img alt="_images/moorDynInput.png" src="_images/moorDynInput.png" style="width: 400pt;" /></a>
@@ -297,16 +295,36 @@ Refer to the <a class="reference external" href="http://wec-sim.github.io/WEC-Si
   
 
 
+  
+
+    
+    
+      <script type="text/javascript">
+          var DOCUMENTATION_OPTIONS = {
+              URL_ROOT:'./',
+              VERSION:'',
+              LANGUAGE:'None',
+              COLLAPSE_INDEX:false,
+              FILE_SUFFIX:'.html',
+              HAS_SOURCE:  true,
+              SOURCELINK_SUFFIX: ''
+          };
+      </script>
+        <script type="text/javascript" src="_static/jquery.js"></script>
+        <script type="text/javascript" src="_static/underscore.js"></script>
+        <script type="text/javascript" src="_static/doctools.js"></script>
+        <script type="text/javascript" src="https://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+    
+
+  
+
+  <script type="text/javascript" src="_static/js/theme.js"></script>
+
   <script type="text/javascript">
       jQuery(function () {
           SphinxRtdTheme.Navigation.enable(true);
       });
-  </script>
-
-  
-  
-    
-   
+  </script> 
 
 </body>
 </html>
