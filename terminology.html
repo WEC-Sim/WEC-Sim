@@ -93,7 +93,6 @@
             
               <ul class="current">
 <li class="toctree-l1 current"><a class="current reference internal" href="#">Terminology</a><ul>
-<li class="toctree-l2"><a class="reference internal" href="#definitions">Definitions</a></li>
 <li class="toctree-l2"><a class="reference internal" href="#variables">Variables</a></li>
 </ul>
 </li>
@@ -179,62 +178,172 @@
 <p class="first admonition-title">Note</p>
 <p class="last">This section is a work in progress, * means may not be used in WEC-Sim doc</p>
 </div>
-<div class="section" id="definitions">
-<h2>Definitions<a class="headerlink" href="#definitions" title="Permalink to this headline">¶</a></h2>
-<ul class="simple">
-<li>BEM - Boundary Element Method</li>
-<li>BEMIO - Boundary Element Method Input/Output</li>
-<li>Radiation Added Mass -</li>
-<li>Radiation Wave Damping -</li>
-<li>Wave Excitation -</li>
-<li>Surge(x) - Motion along the X-axis</li>
-<li>Sway(y)  - Motion along the Y-axis</li>
-<li>Heave(z) - Motion along the Z-axis</li>
-<li>Roll(Rx)  - Rotation about the X-axis</li>
-<li>Pitch(Ry) - Rotation about the Y-axis</li>
-<li>Yaw(Rz) - Rotation about the Z-axis</li>
-<li>$CASE</li>
-<li>$SOURCE</li>
-<li>PTO - Power Take-Off</li>
-<li>PM - Pierson–Moskowitz Wave Specturm</li>
-<li>BS - Bretschneider Wave Spectrum</li>
-<li>JS - JONSWAP Wave Spectrum</li>
-<li></li>
-</ul>
-</div>
+<table border="1" class="docutils">
+<colgroup>
+<col width="30%" />
+<col width="70%" />
+</colgroup>
+<thead valign="bottom">
+<tr class="row-odd"><th class="head">Term</th>
+<th class="head">Definition</th>
+</tr>
+</thead>
+<tbody valign="top">
+<tr class="row-even"><td>Added Mass</td>
+<td><span class="math notranslate nohighlight">\(A(\omega)\)</span></td>
+</tr>
+<tr class="row-odd"><td>BEM</td>
+<td>Boundary Element Method</td>
+</tr>
+<tr class="row-even"><td>BEMIO</td>
+<td>Boundary Element Method Input/Output</td>
+</tr>
+<tr class="row-odd"><td>BS</td>
+<td>Bretschneider Wave Spectrum</td>
+</tr>
+<tr class="row-even"><td><code class="docutils literal notranslate"><span class="pre">$CASE</span></code></td>
+<td>WEC-Sim case directory</td>
+</tr>
+<tr class="row-odd"><td>Heave (Z)</td>
+<td>Motion along the Z-axis</td>
+</tr>
+<tr class="row-even"><td>JS</td>
+<td>JONSWAP Spectrum</td>
+</tr>
+<tr class="row-odd"><td>Pitch (RY)</td>
+<td>Rotation about the Y-axis</td>
+</tr>
+<tr class="row-even"><td>PM</td>
+<td>Pierson-Moskowitz Specturm</td>
+</tr>
+<tr class="row-odd"><td>PTO</td>
+<td>Power Take-Off</td>
+</tr>
+<tr class="row-even"><td>Radiation Damping</td>
+<td><span class="math notranslate nohighlight">\(B(\omega)\)</span></td>
+</tr>
+<tr class="row-odd"><td>Roll (RX)</td>
+<td>Rotation about the X-axis</td>
+</tr>
+<tr class="row-even"><td><code class="docutils literal notranslate"><span class="pre">$SOURCE</span></code></td>
+<td>WEC-Sim source code directory</td>
+</tr>
+<tr class="row-odd"><td>Surge(x)</td>
+<td>Motion along the X-axis</td>
+</tr>
+<tr class="row-even"><td>Sway (Y)</td>
+<td>Motion along the Y-axis</td>
+</tr>
+<tr class="row-odd"><td>Wave Excitation</td>
+<td><span class="math notranslate nohighlight">\(F_{exc}\)</span></td>
+</tr>
+<tr class="row-even"><td>Yaw (RZ)</td>
+<td>Rotation about the Z-axis</td>
+</tr>
+</tbody>
+</table>
 <div class="section" id="variables">
 <h2>Variables<a class="headerlink" href="#variables" title="Permalink to this headline">¶</a></h2>
-<ul class="simple">
-<li><span class="math notranslate nohighlight">\(A\)</span> - Wave amplitude (m), half of the wave height (m)</li>
-<li><span class="math notranslate nohighlight">\(A(\omega)\)</span> - Frequency dependent radiation added mass</li>
-<li><span class="math notranslate nohighlight">\(B(\omega)\)</span> - Frequency dependent radiation wave damping</li>
-<li><span class="math notranslate nohighlight">\(\beta\)</span> - Wave direction (Degrees)</li>
-<li><span class="math notranslate nohighlight">\(\eta\)</span> - Incident wave (m)</li>
-<li><span class="math notranslate nohighlight">\(f\)</span> - Wave frequency (Hz)</li>
-<li><span class="math notranslate nohighlight">\(F_{B}(t)\)</span> - Net buoyancy restoring force (N) or torque (N.m)</li>
-<li><span class="math notranslate nohighlight">\(F_{exc}({\omega})\)</span> - Wave excitation force (N) or torque (N.m)</li>
-<li><span class="math notranslate nohighlight">\(F_{rad}(t)\)</span> - Wave radiation force (N) or torque (N.m)</li>
-<li><span class="math notranslate nohighlight">\(F_{PTO}(t)\)</span> - Power take-off force (N) or torque (N.m)</li>
-<li><span class="math notranslate nohighlight">\(F_{ME}(t)\)</span> - Morison element force (N) or torque (N.m)</li>
-<li><span class="math notranslate nohighlight">\(F_{v}(t)\)</span> - Damping or friction force (N) or torque (N.m)</li>
-<li><span class="math notranslate nohighlight">\(F_{m}(t)\)</span> - Mooring connection force (N) or torque (N.m)</li>
-<li><span class="math notranslate nohighlight">\(g\)</span> - Gravity</li>
-<li><span class="math notranslate nohighlight">\(H\)</span> - Wave height (m)</li>
-<li><span class="math notranslate nohighlight">\(H_{s}\)</span> - Significant wave height, mean wave height of the tallest third of waves (m)</li>
-<li><span class="math notranslate nohighlight">\(H_{m0}\)</span> - Spectrally derived significant wave height (m)</li>
-<li><span class="math notranslate nohighlight">\(k\)</span> - Wave number</li>
-<li><span class="math notranslate nohighlight">\(K_{hs}\)</span> - linear hydrostatic restoring coefficient</li>
-<li><span class="math notranslate nohighlight">\(m\)</span> - Mass of body (kg)</li>
-<li><span class="math notranslate nohighlight">\(m0\)</span> - Spectral moment</li>
-<li><span class="math notranslate nohighlight">\(\omega\)</span> - Wave frequency (rad/s)</li>
-<li><span class="math notranslate nohighlight">\(\phi\)</span> - Wave phase (rad)</li>
-<li><span class="math notranslate nohighlight">\(R_{f}\)</span> - Ramp function</li>
-<li><span class="math notranslate nohighlight">\(\rho\)</span> - Water density (kg/m3)</li>
-<li><span class="math notranslate nohighlight">\(T_{p}\)</span> - Peak period (s)</li>
-<li><span class="math notranslate nohighlight">\(T_{e}\)</span> - Energy period* (s)</li>
-<li><span class="math notranslate nohighlight">\(t_{r}\)</span> - Ramp time (s)</li>
-<li><span class="math notranslate nohighlight">\(t\)</span> - Simulation time (s)</li>
-</ul>
+<table border="1" class="docutils">
+<colgroup>
+<col width="23%" />
+<col width="77%" />
+</colgroup>
+<thead valign="bottom">
+<tr class="row-odd"><th class="head">Variable</th>
+<th class="head">Definition</th>
+</tr>
+</thead>
+<tbody valign="top">
+<tr class="row-even"><td><span class="math notranslate nohighlight">\(A\)</span></td>
+<td>Wave amplitude (m), half of the wave height (m)</td>
+</tr>
+<tr class="row-odd"><td><span class="math notranslate nohighlight">\(A(\omega)\)</span></td>
+<td>Frequency dependent radiation added mass</td>
+</tr>
+<tr class="row-even"><td><span class="math notranslate nohighlight">\(B(\omega)\)</span></td>
+<td>Frequency dependent radiation wave damping</td>
+</tr>
+<tr class="row-odd"><td><span class="math notranslate nohighlight">\(\beta\)</span></td>
+<td>Wave direction (Degrees)</td>
+</tr>
+<tr class="row-even"><td><span class="math notranslate nohighlight">\(\eta\)</span></td>
+<td>Incident wave (m)</td>
+</tr>
+<tr class="row-odd"><td><span class="math notranslate nohighlight">\(f\)</span></td>
+<td>Wave frequency (Hz)</td>
+</tr>
+<tr class="row-even"><td><span class="math notranslate nohighlight">\(F_{B}\)</span></td>
+<td>Net buoyancy restoring force (N) or torque (N.m)</td>
+</tr>
+<tr class="row-odd"><td><span class="math notranslate nohighlight">\(F_{exc}\)</span></td>
+<td>Wave excitation force (N) or torque (N.m)</td>
+</tr>
+<tr class="row-even"><td><span class="math notranslate nohighlight">\(F_{rad}\)</span></td>
+<td>Wave radiation force (N) or torque (N.m)</td>
+</tr>
+<tr class="row-odd"><td><span class="math notranslate nohighlight">\(F_{PTO}\)</span></td>
+<td>Power take-off force (N) or torque (N.m)</td>
+</tr>
+<tr class="row-even"><td><span class="math notranslate nohighlight">\(F_{ME}\)</span></td>
+<td>Morison element force (N) or torque (N.m)</td>
+</tr>
+<tr class="row-odd"><td><span class="math notranslate nohighlight">\(F_{v}\)</span></td>
+<td>Damping or friction force (N) or torque (N.m)</td>
+</tr>
+<tr class="row-even"><td><span class="math notranslate nohighlight">\(F_{m}\)</span></td>
+<td>Mooring connection force (N) or torque (N.m)</td>
+</tr>
+<tr class="row-odd"><td><span class="math notranslate nohighlight">\(g\)</span></td>
+<td>Gravity</td>
+</tr>
+<tr class="row-even"><td><span class="math notranslate nohighlight">\(H\)</span></td>
+<td>Wave height (m)</td>
+</tr>
+<tr class="row-odd"><td><span class="math notranslate nohighlight">\(H_{s}\)</span></td>
+<td>Significant wave height, mean wave height of the tallest third of waves (m)</td>
+</tr>
+<tr class="row-even"><td><span class="math notranslate nohighlight">\(H_{m0}\)</span></td>
+<td>Spectrally derived significant wave height (m)</td>
+</tr>
+<tr class="row-odd"><td><span class="math notranslate nohighlight">\(k\)</span></td>
+<td>Wave number</td>
+</tr>
+<tr class="row-even"><td><span class="math notranslate nohighlight">\(K_{hs}\)</span></td>
+<td>linear hydrostatic restoring coefficient</td>
+</tr>
+<tr class="row-odd"><td><span class="math notranslate nohighlight">\(m\)</span></td>
+<td>Mass of body (kg)</td>
+</tr>
+<tr class="row-even"><td><span class="math notranslate nohighlight">\(m0\)</span></td>
+<td>Spectral moment</td>
+</tr>
+<tr class="row-odd"><td><span class="math notranslate nohighlight">\(\omega\)</span></td>
+<td>Wave frequency (rad/s)</td>
+</tr>
+<tr class="row-even"><td><span class="math notranslate nohighlight">\(\phi\)</span></td>
+<td>Wave phase (rad)</td>
+</tr>
+<tr class="row-odd"><td><span class="math notranslate nohighlight">\(R_{f}\)</span></td>
+<td>Ramp function</td>
+</tr>
+<tr class="row-even"><td><span class="math notranslate nohighlight">\(\rho\)</span></td>
+<td>Water density (kg/m3)</td>
+</tr>
+<tr class="row-odd"><td><span class="math notranslate nohighlight">\(t\)</span></td>
+<td>Simulation time (s)</td>
+</tr>
+<tr class="row-even"><td><span class="math notranslate nohighlight">\(T_{e}\)</span> *</td>
+<td>Energy period (s)</td>
+</tr>
+<tr class="row-odd"><td><span class="math notranslate nohighlight">\(T_{p}\)</span></td>
+<td>Peak period (s)</td>
+</tr>
+<tr class="row-even"><td><span class="math notranslate nohighlight">\(t_{r}\)</span></td>
+<td>Ramp time (s)</td>
+</tr>
+</tbody>
+</table>
 </div>
 </div>
 

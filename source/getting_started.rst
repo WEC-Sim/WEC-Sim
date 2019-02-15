@@ -76,7 +76,7 @@ Once you have downloaded the WEC-Sim source code, take the following steps to in
 
 Step 1. Add WEC-Sim Source Code to MATLAB Path
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-	Open the ``$wecSim/wecSimStartup.m`` file ($wecSim refers to WEC-Sim source code directory).
+	Open the ``$SOURCE/wecSimStartup.m`` file ($SOURCE refers to WEC-Sim source code directory).
 
 	.. literalinclude:: wecSimStartup.m
 	   :language: matlab
