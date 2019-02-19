@@ -151,15 +151,15 @@ The impulse response of a single-input zero-state state-space model is represent
 
 .. math::
 
-	\dot{x} &=&  \mathbf{A_{r}}x + \mathbf{B_{r}} u~~\\
-	y &=& \mathbf{C_{r}}x~~
+	\dot{x} =  \mathbf{A_{r}}x + \mathbf{B_{r}} u~~ \\
+	y = \mathbf{C_{r}}x~~
 
 where :math:`u` is an impulse. If the initial state is set to :math:`x(0)= \mathbf{B_{r}} u` the response of the unforced (:math:`u=0`) system
 
 .. math::
 
-	\dot{x} &=& \mathbf{A_{r}} x~~,\\
-	y &=& \mathbf{C_{r}} x~~
+	\dot{x} = \mathbf{A_{r}} x~~, \\
+	y = \mathbf{C_{r}} x~~
 
 is clearly equivalent to the zero-state impulse response. The impulse response of a continuous system with a nonzero :math:`\mathbf{D_r}` matrix is infinite at :math:`t=0`; therefore, the lower continuity value :math:`\mathbf{C_{r}}\mathbf{B_{r}}` is reported at :math:`t=0`. The general solution to a linear time invariant (LTI) system is given by:
 
@@ -187,7 +187,7 @@ The most common algorithm to obtain the realization is to perform a Singular Val
 
 .. math::
 
-	& H = \begin{bmatrix}
+	H = \begin{bmatrix}
     		\mathbf{K_{r}}(2) & \mathbf{K_{r}}(3) & \ldots & \mathbf{K_{r}}(n) \\
        		\mathbf{K_{r}}(3) & \mathbf{K_{r}}(4) & \ldots & 0 \\
        		\vdots & \vdots & \ddots & \vdots \\
@@ -246,11 +246,13 @@ Pierson--Moskowitz (PM)
 One of the simplest spectra, the Pierson--Moskowitz spectrum, was proposed by :cite:`PM`. It assumed that after the wind blew steadily for a long time over a large area, the waves would come into equilibrium with the wind. This is the concept of a fully developed sea where a "long time" is roughly 10,000 wave periods and a "large area" is roughly 5,000 wave-lengths on a side.  The spectrum is calculated from:
 
 .. math::
-	& S\left( f \right) = \frac{\alpha_{PM}g^{2}}{\left( 2 \pi \right)^{4}}f^{-5}\exp\left[-\frac{5}{4} \left( \frac{f_{p}}{f}\right)^{4} \right]~~ &\\
+	 
+	S\left( f \right) = \frac{\alpha_{PM}g^{2}}{\left( 2 \pi \right)^{4}}f^{-5}\exp\left[-\frac{5}{4} \left( \frac{f_{p}}{f}\right)^{4} \right]~~ \\
 
 This implies coefficients of the general form:
 
 .. math::
+
 	A = \frac{\alpha_{pm}g^{2}}{\left( 2 \pi \right)^{4}},~~B = \frac{5}{4} {f_{p}}^{4}~~
 
 where the parameter :math:`\alpha_{PM}` = 0.0081 typically, :math:`g=9.81` m/s is gravitational acceleration and :math:`f_{p}` is the peak frequency of the spectrum. However, this spectrum representation does not allow the user to define the significant wave height.
@@ -260,16 +262,17 @@ Bretschneider (BS)
 The two-parameter Bretschneider spectrum is based on significant wave height and peak wave frequency.  For a given significant wave height, the peak frequency can be varied to cover a range of conditions including developing and decaying seas. In general, the parameters depend on strongly on wind speed, and also wind direction, fetch, and locations of storm fronts. The spectrum is given as:
 
 .. math::
-	& S\left( f \right) = \frac{{H_{m0}}^2}{4}\left(1.057f_{p}\right)^{4}f^{-5}\exp\left[-\frac{5}{4} \left( \frac{f_{p}}{f}\right)^{4} \right]~~ &\\
+
+	S\left( f \right) = \frac{{H_{m0}}^2}{4}\left(1.057f_{p}\right)^{4}f^{-5}\exp\left[-\frac{5}{4} \left( \frac{f_{p}}{f}\right)^{4} \right]~~ \\
 	
 This implies coefficients of the general form:
 
 .. math::	
 	
-	& A =\frac{{H_{m0}}^2}{4}\left(1.057f_{p}\right)^{4} \approx \frac{5}{16} {H_{m0}}^2 {f_{p}}^{4} \approx \frac{B}{4}{H_{m0}}^2~~ &\\ 
+	A =\frac{{H_{m0}}^2}{4}\left(1.057f_{p}\right)^{4} \approx \frac{5}{16} {H_{m0}}^2 {f_{p}}^{4} \approx \frac{B}{4}{H_{m0}}^2~~ \\ 
 
 	
-	& B = \left(1.057f_{p}\right)^{4} \approx \frac{5}{4} {f_{p}}^{4}~~ &\\
+	B = \left(1.057f_{p}\right)^{4} \approx \frac{5}{4} {f_{p}}^{4}~~ \\
 	
 	
 
@@ -301,7 +304,7 @@ For a given significant wave height, setting :math:`\gamma = 3.3` (default) , :m
 Where:
 
 .. math::
-	& S\left( f \right) =  S^{*}\left( f \right) \alpha_{js}& \\ 
+	S\left( f \right) =  S^{*}\left( f \right) \alpha_{js} \\ 
 
 
 

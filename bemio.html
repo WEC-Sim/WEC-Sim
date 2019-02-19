@@ -28,32 +28,34 @@
   
 
   
+  <script type="text/javascript" src="_static/js/modernizr.min.js"></script>
+  
+    
+      <script type="text/javascript" id="documentation_options" data-url_root="./" src="_static/documentation_options.js"></script>
+        <script type="text/javascript" src="_static/jquery.js"></script>
+        <script type="text/javascript" src="_static/underscore.js"></script>
+        <script type="text/javascript" src="_static/doctools.js"></script>
+        <script type="text/javascript" src="_static/language_data.js"></script>
+    
+    <script type="text/javascript" src="_static/js/theme.js"></script>
 
-  
-  
     
 
   
-
   <link rel="stylesheet" href="_static/css/theme.css" type="text/css" />
   <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
     <link rel="index" title="Index" href="genindex.html" />
     <link rel="search" title="Search" href="search.html" /> 
-
-  
-  <script src="_static/js/modernizr.min.js"></script>
-
 </head>
 
 <body class="wy-body-for-nav">
 
    
   <div class="wy-grid-for-nav">
-
     
     <nav data-toggle="wy-nav-shift" class="wy-nav-side">
       <div class="wy-side-scroll">
-        <div class="wy-side-nav-search">
+        <div class="wy-side-nav-search" >
           
 
           
@@ -152,7 +154,7 @@
       <li class="wy-breadcrumbs-aside">
         
             
-            <a href="_sources/bemio.txt" rel="nofollow"> View page source</a>
+            <a href="_sources/bemio.rst.txt" rel="nofollow"> View page source</a>
           
         
       </li>
@@ -175,7 +177,7 @@
 <li>Save the resulting data in Hierarchical Data Format 5 (HDF5).</li>
 <li>Plot typical hydrodynamic data for user verification.</li>
 </ul>
-<p>The BEMIO tutorials are included in the <code class="docutils literal"><span class="pre">$Source/tutorials/BEMIO</span></code> directory in the WEC-Sim source code. For more information, refer to the <a class="reference external" href="http://wec-sim.github.io/WEC-Sim/webinars.html#webinar-1-bemio-and-mcr">BEMIO webinar</a>.</p>
+<p>The BEMIO tutorials are included in the <code class="docutils literal notranslate"><span class="pre">$Source/tutorials/BEMIO</span></code> directory in the WEC-Sim source code. For more information, refer to the <a class="reference external" href="http://wec-sim.github.io/WEC-Sim/webinars.html#webinar-1-bemio-and-mcr">BEMIO webinar</a>.</p>
 <div class="admonition note">
 <p class="first admonition-title">Note</p>
 <p class="last">Previously the <a class="reference external" href="http://wec-sim.github.io/bemio/installing.html">python based BEMIO code</a> was used for this purpose. The python BEMIO functions have been converted to MATLAB and are included in the WEC-Sim source code. The python based BEMIO code will remain available but will no longer be  supported.</p>
@@ -220,7 +222,7 @@
 <p class="first admonition-title">Note</p>
 <ul class="last simple">
 <li>Instructions on how to download and use the open source BEM code NEMOH are provided on the <a class="reference external" href="https://lheea.ec-nantes.fr/logiciels-et-brevets/nemoh-presentation-192863.kjsp">NEMOH website</a>.</li>
-<li>The NEMOH Mesh.exe code creates the <code class="docutils literal"><span class="pre">Hydrostatics.dat</span></code> and <code class="docutils literal"><span class="pre">KH.dat</span></code> files (among other files) for one input body at a time. For the Read_NEMOH function to work correctly in the case of a multiple body system, the user must manually rename <code class="docutils literal"><span class="pre">Hydrostatics.dat</span></code> and <code class="docutils literal"><span class="pre">KH.dat</span></code> files to <code class="docutils literal"><span class="pre">Hydrostatics_0.dat</span></code>, <code class="docutils literal"><span class="pre">Hydrostatics_1.dat</span></code>, …, and <code class="docutils literal"><span class="pre">KH_0.dat</span></code>, <code class="docutils literal"><span class="pre">KH_1.dat</span></code>,…, corresponding to the body order specified in the <code class="docutils literal"><span class="pre">Nemoh.cal</span></code> file.</li>
+<li>The NEMOH Mesh.exe code creates the <code class="docutils literal notranslate"><span class="pre">Hydrostatics.dat</span></code> and <code class="docutils literal notranslate"><span class="pre">KH.dat</span></code> files (among other files) for one input body at a time. For the Read_NEMOH function to work correctly in the case of a multiple body system, the user must manually rename <code class="docutils literal notranslate"><span class="pre">Hydrostatics.dat</span></code> and <code class="docutils literal notranslate"><span class="pre">KH.dat</span></code> files to <code class="docutils literal notranslate"><span class="pre">Hydrostatics_0.dat</span></code>, <code class="docutils literal notranslate"><span class="pre">Hydrostatics_1.dat</span></code>, …, and <code class="docutils literal notranslate"><span class="pre">KH_0.dat</span></code>, <code class="docutils literal notranslate"><span class="pre">KH_1.dat</span></code>,…, corresponding to the body order specified in the <code class="docutils literal notranslate"><span class="pre">Nemoh.cal</span></code> file.</li>
 </ul>
 </div>
 <p><strong>Read_AQWA:</strong> Reads data from AQWA output files</p>
@@ -235,7 +237,7 @@
 </dd>
 </dl>
 </div></blockquote>
-<p><strong>Normalize:</strong> Normalizes NEMOH and AQWA hydrodynamics coefficients in the same manner that WAMIT outputs are normalized. Specifically, the linear hydrostatic restoring stiffness is normalized as, <span class="math">\(C_{i,j}/\rho g\)</span>; the radiation added mass is normalized as, <span class="math">\(A_{i,j}/\rho\)</span>; radiation wave damping is normalized as, <span class="math">\(B_{i,j}/\rho \omega\)</span>; and the wave-exciting forces are normalized as, <span class="math">\(X_i/\rho g\)</span>. Typically, this function would not be called directly by the user; it is automatically implemented within the Read_NEMOH and Read_AQWA functions.</p>
+<p><strong>Normalize:</strong> Normalizes NEMOH and AQWA hydrodynamics coefficients in the same manner that WAMIT outputs are normalized. Specifically, the linear hydrostatic restoring stiffness is normalized as, <img class="math" src="_images/math/b3ea39260e524f4a365c119387be8d09564a6575.png" alt="C_{i,j}/\rho g"/>; the radiation added mass is normalized as, <img class="math" src="_images/math/cd0369fa6742ca2ab164799564eca677ad21ac88.png" alt="A_{i,j}/\rho"/>; radiation wave damping is normalized as, <img class="math" src="_images/math/2601ecb64a96f8098f7b4c885501f360b1c75c53.png" alt="B_{i,j}/\rho \omega"/>; and the wave-exciting forces are normalized as, <img class="math" src="_images/math/6ec2346d4099ecb31aeeccf8f150046d354fd779.png" alt="X_i/\rho g"/>. Typically, this function would not be called directly by the user; it is automatically implemented within the Read_NEMOH and Read_AQWA functions.</p>
 <blockquote>
 <div><dl class="docutils">
 <dt><em>hydro = Normalize(hydro)</em></dt>
@@ -245,7 +247,7 @@
 </dd>
 </dl>
 </div></blockquote>
-<p><strong>Combine_BEM:</strong> Combines multiple BEM outputs into one hydrodynamic &#8220;system&#8221;. This function requires that all BEM outputs have the same water depth, wave frequencies, and wave headings. This function would be implemented following multiple Read functions and before the IRF, Write_H5, or Plot_BEMIO functions.</p>
+<p><strong>Combine_BEM:</strong> Combines multiple BEM outputs into one hydrodynamic “system”. This function requires that all BEM outputs have the same water depth, wave frequencies, and wave headings. This function would be implemented following multiple Read functions and before the IRF, Write_H5, or Plot_BEMIO functions.</p>
 <blockquote>
 <div><dl class="docutils">
 <dt><em>hydro = Combine_BEM(hydro)</em></dt>
@@ -257,7 +259,7 @@
 </div></blockquote>
 <p><strong>Radiation_IRF:</strong> Calculates the normalized radiation impulse response function.</p>
 <blockquote>
-<div><p><span class="math">\(\overline{K}_{r,i,j}(t) = {\frac{2}{\pi}}\intop_0^{\infty}{\frac{B_{i,j}(\omega)}{\rho}}\cos({\omega}t)d\omega\)</span></p>
+<div><p><img class="math" src="_images/math/cda0af82181e3922fa43e659c562ad23275e44a5.png" alt="\overline{K}_{r,i,j}(t) = {\frac{2}{\pi}}\intop_0^{\infty}{\frac{B_{i,j}(\omega)}{\rho}}\cos({\omega}t)d\omega"/></p>
 <dl class="docutils">
 <dt><em>hydro = Radiation_IRF(hydro, t_end, n_t, n_w, w_min, w_max)</em></dt>
 <dd><ul class="first last simple">
@@ -278,14 +280,14 @@
 <dd><ul class="first last simple">
 <li><em>hydro</em> – data structure</li>
 <li><em>Omax</em> – maximum order of the SS realization, the default is 10</li>
-<li><em>R2t</em> – <span class="math">\(R^2\)</span> threshold (coefficient of determination) for the SS realization, where <span class="math">\(R^2\)</span> may range from 0 to 1, and the default is 0.95</li>
+<li><em>R2t</em> – <img class="math" src="_images/math/04795deba2b8ef377e574a90eaa907b273b9ce68.png" alt="R^2"/> threshold (coefficient of determination) for the SS realization, where <img class="math" src="_images/math/04795deba2b8ef377e574a90eaa907b273b9ce68.png" alt="R^2"/> may range from 0 to 1, and the default is 0.95</li>
 </ul>
 </dd>
 </dl>
 </div></blockquote>
 <p><strong>Excitation_IRF:</strong> Calculates the excitation impulse response function.</p>
 <blockquote>
-<div><p><span class="math">\(\overline{K}_{e,i,\beta}(t) = {\frac{1}{2\pi}}\intop_{-\infty}^{\infty}{\frac{X_i(\omega,\beta)e^{i{\omega}t}}{{\rho}g}}d\omega\)</span></p>
+<div><p><img class="math" src="_images/math/a0533343b72bb42573810267b0fca4358176bd42.png" alt="\overline{K}_{e,i,\beta}(t) = {\frac{1}{2\pi}}\intop_{-\infty}^{\infty}{\frac{X_i(\omega,\beta)e^{i{\omega}t}}{{\rho}g}}d\omega"/></p>
 <dl class="docutils">
 <dt><em>hydro = Excitation_IRF(hydro, t_end, n_t, n_w, w_min, w_max)</em></dt>
 <dd><ul class="first last simple">
@@ -299,7 +301,7 @@
 </dd>
 </dl>
 </div></blockquote>
-<p><strong>Write_H5:</strong> Writes the hydro data structure to a <code class="docutils literal"><span class="pre">*.h5</span></code> file.</p>
+<p><strong>Write_H5:</strong> Writes the hydro data structure to a <code class="docutils literal notranslate"><span class="pre">*.h5</span></code> file.</p>
 <blockquote>
 <div><dl class="docutils">
 <dt>Write_H5(hydro)</dt>
@@ -311,7 +313,7 @@
 </div></blockquote>
 <div class="admonition note">
 <p class="first admonition-title">Note</p>
-<p class="last">Technically, this step should not be necessary - the MATLAB data structure <em>hydro</em> is written to a <code class="docutils literal"><span class="pre">*.h5</span></code> file by BEMIO and then read back into a new MATLAB data structure <em>hydroData</em> for each body by WEC-Sim. The reasons this step was retained were, first, to remain compatible with the python based BEMIO output and, second, for the simpler data visualization and verification capabilities offered by the <code class="docutils literal"><span class="pre">*.h5</span></code> file viewer.</p>
+<p class="last">Technically, this step should not be necessary - the MATLAB data structure <em>hydro</em> is written to a <code class="docutils literal notranslate"><span class="pre">*.h5</span></code> file by BEMIO and then read back into a new MATLAB data structure <em>hydroData</em> for each body by WEC-Sim. The reasons this step was retained were, first, to remain compatible with the python based BEMIO output and, second, for the simpler data visualization and verification capabilities offered by the <code class="docutils literal notranslate"><span class="pre">*.h5</span></code> file viewer.</p>
 </div>
 <p><strong>Plot_BEMIO:</strong> Plots the radiation added mass, radiation wave damping, radiation IRF, excitation force magnitude, excitation force phase, and excitation IRF for each body in the heave, surge and pitch degrees of freedom.</p>
 <blockquote>
@@ -530,7 +532,7 @@
 </div>
 <div class="section" id="writing-your-own-h5-file">
 <h2>Writing Your Own h5 File<a class="headerlink" href="#writing-your-own-h5-file" title="Permalink to this headline">¶</a></h2>
-<p>The most common way of creating a <code class="docutils literal"><span class="pre">*.h5</span></code> file is using BEMIO to post-process the outputs of a BEM code.
+<p>The most common way of creating a <code class="docutils literal notranslate"><span class="pre">*.h5</span></code> file is using BEMIO to post-process the outputs of a BEM code.
 This requires a single BEM solution that contains all hydrodynamic bodies and accounts for body-to-body interactions.
 Some cases in which you might want to create your own h5 file are:</p>
 <ul class="simple">
@@ -538,21 +540,21 @@ Some cases in which you might want to create your own h5 file are:</p>
 <li>Combine results from different BEM files and have the coefficient matrices be the correct size for the new total number of bodies.</li>
 <li>Modify the BEM results for any other reason.</li>
 </ul>
-<p>MATLAB and Python have functions to read and write <code class="docutils literal"><span class="pre">*.h5</span></code> files easily.
-WEC-Sim includes three functions to help you create your own <code class="docutils literal"><span class="pre">*.h5</span></code> file.
-These are found under <code class="docutils literal"><span class="pre">$Source/functions/writeH5/</span></code>.
+<p>MATLAB and Python have functions to read and write <code class="docutils literal notranslate"><span class="pre">*.h5</span></code> files easily.
+WEC-Sim includes three functions to help you create your own <code class="docutils literal notranslate"><span class="pre">*.h5</span></code> file.
+These are found under <code class="docutils literal notranslate"><span class="pre">$Source/functions/writeH5/</span></code>.
 The header comments of each function explain the inputs and outputs.
-An example of how to use <code class="docutils literal"><span class="pre">write_hdf5</span></code>  is provided in the <a class="reference external" href="https://github.com/WEC-Sim/WEC-Sim_Applications">WEC-Sim Applications</a> repository.
+An example of how to use <code class="docutils literal notranslate"><span class="pre">write_hdf5</span></code>  is provided in the <a class="reference external" href="https://github.com/WEC-Sim/WEC-Sim_Applications">WEC-Sim Applications</a> repository.
 The first step is to have all the required coefficients and properties in Matlab in the correct format.
-Then the functions provided are used to create and populate the <code class="docutils literal"><span class="pre">*.h5</span></code> file.</p>
+Then the functions provided are used to create and populate the <code class="docutils literal notranslate"><span class="pre">*.h5</span></code> file.</p>
 <div class="admonition note">
 <p class="first admonition-title">Note</p>
-<p class="last">BEMIO is currently being modified to allow for reading an existing <code class="docutils literal"><span class="pre">*.h5</span></code> file.
-This would allow you to read in the <code class="docutils literal"><span class="pre">*.h5</span></code> file you created, calculate the required impulse response functions and state space coefficients, and re-write the <code class="docutils literal"><span class="pre">*.h5</span></code> file.</p>
+<p class="last">BEMIO is currently being modified to allow for reading an existing <code class="docutils literal notranslate"><span class="pre">*.h5</span></code> file.
+This would allow you to read in the <code class="docutils literal notranslate"><span class="pre">*.h5</span></code> file you created, calculate the required impulse response functions and state space coefficients, and re-write the <code class="docutils literal notranslate"><span class="pre">*.h5</span></code> file.</p>
 </div>
 <div class="admonition note">
 <p class="first admonition-title">Note</p>
-<p class="last">BEMIO is currently being modified to allow for the combination of different <code class="docutils literal"><span class="pre">*.h5</span></code> files into a single file.
+<p class="last">BEMIO is currently being modified to allow for the combination of different <code class="docutils literal notranslate"><span class="pre">*.h5</span></code> files into a single file.
 This would allow for the BEM of different bodies to be done separately, and BEMIO would take care of making the coefficient matrices the correct size.</p>
 </div>
 </div>
@@ -586,36 +588,16 @@ This would allow for the BEM of different bodies to be done separately, and BEMI
   
 
 
-  
-
-    
-    
-      <script type="text/javascript">
-          var DOCUMENTATION_OPTIONS = {
-              URL_ROOT:'./',
-              VERSION:'',
-              LANGUAGE:'None',
-              COLLAPSE_INDEX:false,
-              FILE_SUFFIX:'.html',
-              HAS_SOURCE:  true,
-              SOURCELINK_SUFFIX: ''
-          };
-      </script>
-        <script type="text/javascript" src="_static/jquery.js"></script>
-        <script type="text/javascript" src="_static/underscore.js"></script>
-        <script type="text/javascript" src="_static/doctools.js"></script>
-        <script type="text/javascript" src="https://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
-    
-
-  
-
-  <script type="text/javascript" src="_static/js/theme.js"></script>
-
   <script type="text/javascript">
       jQuery(function () {
           SphinxRtdTheme.Navigation.enable(true);
       });
-  </script> 
+  </script>
+
+  
+  
+    
+   
 
 </body>
 </html>

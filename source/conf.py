@@ -15,7 +15,7 @@ extensions = [
     'sphinx.ext.autodoc',
     'sphinx.ext.viewcode',
     'sphinxcontrib.bibtex',
-    'sphinx.ext.mathjax',
+    'sphinx.ext.imgmath',
     'sphinxcontrib.googleanalytics', 
 ]
 
