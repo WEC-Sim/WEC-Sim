@@ -41,6 +41,7 @@ $ cat .gitignore
 *.mtc3
 *.o
 *.obj
+*.slxc
 *.sublime-workspace
 *.sublime-project
 *.synctex
