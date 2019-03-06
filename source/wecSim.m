@@ -2,21 +2,21 @@
 %%
 %% Following Classes are required to be defined in the WEC-Sim input file:
 %%
-%% simu = simulationClass();                                               - To Create the Simulation Variable                                     
+%% simu = simulationClass();                                               - To Create the Simulation Variable
 %%
 %% waves = waveClass('<wave type>');                                       - To create the Wave Variable and Specify Type
 %%
-%% body(<body number>) = bodyClass('<hydrodynamics data file name>.h5');   - To initialize bodyClass:                             
-%% 
-%% constraint(<constraint number>) = constraintClass('<Constraint name>'); - To initialize constraintClass          
-%% pto(<PTO number>) = ptoClass('<PTO name>');                             - To initialize ptoClass    
-%% 
+%% body(<body number>) = bodyClass('<hydrodynamics data file name>.h5');   - To initialize bodyClass:
+%%
+%% constraint(<constraint number>) = constraintClass('<Constraint name>'); - To initialize constraintClass
+%% pto(<PTO number>) = ptoClass('<PTO name>');                             - To initialize ptoClass
+%%
 %% mooring(<mooring number>) = mooringClass('<Mooring name>');             - To initialize mooringClass (only needed when mooring blocks are used)
-%% 
+%%
 %%
 
 %% Start WEC-Sim log
-bdclose('all'); clc; diary off; close all; 
+bdclose('all'); clc; diary off; close all;
 clear body waves simu output pto constraint ptoSim mooring
 delete('*.log');
 diary('simulation.log')
@@ -25,10 +25,10 @@ diary('simulation.log')
 %% Read input file
 tic
 try fprintf('wecSimMCR Case %g\n',imcr); end
-fprintf('\nWEC-Sim Read Input File ...   \n'); 
+fprintf('\nWEC-Sim Read Input File ...   \n');
 evalc('wecSimInputFile');
-% Read Inputs for Multiple Conditions Run 
-if exist('mcr','var') == 1; 
+% Read Inputs for Multiple Conditions Run
+if exist('mcr','var') == 1;
     for n=1:length(mcr.cases(1,:))
         if iscell(mcr.cases)
             eval([mcr.header{n} '= mcr.cases{imcr,n};']);
@@ -79,16 +79,16 @@ for ii = 1:simu.numWecBodies
     body(ii).checkinputs;
     %Determine if hydro data needs to be reloaded from h5 file, or if hydroData
     % was stored in memory from a previous run.
-    if exist('mcr','var') == 1 && simu.reloadH5Data == 0 && imcr > 1 
+    if exist('mcr','var') == 1 && simu.reloadH5Data == 0 && imcr > 1
         body(ii).loadHydroData(hydroData(ii));
     else
         % check for correct h5 file
         h5Info = dir(body(ii).h5File);
-        h5Info.bytes;        
+        h5Info.bytes;
         if h5Info.bytes < 1000
             error(['This is not the correct *.h5 file. Please install git-lfs to access the correct *.h5 file, or run \hydroData\bemio.m to generate a new *.h5 file'])
-        end    
-        clearvars h5Info        
+        end
+        clearvars h5Info
         body(ii).readH5File;
     end
     body(ii).bodyTotal = simu.numWecBodies;
@@ -97,17 +97,17 @@ for ii = 1:simu.numWecBodies
     else
         body(ii).lenJ = zeros(6,1);
     end
-end; clear ii 
+end; clear ii
 % PTO-Sim: read input, count
-if exist('./ptoSimInputFile.m','file') == 2 
-    ptoSimInputFile 
+if exist('./ptoSimInputFile.m','file') == 2
+    ptoSimInputFile
     ptosim.countblocks;
 end
 toc
 
 %% Pre-processing start
 tic
-fprintf('\nWEC-Sim Pre-processing ...   \n'); 
+fprintf('\nWEC-Sim Pre-processing ...   \n');
 
 %% HydroForce Pre-Processing: Wave Setup & HydroForcePre.
 % simulation setup
@@ -157,17 +157,17 @@ for ii = 1:simu.numWecBodies
            end; clear jj;
        end
     end
-end; clear ii; 
+end; clear ii;
 
 % check for etaImport with nlHydro
 if strcmp(waves.type,'etaImport') && simu.nlHydro == 1
     error(['Cannot run WEC-Sim with non-linear hydro (simu.nlHydro) and "etaImport" wave type'])
-end        
+end
 
 % check for etaImport with morrisonElement
 if strcmp(waves.type,'etaImport') && simu.morrisonElement == 1
     error(['Cannot run WEC-Sim with Morrison Element (simu.morrisonElement) and "etaImport" wave type'])
-end    
+end
 
 
 %% Set variant subsystems options
@@ -244,7 +244,7 @@ tic
 fprintf('\nSimulating the WEC device defined in the SimMechanics model %s...   \n',simu.simMechanicsFile)
 % Modify some stuff for simulation
 for iBod = 1:simu.numWecBodies
-    body(iBod).adjustMassMatrix(simu.adjMassWeightFun,simu.b2b); 
+    body(iBod).adjustMassMatrix(simu.adjMassWeightFun,simu.b2b);
 end; clear iBod
 warning('off','Simulink:blocks:TDelayTimeTooSmall');
 warning('off','Simulink:blocks:BusSelDupBusCreatorSigNames');
@@ -254,7 +254,7 @@ warning('off','Simulink:blocks:DivideByZero');
 set_param(0, 'ErrorIfLoadNewModel', 'off')
 % run simulation
 simu.loadSimMechModel(simu.simMechanicsFile);
-sim(simu.simMechanicsFile);
+sim(simu.simMechanicsFile, [], simset('SrcWorkspace','parent'));
 % Restore modified stuff
 clear nlHydro sv_linearHydro sv_nonlinearHydro ssCalc radiation_option sv_convolution sv_stateSpace sv_constantCoeff typeNum B2B sv_B2B sv_noB2B;
 clear nhbod* sv_b* sv_noWave sv_regularWaves sv_irregularWaves sv_udfWaves sv_instFS sv_meanFS sv_MEOn sv_MEOff morrisonElement;
@@ -274,11 +274,10 @@ end
 paraViewVisualization
 
 %% Save files
-clear ans table tout; 
+clear ans table tout;
 toc
-diary off 
+diary off
 movefile('simulation.log',simu.logFile)
 if simu.saveMat==1
     save(simu.caseFile,'-v7.3')
 end
-
