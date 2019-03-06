@@ -21,30 +21,35 @@ classdef waveClass<handle
         
         % type - String defining the type of waves to be generated.
         %   Can be one of: 'noWave', 'noWaveCIC', 'regular', 'regularCIC',
-        %   'irregular', 'spectrumImport', and 'etaImport' (Default = 'NOT
-        %   DEFINED').
+        %   'irregular', 'spectrumImport', and 'etaImport' 
+        %   (Default = 'NOT DEFINED').
         type = 'NOT DEFINED';
         
         % T - [s] Wave period, peak wave period or BEM period.
         %   Wave period (regular waves), peak period (irregular waves), or
         %   period of BEM data used for hydrodynamic coefficients
-        %   ('noWave') (Default = 'NOT DEFINED')
+        %   ('noWave') 
+        %   (Default = 'NOT DEFINED').        
         T = 'NOT DEFINED';
         
         % H - % [m] Wave height or significant wave height for irregular
         %   Wave height (regular waves) or significant wave height
-        %   (irregular waves) (Default = 'NOT DEFINED')
+        %   (irregular waves) 
+        %   (Default = 'NOT DEFINED').        
         H = 'NOT DEFINED';
 
         % spectrumType -  String containing the wave spectrum type
-        %   Can be one of : 'PM', 'BS', and 'JS'  (Default = 'NOT DEFINED')
+        %   Can be one of : 'PM', 'BS', and 'JS' 
+        %   (Default = 'NOT DEFINED').        
         spectrumType = 'NOT DEFINED'; 
         
-        % gamma - Only used for 'JS' spectrum type to define gamma (Default = 3.3)
+        % gamma - Only used for 'JS' spectrum type to define gamma 
+        %   (Default = 3.3)
         gamma = 3.3
         
-         % phaseSeed - Only used for irregular waves (Default = 0)
+         % phaseSeed - Only used for irregular waves 
          %  if equal to 1,2,3,...,etc, the waves phase is seeded.
+         %  (Default = 0)
         phaseSeed = 0;
         
         % spectrumDataFile - Data file that contains the spectrum data file
@@ -57,19 +62,23 @@ classdef waveClass<handle
         
         % freqRange - Min and max frequency for irregular waves. 
         %   2x1 vector, rad/s, (default = frequency range in BEM data)
+        %   (Default = [])
         freqRange = [];
         
-        % numFreq - of interpolated wave frequencies (default = [])
+        % numFreq - of interpolated wave frequencies 
         %   Number of frequencies used, varies depending on method:
         %   Traditional = 1000, EqualEnergy = 500 or 'Imported'
+        %   (Default = [])
         numFreq = []; 
 
-        % waveDir - [deg] Incident wave direction (Default = 0)
-        %   Should be defined as a vector for more than one wave direction        
+        % waveDir - [deg] Incident wave direction(s)
+        %   Should be defined as a column vector for more than one wave direction        
+        %   (Default = 0)
         waveDir = 0; 
         
-        % waveSpread - Wave Spread probability associated with the wave direction
-        %   Should be defined as a vector more than one wave direction
+        % waveSpread - Wave Spread probability associated with wave direction(s)
+        %   Should be defined as a column vector for more than one wave direction
+        %   (Default = 1)
         waveSpread = 1;
         
         % viz - Structure defining visualization options
@@ -81,20 +90,24 @@ classdef waveClass<handle
                       'numPointsY', 50 ); 
         
         % statisticsDataLoad - File name from which to load wave statistics data
+        %   (Default = [])
         statisticsDataLoad = []; 
         
         % freqDisc - Method of frequency discretization for irregular waves. 
         %   Options for this variable are 'EqualEnergy' or 'Traditional'.
-        %   (default = 'EqualEnergy').
+        %   (Default = 'EqualEnergy').
         freqDisc = 'EqualEnergy';
         
         % wavegauge1loc - [m] Wave gauge 1 [x,y] location
+        %   (Default = [0,0]).
         wavegauge1loc = [0,0];
         
         % wavegauge2loc - [m] Wave gauge 2 [x,y] location
+        %   (Default = [0,0]).
         wavegauge2loc = [0,0]; 
         
         % wavegauge3loc - [m] Wave gauge 3 [x,y] location
+        %   (Default = [0,0]).
         wavegauge3loc = [0,0]; 
         
     end
