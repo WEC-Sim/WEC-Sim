@@ -16,7 +16,7 @@ Past WEC-Sim Contributors
 * Michael Lawson (NREL)
 * Carlos Michelen (Sandia)
 
-The association with the listed organization is credited to when a contribution to WEC-Sim was made. The contributor may no longer be associated with the listed organizatoin at this time.
+The association with the listed organization is credited to when a contribution to WEC-Sim was made. The contributor may no longer be associated with the listed organization at this time.
 
 Funding
 --------

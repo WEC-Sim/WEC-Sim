@@ -41,9 +41,10 @@ The WEC-Sim documentation located on the [gh-pages branch](https://github.com/WE
 
 ### Terminology Guidelines
   - post-processing (not postprocessing)
-  - non-linear vs nonlinear?
-  - non-dimensional (not nondimensional)
-  - drive-train vs drivetrain?
+  - pre-processing (not preprocessing)  
+  - nondimensional (not non-dimensional)
+  - nonlinear (not non-linear)
+  - drivetrain (not drive-train)
 
 
 ## Push the [WEC-Sim Website](http://wec-sim.github.io/WEC-Sim) Updates to GH-PAGES

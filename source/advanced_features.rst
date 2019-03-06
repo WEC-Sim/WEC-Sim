@@ -97,17 +97,21 @@ Wave Directionality
 ~~~~~~~~~~~~~~~~~~~~
 WEC-Sim has the ability to model waves with various angles of incidence, :math:`\beta`. To define wave directionality in WEC-Sim, the following wave class variable must be defined in the WEC-Sim input file:
 
-	:code:`waves.waveDir = <user defined wave direction>; %[deg]`  		
+	:code:`waves.waveDir = <user defined wave direction(s)>; %[deg]`  	
 	
-The incident wave direction has a default heading of 0 Degrees (Default = 0). For more information about the wave formulation, refer to `Wave Theory <http://wec-sim.github.io/WEC-Sim/theory.html#wave-spectra>`_.
+The incident wave direction has a default heading of 0 Degrees (Default = 0), and should be defined as a column vector for more than one wave direction. For more information about the wave formulation, refer to `Wave Theory <http://wec-sim.github.io/WEC-Sim/theory.html#wave-spectra>`_.
 
 Wave Directional Spreading
 ~~~~~~~~~~~~~~~~~~~~~~~~~~
 WEC-Sim has the ability to model waves with directional spreading, :math:`D\left( \beta \right)`. To define wave directional spreading in WEC-Sim, the following wave class variable must be defined in the WEC-Sim input file:
 
-	:code:`waves.waveSpread = <user defined directional spreading>;`  		
+	:code:`waves.waveSpread = <user defined directional spreading>;`  	
 	
-The wave directional spreading has a default probability of 1 (Default = 1). For more information about the spectral formulation, refer to `Wave Theory <http://wec-sim.github.io/WEC-Sim/theory.html#wave-spectra>`_.
+The wave directional spreading has a default value of 1 (Default = 1), and should be defined as a column vector of directional spreading for each one wave direction. For more information about the spectral formulation, refer to `Wave Theory <http://wec-sim.github.io/WEC-Sim/theory.html#wave-spectra>`_.
+
+.. Note::
+
+	Users must define appropriate spreading parameters to ensure energy is conserved. Recommended directional spreading functions include Cosine-Squared and Cosine-2s.
 
 Irregular Waves with Seeded Phase
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
@@ -130,10 +134,6 @@ The WEC-Sim numerical wave gauges output the undisturbed linear incident wave el
 
 	:code:`waves.waveAmpTime<i> = incident wave elevation time series at wave gauge i`
 
-.. Note::
-
-	This feature only works with planar waves propagating along the positive x-direction when ``waves.waveDir = 0``.
-
 
 Body Features
 --------------
@@ -148,19 +148,19 @@ The mass of each body must be specified in the  WEC-Sim input file. The followin
 
 * **Fixed Body** - if the mass is unknown (or not important to the dynamics), the user may specify :code:`body(i).mass = 'fixed'` which will set the mass to 999 kg and moment of inertia to [999 999 999] kg-m^2.
 
-* **Import STL** - to read in the geometry (``*.stl``) into Matlab use the :code:`body(i).bodyGeo` method in the bodyClass. This method will import the mesh details (vertices, faces, normals, areas, centroids) into the :code:`body(i).bodyGeometry` property. This method is also used for non-linear buoyancy and Froude-Krylov excitation and ParaView visualization files. Users can then visualize the geometry using the :code:`body(i).plotStl` method.
+* **Import STL** - to read in the geometry (``*.stl``) into Matlab use the :code:`body(i).bodyGeo` method in the bodyClass. This method will import the mesh details (vertices, faces, normals, areas, centroids) into the :code:`body(i).bodyGeometry` property. This method is also used for nonlinear buoyancy and Froude-Krylov excitation and ParaView visualization files. Users can then visualize the geometry using the :code:`body(i).plotStl` method.
 
 
-Non-Linear Buoyancy and Froude-Krylov Excitation
+Nonlinear Buoyancy and Froude-Krylov Excitation
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-WEC-Sim has the option to include the non-linear hydrostatic restoring and Froude-Krylov forces when solving the system dynamics of WECs, accounting for the weakly nonlinear effect on the body hydrodynamics. To use nonlinear buoyancy and Froude-Krylov excitation, the **simu.nlHydro** simulationClass variable must be defined in the WEC-Sim input file, for example: 
+WEC-Sim has the option to include the nonlinear hydrostatic restoring and Froude-Krylov forces when solving the system dynamics of WECs, accounting for the weakly nonlinear effect on the body hydrodynamics. To use nonlinear buoyancy and Froude-Krylov excitation, the **simu.nlHydro** simulationClass variable must be defined in the WEC-Sim input file, for example: 
 
 	:code:`simu.nlHydro = 2`  
 	
-For more information, refer to the `non-linear hydrodynamics webinar <http://wec-sim.github.io/WEC-Sim/webinars.html#webinar-2-nonlinear-hydro-non-hydro-and-b2b>`_, and the `WEC-Sim Applications <https://github.com/WEC-Sim/WEC-Sim_Applications>`_ repository **NonlinearHydro** example. 
+For more information, refer to the `nonlinear hydrodynamics webinar <http://wec-sim.github.io/WEC-Sim/webinars.html#webinar-2-nonlinear-hydro-non-hydro-and-b2b>`_, and the `WEC-Sim Applications <https://github.com/WEC-Sim/WEC-Sim_Applications>`_ repository **NonlinearHydro** example. 
 
 
-Non-Linear Settings
+Nonlinear Settings
 +++++++++++++++++++++++++
 **simu.nlHydro**  - 
 The nonlinear hydrodynamics option can be used by setting :code:`simu.nlHydro = 2` or :code:`simu.nlHydro = 1` in your WEC-Sim input file. Typically, :code:`simu.nlHydro = 2` is recommended if nonlinear buoyancy and Froude-Krylov effects need to be used. Note that :code:`simu.nlHydro = 1` only considers the nonlinear hydrostatic and Froude-Krylov wave excitations based on the body position and mean wave elevation. 
@@ -176,9 +176,9 @@ An option available to reduce the nonlinear simulation time is to specify a nonl
 
 STL File Generation
 +++++++++++++++++++++++++
-When the nonlinear option is turned on, the geometry file (``*.stl``) (previously only used for visualization purposes in linear simulations) is used as the discretized body surface on which the non-linear pressure forces are integrated. A good STL mesh resolution is required for the WEC body geometry file(s) when using the non-linear buoyancy and Froude-Krylov wave excitation in WEC-Sim. The simulation accuracy will increase with increased surface resolution (i.e. the number of discretized surface panels specified in the ``*.stl`` file), but the computation time will also increase. 
+When the nonlinear option is turned on, the geometry file (``*.stl``) (previously only used for visualization purposes in linear simulations) is used as the discretized body surface on which the nonlinear pressure forces are integrated. A good STL mesh resolution is required for the WEC body geometry file(s) when using the nonlinear buoyancy and Froude-Krylov wave excitation in WEC-Sim. The simulation accuracy will increase with increased surface resolution (i.e. the number of discretized surface panels specified in the ``*.stl`` file), but the computation time will also increase. 
 
-There are many ways to generate an STL file; however, it is important to verify the quality of the mesh before running WEC-Sim simulations with the non-linear hydro flag turned on. An STL file can be exported from most CAD programs, but few allow adequate mesh refinement. A good program to perform STL mesh refinement is `Rhino <https://www.rhino3d.com/>`_. Some helpful resources explaining how to generate and refine an STL mesh in Rhino can be found `on Rhino's website <https://wiki.mcneel.com/rhino/meshfaqdetails>`_ and `on Youtube <https://www.youtube.com/watch?v=CrlXAMPfHWI>`_.	
+There are many ways to generate an STL file; however, it is important to verify the quality of the mesh before running WEC-Sim simulations with the nonlinear hydro flag turned on. An STL file can be exported from most CAD programs, but few allow adequate mesh refinement. A good program to perform STL mesh refinement is `Rhino <https://www.rhino3d.com/>`_. Some helpful resources explaining how to generate and refine an STL mesh in Rhino can be found `on Rhino's website <https://wiki.mcneel.com/rhino/meshfaqdetails>`_ and `on Youtube <https://www.youtube.com/watch?v=CrlXAMPfHWI>`_.	
 	
 .. Note::
 
@@ -194,7 +194,7 @@ There are many ways to generate an STL file; however, it is important to verify 
 In this way, the each new panel retains the aspect ratio of the original panel. Note that the linear discretization of curved edges is not refined via this algorithm. The header comments of the function explain the inputs and outputs. This function calls ``import_stl_fast``, included with the WEC-Sim distribution, to import the ``.*stl`` file.
 
 
-Non-Linear Buoyancy and Froude-Krylov Wave Excitation Tutorial - Heaving Ellipsoid
+Nonlinear Buoyancy and Froude-Krylov Wave Excitation Tutorial - Heaving Ellipsoid
 +++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
 The body tested in the study is an ellipsoid with a cross- section characterized by semi-major and -minor axes of 5.0 m and 2.5 m in the wave propagation and normal directions, respectively . The ellipsoid is at its equilibrium position with its origin located at the mean water surface. The mass of the body is then set to 1.342×105 kg, and the center of gravity is located 2 m below the origin.
 
@@ -220,7 +220,7 @@ The single-body heave only WEC model is shown below (``nonLinearHydro.slx``)
     :width: 450pt
     :align: center
 
-The WEC-Sim input file used to run the non-linear hydro WEC-Sim simulation:
+The WEC-Sim input file used to run the nonlinear hydro WEC-Sim simulation:
 
 .. _nonLinaerwecSimInputFile:
 
@@ -263,7 +263,7 @@ For more information, refer to the `B2B webinar <http://wec-sim.github.io/WEC-Si
 
 Viscous Damping and Morison Elements
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-WEC-Sim allows for the definition of additional damping and added-mass terms; for more information about the numerical formulation of viscous damping and Morison Elements, refer to the `Viscous Damping and Morison Elements <http://wec-sim.github.io/WEC-Sim/theory.html#non-linear-drag-and-morison-elements>`_ section.
+WEC-Sim allows for the definition of additional damping and added-mass terms; for more information about the numerical formulation of viscous damping and Morison Elements, refer to the `Viscous Damping and Morison Elements <http://wec-sim.github.io/WEC-Sim/theory.html#viscous-damping-and-morison-elements>`_ section.
 
 
 Viscous Damping

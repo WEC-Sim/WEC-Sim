@@ -229,7 +229,7 @@ where :math:`S\left( f\right)` is the wave power spectrum, :math:`f` is the wave
 	
 	S\left( f \right) = A f^{-5}\exp\left[-B f^{-4} \right]~~
 
-where :math:`A` and :math"`B` are coefficients that vary depending on the wave spectrum and :math:`\exp` stands for the exponential function. Spectral moments of the wave spectrum, denoted :math:`m_{k}~,~k=0, 1, 2,...`, are defined as
+where :math:`A` and :math:`B` are coefficients that vary depending on the wave spectrum and :math:`\exp` stands for the exponential function. Spectral moments of the wave spectrum, denoted :math:`m_{k}~,~k=0, 1, 2,...`, are defined as
 
 .. math::
 	m_{k} = \int_{0}^{\infty} f^{k} S \left( f \right) df ~~
