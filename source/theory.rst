@@ -223,11 +223,11 @@ The linear superposition of regular waves of distinct amplitudes and periods is 
 
 	S\left( f , \beta \right)= S\left( f \right)D\left( \beta \right)~~
 	
-where :math:`S\left( f\right)` is the wave power spectrum, :math:`f` is the wave frequency (in Hertz), :math:`D\left( \beta \right)` is the directional distribution, and :math:`\beta` is the wave heading (in Degrees). The formulation of :math: `D\left( \beta \right)` requires that
+where :math:`S\left( f\right)` is the wave power spectrum, :math:`f` is the wave frequency (in Hertz), :math:`D\left( \beta \right)` is the directional distribution, and :math:`\beta` is the wave heading (in Degrees). The formulation of :math:`D\left( \beta \right)` requires that
 
 .. math::
-  
-	\int_{0}^{\infty} \int_{-\pi}^{\infty} S\left( f \right)D\left( \beta \right) d\theta\df = \int_{0}^{\infty} S\left( f \right) df
+
+	\int_{0}^{\infty} \int_{-\pi}^{\pi} S\left( f \right)D\left( \beta \right) d\theta\df = \int_{0}^{\infty} S\left( f \right) df
 
 so that the total energy in the directional spectrum must be the same as the total energy in the one-dimensional spectrum.
 
