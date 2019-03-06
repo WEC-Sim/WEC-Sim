@@ -227,7 +227,7 @@ where :math:`S\left( f\right)` is the wave power spectrum, :math:`f` is the wave
 
 .. math::
 
-	\int_{0}^{\infty} \int_{-\pi}^{\pi} S\left( f \right)D\left( \beta \right) d\theta\df = \int_{0}^{\infty} S\left( f \right) df
+	\int_{0}^{\infty}\int_{-\pi}^{\pi} S\left( f \right)D\left( \beta \right) d\theta df = \int_{0}^{\infty} S\left( f \right) df
 
 so that the total energy in the directional spectrum must be the same as the total energy in the one-dimensional spectrum.
 
