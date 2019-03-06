@@ -28,34 +28,32 @@
   
 
   
-  <script type="text/javascript" src="_static/js/modernizr.min.js"></script>
-  
-    
-      <script type="text/javascript" id="documentation_options" data-url_root="./" src="_static/documentation_options.js"></script>
-        <script type="text/javascript" src="_static/jquery.js"></script>
-        <script type="text/javascript" src="_static/underscore.js"></script>
-        <script type="text/javascript" src="_static/doctools.js"></script>
-        <script type="text/javascript" src="_static/language_data.js"></script>
-    
-    <script type="text/javascript" src="_static/js/theme.js"></script>
 
+  
+  
     
 
   
+
   <link rel="stylesheet" href="_static/css/theme.css" type="text/css" />
   <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
     <link rel="index" title="Index" href="genindex.html" />
     <link rel="search" title="Search" href="search.html" /> 
+
+  
+  <script src="_static/js/modernizr.min.js"></script>
+
 </head>
 
 <body class="wy-body-for-nav">
 
    
   <div class="wy-grid-for-nav">
+
     
     <nav data-toggle="wy-nav-shift" class="wy-nav-side">
       <div class="wy-side-scroll">
-        <div class="wy-side-nav-search" >
+        <div class="wy-side-nav-search">
           
 
           
@@ -154,7 +152,7 @@
       <li class="wy-breadcrumbs-aside">
         
             
-            <a href="_sources/viz.rst.txt" rel="nofollow"> View page source</a>
+            <a href="_sources/viz.txt" rel="nofollow"> View page source</a>
           
         
       </li>
@@ -171,7 +169,7 @@
 <h1>Visualization/Paraview<a class="headerlink" href="#visualization-paraview" title="Permalink to this headline">¶</a></h1>
 <p>This section describes how to setup, output, and use Paraview files for visualizing a WEC-Sim simulation.
 For more information about using Paraview for visualization, refer to the <a class="reference external" href="http://wec-sim.github.io/WEC-Sim/webinars.html#webinar-4-mooring-and-visualization">visualization webinar</a>, and the <a class="reference external" href="https://github.com/WEC-Sim/WEC-Sim_Applications">WEC-Sim Applications</a> repository <strong>Viz</strong> example.</p>
-<p>Using Paraview visualization improves on SimMechanics’s explorer by:</p>
+<p>Using Paraview visualization improves on SimMechanics&#8217;s explorer by:</p>
 <ul class="simple">
 <li>Visualization of the wave field</li>
 <li>Visualization of the cell-by-cell non-linear hydrodynamic forces (when using nonlinear buoyancy and Froude-Krylov wave excitation)</li>
@@ -191,17 +189,17 @@ It should only be turned on when visualization is desired. The user also needs t
 Next you will need to add some WEC-Sim specific macros, as follows:</p>
 <ul class="simple">
 <li>Open Paraview</li>
-<li>Click on <code class="docutils literal notranslate"><span class="pre">Macros</span> <span class="pre">=&gt;</span> <span class="pre">Add</span> <span class="pre">new</span> <span class="pre">macro</span></code></li>
-<li>Navigate to the WEC-Sim <code class="docutils literal notranslate"><span class="pre">source/functions/paraview_macros</span></code> directory</li>
-<li>Select the first file and click <code class="docutils literal notranslate"><span class="pre">OK</span></code></li>
-<li>Repeat this for all files in the <code class="docutils literal notranslate"><span class="pre">paraview_macros</span> <span class="pre">directory.</span></code></li>
+<li>Click on <code class="docutils literal"><span class="pre">Macros</span> <span class="pre">=&gt;</span> <span class="pre">Add</span> <span class="pre">new</span> <span class="pre">macro</span></code></li>
+<li>Navigate to the WEC-Sim <code class="docutils literal"><span class="pre">source/functions/paraview_macros</span></code> directory</li>
+<li>Select the first file and click <code class="docutils literal"><span class="pre">OK</span></code></li>
+<li>Repeat this for all files in the <code class="docutils literal"><span class="pre">paraview_macros</span> <span class="pre">directory.</span></code></li>
 </ul>
 </div></blockquote>
 </div>
 <div class="section" id="setting-up-paraview-output">
 <h2>Setting Up Paraview Output<a class="headerlink" href="#setting-up-paraview-output" title="Permalink to this headline">¶</a></h2>
 <blockquote>
-<div>The following table shows the variables that can be specified in the <code class="docutils literal notranslate"><span class="pre">wecSimInputFile</span></code> to control the Paraview visualization. The <code class="docutils literal notranslate"><span class="pre">body.viz</span></code> properties are also used in the SimMechanics explorer visualization.</div></blockquote>
+<div>The following table shows the variables that can be specified in the <code class="docutils literal"><span class="pre">wecSimInputFile</span></code> to control the Paraview visualization. The <code class="docutils literal"><span class="pre">body.viz</span></code> properties are also used in the SimMechanics explorer visualization.</div></blockquote>
 <table border="1" class="docutils">
 <colgroup>
 <col width="30%" />
@@ -215,31 +213,31 @@ Next you will need to add some WEC-Sim specific macros, as follows:</p>
 <tr class="row-even"><td>Variable</td>
 <td>Description</td>
 </tr>
-<tr class="row-odd"><td><code class="docutils literal notranslate"><span class="pre">simu.paraview</span></code></td>
+<tr class="row-odd"><td><code class="docutils literal"><span class="pre">simu.paraview</span></code></td>
 <td>0 to not output Paraview files [default]
 1 to output Paraview files</td>
 </tr>
-<tr class="row-even"><td><code class="docutils literal notranslate"><span class="pre">simu.nlHydro</span></code></td>
+<tr class="row-even"><td><code class="docutils literal"><span class="pre">simu.nlHydro</span></code></td>
 <td>0 for no non-linear hydro [default]
 1 for non-linear hydro with mean free surface
 2 for non-linear hydro with instantaneous free surface</td>
 </tr>
-<tr class="row-odd"><td><code class="docutils literal notranslate"><span class="pre">simu.domainSize</span></code></td>
+<tr class="row-odd"><td><code class="docutils literal"><span class="pre">simu.domainSize</span></code></td>
 <td>size of ground and water planes in meters [default 200]</td>
 </tr>
-<tr class="row-even"><td><code class="docutils literal notranslate"><span class="pre">simu.dtOut</span></code></td>
+<tr class="row-even"><td><code class="docutils literal"><span class="pre">simu.dtOut</span></code></td>
 <td>simulation output sampling time step [default dt]</td>
 </tr>
-<tr class="row-odd"><td><code class="docutils literal notranslate"><span class="pre">body(i).viz.color</span></code></td>
+<tr class="row-odd"><td><code class="docutils literal"><span class="pre">body(i).viz.color</span></code></td>
 <td>[RGB] body color [default [1 1 0]]</td>
 </tr>
-<tr class="row-even"><td><code class="docutils literal notranslate"><span class="pre">body(i).viz.opacity</span></code></td>
+<tr class="row-even"><td><code class="docutils literal"><span class="pre">body(i).viz.opacity</span></code></td>
 <td>body opacity [default 1]</td>
 </tr>
-<tr class="row-odd"><td><code class="docutils literal notranslate"><span class="pre">waves.viz.numPointsX</span></code></td>
+<tr class="row-odd"><td><code class="docutils literal"><span class="pre">waves.viz.numPointsX</span></code></td>
 <td>wave plane discretization: number of X points [default 50]</td>
 </tr>
-<tr class="row-even"><td><code class="docutils literal notranslate"><span class="pre">waves.viz.numPointsY</span></code></td>
+<tr class="row-even"><td><code class="docutils literal"><span class="pre">waves.viz.numPointsY</span></code></td>
 <td>wave plane discretization: number of Y points [default 50]</td>
 </tr>
 </tbody>
@@ -248,13 +246,13 @@ Next you will need to add some WEC-Sim specific macros, as follows:</p>
 <div class="section" id="outputs-and-opening-in-paraview">
 <h2>Outputs and Opening in Paraview<a class="headerlink" href="#outputs-and-opening-in-paraview" title="Permalink to this headline">¶</a></h2>
 <blockquote>
-<div><p>When <code class="docutils literal notranslate"><span class="pre">simu.paraview</span></code> is set to 1, a directory called <code class="docutils literal notranslate"><span class="pre">vtk</span></code> is created.
+<div><p>When <code class="docutils literal"><span class="pre">simu.paraview</span></code> is set to 1, a directory called <code class="docutils literal"><span class="pre">vtk</span></code> is created.
 All files necessary for Paraview visualization are located there.
 To view in Paraview:</p>
 <ul class="simple">
-<li>Open the <code class="docutils literal notranslate"><span class="pre">vtk/filename.pvd</span></code> file in Paraview</li>
-<li>Click <code class="docutils literal notranslate"><span class="pre">Apply</span></code></li>
-<li>With the model selected in the pipeline, run the <code class="docutils literal notranslate"><span class="pre">WEC-Sim</span></code> macro</li>
+<li>Open the <code class="docutils literal"><span class="pre">vtk/filename.pvd</span></code> file in Paraview</li>
+<li>Click <code class="docutils literal"><span class="pre">Apply</span></code></li>
+<li>With the model selected in the pipeline, run the <code class="docutils literal"><span class="pre">WEC-Sim</span></code> macro</li>
 <li>Move the camera to desired view</li>
 <li>Click the green arrow (play) button</li>
 </ul>
@@ -263,17 +261,17 @@ To view in Paraview:</p>
 <li>Extracts each body, sets the color and opacity, and renames them</li>
 <li>Extracts the waves, sets color and opacity, and renames</li>
 <li>Creates the ground plane</li>
-<li>Sets the camera to <code class="docutils literal notranslate"><span class="pre">parallel</span> <span class="pre">view</span></code></li>
+<li>Sets the camera to <code class="docutils literal"><span class="pre">parallel</span> <span class="pre">view</span></code></li>
 </ul>
 </div></blockquote>
 </div>
 <div class="section" id="basic-visualization-manipulation">
 <h2>Basic Visualization Manipulation<a class="headerlink" href="#basic-visualization-manipulation" title="Permalink to this headline">¶</a></h2>
 <blockquote>
-<div><p>After opening the <code class="docutils literal notranslate"><span class="pre">.pvd</span></code> file and running the <code class="docutils literal notranslate"><span class="pre">WEC-Sim</span></code> macro you can do a number of things to visualize the simulation in different ways.
+<div><p>After opening the <code class="docutils literal"><span class="pre">.pvd</span></code> file and running the <code class="docutils literal"><span class="pre">WEC-Sim</span></code> macro you can do a number of things to visualize the simulation in different ways.
 You can color waves and bodies by any of the available properties and apply any of the Paraview filters.</p>
 <p>The video below shows three different views of the OSWEC model described in the tutorials.
-On the bottom right view the wave elevation is used to color the free surface. The top right view uses the <code class="docutils literal notranslate"><span class="pre">slice</span></code> filter.</p>
+On the bottom right view the wave elevation is used to color the free surface. The top right view uses the <code class="docutils literal"><span class="pre">slice</span></code> filter.</p>
 <iframe width="420" height="315" src="https://www.youtube.com/embed/KcsLi38Xjv0" frameborder="0" allowfullscreen></iframe></div></blockquote>
 </div>
 <div class="section" id="visualizing-non-linear-buoyancy-and-froude-krylov-wave-excitation">
@@ -287,7 +285,7 @@ The cell data are:</p>
 <li>Linear Froude-Krylov pressures</li>
 <li>Non-linear Froude-Krylov pressures</li>
 </ul>
-<p>The <code class="docutils literal notranslate"><span class="pre">pressureGlyphs</span></code> macro calculates cell normals, and cell centers. It then creates the following glyphs:</p>
+<p>The <code class="docutils literal"><span class="pre">pressureGlyphs</span></code> macro calculates cell normals, and cell centers. It then creates the following glyphs:</p>
 <ul class="simple">
 <li>Hydrostatic Pressure</li>
 <li>Linear Froude-Krylov pressure</li>
@@ -332,16 +330,35 @@ The bottom right shows the float colored by hydrostatic pressure.</p>
   
 
 
+  
+
+    
+    
+      <script type="text/javascript">
+          var DOCUMENTATION_OPTIONS = {
+              URL_ROOT:'./',
+              VERSION:'',
+              LANGUAGE:'None',
+              COLLAPSE_INDEX:false,
+              FILE_SUFFIX:'.html',
+              HAS_SOURCE:  true,
+              SOURCELINK_SUFFIX: ''
+          };
+      </script>
+        <script type="text/javascript" src="_static/jquery.js"></script>
+        <script type="text/javascript" src="_static/underscore.js"></script>
+        <script type="text/javascript" src="_static/doctools.js"></script>
+    
+
+  
+
+  <script type="text/javascript" src="_static/js/theme.js"></script>
+
   <script type="text/javascript">
       jQuery(function () {
           SphinxRtdTheme.Navigation.enable(true);
       });
-  </script>
-
-  
-  
-    
-   
+  </script> 
 
 </body>
 </html>

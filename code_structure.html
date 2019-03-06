@@ -28,36 +28,34 @@
   
 
   
-  <script type="text/javascript" src="_static/js/modernizr.min.js"></script>
-  
-    
-      <script type="text/javascript" id="documentation_options" data-url_root="./" src="_static/documentation_options.js"></script>
-        <script type="text/javascript" src="_static/jquery.js"></script>
-        <script type="text/javascript" src="_static/underscore.js"></script>
-        <script type="text/javascript" src="_static/doctools.js"></script>
-        <script type="text/javascript" src="_static/language_data.js"></script>
-    
-    <script type="text/javascript" src="_static/js/theme.js"></script>
 
+  
+  
     
 
   
+
   <link rel="stylesheet" href="_static/css/theme.css" type="text/css" />
   <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
     <link rel="index" title="Index" href="genindex.html" />
     <link rel="search" title="Search" href="search.html" />
     <link rel="next" title="Tutorials" href="tutorials.html" />
     <link rel="prev" title="Theory" href="theory.html" /> 
+
+  
+  <script src="_static/js/modernizr.min.js"></script>
+
 </head>
 
 <body class="wy-body-for-nav">
 
    
   <div class="wy-grid-for-nav">
+
     
     <nav data-toggle="wy-nav-shift" class="wy-nav-side">
       <div class="wy-side-scroll">
-        <div class="wy-side-nav-search" >
+        <div class="wy-side-nav-search">
           
 
           
@@ -189,7 +187,7 @@
       <li class="wy-breadcrumbs-aside">
         
             
-            <a href="_sources/code_structure.rst.txt" rel="nofollow"> View page source</a>
+            <a href="_sources/code_structure.txt" rel="nofollow"> View page source</a>
           
         
       </li>
@@ -205,12 +203,12 @@
   <div class="section" id="code-structure">
 <span id="id1"></span><h1>Code Structure<a class="headerlink" href="#code-structure" title="Permalink to this headline">¶</a></h1>
 <p>This section provides a description of the WEC-Sim source code and its structure.
-For more information about WEC-Sim’s code structure, refer to the <a class="reference external" href="http://wec-sim.github.io/WEC-Sim/webinars.html#code-structure-overview">webinar on WEC-Sim Code Structure</a>.</p>
+For more information about WEC-Sim&#8217;s code structure, refer to the <a class="reference external" href="http://wec-sim.github.io/WEC-Sim/webinars.html#code-structure-overview">webinar on WEC-Sim Code Structure</a>.</p>
 <div class="section" id="wec-sim-source-code">
 <h2>WEC-Sim Source Code<a class="headerlink" href="#wec-sim-source-code" title="Permalink to this headline">¶</a></h2>
-<p>The WEC-Sim source code consists of a series of MATLAB <code class="docutils literal notranslate"><span class="pre">*.m</span></code> objects (defined in WEC-Sim as classes) and Simulink <code class="docutils literal notranslate"><span class="pre">*.slx</span></code> library blocks which are executed by the <code class="docutils literal notranslate"><span class="pre">wecSim.m</span></code> script.
-Executing <code class="docutils literal notranslate"><span class="pre">wecSim.m</span></code> parses the user input data, performs preprocessing calculations in each of the classes, selects and initializes variant subsystems in the Simulink model, and runs the time-domain simulations in WEC-Sim.
-The WEC-Sim source code files are contained within a source directory referred to as <code class="docutils literal notranslate"><span class="pre">$SOURCE</span></code>.</p>
+<p>The WEC-Sim source code consists of a series of MATLAB <code class="docutils literal"><span class="pre">*.m</span></code> objects (defined in WEC-Sim as classes) and Simulink <code class="docutils literal"><span class="pre">*.slx</span></code> library blocks which are executed by the <code class="docutils literal"><span class="pre">wecSim.m</span></code> script.
+Executing <code class="docutils literal"><span class="pre">wecSim.m</span></code> parses the user input data, performs preprocessing calculations in each of the classes, selects and initializes variant subsystems in the Simulink model, and runs the time-domain simulations in WEC-Sim.
+The WEC-Sim source code files are contained within a source directory referred to as <code class="docutils literal"><span class="pre">$SOURCE</span></code>.</p>
 <table border="1" class="docutils">
 <colgroup>
 <col width="41%" />
@@ -224,55 +222,55 @@ The WEC-Sim source code files are contained within a source directory referred t
 </tr>
 <tr class="row-even"><td>WEC-Sim Executable Script</td>
 <td>wecSim.m</td>
-<td><code class="docutils literal notranslate"><span class="pre">$SOURCE</span></code></td>
+<td><code class="docutils literal"><span class="pre">$SOURCE</span></code></td>
 </tr>
 <tr class="row-odd"><td>WEC-Sim MATLAB Objects</td>
 <td>&lt;object&gt;Class.m</td>
-<td><code class="docutils literal notranslate"><span class="pre">$SOURCE/objects</span></code></td>
+<td><code class="docutils literal"><span class="pre">$SOURCE/objects</span></code></td>
 </tr>
 <tr class="row-even"><td>WEC-Sim Simulink Library</td>
 <td>&lt;block&gt;_Lib.slx</td>
-<td><code class="docutils literal notranslate"><span class="pre">$SOURCE/lib</span></code></td>
+<td><code class="docutils literal"><span class="pre">$SOURCE/lib</span></code></td>
 </tr>
 </tbody>
 </table>
 </div>
 <div class="section" id="wec-sim-objects">
 <h2>WEC-Sim Objects<a class="headerlink" href="#wec-sim-objects" title="Permalink to this headline">¶</a></h2>
-<p>All information required to run WEC-Sim simulations is contained within the <code class="docutils literal notranslate"><span class="pre">simu</span></code>, <code class="docutils literal notranslate"><span class="pre">waves</span></code>, <code class="docutils literal notranslate"><span class="pre">body(i)</span></code>, <code class="docutils literal notranslate"><span class="pre">pto(i)</span></code>, <code class="docutils literal notranslate"><span class="pre">constraint(i)</span></code>, and <code class="docutils literal notranslate"><span class="pre">mooring(i)</span></code> objects (instances of the simulationClass, waveClass, bodyClass, constraintClass, ptoClass, and mooringClass).
-The user can interact with these classes within the WEC-Sim input file (<code class="docutils literal notranslate"><span class="pre">wecSimInputFile.m</span></code>).
+<p>All information required to run WEC-Sim simulations is contained within the <code class="docutils literal"><span class="pre">simu</span></code>, <code class="docutils literal"><span class="pre">waves</span></code>, <code class="docutils literal"><span class="pre">body(i)</span></code>, <code class="docutils literal"><span class="pre">pto(i)</span></code>, <code class="docutils literal"><span class="pre">constraint(i)</span></code>, and <code class="docutils literal"><span class="pre">mooring(i)</span></code> objects (instances of the simulationClass, waveClass, bodyClass, constraintClass, ptoClass, and mooringClass).
+The user can interact with these classes within the WEC-Sim input file (<code class="docutils literal"><span class="pre">wecSimInputFile.m</span></code>).
 The remainder of this section describes the role of the WEC-Sim objects, and how to interact with the WEC-Sim objects to define input properties.</p>
 <p>There are two ways to look at the available properties and methods within a class.
-The first is to type <code class="docutils literal notranslate"><span class="pre">doc</span> <span class="pre">&lt;className&gt;</span></code> in Matlab Command Window, and the second is to open the class definitions located in the <code class="docutils literal notranslate"><span class="pre">//WEC-Sim/source/objects</span></code> directory by typing <code class="docutils literal notranslate"><span class="pre">open</span> <span class="pre">&lt;className&gt;</span></code> in MATLAB Command Window.
+The first is to type <code class="docutils literal"><span class="pre">doc</span> <span class="pre">&lt;className&gt;</span></code> in Matlab Command Window, and the second is to open the class definitions located in the <code class="docutils literal"><span class="pre">//WEC-Sim/source/objects</span></code> directory by typing <code class="docutils literal"><span class="pre">open</span> <span class="pre">&lt;className&gt;</span></code> in MATLAB Command Window.
 The latter provides more information since it also defines the different fields in a structure.</p>
 <div class="section" id="simulation-class">
 <h3>Simulation Class<a class="headerlink" href="#simulation-class" title="Permalink to this headline">¶</a></h3>
-<p>The simulation class file, <code class="docutils literal notranslate"><span class="pre">simulationClass.m</span></code>, is located in the <code class="docutils literal notranslate"><span class="pre">//WEC-Sim/source/objects</span></code> directory.
+<p>The simulation class file, <code class="docutils literal"><span class="pre">simulationClass.m</span></code>, is located in the <code class="docutils literal"><span class="pre">//WEC-Sim/source/objects</span></code> directory.
 The simulation class contains the simulation parameters and solver settings necessary to execute the WEC-Sim code.
-Within the <code class="docutils literal notranslate"><span class="pre">wecSimInputFile.m</span></code>, users must initialize the simulation class (<code class="docutils literal notranslate"><span class="pre">simulationClass</span></code>) and specify the name of the  WEC-Sim (<code class="docutils literal notranslate"><span class="pre">*.slx</span></code>) model file by including the following lines:</p>
-<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">simu</span><span class="o">=</span><span class="n">simulationClass</span><span class="p">();</span>
+Within the <code class="docutils literal"><span class="pre">wecSimInputFile.m</span></code>, users must initialize the simulation class (<code class="docutils literal"><span class="pre">simulationClass</span></code>) and specify the name of the  WEC-Sim (<code class="docutils literal"><span class="pre">*.slx</span></code>) model file by including the following lines:</p>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="n">simu</span><span class="o">=</span><span class="n">simulationClass</span><span class="p">();</span>
 <span class="n">simu</span><span class="o">.</span><span class="n">simMechanicsFile</span><span class="o">=</span><span class="s1">&#39;&lt;WEC Model Name&gt;.slx&#39;</span>
 </pre></div>
 </div>
-<p>Users may specify other simulation class properties using the <code class="docutils literal notranslate"><span class="pre">simu</span></code> object in the <code class="docutils literal notranslate"><span class="pre">wecSimInputFile.m</span></code>, such as: simulation start time (<code class="docutils literal notranslate"><span class="pre">simu.startTime</span></code>), end time (<code class="docutils literal notranslate"><span class="pre">simu.endTime</span></code>), ramp time (<code class="docutils literal notranslate"><span class="pre">simu.rampTime</span></code>) and time step (<code class="docutils literal notranslate"><span class="pre">simu.dt</span></code>).
-All simulation class properties are specified as variables within the <code class="docutils literal notranslate"><span class="pre">simu</span></code> object as members of the <code class="docutils literal notranslate"><span class="pre">simulationClass</span></code>.</p>
+<p>Users may specify other simulation class properties using the <code class="docutils literal"><span class="pre">simu</span></code> object in the <code class="docutils literal"><span class="pre">wecSimInputFile.m</span></code>, such as: simulation start time (<code class="docutils literal"><span class="pre">simu.startTime</span></code>), end time (<code class="docutils literal"><span class="pre">simu.endTime</span></code>), ramp time (<code class="docutils literal"><span class="pre">simu.rampTime</span></code>) and time step (<code class="docutils literal"><span class="pre">simu.dt</span></code>).
+All simulation class properties are specified as variables within the <code class="docutils literal"><span class="pre">simu</span></code> object as members of the <code class="docutils literal"><span class="pre">simulationClass</span></code>.</p>
 <p>The WEC-Sim code has default values defined for the simulation class properties.
-These default values can be overwritten by the user, for example, the end time of a simulation can be set by entering the following command: <code class="docutils literal notranslate"><span class="pre">simu.endTime</span> <span class="pre">=</span> <span class="pre">&lt;user</span> <span class="pre">specified</span> <span class="pre">end</span> <span class="pre">time&gt;</span></code>.</p>
-<p>Available simulation properties, default values, and functions can be found by typing <code class="docutils literal notranslate"><span class="pre">doc</span> <span class="pre">simulationClass</span></code> in the MATLAB command window, or by opening the <code class="docutils literal notranslate"><span class="pre">simulationClass.m</span></code> file in <code class="docutils literal notranslate"><span class="pre">//WEC-Sim/source/objects</span></code> directory by typing <code class="docutils literal notranslate"><span class="pre">open</span> <span class="pre">simulationClass</span></code> in MATLAB Command Window.</p>
+These default values can be overwritten by the user, for example, the end time of a simulation can be set by entering the following command: <code class="docutils literal"><span class="pre">simu.endTime</span> <span class="pre">=</span> <span class="pre">&lt;user</span> <span class="pre">specified</span> <span class="pre">end</span> <span class="pre">time&gt;</span></code>.</p>
+<p>Available simulation properties, default values, and functions can be found by typing <code class="docutils literal"><span class="pre">doc</span> <span class="pre">simulationClass</span></code> in the MATLAB command window, or by opening the <code class="docutils literal"><span class="pre">simulationClass.m</span></code> file in <code class="docutils literal"><span class="pre">//WEC-Sim/source/objects</span></code> directory by typing <code class="docutils literal"><span class="pre">open</span> <span class="pre">simulationClass</span></code> in MATLAB Command Window.</p>
 <div class="admonition note">
 <p class="first admonition-title">Note</p>
-<p class="last">For more information about application of WEC-Sim’s simulation class, refer to <a class="reference external" href="http://wec-sim.github.io/WEC-Sim/advanced_features.html#simulation-features">Simulation Features</a>.</p>
+<p class="last">For more information about application of WEC-Sim&#8217;s simulation class, refer to <a class="reference external" href="http://wec-sim.github.io/WEC-Sim/advanced_features.html#simulation-features">Simulation Features</a>.</p>
 </div>
 </div>
 <div class="section" id="wave-class">
 <h3>Wave Class<a class="headerlink" href="#wave-class" title="Permalink to this headline">¶</a></h3>
-<p>The wave class file, <code class="docutils literal notranslate"><span class="pre">waveClass.m</span></code>, is located in the <code class="docutils literal notranslate"><span class="pre">//WEC-Sim/source/objects</span></code> directory.
+<p>The wave class file, <code class="docutils literal"><span class="pre">waveClass.m</span></code>, is located in the <code class="docutils literal"><span class="pre">//WEC-Sim/source/objects</span></code> directory.
 The wave class contains all wave information necessary to define the incident wave condition for the WEC-Sim time-domain simulation.
-Within the <code class="docutils literal notranslate"><span class="pre">wecSimInputFile.m</span></code>, users must initialize the wave class (<code class="docutils literal notranslate"><span class="pre">waveClass</span></code>) and specify the wave <code class="docutils literal notranslate"><span class="pre">type</span></code> by including the following lines:</p>
-<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">waves</span> <span class="o">=</span> <span class="n">waveClass</span><span class="p">(</span><span class="s1">&#39;type&#39;</span><span class="p">);</span>
+Within the <code class="docutils literal"><span class="pre">wecSimInputFile.m</span></code>, users must initialize the wave class (<code class="docutils literal"><span class="pre">waveClass</span></code>) and specify the wave <code class="docutils literal"><span class="pre">type</span></code> by including the following lines:</p>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="n">waves</span> <span class="o">=</span> <span class="n">waveClass</span><span class="p">(</span><span class="s1">&#39;type&#39;</span><span class="p">);</span>
 </pre></div>
 </div>
-<p>Users must specify additional wave class properties using the <code class="docutils literal notranslate"><span class="pre">waves</span></code> object depending on which wave type is selected, as shown in the table below. A more detailed description of the available wave types is given in the following sections.</p>
+<p>Users must specify additional wave class properties using the <code class="docutils literal"><span class="pre">waves</span></code> object depending on which wave type is selected, as shown in the table below. A more detailed description of the available wave types is given in the following sections.</p>
 <table border="1" class="docutils">
 <colgroup>
 <col width="27%" />
@@ -282,57 +280,57 @@ Within the <code class="docutils literal notranslate"><span class="pre">wecSimIn
 <tr class="row-odd"><td><strong>Wave Type</strong></td>
 <td><strong>Required Properties</strong></td>
 </tr>
-<tr class="row-even"><td><code class="docutils literal notranslate"><span class="pre">noWave</span></code></td>
-<td><code class="docutils literal notranslate"><span class="pre">waves.T</span></code></td>
+<tr class="row-even"><td><code class="docutils literal"><span class="pre">noWave</span></code></td>
+<td><code class="docutils literal"><span class="pre">waves.T</span></code></td>
 </tr>
-<tr class="row-odd"><td><code class="docutils literal notranslate"><span class="pre">noWaveCIC</span></code></td>
+<tr class="row-odd"><td><code class="docutils literal"><span class="pre">noWaveCIC</span></code></td>
 <td>N/A</td>
 </tr>
-<tr class="row-even"><td><code class="docutils literal notranslate"><span class="pre">regular</span></code></td>
-<td><code class="docutils literal notranslate"><span class="pre">waves.H</span></code>, <code class="docutils literal notranslate"><span class="pre">waves.T</span></code></td>
+<tr class="row-even"><td><code class="docutils literal"><span class="pre">regular</span></code></td>
+<td><code class="docutils literal"><span class="pre">waves.H</span></code>, <code class="docutils literal"><span class="pre">waves.T</span></code></td>
 </tr>
-<tr class="row-odd"><td><code class="docutils literal notranslate"><span class="pre">regularCIC</span></code></td>
-<td><code class="docutils literal notranslate"><span class="pre">waves.H</span></code>, <code class="docutils literal notranslate"><span class="pre">waves.T</span></code></td>
+<tr class="row-odd"><td><code class="docutils literal"><span class="pre">regularCIC</span></code></td>
+<td><code class="docutils literal"><span class="pre">waves.H</span></code>, <code class="docutils literal"><span class="pre">waves.T</span></code></td>
 </tr>
-<tr class="row-even"><td><code class="docutils literal notranslate"><span class="pre">irregular</span></code></td>
-<td><code class="docutils literal notranslate"><span class="pre">waves.H</span></code>, <code class="docutils literal notranslate"><span class="pre">waves.T</span></code>, <code class="docutils literal notranslate"><span class="pre">waves.spectrumType</span></code></td>
+<tr class="row-even"><td><code class="docutils literal"><span class="pre">irregular</span></code></td>
+<td><code class="docutils literal"><span class="pre">waves.H</span></code>, <code class="docutils literal"><span class="pre">waves.T</span></code>, <code class="docutils literal"><span class="pre">waves.spectrumType</span></code></td>
 </tr>
-<tr class="row-odd"><td><code class="docutils literal notranslate"><span class="pre">spectrumImport</span></code></td>
-<td><code class="docutils literal notranslate"><span class="pre">waves.spectrumDataFile</span></code></td>
+<tr class="row-odd"><td><code class="docutils literal"><span class="pre">spectrumImport</span></code></td>
+<td><code class="docutils literal"><span class="pre">waves.spectrumDataFile</span></code></td>
 </tr>
-<tr class="row-even"><td><code class="docutils literal notranslate"><span class="pre">etaImport</span></code></td>
-<td><code class="docutils literal notranslate"><span class="pre">waves.etaDataFile</span></code></td>
+<tr class="row-even"><td><code class="docutils literal"><span class="pre">etaImport</span></code></td>
+<td><code class="docutils literal"><span class="pre">waves.etaDataFile</span></code></td>
 </tr>
 </tbody>
 </table>
-<p>Available wave class properties, default values, and functions can be found by typing <code class="docutils literal notranslate"><span class="pre">doc</span> <span class="pre">waveClass</span></code> in the MATLAB command window, or by opening the <code class="docutils literal notranslate"><span class="pre">waveClass.m</span></code> file in <code class="docutils literal notranslate"><span class="pre">//WEC-Sim/source/objects</span></code> directory by typing <code class="docutils literal notranslate"><span class="pre">open</span> <span class="pre">wavenClass</span></code> in the Matlab Command Window.</p>
+<p>Available wave class properties, default values, and functions can be found by typing <code class="docutils literal"><span class="pre">doc</span> <span class="pre">waveClass</span></code> in the MATLAB command window, or by opening the <code class="docutils literal"><span class="pre">waveClass.m</span></code> file in <code class="docutils literal"><span class="pre">//WEC-Sim/source/objects</span></code> directory by typing <code class="docutils literal"><span class="pre">open</span> <span class="pre">wavenClass</span></code> in the Matlab Command Window.</p>
 <div class="section" id="nowave">
 <h4>noWave<a class="headerlink" href="#nowave" title="Permalink to this headline">¶</a></h4>
-<p>The <code class="docutils literal notranslate"><span class="pre">noWave</span></code> case is for running WEC-Sim simulations with no waves and constant radiation added mass and wave damping coefficients.
-The <code class="docutils literal notranslate"><span class="pre">noWave</span></code> case is typically used to run decay tests.
-Users must still provide hydro coefficients from a BEM solver before executing WEC-Sim and specify the period (<code class="docutils literal notranslate"><span class="pre">wave.T</span></code>) from which the hydrodynamic coefficients are selected.</p>
-<p>The <code class="docutils literal notranslate"><span class="pre">noWave</span></code> case is defined by including the following in the input file:</p>
-<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">waves</span> <span class="o">=</span> <span class="n">waveClass</span><span class="p">(</span><span class="s1">&#39;noWave&#39;</span><span class="p">);</span>
+<p>The <code class="docutils literal"><span class="pre">noWave</span></code> case is for running WEC-Sim simulations with no waves and constant radiation added mass and wave damping coefficients.
+The <code class="docutils literal"><span class="pre">noWave</span></code> case is typically used to run decay tests.
+Users must still provide hydro coefficients from a BEM solver before executing WEC-Sim and specify the period (<code class="docutils literal"><span class="pre">wave.T</span></code>) from which the hydrodynamic coefficients are selected.</p>
+<p>The <code class="docutils literal"><span class="pre">noWave</span></code> case is defined by including the following in the input file:</p>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="n">waves</span> <span class="o">=</span> <span class="n">waveClass</span><span class="p">(</span><span class="s1">&#39;noWave&#39;</span><span class="p">);</span>
 <span class="n">waves</span><span class="o">.</span><span class="n">T</span> <span class="o">=</span> <span class="o">&lt;</span><span class="n">user</span> <span class="n">defined</span> <span class="n">wave</span> <span class="n">period</span><span class="o">&gt;</span><span class="p">;</span> <span class="o">%</span><span class="p">[</span><span class="n">s</span><span class="p">]</span>
 </pre></div>
 </div>
 </div>
 <div class="section" id="nowavecic">
 <h4>noWaveCIC<a class="headerlink" href="#nowavecic" title="Permalink to this headline">¶</a></h4>
-<p>The <code class="docutils literal notranslate"><span class="pre">noWaveCIC</span></code> case is the same as the noWave case described above, but with the addition of the convolution integral calculation.
+<p>The <code class="docutils literal"><span class="pre">noWaveCIC</span></code> case is the same as the noWave case described above, but with the addition of the convolution integral calculation.
 The only difference is that the radiation forces are calculated using the convolution integral and the infinite frequency added mass.</p>
-<p>The <code class="docutils literal notranslate"><span class="pre">noWaveCIC</span></code> case is defined by including the following in the input file:</p>
-<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">waves</span> <span class="o">=</span> <span class="n">waveClass</span><span class="p">(</span><span class="s1">&#39;noWaveCIC&#39;</span><span class="p">);</span>
+<p>The <code class="docutils literal"><span class="pre">noWaveCIC</span></code> case is defined by including the following in the input file:</p>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="n">waves</span> <span class="o">=</span> <span class="n">waveClass</span><span class="p">(</span><span class="s1">&#39;noWaveCIC&#39;</span><span class="p">);</span>
 </pre></div>
 </div>
 </div>
 <div class="section" id="regular">
 <h4>regular<a class="headerlink" href="#regular" title="Permalink to this headline">¶</a></h4>
-<p>The <code class="docutils literal notranslate"><span class="pre">regular</span></code> wave case  is used for running simulations in regular waves with constant radiation added mass and wave damping coefficients.
+<p>The <code class="docutils literal"><span class="pre">regular</span></code> wave case  is used for running simulations in regular waves with constant radiation added mass and wave damping coefficients.
 Using this option, WEC-Sim assumes that the system dynamic response is in sinusoidal steady-state form, where constant added mass and damping coefficients are used (instead of the convolution integral) to calculate wave radiation forces.
-Wave period (<code class="docutils literal notranslate"><span class="pre">wave.T</span></code>) and wave height (<code class="docutils literal notranslate"><span class="pre">wave.H</span></code>) must be specified in the input file.</p>
-<p>The <code class="docutils literal notranslate"><span class="pre">regular</span></code> case is defined by including the following in the input file:</p>
-<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">waves</span> <span class="o">=</span> <span class="n">waveClass</span><span class="p">(</span><span class="s1">&#39;regular&#39;</span><span class="p">);</span>
+Wave period (<code class="docutils literal"><span class="pre">wave.T</span></code>) and wave height (<code class="docutils literal"><span class="pre">wave.H</span></code>) must be specified in the input file.</p>
+<p>The <code class="docutils literal"><span class="pre">regular</span></code> case is defined by including the following in the input file:</p>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="n">waves</span> <span class="o">=</span> <span class="n">waveClass</span><span class="p">(</span><span class="s1">&#39;regular&#39;</span><span class="p">);</span>
 <span class="n">waves</span><span class="o">.</span><span class="n">T</span> <span class="o">=</span> <span class="o">&lt;</span><span class="n">user</span> <span class="n">defined</span> <span class="n">wave</span> <span class="n">period</span><span class="o">&gt;</span><span class="p">;</span> <span class="o">%</span><span class="p">[</span><span class="n">s</span><span class="p">]</span>
 <span class="n">waves</span><span class="o">.</span><span class="n">H</span> <span class="o">=</span> <span class="o">&lt;</span><span class="n">user</span> <span class="n">defined</span> <span class="n">wave</span> <span class="n">height</span><span class="o">&gt;</span><span class="p">;</span> <span class="o">%</span><span class="p">[</span><span class="n">m</span><span class="p">]</span>
 </pre></div>
@@ -340,11 +338,11 @@ Wave period (<code class="docutils literal notranslate"><span class="pre">wave.T
 </div>
 <div class="section" id="regularcic">
 <h4>regularCIC<a class="headerlink" href="#regularcic" title="Permalink to this headline">¶</a></h4>
-<p>The <code class="docutils literal notranslate"><span class="pre">regularCIC</span></code> is the same as regular wave case described above, but with the addition of the convolution integral calculation.
+<p>The <code class="docutils literal"><span class="pre">regularCIC</span></code> is the same as regular wave case described above, but with the addition of the convolution integral calculation.
 The only difference is that the radiation forces are calculated using the convolution integral and the infinite frequency added mass.
-Wave period (<code class="docutils literal notranslate"><span class="pre">wave.T</span></code>) and wave height (<code class="docutils literal notranslate"><span class="pre">wave.H</span></code>) must be specified in the input file.</p>
-<p>The <code class="docutils literal notranslate"><span class="pre">regularCIC</span></code> case is defined by including the following in the input file:</p>
-<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">waves</span> <span class="o">=</span> <span class="n">waveClass</span><span class="p">(</span><span class="s1">&#39;regularCIC&#39;</span><span class="p">);</span>
+Wave period (<code class="docutils literal"><span class="pre">wave.T</span></code>) and wave height (<code class="docutils literal"><span class="pre">wave.H</span></code>) must be specified in the input file.</p>
+<p>The <code class="docutils literal"><span class="pre">regularCIC</span></code> case is defined by including the following in the input file:</p>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="n">waves</span> <span class="o">=</span> <span class="n">waveClass</span><span class="p">(</span><span class="s1">&#39;regularCIC&#39;</span><span class="p">);</span>
 <span class="n">waves</span><span class="o">.</span><span class="n">T</span> <span class="o">=</span> <span class="o">&lt;</span><span class="n">user</span> <span class="n">defined</span> <span class="n">wave</span> <span class="n">period</span><span class="o">&gt;</span><span class="p">;</span> <span class="o">%</span><span class="p">[</span><span class="n">s</span><span class="p">]</span>
 <span class="n">waves</span><span class="o">.</span><span class="n">H</span> <span class="o">=</span> <span class="o">&lt;</span><span class="n">user</span> <span class="n">defined</span> <span class="n">wave</span> <span class="n">height</span><span class="o">&gt;</span><span class="p">;</span> <span class="o">%</span><span class="p">[</span><span class="n">m</span><span class="p">]</span>
 </pre></div>
@@ -352,9 +350,9 @@ Wave period (<code class="docutils literal notranslate"><span class="pre">wave.T
 </div>
 <div class="section" id="irregular">
 <h4>irregular<a class="headerlink" href="#irregular" title="Permalink to this headline">¶</a></h4>
-<p>The <code class="docutils literal notranslate"><span class="pre">irregular</span></code> wave case is the wave type for irregular wave simulations using a Pierson Moskowitz (PM), Bretschneider (BS), or JONSWAP (JS) wave spectrum.
-Significant wave height (<code class="docutils literal notranslate"><span class="pre">wave.H</span></code>), peak period (<code class="docutils literal notranslate"><span class="pre">wave.T</span></code>), and wave spectrum type (<code class="docutils literal notranslate"><span class="pre">waves.spectrumtype</span></code>) must be specified in the input file.
-The available wave spectra and their corresponding <code class="docutils literal notranslate"><span class="pre">waves.spectrumType</span></code> are listed below:</p>
+<p>The <code class="docutils literal"><span class="pre">irregular</span></code> wave case is the wave type for irregular wave simulations using a Pierson Moskowitz (PM), Bretschneider (BS), or JONSWAP (JS) wave spectrum.
+Significant wave height (<code class="docutils literal"><span class="pre">wave.H</span></code>), peak period (<code class="docutils literal"><span class="pre">wave.T</span></code>), and wave spectrum type (<code class="docutils literal"><span class="pre">waves.spectrumtype</span></code>) must be specified in the input file.
+The available wave spectra and their corresponding <code class="docutils literal"><span class="pre">waves.spectrumType</span></code> are listed below:</p>
 <table border="1" class="docutils">
 <colgroup>
 <col width="55%" />
@@ -365,132 +363,132 @@ The available wave spectra and their corresponding <code class="docutils literal
 <td><strong>spectrumType</strong></td>
 </tr>
 <tr class="row-even"><td>Pierson Moskowitz</td>
-<td><code class="docutils literal notranslate"><span class="pre">PM</span></code></td>
+<td><code class="docutils literal"><span class="pre">PM</span></code></td>
 </tr>
 <tr class="row-odd"><td>Bretschneider</td>
-<td><code class="docutils literal notranslate"><span class="pre">BS</span></code></td>
+<td><code class="docutils literal"><span class="pre">BS</span></code></td>
 </tr>
 <tr class="row-even"><td>JONSWAP</td>
-<td><code class="docutils literal notranslate"><span class="pre">JS</span></code></td>
+<td><code class="docutils literal"><span class="pre">JS</span></code></td>
 </tr>
 </tbody>
 </table>
-<p>The <code class="docutils literal notranslate"><span class="pre">irregular</span></code> case is defined by including the following in the input file:</p>
-<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">waves</span> <span class="o">=</span> <span class="n">waveClass</span><span class="p">(</span><span class="s1">&#39;irregular&#39;</span><span class="p">);</span>
+<p>The <code class="docutils literal"><span class="pre">irregular</span></code> case is defined by including the following in the input file:</p>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="n">waves</span> <span class="o">=</span> <span class="n">waveClass</span><span class="p">(</span><span class="s1">&#39;irregular&#39;</span><span class="p">);</span>
 <span class="n">waves</span><span class="o">.</span><span class="n">T</span> <span class="o">=</span> <span class="o">&lt;</span><span class="n">user</span> <span class="n">defined</span> <span class="n">wave</span> <span class="n">period</span><span class="o">&gt;</span><span class="p">;</span> <span class="o">%</span><span class="p">[</span><span class="n">s</span><span class="p">]</span>
 <span class="n">waves</span><span class="o">.</span><span class="n">H</span> <span class="o">=</span> <span class="o">&lt;</span><span class="n">user</span> <span class="n">defined</span> <span class="n">wave</span> <span class="n">height</span><span class="o">&gt;</span><span class="p">;</span> <span class="o">%</span><span class="p">[</span><span class="n">m</span><span class="p">]</span>
 <span class="n">waves</span><span class="o">.</span><span class="n">spectrumType</span> <span class="o">=</span> <span class="s1">&#39;&lt;user specified spectrum&gt;&#39;</span><span class="p">;</span>
 </pre></div>
 </div>
-<p>Users have the option of defining gamma for the JONSWAP spectrum by specifying <code class="docutils literal notranslate"><span class="pre">waves.gamma</span> <span class="pre">=</span> <span class="pre">&lt;user</span> <span class="pre">specified</span> <span class="pre">gamma&gt;;</span></code>. If gamma is not defined, the default value of gamma equal to 3.3 is used.</p>
+<p>Users have the option of defining gamma for the JONSWAP spectrum by specifying <code class="docutils literal"><span class="pre">waves.gamma</span> <span class="pre">=</span> <span class="pre">&lt;user</span> <span class="pre">specified</span> <span class="pre">gamma&gt;;</span></code>. If gamma is not defined, the default value of gamma equal to 3.3 is used.</p>
 </div>
 <div class="section" id="spectrumimport">
 <h4>spectrumImport<a class="headerlink" href="#spectrumimport" title="Permalink to this headline">¶</a></h4>
-<p>The <code class="docutils literal notranslate"><span class="pre">spectrumImport</span></code> case is the wave type for irregular wave simulations using an imported wave spectrum (ex: from buoy data).
+<p>The <code class="docutils literal"><span class="pre">spectrumImport</span></code> case is the wave type for irregular wave simulations using an imported wave spectrum (ex: from buoy data).
 The user-defined spectrum must be defined with the wave frequency (Hz) in the first column, and the spectral energy density (m^2/Hz) in the second column.
 Users have the option to specify a third column with phase (rad); if phase is not specified by the user it will be randomly defined.
-An example of this is given in the <code class="docutils literal notranslate"><span class="pre">spectrumData.mat</span></code> file in the tutorials directory folder of the WEC-Sim source code.
-The <code class="docutils literal notranslate"><span class="pre">spectrumImport</span></code> case is defined by including the following in the input file:</p>
-<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">waves</span> <span class="o">=</span> <span class="n">waveClass</span><span class="p">(</span><span class="s1">&#39;spectrumImport&#39;</span><span class="p">);</span>
+An example of this is given in the <code class="docutils literal"><span class="pre">spectrumData.mat</span></code> file in the tutorials directory folder of the WEC-Sim source code.
+The <code class="docutils literal"><span class="pre">spectrumImport</span></code> case is defined by including the following in the input file:</p>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="n">waves</span> <span class="o">=</span> <span class="n">waveClass</span><span class="p">(</span><span class="s1">&#39;spectrumImport&#39;</span><span class="p">);</span>
 <span class="n">waves</span><span class="o">.</span><span class="n">spectrumDataFile</span><span class="o">=</span><span class="s1">&#39;&lt;wave spectrum file&gt;.mat&#39;</span><span class="p">;</span>
 </pre></div>
 </div>
 <div class="admonition note">
 <p class="first admonition-title">Note</p>
-<p class="last">When using the <code class="docutils literal notranslate"><span class="pre">spectrumImport</span></code> option, users must specify a sufficient number of wave frequencies (typically ~1000) to adequately describe the wave spectra. These wave frequencies are the same that will be used to define the wave forces on the WEC, for more information refer to the <a class="reference external" href="http://wec-sim.github.io/WEC-Sim/advanced_features.html#irregular-wave-binning">Irregular Wave Binning</a> section.</p>
+<p class="last">When using the <code class="docutils literal"><span class="pre">spectrumImport</span></code> option, users must specify a sufficient number of wave frequencies (typically ~1000) to adequately describe the wave spectra. These wave frequencies are the same that will be used to define the wave forces on the WEC, for more information refer to the <a class="reference external" href="http://wec-sim.github.io/WEC-Sim/advanced_features.html#irregular-wave-binning">Irregular Wave Binning</a> section.</p>
 </div>
 </div>
 <div class="section" id="etaimport">
 <h4>etaImport<a class="headerlink" href="#etaimport" title="Permalink to this headline">¶</a></h4>
-<p>The <code class="docutils literal notranslate"><span class="pre">etaImport</span></code> case is the wave type for wave simulations using user-defined time-series (ex: from experiments).
+<p>The <code class="docutils literal"><span class="pre">etaImport</span></code> case is the wave type for wave simulations using user-defined time-series (ex: from experiments).
 The user-defined wave surface elevation must be defined with the time (s) in the first column, and the wave surface elevation (m) in the second column.
-An example of this is given in the <code class="docutils literal notranslate"><span class="pre">etaData.mat</span></code> file in the tutorials directory folder of the WEC-Sim source code.
-The <code class="docutils literal notranslate"><span class="pre">etaImport</span></code> case is defined by including the following in the input file:</p>
-<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">waves</span> <span class="o">=</span> <span class="n">waveClass</span><span class="p">(</span><span class="s1">&#39;etaImport&#39;</span><span class="p">);</span>
+An example of this is given in the <code class="docutils literal"><span class="pre">etaData.mat</span></code> file in the tutorials directory folder of the WEC-Sim source code.
+The <code class="docutils literal"><span class="pre">etaImport</span></code> case is defined by including the following in the input file:</p>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="n">waves</span> <span class="o">=</span> <span class="n">waveClass</span><span class="p">(</span><span class="s1">&#39;etaImport&#39;</span><span class="p">);</span>
 <span class="n">waves</span><span class="o">.</span><span class="n">etaDataFile</span> <span class="o">=</span><span class="s1">&#39;&lt;eta file&gt;.mat&#39;</span><span class="p">;</span>
 </pre></div>
 </div>
 <div class="admonition note">
 <p class="first admonition-title">Note</p>
-<p class="last">For more information about application of WEC-Sim’s wave class, refer to <a class="reference external" href="http://wec-sim.github.io/WEC-Sim/advanced_features.html#wave-features">Wave Features</a>.</p>
+<p class="last">For more information about application of WEC-Sim&#8217;s wave class, refer to <a class="reference external" href="http://wec-sim.github.io/WEC-Sim/advanced_features.html#wave-features">Wave Features</a>.</p>
 </div>
 </div>
 </div>
 <div class="section" id="body-class">
 <h3>Body Class<a class="headerlink" href="#body-class" title="Permalink to this headline">¶</a></h3>
-<p>The body class file, <code class="docutils literal notranslate"><span class="pre">bodyClass.m</span></code>, is located in the <code class="docutils literal notranslate"><span class="pre">//WEC-Sim/source/objects</span></code> directory.
+<p>The body class file, <code class="docutils literal"><span class="pre">bodyClass.m</span></code>, is located in the <code class="docutils literal"><span class="pre">//WEC-Sim/source/objects</span></code> directory.
 The body class contains the mass and hydrodynamic properties of each body that comprises the WEC being simulated.
-Within the <code class="docutils literal notranslate"><span class="pre">wecSimInputFile.m</span></code>, users must initialize each iteration of the body class (<code class="docutils literal notranslate"><span class="pre">bodyClass</span></code>), and specify the location of the  hydrodynamic data file (<code class="docutils literal notranslate"><span class="pre">*.h5</span></code>) and geometry file (<code class="docutils literal notranslate"><span class="pre">*.stl</span></code>) for each body. The body class is defined by including the following lines in the WEC-Sim input file, where # is the body number ‘&lt;bem_data&gt;.h5’ is the name of the h5 file containing the BEM results:</p>
-<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">body</span><span class="p">(</span><span class="o">&lt;</span><span class="c1">#&gt;)=bodyClass(&#39;&lt;bem_data&gt;.h5&#39;)</span>
+Within the <code class="docutils literal"><span class="pre">wecSimInputFile.m</span></code>, users must initialize each iteration of the body class (<code class="docutils literal"><span class="pre">bodyClass</span></code>), and specify the location of the  hydrodynamic data file (<code class="docutils literal"><span class="pre">*.h5</span></code>) and geometry file (<code class="docutils literal"><span class="pre">*.stl</span></code>) for each body. The body class is defined by including the following lines in the WEC-Sim input file, where # is the body number &#8216;&lt;bem_data&gt;.h5&#8217; is the name of the h5 file containing the BEM results:</p>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="n">body</span><span class="p">(</span><span class="o">&lt;</span><span class="c1">#&gt;)=bodyClass(&#39;&lt;bem_data&gt;.h5&#39;)</span>
 <span class="n">body</span><span class="p">(</span><span class="o">&lt;</span><span class="c1">#&gt;).geometryFile = &#39;&lt;geom&gt;.stl&#39;;</span>
 </pre></div>
 </div>
-<p>Users may specify other body class properties using the <code class="docutils literal notranslate"><span class="pre">body</span></code> object for each body in the <code class="docutils literal notranslate"><span class="pre">wecSimInputFile.m</span></code>.
+<p>Users may specify other body class properties using the <code class="docutils literal"><span class="pre">body</span></code> object for each body in the <code class="docutils literal"><span class="pre">wecSimInputFile.m</span></code>.
 WEC-Sim assumes that every WEC is composed of rigid bodies exposed to wave forcing.
-Body class properties include mass (<code class="docutils literal notranslate"><span class="pre">body(#).mass</span></code>) and moment of inertia (<code class="docutils literal notranslate"><span class="pre">body(#).momOfInertia</span></code>).
+Body class properties include mass (<code class="docutils literal"><span class="pre">body(#).mass</span></code>) and moment of inertia (<code class="docutils literal"><span class="pre">body(#).momOfInertia</span></code>).
 For example, viscous drag can be specified by entering the viscous drag coefficient and the characteristic area in vector format the WEC-Sim input file as follows:</p>
-<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">body</span><span class="p">(</span><span class="o">&lt;</span><span class="c1">#&gt;).viscDrag.cd= [0 0 1.3 0 0 0]</span>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="n">body</span><span class="p">(</span><span class="o">&lt;</span><span class="c1">#&gt;).viscDrag.cd= [0 0 1.3 0 0 0]</span>
 <span class="n">body</span><span class="p">(</span><span class="o">&lt;</span><span class="c1">#&gt;).viscDrag.characteristicArea= [0 0 100 0 0 0]</span>
 </pre></div>
 </div>
-<p>Available body properties, default values, and functions can be found by typing <code class="docutils literal notranslate"><span class="pre">doc</span> <span class="pre">bodyClass</span></code> in the MATLAB command window, or opening the <cite>bodyClass.m</cite> file in <code class="docutils literal notranslate"><span class="pre">//WEC-Sim/source/objects</span></code> directory by typing <code class="docutils literal notranslate"><span class="pre">open</span> <span class="pre">bodyClass</span></code> in Matlab Command Window.</p>
+<p>Available body properties, default values, and functions can be found by typing <code class="docutils literal"><span class="pre">doc</span> <span class="pre">bodyClass</span></code> in the MATLAB command window, or opening the <cite>bodyClass.m</cite> file in <code class="docutils literal"><span class="pre">//WEC-Sim/source/objects</span></code> directory by typing <code class="docutils literal"><span class="pre">open</span> <span class="pre">bodyClass</span></code> in Matlab Command Window.</p>
 <div class="admonition note">
 <p class="first admonition-title">Note</p>
-<p class="last">For more information about application of WEC-Sim’s body class, refer to <a class="reference external" href="http://wec-sim.github.io/WEC-Sim/advanced_features.html#body-features">Body Features</a>.</p>
+<p class="last">For more information about application of WEC-Sim&#8217;s body class, refer to <a class="reference external" href="http://wec-sim.github.io/WEC-Sim/advanced_features.html#body-features">Body Features</a>.</p>
 </div>
 </div>
 <div class="section" id="constraint-class">
 <h3>Constraint Class<a class="headerlink" href="#constraint-class" title="Permalink to this headline">¶</a></h3>
-<p>The constraint class file, <code class="docutils literal notranslate"><span class="pre">constraintClass.m</span></code>, is located in the <code class="docutils literal notranslate"><span class="pre">//WEC-Sim/source/objects</span></code> directory.
+<p>The constraint class file, <code class="docutils literal"><span class="pre">constraintClass.m</span></code>, is located in the <code class="docutils literal"><span class="pre">//WEC-Sim/source/objects</span></code> directory.
 WEC-Sim constraint blocks connect WEC bodies to one another (and possibly to the seabed) by constraining DOFs.
-The properties of the constraint class (<code class="docutils literal notranslate"><span class="pre">constraintClass</span></code>) are defined in the <code class="docutils literal notranslate"><span class="pre">constraint</span></code> object.
-Within the <code class="docutils literal notranslate"><span class="pre">wecSimInputFile.m</span></code>, users must initialize each iteration the constraint class (<code class="docutils literal notranslate"><span class="pre">constraintClass</span></code>) and specify the constraint <code class="docutils literal notranslate"><span class="pre">name</span></code>, by including the following lines:</p>
-<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">constraint</span><span class="p">(</span><span class="o">&lt;</span><span class="c1">#&gt;)=constraintClass(&#39;&lt;constraint name&gt;&#39;);</span>
+The properties of the constraint class (<code class="docutils literal"><span class="pre">constraintClass</span></code>) are defined in the <code class="docutils literal"><span class="pre">constraint</span></code> object.
+Within the <code class="docutils literal"><span class="pre">wecSimInputFile.m</span></code>, users must initialize each iteration the constraint class (<code class="docutils literal"><span class="pre">constraintClass</span></code>) and specify the constraint <code class="docutils literal"><span class="pre">name</span></code>, by including the following lines:</p>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="n">constraint</span><span class="p">(</span><span class="o">&lt;</span><span class="c1">#&gt;)=constraintClass(&#39;&lt;constraint name&gt;&#39;);</span>
 </pre></div>
 </div>
-<p>For rotational constraint (ex: pitch), the user also needs to specify the location of the rotational joint with respect to the global reference frame in the <code class="docutils literal notranslate"><span class="pre">constraint(&lt;#&gt;).loc</span></code> variable.</p>
-<p>Available constraint properties, default values, and functions can be found by typing <code class="docutils literal notranslate"><span class="pre">doc</span> <span class="pre">constraintClass</span></code> in the MATLAB command window, or opening the <cite>constraintClass.m</cite> file in <code class="docutils literal notranslate"><span class="pre">//WEC-Sim/source/objects</span></code> directory by typing <code class="docutils literal notranslate"><span class="pre">open</span> <span class="pre">constraintClass</span></code> in MATLAB Command Window.</p>
+<p>For rotational constraint (ex: pitch), the user also needs to specify the location of the rotational joint with respect to the global reference frame in the <code class="docutils literal"><span class="pre">constraint(&lt;#&gt;).loc</span></code> variable.</p>
+<p>Available constraint properties, default values, and functions can be found by typing <code class="docutils literal"><span class="pre">doc</span> <span class="pre">constraintClass</span></code> in the MATLAB command window, or opening the <cite>constraintClass.m</cite> file in <code class="docutils literal"><span class="pre">//WEC-Sim/source/objects</span></code> directory by typing <code class="docutils literal"><span class="pre">open</span> <span class="pre">constraintClass</span></code> in MATLAB Command Window.</p>
 <div class="admonition note">
 <p class="first admonition-title">Note</p>
-<p class="last">For more information about application of WEC-Sim’s constraint class, refer to <a class="reference external" href="http://wec-sim.github.io/WEC-Sim/advanced_features.html#constraint-and-pto-features">Constraint Features</a></p>
+<p class="last">For more information about application of WEC-Sim&#8217;s constraint class, refer to <a class="reference external" href="http://wec-sim.github.io/WEC-Sim/advanced_features.html#constraint-and-pto-features">Constraint Features</a></p>
 </div>
 </div>
 <div class="section" id="pto-class">
 <h3>PTO Class<a class="headerlink" href="#pto-class" title="Permalink to this headline">¶</a></h3>
-<p>The pto class file, <code class="docutils literal notranslate"><span class="pre">ptoClass.m</span></code>, is located in the <code class="docutils literal notranslate"><span class="pre">//WEC-Sim/source/objects</span></code> directory.
+<p>The pto class file, <code class="docutils literal"><span class="pre">ptoClass.m</span></code>, is located in the <code class="docutils literal"><span class="pre">//WEC-Sim/source/objects</span></code> directory.
 WEC-Sim Power Take-Off (PTO) blocks connect WEC bodies to one other (and possibly to the seabed) by constraining DOFs and applying linear damping and stiffness.
-The pto class (<code class="docutils literal notranslate"><span class="pre">ptoClass</span></code>) extracts power from relative body motion with respect to a fixed reference frame or another body.
-The properties of the PTO class (<code class="docutils literal notranslate"><span class="pre">ptoClass</span></code>) are defined in the <code class="docutils literal notranslate"><span class="pre">pto</span></code> object.
-Within the <code class="docutils literal notranslate"><span class="pre">wecSimInputFile.m</span></code>, users must initialize each iteration the pto class (<code class="docutils literal notranslate"><span class="pre">ptoClass</span></code>) and specify the pto <code class="docutils literal notranslate"><span class="pre">name</span></code>, by including the following lines:</p>
-<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">pto</span><span class="p">(</span><span class="o">&lt;</span><span class="c1">#&gt;) = ptoClass(&#39;&lt;pto name&gt;&#39;);</span>
+The pto class (<code class="docutils literal"><span class="pre">ptoClass</span></code>) extracts power from relative body motion with respect to a fixed reference frame or another body.
+The properties of the PTO class (<code class="docutils literal"><span class="pre">ptoClass</span></code>) are defined in the <code class="docutils literal"><span class="pre">pto</span></code> object.
+Within the <code class="docutils literal"><span class="pre">wecSimInputFile.m</span></code>, users must initialize each iteration the pto class (<code class="docutils literal"><span class="pre">ptoClass</span></code>) and specify the pto <code class="docutils literal"><span class="pre">name</span></code>, by including the following lines:</p>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="n">pto</span><span class="p">(</span><span class="o">&lt;</span><span class="c1">#&gt;) = ptoClass(&#39;&lt;pto name&gt;&#39;);</span>
 </pre></div>
 </div>
-<p>For rotational ptos, the user also needs to specify the location of the rotational joint with respect to the global reference frame in the <code class="docutils literal notranslate"><span class="pre">constraint(&lt;#&gt;).loc</span></code> variable.
-In the PTO class, users can also specify linear damping (<code class="docutils literal notranslate"><span class="pre">pto(&lt;#&gt;).c</span></code>) and stiffness (<code class="docutils literal notranslate"><span class="pre">pto(&lt;#&gt;).k</span></code>) values to represent the PTO system (both have a default value of 0).
+<p>For rotational ptos, the user also needs to specify the location of the rotational joint with respect to the global reference frame in the <code class="docutils literal"><span class="pre">constraint(&lt;#&gt;).loc</span></code> variable.
+In the PTO class, users can also specify linear damping (<code class="docutils literal"><span class="pre">pto(&lt;#&gt;).c</span></code>) and stiffness (<code class="docutils literal"><span class="pre">pto(&lt;#&gt;).k</span></code>) values to represent the PTO system (both have a default value of 0).
 Users can overwrite the default values in the input file. For example, users can specify a damping value by entering the following in the WEC-Sim input file:</p>
-<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">pto</span><span class="p">(</span><span class="o">&lt;</span><span class="c1">#&gt;).c = &lt;pto damping value&gt;;</span>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="n">pto</span><span class="p">(</span><span class="o">&lt;</span><span class="c1">#&gt;).c = &lt;pto damping value&gt;;</span>
 <span class="n">pto</span><span class="p">(</span><span class="o">&lt;</span><span class="c1">#&gt;).k = &lt;pto stiffness value&gt;;</span>
 </pre></div>
 </div>
-<p>Available pto properties, default values, and functions can be found by typing <code class="docutils literal notranslate"><span class="pre">doc</span> <span class="pre">ptoClass</span></code> in the MATLAB command window, or opening the <cite>ptoClass.m</cite> file in <code class="docutils literal notranslate"><span class="pre">//WEC-Sim/source/objects</span></code> directory by typing <code class="docutils literal notranslate"><span class="pre">open</span> <span class="pre">ptoClass</span></code> in MATLAB Command Window.</p>
+<p>Available pto properties, default values, and functions can be found by typing <code class="docutils literal"><span class="pre">doc</span> <span class="pre">ptoClass</span></code> in the MATLAB command window, or opening the <cite>ptoClass.m</cite> file in <code class="docutils literal"><span class="pre">//WEC-Sim/source/objects</span></code> directory by typing <code class="docutils literal"><span class="pre">open</span> <span class="pre">ptoClass</span></code> in MATLAB Command Window.</p>
 <div class="admonition note">
 <p class="first admonition-title">Note</p>
-<p class="last">For more information about application of WEC-Sim’s pto class, refer to <a class="reference external" href="http://wec-sim.github.io/WEC-Sim/advanced_features.html#constraint-and-pto-features">PTO Features</a></p>
+<p class="last">For more information about application of WEC-Sim&#8217;s pto class, refer to <a class="reference external" href="http://wec-sim.github.io/WEC-Sim/advanced_features.html#constraint-and-pto-features">PTO Features</a></p>
 </div>
 </div>
 <div class="section" id="mooring-class">
 <h3>Mooring Class<a class="headerlink" href="#mooring-class" title="Permalink to this headline">¶</a></h3>
-<p>The mooring class file, <cite>mooringClass.m`</cite>, is located in the <code class="docutils literal notranslate"><span class="pre">//WEC-Sim/source/objects</span></code> directory.
-The properties of the mooring class (<code class="docutils literal notranslate"><span class="pre">mooringClass</span></code>) are defined in the <code class="docutils literal notranslate"><span class="pre">mooring</span></code> object.
-Within the <code class="docutils literal notranslate"><span class="pre">wecSimInputFile.m</span></code>, users must initialize the mooring class and specify the mooring <code class="docutils literal notranslate"><span class="pre">name</span></code>, by including the following lines:</p>
-<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">mooring</span><span class="p">(</span><span class="c1">#)= mooringClass(&#39;name&#39;);</span>
+<p>The mooring class file, <cite>mooringClass.m`</cite>, is located in the <code class="docutils literal"><span class="pre">//WEC-Sim/source/objects</span></code> directory.
+The properties of the mooring class (<code class="docutils literal"><span class="pre">mooringClass</span></code>) are defined in the <code class="docutils literal"><span class="pre">mooring</span></code> object.
+Within the <code class="docutils literal"><span class="pre">wecSimInputFile.m</span></code>, users must initialize the mooring class and specify the mooring <code class="docutils literal"><span class="pre">name</span></code>, by including the following lines:</p>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="n">mooring</span><span class="p">(</span><span class="c1">#)= mooringClass(&#39;name&#39;);</span>
 </pre></div>
 </div>
-<p>The mooring class (<code class="docutils literal notranslate"><span class="pre">mooringClass</span></code>) allows for different fidelity simulations of mooring systems.
-Available mooring properties, default values, and functions can be found by typing <code class="docutils literal notranslate"><span class="pre">doc</span> <span class="pre">mooringClass</span></code> in the MATLAB command window, or opening the <cite>mooringClass.m</cite> file in <code class="docutils literal notranslate"><span class="pre">//WEC-Sim/source/objects</span></code> directory by typing <code class="docutils literal notranslate"><span class="pre">open</span> <span class="pre">mooringClass</span></code> in MATLAB Command Window.</p>
+<p>The mooring class (<code class="docutils literal"><span class="pre">mooringClass</span></code>) allows for different fidelity simulations of mooring systems.
+Available mooring properties, default values, and functions can be found by typing <code class="docutils literal"><span class="pre">doc</span> <span class="pre">mooringClass</span></code> in the MATLAB command window, or opening the <cite>mooringClass.m</cite> file in <code class="docutils literal"><span class="pre">//WEC-Sim/source/objects</span></code> directory by typing <code class="docutils literal"><span class="pre">open</span> <span class="pre">mooringClass</span></code> in MATLAB Command Window.</p>
 <div class="admonition note">
 <p class="first admonition-title">Note</p>
-<p class="last">For more information about application of WEC-Sim’s mooring class, refer to <a class="reference external" href="http://wec-sim.github.io/WEC-Sim/advanced_features.html#mooring-moordyn">Mooring Features</a>.</p>
+<p class="last">For more information about application of WEC-Sim&#8217;s mooring class, refer to <a class="reference external" href="http://wec-sim.github.io/WEC-Sim/advanced_features.html#mooring-moordyn">Mooring Features</a>.</p>
 </div>
 </div>
 <div class="section" id="response-class">
@@ -503,7 +501,7 @@ The available parameters are explained in the <a class="reference external" href
 </div>
 <div class="section" id="wec-sim-library">
 <h2>WEC-Sim Library<a class="headerlink" href="#wec-sim-library" title="Permalink to this headline">¶</a></h2>
-<p>In addition to the <code class="docutils literal notranslate"><span class="pre">wecSimInputFile.m</span></code>, a WEC-Sim simulation requires a simulink model (<code class="docutils literal notranslate"><span class="pre">*.slx</span></code>) that represents the WEC system components and connectivities.
+<p>In addition to the <code class="docutils literal"><span class="pre">wecSimInputFile.m</span></code>, a WEC-Sim simulation requires a simulink model (<code class="docutils literal"><span class="pre">*.slx</span></code>) that represents the WEC system components and connectivities.
 Similar to how the input file uses the WEC-Sim classes, the Simulink model uses WEC-Sim library blocks.
 There should be a one-to-one between the objects defined in the input file and the blocks used in the Simulink model.</p>
 <p>The WEC-Sim library is divided into 5 different types of library blocks.
@@ -521,10 +519,10 @@ Both constraints and PTOs can be used to restrict the relative motion between mu
 The Mooring library contains blocks used to simulate mooring systems.</p>
 <div class="section" id="body-elements">
 <h3>Body Elements<a class="headerlink" href="#body-elements" title="Permalink to this headline">¶</a></h3>
-<p>The Body Elements library shown below contains one block: the <code class="docutils literal notranslate"><span class="pre">Rigid</span> <span class="pre">Body</span></code> block.
+<p>The Body Elements library shown below contains one block: the <code class="docutils literal"><span class="pre">Rigid</span> <span class="pre">Body</span></code> block.
 It is used to represent rigid bodies.
 At least one instance of this block is required in each model.</p>
-<p>The <code class="docutils literal notranslate"><span class="pre">Rigid</span> <span class="pre">Body</span></code> block is used to represent a rigid body in the simulation. The user has to name the blocks <code class="docutils literal notranslate"><span class="pre">body(i)</span></code> (where i=1,2,…).
+<p>The <code class="docutils literal"><span class="pre">Rigid</span> <span class="pre">Body</span></code> block is used to represent a rigid body in the simulation. The user has to name the blocks <code class="docutils literal"><span class="pre">body(i)</span></code> (where i=1,2,...).
 The mass properties, hydrodynamic data, geometry file, mooring, and other properties are then specified in the input file.
 Within the body block, the wave radiation, wave excitation, hydrostatic restoring, viscous damping, and mooring forces are calculated.</p>
 <div class="figure">
@@ -534,10 +532,10 @@ Within the body block, the wave radiation, wave excitation, hydrostatic restorin
 <div class="section" id="frames">
 <h3>Frames<a class="headerlink" href="#frames" title="Permalink to this headline">¶</a></h3>
 <p>The Frames library contains one block that is necessary in every model.
-The <code class="docutils literal notranslate"><span class="pre">Global</span> <span class="pre">Reference</span> <span class="pre">Frame</span></code> block defines the global coordinates, solver configuration, seabed and free surface description, simulation time, and other global settings.
+The <code class="docutils literal"><span class="pre">Global</span> <span class="pre">Reference</span> <span class="pre">Frame</span></code> block defines the global coordinates, solver configuration, seabed and free surface description, simulation time, and other global settings.
 It can be useful to think of the Global Reference Frame as being the seabed when creating a model.
 Every model requires one instance of the Global Reference Frame block.
-The <code class="docutils literal notranslate"><span class="pre">Global</span> <span class="pre">Reference</span> <span class="pre">Frame</span></code> block uses the simulation class variable <cite>simu</cite> and the wave class variable <cite>waves</cite>, which must be defined in the input file.</p>
+The <code class="docutils literal"><span class="pre">Global</span> <span class="pre">Reference</span> <span class="pre">Frame</span></code> block uses the simulation class variable <cite>simu</cite> and the wave class variable <cite>waves</cite>, which must be defined in the input file.</p>
 <div class="figure">
 <a class="reference internal image-reference" href="_images/framesLib.PNG"><img alt="_images/framesLib.PNG" src="_images/framesLib.PNG" style="width: 400pt;" /></a>
 </div>
@@ -548,7 +546,7 @@ The <code class="docutils literal notranslate"><span class="pre">Global</span> <
 Constraint blocks define only the DOF, but do not otherwise apply any forcing or resistance to the body motion.
 Each Constraint block has two connections: a base (B) and a follower (F).
 The Constraints block restricts the motion of the block that is connected to the follower relative to the block that is connected to the base.
-For a single body system, the base would be the <code class="docutils literal notranslate"><span class="pre">Global</span> <span class="pre">Reference</span> <span class="pre">Frame</span></code> and the follower is a <code class="docutils literal notranslate"><span class="pre">Rigid</span> <span class="pre">Body</span></code>.</p>
+For a single body system, the base would be the <code class="docutils literal"><span class="pre">Global</span> <span class="pre">Reference</span> <span class="pre">Frame</span></code> and the follower is a <code class="docutils literal"><span class="pre">Rigid</span> <span class="pre">Body</span></code>.</p>
 <div class="figure">
 <a class="reference internal image-reference" href="_images/constraintsLib.PNG"><img alt="_images/constraintsLib.PNG" src="_images/constraintsLib.PNG" style="width: 400pt;" /></a>
 </div>
@@ -568,31 +566,31 @@ For a single body system, the base would be the <code class="docutils literal no
 <td>DOFs</td>
 <td>Description</td>
 </tr>
-<tr class="row-odd"><td><code class="docutils literal notranslate"><span class="pre">Fixed</span></code></td>
+<tr class="row-odd"><td><code class="docutils literal"><span class="pre">Fixed</span></code></td>
 <td>0</td>
 <td>Rigid connection. Constrains all motion
 between the base and follower</td>
 </tr>
-<tr class="row-even"><td><code class="docutils literal notranslate"><span class="pre">Translational</span></code></td>
+<tr class="row-even"><td><code class="docutils literal"><span class="pre">Translational</span></code></td>
 <td>1</td>
 <td>Constrains the motion of the follower
 relative to the base to be translation
-along the constraint’s Z-axis</td>
+along the constraint&#8217;s Z-axis</td>
 </tr>
-<tr class="row-odd"><td><code class="docutils literal notranslate"><span class="pre">Rotational</span></code></td>
+<tr class="row-odd"><td><code class="docutils literal"><span class="pre">Rotational</span></code></td>
 <td>1</td>
 <td>Constrains the motion of the follower
 relative to the base to be rotation
-about the constraint’s Y-axis</td>
+about the constraint&#8217;s Y-axis</td>
 </tr>
-<tr class="row-even"><td><code class="docutils literal notranslate"><span class="pre">Floating</span> <span class="pre">(3DOF)</span></code></td>
+<tr class="row-even"><td><code class="docutils literal"><span class="pre">Floating</span> <span class="pre">(3DOF)</span></code></td>
 <td>3</td>
 <td>Constrains the motion of the follower
 relative to the base to planar motion
-with translation along the constraint’s
+with translation along the constraint&#8217;s
 X- and Z- and rotation about the Y- axis</td>
 </tr>
-<tr class="row-odd"><td><code class="docutils literal notranslate"><span class="pre">Floating</span> <span class="pre">(6DOF)</span></code></td>
+<tr class="row-odd"><td><code class="docutils literal"><span class="pre">Floating</span> <span class="pre">(6DOF)</span></code></td>
 <td>6</td>
 <td>Allows for unconstrained motion of the
 follower relative to the base</td>
@@ -605,8 +603,8 @@ follower relative to the base</td>
 <p>The PTOs library is used to simulate linear PTO systems and to restrict relative motion between multiple bodies or between one body and the seabed.
 The PTO blocks can simulate simple PTO systems by applying a linear stiffness and damping to the connection.
 Similar to the Constraint blocks, the PTO blocks have a base (B) and a follower (F).
-Users must name each PTO block <code class="docutils literal notranslate"><span class="pre">pto(i)</span></code> (where i=1,2,…) and then define their properties in the input file.</p>
-<p>The <code class="docutils literal notranslate"><span class="pre">Translational</span> <span class="pre">PTO</span></code> and <code class="docutils literal notranslate"><span class="pre">Rotational</span> <span class="pre">PTO</span></code> are identical to the <code class="docutils literal notranslate"><span class="pre">Translational</span></code> and <code class="docutils literal notranslate"><span class="pre">Rotational</span></code> constraints, but they allow for the application of linear damping and stiffness forces.
+Users must name each PTO block <code class="docutils literal"><span class="pre">pto(i)</span></code> (where i=1,2,...) and then define their properties in the input file.</p>
+<p>The <code class="docutils literal"><span class="pre">Translational</span> <span class="pre">PTO</span></code> and <code class="docutils literal"><span class="pre">Rotational</span> <span class="pre">PTO</span></code> are identical to the <code class="docutils literal"><span class="pre">Translational</span></code> and <code class="docutils literal"><span class="pre">Rotational</span></code> constraints, but they allow for the application of linear damping and stiffness forces.
 Additionally, there are two other variations of the Translational and Rotational PTOs.
 The Actuation Force/Torque PTOs allow the user to define the PTO force/torque at each time-step and provide the position, velocity and acceleration of the PTO at each time-step.
 The user can use the response information to calculate the PTO force/torque.
@@ -623,8 +621,8 @@ These can be useful to simulate forced-oscillation tests.</p>
 <div class="section" id="mooring">
 <h3>Mooring<a class="headerlink" href="#mooring" title="Permalink to this headline">¶</a></h3>
 <p>The mooring library is used to simulate mooring systems.
-The <code class="docutils literal notranslate"><span class="pre">MooringMatrix</span></code> block applies linear damping and stiffness based on the motion of the follower relative to the base.
-The <code class="docutils literal notranslate"><span class="pre">MoorDyn</span></code> block uses the compiled MoorDyn executables and a MoorDyn input file to simulate a realistic mooring system.
+The <code class="docutils literal"><span class="pre">MooringMatrix</span></code> block applies linear damping and stiffness based on the motion of the follower relative to the base.
+The <code class="docutils literal"><span class="pre">MoorDyn</span></code> block uses the compiled MoorDyn executables and a MoorDyn input file to simulate a realistic mooring system.
 There can only be one MoorDyn block per Simulink model.
 There are no restrictions on the number of MooringMatrix blocks.</p>
 <div class="figure">
@@ -638,13 +636,13 @@ There are no restrictions on the number of MooringMatrix blocks.</p>
 </div>
 <div class="section" id="id2">
 <h2>Output Structure<a class="headerlink" href="#id2" title="Permalink to this headline">¶</a></h2>
-<p>After WEC-Sim is done running, there will be a new variable called <code class="docutils literal notranslate"><span class="pre">output</span></code> in your Matlab workspace.
-The <code class="docutils literal notranslate"><span class="pre">output</span></code> variable is an instance of the <code class="docutils literal notranslate"><span class="pre">responseClass</span></code> class.
+<p>After WEC-Sim is done running, there will be a new variable called <code class="docutils literal"><span class="pre">output</span></code> in your Matlab workspace.
+The <code class="docutils literal"><span class="pre">output</span></code> variable is an instance of the <code class="docutils literal"><span class="pre">responseClass</span></code> class.
 It contains all the relevant time-series results of the simulation.
-The structure of the <code class="docutils literal notranslate"><span class="pre">output</span></code> variable is shown in the table below.
+The structure of the <code class="docutils literal"><span class="pre">output</span></code> variable is shown in the table below.
 Time series are given as [(# of time-steps) x 6] arrays, where 6 is the degrees of freedom.
-In addition to these time-series, the output for each object contains the object’s name or type and the time vector.</p>
-<p>In addition to the responseClass <code class="docutils literal notranslate"><span class="pre">output</span></code> variable, the outputs can be written to ASCII files by using <code class="docutils literal notranslate"><span class="pre">simu.outputtxt</span> <span class="pre">=</span> <span class="pre">1;</span></code> in the input file.</p>
+In addition to these time-series, the output for each object contains the object&#8217;s name or type and the time vector.</p>
+<p>In addition to the responseClass <code class="docutils literal"><span class="pre">output</span></code> variable, the outputs can be written to ASCII files by using <code class="docutils literal"><span class="pre">simu.outputtxt</span> <span class="pre">=</span> <span class="pre">1;</span></code> in the input file.</p>
 <table border="1" class="docutils">
 <colgroup>
 <col width="18%" />
@@ -745,7 +743,7 @@ In addition to these time-series, the output for each object contains the object
 <tr class="row-even"><td>ptosim</td>
 <td>See PTO-Sim section for
 details</td>
-<td>&#160;</td>
+<td>&nbsp;</td>
 </tr>
 </tbody>
 </table>
@@ -753,8 +751,8 @@ details</td>
 <div class="section" id="functions-external-codes">
 <h2>Functions &amp; External Codes<a class="headerlink" href="#functions-external-codes" title="Permalink to this headline">¶</a></h2>
 <p>While the bulk of the WEC-Sim code consists of the WEC-Sim classes and the WEC-Sim library, the source code also includes supporting functions and external codes.
-These include third party Matlab functions to read <code class="docutils literal notranslate"><span class="pre">*.h5</span></code> and <code class="docutils literal notranslate"><span class="pre">*.stl</span></code> files, WEC-Sim Matlab functions to write <code class="docutils literal notranslate"><span class="pre">*.h5</span></code> files and run WEC-Sim in batch mode, MoorDyn compiled executables, python macros for ParaView visualization, and the PTO-Sim class and library.
-Additionally, BEMIO can be used to create the hydrodynamic <code class="docutils literal notranslate"><span class="pre">*.h5</span></code> file required by WEC-Sim.
+These include third party Matlab functions to read <code class="docutils literal"><span class="pre">*.h5</span></code> and <code class="docutils literal"><span class="pre">*.stl</span></code> files, WEC-Sim Matlab functions to write <code class="docutils literal"><span class="pre">*.h5</span></code> files and run WEC-Sim in batch mode, MoorDyn compiled executables, python macros for ParaView visualization, and the PTO-Sim class and library.
+Additionally, BEMIO can be used to create the hydrodynamic <code class="docutils literal"><span class="pre">*.h5</span></code> file required by WEC-Sim.
 MoorDyn is an open source code that must be downloaded separately. Users may obtain, modify, and recompile the code as well as desired.</p>
 </div>
 </div>
@@ -770,7 +768,7 @@ MoorDyn is an open source code that must be downloaded separately. Users may obt
         <a href="tutorials.html" class="btn btn-neutral float-right" title="Tutorials" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right"></span></a>
       
       
-        <a href="theory.html" class="btn btn-neutral float-left" title="Theory" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left"></span> Previous</a>
+        <a href="theory.html" class="btn btn-neutral" title="Theory" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left"></span> Previous</a>
       
     </div>
   
@@ -796,16 +794,35 @@ MoorDyn is an open source code that must be downloaded separately. Users may obt
   
 
 
+  
+
+    
+    
+      <script type="text/javascript">
+          var DOCUMENTATION_OPTIONS = {
+              URL_ROOT:'./',
+              VERSION:'',
+              LANGUAGE:'None',
+              COLLAPSE_INDEX:false,
+              FILE_SUFFIX:'.html',
+              HAS_SOURCE:  true,
+              SOURCELINK_SUFFIX: ''
+          };
+      </script>
+        <script type="text/javascript" src="_static/jquery.js"></script>
+        <script type="text/javascript" src="_static/underscore.js"></script>
+        <script type="text/javascript" src="_static/doctools.js"></script>
+    
+
+  
+
+  <script type="text/javascript" src="_static/js/theme.js"></script>
+
   <script type="text/javascript">
       jQuery(function () {
           SphinxRtdTheme.Navigation.enable(true);
       });
-  </script>
-
-  
-  
-    
-   
+  </script> 
 
 </body>
 </html>
