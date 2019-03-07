@@ -28,32 +28,34 @@
   
 
   
+  <script type="text/javascript" src="_static/js/modernizr.min.js"></script>
+  
+    
+      <script type="text/javascript" id="documentation_options" data-url_root="./" src="_static/documentation_options.js"></script>
+        <script type="text/javascript" src="_static/jquery.js"></script>
+        <script type="text/javascript" src="_static/underscore.js"></script>
+        <script type="text/javascript" src="_static/doctools.js"></script>
+        <script type="text/javascript" src="_static/language_data.js"></script>
+    
+    <script type="text/javascript" src="_static/js/theme.js"></script>
 
-  
-  
     
 
   
-
   <link rel="stylesheet" href="_static/css/theme.css" type="text/css" />
   <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
     <link rel="index" title="Index" href="genindex.html" />
     <link rel="search" title="Search" href="search.html" /> 
-
-  
-  <script src="_static/js/modernizr.min.js"></script>
-
 </head>
 
 <body class="wy-body-for-nav">
 
    
   <div class="wy-grid-for-nav">
-
     
     <nav data-toggle="wy-nav-shift" class="wy-nav-side">
       <div class="wy-side-scroll">
-        <div class="wy-side-nav-search">
+        <div class="wy-side-nav-search" >
           
 
           
@@ -152,7 +154,7 @@
       <li class="wy-breadcrumbs-aside">
         
             
-            <a href="_sources/ptosim.txt" rel="nofollow"> View page source</a>
+            <a href="_sources/ptosim.rst.txt" rel="nofollow"> View page source</a>
           
         
       </li>
@@ -167,9 +169,9 @@
             
   <div class="section" id="power-take-off-pto-sim">
 <h1>Power Take-Off/PTO-Sim<a class="headerlink" href="#power-take-off-pto-sim" title="Permalink to this headline">¶</a></h1>
-<p>PTO-Sim is the WEC-Sim module responsible for accurately modeling a WEC&#8217;s conversion of mechanical power to electrical power.
+<p>PTO-Sim is the WEC-Sim module responsible for accurately modeling a WEC’s conversion of mechanical power to electrical power.
 While the PTO blocks native to WEC-Sim are modeled as a simple linear spring-damper systems, PTO-Sim is capable of modeling many power conversion chains (PCC) such as mechanical drivetrain and hydraulic drivetrain.
-PTO-Sim is made of native Simulink blocks coupled with WEC-Sim, using WEC-Sim&#8217;s user-defined PTO blocks, where the WEC-Sim response (relative displacement and velocity for linear motion and angular position and velocity for rotary motion) is the PTO-Sim input.
+PTO-Sim is made of native Simulink blocks coupled with WEC-Sim, using WEC-Sim’s user-defined PTO blocks, where the WEC-Sim response (relative displacement and velocity for linear motion and angular position and velocity for rotary motion) is the PTO-Sim input.
 Similarly, the PTO force or torque is the WEC-Sim input.
 For more information on how PTO-Sim works, refer to [So et al., 2015], and the <a class="reference external" href="http://wec-sim.github.io/WEC-Sim/webinars.html#webinar-3-pto-and-control">PTO and Control webinar</a>.</p>
 <p>The files for the PTO-Sim tutorials described in this section can be found in the <a class="reference external" href="https://github.com/WEC-Sim/WEC-Sim_Applications">WEC-Sim Applications repository</a> <strong>PTO-Sim</strong> example.</p>
@@ -183,22 +185,22 @@ For more information on how PTO-Sim works, refer to [So et al., 2015], and the <
 <a class="reference internal image-reference" href="_images/HYDPHYMODEL.PNG"><img alt="_images/HYDPHYMODEL.PNG" src="_images/HYDPHYMODEL.PNG" style="width: 400pt;" /></a>
 </div>
 <p>There are two ways of modeling the hydraulic PTO: with a compressible fluid hydraulic, and with a non-compressible fluid hydraulic. The compressible fluid model uses the properties of fluid such as an effective bulk modulus and density while the non-compressible fluid does not.</p>
-<p>In this section, a step by step tutorial on how to set up and run the RM3 simulation with PTO-Sim is provided. All the files used in WEC-Sim will remain the same. An additional file that is needed is the PTO-Sim input file (<code class="docutils literal"><span class="pre">ptoSimInputFile.m</span></code>). If the rotary generator lookup table is used, a datasheet that contains generator efficiency, torque, and angular velocity is needed and should be named as <code class="docutils literal"><span class="pre">table</span></code> in Workspace (<code class="docutils literal"><span class="pre">table.eff</span></code>, <code class="docutils literal"><span class="pre">table.Tpu</span></code>,and <code class="docutils literal"><span class="pre">table.omegapu</span></code>). More details, refer to <a class="reference internal" href="#step-8">Step 8</a>. In summary, the files need to run RM3 with PTO-Sim case are the following:</p>
+<p>In this section, a step by step tutorial on how to set up and run the RM3 simulation with PTO-Sim is provided. All the files used in WEC-Sim will remain the same. An additional file that is needed is the PTO-Sim input file (<code class="docutils literal notranslate"><span class="pre">ptoSimInputFile.m</span></code>). If the rotary generator lookup table is used, a datasheet that contains generator efficiency, torque, and angular velocity is needed and should be named as <code class="docutils literal notranslate"><span class="pre">table</span></code> in Workspace (<code class="docutils literal notranslate"><span class="pre">table.eff</span></code>, <code class="docutils literal notranslate"><span class="pre">table.Tpu</span></code>,and <code class="docutils literal notranslate"><span class="pre">table.omegapu</span></code>). More details, refer to <a class="reference internal" href="#step-8">Step 8</a>. In summary, the files need to run RM3 with PTO-Sim case are the following:</p>
 <ul class="simple">
-<li>WEC-Sim input file: <code class="docutils literal"><span class="pre">wecSimInputFile.m</span></code> (make sure to set the PTO linear damping to zero)</li>
-<li>Simulink model: <code class="docutils literal"><span class="pre">RM3.slx</span></code></li>
-<li>Geometry file for each body: <code class="docutils literal"><span class="pre">float.stl</span></code> and <code class="docutils literal"><span class="pre">plate.stl</span></code></li>
-<li>Hydrodynamic data file(s): <code class="docutils literal"><span class="pre">rm3.h5</span></code></li>
-<li>Optional user defined post-processing file: <code class="docutils literal"><span class="pre">userDefinedFunction.m</span></code></li>
-<li>PTO-Sim input file: <code class="docutils literal"><span class="pre">ptoSimInputFile.m</span></code></li>
-<li>Datasheet for the rotary generator: <code class="docutils literal"><span class="pre">table</span></code> (<code class="docutils literal"><span class="pre">table.eff</span></code>, <code class="docutils literal"><span class="pre">table.Tpu</span></code>,and <code class="docutils literal"><span class="pre">table.omegapu</span></code>)</li>
-<li>For the hydraulic PTOs: <code class="docutils literal"><span class="pre">variableMotorVolume.m</span></code></li>
+<li>WEC-Sim input file: <code class="docutils literal notranslate"><span class="pre">wecSimInputFile.m</span></code> (make sure to set the PTO linear damping to zero)</li>
+<li>Simulink model: <code class="docutils literal notranslate"><span class="pre">RM3.slx</span></code></li>
+<li>Geometry file for each body: <code class="docutils literal notranslate"><span class="pre">float.stl</span></code> and <code class="docutils literal notranslate"><span class="pre">plate.stl</span></code></li>
+<li>Hydrodynamic data file(s): <code class="docutils literal notranslate"><span class="pre">rm3.h5</span></code></li>
+<li>Optional user defined post-processing file: <code class="docutils literal notranslate"><span class="pre">userDefinedFunction.m</span></code></li>
+<li>PTO-Sim input file: <code class="docutils literal notranslate"><span class="pre">ptoSimInputFile.m</span></code></li>
+<li>Datasheet for the rotary generator: <code class="docutils literal notranslate"><span class="pre">table</span></code> (<code class="docutils literal notranslate"><span class="pre">table.eff</span></code>, <code class="docutils literal notranslate"><span class="pre">table.Tpu</span></code>,and <code class="docutils literal notranslate"><span class="pre">table.omegapu</span></code>)</li>
+<li>For the hydraulic PTOs: <code class="docutils literal notranslate"><span class="pre">variableMotorVolume.m</span></code></li>
 </ul>
 <p><strong>Simulink Model</strong>
 The Simulink model can be built as follows:</p>
 <ul class="simple">
-<li>Step 1: Navigate to the RM3 tutorial <code class="docutils literal"><span class="pre">$Source/tutorials/RM3</span></code>.</li>
-<li>Step 2: Open <code class="docutils literal"><span class="pre">RM3.slx</span></code> file and replace Translational PTO (local Z) with Translational PTO UD Force (Local Z).</li>
+<li>Step 1: Navigate to the RM3 tutorial <code class="docutils literal notranslate"><span class="pre">$Source/tutorials/RM3</span></code>.</li>
+<li>Step 2: Open <code class="docutils literal notranslate"><span class="pre">RM3.slx</span></code> file and replace Translational PTO (local Z) with Translational PTO UD Force (Local Z).</li>
 </ul>
 <div class="figure">
 <a class="reference internal image-reference" href="_images/TRANSLATIONALPTOUD.PNG"><img alt="_images/TRANSLATIONALPTOUD.PNG" src="_images/TRANSLATIONALPTOUD.PNG" style="width: 400pt;" /></a>
@@ -210,7 +212,7 @@ The Simulink model can be built as follows:</p>
 <a class="reference internal image-reference" href="_images/RM3WITHPTOSIMBLOCK.PNG"><img alt="_images/RM3WITHPTOSIMBLOCK.PNG" src="_images/RM3WITHPTOSIMBLOCK.PNG" style="width: 400pt;" /></a>
 </div>
 <ul class="simple">
-<li>Step 4: Go inside PTO-Sim block and add one bus selector and two selector blocks. Since PTO-Sim block is connected to the WEC-Sim translational joint block, you can select position and velocity and therefore &#8220;signal1&#8221; and &#8220;signal2&#8221; will change to &#8220;position&#8221; and &#8220;velocity&#8221;. Because the heave motion is driving the piston, selection index of each selector needs to be changed to 3.</li>
+<li>Step 4: Go inside PTO-Sim block and add one bus selector and two selector blocks. Since PTO-Sim block is connected to the WEC-Sim translational joint block, you can select position and velocity and therefore “signal1” and “signal2” will change to “position” and “velocity”. Because the heave motion is driving the piston, selection index of each selector needs to be changed to 3.</li>
 </ul>
 <div class="figure">
 <a class="reference internal image-reference" href="_images/SELECTORS.PNG"><img alt="_images/SELECTORS.PNG" src="_images/SELECTORS.PNG" style="width: 400pt;" /></a>
@@ -228,13 +230,13 @@ The Simulink model can be built as follows:</p>
 <a class="reference internal image-reference" href="_images/USEPTOSIMLIB.PNG"><img alt="_images/USEPTOSIMLIB.PNG" src="_images/USEPTOSIMLIB.PNG" style="width: 400pt;" /></a>
 </div>
 <ul class="simple">
-<li>Step 7: Since two accumulators are needed for the high pressure accumulator and low pressure accumulator, the user needs to double-click on each block and give a number to each accumulator. For example, <code class="docutils literal"><span class="pre">ptosim.accumulator(1)</span></code> is called high pressure accumulator and <code class="docutils literal"><span class="pre">ptosim.accumulator(2)</span></code> is called low pressure accumulator.</li>
+<li>Step 7: Since two accumulators are needed for the high pressure accumulator and low pressure accumulator, the user needs to double-click on each block and give a number to each accumulator. For example, <code class="docutils literal notranslate"><span class="pre">ptosim.accumulator(1)</span></code> is called high pressure accumulator and <code class="docutils literal notranslate"><span class="pre">ptosim.accumulator(2)</span></code> is called low pressure accumulator.</li>
 </ul>
 <div class="figure">
 <a class="reference internal image-reference" href="_images/MULTIPLEACCUMULATORS.PNG"><img alt="_images/MULTIPLEACCUMULATORS.PNG" src="_images/MULTIPLEACCUMULATORS.PNG" style="width: 400pt;" /></a>
 </div>
 <ul class="simple" id="step-8">
-<li>Step 8: If a rotary generator lookup table is used, this block assumes the user will provide the datasheet. After the datasheet is loaded into <code class="docutils literal"><span class="pre">Workspace</span></code>, it needs to be named as <code class="docutils literal"><span class="pre">table</span></code> because the word <code class="docutils literal"><span class="pre">table</span></code> is used inside Simulink lookup table block. The datasheet in tutorials is taken from ABB datasheet part number M3BJ315SMC. The lookup table takes three inputs: efficiency (<code class="docutils literal"><span class="pre">table.eff</span></code>), angular velocity (<code class="docutils literal"><span class="pre">table.Tpu</span></code>), and generator torque (<code class="docutils literal"><span class="pre">table.omegapu</span></code>), respectively.</li>
+<li>Step 8: If a rotary generator lookup table is used, this block assumes the user will provide the datasheet. After the datasheet is loaded into <code class="docutils literal notranslate"><span class="pre">Workspace</span></code>, it needs to be named as <code class="docutils literal notranslate"><span class="pre">table</span></code> because the word <code class="docutils literal notranslate"><span class="pre">table</span></code> is used inside Simulink lookup table block. The datasheet in tutorials is taken from ABB datasheet part number M3BJ315SMC. The lookup table takes three inputs: efficiency (<code class="docutils literal notranslate"><span class="pre">table.eff</span></code>), angular velocity (<code class="docutils literal notranslate"><span class="pre">table.Tpu</span></code>), and generator torque (<code class="docutils literal notranslate"><span class="pre">table.omegapu</span></code>), respectively.</li>
 </ul>
 <div class="figure">
 <a class="reference internal image-reference" href="_images/ROTARYHIGHLEVELBLOCK.PNG"><img alt="_images/ROTARYHIGHLEVELBLOCK.PNG" src="_images/ROTARYHIGHLEVELBLOCK.PNG" style="width: 400pt;" /></a>
@@ -253,7 +255,7 @@ The Simulink model can be built as follows:</p>
 <a class="reference internal image-reference" href="_images/HYDPTOSIM.PNG"><img alt="_images/HYDPTOSIM.PNG" src="_images/HYDPTOSIM.PNG" style="width: 400pt;" /></a>
 </div>
 <p><strong>Input File</strong>
-In this section, PTO-Sim input file (<code class="docutils literal"><span class="pre">ptoSimInputFile.m</span></code>) is defined and categorized into sections such as piston, rectifying check valve, high pressure accumulator, hydraulic motor, low pressure accumulator, and rotary generator.</p>
+In this section, PTO-Sim input file (<code class="docutils literal notranslate"><span class="pre">ptoSimInputFile.m</span></code>) is defined and categorized into sections such as piston, rectifying check valve, high pressure accumulator, hydraulic motor, low pressure accumulator, and rotary generator.</p>
 <div class="figure">
 <a class="reference internal image-reference" href="_images/PTOSIMINPUTFILE.PNG"><img alt="_images/PTOSIMINPUTFILE.PNG" src="_images/PTOSIMINPUTFILE.PNG" style="width: 400pt;" /></a>
 </div>
@@ -308,8 +310,8 @@ The same as <a class="reference internal" href="#rm3-with-hydraulic-pto">RM3 wit
 <p><strong>Simulink Model</strong>
 The Simulink model can be built as following:</p>
 <ul class="simple">
-<li>Step 1: Copy OSWEC tutorial folder to get started  <code class="docutils literal"><span class="pre">$Source\tutorials\OSWEC</span></code>.</li>
-<li>Step 2: Open <code class="docutils literal"><span class="pre">OSWEC.slx</span></code> file and replace Rotary PTO (Local RY) with Rotational PTO UD Torque (Local RY).</li>
+<li>Step 1: Copy OSWEC tutorial folder to get started  <code class="docutils literal notranslate"><span class="pre">$Source\tutorials\OSWEC</span></code>.</li>
+<li>Step 2: Open <code class="docutils literal notranslate"><span class="pre">OSWEC.slx</span></code> file and replace Rotary PTO (Local RY) with Rotational PTO UD Torque (Local RY).</li>
 </ul>
 <div class="figure">
 <a class="reference internal image-reference" href="_images/OSWECWITHPTOSIMBLOCK.PNG"><img alt="_images/OSWECWITHPTOSIMBLOCK.PNG" src="_images/OSWECWITHPTOSIMBLOCK.PNG" style="width: 400pt;" /></a>
@@ -398,35 +400,16 @@ The same as <a class="reference internal" href="#rm3-with-hydraulic-pto">RM3 wit
   
 
 
-  
-
-    
-    
-      <script type="text/javascript">
-          var DOCUMENTATION_OPTIONS = {
-              URL_ROOT:'./',
-              VERSION:'',
-              LANGUAGE:'None',
-              COLLAPSE_INDEX:false,
-              FILE_SUFFIX:'.html',
-              HAS_SOURCE:  true,
-              SOURCELINK_SUFFIX: ''
-          };
-      </script>
-        <script type="text/javascript" src="_static/jquery.js"></script>
-        <script type="text/javascript" src="_static/underscore.js"></script>
-        <script type="text/javascript" src="_static/doctools.js"></script>
-    
-
-  
-
-  <script type="text/javascript" src="_static/js/theme.js"></script>
-
   <script type="text/javascript">
       jQuery(function () {
           SphinxRtdTheme.Navigation.enable(true);
       });
-  </script> 
+  </script>
+
+  
+  
+    
+   
 
 </body>
 </html>
