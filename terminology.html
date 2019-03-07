@@ -174,10 +174,6 @@
             
   <div class="section" id="terminology">
 <span id="id1"></span><h1>Terminology<a class="headerlink" href="#terminology" title="Permalink to this headline">¶</a></h1>
-<div class="admonition note">
-<p class="first admonition-title">Note</p>
-<p class="last">This section is a work in progress, * means may not be used in WEC-Sim doc</p>
-</div>
 <table border="1" class="docutils">
 <colgroup>
 <col width="30%" />
@@ -210,7 +206,7 @@
 <tr class="row-even"><td>JS</td>
 <td>JONSWAP Spectrum</td>
 </tr>
-<tr class="row-odd"><td>Pitch (RY)</td>
+<tr class="row-odd"><td>Pitch (Ry)</td>
 <td>Rotation about the Y-axis</td>
 </tr>
 <tr class="row-even"><td>PM</td>
@@ -222,7 +218,7 @@
 <tr class="row-even"><td>Radiation Damping</td>
 <td><img class="math" src="_images/math/f858d498683ea1466a07e960110bf262989d1f35.png" alt="B(\omega)"/></td>
 </tr>
-<tr class="row-odd"><td>Roll (RX)</td>
+<tr class="row-odd"><td>Roll (Rx)</td>
 <td>Rotation about the X-axis</td>
 </tr>
 <tr class="row-even"><td><code class="docutils literal notranslate"><span class="pre">$SOURCE</span></code></td>
@@ -237,7 +233,7 @@
 <tr class="row-odd"><td>Wave Excitation</td>
 <td><img class="math" src="_images/math/bb57ee2655b7d3d56f9a124689301f43d8d3a299.png" alt="F_{exc}"/></td>
 </tr>
-<tr class="row-even"><td>Yaw (RZ)</td>
+<tr class="row-even"><td>Yaw (Rz)</td>
 <td>Rotation about the Z-axis</td>
 </tr>
 </tbody>
@@ -255,47 +251,65 @@
 </tr>
 </thead>
 <tbody valign="top">
-<tr class="row-even"><td><img class="math" src="_images/math/0043fe6507e9b1d112e07a2801e24927e267dd50.png" alt="A"/></td>
-<td>Wave amplitude (m), half of the wave height (m)</td>
+<tr class="row-even"><td><img class="math" src="_images/math/0043fe6507e9b1d112e07a2801e24927e267dd50.png" alt="A"/> *</td>
+<td>Wave amplitude (m), <img class="math" src="_images/math/66f41e58a136321d0e378e0da5a72c71a3b5bbc4.png" alt="A = \frac{H}{2}"/></td>
 </tr>
 <tr class="row-odd"><td><img class="math" src="_images/math/fd0cfb196fa07a4b9a9fdb1b3e5c4848c29ed556.png" alt="A(\omega)"/></td>
-<td>Frequency dependent radiation added mass</td>
+<td>Frequency dependent radiation added mass (kg)</td>
 </tr>
-<tr class="row-even"><td><img class="math" src="_images/math/f858d498683ea1466a07e960110bf262989d1f35.png" alt="B(\omega)"/></td>
-<td>Frequency dependent radiation wave damping</td>
+<tr class="row-even"><td><img class="math" src="_images/math/9c335d79397e782d761ff3c649199c12d88bd709.png" alt="A_{\infty}"/></td>
+<td>Added mass at infinite frequency (kg)</td>
 </tr>
-<tr class="row-odd"><td><img class="math" src="_images/math/410a9d0df9c135dd73b269cba7ef04dcfd932b1f.png" alt="\beta"/></td>
-<td>Wave direction (Degrees)</td>
+<tr class="row-odd"><td><img class="math" src="_images/math/f858d498683ea1466a07e960110bf262989d1f35.png" alt="B(\omega)"/></td>
+<td>Frequency dependent radiation wave damping (N/m/s)</td>
 </tr>
-<tr class="row-even"><td><img class="math" src="_images/math/5635a7c34414599c2452d72430811e816b460335.png" alt="\eta"/></td>
+<tr class="row-even"><td><img class="math" src="_images/math/1457510a6297f30de508e75f70d656ae793ef552.png" alt="C_{a}"/></td>
+<td>Morison element coefficient of added mass</td>
+</tr>
+<tr class="row-odd"><td><img class="math" src="_images/math/1e4e6cb0477e1fa1b7ba131d6dbdeda6794dc58c.png" alt="C_{d}"/></td>
+<td>Quadratic drag coefficient</td>
+</tr>
+<tr class="row-even"><td><img class="math" src="_images/math/31d5b23349cdc6cd4199de47657bdcf416202129.png" alt="C_{m}"/></td>
+<td>Mooring damping matrix (N/m/s)</td>
+</tr>
+<tr class="row-odd"><td><img class="math" src="_images/math/cbd0209686528a8bcbce255cfe5c9bc8e329254c.png" alt="C_{pto}"/></td>
+<td>PTO damping coefficient (N/m/s)</td>
+</tr>
+<tr class="row-even"><td><img class="math" src="_images/math/063358236fe5d0502ed60cb1b65d7b88ec0ebe39.png" alt="C_{v}"/></td>
+<td>Linear (viscous) damping coefficient (N/m/s)</td>
+</tr>
+<tr class="row-odd"><td><img class="math" src="_images/math/5635a7c34414599c2452d72430811e816b460335.png" alt="\eta"/></td>
 <td>Incident wave (m)</td>
 </tr>
-<tr class="row-odd"><td><img class="math" src="_images/math/875eb40014526135383caa89fd500ae40a835f56.png" alt="f"/></td>
+<tr class="row-even"><td><img class="math" src="_images/math/875eb40014526135383caa89fd500ae40a835f56.png" alt="f"/></td>
 <td>Wave frequency (Hz)</td>
 </tr>
-<tr class="row-even"><td><img class="math" src="_images/math/bd2a462a1fd858ba485211c11c2ca6019e76f189.png" alt="F_{B}"/></td>
+<tr class="row-odd"><td><img class="math" src="_images/math/bd2a462a1fd858ba485211c11c2ca6019e76f189.png" alt="F_{B}"/></td>
 <td>Net buoyancy restoring force (N) or torque (N.m)</td>
 </tr>
-<tr class="row-odd"><td><img class="math" src="_images/math/bb57ee2655b7d3d56f9a124689301f43d8d3a299.png" alt="F_{exc}"/></td>
+<tr class="row-even"><td><img class="math" src="_images/math/bb57ee2655b7d3d56f9a124689301f43d8d3a299.png" alt="F_{exc}"/></td>
 <td>Wave excitation force (N) or torque (N.m)</td>
 </tr>
-<tr class="row-even"><td><img class="math" src="_images/math/d1891c418b4c6d812f58c2be70655db088cf7d72.png" alt="F_{rad}"/></td>
+<tr class="row-odd"><td><img class="math" src="_images/math/d1891c418b4c6d812f58c2be70655db088cf7d72.png" alt="F_{rad}"/></td>
 <td>Wave radiation force (N) or torque (N.m)</td>
 </tr>
-<tr class="row-odd"><td><img class="math" src="_images/math/4411ae647e3380ce8d62d5fccbe84730061ecf91.png" alt="F_{PTO}"/></td>
+<tr class="row-even"><td><img class="math" src="_images/math/232a1105118b2c3ca425c75ee3619ce603959be2.png" alt="F_{pto}"/></td>
 <td>Power take-off force (N) or torque (N.m)</td>
 </tr>
-<tr class="row-even"><td><img class="math" src="_images/math/bc39575b2ff5cdfa33738928bf380fc3f4d7354d.png" alt="F_{ME}"/></td>
+<tr class="row-odd"><td><img class="math" src="_images/math/3fd20e46c2bdb77cace9053f719a251a470c2472.png" alt="F_{me}"/></td>
 <td>Morison element force (N) or torque (N.m)</td>
 </tr>
-<tr class="row-odd"><td><img class="math" src="_images/math/ff4203add34707288a6fc931430718c363de992b.png" alt="F_{v}"/></td>
+<tr class="row-even"><td><img class="math" src="_images/math/ff4203add34707288a6fc931430718c363de992b.png" alt="F_{v}"/></td>
 <td>Damping or friction force (N) or torque (N.m)</td>
 </tr>
-<tr class="row-even"><td><img class="math" src="_images/math/6253f83fb4f3c303d02d4082fba8165c542c7c81.png" alt="F_{m}"/></td>
+<tr class="row-odd"><td><img class="math" src="_images/math/6253f83fb4f3c303d02d4082fba8165c542c7c81.png" alt="F_{m}"/></td>
 <td>Mooring connection force (N) or torque (N.m)</td>
 </tr>
-<tr class="row-odd"><td><img class="math" src="_images/math/307b3725cbb03398131f9ca542d79aff4933195f.png" alt="g"/></td>
-<td>Gravity</td>
+<tr class="row-even"><td><img class="math" src="_images/math/307b3725cbb03398131f9ca542d79aff4933195f.png" alt="g"/></td>
+<td>Gravity (m/s/s)</td>
+</tr>
+<tr class="row-odd"><td><img class="math" src="_images/math/293fb39e1b93282c804a86186e721b32f829f1b2.png" alt="h"/></td>
+<td>Water depth (m)</td>
 </tr>
 <tr class="row-even"><td><img class="math" src="_images/math/44d4c3f22452acebfb3ac644e23508b67500be90.png" alt="H"/></td>
 <td>Wave height (m)</td>
@@ -307,43 +321,62 @@
 <td>Spectrally derived significant wave height (m)</td>
 </tr>
 <tr class="row-odd"><td><img class="math" src="_images/math/0b7c1e16a3a8a849bb8ffdcdbf86f65fd1f30438.png" alt="k"/></td>
-<td>Wave number</td>
+<td>Wave number (rad/m), <img class="math" src="_images/math/ee8cf7abf816117733a2a40dadb6b9fc1fe65f24.png" alt="k = \frac{2\pi}{\lambda}"/></td>
 </tr>
 <tr class="row-even"><td><img class="math" src="_images/math/57a7b2798244e4693539fcaf1edd081dcd3cf9c9.png" alt="K_{hs}"/></td>
-<td>linear hydrostatic restoring coefficient</td>
+<td>Linear hydrostatic restoring coefficient (N/m)</td>
 </tr>
-<tr class="row-odd"><td><img class="math" src="_images/math/edba97b4c0d864d26e92ea7ea73767fa38eef3f7.png" alt="m"/></td>
+<tr class="row-odd"><td><img class="math" src="_images/math/499892fffe0d50e99c8cb3058bc8d3def5916150.png" alt="K_{m}"/></td>
+<td>Mooring stiffness matrix (N/m)</td>
+</tr>
+<tr class="row-even"><td><img class="math" src="_images/math/63f54c9e0d8c283c2db8eaec45436aad38fe0376.png" alt="K_{pto}"/></td>
+<td>PTO stiffness coefficient (N/m)</td>
+</tr>
+<tr class="row-odd"><td><img class="math" src="_images/math/76f1d8ace30435987c01a00ca53a71cba1f40e6c.png" alt="\lambda"/></td>
+<td>Wave length (m)</td>
+</tr>
+<tr class="row-even"><td><img class="math" src="_images/math/edba97b4c0d864d26e92ea7ea73767fa38eef3f7.png" alt="m"/></td>
 <td>Mass of body (kg)</td>
 </tr>
-<tr class="row-even"><td><img class="math" src="_images/math/6fbed730a6c661f6f84d8d664b89cef627ce2935.png" alt="m0"/></td>
-<td>Spectral moment</td>
+<tr class="row-odd"><td><img class="math" src="_images/math/f4a30eb58a4dd17640e1d11c91c60fb2621e375d.png" alt="m_k"/></td>
+<td>Spectral moment of k, for k = 0,1,2,…</td>
 </tr>
-<tr class="row-odd"><td><img class="math" src="_images/math/b51aa99e0bc8cc8c3d17c0b9cf822db73e13293e.png" alt="\omega"/></td>
-<td>Wave frequency (rad/s)</td>
+<tr class="row-even"><td><img class="math" src="_images/math/b51aa99e0bc8cc8c3d17c0b9cf822db73e13293e.png" alt="\omega"/></td>
+<td>Wave frequency (rad/s), <img class="math" src="_images/math/de839db3e143eef3230926b952f41279943b72b7.png" alt="\omega = \frac{2\pi}{T}"/></td>
 </tr>
-<tr class="row-even"><td><img class="math" src="_images/math/c2f31c22645274c375eff7920cfdfdc18d60341f.png" alt="\phi"/></td>
+<tr class="row-odd"><td><img class="math" src="_images/math/c2f31c22645274c375eff7920cfdfdc18d60341f.png" alt="\phi"/></td>
 <td>Wave phase (rad)</td>
 </tr>
-<tr class="row-odd"><td><img class="math" src="_images/math/ac9be6429d1f2eef853ed7d8a7524a955135fa17.png" alt="R_{f}"/></td>
+<tr class="row-even"><td><img class="math" src="_images/math/ac9be6429d1f2eef853ed7d8a7524a955135fa17.png" alt="R_{f}"/></td>
 <td>Ramp function</td>
 </tr>
-<tr class="row-even"><td><img class="math" src="_images/math/9a51ab9a0b521705e1e8762fac6bdd6f11771758.png" alt="\rho"/></td>
+<tr class="row-odd"><td><img class="math" src="_images/math/9a51ab9a0b521705e1e8762fac6bdd6f11771758.png" alt="\rho"/></td>
 <td>Water density (kg/m3)</td>
 </tr>
-<tr class="row-odd"><td><img class="math" src="_images/math/5ec053cf70dc1c98cc297322250569eda193e7a4.png" alt="t"/></td>
+<tr class="row-even"><td><img class="math" src="_images/math/5ec053cf70dc1c98cc297322250569eda193e7a4.png" alt="t"/></td>
 <td>Simulation time (s)</td>
 </tr>
-<tr class="row-even"><td><img class="math" src="_images/math/ebd0f4f67ae61ba059bcb62ef47073518c9c251b.png" alt="T_{e}"/> *</td>
+<tr class="row-odd"><td><img class="math" src="_images/math/6677f01ac823e2de6dc7f9453cf3ff2d0548f71e.png" alt="t_{r}"/></td>
+<td>Ramp time (s)</td>
+</tr>
+<tr class="row-even"><td><img class="math" src="_images/math/3be04d4207434584251f6921820c24ac9fa8c6f1.png" alt="\theta"/></td>
+<td>Wave direction (Degrees)</td>
+</tr>
+<tr class="row-odd"><td><img class="math" src="_images/math/ebd0f4f67ae61ba059bcb62ef47073518c9c251b.png" alt="T_{e}"/> *</td>
 <td>Energy period (s)</td>
 </tr>
-<tr class="row-odd"><td><img class="math" src="_images/math/b635b2e283d0573a44f67b1c948e30bb8facc76d.png" alt="T_{p}"/></td>
+<tr class="row-even"><td><img class="math" src="_images/math/b635b2e283d0573a44f67b1c948e30bb8facc76d.png" alt="T_{p}"/></td>
 <td>Peak period (s)</td>
 </tr>
-<tr class="row-even"><td><img class="math" src="_images/math/6677f01ac823e2de6dc7f9453cf3ff2d0548f71e.png" alt="t_{r}"/></td>
-<td>Ramp time (s)</td>
+<tr class="row-odd"><td><img class="math" src="_images/math/7a7bb470119808e2db2879fc2b2526f467b7a40b.png" alt="X"/></td>
+<td>Translation and rotation displacement vector (m) or (rad)</td>
 </tr>
 </tbody>
 </table>
+<div class="admonition note">
+<p class="first admonition-title">Note</p>
+<p class="last">This section is a work in progress, * means may not be used in WEC-Sim doc</p>
+</div>
 </div>
 </div>
 

@@ -16,7 +16,7 @@ Modeling wave energy converters (WECs) involves the interaction between the inci
 
 Coordinate System
 ------------------
-The :ref:`WEC-Sim Coordinate System <coordinate_system>` figure illustrates a 3-D floating point absorber subject to incoming waves in water. The figure also defines the coordinates and the 6 degree of freedom (DOF) in WEC-Sim. The WEC-Sim coordinate system assumes that the positive X-axis defines a wave angle heading of zero (e.g., a wave propagating with along a zero-degree heading is moving in the +X direction). The positive Z-axis is in the vertical upwards direction, and the positive Y-axis direction is defined by the right-hand rule. In the vectors and matrices used in the code, Surge (x), Sway (y), and Heave (z) correspond to the first, second and third position respectively. Roll (Rx), Pitch (Ry), and Yaw (Rz) correspond to the fourth, fifth, and sixth position respectively.
+The :ref:`WEC-Sim Coordinate System <coordinate_system>` figure illustrates a 3-D floating point absorber subject to incoming waves in water. The figure also defines the coordinates and the 6 degree of freedom (DOF) in WEC-Sim. The WEC-Sim coordinate system assumes that the positive X-axis defines a wave angle heading of zero (e.g., a wave propagating with along a zero-degree direction is moving in the +X direction). The positive Z-axis is in the vertical upwards direction, and the positive Y-axis direction is defined by the right-hand rule. In the vectors and matrices used in the code, Surge (x), Sway (y), and Heave (z) correspond to the first, second and third position respectively. Roll (Rx), Pitch (Ry), and Yaw (Rz) correspond to the fourth, fifth, and sixth position respectively.
 
 .. _coordinate_system:
 
@@ -63,10 +63,10 @@ The equation of motion for a floating body about its center of gravity can be gi
 
 .. math::
 
-	m\ddot{X}=F_{exc}(t)+F_{rad}(t)+F_{PTO}(t)+F_{v}(t)+F_{ME}(t)+F_{B}(t)+F_{m}(t)
+	m\ddot{X}=F_{exc}(t)+F_{rad}(t)+F_{pto}(t)+F_{v}(t)+F_{me}(t)+F_{B}(t)+F_{m}(t)
 
 
-where :math:`\ddot{X}` is the (translational and rotational) acceleration vector of the device, :math:`m` is the mass matrix, :math:`F_{exc}(t)` is the wave excitation force and torque (6-element) vector, :math:`F_{rad}(t)` is the force and torque vector resulting from wave radiation, :math:`F_{PTO}(t)` is the PTO force and torque vector, :math:`F_{v}(t)` is the damping force and torque vector, :math:`F_{ME}(t)` is the Morison Element force and torque vector, :math:`F_{B}(t)` is the net buoyancy restoring force and torque vector, and :math:`F_{m}(t)` is the force and torque vector resulting from the mooring connection.
+where :math:`\ddot{X}` is the (translational and rotational) acceleration vector of the device, :math:`m` is the mass matrix, :math:`F_{exc}(t)` is the wave excitation force and torque (6-element) vector, :math:`F_{rad}(t)` is the force and torque vector resulting from wave radiation, :math:`F_{pto}(t)` is the PTO force and torque vector, :math:`F_{v}(t)` is the damping force and torque vector, :math:`F_{me}(t)` is the Morison Element force and torque vector, :math:`F_{B}(t)` is the net buoyancy restoring force and torque vector, and :math:`F_{m}(t)` is the force and torque vector resulting from the mooring connection.
 
 :math:`F_{exc}(t)` , :math:`F_{rad}(t)` , and :math:`F_{B}(t)` are calculated using hydrodynamic coefficients provided by the frequency-domain BEM solver. 
 The radiation term includes an added-mass term, matrix :math:`A(\omega)`, and wave damping term, matrix :math:`B(\omega)`, associated with the acceleration and velocity of the floating body, respectively, and given as functions of radian frequency (:math:`\omega`) by the BEM solver. 
@@ -108,10 +108,10 @@ The free surface profile is based on linear wave theory for a given wave height,
 
 .. math::
 
-	F_{exc}(t)=\Re\left[ R_{f}(t)\frac{H}{2}F_{exc}(\omega, \beta)e^{i\omega t} \right]
+	F_{exc}(t)=\Re\left[ R_{f}(t)\frac{H}{2}F_{exc}(\omega, \theta)e^{i\omega t} \right]
 
 
-where :math:`\Re` denotes the real part of the formula, :math:`R_{f}` is the ramp function, :math:`H` is the wave height, :math:`F_{exc}` is the frequency dependent complex wave-excitation amplitude vector, and :math:`\beta` is the wave heading.
+where :math:`\Re` denotes the real part of the formula, :math:`R_{f}` is the ramp function, :math:`H` is the wave height, :math:`F_{exc}` is the frequency dependent complex wave-excitation amplitude vector, and :math:`\theta` is the wave direction.
 
 Convolution Integral Formulation
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
@@ -129,7 +129,7 @@ Each regular wave component is extracted from a wave spectrum, :math:`S(\omega)`
 
 .. math::
 
-	F_{exc}(t)=\Re\left[ R_{f}(t) \sum_{j=1}^{N}F_{exc}(\omega_{j}, \beta)e^{i(\omega_{j}t+\phi_{j})} \sqrt{2S(\omega_{j})d\omega_{j}} \right]
+	F_{exc}(t)=\Re\left[ R_{f}(t) \sum_{j=1}^{N}F_{exc}(\omega_{j}, \theta)e^{i(\omega_{j}t+\phi_{j})} \sqrt{2S(\omega_{j})d\omega_{j}} \right]
 
 where :math:`\phi` is the randomized phase angle and :math:`N` is the number of frequency bands selected to discretize the wave spectrum. For repeatable simulation of an irregular wave field :math:`S(\omega)`, WEC-Sim allows specification of :math:`\phi`, refer to the following `wave features <http://wec-sim.github.io/WEC-Sim/advanced_features.html#irregular-waves-with-seeded-phase>`_ section. 
 
@@ -206,14 +206,24 @@ where :math:`\Sigma` is a diagonal matrix containing the Hankel singular values 
 Regular Waves
 -------------
 
-The incident wave is defined as :math:`\eta(x,y,t)` :
+Regular waves are defined as planar sinusoidal waves, where the incident wave is defined as :math:`\eta(x,y,t)` :
 
 .. math::
 
-	\eta(x,y,t)= \frac{H}{2} \cos( \omega t - k (x\cos \beta + y\sin \beta) + \phi)
+	\eta(x,y,t)= \frac{H}{2} \cos( \omega t - k (x\cos \theta + y\sin \theta) + \phi)
 
-where :math:`H` is the wave height, :math:`\omega` is the wave frequency, :math:`k` is the wave number, :math:`\beta` is the wave heading, and :math:`\phi` is the randomized wave phase for irregular waves.   
+where :math:`H` is the wave height, :math:`\omega` is the wave frequency  (:math:`\omega = \frac{2\pi}{T}`), :math:`k` is the wave number (:math:`k = \frac{2\pi}{\lambda}`), :math:`\theta` is the wave direction, and :math:`\phi` is the wave phase.   
 
+Irregular Waves
+----------------
+
+Irregular waves are modeled as the linear superposition of a large number of harmonic waves at different frequencies and angles of incidence, where the incident wave is defined as :math:`\eta(x,y,t)` :
+
+.. math::
+
+	\eta(x,y,t)= \sum_{i}\frac{H_{i}}{2} \cos( \omega_{i} t - k_{i} (x\cos \theta_{i} + y\sin \theta_{i}) + \phi_{i})
+
+where :math:`H` is the wave height, :math:`\omega` is the wave frequency  (:math:`\omega = \frac{2\pi}{T}`), :math:`k` is the wave number (:math:`k = \frac{2\pi}{\lambda}`), :math:`\theta` is the wave direction, and :math:`\phi` is the wave phase (randomized for irregular waves).   
 
 Wave Spectra
 ------------
@@ -221,13 +231,13 @@ The linear superposition of regular waves of distinct amplitudes and periods is 
 
 .. math::
 
-	S\left( f , \beta \right)= S\left( f \right)D\left( \beta \right)~~
+	S\left( f , \theta \right)= S\left( f \right)D\left( \theta \right)~~
 	
-where :math:`S\left( f\right)` is the wave power spectrum, :math:`f` is the wave frequency (in Hertz), :math:`D\left( \beta \right)` is the directional distribution, and :math:`\beta` is the wave heading (in Degrees). The formulation of :math:`D\left( \beta \right)` requires that
+where :math:`S\left( f\right)` is the wave power spectrum, :math:`f` is the wave frequency (in Hertz), :math:`D\left( \theta \right)` is the directional distribution, and :math:`\theta` is the wave direction (in Degrees). The formulation of :math:`D\left( \theta \right)` requires that
 
 .. math::
 
-	\int_{0}^{\infty}\int_{-\pi}^{\pi} S\left( f \right)D\left( \beta \right) d\theta df = \int_{0}^{\infty} S\left( f \right) df
+	\int_{0}^{\infty}\int_{-\pi}^{\pi} S\left( f \right)D\left( \theta \right) d\theta df = \int_{0}^{\infty} S\left( f \right) df
 
 so that the total energy in the directional spectrum must be the same as the total energy in the one-dimensional spectrum.
 
@@ -326,14 +336,14 @@ The PTO mechanism is represented as a linear spring-damper system where the reac
 
 .. math::
 
-	F_{PTO}=-K{}_{PTO}X_{rel}-C_{PTO}\dot{X}_{rel}
+	F_{pto}=-K{}_{pto}X_{rel}-C_{pto}\dot{X}_{rel}
 
-where :math:`K_{PTO}` is the stiffness of the PTO, :math:`C_{PTO}` is the damping of the PTO, and :math:`X_{rel}` and :math:`\dot{X}_{rel}` are the relative motion and velocity between two bodies. 
+where :math:`K_{pto}` is the stiffness of the PTO, :math:`C_{pto}` is the damping of the PTO, and :math:`X_{rel}` and :math:`\dot{X}_{rel}` are the relative motion and velocity between two bodies. 
 The instantaneous power absorbed by the PTO is given by:
 
  .. math::
 	
-	P_{PTO} = -F_{PTO}\dot{X}_{rel}=\left(K_{PTO}X_{rel}\dot{X}_{rel}+C_{PTO}\dot{X}^{2}_{rel}\right)
+	P_{pto} = -F_{pto}\dot{X}_{rel}=\left(K_{pto}X_{rel}\dot{X}_{rel}+C_{pto}\dot{X}^{2}_{rel}\right)
 
 
 
@@ -344,14 +354,14 @@ The PTO mechanism is modeled as a hydraulic system :cite:`So`, where the reactio
 
 .. math::
 
-	F_{PTO}=\Delta{} p_{piston}A_{piston}
+	F_{pto}=\Delta{} p_{piston}A_{piston}
 
 where :math:`\Delta{} p_{piston}` is the differential pressure of the hydraulic piston and :math:`A_{piston}` is the piston area. 
 The instantaneous hydraulic power absorbed by the PTO is given by:  
 
 .. math::
 
-	P_{PTO}=-F_{PTO}\dot{X}_{rel}
+	P_{pto}=-F_{pto}\dot{X}_{rel}
 
 
 Mechanical PTO
@@ -361,14 +371,14 @@ The PTO mechanism is modeled as a direct-drive linear generator system :cite:`So
 
 .. math::
 
-	F_{PTO}=(\frac{\pi}{\tau_{pm}})\lambda_{fd}i_{sq}
+	F_{pto}=(\frac{\pi}{\tau_{pm}})\lambda_{fd}i_{sq}
 
 where :math:`\tau_{pm}` is the magnet pole pitch (the center-to-center distance of adjacent magnetic poles), :math:`\lambda_{fd}` is the flux linkage of the stator :math:`d`-axis winding due to flux produced by the rotor magnets, and :math:`i_{sq}` is the stator :math:`q`-axis current.
 The instantaneous mechanical power absorbed by the PTO is given by:  
 
 .. math::
 
-	P_{PTO}=-F_{PTO}\dot{X}_{rel}
+	P_{pto}=-F_{pto}\dot{X}_{rel}
 
 .. Note:: 
 	For more information about application of pto systems in WEC-Sim, refer to `PTO Features <https://wec-sim.github.io/WEC-Sim/advanced_features.html#constraint-and-pto-features>`_.
@@ -438,16 +448,16 @@ Linear damping and quadratic drag forces add flexibility to the definition of vi
 	&  =-C_{v}\dot{X}-C_{D}\dot{X}|\dot{X}| & \\
 	              
 
-where :math:`C_{v}` is the linear damping coefficient, :math:`C_{d}` is the quadratic drag coefficient, :math:`\rho` is the fluid density, and :math:`A_{d}` is the characteristic area for drag calculation. Alternatively, one can define :math:`C_{D}` directly.
+where :math:`C_{v}` is the linear (viscous) damping coefficient, :math:`C_{d}` is the quadratic drag coefficient, :math:`\rho` is the fluid density, and :math:`A_{d}` is the characteristic area for drag calculation. Alternatively, one can define :math:`C_{D}` directly.
 
 Because BEM codes are potential flow solvers and neglect the effects of viscosity, :math:`F_{v}` generally must be included to accurately model device performance. However, it can be difficult to select representative drag coefficients, as they depend on device geometry, scale, and relative velocity between the body and the flow around it. Empirical data on the drag coefficient can be found in various literature and standards, but is generally limited to simple geometries evaluated at a limited number of scales and flow conditions. For realistic device geometries, the use of computational fluid dynamic simulations or experimental data is encouraged.
 
 Morison Elements 
 ~~~~~~~~~~~~~~~~
-The Morison Equation assumes that the fluid forces in an oscillating flow on a structure of slender cylinders or other similar geometries arise partly from pressure effects from potential flow and partly from viscous effects. A slender cylinder implies that the diameter, D, is small relative to the wave length, :math:`\lambda_w`, which is generally met when :math:`D/\lambda_w < 0.1 - 0.2`. If this condition is not met, wave diffraction effects must be taken into account. Assuming that the geometries are slender, the resulting force can be approximated by a modified Morison formulation :cite:`Morison1950`. The formulation for each element on the body can be given as
+The Morison Equation assumes that the fluid forces in an oscillating flow on a structure of slender cylinders or other similar geometries arise partly from pressure effects from potential flow and partly from viscous effects. A slender cylinder implies that the diameter, D, is small relative to the wave length, :math:`\lambda`, which is generally met when :math:`D/\lambda < 0.1 - 0.2`. If this condition is not met, wave diffraction effects must be taken into account. Assuming that the geometries are slender, the resulting force can be approximated by a modified Morison formulation :cite:`Morison1950`. The formulation for each element on the body can be given as
 
  .. math::
-	F_{ME}=\rho\dot{v}+\rho\forall C_{a}(\dot{v}-\ddot{X})+\frac{C_{d}\rho A_{d}}{2}(v-\dot{X})|v-\dot{X}|
+	F_{me}=\rho\dot{v}+\rho\forall C_{a}(\dot{v}-\ddot{X})+\frac{C_{d}\rho A_{d}}{2}(v-\dot{X})|v-\dot{X}|
 
 where :math:`v` is the fluid particle velocity, :math:`C_{a}` is the coefficient of added mass, and :math:`\forall` is the displaced volume. 
 

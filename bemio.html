@@ -334,9 +334,9 @@
 <h2>BEMIO <em>hydro</em> Data Structure<a class="headerlink" href="#bemio-hydro-data-structure" title="Permalink to this headline">¶</a></h2>
 <table border="1" class="docutils">
 <colgroup>
-<col width="7%" />
-<col width="14%" />
-<col width="80%" />
+<col width="8%" />
+<col width="15%" />
+<col width="78%" />
 </colgroup>
 <tbody valign="top">
 <tr class="row-odd"><td><strong>Variable</strong></td>
@@ -355,7 +355,7 @@
 <td>[6*Nb,6*Nb,Nf]</td>
 <td>radiation wave damping</td>
 </tr>
-<tr class="row-odd"><td>beta</td>
+<tr class="row-odd"><td>theta</td>
 <td>[1,Nh]</td>
 <td>wave headings (deg)</td>
 </tr>
@@ -363,81 +363,81 @@
 <td>{1,Nb}</td>
 <td>body names</td>
 </tr>
-<tr class="row-odd"><td>C</td>
-<td>[6,6,Nb]</td>
-<td>hydrostatic restoring stiffness</td>
-</tr>
-<tr class="row-even"><td>cb</td>
+<tr class="row-odd"><td>cb</td>
 <td>[3,Nb]</td>
 <td>center of buoyancy</td>
 </tr>
-<tr class="row-odd"><td>cg</td>
+<tr class="row-even"><td>cg</td>
 <td>[3,Nb]</td>
 <td>center of gravity</td>
 </tr>
-<tr class="row-even"><td>code</td>
+<tr class="row-odd"><td>code</td>
 <td>string</td>
 <td>BEM code (WAMIT, AQWA, or NEMOH)</td>
 </tr>
-<tr class="row-odd"><td>dof</td>
+<tr class="row-even"><td>dof</td>
 <td>[6 + GBM, Nb]</td>
 <td>Degrees of freedom (DOF) for each body. Default DOF for each body is 6 plus number of possible generalized body modes (GBM).</td>
 </tr>
-<tr class="row-even"><td>ex_im</td>
+<tr class="row-odd"><td>exc_im</td>
 <td>[6*Nb,Nh,Nf]</td>
 <td>imaginary component of excitation force or torque</td>
 </tr>
-<tr class="row-odd"><td>ex_K</td>
+<tr class="row-even"><td>exc_K</td>
 <td>[6*Nb,Nh,length(ex_t)]</td>
 <td>excitation IRF</td>
 </tr>
-<tr class="row-even"><td>ex_ma</td>
+<tr class="row-odd"><td>exc_ma</td>
 <td>[6*Nb,Nh,Nf]</td>
 <td>magnitude of excitation force or torque</td>
 </tr>
-<tr class="row-odd"><td>ex_ph</td>
+<tr class="row-even"><td>exc_ph</td>
 <td>[6*Nb,Nh,Nf]</td>
 <td>phase of excitation force or torque</td>
 </tr>
-<tr class="row-even"><td>ex_re</td>
+<tr class="row-odd"><td>exc_re</td>
 <td>[6*Nb,Nh,Nf]</td>
 <td>real component of excitation force or torque</td>
 </tr>
-<tr class="row-odd"><td>ex_t</td>
+<tr class="row-even"><td>exc_t</td>
 <td>[1,length(ex_t)]</td>
 <td>time steps in the excitation IRF</td>
 </tr>
-<tr class="row-even"><td>ex_w</td>
+<tr class="row-odd"><td>exc_w</td>
 <td>[1,length(ex_w)]</td>
 <td>frequency step in the excitation IRF</td>
 </tr>
-<tr class="row-odd"><td>file</td>
+<tr class="row-even"><td>file</td>
 <td>string</td>
 <td>BEM output filename</td>
 </tr>
-<tr class="row-even"><td>fk_im</td>
+<tr class="row-odd"><td>fk_im</td>
 <td>[6*Nb,Nh,Nf]</td>
 <td>imaginary component of Froude-Krylov contribution to the excitation force or torque</td>
 </tr>
-<tr class="row-odd"><td>fk_ma</td>
+<tr class="row-even"><td>fk_ma</td>
 <td>[6*Nb,Nh,Nf]</td>
 <td>magnitude of Froude-Krylov excitation component</td>
 </tr>
-<tr class="row-even"><td>fk_ph</td>
+<tr class="row-odd"><td>fk_ph</td>
 <td>[6*Nb,Nh,Nf]</td>
 <td>phase of Froude-Krylov excitation component</td>
 </tr>
-<tr class="row-odd"><td>fk_re</td>
+<tr class="row-even"><td>fk_re</td>
 <td>[6*Nb,Nh,Nf]</td>
 <td>real component of Froude-Krylov contribution to the excitation force or torque</td>
 </tr>
-<tr class="row-even"><td>g</td>
+<tr class="row-odd"><td>g</td>
 <td>[1,1]</td>
 <td>gravity</td>
 </tr>
-<tr class="row-odd"><td>h</td>
+<tr class="row-even"><td>h</td>
 <td>[1,1]</td>
 <td>water depth</td>
+</tr>
+<tr class="row-odd"><td>Khs</td>
+<td>[6,6,Nb]</td>
+<td>hydrostatic restoring stiffness</td>
 </tr>
 <tr class="row-even"><td>Nb</td>
 <td>[1,1]</td>
@@ -523,7 +523,7 @@
 <td>[1,Nb]</td>
 <td>displaced volume</td>
 </tr>
-<tr class="row-odd"><td>w</td>
+<tr class="row-odd"><td>omega</td>
 <td>[1,Nf]</td>
 <td>wave frequencies</td>
 </tr>

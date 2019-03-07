@@ -113,20 +113,19 @@ BEMIO *hydro* Data Structure
 A             [6*Nb,6*Nb,Nf]              radiation added mass
 Ainf          [6*Nb,6*Nb]                 infinite frequency added mass
 B             [6*Nb,6*Nb,Nf]              radiation wave damping
-beta          [1,Nh]                    wave headings (deg)
+theta         [1,Nh]                     wave headings (deg)
 body          {1,Nb}                     body names
-C             [6,6,Nb]                   hydrostatic restoring stiffness
 cb            [3,Nb]                     center of buoyancy
 cg            [3,Nb]                     center of gravity
 code          string                    BEM code (WAMIT, AQWA, or NEMOH)
-dof 		    [6 + GBM, Nb] 			Degrees of freedom (DOF) for each body. Default DOF for each body is 6 plus number of possible generalized body modes (GBM).
-ex_im         [6*Nb,Nh,Nf]               imaginary component of excitation force or torque
-ex_K          [6*Nb,Nh,length(ex_t)]     excitation IRF
-ex_ma         [6*Nb,Nh,Nf]               magnitude of excitation force or torque
-ex_ph         [6*Nb,Nh,Nf]               phase of excitation force or torque
-ex_re         [6*Nb,Nh,Nf]               real component of excitation force or torque
-ex_t          [1,length(ex_t)]          time steps in the excitation IRF
-ex_w          [1,length(ex_w)]          frequency step in the excitation IRF
+dof 	      [6 + GBM, Nb] 		Degrees of freedom (DOF) for each body. Default DOF for each body is 6 plus number of possible generalized body modes (GBM).
+exc_im         [6*Nb,Nh,Nf]               imaginary component of excitation force or torque
+exc_K          [6*Nb,Nh,length(ex_t)]     excitation IRF
+exc_ma         [6*Nb,Nh,Nf]               magnitude of excitation force or torque
+exc_ph         [6*Nb,Nh,Nf]               phase of excitation force or torque
+exc_re         [6*Nb,Nh,Nf]               real component of excitation force or torque
+exc_t          [1,length(ex_t)]          time steps in the excitation IRF
+exc_w          [1,length(ex_w)]          frequency step in the excitation IRF
 file          string                    BEM output filename
 fk_im         [6*Nb,Nh,Nf]               imaginary component of Froude-Krylov contribution to the excitation force or torque
 fk_ma         [6*Nb,Nh,Nf]               magnitude of Froude-Krylov excitation component
@@ -134,6 +133,7 @@ fk_ph         [6*Nb,Nh,Nf]               phase of Froude-Krylov excitation compo
 fk_re         [6*Nb,Nh,Nf]               real component of Froude-Krylov contribution to the excitation force or torque
 g             [1,1]                     gravity
 h             [1,1]                     water depth
+Khs             [6,6,Nb]                 hydrostatic restoring stiffness
 Nb            [1,1]                     number of bodies
 Nf            [1,1]                     number of wave frequencies
 Nh            [1,1]                     number of wave headings
@@ -155,7 +155,7 @@ ss_O          [6*Nb,6*Nb]                 state space order
 ss_R2         [6*Nb,6*Nb]                 state space R2 fit
 T             [1,Nf]                    wave periods
 Vo            [1,Nb]                     displaced volume
-w             [1,Nf]                    wave frequencies
+omega         [1,Nf]                    wave frequencies
 ============  ========================  ======================================
 
 
