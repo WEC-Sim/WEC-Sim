@@ -38,6 +38,7 @@ end
 H5_Create_Write_Att(filename,'/simulation_parameters/wave_dir',hydro.beta,'Wave direction','deg');
 waitbar(1/N);
 n = 0;
+m_add = 0;
 for i = 1:hydro.Nb
     m = hydro.dof(i);
     H5_Create_Write_Att(filename,['/body' num2str(i) '/properties/body_number'],i-1,'Number of rigid body from the BEM simulationCenter of gravity','m');
@@ -45,13 +46,21 @@ for i = 1:hydro.Nb
     H5_Create_Write_Att(filename,['/body' num2str(i) '/properties/cg'],hydro.cg(:,i)','Center of gravity','m');
     H5_Create_Write_Att(filename,['/body' num2str(i) '/properties/disp_vol'],hydro.Vo(i),'Displaced volume','m^3');
     H5_Create_Write_Att(filename,['/body' num2str(i) '/properties/dof'],hydro.dof(i),'Degrees of freedom','');
+    H5_Create_Write_Att(filename,['/body' num2str(i) '/properties/dof_start'],m_add + 1,'Degrees of freedom','');
+    H5_Create_Write_Att(filename,['/body' num2str(i) '/properties/dof_end'],  m_add + m,'Degrees of freedom','');    
     if isfield(hydro,'gbm')==1 % Only if generalized body modes have been used
-        H5_Create_Write_Att(filename,['/body' num2str(i) '/properties/gbm_mass'],permute(hydro.gbm((n+1):(n+m),:,1),[3 2 1]),'Generalized body modes mass','kg');
-        H5_Create_Write_Att(filename,['/body' num2str(i) '/properties/gbm_damping'],permute(hydro.gbm((n+1):(n+m),:,2),[3 2 1]),'Generalized body modes damping','N/m');
-        H5_Create_Write_Att(filename,['/body' num2str(i) '/properties/gbm_stiffness'],permute(hydro.gbm((n+1):(n+m),:,3),[3 2 1]),'Generalized body modes stiffness','N-s/m');
-        H5_Create_Write_Att(filename,['/body' num2str(i) '/properties/gbm_hydrostatic_stiffness'],permute(hydro.gbm((n+1):(n+m),:,4),[3 2 1]),'Hydrostatic stiffness','N/m');
+        H5_Create_Write_Att(filename,['/body' num2str(i) '/properties/mass'],permute(hydro.gbm((n+1):(n+m),:,1),[3 2 1]),'Generalized body modes mass','kg');
+        H5_Create_Write_Att(filename,['/body' num2str(i) '/properties/damping'],permute(hydro.gbm((n+1):(n+m),:,2),[3 2 1]),'Generalized body modes damping','N/m');
+        H5_Create_Write_Att(filename,['/body' num2str(i) '/properties/stiffness'],permute(hydro.gbm((n+1):(n+m),:,3),[3 2 1]),'Generalized body modes stiffness','N-s/m');
     end
-    H5_Create_Write_Att(filename,['/body' num2str(i) '/hydro_coeffs/linear_restoring_stiffness'],hydro.C(:,:,i),'Hydrostatic stiffness matrix','');
+    if isfield(hydro,'gbm')==1 % Only if generalized body modes have been used
+        tmp = permute(hydro.gbm((n+1):(n+m),:,4),[3 2 1]);
+        H5_Create_Write_Att(filename,['/body' num2str(i) '/hydro_coeffs/linear_restoring_stiffness'],tmp(1,m_add + 1:m_add + m,:),'Hydrostatic stiffness','N/m');
+        clear tmp;
+    else
+        H5_Create_Write_Att(filename,['/body' num2str(i) '/hydro_coeffs/linear_restoring_stiffness'],hydro.C(:,:,i),'Hydrostatic stiffness matrix','');        
+    end        
+    m_add = m_add + m;
     H5_Create_Write_Att(filename,['/body' num2str(i) '/hydro_coeffs/added_mass/inf_freq'],permute(hydro.Ainf((n+1):(n+m),:),[2 1]),'Infinite frequency added mass','kg');
     H5_Create_Write_Att(filename,['/body' num2str(i) '/hydro_coeffs/added_mass/all'],permute(hydro.A((n+1):(n+m),:,:),[3 2 1]),'Added mass','kg-m^2 (rotation); kg (translation)');
     H5_Create_Write_Att(filename,['/body' num2str(i) '/hydro_coeffs/excitation/im'],permute(hydro.ex_im((n+1):(n+m),:,:),[3 2 1]),'Imaginary component of excitation force','');
