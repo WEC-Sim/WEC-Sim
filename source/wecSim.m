@@ -28,7 +28,7 @@ try fprintf('wecSimMCR Case %g\n',imcr); end
 fprintf('\nWEC-Sim Read Input File ...   \n');
 evalc('wecSimInputFile');
 % Read Inputs for Multiple Conditions Run
-if exist('mcr','var') == 1;
+if exist('mcr','var') == 1
     for n=1:length(mcr.cases(1,:))
         if iscell(mcr.cases)
             eval([mcr.header{n} '= mcr.cases{imcr,n};']);
@@ -141,7 +141,7 @@ end; clear kk
 if waves.typeNum~=0 && waves.typeNum~=10
     for iBod = 1:simu.numWecBodies
         if simu.CITime > max(body(iBod).hydroData.hydro_coeffs.radiation_damping.impulse_response_fun.t)
-          error('simu.CITime is larger than the length of the IRF');
+            error('simu.CITime is larger than the length of the IRF');
         end
     end
 end
@@ -149,13 +149,13 @@ end
 % Check that the hydro data for each body is given for the same frequencies
 for ii = 1:simu.numWecBodies
     if length(body(1).hydroData.simulation_parameters.w) ~= length(body(ii).hydroData.simulation_parameters.w)
-       error('BEM simulations for each body must have the same number of frequencies')
+        error('BEM simulations for each body must have the same number of frequencies')
     else
-       for jj = 1:length(body(1).hydroData.simulation_parameters.w)
-           if body(1).hydroData.simulation_parameters.w(jj) ~= body(ii).hydroData.simulation_parameters.w(jj)
-              error('BEM simulations must be run with the same frequencies.')
-           end; clear jj;
-       end
+        for jj = 1:length(body(1).hydroData.simulation_parameters.w)
+            if body(1).hydroData.simulation_parameters.w(jj) ~= body(ii).hydroData.simulation_parameters.w(jj)
+                error('BEM simulations must be run with the same frequencies.')
+            end; clear jj;
+        end
     end
 end; clear ii;
 
@@ -203,9 +203,11 @@ sv_noB2B=Simulink.Variant('B2B==0');
 sv_B2B=Simulink.Variant('B2B==1');
 % nonHydroBody
 for ii=1:length(body(1,:))
-    eval(['nhbody_' num2str(ii) ' = body(ii).nhBody;']);
-    eval(['sv_b' num2str(ii) '_hydroBody = Simulink.Variant(''nhbody_' num2str(ii) '==0'');']);
-    eval(['sv_b' num2str(ii) '_nonHydroBody = Simulink.Variant(''nhbody_' num2str(ii) '==1'');']);
+    eval(['nhbody_' num2str(ii) ' = body(ii).nhBody;'])
+    eval(['sv_b' num2str(ii) '_hydroBody = Simulink.Variant(''nhbody_' num2str(ii) '==0'');'])
+    eval(['sv_b' num2str(ii) '_nonHydroBody = Simulink.Variant(''nhbody_' num2str(ii) '==1'');'])
+%    eval(['sv_b' num2str(ii) '_flexBody = Simulink.Variant(''nhbody_' num2str(ii) '==2'');'])
+%    eval(['sv_b' num2str(ii) '_rigidBody = Simulink.Variant(''nhbody_' num2str(ii) '==0'');'])
 end; clear ii
 
 
@@ -251,13 +253,14 @@ warning('off','Simulink:blocks:BusSelDupBusCreatorSigNames');
 warning('off','MATLAB:loadlibrary:FunctionNotFound');
 warning('off','MATLAB:loadlibrary:parsewarnings');
 warning('off','Simulink:blocks:DivideByZero');
+warning('off','sm:sli:setup:compile:SteadyStateStartNotSupported')
 set_param(0, 'ErrorIfLoadNewModel', 'off')
 % run simulation
 simu.loadSimMechModel(simu.simMechanicsFile);
 sim(simu.simMechanicsFile, [], simset('SrcWorkspace','parent'));
 % Restore modified stuff
 clear nlHydro sv_linearHydro sv_nonlinearHydro ssCalc radiation_option sv_convolution sv_stateSpace sv_constantCoeff typeNum B2B sv_B2B sv_noB2B;
-clear nhbod* sv_b* sv_noWave sv_regularWaves sv_irregularWaves sv_udfWaves sv_instFS sv_meanFS sv_MEOn sv_MEOff morrisonElement;
+clear nhbod* sv_b* sv_noWave sv_regularWaves sv_irregularWaves sv_udfWaves sv_instFS sv_meanFS sv_MEOn sv_MEOff morrisonElement flexHydrobody_*;
 toc
 
 tic
