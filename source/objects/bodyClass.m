@@ -53,6 +53,7 @@ classdef bodyClass<handle
                                'rgME',               [0 0 0])                   % Vector from center of gravity to point of application for Morrison Element (format [X Y Z], default = [0 0 0]).
         nhBody            = 0                                                   % Flag for non-hydro body.
         flexHydroBody     = 0                                                   % Flag for flexible body. 
+        meanDriftForce    = 0                                                   % Flag for mean drift force. 0: No; 1: from control surface; 2: from momentum conservation.
     end
     
     properties (SetAccess = 'public', GetAccess = 'public') %body geometry stl file
@@ -138,8 +139,17 @@ classdef bodyClass<handle
             if (obj.dof_gbm>0)
                 obj.linearDamping = [obj.linearDamping(1:6) zeros(1,obj.dof_gbm)];
             end
-        end
-        
+            if obj.meanDriftForce == 0
+                obj.hydroData.hydro_coeffs.mean_drift = 0.*obj.hydroData.hydro_coeffs.excitation.re;
+            elseif obj.meanDriftForce == 1
+                obj.hydroData.hydro_coeffs.mean_drift =  h5load(filename, [name '/hydro_coeffs/mean_drift/control_surface/val']);
+            elseif obj.meanDriftForce == 2
+                obj.hydroData.hydro_coeffs.mean_drift =  h5load(filename, [name '/hydro_coeffs/mean_drift/momentum_conservation/val']);
+            else
+                error('Wrong flag for mean drift force.')
+            end
+        end    
+    
         function loadHydroData(obj, hydroData)
             % Loads hydroData structure from matlab variable as alternative
             % to reading the h5 file. Used in wecSimMCR
@@ -380,16 +390,20 @@ classdef bodyClass<handle
             nDOF = obj.dof;
             re = obj.hydroData.hydro_coeffs.excitation.re(:,:,:) .*rho.*g;
             im = obj.hydroData.hydro_coeffs.excitation.im(:,:,:) .*rho.*g;
+            md = obj.hydroData.hydro_coeffs.mean_drift(:,:,:)    .*rho.*g;
             obj.hydroForce.fExt.re=zeros(1,nDOF);
             obj.hydroForce.fExt.im=zeros(1,nDOF);
+            obj.hydroForce.fExt.md=zeros(1,nDOF);
             for ii=1:nDOF
                 if length(obj.hydroData.simulation_parameters.wave_dir) > 1
                     [X,Y] = meshgrid(obj.hydroData.simulation_parameters.w, obj.hydroData.simulation_parameters.wave_dir);
                     obj.hydroForce.fExt.re(ii) = interp2(X, Y, squeeze(re(ii,:,:)), w, waveDir);
                     obj.hydroForce.fExt.im(ii) = interp2(X, Y, squeeze(im(ii,:,:)), w, waveDir);
+                    obj.hydroForce.fExt.md(ii) = interp2(X, Y, squeeze(md(ii,:,:)), w, waveDir);
                 elseif obj.hydroData.simulation_parameters.wave_dir == waveDir
                     obj.hydroForce.fExt.re(ii) = interp1(obj.hydroData.simulation_parameters.w,squeeze(re(ii,1,:)),w,'spline');
                     obj.hydroForce.fExt.im(ii) = interp1(obj.hydroData.simulation_parameters.w,squeeze(im(ii,1,:)),w,'spline');
+                    obj.hydroForce.fExt.md(ii) = interp1(obj.hydroData.simulation_parameters.w,squeeze(im(ii,1,:)),w,'spline');
                 end
             end
         end
@@ -400,16 +414,20 @@ classdef bodyClass<handle
             nDOF = obj.dof;
             re = obj.hydroData.hydro_coeffs.excitation.re(:,:,:) .*rho.*g;
             im = obj.hydroData.hydro_coeffs.excitation.im(:,:,:) .*rho.*g;
+            md = obj.hydroData.hydro_coeffs.mean_drift(:,:,:)    .*rho.*g;
             obj.hydroForce.fExt.re=zeros(length(waveDir),numFreq,nDOF);
             obj.hydroForce.fExt.im=zeros(length(waveDir),numFreq,nDOF);
+            obj.hydroForce.fExt.md=zeros(length(waveDir),numFreq,nDOF);
             for ii=1:nDOF
                 if length(obj.hydroData.simulation_parameters.wave_dir) > 1
                     [X,Y] = meshgrid(obj.hydroData.simulation_parameters.w, obj.hydroData.simulation_parameters.wave_dir);
                     obj.hydroForce.fExt.re(:,:,ii) = interp2(X, Y, squeeze(re(ii,:,:)), wv, waveDir);
                     obj.hydroForce.fExt.im(:,:,ii) = interp2(X, Y, squeeze(im(ii,:,:)), wv, waveDir);
+                    obj.hydroForce.fExt.md(:,:,ii) = interp2(X, Y, squeeze(md(ii,:,:)), wv, waveDir);
                 elseif obj.hydroData.simulation_parameters.wave_dir == waveDir
                     obj.hydroForce.fExt.re(:,:,ii) = interp1(obj.hydroData.simulation_parameters.w,squeeze(re(ii,1,:)),wv,'spline');
                     obj.hydroForce.fExt.im(:,:,ii) = interp1(obj.hydroData.simulation_parameters.w,squeeze(im(ii,1,:)),wv,'spline');
+                    obj.hydroForce.fExt.md(:,:,ii) = interp1(obj.hydroData.simulation_parameters.w,squeeze(md(ii,1,:)),wv,'spline');
                 end
             end
         end
@@ -436,6 +454,7 @@ classdef bodyClass<handle
             end
             obj.hydroForce.fExt.re=zeros(1,nDOF);
             obj.hydroForce.fExt.im=zeros(1,nDOF);
+            obj.hydroForce.fExt.md=zeros(1,nDOF);
         end
         
         function constAddedMassAndDamping(obj,w,CIkt,rho,B2B)

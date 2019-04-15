@@ -141,6 +141,65 @@ for n = 1:N
             if i>N break; end
         end
     end
+
+    if isempty(strfind(raw{n},'SURGE, SWAY & YAW DRIFT FORCES (Momentum Conservation)'))==0
+        hydro(F).Nh = 0;  % Number of wave headings
+        i = n+1;
+        while isempty(strfind(raw{i},'Wave Heading'))==0
+            hydro(F).Nh = hydro(F).Nh+1;
+            tmp = textscan(raw{i}(find(raw{i}==':')+1:end),'%f');
+            hydro(F).beta(hydro(F).Nh) = tmp{1}(1);  % Wave headings
+            i = i+2;
+            while (isempty(strfind(raw{i},'*******************************'))~=0 & ...
+                    isempty(strfind(raw{i},'EXCITING FORCES AND MOMENTS'))~=0 & ...
+                    isempty(strfind(raw{i},'RESPONSE AMPLITUDE OPERATORS'))~=0 & ...
+                    isempty(strfind(raw{i},'SURGE, SWAY & YAW DRIFT FORCES (Momentum Conservation)'))~=0 & ...
+                    isempty(strfind(raw{i},'SURGE, SWAY, HEAVE, ROLL, PITCH & YAW DRIFT FORCES (Control Surface)'))~=0 & ...
+                    isempty(strfind(raw{i},'Wave Heading'))~=0)
+                tmp = textscan(raw{i},'%f');
+                ma = tmp{1}(2);  % Magnitude of exciting force
+                ph = deg2rad(tmp{1}(3));  % Phase of exciting force
+                if isnan(ma) ==1
+                    ma = 0;
+                    ph = 0;
+                end
+                hydro(F).md_mc(abs(tmp{1}(1)),hydro(F).Nh,hydro(F).Nf) = ma.*cos(ph);
+                i = i+1;
+                if i>N break; end
+            end
+            if i>N break; end
+        end
+    end    
+    
+    if isempty(strfind(raw{n},'SURGE, SWAY, HEAVE, ROLL, PITCH & YAW DRIFT FORCES (Control Surface)'))==0
+        hydro(F).Nh = 0;  % Number of wave headings
+        i = n+1;
+        while isempty(strfind(raw{i},'Wave Heading'))==0
+            hydro(F).Nh = hydro(F).Nh+1;
+            tmp = textscan(raw{i}(find(raw{i}==':')+1:end),'%f');
+            hydro(F).beta(hydro(F).Nh) = tmp{1}(1);  % Wave headings
+            i = i+2;
+            while (isempty(strfind(raw{i},'*******************************'))~=0 & ...
+                    isempty(strfind(raw{i},'EXCITING FORCES AND MOMENTS'))~=0 & ...
+                    isempty(strfind(raw{i},'RESPONSE AMPLITUDE OPERATORS'))~=0 & ...
+                    isempty(strfind(raw{i},'SURGE, SWAY & YAW DRIFT FORCES (Momentum Conservation)'))~=0 & ...
+                    isempty(strfind(raw{i},'SURGE, SWAY, HEAVE, ROLL, PITCH & YAW DRIFT FORCES (Control Surface)'))~=0 & ...
+                    isempty(strfind(raw{i},'Wave Heading'))~=0)
+                tmp = textscan(raw{i},'%f');
+                ma = tmp{1}(2);  % Magnitude of exciting force
+                ph = deg2rad(tmp{1}(3));  % Phase of exciting force
+                if isnan(ma) ==1
+                    ma = 0;
+                    ph = 0;
+                end
+                hydro(F).md_cs(abs(tmp{1}(1)),hydro(F).Nh,hydro(F).Nf) = ma.*cos(ph);
+                i = i+1;
+                if i>N break; end
+            end
+            if i>N break; end
+        end
+    end
+    
     d = floor(10*n/N);  % Update progress bar every 10%, otherwise slows computation
     if d>e  waitbar(n/N);  e = d;  end
 end
