@@ -67,6 +67,12 @@ for i = 1:hydro.Nb
     H5_Create_Write_Att(filename,['/body' num2str(i) '/hydro_coeffs/excitation/mag'],permute(hydro.ex_ma((n+1):(n+m),:,:),[3 2 1]),'Magnitude of excitation force','');
     H5_Create_Write_Att(filename,['/body' num2str(i) '/hydro_coeffs/excitation/phase'],permute(hydro.ex_ph((n+1):(n+m),:,:),[3 2 1]),'Phase angle of excitation force','rad');
     H5_Create_Write_Att(filename,['/body' num2str(i) '/hydro_coeffs/excitation/re'],permute(hydro.ex_re((n+1):(n+m),:,:),[3 2 1]),'Real component of excitation force','');
+    if isfield(hydro,'md_mc')==1 % Only if mean drift variables (momentum conservation) have been calculated in BEM
+        H5_Create_Write_Att(filename,['/body' num2str(i) '/hydro_coeffs/mean_drift/momentum_conservation/val/'],permute(hydro.ex_ma((n+1):(n+m),:,:),[3 2 1]),'Value of mean drift force (momentum conservation)','');
+    end
+    if isfield(hydro,'md_cs')==1 % Only if mean drift variables (control surface approach) have been calculated in BEM
+        H5_Create_Write_Att(filename,['/body' num2str(i) '/hydro_coeffs/mean_drift/control_surface/val/'],permute(hydro.ex_ma((n+1):(n+m),:,:),[3 2 1]),'Value of mean drift force (control surface)','');
+    end
     H5_Create_Write_Att(filename,['/body' num2str(i) '/hydro_coeffs/excitation/scattering/im'],permute(hydro.sc_im((n+1):(n+m),:,:),[3 2 1]),'Imaginary component of scattering force','');
     H5_Create_Write_Att(filename,['/body' num2str(i) '/hydro_coeffs/excitation/scattering/mag'],permute(hydro.sc_ma((n+1):(n+m),:,:),[3 2 1]),'Magnitude of scattering force','');
     H5_Create_Write_Att(filename,['/body' num2str(i) '/hydro_coeffs/excitation/scattering/phase'],permute(hydro.sc_ph((n+1):(n+m),:,:),[3 2 1]),'Phase angle of scattering force','rad');
@@ -110,9 +116,15 @@ for i = 1:hydro.Nb
     for j = (n+1):(n+m)
         for k = 1:hydro.Nh
             H5_Create_Write_Att(filename,['/body' num2str(i) '/hydro_coeffs/excitation/components/im/' num2str(j-m*i+m) '_' num2str(k)],[hydro.T',permute(hydro.ex_im(j,k,:),[3 2 1])]','Imaginary component of excitation force as a function of frequency','');
+            H5_Create_Write_Att(filename,['/body' num2str(i) '/hydro_coeffs/excitation/components/re/' num2str(j-m*i+m) '_' num2str(k)],[hydro.T',permute(hydro.ex_re(j,k,:),[3 2 1])]','Real component of excitation force as a function of frequency','');
             H5_Create_Write_Att(filename,['/body' num2str(i) '/hydro_coeffs/excitation/components/mag/' num2str(j-m*i+m) '_' num2str(k)],[hydro.T',permute(hydro.ex_ma(j,k,:),[3 2 1])]','Magnitude of excitation force as a function of frequency','');
             H5_Create_Write_Att(filename,['/body' num2str(i) '/hydro_coeffs/excitation/components/phase/' num2str(j-m*i+m) '_' num2str(k)],[hydro.T',permute(hydro.ex_ph(j,k,:),[3 2 1])]','Phase of excitation force as a function of frequency','');
-            H5_Create_Write_Att(filename,['/body' num2str(i) '/hydro_coeffs/excitation/components/re/' num2str(j-m*i+m) '_' num2str(k)],[hydro.T',permute(hydro.ex_re(j,k,:),[3 2 1])]','Real component of excitation force as a function of frequency','');
+            if isfield(hydro,'md_mc')==1 % Only if mean drift variables (momentum conservation) have been calculated in BEM
+                H5_Create_Write_Att(filename,['/body' num2str(i) '/hydro_coeffs/mean_drift/momentum_conservation/components/val/' num2str(j-m*i+m) '_' num2str(k)],[hydro.T',permute(hydro.md_mc(j,k,:),[3 2 1])]','Magnitude of mean drift force (momentum conservation) as a function of frequency','');
+            end
+            if isfield(hydro,'md_cs')==1 % Only if mean drift variables (control surface approach) have been calculated in BEM
+                H5_Create_Write_Att(filename,['/body' num2str(i) '/hydro_coeffs/mean_drift/control_surface/components/val/' num2str(j-m*i+m) '_' num2str(k)],[hydro.T',permute(hydro.md_cs(j,k,:),[3 2 1])]','Magnitude of mean drift force (control surface) as a function of frequency','');
+            end
             H5_Create_Write_Att(filename,['/body' num2str(i) '/hydro_coeffs/excitation/impulse_response_fun/components/f/' num2str(j-m*i+m) '_' num2str(k)],[hydro.ex_t',permute(hydro.ex_K(j,k,:),[3 2 1])]','Components of the IRF:f','');
             H5_Create_Write_Att(filename,['/body' num2str(i) '/hydro_coeffs/excitation/scattering/components/im/' num2str(j-m*i+m) '_' num2str(k)],[hydro.T',permute(hydro.sc_im(j,k,:),[3 2 1])]','Imaginary component of scattering force as a function of frequency','');
             H5_Create_Write_Att(filename,['/body' num2str(i) '/hydro_coeffs/excitation/scattering/components/mag/' num2str(j-m*i+m) '_' num2str(k)],[hydro.T',permute(hydro.sc_ma(j,k,:),[3 2 1])]','Magnitude of scattering force as a function of frequency','');
