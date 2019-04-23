@@ -147,6 +147,7 @@ for n = 1:N
     if isempty(strfind(raw{n},'SURGE, SWAY & YAW DRIFT FORCES (Momentum Conservation)'))==0
         hydro(F).Nh = 0;  % Number of wave headings
         i = n+1;
+        hydro(F).md_mc(:,:,hydro(F).Nf)=hydro(F).ex_ma(:,:,hydro(F).Nf).*0;
         while isempty(strfind(raw{i},'Wave Heading'))==0
             hydro(F).Nh = hydro(F).Nh+1;
             tmp = textscan(raw{i}(find(raw{i}==':')+1:end),'%f');
