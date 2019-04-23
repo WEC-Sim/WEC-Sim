@@ -154,8 +154,8 @@ classdef waveClass<handle
         % k - Wave Number
         k = []; 
         
-        % Sf - Wave Spectrum [m^2-s/rad]
-        Sf = [];
+        % S - Wave Spectrum [m^2-s/rad] for 'Traditional'
+        S = [];
         
     end
     
@@ -230,16 +230,16 @@ classdef waveClass<handle
         
         function plotSpectrum(obj)
             % Plot wave spetrum
-            m0 = trapz(obj.w,obj.Sf);
+            m0 = trapz(obj.w,obj.S);
             HsTest = 4*sqrt(m0);
-            [~,I] = max(abs(obj.Sf));
+            [~,I] = max(abs(obj.S));
             wp = obj.w(I);
             TpTest = 2*pi/wp;
             
             figure
-            plot(obj.w,obj.Sf,'s-')
+            plot(obj.w,obj.S,'s-')
             hold on
-            line([wp,wp],[0,max(obj.Sf)],'Color','k')
+            line([wp,wp],[0,max(obj.S)],'Color','k')
             xlim([0 max(obj.w)])
             title([obj.spectrumType, ' Spectrum, T_p= ' num2str(TpTest) ' [s], '  'H_m_0= ' num2str(HsTest), ' [m]'])
             if obj.spectrumType == 'JS'
@@ -503,34 +503,20 @@ classdef waveClass<handle
             % See Also: waveClass.write_paraview_vtp
             %
             
-            switch obj.type
-                
-                case {'noWave','noWaveCIC','etaImport'}
-                    
-                    Z = zeros (size (X));
-                    
-                case {'regular', 'regularCIC'}
-                    
-                    Xt = X*cos (obj.waveDir*pi/180) + Y * sin(obj.waveDir*pi/180);
-                    
-                    Z = obj.A * cos(-1 * obj.k * Xt  +  obj.w * t);
-                    
-                case {'irregular', 'spectrumImport'}
-                    
-                    Z = zeros (size (X));
-                    
-                    Xt = X.*cos (obj.waveDir*pi/180) + Y.*sin (obj.waveDir*pi/180);
-                    
-                    for iw = 1:length (obj.w)
-                        
-                        Z = Z + sqrt (obj.A(iw)*obj.dw(iw)) * cos ( -1*obj.k(iw)*Xt + obj.w(iw)*t + obj.phase(iw) );
-                        
-                    end
-                    
-            end
-            
-        end
-        
+            switch obj.type                
+                case {'noWave','noWaveCIC','etaImport'}                    
+                    Z = zeros (size (X));                    
+                case {'regular', 'regularCIC'}                    
+                    Xt = X*cos (obj.waveDir*pi/180) + Y * sin(obj.waveDir*pi/180);                    
+                    Z = obj.A * cos(-1 * obj.k * Xt  +  obj.w * t);                    
+                case {'irregular', 'spectrumImport'}                    
+                    Z = zeros (size (X));                    
+                    Xt = X.*cos (obj.waveDir*pi/180) + Y.*sin (obj.waveDir*pi/180);                    
+                    for iw = 1:length (obj.w)                        
+                        Z = Z + sqrt (obj.A(iw)*obj.dw(iw)) * cos ( -1*obj.k(iw)*Xt + obj.w(iw)*t + obj.phase(iw) );                        
+                    end                    
+            end            
+        end        
     end
     
     methods (Access = 'protected')
@@ -656,14 +642,14 @@ classdef waveClass<handle
                 case 'PM' % Pierson-Moskowitz Spectrum from Tucker and Pitt (2001)
                     B_PM = (5/4)*(1/Tp)^(4);
                     A_PM = 0.0081*g^2*(2*pi)^(-4);
-                    S_f  = (A_PM*freq.^(-5).*exp(-B_PM*freq.^(-4)));
-                    obj.Sf = S_f./(2*pi);                         % Wave Spectrum [m^2-s/rad] for 'Traditional'
-                    S_f = obj.Sf*2*pi;                                          % Wave Spectrum [m^2-s]
+                    S_f  = (A_PM*freq.^(-5).*exp(-B_PM*freq.^(-4)));            % Wave Spectrum [m^2-s] for 'EqualEnergy'
+                    obj.S = S_f./(2*pi);                                        % Wave Spectrum [m^2-s/rad] for 'Traditional'
+                    S_f = obj.S*2*pi;                                          
                 case 'BS' % Bretschneider Sprectrum from Tucker and Pitt (2001)
                     B_BS = (1.057/Tp)^4;
                     A_BS = B_BS*(Hs/2)^2;
-                    S_f = (A_BS*freq.^(-5).*exp(-B_BS*freq.^(-4)));             % Wave Spectrum [m^2-s]
-                    obj.Sf = S_f./(2*pi);                                       % Wave Spectrum [m^2-s/rad] for 'Traditional'
+                    S_f = (A_BS*freq.^(-5).*exp(-B_BS*freq.^(-4)));             % Wave Spectrum [m^2-s] for 'EqualEnergy'
+                    obj.S = S_f./(2*pi);                                        % Wave Spectrum [m^2-s/rad] for 'Traditional'
                 case 'JS' % JONSWAP Spectrum from Hasselmann et. al (1973)
                     [r,~] = size(freq);
                     if r == 1; freq = sort(freq)';
@@ -675,18 +661,18 @@ classdef waveClass<handle
                     Gf = zeros(size(freq));
                     Gf(lind) = obj.gamma.^exp(-(freq(lind)-fp).^2/(2*siga^2*fp^2));
                     Gf(hind) = obj.gamma.^exp(-(freq(hind)-fp).^2/(2*sigb^2*fp^2));
-                    Sf_temp = g^2*(2*pi)^(-4)*freq.^(-5).*exp(-(5/4).*(freq/fp).^(-4));
-                    alpha_JS = Hs^(2)/16/trapz(freq,Sf_temp.*Gf);
-                    S_f = alpha_JS*Sf_temp.*Gf;                                 % Wave Spectrum [m^2-s]
-                    obj.Sf = S_f./(2*pi);                                       % Wave Spectrum [m^2-s/rad] for 'Traditional'
+                    S_temp = g^2*(2*pi)^(-4)*freq.^(-5).*exp(-(5/4).*(freq/fp).^(-4));
+                    alpha_JS = Hs^(2)/16/trapz(freq,S_temp.*Gf);
+                    S_f = alpha_JS*S_temp.*Gf;                                 % Wave Spectrum [m^2-s] for 'EqualEnergy'
+                    obj.S = S_f./(2*pi);                                       % Wave Spectrum [m^2-s/rad] for 'Traditional'
                     freq = freq';
                 case 'spectrumImport' % Imported Wave Spectrum
                     data = importdata(obj.spectrumDataFile);
                     freq_data = data(:,1);
-                    Sf_data = data(:,2);
+                    S_data = data(:,2);
                     freq_loc = freq_data>=min(obj.bemFreq)/2/pi & freq_data<=max(obj.bemFreq)/2/pi;
-                    S_f = Sf_data(freq_loc);
-                    obj.Sf = S_f./(2*pi);                                       % Wave Spectrum [m^2-s/rad] for 'Traditional'
+                    S_f = S_data(freq_loc);                                    % Wave Spectrum [m^2-s] for 'EqualEnergy'
+                    obj.S = S_f./(2*pi);                                       % Wave Spectrum [m^2-s/rad] for 'Traditional'
                     fprintf('\t"spectrumImport" uses the number of imported wave frequencies (not "Traditional" or "EqualEnergy")\n')
             end
             switch obj.freqDisc
@@ -713,12 +699,12 @@ classdef waveClass<handle
                     obj.w = 2*pi*freq(wn(2:end-1))';
                     obj.dw = [obj.w(1)-2*pi*freq(wn(1)); diff(obj.w)];
                     if strcmp(obj.spectrumType,'JS') ==1
-                        obj.Sf = obj.Sf(wn(2:end-1));                           % Wave Spectrum [m^2-s/rad] for 'EqualEnergy'
+                        obj.S = obj.S(wn(2:end-1));                           % Wave Spectrum [m^2-s/rad]
                     else
-                        obj.Sf = obj.Sf(wn(2:end-1))';                          % Wave Spectrum [m^2-s/rad] for 'EqualEnergy'
+                        obj.S = obj.S(wn(2:end-1))';                          % Wave Spectrum [m^2-s/rad] 
                     end
             end
-            obj.A = 2 * obj.Sf;                                                 % Wave Amplitude [m]
+            obj.A = 2 * obj.S;                                                 % Wave Amplitude [m]
         end
         
         function waveElevIrreg(obj,rampTime,dt,maxIt,df)
