@@ -158,6 +158,10 @@ classdef bodyClass<handle
             obj.cb        = hydroData.properties.cb';
             obj.dispVol   = hydroData.properties.disp_vol;
             obj.name      = hydroData.properties.name;
+            obj.dof       = obj.hydroData.properties.dof;
+            obj.dof_start = obj.hydroData.properties.dof_start;
+            obj.dof_end   = obj.hydroData.properties.dof_end;
+            obj.dof_gbm   = obj.dof-6;
         end
         
         function hydroForcePre(obj,w,waveDir,CIkt,CTTime,numFreq,dt,rho,g,waveType,waveAmpTime,iBod,numBod,ssCalc,nlHydro,B2B)
