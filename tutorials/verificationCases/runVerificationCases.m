@@ -55,7 +55,7 @@ if plotSolvers==1
     end
 end
 
-%% Open new vs. oig Comparisons
+%% Open new vs. org Comparisons
 if openCompare==1
     if runReg==1
         cd RegularWaves; openfig('figReg.fig');openfig('figRegCIC.fig');openfig('figRegSS.fig');
@@ -66,3 +66,5 @@ if openCompare==1
         cd ..
     end
 end
+
+
