@@ -16,6 +16,9 @@ function hydro = Read_NEMOH(hydro,filedir)
 %
 % See ‘…\WEC-Sim\tutorials\BEMIO\NEMOH\...’ for examples of usage.
 
+% OS check
+linuxFlag=isunix;
+
 [a,b] = size(hydro);  % Check on what is already there
 if b==1
     if isfield(hydro(b),'Nb')==0  F = 1;
@@ -32,7 +35,7 @@ tmp(cellfun('isempty',tmp)) = [];
 hydro(F).file = tmp{length(tmp)};  % Base name
 
 %% nemoh.cal file
-fileID = fopen(fullfile(filedir,'nemoh.cal'));
+fileID = fopen(fullfile(filedir,'Nemoh.cal'));
 raw = textscan(fileID,'%[^\n\r]');  %Read nemoh.cal
 raw = raw{:};
 fclose(fileID);
@@ -81,8 +84,14 @@ for m = 1:hydro(F).Nb
     hydro(F).dof(m) = 6;  % Default degrees of freedom for each body is 6
     if hydro(F).Nb == 1
         fileID = fopen(fullfile(filedir,'Mesh','Hydrostatics.dat'));
+        if linuxFlag && fileID==-1
+            fileID = fopen(fullfile(filedir,'mesh','Hydrostatics.dat'));
+        end
     else
         fileID = fopen([fullfile(filedir,'Mesh','Hydrostatics_'),num2str(m-1),'.dat']);
+        if linuxFlag && fileID==-1
+            fileID = fopen([fullfile(filedir,'mesh','Hydrostatics_'),num2str(m-1),'.dat']);
+        end
     end
     raw = textscan(fileID,'%[^\n\r]');  % Read Hydrostatics.dat
     raw = raw{:};
@@ -100,9 +109,15 @@ waitbar(2/7);
 %% KH file(s)
 for m = 1:hydro(F).Nb
     if hydro(F).Nb == 1
-        fileID = fopen(fullfile(filedir,'Mesh','KH.dat'));
+            fileID = fopen(fullfile(filedir,'Mesh','KH.dat'));
+        if linuxFlag && fileID==-1
+            fileID = fopen(fullfile(filedir,'mesh','KH.dat'));
+        end
     else
         fileID = fopen([fullfile(filedir,'Mesh','KH_'),num2str(m-1),'.dat']);
+        if linuxFlag && fileID==-1
+            fileID = fopen([fullfile(filedir,'mesh','KH_'),num2str(m-1),'.dat']);
+        end
     end
     raw = textscan(fileID,'%[^\n\r]');
     raw = raw{:};
@@ -116,6 +131,9 @@ waitbar(3/7);
 
 %% Radiation Coefficient file
 fileID = fopen(fullfile(filedir,'Results','RadiationCoefficients.tec'));
+if linuxFlag && fileID==-1
+    fileID = fopen(fullfile(filedir,'results','RadiationCoefficients.tec'));
+end    
 raw = textscan(fileID,'%[^\n\r]');
 raw = raw{:};
 fclose(fileID);
@@ -135,6 +153,9 @@ waitbar(4/7);
 
 %% Excitation Force file
 fileID = fopen(fullfile(filedir,'Results','ExcitationForce.tec'));
+if linuxFlag && fileID==-1
+    fileID = fopen(fullfile(filedir,'results','ExcitationForce.tec'));
+end
 raw = textscan(fileID,'%[^\n\r]');
 raw = raw{:};
 fclose(fileID);
@@ -159,8 +180,11 @@ hydro(F).sc_ma = NaN(size(hydro(F).ex_ma));
 hydro(F).sc_ph = NaN(size(hydro(F).ex_ph));
 hydro(F).sc_re = NaN(size(hydro(F).ex_re));
 hydro(F).sc_im = NaN(size(hydro(F).ex_im));
-if exist(fullfile(filedir,'Results,DiffractionForce.tec'),'file')==2
-    fileID = fopen(fullfile(filedir,'Results,DiffractionForce.tec'));
+if exist(fullfile(filedir,'Results','DiffractionForce.tec'),'file')==2
+    fileID = fopen(fullfile(filedir,'Results','DiffractionForce.tec'));
+    if linuxFlag && fileID==-1
+        fileID = fopen(fullfile(filedir,'results','DiffractionForce.tec'));
+    end
     raw = textscan(fileID,'%[^\n\r]');
     raw = raw{:};
     fclose(fileID);
@@ -172,7 +196,7 @@ if exist(fullfile(filedir,'Results,DiffractionForce.tec'),'file')==2
             for k = 1:hydro(F).Nf
                 tmp = textscan(raw{n+k},'%f');
                 hydro(F).sc_ma(:,i,k) = tmp{1,1}(2:2:end);  % Magnitude of diffraction force
-                hydro(F).sc_ph(:,i,k) = -tmp{1,1}(3:2:end);  % Phase of diffraction force 
+                hydro(F).sc_ph(:,i,k) = -tmp{1,1}(3:2:end);  % Phase of diffraction force
             end
         end
     end
@@ -182,12 +206,15 @@ end
 waitbar(6/7);
 
 %% Froude-Krylov force file
-hydro(F).fk_ma = NaN(size(hydro(F).ex_ma));  
+hydro(F).fk_ma = NaN(size(hydro(F).ex_ma));
 hydro(F).fk_ph = NaN(size(hydro(F).ex_ph));
 hydro(F).fk_re = NaN(size(hydro(F).ex_re));
 hydro(F).fk_im = NaN(size(hydro(F).ex_im));
-if exist(fullfile(filedir,'Results,FKForce.tec'),'file')==2
-    fileID = fopen(fullfile(filedir,'Results,FKForce.tec'));
+if exist(fullfile(filedir,'Results','FKForce.tec'),'file')==2
+    fileID = fopen(fullfile(filedir,'Results','FKForce.tec'));
+    if linuxFlag && fileID==-1
+       fileID = fopen(fullfile(filedir,'Results','FKForce.tec'));
+    end
     raw = textscan(fileID,'%[^\n\r]');
     raw = raw{:};
     fclose(fileID);
@@ -199,7 +226,7 @@ if exist(fullfile(filedir,'Results,FKForce.tec'),'file')==2
             for k = 1:hydro(F).Nf
                 tmp = textscan(raw{n+k},'%f');
                 hydro(F).fk_ma(:,i,k) = tmp{1,1}(2:2:end);  % Magnitude of Froude-Krylov force
-                hydro(F).fk_ph(:,i,k) = -tmp{1,1}(3:2:end);  % Phase of Froude-Krylov force 
+                hydro(F).fk_ph(:,i,k) = -tmp{1,1}(3:2:end);  % Phase of Froude-Krylov force
             end
         end
     end
