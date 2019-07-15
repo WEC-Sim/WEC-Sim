@@ -45,8 +45,11 @@ while TF == 1
     TF  = startsWith(raw1(n),'*');
 end
 
-tmp         = str2num(raw1{n});
-hydro(F).Nb = tmp(1); % Number of bodies
+tmp = str2num(raw1{n});
+COGidx=find(contains(raw1,'COG'),1); % finds line of COG heading
+DRAFTidx=find(contains(raw1,'DRAFT'),1); % finds line of DRAFT heading
+hydro(F).Nb = (DRAFTidx-COGidx)-1; % Number of bodies is the distance between (in all tested versions)
+    
 for i=1:hydro(F).Nb
     hydro(F).body{i}    = ['body' num2str(i)]; %Body name
     hydro(F).dof(i)     = 6;  % Default degrees of freedom for each body is 6
