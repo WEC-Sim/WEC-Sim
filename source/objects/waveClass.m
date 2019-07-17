@@ -110,6 +110,13 @@ classdef waveClass<handle
         %   (Default = [0,0]).
         wavegauge3loc = [0,0]; 
         
+        % currentSpeed - [m/s] Surface current speed that is uniform along the water column.
+        %   (Default = 0).
+        currentSpeed = 0;
+        
+        % currentDirection - [deg] Surface current direction.
+        %   (Default = 0).
+        currentDirection = 0;
     end
     
     % The following properties are for internal use
@@ -156,6 +163,9 @@ classdef waveClass<handle
         
         % S - Wave Spectrum [m^2-s/rad] for 'Traditional'
         S = [];
+        
+        % Pw - Wave Power Per Unit Wave Crest [W/m]
+        Pw = [];
         
     end
     
@@ -249,7 +259,7 @@ classdef waveClass<handle
             ylabel('Spectrum (m^2-s/rad)');
         end
         
-        function waveSetup(obj,bemFreq,wDepth,rampTime,dt,maxIt,g,endTime)
+        function waveSetup(obj,bemFreq,wDepth,rampTime,dt,maxIt,g, rho, endTime)
             % Calculate and set wave properties based on wave type
             obj.bemFreq    = bemFreq;
             obj.setWaveProps(wDepth)
@@ -268,6 +278,7 @@ classdef waveClass<handle
                     obj.A = obj.H/2;
                     obj.waveNumber(g)
                     obj.waveElevReg(rampTime, dt, maxIt);
+                    obj.wavePowerReg(g,rho);
                 case {'irregular','spectrumImport'}
                     WFQSt=min(bemFreq);
                     WFQEd=max(bemFreq);
@@ -292,7 +303,7 @@ classdef waveClass<handle
                             obj.dw= ones(obj.numFreq,1).*(WFQEd-WFQSt)./(obj.numFreq-1);
                         case {'EqualEnergy'}
                             numFreq_interp = 500000;
-                            obj.w = WFQSt:(WFQEd-WFQSt)/numFreq_interp:WFQEd;
+                            obj.w = (WFQSt:(WFQEd-WFQSt)/numFreq_interp:WFQEd)';
                             obj.dw = mean(diff(obj.w));
                             if isempty(obj.numFreq)
                                 obj.numFreq = 500;
@@ -308,7 +319,7 @@ classdef waveClass<handle
                             obj.dw(obj.numFreq,1)= obj.w(end)-obj.w(end-1);
                     end
                     obj.setWavePhase;
-                    obj.irregWaveSpectrum(g)
+                    obj.irregWaveSpectrum(g,rho)
                     obj.waveNumber(g)
                     obj.waveElevIrreg(rampTime, dt, maxIt, obj.dw);
                 case {'etaImport'}    %  This does not account for wave direction
@@ -632,10 +643,22 @@ classdef waveClass<handle
             end
         end
         
-        function irregWaveSpectrum(obj,g)
+        function wavePowerReg(obj,g,rho)
+            % Calculate wave power per unit wave crest for regular waves
+            if obj.deepWaterWave == 1
+                % Deepwater Approximation
+                obj.Pw = 1/(8*pi)*rho*g^(2)*(obj.A).^(2).*obj.T;               
+            else
+                % Full Wave Power Equation
+                obj.Pw = rho*g*(obj.A).^(2)/4*sqrt(g./obj.k.*tanh(obj.k.*obj.waterDepth))*(1+2*obj.k.*obj.waterdepth./sinh(obj.k.*obj.waterdepth));
+            end
+        end
+        
+        function irregWaveSpectrum(obj,g,rho)
             % Calculate wave spectrum vector (obj.A)
             % Used by wavesIrreg (wavesIrreg used by waveSetup)
             freq = obj.w/(2*pi);
+            size(freq)
             Tp = obj.T;
             Hs = obj.H;
             switch obj.spectrumType
@@ -644,16 +667,13 @@ classdef waveClass<handle
                     A_PM = 0.0081*g^2*(2*pi)^(-4);
                     S_f  = (A_PM*freq.^(-5).*exp(-B_PM*freq.^(-4)));            % Wave Spectrum [m^2-s] for 'EqualEnergy'
                     obj.S = S_f./(2*pi);                                        % Wave Spectrum [m^2-s/rad] for 'Traditional'
-                    S_f = obj.S*2*pi;                                          
+                    S_f = obj.S*2*pi;
                 case 'BS' % Bretschneider Sprectrum from Tucker and Pitt (2001)
                     B_BS = (1.057/Tp)^4;
                     A_BS = B_BS*(Hs/2)^2;
-                    S_f = (A_BS*freq.^(-5).*exp(-B_BS*freq.^(-4)));             % Wave Spectrum [m^2-s] for 'EqualEnergy'
-                    obj.S = S_f./(2*pi);                                        % Wave Spectrum [m^2-s/rad] for 'Traditional'
+                    S_f = (A_BS*freq.^(-5).*exp(-B_BS*freq.^(-4)));             % Wave Spectrum [m^2-s]
+                    obj.S = S_f./(2*pi);                                        % Wave Spectrum [m^2-s/rad]
                 case 'JS' % JONSWAP Spectrum from Hasselmann et. al (1973)
-                    [r,~] = size(freq);
-                    if r == 1; freq = sort(freq)';
-                    else freq = sort(freq); end
                     fp = 1/Tp;
                     siga = 0.07;sigb = 0.09;                                    % cutoff frequencies for gamma function
                     [lind,~] = find(freq<=fp);
@@ -663,9 +683,8 @@ classdef waveClass<handle
                     Gf(hind) = obj.gamma.^exp(-(freq(hind)-fp).^2/(2*sigb^2*fp^2));
                     S_temp = g^2*(2*pi)^(-4)*freq.^(-5).*exp(-(5/4).*(freq/fp).^(-4));
                     alpha_JS = Hs^(2)/16/trapz(freq,S_temp.*Gf);
-                    S_f = alpha_JS*S_temp.*Gf;                                 % Wave Spectrum [m^2-s] for 'EqualEnergy'
-                    obj.S = S_f./(2*pi);                                       % Wave Spectrum [m^2-s/rad] for 'Traditional'
-                    freq = freq';
+                    S_f = alpha_JS*S_temp.*Gf;                                 % Wave Spectrum [m^2-s]
+                    obj.S = S_f./(2*pi);                                       % Wave Spectrum [m^2-s/rad]
                 case 'spectrumImport' % Imported Wave Spectrum
                     data = importdata(obj.spectrumDataFile);
                     freq_data = data(:,1);
@@ -675,6 +694,16 @@ classdef waveClass<handle
                     obj.S = S_f./(2*pi);                                       % Wave Spectrum [m^2-s/rad] for 'Traditional'
                     fprintf('\t"spectrumImport" uses the number of imported wave frequencies (not "Traditional" or "EqualEnergy")\n')
             end
+            % Power per Unit Wave Crest
+            obj.waveNumber(g)                                                   %Calculate Wave Number for Larger Number of Frequencies Before Down Sampling in Equal Energy Method
+            if obj.deepWaterWave == 1
+                % Deepwater Approximation
+                obj.Pw = sum(1/2*rho*g^(2)*S_f.*obj.dw./obj.w);
+            else
+                % Full Wave Power Equation
+                obj.Pw = sum((1/2)*rho*g.*S_f.*obj.dw.*sqrt(9.81./obj.k.*tanh(obj.k.*obj.waterDepth)).*(1 + 2.*obj.k.*obj.waterDepth./sinh(2.*obj.k.*obj.waterDepth)));
+            end
+            %
             switch obj.freqDisc
                 case {'EqualEnergy'}
                     m0 = trapz(freq,abs(S_f));
@@ -696,15 +725,11 @@ classdef waveClass<handle
                         wn(kk+1) = wna(kk)+wn(kk);
                         a_bins(kk) = trapz(freq(wn(kk):wn(kk+1)),abs(S_f(wn(kk):wn(kk+1))));
                     end
-                    obj.w = 2*pi*freq(wn(2:end-1))';
+                    obj.w = 2*pi*freq(wn(2:end-1));
                     obj.dw = [obj.w(1)-2*pi*freq(wn(1)); diff(obj.w)];
-                    if strcmp(obj.spectrumType,'JS') ==1
-                        obj.S = obj.S(wn(2:end-1));                           % Wave Spectrum [m^2-s/rad]
-                    else
-                        obj.S = obj.S(wn(2:end-1))';                          % Wave Spectrum [m^2-s/rad] 
-                    end
+                    obj.S = obj.S(wn(2:end-1));                             % Wave Spectrum [m^2-s/rad] 
             end
-            obj.A = 2 * obj.S;                                                 % Wave Amplitude [m]
+            obj.A = 2 * obj.S;                                              % Wave Amplitude [m]
         end
         
         function waveElevIrreg(obj,rampTime,dt,maxIt,df)
