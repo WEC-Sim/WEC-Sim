@@ -650,7 +650,7 @@ classdef waveClass<handle
                 obj.Pw = 1/(8*pi)*rho*g^(2)*(obj.A).^(2).*obj.T;               
             else
                 % Full Wave Power Equation
-                obj.Pw = rho*g*(obj.A).^(2)/4*sqrt(g./obj.k.*tanh(obj.k.*obj.waterDepth))*(1+2*obj.k.*obj.waterdepth./sinh(obj.k.*obj.waterdepth));
+                obj.Pw = rho*g*(obj.A).^(2)/4*sqrt(g./obj.k.*tanh(obj.k.*obj.waterDepth))*(1+2*obj.k.*obj.waterDepth./sinh(obj.k.*obj.waterDepth));
             end
         end
         
