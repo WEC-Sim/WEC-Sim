@@ -285,16 +285,16 @@ Morison Elements
 +++++++++++++++++
 To use Morison Elements, the following simulation class variable must be defined in the WEC-Sim input file:
 
-	:code:`simu.morrisonElement  = 1`
+	:code:`simu.morisonElement  = 1`
 
 
-Morison Elements must then be defined for each body using the :code:`body(#).morrisonElement` property of the body class. This property requires definition of the following body class parameters in the WEC-Sim input file (each of which have a default value of zero)::
+Morison Elements must then be defined for each body using the :code:`body(#).morisonElement` property of the body class. This property requires definition of the following body class parameters in the WEC-Sim input file (each of which have a default value of zero)::
 	
-	body(i).morrisonElement.cd
-	body(i).morrisonElement.ca
-	body(i).morrisonElement.characteristicArea
-	body(i).morrisonElement.VME
-	body(i).morrisonElement.rgME
+	body(i).morisonElement.cd
+	body(i).morisonElement.ca
+	body(i).morisonElement.characteristicArea
+	body(i).morisonElement.VME
+	body(i).morisonElement.rgME
 
 The Morison Element time-step may also be defined as :code:`simu.dtME = N*simu.dt`, where N is number of increment steps. For an example application of using Morison Elements in WEC-Sim, refer to the `WEC-Sim Applications <https://github.com/WEC-Sim/WEC-Sim_Applications>`_ repository **IEA_OES_Task10_freeDecay** example. 
 
