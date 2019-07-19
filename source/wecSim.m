@@ -164,9 +164,9 @@ if strcmp(waves.type,'etaImport') && simu.nlHydro == 1
     error(['Cannot run WEC-Sim with non-linear hydro (simu.nlHydro) and "etaImport" wave type'])
 end
 
-% check for etaImport with morrisonElement
-if strcmp(waves.type,'etaImport') && simu.morrisonElement == 1
-    error(['Cannot run WEC-Sim with Morrison Element (simu.morrisonElement) and "etaImport" wave type'])
+% check for etaImport with morisonElement
+if strcmp(waves.type,'etaImport') && simu.morisonElement == 1
+    error(['Cannot run WEC-Sim with Morrison Element (simu.morisonElement) and "etaImport" wave type'])
 end
 
 
@@ -177,9 +177,9 @@ sv_nonlinearHydro=Simulink.Variant('nlHydro>0');
 sv_meanFS=Simulink.Variant('nlHydro<2');
 sv_instFS=Simulink.Variant('nlHydro==2');
 % Morrison Element
-morrisonElement = simu.morrisonElement;
-sv_MEOff=Simulink.Variant('morrisonElement==0');
-sv_MEOn=Simulink.Variant('morrisonElement==1');
+morisonElement = simu.morisonElement;
+sv_MEOff=Simulink.Variant('morisonElement==0');
+sv_MEOn=Simulink.Variant('morisonElement==1');
 % Radiation Damping
 if waves.typeNum==0 || waves.typeNum==10 %'noWave' & 'regular'
     radiation_option = 1;
@@ -260,7 +260,7 @@ simu.loadSimMechModel(simu.simMechanicsFile);
 sim(simu.simMechanicsFile, [], simset('SrcWorkspace','parent'));
 % Restore modified stuff
 clear nlHydro sv_linearHydro sv_nonlinearHydro ssCalc radiation_option sv_convolution sv_stateSpace sv_constantCoeff typeNum B2B sv_B2B sv_noB2B;
-clear nhbod* sv_b* sv_noWave sv_regularWaves sv_irregularWaves sv_udfWaves sv_instFS sv_meanFS sv_MEOn sv_MEOff morrisonElement flexHydrobody_*;
+clear nhbod* sv_b* sv_noWave sv_regularWaves sv_irregularWaves sv_udfWaves sv_instFS sv_meanFS sv_MEOn sv_MEOff morisonElement flexHydrobody_*;
 toc
 
 tic

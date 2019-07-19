@@ -57,6 +57,7 @@ $ cat .gitignore
 **/output_previous/
 **/slprj/
 *build_exception*
+WECSim_Lib_2018b.slx
 
 # Tutorials
 /tutorials/BEMIO/**/*.h5
