@@ -45,7 +45,7 @@ classdef bodyClass<handle
         viz               = struct(...                                          % Structure defining visualization properties
                                'color', [1 1 0], ...                            % Visualization color for either SimMechanics Explorer or Paraview.
                                'opacity', 1)                                    % Visualization opacity for either SimMechanics Explorer or Paraview.
-        morrisonElement   = struct(...                                          % Structure defining the Morrison Elements
+        morisonElement   = struct(...                                          % Structure defining the Morrison Elements
                                'cd',                 [0 0 0], ...               % Viscous (quadratic) drag cd, vector length 3
                                'ca',                 [0 0 0], ...               % Added mass coefficent for Morrison Element (format [Ca_x Ca_y Ca_z], default = [0 0 0])
                                'characteristicArea', [0 0 0], ...               % Characteristic area for Morrison Elements calculations (format [Area_x Area_y Area_z], default = [0 0 0])
