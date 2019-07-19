@@ -117,6 +117,16 @@ classdef waveClass<handle
         % currentDirection - [deg] Surface current direction.
         %   (Default = 0).
         currentDirection = 0;
+        
+        % currentOption - [-] Define the sub-surface current model to be used in WEC-Sim.
+        %   (Default = 0)
+        %   (0: Depth-independent model, 1: 1/7 power law variation with depth, 2: linear variation with depth, 3: no current)
+        currentOption = 3;
+        
+        % currentDepth - [m] Define the depth over which the sub-surface current is modeled.
+        % For options (1) and (2) the currentDepth must be defined. The current is not calculated for any depths greater than the specified currentDepth.
+        % (Default = 0).
+        currentDepth = 0;
     end
     
     % The following properties are for internal use
