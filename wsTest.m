@@ -1,6 +1,6 @@
 addpath(genpath('.\tutorials\verificationCases'))
 % runVerificationCases
-
+% setting up Jenkins CI
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 % Regular Wave Tests
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
