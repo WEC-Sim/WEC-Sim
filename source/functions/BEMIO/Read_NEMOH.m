@@ -77,7 +77,7 @@ for n = 1:N
         hydro(F).beta = linspace(tmp{2},tmp{3},tmp{1});  % Wave headings
     end
 end
-waitbar(1/7);
+waitbar(1/8);
 
 %% Hydrostatics file(s)
 for m = 1:hydro(F).Nb
@@ -104,12 +104,12 @@ for m = 1:hydro(F).Nb
     tmp = textscan(raw{4},'%s %s %f');
     hydro(F).Vo(m) = tmp{3};  % Displacement volume
 end
-waitbar(2/7);
+waitbar(2/8);
 
 %% KH file(s)
 for m = 1:hydro(F).Nb
     if hydro(F).Nb == 1
-            fileID = fopen(fullfile(filedir,'Mesh','KH.dat'));
+        fileID = fopen(fullfile(filedir,'Mesh','KH.dat'));
         if linuxFlag && fileID==-1
             fileID = fopen(fullfile(filedir,'mesh','KH.dat'));
         end
@@ -127,13 +127,13 @@ for m = 1:hydro(F).Nb
         hydro(F).C(i,:,m) = tmp{1,1}(1:6);  % Linear restoring stiffness
     end
 end
-waitbar(3/7);
+waitbar(3/8);
 
 %% Radiation Coefficient file
 fileID = fopen(fullfile(filedir,'Results','RadiationCoefficients.tec'));
 if linuxFlag && fileID==-1
     fileID = fopen(fullfile(filedir,'results','RadiationCoefficients.tec'));
-end    
+end
 raw = textscan(fileID,'%[^\n\r]');
 raw = raw{:};
 fclose(fileID);
@@ -149,7 +149,7 @@ for n = 1:N
         end
     end
 end
-waitbar(4/7);
+waitbar(4/8);
 
 %% Excitation Force file
 fileID = fopen(fullfile(filedir,'Results','ExcitationForce.tec'));
@@ -173,7 +173,7 @@ for n = 1:N
 end
 hydro(F).ex_re = hydro(F).ex_ma.*cos(hydro(F).ex_ph);  % Real part of exciting force
 hydro(F).ex_im = hydro(F).ex_ma.*sin(hydro(F).ex_ph);  % Imaginary part of exciting force
-waitbar(5/7);
+waitbar(5/8);
 
 %% Diffraction Force file (scattering)
 hydro(F).sc_ma = NaN(size(hydro(F).ex_ma));
@@ -203,7 +203,7 @@ if exist(fullfile(filedir,'Results','DiffractionForce.tec'),'file')==2
     hydro(F).sc_re = hydro(F).sc_ma.*cos(hydro(F).sc_ph);  % Real part of diffraction force
     hydro(F).sc_im = hydro(F).sc_ma.*sin(hydro(F).sc_ph);  % Imaginary part of diffraction force
 end
-waitbar(6/7);
+waitbar(6/8);
 
 %% Froude-Krylov force file
 hydro(F).fk_ma = NaN(size(hydro(F).ex_ma));
@@ -213,7 +213,7 @@ hydro(F).fk_im = NaN(size(hydro(F).ex_im));
 if exist(fullfile(filedir,'Results','FKForce.tec'),'file')==2
     fileID = fopen(fullfile(filedir,'Results','FKForce.tec'));
     if linuxFlag && fileID==-1
-       fileID = fopen(fullfile(filedir,'Results','FKForce.tec'));
+        fileID = fopen(fullfile(filedir,'results','FKForce.tec'));
     end
     raw = textscan(fileID,'%[^\n\r]');
     raw = raw{:};
@@ -233,9 +233,109 @@ if exist(fullfile(filedir,'Results','FKForce.tec'),'file')==2
     hydro(F).fk_re = hydro(F).fk_ma.*cos(hydro(F).fk_ph);  % Real part of Froude-Krylov force
     hydro(F).fk_im = hydro(F).fk_ma.*sin(hydro(F).fk_ph);  % Imaginary part of Froude-Krylov force
 end
-waitbar(7/7);
+waitbar(7/8);
+
+
+%================= READING KOCHIN FILES ===================%
+%clear Kochin_BVP x theta i H
+nb_DOF=size(hydro(F).ex_ma,1);
+nBodies=hydro(F).Nb;
+nw=hydro(F).Nf;
+for j=1:nw
+    for i=1:(nb_DOF*nBodies+1)
+        clear Kochin
+        x=(nb_DOF*nBodies+1)*(j-1)+i;
+        switch  numel(num2str(x))
+            case 1
+                filename=['Kochin.    ',num2str(x),'.dat'];
+            case 2
+                filename=['Kochin.   ',num2str(x),'.dat'];
+            case 3
+                filename=['Kochin.  ',num2str(x),'.dat'];
+            case 4
+                filename=['Kochin. ',num2str(x),'.dat'];
+            case 5
+                filename=['Kochin.',num2str(x),'.dat'];
+        end
+        
+        if exist(fullfile(filedir,'Results',filename),'file')==2
+            fileID = fopen(fullfile(filedir,'Results',filename));
+            if linuxFlag && fileID==-1
+                fileID = fopen(fullfile(filedir,'results',filename));
+            end
+        end
+        Kochin= fscanf(fileID,'%f');
+        
+        for ntheta=1:size(Kochin,1)/3
+            theta(ntheta)= Kochin(3*(ntheta-1)+1);
+            Kochin_BVP(ntheta,1,x)= Kochin(3*(ntheta-1)+2);
+            Kochin_BVP(ntheta,2,x)= Kochin(3*(ntheta-1)+3);
+        end
+        fclose(fileID);
+    end
+end
+
+%------Calculate RAO-------
+w=hydro(F).w;
+Fe = squeeze(hydro(F).ex_ma);
+A= hydro(F).A;
+B = hydro(F).B ;
+f=w/(2*pi);
+M=hydro(F).Vo(m);
+KHyd = squeeze(hydro(F).C);
+for k=1:length(w)
+    for j=1:nb_DOF
+        RAO1(k,j)=(Fe(j,k))/(-(M+A(j,j,k))*(w(k))^2-1i*w(k)*(B(j,j,k))+KHyd(j,j)); % No coupling between the DoF
+    end
+end
+RAO=RAO1;
+
+%------Initialisation-----
+rho=1025;
+first_constant= zeros(1,nw);
+second_constant= zeros(1,nw);
+Fdrift_x=zeros(1,nw);
+Fdrift_y=zeros(1,nw);
+H=zeros(ntheta,nw);
+ampl_wave = 1;
+
+%--------------- CALCULATION-----------------------%
+Kochin_BVP_complex(:,:)=Kochin_BVP(:,1,:).*exp(1i*Kochin_BVP(:,2,:)); % H complex
+w=hydro(F).w;
+depth=hydro(F).h;
+for j=1:nw
+    m0(j)=wave_number(w(j),depth);
+    %     m0(j)=wave_number(w(j)/(2*pi),depth);
+    k0(j)=(w(j)^2)/9.81; % wave number at an infinite water depth
+    
+    local1=zeros(ntheta,nb_DOF*nBodies+1);
+    local1(:,1)=ampl_wave*Kochin_BVP_complex(:,(nb_DOF*nBodies+1)*(j-1)+1)*exp(1i*pi/2);%
+    
+    for i=2:(nb_DOF*nBodies+1)% sum of the radiation terms times velocities RAOs
+        x=(nb_DOF*nBodies+1)*(j-1)+i;
+        local1(:,i)=ampl_wave*(RAO(j,i-1))*(Kochin_BVP_complex(:,x))*exp(1i*pi/2)*(-1i*w(j));
+    end
+    H(:,j)=sum(local1,2); % H= Kochin function per frequency
+    H_real(:,j)=real(H(:,j));
+    H_imag(:,j)=imag(H(:,j));
+end
+rad = pi/180*hydro(F).beta; % conversion degrees to radians
+ind_beta=find(abs(theta-rad)==min(abs(theta-rad))); % ind_beta used for determining the appropriate angle of H(dir)
+ind_beta=min(ind_beta); % in case of 2 min found
+for j=1:nw
+    % FORMULA (2.170) in Delhommeau Thesis
+    first_constant(j)=-2*pi*ampl_wave*rho*w(j);
+    second_constant(j)=-(8*pi*rho*m0(j)*(k0(j)*depth)^2)/(depth*(m0(j)^2*depth^2-k0(j)^2*depth^2+k0(j)*depth));
+    Fdrift_x(j)=first_constant(j)*cos(rad)*imag(H(ind_beta,j)) + second_constant(j)*imag(trapz(theta,H_real(:,j).*imag(conj(H(:,j))).*cos(theta')));
+    Fdrift_y(j)=first_constant(j)*sin(rad)*imag(H(ind_beta,j)) + second_constant(j)*imag(trapz(theta,H_real(:,j).*imag(conj(H(:,j))).*sin(theta')));
+end
+hydro(F).md_mc=hydro(F).ex_ma.*0;
+hydro(F).md_mc(1,1,:) = Fdrift_x./rho./9.81;
+hydro(F).md_mc(3,1,:) = Fdrift_y./rho./9.81;
+waitbar(8/8);
 
 hydro = Normalize(hydro);  % Normalize the data according the WAMIT convention
 
 close(p);
 end
+
