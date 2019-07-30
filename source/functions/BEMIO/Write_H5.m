@@ -71,7 +71,7 @@ for i = 1:hydro.Nb
         H5_Create_Write_Att(filename,['/body' num2str(i) '/hydro_coeffs/mean_drift/momentum_conservation/val/'],permute(hydro.md_mc((n+1):(n+m),:,:),[3 2 1]),'Value of mean drift force (momentum conservation)','');
     end
     if isfield(hydro,'md_cs')==1 % Only if mean drift variables (control surface approach) have been calculated in BEM
-        H5_Create_Write_Att(filename,['/body' num2str(i) '/hydro_coeffs/mean_drift/control_surface/val/'],permute(hydro.md_mc((n+1):(n+m),:,:),[3 2 1]),'Value of mean drift force (control surface)','');
+        H5_Create_Write_Att(filename,['/body' num2str(i) '/hydro_coeffs/mean_drift/control_surface/val/'],permute(hydro.md_cs((n+1):(n+m),:,:),[3 2 1]),'Value of mean drift force (control surface)','');
     end
     H5_Create_Write_Att(filename,['/body' num2str(i) '/hydro_coeffs/excitation/scattering/im'],permute(hydro.sc_im((n+1):(n+m),:,:),[3 2 1]),'Imaginary component of scattering force','');
     H5_Create_Write_Att(filename,['/body' num2str(i) '/hydro_coeffs/excitation/scattering/mag'],permute(hydro.sc_ma((n+1):(n+m),:,:),[3 2 1]),'Magnitude of scattering force','');
