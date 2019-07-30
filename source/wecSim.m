@@ -114,7 +114,7 @@ fprintf('\nWEC-Sim Pre-processing ...   \n');
 simu.setupSim;
 
 % wave setup
-waves.waveSetup(body(1).hydroData.simulation_parameters.w, body(1).hydroData.simulation_parameters.water_depth, simu.rampTime, simu.dt, simu.maxIt, simu.g, simu.endTime);
+waves.waveSetup(body(1).hydroData.simulation_parameters.w, body(1).hydroData.simulation_parameters.water_depth, simu.rampTime, simu.dt, simu.maxIt, simu.g, simu.rho,  simu.endTime);
 % Check that waveDir and freq are within range of hydro data
 if  min(waves.waveDir) <  min(body(1).hydroData.simulation_parameters.wave_dir) || max(waves.waveDir) >  max(body(1).hydroData.simulation_parameters.wave_dir)
     error('waves.waveDir outside of range of available hydro data')
