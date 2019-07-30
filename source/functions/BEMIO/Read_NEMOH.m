@@ -151,6 +151,8 @@ for n = 1:N
 end
 waitbar(4/8);
 
+
+
 %% Excitation Force file
 fileID = fopen(fullfile(filedir,'Results','ExcitationForce.tec'));
 if linuxFlag && fileID==-1
@@ -277,21 +279,45 @@ end
 
 %------Calculate RAO-------
 w=hydro(F).w;
-Fe = squeeze(hydro(F).ex_ma);
+i=sqrt(-1);
+Fe = hydro(F).ex_re - hydro(F).ex_im*i; % Added by Toan
 A= hydro(F).A;
 B = hydro(F).B ;
 f=w/(2*pi);
-M=hydro(F).Vo(m);
+M=zeros(6,6);
+for nn =1:3
+    M(nn,nn) = hydro(F).Vo(m)*hydro(F).rho;
+end
+
+%% Read Inertia Matrix-Added by Toan
+if hydro(F).Nb == 1
+    fileID = fopen(fullfile(filedir,'Mesh','Inertia_hull.dat'));
+    if linuxFlag && fileID==-1
+        fileID = fopen(fullfile(filedir,'mesh','Inertia_hull.dat'));
+    end
+else
+    fileID = fopen([fullfile(filedir,'Mesh','Inertia_'),num2str(m-1),'.dat']);
+    if linuxFlag && fileID==-1
+        fileID = fopen([fullfile(filedir,'mesh','Inertia_'),num2str(m-1),'.dat']);
+    end
+end
+for i=1:3
+    ligne=fscanf(fileID,'%g %g',3);
+    M(i+3,4:6)=ligne;
+end
+
 KHyd = squeeze(hydro(F).C);
 for k=1:length(w)
     for j=1:nb_DOF
-        RAO1(k,j)=(Fe(j,k))/(-(M+A(j,j,k))*(w(k))^2-1i*w(k)*(B(j,j,k))+KHyd(j,j)); % No coupling between the DoF
+%         RAO1(k,j)=(Fe(j,k))/(-(M+A(j,j,k))*(w(k))^2-1i*w(k)*(B(j,j,k))+KHyd(j,j)); % No coupling between the DoF
+        RAO1(k,j)=(Fe(j,k))/(-(M(j,j)+A(j,j,k))*(w(k))^2-1i*w(k)*(B(j,j,k))+KHyd(j,j)); % No coupling between the DoF
     end
 end
+
 RAO=RAO1;
 
+
 %------Initialisation-----
-rho=1025;
 first_constant= zeros(1,nw);
 second_constant= zeros(1,nw);
 Fdrift_x=zeros(1,nw);
@@ -324,14 +350,16 @@ ind_beta=find(abs(theta-rad)==min(abs(theta-rad))); % ind_beta used for determin
 ind_beta=min(ind_beta); % in case of 2 min found
 for j=1:nw
     % FORMULA (2.170) in Delhommeau Thesis
-    first_constant(j)=-2*pi*ampl_wave*rho*w(j);
-    second_constant(j)=-(8*pi*rho*m0(j)*(k0(j)*depth)^2)/(depth*(m0(j)^2*depth^2-k0(j)^2*depth^2+k0(j)*depth));
+    first_constant(j)=-2*pi*ampl_wave*hydro(F).rho*w(j);
+    second_constant(j)=-(8*pi*hydro(F).rho*m0(j)*(k0(j)*depth)^2)/(depth*(m0(j)^2*depth^2-k0(j)^2*depth^2+k0(j)*depth));
     Fdrift_x(j)=first_constant(j)*cos(rad)*imag(H(ind_beta,j)) + second_constant(j)*imag(trapz(theta,H_real(:,j).*imag(conj(H(:,j))).*cos(theta')));
     Fdrift_y(j)=first_constant(j)*sin(rad)*imag(H(ind_beta,j)) + second_constant(j)*imag(trapz(theta,H_real(:,j).*imag(conj(H(:,j))).*sin(theta')));
 end
 hydro(F).md_mc=hydro(F).ex_ma.*0;
-hydro(F).md_mc(1,1,:) = Fdrift_x./rho./9.81;
-hydro(F).md_mc(3,1,:) = Fdrift_y./rho./9.81;
+hydro(F).md_mc(1,1,:) = Fdrift_x./hydro(F).rho./9.81;
+hydro(F).md_mc(3,1,:) = Fdrift_y./hydro(F).rho./9.81;
+
+
 waitbar(8/8);
 
 hydro = Normalize(hydro);  % Normalize the data according the WAMIT convention
