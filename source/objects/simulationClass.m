@@ -21,7 +21,7 @@ classdef simulationClass<handle
         simMechanicsFile    = 'NOT DEFINED'                                % Simulink/SimMecahnics model file (default = 'NOT DEFINED')
         startTime           = 0                                            % Simulation start time (default = 0 s)
         rampTime            = 100                                          % Ramp time for wave forcing (default = 100 s)
-        endTime             = 500                                          % Simulation end time (default = 500 s)
+        endTime             = []                                           % Simulation end time (default = 500 s)
         dt                  = 0.1                                          % Simulation time step (default = 0.1 s)
         dtOut               = []                                           % Output sampling time (default = dt)
         dtNL                = []                                           % Sample time to calculate nonlinear forces (default = dt)
@@ -126,6 +126,10 @@ classdef simulationClass<handle
 
         function checkinputs(obj)
             % Checks user input
+            % Check that simu.endTime was specified
+            if isempty(obj.endTime)
+                error('simu.endTime, the simulation end time must be specified in the wecSimInputFile')
+            end            
             % Check simMechanics file exists
             if exist(obj.simMechanicsFile,'file') ~= 4
                 error('The simMecahnics file, %s, does not exist in the case directory',value)

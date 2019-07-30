@@ -399,10 +399,6 @@ classdef bodyClass<handle
             obj.hydroForce.fExt.im=zeros(1,nDOF);
             obj.hydroForce.fExt.md=zeros(1,nDOF);
             for ii=1:nDOF
-                % Kelley - add obj.hydroForce.fExt.re for yaw control
-                % check, that imports all wave dir fExt data and passes it
-                % to the body block, trigger subsystem and interpolate
-                % there
                 if length(obj.hydroData.simulation_parameters.wave_dir) > 1
                     [X,Y] = meshgrid(obj.hydroData.simulation_parameters.w, obj.hydroData.simulation_parameters.wave_dir);
                     obj.hydroForce.fExt.re(ii) = interp2(X, Y, squeeze(re(ii,:,:)), w, waveDir);
