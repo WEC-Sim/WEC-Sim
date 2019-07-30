@@ -329,7 +329,7 @@ classdef waveClass<handle
                             obj.dw(obj.numFreq,1)= obj.w(end)-obj.w(end-1);
                     end
                     obj.setWavePhase;
-                    obj.irregWaveSpectrum(g,rho);
+                    obj.irregWaveSpectrum(g,rho)
                     obj.waveNumber(g)
                     obj.waveElevIrreg(rampTime, dt, maxIt, obj.dw);
                 case {'etaImport'}    %  This does not account for wave direction
@@ -668,7 +668,6 @@ classdef waveClass<handle
             % Calculate wave spectrum vector (obj.A)
             % Used by wavesIrreg (wavesIrreg used by waveSetup)
             freq = obj.w/(2*pi);
-%             size(freq);
             Tp = obj.T;
             Hs = obj.H;
             switch obj.spectrumType
