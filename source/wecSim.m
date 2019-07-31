@@ -9,6 +9,7 @@
 %% body(<body number>) = bodyClass('<hydrodynamics data file name>.h5');   - To initialize bodyClass:
 %%
 %% constraint(<constraint number>) = constraintClass('<Constraint name>'); - To initialize constraintClass
+%%
 %% pto(<PTO number>) = ptoClass('<PTO name>');                             - To initialize ptoClass
 %%
 %% mooring(<mooring number>) = mooringClass('<Mooring name>');             - To initialize mooringClass (only needed when mooring blocks are used)

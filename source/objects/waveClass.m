@@ -371,6 +371,9 @@ classdef waveClass<handle
                     end
                     obj.printWaveSpectrumType;
                     fprintf('\tSignificant Wave Height, Hs      (m) = %G\n',obj.H)
+                    if obj.spectrumType == 'PM'
+                        fprintf('\tNOTE: Pierson-Moskowitz does not use Hs to define spectrum\n')
+                    end
                     fprintf('\tPeak Wave Period, Tp           (sec) = %G\n',obj.T)
                 case 'spectrumImport'
                     if size(importdata(obj.spectrumDataFile),2) == 3
