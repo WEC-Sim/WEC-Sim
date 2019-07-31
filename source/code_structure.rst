@@ -142,7 +142,7 @@ The ``irregular`` case is defined by including the following in the input file::
 	waves.spectrumType = '<user specified spectrum>';
 
 
-Users have the option of defining gamma for the JONSWAP spectrum by specifying ``waves.gamma = <user specified gamma>;``. If gamma is not defined, the default value of gamma equal to 3.3 is used.  
+When using the JONSWAP spectrum, users have the option of defining gamma by specifying ``waves.gamma = <user specified gamma>;``. If gamma is not defined, the default value of gamma equal to 3.3 is used.  
 
 
 spectrumImport

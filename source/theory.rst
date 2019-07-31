@@ -271,7 +271,11 @@ This implies coefficients of the general form:
 
 	A = \frac{\alpha_{pm}g^{2}}{\left( 2 \pi \right)^{4}},~~B = \frac{5}{4} {f_{p}}^{4}~~
 
-where the parameter :math:`\alpha_{PM}` = 0.0081 typically, :math:`g=9.81` m/s is gravitational acceleration and :math:`f_{p}` is the peak frequency of the spectrum. However, this spectrum representation does not allow the user to define the significant wave height.
+where the parameter :math:`\alpha_{PM}` = 0.0081 typically, :math:`g=9.81` m/s is gravitational acceleration and :math:`f_{p}` is the peak frequency of the spectrum. 
+
+.. Note:: 
+	Pierson-Moskowitz does not use significant wave height to define spectrum
+	
 
 Bretschneider (BS)
 ~~~~~~~~~~~~~~~~~~
