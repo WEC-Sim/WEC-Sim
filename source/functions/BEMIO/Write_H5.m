@@ -41,7 +41,7 @@ n = 0;
 m_add = 0;
 for i = 1:hydro.Nb
     m = hydro.dof(i);
-    H5_Create_Write_Att(filename,['/body' num2str(i) '/properties/body_number'],i-1,'Number of rigid body from the BEM simulationCenter of gravity','m');
+    H5_Create_Write_Att(filename,['/body' num2str(i) '/properties/body_number'],i,'Number of rigid body from the BEM simulationCenter of gravity','m');
     H5_Create_Write_Att(filename,['/body' num2str(i) '/properties/cb'],hydro.cb(:,i)','hydro.cg','m')
     H5_Create_Write_Att(filename,['/body' num2str(i) '/properties/cg'],hydro.cg(:,i)','Center of gravity','m');
     H5_Create_Write_Att(filename,['/body' num2str(i) '/properties/disp_vol'],hydro.Vo(i),'Displaced volume','m^3');
