@@ -136,6 +136,9 @@ classdef bodyClass<handle
                 obj.hydroData.gbm.stiffness = tmp(obj.dof_start+6:obj.dof_end,obj.dof_start+6:obj.dof_end); clear tmp; end;
             try tmp = h5load(filename, [name '/properties/damping']);
                 obj.hydroData.gbm.damping   = tmp(obj.dof_start+6:obj.dof_end,obj.dof_start+6:obj.dof_end); clear tmp;end;
+            if (obj.dof_gbm>0)
+                obj.linearDamping = [obj.linearDamping zeros(1,obj.dof-length(obj.linearDamping))];
+            end
             if obj.meanDriftForce == 0
                 obj.hydroData.hydro_coeffs.mean_drift = 0.*obj.hydroData.hydro_coeffs.excitation.re;
             elseif obj.meanDriftForce == 1
@@ -159,6 +162,9 @@ classdef bodyClass<handle
             obj.dof_start = obj.hydroData.properties.dof_start;
             obj.dof_end   = obj.hydroData.properties.dof_end;
             obj.dof_gbm   = obj.dof-6;
+            if (obj.dof_gbm>0)
+                obj.linearDamping = [obj.linearDamping zeros(1,obj.dof-length(obj.linearDamping))];
+            end
         end
         
         function hydroForcePre(obj,w,waveDir,CIkt,CTTime,numFreq,dt,rho,g,waveType,waveAmpTime,iBod,numBod,ssCalc,nlHydro,B2B)
@@ -178,9 +184,6 @@ classdef bodyClass<handle
                 obj.hydroForce.visDrag = obj.viscDrag.Drag;
             else
                 obj.hydroForce.visDrag = diag(0.5*rho.*obj.viscDrag.cd.*obj.viscDrag.characteristicArea);
-            end
-            if (obj.dof_gbm>0)
-                obj.linearDamping = [obj.linearDamping(1:6) zeros(1,obj.dof_gbm)];
             end
             obj.hydroForce.linearDamping = diag(obj.linearDamping);
             obj.hydroForce.userDefinedFe = zeros(length(waveAmpTime(:,2)),obj.dof);   %initializing userDefinedFe for non imported wave cases
