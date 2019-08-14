@@ -136,9 +136,6 @@ classdef bodyClass<handle
                 obj.hydroData.gbm.stiffness = tmp(obj.dof_start+6:obj.dof_end,obj.dof_start+6:obj.dof_end); clear tmp; end;
             try tmp = h5load(filename, [name '/properties/damping']);
                 obj.hydroData.gbm.damping   = tmp(obj.dof_start+6:obj.dof_end,obj.dof_start+6:obj.dof_end); clear tmp;end;
-            if (obj.dof_gbm>0)
-                obj.linearDamping = [obj.linearDamping zeros(1,obj.dof-length(obj.linearDamping))];
-            end
             if obj.meanDriftForce == 0
                 obj.hydroData.hydro_coeffs.mean_drift = 0.*obj.hydroData.hydro_coeffs.excitation.re;
             elseif obj.meanDriftForce == 1
@@ -162,9 +159,6 @@ classdef bodyClass<handle
             obj.dof_start = obj.hydroData.properties.dof_start;
             obj.dof_end   = obj.hydroData.properties.dof_end;
             obj.dof_gbm   = obj.dof-6;
-            if (obj.dof_gbm>0)
-                obj.linearDamping = [obj.linearDamping zeros(1,obj.dof-length(obj.linearDamping))];
-            end
         end
         
         function hydroForcePre(obj,w,waveDir,CIkt,CTTime,numFreq,dt,rho,g,waveType,waveAmpTime,iBod,numBod,ssCalc,nlHydro,B2B)
@@ -173,7 +167,15 @@ classdef bodyClass<handle
             %    drag, and linear damping matrices
             % 2. Set the wave excitation force
             obj.setMassMatrix(rho,nlHydro)
-            gbmDOF = obj.dof_gbm;
+            if (obj.dof_gbm>0)
+                obj.linearDamping = [obj.linearDamping zeros(1,obj.dof-length(obj.linearDamping))];
+                tmp0 = obj.viscDrag.Drag;
+                tmp1 = size(obj.viscDrag.Drag);
+                obj.viscDrag.Drag = zeros (obj.dof);                
+                obj.viscDrag.Drag(1:tmp1(1),1:tmp1(2)) = tmp0; 
+                obj.viscDrag.cd   = [obj.viscDrag.cd   zeros(1,obj.dof-length(obj.viscDrag.cd  ))];
+                obj.viscDrag.characteristicArea = [obj.viscDrag.characteristicArea zeros(1,obj.dof-length(obj.viscDrag.characteristicArea))];
+            end; clear tmp0 tmp1
             if any(any(obj.hydroStiffness)) == 1  %check if obj.hydroStiffness is defined
                 obj.hydroForce.linearHydroRestCoef = obj.hydroStiffness;
             else
