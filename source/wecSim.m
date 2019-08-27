@@ -135,7 +135,7 @@ end
 
 % hydroForcePre
 for kk = 1:simu.numWecBodies
-    body(kk).hydroForcePre(waves.w,waves.waveDir,simu.CIkt,simu.CTTime,waves.numFreq,simu.dt,simu.rho,simu.g,waves.type,waves.waveAmpTime,kk,simu.numWecBodies,simu.ssCalc,simu.nlHydro,simu.b2b);
+    body(kk).hydroForcePre(waves.w,waves.waveDir,simu.CIkt,simu.CTTime,waves.numFreq,simu.dt,simu.rho,simu.g,waves.type,waves.waveAmpTime,kk,simu.numWecBodies,simu.ssCalc,simu.nlHydro,simu.b2b,simu.yawNonLin);
 end; clear kk
 
 % Check CITime
@@ -195,8 +195,10 @@ sv_stateSpace=Simulink.Variant('radiation_option==3');
 % Wave type
 typeNum = waves.typeNum;
 sv_noWave=Simulink.Variant('typeNum<10');
-sv_regularWaves=Simulink.Variant('typeNum>=10 && typeNum<20');
-sv_irregularWaves=Simulink.Variant('typeNum>=20 && typeNum<30');
+sv_regularWaves=Simulink.Variant('typeNum>=10 && typeNum<20 && simu.yawNonLin~=1');
+sv_regularWavesNonLinYaw=Simulink.Variant('typeNum>=10 && typeNum<20 && simu.yawNonLin==1');
+sv_irregularWaves=Simulink.Variant('typeNum>=20 && typeNum<30 && simu.yawNonLin~=1');
+sv_irregularWavesNonLinYaw=Simulink.Variant('typeNum>=20 && typeNum<30 && simu.yawNonLin==1');
 sv_udfWaves=Simulink.Variant('typeNum>=30');
 % Body2Body
 B2B = simu.b2b;
