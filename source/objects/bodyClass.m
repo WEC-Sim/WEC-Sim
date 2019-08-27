@@ -161,7 +161,7 @@ classdef bodyClass<handle
             obj.dof_gbm   = obj.dof-6;
         end
         
-        function hydroForcePre(obj,w,waveDir,CIkt,CTTime,numFreq,dt,rho,g,waveType,waveAmpTime,iBod,numBod,ssCalc,nlHydro,B2B)
+        function hydroForcePre(obj,w,waveDir,CIkt,CTTime,numFreq,dt,rho,g,waveType,waveAmpTime,iBod,numBod,ssCalc,nlHydro,B2B,yawFlag)
             % HydroForce Pre-processing calculations
             % 1. Set the linear hydrodynamic restoring coefficient, viscous
             %    drag, and linear damping matrices
@@ -197,13 +197,13 @@ classdef bodyClass<handle
                     obj.noExcitation()
                     obj.irfInfAddedMassAndDamping(CIkt,CTTime,ssCalc,rho,B2B);
                 case {'regular'}
-                    obj.regExcitation(w,waveDir,rho,g);
+                    obj.regExcitation(w,waveDir,rho,g,yawFlag);
                     obj.constAddedMassAndDamping(w,CIkt,rho,B2B);
                 case {'regularCIC'}
-                    obj.regExcitation(w,waveDir,rho,g);
+                    obj.regExcitation(w,waveDir,rho,g,yawFlag);
                     obj.irfInfAddedMassAndDamping(CIkt,CTTime,ssCalc,rho,B2B);
                 case {'irregular','spectrumImport'}
-                    obj.irrExcitation(w,numFreq,waveDir,rho,g);
+                    obj.irrExcitation(w,numFreq,waveDir,rho,g,yawFlag);
                     obj.irfInfAddedMassAndDamping(CIkt,CTTime,ssCalc,rho,B2B);
                 case {'etaImport'}
                     obj.userDefinedExcitation(waveAmpTime,dt,waveDir,rho,g);
@@ -393,7 +393,7 @@ classdef bodyClass<handle
             obj.hydroForce.fExt.im=zeros(1,nDOF);
         end
         
-        function regExcitation(obj,w,waveDir,rho,g)
+        function regExcitation(obj,w,waveDir,rho,g,yawFlag)
             % Regular wave excitation force
             % Used by hydroForcePre
             nDOF = obj.dof;
@@ -415,9 +415,21 @@ classdef bodyClass<handle
                     obj.hydroForce.fExt.md(ii) = interp1(obj.hydroData.simulation_parameters.w,squeeze(md(ii,1,:)),w,'spline');
                 end
             end
+            if yawFlag==1
+                [hdofGRD,hdirGRD,hwGRD]=ndgrid([1:6],obj.hydroData.simulation_parameters.wave_dir,...
+                    obj.hydroData.simulation_parameters.w);
+                [obj.hydroForce.fExt.dofGrd,obj.hydroForce.fExt.dirGrd,obj.hydroForce.fExt.wGrd]=ndgrid([1:6],...
+                    obj.hydroData.simulation_parameters.wave_dir,w);
+                obj.hydroForce.fExt.fEHRE=interpn(hdofGRD,hdirGRD,hwGRD,obj.hydroData.hydro_coeffs.excitation.re...
+                    ,obj.hydroForce.fExt.dofGrd,obj.hydroForce.fExt.dirGrd,obj.hydroForce.fExt.wGrd)*rho*g;
+                obj.hydroForce.fExt.fEHIM=interpn(hdofGRD,hdirGRD,hwGRD,obj.hydroData.hydro_coeffs.excitation.im...
+                    ,obj.hydroForce.fExt.dofGrd,obj.hydroForce.fExt.dirGrd,obj.hydroForce.fExt.wGrd)*rho*g;
+                obj.hydroForce.fExt.fEHMD=interpn(hdofGRD,hdirGRD,hwGRD,obj.hydroData.hydro_coeffs.mean_drift...
+                    ,obj.hydroForce.fExt.dofGrd,obj.hydroForce.fExt.dirGrd,obj.hydroForce.fExt.wGrd)*rho*g;
+            end
         end
         
-        function irrExcitation(obj,wv,numFreq,waveDir,rho,g)
+        function irrExcitation(obj,wv,numFreq,waveDir,rho,g,yawFlag)
             % Irregular wave excitation force
             % Used by hydroForcePre
             nDOF = obj.dof;
@@ -438,6 +450,18 @@ classdef bodyClass<handle
                     obj.hydroForce.fExt.im(:,:,ii) = interp1(obj.hydroData.simulation_parameters.w,squeeze(im(ii,1,:)),wv,'spline');
                     obj.hydroForce.fExt.md(:,:,ii) = interp1(obj.hydroData.simulation_parameters.w,squeeze(md(ii,1,:)),wv,'spline');
                 end
+            end
+             if yawFlag==1
+                [hdofGRD,hdirGRD,hwGRD]=ndgrid([1:6],obj.hydroData.simulation_parameters.wave_dir,...
+                    obj.hydroData.simulation_parameters.w);
+                [obj.hydroForce.fExt.dofGrd,obj.hydroForce.fExt.dirGrd,obj.hydroForce.fExt.wGrd]=ndgrid([1:6],...
+                    obj.hydroData.simulation_parameters.wave_dir,wv);
+                obj.hydroForce.fExt.fEHRE=interpn(hdofGRD,hdirGRD,hwGRD,obj.hydroData.hydro_coeffs.excitation.re,...
+                    obj.hydroForce.fExt.dofGrd,obj.hydroForce.fExt.dirGrd,obj.hydroForce.fExt.wGrd)*rho*g;
+                obj.hydroForce.fExt.fEHIM=interpn(hdofGRD,hdirGRD,hwGRD,obj.hydroData.hydro_coeffs.excitation.im,...
+                    obj.hydroForce.fExt.dofGrd,obj.hydroForce.fExt.dirGrd,obj.hydroForce.fExt.wGrd)*rho*g;
+                obj.hydroForce.fExt.fEHMD=interpn(hdofGRD,hdirGRD,hwGRD,obj.hydroData.hydro_coeffs.mean_drift...
+                    ,obj.hydroForce.fExt.dofGrd,obj.hydroForce.fExt.dirGrd,obj.hydroForce.fExt.wGrd)*rho*g;
             end
         end
         
