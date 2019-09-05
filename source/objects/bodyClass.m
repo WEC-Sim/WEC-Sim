@@ -40,7 +40,7 @@ classdef bodyClass<handle
                                'initAngularDispAxis',  [0 1 0], ...             % Initial displacement of cog - axis of rotation - used for decay tests (format: [x y z], default = [1 0 0])
                                'initAngularDispAngle', 0)                       % Initial displacement of cog - Angle of rotation - used for decay tests (format: [radians], default = 0)
         hydroStiffness   = zeros(6)                                             % Hydrostatic stiffness matrix overrides BEMIO definition, matrix 6x6
-        linearDamping     = [0 0 0 0 0 0]                                       % Linear damping coefficient, vector length 6
+        linearDamping     = zeros(6)                                            % Linear damping coefficient, matrix size of 6x6
         userDefinedExcIRF = []                                                  % Excitation IRF from BEMIO used for User-Defined Time-Series
         viz               = struct(...                                          % Structure defining visualization properties
                                'color', [1 1 0], ...                            % Visualization color for either SimMechanics Explorer or Paraview.
@@ -168,11 +168,17 @@ classdef bodyClass<handle
             % 2. Set the wave excitation force
             obj.setMassMatrix(rho,nlHydro)
             if (obj.dof_gbm>0)
-                obj.linearDamping = [obj.linearDamping zeros(1,obj.dof-length(obj.linearDamping))];
+%                obj.linearDamping = [obj.linearDamping zeros(1,obj.dof-length(obj.linearDamping))];
+                tmp0 = obj.linearDamping;
+                tmp1 = size(obj.linearDamping);
+                obj.linearDamping = zeros (obj.dof);                
+                obj.linearDamping(1:tmp1(1),1:tmp1(2)) = tmp0; 
+
                 tmp0 = obj.viscDrag.Drag;
                 tmp1 = size(obj.viscDrag.Drag);
                 obj.viscDrag.Drag = zeros (obj.dof);                
                 obj.viscDrag.Drag(1:tmp1(1),1:tmp1(2)) = tmp0; 
+                
                 obj.viscDrag.cd   = [obj.viscDrag.cd   zeros(1,obj.dof-length(obj.viscDrag.cd  ))];
                 obj.viscDrag.characteristicArea = [obj.viscDrag.characteristicArea zeros(1,obj.dof-length(obj.viscDrag.characteristicArea))];
             end; clear tmp0 tmp1
@@ -187,7 +193,7 @@ classdef bodyClass<handle
             else
                 obj.hydroForce.visDrag = diag(0.5*rho.*obj.viscDrag.cd.*obj.viscDrag.characteristicArea);
             end
-            obj.hydroForce.linearDamping = diag(obj.linearDamping);
+            obj.hydroForce.linearDamping = obj.linearDamping;
             obj.hydroForce.userDefinedFe = zeros(length(waveAmpTime(:,2)),obj.dof);   %initializing userDefinedFe for non imported wave cases
             switch waveType
                 case {'noWave'}
