@@ -32,39 +32,39 @@ classdef bodyClass<handle
         dof_end           = []                                                  % Index of DOF ends. For WEC bodies this is given in the h5 file. IF not, default is (bodyNumber-1)*6+6
         geometryFile      = 'NONE'                                              % Location of geomtry stl files
         viscDrag          = struct(...                                          % Structure defining the viscous (quadratic) drag
-                               'Drag',                 zeros(6), ...            % Viscous (quadratic) drag, matrix 6x6
-                               'cd',                   [0 0 0 0 0 0], ...       % Viscous (quadratic) drag cd coefficient, vector length 6
-                               'characteristicArea',   [0 0 0 0 0 0])           % Characteristic area for viscous drag, vector length 6
+            'Drag',                 zeros(6), ...            % Viscous (quadratic) drag, matrix 6x6
+            'cd',                   [0 0 0 0 0 0], ...       % Viscous (quadratic) drag cd coefficient, vector length 6
+            'characteristicArea',   [0 0 0 0 0 0])           % Characteristic area for viscous drag, vector length 6
         initDisp          = struct(...                                          % Structure defining the initial displacement
-                               'initLinDisp',          [0 0 0], ...             % Initial displacement of center fo gravity - used for decay tests (format: [displacment in m], default = [0 0 0])
-                               'initAngularDispAxis',  [0 1 0], ...             % Initial displacement of cog - axis of rotation - used for decay tests (format: [x y z], default = [1 0 0])
-                               'initAngularDispAngle', 0)                       % Initial displacement of cog - Angle of rotation - used for decay tests (format: [radians], default = 0)
+            'initLinDisp',          [0 0 0], ...             % Initial displacement of center fo gravity - used for decay tests (format: [displacment in m], default = [0 0 0])
+            'initAngularDispAxis',  [0 1 0], ...             % Initial displacement of cog - axis of rotation - used for decay tests (format: [x y z], default = [1 0 0])
+            'initAngularDispAngle', 0)                       % Initial displacement of cog - Angle of rotation - used for decay tests (format: [radians], default = 0)
         hydroStiffness   = zeros(6)                                             % Hydrostatic stiffness matrix overrides BEMIO definition, matrix 6x6
         linearDamping     = [0 0 0 0 0 0]                                       % Linear damping coefficient, vector length 6
         userDefinedExcIRF = []                                                  % Excitation IRF from BEMIO used for User-Defined Time-Series
         viz               = struct(...                                          % Structure defining visualization properties
-                               'color', [1 1 0], ...                            % Visualization color for either SimMechanics Explorer or Paraview.
-                               'opacity', 1)                                    % Visualization opacity for either SimMechanics Explorer or Paraview.
+            'color', [1 1 0], ...                            % Visualization color for either SimMechanics Explorer or Paraview.
+            'opacity', 1)                                    % Visualization opacity for either SimMechanics Explorer or Paraview.
         morisonElement   = struct(...                                          % Structure defining the Morrison Elements
-                               'cd',                 [0 0 0], ...               % Viscous (quadratic) drag cd, vector length 3
-                               'ca',                 [0 0 0], ...               % Added mass coefficent for Morrison Element (format [Ca_x Ca_y Ca_z], default = [0 0 0])
-                               'characteristicArea', [0 0 0], ...               % Characteristic area for Morrison Elements calculations (format [Area_x Area_y Area_z], default = [0 0 0])
-                               'VME',                 0     , ...               % Characteristic volume for Morrison Element (default = 0)
-                               'rgME',               [0 0 0])                   % Vector from center of gravity to point of application for Morrison Element (format [X Y Z], default = [0 0 0]).
+            'cd',                 [0 0 0], ...               % Viscous (quadratic) drag cd, vector length 3
+            'ca',                 [0 0 0], ...               % Added mass coefficent for Morrison Element (format [Ca_x Ca_y Ca_z], default = [0 0 0])
+            'characteristicArea', [0 0 0], ...               % Characteristic area for Morrison Elements calculations (format [Area_x Area_y Area_z], default = [0 0 0])
+            'VME',                 0     , ...               % Characteristic volume for Morrison Element (default = 0)
+            'rgME',               [0 0 0])                   % Vector from center of gravity to point of application for Morrison Element (format [X Y Z], default = [0 0 0]).
         nhBody            = 0                                                   % Flag for non-hydro body.
-        flexHydroBody     = 0                                                   % Flag for flexible body. 
+        flexHydroBody     = 0                                                   % Flag for flexible body.
         meanDriftForce    = 0                                                   % Flag for mean drift force. 0: No; 1: from control surface; 2: from momentum conservation.
     end
     
     properties (SetAccess = 'public', GetAccess = 'public') %body geometry stl file
         bodyGeometry      = struct(...                                          % Structure defining body's mesh
-                               'numFace', [], ...                               % Number of faces
-                               'numVertex', [], ...                             % Number of vertices
-                               'vertex', [], ...                                % List of vertices
-                               'face', [], ...                                  % List of faces
-                               'norm', [], ...                                  % List of normal vectors
-                               'area', [], ...                                  % List of cell areas
-                               'center', [])                                    % List of cell centers
+            'numFace', [], ...                               % Number of faces
+            'numVertex', [], ...                             % Number of vertices
+            'vertex', [], ...                                % List of vertices
+            'face', [], ...                                  % List of faces
+            'norm', [], ...                                  % List of normal vectors
+            'area', [], ...                                  % List of cell areas
+            'center', [])                                    % List of cell centers
     end
     
     properties (SetAccess = 'public', GetAccess = 'public') %internal
@@ -145,8 +145,8 @@ classdef bodyClass<handle
             else
                 error('Wrong flag for mean drift force.')
             end
-        end    
-    
+        end
+        
         function loadHydroData(obj, hydroData)
             % Loads hydroData structure from matlab variable as alternative
             % to reading the h5 file. Used in wecSimMCR
@@ -167,15 +167,7 @@ classdef bodyClass<handle
             %    drag, and linear damping matrices
             % 2. Set the wave excitation force
             obj.setMassMatrix(rho,nlHydro)
-            if (obj.dof_gbm>0)
-                obj.linearDamping = [obj.linearDamping zeros(1,obj.dof-length(obj.linearDamping))];
-                tmp0 = obj.viscDrag.Drag;
-                tmp1 = size(obj.viscDrag.Drag);
-                obj.viscDrag.Drag = zeros (obj.dof);                
-                obj.viscDrag.Drag(1:tmp1(1),1:tmp1(2)) = tmp0; 
-                obj.viscDrag.cd   = [obj.viscDrag.cd   zeros(1,obj.dof-length(obj.viscDrag.cd  ))];
-                obj.viscDrag.characteristicArea = [obj.viscDrag.characteristicArea zeros(1,obj.dof-length(obj.viscDrag.characteristicArea))];
-            end; clear tmp0 tmp1
+            gbmDOF = obj.dof_gbm;
             if any(any(obj.hydroStiffness)) == 1  %check if obj.hydroStiffness is defined
                 obj.hydroForce.linearHydroRestCoef = obj.hydroStiffness;
             else
@@ -186,6 +178,9 @@ classdef bodyClass<handle
                 obj.hydroForce.visDrag = obj.viscDrag.Drag;
             else
                 obj.hydroForce.visDrag = diag(0.5*rho.*obj.viscDrag.cd.*obj.viscDrag.characteristicArea);
+            end
+            if (obj.dof_gbm>0)
+                obj.linearDamping = [obj.linearDamping(1:6) zeros(1,obj.dof_gbm)];
             end
             obj.hydroForce.linearDamping = diag(obj.linearDamping);
             obj.hydroForce.userDefinedFe = zeros(length(waveAmpTime(:,2)),obj.dof);   %initializing userDefinedFe for non imported wave cases
@@ -394,6 +389,7 @@ classdef bodyClass<handle
         end
         
         function regExcitation(obj,w,waveDir,rho,g,yawFlag)
+
             % Regular wave excitation force
             % Used by hydroForcePre
             nDOF = obj.dof;
@@ -416,10 +412,17 @@ classdef bodyClass<handle
                 end
             end
             if yawFlag==1
-                [hdofGRD,hdirGRD,hwGRD]=ndgrid([1:6],obj.hydroData.simulation_parameters.wave_dir,...
+                % show warning for NL yaw run with incomplete BEM data
+                BEMdir=sort(obj.hydroData.simulation_parameters.wave_dir);
+                boundDiff(1)=abs(-180 - BEMdir(1)); boundDiff(2)=abs(180 - BEMdir(end));
+                if length(BEMdir)<3 || std(diff(BEMdir))>5 || max(boundDiff)>15
+                    warning(['Non-linear yaw is not recommended without BEM data spanning a full yaw rotation -180 to 180 dg.' newline 'Please inspect BEM data for gaps'])
+                    clear BEMdir
+                end % wrap BEM directions -180 to 180 dg, if they are not already there
+                [hdofGRD,hdirGRD,hwGRD]=ndgrid([1:6],wrapTo180(obj.hydroData.simulation_parameters.wave_dir),...
                     obj.hydroData.simulation_parameters.w);
                 [obj.hydroForce.fExt.dofGrd,obj.hydroForce.fExt.dirGrd,obj.hydroForce.fExt.wGrd]=ndgrid([1:6],...
-                    obj.hydroData.simulation_parameters.wave_dir,w);
+                    wrapTo180(obj.hydroData.simulation_parameters.wave_dir),w);
                 obj.hydroForce.fExt.fEHRE=interpn(hdofGRD,hdirGRD,hwGRD,obj.hydroData.hydro_coeffs.excitation.re...
                     ,obj.hydroForce.fExt.dofGrd,obj.hydroForce.fExt.dirGrd,obj.hydroForce.fExt.wGrd)*rho*g;
                 obj.hydroForce.fExt.fEHIM=interpn(hdofGRD,hdirGRD,hwGRD,obj.hydroData.hydro_coeffs.excitation.im...
@@ -430,6 +433,7 @@ classdef bodyClass<handle
         end
         
         function irrExcitation(obj,wv,numFreq,waveDir,rho,g,yawFlag)
+
             % Irregular wave excitation force
             % Used by hydroForcePre
             nDOF = obj.dof;
@@ -452,10 +456,17 @@ classdef bodyClass<handle
                 end
             end
              if yawFlag==1
-                [hdofGRD,hdirGRD,hwGRD]=ndgrid([1:6],obj.hydroData.simulation_parameters.wave_dir,...
+                % show warning for NL yaw run with incomplete BEM data
+                BEMdir=sort(obj.hydroData.simulation_parameters.wave_dir);
+                boundDiff(1)=abs(-180 - BEMdir(1)); boundDiff(2)=abs(180 - BEMdir(end));
+                if length(BEMdir)<3 || std(diff(BEMdir))>5 || max(boundDiff)>15
+                    warning(['Non-linear yaw is not recommended without BEM data spanning a full yaw rotation -180 to 180 dg.' newline 'Please inspect BEM data for gaps'])
+                    clear BEMdir boundDiff
+                end
+                [hdofGRD,hdirGRD,hwGRD]=ndgrid([1:6],wrapTo180(obj.hydroData.simulation_parameters.wave_dir),...
                     obj.hydroData.simulation_parameters.w);
                 [obj.hydroForce.fExt.dofGrd,obj.hydroForce.fExt.dirGrd,obj.hydroForce.fExt.wGrd]=ndgrid([1:6],...
-                    obj.hydroData.simulation_parameters.wave_dir,wv);
+                    wrapTo180(obj.hydroData.simulation_parameters.wave_dir),wv);
                 obj.hydroForce.fExt.fEHRE=interpn(hdofGRD,hdirGRD,hwGRD,obj.hydroData.hydro_coeffs.excitation.re,...
                     obj.hydroForce.fExt.dofGrd,obj.hydroForce.fExt.dirGrd,obj.hydroForce.fExt.wGrd)*rho*g;
                 obj.hydroForce.fExt.fEHIM=interpn(hdofGRD,hdirGRD,hwGRD,obj.hydroData.hydro_coeffs.excitation.im,...
@@ -520,7 +531,7 @@ classdef bodyClass<handle
                         for jj=1:nDOF
                             jjj = obj.dof_start-1+jj;
                             obj.hydroForce.fAddedMass(ii,jj) = interp1(obj.hydroData.simulation_parameters.w,squeeze(am(ii,jjj,:)),w,'spline');
-                            obj.hydroForce.fDamping  (ii,jj) = interp1(obj.hydroData.simulation_parameters.w,squeeze(rd(ii,jjj,:)),w,'spline');
+                            obj.function.fDamping(ii,jj) = interp1(obj.hydroData.simulation_parameters.w,squeeze(rd(ii,jjj,:)),w,'spline');
                         end
                     end
             end
