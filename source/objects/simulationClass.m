@@ -39,13 +39,13 @@ classdef simulationClass<handle
         rho                 = 1000                                         % Density of water (default = 1000 kg/m^3)
         g                   = 9.81                                         % Acceleration due to gravity (default = 9.81 m/s)
         nlHydro             = 0                                            % Option for nonlinear hydrohanamics calculation: linear->'0', nonlinear->'1', (default = 0)
-        yawNonLin           = 0
-        yawThresh           = 0
+        yawNonLin           = 0                                            % Option for non-linear yaw calculation (=0 for linear, =1 for nonlinear) 
+        yawThresh           = 1                                            % Yaw position threshold (in degrees) above which excitation coefficients will be interpolated
         b2b                 = 0                                            % Option for body2body interactions: off->'0', on->'1', (default = 0)
         paraview            = 0                                            % Option for writing vtp files for paraview visualization.
         adjMassWeightFun    = 2                                            % Weighting function for adjusting added mass term in the translational direction (default = 2)
         mcrCaseFile         = []                                           % mat file that contain a list of the multiple conditions runs with given conditions  
-        morisonElement     = 0                                            % Option for Morrison Element calculation: Off->'0', On->'1', (default = 0)
+        morisonElement     = 0                                             % Option for Morrison Element calculation: Off->'0', On->'1', (default = 0)
         outputtxt           = 0                                            % Option to save results as ASCII files.
         reloadH5Data        = 0                                            % Option to re-load hydro data from hf5 file between runs: Off->'0', On->'1', (default = 0)     
         saveMat             = 1                                            % Option to save *.mat file for each run: Off->'0', On->'1', (default = 1)   
@@ -143,7 +143,7 @@ classdef simulationClass<handle
                 catch
                     error('The output directory could not be removed. Please close any files in the output directory and try running WEC-Sim again')
                 end
-             end
+            end
         end
 
         function rhoDensitySetup(obj,rho,g)
