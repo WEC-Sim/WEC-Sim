@@ -199,82 +199,82 @@ This example application is provided in the WEC-Sim code release in the <code cl
 <h3>Device Geometry<a class="headerlink" href="#device-geometry" title="Permalink to this headline">¶</a></h3>
 <p>The RM3 two-body point absorber WEC has been characterized both numerically and experimentally as a result of the DOE-funded <a class="reference external" href="http://energy.sandia.gov/rmp">Reference Model Project</a>.
 The RM3 is a two-body point absorber consisting of a float and a reaction plate. Full-scale dimensions of the RM3 and its mass properties are shown below.</p>
-<div class="figure">
+<div class="figure align-default">
 <a class="reference internal image-reference" href="_images/RM3_Geom.png"><img alt="_images/RM3_Geom.png" src="_images/RM3_Geom.png" style="width: 400pt;" /></a>
 </div>
-<table border="1" class="docutils">
+<table class="docutils align-default">
 <colgroup>
-<col width="13%" />
-<col width="20%" />
-<col width="22%" />
-<col width="22%" />
-<col width="22%" />
+<col style="width: 13%" />
+<col style="width: 20%" />
+<col style="width: 22%" />
+<col style="width: 22%" />
+<col style="width: 22%" />
 </colgroup>
-<thead valign="bottom">
-<tr class="row-odd"><th class="head" colspan="5">Float Full Scale Properties</th>
+<thead>
+<tr class="row-odd"><th class="head" colspan="5"><p>Float Full Scale Properties</p></th>
 </tr>
 </thead>
-<tbody valign="top">
-<tr class="row-even"><td rowspan="2">CG (m)</td>
-<td rowspan="2">Mass
-(tonne)</td>
-<td colspan="3" rowspan="2">Moment of
-Inertia (kg-m^2)</td>
+<tbody>
+<tr class="row-even"><td rowspan="2"><p>CG (m)</p></td>
+<td rowspan="2"><p>Mass
+(tonne)</p></td>
+<td colspan="3" rowspan="2"><p>Moment of
+Inertia (kg-m^2)</p></td>
 </tr>
 <tr class="row-odd"></tr>
-<tr class="row-even"><td>0</td>
-<td rowspan="3">727.01</td>
-<td>20,907,301</td>
-<td>0</td>
-<td>0</td>
+<tr class="row-even"><td><p>0</p></td>
+<td rowspan="3"><p>727.01</p></td>
+<td><p>20,907,301</p></td>
+<td><p>0</p></td>
+<td><p>0</p></td>
 </tr>
-<tr class="row-odd"><td>0</td>
-<td>0</td>
-<td>21,306,091</td>
-<td>0</td>
+<tr class="row-odd"><td><p>0</p></td>
+<td><p>0</p></td>
+<td><p>21,306,091</p></td>
+<td><p>0</p></td>
 </tr>
-<tr class="row-even"><td>-0.72</td>
-<td>0</td>
-<td>0</td>
-<td>37,085,481</td>
+<tr class="row-even"><td><p>-0.72</p></td>
+<td><p>0</p></td>
+<td><p>0</p></td>
+<td><p>37,085,481</p></td>
 </tr>
 </tbody>
 </table>
-<table border="1" class="docutils">
+<table class="docutils align-default">
 <colgroup>
-<col width="13%" />
-<col width="20%" />
-<col width="22%" />
-<col width="22%" />
-<col width="22%" />
+<col style="width: 13%" />
+<col style="width: 20%" />
+<col style="width: 22%" />
+<col style="width: 22%" />
+<col style="width: 22%" />
 </colgroup>
-<thead valign="bottom">
-<tr class="row-odd"><th class="head" colspan="5">Plate Full Scale Properties</th>
+<thead>
+<tr class="row-odd"><th class="head" colspan="5"><p>Plate Full Scale Properties</p></th>
 </tr>
 </thead>
-<tbody valign="top">
-<tr class="row-even"><td rowspan="2">CG (m)</td>
-<td rowspan="2">Mass
-(tonne)</td>
-<td colspan="3" rowspan="2">Moment of
-Inertia (kg-m^2)</td>
+<tbody>
+<tr class="row-even"><td rowspan="2"><p>CG (m)</p></td>
+<td rowspan="2"><p>Mass
+(tonne)</p></td>
+<td colspan="3" rowspan="2"><p>Moment of
+Inertia (kg-m^2)</p></td>
 </tr>
 <tr class="row-odd"></tr>
-<tr class="row-even"><td>0</td>
-<td rowspan="3">878.30</td>
-<td>94,419,615</td>
-<td>0</td>
-<td>0</td>
+<tr class="row-even"><td><p>0</p></td>
+<td rowspan="3"><p>878.30</p></td>
+<td><p>94,419,615</p></td>
+<td><p>0</p></td>
+<td><p>0</p></td>
 </tr>
-<tr class="row-odd"><td>0</td>
-<td>0</td>
-<td>94,407,091</td>
-<td>0</td>
+<tr class="row-odd"><td><p>0</p></td>
+<td><p>0</p></td>
+<td><p>94,407,091</p></td>
+<td><p>0</p></td>
 </tr>
-<tr class="row-even"><td>-21.29</td>
-<td>0</td>
-<td>0</td>
-<td>28,542,225</td>
+<tr class="row-even"><td><p>-21.29</p></td>
+<td><p>0</p></td>
+<td><p>0</p></td>
+<td><p>28,542,225</p></td>
 </tr>
 </tbody>
 </table>
@@ -282,32 +282,32 @@ Inertia (kg-m^2)</td>
 <div class="section" id="wec-sim-model-files">
 <h3>WEC-Sim Model Files<a class="headerlink" href="#wec-sim-model-files" title="Permalink to this headline">¶</a></h3>
 <p>Below is an overview of the files required to run the RM3 simulation in WEC-Sim. For the RM3 WEC, there are two corresponding geometry files: <code class="docutils literal notranslate"><span class="pre">float.stl</span></code> and <code class="docutils literal notranslate"><span class="pre">plate.stl</span></code>. In addition to the required files listed below, users may supply a <code class="docutils literal notranslate"><span class="pre">userDefinedFunctions.m</span></code> file for post-processing results once the WEC-Sim run is complete.</p>
-<table border="1" class="docutils">
+<table class="docutils align-default">
 <colgroup>
-<col width="24%" />
-<col width="38%" />
-<col width="38%" />
+<col style="width: 24%" />
+<col style="width: 38%" />
+<col style="width: 38%" />
 </colgroup>
-<tbody valign="top">
-<tr class="row-odd"><td><strong>File Type</strong></td>
-<td><strong>File Name</strong></td>
-<td><strong>Directory</strong></td>
+<tbody>
+<tr class="row-odd"><td><p><strong>File Type</strong></p></td>
+<td><p><strong>File Name</strong></p></td>
+<td><p><strong>Directory</strong></p></td>
 </tr>
-<tr class="row-even"><td>Input File</td>
-<td><code class="docutils literal notranslate"><span class="pre">wecSimInputFile.m</span></code></td>
-<td><code class="docutils literal notranslate"><span class="pre">/tutorials/rm3/</span></code></td>
+<tr class="row-even"><td><p>Input File</p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">wecSimInputFile.m</span></code></p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">/tutorials/rm3/</span></code></p></td>
 </tr>
-<tr class="row-odd"><td>Simulink Model</td>
-<td><code class="docutils literal notranslate"><span class="pre">rm3.slx</span></code></td>
-<td><code class="docutils literal notranslate"><span class="pre">/tutorials/rm3/</span></code></td>
+<tr class="row-odd"><td><p>Simulink Model</p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">rm3.slx</span></code></p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">/tutorials/rm3/</span></code></p></td>
 </tr>
-<tr class="row-even"><td>Hydrodynamic Data</td>
-<td><code class="docutils literal notranslate"><span class="pre">rm3.h5</span></code></td>
-<td><code class="docutils literal notranslate"><span class="pre">/tutorials/rm3/hydroData/</span></code></td>
+<tr class="row-even"><td><p>Hydrodynamic Data</p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">rm3.h5</span></code></p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">/tutorials/rm3/hydroData/</span></code></p></td>
 </tr>
-<tr class="row-odd"><td>Geometry Files</td>
-<td><code class="docutils literal notranslate"><span class="pre">float.stl</span></code> &amp; <code class="docutils literal notranslate"><span class="pre">plate.stl</span></code></td>
-<td><code class="docutils literal notranslate"><span class="pre">/tutorials/rm3/geometry/</span></code></td>
+<tr class="row-odd"><td><p>Geometry Files</p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">float.stl</span></code> &amp; <code class="docutils literal notranslate"><span class="pre">plate.stl</span></code></p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">/tutorials/rm3/geometry/</span></code></p></td>
 </tr>
 </tbody>
 </table>
@@ -319,28 +319,28 @@ Inertia (kg-m^2)</td>
 <p><strong>Step 2: Build WEC-Sim model in Simulink</strong></p>
 <p>The WEC-Sim Simulink model is created by dragging and dropping blocks from the <em>WEC-Sim Library</em> into the <code class="docutils literal notranslate"><span class="pre">rm3.slx</span></code> file.</p>
 <ul class="simple">
-<li>Place two <strong>Rigid Body</strong> blocks from the <em>WEC-Sim Library</em> in the Simulink model file, one for each RM3 rigid body.</li>
-<li>Double click on the <strong>Rigid Body</strong> block, and rename each instance of the body. The first body must be called <code class="docutils literal notranslate"><span class="pre">body(1)</span></code>, and the second body should be called <code class="docutils literal notranslate"><span class="pre">body(2)</span></code>.</li>
+<li><p>Place two <strong>Rigid Body</strong> blocks from the <em>WEC-Sim Library</em> in the Simulink model file, one for each RM3 rigid body.</p></li>
+<li><p>Double click on the <strong>Rigid Body</strong> block, and rename each instance of the body. The first body must be called <code class="docutils literal notranslate"><span class="pre">body(1)</span></code>, and the second body should be called <code class="docutils literal notranslate"><span class="pre">body(2)</span></code>.</p></li>
 </ul>
-<div class="figure">
+<div class="figure align-default">
 <a class="reference internal image-reference" href="_images/RM3_WECSim_Body.jpg"><img alt="_images/RM3_WECSim_Body.jpg" src="_images/RM3_WECSim_Body.jpg" style="width: 600pt;" /></a>
 </div>
 <ul class="simple">
-<li>Place the <strong>Global Reference Frame</strong> from the <em>WEC-Sim Library</em> in the Simulink model file. The global reference frame acts as the seabed.</li>
+<li><p>Place the <strong>Global Reference Frame</strong> from the <em>WEC-Sim Library</em> in the Simulink model file. The global reference frame acts as the seabed.</p></li>
 </ul>
-<div class="figure">
+<div class="figure align-default">
 <a class="reference internal image-reference" href="_images/RM3_WECSim_GlobalRef.jpg"><img alt="_images/RM3_WECSim_GlobalRef.jpg" src="_images/RM3_WECSim_GlobalRef.jpg" style="width: 600pt;" /></a>
 </div>
 <ul class="simple">
-<li>Place the <strong>Floating (3DOF)</strong> block to connect the plate to the seabed. This constrains the plate to move in 3DOF relative to the <strong>Global Reference Frame</strong>.</li>
-<li>Place the <strong>Translational PTO</strong> block to connect the float to the spar. This constrains the float to move in heave relative to the spar, and allows definition of PTO damping.</li>
+<li><p>Place the <strong>Floating (3DOF)</strong> block to connect the plate to the seabed. This constrains the plate to move in 3DOF relative to the <strong>Global Reference Frame</strong>.</p></li>
+<li><p>Place the <strong>Translational PTO</strong> block to connect the float to the spar. This constrains the float to move in heave relative to the spar, and allows definition of PTO damping.</p></li>
 </ul>
-<div class="figure">
+<div class="figure align-default">
 <a class="reference internal image-reference" href="_images/RM3_WECSim.JPG"><img alt="_images/RM3_WECSim.JPG" src="_images/RM3_WECSim.JPG" style="width: 600pt;" /></a>
 </div>
 <div class="admonition note">
-<p class="first admonition-title">Note</p>
-<p class="last">When setting up a WEC-Sim model, it is very important to note the base and follower frames.</p>
+<p class="admonition-title">Note</p>
+<p>When setting up a WEC-Sim model, it is very important to note the base and follower frames.</p>
 </div>
 <p><strong>Step 3: Write WEC-Sim input file</strong></p>
 <p>The WEC-Sim input file defines simulation parameters, body properties, joints, and mooring for the RM3 model. The <code class="docutils literal notranslate"><span class="pre">wecSimInputFile.m</span></code> for the RM3 is provided in the RM3 case directory, and shown below.</p>
@@ -386,7 +386,7 @@ Inertia (kg-m^2)</td>
 </div>
 <p><strong>Step 4: Execute WEC-Sim</strong></p>
 <p>To execute the WEC-Sim code for the RM3 tutorial, type <code class="docutils literal notranslate"><span class="pre">wecSim</span></code> into the MATLAB Command Window. Below is a figure showing the final RM3 Simulink model and the WEC-Sim GUI during the simulation. For more information on using WEC-Sim to model the RM3 device, refer to <a class="reference internal" href="#ruehl-preliminary-2014" id="id2">[1]</a>.</p>
-<div class="figure">
+<div class="figure align-default">
 <a class="reference internal image-reference" href="_images/RM3_WECSim_GUI.JPG"><img alt="_images/RM3_WECSim_GUI.JPG" src="_images/RM3_WECSim_GUI.JPG" style="width: 600pt;" /></a>
 </div>
 <p><em>Output and Post-processing</em></p>
@@ -394,16 +394,16 @@ Inertia (kg-m^2)</td>
 <p><em>Running Different Wave Cases</em></p>
 <p>The input file for the RM3 tutorial includes several different wave cases:</p>
 <ul class="simple">
-<li>noWaveCIC - no wave with convolution integral calculation</li>
-<li>regularCIC - regular waves with convolution integral calculation</li>
-<li>irregular - irregular waves using a Pierson-Moskowitz spectrum with convolution integral calculation</li>
-<li>irregular - irregular waves using a Bretschneider Spectrum with state space calculation</li>
-<li>irregularImport - irregular waves using a user-defined spectrum</li>
-<li>userDefined - user-defined time-series</li>
+<li><p>noWaveCIC - no wave with convolution integral calculation</p></li>
+<li><p>regularCIC - regular waves with convolution integral calculation</p></li>
+<li><p>irregular - irregular waves using a Pierson-Moskowitz spectrum with convolution integral calculation</p></li>
+<li><p>irregular - irregular waves using a Bretschneider Spectrum with state space calculation</p></li>
+<li><p>irregularImport - irregular waves using a user-defined spectrum</p></li>
+<li><p>userDefined - user-defined time-series</p></li>
 </ul>
 <div class="admonition note">
-<p class="first admonition-title">Note</p>
-<p class="last">If state space is used (<code class="docutils literal notranslate"><span class="pre">simu.ssCalc=1</span></code>), the user needs to make sure the state space hydrodynamic coefficients are included in the <code class="docutils literal notranslate"><span class="pre">rm3.h5</span></code> file.</p>
+<p class="admonition-title">Note</p>
+<p>If state space is used (<code class="docutils literal notranslate"><span class="pre">simu.ssCalc=1</span></code>), the user needs to make sure the state space hydrodynamic coefficients are included in the <code class="docutils literal notranslate"><span class="pre">rm3.h5</span></code> file.</p>
 </div>
 </div>
 </div>
@@ -414,34 +414,34 @@ This example application is provided in the WEC-Sim code release in the <code cl
 <div class="section" id="id3">
 <h3>Device Geometry<a class="headerlink" href="#id3" title="Permalink to this headline">¶</a></h3>
 <p>The OSWEC was selected because its design is fundamentally different from the RM3. This is critical because WECs span an extensive design space, and it is important to model devices in WEC-Sim that operate under different principles.  The OSWEC is fixed to the ground and has a flap that is connected through a hinge to the base that restricts the flap in order to pitch about the hinge. The full-scale dimensions of the OSWEC and the mass properties are shown in the figure and table below.</p>
-<div class="figure">
+<div class="figure align-default">
 <a class="reference internal image-reference" href="_images/OSWEC_Geom.png"><img alt="_images/OSWEC_Geom.png" src="_images/OSWEC_Geom.png" style="width: 400pt;" /></a>
 </div>
-<table border="1" class="docutils">
+<table class="docutils align-default">
 <colgroup>
-<col width="22%" />
-<col width="33%" />
-<col width="44%" />
+<col style="width: 22%" />
+<col style="width: 33%" />
+<col style="width: 44%" />
 </colgroup>
-<thead valign="bottom">
-<tr class="row-odd"><th class="head" colspan="3">Flap Full Scale Properties</th>
+<thead>
+<tr class="row-odd"><th class="head" colspan="3"><p>Flap Full Scale Properties</p></th>
 </tr>
 </thead>
-<tbody valign="top">
-<tr class="row-even"><td rowspan="2">CG (m)</td>
-<td rowspan="2">Mass (kg)</td>
-<td rowspan="2">Pitch Moment
+<tbody>
+<tr class="row-even"><td rowspan="2"><p>CG (m)</p></td>
+<td rowspan="2"><p>Mass (kg)</p></td>
+<td rowspan="2"><p>Pitch Moment
 of Inertia
-(kg-m^2)</td>
+(kg-m^2)</p></td>
 </tr>
 <tr class="row-odd"></tr>
-<tr class="row-even"><td>0</td>
-<td rowspan="3">127,000</td>
-<td rowspan="3">1,850,000</td>
+<tr class="row-even"><td><p>0</p></td>
+<td rowspan="3"><p>127,000</p></td>
+<td rowspan="3"><p>1,850,000</p></td>
 </tr>
-<tr class="row-odd"><td>0</td>
+<tr class="row-odd"><td><p>0</p></td>
 </tr>
-<tr class="row-even"><td>-3.9</td>
+<tr class="row-even"><td><p>-3.9</p></td>
 </tr>
 </tbody>
 </table>
@@ -449,32 +449,32 @@ of Inertia
 <div class="section" id="id4">
 <h3>WEC-Sim Model Files<a class="headerlink" href="#id4" title="Permalink to this headline">¶</a></h3>
 <p>Below is an overview of the files required to run the OSWEC simulation in WEC-Sim. For the OSWEC, there are two corresponding geometry files: <code class="docutils literal notranslate"><span class="pre">flap.stl</span></code> and <code class="docutils literal notranslate"><span class="pre">base.stl</span></code>. In addition to the required files listed below, users may supply a <code class="docutils literal notranslate"><span class="pre">userDefinedFunctions.m</span></code> file for post-processing results once the WEC-Sim run is complete.</p>
-<table border="1" class="docutils">
+<table class="docutils align-default">
 <colgroup>
-<col width="23%" />
-<col width="36%" />
-<col width="40%" />
+<col style="width: 23%" />
+<col style="width: 36%" />
+<col style="width: 40%" />
 </colgroup>
-<tbody valign="top">
-<tr class="row-odd"><td><strong>File Type</strong></td>
-<td><strong>File Name</strong></td>
-<td><strong>Directory</strong></td>
+<tbody>
+<tr class="row-odd"><td><p><strong>File Type</strong></p></td>
+<td><p><strong>File Name</strong></p></td>
+<td><p><strong>Directory</strong></p></td>
 </tr>
-<tr class="row-even"><td>Input File</td>
-<td><code class="docutils literal notranslate"><span class="pre">wecSimInputFile.m</span></code></td>
-<td><code class="docutils literal notranslate"><span class="pre">/tutorials/oswec/</span></code></td>
+<tr class="row-even"><td><p>Input File</p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">wecSimInputFile.m</span></code></p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">/tutorials/oswec/</span></code></p></td>
 </tr>
-<tr class="row-odd"><td>Simulink Model</td>
-<td><code class="docutils literal notranslate"><span class="pre">oswec.slx</span></code></td>
-<td><code class="docutils literal notranslate"><span class="pre">/tutorials/oswec/</span></code></td>
+<tr class="row-odd"><td><p>Simulink Model</p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">oswec.slx</span></code></p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">/tutorials/oswec/</span></code></p></td>
 </tr>
-<tr class="row-even"><td>Hydrodynamic Data</td>
-<td><code class="docutils literal notranslate"><span class="pre">oswec.h5</span></code></td>
-<td><code class="docutils literal notranslate"><span class="pre">/tutorials/oswec/hydroData/</span></code></td>
+<tr class="row-even"><td><p>Hydrodynamic Data</p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">oswec.h5</span></code></p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">/tutorials/oswec/hydroData/</span></code></p></td>
 </tr>
-<tr class="row-odd"><td>Geometry Files</td>
-<td><code class="docutils literal notranslate"><span class="pre">flap.stl</span></code> &amp; <code class="docutils literal notranslate"><span class="pre">base.stl</span></code></td>
-<td><code class="docutils literal notranslate"><span class="pre">/tutorials/oswec/geometry/</span></code></td>
+<tr class="row-odd"><td><p>Geometry Files</p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">flap.stl</span></code> &amp; <code class="docutils literal notranslate"><span class="pre">base.stl</span></code></p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">/tutorials/oswec/geometry/</span></code></p></td>
 </tr>
 </tbody>
 </table>
@@ -486,28 +486,28 @@ of Inertia
 <p><strong>Step 2: Build WEC-Sim model in Simulink</strong></p>
 <p>The WEC-Sim Simulink model is created by dragging and dropping blocks from the <em>WEC-Sim Library</em> into the <code class="docutils literal notranslate"><span class="pre">oswec.slx</span></code> file.</p>
 <ul class="simple">
-<li>Place two <strong>Rigid Body</strong> blocks from the <em>WEC-Sim Library</em> in the Simulink model file, one for each OSWEC rigid body.</li>
-<li>Double click on the <strong>Rigid Body</strong> block, and rename each instance of the body. The first body must be called <code class="docutils literal notranslate"><span class="pre">body(1)</span></code>, and the second body should be called <code class="docutils literal notranslate"><span class="pre">body(2)</span></code>.</li>
+<li><p>Place two <strong>Rigid Body</strong> blocks from the <em>WEC-Sim Library</em> in the Simulink model file, one for each OSWEC rigid body.</p></li>
+<li><p>Double click on the <strong>Rigid Body</strong> block, and rename each instance of the body. The first body must be called <code class="docutils literal notranslate"><span class="pre">body(1)</span></code>, and the second body should be called <code class="docutils literal notranslate"><span class="pre">body(2)</span></code>.</p></li>
 </ul>
-<div class="figure">
+<div class="figure align-default">
 <a class="reference internal image-reference" href="_images/OSWEC_WECSim_Body.jpg"><img alt="_images/OSWEC_WECSim_Body.jpg" src="_images/OSWEC_WECSim_Body.jpg" style="width: 600pt;" /></a>
 </div>
 <ul class="simple">
-<li>Place the <strong>Global Reference Frame</strong> from the <em>WEC-Sim Library</em> in the Simulink model file. The global reference frame acts as the seabed.</li>
+<li><p>Place the <strong>Global Reference Frame</strong> from the <em>WEC-Sim Library</em> in the Simulink model file. The global reference frame acts as the seabed.</p></li>
 </ul>
-<div class="figure">
+<div class="figure align-default">
 <a class="reference internal image-reference" href="_images/OSWEC_WECSim_GlobalRef.jpg"><img alt="_images/OSWEC_WECSim_GlobalRef.jpg" src="_images/OSWEC_WECSim_GlobalRef.jpg" style="width: 600pt;" /></a>
 </div>
 <ul class="simple">
-<li>Place the <strong>Fixed</strong> block to connect the base to the seabed. This constrains the base to be fixed relative to the <strong>Global Reference Frame</strong>.</li>
-<li>Place a <strong>Rotational PTO</strong> block to connect the base to the flap. This constrains the flap to move in pitch relative to the base, and allows for the definition of PTO damping.</li>
+<li><p>Place the <strong>Fixed</strong> block to connect the base to the seabed. This constrains the base to be fixed relative to the <strong>Global Reference Frame</strong>.</p></li>
+<li><p>Place a <strong>Rotational PTO</strong> block to connect the base to the flap. This constrains the flap to move in pitch relative to the base, and allows for the definition of PTO damping.</p></li>
 </ul>
-<div class="figure">
+<div class="figure align-default">
 <a class="reference internal image-reference" href="_images/OSWEC_WECSim.JPG"><img alt="_images/OSWEC_WECSim.JPG" src="_images/OSWEC_WECSim.JPG" style="width: 600pt;" /></a>
 </div>
 <div class="admonition note">
-<p class="first admonition-title">Note</p>
-<p class="last">When setting up a WEC-Sim model, it is very important to note the base and follower frames.</p>
+<p class="admonition-title">Note</p>
+<p>When setting up a WEC-Sim model, it is very important to note the base and follower frames.</p>
 </div>
 <p><strong>Step 3: Write WEC-Sim input file</strong></p>
 <p>The WEC-Sim input file defines simulation parameters, body properties, joints, and mooring for the OSWEC model. The <code class="docutils literal notranslate"><span class="pre">wecSimInputFile.m</span></code> for the OSWEC is provided in the OSWEC case directory, and shown below.</p>
@@ -553,7 +553,7 @@ of Inertia
 </div>
 <p><strong>Step 4: Execute WEC-Sim</strong></p>
 <p>To execute the WEC-Sim code for the OSWEC tutorial, type <code class="docutils literal notranslate"><span class="pre">wecSim</span></code> into the MATLAB Command Window. Below is a figure showing the final OSWEC Simulink model and the WEC-Sim GUI during the simulation. For more information on using WEC-Sim to model the OSWEC device, refer to <a class="reference internal" href="#y-yu-development-2014" id="id7">[2]</a><a class="reference internal" href="#y-yu-design-2014" id="id8">[3]</a>.</p>
-<div class="figure">
+<div class="figure align-default">
 <a class="reference internal image-reference" href="_images/OSWEC_WECSim_GUI.jpg"><img alt="_images/OSWEC_WECSim_GUI.jpg" src="_images/OSWEC_WECSim_GUI.jpg" style="width: 600pt;" /></a>
 </div>
 </div>
@@ -564,24 +564,17 @@ of Inertia
 </div>
 <div class="section" id="references">
 <h2>References<a class="headerlink" href="#references" title="Permalink to this headline">¶</a></h2>
-<p id="bibtex-bibliography-tutorials-0"><table class="docutils citation" frame="void" id="ruehl-preliminary-2014" rules="none">
-<colgroup><col class="label" /><col /></colgroup>
-<tbody valign="top">
-<tr><td class="label"><a class="fn-backref" href="#id2">[1]</a></td><td>K. Ruehl, C. Michelen, S. Kanner, M. Lawson, and Y. Yu. Preliminary Verification and Validation of WEC-Sim, an Open-Source Wave Energy Converter Design Tool. In <em>Proceedings of OMAE 2014</em>. San Francisco, CA, 2014.</td></tr>
-</tbody>
-</table>
-<table class="docutils citation" frame="void" id="y-yu-development-2014" rules="none">
-<colgroup><col class="label" /><col /></colgroup>
-<tbody valign="top">
-<tr><td class="label"><a class="fn-backref" href="#id7">[2]</a></td><td>Y. Yu, M. Lawson, K. Ruehl, and C. Michelen. Development and Demonstration of the WEC-Sim Wave Energy Converter Simulation Tool. In <em>Proceedings of the 2nd Marine Energy Technology Symposium</em>. Seattle, WA, USA, 2014.</td></tr>
-</tbody>
-</table>
-<table class="docutils citation" frame="void" id="y-yu-design-2014" rules="none">
-<colgroup><col class="label" /><col /></colgroup>
-<tbody valign="top">
-<tr><td class="label"><a class="fn-backref" href="#id8">[3]</a></td><td>Y. Yu, Y. Li, K. Hallett, and C. Hotimsky. Design and Analysis for a Floating Oscillating Surge Wave Energy Converter. In <em>Proceedings of OMAE 2014</em>. San Francisco, CA, 2014.</td></tr>
-</tbody>
-</table>
+<p id="bibtex-bibliography-tutorials-0"><dl class="citation">
+<dt class="label" id="ruehl-preliminary-2014"><span class="brackets"><a class="fn-backref" href="#id2">1</a></span></dt>
+<dd><p>K. Ruehl, C. Michelen, S. Kanner, M. Lawson, and Y. Yu. Preliminary Verification and Validation of WEC-Sim, an Open-Source Wave Energy Converter Design Tool. In <em>Proceedings of OMAE 2014</em>. San Francisco, CA, 2014.</p>
+</dd>
+<dt class="label" id="y-yu-development-2014"><span class="brackets"><a class="fn-backref" href="#id7">2</a></span></dt>
+<dd><p>Y. Yu, M. Lawson, K. Ruehl, and C. Michelen. Development and Demonstration of the WEC-Sim Wave Energy Converter Simulation Tool. In <em>Proceedings of the 2nd Marine Energy Technology Symposium</em>. Seattle, WA, USA, 2014.</p>
+</dd>
+<dt class="label" id="y-yu-design-2014"><span class="brackets"><a class="fn-backref" href="#id8">3</a></span></dt>
+<dd><p>Y. Yu, Y. Li, K. Hallett, and C. Hotimsky. Design and Analysis for a Floating Oscillating Surge Wave Energy Converter. In <em>Proceedings of OMAE 2014</em>. San Francisco, CA, 2014.</p>
+</dd>
+</dl>
 </p>
 </div>
 </div>

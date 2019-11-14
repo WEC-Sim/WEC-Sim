@@ -3,7 +3,7 @@
 License
 =======
 
-Copyright 2014 the National Renewable Energy Laboratory and Sandia Corporation
+Copyright 2014 National Renewable Energy Laboratory and National Technology & Engineering Solutions of Sandia, LLC (NTESS). 
 
 Licensed under the Apache License, Version 2.0 (the "License"); you may not use this file except in compliance with the License. You may obtain a copy of the License at `here <http://www.apache.org/licenses/LICENSE-2.0>`_.
 

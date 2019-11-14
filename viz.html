@@ -173,14 +173,14 @@
 For more information about using Paraview for visualization, refer to the <a class="reference external" href="http://wec-sim.github.io/WEC-Sim/webinars.html#webinar-4-mooring-and-visualization">visualization webinar</a>, and the <a class="reference external" href="https://github.com/WEC-Sim/WEC-Sim_Applications">WEC-Sim Applications</a> repository <strong>Viz</strong> example.</p>
 <p>Using Paraview visualization improves on SimMechanics’s explorer by:</p>
 <ul class="simple">
-<li>Visualization of the wave field</li>
-<li>Visualization of the cell-by-cell non-linear hydrodynamic forces (when using nonlinear buoyancy and Froude-Krylov wave excitation)</li>
-<li>Allow data manipulation and more visualization options</li>
+<li><p>Visualization of the wave field</p></li>
+<li><p>Visualization of the cell-by-cell non-linear hydrodynamic forces (when using nonlinear buoyancy and Froude-Krylov wave excitation)</p></li>
+<li><p>Allow data manipulation and more visualization options</p></li>
 </ul>
 <p>On the other hand the SimMechanics explorer shows the following information not shown in Paraview visualizing:</p>
 <ul class="simple">
-<li>Location of the center of gravity</li>
-<li>Location of the different frames including PTO and Constraint frames</li>
+<li><p>Location of the center of gravity</p></li>
+<li><p>Location of the different frames including PTO and Constraint frames</p></li>
 </ul>
 <p>Visualization with paraview requires many files to be written, which makes the WEC-Sim simulation take significantly more time, and makes the directory significantly larger.
 It should only be turned on when visualization is desired. The user also needs to have some familiarity with using Paraview.</p>
@@ -190,57 +190,58 @@ It should only be turned on when visualization is desired. The user also needs t
 <div><p>You will need to install <a class="reference external" href="http://www.paraview.org/">Paraview</a> and install and setup Python.
 Next you will need to add some WEC-Sim specific macros, as follows:</p>
 <ul class="simple">
-<li>Open Paraview</li>
-<li>Click on <code class="docutils literal notranslate"><span class="pre">Macros</span> <span class="pre">=&gt;</span> <span class="pre">Add</span> <span class="pre">new</span> <span class="pre">macro</span></code></li>
-<li>Navigate to the WEC-Sim <code class="docutils literal notranslate"><span class="pre">source/functions/paraview_macros</span></code> directory</li>
-<li>Select the first file and click <code class="docutils literal notranslate"><span class="pre">OK</span></code></li>
-<li>Repeat this for all files in the <code class="docutils literal notranslate"><span class="pre">paraview_macros</span> <span class="pre">directory.</span></code></li>
+<li><p>Open Paraview</p></li>
+<li><p>Click on <code class="docutils literal notranslate"><span class="pre">Macros</span> <span class="pre">=&gt;</span> <span class="pre">Add</span> <span class="pre">new</span> <span class="pre">macro</span></code></p></li>
+<li><p>Navigate to the WEC-Sim <code class="docutils literal notranslate"><span class="pre">source/functions/paraview_macros</span></code> directory</p></li>
+<li><p>Select the first file and click <code class="docutils literal notranslate"><span class="pre">OK</span></code></p></li>
+<li><p>Repeat this for all files in the <code class="docutils literal notranslate"><span class="pre">paraview_macros</span> <span class="pre">directory.</span></code></p></li>
 </ul>
 </div></blockquote>
 </div>
 <div class="section" id="setting-up-paraview-output">
 <h2>Setting Up Paraview Output<a class="headerlink" href="#setting-up-paraview-output" title="Permalink to this headline">¶</a></h2>
 <blockquote>
-<div>The following table shows the variables that can be specified in the <code class="docutils literal notranslate"><span class="pre">wecSimInputFile</span></code> to control the Paraview visualization. The <code class="docutils literal notranslate"><span class="pre">body.viz</span></code> properties are also used in the SimMechanics explorer visualization.</div></blockquote>
-<table border="1" class="docutils">
+<div><p>The following table shows the variables that can be specified in the <code class="docutils literal notranslate"><span class="pre">wecSimInputFile</span></code> to control the Paraview visualization. The <code class="docutils literal notranslate"><span class="pre">body.viz</span></code> properties are also used in the SimMechanics explorer visualization.</p>
+</div></blockquote>
+<table class="docutils align-default">
 <colgroup>
-<col width="30%" />
-<col width="70%" />
+<col style="width: 30%" />
+<col style="width: 70%" />
 </colgroup>
-<thead valign="bottom">
-<tr class="row-odd"><th class="head" colspan="2">WEC-Sim Visualization using Paraview</th>
+<thead>
+<tr class="row-odd"><th class="head" colspan="2"><p>WEC-Sim Visualization using Paraview</p></th>
 </tr>
 </thead>
-<tbody valign="top">
-<tr class="row-even"><td>Variable</td>
-<td>Description</td>
+<tbody>
+<tr class="row-even"><td><p>Variable</p></td>
+<td><p>Description</p></td>
 </tr>
-<tr class="row-odd"><td><code class="docutils literal notranslate"><span class="pre">simu.paraview</span></code></td>
-<td>0 to not output Paraview files [default]
-1 to output Paraview files</td>
+<tr class="row-odd"><td><p><code class="docutils literal notranslate"><span class="pre">simu.paraview</span></code></p></td>
+<td><p>0 to not output Paraview files [default]
+1 to output Paraview files</p></td>
 </tr>
-<tr class="row-even"><td><code class="docutils literal notranslate"><span class="pre">simu.nlHydro</span></code></td>
-<td>0 for no non-linear hydro [default]
+<tr class="row-even"><td><p><code class="docutils literal notranslate"><span class="pre">simu.nlHydro</span></code></p></td>
+<td><p>0 for no non-linear hydro [default]
 1 for non-linear hydro with mean free surface
-2 for non-linear hydro with instantaneous free surface</td>
+2 for non-linear hydro with instantaneous free surface</p></td>
 </tr>
-<tr class="row-odd"><td><code class="docutils literal notranslate"><span class="pre">simu.domainSize</span></code></td>
-<td>size of ground and water planes in meters [default 200]</td>
+<tr class="row-odd"><td><p><code class="docutils literal notranslate"><span class="pre">simu.domainSize</span></code></p></td>
+<td><p>size of ground and water planes in meters [default 200]</p></td>
 </tr>
-<tr class="row-even"><td><code class="docutils literal notranslate"><span class="pre">simu.dtOut</span></code></td>
-<td>simulation output sampling time step [default dt]</td>
+<tr class="row-even"><td><p><code class="docutils literal notranslate"><span class="pre">simu.dtOut</span></code></p></td>
+<td><p>simulation output sampling time step [default dt]</p></td>
 </tr>
-<tr class="row-odd"><td><code class="docutils literal notranslate"><span class="pre">body(i).viz.color</span></code></td>
-<td>[RGB] body color [default [1 1 0]]</td>
+<tr class="row-odd"><td><p><code class="docutils literal notranslate"><span class="pre">body(i).viz.color</span></code></p></td>
+<td><p>[RGB] body color [default [1 1 0]]</p></td>
 </tr>
-<tr class="row-even"><td><code class="docutils literal notranslate"><span class="pre">body(i).viz.opacity</span></code></td>
-<td>body opacity [default 1]</td>
+<tr class="row-even"><td><p><code class="docutils literal notranslate"><span class="pre">body(i).viz.opacity</span></code></p></td>
+<td><p>body opacity [default 1]</p></td>
 </tr>
-<tr class="row-odd"><td><code class="docutils literal notranslate"><span class="pre">waves.viz.numPointsX</span></code></td>
-<td>wave plane discretization: number of X points [default 50]</td>
+<tr class="row-odd"><td><p><code class="docutils literal notranslate"><span class="pre">waves.viz.numPointsX</span></code></p></td>
+<td><p>wave plane discretization: number of X points [default 50]</p></td>
 </tr>
-<tr class="row-even"><td><code class="docutils literal notranslate"><span class="pre">waves.viz.numPointsY</span></code></td>
-<td>wave plane discretization: number of Y points [default 50]</td>
+<tr class="row-even"><td><p><code class="docutils literal notranslate"><span class="pre">waves.viz.numPointsY</span></code></p></td>
+<td><p>wave plane discretization: number of Y points [default 50]</p></td>
 </tr>
 </tbody>
 </table>
@@ -252,18 +253,18 @@ Next you will need to add some WEC-Sim specific macros, as follows:</p>
 All files necessary for Paraview visualization are located there.
 To view in Paraview:</p>
 <ul class="simple">
-<li>Open the <code class="docutils literal notranslate"><span class="pre">vtk/filename.pvd</span></code> file in Paraview</li>
-<li>Click <code class="docutils literal notranslate"><span class="pre">Apply</span></code></li>
-<li>With the model selected in the pipeline, run the <code class="docutils literal notranslate"><span class="pre">WEC-Sim</span></code> macro</li>
-<li>Move the camera to desired view</li>
-<li>Click the green arrow (play) button</li>
+<li><p>Open the <code class="docutils literal notranslate"><span class="pre">vtk/filename.pvd</span></code> file in Paraview</p></li>
+<li><p>Click <code class="docutils literal notranslate"><span class="pre">Apply</span></code></p></li>
+<li><p>With the model selected in the pipeline, run the <code class="docutils literal notranslate"><span class="pre">WEC-Sim</span></code> macro</p></li>
+<li><p>Move the camera to desired view</p></li>
+<li><p>Click the green arrow (play) button</p></li>
 </ul>
 <p>The WEC-Sim macro:</p>
 <ul class="simple">
-<li>Extracts each body, sets the color and opacity, and renames them</li>
-<li>Extracts the waves, sets color and opacity, and renames</li>
-<li>Creates the ground plane</li>
-<li>Sets the camera to <code class="docutils literal notranslate"><span class="pre">parallel</span> <span class="pre">view</span></code></li>
+<li><p>Extracts each body, sets the color and opacity, and renames them</p></li>
+<li><p>Extracts the waves, sets color and opacity, and renames</p></li>
+<li><p>Creates the ground plane</p></li>
+<li><p>Sets the camera to <code class="docutils literal notranslate"><span class="pre">parallel</span> <span class="pre">view</span></code></p></li>
 </ul>
 </div></blockquote>
 </div>
@@ -282,18 +283,18 @@ On the bottom right view the wave elevation is used to color the free surface. T
 <div><p>When using non-linear buoyancy and Froude-Krylov Wave Excitation the paraview files also contain cell data for the bodies.
 The cell data are:</p>
 <ul class="simple">
-<li>Cell areas</li>
-<li>Hydrostatic pressures</li>
-<li>Linear Froude-Krylov pressures</li>
-<li>Non-linear Froude-Krylov pressures</li>
+<li><p>Cell areas</p></li>
+<li><p>Hydrostatic pressures</p></li>
+<li><p>Linear Froude-Krylov pressures</p></li>
+<li><p>Non-linear Froude-Krylov pressures</p></li>
 </ul>
 <p>The <code class="docutils literal notranslate"><span class="pre">pressureGlyphs</span></code> macro calculates cell normals, and cell centers. It then creates the following glyphs:</p>
 <ul class="simple">
-<li>Hydrostatic Pressure</li>
-<li>Linear Froude-Krylov pressure</li>
-<li>Non-linear Froude-Krylov pressure</li>
-<li>Total pressure (hydrostatic plus non-linear Foude-Krylov)</li>
-<li>Froude-Krylov delta (non-linear minus linear)</li>
+<li><p>Hydrostatic Pressure</p></li>
+<li><p>Linear Froude-Krylov pressure</p></li>
+<li><p>Non-linear Froude-Krylov pressure</p></li>
+<li><p>Total pressure (hydrostatic plus non-linear Foude-Krylov)</p></li>
+<li><p>Froude-Krylov delta (non-linear minus linear)</p></li>
 </ul>
 <p>The video below shows three different views of the RM3 model described in the tutorials.
 The top right shows glyphs of the non-linear Froude-Krylov pressure acting on the float.
