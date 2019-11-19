@@ -1,10 +1,10 @@
 function hydro = Read_NEMOH(hydro,filedir)
 
-% Reads data from a NEMOH working folder.
+%% Reads data from a NEMOH working folder.
 %
 % hydro = Read_NEMOH(hydro, filedir)
-%     hydro –   data structure
-%     filedir – NEMOH working folder, must include:
+%     hydro -   data structure
+%     filedir - NEMOH working folder, must include:
 %         - Nemoh.cal
 %         - Mesh/Hydrostatics.dat (or Hydrostatiscs_0.dat, Hydrostatics_1.dat,
 %           etc. for multiple bodies)
@@ -14,10 +14,27 @@ function hydro = Read_NEMOH(hydro,filedir)
 %         - Results/DiffractionForce.tec - If simu.nlHydro = 3 will be used
 %         - Results/FKForce.tec - If simu.nlHydro = 3 will be used
 %
-% See ‘…\WEC-Sim\tutorials\BEMIO\NEMOH\...’ for examples of usage.
+% See '\\WEC-Sim\tutorials\BEMIO\NEMOH\...' for examples of usage.
 
-% OS check
-linuxFlag=isunix;
+%% Check filedir for required directories
+% NOTE: reads upper and lower case directories
+    if exist ( fullfile (filedir, 'mesh'), 'dir') == 7        
+        meshdir = fullfile (filedir, 'mesh');        
+    elseif exist ( fullfile (filedir, 'Mesh'), 'dir') == 7        
+        meshdir = fullfile (filedir, 'Mesh');        
+    else
+        error ('mesh (or Mesh) directory not found in working folder');
+    end
+    
+    if exist ( fullfile (filedir, 'results'), 'dir') == 7        
+        resultsdir = fullfile (filedir, 'results');        
+    elseif exist ( fullfile (filedir, 'Results'), 'dir') == 7        
+        resultsdir = fullfile (filedir, 'Results');        
+    else
+        error ('results (or Results) directory not found in working folder');
+    end
+
+%%
 
 [a,b] = size(hydro);  % Check on what is already there
 if b==1
@@ -83,15 +100,9 @@ waitbar(1/8);
 for m = 1:hydro(F).Nb
     hydro(F).dof(m) = 6;  % Default degrees of freedom for each body is 6
     if hydro(F).Nb == 1
-        fileID = fopen(fullfile(filedir,'Mesh','Hydrostatics.dat'));
-        if linuxFlag && fileID==-1
-            fileID = fopen(fullfile(filedir,'mesh','Hydrostatics.dat'));
-        end
+        fileID = fopen(fullfile(meshdir,'Hydrostatics.dat'));
     else
-        fileID = fopen([fullfile(filedir,'Mesh','Hydrostatics_'),num2str(m-1),'.dat']);
-        if linuxFlag && fileID==-1
-            fileID = fopen([fullfile(filedir,'mesh','Hydrostatics_'),num2str(m-1),'.dat']);
-        end
+        fileID = fopen([fullfile(meshdir,'Hydrostatics_'),num2str(m-1),'.dat']);
     end
     raw = textscan(fileID,'%[^\n\r]');  % Read Hydrostatics.dat
     raw = raw{:};
@@ -109,15 +120,9 @@ waitbar(2/8);
 %% KH file(s)
 for m = 1:hydro(F).Nb
     if hydro(F).Nb == 1
-        fileID = fopen(fullfile(filedir,'Mesh','KH.dat'));
-        if linuxFlag && fileID==-1
-            fileID = fopen(fullfile(filedir,'mesh','KH.dat'));
-        end
+        fileID = fopen(fullfile(meshdir,'KH.dat'));
     else
-        fileID = fopen([fullfile(filedir,'Mesh','KH_'),num2str(m-1),'.dat']);
-        if linuxFlag && fileID==-1
-            fileID = fopen([fullfile(filedir,'mesh','KH_'),num2str(m-1),'.dat']);
-        end
+        fileID = fopen([fullfile(meshdir,'KH_'),num2str(m-1),'.dat']);   
     end
     raw = textscan(fileID,'%[^\n\r]');
     raw = raw{:};
@@ -130,10 +135,7 @@ end
 waitbar(3/8);
 
 %% Radiation Coefficient file
-fileID = fopen(fullfile(filedir,'Results','RadiationCoefficients.tec'));
-if linuxFlag && fileID==-1
-    fileID = fopen(fullfile(filedir,'results','RadiationCoefficients.tec'));
-end
+fileID = fopen(fullfile(resultsdir,'RadiationCoefficients.tec'));
 raw = textscan(fileID,'%[^\n\r]');
 raw = raw{:};
 fclose(fileID);
@@ -154,10 +156,7 @@ waitbar(4/8);
 
 
 %% Excitation Force file
-fileID = fopen(fullfile(filedir,'Results','ExcitationForce.tec'));
-if linuxFlag && fileID==-1
-    fileID = fopen(fullfile(filedir,'results','ExcitationForce.tec'));
-end
+fileID = fopen(fullfile(resultsdir,'ExcitationForce.tec'));
 raw = textscan(fileID,'%[^\n\r]');
 raw = raw{:};
 fclose(fileID);
@@ -182,11 +181,8 @@ hydro(F).sc_ma = NaN(size(hydro(F).ex_ma));
 hydro(F).sc_ph = NaN(size(hydro(F).ex_ph));
 hydro(F).sc_re = NaN(size(hydro(F).ex_re));
 hydro(F).sc_im = NaN(size(hydro(F).ex_im));
-if exist(fullfile(filedir,'Results','DiffractionForce.tec'),'file')==2
-    fileID = fopen(fullfile(filedir,'Results','DiffractionForce.tec'));
-    if linuxFlag && fileID==-1
-        fileID = fopen(fullfile(filedir,'results','DiffractionForce.tec'));
-    end
+if exist(fullfile(resultsdir,'DiffractionForce.tec'),'file')==2
+    fileID = fopen(fullfile(resultsdir,'DiffractionForce.tec'));
     raw = textscan(fileID,'%[^\n\r]');
     raw = raw{:};
     fclose(fileID);
@@ -212,11 +208,8 @@ hydro(F).fk_ma = NaN(size(hydro(F).ex_ma));
 hydro(F).fk_ph = NaN(size(hydro(F).ex_ph));
 hydro(F).fk_re = NaN(size(hydro(F).ex_re));
 hydro(F).fk_im = NaN(size(hydro(F).ex_im));
-if exist(fullfile(filedir,'Results','FKForce.tec'),'file')==2
-    fileID = fopen(fullfile(filedir,'Results','FKForce.tec'));
-    if linuxFlag && fileID==-1
-        fileID = fopen(fullfile(filedir,'results','FKForce.tec'));
-    end
+if exist(fullfile(resultsdir,'FKForce.tec'),'file')==2
+    fileID = fopen(fullfile(resultsdir,'FKForce.tec'));
     raw = textscan(fileID,'%[^\n\r]');
     raw = raw{:};
     fclose(fileID);
@@ -240,7 +233,7 @@ waitbar(7/8);
 
 %================= READING KOCHIN FILES ===================%
 %clear Kochin_BVP x theta i H
-if exist(fullfile(filedir,'Results','Kochin.    1.dat'),'file')==2
+if exist(fullfile(resultsdir,'Kochin.    1.dat'),'file')==2
     nb_DOF=size(hydro(F).ex_ma,1);
     nBodies=hydro(F).Nb;
     nw=hydro(F).Nf;
@@ -260,12 +253,9 @@ if exist(fullfile(filedir,'Results','Kochin.    1.dat'),'file')==2
                 case 5
                     filename=['Kochin.',num2str(x),'.dat'];
             end
-        
-            if exist(fullfile(filedir,'Results',filename),'file')==2
-                fileID = fopen(fullfile(filedir,'Results',filename));
-                if linuxFlag && fileID==-1
-                    fileID = fopen(fullfile(filedir,'results',filename));
-                end
+            
+            if exist(fullfile(resultsdir,filename),'file')==2
+                fileID = fopen(fullfile(resultsdir,filename));
             end
             Kochin= fscanf(fileID,'%f');
         
@@ -292,15 +282,9 @@ if exist(fullfile(filedir,'Results','Kochin.    1.dat'),'file')==2
 
     %% Read Inertia
     if hydro(F).Nb == 1
-        fileID = fopen(fullfile(filedir,'Mesh','Inertia_hull.dat'));
-        if linuxFlag && fileID==-1
-            fileID = fopen(fullfile(filedir,'mesh','Inertia_hull.dat'));
-        end
+        fileID = fopen(fullfile(meshdir,'Inertia_hull.dat'));
     else
-        fileID = fopen([fullfile(filedir,'Mesh','Inertia_'),num2str(m-1),'.dat']);
-        if linuxFlag && fileID==-1
-            fileID = fopen([fullfile(filedir,'mesh','Inertia_'),num2str(m-1),'.dat']);
-        end
+        fileID = fopen([fullfile(meshdir,'Inertia_'),num2str(m-1),'.dat']);
     end
     for i=1:3
         ligne=fscanf(fileID,'%g %g',3);

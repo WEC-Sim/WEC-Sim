@@ -1,6 +1,6 @@
 function hydro = Read_WAMIT(hydro,filename,ex_coeff)
 
-% Reads data from a WAMIT output file.
+%% Reads data from a WAMIT output file.
 %
 % hydro = Read_WAMIT(hydro, filename, ex_coeff)
 %     hydro –     data structure
@@ -8,10 +8,12 @@ function hydro = Read_WAMIT(hydro,filename,ex_coeff)
 %     ex_coeff -  flag indicating the type of excitation force coefficients
 %                 to read, ‘diffraction’ (default, []), ‘haskind’, or ‘rao’
 %
-% See ‘…\WEC-Sim\tutorials\BEMIO\WAMIT\...’ for examples of usage.
+% See ‘\\WEC-Sim\tutorials\BEMIO\WAMIT\...’ for examples of usage.
 % Note: If generalized body modes are used, the output directory must also
 % include the *.cfg, *.mmx, and *.hst files. And, if simu.nlHydro = 3 will 
 % be used, the output directory must also include the .3fk and .3sc files.
+
+%% 
 
 [a,b] = size(hydro);  % Check on what is already there
 if b==1
