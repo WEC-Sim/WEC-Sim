@@ -1,4 +1,5 @@
 addpath(genpath('.\tutorials\verificationCases'))
+addpath(genpath('.\source'))
 runVerificationCases
 % setting up Jenkins CI
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
