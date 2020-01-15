@@ -27,7 +27,7 @@ openCompare=1;  % 1 opens all new run vs. stored run plots for comparison of eac
 
 %% Run and Load Simulations
 if runReg==1
-    cd RegularWaves/regular; runLoadRegular; cd .. ;
+    cd ./tutorials/verificationCases/RegularWaves/regular; runLoadRegular; cd .. ;
     savefig('figReg');
     cd regularCIC; runLoadRegularCIC; cd .. ;
     savefig('figRegCIC');
