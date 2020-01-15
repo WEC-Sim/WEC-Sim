@@ -3,8 +3,38 @@
 Release Notes
 =============
 
-Current Releases
+Current Release
 ---------------------------
+
+`WEC-Sim v4.0 <https://github.com/WEC-Sim/WEC-Sim/releases/tag/v4.0>`_
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+* Added mean drift force calculation
+
+* Added generalized body modes for simulating flexible WEC devices and for structure loading analysis
+
+* Updated BEMIO for mean drift force and generalized body modes
+
+
+Features in Development
+---------------------------
+
+* OpenWARP (BETA VERSION): NEMOH based BEM model with additional features, including 
+
+	* Parallel computing
+	* Irregular frequency removal
+	* GDF-to-DAT mesh converter
+
+* Improve WEC-Sim capabilities and efficiency
+
+	* Improve the computational efficiency for the nonlinear buoyancy and the Froude-Krylov forces calculation
+	
+* Add WEC-Sim array modeling application and validation study to the WEC-Sim Applications repository 
+
+
+
+Previous Releases
+------------------
 
 `WEC-Sim v3.1 <https://github.com/WEC-Sim/WEC-Sim/releases/tag/v3.1>`_
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
@@ -20,30 +50,6 @@ Current Releases
 * Converted WEC-Sim and PTO-Sim library files back to slx format
 
 * Fixed plot error in MATLAB 2018b
-
-
-Future Releases
----------------------------
-
-WEC-Sim v4.0 (Summer 2019)
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-
-* OpenWARP (BETA VERSION): NEMOH based BEM model with additional features, including 
-
-	* Parallel computing
-	* Irregular frequency removal
-	* GDF-to-DAT mesh converter
-
-* Improve WEC-Sim capabilities and efficiency
-
-	* Improve the computational efficiency for the nonlinear buoyancy and the Froude-Krylov forces calculation
-	* Include generalized body mode implementation (BETA VERSION)
-
-* Add WEC-Sim array modeling application and validation study to the WEC-Sim Applications repository 
-
-
-Previous Releases
-------------------
 
 
 `WEC-Sim v3.0 <https://github.com/WEC-Sim/WEC-Sim/releases/tag/v3.0>`_
@@ -73,10 +79,10 @@ Previous Releases
 * Added option to save pressure data for non-linear hydro (`simu.pressureDis`)
 * Update to moorDyn parser (doesn't require line#.out)  
 * Repository cleanup
-		* Implemented `Git LFS <https://git-lfs.github.com/>`_ for tracking ``*.h5`` files
-		* Added `WEC-Sim Application  repository <https://github.com/WEC-Sim/WEC-Sim_Applications>`_ as a `submodule <https://git-scm.com/book/en/v2/Git-Tools-Submodules>`_
-		* Moved `moorDyn <https://github.com/WEC-Sim/moorDyn>`_ to its own repository
-		* Removed publications from repository, `available on website <http://wec-sim.github.io/WEC-Sim/publications.html>`_
+	* Implemented `Git LFS <https://git-lfs.github.com/>`_ for tracking ``*.h5`` files
+	* Added `WEC-Sim Application  repository <https://github.com/WEC-Sim/WEC-Sim_Applications>`_ as a `submodule <https://git-scm.com/book/en/v2/Git-Tools-Submodules>`_
+	* Moved `moorDyn <https://github.com/WEC-Sim/moorDyn>`_ to its own repository
+	* Removed publications from repository, `available on website <http://wec-sim.github.io/WEC-Sim/publications.html>`_
 
 .. Note::
 

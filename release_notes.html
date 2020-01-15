@@ -104,23 +104,21 @@
 <li class="toctree-l1"><a class="reference internal" href="acknowledgements.html">Acknowledgements</a></li>
 <li class="toctree-l1"><a class="reference internal" href="publications.html">Publications</a></li>
 <li class="toctree-l1 current"><a class="current reference internal" href="#">Release Notes</a><ul>
-<li class="toctree-l2"><a class="reference internal" href="#current-releases">Current Releases</a><ul>
-<li class="toctree-l3"><a class="reference internal" href="#id2">WEC-Sim v3.1</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#current-release">Current Release</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#id2">WEC-Sim v4.0</a></li>
 </ul>
 </li>
-<li class="toctree-l2"><a class="reference internal" href="#future-releases">Future Releases</a><ul>
-<li class="toctree-l3"><a class="reference internal" href="#wec-sim-v4-0-summer-2019">WEC-Sim v4.0 (Summer 2019)</a></li>
-</ul>
-</li>
+<li class="toctree-l2"><a class="reference internal" href="#features-in-development">Features in Development</a></li>
 <li class="toctree-l2"><a class="reference internal" href="#previous-releases">Previous Releases</a><ul>
-<li class="toctree-l3"><a class="reference internal" href="#id3">WEC-Sim v3.0</a></li>
-<li class="toctree-l3"><a class="reference internal" href="#id4">WEC-Sim v2.2</a></li>
-<li class="toctree-l3"><a class="reference internal" href="#id5">WEC-Sim v2.1</a></li>
-<li class="toctree-l3"><a class="reference internal" href="#id6">WEC-Sim v2.0</a></li>
-<li class="toctree-l3"><a class="reference internal" href="#id7">WEC-Sim v1.3</a></li>
-<li class="toctree-l3"><a class="reference internal" href="#id8">WEC-Sim v1.2</a></li>
-<li class="toctree-l3"><a class="reference internal" href="#id9">WEC-Sim v1.1</a></li>
-<li class="toctree-l3"><a class="reference internal" href="#id10">WEC-Sim v1.0</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#id3">WEC-Sim v3.1</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#id4">WEC-Sim v3.0</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#id5">WEC-Sim v2.2</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#id6">WEC-Sim v2.1</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#id7">WEC-Sim v2.0</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#id8">WEC-Sim v1.3</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#id9">WEC-Sim v1.2</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#id10">WEC-Sim v1.1</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#id11">WEC-Sim v1.0</a></li>
 </ul>
 </li>
 </ul>
@@ -192,24 +190,19 @@
             
   <div class="section" id="release-notes">
 <span id="id1"></span><h1>Release Notes<a class="headerlink" href="#release-notes" title="Permalink to this headline">¶</a></h1>
-<div class="section" id="current-releases">
-<h2>Current Releases<a class="headerlink" href="#current-releases" title="Permalink to this headline">¶</a></h2>
+<div class="section" id="current-release">
+<h2>Current Release<a class="headerlink" href="#current-release" title="Permalink to this headline">¶</a></h2>
 <div class="section" id="id2">
-<h3><a class="reference external" href="https://github.com/WEC-Sim/WEC-Sim/releases/tag/v3.1">WEC-Sim v3.1</a><a class="headerlink" href="#id2" title="Permalink to this headline">¶</a></h3>
+<h3><a class="reference external" href="https://github.com/WEC-Sim/WEC-Sim/releases/tag/v4.0">WEC-Sim v4.0</a><a class="headerlink" href="#id2" title="Permalink to this headline">¶</a></h3>
 <ul class="simple">
-<li><p>Added wave gauges for three locations</p></li>
-<li><p>Added command line documentation for objects</p></li>
-<li><p>Added error and warning flags</p></li>
-<li><p>Converted Morrison Elements to script instead of block</p></li>
-<li><p>Converted WEC-Sim and PTO-Sim library files back to slx format</p></li>
-<li><p>Fixed plot error in MATLAB 2018b</p></li>
+<li><p>Added mean drift force calculation</p></li>
+<li><p>Added generalized body modes for simulating flexible WEC devices and for structure loading analysis</p></li>
+<li><p>Updated BEMIO for mean drift force and generalized body modes</p></li>
 </ul>
 </div>
 </div>
-<div class="section" id="future-releases">
-<h2>Future Releases<a class="headerlink" href="#future-releases" title="Permalink to this headline">¶</a></h2>
-<div class="section" id="wec-sim-v4-0-summer-2019">
-<h3>WEC-Sim v4.0 (Summer 2019)<a class="headerlink" href="#wec-sim-v4-0-summer-2019" title="Permalink to this headline">¶</a></h3>
+<div class="section" id="features-in-development">
+<h2>Features in Development<a class="headerlink" href="#features-in-development" title="Permalink to this headline">¶</a></h2>
 <ul>
 <li><p>OpenWARP (BETA VERSION): NEMOH based BEM model with additional features, including</p>
 <blockquote>
@@ -224,18 +217,27 @@
 <blockquote>
 <div><ul class="simple">
 <li><p>Improve the computational efficiency for the nonlinear buoyancy and the Froude-Krylov forces calculation</p></li>
-<li><p>Include generalized body mode implementation (BETA VERSION)</p></li>
 </ul>
 </div></blockquote>
 </li>
 <li><p>Add WEC-Sim array modeling application and validation study to the WEC-Sim Applications repository</p></li>
 </ul>
 </div>
-</div>
 <div class="section" id="previous-releases">
 <h2>Previous Releases<a class="headerlink" href="#previous-releases" title="Permalink to this headline">¶</a></h2>
 <div class="section" id="id3">
-<h3><a class="reference external" href="https://github.com/WEC-Sim/WEC-Sim/releases/tag/v3.0">WEC-Sim v3.0</a><a class="headerlink" href="#id3" title="Permalink to this headline">¶</a></h3>
+<h3><a class="reference external" href="https://github.com/WEC-Sim/WEC-Sim/releases/tag/v3.1">WEC-Sim v3.1</a><a class="headerlink" href="#id3" title="Permalink to this headline">¶</a></h3>
+<ul class="simple">
+<li><p>Added wave gauges for three locations</p></li>
+<li><p>Added command line documentation for objects</p></li>
+<li><p>Added error and warning flags</p></li>
+<li><p>Converted Morrison Elements to script instead of block</p></li>
+<li><p>Converted WEC-Sim and PTO-Sim library files back to slx format</p></li>
+<li><p>Fixed plot error in MATLAB 2018b</p></li>
+</ul>
+</div>
+<div class="section" id="id4">
+<h3><a class="reference external" href="https://github.com/WEC-Sim/WEC-Sim/releases/tag/v3.0">WEC-Sim v3.0</a><a class="headerlink" href="#id4" title="Permalink to this headline">¶</a></h3>
 <ul>
 <li><p>Added option of <a class="reference external" href="http://wec-sim.github.io/WEC-Sim/advanced_features.html#irregular-wave-binning">equal energy spacing</a> for irregular waves (default)</p></li>
 <li><p>Added option to calculate the wave elevation at a location different from the origin</p></li>
@@ -255,8 +257,8 @@
 </li>
 </ul>
 </div>
-<div class="section" id="id4">
-<h3><a class="reference external" href="https://github.com/WEC-Sim/WEC-Sim/releases/tag/v2.2">WEC-Sim v2.2</a><a class="headerlink" href="#id4" title="Permalink to this headline">¶</a></h3>
+<div class="section" id="id5">
+<h3><a class="reference external" href="https://github.com/WEC-Sim/WEC-Sim/releases/tag/v2.2">WEC-Sim v2.2</a><a class="headerlink" href="#id5" title="Permalink to this headline">¶</a></h3>
 <ul class="simple">
 <li><p>Added option to save pressure data for non-linear hydro (<cite>simu.pressureDis</cite>)</p></li>
 <li><p>Update to moorDyn parser (doesn’t require line#.out)</p></li>
@@ -276,8 +278,8 @@
 <p>GitHub repository history was re-written to make repository <em>much</em> smaller. Re-cloning the repository is highly recommended - it should be much faster than before.</p>
 </div>
 </div>
-<div class="section" id="id5">
-<h3><a class="reference external" href="https://github.com/WEC-Sim/WEC-Sim/releases/tag/v2.1">WEC-Sim v2.1</a><a class="headerlink" href="#id5" title="Permalink to this headline">¶</a></h3>
+<div class="section" id="id6">
+<h3><a class="reference external" href="https://github.com/WEC-Sim/WEC-Sim/releases/tag/v2.1">WEC-Sim v2.1</a><a class="headerlink" href="#id6" title="Permalink to this headline">¶</a></h3>
 <ul class="simple">
 <li><p>Added MATLAB version of BEMIO (to replace python version)</p></li>
 <li><p>Added variable time-step option with ‘ode45’ by &#64;ratanakso</p></li>
@@ -289,8 +291,8 @@
 <p>Backward Compatibility: <strong>WEC-Sim v2.1 is not backward compatible</strong></p>
 </div>
 </div>
-<div class="section" id="id6">
-<h3><a class="reference external" href="https://github.com/WEC-Sim/WEC-Sim/releases/tag/v2.0">WEC-Sim v2.0</a><a class="headerlink" href="#id6" title="Permalink to this headline">¶</a></h3>
+<div class="section" id="id7">
+<h3><a class="reference external" href="https://github.com/WEC-Sim/WEC-Sim/releases/tag/v2.0">WEC-Sim v2.0</a><a class="headerlink" href="#id7" title="Permalink to this headline">¶</a></h3>
 <ul class="simple">
 <li><p>Updated WEC-Sim Library (generalized joints/constraints/PTOs)</p></li>
 <li><p>Body-to-body interactions for radiation forces</p></li>
@@ -306,8 +308,8 @@
 <p>Backward Compatibility: <strong>WEC-Sim v2.0 is not backward compatible</strong></p>
 </div>
 </div>
-<div class="section" id="id7">
-<h3><a class="reference external" href="https://github.com/WEC-Sim/WEC-Sim/releases/tag/v1.3">WEC-Sim v1.3</a><a class="headerlink" href="#id7" title="Permalink to this headline">¶</a></h3>
+<div class="section" id="id8">
+<h3><a class="reference external" href="https://github.com/WEC-Sim/WEC-Sim/releases/tag/v1.3">WEC-Sim v1.3</a><a class="headerlink" href="#id8" title="Permalink to this headline">¶</a></h3>
 <ul class="simple">
 <li><p>Added Morison Elements</p></li>
 <li><p>Body2Body Interactions</p></li>
@@ -319,8 +321,8 @@
 <li><p>Visualization with Paraview</p></li>
 </ul>
 </div>
-<div class="section" id="id8">
-<h3><a class="reference external" href="https://github.com/WEC-Sim/WEC-Sim/releases/tag/v1.2">WEC-Sim v1.2</a><a class="headerlink" href="#id8" title="Permalink to this headline">¶</a></h3>
+<div class="section" id="id9">
+<h3><a class="reference external" href="https://github.com/WEC-Sim/WEC-Sim/releases/tag/v1.2">WEC-Sim v1.2</a><a class="headerlink" href="#id9" title="Permalink to this headline">¶</a></h3>
 <ul class="simple">
 <li><p>Nonlinear Froude-Krylov hydrodynamics and hydrostatics</p></li>
 <li><p>State space radiation</p></li>
@@ -335,8 +337,8 @@
 <p>Backward Compatibility: <strong>WEC-Sim v1.2 is not backward compatible</strong></p>
 </div>
 </div>
-<div class="section" id="id9">
-<h3><a class="reference external" href="https://github.com/WEC-Sim/WEC-Sim/releases/tag/v1.1">WEC-Sim v1.1</a><a class="headerlink" href="#id9" title="Permalink to this headline">¶</a></h3>
+<div class="section" id="id10">
+<h3><a class="reference external" href="https://github.com/WEC-Sim/WEC-Sim/releases/tag/v1.1">WEC-Sim v1.1</a><a class="headerlink" href="#id10" title="Permalink to this headline">¶</a></h3>
 <ul class="simple">
 <li><p>WEC-Sim v1.1, <a class="reference external" href="https://github.com/WEC-Sim/WEC-Sim/releases/tag/v1.1">now available on GitHub</a></p></li>
 <li><p>Improvements in code stability through modifications to the added mass, radiation damping calculations, and impulse response function calculations</p></li>
@@ -345,8 +347,8 @@
 <li><p>Documentation available on WEC-Sim Website</p></li>
 </ul>
 </div>
-<div class="section" id="id10">
-<h3><a class="reference external" href="https://github.com/WEC-Sim/WEC-Sim/releases/tag/v1.0">WEC-Sim v1.0</a><a class="headerlink" href="#id10" title="Permalink to this headline">¶</a></h3>
+<div class="section" id="id11">
+<h3><a class="reference external" href="https://github.com/WEC-Sim/WEC-Sim/releases/tag/v1.0">WEC-Sim v1.0</a><a class="headerlink" href="#id11" title="Permalink to this headline">¶</a></h3>
 <ul class="simple">
 <li><p>Initial release of WEC-Sim (originally on OpenEI, now available on GitHub)</p></li>
 <li><p>Available as a static download</p></li>
@@ -376,7 +378,7 @@
 
   <div role="contentinfo">
     <p>
-        &copy; Copyright 2015, National Renewable Energy Laboratory and Sandia Corporation
+        &copy; Copyright 2014, National Renewable Energy Laboratory and National Technology &amp; Engineering Solutions of Sandia, LLC (NTESS)
 
     </p>
   </div>
