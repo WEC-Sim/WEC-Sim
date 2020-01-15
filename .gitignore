@@ -67,7 +67,11 @@ WECSim_Lib_2018b.slx
 !/tutorials/verificationCases/RegularWaves/regularSS/regularSS_org.mat
 !/tutorials/verificationCases/IrregularWaves/irregularSS/irregularSS_org.mat
 !/tutorials/verificationCases/IrregularWaves/irregularCIC/irregularCIC_org.mat
-
+!/tutorials/verificationCases/RegularWaves/regular/regular.mat
+!/tutorials/verificationCases/RegularWaves/regularCIC/regularCIC.mat
+!/tutorials/verificationCases/RegularWaves/regularSS/regularSS.mat
+!/tutorials/verificationCases/IrregularWaves/irregularSS/irregularSS.mat
+!/tutorials/verificationCases/IrregularWaves/irregularCIC/irregularCIC.mat
 # moorDyn
 source/functions/moorDyn/*
 !source/functions/moorDyn/README.md
