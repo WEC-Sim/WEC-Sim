@@ -127,6 +127,6 @@ Step 3. Test the Installation
 		
 	This should run an example case using the Reference Model 3 point absorber. A SimMechanics Explorer window will open within the MATLAB window, and figures will be generated displaying simulation outputs. 
 
-	.. Note:: If the error 'This is not the correct *.h5 file. Please install git-lfs to access the correct *.h5 file, or run \hydroData\bemio.m to generate a new *.h5 file.' is produced, there was a problem with git-lfs. Either repeat the git-lfs installation, or run ``$SOURCE/tutorials/RM3/hydroData/bemio.m`` to generate the correct 'rm3.h5' file.
+	.. Note:: If the error 'This is not the correct *.h5 file. Please install git-lfs to access the correct *.h5 file, or run ./hydroData/bemio.m to generate a new *.h5 file.' is produced, there was a problem with git-lfs. Either repeat the git-lfs installation, or run ``$SOURCE/tutorials/RM3/hydroData/bemio.m`` to generate the correct 'rm3.h5' file.
 	
 	
