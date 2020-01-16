@@ -1,6 +1,6 @@
-addpath(genpath('.\tutorials\verificationCases'))
+addpath(genpath('.\tests'))
 addpath(genpath('.\source'))
-runVerificationCases
+run_wecSim_tests
 % setting up Jenkins CI
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 % Regular Wave Tests

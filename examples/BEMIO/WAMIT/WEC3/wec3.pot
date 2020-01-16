@@ -1,0 +1,17 @@
+wec3.pot -- file type .gdf, ILOWHI=0, IRR=1
+0.                              HBOT
+1           1                  	IRAD, IDIFF
+ -402                         	NPER
+ -0.02 0.02                    	PER 
+ -10                        	NBETA 
+0.0 10.0                       	BETA 
+ 3 				NBODY
+base.gdf 
+ 0.0 0.0 -9.0 0.0 		XBODY(1-4)
+ 1  1  1  1  1  1               IMODE(1-6)
+flap1.gdf 
+ -12.5 0.0 -5.5 0.0 		XBODY(1-4)
+ 1  1  1  1  1  1               IMODE(1-6)
+flap2.gdf 
+ 12.5 0.0 -5.5 0.0 		XBODY(1-4)
+ 1  1  1  1  1  1               IMODE(1-6)

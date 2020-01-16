@@ -1,0 +1,11 @@
+sphere.pot -- file type .gdf, ILOWHI=0, IRR=1
+50.                             HBOT
+1           1                  	IRAD, IDIFF
+ -422                         	NPER
+ -0.02 0.02                    	PER 
+  1                            	NBETA 
+0.0                            	BETA 
+ 1 				NBODY
+sphere.gdf 
+ 0.0 0.0 -2.0 0.0 		XBODY(1-4)
+ 1  1  1  1  1  1               IMODE(1-6)
