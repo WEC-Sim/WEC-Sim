@@ -10,7 +10,7 @@ MATLAB Toolbox Requirements
 WEC-Sim is developed in MATLAB/Simulink, and requires the toolboxes listed below. 
 WEC-Sim's Simulink Library was saved in Matlab version R2015b, thus it is the oldest MATLAB release compatible with WEC-Sim. 
 Any release newer than R2015b should be compatible with WEC-Sim.
-We recommend running WEC-Sim in MATLAB 2016b or newer. 
+We recommend running WEC-Sim in MATLAB 2016b or newer. Certain advanced features relying on external functions, such as ``moorDyn``, may not be compatible with older versions of MATLAB. Full functionality has been verified on 2018a through 2019b. 
  
 	==========================  ============================		
 	**Required Toolbox**        **Oldest Compatible Version**
@@ -93,7 +93,9 @@ Step 1. Add WEC-Sim Source Code to MATLAB Path
 
 		>> path
 
-
+	This will list the MATLAB search path. The WEC-Sim source directory and subfolders should appear in this list. 
+	
+	
 Step 2. Add WEC-Sim Library to Simulink
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 	Open the Simulink Library Browser by typing ``slLibraryBrowser`` into the MATLAB Command Window:
@@ -111,6 +113,23 @@ Step 2. Add WEC-Sim Library to Simulink
 
 	   *WEC-Sim Library*
 
+Step 3. Test the Installation
+^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+	In the MATLAB command window, type::
+			
+		>> cd $SOURCE/tutorials/RM3
+	
+	
+	or navigate in the MATLAB file tree to that directory, and then type::
+		
+		>> wecSim
+
+		
+	This should run an example case using the Reference Model 3 point absorber. A SimMechanics Explorer window will open within the MATLAB window, and figures will be generated displaying simulation outputs. 
 
 
-
+.. Note:: 
+	
+	If the error "This is not the correct ``*.h5`` file. Please install git-lfs to access the correct ``*.h5`` file, or run ``./hydroData/bemio.m`` to generate a new ``*.h5 file``." is produced, there was a problem with git-lfs. Either repeat the git-lfs installation, or run ``SOURCE/tutorials/RM3/hydroData/bemio.m`` to generate the correct ``rm3.h5`` file.
+	
+	

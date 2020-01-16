@@ -34,10 +34,16 @@ The WEC-Sim documentation located on the [gh-pages branch](https://github.com/WE
   - When compiling the website, ``make clean`` and then ``make html``
 
 ### Formatting Guidelines
-  - `*.mat` syntax to refer to file extension
   - `$CASE` to refer to WEC-Sim case directory
   - `$SOURCE` to refer to WEC-Sim source directory
+  - `*.mat` syntax to refer to file extension
   - use ``insert code`` to reference code
+  - Title `####` with overline
+  - Heading 1 `======`
+  - Heading 2 `------`
+  - Heading 3 `^^^^^^`
+  - Heading 4 `""""""`
+  - Use this style guide: https://documentation-style-guide-sphinx.readthedocs.io/en/latest/style-guide.html
 
 ### Terminology Guidelines
   - post-processing (not postprocessing)
