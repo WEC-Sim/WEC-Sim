@@ -1,6 +1,6 @@
-% This class contains WEC-Sim simulation parameters and settings
-%
-% Copyright 2014 the National Renewable Energy Laboratory and Sandia Corporation
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% Copyright 2014 National Renewable Energy Laboratory and National 
+% Technology & Engineering Solutions of Sandia, LLC (NTESS). 
 %
 % Licensed under the Apache License, Version 2.0 (the "License");
 % you may not use this file except in compliance with the License.
@@ -15,8 +15,9 @@
 % limitations under the License.
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
-classdef simulationClass<handle
 
+classdef simulationClass<handle
+    % This class contains WEC-Sim simulation parameters and settings
     properties (SetAccess = 'public', GetAccess = 'public')%input file
         simMechanicsFile    = 'NOT DEFINED'                                % Simulink/SimMecahnics model file (default = 'NOT DEFINED')
         startTime           = 0                                            % Simulation start time (default = 0 s)
