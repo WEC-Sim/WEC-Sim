@@ -35,7 +35,7 @@ Input File           ``wecSimInputFile.m``  ``$CASE``
 
 
 Hydrodynamic Data
-~~~~~~~~~~~~~~~~~~~~
+^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 * The Hydrodynamic coefficients for each body may be generated using a boundary element method (BEM) code (e.g., **WAMIT**, **NEMOH** or **AQWA**). 
 * The WEC-Sim code also requires hydrodynamic data from the BEM solution in the form of HDF5 format (``*.h5`` file).
 * This ``*.h5`` hydrodynamic data file can be generated using the BEMIO pre-processor.
@@ -44,7 +44,7 @@ Hydrodynamic Data
 
 
 Geometry File
-~~~~~~~~~~~~~~
+^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 * The WEC-Sim code also requires a geometry file in the form of a ``*.stl`` file. 
 * This ``*.stl`` file is used by the WEC-Sim code to generate the Simscape Explorer visualization, and by the nonlinear buoyancy and Froude-Krylov forces option to determine the instantaneous wetted surface at each time step. 
 * When running WEC-Sim with linear hydrodynamics, the ``*.stl`` is only used for visualization. 
@@ -52,7 +52,7 @@ Geometry File
 
 
 Simulink Model 
-~~~~~~~~~~~~~~
+^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 * In addition to an input file, all WEC-Sim runs require a Simulink model file (``*.slx``). An example Simulink model file for the OSWEC is shown below. 
 * For more information about the OSWEC, and how to build WEC-Sim Simulink models, refer to the `Tutorials <http://wec-sim.github.io/WEC-Sim/tutorials.html>`_ section.
 
@@ -67,7 +67,7 @@ Simulink Model
 
 
 Input File 
-~~~~~~~~~~~
+^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 * A WEC-Sim input file (``wecSimInputFile.m``) is required for each run. The input file **MUST** be named ``wecSimInputFile.m`` and placed within the case directory. 
 * The main structure of the input file consists of initializing all the objects necessary to run WEC-Sim simulations, and defining any user specified properties for each object.
 * The input file for each WEC-Sim simulation requires initialization and definition of the simulation and wave classes, at least one instance of the body class, and at least one instance of the constraint or PTO classes.
@@ -90,7 +90,7 @@ This section provides a description of the steps to run the WEC-Sim code, refer 
 
 
 Step 1: WEC-Sim Pre-Processing 
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 In the pre-processing step, users need to create the WEC geometry, run a BEM code to calculate the hydrodynamic coefficients, and convert the hydrodynamic coefficients into the ``*.h5`` format for WEC-Sim to read:
 
 * **Create WEC Geometry**: 
@@ -128,7 +128,7 @@ In the pre-processing step, users need to create the WEC geometry, run a BEM cod
 .. Note:: Users are also able to specify their own hydrodynamic coefficients by creating their own ``*.h5`` file with customized hydrodynamic coefficients following the ``*.h5`` format created by BEMIO.
 
 Step 2: Build a WEC-Sim Simulink Model
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 In this step, users build their WEC-Sim Simulink model (``*.slx``) using the `WEC-Sim Library <http://wec-sim.github.io/WEC-Sim/code_structure.html#wec-sim-library>`_ developed in Simulink/Simscape. 
 The ``*.slx`` Simulink model file must be located in the ``$CASE`` directory. 
 The figure below shows an example WEC-Sim Simulink model for the OSWEC tutorial.
@@ -144,14 +144,14 @@ The figure below shows an example WEC-Sim Simulink model for the OSWEC tutorial.
    
 
 Step 3: Write the WEC-Sim Input File
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 The WEC-Sim input file must be located in the ``$CASE`` directory, and named ``wecSimInputFile.m``. The figure below shows an example of a WEC-Sim input file. The input file specifies the simulation settings, body mass properties, wave conditions, joints, and mooring. Additionally, the WEC-Sim input file must specify the location of the WEC-Sim Simulink model (``*.slx``) file, the geometry file(s) ``*.stl``, and the hydrodynamic data file (``*.h5``) .
 
 .. figure:: _static/runWECSim_mod.png
    :width: 600pt
 
 Step 4: Execute WEC-Sim
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 Lastly, execute the WEC-Sim code by typing ``wecSim`` into the MATLAB Command Window. 
 The WEC-Sim source code is located in the ``$Source`` directory, but ``wecSim`` must be executed from the ``$CASE`` directory.
 
