@@ -117,7 +117,7 @@ Step 3. Test the Installation
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 	In the MATLAB command window, type::
 			
-		>> cd $SOURCE/tutorials/RM3
+		>> cd $SOURCE/examples/RM3
 	
 	
 	or navigate in the MATLAB file tree to that directory, and then type::

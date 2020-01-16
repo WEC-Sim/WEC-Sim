@@ -29,12 +29,12 @@ The user can interact with these classes within the WEC-Sim input file (``wecSim
 The remainder of this section describes the role of the WEC-Sim objects, and how to interact with the WEC-Sim objects to define input properties. 
 
 There are two ways to look at the available properties and methods within a class.
-The first is to type ``doc <className>`` in Matlab Command Window, and the second is to open the class definitions located in the ``//WEC-Sim/source/objects`` directory by typing ``open <className>`` in MATLAB Command Window.
+The first is to type ``doc <className>`` in Matlab Command Window, and the second is to open the class definitions located in the ``$SOURCE/objects`` directory by typing ``open <className>`` in MATLAB Command Window.
 The latter provides more information since it also defines the different fields in a structure.
 
 Simulation Class
 ^^^^^^^^^^^^^^^^^^^^^^^
-The simulation class file, ``simulationClass.m``, is located in the ``$SOURCE//objects`` directory. 
+The simulation class file, ``simulationClass.m``, is located in the ``$SOURCE/objects`` directory. 
 The simulation class contains the simulation parameters and solver settings necessary to execute the WEC-Sim code. 
 Within the ``wecSimInputFile.m``, users must initialize the simulation class (``simulationClass``) and specify the name of the  WEC-Sim (``*.slx``) model file by including the following lines::
 
@@ -75,7 +75,7 @@ Users must specify additional wave class properties using the ``waves`` object d
 ``etaImport``       ``waves.etaDataFile``                      
 ================== =================================== 
 
-Available wave class properties, default values, and functions can be found by typing ``doc waveClass`` in the MATLAB command window, or by opening the ``waveClass.m`` file in ``$SOURCE/objects`` directory by typing ``open wavenClass`` in the Matlab Command Window.
+Available wave class properties, default values, and functions can be found by typing ``doc waveClass`` in the MATLAB command window, or by opening the ``waveClass.m`` file in ``$SOURCE/objects`` directory by typing ``open waveClass`` in the Matlab Command Window.
 
 noWave
 """"""""""""""""""""""""""""""
