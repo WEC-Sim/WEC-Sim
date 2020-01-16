@@ -104,6 +104,7 @@
 <li class="toctree-l2"><a class="reference internal" href="#install-wec-sim">Install WEC-Sim</a><ul>
 <li class="toctree-l3"><a class="reference internal" href="#step-1-add-wec-sim-source-code-to-matlab-path">Step 1. Add WEC-Sim Source Code to MATLAB Path</a></li>
 <li class="toctree-l3"><a class="reference internal" href="#step-2-add-wec-sim-library-to-simulink">Step 2. Add WEC-Sim Library to Simulink</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#step-3-test-the-installation">Step 3. Test the Installation</a></li>
 </ul>
 </li>
 </ul>
@@ -191,7 +192,7 @@
 <p>WEC-Sim is developed in MATLAB/Simulink, and requires the toolboxes listed below.
 WEC-Sim’s Simulink Library was saved in Matlab version R2015b, thus it is the oldest MATLAB release compatible with WEC-Sim.
 Any release newer than R2015b should be compatible with WEC-Sim.
-We recommend running WEC-Sim in MATLAB 2016b or newer.</p>
+We recommend running WEC-Sim in MATLAB 2016b or newer. Certain advanced features relying on external functions, such as <code class="docutils literal notranslate"><span class="pre">moorDyn</span></code>, may not be compatible with older versions of MATLAB. Full functionality has been verified on 2018a through 2019b.</p>
 <blockquote>
 <div><table class="docutils align-default">
 <colgroup>
@@ -289,6 +290,7 @@ We recommend running WEC-Sim in MATLAB 2016b or newer.</p>
 <div class="highlight-matlabsession notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt; </span><span class="n">path</span>
 </pre></div>
 </div>
+<p>This will list the MATLAB search path. The WEC-Sim source directory and subfolders should appear in this list.</p>
 </div></blockquote>
 </div>
 <div class="section" id="step-2-add-wec-sim-library-to-simulink">
@@ -304,6 +306,24 @@ We recommend running WEC-Sim in MATLAB 2016b or newer.</p>
 <div class="legend">
 <p><em>WEC-Sim Library</em></p>
 </div>
+</div>
+</div></blockquote>
+</div>
+<div class="section" id="step-3-test-the-installation">
+<h3>Step 3. Test the Installation<a class="headerlink" href="#step-3-test-the-installation" title="Permalink to this headline">¶</a></h3>
+<blockquote>
+<div><p>In the MATLAB command window, type:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span>&gt;&gt; cd $SOURCE/tutorials/RM3
+</pre></div>
+</div>
+<p>or navigate in the MATLAB file tree to that directory, and then type:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="o">&gt;&gt;</span> <span class="n">wecSim</span>
+</pre></div>
+</div>
+<p>This should run an example case using the Reference Model 3 point absorber. A SimMechanics Explorer window will open within the MATLAB window, and figures will be generated displaying simulation outputs.</p>
+<div class="admonition note">
+<p class="admonition-title">Note</p>
+<p>If the error ‘This is not the correct <a href="#id2"><span class="problematic" id="id3">*</span></a>.h5 file. Please install git-lfs to access the correct <a href="#id4"><span class="problematic" id="id5">*</span></a>.h5 file, or run hydroDatabemio.m to generate a new <a href="#id6"><span class="problematic" id="id7">*</span></a>.h5 file.’ is produced, there was a problem with git-lfs. Either repeat the git-lfs installation, or run <code class="docutils literal notranslate"><span class="pre">$SOURCE/tutorials/RM3/hydroData/bemio.m</span></code> to generate the correct ‘rm3.h5’ file.</p>
 </div>
 </div></blockquote>
 </div>
