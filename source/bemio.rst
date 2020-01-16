@@ -15,7 +15,7 @@ The BEMIO tutorials are included in the ``$Source/tutorials/BEMIO`` directory in
 	Previously the `python based BEMIO code <http://wec-sim.github.io/bemio/installing.html>`_ was used for this purpose. The python BEMIO functions have been converted to MATLAB and are included in the WEC-Sim source code. The python based BEMIO code will remain available but will no longer be  supported. 
 
 BEMIO Functions
-~~~~~~~~~~~~~~~~
+^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
 **Read_WAMIT:** Reads data from a WAMIT output file
 
@@ -106,7 +106,7 @@ BEMIO Functions
 
 
 BEMIO *hydro* Data Structure
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
 ============  ========================  ======================================
 **Variable**  **Format**                **Description**
@@ -160,7 +160,7 @@ omega         [1,Nf]                    wave frequencies
 
 
 Writing Your Own h5 File
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 The most common way of creating a ``*.h5`` file is using BEMIO to post-process the outputs of a BEM code.
 This requires a single BEM solution that contains all hydrodynamic bodies and accounts for body-to-body interactions.
 Some cases in which you might want to create your own h5 file are:

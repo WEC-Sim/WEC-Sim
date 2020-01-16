@@ -14,7 +14,7 @@ This section describes the application of the WEC-Sim code to model the Referenc
 This example application is provided in the WEC-Sim code release in the ``$Source/tutorials`` directory.
 
 Device Geometry
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+^^^^^^^^^^^^^^^^^^^^^^^
 The RM3 two-body point absorber WEC has been characterized both numerically and experimentally as a result of the DOE-funded `Reference Model Project <http://energy.sandia.gov/rmp>`_. 
 The RM3 is a two-body point absorber consisting of a float and a reaction plate. Full-scale dimensions of the RM3 and its mass properties are shown below.
 
@@ -48,7 +48,7 @@ The RM3 is a two-body point absorber consisting of a float and a reaction plate.
 +------+---------+----------+----------+----------+ 
 
 WEC-Sim Model Files
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+^^^^^^^^^^^^^^^^^^^^^^^
 Below is an overview of the files required to run the RM3 simulation in WEC-Sim. For the RM3 WEC, there are two corresponding geometry files: ``float.stl`` and ``plate.stl``. In addition to the required files listed below, users may supply a ``userDefinedFunctions.m`` file for post-processing results once the WEC-Sim run is complete. 
 
 ==================   =============================  =============================
@@ -60,7 +60,7 @@ Geometry Files       ``float.stl`` & ``plate.stl``  ``/tutorials/rm3/geometry/``
 ==================   =============================  =============================
 
 Run Tutorial
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+^^^^^^^^^^^^^^^^^^^^^^^
 
 
 **Step 1: WEC-Sim Pre-Processing**
@@ -143,7 +143,7 @@ This example application is provided in the WEC-Sim code release in the ``$Sourc
 
 
 Device Geometry
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+^^^^^^^^^^^^^^^^^^^^^^^
 The OSWEC was selected because its design is fundamentally different from the RM3. This is critical because WECs span an extensive design space, and it is important to model devices in WEC-Sim that operate under different principles.  The OSWEC is fixed to the ground and has a flap that is connected through a hinge to the base that restricts the flap in order to pitch about the hinge. The full-scale dimensions of the OSWEC and the mass properties are shown in the figure and table below.
 
 .. figure:: _static/OSWEC_Geom.png
@@ -165,7 +165,7 @@ The OSWEC was selected because its design is fundamentally different from the RM
 
 
 WEC-Sim Model Files
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+^^^^^^^^^^^^^^^^^^^^^^^
 Below is an overview of the files required to run the OSWEC simulation in WEC-Sim. For the OSWEC, there are two corresponding geometry files: ``flap.stl`` and ``base.stl``. In addition to the required files listed below, users may supply a ``userDefinedFunctions.m`` file for post-processing results once the WEC-Sim run is complete. 
 
 ==================   ============================  ===============================
@@ -178,7 +178,7 @@ Geometry Files       ``flap.stl`` & ``base.stl``   ``/tutorials/oswec/geometry/`
 
 
 Run Tutorial
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+^^^^^^^^^^^^^^^^^^^^^^^
 
 **Step 1: WEC-Sim Pre-Processing**
 

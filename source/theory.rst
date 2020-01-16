@@ -82,7 +82,7 @@ However, for random sea simulations or any simulations where fluid memory effect
 To speed computation of the convolution integral, the state space representation method can be specified to approximate this calculation as a system of linear ordinary differential equations. 
 
 Ramp Function
-~~~~~~~~~~~~~~~
+^^^^^^^^^^^^^^^^^^^^^^^
 A ramp function (:math:`R_{f}`), necessary to avoid strong transient flows at the earlier time steps of the simulation, is used to calculate the wave excitation force. The ramp function is given by
 
 .. math::
@@ -95,7 +95,7 @@ A ramp function (:math:`R_{f}`), necessary to avoid strong transient flows at th
 where :math:`t` is the simulation time and :math:`t_{r}` is the ramp time.
 
 Sinusoidal Steady-State Response 
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 This approach assumes that the system response is in sinusoidal steady-state form; therefore, it is only valid for regular wave simulations. The radiation term can be calculated using the added mass and the wave radiation damping term for a given wave frequency, which is obtained from
 
 .. math::
@@ -114,7 +114,7 @@ The free surface profile is based on linear wave theory for a given wave height,
 where :math:`\Re` denotes the real part of the formula, :math:`R_{f}` is the ramp function, :math:`H` is the wave height, :math:`F_{exc}` is the frequency dependent complex wave-excitation amplitude vector, and :math:`\theta` is the wave direction.
 
 Convolution Integral Formulation
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 To include the fluid memory effect, the convolution integral formulation based upon the Cummins equation :cite:`Cummins1962` is used. The radiation term can be calculated by
 
 .. math::
@@ -134,7 +134,7 @@ Each regular wave component is extracted from a wave spectrum, :math:`S(\omega)`
 where :math:`\phi` is the randomized phase angle and :math:`N` is the number of frequency bands selected to discretize the wave spectrum. For repeatable simulation of an irregular wave field :math:`S(\omega)`, WEC-Sim allows specification of :math:`\phi`, refer to the following `wave features <http://wec-sim.github.io/WEC-Sim/advanced_features.html#irregular-waves-with-seeded-phase>`_ section. 
 
 State Space  
-~~~~~~~~~~~~
+^^^^^^^^^^^^^^^^^^^^^^^
 It is highly desirable to represent the radiation convolution integral described in the last subsection in state space (SS) form :cite:`Yu1996`.  This has been shown to dramatically increase computational speeds :cite:`Taghipour2008` and allow utilization of conventional control methods that rely on linear state space models.  An approximation will need to be made as :math:`K_{r}` is solved from a set of partial differential equations where as a `linear state space` is constructed from a set of ordinary differential equations.  In general, a linear system is desired such that:
 
 .. math::
@@ -145,7 +145,7 @@ It is highly desirable to represent the radiation convolution integral described
 with :math:`\mathbf{A_{r}},~\mathbf{B_{r}},~\mathbf{C_{r}},~\mathbf{D_{r}}` being the time-invariant state, input, output, and feed through matrices, while :math:`u` is the input to the system and :math:`X_{r}` is the state vector describing the convolution kernal as time progresses.
 
 Calculation of :math:`K_{r}` from State Space Matrices
-......................................................
+""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 
 The impulse response of a single-input zero-state state-space model is represented by
 
@@ -174,7 +174,7 @@ where :math:`e^{\mathbf{A_{r}}}` is the matrix exponential and the calculation o
 	K_{r}(t) = \mathbf{C_{r}}e^{\mathbf{A_{r}}t}\mathbf{B_{r}}~~
 
 Realization Theory
-..................
+""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 The state space realization of the hydrodynamic radiation coefficients can be pursued in the time domain (TD). This consists of finding the minimal order of the system and the discrete time state matrices (:math:`\mathbf{A_{d}},~\mathbf{B_{d}},~\mathbf{C_{d}},~\mathbf{D_{d}}`) from samples of the impulse response function.  This problem is easier to handle for a discrete-time system than for continuous-time. The reason being is that the impulse response function of a discrete-time system is given by the Markov parameters of the system:
 
 .. math::
@@ -258,7 +258,7 @@ The spectral moment, :math:`m_{0}` is the variance of the free surface which all
 
 
 Pierson--Moskowitz (PM)
-~~~~~~~~~~~~~~~~~~~~~~~
+^^^^^^^^^^^^^^^^^^^^^^^
 One of the simplest spectra, the Pierson--Moskowitz spectrum, was proposed by :cite:`PM`. It assumed that after the wind blew steadily for a long time over a large area, the waves would come into equilibrium with the wind. This is the concept of a fully developed sea where a "long time" is roughly 10,000 wave periods and a "large area" is roughly 5,000 wave-lengths on a side.  The spectrum is calculated from:
 
 .. math::
@@ -278,7 +278,7 @@ where the parameter :math:`\alpha_{PM}` = 0.0081 typically, :math:`g=9.81` m/s i
 	
 
 Bretschneider (BS)
-~~~~~~~~~~~~~~~~~~
+^^^^^^^^^^^^^^^^^^^^^^^
 The two-parameter Bretschneider spectrum is based on significant wave height and peak wave frequency.  For a given significant wave height, the peak frequency can be varied to cover a range of conditions including developing and decaying seas. In general, the parameters depend on strongly on wind speed, and also wind direction, fetch, and locations of storm fronts. The spectrum is given as:
 
 .. math::
@@ -297,7 +297,7 @@ This implies coefficients of the general form:
 	
 
 JONSWAP (JS)
-~~~~~~~~~~~~
+^^^^^^^^^^^^^^^^^^^^^^^
 The JONSWAP (Joint North Sea Wave Project) spectrum was purposed by Hasselmann et al. :cite:`HK`, and the original formulation was given as:
 
 .. math::
@@ -334,8 +334,7 @@ Power Take-Off (PTO)
 Throughout the following sections, unless specification is made between linear and rotary PTOs, units are not explicitly stated.
 
 Linear PTO
-~~~~~~~~~~~
-
+^^^^^^^^^^^^^^^^^^^^^^^
 The PTO mechanism is represented as a linear spring-damper system where the reaction force is given by: 
 
 .. math::
@@ -352,7 +351,7 @@ The instantaneous power absorbed by the PTO is given by:
 
 
 Hydraulic PTO
-~~~~~~~~~~~~~
+^^^^^^^^^^^^^^^^^^^^^^^
 
 The PTO mechanism is modeled as a hydraulic system :cite:`So`, where the reaction force is given by:
 
@@ -369,8 +368,7 @@ The instantaneous hydraulic power absorbed by the PTO is given by:
 
 
 Mechanical PTO
-~~~~~~~~~~~~~~
-
+^^^^^^^^^^^^^^^^^^^^^^^
 The PTO mechanism is modeled as a direct-drive linear generator system :cite:`So`, where the reaction force is given by:
 
 .. math::
@@ -393,7 +391,7 @@ Mooring
 The mooring load is represented using a linear quasi-static mooring stiffness or by using the mooring forces calculated from `MoorDyn <http://www.matt-hall.ca/moordyn>`_ :cite:`Hall2015MoorDynGuide`, which is an open-source lumped-mass mooring dynamics model. 
 
 Mooring Matrix
-~~~~~~~~~~~~~~
+^^^^^^^^^^^^^^^^^^^^^^^
 When linear quasi-static mooring stiffness is used, the mooring load can be calculated by
 
 .. math::
@@ -402,7 +400,7 @@ When linear quasi-static mooring stiffness is used, the mooring load can be calc
 where :math:`K_{m}` and :math:`C_{m}` are the stiffness and damping matrices for the mooring system, and :math:`X` and :math:`\dot{X}` are the displacement and velocity of the body, respectively.
 
 MoorDyn
-~~~~~~~
+^^^^^^^^^^^^^^^^^^^^^^^
 MoorDyn discretizes each mooring line in a mooring system into evenly-sized line segments connected by node points (see :ref:`MoorDyn figure <MoorDynFig>`). The line mass is lumped at these node points along with gravitational and buoyancy forces, hydrodynamic loads, and reactions from contact with the seabed.  Hydrodynamic drag and added mass are calculated based on Morison's equation.  A mooring line's axial stiffness is modeled by applying a linear stiffness to each line segment in tension only.  A damping term is also applied in each segment to dampen non-physical resonances caused by the lumped-mass discretization.  Bending and torsional stiffnesses are neglected.  Bottom contact is represented by vertical stiffness and damping forces applied at the nodes when a node is located below the seabed. :cite:`Hall2015ValidationData`.  
 
 .. _MoorDynFig:
@@ -443,7 +441,7 @@ Viscous Damping and Morison Elements
 Additional damping and added-mass can be added to the WEC system. This facilitates experimental validation of the WEC-Sim code, particularly in the event that the BEM hydrodynamic outputs are not sufficiently representative of the physical system.  
 
 Viscous Damping
-~~~~~~~~~~~~~~~~
+^^^^^^^^^^^^^^^^^^^^^^^
 Linear damping and quadratic drag forces add flexibility to the definition of viscous forcing
 
  .. math::
@@ -457,7 +455,7 @@ where :math:`C_{v}` is the linear (viscous) damping coefficient, :math:`C_{d}` i
 Because BEM codes are potential flow solvers and neglect the effects of viscosity, :math:`F_{v}` generally must be included to accurately model device performance. However, it can be difficult to select representative drag coefficients, as they depend on device geometry, scale, and relative velocity between the body and the flow around it. Empirical data on the drag coefficient can be found in various literature and standards, but is generally limited to simple geometries evaluated at a limited number of scales and flow conditions. For realistic device geometries, the use of computational fluid dynamic simulations or experimental data is encouraged.
 
 Morison Elements 
-~~~~~~~~~~~~~~~~
+^^^^^^^^^^^^^^^^^^^^^^^
 The Morison Equation assumes that the fluid forces in an oscillating flow on a structure of slender cylinders or other similar geometries arise partly from pressure effects from potential flow and partly from viscous effects. A slender cylinder implies that the diameter, D, is small relative to the wave length, :math:`\lambda`, which is generally met when :math:`D/\lambda < 0.1 - 0.2`. If this condition is not met, wave diffraction effects must be taken into account. Assuming that the geometries are slender, the resulting force can be approximated by a modified Morison formulation :cite:`Morison1950`. The formulation for each element on the body can be given as
 
  .. math::

@@ -20,7 +20,7 @@ It should only be turned on when visualization is desired. The user also needs t
 
 
 Getting Started - Installation
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 	You will need to install `Paraview <http://www.paraview.org/>`_ and install and setup Python.  
 	Next you will need to add some WEC-Sim specific macros, as follows:
 
@@ -32,7 +32,7 @@ Getting Started - Installation
 
 
 Setting Up Paraview Output
-~~~~~~~~~~~~~~~~~~~~~~~~~~
+^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 	The following table shows the variables that can be specified in the ``wecSimInputFile`` to control the Paraview visualization. The ``body.viz`` properties are also used in the SimMechanics explorer visualization.
 
 +------------------------------------------------------------------------------------+
@@ -62,7 +62,7 @@ Setting Up Paraview Output
 
 
 Outputs and Opening in Paraview
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 	When ``simu.paraview`` is set to 1, a directory called ``vtk`` is created. 
 	All files necessary for Paraview visualization are located there.
 	To view in Paraview:
@@ -82,7 +82,7 @@ Outputs and Opening in Paraview
 
 
 Basic Visualization Manipulation
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 	After opening the ``.pvd`` file and running the ``WEC-Sim`` macro you can do a number of things to visualize the simulation in different ways. 
 	You can color waves and bodies by any of the available properties and apply any of the Paraview filters.
 
@@ -95,7 +95,7 @@ Basic Visualization Manipulation
 
 
 Visualizing Non-Linear Buoyancy and Froude-Krylov Wave Excitation
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 	When using non-linear buoyancy and Froude-Krylov Wave Excitation the paraview files also contain cell data for the bodies.
 	The cell data are:
 

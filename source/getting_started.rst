@@ -44,7 +44,7 @@ Download WEC-Sim
 There are three ways of obtaining the WEC-Sim code which is distributed through the `WEC-Sim GitHub repository <https://github.com/WEC-Sim/wec-sim>`_: 
  
 Option 1. Clone Repository from GitHub (Recommended for Users)
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 	The WEC-Sim source code can be obtained by `cloning <https://help.github.com/articles/cloning-a-repository/>`_ the WEC-Sim repository hosted on GitHub and installing Git Large File Storage (git lfs) to access large files (i.e. ``*.h5`` files). This is accomplished by typing the following lines into Git BASH::
 
 		>> git clone https://github.com/WEC-Sim/WEC-Sim
@@ -59,11 +59,11 @@ Option 1. Clone Repository from GitHub (Recommended for Users)
 		
 
 Option 2. Fork with Git (Recommended for Developers)
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 	If you plan to contribute to the WEC-Sim code, please follow the `forking instructions <https://help.github.com/articles/fork-a-repo/>`_  provided by GitHub. Should you make improvements to the code that you would like included in the WEC-Sim master code, please submit a `pull request <https://help.github.com/articles/using-pull-requests/>`_. This pull request will then be reviewed, merged into `WEC-Sim master <https://github.com/WEC-Sim/WEC-Sim>`_, and included in future WEC-Sim releases.
 
 Option 3. Static Code Download (Not Recommended)
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 	The easiest way to obtain a copy of WEC-Sim is to download the latest `WEC-Sim Release <https://github.com/WEC-Sim/WEC-Sim/releases>`_. This is a static download of the WEC-Sim code. If you choose this method, you will have to re-download the package in order to receive code updates.
 
 
@@ -75,7 +75,7 @@ Once you have downloaded the WEC-Sim source code, take the following steps to in
 
 
 Step 1. Add WEC-Sim Source Code to MATLAB Path
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 	Open the ``$SOURCE/wecSimStartup.m`` file ($SOURCE refers to WEC-Sim source code directory).
 
 	.. literalinclude:: wecSimStartup.m
@@ -95,7 +95,7 @@ Step 1. Add WEC-Sim Source Code to MATLAB Path
 
 
 Step 2. Add WEC-Sim Library to Simulink
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 	Open the Simulink Library Browser by typing ``slLibraryBrowser`` into the MATLAB Command Window:
 
 	.. code-block:: matlabsession
