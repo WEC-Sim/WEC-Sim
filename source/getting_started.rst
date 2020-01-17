@@ -41,8 +41,8 @@ Download WEC-Sim
 WEC-Sim is hosted on the `WEC-Sim GitHub repository <https://github.com/WEC-Sim/wec-sim>`_. 
 There are three ways of obtaining the WEC-Sim code, detailed below.
  
-Option 1. Clone Repository from GitHub (Recommended for Users)
-^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+Option 1. Clone Repository from GitHub 
+^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 The WEC-Sim source code can be obtained by `cloning <https://help.github.com/articles/cloning-a-repository/>`_ the WEC-Sim GitHub repository and installing `Git Large File Storage <https://git-lfs.github.com/>`_ (git lfs) to access large files (e.g. ``*.h5`` files). This is accomplished by typing the following commands into Git BASH::
 
 	>> git clone https://github.com/WEC-Sim/WEC-Sim
@@ -52,16 +52,19 @@ This method is recommended for users because the local copy of WEC-Sim can easil
 
 	>> git pull
 
+This option is recommended for WEC-Sim users. 
 
-
-Option 2. Fork Repository on GitHub (Recommended for Developers)
-^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+Option 2. Fork Repository on GitHub 
+^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 If you plan to contribute to the WEC-Sim code, please follow the `forking instructions <https://help.github.com/articles/fork-a-repo/>`_  provided by GitHub. If you make improvements to the code that you would like included in the WEC-Sim master code, please submit a `pull request <https://help.github.com/articles/using-pull-requests/>`_. This pull request will then be reviewed, merged into `WEC-Sim master <https://github.com/WEC-Sim/WEC-Sim>`_, and included in future WEC-Sim releases.
 
-Option 3. Static Code Download (Not Recommended)
-^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
-The easiest way to obtain a copy of WEC-Sim is to download the latest tagged `WEC-Sim Release <https://github.com/WEC-Sim/WEC-Sim/releases>`_. This is a static download of the WEC-Sim code. If you choose this method, you will have to re-download the package in order to receive code updates.
+This option is recommended for WEC-Sim developers. 
 
+Option 3. Static Code Download 
+^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+The easiest way to obtain a copy of WEC-Sim is to download the latest tagged `WEC-Sim Release <https://github.com/WEC-Sim/WEC-Sim/releases>`_. This is a static download of the WEC-Sim code. 
+
+This option is not recommended. If you choose this option, you will have to manually download the WEC-Sim code in order to receive updates.
 
 
 Install WEC-Sim
@@ -107,7 +110,7 @@ The WEC-Sim Library (Body Elements, Constraints, Frames Moorings, and PTOs) shou
 The WEC-Sim Library will now be accessible every time Simulink is opened. 
 For more information on using and modifying library blocks refer to the `Simulink Documentation <http://www.mathworks.com/help/simulink/>`_.
 
-.. figure:: _images/WEC-Sim_Library.jpg
+.. figure:: _images/WEC-Sim_Lib.PNG
    :align: center
 
    ..

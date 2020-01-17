@@ -19,7 +19,8 @@ The RM3 two-body point absorber WEC has been characterized both numerically and 
 The RM3 is a two-body point absorber consisting of a float and a reaction plate. Full-scale dimensions of the RM3 and its mass properties are shown below.
 
 .. figure:: _images/RM3_Geom.png
-   :width: 400pt
+   :width: 300pt
+   :align: center
 
 +-------------------------------------------------+
 |Float Full Scale Properties                      |
@@ -53,19 +54,26 @@ Below is an overview of the files required to run the RM3 simulation in WEC-Sim.
 
 ==================   =============================  =============================
 **File Type**        **File Name**                  **Directory**
-Input File           ``wecSimInputFile.m``          ``/tutorials/rm3/``
-Simulink Model       ``rm3.slx``   		    ``/tutorials/rm3/``
-Hydrodynamic Data    ``rm3.h5``    	            ``/tutorials/rm3/hydroData/``
-Geometry Files       ``float.stl`` & ``plate.stl``  ``/tutorials/rm3/geometry/`` 
+Input File           ``wecSimInputFile.m``          ``$WECSIM/tutorials/rm3/``
+Simulink Model       ``rm3.slx``   		    ``$WECSIM/tutorials/rm3/``
+Hydrodynamic Data    ``rm3.h5``    	            ``$WECSIM/tutorials/rm3/hydroData/``
+Geometry Files       ``float.stl`` & ``plate.stl``  ``$WECSIM/tutorials/rm3/geometry/`` 
 ==================   =============================  =============================
 
 RM3 Tutorial
 ^^^^^^^^^^^^^^^^^^^^^^^
 
-
 Step 1: Run BEMIO
 """"""""""""""""""""""""
-Hydrodynamic data for each RM3 body must be parsed into a HDF5 file using the `BEMIO <http://wec-sim.github.io/WEC-Sim/advanced_features.html#bemio>`_ hydrodynamic data format. The RM3 HDF5 file (``rm3.h5``) was created based on a WAMIT run of the RM3 geometry. The RM3 WAMIT ``rm3.out`` file and the BEMIO ``bemio.m`` script were used to generate the HDF5 are included in the ``/hydroData`` directory.
+Hydrodynamic data for each RM3 body must be parsed into a HDF5 file using `BEMIO <http://wec-sim.github.io/WEC-Sim/advanced_features.html#bemio>`_. 
+BEMIO converts hydrodynamic data from WAMIT, NEMOH or AQWA into a HDF5 file, ``*.h5`` that is then read by WEC-Sim.
+The RM3 tutorial includes data from a WAMIT run, ``rm3.out``, of the RM3 geometry in the ``$WECSIM/tutorials/rm3/hydroData/`` directory.
+The RM3 WAMIT ``rm3.out`` file and the BEMIO ``bemio.m`` script are then used to generate the ``rm3.h5`` file. 
+
+This is done by navigating to the ``$WECSIM/tutorials/rm3/hydroData/`` directory, and typing``bemio`` in the MATLAB Command Window::
+
+	>> bemio
+	
 
 Step 2: Build Simulink Model
 """"""""""""""""""""""""""""""""""""""""""""""""
@@ -77,21 +85,23 @@ The WEC-Sim Simulink model is created by dragging and dropping blocks from the *
 * Double click on the **Rigid Body** block, and rename each instance of the body. The first body must be called ``body(1)``, and the second body should be called ``body(2)``. 
 
 .. figure:: _images/RM3_WECSim_Body.jpg
-   :width: 600pt
-
+   :width: 400pt
+   :align: center
 
 * Place the **Global Reference Frame** from the *WEC-Sim Library* in the Simulink model file. The global reference frame acts as the seabed.
 
 .. figure:: _images/RM3_WECSim_GlobalRef.jpg
-   :width: 600pt
-
+   :width: 400pt
+   :align: center
+   
 
 * Place the **Floating (3DOF)** block to connect the plate to the seabed. This constrains the plate to move in 3DOF relative to the **Global Reference Frame**. 
 
 * Place the **Translational PTO** block to connect the float to the spar. This constrains the float to move in heave relative to the spar, and allows definition of PTO damping. 
 
 .. figure:: _images/RM3_WECSim.JPG
-   :width: 600pt
+   :width: 400pt
+   :align: center
 
 .. Note::
 
@@ -111,7 +121,8 @@ Step 4: Run WEC-Sim
 To execute the WEC-Sim code for the RM3 tutorial, type ``wecSim`` into the MATLAB Command Window. Below is a figure showing the final RM3 Simulink model and the WEC-Sim GUI during the simulation. For more information on using WEC-Sim to model the RM3 device, refer to :cite:`ruehl_preliminary_2014`.
 
 .. figure:: _images/RM3_WECSim_GUI.JPG
-   :width: 600pt
+   :width: 400pt
+   :align: center
 
 Step 5: Post-processing
 """"""""""""""""""""""""""""""""""""""""""""""""
@@ -129,7 +140,8 @@ Device Geometry
 The OSWEC was selected because its design is fundamentally different from the RM3. This is critical because WECs span an extensive design space, and it is important to model devices in WEC-Sim that operate under different principles.  The OSWEC is fixed to the ground and has a flap that is connected through a hinge to the base that restricts the flap in order to pitch about the hinge. The full-scale dimensions of the OSWEC and the mass properties are shown in the figure and table below.
 
 .. figure:: _images/OSWEC_Geom.png
-   :width: 400pt
+   :width: 300pt
+   :align: center
 
 +-----------------------------+
 |Flap Full Scale Properties   |
@@ -148,14 +160,16 @@ The OSWEC was selected because its design is fundamentally different from the RM
 
 WEC-Sim Model Files
 ^^^^^^^^^^^^^^^^^^^^^^^
-Below is an overview of the files required to run the OSWEC simulation in WEC-Sim. For the OSWEC, there are two corresponding geometry files: ``flap.stl`` and ``base.stl``. In addition to the required files listed below, users may supply a ``userDefinedFunctions.m`` file for post-processing results once the WEC-Sim run is complete. 
+Below is an overview of the files required to run the OSWEC simulation in WEC-Sim. 
+For the OSWEC, there are two corresponding geometry files: ``flap.stl`` and ``base.stl``. 
+In addition to the required files listed below, users may supply a ``userDefinedFunctions.m`` file for post-processing results once the WEC-Sim run is complete. 
 
 ==================   ============================  ===============================
 **File Type**        **File Name**                 **Directory**
-Input File           ``wecSimInputFile.m``         ``/tutorials/oswec/``
-Simulink Model       ``oswec.slx``   	           ``/tutorials/oswec/``
-Hydrodynamic Data    ``oswec.h5``    	           ``/tutorials/oswec/hydroData/``
-Geometry Files       ``flap.stl`` & ``base.stl``   ``/tutorials/oswec/geometry/``
+Input File           ``wecSimInputFile.m``         ``$WECSIM/tutorials/oswec/``
+Simulink Model       ``oswec.slx``   	           ``$WECSIM/tutorials/oswec/``
+Hydrodynamic Data    ``oswec.h5``    	           ``$WECSIM/tutorials/oswec/hydroData/``
+Geometry Files       ``flap.stl`` & ``base.stl``   ``$WECSIM/tutorials/oswec/geometry/``
 ==================   ============================  ===============================
 
 
@@ -164,7 +178,15 @@ OSWEC Tutorial
 
 Step 1: Run BEMIO
 """"""""""""""""""""""""
-Hydrodynamic data for each OSWEC body must be parsed into a HDF5 file using the `BEMIO <http://wec-sim.github.io/WEC-Sim/advanced_features.html#bemio>`_ hydrodynamic data format. The OSWEC HDF5 file (``oswec.h5``) was created based on a WAMIT run of the OSWEC geometry. The OSWEC WAMIT ``oswec.out`` file and the BEMIO ``bemio.m`` script used to generate the HDF5 are included in the ``/hydroData`` directory.
+Hydrodynamic data for each OSWEC body must be parsed into a HDF5 file using `BEMIO <http://wec-sim.github.io/WEC-Sim/advanced_features.html#bemio>`_. 
+BEMIO converts hydrodynamic data from WAMIT, NEMOH or AQWA into a HDF5 file, ``*.h5`` that is then read by WEC-Sim.
+The OSWEC tutorial includes data from a WAMIT run, ``oswec.out``, of the OSWEC geometry in the ``$WECSIM/tutorials/rm3/hydroData/`` directory.
+The OSWEC WAMIT ``oswec.out`` file and the BEMIO ``bemio.m`` script are then used to generate the ``oswec.h5`` file. 
+
+This is done by navigating to the ``$WECSIM/tutorials/oswec/hydroData/`` directory, and typing``bemio`` in the MATLAB Command Window::
+
+	>> bemio
+
 
 Step 2: Build Simulink Model
 """"""""""""""""""""""""""""""""""""""""""""""""
@@ -175,13 +197,15 @@ The WEC-Sim Simulink model is created by dragging and dropping blocks from the *
 * Double click on the **Rigid Body** block, and rename each instance of the body. The first body must be called ``body(1)``, and the second body should be called ``body(2)``. 
    
 .. figure:: _images/OSWEC_WECSim_Body.jpg
-   :width: 600pt  
+   :width: 400pt  
+   :align: center
 
 
 * Place the **Global Reference Frame** from the *WEC-Sim Library* in the Simulink model file. The global reference frame acts as the seabed.
 
 .. figure:: _images/OSWEC_WECSim_GlobalRef.jpg
-   :width: 600pt
+   :width: 400pt
+   :align: center
 
 * Place the **Fixed** block to connect the base to the seabed. This constrains the base to be fixed relative to the **Global Reference Frame**. 
 
@@ -189,7 +213,8 @@ The WEC-Sim Simulink model is created by dragging and dropping blocks from the *
 * Place a **Rotational PTO** block to connect the base to the flap. This constrains the flap to move in pitch relative to the base, and allows for the definition of PTO damping. 
 
 .. figure:: _images/OSWEC_WECSim.JPG
-   :width: 600pt
+   :width: 400pt
+   :align: center
 
 .. Note::
 
@@ -207,7 +232,8 @@ Step 4: Run WEC-Sim
 To execute the WEC-Sim code for the OSWEC tutorial, type ``wecSim`` into the MATLAB Command Window. Below is a figure showing the final OSWEC Simulink model and the WEC-Sim GUI during the simulation. For more information on using WEC-Sim to model the OSWEC device, refer to :cite:`y._yu_development_2014,y._yu_design_2014`.
 
 .. figure:: _images/OSWEC_WECSim_GUI.jpg
-   :width: 600pt
+   :width: 400pt
+   :align: center
 
 Step 5: Post-processing
 """"""""""""""""""""""""""""""""""""""""""""""""

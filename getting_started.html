@@ -101,9 +101,9 @@
 <li class="toctree-l1 current"><a class="current reference internal" href="#">Getting Started</a><ul>
 <li class="toctree-l2"><a class="reference internal" href="#matlab-requirements">MATLAB Requirements</a></li>
 <li class="toctree-l2"><a class="reference internal" href="#download-wec-sim">Download WEC-Sim</a><ul>
-<li class="toctree-l3"><a class="reference internal" href="#option-1-clone-repository-from-github-recommended-for-users">Option 1. Clone Repository from GitHub (Recommended for Users)</a></li>
-<li class="toctree-l3"><a class="reference internal" href="#option-2-fork-repository-on-github-recommended-for-developers">Option 2. Fork Repository on GitHub (Recommended for Developers)</a></li>
-<li class="toctree-l3"><a class="reference internal" href="#option-3-static-code-download-not-recommended">Option 3. Static Code Download (Not Recommended)</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#option-1-clone-repository-from-github">Option 1. Clone Repository from GitHub</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#option-2-fork-repository-on-github">Option 2. Fork Repository on GitHub</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#option-3-static-code-download">Option 3. Static Code Download</a></li>
 </ul>
 </li>
 <li class="toctree-l2"><a class="reference internal" href="#install-wec-sim">Install WEC-Sim</a><ul>
@@ -237,8 +237,8 @@ Full functionality has been verified on 2018a through 2019b.</p>
 <h2>Download WEC-Sim<a class="headerlink" href="#download-wec-sim" title="Permalink to this headline">¶</a></h2>
 <p>WEC-Sim is hosted on the <a class="reference external" href="https://github.com/WEC-Sim/wec-sim">WEC-Sim GitHub repository</a>.
 There are three ways of obtaining the WEC-Sim code, detailed below.</p>
-<div class="section" id="option-1-clone-repository-from-github-recommended-for-users">
-<h3>Option 1. Clone Repository from GitHub (Recommended for Users)<a class="headerlink" href="#option-1-clone-repository-from-github-recommended-for-users" title="Permalink to this headline">¶</a></h3>
+<div class="section" id="option-1-clone-repository-from-github">
+<h3>Option 1. Clone Repository from GitHub<a class="headerlink" href="#option-1-clone-repository-from-github" title="Permalink to this headline">¶</a></h3>
 <p>The WEC-Sim source code can be obtained by <a class="reference external" href="https://help.github.com/articles/cloning-a-repository/">cloning</a> the WEC-Sim GitHub repository and installing <a class="reference external" href="https://git-lfs.github.com/">Git Large File Storage</a> (git lfs) to access large files (e.g. <code class="docutils literal notranslate"><span class="pre">*.h5</span></code> files). This is accomplished by typing the following commands into Git BASH:</p>
 <div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="o">&gt;&gt;</span> <span class="n">git</span> <span class="n">clone</span> <span class="n">https</span><span class="p">:</span><span class="o">//</span><span class="n">github</span><span class="o">.</span><span class="n">com</span><span class="o">/</span><span class="n">WEC</span><span class="o">-</span><span class="n">Sim</span><span class="o">/</span><span class="n">WEC</span><span class="o">-</span><span class="n">Sim</span>
 <span class="o">&gt;&gt;</span> <span class="n">git</span> <span class="n">lfs</span> <span class="n">install</span>
@@ -248,14 +248,17 @@ There are three ways of obtaining the WEC-Sim code, detailed below.</p>
 <div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="o">&gt;&gt;</span> <span class="n">git</span> <span class="n">pull</span>
 </pre></div>
 </div>
+<p>This option is recommended for WEC-Sim users.</p>
 </div>
-<div class="section" id="option-2-fork-repository-on-github-recommended-for-developers">
-<h3>Option 2. Fork Repository on GitHub (Recommended for Developers)<a class="headerlink" href="#option-2-fork-repository-on-github-recommended-for-developers" title="Permalink to this headline">¶</a></h3>
+<div class="section" id="option-2-fork-repository-on-github">
+<h3>Option 2. Fork Repository on GitHub<a class="headerlink" href="#option-2-fork-repository-on-github" title="Permalink to this headline">¶</a></h3>
 <p>If you plan to contribute to the WEC-Sim code, please follow the <a class="reference external" href="https://help.github.com/articles/fork-a-repo/">forking instructions</a>  provided by GitHub. If you make improvements to the code that you would like included in the WEC-Sim master code, please submit a <a class="reference external" href="https://help.github.com/articles/using-pull-requests/">pull request</a>. This pull request will then be reviewed, merged into <a class="reference external" href="https://github.com/WEC-Sim/WEC-Sim">WEC-Sim master</a>, and included in future WEC-Sim releases.</p>
+<p>This option is recommended for WEC-Sim developers.</p>
 </div>
-<div class="section" id="option-3-static-code-download-not-recommended">
-<h3>Option 3. Static Code Download (Not Recommended)<a class="headerlink" href="#option-3-static-code-download-not-recommended" title="Permalink to this headline">¶</a></h3>
-<p>The easiest way to obtain a copy of WEC-Sim is to download the latest tagged <a class="reference external" href="https://github.com/WEC-Sim/WEC-Sim/releases">WEC-Sim Release</a>. This is a static download of the WEC-Sim code. If you choose this method, you will have to re-download the package in order to receive code updates.</p>
+<div class="section" id="option-3-static-code-download">
+<h3>Option 3. Static Code Download<a class="headerlink" href="#option-3-static-code-download" title="Permalink to this headline">¶</a></h3>
+<p>The easiest way to obtain a copy of WEC-Sim is to download the latest tagged <a class="reference external" href="https://github.com/WEC-Sim/WEC-Sim/releases">WEC-Sim Release</a>. This is a static download of the WEC-Sim code.</p>
+<p>This option is not recommended. If you choose this option, you will have to manually download the WEC-Sim code in order to receive updates.</p>
 </div>
 </div>
 <div class="section" id="install-wec-sim">
@@ -299,7 +302,7 @@ The WEC-Sim Library (Body Elements, Constraints, Frames Moorings, and PTOs) shou
 The WEC-Sim Library will now be accessible every time Simulink is opened.
 For more information on using and modifying library blocks refer to the <a class="reference external" href="http://www.mathworks.com/help/simulink/">Simulink Documentation</a>.</p>
 <div class="figure align-center">
-<img alt="_images/WEC-Sim_Library.jpg" src="_images/WEC-Sim_Library.jpg" />
+<img alt="_images/WEC-Sim_Lib.PNG" src="_images/WEC-Sim_Lib.PNG" />
 </div>
 </div>
 <div class="section" id="step-3-test-the-installation">

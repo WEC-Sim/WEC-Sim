@@ -77,7 +77,7 @@ The Simulink model can be built as follows:
 .. figure:: _images/TRANSLATIONALPTOUD.PNG
    :width: 400pt 
 
-* Step 3: Use a subsystem and rename it to PTO-Sim where input is response and output is force.
+* Step 3: Use a subsystem and rename it to PTO-Sim where input is response and output is 	force.
 
 .. figure:: _images/RM3WITHPTOSIMBLOCK.PNG
    :width: 400pt
@@ -89,12 +89,12 @@ The Simulink model can be built as follows:
 
 * Step 5: Go to Simulink Library Browser to access PTO-Sim Library. 
 
-.. figure:: _images/OPENPTOSIMLIB.PNG
+.. figure:: _images/WEC-Sim_Lib_ptosim_hyd.PNG
    :width: 400pt
 
 * Step 6: By looking at the physical hydraulic PTO model as shown above, user can simply drag and drop PTO-Sim library blocks. Piston, valves, accumulator blocks are located under the Hydraulic block. Rotary generator lookup table is under the Generator block. 
 
-.. figure:: _images/USEPTOSIMLIB.PNG
+.. figure:: _images/WEC-Sim_Lib_ptosim.PNG
    :width: 400pt
 
 * Step 7: Since two accumulators are needed for the high pressure accumulator and low pressure accumulator, the user needs to double-click on each block and give a number to each accumulator. For example, ``ptosim.accumulator(1)`` is called high pressure accumulator and ``ptosim.accumulator(2)`` is called low pressure accumulator.

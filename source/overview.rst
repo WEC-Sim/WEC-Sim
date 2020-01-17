@@ -23,7 +23,8 @@ For information about the implementation and structure of the WEC-Sim source cod
 WEC-Sim Model Files
 ---------------------
 All files required for a WEC-Sim simulation must be contained within a case directory referred to as ``$CASE``. 
-This directory can be located anywhere on your computer. The table below list the WEC-Sim case directory structure and required files. 
+This directory can be located anywhere on your computer. 
+The table below list the WEC-Sim case directory structure and required files. 
 
 ==================   ====================== ====================
 **File Type**        **File Name**     	    **Directory**
@@ -57,14 +58,9 @@ Simulink Model
 * For more information about the OSWEC, and how to build WEC-Sim Simulink models, refer to the `Tutorials <http://wec-sim.github.io/WEC-Sim/tutorials.html>`_ section.
 
 .. figure:: _images/OSWEC_Model.png
-   :width: 400pt
+   :width: 200pt
    :align: center   
     
-   ..
-
-   *OSWEC Simulink Model*   
-
-
 
 Input File 
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
@@ -77,12 +73,10 @@ An example WEC-Sim input file is shown below for the OSWEC Tutorial.
 Additional examples are provided in the `Tutorials <http://wec-sim.github.io/WEC-Sim/tutorials.html>`_  section.
 WEC-Sim is an object oriented code and the input file reflects this.
 The WEC-Sim input file (``wecSimInputFile.m``) for the OSWEC initializes and specifies properties for simulation, body, constraint and pto classes.
- 
-    
+     
 .. literalinclude:: OSWECwecSimInputFile.m
    :language: matlab
-       
- 
+        
 
 Running WEC-Sim
 -----------------
@@ -131,7 +125,8 @@ In the pre-processing step, users need to create the WEC geometry, run a BEM cod
       * In order to run BEMIO, AQWA users must output both the default ``*.LIS`` file and output the ``*.AH1`` hydrodynamic database file. Both of these files are reacquired to run BEMIO. 
       * More details on AQWA setup are given in the AQWA Reference Manual.
 
-.. Note:: Users are also able to specify their own hydrodynamic coefficients by creating their own ``*.h5`` file with customized hydrodynamic coefficients following the ``*.h5`` format created by BEMIO.
+.. Note:: 
+	Users are also able to specify their own hydrodynamic coefficients by creating their own ``*.h5`` file with customized hydrodynamic coefficients following the ``*.h5`` format created by BEMIO.
 
 Step 2: Build Simulink Model
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
@@ -139,14 +134,9 @@ In this step, users build their WEC-Sim Simulink model (``*.slx``) using the `WE
 The ``*.slx`` Simulink model file must be located in the ``$CASE`` directory. 
 The figure below shows an example WEC-Sim Simulink model for the OSWEC tutorial.
 
-
 .. figure:: _images/OSWEC_Model.png
-   :width: 400pt
-   :align: center   
-    
-   ..
-
-   *OSWEC Simulink Model*   
+   :width: 200pt
+   :align: center       
    
 
 Step 3: Write wecSimInputFile.m
@@ -162,6 +152,5 @@ Lastly, execute the WEC-Sim code by typing ``wecSim`` into the MATLAB Command Wi
 The WEC-Sim source code is located in the ``$WECSIM`` directory, but ``wecSim`` must be executed from the ``$CASE`` directory.
 
 .. Note::
-
-	WEC-Sim simulations should always be executed from the MATLAB Command Window, not from the Simulink/SimMechanics model.
+	WEC-Sim simulations should always be executed from the MATLAB Command Window, not from Simulink.
 

@@ -213,31 +213,32 @@
 For more information about WEC-Sim’s code structure, refer to the <a class="reference external" href="http://wec-sim.github.io/WEC-Sim/webinars.html#code-structure-overview">webinar on WEC-Sim Code Structure</a>.</p>
 <div class="section" id="wec-sim-source-code">
 <h2>WEC-Sim Source Code<a class="headerlink" href="#wec-sim-source-code" title="Permalink to this headline">¶</a></h2>
-<p>The WEC-Sim source code consists of a series of MATLAB <code class="docutils literal notranslate"><span class="pre">*.m</span></code> objects (defined in WEC-Sim as classes) and Simulink <code class="docutils literal notranslate"><span class="pre">*.slx</span></code> library blocks which are executed by the <code class="docutils literal notranslate"><span class="pre">wecSim.m</span></code> script.
-Executing <code class="docutils literal notranslate"><span class="pre">wecSim.m</span></code> parses the user input data, performs preprocessing calculations in each of the classes, selects and initializes variant subsystems in the Simulink model, and runs the time-domain simulations in WEC-Sim.
-The WEC-Sim source code files are contained within a source directory referred to as <code class="docutils literal notranslate"><span class="pre">$WECSIM</span></code> (e.g. <code class="docutils literal notranslate"><span class="pre">C:/User/Documents/GitHub/WEC-Sim</span></code>).</p>
+<p>The directory where the WEC-Sim code is contained is referred to as <code class="docutils literal notranslate"><span class="pre">$WECSIM</span></code> (e.g. <code class="docutils literal notranslate"><span class="pre">C:/User/Documents/GitHub/WEC-Sim</span></code>).
+The WEC-Sim source code files are contained within a source directory referred to as <code class="docutils literal notranslate"><span class="pre">$WECSIM/source</span></code>.
+The WEC-Sim source code consists of a series of MATLAB <code class="docutils literal notranslate"><span class="pre">*.m</span></code> objects (defined in WEC-Sim as classes) and Simulink <code class="docutils literal notranslate"><span class="pre">*.slx</span></code> library blocks which are executed by the <code class="docutils literal notranslate"><span class="pre">wecSim.m</span></code> script.
+Executing <code class="docutils literal notranslate"><span class="pre">wecSim.m</span></code> parses the user input data, performs preprocessing calculations in each of the classes, selects and initializes variant subsystems in the Simulink model, and runs the time-domain simulations in WEC-Sim.</p>
 <table class="docutils align-default">
 <colgroup>
-<col style="width: 38%" />
-<col style="width: 31%" />
-<col style="width: 31%" />
+<col style="width: 35%" />
+<col style="width: 28%" />
+<col style="width: 37%" />
 </colgroup>
 <tbody>
 <tr class="row-odd"><td><p><strong>File Type</strong></p></td>
 <td><p><strong>File name</strong></p></td>
 <td><p><strong>Directory</strong></p></td>
 </tr>
-<tr class="row-even"><td><p>WEC-Sim Executable Script</p></td>
+<tr class="row-even"><td><p>WEC-Sim Executable</p></td>
 <td><p><code class="docutils literal notranslate"><span class="pre">wecSim.m</span></code></p></td>
-<td><p><code class="docutils literal notranslate"><span class="pre">$WECSIM</span></code></p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">$WECSIM/source</span></code></p></td>
 </tr>
 <tr class="row-odd"><td><p>WEC-Sim MATLAB Objects</p></td>
 <td><p><code class="docutils literal notranslate"><span class="pre">&lt;object&gt;Class.m</span></code></p></td>
-<td><p><code class="docutils literal notranslate"><span class="pre">$WECSIM/objects</span></code></p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">$WECSIM/source/objects</span></code></p></td>
 </tr>
 <tr class="row-even"><td><p>WEC-Sim Simulink Library</p></td>
 <td><p><code class="docutils literal notranslate"><span class="pre">&lt;block&gt;_Lib.slx</span></code></p></td>
-<td><p><code class="docutils literal notranslate"><span class="pre">$WECSIM/lib</span></code></p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">$WECSIM/source/lib</span></code></p></td>
 </tr>
 </tbody>
 </table>
@@ -248,11 +249,11 @@ The WEC-Sim source code files are contained within a source directory referred t
 The user can interact with these classes within the WEC-Sim input file (<code class="docutils literal notranslate"><span class="pre">wecSimInputFile.m</span></code>).
 The remainder of this section describes the role of the WEC-Sim objects, and how to interact with the WEC-Sim objects to define input properties.</p>
 <p>There are two ways to look at the available properties and methods within a class.
-The first is to type <code class="docutils literal notranslate"><span class="pre">doc</span> <span class="pre">&lt;className&gt;</span></code> in Matlab Command Window, and the second is to open the class definitions located in the <code class="docutils literal notranslate"><span class="pre">$WECSIM/objects</span></code> directory by typing <code class="docutils literal notranslate"><span class="pre">open</span> <span class="pre">&lt;className&gt;</span></code> in MATLAB Command Window.
+The first is to type <code class="docutils literal notranslate"><span class="pre">doc</span> <span class="pre">&lt;className&gt;</span></code> in Matlab Command Window, and the second is to open the class definitions located in the <code class="docutils literal notranslate"><span class="pre">$WECSIM/source/objects</span></code> directory by typing <code class="docutils literal notranslate"><span class="pre">open</span> <span class="pre">&lt;className&gt;</span></code> in MATLAB Command Window.
 The latter provides more information since it also defines the different fields in a structure.</p>
 <div class="section" id="simulation-class">
 <h3>Simulation Class<a class="headerlink" href="#simulation-class" title="Permalink to this headline">¶</a></h3>
-<p>The simulation class file, <code class="docutils literal notranslate"><span class="pre">simulationClass.m</span></code>, is located in the <code class="docutils literal notranslate"><span class="pre">$WECSIM/objects</span></code> directory.
+<p>The simulation class file, <code class="docutils literal notranslate"><span class="pre">simulationClass.m</span></code>, is located in the <code class="docutils literal notranslate"><span class="pre">$WECSIM/source/objects</span></code> directory.
 The simulation class contains the simulation parameters and solver settings necessary to execute the WEC-Sim code.
 Within the <code class="docutils literal notranslate"><span class="pre">wecSimInputFile.m</span></code>, users must initialize the simulation class (<code class="docutils literal notranslate"><span class="pre">simulationClass</span></code>) and specify the name of the  WEC-Sim (<code class="docutils literal notranslate"><span class="pre">*.slx</span></code>) model file by including the following lines:</p>
 <div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">simu</span><span class="o">=</span><span class="n">simulationClass</span><span class="p">();</span>
@@ -268,7 +269,7 @@ These default values can be overwritten by the user, for example, the end time o
 </div>
 <div class="section" id="wave-class">
 <h3>Wave Class<a class="headerlink" href="#wave-class" title="Permalink to this headline">¶</a></h3>
-<p>The wave class file, <code class="docutils literal notranslate"><span class="pre">waveClass.m</span></code>, is located in the <code class="docutils literal notranslate"><span class="pre">$WECSIM/objects</span></code> directory.
+<p>The wave class file, <code class="docutils literal notranslate"><span class="pre">waveClass.m</span></code>, is located in the <code class="docutils literal notranslate"><span class="pre">$WECSIM/source/objects</span></code> directory.
 The wave class contains all wave information necessary to define the incident wave condition for the WEC-Sim time-domain simulation.
 Within the <code class="docutils literal notranslate"><span class="pre">wecSimInputFile.m</span></code>, users must initialize the wave class (<code class="docutils literal notranslate"><span class="pre">waveClass</span></code>) and specify the wave <code class="docutils literal notranslate"><span class="pre">type</span></code> by including the following lines:</p>
 <div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">waves</span> <span class="o">=</span> <span class="n">waveClass</span><span class="p">(</span><span class="s1">&#39;type&#39;</span><span class="p">);</span>
@@ -307,7 +308,7 @@ Within the <code class="docutils literal notranslate"><span class="pre">wecSimIn
 </tr>
 </tbody>
 </table>
-<p>Available wave class properties, default values, and functions can be found by typing <code class="docutils literal notranslate"><span class="pre">doc</span> <span class="pre">waveClass</span></code> in the MATLAB command window, or by opening the <code class="docutils literal notranslate"><span class="pre">waveClass.m</span></code> file in <code class="docutils literal notranslate"><span class="pre">$WECSIM/objects</span></code> directory by typing <code class="docutils literal notranslate"><span class="pre">open</span> <span class="pre">waveClass</span></code> in the Matlab Command Window.</p>
+<p>Available wave class properties, default values, and functions can be found by typing <code class="docutils literal notranslate"><span class="pre">doc</span> <span class="pre">waveClass</span></code> in the MATLAB command window, or by opening the <code class="docutils literal notranslate"><span class="pre">waveClass.m</span></code> file in <code class="docutils literal notranslate"><span class="pre">$WECSIM/source/objects</span></code> directory by typing <code class="docutils literal notranslate"><span class="pre">open</span> <span class="pre">waveClass</span></code> in the Matlab Command Window.</p>
 <div class="section" id="nowave">
 <h4>noWave<a class="headerlink" href="#nowave" title="Permalink to this headline">¶</a></h4>
 <p>The <code class="docutils literal notranslate"><span class="pre">noWave</span></code> case is for running WEC-Sim simulations with no waves and constant radiation added mass and wave damping coefficients.
@@ -417,7 +418,7 @@ The <code class="docutils literal notranslate"><span class="pre">etaImport</span
 </div>
 <div class="section" id="body-class">
 <h3>Body Class<a class="headerlink" href="#body-class" title="Permalink to this headline">¶</a></h3>
-<p>The body class file, <code class="docutils literal notranslate"><span class="pre">bodyClass.m</span></code>, is located in the <code class="docutils literal notranslate"><span class="pre">$WECSIM/objects</span></code> directory.
+<p>The body class file, <code class="docutils literal notranslate"><span class="pre">bodyClass.m</span></code>, is located in the <code class="docutils literal notranslate"><span class="pre">$WECSIM/source/objects</span></code> directory.
 The body class contains the mass and hydrodynamic properties of each body that comprises the WEC being simulated.
 Within the <code class="docutils literal notranslate"><span class="pre">wecSimInputFile.m</span></code>, users must initialize each iteration of the body class (<code class="docutils literal notranslate"><span class="pre">bodyClass</span></code>), and specify the location of the  hydrodynamic data file (<code class="docutils literal notranslate"><span class="pre">*.h5</span></code>) and geometry file (<code class="docutils literal notranslate"><span class="pre">*.stl</span></code>) for each body. The body class is defined by including the following lines in the WEC-Sim input file, where # is the body number ‘&lt;bem_data&gt;.h5’ is the name of the h5 file containing the BEM results:</p>
 <div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">body</span><span class="p">(</span><span class="o">&lt;</span><span class="c1">#&gt;)=bodyClass(&#39;&lt;bem_data&gt;.h5&#39;)</span>
@@ -432,12 +433,12 @@ For example, viscous drag can be specified by entering the viscous drag coeffici
 <span class="n">body</span><span class="p">(</span><span class="o">&lt;</span><span class="c1">#&gt;).viscDrag.characteristicArea= [0 0 100 0 0 0]</span>
 </pre></div>
 </div>
-<p>Available body properties, default values, and functions can be found by typing <code class="docutils literal notranslate"><span class="pre">doc</span> <span class="pre">bodyClass</span></code> in the MATLAB command window, or opening the <cite>bodyClass.m</cite> file in <code class="docutils literal notranslate"><span class="pre">$WECSIM/objects</span></code> directory by typing <code class="docutils literal notranslate"><span class="pre">open</span> <span class="pre">bodyClass</span></code> in Matlab Command Window.</p>
+<p>Available body properties, default values, and functions can be found by typing <code class="docutils literal notranslate"><span class="pre">doc</span> <span class="pre">bodyClass</span></code> in the MATLAB command window, or opening the <cite>bodyClass.m</cite> file in <code class="docutils literal notranslate"><span class="pre">$WECSIM/source/objects</span></code> directory by typing <code class="docutils literal notranslate"><span class="pre">open</span> <span class="pre">bodyClass</span></code> in Matlab Command Window.</p>
 <p>For more information about application of WEC-Sim’s body class, refer to <a class="reference external" href="http://wec-sim.github.io/WEC-Sim/advanced_features.html#body-features">Body Features</a>.</p>
 </div>
 <div class="section" id="constraint-class">
 <h3>Constraint Class<a class="headerlink" href="#constraint-class" title="Permalink to this headline">¶</a></h3>
-<p>The constraint class file, <code class="docutils literal notranslate"><span class="pre">constraintClass.m</span></code>, is located in the <code class="docutils literal notranslate"><span class="pre">$WECSIM/objects</span></code> directory.
+<p>The constraint class file, <code class="docutils literal notranslate"><span class="pre">constraintClass.m</span></code>, is located in the <code class="docutils literal notranslate"><span class="pre">$WECSIM/source/objects</span></code> directory.
 WEC-Sim constraint blocks connect WEC bodies to one another (and possibly to the seabed) by constraining DOFs.
 The properties of the constraint class (<code class="docutils literal notranslate"><span class="pre">constraintClass</span></code>) are defined in the <code class="docutils literal notranslate"><span class="pre">constraint</span></code> object.
 Within the <code class="docutils literal notranslate"><span class="pre">wecSimInputFile.m</span></code>, users must initialize each iteration the constraint class (<code class="docutils literal notranslate"><span class="pre">constraintClass</span></code>) and specify the constraint <code class="docutils literal notranslate"><span class="pre">name</span></code>, by including the following lines:</p>
@@ -445,12 +446,12 @@ Within the <code class="docutils literal notranslate"><span class="pre">wecSimIn
 </pre></div>
 </div>
 <p>For rotational constraint (ex: pitch), the user also needs to specify the location of the rotational joint with respect to the global reference frame in the <code class="docutils literal notranslate"><span class="pre">constraint(&lt;#&gt;).loc</span></code> variable.</p>
-<p>Available constraint properties, default values, and functions can be found by typing <code class="docutils literal notranslate"><span class="pre">doc</span> <span class="pre">constraintClass</span></code> in the MATLAB command window, or opening the <cite>constraintClass.m</cite> file in <code class="docutils literal notranslate"><span class="pre">$WECSIM/objects</span></code> directory by typing <code class="docutils literal notranslate"><span class="pre">open</span> <span class="pre">constraintClass</span></code> in MATLAB Command Window.</p>
+<p>Available constraint properties, default values, and functions can be found by typing <code class="docutils literal notranslate"><span class="pre">doc</span> <span class="pre">constraintClass</span></code> in the MATLAB command window, or opening the <cite>constraintClass.m</cite> file in <code class="docutils literal notranslate"><span class="pre">$WECSIM/source/objects</span></code> directory by typing <code class="docutils literal notranslate"><span class="pre">open</span> <span class="pre">constraintClass</span></code> in MATLAB Command Window.</p>
 <p>For more information about application of WEC-Sim’s constraint class, refer to <a class="reference external" href="http://wec-sim.github.io/WEC-Sim/advanced_features.html#constraint-and-pto-features">Constraint and PTO Features</a></p>
 </div>
 <div class="section" id="pto-class">
 <h3>PTO Class<a class="headerlink" href="#pto-class" title="Permalink to this headline">¶</a></h3>
-<p>The pto class file, <code class="docutils literal notranslate"><span class="pre">ptoClass.m</span></code>, is located in the <code class="docutils literal notranslate"><span class="pre">$WECSIM/objects</span></code> directory.
+<p>The pto class file, <code class="docutils literal notranslate"><span class="pre">ptoClass.m</span></code>, is located in the <code class="docutils literal notranslate"><span class="pre">$WECSIM/source/objects</span></code> directory.
 WEC-Sim Power Take-Off (PTO) blocks connect WEC bodies to one other (and possibly to the seabed) by constraining DOFs and applying linear damping and stiffness.
 The pto class (<code class="docutils literal notranslate"><span class="pre">ptoClass</span></code>) extracts power from relative body motion with respect to a fixed reference frame or another body.
 The properties of the PTO class (<code class="docutils literal notranslate"><span class="pre">ptoClass</span></code>) are defined in the <code class="docutils literal notranslate"><span class="pre">pto</span></code> object.
@@ -465,19 +466,19 @@ Users can overwrite the default values in the input file. For example, users can
 <span class="n">pto</span><span class="p">(</span><span class="o">&lt;</span><span class="c1">#&gt;).k = &lt;pto stiffness value&gt;;</span>
 </pre></div>
 </div>
-<p>Available pto properties, default values, and functions can be found by typing <code class="docutils literal notranslate"><span class="pre">doc</span> <span class="pre">ptoClass</span></code> in the MATLAB command window, or opening the <cite>ptoClass.m</cite> file in <code class="docutils literal notranslate"><span class="pre">$WECSIM/objects</span></code> directory by typing <code class="docutils literal notranslate"><span class="pre">open</span> <span class="pre">ptoClass</span></code> in MATLAB Command Window.</p>
+<p>Available pto properties, default values, and functions can be found by typing <code class="docutils literal notranslate"><span class="pre">doc</span> <span class="pre">ptoClass</span></code> in the MATLAB command window, or opening the <cite>ptoClass.m</cite> file in <code class="docutils literal notranslate"><span class="pre">$WECSIM/source/objects</span></code> directory by typing <code class="docutils literal notranslate"><span class="pre">open</span> <span class="pre">ptoClass</span></code> in MATLAB Command Window.</p>
 <p>For more information about application of WEC-Sim’s constraint class, refer to <a class="reference external" href="http://wec-sim.github.io/WEC-Sim/advanced_features.html#constraint-and-pto-features">Constraint and PTO Features</a></p>
 </div>
 <div class="section" id="mooring-class">
 <h3>Mooring Class<a class="headerlink" href="#mooring-class" title="Permalink to this headline">¶</a></h3>
-<p>The mooring class file, <cite>mooringClass.m`</cite>, is located in the <code class="docutils literal notranslate"><span class="pre">$WECSIM/objects</span></code> directory.
+<p>The mooring class file, <cite>mooringClass.m`</cite>, is located in the <code class="docutils literal notranslate"><span class="pre">$WECSIM/source/objects</span></code> directory.
 The properties of the mooring class (<code class="docutils literal notranslate"><span class="pre">mooringClass</span></code>) are defined in the <code class="docutils literal notranslate"><span class="pre">mooring</span></code> object.
 Within the <code class="docutils literal notranslate"><span class="pre">wecSimInputFile.m</span></code>, users must initialize the mooring class and specify the mooring <code class="docutils literal notranslate"><span class="pre">name</span></code>, by including the following lines:</p>
 <div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">mooring</span><span class="p">(</span><span class="c1">#)= mooringClass(&#39;name&#39;);</span>
 </pre></div>
 </div>
 <p>The mooring class (<code class="docutils literal notranslate"><span class="pre">mooringClass</span></code>) allows for different fidelity simulations of mooring systems.
-Available mooring properties, default values, and functions can be found by typing <code class="docutils literal notranslate"><span class="pre">doc</span> <span class="pre">mooringClass</span></code> in the MATLAB command window, or opening the <cite>mooringClass.m</cite> file in <code class="docutils literal notranslate"><span class="pre">//WEC-Sim/source/objects</span></code> directory by typing <code class="docutils literal notranslate"><span class="pre">open</span> <span class="pre">mooringClass</span></code> in MATLAB Command Window.</p>
+Available mooring properties, default values, and functions can be found by typing <code class="docutils literal notranslate"><span class="pre">doc</span> <span class="pre">mooringClass</span></code> in the MATLAB command window, or opening the <cite>mooringClass.m</cite> file in <code class="docutils literal notranslate"><span class="pre">$WECSIM/source/objects</span></code> directory by typing <code class="docutils literal notranslate"><span class="pre">open</span> <span class="pre">mooringClass</span></code> in MATLAB Command Window.</p>
 <p>For more information about application of WEC-Sim’s mooring class, refer to <a class="reference external" href="http://wec-sim.github.io/WEC-Sim/advanced_features.html#mooring-moordyn">Mooring Features</a>.</p>
 </div>
 <div class="section" id="response-class">
@@ -496,12 +497,8 @@ There should be a one-to-one between the objects defined in the input file and t
 <p>The WEC-Sim library is divided into 5 different types of library blocks.
 The user should be able to model their WEC device using the available WEC-Sim blocks (and possibly other Simulink/Simscape blocks).
 The image below shows the WEC-Sim block grouping by type.</p>
-<div class="figure align-default">
-<a class="reference internal image-reference" href="_images/subLibs.PNG"><img alt="_images/subLibs.PNG" src="_images/subLibs.PNG" style="width: 400pt;" /></a>
-</div>
-<div class="admonition note">
-<p class="admonition-title">Note</p>
-<p>Update these images</p>
+<div class="figure align-center">
+<a class="reference internal image-reference" href="_images/WEC-Sim_Lib.PNG"><img alt="_images/WEC-Sim_Lib.PNG" src="_images/WEC-Sim_Lib.PNG" style="width: 400pt;" /></a>
 </div>
 <p>This section describes the five different library types and their general purpose.
 The Body Elements library contains the Rigid Body block used to simulate the different bodies.
@@ -518,8 +515,8 @@ At least one instance of this block is required in each model.</p>
 <p>The <code class="docutils literal notranslate"><span class="pre">Rigid</span> <span class="pre">Body</span></code> block is used to represent a rigid body in the simulation. The user has to name the blocks <code class="docutils literal notranslate"><span class="pre">body(i)</span></code> (where i=1,2,…).
 The mass properties, hydrodynamic data, geometry file, mooring, and other properties are then specified in the input file.
 Within the body block, the wave radiation, wave excitation, hydrostatic restoring, viscous damping, and mooring forces are calculated.</p>
-<div class="figure align-default">
-<a class="reference internal image-reference" href="_images/bodiesLib.PNG"><img alt="_images/bodiesLib.PNG" src="_images/bodiesLib.PNG" style="width: 400pt;" /></a>
+<div class="figure align-center">
+<a class="reference internal image-reference" href="_images/WEC-Sim_Lib_bodies.PNG"><img alt="_images/WEC-Sim_Lib_bodies.PNG" src="_images/WEC-Sim_Lib_bodies.PNG" style="width: 400pt;" /></a>
 </div>
 </div>
 <div class="section" id="frames">
@@ -529,8 +526,8 @@ The <code class="docutils literal notranslate"><span class="pre">Global</span> <
 It can be useful to think of the Global Reference Frame as being the seabed when creating a model.
 Every model requires one instance of the Global Reference Frame block.
 The <code class="docutils literal notranslate"><span class="pre">Global</span> <span class="pre">Reference</span> <span class="pre">Frame</span></code> block uses the simulation class variable <cite>simu</cite> and the wave class variable <cite>waves</cite>, which must be defined in the input file.</p>
-<div class="figure align-default">
-<a class="reference internal image-reference" href="_images/framesLib.PNG"><img alt="_images/framesLib.PNG" src="_images/framesLib.PNG" style="width: 400pt;" /></a>
+<div class="figure align-center">
+<a class="reference internal image-reference" href="_images/WEC-Sim_Lib_frames.PNG"><img alt="_images/WEC-Sim_Lib_frames.PNG" src="_images/WEC-Sim_Lib_frames.PNG" style="width: 400pt;" /></a>
 </div>
 </div>
 <div class="section" id="constraints">
@@ -540,8 +537,8 @@ Constraint blocks define only the DOF, but do not otherwise apply any forcing or
 Each Constraint block has two connections: a base (B) and a follower (F).
 The Constraints block restricts the motion of the block that is connected to the follower relative to the block that is connected to the base.
 For a single body system, the base would be the <code class="docutils literal notranslate"><span class="pre">Global</span> <span class="pre">Reference</span> <span class="pre">Frame</span></code> and the follower is a <code class="docutils literal notranslate"><span class="pre">Rigid</span> <span class="pre">Body</span></code>.</p>
-<div class="figure align-default">
-<a class="reference internal image-reference" href="_images/constraintsLib.PNG"><img alt="_images/constraintsLib.PNG" src="_images/constraintsLib.PNG" style="width: 400pt;" /></a>
+<div class="figure align-center">
+<a class="reference internal image-reference" href="_images/WEC-Sim_Lib_constraints.PNG"><img alt="_images/WEC-Sim_Lib_constraints.PNG" src="_images/WEC-Sim_Lib_constraints.PNG" style="width: 400pt;" /></a>
 </div>
 <p>A brief description of each constraint block is given below. More information can also be found by double clicking on the library block and viewing the Block Parameters box.</p>
 <table class="docutils align-default">
@@ -603,8 +600,8 @@ The Actuation Force/Torque PTOs allow the user to define the PTO force/torque at
 The user can use the response information to calculate the PTO force/torque.
 The Actuation Motion PTOs allow the user to define the motion of the PTO.
 These can be useful to simulate forced-oscillation tests.</p>
-<div class="figure align-default">
-<a class="reference internal image-reference" href="_images/ptosLib.PNG"><img alt="_images/ptosLib.PNG" src="_images/ptosLib.PNG" style="width: 400pt;" /></a>
+<div class="figure align-center">
+<a class="reference internal image-reference" href="_images/WEC-Sim_Lib_pto.PNG"><img alt="_images/WEC-Sim_Lib_pto.PNG" src="_images/WEC-Sim_Lib_pto.PNG" style="width: 400pt;" /></a>
 </div>
 <div class="admonition note">
 <p class="admonition-title">Note</p>
@@ -618,8 +615,8 @@ The <code class="docutils literal notranslate"><span class="pre">MooringMatrix</
 The <code class="docutils literal notranslate"><span class="pre">MoorDyn</span></code> block uses the compiled MoorDyn executables and a MoorDyn input file to simulate a realistic mooring system.
 There can only be one MoorDyn block per Simulink model.
 There are no restrictions on the number of MooringMatrix blocks.</p>
-<div class="figure align-default">
-<a class="reference internal image-reference" href="_images/mooringLib.PNG"><img alt="_images/mooringLib.PNG" src="_images/mooringLib.PNG" style="width: 400pt;" /></a>
+<div class="figure align-center">
+<a class="reference internal image-reference" href="_images/WEC-Sim_Lib_mooring.PNG"><img alt="_images/WEC-Sim_Lib_mooring.PNG" src="_images/WEC-Sim_Lib_mooring.PNG" style="width: 400pt;" /></a>
 </div>
 </div>
 <div class="section" id="simulink-simscape-blocks">
