@@ -41,7 +41,7 @@ The WEC-Sim Code Structure Overview presentation is available for download here 
 
 Wave Implementation
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
-This section of the course provides an overview of how waves are implemented in the WEC-Sim code, both in the ``waveClass``, and in the `WEC-Sim Library Blocks <http://wec-sim.github.io/WEC-Sim/code_structure.html#wec-sim-library>`_. 
+This section of the course provides an overview of how waves are implemented in the WEC-Sim code, both in the `waveClass <http://wec-sim.github.io/WEC-Sim/code_structure.html#wave-class>`_, and in the `WEC-Sim Library Blocks <http://wec-sim.github.io/WEC-Sim/code_structure.html#wec-sim-library>`_. 
 The Wave Implementation presentation is available for download here ( :download:`Wave Implementation Slides <_downloads/WEC-Sim_WaveImplementation.pdf>` ), and the recording is available below. 
 	
 	.. raw:: html
@@ -51,7 +51,7 @@ The Wave Implementation presentation is available for download here ( :download:
 
 Body Implementation
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
-This section of the course provides an overview of how bodies are implemented in the WEC-Sim code, both in the ``bodyClass``, and in the `WEC-Sim Library Blocks <http://wec-sim.github.io/WEC-Sim/code_structure.html#wec-sim-library>`_. 
+This section of the course provides an overview of how bodies are implemented in the WEC-Sim code, both in the `bodyClass <http://wec-sim.github.io/WEC-Sim/code_structure.html#body-class>`_, and in the `WEC-Sim Library Blocks <http://wec-sim.github.io/WEC-Sim/code_structure.html#wec-sim-library>`_. 
 The Body Implementation presentation is available for download here ( :download:`Body Implementation Slides <_downloads/WEC-Sim_BodyImplementation.pdf>` ), and the recording is available below. 
 	
 	.. raw:: html

@@ -19,7 +19,7 @@
     </script>
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   
-  <title>Overview &mdash; WEC-Sim  documentation</title>
+  <title>Overview &mdash; WEC-Sim v4.0 documentation</title>
   
 
   
@@ -44,6 +44,7 @@
   
   <link rel="stylesheet" href="_static/css/theme.css" type="text/css" />
   <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
+  <link rel="stylesheet" href="_static/css/table_wrap.css" type="text/css" />
     <link rel="index" title="Index" href="genindex.html" />
     <link rel="search" title="Search" href="search.html" />
     <link rel="next" title="Theory" href="theory.html" />
@@ -69,6 +70,10 @@
 
           
             
+            
+              <div class="version">
+                v4.0
+              </div>
             
           
 
@@ -340,51 +345,49 @@ The WEC-Sim input file (<code class="docutils literal notranslate"><span class="
 </ul>
 </div></blockquote>
 </li>
+<li><p><strong>Run BEMIO</strong>: to generate <code class="docutils literal notranslate"><span class="pre">*.h5</span></code> Hydrodynamic Coefficients for WEC-Sim</p>
+<blockquote>
+<div><ul class="simple">
+<li><p>The hydrodynamic coefficients for each body generated from the BEM code can be parsed into a <code class="docutils literal notranslate"><span class="pre">*.h5</span></code> data structure using <a class="reference external" href="http://wec-sim.github.io/WEC-Sim/advanced_features.html#bemio">BEMIO</a>, which was developed by the WEC-Sim team.</p></li>
+<li><p>BEMIO currently supports WAMIT, NEMOH and AQWA.</p></li>
+</ul>
+</div></blockquote>
+</li>
 </ul>
 <div class="admonition note">
 <p class="admonition-title">Note</p>
-<ul class="simple">
-<li><dl class="simple">
-<dt><strong>If WAMIT is used:</strong></dt><dd><ul>
+<ul>
+<li><p><strong>If WAMIT is used:</strong></p>
+<blockquote>
+<div><ul class="simple">
 <li><p>The origin of the body coordinate system (XBODY, defined in <code class="docutils literal notranslate"><span class="pre">*.pot</span></code>) as well as the mesh for each body must be at the center of gravity.</p></li>
 <li><p>The WAMIT mesh (<code class="docutils literal notranslate"><span class="pre">*.gdf</span></code>) can be generated using <a class="reference external" href="https://www.rhino3d.com">Rhino</a> or <a class="reference external" href="http://www.aerohydro.com/WAMIT.htm">MultiSurf</a>.</p></li>
 <li><p>More details on WAMIT setup are given in the <a class="reference external" href="http://www.wamit.com/manual.htm">WAMIT User Manual</a>.</p></li>
 </ul>
-</dd>
-</dl>
+</div></blockquote>
 </li>
-<li><dl class="simple">
-<dt><strong>If NEMOH is used:</strong></dt><dd><ul>
+<li><p><strong>If NEMOH is used:</strong></p>
+<blockquote>
+<div><ul class="simple">
 <li><p>The origin of the mesh for each body (<code class="docutils literal notranslate"><span class="pre">*.dat</span></code>) is located at the mean water surface, which follows the same coordinate used in WEC-Sim.</p></li>
 <li><p>The location to output the hydrodynamic coefficients for each degree of freedom is defined in the <code class="docutils literal notranslate"><span class="pre">Nemoh.cal</span></code> file.</p></li>
 <li><p>Please refer to <a class="reference external" href="https://lheea.ec-nantes.fr/logiciels-et-brevets/nemoh-mesh-192932.kjsp?RH=1489593406974">NEMOH-Mesh</a> webpage for more mesh generation details.</p></li>
 <li><p>The NEMOH Mesh.exe code creates the <code class="docutils literal notranslate"><span class="pre">Hydrostatics.dat</span></code> and <code class="docutils literal notranslate"><span class="pre">KH.dat</span></code> files (among other files) for one input body at a time. For the Read_NEMOH function to work correctly in the case of a multiple body system, the user must manually rename <code class="docutils literal notranslate"><span class="pre">Hydrostatics.dat</span></code> and <code class="docutils literal notranslate"><span class="pre">KH.dat</span></code> files to <code class="docutils literal notranslate"><span class="pre">Hydrostatics_0.dat</span></code>, <code class="docutils literal notranslate"><span class="pre">Hydrostatics_1.dat</span></code>, …, and <code class="docutils literal notranslate"><span class="pre">KH_0.dat</span></code>, <code class="docutils literal notranslate"><span class="pre">KH_1.dat</span></code>,…, corresponding to the body order specified in the <code class="docutils literal notranslate"><span class="pre">Nemoh.cal</span></code> file.</p></li>
 <li><p>More details on NEMOH setup are given in the <a class="reference external" href="https://lheea.ec-nantes.fr/logiciels-et-brevets/nemoh-running-192930.kjsp?RH=1489593406974">Nemoh Homepage</a>.</p></li>
 </ul>
-</dd>
-</dl>
+</div></blockquote>
 </li>
-<li><dl class="simple">
-<dt><strong>If AQWA is used:</strong></dt><dd><ul>
+<li><p><strong>If AQWA is used:</strong></p>
+<blockquote>
+<div><ul class="simple">
 <li><p>The origin of the global coordinate system is at the mean water surface, and the origin of the body coordinate system for each body must be at the center of gravity (defined using the AQWA GUI or in the <code class="docutils literal notranslate"><span class="pre">*.dat</span></code> input file).</p></li>
 <li><p>In order to run BEMIO, AQWA users must output both the default <code class="docutils literal notranslate"><span class="pre">*.LIS</span></code> file and output the <code class="docutils literal notranslate"><span class="pre">*.AH1</span></code> hydrodynamic database file. Both of these files are reacquired to run BEMIO.</p></li>
 <li><p>More details on AQWA setup are given in the AQWA Reference Manual.</p></li>
 </ul>
-</dd>
-</dl>
+</div></blockquote>
 </li>
 </ul>
 </div>
-<ul class="simple">
-<li><dl class="simple">
-<dt><strong>Parse Hydrodynamic Coefficients into WEC-Sim Required Format</strong>:</dt><dd><ul>
-<li><p>The hydrodynamic coefficients for each body generated from the BEM code can be parsed into a <code class="docutils literal notranslate"><span class="pre">*.h5</span></code> data structure using <a class="reference external" href="http://wec-sim.github.io/WEC-Sim/advanced_features.html#bemio">BEMIO</a>, which was developed by the WEC-Sim team.</p></li>
-<li><p>BEMIO currently supports WAMIT, NEMOH and AQWA.</p></li>
-</ul>
-</dd>
-</dl>
-</li>
-</ul>
 <div class="admonition note">
 <p class="admonition-title">Note</p>
 <p>Users are also able to specify their own hydrodynamic coefficients by creating their own <code class="docutils literal notranslate"><span class="pre">*.h5</span></code> file with customized hydrodynamic coefficients following the <code class="docutils literal notranslate"><span class="pre">*.h5</span></code> format created by BEMIO.</p>

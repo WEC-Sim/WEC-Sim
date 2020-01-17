@@ -19,7 +19,7 @@
     </script>
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   
-  <title>Tutorials &mdash; WEC-Sim  documentation</title>
+  <title>Tutorials &mdash; WEC-Sim v4.0 documentation</title>
   
 
   
@@ -44,6 +44,7 @@
   
   <link rel="stylesheet" href="_static/css/theme.css" type="text/css" />
   <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
+  <link rel="stylesheet" href="_static/css/table_wrap.css" type="text/css" />
     <link rel="index" title="Index" href="genindex.html" />
     <link rel="search" title="Search" href="search.html" />
     <link rel="next" title="Advanced Features" href="advanced_features.html" />
@@ -69,6 +70,10 @@
 
           
             
+            
+              <div class="version">
+                v4.0
+              </div>
             
           
 
@@ -526,7 +531,6 @@ of Inertia
 <div class="section" id="id8">
 <h4>Step 3: Write wecSimInputFile.m<a class="headerlink" href="#id8" title="Permalink to this headline">¶</a></h4>
 <p>The WEC-Sim input file defines simulation parameters, body properties, joints, and mooring for the OSWEC model. The <code class="docutils literal notranslate"><span class="pre">wecSimInputFile.m</span></code> for the OSWEC is provided in the OSWEC case directory, and shown below.</p>
-<p><em>wecSimInputFile.m for OSWEC</em></p>
 <div class="highlight-matlab notranslate"><div class="highlight"><pre><span></span><span class="c">%% Simulation Data</span>
 <span class="n">simu</span> <span class="p">=</span> <span class="n">simulationClass</span><span class="p">();</span>               <span class="c">% Initialize simulationClass</span>
 <span class="n">simu</span><span class="p">.</span><span class="n">simMechanicsFile</span> <span class="p">=</span> <span class="s">&#39;OSWEC.slx&#39;</span><span class="p">;</span>    <span class="c">% Specify Simulink Model File</span>

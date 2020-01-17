@@ -3,34 +3,14 @@
 Release Notes
 =============
 
-Current Release
----------------------------
-
 `WEC-Sim v4.0 <https://github.com/WEC-Sim/WEC-Sim/releases/tag/v4.0>`_
-^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+---------------------------------------------------------------------------------
 
 * Added mean drift force calculation
 
 * Added generalized body modes for simulating flexible WEC devices and for structure loading analysis
 
 * Updated BEMIO for mean drift force and generalized body modes
-
-
-Features in Development
----------------------------
-
-* OpenWARP (BETA VERSION): NEMOH based BEM model with additional features, including 
-
-	* Parallel computing
-	* Irregular frequency removal
-	* GDF-to-DAT mesh converter
-
-* Improve WEC-Sim capabilities and efficiency
-
-	* Improve the computational efficiency for the nonlinear buoyancy and the Froude-Krylov forces calculation
-	
-* Add WEC-Sim array modeling application and validation study to the WEC-Sim Applications repository 
-
 
 
 Previous Releases

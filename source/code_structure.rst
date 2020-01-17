@@ -269,6 +269,9 @@ The image below shows the WEC-Sim block grouping by type.
 .. figure:: _images/subLibs.PNG
    :width: 400pt	
 
+.. Note::
+	Update these images
+
 This section describes the five different library types and their general purpose. 
 The Body Elements library contains the Rigid Body block used to simulate the different bodies. 
 The Frames library contains the Global Reference Frame block necessary for every simulation. 
