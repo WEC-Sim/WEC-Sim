@@ -260,7 +260,7 @@
 <li><p>Save the resulting data in Hierarchical Data Format 5 (HDF5).</p></li>
 <li><p>Plot typical hydrodynamic data for user verification.</p></li>
 </ul>
-<p>The BEMIO tutorials are included in the <code class="docutils literal notranslate"><span class="pre">$Source/tutorials/BEMIO</span></code> directory in the WEC-Sim source code. For more information, refer to the <a class="reference external" href="http://wec-sim.github.io/WEC-Sim/webinars.html#webinar-1-bemio-and-mcr">BEMIO webinar</a>.</p>
+<p>The BEMIO tutorials are included in the <code class="docutils literal notranslate"><span class="pre">$WECSIM/tutorials/BEMIO</span></code> directory in the WEC-Sim source code. For more information, refer to the <a class="reference external" href="http://wec-sim.github.io/WEC-Sim/webinars.html#webinar-1-bemio-and-mcr">BEMIO webinar</a>.</p>
 <div class="admonition note">
 <p class="admonition-title">Note</p>
 <p>Previously the <a class="reference external" href="http://wec-sim.github.io/bemio/installing.html">python based BEMIO code</a> was used for this purpose. The python BEMIO functions have been converted to MATLAB and are included in the WEC-Sim source code. The python based BEMIO code will remain available but will no longer be  supported.</p>
@@ -610,7 +610,7 @@ Some cases in which you might want to create your own h5 file are:</p>
 </ul>
 <p>MATLAB and Python have functions to read and write <code class="docutils literal notranslate"><span class="pre">*.h5</span></code> files easily.
 WEC-Sim includes three functions to help you create your own <code class="docutils literal notranslate"><span class="pre">*.h5</span></code> file.
-These are found under <code class="docutils literal notranslate"><span class="pre">$Source/functions/writeH5/</span></code>.
+These are found under <code class="docutils literal notranslate"><span class="pre">$WECSIM/functions/writeH5/</span></code>.
 The header comments of each function explain the inputs and outputs.
 An example of how to use <code class="docutils literal notranslate"><span class="pre">write_hdf5</span></code>  is provided in the <a class="reference external" href="https://github.com/WEC-Sim/WEC-Sim_Applications">WEC-Sim Applications</a> repository.
 The first step is to have all the required coefficients and properties in Matlab in the correct format.
@@ -941,7 +941,7 @@ For more information on how PTO-Sim works, refer to [So et al., 2015], and the <
 <p><strong>Simulink Model</strong>
 The Simulink model can be built as follows:</p>
 <ul class="simple">
-<li><p>Step 1: Navigate to the RM3 tutorial <code class="docutils literal notranslate"><span class="pre">$Source/tutorials/RM3</span></code>.</p></li>
+<li><p>Step 1: Navigate to the RM3 tutorial <code class="docutils literal notranslate"><span class="pre">$WECSIM/tutorials/RM3</span></code>.</p></li>
 <li><p>Step 2: Open <code class="docutils literal notranslate"><span class="pre">RM3.slx</span></code> file and replace Translational PTO (local Z) with Translational PTO UD Force (Local Z).</p></li>
 </ul>
 <div class="figure align-default">
@@ -1052,7 +1052,7 @@ The same as <a class="reference internal" href="#rm3-with-hydraulic-pto">RM3 wit
 <p><strong>Simulink Model</strong>
 The Simulink model can be built as following:</p>
 <ul class="simple">
-<li><p>Step 1: Copy OSWEC tutorial folder to get started  <code class="docutils literal notranslate"><span class="pre">$Source\tutorials\OSWEC</span></code>.</p></li>
+<li><p>Step 1: Copy OSWEC tutorial folder to get started  <code class="docutils literal notranslate"><span class="pre">$WECSIM\tutorials\OSWEC</span></code>.</p></li>
 <li><p>Step 2: Open <code class="docutils literal notranslate"><span class="pre">OSWEC.slx</span></code> file and replace Rotary PTO (Local RY) with Rotational PTO UD Torque (Local RY).</p></li>
 </ul>
 <div class="figure align-default">
@@ -1119,7 +1119,7 @@ The same as <a class="reference internal" href="#rm3-with-hydraulic-pto">RM3 wit
 <p>This section provides an overview of WEC-Sim’s mooring class features; for more information about the mooring class code structure, refer to <a class="reference external" href="http://wec-sim.github.io/WEC-Sim/code_structure.html#mooring-class">Mooring Class</a>.</p>
 <p>Floating WEC systems are often connected to mooring lines to keep the device in position. WEC-Sim allows the user to model the mooring dynamics in the simulation by specifying the mooring matrix or coupling with MoorDyn. To include mooring connections, the user can use the mooring block (i.e., Mooring Matrix block or MoorDyn block) given in the WEC-Sim library under Moorings lib and connect it between the body and the Global reference frame.
 Refer to the <a class="reference external" href="http://wec-sim.github.io/WEC-Sim/advanced_features.html#tutorial-rm3-with-moordyn">MoorDyn Tutorial</a> section, and the <a class="reference external" href="http://wec-sim.github.io/WEC-Sim/webinars.html#webinar-4-mooring-and-visualization">Mooring Webinar</a> for more information.</p>
-<p>MoorDyn is hosted on  a separate <a class="reference external" href="https://github.com/WEC-Sim/moorDyn">MoorDyn repository</a>. It must be download separately, and all files and folders should be placed in the <code class="docutils literal notranslate"><span class="pre">$Source/functions/moorDyn</span></code> directory.</p>
+<p>MoorDyn is hosted on  a separate <a class="reference external" href="https://github.com/WEC-Sim/moorDyn">MoorDyn repository</a>. It must be download separately, and all files and folders should be placed in the <code class="docutils literal notranslate"><span class="pre">$WECSIM/functions/moorDyn</span></code> directory.</p>
 <div class="section" id="mooring-matrix">
 <h3>Mooring Matrix<a class="headerlink" href="#mooring-matrix" title="Permalink to this headline">¶</a></h3>
 <p>When the mooring matrix block is used, the user first needs to initiate the mooring class by setting <code class="code docutils literal notranslate"><span class="pre">mooring(i)</span> <span class="pre">=</span> <span class="pre">mooringClass('mooring</span> <span class="pre">name')</span></code> in the WEC-Sim input file (<code class="docutils literal notranslate"><span class="pre">wecSimInputFile.m</span></code>). Typically, the mooring connection location also needs to be specified, <code class="code docutils literal notranslate"><span class="pre">mooring(i).ref</span> <span class="pre">=</span> <span class="pre">[1x3]</span></code> (the default connection location is <code class="docutils literal notranslate"><span class="pre">[0</span> <span class="pre">0</span> <span class="pre">0]</span></code>). The user can also define the mooring matrix properties in the WEC-Sim input file using:</p>

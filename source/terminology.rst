@@ -19,7 +19,7 @@ PM                 Pierson-Moskowitz Specturm
 PTO                Power Take-Off
 Radiation Damping  :math:`B(\omega)`
 Roll (Rx)          Rotation about the X-axis
-``$SOURCE``        WEC-Sim source code directory
+``$WECSIM``        WEC-Sim source code directory
 Surge(x)           Motion along the X-axis
 Sway (Y)           Motion along the Y-axis
 Wave Excitation    :math:`F_{exc}`

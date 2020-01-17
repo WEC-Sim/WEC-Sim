@@ -69,7 +69,7 @@ In this section, a step by step tutorial on how to set up and run the RM3 simula
 **Simulink Model**
 The Simulink model can be built as follows:
 
-* Step 1: Navigate to the RM3 tutorial ``$Source/tutorials/RM3``.
+* Step 1: Navigate to the RM3 tutorial ``$WECSIM/tutorials/RM3``.
 
 
 * Step 2: Open ``RM3.slx`` file and replace Translational PTO (local Z) with Translational PTO UD Force (Local Z). 
@@ -185,7 +185,7 @@ The same as `RM3 with hydraulic PTO`_.
 **Simulink Model**
 The Simulink model can be built as following:
 
-* Step 1: Copy OSWEC tutorial folder to get started  ``$Source\tutorials\OSWEC``. 
+* Step 1: Copy OSWEC tutorial folder to get started  ``$WECSIM\tutorials\OSWEC``. 
 
 
 * Step 2: Open ``OSWEC.slx`` file and replace Rotary PTO (Local RY) with Rotational PTO UD Torque (Local RY).

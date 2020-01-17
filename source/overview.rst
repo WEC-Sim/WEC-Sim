@@ -159,7 +159,7 @@ The WEC-Sim input file must be located in the ``$CASE`` directory, and named ``w
 Step 4: Run WEC-Sim
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 Lastly, execute the WEC-Sim code by typing ``wecSim`` into the MATLAB Command Window. 
-The WEC-Sim source code is located in the ``$Source`` directory, but ``wecSim`` must be executed from the ``$CASE`` directory.
+The WEC-Sim source code is located in the ``$WECSIM`` directory, but ``wecSim`` must be executed from the ``$CASE`` directory.
 
 .. Note::
 

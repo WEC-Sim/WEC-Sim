@@ -11,13 +11,13 @@ WEC-Sim Source Code
 
 The WEC-Sim source code consists of a series of MATLAB ``*.m`` objects (defined in WEC-Sim as classes) and Simulink ``*.slx`` library blocks which are executed by the ``wecSim.m`` script. 
 Executing ``wecSim.m`` parses the user input data, performs preprocessing calculations in each of the classes, selects and initializes variant subsystems in the Simulink model, and runs the time-domain simulations in WEC-Sim. 
-The WEC-Sim source code files are contained within a source directory referred to as ``$SOURCE`` (e.g. ``C:/User/Documents/GitHub/WEC-Sim``).
+The WEC-Sim source code files are contained within a source directory referred to as ``$WECSIM`` (e.g. ``C:/User/Documents/GitHub/WEC-Sim``).
 
 =========================   ====================  ====================
 **File Type**               **File name**         **Directory**
-WEC-Sim Executable Script   ``wecSim.m``          ``$SOURCE``
-WEC-Sim MATLAB Objects      ``<object>Class.m``   ``$SOURCE/objects``
-WEC-Sim Simulink Library    ``<block>_Lib.slx``   ``$SOURCE/lib``
+WEC-Sim Executable Script   ``wecSim.m``          ``$WECSIM``
+WEC-Sim MATLAB Objects      ``<object>Class.m``   ``$WECSIM/objects``
+WEC-Sim Simulink Library    ``<block>_Lib.slx``   ``$WECSIM/lib``
 =========================   ====================  ====================
 
 
@@ -29,12 +29,12 @@ The user can interact with these classes within the WEC-Sim input file (``wecSim
 The remainder of this section describes the role of the WEC-Sim objects, and how to interact with the WEC-Sim objects to define input properties. 
 
 There are two ways to look at the available properties and methods within a class.
-The first is to type ``doc <className>`` in Matlab Command Window, and the second is to open the class definitions located in the ``$SOURCE/objects`` directory by typing ``open <className>`` in MATLAB Command Window.
+The first is to type ``doc <className>`` in Matlab Command Window, and the second is to open the class definitions located in the ``$WECSIM/objects`` directory by typing ``open <className>`` in MATLAB Command Window.
 The latter provides more information since it also defines the different fields in a structure.
 
 Simulation Class
 ^^^^^^^^^^^^^^^^^^^^^^^
-The simulation class file, ``simulationClass.m``, is located in the ``$SOURCE/objects`` directory. 
+The simulation class file, ``simulationClass.m``, is located in the ``$WECSIM/objects`` directory. 
 The simulation class contains the simulation parameters and solver settings necessary to execute the WEC-Sim code. 
 Within the ``wecSimInputFile.m``, users must initialize the simulation class (``simulationClass``) and specify the name of the  WEC-Sim (``*.slx``) model file by including the following lines::
 
@@ -49,13 +49,13 @@ All simulation class properties are specified as variables within the ``simu`` o
 The WEC-Sim code has default values defined for the simulation class properties. 
 These default values can be overwritten by the user, for example, the end time of a simulation can be set by entering the following command: ``simu.endTime = <user specified end time>``.
 
-Available simulation properties, default values, and functions can be found by typing ``doc simulationClass`` in the MATLAB command window, or by opening the ``simulationClass.m`` file in ``$SOURCE//objects`` directory by typing ``open simulationClass`` in MATLAB Command Window.
+Available simulation properties, default values, and functions can be found by typing ``doc simulationClass`` in the MATLAB command window, or by opening the ``simulationClass.m`` file in ``$WECSIM//objects`` directory by typing ``open simulationClass`` in MATLAB Command Window.
 
 For more information about application of WEC-Sim's simulation class, refer to `Simulation Features <http://wec-sim.github.io/WEC-Sim/advanced_features.html#simulation-features>`_.
 
 Wave Class
 ^^^^^^^^^^^^^^^^^^^^^^^
-The wave class file, ``waveClass.m``, is located in the ``$SOURCE/objects`` directory. 
+The wave class file, ``waveClass.m``, is located in the ``$WECSIM/objects`` directory. 
 The wave class contains all wave information necessary to define the incident wave condition for the WEC-Sim time-domain simulation. 
 Within the ``wecSimInputFile.m``, users must initialize the wave class (``waveClass``) and specify the wave ``type`` by including the following lines::
 
@@ -74,7 +74,7 @@ Users must specify additional wave class properties using the ``waves`` object d
 ``etaImport``       ``waves.etaDataFile``                      
 ================== =================================== 
 
-Available wave class properties, default values, and functions can be found by typing ``doc waveClass`` in the MATLAB command window, or by opening the ``waveClass.m`` file in ``$SOURCE/objects`` directory by typing ``open waveClass`` in the Matlab Command Window.
+Available wave class properties, default values, and functions can be found by typing ``doc waveClass`` in the MATLAB command window, or by opening the ``waveClass.m`` file in ``$WECSIM/objects`` directory by typing ``open waveClass`` in the Matlab Command Window.
 
 noWave
 """"""""""""""""""""""""""""""
@@ -173,7 +173,7 @@ For more information about application of WEC-Sim's wave class, refer to `Wave F
 
 Body Class
 ^^^^^^^^^^^^^^^^^^^^^^^
-The body class file, ``bodyClass.m``, is located in the ``$SOURCE/objects`` directory. 
+The body class file, ``bodyClass.m``, is located in the ``$WECSIM/objects`` directory. 
 The body class contains the mass and hydrodynamic properties of each body that comprises the WEC being simulated. 
 Within the ``wecSimInputFile.m``, users must initialize each iteration of the body class (``bodyClass``), and specify the location of the  hydrodynamic data file (``*.h5``) and geometry file (``*.stl``) for each body. The body class is defined by including the following lines in the WEC-Sim input file, where # is the body number '<bem_data>.h5' is the name of the h5 file containing the BEM results::
 
@@ -190,13 +190,13 @@ For example, viscous drag can be specified by entering the viscous drag coeffici
 	body(<#>).viscDrag.characteristicArea= [0 0 100 0 0 0]
 
 
-Available body properties, default values, and functions can be found by typing ``doc bodyClass`` in the MATLAB command window, or opening the `bodyClass.m` file in ``$SOURCE/objects`` directory by typing ``open bodyClass`` in Matlab Command Window.
+Available body properties, default values, and functions can be found by typing ``doc bodyClass`` in the MATLAB command window, or opening the `bodyClass.m` file in ``$WECSIM/objects`` directory by typing ``open bodyClass`` in Matlab Command Window.
 
 For more information about application of WEC-Sim's body class, refer to `Body Features <http://wec-sim.github.io/WEC-Sim/advanced_features.html#body-features>`_.
 
 Constraint Class
 ^^^^^^^^^^^^^^^^^^^^^^^
-The constraint class file, ``constraintClass.m``, is located in the ``$SOURCE/objects`` directory.  
+The constraint class file, ``constraintClass.m``, is located in the ``$WECSIM/objects`` directory.  
 WEC-Sim constraint blocks connect WEC bodies to one another (and possibly to the seabed) by constraining DOFs. 
 The properties of the constraint class (``constraintClass``) are defined in the ``constraint`` object. 
 Within the ``wecSimInputFile.m``, users must initialize each iteration the constraint class (``constraintClass``) and specify the constraint ``name``, by including the following lines::
@@ -206,14 +206,14 @@ Within the ``wecSimInputFile.m``, users must initialize each iteration the const
 
 For rotational constraint (ex: pitch), the user also needs to specify the location of the rotational joint with respect to the global reference frame in the ``constraint(<#>).loc`` variable. 
 
-Available constraint properties, default values, and functions can be found by typing ``doc constraintClass`` in the MATLAB command window, or opening the `constraintClass.m` file in ``$SOURCE/objects`` directory by typing ``open constraintClass`` in MATLAB Command Window.
+Available constraint properties, default values, and functions can be found by typing ``doc constraintClass`` in the MATLAB command window, or opening the `constraintClass.m` file in ``$WECSIM/objects`` directory by typing ``open constraintClass`` in MATLAB Command Window.
 
 For more information about application of WEC-Sim's constraint class, refer to `Constraint and PTO Features <http://wec-sim.github.io/WEC-Sim/advanced_features.html#constraint-and-pto-features>`_
 
 
 PTO Class
 ^^^^^^^^^^^^^^^^^^^^^^^
-The pto class file, ``ptoClass.m``, is located in the ``$SOURCE/objects`` directory.
+The pto class file, ``ptoClass.m``, is located in the ``$WECSIM/objects`` directory.
 WEC-Sim Power Take-Off (PTO) blocks connect WEC bodies to one other (and possibly to the seabed) by constraining DOFs and applying linear damping and stiffness. 
 The pto class (``ptoClass``) extracts power from relative body motion with respect to a fixed reference frame or another body. 
 The properties of the PTO class (``ptoClass``) are defined in the ``pto`` object. 
@@ -230,13 +230,13 @@ Users can overwrite the default values in the input file. For example, users can
 	pto(<#>).k = <pto stiffness value>;
 
 
-Available pto properties, default values, and functions can be found by typing ``doc ptoClass`` in the MATLAB command window, or opening the `ptoClass.m` file in ``$SOURCE/objects`` directory by typing ``open ptoClass`` in MATLAB Command Window.
+Available pto properties, default values, and functions can be found by typing ``doc ptoClass`` in the MATLAB command window, or opening the `ptoClass.m` file in ``$WECSIM/objects`` directory by typing ``open ptoClass`` in MATLAB Command Window.
 
 For more information about application of WEC-Sim's constraint class, refer to `Constraint and PTO Features <http://wec-sim.github.io/WEC-Sim/advanced_features.html#constraint-and-pto-features>`_
 
 Mooring Class
 ^^^^^^^^^^^^^^^^^^^^^^^
-The mooring class file, `mooringClass.m``, is located in the ``$SOURCE/objects`` directory.
+The mooring class file, `mooringClass.m``, is located in the ``$WECSIM/objects`` directory.
 The properties of the mooring class (``mooringClass``) are defined in the ``mooring`` object. 
 Within the ``wecSimInputFile.m``, users must initialize the mooring class and specify the mooring ``name``, by including the following lines::
 

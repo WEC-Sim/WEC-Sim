@@ -2,7 +2,7 @@
 
 Tutorials
 =========
-This section provides step-by-step instructions on how to run the WEC-Sim code using the provided Tutorials (located in the WEC-Sim ``$Source/tutorials`` directory). 
+This section provides step-by-step instructions on how to run the WEC-Sim code using the provided Tutorials (located in the WEC-Sim ``$WECSIM/tutorials`` directory). 
 Two WEC-Sim tutorials are provided: the Two-Body Point Absorber (RM3), and the Oscillating Surge WEC (OSWEC). 
 For information about the implementation of the WEC-Sim code refer to the `Code Structure <http://wec-sim.github.io/WEC-Sim/code_structure.html>`_ section. 
 For information about additional WEC-Sim features, refer to the `Advanced Features <http://wec-sim.github.io/WEC-Sim/advanced_features.html>`_ section. 
@@ -11,7 +11,7 @@ For information about additional WEC-Sim features, refer to the `Advanced Featur
 Two-Body Point Absorber (RM3)
 ----------------------------------
 This section describes the application of the WEC-Sim code to model the Reference Model 3 (RM3) two-body point absorber WEC. 
-This example application is provided in the WEC-Sim code release in the ``$Source/tutorials`` directory.
+This example application is provided in the WEC-Sim code release in the ``$WECSIM/tutorials`` directory.
 
 Device Geometry
 ^^^^^^^^^^^^^^^^^^^^^^^
@@ -121,7 +121,7 @@ The RM3 tutorial includes a ``userDefinedFunctions.m`` which plots RM3 forces an
 Oscillating Surge WEC (OSWEC)
 ----------------------------------
 This section describes the application of the WEC-Sim code to model the Oscillating Surge WEC (OSWEC). 
-This example application is provided in the WEC-Sim code release in the ``$Source/tutorials`` directory.
+This example application is provided in the WEC-Sim code release in the ``$WECSIM/tutorials`` directory.
 
 
 Device Geometry
@@ -217,7 +217,7 @@ The OSWEC tutorial includes a ``userDefinedFunctions.m`` which plots OSWEC force
 
 WEC-Sim Examples
 ------------------------
-Working examples of using WEC-Sim to model the RM3 and OSWEC are provided in the ``$SOURCE/examples/`` directory. 
+Working examples of using WEC-Sim to model the RM3 and OSWEC are provided in the ``$WECSIM/examples/`` directory. 
 For each example the ``wecSimInputFile.m`` provided includes examples of how to run different wave cases: 
 
 * ``noWaveCIC`` - no wave with convolution integral calculation

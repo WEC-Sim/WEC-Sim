@@ -9,7 +9,7 @@ MATLAB Requirements
 ------------------------------
 WEC-Sim is developed in MATLAB/Simulink, and requires the toolboxes listed below. 
 WEC-Sim's Simulink Library is saved in MATLAB version R2015b, so any newer MATLAB release should be compatible with WEC-Sim.
-Certain advanced features relying on external functions, such as ``moorDyn``, may not be compatible with older versions of MATLAB. 
+Certain advanced features relying on external functions, such as `moorDyn <http://wec-sim.github.io/WEC-Sim/advanced_features.html#moordyn>`_, may not be compatible with older versions of MATLAB. 
 Full functionality has been verified on 2018a through 2019b. 
  
 ==========================  ============================		

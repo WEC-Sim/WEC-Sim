@@ -9,7 +9,7 @@ The Boundary Element Method Input/Output (BEMIO) functions are used to pre-proce
 * Save the resulting data in Hierarchical Data Format 5 (HDF5).
 * Plot typical hydrodynamic data for user verification.
 
-The BEMIO tutorials are included in the ``$Source/tutorials/BEMIO`` directory in the WEC-Sim source code. For more information, refer to the `BEMIO webinar <http://wec-sim.github.io/WEC-Sim/webinars.html#webinar-1-bemio-and-mcr>`_.
+The BEMIO tutorials are included in the ``$WECSIM/tutorials/BEMIO`` directory in the WEC-Sim source code. For more information, refer to the `BEMIO webinar <http://wec-sim.github.io/WEC-Sim/webinars.html#webinar-1-bemio-and-mcr>`_.
 
 .. Note:: 
 	Previously the `python based BEMIO code <http://wec-sim.github.io/bemio/installing.html>`_ was used for this purpose. The python BEMIO functions have been converted to MATLAB and are included in the WEC-Sim source code. The python based BEMIO code will remain available but will no longer be  supported. 
@@ -168,7 +168,7 @@ Some cases in which you might want to create your own h5 file are:
 
 MATLAB and Python have functions to read and write ``*.h5`` files easily.
 WEC-Sim includes three functions to help you create your own ``*.h5`` file. 
-These are found under ``$Source/functions/writeH5/``.
+These are found under ``$WECSIM/functions/writeH5/``.
 The header comments of each function explain the inputs and outputs. 
 An example of how to use ``write_hdf5``  is provided in the `WEC-Sim Applications <https://github.com/WEC-Sim/WEC-Sim_Applications>`_ repository.
 The first step is to have all the required coefficients and properties in Matlab in the correct format.
