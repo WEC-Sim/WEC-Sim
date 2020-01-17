@@ -13,6 +13,7 @@
 % See the License for the specific language governing permissions and
 % limitations under the License.
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
 % As specified by user input, runs regular and irregular WEC-Sim runs for
 % RM3, plots a comparison of simulation results vs. stored verification
 % runs, and plots solver-to-solver comparison.
@@ -67,4 +68,5 @@ if openCompare==1
     end
 end
 
+cd .. 
 

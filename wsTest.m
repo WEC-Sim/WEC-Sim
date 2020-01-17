@@ -1,3 +1,19 @@
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% Copyright 2014 the National Renewable Energy Laboratory and Sandia Corporation
+%
+% Licensed under the Apache License, Version 2.0 (the "License");
+% you may not use this file except in compliance with the License.
+% You may obtain a copy of the License at
+%
+%     http://www.apache.org/licenses/LICENSE-2.0
+%
+% Unless required by applicable law or agreed to in writing, software
+% distributed under the License is distributed on an "AS IS" BASIS,
+% WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+% See the License for the specific language governing permissions and
+% limitations under the License.
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
 addpath(genpath('.\tests'))
 addpath(genpath('.\source'))
 run_wecSim_tests
@@ -17,7 +33,6 @@ assert(max(abs(org-new)) <= tol)
 
 %% regular Body 2
 load('regular.mat')
-% load('.\RegularWaves\regular\regular.mat')
 tol = 1e-10;
 org = regular.B2.WEC_Sim_org.heave;
 new = regular.B2.WEC_Sim_new.heave;
@@ -25,7 +40,6 @@ assert(max(abs(org-new)) <= tol)
 
 %% regular Relative Motion
 load('regular.mat')
-% load('.\RegularWaves\regular\regular.mat')
 tol = 1e-10;
 org = regular.Rel.WEC_Sim_org.heave;
 new = regular.Rel.WEC_Sim_new.heave;
@@ -42,7 +56,6 @@ assert(max(abs(org-new)) <= tol)
 
 %% regularCIC Body 2
 load('regularCIC.mat')
-% load('.\RegularWaves\regularCIC\regularCIC.mat')
 tol = 1e-10;
 org = regularCIC.B2.WEC_Sim_org.heave;
 new = regularCIC.B2.WEC_Sim_new.heave;
@@ -50,7 +63,6 @@ assert(max(abs(org-new)) <= tol)
 
 %% regularCIC Relative Motion
 load('regularCIC.mat')
-% load('.\RegularWaves\regularCIC\regularCIC.mat')
 tol = 1e-10;
 org = regularCIC.Rel.WEC_Sim_org.heave;
 new = regularCIC.Rel.WEC_Sim_new.heave;
@@ -67,7 +79,6 @@ assert(max(abs(org-new)) <= tol)
 
 %% regularSS Body 2
 load('regularSS.mat')
-%load('.\RegularWaves\regularSS\regularSS.mat')
 tol = 1e-10;
 org = regularSS.B2.WEC_Sim_org.heave;
 new = regularSS.B2.WEC_Sim_new.heave;
@@ -75,7 +86,6 @@ assert(max(abs(org-new)) <= tol)
 
 %% regularSS Relative Motion
 load('regularSS.mat')
-%load('.\RegularWaves\regularSS\regularSS.mat')
 tol = 1e-10;
 org = regularSS.Rel.WEC_Sim_org.heave;
 new = regularSS.Rel.WEC_Sim_new.heave;
@@ -97,7 +107,6 @@ assert(max(abs(org-new)) <= tol)
 
 %% irregularCIC Body 2
 load('irregularCIC.mat')
-%load('.\IrregularWaves\irregularCIC\irregularCIC.mat')
 tol = 1e-10;
 org = irregularCIC.B2.WEC_Sim_org.heave;
 new = irregularCIC.B2.WEC_Sim_new.heave;
@@ -105,7 +114,6 @@ assert(max(abs(org-new)) <= tol)
 
 %% irregularCIC Relative Motion
 load('irregularCIC.mat')
-%load('.\IrregularWaves\irregularCIC\irregularCIC.mat')
 tol = 1e-10;
 org = irregularCIC.Rel.WEC_Sim_org.heave;
 new = irregularCIC.Rel.WEC_Sim_new.heave;
@@ -122,7 +130,6 @@ assert(max(abs(org-new)) <= tol)
 
 %% irregularSS Body 2
 load('irregularSS.mat')
-%load('.\IrregularWaves\irregularSS\irregularSS.mat')
 tol = 1e-10;
 org = irregularSS.B2.WEC_Sim_org.heave;
 new = irregularSS.B2.WEC_Sim_new.heave;
@@ -130,7 +137,6 @@ assert(max(abs(org-new)) <= tol)
 
 %% irregularSS Relative Motion
 load('irregularSS.mat')
-%load('.\IrregularWaves\irregularSS\irregularSS.mat')
 tol = 1e-10;
 org = irregularSS.Rel.WEC_Sim_org.heave;
 new = irregularSS.Rel.WEC_Sim_new.heave;
