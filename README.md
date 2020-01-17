@@ -35,7 +35,8 @@ The WEC-Sim documentation located on the [gh-pages branch](https://github.com/WE
 
 ### Formatting Guidelines
   - `$CASE` to refer to WEC-Sim case directory
-  - `$SOURCE` to refer to WEC-Sim source directory
+  - `$WECSIM` to refer to WEC-Sim directory
+  - `$WECSIM/source` to refer to WEC-Sim source directory
   - `*.mat` syntax to refer to file extension
   - use ``insert code`` to reference code
   - Title `####` with overline
