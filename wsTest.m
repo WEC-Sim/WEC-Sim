@@ -136,7 +136,25 @@ org = irregularSS.Rel.WEC_Sim_org.heave;
 new = irregularSS.Rel.WEC_Sim_new.heave;
 assert(max(abs(org-new)) <= tol)
 
+%% Passive Yaw Irregular Waves
+% motions
+load('IrrYaw')
+tol = 1e-10;
+assert(IrrYaw.Pos_diff <= tol)
 
+% forces; use a larger tolerance to accomodate their larger magnitude
+tol=1e-4;
+assert(IrrYaw.Force_diff <= tol)
+
+%% Passive Yaw Regular Waves
+% motions
+load('RegYaw')
+tol = 1e-10;
+assert(RegYaw.Pos_diff <= tol)
+
+% forces
+tol=1e-4;
+assert(RegYaw.Force_diff <= tol)
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 % Run Test Cases
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%

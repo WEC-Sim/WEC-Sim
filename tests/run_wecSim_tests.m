@@ -21,6 +21,7 @@
 global plotNO;
 runReg=1;       % 1 to run regular wave simulations
 runIrreg=1;     % 1 to run irregular wave simulations
+runYaw=1;       % 1 to run passive yaw simulations
 plotNO=1;       % 1 to plot new run vs. stored run for comparison of each solver
 plotSolvers=1;  % 1 to plot new run comparison by sln method
 openCompare=1;  % 1 opens all new run vs. stored run plots for comparison of each solver
@@ -42,7 +43,15 @@ if runIrreg==1
     savefig('figIrregSS');
     cd .. ; close all;
 end
-
+if runYaw==1
+    % regular
+    cd PassiveYaw/RegularWaves; runLoadPassiveYawReg; cd ..;
+    savefig('figYawReg');
+    cd IrregularWaves; runLoadPassiveYawIrr; cd .. ;
+    savefig('figYawIrr');
+    cd .. ; close all;
+end
+  
 %% Plot Solver Comparisons
 if plotSolvers==1
     if runReg==1
@@ -51,19 +60,23 @@ if plotSolvers==1
     end
     if runIrreg==1
         cd IrregularWaves; printPlotIrregular;
-        cd ..
+        cd .. ;
     end
 end
 
 %% Open new vs. org Comparisons
 if openCompare==1
     if runReg==1
-        cd RegularWaves; openfig('figReg.fig');openfig('figRegCIC.fig');openfig('figRegSS.fig');
+        cd RegularWaves; openfig('figReg.fig'); openfig('figRegCIC.fig'); openfig('figRegSS.fig');
         cd .. ;
     end
     if runIrreg==1
-        cd IrregularWaves; openfig('figIrregCIC.fig');openfig('figIrregSS.fig');
-        cd ..
+        cd IrregularWaves; openfig('figIrregCIC.fig'); openfig('figIrregSS.fig');
+        cd .. ;
+    end
+    if runYaw==1;
+        cd PassiveYaw; open('figYawReg.fig'); open('figYawIrr.fig'); 
+        cd ..;
     end
 end
 
