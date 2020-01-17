@@ -51,8 +51,7 @@ These default values can be overwritten by the user, for example, the end time o
 
 Available simulation properties, default values, and functions can be found by typing ``doc simulationClass`` in the MATLAB command window, or by opening the ``simulationClass.m`` file in ``$SOURCE//objects`` directory by typing ``open simulationClass`` in MATLAB Command Window.
 
-.. Note::
-	For more information about application of WEC-Sim's simulation class, refer to `Simulation Features <http://wec-sim.github.io/WEC-Sim/advanced_features.html#simulation-features>`_.
+For more information about application of WEC-Sim's simulation class, refer to `Simulation Features <http://wec-sim.github.io/WEC-Sim/advanced_features.html#simulation-features>`_.
 
 Wave Class
 ^^^^^^^^^^^^^^^^^^^^^^^
@@ -170,8 +169,7 @@ The ``etaImport`` case is defined by including the following in the input file::
 	waves.etaDataFile ='<eta file>.mat';
 	
 	
-.. Note::
-	For more information about application of WEC-Sim's wave class, refer to `Wave Features <http://wec-sim.github.io/WEC-Sim/advanced_features.html#wave-features>`_.
+For more information about application of WEC-Sim's wave class, refer to `Wave Features <http://wec-sim.github.io/WEC-Sim/advanced_features.html#wave-features>`_.
 
 Body Class
 ^^^^^^^^^^^^^^^^^^^^^^^
@@ -194,8 +192,7 @@ For example, viscous drag can be specified by entering the viscous drag coeffici
 
 Available body properties, default values, and functions can be found by typing ``doc bodyClass`` in the MATLAB command window, or opening the `bodyClass.m` file in ``$SOURCE/objects`` directory by typing ``open bodyClass`` in Matlab Command Window.
 
-.. Note::
-	For more information about application of WEC-Sim's body class, refer to `Body Features <http://wec-sim.github.io/WEC-Sim/advanced_features.html#body-features>`_.
+For more information about application of WEC-Sim's body class, refer to `Body Features <http://wec-sim.github.io/WEC-Sim/advanced_features.html#body-features>`_.
 
 Constraint Class
 ^^^^^^^^^^^^^^^^^^^^^^^
@@ -211,8 +208,7 @@ For rotational constraint (ex: pitch), the user also needs to specify the locati
 
 Available constraint properties, default values, and functions can be found by typing ``doc constraintClass`` in the MATLAB command window, or opening the `constraintClass.m` file in ``$SOURCE/objects`` directory by typing ``open constraintClass`` in MATLAB Command Window.
 
-.. Note::
-	For more information about application of WEC-Sim's constraint class, refer to `Constraint Features <http://wec-sim.github.io/WEC-Sim/advanced_features.html#constraint-and-pto-features>`_
+For more information about application of WEC-Sim's constraint class, refer to `Constraint and PTO Features <http://wec-sim.github.io/WEC-Sim/advanced_features.html#constraint-and-pto-features>`_
 
 
 PTO Class
@@ -236,9 +232,7 @@ Users can overwrite the default values in the input file. For example, users can
 
 Available pto properties, default values, and functions can be found by typing ``doc ptoClass`` in the MATLAB command window, or opening the `ptoClass.m` file in ``$SOURCE/objects`` directory by typing ``open ptoClass`` in MATLAB Command Window.
 
-.. Note::
-	For more information about application of WEC-Sim's pto class, refer to `PTO Features <http://wec-sim.github.io/WEC-Sim/advanced_features.html#constraint-and-pto-features>`_
-
+For more information about application of WEC-Sim's constraint class, refer to `Constraint and PTO Features <http://wec-sim.github.io/WEC-Sim/advanced_features.html#constraint-and-pto-features>`_
 
 Mooring Class
 ^^^^^^^^^^^^^^^^^^^^^^^
@@ -252,15 +246,14 @@ Within the ``wecSimInputFile.m``, users must initialize the mooring class and sp
 The mooring class (``mooringClass``) allows for different fidelity simulations of mooring systems.
 Available mooring properties, default values, and functions can be found by typing ``doc mooringClass`` in the MATLAB command window, or opening the `mooringClass.m` file in ``//WEC-Sim/source/objects`` directory by typing ``open mooringClass`` in MATLAB Command Window.
 
-.. Note::
-	For more information about application of WEC-Sim's mooring class, refer to `Mooring Features <http://wec-sim.github.io/WEC-Sim/advanced_features.html#mooring-moordyn>`_.
+For more information about application of WEC-Sim's mooring class, refer to `Mooring Features <http://wec-sim.github.io/WEC-Sim/advanced_features.html#mooring-moordyn>`_.
 
 Response Class
 ^^^^^^^^^^^^^^^^^^^^^^^
 The response class is not initialized by the user.
 Instead, it is created at the end of a WEC-Sim simulation.
 It contains all the output time-series and methods to plot and interact with the results.
-The available parameters are explained in the `Output Structure <http://wec-sim.github.io/WEC-Sim/code_structure.html#output-structure>`_ section.
+The available parameters are explained in the `Output Structure <http://wec-sim.github.io/WEC-Sim/code_structure.html#id3>`_ section.
 
 
 WEC-Sim Library
@@ -273,7 +266,7 @@ The WEC-Sim library is divided into 5 different types of library blocks.
 The user should be able to model their WEC device using the available WEC-Sim blocks (and possibly other Simulink/Simscape blocks). 
 The image below shows the WEC-Sim block grouping by type.
 
-.. figure:: _static/subLibs.PNG
+.. figure:: _images/subLibs.PNG
    :width: 400pt	
 
 This section describes the five different library types and their general purpose. 
@@ -294,7 +287,7 @@ The ``Rigid Body`` block is used to represent a rigid body in the simulation. Th
 The mass properties, hydrodynamic data, geometry file, mooring, and other properties are then specified in the input file. 
 Within the body block, the wave radiation, wave excitation, hydrostatic restoring, viscous damping, and mooring forces are calculated.
 
-.. figure:: _static/bodiesLib.PNG
+.. figure:: _images/bodiesLib.PNG
    :width: 400pt
    
 Frames
@@ -305,7 +298,7 @@ It can be useful to think of the Global Reference Frame as being the seabed when
 Every model requires one instance of the Global Reference Frame block. 
 The ``Global Reference Frame`` block uses the simulation class variable `simu` and the wave class variable `waves`, which must be defined in the input file.
 
-.. figure:: _static/framesLib.PNG
+.. figure:: _images/framesLib.PNG
    :width: 400pt
 
 Constraints 
@@ -317,7 +310,7 @@ The Constraints block restricts the motion of the block that is connected to the
 For a single body system, the base would be the ``Global Reference Frame`` and the follower is a ``Rigid Body``.
 
 
-.. figure:: _static/constraintsLib.PNG
+.. figure:: _images/constraintsLib.PNG
    :width: 400pt
 
 A brief description of each constraint block is given below. More information can also be found by double clicking on the library block and viewing the Block Parameters box.
@@ -362,7 +355,7 @@ The user can use the response information to calculate the PTO force/torque.
 The Actuation Motion PTOs allow the user to define the motion of the PTO. 
 These can be useful to simulate forced-oscillation tests.
 
-.. figure:: _static/ptosLib.PNG
+.. figure:: _images/ptosLib.PNG
    :width: 400 pt
 
 .. Note::
@@ -378,7 +371,7 @@ The ``MoorDyn`` block uses the compiled MoorDyn executables and a MoorDyn input 
 There can only be one MoorDyn block per Simulink model.
 There are no restrictions on the number of MooringMatrix blocks.
 
-.. figure:: _static/mooringLib.PNG
+.. figure:: _images/mooringLib.PNG
    :width: 400 pt
 
 Simulink/Simscape Blocks

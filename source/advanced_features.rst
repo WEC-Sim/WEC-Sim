@@ -6,13 +6,11 @@ The advanced features documentation provides an overview of WEC-Sim features tha
 
 .. codeFeatures:
 
-.. figure:: _static/codeFeatures.png
+.. figure:: _images/codeFeatures.png
    :width: 400pt
    :align: center   
     
    ..
-
-   *WEC-Sim Advanced Features*
 
 
 
@@ -152,7 +150,7 @@ The mass of each body must be specified in the  WEC-Sim input file. The followin
 
 
 Nonlinear Buoyancy and Froude-Krylov Excitation
-^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 WEC-Sim has the option to include the nonlinear hydrostatic restoring and Froude-Krylov forces when solving the system dynamics of WECs, accounting for the weakly nonlinear effect on the body hydrodynamics. To use nonlinear buoyancy and Froude-Krylov excitation, the **simu.nlHydro** simulationClass variable must be defined in the WEC-Sim input file, for example: 
 
 	:code:`simu.nlHydro = 2`  
@@ -186,7 +184,7 @@ There are many ways to generate an STL file; however, it is important to verify 
 **Refining STL File** - The script ``refine_stl`` in the BEMIO directory performs a simple mesh refinement on an ``*.stl`` file by subdividing each panel with an area above the specified threshold into four smaller panels with new vertices at the mid-points of the original panel edges. This procedure is iterated for each panel until all panels have an area below the specified threshold, as in the example rectangle. 
 
 
-.. figure:: _static/rectangles.png 
+.. figure:: _images/rectangles.png 
    :width: 300pt 
    :align: center
 
@@ -199,7 +197,7 @@ The body tested in the study is an ellipsoid with a cross- section characterized
 
 .. _nonlinearEllipsoid:
 
-.. figure:: _static/nonlinearEllipsoid.png
+.. figure:: _images/nonlinearEllipsoid.png
     :width: 350pt
     :align: center
 
@@ -207,7 +205,7 @@ STL file with the discretized body surface is shown below (``ellipsoid.stl``)
 
 .. _nonlinearMesh:
 
-.. figure:: _static/nonlinearMesh.png
+.. figure:: _images/nonlinearMesh.png
     :width: 250pt
     :align: center
     
@@ -215,7 +213,7 @@ The single-body heave only WEC model is shown below (``nonLinearHydro.slx``)
 
 .. _nonlinearWEC:
 
-.. figure:: _static/nonlinearWEC.png
+.. figure:: _images/nonlinearWEC.png
     :width: 450pt
     :align: center
 
@@ -301,43 +299,15 @@ The Morison Element time-step may also be defined as :code:`simu.dtME = N*simu.d
 	Morison Elements cannot but used with :code:`etaImport`.
 
 
-Constraint and PTO Features
----------------------------------
-This section provides an overview of  WEC-Sim's constraint and pto classes; for more information about the constraint and pto classes' code structure, refer to `Constraint Class <http://wec-sim.github.io/WEC-Sim/code_structure.html#constraint-class>`_ and `PTO Class <http://wec-sim.github.io/WEC-Sim/code_structure.html#pto-class>`_.
+.. PTO
 
-
-The default linear and rotational constraints and PTOs allow for heave and pitch motions of the follower relative to the base.
-To obtain a linear or rotational constraint in a different direction you must modify the constraint's or PTO's coordinate orientation.
-The important thing to remember is that a linear constraint or PTO will always allow motion along the joint's Z-axis, and a rotational constraint or PTO will allow rotation about the joint's Y-axis.
-To obtain translation along or rotation about a different direction relative to the global frame, you must modify the orientation of the joint's coordinate frame.
-This is done by setting the constraint's or PTO's :code:`orientation.z` and :code:`orientation.y` properties which specify the new direction of the Z- and Y- joint coordinates.
-The Z- and Y- directions must be perpendicular to each other.
-
-As an example, if you want to constrain body 2 to surge motion relative to body 1 using a linear constraint, you would need the constraint's Z-axis to point in the direction of the global surge (X) direction.
-This would be done by setting :code:`constraint(i).orientation.z=[1,0,0]` and the Y-direction to any perpendicular direction (can be left as the default y=[0 1 0]).
-In this example, the Y-direction would only have an effect on the coordinate on which the constraint forces are reported but not on the dynamics of the system.
-Similarly if you want to obtain a yaw constraint you would use a rotational constraint and align the constraint's Y-axis with the global Z-axis.
-This would be done by setting :code:`constraint(i).orientation.y=[0,0,1]` and the  z-direction to a perpendicular direction (say [0,-1,0]).
-
-.. Note::
-
-	When using the Actuation Force/Torque PTO or Actuation Motion PTO blocks, the loads and displacements are specified in the local (not global) coordinate system. This is true for both the sensed (measured) and actuated (commanded) loads and displacements.
-
-
-Additionally, by combining constraints and PTOs in series you can obtain different motion constraints. 
-For example, a massless rigid rod between two bodies, hinged at each body, can be obtained by using a two rotational constraints in series, both rotating in pitch, but with different locations.
-A roll-pitch constraint can also be obtained with two rotational constraints in series; one rotating in pitch, and the other in roll, and both at the same location. 
-
-
-.. PTO-Sim
-
-.. include:: ptosim.rst
+.. include:: pto.rst
 
 
 
-.. MoorDyn
+.. Mooring
 
-.. include:: moordyn.rst
+.. include:: mooring.rst
 
 
 

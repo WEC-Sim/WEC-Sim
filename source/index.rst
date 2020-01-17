@@ -1,7 +1,8 @@
 .. WEC-Sim Documentation
 
-.. figure:: _static/wec_sim_header.png
+.. figure:: _images/wec_sim_header.png
    :target: https://github.com/WEC-Sim/WEC-Sim
+
 
 .. toctree::
    :maxdepth: 4

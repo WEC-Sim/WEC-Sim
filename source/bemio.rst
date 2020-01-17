@@ -21,7 +21,7 @@ BEMIO Functions
 
 	*hydro = Read_WAMIT(hydro, filename, ex_coeff)*
 		* *hydro* – data structure
-		* *filename* – WAMIT output file
+		* *filename* – ``*.out`` WAMIT output file
 		* *ex_coeff* - flag indicating the type of excitation force coefficients to read, ‘diffraction’ (default) or ‘haskind’
 
 **Read_NEMOH:** Reads data from a NEMOH working folder
@@ -29,12 +29,11 @@ BEMIO Functions
 	*hydro = Read_NEMOH(hydro, filedir)*
 		* *hydro* – data structure
 		* *filedir* – NEMOH working folder, must include:
-
-			* Nemoh.cal
-			* Mesh/Hydrostatics.dat (or Hydrostatiscs_0.dat, Hydrostatics_1.dat, etc. for multiple bodies)
-			* Mesh/KH.dat (or KH_0.dat, KH_1.dat, etc. for multiple bodies)
-			* Results/RadiationCoefficients.tec
-			* Results/ExcitationForce.tec
+			* ``Nemoh.cal``
+			* ``Mesh/Hydrostatics.dat`` (or ``Hydrostatiscs_0.dat``, ``Hydrostatics_1.dat``, etc. for multiple bodies)
+			* ``Mesh/KH.dat`` (or ``KH_0.dat``, ``KH_1.dat``, etc. for multiple bodies)
+			* ``Results/RadiationCoefficients.tec``
+			* ``Results/ExcitationForce.tec``
 
 .. Note:: 
 	* Instructions on how to download and use the open source BEM code NEMOH are provided on the `NEMOH website <https://lheea.ec-nantes.fr/logiciels-et-brevets/nemoh-presentation-192863.kjsp>`_. 
@@ -44,8 +43,8 @@ BEMIO Functions
 
 	*hydro = Read_AQWA(hydro, ah1_filename, lis_filename)*
 		* *hydro* – data structure
-		* *ah1_filename* – .AH1 AQWA output file 
-		* *lis_filename* – .LIS AQWA output file
+		* *ah1_filename* – ``*.AH1`` AQWA output file 
+		* *lis_filename* – ``*.LIS`` AQWA output file
 
 **Normalize:** Normalizes NEMOH and AQWA hydrodynamics coefficients in the same manner that WAMIT outputs are normalized. Specifically, the linear hydrostatic restoring stiffness is normalized as, :math:`C_{i,j}/\rho g`; the radiation added mass is normalized as, :math:`A_{i,j}/\rho`; radiation wave damping is normalized as, :math:`B_{i,j}/\rho \omega`; and the wave-exciting forces are normalized as, :math:`X_i/\rho g`. Typically, this function would not be called directly by the user; it is automatically implemented within the Read_NEMOH and Read_AQWA functions. 
 
@@ -101,8 +100,6 @@ BEMIO Functions
 	*Plot_BEMIO(hydro)*
 		* *hydro* – data structure
 
-.. Note::
-	In the future, this will likely be changed to a userDefinedBEMIO.m function, similar to WEC-Sim’s userDefinedFunctions.m, such that users can interactively modify or plot any BEM hydrodynamic variable of interest.
 
 
 BEMIO *hydro* Data Structure
@@ -177,11 +174,3 @@ An example of how to use ``write_hdf5``  is provided in the `WEC-Sim Application
 The first step is to have all the required coefficients and properties in Matlab in the correct format.
 Then the functions provided are used to create and populate the ``*.h5`` file. 
 
-.. Note::
-	BEMIO is currently being modified to allow for reading an existing ``*.h5`` file.
-	This would allow you to read in the ``*.h5`` file you created, calculate the required impulse response functions and state space coefficients, and re-write the ``*.h5`` file.
-..	The new ``*.h5`` file will not have the impulse response function coefficients required for the convolution integral.
-
-.. Note::
-	BEMIO is currently being modified to allow for the combination of different ``*.h5`` files into a single file.
-	This would allow for the BEM of different bodies to be done separately, and BEMIO would take care of making the coefficient matrices the correct size.

@@ -6,12 +6,11 @@ Modeling wave energy converters (WECs) involves the interaction between the inci
 
 .. _wec_sim_methodology:
 
-.. figure:: _static/Physics.png
+.. figure:: _images/Physics.png
     :align: center
         
     ..
-    
-    *WEC-Sim Methodology*
+
 
 
 Coordinate System
@@ -20,9 +19,9 @@ The :ref:`WEC-Sim Coordinate System <coordinate_system>` figure illustrates a 3-
 
 .. _coordinate_system:
 
-.. figure:: _static/coordinateSystem.png
+.. figure:: _images/coordinateSystem.png
     :align: center
-    :width: 400pt    
+    :width: 200pt    
     
     ..
 
@@ -226,7 +225,7 @@ Irregular waves are modeled as the linear superposition of a large number of har
 where :math:`H` is the wave height, :math:`\omega` is the wave frequency  (:math:`\omega = \frac{2\pi}{T}`), :math:`k` is the wave number (:math:`k = \frac{2\pi}{\lambda}`), :math:`\theta` is the wave direction, and :math:`\phi` is the wave phase (randomized for irregular waves).   
 
 Wave Spectra
-------------
+^^^^^^^^^^^^^^^^^^^^^^^
 The linear superposition of regular waves of distinct amplitudes and periods is characterized in the frequency domain by a wave spectrum. Through statistical analysis, spectra are characterized by specific parameters such as significant wave height, peak period, wind speed, fetch length, and others. Common types of wave spectra that are used by the offshore industry are discussed in the following sections.  The general form of the wave spectra available in WEC-Sim is given by:
 
 .. math::
@@ -258,7 +257,7 @@ The spectral moment, :math:`m_{0}` is the variance of the free surface which all
 
 
 Pierson--Moskowitz (PM)
-^^^^^^^^^^^^^^^^^^^^^^^
+""""""""""""""""""""""""
 One of the simplest spectra, the Pierson--Moskowitz spectrum, was proposed by :cite:`PM`. It assumed that after the wind blew steadily for a long time over a large area, the waves would come into equilibrium with the wind. This is the concept of a fully developed sea where a "long time" is roughly 10,000 wave periods and a "large area" is roughly 5,000 wave-lengths on a side.  The spectrum is calculated from:
 
 .. math::
@@ -278,7 +277,7 @@ where the parameter :math:`\alpha_{PM}` = 0.0081 typically, :math:`g=9.81` m/s i
 	
 
 Bretschneider (BS)
-^^^^^^^^^^^^^^^^^^^^^^^
+""""""""""""""""""""""""
 The two-parameter Bretschneider spectrum is based on significant wave height and peak wave frequency.  For a given significant wave height, the peak frequency can be varied to cover a range of conditions including developing and decaying seas. In general, the parameters depend on strongly on wind speed, and also wind direction, fetch, and locations of storm fronts. The spectrum is given as:
 
 .. math::
@@ -297,7 +296,7 @@ This implies coefficients of the general form:
 	
 
 JONSWAP (JS)
-^^^^^^^^^^^^^^^^^^^^^^^
+""""""""""""""""""""""""
 The JONSWAP (Joint North Sea Wave Project) spectrum was purposed by Hasselmann et al. :cite:`HK`, and the original formulation was given as:
 
 .. math::
@@ -382,8 +381,7 @@ The instantaneous mechanical power absorbed by the PTO is given by:
 
 	P_{pto}=-F_{pto}\dot{X}_{rel}
 
-.. Note:: 
-	For more information about application of pto systems in WEC-Sim, refer to `PTO Features <https://wec-sim.github.io/WEC-Sim/advanced_features.html#constraint-and-pto-features>`_.
+For more information about application of pto systems in WEC-Sim, refer to `Constraint and PTO Features <https://wec-sim.github.io/WEC-Sim/advanced_features.html#constraint-and-pto-features>`_.
 	
 
 Mooring 
@@ -405,7 +403,7 @@ MoorDyn discretizes each mooring line in a mooring system into evenly-sized line
 
 .. _MoorDynFig:
 
-.. figure:: _static/MoorDyn_Graphic.png
+.. figure:: _images/MoorDyn_Graphic.png
    :scale: 70 %
    :align: center
     
@@ -413,8 +411,7 @@ MoorDyn discretizes each mooring line in a mooring system into evenly-sized line
 
    *MoorDyn mooring model elements*
 
-.. Note:: 
-	For more information about application of mooring systems in WEC-Sim, refer to `Mooring Features <https://wec-sim.github.io/WEC-Sim/advanced_features.html#mooring-features>`_ .
+For more information about application of mooring systems in WEC-Sim, refer to `Mooring Features <https://wec-sim.github.io/WEC-Sim/advanced_features.html#mooring-features>`_ .
 
 
 Nonlinear Buoynancy and Froude-Krylov Wave Excitation
@@ -431,8 +428,7 @@ where :math:`D` is the mean water depth, and :math:`\eta` is the z-value on the 
 	The nonlinear WEC-Sim method is not intended to model highly nonlinear hydrodynamic events, such as wave slamming and wave breaking. 
 
 
-.. Note:: 
-	For more information about application of nonlinear hydrodynamics in WEC-Sim, refer to `Nonlinear Buoyancy and Froude-Krylov Wave Excitation <https://wec-sim.github.io/WEC-Sim/advanced_features.html#non-linear-hydrodynamics>`_.
+For more information about application of nonlinear hydrodynamics in WEC-Sim, refer to `Nonlinear Buoyancy and Froude-Krylov Wave Excitation <https://wec-sim.github.io/WEC-Sim/advanced_features.html#non-linear-hydrodynamics>`_.
 
 
 
@@ -466,8 +462,7 @@ where :math:`v` is the fluid particle velocity due to wave and current, :math:`C
 .. Note:: 
 	WEC-Sim  does not consider buoyancy effects when calculating the forces from Morison elements. 
 
-.. Note:: 
-	For more information about application of Morison elements in WEC-Sim, refer to `Morison Elements <https://wec-sim.github.io/WEC-Sim/advanced_features.html#viscous-damping-and-morison-elements>`_.
+For more information about application of Morison Elements in WEC-Sim, refer to `Morison Elements <https://wec-sim.github.io/WEC-Sim/advanced_features.html#viscous-damping-and-morison-elements>`_.
 
 
 References

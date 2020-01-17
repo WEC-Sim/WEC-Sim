@@ -43,6 +43,7 @@ The WEC-Sim documentation located on the [gh-pages branch](https://github.com/WE
   - Heading 2 `------`
   - Heading 3 `^^^^^^`
   - Heading 4 `""""""`
+  - Heading 5 `++++++`
   - Use this style guide: https://documentation-style-guide-sphinx.readthedocs.io/en/latest/style-guide.html
 
 ### Terminology Guidelines

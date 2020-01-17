@@ -10,7 +10,7 @@ For information about the implementation and structure of the WEC-Sim source cod
 
 .. _workFlow:
 
-.. figure:: _static/WEC-Sim_flowChart.png
+.. figure:: _images/WEC-Sim_flowChart.png
    :width: 500pt
    :align: center   
     
@@ -56,7 +56,7 @@ Simulink Model
 * In addition to an input file, all WEC-Sim runs require a Simulink model file (``*.slx``). An example Simulink model file for the OSWEC is shown below. 
 * For more information about the OSWEC, and how to build WEC-Sim Simulink models, refer to the `Tutorials <http://wec-sim.github.io/WEC-Sim/tutorials.html>`_ section.
 
-.. figure:: _static/OSWEC_Model.png
+.. figure:: _images/OSWEC_Model.png
    :width: 400pt
    :align: center   
     
@@ -134,7 +134,7 @@ The ``*.slx`` Simulink model file must be located in the ``$CASE`` directory.
 The figure below shows an example WEC-Sim Simulink model for the OSWEC tutorial.
 
 
-.. figure:: _static/OSWEC_Model.png
+.. figure:: _images/OSWEC_Model.png
    :width: 400pt
    :align: center   
     
@@ -147,7 +147,7 @@ Step 3: Write wecSimInputFile.m
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 The WEC-Sim input file must be located in the ``$CASE`` directory, and named ``wecSimInputFile.m``. The figure below shows an example of a WEC-Sim input file. The input file specifies the simulation settings, body mass properties, wave conditions, joints, and mooring. Additionally, the WEC-Sim input file must specify the location of the WEC-Sim Simulink model (``*.slx``) file, the geometry file(s) ``*.stl``, and the hydrodynamic data file (``*.h5``) .
 
-.. figure:: _static/runWECSim_mod.png
+.. figure:: _images/runWECSim_mod.png
    :width: 600pt
 
 Step 4: Run WEC-Sim
