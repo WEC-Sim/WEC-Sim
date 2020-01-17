@@ -92,10 +92,87 @@
             
             
               <ul class="current">
-<li class="toctree-l1"><a class="reference internal" href="terminology.html">Terminology</a></li>
-<li class="toctree-l1"><a class="reference internal" href="getting_started.html">Getting Started</a></li>
-<li class="toctree-l1"><a class="reference internal" href="overview.html">Overview</a></li>
-<li class="toctree-l1"><a class="reference internal" href="theory.html">Theory</a></li>
+<li class="toctree-l1"><a class="reference internal" href="terminology.html">Terminology</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="terminology.html#variables">Variables</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="getting_started.html">Getting Started</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="getting_started.html#matlab-requirements">MATLAB Requirements</a></li>
+<li class="toctree-l2"><a class="reference internal" href="getting_started.html#download-wec-sim">Download WEC-Sim</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="getting_started.html#option-1-clone-repository-from-github-recommended-for-users">Option 1. Clone Repository from GitHub (Recommended for Users)</a></li>
+<li class="toctree-l3"><a class="reference internal" href="getting_started.html#option-2-fork-with-git-recommended-for-developers">Option 2. Fork with Git (Recommended for Developers)</a></li>
+<li class="toctree-l3"><a class="reference internal" href="getting_started.html#option-3-static-code-download-not-recommended">Option 3. Static Code Download (Not Recommended)</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="getting_started.html#install-wec-sim">Install WEC-Sim</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="getting_started.html#step-1-add-wec-sim-source-code-to-matlab-path">Step 1. Add WEC-Sim Source Code to MATLAB Path</a></li>
+<li class="toctree-l3"><a class="reference internal" href="getting_started.html#step-2-add-wec-sim-library-to-simulink">Step 2. Add WEC-Sim Library to Simulink</a></li>
+<li class="toctree-l3"><a class="reference internal" href="getting_started.html#step-3-test-the-installation">Step 3. Test the Installation</a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="overview.html">Overview</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="overview.html#wec-sim-model-files">WEC-Sim Model Files</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="overview.html#hydrodynamic-data">Hydrodynamic Data</a></li>
+<li class="toctree-l3"><a class="reference internal" href="overview.html#geometry-file">Geometry File</a></li>
+<li class="toctree-l3"><a class="reference internal" href="overview.html#simulink-model">Simulink Model</a></li>
+<li class="toctree-l3"><a class="reference internal" href="overview.html#input-file">Input File</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="overview.html#running-wec-sim">Running WEC-Sim</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="overview.html#step-1-run-bemio">Step 1: Run BEMIO</a></li>
+<li class="toctree-l3"><a class="reference internal" href="overview.html#step-2-build-simulink-model">Step 2: Build Simulink Model</a></li>
+<li class="toctree-l3"><a class="reference internal" href="overview.html#step-3-write-wecsiminputfile-m">Step 3: Write wecSimInputFile.m</a></li>
+<li class="toctree-l3"><a class="reference internal" href="overview.html#step-4-run-wec-sim">Step 4: Run WEC-Sim</a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="theory.html">Theory</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="theory.html#coordinate-system">Coordinate System</a></li>
+<li class="toctree-l2"><a class="reference internal" href="theory.html#units">Units</a></li>
+<li class="toctree-l2"><a class="reference internal" href="theory.html#boundary-element-method-bem">Boundary Element Method (BEM)</a></li>
+<li class="toctree-l2"><a class="reference internal" href="theory.html#time-domain-formulation">Time-Domain Formulation</a></li>
+<li class="toctree-l2"><a class="reference internal" href="theory.html#numerical-methods">Numerical Methods</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="theory.html#ramp-function">Ramp Function</a></li>
+<li class="toctree-l3"><a class="reference internal" href="theory.html#sinusoidal-steady-state-response">Sinusoidal Steady-State Response</a></li>
+<li class="toctree-l3"><a class="reference internal" href="theory.html#convolution-integral-formulation">Convolution Integral Formulation</a></li>
+<li class="toctree-l3"><a class="reference internal" href="theory.html#state-space">State Space</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="theory.html#calculation-of-k-r-from-state-space-matrices">Calculation of <img class="math" src="_images/math/823642569004dcf6ef16716b13ae373f63d9e1d5.png" alt="K_{r}"/> from State Space Matrices</a></li>
+<li class="toctree-l4"><a class="reference internal" href="theory.html#realization-theory">Realization Theory</a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="theory.html#regular-waves">Regular Waves</a></li>
+<li class="toctree-l2"><a class="reference internal" href="theory.html#irregular-waves">Irregular Waves</a></li>
+<li class="toctree-l2"><a class="reference internal" href="theory.html#wave-spectra">Wave Spectra</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="theory.html#pierson-moskowitz-pm">Pierson–Moskowitz (PM)</a></li>
+<li class="toctree-l3"><a class="reference internal" href="theory.html#bretschneider-bs">Bretschneider (BS)</a></li>
+<li class="toctree-l3"><a class="reference internal" href="theory.html#jonswap-js">JONSWAP (JS)</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="theory.html#power-take-off-pto">Power Take-Off (PTO)</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="theory.html#linear-pto">Linear PTO</a></li>
+<li class="toctree-l3"><a class="reference internal" href="theory.html#hydraulic-pto">Hydraulic PTO</a></li>
+<li class="toctree-l3"><a class="reference internal" href="theory.html#mechanical-pto">Mechanical PTO</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="theory.html#mooring">Mooring</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="theory.html#mooring-matrix">Mooring Matrix</a></li>
+<li class="toctree-l3"><a class="reference internal" href="theory.html#id24">MoorDyn</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="theory.html#nonlinear-buoynancy-and-froude-krylov-wave-excitation">Nonlinear Buoynancy and Froude-Krylov Wave Excitation</a></li>
+<li class="toctree-l2"><a class="reference internal" href="theory.html#viscous-damping-and-morison-elements">Viscous Damping and Morison Elements</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="theory.html#viscous-damping">Viscous Damping</a></li>
+<li class="toctree-l3"><a class="reference internal" href="theory.html#morison-elements">Morison Elements</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="theory.html#references">References</a></li>
+</ul>
+</li>
 <li class="toctree-l1 current"><a class="current reference internal" href="#">Code Structure</a><ul>
 <li class="toctree-l2"><a class="reference internal" href="#wec-sim-source-code">WEC-Sim Source Code</a></li>
 <li class="toctree-l2"><a class="reference internal" href="#wec-sim-objects">WEC-Sim Objects</a><ul>
@@ -130,13 +207,156 @@
 <li class="toctree-l2"><a class="reference internal" href="#functions-external-codes">Functions &amp; External Codes</a></li>
 </ul>
 </li>
-<li class="toctree-l1"><a class="reference internal" href="tutorials.html">Tutorials</a></li>
-<li class="toctree-l1"><a class="reference internal" href="advanced_features.html">Advanced Features</a></li>
-<li class="toctree-l1"><a class="reference internal" href="webinars.html">Webinars</a></li>
+<li class="toctree-l1"><a class="reference internal" href="tutorials.html">Tutorials</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="tutorials.html#two-body-point-absorber-rm3">Two-Body Point Absorber (RM3)</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="tutorials.html#device-geometry">Device Geometry</a></li>
+<li class="toctree-l3"><a class="reference internal" href="tutorials.html#wec-sim-model-files">WEC-Sim Model Files</a></li>
+<li class="toctree-l3"><a class="reference internal" href="tutorials.html#rm3-tutorial">RM3 Tutorial</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="tutorials.html#step-1-run-bemio">Step 1: Run BEMIO</a></li>
+<li class="toctree-l4"><a class="reference internal" href="tutorials.html#step-2-build-simulink-model">Step 2: Build Simulink Model</a></li>
+<li class="toctree-l4"><a class="reference internal" href="tutorials.html#step-3-write-wecsiminputfile-m">Step 3: Write wecSimInputFile.m</a></li>
+<li class="toctree-l4"><a class="reference internal" href="tutorials.html#step-4-run-wec-sim">Step 4: Run WEC-Sim</a></li>
+<li class="toctree-l4"><a class="reference internal" href="tutorials.html#step-5-post-processing">Step 5: Post-processing</a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="tutorials.html#oscillating-surge-wec-oswec">Oscillating Surge WEC (OSWEC)</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="tutorials.html#id3">Device Geometry</a></li>
+<li class="toctree-l3"><a class="reference internal" href="tutorials.html#id4">WEC-Sim Model Files</a></li>
+<li class="toctree-l3"><a class="reference internal" href="tutorials.html#oswec-tutorial">OSWEC Tutorial</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="tutorials.html#id5">Step 1: Run BEMIO</a></li>
+<li class="toctree-l4"><a class="reference internal" href="tutorials.html#id7">Step 2: Build Simulink Model</a></li>
+<li class="toctree-l4"><a class="reference internal" href="tutorials.html#id8">Step 3: Write wecSimInputFile.m</a></li>
+<li class="toctree-l4"><a class="reference internal" href="tutorials.html#id9">Step 4: Run WEC-Sim</a></li>
+<li class="toctree-l4"><a class="reference internal" href="tutorials.html#id12">Step 5: Post-processing</a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="tutorials.html#wec-sim-examples">WEC-Sim Examples</a></li>
+<li class="toctree-l2"><a class="reference internal" href="tutorials.html#applications-repository">Applications Repository</a></li>
+<li class="toctree-l2"><a class="reference internal" href="tutorials.html#references">References</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="advanced_features.html">Advanced Features</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="advanced_features.html#bemio">BEMIO</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="advanced_features.html#bemio-functions">BEMIO Functions</a></li>
+<li class="toctree-l3"><a class="reference internal" href="advanced_features.html#bemio-hydro-data-structure">BEMIO <em>hydro</em> Data Structure</a></li>
+<li class="toctree-l3"><a class="reference internal" href="advanced_features.html#writing-your-own-h5-file">Writing Your Own h5 File</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="advanced_features.html#simulation-features">Simulation Features</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="advanced_features.html#multiple-condition-runs-mcr">Multiple Condition Runs (MCR)</a></li>
+<li class="toctree-l3"><a class="reference internal" href="advanced_features.html#state-space-representation">State-Space Representation</a></li>
+<li class="toctree-l3"><a class="reference internal" href="advanced_features.html#time-step-features">Time-Step Features</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="advanced_features.html#fixed-time-step-ode4">Fixed Time-Step (ode4)</a></li>
+<li class="toctree-l4"><a class="reference internal" href="advanced_features.html#variable-time-step-ode45">Variable Time-Step (ode45)</a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="advanced_features.html#wave-features">Wave Features</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="advanced_features.html#irregular-wave-binning">Irregular Wave Binning</a></li>
+<li class="toctree-l3"><a class="reference internal" href="advanced_features.html#wave-directionality">Wave Directionality</a></li>
+<li class="toctree-l3"><a class="reference internal" href="advanced_features.html#wave-directional-spreading">Wave Directional Spreading</a></li>
+<li class="toctree-l3"><a class="reference internal" href="advanced_features.html#irregular-waves-with-seeded-phase">Irregular Waves with Seeded Phase</a></li>
+<li class="toctree-l3"><a class="reference internal" href="advanced_features.html#wave-gauge-placement">Wave Gauge Placement</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="advanced_features.html#body-features">Body Features</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="advanced_features.html#body-mass-and-geometry-features">Body Mass and Geometry Features</a></li>
+<li class="toctree-l3"><a class="reference internal" href="advanced_features.html#nonlinear-buoyancy-and-froude-krylov-excitation">Nonlinear Buoyancy and Froude-Krylov Excitation</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="advanced_features.html#nonlinear-settings">Nonlinear Settings</a></li>
+<li class="toctree-l4"><a class="reference internal" href="advanced_features.html#stl-file-generation">STL File Generation</a></li>
+<li class="toctree-l4"><a class="reference internal" href="advanced_features.html#nonlinear-buoyancy-and-froude-krylov-wave-excitation-tutorial-heaving-ellipsoid">Nonlinear Buoyancy and Froude-Krylov Wave Excitation Tutorial - Heaving Ellipsoid</a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="advanced_features.html#non-hydrodynamic-bodies">Non-Hydrodynamic Bodies</a></li>
+<li class="toctree-l3"><a class="reference internal" href="advanced_features.html#body-to-body-interactions">Body-To-Body Interactions</a></li>
+<li class="toctree-l3"><a class="reference internal" href="advanced_features.html#viscous-damping-and-morison-elements">Viscous Damping and Morison Elements</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="advanced_features.html#viscous-damping">Viscous Damping</a></li>
+<li class="toctree-l4"><a class="reference internal" href="advanced_features.html#morison-elements">Morison Elements</a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="advanced_features.html#constraint-and-pto-features">Constraint and PTO Features</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="advanced_features.html#power-take-off-pto-sim">Power Take-Off/PTO-Sim</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="advanced_features.html#tutorial-rm3-with-pto-sim">Tutorial: RM3 with PTO-Sim</a></li>
+<li class="toctree-l4"><a class="reference internal" href="advanced_features.html#tutorial-oswec-with-pto-sim">Tutorial: OSWEC with PTO-Sim</a></li>
+<li class="toctree-l4"><a class="reference internal" href="advanced_features.html#other-pto-sim-tutorials">Other PTO-Sim Tutorials</a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="advanced_features.html#mooring-features">Mooring Features</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="advanced_features.html#mooring-matrix">Mooring Matrix</a></li>
+<li class="toctree-l3"><a class="reference internal" href="advanced_features.html#moordyn">MoorDyn</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="advanced_features.html#tutorial-rm3-with-moordyn">Tutorial: RM3 with MoorDyn</a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="advanced_features.html#visualization-paraview">Visualization/Paraview</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="advanced_features.html#getting-started-installation">Getting Started - Installation</a></li>
+<li class="toctree-l3"><a class="reference internal" href="advanced_features.html#setting-up-paraview-output">Setting Up Paraview Output</a></li>
+<li class="toctree-l3"><a class="reference internal" href="advanced_features.html#outputs-and-opening-in-paraview">Outputs and Opening in Paraview</a></li>
+<li class="toctree-l3"><a class="reference internal" href="advanced_features.html#basic-visualization-manipulation">Basic Visualization Manipulation</a></li>
+<li class="toctree-l3"><a class="reference internal" href="advanced_features.html#visualizing-non-linear-buoyancy-and-froude-krylov-wave-excitation">Visualizing Non-Linear Buoyancy and Froude-Krylov Wave Excitation</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="advanced_features.html#decay-tests">Decay Tests</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="webinars.html">Webinars</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="webinars.html#online-training-course">Online Training Course</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="webinars.html#wec-sim-overview">WEC-Sim Overview</a></li>
+<li class="toctree-l3"><a class="reference internal" href="webinars.html#theory-workflow">Theory &amp; Workflow</a></li>
+<li class="toctree-l3"><a class="reference internal" href="webinars.html#wec-sim-code-structure">WEC-Sim Code Structure</a></li>
+<li class="toctree-l3"><a class="reference internal" href="webinars.html#wave-implementation">Wave Implementation</a></li>
+<li class="toctree-l3"><a class="reference internal" href="webinars.html#body-implementation">Body Implementation</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="webinars.html#advanced-features-webinars">Advanced Features Webinars</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="webinars.html#webinar-1-bemio-and-mcr">Webinar 1 - BEMIO and MCR</a></li>
+<li class="toctree-l3"><a class="reference internal" href="webinars.html#webinar-2-nonlinear-buoyancy-and-froude-krylov-wave-excitation-non-hydro-and-b2b">Webinar 2 - Nonlinear Buoyancy and Froude-Krylov Wave Excitation, Non-Hydro and B2B</a></li>
+<li class="toctree-l3"><a class="reference internal" href="webinars.html#webinar-3-pto-and-control">Webinar 3 - PTO and Control</a></li>
+<li class="toctree-l3"><a class="reference internal" href="webinars.html#webinar-4-mooring-and-visualization">Webinar 4 - Mooring and Visualization</a></li>
+</ul>
+</li>
+</ul>
+</li>
 <li class="toctree-l1"><a class="reference internal" href="license.html">License</a></li>
-<li class="toctree-l1"><a class="reference internal" href="acknowledgements.html">Acknowledgements</a></li>
-<li class="toctree-l1"><a class="reference internal" href="publications.html">Publications</a></li>
-<li class="toctree-l1"><a class="reference internal" href="release_notes.html">Release Notes</a></li>
+<li class="toctree-l1"><a class="reference internal" href="acknowledgements.html">Acknowledgements</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="acknowledgements.html#past-wec-sim-contributors">Past WEC-Sim Contributors</a></li>
+<li class="toctree-l2"><a class="reference internal" href="acknowledgements.html#funding">Funding</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="publications.html">Publications</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="publications.html#news-articles">News Articles</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="release_notes.html">Release Notes</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="release_notes.html#current-release">Current Release</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="release_notes.html#id2">WEC-Sim v4.0</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="release_notes.html#features-in-development">Features in Development</a></li>
+<li class="toctree-l2"><a class="reference internal" href="release_notes.html#previous-releases">Previous Releases</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="release_notes.html#id3">WEC-Sim v3.1</a></li>
+<li class="toctree-l3"><a class="reference internal" href="release_notes.html#id4">WEC-Sim v3.0</a></li>
+<li class="toctree-l3"><a class="reference internal" href="release_notes.html#id5">WEC-Sim v2.2</a></li>
+<li class="toctree-l3"><a class="reference internal" href="release_notes.html#id6">WEC-Sim v2.1</a></li>
+<li class="toctree-l3"><a class="reference internal" href="release_notes.html#id7">WEC-Sim v2.0</a></li>
+<li class="toctree-l3"><a class="reference internal" href="release_notes.html#id8">WEC-Sim v1.3</a></li>
+<li class="toctree-l3"><a class="reference internal" href="release_notes.html#id9">WEC-Sim v1.2</a></li>
+<li class="toctree-l3"><a class="reference internal" href="release_notes.html#id10">WEC-Sim v1.1</a></li>
+<li class="toctree-l3"><a class="reference internal" href="release_notes.html#id11">WEC-Sim v1.0</a></li>
+</ul>
+</li>
+</ul>
+</li>
 <li class="toctree-l1"><a class="reference internal" href="contact.html">Online Forum</a></li>
 </ul>
 
