@@ -89,7 +89,7 @@ Running WEC-Sim
 This section provides a description of the steps to run the WEC-Sim code, refer to the :ref:`WEC-Sim workflow diagram <workFlow>` while following the steps to run WEC-Sim.
 
 
-Step 1: WEC-Sim Pre-Processing 
+Step 1: Run BEMIO
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 In the pre-processing step, users need to create the WEC geometry, run a BEM code to calculate the hydrodynamic coefficients, and convert the hydrodynamic coefficients into the ``*.h5`` format for WEC-Sim to read:
 
@@ -127,7 +127,7 @@ In the pre-processing step, users need to create the WEC geometry, run a BEM cod
 
 .. Note:: Users are also able to specify their own hydrodynamic coefficients by creating their own ``*.h5`` file with customized hydrodynamic coefficients following the ``*.h5`` format created by BEMIO.
 
-Step 2: Build a WEC-Sim Simulink Model
+Step 2: Build Simulink Model
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 In this step, users build their WEC-Sim Simulink model (``*.slx``) using the `WEC-Sim Library <http://wec-sim.github.io/WEC-Sim/code_structure.html#wec-sim-library>`_ developed in Simulink/Simscape. 
 The ``*.slx`` Simulink model file must be located in the ``$CASE`` directory. 
@@ -143,14 +143,14 @@ The figure below shows an example WEC-Sim Simulink model for the OSWEC tutorial.
    *OSWEC Simulink Model*   
    
 
-Step 3: Write the WEC-Sim Input File
+Step 3: Write wecSimInputFile.m
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 The WEC-Sim input file must be located in the ``$CASE`` directory, and named ``wecSimInputFile.m``. The figure below shows an example of a WEC-Sim input file. The input file specifies the simulation settings, body mass properties, wave conditions, joints, and mooring. Additionally, the WEC-Sim input file must specify the location of the WEC-Sim Simulink model (``*.slx``) file, the geometry file(s) ``*.stl``, and the hydrodynamic data file (``*.h5``) .
 
 .. figure:: _static/runWECSim_mod.png
    :width: 600pt
 
-Step 4: Execute WEC-Sim
+Step 4: Run WEC-Sim
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 Lastly, execute the WEC-Sim code by typing ``wecSim`` into the MATLAB Command Window. 
 The WEC-Sim source code is located in the ``$Source`` directory, but ``wecSim`` must be executed from the ``$CASE`` directory.

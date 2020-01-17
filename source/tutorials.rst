@@ -59,16 +59,16 @@ Hydrodynamic Data    ``rm3.h5``    	            ``/tutorials/rm3/hydroData/``
 Geometry Files       ``float.stl`` & ``plate.stl``  ``/tutorials/rm3/geometry/`` 
 ==================   =============================  =============================
 
-Run Tutorial
+RM3 Tutorial
 ^^^^^^^^^^^^^^^^^^^^^^^
 
 
-**Step 1: WEC-Sim Pre-Processing**
-
+Step 1: Run BEMIO
+""""""""""""""""""""""""
 Hydrodynamic data for each RM3 body must be parsed into a HDF5 file using the `BEMIO <http://wec-sim.github.io/WEC-Sim/advanced_features.html#bemio>`_ hydrodynamic data format. The RM3 HDF5 file (``rm3.h5``) was created based on a WAMIT run of the RM3 geometry. The RM3 WAMIT ``rm3.out`` file and the BEMIO ``bemio.m`` script were used to generate the HDF5 are included in the ``/hydroData`` directory.
 
-
-**Step 2: Build WEC-Sim model in Simulink**
+Step 2: Build Simulink Model
+""""""""""""""""""""""""""""""""""""""""""""""""
 
 The WEC-Sim Simulink model is created by dragging and dropping blocks from the *WEC-Sim Library* into the ``rm3.slx`` file. 
 
@@ -98,8 +98,8 @@ The WEC-Sim Simulink model is created by dragging and dropping blocks from the *
 	When setting up a WEC-Sim model, it is very important to note the base and follower frames.
 
 
-**Step 3: Write WEC-Sim input file**
-
+Step 3: Write wecSimInputFile.m
+""""""""""""""""""""""""""""""""""""""""""""""""
 The WEC-Sim input file defines simulation parameters, body properties, joints, and mooring for the RM3 model. The ``wecSimInputFile.m`` for the RM3 is provided in the RM3 case directory, and shown below.
 
 *wecSimInputFile for RM3*
@@ -108,32 +108,16 @@ The WEC-Sim input file defines simulation parameters, body properties, joints, a
    :language: matlab
       
 
-**Step 4: Execute WEC-Sim**
-
+Step 4: Run WEC-Sim
+""""""""""""""""""""""""
 To execute the WEC-Sim code for the RM3 tutorial, type ``wecSim`` into the MATLAB Command Window. Below is a figure showing the final RM3 Simulink model and the WEC-Sim GUI during the simulation. For more information on using WEC-Sim to model the RM3 device, refer to :cite:`ruehl_preliminary_2014`.
 
 .. figure:: _static/RM3_WECSim_GUI.JPG
    :width: 600pt
 
-*Output and Post-processing*
-
-The RM3 example includes a ``userDefinedFunctions.m`` which plots RM3 forces and responses. This file can be modified by users for post-processing. Additionally, once the WEC-Sim run is complete, the WEC-Sim results are saved to the **output** variable in the MATLAB workspace.
-
-
-*Running Different Wave Cases*
-
-The input file for the RM3 tutorial includes several different wave cases: 
-
-* noWaveCIC - no wave with convolution integral calculation
-* regularCIC - regular waves with convolution integral calculation
-* irregular - irregular waves using a Pierson-Moskowitz spectrum with convolution integral calculation
-* irregular - irregular waves using a Bretschneider Spectrum with state space calculation
-* irregularImport - irregular waves using a user-defined spectrum
-* userDefined - user-defined time-series
-
-.. Note::
-
-	If state space is used (``simu.ssCalc=1``), the user needs to make sure the state space hydrodynamic coefficients are included in the ``rm3.h5`` file. 
+Step 5: Post-processing
+""""""""""""""""""""""""""""""""""""""""""""""""
+The RM3 tutorial includes a ``userDefinedFunctions.m`` which plots RM3 forces and responses. This file can be modified by users for post-processing. Additionally, once the WEC-Sim run is complete, the WEC-Sim results are saved to the **output** variable in the MATLAB workspace.
 
   
 Oscillating Surge WEC (OSWEC)
@@ -177,15 +161,15 @@ Geometry Files       ``flap.stl`` & ``base.stl``   ``/tutorials/oswec/geometry/`
 ==================   ============================  ===============================
 
 
-Run Tutorial
+OSWEC Tutorial
 ^^^^^^^^^^^^^^^^^^^^^^^
 
-**Step 1: WEC-Sim Pre-Processing**
-
+Step 1: Run BEMIO
+""""""""""""""""""""""""
 Hydrodynamic data for each OSWEC body must be parsed into a HDF5 file using the `BEMIO <http://wec-sim.github.io/WEC-Sim/advanced_features.html#bemio>`_ hydrodynamic data format. The OSWEC HDF5 file (``oswec.h5``) was created based on a WAMIT run of the OSWEC geometry. The OSWEC WAMIT ``oswec.out`` file and the BEMIO ``bemio.m`` script used to generate the HDF5 are included in the ``/hydroData`` directory.
 
-**Step 2: Build WEC-Sim model in Simulink**
-
+Step 2: Build Simulink Model
+""""""""""""""""""""""""""""""""""""""""""""""""
 The WEC-Sim Simulink model is created by dragging and dropping blocks from the *WEC-Sim Library* into the ``oswec.slx`` file. 
 
 * Place two **Rigid Body** blocks from the *WEC-Sim Library* in the Simulink model file, one for each OSWEC rigid body. 
@@ -213,8 +197,8 @@ The WEC-Sim Simulink model is created by dragging and dropping blocks from the *
 
 	When setting up a WEC-Sim model, it is very important to note the base and follower frames.
 
-**Step 3: Write WEC-Sim input file**
-
+Step 3: Write wecSimInputFile.m
+""""""""""""""""""""""""""""""""""""""""""""""""
 The WEC-Sim input file defines simulation parameters, body properties, joints, and mooring for the OSWEC model. The ``wecSimInputFile.m`` for the OSWEC is provided in the OSWEC case directory, and shown below.
 
 *wecSimInputFile.m for OSWEC*
@@ -222,12 +206,30 @@ The WEC-Sim input file defines simulation parameters, body properties, joints, a
 .. literalinclude:: OSWECwecSimInputFile.m
    :language: matlab
 
-**Step 4: Execute WEC-Sim**
-
+Step 4: Run WEC-Sim
+""""""""""""""""""""""""
 To execute the WEC-Sim code for the OSWEC tutorial, type ``wecSim`` into the MATLAB Command Window. Below is a figure showing the final OSWEC Simulink model and the WEC-Sim GUI during the simulation. For more information on using WEC-Sim to model the OSWEC device, refer to :cite:`y._yu_development_2014,y._yu_design_2014`.
 
 .. figure:: _static/OSWEC_WECSim_GUI.jpg
    :width: 600pt
+
+Step 5: Post-processing
+""""""""""""""""""""""""""""""""""""""""""""""""
+The OSWEC tutorial includes a ``userDefinedFunctions.m`` which plots OSWEC forces and responses. This file can be modified by users for post-processing. Additionally, once the WEC-Sim run is complete, the WEC-Sim results are saved to the **output** variable in the MATLAB workspace.
+
+
+
+WEC-Sim Examples
+------------------------
+Working examples of using WEC-Sim to model the RM3 and OSWEC are provided in the ``$SOURCE/examples/`` directory. 
+For each example the ``wecSimInputFile.m`` provided includes examples of how to run different wave cases: 
+
+* ``noWaveCIC`` - no wave with convolution integral calculation
+* ``regularCIC`` - regular waves with convolution integral calculation
+* ``irregular`` - irregular waves using a Pierson-Moskowitz spectrum with convolution integral calculation
+* ``irregular`` - irregular waves using a Bretschneider Spectrum with state space calculation
+* ``spectrumImport`` - irregular waves using a user-defined spectrum
+* ``etaImport`` - user-defined time-series
 
 
 Applications Repository

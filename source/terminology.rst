@@ -32,7 +32,6 @@ Variables
 ======================= ===================================================
 Variable       	 	Definition
 ======================= ===================================================
-:math:`A` *	 	Wave amplitude (m), :math:`A = \frac{H}{2}`
 :math:`A(\omega)`	Frequency dependent radiation added mass (kg)
 :math:`A_{\infty}`	Added mass at infinite frequency (kg)
 :math:`B(\omega)`	Frequency dependent radiation wave damping (N/m/s)
@@ -69,10 +68,7 @@ Variable       	 	Definition
 :math:`t`  		Simulation time (s)
 :math:`t_{r}` 		Ramp time (s)
 :math:`\theta`		Wave direction (Degrees) 
-:math:`T_{e}` *		Energy period (s)
 :math:`T_{p}` 		Peak period (s)
 :math:`X` 		Translation and rotation displacement vector (m) or (rad)
 ======================= ===================================================
 
-.. Note:: 
-	This section is a work in progress, * means may not be used in WEC-Sim doc

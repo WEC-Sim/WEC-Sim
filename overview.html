@@ -103,10 +103,10 @@
 </ul>
 </li>
 <li class="toctree-l2"><a class="reference internal" href="#running-wec-sim">Running WEC-Sim</a><ul>
-<li class="toctree-l3"><a class="reference internal" href="#step-1-wec-sim-pre-processing">Step 1: WEC-Sim Pre-Processing</a></li>
-<li class="toctree-l3"><a class="reference internal" href="#step-2-build-a-wec-sim-simulink-model">Step 2: Build a WEC-Sim Simulink Model</a></li>
-<li class="toctree-l3"><a class="reference internal" href="#step-3-write-the-wec-sim-input-file">Step 3: Write the WEC-Sim Input File</a></li>
-<li class="toctree-l3"><a class="reference internal" href="#step-4-execute-wec-sim">Step 4: Execute WEC-Sim</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#step-1-run-bemio">Step 1: Run BEMIO</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#step-2-build-simulink-model">Step 2: Build Simulink Model</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#step-3-write-wecsiminputfile-m">Step 3: Write wecSimInputFile.m</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#step-4-run-wec-sim">Step 4: Run WEC-Sim</a></li>
 </ul>
 </li>
 </ul>
@@ -319,8 +319,8 @@ The WEC-Sim input file (<code class="docutils literal notranslate"><span class="
 <div class="section" id="running-wec-sim">
 <h2>Running WEC-Sim<a class="headerlink" href="#running-wec-sim" title="Permalink to this headline">¶</a></h2>
 <p>This section provides a description of the steps to run the WEC-Sim code, refer to the <a class="reference internal" href="#workflow"><span class="std std-ref">WEC-Sim workflow diagram</span></a> while following the steps to run WEC-Sim.</p>
-<div class="section" id="step-1-wec-sim-pre-processing">
-<h3>Step 1: WEC-Sim Pre-Processing<a class="headerlink" href="#step-1-wec-sim-pre-processing" title="Permalink to this headline">¶</a></h3>
+<div class="section" id="step-1-run-bemio">
+<h3>Step 1: Run BEMIO<a class="headerlink" href="#step-1-run-bemio" title="Permalink to this headline">¶</a></h3>
 <p>In the pre-processing step, users need to create the WEC geometry, run a BEM code to calculate the hydrodynamic coefficients, and convert the hydrodynamic coefficients into the <code class="docutils literal notranslate"><span class="pre">*.h5</span></code> format for WEC-Sim to read:</p>
 <ul>
 <li><p><strong>Create WEC Geometry</strong>:</p>
@@ -390,8 +390,8 @@ The WEC-Sim input file (<code class="docutils literal notranslate"><span class="
 <p>Users are also able to specify their own hydrodynamic coefficients by creating their own <code class="docutils literal notranslate"><span class="pre">*.h5</span></code> file with customized hydrodynamic coefficients following the <code class="docutils literal notranslate"><span class="pre">*.h5</span></code> format created by BEMIO.</p>
 </div>
 </div>
-<div class="section" id="step-2-build-a-wec-sim-simulink-model">
-<h3>Step 2: Build a WEC-Sim Simulink Model<a class="headerlink" href="#step-2-build-a-wec-sim-simulink-model" title="Permalink to this headline">¶</a></h3>
+<div class="section" id="step-2-build-simulink-model">
+<h3>Step 2: Build Simulink Model<a class="headerlink" href="#step-2-build-simulink-model" title="Permalink to this headline">¶</a></h3>
 <p>In this step, users build their WEC-Sim Simulink model (<code class="docutils literal notranslate"><span class="pre">*.slx</span></code>) using the <a class="reference external" href="http://wec-sim.github.io/WEC-Sim/code_structure.html#wec-sim-library">WEC-Sim Library</a> developed in Simulink/Simscape.
 The <code class="docutils literal notranslate"><span class="pre">*.slx</span></code> Simulink model file must be located in the <code class="docutils literal notranslate"><span class="pre">$CASE</span></code> directory.
 The figure below shows an example WEC-Sim Simulink model for the OSWEC tutorial.</p>
@@ -402,15 +402,15 @@ The figure below shows an example WEC-Sim Simulink model for the OSWEC tutorial.
 </div>
 </div>
 </div>
-<div class="section" id="step-3-write-the-wec-sim-input-file">
-<h3>Step 3: Write the WEC-Sim Input File<a class="headerlink" href="#step-3-write-the-wec-sim-input-file" title="Permalink to this headline">¶</a></h3>
+<div class="section" id="step-3-write-wecsiminputfile-m">
+<h3>Step 3: Write wecSimInputFile.m<a class="headerlink" href="#step-3-write-wecsiminputfile-m" title="Permalink to this headline">¶</a></h3>
 <p>The WEC-Sim input file must be located in the <code class="docutils literal notranslate"><span class="pre">$CASE</span></code> directory, and named <code class="docutils literal notranslate"><span class="pre">wecSimInputFile.m</span></code>. The figure below shows an example of a WEC-Sim input file. The input file specifies the simulation settings, body mass properties, wave conditions, joints, and mooring. Additionally, the WEC-Sim input file must specify the location of the WEC-Sim Simulink model (<code class="docutils literal notranslate"><span class="pre">*.slx</span></code>) file, the geometry file(s) <code class="docutils literal notranslate"><span class="pre">*.stl</span></code>, and the hydrodynamic data file (<code class="docutils literal notranslate"><span class="pre">*.h5</span></code>) .</p>
 <div class="figure align-default">
 <a class="reference internal image-reference" href="_images/runWECSim_mod.png"><img alt="_images/runWECSim_mod.png" src="_images/runWECSim_mod.png" style="width: 600pt;" /></a>
 </div>
 </div>
-<div class="section" id="step-4-execute-wec-sim">
-<h3>Step 4: Execute WEC-Sim<a class="headerlink" href="#step-4-execute-wec-sim" title="Permalink to this headline">¶</a></h3>
+<div class="section" id="step-4-run-wec-sim">
+<h3>Step 4: Run WEC-Sim<a class="headerlink" href="#step-4-run-wec-sim" title="Permalink to this headline">¶</a></h3>
 <p>Lastly, execute the WEC-Sim code by typing <code class="docutils literal notranslate"><span class="pre">wecSim</span></code> into the MATLAB Command Window.
 The WEC-Sim source code is located in the <code class="docutils literal notranslate"><span class="pre">$Source</span></code> directory, but <code class="docutils literal notranslate"><span class="pre">wecSim</span></code> must be executed from the <code class="docutils literal notranslate"><span class="pre">$CASE</span></code> directory.</p>
 <div class="admonition note">

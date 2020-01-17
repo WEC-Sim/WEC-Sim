@@ -101,15 +101,30 @@
 <li class="toctree-l2"><a class="reference internal" href="#two-body-point-absorber-rm3">Two-Body Point Absorber (RM3)</a><ul>
 <li class="toctree-l3"><a class="reference internal" href="#device-geometry">Device Geometry</a></li>
 <li class="toctree-l3"><a class="reference internal" href="#wec-sim-model-files">WEC-Sim Model Files</a></li>
-<li class="toctree-l3"><a class="reference internal" href="#run-tutorial">Run Tutorial</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#rm3-tutorial">RM3 Tutorial</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="#step-1-run-bemio">Step 1: Run BEMIO</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#step-2-build-simulink-model">Step 2: Build Simulink Model</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#step-3-write-wecsiminputfile-m">Step 3: Write wecSimInputFile.m</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#step-4-run-wec-sim">Step 4: Run WEC-Sim</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#step-5-post-processing">Step 5: Post-processing</a></li>
+</ul>
+</li>
 </ul>
 </li>
 <li class="toctree-l2"><a class="reference internal" href="#oscillating-surge-wec-oswec">Oscillating Surge WEC (OSWEC)</a><ul>
 <li class="toctree-l3"><a class="reference internal" href="#id3">Device Geometry</a></li>
 <li class="toctree-l3"><a class="reference internal" href="#id4">WEC-Sim Model Files</a></li>
-<li class="toctree-l3"><a class="reference internal" href="#id5">Run Tutorial</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#oswec-tutorial">OSWEC Tutorial</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="#id5">Step 1: Run BEMIO</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#id7">Step 2: Build Simulink Model</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#id8">Step 3: Write wecSimInputFile.m</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#id9">Step 4: Run WEC-Sim</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#id12">Step 5: Post-processing</a></li>
 </ul>
 </li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="#wec-sim-examples">WEC-Sim Examples</a></li>
 <li class="toctree-l2"><a class="reference internal" href="#applications-repository">Applications Repository</a></li>
 <li class="toctree-l2"><a class="reference internal" href="#references">References</a></li>
 </ul>
@@ -312,11 +327,14 @@ Inertia (kg-m^2)</p></td>
 </tbody>
 </table>
 </div>
-<div class="section" id="run-tutorial">
-<h3>Run Tutorial<a class="headerlink" href="#run-tutorial" title="Permalink to this headline">¶</a></h3>
-<p><strong>Step 1: WEC-Sim Pre-Processing</strong></p>
+<div class="section" id="rm3-tutorial">
+<h3>RM3 Tutorial<a class="headerlink" href="#rm3-tutorial" title="Permalink to this headline">¶</a></h3>
+<div class="section" id="step-1-run-bemio">
+<h4>Step 1: Run BEMIO<a class="headerlink" href="#step-1-run-bemio" title="Permalink to this headline">¶</a></h4>
 <p>Hydrodynamic data for each RM3 body must be parsed into a HDF5 file using the <a class="reference external" href="http://wec-sim.github.io/WEC-Sim/advanced_features.html#bemio">BEMIO</a> hydrodynamic data format. The RM3 HDF5 file (<code class="docutils literal notranslate"><span class="pre">rm3.h5</span></code>) was created based on a WAMIT run of the RM3 geometry. The RM3 WAMIT <code class="docutils literal notranslate"><span class="pre">rm3.out</span></code> file and the BEMIO <code class="docutils literal notranslate"><span class="pre">bemio.m</span></code> script were used to generate the HDF5 are included in the <code class="docutils literal notranslate"><span class="pre">/hydroData</span></code> directory.</p>
-<p><strong>Step 2: Build WEC-Sim model in Simulink</strong></p>
+</div>
+<div class="section" id="step-2-build-simulink-model">
+<h4>Step 2: Build Simulink Model<a class="headerlink" href="#step-2-build-simulink-model" title="Permalink to this headline">¶</a></h4>
 <p>The WEC-Sim Simulink model is created by dragging and dropping blocks from the <em>WEC-Sim Library</em> into the <code class="docutils literal notranslate"><span class="pre">rm3.slx</span></code> file.</p>
 <ul class="simple">
 <li><p>Place two <strong>Rigid Body</strong> blocks from the <em>WEC-Sim Library</em> in the Simulink model file, one for each RM3 rigid body.</p></li>
@@ -342,7 +360,9 @@ Inertia (kg-m^2)</p></td>
 <p class="admonition-title">Note</p>
 <p>When setting up a WEC-Sim model, it is very important to note the base and follower frames.</p>
 </div>
-<p><strong>Step 3: Write WEC-Sim input file</strong></p>
+</div>
+<div class="section" id="step-3-write-wecsiminputfile-m">
+<h4>Step 3: Write wecSimInputFile.m<a class="headerlink" href="#step-3-write-wecsiminputfile-m" title="Permalink to this headline">¶</a></h4>
 <p>The WEC-Sim input file defines simulation parameters, body properties, joints, and mooring for the RM3 model. The <code class="docutils literal notranslate"><span class="pre">wecSimInputFile.m</span></code> for the RM3 is provided in the RM3 case directory, and shown below.</p>
 <p><em>wecSimInputFile for RM3</em></p>
 <div class="highlight-matlab notranslate"><div class="highlight"><pre><span></span><span class="c">%% Simulation Data</span>
@@ -384,26 +404,17 @@ Inertia (kg-m^2)</p></td>
 <span class="n">pto</span><span class="p">(</span><span class="mi">1</span><span class="p">).</span><span class="n">loc</span> <span class="p">=</span> <span class="p">[</span><span class="mi">0</span> <span class="mi">0</span> <span class="mi">0</span><span class="p">];</span>                           <span class="c">% PTO Location [m]</span>
 </pre></div>
 </div>
-<p><strong>Step 4: Execute WEC-Sim</strong></p>
-<p>To execute the WEC-Sim code for the RM3 tutorial, type <code class="docutils literal notranslate"><span class="pre">wecSim</span></code> into the MATLAB Command Window. Below is a figure showing the final RM3 Simulink model and the WEC-Sim GUI during the simulation. For more information on using WEC-Sim to model the RM3 device, refer to <a class="bibtex reference internal" href="#ruehl-preliminary-2014" id="id2">[1]</a>.</p>
+</div>
+<div class="section" id="step-4-run-wec-sim">
+<h4>Step 4: Run WEC-Sim<a class="headerlink" href="#step-4-run-wec-sim" title="Permalink to this headline">¶</a></h4>
+<p>To execute the WEC-Sim code for the RM3 tutorial, type <code class="docutils literal notranslate"><span class="pre">wecSim</span></code> into the MATLAB Command Window. Below is a figure showing the final RM3 Simulink model and the WEC-Sim GUI during the simulation. For more information on using WEC-Sim to model the RM3 device, refer to <a class="reference internal" href="#ruehl-preliminary-2014" id="id2">[1]</a>.</p>
 <div class="figure align-default">
 <a class="reference internal image-reference" href="_images/RM3_WECSim_GUI.JPG"><img alt="_images/RM3_WECSim_GUI.JPG" src="_images/RM3_WECSim_GUI.JPG" style="width: 600pt;" /></a>
 </div>
-<p><em>Output and Post-processing</em></p>
-<p>The RM3 example includes a <code class="docutils literal notranslate"><span class="pre">userDefinedFunctions.m</span></code> which plots RM3 forces and responses. This file can be modified by users for post-processing. Additionally, once the WEC-Sim run is complete, the WEC-Sim results are saved to the <strong>output</strong> variable in the MATLAB workspace.</p>
-<p><em>Running Different Wave Cases</em></p>
-<p>The input file for the RM3 tutorial includes several different wave cases:</p>
-<ul class="simple">
-<li><p>noWaveCIC - no wave with convolution integral calculation</p></li>
-<li><p>regularCIC - regular waves with convolution integral calculation</p></li>
-<li><p>irregular - irregular waves using a Pierson-Moskowitz spectrum with convolution integral calculation</p></li>
-<li><p>irregular - irregular waves using a Bretschneider Spectrum with state space calculation</p></li>
-<li><p>irregularImport - irregular waves using a user-defined spectrum</p></li>
-<li><p>userDefined - user-defined time-series</p></li>
-</ul>
-<div class="admonition note">
-<p class="admonition-title">Note</p>
-<p>If state space is used (<code class="docutils literal notranslate"><span class="pre">simu.ssCalc=1</span></code>), the user needs to make sure the state space hydrodynamic coefficients are included in the <code class="docutils literal notranslate"><span class="pre">rm3.h5</span></code> file.</p>
+</div>
+<div class="section" id="step-5-post-processing">
+<h4>Step 5: Post-processing<a class="headerlink" href="#step-5-post-processing" title="Permalink to this headline">¶</a></h4>
+<p>The RM3 tutorial includes a <code class="docutils literal notranslate"><span class="pre">userDefinedFunctions.m</span></code> which plots RM3 forces and responses. This file can be modified by users for post-processing. Additionally, once the WEC-Sim run is complete, the WEC-Sim results are saved to the <strong>output</strong> variable in the MATLAB workspace.</p>
 </div>
 </div>
 </div>
@@ -479,11 +490,14 @@ of Inertia
 </tbody>
 </table>
 </div>
+<div class="section" id="oswec-tutorial">
+<h3>OSWEC Tutorial<a class="headerlink" href="#oswec-tutorial" title="Permalink to this headline">¶</a></h3>
 <div class="section" id="id5">
-<h3>Run Tutorial<a class="headerlink" href="#id5" title="Permalink to this headline">¶</a></h3>
-<p><strong>Step 1: WEC-Sim Pre-Processing</strong></p>
+<h4>Step 1: Run BEMIO<a class="headerlink" href="#id5" title="Permalink to this headline">¶</a></h4>
 <p>Hydrodynamic data for each OSWEC body must be parsed into a HDF5 file using the <a class="reference external" href="http://wec-sim.github.io/WEC-Sim/advanced_features.html#bemio">BEMIO</a> hydrodynamic data format. The OSWEC HDF5 file (<code class="docutils literal notranslate"><span class="pre">oswec.h5</span></code>) was created based on a WAMIT run of the OSWEC geometry. The OSWEC WAMIT <code class="docutils literal notranslate"><span class="pre">oswec.out</span></code> file and the BEMIO <code class="docutils literal notranslate"><span class="pre">bemio.m</span></code> script used to generate the HDF5 are included in the <code class="docutils literal notranslate"><span class="pre">/hydroData</span></code> directory.</p>
-<p><strong>Step 2: Build WEC-Sim model in Simulink</strong></p>
+</div>
+<div class="section" id="id7">
+<h4>Step 2: Build Simulink Model<a class="headerlink" href="#id7" title="Permalink to this headline">¶</a></h4>
 <p>The WEC-Sim Simulink model is created by dragging and dropping blocks from the <em>WEC-Sim Library</em> into the <code class="docutils literal notranslate"><span class="pre">oswec.slx</span></code> file.</p>
 <ul class="simple">
 <li><p>Place two <strong>Rigid Body</strong> blocks from the <em>WEC-Sim Library</em> in the Simulink model file, one for each OSWEC rigid body.</p></li>
@@ -509,7 +523,9 @@ of Inertia
 <p class="admonition-title">Note</p>
 <p>When setting up a WEC-Sim model, it is very important to note the base and follower frames.</p>
 </div>
-<p><strong>Step 3: Write WEC-Sim input file</strong></p>
+</div>
+<div class="section" id="id8">
+<h4>Step 3: Write wecSimInputFile.m<a class="headerlink" href="#id8" title="Permalink to this headline">¶</a></h4>
 <p>The WEC-Sim input file defines simulation parameters, body properties, joints, and mooring for the OSWEC model. The <code class="docutils literal notranslate"><span class="pre">wecSimInputFile.m</span></code> for the OSWEC is provided in the OSWEC case directory, and shown below.</p>
 <p><em>wecSimInputFile.m for OSWEC</em></p>
 <div class="highlight-matlab notranslate"><div class="highlight"><pre><span></span><span class="c">%% Simulation Data</span>
@@ -551,12 +567,32 @@ of Inertia
 <span class="n">pto</span><span class="p">(</span><span class="mi">1</span><span class="p">).</span><span class="n">loc</span> <span class="p">=</span> <span class="p">[</span><span class="mi">0</span> <span class="mi">0</span> <span class="o">-</span><span class="mf">8.9</span><span class="p">];</span>                        <span class="c">% PTO Location [m]</span>
 </pre></div>
 </div>
-<p><strong>Step 4: Execute WEC-Sim</strong></p>
-<p>To execute the WEC-Sim code for the OSWEC tutorial, type <code class="docutils literal notranslate"><span class="pre">wecSim</span></code> into the MATLAB Command Window. Below is a figure showing the final OSWEC Simulink model and the WEC-Sim GUI during the simulation. For more information on using WEC-Sim to model the OSWEC device, refer to <a class="bibtex reference internal" href="#y-yu-development-2014" id="id7">[2]</a><a class="bibtex reference internal" href="#y-yu-design-2014" id="id8">[3]</a>.</p>
+</div>
+<div class="section" id="id9">
+<h4>Step 4: Run WEC-Sim<a class="headerlink" href="#id9" title="Permalink to this headline">¶</a></h4>
+<p>To execute the WEC-Sim code for the OSWEC tutorial, type <code class="docutils literal notranslate"><span class="pre">wecSim</span></code> into the MATLAB Command Window. Below is a figure showing the final OSWEC Simulink model and the WEC-Sim GUI during the simulation. For more information on using WEC-Sim to model the OSWEC device, refer to <a class="reference internal" href="#y-yu-development-2014" id="id10">[2]</a><a class="reference internal" href="#y-yu-design-2014" id="id11">[3]</a>.</p>
 <div class="figure align-default">
 <a class="reference internal image-reference" href="_images/OSWEC_WECSim_GUI.jpg"><img alt="_images/OSWEC_WECSim_GUI.jpg" src="_images/OSWEC_WECSim_GUI.jpg" style="width: 600pt;" /></a>
 </div>
 </div>
+<div class="section" id="id12">
+<h4>Step 5: Post-processing<a class="headerlink" href="#id12" title="Permalink to this headline">¶</a></h4>
+<p>The OSWEC tutorial includes a <code class="docutils literal notranslate"><span class="pre">userDefinedFunctions.m</span></code> which plots OSWEC forces and responses. This file can be modified by users for post-processing. Additionally, once the WEC-Sim run is complete, the WEC-Sim results are saved to the <strong>output</strong> variable in the MATLAB workspace.</p>
+</div>
+</div>
+</div>
+<div class="section" id="wec-sim-examples">
+<h2>WEC-Sim Examples<a class="headerlink" href="#wec-sim-examples" title="Permalink to this headline">¶</a></h2>
+<p>Working examples of using WEC-Sim to model the RM3 and OSWEC are provided in the <code class="docutils literal notranslate"><span class="pre">$SOURCE/examples/</span></code> directory.
+For each example the <code class="docutils literal notranslate"><span class="pre">wecSimInputFile.m</span></code> provided includes examples of how to run different wave cases:</p>
+<ul class="simple">
+<li><p><code class="docutils literal notranslate"><span class="pre">noWaveCIC</span></code> - no wave with convolution integral calculation</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">regularCIC</span></code> - regular waves with convolution integral calculation</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">irregular</span></code> - irregular waves using a Pierson-Moskowitz spectrum with convolution integral calculation</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">irregular</span></code> - irregular waves using a Bretschneider Spectrum with state space calculation</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">spectrumImport</span></code> - irregular waves using a user-defined spectrum</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">etaImport</span></code> - user-defined time-series</p></li>
+</ul>
 </div>
 <div class="section" id="applications-repository">
 <h2>Applications Repository<a class="headerlink" href="#applications-repository" title="Permalink to this headline">¶</a></h2>
@@ -565,13 +601,13 @@ of Inertia
 <div class="section" id="references">
 <h2>References<a class="headerlink" href="#references" title="Permalink to this headline">¶</a></h2>
 <p id="bibtex-bibliography-tutorials-0"><dl class="citation">
-<dt class="bibtex label" id="ruehl-preliminary-2014"><span class="brackets"><a class="fn-backref" href="#id2">1</a></span></dt>
+<dt class="label" id="ruehl-preliminary-2014"><span class="brackets"><a class="fn-backref" href="#id2">1</a></span></dt>
 <dd><p>K. Ruehl, C. Michelen, S. Kanner, M. Lawson, and Y. Yu. Preliminary Verification and Validation of WEC-Sim, an Open-Source Wave Energy Converter Design Tool. In <em>Proceedings of OMAE 2014</em>. San Francisco, CA, 2014.</p>
 </dd>
-<dt class="bibtex label" id="y-yu-development-2014"><span class="brackets"><a class="fn-backref" href="#id7">2</a></span></dt>
+<dt class="label" id="y-yu-development-2014"><span class="brackets"><a class="fn-backref" href="#id10">2</a></span></dt>
 <dd><p>Y. Yu, M. Lawson, K. Ruehl, and C. Michelen. Development and Demonstration of the WEC-Sim Wave Energy Converter Simulation Tool. In <em>Proceedings of the 2nd Marine Energy Technology Symposium</em>. Seattle, WA, USA, 2014.</p>
 </dd>
-<dt class="bibtex label" id="y-yu-design-2014"><span class="brackets"><a class="fn-backref" href="#id8">3</a></span></dt>
+<dt class="label" id="y-yu-design-2014"><span class="brackets"><a class="fn-backref" href="#id11">3</a></span></dt>
 <dd><p>Y. Yu, Y. Li, K. Hallett, and C. Hotimsky. Design and Analysis for a Floating Oscillating Surge Wave Energy Converter. In <em>Proceedings of OMAE 2014</em>. San Francisco, CA, 2014.</p>
 </dd>
 </dl>
