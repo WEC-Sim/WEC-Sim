@@ -84,7 +84,7 @@ for ii = 1:length(body(1,:))
     end
 end; clear ii
 % All
-output = responseClass(bodiesOutput,ptosOutput,constraintsOutput,ptosimOutput,mooringOutput,waves.type,waves.waveAmpTime,hspressure, wpressurenl, wpressurel);
+output = responseClass(bodiesOutput,ptosOutput,constraintsOutput,ptosimOutput,mooringOutput,waves.type,waves.waveAmpTime,hspressure, wpressurenl, wpressurel, simu.yawNonLin);
 clear bodiesOutput ptosOutput constraintsOutput ptosimOutput mooringOutput
 % MoorDyn
 for iMoor = 1:simu.numMoorings

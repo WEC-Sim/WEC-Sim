@@ -123,6 +123,11 @@ if exist('./ptoSimInputFile.m','file') == 2
     ptoSimInputFile
     ptosim.countblocks;
 end
+
+if simu.yawNonLin==1 && simu.yawThresh==1;
+    warning(['yawNonLin using (default) 1 dg interpolation threshold.' newline 'Ensure this is appropriate for your geometry'])
+end
+
 toc
 
 %% Pre-processing start
@@ -132,6 +137,7 @@ fprintf('\nWEC-Sim Pre-processing ...   \n');
 %% HydroForce Pre-Processing: Wave Setup & HydroForcePre.
 % simulation setup
 simu.setupSim;
+
 
 % wave setup
 waves.waveSetup(body(1).hydroData.simulation_parameters.w, body(1).hydroData.simulation_parameters.water_depth, simu.rampTime, simu.dt, simu.maxIt, simu.g, simu.rho,  simu.endTime);
@@ -154,7 +160,8 @@ end
 
 % hydroForcePre
 for kk = 1:simu.numWecBodies
-    body(kk).hydroForcePre(waves.w,waves.waveDir,simu.CIkt,simu.CTTime,waves.numFreq,simu.dt,simu.rho,simu.g,waves.type,waves.waveAmpTime,kk,simu.numWecBodies,simu.ssCalc,simu.nlHydro,simu.b2b);
+    body(kk).hydroForcePre(waves.w,waves.waveDir,simu.CIkt,simu.CTTime,waves.numFreq,simu.dt,...
+        simu.rho,simu.g,waves.type,waves.waveAmpTime,kk,simu.numWecBodies,simu.ssCalc,simu.nlHydro,simu.b2b,simu.yawNonLin);
 end; clear kk
 
 % Check CITime
@@ -192,6 +199,7 @@ end
 
 %% Set variant subsystems options
 nlHydro = simu.nlHydro;
+yawNonLin=simu.yawNonLin;
 sv_linearHydro=Simulink.Variant('nlHydro==0');
 sv_nonlinearHydro=Simulink.Variant('nlHydro>0');
 sv_meanFS=Simulink.Variant('nlHydro<2');
@@ -214,8 +222,10 @@ sv_stateSpace=Simulink.Variant('radiation_option==3');
 % Wave type
 typeNum = waves.typeNum;
 sv_noWave=Simulink.Variant('typeNum<10');
-sv_regularWaves=Simulink.Variant('typeNum>=10 && typeNum<20');
-sv_irregularWaves=Simulink.Variant('typeNum>=20 && typeNum<30');
+sv_regularWaves=Simulink.Variant('typeNum>=10 && typeNum<20 && simu.yawNonLin~=1');
+sv_regularWavesNonLinYaw=Simulink.Variant('typeNum>=10 && typeNum<20 && simu.yawNonLin==1');
+sv_irregularWaves=Simulink.Variant('typeNum>=20 && typeNum<30 && simu.yawNonLin~=1');
+sv_irregularWavesNonLinYaw=Simulink.Variant('typeNum>=20 && typeNum<30 && simu.yawNonLin==1');
 sv_udfWaves=Simulink.Variant('typeNum>=30');
 % Body2Body
 B2B = simu.b2b;
@@ -300,7 +310,7 @@ paraViewVisualization
 clear ans table tout;
 toc
 diary off
-movefile('simulation.log',simu.logFile)
+%movefile('simulation.log',simu.logFile)
 if simu.saveMat==1
     save(simu.caseFile,'-v7.3')
 end

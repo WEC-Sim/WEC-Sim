@@ -30,7 +30,7 @@ classdef responseClass<handle
     end
     
     methods (Access = 'public')
-        function obj = responseClass(bodiesOutput,ptosOutput,constraintsOutput,ptosimOutput,mooringOutput,wave_type,wave_elev,hspressure,wpressurenl,wpressurel)                      
+        function obj = responseClass(bodiesOutput,ptosOutput,constraintsOutput,ptosimOutput,mooringOutput,wave_type,wave_elev,hspressure,wpressurenl,wpressurel, yawNonLin)                      
             % Initilization function
             % Read and format ouputs.
             % Wave
@@ -44,6 +44,26 @@ classdef responseClass<handle
                 obj.bodies(ii).time = bodiesOutput(ii).time;
                 for jj = 1:length(signals)
                     obj.bodies(ii).(signals{jj}) = bodiesOutput(ii).signals.values(:, (jj-1)*6+1:(jj-1)*6+6);
+                end
+                if(yawNonLin==1)
+                    for t = 1:length(obj.wave.time)
+                        % convert kinematic data from global frame to local
+                        % frame (for use with yawNonLin when yaw
+                        % displacements may be large). 
+                        rotMatYaw = eulXYZ2RotMat(0, 0, obj.bodies(ii).position(t,6));
+                        rotMatGlobal = eulXYZ2RotMat(obj.bodies(ii).position(t,4), obj.bodies(ii).position(t,5), obj.bodies(ii).position(t,6));
+                        rotMatLocal = rotMatYaw.' * rotMatGlobal;
+                        [phiLoc, thetaLoc, psiLoc] = rotMatXYZ2Eul(rotMatLocal); % get orientation in local frame
+                        % position in local frame
+                        obj.bodies(ii).positionLocal(t,1:3) = rotMatYaw.'*obj.bodies(ii).position(t,1:3).'; % rotate linear position vector from global to local frame
+                        obj.bodies(ii).positionLocal(t,4:6) = [phiLoc, thetaLoc, psiLoc];
+                        % velocity in local frame
+                        obj.bodies(ii).velocityLocal(t,1:3) = rotMatYaw.'*obj.bodies(ii).velocity(t,1:3).'; 
+                        obj.bodies(ii).velocityLocal(t,4:6) = rotMatYaw.'*obj.bodies(ii).velocity(t,4:6).';
+                        % acceleration in local frame
+                        obj.bodies(ii).accelerationLocal(t,1:3) = rotMatYaw.'*obj.bodies(ii).acceleration(t,1:3).'; 
+                        obj.bodies(ii).accelerationLocal(t,4:6) = rotMatYaw.'*obj.bodies(ii).acceleration(t,4:6).';
+                    end
                 end
                 if ~isempty(hspressure{ii})
                     obj.bodies(ii).cellPressures_time = hspressure{ii}.time;
@@ -471,4 +491,18 @@ classdef responseClass<handle
             fclose(fid);
         end
     end
+ end
+
+% some functions for converting global kinematic vectors to the local frame
+% when using yawNonLin.
+function rotMat = eulXYZ2RotMat(phi, theta, psi)
+    rotMat = [cos(theta)*cos(psi), -cos(theta)*sin(psi), sin(theta);
+              (cos(phi)*sin(psi) + sin(phi)*sin(theta)*cos(psi)), (cos(phi)*cos(psi) - sin(phi)*sin(theta)*sin(psi)), -sin(phi)*cos(theta);
+              (sin(phi)*sin(psi) - cos(phi)*sin(theta)*cos(psi)), (sin(phi)*cos(psi) + cos(phi)*sin(theta)*sin(psi)), cos(phi)*cos(theta)]; 
+end
+
+function [phi, theta, psi] = rotMatXYZ2Eul(rotMat)
+    phi = atan2(-rotMat(2,3), rotMat(3,3));
+    theta = asin(rotMat(1,3));
+    psi = atan2(-rotMat(1,2), rotMat(1,1));
 end
