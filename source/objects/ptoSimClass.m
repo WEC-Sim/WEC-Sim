@@ -1,11 +1,14 @@
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-% Copyright 2014 the National Renewable Energy Laboratory and Sandia Corporation
+% Copyright 2014 National Renewable Energy Laboratory and National 
+% Technology & Engineering Solutions of Sandia, LLC (NTESS). 
+% Under the terms of Contract DE-NA0003525 with NTESS, 
+% the U.S. Government retains certain rights in this software.
 % 
 % Licensed under the Apache License, Version 2.0 (the "License");
 % you may not use this file except in compliance with the License.
 % You may obtain a copy of the License at
 % 
-%     http://www.apache.org/licenses/LICENSE-2.0
+% http://www.apache.org/licenses/LICENSE-2.0
 % 
 % Unless required by applicable law or agreed to in writing, software
 % distributed under the License is distributed on an "AS IS" BASIS,
@@ -15,6 +18,7 @@
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
 classdef ptoSimClass<handle
+    % This class contains PTO-Sim parameters and settings
     properties
         name = 'NOT DEFINED'                                                        % PTO Name
         pistonCF               = struct(...                                         % Piston (compressible fluid) block properties

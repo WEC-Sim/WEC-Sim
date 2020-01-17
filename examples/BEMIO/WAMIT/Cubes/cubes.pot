@@ -1,0 +1,14 @@
+cubes.pot -- file type .gdf, ILOWHI=0, IRR=1
+20.                             HBOT
+ 1           1                  IRAD, IDIFF
+-502                         	NPER
+-0.03 0.03                    	PER 
+ -10                          	NBETA 
+ 0.0 10.0                       BETA 
+ 2 				NBODY
+r_cube.gdf 
+ 0.0 0.0 -2.5 0.0 		XBODY(1-4)
+ 1  1  1  1  1  1               IMODE(1-6)
+t_cube.gdf 
+ 100.0 0.0 -2.5 0.0 		XBODY(1-4)
+ 1  1  1  1  1  1               IMODE(1-6)

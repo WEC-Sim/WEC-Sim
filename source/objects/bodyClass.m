@@ -1,12 +1,15 @@
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-% Copyright 2014 the National Renewable Energy Laboratory and Sandia Corporation
-%
+% Copyright 2014 National Renewable Energy Laboratory and National 
+% Technology & Engineering Solutions of Sandia, LLC (NTESS). 
+% Under the terms of Contract DE-NA0003525 with NTESS, 
+% the U.S. Government retains certain rights in this software.
+% 
 % Licensed under the Apache License, Version 2.0 (the "License");
 % you may not use this file except in compliance with the License.
 % You may obtain a copy of the License at
-%
-%     http://www.apache.org/licenses/LICENSE-2.0
-%
+% 
+% http://www.apache.org/licenses/LICENSE-2.0
+% 
 % Unless required by applicable law or agreed to in writing, software
 % distributed under the License is distributed on an "AS IS" BASIS,
 % WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
@@ -15,6 +18,7 @@
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
 classdef bodyClass<handle
+    % This class contains WEC-Sim body parameters and settings
     properties (SetAccess = 'private', GetAccess = 'public') %hdf5 file
         hydroData         = struct()                                            % Hydrodynamic data from BEM or user defined.
     end
@@ -40,7 +44,7 @@ classdef bodyClass<handle
             'initAngularDispAxis',  [0 1 0], ...             % Initial displacement of cog - axis of rotation - used for decay tests (format: [x y z], default = [1 0 0])
             'initAngularDispAngle', 0)                       % Initial displacement of cog - Angle of rotation - used for decay tests (format: [radians], default = 0)
         hydroStiffness   = zeros(6)                                             % Hydrostatic stiffness matrix overrides BEMIO definition, matrix 6x6
-        linearDamping     = [0 0 0 0 0 0]                                       % Linear damping coefficient, vector length 6
+        linearDamping     = zeros(6)                                            % Linear damping coefficient, matrix size of 6x6
         userDefinedExcIRF = []                                                  % Excitation IRF from BEMIO used for User-Defined Time-Series
         viz               = struct(...                                          % Structure defining visualization properties
             'color', [1 1 0], ...                            % Visualization color for either SimMechanics Explorer or Paraview.
@@ -167,7 +171,21 @@ classdef bodyClass<handle
             %    drag, and linear damping matrices
             % 2. Set the wave excitation force
             obj.setMassMatrix(rho,nlHydro)
-            gbmDOF = obj.dof_gbm;
+            if (obj.dof_gbm>0)
+%                obj.linearDamping = [obj.linearDamping zeros(1,obj.dof-length(obj.linearDamping))];
+                tmp0 = obj.linearDamping;
+                tmp1 = size(obj.linearDamping);
+                obj.linearDamping = zeros (obj.dof);                
+                obj.linearDamping(1:tmp1(1),1:tmp1(2)) = tmp0; 
+
+                tmp0 = obj.viscDrag.Drag;
+                tmp1 = size(obj.viscDrag.Drag);
+                obj.viscDrag.Drag = zeros (obj.dof);                
+                obj.viscDrag.Drag(1:tmp1(1),1:tmp1(2)) = tmp0; 
+                
+                obj.viscDrag.cd   = [obj.viscDrag.cd   zeros(1,obj.dof-length(obj.viscDrag.cd  ))];
+                obj.viscDrag.characteristicArea = [obj.viscDrag.characteristicArea zeros(1,obj.dof-length(obj.viscDrag.characteristicArea))];
+            end; clear tmp0 tmp1
             if any(any(obj.hydroStiffness)) == 1  %check if obj.hydroStiffness is defined
                 obj.hydroForce.linearHydroRestCoef = obj.hydroStiffness;
             else
@@ -179,10 +197,7 @@ classdef bodyClass<handle
             else
                 obj.hydroForce.visDrag = diag(0.5*rho.*obj.viscDrag.cd.*obj.viscDrag.characteristicArea);
             end
-            if (obj.dof_gbm>0)
-                obj.linearDamping = [obj.linearDamping(1:6) zeros(1,obj.dof_gbm)];
-            end
-            obj.hydroForce.linearDamping = diag(obj.linearDamping);
+            obj.hydroForce.linearDamping = obj.linearDamping;
             obj.hydroForce.userDefinedFe = zeros(length(waveAmpTime(:,2)),obj.dof);   %initializing userDefinedFe for non imported wave cases
             switch waveType
                 case {'noWave'}

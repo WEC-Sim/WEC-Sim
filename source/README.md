@@ -1,2 +1,2 @@
 # WEC-Sim Source Code
-This is the WEC-Sim source code, consisting of functions, objects, and the WEC-Sim library.
+* WEC-Sim source code, consisting of: wecSim.m, functions, objects, and the WEC-Sim library.
