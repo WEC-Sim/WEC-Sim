@@ -70,4 +70,7 @@ try
 	rmdir('output','s')
 	rmdir('slprj','s')
 	delete('OSWEC.slx.autosave', 'OSWEC_sfun.mexmaci64')
+    
+catch
+end
 end

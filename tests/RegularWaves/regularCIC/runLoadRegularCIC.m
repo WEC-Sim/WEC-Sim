@@ -82,4 +82,6 @@ try
 	rmdir('output','s')
 	rmdir('slprj','s')
 	delete('RM3.slx.autosave', 'RM3_sfun.mexmaci64')
+
+catch
 end
