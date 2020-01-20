@@ -68,6 +68,9 @@ WECSim_Lib_2018b.slx
 !/tests/RegularWaves/regularSS/regularSS_org.mat
 !/tests/IrregularWaves/irregularSS/irregularSS_org.mat
 !/tests/IrregularWaves/irregularCIC/irregularCIC_org.mat
+!/tests/PassiveYaw/IrregularWaves/IrrYaw_org.mat
+!/tests/PassiveYaw/RegularWaves/RegYaw_org.mat
+
 
 # moorDyn
 source/functions/moorDyn/*
