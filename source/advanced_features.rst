@@ -226,6 +226,19 @@ The WEC-Sim input file used to run the nonlinear hydro WEC-Sim simulation:
 
 Simulation and post-processing is the same process as described in `Tutorials <http://wec-sim.github.io/WEC-Sim/tutorials.html>`_ section.
 
+Passive Yaw Implementation
+^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+For non-axisymmetric bodies with yaw orientation that changes substantially with time, WEC-Sim allows a correction to excitation forces for large yaw displacements. To enable this correction, add the following to your ``wecSimInputFile`` 
+
+ 	:code:`simu.yawNonLin = 1`
+
+Under the default implementation (:code:`simu.yawNonLin = 0`), WEC-Sim uses the initial yaw orientation of the device relative to the incident waves to calculate the wave excitation coefficients that will be used for the duration of the simulation. When the correction is enabled, excitation coefficients are interpolated from BEM data based upon the instantaneous relative yaw position. For this to enhance simulation accuracy, BEM data must be available over the range of observed yaw positions at a sufficiently dense discretization to capture the significant variations of excitation coefficients with yaw position. For robust simulation, BEM data should be available from -180 to :math:`170^o` of yaw (or equivalent).    
+
+This can increase simulation time, especially for irregular waves, due to the large number of interpolations that must occur. To prevent interpolation at every time-step, ``simu.yawThresh`` (default :math:`1^o`) can be specified in the ``wecSimInputFile`` to specify the minimum yaw displacement (in degrees) that must occur before another interpolation of excitation coefficients will be calculated. The minimum threshold for good simulation accuracy will be device specific: if it is too large, no interpolation will occur and the simulation will behave as :code:`simu.yawNonLin = 0`, but overly small values may not significantly enhance simulation accuray while increasing simulation time. 
+
+When :code:`simu.yawNonLin = 1`, hydrostatic and radiation forces are determined from the local body-fixed coordinate system based upon the instantaneous relative yaw position of the body, as this may differ substantially from the global coordinate system for large relative yaw values. 
+
+A demonstration case of this feature is included in the `WEC-Sim Applications <https://github.com/WEC-Sim/WEC-Sim_Applications>`_ repository **PassiveYaw** example.  	
 
 Non-Hydrodynamic Bodies
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^

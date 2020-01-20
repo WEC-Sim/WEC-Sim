@@ -418,7 +418,7 @@ The RM3 WAMIT <code class="docutils literal notranslate"><span class="pre">rm3.o
 </div>
 <div class="section" id="step-4-run-wec-sim">
 <h4>Step 4: Run WEC-Sim<a class="headerlink" href="#step-4-run-wec-sim" title="Permalink to this headline">¶</a></h4>
-<p>To execute the WEC-Sim code for the RM3 tutorial, type <code class="docutils literal notranslate"><span class="pre">wecSim</span></code> into the MATLAB Command Window. Below is a figure showing the final RM3 Simulink model and the WEC-Sim GUI during the simulation. For more information on using WEC-Sim to model the RM3 device, refer to <a class="reference internal" href="#ruehl-preliminary-2014" id="id2">[1]</a>.</p>
+<p>To execute the WEC-Sim code for the RM3 tutorial, type <code class="docutils literal notranslate"><span class="pre">wecSim</span></code> into the MATLAB Command Window. Below is a figure showing the final RM3 Simulink model and the WEC-Sim GUI during the simulation. For more information on using WEC-Sim to model the RM3 device, refer to <a class="bibtex reference internal" href="#ruehl-preliminary-2014" id="id2">[1]</a>.</p>
 <div class="figure align-center">
 <a class="reference internal image-reference" href="_images/RM3_WECSim_GUI.JPG"><img alt="_images/RM3_WECSim_GUI.JPG" src="_images/RM3_WECSim_GUI.JPG" style="width: 400pt;" /></a>
 </div>
@@ -470,12 +470,14 @@ of Inertia
 </div>
 <div class="section" id="id4">
 <h3>WEC-Sim Model Files<a class="headerlink" href="#id4" title="Permalink to this headline">¶</a></h3>
-<p>Below is an overview of the files required to run the OSWEC simulation in WEC-Sim. For the OSWEC, there are two corresponding geometry files: <code class="docutils literal notranslate"><span class="pre">flap.stl</span></code> and <code class="docutils literal notranslate"><span class="pre">base.stl</span></code>. In addition to the required files listed below, users may supply a <code class="docutils literal notranslate"><span class="pre">userDefinedFunctions.m</span></code> file for post-processing results once the WEC-Sim run is complete.</p>
+<p>Below is an overview of the files required to run the OSWEC simulation in WEC-Sim.
+For the OSWEC, there are two corresponding geometry files: <code class="docutils literal notranslate"><span class="pre">flap.stl</span></code> and <code class="docutils literal notranslate"><span class="pre">base.stl</span></code>.
+In addition to the required files listed below, users may supply a <code class="docutils literal notranslate"><span class="pre">userDefinedFunctions.m</span></code> file for post-processing results once the WEC-Sim run is complete.</p>
 <table class="docutils align-default">
 <colgroup>
-<col style="width: 23%" />
-<col style="width: 36%" />
-<col style="width: 40%" />
+<col style="width: 21%" />
+<col style="width: 33%" />
+<col style="width: 45%" />
 </colgroup>
 <tbody>
 <tr class="row-odd"><td><p><strong>File Type</strong></p></td>
@@ -484,19 +486,19 @@ of Inertia
 </tr>
 <tr class="row-even"><td><p>Input File</p></td>
 <td><p><code class="docutils literal notranslate"><span class="pre">wecSimInputFile.m</span></code></p></td>
-<td><p><code class="docutils literal notranslate"><span class="pre">/tutorials/oswec/</span></code></p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">$WECSIM/tutorials/oswec/</span></code></p></td>
 </tr>
 <tr class="row-odd"><td><p>Simulink Model</p></td>
 <td><p><code class="docutils literal notranslate"><span class="pre">oswec.slx</span></code></p></td>
-<td><p><code class="docutils literal notranslate"><span class="pre">/tutorials/oswec/</span></code></p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">$WECSIM/tutorials/oswec/</span></code></p></td>
 </tr>
 <tr class="row-even"><td><p>Hydrodynamic Data</p></td>
 <td><p><code class="docutils literal notranslate"><span class="pre">oswec.h5</span></code></p></td>
-<td><p><code class="docutils literal notranslate"><span class="pre">/tutorials/oswec/hydroData/</span></code></p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">$WECSIM/tutorials/oswec/hydroData/</span></code></p></td>
 </tr>
 <tr class="row-odd"><td><p>Geometry Files</p></td>
 <td><p><code class="docutils literal notranslate"><span class="pre">flap.stl</span></code> &amp; <code class="docutils literal notranslate"><span class="pre">base.stl</span></code></p></td>
-<td><p><code class="docutils literal notranslate"><span class="pre">/tutorials/oswec/geometry/</span></code></p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">$WECSIM/tutorials/oswec/geometry/</span></code></p></td>
 </tr>
 </tbody>
 </table>
@@ -587,7 +589,7 @@ The OSWEC WAMIT <code class="docutils literal notranslate"><span class="pre">osw
 </div>
 <div class="section" id="id9">
 <h4>Step 4: Run WEC-Sim<a class="headerlink" href="#id9" title="Permalink to this headline">¶</a></h4>
-<p>To execute the WEC-Sim code for the OSWEC tutorial, type <code class="docutils literal notranslate"><span class="pre">wecSim</span></code> into the MATLAB Command Window. Below is a figure showing the final OSWEC Simulink model and the WEC-Sim GUI during the simulation. For more information on using WEC-Sim to model the OSWEC device, refer to <a class="reference internal" href="#y-yu-development-2014" id="id10">[2]</a><a class="reference internal" href="#y-yu-design-2014" id="id11">[3]</a>.</p>
+<p>To execute the WEC-Sim code for the OSWEC tutorial, type <code class="docutils literal notranslate"><span class="pre">wecSim</span></code> into the MATLAB Command Window. Below is a figure showing the final OSWEC Simulink model and the WEC-Sim GUI during the simulation. For more information on using WEC-Sim to model the OSWEC device, refer to <a class="bibtex reference internal" href="#y-yu-development-2014" id="id10">[2]</a><a class="bibtex reference internal" href="#y-yu-design-2014" id="id11">[3]</a>.</p>
 <div class="figure align-center">
 <a class="reference internal image-reference" href="_images/OSWEC_WECSim_GUI.jpg"><img alt="_images/OSWEC_WECSim_GUI.jpg" src="_images/OSWEC_WECSim_GUI.jpg" style="width: 400pt;" /></a>
 </div>
@@ -618,13 +620,13 @@ For each example the <code class="docutils literal notranslate"><span class="pre
 <div class="section" id="references">
 <h2>References<a class="headerlink" href="#references" title="Permalink to this headline">¶</a></h2>
 <p id="bibtex-bibliography-tutorials-0"><dl class="citation">
-<dt class="label" id="ruehl-preliminary-2014"><span class="brackets"><a class="fn-backref" href="#id2">1</a></span></dt>
+<dt class="bibtex label" id="ruehl-preliminary-2014"><span class="brackets"><a class="fn-backref" href="#id2">1</a></span></dt>
 <dd><p>K. Ruehl, C. Michelen, S. Kanner, M. Lawson, and Y. Yu. Preliminary Verification and Validation of WEC-Sim, an Open-Source Wave Energy Converter Design Tool. In <em>Proceedings of OMAE 2014</em>. San Francisco, CA, 2014.</p>
 </dd>
-<dt class="label" id="y-yu-development-2014"><span class="brackets"><a class="fn-backref" href="#id10">2</a></span></dt>
+<dt class="bibtex label" id="y-yu-development-2014"><span class="brackets"><a class="fn-backref" href="#id10">2</a></span></dt>
 <dd><p>Y. Yu, M. Lawson, K. Ruehl, and C. Michelen. Development and Demonstration of the WEC-Sim Wave Energy Converter Simulation Tool. In <em>Proceedings of the 2nd Marine Energy Technology Symposium</em>. Seattle, WA, USA, 2014.</p>
 </dd>
-<dt class="label" id="y-yu-design-2014"><span class="brackets"><a class="fn-backref" href="#id11">3</a></span></dt>
+<dt class="bibtex label" id="y-yu-design-2014"><span class="brackets"><a class="fn-backref" href="#id11">3</a></span></dt>
 <dd><p>Y. Yu, Y. Li, K. Hallett, and C. Hotimsky. Design and Analysis for a Floating Oscillating Surge Wave Energy Converter. In <em>Proceedings of OMAE 2014</em>. San Francisco, CA, 2014.</p>
 </dd>
 </dl>
