@@ -1,0 +1,17 @@
+WEC-Sim (Wave Energy Converter SIMulator)
+Copyright 2014 National Renewable Energy Laboratory and National Technology & Engineering Solutions of Sandia, LLC (NTESS). 
+
+WEC-Sim Authors:
+Yi-Hsiang Yu (National Renewable Energy Laboratory)
+Kelley Ruehl (Sandia National Laboratories)
+Michael Lawson (National Renewable Energy Laboratory)
+Carlos Michelen (Sandia National Laboratories)
+Jennifer Van Rij (National Renewable Energy Laboratory)
+Nathan Tom (National Renewable Energy Laboratory)
+Dominic Forbush (Sandia National Laboratories)
+
+See full list of `WEC-Sim Contributors <http://wec-sim.github.io/WEC-Sim/acknowledgements.html#acknowledgements>`_.
+
+Several libraries developed by external parties are used by WEC-Sim. License information for these libraries is as follows:
+source/functions/import_stl_fast/import_stl_fast.m - see license in import_stl_fast.m 
+
