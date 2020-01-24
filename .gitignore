@@ -60,9 +60,9 @@ $ cat .gitignore
 WECSim_Lib_2018b.slx
 
 # Examples
-/exmaples/BEMIO/**/*.h5
-!/exmaples/RM3/**/*.h5
-!/exmaples/OSWEC/**/*.h5
+/examplesBEMIO/**/*.h5
+!/examples/RM3/**/*.h5
+!/examples/OSWEC/**/*.h5
 
 # Tests
 /tests/**/**/*.mat
