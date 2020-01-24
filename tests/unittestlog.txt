@@ -1,0 +1,357 @@
+ 
+To get started, type doc.
+For product information, visit www.mathworks.com.
+ 
+Running wsTest
+
+WEC-Sim Read Input File ...   
+Elapsed time is 0.579985 seconds.
+
+WEC-Sim Pre-processing ...   
+	Infinite water depth specified in BEM, "waves.waterDepth" set to 200m for vizualisation.
+Elapsed time is 3.369149 seconds.
+
+WEC-Sim Simulation Settings:
+	Start Time                     (sec) = 0
+	End Time                       (sec) = 200
+	Time Step Size                 (sec) = 0.1
+	Ramp Function Time             (sec) = 100
+	Total Number of Time Steps           = 2000 
+
+Wave Environment: 
+	Wave Type                            = Regular Waves (Constant Hydrodynamic Coefficients)
+	Wave Height, H (m)                   = 2.5
+	Wave Period, T (sec)                 = 8
+
+List of Body: Number of Bodies = 2 
+
+	***** Body Number 1, Name: float *****
+	Body CG                          (m) = [0,0,-0.72]
+	Body Mass                       (kg) = 725834 
+	Body Diagonal MOI              (kgm2)= [2.09073E+07,2.13061E+07,3.70855E+07]
+
+	***** Body Number 2, Name: spar *****
+	Body CG                          (m) = [0,0,-21.29]
+	Body Mass                       (kg) = 886691 
+	Body Diagonal MOI              (kgm2)= [9.44196E+07,9.44071E+07,2.85422E+07]
+
+List of PTO(s): Number of PTOs = 1 
+
+	***** PTO Name: PTO1 *****
+	PTO Stiffness           (N/m;Nm/rad) = 0
+	PTO Damping           (Ns/m;Nsm/rad) = 1.2E+06
+
+List of Constraint(s): Number of Constraints = 1 
+
+	***** Constraint Name: Constraint1 *****
+
+
+Simulating the WEC device defined in the SimMechanics model RM3.slx...   
+Elapsed time is 21.319033 seconds.
+
+Post-processing and saving...   
+Elapsed time is 0.104482 seconds.
+[Warning: MATLAB has disabled some advanced graphics rendering features by switching to software OpenGL.
+For more information, click <a href="matlab:opengl('problems')">here</a>.] 
+[Warning: File 'RM3_sfun.mexmaci64' not found.] 
+[> In runLoadRegular (line 82)
+  In run_wecSim_tests (line 32)
+  In wsTest (line 19)]
+
+WEC-Sim Read Input File ...   
+Elapsed time is 0.186189 seconds.
+
+WEC-Sim Pre-processing ...   
+	Infinite water depth specified in BEM, "waves.waterDepth" set to 200m for vizualisation.
+Elapsed time is 0.130425 seconds.
+
+WEC-Sim Simulation Settings:
+	Start Time                     (sec) = 0
+	End Time                       (sec) = 200
+	Time Step Size                 (sec) = 0.1
+	Ramp Function Time             (sec) = 100
+	Convolution Integral Interval  (sec) = 20
+	Total Number of Time Steps           = 2000 
+
+Wave Environment: 
+	Wave Type                            = Regular Waves (Convolution Integral Calculation)
+	Wave Height, H (m)                   = 2.5
+	Wave Period, T (sec)                 = 8
+
+List of Body: Number of Bodies = 2 
+
+	***** Body Number 1, Name: float *****
+	Body CG                          (m) = [0,0,-0.72]
+	Body Mass                       (kg) = 725834 
+	Body Diagonal MOI              (kgm2)= [2.09073E+07,2.13061E+07,3.70855E+07]
+
+	***** Body Number 2, Name: spar *****
+	Body CG                          (m) = [0,0,-21.29]
+	Body Mass                       (kg) = 886691 
+	Body Diagonal MOI              (kgm2)= [9.44196E+07,9.44071E+07,2.85422E+07]
+
+List of PTO(s): Number of PTOs = 1 
+
+	***** PTO Name: PTO1 *****
+	PTO Stiffness           (N/m;Nm/rad) = 0
+	PTO Damping           (Ns/m;Nsm/rad) = 1.2E+06
+
+List of Constraint(s): Number of Constraints = 1 
+
+	***** Constraint Name: Constraint1 *****
+
+
+Simulating the WEC device defined in the SimMechanics model RM3.slx...   
+Elapsed time is 12.561616 seconds.
+
+Post-processing and saving...   
+Elapsed time is 0.019402 seconds.
+[Warning: File 'RM3_sfun.mexmaci64' not found.] 
+[> In runLoadRegularCIC (line 84)
+  In run_wecSim_tests (line 34)
+  In wsTest (line 19)]
+
+WEC-Sim Read Input File ...   
+Elapsed time is 0.208079 seconds.
+
+WEC-Sim Pre-processing ...   
+	Infinite water depth specified in BEM, "waves.waterDepth" set to 200m for vizualisation.
+Elapsed time is 0.136202 seconds.
+
+WEC-Sim Simulation Settings:
+	Start Time                     (sec) = 0
+	End Time                       (sec) = 200
+	Time Step Size                 (sec) = 0.1
+	Ramp Function Time             (sec) = 100
+	Convolution Integral Interval  (sec) = 20
+	Total Number of Time Steps           = 2000 
+
+Wave Environment: 
+	Wave Type                            = Regular Waves (Convolution Integral Calculation)
+	Wave Height, H (m)                   = 2.5
+	Wave Period, T (sec)                 = 8
+
+List of Body: Number of Bodies = 2 
+
+	***** Body Number 1, Name: float *****
+	Body CG                          (m) = [0,0,-0.72]
+	Body Mass                       (kg) = 725834 
+	Body Diagonal MOI              (kgm2)= [2.09073E+07,2.13061E+07,3.70855E+07]
+
+	***** Body Number 2, Name: spar *****
+	Body CG                          (m) = [0,0,-21.29]
+	Body Mass                       (kg) = 886691 
+	Body Diagonal MOI              (kgm2)= [9.44196E+07,9.44071E+07,2.85422E+07]
+
+List of PTO(s): Number of PTOs = 1 
+
+	***** PTO Name: PTO1 *****
+	PTO Stiffness           (N/m;Nm/rad) = 0
+	PTO Damping           (Ns/m;Nsm/rad) = 1.2E+06
+
+List of Constraint(s): Number of Constraints = 1 
+
+	***** Constraint Name: Constraint1 *****
+
+
+Simulating the WEC device defined in the SimMechanics model RM3.slx...   
+Elapsed time is 9.314335 seconds.
+
+Post-processing and saving...   
+Elapsed time is 0.027817 seconds.
+[Warning: File 'RM3_sfun.mexmaci64' not found.] 
+[> In runLoadRegularSS (line 84)
+  In run_wecSim_tests (line 36)
+  In wsTest (line 19)]
+
+WEC-Sim Read Input File ...   
+Elapsed time is 0.164484 seconds.
+
+WEC-Sim Pre-processing ...   
+	Infinite water depth specified in BEM, "waves.waterDepth" set to 200m for vizualisation.
+Elapsed time is 1.076032 seconds.
+
+WEC-Sim Simulation Settings:
+	Start Time                     (sec) = 0
+	End Time                       (sec) = 200
+	Time Step Size                 (sec) = 0.1
+	Ramp Function Time             (sec) = 100
+	Convolution Integral Interval  (sec) = 20
+	Total Number of Time Steps           = 2000 
+
+Wave Environment: 
+	Wave Type                            = Irregular Waves (Predefined Random Phase)
+	Spectrum Type                        = Bretschneider 
+	Significant Wave Height, Hs      (m) = 2.5
+	Peak Wave Period, Tp           (sec) = 8
+
+List of Body: Number of Bodies = 2 
+
+	***** Body Number 1, Name: float *****
+	Body CG                          (m) = [0,0,-0.72]
+	Body Mass                       (kg) = 725834 
+	Body Diagonal MOI              (kgm2)= [2.09073E+07,2.13061E+07,3.70855E+07]
+
+	***** Body Number 2, Name: spar *****
+	Body CG                          (m) = [0,0,-21.29]
+	Body Mass                       (kg) = 886691 
+	Body Diagonal MOI              (kgm2)= [9.44196E+07,9.44071E+07,2.85422E+07]
+
+List of PTO(s): Number of PTOs = 1 
+
+	***** PTO Name: PTO1 *****
+	PTO Stiffness           (N/m;Nm/rad) = 0
+	PTO Damping           (Ns/m;Nsm/rad) = 1.2E+06
+
+List of Constraint(s): Number of Constraints = 1 
+
+	***** Constraint Name: Constraint1 *****
+
+
+Simulating the WEC device defined in the SimMechanics model RM3.slx...   
+Elapsed time is 11.455069 seconds.
+
+Post-processing and saving...   
+Elapsed time is 0.011317 seconds.
+[Warning: File 'RM3_sfun.mexmaci64' not found.] 
+[> In runLoadIrregularCIC (line 83)
+  In run_wecSim_tests (line 41)
+  In wsTest (line 19)]
+
+WEC-Sim Read Input File ...   
+Elapsed time is 0.189454 seconds.
+
+WEC-Sim Pre-processing ...   
+	Infinite water depth specified in BEM, "waves.waterDepth" set to 200m for vizualisation.
+Elapsed time is 1.012090 seconds.
+
+WEC-Sim Simulation Settings:
+	Start Time                     (sec) = 0
+	End Time                       (sec) = 200
+	Time Step Size                 (sec) = 0.1
+	Ramp Function Time             (sec) = 100
+	Convolution Integral Interval  (sec) = 20
+	Total Number of Time Steps           = 2000 
+
+Wave Environment: 
+	Wave Type                            = Irregular Waves (Predefined Random Phase)
+	Spectrum Type                        = Bretschneider 
+	Significant Wave Height, Hs      (m) = 2.5
+	Peak Wave Period, Tp           (sec) = 8
+
+List of Body: Number of Bodies = 2 
+
+	***** Body Number 1, Name: float *****
+	Body CG                          (m) = [0,0,-0.72]
+	Body Mass                       (kg) = 725834 
+	Body Diagonal MOI              (kgm2)= [2.09073E+07,2.13061E+07,3.70855E+07]
+
+	***** Body Number 2, Name: spar *****
+	Body CG                          (m) = [0,0,-21.29]
+	Body Mass                       (kg) = 886691 
+	Body Diagonal MOI              (kgm2)= [9.44196E+07,9.44071E+07,2.85422E+07]
+
+List of PTO(s): Number of PTOs = 1 
+
+	***** PTO Name: PTO1 *****
+	PTO Stiffness           (N/m;Nm/rad) = 0
+	PTO Damping           (Ns/m;Nsm/rad) = 1.2E+06
+
+List of Constraint(s): Number of Constraints = 1 
+
+	***** Constraint Name: Constraint1 *****
+
+
+Simulating the WEC device defined in the SimMechanics model RM3.slx...   
+Elapsed time is 9.045207 seconds.
+
+Post-processing and saving...   
+Elapsed time is 0.029277 seconds.
+[Warning: File 'RM3_sfun.mexmaci64' not found.] 
+[> In runLoadIrregularSS (line 83)
+  In run_wecSim_tests (line 43)
+  In wsTest (line 19)]
+
+WEC-Sim Read Input File ...   
+
+================================================================================
+Error occurred while setting up or tearing down wsTest.
+As a result, all wsTest tests failed and did not run to completion.
+
+    ---------
+    Error ID:
+    ---------
+    ''
+
+    --------------
+    Error Details:
+    --------------
+    Error using bodyClass/checkinputs (line 389)
+    The hdf5 file ../hydroData/oswec.h5 does not exist
+    
+    Error in wecSim (line 99)
+        body(ii).checkinputs;
+    
+    Error in runLoadPassiveYawReg (line 25)
+    wecSim;                     % Run Simulation
+    
+    Error in run_wecSim_tests (line 49)
+        cd PassiveYaw/RegularWaves; runLoadPassiveYawReg; cd ..;
+    
+    Error in wsTest (line 19)
+    run_wecSim_tests
+================================================================================
+
+Done wsTest
+__________
+
+Failure Summary:
+
+     Name                               Failed  Incomplete  Reason(s)
+    ==================================================================
+     wsTest/regularBody1                  X         X       Errored.
+    ------------------------------------------------------------------
+     wsTest/regularBody2                  X         X       Errored.
+    ------------------------------------------------------------------
+     wsTest/regularRelativeMotion         X         X       Errored.
+    ------------------------------------------------------------------
+     wsTest/regularCICBody1               X         X       Errored.
+    ------------------------------------------------------------------
+     wsTest/regularCICBody2               X         X       Errored.
+    ------------------------------------------------------------------
+     wsTest/regularCICRelativeMotion      X         X       Errored.
+    ------------------------------------------------------------------
+     wsTest/regularSSBody1                X         X       Errored.
+    ------------------------------------------------------------------
+     wsTest/regularSSBody2                X         X       Errored.
+    ------------------------------------------------------------------
+     wsTest/regularSSRelativeMotion       X         X       Errored.
+    ------------------------------------------------------------------
+     wsTest/TestIrregularCICBody1         X         X       Errored.
+    ------------------------------------------------------------------
+     wsTest/irregularCICBody2             X         X       Errored.
+    ------------------------------------------------------------------
+     wsTest/irregularCICRelativeMotion    X         X       Errored.
+    ------------------------------------------------------------------
+     wsTest/irregularSSBody1              X         X       Errored.
+    ------------------------------------------------------------------
+     wsTest/irregularSSBody2              X         X       Errored.
+    ------------------------------------------------------------------
+     wsTest/irregularSSRelativeMotion     X         X       Errored.
+    ------------------------------------------------------------------
+     wsTest/PassiveYawIrregularWaves      X         X       Errored.
+    ------------------------------------------------------------------
+     wsTest/PassiveYawRegularWaves        X         X       Errored.
+  1x17 TestResult array with properties:
+
+    Name
+    Passed
+    Failed
+    Incomplete
+    Duration
+    Details
+
+Totals:
+   0 Passed, 17 Failed, 17 Incomplete.
+   85.6106 seconds testing time.
+
