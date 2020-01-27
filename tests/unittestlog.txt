@@ -5,11 +5,11 @@ For product information, visit www.mathworks.com.
 Running wsTest
 
 WEC-Sim Read Input File ...   
-Elapsed time is 0.579985 seconds.
+Elapsed time is 0.589045 seconds.
 
 WEC-Sim Pre-processing ...   
 	Infinite water depth specified in BEM, "waves.waterDepth" set to 200m for vizualisation.
-Elapsed time is 3.369149 seconds.
+Elapsed time is 3.461904 seconds.
 
 WEC-Sim Simulation Settings:
 	Start Time                     (sec) = 0
@@ -47,10 +47,10 @@ List of Constraint(s): Number of Constraints = 1
 
 
 Simulating the WEC device defined in the SimMechanics model RM3.slx...   
-Elapsed time is 21.319033 seconds.
+Elapsed time is 21.509537 seconds.
 
 Post-processing and saving...   
-Elapsed time is 0.104482 seconds.
+Elapsed time is 0.102697 seconds.
 [Warning: MATLAB has disabled some advanced graphics rendering features by switching to software OpenGL.
 For more information, click <a href="matlab:opengl('problems')">here</a>.] 
 [Warning: File 'RM3_sfun.mexmaci64' not found.] 
@@ -59,11 +59,11 @@ For more information, click <a href="matlab:opengl('problems')">here</a>.]
   In wsTest (line 19)]
 
 WEC-Sim Read Input File ...   
-Elapsed time is 0.186189 seconds.
+Elapsed time is 0.185007 seconds.
 
 WEC-Sim Pre-processing ...   
 	Infinite water depth specified in BEM, "waves.waterDepth" set to 200m for vizualisation.
-Elapsed time is 0.130425 seconds.
+Elapsed time is 0.125315 seconds.
 
 WEC-Sim Simulation Settings:
 	Start Time                     (sec) = 0
@@ -102,21 +102,21 @@ List of Constraint(s): Number of Constraints = 1
 
 
 Simulating the WEC device defined in the SimMechanics model RM3.slx...   
-Elapsed time is 12.561616 seconds.
+Elapsed time is 12.684430 seconds.
 
 Post-processing and saving...   
-Elapsed time is 0.019402 seconds.
+Elapsed time is 0.019774 seconds.
 [Warning: File 'RM3_sfun.mexmaci64' not found.] 
 [> In runLoadRegularCIC (line 84)
   In run_wecSim_tests (line 34)
   In wsTest (line 19)]
 
 WEC-Sim Read Input File ...   
-Elapsed time is 0.208079 seconds.
+Elapsed time is 0.216582 seconds.
 
 WEC-Sim Pre-processing ...   
 	Infinite water depth specified in BEM, "waves.waterDepth" set to 200m for vizualisation.
-Elapsed time is 0.136202 seconds.
+Elapsed time is 0.141725 seconds.
 
 WEC-Sim Simulation Settings:
 	Start Time                     (sec) = 0
@@ -155,21 +155,21 @@ List of Constraint(s): Number of Constraints = 1
 
 
 Simulating the WEC device defined in the SimMechanics model RM3.slx...   
-Elapsed time is 9.314335 seconds.
+Elapsed time is 9.397864 seconds.
 
 Post-processing and saving...   
-Elapsed time is 0.027817 seconds.
+Elapsed time is 0.028031 seconds.
 [Warning: File 'RM3_sfun.mexmaci64' not found.] 
 [> In runLoadRegularSS (line 84)
   In run_wecSim_tests (line 36)
   In wsTest (line 19)]
 
 WEC-Sim Read Input File ...   
-Elapsed time is 0.164484 seconds.
+Elapsed time is 0.168154 seconds.
 
 WEC-Sim Pre-processing ...   
 	Infinite water depth specified in BEM, "waves.waterDepth" set to 200m for vizualisation.
-Elapsed time is 1.076032 seconds.
+Elapsed time is 1.109714 seconds.
 
 WEC-Sim Simulation Settings:
 	Start Time                     (sec) = 0
@@ -209,21 +209,21 @@ List of Constraint(s): Number of Constraints = 1
 
 
 Simulating the WEC device defined in the SimMechanics model RM3.slx...   
-Elapsed time is 11.455069 seconds.
+Elapsed time is 11.560118 seconds.
 
 Post-processing and saving...   
-Elapsed time is 0.011317 seconds.
+Elapsed time is 0.011563 seconds.
 [Warning: File 'RM3_sfun.mexmaci64' not found.] 
 [> In runLoadIrregularCIC (line 83)
   In run_wecSim_tests (line 41)
   In wsTest (line 19)]
 
 WEC-Sim Read Input File ...   
-Elapsed time is 0.189454 seconds.
+Elapsed time is 0.189151 seconds.
 
 WEC-Sim Pre-processing ...   
 	Infinite water depth specified in BEM, "waves.waterDepth" set to 200m for vizualisation.
-Elapsed time is 1.012090 seconds.
+Elapsed time is 1.034283 seconds.
 
 WEC-Sim Simulation Settings:
 	Start Time                     (sec) = 0
@@ -263,10 +263,10 @@ List of Constraint(s): Number of Constraints = 1
 
 
 Simulating the WEC device defined in the SimMechanics model RM3.slx...   
-Elapsed time is 9.045207 seconds.
+Elapsed time is 8.909561 seconds.
 
 Post-processing and saving...   
-Elapsed time is 0.029277 seconds.
+Elapsed time is 0.029414 seconds.
 [Warning: File 'RM3_sfun.mexmaci64' not found.] 
 [> In runLoadIrregularSS (line 83)
   In run_wecSim_tests (line 43)
@@ -353,5 +353,5 @@ Failure Summary:
 
 Totals:
    0 Passed, 17 Failed, 17 Incomplete.
-   85.6106 seconds testing time.
+   86.4563 seconds testing time.
 
