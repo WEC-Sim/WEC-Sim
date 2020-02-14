@@ -231,6 +231,7 @@ sv_udfWaves=Simulink.Variant('typeNum>=30');
 B2B = simu.b2b;
 sv_noB2B=Simulink.Variant('B2B==0');
 sv_B2B=Simulink.Variant('B2B==1');
+numBody=simu.numWecBodies;
 % nonHydroBody
 for ii=1:length(body(1,:))
     eval(['nhbody_' num2str(ii) ' = body(ii).nhBody;'])
