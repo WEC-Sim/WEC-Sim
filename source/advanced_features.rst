@@ -240,6 +240,10 @@ When :code:`simu.yawNonLin = 1`, hydrostatic and radiation forces are determined
 
 A demonstration case of this feature is included in the `WEC-Sim Applications <https://github.com/WEC-Sim/WEC-Sim_Applications>`_ repository **PassiveYaw** example.  	
 
+.. Note::
+
+	Caution must be exercised when simultaneously using passive yaw and body-to-body interactions. Passive yaw relies on interpolated BEM solutions to determine the cross-coupling coefficients used in body-to-body calculations. Because these BEM solutions are based upon the assumption of small displacements, they are unlikely to be accurate if a large relative yaw displacement occurs between the bodies. 
+
 Non-Hydrodynamic Bodies
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 For some simulations, it might be important to model bodies that do not have hydrodynamic forces acting on them. This could be bodies that are completely outside of the water but are still connected through a joint to the WEC bodies, or it could be bodies deeply submerged to the point where the hydrodynamics may be neglected. WEC-Sim allows for bodies which have no hydrodynamic forces acting on them and for which no BEM data is provided.
