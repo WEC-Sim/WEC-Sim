@@ -14,11 +14,12 @@ Release Notes
 
 .. image:: https://zenodo.org/badge/DOI/10.5281/zenodo.3827897.svg
    :target: https://doi.org/10.5281/zenodo.3827897
-
+   
 Citation
 ^^^^^^^^^^^^^^^^^^^^^^^^
+To cite WEC-Sim, please reference the DOI, and use the following citation.
 
-To cite WEC-Sim, please reference the WEC-Sim DOI, and  use the following BibTeX citation:
+[1] Yu, Yi-Hsiang, Ruehl, Kelley, Van Rij, Jennifer, Tom, Nathan, & Forbush, Dominic. (2019, September 30). WEC-Sim v4.0 (Version v4.0).  http://doi.org/10.5281/zenodo.3827897
 
 .. code-block:: none
 
