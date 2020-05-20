@@ -14,16 +14,34 @@
 # extensions coming with Sphinx (named 'sphinx.ext.*') or your custom
 # ones.
 extensions = [
+    'sphinx_rtd_theme',
     'sphinx.ext.autodoc',
     'sphinx.ext.viewcode',
-    'sphinxcontrib.bibtex',
     'sphinx.ext.imgmath',
-    'sphinxcontrib.googleanalytics', 
-    'sphinx_rtd_theme',
     'sphinx.ext.autosectionlabel',
+    'sphinxcontrib.bibtex',
+    'sphinxcontrib.matlab',          
 ]
 
 autosectionlabel_prefix_document = True
+
+# -- Path setup --------------------------------------------------------------
+# If extensions (or modules to document with autodoc) are in another directory,
+# add these directories to sys.path here. If the directory is relative to the
+# documentation root, use os.path.abspath to make it absolute, like shown here.
+
+#
+#
+import sphinx_rtd_theme
+import os
+import sys
+#
+#Specify WEC-Sim path for API documentation by pointing local directory.
+# Must be cloned on the same level (e.g. GitHub/gh-pages and GitHub/WEC-Sim)
+#this_dir = os.path.dirname(os.path.abspath(__file__))
+#matlab_src_dir = os.path.abspath( '../../WEC-Sim/')
+#sys.path.insert(0, matlab_src_dir)
+
 
 # Add any paths that contain templates here, relative to this directory.
 templates_path = ['_templates']
@@ -39,6 +57,7 @@ source_suffix = '.rst'
 # The master toctree document.
 master_doc = 'index'
 
+# -- Project information -----------------------------------------------------
 # General information about the project.
 project = 'WEC-Sim'
 copyright = '2014, National Renewable Energy Laboratory and National Technology & Engineering Solutions of Sandia, LLC (NTESS)'
@@ -109,6 +128,7 @@ html_theme = 'sphinx_rtd_theme'
 # Theme options are theme-specific and customize the look and feel of a theme
 # further.  For a list of options available for each theme, see the
 # documentation.
+# Added Google Analytics to theme based on https://github.com/readthedocs/sphinx_rtd_theme/pull/411
 html_theme_options = {
     'canonical_url': '',
     'analytics_id': 'UA-88158104-1',
@@ -295,6 +315,3 @@ texinfo_documents = [
 # If true, do not generate a @detailmenu in the "Top" node's menu.
 #texinfo_no_detailmenu = False
 
-# -- Options for Google Analytics -------------------------------------------
-# google analytics
-googleanalytics_id = 'UA-88158104-1'

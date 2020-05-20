@@ -14,7 +14,7 @@ The advanced features documentation provides an overview of WEC-Sim features tha
 
 
 
-.. BEMIO
+.. bemio:
 
 .. include:: bemio.rst
 
@@ -225,7 +225,7 @@ The WEC-Sim input file used to run the nonlinear hydro WEC-Sim simulation:
 
 .. _nonLinaerwecSimInputFile:
 
-.. literalinclude:: nonLinaerwecSimInputFile.m
+.. literalinclude:: ../../WEC-Sim/applications/NonlinearHydro/ode4/Regular/wecSimInputFile.m
    :language: matlab
 
 Simulation and post-processing is the same process as described in `Tutorials <http://wec-sim.github.io/WEC-Sim/tutorials.html>`_ section.

@@ -5,18 +5,7 @@
 <!--[if gt IE 8]><!--> <html class="no-js" lang="en" > <!--<![endif]-->
 <head>
   <meta charset="utf-8">
-  <script type="text/javascript">
-
-      var _gaq = _gaq || [];
-      _gaq.push(['_setAccount', 'UA-88158104-1']);
-      _gaq.push(['_trackPageview']);
-
-      (function() {
-        var ga = document.createElement('script'); ga.type = 'text/javascript'; ga.async = true;
-        ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';
-        var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(ga, s);
-      })();
-    </script>
+  
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   
   <title>Getting Started &mdash; WEC-Sim  documentation</title>
@@ -269,21 +258,12 @@ The directory where the WEC-Sim code is contained is referred to as <code class=
 <div class="section" id="step-1-add-wec-sim-to-matlab-path">
 <h3>Step 1. Add WEC-Sim to MATLAB Path<a class="headerlink" href="#step-1-add-wec-sim-to-matlab-path" title="Permalink to this headline">¶</a></h3>
 <p>Open the <code class="docutils literal notranslate"><span class="pre">$WECSIM/source/wecSimStartup.m</span></code> file.</p>
-<div class="highlight-matlab notranslate"><div class="highlight"><pre><span></span><span class="o">&lt;&lt;&lt;&lt;&lt;&lt;&lt;</span> <span class="n">HEAD</span>
-<span class="c">% Set the wecSimPath variable to the location of the WEC-Sim source directory</span>
-<span class="c">% Copy the code in this file and place it in your&#39;startup.m&#39; file</span>
-
-<span class="n">wecSimPath</span> <span class="p">=</span> <span class="o">&lt;</span><span class="n">wecSim</span><span class="o">&gt;</span><span class="p">;</span>
-<span class="n">addpath</span><span class="p">(</span><span class="n">genpath</span><span class="p">(</span><span class="n">wecSimPath</span><span class="p">));</span>
-<span class="o">======</span><span class="p">=</span>
-<span class="c">% Define the wecSimPath variable to the location of your local WEC-Sim </span>
+<div class="highlight-matlab notranslate"><div class="highlight"><pre><span></span><span class="c">% Define the wecSimPath variable to the location of your local WEC-Sim </span>
 <span class="c">% source directory as a &#39;string&#39;. Copy the code in this file and place </span>
 <span class="c">% it in your&#39;startup.m&#39; file</span>
 
 <span class="n">wecSimPath</span> <span class="p">=</span> <span class="s">&#39;&lt;wecSim&gt;&#39;</span><span class="p">;</span>
 <span class="n">addpath</span><span class="p">(</span><span class="n">genpath</span><span class="p">(</span><span class="n">wecSimPath</span><span class="p">));</span>
-
-<span class="o">&gt;&gt;&gt;&gt;&gt;&gt;&gt;</span> <span class="n">fa74de4844659fd6571f47b0d040bbab0ecd0bfb</span>
 </pre></div>
 </div>
 <p>Copy the <code class="docutils literal notranslate"><span class="pre">wecSimStartup.m</span></code> code and paste it into <code class="docutils literal notranslate"><span class="pre">startup.m</span></code> located in the <a class="reference external" href="http://www.mathworks.com/help/matlab/matlab_env/matlab-startup-folder.html">MATLAB Startup Folder</a>.

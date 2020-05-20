@@ -5,18 +5,7 @@
 <!--[if gt IE 8]><!--> <html class="no-js" lang="en" > <!--<![endif]-->
 <head>
   <meta charset="utf-8">
-  <script type="text/javascript">
-
-      var _gaq = _gaq || [];
-      _gaq.push(['_setAccount', 'UA-88158104-1']);
-      _gaq.push(['_trackPageview']);
-
-      (function() {
-        var ga = document.createElement('script'); ga.type = 'text/javascript'; ga.async = true;
-        ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';
-        var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(ga, s);
-      })();
-    </script>
+  
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   
   <title>Overview &mdash; WEC-Sim  documentation</title>
@@ -274,30 +263,29 @@ The table below list the WEC-Sim case directory structure and required files.</p
 <li><p>The input file for each WEC-Sim simulation requires initialization and definition of the simulation and wave classes, at least one instance of the body class, and at least one instance of the constraint or PTO classes.</p></li>
 <li><p>For details about WEC-Sim’s objects and available properties for each object, refer to the <a class="reference internal" href="code_structure.html#wec-sim-objects"><span class="std std-ref">WEC-Sim Objects</span></a> section.</p></li>
 </ul>
-<p>An example WEC-Sim input file is shown below for the OSWEC Tutorial.
+<p>An example WEC-Sim input file is shown below for the OSWEC.
 Additional examples are provided in the <a class="reference internal" href="tutorials.html#tutorials"><span class="std std-ref">Tutorials</span></a> section.
 WEC-Sim is an object oriented code and the input file reflects this.
 The WEC-Sim input file (<code class="docutils literal notranslate"><span class="pre">wecSimInputFile.m</span></code>) for the OSWEC initializes and specifies properties for simulation, body, constraint and pto classes.</p>
 <div class="highlight-matlab notranslate"><div class="highlight"><pre><span></span><span class="c">%% Simulation Data</span>
-<span class="n">simu</span> <span class="p">=</span> <span class="n">simulationClass</span><span class="p">();</span>               <span class="c">% Initialize simulationClass</span>
-<span class="n">simu</span><span class="p">.</span><span class="n">simMechanicsFile</span> <span class="p">=</span> <span class="s">&#39;OSWEC.slx&#39;</span><span class="p">;</span>    <span class="c">% Specify Simulink Model File</span>
-<span class="n">simu</span><span class="p">.</span><span class="n">startTime</span> <span class="p">=</span> <span class="mi">0</span><span class="p">;</span>                     <span class="c">% Simulation Start Time [s]</span>
-<span class="n">simu</span><span class="p">.</span><span class="n">rampTime</span> <span class="p">=</span> <span class="mi">100</span><span class="p">;</span>                    <span class="c">% Wave Ramp Time [s]</span>
-<span class="n">simu</span><span class="p">.</span><span class="n">endTime</span><span class="p">=</span><span class="mi">400</span><span class="p">;</span>                       <span class="c">% Simulation End Time [s]   </span>
-<span class="n">simu</span><span class="p">.</span><span class="n">dt</span> <span class="p">=</span> <span class="mf">0.01</span><span class="p">;</span>                         <span class="c">% Simulation Time-Step [s]</span>
-<span class="n">simu</span><span class="p">.</span><span class="n">CITime</span> <span class="p">=</span> <span class="mi">30</span><span class="p">;</span>                       <span class="c">% Specify CI Time [s]</span>
+<span class="n">simu</span> <span class="p">=</span> <span class="n">simulationClass</span><span class="p">();</span>                       <span class="c">% Initialize simulationClass</span>
+<span class="n">simu</span><span class="p">.</span><span class="n">simMechanicsFile</span> <span class="p">=</span> <span class="s">&#39;OSWEC.slx&#39;</span><span class="p">;</span>            <span class="c">% Simulink Model File</span>
+<span class="n">simu</span><span class="p">.</span><span class="n">startTime</span> <span class="p">=</span> <span class="mi">0</span><span class="p">;</span>                             <span class="c">% Simulation Start Time [s]</span>
+<span class="n">simu</span><span class="p">.</span><span class="n">rampTime</span> <span class="p">=</span> <span class="mi">100</span><span class="p">;</span>                            <span class="c">% Wave Ramp Time [s]</span>
+<span class="n">simu</span><span class="p">.</span><span class="n">endTime</span><span class="p">=</span><span class="mi">400</span><span class="p">;</span>                               <span class="c">% Simulation End Time [s]   </span>
+<span class="n">simu</span><span class="p">.</span><span class="n">dt</span> <span class="p">=</span> <span class="mf">0.1</span><span class="p">;</span>                                  <span class="c">% Simulation Time-Step [s]</span>
 
 <span class="c">%% Wave Information</span>
 <span class="c">% Regular Waves </span>
-<span class="n">waves</span> <span class="p">=</span> <span class="n">waveClass</span><span class="p">(</span><span class="s">&#39;regular&#39;</span><span class="p">);</span>           <span class="c">% Initialize waveClass and Specify Type                                 </span>
-<span class="n">waves</span><span class="p">.</span><span class="n">H</span> <span class="p">=</span> <span class="mf">2.5</span><span class="p">;</span>                          <span class="c">% Wave Height [m]</span>
-<span class="n">waves</span><span class="p">.</span><span class="n">T</span> <span class="p">=</span> <span class="mi">8</span><span class="p">;</span>                            <span class="c">% Wave Period [s]</span>
+<span class="n">waves</span> <span class="p">=</span> <span class="n">waveClass</span><span class="p">(</span><span class="s">&#39;regular&#39;</span><span class="p">);</span>                   <span class="c">% Initialize waveClass                                 </span>
+<span class="n">waves</span><span class="p">.</span><span class="n">H</span> <span class="p">=</span> <span class="mf">2.5</span><span class="p">;</span>                                  <span class="c">% Wave Height [m]</span>
+<span class="n">waves</span><span class="p">.</span><span class="n">T</span> <span class="p">=</span> <span class="mi">8</span><span class="p">;</span>                                    <span class="c">% Wave Period [s]</span>
 
 <span class="c">%% Body Data</span>
 <span class="c">% Flap</span>
-<span class="n">body</span><span class="p">(</span><span class="mi">1</span><span class="p">)</span> <span class="p">=</span> <span class="n">bodyClass</span><span class="p">(</span><span class="s">&#39;hydroData/oswec.h5&#39;</span><span class="p">);</span>      <span class="c">% Initialize bodyClass for Flap and Specify *.h5 data </span>
+<span class="n">body</span><span class="p">(</span><span class="mi">1</span><span class="p">)</span> <span class="p">=</span> <span class="n">bodyClass</span><span class="p">(</span><span class="s">&#39;hydroData/oswec.h5&#39;</span><span class="p">);</span>      <span class="c">% Initialize bodyClass for Flap </span>
 <span class="n">body</span><span class="p">(</span><span class="mi">1</span><span class="p">).</span><span class="n">geometryFile</span> <span class="p">=</span> <span class="s">&#39;geometry/flap.stl&#39;</span><span class="p">;</span>     <span class="c">% Geometry File</span>
-<span class="n">body</span><span class="p">(</span><span class="mi">1</span><span class="p">).</span><span class="n">mass</span> <span class="p">=</span> <span class="mi">127000</span><span class="p">;</span>                          <span class="c">% User-Defined mass [kg]</span>
+<span class="n">body</span><span class="p">(</span><span class="mi">1</span><span class="p">).</span><span class="n">mass</span> <span class="p">=</span> <span class="mi">127000</span><span class="p">;</span>                          <span class="c">% Mass [kg]</span>
 <span class="n">body</span><span class="p">(</span><span class="mi">1</span><span class="p">).</span><span class="n">momOfInertia</span> <span class="p">=</span> <span class="p">[</span><span class="mf">1.85e6</span> <span class="mf">1.85e6</span> <span class="mf">1.85e6</span><span class="p">];</span>  <span class="c">% Moment of Inertia [kg-m^2]</span>
 
 <span class="c">% Base</span>

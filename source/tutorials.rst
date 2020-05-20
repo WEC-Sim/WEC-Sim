@@ -13,7 +13,7 @@ Two-Body Point Absorber (RM3)
 This section describes the application of the WEC-Sim code to model the Reference Model 3 (RM3) two-body point absorber WEC. 
 This example application is provided in the WEC-Sim code release in the ``$WECSIM/tutorials`` directory.
 
-RM3 Device Geometry
+Device Geometry
 ^^^^^^^^^^^^^^^^^^^^^^^
 The RM3 two-body point absorber WEC has been characterized both numerically and experimentally as a result of the DOE-funded `Reference Model Project <http://energy.sandia.gov/rmp>`_. 
 The RM3 is a two-body point absorber consisting of a float and a reaction plate. Full-scale dimensions of the RM3 and its mass properties are shown below.
@@ -48,7 +48,7 @@ The RM3 is a two-body point absorber consisting of a float and a reaction plate.
 |-21.29|         |0         |0         |28,542,225|
 +------+---------+----------+----------+----------+ 
 
-RM3 Model Files
+Model Files
 ^^^^^^^^^^^^^^^^^^^^^^^
 Below is an overview of the files required to run the RM3 simulation in WEC-Sim. For the RM3 WEC, there are two corresponding geometry files: ``float.stl`` and ``plate.stl``. In addition to the required files listed below, users may supply a ``userDefinedFunctions.m`` file for post-processing results once the WEC-Sim run is complete. 
 
@@ -112,7 +112,7 @@ Step 3: Write wecSimInputFile.m
 """"""""""""""""""""""""""""""""""""""""""""""""
 The WEC-Sim input file defines simulation parameters, body properties, joints, and mooring for the RM3 model. The ``wecSimInputFile.m`` for the RM3 is provided in the RM3 case directory, and shown below.
 
-.. literalinclude:: RM3wecSimInputFile.m
+.. literalinclude:: ../../WEC-Sim/tutorials/RM3/RM3_wecSimInputFile.m
    :language: matlab
       
 
@@ -135,7 +135,7 @@ This section describes the application of the WEC-Sim code to model the Oscillat
 This example application is provided in the WEC-Sim code release in the ``$WECSIM/tutorials`` directory.
 
 
-OSWEC Device Geometry
+Device Geometry
 ^^^^^^^^^^^^^^^^^^^^^^^
 The OSWEC was selected because its design is fundamentally different from the RM3. This is critical because WECs span an extensive design space, and it is important to model devices in WEC-Sim that operate under different principles.  The OSWEC is fixed to the ground and has a flap that is connected through a hinge to the base that restricts the flap in order to pitch about the hinge. The full-scale dimensions of the OSWEC and the mass properties are shown in the figure and table below.
 
@@ -158,7 +158,7 @@ The OSWEC was selected because its design is fundamentally different from the RM
 +------+---------+------------+
 
 
-OSWEC Model Files
+Model Files
 ^^^^^^^^^^^^^^^^^^^^^^^
 Below is an overview of the files required to run the OSWEC simulation in WEC-Sim. 
 For the OSWEC, there are two corresponding geometry files: ``flap.stl`` and ``base.stl``. 
@@ -224,7 +224,7 @@ Step 3: Write wecSimInputFile.m
 """"""""""""""""""""""""""""""""""""""""""""""""
 The WEC-Sim input file defines simulation parameters, body properties, joints, and mooring for the OSWEC model. The ``wecSimInputFile.m`` for the OSWEC is provided in the OSWEC case directory, and shown below.
 
-.. literalinclude:: OSWECwecSimInputFile.m
+.. literalinclude:: ../../WEC-Sim/tutorials/OSWEC/OSWEC_wecSimInputFile.m
    :language: matlab
 
 Step 4: Run WEC-Sim
