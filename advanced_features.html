@@ -136,6 +136,7 @@
 <li class="toctree-l4"><a class="reference internal" href="#nonlinear-buoyancy-and-froude-krylov-wave-excitation-tutorial-heaving-ellipsoid">Nonlinear Buoyancy and Froude-Krylov Wave Excitation Tutorial - Heaving Ellipsoid</a></li>
 </ul>
 </li>
+<li class="toctree-l3"><a class="reference internal" href="#passive-yaw-implementation">Passive Yaw Implementation</a></li>
 <li class="toctree-l3"><a class="reference internal" href="#non-hydrodynamic-bodies">Non-Hydrodynamic Bodies</a></li>
 <li class="toctree-l3"><a class="reference internal" href="#body-to-body-interactions">Body-To-Body Interactions</a></li>
 <li class="toctree-l3"><a class="reference internal" href="#viscous-damping-and-morison-elements">Viscous Damping and Morison Elements</a><ul>
@@ -820,6 +821,21 @@ An option available to reduce the nonlinear simulation time is to specify a nonl
 <p>Simulation and post-processing is the same process as described in <a class="reference external" href="http://wec-sim.github.io/WEC-Sim/tutorials.html">Tutorials</a> section.</p>
 </div>
 </div>
+<div class="section" id="passive-yaw-implementation">
+<h3>Passive Yaw Implementation<a class="headerlink" href="#passive-yaw-implementation" title="Permalink to this headline">¶</a></h3>
+<p>For non-axisymmetric bodies with yaw orientation that changes substantially with time, WEC-Sim allows a correction to excitation forces for large yaw displacements. To enable this correction, add the following to your <code class="docutils literal notranslate"><span class="pre">wecSimInputFile</span></code>:</p>
+<blockquote>
+<div><p><code class="code docutils literal notranslate"><span class="pre">simu.yawNonLin</span> <span class="pre">=</span> <span class="pre">1</span></code></p>
+</div></blockquote>
+<p>Under the default implementation (<code class="code docutils literal notranslate"><span class="pre">simu.yawNonLin</span> <span class="pre">=</span> <span class="pre">0</span></code>), WEC-Sim uses the initial yaw orientation of the device relative to the incident waves to calculate the wave excitation coefficients that will be used for the duration of the simulation. When the correction is enabled, excitation coefficients are interpolated from BEM data based upon the instantaneous relative yaw position. For this to enhance simulation accuracy, BEM data must be available over the range of observed yaw positions at a sufficiently dense discretization to capture the significant variations of excitation coefficients with yaw position. For robust simulation, BEM data should be available from -180 to 170 degrees of yaw (or equivalent).</p>
+<p>This can increase simulation time, especially for irregular waves, due to the large number of interpolations that must occur. To prevent interpolation at every time-step, <code class="docutils literal notranslate"><span class="pre">simu.yawThresh</span></code> (default 1 degree) can be specified in the <code class="docutils literal notranslate"><span class="pre">wecSimInputFile</span></code> to specify the minimum yaw displacement (in degrees) that must occur before another interpolation of excitation coefficients will be calculated. The minimum threshold for good simulation accuracy will be device specific: if it is too large, no interpolation will occur and the simulation will behave as <code class="code docutils literal notranslate"><span class="pre">simu.yawNonLin</span> <span class="pre">=</span> <span class="pre">0</span></code>, but overly small values may not significantly enhance simulation accuracy while increasing simulation time.</p>
+<p>When <code class="code docutils literal notranslate"><span class="pre">simu.yawNonLin</span> <span class="pre">=</span> <span class="pre">1</span></code>, hydrostatic and radiation forces are determined from the local body-fixed coordinate system based upon the instantaneous relative yaw position of the body, as this may differ substantially from the global coordinate system for large relative yaw values.</p>
+<p>A demonstration case of this feature is included in the <a class="reference external" href="https://github.com/WEC-Sim/WEC-Sim_Applications">WEC-Sim Applications</a> repository <strong>PassiveYaw</strong> example.</p>
+<div class="admonition note">
+<p class="admonition-title">Note</p>
+<p>Caution must be exercised when simultaneously using passive yaw and body-to-body interactions. Passive yaw relies on interpolated BEM solutions to determine the cross-coupling coefficients used in body-to-body calculations. Because these BEM solutions are based upon the assumption of small displacements, they are unlikely to be accurate if a large relative yaw displacement occurs between the bodies.</p>
+</div>
+</div>
 <div class="section" id="non-hydrodynamic-bodies">
 <h3>Non-Hydrodynamic Bodies<a class="headerlink" href="#non-hydrodynamic-bodies" title="Permalink to this headline">¶</a></h3>
 <p>For some simulations, it might be important to model bodies that do not have hydrodynamic forces acting on them. This could be bodies that are completely outside of the water but are still connected through a joint to the WEC bodies, or it could be bodies deeply submerged to the point where the hydrodynamics may be neglected. WEC-Sim allows for bodies which have no hydrodynamic forces acting on them and for which no BEM data is provided.</p>
@@ -1195,7 +1211,7 @@ Refer to the <a class="reference external" href="http://wec-sim.github.io/WEC-Si
 </pre></div>
 </div>
 <ul class="simple">
-<li><p><strong>MoorDyn Input File</strong>: A mooring folder that includes a moorDyn input file (<code class="docutils literal notranslate"><span class="pre">lines.txt</span></code>) is created. The moorDyn input file (<code class="docutils literal notranslate"><span class="pre">lines.txt</span></code>) is shown in the figure below. More details on how to setup the MooDyn input file are described in the MoorDyn User Guide <a class="bibtex reference internal" href="theory.html#hall2015moordynguide" id="id15">[1]</a>.</p></li>
+<li><p><strong>MoorDyn Input File</strong>: A mooring folder that includes a moorDyn input file (<code class="docutils literal notranslate"><span class="pre">lines.txt</span></code>) is created. The moorDyn input file (<code class="docutils literal notranslate"><span class="pre">lines.txt</span></code>) is shown in the figure below. More details on how to setup the MooDyn input file are described in the MoorDyn User Guide <a class="bibtex reference internal" href="theory.html#hall2015moordynguide" id="id16">[1]</a>.</p></li>
 </ul>
 <div class="figure align-center" id="moordyninput">
 <a class="reference internal image-reference" href="_images/moorDynInput.png"><img alt="_images/moorDynInput.png" src="_images/moorDynInput.png" style="width: 400pt;" /></a>
