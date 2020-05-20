@@ -3,8 +3,10 @@
 Acknowledgements
 ================
 
-WEC-Sim Contributors
+Contributors
 -------------------------
+In addition to development by :ref:`developers`, WEC-Sim has had many  contributors, including:
+
 * Ratanak So (Oregon State University)
 * Matt Hall (University of Maine)
 * Brad Ling (Azura Wave)

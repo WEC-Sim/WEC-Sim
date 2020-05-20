@@ -32,10 +32,10 @@
   
     
       <script type="text/javascript" id="documentation_options" data-url_root="./" src="_static/documentation_options.js"></script>
-        <script type="text/javascript" src="_static/jquery.js"></script>
-        <script type="text/javascript" src="_static/underscore.js"></script>
-        <script type="text/javascript" src="_static/doctools.js"></script>
-        <script type="text/javascript" src="_static/language_data.js"></script>
+        <script src="_static/jquery.js"></script>
+        <script src="_static/underscore.js"></script>
+        <script src="_static/doctools.js"></script>
+        <script src="_static/language_data.js"></script>
     
     <script type="text/javascript" src="_static/js/theme.js"></script>
 
@@ -251,7 +251,7 @@
 <a class="reference internal image-reference" href="_images/codeFeatures.png"><img alt="_images/codeFeatures.png" src="_images/codeFeatures.png" style="width: 400pt;" /></a>
 </div>
 <div class="section" id="bemio">
-<h2>BEMIO<a class="headerlink" href="#bemio" title="Permalink to this headline">¶</a></h2>
+<span id="id2"></span><h2>BEMIO<a class="headerlink" href="#bemio" title="Permalink to this headline">¶</a></h2>
 <p>The Boundary Element Method Input/Output (BEMIO) functions are used to pre-process the BEM hydrodynamic data prior to running WEC-Sim. For more information about the WEC-Sim pre-processing workflow, refer to <a class="reference external" href="http://wec-sim.github.io/WEC-Sim/overview.html#step-1-wec-sim-pre-processing">Step 1: WEC-Sim Pre-Processing</a>. BEMIO functions perform the following tasks:</p>
 <ul class="simple">
 <li><p>Read BEM results from <strong>WAMIT</strong>, <strong>NEMOH</strong>, or <strong>AQWA</strong>.</p></li>
@@ -702,7 +702,7 @@ Then the functions provided are used to create and populate the <code class="doc
 </div>
 </div>
 <div class="section" id="irregular-waves-with-seeded-phase">
-<h3>Irregular Waves with Seeded Phase<a class="headerlink" href="#irregular-waves-with-seeded-phase" title="Permalink to this headline">¶</a></h3>
+<span id="seeded-phase"></span><h3>Irregular Waves with Seeded Phase<a class="headerlink" href="#irregular-waves-with-seeded-phase" title="Permalink to this headline">¶</a></h3>
 <p>By default, the phase for all irregular wave cases are generated randomly. In order to reproduce the same time-series every time an irregular wave simulation is run, the following wave class variable may be defined in the WEC-Sim input file:</p>
 <blockquote>
 <div><p><code class="code docutils literal notranslate"><span class="pre">waves.phaseSeed</span> <span class="pre">=</span> <span class="pre">&lt;user</span> <span class="pre">defined</span> <span class="pre">seed&gt;;</span></code></p>
@@ -735,7 +735,7 @@ Then the functions provided are used to create and populate the <code class="doc
 </ul>
 </div>
 <div class="section" id="nonlinear-buoyancy-and-froude-krylov-excitation">
-<h3>Nonlinear Buoyancy and Froude-Krylov Excitation<a class="headerlink" href="#nonlinear-buoyancy-and-froude-krylov-excitation" title="Permalink to this headline">¶</a></h3>
+<span id="nonlinear"></span><h3>Nonlinear Buoyancy and Froude-Krylov Excitation<a class="headerlink" href="#nonlinear-buoyancy-and-froude-krylov-excitation" title="Permalink to this headline">¶</a></h3>
 <p>WEC-Sim has the option to include the nonlinear hydrostatic restoring and Froude-Krylov forces when solving the system dynamics of WECs, accounting for the weakly nonlinear effect on the body hydrodynamics. To use nonlinear buoyancy and Froude-Krylov excitation, the <strong>simu.nlHydro</strong> simulationClass variable must be defined in the WEC-Sim input file, for example:</p>
 <blockquote>
 <div><p><code class="code docutils literal notranslate"><span class="pre">simu.nlHydro</span> <span class="pre">=</span> <span class="pre">2</span></code></p>
@@ -864,7 +864,7 @@ An option available to reduce the nonlinear simulation time is to specify a nonl
 </div>
 </div>
 <div class="section" id="morison-elements">
-<h4>Morison Elements<a class="headerlink" href="#morison-elements" title="Permalink to this headline">¶</a></h4>
+<span id="morison"></span><h4>Morison Elements<a class="headerlink" href="#morison-elements" title="Permalink to this headline">¶</a></h4>
 <p>To use Morison Elements, the following simulation class variable must be defined in the WEC-Sim input file:</p>
 <blockquote>
 <div><p><code class="code docutils literal notranslate"><span class="pre">simu.morisonElement</span>&#160; <span class="pre">=</span> <span class="pre">1</span></code></p>
@@ -1195,7 +1195,7 @@ Refer to the <a class="reference external" href="http://wec-sim.github.io/WEC-Si
 </pre></div>
 </div>
 <ul class="simple">
-<li><p><strong>MoorDyn Input File</strong>: A mooring folder that includes a moorDyn input file (<code class="docutils literal notranslate"><span class="pre">lines.txt</span></code>) is created. The moorDyn input file (<code class="docutils literal notranslate"><span class="pre">lines.txt</span></code>) is shown in the figure below. More details on how to setup the MooDyn input file are described in the MoorDyn User Guide <a class="reference internal" href="theory.html#hall2015moordynguide" id="id14">[1]</a>.</p></li>
+<li><p><strong>MoorDyn Input File</strong>: A mooring folder that includes a moorDyn input file (<code class="docutils literal notranslate"><span class="pre">lines.txt</span></code>) is created. The moorDyn input file (<code class="docutils literal notranslate"><span class="pre">lines.txt</span></code>) is shown in the figure below. More details on how to setup the MooDyn input file are described in the MoorDyn User Guide <a class="bibtex reference internal" href="theory.html#hall2015moordynguide" id="id15">[1]</a>.</p></li>
 </ul>
 <div class="figure align-center" id="moordyninput">
 <a class="reference internal image-reference" href="_images/moorDynInput.png"><img alt="_images/moorDynInput.png" src="_images/moorDynInput.png" style="width: 400pt;" /></a>

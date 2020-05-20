@@ -9,7 +9,7 @@ MATLAB Requirements
 ------------------------------
 WEC-Sim is developed in MATLAB/Simulink, and requires the toolboxes listed below. 
 WEC-Sim's Simulink Library is saved in MATLAB version R2015b, so any newer MATLAB release should be compatible with WEC-Sim.
-Certain advanced features relying on external functions, such as `moorDyn <http://wec-sim.github.io/WEC-Sim/advanced_features.html#moordyn>`_, may not be compatible with older versions of MATLAB. 
+Certain advanced features relying on external functions, such as :ref:`advanced_features:moordyn`, may not be compatible with older versions of MATLAB. 
 Full functionality has been verified on 2018a through 2019b. 
  
 ==========================  ============================		
@@ -38,33 +38,32 @@ Ensure that the correct version of MATLAB and the required toolboxes are install
 
 Download WEC-Sim
 ----------------
-WEC-Sim is hosted on the `WEC-Sim GitHub repository <https://github.com/WEC-Sim/wec-sim>`_. 
+The WEC-Sim source code is hosted on the `WEC-Sim GitHub repository <https://github.com/WEC-Sim/wec-sim>`_. 
 There are three ways of obtaining the WEC-Sim code, detailed below.
  
-Option 1. Clone Repository from GitHub 
+Option 1: Clone Repository from GitHub 
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
-The WEC-Sim source code can be obtained by `cloning <https://help.github.com/articles/cloning-a-repository/>`_ the WEC-Sim GitHub repository and installing `Git Large File Storage <https://git-lfs.github.com/>`_ (git lfs) to access large files (e.g. ``*.h5`` files). This is accomplished by typing the following commands into Git BASH::
+This option is recommended for WEC-Sim users. 
+The WEC-Sim source code can be obtained by installing `Git Large File Storage <https://git-lfs.github.com/>`_ (git lfs) to access large files (e.g. ``*.h5`` files), and `cloning <https://help.github.com/articles/cloning-a-repository/>`_ the WEC-Sim GitHub repository. 
+To install WEC-Sim using `git <https://git-scm.com/>`_::
 
-	>> git clone https://github.com/WEC-Sim/WEC-Sim
 	>> git lfs install
+	>> git clone https://github.com/WEC-Sim/WEC-Sim
 
-This method is recommended for users because the local copy of WEC-Sim can easily be updated to the latest version of the code hosted on the GitHub repository by using the pull command::
+This option is recommended for users because the local copy of WEC-Sim can easily be updated to the latest version of the code hosted on the GitHub repository by using the pull command::
 
 	>> git pull
 
-This option is recommended for WEC-Sim users. 
-
-Option 2. Fork Repository on GitHub 
+Option 2: Fork Repository on GitHub 
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
-If you plan to contribute to the WEC-Sim code, please follow the `forking instructions <https://help.github.com/articles/fork-a-repo/>`_  provided by GitHub. If you make improvements to the code that you would like included in the WEC-Sim master code, please submit a `pull request <https://help.github.com/articles/using-pull-requests/>`_. This pull request will then be reviewed, merged into `WEC-Sim master <https://github.com/WEC-Sim/WEC-Sim>`_, and included in future WEC-Sim releases.
+This option is recommended for WEC-Sim developers. If you plan to contribute to the WEC-Sim code, please follow the `forking instructions <https://help.github.com/articles/fork-a-repo/>`_  provided by GitHub. If you make improvements to the code that you would like included in the WEC-Sim master code, please submit a `pull request <https://help.github.com/articles/using-pull-requests/>`_. This pull request will then be reviewed, merged into `WEC-Sim master <https://github.com/WEC-Sim/WEC-Sim>`_, and included in future WEC-Sim releases.
 
-This option is recommended for WEC-Sim developers. 
 
-Option 3. Static Code Download 
+Option 3: Static Code Download 
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
-The easiest way to obtain a copy of WEC-Sim is to download the latest tagged `WEC-Sim Release <https://github.com/WEC-Sim/WEC-Sim/releases>`_. This is a static download of the WEC-Sim code. 
-
-This option is not recommended. If you choose this option, you will have to manually download the WEC-Sim code in order to receive updates.
+The easiest way to obtain a copy of WEC-Sim is to download the latest tagged `WEC-Sim Release <https://github.com/WEC-Sim/WEC-Sim/releases>`_. 
+This option is not recommended because is a static download of the WEC-Sim code. 
+If you choose this option, you will have to manually download the WEC-Sim code in order to receive updates.
 
 
 Install WEC-Sim
@@ -130,9 +129,12 @@ A SimMechanics Explorer window will open within the MATLAB window, and figures w
 
 .. Note:: 
 	
-	If a git-lfs error is produced, there was a problem with git-lfs installation. You may need to manually install `Git Large File Storage <https://git-lfs.github.com/>`_ , or run ``$WECSIM/examples/RM3/hydroData/bemio.m`` to generate the correct ``rm3.h5`` file.
+	If a git lfs error is produced, there was a problem with git-lfs installation. You may need to manually install `Git Large File Storage <https://git-lfs.github.com/>`_ , or run ``$WECSIM/examples/RM3/hydroData/bemio.m`` to generate the correct ``rm3.h5`` file.
 .. 
 	``This is not the correct *.h5 file. Please install git-lfs to access the correct *.h5 file,`` ``or run ./hydroData/bemio.m to generate a new *.h5 file.``
 
 	
 	
+.. Note:: 
+	
+	Recommend installing HDFview https://www.hdfgroup.org/downloads/hdfview/

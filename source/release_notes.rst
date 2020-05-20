@@ -12,6 +12,33 @@ Release Notes
 
 * Updated BEMIO for mean drift force and generalized body modes
 
+.. image:: https://zenodo.org/badge/DOI/10.5281/zenodo.3827897.svg
+   :target: https://doi.org/10.5281/zenodo.3827897
+
+Citation
+^^^^^^^^^^^^^^^^^^^^^^^^
+
+To cite WEC-Sim, please reference the WEC-Sim DOI, and  use the following BibTeX citation:
+
+.. code-block:: none
+
+	@software{wecsim_v4_0,
+	  author       = {Yu, Yi-Hsiang and
+			  Ruehl, Kelley and
+			  Van Rij, Jennifer and
+			  Tom, Nathan and
+			  Forbush, Dominic},
+	  title        = {WEC-Sim v4.0},
+	  month        = Sep,
+	  year         = 2019,
+	  publisher    = {Zenodo},
+	  version      = {v4.0},
+	  doi          = {10.5281/zenodo.3827897},
+	  url          = {https://doi.org/10.5281/zenodo.3827897}
+	}
+
+
+
 
 Previous Releases
 ------------------

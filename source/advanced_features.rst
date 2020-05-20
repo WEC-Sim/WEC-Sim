@@ -111,6 +111,8 @@ The wave directional spreading has a default value of 1 (Default = 1), and shoul
 
 	Users must define appropriate spreading parameters to ensure energy is conserved. Recommended directional spreading functions include Cosine-Squared and Cosine-2s.
 
+.. _seeded_phase:
+
 Irregular Waves with Seeded Phase
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 By default, the phase for all irregular wave cases are generated randomly. In order to reproduce the same time-series every time an irregular wave simulation is run, the following wave class variable may be defined in the WEC-Sim input file:
@@ -148,6 +150,8 @@ The mass of each body must be specified in the  WEC-Sim input file. The followin
 
 * **Import STL** - to read in the geometry (``*.stl``) into Matlab use the :code:`body(i).bodyGeo` method in the bodyClass. This method will import the mesh details (vertices, faces, normals, areas, centroids) into the :code:`body(i).bodyGeometry` property. This method is also used for nonlinear buoyancy and Froude-Krylov excitation and ParaView visualization files. Users can then visualize the geometry using the :code:`body(i).plotStl` method.
 
+
+.. _nonlinear:
 
 Nonlinear Buoyancy and Froude-Krylov Excitation
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
@@ -276,6 +280,8 @@ A quadratic drag force, proportional to the square of the body's velocity, can b
 Alternatively, one can define :math:`C_{D}` directly::
 
 	body(i).viscDrag.Drag
+
+.. _morison:
 
 Morison Elements 
 """"""""""""""""""""""""""""""

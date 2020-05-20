@@ -3,7 +3,7 @@
 Code Structure
 ==============
 This section provides a description of the WEC-Sim source code and its structure. 
-For more information about WEC-Sim's code structure, refer to the `webinar on WEC-Sim Code Structure <http://wec-sim.github.io/WEC-Sim/webinars.html#code-structure-overview>`_.
+For more information about WEC-Sim's code structure, refer to the :ref:`webinars:WEC-Sim Code Structure`.
 
 
 WEC-Sim Source Code
@@ -51,7 +51,7 @@ These default values can be overwritten by the user, for example, the end time o
 
 Available simulation properties, default values, and functions can be found by typing ``doc simulationClass`` in the MATLAB command window, or by opening the ``simulationClass.m`` file in ``$WECSIM//objects`` directory by typing ``open simulationClass`` in MATLAB Command Window.
 
-For more information about application of WEC-Sim's simulation class, refer to `Simulation Features <http://wec-sim.github.io/WEC-Sim/advanced_features.html#simulation-features>`_.
+For more information about application of WEC-Sim's simulation class, refer to ref:`advanced_features:simulation-features`.
 
 Wave Class
 ^^^^^^^^^^^^^^^^^^^^^^^
@@ -156,7 +156,7 @@ The ``spectrumImport`` case is defined by including the following in the input f
 	waves.spectrumDataFile='<wave spectrum file>.mat';
 
 .. Note::
-	When using the ``spectrumImport`` option, users must specify a sufficient number of wave frequencies (typically ~1000) to adequately describe the wave spectra. These wave frequencies are the same that will be used to define the wave forces on the WEC, for more information refer to the `Irregular Wave Binning <http://wec-sim.github.io/WEC-Sim/advanced_features.html#irregular-wave-binning>`_ section.
+	When using the ``spectrumImport`` option, users must specify a sufficient number of wave frequencies (typically ~1000) to adequately describe the wave spectra. These wave frequencies are the same that will be used to define the wave forces on the WEC, for more information refer to the :ref:`advanced_features:Irregular Wave Binning` section.
 	
 etaImport
 """"""""""""""""""""""""""""""
@@ -169,7 +169,7 @@ The ``etaImport`` case is defined by including the following in the input file::
 	waves.etaDataFile ='<eta file>.mat';
 	
 	
-For more information about application of WEC-Sim's wave class, refer to `Wave Features <http://wec-sim.github.io/WEC-Sim/advanced_features.html#wave-features>`_.
+For more information about application of WEC-Sim's wave class, refer to :ref:`advanced_features:Wave Features` section.
 
 Body Class
 ^^^^^^^^^^^^^^^^^^^^^^^
@@ -192,7 +192,7 @@ For example, viscous drag can be specified by entering the viscous drag coeffici
 
 Available body properties, default values, and functions can be found by typing ``doc bodyClass`` in the MATLAB command window, or opening the `bodyClass.m` file in ``$WECSIM/source/objects`` directory by typing ``open bodyClass`` in Matlab Command Window.
 
-For more information about application of WEC-Sim's body class, refer to `Body Features <http://wec-sim.github.io/WEC-Sim/advanced_features.html#body-features>`_.
+For more information about application of WEC-Sim's body class, refer to :ref:`advanced_features:Body Features` section.
 
 Constraint Class
 ^^^^^^^^^^^^^^^^^^^^^^^
@@ -208,7 +208,7 @@ For rotational constraint (ex: pitch), the user also needs to specify the locati
 
 Available constraint properties, default values, and functions can be found by typing ``doc constraintClass`` in the MATLAB command window, or opening the `constraintClass.m` file in ``$WECSIM/source/objects`` directory by typing ``open constraintClass`` in MATLAB Command Window.
 
-For more information about application of WEC-Sim's constraint class, refer to `Constraint and PTO Features <http://wec-sim.github.io/WEC-Sim/advanced_features.html#constraint-and-pto-features>`_
+For more information about application of WEC-Sim's constraint class, refer to the :ref:`advanced_features:Constraint and PTO Features` section.
 
 
 PTO Class
@@ -232,7 +232,7 @@ Users can overwrite the default values in the input file. For example, users can
 
 Available pto properties, default values, and functions can be found by typing ``doc ptoClass`` in the MATLAB command window, or opening the `ptoClass.m` file in ``$WECSIM/source/objects`` directory by typing ``open ptoClass`` in MATLAB Command Window.
 
-For more information about application of WEC-Sim's constraint class, refer to `Constraint and PTO Features <http://wec-sim.github.io/WEC-Sim/advanced_features.html#constraint-and-pto-features>`_
+For more information about application of WEC-Sim's constraint class, refer to the :ref:`advanced_features:Constraint and PTO Features` section.
 
 Mooring Class
 ^^^^^^^^^^^^^^^^^^^^^^^
@@ -246,14 +246,14 @@ Within the ``wecSimInputFile.m``, users must initialize the mooring class and sp
 The mooring class (``mooringClass``) allows for different fidelity simulations of mooring systems.
 Available mooring properties, default values, and functions can be found by typing ``doc mooringClass`` in the MATLAB command window, or opening the `mooringClass.m` file in ``$WECSIM/source/objects`` directory by typing ``open mooringClass`` in MATLAB Command Window.
 
-For more information about application of WEC-Sim's mooring class, refer to `Mooring Features <http://wec-sim.github.io/WEC-Sim/advanced_features.html#mooring-moordyn>`_.
+For more information about application of WEC-Sim's mooring class, refer to :ref:`advanced_features:Mooring Features`.
 
 Response Class
 ^^^^^^^^^^^^^^^^^^^^^^^
 The response class is not initialized by the user.
 Instead, it is created at the end of a WEC-Sim simulation.
 It contains all the output time-series and methods to plot and interact with the results.
-The available parameters are explained in the `Output Structure <http://wec-sim.github.io/WEC-Sim/code_structure.html#id3>`_ section.
+The available parameters are explained in the :ref:`code_structure:Output Structure` section.
 
 
 WEC-Sim Library
