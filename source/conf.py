@@ -40,14 +40,13 @@ autosectionlabel_prefix_document = True
 #
 import sphinx_rtd_theme
 import os
-import sys
 #
 #Specify WEC-Sim path for API documentation by pointing local directory.
 # Must be cloned on the same level (e.g. GitHub/gh-pages and GitHub/WEC-Sim)
 this_dir = os.path.dirname(os.path.abspath(__file__))
-matlab_src_dir = os.path.abspath( '../../WEC-Sim/source/objects')
-sys.path.insert(0, matlab_src_dir)
-
+# matlab_src_dir = os.path.abspath(os.path.join(this_dir, '..'))
+matlab_src_dir = os.path.abspath(os.path.join(this_dir, '../../WEC-Sim'))
+primary_domain = 'mat'
 
 # Add any paths that contain templates here, relative to this directory.
 templates_path = ['_templates']

@@ -21,6 +21,7 @@
    publications.rst
    release_notes.rst
    contact.rst
+   api.rst
 
 
 ######################################################
