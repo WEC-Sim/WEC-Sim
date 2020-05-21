@@ -14,11 +14,17 @@
 # extensions coming with Sphinx (named 'sphinx.ext.*') or your custom
 # ones.
 extensions = [
-    'sphinx_rtd_theme',
     'sphinx.ext.autodoc',
     'sphinx.ext.viewcode',
     'sphinx.ext.imgmath',
+    'sphinx.ext.doctest',
+    'sphinx.ext.todo',
+    'sphinx.ext.coverage',
+    'sphinx.ext.autosummary',
     'sphinx.ext.autosectionlabel',
+    'sphinx.ext.intersphinx',
+    'sphinx.ext.napoleon',
+    'sphinx_rtd_theme',    
     'sphinxcontrib.bibtex',
     'sphinxcontrib.matlab',          
 ]
@@ -38,9 +44,9 @@ import sys
 #
 #Specify WEC-Sim path for API documentation by pointing local directory.
 # Must be cloned on the same level (e.g. GitHub/gh-pages and GitHub/WEC-Sim)
-#this_dir = os.path.dirname(os.path.abspath(__file__))
-#matlab_src_dir = os.path.abspath( '../../WEC-Sim/')
-#sys.path.insert(0, matlab_src_dir)
+this_dir = os.path.dirname(os.path.abspath(__file__))
+matlab_src_dir = os.path.abspath( '../../WEC-Sim/source/objects')
+sys.path.insert(0, matlab_src_dir)
 
 
 # Add any paths that contain templates here, relative to this directory.

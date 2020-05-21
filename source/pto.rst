@@ -1,6 +1,5 @@
 
-Constraint and PTO Features
-----------------------------
+
 This section provides an overview of  WEC-Sim's constraint and pto classes; for more information about the constraint and pto classes' code structure, refer to `Constraint Class <http://wec-sim.github.io/WEC-Sim/code_structure.html#constraint-class>`_ and `PTO Class <http://wec-sim.github.io/WEC-Sim/code_structure.html#pto-class>`_.
 
 Modifying Constraints and PTOs

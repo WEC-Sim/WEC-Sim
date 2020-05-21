@@ -14,7 +14,10 @@ The advanced features documentation provides an overview of WEC-Sim features tha
 
 
 
-.. bemio:
+.. _bemio:
+
+BEMIO
+-----
 
 .. include:: bemio.rst
 
@@ -324,17 +327,26 @@ The Morison Element time-step may also be defined as :code:`simu.dtME = N*simu.d
 
 .. PTO
 
+Constraint and PTO Features
+----------------------------
+
 .. include:: pto.rst
 
 
 
 .. Mooring
 
+Mooring Features
+----------------
+
 .. include:: mooring.rst
 
 
 
 .. ParaView
+
+Visualization/Paraview
+----------------------
 
 .. include:: viz.rst
 

@@ -1,6 +1,5 @@
 
-Visualization/Paraview
-----------------------
+
 This section describes how to setup, output, and use Paraview files for visualizing a WEC-Sim simulation. 
 For more information about using Paraview for visualization, refer to the `visualization webinar <http://wec-sim.github.io/WEC-Sim/webinars.html#webinar-4-mooring-and-visualization>`_, and the `WEC-Sim Applications <https://github.com/WEC-Sim/WEC-Sim_Applications>`_ repository **Viz** example.
 

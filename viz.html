@@ -8,7 +8,7 @@
   
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   
-  <title>Visualization/Paraview &mdash; WEC-Sim  documentation</title>
+  <title>Getting Started - Installation &mdash; WEC-Sim  documentation</title>
   
 
   
@@ -142,7 +142,7 @@
     
       <li><a href="index.html">Docs</a> &raquo;</li>
         
-      <li>Visualization/Paraview</li>
+      <li>Getting Started - Installation</li>
     
     
       <li class="wy-breadcrumbs-aside">
@@ -161,9 +161,7 @@
           <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
            <div itemprop="articleBody">
             
-  <div class="section" id="visualization-paraview">
-<h1>Visualization/Paraview<a class="headerlink" href="#visualization-paraview" title="Permalink to this headline">¶</a></h1>
-<p>This section describes how to setup, output, and use Paraview files for visualizing a WEC-Sim simulation.
+  <p>This section describes how to setup, output, and use Paraview files for visualizing a WEC-Sim simulation.
 For more information about using Paraview for visualization, refer to the <a class="reference external" href="http://wec-sim.github.io/WEC-Sim/webinars.html#webinar-4-mooring-and-visualization">visualization webinar</a>, and the <a class="reference external" href="https://github.com/WEC-Sim/WEC-Sim_Applications">WEC-Sim Applications</a> repository <strong>Viz</strong> example.</p>
 <p>Using Paraview visualization improves on SimMechanics’s explorer by:</p>
 <ul class="simple">
@@ -179,7 +177,7 @@ For more information about using Paraview for visualization, refer to the <a cla
 <p>Visualization with paraview requires many files to be written, which makes the WEC-Sim simulation take significantly more time, and makes the directory significantly larger.
 It should only be turned on when visualization is desired. The user also needs to have some familiarity with using Paraview.</p>
 <div class="section" id="getting-started-installation">
-<h2>Getting Started - Installation<a class="headerlink" href="#getting-started-installation" title="Permalink to this headline">¶</a></h2>
+<h1>Getting Started - Installation<a class="headerlink" href="#getting-started-installation" title="Permalink to this headline">¶</a></h1>
 <p>You will need to install <a class="reference external" href="http://www.paraview.org/">Paraview</a> and install and setup Python.
 Next you will need to add some WEC-Sim specific macros, as follows:</p>
 <ul class="simple">
@@ -191,7 +189,7 @@ Next you will need to add some WEC-Sim specific macros, as follows:</p>
 </ul>
 </div>
 <div class="section" id="setting-up-paraview-output">
-<h2>Setting Up Paraview Output<a class="headerlink" href="#setting-up-paraview-output" title="Permalink to this headline">¶</a></h2>
+<h1>Setting Up Paraview Output<a class="headerlink" href="#setting-up-paraview-output" title="Permalink to this headline">¶</a></h1>
 <p>The following table shows the variables that can be specified in the <code class="docutils literal notranslate"><span class="pre">wecSimInputFile</span></code> to control the Paraview visualization. The <code class="docutils literal notranslate"><span class="pre">body.viz</span></code> properties are also used in the SimMechanics explorer visualization.</p>
 <table class="docutils align-default">
 <colgroup>
@@ -237,7 +235,7 @@ Next you will need to add some WEC-Sim specific macros, as follows:</p>
 </table>
 </div>
 <div class="section" id="outputs-and-opening-in-paraview">
-<h2>Outputs and Opening in Paraview<a class="headerlink" href="#outputs-and-opening-in-paraview" title="Permalink to this headline">¶</a></h2>
+<h1>Outputs and Opening in Paraview<a class="headerlink" href="#outputs-and-opening-in-paraview" title="Permalink to this headline">¶</a></h1>
 <p>When <code class="docutils literal notranslate"><span class="pre">simu.paraview</span></code> is set to 1, a directory called <code class="docutils literal notranslate"><span class="pre">vtk</span></code> is created.
 All files necessary for Paraview visualization are located there.
 To view in Paraview:</p>
@@ -257,14 +255,14 @@ To view in Paraview:</p>
 </ul>
 </div>
 <div class="section" id="basic-visualization-manipulation">
-<h2>Basic Visualization Manipulation<a class="headerlink" href="#basic-visualization-manipulation" title="Permalink to this headline">¶</a></h2>
+<h1>Basic Visualization Manipulation<a class="headerlink" href="#basic-visualization-manipulation" title="Permalink to this headline">¶</a></h1>
 <p>After opening the <code class="docutils literal notranslate"><span class="pre">.pvd</span></code> file and running the <code class="docutils literal notranslate"><span class="pre">WEC-Sim</span></code> macro you can do a number of things to visualize the simulation in different ways.
 You can color waves and bodies by any of the available properties and apply any of the Paraview filters.</p>
 <p>The video below shows three different views of the OSWEC model described in the tutorials.
 On the bottom right view the wave elevation is used to color the free surface. The top right view uses the <code class="docutils literal notranslate"><span class="pre">slice</span></code> filter.</p>
 <iframe width="420" height="315" src="https://www.youtube.com/embed/KcsLi38Xjv0" frameborder="0" allowfullscreen></iframe></div>
 <div class="section" id="visualizing-non-linear-buoyancy-and-froude-krylov-wave-excitation">
-<h2>Visualizing Non-Linear Buoyancy and Froude-Krylov Wave Excitation<a class="headerlink" href="#visualizing-non-linear-buoyancy-and-froude-krylov-wave-excitation" title="Permalink to this headline">¶</a></h2>
+<h1>Visualizing Non-Linear Buoyancy and Froude-Krylov Wave Excitation<a class="headerlink" href="#visualizing-non-linear-buoyancy-and-froude-krylov-wave-excitation" title="Permalink to this headline">¶</a></h1>
 <p>When using non-linear buoyancy and Froude-Krylov Wave Excitation the paraview files also contain cell data for the bodies.
 The cell data are:</p>
 <ul class="simple">
@@ -286,7 +284,6 @@ The top right shows glyphs of the non-linear Froude-Krylov pressure acting on th
 The bottom right shows the float colored by hydrostatic pressure.</p>
 <blockquote>
 <div><iframe width="420" height="315" src="https://www.youtube.com/embed/VIPXsS8h9pg" frameborder="0" allowfullscreen></iframe></div></blockquote>
-</div>
 </div>
 
 

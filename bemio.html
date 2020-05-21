@@ -8,7 +8,7 @@
   
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   
-  <title>BEMIO &mdash; WEC-Sim  documentation</title>
+  <title>BEMIO Functions &mdash; WEC-Sim  documentation</title>
   
 
   
@@ -142,7 +142,7 @@
     
       <li><a href="index.html">Docs</a> &raquo;</li>
         
-      <li>BEMIO</li>
+      <li>BEMIO Functions</li>
     
     
       <li class="wy-breadcrumbs-aside">
@@ -161,9 +161,7 @@
           <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
            <div itemprop="articleBody">
             
-  <div class="section" id="bemio">
-<span id="id1"></span><h1>BEMIO<a class="headerlink" href="#bemio" title="Permalink to this headline">¶</a></h1>
-<p>The Boundary Element Method Input/Output (BEMIO) functions are used to pre-process the BEM hydrodynamic data prior to running WEC-Sim. For more information about the WEC-Sim pre-processing workflow, refer to <a class="reference external" href="http://wec-sim.github.io/WEC-Sim/overview.html#step-1-wec-sim-pre-processing">Step 1: WEC-Sim Pre-Processing</a>. BEMIO functions perform the following tasks:</p>
+  <p>The Boundary Element Method Input/Output (BEMIO) functions are used to pre-process the BEM hydrodynamic data prior to running WEC-Sim. For more information about the WEC-Sim pre-processing workflow, refer to <a class="reference external" href="http://wec-sim.github.io/WEC-Sim/overview.html#step-1-wec-sim-pre-processing">Step 1: WEC-Sim Pre-Processing</a>. BEMIO functions perform the following tasks:</p>
 <ul class="simple">
 <li><p>Read BEM results from <strong>WAMIT</strong>, <strong>NEMOH</strong>, or <strong>AQWA</strong>.</p></li>
 <li><p>Calculate the radiation and excitation impulse response functions (IRFs).</p></li>
@@ -177,7 +175,7 @@
 <p>Previously the <a class="reference external" href="http://wec-sim.github.io/bemio/installing.html">python based BEMIO code</a> was used for this purpose. The python BEMIO functions have been converted to MATLAB and are included in the WEC-Sim source code. The python based BEMIO code will remain available but will no longer be  supported.</p>
 </div>
 <div class="section" id="bemio-functions">
-<h2>BEMIO Functions<a class="headerlink" href="#bemio-functions" title="Permalink to this headline">¶</a></h2>
+<h1>BEMIO Functions<a class="headerlink" href="#bemio-functions" title="Permalink to this headline">¶</a></h1>
 <p><strong>Read_WAMIT:</strong> Reads data from a WAMIT output file</p>
 <blockquote>
 <div><dl class="simple">
@@ -310,7 +308,7 @@
 </div></blockquote>
 </div>
 <div class="section" id="bemio-hydro-data-structure">
-<h2>BEMIO <em>hydro</em> Data Structure<a class="headerlink" href="#bemio-hydro-data-structure" title="Permalink to this headline">¶</a></h2>
+<h1>BEMIO <em>hydro</em> Data Structure<a class="headerlink" href="#bemio-hydro-data-structure" title="Permalink to this headline">¶</a></h1>
 <table class="docutils align-default">
 <colgroup>
 <col style="width: 8%" />
@@ -510,7 +508,7 @@
 </table>
 </div>
 <div class="section" id="writing-your-own-h5-file">
-<h2>Writing Your Own h5 File<a class="headerlink" href="#writing-your-own-h5-file" title="Permalink to this headline">¶</a></h2>
+<h1>Writing Your Own h5 File<a class="headerlink" href="#writing-your-own-h5-file" title="Permalink to this headline">¶</a></h1>
 <p>The most common way of creating a <code class="docutils literal notranslate"><span class="pre">*.h5</span></code> file is using BEMIO to post-process the outputs of a BEM code.
 This requires a single BEM solution that contains all hydrodynamic bodies and accounts for body-to-body interactions.
 Some cases in which you might want to create your own h5 file are:</p>
@@ -526,7 +524,6 @@ The header comments of each function explain the inputs and outputs.
 An example of how to use <code class="docutils literal notranslate"><span class="pre">write_hdf5</span></code>  is provided in the <a class="reference external" href="https://github.com/WEC-Sim/WEC-Sim_Applications">WEC-Sim Applications</a> repository.
 The first step is to have all the required coefficients and properties in Matlab in the correct format.
 Then the functions provided are used to create and populate the <code class="docutils literal notranslate"><span class="pre">*.h5</span></code> file.</p>
-</div>
 </div>
 
 
