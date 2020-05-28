@@ -18,21 +18,29 @@
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
 classdef responseClass<handle
-    % This class contains WEC-Sim response outputs
+    % The  responseClass creates an `output` object in the MATLAB workspace that contains 
+    % outputs from each instance of a WEC-Sim class (e.g. waveClass, 
+    % bodyClass, ptoClass, mooringClass).
     properties (SetAccess = 'public', GetAccess = 'public')
-         wave                = struct()                                         % Wave output
-         bodies              = struct()                                         % Output from the different body blocks
-         ptos                = struct()                                         % Output from the different PTO blocks
-         constraints         = struct()                                         % Output from the different constraint blocks
-         ptosim              = struct()                                         % Output from PTO-Sim blocks
-         mooring             = struct()                                         % Output from mooring blocks
-         moorDyn             = struct()                                         % Output from MoorDyn
+         wave                = struct()     % Output structure for the waveClass, as specified in the wecSimInputFile
+         bodies              = struct()     % Output structure for each instance of the bodyClass (i.e. for each Body block)
+         ptos                = struct()     % Output structure for each instance of the ptoClass (i.e. for each PTO block)
+         constraints         = struct()     % Output structure for each instance of the coonstraintClass (i.e. for each Constraint block)
+         mooring             = struct()     % Output structure for each instance of the mooringClass (i.e. for each Mooring block)
+         moorDyn             = struct()     % Output structure for each instance of the mooringClass using MoorDyn (i.e. for each MoorDyn block)
+         ptosim              = struct()     % Output structure for each instance of the ptoSimClass (i.e. for each PTO-Sim block)
     end
     
     methods (Access = 'public')
         function obj = responseClass(bodiesOutput,ptosOutput,constraintsOutput,ptosimOutput,mooringOutput,wave_type,wave_elev,hspressure,wpressurenl,wpressurel, yawNonLin)                      
-            % Initilization function
-            % Read and format ouputs.
+            % This method initilizes the responseClass, reads 
+            % output from each instance of a WEC-Sim class (e.g. waveClass, 
+            % bodyClass, ptoClass, mooringClass), and saves the response to
+            % an `output` object. 
+            
+            % :paremeters z: input z
+            % :returns: output (object)
+            
             % Wave
             obj.wave.type = wave_type;
             obj.wave.time = wave_elev(:,1);
@@ -113,7 +121,8 @@ classdef responseClass<handle
         end
         
         function obj = loadMoorDyn(obj,numLines)            
-            % Read MoorDyn outputs
+            % Read MoorDyn outputs for each instance of the mooringClass
+            
             % load Lines.out
             filename = './Mooring/Lines.out';
             fid = fopen(filename, 'r');
@@ -148,7 +157,7 @@ classdef responseClass<handle
         function plotResponse(obj,bodyNum,comp)
             % Plots response of a body in a given DOF
             %   'bodyNum' is the body number to plot
-            %   'comp' is the response direction to be plotted (1-6)
+            %   'comp' is the response dof to be plotted (1-6)
             DOF = {'Surge','Sway','Heave','Roll','Pitch','Yaw'};
             t=obj.bodies(bodyNum).time;
             pos=obj.bodies(bodyNum).position(:,comp) - obj.bodies(bodyNum).position(1,comp);
@@ -196,7 +205,6 @@ classdef responseClass<handle
         
         function writetxt(obj)
             % Writes all outputs as a text file
-            % wave
             filename = ['output/wave.txt'];
             fid = fopen(filename,'w+');
             header = {'time','elevation'};
@@ -493,15 +501,18 @@ classdef responseClass<handle
     end
  end
 
-% some functions for converting global kinematic vectors to the local frame
-% when using yawNonLin.
+
 function rotMat = eulXYZ2RotMat(phi, theta, psi)
+    % function for converting global kinematic vectors to the local frame
+    % when using yawNonLin.
     rotMat = [cos(theta)*cos(psi), -cos(theta)*sin(psi), sin(theta);
               (cos(phi)*sin(psi) + sin(phi)*sin(theta)*cos(psi)), (cos(phi)*cos(psi) - sin(phi)*sin(theta)*sin(psi)), -sin(phi)*cos(theta);
               (sin(phi)*sin(psi) - cos(phi)*sin(theta)*cos(psi)), (sin(phi)*cos(psi) + cos(phi)*sin(theta)*sin(psi)), cos(phi)*cos(theta)]; 
 end
 
 function [phi, theta, psi] = rotMatXYZ2Eul(rotMat)
+    % function for converting global kinematic vectors to the local frame
+    % when using yawNonLin.
     phi = atan2(-rotMat(2,3), rotMat(3,3));
     theta = asin(rotMat(1,3));
     psi = atan2(-rotMat(1,2), rotMat(1,1));
