@@ -435,10 +435,10 @@ classdef waveClass<handle
             end               
         end
         
-        function write_paraview_vtp(obj, t, numPointsX, numPointsY, domainSize, model, simdate, mooring)
+        function write_paraview_vtp(obj, t, numPointsX, numPointsY, domainSize, model, simdate, mooring, pathParaviewVideo,TimeBodyParav)
             % Write vtp files for visualization using Paraview
             % ground plane
-            filename = ['vtk' filesep 'ground.txt'];
+            filename = [pathParaviewVideo,'\\vtk' filesep 'ground.txt'];
             fid = fopen(filename, 'w');
             fprintf(fid,[num2str(domainSize) '\n']);
             fprintf(fid,[num2str(obj.waterDepth) '\n']);
@@ -454,7 +454,7 @@ classdef waveClass<handle
             numFace = (lx-1) * (ly-1);
             for it = 1:length(t)
                 % open file
-                filename = ['vtk' filesep 'waves' filesep 'waves_' num2str(it) '.vtp'];
+                filename = [pathParaviewVideo,'\\vtk' filesep 'waves' filesep 'waves_' num2str(it) '.vtp'];
                 fid = fopen(filename, 'w');
                 % calculate wave elevation
                 Z = waveElevationGrid (obj, t(it), X, Y);
@@ -463,7 +463,7 @@ classdef waveClass<handle
                 fprintf(fid, ['<!-- WEC-Sim Visualization using ParaView -->\n']);
                 fprintf(fid, ['<!--   model: ' model ' - ran on ' simdate ' -->\n']);
                 fprintf(fid, ['<!--   wave:  ' obj.type ' -->\n']);
-                fprintf(fid, ['<!--   time:  ' num2str(t(it)) ' -->\n']);
+                fprintf(fid, ['<!--   time:  ' num2str(TimeBodyParav(it)) ' -->\n']);
                 fprintf(fid, '<VTKFile type="PolyData" version="0.1">\n');
                 fprintf(fid, '  <PolyData>\n');
                 % write wave info
@@ -541,17 +541,45 @@ classdef waveClass<handle
             %
             
             switch obj.type                
-                case {'noWave','noWaveCIC','etaImport'}                    
+                case {'noWave','noWaveCIC'}                    
                     Z = zeros (size (X));                    
                 case {'regular', 'regularCIC'}                    
                     Xt = X*cos (obj.waveDir*pi/180) + Y * sin(obj.waveDir*pi/180);                    
                     Z = obj.A * cos(-1 * obj.k * Xt  +  obj.w * t);                    
                 case {'irregular', 'spectrumImport'}                    
                     Z = zeros (size (X));                    
-                    Xt = X.*cos (obj.waveDir*pi/180) + Y.*sin (obj.waveDir*pi/180);                    
-                    for iw = 1:length (obj.w)                        
-                        Z = Z + sqrt (obj.A(iw)*obj.dw(iw)) * cos ( -1*obj.k(iw)*Xt + obj.w(iw)*t + obj.phase(iw) );                        
-                    end                    
+                    for idir=1:length(obj.waveDir)
+                        Xt = X*cos(obj.waveDir(idir)*pi/180) + Y*sin(obj.waveDir(idir)*pi/180);
+                        for iw = 1:length(obj.w)
+                            Z = Z + sqrt(obj.A(iw)*obj.waveSpread(idir).*obj.dw(iw)) * cos(-1*obj.k(iw)*Xt + obj.w(iw)*t(it) + obj.phase(iw,idir));
+                        end
+                    end
+                case{'etaImport'}
+                    WaveEle = obj.waveAmpTime(:,2);
+                    TimeWaveEle = obj.waveAmpTime(:,1);
+                    WaveEle = interp1(TimeWaveEle,WaveEle,t);
+                    TimeWaveEle = TimeBodyParav;
+                    L = length(TimeWaveEle);
+                    T = TimeWaveEle(2)-TimeWaveEle(1);
+                    Fs = 1/T;
+                    YY = fft(WaveEle);
+                    P2 = abs(YY/L);
+                    P1 = P2(1:L/2+1);
+                    P1(2:end-1) = 2*P1(2:end-1);
+                    ff = Fs*(0:(L/2))/L;
+                    PhasesEtaImp2 = angle(YY/L);
+                    PhasesEtaImp1 = PhasesEtaImp2(1:L/2+1);
+                    kWaveEle = (2*pi.*ff).^2./9.81; % deep water wave approximation
+                    for j=1:100
+                        % approximation by 100 iterative for the finite water depth
+                        kWaveEle = (2*pi.*ff).^2./9.81./tanh(kWaveEle.*obj.waterDepth);
+                    end
+                    Z = zeros(size(X));
+                    Xt = X*cos(obj.waveDir*pi/180) + Y*sin(obj.waveDir*pi/180);
+                    ix0 = find(abs(Xt(1,:))==min(abs(Xt(1,:))));
+                    for iw = 2:length(ff)                
+                        Z = Z + P1(iw) * cos(-1*kWaveEle(iw)*Xt + 2*pi*ff(iw)*TimeWaveEle(it) + PhasesEtaImp1(iw));
+                    end
             end            
         end        
     end

@@ -98,9 +98,21 @@ classdef mooringClass<handle
             fprintf('\n\t***** Mooring Name: %s *****\n',obj.name)
         end
 
-        function write_paraview_vtp(obj,moorDyn, model,t,simdate,nline,nnode)
+        function write_paraview_vtp(obj,moorDyn, model,t,simdate,nline,nnode,pathParaviewVideo,TimeBodyParav,NewTimeParaview)
             nsegment = nnode -1;
-            for it = 1:length(t)
+            for iline = 1:nline
+                for inode = 0:nnode(iline)-1
+                    moorDyn.(['Line' num2str(iline)]).(['Node' num2str(inode) 'px']) = interp1(t,moorDyn.(['Line' num2str(iline)]).(['Node' num2str(inode) 'px'])(:),NewTimeParaview);
+                    moorDyn.(['Line' num2str(iline)]).(['Node' num2str(inode) 'py']) = interp1(t,moorDyn.(['Line' num2str(iline)]).(['Node' num2str(inode) 'py'])(:),NewTimeParaview);
+                    moorDyn.(['Line' num2str(iline)]).(['Node' num2str(inode) 'pz']) = interp1(t,moorDyn.(['Line' num2str(iline)]).(['Node' num2str(inode) 'pz'])(:),NewTimeParaview);
+                end 
+            end          
+            for iline = 1:nline
+                for isegment = 0:nsegment(iline)-1
+                    moorDyn.(['Line' num2str(iline)]).(['Seg' num2str(isegment) 'Te']) = interp1(t,moorDyn.(['Line' num2str(iline)]).(['Seg' num2str(isegment) 'Te'])(:),NewTimeParaview);
+                end 
+            end
+            for it = 1:length(TimeBodyParav)
                 % open file
                 filename = ['vtk' filesep 'mooring' filesep 'mooring_' num2str(it) '.vtp'];
                 fid = fopen(filename, 'w');
@@ -109,7 +121,7 @@ classdef mooringClass<handle
                 fprintf(fid, ['<!-- WEC-Sim Visualization using ParaView -->\n']);
                 fprintf(fid, ['<!--   model: ' model ' - ran on ' simdate ' -->\n']);
                 fprintf(fid, ['<!--   mooring:  MoorDyn -->\n']);
-                fprintf(fid, ['<!--   time:  ' num2str(t(it)) ' -->\n']);
+                fprintf(fid, ['<!--   time:  ' num2str(TimeBodyParav(it)) ' -->\n']);
                 fprintf(fid, '<VTKFile type="PolyData" version="0.1">\n');
                 fprintf(fid, '  <PolyData>\n');
                 % write line info

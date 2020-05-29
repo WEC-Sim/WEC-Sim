@@ -450,7 +450,7 @@ classdef responseClass<handle
             end 
         end
 
-        function write_paraview(obj, bodies, t, model, simdate, wavetype, mooring)
+        function write_paraview(obj, bodies, t, model, simdate, wavetype, mooring, pathParaviewVideo)
             % Writes vtp files for visualization with ParaView
             % set fileseperator to fs
             if strcmp(filesep, '\')
@@ -459,7 +459,7 @@ classdef responseClass<handle
                 fs = filesep;
             end
             % open file
-            fid = fopen(['vtk' fs model(1:end-4) '.pvd'], 'w');
+            fid = fopen([pathParaviewVideo,'\\vtk' fs model(1:end-4) '.pvd'], 'w');
             % write header
             fprintf(fid, '<?xml version="1.0"?>\n');
             fprintf(fid, ['<!-- WEC-Sim Visualization using ParaView -->\n']);

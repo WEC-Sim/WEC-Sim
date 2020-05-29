@@ -49,6 +49,7 @@ classdef bodyClass<handle
         viz               = struct(...                                          % Structure defining visualization properties
             'color', [1 1 0], ...                            % Visualization color for either SimMechanics Explorer or Paraview.
             'opacity', 1)                                    % Visualization opacity for either SimMechanics Explorer or Paraview.
+        bodyparaview      = 0;                                                  % Visualisation in Paraview =1 otherwise =0.
         morisonElement   = struct(...                                          % Structure defining the Morrison Elements
             'cd',                 [0 0 0], ...               % Viscous (quadratic) drag cd, vector length 3
             'ca',                 [0 0 0], ...               % Added mass coefficent for Morrison Element (format [Ca_x Ca_y Ca_z], default = [0 0 0])
@@ -704,7 +705,7 @@ classdef bodyClass<handle
             verts_out(:,3) = verts(:,3) + x(3);
         end
         
-        function write_paraview_vtp(obj, t, pos_all, bodyname, model, simdate, hspressure,wavenonlinearpressure,wavelinearpressure)
+        function write_paraview_vtp(obj, t, pos_all, bodyname, model, simdate, hspressure,wavenonlinearpressure,wavelinearpressure,pathParaviewVideo,vtkbodiesii)
             % Writes vtp files for visualization with ParaView
             numVertex = obj.bodyGeometry.numVertex;
             numFace = obj.bodyGeometry.numFace;
@@ -719,7 +720,7 @@ classdef bodyClass<handle
                 vertex_mod = obj.rotateXYZ(vertex_mod,[0 0 1],pos(6));
                 vertex_mod = obj.offsetXYZ(vertex_mod,pos(1:3));
                 % open file
-                filename = ['vtk' filesep 'body' num2str(obj.bodyNumber) '_' bodyname filesep bodyname '_' num2str(it) '.vtp'];
+                filename = [pathParaviewVideo,filesep,'vtk' filesep 'body' num2str(vtkbodiesii) '_' bodyname filesep bodyname '_' num2str(it) '.vtp'];
                 fid = fopen(filename, 'w');
                 % write header
                 fprintf(fid, '<?xml version="1.0"?>\n');
