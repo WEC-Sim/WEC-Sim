@@ -44,16 +44,17 @@ import os
 #Specify WEC-Sim path for API documentation by pointing local directory.
 # Must be cloned on the same level (e.g. GitHub/gh-pages and GitHub/WEC-Sim)
 this_dir = os.path.dirname(os.path.abspath(__file__))
-# matlab_src_dir = os.path.abspath(os.path.join(this_dir, '..'))
 matlab_src_dir = os.path.abspath(os.path.join(this_dir, '../../WEC-Sim'))
+# Specify that autodoc is for matlab code (not python)
 primary_domain = 'mat'
+# can be set to alphabetical, groupwise or bysource
+autodoc_member_order = 'bysource'
 
 # Add any paths that contain templates here, relative to this directory.
 templates_path = ['_templates']
 
 # The suffix(es) of source filenames.
 # You can specify multiple suffix as a list of string:
-# source_suffix = ['.rst', '.md']
 source_suffix = '.rst'
 
 # The encoding of source files.
