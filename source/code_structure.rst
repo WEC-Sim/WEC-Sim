@@ -3,7 +3,7 @@
 Code Structure
 ==============
 This section provides a description of the WEC-Sim source code and its structure. 
-For more information about WEC-Sim's code structure, refer to the :ref:`webinars:WEC-Sim Code Structure`.
+For more information about WEC-Sim's code structure, refer to the :ref:`webinars:WEC-Sim Code Structure` webinar.
 
 
 WEC-Sim Source Code
@@ -51,7 +51,7 @@ These default values can be overwritten by the user, for example, the end time o
 
 Available simulation properties, default values, and functions can be found by typing ``doc simulationClass`` in the MATLAB command window, or by opening the ``simulationClass.m`` file in ``$WECSIM//objects`` directory by typing ``open simulationClass`` in MATLAB Command Window.
 
-For more information about application of WEC-Sim's simulation class, refer to ref:`advanced_features:simulation-features`.
+For more information about application of WEC-Sim's simulation class, refer to :ref:`advanced_features:Simulation Features`.
 
 Wave Class
 ^^^^^^^^^^^^^^^^^^^^^^^
@@ -169,7 +169,7 @@ The ``etaImport`` case is defined by including the following in the input file::
 	waves.etaDataFile ='<eta file>.mat';
 	
 	
-For more information about application of WEC-Sim's wave class, refer to :ref:`advanced_features:Wave Features` section.
+For more information about application of WEC-Sim's wave class, refer to :ref:`advanced_features:Wave Features`.
 
 Body Class
 ^^^^^^^^^^^^^^^^^^^^^^^
@@ -192,7 +192,7 @@ For example, viscous drag can be specified by entering the viscous drag coeffici
 
 Available body properties, default values, and functions can be found by typing ``doc bodyClass`` in the MATLAB command window, or opening the `bodyClass.m` file in ``$WECSIM/source/objects`` directory by typing ``open bodyClass`` in Matlab Command Window.
 
-For more information about application of WEC-Sim's body class, refer to :ref:`advanced_features:Body Features` section.
+For more information about application of WEC-Sim's body class, refer to :ref:`advanced_features:Body Features`.
 
 Constraint Class
 ^^^^^^^^^^^^^^^^^^^^^^^
@@ -208,7 +208,7 @@ For rotational constraint (ex: pitch), the user also needs to specify the locati
 
 Available constraint properties, default values, and functions can be found by typing ``doc constraintClass`` in the MATLAB command window, or opening the `constraintClass.m` file in ``$WECSIM/source/objects`` directory by typing ``open constraintClass`` in MATLAB Command Window.
 
-For more information about application of WEC-Sim's constraint class, refer to the :ref:`advanced_features:Constraint and PTO Features` section.
+For more information about application of WEC-Sim's constraint class, refer to :ref:`advanced_features:Constraint and PTO Features`.
 
 
 PTO Class
@@ -232,7 +232,7 @@ Users can overwrite the default values in the input file. For example, users can
 
 Available pto properties, default values, and functions can be found by typing ``doc ptoClass`` in the MATLAB command window, or opening the `ptoClass.m` file in ``$WECSIM/source/objects`` directory by typing ``open ptoClass`` in MATLAB Command Window.
 
-For more information about application of WEC-Sim's constraint class, refer to the :ref:`advanced_features:Constraint and PTO Features` section.
+For more information about application of WEC-Sim's constraint class, refer to :ref:`advanced_features:Constraint and PTO Features`.
 
 Mooring Class
 ^^^^^^^^^^^^^^^^^^^^^^^
@@ -388,41 +388,20 @@ In some situations, users may want to use Simulink/Simscape blocks that are not 
 
 Output Structure
 ----------------
-After WEC-Sim is done running, there will be a new variable called ``output`` in your Matlab workspace.
+After WEC-Sim is done running, there will be a new variable called ``output`` in your MATLAB workspace.
 The ``output`` variable is an instance of the ``responseClass`` class. 
 It contains all the relevant time-series results of the simulation. 
 The structure of the ``output`` variable is shown in the table below. 
 Time series are given as [(# of time-steps) x 6] arrays, where 6 is the degrees of freedom.
 In addition to these time-series, the output for each object contains the object's name or type and the time vector.
 
+
+For more information about the ``output`` objected saved to the MATLAB workspace, refer to the :ref:`response` API documentation. 
+
 In addition to the responseClass ``output`` variable, the outputs can be written to ASCII files by using ``simu.outputtxt = 1;`` in the input file.
 
-+-------------------------------------------------------------------------------------------+
-|output                                                                                     |
-+================+=============================+============================================+
-|wave            | elevation                   | array: (# of time-steps) x 1               |
 +----------------+-----------------------------+--------------------------------------------+
-|bodies(i)       | position                    | array: (# of time-steps) x 6               |
-|                |                             |                                            |
-|                | velocity                    | array: (# of time-steps) x 6               |
-|                |                             |                                            |
-|                | acceleration                | array: (# of time-steps) x 6               |
-|                |                             |                                            |
-|                | forceTotal                  | array: (# of time-steps) x 6               |
-|                |                             |                                            |
-|                | forceExcitation             | array: (# of time-steps) x 6               |
-|                |                             |                                            |
-|                | forceRadiationDamping       | array: (# of time-steps) x 6               |
-|                |                             |                                            |
-|                | forceAddedMass              | array: (# of time-steps) x 6               |
-|                |                             |                                            |
-|                | forceRestoring              | array: (# of time-steps) x 6               |
-|                |                             |                                            |
-|                | forceMorrisonAndViscous     | array: (# of time-steps) x 6               |
-|                |                             |                                            |
-|                | forceLinearDamping          | array: (# of time-steps) x 6               |
-|                |                             |                                            |
-|                | cellPressures_time          | array: (# nlHydro time-steps) x (# cells)  |
+|bodies(i)       | cellPressures_time          | array: (# nlHydro time-steps) x (# cells)  |
 |                |                             |                                            |
 |                | cellPressures_hydrostatic   | array: (# nlHydro time-steps) x (# cells)  |
 |                |                             |                                            |
@@ -430,29 +409,9 @@ In addition to the responseClass ``output`` variable, the outputs can be written
 |                |                             |                                            |
 |                | cellPressures_waveNonLinear | array: (# nlHydro time-steps) x (# cells)  |
 +----------------+-----------------------------+--------------------------------------------+
-|ptos(i)         | position                    | array: (# of time-steps) x 6               |
-|                |                             |                                            |
-|                | velocity                    | array: (# of time-steps) x 6               |
-|                |                             |                                            |
-|                | acceleration                | array: (# of time-steps) x 6               |
-|                |                             |                                            |
-|                | forceTotal                  | array: (# of time-steps) x 6               |
-|                |                             |                                            |
-|                | forceActuation              | array: (# of time-steps) x 6               |
-|                |                             |                                            |
-|                | forceConstraint             | array: (# of time-steps) x 6               |
-|                |                             |                                            |
-|                | forceInternalMechanics      | array: (# of time-steps) x 6               |
-|                |                             |                                            |
-|                | powerInternalMechanics      | array: (# of time-steps) x 6               |
+|ptos(i)         |                             |                                            |
 +----------------+-----------------------------+--------------------------------------------+
-|constraints(i)  | position                    | array: (# of time-steps) x 6               |
-|                |                             |                                            |
-|                | velocity                    | array: (# of time-steps) x 6               |
-|                |                             |                                            |
-|                | acceleration                | array: (# of time-steps) x 6               |
-|                |                             |                                            |
-|                | forceConstraint             | array: (# of time-steps) x 6               |
+|constraints(i)  |                             |                                            |
 +----------------+-----------------------------+--------------------------------------------+
 |mooring(i)      | position                    | array: (# of time-steps) x 6               |
 |                |                             |                                            |

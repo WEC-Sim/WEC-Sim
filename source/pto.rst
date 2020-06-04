@@ -1,6 +1,6 @@
 
 
-This section provides an overview of  WEC-Sim's constraint and pto classes; for more information about the constraint and pto classes' code structure, refer to `Constraint Class <http://wec-sim.github.io/WEC-Sim/code_structure.html#constraint-class>`_ and `PTO Class <http://wec-sim.github.io/WEC-Sim/code_structure.html#pto-class>`_.
+This section provides an overview of  WEC-Sim's constraint and pto classes; for more information about the constraint and pto classes' code structure, refer to :ref:`code_structure:Constraint Class` and :ref:`code_structure:PTO Class`.
 
 Modifying Constraints and PTOs
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
@@ -33,10 +33,10 @@ PTO-Sim is the WEC-Sim module responsible for accurately modeling a WEC's conver
 While the PTO blocks native to WEC-Sim are modeled as a simple linear spring-damper systems, PTO-Sim is capable of modeling many power conversion chains (PCC) such as mechanical drivetrain and hydraulic drivetrain. 
 PTO-Sim is made of native Simulink blocks coupled with WEC-Sim, using WEC-Sim's user-defined PTO blocks, where the WEC-Sim response (relative displacement and velocity for linear motion and angular position and velocity for rotary motion) is the PTO-Sim input. 
 Similarly, the PTO force or torque is the WEC-Sim input. 
-For more information on how PTO-Sim works, refer to [So et al., 2015], and the `PTO and Control webinar <http://wec-sim.github.io/WEC-Sim/webinars.html#webinar-3-pto-and-control>`_.
+For more information on how PTO-Sim works, refer to [So et al., 2015], and :ref:`webinar3`.
 
 
-The files for the PTO-Sim tutorials described in this section can be found in the `WEC-Sim Applications repository <https://github.com/WEC-Sim/WEC-Sim_Applications>`_ **PTO-Sim** example.
+The files for the PTO-Sim tutorials described in this section can be found in the **PTO-Sim** examples on the `WEC-Sim Applications repository <https://github.com/WEC-Sim/WEC-Sim_Applications>`_ .
 
 
 Tutorial: RM3 with PTO-Sim
@@ -142,7 +142,7 @@ A mechanical PTO is used in this example and is modeled as a direct drive linear
 
 
 **Simulink Model**
-Step 1 through 3 are the same as in `RM3 with hydraulic PTO`_.
+Step 1 through 3 are the same as in :ref:`pto:RM3 with Hydraulic PTO`.
 
 * Step 4: Go inside PTO-Sim block and add one bus selector and one selector blocks. Only velocity is needed for this example.
 
@@ -161,12 +161,12 @@ Step 1 through 3 are the same as in `RM3 with hydraulic PTO`_.
    :width: 400pt
 
 **Input File, Simulation, and Post-processing**
-The same as `RM3 with hydraulic PTO`_.
+The same as :ref:`pto:RM3 with Hydraulic PTO`.
 
 
 Tutorial: OSWEC with PTO-Sim
 """""""""""""""""""""""""""""""""""""""""""""
-This section describes how to use the OSWEC model with PTO-Sim. The same process as described in `RM3 with PTO-Sim <http://wec-sim.github.io/WEC-Sim/features.html#tutorial-rm3-with-pto-sim>`_ ; however, since the OSWEC is a rotary device, it takes torque as an input and a rotary to linear motion conversion block is needed. The tutorials can be found on the `WEC-Sim Applications <https://github.com/WEC-Sim/WEC-Sim_Applications>`_ repository (both for a crank and for a rod).
+This section describes how to use the OSWEC model with PTO-Sim. The same process as described in :ref:`pto:RM3 with Hydraulic PTO`; however, since the OSWEC is a rotary device, it takes torque as an input and a rotary to linear motion conversion block is needed. The tutorials can be found on the `WEC-Sim Applications <https://github.com/WEC-Sim/WEC-Sim_Applications>`_ repository (both for a crank and for a rod).
 
 OSWEC with Hydraulic PTO
 ++++++++++++++++++++++++++++++
@@ -179,7 +179,7 @@ A hydraulic PTO or mechanical PTO can be used with OSWEC but for simplicity a hy
    :width: 400pt
 
 **Modeling of OSWEC with Hydraulic PTO**
-The same as `RM3 with hydraulic PTO`_.
+The same as :ref:`pto:RM3 with Hydraulic PTO`.
 
 **Simulink Model**
 The Simulink model can be built as following:
@@ -208,7 +208,7 @@ The Simulink model can be built as following:
    :width: 400pt
 
 **Input File, Simulation, and Post-processing**
-The same as `RM3 with hydraulic PTO`_.
+The same as :ref:`pto:RM3 with Hydraulic PTO`.
 
 
 Other PTO-Sim Tutorials

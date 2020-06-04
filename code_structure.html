@@ -200,7 +200,7 @@
   <div class="section" id="code-structure">
 <span id="id1"></span><h1>Code Structure<a class="headerlink" href="#code-structure" title="Permalink to this headline">¶</a></h1>
 <p>This section provides a description of the WEC-Sim source code and its structure.
-For more information about WEC-Sim’s code structure, refer to the <a class="reference internal" href="webinars.html#wec-sim-code-structure"><span class="std std-ref">WEC-Sim Code Structure</span></a>.</p>
+For more information about WEC-Sim’s code structure, refer to the <a class="reference internal" href="webinars.html#wec-sim-code-structure"><span class="std std-ref">WEC-Sim Code Structure</span></a> webinar.</p>
 <div class="section" id="wec-sim-source-code">
 <h2>WEC-Sim Source Code<a class="headerlink" href="#wec-sim-source-code" title="Permalink to this headline">¶</a></h2>
 <p>The directory where the WEC-Sim code is contained is referred to as <code class="docutils literal notranslate"><span class="pre">$WECSIM</span></code> (e.g. <code class="docutils literal notranslate"><span class="pre">C:/User/Documents/GitHub/WEC-Sim</span></code>).
@@ -255,7 +255,7 @@ All simulation class properties are specified as variables within the <code clas
 <p>The WEC-Sim code has default values defined for the simulation class properties.
 These default values can be overwritten by the user, for example, the end time of a simulation can be set by entering the following command: <code class="docutils literal notranslate"><span class="pre">simu.endTime</span> <span class="pre">=</span> <span class="pre">&lt;user</span> <span class="pre">specified</span> <span class="pre">end</span> <span class="pre">time&gt;</span></code>.</p>
 <p>Available simulation properties, default values, and functions can be found by typing <code class="docutils literal notranslate"><span class="pre">doc</span> <span class="pre">simulationClass</span></code> in the MATLAB command window, or by opening the <code class="docutils literal notranslate"><span class="pre">simulationClass.m</span></code> file in <code class="docutils literal notranslate"><span class="pre">$WECSIM//objects</span></code> directory by typing <code class="docutils literal notranslate"><span class="pre">open</span> <span class="pre">simulationClass</span></code> in MATLAB Command Window.</p>
-<p>For more information about application of WEC-Sim’s simulation class, refer to ref:<cite>advanced_features:simulation-features</cite>.</p>
+<p>For more information about application of WEC-Sim’s simulation class, refer to <a class="reference internal" href="advanced_features.html#simulation-features"><span class="std std-ref">Simulation Features</span></a>.</p>
 </div>
 <div class="section" id="wave-class">
 <h3>Wave Class<a class="headerlink" href="#wave-class" title="Permalink to this headline">¶</a></h3>
@@ -403,7 +403,7 @@ The <code class="docutils literal notranslate"><span class="pre">etaImport</span
 <span class="n">waves</span><span class="o">.</span><span class="n">etaDataFile</span> <span class="o">=</span><span class="s1">&#39;&lt;eta file&gt;.mat&#39;</span><span class="p">;</span>
 </pre></div>
 </div>
-<p>For more information about application of WEC-Sim’s wave class, refer to <a class="reference internal" href="advanced_features.html#wave-features"><span class="std std-ref">Wave Features</span></a> section.</p>
+<p>For more information about application of WEC-Sim’s wave class, refer to <a class="reference internal" href="advanced_features.html#wave-features"><span class="std std-ref">Wave Features</span></a>.</p>
 </div>
 </div>
 <div class="section" id="body-class">
@@ -424,7 +424,7 @@ For example, viscous drag can be specified by entering the viscous drag coeffici
 </pre></div>
 </div>
 <p>Available body properties, default values, and functions can be found by typing <code class="docutils literal notranslate"><span class="pre">doc</span> <span class="pre">bodyClass</span></code> in the MATLAB command window, or opening the <cite>bodyClass.m</cite> file in <code class="docutils literal notranslate"><span class="pre">$WECSIM/source/objects</span></code> directory by typing <code class="docutils literal notranslate"><span class="pre">open</span> <span class="pre">bodyClass</span></code> in Matlab Command Window.</p>
-<p>For more information about application of WEC-Sim’s body class, refer to <a class="reference internal" href="advanced_features.html#body-features"><span class="std std-ref">Body Features</span></a> section.</p>
+<p>For more information about application of WEC-Sim’s body class, refer to <a class="reference internal" href="advanced_features.html#body-features"><span class="std std-ref">Body Features</span></a>.</p>
 </div>
 <div class="section" id="constraint-class">
 <h3>Constraint Class<a class="headerlink" href="#constraint-class" title="Permalink to this headline">¶</a></h3>
@@ -437,7 +437,7 @@ Within the <code class="docutils literal notranslate"><span class="pre">wecSimIn
 </div>
 <p>For rotational constraint (ex: pitch), the user also needs to specify the location of the rotational joint with respect to the global reference frame in the <code class="docutils literal notranslate"><span class="pre">constraint(&lt;#&gt;).loc</span></code> variable.</p>
 <p>Available constraint properties, default values, and functions can be found by typing <code class="docutils literal notranslate"><span class="pre">doc</span> <span class="pre">constraintClass</span></code> in the MATLAB command window, or opening the <cite>constraintClass.m</cite> file in <code class="docutils literal notranslate"><span class="pre">$WECSIM/source/objects</span></code> directory by typing <code class="docutils literal notranslate"><span class="pre">open</span> <span class="pre">constraintClass</span></code> in MATLAB Command Window.</p>
-<p>For more information about application of WEC-Sim’s constraint class, refer to the <a class="reference internal" href="advanced_features.html#constraint-and-pto-features"><span class="std std-ref">Constraint and PTO Features</span></a> section.</p>
+<p>For more information about application of WEC-Sim’s constraint class, refer to <a class="reference internal" href="advanced_features.html#constraint-and-pto-features"><span class="std std-ref">Constraint and PTO Features</span></a>.</p>
 </div>
 <div class="section" id="pto-class">
 <h3>PTO Class<a class="headerlink" href="#pto-class" title="Permalink to this headline">¶</a></h3>
@@ -457,7 +457,7 @@ Users can overwrite the default values in the input file. For example, users can
 </pre></div>
 </div>
 <p>Available pto properties, default values, and functions can be found by typing <code class="docutils literal notranslate"><span class="pre">doc</span> <span class="pre">ptoClass</span></code> in the MATLAB command window, or opening the <cite>ptoClass.m</cite> file in <code class="docutils literal notranslate"><span class="pre">$WECSIM/source/objects</span></code> directory by typing <code class="docutils literal notranslate"><span class="pre">open</span> <span class="pre">ptoClass</span></code> in MATLAB Command Window.</p>
-<p>For more information about application of WEC-Sim’s constraint class, refer to the <a class="reference internal" href="advanced_features.html#constraint-and-pto-features"><span class="std std-ref">Constraint and PTO Features</span></a> section.</p>
+<p>For more information about application of WEC-Sim’s constraint class, refer to <a class="reference internal" href="advanced_features.html#constraint-and-pto-features"><span class="std std-ref">Constraint and PTO Features</span></a>.</p>
 </div>
 <div class="section" id="mooring-class">
 <h3>Mooring Class<a class="headerlink" href="#mooring-class" title="Permalink to this headline">¶</a></h3>
@@ -616,12 +616,13 @@ There are no restrictions on the number of MooringMatrix blocks.</p>
 </div>
 <div class="section" id="output-structure">
 <h2>Output Structure<a class="headerlink" href="#output-structure" title="Permalink to this headline">¶</a></h2>
-<p>After WEC-Sim is done running, there will be a new variable called <code class="docutils literal notranslate"><span class="pre">output</span></code> in your Matlab workspace.
+<p>After WEC-Sim is done running, there will be a new variable called <code class="docutils literal notranslate"><span class="pre">output</span></code> in your MATLAB workspace.
 The <code class="docutils literal notranslate"><span class="pre">output</span></code> variable is an instance of the <code class="docutils literal notranslate"><span class="pre">responseClass</span></code> class.
 It contains all the relevant time-series results of the simulation.
 The structure of the <code class="docutils literal notranslate"><span class="pre">output</span></code> variable is shown in the table below.
 Time series are given as [(# of time-steps) x 6] arrays, where 6 is the degrees of freedom.
 In addition to these time-series, the output for each object contains the object’s name or type and the time vector.</p>
+<p>For more information about the <code class="docutils literal notranslate"><span class="pre">output</span></code> objected saved to the MATLAB workspace, refer to the <a class="reference internal" href="api.html#response"><span class="std std-ref">Response Class</span></a> API documentation.</p>
 <p>In addition to the responseClass <code class="docutils literal notranslate"><span class="pre">output</span></code> variable, the outputs can be written to ASCII files by using <code class="docutils literal notranslate"><span class="pre">simu.outputtxt</span> <span class="pre">=</span> <span class="pre">1;</span></code> in the input file.</p>
 <table class="docutils align-default">
 <colgroup>
@@ -629,78 +630,26 @@ In addition to these time-series, the output for each object contains the object
 <col style="width: 33%" />
 <col style="width: 49%" />
 </colgroup>
-<thead>
-<tr class="row-odd"><th class="head" colspan="3"><p>output</p></th>
-</tr>
-</thead>
 <tbody>
-<tr class="row-even"><td><p>wave</p></td>
-<td><p>elevation</p></td>
-<td><p>array: (# of time-steps) x 1</p></td>
-</tr>
 <tr class="row-odd"><td><p>bodies(i)</p></td>
-<td><p>position</p>
-<p>velocity</p>
-<p>acceleration</p>
-<p>forceTotal</p>
-<p>forceExcitation</p>
-<p>forceRadiationDamping</p>
-<p>forceAddedMass</p>
-<p>forceRestoring</p>
-<p>forceMorrisonAndViscous</p>
-<p>forceLinearDamping</p>
-<p>cellPressures_time</p>
+<td><p>cellPressures_time</p>
 <p>cellPressures_hydrostatic</p>
 <p>cellPressures_waveLinear</p>
 <p>cellPressures_waveNonLinear</p>
 </td>
-<td><p>array: (# of time-steps) x 6</p>
-<p>array: (# of time-steps) x 6</p>
-<p>array: (# of time-steps) x 6</p>
-<p>array: (# of time-steps) x 6</p>
-<p>array: (# of time-steps) x 6</p>
-<p>array: (# of time-steps) x 6</p>
-<p>array: (# of time-steps) x 6</p>
-<p>array: (# of time-steps) x 6</p>
-<p>array: (# of time-steps) x 6</p>
-<p>array: (# of time-steps) x 6</p>
-<p>array: (# nlHydro time-steps) x (# cells)</p>
+<td><p>array: (# nlHydro time-steps) x (# cells)</p>
 <p>array: (# nlHydro time-steps) x (# cells)</p>
 <p>array: (# nlHydro time-steps) x (# cells)</p>
 <p>array: (# nlHydro time-steps) x (# cells)</p>
 </td>
 </tr>
 <tr class="row-even"><td><p>ptos(i)</p></td>
-<td><p>position</p>
-<p>velocity</p>
-<p>acceleration</p>
-<p>forceTotal</p>
-<p>forceActuation</p>
-<p>forceConstraint</p>
-<p>forceInternalMechanics</p>
-<p>powerInternalMechanics</p>
-</td>
-<td><p>array: (# of time-steps) x 6</p>
-<p>array: (# of time-steps) x 6</p>
-<p>array: (# of time-steps) x 6</p>
-<p>array: (# of time-steps) x 6</p>
-<p>array: (# of time-steps) x 6</p>
-<p>array: (# of time-steps) x 6</p>
-<p>array: (# of time-steps) x 6</p>
-<p>array: (# of time-steps) x 6</p>
-</td>
+<td></td>
+<td></td>
 </tr>
 <tr class="row-odd"><td><p>constraints(i)</p></td>
-<td><p>position</p>
-<p>velocity</p>
-<p>acceleration</p>
-<p>forceConstraint</p>
-</td>
-<td><p>array: (# of time-steps) x 6</p>
-<p>array: (# of time-steps) x 6</p>
-<p>array: (# of time-steps) x 6</p>
-<p>array: (# of time-steps) x 6</p>
-</td>
+<td></td>
+<td></td>
 </tr>
 <tr class="row-even"><td><p>mooring(i)</p></td>
 <td><p>position</p>

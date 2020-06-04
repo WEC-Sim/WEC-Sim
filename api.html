@@ -170,14 +170,14 @@
   <div class="section" id="wec-sim-api">
 <span id="api"></span><h1>WEC-Sim API<a class="headerlink" href="#wec-sim-api" title="Permalink to this headline">¶</a></h1>
 <div class="section" id="response-class">
-<h2>Response Class<a class="headerlink" href="#response-class" title="Permalink to this headline">¶</a></h2>
+<span id="response"></span><h2>Response Class<a class="headerlink" href="#response-class" title="Permalink to this headline">¶</a></h2>
 <dl class="class">
 <dt id="source.objects.responseClass">
 <em class="property">class </em><code class="sig-prename descclassname">source.objects.</code><code class="sig-name descname">responseClass</code><span class="sig-paren">(</span><em class="sig-param">bodiesOutput</em>, <em class="sig-param">ptosOutput</em>, <em class="sig-param">constraintsOutput</em>, <em class="sig-param">ptosimOutput</em>, <em class="sig-param">mooringOutput</em>, <em class="sig-param">wave_type</em>, <em class="sig-param">wave_elev</em>, <em class="sig-param">hspressure</em>, <em class="sig-param">wpressurenl</em>, <em class="sig-param">wpressurel</em>, <em class="sig-param">yawNonLin</em><span class="sig-paren">)</span><a class="headerlink" href="#source.objects.responseClass" title="Permalink to this definition">¶</a></dt>
-<dd><p>The  <code class="docutils literal notranslate"><span class="pre">responseClass</span></code> creates an <code class="docutils literal notranslate"><span class="pre">output</span></code> object in the MATLAB workspace
-that contains output structures for each instance of a WEC-Sim class (e.g.
+<dd><p>The  <code class="docutils literal notranslate"><span class="pre">responseClass</span></code> creates an <code class="docutils literal notranslate"><span class="pre">output</span></code> object saved to the MATLAB workspace
+that contains structures for each instance of a WEC-Sim class (e.g.
 <code class="docutils literal notranslate"><span class="pre">waveClass</span></code>, <code class="docutils literal notranslate"><span class="pre">bodyClass</span></code>, <code class="docutils literal notranslate"><span class="pre">ptoClass</span></code>, <code class="docutils literal notranslate"><span class="pre">mooringClass</span></code>).</p>
-<p>The <code class="docutils literal notranslate"><span class="pre">output.wave</span></code> structure for each instance of the <code class="docutils literal notranslate"><span class="pre">waveClass</span></code> includes:</p>
+<p>The <code class="docutils literal notranslate"><span class="pre">wave</span></code> structure for each instance of the <code class="docutils literal notranslate"><span class="pre">waveClass</span></code> includes:</p>
 <blockquote>
 <div><ul class="simple">
 <li><p><code class="docutils literal notranslate"><span class="pre">type</span></code> (string) = ‘waveType’</p></li>
@@ -185,50 +185,50 @@ that contains output structures for each instance of a WEC-Sim class (e.g.
 <li><p><code class="docutils literal notranslate"><span class="pre">elevation</span></code> (array) = [# of time-steps x 1]</p></li>
 </ul>
 </div></blockquote>
-<p>The <code class="docutils literal notranslate"><span class="pre">output.bodies</span></code> structure for each instance of the
+<p>The <code class="docutils literal notranslate"><span class="pre">bodies</span></code> structure for each instance of the
 <code class="docutils literal notranslate"><span class="pre">bodyClass</span></code> (i.e. for each Body block) includes:</p>
 <blockquote>
 <div><ul class="simple">
 <li><p><code class="docutils literal notranslate"><span class="pre">name</span></code> (string) = ‘bodyName’</p></li>
-<li><p><code class="docutils literal notranslate"><span class="pre">time</span></code> (array) = (# of time-steps x 1)</p></li>
-<li><p><code class="docutils literal notranslate"><span class="pre">position</span></code> (array) = (# of time-steps x 6)</p></li>
-<li><p><code class="docutils literal notranslate"><span class="pre">velocity</span></code> (array) = (# of time-steps x 6)</p></li>
-<li><p><code class="docutils literal notranslate"><span class="pre">accleration</span></code> (array) = (# of time-steps x 6)</p></li>
-<li><p><code class="docutils literal notranslate"><span class="pre">forceTotal</span></code> (array) = (# of time-steps x 6)</p></li>
-<li><p><code class="docutils literal notranslate"><span class="pre">forceExcitation</span></code> (array) = (# of time-steps x 6)</p></li>
-<li><p><code class="docutils literal notranslate"><span class="pre">forceRadiationDamping</span></code> (array) = (# of time-steps x 6)</p></li>
-<li><p><code class="docutils literal notranslate"><span class="pre">forceAddedMass</span></code> (array) = (# of time-steps x 6)</p></li>
-<li><p><code class="docutils literal notranslate"><span class="pre">forceRestoring</span></code> (array) = (# of time-steps x 6)</p></li>
-<li><p><code class="docutils literal notranslate"><span class="pre">forceMorrisonAndViscous</span></code> (array) = (# of time-steps x 6)</p></li>
-<li><p><code class="docutils literal notranslate"><span class="pre">forceLinearDamping</span></code> (array) = (# of time-steps x 6)</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">time</span></code> (array) = [# of time-steps x 1]</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">position</span></code> (array) = [# of time-steps x 6]</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">velocity</span></code> (array) = [# of time-steps x 6]</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">accleration</span></code> (array) = [# of time-steps x 6]</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">forceTotal</span></code> (array) = [# of time-steps x 6]</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">forceExcitation</span></code> (array) = [# of time-steps x 6]</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">forceRadiationDamping</span></code> (array) = [# of time-steps x 6]</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">forceAddedMass</span></code> (array) = [# of time-steps x 6]</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">forceRestoring</span></code> (array) = [# of time-steps x 6]</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">forceMorrisonAndViscous</span></code> (array) = [# of time-steps x 6]</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">forceLinearDamping</span></code> (array) = [# of time-steps x 6]</p></li>
 </ul>
 </div></blockquote>
-<p>The <code class="docutils literal notranslate"><span class="pre">output.ptos</span></code> structure for each instance of the <code class="docutils literal notranslate"><span class="pre">ptoClass</span></code>
+<p>The <code class="docutils literal notranslate"><span class="pre">ptos</span></code> structure for each instance of the <code class="docutils literal notranslate"><span class="pre">ptoClass</span></code>
 (i.e. for each PTO block) includes:</p>
 <blockquote>
 <div><ul class="simple">
 <li><p><code class="docutils literal notranslate"><span class="pre">name</span></code> (string) = ‘ptoName’</p></li>
-<li><p><code class="docutils literal notranslate"><span class="pre">time</span></code> (array) = (# of time-steps x 1)</p></li>
-<li><p><code class="docutils literal notranslate"><span class="pre">position</span></code> (array) = (# of time-steps x 6)</p></li>
-<li><p><code class="docutils literal notranslate"><span class="pre">velocity</span></code> (array) = (# of time-steps x 6)</p></li>
-<li><p><code class="docutils literal notranslate"><span class="pre">accleration</span></code> (array) = (# of time-steps x 6)</p></li>
-<li><p><code class="docutils literal notranslate"><span class="pre">forceTotal</span></code> (array) = (# of time-steps x 6)</p></li>
-<li><p><code class="docutils literal notranslate"><span class="pre">forceActuation</span></code> (array) = (# of time-steps x 6)</p></li>
-<li><p><code class="docutils literal notranslate"><span class="pre">forceConstraint</span></code> (array) = (# of time-steps x 6)</p></li>
-<li><p><code class="docutils literal notranslate"><span class="pre">forceInternalMechanics</span></code> (array) = (# of time-steps x 6)</p></li>
-<li><p><code class="docutils literal notranslate"><span class="pre">powerInternalMechanics</span></code> (array) = (# of time-steps x 6)</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">time</span></code> (array) = [# of time-steps x 1]</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">position</span></code> (array) = [# of time-steps x 6]</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">velocity</span></code> (array) = [# of time-steps x 6]</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">accleration</span></code> (array) = [# of time-steps x 6]</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">forceTotal</span></code> (array) = [# of time-steps x 6]</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">forceActuation</span></code> (array) = [# of time-steps x 6]</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">forceConstraint</span></code> (array) = [# of time-steps x 6]</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">forceInternalMechanics</span></code> (array) = [# of time-steps x 6]</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">powerInternalMechanics</span></code> (array) = [# of time-steps x 6]</p></li>
 </ul>
 </div></blockquote>
-<p>The <code class="docutils literal notranslate"><span class="pre">output.constraints</span></code> structure for each instance of the
+<p>The <code class="docutils literal notranslate"><span class="pre">constraints</span></code> structure for each instance of the
 <code class="docutils literal notranslate"><span class="pre">coonstraintClass</span></code> (i.e. for each Constraint block) includes:</p>
 <blockquote>
 <div><ul class="simple">
 <li><p><code class="docutils literal notranslate"><span class="pre">name</span></code> (string) = ‘coonstraintName’</p></li>
-<li><p><code class="docutils literal notranslate"><span class="pre">time</span></code> (array) = (# of time-steps x 1)</p></li>
-<li><p><code class="docutils literal notranslate"><span class="pre">position</span></code> (array) = (# of time-steps x 6)</p></li>
-<li><p><code class="docutils literal notranslate"><span class="pre">velocity</span></code> (array) = (# of time-steps x 6)</p></li>
-<li><p><code class="docutils literal notranslate"><span class="pre">accleration</span></code> (array) = (# of time-steps x 6)</p></li>
-<li><p><code class="docutils literal notranslate"><span class="pre">forceConstraint</span></code> (array) = (# of time-steps x 6)</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">time</span></code> (array) = [# of time-steps x 1]</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">position</span></code> (array) = [# of time-steps x 6]</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">velocity</span></code> (array) = [# of time-steps x 6]</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">accleration</span></code> (array) = [# of time-steps x 6]</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">forceConstraint</span></code> (array) = [# of time-steps x 6]</p></li>
 </ul>
 </div></blockquote>
 <dl class="attribute">

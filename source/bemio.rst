@@ -1,5 +1,5 @@
 
-The Boundary Element Method Input/Output (BEMIO) functions are used to pre-process the BEM hydrodynamic data prior to running WEC-Sim. For more information about the WEC-Sim pre-processing workflow, refer to `Step 1: WEC-Sim Pre-Processing <http://wec-sim.github.io/WEC-Sim/overview.html#step-1-wec-sim-pre-processing>`_. BEMIO functions perform the following tasks:
+The Boundary Element Method Input/Output (BEMIO) functions are used to pre-process the BEM hydrodynamic data prior to running WEC-Sim. For more information about the WEC-Sim pre-processing workflow, refer to :ref:`overview:Step 1: Run BEMIO`. BEMIO functions perform the following tasks:
 
 * Read BEM results from **WAMIT**, **NEMOH**, or **AQWA**.
 * Calculate the radiation and excitation impulse response functions (IRFs).
@@ -7,13 +7,14 @@ The Boundary Element Method Input/Output (BEMIO) functions are used to pre-proce
 * Save the resulting data in Hierarchical Data Format 5 (HDF5).
 * Plot typical hydrodynamic data for user verification.
 
-The BEMIO tutorials are included in the ``$WECSIM/tutorials/BEMIO`` directory in the WEC-Sim source code. For more information, refer to the `BEMIO webinar <http://wec-sim.github.io/WEC-Sim/webinars.html#webinar-1-bemio-and-mcr>`_.
+The BEMIO tutorials are included in the ``$WECSIM/tutorials/BEMIO`` directory in the WEC-Sim source code. For more information, refer to :ref:`webinar1`.
 
 .. Note:: 
 	Previously the `python based BEMIO code <http://wec-sim.github.io/bemio/installing.html>`_ was used for this purpose. The python BEMIO functions have been converted to MATLAB and are included in the WEC-Sim source code. The python based BEMIO code will remain available but will no longer be  supported. 
 
 BEMIO Functions
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+.. Kelley convert this to API doc
 
 **Read_WAMIT:** Reads data from a WAMIT output file
 
@@ -102,6 +103,7 @@ BEMIO Functions
 
 BEMIO *hydro* Data Structure
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+.. Kelley update this
 
 ============  ========================  ======================================
 **Variable**  **Format**                **Description**

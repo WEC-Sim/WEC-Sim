@@ -31,7 +31,8 @@ The WEC-Sim Theory & Workflow presentation is available for download here ( :dow
 
 WEC-Sim Code Structure 
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
-This section of the course provides an overview of how the WEC-Sim code is structured by describing the `WEC-Sim Source Code <http://wec-sim.github.io/WEC-Sim/code_structure.html#wec-sim-source-code>`_ (i.e. `WEC-Sim Objects <http://wec-sim.github.io/WEC-Sim/code_structure.html#wec-sim-objects>`_  and `WEC-Sim Library Blocks <http://wec-sim.github.io/WEC-Sim/code_structure.html#wec-sim-library>`_), and how they are defined by the `WEC-Sim Model Files <http://wec-sim.github.io/WEC-Sim/overview.html#wec-sim-model-files>`_ (i.e. ``wecSimInputFile.m`` and ``<Simulink_model_name>.slx``). 
+This section of the course provides an overview of how the WEC-Sim code is structured by describing the :ref:`code_structure:WEC-Sim Source Code` (e.g. :ref:`code_structure:WEC-Sim Objects` and :ref:`code_structure:WEC-Sim Library`, and how they are defined in the :ref:`overview:WEC-Sim Model Files`
+(i.e. ``wecSimInputFile.m`` and ``<Simulink_model_name>.slx``). 
 The WEC-Sim Code Structure Overview presentation is available for download here ( :download:`WEC-Sim Code Structure Slides <_downloads/WEC-Sim_CodeStructure.pdf>` ), and the recording is available below. 
 	
 	.. raw:: html
@@ -41,8 +42,8 @@ The WEC-Sim Code Structure Overview presentation is available for download here 
 
 Wave Implementation
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
-This section of the course provides an overview of how waves are implemented in the WEC-Sim code, both in the `waveClass <http://wec-sim.github.io/WEC-Sim/code_structure.html#wave-class>`_, and in the `WEC-Sim Library Blocks <http://wec-sim.github.io/WEC-Sim/code_structure.html#wec-sim-library>`_. 
-The Wave Implementation presentation is available for download here ( :download:`Wave Implementation Slides <_downloads/WEC-Sim_WaveImplementation.pdf>` ), and the recording is available below. 
+This section of the course provides an overview of how waves are implemented in the WEC-Sim code, both in the :ref:`code_structure:Wave Class`, and in the :ref:`code_structure:WEC-Sim Library`. 
+The Wave Implementation presentation is available for download here (:download:`Wave Implementation Slides <_downloads/WEC-Sim_WaveImplementation.pdf>` ), and the recording is available below. 
 	
 	.. raw:: html
 	
@@ -51,7 +52,7 @@ The Wave Implementation presentation is available for download here ( :download:
 
 Body Implementation
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
-This section of the course provides an overview of how bodies are implemented in the WEC-Sim code, both in the `bodyClass <http://wec-sim.github.io/WEC-Sim/code_structure.html#body-class>`_, and in the `WEC-Sim Library Blocks <http://wec-sim.github.io/WEC-Sim/code_structure.html#wec-sim-library>`_. 
+This section of the course provides an overview of how bodies are implemented in the WEC-Sim code, both in the :ref:`code_structure:Body Class`, and in the :ref:`code_structure:WEC-Sim Library`. 
 The Body Implementation presentation is available for download here ( :download:`Body Implementation Slides <_downloads/WEC-Sim_BodyImplementation.pdf>` ), and the recording is available below. 
 	
 	.. raw:: html
@@ -73,6 +74,8 @@ The WEC-Sim team hosted a series of Advanced Features Webinars.  Dates and topic
 	===========  ===============  ====================================
 
 
+.. _webinar1:
+
 Webinar 1 - BEMIO and MCR
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 The WEC-Sim webinar on BEMIO and MCR was hosted on April 18, 2017. The presentation is available for download here ( :download:`Webinar 1 Slides <_downloads/WEC-Sim_Webinar1.pdf>` ), and the recordings are available below.   
@@ -91,6 +94,7 @@ The WEC-Sim webinar on BEMIO and MCR was hosted on April 18, 2017. The presentat
 	
 		<iframe width="560" height="315" src="https://www.youtube.com/embed/C9R_mGNI5yA?ecver=1" frameborder="0" allowfullscreen></iframe>
 		
+.. _webinar2:
 
 Webinar 2 - Nonlinear Buoyancy and Froude-Krylov Wave Excitation, Non-Hydro and B2B
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
@@ -110,6 +114,7 @@ The presentation is available for download here ( :download:`Webinar 2 Slides <_
 	
 		<iframe width="560" height="315" src="https://www.youtube.com/embed/RIPfL_nV00U?ecver=1" frameborder="0" allowfullscreen></iframe>
 		
+.. _webinar3:
 		
 Webinar 3 - PTO and Control
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
@@ -128,6 +133,7 @@ The WEC-Sim webinar on PTO and Control was hosted on June 13, 2017. The presenta
 		
 		<iframe width="560" height="315" src="https://www.youtube.com/embed/Q7qb0eHg9-s" frameborder="0" allowfullscreen></iframe>
 
+.. _webinar4:
 		
 Webinar 4 - Mooring and Visualization
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^

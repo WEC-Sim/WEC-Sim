@@ -1,7 +1,7 @@
 
 
 This section describes how to setup, output, and use Paraview files for visualizing a WEC-Sim simulation. 
-For more information about using Paraview for visualization, refer to the `visualization webinar <http://wec-sim.github.io/WEC-Sim/webinars.html#webinar-4-mooring-and-visualization>`_, and the `WEC-Sim Applications <https://github.com/WEC-Sim/WEC-Sim_Applications>`_ repository **Viz** example.
+For more information about using Paraview for visualization, refer to the :ref:`webinar4`, and the **Viz** example on the `WEC-Sim Applications <https://github.com/WEC-Sim/WEC-Sim_Applications>`_ repository.
 
 Using Paraview visualization improves on SimMechanics's explorer by:
 
@@ -91,6 +91,7 @@ On the bottom right view the wave elevation is used to color the free surface. T
 .. raw:: html
 
 	<iframe width="420" height="315" src="https://www.youtube.com/embed/KcsLi38Xjv0" frameborder="0" allowfullscreen></iframe>
+
 
 
 Visualizing Non-Linear Buoyancy and Froude-Krylov Wave Excitation

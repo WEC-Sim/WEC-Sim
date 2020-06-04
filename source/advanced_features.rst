@@ -2,7 +2,7 @@
 
 Advanced Features
 =================
-The advanced features documentation provides an overview of WEC-Sim features that were not covered in the WEC-Sim `Tutorials <http://wec-sim.github.io/WEC-Sim/tutorials.html>`_. The diagram below highlights some of WEC-Sim's advanced features, details of which will be described in the following sections. 
+The advanced features documentation provides an overview of WEC-Sim features that were not covered in the WEC-Sim :ref:`tutorials`. The diagram below highlights some of WEC-Sim's advanced features, details of which will be described in the following sections. 
 
 .. codeFeatures:
 
@@ -24,7 +24,7 @@ BEMIO
 
 Simulation Features
 ---------------------------------
-This section provides an overview of WEC-Sim's simulation class features; for more information about the simulation class code structure, refer to `Simulation Class <http://wec-sim.github.io/WEC-Sim/code_structure.html#simulation-class>`_. 
+This section provides an overview of WEC-Sim's simulation class features; for more information about the simulation class code structure, refer to :ref:`code_structure:Simulation Class`. 
 
 Multiple Condition Runs (MCR)
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
@@ -42,19 +42,19 @@ WEC-Sim allows users to perform batch runs by typing ``wecSimMCR`` into the MATL
 
 For Multiple Condition Runs, the ``*.h5`` hydrodynamic data is only loaded once. To reload the ``*.h5`` data between runs,  set ``simu.reloadH5Data =1`` in the WEC-Sim input file. 
 
-For more information, refer to the `MCR webinar <http://wec-sim.github.io/WEC-Sim/webinars.html#webinar-1-bemio-and-mcr>`_, and the `WEC-Sim Applications <https://github.com/WEC-Sim/WEC-Sim_Applications>`_ repository **RM3_MCR** example. 
+For more information, refer to :ref:`webinar1`, and the **RM3_MCR** example on the `WEC-Sim Applications <https://github.com/WEC-Sim/WEC-Sim_Applications>`_ repository. 
 
 
 State-Space Representation
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
-The convolution integral term in the equation of motion can be linearized using the state-space representation as described in the `Theory Section <http://wec-sim.github.io/WEC-Sim/theory.html>`_. To use a state-space representation, the ``simu.ssCalc`` simulationClass variable must be defined in the WEC-Sim input file, for example:
+The convolution integral term in the equation of motion can be linearized using the state-space representation as described in the :ref:`theory` section. To use a state-space representation, the ``simu.ssCalc`` simulationClass variable must be defined in the WEC-Sim input file, for example:
 
 	:code:`simu.ssCalc = 1` 
 
 
 Time-Step Features
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
-The default WEC-Sim solver is 'ode4'. Refer to the `WEC-Sim Applications <https://github.com/WEC-Sim/WEC-Sim_Applications>`_ repository **NonlinearHydro** example for a comparisons between 'ode4' to 'ode45'. The following variables may be changed in the simulationClass (where N is number of increment steps, default: N=1):
+The default WEC-Sim solver is 'ode4'. Refer to the **NonlinearHydro** example on the `WEC-Sim Applications <https://github.com/WEC-Sim/WEC-Sim_Applications>`_ repository for a comparisons between 'ode4' to 'ode45'. The following variables may be changed in the simulationClass (where N is number of increment steps, default: N=1):
 
 * Fixed time-step: :code:`simu.dt` 
 * Output time-step: :code:`simu.dtOut=N*simu.dt` 
@@ -78,7 +78,7 @@ To run WEC-Sim with a variable time-step, the following variables must be define
 
 Wave Features
 -------------------------
-This section provides an overview of WEC-Sim's wave class features. For more information about the wave class code structure, refer to `Wave Class <http://wec-sim.github.io/WEC-Sim/code_structure.html#wave-class>`_. 
+This section provides an overview of WEC-Sim's wave class features. For more information about the wave class code structure, refer to :ref:`code_structure:Wave Class`. 
 
 
 Irregular Wave Binning
@@ -100,7 +100,7 @@ WEC-Sim has the ability to model waves with various angles of incidence, :math:`
 
 	:code:`waves.waveDir = <user defined wave direction(s)>; %[deg]`  	
 	
-The incident wave direction has a default heading of 0 Degrees (Default = 0), and should be defined as a column vector for more than one wave direction. For more information about the wave formulation, refer to `Wave Theory <http://wec-sim.github.io/WEC-Sim/theory.html#wave-spectra>`_.
+The incident wave direction has a default heading of 0 Degrees (Default = 0), and should be defined as a column vector for more than one wave direction. For more information about the wave formulation, refer to :ref:`theory:Wave Spectra`.
 
 Wave Directional Spreading
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
@@ -108,7 +108,7 @@ WEC-Sim has the ability to model waves with directional spreading, :math:`D\left
 
 	:code:`waves.waveSpread = <user defined directional spreading>;`  	
 	
-The wave directional spreading has a default value of 1 (Default = 1), and should be defined as a column vector of directional spreading for each one wave direction. For more information about the spectral formulation, refer to `Wave Theory <http://wec-sim.github.io/WEC-Sim/theory.html#wave-spectra>`_.
+The wave directional spreading has a default value of 1 (Default = 1), and should be defined as a column vector of directional spreading for each one wave direction. For more information about the spectral formulation, refer to :ref:`theory:Wave Spectra`.
 
 .. Note::
 
@@ -140,8 +140,7 @@ The WEC-Sim numerical wave gauges output the undisturbed linear incident wave el
 
 Body Features
 --------------
-This section provides an overview of WEC-Sim's body class features; for more information about the body class code structure, refer to `Body Class <http://wec-sim.github.io/WEC-Sim/code_structure.html#body-class>`_. 
-
+This section provides an overview of WEC-Sim's body class features; for more information about the body class code structure, refer to :ref:`code_structure:Body Class`. 
 
 Body Mass and Geometry Features
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
@@ -162,7 +161,7 @@ WEC-Sim has the option to include the nonlinear hydrostatic restoring and Froude
 
 	:code:`simu.nlHydro = 2`  
 	
-For more information, refer to the `nonlinear hydrodynamics webinar <http://wec-sim.github.io/WEC-Sim/webinars.html#webinar-2-nonlinear-hydro-non-hydro-and-b2b>`_, and the `WEC-Sim Applications <https://github.com/WEC-Sim/WEC-Sim_Applications>`_ repository **NonlinearHydro** example. 
+For more information, refer to the :ref:`webinar2`, and the **NonlinearHydro** example on the `WEC-Sim Applications <https://github.com/WEC-Sim/WEC-Sim_Applications>`_ repository. 
 
 
 Nonlinear Settings
@@ -231,7 +230,7 @@ The WEC-Sim input file used to run the nonlinear hydro WEC-Sim simulation:
 .. literalinclude:: ../../WEC-Sim/applications/NonlinearHydro/ode4/Regular/wecSimInputFile.m
    :language: matlab
 
-Simulation and post-processing is the same process as described in `Tutorials <http://wec-sim.github.io/WEC-Sim/tutorials.html>`_ section.
+Simulation and post-processing is the same process as described in :ref:`tutorials` section.
 
 Passive Yaw Implementation
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
@@ -245,7 +244,7 @@ This can increase simulation time, especially for irregular waves, due to the la
 
 When :code:`simu.yawNonLin = 1`, hydrostatic and radiation forces are determined from the local body-fixed coordinate system based upon the instantaneous relative yaw position of the body, as this may differ substantially from the global coordinate system for large relative yaw values. 
 
-A demonstration case of this feature is included in the `WEC-Sim Applications <https://github.com/WEC-Sim/WEC-Sim_Applications>`_ repository **PassiveYaw** example.  	
+A demonstration case of this feature is included in the **PassiveYaw** example on the `WEC-Sim Applications <https://github.com/WEC-Sim/WEC-Sim_Applications>`_ repository.  	
 
 .. Note::
 
@@ -261,7 +260,7 @@ To use non-hydrodynamic bodies, the following body class variable must be define
 
 	:code:`body(i).nhBody = 1` 
 
-For more information, refer to the `non-hydro bodies webinar <http://wec-sim.github.io/WEC-Sim/webinars.html#webinar-2-nonlinear-hydro-non-hydro-and-b2b>`_, and the `WEC-Sim Applications <https://github.com/WEC-Sim/WEC-Sim_Applications>`_ repository **OSWEC_nhBody** example. 
+For more information, refer to :ref:`webinar2`, and the **OSWEC_nhBody** example on the `WEC-Sim Applications <https://github.com/WEC-Sim/WEC-Sim_Applications>`_ repository. 
 
 
 Body-To-Body Interactions
@@ -274,7 +273,7 @@ To use body-to-body interactions, the following simulation class variable must b
 
 	:code:`simu.b2b = 1`
 	
-For more information, refer to the `B2B webinar <http://wec-sim.github.io/WEC-Sim/webinars.html#webinar-2-nonlinear-hydro-non-hydro-and-b2b>`_, and the `WEC-Sim Applications <https://github.com/WEC-Sim/WEC-Sim_Applications>`_ repository **RM3_B2B** example.  	
+For more information, refer to :ref:`webinar2`, and the **RM3_B2B** example in the `WEC-Sim Applications <https://github.com/WEC-Sim/WEC-Sim_Applications>`_ repository.  	
 
 .. Note::
 
@@ -283,7 +282,7 @@ For more information, refer to the `B2B webinar <http://wec-sim.github.io/WEC-Si
 
 Viscous Damping and Morison Elements
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
-WEC-Sim allows for the definition of additional damping and added-mass terms; for more information about the numerical formulation of viscous damping and Morison Elements, refer to the `Viscous Damping and Morison Elements <http://wec-sim.github.io/WEC-Sim/theory.html#viscous-damping-and-morison-elements>`_ section.
+WEC-Sim allows for the definition of additional damping and added-mass terms; for more information about the numerical formulation of viscous damping and Morison Elements, refer to :ref:`theory:Viscous Damping and Morison Elements`.
 
 
 Viscous Damping
@@ -325,7 +324,7 @@ The Morison Element time-step may also be defined as :code:`simu.dtME = N*simu.d
 	Morison Elements cannot but used with :code:`etaImport`.
 
 
-.. PTO
+.. _pto:
 
 Constraint and PTO Features
 ----------------------------
@@ -334,7 +333,7 @@ Constraint and PTO Features
 
 
 
-.. Mooring
+.. _mooring:
 
 Mooring Features
 ----------------
@@ -359,8 +358,20 @@ To specify an initial displacement, the body and mooring blocks have a :code:`.i
 For the constraint and PTO blocks, the :code:`.loc` property must be set to the location at time = 0.
 
 There are methods available to help setup this initial displacement for all bodies, constraints, PTOs, and moorings.
-To do this, you would use the :code:`body(i).setInitDisp(...);`, :code:`constraint(i).setInitDisp(...)`, :code:`pto(i).setInitDisp(...)`, and :code:`mooring(i).setInitDisp(...)` method in the WEC-Sim input file.
-A description of the required input can be found in the method's header comments.
-Note that :code:`body(i).cg`, :code:`constraint(i).loc`, :code:`pto(i).loc`, and :code:`mooring.ref` must be defined prior to using the object's :code:`.setInitDisp` method.
+To do this, you would use the:
 
-For more information, refer to the `WEC-Sim Applications <https://github.com/WEC-Sim/WEC-Sim_Applications>`_ repository **IEA_OES_Task10_freeDecay** example.
+* :code:`body(i).setInitDisp()`
+* :code:`constraint(i).setInitDisp()`
+* :code:`pto(i).setInitDisp()`
+* :code:`mooring(i).setInitDisp()` 
+
+methods in the WEC-Sim input file.
+A description of the required input can be found in the method's header comments.
+The following propoerties must be defined prior to using the object's :code:`setInitDisp()` method: 
+
+* :code:`body(i).cg`
+* :code:`constraint(i).loc`
+* :code:`pto(i).loc`
+* :code:`mooring.ref` 
+
+For more information, refer to the **IEA_OES_Task10_freeDecay** example on the `WEC-Sim Applications <https://github.com/WEC-Sim/WEC-Sim_Applications>`_ repository.

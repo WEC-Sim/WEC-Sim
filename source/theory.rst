@@ -224,6 +224,7 @@ Irregular waves are modeled as the linear superposition of a large number of har
 
 where :math:`H` is the wave height, :math:`\omega` is the wave frequency  (:math:`\omega = \frac{2\pi}{T}`), :math:`k` is the wave number (:math:`k = \frac{2\pi}{\lambda}`), :math:`\theta` is the wave direction, and :math:`\phi` is the wave phase (randomized for irregular waves).   
 
+
 Wave Spectra
 ^^^^^^^^^^^^^^^^^^^^^^^
 The linear superposition of regular waves of distinct amplitudes and periods is characterized in the frequency domain by a wave spectrum. Through statistical analysis, spectra are characterized by specific parameters such as significant wave height, peak period, wind speed, fetch length, and others. Common types of wave spectra that are used by the offshore industry are discussed in the following sections.  The general form of the wave spectra available in WEC-Sim is given by:
