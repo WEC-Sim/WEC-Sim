@@ -687,35 +687,33 @@ classdef waveClass<handle
             Tp = obj.T;
             Hs = obj.H;
             switch obj.spectrumType
-                case 'PM' % Pierson-Moskowitz Spectrum from IEC TS 62600-2 ED2 Annex C.2 (2019)
+                case {'PM','JS'} 
+                    % Pierson-Moskowitz Spectrum from IEC TS 62600-2 ED2 Annex C.2 (2019)
                     B_PM = (5/4)*(1/Tp)^(4);
                     A_PM =  B_PM*(Hs/2)^2;
                     S_f  = (A_PM*freq.^(-5).*exp(-B_PM*freq.^(-4)));            % Wave Spectrum [m^2-s] for 'EqualEnergy'
-                    obj.S = S_f./(2*pi);                                        % Wave Spectrum [m^2-s/rad] for 'Traditional'
-                    S_f = obj.S*2*pi;
-                case 'JS' % JONSWAP Spectrum from IEC TS 62600-2 ED2 Annex C.2 (2019)
-                    B_PM = (5/4)*(1/Tp)^(4);
-                    A_PM =  B_PM*(Hs/2)^2;
-                    S_f_PM  = (A_PM*freq.^(-5).*exp(-B_PM*freq.^(-4))); 
-                    fp = 1/Tp;
-                    siga = 0.07;sigb = 0.09;                                    % cutoff frequencies for gamma function
-                    [lind,~] = find(freq<=fp);
-                    [hind,~] = find(freq>fp);
-                    gammaAlpha = zeros(size(freq));
-                    if isempty(obj.gamma)
-                        TpsqrtHs = Tp/sqrt(Hs);
-                        if TpsqrtHs <= 3.6
-                            obj.gamma = 5;
-                        elseif TpsqrtHs > 5
-                            obj.gamma = 1;
-                        else
-                            obj.gamma = exp(5.75 - 1.15*TpsqrtHs);
+                    if strcmp(obj.spectrumType,'JS')
+                        % JONSWAP Spectrum from IEC TS 62600-2 ED2 Annex C.2 (2019)
+                        fp = 1/Tp;
+                        siga = 0.07;sigb = 0.09;                                    % cutoff frequencies for gamma function
+                        [lind,~] = find(freq<=fp);
+                        [hind,~] = find(freq>fp);
+                        gammaAlpha = zeros(size(freq));
+                        if isempty(obj.gamma)
+                            TpsqrtHs = Tp/sqrt(Hs);
+                            if TpsqrtHs <= 3.6
+                                obj.gamma = 5;
+                            elseif TpsqrtHs > 5
+                                obj.gamma = 1;
+                            else
+                                obj.gamma = exp(5.75 - 1.15*TpsqrtHs);
+                            end
                         end
+                        gammaAlpha(lind) = obj.gamma.^exp(-(freq(lind)-fp).^2/(2*siga^2*fp^2));
+                        gammaAlpha(hind) = obj.gamma.^exp(-(freq(hind)-fp).^2/(2*sigb^2*fp^2));
+                        C = 1 - 0.287*log(obj.gamma);
+                        S_f = C*S_f.*gammaAlpha;                                % Wave Spectrum [m^2-s]
                     end
-                    gammaAlpha(lind) = obj.gamma.^exp(-(freq(lind)-fp).^2/(2*siga^2*fp^2));
-                    gammaAlpha(hind) = obj.gamma.^exp(-(freq(hind)-fp).^2/(2*sigb^2*fp^2)); 
-                    C = 1 - 0.287*log(obj.gamma);
-                    S_f = C*S_f_PM.*gammaAlpha;                                % Wave Spectrum [m^2-s]
                     obj.S = S_f./(2*pi);                                       % Wave Spectrum [m^2-s/rad]
                 case 'spectrumImport' % Imported Wave Spectrum
                     data = importdata(obj.spectrumDataFile);

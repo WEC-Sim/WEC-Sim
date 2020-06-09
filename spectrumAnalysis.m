@@ -15,6 +15,6 @@ end
 close all
 plot(waves.w/(2*pi),waves.w.*waves.S*2*pi,...
      waves.w/(2*pi),waves.w.^2.*waves.S*2*pi,'--');grid on
-xlabel('Wave Angular Frequency, \sigma, [rad/s]')
+xlabel('Wave Angular Frequency, \sigma, [rad/s]');xlim([0 0.5])
 ylabel('Wave Spectrum');set(gca,'ylim',[0 3.5],'ytick',[0:0.7:3.5])
 legend('S(\omega)','\omega^{2}S(\omega)')
