@@ -12,19 +12,9 @@ Response Class
 
 .. autoclass:: source.objects.responseClass
     :members:
+    :exclude-members: wave, bodies, ptos, constraints, mooring 
     :no-undoc-members:
 
-
-testing Response Class
------------------------
-
-.. autoclass:: source.objects.responseClass
-
-	.. attribute:: source.objects.responseClass.wave
-
-	.. autoattribute:: source.objects.responseClass.wave
-	
-	.. automethod:: source.objects.responseClass.plotResponse
 
 Wave Class
 ------------------
@@ -49,13 +39,17 @@ testing Wave Class
 testing
 ---------
 
-class definition and optional signature
+Class definition and optional signature
 
 .. class:: source.objects.responseClass()
 
-reference 
+Reference
 
 :class:`source.objects.responseClass`
+
+
+Attribute
+.. attribute:: source.objects.responseClass.wave
 
 
 Not working... 
@@ -66,4 +60,11 @@ Not working...
 
 
 
+testing Response Class
+-----------------------
 
+.. autoclass:: source.objects.responseClass
+
+	.. autoattribute:: source.objects.responseClass.wave
+	
+	.. automethod:: source.objects.responseClass.plotResponse

@@ -616,66 +616,12 @@ There are no restrictions on the number of MooringMatrix blocks.</p>
 </div>
 <div class="section" id="output-structure">
 <h2>Output Structure<a class="headerlink" href="#output-structure" title="Permalink to this headline">¶</a></h2>
-<p>After WEC-Sim is done running, there will be a new variable called <code class="docutils literal notranslate"><span class="pre">output</span></code> in your MATLAB workspace.
-The <code class="docutils literal notranslate"><span class="pre">output</span></code> variable is an instance of the <code class="docutils literal notranslate"><span class="pre">responseClass</span></code> class.
+<p>After WEC-Sim is done running, there will be a new variable called <code class="docutils literal notranslate"><span class="pre">output</span></code> saved to the MATLAB workspace.
+The <code class="docutils literal notranslate"><span class="pre">output</span></code> object is an instance of the <code class="docutils literal notranslate"><span class="pre">responseClass</span></code>.
 It contains all the relevant time-series results of the simulation.
-The structure of the <code class="docutils literal notranslate"><span class="pre">output</span></code> variable is shown in the table below.
-Time series are given as [(# of time-steps) x 6] arrays, where 6 is the degrees of freedom.
-In addition to these time-series, the output for each object contains the object’s name or type and the time vector.</p>
-<p>For more information about the <code class="docutils literal notranslate"><span class="pre">output</span></code> objected saved to the MATLAB workspace, refer to the <a class="reference internal" href="api.html#response"><span class="std std-ref">Response Class</span></a> API documentation.</p>
-<p>In addition to the responseClass <code class="docutils literal notranslate"><span class="pre">output</span></code> variable, the outputs can be written to ASCII files by using <code class="docutils literal notranslate"><span class="pre">simu.outputtxt</span> <span class="pre">=</span> <span class="pre">1;</span></code> in the input file.</p>
-<table class="docutils align-default">
-<colgroup>
-<col style="width: 18%" />
-<col style="width: 33%" />
-<col style="width: 49%" />
-</colgroup>
-<tbody>
-<tr class="row-odd"><td><p>bodies(i)</p></td>
-<td><p>cellPressures_time</p>
-<p>cellPressures_hydrostatic</p>
-<p>cellPressures_waveLinear</p>
-<p>cellPressures_waveNonLinear</p>
-</td>
-<td><p>array: (# nlHydro time-steps) x (# cells)</p>
-<p>array: (# nlHydro time-steps) x (# cells)</p>
-<p>array: (# nlHydro time-steps) x (# cells)</p>
-<p>array: (# nlHydro time-steps) x (# cells)</p>
-</td>
-</tr>
-<tr class="row-even"><td><p>ptos(i)</p></td>
-<td></td>
-<td></td>
-</tr>
-<tr class="row-odd"><td><p>constraints(i)</p></td>
-<td></td>
-<td></td>
-</tr>
-<tr class="row-even"><td><p>mooring(i)</p></td>
-<td><p>position</p>
-<p>velocity</p>
-<p>forceMooring</p>
-</td>
-<td><p>array: (# of time-steps) x 6</p>
-<p>array: (# of time-steps) x 6</p>
-<p>array: (# of time-steps) x 6</p>
-</td>
-</tr>
-<tr class="row-odd"><td><p>moorDyn</p></td>
-<td><p>Lines</p>
-<p>Line# (for each line)</p>
-</td>
-<td><p>struct: outputs in the Line#.out file</p>
-<p>struct: outputs in the Line#.out file</p>
-</td>
-</tr>
-<tr class="row-even"><td><p>ptosim</p></td>
-<td><p>See PTO-Sim section for
-details</p></td>
-<td></td>
-</tr>
-</tbody>
-</table>
+Refer to the WEC-Sim API documentation for the <a class="reference internal" href="api.html#response"><span class="std std-ref">Response Class</span></a> for information about the structure of the <code class="docutils literal notranslate"><span class="pre">output</span></code> object, .
+Time-series are given as [# of time-steps x 6] arrays, where 6 is the degrees of freedom.</p>
+<p>WEC-Sim outputs can be written to ASCII files by specifying <code class="docutils literal notranslate"><span class="pre">simu.outputtxt</span> <span class="pre">=</span> <span class="pre">1;</span></code> in <code class="docutils literal notranslate"><span class="pre">wecSimInputFile.m</span></code>, in addition to the responseClass <code class="docutils literal notranslate"><span class="pre">output</span></code> variable.</p>
 </div>
 <div class="section" id="functions-external-codes">
 <h2>Functions &amp; External Codes<a class="headerlink" href="#functions-external-codes" title="Permalink to this headline">¶</a></h2>

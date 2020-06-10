@@ -100,10 +100,10 @@
 <li class="toctree-l1"><a class="reference internal" href="contact.html">Online Forum</a></li>
 <li class="toctree-l1 current"><a class="current reference internal" href="#">WEC-Sim API</a><ul>
 <li class="toctree-l2"><a class="reference internal" href="#response-class">Response Class</a></li>
-<li class="toctree-l2"><a class="reference internal" href="#testing-response-class">testing Response Class</a></li>
 <li class="toctree-l2"><a class="reference internal" href="#wave-class">Wave Class</a></li>
 <li class="toctree-l2"><a class="reference internal" href="#testing-wave-class">testing Wave Class</a></li>
 <li class="toctree-l2"><a class="reference internal" href="#testing">testing</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#testing-response-class">testing Response Class</a></li>
 </ul>
 </li>
 </ul>
@@ -177,10 +177,16 @@
 <dl class="class">
 <dt id="source.objects.responseClass">
 <em class="property">class </em><code class="sig-prename descclassname">source.objects.</code><code class="sig-name descname">responseClass</code><span class="sig-paren">(</span><em class="sig-param">bodiesOutput</em>, <em class="sig-param">ptosOutput</em>, <em class="sig-param">constraintsOutput</em>, <em class="sig-param">ptosimOutput</em>, <em class="sig-param">mooringOutput</em>, <em class="sig-param">wave_type</em>, <em class="sig-param">wave_elev</em>, <em class="sig-param">hspressure</em>, <em class="sig-param">wpressurenl</em>, <em class="sig-param">wpressurel</em>, <em class="sig-param">yawNonLin</em><span class="sig-paren">)</span><a class="headerlink" href="#source.objects.responseClass" title="Permalink to this definition">¶</a></dt>
-<dd><p>The  <code class="docutils literal notranslate"><span class="pre">responseClass</span></code> creates an <code class="docutils literal notranslate"><span class="pre">output</span></code> object saved to the MATLAB workspace
+<dd><blockquote>
+<div><p>The  <code class="docutils literal notranslate"><span class="pre">responseClass</span></code> creates an <code class="docutils literal notranslate"><span class="pre">output</span></code> object saved to the MATLAB workspace
 that contains structures for each instance of a WEC-Sim class (e.g.
-<code class="docutils literal notranslate"><span class="pre">waveClass</span></code>, <code class="docutils literal notranslate"><span class="pre">bodyClass</span></code>, <code class="docutils literal notranslate"><span class="pre">ptoClass</span></code>, <code class="docutils literal notranslate"><span class="pre">mooringClass</span></code>).</p>
-<p>The <code class="docutils literal notranslate"><span class="pre">wave</span></code> structure for the instance of the <code class="docutils literal notranslate"><span class="pre">waveClass</span></code> includes:</p>
+<code class="docutils literal notranslate"><span class="pre">waveClass</span></code>, <code class="docutils literal notranslate"><span class="pre">bodyClass</span></code>, <code class="docutils literal notranslate"><span class="pre">ptoClass</span></code>, <code class="docutils literal notranslate"><span class="pre">mooringClass</span></code>, etc).</p>
+</div></blockquote>
+<dl class="attribute">
+<dt id="source.objects.responseClass.wave">
+<code class="sig-name descname">wave</code><em class="property"> = 'struct()'</em><a class="headerlink" href="#source.objects.responseClass.wave" title="Permalink to this definition">¶</a></dt>
+<dd><p>This property generates the <code class="docutils literal notranslate"><span class="pre">wave</span></code> structure for each instance of the <code class="docutils literal notranslate"><span class="pre">waveClass</span></code>
+, it includes:</p>
 <blockquote>
 <div><ul class="simple">
 <li><p><code class="docutils literal notranslate"><span class="pre">type</span></code> (string) = ‘waveType’</p></li>
@@ -188,8 +194,13 @@ that contains structures for each instance of a WEC-Sim class (e.g.
 <li><p><code class="docutils literal notranslate"><span class="pre">elevation</span></code> (array) = [# of time-steps x 1]</p></li>
 </ul>
 </div></blockquote>
-<p>The <code class="docutils literal notranslate"><span class="pre">bodies</span></code> structure for each instance of the
-<code class="docutils literal notranslate"><span class="pre">bodyClass</span></code> (i.e. for each Body block) includes:</p>
+</dd></dl>
+
+<dl class="attribute">
+<dt id="source.objects.responseClass.bodies">
+<code class="sig-name descname">bodies</code><em class="property"> = 'struct()'</em><a class="headerlink" href="#source.objects.responseClass.bodies" title="Permalink to this definition">¶</a></dt>
+<dd><p>This property generates the <code class="docutils literal notranslate"><span class="pre">bodies</span></code> structure for each instance of the <code class="docutils literal notranslate"><span class="pre">bodyClass</span></code> (i.e. for each Body block)
+, it includes:</p>
 <blockquote>
 <div><ul class="simple">
 <li><p><code class="docutils literal notranslate"><span class="pre">name</span></code> (string) = ‘bodyName’</p></li>
@@ -205,9 +216,17 @@ that contains structures for each instance of a WEC-Sim class (e.g.
 <li><p><code class="docutils literal notranslate"><span class="pre">forceMorrisonAndViscous</span></code> (array) = [# of time-steps x 6]</p></li>
 <li><p><code class="docutils literal notranslate"><span class="pre">forceLinearDamping</span></code> (array) = [# of time-steps x 6]</p></li>
 </ul>
+<p>There are additional <code class="docutils literal notranslate"><span class="pre">output.bodies</span></code> structures for non-linar hydro (e.g.
+<code class="docutils literal notranslate"><span class="pre">cellPressures_time</span></code>, <code class="docutils literal notranslate"><span class="pre">cellPressures_hydrostatic</span></code>,
+<code class="docutils literal notranslate"><span class="pre">cellPressures_waveLinear</span></code>, <code class="docutils literal notranslate"><span class="pre">cellPressures_waveNonLinear</span></code>)</p>
 </div></blockquote>
-<p>The <code class="docutils literal notranslate"><span class="pre">ptos</span></code> structure for each instance of the <code class="docutils literal notranslate"><span class="pre">ptoClass</span></code>
-(i.e. for each PTO block) includes:</p>
+</dd></dl>
+
+<dl class="attribute">
+<dt id="source.objects.responseClass.ptos">
+<code class="sig-name descname">ptos</code><em class="property"> = 'struct()'</em><a class="headerlink" href="#source.objects.responseClass.ptos" title="Permalink to this definition">¶</a></dt>
+<dd><p>This property generates the <code class="docutils literal notranslate"><span class="pre">ptos</span></code> structure for each instance of the <code class="docutils literal notranslate"><span class="pre">ptoClass</span></code> (i.e. for each PTO block)
+, it includes:</p>
 <blockquote>
 <div><ul class="simple">
 <li><p><code class="docutils literal notranslate"><span class="pre">name</span></code> (string) = ‘ptoName’</p></li>
@@ -222,8 +241,13 @@ that contains structures for each instance of a WEC-Sim class (e.g.
 <li><p><code class="docutils literal notranslate"><span class="pre">powerInternalMechanics</span></code> (array) = [# of time-steps x 6]</p></li>
 </ul>
 </div></blockquote>
-<p>The <code class="docutils literal notranslate"><span class="pre">constraints</span></code> structure for each instance of the
-<code class="docutils literal notranslate"><span class="pre">coonstraintClass</span></code> (i.e. for each Constraint block) includes:</p>
+</dd></dl>
+
+<dl class="attribute">
+<dt id="source.objects.responseClass.constraints">
+<code class="sig-name descname">constraints</code><em class="property"> = 'struct()'</em><a class="headerlink" href="#source.objects.responseClass.constraints" title="Permalink to this definition">¶</a></dt>
+<dd><p>This property generates the <code class="docutils literal notranslate"><span class="pre">constraints</span></code> structure for each instance of the <code class="docutils literal notranslate"><span class="pre">coonstraintClass</span></code> (i.e. for each Constraint block)
+, it includes:</p>
 <blockquote>
 <div><ul class="simple">
 <li><p><code class="docutils literal notranslate"><span class="pre">name</span></code> (string) = ‘coonstraintName’</p></li>
@@ -234,40 +258,26 @@ that contains structures for each instance of a WEC-Sim class (e.g.
 <li><p><code class="docutils literal notranslate"><span class="pre">forceConstraint</span></code> (array) = [# of time-steps x 6]</p></li>
 </ul>
 </div></blockquote>
-<dl class="attribute">
-<dt id="source.objects.responseClass.wave">
-<code class="sig-name descname">wave</code><em class="property"> = 'struct()'</em><a class="headerlink" href="#source.objects.responseClass.wave" title="Permalink to this definition">¶</a></dt>
-<dd><p>This property generates the <code class="docutils literal notranslate"><span class="pre">wave</span></code> structure for the instance of the <code class="docutils literal notranslate"><span class="pre">waveClass</span></code>.</p>
-</dd></dl>
-
-<dl class="attribute">
-<dt id="source.objects.responseClass.bodies">
-<code class="sig-name descname">bodies</code><em class="property"> = 'struct()'</em><a class="headerlink" href="#source.objects.responseClass.bodies" title="Permalink to this definition">¶</a></dt>
-<dd><p>This property generates the <code class="docutils literal notranslate"><span class="pre">bodies</span></code> structure for each instance of the <code class="docutils literal notranslate"><span class="pre">bodyClass</span></code> (i.e. for each Body block).</p>
-</dd></dl>
-
-<dl class="attribute">
-<dt id="source.objects.responseClass.ptos">
-<code class="sig-name descname">ptos</code><em class="property"> = 'struct()'</em><a class="headerlink" href="#source.objects.responseClass.ptos" title="Permalink to this definition">¶</a></dt>
-<dd><p>This property generates the <code class="docutils literal notranslate"><span class="pre">ptos</span></code> structure for each instance of the <code class="docutils literal notranslate"><span class="pre">ptoClass</span></code> (i.e. for each PTO block).</p>
-</dd></dl>
-
-<dl class="attribute">
-<dt id="source.objects.responseClass.constraints">
-<code class="sig-name descname">constraints</code><em class="property"> = 'struct()'</em><a class="headerlink" href="#source.objects.responseClass.constraints" title="Permalink to this definition">¶</a></dt>
-<dd><p>This property generates the <code class="docutils literal notranslate"><span class="pre">constraints</span></code> structure for each instance of the <code class="docutils literal notranslate"><span class="pre">coonstraintClass</span></code> (i.e. for each Constraint block).</p>
 </dd></dl>
 
 <dl class="attribute">
 <dt id="source.objects.responseClass.mooring">
 <code class="sig-name descname">mooring</code><em class="property"> = 'struct()'</em><a class="headerlink" href="#source.objects.responseClass.mooring" title="Permalink to this definition">¶</a></dt>
-<dd><p>This property generates the <code class="docutils literal notranslate"><span class="pre">mooring</span></code> structure for each instance of the <code class="docutils literal notranslate"><span class="pre">mooringClass</span></code> (i.e. for each Mooring block).</p>
+<dd><p>This property generates the <code class="docutils literal notranslate"><span class="pre">mooring</span></code> structure for each instance of the <code class="docutils literal notranslate"><span class="pre">mooringClass</span></code> (i.e. for each Mooring block)
+, it includes:</p>
+<blockquote>
+<div><ul class="simple">
+<li><p><code class="docutils literal notranslate"><span class="pre">position</span></code> (array) = [# of time-steps x 6]</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">velocity</span></code> (array) = [# of time-steps x 6]</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">forceMooring</span></code> (array) = [# of time-steps x 6]</p></li>
+</ul>
+</div></blockquote>
 </dd></dl>
 
 <dl class="attribute">
 <dt id="source.objects.responseClass.moorDyn">
 <code class="sig-name descname">moorDyn</code><em class="property"> = 'struct()'</em><a class="headerlink" href="#source.objects.responseClass.moorDyn" title="Permalink to this definition">¶</a></dt>
-<dd><p>This property generates the <code class="docutils literal notranslate"><span class="pre">moorDyn</span></code> structure for each instance of the <code class="docutils literal notranslate"><span class="pre">mooringClass</span></code> using MoorDyn (i.e. for each MoorDyn block).</p>
+<dd><p>This property generates the <code class="docutils literal notranslate"><span class="pre">moorDyn</span></code> structure for each instance of the <code class="docutils literal notranslate"><span class="pre">mooringClass</span></code> using MoorDyn (i.e. for each MoorDyn block), it includes <code class="docutils literal notranslate"><span class="pre">Lines</span></code>  and <code class="docutils literal notranslate"><span class="pre">Line#</span></code>.</p>
 </dd></dl>
 
 <dl class="attribute">
@@ -281,7 +291,7 @@ that contains structures for each instance of a WEC-Sim class (e.g.
 <code class="sig-name descname">responseClass</code><span class="sig-paren">(</span><em class="sig-param">bodiesOutput</em>, <em class="sig-param">ptosOutput</em>, <em class="sig-param">constraintsOutput</em>, <em class="sig-param">ptosimOutput</em>, <em class="sig-param">mooringOutput</em>, <em class="sig-param">wave_type</em>, <em class="sig-param">wave_elev</em>, <em class="sig-param">hspressure</em>, <em class="sig-param">wpressurenl</em>, <em class="sig-param">wpressurel</em>, <em class="sig-param">yawNonLin</em><span class="sig-paren">)</span><a class="headerlink" href="#source.objects.responseClass.responseClass" title="Permalink to this definition">¶</a></dt>
 <dd><p>This method initilizes the <code class="docutils literal notranslate"><span class="pre">responseClass</span></code>, reads
 output from each instance of a WEC-Sim class (e.g.
-<code class="docutils literal notranslate"><span class="pre">waveClass</span></code>, <code class="docutils literal notranslate"><span class="pre">bodyClass</span></code>, <code class="docutils literal notranslate"><span class="pre">ptoClass</span></code>, <code class="docutils literal notranslate"><span class="pre">mooringClass</span></code>)
+<code class="docutils literal notranslate"><span class="pre">waveClass</span></code>, <code class="docutils literal notranslate"><span class="pre">bodyClass</span></code>, <code class="docutils literal notranslate"><span class="pre">ptoClass</span></code>, <code class="docutils literal notranslate"><span class="pre">mooringClass</span></code>, etc)
 , and saves the response to an <code class="docutils literal notranslate"><span class="pre">output</span></code> object.</p>
 </dd></dl>
 
@@ -300,12 +310,12 @@ output from each instance of a WEC-Sim class (e.g.
 <dl class="method">
 <dt id="source.objects.responseClass.plotResponse">
 <code class="sig-name descname">plotResponse</code><span class="sig-paren">(</span><em class="sig-param">bodyNum</em>, <em class="sig-param">comp</em><span class="sig-paren">)</span><a class="headerlink" href="#source.objects.responseClass.plotResponse" title="Permalink to this definition">¶</a></dt>
-<dd><p>This method plots response of a body in a given DOF</p>
+<dd><p>This method plots the response of a body for a given DOF.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters</dt>
 <dd class="field-odd"><ul class="simple">
 <li><p><strong>bodyNum</strong> – the body number to plot</p></li>
-<li><p><strong>comp</strong> – the response dof to be plotted (1-6)</p></li>
+<li><p><strong>comp</strong> – the response component (i.e. dof) to be plotted (e.g. 1-6)</p></li>
 </ul>
 </dd>
 </dl>
@@ -314,12 +324,12 @@ output from each instance of a WEC-Sim class (e.g.
 <dl class="method">
 <dt id="source.objects.responseClass.plotForces">
 <code class="sig-name descname">plotForces</code><span class="sig-paren">(</span><em class="sig-param">bodyNum</em>, <em class="sig-param">comp</em><span class="sig-paren">)</span><a class="headerlink" href="#source.objects.responseClass.plotForces" title="Permalink to this definition">¶</a></dt>
-<dd><p>This method plots force components for a body.</p>
+<dd><p>This method plots the forces on a body for a given DOF.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters</dt>
 <dd class="field-odd"><ul class="simple">
 <li><p><strong>bodyNum</strong> – the body number to plot</p></li>
-<li><p><strong>comp</strong> – the force component to be plotted (1-6)</p></li>
+<li><p><strong>comp</strong> – the force component (i.e. dof) to be plotted (e.g. 1-6)</p></li>
 </ul>
 </dd>
 </dl>
@@ -328,103 +338,17 @@ output from each instance of a WEC-Sim class (e.g.
 <dl class="method">
 <dt id="source.objects.responseClass.writetxt">
 <code class="sig-name descname">writetxt</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#source.objects.responseClass.writetxt" title="Permalink to this definition">¶</a></dt>
-<dd><p>This method writes WEC-Sim outputs to a text file</p>
+<dd><p>This method writes WEC-Sim outputs to a (ASCII) text file.
+This method is executed by specifying <code class="docutils literal notranslate"><span class="pre">simu.outputtxt=1</span></code>
+in the <code class="docutils literal notranslate"><span class="pre">wecSimInputFile.m</span></code>.</p>
 </dd></dl>
 
 <dl class="method">
 <dt id="source.objects.responseClass.write_paraview">
 <code class="sig-name descname">write_paraview</code><span class="sig-paren">(</span><em class="sig-param">bodies</em>, <em class="sig-param">t</em>, <em class="sig-param">model</em>, <em class="sig-param">simdate</em>, <em class="sig-param">wavetype</em>, <em class="sig-param">mooring</em><span class="sig-paren">)</span><a class="headerlink" href="#source.objects.responseClass.write_paraview" title="Permalink to this definition">¶</a></dt>
-<dd><p>This method writes vtp files for visualization with ParaView</p>
-</dd></dl>
-
-</dd></dl>
-
-</div>
-<div class="section" id="testing-response-class">
-<h2>testing Response Class<a class="headerlink" href="#testing-response-class" title="Permalink to this headline">¶</a></h2>
-<dl class="class">
-<dt>
-<em class="property">class </em><code class="sig-prename descclassname">source.objects.</code><code class="sig-name descname">responseClass</code><span class="sig-paren">(</span><em class="sig-param">bodiesOutput</em>, <em class="sig-param">ptosOutput</em>, <em class="sig-param">constraintsOutput</em>, <em class="sig-param">ptosimOutput</em>, <em class="sig-param">mooringOutput</em>, <em class="sig-param">wave_type</em>, <em class="sig-param">wave_elev</em>, <em class="sig-param">hspressure</em>, <em class="sig-param">wpressurenl</em>, <em class="sig-param">wpressurel</em>, <em class="sig-param">yawNonLin</em><span class="sig-paren">)</span></dt>
-<dd><p>The  <code class="docutils literal notranslate"><span class="pre">responseClass</span></code> creates an <code class="docutils literal notranslate"><span class="pre">output</span></code> object saved to the MATLAB workspace
-that contains structures for each instance of a WEC-Sim class (e.g.
-<code class="docutils literal notranslate"><span class="pre">waveClass</span></code>, <code class="docutils literal notranslate"><span class="pre">bodyClass</span></code>, <code class="docutils literal notranslate"><span class="pre">ptoClass</span></code>, <code class="docutils literal notranslate"><span class="pre">mooringClass</span></code>).</p>
-<p>The <code class="docutils literal notranslate"><span class="pre">wave</span></code> structure for the instance of the <code class="docutils literal notranslate"><span class="pre">waveClass</span></code> includes:</p>
-<blockquote>
-<div><ul class="simple">
-<li><p><code class="docutils literal notranslate"><span class="pre">type</span></code> (string) = ‘waveType’</p></li>
-<li><p><code class="docutils literal notranslate"><span class="pre">time</span></code> (array) = [# of time-steps x 1]</p></li>
-<li><p><code class="docutils literal notranslate"><span class="pre">elevation</span></code> (array) = [# of time-steps x 1]</p></li>
-</ul>
-</div></blockquote>
-<p>The <code class="docutils literal notranslate"><span class="pre">bodies</span></code> structure for each instance of the
-<code class="docutils literal notranslate"><span class="pre">bodyClass</span></code> (i.e. for each Body block) includes:</p>
-<blockquote>
-<div><ul class="simple">
-<li><p><code class="docutils literal notranslate"><span class="pre">name</span></code> (string) = ‘bodyName’</p></li>
-<li><p><code class="docutils literal notranslate"><span class="pre">time</span></code> (array) = [# of time-steps x 1]</p></li>
-<li><p><code class="docutils literal notranslate"><span class="pre">position</span></code> (array) = [# of time-steps x 6]</p></li>
-<li><p><code class="docutils literal notranslate"><span class="pre">velocity</span></code> (array) = [# of time-steps x 6]</p></li>
-<li><p><code class="docutils literal notranslate"><span class="pre">accleration</span></code> (array) = [# of time-steps x 6]</p></li>
-<li><p><code class="docutils literal notranslate"><span class="pre">forceTotal</span></code> (array) = [# of time-steps x 6]</p></li>
-<li><p><code class="docutils literal notranslate"><span class="pre">forceExcitation</span></code> (array) = [# of time-steps x 6]</p></li>
-<li><p><code class="docutils literal notranslate"><span class="pre">forceRadiationDamping</span></code> (array) = [# of time-steps x 6]</p></li>
-<li><p><code class="docutils literal notranslate"><span class="pre">forceAddedMass</span></code> (array) = [# of time-steps x 6]</p></li>
-<li><p><code class="docutils literal notranslate"><span class="pre">forceRestoring</span></code> (array) = [# of time-steps x 6]</p></li>
-<li><p><code class="docutils literal notranslate"><span class="pre">forceMorrisonAndViscous</span></code> (array) = [# of time-steps x 6]</p></li>
-<li><p><code class="docutils literal notranslate"><span class="pre">forceLinearDamping</span></code> (array) = [# of time-steps x 6]</p></li>
-</ul>
-</div></blockquote>
-<p>The <code class="docutils literal notranslate"><span class="pre">ptos</span></code> structure for each instance of the <code class="docutils literal notranslate"><span class="pre">ptoClass</span></code>
-(i.e. for each PTO block) includes:</p>
-<blockquote>
-<div><ul class="simple">
-<li><p><code class="docutils literal notranslate"><span class="pre">name</span></code> (string) = ‘ptoName’</p></li>
-<li><p><code class="docutils literal notranslate"><span class="pre">time</span></code> (array) = [# of time-steps x 1]</p></li>
-<li><p><code class="docutils literal notranslate"><span class="pre">position</span></code> (array) = [# of time-steps x 6]</p></li>
-<li><p><code class="docutils literal notranslate"><span class="pre">velocity</span></code> (array) = [# of time-steps x 6]</p></li>
-<li><p><code class="docutils literal notranslate"><span class="pre">accleration</span></code> (array) = [# of time-steps x 6]</p></li>
-<li><p><code class="docutils literal notranslate"><span class="pre">forceTotal</span></code> (array) = [# of time-steps x 6]</p></li>
-<li><p><code class="docutils literal notranslate"><span class="pre">forceActuation</span></code> (array) = [# of time-steps x 6]</p></li>
-<li><p><code class="docutils literal notranslate"><span class="pre">forceConstraint</span></code> (array) = [# of time-steps x 6]</p></li>
-<li><p><code class="docutils literal notranslate"><span class="pre">forceInternalMechanics</span></code> (array) = [# of time-steps x 6]</p></li>
-<li><p><code class="docutils literal notranslate"><span class="pre">powerInternalMechanics</span></code> (array) = [# of time-steps x 6]</p></li>
-</ul>
-</div></blockquote>
-<p>The <code class="docutils literal notranslate"><span class="pre">constraints</span></code> structure for each instance of the
-<code class="docutils literal notranslate"><span class="pre">coonstraintClass</span></code> (i.e. for each Constraint block) includes:</p>
-<blockquote>
-<div><ul class="simple">
-<li><p><code class="docutils literal notranslate"><span class="pre">name</span></code> (string) = ‘coonstraintName’</p></li>
-<li><p><code class="docutils literal notranslate"><span class="pre">time</span></code> (array) = [# of time-steps x 1]</p></li>
-<li><p><code class="docutils literal notranslate"><span class="pre">position</span></code> (array) = [# of time-steps x 6]</p></li>
-<li><p><code class="docutils literal notranslate"><span class="pre">velocity</span></code> (array) = [# of time-steps x 6]</p></li>
-<li><p><code class="docutils literal notranslate"><span class="pre">accleration</span></code> (array) = [# of time-steps x 6]</p></li>
-<li><p><code class="docutils literal notranslate"><span class="pre">forceConstraint</span></code> (array) = [# of time-steps x 6]</p></li>
-</ul>
-</div></blockquote>
-<dl class="attribute">
-<dt id="responseClass.source.objects.responseClass.wave">
-<code class="sig-prename descclassname">source.objects.responseClass.</code><code class="sig-name descname">wave</code><a class="headerlink" href="#responseClass.source.objects.responseClass.wave" title="Permalink to this definition">¶</a></dt>
-<dd></dd></dl>
-
-<dl class="attribute">
-<dt>
-<code class="sig-name descname">wave</code><em class="property"> = 'struct()'</em></dt>
-<dd><p>This property generates the <code class="docutils literal notranslate"><span class="pre">wave</span></code> structure for the instance of the <code class="docutils literal notranslate"><span class="pre">waveClass</span></code>.</p>
-</dd></dl>
-
-<dl class="method">
-<dt>
-<code class="sig-name descname">plotResponse</code><span class="sig-paren">(</span><em class="sig-param">bodyNum</em>, <em class="sig-param">comp</em><span class="sig-paren">)</span></dt>
-<dd><p>This method plots response of a body in a given DOF</p>
-<dl class="field-list simple">
-<dt class="field-odd">Parameters</dt>
-<dd class="field-odd"><ul class="simple">
-<li><p><strong>bodyNum</strong> – the body number to plot</p></li>
-<li><p><strong>comp</strong> – the response dof to be plotted (1-6)</p></li>
-</ul>
-</dd>
-</dl>
+<dd><p>This method writes <code class="docutils literal notranslate"><span class="pre">*.vtp</span></code> files for visualization with
+ParaView. This method is executed by specifying
+<code class="docutils literal notranslate"><span class="pre">simu.paraview=1</span></code> in the <code class="docutils literal notranslate"><span class="pre">wecSimInputFile.m</span></code>.</p>
 </dd></dl>
 
 </dd></dl>
@@ -474,16 +398,143 @@ that contains structures for each instance of a WEC-Sim class (e.g.
 </div>
 <div class="section" id="testing">
 <h2>testing<a class="headerlink" href="#testing" title="Permalink to this headline">¶</a></h2>
-<p>class definition and optional signature</p>
+<p>Class definition and optional signature</p>
 <dl class="class">
 <dt>
 <em class="property">class </em><code class="sig-prename descclassname">source.objects.</code><code class="sig-name descname">responseClass</code></dt>
 <dd></dd></dl>
 
-<p>reference</p>
+<p>Reference</p>
 <p><a class="reference internal" href="#source.objects.responseClass" title="source.objects.responseClass"><code class="xref mat mat-class docutils literal notranslate"><span class="pre">source.objects.responseClass</span></code></a></p>
+<p>Attribute
+.. attribute:: source.objects.responseClass.wave</p>
 <p>Not working…</p>
 <span class="target" id="module-source.objects"></span><span class="target" id="module-source.objects"></span></div>
+<div class="section" id="testing-response-class">
+<h2>testing Response Class<a class="headerlink" href="#testing-response-class" title="Permalink to this headline">¶</a></h2>
+<dl class="class">
+<dt>
+<em class="property">class </em><code class="sig-prename descclassname">source.objects.</code><code class="sig-name descname">responseClass</code><span class="sig-paren">(</span><em class="sig-param">bodiesOutput</em>, <em class="sig-param">ptosOutput</em>, <em class="sig-param">constraintsOutput</em>, <em class="sig-param">ptosimOutput</em>, <em class="sig-param">mooringOutput</em>, <em class="sig-param">wave_type</em>, <em class="sig-param">wave_elev</em>, <em class="sig-param">hspressure</em>, <em class="sig-param">wpressurenl</em>, <em class="sig-param">wpressurel</em>, <em class="sig-param">yawNonLin</em><span class="sig-paren">)</span></dt>
+<dd><blockquote>
+<div><p>The  <code class="docutils literal notranslate"><span class="pre">responseClass</span></code> creates an <code class="docutils literal notranslate"><span class="pre">output</span></code> object saved to the MATLAB workspace
+that contains structures for each instance of a WEC-Sim class (e.g.
+<code class="docutils literal notranslate"><span class="pre">waveClass</span></code>, <code class="docutils literal notranslate"><span class="pre">bodyClass</span></code>, <code class="docutils literal notranslate"><span class="pre">ptoClass</span></code>, <code class="docutils literal notranslate"><span class="pre">mooringClass</span></code>, etc).</p>
+</div></blockquote>
+<dl class="attribute">
+<dt>
+<code class="sig-name descname">wave</code><em class="property"> = 'struct()'</em></dt>
+<dd><p>This property generates the <code class="docutils literal notranslate"><span class="pre">wave</span></code> structure for each instance of the <code class="docutils literal notranslate"><span class="pre">waveClass</span></code>
+, it includes:</p>
+<blockquote>
+<div><ul class="simple">
+<li><p><code class="docutils literal notranslate"><span class="pre">type</span></code> (string) = ‘waveType’</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">time</span></code> (array) = [# of time-steps x 1]</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">elevation</span></code> (array) = [# of time-steps x 1]</p></li>
+</ul>
+</div></blockquote>
+</dd></dl>
+
+<dl class="attribute">
+<dt>
+<code class="sig-name descname">bodies</code><em class="property"> = 'struct()'</em></dt>
+<dd><p>This property generates the <code class="docutils literal notranslate"><span class="pre">bodies</span></code> structure for each instance of the <code class="docutils literal notranslate"><span class="pre">bodyClass</span></code> (i.e. for each Body block)
+, it includes:</p>
+<blockquote>
+<div><ul class="simple">
+<li><p><code class="docutils literal notranslate"><span class="pre">name</span></code> (string) = ‘bodyName’</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">time</span></code> (array) = [# of time-steps x 1]</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">position</span></code> (array) = [# of time-steps x 6]</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">velocity</span></code> (array) = [# of time-steps x 6]</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">accleration</span></code> (array) = [# of time-steps x 6]</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">forceTotal</span></code> (array) = [# of time-steps x 6]</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">forceExcitation</span></code> (array) = [# of time-steps x 6]</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">forceRadiationDamping</span></code> (array) = [# of time-steps x 6]</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">forceAddedMass</span></code> (array) = [# of time-steps x 6]</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">forceRestoring</span></code> (array) = [# of time-steps x 6]</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">forceMorrisonAndViscous</span></code> (array) = [# of time-steps x 6]</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">forceLinearDamping</span></code> (array) = [# of time-steps x 6]</p></li>
+</ul>
+<p>There are additional <code class="docutils literal notranslate"><span class="pre">output.bodies</span></code> structures for non-linar hydro (e.g.
+<code class="docutils literal notranslate"><span class="pre">cellPressures_time</span></code>, <code class="docutils literal notranslate"><span class="pre">cellPressures_hydrostatic</span></code>,
+<code class="docutils literal notranslate"><span class="pre">cellPressures_waveLinear</span></code>, <code class="docutils literal notranslate"><span class="pre">cellPressures_waveNonLinear</span></code>)</p>
+</div></blockquote>
+</dd></dl>
+
+<dl class="attribute">
+<dt>
+<code class="sig-name descname">ptos</code><em class="property"> = 'struct()'</em></dt>
+<dd><p>This property generates the <code class="docutils literal notranslate"><span class="pre">ptos</span></code> structure for each instance of the <code class="docutils literal notranslate"><span class="pre">ptoClass</span></code> (i.e. for each PTO block)
+, it includes:</p>
+<blockquote>
+<div><ul class="simple">
+<li><p><code class="docutils literal notranslate"><span class="pre">name</span></code> (string) = ‘ptoName’</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">time</span></code> (array) = [# of time-steps x 1]</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">position</span></code> (array) = [# of time-steps x 6]</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">velocity</span></code> (array) = [# of time-steps x 6]</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">accleration</span></code> (array) = [# of time-steps x 6]</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">forceTotal</span></code> (array) = [# of time-steps x 6]</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">forceActuation</span></code> (array) = [# of time-steps x 6]</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">forceConstraint</span></code> (array) = [# of time-steps x 6]</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">forceInternalMechanics</span></code> (array) = [# of time-steps x 6]</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">powerInternalMechanics</span></code> (array) = [# of time-steps x 6]</p></li>
+</ul>
+</div></blockquote>
+</dd></dl>
+
+<dl class="attribute">
+<dt>
+<code class="sig-name descname">constraints</code><em class="property"> = 'struct()'</em></dt>
+<dd><p>This property generates the <code class="docutils literal notranslate"><span class="pre">constraints</span></code> structure for each instance of the <code class="docutils literal notranslate"><span class="pre">coonstraintClass</span></code> (i.e. for each Constraint block)
+, it includes:</p>
+<blockquote>
+<div><ul class="simple">
+<li><p><code class="docutils literal notranslate"><span class="pre">name</span></code> (string) = ‘coonstraintName’</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">time</span></code> (array) = [# of time-steps x 1]</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">position</span></code> (array) = [# of time-steps x 6]</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">velocity</span></code> (array) = [# of time-steps x 6]</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">accleration</span></code> (array) = [# of time-steps x 6]</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">forceConstraint</span></code> (array) = [# of time-steps x 6]</p></li>
+</ul>
+</div></blockquote>
+</dd></dl>
+
+<dl class="attribute">
+<dt>
+<code class="sig-name descname">mooring</code><em class="property"> = 'struct()'</em></dt>
+<dd><p>This property generates the <code class="docutils literal notranslate"><span class="pre">mooring</span></code> structure for each instance of the <code class="docutils literal notranslate"><span class="pre">mooringClass</span></code> (i.e. for each Mooring block)
+, it includes:</p>
+<blockquote>
+<div><ul class="simple">
+<li><p><code class="docutils literal notranslate"><span class="pre">position</span></code> (array) = [# of time-steps x 6]</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">velocity</span></code> (array) = [# of time-steps x 6]</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">forceMooring</span></code> (array) = [# of time-steps x 6]</p></li>
+</ul>
+</div></blockquote>
+</dd></dl>
+
+<dl class="attribute">
+<dt>
+<code class="sig-name descname">wave</code><em class="property"> = 'struct()'</em></dt>
+<dd><p>This property generates the <code class="docutils literal notranslate"><span class="pre">wave</span></code> structure for each instance of the <code class="docutils literal notranslate"><span class="pre">waveClass</span></code></p>
+</dd></dl>
+
+<dl class="method">
+<dt>
+<code class="sig-name descname">plotResponse</code><span class="sig-paren">(</span><em class="sig-param">bodyNum</em>, <em class="sig-param">comp</em><span class="sig-paren">)</span></dt>
+<dd><p>This method plots the response of a body for a given DOF.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>bodyNum</strong> – the body number to plot</p></li>
+<li><p><strong>comp</strong> – the response component (i.e. dof) to be plotted (e.g. 1-6)</p></li>
+</ul>
+</dd>
+</dl>
+</dd></dl>
+
+</dd></dl>
+
+</div>
 </div>
 
 

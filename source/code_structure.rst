@@ -388,44 +388,14 @@ In some situations, users may want to use Simulink/Simscape blocks that are not 
 
 Output Structure
 ----------------
-After WEC-Sim is done running, there will be a new variable called ``output`` in your MATLAB workspace.
-The ``output`` variable is an instance of the ``responseClass`` class. 
+After WEC-Sim is done running, there will be a new variable called ``output`` saved to the MATLAB workspace.
+The ``output`` object is an instance of the ``responseClass``. 
 It contains all the relevant time-series results of the simulation. 
-The structure of the ``output`` variable is shown in the table below. 
-Time series are given as [(# of time-steps) x 6] arrays, where 6 is the degrees of freedom.
-In addition to these time-series, the output for each object contains the object's name or type and the time vector.
+Refer to the WEC-Sim API documentation for the :ref:`response` for information about the structure of the ``output`` object, . 
+Time-series are given as [# of time-steps x 6] arrays, where 6 is the degrees of freedom.
 
+WEC-Sim outputs can be written to ASCII files by specifying ``simu.outputtxt = 1;`` in ``wecSimInputFile.m``, in addition to the responseClass ``output`` variable.
 
-For more information about the ``output`` objected saved to the MATLAB workspace, refer to the :ref:`response` API documentation. 
-
-In addition to the responseClass ``output`` variable, the outputs can be written to ASCII files by using ``simu.outputtxt = 1;`` in the input file.
-
-+----------------+-----------------------------+--------------------------------------------+
-|bodies(i)       | cellPressures_time          | array: (# nlHydro time-steps) x (# cells)  |
-|                |                             |                                            |
-|                | cellPressures_hydrostatic   | array: (# nlHydro time-steps) x (# cells)  |
-|                |                             |                                            |
-|                | cellPressures_waveLinear    | array: (# nlHydro time-steps) x (# cells)  |
-|                |                             |                                            |
-|                | cellPressures_waveNonLinear | array: (# nlHydro time-steps) x (# cells)  |
-+----------------+-----------------------------+--------------------------------------------+
-|ptos(i)         |                             |                                            |
-+----------------+-----------------------------+--------------------------------------------+
-|constraints(i)  |                             |                                            |
-+----------------+-----------------------------+--------------------------------------------+
-|mooring(i)      | position                    | array: (# of time-steps) x 6               |
-|                |                             |                                            |
-|                | velocity                    | array: (# of time-steps) x 6               |
-|                |                             |                                            |
-|                | forceMooring                | array: (# of time-steps) x 6               |
-+----------------+-----------------------------+--------------------------------------------+
-|moorDyn         | Lines                       | struct: outputs in the Line#.out file      |
-|                |                             |                                            | 
-|                | Line# (for each line)       | struct: outputs in the Line#.out file      |
-+----------------+-----------------------------+--------------------------------------------+
-|ptosim          | See PTO-Sim section for     |                                            |
-|                | details                     |                                            |
-+----------------+-----------------------------+--------------------------------------------+
 
 
 Functions & External Codes
