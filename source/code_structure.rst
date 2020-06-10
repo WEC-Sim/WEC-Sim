@@ -122,14 +122,12 @@ The ``regularCIC`` case is defined by including the following in the input file:
 
 irregular
 """"""""""""""""""""""""""""""
-The ``irregular`` wave case is the wave type for irregular wave simulations using a Pierson Moskowitz (PM), Bretschneider (BS), or JONSWAP (JS) wave spectrum.  
-Significant wave height (``wave.H``), peak period (``wave.T``), and wave spectrum type (``waves.spectrumtype``) must be specified in the input file. 
+The ``irregular`` wave case is the wave type for irregular wave simulations using a Pierson Moskowitz (PM) or JONSWAP (JS) wave spectrum as defined by the IEC TS 62600-2:2019 standards. Significant wave height (``wave.H``), peak period (``wave.T``), and wave spectrum type (``waves.spectrumtype``) must be specified in the input file. 
 The available wave spectra and their corresponding ``waves.spectrumType`` are listed below:
 
 ======================  ==================
 **Wave Spectrum**       **spectrumType**
 Pierson Moskowitz   	``PM``
-Bretschneider	    	``BS``
 JONSWAP             	``JS``
 ======================  ==================
 
@@ -141,8 +139,7 @@ The ``irregular`` case is defined by including the following in the input file::
 	waves.spectrumType = '<user specified spectrum>';
 
 
-When using the JONSWAP spectrum, users have the option of defining gamma by specifying ``waves.gamma = <user specified gamma>;``. If gamma is not defined, the default value of gamma equal to 3.3 is used.  
-
+When using the JONSWAP spectrum, users have the option of defining gamma by specifying ``waves.gamma = <user specified gamma>;``. If gamma is not defined, then gamma is calculated based on a relationship between significant wave height and peak period defined by IEC TS 62600-2:2019.    
 
 spectrumImport
 """"""""""""""""""""""""""""""

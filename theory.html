@@ -109,7 +109,6 @@
 <li class="toctree-l2"><a class="reference internal" href="#irregular-waves">Irregular Waves</a><ul>
 <li class="toctree-l3"><a class="reference internal" href="#wave-spectra">Wave Spectra</a><ul>
 <li class="toctree-l4"><a class="reference internal" href="#pierson-moskowitz-pm">Pierson–Moskowitz (PM)</a></li>
-<li class="toctree-l4"><a class="reference internal" href="#bretschneider-bs">Bretschneider (BS)</a></li>
 <li class="toctree-l4"><a class="reference internal" href="#jonswap-js">JONSWAP (JS)</a></li>
 </ul>
 </li>
@@ -123,7 +122,7 @@
 </li>
 <li class="toctree-l2"><a class="reference internal" href="#mooring">Mooring</a><ul>
 <li class="toctree-l3"><a class="reference internal" href="#mooring-matrix">Mooring Matrix</a></li>
-<li class="toctree-l3"><a class="reference internal" href="#id24">MoorDyn</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#id26">MoorDyn</a></li>
 </ul>
 </li>
 <li class="toctree-l2"><a class="reference internal" href="#nonlinear-buoynancy-and-froude-krylov-wave-excitation">Nonlinear Buoynancy and Froude-Krylov Wave Excitation</a></li>
@@ -376,52 +375,38 @@ y = \mathbf{C_{r}} x~~"/></p>
 <p><img src="_images/math/27ed56ee90e28418eb4ad957b84484fabe8d3088.png" alt="H_{m0} = 4 \sqrt{m_{0}}~~"/></p>
 </div><div class="section" id="pierson-moskowitz-pm">
 <h4>Pierson–Moskowitz (PM)<a class="headerlink" href="#pierson-moskowitz-pm" title="Permalink to this headline">¶</a></h4>
-<p>One of the simplest spectra, the Pierson–Moskowitz spectrum, was proposed by <a class="bibtex reference internal" href="#pm" id="id19">[13]</a>. It assumed that after the wind blew steadily for a long time over a large area, the waves would come into equilibrium with the wind. This is the concept of a fully developed sea where a “long time” is roughly 10,000 wave periods and a “large area” is roughly 5,000 wave-lengths on a side.  The spectrum is calculated from:</p>
+<p>The PM spectrum is applicable to a fully developed sea, when the growth of the waves is not limited by the fetch <a class="bibtex reference internal" href="#pm" id="id19">[13]</a>. The two-parameter PM spectrum is based on a significant wave height and peak wave frequency.  For a given significant wave height, the peak frequency can be varied to cover a range of conditions including developing and decaying seas. In general, the parameters depend strongly on wind speed, and also wind direction, fetch, and locations of storm fronts. The spectral density of the surface elevation defined by the PM spectrum <a class="bibtex reference internal" href="#iec-2" id="id20">[14]</a> is defind by:</p>
 <div class="math">
-<p><img src="_images/math/481070ac4c7c12f6d2184d23581c57f9dae9a6b3.png" alt="S\left( f \right) = \frac{\alpha_{PM}g^{2}}{\left( 2 \pi \right)^{4}}f^{-5}\exp\left[-\frac{5}{4} \left( \frac{f_{p}}{f}\right)^{4} \right]~~ \\"/></p>
+<p><img src="_images/math/f483eca741e1d9ddb0874b415e452fdf7247baa7.png" alt="S_{PM}\left( f \right) = \frac{{H_{m0}}^2}{4}\left(1.057f_{p}\right)^{4}f^{-5}\exp\left[-\frac{5}{4} \left( \frac{f_{p}}{f}\right)^{4} \right]~~ \\"/></p>
 </div><p>This implies coefficients of the general form:</p>
 <div class="math">
-<p><img src="_images/math/df235648f8fb6be937e1f5aa468053a48792f5e6.png" alt="A = \frac{\alpha_{pm}g^{2}}{\left( 2 \pi \right)^{4}},~~B = \frac{5}{4} {f_{p}}^{4}~~"/></p>
-</div><p>where the parameter <img class="math" src="_images/math/46c4356255746ba8872df174362958f2055c96f6.png" alt="\alpha_{PM}"/> = 0.0081 typically, <img class="math" src="_images/math/79536017667ab70ebf7342c96ac9704d81517302.png" alt="g=9.81"/> m/s is gravitational acceleration and <img class="math" src="_images/math/9178f41e0d746bbb926738a657c293d5f82df015.png" alt="f_{p}"/> is the peak frequency of the spectrum.</p>
-<div class="admonition note">
-<p class="admonition-title">Note</p>
-<p>Pierson-Moskowitz does not use significant wave height to define spectrum</p>
+<p><img src="_images/math/62ad78ac83525e5ca494c5bb53f55b2b1e0bf888.png" alt="A =\frac{{H_{m0}}^2}{4}\left(1.057f_{p}\right)^{4} \approx \frac{5}{16} {H_{m0}}^2 {f_{p}}^{4} \approx \frac{B}{4}{H_{m0}}^2~~ \\
+B = \left(1.057f_{p}\right)^{4} \approx \frac{5}{4}{f_{p}}^{4}~~ \\"/></p>
+</div><p>where <img class="math" src="_images/math/86ff639c21f84d1489a1f027bbdf0b2f406fac51.png" alt="H_{m0}"/> is the significant wave height, <img class="math" src="_images/math/9178f41e0d746bbb926738a657c293d5f82df015.png" alt="f_{p}"/> is the peak wave frequency <img class="math" src="_images/math/9eec00b19c5d208df18276b41e8e13cef15ac013.png" alt="\left(=1/T_{p}\right)"/>, and <img class="math" src="_images/math/5b7752c757e0b691a80ab8227eadb8a8389dc58a.png" alt="f"/> is the wave frequency.</p>
 </div>
-</div>
-<div class="section" id="bretschneider-bs">
-<h4>Bretschneider (BS)<a class="headerlink" href="#bretschneider-bs" title="Permalink to this headline">¶</a></h4>
-<p>The two-parameter Bretschneider spectrum is based on significant wave height and peak wave frequency.  For a given significant wave height, the peak frequency can be varied to cover a range of conditions including developing and decaying seas. In general, the parameters depend on strongly on wind speed, and also wind direction, fetch, and locations of storm fronts. The spectrum is given as:</p>
-<div class="math">
-<p><img src="_images/math/0ca590dc4f2ae4cfb50e362cbd1142d510eec32b.png" alt="S\left( f \right) = \frac{{H_{m0}}^2}{4}\left(1.057f_{p}\right)^{4}f^{-5}\exp\left[-\frac{5}{4} \left( \frac{f_{p}}{f}\right)^{4} \right]~~ \\"/></p>
-</div><p>This implies coefficients of the general form:</p>
-<div class="math">
-<p><img src="_images/math/c9dde7f4f6861b341847ccd43278e59c7c0f4510.png" alt="A =\frac{{H_{m0}}^2}{4}\left(1.057f_{p}\right)^{4} \approx \frac{5}{16} {H_{m0}}^2 {f_{p}}^{4} \approx \frac{B}{4}{H_{m0}}^2~~ \\
-
-
-B = \left(1.057f_{p}\right)^{4} \approx \frac{5}{4} {f_{p}}^{4}~~ \\"/></p>
-</div></div>
 <div class="section" id="jonswap-js">
 <h4>JONSWAP (JS)<a class="headerlink" href="#jonswap-js" title="Permalink to this headline">¶</a></h4>
-<p>The JONSWAP (Joint North Sea Wave Project) spectrum was purposed by Hasselmann et al. <a class="bibtex reference internal" href="#hk" id="id20">[14]</a>, and the original formulation was given as:</p>
+<p>The JONSWAP (Joint North Sea Wave Project) spectrum is formulated as a modification of the PM spectrum for developing sea sate in a fetch-limited situation <a class="bibtex reference internal" href="#hk" id="id21">[15]</a>. The spectrum accounts for a higher peak and a narrower spectrum in a storm situation for the same total energy as compared to the PM spectrum. The spectral density of the surface elevation defined by the JS spectrum <a class="bibtex reference internal" href="#iec-2" id="id22">[14]</a> is defined by:</p>
 <div class="math">
-<p><img src="_images/math/f7c059b4ad59e3de18a8365de664d2ae5c678470.png" alt="&amp; S\left( f \right) = \frac{ \alpha_{js} g^{2} }{ (2\pi)^{4}} f^{-5}\exp\left[-\frac{5}{4} \left( \frac{f_{p}}{f}\right)^{4} \right]\gamma^\Gamma \nonumber  ~~ &amp;\\
-
-&amp;\Gamma = \exp \left[ -\left( \frac{\frac{f}{f_{p}}-1}{\sqrt{2} \sigma}\right)^{2} \right],~~ \sigma = \begin{cases} 0.07 &amp; f \leq f_{p} \\0.09 &amp; f &gt; f_{p} \end{cases} ~~ &amp;\\"/></p>
+<p><img src="_images/math/8df7cc1815f7b5b91ff48ef413640a772abaf0a3.png" alt="S_{JS}\left( f \right) = C \left(\gamma\right) S_{PM} \gamma^{\alpha} \\"/></p>
+</div><p>where <img class="math" src="_images/math/34d137cf01c787ecda732761c3f95b0f65a6c3e9.png" alt="\gamma"/> is the non-dimensional peak-shape parameter.</p>
+<p>The normalizing factor, <img class="math" src="_images/math/d703129a09fac6f841d9f9466927564f6da292e5.png" alt="C\left(\gamma\right)"/>, is defind as:</p>
+<div class="math">
+<p><img src="_images/math/93ea0df94fc4abd102297d5288a0827dbe487e83.png" alt="C\left(\gamma\right) = \frac{\int_{0}^{\infty}S_{PM}\left(f\right)df}{\int_{0}^{\infty}S_{PM}\left(f\right)\gamma^{\alpha}df} = 1 -0.287\ln\left(\gamma\right)\\"/></p>
+</div><p>The peak-shape parameter exponent <img class="math" src="_images/math/2f5aa019312e1bbc969deab8dca8b00f76025404.png" alt="\alpha"/> is defined as:</p>
+<div class="math">
+<p><img src="_images/math/706dfccfeba8d1cb5d79e8b51d63a441b4904044.png" alt="\alpha = \exp \left[ -\left( \frac{\frac{f}{f_{p}}-1}{\sqrt{2} \sigma}\right)^{2} \right],~~ \sigma = \begin{cases} 0.07 &amp; f \leq f_{p} \\0.09 &amp; f &gt; f_{p} \end{cases} ~~ \\"/></p>
+</div><p>The peak-shape parameter is defined based on the following relationship between the significant wave height, <img class="math" src="_images/math/86ff639c21f84d1489a1f027bbdf0b2f406fac51.png" alt="H_{m0}"/>, and peak period, <img class="math" src="_images/math/80da83d4192fe18f7db9221e8590bb109e30f956.png" alt="T_{p}"/>:</p>
+<div class="math">
+<p><img src="_images/math/b2f3c78c0e840b2871cd5eb82d5ac07f71fbe931.png" alt="\gamma = \begin{cases}
+        5 &amp; \text{for } \frac{T_{p}}{\sqrt{H_{m0}}} \leq 3.6\\
+        \exp\left(5.75 - 1.15\frac{T_{p}}{\sqrt{H_{m0}}} \right) &amp;  \text{for } 3.6 \leq \frac{T_{p}}{\sqrt{H_{m0}}} \leq 5 \\
+        1 &amp; \text{for } \frac{T_{p}}{\sqrt{H_{m0}}} &gt; 5
+\end{cases}"/></p>
 </div><p>with general form coefficients thus defined:</p>
 <div class="math">
-<p><img src="_images/math/ea06db0bdef080a581feff299c9fed664a8ecec1.png" alt="&amp; A =\frac{\alpha_{js} g^{2}}{(2\pi)^{4}} &amp; \\
-
-&amp; B=\frac{5}{4}{f_{p}}^{4} &amp;\\"/></p>
-</div><p>where <img class="math" src="_images/math/5d491424029801d905bae5f9f1f62f7a545bb457.png" alt="\alpha_{js}"/> is a nondimensional variable that is a function of the wind speed and fetch length.
-Empirical fits were applied in an attempt to find a mean value that would capture the spectral shape of most measured sea states.
-For a given significant wave height, setting <img class="math" src="_images/math/aa48a75570247090442aa555d4059f11ed53a937.png" alt="\gamma = 3.3"/> (default) , <img class="math" src="_images/math/5d491424029801d905bae5f9f1f62f7a545bb457.png" alt="\alpha_{js}"/> , and <img class="math" src="_images/math/6c1bcfb887bec657cdbed0f73fbf9da10d6e4052.png" alt="S^{*}\left( f \right)"/> can be calculated by:</p>
-<div class="math">
-<p><img src="_images/math/297f7b28ab4d82c3b8c26f3f86870fbc8b1f8b30.png" alt="\alpha_{js} = \frac{H_{m0}^{2}}{16\int_{0}^{\infty} S^{*} \left( f \right) df}
-
-S^{*}\left( f \right) = \frac{ g^{2} }{ (2\pi)^{4}} f^{-5}\exp\left[-\frac{5}{4} \left( \frac{f_{p}}{f}\right)^{4} \right]\gamma^\Gamma ~~"/></p>
-</div><p>Where:</p>
-<div class="math">
-<p><img src="_images/math/764100b376182c7359fa1fe12c0ad74c5b1358c1.png" alt="S\left( f \right) =  S^{*}\left( f \right) \alpha_{js} \\"/></p>
+<p><img src="_images/math/b88f285bb9a135cd6dbf7cf5c8b84e5f60231e77.png" alt="A = \frac{B}{4}{H_{m0}}^2 C\left(\gamma \right) \gamma^{\alpha} \\
+B = \frac{5}{4}{f_{p}}^{4} \\"/></p>
 </div></div>
 </div>
 </div>
@@ -442,7 +427,7 @@ The instantaneous power absorbed by the PTO is given by:</p>
 </div>
 <div class="section" id="hydraulic-pto">
 <h3>Hydraulic PTO<a class="headerlink" href="#hydraulic-pto" title="Permalink to this headline">¶</a></h3>
-<p>The PTO mechanism is modeled as a hydraulic system <a class="bibtex reference internal" href="#so" id="id21">[15]</a>, where the reaction force is given by:</p>
+<p>The PTO mechanism is modeled as a hydraulic system <a class="bibtex reference internal" href="#so" id="id23">[16]</a>, where the reaction force is given by:</p>
 <div class="math">
 <p><img src="_images/math/86ea6ce8a8efaf27d237d315599b5aa295395510.png" alt="F_{pto}=\Delta{} p_{piston}A_{piston}"/></p>
 </div><p>where <img class="math" src="_images/math/0fe53170b5bb95e4d1696d720f9d2ef79b1f2225.png" alt="\Delta{} p_{piston}"/> is the differential pressure of the hydraulic piston and <img class="math" src="_images/math/8309456a8d7a728be4c1ff87bd85918133f13c30.png" alt="A_{piston}"/> is the piston area.
@@ -452,7 +437,7 @@ The instantaneous hydraulic power absorbed by the PTO is given by:</p>
 </div></div>
 <div class="section" id="mechanical-pto">
 <h3>Mechanical PTO<a class="headerlink" href="#mechanical-pto" title="Permalink to this headline">¶</a></h3>
-<p>The PTO mechanism is modeled as a direct-drive linear generator system <a class="bibtex reference internal" href="#so" id="id22">[15]</a>, where the reaction force is given by:</p>
+<p>The PTO mechanism is modeled as a direct-drive linear generator system <a class="bibtex reference internal" href="#so" id="id24">[16]</a>, where the reaction force is given by:</p>
 <div class="math">
 <p><img src="_images/math/66a6fb5b0712ddb47b443bf0ebc69034dbc11d35.png" alt="F_{pto}=(\frac{\pi}{\tau_{pm}})\lambda_{fd}i_{sq}"/></p>
 </div><p>where <img class="math" src="_images/math/24c5c5eb8b8ae7ad8fa3dc1ef9ba106d2a4f0fbf.png" alt="\tau_{pm}"/> is the magnet pole pitch (the center-to-center distance of adjacent magnetic poles), <img class="math" src="_images/math/a33d74f42ab29d963854206cc22861f33560261e.png" alt="\lambda_{fd}"/> is the flux linkage of the stator <img class="math" src="_images/math/badad346f6fbe2e237af99bfbd9a93a4da53a3da.png" alt="d"/>-axis winding due to flux produced by the rotor magnets, and <img class="math" src="_images/math/6e766bc2d34bf1c120353bfcdf7b0abc373fb852.png" alt="i_{sq}"/> is the stator <img class="math" src="_images/math/a5fa84b363f309ebc8fe7db38304541732c7de9a.png" alt="q"/>-axis current.
@@ -464,7 +449,7 @@ The instantaneous mechanical power absorbed by the PTO is given by:</p>
 </div>
 <div class="section" id="mooring">
 <h2>Mooring<a class="headerlink" href="#mooring" title="Permalink to this headline">¶</a></h2>
-<p>The mooring load is represented using a linear quasi-static mooring stiffness or by using the mooring forces calculated from <a class="reference external" href="http://www.matt-hall.ca/moordyn">MoorDyn</a> <a class="bibtex reference internal" href="#hall2015moordynguide" id="id23">[1]</a>, which is an open-source lumped-mass mooring dynamics model.</p>
+<p>The mooring load is represented using a linear quasi-static mooring stiffness or by using the mooring forces calculated from <a class="reference external" href="http://www.matt-hall.ca/moordyn">MoorDyn</a> <a class="bibtex reference internal" href="#hall2015moordynguide" id="id25">[1]</a>, which is an open-source lumped-mass mooring dynamics model.</p>
 <div class="section" id="mooring-matrix">
 <h3>Mooring Matrix<a class="headerlink" href="#mooring-matrix" title="Permalink to this headline">¶</a></h3>
 <p>When linear quasi-static mooring stiffness is used, the mooring load can be calculated by</p>
@@ -472,9 +457,9 @@ The instantaneous mechanical power absorbed by the PTO is given by:</p>
 <p><img src="_images/math/ee8cab5a6ead27a5d3d503588d07e296c50b0dd9.png" alt="F_{m}=-K_{m}X-C_{m}\dot{X}"/></p>
 </div><p>where <img class="math" src="_images/math/92b18a95249ecf26f98ebc96f2bd01e71f640525.png" alt="K_{m}"/> and <img class="math" src="_images/math/bfd486dfabe357a9ba4514987ca487df94ef22b0.png" alt="C_{m}"/> are the stiffness and damping matrices for the mooring system, and <img class="math" src="_images/math/ed38fa24f1c94891bd312012aab3f6673be3eb83.png" alt="X"/> and <img class="math" src="_images/math/30be2b605c44fee9ec1ee785140bd3a4e404a30a.png" alt="\dot{X}"/> are the displacement and velocity of the body, respectively.</p>
 </div>
-<div class="section" id="id24">
-<h3>MoorDyn<a class="headerlink" href="#id24" title="Permalink to this headline">¶</a></h3>
-<p>MoorDyn discretizes each mooring line in a mooring system into evenly-sized line segments connected by node points (see <a class="reference internal" href="#moordynfig"><span class="std std-ref">MoorDyn figure</span></a>). The line mass is lumped at these node points along with gravitational and buoyancy forces, hydrodynamic loads, and reactions from contact with the seabed.  Hydrodynamic drag and added mass are calculated based on Morison’s equation.  A mooring line’s axial stiffness is modeled by applying a linear stiffness to each line segment in tension only.  A damping term is also applied in each segment to dampen non-physical resonances caused by the lumped-mass discretization.  Bending and torsional stiffnesses are neglected.  Bottom contact is represented by vertical stiffness and damping forces applied at the nodes when a node is located below the seabed. <a class="bibtex reference internal" href="#hall2015validationdata" id="id25">[16]</a>.</p>
+<div class="section" id="id26">
+<h3>MoorDyn<a class="headerlink" href="#id26" title="Permalink to this headline">¶</a></h3>
+<p>MoorDyn discretizes each mooring line in a mooring system into evenly-sized line segments connected by node points (see <a class="reference internal" href="#moordynfig"><span class="std std-ref">MoorDyn figure</span></a>). The line mass is lumped at these node points along with gravitational and buoyancy forces, hydrodynamic loads, and reactions from contact with the seabed.  Hydrodynamic drag and added mass are calculated based on Morison’s equation.  A mooring line’s axial stiffness is modeled by applying a linear stiffness to each line segment in tension only.  A damping term is also applied in each segment to dampen non-physical resonances caused by the lumped-mass discretization.  Bending and torsional stiffnesses are neglected.  Bottom contact is represented by vertical stiffness and damping forces applied at the nodes when a node is located below the seabed. <a class="bibtex reference internal" href="#hall2015validationdata" id="id27">[17]</a>.</p>
 <div class="figure align-center" id="moordynfig">
 <a class="reference internal image-reference" href="_images/MoorDyn_Graphic.png"><img alt="_images/MoorDyn_Graphic.png" src="_images/MoorDyn_Graphic.png" style="width: 529.1999999999999px; height: 324.79999999999995px;" /></a>
 <div class="legend">
@@ -487,7 +472,7 @@ The instantaneous mechanical power absorbed by the PTO is given by:</p>
 <div class="section" id="nonlinear-buoynancy-and-froude-krylov-wave-excitation">
 <h2>Nonlinear Buoynancy and Froude-Krylov Wave Excitation<a class="headerlink" href="#nonlinear-buoynancy-and-froude-krylov-wave-excitation" title="Permalink to this headline">¶</a></h2>
 <p>The linear model assumes that the body motion and the waves consist of small amplitudes in comparison to the wavelengths. A weakly nonlinear approach is applied to account for the nonlinear hydrodynamic forces induced by the instantaneous water surface elevation and body position. Rather than using the BEM calculated linear wave-excitation and hydrostatic coefficients, the nonlinear buoyancy and the Froude-Krylov force components can be obtained by integrating the static and dynamic pressures over each panel along the wetted body surface at each time step.
-Because linear wave theory is used to determine the flow velocity and pressure field, the values become unrealistically large for wetted panels that are above the mean water level. To correct this, the Wheeler stretching method is applied <a class="bibtex reference internal" href="#wheeler1969methods" id="id26">[17]</a>, which applies a correction to the instantaneous wave elevation that forces its height to be equal to the water depth when calculating the flow velocity and pressure,</p>
+Because linear wave theory is used to determine the flow velocity and pressure field, the values become unrealistically large for wetted panels that are above the mean water level. To correct this, the Wheeler stretching method is applied <a class="bibtex reference internal" href="#wheeler1969methods" id="id28">[18]</a>, which applies a correction to the instantaneous wave elevation that forces its height to be equal to the water depth when calculating the flow velocity and pressure,</p>
 <blockquote>
 <div><div class="math">
 <p><img src="_images/math/592d057ccefb54c91218bd6643668eb4547499b6.png" alt="z^* = \frac{D(D+z)}{(D+\eta)} - D"/></p>
@@ -516,7 +501,7 @@ Because linear wave theory is used to determine the flow velocity and pressure f
 </div>
 <div class="section" id="morison-elements">
 <h3>Morison Elements<a class="headerlink" href="#morison-elements" title="Permalink to this headline">¶</a></h3>
-<p>The Morison Equation assumes that the fluid forces in an oscillating flow on a structure of slender cylinders or other similar geometries arise partly from pressure effects from potential flow and partly from viscous effects. A slender cylinder implies that the diameter, D, is small relative to the wave length, <img class="math" src="_images/math/cefc603e5658facb747581f9567192993f21c7ab.png" alt="\lambda"/>, which is generally met when <img class="math" src="_images/math/3e85b75b0395fc54456cf6e9ee27a71deac5b38f.png" alt="D/\lambda &lt; 0.1 - 0.2"/>. If this condition is not met, wave diffraction effects must be taken into account. Assuming that the geometries are slender, the resulting force can be approximated by a modified Morison formulation <a class="bibtex reference internal" href="#morison1950" id="id27">[18]</a>. The formulation for each element on the body can be given as</p>
+<p>The Morison Equation assumes that the fluid forces in an oscillating flow on a structure of slender cylinders or other similar geometries arise partly from pressure effects from potential flow and partly from viscous effects. A slender cylinder implies that the diameter, D, is small relative to the wave length, <img class="math" src="_images/math/cefc603e5658facb747581f9567192993f21c7ab.png" alt="\lambda"/>, which is generally met when <img class="math" src="_images/math/3e85b75b0395fc54456cf6e9ee27a71deac5b38f.png" alt="D/\lambda &lt; 0.1 - 0.2"/>. If this condition is not met, wave diffraction effects must be taken into account. Assuming that the geometries are slender, the resulting force can be approximated by a modified Morison formulation <a class="bibtex reference internal" href="#morison1950" id="id29">[19]</a>. The formulation for each element on the body can be given as</p>
 <blockquote>
 <div><div class="math">
 <p><img src="_images/math/8496142a68ba05096de033650b358ddd2ee62832.png" alt="F_{me}=\rho\forall\dot{v}+\rho\forall C_{a}(\dot{v}-\ddot{X})+\frac{C_{d}\rho A_{d}}{2}(v-\dot{X})|v-\dot{X}|"/></p>
@@ -532,7 +517,7 @@ Because linear wave theory is used to determine the flow velocity and pressure f
 <div class="section" id="references">
 <h2>References<a class="headerlink" href="#references" title="Permalink to this headline">¶</a></h2>
 <p id="bibtex-bibliography-theory-0"><dl class="citation">
-<dt class="bibtex label" id="hall2015moordynguide"><span class="brackets"><a class="fn-backref" href="#id23">1</a></span></dt>
+<dt class="bibtex label" id="hall2015moordynguide"><span class="brackets"><a class="fn-backref" href="#id25">1</a></span></dt>
 <dd><p>Matthew Hall. Moordyn user’s guide. 2015.</p>
 </dd>
 <dt class="bibtex label" id="li2012"><span class="brackets"><a class="fn-backref" href="#id2">2</a></span></dt>
@@ -571,19 +556,22 @@ Because linear wave theory is used to determine the flow velocity and pressure f
 <dt class="bibtex label" id="pm"><span class="brackets"><a class="fn-backref" href="#id19">13</a></span></dt>
 <dd><p>W. J. Pierson and L. A. Moskowitz. Proposed Spectral Form for Fully Developed Wind Seas Based on the Similarity Theory of S. A. Kitaigorodskii. <em>Geophysical Research</em>, 69:5181–5190, 1964.</p>
 </dd>
-<dt class="bibtex label" id="hk"><span class="brackets"><a class="fn-backref" href="#id20">14</a></span></dt>
+<dt class="bibtex label" id="iec-2"><span class="brackets">14</span><span class="fn-backref">(<a href="#id20">1</a>,<a href="#id22">2</a>)</span></dt>
+<dd><p>IEC 62600-2. Marine Energy - Wave, Tidal, and other water current converters. URL: <a class="reference external" href="https://webstore.iec.ch/publication/62399">https://webstore.iec.ch/publication/62399</a>.</p>
+</dd>
+<dt class="bibtex label" id="hk"><span class="brackets"><a class="fn-backref" href="#id21">15</a></span></dt>
 <dd><p>K. Hasselman, T.P. Barnett, E. Bouws, H. Carlson, D.E. Cartwright, K. Enke, J.A. Ewing, H. Gienapp, D.E. Hasselmann, P. Kruseman, A. Meerburg, P. Mller, D.J. Olbers, K. Richter, W. Sell, and H. Walden. Measurements of wind-wave growth and swell decay during the Joint North Sea Wave Project (JONSWAP). Technical Report 12, German Hydrographic Institute, 1973.</p>
 </dd>
-<dt class="bibtex label" id="so"><span class="brackets">15</span><span class="fn-backref">(<a href="#id21">1</a>,<a href="#id22">2</a>)</span></dt>
+<dt class="bibtex label" id="so"><span class="brackets">16</span><span class="fn-backref">(<a href="#id23">1</a>,<a href="#id24">2</a>)</span></dt>
 <dd><p>R. So, A. Simmons, T. Brekken, K. Ruehl, and C. Michelen. Development of PTO-SIM: A Power Performance Module for the Open-Souse Wave Energy Converter Code WEC-SIM. In <em>Proceedings of OMAE 2015</em>. 2015.</p>
 </dd>
-<dt class="bibtex label" id="hall2015validationdata"><span class="brackets"><a class="fn-backref" href="#id25">16</a></span></dt>
+<dt class="bibtex label" id="hall2015validationdata"><span class="brackets"><a class="fn-backref" href="#id27">17</a></span></dt>
 <dd><p>Matthew Hall and Andrew Goupee. Validation of a lumped-mass mooring line model with deepcwind semisubmersible model test data. <em>Ocean Engineering</em>, 104:590–603, 2015.</p>
 </dd>
-<dt class="bibtex label" id="wheeler1969methods"><span class="brackets"><a class="fn-backref" href="#id26">17</a></span></dt>
+<dt class="bibtex label" id="wheeler1969methods"><span class="brackets"><a class="fn-backref" href="#id28">18</a></span></dt>
 <dd><p>J D Wheeler and others. Methods for calculating forces produced by irregular waves. In <em>Offshore Technology Conference</em>. 1969.</p>
 </dd>
-<dt class="bibtex label" id="morison1950"><span class="brackets"><a class="fn-backref" href="#id27">18</a></span></dt>
+<dt class="bibtex label" id="morison1950"><span class="brackets"><a class="fn-backref" href="#id29">19</a></span></dt>
 <dd><p>J R Morison, M P O’brien, J W Johnson, and S A Schaaf. The force exerted by surface waves on piles. <em>Petroleum Transactions, AIME</em>, 189:149–154, 1950.</p>
 </dd>
 </dl>

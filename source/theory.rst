@@ -259,74 +259,54 @@ The spectral moment, :math:`m_{0}` is the variance of the free surface which all
 
 Pierson--Moskowitz (PM)
 """"""""""""""""""""""""
-One of the simplest spectra, the Pierson--Moskowitz spectrum, was proposed by :cite:`PM`. It assumed that after the wind blew steadily for a long time over a large area, the waves would come into equilibrium with the wind. This is the concept of a fully developed sea where a "long time" is roughly 10,000 wave periods and a "large area" is roughly 5,000 wave-lengths on a side.  The spectrum is calculated from:
-
-.. math::
-	 
-	S\left( f \right) = \frac{\alpha_{PM}g^{2}}{\left( 2 \pi \right)^{4}}f^{-5}\exp\left[-\frac{5}{4} \left( \frac{f_{p}}{f}\right)^{4} \right]~~ \\
-
-This implies coefficients of the general form:
+The PM spectrum is applicable to a fully developed sea, when the growth of the waves is not limited by the fetch :cite:`PM`. The two-parameter PM spectrum is based on a significant wave height and peak wave frequency.  For a given significant wave height, the peak frequency can be varied to cover a range of conditions including developing and decaying seas. In general, the parameters depend strongly on wind speed, and also wind direction, fetch, and locations of storm fronts. The spectral density of the surface elevation defined by the PM spectrum :cite:`IEC-2` is defind by:
 
 .. math::
 
-	A = \frac{\alpha_{pm}g^{2}}{\left( 2 \pi \right)^{4}},~~B = \frac{5}{4} {f_{p}}^{4}~~
-
-where the parameter :math:`\alpha_{PM}` = 0.0081 typically, :math:`g=9.81` m/s is gravitational acceleration and :math:`f_{p}` is the peak frequency of the spectrum. 
-
-.. Note:: 
-	Pierson-Moskowitz does not use significant wave height to define spectrum
-	
-
-Bretschneider (BS)
-""""""""""""""""""""""""
-The two-parameter Bretschneider spectrum is based on significant wave height and peak wave frequency.  For a given significant wave height, the peak frequency can be varied to cover a range of conditions including developing and decaying seas. In general, the parameters depend on strongly on wind speed, and also wind direction, fetch, and locations of storm fronts. The spectrum is given as:
-
-.. math::
-
-	S\left( f \right) = \frac{{H_{m0}}^2}{4}\left(1.057f_{p}\right)^{4}f^{-5}\exp\left[-\frac{5}{4} \left( \frac{f_{p}}{f}\right)^{4} \right]~~ \\
+	S_{PM}\left( f \right) = \frac{{H_{m0}}^2}{4}\left(1.057f_{p}\right)^{4}f^{-5}\exp\left[-\frac{5}{4} \left( \frac{f_{p}}{f}\right)^{4} \right]~~ \\
 	
 This implies coefficients of the general form:
 
 .. math::	
 	
 	A =\frac{{H_{m0}}^2}{4}\left(1.057f_{p}\right)^{4} \approx \frac{5}{16} {H_{m0}}^2 {f_{p}}^{4} \approx \frac{B}{4}{H_{m0}}^2~~ \\ 
-
+	B = \left(1.057f_{p}\right)^{4} \approx \frac{5}{4}{f_{p}}^{4}~~ \\
 	
-	B = \left(1.057f_{p}\right)^{4} \approx \frac{5}{4} {f_{p}}^{4}~~ \\
+where :math:`H_{m0}` is the significant wave height, :math:`f_{p}` is the peak wave frequency :math:`\left(=1/T_{p}\right)`, and :math:`f` is the wave frequency. 
 	
-	
-
 JONSWAP (JS)
 """"""""""""""""""""""""
-The JONSWAP (Joint North Sea Wave Project) spectrum was purposed by Hasselmann et al. :cite:`HK`, and the original formulation was given as:
+The JONSWAP (Joint North Sea Wave Project) spectrum is formulated as a modification of the PM spectrum for developing sea sate in a fetch-limited situation :cite:`HK`. The spectrum accounts for a higher peak and a narrower spectrum in a storm situation for the same total energy as compared to the PM spectrum. The spectral density of the surface elevation defined by the JS spectrum :cite:`IEC-2` is defined by:
 
 .. math::
-	& S\left( f \right) = \frac{ \alpha_{js} g^{2} }{ (2\pi)^{4}} f^{-5}\exp\left[-\frac{5}{4} \left( \frac{f_{p}}{f}\right)^{4} \right]\gamma^\Gamma \nonumber  ~~ &\\ 
+	S_{JS}\left( f \right) = C \left(\gamma\right) S_{PM} \gamma^{\alpha} \\
 	
-	&\Gamma = \exp \left[ -\left( \frac{\frac{f}{f_{p}}-1}{\sqrt{2} \sigma}\right)^{2} \right],~~ \sigma = \begin{cases} 0.07 & f \leq f_{p} \\0.09 & f > f_{p} \end{cases} ~~ &\\
+where :math:`\gamma` is the non-dimensional peak-shape parameter.
+
+The normalizing factor, :math:`C\left(\gamma\right)`, is defind as: 
+
+.. math:: 
+	C\left(\gamma\right) = \frac{\int_{0}^{\infty}S_{PM}\left(f\right)df}{\int_{0}^{\infty}S_{PM}\left(f\right)\gamma^{\alpha}df} = 1 -0.287\ln\left(\gamma\right)\\
+
+The peak-shape parameter exponent :math:`\alpha` is defined as:
+
+.. math::
+	\alpha = \exp \left[ -\left( \frac{\frac{f}{f_{p}}-1}{\sqrt{2} \sigma}\right)^{2} \right],~~ \sigma = \begin{cases} 0.07 & f \leq f_{p} \\0.09 & f > f_{p} \end{cases} ~~ \\
+	
+The peak-shape parameter is defined based on the following relationship between the significant wave height, :math:`H_{m0}`, and peak period, :math:`T_{p}`:
+
+.. math:: 
+	\gamma = \begin{cases} 
+		5 & \text{for } \frac{T_{p}}{\sqrt{H_{m0}}} \leq 3.6\\    
+        	\exp\left(5.75 - 1.15\frac{T_{p}}{\sqrt{H_{m0}}} \right) &  \text{for } 3.6 \leq \frac{T_{p}}{\sqrt{H_{m0}}} \leq 5 \\
+        	1 & \text{for } \frac{T_{p}}{\sqrt{H_{m0}}} > 5
+	\end{cases}
 	
 with general form coefficients thus defined:
 
 .. math::
-	& A =\frac{\alpha_{js} g^{2}}{(2\pi)^{4}} & \\
-	
-	& B=\frac{5}{4}{f_{p}}^{4} &\\
-
-where :math:`\alpha_{js}` is a nondimensional variable that is a function of the wind speed and fetch length. 
-Empirical fits were applied in an attempt to find a mean value that would capture the spectral shape of most measured sea states. 
-For a given significant wave height, setting :math:`\gamma = 3.3` (default) , :math:`\alpha_{js}` , and :math:`S^{*}\left( f \right)` can be calculated by: 
-
-.. math::
-	\alpha_{js} = \frac{H_{m0}^{2}}{16\int_{0}^{\infty} S^{*} \left( f \right) df}
-
-	S^{*}\left( f \right) = \frac{ g^{2} }{ (2\pi)^{4}} f^{-5}\exp\left[-\frac{5}{4} \left( \frac{f_{p}}{f}\right)^{4} \right]\gamma^\Gamma ~~
-
-Where:
-
-.. math::
-	S\left( f \right) =  S^{*}\left( f \right) \alpha_{js} \\ 
-
-
+	A = \frac{B}{4}{H_{m0}}^2 C\left(\gamma \right) \gamma^{\alpha} \\
+	B = \frac{5}{4}{f_{p}}^{4} \\
 
 Power Take-Off (PTO)
 --------------------

@@ -227,7 +227,7 @@ The WEC-Sim input file used to run the nonlinear hydro WEC-Sim simulation:
 
 .. _nonLinaerwecSimInputFile:
 
-.. literalinclude:: ../../WEC-Sim/applications/NonlinearHydro/ode4/Regular/wecSimInputFile.m
+.. literalinclude:: ../../WEC-Sim_Applications/NonlinearHydro/ode4/Regular/wecSimInputFile.m
    :language: matlab
 
 Simulation and post-processing is the same process as described in :ref:`tutorials` section.

@@ -170,7 +170,7 @@
 <span id="api"></span><h1>WEC-Sim API<a class="headerlink" href="#wec-sim-api" title="Permalink to this headline">¶</a></h1>
 <div class="section" id="response-class">
 <span id="response"></span><h2>Response Class<a class="headerlink" href="#response-class" title="Permalink to this headline">¶</a></h2>
-<dl class="class">
+<dl class="mat class">
 <dt id="source.objects.responseClass">
 <em class="property">class </em><code class="sig-prename descclassname">source.objects.</code><code class="sig-name descname">responseClass</code><span class="sig-paren">(</span><em class="sig-param">bodiesOutput</em>, <em class="sig-param">ptosOutput</em>, <em class="sig-param">constraintsOutput</em>, <em class="sig-param">ptosimOutput</em>, <em class="sig-param">mooringOutput</em>, <em class="sig-param">wave_type</em>, <em class="sig-param">wave_elev</em>, <em class="sig-param">hspressure</em>, <em class="sig-param">wpressurenl</em>, <em class="sig-param">wpressurel</em>, <em class="sig-param">yawNonLin</em><span class="sig-paren">)</span><a class="headerlink" href="#source.objects.responseClass" title="Permalink to this definition">¶</a></dt>
 <dd><blockquote>
@@ -178,7 +178,7 @@
 that contains structures for each instance of a WEC-Sim class (e.g.
 <code class="docutils literal notranslate"><span class="pre">waveClass</span></code>, <code class="docutils literal notranslate"><span class="pre">bodyClass</span></code>, <code class="docutils literal notranslate"><span class="pre">ptoClass</span></code>, <code class="docutils literal notranslate"><span class="pre">mooringClass</span></code>, etc).</p>
 </div></blockquote>
-<dl class="attribute">
+<dl class="mat attribute">
 <dt id="source.objects.responseClass.wave">
 <code class="sig-name descname">wave</code><em class="property"> = 'struct()'</em><a class="headerlink" href="#source.objects.responseClass.wave" title="Permalink to this definition">¶</a></dt>
 <dd><p>This property generates the <code class="docutils literal notranslate"><span class="pre">wave</span></code> structure for each instance of the <code class="docutils literal notranslate"><span class="pre">waveClass</span></code>
@@ -192,7 +192,7 @@ that contains structures for each instance of a WEC-Sim class (e.g.
 </div></blockquote>
 </dd></dl>
 
-<dl class="attribute">
+<dl class="mat attribute">
 <dt id="source.objects.responseClass.bodies">
 <code class="sig-name descname">bodies</code><em class="property"> = 'struct()'</em><a class="headerlink" href="#source.objects.responseClass.bodies" title="Permalink to this definition">¶</a></dt>
 <dd><p>This property generates the <code class="docutils literal notranslate"><span class="pre">bodies</span></code> structure for each instance of the <code class="docutils literal notranslate"><span class="pre">bodyClass</span></code> (i.e. for each Body block)
@@ -218,7 +218,7 @@ that contains structures for each instance of a WEC-Sim class (e.g.
 </div></blockquote>
 </dd></dl>
 
-<dl class="attribute">
+<dl class="mat attribute">
 <dt id="source.objects.responseClass.ptos">
 <code class="sig-name descname">ptos</code><em class="property"> = 'struct()'</em><a class="headerlink" href="#source.objects.responseClass.ptos" title="Permalink to this definition">¶</a></dt>
 <dd><p>This property generates the <code class="docutils literal notranslate"><span class="pre">ptos</span></code> structure for each instance of the <code class="docutils literal notranslate"><span class="pre">ptoClass</span></code> (i.e. for each PTO block)
@@ -239,7 +239,7 @@ that contains structures for each instance of a WEC-Sim class (e.g.
 </div></blockquote>
 </dd></dl>
 
-<dl class="attribute">
+<dl class="mat attribute">
 <dt id="source.objects.responseClass.constraints">
 <code class="sig-name descname">constraints</code><em class="property"> = 'struct()'</em><a class="headerlink" href="#source.objects.responseClass.constraints" title="Permalink to this definition">¶</a></dt>
 <dd><p>This property generates the <code class="docutils literal notranslate"><span class="pre">constraints</span></code> structure for each instance of the <code class="docutils literal notranslate"><span class="pre">coonstraintClass</span></code> (i.e. for each Constraint block)
@@ -256,7 +256,7 @@ that contains structures for each instance of a WEC-Sim class (e.g.
 </div></blockquote>
 </dd></dl>
 
-<dl class="attribute">
+<dl class="mat attribute">
 <dt id="source.objects.responseClass.mooring">
 <code class="sig-name descname">mooring</code><em class="property"> = 'struct()'</em><a class="headerlink" href="#source.objects.responseClass.mooring" title="Permalink to this definition">¶</a></dt>
 <dd><p>This property generates the <code class="docutils literal notranslate"><span class="pre">mooring</span></code> structure for each instance of the <code class="docutils literal notranslate"><span class="pre">mooringClass</span></code> (i.e. for each Mooring block)
@@ -270,19 +270,19 @@ that contains structures for each instance of a WEC-Sim class (e.g.
 </div></blockquote>
 </dd></dl>
 
-<dl class="attribute">
+<dl class="mat attribute">
 <dt id="source.objects.responseClass.moorDyn">
 <code class="sig-name descname">moorDyn</code><em class="property"> = 'struct()'</em><a class="headerlink" href="#source.objects.responseClass.moorDyn" title="Permalink to this definition">¶</a></dt>
 <dd><p>This property generates the <code class="docutils literal notranslate"><span class="pre">moorDyn</span></code> structure for each instance of the <code class="docutils literal notranslate"><span class="pre">mooringClass</span></code> using MoorDyn (i.e. for each MoorDyn block), it includes <code class="docutils literal notranslate"><span class="pre">Lines</span></code>  and <code class="docutils literal notranslate"><span class="pre">Line#</span></code>.</p>
 </dd></dl>
 
-<dl class="attribute">
+<dl class="mat attribute">
 <dt id="source.objects.responseClass.ptosim">
 <code class="sig-name descname">ptosim</code><em class="property"> = 'struct()'</em><a class="headerlink" href="#source.objects.responseClass.ptosim" title="Permalink to this definition">¶</a></dt>
 <dd><p>This property generates the <code class="docutils literal notranslate"><span class="pre">ptosim</span></code> structure for each instance of the <code class="docutils literal notranslate"><span class="pre">ptoSimClass</span></code> (i.e. for each PTO-Sim block).</p>
 </dd></dl>
 
-<dl class="method">
+<dl class="mat method">
 <dt id="source.objects.responseClass.responseClass">
 <code class="sig-name descname">responseClass</code><span class="sig-paren">(</span><em class="sig-param">bodiesOutput</em>, <em class="sig-param">ptosOutput</em>, <em class="sig-param">constraintsOutput</em>, <em class="sig-param">ptosimOutput</em>, <em class="sig-param">mooringOutput</em>, <em class="sig-param">wave_type</em>, <em class="sig-param">wave_elev</em>, <em class="sig-param">hspressure</em>, <em class="sig-param">wpressurenl</em>, <em class="sig-param">wpressurel</em>, <em class="sig-param">yawNonLin</em><span class="sig-paren">)</span><a class="headerlink" href="#source.objects.responseClass.responseClass" title="Permalink to this definition">¶</a></dt>
 <dd><p>This method initilizes the <code class="docutils literal notranslate"><span class="pre">responseClass</span></code>, reads
@@ -291,7 +291,7 @@ output from each instance of a WEC-Sim class (e.g.
 , and saves the response to an <code class="docutils literal notranslate"><span class="pre">output</span></code> object.</p>
 </dd></dl>
 
-<dl class="method">
+<dl class="mat method">
 <dt id="source.objects.responseClass.loadMoorDyn">
 <code class="sig-name descname">loadMoorDyn</code><span class="sig-paren">(</span><em class="sig-param">numLines</em><span class="sig-paren">)</span><a class="headerlink" href="#source.objects.responseClass.loadMoorDyn" title="Permalink to this definition">¶</a></dt>
 <dd><p>This method reads MoorDyn outputs for each instance of the
@@ -303,7 +303,7 @@ output from each instance of a WEC-Sim class (e.g.
 </dl>
 </dd></dl>
 
-<dl class="method">
+<dl class="mat method">
 <dt id="source.objects.responseClass.plotResponse">
 <code class="sig-name descname">plotResponse</code><span class="sig-paren">(</span><em class="sig-param">bodyNum</em>, <em class="sig-param">comp</em><span class="sig-paren">)</span><a class="headerlink" href="#source.objects.responseClass.plotResponse" title="Permalink to this definition">¶</a></dt>
 <dd><p>This method plots the response of a body for a given DOF.</p>
@@ -317,7 +317,7 @@ output from each instance of a WEC-Sim class (e.g.
 </dl>
 </dd></dl>
 
-<dl class="method">
+<dl class="mat method">
 <dt id="source.objects.responseClass.plotForces">
 <code class="sig-name descname">plotForces</code><span class="sig-paren">(</span><em class="sig-param">bodyNum</em>, <em class="sig-param">comp</em><span class="sig-paren">)</span><a class="headerlink" href="#source.objects.responseClass.plotForces" title="Permalink to this definition">¶</a></dt>
 <dd><p>This method plots the forces on a body for a given DOF.</p>
@@ -331,7 +331,7 @@ output from each instance of a WEC-Sim class (e.g.
 </dl>
 </dd></dl>
 
-<dl class="method">
+<dl class="mat method">
 <dt id="source.objects.responseClass.writetxt">
 <code class="sig-name descname">writetxt</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#source.objects.responseClass.writetxt" title="Permalink to this definition">¶</a></dt>
 <dd><p>This method writes WEC-Sim outputs to a (ASCII) text file.
@@ -339,7 +339,7 @@ This method is executed by specifying <code class="docutils literal notranslate"
 in the <code class="docutils literal notranslate"><span class="pre">wecSimInputFile.m</span></code>.</p>
 </dd></dl>
 
-<dl class="method">
+<dl class="mat method">
 <dt id="source.objects.responseClass.write_paraview">
 <code class="sig-name descname">write_paraview</code><span class="sig-paren">(</span><em class="sig-param">bodies</em>, <em class="sig-param">t</em>, <em class="sig-param">model</em>, <em class="sig-param">simdate</em>, <em class="sig-param">wavetype</em>, <em class="sig-param">mooring</em><span class="sig-paren">)</span><a class="headerlink" href="#source.objects.responseClass.write_paraview" title="Permalink to this definition">¶</a></dt>
 <dd><p>This method writes <code class="docutils literal notranslate"><span class="pre">*.vtp</span></code> files for visualization with

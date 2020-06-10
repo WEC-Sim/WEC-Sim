@@ -345,8 +345,7 @@ Wave period (<code class="docutils literal notranslate"><span class="pre">wave.T
 </div>
 <div class="section" id="irregular">
 <h4>irregular<a class="headerlink" href="#irregular" title="Permalink to this headline">¶</a></h4>
-<p>The <code class="docutils literal notranslate"><span class="pre">irregular</span></code> wave case is the wave type for irregular wave simulations using a Pierson Moskowitz (PM), Bretschneider (BS), or JONSWAP (JS) wave spectrum.
-Significant wave height (<code class="docutils literal notranslate"><span class="pre">wave.H</span></code>), peak period (<code class="docutils literal notranslate"><span class="pre">wave.T</span></code>), and wave spectrum type (<code class="docutils literal notranslate"><span class="pre">waves.spectrumtype</span></code>) must be specified in the input file.
+<p>The <code class="docutils literal notranslate"><span class="pre">irregular</span></code> wave case is the wave type for irregular wave simulations using a Pierson Moskowitz (PM) or JONSWAP (JS) wave spectrum as defined by the IEC TS 62600-2:2019 standards. Significant wave height (<code class="docutils literal notranslate"><span class="pre">wave.H</span></code>), peak period (<code class="docutils literal notranslate"><span class="pre">wave.T</span></code>), and wave spectrum type (<code class="docutils literal notranslate"><span class="pre">waves.spectrumtype</span></code>) must be specified in the input file.
 The available wave spectra and their corresponding <code class="docutils literal notranslate"><span class="pre">waves.spectrumType</span></code> are listed below:</p>
 <table class="docutils align-default">
 <colgroup>
@@ -360,10 +359,7 @@ The available wave spectra and their corresponding <code class="docutils literal
 <tr class="row-even"><td><p>Pierson Moskowitz</p></td>
 <td><p><code class="docutils literal notranslate"><span class="pre">PM</span></code></p></td>
 </tr>
-<tr class="row-odd"><td><p>Bretschneider</p></td>
-<td><p><code class="docutils literal notranslate"><span class="pre">BS</span></code></p></td>
-</tr>
-<tr class="row-even"><td><p>JONSWAP</p></td>
+<tr class="row-odd"><td><p>JONSWAP</p></td>
 <td><p><code class="docutils literal notranslate"><span class="pre">JS</span></code></p></td>
 </tr>
 </tbody>
@@ -375,7 +371,7 @@ The available wave spectra and their corresponding <code class="docutils literal
 <span class="n">waves</span><span class="o">.</span><span class="n">spectrumType</span> <span class="o">=</span> <span class="s1">&#39;&lt;user specified spectrum&gt;&#39;</span><span class="p">;</span>
 </pre></div>
 </div>
-<p>When using the JONSWAP spectrum, users have the option of defining gamma by specifying <code class="docutils literal notranslate"><span class="pre">waves.gamma</span> <span class="pre">=</span> <span class="pre">&lt;user</span> <span class="pre">specified</span> <span class="pre">gamma&gt;;</span></code>. If gamma is not defined, the default value of gamma equal to 3.3 is used.</p>
+<p>When using the JONSWAP spectrum, users have the option of defining gamma by specifying <code class="docutils literal notranslate"><span class="pre">waves.gamma</span> <span class="pre">=</span> <span class="pre">&lt;user</span> <span class="pre">specified</span> <span class="pre">gamma&gt;;</span></code>. If gamma is not defined, then gamma is calculated based on a relationship between significant wave height and peak period defined by IEC TS 62600-2:2019.</p>
 </div>
 <div class="section" id="spectrumimport">
 <h4>spectrumImport<a class="headerlink" href="#spectrumimport" title="Permalink to this headline">¶</a></h4>
