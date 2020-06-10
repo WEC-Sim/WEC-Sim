@@ -15,32 +15,97 @@
 % WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
 % See the License for the specific language governing permissions and
 % limitations under the License.
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
 classdef responseClass<handle
-    % The  responseClass creates an `output` object in the MATLAB workspace that contains 
-    % outputs from each instance of a WEC-Sim class (e.g. waveClass, 
-    % bodyClass, ptoClass, mooringClass).
+    %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+    % The  ``responseClass`` creates an ``output`` object saved to the MATLAB workspace
+    % that contains structures for each instance of a WEC-Sim class (e.g.
+    % ``waveClass``, ``bodyClass``, ``ptoClass``, ``mooringClass``, etc).
+    % 
+    %.. autoattribute:: source.objects.responseClass.wave
+    %    
+    % , it includes:
+    %
+    %   * ``type`` (string) = 'waveType'
+    %   *  ``time`` (array) = [# of time-steps x 1]
+    %   * ``elevation`` (array) = [# of time-steps x 1]
+    %         
+    %.. autoattribute:: source.objects.responseClass.bodies
+    %    
+    % , it includes:
+    %
+    %   * ``name`` (string) = 'bodyName'
+    %   * ``time`` (array) = [# of time-steps x 1]
+    %   * ``position`` (array) = [# of time-steps x 6]
+    %   * ``velocity`` (array) = [# of time-steps x 6]
+    %   *  ``accleration`` (array) = [# of time-steps x 6]
+    %   *  ``forceTotal`` (array) = [# of time-steps x 6]
+    %   *  ``forceExcitation`` (array) = [# of time-steps x 6]
+    %   *  ``forceRadiationDamping`` (array) = [# of time-steps x 6]
+    %   *  ``forceAddedMass`` (array) = [# of time-steps x 6]
+    %   *  ``forceRestoring`` (array) = [# of time-steps x 6]
+    %   *  ``forceMorrisonAndViscous`` (array) = [# of time-steps x 6]
+    %   *  ``forceLinearDamping`` (array) = [# of time-steps x 6]
+    %
+    %   There are additional ``output.bodies`` structures for non-linar hydro (e.g.
+    %   ``cellPressures_time``, ``cellPressures_hydrostatic``,
+    %   ``cellPressures_waveLinear``, ``cellPressures_waveNonLinear``)
+    %
+    %.. autoattribute:: source.objects.responseClass.ptos
+    %    
+    % , it includes:
+    %
+    %   * ``name`` (string) = 'ptoName'
+    %   * ``time`` (array) = [# of time-steps x 1]
+    %   * ``position`` (array) = [# of time-steps x 6]
+    %   * ``velocity`` (array) = [# of time-steps x 6]
+    %   *  ``accleration`` (array) = [# of time-steps x 6]
+    %   *  ``forceTotal`` (array) = [# of time-steps x 6]
+    %   * ``forceActuation`` (array) = [# of time-steps x 6]
+    %   * ``forceConstraint`` (array) = [# of time-steps x 6]
+    %   * ``forceInternalMechanics`` (array) = [# of time-steps x 6]
+    %   * ``powerInternalMechanics`` (array) = [# of time-steps x 6]
+    %
+    %.. autoattribute:: source.objects.responseClass.constraints
+    %    
+    % , it includes:
+    %
+    %   * ``name`` (string) = 'coonstraintName'
+    %   * ``time`` (array) = [# of time-steps x 1]
+    %   * ``position`` (array) = [# of time-steps x 6]
+    %   * ``velocity`` (array) = [# of time-steps x 6]
+    %   *  ``accleration`` (array) = [# of time-steps x 6]
+    %   *  ``forceConstraint`` (array) = [# of time-steps x 6]    
+    %
+    %.. autoattribute:: source.objects.responseClass.mooring
+    %    
+    % , it includes:
+    %
+    %   * ``position`` (array) = [# of time-steps x 6]
+    %   * ``velocity`` (array) = [# of time-steps x 6]
+    %   *  ``forceMooring`` (array) = [# of time-steps x 6]
+    % 
+    %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+    
     properties (SetAccess = 'public', GetAccess = 'public')
-         wave                = struct()     % Output structure for the waveClass, as specified in the wecSimInputFile
-         bodies              = struct()     % Output structure for each instance of the bodyClass (i.e. for each Body block)
-         ptos                = struct()     % Output structure for each instance of the ptoClass (i.e. for each PTO block)
-         constraints         = struct()     % Output structure for each instance of the coonstraintClass (i.e. for each Constraint block)
-         mooring             = struct()     % Output structure for each instance of the mooringClass (i.e. for each Mooring block)
-         moorDyn             = struct()     % Output structure for each instance of the mooringClass using MoorDyn (i.e. for each MoorDyn block)
-         ptosim              = struct()     % Output structure for each instance of the ptoSimClass (i.e. for each PTO-Sim block)
+        wave                = struct()     % This property generates the ``wave`` structure for each instance of the ``waveClass`` 
+        bodies              = struct()     % This property generates the ``bodies`` structure for each instance of the ``bodyClass`` (i.e. for each Body block)
+        ptos                = struct()     % This property generates the ``ptos`` structure for each instance of the ``ptoClass`` (i.e. for each PTO block)
+        constraints         = struct()     % This property generates the ``constraints`` structure for each instance of the ``coonstraintClass`` (i.e. for each Constraint block)
+        mooring             = struct()     % This property generates the ``mooring`` structure for each instance of the ``mooringClass`` (i.e. for each Mooring block)
+        moorDyn             = struct()     % This property generates the ``moorDyn`` structure for each instance of the ``mooringClass`` using MoorDyn (i.e. for each MoorDyn block), it includes ``Lines``  and ``Line#``.
+        ptosim              = struct()     % This property generates the ``ptosim`` structure for each instance of the ``ptoSimClass`` (i.e. for each PTO-Sim block).
     end
     
     methods (Access = 'public')
         function obj = responseClass(bodiesOutput,ptosOutput,constraintsOutput,ptosimOutput,mooringOutput,wave_type,wave_elev,hspressure,wpressurenl,wpressurel, yawNonLin)                      
-            % This method initilizes the responseClass, reads 
-            % output from each instance of a WEC-Sim class (e.g. waveClass, 
-            % bodyClass, ptoClass, mooringClass), and saves the response to
-            % an `output` object. 
-            
-            % :paremeters z: input z
-            % :returns: output (object)
-            
+            % This method initilizes the ``responseClass``, reads 
+            % output from each instance of a WEC-Sim class (e.g.
+            % ``waveClass``, ``bodyClass``, ``ptoClass``, ``mooringClass``, etc)
+            % , and saves the response to an ``output`` object. 
+                        
             % Wave
             obj.wave.type = wave_type;
             obj.wave.time = wave_elev(:,1);
@@ -121,7 +186,14 @@ classdef responseClass<handle
         end
         
         function obj = loadMoorDyn(obj,numLines)            
-            % Read MoorDyn outputs for each instance of the mooringClass
+            % This method reads MoorDyn outputs for each instance of the
+            % ``mooringClass``
+            %            
+            % Parameters
+            % ------------
+            %     numLines : 
+            %         the number of MoorDyn lines
+            %
             
             % load Lines.out
             filename = './Mooring/Lines.out';
@@ -155,9 +227,16 @@ classdef responseClass<handle
         end
 
         function plotResponse(obj,bodyNum,comp)
-            % Plots response of a body in a given DOF
-            %   'bodyNum' is the body number to plot
-            %   'comp' is the response dof to be plotted (1-6)
+            % This method plots the response of a body for a given DOF.
+            %
+            % Parameters
+            % ------------
+            %     bodyNum : 
+            %         the body number to plot
+            %
+            %     comp : 
+            %         the response component (i.e. dof) to be plotted (e.g. 1-6)   
+            %     
             DOF = {'Surge','Sway','Heave','Roll','Pitch','Yaw'};
             t=obj.bodies(bodyNum).time;
             pos=obj.bodies(bodyNum).position(:,comp) - obj.bodies(bodyNum).position(1,comp);
@@ -175,9 +254,16 @@ classdef responseClass<handle
         end
 
         function plotForces(obj,bodyNum,comp)
-            % Plots force components for a body.
-            %   bodyNum is the body number to plot
-            %   'comp' is the force component to be plotted (1-6)
+            % This method plots the forces on a body for a given DOF.
+            %     
+            % Parameters
+            % ------------
+            %     bodyNum : 
+            %         the body number to plot
+            %
+            %     comp : 
+            %         the force component (i.e. dof) to be plotted (e.g. 1-6)
+            %     
             DOF = {'Surge','Sway','Heave','Roll','Pitch','Yaw'};
             t=obj.bodies(bodyNum).time;
             FT=obj.bodies(bodyNum).forceTotal(:,comp);
@@ -204,7 +290,9 @@ classdef responseClass<handle
         end
         
         function writetxt(obj)
-            % Writes all outputs as a text file
+            % This method writes WEC-Sim outputs to a (ASCII) text file.
+            % This method is executed by specifying ``simu.outputtxt=1``
+            % in the ``wecSimInputFile.m``.
             filename = ['output/wave.txt'];
             fid = fopen(filename,'w+');
             header = {'time','elevation'};
@@ -451,7 +539,10 @@ classdef responseClass<handle
         end
 
         function write_paraview(obj, bodies, t, model, simdate, wavetype, mooring)
-            % Writes vtp files for visualization with ParaView
+            % This method writes ``*.vtp`` files for visualization with
+            % ParaView. This method is executed by specifying 
+            % ``simu.paraview=1`` in the ``wecSimInputFile.m``.
+            
             % set fileseperator to fs
             if strcmp(filesep, '\')
                 fs = '\\';
