@@ -2,31 +2,26 @@
 
 ## Download/Install Required Packages
 ### Step 1. Download and Install Python 
-  - Windows: Download and install [Python27](https://www.python.org/downloads/) or [Anaconda](https://www.anaconda.com/distribution/)
-  - **NOTE:** MAC/LINUX skip to Step 3, Python is already installed and added to path
+  - Windows: Download and install [Python3](https://www.python.org/downloads/) or [Anaconda](https://www.anaconda.com/distribution/)
  
 ### Step 2. Add Python to System Path
-  - Windows: Modify the PATH in environmental variables to include: C:\PYTHON27;C:\PYTHON27\Scripts 
+  - Windows: Modify the PATH in environmental variables to include: C:\PYTHON;C:\PYTHON\Scripts 
   ([more info here](http://stackoverflow.com/questions/3701646/how-to-add-to-the-pythonpath-in-windows-7))
-  - **NOTE:** Anaconda skip to Step 3,  Python is already added to path 
   - **NOTE:** MAC/LINUX skip to Step 3, Python is already added to path
   
 ### Step 3. Download/Install [Sphinx](http://www.sphinx-doc.org/en/stable/index.html) package
   - Install Sphinx from cmd ``pip install -U Sphinx`` 
     ([more info here](http://www.sphinx-doc.org/en/master/usage/installation.html))
-  - **NOTE:** You may need to add PROXY settings ([see info here](https://cinhtau.net/2018/04/16/python-proxy-windows/))
+  - **NOTE:** You may need to configure PROXY settings ([see info here](https://cinhtau.net/2018/04/16/python-proxy-windows/))
 
 ### Step 4. Download/Install Sphinx extensions
-  - Install BibTex ``pip install -U sphinxcontrib-bibtex``
   - Install rtd theme ``pip install -U sphinx_rtd_theme``
-  - Install Goggle Analytics ``pip install -U sphinxcontrib-googleanalytics``
-  ([more info on Google Analytics here](https://pypi.org/project/sphinxcontrib-googleanalytics/))
-  - **NOTE:** You may have to manually move extensions to the ``/sphinx/`` or ``/sphinxcontrib/`` Python directories
-  - **NOTE:** For Sphinx 1.8 you may need to modify googleanalytics.py according to ([this](https://jiangsheng.net/2019/01/05/fix-sphinxcontrib-googleanalytics-on-sphinx-1-8/))
-
+  - Install BibTex ``pip install -U sphinxcontrib-bibtex``
+  - Install matlabdomain ``pip install -U sphinxcontrib-matlabdomain``
+  
 
 ## Update the [WEC-Sim Website](http://wec-sim.github.io/WEC-Sim) Content
-The WEC-Sim documentation located on the [gh-pages branch](https://github.com/WEC-Sim/WEC-Sim/tree/gh-pages), referred to as ``$GH-PAGES``. The WEC-Sim Website is developed as restructured text files that are compiled by [Sphinx](http://www.sphinx-doc.org/en/master/) into html files. To edit the WEC-Sim Website, modify the source files located in the ``$GH-PAGES/source`` directory using the syntax described on the [Sphinx Website](http://www.sphinx-doc.org/en/master/). Once you are done editing, cd to your local ``$GH-PAGES`` directory from cmd, clean the previous compile with ``clean html``, and compile the updated the documentation with``make html``. This compiles an html version of the website in ``$GH-PAGES/``. After compiling the updated website, you can view the local copy of the website by opening the ``$GH-PAGES/index.html`` file from your local directory, and viewing it in a web browser (before pushing it online). 
+The WEC-Sim documentation located on the [gh-pages branch](https://github.com/WEC-Sim/WEC-Sim/tree/gh-pages), referred to as ``<GH-PAGES>``. The WEC-Sim Website is developed as restructured text files that are compiled by [Sphinx](http://www.sphinx-doc.org/en/master/) into html files. To edit the WEC-Sim Website, modify the source files located in the ``<GH-PAGES>/source`` directory using the syntax described on the [Sphinx Website](http://www.sphinx-doc.org/en/master/). Once you are done editing, cd to your local ``$GH-PAGES`` directory from cmd, clean the previous compile with ``clean html``, and compile the updated the documentation with``make html``. This compiles an html version of the website in ``<GH-PAGES>/``. After compiling the updated website, you can view the local copy of the website by opening the ``<GH-PAGES>/index.html`` file from your local directory, and viewing it in a web browser (before pushing it online). 
 
 ### Best Practices
   - Run spell check (not built into most text editors)
@@ -59,7 +54,7 @@ Using GitHub, gh-pages renders the documentation on the ([gh-pages branch](https
 
   ```Shell
   # Move to the local gh-page directory in cmd
-  cd $GH-PAGES
+  cd <GH-PAGES>
 
   # Clean and build the html documentation in cmd
   make clean
