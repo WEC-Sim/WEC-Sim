@@ -42,7 +42,7 @@ classdef waveClass<handle
         H = 'NOT DEFINED';
 
         % spectrumType -  String containing the wave spectrum type
-        %   Can be one of : 'PM', 'BS', and 'JS' 
+        %   Can be: 'PM' or 'JS' 
         %   (Default = 'NOT DEFINED').        
         spectrumType = 'NOT DEFINED'; 
         
@@ -238,7 +238,7 @@ classdef waveClass<handle
                     obj.typeNum = 10;
                 case {'regularCIC'}    % Regular Waves w/Convolution Integral Calculation
                     obj.typeNum = 11;
-                case 'irregular'       % Irregular Waves with 'PM', BS' or 'JS' wave spectrum
+                case 'irregular'       % Irregular Waves with 'PM' or 'JS' wave spectrum
                     obj.typeNum = 20;
                 case 'spectrumImport' % Irregular waves with imported wave spectrum
                     obj.typeNum = 21;
@@ -384,9 +384,6 @@ classdef waveClass<handle
                     end
                     obj.printWaveSpectrumType;
                     fprintf('\tSignificant Wave Height, Hs      (m) = %G\n',obj.H)
-                    if obj.spectrumType == 'PM'
-                        fprintf('\tNOTE: Pierson-Moskowitz does not use Hs to define spectrum\n')
-                    end
                     fprintf('\tPeak Wave Period, Tp           (sec) = %G\n',obj.T)
                 case 'spectrumImport'
                     if size(importdata(obj.spectrumDataFile),2) == 3
@@ -723,6 +720,8 @@ classdef waveClass<handle
                     S_f = S_data(freq_loc);                                    % Wave Spectrum [m^2-s] for 'EqualEnergy'
                     obj.S = S_f./(2*pi);                                       % Wave Spectrum [m^2-s/rad] for 'Traditional'
                     fprintf('\t"spectrumImport" uses the number of imported wave frequencies (not "Traditional" or "EqualEnergy")\n')
+                case {'BS'} 
+                    error('Bretschneider Sprectrum ("BS" option) is no longer supported');
             end
             % Power per Unit Wave Crest
             obj.waveNumber(g)                                                   %Calculate Wave Number for Larger Number of Frequencies Before Down Sampling in Equal Energy Method
@@ -848,9 +847,7 @@ classdef waveClass<handle
         function printWaveSpectrumType(obj)
             % Lists the wave spectrum type
             % Used by listInfo
-            if strcmp(obj.spectrumType,'BS')
-                fprintf('\tSpectrum Type                        = Bretschneider \n')
-            elseif strcmp(obj.spectrumType,'JS')
+            if strcmp(obj.spectrumType,'JS')
                 fprintf('\tSpectrum Type                        = JONSWAP \n')
             elseif strcmp(obj.spectrumType,'PM')
                 fprintf('\tSpectrum Type                        = Pierson-Moskowitz  \n')

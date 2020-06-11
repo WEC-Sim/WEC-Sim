@@ -37,11 +37,11 @@ waves.T = 8;                            % Wave Period [s]
 % waves.freqDisc = 'EqualEnergy';         % Uses 'EqualEnergy' bins (default) 
 % waves.phaseSeed = 1;                    % Phase is seeded so eta is the same
 
-% % Irregular Waves using BS Spectrum with Traditional and State Space 
+% % Irregular Waves using PM Spectrum with Traditional and State Space 
 % waves = waveClass('irregular');         % Initialize Wave Class and Specify Type
 % waves.H = 2.5;                          % Significant Wave Height [m]
 % waves.T = 8;                            % Peak Period [s]
-% waves.spectrumType = 'BS';              % Specify Wave Spectrum Type
+% waves.spectrumType = 'PM';              % Specify Wave Spectrum Type
 % simu.ssCalc = 1;                        % Turn on State Space
 % waves.freqDisc = 'Traditional';         % Uses 1000 frequnecies
 

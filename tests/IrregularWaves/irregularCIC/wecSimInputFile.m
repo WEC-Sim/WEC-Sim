@@ -12,7 +12,7 @@ simu.CITime = 20;
 waves = waveClass('irregular');             % Initialize Wave Class and Specify Type
 waves.H = 2.5;                              % Significant Wave Height [m]
 waves.T = 8;                                % Peak Period [s]
-waves.spectrumType = 'BS';                  % Specify Wave Spectrum Type
+waves.spectrumType = 'PM';                  % Specify Wave Spectrum Type
 waves.phaseSeed = 1;
 
 %% Body Data
