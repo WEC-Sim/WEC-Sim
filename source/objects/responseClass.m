@@ -105,7 +105,13 @@ classdef responseClass<handle
             % output from each instance of a WEC-Sim class (e.g.
             % ``waveClass``, ``bodyClass``, ``ptoClass``, ``mooringClass``, etc)
             % , and saves the response to an ``output`` object. 
-                        
+            %
+            % Returns
+            % ------------
+            %     output : obj
+            %         responseClass object         
+            %
+            
             % Wave
             obj.wave.type = wave_type;
             obj.wave.time = wave_elev(:,1);
