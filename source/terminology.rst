@@ -3,6 +3,16 @@
 Terminology
 ===========
 
+.. note::
+    This is a really useful page, but you might want to say something about it,
+    especially since it's the first page of your documentation. As I said in the
+    index, I would maybe have some direction for the docs otherwise this is the
+    first page people will go to and might be like, "WHAAAAAT?". You might even
+    consider putting it below the "Getting Started page".
+
+.. note::
+    This bit needs a section name, otherwise the variables list is at a lower 
+    level and looks like it's of less importance, which I don't think it is.
 
 ================== ==========================================
 Term               Definition

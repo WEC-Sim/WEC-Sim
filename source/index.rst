@@ -29,6 +29,18 @@ WEC-Sim (Wave Energy Converter SIMulator)
 ######################################################
 `WEC-Sim (Wave Energy Converter SIMulator) <https://github.com/WEC-Sim/WEC-Sim>`_ is an open-source code for simulating wave energy converters. The code is developed in MATLAB/SIMULINK using the multi-body dynamics solver Simscape Multibody. WEC-Sim has the ability to model devices that are comprised of rigid bodies, joints, power take-off systems, and mooring systems. Simulations are performed in the time-domain by solving the governing wave energy converter equations of motion in 6 degrees-of-freedom. 
 
+.. note::
+    Simulate what? Although the scope is given, it's not super clear what the 
+    code actually produces as results - power production, motions, forces? It 
+    doesn't sell why I would want to use this tool. Why would I want to use this
+    tool?
+
+.. note::
+    It might be worth putting a little guidance in here about how to use this
+    documentation. I think this is particularly important because "Terminology"
+    is first is TOC but isn't really the first thing you want to look at (even 
+    though it's super useful to have it).
+
 
 .. _developers:
 

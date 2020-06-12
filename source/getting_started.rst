@@ -4,6 +4,8 @@ Getting Started
 ===============
 This section provides instructions on how to download and install the WEC-Sim code.
 
+.. note::
+    download and install and test
 
 MATLAB Requirements
 ------------------------------
@@ -20,6 +22,13 @@ Simscape                    Version 3.14 (R2015b)
 Simscape Multibody   	    Version 4.7  (R2015b)
 ==========================  ============================	
 	
+
+.. note::
+    I'm not sure this is the correct information to provide. I think paid up 
+    MATLAB users are interested if the code works with the current version of 
+    MATLAB. I guess some subscribed MATLAB users might be using a 5 year old 
+    version, but this is more likely to be users without a current subscription. 
+    Catering to users who don't pay for the software is odd, IMO.
 
 Ensure that the correct version of MATLAB and the required toolboxes are installed by typing ``ver`` in the MATLAB Command Window:
 
@@ -54,10 +63,22 @@ This option is recommended for users because the local copy of WEC-Sim can easil
 
 	>> git pull
 
+.. note::
+    I tried cloning from Sourcetree but without success, I'm not sure why.
+    It worked through the command line, but some basic users won't understand
+    how to do this. I tried following the MATLAB instructions `here 
+    <https://uk.mathworks.com/help/matlab/matlab_prog/retrieve-from-git-repository.html>`_
+    but that didn't work either. It might be worth being a bit more
+    explicit about how people would use the command line, especially in Windows.
+
 Option 2: Fork Repository on GitHub 
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 This option is recommended for WEC-Sim developers. If you plan to contribute to the WEC-Sim code, please follow the `forking instructions <https://help.github.com/articles/fork-a-repo/>`_  provided by GitHub. If you make improvements to the code that you would like included in the WEC-Sim master code, please submit a `pull request <https://help.github.com/articles/using-pull-requests/>`_. This pull request will then be reviewed, merged into `WEC-Sim master <https://github.com/WEC-Sim/WEC-Sim>`_, and included in future WEC-Sim releases.
 
+.. note::
+    I don't think this belongs here, perhaps you need a contributing section? 
+    Even if you have made a fork, you still need to clone it, so this isn't
+    really about downloading the code, as such.
 
 Option 3: Static Code Download 
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
@@ -65,6 +86,12 @@ The easiest way to obtain a copy of WEC-Sim is to download the latest tagged `WE
 This option is not recommended because is a static download of the WEC-Sim code. 
 If you choose this option, you will have to manually download the WEC-Sim code in order to receive updates.
 
+.. note::
+    Easiest, yet not recommended, which is slightly conflicting language. Your 
+    releases are more stable than your trunk code, yes? Then sell it that way. 
+    There is just as much risk that you mess something up on the trunk and break 
+    the code of people who used option 1. A static version should provide some
+    security that it is relatively stable and will stay that way.
 
 Install WEC-Sim
 ---------------------
@@ -75,15 +102,27 @@ Step 1. Add WEC-Sim to MATLAB Path
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 Open the ``$WECSIM/source/wecSimStartup.m`` file.
 
-
 .. literalinclude:: ../../WEC-Sim/source/wecSimStartup.m
    :language: matlab
+
+.. note::
+    I believe instructions for locating the startup file have now changed. See
+    https://uk.mathworks.com/help/matlab/ref/startup.html. The help referenced
+    below is now more confusing than anything, given the number of ways that
+    modern MATLAB can be started. I followed the instructions in the link I 
+    have provided rather than yours. Also might be worth noting that
+    windows paths should be given with double forward slashes to avoid issues.
 
 Copy the ``wecSimStartup.m`` code and paste it into ``startup.m`` located in the `MATLAB Startup Folder <http://www.mathworks.com/help/matlab/matlab_env/matlab-startup-folder.html>`_. 
 Set ``<wecSim>`` to the ``$WECSIM/source`` directory and type ``open startup.m`` in the MATLAB Command Window:: 
 
 
 	>> open startup.m
+
+.. note::
+    "open startup.m" just opens the file in the MATLAB editor, so why do this?
+    The startup file is now only read on MATLAB boot, so you should say you
+    need to restart, I think.
 
 Verify the path was set up correctly by checking that the WEC-Sim source directory, ``$WECSIM/source``, is listed in the MATLAB search path. 
 This is done by typing ``path`` in the MATLAB Command Window::
@@ -96,8 +135,11 @@ This is done by typing ``path`` in the MATLAB Command Window::
 
 
 The WEC-Sim source directory, ``$WECSIM/source``, and its subfolders should appear in this list. 
-	
-	
+
+.. note::
+    This works only after a restart. Will I always have the wecSimPath variable 
+    included in my default workspace?
+
 Step 2. Add WEC-Sim Library to Simulink
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 Open the Simulink Library Browser by typing ``slLibraryBrowser`` in the MATLAB Command Window::
