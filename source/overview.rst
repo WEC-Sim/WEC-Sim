@@ -1,5 +1,13 @@
 .. _overview:
 
+.. note::
+    Overall, with this section, I'm not quite sure why it's split into two
+    parts given there is so much overlap between the two of them. I also feel
+    that "Overview" is the wrong title, perhaps "Workflow" would be better.
+    I would really like an "Overview" section that gives me a more holistic
+    view of what benefits I would get by going through the (heavy) effort that
+    this section describes, but I haven't found it yet.
+
 Overview
 ========
 This section provides an overview of the WEC-Sim work flow. 
@@ -34,6 +42,10 @@ Simulink Model       ``*.slx``              ``$CASE``
 Input File           ``wecSimInputFile.m``  ``$CASE``
 ==================   ====================== ====================
 
+.. note::
+    3 of these file names are not file names. Either you need to say that * is
+    a wildcard or maybe add a column in this table for an extension column.
+
 
 Hydrodynamic Data
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
@@ -50,6 +62,14 @@ Geometry File
 * This ``*.stl`` file is used by the WEC-Sim code to generate the Simscape Explorer visualization, and by the nonlinear buoyancy and Froude-Krylov forces option to determine the instantaneous wetted surface at each time step. 
 * When running WEC-Sim with linear hydrodynamics, the ``*.stl`` is only used for visualization. 
 * When running WEC-Sim with nonlinear buoyancy and Froude-Krylov forces, the quality of the ``*.stl`` mesh is critical, refer to the :ref:`nonlinear` section for more information. 
+
+.. note::
+    In the Hydrodynamic Data section you described how the file could be
+    created, but neglect this for the geometry file.
+
+.. note::
+    When you say Simscape Explorer do you mean `Simscape Mechanics Explorer
+    <https://uk.mathworks.com/help/physmod/sm/ref/mechanicsexplorer-app.html>`_?
 
 
 Simulink Model 
@@ -78,10 +98,19 @@ The WEC-Sim input file (``wecSimInputFile.m``) for the OSWEC initializes and spe
    :language: matlab
         
 
+.. note::
+    I would probably say that WEC-Sim is object oriented before you start 
+    talking about classes. Maybe a link to `help 
+    <https://uk.mathworks.com/discovery/object-oriented-programming.html>`_ 
+    would be useful for the uninitiated.
+
 Running WEC-Sim
 -----------------
 This section provides a description of the steps to run the WEC-Sim code, refer to the :ref:`WEC-Sim Workflow Diagram <workFlow>` while following the steps to run WEC-Sim.
 
+.. note::
+    This says to refer to the diagram, but the steps aren't explicitly marked
+    on the diagram.
 
 Step 1: Run BEMIO
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
@@ -93,6 +122,11 @@ In the pre-processing step, users need to create the WEC geometry, run a BEM cod
    * The ``*.stl`` files are used to visualize the WEC response in Simscape Explorer
    * They are also used for :ref:`nonlinear` forces if the option is enabled.
 
+.. note::
+    This bit seems a bit out of place because the stl file isn't actually used
+    for BEMIO, if my understanding is correct. Perhaps some recommendations
+    on making the CAD model (and it what software) would be more useful here.
+
 * **Compute Hydrodynamic Coefficients**: WEC-Sim requires frequency-domain hydrodynamic coefficients (e.g. added mass, radiation damping, and wave excitation). 
 
    * The coefficients for each body may be generated using a boundary element method (BEM) code (e.g., **WAMIT**, **NEMOH** or **AQWA**). 
@@ -103,6 +137,8 @@ In the pre-processing step, users need to create the WEC geometry, run a BEM cod
    * The hydrodynamic coefficients for each body generated from the BEM code can be parsed into a ``*.h5`` data structure using `:ref:`bemio`, which was developed by the WEC-Sim team.
    * BEMIO currently supports WAMIT, NEMOH and AQWA. 
 
+.. warning::
+    The link to BEMIO is broken here.
 
 .. Note:: 
    * **If WAMIT is used:**
@@ -125,6 +161,11 @@ In the pre-processing step, users need to create the WEC geometry, run a BEM cod
       * In order to run BEMIO, AQWA users must output both the default ``*.LIS`` file and output the ``*.AH1`` hydrodynamic database file. Both of these files are reacquired to run BEMIO. 
       * More details on AQWA setup are given in the AQWA Reference Manual.
 
+.. warning::
+    I wonder if the above might be better as it's own section because I think
+    that some links from the main text to this info would be useful in certain
+    places.
+
 .. Note:: 
 	Users are also able to specify their own hydrodynamic coefficients by creating their own ``*.h5`` file with customized hydrodynamic coefficients following the ``*.h5`` format created by BEMIO.
 
@@ -137,7 +178,15 @@ The figure below shows an example WEC-Sim Simulink model for the OSWEC tutorial.
 .. figure:: _images/OSWEC_Model.png
    :width: 200pt
    :align: center       
-   
+
+.. note::
+    Why does this file appear inside the blue box in the workflow diagram? It
+    looks like it's not an input in that diagram, but something to do with the
+    internals. Also, why does is it in a step before the input file is defined 
+    when all the arrows come from the input file into the simulink file? Is 
+    there a relationship between the classes in the input file and the simulink
+    file. That would be good to know.
+
 
 Step 3: Write wecSimInputFile.m
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
@@ -145,6 +194,13 @@ The WEC-Sim input file must be located in the ``$CASE`` directory, and named ``w
 
 .. figure:: _images/runWECSim_mod.png
    :width: 600pt
+
+.. note::
+    I'm not sure this diagram is doing much, TBH. Why is there a ring around
+    the Command Window title, for instance. You have a nice example of the
+    input file above, so are you just trying to enforce where it is put?
+    You need to maybe have a dedicated section to the directory structure, if
+    it's this important.
 
 Step 4: Run WEC-Sim
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
@@ -154,3 +210,7 @@ The WEC-Sim source code is located in the ``$WECSIM`` directory, but ``wecSim`` 
 .. Note::
 	WEC-Sim simulations should always be executed from the MATLAB Command Window, not from Simulink.
 
+.. warning::
+    Is this why the command window is circled in the last diagram? I'm afraid
+    it has become dislocated and not that useful any more.
+    

@@ -146,6 +146,17 @@ Open the Simulink Library Browser by typing ``slLibraryBrowser`` in the MATLAB C
 
 	>> slLibraryBrowser
 
+.. note::
+    This generates this warning a number of times for me::
+    
+        Warning: Cannot find library called 'WECSim_Lib_2015b'.
+        > In LibraryBrowser.internal/RepositoryGenerator/buildTree
+          In LibraryBrowser.internal/RepositoryGenerator/buildTree
+          In LibraryBrowser.internal/RepositoryGenerator/generate
+          In LibraryBrowser.internal.generateRepository 
+    
+    Is that normal?
+
 Once the Simulink Library Browser opens, `refresh the Simulink Library <http://www.mathworks.com/help/simulink/gui/use-the-library-browser.html>`_. 
 The WEC-Sim Library (Body Elements, Constraints, Frames Moorings, and PTOs) should now be visible, as shown in the figure below. 
 The WEC-Sim Library will now be accessible every time Simulink is opened. 
@@ -168,6 +179,8 @@ In the MATLAB Command Window type::
 This should run an example case using the Reference Model 3 (RM3) point absorber. 
 A SimMechanics Explorer window will open within the MATLAB window, and figures will be generated displaying simulation outputs. 
 
+.. warning::
+    Works for me!
 
 .. Note:: 
 	
@@ -180,3 +193,6 @@ A SimMechanics Explorer window will open within the MATLAB window, and figures w
 .. Note:: 
 	
 	Recommend installing HDFview https://www.hdfgroup.org/downloads/hdfview/
+
+.. warning::
+    This note is a bit weird. Maybe some explanation why it might be useful?
