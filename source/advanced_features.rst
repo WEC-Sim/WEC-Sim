@@ -278,7 +278,21 @@ For more information, refer to :ref:`webinar2`, and the **RM3_B2B** example in t
 .. Note::
 
 	By default, body-to-body interactions  are off (:code:`simu.b2b = 0`), and only the :math:`[1+6(i-1):6i, 1+6(i-1):6i]` sub-matrices are used for each body (where :math:`i` is the body number).
-	
+
+
+Generalized Body Modes 
+^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+To use this, select a Flex Body Block from the WEC-Sim Library (under Body Elements) and initialize it in the WEC-Sim input file as any other body. Calculating dynamic response of WECs considering structural flexibilities using WEC-Sim should consist of multiple steps, including:
+
+* Modal analysis of the studied WEC to identify a set of system natural frequencies and corresponding mode shapes
+* Construct discretized mass and impedance matrices using these structural modes
+* Include these additional flexible degrees of freedom in the BEM code to calculate hydrodynamic coefficients for the WEC device
+* Import the hydrodynamic coefficients to WEC-Sim and conduct dynamic analysis of the hybrid rigid and flexible body system
+
+.. Note::
+
+	Generalized body modes module has only been tested with WAMIT, where BEMIO may need to be modified for NEMOH. 
+
 
 Viscous Damping and Morison Elements
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
@@ -322,6 +336,7 @@ The Morison Element time-step may also be defined as :code:`simu.dtME = N*simu.d
 .. Note::
 
 	Morison Elements cannot but used with :code:`etaImport`.
+
 
 
 .. _pto:

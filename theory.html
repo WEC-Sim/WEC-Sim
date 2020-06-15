@@ -131,6 +131,7 @@
 <li class="toctree-l3"><a class="reference internal" href="#morison-elements">Morison Elements</a></li>
 </ul>
 </li>
+<li class="toctree-l2"><a class="reference internal" href="#generalized-body-modes">Generalized Body Modes</a></li>
 <li class="toctree-l2"><a class="reference internal" href="#references">References</a></li>
 </ul>
 </li>
@@ -513,6 +514,10 @@ Because linear wave theory is used to determine the flow velocity and pressure f
 </div>
 <p>For more information about application of Morison Elements in WEC-Sim, refer to <a class="reference internal" href="advanced_features.html#morison"><span class="std std-ref">Morison Elements</span></a> section.</p>
 </div>
+</div>
+<div class="section" id="generalized-body-modes">
+<h2>Generalized Body Modes<a class="headerlink" href="#generalized-body-modes" title="Permalink to this headline">¶</a></h2>
+<p>Additional generalized body modes (GBM) are inlcuded to account for solving multibody system with relative body motions or the the dynamics and structural deformation, assuming the modal properties are given or can be simply obtained in closed-form expressions or finite element analysis. Once the hydrodynamic coefficients that include these additional flexible DOF are obtained from the BEM solver, the 6DOF rigid body motion for each body and the additional GBM DOFs are solved together in one system of equations.</p>
 </div>
 <div class="section" id="references">
 <h2>References<a class="headerlink" href="#references" title="Permalink to this headline">¶</a></h2>

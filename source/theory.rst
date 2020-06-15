@@ -445,6 +445,10 @@ where :math:`v` is the fluid particle velocity due to wave and current, :math:`C
 
 For more information about application of Morison Elements in WEC-Sim, refer to :ref:`morison` section.
 
+Generalized Body Modes 
+------------------------------------
+Additional generalized body modes (GBM) are inlcuded to account for solving multibody system with relative body motions or the the dynamics and structural deformation, assuming the modal properties are given or can be simply obtained in closed-form expressions or finite element analysis. Once the hydrodynamic coefficients that include these additional flexible DOF are obtained from the BEM solver, the 6DOF rigid body motion for each body and the additional GBM DOFs are solved together in one system of equations. 
+
 References
 ----------
 .. bibliography:: WEC-Sim_Theory.bib
