@@ -171,163 +171,173 @@
 <span id="api"></span><h1>WEC-Sim API<a class="headerlink" href="#wec-sim-api" title="Permalink to this headline">¶</a></h1>
 <div class="section" id="wave-class">
 <span id="wave"></span><h2>Wave Class<a class="headerlink" href="#wave-class" title="Permalink to this headline">¶</a></h2>
-<dl class="mat class">
+<dl class="class">
 <dt id="source.objects.waveClass">
 <em class="property">class </em><code class="sig-prename descclassname">source.objects.</code><code class="sig-name descname">waveClass</code><span class="sig-paren">(</span><em class="sig-param">type</em><span class="sig-paren">)</span><a class="headerlink" href="#source.objects.waveClass" title="Permalink to this definition">¶</a></dt>
 <dd><p>The  <code class="docutils literal notranslate"><span class="pre">waveClass</span></code> creates a <code class="docutils literal notranslate"><span class="pre">waves</span></code> object saved to the MATLAB
-workspace. The <code class="docutils literal notranslate"><span class="pre">waveClass</span></code> includes contains properties and methods
-for defining WEC-Sim’s wave input.</p>
-<dl class="mat attribute">
+workspace. The <code class="docutils literal notranslate"><span class="pre">waveClass</span></code> includes properties and methods used
+to define WEC-Sim’s wave input.</p>
+<dl class="attribute">
 <dt id="source.objects.waveClass.type">
 <code class="sig-name descname">type</code><em class="property"> = &quot;'NOT DEFINED'&quot;</em><a class="headerlink" href="#source.objects.waveClass.type" title="Permalink to this definition">¶</a></dt>
-<dd><p>String specifying the wave type. Defined as: <code class="docutils literal notranslate"><span class="pre">noWave</span></code>, <code class="docutils literal notranslate"><span class="pre">noWaveCIC</span></code>, <code class="docutils literal notranslate"><span class="pre">regular</span></code>, <code class="docutils literal notranslate"><span class="pre">regularCIC</span></code>, <code class="docutils literal notranslate"><span class="pre">irregular</span></code>, <code class="docutils literal notranslate"><span class="pre">spectrumImport</span></code>, or <code class="docutils literal notranslate"><span class="pre">etaImport</span></code>. Default = ‘NOT DEFINED’</p>
+<dd><p>(<cite>string</cite>) Specifies the wave type, options include:<code class="docutils literal notranslate"><span class="pre">noWave</span></code>, <code class="docutils literal notranslate"><span class="pre">noWaveCIC</span></code>, <code class="docutils literal notranslate"><span class="pre">regular</span></code>, <code class="docutils literal notranslate"><span class="pre">regularCIC</span></code>, <code class="docutils literal notranslate"><span class="pre">irregular</span></code>, <code class="docutils literal notranslate"><span class="pre">spectrumImport</span></code>, or <code class="docutils literal notranslate"><span class="pre">etaImport</span></code>. Default = <code class="docutils literal notranslate"><span class="pre">'NOT</span> <span class="pre">DEFINED'</span></code></p>
 </dd></dl>
 
-<dl class="mat attribute">
+<dl class="attribute">
 <dt id="source.objects.waveClass.T">
 <code class="sig-name descname">T</code><em class="property"> = &quot;'NOT DEFINED'&quot;</em><a class="headerlink" href="#source.objects.waveClass.T" title="Permalink to this definition">¶</a></dt>
-<dd><p>Wave period [s]. Defined as: wave period for <code class="docutils literal notranslate"><span class="pre">regular</span></code>, peak period for <code class="docutils literal notranslate"><span class="pre">irregular</span></code>, or period of BEM data used for hydrodynamic coefficients for <code class="docutils literal notranslate"><span class="pre">noWave</span></code>. Default = ‘NOT DEFINED’</p>
+<dd><p>(<cite>float</cite>) Wave period [s] . Defined as wave period for <code class="docutils literal notranslate"><span class="pre">regular</span></code>, peak period for <code class="docutils literal notranslate"><span class="pre">irregular</span></code>, or period of BEM data used for hydrodynamic coefficients for <code class="docutils literal notranslate"><span class="pre">noWave</span></code>. Default = <code class="docutils literal notranslate"><span class="pre">'NOT</span> <span class="pre">DEFINED'</span></code></p>
 </dd></dl>
 
-<dl class="mat attribute">
+<dl class="attribute">
 <dt id="source.objects.waveClass.H">
 <code class="sig-name descname">H</code><em class="property"> = &quot;'NOT DEFINED'&quot;</em><a class="headerlink" href="#source.objects.waveClass.H" title="Permalink to this definition">¶</a></dt>
-<dd><p>Wave height [m]. Defined as: wave height for <code class="docutils literal notranslate"><span class="pre">regular</span></code>, or significant wave height for <code class="docutils literal notranslate"><span class="pre">irregular</span></code>. Default =  ‘NOT DEFINED’</p>
+<dd><p>(<cite>float</cite>) Wave height [m]. Defined as wave height for <code class="docutils literal notranslate"><span class="pre">regular</span></code>, or significant wave height for <code class="docutils literal notranslate"><span class="pre">irregular</span></code>. Default =  <code class="docutils literal notranslate"><span class="pre">'NOT</span> <span class="pre">DEFINED'</span></code></p>
 </dd></dl>
 
-<dl class="mat attribute">
+<dl class="attribute">
 <dt id="source.objects.waveClass.spectrumType">
 <code class="sig-name descname">spectrumType</code><em class="property"> = &quot;'NOT DEFINED'&quot;</em><a class="headerlink" href="#source.objects.waveClass.spectrumType" title="Permalink to this definition">¶</a></dt>
-<dd><p>String specifying the wave spectrum type. Defined as: <code class="docutils literal notranslate"><span class="pre">PM</span></code> or <code class="docutils literal notranslate"><span class="pre">JS</span></code>. Default = ‘NOT DEFINED’</p>
+<dd><p>(<cite>string</cite>) Specifies the wave spectrum type, options inlcude:<code class="docutils literal notranslate"><span class="pre">PM</span></code> or <code class="docutils literal notranslate"><span class="pre">JS</span></code>. Default = <code class="docutils literal notranslate"><span class="pre">'NOT</span> <span class="pre">DEFINED'</span></code></p>
 </dd></dl>
 
-<dl class="mat attribute">
+<dl class="attribute">
 <dt id="source.objects.waveClass.gamma">
 <code class="sig-name descname">gamma</code><em class="property"> = '[]'</em><a class="headerlink" href="#source.objects.waveClass.gamma" title="Permalink to this definition">¶</a></dt>
-<dd><p>Only used for <code class="docutils literal notranslate"><span class="pre">JS</span></code> wave spectrum type to define gamma. Default = []</p>
+<dd><p>(<cite>float</cite>) Defines gamma, only used for <code class="docutils literal notranslate"><span class="pre">JS</span></code> wave spectrum type. Default = <code class="docutils literal notranslate"><span class="pre">[]</span></code></p>
 </dd></dl>
 
-<dl class="mat attribute">
+<dl class="attribute">
 <dt id="source.objects.waveClass.phaseSeed">
 <code class="sig-name descname">phaseSeed</code><em class="property"> = '0'</em><a class="headerlink" href="#source.objects.waveClass.phaseSeed" title="Permalink to this definition">¶</a></dt>
-<dd><p>Only used for <code class="docutils literal notranslate"><span class="pre">irregular</span></code> waves. Default = 0</p>
+<dd><p>(<cite>integar</cite>) Defines the random phase seed, only used for <code class="docutils literal notranslate"><span class="pre">irregular</span></code> and <code class="docutils literal notranslate"><span class="pre">spectrumImport</span></code> waves. Default = <code class="docutils literal notranslate"><span class="pre">0</span></code></p>
 </dd></dl>
 
-<dl class="mat attribute">
+<dl class="attribute">
 <dt id="source.objects.waveClass.spectrumDataFile">
 <code class="sig-name descname">spectrumDataFile</code><em class="property"> = &quot;'NOT DEFINED'&quot;</em><a class="headerlink" href="#source.objects.waveClass.spectrumDataFile" title="Permalink to this definition">¶</a></dt>
-<dd><p>Data file that contains the spectrum data file if equal to 1,2,3,,etc, the waves phase is seeded. Default = ‘NOT DEFINED’</p>
+<dd><p>(<cite>string</cite>) Data file that contains the spectrum data file.  Default = <code class="docutils literal notranslate"><span class="pre">'NOT</span> <span class="pre">DEFINED'</span></code></p>
 </dd></dl>
 
-<dl class="mat attribute">
+<dl class="attribute">
 <dt id="source.objects.waveClass.etaDataFile">
 <code class="sig-name descname">etaDataFile</code><em class="property"> = &quot;'NOT DEFINED'&quot;</em><a class="headerlink" href="#source.objects.waveClass.etaDataFile" title="Permalink to this definition">¶</a></dt>
-<dd><p>Data file that contains the times-series data file. Default = ‘NOT DEFINED’</p>
+<dd><p>(<cite>string</cite>) Data file that contains the times-series data file. Default = <code class="docutils literal notranslate"><span class="pre">'NOT</span> <span class="pre">DEFINED'</span></code></p>
 </dd></dl>
 
-<dl class="mat attribute">
+<dl class="attribute">
 <dt id="source.objects.waveClass.freqRange">
 <code class="sig-name descname">freqRange</code><em class="property"> = '[]'</em><a class="headerlink" href="#source.objects.waveClass.freqRange" title="Permalink to this definition">¶</a></dt>
-<dd><p>Min and max frequency for irregular waves. 2x1 vector, rad/s, (default = frequency range in BEM data). Default = []</p>
+<dd><p>(<cite>2x1 vector</cite>) Min and max wave frequency [rad/s], only used for <code class="docutils literal notranslate"><span class="pre">irregular</span></code> and <code class="docutils literal notranslate"><span class="pre">spectrumImport</span></code>. If not specified, the BEM data frequency range is used. Default = <code class="docutils literal notranslate"><span class="pre">[]</span></code></p>
 </dd></dl>
 
-<dl class="mat attribute">
+<dl class="attribute">
 <dt id="source.objects.waveClass.numFreq">
 <code class="sig-name descname">numFreq</code><em class="property"> = '[]'</em><a class="headerlink" href="#source.objects.waveClass.numFreq" title="Permalink to this definition">¶</a></dt>
-<dd><p>Number of interpolated wave frequencies. Number of frequencies used, varies depending on method: <code class="docutils literal notranslate"><span class="pre">'Traditional'</span></code> = 1000, <code class="docutils literal notranslate"><span class="pre">'EqualEnergy'</span></code> = 500 or <code class="docutils literal notranslate"><span class="pre">Imported</span></code>. Default = []</p>
+<dd><p>(<cite>integar</cite>) Number of interpolated wave frequencies, only used for <code class="docutils literal notranslate"><span class="pre">irregular</span></code> and <code class="docutils literal notranslate"><span class="pre">spectrumImport</span></code>. Number of frequencies used varies depending on <code class="docutils literal notranslate"><span class="pre">freqDisc</span></code>, 1000 for <code class="docutils literal notranslate"><span class="pre">'Traditional'</span></code>, and 500 for <code class="docutils literal notranslate"><span class="pre">'EqualEnergy'</span></code> and <code class="docutils literal notranslate"><span class="pre">Imported</span></code>. Default = <code class="docutils literal notranslate"><span class="pre">[]</span></code></p>
 </dd></dl>
 
-<dl class="mat attribute">
+<dl class="attribute">
 <dt id="source.objects.waveClass.waveDir">
 <code class="sig-name descname">waveDir</code><em class="property"> = '0'</em><a class="headerlink" href="#source.objects.waveClass.waveDir" title="Permalink to this definition">¶</a></dt>
-<dd><p>Incident wave direction(s) [deg]. Incident wave direction defined using WEC-Sim global coordinate system. Should be defined as a column vector for more than one wave direction. Default = 0</p>
+<dd><p>(<cite>float</cite>) Incident wave direction(s) [deg]. Incident wave direction defined using WEC-Sim global coordinate system. Should be defined as a column vector for more than one wave direction. Default = <code class="docutils literal notranslate"><span class="pre">0</span></code></p>
 </dd></dl>
 
-<dl class="mat attribute">
+<dl class="attribute">
 <dt id="source.objects.waveClass.waveSpread">
 <code class="sig-name descname">waveSpread</code><em class="property"> = '1'</em><a class="headerlink" href="#source.objects.waveClass.waveSpread" title="Permalink to this definition">¶</a></dt>
-<dd><p>Wave Spread probability associated with wave direction(s). Should be defined as a column vector for more than one wave direction. Default = 1</p>
+<dd><p>(<cite>float</cite>) Wave Spread probability associated with wave direction(s). Should be defined as a column vector for more than one wave direction. Default = <code class="docutils literal notranslate"><span class="pre">1</span></code></p>
 </dd></dl>
 
-<dl class="mat attribute">
+<dl class="attribute">
 <dt id="source.objects.waveClass.viz">
 <code class="sig-name descname">viz</code><em class="property"> = &quot;struct( 'numPointsX', 50,                       'numPointsY', 50 )&quot;</em><a class="headerlink" href="#source.objects.waveClass.viz" title="Permalink to this definition">¶</a></dt>
-<dd><p>Structure defining visualization options. Should be a structure containing the fields <code class="docutils literal notranslate"><span class="pre">numPointsX</span></code> for the number of visualization points in x direction, and <code class="docutils literal notranslate"><span class="pre">numPointsY</span></code> for the number of visualization points in y direction.</p>
+<dd><p>(<cite>structure</cite>) Defines visualization options, structure contains the fields <code class="docutils literal notranslate"><span class="pre">numPointsX</span></code> for the number of visualization points in x direction, and <code class="docutils literal notranslate"><span class="pre">numPointsY</span></code> for the number of visualization points in y direction.</p>
 </dd></dl>
 
-<dl class="mat attribute">
+<dl class="attribute">
 <dt id="source.objects.waveClass.statisticsDataLoad">
 <code class="sig-name descname">statisticsDataLoad</code><em class="property"> = '[]'</em><a class="headerlink" href="#source.objects.waveClass.statisticsDataLoad" title="Permalink to this definition">¶</a></dt>
-<dd><p>File name from which to load wave statistics data. Default = []</p>
+<dd><p>(<cite>string</cite>) File name from which to load wave statistics data. Default = <code class="docutils literal notranslate"><span class="pre">[]</span></code></p>
 </dd></dl>
 
-<dl class="mat attribute">
+<dl class="attribute">
 <dt id="source.objects.waveClass.freqDisc">
 <code class="sig-name descname">freqDisc</code><em class="property"> = &quot;'EqualEnergy'&quot;</em><a class="headerlink" href="#source.objects.waveClass.freqDisc" title="Permalink to this definition">¶</a></dt>
-<dd><p>Method of frequency discretization for irregular waves. Options for this variable are <code class="docutils literal notranslate"><span class="pre">'EqualEnergy'</span></code> or <code class="docutils literal notranslate"><span class="pre">'Traditional'</span></code>. Default = <code class="docutils literal notranslate"><span class="pre">'EqualEnergy'</span></code></p>
+<dd><p>(<cite>string</cite>) Method of frequency discretization for irregular waves, options include: <code class="docutils literal notranslate"><span class="pre">'EqualEnergy'</span></code> or <code class="docutils literal notranslate"><span class="pre">'Traditional'</span></code>. Default = <code class="docutils literal notranslate"><span class="pre">'EqualEnergy'</span></code></p>
 </dd></dl>
 
-<dl class="mat attribute">
+<dl class="attribute">
 <dt id="source.objects.waveClass.wavegauge1loc">
 <code class="sig-name descname">wavegauge1loc</code><em class="property"> = '[0,0]'</em><a class="headerlink" href="#source.objects.waveClass.wavegauge1loc" title="Permalink to this definition">¶</a></dt>
-<dd><p>Wave gauge 1 [x,y] location [m]. Default = [0,0]</p>
+<dd><p>(<cite>1x2 vector</cite>) Wave gauge 1 [x,y] location [m]. Default = <code class="docutils literal notranslate"><span class="pre">[0,0]</span></code></p>
 </dd></dl>
 
-<dl class="mat attribute">
+<dl class="attribute">
 <dt id="source.objects.waveClass.wavegauge2loc">
 <code class="sig-name descname">wavegauge2loc</code><em class="property"> = '[0,0]'</em><a class="headerlink" href="#source.objects.waveClass.wavegauge2loc" title="Permalink to this definition">¶</a></dt>
-<dd><p>Wave gauge 2 [x,y] location [m]. Default = [0,0]</p>
+<dd><p>(<cite>1x2 vector</cite>) Wave gauge 2 [x,y] location [m]. Default = <code class="docutils literal notranslate"><span class="pre">[0,0]</span></code></p>
 </dd></dl>
 
-<dl class="mat attribute">
+<dl class="attribute">
 <dt id="source.objects.waveClass.wavegauge3loc">
 <code class="sig-name descname">wavegauge3loc</code><em class="property"> = '[0,0]'</em><a class="headerlink" href="#source.objects.waveClass.wavegauge3loc" title="Permalink to this definition">¶</a></dt>
-<dd><p>Wave gauge 3 [x,y] location [m]. Default = [0,0]</p>
+<dd><p>(<cite>1x2 vector</cite>) Wave gauge 3 [x,y] location [m]. Default = <code class="docutils literal notranslate"><span class="pre">[0,0]</span></code></p>
 </dd></dl>
 
-<dl class="mat attribute">
-<dt id="source.objects.waveClass.currentSpeed">
-<code class="sig-name descname">currentSpeed</code><em class="property"> = '0;\t'</em><a class="headerlink" href="#source.objects.waveClass.currentSpeed" title="Permalink to this definition">¶</a></dt>
-<dd><p>Current seed [m/s]. Surface current speed that is uniform along the water column. Default = 0</p>
-</dd></dl>
-
-<dl class="mat attribute">
-<dt id="source.objects.waveClass.currentDirection">
-<code class="sig-name descname">currentDirection</code><em class="property"> = '0'</em><a class="headerlink" href="#source.objects.waveClass.currentDirection" title="Permalink to this definition">¶</a></dt>
-<dd><p>Current direction [deg]. Surface current direction defined using WEC-Sim global coordinate system. Default = 0</p>
-</dd></dl>
-
-<dl class="mat attribute">
+<dl class="attribute">
 <dt id="source.objects.waveClass.currentOption">
 <code class="sig-name descname">currentOption</code><em class="property"> = '3'</em><a class="headerlink" href="#source.objects.waveClass.currentOption" title="Permalink to this definition">¶</a></dt>
-<dd><p>Define the sub-surface current model to be used in WEC-Sim. Defined as: <code class="docutils literal notranslate"><span class="pre">0</span></code> for depth-independent model, <code class="docutils literal notranslate"><span class="pre">1</span></code> for 1/7 power law variation with depth, <code class="docutils literal notranslate"><span class="pre">2</span></code> : linear variation with depth, or <code class="docutils literal notranslate"><span class="pre">3</span></code> for no current. Default = 3</p>
+<dd><p>(<cite>integar</cite>) Define the sub-surface current model to be used in WEC-Sim, options include: <code class="docutils literal notranslate"><span class="pre">0</span></code> for depth-independent model, <code class="docutils literal notranslate"><span class="pre">1</span></code> for 1/7 power law variation with depth, <code class="docutils literal notranslate"><span class="pre">2</span></code> for linear variation with depth, or <code class="docutils literal notranslate"><span class="pre">3</span></code> for no current. Default = <code class="docutils literal notranslate"><span class="pre">3</span></code></p>
 </dd></dl>
 
-<dl class="mat attribute">
+<dl class="attribute">
+<dt id="source.objects.waveClass.currentSpeed">
+<code class="sig-name descname">currentSpeed</code><em class="property"> = '0'</em><a class="headerlink" href="#source.objects.waveClass.currentSpeed" title="Permalink to this definition">¶</a></dt>
+<dd><p>(<cite>float</cite>) Current seed [m/s]. Surface current speed that is uniform along the water column. Default = <code class="docutils literal notranslate"><span class="pre">0</span></code></p>
+</dd></dl>
+
+<dl class="attribute">
+<dt id="source.objects.waveClass.currentDirection">
+<code class="sig-name descname">currentDirection</code><em class="property"> = '0'</em><a class="headerlink" href="#source.objects.waveClass.currentDirection" title="Permalink to this definition">¶</a></dt>
+<dd><p>(<cite>float</cite>) Current direction [deg]. Surface current direction defined using WEC-Sim global coordinate system. Default = <code class="docutils literal notranslate"><span class="pre">0</span></code></p>
+</dd></dl>
+
+<dl class="attribute">
 <dt id="source.objects.waveClass.currentDepth">
 <code class="sig-name descname">currentDepth</code><em class="property"> = '0'</em><a class="headerlink" href="#source.objects.waveClass.currentDepth" title="Permalink to this definition">¶</a></dt>
-<dd><p>Current depth [m]. Define the depth over which the sub-surface current is modeled. Must be defined for options <code class="docutils literal notranslate"><span class="pre">1</span></code> and <code class="docutils literal notranslate"><span class="pre">2</span></code>. The current is not calculated for any depths greater than the specified current depth. Default = 0</p>
+<dd><p>(<cite>float</cite>) Current depth [m]. Define the depth over which the sub-surface current is modeled. Must be defined for options <code class="docutils literal notranslate"><span class="pre">1</span></code> and <code class="docutils literal notranslate"><span class="pre">2</span></code>. The current is not calculated for any depths greater than the specified current depth. Default = <code class="docutils literal notranslate"><span class="pre">0</span></code></p>
 </dd></dl>
 
 </dd></dl>
 
-<dl class="mat method">
+<dl class="method">
 <dt id="source.objects.waveClass.waveClass">
 <code class="sig-prename descclassname">waveClass.</code><code class="sig-name descname">waveClass</code><span class="sig-paren">(</span><em class="sig-param">type</em><span class="sig-paren">)</span><a class="headerlink" href="#source.objects.waveClass.waveClass" title="Permalink to this definition">¶</a></dt>
 <dd><p>This method initilizes the <code class="docutils literal notranslate"><span class="pre">waveClass</span></code> and creates a
-<code class="docutils literal notranslate"><span class="pre">waves</span></code> object. type - string containing the type of wave
-simulation to be generated, the possible values are:</p>
+<code class="docutils literal notranslate"><span class="pre">waves</span></code> object.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters</dt>
-<dd class="field-odd"><ul class="simple">
-<li><p><strong>noWave</strong> (<em>string</em>) – No waves</p></li>
-<li><p><strong>noWaveCIC</strong> – No waves but with the Convolution Integral Calculation to calculate radiation effects</p></li>
-<li><p><strong>regular</strong> (<em>string</em>) – Regular waves</p></li>
-<li><p><strong>regularCIC</strong> – Regular waves with Convolution Integral Calculation to calculate radiation effects</p></li>
-<li><p><strong>irregular</strong> (<em>string</em>) – No waves</p></li>
-<li><p><strong>spectrumImport</strong> (<em>string</em>) – Irregular Waves with predefined phase</p></li>
-<li><p><strong>etaImport</strong> (<em>string</em>) – Irregular Waves with predefined elevation</p></li>
-</ul>
+<dd class="field-odd"><p><strong>type</strong> (<em>string</em>) – <p>String specifying the wave type, options include:</p>
+<blockquote>
+<div><dl class="simple">
+<dt>noWave</dt><dd><p>No waves</p>
+</dd>
+<dt>noWaveCIC</dt><dd><p>No waves but with the Convolution Integral Calculation to calculate radiation effects</p>
+</dd>
+<dt>regular</dt><dd><p>Regular waves</p>
+</dd>
+<dt>regularCIC</dt><dd><p>Regular waves with Convolution Integral Calculation to calculate radiation effects</p>
+</dd>
+<dt>irregular</dt><dd><p>Irregular Waves</p>
+</dd>
+<dt>spectrumImport</dt><dd><p>Irregular Waves with predefined phase</p>
+</dd>
+<dt>etaImport</dt><dd><p>Irregular Waves with predefined elevation</p>
+</dd>
+</dl>
+</div></blockquote>
+</p>
 </dd>
 <dt class="field-even">Returns</dt>
 <dd class="field-even"><p><strong>waves</strong> – waveClass object</p>
@@ -338,27 +348,30 @@ simulation to be generated, the possible values are:</p>
 </dl>
 </dd></dl>
 
-<dl class="mat method">
+<dl class="method">
 <dt id="source.objects.waveClass.plotEta">
 <code class="sig-prename descclassname">waveClass.</code><code class="sig-name descname">plotEta</code><span class="sig-paren">(</span><em class="sig-param">rampTime</em><span class="sig-paren">)</span><a class="headerlink" href="#source.objects.waveClass.plotEta" title="Permalink to this definition">¶</a></dt>
-<dd><p>This method plots wave elevation time-history</p>
+<dd><p>This method plots wave elevation time-history.</p>
 <dl class="field-list simple">
-<dt class="field-odd">Returns</dt>
-<dd class="field-odd"><p><strong>figure</strong> – Plot of wave elevation vs. time</p>
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><p><strong>rampTime</strong> (<em>float, optional</em>) – Specify wave ramp time to include in plot</p>
 </dd>
-<dt class="field-even">Return type</dt>
-<dd class="field-even"><p>fig</p>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p><strong>figure</strong> – Plot of wave elevation versus time</p>
+</dd>
+<dt class="field-odd">Return type</dt>
+<dd class="field-odd"><p>fig</p>
 </dd>
 </dl>
 </dd></dl>
 
-<dl class="mat method">
+<dl class="method">
 <dt id="source.objects.waveClass.plotSpectrum">
 <code class="sig-prename descclassname">waveClass.</code><code class="sig-name descname">plotSpectrum</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#source.objects.waveClass.plotSpectrum" title="Permalink to this definition">¶</a></dt>
-<dd><p>This method plots the wave spectrum</p>
+<dd><p>This method plots the wave spectrum.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Returns</dt>
-<dd class="field-odd"><p><strong>figure</strong> – Plot of wave spectrum</p>
+<dd class="field-odd"><p><strong>figure</strong> – Plot of wave spectrum versus wave frequency</p>
 </dd>
 <dt class="field-even">Return type</dt>
 <dd class="field-even"><p>fig</p>
@@ -366,28 +379,67 @@ simulation to be generated, the possible values are:</p>
 </dl>
 </dd></dl>
 
-<dl class="mat method">
+<dl class="method">
 <dt id="source.objects.waveClass.waveSetup">
 <code class="sig-prename descclassname">waveClass.</code><code class="sig-name descname">waveSetup</code><span class="sig-paren">(</span><em class="sig-param">bemFreq</em>, <em class="sig-param">wDepth</em>, <em class="sig-param">rampTime</em>, <em class="sig-param">dt</em>, <em class="sig-param">maxIt</em>, <em class="sig-param">g</em>, <em class="sig-param">rho</em>, <em class="sig-param">endTime</em><span class="sig-paren">)</span><a class="headerlink" href="#source.objects.waveClass.waveSetup" title="Permalink to this definition">¶</a></dt>
-<dd><p>This method calculates and sets wave properties based on wave type</p>
+<dd><p>This method calculates WEC-Sim’s wave properties
+based on the specified wave type.</p>
 </dd></dl>
 
-<dl class="mat method">
+<dl class="method">
 <dt id="source.objects.waveClass.listInfo">
 <code class="sig-prename descclassname">waveClass.</code><code class="sig-name descname">listInfo</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#source.objects.waveClass.listInfo" title="Permalink to this definition">¶</a></dt>
-<dd><p>This method prints wave information to the Command Window</p>
+<dd><p>This method prints wave information to the MATLAB Command
+Window.</p>
 </dd></dl>
 
-<dl class="mat method">
+<dl class="method">
 <dt id="source.objects.waveClass.waveNumber">
 <code class="sig-prename descclassname">waveClass.</code><code class="sig-name descname">waveNumber</code><span class="sig-paren">(</span><em class="sig-param">g</em><span class="sig-paren">)</span><a class="headerlink" href="#source.objects.waveClass.waveNumber" title="Permalink to this definition">¶</a></dt>
-<dd><p>This method calculates the wave number</p>
+<dd><p>This method calculates the wave number,
+used by: <code class="xref mat mat-meth docutils literal notranslate"><span class="pre">waveClass.waveSetup()</span></code>.</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="source.objects.waveClass.checkinputs">
+<code class="sig-prename descclassname">waveClass.</code><code class="sig-name descname">checkinputs</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#source.objects.waveClass.checkinputs" title="Permalink to this definition">¶</a></dt>
+<dd><p>This method checks WEC-Sim user inputs and generates error
+messages if parameters are not properly defined.</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="source.objects.waveClass.write_paraview_vtp">
+<code class="sig-prename descclassname">waveClass.</code><code class="sig-name descname">write_paraview_vtp</code><span class="sig-paren">(</span><em class="sig-param">t</em>, <em class="sig-param">numPointsX</em>, <em class="sig-param">numPointsY</em>, <em class="sig-param">domainSize</em>, <em class="sig-param">model</em>, <em class="sig-param">simdate</em>, <em class="sig-param">mooring</em><span class="sig-paren">)</span><a class="headerlink" href="#source.objects.waveClass.write_paraview_vtp" title="Permalink to this definition">¶</a></dt>
+<dd><p>This methods writes vtp files for Paraview visualization.</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="source.objects.waveClass.waveElevationGrid">
+<code class="sig-prename descclassname">waveClass.</code><code class="sig-name descname">waveElevationGrid</code><span class="sig-paren">(</span><em class="sig-param">t</em>, <em class="sig-param">X</em>, <em class="sig-param">Y</em><span class="sig-paren">)</span><a class="headerlink" href="#source.objects.waveClass.waveElevationGrid" title="Permalink to this definition">¶</a></dt>
+<dd><p>This method calculates wave elevation on a grid at a given
+time, used by: <code class="xref mat mat-meth docutils literal notranslate"><span class="pre">waveClass.write_paraview_vtp()</span></code>.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>waves</strong> (<em>obj</em>) – waveClass object</p></li>
+<li><p><strong>t</strong> (<em>float</em>) – the current time</p></li>
+<li><p><strong>X</strong> (<em>matrix</em>) – (m x n) matrix of X coordinates at which to calculate the wave elevation</p></li>
+<li><p><strong>Y</strong> (<em>matrix</em>) – (m x n) matrix of Y coordinates at which to calculate the wave elevation</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p><strong>Z</strong> – (m x n) matrix of Z coordinates of the wave elevation</p>
+</dd>
+<dt class="field-odd">Return type</dt>
+<dd class="field-odd"><p>matrix</p>
+</dd>
+</dl>
 </dd></dl>
 
 </div>
 <div class="section" id="response-class">
 <span id="response"></span><h2>Response Class<a class="headerlink" href="#response-class" title="Permalink to this headline">¶</a></h2>
-<dl class="mat class">
+<dl class="class">
 <dt id="source.objects.responseClass">
 <em class="property">class </em><code class="sig-prename descclassname">source.objects.</code><code class="sig-name descname">responseClass</code><span class="sig-paren">(</span><em class="sig-param">bodiesOutput</em>, <em class="sig-param">ptosOutput</em>, <em class="sig-param">constraintsOutput</em>, <em class="sig-param">ptosimOutput</em>, <em class="sig-param">mooringOutput</em>, <em class="sig-param">wave_type</em>, <em class="sig-param">wave_elev</em>, <em class="sig-param">hspressure</em>, <em class="sig-param">wpressurenl</em>, <em class="sig-param">wpressurel</em>, <em class="sig-param">yawNonLin</em><span class="sig-paren">)</span><a class="headerlink" href="#source.objects.responseClass" title="Permalink to this definition">¶</a></dt>
 <dd><blockquote>
@@ -395,39 +447,39 @@ simulation to be generated, the possible values are:</p>
 that contains structures for each instance of a WEC-Sim class (e.g.
 <code class="docutils literal notranslate"><span class="pre">waveClass</span></code>, <code class="docutils literal notranslate"><span class="pre">bodyClass</span></code>, <code class="docutils literal notranslate"><span class="pre">ptoClass</span></code>, <code class="docutils literal notranslate"><span class="pre">mooringClass</span></code>, etc).</p>
 </div></blockquote>
-<dl class="mat attribute">
+<dl class="attribute">
 <dt id="source.objects.responseClass.wave">
 <code class="sig-name descname">wave</code><em class="property"> = 'struct()'</em><a class="headerlink" href="#source.objects.responseClass.wave" title="Permalink to this definition">¶</a></dt>
 <dd><p>This property generates the <code class="docutils literal notranslate"><span class="pre">wave</span></code> structure for each instance of the <code class="docutils literal notranslate"><span class="pre">waveClass</span></code>
 , it includes:</p>
 <blockquote>
 <div><ul class="simple">
-<li><p><code class="docutils literal notranslate"><span class="pre">type</span></code> (string) = ‘waveType’</p></li>
-<li><p><code class="docutils literal notranslate"><span class="pre">time</span></code> (array) = [# of time-steps x 1]</p></li>
-<li><p><code class="docutils literal notranslate"><span class="pre">elevation</span></code> (array) = [# of time-steps x 1]</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">type</span></code> (<cite>string</cite>) = ‘waveType’</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">time</span></code> (<cite>array</cite>) = [# of time-steps x 1]</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">elevation</span></code> (<cite>array</cite>) = [# of time-steps x 1]</p></li>
 </ul>
 </div></blockquote>
 </dd></dl>
 
-<dl class="mat attribute">
+<dl class="attribute">
 <dt id="source.objects.responseClass.bodies">
 <code class="sig-name descname">bodies</code><em class="property"> = 'struct()'</em><a class="headerlink" href="#source.objects.responseClass.bodies" title="Permalink to this definition">¶</a></dt>
 <dd><p>This property generates the <code class="docutils literal notranslate"><span class="pre">bodies</span></code> structure for each instance of the <code class="docutils literal notranslate"><span class="pre">bodyClass</span></code> (i.e. for each Body block)
 , it includes:</p>
 <blockquote>
 <div><ul class="simple">
-<li><p><code class="docutils literal notranslate"><span class="pre">name</span></code> (string) = ‘bodyName’</p></li>
-<li><p><code class="docutils literal notranslate"><span class="pre">time</span></code> (array) = [# of time-steps x 1]</p></li>
-<li><p><code class="docutils literal notranslate"><span class="pre">position</span></code> (array) = [# of time-steps x 6]</p></li>
-<li><p><code class="docutils literal notranslate"><span class="pre">velocity</span></code> (array) = [# of time-steps x 6]</p></li>
-<li><p><code class="docutils literal notranslate"><span class="pre">accleration</span></code> (array) = [# of time-steps x 6]</p></li>
-<li><p><code class="docutils literal notranslate"><span class="pre">forceTotal</span></code> (array) = [# of time-steps x 6]</p></li>
-<li><p><code class="docutils literal notranslate"><span class="pre">forceExcitation</span></code> (array) = [# of time-steps x 6]</p></li>
-<li><p><code class="docutils literal notranslate"><span class="pre">forceRadiationDamping</span></code> (array) = [# of time-steps x 6]</p></li>
-<li><p><code class="docutils literal notranslate"><span class="pre">forceAddedMass</span></code> (array) = [# of time-steps x 6]</p></li>
-<li><p><code class="docutils literal notranslate"><span class="pre">forceRestoring</span></code> (array) = [# of time-steps x 6]</p></li>
-<li><p><code class="docutils literal notranslate"><span class="pre">forceMorrisonAndViscous</span></code> (array) = [# of time-steps x 6]</p></li>
-<li><p><code class="docutils literal notranslate"><span class="pre">forceLinearDamping</span></code> (array) = [# of time-steps x 6]</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">name</span></code> (<cite>string</cite>) = ‘bodyName’</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">time</span></code> (<cite>array</cite>) = [# of time-steps x 1]</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">position</span></code> (<cite>array</cite>) = [# of time-steps x 6]</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">velocity</span></code> (<cite>array</cite>) = [# of time-steps x 6]</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">accleration</span></code> (<cite>array</cite>) = [# of time-steps x 6]</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">forceTotal</span></code> (<cite>array</cite>) = [# of time-steps x 6]</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">forceExcitation</span></code> (<cite>array</cite>) = [# of time-steps x 6]</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">forceRadiationDamping</span></code> (<cite>array</cite>) = [# of time-steps x 6]</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">forceAddedMass</span></code> (<cite>array</cite>) = [# of time-steps x 6]</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">forceRestoring</span></code> (<cite>array</cite>) = [# of time-steps x 6]</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">forceMorrisonAndViscous</span></code> (<cite>array</cite>) = [# of time-steps x 6]</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">forceLinearDamping</span></code> (<cite>array</cite>) = [# of time-steps x 6]</p></li>
 </ul>
 <p>There are additional <code class="docutils literal notranslate"><span class="pre">output.bodies</span></code> structures for non-linar hydro (e.g.
 <code class="docutils literal notranslate"><span class="pre">cellPressures_time</span></code>, <code class="docutils literal notranslate"><span class="pre">cellPressures_hydrostatic</span></code>,
@@ -435,71 +487,71 @@ that contains structures for each instance of a WEC-Sim class (e.g.
 </div></blockquote>
 </dd></dl>
 
-<dl class="mat attribute">
+<dl class="attribute">
 <dt id="source.objects.responseClass.ptos">
 <code class="sig-name descname">ptos</code><em class="property"> = 'struct()'</em><a class="headerlink" href="#source.objects.responseClass.ptos" title="Permalink to this definition">¶</a></dt>
 <dd><p>This property generates the <code class="docutils literal notranslate"><span class="pre">ptos</span></code> structure for each instance of the <code class="docutils literal notranslate"><span class="pre">ptoClass</span></code> (i.e. for each PTO block)
 , it includes:</p>
 <blockquote>
 <div><ul class="simple">
-<li><p><code class="docutils literal notranslate"><span class="pre">name</span></code> (string) = ‘ptoName’</p></li>
-<li><p><code class="docutils literal notranslate"><span class="pre">time</span></code> (array) = [# of time-steps x 1]</p></li>
-<li><p><code class="docutils literal notranslate"><span class="pre">position</span></code> (array) = [# of time-steps x 6]</p></li>
-<li><p><code class="docutils literal notranslate"><span class="pre">velocity</span></code> (array) = [# of time-steps x 6]</p></li>
-<li><p><code class="docutils literal notranslate"><span class="pre">accleration</span></code> (array) = [# of time-steps x 6]</p></li>
-<li><p><code class="docutils literal notranslate"><span class="pre">forceTotal</span></code> (array) = [# of time-steps x 6]</p></li>
-<li><p><code class="docutils literal notranslate"><span class="pre">forceActuation</span></code> (array) = [# of time-steps x 6]</p></li>
-<li><p><code class="docutils literal notranslate"><span class="pre">forceConstraint</span></code> (array) = [# of time-steps x 6]</p></li>
-<li><p><code class="docutils literal notranslate"><span class="pre">forceInternalMechanics</span></code> (array) = [# of time-steps x 6]</p></li>
-<li><p><code class="docutils literal notranslate"><span class="pre">powerInternalMechanics</span></code> (array) = [# of time-steps x 6]</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">name</span></code> (<cite>string</cite>) = ‘ptoName’</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">time</span></code> (<cite>array</cite>) = [# of time-steps x 1]</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">position</span></code> (<cite>array</cite>) = [# of time-steps x 6]</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">velocity</span></code> (<cite>array</cite>) = [# of time-steps x 6]</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">accleration</span></code> (<cite>array</cite>) = [# of time-steps x 6]</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">forceTotal</span></code> (<cite>array</cite>) = [# of time-steps x 6]</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">forceActuation</span></code> (<cite>array</cite>) = [# of time-steps x 6]</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">forceConstraint</span></code> (<cite>array</cite>) = [# of time-steps x 6]</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">forceInternalMechanics</span></code> (<cite>array</cite>) = [# of time-steps x 6]</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">powerInternalMechanics</span></code> (<cite>array</cite>) = [# of time-steps x 6]</p></li>
 </ul>
 </div></blockquote>
 </dd></dl>
 
-<dl class="mat attribute">
+<dl class="attribute">
 <dt id="source.objects.responseClass.constraints">
 <code class="sig-name descname">constraints</code><em class="property"> = 'struct()'</em><a class="headerlink" href="#source.objects.responseClass.constraints" title="Permalink to this definition">¶</a></dt>
 <dd><p>This property generates the <code class="docutils literal notranslate"><span class="pre">constraints</span></code> structure for each instance of the <code class="docutils literal notranslate"><span class="pre">coonstraintClass</span></code> (i.e. for each Constraint block)
 , it includes:</p>
 <blockquote>
 <div><ul class="simple">
-<li><p><code class="docutils literal notranslate"><span class="pre">name</span></code> (string) = ‘coonstraintName’</p></li>
-<li><p><code class="docutils literal notranslate"><span class="pre">time</span></code> (array) = [# of time-steps x 1]</p></li>
-<li><p><code class="docutils literal notranslate"><span class="pre">position</span></code> (array) = [# of time-steps x 6]</p></li>
-<li><p><code class="docutils literal notranslate"><span class="pre">velocity</span></code> (array) = [# of time-steps x 6]</p></li>
-<li><p><code class="docutils literal notranslate"><span class="pre">accleration</span></code> (array) = [# of time-steps x 6]</p></li>
-<li><p><code class="docutils literal notranslate"><span class="pre">forceConstraint</span></code> (array) = [# of time-steps x 6]</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">name</span></code> (<cite>string</cite>) = ‘coonstraintName’</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">time</span></code> (<cite>array</cite>) = [# of time-steps x 1]</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">position</span></code> (<cite>array</cite>) = [# of time-steps x 6]</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">velocity</span></code> (<cite>array</cite>) = [# of time-steps x 6]</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">accleration</span></code> (<cite>array</cite>) = [# of time-steps x 6]</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">forceConstraint</span></code> (<cite>array</cite>) = [# of time-steps x 6]</p></li>
 </ul>
 </div></blockquote>
 </dd></dl>
 
-<dl class="mat attribute">
+<dl class="attribute">
 <dt id="source.objects.responseClass.mooring">
 <code class="sig-name descname">mooring</code><em class="property"> = 'struct()'</em><a class="headerlink" href="#source.objects.responseClass.mooring" title="Permalink to this definition">¶</a></dt>
 <dd><p>This property generates the <code class="docutils literal notranslate"><span class="pre">mooring</span></code> structure for each instance of the <code class="docutils literal notranslate"><span class="pre">mooringClass</span></code> (i.e. for each Mooring block)
 , it includes:</p>
 <blockquote>
 <div><ul class="simple">
-<li><p><code class="docutils literal notranslate"><span class="pre">position</span></code> (array) = [# of time-steps x 6]</p></li>
-<li><p><code class="docutils literal notranslate"><span class="pre">velocity</span></code> (array) = [# of time-steps x 6]</p></li>
-<li><p><code class="docutils literal notranslate"><span class="pre">forceMooring</span></code> (array) = [# of time-steps x 6]</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">position</span></code> (<cite>array</cite>) = [# of time-steps x 6]</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">velocity</span></code> (<cite>array</cite>) = [# of time-steps x 6]</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">forceMooring</span></code> (<cite>array</cite>) = [# of time-steps x 6]</p></li>
 </ul>
 </div></blockquote>
 </dd></dl>
 
-<dl class="mat attribute">
+<dl class="attribute">
 <dt id="source.objects.responseClass.moorDyn">
 <code class="sig-name descname">moorDyn</code><em class="property"> = 'struct()'</em><a class="headerlink" href="#source.objects.responseClass.moorDyn" title="Permalink to this definition">¶</a></dt>
 <dd><p>This property generates the <code class="docutils literal notranslate"><span class="pre">moorDyn</span></code> structure for each instance of the <code class="docutils literal notranslate"><span class="pre">mooringClass</span></code> using MoorDyn (i.e. for each MoorDyn block), it includes <code class="docutils literal notranslate"><span class="pre">Lines</span></code>  and <code class="docutils literal notranslate"><span class="pre">Line#</span></code>.</p>
 </dd></dl>
 
-<dl class="mat attribute">
+<dl class="attribute">
 <dt id="source.objects.responseClass.ptosim">
 <code class="sig-name descname">ptosim</code><em class="property"> = 'struct()'</em><a class="headerlink" href="#source.objects.responseClass.ptosim" title="Permalink to this definition">¶</a></dt>
 <dd><p>This property generates the <code class="docutils literal notranslate"><span class="pre">ptosim</span></code> structure for each instance of the <code class="docutils literal notranslate"><span class="pre">ptoSimClass</span></code> (i.e. for each PTO-Sim block).</p>
 </dd></dl>
 
-<dl class="mat method">
+<dl class="method">
 <dt id="source.objects.responseClass.responseClass">
 <code class="sig-name descname">responseClass</code><span class="sig-paren">(</span><em class="sig-param">bodiesOutput</em>, <em class="sig-param">ptosOutput</em>, <em class="sig-param">constraintsOutput</em>, <em class="sig-param">ptosimOutput</em>, <em class="sig-param">mooringOutput</em>, <em class="sig-param">wave_type</em>, <em class="sig-param">wave_elev</em>, <em class="sig-param">hspressure</em>, <em class="sig-param">wpressurenl</em>, <em class="sig-param">wpressurel</em>, <em class="sig-param">yawNonLin</em><span class="sig-paren">)</span><a class="headerlink" href="#source.objects.responseClass.responseClass" title="Permalink to this definition">¶</a></dt>
 <dd><p>This method initilizes the <code class="docutils literal notranslate"><span class="pre">responseClass</span></code>, reads
@@ -516,47 +568,47 @@ output from each instance of a WEC-Sim class (e.g.
 </dl>
 </dd></dl>
 
-<dl class="mat method">
+<dl class="method">
 <dt id="source.objects.responseClass.loadMoorDyn">
 <code class="sig-name descname">loadMoorDyn</code><span class="sig-paren">(</span><em class="sig-param">numLines</em><span class="sig-paren">)</span><a class="headerlink" href="#source.objects.responseClass.loadMoorDyn" title="Permalink to this definition">¶</a></dt>
 <dd><p>This method reads MoorDyn outputs for each instance of the
 <code class="docutils literal notranslate"><span class="pre">mooringClass</span></code></p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters</dt>
-<dd class="field-odd"><p><strong>numLines</strong> – the number of MoorDyn lines</p>
+<dd class="field-odd"><p><strong>numLines</strong> (<em>integar</em>) – the number of MoorDyn lines</p>
 </dd>
 </dl>
 </dd></dl>
 
-<dl class="mat method">
+<dl class="method">
 <dt id="source.objects.responseClass.plotResponse">
 <code class="sig-name descname">plotResponse</code><span class="sig-paren">(</span><em class="sig-param">bodyNum</em>, <em class="sig-param">comp</em><span class="sig-paren">)</span><a class="headerlink" href="#source.objects.responseClass.plotResponse" title="Permalink to this definition">¶</a></dt>
 <dd><p>This method plots the response of a body for a given DOF.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters</dt>
 <dd class="field-odd"><ul class="simple">
-<li><p><strong>bodyNum</strong> – the body number to plot</p></li>
-<li><p><strong>comp</strong> – the response component (i.e. dof) to be plotted (e.g. 1-6)</p></li>
+<li><p><strong>bodyNum</strong> (<em>integar</em>) – the body number to plot</p></li>
+<li><p><strong>comp</strong> (<em>integar</em>) – the response component (i.e. dof) to be plotted (e.g. 1-6)</p></li>
 </ul>
 </dd>
 </dl>
 </dd></dl>
 
-<dl class="mat method">
+<dl class="method">
 <dt id="source.objects.responseClass.plotForces">
 <code class="sig-name descname">plotForces</code><span class="sig-paren">(</span><em class="sig-param">bodyNum</em>, <em class="sig-param">comp</em><span class="sig-paren">)</span><a class="headerlink" href="#source.objects.responseClass.plotForces" title="Permalink to this definition">¶</a></dt>
 <dd><p>This method plots the forces on a body for a given DOF.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters</dt>
 <dd class="field-odd"><ul class="simple">
-<li><p><strong>bodyNum</strong> – the body number to plot</p></li>
-<li><p><strong>comp</strong> – the force component (i.e. dof) to be plotted (e.g. 1-6)</p></li>
+<li><p><strong>bodyNum</strong> (<em>integar</em>) – the body number to plot</p></li>
+<li><p><strong>comp</strong> (<em>integar</em>) – the force component (i.e. dof) to be plotted (e.g. 1-6)</p></li>
 </ul>
 </dd>
 </dl>
 </dd></dl>
 
-<dl class="mat method">
+<dl class="method">
 <dt id="source.objects.responseClass.writetxt">
 <code class="sig-name descname">writetxt</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#source.objects.responseClass.writetxt" title="Permalink to this definition">¶</a></dt>
 <dd><p>This method writes WEC-Sim outputs to a (ASCII) text file.
@@ -564,7 +616,7 @@ This method is executed by specifying <code class="docutils literal notranslate"
 in the <code class="docutils literal notranslate"><span class="pre">wecSimInputFile.m</span></code>.</p>
 </dd></dl>
 
-<dl class="mat method">
+<dl class="method">
 <dt id="source.objects.responseClass.write_paraview">
 <code class="sig-name descname">write_paraview</code><span class="sig-paren">(</span><em class="sig-param">bodies</em>, <em class="sig-param">t</em>, <em class="sig-param">model</em>, <em class="sig-param">simdate</em>, <em class="sig-param">wavetype</em>, <em class="sig-param">mooring</em><span class="sig-paren">)</span><a class="headerlink" href="#source.objects.responseClass.write_paraview" title="Permalink to this definition">¶</a></dt>
 <dd><p>This method writes <code class="docutils literal notranslate"><span class="pre">*.vtp</span></code> files for visualization with
