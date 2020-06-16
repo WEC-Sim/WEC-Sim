@@ -21,21 +21,21 @@
 classdef waveClass<handle
     %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
     % The  ``waveClass`` creates a ``waves`` object saved to the MATLAB
-    % workspace. The ``waveClass`` includes contains properties and methods 
-    % for defining WEC-Sim's wave input. 
+    % workspace. The ``waveClass`` includes properties and methods used
+    % to define WEC-Sim's wave input. 
     %
     %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
     
     properties (SetAccess = 'public', GetAccess = 'public')         
         % The following properties are public, and can be defined in the
         % ``wecSimInputFile.m``.
-        type = 'NOT DEFINED'; % String specifying the wave type. Defined as: ``noWave``, ``noWaveCIC``, ``regular``, ``regularCIC``, ``irregular``, ``spectrumImport``, or ``etaImport``. Default = 'NOT DEFINED'
-        T = 'NOT DEFINED';  % Wave period [s]. Defined as: wave period for ``regular``, peak period for ``irregular``, or period of BEM data used for hydrodynamic coefficients for ``noWave``. Default = 'NOT DEFINED'
-        H = 'NOT DEFINED';  % Wave height [m]. Defined as: wave height for ``regular``, or significant wave height for ``irregular``. Default =  'NOT DEFINED'
-        spectrumType = 'NOT DEFINED';  % String specifying the wave spectrum type. Defined as: ``PM`` or ``JS``. Default = 'NOT DEFINED'
+        type = 'NOT DEFINED'; % String specifying the wave type, options include:``noWave``, ``noWaveCIC``, ``regular``, ``regularCIC``, ``irregular``, ``spectrumImport``, or ``etaImport``. Default = 'NOT DEFINED'
+        T = 'NOT DEFINED';  % Wave period [s]. Defined as wave period for ``regular``, peak period for ``irregular``, or period of BEM data used for hydrodynamic coefficients for ``noWave``. Default = 'NOT DEFINED'
+        H = 'NOT DEFINED';  % Wave height [m]. Defined as wave height for ``regular``, or significant wave height for ``irregular``. Default =  'NOT DEFINED'
+        spectrumType = 'NOT DEFINED';  % String specifying the wave spectrum type, options inlcude:``PM`` or ``JS``. Default = 'NOT DEFINED'
         gamma = [];         % Only used for ``JS`` wave spectrum type to define gamma. Default = []
-        phaseSeed = 0;      % Only used for ``irregular`` waves. Default = 0
-        spectrumDataFile = 'NOT DEFINED'; % Data file that contains the spectrum data file if equal to 1,2,3,...,etc, the waves phase is seeded. Default = 'NOT DEFINED'        
+        phaseSeed = 0;      % Only used for ``irregular`` waves to seed the random phase. If equal to 1,2,3,...,etc, the waves phase is seeded. Default = 0
+        spectrumDataFile = 'NOT DEFINED'; % Data file that contains the spectrum data file.  Default = 'NOT DEFINED'        
         etaDataFile = 'NOT DEFINED'; % Data file that contains the times-series data file. Default = 'NOT DEFINED'
         freqRange = [];     % Min and max frequency for irregular waves. 2x1 vector, rad/s, (default = frequency range in BEM data). Default = []
         numFreq = [];       % Number of interpolated wave frequencies. Number of frequencies used, varies depending on method: ``'Traditional'`` = 1000, ``'EqualEnergy'`` = 500 or ``Imported``. Default = []
@@ -48,10 +48,10 @@ classdef waveClass<handle
         wavegauge1loc = [0,0];  % Wave gauge 1 [x,y] location [m]. Default = [0,0]
         wavegauge2loc = [0,0];  % Wave gauge 2 [x,y] location [m]. Default = [0,0]
         wavegauge3loc = [0,0];  % Wave gauge 3 [x,y] location [m]. Default = [0,0]
-        currentSpeed = 0;	% Current seed [m/s]. Surface current speed that is uniform along the water column. Default = 0        
-        currentDirection = 0; % Current direction [deg]. Surface current direction defined using WEC-Sim global coordinate system. Default = 0   
-        currentOption = 3;  % Define the sub-surface current model to be used in WEC-Sim. Defined as: ``0`` for depth-independent model, ``1`` for 1/7 power law variation with depth, ``2`` : linear variation with depth, or ``3`` for no current. Default = 3 
-        currentDepth = 0;   % Current depth [m]. Define the depth over which the sub-surface current is modeled. Must be defined for options ``1`` and ``2``. The current is not calculated for any depths greater than the specified current depth. Default = 0
+        currentOption = 3;      % Define the sub-surface current model to be used in WEC-Sim. Defined as: ``0`` for depth-independent model, ``1`` for 1/7 power law variation with depth, ``2`` : linear variation with depth, or ``3`` for no current. Default = 3 
+        currentSpeed = 0;       % Current seed [m/s]. Surface current speed that is uniform along the water column. Default = 0        
+        currentDirection = 0;   % Current direction [deg]. Surface current direction defined using WEC-Sim global coordinate system. Default = 0   
+        currentDepth = 0;       % Current depth [m]. Define the depth over which the sub-surface current is modeled. Must be defined for options ``1`` and ``2``. The current is not calculated for any depths greater than the specified current depth. Default = 0
     end
     
     
@@ -77,31 +77,33 @@ classdef waveClass<handle
     methods (Access = 'public')
         function obj = waveClass(type)
             % This method initilizes the ``waveClass`` and creates a
-            % ``waves`` object. type - string containing the type of wave 
-            % simulation to be generated, the possible values are:            
+            % ``waves`` object.          
             %
             % Parameters
             % ------------
-            %     noWave : string
-            %         No waves
+            %     type : string
+            %         String specifying the wave type, options include:
             %
-            %     noWaveCIC : 
-            %         No waves but with the Convolution Integral Calculation to calculate radiation effects   
-            %    
-            %     regular : string
-            %         Regular waves
-            %
-            %     regularCIC : 
-            %         Regular waves with Convolution Integral Calculation to calculate radiation effects
-            %
-            %     irregular : string
-            %         No waves
-            %
-            %     spectrumImport : string
-            %         Irregular Waves with predefined phase
-            %
-            %     etaImport : string
-            %         Irregular Waves with predefined elevation
+            %           noWave 
+            %               No waves      
+            % 
+            %           noWaveCIC  
+            %               No waves but with the Convolution Integral Calculation to calculate radiation effects   
+            % 
+            %           regular 
+            %               Regular waves
+            % 
+            %           regularCIC 
+            %               Regular waves with Convolution Integral Calculation to calculate radiation effects
+            % 
+            %           irregular  
+            %           	Irregular Waves
+            % 
+            %           spectrumImport 
+            %           	Irregular Waves with predefined phase
+            % 
+            %           etaImport 
+            %               Irregular Waves with predefined elevation
             %
             % Returns
             % ------------
@@ -131,10 +133,15 @@ classdef waveClass<handle
         function plotEta(obj,rampTime)
             % This method plots wave elevation time-history
             %
+            % Parameters
+            % ------------
+            %     rampTime : float, optional
+            %         Specify wave ramp time to include in plot    
+            %
             % Returns
             % ------------
             %     figure : fig
-            %         Plot of wave elevation vs. time  
+            %         Plot of wave elevation versus time  
             %            
             figure
             plot(obj.waveAmpTime(:,1),obj.waveAmpTime(:,2))
@@ -154,7 +161,7 @@ classdef waveClass<handle
             % Returns
             % ------------
             %     figure : fig
-            %         Plot of wave spectrum
+            %         Plot of wave spectrum versus wave frequency
             %                 
             m0 = trapz(obj.w,obj.S);
             HsTest = 4*sqrt(m0);
@@ -178,7 +185,6 @@ classdef waveClass<handle
         function waveSetup(obj,bemFreq,wDepth,rampTime,dt,maxIt,g, rho, endTime)
             % This method calculates and sets wave properties based on wave type
             %
-            %      
             obj.bemFreq    = bemFreq;
             obj.setWaveProps(wDepth)
             switch obj.type
@@ -255,7 +261,7 @@ classdef waveClass<handle
         end
         
         function listInfo(obj)
-            % This method prints wave information to the Command Window
+            % This method prints wave information to the MATLAB Command Window
             %             
             fprintf('\nWave Environment: \n')
             switch obj.type
@@ -299,7 +305,6 @@ classdef waveClass<handle
         function waveNumber(obj,g)
             % This method calculates the wave number
             % 
-            %               
             obj.k = obj.w.^2./g;
             if obj.deepWaterWave == 0
                 for i=1:100
@@ -309,7 +314,9 @@ classdef waveClass<handle
         end
         
         function checkinputs(obj)
-            % Check user inputs
+            % This method checks WEC-Sim user inputs and generates error
+            % messages if parameters are not properly defined. 
+
             % 'noWave' period undefined for hydro data
             if strcmp(obj.type,'noWave')
                 if strcmp(obj.T,'NOT DEFINED')
@@ -319,7 +326,7 @@ classdef waveClass<handle
             % spectrumDataFile defined for 'spectrumImport' case
             if strcmp(obj.type,'spectrumImport')
                 if strcmp(obj.spectrumDataFile,'NOT DEFINED')
-                    error('The spectrumDataFile variable must be defined when using the "spectrumImport" wave type');
+                    error('The "spectrumDataFile variable must be defined when using the "spectrumImport" wave type');
                 end
             end
             % check waves types
@@ -331,7 +338,9 @@ classdef waveClass<handle
         end
         
         function write_paraview_vtp(obj, t, numPointsX, numPointsY, domainSize, model, simdate, mooring)
-            % Write vtp files for visualization using Paraview
+            % This methods writes vtp files for Paraview visualization 
+            %
+            
             % ground plane
             filename = ['vtk' filesep 'ground.txt'];
             fid = fopen(filename, 'w');
@@ -407,35 +416,29 @@ classdef waveClass<handle
             clear  numPoints numVertex numFace x y lx ly X Y Z fid filename p1 p2 p3 p4
         end
         
-        function Z = waveElevationGrid (obj, t, X, Y)
-            % This method calculates wave elevation on a grid at a given time
-            %
-            %
+        function Z = waveElevationGrid(obj, t, X, Y)
+            % This method calculates wave elevation on a grid at a given
+            % time, refer to: :meth:`waveClass.write_paraview_vtp`
+            %             
             % Parameters
             % ------------
+            %     waves: obj
+            %       waveClass object
             %
-            %  waves: obj
-            %         waveClass object
+            %     t : float
+            %       the current time
             %
-            %  t - the current time
+            %     X : matrix
+            %       (m x n) matrix of X coordinates at which to calculate the wave elevation
             %
-            %  X - (m x n) matrix of X coordinates at which to calculate
-            %    the wave elevation
-            %
-            %  Y - (m x n) matrix of Y coordinates at which to calculate
-            %    the wave elevation
+            %     Y : matrix
+            %       (m x n) matrix of Y coordinates at which to calculate the wave elevation
             %
             % Returns
             % ---------
+            %     Z : matrix
+            %       (m x n) matrix of Z coordinates of the wave elevation
             %
-            %  Z - (m x n) matrix of Z coordinates of the wave elevation
-            %
-            %
-            %
-
-            % See Also: waveClass.write_paraview_vtp
-            %
-            
             switch obj.type                
                 case {'noWave','noWaveCIC','etaImport'}                    
                     Z = zeros (size (X));                    
