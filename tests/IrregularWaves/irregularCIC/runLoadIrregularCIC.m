@@ -36,6 +36,9 @@ B2.WEC_Sim_new.heave=output.bodies(2).position(:,3)-Hshift2;
 % Relative Motion
 Rel.WEC_Sim_new.time=B1.WEC_Sim_new.time;
 Rel.WEC_Sim_new.heave=B1.WEC_Sim_new.heave-B2.WEC_Sim_new.heave;
+% Spectrum
+Sp.WEC_Sim_new.m0 = spectralMoment(waves.w,waves.S,0);
+Sp.WEC_Sim_new.m2 = spectralMoment(waves.w,waves.S,2);
 
 %% Load Data
 irrCICouput_new=output;        % Keeps the new run in the workspace
@@ -53,6 +56,9 @@ B2.WEC_Sim_org.heave=output.bodies(2).position(:,3)-Hshift2;
 % Relative Motion
 Rel.WEC_Sim_org.time=B1.WEC_Sim_org.time;
 Rel.WEC_Sim_org.heave=B1.WEC_Sim_org.heave-B2.WEC_Sim_org.heave;
+% Spectrum
+Sp.WEC_Sim_org.m0 = spectralMoment(waves.w,waves.S,0);
+Sp.WEC_Sim_org.m2 = spectralMoment(waves.w,waves.S,2);
 
 clear Hshift1 Hshift2
 
@@ -64,6 +70,7 @@ clear Hshift1 Hshift2
 irregularCIC.B1  = B1;
 irregularCIC.B2  = B2;
 irregularCIC.Rel = Rel;
+irregularCIC.Sp  = Sp;
 
 save('irregularCIC','irregularCIC')
 

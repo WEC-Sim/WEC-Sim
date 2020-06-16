@@ -119,6 +119,20 @@ org = irregularCIC.Rel.WEC_Sim_org.heave;
 new = irregularCIC.Rel.WEC_Sim_new.heave;
 assert(max(abs(org-new)) <= tol)
 
+%% irregularCIC 0th Order Spectral Moment
+load('irregularCIC.mat')
+tol = 1e-10;
+org = irregularCIC.Sp.WEC_Sim_org.m0;
+new = irregularCIC.Sp.WEC_Sim_new.m0;
+assert(max(abs(org-new)) <= tol)
+
+%% irregularCIC 2nd Order Spectral Moment
+load('irregularCIC.mat')
+tol = 1e-10;
+org = irregularCIC.Sp.WEC_Sim_org.m2;
+new = irregularCIC.Sp.WEC_Sim_new.m2;
+assert(max(abs(org-new)) <= tol)
+
 % irregularSS
 %% irregularSS Body 1
 load('irregularSS.mat')
@@ -142,15 +156,46 @@ org = irregularSS.Rel.WEC_Sim_org.heave;
 new = irregularSS.Rel.WEC_Sim_new.heave;
 assert(max(abs(org-new)) <= tol)
 
+%% irregularSS 0th Order Spectral Moment
+load('irregularSS.mat')
+tol = 1e-10;
+org = irregularSS.Sp.WEC_Sim_org.m0;
+new = irregularSS.Sp.WEC_Sim_new.m0;
+assert(max(abs(org-new)) <= tol)
+
+%% irregularSS 2nd Order Spectral Moment
+load('irregularSS.mat')
+tol = 1e-10;
+org = irregularSS.Sp.WEC_Sim_org.m2;
+new = irregularSS.Sp.WEC_Sim_new.m2;
+assert(max(abs(org-new)) <= tol)
+
 %% Passive Yaw Irregular Waves
 % motions
 load('IrrYaw')
 tol = 1e-10;
 assert(IrrYaw.Pos_diff <= tol)
 
+%% Passive Yaw Irregular Waves
+% forces
+load('IrrYaw')
 % forces; use a larger tolerance to accomodate their larger magnitude
 tol=1e-4;
 assert(IrrYaw.Force_diff <= tol)
+
+%% Passive Yaw 0th Order Spectral Moment
+load('IrrYaw.mat')
+tol = 1e-10;
+org = IrrYaw.Sp.WEC_Sim_org.m0;
+new = IrrYaw.Sp.WEC_Sim_new.m0;
+assert(max(abs(org-new)) <= tol)
+
+%% Passive Yaw 2nd Order Spectral Moment
+load('IrrYaw.mat')
+tol = 1e-10;
+org = IrrYaw.Sp.WEC_Sim_org.m2;
+new = IrrYaw.Sp.WEC_Sim_new.m2;
+assert(max(abs(org-new)) <= tol)
 
 %% Passive Yaw Regular Waves
 % motions
