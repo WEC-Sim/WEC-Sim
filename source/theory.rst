@@ -154,6 +154,11 @@ where :math:`t` is the simulation time and :math:`t_{r}` is the ramp time.
 
 Sinusoidal Steady-State Response 
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+.. note::
+    I think a diagram showing a "sinusoidal system response in steady-state 
+    form" would be helpful to explain this case.
+
 This approach assumes that the system response is in sinusoidal steady-state form; therefore, it is only valid for regular wave simulations. The radiation term can be calculated using the added mass and the wave radiation damping term for a given wave frequency, which is obtained from
 
 .. math::
@@ -161,6 +166,10 @@ This approach assumes that the system response is in sinusoidal steady-state for
 	F_{rad}(t)=-A(\omega)\ddot{X}-B(\omega)\dot{X}
 
 where :math:`\dot{X}` is the velocity vector of the floating body.
+
+.. note::
+    Why mention the free surface profile here? Is it used somewhere else outside
+    of this section?
 
 The free surface profile is based on linear wave theory for a given wave height, wave frequency, and water depth. The regular wave excitation force is obtained from
 
@@ -173,6 +182,12 @@ where :math:`\Re` denotes the real part of the formula, :math:`R_{f}` is the ram
 
 Convolution Integral Formulation
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+.. note:: 
+    The wikipedia page for `convolutions 
+    <https://en.wikipedia.org/wiki/Convolution>`_ might be helpful to link
+    here.
+
 To include the fluid memory effect, the convolution integral formulation based upon the Cummins equation :cite:`Cummins1962` is used. The radiation term can be calculated by
 
 .. math::
@@ -180,6 +195,18 @@ To include the fluid memory effect, the convolution integral formulation based u
 	F_{rad}(t)=-A_{\infty}\ddot{X}-\intop_{0}^{t}K_{r}(t-\tau)\dot{X}(\tau)d\tau
 
 where :math:`A_{\infty}` is the added mass matrix at infinite frequency and :math:`K_{r}` is the radiation impulse response function. This representation also assumes that there is no motion for :math:`t<0`.
+
+.. note::
+    Probably better to use `equation referencing <https://www.sphinx-doc.org/en/master/usage/restructuredtext/domains.html#role-math-numref>`_
+    rather than say "the equation described in the last subsection".
+
+.. note::
+    The free surface is mentioned again here, but it's usage is not described
+    anywhere. Is it calculated just for fun?
+
+.. note::
+    There is a section on wave spectra later on, which should probably be
+    linked to.
 
 For regular waves, the equation described in the last subsection is used to calculate the wave excitation vector.
 For irregular waves, the free surface elevation is constructed from a linear superposition of a number of regular wave components. 
@@ -189,10 +216,30 @@ Each regular wave component is extracted from a wave spectrum, :math:`S(\omega)`
 
 	F_{exc}(t)=\Re\left[ R_{f}(t) \sum_{j=1}^{N}F_{exc}(\omega_{j}, \theta)e^{i(\omega_{j}t+\phi_{j})} \sqrt{2S(\omega_{j})d\omega_{j}} \right]
 
+.. note:: 
+    I might be being thick, again, but I don't see the integral term in 
+    this equation.
+
 where :math:`\phi` is the randomized phase angle and :math:`N` is the number of frequency bands selected to discretize the wave spectrum. For repeatable simulation of an irregular wave field :math:`S(\omega)`, WEC-Sim allows specification of :math:`\phi`, refer to the :ref:`seeded_phase` section. 
+
+.. note::
+    Regarding the random phase angle, a better approach would be to treat this 
+    as a statistical problem, as the mean and the extremes will be useful in 
+    different design cases. Overall, I don't think a single sample (even if you 
+    can make it repeatable by fixing the random seed), is that informative. 
 
 State Space  
 ^^^^^^^^^^^^^^^^^^^^^^^
+
+.. note::
+    More paywalled references here. `Here 
+    <https://en.wikipedia.org/wiki/State-space_representation>`_ is a wikipedia
+    page that is useful. I think it's also worth mentioning that this is moving
+    into the electrical analogue kind of approach now.
+
+.. note::
+    I don't see reuse of the abbreviation SS
+
 It is highly desirable to represent the radiation convolution integral described in the last subsection in state space (SS) form :cite:`Yu1996`.  This has been shown to dramatically increase computational speeds :cite:`Taghipour2008` and allow utilization of conventional control methods that rely on linear state space models.  An approximation will need to be made as :math:`K_{r}` is solved from a set of partial differential equations where as a `linear state space` is constructed from a set of ordinary differential equations.  In general, a linear system is desired such that:
 
 .. math::
@@ -205,6 +252,9 @@ with :math:`\mathbf{A_{r}},~\mathbf{B_{r}},~\mathbf{C_{r}},~\mathbf{D_{r}}` bein
 Calculation of :math:`K_{r}` from State Space Matrices
 """"""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 
+.. note::
+    What does "zero-state" mean?
+
 The impulse response of a single-input zero-state state-space model is represented by
 
 .. math::
@@ -214,12 +264,18 @@ The impulse response of a single-input zero-state state-space model is represent
 
 where :math:`u` is an impulse. If the initial state is set to :math:`x(0)= \mathbf{B_{r}} u` the response of the unforced (:math:`u=0`) system
 
+.. note::
+    The initial state of which equation?
+
 .. math::
 
 	\dot{x} = \mathbf{A_{r}} x~~, \\
 	y = \mathbf{C_{r}} x~~
 
 is clearly equivalent to the zero-state impulse response. The impulse response of a continuous system with a nonzero :math:`\mathbf{D_r}` matrix is infinite at :math:`t=0`; therefore, the lower continuity value :math:`\mathbf{C_{r}}\mathbf{B_{r}}` is reported at :math:`t=0`. The general solution to a linear time invariant (LTI) system is given by:
+
+.. note::
+    I don't follow how the zero-state model relates to the general solution.
 
 .. math::
 
@@ -231,8 +287,19 @@ where :math:`e^{\mathbf{A_{r}}}` is the matrix exponential and the calculation o
 
 	K_{r}(t) = \mathbf{C_{r}}e^{\mathbf{A_{r}}t}\mathbf{B_{r}}~~
 
+.. note::
+    OK, that's fine, I guess, but I don't really see how this helps in finding
+    :math:`F_{rad}(t)`?
+
 Realization Theory
 """"""""""""""""""""""""""""""""""""""""""""""""""""""""""""
+
+.. note::
+    I don't see reuse of the abbreviation TD.
+
+.. warning::
+    There is a lot of jargon in this section, such as "feedthrough matrix".
+
 The state space realization of the hydrodynamic radiation coefficients can be pursued in the time domain (TD). This consists of finding the minimal order of the system and the discrete time state matrices (:math:`\mathbf{A_{d}},~\mathbf{B_{d}},~\mathbf{C_{d}},~\mathbf{D_{d}}`) from samples of the impulse response function.  This problem is easier to handle for a discrete-time system than for continuous-time. The reason being is that the impulse response function of a discrete-time system is given by the Markov parameters of the system:
 
 .. math::
@@ -240,6 +307,9 @@ The state space realization of the hydrodynamic radiation coefficients can be pu
 	\mathbf{\tilde{K}_{r}} \left( t_{k} \right) = \mathbf{C_{d}}\mathbf{A_{d}}^{k}\mathbf{B_{d}}~~
 
 where :math:`t_{k}=k\Delta t` for :math:`k=0,~1,~2,~\ldots` with :math:`\Delta t` being the sampling period.  The feedthrough matrix :math:`\mathbf{D_d}` is assumed to be zero in order to maintain causality of the system, as a non-zero :math:`\mathbf{D_d}` results in an infinite value at :math:`t=0`.
+
+.. note::
+    The reference here is simply not obtainable.
 
 The most common algorithm to obtain the realization is to perform a Singular Value Decomposition (SVD) on the Hankel matrix of the impulse response function, as proposed by Kung :cite:`Kung1978`.  The order of the system and state-space parameters are determined from the number of significant singular values and the factors of the SVD.  The Hankel matrix (:math:`H`) of the impulse response function
 
@@ -260,9 +330,19 @@ can be reproduced exactly by the SVD as
 
 where :math:`\Sigma` is a diagonal matrix containing the Hankel singular values in descending order.  Examination of the Hankel singular values reveals there are only a small number of significant states and that the rank of :math:`H` can be greatly reduced without a significant loss in accuracy :cite:`Taghipour2008,Kristiansen2005`. Further detail into the SVD method and calculation of the state space parameters will not be discussed here and the reader is referred to :cite:`Taghipour2008,Kristiansen2005`.
 
+.. note::
+    I'm not sure I'm any wiser after this section, TBH. I'm taking that there 
+    is a simplification that can be done, but I'm not even sure if that's the 
+    take away.
+
 
 Regular Waves
 -------------
+
+.. note::
+    This section and the next should be in a higher level section called
+    "Wave Generation". In fact, the section naming in this page is not great,
+    overall, and should relate more to where this theory is used in the code.
 
 Regular waves are defined as planar sinusoidal waves, where the incident wave is defined as :math:`\eta(x,y,t)` :
 
@@ -271,6 +351,9 @@ Regular waves are defined as planar sinusoidal waves, where the incident wave is
 	\eta(x,y,t)= \frac{H}{2} \cos( \omega t - k (x\cos \theta + y\sin \theta) + \phi)
 
 where :math:`H` is the wave height, :math:`\omega` is the wave frequency  (:math:`\omega = \frac{2\pi}{T}`), :math:`k` is the wave number (:math:`k = \frac{2\pi}{\lambda}`), :math:`\theta` is the wave direction, and :math:`\phi` is the wave phase.   
+
+.. note::
+    And :math:`T` is the wave period, and :math:`\lambda` is the wave length.
 
 Irregular Waves
 ----------------
@@ -300,11 +383,20 @@ where :math:`S\left( f\right)` is the wave power spectrum, :math:`f` is the wave
 
 so that the total energy in the directional spectrum must be the same as the total energy in the one-dimensional spectrum.
 
+.. note::
+    Where did this eq below come from???? It seems totally out of place here and 
+    maybe should go at the end, saying this is the general PM spectrum 
+    (according to Falnes), the coefficients of which can describe a number of 
+    different spectra.
+
 .. math::
 	
 	S\left( f \right) = A f^{-5}\exp\left[-B f^{-4} \right]~~
 
 where :math:`A` and :math:`B` are coefficients that vary depending on the wave spectrum and :math:`\exp` stands for the exponential function. Spectral moments of the wave spectrum, denoted :math:`m_{k}~,~k=0, 1, 2,...`, are defined as
+
+.. note::
+    It's weird because you go back to the general form of S here.
 
 .. math::
 	m_{k} = \int_{0}^{\infty} f^{k} S \left( f \right) df ~~
@@ -372,6 +464,9 @@ Power Take-Off (PTO)
 
 Throughout the following sections, unless specification is made between linear and rotary PTOs, units are not explicitly stated.
 
+.. note::
+    I don't think there are any rotary PTOs, right?
+
 Linear PTO
 ^^^^^^^^^^^^^^^^^^^^^^^
 The PTO mechanism is represented as a linear spring-damper system where the reaction force is given by: 
@@ -387,7 +482,9 @@ The instantaneous power absorbed by the PTO is given by:
 	
 	P_{pto} = -F_{pto}\dot{X}_{rel}=\left(K_{pto}X_{rel}\dot{X}_{rel}+C_{pto}\dot{X}^{2}_{rel}\right)
 
-
+.. note::
+    This equation is basically repeated three times and could maybe be introduced
+    in the introduction to the section once instead.
 
 Hydraulic PTO
 ^^^^^^^^^^^^^^^^^^^^^^^
@@ -408,6 +505,11 @@ The instantaneous hydraulic power absorbed by the PTO is given by:
 
 Mechanical PTO
 ^^^^^^^^^^^^^^^^^^^^^^^
+
+.. note::
+    It's a little confusing that this is a linear generator but not a linear
+    PTO.
+
 The PTO mechanism is modeled as a direct-drive linear generator system :cite:`So`, where the reaction force is given by:
 
 .. math::
@@ -426,6 +528,25 @@ For more information about application of pto systems in WEC-Sim, refer to :ref:
 
 Mooring 
 -------
+
+.. note::
+    This is in the wrong place, but I actually think the way you distribute the
+    Moordyn binary contravenes its licence. GPL3 says that in order to distribute
+    a binary without the source code it should be:
+    
+        "accompanied by a written offer, valid for at least three years and 
+        valid for as long as you offer spare parts or customer support for 
+        that product model, to give anyone who possesses the object code 
+        either (1) a copy of the Corresponding Source for all the software in 
+        the product that is covered by this License, on a durable physical 
+        medium customarily used for software interchange, for a price no more 
+        than your reasonable cost of physically performing this conveying of 
+        source, or (2) access to copy the Corresponding Source from a network 
+        server at no charge. "
+     
+     There is no such written offer in the https://github.com/WEC-Sim/moorDyn
+     repo.
+
 The mooring load is represented using a linear quasi-static mooring stiffness or by using the mooring forces calculated from `MoorDyn <http://www.matt-hall.ca/moordyn>`_ :cite:`Hall2015MoorDynGuide`, which is an open-source lumped-mass mooring dynamics model. 
 
 Mooring Matrix
@@ -436,6 +557,9 @@ When linear quasi-static mooring stiffness is used, the mooring load can be calc
 	F_{m}=-K_{m}X-C_{m}\dot{X}
 
 where :math:`K_{m}` and :math:`C_{m}` are the stiffness and damping matrices for the mooring system, and :math:`X` and :math:`\dot{X}` are the displacement and velocity of the body, respectively.
+
+.. note::
+    These matrices are user supplied?
 
 MoorDyn
 ^^^^^^^^^^^^^^^^^^^^^^^
