@@ -7,5 +7,5 @@
 * **Tests**: WEC-Sim tests run by Jenkins CI
 * **Tutorials**: [WEC-Sim Tutorials](http://wec-sim.github.io/WEC-Sim/tutorials.html)
 
-For more applications of the WEC-Sim code, refer to the [WEC-Sim Applications](https://github.com/WEC-Sim/WEC-Sim_Applications) respository.
+Refer to the [WEC-Sim Applications](https://github.com/WEC-Sim/WEC-Sim_Applications) respository for more applications of the WEC-Sim code,.
 
