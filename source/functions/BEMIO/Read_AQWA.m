@@ -19,6 +19,8 @@ if b==1
 elseif b>1  F = b+1;
 end
 
+%%
+
 p = waitbar(0,'Reading AQWA output file...'); %Progress bar
 e = 0;
 
@@ -37,7 +39,7 @@ raw2            = raw2{:};
 fclose(fileID);
 N               = length([raw1(:);raw2(:)]);
 
-
+%% 
 % n=2;
 n = 1;
 TF = 1;
@@ -47,15 +49,20 @@ while TF == 1
     TF  = startsWith(raw1(n),'*');
 end
 
+%%
+
 tmp = str2num(raw1{n});
 COGidx=find(contains(raw1,'COG'),1); % finds line of COG heading
 DRAFTidx=find(contains(raw1,'DRAFT'),1); % finds line of DRAFT heading
 hydro(F).Nb = (DRAFTidx-COGidx)-1; % Number of bodies is the distance between (in all tested versions)
-    
+
+%%
+
 for i=1:hydro(F).Nb
     hydro(F).body{i}    = ['body' num2str(i)]; %Body name
     hydro(F).dof(i)     = 6;  % Default degrees of freedom for each body is 6
 end
+%%
 hydro(F).Nh     = tmp(2);  % Number of wave headings
 hydro(F).Nf     = tmp(3);  % Number of wave frequencies
 hydro(F).beta   = [];
@@ -64,19 +71,20 @@ for i = 1:ceil(hydro(F).Nh/6)
     n               = n+1;
 end
 hydro(F).beta(1:3) = [];
+%%
 hydro(F).w = [];
 for i=1:ceil(hydro(F).Nf/6)
     hydro(F).w = [hydro(F).w str2num(raw1{n})]; % Wave frequencies
     n = n+1;
 end
 hydro(F).T = 2*pi./hydro(F).w;
-
+%%
 for ln = n:length(raw1);
     if isempty(strfind(raw1{ln},'GENERAL'))==0
         if V182 == 1  % General information columns in Versions>18.2
             tmp = str2num(raw1{ln+1});
             hydro(F).h      = tmp(2);   % Water depth
-            hydro(F).rho    = tmp(3); % Water density
+            hydro(F).rho    = tmp(3);   % Water density
             hydro(F).g      = tmp(4);   % Gravity
         else          % General information columns in Versions<18.2
             tmp = str2num(raw1{ln+1});
@@ -151,10 +159,12 @@ for ln = n:length(raw1);
     if (d>e) waitbar(ln/N); e = d; end
 end
 
+%%
+V2020       = [];
 hydro(F).Vo = [];
 hydro(F).cb = [];
 lnlog=zeros(length(raw2),1); % initialize line find log
-for ln=1:length(raw2);
+for ln=1:length(raw2)
     if isempty(strfind(raw2{ln},'MESH BASED DISPLACEMENT'))==0
         tmp = textscan(raw2{ln}(find(raw2{ln}=='=')+1:end),'%f');
         hydro(F).Vo = [hydro(F).Vo tmp{1}];   % Volume
@@ -169,9 +179,17 @@ for ln=1:length(raw2);
         
     elseif isempty(strfind(raw2{ln},'FROUDE KRYLOV + DIFFRACTION FORCES-VARIATION WITH WAVE PERIOD'))==0
         k=str2num(raw2{ln-2}(end-9:end-8));                       % Body number flag
+        if isempty(k) 
+            k=str2num(raw2{ln-3}(end-9:end-8));                     % Version 2020 R1
+            V2020 = 1;
+        end
         for j=1:hydro(F).Nh
             for i=1:hydro(F).Nf
-                tmp1 = str2num(raw2{ln+6+(j-1)*(hydro(F).Nf+9)+(i-1)});
+                if isempty(V2020)
+                    tmp1 = str2num(raw2{ln+6+(j-1)*(hydro(F).Nf+9)+(i-1)});
+                else
+                    tmp1 = str2num(raw2{ln+6+(j-1)*(hydro(F).Nf+10)+(i-1)});
+                end
                 if i==1;
                     ind = tmp1(1:3); tmp1(1:3)=[];
                 else
@@ -190,9 +208,17 @@ for ln=1:length(raw2);
     elseif isempty(strfind(raw2{ln},'DIFFRACTION FORCES-VARIATION WITH WAVE PERIOD/FREQUENCY'))==0 ...
             && isempty(strfind(raw2{ln},'FROUDE KRYLOV +'))==1
         kdiff=str2num(raw2{ln-2}(end-9:end-8));                       % Body number flag
+        if isempty(kdiff) 
+            kdiff = str2num(raw2{ln-3}(end-9:end-8));                     % Version 2020 R1
+            V2020 = 1;
+        end
         for j=1:hydro(F).Nh
             for i=1:hydro(F).Nf
-                tmp1 = str2num(raw2{ln+6+(j-1)*(hydro(F).Nf+9)+(i-1)});
+                if isempty(V2020)
+                    tmp1 = str2num(raw2{ln+6+(j-1)*(hydro(F).Nf+9)+(i-1)});
+                else
+                    tmp1 = str2num(raw2{ln+6+(j-1)*(hydro(F).Nf+10)+(i-1)});
+                end
                 if i==1;
                     ind = tmp1(1:3); tmp1(1:3)=[];
                 else
@@ -213,6 +239,7 @@ for ln=1:length(raw2);
     if (d>e) waitbar((ln+length(raw1))/N); e = d; end
     
 end
+%%
 hydro = Normalize(hydro);  % Normalize the data according the WAMIT convention
 close(p);
 end
