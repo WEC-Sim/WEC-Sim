@@ -102,6 +102,7 @@
 <li class="toctree-l2"><a class="reference internal" href="#wave-class">Wave Class</a></li>
 <li class="toctree-l2"><a class="reference internal" href="#response-class">Response Class</a></li>
 <li class="toctree-l2"><a class="reference internal" href="#simulation-class">Simulation Class</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#mooring-class">Mooring Class</a></li>
 </ul>
 </li>
 </ul>
@@ -982,6 +983,139 @@ specified and that the SimMechanics model exists</p>
 <dd class="field-odd"><ul class="simple">
 <li><p><strong>rho</strong> (<em>number</em>) – density of the fluid medium (kg/m^3)</p></li>
 <li><p><strong>g</strong> (<em>number</em>) – gravitational acceleration constant (m/s^2)</p></li>
+</ul>
+</dd>
+</dl>
+</dd></dl>
+
+</dd></dl>
+
+</div>
+<div class="section" id="mooring-class">
+<span id="mooring"></span><h2>Mooring Class<a class="headerlink" href="#mooring-class" title="Permalink to this headline">¶</a></h2>
+<dl class="class">
+<dt id="source.objects.mooringClass">
+<em class="property">class </em><code class="sig-prename descclassname">source.objects.</code><code class="sig-name descname">mooringClass</code><span class="sig-paren">(</span><em class="sig-param">name</em><span class="sig-paren">)</span><a class="headerlink" href="#source.objects.mooringClass" title="Permalink to this definition">¶</a></dt>
+<dd><p>This class contains mooring parameters and settings</p>
+<dl class="attribute">
+<dt id="source.objects.mooringClass.name">
+<code class="sig-name descname">name</code><em class="property"> = &quot;'NOT DEFINED'&quot;</em><a class="headerlink" href="#source.objects.mooringClass.name" title="Permalink to this definition">¶</a></dt>
+<dd><p>Name of the mooring</p>
+</dd></dl>
+
+<dl class="attribute">
+<dt id="source.objects.mooringClass.ref">
+<code class="sig-name descname">ref</code><em class="property"> = '[0 0 0]'</em><a class="headerlink" href="#source.objects.mooringClass.ref" title="Permalink to this definition">¶</a></dt>
+<dd><p>Mooring Reference location. Default = [0 0 0]</p>
+</dd></dl>
+
+<dl class="attribute">
+<dt id="source.objects.mooringClass.moorDynLines">
+<code class="sig-name descname">moorDynLines</code><em class="property"> = '0'</em><a class="headerlink" href="#source.objects.mooringClass.moorDynLines" title="Permalink to this definition">¶</a></dt>
+<dd><p>Number of lines in MoorDyn default = 0</p>
+</dd></dl>
+
+<dl class="attribute">
+<dt id="source.objects.mooringClass.moorDynNodes">
+<code class="sig-name descname">moorDynNodes</code><em class="property"> = '[]'</em><a class="headerlink" href="#source.objects.mooringClass.moorDynNodes" title="Permalink to this definition">¶</a></dt>
+<dd><p>number of nodes for each line.</p>
+</dd></dl>
+
+<dl class="attribute">
+<dt id="source.objects.mooringClass.loc">
+<code class="sig-name descname">loc</code><em class="property"> = '[]'</em><a class="headerlink" href="#source.objects.mooringClass.loc" title="Permalink to this definition">¶</a></dt>
+<dd><p>Initial 6DOF location, default = [0 0 0 0 0 0]</p>
+</dd></dl>
+
+<dl class="attribute">
+<dt id="source.objects.mooringClass.mooringNum">
+<code class="sig-name descname">mooringNum</code><em class="property"> = '[]'</em><a class="headerlink" href="#source.objects.mooringClass.mooringNum" title="Permalink to this definition">¶</a></dt>
+<dd><p>Mooring number</p>
+</dd></dl>
+
+<dl class="attribute">
+<dt id="source.objects.mooringClass.moorDyn">
+<code class="sig-name descname">moorDyn</code><em class="property"> = '0'</em><a class="headerlink" href="#source.objects.mooringClass.moorDyn" title="Permalink to this definition">¶</a></dt>
+<dd><p>Flag to indicate a MoorDyn block, default = 0;</p>
+</dd></dl>
+
+<dl class="attribute">
+<dt id="source.objects.mooringClass.moorDynInputRaw">
+<code class="sig-name descname">moorDynInputRaw</code><em class="property"> = '[]'</em><a class="headerlink" href="#source.objects.mooringClass.moorDynInputRaw" title="Permalink to this definition">¶</a></dt>
+<dd><p>MoorDyn input file, each line read as a string into a cell array</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="source.objects.mooringClass.mooringClass">
+<code class="sig-name descname">mooringClass</code><span class="sig-paren">(</span><em class="sig-param">name</em><span class="sig-paren">)</span><a class="headerlink" href="#source.objects.mooringClass.mooringClass" title="Permalink to this definition">¶</a></dt>
+<dd><p>This method initializes the mooringClass object</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="source.objects.mooringClass.setLoc">
+<code class="sig-name descname">setLoc</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#source.objects.mooringClass.setLoc" title="Permalink to this definition">¶</a></dt>
+<dd><p>This method sets mooring location</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="source.objects.mooringClass.setInitDisp">
+<code class="sig-name descname">setInitDisp</code><span class="sig-paren">(</span><em class="sig-param">x_rot</em>, <em class="sig-param">ax_rot</em>, <em class="sig-param">ang_rot</em>, <em class="sig-param">addLinDisp</em><span class="sig-paren">)</span><a class="headerlink" href="#source.objects.mooringClass.setInitDisp" title="Permalink to this definition">¶</a></dt>
+<dd><p>Method to set the initial displacement with an initial rotation</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>x_rot</strong> (<em>3 x 1 vector</em>) – displacement of mooring reference</p></li>
+<li><p><strong>ax_rot</strong> (<em>3 x 1 vector</em>) – axis about which to rotate (must be a normal vector)</p></li>
+<li><p><strong>ang_rot</strong> (<em>scalar</em>) – rotation displacement (radians)</p></li>
+<li><p><strong>addLinDisp</strong> (<em>3 x 1 vector</em>) – initial linear displacement (additional to rotation-induced displacement)</p></li>
+</ul>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="method">
+<dt id="source.objects.mooringClass.rotateXYZ">
+<code class="sig-name descname">rotateXYZ</code><span class="sig-paren">(</span><em class="sig-param">x</em>, <em class="sig-param">ax</em>, <em class="sig-param">t</em><span class="sig-paren">)</span><a class="headerlink" href="#source.objects.mooringClass.rotateXYZ" title="Permalink to this definition">¶</a></dt>
+<dd><p>Method to rotate a point about an arbitrary axis</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>x</strong> (<em>3 x 1 vector</em>) – coordinates of point to rotate</p></li>
+<li><p><strong>ax</strong> (<em>3 x 1 vector</em>) – axis about which to rotate</p></li>
+<li><p><strong>t</strong> (<em>scalar</em>) – rotation angle (radian)</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p><strong>xn</strong> – new coordinates after rotation</p>
+</dd>
+<dt class="field-odd">Return type</dt>
+<dd class="field-odd"><p>3 x 1 vector</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="method">
+<dt id="source.objects.mooringClass.moorDynInput">
+<code class="sig-name descname">moorDynInput</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#source.objects.mooringClass.moorDynInput" title="Permalink to this definition">¶</a></dt>
+<dd><p>Method to read MoorDyn input file</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="source.objects.mooringClass.write_paraview_vtp">
+<code class="sig-name descname">write_paraview_vtp</code><span class="sig-paren">(</span><em class="sig-param">moorDyn</em>, <em class="sig-param">model</em>, <em class="sig-param">t</em>, <em class="sig-param">simdate</em>, <em class="sig-param">nline</em>, <em class="sig-param">nnode</em>, <em class="sig-param">pathParaviewVideo</em>, <em class="sig-param">TimeBodyParav</em>, <em class="sig-param">NewTimeParaview</em><span class="sig-paren">)</span><a class="headerlink" href="#source.objects.mooringClass.write_paraview_vtp" title="Permalink to this definition">¶</a></dt>
+<dd><p>Method to write <code class="docutils literal notranslate"><span class="pre">vtp</span></code> Paraview visualization files</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>moorDyn</strong> (<em>obj</em>) – The moorDyn object</p></li>
+<li><p><strong>model</strong> (<em>string</em>) – The simMechanics <code class="docutils literal notranslate"><span class="pre">.slx</span></code> file</p></li>
+<li><p><strong>t</strong> (<em>vector</em>) – Moordyn time vector</p></li>
+<li><p><strong>simdate</strong> (<em>string</em>) – Date string</p></li>
+<li><p><strong>nline</strong> (<em>integer</em>) – Number of mooring lines</p></li>
+<li><p><strong>nnode</strong> (<em>integer</em>) – Number of nodes on mooring lines</p></li>
+<li><p><strong>pathParaviewVideo</strong> (<em>directory</em>) – Directory the Paraview files were saved</p></li>
+<li><p><strong>TimeBodyParav</strong> (<em>vector</em>) – Paraview time vector</p></li>
+<li><p><strong>simu.g</strong> (<em>number</em>) – Gravitational acceleration from simulationClass</p></li>
 </ul>
 </dd>
 </dl>

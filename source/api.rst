@@ -54,3 +54,14 @@ Simulation Class
 	:members:
 	:exclude-members: listInfo, getWecSimVer
 	:no-undoc-members: 
+
+.. _mooring:
+
+Mooring Class
+------------
+
+.. autoclass:: source.objects.mooringClass
+	:members:
+	:exclude-members: listInfo
+	:no-undoc-members: 
+	
