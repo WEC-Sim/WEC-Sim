@@ -5,6 +5,14 @@ Code Structure
 This section provides a description of the WEC-Sim source code and its structure. 
 For more information about WEC-Sim's code structure, refer to the :ref:`webinars:WEC-Sim Code Structure` webinar.
 
+.. note::
+    Well, the webinar explains the relationship between the simulink file and
+    the input file, which wasn't specified in the docs up to now, so that's
+    good. The fact that you're having to train folk how to use OOP seems like
+    the choice to use OOP to collect user input was perhaps the wrong design.
+    Also, It seems like there is "a way" that the Simulink file should be put 
+    together, but I'm yet to encounter any description of that "way" and I'm
+    kind of going through the developer focussed parts (yes?) of the docs now.
 
 WEC-Sim Source Code
 --------------------------------
@@ -20,7 +28,17 @@ WEC-Sim MATLAB Objects      ``<object>Class.m``   ``$WECSIM/source/objects``
 WEC-Sim Simulink Library    ``<block>_Lib.slx``   ``$WECSIM/source/lib``
 =========================   ====================  ==========================
 
-
+.. note::
+    The use of the term "object" here is a bit strange, e.g. "objects defined 
+    in WEC-Sim as classes" is an odd what to put it, and I think you 
+    should just say classes when you are referring to what is in the objects 
+    folder of the source code, because that's what they are (every file is 
+    named somethingClass, after all.) 
+    
+    I think I would also remove the term Class in all the classes. You don't 
+    put the work Function after all your functions. The first letter is capital 
+    naming convention for MATLAB classes can distinguish between classes and 
+    functions (and objects). 
 
 WEC-Sim Objects
 ----------------
@@ -55,6 +73,13 @@ For more information about application of WEC-Sim's simulation class, refer to :
 
 Wave Class
 ^^^^^^^^^^^^^^^^^^^^^^^
+
+.. note::
+    From a naming perspective, I noticed in the webinar you spent some time
+    explaining that this is just for describing the incident wave, why then
+    not call the class 'IncidentWave' or something else to help enforce
+    what is an important distinction?
+
 The wave class file, ``waveClass.m``, is located in the ``$WECSIM/source/objects`` directory. 
 The wave class contains all wave information necessary to define the incident wave condition for the WEC-Sim time-domain simulation. 
 Within the ``wecSimInputFile.m``, users must initialize the wave class (``waveClass``) and specify the wave ``type`` by including the following lines::

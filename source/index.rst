@@ -8,6 +8,7 @@
    :maxdepth: 4
    :hidden:
 
+   mathew.rst
    terminology.rst
    getting_started.rst
    overview.rst
