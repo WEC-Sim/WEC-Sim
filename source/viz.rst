@@ -34,39 +34,50 @@ Setting Up Paraview Output
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 The following table shows the variables that can be specified in the ``wecSimInputFile`` to control the Paraview visualization. The ``body.viz`` properties are also used in the SimMechanics explorer visualization.
 
-+------------------------------------------------------------------------------------+
-|WEC-Sim Visualization using Paraview                                                |
-+=========================+==========================================================+
-|Variable                 |Description                                               |
-+-------------------------+----------------------------------------------------------+
-|``simu.paraview``        |0 to not output Paraview files [default]                  |
-|                         |1 to output Paraview files                                |
-+-------------------------+----------------------------------------------------------+
-|``simu.nlHydro``         |0 for no non-linear hydro [default]                       |
-|                         |1 for non-linear hydro with mean free surface             |
-|                         |2 for non-linear hydro with instantaneous free surface    |
-+-------------------------+----------------------------------------------------------+
-|``simu.domainSize``      |size of ground and water planes in meters [default 200]   |
-+-------------------------+----------------------------------------------------------+
-|``simu.dtOut``           |simulation output sampling time step [default dt]         |
-+-------------------------+----------------------------------------------------------+
-|``body(i).viz.color``    |[RGB] body color [default [1 1 0]]                        |
-+-------------------------+----------------------------------------------------------+   
-|``body(i).viz.opacity``  |body opacity [default 1]                                  |
-+-------------------------+----------------------------------------------------------+   
-|``waves.viz.numPointsX`` |wave plane discretization: number of X points [default 50]|
-+-------------------------+----------------------------------------------------------+   
-|``waves.viz.numPointsY`` |wave plane discretization: number of Y points [default 50]|
-+-------------------------+----------------------------------------------------------+   
++---------------------------------------------------------------------------------------+
+| WEC-Sim Visualization using Paraview                                                  |
++===========================+===========================================================+
+| Variable                  | Description                                               |
++---------------------------+-----------------------------------------------------------+
+| | ``simu.paraview``       | | 0 to not output Paraview files [default]                |
+|                           | | 1 to output Paraview files                              |
++---------------------------+-----------------------------------------------------------+
+| ``simu.StartTimeParaview``| time (s) to start Paraview visualization                  |
++---------------------------+-----------------------------------------------------------+
+| ``simu.EndTimeParaview``  | time (s) to end Paraview visualization	                |
++---------------------------+-----------------------------------------------------------+
+| ``simu.dtParaview``       | time step between adjacent Paraview frames [default 1]    |
++---------------------------+-----------------------------------------------------------+
+| ``simu.pathParaviewVideo``| directory to create Paraview visualization files          |
++---------------------------+-----------------------------------------------------------+
+| | ``simu.nlHydro``        | | 0 for no non-linear hydro [default]                     |
+|                           | | 1 for non-linear hydro with mean free surface           |
+|                           | | 2 for non-linear hydro with instantaneous free surface  |
++---------------------------+-----------------------------------------------------------+
+| ``simu.domainSize``       | size of ground and water planes in meters [default 200]   |
++---------------------------+-----------------------------------------------------------+
+| ``simu.dtOut``            | simulation output sampling time step [default dt]         |
++---------------------------+-----------------------------------------------------------+
+| ``body(i).viz.color``     | [RGB] body color [default [1 1 0]]                        |
++---------------------------+-----------------------------------------------------------+   
+| ``body(i).viz.opacity``   | body opacity [default 1]                                  |
++---------------------------+-----------------------------------------------------------+
+| | ``body(i).bodyparaview``| | 0 to exclude body from Paraview visualization           |
+|                           | | 1 to include body in Paraview visualization [default]   |
++---------------------------+-----------------------------------------------------------+   
+| ``waves.viz.numPointsX``  | wave plane discretization: number of X points [default 50]|
++---------------------------+-----------------------------------------------------------+   
+| ``waves.viz.numPointsY``  | wave plane discretization: number of Y points [default 50]|
++---------------------------+-----------------------------------------------------------+   
 
 
 Outputs and Opening in Paraview
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
-When ``simu.paraview`` is set to 1, a directory called ``vtk`` is created. 
+When ``simu.paraview`` is set to 1, a user-specified directory containing ``vtk`` is created. 
 All files necessary for Paraview visualization are located there.
 To view in Paraview:
 
-* Open the ``vtk/filename.pvd`` file in Paraview
+* Open the ``YOUR_PATH/vtk/filename.pvd`` file in Paraview
 * Click ``Apply``
 * With the model selected in the pipeline, run the ``WEC-Sim`` macro
 * Move the camera to desired view

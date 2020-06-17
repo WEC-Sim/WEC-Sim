@@ -225,7 +225,7 @@ The single-body heave only WEC model is shown below (``nonLinearHydro.slx``)
 
 The WEC-Sim input file used to run the nonlinear hydro WEC-Sim simulation:
 
-.. _nonLinaerwecSimInputFile:
+.. _nonLinearwecSimInputFile:
 
 .. literalinclude:: ../../WEC-Sim_Applications/NonlinearHydro/ode4/Regular/wecSimInputFile.m
    :language: matlab

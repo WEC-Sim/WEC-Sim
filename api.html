@@ -21,10 +21,10 @@
   
     
       <script type="text/javascript" id="documentation_options" data-url_root="./" src="_static/documentation_options.js"></script>
-        <script src="_static/jquery.js"></script>
-        <script src="_static/underscore.js"></script>
-        <script src="_static/doctools.js"></script>
-        <script src="_static/language_data.js"></script>
+        <script type="text/javascript" src="_static/jquery.js"></script>
+        <script type="text/javascript" src="_static/underscore.js"></script>
+        <script type="text/javascript" src="_static/doctools.js"></script>
+        <script type="text/javascript" src="_static/language_data.js"></script>
     
     <script type="text/javascript" src="_static/js/theme.js"></script>
 
@@ -409,7 +409,7 @@ messages if parameters are not properly defined.</p>
 
 <dl class="method">
 <dt id="source.objects.waveClass.write_paraview_vtp">
-<code class="sig-prename descclassname">waveClass.</code><code class="sig-name descname">write_paraview_vtp</code><span class="sig-paren">(</span><em class="sig-param">t</em>, <em class="sig-param">numPointsX</em>, <em class="sig-param">numPointsY</em>, <em class="sig-param">domainSize</em>, <em class="sig-param">model</em>, <em class="sig-param">simdate</em>, <em class="sig-param">mooring</em><span class="sig-paren">)</span><a class="headerlink" href="#source.objects.waveClass.write_paraview_vtp" title="Permalink to this definition">¶</a></dt>
+<code class="sig-prename descclassname">waveClass.</code><code class="sig-name descname">write_paraview_vtp</code><span class="sig-paren">(</span><em class="sig-param">t</em>, <em class="sig-param">numPointsX</em>, <em class="sig-param">numPointsY</em>, <em class="sig-param">domainSize</em>, <em class="sig-param">model</em>, <em class="sig-param">simdate</em>, <em class="sig-param">mooring</em>, <em class="sig-param">pathParaviewVideo</em>, <em class="sig-param">TimeBodyParav</em>, <em class="sig-param">g</em><span class="sig-paren">)</span><a class="headerlink" href="#source.objects.waveClass.write_paraview_vtp" title="Permalink to this definition">¶</a></dt>
 <dd><p>This methods writes vtp files for Paraview visualization.</p>
 </dd></dl>
 
@@ -425,6 +425,9 @@ time, used by: <code class="xref mat mat-meth docutils literal notranslate"><spa
 <li><p><strong>t</strong> (<em>float</em>) – the current time</p></li>
 <li><p><strong>X</strong> (<em>matrix</em>) – (m x n) matrix of X coordinates at which to calculate the wave elevation</p></li>
 <li><p><strong>Y</strong> (<em>matrix</em>) – (m x n) matrix of Y coordinates at which to calculate the wave elevation</p></li>
+<li><p><strong>TimeBodyParav</strong> (<em>Time vector starting from zero specified for</em>) – paraview video files.</p></li>
+<li><p><strong>it</strong> (<em>time step iteration,</em>) – </p></li>
+<li><p><strong>g</strong> (<em>gravitational acceleration constant from simulationClass</em>) – </p></li>
 </ul>
 </dd>
 <dt class="field-even">Returns</dt>
@@ -618,7 +621,7 @@ in the <code class="docutils literal notranslate"><span class="pre">wecSimInputF
 
 <dl class="method">
 <dt id="source.objects.responseClass.write_paraview">
-<code class="sig-name descname">write_paraview</code><span class="sig-paren">(</span><em class="sig-param">bodies</em>, <em class="sig-param">t</em>, <em class="sig-param">model</em>, <em class="sig-param">simdate</em>, <em class="sig-param">wavetype</em>, <em class="sig-param">mooring</em><span class="sig-paren">)</span><a class="headerlink" href="#source.objects.responseClass.write_paraview" title="Permalink to this definition">¶</a></dt>
+<code class="sig-name descname">write_paraview</code><span class="sig-paren">(</span><em class="sig-param">bodies</em>, <em class="sig-param">t</em>, <em class="sig-param">model</em>, <em class="sig-param">simdate</em>, <em class="sig-param">wavetype</em>, <em class="sig-param">mooring</em>, <em class="sig-param">pathParaviewVideo</em><span class="sig-paren">)</span><a class="headerlink" href="#source.objects.responseClass.write_paraview" title="Permalink to this definition">¶</a></dt>
 <dd><p>This method writes <code class="docutils literal notranslate"><span class="pre">*.vtp</span></code> files for visualization with
 ParaView. This method is executed by specifying
 <code class="docutils literal notranslate"><span class="pre">simu.paraview=1</span></code> in the <code class="docutils literal notranslate"><span class="pre">wecSimInputFile.m</span></code>.</p>
