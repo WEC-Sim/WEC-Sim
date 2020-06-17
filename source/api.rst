@@ -45,4 +45,12 @@ Response Class
     :exclude-members: wave, bodies, ptos, constraints, mooring 
     :no-undoc-members:
 
+.. _simulation:
 
+Simulation Class
+------------------
+
+.. autoclass:: source.objects.simulationClass
+	:members:
+	:exclude-members: listInfo, getWecSimVer
+	:no-undoc-members: 
