@@ -1,15 +1,15 @@
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-% Copyright 2014 National Renewable Energy Laboratory and National 
-% Technology & Engineering Solutions of Sandia, LLC (NTESS). 
-% Under the terms of Contract DE-NA0003525 with NTESS, 
+% Copyright 2014 National Renewable Energy Laboratory and National
+% Technology & Engineering Solutions of Sandia, LLC (NTESS).
+% Under the terms of Contract DE-NA0003525 with NTESS,
 % the U.S. Government retains certain rights in this software.
-% 
+%
 % Licensed under the Apache License, Version 2.0 (the "License");
 % you may not use this file except in compliance with the License.
 % You may obtain a copy of the License at
-% 
+%
 % http://www.apache.org/licenses/LICENSE-2.0
-% 
+%
 % Unless required by applicable law or agreed to in writing, software
 % distributed under the License is distributed on an "AS IS" BASIS,
 % WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
@@ -49,6 +49,7 @@ classdef bodyClass<handle
         viz               = struct(...                                          % Structure defining visualization properties
             'color', [1 1 0], ...                            % Visualization color for either SimMechanics Explorer or Paraview.
             'opacity', 1)                                    % Visualization opacity for either SimMechanics Explorer or Paraview.
+        bodyparaview      = 1;                                                % Visualisation in Paraview =1 otherwise =0. Defaults to 1, since only called in paraview.
         morisonElement   = struct(...                                          % Structure defining the Morrison Elements
             'cd',                 [0 0 0], ...               % Viscous (quadratic) drag cd, vector length 3
             'ca',                 [0 0 0], ...               % Added mass coefficent for Morrison Element (format [Ca_x Ca_y Ca_z], default = [0 0 0])
@@ -172,16 +173,16 @@ classdef bodyClass<handle
             % 2. Set the wave excitation force
             obj.setMassMatrix(rho,nlHydro)
             if (obj.dof_gbm>0)
-%                obj.linearDamping = [obj.linearDamping zeros(1,obj.dof-length(obj.linearDamping))];
+                %                obj.linearDamping = [obj.linearDamping zeros(1,obj.dof-length(obj.linearDamping))];
                 tmp0 = obj.linearDamping;
                 tmp1 = size(obj.linearDamping);
-                obj.linearDamping = zeros (obj.dof);                
-                obj.linearDamping(1:tmp1(1),1:tmp1(2)) = tmp0; 
-
+                obj.linearDamping = zeros (obj.dof);
+                obj.linearDamping(1:tmp1(1),1:tmp1(2)) = tmp0;
+                
                 tmp0 = obj.viscDrag.Drag;
                 tmp1 = size(obj.viscDrag.Drag);
-                obj.viscDrag.Drag = zeros (obj.dof);                
-                obj.viscDrag.Drag(1:tmp1(1),1:tmp1(2)) = tmp0; 
+                obj.viscDrag.Drag = zeros (obj.dof);
+                obj.viscDrag.Drag(1:tmp1(1),1:tmp1(2)) = tmp0;
                 
                 obj.viscDrag.cd   = [obj.viscDrag.cd   zeros(1,obj.dof-length(obj.viscDrag.cd  ))];
                 obj.viscDrag.characteristicArea = [obj.viscDrag.characteristicArea zeros(1,obj.dof-length(obj.viscDrag.characteristicArea))];
@@ -404,7 +405,7 @@ classdef bodyClass<handle
         end
         
         function regExcitation(obj,w,waveDir,rho,g,yawFlag)
-
+            
             % Regular wave excitation force
             % Used by hydroForcePre
             nDOF = obj.dof;
@@ -448,7 +449,7 @@ classdef bodyClass<handle
         end
         
         function irrExcitation(obj,wv,numFreq,waveDir,rho,g,yawFlag)
-
+            
             % Irregular wave excitation force
             % Used by hydroForcePre
             nDOF = obj.dof;
@@ -470,7 +471,7 @@ classdef bodyClass<handle
                     obj.hydroForce.fExt.md(:,:,ii) = interp1(obj.hydroData.simulation_parameters.w,squeeze(md(ii,1,:)),wv,'spline');
                 end
             end
-             if yawFlag==1
+            if yawFlag==1
                 % show warning for NL yaw run with incomplete BEM data
                 BEMdir=sort(obj.hydroData.simulation_parameters.wave_dir);
                 boundDiff(1)=abs(-180 - BEMdir(1)); boundDiff(2)=abs(180 - BEMdir(end));
@@ -704,7 +705,7 @@ classdef bodyClass<handle
             verts_out(:,3) = verts(:,3) + x(3);
         end
         
-        function write_paraview_vtp(obj, t, pos_all, bodyname, model, simdate, hspressure,wavenonlinearpressure,wavelinearpressure)
+        function write_paraview_vtp(obj, t, pos_all, bodyname, model, simdate, hspressure,wavenonlinearpressure,wavelinearpressure,pathParaviewVideo,vtkbodiesii)
             % Writes vtp files for visualization with ParaView
             numVertex = obj.bodyGeometry.numVertex;
             numFace = obj.bodyGeometry.numFace;
@@ -719,7 +720,7 @@ classdef bodyClass<handle
                 vertex_mod = obj.rotateXYZ(vertex_mod,[0 0 1],pos(6));
                 vertex_mod = obj.offsetXYZ(vertex_mod,pos(1:3));
                 % open file
-                filename = ['vtk' filesep 'body' num2str(obj.bodyNumber) '_' bodyname filesep bodyname '_' num2str(it) '.vtp'];
+                filename = [pathParaviewVideo,filesep,'vtk' filesep 'body' num2str(vtkbodiesii) '_' bodyname filesep bodyname '_' num2str(it) '.vtp'];
                 fid = fopen(filename, 'w');
                 % write header
                 fprintf(fid, '<?xml version="1.0"?>\n');

@@ -27,26 +27,26 @@ classdef responseClass<handle
     %    
     % , it includes:
     %
-    %   * ``type`` (string) = 'waveType'
-    %   *  ``time`` (array) = [# of time-steps x 1]
-    %   * ``elevation`` (array) = [# of time-steps x 1]
+    %   * ``type`` (`string`) = 'waveType'
+    %   *  ``time`` (`array`) = [# of time-steps x 1]
+    %   * ``elevation`` (`array`) = [# of time-steps x 1]
     %         
     %.. autoattribute:: source.objects.responseClass.bodies
     %    
     % , it includes:
     %
-    %   * ``name`` (string) = 'bodyName'
-    %   * ``time`` (array) = [# of time-steps x 1]
-    %   * ``position`` (array) = [# of time-steps x 6]
-    %   * ``velocity`` (array) = [# of time-steps x 6]
-    %   *  ``accleration`` (array) = [# of time-steps x 6]
-    %   *  ``forceTotal`` (array) = [# of time-steps x 6]
-    %   *  ``forceExcitation`` (array) = [# of time-steps x 6]
-    %   *  ``forceRadiationDamping`` (array) = [# of time-steps x 6]
-    %   *  ``forceAddedMass`` (array) = [# of time-steps x 6]
-    %   *  ``forceRestoring`` (array) = [# of time-steps x 6]
-    %   *  ``forceMorrisonAndViscous`` (array) = [# of time-steps x 6]
-    %   *  ``forceLinearDamping`` (array) = [# of time-steps x 6]
+    %   * ``name`` (`string`) = 'bodyName'
+    %   * ``time`` (`array`) = [# of time-steps x 1]
+    %   * ``position`` (`array`) = [# of time-steps x 6]
+    %   * ``velocity`` (`array`) = [# of time-steps x 6]
+    %   *  ``accleration`` (`array`) = [# of time-steps x 6]
+    %   *  ``forceTotal`` (`array`) = [# of time-steps x 6]
+    %   *  ``forceExcitation`` (`array`) = [# of time-steps x 6]
+    %   *  ``forceRadiationDamping`` (`array`) = [# of time-steps x 6]
+    %   *  ``forceAddedMass`` (`array`) = [# of time-steps x 6]
+    %   *  ``forceRestoring`` (`array`) = [# of time-steps x 6]
+    %   *  ``forceMorrisonAndViscous`` (`array`) = [# of time-steps x 6]
+    %   *  ``forceLinearDamping`` (`array`) = [# of time-steps x 6]
     %
     %   There are additional ``output.bodies`` structures for non-linar hydro (e.g.
     %   ``cellPressures_time``, ``cellPressures_hydrostatic``,
@@ -56,35 +56,35 @@ classdef responseClass<handle
     %    
     % , it includes:
     %
-    %   * ``name`` (string) = 'ptoName'
-    %   * ``time`` (array) = [# of time-steps x 1]
-    %   * ``position`` (array) = [# of time-steps x 6]
-    %   * ``velocity`` (array) = [# of time-steps x 6]
-    %   *  ``accleration`` (array) = [# of time-steps x 6]
-    %   *  ``forceTotal`` (array) = [# of time-steps x 6]
-    %   * ``forceActuation`` (array) = [# of time-steps x 6]
-    %   * ``forceConstraint`` (array) = [# of time-steps x 6]
-    %   * ``forceInternalMechanics`` (array) = [# of time-steps x 6]
-    %   * ``powerInternalMechanics`` (array) = [# of time-steps x 6]
+    %   * ``name`` (`string`) = 'ptoName'
+    %   * ``time`` (`array`) = [# of time-steps x 1]
+    %   * ``position`` (`array`) = [# of time-steps x 6]
+    %   * ``velocity`` (`array`) = [# of time-steps x 6]
+    %   *  ``accleration`` (`array`) = [# of time-steps x 6]
+    %   *  ``forceTotal`` (`array`) = [# of time-steps x 6]
+    %   * ``forceActuation`` (`array`) = [# of time-steps x 6]
+    %   * ``forceConstraint`` (`array`) = [# of time-steps x 6]
+    %   * ``forceInternalMechanics`` (`array`) = [# of time-steps x 6]
+    %   * ``powerInternalMechanics`` (`array`) = [# of time-steps x 6]
     %
     %.. autoattribute:: source.objects.responseClass.constraints
     %    
     % , it includes:
     %
-    %   * ``name`` (string) = 'coonstraintName'
-    %   * ``time`` (array) = [# of time-steps x 1]
-    %   * ``position`` (array) = [# of time-steps x 6]
-    %   * ``velocity`` (array) = [# of time-steps x 6]
-    %   *  ``accleration`` (array) = [# of time-steps x 6]
-    %   *  ``forceConstraint`` (array) = [# of time-steps x 6]    
+    %   * ``name`` (`string`) = 'coonstraintName'
+    %   * ``time`` (`array`) = [# of time-steps x 1]
+    %   * ``position`` (`array`) = [# of time-steps x 6]
+    %   * ``velocity`` (`array`) = [# of time-steps x 6]
+    %   *  ``accleration`` (`array`) = [# of time-steps x 6]
+    %   *  ``forceConstraint`` (`array`) = [# of time-steps x 6]    
     %
     %.. autoattribute:: source.objects.responseClass.mooring
     %    
     % , it includes:
     %
-    %   * ``position`` (array) = [# of time-steps x 6]
-    %   * ``velocity`` (array) = [# of time-steps x 6]
-    %   *  ``forceMooring`` (array) = [# of time-steps x 6]
+    %   * ``position`` (`array`) = [# of time-steps x 6]
+    %   * ``velocity`` (`array`) = [# of time-steps x 6]
+    %   *  ``forceMooring`` (`array`) = [# of time-steps x 6]
     % 
     %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
@@ -197,7 +197,7 @@ classdef responseClass<handle
             %            
             % Parameters
             % ------------
-            %     numLines : 
+            %     numLines : integar
             %         the number of MoorDyn lines
             %
             
@@ -237,10 +237,10 @@ classdef responseClass<handle
             %
             % Parameters
             % ------------
-            %     bodyNum : 
+            %     bodyNum : integar
             %         the body number to plot
             %
-            %     comp : 
+            %     comp : integar
             %         the response component (i.e. dof) to be plotted (e.g. 1-6)   
             %     
             DOF = {'Surge','Sway','Heave','Roll','Pitch','Yaw'};
@@ -264,10 +264,10 @@ classdef responseClass<handle
             %     
             % Parameters
             % ------------
-            %     bodyNum : 
+            %     bodyNum : integar
             %         the body number to plot
             %
-            %     comp : 
+            %     comp : integar
             %         the force component (i.e. dof) to be plotted (e.g. 1-6)
             %     
             DOF = {'Surge','Sway','Heave','Roll','Pitch','Yaw'};
@@ -544,7 +544,7 @@ classdef responseClass<handle
             end 
         end
 
-        function write_paraview(obj, bodies, t, model, simdate, wavetype, mooring)
+         function write_paraview(obj, bodies, t, model, simdate, wavetype, mooring, pathParaviewVideo)
             % This method writes ``*.vtp`` files for visualization with
             % ParaView. This method is executed by specifying 
             % ``simu.paraview=1`` in the ``wecSimInputFile.m``.
@@ -556,7 +556,7 @@ classdef responseClass<handle
                 fs = filesep;
             end
             % open file
-            fid = fopen(['vtk' fs model(1:end-4) '.pvd'], 'w');
+            fid = fopen([pathParaviewVideo,'\\vtk' fs model(1:end-4) '.pvd'], 'w');
             % write header
             fprintf(fid, '<?xml version="1.0"?>\n');
             fprintf(fid, ['<!-- WEC-Sim Visualization using ParaView -->\n']);

@@ -29,49 +29,49 @@ classdef waveClass<handle
     properties (SetAccess = 'public', GetAccess = 'public')         
         % The following properties are public, and can be defined in the
         % ``wecSimInputFile.m``.
-        type = 'NOT DEFINED'; % String specifying the wave type, options include:``noWave``, ``noWaveCIC``, ``regular``, ``regularCIC``, ``irregular``, ``spectrumImport``, or ``etaImport``. Default = 'NOT DEFINED'
-        T = 'NOT DEFINED';  % Wave period [s]. Defined as wave period for ``regular``, peak period for ``irregular``, or period of BEM data used for hydrodynamic coefficients for ``noWave``. Default = 'NOT DEFINED'
-        H = 'NOT DEFINED';  % Wave height [m]. Defined as wave height for ``regular``, or significant wave height for ``irregular``. Default =  'NOT DEFINED'
-        spectrumType = 'NOT DEFINED';  % String specifying the wave spectrum type, options inlcude:``PM`` or ``JS``. Default = 'NOT DEFINED'
-        gamma = [];         % Only used for ``JS`` wave spectrum type to define gamma. Default = []
-        phaseSeed = 0;      % Only used for ``irregular`` waves to seed the random phase. If equal to 1,2,3,...,etc, the waves phase is seeded. Default = 0
-        spectrumDataFile = 'NOT DEFINED'; % Data file that contains the spectrum data file.  Default = 'NOT DEFINED'        
-        etaDataFile = 'NOT DEFINED'; % Data file that contains the times-series data file. Default = 'NOT DEFINED'
-        freqRange = [];     % Min and max frequency for irregular waves. 2x1 vector, rad/s, (default = frequency range in BEM data). Default = []
-        numFreq = [];       % Number of interpolated wave frequencies. Number of frequencies used, varies depending on method: ``'Traditional'`` = 1000, ``'EqualEnergy'`` = 500 or ``Imported``. Default = []
-        waveDir = 0;        % Incident wave direction(s) [deg]. Incident wave direction defined using WEC-Sim global coordinate system. Should be defined as a column vector for more than one wave direction. Default = 0
-        waveSpread = 1;     % Wave Spread probability associated with wave direction(s). Should be defined as a column vector for more than one wave direction. Default = 1
+        type = 'NOT DEFINED'; % (`string`) Specifies the wave type, options include:``noWave``, ``noWaveCIC``, ``regular``, ``regularCIC``, ``irregular``, ``spectrumImport``, or ``etaImport``. Default = ``'NOT DEFINED'``
+        T = 'NOT DEFINED';  % (`float`) Wave period [s] . Defined as wave period for ``regular``, peak period for ``irregular``, or period of BEM data used for hydrodynamic coefficients for ``noWave``. Default = ``'NOT DEFINED'``
+        H = 'NOT DEFINED';  % (`float`) Wave height [m]. Defined as wave height for ``regular``, or significant wave height for ``irregular``. Default =  ``'NOT DEFINED'``
+        spectrumType = 'NOT DEFINED';  % (`string`) Specifies the wave spectrum type, options inlcude:``PM`` or ``JS``. Default = ``'NOT DEFINED'``
+        gamma = [];         % (`float`) Defines gamma, only used for ``JS`` wave spectrum type. Default = ``[]``
+        phaseSeed = 0;      % (`integar`) Defines the random phase seed, only used for ``irregular`` and ``spectrumImport`` waves. Default = ``0``
+        spectrumDataFile = 'NOT DEFINED'; % (`string`) Data file that contains the spectrum data file.  Default = ``'NOT DEFINED'``        
+        etaDataFile = 'NOT DEFINED'; % (`string`) Data file that contains the times-series data file. Default = ``'NOT DEFINED'``
+        freqRange = [];     % (`2x1 vector`) Min and max wave frequency [rad/s], only used for ``irregular`` and ``spectrumImport``. If not specified, the BEM data frequency range is used. Default = ``[]``
+        numFreq = [];       % (`integar`) Number of interpolated wave frequencies, only used for ``irregular`` and ``spectrumImport``. Number of frequencies used varies depending on ``freqDisc``, 1000 for ``'Traditional'``, and 500 for ``'EqualEnergy'`` and ``Imported``. Default = ``[]``
+        waveDir = 0;        % (`float`) Incident wave direction(s) [deg]. Incident wave direction defined using WEC-Sim global coordinate system. Should be defined as a column vector for more than one wave direction. Default = ``0``
+        waveSpread = 1;     % (`float`) Wave Spread probability associated with wave direction(s). Should be defined as a column vector for more than one wave direction. Default = ``1``
         viz = struct( 'numPointsX', 50, ...
-                      'numPointsY', 50 ); % Structure defining visualization options. Should be a structure containing the fields ``numPointsX`` for the number of visualization points in x direction, and ``numPointsY`` for the number of visualization points in y direction. 
-        statisticsDataLoad = []; % File name from which to load wave statistics data. Default = []        
-        freqDisc = 'EqualEnergy'; % Method of frequency discretization for irregular waves. Options for this variable are ``'EqualEnergy'`` or ``'Traditional'``. Default = ``'EqualEnergy'``
-        wavegauge1loc = [0,0];  % Wave gauge 1 [x,y] location [m]. Default = [0,0]
-        wavegauge2loc = [0,0];  % Wave gauge 2 [x,y] location [m]. Default = [0,0]
-        wavegauge3loc = [0,0];  % Wave gauge 3 [x,y] location [m]. Default = [0,0]
-        currentOption = 3;      % Define the sub-surface current model to be used in WEC-Sim. Defined as: ``0`` for depth-independent model, ``1`` for 1/7 power law variation with depth, ``2`` : linear variation with depth, or ``3`` for no current. Default = 3 
-        currentSpeed = 0;       % Current seed [m/s]. Surface current speed that is uniform along the water column. Default = 0        
-        currentDirection = 0;   % Current direction [deg]. Surface current direction defined using WEC-Sim global coordinate system. Default = 0   
-        currentDepth = 0;       % Current depth [m]. Define the depth over which the sub-surface current is modeled. Must be defined for options ``1`` and ``2``. The current is not calculated for any depths greater than the specified current depth. Default = 0
+                      'numPointsY', 50 ); % (`structure`) Defines visualization options, structure contains the fields ``numPointsX`` for the number of visualization points in x direction, and ``numPointsY`` for the number of visualization points in y direction. 
+        statisticsDataLoad = []; % (`string`) File name from which to load wave statistics data. Default = ``[]``        
+        freqDisc = 'EqualEnergy'; % (`string`) Method of frequency discretization for irregular waves, options include: ``'EqualEnergy'`` or ``'Traditional'``. Default = ``'EqualEnergy'``
+        wavegauge1loc = [0,0];  % (`1x2 vector`) Wave gauge 1 [x,y] location [m]. Default = ``[0,0]``
+        wavegauge2loc = [0,0];  % (`1x2 vector`) Wave gauge 2 [x,y] location [m]. Default = ``[0,0]``
+        wavegauge3loc = [0,0];  % (`1x2 vector`) Wave gauge 3 [x,y] location [m]. Default = ``[0,0]``
+        currentOption = 3;      % (`integar`) Define the sub-surface current model to be used in WEC-Sim, options include: ``0`` for depth-independent model, ``1`` for 1/7 power law variation with depth, ``2`` for linear variation with depth, or ``3`` for no current. Default = ``3`` 
+        currentSpeed = 0;       % (`float`) Current seed [m/s]. Surface current speed that is uniform along the water column. Default = ``0``
+        currentDirection = 0;   % (`float`) Current direction [deg]. Surface current direction defined using WEC-Sim global coordinate system. Default = ``0``
+        currentDepth = 0;       % (`float`) Current depth [m]. Define the depth over which the sub-surface current is modeled. Must be defined for options ``1`` and ``2``. The current is not calculated for any depths greater than the specified current depth. Default = ``0``
     end
     
     
     properties (SetAccess = 'private', GetAccess = 'public')       
         % The following properties are private, for internal use by WEC-Sim
-        typeNum = [];       %  Number to represent different type of waves        
+        typeNum = [];       % Number to represent different type of waves        
         bemFreq = [];       % Number of wave frequencies from BEM
         waterDepth = [];    % Water depth (from BEM) [m] 
         deepWaterWave = []; % Deep water or not, depending on input from WAMIT, NEMOH and AQWA
-        waveAmpTime = []; % Wave elevation time history [m] 
-        waveAmpTime1 = [];% Wave elevation time history at a wave gauge 1 location specified by user [m] 
-        waveAmpTime2 = [];% Wave elevation time history at a wave gauge 2 location specified by user [m] 
-        waveAmpTime3 = [];% Wave elevation time history at a wave gauge 3 location specified by user [m] 
-        A = [];     % Wave amplitude [m]. For regular waves or 2*(wave spectrum vector) for irregular waves
-        w = [];     % Wave frequency (regular waves) or wave frequency vector (irregular waves) [rad/s] 
-        phase = 0;  % Wave phase [rad] . Only used for ``irregular`` waves.
-        dw = 0;     % Frequency spacing [rad] for ``irregular`` waves.
-        k = [];     % Wave Number
-        S = [];     % Wave Spectrum [m^2-s/rad] for ``Traditional``
-        Pw = [];    % Wave Power Per Unit Wave Crest [W/m]
+        waveAmpTime = [];   % Wave elevation time history [m] 
+        waveAmpTime1 = [];  % Wave elevation time history at a wave gauge 1 location specified by user [m] 
+        waveAmpTime2 = [];  % Wave elevation time history at a wave gauge 2 location specified by user [m] 
+        waveAmpTime3 = [];  % Wave elevation time history at a wave gauge 3 location specified by user [m] 
+        A = [];             % Wave amplitude [m]. For regular waves or 2*(wave spectrum vector) for irregular waves
+        w = [];             % Wave frequency (regular waves) or wave frequency vector (irregular waves) [rad/s] 
+        phase = 0;          % Wave phase [rad] . Only used for ``irregular`` waves.
+        dw = 0;             % Frequency spacing [rad] for ``irregular`` waves.
+        k = [];             % Wave Number
+        S = [];             % Wave Spectrum [m^2-s/rad] for ``Traditional``
+        Pw = [];            % Wave Power Per Unit Wave Crest [W/m]
     end
     
     methods (Access = 'public')
@@ -131,7 +131,7 @@ classdef waveClass<handle
         end
         
         function plotEta(obj,rampTime)
-            % This method plots wave elevation time-history
+            % This method plots wave elevation time-history.
             %
             % Parameters
             % ------------
@@ -156,7 +156,7 @@ classdef waveClass<handle
         end
         
         function plotSpectrum(obj)
-            % This method plots the wave spectrum
+            % This method plots the wave spectrum.
             %
             % Returns
             % ------------
@@ -183,7 +183,8 @@ classdef waveClass<handle
         end
         
         function waveSetup(obj,bemFreq,wDepth,rampTime,dt,maxIt,g, rho, endTime)
-            % This method calculates and sets wave properties based on wave type
+            % This method calculates WEC-Sim's wave properties 
+            % based on the specified wave type.
             %
             obj.bemFreq    = bemFreq;
             obj.setWaveProps(wDepth)
@@ -261,7 +262,8 @@ classdef waveClass<handle
         end
         
         function listInfo(obj)
-            % This method prints wave information to the MATLAB Command Window
+            % This method prints wave information to the MATLAB Command
+            % Window.
             %             
             fprintf('\nWave Environment: \n')
             switch obj.type
@@ -303,7 +305,8 @@ classdef waveClass<handle
         end
         
         function waveNumber(obj,g)
-            % This method calculates the wave number
+            % This method calculates the wave number, 
+            % used by: :meth:`waveClass.waveSetup`.
             % 
             obj.k = obj.w.^2./g;
             if obj.deepWaterWave == 0
@@ -337,12 +340,12 @@ classdef waveClass<handle
             end               
         end
         
-        function write_paraview_vtp(obj, t, numPointsX, numPointsY, domainSize, model, simdate, mooring)
-            % This methods writes vtp files for Paraview visualization 
+    function write_paraview_vtp(obj, t, numPointsX, numPointsY, domainSize, model, simdate, mooring, pathParaviewVideo,TimeBodyParav,g)
+            % This methods writes vtp files for Paraview visualization.
             %
             
             % ground plane
-            filename = ['vtk' filesep 'ground.txt'];
+            filename = [pathParaviewVideo,'\\vtk' filesep 'ground.txt'];
             fid = fopen(filename, 'w');
             fprintf(fid,[num2str(domainSize) '\n']);
             fprintf(fid,[num2str(obj.waterDepth) '\n']);
@@ -358,16 +361,16 @@ classdef waveClass<handle
             numFace = (lx-1) * (ly-1);
             for it = 1:length(t)
                 % open file
-                filename = ['vtk' filesep 'waves' filesep 'waves_' num2str(it) '.vtp'];
+                filename = [pathParaviewVideo,'\\vtk' filesep 'waves' filesep 'waves_' num2str(it) '.vtp'];
                 fid = fopen(filename, 'w');
                 % calculate wave elevation
-                Z = waveElevationGrid (obj, t(it), X, Y);
+                Z = waveElevationGrid (obj, t(it), X, Y, TimeBodyParav, it, g);
                 % write header
                 fprintf(fid, '<?xml version="1.0"?>\n');
                 fprintf(fid, ['<!-- WEC-Sim Visualization using ParaView -->\n']);
                 fprintf(fid, ['<!--   model: ' model ' - ran on ' simdate ' -->\n']);
                 fprintf(fid, ['<!--   wave:  ' obj.type ' -->\n']);
-                fprintf(fid, ['<!--   time:  ' num2str(t(it)) ' -->\n']);
+                fprintf(fid, ['<!--   time:  ' num2str(TimeBodyParav(it)) ' -->\n']);
                 fprintf(fid, '<VTKFile type="PolyData" version="0.1">\n');
                 fprintf(fid, '  <PolyData>\n');
                 % write wave info
@@ -414,11 +417,11 @@ classdef waveClass<handle
                 fclose(fid);
             end; clear it
             clear  numPoints numVertex numFace x y lx ly X Y Z fid filename p1 p2 p3 p4
-        end
+    end
         
         function Z = waveElevationGrid(obj, t, X, Y)
             % This method calculates wave elevation on a grid at a given
-            % time, refer to: :meth:`waveClass.write_paraview_vtp`
+            % time, used by: :meth:`waveClass.write_paraview_vtp`.
             %             
             % Parameters
             % ------------
@@ -433,6 +436,12 @@ classdef waveClass<handle
             %
             %     Y : matrix
             %       (m x n) matrix of Y coordinates at which to calculate the wave elevation
+            %     TimeBodyParav : Time vector starting from zero specified for
+            %       paraview video files.
+            %     it : time step iteration, 
+            %
+            %     g : gravitational acceleration constant from simulationClass
+            %
             %
             % Returns
             % ---------
@@ -445,12 +454,42 @@ classdef waveClass<handle
                 case {'regular', 'regularCIC'}                    
                     Xt = X*cos (obj.waveDir*pi/180) + Y * sin(obj.waveDir*pi/180);                    
                     Z = obj.A * cos(-1 * obj.k * Xt  +  obj.w * t);                    
-                case {'irregular', 'spectrumImport'}                    
-                    Z = zeros (size (X));                    
-                    Xt = X.*cos (obj.waveDir*pi/180) + Y.*sin (obj.waveDir*pi/180);                    
-                    for iw = 1:length (obj.w)                        
-                        Z = Z + sqrt (obj.A(iw)*obj.dw(iw)) * cos ( -1*obj.k(iw)*Xt + obj.w(iw)*t + obj.phase(iw) );                        
-                    end                    
+                case {'irregular', 'spectrumImport'}
+                    Z = zeros (size (X));
+                    for idir=1:length(obj.waveDir)
+                        Xt = X*cos(obj.waveDir(idir)*pi/180) + Y*sin(obj.waveDir(idir)*pi/180);
+                        for iw = 1:length(obj.w)
+                            Z = Z + sqrt(obj.A(iw)*obj.waveSpread(idir).*obj.dw(iw)) * cos(-1*obj.k(iw)*Xt + obj.w(iw)*t + obj.phase(iw,idir));
+                        end
+                    end
+                case{'etaImport'}
+                    if it ==1
+                        warning('Paraview wave surface discretization for qualitative purposes only.')
+                    end
+                    Z = zeros(size(X));
+                    WaveEle = obj.waveAmpTime(:,2);
+                    TimeWaveEle = obj.waveAmpTime(:,1);
+                    %WaveEle = interp1(TimeWaveEle,WaveEle,t(1)+TimeBodyParav);
+                    %TimeWaveEle = t(1)+TimeBodyParav;
+                    L = length(TimeWaveEle);
+                    T = TimeWaveEle(2)-TimeWaveEle(1);
+                    Fs = 1/T;
+                    YY = fft(WaveEle);
+                    P2 = abs(YY/L);
+                    P1 = P2(1:round(L/2)+1);
+                    P1(2:end-1) = 2*P1(2:end-1);
+                    ff = Fs*(0:round(L/2))/L;
+                    PhasesEtaImp2 = angle(YY/L);
+                    PhasesEtaImp1 = PhasesEtaImp2(1:round(L/2)+1);
+                    kWaveEle = (2*pi.*ff).^2./g; % deep water wave approximation
+                    Xt = X*cos(obj.waveDir*pi/180) + Y*sin(obj.waveDir*pi/180);
+                    [~,ix0] = min(abs(Xt(1,:)));
+                    Zint=zeros(size(X));
+                    for iw = 2:length(ff)
+                        Zint = Zint + P1(iw) * cos(-1*kWaveEle(iw)*Xt + 2*pi*ff(iw).*t+ PhasesEtaImp1(iw));
+                    end
+                    Z = Zint;
+                                 
             end            
         end        
     end
