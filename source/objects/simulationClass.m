@@ -46,6 +46,10 @@ classdef simulationClass<handle
         yawThresh           = 1                                            % Yaw position threshold (in degrees) above which excitation coefficients will be interpolated
         b2b                 = 0                                            % Option for body2body interactions: off->'0', on->'1', (default = 0)
         paraview            = 0                                            % Option for writing vtp files for paraview visualization.
+        StartTimeParaview   = 0;                                           % Start time for the vtk file of Paraview.                                    
+        EndTimeParaview     = 100;                                         % End time for the vtk file of Paraview.                                      
+        dtParaview          = 0.1;                                         % Timestep for Paraview.         
+        pathParaviewVideo = 'vtk';                                         % Path of the folder for Paraview vtk files.     
         adjMassWeightFun    = 2                                            % Weighting function for adjusting added mass term in the translational direction (default = 2)
         mcrCaseFile         = []                                           % mat file that contain a list of the multiple conditions runs with given conditions  
         morisonElement     = 0                                             % Option for Morrison Element calculation: Off->'0', On->'1', (default = 0)

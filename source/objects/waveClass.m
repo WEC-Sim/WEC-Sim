@@ -340,12 +340,12 @@ classdef waveClass<handle
             end               
         end
         
-        function write_paraview_vtp(obj, t, numPointsX, numPointsY, domainSize, model, simdate, mooring)
+    function write_paraview_vtp(obj, t, numPointsX, numPointsY, domainSize, model, simdate, mooring, pathParaviewVideo,TimeBodyParav,g)
             % This methods writes vtp files for Paraview visualization.
             %
             
             % ground plane
-            filename = ['vtk' filesep 'ground.txt'];
+            filename = [pathParaviewVideo,'\\vtk' filesep 'ground.txt'];
             fid = fopen(filename, 'w');
             fprintf(fid,[num2str(domainSize) '\n']);
             fprintf(fid,[num2str(obj.waterDepth) '\n']);
@@ -361,16 +361,16 @@ classdef waveClass<handle
             numFace = (lx-1) * (ly-1);
             for it = 1:length(t)
                 % open file
-                filename = ['vtk' filesep 'waves' filesep 'waves_' num2str(it) '.vtp'];
+                filename = [pathParaviewVideo,'\\vtk' filesep 'waves' filesep 'waves_' num2str(it) '.vtp'];
                 fid = fopen(filename, 'w');
                 % calculate wave elevation
-                Z = waveElevationGrid(obj, t(it), X, Y);
+                Z = waveElevationGrid (obj, t(it), X, Y, TimeBodyParav, it, g);
                 % write header
                 fprintf(fid, '<?xml version="1.0"?>\n');
                 fprintf(fid, ['<!-- WEC-Sim Visualization using ParaView -->\n']);
                 fprintf(fid, ['<!--   model: ' model ' - ran on ' simdate ' -->\n']);
                 fprintf(fid, ['<!--   wave:  ' obj.type ' -->\n']);
-                fprintf(fid, ['<!--   time:  ' num2str(t(it)) ' -->\n']);
+                fprintf(fid, ['<!--   time:  ' num2str(TimeBodyParav(it)) ' -->\n']);
                 fprintf(fid, '<VTKFile type="PolyData" version="0.1">\n');
                 fprintf(fid, '  <PolyData>\n');
                 % write wave info
@@ -417,7 +417,7 @@ classdef waveClass<handle
                 fclose(fid);
             end; clear it
             clear  numPoints numVertex numFace x y lx ly X Y Z fid filename p1 p2 p3 p4
-        end
+    end
         
         function Z = waveElevationGrid(obj, t, X, Y)
             % This method calculates wave elevation on a grid at a given
@@ -436,6 +436,12 @@ classdef waveClass<handle
             %
             %     Y : matrix
             %       (m x n) matrix of Y coordinates at which to calculate the wave elevation
+            %     TimeBodyParav : Time vector starting from zero specified for
+            %       paraview video files.
+            %     it : time step iteration, 
+            %
+            %     g : gravitational acceleration constant from simulationClass
+            %
             %
             % Returns
             % ---------
@@ -448,12 +454,42 @@ classdef waveClass<handle
                 case {'regular', 'regularCIC'}                    
                     Xt = X*cos (obj.waveDir*pi/180) + Y * sin(obj.waveDir*pi/180);                    
                     Z = obj.A * cos(-1 * obj.k * Xt  +  obj.w * t);                    
-                case {'irregular', 'spectrumImport'}                    
-                    Z = zeros (size (X));                    
-                    Xt = X.*cos (obj.waveDir*pi/180) + Y.*sin (obj.waveDir*pi/180);                    
-                    for iw = 1:length (obj.w)                        
-                        Z = Z + sqrt (obj.A(iw)*obj.dw(iw)) * cos ( -1*obj.k(iw)*Xt + obj.w(iw)*t + obj.phase(iw) );                        
-                    end                    
+                case {'irregular', 'spectrumImport'}
+                    Z = zeros (size (X));
+                    for idir=1:length(obj.waveDir)
+                        Xt = X*cos(obj.waveDir(idir)*pi/180) + Y*sin(obj.waveDir(idir)*pi/180);
+                        for iw = 1:length(obj.w)
+                            Z = Z + sqrt(obj.A(iw)*obj.waveSpread(idir).*obj.dw(iw)) * cos(-1*obj.k(iw)*Xt + obj.w(iw)*t + obj.phase(iw,idir));
+                        end
+                    end
+                case{'etaImport'}
+                    if it ==1
+                        warning('Paraview wave surface discretization for qualitative purposes only.')
+                    end
+                    Z = zeros(size(X));
+                    WaveEle = obj.waveAmpTime(:,2);
+                    TimeWaveEle = obj.waveAmpTime(:,1);
+                    %WaveEle = interp1(TimeWaveEle,WaveEle,t(1)+TimeBodyParav);
+                    %TimeWaveEle = t(1)+TimeBodyParav;
+                    L = length(TimeWaveEle);
+                    T = TimeWaveEle(2)-TimeWaveEle(1);
+                    Fs = 1/T;
+                    YY = fft(WaveEle);
+                    P2 = abs(YY/L);
+                    P1 = P2(1:round(L/2)+1);
+                    P1(2:end-1) = 2*P1(2:end-1);
+                    ff = Fs*(0:round(L/2))/L;
+                    PhasesEtaImp2 = angle(YY/L);
+                    PhasesEtaImp1 = PhasesEtaImp2(1:round(L/2)+1);
+                    kWaveEle = (2*pi.*ff).^2./g; % deep water wave approximation
+                    Xt = X*cos(obj.waveDir*pi/180) + Y*sin(obj.waveDir*pi/180);
+                    [~,ix0] = min(abs(Xt(1,:)));
+                    Zint=zeros(size(X));
+                    for iw = 2:length(ff)
+                        Zint = Zint + P1(iw) * cos(-1*kWaveEle(iw)*Xt + 2*pi*ff(iw).*t+ PhasesEtaImp1(iw));
+                    end
+                    Z = Zint;
+                                 
             end            
         end        
     end
