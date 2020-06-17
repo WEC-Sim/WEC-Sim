@@ -21,44 +21,55 @@
 classdef mooringClass<handle
     % This class contains mooring parameters and settings
     properties (SetAccess = 'public', GetAccess = 'public')%input file 
-        name                    = 'NOT DEFINED'                                 % Name of the constraint used 
+        name                    = 'NOT DEFINED'                                 % Name of the mooring
         ref                     = [0 0 0]                                       % Mooring Reference location. Default = [0 0 0]        
-        matrix                  = struct(...                                    % Structure defining damping, stiffness, and pre-tension.
-                                         'c',          zeros(6,6), ...              % Mooring damping, 6 x 6 matrix. 
-                                         'k',          zeros(6,6), ...              % Mooring stiffness, 6 x 6 matrix.
-                                         'preTension', [0 0 0 0 0 0])               % Mooring preTension, Vector length 6.
-        initDisp                = struct(...                                    % Structure defining initial displacement parameters
-                                   'initLinDisp', [0 0 0], ...                      % Initial displacement of center of Reference location, default = [0 0 0]
-                                   'initAngularDispAxis',  [0 1 0], ...             % Initial displacement axis of rotation default = [0 1 0]
-                                   'initAngularDispAngle', 0)                       % Initial angle of rotation default = 0
-        moorDynLines            = 0                                             % Number of lines in MoorDyn
-        moorDynNodes            = []                                            % number of nodes for each line. Vector length number of lines.
+        matrix                  = struct(...                                    % Structure defining damping, stiffness, and pre-tension. defaults = zeros(6,6), zeros(6,6), zeros(1,6) respectively
+                                         'c',          zeros(6,6), ...              
+                                         'k',          zeros(6,6), ...             
+                                         'preTension', [0 0 0 0 0 0])               
+        initDisp                = struct(...                                    % Structure defining initial linear displacement, angular displacement axis, and angular displacement angle (radian). defaults = zeros(1,3), zeros(1,3), 0 respectively
+                                   'initLinDisp', [0 0 0], ...                      
+                                   'initAngularDispAxis',  [0 1 0], ...           
+                                   'initAngularDispAngle', 0)               
+        moorDynLines            = 0                                             % Number of lines in MoorDyn default = 0
+        moorDynNodes            = []                                            % number of nodes for each line.
     end
 
     properties (SetAccess = 'public', GetAccess = 'public') %internal
         loc                     = []                                            % Initial 6DOF location, default = [0 0 0 0 0 0]
         mooringNum              = []                                            % Mooring number
-        moorDyn                 = 0                                             % Flag to indicate wether it is a MoorDyn block.
-        moorDynInputRaw         = []                                            % MoorDyn input file, each line read as a string into a cell array.
+        moorDyn                 = 0                                             % Flag to indicate a MoorDyn block, default = 0;
+        moorDynInputRaw         = []                                            % MoorDyn input file, each line read as a string into a cell array
     end
 
     methods (Access = 'public')                                        
         function obj = mooringClass(name)
-            % Initilization function
+            % This method initializes the mooringClass object
             obj.name = name;
         end
 
         function obj = setLoc(obj)
-            % Sets mooring location
+            % This method sets mooring location
             obj.loc = [obj.ref + obj.initDisp.initLinDisp 0 0 0];
         end
 
         function setInitDisp(obj, x_rot, ax_rot, ang_rot, addLinDisp)
-            % Function to set the initial displacement when having initial rotation
-            % x_rot: rotation point
-            % ax_rot: axis about which to rotate (must be a normal vector)
-            % ang_rot: rotation angle in radians
-            % addLinDisp: initial linear displacement (in addition to the displacement caused by rotation)
+            % Method to set the initial displacement with an initial rotation
+            %
+            % Parameters
+            % ------------
+            %    x_rot : 3 x 1 vector
+            %        displacement of mooring reference
+            %
+            %    ax_rot : 3 x 1 vector 
+            %       axis about which to rotate (must be a normal vector)
+            %
+            %    ang_rot : scalar 
+            %       rotation displacement (radians)
+            %
+            %    addLinDisp : 3 x 1 vector
+            %       initial linear displacement (additional to rotation-induced displacement)
+            %
             loc = obj.ref;
             relCoord = loc - x_rot;
             rotatedRelCoord = obj.rotateXYZ(relCoord,ax_rot,ang_rot);
@@ -70,11 +81,22 @@ classdef mooringClass<handle
         end
 
         function xn = rotateXYZ(obj,x,ax,t)
-            % Function to rotate a point about an arbitrary axis
-            % x: 3-componenet coordiantes
-            % ax: axis about which to rotate (must be a normal vector)
-            % t: rotation angle
-            % xn: new coordinates after rotation
+            % Method to rotate a point about an arbitrary axis
+            % 
+            % Parameters
+            % ------------
+            %   x : 3 x 1 vector
+            %       coordinates of point to rotate
+            %   ax : 3 x 1 vector
+            %       axis about which to rotate 
+            %   t : scalar  
+            %       rotation angle (radian)
+            %
+            % Returns
+            % ------------
+            %   xn : 3 x 1 vector 
+            %       new coordinates after rotation
+            %
             rotMat = zeros(3);
             rotMat(1,1) = ax(1)*ax(1)*(1-cos(t))    + cos(t);
             rotMat(1,2) = ax(2)*ax(1)*(1-cos(t))    + ax(3)*sin(t);
@@ -89,16 +111,40 @@ classdef mooringClass<handle
         end
 
         function obj = moorDynInput(obj)
-            % Reads MoorDyn input file
+            % Method to read MoorDyn input file
             obj.moorDynInputRaw = textread('./mooring/lines.txt', '%s', 'delimiter', '\n');
         end
 
         function listInfo(obj)
-            % List mooring info
+            % Method to list mooring info
             fprintf('\n\t***** Mooring Name: %s *****\n',obj.name)
         end
 
         function write_paraview_vtp(obj,moorDyn, model,t,simdate,nline,nnode,pathParaviewVideo,TimeBodyParav,NewTimeParaview)
+            % Method to write ``vtp`` Paraview visualization files
+            % 
+            % Parameters
+            % ------------
+            %   moorDyn : obj
+            %       The moorDyn object
+            %   model : string
+            %       The simMechanics ``.slx`` file
+            %   t : vector
+            %       Moordyn time vector 
+            %   simdate : string
+            %       Date string
+            %   nline : integer
+            %       Number of mooring lines
+            %   nnode : integer
+            %       Number of nodes on mooring lines
+            %   pathParaviewVideo : directory
+            %       Directory the Paraview files were saved
+            %   TimeBodyParav : vector
+            %       Paraview time vector
+            %   simu.g : number
+            %       Gravitational acceleration from simulationClass
+            %
+            
             nsegment = nnode -1;
             for iline = 1:nline
                 for inode = 0:nnode(iline)-1
