@@ -19,8 +19,9 @@ addpath(genpath('.\source'))
 run_wecSim_tests
 % setting up Jenkins CI
 
+
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-%% Regular Wave Tests
+% Regular Wave Tests
 fprintf('\nRegular Wave Tests \n')
 fprintf('------------------------------\n')
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
@@ -48,8 +49,9 @@ new = regular.Rel.WEC_Sim_new.heave;
 assert(max(abs(org-new)) <= tol)
 fprintf(['Relative Displacement in Heave, Diff = ' num2str(max(abs(org-new))) '\n'])
 
+
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-%% RegularCIC Wave Tests
+% RegularCIC Wave Tests
 fprintf('\nRegularCIC Wave Tests \n')
 fprintf('------------------------------\n')
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
@@ -77,8 +79,9 @@ new = regularCIC.Rel.WEC_Sim_new.heave;
 assert(max(abs(org-new)) <= tol)
 fprintf(['Relative Displacement in Heave, Diff = ' num2str(max(abs(org-new))) '\n'])
 
+
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-%% RegularCIC Wave Tests with State Space
+% RegularCIC Wave Tests with State Space
 fprintf('\nRegularCIC Wave Tests with State Space \n')
 fprintf('------------------------------------------\n')
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
@@ -106,8 +109,9 @@ new = regularSS.Rel.WEC_Sim_new.heave;
 assert(max(abs(org-new)) <= tol)
 fprintf(['Relative Displacement in Heave, Diff = ' num2str(max(abs(org-new))) '\n'])
 
+
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-%% Irregular Wave Tests using PM Spectrum
+% Irregular Wave Tests using PM Spectrum
 fprintf('\nIrregular Wave Tests using PM Spectrum \n')
 fprintf('---------------------------------------------\n')
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
@@ -151,8 +155,9 @@ new = irregularCIC.Sp.WEC_Sim_new.m2;
 assert(max(abs(org-new)) <= tol)
 fprintf(['2nd Order Spectral Moment, Diff = ' num2str(max(abs(org-new))) '\n'])
 
+
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-%% Irregular Wave Tests using PM Spectrum with State Space
+% Irregular Wave Tests using PM Spectrum with State Space
 fprintf('\nIrregular Wave Tests using PM Spectrum with State Space \n')
 fprintf('----------------------------------------------------------\n')
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
@@ -196,8 +201,9 @@ new = irregularSS.Sp.WEC_Sim_new.m2;
 assert(max(abs(org-new)) <= tol)
 fprintf(['2nd Order Spectral Moment, Diff = ' num2str(max(abs(org-new))) '\n'])
 
+
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-%% Passive Yaw Tests in Regular Waves
+% Passive Yaw Tests in Regular Waves
 fprintf('\nPassive Yaw Tests in Regular Waves \n')
 fprintf('---------------------------------------\n')
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
@@ -212,8 +218,9 @@ tol=1e-4;
 assert(RegYaw.Force_diff <= tol)
 fprintf(['Body1 Torque in Yaw, Diff = ' num2str(RegYaw.Force_diff) '\n'])
 
+
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-%% Passive Yaw Tests in Irregular Waves
+% Passive Yaw Tests in Irregular Waves
 fprintf('\nPassive Yaw Tests in Irregular Waves \n')
 fprintf('---------------------------------------\n')
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
@@ -248,6 +255,6 @@ fprintf(['2nd Order Spectral Moment, Diff = ' num2str(max(abs(org-new))) '\n'])
 
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-%% Run Test Cases
+% Run Test Cases
 % Use the following command to run tests locally,  "runtests"
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
