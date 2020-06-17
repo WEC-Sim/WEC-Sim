@@ -172,9 +172,10 @@ html_theme_options = {
 # relative to this directory. They are copied after the builtin static files,
 # so a file named "default.css" will overwrite the builtin "default.css".
 html_images_path = ['_images']
-
+html_static_path = ['_static']
 html_css_files = [
     'css/table_wrap.css',
+    'css/eqno.css',
 ]
 
 # Add any extra paths that contain custom files (such as robots.txt or

@@ -1,3 +1,30 @@
+
+.. note::
+    Overall, I think this is a good section to have, as it, obviously, 
+    describes what is going on in the code. I think it's important to address 
+    how it is both pitched and structured, however.
+
+    By pitched I mean that the way this page is written, with the level of 
+    assumed knowledge, it is pretty much only accessible to naval architects / 
+    ocean engineers or people in an academic institution that can access the 
+    materials required to learn it, with the implication that the necessary 
+    background to both use and develop the code is limited them. I understand 
+    that development of this code is probably going to be limited due to its 
+    complexity and the challenge of gathering the references required to learn 
+    it, but I suspect you want the user base to be more broad. In this case I 
+    would consider having a theory section that provides a detailed (with 
+    accessible references if used) description of the theory required for 
+    understanding the use and another section (similar to this page) that is 
+    for people who can go deeper to get involved in the development. 
+
+    The structure of this page could also be improved. In some ways it's like a 
+    narrative, in some ways like and manual and it never quite works as either. 
+    I think the introduction needs to be improved to say who the information is 
+    for and what background level is required (which should be addressed 
+    earlier in the docs as well) and to provide some guidance for how the page 
+    is structured. The order and level of some of the sections need some 
+    sorting also. 
+
 .. _theory:
 
 Theory
@@ -94,9 +121,9 @@ The equation of motion for a floating body about its center of gravity can be gi
     good to know so I can decide if I want to pay for them or not.
 
 .. math::
-
-	m\ddot{X}=F_{exc}(t)+F_{rad}(t)+F_{pto}(t)+F_{v}(t)+F_{me}(t)+F_{B}(t)+F_{m}(t)
-
+    :label: motion
+    
+    m\ddot{X}=F_{exc}(t)+F_{rad}(t)+F_{pto}(t)+F_{v}(t)+F_{me}(t)+F_{B}(t)+F_{m}(t)
 
 where :math:`\ddot{X}` is the (translational and rotational) acceleration vector of the device, :math:`m` is the mass matrix, :math:`F_{exc}(t)` is the wave excitation force and torque (6-element) vector, :math:`F_{rad}(t)` is the force and torque vector resulting from wave radiation, :math:`F_{pto}(t)` is the PTO force and torque vector, :math:`F_{v}(t)` is the damping force and torque vector, :math:`F_{me}(t)` is the Morison Element force and torque vector, :math:`F_{B}(t)` is the net buoyancy restoring force and torque vector, and :math:`F_{m}(t)` is the force and torque vector resulting from the mooring connection.
 
@@ -198,7 +225,8 @@ where :math:`A_{\infty}` is the added mass matrix at infinite frequency and :mat
 
 .. note::
     Probably better to use `equation referencing <https://www.sphinx-doc.org/en/master/usage/restructuredtext/domains.html#role-math-numref>`_
-    rather than say "the equation described in the last subsection".
+    rather than say "the equation described in the last subsection". I added
+    a fix to the RTD css to get this to work, if that was the issue.
 
 .. note::
     The free surface is mentioned again here, but it's usage is not described
@@ -580,6 +608,10 @@ For more information about application of mooring systems in WEC-Sim, refer to :
 
 Nonlinear Buoynancy and Froude-Krylov Wave Excitation
 -----------------------------------------------------
+
+.. note::
+    Which linear model? Maybe "linear wave theory" is better here?
+
 The linear model assumes that the body motion and the waves consist of small amplitudes in comparison to the wavelengths. A weakly nonlinear approach is applied to account for the nonlinear hydrodynamic forces induced by the instantaneous water surface elevation and body position. Rather than using the BEM calculated linear wave-excitation and hydrostatic coefficients, the nonlinear buoyancy and the Froude-Krylov force components can be obtained by integrating the static and dynamic pressures over each panel along the wetted body surface at each time step. 
 Because linear wave theory is used to determine the flow velocity and pressure field, the values become unrealistically large for wetted panels that are above the mean water level. To correct this, the Wheeler stretching method is applied :cite:`wheeler1969methods`, which applies a correction to the instantaneous wave elevation that forces its height to be equal to the water depth when calculating the flow velocity and pressure,
 
@@ -602,6 +634,11 @@ Additional damping and added-mass can be added to the WEC system. This facilitat
 
 Viscous Damping
 ^^^^^^^^^^^^^^^^^^^^^^^
+
+.. note::
+    "Linear damping and quadratic drag forces add flexibility to the definition 
+    of viscous forcing" is a cryptic sentence.
+
 Linear damping and quadratic drag forces add flexibility to the definition of viscous forcing
 
  .. math::
@@ -616,6 +653,12 @@ Because BEM codes are potential flow solvers and neglect the effects of viscosit
 
 Morison Elements 
 ^^^^^^^^^^^^^^^^^^^^^^^
+
+.. note::
+    Does this not lead to double counting if you include this with the second
+    the viscous damping equations? Shouldn't this be more like an either or, 
+    rather than including both, as implied by :math:numref:`motion`?
+
 The Morison Equation assumes that the fluid forces in an oscillating flow on a structure of slender cylinders or other similar geometries arise partly from pressure effects from potential flow and partly from viscous effects. A slender cylinder implies that the diameter, D, is small relative to the wave length, :math:`\lambda`, which is generally met when :math:`D/\lambda < 0.1 - 0.2`. If this condition is not met, wave diffraction effects must be taken into account. Assuming that the geometries are slender, the resulting force can be approximated by a modified Morison formulation :cite:`Morison1950`. The formulation for each element on the body can be given as
 
  .. math::
