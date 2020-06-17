@@ -26,29 +26,6 @@ cd .. ; cd regularSS
 load('regularSS_org.mat')     % Load WEC-Sim Run Data
 cd .. 
 
-fprintf('\nRegular wave with sinusoidal assumption')
-fprintf(['\nBody1_Heave Max Diff = ' num2str(regular.B1_H_max) ...
-    ' m at time = ' num2str(regular.B1.WEC_Sim_org.time(regular.B1_H_I)) 's\n'])
-fprintf(['Body2_Heave Max Diff = ' num2str(regular.B2_H_max) ...
-    ' m at time = ' num2str(regular.B2.WEC_Sim_org.time(regular.B2_H_I)) 's\n'])
-fprintf(['Relative_Heave Max Diff = ' num2str(regular.Rel_H_max) ...
-    ' m at time = ' num2str(regular.Rel.WEC_Sim_org.time(regular.Rel_H_I)) 's\n'])
-
-fprintf('\nRegular wave with convolution Integral')
-fprintf(['\nBody1_Heave Max Diff = ' num2str(regularCIC.B1_H_max) ...
-    ' m at time = ' num2str(regularCIC.B1.WEC_Sim_org.time(regularCIC.B1_H_I)) 's\n'])
-fprintf(['Body2_Heave Max Diff = ' num2str(regularCIC.B2_H_max) ...
-    ' m at time = ' num2str(regularCIC.B2.WEC_Sim_org.time(regularCIC.B2_H_I)) 's\n'])
-fprintf(['Relative_Heave Max Diff = ' num2str(regularCIC.Rel_H_max) ...
-    ' m at time = ' num2str(regularCIC.Rel.WEC_Sim_org.time(regularCIC.Rel_H_I)) 's\n'])
-
-fprintf('\nRegular wave with state space')
-fprintf(['\nBody1_Heave Max Diff = ' num2str(regularSS.B1_H_max) ...
-    ' m at time = ' num2str(regularSS.B1.WEC_Sim_org.time(regularSS.B1_H_I)) 's\n'])
-fprintf(['Body2_Heave Max Diff = ' num2str(regularSS.B2_H_max) ...
-    ' m at time = ' num2str(regularSS.B2.WEC_Sim_org.time(regularSS.B2_H_I)) 's\n'])
-fprintf(['Relative_Heave Max Diff = ' num2str(regularSS.Rel_H_max) ...
-    ' m at time = ' num2str(regularSS.Rel.WEC_Sim_org.time(regularSS.Rel_H_I)) 's\n'])
 
 %% Plot Heave Comparisons
 h=figure('units','normalized','outerposition',[0 0 1 1]);
@@ -123,7 +100,7 @@ ylabel('Heave(m)')
 title('Relative Motion 1DOF 1200PTO')
 xlim([0 150])
 ylim([-2 2])
-l=legend('Regular wave with sinusoidal assumption','Regular wave with convolution Integral','Regular wave with state space');
+l=legend('"regular"','"regularCIC"','"regularCIC" with State Space');
 set(l,'Position',[0.765 0.84 0.07 0.07],'Units','normalized',...
     'FontSize',12);
 

@@ -75,7 +75,7 @@ if openCompare==1
         cd IrregularWaves; openfig('figIrregCIC.fig'); openfig('figIrregSS.fig');
         cd .. ;
     end
-    if runYaw==1;
+    if runYaw==1
         cd PassiveYaw; open('figYawReg.fig'); open('figYawIrr.fig'); 
         cd ..;
     end

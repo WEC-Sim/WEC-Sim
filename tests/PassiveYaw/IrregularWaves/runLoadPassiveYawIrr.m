@@ -29,6 +29,9 @@ wecSim;                     % Run Simulation
 IrrYaw.time_new=output.bodies(1).time;
 IrrYaw.Pos_new=output.bodies(1).position(:,6);
 IrrYaw.Force_new=output.bodies(1).forceTotal(:,6);
+% Spectrum
+IrrYaw.Sp.WEC_Sim_new.m0 = spectralMoment(waves.w,waves.S,0);
+IrrYaw.Sp.WEC_Sim_new.m2 = spectralMoment(waves.w,waves.S,2);
 
 %% Load Data
 irrCICouput_new=output;        % Keeps the new run in the workspace
@@ -39,6 +42,9 @@ load('IrrYaw_org.mat')    % Load Previous WEC-Sim Data
 IrrYaw.time_org=output.bodies(1).time;
 IrrYaw.Pos_org=output.bodies(1).position(:,6);
 IrrYaw.Force_org=output.bodies(1).forceTotal(:,6);
+% Spectrum
+IrrYaw.Sp.WEC_Sim_org.m0 = spectralMoment(waves.w,waves.S,0);
+IrrYaw.Sp.WEC_Sim_org.m2 = spectralMoment(waves.w,waves.S,2);
 
 %% Quantify Maximum Difference Between Saved and Current WEC-Sim RunsReg
 [IrrYaw.Pos_diff ,IrrYaw.Pos_i]=max(abs(IrrYaw.Pos_new-IrrYaw.Pos_org));
