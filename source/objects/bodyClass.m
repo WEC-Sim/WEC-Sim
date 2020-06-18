@@ -326,7 +326,7 @@ classdef bodyClass<handle
         end
         
         function listInfo(obj)
-            % This method prints body  information to the MATLAB Command Window.
+            % This method prints body information to the MATLAB Command Window.
             fprintf('\n\t***** Body Number %G, Name: %s *****\n',obj.hydroData.properties.body_number,obj.hydroData.properties.name)
             fprintf('\tBody CG                          (m) = [%G,%G,%G]\n',obj.hydroData.properties.cg)
             fprintf('\tBody Mass                       (kg) = %G \n',obj.mass);

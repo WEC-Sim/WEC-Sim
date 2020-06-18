@@ -18,19 +18,25 @@
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
 classdef ptoClass<handle
-    % This class contains WEC-Sim pto parameters and settings
+    %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+    % The ``ptoClass`` creates a ``pto`` object saved to the MATLAB
+    % workspace. The ``ptoClass`` includes properties and methods used
+    % to define PTO connections between the body motion relative to the global reference 
+    % frame or relative to other bodies. 
+    %
+    %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
     properties (SetAccess = 'public', GetAccess = 'public')%input file 
-        name                    = 'NOT DEFINED'                                 % Name of the pto 
-        k                       = 0                                             % PTO stiffness. Default = 0
-        c                       = 0                                             % PTO damping. Default = 0
-        loc                     = [999 999 999]                                 % PTO location. Default = [0 0 0]        
-        orientation             = struct(...                                    % Structure defining orientation parameters
-                                         'z', [0, 0, 1], ...                        % Vector defining the direction of the Z-coordinate for the PTO.
-                                         'y', [0, 1, 0], ...                        % Vector defining the direction of the Y-coordinate for the PTO.
-                                         'x', [], ...                               % Internally calculated vector defining the direction of the X-coordinate for the PTO.
-                                         'rotationMatrix',[])                       % Internally calculated rotation matrix to go form standard coordinate orientation to the PTO's coordinate orientation.
+        name                    = 'NOT DEFINED'                                 % (`string`) Specifies the pto name. For ptos this is defined by the user, Default = ``NOT DEFINED``. 
+        k                       = 0                                             % (`float`) Linear PTO stiffness coefficient. Default = `0`.
+        c                       = 0                                             % (`float`) Linear PTO damping coefficient. Default = `0`.
+        loc                     = [999 999 999]                                 % (`3x1 float vector`) PTO location [m]. Defined in the following format [x y z]. Default = ``[999 999 999]``.
+        orientation             = struct(...                                    % 
+                                         'z', [0, 0, 1], ...                    % 
+                                         'y', [0, 1, 0], ...                    % 
+                                         'x', [], ...                           % 
+                                         'rotationMatrix',[])                   % Structure defining the orientation axis of the pto. ``z`` (`3x1 float vector`) defines the direciton of the Z-coordinate of the pto, Default = [``0 0 1``]. ``y`` (`3x1 float vector`) defines the direciton of the Y-coordinate of the pto, Default = [``0 1 0``]. ``x`` (`3x1 float vector`) internally calculated vector defining the direction of the X-coordinate for the pto, Default = ``[]``. ``rotationMatrix`` (`3x3 float matrix`) internally calculated rotation matrix to go from standard coordinate orientation to the pto coordinate orientation, Default = ``[]``.
         initDisp                = struct(...                                    % Structure defining the initial displacement
-                                         'initLinDisp',          [0 0 0])           % Initial displacement - used for decay tests (format: [displacment in m], default = [0 0 0])
+                                         'initLinDisp',          [0 0 0])       % Structure defining the initial displacement of the pto. ``initLinDisp`` (`3x1 float vector`) is defined as the initial displacement of the pto [m] in the following format [x y z], Default = [``0 0 0``].
     end 
     
     properties (SetAccess = 'public', GetAccess = 'public')%internal
@@ -39,13 +45,26 @@ classdef ptoClass<handle
     
     methods                                                            
         function obj = ptoClass(name)                                  
-            % Initilization function
+            % This method initilizes the ``ptoClass`` and creates a
+            % ``pto`` object.          
+            %
+            % Parameters
+            % ------------
+            %     filename : string
+            %         String specifying the name of the pto
+            %
+            % Returns
+            % ------------
+            %     pto : obj
+            %         ptoClass object         
+            %
              obj.name = name;
         end
         
-        function obj = checkLoc(obj,action)                            
-            % Checks if location is set and outputs a warning or error.
-            % Used in mask Initialization.
+        function obj = checkLoc(obj,action)               
+            % This method checks WEC-Sim user inputs and generate an error message if the constraint location is not defined in constraintClass.
+            
+            % Checks if location is set and outputs a warning or error. Used in mask Initialization.
             switch action
               case 'W'
                 if obj.loc == 999 % Because "Allow library block to modify its content" is selected in block's mask initialization, this command runs twice, but warnings cannot be displayed during the first initialization. 
@@ -69,7 +88,7 @@ classdef ptoClass<handle
         end
         
         function obj = setOrientation(obj)
-            % Sets orientation based on user input
+            % This method calculates the constraint ``x`` vector and ``rotationMatrix`` matrix in the ``orientation`` structure based on user input.
             obj.orientation.z = obj.orientation.z / norm(obj.orientation.z);
             obj.orientation.y = obj.orientation.y / norm(obj.orientation.y);
             z = obj.orientation.z;
@@ -84,11 +103,15 @@ classdef ptoClass<handle
         end
 
         function setInitDisp(obj, x_rot, ax_rot, ang_rot, addLinDisp)
-            % Function to set the initial displacement when having initial rotation
-            % x_rot: rotation point
-            % ax_rot: axis about which to rotate (must be a normal vector)
-            % ang_rot: rotation angle in radians
-            % addLinDisp: initial linear displacement (in addition to the displacement caused by rotation)
+            % This method sets initial displacement while considering an initial rotation orientation. 
+            %
+            %``x_rot`` (`3x1 float vector`) is rotation point [m] in the following format [x y z], Default = ``[]``.
+            % 
+            %``ax_rot`` (`3x1 float vector`) is the axis about which to rotate to constraint and must be a normal vector, Default = ``[]``.
+            %
+            %``ang_rot`` (`float`) is the rotation angle [rad], Default = ``[]``.
+            %
+            %``addLinDisp`` ('float') is the initial linear displacement [m] in addition to the displacement caused by the pto rotation, Default = '[]'.
             loc = obj.loc;
             relCoord = loc - x_rot;
             rotatedRelCoord = obj.rotateXYZ(relCoord,ax_rot,ang_rot);
@@ -98,11 +121,15 @@ classdef ptoClass<handle
         end
 
         function xn = rotateXYZ(obj,x,ax,t)
-            % Function to rotate a point about an arbitrary axis
-            % x: 3-componenet coordiantes
-            % ax: axis about which to rotate (must be a normal vector)
-            % t: rotation angle
-            % xn: new coordinates after rotation
+            %This method rotates a point about an arbitrary axis.
+            %
+            %``x`` (`3x1 float vector`) is the point coordiantes.
+            %
+            %``ax`` (`3x1 float vector`) is the axis about which to rotate the pto and must be a normal vector.
+            %
+            %``t``  (`float`) is the rotation angle of the pto.
+            % 
+            %``xn`` (`3x1 float vector`) is the new point coordiantes after rotation.
             rotMat = zeros(3);
             rotMat(1,1) = ax(1)*ax(1)*(1-cos(t))    + cos(t);
             rotMat(1,2) = ax(2)*ax(1)*(1-cos(t))    + ax(3)*sin(t);
@@ -117,7 +144,7 @@ classdef ptoClass<handle
         end
 
         function listInfo(obj)                                         
-            % List PTO info
+            % This method prints pto information to the MATLAB Command Window.
             fprintf('\n\t***** PTO Name: %s *****\n',obj.name)
             fprintf('\tPTO Stiffness           (N/m;Nm/rad) = %G\n',obj.k)
             fprintf('\tPTO Damping           (Ns/m;Nsm/rad) = %G\n',obj.c)
