@@ -21,25 +21,25 @@
 classdef mooringClass<handle
     % This class contains mooring parameters and settings
     properties (SetAccess = 'public', GetAccess = 'public')%input file 
-        name                    = 'NOT DEFINED'                                 % Name of the mooring
-        ref                     = [0 0 0]                                       % Mooring Reference location. Default = [0 0 0]        
-        matrix                  = struct(...                                    % Structure defining damping, stiffness, and pre-tension. defaults = zeros(6,6), zeros(6,6), zeros(1,6) respectively
+        name                    = 'NOT DEFINED'                                 % (`string`) Name of the mooring. Default = ``'NOT DEFINED'``
+        ref                     = [0 0 0]                                       % (`float 1 x 3`) Mooring Reference location. Default = ``[0 0 0]``        
+        matrix                  = struct(...                                    % (`obj`) Structure defining damping, stiffness, and pre-tension. Defaults = ``zeros(6,6), zeros(6,6), zeros(1,6)`` respectively
                                          'c',          zeros(6,6), ...              
                                          'k',          zeros(6,6), ...             
                                          'preTension', [0 0 0 0 0 0])               
-        initDisp                = struct(...                                    % Structure defining initial linear displacement, angular displacement axis, and angular displacement angle (radian). defaults = zeros(1,3), zeros(1,3), 0 respectively
+        initDisp                = struct(...                                    % (`obj`) Structure defining initial linear displacement, angular displacement axis, and angular displacement angle (radian). Defaults = ``zeros(1,3), zeros(1,3), 0`` respectively
                                    'initLinDisp', [0 0 0], ...                      
                                    'initAngularDispAxis',  [0 1 0], ...           
                                    'initAngularDispAngle', 0)               
-        moorDynLines            = 0                                             % Number of lines in MoorDyn default = 0
-        moorDynNodes            = []                                            % number of nodes for each line.
+        moorDynLines            = 0                                             % (`integer`) Number of lines in MoorDyn. Default = ``0``
+        moorDynNodes            = []                                            % (`integer`) number of nodes for each line. Default = ``'NOT DEFINED'``
     end
 
     properties (SetAccess = 'public', GetAccess = 'public') %internal
-        loc                     = []                                            % Initial 6DOF location, default = [0 0 0 0 0 0]
-        mooringNum              = []                                            % Mooring number
-        moorDyn                 = 0                                             % Flag to indicate a MoorDyn block, default = 0;
-        moorDynInputRaw         = []                                            % MoorDyn input file, each line read as a string into a cell array
+        loc                     = []                                            % (`float 1 x 6`) Initial 6DOF location. Default = ``[0 0 0 0 0 0]``
+        mooringNum              = []                                            % (`integer`) Mooring number. Default = ``'NOT DEFINED'``
+        moorDyn                 = 0                                             % (`integer`) Flag to indicate a MoorDyn block, 0 or 1. Default = ``0``
+        moorDynInputRaw         = []                                            % (`string`) MoorDyn input file, each line read as a string into a cell array. Default = ``'NOT DEFINED'``
     end
 
     methods (Access = 'public')                                        
@@ -58,16 +58,16 @@ classdef mooringClass<handle
             %
             % Parameters
             % ------------
-            %    x_rot : 3 x 1 vector
+            %    x_rot : 3 x 1 float vector
             %        displacement of mooring reference
             %
-            %    ax_rot : 3 x 1 vector 
+            %    ax_rot : 3 x 1 float vector 
             %       axis about which to rotate (must be a normal vector)
             %
-            %    ang_rot : scalar 
+            %    ang_rot : float  
             %       rotation displacement (radians)
             %
-            %    addLinDisp : 3 x 1 vector
+            %    addLinDisp : 3 x 1 float vector
             %       initial linear displacement (additional to rotation-induced displacement)
             %
             loc = obj.ref;
@@ -85,16 +85,16 @@ classdef mooringClass<handle
             % 
             % Parameters
             % ------------
-            %   x : 3 x 1 vector
+            %   x : 1 x 3 float vector
             %       coordinates of point to rotate
-            %   ax : 3 x 1 vector
+            %   ax : 1 x 3 float vector
             %       axis about which to rotate 
-            %   t : scalar  
+            %   t : float  
             %       rotation angle (radian)
             %
             % Returns
             % ------------
-            %   xn : 3 x 1 vector 
+            %   xn : 1 x 3 float vector 
             %       new coordinates after rotation
             %
             rotMat = zeros(3);
@@ -129,7 +129,7 @@ classdef mooringClass<handle
             %       The moorDyn object
             %   model : string
             %       The simMechanics ``.slx`` file
-            %   t : vector
+            %   t : float vector
             %       Moordyn time vector 
             %   simdate : string
             %       Date string
@@ -139,9 +139,9 @@ classdef mooringClass<handle
             %       Number of nodes on mooring lines
             %   pathParaviewVideo : directory
             %       Directory the Paraview files were saved
-            %   TimeBodyParav : vector
+            %   TimeBodyParav : float vector
             %       Paraview time vector
-            %   simu.g : number
+            %   simu.g : float
             %       Gravitational acceleration from simulationClass
             %
             
