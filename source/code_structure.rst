@@ -1,3 +1,13 @@
+
+.. warning::
+    This rst source is written in a really unusual way, with each sentence on
+    it's own line. All the docs would be much easier to read if it was enforced 
+    by a linter such as `doc8 <https://github.com/pycqa/doc8>`_.
+
+.. note::
+    It seems like the :ref:`advanced_features` section carries some pretty 
+    critical setup information that isn't provided in this page.
+
 .. _code_structure:
 
 Code Structure
@@ -13,6 +23,11 @@ For more information about WEC-Sim's code structure, refer to the :ref:`webinars
     Also, It seems like there is "a way" that the Simulink file should be put 
     together, but I'm yet to encounter any description of that "way" and I'm
     kind of going through the developer focussed parts (yes?) of the docs now.
+    
+    OOP could have been used more effectively, also, particularly polymorphism,
+    such that specific subclasses could have been provided that only have the
+    properties they require, rather than having general classes where some of
+    the properties should be set depending on how it's configured.
 
 WEC-Sim Source Code
 --------------------------------
@@ -21,6 +36,23 @@ The WEC-Sim source code files are contained within a source directory referred t
 The WEC-Sim source code consists of a series of MATLAB ``*.m`` objects (defined in WEC-Sim as classes) and Simulink ``*.slx`` library blocks which are executed by the ``wecSim.m`` script. 
 Executing ``wecSim.m`` parses the user input data, performs preprocessing calculations in each of the classes, selects and initializes variant subsystems in the Simulink model, and runs the time-domain simulations in WEC-Sim. 
 
+.. note::
+    The "source code consists of a series of MATLAB ``*.m`` objects". Well, 
+    strictly it contains .m files that define both classes and functions.
+    
+    The use of the term "object" here is a bit strange, e.g. "objects defined 
+    in WEC-Sim as classes" is an odd way to put it, and I think you 
+    should just say classes when you are referring to what is in the objects 
+    folder of the source code, because that's what they are (every file is 
+    named somethingClass, after all.). I think I would have called them 
+    "blocks" if I were to group them, because they are analogous to the 
+    simulink blocks. 
+    
+    I would also remove the term Class in all the classes. You don't put the 
+    word Function after all your functions. The first-letter-is-capital naming 
+    convention for MATLAB classes can distinguish between classes and functions 
+    (and objects). 
+
 =========================   ====================  ==========================
 **File Type**               **File name**         **Directory**
 WEC-Sim Executable          ``wecSim.m``          ``$WECSIM/source``
@@ -28,20 +60,23 @@ WEC-Sim MATLAB Objects      ``<object>Class.m``   ``$WECSIM/source/objects``
 WEC-Sim Simulink Library    ``<block>_Lib.slx``   ``$WECSIM/source/lib``
 =========================   ====================  ==========================
 
-.. note::
-    The use of the term "object" here is a bit strange, e.g. "objects defined 
-    in WEC-Sim as classes" is an odd what to put it, and I think you 
-    should just say classes when you are referring to what is in the objects 
-    folder of the source code, because that's what they are (every file is 
-    named somethingClass, after all.) 
-    
-    I think I would also remove the term Class in all the classes. You don't 
-    put the work Function after all your functions. The first letter is capital 
-    naming convention for MATLAB classes can distinguish between classes and 
-    functions (and objects). 
+.. warning::
+    Your table here seems like it is out of date. There are no slx files on
+    the ``$WECSIM/source/lib`` path, just two folders. Also the meaning of
+    <block> and <object> are not explained.
+
+.. _wsim_objects:
 
 WEC-Sim Objects
 ----------------
+
+.. note::
+    I would say you were fairly explicit about what you had to do in the
+    input file in the webinar, but here I think you need to be more precise
+    about what is required. The objects are created from classes and should
+    have specific names (I guess). It is sort of implicitly written below but 
+    not clearly enough, IMO.
+
 All information required to run WEC-Sim simulations is contained within the ``simu``, ``waves``, ``body(i)``, ``pto(i)``, ``constraint(i)``, and ``mooring(i)`` objects (instances of the simulationClass, waveClass, bodyClass, constraintClass, ptoClass, and mooringClass).  
 The user can interact with these classes within the WEC-Sim input file (``wecSimInputFile.m``). 
 The remainder of this section describes the role of the WEC-Sim objects, and how to interact with the WEC-Sim objects to define input properties. 
@@ -50,8 +85,21 @@ There are two ways to look at the available properties and methods within a clas
 The first is to type ``doc <className>`` in Matlab Command Window, and the second is to open the class definitions located in the ``$WECSIM/source/objects`` directory by typing ``open <className>`` in MATLAB Command Window.
 The latter provides more information since it also defines the different fields in a structure.
 
+.. note::
+    You've probably avoided telling people to use the help command because 
+    all you get is your copyright statement. We encountered this in WecOptTool,
+    and MATLAB has a particular method for positioning the copyright statement
+    so it doesn't interfere with the help. You can find the issue we have open
+    for this `here <https://github.com/SNL-WaterPower/WecOptTool/issues/142>`_.
+
 Simulation Class
 ^^^^^^^^^^^^^^^^^^^^^^^
+
+.. note::
+    This first line, that appears in every class is redundant given you've 
+    already said this above. And the second line is much more useful to be
+    the first line, if you get my drift.
+    
 The simulation class file, ``simulationClass.m``, is located in the ``$WECSIM/source/objects`` directory. 
 The simulation class contains the simulation parameters and solver settings necessary to execute the WEC-Sim code. 
 Within the ``wecSimInputFile.m``, users must initialize the simulation class (``simulationClass``) and specify the name of the  WEC-Sim (``*.slx``) model file by including the following lines::
@@ -60,16 +108,50 @@ Within the ``wecSimInputFile.m``, users must initialize the simulation class (``
 	simu.simMechanicsFile='<WEC Model Name>.slx'
 	
 	
+
+.. note::
+    "the  WEC-Sim (``*.slx``) model file" - the fact that these are simulink
+    model files is sort of avoided in this documentation, but, given the
+    ambiguity of what a model can be (WEC-Sim is a model), it would avoid 
+    confusion if the word simulink were added, I think.
+
 Users may specify other simulation class properties using the ``simu`` object in the ``wecSimInputFile.m``, such as: simulation start time (``simu.startTime``), end time (``simu.endTime``), ramp time (``simu.rampTime``) and time step (``simu.dt``). 
 All simulation class properties are specified as variables within the ``simu`` object as members of the ``simulationClass``.
+
+.. note::
+    "All [type] class properties are specified as variables within the 
+    [object] as members of the [class]" isn't particularly informative.
 
 
 The WEC-Sim code has default values defined for the simulation class properties. 
 These default values can be overwritten by the user, for example, the end time of a simulation can be set by entering the following command: ``simu.endTime = <user specified end time>``.
 
+.. note::
+    The sentence below is also made redundant by the text in the 
+    :ref:`wsim_objects` section.
+
 Available simulation properties, default values, and functions can be found by typing ``doc simulationClass`` in the MATLAB command window, or by opening the ``simulationClass.m`` file in ``$WECSIM//objects`` directory by typing ``open simulationClass`` in MATLAB Command Window.
 
 For more information about application of WEC-Sim's simulation class, refer to :ref:`advanced_features:Simulation Features`.
+
+.. note::
+    This section and others could be made clearer using tables like this:
+    
+    +-----------------------+-----------+---------+------+
+    | Option                | Parameter | Default | unit |
+    +=======================+===========+=========+======+
+    | simulation start time | startTime | 0       | s    |
+    +-----------------------+-----------+---------+------+
+    | simulation end time   | endTime   | 1000    | s    |
+    +-----------------------+-----------+---------+------+
+    | ramp time             | rampTime  | 60      | s    |
+    +-----------------------+-----------+---------+------+
+    | time step             | dt        | 1       | s    |
+    +-----------------------+-----------+---------+------+
+    
+    with some explanation above about how to set a parameter, and the difference
+    between required and optional parameters, in the introduction text, to 
+    avoid repeating yourself.
 
 Wave Class
 ^^^^^^^^^^^^^^^^^^^^^^^
@@ -99,10 +181,23 @@ Users must specify additional wave class properties using the ``waves`` object d
 ``etaImport``       ``waves.etaDataFile``                      
 ================== =================================== 
 
+.. note::
+    There was a missed opportunity for using polymorphism here to create 
+    subclasses that simply required these inputs on initialisation, rather than
+    relying on configuring a single class correctly.
+
 Available wave class properties, default values, and functions can be found by typing ``doc waveClass`` in the MATLAB command window, or by opening the ``waveClass.m`` file in ``$WECSIM/source/objects`` directory by typing ``open waveClass`` in the Matlab Command Window.
 
 noWave
 """"""""""""""""""""""""""""""
+
+.. note::
+    Waves don't have added mass, so I think the choice to use the 
+    convolution integral, or not, has made the meaning of this class rather
+    muddy. Surely the use of the convolution integral is more of a simulation
+    thing, than a property of the incident wave itself?
+
+
 The ``noWave`` case is for running WEC-Sim simulations with no waves and constant radiation added mass and wave damping coefficients. 
 The ``noWave`` case is typically used to run decay tests. 
 Users must still provide hydro coefficients from a BEM solver before executing WEC-Sim and specify the period (``wave.T``) from which the hydrodynamic coefficients are selected. 
@@ -120,6 +215,10 @@ The only difference is that the radiation forces are calculated using the convol
 The ``noWaveCIC`` case is defined by including the following in the input file::
 
 	waves = waveClass('noWaveCIC');
+
+.. note::
+    "The ``noWaveCIC`` case is the same as the noWave case described above"
+    except that you don't have to set T?
 
 regular
 """"""""""""""""""""""""""""""
@@ -163,6 +262,11 @@ The ``irregular`` case is defined by including the following in the input file::
 	waves.H = <user defined wave height>; %[m]
 	waves.spectrumType = '<user specified spectrum>';
 
+.. note::
+    <user specified spectrum> on quick glance, doesn't really make it clear 
+    what should go in here. Perhaps with these examples, if they were put at 
+    the top of the section, then you could explain the meanings in the angle 
+    brackets in the following text. 
 
 When using the JONSWAP spectrum, users have the option of defining gamma by specifying ``waves.gamma = <user specified gamma>;``. If gamma is not defined, then gamma is calculated based on a relationship between significant wave height and peak period defined by IEC TS 62600-2:2019.    
 
@@ -211,6 +315,9 @@ For example, viscous drag can be specified by entering the viscous drag coeffici
 	body(<#>).viscDrag.cd= [0 0 1.3 0 0 0]
 	body(<#>).viscDrag.characteristicArea= [0 0 100 0 0 0]
 
+.. note::
+    "WEC-Sim assumes that every WEC is composed of rigid bodies exposed to wave 
+    forcing." <- Why hide this in the second paragraph?
 
 Available body properties, default values, and functions can be found by typing ``doc bodyClass`` in the MATLAB command window, or opening the `bodyClass.m` file in ``$WECSIM/source/objects`` directory by typing ``open bodyClass`` in Matlab Command Window.
 
@@ -218,6 +325,11 @@ For more information about application of WEC-Sim's body class, refer to :ref:`a
 
 Constraint Class
 ^^^^^^^^^^^^^^^^^^^^^^^
+
+.. note::
+    This class is named after its implementation rather than its action. Is
+    something like "link" not more descriptive? 
+
 The constraint class file, ``constraintClass.m``, is located in the ``$WECSIM/source/objects`` directory.  
 WEC-Sim constraint blocks connect WEC bodies to one another (and possibly to the seabed) by constraining DOFs. 
 The properties of the constraint class (``constraintClass``) are defined in the ``constraint`` object. 
@@ -225,8 +337,18 @@ Within the ``wecSimInputFile.m``, users must initialize each iteration the const
 
 	constraint(<#>)=constraintClass('<constraint name>'); 
 
+.. note::
+    I think there is some ambiguity in the return of the word block here. This
+    is referring to the simulink model? If the block does that then this
+    class does...? I think this enforces that there really shouldn't be a
+    semantic difference between what is called objects and blocks.
 
 For rotational constraint (ex: pitch), the user also needs to specify the location of the rotational joint with respect to the global reference frame in the ``constraint(<#>).loc`` variable. 
+
+.. note:: 
+    We are getting back to "the way" again here. I'm guessing that "the global 
+    reference frame" is set in the simulink model? Are there any docs about 
+    doing this?
 
 Available constraint properties, default values, and functions can be found by typing ``doc constraintClass`` in the MATLAB command window, or opening the `constraintClass.m` file in ``$WECSIM/source/objects`` directory by typing ``open constraintClass`` in MATLAB Command Window.
 
@@ -244,6 +366,9 @@ Within the ``wecSimInputFile.m``, users must initialize each iteration the pto c
 	pto(<#>) = ptoClass('<pto name>');
 	
 
+.. note::
+    # isn't described here or for the constraints class.
+
 For rotational ptos, the user also needs to specify the location of the rotational joint with respect to the global reference frame in the ``constraint(<#>).loc`` variable. 
 In the PTO class, users can also specify linear damping (``pto(<#>).c``) and stiffness (``pto(<#>).k``) values to represent the PTO system (both have a default value of 0). 
 Users can overwrite the default values in the input file. For example, users can specify a damping value by entering the following in the WEC-Sim input file::
@@ -258,6 +383,12 @@ For more information about application of WEC-Sim's constraint class, refer to :
 
 Mooring Class
 ^^^^^^^^^^^^^^^^^^^^^^^
+
+.. note::
+    This section says nothing useful. Why does a mooring need a name? Why
+    might I need more than one of them? 
+
+
 The mooring class file, `mooringClass.m``, is located in the ``$WECSIM/source/objects`` directory.
 The properties of the mooring class (``mooringClass``) are defined in the ``mooring`` object. 
 Within the ``wecSimInputFile.m``, users must initialize the mooring class and specify the mooring ``name``, by including the following lines::
@@ -272,6 +403,16 @@ For more information about application of WEC-Sim's mooring class, refer to :ref
 
 Response Class
 ^^^^^^^^^^^^^^^^^^^^^^^
+
+.. note::
+    I think this section sort of encapsulates the problem with this page and 
+    with mixing this tour of classes and some essential information about how 
+    the user sets up the input file. The information here is only here because 
+    it's talking about the classes, but because the user has no interaction 
+    with the class in the setup stage, nothing is said. I would say this is 
+    another strong indicator of the need to separate use from implementation in 
+    these docs. 
+
 The response class is not initialized by the user.
 Instead, it is created at the end of a WEC-Sim simulation.
 It contains all the output time-series and methods to plot and interact with the results.

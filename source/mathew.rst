@@ -30,3 +30,6 @@ User Documentation
 Again, I can't help thinking that some focus on the non-developer user for the
 documentation would be good too. There is too much focus on the implementation
 and not enough on the use and advantages of its use.
+
+The docs should be linted using something like 
+`doc8 <https://github.com/pycqa/doc8>`_ so that the source is readable.
