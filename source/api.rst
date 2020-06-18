@@ -3,6 +3,66 @@
 WEC-Sim API
 ===========
 
+.. _body:
+
+Body Class
+------------------
+
+.. autoclass:: source.objects.bodyClass
+    :members:
+    :exclude-members: hydroData, bodyGeometry, hydroForce, h5File, hydroDataBodyNum, massCalcMethod, bodyNumber, bodyTotal, lenJ, hydroForcePre, adjustMassMatrix, restoreMassMatrix, storeForceAddedMass, setInitDisp, bodyGeo, triArea, bodyGeo, triArea, triCenter, rotateXYZ, verts_out, offsetXYZ
+    :no-undoc-members:
+    
+.. _constraint:
+
+Contstraint Class
+------------------
+
+.. autoclass:: source.objects.constraintClass
+    :members:
+    :exclude-members: constraintNum
+    :no-undoc-members:
+
+.. _mooring:
+
+Mooring Class
+-------------
+
+.. autoclass:: source.objects.mooringClass
+	:members:
+	:exclude-members: listInfo
+	:no-undoc-members:
+
+.. _pto:
+
+PTO Class
+------------------
+
+.. autoclass:: source.objects.ptoClass
+    :members:
+    :exclude-members: ptoNum
+    :no-undoc-members:
+    
+.. _response:
+
+Response Class
+------------------
+
+.. autoclass:: source.objects.responseClass
+    :members:
+    :exclude-members: wave, bodies, ptos, constraints, mooring 
+    :no-undoc-members:
+
+.. _simulation:
+
+Simulation Class
+------------------
+
+.. autoclass:: source.objects.simulationClass
+	:members:
+	:exclude-members: listInfo, getWecSimVer
+	:no-undoc-members: 
+    
 .. _wave:
 
 Wave Class
@@ -32,45 +92,3 @@ Wave Class
 
 
 .. The waveClass API documents public properties and methods only, we should probably add private as well
-
-
-
-.. _response:
-
-Response Class
-------------------
-
-.. autoclass:: source.objects.responseClass
-    :members:
-    :exclude-members: wave, bodies, ptos, constraints, mooring 
-    :no-undoc-members:
-
-.. _simulation:
-
-Simulation Class
-------------------
-
-.. autoclass:: source.objects.simulationClass
-	:members:
-	:exclude-members: listInfo, getWecSimVer
-	:no-undoc-members: 
-
-.. _mooring:
-
-Mooring Class
--------------
-
-.. autoclass:: source.objects.mooringClass
-	:members:
-	:exclude-members: listInfo
-	:no-undoc-members: 
-
-.. _body:
-
-Body Class
-------------------
-
-.. autoclass:: source.objects.bodyClass
-    :members:
-    :exclude-members: hydroData, bodyGeometry, hydroForce, h5File, hydroDataBodyNum, massCalcMethod, bodyNumber, bodyTotal, lenJ, hydroForcePre, adjustMassMatrix, restoreMassMatrix, storeForceAddedMass, setInitDisp, bodyGeo, triArea, bodyGeo, triArea, triCenter, rotateXYZ, verts_out, offsetXYZ
-    :no-undoc-members:
