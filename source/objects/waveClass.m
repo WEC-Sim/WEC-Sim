@@ -262,8 +262,7 @@ classdef waveClass<handle
         end
         
         function listInfo(obj)
-            % This method prints wave information to the MATLAB Command
-            % Window.
+            % This method prints wave information to the MATLAB Command Window.
             %             
             fprintf('\nWave Environment: \n')
             switch obj.type

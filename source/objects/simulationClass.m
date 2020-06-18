@@ -54,8 +54,8 @@ classdef simulationClass<handle
         mcrCaseFile         = []                                           % mat file that contain a list of the multiple conditions runs with given conditions  
         morisonElement     = 0                                             % Option for Morrison Element calculation: off->0, on->1, (default = 0)
         outputtxt           = 0                                            % Option to save results as ASCII files off->0, on->1, (default = 0)
-        reloadH5Data        = 0                                            % Option to re-load hydro data from hf5 file between runs: off->0, on->1, (default = 0)     
-        saveMat             = 1                                            % Option to save *.mat file for each run: off->0, on->1, (default = 1)   
+        reloadH5Data        = 0                                            % Option to re-load hydro data from hf5 file between runs: off->0, on->1, (default = 0)
+        saveMat             = 1                                            % Option to save *.mat file for each run: off->0, on->1, (default = 1)
         pressureDis         = 0                                            % Option to save pressure distribution: off->0, on->1, (default = 0)
     end
 
@@ -142,9 +142,7 @@ classdef simulationClass<handle
         end
 
         function checkinputs(obj)
-            % Checks user input to ensure that ``simu.endTime`` is
-            % specified and that the SimMechanics model exists
-            %
+            % Checks user input to ensure that ``simu.endTime`` is specified and that the SimMechanics model exists
             
             if isempty(obj.endTime)
                 error('simu.endTime, the simulation end time must be specified in the wecSimInputFile')
