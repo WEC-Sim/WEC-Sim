@@ -58,10 +58,19 @@ Simulation Class
 .. _mooring:
 
 Mooring Class
-------------
+-------------
 
 .. autoclass:: source.objects.mooringClass
 	:members:
 	:exclude-members: listInfo
 	:no-undoc-members: 
-	
+
+.. _body:
+
+Body Class
+------------------
+
+.. autoclass:: source.objects.bodyClass
+    :members:
+    :exclude-members: hydroData, bodyGeometry, hydroForce, h5File, hydroDataBodyNum, massCalcMethod, bodyNumber, bodyTotal, lenJ, hydroForcePre, adjustMassMatrix, restoreMassMatrix, storeForceAddedMass, setInitDisp, bodyGeo, triArea, bodyGeo, triArea, triCenter, rotateXYZ, verts_out, offsetXYZ
+    :no-undoc-members:
