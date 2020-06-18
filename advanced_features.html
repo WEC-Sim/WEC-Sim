@@ -21,10 +21,10 @@
   
     
       <script type="text/javascript" id="documentation_options" data-url_root="./" src="_static/documentation_options.js"></script>
-        <script src="_static/jquery.js"></script>
-        <script src="_static/underscore.js"></script>
-        <script src="_static/doctools.js"></script>
-        <script src="_static/language_data.js"></script>
+        <script type="text/javascript" src="_static/jquery.js"></script>
+        <script type="text/javascript" src="_static/underscore.js"></script>
+        <script type="text/javascript" src="_static/doctools.js"></script>
+        <script type="text/javascript" src="_static/language_data.js"></script>
     
     <script type="text/javascript" src="_static/js/theme.js"></script>
 
@@ -1187,13 +1187,13 @@ Refer to the <a class="reference internal" href="mooring.html#rm3-with-moordyn">
 
 <span class="c">%% Body Data</span>
 <span class="c">% Float</span>
-<span class="n">body</span><span class="p">(</span><span class="mi">1</span><span class="p">)</span> <span class="p">=</span> <span class="n">bodyClass</span><span class="p">(</span><span class="s">&#39;../hydroData/rm3.h5&#39;</span><span class="p">);</span>     <span class="c">% Initialize bodyClass     </span>
+<span class="n">body</span><span class="p">(</span><span class="mi">1</span><span class="p">)</span> <span class="p">=</span> <span class="n">bodyClass</span><span class="p">(</span> <span class="s">&#39;D:\WEC-SimClone\WEC-Sim\examples\RM3\hydroData\rm3.h5&#39;</span><span class="p">);</span>     <span class="c">% Initialize bodyClass    </span>
 <span class="n">body</span><span class="p">(</span><span class="mi">1</span><span class="p">).</span><span class="n">geometryFile</span> <span class="p">=</span> <span class="s">&#39;../geometry/float.stl&#39;</span><span class="p">;</span> <span class="c">% Geometry File     </span>
 <span class="n">body</span><span class="p">(</span><span class="mi">1</span><span class="p">).</span><span class="n">mass</span> <span class="p">=</span> <span class="s">&#39;equilibrium&#39;</span><span class="p">;</span>                   
 <span class="n">body</span><span class="p">(</span><span class="mi">1</span><span class="p">).</span><span class="n">momOfInertia</span> <span class="p">=</span> <span class="p">[</span><span class="mi">20907301</span> <span class="mf">21306090.66</span> <span class="mf">37085481.11</span><span class="p">];</span> 
 
 <span class="c">% Spar/Plate</span>
-<span class="n">body</span><span class="p">(</span><span class="mi">2</span><span class="p">)</span> <span class="p">=</span> <span class="n">bodyClass</span><span class="p">(</span><span class="s">&#39;../hydroData/rm3.h5&#39;</span><span class="p">);</span>     <span class="c">% Initialize bodyClass  </span>
+<span class="n">body</span><span class="p">(</span><span class="mi">2</span><span class="p">)</span> <span class="p">=</span> <span class="n">bodyClass</span><span class="p">(</span><span class="s">&#39;D:\WEC-SimClone\WEC-Sim\examples\RM3\hydroData\rm3.h5&#39;</span><span class="p">);</span>     <span class="c">% Initialize bodyClass  </span>
 <span class="n">body</span><span class="p">(</span><span class="mi">2</span><span class="p">).</span><span class="n">geometryFile</span> <span class="p">=</span> <span class="s">&#39;../geometry/plate.stl&#39;</span><span class="p">;</span> <span class="c">% Specify Geometry File     </span>
 <span class="n">body</span><span class="p">(</span><span class="mi">2</span><span class="p">).</span><span class="n">mass</span> <span class="p">=</span> <span class="s">&#39;equilibrium&#39;</span><span class="p">;</span>                   <span class="c">% Mass [kg]</span>
 <span class="n">body</span><span class="p">(</span><span class="mi">2</span><span class="p">).</span><span class="n">momOfInertia</span> <span class="p">=</span> <span class="p">[</span><span class="mf">94419614.57</span> <span class="mf">94407091.24</span> <span class="mf">28542224.82</span><span class="p">];</span> <span class="c">% Moment of Inertia [kg-m^2]</span>
