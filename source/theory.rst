@@ -554,6 +554,8 @@ The instantaneous mechanical power absorbed by the PTO is given by:
 For more information about application of pto systems in WEC-Sim, refer to :ref:`advanced_features:Constraint and PTO Features` section.
 	
 
+.. _theory_mooring:
+
 Mooring 
 -------
 

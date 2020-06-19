@@ -1,35 +1,62 @@
 
-Mathew's Overall Thoughts
-=========================
+Mathew's Thoughts
+=================
 
-Just notes for now and subject to change!
+On everything up to the tutorials
+---------------------------------
 
-User Interface
---------------
+Considering the docs first, I think there is a real need to draw a line between 
+what is required for a user (both in terms of using the tool and the theory 
+they need to know) and in terms of a developer. To me, currently this code only 
+caters to the user/developer kind of professional, who is likely embedded in a 
+research institution. To appeal to a wider audience, more detail is required 
+about what the advantages of using the tool are, what it produces and how to 
+interpret it, how to set up the inputs, and succinct, but detailed, theory for 
+what they need to know to create/interpret the inputs and outputs. And then the 
+rest can go into a developer manual. 
 
-I don't understand the design decisions made for the user interaction. Given
-they have to use, and understand to some extent, simulink then why not make
-the whole UI in simulink? This aligns with the general thought I have had
-in my mind going through this, that WEC-Sim could be better aligned for the
-non-developer user than it is now.
+I suspect some of the reason that the docs are as they are is the assumption 
+that the tutorials can not be understood without the preceding documentation, 
+but I think the real case is that the documentation can not be understood 
+without the tutorials, at the moment. It would be much better to put the 
+tutorials up front and then link to information in later docs that enforces 
+concepts in the tutorial, if that's the primary learning route for a user. 
 
-Use of OOP
-----------
+From a user's perspective, I also think that streamlining the way the tool is 
+run would be useful (note, I'm not a user, really, so take this with a pinch of 
+salt - it would be nice to ask some external users about this - but then 
+everyone hates change too). I really think that given the cost of purchasing 
+simulink and simscape, to not try and encapsulate this tool within it, is a bit 
+of a miss. We might as well help people to use the tool they have paid for, and 
+sure that includes MATLAB, but there are `ways of exporting outputs of simulink 
+models to MATLAB 
+<https://uk.mathworks.com/help/simulink/ug/export-simulation-data-1.html>`_, 
+so all the post-processing stuff can still be done in MATLAB if desired. 
 
-On the point of UI, there just doesn't seem any good reason to expose the
-user to the OOP parts of the code if it's just being used to define a 
-configuration file. You're having to explain to users how OOP works in the
-webinars and the objects are never really used as objects, so why bother? 
-I think the basic user would be more comfortable creating a configuration
-file and you could expose the objects if desired somehow. I think the primary
-UI route should be just through simulink, however, if possible.
+Which brings me to OOP. It's not clear in the documentation (up to the 
+tutorials) why the user is required to use OOP beyond setting up a config file. 
+But setting up a config file is easily done in ASCII which most non-developers 
+will be more comfortable with or even `it could be done directly in simulink 
+<https://uk.mathworks.com/help/simulink/ug/setting-up-configuration-sets.html>`_. 
+I think OOP is the right choice for coding the backend model and works well 
+with matching to the simulink blocks, but I don't see any advantages (from what 
+I have read so far) of using OOP for the user. 
 
-User Documentation
-------------------
+My last issue is with the way the constraints, PTO and moorings are modelled. 
+It seems a bit confused and could be made a bit more clear if moorings were 
+treated like "constraints" and PTOS. Then constraints could be "joints", the 
+DOFs afforded by moorings could be dealt with in the moorings blocks and the 
+model would capture the physical aspect of these systems better. I suspect that 
+some of the problem comes from the (almost) inclusion of moordyn and its 
+slightly different mode of operation. I think the way moordyn is added to the 
+model and the way it's (not) distributed is wrong. I think more effort should 
+be made to incorporate it directly into WEC-Sim (such that the user doesn't 
+know it's there) by abstracting it's use and calling it directly, and that it 
+should be packaged in WEC-Sim as well (or at least packaged by WEC-Sim as a 
+kind of proper plugin). Less of an issue, but I also think the global 
+reference frame block could be broken down somewhat, because it does too many 
+things. 
 
-Again, I can't help thinking that some focus on the non-developer user for the
-documentation would be good too. There is too much focus on the implementation
-and not enough on the use and advantages of its use.
-
-The docs should be linted using something like 
+Finally, in terms of these docs themselves, they are super hard to read and
+some standard should be "enforced" by linting using something like 
 `doc8 <https://github.com/pycqa/doc8>`_ so that the source is readable.

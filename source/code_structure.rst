@@ -5,8 +5,36 @@
     by a linter such as `doc8 <https://github.com/pycqa/doc8>`_.
 
 .. note::
-    It seems like the :ref:`advanced_features` section carries some pretty 
-    critical setup information that isn't provided in this page.
+    Overall, I think this section tries to be too many things and is let down 
+    by the assumption that the structure of the code is informative to the 
+    user. IMO, the structure of the code is informative to developers, the use 
+    of the code is informative to the user. It's made somewhat worse by the 
+    fact that the user is unnecessarily burdened with setting up two (three if 
+    you count moordyn) different models using different techniques, so a lot of 
+    time is spent explaining the mechanics of a MATLAB class and how to 
+    interact with them, rather than giving useful information about the data 
+    that is required to run the model and, more importantly, the results that 
+    it generates. 
+    
+    Assuming that class+simulink user interface continues, this would be much
+    easier to understand if the blocks and classes were explained in the same 
+    section, describing what they do and, precisely, how to use each type. 
+    Here it's too fractured to get a feeling for how to develop a model.
+    
+    The lack of detail regarding the outputs is also disappointing, especially
+    since there is hardly any detail on what information WEC-Sim provides up
+    to this part of the docs. I almost think I would show the outputs first,
+    to wet the appetite of new users (I'm noting that idea for DTOcean should I 
+    ever work on it again!). 
+    
+    Also, the cursory mention of the supporting functions seems like a missed
+    opportunity, considering how important at least BEMIO is to the process
+    of using WEC-Sim. From a users perspective, the page is a big tease, telling
+    me some of things I need to know, but not enough.
+
+    Also, it seems like the :ref:`advanced_features` section carries some pretty 
+    critical setup information that isn't provided in this page, again, probably
+    forced by the need to structure the page in the way it is.
 
 .. _code_structure:
 
@@ -328,7 +356,7 @@ Constraint Class
 
 .. note::
     This class is named after its implementation rather than its action. Is
-    something like "link" not more descriptive? 
+    something like "link" or "joint" not more descriptive? 
 
 The constraint class file, ``constraintClass.m``, is located in the ``$WECSIM/source/objects`` directory.  
 WEC-Sim constraint blocks connect WEC bodies to one another (and possibly to the seabed) by constraining DOFs. 
@@ -441,6 +469,10 @@ The PTOs library contains blocks used to both simulate a PTO system and restrict
 Both constraints and PTOs can be used to restrict the relative motion between multi-body systems. 
 The Mooring library contains blocks used to simulate mooring systems.
 
+.. note::
+    Again, there is not really any description of how these blocks should be
+    used together, which is as important as understanding what each block does.
+
 Body Elements
 ^^^^^^^^^^^^^^^^^^^^^^^
 The Body Elements library shown below contains one block: the ``Rigid Body`` block. 
@@ -466,21 +498,42 @@ The ``Global Reference Frame`` block uses the simulation class variable `simu` a
 .. figure:: _images/WEC-Sim_Lib_frames.PNG
    :width: 400pt
    :align: center
-   
-   
+
+.. note::
+    There is a lot of stuff dedicated to one block here. Have you considered
+    breaking it up?
+
 Constraints 
 ^^^^^^^^^^^^^^^^^^^^^^^
+.. note::
+    This seems to differ somewhat from the description of the constraints
+    class, i.e. "WEC-Sim constraint blocks connect WEC bodies to one another 
+    (and possibly to the seabed) by constraining DOFs.". So the description
+    here misses the fact that it's relative to another body, which is important
+    because I guess you are in that other body's frame of reference(?).
+    
+    Again this definition refers to the implementation, than the physical
+    entity, although some of blocks inside the library are clearer.
+
 The blocks within the Constraints library are used to define the DOF of a specific body. 
 Constraint blocks define only the DOF, but do not otherwise apply any forcing or resistance to the body motion. 
 Each Constraint block has two connections: a base (B) and a follower (F). 
 The Constraints block restricts the motion of the block that is connected to the follower relative to the block that is connected to the base. 
 For a single body system, the base would be the ``Global Reference Frame`` and the follower is a ``Rigid Body``.
 
+.. note::
+    The terms "base" and "follower" need clearer explanation, I think.
+    Perhaps there is some confusion in the way this is written as to whether
+    base and follower are "ports" of the block ("the motion of the block that 
+    is connected to the follower") or the bodies they connect to ("For a single 
+    body system, the base would be the ``Global Reference Frame``").
+
 .. figure:: _images/WEC-Sim_Lib_constraints.PNG
    :width: 400pt
    :align: center
-   
-   
+
+
+
 A brief description of each constraint block is given below. More information can also be found by double clicking on the library block and viewing the Block Parameters box.
 
 +--------------------+-----+-----------------------------------------+
@@ -508,6 +561,17 @@ A brief description of each constraint block is given below. More information ca
 |                    |     |follower relative to the base            |
 +--------------------+-----+-----------------------------------------+
 
+.. note::
+    I think "along the constraint's ?-axis" doesn't make it clear that
+    it's talking about the reference frame of the follower (which I assume it
+    is).
+
+.. warning::
+    I find the term "Floating" to be a bit strange here. I understand that
+    a 6DOF linkage is an odd thing also, but isn't this describing a mooring?
+    Is this why this library was called constraints, because it needed to 
+    include this abstract concept? I'm kind of more confused about what the
+    mooring block does now, also.
 
 PTOs
 ^^^^^^^^^^^^^^^^^^^^^^^
@@ -522,6 +586,14 @@ The Actuation Force/Torque PTOs allow the user to define the PTO force/torque at
 The user can use the response information to calculate the PTO force/torque.
 The Actuation Motion PTOs allow the user to define the motion of the PTO. 
 These can be useful to simulate forced-oscillation tests.
+
+.. note::
+    A link to how the user might "define the PTO force/torque at each 
+    time-step" would be useful. Also, does this mean a formula or actual values?
+    Do you know how many time steps there will be in advance? Is this a clue:
+    "The user can use the response information to calculate the PTO 
+    force/torque."? How might the user go about that? There is a lot left to
+    the imagination in this section.
 
 .. figure:: _images/WEC-Sim_Lib_pto.PNG
    :width: 400 pt
@@ -544,13 +616,39 @@ There are no restrictions on the number of MooringMatrix blocks.
    :width: 400 pt
    :align: center   
 
+.. note::
+    I think this should be in the same "category" as the constaint and PTO 
+    classes, in that it creates a linkage between bodies. I understand that 
+    configuration is a bit tricky, perhaps, but from a physical perspective it 
+    would make sense to treat them that way. One approach is to abstract the 
+    use of MoorDyn and just call it "automatic" or something like that and then 
+    build the moordyn inputs rather than ask the user for them. I think asking 
+    the user to learn yet another another program which is used in yet another 
+    way is a bit of a weakness. 
+
 Simulink/Simscape Blocks
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+.. note::
+    This isn't deserving of a section.
+
 In some situations, users may want to use Simulink/Simscape blocks that are not included in the WEC-Sim Library to build their WEC model. 
 
 
 Output Structure
 ----------------
+
+.. note::
+    I think the minimum this could have done is described the kind of outputs
+    that are produced, but all it lets on is that there are some time series
+    produced - of what? 
+    
+    This is probably one of the most important parts of your docs for a new 
+    user to actually understand what is produced by the tool, but it's given 
+    throw away treatment here. DTOcean suffer's this too, as it has a 
+    significant input burden as well, so I understand how this kind of thing 
+    comes about. 
+
 After WEC-Sim is done running, there will be a new variable called ``output`` saved to the MATLAB workspace.
 The ``output`` object is an instance of the ``responseClass``. 
 It contains all the relevant time-series results of the simulation. 
@@ -559,13 +657,36 @@ Time-series are given as [# of time-steps x 6] arrays, where 6 is the degrees of
 
 WEC-Sim outputs can be written to ASCII files by specifying ``simu.outputtxt = 1;`` in ``wecSimInputFile.m``, in addition to the responseClass ``output`` variable.
 
-
+.. note::
+    And the ASCII files are saved to what location and are formatted how?
 
 Functions & External Codes
 --------------------------
+
+.. note::
+    The support functions surely deserve their own page? I think this is where
+    the documentation as folder structure concept has let you down again -
+    useful stuff has been relegated to a nothing section that describes stuff
+    that isn't useful to a normal user and ignores describing stuff that is.
+
 While the bulk of the WEC-Sim code consists of the WEC-Sim classes and the WEC-Sim library, the source code also includes supporting functions and external codes.
 These include third party Matlab functions to read ``*.h5`` and ``*.stl`` files, WEC-Sim Matlab functions to write ``*.h5`` files and run WEC-Sim in batch mode, MoorDyn compiled executables, python macros for ParaView visualization, and the PTO-Sim class and library.
 Additionally, BEMIO can be used to create the hydrodynamic ``*.h5`` file required by WEC-Sim.
 MoorDyn is an open source code that must be downloaded separately. Users may obtain, modify, and recompile the code as well as desired.
 
-
+.. warning::
+    "that must be downloaded separately."
+    
+    Yet, you don't mention how to download it in any information up to now.
+    And as I said in the :ref:`theory_mooring` theory section, the way you 
+    offer to distribute it is probably not GPL compliant.
+    
+    I think having to download this manually and place it somewhere (for 
+    Windows only) is a serious barrier to entry for a standard user. Did you 
+    decide that it was just too hard to package? Why not dynamically select the 
+    right libraries per OS to use from MATLAB and package the code yourselves? 
+    Or even have separate releases per OS? 
+    
+    If it were easy to download and install as a standalone executable, I think
+    this would be less of an issue, but it doesn't look like that is the case,
+    and it seems like it is designed to be used as an embedded library.
