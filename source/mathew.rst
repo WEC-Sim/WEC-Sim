@@ -72,4 +72,5 @@ that it is really difficult to find the documentation of the methods that are
 called because they are called on objects but the docs are associated to 
 classes. Also there seems to be a lot of temporal coupling in the classes 
 (which is bad), so it looks like functions might have been a better choice for 
-the Simulink interface.
+the Simulink interface. What about `System Objects 
+<https://uk.mathworks.com/help/simulink/slref/matlabsystem.html>`_?
