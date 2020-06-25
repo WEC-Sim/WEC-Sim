@@ -262,8 +262,7 @@ classdef waveClass<handle
         end
         
         function listInfo(obj)
-            % This method prints wave information to the MATLAB Command
-            % Window.
+            % This method prints wave information to the MATLAB Command Window.
             %             
             fprintf('\nWave Environment: \n')
             switch obj.type
@@ -662,7 +661,7 @@ classdef waveClass<handle
                     obj.S = S_f./(2*pi);                                       % Wave Spectrum [m^2-s/rad] for 'Traditional'
                     fprintf('\t"spectrumImport" uses the number of imported wave frequencies (not "Traditional" or "EqualEnergy")\n')
                 case {'BS'} 
-                    error('Bretschneider Sprectrum ("BS" option) is no longer supported');
+                    error('Following IEC Standard, our Bretschneider Sprectrum (BS) option is exactly how the Pierson-Moskowitz (PM) Spectrum is defined. Please use PM instead');
             end
             % Power per Unit Wave Crest
             obj.waveNumber(g)                                                   %Calculate Wave Number for Larger Number of Frequencies Before Down Sampling in Equal Energy Method

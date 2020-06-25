@@ -19,17 +19,24 @@
 
 
 classdef constraintClass<handle
-    % This class contains WEC-Sim contraint parameters and settings
+    %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+    % The ``constraintClass`` creates a ``constraint`` object saved to the MATLAB
+    % workspace. The ``constraintClass`` includes properties and methods used
+    % to define constraints between the body motion relative to the global reference 
+    % frame or relative to other bodies. 
+    %
+    %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+    
     properties (SetAccess = 'public', GetAccess = 'public')%input file 
-        name                    = 'NOT DEFINED'                                 % Name of the constraint used 
-        loc                     = [999 999 999]                                 % Constraint location. Default = [0 0 0]        
-        orientation             = struct(...                                    % Structure difining axis orientation parameters
-                                         'z', [0, 0, 1], ...                        % Vector defining the direction of the Z-coordinate for the constraint.
-                                         'y', [0, 1, 0], ...                        % Vector defining the direction of the Y-coordinate for the constraint.
-                                         'x', [], ...                               % Internally calculated vector defining the direction of the X-coordinate for the constraint.
-                                         'rotationMatrix',[])                       % Internally calculated rotation matrix to go form standard coordinate orientation to the constraint's coordinate orientation.
-        initDisp                = struct(...                                    % Structure defining the initial displacement
-                                         'initLinDisp',          [0 0 0])           % Initial displacement - used for decay tests (format: [displacment in m], default = [0 0 0])
+        name                    = 'NOT DEFINED'                                 % (`string`) Specifies the constraint name. For constraints this is defined by the user, Default = ``NOT DEFINED``.
+        loc                     = [999 999 999]                                 % (`3x1 float vector`) Constraint location [m]. Defined in the following format [x y z]. Default = ``[999 999 999]``.        
+        orientation             = struct(...                                    % 
+                                         'z', [0, 0, 1], ...                    % 
+                                         'y', [0, 1, 0], ...                    % 
+                                         'x', [], ...                           % 
+                                         'rotationMatrix',[])                   % Structure defining the orientation axis of the constraint. ``z`` (`3x1 float vector`) defines the direciton of the Z-coordinate of the constraint, Default = [``0 0 1``]. ``y`` (`3x1 float vector`) defines the direciton of the Y-coordinate of the constraint, Default = [``0 1 0``]. ``x`` (`3x1 float vector`) internally calculated vector defining the direction of the X-coordinate for the constraint, Default = ``[]``. ``rotationMatrix`` (`3x3 float matrix`) internally calculated rotation matrix to go from standard coordinate orientation to the constraint coordinate orientation, Default = ``[]``.
+        initDisp                = struct(...                                    % 
+                                         'initLinDisp',          [0 0 0])       % Structure defining the initial displacement of the constraint. ``initLinDisp`` (`3x1 float vector`) is defined as the initial displacement of the constraint [m] in the following format [x y z], Default = [``0 0 0``].
     end                             
     
     properties (SetAccess = 'public', GetAccess = 'public')%internal
@@ -38,13 +45,26 @@ classdef constraintClass<handle
     
     methods (Access = 'public')                                        
         function obj = constraintClass(name)
-            % Initilization function
+            % This method initilizes the ``constraintClass`` and creates a
+            % ``constraint`` object.          
+            %
+            % Parameters
+            % ------------
+            %     filename : string
+            %         String specifying the name of the constraint
+            %
+            % Returns
+            % ------------
+            %     constraint : obj
+            %         contraintClass object         
+            %
             obj.name = name;
         end
         
         function obj = checkLoc(obj,action)
-            % Checks if location is set and outputs a warning or error.
-            % Used in mask Initialization.
+            % This method checks WEC-Sim user inputs and generate an error message if the constraint location is not defined in constraintClass.
+            
+            % Checks if location is set and outputs a warning or error. Used in mask Initialization.
             switch action
               case 'W'
                 if obj.loc == 999 % Because "Allow library block to modify its content" is selected in block's mask initialization, this command runs twice, but warnings cannot be displayed during the first initialization. 
@@ -68,7 +88,7 @@ classdef constraintClass<handle
         end
         
         function obj = setOrientation(obj)
-            % Sets orientation based on user input
+            % This method calculates the constraint ``x`` vector and ``rotationMatrix`` matrix in the ``orientation`` structure based on user input.
             obj.orientation.z = obj.orientation.z / norm(obj.orientation.z);
             obj.orientation.y = obj.orientation.y / norm(obj.orientation.y);
             z = obj.orientation.z;
@@ -83,11 +103,15 @@ classdef constraintClass<handle
         end
 
         function setInitDisp(obj, x_rot, ax_rot, ang_rot, addLinDisp)
-            % Function to set the initial displacement when having initial rotation
-            % x_rot: rotation point
-            % ax_rot: axis about which to rotate (must be a normal vector)
-            % ang_rot: rotation angle in radians
-            % addLinDisp: initial linear displacement (in addition to the displacement caused by rotation)
+            % This method sets initial displacement while considering an initial rotation orientation. 
+            %
+            %``x_rot`` (`3x1 float vector`) is rotation point [m] in the following format [x y z], Default = ``[]``.
+            % 
+            %``ax_rot`` (`3x1 float vector`) is the axis about which to rotate to constraint and must be a normal vector, Default = ``[]``.
+            %
+            %``ang_rot`` (`float`) is the rotation angle [rad], Default = ``[]``.
+            %
+            %``addLinDisp`` ('float') is the initial linear displacement [m] in addition to the displacement caused by the constraint rotation, Default = '[]'.
             loc = obj.loc;
             relCoord = loc - x_rot;
             rotatedRelCoord = obj.rotateXYZ(relCoord,ax_rot,ang_rot);
@@ -97,11 +121,15 @@ classdef constraintClass<handle
         end
 
         function xn = rotateXYZ(obj,x,ax,t)
-            % function to rotate a point about an arbitrary axis
-            % x: 3-componenet coordiantes
-            % ax: axis about which to rotate (must be a normal vector)
-            % t: rotation angle
-            % xn: new coordinates after rotation
+            %This method rotates a point about an arbitrary axis.
+            %
+            %``x`` (`3x1 float vector`) is the point coordiantes.
+            %
+            %``ax`` (`3x1 float vector`) is the axis about which to rotate the constraint and must be a normal vector.
+            %
+            %``t``  (`float`) is the rotation angle of the constraint.
+            % 
+            %``xn`` (`3x1 float vector`) is the new point coordiantes after rotation.
             rotMat = zeros(3);
             rotMat(1,1) = ax(1)*ax(1)*(1-cos(t))    + cos(t);
             rotMat(1,2) = ax(2)*ax(1)*(1-cos(t))    + ax(3)*sin(t);
@@ -116,7 +144,7 @@ classdef constraintClass<handle
         end
 
         function listInfo(obj)
-            % List constraint info
+            % This method prints constraint information to the MATLAB Command Window.
             fprintf('\n\t***** Constraint Name: %s *****\n',obj.name)
         end
     end
