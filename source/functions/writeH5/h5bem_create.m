@@ -1,4 +1,3 @@
-
 function h5bem_create(filename, numBodies, numFreq, numWaveDir, bodyNames, scaled)
 	% Function to create a WEC-Sim/BEMIO-formatted h5 file and populate the string datasets
 	%
@@ -67,6 +66,7 @@ function h5bem_create(filename, numBodies, numFreq, numWaveDir, bodyNames, scale
 		% properties
 		%h5create(filename,['/body' num2str(ii) '/properties/name'],[1])
 		h5create(filename,['/body' num2str(ii) '/properties/body_number'],[1])
+		h5create(filename,['/body' num2str(ii) '/properties/cb'],[3])
 		h5create(filename,['/body' num2str(ii) '/properties/cg'],[3])
 		h5create(filename,['/body' num2str(ii) '/properties/disp_vol'],[1])
 		% hydro_coeffs
