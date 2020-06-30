@@ -1,2 +1,2 @@
 OSWEC WAMIT files available here:
-WEC-Sim\tutorials\BEMIO\WAMIT\OSWEC
+WEC-Sim\examples\BEMIO\WAMIT\OSWEC

@@ -9,7 +9,7 @@ function hydro = Combine_BEM(hydro)
 % hydro = Combine_BEM(hydro)
 %     hydro – data structure
 %
-% See ‘…\WEC-Sim\tutorials\BEMIO\NEMOH\...’ for examples of usage.
+% See ‘...WEC-Sim\examples\BEMIO\NEMOH...’ for examples of usage.
 
 p = waitbar(0,'Combining multiple BEM results...');  % Progress bar
 

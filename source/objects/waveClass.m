@@ -149,10 +149,10 @@ classdef waveClass<handle
             if nargin==2
                 hold on
                 line([rampTime,rampTime],[1.5*min(obj.waveAmpTime(:,2)),1.5*max(obj.waveAmpTime(:,2))],'Color','k')
-                title(['Wave Surfave Elevation, Ramp Time ' num2str(rampTime) ' (s)'])
+                title(['Wave Surface Elevation, Ramp Time ' num2str(rampTime) ' (s)'])
             end
             xlabel('Time (s)')
-            ylabel('Eta (m)')
+            ylabel('Elevation (m)')
         end
         
         function plotSpectrum(obj)

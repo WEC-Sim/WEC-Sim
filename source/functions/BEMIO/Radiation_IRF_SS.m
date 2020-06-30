@@ -10,7 +10,7 @@ function hydro = Radiation_IRF_SS(hydro,Omax,R2t)
 %             where R2R2 may range from 0 to 1, and the default is 0.95
 % 
 % Default values are indicated by [].
-% See ‘…\WEC-Sim\tutorials\BEMIO\...’ for examples of usage.
+% See ‘...WEC-Sim\examples\BEMIO...’ for examples of usage.
 
 p = waitbar(0,'Calculating state space radiation IRFs...');  % Progress bar
 
