@@ -197,7 +197,7 @@ classdef responseClass<handle
             %            
             % Parameters
             % ------------
-            %     numLines : integar
+            %     numLines : integer
             %         the number of MoorDyn lines
             %
             
