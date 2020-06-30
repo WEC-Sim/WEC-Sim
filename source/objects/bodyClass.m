@@ -36,10 +36,10 @@ classdef bodyClass<handle
         cg                = []                               % (`3x1 float vector`) Body center of gravity [m]. Defined in the following format [x y z]. For hydrodynamic bodies this is defined in the h5 file while for nonhydrodynamic bodies this is defined by the user. Default = ``[]``.
         cb                = []                               % (`3x1 float vector`) Body center of buoyancy [m]. Defined in the following format [x y z]. For hydrodynamic bodies this is defined in the h5 file while for nonhydrodynamic bodies this is defined by the user. Default = ``[]``.
         dispVol           = []                               % (`float`) Displaced volume at equilibrium position [m^{3}]. For hydrodynamic bodies this is defined in the h5 file while for nonhydrodynamic bodies this is defined by the user. Default = ``[]``.
-        dof               = []                               % (`integar`) Number of degree of freedoms (DOFs). For hydrodynamic bodies this is given in the h5 file. If not defined in the h5 file, Default = ``6``.
-        dof_gbm           = []                               % (`integar`) Number of degree of freedoms (DOFs) for generalized body mode (GBM). Default = ``[]``.
-        dof_start         = []                               % (`integar`) Index the DOF starts for body(``bodyNumber``). For WEC bodies this is given in the h5 file, but if not defined in the h5 file, Default = ``(bodyNumber-1)*6+1``.
-        dof_end           = []                               % (`integar`) Index the DOF ends for body(``bodyNumber``). For WEC bodies this is given in the h5 file, but if not defined in the h5 file, Default = ``(bodyNumber-1)*6+6``.
+        dof               = []                               % (`integer`) Number of degree of freedoms (DOFs). For hydrodynamic bodies this is given in the h5 file. If not defined in the h5 file, Default = ``6``.
+        dof_gbm           = []                               % (`integer`) Number of degree of freedoms (DOFs) for generalized body mode (GBM). Default = ``[]``.
+        dof_start         = []                               % (`integer`) Index the DOF starts for body(``bodyNumber``). For WEC bodies this is given in the h5 file, but if not defined in the h5 file, Default = ``(bodyNumber-1)*6+1``.
+        dof_end           = []                               % (`integer`) Index the DOF ends for body(``bodyNumber``). For WEC bodies this is given in the h5 file, but if not defined in the h5 file, Default = ``(bodyNumber-1)*6+6``.
         geometryFile      = 'NONE'                           % (`string`) Pathway to the body geomtry ``.stl`` file. 
         viscDrag          = struct(...                       % 
             'Drag',                 zeros(6), ...            % 
@@ -55,16 +55,16 @@ classdef bodyClass<handle
         viz               = struct(...                       % 
             'color', [1 1 0], ...                            % 
             'opacity', 1)                                    % Structure defining visualization properties in either SimScape or Paraview. ``color`` (`3x1 float vector`) is defined as the body visualization color, Default = [``1 1 0``]. ``opacity`` (`integer`) is defined as the body opacity, Default = ``1``.
-        bodyparaview      = 1;                               % (`integar`) Flag for visualisation in Paraview either 0 (no) or 1 (yes). Default = ``1`` since only called in paraview.
+        bodyparaview      = 1;                               % (`integer`) Flag for visualisation in Paraview either 0 (no) or 1 (yes). Default = ``1`` since only called in paraview.
         morisonElement   = struct(...                        % 
             'cd',                 [0 0 0], ...               % 
             'ca',                 [0 0 0], ...               % 
             'characteristicArea', [0 0 0], ...               % 
             'VME',                 0     , ...               % 
             'rgME',               [0 0 0])                   % Structure defining the Morrison Element properties connected to the body. ``cd`` (`3x1 float vector`) is defined as the viscous quadratic drag coefficients in the following format [cd_x cd_y cd_z], Default = [``0 0 0``]. ``ca`` is defined as the added mass coefficent for the Morrison Element in the following format [ca_x ca_y ca_z], Default = [``0 0 0``], ``characteristicArea`` is defined as the characteristic area for the Morrison Element [m^2] in the following format [Area_x Area_y Area_z], Default = [0 0 0]. ``VME`` is the characteristic volume of the Morrison Element [m^3], Default = ``0``. ``rgME`` is defined as the vector from the body COG to point of application for the Morrison Element [m] in the following format [x y z], Default = [``0 0 0``].
-        nhBody            = 0                                % (`integar`) Flag for non-hydro body either 0 (no) or 1 (yes). Default = ``0``.
-        flexHydroBody     = 0                                % (`integar`) Flag for flexible body either 0 (no) or 1 (yes). Default = ``0``.
-        meanDriftForce    = 0                                % (`integar`) Flag for mean drift force with three options:  0 (no), 1 (yes, from control surface) or 2 (yes, from momentum conservation). Default = ``0``.
+        nhBody            = 0                                % (`integer`) Flag for non-hydro body either 0 (no) or 1 (yes). Default = ``0``.
+        flexHydroBody     = 0                                % (`integer`) Flag for flexible body either 0 (no) or 1 (yes). Default = ``0``.
+        meanDriftForce    = 0                                % (`integer`) Flag for mean drift force with three options:  0 (no), 1 (yes, from control surface) or 2 (yes, from momentum conservation). Default = ``0``.
     end
     
     properties (SetAccess = 'public', GetAccess = 'public')  %body geometry stl file

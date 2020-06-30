@@ -237,10 +237,10 @@ classdef responseClass<handle
             %
             % Parameters
             % ------------
-            %     bodyNum : integar
+            %     bodyNum : integer
             %         the body number to plot
             %
-            %     comp : integar
+            %     comp : integer
             %         the response component (i.e. dof) to be plotted (e.g. 1-6)   
             %     
             DOF = {'Surge','Sway','Heave','Roll','Pitch','Yaw'};
@@ -264,10 +264,10 @@ classdef responseClass<handle
             %     
             % Parameters
             % ------------
-            %     bodyNum : integar
+            %     bodyNum : integer
             %         the body number to plot
             %
-            %     comp : integar
+            %     comp : integer
             %         the force component (i.e. dof) to be plotted (e.g. 1-6)
             %     
             DOF = {'Surge','Sway','Heave','Roll','Pitch','Yaw'};
