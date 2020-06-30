@@ -34,11 +34,11 @@ classdef waveClass<handle
         H = 'NOT DEFINED';  % (`float`) Wave height [m]. Defined as wave height for ``regular``, or significant wave height for ``irregular``. Default =  ``'NOT DEFINED'``
         spectrumType = 'NOT DEFINED';  % (`string`) Specifies the wave spectrum type, options inlcude:``PM`` or ``JS``. Default = ``'NOT DEFINED'``
         gamma = [];         % (`float`) Defines gamma, only used for ``JS`` wave spectrum type. Default = ``[]``
-        phaseSeed = 0;      % (`integar`) Defines the random phase seed, only used for ``irregular`` and ``spectrumImport`` waves. Default = ``0``
+        phaseSeed = 0;      % (`integer`) Defines the random phase seed, only used for ``irregular`` and ``spectrumImport`` waves. Default = ``0``
         spectrumDataFile = 'NOT DEFINED'; % (`string`) Data file that contains the spectrum data file.  Default = ``'NOT DEFINED'``        
         etaDataFile = 'NOT DEFINED'; % (`string`) Data file that contains the times-series data file. Default = ``'NOT DEFINED'``
         freqRange = [];     % (`2x1 vector`) Min and max wave frequency [rad/s], only used for ``irregular`` and ``spectrumImport``. If not specified, the BEM data frequency range is used. Default = ``[]``
-        numFreq = [];       % (`integar`) Number of interpolated wave frequencies, only used for ``irregular`` and ``spectrumImport``. Number of frequencies used varies depending on ``freqDisc``, 1000 for ``'Traditional'``, and 500 for ``'EqualEnergy'`` and ``Imported``. Default = ``[]``
+        numFreq = [];       % (`integer`) Number of interpolated wave frequencies, only used for ``irregular`` and ``spectrumImport``. Number of frequencies used varies depending on ``freqDisc``, 1000 for ``'Traditional'``, and 500 for ``'EqualEnergy'`` and ``Imported``. Default = ``[]``
         waveDir = 0;        % (`float`) Incident wave direction(s) [deg]. Incident wave direction defined using WEC-Sim global coordinate system. Should be defined as a column vector for more than one wave direction. Default = ``0``
         waveSpread = 1;     % (`float`) Wave Spread probability associated with wave direction(s). Should be defined as a column vector for more than one wave direction. Default = ``1``
         viz = struct( 'numPointsX', 50, ...
@@ -48,7 +48,7 @@ classdef waveClass<handle
         wavegauge1loc = [0,0];  % (`1x2 vector`) Wave gauge 1 [x,y] location [m]. Default = ``[0,0]``
         wavegauge2loc = [0,0];  % (`1x2 vector`) Wave gauge 2 [x,y] location [m]. Default = ``[0,0]``
         wavegauge3loc = [0,0];  % (`1x2 vector`) Wave gauge 3 [x,y] location [m]. Default = ``[0,0]``
-        currentOption = 3;      % (`integar`) Define the sub-surface current model to be used in WEC-Sim, options include: ``0`` for depth-independent model, ``1`` for 1/7 power law variation with depth, ``2`` for linear variation with depth, or ``3`` for no current. Default = ``3`` 
+        currentOption = 3;      % (`integer`) Define the sub-surface current model to be used in WEC-Sim, options include: ``0`` for depth-independent model, ``1`` for 1/7 power law variation with depth, ``2`` for linear variation with depth, or ``3`` for no current. Default = ``3`` 
         currentSpeed = 0;       % (`float`) Current seed [m/s]. Surface current speed that is uniform along the water column. Default = ``0``
         currentDirection = 0;   % (`float`) Current direction [deg]. Surface current direction defined using WEC-Sim global coordinate system. Default = ``0``
         currentDepth = 0;       % (`float`) Current depth [m]. Define the depth over which the sub-surface current is modeled. Must be defined for options ``1`` and ``2``. The current is not calculated for any depths greater than the specified current depth. Default = ``0``
