@@ -7,7 +7,7 @@ function hydro = Read_AQWA(hydro,ah1_filename,lis_filename)
 %     ah1_filename -  .AH1 AQWA output file
 %     lis_filename -  .LIS AQWA output file
 %
-% See '\\WEC-Sim\tutorials\BEMIO\AQWA\...' for examples of usage.
+% See '...WEC-Sim\examples\BEMIO\AQWA...' for examples of usage.
 
 %%
 

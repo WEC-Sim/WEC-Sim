@@ -15,7 +15,7 @@ function hydro = Radiation_IRF(hydro,t_end,n_t,n_w,w_min,w_max)
 %             the maximum frequency from the BEM data
 % 
 % Default values are indicated by [].
-% See ‘…\WEC-Sim\tutorials\BEMIO\...’ for examples of usage.
+% See ‘...WEC-Sim\examples\BEMIO...’ for examples of usage.
 
 p = waitbar(0,'Calculating radiation IRFs...');  % Progress bar
 

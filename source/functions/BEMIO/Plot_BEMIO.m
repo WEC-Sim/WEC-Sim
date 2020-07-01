@@ -5,7 +5,7 @@ function Plot_BEMIO(hydro)
 % Plot_BEMIO(hydro)
 %     hydro – data structure
 % 
-% See ‘…\WEC-Sim\tutorials\BEMIO\...’ for examples of usage.
+% See ‘...WEC-Sim\examples\BEMIO...’ for examples of usage.
 
 p = waitbar(0,'Plotting BEMIO results…');  % Progress bar
 

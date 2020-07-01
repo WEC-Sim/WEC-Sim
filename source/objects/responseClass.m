@@ -289,8 +289,8 @@ classdef responseClass<handle
                 t,FLD)
             legend('forceTotal','forceExcitation','forceRadiationDamping','forceAddedMass','forceRestoring','forceViscous','forceLinearDamping')
             xlabel('Time (s)')
-            ylabel('Force(N) or Torque (N*m)')
-            title(['body' num2str(bodyNum) ' (' obj.bodies(bodyNum).name ') ' DOF{comp} '  Forces'])
+            ylabel('Force (N) or Torque (N*m)')
+            title(['body' num2str(bodyNum) ' (' obj.bodies(bodyNum).name ') ' DOF{comp} ' Forces'])
 
             clear t FT FE FRD FR FV FM i
         end

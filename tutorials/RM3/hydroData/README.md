@@ -1,0 +1,1 @@
+The WAMIT run used to generate this RM3 hydroData is available here: [WEC-Sim\examples\BEMIO\WAMIT\RM3](https://github.com/WEC-Sim/WEC-Sim/tree/master/examples/BEMIO/WAMIT/RM3).
