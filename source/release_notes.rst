@@ -3,8 +3,60 @@
 Release Notes
 =============
 
-`WEC-Sim v4.0 <https://github.com/WEC-Sim/WEC-Sim/releases/tag/v4.0>`_
+`WEC-Sim v4.1 <https://github.com/WEC-Sim/WEC-Sim/releases/tag/v4.1>`_
 ---------------------------------------------------------------------------------
+
+* Added passive yaw
+
+* Revised spectral formulations per IEC TC114 TS 62600-2 Annex C
+
+* Updated examples on the `WEC-Sim_Applications <https://github.com/WEC-Sim/WEC-Sim_Applications>`_ repository
+
+* Added unit tests with Jenkins
+
+* Added API documentation for WEC-Sim classes
+
+* Merged Pull Requests
+
+  * Updated BEMIO for AQWA version comparability `#373 <https://github.com/WEC-Sim/WEC-Sim/pull/373)>`_
+  
+  * Extended capabilities for ParaView visualization `#355 <https://github.com/WEC-Sim/WEC-Sim/pull/355>`_
+
+.. image:: https://zenodo.org/badge/DOI/10.5281/zenodo.3924765.svg
+   :target: https://doi.org/10.5281/zenodo.3924765
+   
+Citation
+^^^^^^^^^^^^^^^^^^^^^^^^
+To cite WEC-Sim, please reference the DOI, and use the following citation.
+
+[1] Yi-Hsiang Yu, Kelley Ruehl, Jennifer Van Rij, Nathan Tom, Dominic Forbush, and David Ogden. (2020, June 30), WEC-Sim v4.1 (Version v4.1), `DOI 10.5281/zenodo.3924765 <https://doi.org/10.5281/zenodo.3924765>`_.
+
+.. code-block:: none
+
+	@software{wecsim_v4_1,
+	  author       = {Yi-Hsiang Yu and
+			  Kelley Ruehl and
+			  Jennifer Van Rij and
+			  Nathan Tom and
+			  Dominic Forbush and
+			  David Ogden},
+	  title        = {WEC-Sim v4.1},
+	  month        = June,
+	  year         = 2020,
+	  publisher    = {Zenodo},
+	  version      = {v4.1},
+	  doi          = {10.5281/zenodo.3924765},
+	  url          = {https://doi.org/10.5281/zenodo.3924765}
+	}
+
+
+
+
+Previous Releases
+------------------
+
+`WEC-Sim v4.0 <https://github.com/WEC-Sim/WEC-Sim/releases/tag/v4.0>`_
+^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
 * Added mean drift force calculation
 
@@ -15,34 +67,7 @@ Release Notes
 .. image:: https://zenodo.org/badge/DOI/10.5281/zenodo.3827897.svg
    :target: https://doi.org/10.5281/zenodo.3827897
    
-Citation
-^^^^^^^^^^^^^^^^^^^^^^^^
-To cite WEC-Sim, please reference the DOI, and use the following citation.
 
-[1] Yu, Yi-Hsiang, Ruehl, Kelley, Van Rij, Jennifer, Tom, Nathan, & Forbush, Dominic. (2019, September 30). WEC-Sim v4.0 (Version v4.0).  http://doi.org/10.5281/zenodo.3827897
-
-.. code-block:: none
-
-	@software{wecsim_v4_0,
-	  author       = {Yu, Yi-Hsiang and
-			  Ruehl, Kelley and
-			  Van Rij, Jennifer and
-			  Tom, Nathan and
-			  Forbush, Dominic},
-	  title        = {WEC-Sim v4.0},
-	  month        = Sep,
-	  year         = 2019,
-	  publisher    = {Zenodo},
-	  version      = {v4.0},
-	  doi          = {10.5281/zenodo.3827897},
-	  url          = {https://doi.org/10.5281/zenodo.3827897}
-	}
-
-
-
-
-Previous Releases
-------------------
 
 `WEC-Sim v3.1 <https://github.com/WEC-Sim/WEC-Sim/releases/tag/v3.1>`_
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^

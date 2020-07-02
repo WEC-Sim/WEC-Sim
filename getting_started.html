@@ -1,8 +1,7 @@
 
 
 <!DOCTYPE html>
-<!--[if IE 8]><html class="no-js lt-ie9" lang="en" > <![endif]-->
-<!--[if gt IE 8]><!--> <html class="no-js" lang="en" > <!--<![endif]-->
+<html class="writer-html5" lang="en" >
 <head>
   <meta charset="utf-8">
   
@@ -12,12 +11,19 @@
   
 
   
+  <link rel="stylesheet" href="_static/css/theme.css" type="text/css" />
+  <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
+  <link rel="stylesheet" href="_static/css/table_wrap.css" type="text/css" />
+
+  
   
   
   
 
   
-  <script type="text/javascript" src="_static/js/modernizr.min.js"></script>
+  <!--[if lt IE 9]>
+    <script src="_static/js/html5shiv.min.js"></script>
+  <![endif]-->
   
     
       <script type="text/javascript" id="documentation_options" data-url_root="./" src="_static/documentation_options.js"></script>
@@ -29,15 +35,10 @@
     <script type="text/javascript" src="_static/js/theme.js"></script>
 
     
-
-  
-  <link rel="stylesheet" href="_static/css/theme.css" type="text/css" />
-  <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
-  <link rel="stylesheet" href="_static/css/table_wrap.css" type="text/css" />
     <link rel="index" title="Index" href="genindex.html" />
     <link rel="search" title="Search" href="search.html" />
     <link rel="next" title="Overview" href="overview.html" />
-    <link rel="prev" title="Terminology" href="terminology.html" /> 
+    <link rel="prev" title="WEC-Sim (Wave Energy Converter SIMulator)" href="index.html" /> 
 </head>
 
 <body class="wy-body-for-nav">
@@ -51,7 +52,7 @@
           
 
           
-            <a href="index.html" class="icon icon-home"> WEC-Sim
+            <a href="index.html" class="icon icon-home" alt="Documentation Home"> WEC-Sim
           
 
           
@@ -61,7 +62,7 @@
             
             
               <div class="version">
-                v4.0
+                v4.1
               </div>
             
           
@@ -78,6 +79,7 @@
           
         </div>
 
+        
         <div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="main navigation">
           
             
@@ -86,7 +88,6 @@
             
             
               <ul class="current">
-<li class="toctree-l1"><a class="reference internal" href="terminology.html">Terminology</a></li>
 <li class="toctree-l1 current"><a class="current reference internal" href="#">Getting Started</a><ul>
 <li class="toctree-l2"><a class="reference internal" href="#matlab-requirements">MATLAB Requirements</a></li>
 <li class="toctree-l2"><a class="reference internal" href="#download-wec-sim">Download WEC-Sim</a><ul>
@@ -115,11 +116,13 @@
 <li class="toctree-l1"><a class="reference internal" href="release_notes.html">Release Notes</a></li>
 <li class="toctree-l1"><a class="reference internal" href="contact.html">Online Forum</a></li>
 <li class="toctree-l1"><a class="reference internal" href="api.html">WEC-Sim API</a></li>
+<li class="toctree-l1"><a class="reference internal" href="terminology.html">Terminology</a></li>
 </ul>
 
             
           
         </div>
+        
       </div>
     </nav>
 
@@ -158,7 +161,7 @@
 
   <ul class="wy-breadcrumbs">
     
-      <li><a href="index.html">Docs</a> &raquo;</li>
+      <li><a href="index.html" class="icon icon-home"></a> &raquo;</li>
         
       <li>Getting Started</li>
     
@@ -181,7 +184,7 @@
             
   <div class="section" id="getting-started">
 <span id="id1"></span><h1>Getting Started<a class="headerlink" href="#getting-started" title="Permalink to this headline">¶</a></h1>
-<p>This section provides instructions on how to download and install the WEC-Sim code.</p>
+<p>This section provides instructions on how to download, install, and test the WEC-Sim code.</p>
 <div class="section" id="matlab-requirements">
 <h2>MATLAB Requirements<a class="headerlink" href="#matlab-requirements" title="Permalink to this headline">¶</a></h2>
 <p>WEC-Sim is developed in MATLAB/Simulink, and requires the toolboxes listed below.
@@ -267,12 +270,9 @@ The directory where the WEC-Sim code is contained is referred to as <code class=
 <span class="n">addpath</span><span class="p">(</span><span class="n">genpath</span><span class="p">(</span><span class="n">wecSimPath</span><span class="p">));</span>
 </pre></div>
 </div>
-<p>Copy the <code class="docutils literal notranslate"><span class="pre">wecSimStartup.m</span></code> code and paste it into <code class="docutils literal notranslate"><span class="pre">startup.m</span></code> located in the <a class="reference external" href="http://www.mathworks.com/help/matlab/matlab_env/matlab-startup-folder.html">MATLAB Startup Folder</a>.
-Set <code class="docutils literal notranslate"><span class="pre">&lt;wecSim&gt;</span></code> to the <code class="docutils literal notranslate"><span class="pre">$WECSIM/source</span></code> directory and type <code class="docutils literal notranslate"><span class="pre">open</span> <span class="pre">startup.m</span></code> in the MATLAB Command Window:</p>
-<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="o">&gt;&gt;</span> <span class="nb">open</span> <span class="n">startup</span><span class="o">.</span><span class="n">m</span>
-</pre></div>
-</div>
-<p>Verify the path was set up correctly by checking that the WEC-Sim source directory, <code class="docutils literal notranslate"><span class="pre">$WECSIM/source</span></code>, is listed in the MATLAB search path.
+<p>Rename the <code class="docutils literal notranslate"><span class="pre">wecSimStartup.m</span></code> file <code class="docutils literal notranslate"><span class="pre">startup.m</span></code> and paste it into the <a class="reference external" href="https://www.mathworks.com/help/matlab/ref/startup.html">MATLAB Startup Folder</a>.
+Set <code class="docutils literal notranslate"><span class="pre">&lt;wecSim&gt;</span></code> to the <code class="docutils literal notranslate"><span class="pre">$WECSIM/source</span></code> directory, save the revised <code class="docutils literal notranslate"><span class="pre">startup.m</span></code> file, and restart MATLAB.
+Verify the path was set up correctly by checking that the WEC-Sim source directory, <code class="docutils literal notranslate"><span class="pre">$WECSIM/source</span></code>, is listed in the MATLAB search path.
 This is done by typing <code class="docutils literal notranslate"><span class="pre">path</span></code> in the MATLAB Command Window:</p>
 <div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="o">&gt;&gt;</span> <span class="n">path</span>
 
@@ -310,10 +310,6 @@ A SimMechanics Explorer window will open within the MATLAB window, and figures w
 <p class="admonition-title">Note</p>
 <p>If a git lfs error is produced, there was a problem with git-lfs installation. You may need to manually install <a class="reference external" href="https://git-lfs.github.com/">Git Large File Storage</a> , or run <code class="docutils literal notranslate"><span class="pre">$WECSIM/examples/RM3/hydroData/bemio.m</span></code> to generate the correct <code class="docutils literal notranslate"><span class="pre">rm3.h5</span></code> file.</p>
 </div>
-<div class="admonition note">
-<p class="admonition-title">Note</p>
-<p>Recommend installing HDFview <a class="reference external" href="https://www.hdfgroup.org/downloads/hdfview/">https://www.hdfgroup.org/downloads/hdfview/</a></p>
-</div>
 </div>
 </div>
 </div>
@@ -329,7 +325,7 @@ A SimMechanics Explorer window will open within the MATLAB window, and figures w
         <a href="overview.html" class="btn btn-neutral float-right" title="Overview" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right"></span></a>
       
       
-        <a href="terminology.html" class="btn btn-neutral float-left" title="Terminology" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left"></span> Previous</a>
+        <a href="index.html" class="btn btn-neutral float-left" title="WEC-Sim (Wave Energy Converter SIMulator)" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left"></span> Previous</a>
       
     </div>
   
@@ -338,11 +334,19 @@ A SimMechanics Explorer window will open within the MATLAB window, and figures w
 
   <div role="contentinfo">
     <p>
+        
         &copy; Copyright 2014, National Renewable Energy Laboratory and National Technology &amp; Engineering Solutions of Sandia, LLC (NTESS)
 
     </p>
   </div>
-  Built with <a href="http://sphinx-doc.org/">Sphinx</a> using a <a href="https://github.com/rtfd/sphinx_rtd_theme">theme</a> provided by <a href="https://readthedocs.org">Read the Docs</a>. 
+    
+    
+    
+    Built with <a href="http://sphinx-doc.org/">Sphinx</a> using a
+    
+    <a href="https://github.com/rtfd/sphinx_rtd_theme">theme</a>
+    
+    provided by <a href="https://readthedocs.org">Read the Docs</a>. 
 
 </footer>
 
@@ -353,7 +357,6 @@ A SimMechanics Explorer window will open within the MATLAB window, and figures w
 
   </div>
   
-
 
   <script type="text/javascript">
       jQuery(function () {

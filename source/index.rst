@@ -8,7 +8,6 @@
    :maxdepth: 4
    :hidden:
 
-   terminology.rst
    getting_started.rst
    overview.rst
    theory.rst
@@ -22,6 +21,7 @@
    release_notes.rst
    contact.rst
    api.rst
+   terminology.rst
 
 
 ######################################################
@@ -41,6 +41,7 @@ WEC-Sim is a collaboration between the `National Renewable Energy Laboratory (NR
 * Jennifer Van Rij (NREL)
 * Nathan Tom (NREL)
 * Dominic Forbush (Sandia)
+* David Ogden (NREL)
 
 
 

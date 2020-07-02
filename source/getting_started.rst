@@ -2,7 +2,7 @@
 
 Getting Started
 ===============
-This section provides instructions on how to download and install the WEC-Sim code.
+This section provides instructions on how to download, install, and test the WEC-Sim code.
 
 
 MATLAB Requirements
@@ -79,12 +79,8 @@ Open the ``$WECSIM/source/wecSimStartup.m`` file.
 .. literalinclude:: ../../WEC-Sim/source/wecSimStartup.m
    :language: matlab
 
-Copy the ``wecSimStartup.m`` code and paste it into ``startup.m`` located in the `MATLAB Startup Folder <http://www.mathworks.com/help/matlab/matlab_env/matlab-startup-folder.html>`_. 
-Set ``<wecSim>`` to the ``$WECSIM/source`` directory and type ``open startup.m`` in the MATLAB Command Window:: 
-
-
-	>> open startup.m
-
+Rename the ``wecSimStartup.m`` file ``startup.m`` and paste it into the `MATLAB Startup Folder <https://www.mathworks.com/help/matlab/ref/startup.html>`_. 
+Set ``<wecSim>`` to the ``$WECSIM/source`` directory, save the revised ``startup.m`` file, and restart MATLAB. 
 Verify the path was set up correctly by checking that the WEC-Sim source directory, ``$WECSIM/source``, is listed in the MATLAB search path. 
 This is done by typing ``path`` in the MATLAB Command Window::
 
@@ -132,9 +128,5 @@ A SimMechanics Explorer window will open within the MATLAB window, and figures w
 	If a git lfs error is produced, there was a problem with git-lfs installation. You may need to manually install `Git Large File Storage <https://git-lfs.github.com/>`_ , or run ``$WECSIM/examples/RM3/hydroData/bemio.m`` to generate the correct ``rm3.h5`` file.
 .. 
 	``This is not the correct *.h5 file. Please install git-lfs to access the correct *.h5 file,`` ``or run ./hydroData/bemio.m to generate a new *.h5 file.``
-
 	
 	
-.. Note:: 
-	
-	Recommend installing HDFview https://www.hdfgroup.org/downloads/hdfview/
