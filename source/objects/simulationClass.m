@@ -55,7 +55,7 @@ classdef simulationClass<handle
         morisonElement     = 0                                             % (`integer`) Option for Morrison Element calculation: off->0, on->1. Default = ``0``
         outputtxt           = 0                                            % (`integer`) Option to save results as ASCII files off->0, on->1. Default = ``0``
         reloadH5Data        = 0                                            % (`integer`) Option to re-load hydro data from hf5 file between runs: off->0, on->1. Default = ``0``
-        saveMat             = 1                                            % (`integer`) Option to save *.mat file for each run: off->0, on->1. Default = ``1``
+        saveMat             = 1                                            % (`integer`) Option to save .mat file for each run: off->0, on->1. Default = ``1``
         pressureDis         = 0                                            % (`integer`) Option to save pressure distribution: off->0, on->1. Default = ``0``
     end
 
