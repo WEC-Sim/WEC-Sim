@@ -227,7 +227,7 @@ The WEC-Sim input file used to run the nonlinear hydro WEC-Sim simulation:
 
 .. _nonLinearwecSimInputFile:
 
-.. literalinclude:: ../../WEC-Sim_Applications/NonlinearHydro/ode4/Regular/wecSimInputFile.m
+.. literalinclude:: ../../WEC-Sim_Applications/Nonlinear_Hydro/ode4/Regular/wecSimInputFile.m
    :language: matlab
 
 Simulation and post-processing is the same process as described in :ref:`tutorials` section.
@@ -331,7 +331,7 @@ Morison Elements must then be defined for each body using the :code:`body(#).mor
 	body(i).morisonElement.VME
 	body(i).morisonElement.rgME
 
-The Morison Element time-step may also be defined as :code:`simu.dtME = N*simu.dt`, where N is number of increment steps. For an example application of using Morison Elements in WEC-Sim, refer to the `WEC-Sim Applications <https://github.com/WEC-Sim/WEC-Sim_Applications>`_ repository **IEA_OES_Task10_freeDecay** example. 
+The Morison Element time-step may also be defined as :code:`simu.dtME = N*simu.dt`, where N is number of increment steps. For an example application of using Morison Elements in WEC-Sim, refer to the `WEC-Sim Applications <https://github.com/WEC-Sim/WEC-Sim_Applications>`_ repository **Free_Decay/1m-ME** example. 
 
 .. Note::
 
@@ -348,7 +348,7 @@ Constraint and PTO Features
 
 
 
-.. _mooring:
+.. _mooring1:
 
 Mooring Features
 ----------------

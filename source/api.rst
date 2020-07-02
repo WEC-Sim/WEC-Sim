@@ -23,7 +23,7 @@ Contstraint Class
     :exclude-members: constraintNum
     :no-undoc-members:
 
-.. _mooring:
+.. _mooringAPI:
 
 Mooring Class
 -------------
@@ -33,7 +33,7 @@ Mooring Class
 	:exclude-members: listInfo
 	:no-undoc-members:
 
-.. _pto:
+.. _ptoAPI:
 
 PTO Class
 ------------------

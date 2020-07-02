@@ -50,7 +50,7 @@ This section describes how to simulate a mooring connected WEC system in WEC-Sim
 
 .. _WECSimInputMoorDyn:
 
-.. literalinclude:: ../../WEC-Sim_Applications/RM3_Mooring/RM3_MoorDyn/wecSimInputFile.m
+.. literalinclude:: ../../WEC-Sim_Applications/Mooring/MoorDyn/wecSimInputFile.m
    :language: matlab
 
 
