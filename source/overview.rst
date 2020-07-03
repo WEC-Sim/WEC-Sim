@@ -107,7 +107,7 @@ In this step, users run :ref:`BEMIO<bemio>` to convert the hydrodynamic coeffici
 
 * **Run BEMIO**: to generate ``*.h5`` Hydrodynamic Coefficients for WEC-Sim
 
-   * The hydrodynamic coefficients for each body generated from the BEM code can be parsed into a ``*.h5`` data structure using `:ref:`bemio`, which was developed by the WEC-Sim team.
+   * The hydrodynamic coefficients for each body generated from the BEM code can be parsed into a ``*.h5`` data structure using :ref:`BEMIO<bemio>`, which was developed by the WEC-Sim team.
    * BEMIO currently supports WAMIT, NEMOH and AQWA. 
 
 
@@ -133,7 +133,7 @@ In this step, users run :ref:`BEMIO<bemio>` to convert the hydrodynamic coeffici
       * More details on AQWA setup are given in the AQWA Reference Manual.
 
 .. Note:: 
-	Users are also able to specify their own hydrodynamic coefficients by creating their own ``*.h5`` file with customized hydrodynamic coefficients following the ``*.h5`` format created by BEMIO.
+	Users are also able to specify their own hydrodynamic coefficients by creating their own ``*.h5Ste file with customized hydrodynamic coefficients following the ``*.h5`` format created by BEMIO.
 
 .. Note:: 
 	
