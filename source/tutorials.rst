@@ -7,6 +7,9 @@ Two WEC-Sim tutorials are provided: the Two-Body Point Absorber (RM3), and the O
 For information about the implementation of the WEC-Sim code refer to the refer to the :ref:`code_structure` section. 
 For information about additional WEC-Sim features, refer to :ref:`advanced_features`. 
 
+.. note::
+    You might consider linking to Github for the tutorials directory, i.e.
+    |tutorialspage|_.
 
 Two-Body Point Absorber (RM3)
 ----------------------------------
@@ -48,6 +51,15 @@ The RM3 is a two-body point absorber consisting of a float and a reaction plate.
 |-21.29|         |0         |0         |28,542,225|
 +------+---------+----------+----------+----------+ 
 
+.. note::
+    These tables require some interpretation to understand. I'm guessing the
+    rows in the GM column refer to the x, y, and z dimensions and that the 
+    Moment of interia part is an `inertia tensor 
+    <https://en.wikipedia.org/wiki/Moment_of_inertia#Inertia_tensor>`_? The mass
+    also looks a little lost in between them. Consider splitting these tables
+    up and describing them more thoroughly. Maybe do a separate table for 
+    CG, Mass and Inertia comparing the float and plate.
+
 Model Files
 ^^^^^^^^^^^^^^^^^^^^^^^
 Below is an overview of the files required to run the RM3 simulation in WEC-Sim. For the RM3 WEC, there are two corresponding geometry files: ``float.stl`` and ``plate.stl``. In addition to the required files listed below, users may supply a ``userDefinedFunctions.m`` file for post-processing results once the WEC-Sim run is complete. 
@@ -70,17 +82,67 @@ BEMIO converts hydrodynamic data from WAMIT, NEMOH or AQWA into a HDF5 file, ``*
 The RM3 tutorial includes data from a WAMIT run, ``rm3.out``, of the RM3 geometry in the ``$WECSIM/tutorials/rm3/hydroData/`` directory.
 The RM3 WAMIT ``rm3.out`` file and the BEMIO ``bemio.m`` script are then used to generate the ``rm3.h5`` file. 
 
+.. note::
+    Below, a space is required between typing and ``bemio``
+
 This is done by navigating to the ``$WECSIM/tutorials/rm3/hydroData/`` directory, and typing``bemio`` in the MATLAB Command Window::
+
 
 	>> bemio
 	
 
+.. note::
+    I think this gives the false impression that this is all that would be
+    required for any BEM model when actually, if you open ``bemio.m`` there are
+    a number of steps required. Either explain what is going on here or link
+    to more detailed information elsewhere, but make it clear this is running
+    a helper file to make the tutorial quicker and that bemio.m won't work
+    on all occasions. 
+
+.. warning::
+    The first line of ``bemio.m`` is::
+        
+        clc; clear all; close all;
+    
+    Personally, I find this pretty annoying if there is something useful in
+    my workspace and a random script clears it all for me without asking. 
+    Consider removing it.
+
+.. note::
+    The ``bemio.m`` script generates a bunch of plots, but these are not
+    described at all in this tutorial, so what is the purpose of producing them?
+    Should I be looking for something?
+
 Step 2: Build Simulink Model
 """"""""""""""""""""""""""""""""""""""""""""""""
 
+.. note::
+    For someone of my basic knowledge, it would be really helpful to now ho
+    I open Simulink. Rather than have an empty file saved in the repo, would it 
+    not be more useful to take people through creating a new simulink model 
+    from scratch and then saving it as ``rm3.slx``?
+
 The WEC-Sim Simulink model is created by dragging and dropping blocks from the *WEC-Sim Library* into the ``rm3.slx`` file. 
 
+.. note::
+    How do I access the *WEC-Sim Library*?
+
 * Place two **Rigid Body** blocks from the *WEC-Sim Library* in the Simulink model file, one for each RM3 rigid body.
+
+.. note::
+    Knowing that the **Rigid Body** blocks are part of the **Body Elements** 
+    group would be helpful.
+
+.. warning::
+    When I do this I get a warning that says:
+        
+        Variable 'body' does not exist. 
+    
+    Is that normal?
+
+.. note::
+    In the diagram these blocks have the names "Float" and "Spar/Plate". How
+    did that happen?
 
 * Double click on the **Rigid Body** block, and rename each instance of the body. The first body must be called ``body(1)``, and the second body should be called ``body(2)``. 
 
@@ -90,6 +152,10 @@ The WEC-Sim Simulink model is created by dragging and dropping blocks from the *
 
 * Place the **Global Reference Frame** from the *WEC-Sim Library* in the Simulink model file. The global reference frame acts as the seabed.
 
+.. note::
+    Here the **Global Reference Frame** blocks is part of the **Frames** 
+    group.
+
 .. figure:: _images/RM3_WECSim_GlobalRef.jpg
    :width: 400pt
    :align: center
@@ -97,7 +163,14 @@ The WEC-Sim Simulink model is created by dragging and dropping blocks from the *
 
 * Place the **Floating (3DOF)** block to connect the plate to the seabed. This constrains the plate to move in 3DOF relative to the **Global Reference Frame**. 
 
+.. note::
+    In the **Constraints** group.
+
 * Place the **Translational PTO** block to connect the float to the spar. This constrains the float to move in heave relative to the spar, and allows definition of PTO damping. 
+
+.. note::
+    In the **PTOs** group. Also getting a warning about missing variables for
+    this one.
 
 .. figure:: _images/RM3_WECSim.JPG
    :width: 400pt
@@ -107,6 +180,12 @@ The WEC-Sim Simulink model is created by dragging and dropping blocks from the *
 
 	When setting up a WEC-Sim model, it is very important to note the base and follower frames.
 
+.. warning::
+    A bit more detail about connecting the blocks would be useful, particularly
+    with the note above. The tutorial doesn't really make clear what base
+    and follower frame means (nor links to an explanation), nor does it say
+    that the connectors are marked with a "B" and an "F" to indicate which is
+    which. Even in the diagrams, the blocks are too small to see this.
 
 Step 3: Write wecSimInputFile.m
 """"""""""""""""""""""""""""""""""""""""""""""""
@@ -264,3 +343,5 @@ References
 .. bibliography:: WEC-Sim_Tutorials.bib
    :style: unsrt   
 
+.. |tutorialspage| replace:: ``$WECSIM/tutorials``
+.. _tutorialspage: https://github.com/WEC-Sim/WEC-Sim/tree/master/tutorials

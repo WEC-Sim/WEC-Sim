@@ -61,6 +61,12 @@ Finally, in terms of these docs themselves, they are super hard to read and
 some standard should be "enforced" by linting using something like 
 `doc8 <https://github.com/pycqa/doc8>`_ so that the source is readable.
 
+On the tutorials
+----------------
+
+* BEMIO really is an integral part of WEC-Sim, because there doesn't seem to be 
+  any other description of how to generate the h5 files manually.
+
 On the API
 ----------
 
