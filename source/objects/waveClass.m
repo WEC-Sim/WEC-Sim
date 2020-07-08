@@ -418,9 +418,9 @@ classdef waveClass<handle
             clear  numPoints numVertex numFace x y lx ly X Y Z fid filename p1 p2 p3 p4
     end
         
-        function Z = waveElevationGrid(obj, t, X, Y)
+        function Z = waveElevationGrid(obj, t, X, Y, TimeBodyParav, it, g)
             % This method calculates wave elevation on a grid at a given
-            % time, used by: :meth:`waveClass.write_paraview_vtp`.
+            % time, used by: :math:`waveClass.write_paraview_vtp`.
             %             
             % Parameters
             % ------------
