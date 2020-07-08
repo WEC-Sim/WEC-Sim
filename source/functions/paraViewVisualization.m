@@ -39,7 +39,6 @@ if simu.paraview == 1
     end
    % bodies
     filename = [simu.pathParaviewVideo,'\\vtk' filesep 'bodies.txt'];
-    %fid = fopen(filename, 'w');
     mkdir([simu.pathParaviewVideo filesep 'vtk'])
     [fid ,errmsg] = fopen(filename, 'w');
     vtkbodiesii = 1;
