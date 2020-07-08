@@ -363,8 +363,7 @@ classdef waveClass<handle
                 filename = [pathParaviewVideo,'\\vtk' filesep 'waves' filesep 'waves_' num2str(it) '.vtp'];
                 fid = fopen(filename, 'w');
                 % calculate wave elevation
-                Z = waveElevationGrid (obj, t(it), X, Y, TimeBodyParav, it, g);
-                % write header
+                Z = waveElevationGrid (obj, t(it), X, Y);                % write header
                 fprintf(fid, '<?xml version="1.0"?>\n');
                 fprintf(fid, ['<!-- WEC-Sim Visualization using ParaView -->\n']);
                 fprintf(fid, ['<!--   model: ' model ' - ran on ' simdate ' -->\n']);
@@ -418,9 +417,9 @@ classdef waveClass<handle
             clear  numPoints numVertex numFace x y lx ly X Y Z fid filename p1 p2 p3 p4
     end
         
-        function Z = waveElevationGrid(obj, t, X, Y)
+        function Z = waveElevationGrid(obj, t, X, Y, TimeBodyParav, it, g)
             % This method calculates wave elevation on a grid at a given
-            % time, used by: :meth:`waveClass.write_paraview_vtp`.
+            % time, used by: :math:`waveClass.write_paraview_vtp`.
             %             
             % Parameters
             % ------------
