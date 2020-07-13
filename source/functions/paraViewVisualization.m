@@ -20,14 +20,13 @@
 %% ParaView Visualization
 if simu.paraview == 1
     fprintf('    ...writing ParaView files...   \n')
-    if exist('vtk','dir') ~= 0
+    if exist([simu.pathParaviewVideo filesep 'vtk'],'dir') ~= 0
         try
-            rmdir('vtk','s')
+            rmdir([simu.pathParaviewVideo filesep 'vtk'],'s')
         catch
             error('The vtk directory could not be removed. Please close any files in the vtk directory and try running WEC-Sim again')
         end
     end
-    mkdir('vtk')
     % check mooring
     moordynFlag = 0;
     if exist('mooring','var')
@@ -38,14 +37,14 @@ if simu.paraview == 1
         end
     end
    % bodies
-    filename = [simu.pathParaviewVideo,'\\vtk' filesep 'bodies.txt'];
+    filename = [simu.pathParaviewVideo filesep 'vtk' filesep 'bodies.txt'];
     mkdir([simu.pathParaviewVideo filesep 'vtk'])
     [fid ,errmsg] = fopen(filename, 'w');
     vtkbodiesii = 1;
     for ii = 1:length(body(1,:))
         if body(ii).bodyparaview == 1
             bodyname = output.bodies(ii).name;
-            mkdir([simu.pathParaviewVideo,'\\vtk' filesep 'body' num2str(vtkbodiesii) '_' bodyname]);
+            mkdir([simu.pathParaviewVideo filesep 'vtk' filesep 'body' num2str(vtkbodiesii) '_' bodyname]);
             TimeBodyParav = output.bodies(ii).time;
             PositionBodyParav = output.bodies(ii).position;
             NewTimeParaview(:,1) = simu.StartTimeParaview:simu.dtParaview:simu.EndTimeParaview;
@@ -62,11 +61,11 @@ if simu.paraview == 1
     end; clear ii
     fclose(fid);
     % waves
-       mkdir([simu.pathParaviewVideo,'\\vtk' filesep 'waves'])
+       mkdir([simu.pathParaviewVideo filesep 'vtk' filesep 'waves'])
         waves.write_paraview_vtp(NewTimeParaview, waves.viz.numPointsX, waves.viz.numPointsY, simu.domainSize, simu.simMechanicsFile, datestr(simu.simulationDate),moordynFlag,simu.pathParaviewVideo,TimeBodyParav, simu.g);    % mooring
     % mooring
     if moordynFlag == 1
-        mkdir([simu.pathParaviewVideo,'\\vtk' filesep 'mooring'])
+        mkdir([simu.pathParaviewVideo filesep 'vtk' filesep 'mooring'])
         mooring.write_paraview_vtp(output.moorDyn, simu.simMechanicsFile, output.moorDyn.Lines.Time, datestr(simu.simulationDate), mooring.moorDynLines, mooring.moorDynNodes,simu.pathParaviewVideo,TimeBodyParav,NewTimeParaview)
     end
     % all
