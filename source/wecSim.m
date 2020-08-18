@@ -222,10 +222,10 @@ sv_stateSpace=Simulink.Variant('radiation_option==3');
 % Wave type
 typeNum = waves.typeNum;
 sv_noWave=Simulink.Variant('typeNum<10');
-sv_regularWaves=Simulink.Variant('typeNum>=10 && typeNum<20 && simu.yawNonLin~=1');
-sv_regularWavesNonLinYaw=Simulink.Variant('typeNum>=10 && typeNum<20 && simu.yawNonLin==1');
-sv_irregularWaves=Simulink.Variant('typeNum>=20 && typeNum<30 && simu.yawNonLin~=1');
-sv_irregularWavesNonLinYaw=Simulink.Variant('typeNum>=20 && typeNum<30 && simu.yawNonLin==1');
+sv_regularWaves=Simulink.Variant('typeNum>=10 && typeNum<20 && yawNonLin~=1');
+sv_regularWavesNonLinYaw=Simulink.Variant('typeNum>=10 && typeNum<20 && yawNonLin==1');
+sv_irregularWaves=Simulink.Variant('typeNum>=20 && typeNum<30 && yawNonLin~=1');
+sv_irregularWavesNonLinYaw=Simulink.Variant('typeNum>=20 && typeNum<30 && yawNonLin==1');
 sv_udfWaves=Simulink.Variant('typeNum>=30');
 % Body2Body
 B2B = simu.b2b;
