@@ -57,11 +57,12 @@ classdef bodyClass<handle
             'opacity', 1)                                    % Structure defining visualization properties in either SimScape or Paraview. ``color`` (`3x1 float vector`) is defined as the body visualization color, Default = [``1 1 0``]. ``opacity`` (`integer`) is defined as the body opacity, Default = ``1``.
         bodyparaview      = 1;                               % (`integer`) Flag for visualisation in Paraview either 0 (no) or 1 (yes). Default = ``1`` since only called in paraview.
         morisonElement   = struct(...                        % 
-            'cd',                 [0 0 0], ...               % 
-            'ca',                 [0 0 0], ...               % 
-            'characteristicArea', [0 0 0], ...               % 
+            'cd',                 [0 0], ...                 % 
+            'ca',                 [0 0], ...                 % 
+            'characteristicArea', [0 0], ...                 % 
             'VME',                 0     , ...               % 
-            'rgME',               [0 0 0])                   % Structure defining the Morrison Element properties connected to the body. ``cd`` (`3x1 float vector`) is defined as the viscous quadratic drag coefficients in the following format [cd_x cd_y cd_z], Default = [``0 0 0``]. ``ca`` is defined as the added mass coefficent for the Morrison Element in the following format [ca_x ca_y ca_z], Default = [``0 0 0``], ``characteristicArea`` is defined as the characteristic area for the Morrison Element [m^2] in the following format [Area_x Area_y Area_z], Default = [0 0 0]. ``VME`` is the characteristic volume of the Morrison Element [m^3], Default = ``0``. ``rgME`` is defined as the vector from the body COG to point of application for the Morrison Element [m] in the following format [x y z], Default = [``0 0 0``].
+            'rgME',               [0 0 0],...
+            'z',                  [0 0 0])                   % Structure defining the Morison Element properties connected to the body. ``cd`` (`1x2 float vector`) is defined as the viscous normal and tangential drag coefficients in the following format [cd_N cd_T], Default = [``0 0``]. ``ca`` is defined as the added mass coefficent for the Morison Element in the following format [ca_N ca_T], Default = [``0 0``], ``characteristicArea`` is defined as the characteristic area for the Morison Element [m^2] in the following format [Area_N Area_T], Default = [0 0]. ``VME`` is the characteristic volume of the Morison Element [m^3], Default = ``0``. ``rgME`` is defined as the vector from the body COG to point of application for the Morison Element [m] in the following format [x y z], Default = [``0 0 0``].``z`` is defined as the unit vector center axis of the Morison Element in the following format [x y z], Default = [``0 0 0``].
         nhBody            = 0                                % (`integer`) Flag for non-hydro body either 0 (no) or 1 (yes). Default = ``0``.
         flexHydroBody     = 0                                % (`integer`) Flag for flexible body either 0 (no) or 1 (yes). Default = ``0``.
         meanDriftForce    = 0                                % (`integer`) Flag for mean drift force with three options:  0 (no), 1 (yes, from control surface) or 2 (yes, from momentum conservation). Default = ``0``.
