@@ -29,6 +29,8 @@ classdef ptoClass<handle
         name                    = 'NOT DEFINED'                                 % (`string`) Specifies the pto name. For ptos this is defined by the user, Default = ``NOT DEFINED``. 
         k                       = 0                                             % (`float`) Linear PTO stiffness coefficient. Default = `0`.
         c                       = 0                                             % (`float`) Linear PTO damping coefficient. Default = `0`.
+        equilibriumPosition     = 0                                             % (`float`) Linear PTO damping coefficient. Default = `0`.
+        pretension              = 0                                             % (`float`) Linear PTO damping coefficient. Default = `0`.
         loc                     = [999 999 999]                                 % (`3x1 float vector`) PTO location [m]. Defined in the following format [x y z]. Default = ``[999 999 999]``.
         orientation             = struct(...                                    % 
                                          'z', [0, 0, 1], ...                    % 
@@ -101,6 +103,17 @@ classdef ptoClass<handle
             obj.orientation.x = x;
             obj.orientation.rotationMatrix  = [x',y',z'];
         end
+
+        
+        function obj = setPretension(obj)
+            % This method calculates the equilibrium position in the joint to provide pretension, which is activated when the pretension value is not equal to zero and equilibrium position is not over written.
+            if obj.equilibriumPosition == 0
+                if obj.pretension ~= 0
+                    obj.equilibriumPosition = -obj.pretension./obj.k;
+                end
+            end
+        end
+
 
         function setInitDisp(obj, x_rot, ax_rot, ang_rot, addLinDisp)
             % This method sets initial displacement while considering an initial rotation orientation. 

@@ -68,12 +68,13 @@ if exist('constraint','var') == 1
         constraint(ii).setOrientation();
     end; clear ii
 end
-% PTOs: count & set orientation
+% PTOs: count & set orientation & set pretension
 if exist('pto','var') == 1
     simu.numPtos = length(pto(1,:));
     for ii = 1:simu.numPtos
         pto(ii).ptoNum = ii;
         pto(ii).setOrientation();
+        pto(ii).setPretension();
     end; clear ii
 end
 % Mooring Configuration: count
