@@ -1,8 +1,7 @@
 
 
 <!DOCTYPE html>
-<!--[if IE 8]><html class="no-js lt-ie9" lang="en" > <![endif]-->
-<!--[if gt IE 8]><!--> <html class="no-js" lang="en" > <!--<![endif]-->
+<html class="writer-html5" lang="en" >
 <head>
   <meta charset="utf-8">
   
@@ -12,12 +11,19 @@
   
 
   
+  <link rel="stylesheet" href="_static/css/theme.css" type="text/css" />
+  <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
+  <link rel="stylesheet" href="_static/css/table_wrap.css" type="text/css" />
+
+  
   
   
   
 
   
-  <script type="text/javascript" src="_static/js/modernizr.min.js"></script>
+  <!--[if lt IE 9]>
+    <script src="_static/js/html5shiv.min.js"></script>
+  <![endif]-->
   
     
       <script type="text/javascript" id="documentation_options" data-url_root="./" src="_static/documentation_options.js"></script>
@@ -29,11 +35,6 @@
     <script type="text/javascript" src="_static/js/theme.js"></script>
 
     
-
-  
-  <link rel="stylesheet" href="_static/css/theme.css" type="text/css" />
-  <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
-  <link rel="stylesheet" href="_static/css/table_wrap.css" type="text/css" />
     <link rel="index" title="Index" href="genindex.html" />
     <link rel="search" title="Search" href="search.html" />
     <link rel="next" title="Theory" href="theory.html" />
@@ -51,7 +52,7 @@
           
 
           
-            <a href="index.html" class="icon icon-home"> WEC-Sim
+            <a href="index.html" class="icon icon-home" alt="Documentation Home"> WEC-Sim
           
 
           
@@ -61,7 +62,7 @@
             
             
               <div class="version">
-                v4.0
+                v4.1
               </div>
             
           
@@ -78,6 +79,7 @@
           
         </div>
 
+        
         <div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="main navigation">
           
             
@@ -86,7 +88,6 @@
             
             
               <ul class="current">
-<li class="toctree-l1"><a class="reference internal" href="terminology.html">Terminology</a></li>
 <li class="toctree-l1"><a class="reference internal" href="getting_started.html">Getting Started</a></li>
 <li class="toctree-l1 current"><a class="current reference internal" href="#">Overview</a><ul>
 <li class="toctree-l2"><a class="reference internal" href="#wec-sim-model-files">WEC-Sim Model Files</a><ul>
@@ -97,10 +98,11 @@
 </ul>
 </li>
 <li class="toctree-l2"><a class="reference internal" href="#running-wec-sim">Running WEC-Sim</a><ul>
-<li class="toctree-l3"><a class="reference internal" href="#step-1-run-bemio">Step 1: Run BEMIO</a></li>
-<li class="toctree-l3"><a class="reference internal" href="#step-2-build-simulink-model">Step 2: Build Simulink Model</a></li>
-<li class="toctree-l3"><a class="reference internal" href="#step-3-write-wecsiminputfile-m">Step 3: Write wecSimInputFile.m</a></li>
-<li class="toctree-l3"><a class="reference internal" href="#step-4-run-wec-sim">Step 4: Run WEC-Sim</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#step-1-pre-processing">Step 1: Pre-Processing</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#step-2-generate-hydrodata-file">Step 2: Generate Hydrodata File</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#step-3-build-simulink-model">Step 3: Build Simulink Model</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#step-4-write-wecsiminputfile-m">Step 4: Write wecSimInputFile.m</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#step-5-run-wec-sim">Step 5: Run WEC-Sim</a></li>
 </ul>
 </li>
 </ul>
@@ -116,11 +118,13 @@
 <li class="toctree-l1"><a class="reference internal" href="release_notes.html">Release Notes</a></li>
 <li class="toctree-l1"><a class="reference internal" href="contact.html">Online Forum</a></li>
 <li class="toctree-l1"><a class="reference internal" href="api.html">WEC-Sim API</a></li>
+<li class="toctree-l1"><a class="reference internal" href="terminology.html">Terminology</a></li>
 </ul>
 
             
           
         </div>
+        
       </div>
     </nav>
 
@@ -159,7 +163,7 @@
 
   <ul class="wy-breadcrumbs">
     
-      <li><a href="index.html">Docs</a> &raquo;</li>
+      <li><a href="index.html" class="icon icon-home"></a> &raquo;</li>
         
       <li>Overview</li>
     
@@ -227,6 +231,10 @@ The table below list the WEC-Sim case directory structure and required files.</p
 </tr>
 </tbody>
 </table>
+<div class="admonition note">
+<p class="admonition-title">Note</p>
+<p>Where <code class="docutils literal notranslate"><span class="pre">*</span></code> denotes a user-specified file name.</p>
+</div>
 <div class="section" id="hydrodynamic-data">
 <h3>Hydrodynamic Data<a class="headerlink" href="#hydrodynamic-data" title="Permalink to this headline">¶</a></h3>
 <ul class="simple">
@@ -240,8 +248,8 @@ The table below list the WEC-Sim case directory structure and required files.</p
 <div class="section" id="geometry-file">
 <h3>Geometry File<a class="headerlink" href="#geometry-file" title="Permalink to this headline">¶</a></h3>
 <ul class="simple">
-<li><p>The WEC-Sim code also requires a geometry file in the form of a <code class="docutils literal notranslate"><span class="pre">*.stl</span></code> file.</p></li>
-<li><p>This <code class="docutils literal notranslate"><span class="pre">*.stl</span></code> file is used by the WEC-Sim code to generate the Simscape Explorer visualization, and by the nonlinear buoyancy and Froude-Krylov forces option to determine the instantaneous wetted surface at each time step.</p></li>
+<li><p>The WEC-Sim code also requires a geometry file in the form of a <code class="docutils literal notranslate"><span class="pre">*.stl</span></code> file. Most CAD programs can export the geometry as a <code class="docutils literal notranslate"><span class="pre">*.stl</span></code> file.</p></li>
+<li><p>This <code class="docutils literal notranslate"><span class="pre">*.stl</span></code> file is used by the WEC-Sim code to generate the Simscape Mechanics Explorer visualization, and by the nonlinear buoyancy and Froude-Krylov forces option to determine the instantaneous wetted surface at each time step.</p></li>
 <li><p>When running WEC-Sim with linear hydrodynamics, the <code class="docutils literal notranslate"><span class="pre">*.stl</span></code> is only used for visualization.</p></li>
 <li><p>When running WEC-Sim with nonlinear buoyancy and Froude-Krylov forces, the quality of the <code class="docutils literal notranslate"><span class="pre">*.stl</span></code> mesh is critical, refer to the <a class="reference internal" href="advanced_features.html#nonlinear"><span class="std std-ref">Nonlinear Buoyancy and Froude-Krylov Excitation</span></a> section for more information.</p></li>
 </ul>
@@ -311,9 +319,9 @@ The WEC-Sim input file (<code class="docutils literal notranslate"><span class="
 <div class="section" id="running-wec-sim">
 <h2>Running WEC-Sim<a class="headerlink" href="#running-wec-sim" title="Permalink to this headline">¶</a></h2>
 <p>This section provides a description of the steps to run the WEC-Sim code, refer to the <a class="reference internal" href="#workflow"><span class="std std-ref">WEC-Sim Workflow Diagram</span></a> while following the steps to run WEC-Sim.</p>
-<div class="section" id="step-1-run-bemio">
-<h3>Step 1: Run BEMIO<a class="headerlink" href="#step-1-run-bemio" title="Permalink to this headline">¶</a></h3>
-<p>In the pre-processing step, users need to create the WEC geometry, run a BEM code to calculate the hydrodynamic coefficients, and convert the hydrodynamic coefficients into the <code class="docutils literal notranslate"><span class="pre">*.h5</span></code> format for WEC-Sim to read:</p>
+<div class="section" id="step-1-pre-processing">
+<h3>Step 1: Pre-Processing<a class="headerlink" href="#step-1-pre-processing" title="Permalink to this headline">¶</a></h3>
+<p>In the pre-processing step, users need to create the WEC geometry, and run a BEM code to calculate the hydrodynamic coefficients.</p>
 <ul>
 <li><p><strong>Create WEC Geometry</strong>:</p>
 <blockquote>
@@ -332,10 +340,16 @@ The WEC-Sim input file (<code class="docutils literal notranslate"><span class="
 </ul>
 </div></blockquote>
 </li>
+</ul>
+</div>
+<div class="section" id="step-2-generate-hydrodata-file">
+<h3>Step 2: Generate Hydrodata File<a class="headerlink" href="#step-2-generate-hydrodata-file" title="Permalink to this headline">¶</a></h3>
+<p>In this step, users run <a class="reference internal" href="advanced_features.html#bemio"><span class="std std-ref">BEMIO</span></a> to convert the hydrodynamic coefficients from their BEM solution into the <code class="docutils literal notranslate"><span class="pre">*.h5</span></code> format for WEC-Sim to read:</p>
+<ul>
 <li><p><strong>Run BEMIO</strong>: to generate <code class="docutils literal notranslate"><span class="pre">*.h5</span></code> Hydrodynamic Coefficients for WEC-Sim</p>
 <blockquote>
 <div><ul class="simple">
-<li><p>The hydrodynamic coefficients for each body generated from the BEM code can be parsed into a <code class="docutils literal notranslate"><span class="pre">*.h5</span></code> data structure using <cite>:ref:`bemio</cite>, which was developed by the WEC-Sim team.</p></li>
+<li><p>The hydrodynamic coefficients for each body generated from the BEM code can be parsed into a <code class="docutils literal notranslate"><span class="pre">*.h5</span></code> data structure using <a class="reference internal" href="advanced_features.html#bemio"><span class="std std-ref">BEMIO</span></a>, which was developed by the WEC-Sim team.</p></li>
 <li><p>BEMIO currently supports WAMIT, NEMOH and AQWA.</p></li>
 </ul>
 </div></blockquote>
@@ -377,11 +391,15 @@ The WEC-Sim input file (<code class="docutils literal notranslate"><span class="
 </div>
 <div class="admonition note">
 <p class="admonition-title">Note</p>
-<p>Users are also able to specify their own hydrodynamic coefficients by creating their own <code class="docutils literal notranslate"><span class="pre">*.h5</span></code> file with customized hydrodynamic coefficients following the <code class="docutils literal notranslate"><span class="pre">*.h5</span></code> format created by BEMIO.</p>
+<p>Users are also able to specify their own hydrodynamic coefficients by creating their own <code class="docutils literal notranslate"><span class="pre">*.h5Ste</span> <span class="pre">file</span> <span class="pre">with</span> <span class="pre">customized</span> <span class="pre">hydrodynamic</span> <span class="pre">coefficients</span> <span class="pre">following</span> <span class="pre">the</span> <span class="pre">``*.h5</span></code> format created by BEMIO.</p>
+</div>
+<div class="admonition note">
+<p class="admonition-title">Note</p>
+<p>We recommend installing HDFview <a class="reference external" href="https://www.hdfgroup.org/downloads/hdfview/">https://www.hdfgroup.org/downloads/hdfview/</a> to view the <code class="docutils literal notranslate"><span class="pre">*.h5</span></code> files generated by BEMIO.</p>
 </div>
 </div>
-<div class="section" id="step-2-build-simulink-model">
-<h3>Step 2: Build Simulink Model<a class="headerlink" href="#step-2-build-simulink-model" title="Permalink to this headline">¶</a></h3>
+<div class="section" id="step-3-build-simulink-model">
+<h3>Step 3: Build Simulink Model<a class="headerlink" href="#step-3-build-simulink-model" title="Permalink to this headline">¶</a></h3>
 <p>In this step, users build their WEC-Sim Simulink model (<code class="docutils literal notranslate"><span class="pre">*.slx</span></code>) using the <a class="reference internal" href="code_structure.html#wec-sim-library"><span class="std std-ref">WEC-Sim Library</span></a> developed in Simulink/Simscape.
 The <code class="docutils literal notranslate"><span class="pre">*.slx</span></code> Simulink model file must be located in the <code class="docutils literal notranslate"><span class="pre">$CASE</span></code> directory.
 The figure below shows an example WEC-Sim Simulink model for the OSWEC tutorial.</p>
@@ -389,15 +407,15 @@ The figure below shows an example WEC-Sim Simulink model for the OSWEC tutorial.
 <a class="reference internal image-reference" href="_images/OSWEC_Model.png"><img alt="_images/OSWEC_Model.png" src="_images/OSWEC_Model.png" style="width: 200pt;" /></a>
 </div>
 </div>
-<div class="section" id="step-3-write-wecsiminputfile-m">
-<h3>Step 3: Write wecSimInputFile.m<a class="headerlink" href="#step-3-write-wecsiminputfile-m" title="Permalink to this headline">¶</a></h3>
+<div class="section" id="step-4-write-wecsiminputfile-m">
+<h3>Step 4: Write wecSimInputFile.m<a class="headerlink" href="#step-4-write-wecsiminputfile-m" title="Permalink to this headline">¶</a></h3>
 <p>The WEC-Sim input file must be located in the <code class="docutils literal notranslate"><span class="pre">$CASE</span></code> directory, and named <code class="docutils literal notranslate"><span class="pre">wecSimInputFile.m</span></code>. The figure below shows an example of a WEC-Sim input file. The input file specifies the simulation settings, body mass properties, wave conditions, joints, and mooring. Additionally, the WEC-Sim input file must specify the location of the WEC-Sim Simulink model (<code class="docutils literal notranslate"><span class="pre">*.slx</span></code>) file, the geometry file(s) <code class="docutils literal notranslate"><span class="pre">*.stl</span></code>, and the hydrodynamic data file (<code class="docutils literal notranslate"><span class="pre">*.h5</span></code>) .</p>
 <div class="figure align-default">
 <a class="reference internal image-reference" href="_images/runWECSim_mod.png"><img alt="_images/runWECSim_mod.png" src="_images/runWECSim_mod.png" style="width: 600pt;" /></a>
 </div>
 </div>
-<div class="section" id="step-4-run-wec-sim">
-<h3>Step 4: Run WEC-Sim<a class="headerlink" href="#step-4-run-wec-sim" title="Permalink to this headline">¶</a></h3>
+<div class="section" id="step-5-run-wec-sim">
+<h3>Step 5: Run WEC-Sim<a class="headerlink" href="#step-5-run-wec-sim" title="Permalink to this headline">¶</a></h3>
 <p>Lastly, execute the WEC-Sim code by typing <code class="docutils literal notranslate"><span class="pre">wecSim</span></code> into the MATLAB Command Window.
 The WEC-Sim source code is located in the <code class="docutils literal notranslate"><span class="pre">$WECSIM</span></code> directory, but <code class="docutils literal notranslate"><span class="pre">wecSim</span></code> must be executed from the <code class="docutils literal notranslate"><span class="pre">$CASE</span></code> directory.</p>
 <div class="admonition note">
@@ -428,11 +446,19 @@ The WEC-Sim source code is located in the <code class="docutils literal notransl
 
   <div role="contentinfo">
     <p>
+        
         &copy; Copyright 2014, National Renewable Energy Laboratory and National Technology &amp; Engineering Solutions of Sandia, LLC (NTESS)
 
     </p>
   </div>
-  Built with <a href="http://sphinx-doc.org/">Sphinx</a> using a <a href="https://github.com/rtfd/sphinx_rtd_theme">theme</a> provided by <a href="https://readthedocs.org">Read the Docs</a>. 
+    
+    
+    
+    Built with <a href="http://sphinx-doc.org/">Sphinx</a> using a
+    
+    <a href="https://github.com/rtfd/sphinx_rtd_theme">theme</a>
+    
+    provided by <a href="https://readthedocs.org">Read the Docs</a>. 
 
 </footer>
 
@@ -443,7 +469,6 @@ The WEC-Sim source code is located in the <code class="docutils literal notransl
 
   </div>
   
-
 
   <script type="text/javascript">
       jQuery(function () {

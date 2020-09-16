@@ -1,8 +1,7 @@
 
 
 <!DOCTYPE html>
-<!--[if IE 8]><html class="no-js lt-ie9" lang="en" > <![endif]-->
-<!--[if gt IE 8]><!--> <html class="no-js" lang="en" > <!--<![endif]-->
+<html class="writer-html5" lang="en" >
 <head>
   <meta charset="utf-8">
   
@@ -12,12 +11,19 @@
   
 
   
+  <link rel="stylesheet" href="_static/css/theme.css" type="text/css" />
+  <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
+  <link rel="stylesheet" href="_static/css/table_wrap.css" type="text/css" />
+
+  
   
   
   
 
   
-  <script type="text/javascript" src="_static/js/modernizr.min.js"></script>
+  <!--[if lt IE 9]>
+    <script src="_static/js/html5shiv.min.js"></script>
+  <![endif]-->
   
     
       <script type="text/javascript" id="documentation_options" data-url_root="./" src="_static/documentation_options.js"></script>
@@ -29,13 +35,9 @@
     <script type="text/javascript" src="_static/js/theme.js"></script>
 
     
-
-  
-  <link rel="stylesheet" href="_static/css/theme.css" type="text/css" />
-  <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
-  <link rel="stylesheet" href="_static/css/table_wrap.css" type="text/css" />
     <link rel="index" title="Index" href="genindex.html" />
     <link rel="search" title="Search" href="search.html" />
+    <link rel="next" title="Terminology" href="terminology.html" />
     <link rel="prev" title="Online Forum" href="contact.html" /> 
 </head>
 
@@ -50,7 +52,7 @@
           
 
           
-            <a href="index.html" class="icon icon-home"> WEC-Sim
+            <a href="index.html" class="icon icon-home" alt="Documentation Home"> WEC-Sim
           
 
           
@@ -60,7 +62,7 @@
             
             
               <div class="version">
-                v4.0
+                v4.1
               </div>
             
           
@@ -77,6 +79,7 @@
           
         </div>
 
+        
         <div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="main navigation">
           
             
@@ -85,7 +88,6 @@
             
             
               <ul class="current">
-<li class="toctree-l1"><a class="reference internal" href="terminology.html">Terminology</a></li>
 <li class="toctree-l1"><a class="reference internal" href="getting_started.html">Getting Started</a></li>
 <li class="toctree-l1"><a class="reference internal" href="overview.html">Overview</a></li>
 <li class="toctree-l1"><a class="reference internal" href="theory.html">Theory</a></li>
@@ -108,11 +110,13 @@
 <li class="toctree-l2"><a class="reference internal" href="#wave-class">Wave Class</a></li>
 </ul>
 </li>
+<li class="toctree-l1"><a class="reference internal" href="terminology.html">Terminology</a></li>
 </ul>
 
             
           
         </div>
+        
       </div>
     </nav>
 
@@ -151,7 +155,7 @@
 
   <ul class="wy-breadcrumbs">
     
-      <li><a href="index.html">Docs</a> &raquo;</li>
+      <li><a href="index.html" class="icon icon-home"></a> &raquo;</li>
         
       <li>WEC-Sim API</li>
     
@@ -221,25 +225,25 @@ to define WEC-Sim’s hydrodynamic and non-hydrodynamic bodies.</p>
 <dl class="mat attribute">
 <dt id="source.objects.bodyClass.dof">
 <code class="sig-name descname">dof</code><em class="property"> = '[]'</em><a class="headerlink" href="#source.objects.bodyClass.dof" title="Permalink to this definition">¶</a></dt>
-<dd><p>(<cite>integar</cite>) Number of degree of freedoms (DOFs). For hydrodynamic bodies this is given in the h5 file. If not defined in the h5 file, Default = <code class="docutils literal notranslate"><span class="pre">6</span></code>.</p>
+<dd><p>(<cite>integer</cite>) Number of degree of freedoms (DOFs). For hydrodynamic bodies this is given in the h5 file. If not defined in the h5 file, Default = <code class="docutils literal notranslate"><span class="pre">6</span></code>.</p>
 </dd></dl>
 
 <dl class="mat attribute">
 <dt id="source.objects.bodyClass.dof_gbm">
 <code class="sig-name descname">dof_gbm</code><em class="property"> = '[]'</em><a class="headerlink" href="#source.objects.bodyClass.dof_gbm" title="Permalink to this definition">¶</a></dt>
-<dd><p>(<cite>integar</cite>) Number of degree of freedoms (DOFs) for generalized body mode (GBM). Default = <code class="docutils literal notranslate"><span class="pre">[]</span></code>.</p>
+<dd><p>(<cite>integer</cite>) Number of degree of freedoms (DOFs) for generalized body mode (GBM). Default = <code class="docutils literal notranslate"><span class="pre">[]</span></code>.</p>
 </dd></dl>
 
 <dl class="mat attribute">
 <dt id="source.objects.bodyClass.dof_start">
 <code class="sig-name descname">dof_start</code><em class="property"> = '[]'</em><a class="headerlink" href="#source.objects.bodyClass.dof_start" title="Permalink to this definition">¶</a></dt>
-<dd><p>(<cite>integar</cite>) Index the DOF starts for body(<code class="docutils literal notranslate"><span class="pre">bodyNumber</span></code>). For WEC bodies this is given in the h5 file, but if not defined in the h5 file, Default = <code class="docutils literal notranslate"><span class="pre">(bodyNumber-1)*6+1</span></code>.</p>
+<dd><p>(<cite>integer</cite>) Index the DOF starts for body(<code class="docutils literal notranslate"><span class="pre">bodyNumber</span></code>). For WEC bodies this is given in the h5 file, but if not defined in the h5 file, Default = <code class="docutils literal notranslate"><span class="pre">(bodyNumber-1)*6+1</span></code>.</p>
 </dd></dl>
 
 <dl class="mat attribute">
 <dt id="source.objects.bodyClass.dof_end">
 <code class="sig-name descname">dof_end</code><em class="property"> = '[]'</em><a class="headerlink" href="#source.objects.bodyClass.dof_end" title="Permalink to this definition">¶</a></dt>
-<dd><p>(<cite>integar</cite>) Index the DOF ends for body(<code class="docutils literal notranslate"><span class="pre">bodyNumber</span></code>). For WEC bodies this is given in the h5 file, but if not defined in the h5 file, Default = <code class="docutils literal notranslate"><span class="pre">(bodyNumber-1)*6+6</span></code>.</p>
+<dd><p>(<cite>integer</cite>) Index the DOF ends for body(<code class="docutils literal notranslate"><span class="pre">bodyNumber</span></code>). For WEC bodies this is given in the h5 file, but if not defined in the h5 file, Default = <code class="docutils literal notranslate"><span class="pre">(bodyNumber-1)*6+6</span></code>.</p>
 </dd></dl>
 
 <dl class="mat attribute">
@@ -287,7 +291,7 @@ to define WEC-Sim’s hydrodynamic and non-hydrodynamic bodies.</p>
 <dl class="mat attribute">
 <dt id="source.objects.bodyClass.bodyparaview">
 <code class="sig-name descname">bodyparaview</code><em class="property"> = '1'</em><a class="headerlink" href="#source.objects.bodyClass.bodyparaview" title="Permalink to this definition">¶</a></dt>
-<dd><p>(<cite>integar</cite>) Flag for visualisation in Paraview either 0 (no) or 1 (yes). Default = <code class="docutils literal notranslate"><span class="pre">1</span></code> since only called in paraview.</p>
+<dd><p>(<cite>integer</cite>) Flag for visualisation in Paraview either 0 (no) or 1 (yes). Default = <code class="docutils literal notranslate"><span class="pre">1</span></code> since only called in paraview.</p>
 </dd></dl>
 
 <dl class="mat attribute">
@@ -299,19 +303,19 @@ to define WEC-Sim’s hydrodynamic and non-hydrodynamic bodies.</p>
 <dl class="mat attribute">
 <dt id="source.objects.bodyClass.nhBody">
 <code class="sig-name descname">nhBody</code><em class="property"> = '0'</em><a class="headerlink" href="#source.objects.bodyClass.nhBody" title="Permalink to this definition">¶</a></dt>
-<dd><p>(<cite>integar</cite>) Flag for non-hydro body either 0 (no) or 1 (yes). Default = <code class="docutils literal notranslate"><span class="pre">0</span></code>.</p>
+<dd><p>(<cite>integer</cite>) Flag for non-hydro body either 0 (no) or 1 (yes). Default = <code class="docutils literal notranslate"><span class="pre">0</span></code>.</p>
 </dd></dl>
 
 <dl class="mat attribute">
 <dt id="source.objects.bodyClass.flexHydroBody">
 <code class="sig-name descname">flexHydroBody</code><em class="property"> = '0'</em><a class="headerlink" href="#source.objects.bodyClass.flexHydroBody" title="Permalink to this definition">¶</a></dt>
-<dd><p>(<cite>integar</cite>) Flag for flexible body either 0 (no) or 1 (yes). Default = <code class="docutils literal notranslate"><span class="pre">0</span></code>.</p>
+<dd><p>(<cite>integer</cite>) Flag for flexible body either 0 (no) or 1 (yes). Default = <code class="docutils literal notranslate"><span class="pre">0</span></code>.</p>
 </dd></dl>
 
 <dl class="mat attribute">
 <dt id="source.objects.bodyClass.meanDriftForce">
 <code class="sig-name descname">meanDriftForce</code><em class="property"> = '0'</em><a class="headerlink" href="#source.objects.bodyClass.meanDriftForce" title="Permalink to this definition">¶</a></dt>
-<dd><p>(<cite>integar</cite>) Flag for mean drift force with three options:  0 (no), 1 (yes, from control surface) or 2 (yes, from momentum conservation). Default = <code class="docutils literal notranslate"><span class="pre">0</span></code>.</p>
+<dd><p>(<cite>integer</cite>) Flag for mean drift force with three options:  0 (no), 1 (yes, from control surface) or 2 (yes, from momentum conservation). Default = <code class="docutils literal notranslate"><span class="pre">0</span></code>.</p>
 </dd></dl>
 
 <dl class="mat method">
@@ -476,7 +480,7 @@ frame or relative to other bodies.</p>
 
 </div>
 <div class="section" id="mooring-class">
-<span id="mooring"></span><h2>Mooring Class<a class="headerlink" href="#mooring-class" title="Permalink to this headline">¶</a></h2>
+<span id="mooringapi"></span><h2>Mooring Class<a class="headerlink" href="#mooring-class" title="Permalink to this headline">¶</a></h2>
 <dl class="mat class">
 <dt id="source.objects.mooringClass">
 <em class="property">class </em><code class="sig-prename descclassname">source.objects.</code><code class="sig-name descname">mooringClass</code><span class="sig-paren">(</span><em class="sig-param">name</em><span class="sig-paren">)</span><a class="headerlink" href="#source.objects.mooringClass" title="Permalink to this definition">¶</a></dt>
@@ -609,7 +613,7 @@ frame or relative to other bodies.</p>
 
 </div>
 <div class="section" id="pto-class">
-<span id="pto"></span><h2>PTO Class<a class="headerlink" href="#pto-class" title="Permalink to this headline">¶</a></h2>
+<span id="ptoapi"></span><h2>PTO Class<a class="headerlink" href="#pto-class" title="Permalink to this headline">¶</a></h2>
 <dl class="mat class">
 <dt id="source.objects.ptoClass">
 <em class="property">class </em><code class="sig-prename descclassname">source.objects.</code><code class="sig-name descname">ptoClass</code><span class="sig-paren">(</span><em class="sig-param">name</em><span class="sig-paren">)</span><a class="headerlink" href="#source.objects.ptoClass" title="Permalink to this definition">¶</a></dt>
@@ -850,7 +854,7 @@ output from each instance of a WEC-Sim class (e.g.
 <code class="docutils literal notranslate"><span class="pre">mooringClass</span></code></p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters</dt>
-<dd class="field-odd"><p><strong>numLines</strong> (<em>integar</em>) – the number of MoorDyn lines</p>
+<dd class="field-odd"><p><strong>numLines</strong> (<em>integer</em>) – the number of MoorDyn lines</p>
 </dd>
 </dl>
 </dd></dl>
@@ -862,8 +866,8 @@ output from each instance of a WEC-Sim class (e.g.
 <dl class="field-list simple">
 <dt class="field-odd">Parameters</dt>
 <dd class="field-odd"><ul class="simple">
-<li><p><strong>bodyNum</strong> (<em>integar</em>) – the body number to plot</p></li>
-<li><p><strong>comp</strong> (<em>integar</em>) – the response component (i.e. dof) to be plotted (e.g. 1-6)</p></li>
+<li><p><strong>bodyNum</strong> (<em>integer</em>) – the body number to plot</p></li>
+<li><p><strong>comp</strong> (<em>integer</em>) – the response component (i.e. dof) to be plotted (e.g. 1-6)</p></li>
 </ul>
 </dd>
 </dl>
@@ -876,8 +880,8 @@ output from each instance of a WEC-Sim class (e.g.
 <dl class="field-list simple">
 <dt class="field-odd">Parameters</dt>
 <dd class="field-odd"><ul class="simple">
-<li><p><strong>bodyNum</strong> (<em>integar</em>) – the body number to plot</p></li>
-<li><p><strong>comp</strong> (<em>integar</em>) – the force component (i.e. dof) to be plotted (e.g. 1-6)</p></li>
+<li><p><strong>bodyNum</strong> (<em>integer</em>) – the body number to plot</p></li>
+<li><p><strong>comp</strong> (<em>integer</em>) – the force component (i.e. dof) to be plotted (e.g. 1-6)</p></li>
 </ul>
 </dd>
 </dl>
@@ -1115,7 +1119,7 @@ ParaView. This method is executed by specifying
 <dl class="mat attribute">
 <dt id="source.objects.simulationClass.saveMat">
 <code class="sig-name descname">saveMat</code><em class="property"> = '1'</em><a class="headerlink" href="#source.objects.simulationClass.saveMat" title="Permalink to this definition">¶</a></dt>
-<dd><p>(<cite>integer</cite>) Option to save <a href="#id1"><span class="problematic" id="id2">*</span></a>.mat file for each run: off-&gt;0, on-&gt;1. Default = <code class="docutils literal notranslate"><span class="pre">1</span></code></p>
+<dd><p>(<cite>integer</cite>) Option to save .mat file for each run: off-&gt;0, on-&gt;1. Default = <code class="docutils literal notranslate"><span class="pre">1</span></code></p>
 </dd></dl>
 
 <dl class="mat attribute">
@@ -1301,7 +1305,7 @@ to define WEC-Sim’s wave input.</p>
 <dl class="mat attribute">
 <dt id="source.objects.waveClass.phaseSeed">
 <code class="sig-name descname">phaseSeed</code><em class="property"> = '0'</em><a class="headerlink" href="#source.objects.waveClass.phaseSeed" title="Permalink to this definition">¶</a></dt>
-<dd><p>(<cite>integar</cite>) Defines the random phase seed, only used for <code class="docutils literal notranslate"><span class="pre">irregular</span></code> and <code class="docutils literal notranslate"><span class="pre">spectrumImport</span></code> waves. Default = <code class="docutils literal notranslate"><span class="pre">0</span></code></p>
+<dd><p>(<cite>integer</cite>) Defines the random phase seed, only used for <code class="docutils literal notranslate"><span class="pre">irregular</span></code> and <code class="docutils literal notranslate"><span class="pre">spectrumImport</span></code> waves. Default = <code class="docutils literal notranslate"><span class="pre">0</span></code></p>
 </dd></dl>
 
 <dl class="mat attribute">
@@ -1325,7 +1329,7 @@ to define WEC-Sim’s wave input.</p>
 <dl class="mat attribute">
 <dt id="source.objects.waveClass.numFreq">
 <code class="sig-name descname">numFreq</code><em class="property"> = '[]'</em><a class="headerlink" href="#source.objects.waveClass.numFreq" title="Permalink to this definition">¶</a></dt>
-<dd><p>(<cite>integar</cite>) Number of interpolated wave frequencies, only used for <code class="docutils literal notranslate"><span class="pre">irregular</span></code> and <code class="docutils literal notranslate"><span class="pre">spectrumImport</span></code>. Number of frequencies used varies depending on <code class="docutils literal notranslate"><span class="pre">freqDisc</span></code>, 1000 for <code class="docutils literal notranslate"><span class="pre">'Traditional'</span></code>, and 500 for <code class="docutils literal notranslate"><span class="pre">'EqualEnergy'</span></code> and <code class="docutils literal notranslate"><span class="pre">Imported</span></code>. Default = <code class="docutils literal notranslate"><span class="pre">[]</span></code></p>
+<dd><p>(<cite>integer</cite>) Number of interpolated wave frequencies, only used for <code class="docutils literal notranslate"><span class="pre">irregular</span></code> and <code class="docutils literal notranslate"><span class="pre">spectrumImport</span></code>. Number of frequencies used varies depending on <code class="docutils literal notranslate"><span class="pre">freqDisc</span></code>, 1000 for <code class="docutils literal notranslate"><span class="pre">'Traditional'</span></code>, and 500 for <code class="docutils literal notranslate"><span class="pre">'EqualEnergy'</span></code> and <code class="docutils literal notranslate"><span class="pre">Imported</span></code>. Default = <code class="docutils literal notranslate"><span class="pre">[]</span></code></p>
 </dd></dl>
 
 <dl class="mat attribute">
@@ -1379,7 +1383,7 @@ to define WEC-Sim’s wave input.</p>
 <dl class="mat attribute">
 <dt id="source.objects.waveClass.currentOption">
 <code class="sig-name descname">currentOption</code><em class="property"> = '3'</em><a class="headerlink" href="#source.objects.waveClass.currentOption" title="Permalink to this definition">¶</a></dt>
-<dd><p>(<cite>integar</cite>) Define the sub-surface current model to be used in WEC-Sim, options include: <code class="docutils literal notranslate"><span class="pre">0</span></code> for depth-independent model, <code class="docutils literal notranslate"><span class="pre">1</span></code> for 1/7 power law variation with depth, <code class="docutils literal notranslate"><span class="pre">2</span></code> for linear variation with depth, or <code class="docutils literal notranslate"><span class="pre">3</span></code> for no current. Default = <code class="docutils literal notranslate"><span class="pre">3</span></code></p>
+<dd><p>(<cite>integer</cite>) Define the sub-surface current model to be used in WEC-Sim, options include: <code class="docutils literal notranslate"><span class="pre">0</span></code> for depth-independent model, <code class="docutils literal notranslate"><span class="pre">1</span></code> for 1/7 power law variation with depth, <code class="docutils literal notranslate"><span class="pre">2</span></code> for linear variation with depth, or <code class="docutils literal notranslate"><span class="pre">3</span></code> for no current. Default = <code class="docutils literal notranslate"><span class="pre">3</span></code></p>
 </dd></dl>
 
 <dl class="mat attribute">
@@ -1540,6 +1544,8 @@ time, used by: <code class="xref mat mat-meth docutils literal notranslate"><spa
   
     <div class="rst-footer-buttons" role="navigation" aria-label="footer navigation">
       
+        <a href="terminology.html" class="btn btn-neutral float-right" title="Terminology" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right"></span></a>
+      
       
         <a href="contact.html" class="btn btn-neutral float-left" title="Online Forum" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left"></span> Previous</a>
       
@@ -1550,11 +1556,19 @@ time, used by: <code class="xref mat mat-meth docutils literal notranslate"><spa
 
   <div role="contentinfo">
     <p>
+        
         &copy; Copyright 2014, National Renewable Energy Laboratory and National Technology &amp; Engineering Solutions of Sandia, LLC (NTESS)
 
     </p>
   </div>
-  Built with <a href="http://sphinx-doc.org/">Sphinx</a> using a <a href="https://github.com/rtfd/sphinx_rtd_theme">theme</a> provided by <a href="https://readthedocs.org">Read the Docs</a>. 
+    
+    
+    
+    Built with <a href="http://sphinx-doc.org/">Sphinx</a> using a
+    
+    <a href="https://github.com/rtfd/sphinx_rtd_theme">theme</a>
+    
+    provided by <a href="https://readthedocs.org">Read the Docs</a>. 
 
 </footer>
 
@@ -1565,7 +1579,6 @@ time, used by: <code class="xref mat mat-meth docutils literal notranslate"><spa
 
   </div>
   
-
 
   <script type="text/javascript">
       jQuery(function () {

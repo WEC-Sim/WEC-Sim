@@ -2,10 +2,8 @@
 
 Getting Started
 ===============
-This section provides instructions on how to download and install the WEC-Sim code.
+This section provides instructions on how to download, install, and test the WEC-Sim code.
 
-.. note::
-    download and install and test
 
 MATLAB Requirements
 ------------------------------
@@ -105,25 +103,8 @@ Open the ``$WECSIM/source/wecSimStartup.m`` file.
 .. literalinclude:: ../../WEC-Sim/source/wecSimStartup.m
    :language: matlab
 
-.. note::
-    I believe instructions for locating the startup file have now changed. See
-    https://uk.mathworks.com/help/matlab/ref/startup.html. The help referenced
-    below is now more confusing than anything, given the number of ways that
-    modern MATLAB can be started. I followed the instructions in the link I 
-    have provided rather than yours. Also might be worth noting that
-    windows paths should be given with double forward slashes to avoid issues.
-
-Copy the ``wecSimStartup.m`` code and paste it into ``startup.m`` located in the `MATLAB Startup Folder <http://www.mathworks.com/help/matlab/matlab_env/matlab-startup-folder.html>`_. 
-Set ``<wecSim>`` to the ``$WECSIM/source`` directory and type ``open startup.m`` in the MATLAB Command Window:: 
-
-
-	>> open startup.m
-
-.. note::
-    "open startup.m" just opens the file in the MATLAB editor, so why do this?
-    The startup file is now only read on MATLAB boot, so you should say you
-    need to restart, I think.
-
+Rename the ``wecSimStartup.m`` file ``startup.m`` and paste it into the `MATLAB Startup Folder <https://www.mathworks.com/help/matlab/ref/startup.html>`_. 
+Set ``<wecSim>`` to the ``$WECSIM/source`` directory, save the revised ``startup.m`` file, and restart MATLAB. 
 Verify the path was set up correctly by checking that the WEC-Sim source directory, ``$WECSIM/source``, is listed in the MATLAB search path. 
 This is done by typing ``path`` in the MATLAB Command Window::
 
@@ -135,27 +116,13 @@ This is done by typing ``path`` in the MATLAB Command Window::
 
 
 The WEC-Sim source directory, ``$WECSIM/source``, and its subfolders should appear in this list. 
-
-.. note::
-    This works only after a restart. Will I always have the wecSimPath variable 
-    included in my default workspace?
-
+	
+	
 Step 2. Add WEC-Sim Library to Simulink
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 Open the Simulink Library Browser by typing ``slLibraryBrowser`` in the MATLAB Command Window::
 
 	>> slLibraryBrowser
-
-.. note::
-    This generates this warning a number of times for me::
-    
-        Warning: Cannot find library called 'WECSim_Lib_2015b'.
-        > In LibraryBrowser.internal/RepositoryGenerator/buildTree
-          In LibraryBrowser.internal/RepositoryGenerator/buildTree
-          In LibraryBrowser.internal/RepositoryGenerator/generate
-          In LibraryBrowser.internal.generateRepository 
-    
-    Is that normal?
 
 Once the Simulink Library Browser opens, `refresh the Simulink Library <http://www.mathworks.com/help/simulink/gui/use-the-library-browser.html>`_. 
 The WEC-Sim Library (Body Elements, Constraints, Frames Moorings, and PTOs) should now be visible, as shown in the figure below. 
@@ -179,20 +146,11 @@ In the MATLAB Command Window type::
 This should run an example case using the Reference Model 3 (RM3) point absorber. 
 A SimMechanics Explorer window will open within the MATLAB window, and figures will be generated displaying simulation outputs. 
 
-.. warning::
-    Works for me!
 
 .. Note:: 
 	
 	If a git lfs error is produced, there was a problem with git-lfs installation. You may need to manually install `Git Large File Storage <https://git-lfs.github.com/>`_ , or run ``$WECSIM/examples/RM3/hydroData/bemio.m`` to generate the correct ``rm3.h5`` file.
 .. 
 	``This is not the correct *.h5 file. Please install git-lfs to access the correct *.h5 file,`` ``or run ./hydroData/bemio.m to generate a new *.h5 file.``
-
 	
 	
-.. Note:: 
-	
-	Recommend installing HDFview https://www.hdfgroup.org/downloads/hdfview/
-
-.. warning::
-    This note is a bit weird. Maybe some explanation why it might be useful?
