@@ -22,7 +22,7 @@ without the tutorials, at the moment. It would be much better to put the
 tutorials up front and then link to information in later docs that enforces 
 concepts in the tutorial, if that's the primary learning route for a user. 
 
-..note:
+.. note::
 	This is the new bit...
 
 Having completed the Simulink On-ramp, I really think it would be useful
@@ -40,7 +40,7 @@ Ultimately, the average user is still going to interact with these objects
 like a glorified config file, so I still don't see the need to train the user
 in OOP quite so hard as the docs currently do.
 
-..note:
+.. note::
 	That ends the new bit
 
 My last issue is with the way the constraints, PTO and moorings are modelled. 
@@ -72,11 +72,11 @@ On the tutorials
 On the API
 ----------
 
-..note:
+.. note::
 	I've edited this in light of my new knowledge, also.
 
 The API shows the same issues as the rest of the docs by mixing user centric 
-information with details that are more focused on the developer. I _still_ 
+information with details that are more focused on the developer. I *still* 
 believe this is because there is too much responsibility placed on the classes 
 (they are both the UI and the business logic). I would consider trying to slim 
 down the classes associated to the blocks to just what the user will interact 
