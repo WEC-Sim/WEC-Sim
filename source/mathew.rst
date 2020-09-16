@@ -2,8 +2,8 @@
 Mathew's Thoughts
 =================
 
-On everything up to the tutorials
----------------------------------
+On everything up to the tutorials (updated 2020/09/16)
+------------------------------------------------------
 
 Considering the docs first, I think there is a real need to draw a line between 
 what is required for a user (both in terms of using the tool and the theory 
@@ -22,25 +22,26 @@ without the tutorials, at the moment. It would be much better to put the
 tutorials up front and then link to information in later docs that enforces 
 concepts in the tutorial, if that's the primary learning route for a user. 
 
-From a user's perspective, I also think that streamlining the way the tool is 
-run would be useful (note, I'm not a user, really, so take this with a pinch of 
-salt - it would be nice to ask some external users about this - but then 
-everyone hates change too). I really think that given the cost of purchasing 
-Simulink and Simscape, to not try and encapsulate this tool within it, is a bit 
-of a miss. We might as well help people to use the tool they have paid for, and 
-sure that includes MATLAB, but there are `ways of exporting outputs of Simulink 
-models to MATLAB 
-<https://uk.mathworks.com/help/Simulink/ug/export-simulation-data-1.html>`_, 
-so all the post-processing stuff can still be done in MATLAB if desired. 
+..note:
+	This is the new bit...
 
-Which brings me to OOP. It's not clear in the documentation (up to the 
-tutorials) why the user is required to use OOP beyond setting up a config file. 
-But setting up a config file is easily done in ASCII which most non-developers 
-will be more comfortable with or even `it could be done directly in Simulink 
-<https://uk.mathworks.com/help/Simulink/ug/setting-up-configuration-sets.html>`_. 
-I think OOP is the right choice for coding the backend model and works well 
-with matching to the Simulink blocks, but I don't see any advantages (from what 
-I have read so far) of using OOP for the user. 
+Having completed the Simulink On-ramp, I really think it would be useful
+to point new users towards this training and also really sell WEC-Sim as about
+Simscape tool. Having never used Simulink before coming to this tool, I really
+wasn't sure how a Simulink problem works with MATLAB and the documentation
+doesn't really shout "I'm a Simscape model, so you'd better learn it, first!"
+
+Which brings me to OOP. Having understood a bit more about the relationship
+between Simulink and MATLAB, I can see the idea behind the representing 
+blocks as objects. I think this could be made easier, nonetheless,
+and I've suggested one approach which will automagically generate the objects
+when blocks are created (see https://github.com/WEC-Sim/WEC-Sim/issues/405).
+Ultimately, the average user is still going to interact with these objects
+like a glorified config file, so I still don't see the need to train the user
+in OOP quite so hard as the docs currently do.
+
+..note:
+	That ends the new bit
 
 My last issue is with the way the constraints, PTO and moorings are modelled. 
 It seems a bit confused and could be made a bit more clear if moorings were 
@@ -59,7 +60,8 @@ things.
 
 Finally, in terms of these docs themselves, they are super hard to read and
 some standard should be "enforced" by linting using something like 
-`doc8 <https://github.com/pycqa/doc8>`_ so that the source is readable.
+`doc8 <https://github.com/pycqa/doc8>`_ so that the source is readable. I think
+I'm going to write a blog extolling the virtues of hard wrapping.
 
 On the tutorials
 ----------------
@@ -70,13 +72,14 @@ On the tutorials
 On the API
 ----------
 
+..note:
+	I've edited this in light of my new knowledge, also.
+
 The API shows the same issues as the rest of the docs by mixing user centric 
-information with details that are more focussed on the developer. This is 
-because the classes are used for both user interaction and Simulink 
-interaction, but they don't suit either well, IMO. The issue with Simulink is 
-that it is really difficult to find the documentation of the methods that are 
-called because they are called on objects but the docs are associated to 
-classes. Also there seems to be a lot of temporal coupling in the classes 
-(which is bad), so it looks like functions might have been a better choice for 
-the Simulink interface. What about `System Objects 
-<https://uk.mathworks.com/help/simulink/slref/matlabsystem.html>`_?
+information with details that are more focused on the developer. I _still_ 
+believe this is because there is too much responsibility placed on the classes 
+(they are both the UI and the business logic). I would consider trying to slim 
+down the classes associated to the blocks to just what the user will interact 
+(effectively they would be types) and then create either functions or new 
+classes from the rest. I mentioned temporal coupling before, which probably 
+indicates that the classes are doing too many things. 
