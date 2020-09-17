@@ -51,9 +51,13 @@ The RM3 is a two-body point absorber consisting of a float and a reaction plate.
 |-21.29|         |0         |0         |28,542,225|
 +------+---------+----------+----------+----------+ 
 
+.. warning::
+	I know what CG means, but you might want to define it somewhere for less
+	experienced users.
+
 .. note::
     These tables require some interpretation to understand. I'm guessing the
-    rows in the GM column refer to the x, y, and z dimensions and that the 
+    rows in the CG column refer to the x, y, and z dimensions and that the 
     Moment of interia part is an `inertia tensor 
     <https://en.wikipedia.org/wiki/Moment_of_inertia#Inertia_tensor>`_? The mass
     also looks a little lost in between them. Consider splitting these tables
@@ -144,6 +148,9 @@ The WEC-Sim Simulink model is created by dragging and dropping blocks from the *
     In the diagram these blocks have the names "Float" and "Spar/Plate". How
     did that happen?
 
+.. note::
+    Also, why are these blocks titled "Hydrodynamic Body"?
+
 * Double click on the **Rigid Body** block, and rename each instance of the body. The first body must be called ``body(1)``, and the second body should be called ``body(2)``. 
 
 .. figure:: _images/RM3_WECSim_Body.jpg
@@ -197,6 +204,11 @@ The WEC-Sim input file defines simulation parameters, body properties, joints, a
 
 Step 4: Run WEC-Sim
 """"""""""""""""""""""""
+
+.. note::
+	Have you considered setting up the run button in simulink to call the
+	code in the wecSim function? It would improve the experience, I think.
+
 To execute the WEC-Sim code for the RM3 tutorial, type ``wecSim`` into the MATLAB Command Window. Below is a figure showing the final RM3 Simulink model and the WEC-Sim GUI during the simulation. For more information on using WEC-Sim to model the RM3 device, refer to :cite:`ruehl_preliminary_2014`.
 
 .. figure:: _images/RM3_WECSim_GUI.JPG
@@ -236,6 +248,11 @@ The OSWEC was selected because its design is fundamentally different from the RM
 | -3.9 |         |            |
 +------+---------+------------+
 
+.. note::
+	Again, I assume the rows refer to x, y, z. It might also be useful to note
+	where the origin is. Is it not better to have the origin at the base of the
+	device, given its motion?
+
 
 Model Files
 ^^^^^^^^^^^^^^^^^^^^^^^
@@ -266,9 +283,21 @@ This is done by navigating to the ``$WECSIM/tutorials/oswec/hydroData/`` directo
 
 	>> bemio
 
+.. note::
+	Same note as above - there are non-trivial steps being taken in the bemio.m
+	script that are not explained here.
+	
+	Also, `clc; clear all; close all;` Grrrr.
+
 
 Step 2: Build Simulink Model
 """"""""""""""""""""""""""""""""""""""""""""""""
+
+.. note::
+	General question - Why do the WEC-Sim library blocks not appear in the 
+	search box when you double click the simulink workspace?
+
+
 The WEC-Sim Simulink model is created by dragging and dropping blocks from the *WEC-Sim Library* into the ``oswec.slx`` file. 
 
 * Place two **Rigid Body** blocks from the *WEC-Sim Library* in the Simulink model file, one for each OSWEC rigid body. 

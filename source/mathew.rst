@@ -68,6 +68,15 @@ On the tutorials
 
 * BEMIO really is an integral part of WEC-Sim, because there doesn't seem to be 
   any other description of how to generate the h5 files manually.
+* The BEMIO steps are also glossed over by using the included scripts, yet they
+  are obviously doing a lot of work.
+* I think I would point people to the Simulink on-ramp before they undertake the
+  tutorial, as it will really help answer some basic questions for new users.
+* It's weird that the WEC-Sim Simulink blocks don't appear in the search when 
+  you double-click the search space.
+* It would be really nice to auto-create the objects when placing blocks, but
+  also to be able to use the run simulation button rather than type wecSim into
+  MATLAB.  
 
 On the API
 ----------
