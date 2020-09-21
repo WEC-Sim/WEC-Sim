@@ -175,7 +175,7 @@ classdef waveClass<handle
             line([wp,wp],[0,max(obj.S)],'Color','k')
             xlim([0 max(obj.w)])
             title([obj.spectrumType, ' Spectrum, T_p= ' num2str(TpTest) ' [s], '  'H_m_0= ' num2str(HsTest), ' [m]'])
-            if obj.spectrumType == 'JS'
+            if strcmp(obj.spectrumType,'JS') == 1
                 title([obj.spectrumType, ' Spectrum, T_p= ' num2str(TpTest) ' [s], H_m_0= ' num2str(HsTest), ' [m], gamma = ' num2str(obj.gamma)])
             end
             xlabel('Frequency (rad/s)')
