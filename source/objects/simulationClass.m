@@ -149,7 +149,7 @@ classdef simulationClass<handle
             end            
             % Check simMechanics file exists
             if exist(obj.simMechanicsFile,'file') ~= 4
-                error('The simMechanics file, %s, does not exist in the case directory',value)
+                error('The simMechanics file, %s, does not exist in the case directory',obj.simMechanicsFile)
             end
             % Remove existing output folder
             if exist(obj.outputDir,'dir') ~= 0
