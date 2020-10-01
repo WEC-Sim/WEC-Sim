@@ -566,6 +566,9 @@ classdef waveClass<handle
             % Calculate regular wave elevation time history
             % Used by waveSetup
             obj.waveAmpTime = zeros(maxIt+1,2);
+            obj.waveAmpTime1 = zeros(maxIt+1,2);
+            obj.waveAmpTime2 = zeros(maxIt+1,2);
+            obj.waveAmpTime3 = zeros(maxIt+1,2);
             maxRampIT=round(rampTime/dt);
             if rampTime==0
                 for i=1:maxIt+1
