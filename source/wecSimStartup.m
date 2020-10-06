@@ -5,4 +5,3 @@
 wecSimPath = '<wecSim>';
 addpath(genpath(wecSimPath));
 
-% some arbitrary changes to test github
