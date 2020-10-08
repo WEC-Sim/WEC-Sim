@@ -256,18 +256,12 @@ classdef waveClass<handle
                     data = importdata(obj.etaDataFile) ;    % Import time-series
                     t = [0:dt:endTime]';      % WEC-Sim simulation time [s]
                     obj.waveElevUser(rampTime, dt, maxIt, data, t);
-                    if obj.waveGaugeExist(1)
-                        obj.waveAmpTime1        = zeros(maxIt+1,2);
-                        obj.waveAmpTime1(:,1)   = [0:maxIt]*dt;
-                    end
-                    if obj.waveGaugeExist(2)
-                        obj.waveAmpTime2        = zeros(maxIt+1,2);
-                        obj.waveAmpTime2(:,1)   = [0:maxIt]*dt;
-                    end
-                    if obj.waveGaugeExist(3)
-                        obj.waveAmpTime3        = zeros(maxIt+1,2);
-                        obj.waveAmpTime3(:,1)   = [0:maxIt]*dt;
-                    end
+                    obj.waveAmpTime1        = zeros(maxIt+1,2);
+                    obj.waveAmpTime1(:,1)   = [0:maxIt]*dt;
+                    obj.waveAmpTime2        = zeros(maxIt+1,2);
+                    obj.waveAmpTime2(:,1)   = [0:maxIt]*dt;
+                    obj.waveAmpTime3        = zeros(maxIt+1,2);
+                    obj.waveAmpTime3(:,1)   = [0:maxIt]*dt;
             end
         end
         
@@ -564,18 +558,12 @@ classdef waveClass<handle
             % Set noWave elevation time-history
             obj.waveAmpTime         = zeros(maxIt+1,2);
             obj.waveAmpTime(:,1)    = [0:maxIt]*dt;
-            if obj.waveGaugeExist(1)
-                obj.waveAmpTime1        = zeros(maxIt+1,2);
-                obj.waveAmpTime1(:,1)   = [0:maxIt]*dt;
-            end
-            if obj.waveGaugeExist(2)
-                obj.waveAmpTime2        = zeros(maxIt+1,2);
-                obj.waveAmpTime2(:,1)   = [0:maxIt]*dt;
-            end
-            if obj.waveGaugeExist(3)
-                obj.waveAmpTime3        = zeros(maxIt+1,2);
-                obj.waveAmpTime3(:,1)   = [0:maxIt]*dt;
-            end
+            obj.waveAmpTime1        = zeros(maxIt+1,2);
+            obj.waveAmpTime1(:,1)   = [0:maxIt]*dt;
+            obj.waveAmpTime2        = zeros(maxIt+1,2);
+            obj.waveAmpTime2(:,1)   = [0:maxIt]*dt;
+            obj.waveAmpTime3        = zeros(maxIt+1,2);
+            obj.waveAmpTime3(:,1)   = [0:maxIt]*dt;
         end
         
         function waveElevReg(obj, rampTime,dt,maxIt)
