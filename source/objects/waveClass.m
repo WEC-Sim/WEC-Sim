@@ -65,6 +65,7 @@ classdef waveClass<handle
         waveAmpTime1 = [];  % Wave elevation time history at a wave gauge 1 location specified by user [m] 
         waveAmpTime2 = [];  % Wave elevation time history at a wave gauge 2 location specified by user [m] 
         waveAmpTime3 = [];  % Wave elevation time history at a wave gauge 3 location specified by user [m] 
+        waveGaugeExist = [false, false, false]; % Boolean array to track if wave gauges have been specified (loc ~= 0,0)
         A = [];             % Wave amplitude [m]. For regular waves or 2*(wave spectrum vector) for irregular waves
         w = [];             % Wave frequency (regular waves) or wave frequency vector (irregular waves) [rad/s] 
         phase = 0;          % Wave phase [rad] . Only used for ``irregular`` waves.
@@ -188,6 +189,9 @@ classdef waveClass<handle
             %
             obj.bemFreq    = bemFreq;
             obj.setWaveProps(wDepth)
+            obj.waveGaugeExist(1) = boolean(max(obj.wavegauge1loc ~= [0,0]));  % Check if user has set wave gauge 1
+            obj.waveGaugeExist(2) = boolean(max(obj.wavegauge2loc ~= [0,0]));  % Check if user has set wave gauge 2
+            obj.waveGaugeExist(3) = boolean(max(obj.wavegauge3loc ~= [0,0]));  % Check if user has set wave gauge 3
             switch obj.type
                 case {'noWave','noWaveCIC'}                    
                     if isempty(obj.w)
@@ -252,12 +256,18 @@ classdef waveClass<handle
                     data = importdata(obj.etaDataFile) ;    % Import time-series
                     t = [0:dt:endTime]';      % WEC-Sim simulation time [s]
                     obj.waveElevUser(rampTime, dt, maxIt, data, t);
-                    obj.waveAmpTime1        = zeros(maxIt+1,2);
-                    obj.waveAmpTime1(:,1)   = [0:maxIt]*dt;
-                    obj.waveAmpTime2        = zeros(maxIt+1,2);
-                    obj.waveAmpTime2(:,1)   = [0:maxIt]*dt;
-                    obj.waveAmpTime3        = zeros(maxIt+1,2);
-                    obj.waveAmpTime3(:,1)   = [0:maxIt]*dt;
+                    if obj.waveGaugeExist(1)
+                        obj.waveAmpTime1        = zeros(maxIt+1,2);
+                        obj.waveAmpTime1(:,1)   = [0:maxIt]*dt;
+                    end
+                    if obj.waveGaugeExist(2)
+                        obj.waveAmpTime2        = zeros(maxIt+1,2);
+                        obj.waveAmpTime2(:,1)   = [0:maxIt]*dt;
+                    end
+                    if obj.waveGaugeExist(3)
+                        obj.waveAmpTime3        = zeros(maxIt+1,2);
+                        obj.waveAmpTime3(:,1)   = [0:maxIt]*dt;
+                    end
             end
         end
         
@@ -551,15 +561,21 @@ classdef waveClass<handle
         end
         
         function waveElevNowave(obj,maxIt,dt)
-            % Set noWave levation time-history
+            % Set noWave elevation time-history
             obj.waveAmpTime         = zeros(maxIt+1,2);
             obj.waveAmpTime(:,1)    = [0:maxIt]*dt;
-            obj.waveAmpTime1        = zeros(maxIt+1,2);
-            obj.waveAmpTime1(:,1)   = [0:maxIt]*dt;
-            obj.waveAmpTime2        = zeros(maxIt+1,2);
-            obj.waveAmpTime2(:,1)   = [0:maxIt]*dt;
-            obj.waveAmpTime3        = zeros(maxIt+1,2);
-            obj.waveAmpTime3(:,1)   = [0:maxIt]*dt;
+            if obj.waveGaugeExist(1)
+                obj.waveAmpTime1        = zeros(maxIt+1,2);
+                obj.waveAmpTime1(:,1)   = [0:maxIt]*dt;
+            end
+            if obj.waveGaugeExist(2)
+                obj.waveAmpTime2        = zeros(maxIt+1,2);
+                obj.waveAmpTime2(:,1)   = [0:maxIt]*dt;
+            end
+            if obj.waveGaugeExist(3)
+                obj.waveAmpTime3        = zeros(maxIt+1,2);
+                obj.waveAmpTime3(:,1)   = [0:maxIt]*dt;
+            end
         end
         
         function waveElevReg(obj, rampTime,dt,maxIt)
@@ -575,35 +591,53 @@ classdef waveClass<handle
                     t = (i-1)*dt;
                     obj.waveAmpTime(i,1)    = t;
                     obj.waveAmpTime(i,2)    = obj.A*cos(obj.w*t);
-                    obj.waveAmpTime1(i,1)   = t;
-                    obj.waveAmpTime1(i,2)   = obj.A*cos(obj.w*t-obj.k*(obj.wavegauge1loc(1).*cos(obj.waveDir*pi/180) + obj.wavegauge1loc(2).*sin(obj.waveDir*pi/180)));
-                    obj.waveAmpTime2(i,1)   = t;
-                    obj.waveAmpTime2(i,2)   = obj.A*cos(obj.w*t-obj.k*(obj.wavegauge2loc(1).*cos(obj.waveDir*pi/180) + obj.wavegauge2loc(2).*sin(obj.waveDir*pi/180)));
-                    obj.waveAmpTime3(i,1)   = t;
-                    obj.waveAmpTime3(i,2)   = obj.A*cos(obj.w*t-obj.k*(obj.wavegauge3loc(1).*cos(obj.waveDir*pi/180) + obj.wavegauge3loc(2).*sin(obj.waveDir*pi/180)));
+                    if obj.waveGaugeExist(1)
+                        obj.waveAmpTime1(i,1)   = t;
+                        obj.waveAmpTime1(i,2)   = obj.A*cos(obj.w*t-obj.k*(obj.wavegauge1loc(1).*cos(obj.waveDir*pi/180) + obj.wavegauge1loc(2).*sin(obj.waveDir*pi/180)));
+                    end
+                    if obj.waveGaugeExist(2)
+                        obj.waveAmpTime2(i,1)   = t;
+                        obj.waveAmpTime2(i,2)   = obj.A*cos(obj.w*t-obj.k*(obj.wavegauge2loc(1).*cos(obj.waveDir*pi/180) + obj.wavegauge2loc(2).*sin(obj.waveDir*pi/180)));
+                    end
+                    if obj.waveGaugeExist(3)
+                        obj.waveAmpTime3(i,1)   = t;
+                        obj.waveAmpTime3(i,2)   = obj.A*cos(obj.w*t-obj.k*(obj.wavegauge3loc(1).*cos(obj.waveDir*pi/180) + obj.wavegauge3loc(2).*sin(obj.waveDir*pi/180)));
+                    end
                 end
             else
                 for i=1:maxRampIT
                     t = (i-1)*dt;
                     obj.waveAmpTime(i,1)    = t;
                     obj.waveAmpTime(i,2)    = obj.A*cos(obj.w*t)*(1+cos(pi+pi*(i-1)/maxRampIT))/2;
-                    obj.waveAmpTime1(i,1)   = t;
-                    obj.waveAmpTime1(i,2)   = obj.A*cos(obj.w*t-obj.k*(obj.wavegauge1loc(1).*cos(obj.waveDir*pi/180) + obj.wavegauge1loc(2).*sin(obj.waveDir*pi/180)))*(1+cos(pi+pi*(i-1)/maxRampIT))/2;
-                    obj.waveAmpTime2(i,1)   = t;
-                    obj.waveAmpTime2(i,2)   = obj.A*cos(obj.w*t-obj.k*(obj.wavegauge2loc(1).*cos(obj.waveDir*pi/180) + obj.wavegauge2loc(2).*sin(obj.waveDir*pi/180)))*(1+cos(pi+pi*(i-1)/maxRampIT))/2;
-                    obj.waveAmpTime3(i,1)   = t;
-                    obj.waveAmpTime3(i,2)   = obj.A*cos(obj.w*t-obj.k*(obj.wavegauge3loc(1).*cos(obj.waveDir*pi/180) + obj.wavegauge3loc(2).*sin(obj.waveDir*pi/180)))*(1+cos(pi+pi*(i-1)/maxRampIT))/2;
+                    if obj.waveGaugeExist(1)
+                        obj.waveAmpTime1(i,1)   = t;
+                        obj.waveAmpTime1(i,2)   = obj.A*cos(obj.w*t-obj.k*(obj.wavegauge1loc(1).*cos(obj.waveDir*pi/180) + obj.wavegauge1loc(2).*sin(obj.waveDir*pi/180)))*(1+cos(pi+pi*(i-1)/maxRampIT))/2;
+                    end
+                    if obj.waveGaugeExist(2)
+                        obj.waveAmpTime2(i,1)   = t;
+                        obj.waveAmpTime2(i,2)   = obj.A*cos(obj.w*t-obj.k*(obj.wavegauge2loc(1).*cos(obj.waveDir*pi/180) + obj.wavegauge2loc(2).*sin(obj.waveDir*pi/180)))*(1+cos(pi+pi*(i-1)/maxRampIT))/2;
+                    end
+                    if obj.waveGaugeExist(3)
+                        obj.waveAmpTime3(i,1)   = t;
+                        obj.waveAmpTime3(i,2)   = obj.A*cos(obj.w*t-obj.k*(obj.wavegauge3loc(1).*cos(obj.waveDir*pi/180) + obj.wavegauge3loc(2).*sin(obj.waveDir*pi/180)))*(1+cos(pi+pi*(i-1)/maxRampIT))/2;
+                    end
                 end
                 for i=maxRampIT+1:maxIt+1
                     t = (i-1)*dt;
                     obj.waveAmpTime(i,1)    = t;
                     obj.waveAmpTime(i,2)    = obj.A*cos(obj.w*t);
-                    obj.waveAmpTime1(i,1)   = t;
-                    obj.waveAmpTime1(i,2)   = obj.A*cos(obj.w*t-obj.k*(obj.wavegauge1loc(1).*cos(obj.waveDir*pi/180) + obj.wavegauge1loc(2).*sin(obj.waveDir*pi/180)));
-                    obj.waveAmpTime2(i,1)   = t;
-                    obj.waveAmpTime2(i,2)   = obj.A*cos(obj.w*t-obj.k*(obj.wavegauge2loc(1).*cos(obj.waveDir*pi/180) + obj.wavegauge2loc(2).*sin(obj.waveDir*pi/180)));
-                    obj.waveAmpTime3(i,1)   = t;
-                    obj.waveAmpTime3(i,2)   = obj.A*cos(obj.w*t-obj.k*(obj.wavegauge3loc(1).*cos(obj.waveDir*pi/180) + obj.wavegauge3loc(2).*sin(obj.waveDir*pi/180)));
+                    if obj.waveGaugeExist(1)
+                        obj.waveAmpTime1(i,1)   = t;
+                        obj.waveAmpTime1(i,2)   = obj.A*cos(obj.w*t-obj.k*(obj.wavegauge1loc(1).*cos(obj.waveDir*pi/180) + obj.wavegauge1loc(2).*sin(obj.waveDir*pi/180)));
+                    end
+                    if obj.waveGaugeExist(2)
+                        obj.waveAmpTime2(i,1)   = t;
+                        obj.waveAmpTime2(i,2)   = obj.A*cos(obj.w*t-obj.k*(obj.wavegauge2loc(1).*cos(obj.waveDir*pi/180) + obj.wavegauge2loc(2).*sin(obj.waveDir*pi/180)));
+                    end
+                    if obj.waveGaugeExist(3)
+                        obj.waveAmpTime3(i,1)   = t;
+                        obj.waveAmpTime3(i,2)   = obj.A*cos(obj.w*t-obj.k*(obj.wavegauge3loc(1).*cos(obj.waveDir*pi/180) + obj.wavegauge3loc(2).*sin(obj.waveDir*pi/180)));
+                    end
                 end
             end
         end
@@ -717,17 +751,23 @@ classdef waveClass<handle
                         t       = (i-1)*dt;
                         tmp     = sqrt(obj.A.*df*obj.waveSpread(idir));
                         tmp1    = tmp.*real(exp(sqrt(-1).*(obj.w.*t + obj.phase(:,idir))));
-                        tmp11   = tmp.*real(exp(sqrt(-1).*(obj.w.*t - obj.k*(obj.wavegauge1loc(1).*cos(obj.waveDir(idir)*pi/180) + obj.wavegauge1loc(2).*sin(obj.waveDir(idir)*pi/180)) + obj.phase(:,idir))));
-                        tmp12   = tmp.*real(exp(sqrt(-1).*(obj.w.*t - obj.k*(obj.wavegauge2loc(1).*cos(obj.waveDir(idir)*pi/180) + obj.wavegauge2loc(2).*sin(obj.waveDir(idir)*pi/180)) + obj.phase(:,idir))));
-                        tmp13   = tmp.*real(exp(sqrt(-1).*(obj.w.*t - obj.k*(obj.wavegauge3loc(1).*cos(obj.waveDir(idir)*pi/180) + obj.wavegauge3loc(2).*sin(obj.waveDir(idir)*pi/180)) + obj.phase(:,idir))));
                         obj.waveAmpTime(i,1)    = t;
                         obj.waveAmpTime(i,2)    = obj.waveAmpTime(i,2) + sum(tmp1);
-                        obj.waveAmpTime1(i,1)   = t;
-                        obj.waveAmpTime1(i,2)   = obj.waveAmpTime1(i,2) + sum(tmp11);
-                        obj.waveAmpTime2(i,1)   = t;
-                        obj.waveAmpTime2(i,2)   = obj.waveAmpTime2(i,2) + sum(tmp12);
-                        obj.waveAmpTime3(i,1)   = t;
-                        obj.waveAmpTime3(i,2)   = obj.waveAmpTime3(i,2) + sum(tmp13);
+                        if obj.waveGaugeExist(1)
+                            tmp11   = tmp.*real(exp(sqrt(-1).*(obj.w.*t - obj.k*(obj.wavegauge1loc(1).*cos(obj.waveDir(idir)*pi/180) + obj.wavegauge1loc(2).*sin(obj.waveDir(idir)*pi/180)) + obj.phase(:,idir))));
+                            obj.waveAmpTime1(i,1)   = t;
+                            obj.waveAmpTime1(i,2)   = obj.waveAmpTime1(i,2) + sum(tmp11);
+                        end
+                        if obj.waveGaugeExist(2)
+                            tmp12   = tmp.*real(exp(sqrt(-1).*(obj.w.*t - obj.k*(obj.wavegauge2loc(1).*cos(obj.waveDir(idir)*pi/180) + obj.wavegauge2loc(2).*sin(obj.waveDir(idir)*pi/180)) + obj.phase(:,idir))));
+                            obj.waveAmpTime2(i,1)   = t;
+                            obj.waveAmpTime2(i,2)   = obj.waveAmpTime2(i,2) + sum(tmp12);
+                        end
+                        if obj.waveGaugeExist(3)
+                            tmp13   = tmp.*real(exp(sqrt(-1).*(obj.w.*t - obj.k*(obj.wavegauge3loc(1).*cos(obj.waveDir(idir)*pi/180) + obj.wavegauge3loc(2).*sin(obj.waveDir(idir)*pi/180)) + obj.phase(:,idir))));
+                            obj.waveAmpTime3(i,1)   = t;
+                            obj.waveAmpTime3(i,2)   = obj.waveAmpTime3(i,2) + sum(tmp13);
+                        end
                     end
                 end
             else
@@ -736,17 +776,23 @@ classdef waveClass<handle
                         t = (i-1)*dt;
                         tmp=sqrt(obj.A.*df*obj.waveSpread(idir));
                         tmp1    = tmp.*real(exp(sqrt(-1).*(obj.w.*t + obj.phase(:,idir))));
-                        tmp11   = tmp.*real(exp(sqrt(-1).*(obj.w.*t - obj.k*(obj.wavegauge1loc(1).*cos(obj.waveDir(idir)*pi/180) + obj.wavegauge1loc(2).*sin(obj.waveDir(idir)*pi/180)) + obj.phase(:,idir))));
-                        tmp12   = tmp.*real(exp(sqrt(-1).*(obj.w.*t - obj.k*(obj.wavegauge2loc(1).*cos(obj.waveDir(idir)*pi/180) + obj.wavegauge2loc(2).*sin(obj.waveDir(idir)*pi/180)) + obj.phase(:,idir))));
-                        tmp13   = tmp.*real(exp(sqrt(-1).*(obj.w.*t - obj.k*(obj.wavegauge3loc(1).*cos(obj.waveDir(idir)*pi/180) + obj.wavegauge3loc(2).*sin(obj.waveDir(idir)*pi/180)) + obj.phase(:,idir))));
                         obj.waveAmpTime(i,1)    = t;
                         obj.waveAmpTime(i,2)    = obj.waveAmpTime(i,2) + sum(tmp1)*(1+cos(pi+pi*(i-1)/maxRampIT))/2;
-                        obj.waveAmpTime1(i,1)   = t;
-                        obj.waveAmpTime1(i,2)   = obj.waveAmpTime1(i,2) + sum(tmp11)*(1+cos(pi+pi*(i-1)/maxRampIT))/2;
-                        obj.waveAmpTime2(i,1)   = t;
-                        obj.waveAmpTime2(i,2)   = obj.waveAmpTime2(i,2) + sum(tmp12)*(1+cos(pi+pi*(i-1)/maxRampIT))/2;
-                        obj.waveAmpTime3(i,1)   = t;
-                        obj.waveAmpTime3(i,2)   = obj.waveAmpTime3(i,2) + sum(tmp13)*(1+cos(pi+pi*(i-1)/maxRampIT))/2;
+                        if obj.waveGaugeExist(1)
+                            tmp11   = tmp.*real(exp(sqrt(-1).*(obj.w.*t - obj.k*(obj.wavegauge1loc(1).*cos(obj.waveDir(idir)*pi/180) + obj.wavegauge1loc(2).*sin(obj.waveDir(idir)*pi/180)) + obj.phase(:,idir))));
+                            obj.waveAmpTime1(i,1)   = t;
+                            obj.waveAmpTime1(i,2)   = obj.waveAmpTime1(i,2) + sum(tmp11)*(1+cos(pi+pi*(i-1)/maxRampIT))/2;
+                        end
+                        if obj.waveGaugeExist(2)
+                            tmp12   = tmp.*real(exp(sqrt(-1).*(obj.w.*t - obj.k*(obj.wavegauge2loc(1).*cos(obj.waveDir(idir)*pi/180) + obj.wavegauge2loc(2).*sin(obj.waveDir(idir)*pi/180)) + obj.phase(:,idir))));
+                            obj.waveAmpTime2(i,1)   = t;
+                            obj.waveAmpTime2(i,2)   = obj.waveAmpTime2(i,2) + sum(tmp12)*(1+cos(pi+pi*(i-1)/maxRampIT))/2;
+                        end
+                        if obj.waveGaugeExist(3)
+                            tmp13   = tmp.*real(exp(sqrt(-1).*(obj.w.*t - obj.k*(obj.wavegauge3loc(1).*cos(obj.waveDir(idir)*pi/180) + obj.wavegauge3loc(2).*sin(obj.waveDir(idir)*pi/180)) + obj.phase(:,idir))));
+                            obj.waveAmpTime3(i,1)   = t;
+                            obj.waveAmpTime3(i,2)   = obj.waveAmpTime3(i,2) + sum(tmp13)*(1+cos(pi+pi*(i-1)/maxRampIT))/2;
+                        end
                     end
                 end
                 for i=maxRampIT+1:maxIt+1
@@ -754,17 +800,23 @@ classdef waveClass<handle
                         t = (i-1)*dt;
                         tmp=sqrt(obj.A.*df*obj.waveSpread(idir));
                         tmp1  = tmp.*real(exp(sqrt(-1).*(obj.w.*t + obj.phase(:,idir))));
-                        tmp11 = tmp.*real(exp(sqrt(-1).*(obj.w.*t - obj.k*(obj.wavegauge1loc(1).*cos(obj.waveDir(idir)*pi/180) + obj.wavegauge1loc(2).*sin(obj.waveDir(idir)*pi/180)) + obj.phase(:,idir))));
-                        tmp12 = tmp.*real(exp(sqrt(-1).*(obj.w.*t - obj.k*(obj.wavegauge2loc(1).*cos(obj.waveDir(idir)*pi/180) + obj.wavegauge2loc(2).*sin(obj.waveDir(idir)*pi/180)) + obj.phase(:,idir))));
-                        tmp13 = tmp.*real(exp(sqrt(-1).*(obj.w.*t - obj.k*(obj.wavegauge3loc(1).*cos(obj.waveDir(idir)*pi/180) + obj.wavegauge3loc(2).*sin(obj.waveDir(idir)*pi/180)) + obj.phase(:,idir))));
                         obj.waveAmpTime(i,1)    = t;
                         obj.waveAmpTime(i,2)    = obj.waveAmpTime(i,2) + sum(tmp1);
-                        obj.waveAmpTime1(i,1)   = t;
-                        obj.waveAmpTime1(i,2)   = obj.waveAmpTime1(i,2) + sum(tmp11);
-                        obj.waveAmpTime2(i,1)   = t;
-                        obj.waveAmpTime2(i,2)   = obj.waveAmpTime2(i,2) + sum(tmp12);
-                        obj.waveAmpTime3(i,1)   = t;
-                        obj.waveAmpTime3(i,2)   = obj.waveAmpTime3(i,2) + sum(tmp13);
+                        if obj.waveGaugeExist(1)
+                            tmp11 = tmp.*real(exp(sqrt(-1).*(obj.w.*t - obj.k*(obj.wavegauge1loc(1).*cos(obj.waveDir(idir)*pi/180) + obj.wavegauge1loc(2).*sin(obj.waveDir(idir)*pi/180)) + obj.phase(:,idir))));
+                            obj.waveAmpTime1(i,1)   = t;
+                            obj.waveAmpTime1(i,2)   = obj.waveAmpTime1(i,2) + sum(tmp11);
+                        end
+                        if obj.waveGaugeExist(2)
+                            tmp12 = tmp.*real(exp(sqrt(-1).*(obj.w.*t - obj.k*(obj.wavegauge2loc(1).*cos(obj.waveDir(idir)*pi/180) + obj.wavegauge2loc(2).*sin(obj.waveDir(idir)*pi/180)) + obj.phase(:,idir))));
+                            obj.waveAmpTime2(i,1)   = t;
+                            obj.waveAmpTime2(i,2)   = obj.waveAmpTime2(i,2) + sum(tmp12);
+                        end
+                        if obj.waveGaugeExist(3)
+                            tmp13 = tmp.*real(exp(sqrt(-1).*(obj.w.*t - obj.k*(obj.wavegauge3loc(1).*cos(obj.waveDir(idir)*pi/180) + obj.wavegauge3loc(2).*sin(obj.waveDir(idir)*pi/180)) + obj.phase(:,idir))));
+                            obj.waveAmpTime3(i,1)   = t;
+                            obj.waveAmpTime3(i,2)   = obj.waveAmpTime3(i,2) + sum(tmp13);
+                        end
                     end
                 end
             end
