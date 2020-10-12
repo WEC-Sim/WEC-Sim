@@ -357,7 +357,7 @@ classdef waveClass<handle
                 filename = [pathParaviewVideo,'\\vtk' filesep 'waves' filesep 'waves_' num2str(it) '.vtp'];
                 fid = fopen(filename, 'w');
                 % calculate wave elevation
-                Z = waveElevationGrid (obj, t(it), X, Y);                % write header
+                Z = waveElevationGrid (obj, t(it), X, Y, TimeBodyParav, it, g);                % write header
                 fprintf(fid, '<?xml version="1.0"?>\n');
                 fprintf(fid, ['<!-- WEC-Sim Visualization using ParaView -->\n']);
                 fprintf(fid, ['<!--   model: ' model ' - ran on ' simdate ' -->\n']);
