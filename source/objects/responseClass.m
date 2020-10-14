@@ -103,23 +103,7 @@ classdef responseClass<handle
     end
     
     methods (Access = 'public')
-%         function obj = responseClass(bodiesOutput,ptosOutput,constraintsOutput,ptosimOutput,mooringOutput,wave_type,wave_elev,hspressure,wpressurenl,wpressurel, yawNonLin)                      
-        function obj = responseClass(bodiesOutput,ptosOutput,constraintsOutput,ptosimOutput,mooringOutput,wave_type,wave_elev, yawNonLin)                      
-            % NOTE: 
-            % This way of initializing the class makes it difficult
-            % to add additional output outside of the simulink blocks
-            % body1_out, constraint2_out, etc.
-            % Instead: add hspressure, wpressurenl, wpressurel into the
-            % respective bodiesOutput that they come from. (change
-            % calculation in postProcess.m). They can't be easily put into
-            % the body1_out simulink block because there are 3 signals,
-            % each with dimension [# timesteps x # stl points]. this is
-            % hard to index correctly, especially if additional outputs are
-            % added in the future. 
-            %
-            % Lump wave type, elevation and gauge elevations into a
-            % waveOutput struct
-            %
+        function obj = responseClass(bodiesOutput,ptosOutput,constraintsOutput,ptosimOutput,mooringOutput,waveOutput, yawNonLin)                      
             % This method initializes the ``responseClass``, reads 
             % output from each instance of a WEC-Sim class (e.g.
             % ``waveClass``, ``bodyClass``, ``ptoClass``, ``mooringClass``, etc)
@@ -132,10 +116,21 @@ classdef responseClass<handle
             %
             
             % Wave
-            obj.wave.type = wave_type;
-            obj.wave.time = wave_elev(:,1);
-            obj.wave.elevation = wave_elev(:,2);
-%             if obj
+            obj.wave.type = waveOutput.type;
+            obj.wave.time = waveOutput.waveAmpTime(:,1);
+            obj.wave.elevation = waveOutput.waveAmpTime(:,2);
+            if ~isempty(waveOutput.waveAmpTime1)
+                obj.wave.waveGauge1Location = waveOutput.wavegauge1loc;
+                obj.wave.wageGauge1Elevation = waveOutput.waveAmpTime1(:,2);
+            end
+            if ~isempty(waveOutput.waveAmpTime2)
+                obj.wave.waveGauge2Location = waveOutput.wavegauge2loc;
+                obj.wave.wageGauge2Elevation = waveOutput.waveAmpTime2(:,2);
+            end
+            if ~isempty(waveOutput.waveAmpTime3)
+                obj.wave.waveGauge3Location = waveOutput.wavegauge3loc;
+                obj.wave.wageGauge3Elevation = waveOutput.waveAmpTime3(:,2);
+            end
             % Bodies
             signals = {'position','velocity','acceleration','forceTotal','forceExcitation','forceRadiationDamping','forceAddedMass','forceRestoring','forceMorrisonAndViscous','forceLinearDamping'};
             for ii = 1:length(bodiesOutput)
@@ -164,12 +159,6 @@ classdef responseClass<handle
                         obj.bodies(ii).accelerationLocal(t,4:6) = rotMatYaw.'*obj.bodies(ii).acceleration(t,4:6).';
                     end
                 end
-%                 if ~isempty(hspressure{ii})
-%                     obj.bodies(ii).cellPressures_time = hspressure{ii}.time;
-%                     obj.bodies(ii).cellPressures_hydrostatic   = hspressure{ii}.signals.values;
-%                     obj.bodies(ii).cellPressures_waveLinear    = wpressurel{ii}.signals.values;
-%                     obj.bodies(ii).cellPressures_waveNonLinear = wpressurenl{ii}.signals.values;
-%                 end
                 if ~isempty(bodiesOutput(ii).hspressure)
                     obj.bodies(ii).cellPressures_time = bodiesOutput(ii).hspressure.time;
                     obj.bodies(ii).cellPressures_hydrostatic   = bodiesOutput(ii).hspressure.signals.values;

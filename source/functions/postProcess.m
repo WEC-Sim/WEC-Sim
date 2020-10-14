@@ -26,6 +26,7 @@ for iBod = 1:length(body(1,:))
     bodiesOutput(iBod) = eval(['body' num2str(iBod) '_out']);
     eval(['clear body' num2str(iBod) '_out'])
 end
+% Add hydrostatic and FK pressures to bodiesOutput if required.
 for iBod = 1:length(body(1,:))
     if simu.nlHydro~=0 && body(iBod).nhBody==0 && simu.pressureDis == 1 
         % hydrostatic pressure
@@ -39,7 +40,6 @@ for iBod = 1:length(body(1,:))
         bodiesOutput(iBod).wpressurenl = [];
         bodiesOutput(iBod).wpressurel = [];
     end
-    
 end; clear iBod
 % PTOs
 if exist('pto','var')
@@ -109,10 +109,23 @@ end
 %         wpressurel{ii} = [];
 %     end
 % end; clear ii
+
+% Waves
+waveOutput = struct();
+waveOutput.type = waves.type;
+waveOutput.waveAmpTime = waves.waveAmpTime;
+waveOutput.wavegauge1loc = waves.wavegauge1loc;
+waveOutput.wavegauge2loc = waves.wavegauge2loc;
+waveOutput.wavegauge3loc = waves.wavegauge3loc;
+waveOutput.waveAmpTime1 = waves.waveAmpTime1;
+waveOutput.waveAmpTime2 = waves.waveAmpTime2;
+waveOutput.waveAmpTime3 = waves.waveAmpTime3;
+
 % All
 % output = responseClass(bodiesOutput,ptosOutput,constraintsOutput,ptosimOutput,mooringOutput,waves.type,waves.waveAmpTime,hspressure, wpressurenl, wpressurel, simu.yawNonLin);
-output = responseClass(bodiesOutput,ptosOutput,constraintsOutput,ptosimOutput,mooringOutput,waves.type,waves.waveAmpTime, simu.yawNonLin);
-clear bodiesOutput ptosOutput constraintsOutput ptosimOutput mooringOutput
+% output = responseClass(bodiesOutput,ptosOutput,constraintsOutput,ptosimOutput,mooringOutput,waves.type,waves.waveAmpTime, simu.yawNonLin);
+output = responseClass(bodiesOutput,ptosOutput,constraintsOutput,ptosimOutput,mooringOutput,waveOutput, simu.yawNonLin);
+clear bodiesOutput ptosOutput constraintsOutput ptosimOutput mooringOutput waveOutput
 % MoorDyn
 for iMoor = 1:simu.numMoorings
     if mooring(iMoor).moorDyn==1
@@ -120,6 +133,7 @@ for iMoor = 1:simu.numMoorings
     end
 end; clear iMoor
 % Calculate correct added mass and total forces
+% ^ why is this necessary? 
 for iBod = 1:simu.numWecBodies
     body(iBod).restoreMassMatrix
     output.bodies(iBod).forceTotal = output.bodies(iBod).forceTotal + output.bodies(iBod).forceAddedMass;
