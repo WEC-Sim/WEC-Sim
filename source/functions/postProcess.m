@@ -25,6 +25,21 @@ for iBod = 1:length(body(1,:))
     if iBod == 1; bodiesOutput = body1_out; end
     bodiesOutput(iBod) = eval(['body' num2str(iBod) '_out']);
     eval(['clear body' num2str(iBod) '_out'])
+end
+for iBod = 1:length(body(1,:))
+    if simu.nlHydro~=0 && body(iBod).nhBody==0 && simu.pressureDis == 1 
+        % hydrostatic pressure
+        eval(['bodiesOutput(' num2str(iBod) ').hspressure = body' num2str(iBod) '_hspressure_out;']);
+        % wave (Froude-Krylov) nonlinear pressure
+        eval(['bodiesOutput(' num2str(iBod) ').wpressurenl = body' num2str(iBod) '_wavenonlinearpressure_out;']);
+        % wave (Froude-Krylov) linear pressure
+        eval(['bodiesOutput(' num2str(iBod) ').wpressurel = body' num2str(iBod) '_wavelinearpressure_out;']);
+    else
+        bodiesOutput(iBod).hspressure = [];
+        bodiesOutput(iBod).wpressurenl = [];
+        bodiesOutput(iBod).wpressurel = [];
+    end
+    
 end; clear iBod
 % PTOs
 if exist('pto','var')
@@ -66,25 +81,37 @@ else
     ptosimOutput = 0;
 end
 % Cell-by-cell values
-hspressure = {};
-wpressurenl = {};
-wpressurel = {};
-for ii = 1:length(body(1,:))
-    if simu.nlHydro~=0 && body(ii).nhBody==0 && simu.pressureDis == 1 
-        % hydrostatic pressure
-        eval(['hspressure{' num2str(ii) '} = body' num2str(ii) '_hspressure_out;']);
-        % wave (Froude-Krylov) nonlinear pressure
-        eval(['wpressurenl{' num2str(ii) '} = body' num2str(ii) '_wavenonlinearpressure_out;']);
-        % wave (Froude-Krylov) linear pressure
-        eval(['wpressurel{' num2str(ii) '} = body' num2str(ii) '_wavelinearpressure_out;']);
-    else
-        hspressure{ii} = [];
-        wpressurenl{ii} = [];
-        wpressurel{ii} = [];
-    end
-end; clear ii
+% hspressure = {};
+% wpressurenl = {};
+% wpressurel = {};
+% for ii = 1:length(body(1,:))
+%     if simu.nlHydro~=0 && body(ii).nhBody==0 && simu.pressureDis == 1 
+%         % hydrostatic pressure
+%         eval(['hspressure{' num2str(ii) '} = body' num2str(ii) '_hspressure_out;']);
+%         % wave (Froude-Krylov) nonlinear pressure
+%         eval(['wpressurenl{' num2str(ii) '} = body' num2str(ii) '_wavenonlinearpressure_out;']);
+%         % wave (Froude-Krylov) linear pressure
+%         eval(['wpressurel{' num2str(ii) '} = body' num2str(ii) '_wavelinearpressure_out;']);
+%     else
+%         hspressure{ii} = [];
+%         wpressurenl{ii} = [];
+%         wpressurel{ii} = [];
+%     end
+    
+%     if simu.nlHydro~=0 && body(ii).nhBody==0 && simu.pressureDis == 1 
+%         eval(['body' num2str(iBod) '_out.name = body(' num2str(iBod) ').name;']);
+%         if iBod == 1; bodiesOutput = body1_out; end
+%         bodiesOutput(iBod) = eval(['body' num2str(iBod) '_out']);
+%         eval(['clear body' num2str(iBod) '_out'])
+%     else
+%         hspressure{ii} = [];
+%         wpressurenl{ii} = [];
+%         wpressurel{ii} = [];
+%     end
+% end; clear ii
 % All
-output = responseClass(bodiesOutput,ptosOutput,constraintsOutput,ptosimOutput,mooringOutput,waves.type,waves.waveAmpTime,hspressure, wpressurenl, wpressurel, simu.yawNonLin);
+% output = responseClass(bodiesOutput,ptosOutput,constraintsOutput,ptosimOutput,mooringOutput,waves.type,waves.waveAmpTime,hspressure, wpressurenl, wpressurel, simu.yawNonLin);
+output = responseClass(bodiesOutput,ptosOutput,constraintsOutput,ptosimOutput,mooringOutput,waves.type,waves.waveAmpTime, simu.yawNonLin);
 clear bodiesOutput ptosOutput constraintsOutput ptosimOutput mooringOutput
 % MoorDyn
 for iMoor = 1:simu.numMoorings
