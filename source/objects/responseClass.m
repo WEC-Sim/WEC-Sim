@@ -119,17 +119,17 @@ classdef responseClass<handle
             obj.wave.type = waveOutput.type;
             obj.wave.time = waveOutput.waveAmpTime(:,1);
             obj.wave.elevation = waveOutput.waveAmpTime(:,2);
-            if ~isempty(waveOutput.waveAmpTime1)
+            if ~isnan(waveOutput.wavegauge1loc)
                 obj.wave.waveGauge1Location = waveOutput.wavegauge1loc;
-                obj.wave.wageGauge1Elevation = waveOutput.waveAmpTime1(:,2);
+                obj.wave.waveGauge1Elevation = waveOutput.waveAmpTime1(:,2);
             end
-            if ~isempty(waveOutput.waveAmpTime2)
+            if ~isnan(waveOutput.wavegauge2loc)
                 obj.wave.waveGauge2Location = waveOutput.wavegauge2loc;
-                obj.wave.wageGauge2Elevation = waveOutput.waveAmpTime2(:,2);
+                obj.wave.waveGauge2Elevation = waveOutput.waveAmpTime2(:,2);
             end
-            if ~isempty(waveOutput.waveAmpTime3)
+            if ~isnan(waveOutput.wavegauge3loc)
                 obj.wave.waveGauge3Location = waveOutput.wavegauge3loc;
-                obj.wave.wageGauge3Elevation = waveOutput.waveAmpTime3(:,2);
+                obj.wave.waveGauge3Elevation = waveOutput.waveAmpTime3(:,2);
             end
             % Bodies
             signals = {'position','velocity','acceleration','forceTotal','forceExcitation','forceRadiationDamping','forceAddedMass','forceRestoring','forceMorrisonAndViscous','forceLinearDamping'};
@@ -317,6 +317,15 @@ classdef responseClass<handle
             filename = ['output/wave.txt'];
             fid = fopen(filename,'w+');
             header = {'time','elevation'};
+            if isfield(obj.wave, 'waveGauge1Elevation')
+                header{end+1} = 'waveGauge1Elevation';
+            end
+            if isfield(obj.wave, 'waveGauge2Elevation')
+                header{end+1} = 'waveGauge2Elevation';
+            end
+            if isfield(obj.wave, 'waveGauge3Elevation')
+                header{end+1} = 'waveGauge3Elevation';
+            end
             for ii=1:length(header)
                 tmp(ii) = length(header{ii});
             end
@@ -329,6 +338,11 @@ classdef responseClass<handle
             data = zeros(nrows,ncols);
             data(:,1) = obj.wave.time;
             data(:,2) = obj.wave.elevation;
+            if ncols > 2
+                for ii = 3:length(header)
+                    eval(['data(:,' num2str(ii) ') = obj.wave.' header{ii} ';']);
+                end
+            end
             for ii = 1:length(header)
                 fprintf(fid,header_fmt,header{ii});
             end
