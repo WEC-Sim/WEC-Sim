@@ -2,6 +2,11 @@
 
 Theory
 ======
+
+.. Note:: 
+	Adam:
+	Simscape and the purpose of the multibody solver has no explanation here. Some explanation of what Simscape does, and a qualitative example of how it functions in a WEC context is required. At the bare minimum point the user to additional Simscape documentation.
+
 Modeling wave energy converters (WECs) involves the interaction between the incident waves, device motion, power-take-off (PTO mechanism), and mooring. WEC-Sim uses a radiation and diffraction method :cite:`Li2012,Babarit2012` to predict power performance and design optimization. The radiation and diffraction method generally obtains the hydrodynamic forces from a frequency-domain boundary element method (BEM) solver using linear coefficients to solve the system dynamics in the time domain.
 
 .. _wec_sim_methodology:
@@ -75,6 +80,11 @@ The buoyancy term :math:`F_{B}(t)` depends on the hydrostatic stiffness :math:`K
 
 Numerical Methods
 ------------------
+.. Note:: 
+	Adam:
+	This portion is a big confusing. I can follow the derivation and content within each subsection, but several steps are skipped between the subsections. i.e. between 'Convolution Integral formulation' to 'State Space' and 'Calculation of Kr...' to ' Realization Theory' Maybe it is desirable and necessary to leave the full explanation to other papers, but I can not get very far with this short explanation. I don't currently have the knowledge on the topic to identify what is missing and needs to be included to complete the section.
+	What is the difference between B_r, B_d, B_i,j? It is not well documented
+
 WEC-Sim can be used for regular and irregular wave simulations, but note that :math:`F_{exc}(t)` and :math:`F_{rad}(t)` are calculated differently for sinusoidal steady-state response scenarios and random sea simulations. 
 The sinusoidal steady-state response is often used for simple WEC designs with regular incoming waves. 
 However, for random sea simulations or any simulations where fluid memory effects of the system are essential, the convolution integral method is recommended to represent the fluid memory retardation force on the floating body. 
@@ -114,6 +124,10 @@ where :math:`\Re` denotes the real part of the formula, :math:`R_{f}` is the ram
 
 Convolution Integral Formulation
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+.. Note:: 
+	Adam:
+	Only a small portion of this section is about the CI form. Maybe better named as 'Irregular Response' or 'Unsteady Response' to contrast with the 'Sinusoidal Steady-State Response' heading. Below, add something like 'in the case of an irregular wave spectrum, the fluid memory has an important impact on the WEC dynamics. This fluid memory effect is captured by the convolution integral formulation based upon...'
+
 To include the fluid memory effect, the convolution integral formulation based upon the Cummins equation :cite:`Cummins1962` is used. The radiation term can be calculated by
 
 .. math::
@@ -227,6 +241,10 @@ where :math:`H` is the wave height, :math:`\omega` is the wave frequency  (:math
 
 Wave Spectra
 ^^^^^^^^^^^^^^^^^^^^^^^
+.. Note:: 
+	Adam:
+	Use different coefficients for A, B, C or add subscripts to avoid confusion with the BEM and PTO coefficients
+
 The linear superposition of regular waves of distinct amplitudes and periods is characterized in the frequency domain by a wave spectrum. Through statistical analysis, spectra are characterized by specific parameters such as significant wave height, peak period, wind speed, fetch length, and others. Common types of wave spectra that are used by the offshore industry are discussed in the following sections.  The general form of the wave spectra available in WEC-Sim is given by:
 
 .. math::
@@ -395,10 +413,9 @@ MoorDyn discretizes each mooring line in a mooring system into evenly-sized line
 For more information about application of mooring systems in WEC-Sim, refer to :ref:`advanced_features:Mooring Features` section.
 
 
-Nonlinear Buoynancy and Froude-Krylov Wave Excitation
+Nonlinear Buoyancy and Froude-Krylov Wave Excitation
 -----------------------------------------------------
-The linear model assumes that the body motion and the waves consist of small amplitudes in comparison to the wavelengths. A weakly nonlinear approach is applied to account for the nonlinear hydrodynamic forces induced by the instantaneous water surface elevation and body position. Rather than using the BEM calculated linear wave-excitation and hydrostatic coefficients, the nonlinear buoyancy and the Froude-Krylov force components can be obtained by integrating the static and dynamic pressures over each panel along the wetted body surface at each time step. 
-Because linear wave theory is used to determine the flow velocity and pressure field, the values become unrealistically large for wetted panels that are above the mean water level. To correct this, the Wheeler stretching method is applied :cite:`wheeler1969methods`, which applies a correction to the instantaneous wave elevation that forces its height to be equal to the water depth when calculating the flow velocity and pressure,
+The linear model assumes that the body motion and the waves consist of small amplitudes in comparison to the wavelengths. A weakly nonlinear approach is applied to account for the nonlinear hydrodynamic forces induced by the instantaneous water surface elevation and body position. Rather than using the BEM calculated linear wave-excitation and hydrostatic coefficients, the nonlinear buoyancy and the Froude-Krylov force components can be obtained by integrating the static and dynamic pressures over each panel along the wetted body surface at each time step. Linear wave theory is used to determine the flow velocity and pressure field, so the values become unrealistically large for wetted panels that are above the mean water level. To correct this, the Wheeler stretching method is applied :cite:`wheeler1969methods`, which applies a correction to the instantaneous wave elevation that forces its height to be equal to the water depth when calculating the flow velocity and pressure,
 
  .. math::
 	z^* = \frac{D(D+z)}{(D+\eta)} - D
@@ -441,15 +458,26 @@ The Morison Equation assumes that the fluid forces in an oscillating flow on a s
 where :math:`v` is the fluid particle velocity due to wave and current, :math:`C_{a}` is the coefficient of added mass, and :math:`\forall` is the displaced volume. 
 
 .. Note:: 
+	Adam:
+	What 'resulting force' can be approdimated by the Morison formulation? Some more information is needed here. My understanding is that it accounts for the undisturbed wave (Froude-Krylov force), viscous drag and added mass. So then should F_exc = F_rad = F_b = F_v = 0 when F_me is used? The below note only states that buoyance is neglected, not all of these components. (My understanding may be wrong of course, but if so I think that it shows some more description is needed.)
+
+.. Note:: 
 	WEC-Sim  does not consider buoyancy effects when calculating the forces from Morison elements. 
 
 For more information about application of Morison Elements in WEC-Sim, refer to :ref:`morison` section.
 
 Generalized Body Modes 
 ------------------------------------
-Additional generalized body modes (GBM) are inlcuded to account for solving multibody system with relative body motions or the the dynamics and structural deformation, assuming the modal properties are given or can be simply obtained in closed-form expressions or finite element analysis. Once the hydrodynamic coefficients that include these additional flexible DOF are obtained from the BEM solver, the 6DOF rigid body motion for each body and the additional GBM DOFs are solved together in one system of equations. 
+Additional generalized body modes (GBM) are included to account for solving a multibody system with relative body motions, dynamics, or structural deformation. This implementation assumes the modal properties are given, obtainable in closed-form expressions or with finite element analysis. Once the hydrodynamic coefficients that include these additional flexible DOF are obtained from the BEM solver, the 6DOF rigid body motion for each body and the additional GBM DOFs are solved together in one system of equations. 
+.. Note:: 
+	Adam:
+	This section is very short. Add some examples of GBM in WECs? What might it be used for?
 
 References
 ----------
+.. Note:: 
+	Adam:
+	Add DOI or urls for convenience. It may be unavoidable, but most articles are behind paywalls that prevent access. This is okay as long as it is taken into consideration as much as possible when writing this theory manual.
+
 .. bibliography:: WEC-Sim_Theory.bib
    :style: unsrt

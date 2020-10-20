@@ -103,7 +103,7 @@ The Simulink model can be built as follows:
 
 .. _`Step 8`:
 
-* Step 8: If a rotary generator lookup table is used, this block assumes the user will provide the datasheet. After the datasheet is loaded into ``Workspace``, it needs to be named as ``table`` because the word ``table`` is used inside Simulink lookup table block. The datasheet in tutorials is taken from ABB datasheet part number M3BJ315SMC. The lookup table takes three inputs: efficiency (``table.eff``), angular velocity (``table.Tpu``), and generator torque (``table.omegapu``), respectively. 
+* Step 8: If a rotary generator lookup table is used, this block assumes the user will provide the datasheet. After the datasheet is loaded into ``Workspace``, it needs to be named as ``table`` because the word ``table`` is used inside Simulink lookup table block. The datasheet in tutorials is taken from ABB datasheet part number M3BJ315SMC. The lookup table takes three inputs: efficiency (``table.eff``), angular velocity (``table.omegapu``), and generator torque (``table.Tpu``), respectively. 
 
 .. figure:: _images/ROTARYHIGHLEVELBLOCK.PNG
    :width: 400pt
@@ -213,8 +213,11 @@ The same as :ref:`pto:RM3 with Hydraulic PTO`.
 
 Other PTO-Sim Tutorials
 """"""""""""""""""""""""""""""
+.. Note:: 
+	Adam:
+	The PTOs in this table are kind of all covered by and tied to the discussion above. Might consider removing to prevent confusion. Or move table to top of the PTO-Sim section and then user can find them before reading through.
 
-Other PTO-Sim tutorials that were not discussed above can be found on the `WEC-Sim Applications <https://github.com/WEC-Sim/WEC-Sim_Applications>`_ repository.
+Other PTO-Sim tutorials that were not discussed above can be found on the `WEC-Sim Applications <https://github.com/WEC-Sim/WEC-Sim_Applications>`_ repository:
 
 	+--------------------------------+-------------------------------------------+
 	|     **PTO-Sim Application**    |               **Description**             |                

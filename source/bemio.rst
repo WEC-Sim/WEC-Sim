@@ -56,6 +56,9 @@ BEMIO Functions
 		* *hydro* – data structure
 
 **Radiation_IRF:** Calculates the normalized radiation impulse response function.
+.. Note:: 
+	Adam:
+	Is this a different equation from the theory section? How does it realte to the SS or CI methods?
 
 	:math:`\overline{K}_{r,i,j}(t) = {\frac{2}{\pi}}\intop_0^{\infty}{\frac{B_{i,j}(\omega)}{\rho}}\cos({\omega}t)d\omega`
 

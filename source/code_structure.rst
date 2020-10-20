@@ -5,6 +5,10 @@ Code Structure
 This section provides a description of the WEC-Sim source code and its structure. 
 For more information about WEC-Sim's code structure, refer to the :ref:`webinars:WEC-Sim Code Structure` webinar.
 
+.. Note:: 
+	Adam:
+	The classes and Simulink blocks feel well documented and discussed here! The only thing I feel is missing is the role of each class/block from a larger perspective. Maybe a 'zoomed in' version of the workflow diagram could better highlight the interactions of the classes / blocks, and extend what the main diagram shows at a high level.
+
 
 WEC-Sim Source Code
 --------------------------------

@@ -2,6 +2,28 @@
 
 Advanced Features
 =================
+.. Note:: 
+	Adam:
+	My summary: Some sections feel like a strange mix of theoretical information and code details. I think it is better to break up each 'feature' into an initial theory subsection (what it is, why it is necessary/useful, what its pros/cons are) and a following implementation subsection (variable names, related functions, classes, etc, example of how to implement if more complex).
+	Also, the advanced features are essentially the same cases as the WEC-Sim Applications repo. However, this not made very clear at the beginning. I think that the Adv. Features section can better mesh with the applications by acting as a walkthrough for a user interested in that topic. As in other parts of the documentation, the 'what is happening' is well covered but the why is not addressed as well. The applications themselves can better compare the effects of what they are trying to show. Make it easy for users to see the advantages of the code and the pros/cons of each feature. Use each application’s user defined function file to highlight the advantages of that application and compare to a standard case.
+	These two areas are closely tied, so I will also write my notes on the WEC-Sim app repo below. Not all advanced features are covered by an application, and not all applications have an adv. feature section. These should have clear connections with minimal mixing of cases so that it is easy to follow.
+	
+	Applications:
+	B2B - error with b2b + CIC calculation block in Simulink?
+	Desal - needs an advanced feature section. Requires Simscape Fluids...
+	Free decay - change plotting of cases so that Morison Element is included in the comparison of the results
+	GBM - needs comparison to a similar non-flex body simulation
+	Mooring - add script to run mooring matrix, Moordyn and no-mooring simulations and compare
+	MCR - dot divide error in waveClass for MCR waves.H, waves.T (opt2, opt2). Uncomment waves.spectrumDatafile =" by default so that it runs
+	Nonhydro body - N/A
+	Nonlinear hydro - error with plotForces call in userDefinedFunctions.m
+	Paraview - N/A
+	Passive Yaw - Divide runYawCases.m into run and plot scripts for consistency with other applications
+	PTO-Sim - N/A
+	WECCCOMP Fault Implementation - needs adv. feature page or move to other repo?
+	Write HDF5 - No explanation on how to use other than to ‘fill in parameters’
+..
+
 The advanced features documentation provides an overview of WEC-Sim features that were not covered in the WEC-Sim :ref:`tutorials`. The diagram below highlights some of WEC-Sim's advanced features, details of which will be described in the following sections. 
 
 .. codeFeatures:
@@ -60,7 +82,7 @@ The default WEC-Sim solver is 'ode4'. Refer to the **NonlinearHydro** example on
 * Output time-step: :code:`simu.dtOut=N*simu.dt` 
 * Nonlinear Buoyancy and Froude-Krylov Excitation time-step: :code:`simu.dtNL=N*simu.dt` 
 * Convolution integral time-step: :code:`simu.dtCITime=N*simu.dt` 	
-* Morison force time-step: :code:`simu.dtME = N*N*simu.dt` 
+* Morison force time-step: :code:`simu.dtME = N*simu.dt` 
 
 
 Fixed Time-Step (ode4)
@@ -70,6 +92,10 @@ When running WEC-Sim with a fixed time-step, 100-200 time-steps per wave period 
 
 Variable Time-Step (ode45)
 """"""""""""""""""""""""""""""
+.. Note:: 
+	Adam:
+	What is the benefit to doing this? The maximum set, but how is the instantaneous dt value determined?
+
 To run WEC-Sim with a variable time-step, the following variables must be defined in the simulationClass:
 
 * Numerical solver: :code:`simu.solver='ode45'` 
@@ -93,9 +119,16 @@ By comparison, the traditional method divides the wave spectrum into a sufficien
 
 Users may override the default number of wave frequencies by defining ``waves.numFreq``.  However, it is on the user to ensure that the wave spectrum is adequately defined by the number of wave frequencies, and that the wave forces are not impacted by this change.
 
+.. Note:: 
+	Adam:
+	Why would a user use an equal energy vs traditional equal frequency spectrum? Pros/cons?
 
 Wave Directionality
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+.. Note:: 
+	Adam:
+	It looks like beta is used in this advanced features section, but theta is in the theory sections
+
 WEC-Sim has the ability to model waves with various angles of incidence, :math:`\beta`. To define wave directionality in WEC-Sim, the following wave class variable must be defined in the WEC-Sim input file:
 
 	:code:`waves.waveDir = <user defined wave direction(s)>; %[deg]`  	
@@ -157,6 +190,10 @@ The mass of each body must be specified in the  WEC-Sim input file. The followin
 
 Nonlinear Buoyancy and Froude-Krylov Excitation
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+.. Note:: 
+	Adam:
+	simu.nlHydro options 1 vs 2 not stated clearly. Doesn’t need much info, but should state clearly
+
 WEC-Sim has the option to include the nonlinear hydrostatic restoring and Froude-Krylov forces when solving the system dynamics of WECs, accounting for the weakly nonlinear effect on the body hydrodynamics. To use nonlinear buoyancy and Froude-Krylov excitation, the **simu.nlHydro** simulationClass variable must be defined in the WEC-Sim input file, for example: 
 
 	:code:`simu.nlHydro = 2`  
@@ -175,6 +212,9 @@ An option available to reduce the nonlinear simulation time is to specify a nonl
 
 .. Note::
 	WEC-Sim's nonlinear buoyancy and Froude-Krylov wave excitation option may be used for regular or irregular waves but not with user-defined irregular waves. 
+.. Note:: 
+	Adam:
+	Why can’t nonlinear buoyancy and nonlinear FK be used with user-defined wave? Doesn’t it just use the mean/instantaneous wave elevation?
 
 
 STL File Generation
@@ -234,6 +274,11 @@ Simulation and post-processing is the same process as described in :ref:`tutoria
 
 Passive Yaw Implementation
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+.. Note:: 
+	Adam:
+	Isn't this the same as using BEM data with different wave directionality?
+	Interpolation method vs wave directionality?
+
 For non-axisymmetric bodies with yaw orientation that changes substantially with time, WEC-Sim allows a correction to excitation forces for large yaw displacements. To enable this correction, add the following to your ``wecSimInputFile``: 
 
  	:code:`simu.yawNonLin = 1`

@@ -1,5 +1,9 @@
 .. _getting_started:
 
+.. Note:: 
+	Adam:
+	see Index notes on expanding on what WEC-Sim is and can do. Merge with index into an Introduction section?
+
 Getting Started
 ===============
 This section provides instructions on how to download, install, and test the WEC-Sim code.
@@ -122,6 +126,9 @@ In the MATLAB Command Window type::
 This should run an example case using the Reference Model 3 (RM3) point absorber. 
 A SimMechanics Explorer window will open within the MATLAB window, and figures will be generated displaying simulation outputs. 
 
+.. Note:: 
+	Adam:
+	 Change the test instructions to just running wsTest.m (also this file should be renamed to wecSimTest.m for naming consistency)
 
 .. Note:: 
 	

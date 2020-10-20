@@ -1,5 +1,9 @@
 .. _overview:
 
+.. Note:: 
+	Adam:
+	Personally, I dislike the amount of bullet points on this page. I think that it makes the text difficult to read. Most of the information would be more clear in sentence/paragraph format. Especially the information under the 'WEC-Sim Model Files' sub heading
+
 Overview
 ========
 This section provides an overview of the WEC-Sim work flow. 
@@ -22,6 +26,12 @@ For information about the implementation and structure of the WEC-Sim source cod
 
 WEC-Sim Model Files
 ---------------------
+.. Note:: 
+	Adam:
+	Rename this subsection to 'WEC-Sim Input Files' or 'WEC-Sim Inputs'. 'model files' is a bit ambiguous as to whether they are inputs or outputs. Some conceptual or qualitative overview of WEC-Sim's requirements are needed first. There is not real introduction to WEC-Sim before this, so going straight to file types is confusing. Start with a short paragraph like:
+	"Before WEC-Sim can be used, a wave energy converter design must exist. This design must include a surface mesh, frequency-based hydrodynamic data from a boundary element method solver, a Simulink/Simscape model of the WEC's bodies interacting. The WECs geometry and other parameters must be detailed in the wecSimInputFile."
+	Then go into the subsection and details of each of the four components required.
+
 All files required for a WEC-Sim simulation must be contained within a case directory referred to as ``$CASE``. 
 This directory can be located anywhere on your computer. 
 The table below list the WEC-Sim case directory structure and required files. 
@@ -63,6 +73,10 @@ Simulink Model
    :width: 200pt
    :align: center   
     
+.. Note:: 
+	Adam:
+	This is also a Simscape model. This is important to point out because it requires additional software license and knowledge beyond Simulink.
+
 
 Input File 
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
