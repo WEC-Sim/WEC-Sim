@@ -5,23 +5,34 @@ Advanced Features
 .. Note:: 
 	Adam:
 	My summary: Some sections feel like a strange mix of theoretical information and code details. I think it is better to break up each 'feature' into an initial theory subsection (what it is, why it is necessary/useful, what its pros/cons are) and a following implementation subsection (variable names, related functions, classes, etc, example of how to implement if more complex).
-	Also, the advanced features are essentially the same cases as the WEC-Sim Applications repo. However, this not made very clear at the beginning. I think that the Adv. Features section can better mesh with the applications by acting as a walkthrough for a user interested in that topic. As in other parts of the documentation, the 'what is happening' is well covered but the why is not addressed as well. The applications themselves can better compare the effects of what they are trying to show. Make it easy for users to see the advantages of the code and the pros/cons of each feature. Use each application’s user defined function file to highlight the advantages of that application and compare to a standard case.
+	Also, the advanced features are essentially the same cases as the WEC-Sim Applications repo. However, this not made very clear at the beginning. I think that the Adv. Features section can better mesh with the applications by acting as a walkthrough for a user interested in that topic. As in other parts of the documentation, the 'what is happening' is well covered but not the 'why/how/pros/cons'. Make it easy for users to see the advantages of the code and the pros/cons of each feature by utilizing the applications. Consistently use a runThisApplication.m, plotThisApplication.m scripts to easily compare the advantages of that application and to a standard case.
 	These two areas are closely tied, so I will also write my notes on the WEC-Sim app repo below. Not all advanced features are covered by an application, and not all applications have an adv. feature section. These should have clear connections with minimal mixing of cases so that it is easy to follow.
 	
-	Applications:
-	B2B - error with b2b + CIC calculation block in Simulink?
+	Application issues:
+	B2B - Doesn’t run. Error with case4 (regularCIC+ b2b). Error occurs in Simulink at: RM3/Float/Hydrodynamic Body/Wave Radiation Forces Calculation/SS CI and Constant-Damping-CoeVariant Subsystem/Convolution Integral Calculation/MATLAB Function1/Line 21: time_series = bsxfun(@times, IRKB_interp, velocity). IRKB_interp and velocity are not same dimensions
 	Desal - needs an advanced feature section. Requires Simscape Fluids...
-	Free decay - change plotting of cases so that Morison Element is included in the comparison of the results
-	GBM - needs comparison to a similar non-flex body simulation
-	Mooring - add script to run mooring matrix, Moordyn and no-mooring simulations and compare
-	MCR - dot divide error in waveClass for MCR waves.H, waves.T (opt2, opt2). Uncomment waves.spectrumDatafile =" by default so that it runs
-	Nonhydro body - N/A
-	Nonlinear hydro - error with plotForces call in userDefinedFunctions.m
-	Paraview - N/A
-	Passive Yaw - Divide runYawCases.m into run and plot scripts for consistency with other applications
-	PTO-Sim - N/A
-	WECCCOMP Fault Implementation - needs adv. feature page or move to other repo?
-	Write HDF5 - No explanation on how to use other than to ‘fill in parameters’
+	Free decay - change plotting of cases so that Morison Element is included in the comparison of the results (done in my Applications PR) or remove ME to its own application
+	GBM - needs comparison to a similar non-flex body simulation. Heave in Aij does not asymptote. Needs comparison to non-GBM case
+	Mooring - Needs runMooring.m and plotMooring scripts and a non-moored/ static case to compare Moordyn, mooring matrix and a non-mooring case together.
+	MCR - Denoted in the README specifically how each case is different and what kind of MCR is used (done in PR). Rename Case3_seaState as MCROPT4 for consistency. 
+	Nonhydro body - Needs comparison to a standard RM3 simulation with a hydro body. Add runNonhydroBody.m and plotNonhydroBody.m scripts to compare these two.
+	Nonlinear hydro - Why is ode4 vs ode45 and regular vs regularCIC compared? They are useful comparisons but why here? Create a separate application that is time-step / numerical method focused. Compare a NL-hydro and a linear one here.
+	Paraview - Contains ode45 and accelerator options but these are not discussed much elsewhere
+	Passive Yaw - Divide runYawCases.m into run and plot scripts for consistency with other applications (done in PR)
+	PTO-Sim - Could use run / plot scripts to compare all the PTO examples here, but not as necessary for these features because the PTO’s are fundamentally different. However a comparison of all the RM3 PTOs and all the OSWEC PTO could be helpful and consistent to other applications
+	WECCCOMP Fault Implementation - needs adv. feature page or move to another repo
+	Write HDF5 - No explanation on how to use other than to ‘fill in parameters’. This is a BEMIO feature but not include with the other examples discussed in the BEMIO adv. features section (these are in /examples/BEMIO/)
+	
+	Organization notes on applications/adv. features:
+	Desalination and WECCCOMP need an advanced feature sections to be consistent
+	A SS vs CIC comparison is done in the tests folder but not the applications/examples
+	BEMIO is in the examples folder but not Applications (not necessarily problematic, just noting it).
+	Wave advanced features (type, binning, directionality) are covered in the OSWEC and RM3 examples but no application. No wave gauge application or example.
+	
+	Other issues with BEMIO runs in the Applications repo:
+	RM3 Aij in heave turns up slightly at frequency=5rad/s instead of asymptoting smoothly
+	OSWEC flap Aij in surge and pitch doesn't asymptote
+	Why is the OSWEC flap so jagged in heave and pitch Bij, Kij, Xij and phi_ij?
 ..
 
 The advanced features documentation provides an overview of WEC-Sim features that were not covered in the WEC-Sim :ref:`tutorials`. The diagram below highlights some of WEC-Sim's advanced features, details of which will be described in the following sections. 
@@ -434,4 +445,4 @@ The following propoerties must be defined prior to using the object's :code:`set
 * :code:`pto(i).loc`
 * :code:`mooring.ref` 
 
-For more information, refer to the **IEA_OES_Task10_freeDecay** example on the `WEC-Sim Applications <https://github.com/WEC-Sim/WEC-Sim_Applications>`_ repository.
+For more information, refer to the **Free Decay** example on the `WEC-Sim Applications <https://github.com/WEC-Sim/WEC-Sim_Applications>`_ repository.
