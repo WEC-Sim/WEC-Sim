@@ -2,6 +2,9 @@
 
 Terminology
 ===========
+.. Note:: 
+	Adam:
+	This section is great to have and very helpful. Some nomenclature from the theory section is missing. Some variables (such as A, B, C, d) are used differently in different parts of the documentation (PTO, BEM theory, etc), these needs subscripts and distinct mentions here for each different use of that variable
 
 ======================= ===================================================
 Term or Variable       	 	Definition

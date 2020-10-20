@@ -2,6 +2,11 @@
 
 Publications
 ============
+.. Note:: 
+	Adam:
+	Is this list up to date? Appears to only go up to 2017 for publications and 2018 for News Articles
+	Might include a DOI or URL for each article for convenience
+	Is there any desire to point users to a list of non-SNL/NREL WEC-Sim articles? Might showcase its use outside of the labs
 
 [1] Y.-H. Yu, M. Lawson, K. Ruehl, and C. Michelen, “`Development and Demonstration of the WEC-Sim Wave Energy Converter Simulation Tool <http://vtechworks.lib.vt.edu/bitstream/handle/10919/49236/137-Lawson.pdf?sequence=1&isAllowed=y>`_,” in Proceedings of the 2nd Marine Energy Technology Symposium, METS 2014, Seattle, WA, 2014.   
 
