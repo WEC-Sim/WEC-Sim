@@ -42,6 +42,8 @@ WEC-Sim is a collaboration between the `National Renewable Energy Laboratory (NR
 * Nathan Tom (NREL)
 * Dominic Forbush (Sandia)
 * David Ogden (NREL)
+* Adam Keester (Sandia)
+* Jorge Leon (Sandia)
 
 
 

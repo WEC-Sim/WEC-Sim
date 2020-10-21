@@ -640,6 +640,18 @@ frame or relative to other bodies.</p>
 </dd></dl>
 
 <dl class="mat attribute">
+<dt id="source.objects.ptoClass.equilibriumPosition">
+<code class="sig-name descname">equilibriumPosition</code><em class="property"> = '0'</em><a class="headerlink" href="#source.objects.ptoClass.equilibriumPosition" title="Permalink to this definition">¶</a></dt>
+<dd><p>(<cite>float</cite>) Linear PTO damping coefficient. Default = <cite>0</cite>.</p>
+</dd></dl>
+
+<dl class="mat attribute">
+<dt id="source.objects.ptoClass.pretension">
+<code class="sig-name descname">pretension</code><em class="property"> = '0'</em><a class="headerlink" href="#source.objects.ptoClass.pretension" title="Permalink to this definition">¶</a></dt>
+<dd><p>(<cite>float</cite>) Linear PTO damping coefficient. Default = <cite>0</cite>.</p>
+</dd></dl>
+
+<dl class="mat attribute">
 <dt id="source.objects.ptoClass.loc">
 <code class="sig-name descname">loc</code><em class="property"> = '[999 999 999]'</em><a class="headerlink" href="#source.objects.ptoClass.loc" title="Permalink to this definition">¶</a></dt>
 <dd><p>(<cite>3x1 float vector</cite>) PTO location [m]. Defined in the following format [x y z]. Default = <code class="docutils literal notranslate"><span class="pre">[999</span> <span class="pre">999</span> <span class="pre">999]</span></code>.</p>
@@ -685,6 +697,12 @@ frame or relative to other bodies.</p>
 <dt id="source.objects.ptoClass.setOrientation">
 <code class="sig-name descname">setOrientation</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#source.objects.ptoClass.setOrientation" title="Permalink to this definition">¶</a></dt>
 <dd><p>This method calculates the constraint <code class="docutils literal notranslate"><span class="pre">x</span></code> vector and <code class="docutils literal notranslate"><span class="pre">rotationMatrix</span></code> matrix in the <code class="docutils literal notranslate"><span class="pre">orientation</span></code> structure based on user input.</p>
+</dd></dl>
+
+<dl class="mat method">
+<dt id="source.objects.ptoClass.setPretension">
+<code class="sig-name descname">setPretension</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#source.objects.ptoClass.setPretension" title="Permalink to this definition">¶</a></dt>
+<dd><p>This method calculates the equilibrium position in the joint to provide pretension, which is activated when the pretension value is not equal to zero and equilibrium position is not over written.</p>
 </dd></dl>
 
 <dl class="mat method">
@@ -1107,7 +1125,13 @@ ParaView. This method is executed by specifying
 <dl class="mat attribute">
 <dt id="source.objects.simulationClass.outputtxt">
 <code class="sig-name descname">outputtxt</code><em class="property"> = '0'</em><a class="headerlink" href="#source.objects.simulationClass.outputtxt" title="Permalink to this definition">¶</a></dt>
-<dd><p>(<cite>integer</cite>) Option to save results as ASCII files off-&gt;0, on-&gt;1. Default = <code class="docutils literal notranslate"><span class="pre">0</span></code></p>
+<dd><p>(<cite>integer</cite>) Option to save results as ASCII files: off-&gt;0, on-&gt;1. Default = <code class="docutils literal notranslate"><span class="pre">0</span></code></p>
+</dd></dl>
+
+<dl class="mat attribute">
+<dt id="source.objects.simulationClass.outputStructure">
+<code class="sig-name descname">outputStructure</code><em class="property"> = '0'</em><a class="headerlink" href="#source.objects.simulationClass.outputStructure" title="Permalink to this definition">¶</a></dt>
+<dd><p>(<cite>integer</cite>) Option to save results as a MATLAB structure: off-&gt;0, on-&gt;1. Default = <code class="docutils literal notranslate"><span class="pre">0</span></code></p>
 </dd></dl>
 
 <dl class="mat attribute">
@@ -1509,9 +1533,9 @@ messages if parameters are not properly defined.</p>
 
 <dl class="mat method">
 <dt id="source.objects.waveClass.waveElevationGrid">
-<code class="sig-prename descclassname">waveClass.</code><code class="sig-name descname">waveElevationGrid</code><span class="sig-paren">(</span><em class="sig-param">t</em>, <em class="sig-param">X</em>, <em class="sig-param">Y</em><span class="sig-paren">)</span><a class="headerlink" href="#source.objects.waveClass.waveElevationGrid" title="Permalink to this definition">¶</a></dt>
+<code class="sig-prename descclassname">waveClass.</code><code class="sig-name descname">waveElevationGrid</code><span class="sig-paren">(</span><em class="sig-param">t</em>, <em class="sig-param">X</em>, <em class="sig-param">Y</em>, <em class="sig-param">TimeBodyParav</em>, <em class="sig-param">it</em>, <em class="sig-param">g</em><span class="sig-paren">)</span><a class="headerlink" href="#source.objects.waveClass.waveElevationGrid" title="Permalink to this definition">¶</a></dt>
 <dd><p>This method calculates wave elevation on a grid at a given
-time, used by: <code class="xref mat mat-meth docutils literal notranslate"><span class="pre">waveClass.write_paraview_vtp()</span></code>.</p>
+time, used by: <img class="math" src="_images/math/6100bc23fbaf37798c39242abd21fbe068cd758c.png" alt="waveClass.write_paraview_vtp"/>.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters</dt>
 <dd class="field-odd"><ul class="simple">
