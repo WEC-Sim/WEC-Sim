@@ -1,7 +1,8 @@
 
 
 <!DOCTYPE html>
-<html class="writer-html5" lang="en" >
+<!--[if IE 8]><html class="no-js lt-ie9" lang="en" > <![endif]-->
+<!--[if gt IE 8]><!--> <html class="no-js" lang="en" > <!--<![endif]-->
 <head>
   <meta charset="utf-8">
   
@@ -11,19 +12,12 @@
   
 
   
-  <link rel="stylesheet" href="_static/css/theme.css" type="text/css" />
-  <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
-  <link rel="stylesheet" href="_static/css/table_wrap.css" type="text/css" />
-
-  
   
   
   
 
   
-  <!--[if lt IE 9]>
-    <script src="_static/js/html5shiv.min.js"></script>
-  <![endif]-->
+  <script type="text/javascript" src="_static/js/modernizr.min.js"></script>
   
     
       <script type="text/javascript" id="documentation_options" data-url_root="./" src="_static/documentation_options.js"></script>
@@ -35,6 +29,11 @@
     <script type="text/javascript" src="_static/js/theme.js"></script>
 
     
+
+  
+  <link rel="stylesheet" href="_static/css/theme.css" type="text/css" />
+  <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
+  <link rel="stylesheet" href="_static/css/table_wrap.css" type="text/css" />
     <link rel="index" title="Index" href="genindex.html" />
     <link rel="search" title="Search" href="search.html" />
     <link rel="next" title="Code Structure" href="code_structure.html" />
@@ -52,7 +51,7 @@
           
 
           
-            <a href="index.html" class="icon icon-home" alt="Documentation Home"> WEC-Sim
+            <a href="index.html" class="icon icon-home"> WEC-Sim
           
 
           
@@ -79,7 +78,6 @@
           
         </div>
 
-        
         <div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="main navigation">
           
             
@@ -126,7 +124,7 @@
 <li class="toctree-l3"><a class="reference internal" href="#id26">MoorDyn</a></li>
 </ul>
 </li>
-<li class="toctree-l2"><a class="reference internal" href="#nonlinear-buoynancy-and-froude-krylov-wave-excitation">Nonlinear Buoynancy and Froude-Krylov Wave Excitation</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#nonlinear-buoyancy-and-froude-krylov-wave-excitation">Nonlinear Buoyancy and Froude-Krylov Wave Excitation</a></li>
 <li class="toctree-l2"><a class="reference internal" href="#viscous-damping-and-morison-elements">Viscous Damping and Morison Elements</a><ul>
 <li class="toctree-l3"><a class="reference internal" href="#viscous-damping">Viscous Damping</a></li>
 <li class="toctree-l3"><a class="reference internal" href="#morison-elements">Morison Elements</a></li>
@@ -152,7 +150,6 @@
             
           
         </div>
-        
       </div>
     </nav>
 
@@ -191,7 +188,7 @@
 
   <ul class="wy-breadcrumbs">
     
-      <li><a href="index.html" class="icon icon-home"></a> &raquo;</li>
+      <li><a href="index.html">Docs</a> &raquo;</li>
         
       <li>Theory</li>
     
@@ -214,6 +211,11 @@
             
   <div class="section" id="theory">
 <span id="id1"></span><h1>Theory<a class="headerlink" href="#theory" title="Permalink to this headline">¶</a></h1>
+<div class="admonition note">
+<p class="admonition-title">Note</p>
+<p>Adam:
+Simscape and the purpose of the multibody solver has no explanation here. Some explanation of what Simscape does, and a qualitative example of how it functions in a WEC context is required. At the bare minimum point the user to additional Simscape documentation.</p>
+</div>
 <p>Modeling wave energy converters (WECs) involves the interaction between the incident waves, device motion, power-take-off (PTO mechanism), and mooring. WEC-Sim uses a radiation and diffraction method <a class="bibtex reference internal" href="#li2012" id="id2">[2]</a><a class="bibtex reference internal" href="#babarit2012" id="id3">[3]</a> to predict power performance and design optimization. The radiation and diffraction method generally obtains the hydrodynamic forces from a frequency-domain boundary element method (BEM) solver using linear coefficients to solve the system dynamics in the time domain.</p>
 <div class="figure align-center" id="wec-sim-methodology">
 <img alt="_images/Physics.png" src="_images/Physics.png" />
@@ -264,6 +266,12 @@ The buoyancy term <img class="math" src="_images/math/495c2e374bebd6616447daf3bf
 </div>
 <div class="section" id="numerical-methods">
 <h2>Numerical Methods<a class="headerlink" href="#numerical-methods" title="Permalink to this headline">¶</a></h2>
+<div class="admonition note">
+<p class="admonition-title">Note</p>
+<p>Adam:
+This portion is a big confusing. I can follow the derivation and content within each subsection, but several steps are skipped between the subsections. i.e. between ‘Convolution Integral formulation’ to ‘State Space’ and ‘Calculation of Kr…’ to ‘ Realization Theory’ Maybe it is desirable and necessary to leave the full explanation to other papers, but I can not get very far with this short explanation. I don’t currently have the knowledge on the topic to identify what is missing and needs to be included to complete the section.
+What is the difference between B_r, B_d, B_i,j? It is not well documented</p>
+</div>
 <p>WEC-Sim can be used for regular and irregular wave simulations, but note that <img class="math" src="_images/math/61fc51b4402569289d7cd1c0711f0e3a3013c8c9.png" alt="F_{exc}(t)"/> and <img class="math" src="_images/math/a64a05b4e1b20d9a1b4d7467db7f1b1acc3daaf6.png" alt="F_{rad}(t)"/> are calculated differently for sinusoidal steady-state response scenarios and random sea simulations.
 The sinusoidal steady-state response is often used for simple WEC designs with regular incoming waves.
 However, for random sea simulations or any simulations where fluid memory effects of the system are essential, the convolution integral method is recommended to represent the fluid memory retardation force on the floating body.
@@ -291,6 +299,11 @@ To speed computation of the convolution integral, the state space representation
 </div>
 <div class="section" id="convolution-integral-formulation">
 <h3>Convolution Integral Formulation<a class="headerlink" href="#convolution-integral-formulation" title="Permalink to this headline">¶</a></h3>
+<div class="admonition note">
+<p class="admonition-title">Note</p>
+<p>Adam:
+Only a small portion of this section is about the CI form. Maybe better named as ‘Irregular Response’ or ‘Unsteady Response’ to contrast with the ‘Sinusoidal Steady-State Response’ heading. Below, add something like ‘in the case of an irregular wave spectrum, the fluid memory has an important impact on the WEC dynamics. This fluid memory effect is captured by the convolution integral formulation based upon…’</p>
+</div>
 <p>To include the fluid memory effect, the convolution integral formulation based upon the Cummins equation <a class="bibtex reference internal" href="#cummins1962" id="id11">[8]</a> is used. The radiation term can be calculated by</p>
 <div class="math">
 <p><img src="_images/math/6e5abc41cf719c210be90596340e2a16c862b8e0.png" alt="F_{rad}(t)=-A_{\infty}\ddot{X}-\intop_{0}^{t}K_{r}(t-\tau)\dot{X}(\tau)d\tau"/></p>
@@ -362,6 +375,11 @@ y = \mathbf{C_{r}} x~~"/></p>
 </div><p>where <img class="math" src="_images/math/cb5de54f699cf4b3c7c1a3e87313d11d536c0d88.png" alt="H"/> is the wave height, <img class="math" src="_images/math/16cb1e006199f0853a2dc67ea814446a38beb54e.png" alt="\omega"/> is the wave frequency  (<img class="math" src="_images/math/3caa105bc2613b1b2a6546abe3455f7e8d0f906b.png" alt="\omega = \frac{2\pi}{T}"/>), <img class="math" src="_images/math/9630132210b904754c9ab272b61cb527d12263ca.png" alt="k"/> is the wave number (<img class="math" src="_images/math/fe6830b375b29fd23a807ebb01d911b401102769.png" alt="k = \frac{2\pi}{\lambda}"/>), <img class="math" src="_images/math/8a87f04e7d7cca18343c084cceca5237fae62491.png" alt="\theta"/> is the wave direction, and <img class="math" src="_images/math/fffd2357ee88a9c50ba9e831ed64c39c73d54a07.png" alt="\phi"/> is the wave phase (randomized for irregular waves).</p>
 <div class="section" id="wave-spectra">
 <h3>Wave Spectra<a class="headerlink" href="#wave-spectra" title="Permalink to this headline">¶</a></h3>
+<div class="admonition note">
+<p class="admonition-title">Note</p>
+<p>Adam:
+Use different coefficients for A, B, C or add subscripts to avoid confusion with the BEM and PTO coefficients</p>
+</div>
 <p>The linear superposition of regular waves of distinct amplitudes and periods is characterized in the frequency domain by a wave spectrum. Through statistical analysis, spectra are characterized by specific parameters such as significant wave height, peak period, wind speed, fetch length, and others. Common types of wave spectra that are used by the offshore industry are discussed in the following sections.  The general form of the wave spectra available in WEC-Sim is given by:</p>
 <div class="math">
 <p><img src="_images/math/d0e7eed555e1d9ceaded2c78c424d093b2525cd9.png" alt="S\left( f , \theta \right)= S\left( f \right)D\left( \theta \right)~~"/></p>
@@ -473,10 +491,9 @@ The instantaneous mechanical power absorbed by the PTO is given by:</p>
 <p>For more information about application of mooring systems in WEC-Sim, refer to <a class="reference internal" href="advanced_features.html#mooring-features"><span class="std std-ref">Mooring Features</span></a> section.</p>
 </div>
 </div>
-<div class="section" id="nonlinear-buoynancy-and-froude-krylov-wave-excitation">
-<h2>Nonlinear Buoynancy and Froude-Krylov Wave Excitation<a class="headerlink" href="#nonlinear-buoynancy-and-froude-krylov-wave-excitation" title="Permalink to this headline">¶</a></h2>
-<p>The linear model assumes that the body motion and the waves consist of small amplitudes in comparison to the wavelengths. A weakly nonlinear approach is applied to account for the nonlinear hydrodynamic forces induced by the instantaneous water surface elevation and body position. Rather than using the BEM calculated linear wave-excitation and hydrostatic coefficients, the nonlinear buoyancy and the Froude-Krylov force components can be obtained by integrating the static and dynamic pressures over each panel along the wetted body surface at each time step.
-Because linear wave theory is used to determine the flow velocity and pressure field, the values become unrealistically large for wetted panels that are above the mean water level. To correct this, the Wheeler stretching method is applied <a class="bibtex reference internal" href="#wheeler1969methods" id="id28">[18]</a>, which applies a correction to the instantaneous wave elevation that forces its height to be equal to the water depth when calculating the flow velocity and pressure,</p>
+<div class="section" id="nonlinear-buoyancy-and-froude-krylov-wave-excitation">
+<h2>Nonlinear Buoyancy and Froude-Krylov Wave Excitation<a class="headerlink" href="#nonlinear-buoyancy-and-froude-krylov-wave-excitation" title="Permalink to this headline">¶</a></h2>
+<p>The linear model assumes that the body motion and the waves consist of small amplitudes in comparison to the wavelengths. A weakly nonlinear approach is applied to account for the nonlinear hydrodynamic forces induced by the instantaneous water surface elevation and body position. Rather than using the BEM calculated linear wave-excitation and hydrostatic coefficients, the nonlinear buoyancy and the Froude-Krylov force components can be obtained by integrating the static and dynamic pressures over each panel along the wetted body surface at each time step. Linear wave theory is used to determine the flow velocity and pressure field, so the values become unrealistically large for wetted panels that are above the mean water level. To correct this, the Wheeler stretching method is applied <a class="bibtex reference internal" href="#wheeler1969methods" id="id28">[18]</a>, which applies a correction to the instantaneous wave elevation that forces its height to be equal to the water depth when calculating the flow velocity and pressure,</p>
 <blockquote>
 <div><div class="math">
 <p><img src="_images/math/592d057ccefb54c91218bd6643668eb4547499b6.png" alt="z^* = \frac{D(D+z)}{(D+\eta)} - D"/></p>
@@ -513,6 +530,11 @@ Because linear wave theory is used to determine the flow velocity and pressure f
 <p>where <img class="math" src="_images/math/02d98909b5d6acd6a7ff927d4d42790bdd407d58.png" alt="v"/> is the fluid particle velocity due to wave and current, <img class="math" src="_images/math/1e111d033507e2f72d06e9b090a9abc10ddcadad.png" alt="C_{a}"/> is the coefficient of added mass, and <img class="math" src="_images/math/3c1f4a382e7e70b8ca20c3d1f3b372276b1e9f5e.png" alt="\forall"/> is the displaced volume.</p>
 <div class="admonition note">
 <p class="admonition-title">Note</p>
+<p>Adam:
+What ‘resulting force’ can be approdimated by the Morison formulation? Some more information is needed here. My understanding is that it accounts for the undisturbed wave (Froude-Krylov force), viscous drag and added mass. So then should F_exc = F_rad = F_b = F_v = 0 when F_me is used? The below note only states that buoyance is neglected, not all of these components. (My understanding may be wrong of course, but if so I think that it shows some more description is needed.)</p>
+</div>
+<div class="admonition note">
+<p class="admonition-title">Note</p>
 <p>WEC-Sim  does not consider buoyancy effects when calculating the forces from Morison elements.</p>
 </div>
 <p>For more information about application of Morison Elements in WEC-Sim, refer to <a class="reference internal" href="advanced_features.html#morison"><span class="std std-ref">Morison Elements</span></a> section.</p>
@@ -520,10 +542,20 @@ Because linear wave theory is used to determine the flow velocity and pressure f
 </div>
 <div class="section" id="generalized-body-modes">
 <h2>Generalized Body Modes<a class="headerlink" href="#generalized-body-modes" title="Permalink to this headline">¶</a></h2>
-<p>Additional generalized body modes (GBM) are inlcuded to account for solving multibody system with relative body motions or the the dynamics and structural deformation, assuming the modal properties are given or can be simply obtained in closed-form expressions or finite element analysis. Once the hydrodynamic coefficients that include these additional flexible DOF are obtained from the BEM solver, the 6DOF rigid body motion for each body and the additional GBM DOFs are solved together in one system of equations.</p>
+<p>Additional generalized body modes (GBM) are included to account for solving a multibody system with relative body motions, dynamics, or structural deformation. This implementation assumes the modal properties are given, obtainable in closed-form expressions or with finite element analysis. Once the hydrodynamic coefficients that include these additional flexible DOF are obtained from the BEM solver, the 6DOF rigid body motion for each body and the additional GBM DOFs are solved together in one system of equations.
+.. Note:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span>Adam:
+This section is very short. Add some examples of GBM in WECs? What might it be used for?
+</pre></div>
+</div>
 </div>
 <div class="section" id="references">
 <h2>References<a class="headerlink" href="#references" title="Permalink to this headline">¶</a></h2>
+<div class="admonition note">
+<p class="admonition-title">Note</p>
+<p>Adam:
+Add DOI or urls for convenience. It may be unavoidable, but most articles are behind paywalls that prevent access. This is okay as long as it is taken into consideration as much as possible when writing this theory manual.</p>
+</div>
 <p id="bibtex-bibliography-theory-0"><dl class="citation">
 <dt class="bibtex label" id="hall2015moordynguide"><span class="brackets"><a class="fn-backref" href="#id25">1</a></span></dt>
 <dd><p>Matthew Hall. Moordyn user’s guide. 2015.</p>
@@ -607,19 +639,11 @@ Because linear wave theory is used to determine the flow velocity and pressure f
 
   <div role="contentinfo">
     <p>
-        
         &copy; Copyright 2014, National Renewable Energy Laboratory and National Technology &amp; Engineering Solutions of Sandia, LLC (NTESS)
 
     </p>
   </div>
-    
-    
-    
-    Built with <a href="http://sphinx-doc.org/">Sphinx</a> using a
-    
-    <a href="https://github.com/rtfd/sphinx_rtd_theme">theme</a>
-    
-    provided by <a href="https://readthedocs.org">Read the Docs</a>. 
+  Built with <a href="http://sphinx-doc.org/">Sphinx</a> using a <a href="https://github.com/rtfd/sphinx_rtd_theme">theme</a> provided by <a href="https://readthedocs.org">Read the Docs</a>. 
 
 </footer>
 
@@ -630,6 +654,7 @@ Because linear wave theory is used to determine the flow velocity and pressure f
 
   </div>
   
+
 
   <script type="text/javascript">
       jQuery(function () {

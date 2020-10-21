@@ -1,7 +1,8 @@
 
 
 <!DOCTYPE html>
-<html class="writer-html5" lang="en" >
+<!--[if IE 8]><html class="no-js lt-ie9" lang="en" > <![endif]-->
+<!--[if gt IE 8]><!--> <html class="no-js" lang="en" > <!--<![endif]-->
 <head>
   <meta charset="utf-8">
   
@@ -11,19 +12,12 @@
   
 
   
-  <link rel="stylesheet" href="_static/css/theme.css" type="text/css" />
-  <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
-  <link rel="stylesheet" href="_static/css/table_wrap.css" type="text/css" />
-
-  
   
   
   
 
   
-  <!--[if lt IE 9]>
-    <script src="_static/js/html5shiv.min.js"></script>
-  <![endif]-->
+  <script type="text/javascript" src="_static/js/modernizr.min.js"></script>
   
     
       <script type="text/javascript" id="documentation_options" data-url_root="./" src="_static/documentation_options.js"></script>
@@ -35,6 +29,11 @@
     <script type="text/javascript" src="_static/js/theme.js"></script>
 
     
+
+  
+  <link rel="stylesheet" href="_static/css/theme.css" type="text/css" />
+  <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
+  <link rel="stylesheet" href="_static/css/table_wrap.css" type="text/css" />
     <link rel="index" title="Index" href="genindex.html" />
     <link rel="search" title="Search" href="search.html" />
     <link rel="next" title="Webinars" href="webinars.html" />
@@ -52,7 +51,7 @@
           
 
           
-            <a href="index.html" class="icon icon-home" alt="Documentation Home"> WEC-Sim
+            <a href="index.html" class="icon icon-home"> WEC-Sim
           
 
           
@@ -79,7 +78,6 @@
           
         </div>
 
-        
         <div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="main navigation">
           
             
@@ -179,7 +177,6 @@
             
           
         </div>
-        
       </div>
     </nav>
 
@@ -218,7 +215,7 @@
 
   <ul class="wy-breadcrumbs">
     
-      <li><a href="index.html" class="icon icon-home"></a> &raquo;</li>
+      <li><a href="index.html">Docs</a> &raquo;</li>
         
       <li>Advanced Features</li>
     
@@ -241,6 +238,36 @@
             
   <div class="section" id="advanced-features">
 <span id="id1"></span><h1>Advanced Features<a class="headerlink" href="#advanced-features" title="Permalink to this headline">¶</a></h1>
+<div class="admonition note">
+<p class="admonition-title">Note</p>
+<p>Adam:
+My summary: Some sections feel like a strange mix of theoretical information and code details. I think it is better to break up each ‘feature’ into an initial theory subsection (what it is, why it is necessary/useful, what its pros/cons are) and a following implementation subsection (variable names, related functions, classes, etc, example of how to implement if more complex).
+Also, the advanced features are essentially the same cases as the WEC-Sim Applications repo. However, this not made very clear at the beginning. I think that the Adv. Features section can better mesh with the applications by acting as a walkthrough for a user interested in that topic. As in other parts of the documentation, the ‘what is happening’ is well covered but not the ‘why/how/pros/cons’. Make it easy for users to see the advantages of the code and the pros/cons of each feature by utilizing the applications. Consistently use a runThisApplication.m, plotThisApplication.m scripts to easily compare the advantages of that application and to a standard case.
+These two areas are closely tied, so I will also write my notes on the WEC-Sim app repo below. Not all advanced features are covered by an application, and not all applications have an adv. feature section. These should have clear connections with minimal mixing of cases so that it is easy to follow.</p>
+<p>Application issues:
+B2B - Doesn’t run. Error with case4 (regularCIC+ b2b). Error occurs in Simulink at: RM3/Float/Hydrodynamic Body/Wave Radiation Forces Calculation/SS CI and Constant-Damping-CoeVariant Subsystem/Convolution Integral Calculation/MATLAB Function1/Line 21: time_series = bsxfun(&#64;times, IRKB_interp, velocity). IRKB_interp and velocity are not same dimensions
+Desal - needs an advanced feature section. Requires Simscape Fluids…
+Free decay - change plotting of cases so that Morison Element is included in the comparison of the results (done in my Applications PR) or remove ME to its own application
+GBM - needs comparison to a similar non-flex body simulation. Heave in Aij does not asymptote. Needs comparison to non-GBM case
+Mooring - Needs runMooring.m and plotMooring scripts and a non-moored/ static case to compare Moordyn, mooring matrix and a non-mooring case together.
+MCR - Denoted in the README specifically how each case is different and what kind of MCR is used (done in PR). Rename Case3_seaState as MCROPT4 for consistency.
+Nonhydro body - Needs comparison to a standard RM3 simulation with a hydro body. Add runNonhydroBody.m and plotNonhydroBody.m scripts to compare these two.
+Nonlinear hydro - Why is ode4 vs ode45 and regular vs regularCIC compared? They are useful comparisons but why here? Create a separate application that is time-step / numerical method focused. Compare a NL-hydro and a linear one here.
+Paraview - Contains ode45 and accelerator options but these are not discussed much elsewhere
+Passive Yaw - Divide runYawCases.m into run and plot scripts for consistency with other applications (done in PR)
+PTO-Sim - Could use run / plot scripts to compare all the PTO examples here, but not as necessary for these features because the PTO’s are fundamentally different. However a comparison of all the RM3 PTOs and all the OSWEC PTO could be helpful and consistent to other applications
+WECCCOMP Fault Implementation - needs adv. feature page or move to another repo
+Write HDF5 - No explanation on how to use other than to ‘fill in parameters’. This is a BEMIO feature but not include with the other examples discussed in the BEMIO adv. features section (these are in /examples/BEMIO/)</p>
+<p>Organization notes on applications/adv. features:
+Desalination and WECCCOMP need an advanced feature sections to be consistent
+A SS vs CIC comparison is done in the tests folder but not the applications/examples
+BEMIO is in the examples folder but not Applications (not necessarily problematic, just noting it).
+Wave advanced features (type, binning, directionality) are covered in the OSWEC and RM3 examples but no application. No wave gauge application or example.</p>
+<p>Other issues with BEMIO runs in the Applications repo:
+RM3 Aij in heave turns up slightly at frequency=5rad/s instead of asymptoting smoothly
+OSWEC flap Aij in surge and pitch doesn’t asymptote
+Why is the OSWEC flap so jagged in heave and pitch Bij, Kij, Xij and phi_ij?</p>
+</div>
 <p>The advanced features documentation provides an overview of WEC-Sim features that were not covered in the WEC-Sim <a class="reference internal" href="tutorials.html#tutorials"><span class="std std-ref">Tutorials</span></a>. The diagram below highlights some of WEC-Sim’s advanced features, details of which will be described in the following sections.</p>
 <div class="figure align-center">
 <a class="reference internal image-reference" href="_images/codeFeatures.png"><img alt="_images/codeFeatures.png" src="_images/codeFeatures.png" style="width: 400pt;" /></a>
@@ -329,21 +356,22 @@
 </dd>
 </dl>
 </div></blockquote>
-<p><strong>Radiation_IRF:</strong> Calculates the normalized radiation impulse response function.</p>
-<blockquote>
-<div><p><img class="math" src="_images/math/48ca99127a87633820bbe141a79709c609813312.png" alt="\overline{K}_{r,i,j}(t) = {\frac{2}{\pi}}\intop_0^{\infty}{\frac{B_{i,j}(\omega)}{\rho}}\cos({\omega}t)d\omega"/></p>
-<dl class="simple">
-<dt><em>hydro = Radiation_IRF(hydro, t_end, n_t, n_w, w_min, w_max)</em></dt><dd><ul class="simple">
-<li><p><em>hydro</em> – data structure</p></li>
-<li><p><em>t_end</em> – calculation range for the IRF, where the IRF is calculated from t = 0 to t_end, and the default is 100 s</p></li>
-<li><p><em>n_t</em> – number of time steps in the IRF, the default is 1001</p></li>
-<li><p><em>n_w</em> – number of frequency steps used in the IRF calculation (hydrodynamic coefficients are interpolated to correspond), the default is 1001</p></li>
-<li><p><em>w_min</em> – minimum frequency to use in the IRF calculation, the default is the minimum frequency from the BEM data</p></li>
-<li><p><em>w_max</em> – maximum frequency to use in the IRF calculation, the default is the maximum frequency from the BEM data.</p></li>
-</ul>
-</dd>
-</dl>
-</div></blockquote>
+<p><strong>Radiation_IRF:</strong> Calculates the normalized radiation impulse response function.
+.. Note:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span>Adam:
+Is this a different equation from the theory section? How does it realte to the SS or CI methods?
+
+:math:`\overline{K}_{r,i,j}(t) = {\frac{2}{\pi}}\intop_0^{\infty}{\frac{B_{i,j}(\omega)}{\rho}}\cos({\omega}t)d\omega`
+
+*hydro = Radiation_IRF(hydro, t_end, n_t, n_w, w_min, w_max)*
+                * *hydro* – data structure
+                * *t_end* – calculation range for the IRF, where the IRF is calculated from t = 0 to t_end, and the default is 100 s
+                * *n_t* – number of time steps in the IRF, the default is 1001
+                * *n_w* – number of frequency steps used in the IRF calculation (hydrodynamic coefficients are interpolated to correspond), the default is 1001
+                * *w_min* – minimum frequency to use in the IRF calculation, the default is the minimum frequency from the BEM data
+                * *w_max* – maximum frequency to use in the IRF calculation, the default is the maximum frequency from the BEM data.
+</pre></div>
+</div>
 <p><strong>Radiation_IRF_SS:</strong> Calculates the state space (SS) realization of the radiation IRF. If this function is used, it must be implemented after the Radiation_IRF function.</p>
 <blockquote>
 <div><dl class="simple">
@@ -645,7 +673,7 @@ Then the functions provided are used to create and populate the <code class="doc
 <li><p>Output time-step: <code class="code docutils literal notranslate"><span class="pre">simu.dtOut=N*simu.dt</span></code></p></li>
 <li><p>Nonlinear Buoyancy and Froude-Krylov Excitation time-step: <code class="code docutils literal notranslate"><span class="pre">simu.dtNL=N*simu.dt</span></code></p></li>
 <li><p>Convolution integral time-step: <code class="code docutils literal notranslate"><span class="pre">simu.dtCITime=N*simu.dt</span></code></p></li>
-<li><p>Morison force time-step: <code class="code docutils literal notranslate"><span class="pre">simu.dtME</span> <span class="pre">=</span> <span class="pre">N*N*simu.dt</span></code></p></li>
+<li><p>Morison force time-step: <code class="code docutils literal notranslate"><span class="pre">simu.dtME</span> <span class="pre">=</span> <span class="pre">N*simu.dt</span></code></p></li>
 </ul>
 <div class="section" id="fixed-time-step-ode4">
 <h4>Fixed Time-Step (ode4)<a class="headerlink" href="#fixed-time-step-ode4" title="Permalink to this headline">¶</a></h4>
@@ -653,6 +681,11 @@ Then the functions provided are used to create and populate the <code class="doc
 </div>
 <div class="section" id="variable-time-step-ode45">
 <h4>Variable Time-Step (ode45)<a class="headerlink" href="#variable-time-step-ode45" title="Permalink to this headline">¶</a></h4>
+<div class="admonition note">
+<p class="admonition-title">Note</p>
+<p>Adam:
+What is the benefit to doing this? The maximum set, but how is the instantaneous dt value determined?</p>
+</div>
 <p>To run WEC-Sim with a variable time-step, the following variables must be defined in the simulationClass:</p>
 <ul class="simple">
 <li><p>Numerical solver: <code class="code docutils literal notranslate"><span class="pre">simu.solver='ode45'</span></code></p></li>
@@ -675,9 +708,19 @@ Then the functions provided are used to create and populate the <code class="doc
 <div><p><code class="code docutils literal notranslate"><span class="pre">waves.freqDisc</span> <span class="pre">=</span> <span class="pre">'Traditional';</span></code></p>
 </div></blockquote>
 <p>Users may override the default number of wave frequencies by defining <code class="docutils literal notranslate"><span class="pre">waves.numFreq</span></code>.  However, it is on the user to ensure that the wave spectrum is adequately defined by the number of wave frequencies, and that the wave forces are not impacted by this change.</p>
+<div class="admonition note">
+<p class="admonition-title">Note</p>
+<p>Adam:
+Why would a user use an equal energy vs traditional equal frequency spectrum? Pros/cons?</p>
+</div>
 </div>
 <div class="section" id="wave-directionality">
 <h3>Wave Directionality<a class="headerlink" href="#wave-directionality" title="Permalink to this headline">¶</a></h3>
+<div class="admonition note">
+<p class="admonition-title">Note</p>
+<p>Adam:
+It looks like beta is used in this advanced features section, but theta is in the theory sections</p>
+</div>
 <p>WEC-Sim has the ability to model waves with various angles of incidence, <img class="math" src="_images/math/7138dad9ac96835665b17f5817eacfcaa9b834c9.png" alt="\beta"/>. To define wave directionality in WEC-Sim, the following wave class variable must be defined in the WEC-Sim input file:</p>
 <blockquote>
 <div><p><code class="code docutils literal notranslate"><span class="pre">waves.waveDir</span> <span class="pre">=</span> <span class="pre">&lt;user</span> <span class="pre">defined</span> <span class="pre">wave</span> <span class="pre">direction(s)&gt;;</span> <span class="pre">%[deg]</span></code></p>
@@ -731,6 +774,11 @@ Then the functions provided are used to create and populate the <code class="doc
 </div>
 <div class="section" id="nonlinear-buoyancy-and-froude-krylov-excitation">
 <span id="nonlinear"></span><h3>Nonlinear Buoyancy and Froude-Krylov Excitation<a class="headerlink" href="#nonlinear-buoyancy-and-froude-krylov-excitation" title="Permalink to this headline">¶</a></h3>
+<div class="admonition note">
+<p class="admonition-title">Note</p>
+<p>Adam:
+simu.nlHydro options 1 vs 2 not stated clearly. Doesn’t need much info, but should state clearly</p>
+</div>
 <p>WEC-Sim has the option to include the nonlinear hydrostatic restoring and Froude-Krylov forces when solving the system dynamics of WECs, accounting for the weakly nonlinear effect on the body hydrodynamics. To use nonlinear buoyancy and Froude-Krylov excitation, the <strong>simu.nlHydro</strong> simulationClass variable must be defined in the WEC-Sim input file, for example:</p>
 <blockquote>
 <div><p><code class="code docutils literal notranslate"><span class="pre">simu.nlHydro</span> <span class="pre">=</span> <span class="pre">2</span></code></p>
@@ -745,6 +793,11 @@ An option available to reduce the nonlinear simulation time is to specify a nonl
 <div class="admonition note">
 <p class="admonition-title">Note</p>
 <p>WEC-Sim’s nonlinear buoyancy and Froude-Krylov wave excitation option may be used for regular or irregular waves but not with user-defined irregular waves.</p>
+</div>
+<div class="admonition note">
+<p class="admonition-title">Note</p>
+<p>Adam:
+Why can’t nonlinear buoyancy and nonlinear FK be used with user-defined wave? Doesn’t it just use the mean/instantaneous wave elevation?</p>
 </div>
 </div>
 <div class="section" id="stl-file-generation">
@@ -821,6 +874,12 @@ An option available to reduce the nonlinear simulation time is to specify a nonl
 </div>
 <div class="section" id="passive-yaw-implementation">
 <h3>Passive Yaw Implementation<a class="headerlink" href="#passive-yaw-implementation" title="Permalink to this headline">¶</a></h3>
+<div class="admonition note">
+<p class="admonition-title">Note</p>
+<p>Adam:
+Isn’t this the same as using BEM data with different wave directionality?
+Interpolation method vs wave directionality?</p>
+</div>
 <p>For non-axisymmetric bodies with yaw orientation that changes substantially with time, WEC-Sim allows a correction to excitation forces for large yaw displacements. To enable this correction, add the following to your <code class="docutils literal notranslate"><span class="pre">wecSimInputFile</span></code>:</p>
 <blockquote>
 <div><p><code class="code docutils literal notranslate"><span class="pre">simu.yawNonLin</span> <span class="pre">=</span> <span class="pre">1</span></code></p>
@@ -1006,7 +1065,7 @@ The Simulink model can be built as follows:</p>
 <a class="reference internal image-reference" href="_images/MULTIPLEACCUMULATORS.PNG"><img alt="_images/MULTIPLEACCUMULATORS.PNG" src="_images/MULTIPLEACCUMULATORS.PNG" style="width: 400pt;" /></a>
 </div>
 <ul class="simple" id="step-8">
-<li><p>Step 8: If a rotary generator lookup table is used, this block assumes the user will provide the datasheet. After the datasheet is loaded into <code class="docutils literal notranslate"><span class="pre">Workspace</span></code>, it needs to be named as <code class="docutils literal notranslate"><span class="pre">table</span></code> because the word <code class="docutils literal notranslate"><span class="pre">table</span></code> is used inside Simulink lookup table block. The datasheet in tutorials is taken from ABB datasheet part number M3BJ315SMC. The lookup table takes three inputs: efficiency (<code class="docutils literal notranslate"><span class="pre">table.eff</span></code>), angular velocity (<code class="docutils literal notranslate"><span class="pre">table.Tpu</span></code>), and generator torque (<code class="docutils literal notranslate"><span class="pre">table.omegapu</span></code>), respectively.</p></li>
+<li><p>Step 8: If a rotary generator lookup table is used, this block assumes the user will provide the datasheet. After the datasheet is loaded into <code class="docutils literal notranslate"><span class="pre">Workspace</span></code>, it needs to be named as <code class="docutils literal notranslate"><span class="pre">table</span></code> because the word <code class="docutils literal notranslate"><span class="pre">table</span></code> is used inside Simulink lookup table block. The datasheet in tutorials is taken from ABB datasheet part number M3BJ315SMC. The lookup table takes three inputs: efficiency (<code class="docutils literal notranslate"><span class="pre">table.eff</span></code>), angular velocity (<code class="docutils literal notranslate"><span class="pre">table.omegapu</span></code>), and generator torque (<code class="docutils literal notranslate"><span class="pre">table.Tpu</span></code>), respectively.</p></li>
 </ul>
 <div class="figure align-default">
 <a class="reference internal image-reference" href="_images/ROTARYHIGHLEVELBLOCK.PNG"><img alt="_images/ROTARYHIGHLEVELBLOCK.PNG" src="_images/ROTARYHIGHLEVELBLOCK.PNG" style="width: 400pt;" /></a>
@@ -1110,7 +1169,12 @@ The same as <a class="reference internal" href="pto.html#rm3-with-hydraulic-pto"
 </div>
 <div class="section" id="other-pto-sim-tutorials">
 <h4>Other PTO-Sim Tutorials<a class="headerlink" href="#other-pto-sim-tutorials" title="Permalink to this headline">¶</a></h4>
-<p>Other PTO-Sim tutorials that were not discussed above can be found on the <a class="reference external" href="https://github.com/WEC-Sim/WEC-Sim_Applications">WEC-Sim Applications</a> repository.</p>
+<div class="admonition note">
+<p class="admonition-title">Note</p>
+<p>Adam:
+The PTOs in this table are kind of all covered by and tied to the discussion above. Might consider removing to prevent confusion. Or move table to top of the PTO-Sim section and then user can find them before reading through.</p>
+</div>
+<p>Other PTO-Sim tutorials that were not discussed above can be found on the <a class="reference external" href="https://github.com/WEC-Sim/WEC-Sim_Applications">WEC-Sim Applications</a> repository:</p>
 <blockquote>
 <div><table class="docutils align-default">
 <colgroup>
@@ -1422,7 +1486,7 @@ The following propoerties must be defined prior to using the object’s <code cl
 <li><p><code class="code docutils literal notranslate"><span class="pre">pto(i).loc</span></code></p></li>
 <li><p><code class="code docutils literal notranslate"><span class="pre">mooring.ref</span></code></p></li>
 </ul>
-<p>For more information, refer to the <strong>IEA_OES_Task10_freeDecay</strong> example on the <a class="reference external" href="https://github.com/WEC-Sim/WEC-Sim_Applications">WEC-Sim Applications</a> repository.</p>
+<p>For more information, refer to the <strong>Free Decay</strong> example on the <a class="reference external" href="https://github.com/WEC-Sim/WEC-Sim_Applications">WEC-Sim Applications</a> repository.</p>
 </div>
 </div>
 
@@ -1446,19 +1510,11 @@ The following propoerties must be defined prior to using the object’s <code cl
 
   <div role="contentinfo">
     <p>
-        
         &copy; Copyright 2014, National Renewable Energy Laboratory and National Technology &amp; Engineering Solutions of Sandia, LLC (NTESS)
 
     </p>
   </div>
-    
-    
-    
-    Built with <a href="http://sphinx-doc.org/">Sphinx</a> using a
-    
-    <a href="https://github.com/rtfd/sphinx_rtd_theme">theme</a>
-    
-    provided by <a href="https://readthedocs.org">Read the Docs</a>. 
+  Built with <a href="http://sphinx-doc.org/">Sphinx</a> using a <a href="https://github.com/rtfd/sphinx_rtd_theme">theme</a> provided by <a href="https://readthedocs.org">Read the Docs</a>. 
 
 </footer>
 
@@ -1469,6 +1525,7 @@ The following propoerties must be defined prior to using the object’s <code cl
 
   </div>
   
+
 
   <script type="text/javascript">
       jQuery(function () {

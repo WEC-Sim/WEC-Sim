@@ -5,8 +5,10 @@
   - Windows: Download and install [Python3](https://www.python.org/downloads/) or [Anaconda](https://www.anaconda.com/distribution/)
  
 ### Step 2. Add Python to System Path
-  - Windows: Modify the PATH in environmental variables to include: C:\PYTHON;C:\PYTHON\Scripts 
+  - Windows: Modify the PATH in environmental variables to include: C:\PYTHON;C:\PYTHON\Scripts
+	     If Anaconda was used to install Python add python to the system path as: C:\Users\yourUserName\Anaconda3
   ([more info here](http://stackoverflow.com/questions/3701646/how-to-add-to-the-pythonpath-in-windows-7))
+  You can also add through the command prompt using: SETX PATH "%PATH%;newPathstoAdd"
   - **NOTE:** MAC/LINUX skip to Step 3, Python is already added to path
   
 ### Step 3. Download/Install [Sphinx](http://www.sphinx-doc.org/en/stable/index.html) package
@@ -21,7 +23,7 @@
   
 
 ## Update the [WEC-Sim Website](http://wec-sim.github.io/WEC-Sim) Content
-The WEC-Sim documentation located on the [gh-pages branch](https://github.com/WEC-Sim/WEC-Sim/tree/gh-pages), referred to as ``<GH-PAGES>``. The WEC-Sim Website is developed as restructured text files that are compiled by [Sphinx](http://www.sphinx-doc.org/en/master/) into html files. To edit the WEC-Sim Website, modify the source files located in the ``<GH-PAGES>/source`` directory using the syntax described on the [Sphinx Website](http://www.sphinx-doc.org/en/master/). Once you are done editing, cd to your local ``$GH-PAGES`` directory from cmd, clean the previous compile with ``clean html``, and compile the updated the documentation with``make html``. This compiles an html version of the website in ``<GH-PAGES>/``. After compiling the updated website, you can view the local copy of the website by opening the ``<GH-PAGES>/index.html`` file from your local directory, and viewing it in a web browser (before pushing it online). 
+The WEC-Sim documentation located on the [gh-pages branch](https://github.com/WEC-Sim/WEC-Sim/tree/gh-pages), referred to as ``<GH-PAGES>``. The WEC-Sim Website is developed as restructured text files that are compiled by [Sphinx](http://www.sphinx-doc.org/en/master/) into html files. To edit the WEC-Sim Website, modify the source files located in the ``<GH-PAGES>/source`` directory using the syntax described on the [Sphinx Website](http://www.sphinx-doc.org/en/master/). Once you are done editing, cd to your local ``$GH-PAGES`` directory from cmd, clean the previous compile with ``clean html``, and compile the updated the documentation with ``make html``. This compiles an html version of the website in ``<GH-PAGES>/``. After compiling the updated website, you can view the local copy of the website by opening the ``<GH-PAGES>/index.html`` file from your local directory, and viewing it in a web browser (before pushing it online). 
 
 ### Best Practices
   - Run spell check (not built into most text editors)

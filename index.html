@@ -1,7 +1,8 @@
 
 
 <!DOCTYPE html>
-<html class="writer-html5" lang="en" >
+<!--[if IE 8]><html class="no-js lt-ie9" lang="en" > <![endif]-->
+<!--[if gt IE 8]><!--> <html class="no-js" lang="en" > <!--<![endif]-->
 <head>
   <meta charset="utf-8">
   
@@ -11,19 +12,12 @@
   
 
   
-  <link rel="stylesheet" href="_static/css/theme.css" type="text/css" />
-  <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
-  <link rel="stylesheet" href="_static/css/table_wrap.css" type="text/css" />
-
-  
   
   
   
 
   
-  <!--[if lt IE 9]>
-    <script src="_static/js/html5shiv.min.js"></script>
-  <![endif]-->
+  <script type="text/javascript" src="_static/js/modernizr.min.js"></script>
   
     
       <script type="text/javascript" id="documentation_options" data-url_root="./" src="_static/documentation_options.js"></script>
@@ -35,6 +29,11 @@
     <script type="text/javascript" src="_static/js/theme.js"></script>
 
     
+
+  
+  <link rel="stylesheet" href="_static/css/theme.css" type="text/css" />
+  <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
+  <link rel="stylesheet" href="_static/css/table_wrap.css" type="text/css" />
     <link rel="index" title="Index" href="genindex.html" />
     <link rel="search" title="Search" href="search.html" />
     <link rel="next" title="Getting Started" href="getting_started.html" /> 
@@ -51,7 +50,7 @@
           
 
           
-            <a href="#" class="icon icon-home" alt="Documentation Home"> WEC-Sim
+            <a href="#" class="icon icon-home"> WEC-Sim
           
 
           
@@ -78,7 +77,6 @@
           
         </div>
 
-        
         <div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="main navigation">
           
             
@@ -106,7 +104,6 @@
             
           
         </div>
-        
       </div>
     </nav>
 
@@ -145,7 +142,7 @@
 
   <ul class="wy-breadcrumbs">
     
-      <li><a href="#" class="icon icon-home"></a> &raquo;</li>
+      <li><a href="#">Docs</a> &raquo;</li>
         
       <li>WEC-Sim (Wave Energy Converter SIMulator)</li>
     
@@ -171,9 +168,23 @@
 </div>
 <div class="toctree-wrapper compound">
 </div>
+<div class="admonition note">
+<p class="admonition-title">Note</p>
+<p>Adam:
+I agree with many of Mat’s comments on this page. I think that this section might be better off merged with the getting started page and labeled ‘Introduction to WEC-Sim’. It can include some examples of WEC-Sims ability and more details to draw users in. What can WEC-Sim simulate? What does a user require to run it? (qualitative overview, not the same technical details and file types in the overview section) Draw users/developers in and introduce them to WEC-sims extensive capabilities</p>
+<p>Other issues:
+- it doesn’t appear on the TOC on the left of the webpage,
+- it appears as Ch. 17 in the compiled pdf, not at the beginning
+- In the pdf, the list of authors in the title page runs off the page</p>
+</div>
 <div class="section" id="wec-sim-wave-energy-converter-simulator">
 <h1>WEC-Sim (Wave Energy Converter SIMulator)<a class="headerlink" href="#wec-sim-wave-energy-converter-simulator" title="Permalink to this headline">¶</a></h1>
 <p><a class="reference external" href="https://github.com/WEC-Sim/WEC-Sim">WEC-Sim (Wave Energy Converter SIMulator)</a> is an open-source code for simulating wave energy converters. The code is developed in MATLAB/SIMULINK using the multi-body dynamics solver Simscape Multibody. WEC-Sim has the ability to model devices that are comprised of rigid bodies, joints, power take-off systems, and mooring systems. Simulations are performed in the time-domain by solving the governing wave energy converter equations of motion in 6 degrees-of-freedom.</p>
+<div class="admonition note">
+<p class="admonition-title">Note</p>
+<p>Adam:
+WEC-Sim is no longer restricted to rigid bodies with the addition of the GBM feature</p>
+</div>
 <div class="section" id="wec-sim-developers">
 <span id="developers"></span><h2>WEC-Sim Developers<a class="headerlink" href="#wec-sim-developers" title="Permalink to this headline">¶</a></h2>
 <p>WEC-Sim is a collaboration between the <a class="reference external" href="http://www.nrel.gov/water/">National Renewable Energy Laboratory (NREL)</a> and <a class="reference external" href="http://energy.sandia.gov/energy/renewable-energy/water-power/">Sandia National Laboratories (Sandia)</a>, funded by the U.S. Department of Energy’s Water Power Technologies Office. Due to the open source nature of the code, WEC-Sim  has also had many external contributions, for more information refer to  <a class="reference internal" href="acknowledgements.html#acknowledgements"><span class="std std-ref">Acknowledgements</span></a>.</p>
@@ -191,6 +202,11 @@
 <p>Development and maintenance of the WEC-Sim code is funded by the U.S. Department of Energy’s Water Power Technologies Office. WEC-Sim code development is a collaboration between the National Renewable Energy Laboratory and Sandia National Laboratories.</p>
 <p>The National Renewable Energy Laboratory is a national laboratory of the U.S. Department of Energy, Office of Energy Efficiency and Renewable Energy, operated by the Alliance for Sustainable Energy, LLC. under contract No. DE-AC36-08GO28308.</p>
 <p>Sandia National Laboratories is a multi-mission laboratory managed and operated by National Technology and Engineering Solutions of Sandia, LLC., a wholly owned subsidiary of Honeywell International, Inc., for the U.S. Department of Energy’s National Nuclear Security Administration under contract DE-NA0003525.</p>
+<div class="admonition note">
+<p class="admonition-title">Note</p>
+<p>Adam:
+This information is repeated from the acknowledgements section.</p>
+</div>
 </div>
 </div>
 
@@ -212,19 +228,11 @@
 
   <div role="contentinfo">
     <p>
-        
         &copy; Copyright 2014, National Renewable Energy Laboratory and National Technology &amp; Engineering Solutions of Sandia, LLC (NTESS)
 
     </p>
   </div>
-    
-    
-    
-    Built with <a href="http://sphinx-doc.org/">Sphinx</a> using a
-    
-    <a href="https://github.com/rtfd/sphinx_rtd_theme">theme</a>
-    
-    provided by <a href="https://readthedocs.org">Read the Docs</a>. 
+  Built with <a href="http://sphinx-doc.org/">Sphinx</a> using a <a href="https://github.com/rtfd/sphinx_rtd_theme">theme</a> provided by <a href="https://readthedocs.org">Read the Docs</a>. 
 
 </footer>
 
@@ -235,6 +243,7 @@
 
   </div>
   
+
 
   <script type="text/javascript">
       jQuery(function () {

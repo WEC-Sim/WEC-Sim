@@ -1,7 +1,8 @@
 
 
 <!DOCTYPE html>
-<html class="writer-html5" lang="en" >
+<!--[if IE 8]><html class="no-js lt-ie9" lang="en" > <![endif]-->
+<!--[if gt IE 8]><!--> <html class="no-js" lang="en" > <!--<![endif]-->
 <head>
   <meta charset="utf-8">
   
@@ -11,19 +12,12 @@
   
 
   
-  <link rel="stylesheet" href="_static/css/theme.css" type="text/css" />
-  <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
-  <link rel="stylesheet" href="_static/css/table_wrap.css" type="text/css" />
-
-  
   
   
   
 
   
-  <!--[if lt IE 9]>
-    <script src="_static/js/html5shiv.min.js"></script>
-  <![endif]-->
+  <script type="text/javascript" src="_static/js/modernizr.min.js"></script>
   
     
       <script type="text/javascript" id="documentation_options" data-url_root="./" src="_static/documentation_options.js"></script>
@@ -35,6 +29,11 @@
     <script type="text/javascript" src="_static/js/theme.js"></script>
 
     
+
+  
+  <link rel="stylesheet" href="_static/css/theme.css" type="text/css" />
+  <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
+  <link rel="stylesheet" href="_static/css/table_wrap.css" type="text/css" />
     <link rel="index" title="Index" href="genindex.html" />
     <link rel="search" title="Search" href="search.html" />
     <link rel="next" title="Advanced Features" href="advanced_features.html" />
@@ -52,7 +51,7 @@
           
 
           
-            <a href="index.html" class="icon icon-home" alt="Documentation Home"> WEC-Sim
+            <a href="index.html" class="icon icon-home"> WEC-Sim
           
 
           
@@ -79,7 +78,6 @@
           
         </div>
 
-        
         <div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="main navigation">
           
             
@@ -138,7 +136,6 @@
             
           
         </div>
-        
       </div>
     </nav>
 
@@ -177,7 +174,7 @@
 
   <ul class="wy-breadcrumbs">
     
-      <li><a href="index.html" class="icon icon-home"></a> &raquo;</li>
+      <li><a href="index.html">Docs</a> &raquo;</li>
         
       <li>Tutorials</li>
     
@@ -200,6 +197,13 @@
             
   <div class="section" id="tutorials">
 <span id="id1"></span><h1>Tutorials<a class="headerlink" href="#tutorials" title="Permalink to this headline">¶</a></h1>
+<div class="admonition note">
+<p class="admonition-title">Note</p>
+<p>Adam:
+In general, I find the tutorials to be thorough and easy to read. I feel confident in moving forward with the WEC-Sim applications after the tutorials. There is enought information on how to recreate the tutorials and have them run successfully. However, there’s not a lot of detail on /how/ they run or why they do what they do. Add some explanation on what is going on so that the user can understand and not just replicate. Expand on the differences between the two and what the user should notice between them.
+I think this section is better placed immediately after the Overview or with the Theory right next to advanced features. The appropriate order largely depends on if someone is a user or developer. User layout might be something like: Overview,  Code Structure, Tutorials, Theory, Advanced Features
+Developer layout: as is</p>
+</div>
 <p>This section provides step-by-step instructions on how to run the WEC-Sim code using the provided Tutorials (located in the WEC-Sim <code class="docutils literal notranslate"><span class="pre">$WECSIM/tutorials</span></code> directory).
 Two WEC-Sim tutorials are provided: the Two-Body Point Absorber (RM3), and the Oscillating Surge WEC (OSWEC).
 For information about the implementation of the WEC-Sim code refer to the refer to the <a class="reference internal" href="code_structure.html#code-structure"><span class="std std-ref">Code Structure</span></a> section.
@@ -291,6 +295,11 @@ Inertia (kg-m^2)</p></td>
 </tr>
 </tbody>
 </table>
+<div class="admonition note">
+<p class="admonition-title">Note</p>
+<p>Adam:
+This is a user’s first real look at WEC-Sim. Put x, y, z in the properties tables below for clarity.</p>
+</div>
 </div>
 <div class="section" id="model-files">
 <h3>Model Files<a class="headerlink" href="#model-files" title="Permalink to this headline">¶</a></h3>
@@ -329,6 +338,13 @@ Inertia (kg-m^2)</p></td>
 <h3>RM3 Tutorial<a class="headerlink" href="#rm3-tutorial" title="Permalink to this headline">¶</a></h3>
 <div class="section" id="step-1-run-bemio">
 <h4>Step 1: Run BEMIO<a class="headerlink" href="#step-1-run-bemio" title="Permalink to this headline">¶</a></h4>
+<div class="admonition note">
+<p class="admonition-title">Note</p>
+<p>Adam:
+The correct tendency for phi and X are not described in the BEMIO plots.
+RM3 - Aij value for surge and heave don’t have the right tendency
+OSWEC - why does the pitch direction have such a noisy, erratic response?</p>
+</div>
 <p>Hydrodynamic data for each RM3 body must be parsed into a HDF5 file using <a class="reference internal" href="advanced_features.html#bemio"><span class="std std-ref">BEMIO</span></a>.
 BEMIO converts hydrodynamic data from WAMIT, NEMOH or AQWA into a HDF5 file, <code class="docutils literal notranslate"><span class="pre">*.h5</span></code> that is then read by WEC-Sim.
 The RM3 tutorial includes data from a WAMIT run, <code class="docutils literal notranslate"><span class="pre">rm3.out</span></code>, of the RM3 geometry in the <code class="docutils literal notranslate"><span class="pre">$WECSIM/tutorials/rm3/hydroData/</span></code> directory.
@@ -340,7 +356,12 @@ The RM3 WAMIT <code class="docutils literal notranslate"><span class="pre">rm3.o
 </div>
 <div class="section" id="step-2-build-simulink-model">
 <h4>Step 2: Build Simulink Model<a class="headerlink" href="#step-2-build-simulink-model" title="Permalink to this headline">¶</a></h4>
-<p>The WEC-Sim Simulink model is created by dragging and dropping blocks from the <em>WEC-Sim Library</em> into the <code class="docutils literal notranslate"><span class="pre">rm3.slx</span></code> file.</p>
+<div class="admonition note">
+<p class="admonition-title">Note</p>
+<p>Adam:
+The simulink screenshots have illegibly small text. They need to be replaced. Make blocks smaller wrt text and zoom in for more clear figures. The base/follower note needs to come before a user connects blocks. Include why this difference is important.</p>
+</div>
+<p>The WEC-Sim Simulink model is created by dragging and dropping blocks from the <em>WEC-Sim Library</em> into the <code class="docutils literal notranslate"><span class="pre">rm3.slx</span></code> file. When setting up a WEC-Sim model, it is very important to note the base and follower frames. The base port should always connect ‘towards’ the Global Reference Frame, while the follower port connects ‘away’ from the reference frame.</p>
 <ul class="simple">
 <li><p>Place two <strong>Rigid Body</strong> blocks from the <em>WEC-Sim Library</em> in the Simulink model file, one for each RM3 rigid body.</p></li>
 <li><p>Double click on the <strong>Rigid Body</strong> block, and rename each instance of the body. The first body must be called <code class="docutils literal notranslate"><span class="pre">body(1)</span></code>, and the second body should be called <code class="docutils literal notranslate"><span class="pre">body(2)</span></code>.</p></li>
@@ -361,14 +382,10 @@ The RM3 WAMIT <code class="docutils literal notranslate"><span class="pre">rm3.o
 <div class="figure align-center">
 <a class="reference internal image-reference" href="_images/RM3_WECSim.JPG"><img alt="_images/RM3_WECSim.JPG" src="_images/RM3_WECSim.JPG" style="width: 400pt;" /></a>
 </div>
-<div class="admonition note">
-<p class="admonition-title">Note</p>
-<p>When setting up a WEC-Sim model, it is very important to note the base and follower frames.</p>
-</div>
 </div>
 <div class="section" id="step-3-write-wecsiminputfile-m">
 <h4>Step 3: Write wecSimInputFile.m<a class="headerlink" href="#step-3-write-wecsiminputfile-m" title="Permalink to this headline">¶</a></h4>
-<p>The WEC-Sim input file defines simulation parameters, body properties, joints, and mooring for the RM3 model. The <code class="docutils literal notranslate"><span class="pre">wecSimInputFile.m</span></code> for the RM3 is provided in the RM3 case directory, and shown below.</p>
+<p>The WEC-Sim input file defines simulation parameters, body properties, joints, and mooring for the RM3 model. The <code class="docutils literal notranslate"><span class="pre">wecSimInputFile.m</span></code> for the RM3 is provided in the RM3 case directory, and shown below. It is recommended that new users copy information from RM3_wecSimInputFile.m to wecSimInputFile.m, so that they get familiar with the set-up parameters and the files being called in a basic WEC-Sim run.</p>
 <div class="highlight-matlab notranslate"><div class="highlight"><pre><span></span><span class="c">%% Simulation Data</span>
 <span class="n">simu</span> <span class="p">=</span> <span class="n">simulationClass</span><span class="p">();</span>                       <span class="c">% Initialize simulationClass</span>
 <span class="n">simu</span><span class="p">.</span><span class="n">simMechanicsFile</span> <span class="p">=</span> <span class="s">&#39;RM3.slx&#39;</span><span class="p">;</span>              <span class="c">% Simulink Model File</span>
@@ -646,19 +663,11 @@ For each example the <code class="docutils literal notranslate"><span class="pre
 
   <div role="contentinfo">
     <p>
-        
         &copy; Copyright 2014, National Renewable Energy Laboratory and National Technology &amp; Engineering Solutions of Sandia, LLC (NTESS)
 
     </p>
   </div>
-    
-    
-    
-    Built with <a href="http://sphinx-doc.org/">Sphinx</a> using a
-    
-    <a href="https://github.com/rtfd/sphinx_rtd_theme">theme</a>
-    
-    provided by <a href="https://readthedocs.org">Read the Docs</a>. 
+  Built with <a href="http://sphinx-doc.org/">Sphinx</a> using a <a href="https://github.com/rtfd/sphinx_rtd_theme">theme</a> provided by <a href="https://readthedocs.org">Read the Docs</a>. 
 
 </footer>
 
@@ -669,6 +678,7 @@ For each example the <code class="docutils literal notranslate"><span class="pre
 
   </div>
   
+
 
   <script type="text/javascript">
       jQuery(function () {

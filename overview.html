@@ -1,7 +1,8 @@
 
 
 <!DOCTYPE html>
-<html class="writer-html5" lang="en" >
+<!--[if IE 8]><html class="no-js lt-ie9" lang="en" > <![endif]-->
+<!--[if gt IE 8]><!--> <html class="no-js" lang="en" > <!--<![endif]-->
 <head>
   <meta charset="utf-8">
   
@@ -11,19 +12,12 @@
   
 
   
-  <link rel="stylesheet" href="_static/css/theme.css" type="text/css" />
-  <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
-  <link rel="stylesheet" href="_static/css/table_wrap.css" type="text/css" />
-
-  
   
   
   
 
   
-  <!--[if lt IE 9]>
-    <script src="_static/js/html5shiv.min.js"></script>
-  <![endif]-->
+  <script type="text/javascript" src="_static/js/modernizr.min.js"></script>
   
     
       <script type="text/javascript" id="documentation_options" data-url_root="./" src="_static/documentation_options.js"></script>
@@ -35,6 +29,11 @@
     <script type="text/javascript" src="_static/js/theme.js"></script>
 
     
+
+  
+  <link rel="stylesheet" href="_static/css/theme.css" type="text/css" />
+  <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
+  <link rel="stylesheet" href="_static/css/table_wrap.css" type="text/css" />
     <link rel="index" title="Index" href="genindex.html" />
     <link rel="search" title="Search" href="search.html" />
     <link rel="next" title="Theory" href="theory.html" />
@@ -52,7 +51,7 @@
           
 
           
-            <a href="index.html" class="icon icon-home" alt="Documentation Home"> WEC-Sim
+            <a href="index.html" class="icon icon-home"> WEC-Sim
           
 
           
@@ -79,7 +78,6 @@
           
         </div>
 
-        
         <div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="main navigation">
           
             
@@ -124,7 +122,6 @@
             
           
         </div>
-        
       </div>
     </nav>
 
@@ -163,7 +160,7 @@
 
   <ul class="wy-breadcrumbs">
     
-      <li><a href="index.html" class="icon icon-home"></a> &raquo;</li>
+      <li><a href="index.html">Docs</a> &raquo;</li>
         
       <li>Overview</li>
     
@@ -184,8 +181,13 @@
           <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
            <div itemprop="articleBody">
             
-  <div class="section" id="overview">
-<span id="id1"></span><h1>Overview<a class="headerlink" href="#overview" title="Permalink to this headline">¶</a></h1>
+  <div class="admonition note" id="overview">
+<p class="admonition-title">Note</p>
+<p>Adam:
+Personally, I dislike the amount of bullet points on this page. I think that it makes the text difficult to read. Most of the information would be more clear in sentence/paragraph format. Especially the information under the ‘WEC-Sim Model Files’ sub heading</p>
+</div>
+<div class="section" id="id1">
+<h1>Overview<a class="headerlink" href="#id1" title="Permalink to this headline">¶</a></h1>
 <p>This section provides an overview of the WEC-Sim work flow.
 First, the WEC-Sim file structure is described; then, steps for setting up and running the WEC-Sim code are described.
 The WEC-Sim workflow diagram is shown below.
@@ -199,6 +201,13 @@ For information about the implementation and structure of the WEC-Sim source cod
 </div>
 <div class="section" id="wec-sim-model-files">
 <h2>WEC-Sim Model Files<a class="headerlink" href="#wec-sim-model-files" title="Permalink to this headline">¶</a></h2>
+<div class="admonition note">
+<p class="admonition-title">Note</p>
+<p>Adam:
+Rename this subsection to ‘WEC-Sim Input Files’ or ‘WEC-Sim Inputs’. ‘model files’ is a bit ambiguous as to whether they are inputs or outputs. Some conceptual or qualitative overview of WEC-Sim’s requirements are needed first. There is not real introduction to WEC-Sim before this, so going straight to file types is confusing. Start with a short paragraph like:
+“Before WEC-Sim can be used, a wave energy converter design must exist. This design must include a surface mesh, frequency-based hydrodynamic data from a boundary element method solver, a Simulink/Simscape model of the WEC’s bodies interacting. The WECs geometry and other parameters must be detailed in the wecSimInputFile.”
+Then go into the subsection and details of each of the four components required.</p>
+</div>
 <p>All files required for a WEC-Sim simulation must be contained within a case directory referred to as <code class="docutils literal notranslate"><span class="pre">$CASE</span></code>.
 This directory can be located anywhere on your computer.
 The table below list the WEC-Sim case directory structure and required files.</p>
@@ -262,6 +271,11 @@ The table below list the WEC-Sim case directory structure and required files.</p
 </ul>
 <div class="figure align-center">
 <a class="reference internal image-reference" href="_images/OSWEC_Model.png"><img alt="_images/OSWEC_Model.png" src="_images/OSWEC_Model.png" style="width: 200pt;" /></a>
+</div>
+<div class="admonition note">
+<p class="admonition-title">Note</p>
+<p>Adam:
+This is also a Simscape model. This is important to point out because it requires additional software license and knowledge beyond Simulink.</p>
 </div>
 </div>
 <div class="section" id="input-file">
@@ -446,19 +460,11 @@ The WEC-Sim source code is located in the <code class="docutils literal notransl
 
   <div role="contentinfo">
     <p>
-        
         &copy; Copyright 2014, National Renewable Energy Laboratory and National Technology &amp; Engineering Solutions of Sandia, LLC (NTESS)
 
     </p>
   </div>
-    
-    
-    
-    Built with <a href="http://sphinx-doc.org/">Sphinx</a> using a
-    
-    <a href="https://github.com/rtfd/sphinx_rtd_theme">theme</a>
-    
-    provided by <a href="https://readthedocs.org">Read the Docs</a>. 
+  Built with <a href="http://sphinx-doc.org/">Sphinx</a> using a <a href="https://github.com/rtfd/sphinx_rtd_theme">theme</a> provided by <a href="https://readthedocs.org">Read the Docs</a>. 
 
 </footer>
 
@@ -469,6 +475,7 @@ The WEC-Sim source code is located in the <code class="docutils literal notransl
 
   </div>
   
+
 
   <script type="text/javascript">
       jQuery(function () {
