@@ -6,8 +6,8 @@ orbs:
 jobs:
   build:
     machine:
-      image: ubuntu-1604:202007-01
-    resource_class: xlarge      
+      image: ubuntu-2004:202010-0
+    resource_class: large      
     steps:
       - checkout
       - matlab/install
