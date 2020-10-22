@@ -1,8 +1,8 @@
 jobs:
   build:
-    executor:
-      name: win/default
-      size: "medium"
+    machine:
+      image: 'ubuntu-1604:201903-01'
+      size: 'xlarge'
     steps:
       - checkout
       - matlab/install
@@ -16,5 +16,4 @@ jobs:
           path: test-results
 orbs:
   matlab: mathworks/matlab@0.2.0
-  win: circleci/windows@2.2.0 
 version: 2.1
