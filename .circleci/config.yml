@@ -5,7 +5,6 @@ jobs:
     steps:
       - checkout
       - matlab/install
-          release: 2018b      
       - matlab/run-command:
           command: addpath(genpath('../source'))     
           command: addpath(genpath('../tests'))   
