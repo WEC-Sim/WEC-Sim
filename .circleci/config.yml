@@ -1,7 +1,12 @@
+version: 2.1
+
+orbs:
+  matlab: mathworks/matlab@0.2.0
+  
 jobs:
   build:
     machine:
-      image: 'windows-server-2019-nvidia:stable'
+      image: ubuntu-1604:202007-01
     steps:
       - checkout
       - matlab/install
@@ -13,6 +18,3 @@ jobs:
           code-coverage-cobertura: test-results/matlab/coverage.xml
       - store_test_results:
           path: test-results
-orbs:
-  matlab: mathworks/matlab@0.2.0
-version: 2.1
