@@ -2,7 +2,7 @@ jobs:
   build:
     executor:
       name: win/default
-      shell: powershell.exe
+      size: "medium"
     steps:
       - checkout
       - matlab/install
