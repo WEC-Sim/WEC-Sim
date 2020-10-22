@@ -6,8 +6,7 @@ jobs:
       - checkout
       - matlab/install
       - matlab/run-command:
-          command: addpath(genpath('../source'))     
-          command: addpath(genpath('../tests'))   
+          command: addpath(genpath('../source'));addpath(genpath('../tests'))   
       - matlab/run-tests:
           source-folder: source:tests
           test-results-junit: test-results/matlab/results.xml
