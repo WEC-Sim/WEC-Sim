@@ -2,19 +2,16 @@
 
 ## Download/Install Required Packages
 ### Step 1. Download and Install Python 
-  - Windows: Download and install [Python3](https://www.python.org/downloads/) or [Anaconda](https://www.anaconda.com/distribution/)
+  - Windows: Download and install Python3, using [Anaconda](https://www.anaconda.com/distribution/). When installing Anaconda select the option to add Python to your environmental vairables. Follow [these instructions](https://docs.anaconda.com/anaconda/user-guide/tasks/proxy/) for using Anaconda behind a company proxy.
  
-### Step 2. Add Python to System Path
+### Step 2. Add Python to System Path 
   - Windows: Modify the PATH in environmental variables to include: C:\PYTHON;C:\PYTHON\Scripts 
-  ([more info here](http://stackoverflow.com/questions/3701646/how-to-add-to-the-pythonpath-in-windows-7))
-  - **NOTE:** MAC/LINUX skip to Step 3, Python is already added to path
+  ([more info here](http://stackoverflow.com/questions/3701646/how-to-add-to-the-pythonpath-in-windows-7)). Make sure t
+  - MAC/LINUX: Skip to Step 3, Python is already added to path
   
-### Step 3. Download/Install [Sphinx](http://www.sphinx-doc.org/en/stable/index.html) package
-  - Install Sphinx from cmd ``pip install -U Sphinx`` 
+### Step 3. Download/Install [Sphinx](http://www.sphinx-doc.org/en/stable/index.html) and Sphinx extensions
+  - Install Sphinx ``pip install -U Sphinx`` 
     ([more info here](http://www.sphinx-doc.org/en/master/usage/installation.html))
-  - **NOTE:** You may need to configure PROXY settings ([see info here](https://cinhtau.net/2018/04/16/python-proxy-windows/))
-
-### Step 4. Download/Install Sphinx extensions
   - Install rtd theme ``pip install -U sphinx_rtd_theme``
   - Install BibTex ``pip install -U sphinxcontrib-bibtex``
   - Install matlabdomain ``pip install -U sphinxcontrib-matlabdomain``
