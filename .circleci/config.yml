@@ -6,7 +6,7 @@ jobs:
       - checkout
       - matlab/install
       - matlab/run-command:
-          command: addpath(genpath('../source'));addpath(genpath('../tests'))   
+          command: addpath(genpath('../source'));addpath(genpath('../tests'));run examples\RM3\hydroData\bemio.m;run examples\OSWEC\hydroData\bemio.m
       - matlab/run-tests:
           source-folder: source:tests
           test-results-junit: test-results/matlab/results.xml
