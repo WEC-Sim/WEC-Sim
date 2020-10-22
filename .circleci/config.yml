@@ -6,7 +6,7 @@ jobs:
       - checkout
       - matlab/install
       - matlab/run-command:
-          command: addpath(genpath('../source')); addpath(genpath('../tests')); cd examples\RM3\hydroData; run bemio.m;
+          command: addpath(genpath('./source')); addpath(genpath('./tests')); cd examples/RM3/hydroData; run bemio.m; cd ../..;
       - matlab/run-tests:
           source-folder: source:tests
           test-results-junit: test-results/matlab/results.xml
