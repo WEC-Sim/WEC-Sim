@@ -1,7 +1,7 @@
 jobs:
   build:
     machine:
-      image: windows-server-2019-nvidia:stable
+      image: 'windows-server-2019-nvidia:stable'
     steps:
       - checkout
       - matlab/install
