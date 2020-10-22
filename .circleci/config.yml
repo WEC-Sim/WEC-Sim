@@ -7,7 +7,6 @@ jobs:
   build:
     machine:
       image: ubuntu-2004:202010-0
-    resource_class: large      
     steps:
       - checkout
       - matlab/install
