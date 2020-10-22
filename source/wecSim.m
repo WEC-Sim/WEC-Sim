@@ -326,13 +326,16 @@ end
 if simu.outputtxt==1
     output.writetxt();
 end
+if simu.outputStructure==1
+    output = struct(output);
+end
+
 paraViewVisualization
 
 %% Save files
 clear ans table tout;
 toc
 diary off
-%movefile('simulation.log',simu.logFile)
 if simu.saveMat==1
     save(simu.caseFile,'-v7.3')
 end
