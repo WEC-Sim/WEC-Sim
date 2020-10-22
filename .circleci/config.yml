@@ -5,10 +5,14 @@ jobs:
     steps:
       - checkout
       - matlab/install
+          release: 2018b      
       - matlab/run-command:
           command: addpath(genpath('../source'))     
+          command: addpath(genpath('../tests'))   
       - matlab/run-tests:
+          source-folder: source:tests
           test-results-junit: test-results/matlab/results.xml
+          code-coverage-cobertura: test-results/matlab/coverage.xml
       - store_test_results:
           path: test-results
 orbs:
