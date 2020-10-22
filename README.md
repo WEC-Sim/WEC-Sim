@@ -2,11 +2,11 @@
 
 ## Download/Install Required Packages
 ### Step 1. Download and Install Python 
-  - Windows: Download and install Python3, using [Anaconda](https://www.anaconda.com/distribution/). When installing Anaconda select the option to add Python to your environmental vairables. Follow [these instructions](https://docs.anaconda.com/anaconda/user-guide/tasks/proxy/) for using Anaconda behind a company proxy.
+  - Windows: Download and Install Python3 using [Anaconda](https://www.anaconda.com/distribution/). When installing Anaconda select the option to add Python to your environmental vairables. Follow [these instructions](https://docs.anaconda.com/anaconda/user-guide/tasks/proxy/) for using Anaconda behind a company proxy.
  
 ### Step 2. Add Python to System Path 
-  - Windows: Modify the PATH in environmental variables to include: C:\PYTHON;C:\PYTHON\Scripts 
-  ([more info here](http://stackoverflow.com/questions/3701646/how-to-add-to-the-pythonpath-in-windows-7)). Make sure t
+  - Windows: Skip to Step 3 if option selected when installing Anaconda, otherwise modify the PATH in environmental variables to include: C:\PYTHON;C:\PYTHON\Scripts 
+  ([more info here](http://stackoverflow.com/questions/3701646/how-to-add-to-the-pythonpath-in-windows-7)).
   - MAC/LINUX: Skip to Step 3, Python is already added to path
   
 ### Step 3. Download/Install [Sphinx](http://www.sphinx-doc.org/en/stable/index.html) and Sphinx extensions
@@ -18,9 +18,29 @@
   
 
 ## Update the [WEC-Sim Website](http://wec-sim.github.io/WEC-Sim) Content
-The WEC-Sim documentation located on the [gh-pages branch](https://github.com/WEC-Sim/WEC-Sim/tree/gh-pages), referred to as ``<GH-PAGES>``. The WEC-Sim Website is developed as restructured text files that are compiled by [Sphinx](http://www.sphinx-doc.org/en/master/) into html files. To edit the WEC-Sim Website, modify the source files located in the ``<GH-PAGES>/source`` directory using the syntax described on the [Sphinx Website](http://www.sphinx-doc.org/en/master/). Once you are done editing, cd to your local ``$GH-PAGES`` directory from cmd, clean the previous compile with ``clean html``, and compile the updated the documentation with``make html``. This compiles an html version of the website in ``<GH-PAGES>/``. After compiling the updated website, you can view the local copy of the website by opening the ``<GH-PAGES>/index.html`` file from your local directory, and viewing it in a web browser (before pushing it online). 
+The WEC-Sim documentation located on the [gh-pages branch](https://github.com/WEC-Sim/WEC-Sim/tree/gh-pages), referred to as ``<GH-PAGES>``. The WEC-Sim Website is developed as restructured text files `*.rst` that are compiled by [Sphinx](http://www.sphinx-doc.org/en/master/) into html files. To edit the WEC-Sim Website, modify the restructured text files `*.rst` files located in the ``<GH-PAGES>/source`` directory. Syntax for restructured text files `*.rst` is described on the [Sphinx Website](http://www.sphinx-doc.org/en/master/). 
+Once you are done editing, cd to your local ``$GH-PAGES`` directory from cmd, clean the previous compile with ``clean html``, and compile the updated the documentation with``make html``. This compiles an html version of the website in ``<GH-PAGES>/``. After compiling the updated website, you can view the local copy of the website by opening the ``<GH-PAGES>/index.html`` file from your local directory, and viewing it in a web browser (before pushing it online). 
 
-### Best Practices
+
+## Push the [WEC-Sim Website](http://wec-sim.github.io/WEC-Sim) Updates to GH-PAGES
+Using GitHub, gh-pages renders the documentation on the ([gh-pages branch](https://github.com/WEC-Sim/WEC-Sim/tree/gh-pages)) as the [WEC-Sim Website](http://wec-sim.github.io/WEC-Sim). The user then pushes changes in the html documentation directly to the [gh-pages branch](https://github.com/WEC-Sim/WEC-Sim/tree/gh-pages). Here are the steps to do this:
+
+  ```Shell
+  # Move to the local gh-page directory in cmd
+  cd <GH-PAGES>
+
+  # Clean and build the html documentation in cmd
+  make clean
+  make html
+
+  # Use Git-shell to check status of the gh-pages branch, then commit and push changes. 
+  git status
+  git add -A
+  git commit -m 'update to WEC-Sim documentation'
+  git push
+  ```
+  
+  ### Best Practices
   - Run spell check (not built into most text editors)
   - When compiling the website, ``make clean`` and then ``make html``
 
@@ -45,21 +65,3 @@ The WEC-Sim documentation located on the [gh-pages branch](https://github.com/WE
   - nonlinear (not non-linear)
   - drivetrain (not drive-train)
 
-
-## Push the [WEC-Sim Website](http://wec-sim.github.io/WEC-Sim) Updates to GH-PAGES
-Using GitHub, gh-pages renders the documentation on the ([gh-pages branch](https://github.com/WEC-Sim/WEC-Sim/tree/gh-pages)) as the [WEC-Sim Website](http://wec-sim.github.io/WEC-Sim). The user then pushes changes in the html documentation directly to the [gh-pages branch](https://github.com/WEC-Sim/WEC-Sim/tree/gh-pages). Here are the steps to do this:
-
-  ```Shell
-  # Move to the local gh-page directory in cmd
-  cd <GH-PAGES>
-
-  # Clean and build the html documentation in cmd
-  make clean
-  make html
-
-  # Use Git-shell to check status of the gh-pages branch, then commit and push changes. 
-  git status
-  git add -A
-  git commit -m 'update to WEC-Sim documentation'
-  git push
-  ```
