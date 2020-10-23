@@ -1,4 +1,4 @@
-ope%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 % Copyright 2014 National Renewable Energy Laboratory and National 
 % Technology & Engineering Solutions of Sandia, LLC (NTESS). 
 % Under the terms of Contract DE-NA0003525 with NTESS, 
