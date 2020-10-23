@@ -1,0 +1,81 @@
+$ cat .gitignore
+
+# File Extensions
+*~
+*.acn
+*.acr
+*.alg
+*.asv
+*.autosave
+*.aux
+*.bak
+*.bat
+*.bbl
+*.blg
+*.c
+*.DS_Store
+*.dvi
+*.exp
+*.fig
+*.glg
+*.glo
+*.gls
+*.idx
+*.ilg
+*.ind
+*.ist
+*.lib
+*.lof
+*.log
+*.lot
+*.maf
+*.mak
+*.map
+*.mex
+*.mex64
+*.mex*
+*.mol
+*.mtc
+*.mtc0
+*.mtc1
+*.mtc3
+*.o
+*.obj
+*.slxc
+*.sublime-workspace
+*.sublime-project
+*.synctex
+*.synctex.gz
+*.synctex.gz(busy)
+*.toc
+*.tws
+*.vtp
+*.zip
+
+# MATLAB
+**/output/
+**/output_previous/
+**/slprj/
+*build_exception*
+
+# BEMIO
+*.h5
+
+# Tests
+/tests/**/**/*.mat
+!/tests/**/**/regular_org.mat
+!/tests/**/**/regularCIC_org.mat
+!/tests/**/**/regularSS_org.mat
+!/tests/**/**/irregularSS_org.mat
+!/tests/**/**/irregularCIC_org.mat
+!/tests/**/**/RegYaw_org.mat
+!/tests/**/**/IrrYaw_org.mat
+
+# moorDyn
+source/functions/moorDyn/*
+!source/functions/moorDyn/README.md
+
+# Other
+.DS_Store
+view_html.sh
+*vis-temp*
