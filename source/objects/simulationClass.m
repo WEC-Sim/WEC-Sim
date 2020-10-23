@@ -54,7 +54,7 @@ classdef simulationClass<handle
         mcrCaseFile         = []                                           % (`string`) mat file that contain a list of the multiple conditions runs with given conditions. Default = ``'NOT DEFINED'``  
         morisonElement     = 0                                             % (`integer`) Option for Morrison Element calculation: off->0, on->1. Default = ``0``
         outputtxt           = 0                                            % (`integer`) Option to save results as ASCII files: off->0, on->1. Default = ``0``
-        outputStructure     = 0                                            % (`integer`) Option to save results as a MATLAB structure: off->0, on->1. Default = ``0``
+        outputStructure     = 1                                            % (`integer`) Option to save results as a MATLAB structure: off->0, on->1. Default = ``1``
         reloadH5Data        = 0                                            % (`integer`) Option to re-load hydro data from hf5 file between runs: off->0, on->1. Default = ``0``
         saveMat             = 1                                            % (`integer`) Option to save .mat file for each run: off->0, on->1. Default = ``1``
         pressureDis         = 0                                            % (`integer`) Option to save pressure distribution: off->0, on->1. Default = ``0``
@@ -73,6 +73,7 @@ classdef simulationClass<handle
         maxIt               = []                                           % (`integer`) Total number of simulation time steps. Default = dependent
         CTTime              = []                                           % (`float vector`) Convolution integral time series. Default = dependent
         numWecBodies        = []                                           % (`integer`) Number of hydrodynamic bodies that comprise the WEC device. Default = ``'NOT DEFINED'``
+        numDragBodies       = []                                           % (`integer`) Number of drag bodies that comprise the WEC device (excluding hydrodynamic bodies). Default = ``'NOT DEFINED'``
         numPtos             = []                                           % (`integer`) Number of power take-off elements in the model. Default = ``'NOT DEFINED'``
         numConstraints      = []                                           % (`integer`) Number of contraints in the wec model. Default = ``'NOT DEFINED'``
         numMoorings         = []                                           % (`integer`) Number of moorings in the wec model. Default = ``'NOT DEFINED'``
