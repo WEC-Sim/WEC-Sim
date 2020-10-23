@@ -21,7 +21,7 @@ classdef bodyClass<handle
     %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
     % The  ``bodyClass`` creates a ``body`` object saved to the MATLAB
     % workspace. The ``bodyClass`` includes properties and methods used
-    % to define WEC-Sim's hydrodynamic and non-hydrodynamic bodies. 
+    % to define WEC-Sim's hydrodynamic and non-hydrodynamic bodies.
     %
     %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
     
@@ -40,27 +40,27 @@ classdef bodyClass<handle
         dof_gbm           = []                               % (`integer`) Number of degree of freedoms (DOFs) for generalized body mode (GBM). Default = ``[]``.
         dof_start         = []                               % (`integer`) Index the DOF starts for body(``bodyNumber``). For WEC bodies this is given in the h5 file, but if not defined in the h5 file, Default = ``(bodyNumber-1)*6+1``.
         dof_end           = []                               % (`integer`) Index the DOF ends for body(``bodyNumber``). For WEC bodies this is given in the h5 file, but if not defined in the h5 file, Default = ``(bodyNumber-1)*6+6``.
-        geometryFile      = 'NONE'                           % (`string`) Pathway to the body geomtry ``.stl`` file. 
-        viscDrag          = struct(...                       % 
-            'Drag',                 zeros(6), ...            % 
-            'cd',                   [0 0 0 0 0 0], ...       % 
+        geometryFile      = 'NONE'                           % (`string`) Pathway to the body geomtry ``.stl`` file.
+        viscDrag          = struct(...                       %
+            'Drag',                 zeros(6), ...            %
+            'cd',                   [0 0 0 0 0 0], ...       %
             'characteristicArea',   [0 0 0 0 0 0])           % Structure defining the viscous quadratic drag forces. First option define ``Drag``, (`6x6 float matrix`), Default = ``zeros(6)``. Second option define ``cd``, (`6x1 float vector`), Default = ``zeros(6,1)``, and ``characteristicArea``, (`6x1 float vector`), Default = ``zeros(6,1)``.
-        initDisp          = struct(...                       % 
-            'initLinDisp',          [0 0 0], ...             % 
-            'initAngularDispAxis',  [0 1 0], ...             % 
+        initDisp          = struct(...                       %
+            'initLinDisp',          [0 0 0], ...             %
+            'initAngularDispAxis',  [0 1 0], ...             %
             'initAngularDispAngle', 0)                       % Structure defining the initial displacement of the body. ``initLinDisp`` (`3x1 float vector`) is defined as the initial displacement of the body center of gravity (COG) [m] in the following format [x y z], Default = [``0 0 0``]. ``initAngularDispAxis`` (`3x1 float vector`) is defined as the axis of rotation in the following format [x y z], Default = [``0 1 0``]. ``initAngularDispAngle`` (`float`) is defined as the initial angular displacement of the body COG [rad], Default = ``0``.
         hydroStiffness   = zeros(6)                          % (`6x6 float matrix`) Linear hydrostatic stiffness matrix. Default = ``zeros(6)``. If the variable is nonzero, the matrix will override the h5 file values.
         linearDamping     = zeros(6)                         % (`6x6 float matrix`) Linear damping coefficient matrix. Default = ``zeros(6)``.
         userDefinedExcIRF = []                               % (`[]`) Excitation Impulse Response Function, calculated in BEMIO, only used with the `waveClass` ``etaImport`` type. Default = ``[]``.
-        viz               = struct(...                       % 
-            'color', [1 1 0], ...                            % 
+        viz               = struct(...                       %
+            'color', [1 1 0], ...                            %
             'opacity', 1)                                    % Structure defining visualization properties in either SimScape or Paraview. ``color`` (`3x1 float vector`) is defined as the body visualization color, Default = [``1 1 0``]. ``opacity`` (`integer`) is defined as the body opacity, Default = ``1``.
         bodyparaview      = 1;                               % (`integer`) Flag for visualisation in Paraview either 0 (no) or 1 (yes). Default = ``1`` since only called in paraview.
-        morisonElement   = struct(...                        % 
-            'cd',                 [0 0 0], ...               % 
-            'ca',                 [0 0 0], ...               % 
-            'characteristicArea', [0 0 0], ...               % 
-            'VME',                 0     , ...               % 
+        morisonElement   = struct(...                        %
+            'cd',                 [0 0 0], ...               %
+            'ca',                 [0 0 0], ...               %
+            'characteristicArea', [0 0 0], ...               %
+            'VME',                 0     , ...               %
             'rgME',               [0 0 0])                   % Structure defining the Morrison Element properties connected to the body. ``cd`` (`3x1 float vector`) is defined as the viscous quadratic drag coefficients in the following format [cd_x cd_y cd_z], Default = [``0 0 0``]. ``ca`` is defined as the added mass coefficent for the Morrison Element in the following format [ca_x ca_y ca_z], Default = [``0 0 0``], ``characteristicArea`` is defined as the characteristic area for the Morrison Element [m^2] in the following format [Area_x Area_y Area_z], Default = [0 0 0]. ``VME`` is the characteristic volume of the Morrison Element [m^3], Default = ``0``. ``rgME`` is defined as the vector from the body COG to point of application for the Morrison Element [m] in the following format [x y z], Default = [``0 0 0``].
         nhBody            = 0                                % (`integer`) Flag for non-hydro body either 0 (no) or 1 (yes). Default = ``0``.
         flexHydroBody     = 0                                % (`integer`) Flag for flexible body either 0 (no) or 1 (yes). Default = ``0``.
@@ -91,7 +91,7 @@ classdef bodyClass<handle
     methods (Access = 'public') %modify object = T; output = F
         function obj = bodyClass(filename)
             % This method initilizes the ``bodyClass`` and creates a
-            % ``body`` object.          
+            % ``body`` object.
             %
             % Parameters
             % ------------
@@ -101,7 +101,7 @@ classdef bodyClass<handle
             % Returns
             % ------------
             %     body : obj
-            %         bodyClass object         
+            %         bodyClass object
             %
             obj.h5File = filename;
         end
@@ -181,6 +181,21 @@ classdef bodyClass<handle
             obj.dof_start = obj.hydroData.properties.dof_start;
             obj.dof_end   = obj.hydroData.properties.dof_end;
             obj.dof_gbm   = obj.dof-6;
+        end
+        
+        function dragForcePre(obj,rho)
+            % DragBody Pre-processing calculations
+            % Similar to hydroForcePre, but only loads in the necessary
+            % values to calculate linear damping and viscous drag. Note
+            % that body DOF is inherited from the length of the drag
+            % coefficients.
+            if  any(any(obj.viscDrag.Drag)) == 1  %check if obj.viscDrag.Drag is defined
+                obj.hydroForce.visDrag = obj.viscDrag.Drag;
+            else
+                obj.hydroForce.visDrag = diag(0.5*rho.*obj.viscDrag.cd.*obj.viscDrag.characteristicArea);
+            end
+            obj.hydroForce.linearDamping = obj.linearDamping
+            obj.dof = length(obj.viscDrag.Drag);
         end
         
         function hydroForcePre(obj,w,waveDir,CIkt,CTTime,numFreq,dt,rho,g,waveType,waveAmpTime,iBod,numBod,ssCalc,nlHydro,B2B,yawFlag)
@@ -359,7 +374,7 @@ classdef bodyClass<handle
         end
         
         function checkStl(obj)
-            % The method will check the ``.stl`` file and return an error if the normal vectors are not equal to one. 
+            % The method will check the ``.stl`` file and return an error if the normal vectors are not equal to one.
             tnorm = obj.bodyGeometry.norm;
             %av = zeros(length(area_mag),3);
             %av(:,1) = area_mag.*tnorm(:,1);
@@ -389,7 +404,7 @@ classdef bodyClass<handle
         
         function plotStl(obj)
             % This method plots the body .stl mesh and normal vectors.
-
+            
             c = obj.bodyGeometry.center;
             tri = obj.bodyGeometry.face;
             p = obj.bodyGeometry.vertex;
