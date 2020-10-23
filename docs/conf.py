@@ -35,7 +35,7 @@ extensions = [
     'sphinx.ext.napoleon',
     'sphinxcontrib.bibtex',
     'sphinxcontrib.matlab',
-    'sphinxext.remoteliteralinclude'    
+    'sphinxext.remoteliteralinclude'
 ]
 
 # autodoc settings
