@@ -9,9 +9,6 @@ simu.endTime=400;                       % Simulation End Time [s]
 simu.solver = 'ode4';                   % simu.solver = 'ode4' for fixed step & simu.solver = 'ode45' for variable step 
 simu.dt = 0.1; 							% Simulation time-step [s]
 
-simu.nlHydro = 1;
-simu.pressureDis = 1;
-
 %% Wave Information 
 % % noWaveCIC, no waves with radiation CIC  
 % waves = waveClass('noWaveCIC');       % Initialize Wave Class and Specify Type  

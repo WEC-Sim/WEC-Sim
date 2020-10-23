@@ -36,6 +36,9 @@ for iBod = 1:length(body(1,:))
         % wave (Froude-Krylov) linear pressure
         eval(['bodiesOutput(' num2str(iBod) ').wpressurel = body' num2str(iBod) '_wavelinearpressure_out;']);
     else
+        if simu.nlHydro==0 && simu.pressureDis == 1 
+            warning('pressure distribution on the body (simu.pressureDis == 1) can only be output when wecSim is run with non-linear hydro (simu.nlHydro~=0)')
+        end
         bodiesOutput(iBod).hspressure = [];
         bodiesOutput(iBod).wpressurenl = [];
         bodiesOutput(iBod).wpressurel = [];
