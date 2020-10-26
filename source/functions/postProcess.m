@@ -25,6 +25,24 @@ for iBod = 1:length(body(1,:))
     if iBod == 1; bodiesOutput = body1_out; end
     bodiesOutput(iBod) = eval(['body' num2str(iBod) '_out']);
     eval(['clear body' num2str(iBod) '_out'])
+end
+% Add hydrostatic and FK pressures to bodiesOutput if required.
+for iBod = 1:length(body(1,:))
+    if simu.nlHydro~=0 && body(iBod).nhBody==0 && simu.pressureDis == 1 
+        % hydrostatic pressure
+        eval(['bodiesOutput(' num2str(iBod) ').hspressure = body' num2str(iBod) '_hspressure_out;']);
+        % wave (Froude-Krylov) nonlinear pressure
+        eval(['bodiesOutput(' num2str(iBod) ').wpressurenl = body' num2str(iBod) '_wavenonlinearpressure_out;']);
+        % wave (Froude-Krylov) linear pressure
+        eval(['bodiesOutput(' num2str(iBod) ').wpressurel = body' num2str(iBod) '_wavelinearpressure_out;']);
+    else
+        if simu.nlHydro==0 && simu.pressureDis == 1 
+            warning('pressure distribution on the body (simu.pressureDis == 1) can only be output when wecSim is run with non-linear hydro (simu.nlHydro~=0)')
+        end
+        bodiesOutput(iBod).hspressure = [];
+        bodiesOutput(iBod).wpressurenl = [];
+        bodiesOutput(iBod).wpressurel = [];
+    end
 end; clear iBod
 % PTOs
 if exist('pto','var')
@@ -65,27 +83,20 @@ if exist('ptosim','var')
 else
     ptosimOutput = 0;
 end
-% Cell-by-cell values
-hspressure = {};
-wpressurenl = {};
-wpressurel = {};
-for ii = 1:length(body(1,:))
-    if simu.nlHydro~=0 && body(ii).nhBody==0 && simu.pressureDis == 1 
-        % hydrostatic pressure
-        eval(['hspressure{' num2str(ii) '} = body' num2str(ii) '_hspressure_out;']);
-        % wave (Froude-Krylov) nonlinear pressure
-        eval(['wpressurenl{' num2str(ii) '} = body' num2str(ii) '_wavenonlinearpressure_out;']);
-        % wave (Froude-Krylov) linear pressure
-        eval(['wpressurel{' num2str(ii) '} = body' num2str(ii) '_wavelinearpressure_out;']);
-    else
-        hspressure{ii} = [];
-        wpressurenl{ii} = [];
-        wpressurel{ii} = [];
-    end
-end; clear ii
+% Waves
+waveOutput = struct();
+waveOutput.type = waves.type;
+waveOutput.waveAmpTime = waves.waveAmpTime;
+waveOutput.wavegauge1loc = waves.wavegauge1loc;
+waveOutput.wavegauge2loc = waves.wavegauge2loc;
+waveOutput.wavegauge3loc = waves.wavegauge3loc;
+waveOutput.waveAmpTime1 = waves.waveAmpTime1;
+waveOutput.waveAmpTime2 = waves.waveAmpTime2;
+waveOutput.waveAmpTime3 = waves.waveAmpTime3;
+
 % All
-output = responseClass(bodiesOutput,ptosOutput,constraintsOutput,ptosimOutput,mooringOutput,waves.type,waves.waveAmpTime,hspressure, wpressurenl, wpressurel, simu.yawNonLin);
-clear bodiesOutput ptosOutput constraintsOutput ptosimOutput mooringOutput
+output = responseClass(bodiesOutput,ptosOutput,constraintsOutput,ptosimOutput,mooringOutput,waveOutput, simu.yawNonLin);
+clear bodiesOutput ptosOutput constraintsOutput ptosimOutput mooringOutput waveOutput
 % MoorDyn
 for iMoor = 1:simu.numMoorings
     if mooring(iMoor).moorDyn==1

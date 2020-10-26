@@ -86,16 +86,23 @@ if exist('mooring','var') == 1
     end; clear ii
 end
 % Bodies: count, check inputs, read hdf5 file
-numHydroBodies = 0;
+numHydroBodies = 0; numDragBodies = 0; 
+hydroBodLogic = zeros(length(body(1,:)),1);
+dragBodLogic = zeros(length(body(1,:)),1);
 for ii = 1:length(body(1,:))
     body(ii).bodyNumber = ii;
     if body(ii).nhBody==0
         numHydroBodies = numHydroBodies + 1;
+        hydroBodLogic(ii) = 1; 
+    elseif body(ii).nhBody==2
+        numDragBodies = numDragBodies + 1;
+        dragBodLogic(ii) = 1; 
     else
         body(ii).massCalcMethod = 'user';
     end
 end
 simu.numWecBodies = numHydroBodies; clear numHydroBodies
+simu.numDragBodies = numDragBodies; clear numDragBodies
 for ii = 1:simu.numWecBodies
     body(ii).checkinputs;
     %Determine if hydro data needs to be reloaded from h5 file, or if hydroData
@@ -160,11 +167,24 @@ if (simu.nlHydro >0) || (simu.paraview == 1)
 end
 
 % hydroForcePre
-for kk = 1:simu.numWecBodies
-    body(kk).hydroForcePre(waves.w,waves.waveDir,simu.CIkt,simu.CTTime,waves.numFreq,simu.dt,...
-        simu.rho,simu.g,waves.type,waves.waveAmpTime,kk,simu.numWecBodies,simu.ssCalc,simu.nlHydro,simu.b2b,simu.yawNonLin);
-end; clear kk
+idx = find(hydroBodLogic==1);
+if ~isempty(idx)
+    for kk = 1:length(idx)
+        it = idx(kk);
+        body(it).hydroForcePre(waves.w,waves.waveDir,simu.CIkt,simu.CTTime,waves.numFreq,simu.dt,...
+            simu.rho,simu.g,waves.type,waves.waveAmpTime,kk,simu.numWecBodies,simu.ssCalc,simu.nlHydro,simu.b2b,simu.yawNonLin);
+    end; clear kk idx
+end
 
+% dragBodyPre
+idx = find(dragBodLogic==1);
+if ~isempty(idx)
+    for kk = 1:length(idx)
+        it = idx(kk)
+        body(it).dragForcePre(simu.rho);
+    end; clear kk idx
+end
+    
 % Check CITime
 if waves.typeNum~=0 && waves.typeNum~=10
     for iBod = 1:simu.numWecBodies
@@ -238,7 +258,7 @@ for ii=1:length(body(1,:))
     eval(['nhbody_' num2str(ii) ' = body(ii).nhBody;'])
     eval(['sv_b' num2str(ii) '_hydroBody = Simulink.Variant(''nhbody_' num2str(ii) '==0'');'])
     eval(['sv_b' num2str(ii) '_nonHydroBody = Simulink.Variant(''nhbody_' num2str(ii) '==1'');'])
-%    eval(['sv_b' num2str(ii) '_flexBody = Simulink.Variant(''nhbody_' num2str(ii) '==2'');'])
+    eval(['sv_b' num2str(ii) '_dragBody = Simulink.Variant(''nhbody_' num2str(ii) '==2'');'])
 %    eval(['sv_b' num2str(ii) '_rigidBody = Simulink.Variant(''nhbody_' num2str(ii) '==0'');'])
 end; clear ii
 
