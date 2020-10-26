@@ -327,6 +327,7 @@ if simu.outputtxt==1
     output.writetxt();
 end
 if simu.outputStructure==1
+    warning('off','MATLAB:structOnObject')
     output = struct(output);
 end
 
