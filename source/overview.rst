@@ -122,7 +122,7 @@ In this step, users run :ref:`BEMIO<bemio>` to convert the hydrodynamic coeffici
    
       * The origin of the mesh for each body (``*.dat``) is located at the mean water surface, which follows the same coordinate used in WEC-Sim. 
       * The location to output the hydrodynamic coefficients for each degree of freedom is defined in the ``Nemoh.cal`` file.
-      * Please refer to `NEMOH-Mesh <https://lheea.ec-nantes.fr/logiciels-et-brevets/nemoh-mesh-192932.kjsp?RH=1489593406974>`_ webpage for more mesh generation details.
+      * Please refer to `NEMOH-Mesh <https://lheea.ec-nantes.fr/logiciels-et-brevets/nemoh-mesh-192932.kjsp?RH=1489593406974>`_ website for more mesh generation details.
       * The NEMOH Mesh.exe code creates the ``Hydrostatics.dat`` and ``KH.dat`` files (among other files) for one input body at a time. For the Read_NEMOH function to work correctly in the case of a multiple body system, the user must manually rename ``Hydrostatics.dat`` and ``KH.dat`` files to ``Hydrostatics_0.dat``, ``Hydrostatics_1.dat``, …, and ``KH_0.dat``, ``KH_1.dat``,…, corresponding to the body order specified in the ``Nemoh.cal`` file.
       * More details on NEMOH setup are given in the `Nemoh Homepage <https://lheea.ec-nantes.fr/logiciels-et-brevets/nemoh-running-192930.kjsp?RH=1489593406974>`_.
       
@@ -165,3 +165,23 @@ The WEC-Sim source code is located in the ``$WECSIM`` directory, but ``wecSim`` 
 .. Note::
 	WEC-Sim simulations should always be executed from the MATLAB Command Window, not from Simulink.
 
+Software Tests
+--------------------
+This section describes the software tests developed to test the WEC-Sim source code. 
+WEC-Sim includes continuous integration software tests. The tests are run each time changes are made to the repository, and are designed to ensure that the code is performing as expected. New tests are developed each time new functions are added or modified.
+Refer to MATLAB's `unit test <https://www.mathworks.com/help/matlab/matlab-unit-test-framework.html?s_tid=CRUX_lftnav>`_ and `continuous integration <https://www.mathworks.com/help/matlab/matlab_prog/continuous-integration-with-matlab-on-ci-platforms.html>`_ documentation for more information. 
+
+
+Run Tests
+^^^^^^^^^^^
+The WEC-Sim unit tests are located in the ``$WECSIM/tests`` directory. 
+To run the WEC-Sim unit tests locally, navigate to the ``$WECSIM`` (e.g. ``C:/User/Documents/GitHub/WEC-Sim``) directory, and type the following command into the MATLAB Command Window::
+
+	>> runtests
+	
+	
+	Totals:
+	   25 Passed, 0 Failed, 0 Incomplete.
+	   
+
+This executes the WEC-Sim tests and generates a build report. **Developers should run software tests before submitting a pull request.**

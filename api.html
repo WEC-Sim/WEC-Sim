@@ -349,6 +349,16 @@ to define WEC-Sim’s hydrodynamic and non-hydrodynamic bodies.</p>
 </dd></dl>
 
 <dl class="mat method">
+<dt id="source.objects.bodyClass.dragForcePre">
+<code class="sig-name descname">dragForcePre</code><span class="sig-paren">(</span><em class="sig-param">rho</em><span class="sig-paren">)</span><a class="headerlink" href="#source.objects.bodyClass.dragForcePre" title="Permalink to this definition">¶</a></dt>
+<dd><p>DragBody Pre-processing calculations
+Similar to hydroForcePre, but only loads in the necessary
+values to calculate linear damping and viscous drag. Note
+that body DOF is inherited from the length of the drag
+coefficients.</p>
+</dd></dl>
+
+<dl class="mat method">
 <dt id="source.objects.bodyClass.listInfo">
 <code class="sig-name descname">listInfo</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#source.objects.bodyClass.listInfo" title="Permalink to this definition">¶</a></dt>
 <dd><p>This method prints body information to the MATLAB Command Window.</p>
@@ -738,7 +748,7 @@ frame or relative to other bodies.</p>
 <span id="response"></span><h2>Response Class<a class="headerlink" href="#response-class" title="Permalink to this headline">¶</a></h2>
 <dl class="mat class">
 <dt id="source.objects.responseClass">
-<em class="property">class </em><code class="sig-prename descclassname">source.objects.</code><code class="sig-name descname">responseClass</code><span class="sig-paren">(</span><em class="sig-param">bodiesOutput</em>, <em class="sig-param">ptosOutput</em>, <em class="sig-param">constraintsOutput</em>, <em class="sig-param">ptosimOutput</em>, <em class="sig-param">mooringOutput</em>, <em class="sig-param">wave_type</em>, <em class="sig-param">wave_elev</em>, <em class="sig-param">hspressure</em>, <em class="sig-param">wpressurenl</em>, <em class="sig-param">wpressurel</em>, <em class="sig-param">yawNonLin</em><span class="sig-paren">)</span><a class="headerlink" href="#source.objects.responseClass" title="Permalink to this definition">¶</a></dt>
+<em class="property">class </em><code class="sig-prename descclassname">source.objects.</code><code class="sig-name descname">responseClass</code><span class="sig-paren">(</span><em class="sig-param">bodiesOutput</em>, <em class="sig-param">ptosOutput</em>, <em class="sig-param">constraintsOutput</em>, <em class="sig-param">ptosimOutput</em>, <em class="sig-param">mooringOutput</em>, <em class="sig-param">waveOutput</em>, <em class="sig-param">yawNonLin</em><span class="sig-paren">)</span><a class="headerlink" href="#source.objects.responseClass" title="Permalink to this definition">¶</a></dt>
 <dd><blockquote>
 <div><p>The  <code class="docutils literal notranslate"><span class="pre">responseClass</span></code> creates an <code class="docutils literal notranslate"><span class="pre">output</span></code> object saved to the MATLAB workspace
 that contains structures for each instance of a WEC-Sim class (e.g.
@@ -754,6 +764,9 @@ that contains structures for each instance of a WEC-Sim class (e.g.
 <li><p><code class="docutils literal notranslate"><span class="pre">type</span></code> (<cite>string</cite>) = ‘waveType’</p></li>
 <li><p><code class="docutils literal notranslate"><span class="pre">time</span></code> (<cite>array</cite>) = [# of time-steps x 1]</p></li>
 <li><p><code class="docutils literal notranslate"><span class="pre">elevation</span></code> (<cite>array</cite>) = [# of time-steps x 1]</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">waveGauge1Elevation</span></code> (<cite>array</cite>) = [# of time-steps x 1]</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">waveGauge2Elevation</span></code> (<cite>array</cite>) = [# of time-steps x 1]</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">waveGauge3Elevation</span></code> (<cite>array</cite>) = [# of time-steps x 1]</p></li>
 </ul>
 </div></blockquote>
 </dd></dl>
@@ -850,8 +863,8 @@ that contains structures for each instance of a WEC-Sim class (e.g.
 
 <dl class="mat method">
 <dt id="source.objects.responseClass.responseClass">
-<code class="sig-name descname">responseClass</code><span class="sig-paren">(</span><em class="sig-param">bodiesOutput</em>, <em class="sig-param">ptosOutput</em>, <em class="sig-param">constraintsOutput</em>, <em class="sig-param">ptosimOutput</em>, <em class="sig-param">mooringOutput</em>, <em class="sig-param">wave_type</em>, <em class="sig-param">wave_elev</em>, <em class="sig-param">hspressure</em>, <em class="sig-param">wpressurenl</em>, <em class="sig-param">wpressurel</em>, <em class="sig-param">yawNonLin</em><span class="sig-paren">)</span><a class="headerlink" href="#source.objects.responseClass.responseClass" title="Permalink to this definition">¶</a></dt>
-<dd><p>This method initilizes the <code class="docutils literal notranslate"><span class="pre">responseClass</span></code>, reads
+<code class="sig-name descname">responseClass</code><span class="sig-paren">(</span><em class="sig-param">bodiesOutput</em>, <em class="sig-param">ptosOutput</em>, <em class="sig-param">constraintsOutput</em>, <em class="sig-param">ptosimOutput</em>, <em class="sig-param">mooringOutput</em>, <em class="sig-param">waveOutput</em>, <em class="sig-param">yawNonLin</em><span class="sig-paren">)</span><a class="headerlink" href="#source.objects.responseClass.responseClass" title="Permalink to this definition">¶</a></dt>
+<dd><p>This method initializes the <code class="docutils literal notranslate"><span class="pre">responseClass</span></code>, reads
 output from each instance of a WEC-Sim class (e.g.
 <code class="docutils literal notranslate"><span class="pre">waveClass</span></code>, <code class="docutils literal notranslate"><span class="pre">bodyClass</span></code>, <code class="docutils literal notranslate"><span class="pre">ptoClass</span></code>, <code class="docutils literal notranslate"><span class="pre">mooringClass</span></code>, etc)
 , and saves the response to an <code class="docutils literal notranslate"><span class="pre">output</span></code> object.</p>
@@ -1130,8 +1143,8 @@ ParaView. This method is executed by specifying
 
 <dl class="mat attribute">
 <dt id="source.objects.simulationClass.outputStructure">
-<code class="sig-name descname">outputStructure</code><em class="property"> = '0'</em><a class="headerlink" href="#source.objects.simulationClass.outputStructure" title="Permalink to this definition">¶</a></dt>
-<dd><p>(<cite>integer</cite>) Option to save results as a MATLAB structure: off-&gt;0, on-&gt;1. Default = <code class="docutils literal notranslate"><span class="pre">0</span></code></p>
+<code class="sig-name descname">outputStructure</code><em class="property"> = '1'</em><a class="headerlink" href="#source.objects.simulationClass.outputStructure" title="Permalink to this definition">¶</a></dt>
+<dd><p>(<cite>integer</cite>) Option to save results as a MATLAB structure: off-&gt;0, on-&gt;1. Default = <code class="docutils literal notranslate"><span class="pre">1</span></code></p>
 </dd></dl>
 
 <dl class="mat attribute">
@@ -1222,6 +1235,12 @@ ParaView. This method is executed by specifying
 <dt id="source.objects.simulationClass.numWecBodies">
 <code class="sig-name descname">numWecBodies</code><em class="property"> = '[]'</em><a class="headerlink" href="#source.objects.simulationClass.numWecBodies" title="Permalink to this definition">¶</a></dt>
 <dd><p>(<cite>integer</cite>) Number of hydrodynamic bodies that comprise the WEC device. Default = <code class="docutils literal notranslate"><span class="pre">'NOT</span> <span class="pre">DEFINED'</span></code></p>
+</dd></dl>
+
+<dl class="mat attribute">
+<dt id="source.objects.simulationClass.numDragBodies">
+<code class="sig-name descname">numDragBodies</code><em class="property"> = '[]'</em><a class="headerlink" href="#source.objects.simulationClass.numDragBodies" title="Permalink to this definition">¶</a></dt>
+<dd><p>(<cite>integer</cite>) Number of drag bodies that comprise the WEC device (excluding hydrodynamic bodies). Default = <code class="docutils literal notranslate"><span class="pre">'NOT</span> <span class="pre">DEFINED'</span></code></p>
 </dd></dl>
 
 <dl class="mat attribute">
@@ -1388,20 +1407,20 @@ to define WEC-Sim’s wave input.</p>
 
 <dl class="mat attribute">
 <dt id="source.objects.waveClass.wavegauge1loc">
-<code class="sig-name descname">wavegauge1loc</code><em class="property"> = '[0,0]'</em><a class="headerlink" href="#source.objects.waveClass.wavegauge1loc" title="Permalink to this definition">¶</a></dt>
-<dd><p>(<cite>1x2 vector</cite>) Wave gauge 1 [x,y] location [m]. Default = <code class="docutils literal notranslate"><span class="pre">[0,0]</span></code></p>
+<code class="sig-name descname">wavegauge1loc</code><em class="property"> = '[NaN,NaN]'</em><a class="headerlink" href="#source.objects.waveClass.wavegauge1loc" title="Permalink to this definition">¶</a></dt>
+<dd><p>(<cite>1x2 vector</cite>) Wave gauge 1 [x,y] location [m]. Default = <code class="docutils literal notranslate"><span class="pre">[NaN,NaN]</span></code></p>
 </dd></dl>
 
 <dl class="mat attribute">
 <dt id="source.objects.waveClass.wavegauge2loc">
-<code class="sig-name descname">wavegauge2loc</code><em class="property"> = '[0,0]'</em><a class="headerlink" href="#source.objects.waveClass.wavegauge2loc" title="Permalink to this definition">¶</a></dt>
-<dd><p>(<cite>1x2 vector</cite>) Wave gauge 2 [x,y] location [m]. Default = <code class="docutils literal notranslate"><span class="pre">[0,0]</span></code></p>
+<code class="sig-name descname">wavegauge2loc</code><em class="property"> = '[NaN,NaN]'</em><a class="headerlink" href="#source.objects.waveClass.wavegauge2loc" title="Permalink to this definition">¶</a></dt>
+<dd><p>(<cite>1x2 vector</cite>) Wave gauge 2 [x,y] location [m]. Default = <code class="docutils literal notranslate"><span class="pre">[NaN,NaN]</span></code></p>
 </dd></dl>
 
 <dl class="mat attribute">
 <dt id="source.objects.waveClass.wavegauge3loc">
-<code class="sig-name descname">wavegauge3loc</code><em class="property"> = '[0,0]'</em><a class="headerlink" href="#source.objects.waveClass.wavegauge3loc" title="Permalink to this definition">¶</a></dt>
-<dd><p>(<cite>1x2 vector</cite>) Wave gauge 3 [x,y] location [m]. Default = <code class="docutils literal notranslate"><span class="pre">[0,0]</span></code></p>
+<code class="sig-name descname">wavegauge3loc</code><em class="property"> = '[NaN,NaN]'</em><a class="headerlink" href="#source.objects.waveClass.wavegauge3loc" title="Permalink to this definition">¶</a></dt>
+<dd><p>(<cite>1x2 vector</cite>) Wave gauge 3 [x,y] location [m]. Default = <code class="docutils literal notranslate"><span class="pre">[NaN,NaN]</span></code></p>
 </dd></dl>
 
 <dl class="mat attribute">
