@@ -43,7 +43,7 @@ JS                 	JONSWAP Spectrum
 :math:`\omega` 		Wave frequency (rad/s), :math:`\omega = \frac{2\pi}{T}`
 :math:`\phi` 		Wave phase (rad)
 Pitch (Ry)         	Rotation about the Y-axis
-PM                 	Pierson-Moskowitz Specturm
+PM                 	Pierson-Moskowitz Spectrum
 PTO                	Power Take-Off
 :math:`R_{f}` 		Ramp function 
 :math:`\rho` 		Water density (kg/m3)
