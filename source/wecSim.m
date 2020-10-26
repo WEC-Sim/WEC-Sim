@@ -289,7 +289,13 @@ warning('off','sm:sli:setup:compile:SteadyStateStartNotSupported')
 set_param(0, 'ErrorIfLoadNewModel', 'off')
 % run simulation
 simu.loadSimMechModel(simu.simMechanicsFile);
+try 
+   cd(parallelComputing_dir);
+   simu.simMechanicsFile = sprintf('../%s',simu.simMechanicsFile);
+end
 sim(simu.simMechanicsFile, [], simset('SrcWorkspace','parent'));
+try cd (['../',parallelComputing_dir,'/../']); end
+
 % Restore modified stuff
 clear nlHydro sv_linearHydro sv_nonlinearHydro ssCalc radiation_option sv_convolution sv_stateSpace sv_constantCoeff typeNum B2B sv_B2B sv_noB2B;
 clear nhbod* sv_b* sv_noWave sv_regularWaves sv_irregularWaves sv_udfWaves sv_instFS sv_meanFS sv_MEOn sv_MEOff morisonElement flexHydrobody_* sv_irregularWavesNonLinYaw sv_regularWavesNonLinYaw yawNonLin numBody;
