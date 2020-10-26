@@ -105,6 +105,10 @@
 <li class="toctree-l3"><a class="reference internal" href="#step-5-run-wec-sim">Step 5: Run WEC-Sim</a></li>
 </ul>
 </li>
+<li class="toctree-l2"><a class="reference internal" href="#software-tests">Software Tests</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#run-tests">Run Tests</a></li>
+</ul>
+</li>
 </ul>
 </li>
 <li class="toctree-l1"><a class="reference internal" href="theory.html">Theory</a></li>
@@ -422,6 +426,25 @@ The WEC-Sim source code is located in the <code class="docutils literal notransl
 <p class="admonition-title">Note</p>
 <p>WEC-Sim simulations should always be executed from the MATLAB Command Window, not from Simulink.</p>
 </div>
+</div>
+</div>
+<div class="section" id="software-tests">
+<h2>Software Tests<a class="headerlink" href="#software-tests" title="Permalink to this headline">¶</a></h2>
+<p>This section describes the software tests developed to test the WEC-Sim source code.
+WEC-Sim includes continuous integration software tests. The tests are run each time changes are made to the repository, and are designed to ensure that the code is performing as expected. New tests are developed each time new functions are added or modified.
+Refer to MATLAB’s <a class="reference external" href="https://www.mathworks.com/help/matlab/matlab-unit-test-framework.html?s_tid=CRUX_lftnav">unit test</a> and <a class="reference external" href="https://www.mathworks.com/help/matlab/matlab_prog/continuous-integration-with-matlab-on-ci-platforms.html">continuous integration</a> documenation for more information.</p>
+<div class="section" id="run-tests">
+<h3>Run Tests<a class="headerlink" href="#run-tests" title="Permalink to this headline">¶</a></h3>
+<p>The WEC-Sim unit tests are located in the <code class="docutils literal notranslate"><span class="pre">$WECSIM/tests</span></code> directory.
+To run the WEC-Sim unit tests locally, navigate to the <code class="docutils literal notranslate"><span class="pre">$WECSIM</span></code> (e.g. <code class="docutils literal notranslate"><span class="pre">C:/User/Documents/GitHub/WEC-Sim</span></code>) directory, and type the following command into the MATLAB Command Window:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="o">&gt;&gt;</span> <span class="n">runtests</span>
+
+
+<span class="n">Totals</span><span class="p">:</span>
+   <span class="mi">25</span> <span class="n">Passed</span><span class="p">,</span> <span class="mi">0</span> <span class="n">Failed</span><span class="p">,</span> <span class="mi">0</span> <span class="n">Incomplete</span><span class="o">.</span>
+</pre></div>
+</div>
+<p>This executes the WEC-Sim tests and generates a build report. <strong>Developers should run software tests before submitting a pull request.</strong></p>
 </div>
 </div>
 </div>

@@ -165,3 +165,23 @@ The WEC-Sim source code is located in the ``$WECSIM`` directory, but ``wecSim`` 
 .. Note::
 	WEC-Sim simulations should always be executed from the MATLAB Command Window, not from Simulink.
 
+Software Tests
+--------------------
+This section describes the software tests developed to test the WEC-Sim source code. 
+WEC-Sim includes continuous integration software tests. The tests are run each time changes are made to the repository, and are designed to ensure that the code is performing as expected. New tests are developed each time new functions are added or modified.
+Refer to MATLAB's `unit test <https://www.mathworks.com/help/matlab/matlab-unit-test-framework.html?s_tid=CRUX_lftnav>`_ and `continuous integration <https://www.mathworks.com/help/matlab/matlab_prog/continuous-integration-with-matlab-on-ci-platforms.html>`_ documenation for more information. 
+
+
+Run Tests
+^^^^^^^^^^^
+The WEC-Sim unit tests are located in the ``$WECSIM/tests`` directory. 
+To run the WEC-Sim unit tests locally, navigate to the ``$WECSIM`` (e.g. ``C:/User/Documents/GitHub/WEC-Sim``) directory, and type the following command into the MATLAB Command Window::
+
+	>> runtests
+	
+	
+	Totals:
+	   25 Passed, 0 Failed, 0 Incomplete.
+	   
+
+This executes the WEC-Sim tests and generates a build report. **Developers should run software tests before submitting a pull request.**
