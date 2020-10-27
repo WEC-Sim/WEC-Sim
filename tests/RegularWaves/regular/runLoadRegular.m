@@ -21,6 +21,7 @@
 
 global plotNO
 locdir=pwd;
+
 %% Run Simulation
 wecSim;                     % Run Simulation
 
@@ -79,7 +80,6 @@ end
 try
 	rmdir('output','s')
 	rmdir('slprj','s')
-	delete('RM3.slx.autosave', 'RM3_sfun.mexmaci64')
-    
+	delete('RM3.slx.autosave', 'RM3_sfun.mexmaci64')    
 catch
 end

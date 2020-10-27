@@ -31,7 +31,7 @@
 function plotOldNew(B1,B2,Rel,InfoDiffB1, InfoDiffB2, InfoDiffRel,titstr)
 h=figure('units','normalized','outerposition',[0 0 1 1]);
 % figure;
-subplot(2,3,1)
+subplot(1,3,1)
 %First Column: Body 1 Heave
 startTime = 100;
 subplot(2,3,1)
@@ -49,20 +49,20 @@ set(n(1),'LineWidth',b)
 xlim([0 200])
 ylim([-2 2])
 
-subplot(2,3,4)
-m=plot(B1.WEC_Sim_org.time(find(B1.WEC_Sim_org.time==startTime):end),...
-    B1.WEC_Sim_org.heave(find(B1.WEC_Sim_org.time==startTime):end),'r:',...
-    B1.WEC_Sim_new.time(find(B1.WEC_Sim_new.time==startTime):end),...
-    B1.WEC_Sim_new.heave(find(B1.WEC_Sim_new.time==startTime):end),'k-');
-a=get(m(1),'LineWidth')+1;
-set(m(1),'LineWidth',a)
-xlabel('time(s)')
-ylabel('Heave(m)')
-xlim([100 200])
-ylim([-2 2])
+% subplot(2,3,4)
+% m=plot(B1.WEC_Sim_org.time(find(B1.WEC_Sim_org.time==startTime):end),...
+%     B1.WEC_Sim_org.heave(find(B1.WEC_Sim_org.time==startTime):end),'r:',...
+%     B1.WEC_Sim_new.time(find(B1.WEC_Sim_new.time==startTime):end),...
+%     B1.WEC_Sim_new.heave(find(B1.WEC_Sim_new.time==startTime):end),'k-');
+% a=get(m(1),'LineWidth')+1;
+% set(m(1),'LineWidth',a)
+% xlabel('time(s)')
+% ylabel('Heave(m)')
+% xlim([100 200])
+% ylim([-2 2])
 
 %Second Column: Body 2 Heave
-subplot(2,3,2)
+subplot(1,3,2)
 n=plot(B2.WEC_Sim_org.time,B2.WEC_Sim_org.heave,'r:',...
     B2.WEC_Sim_new.time,B2.WEC_Sim_new.heave,'k-');
 xlabel('time(s)')
@@ -77,20 +77,20 @@ set(n(1),'LineWidth',b)
 xlim([0 200])
 ylim([-0.2 0.2])
 
-subplot(2,3,5)
-m=plot(B2.WEC_Sim_org.time(find(B2.WEC_Sim_org.time==startTime):end),...
-    B2.WEC_Sim_org.heave(find(B2.WEC_Sim_org.time==startTime):end),'r:',...
-    B2.WEC_Sim_new.time(find(B2.WEC_Sim_new.time==startTime):end),...
-    B2.WEC_Sim_new.heave(find(B2.WEC_Sim_new.time==startTime):end),'k-');
-a=get(m(1),'LineWidth')+1;
-set(m(1),'LineWidth',a)
-xlabel('time(s)')
-ylabel('Heave(m)')
-xlim([100 200])
-ylim([-0.2 0.2])
+% subplot(2,3,5)
+% m=plot(B2.WEC_Sim_org.time(find(B2.WEC_Sim_org.time==startTime):end),...
+%     B2.WEC_Sim_org.heave(find(B2.WEC_Sim_org.time==startTime):end),'r:',...
+%     B2.WEC_Sim_new.time(find(B2.WEC_Sim_new.time==startTime):end),...
+%     B2.WEC_Sim_new.heave(find(B2.WEC_Sim_new.time==startTime):end),'k-');
+% a=get(m(1),'LineWidth')+1;
+% set(m(1),'LineWidth',a)
+% xlabel('time(s)')
+% ylabel('Heave(m)')
+% xlim([100 200])
+% ylim([-0.2 0.2])
 
 %Third Column: Relative Heave
-subplot(2,3,3)
+subplot(1,3,3)
 n=plot(Rel.WEC_Sim_org.time,Rel.WEC_Sim_org.heave,'r:',...
     Rel.WEC_Sim_new.time,Rel.WEC_Sim_new.heave,'k-');
 xlabel('time(s)')
@@ -108,16 +108,16 @@ l=legend('WEC-Sim Org','WEC-Sim New');
 set(l,'Position',[0.92 0.90 0.07 0.07],'Units','normalized',...
     'FontSize',12);
 
-subplot(2,3,6)
-    m=plot(Rel.WEC_Sim_org.time(find(Rel.WEC_Sim_org.time==startTime):end),...
-    Rel.WEC_Sim_org.heave(find(Rel.WEC_Sim_org.time==startTime):end),'r:',...
-    Rel.WEC_Sim_new.time(find(Rel.WEC_Sim_new.time==startTime):end),...
-    Rel.WEC_Sim_new.heave(find(Rel.WEC_Sim_new.time==startTime):end),'k-');
-a=get(m(1),'LineWidth')+1;
-set(m(1),'LineWidth',a)
-xlabel('time(s)')
-ylabel('Heave(m)')
-xlim([100 200])
-ylim([-2 2])
+% subplot(2,3,6)
+%     m=plot(Rel.WEC_Sim_org.time(find(Rel.WEC_Sim_org.time==startTime):end),...
+%     Rel.WEC_Sim_org.heave(find(Rel.WEC_Sim_org.time==startTime):end),'r:',...
+%     Rel.WEC_Sim_new.time(find(Rel.WEC_Sim_new.time==startTime):end),...
+%     Rel.WEC_Sim_new.heave(find(Rel.WEC_Sim_new.time==startTime):end),'k-');
+% a=get(m(1),'LineWidth')+1;
+% set(m(1),'LineWidth',a)
+% xlabel('time(s)')
+% ylabel('Heave(m)')
+% xlim([100 200])
+% ylim([-2 2])
 
 end

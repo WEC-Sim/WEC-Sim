@@ -21,20 +21,20 @@
 %% User Input
 global plotNO;
 runReg=1;       % 1 to run regular wave simulations
-runIrreg=1;     % 1 to run irregular wave simulations
-runYaw=1;       % 1 to run passive yaw simulations
+runIrreg=0;     % 1 to run irregular wave simulations
+runYaw=0;       % 1 to run passive yaw simulations
 plotNO=1;       % 1 to plot new run vs. stored run for comparison of each solver
-plotSolvers=1;  % 1 to plot new run comparison by sln method
-openCompare=1;  % 1 opens all new run vs. stored run plots for comparison of each solver
+plotSolvers=0;  % 1 to plot new run comparison by sln method
+openCompare=0;  % 1 opens all new run vs. stored run plots for comparison of each solver
 
 %% Run and Load Simulations
 if runReg==1
     cd ./tests/RegularWaves/regular; runLoadRegular; cd .. ;
     savefig('figReg');
-    cd regularCIC; runLoadRegularCIC; cd .. ;
-    savefig('figRegCIC');
-    cd regularSS; runLoadRegularSS; cd .. ;
-    savefig('figRegSS');
+%     cd regularCIC; runLoadRegularCIC; cd .. ;
+%     savefig('figRegCIC');
+%     cd regularSS; runLoadRegularSS; cd .. ;
+%     savefig('figRegSS');
     cd .. ;  close all;
 end
 if runIrreg==1
