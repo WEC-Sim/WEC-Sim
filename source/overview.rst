@@ -2,8 +2,11 @@
 
 Overview
 ========
-This section provides an overview of the WEC-Sim work flow. 
-First, the WEC-Sim file structure is described; then, steps for setting up and running the WEC-Sim code are described. 
+This section provides an overview of the WEC-Sim software. 
+The WEC-Sim workflow is introduced. The WEC-Sim model files are described. Then steps for setting up and running the WEC-Sim code are provided. Finally, instructions on how to run the WEC-Sim software tests are provided.
+
+Workflow
+-----------------
 The WEC-Sim workflow diagram is shown below. 
 A description of this workflow is provided in the following sections. 
 For information about the implementation and structure of the WEC-Sim source code, refer to the :ref:`code_structure` section.
@@ -154,8 +157,6 @@ Step 4: Write wecSimInputFile.m
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 The WEC-Sim input file must be located in the ``$CASE`` directory, and named ``wecSimInputFile.m``. The figure below shows an example of a WEC-Sim input file. The input file specifies the simulation settings, body mass properties, wave conditions, joints, and mooring. Additionally, the WEC-Sim input file must specify the location of the WEC-Sim Simulink model (``*.slx``) file, the geometry file(s) ``*.stl``, and the hydrodynamic data file (``*.h5``) .
 
-.. figure:: _images/runWECSim_mod.png
-   :width: 600pt
 
 Step 5: Run WEC-Sim
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^

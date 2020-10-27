@@ -90,6 +90,7 @@
               <ul class="current">
 <li class="toctree-l1"><a class="reference internal" href="getting_started.html">Getting Started</a></li>
 <li class="toctree-l1 current"><a class="current reference internal" href="#">Overview</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="#workflow">Workflow</a></li>
 <li class="toctree-l2"><a class="reference internal" href="#wec-sim-model-files">WEC-Sim Model Files</a><ul>
 <li class="toctree-l3"><a class="reference internal" href="#hydrodynamic-data">Hydrodynamic Data</a></li>
 <li class="toctree-l3"><a class="reference internal" href="#geometry-file">Geometry File</a></li>
@@ -190,15 +191,18 @@
             
   <div class="section" id="overview">
 <span id="id1"></span><h1>Overview<a class="headerlink" href="#overview" title="Permalink to this headline">¶</a></h1>
-<p>This section provides an overview of the WEC-Sim work flow.
-First, the WEC-Sim file structure is described; then, steps for setting up and running the WEC-Sim code are described.
-The WEC-Sim workflow diagram is shown below.
+<p>This section provides an overview of the WEC-Sim software.
+The WEC-Sim workflow is introduced. The WEC-Sim model files are described. Then steps for setting up and running the WEC-Sim code are provided. Finally, instructions on how to run the WEC-Sim software tests are provided.</p>
+<div class="section" id="workflow">
+<h2>Workflow<a class="headerlink" href="#workflow" title="Permalink to this headline">¶</a></h2>
+<p>The WEC-Sim workflow diagram is shown below.
 A description of this workflow is provided in the following sections.
 For information about the implementation and structure of the WEC-Sim source code, refer to the <a class="reference internal" href="code_structure.html#code-structure"><span class="std std-ref">Code Structure</span></a> section.</p>
-<div class="figure align-center" id="workflow">
+<div class="figure align-center" id="id2">
 <a class="reference internal image-reference" href="_images/WEC-Sim_flowChart.png"><img alt="_images/WEC-Sim_flowChart.png" src="_images/WEC-Sim_flowChart.png" style="width: 500pt;" /></a>
 <div class="legend">
 <p><em>WEC-Sim Workflow Diagram</em></p>
+</div>
 </div>
 </div>
 <div class="section" id="wec-sim-model-files">
@@ -322,7 +326,7 @@ The WEC-Sim input file (<code class="docutils literal notranslate"><span class="
 </div>
 <div class="section" id="running-wec-sim">
 <h2>Running WEC-Sim<a class="headerlink" href="#running-wec-sim" title="Permalink to this headline">¶</a></h2>
-<p>This section provides a description of the steps to run the WEC-Sim code, refer to the <a class="reference internal" href="#workflow"><span class="std std-ref">WEC-Sim Workflow Diagram</span></a> while following the steps to run WEC-Sim.</p>
+<p>This section provides a description of the steps to run the WEC-Sim code, refer to the <a class="reference internal" href="#id2"><span class="std std-ref">WEC-Sim Workflow Diagram</span></a> while following the steps to run WEC-Sim.</p>
 <div class="section" id="step-1-pre-processing">
 <h3>Step 1: Pre-Processing<a class="headerlink" href="#step-1-pre-processing" title="Permalink to this headline">¶</a></h3>
 <p>In the pre-processing step, users need to create the WEC geometry, and run a BEM code to calculate the hydrodynamic coefficients.</p>
@@ -414,9 +418,6 @@ The figure below shows an example WEC-Sim Simulink model for the OSWEC tutorial.
 <div class="section" id="step-4-write-wecsiminputfile-m">
 <h3>Step 4: Write wecSimInputFile.m<a class="headerlink" href="#step-4-write-wecsiminputfile-m" title="Permalink to this headline">¶</a></h3>
 <p>The WEC-Sim input file must be located in the <code class="docutils literal notranslate"><span class="pre">$CASE</span></code> directory, and named <code class="docutils literal notranslate"><span class="pre">wecSimInputFile.m</span></code>. The figure below shows an example of a WEC-Sim input file. The input file specifies the simulation settings, body mass properties, wave conditions, joints, and mooring. Additionally, the WEC-Sim input file must specify the location of the WEC-Sim Simulink model (<code class="docutils literal notranslate"><span class="pre">*.slx</span></code>) file, the geometry file(s) <code class="docutils literal notranslate"><span class="pre">*.stl</span></code>, and the hydrodynamic data file (<code class="docutils literal notranslate"><span class="pre">*.h5</span></code>) .</p>
-<div class="figure align-default">
-<a class="reference internal image-reference" href="_images/runWECSim_mod.png"><img alt="_images/runWECSim_mod.png" src="_images/runWECSim_mod.png" style="width: 600pt;" /></a>
-</div>
 </div>
 <div class="section" id="step-5-run-wec-sim">
 <h3>Step 5: Run WEC-Sim<a class="headerlink" href="#step-5-run-wec-sim" title="Permalink to this headline">¶</a></h3>
