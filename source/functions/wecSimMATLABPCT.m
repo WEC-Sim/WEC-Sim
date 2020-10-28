@@ -109,7 +109,7 @@ parfor imcr=1:length(mcr.cases(:,1))
     fileID = fopen(filename,'a');
     fprintf(fileID,'wecSimMCR Case %g/%g\n',imcr,length(mcr.cases(:,1)));
 % Run WEC-Sim
-    makewecSimFcn(imcr,parallelComputing_dir);   
+    wecSimFcn(imcr,parallelComputing_dir);   
     fclose(fileID);
 end
 
