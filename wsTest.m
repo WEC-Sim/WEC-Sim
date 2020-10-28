@@ -33,12 +33,12 @@ run_wecSim_tests
 % fprintf('------------------------------\n')
 % %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 % %% Body1 Displacement in Heave
-% load('regular.mat')
-% tol = 1e-10;
-% org = regular.B1.WEC_Sim_org.heave;
-% new = regular.B1.WEC_Sim_new.heave;
-% assert(max(abs(org-new)) <= tol)
-% fprintf(['Body1 Displacement in Heave, Diff = ' num2str(max(abs(org-new))) '\n'])
+load('regular.mat')
+tol = 1e-10;
+org = regular.B1.WEC_Sim_org.heave;
+new = regular.B1.WEC_Sim_new.heave;
+assert(max(abs(org-new)) <= tol)
+fprintf(['Body1 Displacement in Heave, Diff = ' num2str(max(abs(org-new))) '\n'])
 % 
 % %% Body2 Displacement in Heave
 % load('regular.mat')
