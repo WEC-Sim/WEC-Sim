@@ -12,7 +12,7 @@ jobs:
       - checkout
       - matlab/install
       - matlab/run-tests:
-          source-folder: "/source; /tests"
+          source-folder: "source; tests"
           test-results-junit: test-results/matlab/results.xml
           code-coverage-cobertura: test-results/matlab/coverage.xml
       - store_test_results:
