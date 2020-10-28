@@ -11,10 +11,8 @@ jobs:
     steps:
       - checkout
       - matlab/install
-      - matlab/run-command:
-          command: addpath(genpath('./source')); addpath(genpath('./tests')); cd examples/RM3/hydroData; run bemio.m; cd ../..;
       - matlab/run-tests:
-          source-folder: source:tests
+          source-folder: "/source; /tests"
           test-results-junit: test-results/matlab/results.xml
           code-coverage-cobertura: test-results/matlab/coverage.xml
       - store_test_results:
