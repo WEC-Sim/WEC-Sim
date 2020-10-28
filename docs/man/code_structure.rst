@@ -255,7 +255,7 @@ The available parameters are explained in the :ref:`man/code_structure:Output St
 
 WEC-Sim Library
 ----------------
-In addition to the ``wecSimInputFile.m``, a WEC-Sim simulation requires a simulink model (``*.slx``) that represents the WEC system components and connectivities.
+In addition to the ``wecSimInputFile.m``, a WEC-Sim simulation requires a Simulink model (``*.slx``) that represents the WEC system components and connectivities.
 Similar to how the input file uses the WEC-Sim classes, the Simulink model uses WEC-Sim library blocks.
 There should be a one-to-one between the objects defined in the input file and the blocks used in the Simulink model.
 

@@ -75,6 +75,9 @@ $ cat .gitignore
 source/functions/moorDyn/*
 !source/functions/moorDyn/README.md
 
+# docs build directory
+docs/_build
+
 # Other
 .DS_Store
 view_html.sh

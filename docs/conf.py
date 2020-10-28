@@ -13,6 +13,7 @@
 # serve to show the default.
 
 import os
+import re
 
 # If extensions (or modules to document with autodoc) are in another directory,
 # add these directories to sys.path here. If the directory is relative to the
@@ -60,6 +61,10 @@ napoleon_use_rtype = True
 primary_domain = 'mat'
 matlab_src_dir = os.path.abspath("../source")
 matlab_keep_package_prefix = False
+
+# sphinxcontrib-versioning settings
+scv_whitelist_branches = ('master', 'dev')
+scv_whitelist_tags = (re.compile('a^'),)
 
 # Add any paths that contain templates here, relative to this directory.
 templates_path = ['_templates']

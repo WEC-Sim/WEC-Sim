@@ -2,8 +2,11 @@
 
 Overview
 ========
-This section provides an overview of the WEC-Sim work flow. 
-First, the WEC-Sim file structure is described; then, steps for setting up and running the WEC-Sim code are described. 
+This section provides an overview of the WEC-Sim software. 
+The WEC-Sim workflow is introduced. The WEC-Sim model files are described. Then steps for setting up and running the WEC-Sim code are provided. Finally, instructions on how to run the WEC-Sim software tests are provided.
+
+Workflow
+-----------------
 The WEC-Sim workflow diagram is shown below. 
 A description of this workflow is provided in the following sections. 
 For information about the implementation and structure of the WEC-Sim source code, refer to the :ref:`code_structure` section.
@@ -122,7 +125,7 @@ In this step, users run :ref:`BEMIO<bemio>` to convert the hydrodynamic coeffici
    
       * The origin of the mesh for each body (``*.dat``) is located at the mean water surface, which follows the same coordinate used in WEC-Sim. 
       * The location to output the hydrodynamic coefficients for each degree of freedom is defined in the ``Nemoh.cal`` file.
-      * Please refer to `NEMOH-Mesh <https://lheea.ec-nantes.fr/logiciels-et-brevets/nemoh-mesh-192932.kjsp?RH=1489593406974>`_ webpage for more mesh generation details.
+      * Please refer to `NEMOH-Mesh <https://lheea.ec-nantes.fr/logiciels-et-brevets/nemoh-mesh-192932.kjsp?RH=1489593406974>`_ website for more mesh generation details.
       * The NEMOH Mesh.exe code creates the ``Hydrostatics.dat`` and ``KH.dat`` files (among other files) for one input body at a time. For the Read_NEMOH function to work correctly in the case of a multiple body system, the user must manually rename ``Hydrostatics.dat`` and ``KH.dat`` files to ``Hydrostatics_0.dat``, ``Hydrostatics_1.dat``, …, and ``KH_0.dat``, ``KH_1.dat``,…, corresponding to the body order specified in the ``Nemoh.cal`` file.
       * More details on NEMOH setup are given in the `Nemoh Homepage <https://lheea.ec-nantes.fr/logiciels-et-brevets/nemoh-running-192930.kjsp?RH=1489593406974>`_.
       
@@ -154,9 +157,6 @@ Step 4: Write wecSimInputFile.m
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 The WEC-Sim input file must be located in the ``$CASE`` directory, and named ``wecSimInputFile.m``. The figure below shows an example of a WEC-Sim input file. The input file specifies the simulation settings, body mass properties, wave conditions, joints, and mooring. Additionally, the WEC-Sim input file must specify the location of the WEC-Sim Simulink model (``*.slx``) file, the geometry file(s) ``*.stl``, and the hydrodynamic data file (``*.h5``) .
 
-.. figure:: /_static/images/runWECSim_mod.png
-   :width: 600pt
-
 Step 5: Run WEC-Sim
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 Lastly, execute the WEC-Sim code by typing ``wecSim`` into the MATLAB Command Window. 
@@ -164,4 +164,25 @@ The WEC-Sim source code is located in the ``$WECSIM`` directory, but ``wecSim`` 
 
 .. Note::
 	WEC-Sim simulations should always be executed from the MATLAB Command Window, not from Simulink.
+
+Software Tests
+--------------------
+This section describes the software tests developed to test the WEC-Sim source code. 
+WEC-Sim includes continuous integration software tests. The tests are run each time changes are made to the repository, and are designed to ensure that the code is performing as expected. New tests are developed each time new functions are added or modified.
+Refer to MATLAB's `unit test <https://www.mathworks.com/help/matlab/matlab-unit-test-framework.html?s_tid=CRUX_lftnav>`_ and `continuous integration <https://www.mathworks.com/help/matlab/matlab_prog/continuous-integration-with-matlab-on-ci-platforms.html>`_ documentation for more information. 
+
+
+Run Tests
+^^^^^^^^^^^
+The WEC-Sim unit tests are located in the ``$WECSIM/tests`` directory. 
+To run the WEC-Sim unit tests locally, navigate to the ``$WECSIM`` (e.g. ``C:/User/Documents/GitHub/WEC-Sim``) directory, and type the following command into the MATLAB Command Window::
+
+	>> runtests
+	
+	
+	Totals:
+	   25 Passed, 0 Failed, 0 Incomplete.
+	   
+
+This executes the WEC-Sim tests and generates a build report. **Developers should run software tests before submitting a pull request.**
 
