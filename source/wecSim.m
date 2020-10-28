@@ -207,7 +207,7 @@ sv_instFS=Simulink.Variant('nlHydro==2');
 % Morrison Element
 morisonElement = simu.morisonElement;
 sv_MEOff=Simulink.Variant('morisonElement==0');
-sv_MEOn=Simulink.Variant('morisonElement==1');
+sv_MEOn=Simulink.Variant('morisonElement==1 || morisonElement==2');
 % Radiation Damping
 if waves.typeNum==0 || waves.typeNum==10 %'noWave' & 'regular'
     radiation_option = 1;
