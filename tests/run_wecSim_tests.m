@@ -23,7 +23,7 @@ global plotNO;
 runReg=1;       % 1 to run regular wave simulations
 runIrreg=0;     % 1 to run irregular wave simulations
 runYaw=0;       % 1 to run passive yaw simulations
-plotNO=1;       % 1 to plot new run vs. stored run for comparison of each solver
+plotNO=0;       % 1 to plot new run vs. stored run for comparison of each solver
 plotSolvers=0;  % 1 to plot new run comparison by sln method
 openCompare=0;  % 1 opens all new run vs. stored run plots for comparison of each solver
 

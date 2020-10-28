@@ -23,9 +23,8 @@
 
 addpath(genpath('.\tests'))
 addpath(genpath('.\source'))
-% run_wecSim_tests
-% setting up Jenkins CI
 
+run_wecSim_tests
 
 % %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 % % Regular Wave Tests
