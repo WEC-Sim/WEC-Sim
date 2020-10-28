@@ -11,7 +11,7 @@ jobs:
     steps:
       - checkout
       - matlab/install:
-          release: 2020a
+          release: "2020a"
       - matlab/run-tests:
           source-folder: "source; tests"
           test-results-junit: test-results/matlab/results.xml
