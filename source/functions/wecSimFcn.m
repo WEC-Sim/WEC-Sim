@@ -1,4 +1,4 @@
-function makewecSimFcn(imcr,parallelComputing_dir)
+function wecSimFcn(imcr,parallelComputing_dir)
 
 warning('off', 'MATLAB:MKDIR:DirectoryExists');
 wecSim
