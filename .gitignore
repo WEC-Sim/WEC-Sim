@@ -60,6 +60,7 @@ $ cat .gitignore
 
 # BEMIO
 *.h5
+!/**/**/hydroData/*.h5
 
 # Tests
 /tests/**/**/*.mat

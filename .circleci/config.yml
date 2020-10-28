@@ -2,14 +2,12 @@ version: 2.1
 
 orbs:
   matlab: mathworks/matlab@0.2.0
-  win: circleci/windows@2.3.0
   
-
 jobs:
   build:
-    executor: 
-      name: win/default
-      size: "large" # can be "medium", "large", "xlarge", "2xlarge"
+    machine:
+      image: windows-server-2019-nvidia:stable
+    resource_class: large
     steps:
       - checkout
       - matlab/install
