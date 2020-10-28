@@ -1,7 +1,7 @@
 
 
 <!DOCTYPE html>
-<html class="writer-html5" lang="en" >
+<html class="writer-html4" lang="en" >
 <head>
   <meta charset="utf-8">
   
@@ -13,7 +13,8 @@
   
   <link rel="stylesheet" href="_static/css/theme.css" type="text/css" />
   <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
-  <link rel="stylesheet" href="_static/css/table_wrap.css" type="text/css" />
+  <link rel="stylesheet" href="_static/theme_overrides.css" type="text/css" />
+  <link rel="stylesheet" href="_static/banner.css" type="text/css" />
 
   
   
@@ -27,17 +28,18 @@
   
     
       <script type="text/javascript" id="documentation_options" data-url_root="./" src="_static/documentation_options.js"></script>
-        <script src="_static/jquery.js"></script>
-        <script src="_static/underscore.js"></script>
-        <script src="_static/doctools.js"></script>
-        <script src="_static/language_data.js"></script>
+        <script type="text/javascript" src="_static/jquery.js"></script>
+        <script type="text/javascript" src="_static/underscore.js"></script>
+        <script type="text/javascript" src="_static/doctools.js"></script>
+        <script type="text/javascript" src="_static/language_data.js"></script>
+        <script async="async" type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.5/latest.js?config=TeX-AMS-MML_HTMLorMML"></script>
     
     <script type="text/javascript" src="_static/js/theme.js"></script>
 
     
     <link rel="index" title="Index" href="genindex.html" />
     <link rel="search" title="Search" href="search.html" />
-    <link rel="next" title="Getting Started" href="getting_started.html" /> 
+    <link rel="next" title="Getting Started" href="man/getting_started.html" /> 
 </head>
 
 <body class="wy-body-for-nav">
@@ -87,20 +89,20 @@
             
             
               <ul>
-<li class="toctree-l1"><a class="reference internal" href="getting_started.html">Getting Started</a></li>
-<li class="toctree-l1"><a class="reference internal" href="overview.html">Overview</a></li>
-<li class="toctree-l1"><a class="reference internal" href="theory.html">Theory</a></li>
-<li class="toctree-l1"><a class="reference internal" href="code_structure.html">Code Structure</a></li>
-<li class="toctree-l1"><a class="reference internal" href="tutorials.html">Tutorials</a></li>
-<li class="toctree-l1"><a class="reference internal" href="advanced_features.html">Advanced Features</a></li>
-<li class="toctree-l1"><a class="reference internal" href="webinars.html">Webinars</a></li>
-<li class="toctree-l1"><a class="reference internal" href="license.html">License</a></li>
-<li class="toctree-l1"><a class="reference internal" href="acknowledgements.html">Acknowledgements</a></li>
-<li class="toctree-l1"><a class="reference internal" href="publications.html">Publications</a></li>
-<li class="toctree-l1"><a class="reference internal" href="release_notes.html">Release Notes</a></li>
-<li class="toctree-l1"><a class="reference internal" href="contact.html">Online Forum</a></li>
-<li class="toctree-l1"><a class="reference internal" href="api.html">WEC-Sim API</a></li>
-<li class="toctree-l1"><a class="reference internal" href="terminology.html">Terminology</a></li>
+<li class="toctree-l1"><a class="reference internal" href="man/getting_started.html">Getting Started</a></li>
+<li class="toctree-l1"><a class="reference internal" href="man/overview.html">Overview</a></li>
+<li class="toctree-l1"><a class="reference internal" href="man/theory.html">Theory</a></li>
+<li class="toctree-l1"><a class="reference internal" href="man/code_structure.html">Code Structure</a></li>
+<li class="toctree-l1"><a class="reference internal" href="man/tutorials.html">Tutorials</a></li>
+<li class="toctree-l1"><a class="reference internal" href="man/advanced_features.html">Advanced Features</a></li>
+<li class="toctree-l1"><a class="reference internal" href="man/webinars.html">Webinars</a></li>
+<li class="toctree-l1"><a class="reference internal" href="man/license.html">License</a></li>
+<li class="toctree-l1"><a class="reference internal" href="man/acknowledgements.html">Acknowledgements</a></li>
+<li class="toctree-l1"><a class="reference internal" href="man/publications.html">Publications</a></li>
+<li class="toctree-l1"><a class="reference internal" href="man/release_notes.html">Release Notes</a></li>
+<li class="toctree-l1"><a class="reference internal" href="man/contact.html">Online Forum</a></li>
+<li class="toctree-l1"><a class="reference internal" href="man/api.html">WEC-Sim API</a></li>
+<li class="toctree-l1"><a class="reference internal" href="man/terminology.html">Terminology</a></li>
 </ul>
 
             
@@ -166,7 +168,13 @@
           <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
            <div itemprop="articleBody">
             
-  <div class="figure align-default">
+  
+
+
+
+
+
+<div class="figure">
 <a class="reference external image-reference" href="https://github.com/WEC-Sim/WEC-Sim"><img alt="_images/wec_sim_header.png" src="_images/wec_sim_header.png" /></a>
 </div>
 <div class="toctree-wrapper compound">
@@ -176,16 +184,14 @@
 <p><a class="reference external" href="https://github.com/WEC-Sim/WEC-Sim">WEC-Sim (Wave Energy Converter SIMulator)</a> is an open-source code for simulating wave energy converters. The code is developed in MATLAB/SIMULINK using the multi-body dynamics solver Simscape Multibody. WEC-Sim has the ability to model devices that are comprised of rigid bodies, joints, power take-off systems, and mooring systems. Simulations are performed in the time-domain by solving the governing wave energy converter equations of motion in 6 degrees-of-freedom.</p>
 <div class="section" id="wec-sim-developers">
 <span id="developers"></span><h2>WEC-Sim Developers<a class="headerlink" href="#wec-sim-developers" title="Permalink to this headline">¶</a></h2>
-<p>WEC-Sim is a collaboration between the <a class="reference external" href="http://www.nrel.gov/water/">National Renewable Energy Laboratory (NREL)</a> and <a class="reference external" href="http://energy.sandia.gov/energy/renewable-energy/water-power/">Sandia National Laboratories (Sandia)</a>, funded by the U.S. Department of Energy’s Water Power Technologies Office. Due to the open source nature of the code, WEC-Sim  has also had many external contributions, for more information refer to  <a class="reference internal" href="acknowledgements.html#acknowledgements"><span class="std std-ref">Acknowledgements</span></a>.</p>
+<p>WEC-Sim is a collaboration between the <a class="reference external" href="http://www.nrel.gov/water/">National Renewable Energy Laboratory (NREL)</a> and <a class="reference external" href="http://energy.sandia.gov/energy/renewable-energy/water-power/">Sandia National Laboratories (Sandia)</a>, funded by the U.S. Department of Energy’s Water Power Technologies Office. Due to the open source nature of the code, WEC-Sim  has also had many external contributions, for more information refer to  <a class="reference internal" href="man/acknowledgements.html#acknowledgements"><span class="std std-ref">Acknowledgements</span></a>.</p>
 <ul class="simple">
-<li><p>Yi-Hsiang Yu (NREL - PI)</p></li>
-<li><p>Kelley Ruehl (Sandia - PI)</p></li>
-<li><p>Jennifer Van Rij (NREL)</p></li>
-<li><p>Nathan Tom (NREL)</p></li>
-<li><p>Dominic Forbush (Sandia)</p></li>
-<li><p>David Ogden (NREL)</p></li>
-<li><p>Adam Keester (Sandia)</p></li>
-<li><p>Jorge Leon (Sandia)</p></li>
+<li>Yi-Hsiang Yu (NREL - PI)</li>
+<li>Kelley Ruehl (Sandia - PI)</li>
+<li>Jennifer Van Rij (NREL)</li>
+<li>Nathan Tom (NREL)</li>
+<li>Dominic Forbush (Sandia)</li>
+<li>David Ogden (NREL)</li>
 </ul>
 </div>
 <div class="section" id="funding">
@@ -204,7 +210,7 @@
   
     <div class="rst-footer-buttons" role="navigation" aria-label="footer navigation">
       
-        <a href="getting_started.html" class="btn btn-neutral float-right" title="Getting Started" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right"></span></a>
+        <a href="man/getting_started.html" class="btn btn-neutral float-right" title="Getting Started" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right"></span></a>
       
       
     </div>
@@ -215,7 +221,7 @@
   <div role="contentinfo">
     <p>
         
-        &copy; Copyright 2014, National Renewable Energy Laboratory and National Technology &amp; Engineering Solutions of Sandia, LLC (NTESS)
+        &copy; Copyright 2020, National Renewable Energy Laboratory and National Technology &amp; Engineering Solutions of Sandia, LLC (NTESS)
 
     </p>
   </div>
@@ -237,6 +243,21 @@
 
   </div>
   
+<div class="rst-versions" data-toggle="rst-versions" role="note" aria-label="versions">
+    <span class="rst-current-version" data-toggle="rst-current-version">
+        <span class="fa fa-book"> Other Versions</span>
+        v: master
+        <span class="fa fa-caret-down"></span>
+    </span>
+    <div class="rst-other-versions">
+        <dl>
+            <dt>Branches</dt>
+            <dd><a href="dev/index.html">dev</a></dd>
+            <dd><a href="master/index.html">master</a></dd>
+        </dl>
+    </div>
+</div>
+
 
   <script type="text/javascript">
       jQuery(function () {
