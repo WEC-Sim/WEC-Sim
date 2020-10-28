@@ -23,7 +23,7 @@ classdef responseClass<handle
     % that contains structures for each instance of a WEC-Sim class (e.g.
     % ``waveClass``, ``bodyClass``, ``ptoClass``, ``mooringClass``, etc).
     % 
-    %.. autoattribute:: source.objects.responseClass.wave
+    %.. autoattribute:: objects.responseClass.wave
     %    
     % , it includes:
     %
@@ -34,7 +34,7 @@ classdef responseClass<handle
     %   * ``waveGauge2Elevation`` (`array`) = [# of time-steps x 1]
     %   * ``waveGauge3Elevation`` (`array`) = [# of time-steps x 1]
     %         
-    %.. autoattribute:: source.objects.responseClass.bodies
+    %.. autoattribute:: objects.responseClass.bodies
     %    
     % , it includes:
     %
@@ -55,7 +55,7 @@ classdef responseClass<handle
     %   ``cellPressures_time``, ``cellPressures_hydrostatic``,
     %   ``cellPressures_waveLinear``, ``cellPressures_waveNonLinear``)
     %
-    %.. autoattribute:: source.objects.responseClass.ptos
+    %.. autoattribute:: objects.responseClass.ptos
     %    
     % , it includes:
     %
@@ -70,7 +70,7 @@ classdef responseClass<handle
     %   * ``forceInternalMechanics`` (`array`) = [# of time-steps x 6]
     %   * ``powerInternalMechanics`` (`array`) = [# of time-steps x 6]
     %
-    %.. autoattribute:: source.objects.responseClass.constraints
+    %.. autoattribute:: objects.responseClass.constraints
     %    
     % , it includes:
     %
@@ -81,7 +81,7 @@ classdef responseClass<handle
     %   *  ``accleration`` (`array`) = [# of time-steps x 6]
     %   *  ``forceConstraint`` (`array`) = [# of time-steps x 6]    
     %
-    %.. autoattribute:: source.objects.responseClass.mooring
+    %.. autoattribute:: objects.responseClass.mooring
     %    
     % , it includes:
     %
