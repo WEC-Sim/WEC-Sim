@@ -10,7 +10,8 @@ jobs:
     resource_class: xlarge
     steps:
       - checkout
-      - matlab/install
+      - matlab/install:
+          release: 2020a
       - matlab/run-tests:
           source-folder: "source; tests"
           test-results-junit: test-results/matlab/results.xml
