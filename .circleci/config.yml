@@ -2,12 +2,14 @@ version: 2.1
 
 orbs:
   matlab: mathworks/matlab@0.2.0
+  win: circleci/windows@2.3.0
   
+
 jobs:
   build:
-    machine:
-      image: 'ubuntu-1604:201903-01'
-    resource_class: large
+    executor: 
+      name: win/default
+      size: "large" # can be "medium", "large", "xlarge", "2xlarge"
     steps:
       - checkout
       - matlab/install
