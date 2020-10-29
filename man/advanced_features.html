@@ -104,7 +104,6 @@
 </li>
 <li class="toctree-l2"><a class="reference internal" href="#simulation-features">Simulation Features</a><ul>
 <li class="toctree-l3"><a class="reference internal" href="#multiple-condition-runs-mcr">Multiple Condition Runs (MCR)</a></li>
-<li class="toctree-l3"><a class="reference internal" href="#parallel-computing-toolbox-pct">Parallel Computing Toolbox (PCT)</a></li>
 <li class="toctree-l3"><a class="reference internal" href="#state-space-representation">State-Space Representation</a></li>
 <li class="toctree-l3"><a class="reference internal" href="#time-step-features">Time-Step Features</a><ul>
 <li class="toctree-l4"><a class="reference internal" href="#fixed-time-step-ode4">Fixed Time-Step (ode4)</a></li>
@@ -638,8 +637,8 @@ Then the functions provided are used to create and populate the <code class="doc
 <h2>Simulation Features<a class="headerlink" href="#simulation-features" title="Permalink to this headline">¶</a></h2>
 <p>This section provides an overview of WEC-Sim’s simulation class features; for more information about the simulation class code structure, refer to <a class="reference internal" href="code_structure.html#simulation-class"><span class="std std-ref">Simulation Class</span></a>.</p>
 <div class="section" id="multiple-condition-runs-mcr">
-<span id="mcr"></span><h3>Multiple Condition Runs (MCR)<a class="headerlink" href="#multiple-condition-runs-mcr" title="Permalink to this headline">¶</a></h3>
-<p>WEC-Sim allows users to execute batch runs by typing <code class="docutils literal notranslate"><span class="pre">wecSimMCR</span></code> into the MATLAB Command Window. This command executes the Multiple Condition Run (MCR) option, which can be executed three different ways:</p>
+<h3>Multiple Condition Runs (MCR)<a class="headerlink" href="#multiple-condition-runs-mcr" title="Permalink to this headline">¶</a></h3>
+<p>WEC-Sim allows users to perform batch runs by typing <code class="docutils literal notranslate"><span class="pre">wecSimMCR</span></code> into the MATLAB Command Window. This command executes the Multiple Condition Run (MCR) option, which can be initiated three different ways:</p>
 <blockquote>
 <div><p><strong>Option 1.</strong> Specify a range of sea states and PTO damping coefficients in the WEC-Sim input file, example:
 <code class="docutils literal notranslate"><span class="pre">waves.H</span> <span class="pre">=</span> <span class="pre">1:0.5:5;</span> <span class="pre">waves.T</span> <span class="pre">=</span> <span class="pre">5:1:15;</span></code>
@@ -651,10 +650,6 @@ Then the functions provided are used to create and populate the <code class="doc
 </div></blockquote>
 <p>For Multiple Condition Runs, the <code class="docutils literal notranslate"><span class="pre">*.h5</span></code> hydrodynamic data is only loaded once. To reload the <code class="docutils literal notranslate"><span class="pre">*.h5</span></code> data between runs,  set <code class="docutils literal notranslate"><span class="pre">simu.reloadH5Data</span> <span class="pre">=1</span></code> in the WEC-Sim input file.</p>
 <p>For more information, refer to <a class="reference internal" href="webinars.html#webinar1"><span class="std std-ref">Webinar 1 - BEMIO and MCR</span></a>, and the <strong>RM3_MCR</strong> example on the <a class="reference external" href="https://github.com/WEC-Sim/WEC-Sim_Applications">WEC-Sim Applications</a> repository.</p>
-</div>
-<div class="section" id="parallel-computing-toolbox-pct">
-<h3>Parallel Computing Toolbox (PCT)<a class="headerlink" href="#parallel-computing-toolbox-pct" title="Permalink to this headline">¶</a></h3>
-<p>WEC-Sim allows users to execute batch runs by typing <code class="docutils literal notranslate"><span class="pre">wecSimPCT</span></code> into the MATLAB Command Window. This command executes the MATLAB <a class="reference external" href="https://www.mathworks.com/products/parallel-computing.html">Parallel Computing Toolbox</a> (PCT), which adds an additional MATLAB dependency to use this feature. Similar to <a class="reference internal" href="#mcr"><span class="std std-ref">Multiple Condition Runs (MCR)</span></a> Multiple Condition Runs (MCR), this feature can be executed in three ways.</p>
 </div>
 <div class="section" id="state-space-representation">
 <h3>State-Space Representation<a class="headerlink" href="#state-space-representation" title="Permalink to this headline">¶</a></h3>

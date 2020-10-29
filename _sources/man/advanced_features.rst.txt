@@ -26,11 +26,9 @@ Simulation Features
 ---------------------------------
 This section provides an overview of WEC-Sim's simulation class features; for more information about the simulation class code structure, refer to :ref:`man/code_structure:Simulation Class`. 
 
-.. _mcr:
-
 Multiple Condition Runs (MCR)
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
-WEC-Sim allows users to execute batch runs by typing ``wecSimMCR`` into the MATLAB Command Window. This command executes the Multiple Condition Run (MCR) option, which can be executed three different ways:
+WEC-Sim allows users to perform batch runs by typing ``wecSimMCR`` into the MATLAB Command Window. This command executes the Multiple Condition Run (MCR) option, which can be initiated three different ways:
 
 	**Option 1.** Specify a range of sea states and PTO damping coefficients in the WEC-Sim input file, example: 
 	``waves.H = 1:0.5:5; waves.T = 5:1:15;``
@@ -45,10 +43,6 @@ WEC-Sim allows users to execute batch runs by typing ``wecSimMCR`` into the MATL
 For Multiple Condition Runs, the ``*.h5`` hydrodynamic data is only loaded once. To reload the ``*.h5`` data between runs,  set ``simu.reloadH5Data =1`` in the WEC-Sim input file. 
 
 For more information, refer to :ref:`webinar1`, and the **RM3_MCR** example on the `WEC-Sim Applications <https://github.com/WEC-Sim/WEC-Sim_Applications>`_ repository. 
-
-Parallel Computing Toolbox (PCT)
-^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
-WEC-Sim allows users to execute batch runs by typing ``wecSimPCT`` into the MATLAB Command Window. This command executes the MATLAB `Parallel Computing Toolbox <https://www.mathworks.com/products/parallel-computing.html>`_ (PCT), which adds an additional MATLAB dependency to use this feature. Similar to :ref:`mcr` Multiple Condition Runs (MCR), this feature can be executed in three ways.
 
 
 State-Space Representation
