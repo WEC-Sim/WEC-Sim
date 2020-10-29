@@ -2,6 +2,9 @@
 
 Terminology
 ===========
+.. Note:: 
+	Adam:
+	This section is great to have and very helpful. Some nomenclature from the theory section is missing. Some variables (such as A, B, C, d) are used differently in different parts of the documentation (PTO, BEM theory, etc), these needs subscripts and distinct mentions here for each different use of that variable
 
 ======================= ===================================================
 Term or Variable       	 	Definition
@@ -43,7 +46,7 @@ JS                 	JONSWAP Spectrum
 :math:`\omega` 		Wave frequency (rad/s), :math:`\omega = \frac{2\pi}{T}`
 :math:`\phi` 		Wave phase (rad)
 Pitch (Ry)         	Rotation about the Y-axis
-PM                 	Pierson-Moskowitz Spectrum
+PM                 	Pierson-Moskowitz Specturm
 PTO                	Power Take-Off
 :math:`R_{f}` 		Ramp function 
 :math:`\rho` 		Water density (kg/m3)

@@ -1,16 +1,12 @@
 
-The Boundary Element Method Input/Output (BEMIO) functions are used to 
-pre-process the BEM hydrodynamic data prior to running WEC-Sim. For more 
-information about the WEC-Sim workflow, refer to :ref:`man/overview:Running 
-WEC-Sim`. BEMIO functions perform the following tasks: 
+The Boundary Element Method Input/Output (BEMIO) functions are used to pre-process the BEM hydrodynamic data prior to running WEC-Sim. For more information about the WEC-Sim workflow, refer to :ref:`overview:Running WEC-Sim`. The following section can also be followed in conjunction with the cases in the WEC-Sim/Examples directory in the WEC-Sim source code. This includes several cases with WAMIT, NEMOH and AQWA. For more information, refer to :ref:`webinar1`. BEMIO functions perform the following tasks:
+.. Adam: this needs to be updated for READ_Capytaine and READ_ORCAFLEX once those functions are integrated into BEMIO.
 
 * Read BEM results from **WAMIT**, **NEMOH**, or **AQWA**.
 * Calculate the radiation and excitation impulse response functions (IRFs).
 * Calculate the state space realization for the radiation IRF.
 * Save the resulting data in Hierarchical Data Format 5 (HDF5).
 * Plot typical hydrodynamic data for user verification.
-
-The BEMIO tutorials are included in the ``$WECSIM/tutorials/BEMIO`` directory in the WEC-Sim source code. For more information, refer to :ref:`webinar1`.
 
 .. Note:: 
 	Previously the `python based BEMIO code <http://wec-sim.github.io/bemio/installing.html>`_ was used for this purpose. The python BEMIO functions have been converted to MATLAB and are included in the WEC-Sim source code. The python based BEMIO code will remain available but will no longer be  supported. 
@@ -58,7 +54,7 @@ BEMIO Functions
 	*hydro = Combine_BEM(hydro)*
 		* *hydro* – data structure
 
-**Radiation_IRF:** Calculates the normalized radiation impulse response function.
+**Radiation_IRF:** Calculates the normalized radiation impulse response function. This is equivalent to the radiation IRF in the theory section normalized by :math:`\rho`:
 
 	:math:`\overline{K}_{r,i,j}(t) = {\frac{2}{\pi}}\intop_0^{\infty}{\frac{B_{i,j}(\omega)}{\rho}}\cos({\omega}t)d\omega`
 

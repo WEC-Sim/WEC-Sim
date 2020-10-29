@@ -78,7 +78,7 @@ Previous Releases
 
 * Added error and warning flags
 
-* Converted Morison Elements to script instead of block
+* Converted Morrison Elements to script instead of block
 
 * Converted WEC-Sim and PTO-Sim library files back to slx format
 
@@ -166,7 +166,7 @@ Previous Releases
 * State space radiation
 * Wave directionality
 * User-defined wave elevation time-series
-* Imports non-dimensional BEMIO hydrodynamic data (instead of fully dimensional coefficients)
+* Imports non-dimensionalized BEMIO hydrodynamic data (instead of fully dimensional coefficients)
 * Variant Subsystems implemented to improve code stability (instead of if statements)
 * Bug fixes
 

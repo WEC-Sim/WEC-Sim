@@ -1,5 +1,9 @@
 .. _getting_started:
 
+.. Note:: 
+	Adam:
+	see Index notes on expanding on what WEC-Sim is and can do. Merge with index into an Introduction section?
+
 Getting Started
 ===============
 This section provides instructions on how to download, install, and test the WEC-Sim code.
@@ -9,7 +13,7 @@ MATLAB Requirements
 ------------------------------
 WEC-Sim is developed in MATLAB/Simulink, and requires the toolboxes listed below. 
 WEC-Sim's Simulink Library is saved in MATLAB version R2015b, so any newer MATLAB release should be compatible with WEC-Sim.
-Certain advanced features relying on external functions, such as :ref:`man/advanced_features:moordyn`, may not be compatible with older versions of MATLAB. 
+Certain advanced features relying on external functions, such as :ref:`advanced_features:moordyn`, may not be compatible with older versions of MATLAB. 
 Full functionality has been verified on 2018a through 2019b. 
  
 ==========================  ============================		
@@ -76,7 +80,7 @@ Step 1. Add WEC-Sim to MATLAB Path
 Open the ``$WECSIM/source/wecSimStartup.m`` file.
 
 
-.. literalinclude:: ../../source/wecSimStartup.m
+.. literalinclude:: ../../WEC-Sim/source/wecSimStartup.m
    :language: matlab
 
 Rename the ``wecSimStartup.m`` file ``startup.m`` and paste it into the `MATLAB Startup Folder <https://www.mathworks.com/help/matlab/ref/startup.html>`_. 
@@ -105,7 +109,7 @@ The WEC-Sim Library (Body Elements, Constraints, Frames Moorings, and PTOs) shou
 The WEC-Sim Library will now be accessible every time Simulink is opened. 
 For more information on using and modifying library blocks refer to the `Simulink Documentation <http://www.mathworks.com/help/simulink/>`_.
 
-.. figure:: /_static/images/WEC-Sim_Lib.PNG
+.. figure:: _images/WEC-Sim_Lib.PNG
    :align: center
 
    ..
@@ -122,6 +126,9 @@ In the MATLAB Command Window type::
 This should run an example case using the Reference Model 3 (RM3) point absorber. 
 A SimMechanics Explorer window will open within the MATLAB window, and figures will be generated displaying simulation outputs. 
 
+.. Note:: 
+	Adam:
+	 Change the test instructions to just running wsTest.m (also this file should be renamed to wecSimTest.m for naming consistency)
 
 .. Note:: 
 	

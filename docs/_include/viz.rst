@@ -120,7 +120,7 @@ The ``pressureGlyphs`` macro calculates cell normals, and cell centers. It then 
 * Hydrostatic Pressure
 * Linear Froude-Krylov pressure
 * Non-linear Froude-Krylov pressure
-* Total pressure (hydrostatic plus non-linear Froude-Krylov)
+* Total pressure (hydrostatic plus non-linear Foude-Krylov)
 * Froude-Krylov delta (non-linear minus linear)
 
 The video below shows three different views of the RM3 model described in the tutorials.
