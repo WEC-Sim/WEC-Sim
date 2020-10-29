@@ -328,29 +328,25 @@ To use Morison Elements, the following simulation class variable must be defined
 
 Implementation Option 1 uses a normal and tangential representation of the Morison Element properties while implementation option 2 allows for the Morison Element properties to be defined independently for the x-, y-, and z-axis. Note that the two options allow the user flexibility to implement hydrodynamic forcing that best suits their modeling needs; however, the two options have slightly different calculation methods and therefore the outputs will not necessarily provide the same forcing values. The user is directed to look at the Simulink Morison Element block within the WEC-Sim library to better determine which approach better suits their modeling requirements. 
 
-Morison Elements must be defined for each body using the :code:`body(#).morisonElement` property of the body class. This property requires definition of the following body class parameters in the WEC-Sim input file (each of which have a default value of zero(s))::
-
-	:code:`simu.morisonElement  = 1`
+Morison Elements must be defined for each body using the :code:`body(#).morisonElement` property of the body class. This property requires definition of the following body class parameters in the WEC-Sim input file (each of which have a default value of zero(s)). For :code:`simu.morisonElement  = 1` ::
 	
-	body(i).morisonElement.cd [:math:`C_{dn}` :math:`C_{dt}` 0]
-	body(i).morisonElement.ca [:math:`C_{an}` :math:`C_{at}` 0]
-	body(i).morisonElement.characteristicArea [:math:`A_{n}` :math:`A_{t}` 0]
-	body(i).morisonElement.VME [:math:`V_{me}`]
-	body(i).morisonElement.rgME [:math:`r_{gx}` :math:`r_{gy}` :math:`r_{gz}`]
-	body(i).morisonElement.z [:math:`r_{x}` :math:`r_{y}` :math:`r_{z}`]
+	body(i).morisonElement.cd = [c_{dn} c_{dt} 0]
+	body(i).morisonElement.ca = [c_{an} c_{at} 0]
+	body(i).morisonElement.characteristicArea = [A_{n} A_{t} 0]
+	body(i).morisonElement.VME = [V_{me}]
+	body(i).morisonElement.rgME = [r_{gx} r_{gy} r_{gz}]
+	body(i).morisonElement.z = [z_{x} z_{y} z_{z}]
 	
-Please note that for option 1, the cd, ca, and characteristicArea variables need to be initialized as a [1x3] vector with the last index set to zero.
+Please note that for option 1, the :code:`body(#).morisonElement.cd`, :code:`body(#).morisonElement.ca`, and :code:`body(#).morisonElement.characteristicArea` variables need to be initialized as [1x3] vectors with the last index set to zero. While :code:`body(#).morisonElement.z` is a unit normal vector that defines the orientation of the Morison Element. For :code:`simu.morisonElement  = 2` ::
 	
-	:code:`simu.morisonElement  = 2`
+	body(i).morisonElement.cd = [c_{dx} c_{dy} c_{dz}]
+	body(i).morisonElement.ca = [c_{ax} c_{ay} c_{az}]
+	body(i).morisonElement.characteristicArea = [A_{x} A_{y} A_{z}]
+	body(i).morisonElement.VME = [V_{me}]
+	body(i).morisonElement.rgME = [r_{gx} r_{gy} r_{gz}]
+	body(i).morisonElement.z = [0 0 0]
 	
-	body(i).morisonElement.cd [:math:`C_{dx}` :math:`C_{dy}` :math:`C_{dz}`]
-	body(i).morisonElement.ca [:math:`C_{ax}` :math:`C_{ay}` :math:`C_{az}`]
-	body(i).morisonElement.characteristicArea [:math:`A_{x}` :math:`A_{y}` :math:`A_{z}`]
-	body(i).morisonElement.VME [:math:`V_{me}`]
-	body(i).morisonElement.rgME [:math:`r_{gx}` :math:`r_{gy}` :math:`r_{gz}`]
-	body(i).morisonElement.z [0 0 0]
-	
-Please note that for option 2, the unit normal z must be initialized as a [1x3] vector of zeroes although it will not be used in the hydrodynamic calculation.
+Please note that for option 2, the unit normal :code:`body(#).morisonElement.z` must be initialized as a [1x3] vector of zeroes although it will not be used in the hydrodynamic calculation.
 
 The Morison Element time-step may also be defined as :code:`simu.dtME = N*simu.dt`, where N is number of increment steps. For an example application of using Morison Elements in WEC-Sim, refer to the `WEC-Sim Applications <https://github.com/WEC-Sim/WEC-Sim_Applications>`_ repository **Free_Decay/1m-ME** example. 
 
