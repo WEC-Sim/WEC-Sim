@@ -269,9 +269,9 @@ For each example the ``wecSimInputFile.m`` provided includes examples of how to 
 * ``etaImport`` - user-defined time-series
 
 
-Applications Repository
+Other Applications
 ------------------------
-The `WEC-Sim Applications <https://github.com/WEC-Sim/WEC-Sim_Applications>`_ repository contains many applications of the WEC-Sim code that demonstrate advanced features. This includes tutorials by the WEC-Sim team as well as user-shared examples and covers topics from body interactions, numerical set-up, batch runs, visualization, control examples, mooring and many more cases. These applications highlight the versatility of WEC-Sim and can be used as a starting point for users interested in a given application.
+The `WEC-Sim Applications <https://github.com/WEC-Sim/WEC-Sim_Applications>`_ repository contains many applications of the WEC-Sim code that demonstrate WEC-Sim :ref:`Advanced Features <advanced_features>`. This includes tutorials by the WEC-Sim team as well as user-shared examples and covers topics from body interactions, numerical set-up, batch runs, visualization, control examples, mooring and many more cases. These applications highlight the versatility of WEC-Sim and can be used as a starting point for users interested in a given application.
 The WEC-Sim Applications repository is included as a `submodule <https://git-scm.com/book/en/v2/Git-Tools-Submodules>`_ of the WEC-Sim repository. The applications are summarized below.
 
 .. Adam: right now these descriptions are copy/pasted from the application READMEs. We can expand or link them later on depending on what will be done with the App repo
@@ -354,7 +354,6 @@ Write HDF5
 This is an example of how to write your own h5 file using MATLAB. 
 Can be useful if you want to modify your coefficients, use experimental coefficients, or coefficients from another BEM code other than NEMOH, WAMIT, or AQWA.
 For more details see `BEMIO feature <http://wec-sim.github.io/WEC-Sim/features.html#bemio-writing-your-own-h5-file>`_ documentation.
-
 
 
 References
