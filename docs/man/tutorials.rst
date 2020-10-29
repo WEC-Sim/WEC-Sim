@@ -258,10 +258,9 @@ For each example the ``wecSimInputFile.m`` provided includes examples of how to 
 * ``etaImport`` - user-defined time-series
 
 
-Applications Repository
+Other Applications
 ------------------------
-The `WEC-Sim Applications <https://github.com/WEC-Sim/WEC-Sim_Applications>`_ repository contains applications of the WEC-Sim code, including tutorials by the WEC-Sim team as well as user-shared examples. The WEC-Sim Applications repository is included as a `submodule <https://git-scm.com/book/en/v2/Git-Tools-Submodules>`_ of the WEC-Sim repository.
-
+The WEC-Sim Applications repository (https://github.com/WEC-Sim/WEC-Sim_Applications) provides additional applications of the WEC-Sim code. This repository includes cases developed by the WEC-Sim team, as well as user-provided examples. Many of these cases were developed to demonstrate application of WEC-Sim :ref:`Advanced Features <advanced_features>`.
 
 References
 ------------------------
