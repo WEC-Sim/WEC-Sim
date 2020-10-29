@@ -29,10 +29,9 @@ totalNumOfWorkers=p.NumWorkers;
 tic;
 parpool(p); % open the pool
 
-
 fprintf('Opening the parallel pool took %g seconds.\n', toc)
 
-  evalc('wecSimInputFile');
+evalc('wecSimInputFile');
 
 if isempty(simu.mcrCaseFile) == 0
     load(simu.mcrCaseFile);
