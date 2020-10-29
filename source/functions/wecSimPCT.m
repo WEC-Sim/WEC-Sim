@@ -93,16 +93,8 @@ else
         end; clear i j k l1 l2 m n name nseed kkk len numConditions
     end
 end
-%%
-% % Check to see if changing h5 file between runs
-% % If one of the MCR headers is body(#).h5File, then the hydro data will be
-% % loaded from the h5 file for each condition run.
-% % reloadHydroDataFlag = true;
-% if isempty(cell2mat(regexp(mcr.header, 'body\(\d+\).h5File')))
-%     reloadHydroDataFlag = false;
-%     clear hydroData
-% end
-%%
+
+%% Execute wecSimPCT
 pause(1)
 delete savedLog*
 parfor imcr=1:length(mcr.cases(:,1))
