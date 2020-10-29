@@ -19,12 +19,17 @@
 
 clear mcr imcr i j k l1 l2 m n name nseed kkk len numConditions
 clear body waves simu output pto constraint ptoSim
+global mcr
+
 % open the local cluster profile
 p = parcluster('local');
+totalNumOfWorkers=p.NumWorkers;
 
 % open the parallel pool, recording the time it takes
 tic;
 parpool(p); % open the pool
+
+
 fprintf('Opening the parallel pool took %g seconds.\n', toc)
 
   evalc('wecSimInputFile');
@@ -107,13 +112,13 @@ parfor imcr=1:length(mcr.cases(:,1))
     parallelComputing_dir = sprintf('parallelComputing_dir_%g', t.ID);
     mkdir(parallelComputing_dir) 
     fileID = fopen(filename,'a');
-    fprintf(fileID,'wecSimMCR Case %g/%g\n',imcr,length(mcr.cases(:,1)));
+    fprintf(fileID,'wecSimMCR Case %g/%g on Worker Number %g/%g \n',imcr,length(mcr.cases(:,1)),t.ID,totalNumOfWorkers);
 % Run WEC-Sim
-    makewecSimFcn(imcr,parallelComputing_dir);   
+    makewecSimFcn(imcr,mcr,parallelComputing_dir,totalNumOfWorkers);   
     fclose(fileID);
 end
 
-clear imcr
+clear imcr totalNumOfWorkers
 delete(gcp); % close the parallel pool
 
 

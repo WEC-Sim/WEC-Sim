@@ -107,7 +107,7 @@ for ii = 1:simu.numWecBodies
     body(ii).checkinputs;
     %Determine if hydro data needs to be reloaded from h5 file, or if hydroData
     % was stored in memory from a previous run.
-    if exist('mcr','var') == 1 && simu.reloadH5Data == 0 && imcr > 1
+    if exist('totalNumOfWorkers','var') ==0 && exist('mcr','var') == 1 && simu.reloadH5Data == 0 && imcr > 1
         body(ii).loadHydroData(hydroData(ii));
     else
         % check for correct h5 file
@@ -141,6 +141,9 @@ toc
 %% Pre-processing start
 tic
 fprintf('\nWEC-Sim Pre-processing ...   \n');
+try
+    cd(parallelComputing_dir);
+end
 
 %% HydroForce Pre-Processing: Wave Setup & HydroForcePre.
 % simulation setup
@@ -180,7 +183,7 @@ end
 idx = find(dragBodLogic==1);
 if ~isempty(idx)
     for kk = 1:length(idx)
-        it = idx(kk)
+        it = idx(kk);
         body(it).dragForcePre(simu.rho);
     end; clear kk idx
 end
@@ -309,12 +312,7 @@ warning('off','sm:sli:setup:compile:SteadyStateStartNotSupported')
 set_param(0, 'ErrorIfLoadNewModel', 'off')
 % run simulation
 simu.loadSimMechModel(simu.simMechanicsFile);
-try 
-   cd(parallelComputing_dir);
-   simu.simMechanicsFile = sprintf('../%s',simu.simMechanicsFile);
-end
 sim(simu.simMechanicsFile, [], simset('SrcWorkspace','parent'));
-try cd (['../',parallelComputing_dir,'/../']); end
 
 % Restore modified stuff
 clear nlHydro sv_linearHydro sv_nonlinearHydro ssCalc radiation_option sv_convolution sv_stateSpace sv_constantCoeff typeNum B2B sv_B2B sv_noB2B;
@@ -343,6 +341,12 @@ paraViewVisualization
 clear ans table tout;
 toc
 diary off
+
 if simu.saveMat==1
-    save(simu.caseFile,'-v7.3')
+    try 
+       simu.caseDir = [simu.caseDir filesep parallelComputing_dir];
+    end
+    outputFile = [simu.caseDir filesep 'output' filesep simu.caseFile];
+    save(outputFile,'-v7.3')
 end
+try cd (['..' filesep parallelComputing_dir filesep '..' filesep]); end
