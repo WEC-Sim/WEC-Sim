@@ -166,7 +166,7 @@ Previous Releases
 * State space radiation
 * Wave directionality
 * User-defined wave elevation time-series
-* Imports non-dimensional BEMIO hydrodynamic data (instead of fully dimensional coefficients)
+* Imports non-dimensionalized BEMIO hydrodynamic data (instead of fully dimensional coefficients)
 * Variant Subsystems implemented to improve code stability (instead of if statements)
 * Bug fixes
 
