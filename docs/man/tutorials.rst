@@ -77,11 +77,7 @@ This is done by navigating to the ``$WECSIM/tutorials/rm3/hydroData/`` directory
 
 Step 2: Build Simulink Model
 """"""""""""""""""""""""""""""""""""""""""""""""
-.. Note:: 
-	Adam:
-	The simulink screenshots have illegibly small text. They need to be replaced. Make blocks smaller wrt text and zoom in for more clear figures. The base/follower note needs to come before a user connects blocks. Include why this difference is important.
-	
-The WEC-Sim Simulink model is created by dragging and dropping blocks from the *WEC-Sim Library* into the ``rm3.slx`` file. When setting up a WEC-Sim model, it is very important to note the base and follower frames. The base port should always connect 'towards' the Global Reference Frame, while the follower port connects 'away' from the reference frame. 
+The WEC-Sim Simulink model is created by dragging and dropping blocks from the *WEC-Sim Library* into the ``rm3.slx`` file. When setting up a WEC-Sim model, it is very important to note the base and follower frames. The base port should always connect 'towards' the Global Reference Frame, while the follower port connects 'away' from the reference frame. Also, a base port should always connect to a follower port. The same port type should not be connected (i.e. no base-base or follower-follower connections).
 
 * Place two **Rigid Body** blocks from the *WEC-Sim Library* in the Simulink model file, one for each RM3 rigid body.
 
@@ -109,7 +105,13 @@ The WEC-Sim Simulink model is created by dragging and dropping blocks from the *
 
 Step 3: Write wecSimInputFile.m
 """"""""""""""""""""""""""""""""""""""""""""""""
-The WEC-Sim input file defines simulation parameters, body properties, joints, and mooring for the RM3 model. The ``wecSimInputFile.m`` for the RM3 is provided in the RM3 case directory, and shown below. It is recommended that new users copy information from RM3_wecSimInputFile.m to wecSimInputFile.m, so that they get familiar with the set-up parameters and the files being called in a basic WEC-Sim run.
+The WEC-Sim input file defines simulation parameters, body properties, joints, and mooring for the RM3 model. The ``wecSimInputFile.m`` for the RM3 is provided in the RM3 case directory, and shown below.
+
+New users should manually write the wecSimInputFile.m to become familiar with the set-up parameters and the files being called in a basic WEC-Sim run. First, define the simulation parameters. Initialize an instance of the simulationClass. Define the simulink file to use, the start, ramp and end times, and the time step required. The simulation class also controls all relevant numerical options and simulation-wide parameters in a single convenient class.
+
+Next set-up the type of incoming wave by instantiating the waveClass. 'Regular' is a sinusoidal wave and the easiest to start with. Define an appropriate wave height and period. Waves can also be an irregular spectrum, imported by elevation or spectrum, or multidirectional.
+
+Third, define all bodies, PTOs and contraints present in the simulink file. There are distinct classes for bodies, PTOs and contraints that contain different properties and function differently. Bodies are hydrodynamic and contain mass and geometry properties. Initialize bodies by calling the bodyClass and the path to the relevant h5 file. Set the path to the geometry file, and define the body's mass properties. PTOs and constraints are more simple and contain forces and power dissipation (in the constraint) that limit the WEC's motion. PTOs and constraints can be set by calling the appropriate class with the Simulink block name. Set the location and any PTO damping or stiffness desired.
 
 .. literalinclude:: ../../WEC-Sim/tutorials/RM3/RM3_wecSimInputFile.m
    :language: matlab
@@ -221,7 +223,7 @@ The WEC-Sim Simulink model is created by dragging and dropping blocks from the *
 
 Step 3: Write wecSimInputFile.m
 """"""""""""""""""""""""""""""""""""""""""""""""
-The WEC-Sim input file defines simulation parameters, body properties, joints, and mooring for the OSWEC model. The ``wecSimInputFile.m`` for the OSWEC is provided in the OSWEC case directory, and shown below.
+The WEC-Sim input file defines simulation parameters, body properties, and joints for the OSWEC model. Writing the OSWEC input file is similar to writing the RM3 input. Try writing it on your own. Define the simulation class, wave class, bodies, contraints and PTOs. The ``wecSimInputFile.m`` for the OSWEC is provided in the OSWEC case directory, and shown below.
 
 .. literalinclude:: ../../WEC-Sim/tutorials/OSWEC/OSWEC_wecSimInputFile.m
    :language: matlab
