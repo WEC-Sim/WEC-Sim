@@ -109,7 +109,7 @@ end
 simu.numWecBodies = numHydroBodies; clear numHydroBodies
 simu.numDragBodies = numDragBodies; clear numDragBodies
 for ii = 1:simu.numWecBodies
-    body(ii).checkinputs;
+    body(ii).checkinputs(simu.morisonElement);
     %Determine if hydro data needs to be reloaded from h5 file, or if hydroData
     % was stored in memory from a previous run.
     if exist('totalNumOfWorkers','var') ==0 && exist('mcr','var') == 1 && simu.reloadH5Data == 0 && imcr > 1
@@ -137,7 +137,7 @@ if exist('./ptoSimInputFile.m','file') == 2
     ptosim.countblocks;
 end
 
-if simu.yawNonLin==1 && simu.yawThresh==1;
+if simu.yawNonLin==1 && simu.yawThresh==1
     warning(['yawNonLin using (default) 1 dg interpolation threshold.' newline 'Ensure this is appropriate for your geometry'])
 end
 
@@ -221,10 +221,26 @@ if strcmp(waves.type,'etaImport') && simu.nlHydro == 1
 end
 
 % check for etaImport with morisonElement
-if strcmp(waves.type,'etaImport') && simu.morisonElement == 1
+if strcmp(waves.type,'etaImport') && simu.morisonElement ~= 0
     error(['Cannot run WEC-Sim with Morrison Element (simu.morisonElement) and "etaImport" wave type'])
 end
 
+% check for morisonElement inputs for simu.morisonElement == 1
+if simu.morisonElement == 1 
+    if true(isfinite(body.morisonElement.z)) == true
+        warning(['"body.morisonElement.z" is not used for "simu.morisonElement == 1"'])
+    end
+    if isnan(body.morisonElement.cd(3)) == 1 || isnan(body.morisonElement.ca(3)) == 1 || isnan(body.morisonElement.characteristicArea(3)) == 1
+        error(['Coefficients for "simu.morisonElement == 1" must be of size [1x3], third column of data must be defined'])
+    end    
+end
+
+% check for morisonElement inputs for simu.morisonElement == 2
+if simu.morisonElement == 2
+    if isnan(body.morisonElement.cd(3)) == 0 || isnan(body.morisonElement.ca(3)) == 0 || isnan(body.morisonElement.characteristicArea(3)) == 0
+        warning(['Coefficients for "simu.morisonElement == 2" must be of size [1x2], third column of data is not used'])
+    end
+end
 
 %% Set variant subsystems options
 nlHydro = simu.nlHydro;
@@ -236,7 +252,7 @@ sv_instFS=Simulink.Variant('nlHydro==2');
 % Morrison Element
 morisonElement = simu.morisonElement;
 sv_MEOff=Simulink.Variant('morisonElement==0');
-sv_MEOn=Simulink.Variant('morisonElement==1');
+sv_MEOn=Simulink.Variant('morisonElement==1 || morisonElement==2');
 % Radiation Damping
 if waves.typeNum==0 || waves.typeNum==10 %'noWave' & 'regular'
     radiation_option = 1;

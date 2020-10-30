@@ -284,7 +284,6 @@ To use non-hydrodynamic bodies, the following body class variable must be define
 
 For more information, refer to :ref:`webinar2`, and the **OSWEC_nhBody** example on the `WEC-Sim Applications <https://github.com/WEC-Sim/WEC-Sim_Applications>`_ repository. 
 
-
 Body-To-Body Interactions
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 WEC-Sim allows for body-to-body interactions in the radiation force calculation, thus allowing the motion of one body to impart a force on all other bodies. The radiation matrices for each body (radiation wave damping and added mass) required by WEC-Sim and contained in the ``*.h5`` file. **For body-to-body interactions with N total hydrodynamic bodies, the** ``*h5`` **data structure is [(6\*N), 6]**.
@@ -345,15 +344,32 @@ Morison Elements
 To use Morison Elements, the following simulation class variable must be defined in the WEC-Sim input file:
 
 	:code:`simu.morisonElement  = 1`
-
-
-Morison Elements must then be defined for each body using the :code:`body(#).morisonElement` property of the body class. This property requires definition of the following body class parameters in the WEC-Sim input file (each of which have a default value of zero)::
 	
-	body(i).morisonElement.cd
-	body(i).morisonElement.ca
-	body(i).morisonElement.characteristicArea
-	body(i).morisonElement.VME
-	body(i).morisonElement.rgME
+	or
+	
+	:code:`simu.morisonElement  = 2`
+
+Implementation Option 1 allows for the Morison Element properties to be defined independently for the x-, y-, and z-axis while implementation option 2 uses a normal and tangential representation of the Morison Element properties. Note that the two options allow the user flexibility to implement hydrodynamic forcing that best suits their modeling needs; however, the two options have slightly different calculation methods and therefore the outputs will not necessarily provide the same forcing values. The user is directed to look at the Simulink Morison Element block within the WEC-Sim library to better determine which approach better suits their modeling requirements. 
+
+Morison Elements must be defined for each body using the :code:`body(#).morisonElement` property of the body class. This property requires definition of the following body class parameters in the WEC-Sim input file (each of which have a default value of zero(s)). For :code:`simu.morisonElement  = 1` ::
+	
+	body(i).morisonElement.cd = [c_{dx} c_{dy} c_{dz}]
+	body(i).morisonElement.ca = [c_{ax} c_{ay} c_{az}]
+	body(i).morisonElement.characteristicArea = [A_{x} A_{y} A_{z}]
+	body(i).morisonElement.VME = [V_{me}]
+	body(i).morisonElement.rgME = [r_{gx} r_{gy} r_{gz}]
+	body(i).morisonElement.z = [0 0 0]
+	
+Please note that for option 1, the unit normal :code:`body(#).morisonElement.z` must be initialized as a [1x3] vector although it will not be used in the hydrodynamic calculation. For :code:`simu.morisonElement  = 2` ::
+	
+	body(i).morisonElement.cd = [c_{dn} c_{dt} 0]
+	body(i).morisonElement.ca = [c_{an} c_{at} 0]
+	body(i).morisonElement.characteristicArea = [A_{n} A_{t} 0]
+	body(i).morisonElement.VME = [V_{me}]
+	body(i).morisonElement.rgME = [r_{gx} r_{gy} r_{gz}]
+	body(i).morisonElement.z = [z_{x} z_{y} z_{z}]
+	
+Please note that for option 2, the :code:`body(#).morisonElement.cd`, :code:`body(#).morisonElement.ca`, and :code:`body(#).morisonElement.characteristicArea` variables need to be initialized as [1x3] vectors with the last index set to zero. While :code:`body(#).morisonElement.z` is a unit normal vector that defines the orientation of the Morison Element. 
 
 The Morison Element time-step may also be defined as :code:`simu.dtME = N*simu.dt`, where N is number of increment steps. For an example application of using Morison Elements in WEC-Sim, refer to the `WEC-Sim Applications <https://github.com/WEC-Sim/WEC-Sim_Applications>`_ repository **Free_Decay/1m-ME** example. 
 
@@ -361,6 +377,36 @@ The Morison Element time-step may also be defined as :code:`simu.dtME = N*simu.d
 
 	Morison Elements cannot be used with :code:`etaImport`.
 
+Drag Body Implementation
+^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+A body may be subjected to viscous drag or Morison forces, but does not experience significant wave excitation or radiation. And example may be a deeply-submerged heave plate of large surface area tethered to a float. In these instances, the drag body implementation can be utilized by defining the following body class variable:
+
+	:code: `body(i).nhBody = 2`.
+	
+Drag bodies have zero wave excitation or radiation forces, but viscous forces can be applied in the same manner as a hydrodynamic body via the parameters
+
+	body(i).viscDrag.Drag
+	body(i).viscDrag.cd
+	body(i).viscDrag.characteristicArea
+	body(i).linearDamping
+
+or if using Morison Elements, 	
+
+	body(i).morisonElement.cd
+	body(i).morisonElement.ca
+	body(i).morisonElement.characteristicArea
+	body(i).morisonElement.VME
+	body(i).morisonElement.rgME
+	
+which are described in more detail in the forthcoming section. At a minimum, it is necessary to define
+
+	body(i).mass
+	body(i).momOfInertia
+	body(i).cg
+	body(i).cb
+	body(i).dispVol
+	
+to resolve drag body dynamics. One can additionally describe initial body displacement in the manner of a hydrodynamic body.
 
 
 .. _pto:
