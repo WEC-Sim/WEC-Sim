@@ -272,7 +272,6 @@ To use non-hydrodynamic bodies, the following body class variable must be define
 
 For more information, refer to :ref:`webinar2`, and the **OSWEC_nhBody** example on the `WEC-Sim Applications <https://github.com/WEC-Sim/WEC-Sim_Applications>`_ repository. 
 
-
 Body-To-Body Interactions
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 WEC-Sim allows for body-to-body interactions in the radiation force calculation, thus allowing the motion of one body to impart a force on all other bodies. The radiation matrices for each body (radiation wave damping and added mass) required by WEC-Sim and contained in the ``*.h5`` file. **For body-to-body interactions with N total hydrodynamic bodies, the** ``*h5`` **data structure is [(6\*N), 6]**.
@@ -364,6 +363,36 @@ The Morison Element time-step may also be defined as :code:`simu.dtME = N*simu.d
 
 	Morison Elements cannot but used with :code:`etaImport`.
 
+Drag Body Implementation
+^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+A body may be subjected to viscous drag or Morison forces, but does not experience significant wave excitation or radiation. And example may be a deeply-submerged heave plate of large surface area tethered to a float. In these instances, the drag body implementation can be utilized by defining the following body class variable:
+
+	:code: `body(i).nhBody = 2`.
+	
+Drag bodies have zero wave excitation or radiation forces, but viscous forces can be applied in the same manner as a hydrodynamic body via the parameters
+
+	body(i).viscDrag.Drag
+	body(i).viscDrag.cd
+	body(i).viscDrag.characteristicArea
+	body(i).linearDamping
+
+or if using Morison Elements, 	
+
+	body(i).morisonElement.cd
+	body(i).morisonElement.ca
+	body(i).morisonElement.characteristicArea
+	body(i).morisonElement.VME
+	body(i).morisonElement.rgME
+	
+which are described in more detail in the forthcoming section. At a minimum, it is necessary to define
+
+	body(i).mass
+	body(i).momOfInertia
+	body(i).cg
+	body(i).cb
+	body(i).dispVol
+	
+to resolve drag body dynamics. One can additionally describe initial body displacement in the manner of a hydrodynamic body.
 
 
 .. _pto:
