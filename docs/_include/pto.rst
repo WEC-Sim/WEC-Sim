@@ -34,7 +34,7 @@ Beginning in MATLAB 2019a, hard-stops can be specified directly for PTOs and tra
 	:code: `pto(i).hardStops.upperLimitSpecify = 'on'`
 	:code: `pto(i).hardStops.lowerLimitSpecify = 'on'`
 
-to enable upper and lower stroke limits, respectively. The specifics of the limit and the acting forces are described in turn by
+to enable upper and lower stroke limits, respectively. The specifics of the limit and the acting forces at the upper and lower limits are described in turn by
 
 	pto(i).hardStops.upperLimitBound
 	pto(i).hardStops.upperLimitStiffness
