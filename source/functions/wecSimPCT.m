@@ -98,6 +98,7 @@ end
 pause(1)
 delete savedLog*
 parfor imcr=1:length(mcr.cases(:,1))
+    warning('off', 'MATLAB:MKDIR:DirectoryExists');
     t = getCurrentTask();
     filename = sprintf('savedLog%03d.txt', t.ID);
     parallelComputing_dir = sprintf('parallelComputing_dir_%g', t.ID);

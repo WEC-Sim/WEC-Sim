@@ -318,6 +318,7 @@ set_param(0, 'ErrorIfLoadNewModel', 'off')
 % run simulation
 simu.loadSimMechModel(simu.simMechanicsFile);
 sim(simu.simMechanicsFile, [], simset('SrcWorkspace','parent'));
+try cd (['..' filesep parallelComputing_dir filesep '..' filesep]); end
 
 % Restore modified stuff
 clear nlHydro sv_linearHydro sv_nonlinearHydro ssCalc radiation_option sv_convolution sv_stateSpace sv_constantCoeff typeNum B2B sv_B2B sv_noB2B;
@@ -349,6 +350,7 @@ diary off
 
 if simu.saveMat==1
     try 
+       cd(parallelComputing_dir);
        simu.caseDir = [simu.caseDir filesep parallelComputing_dir];
     end
     outputFile = [simu.caseDir filesep 'output' filesep simu.caseFile];
