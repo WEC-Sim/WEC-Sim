@@ -58,6 +58,10 @@ if exist('mcr','var') == 1
     end; clear n combine;
 end
 % Waves and Simu: check inputs
+try 
+    waves.spectrumDataFile = ['..' filesep parallelComputing_dir filesep '..' filesep waves.spectrumDataFile];
+    waves.etaDataFile      = ['..' filesep parallelComputing_dir filesep '..' filesep waves.etaDataFile];
+end
 waves.checkinputs;
 simu.checkinputs;
 % Constraints: count & set orientation
