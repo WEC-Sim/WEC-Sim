@@ -213,10 +213,18 @@ if strcmp(waves.type,'etaImport') && simu.nlHydro == 1
 end
 
 % check for etaImport with morisonElement
-if strcmp(waves.type,'etaImport') && simu.morisonElement == 1
+if strcmp(waves.type,'etaImport') && simu.morisonElement ~= 0
     error(['Cannot run WEC-Sim with Morrison Element (simu.morisonElement) and "etaImport" wave type'])
 end
-
+% check for morisonElement inputs for simu.morisonElement == 1
+if simu.morisonElement == 1 && true(isfinite(body.morisonElement.z)) == true
+    warning('ADD A WARNING')
+    fprintf('ADD A WARNING if z is defined\n')
+end
+% check for morisonElement inputs for simu.morisonElement == 2
+if simu.morisonElement == 2
+    warning(['ADD A WARNING if a [1x3] is defined'])
+end
 
 %% Set variant subsystems options
 nlHydro = simu.nlHydro;
