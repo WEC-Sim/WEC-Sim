@@ -4,11 +4,13 @@ Overview
 ========
 This section provides an overview of the WEC-Sim work flow and development. First, the WEC-Sim file structure is described; then, steps for setting up and running the WEC-Sim code are described. The section concludes with information on current development efforts.
 
-.. _workFlow:
-
+Workflow
+-----------------
 The WEC-Sim workflow diagram below show a high level view of WEC-Sim's function. As a precursor, a functional WEC design with several data forms must be included. The WEC is defined in an input file. This input file is read by WEC-Sim which creates instantiates objects based on the device requirements. The objects are used in conjunction with WEC-Sim's Simulink library during the time-domain simulation. User defined functions serve for easy post-processing and visualization of WEC-Sim's output. A detailed description of this workflow is provided in the following sections. For information about the implementation and structure of the WEC-Sim source code, refer to the :ref:`code_structure` section.
 
-.. figure:: _images/WEC-Sim_flowChart.png
+.. _workFlow:
+
+.. figure:: /_static/images/WEC-Sim_flowChart.png
    :width: 500pt
    :align: center   
     
@@ -49,14 +51,14 @@ In addition to an input file, all WEC-Sim runs require a Simulink/Simscape model
 
 An example Simulink model file for the OSWEC is shown below. For more information about the OSWEC, and how to build WEC-Sim Simulink models, refer to the :ref:`tutorials` section.
 
-.. figure:: _images/OSWEC_Model.png
+.. figure:: /_static/images/OSWEC_Model.png
    :width: 200pt
    :align: center   
 
 
 Input File 
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
-A WEC-Sim input file (``wecSimInputFile.m``) is required for each run. The input file **MUST** be named ``wecSimInputFile.m`` and placed within the case directory. The main structure of the input file consists of initializing all the objects necessary to run WEC-Sim simulations, and defining any user specified properties for each object. Specifically, the input file requires initialization and definition of the simulation and wave classes, at least one instance of the body class, and at least one instance of the constraint or PTO classes. For details about WEC-Sim's objects and available properties for each object, refer to the :ref:`code_structure:WEC-Sim Objects` section.
+A WEC-Sim input file (``wecSimInputFile.m``) is required for each run. The input file **MUST** be named ``wecSimInputFile.m`` and placed within the case directory. The main structure of the input file consists of initializing all the objects necessary to run WEC-Sim simulations, and defining any user specified properties for each object. Specifically, the input file requires initialization and definition of the simulation and wave classes, at least one instance of the body class, and at least one instance of the constraint or PTO classes. For details about WEC-Sim's objects and available properties for each object, refer to the :ref:`man/code_structure:WEC-Sim Objects` section.
 
 An example WEC-Sim input file is shown below for the OSWEC. 
 Additional examples are provided in the :ref:`tutorials` section.
@@ -64,7 +66,7 @@ WEC-Sim is an object oriented code and the input file reflects this in instantia
 
 The WEC-Sim input file (``wecSimInputFile.m``) for the OSWEC initializes and specifies properties for simulation, body, constraint and pto classes.
      
-.. literalinclude:: ../../WEC-Sim/tutorials/OSWEC/OSWEC_wecSimInputFile.m
+.. literalinclude:: ../../tutorials/OSWEC/OSWEC_wecSimInputFile.m
    :language: matlab
         
 
@@ -129,11 +131,11 @@ In this step, users run :ref:`BEMIO<bemio>` to convert the hydrodynamic coeffici
 
 Step 3: Build Simulink Model
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
-In this step, users build their WEC-Sim Simulink model (``*.slx``) using the :ref:`code_structure:WEC-Sim Library` developed in Simulink/Simscape. 
+In this step, users build their WEC-Sim Simulink model (``*.slx``) using the :ref:`man/code_structure:WEC-Sim Library` developed in Simulink/Simscape. 
 The ``*.slx`` Simulink model file must be located in the ``$CASE`` directory. 
 The figure below shows an example WEC-Sim Simulink model for the OSWEC tutorial.
 
-.. figure:: _images/OSWEC_Model.png
+.. figure:: /_static/images/OSWEC_Model.png
    :width: 200pt
    :align: center       
    
@@ -141,9 +143,6 @@ The figure below shows an example WEC-Sim Simulink model for the OSWEC tutorial.
 Step 4: Write wecSimInputFile.m
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 The WEC-Sim input file must be located in the ``$CASE`` directory, and named ``wecSimInputFile.m``. The figure below shows an example of a WEC-Sim input file. The input file specifies the simulation settings, body mass properties, wave conditions, joints, and mooring. Additionally, the WEC-Sim input file must specify the location of the WEC-Sim Simulink model (``*.slx``) file, the geometry file(s) ``*.stl``, and the hydrodynamic data file (``*.h5``) .
-
-.. figure:: _images/runWECSim_mod.png
-   :width: 600pt
 
 Step 5: Run WEC-Sim
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
@@ -163,5 +162,24 @@ Online Forum
 --------------------------
 Please post questions about WEC-Sim on the `Issues Page <https://github.com/WEC-Sim/WEC-Sim/issues>`_. This forum is managed by the WEC-Sim code development team and users. The issues page is frequently used to interact with the WEC-Sim community, ask questions, request new features, and report bugs.
 
+
 Software Tests
--------------------------
+--------------------
+This section describes the software tests developed to test the WEC-Sim source code. 
+WEC-Sim includes continuous integration software tests. The tests are run each time changes are made to the repository, and are designed to ensure that the code is performing as expected. New tests are developed each time new functions are added or modified.
+Refer to MATLAB's `unit test <https://www.mathworks.com/help/matlab/matlab-unit-test-framework.html?s_tid=CRUX_lftnav>`_ and `continuous integration <https://www.mathworks.com/help/matlab/matlab_prog/continuous-integration-with-matlab-on-ci-platforms.html>`_ documentation for more information. 
+
+
+Run Tests
+^^^^^^^^^^^
+The WEC-Sim unit tests are located in the ``$WECSIM/tests`` directory. 
+To run the WEC-Sim unit tests locally, navigate to the ``$WECSIM`` (e.g. ``C:/User/Documents/GitHub/WEC-Sim``) directory, and type the following command into the MATLAB Command Window::
+
+	>> runtests
+	
+	
+	Totals:
+	   25 Passed, 0 Failed, 0 Incomplete.
+	   
+
+This executes the WEC-Sim tests and generates a build report. **Developers should run software tests before submitting a pull request.**

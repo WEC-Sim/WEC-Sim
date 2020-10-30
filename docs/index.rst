@@ -35,6 +35,7 @@ WEC-Sim Developers
 WEC-Sim is a collaboration between the `National Renewable Energy Laboratory (NREL) <http://www.nrel.gov/water/>`_ and `Sandia National Laboratories (Sandia) <http://energy.sandia.gov/energy/renewable-energy/water-power/>`_, funded by the U.S. Department of Energy’s Water Power Technologies Office. Due to the open source nature of the code, WEC-Sim  has also had many external contributions, for more information refer to  :ref:`acknowledgements`. 
 
 Current members of the development team include:
+
 * Yi-Hsiang Yu (NREL - PI)
 * Kelley Ruehl (Sandia - PI)
 * Nathan Tom (NREL)
@@ -43,7 +44,8 @@ Current members of the development team include:
 * Adam Keester (Sandia)
 * Jorge Leon (Sandia)
 
-Past members of the development team include:
+Former members of the development team include:
+
 * Jennifer Van Rij (NREL)
 * Michael Lawson (NREL)
 * Carlos Michelen (Sandia)

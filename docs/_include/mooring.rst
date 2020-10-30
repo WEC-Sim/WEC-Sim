@@ -1,10 +1,10 @@
 
 
-This section provides an overview of WEC-Sim's mooring class features; for more information about the mooring class code structure, refer to :ref:`code_structure:Mooring Class`. 
+This section provides an overview of WEC-Sim's mooring class features; for more information about the mooring class code structure, refer to :ref:`man/code_structure:Mooring Class`. 
 
 
 Floating WEC systems are often connected to mooring lines to keep the device in position. WEC-Sim allows the user to model the mooring dynamics in the simulation by specifying the mooring matrix or coupling with MoorDyn. To include mooring connections, the user can use the mooring block (i.e., Mooring Matrix block or MoorDyn block) given in the WEC-Sim library under Moorings lib and connect it between the body and the Global reference frame. 
-Refer to the :ref:`mooring:RM3 with MoorDyn`, and the :ref:`webinar4` for more information.
+Refer to the :ref:`man/mooring:RM3 with MoorDyn`, and the :ref:`webinar4` for more information.
 
 MoorDyn is hosted on  a separate `MoorDyn repository <https://github.com/WEC-Sim/moorDyn>`_. It must be download separately, and all files and folders should be placed in the ``$WECSIM/functions/moorDyn`` directory.
 
@@ -37,11 +37,11 @@ RM3 with MoorDyn
 This section describes how to simulate a mooring connected WEC system in WEC-Sim using MoorDyn. The RM3 two-body floating point absorber is connected to a three-point catenary mooring system with an angle of 120 between the lines in this example case. The RM3 with MoorDyn folder is located under the `WEC-Sim Applications <https://github.com/WEC-Sim/WEC-Sim_Applications>`_ repository.
 
 
-* **WEC-Sim Simulink Model**: Start out by following the instructions on how to model the :ref:`tutorials:Two-Body Point Absorber (RM3)`. To couple WEC-Sim with MoorDyn, the MoorDyn Block is added in parallel to the constraint block
+* **WEC-Sim Simulink Model**: Start out by following the instructions on how to model the :ref:`man/tutorials:Two-Body Point Absorber (RM3)`. To couple WEC-Sim with MoorDyn, the MoorDyn Block is added in parallel to the constraint block
 
 .. _WECSimmoorDyn:
 
-.. figure:: _images/WECSimMoorDyn.png
+.. figure:: /_static/images//WECSimMoorDyn.png
     :width: 320pt
     :align: center
 
@@ -50,7 +50,7 @@ This section describes how to simulate a mooring connected WEC system in WEC-Sim
 
 .. _WECSimInputMoorDyn:
 
-.. literalinclude:: ../../WEC-Sim_Applications/Mooring/MoorDyn/wecSimInputFile.m
+.. rli:: https://raw.githubusercontent.com/WEC-Sim/WEC-Sim_Applications/master/Mooring/MoorDyn/wecSimInputFile.m
    :language: matlab
 
 
@@ -58,7 +58,7 @@ This section describes how to simulate a mooring connected WEC system in WEC-Sim
 
 .. _moorDynInput:
 
-.. figure:: _images/moorDynInput.png
+.. figure:: /_static/images/moorDynInput.png
     :width: 400pt
     :align: center
 

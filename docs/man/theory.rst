@@ -2,16 +2,11 @@
 
 Theory
 ======
-
-.. Note:: 
-	Adam:
-	Simscape and the purpose of the multibody solver has no explanation here. Some explanation of what Simscape does, and a qualitative example of how it functions in a WEC context is required. At the bare minimum point the user to additional Simscape documentation.
-
 Modeling wave energy converters (WECs) involves the interaction between the incident waves, device motion, power-take-off (PTO mechanism), and mooring. WEC-Sim uses a radiation and diffraction method :cite:`Li2012,Babarit2012` to predict power performance and design optimization. The radiation and diffraction method generally obtains the hydrodynamic forces from a frequency-domain boundary element method (BEM) solver using linear coefficients to solve the system dynamics in the time domain.
 
 .. _wec_sim_methodology:
 
-.. figure:: _images/Physics.png
+.. figure:: /_static/images/Physics.png
     :align: center
         
     ..
@@ -24,7 +19,7 @@ The :ref:`WEC-Sim Coordinate System <coordinate_system>` figure illustrates a 3-
 
 .. _coordinate_system:
 
-.. figure:: _images/coordinateSystem.png
+.. figure:: /_static/images/coordinateSystem.png
     :align: center
     :width: 200pt    
     
@@ -80,11 +75,6 @@ The buoyancy term :math:`F_{B}(t)` depends on the hydrostatic stiffness :math:`C
 
 Numerical Methods
 ------------------
-.. Note:: 
-	Adam:
-	This portion is a big confusing. I can follow the derivation and content within each subsection, but several steps are skipped between the subsections. i.e. between 'Convolution Integral formulation' to 'State Space' and 'Calculation of Kr...' to ' Realization Theory' Maybe it is desirable and necessary to leave the full explanation to other papers, but I can not get very far with this short explanation. I don't currently have the knowledge on the topic to identify what is missing and needs to be included to complete the section.
-	What is the difference between B_r, B_d, B_i,j? It is not well documented
-
 WEC-Sim can be used for regular and irregular wave simulations, but note that :math:`F_{exc}(t)` and :math:`F_{rad}(t)` are calculated differently for sinusoidal steady-state response scenarios and random sea simulations. 
 The sinusoidal steady-state response is often used for simple WEC designs with regular incoming waves. 
 However, for random sea simulations or any simulations where fluid memory effects of the system are essential, the convolution integral method is recommended to represent the fluid memory retardation force on the floating body. 
@@ -143,7 +133,12 @@ Each regular wave component is extracted from a wave spectrum, :math:`S(\omega)`
 
 	F_{exc}(t)=\Re\left[ R_{f}(t) \sum_{j=1}^{N}F_{exc}(\omega_{j}, \theta)e^{i(\omega_{j}t+\phi_{j})} \sqrt{2S(\omega_{j})d\omega_{j}} \right]
 
-where :math:`\phi` is the randomized phase angle and :math:`N` is the number of frequency bands selected to discretize the wave spectrum. For repeatable simulation of an irregular wave field :math:`S(\omega)`, WEC-Sim allows specification of :math:`\phi`, refer to the :ref:`seeded_phase` section. Additionally, an excitation force impulse response function
+where :math:`\phi` is the randomized phase angle and :math:`N` is the number of frequency bands selected to discretize the wave spectrum. For repeatable simulation of an irregular wave field :math:`S(\omega)`, WEC-Sim allows specification of :math:`\phi`, refer to the :ref:`seeded_phase` section. Additionally, an excitation force impulse response function is defined as
+
+.. math::
+
+	K_{e}(t) = \frac{1}{2\pi} \intop_{0-\infty}^{\infty} F_{exc}(\omega,\theta)e^{i\omega t} d\omega
+
 
 State Space  
 ^^^^^^^^^^^^^^^^^^^^^^^
@@ -375,7 +370,7 @@ The instantaneous mechanical power absorbed by the PTO is given by:
 
 	P_{pto}=-F_{pto}\dot{X}_{rel}
 
-For more information about application of pto systems in WEC-Sim, refer to :ref:`advanced_features:Constraint and PTO Features` section.
+For more information about application of pto systems in WEC-Sim, refer to :ref:`man/advanced_features:Constraint and PTO Features` section.
 	
 
 Mooring 
@@ -397,7 +392,7 @@ MoorDyn discretizes each mooring line in a mooring system into evenly-sized line
 
 .. _MoorDynFig:
 
-.. figure:: _images/MoorDyn_Graphic.png
+.. figure:: /_static/images/MoorDyn_Graphic.png
    :scale: 70 %
    :align: center
     
@@ -405,7 +400,7 @@ MoorDyn discretizes each mooring line in a mooring system into evenly-sized line
 
    *MoorDyn mooring model elements*
 
-For more information about application of mooring systems in WEC-Sim, refer to :ref:`advanced_features:Mooring Features` section.
+For more information about application of mooring systems in WEC-Sim, refer to :ref:`man/advanced_features:Mooring Features` section.
 
 
 Nonlinear Buoyancy and Froude-Krylov Wave Excitation
@@ -453,10 +448,6 @@ The Morison Equation assumes that the fluid forces in an oscillating flow on a s
 where :math:`v` is the fluid particle velocity due to wave and current, :math:`C_{a}` is the coefficient of added mass, and :math:`\forall` is the displaced volume. 
 
 .. Note:: 
-	Adam:
-	What 'resulting force' can be approdimated by the Morison formulation? Some more information is needed here. My understanding is that it accounts for the undisturbed wave (Froude-Krylov force), viscous drag and added mass. So then should F_exc = F_rad = F_b = F_v = 0 when F_me is used? The below note only states that buoyance is neglected, not all of these components. (My understanding may be wrong of course, but if so I think that it shows some more description is needed.)
-
-.. Note:: 
 	WEC-Sim  does not consider buoyancy effects when calculating the forces from Morison elements. 
 
 For more information about application of Morison Elements in WEC-Sim, refer to :ref:`morison` section.
@@ -467,9 +458,6 @@ Additional generalized body modes (GBM) are included to account for solving a mu
 
 References
 ----------
-.. Note:: 
-	Adam:
-	Add DOI or urls for convenience. It may be unavoidable, but most articles are behind paywalls that prevent access. This is okay as long as it is taken into consideration as much as possible when writing this theory manual.
-
-.. bibliography:: WEC-Sim_Theory.bib
+.. bibliography:: ../refs/WEC-Sim_Theory.bib
    :style: unsrt
+   :labelprefix: B

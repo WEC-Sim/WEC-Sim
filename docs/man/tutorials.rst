@@ -18,7 +18,7 @@ Device Geometry
 The RM3 two-body point absorber WEC has been characterized both numerically and experimentally as a result of the DOE-funded `Reference Model Project <http://energy.sandia.gov/rmp>`_. 
 The RM3 is a two-body point absorber consisting of a float and a reaction plate. Full-scale dimensions of the RM3 and its mass properties are shown below.
 
-.. figure:: _images/RM3_Geom.png
+.. figure:: /_static/images/RM3_Geom.png
    :width: 300pt
    :align: center
 
@@ -83,13 +83,13 @@ The WEC-Sim Simulink model is created by dragging and dropping blocks from the *
 
 * Double click on the **Rigid Body** block, and rename each instance of the body. The first body must be called ``body(1)``, and the second body should be called ``body(2)``. 
 
-.. figure:: _images/RM3_WECSim_Body.jpg
+.. figure:: /_static/images/RM3_WECSim_Body.jpg
    :width: 400pt
    :align: center
 
 * Place the **Global Reference Frame** from the *WEC-Sim Library* in the Simulink model file. The global reference frame acts as the seabed.
 
-.. figure:: _images/RM3_WECSim_GlobalRef.jpg
+.. figure:: /_static/images/RM3_WECSim_GlobalRef.jpg
    :width: 400pt
    :align: center
    
@@ -98,7 +98,7 @@ The WEC-Sim Simulink model is created by dragging and dropping blocks from the *
 
 * Place the **Translational PTO** block to connect the float to the spar. This constrains the float to move in heave relative to the spar, and allows definition of PTO damping. 
 
-.. figure:: _images/RM3_WECSim.JPG
+.. figure:: /_static/images/RM3_WECSim.JPG
    :width: 400pt
    :align: center
 
@@ -113,7 +113,7 @@ Next set-up the type of incoming wave by instantiating the waveClass. 'Regular' 
 
 Third, define all bodies, PTOs and contraints present in the simulink file. There are distinct classes for bodies, PTOs and contraints that contain different properties and function differently. Bodies are hydrodynamic and contain mass and geometry properties. Initialize bodies by calling the bodyClass and the path to the relevant h5 file. Set the path to the geometry file, and define the body's mass properties. PTOs and constraints are more simple and contain forces and power dissipation (in the constraint) that limit the WEC's motion. PTOs and constraints can be set by calling the appropriate class with the Simulink block name. Set the location and any PTO damping or stiffness desired.
 
-.. literalinclude:: ../../WEC-Sim/tutorials/RM3/RM3_wecSimInputFile.m
+.. literalinclude:: ../../tutorials/RM3/RM3_wecSimInputFile.m
    :language: matlab
       
 
@@ -121,7 +121,7 @@ Step 4: Run WEC-Sim
 """"""""""""""""""""""""
 To execute the WEC-Sim code for the RM3 tutorial, type ``wecSim`` into the MATLAB Command Window. Below is a figure showing the final RM3 Simulink model and the WEC-Sim GUI during the simulation. For more information on using WEC-Sim to model the RM3 device, refer to :cite:`ruehl_preliminary_2014`.
 
-.. figure:: _images/RM3_WECSim_GUI.JPG
+.. figure:: /_static/images/RM3_WECSim_GUI.JPG
    :width: 400pt
    :align: center
 
@@ -140,7 +140,7 @@ Device Geometry
 ^^^^^^^^^^^^^^^^^^^^^^^
 The OSWEC was selected because its design is fundamentally different from the RM3. This is critical because WECs span an extensive design space, and it is important to model devices in WEC-Sim that operate under different principles.  The OSWEC is fixed to the ground and has a flap that is connected through a hinge to the base that restricts the flap in order to pitch about the hinge. The full-scale dimensions of the OSWEC and the mass properties are shown in the figure and table below.
 
-.. figure:: _images/OSWEC_Geom.png
+.. figure:: /_static/images/OSWEC_Geom.png
    :width: 300pt
    :align: center
 
@@ -197,14 +197,14 @@ The WEC-Sim Simulink model is created by dragging and dropping blocks from the *
 
 * Double click on the **Rigid Body** block, and rename each instance of the body. The first body must be called ``body(1)``, and the second body should be called ``body(2)``. 
    
-.. figure:: _images/OSWEC_WECSim_Body.jpg
+.. figure:: /_static/images/OSWEC_WECSim_Body.jpg
    :width: 400pt  
    :align: center
 
 
 * Place the **Global Reference Frame** from the *WEC-Sim Library* in the Simulink model file. The global reference frame acts as the seabed.
 
-.. figure:: _images/OSWEC_WECSim_GlobalRef.jpg
+.. figure:: /_static/images/OSWEC_WECSim_GlobalRef.jpg
    :width: 400pt
    :align: center
 
@@ -213,7 +213,7 @@ The WEC-Sim Simulink model is created by dragging and dropping blocks from the *
 
 * Place a **Rotational PTO** block to connect the base to the flap. This constrains the flap to move in pitch relative to the base, and allows for the definition of PTO damping. 
 
-.. figure:: _images/OSWEC_WECSim.JPG
+.. figure:: /_static/images/OSWEC_WECSim.JPG
    :width: 400pt
    :align: center
 
@@ -225,14 +225,14 @@ Step 3: Write wecSimInputFile.m
 """"""""""""""""""""""""""""""""""""""""""""""""
 The WEC-Sim input file defines simulation parameters, body properties, and joints for the OSWEC model. Writing the OSWEC input file is similar to writing the RM3 input. Try writing it on your own. Define the simulation class, wave class, bodies, contraints and PTOs. The ``wecSimInputFile.m`` for the OSWEC is provided in the OSWEC case directory, and shown below.
 
-.. literalinclude:: ../../WEC-Sim/tutorials/OSWEC/OSWEC_wecSimInputFile.m
+.. literalinclude:: ../../tutorials/OSWEC/OSWEC_wecSimInputFile.m
    :language: matlab
 
 Step 4: Run WEC-Sim
 """"""""""""""""""""""""
 To execute the WEC-Sim code for the OSWEC tutorial, type ``wecSim`` into the MATLAB Command Window. Below is a figure showing the final OSWEC Simulink model and the WEC-Sim GUI during the simulation. For more information on using WEC-Sim to model the OSWEC device, refer to :cite:`y._yu_development_2014,y._yu_design_2014`.
 
-.. figure:: _images/OSWEC_WECSim_GUI.jpg
+.. figure:: /_static/images/OSWEC_WECSim_GUI.jpg
    :width: 400pt
    :align: center
 
@@ -344,6 +344,6 @@ For more details see `BEMIO feature <http://wec-sim.github.io/WEC-Sim/features.h
 
 References
 ------------------------
-.. bibliography:: WEC-Sim_Tutorials.bib
-   :style: unsrt   
-
+.. bibliography:: ../refs/WEC-Sim_Tutorials.bib
+   :style: unsrt
+   :labelprefix: A

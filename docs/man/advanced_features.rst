@@ -24,7 +24,7 @@ BEMIO
 
 Simulation Features
 ---------------------------------
-This section provides an overview of WEC-Sim's simulation class features; for more information about the simulation class code structure, refer to :ref:`code_structure:Simulation Class`. 
+This section provides an overview of WEC-Sim's simulation class features; for more information about the simulation class code structure, refer to :ref:`man/code_structure:Simulation Class`. 
 
 .. _mcr:
 
@@ -94,7 +94,7 @@ This option sets the maximum time step of the simulation (:code:`simu.dt`) and a
 
 Wave Features
 -------------------------
-This section provides an overview of WEC-Sim's wave class features. For more information about the wave class code structure, refer to :ref:`code_structure:Wave Class`. The various wave features can be compared by running the cases within ``the WEC-Sim/Examples/RM3`` and ``the WEC-Sim/Examples/OSWEC`` directories.
+This section provides an overview of WEC-Sim's wave class features. For more information about the wave class code structure, refer to :ref:`man/code_structure:Wave Class`. The various wave features can be compared by running the cases within ``the WEC-Sim/Examples/RM3`` and ``the WEC-Sim/Examples/OSWEC`` directories.
 
 
 Irregular Wave Binning
@@ -116,7 +116,7 @@ WEC-Sim has the ability to model waves with various angles of incidence, :math:`
 
 	:code:`waves.waveDir = <user defined wave direction(s)>; %[deg]`  	
 	
-The incident wave direction has a default heading of 0 Degrees (Default = 0), and should be defined as a column vector for more than one wave direction. For more information about the wave formulation, refer to :ref:`theory:Wave Spectra`.
+The incident wave direction has a default heading of 0 Degrees (Default = 0), and should be defined as a column vector for more than one wave direction. For more information about the wave formulation, refer to :ref:`man/theory:Wave Spectra`.
 
 Wave Directional Spreading
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
@@ -124,7 +124,7 @@ WEC-Sim has the ability to model waves with directional spreading, :math:`D\left
 
 	:code:`waves.waveSpread = <user defined directional spreading>;`  	
 	
-The wave directional spreading has a default value of 1 (Default = 1), and should be defined as a column vector of directional spreading for each one wave direction. For more information about the spectral formulation, refer to :ref:`theory:Wave Spectra`.
+The wave directional spreading has a default value of 1 (Default = 1), and should be defined as a column vector of directional spreading for each one wave direction. For more information about the spectral formulation, refer to :ref:`man/theory:Wave Spectra`.
 
 .. Note::
 
@@ -156,7 +156,7 @@ The WEC-Sim numerical wave gauges output the undisturbed linear incident wave el
 
 Body Features
 --------------
-This section provides an overview of WEC-Sim's body class features; for more information about the body class code structure, refer to :ref:`code_structure:Body Class`. 
+This section provides an overview of WEC-Sim's body class features; for more information about the body class code structure, refer to :ref:`man/code_structure:Body Class`. 
 
 Body Mass and Geometry Features
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
@@ -249,7 +249,7 @@ The WEC-Sim input file used to run the nonlinear hydro WEC-Sim simulation:
 
 .. _nonLinearwecSimInputFile:
 
-.. literalinclude:: ../../WEC-Sim_Applications/Nonlinear_Hydro/ode4/Regular/wecSimInputFile.m
+.. rli:: https://raw.githubusercontent.com/WEC-Sim/WEC-Sim_Applications/master/Nonlinear_Hydro/ode4/Regular/wecSimInputFile.m
    :language: matlab
 
 Simulation and post-processing is the same process as described in :ref:`tutorials` section.
@@ -320,7 +320,7 @@ The `WEC-Sim Applications repository <https://github.com/WEC-Sim/WEC-Sim_Applica
 
 Viscous Damping and Morison Elements
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
-WEC-Sim allows for the definition of additional damping and added-mass terms; for more information about the numerical formulation of viscous damping and Morison Elements, refer to :ref:`theory:Viscous Damping and Morison Elements`.
+WEC-Sim allows for the definition of additional damping and added-mass terms; for more information about the numerical formulation of viscous damping and Morison Elements, refer to :ref:`man/theory:Viscous Damping and Morison Elements`.
 
 
 Viscous Damping
@@ -359,7 +359,7 @@ The Morison Element time-step may also be defined as :code:`simu.dtME = N*simu.d
 
 .. Note::
 
-	Morison Elements cannot but used with :code:`etaImport`.
+	Morison Elements cannot be used with :code:`etaImport`.
 
 
 

@@ -9,7 +9,7 @@ The software is distributed under the Apache License 2.0.
 Copyright 	
 ------------
 
-.. literalinclude:: ../../WEC-Sim/NOTICE
+.. literalinclude:: ../../NOTICE
    :language: text
 
 
@@ -17,6 +17,6 @@ Copyright
 Apache License 2.0
 -------------------------
 
-.. literalinclude:: ../../WEC-Sim/LICENSE
+.. literalinclude:: ../../LICENSE
    :language: text
 
