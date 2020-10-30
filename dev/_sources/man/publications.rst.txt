@@ -107,4 +107,3 @@ News Articles
 * November 2017 -  MATLAB Newsletter, `Modeling and Simulating Next-Generation Wave Farm Technology <https://www.mathworks.com/company/newsletters/articles/modeling-and-simulating-next-generation-wave-farm-technology.html>`_
 
 * December 2017 - NUI Maynooth Centre for Ocean Energy Research, `WEC Control Competition (WECCCOMP)  <http://www.eeng.nuim.ie/coer/wec-control-competition-released/>`_
-

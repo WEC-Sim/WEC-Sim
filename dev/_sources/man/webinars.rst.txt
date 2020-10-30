@@ -31,7 +31,7 @@ The WEC-Sim Theory & Workflow presentation is available for download here ( `The
 
 WEC-Sim Code Structure 
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
-This section of the course provides an overview of how the WEC-Sim code is structured by describing the :ref:`man/code_structure:WEC-Sim Source Code` (e.g. :ref:`man/code_structure:WEC-Sim Objects` and :ref:`man/code_structure:WEC-Sim Library`, and how they are defined in the :ref:`man/overview:WEC-Sim Model Files`
+This section of the course provides an overview of how the WEC-Sim code is structured by describing the :ref:`man/code_structure:WEC-Sim Source Code` (e.g. :ref:`man/code_structure:WEC-Sim Objects` and :ref:`man/code_structure:WEC-Sim Library`, and how they are defined in the :ref:`man/overview:WEC-Sim Input Files`
 (i.e. ``wecSimInputFile.m`` and ``<Simulink_model_name>.slx``). 
 The WEC-Sim Code Structure Overview presentation is available for download here ( `WEC-Sim Code Structure Slides <../_static/downloads/WEC-Sim_CodeStructure.pdf>`__ ), and the recording is available below. 
 	
