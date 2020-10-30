@@ -442,6 +442,12 @@ frame or relative to other bodies.</p>
 <dd><p>Structure defining the initial displacement of the constraint. <code class="docutils literal notranslate"><span class="pre">initLinDisp</span></code> (<cite>3x1 float vector</cite>) is defined as the initial displacement of the constraint [m] in the following format [x y z], Default = [<code class="docutils literal notranslate"><span class="pre">0</span> <span class="pre">0</span> <span class="pre">0</span></code>].</p>
 </dd></dl>
 
+<dl class="attribute">
+<dt id="objects.constraintClass.hardStops">
+<code class="descname">hardStops</code><em class="property"> = &quot;struct(                                          'upperLimitSpecify', 'off',        % (`string`) Initialize upper stroke limit. ``  'on' or 'off' `` Default = ``off``. \n'upperLimitBound', 1,                                           'upperLimitStiffness', 1e6,                                           'upperLimitDamping', 1e3,                                           'upperLimitTransitionRegionWidth', 1e-4,                                           'lowerLimitSpecify', 'off',                                          'lowerLimitBound', -1,                                           'lowerLimitStiffness', 1e6,                                           'lowerLimitDamping', 1e3,                                           'lowerLimitTransitionRegionWidth', 1e-4)&quot;</em><a class="headerlink" href="#objects.constraintClass.hardStops" title="Permalink to this definition">¶</a></dt>
+<dd><p>(<cite>float</cite>) Define lower limit transition region, over which spring and damping values ramp up to full values. Increase for stability. m or deg. <code class="docutils literal notranslate"><span class="pre">Default</span> <span class="pre">=</span> <span class="pre">1e-4</span></code></p>
+</dd></dl>
+
 <dl class="method">
 <dt id="objects.constraintClass.constraintClass">
 <code class="descname">constraintClass</code><span class="sig-paren">(</span><em>name</em><span class="sig-paren">)</span><a class="headerlink" href="#objects.constraintClass.constraintClass" title="Permalink to this definition">¶</a></dt>
@@ -677,13 +683,13 @@ frame or relative to other bodies.</p>
 <dl class="attribute">
 <dt id="objects.ptoClass.equilibriumPosition">
 <code class="descname">equilibriumPosition</code><em class="property"> = '0'</em><a class="headerlink" href="#objects.ptoClass.equilibriumPosition" title="Permalink to this definition">¶</a></dt>
-<dd><p>(<cite>float</cite>) Linear PTO damping coefficient. Default = <cite>0</cite>.</p>
+<dd><p>(<cite>float</cite>) Linear PTO equilibrium position, m or deg. Default = <cite>0</cite>.</p>
 </dd></dl>
 
 <dl class="attribute">
 <dt id="objects.ptoClass.pretension">
 <code class="descname">pretension</code><em class="property"> = '0'</em><a class="headerlink" href="#objects.ptoClass.pretension" title="Permalink to this definition">¶</a></dt>
-<dd><p>(<cite>float</cite>) Linear PTO damping coefficient. Default = <cite>0</cite>.</p>
+<dd><p>(<cite>float</cite>) Linear PTO pretension, N or N-m. Default = <cite>0</cite>.</p>
 </dd></dl>
 
 <dl class="attribute">
@@ -702,6 +708,12 @@ frame or relative to other bodies.</p>
 <dt id="objects.ptoClass.initDisp">
 <code class="descname">initDisp</code><em class="property"> = &quot;struct(                                         'initLinDisp',          [0 0 0])&quot;</em><a class="headerlink" href="#objects.ptoClass.initDisp" title="Permalink to this definition">¶</a></dt>
 <dd><p>Structure defining the initial displacement of the pto. <code class="docutils literal notranslate"><span class="pre">initLinDisp</span></code> (<cite>3x1 float vector</cite>) is defined as the initial displacement of the pto [m] in the following format [x y z], Default = [<code class="docutils literal notranslate"><span class="pre">0</span> <span class="pre">0</span> <span class="pre">0</span></code>].</p>
+</dd></dl>
+
+<dl class="attribute">
+<dt id="objects.ptoClass.hardStops">
+<code class="descname">hardStops</code><em class="property"> = &quot;struct(                                          'upperLimitSpecify', 'off',        % (`string`) Initialize upper stroke limit. ``  'on' or 'off' `` Default = ``off``. \n'upperLimitBound', 1,                                           'upperLimitStiffness', 1e6,                                           'upperLimitDamping', 1e3,                                           'upperLimitTransitionRegionWidth', 1e-4,                                           'lowerLimitSpecify', 'off',                                          'lowerLimitBound', -1,                                           'lowerLimitStiffness', 1e6,                                           'lowerLimitDamping', 1e3,                                           'lowerLimitTransitionRegionWidth', 1e-4)&quot;</em><a class="headerlink" href="#objects.ptoClass.hardStops" title="Permalink to this definition">¶</a></dt>
+<dd><p>(<cite>float</cite>) Define lower limit transition region, over which spring and damping values ramp up to full values. Increase for stability. m or deg. <code class="docutils literal notranslate"><span class="pre">Default</span> <span class="pre">=</span> <span class="pre">1e-4</span></code></p>
 </dd></dl>
 
 <dl class="method">
