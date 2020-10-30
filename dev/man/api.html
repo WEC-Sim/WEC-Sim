@@ -307,8 +307,8 @@ to define WEC-Sim’s hydrodynamic and non-hydrodynamic bodies.</p>
 
 <dl class="attribute">
 <dt id="objects.bodyClass.morisonElement">
-<code class="descname">morisonElement</code><em class="property"> = &quot;struct(            'cd',                 [0 0 0],             'ca',                 [0 0 0],             'characteristicArea', [0 0 0],             'VME',                 0     ,             'rgME',               [0 0 0])&quot;</em><a class="headerlink" href="#objects.bodyClass.morisonElement" title="Permalink to this definition">¶</a></dt>
-<dd><p>Structure defining the Morrison Element properties connected to the body. <code class="docutils literal notranslate"><span class="pre">cd</span></code> (<cite>3x1 float vector</cite>) is defined as the viscous quadratic drag coefficients in the following format [cd_x cd_y cd_z], Default = [<code class="docutils literal notranslate"><span class="pre">0</span> <span class="pre">0</span> <span class="pre">0</span></code>]. <code class="docutils literal notranslate"><span class="pre">ca</span></code> is defined as the added mass coefficent for the Morrison Element in the following format [ca_x ca_y ca_z], Default = [<code class="docutils literal notranslate"><span class="pre">0</span> <span class="pre">0</span> <span class="pre">0</span></code>], <code class="docutils literal notranslate"><span class="pre">characteristicArea</span></code> is defined as the characteristic area for the Morrison Element [m^2] in the following format [Area_x Area_y Area_z], Default = [0 0 0]. <code class="docutils literal notranslate"><span class="pre">VME</span></code> is the characteristic volume of the Morrison Element [m^3], Default = <code class="docutils literal notranslate"><span class="pre">0</span></code>. <code class="docutils literal notranslate"><span class="pre">rgME</span></code> is defined as the vector from the body COG to point of application for the Morrison Element [m] in the following format [x y z], Default = [<code class="docutils literal notranslate"><span class="pre">0</span> <span class="pre">0</span> <span class="pre">0</span></code>].</p>
+<code class="descname">morisonElement</code><em class="property"> = &quot;struct(            'cd',                 [NaN NaN NaN],             'ca',                 [NaN NaN NaN],             'characteristicArea', [NaN NaN NaN],             'VME',                 NaN     ,             'rgME',               [NaN NaN NaN],             'z',                  [NaN NaN NaN])&quot;</em><a class="headerlink" href="#objects.bodyClass.morisonElement" title="Permalink to this definition">¶</a></dt>
+<dd><p>Structure defining the Morison Element properties connected to the body. <code class="docutils literal notranslate"><span class="pre">cd</span></code> (<cite>1x3 float vector</cite>) is defined as the viscous normal and tangential drag coefficients in the following format, Option 1 [cd_x cd_y cd_z], Option 2 [cd_N cd_T NaN], Default = [<code class="docutils literal notranslate"><span class="pre">NaN</span> <span class="pre">NaN</span> <span class="pre">NaN</span></code>]. <code class="docutils literal notranslate"><span class="pre">ca</span></code> is defined as the added mass coefficent for the Morison Element in the following format, Option 1 [ca_x ca_y ca_z], Option 2 [ca_N ca_T NaN], Default = [<code class="docutils literal notranslate"><span class="pre">NaN</span> <span class="pre">NaN</span> <span class="pre">NaN</span></code>], <code class="docutils literal notranslate"><span class="pre">characteristicArea</span></code> is defined as the characteristic area for the Morison Element [m^2] in the following format, Option 1 [Area_x Area_y Area_z], Option 2 [Area_N Area_T NaN], Default = [NaN NaN NaN]. <code class="docutils literal notranslate"><span class="pre">VME</span></code> is the characteristic volume of the Morison Element [m^3], Default = <code class="docutils literal notranslate"><span class="pre">NaN</span></code>. <code class="docutils literal notranslate"><span class="pre">rgME</span></code> is defined as the vector from the body COG to point of application for the Morison Element [m] in the following format [x y z], Default = [<code class="docutils literal notranslate"><span class="pre">NaN</span> <span class="pre">NaN</span> <span class="pre">NaN</span></code>].``z`` is defined as the unit normal vector center axis of the Morison Element in the following format, Option 1 not used, Option 2 [n_{x} n_{y} n_{z}], Default = [<code class="docutils literal notranslate"><span class="pre">NaN</span> <span class="pre">NaN</span> <span class="pre">NaN</span></code>].</p>
 </dd></dl>
 
 <dl class="attribute">
@@ -390,7 +390,7 @@ coefficients.</p>
 
 <dl class="method">
 <dt id="objects.bodyClass.checkinputs">
-<code class="descname">checkinputs</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#objects.bodyClass.checkinputs" title="Permalink to this definition">¶</a></dt>
+<code class="descname">checkinputs</code><span class="sig-paren">(</span><em>morisonElement</em><span class="sig-paren">)</span><a class="headerlink" href="#objects.bodyClass.checkinputs" title="Permalink to this definition">¶</a></dt>
 <dd><p>This method checks WEC-Sim user inputs and generates error messages if parameters are not properly defined for the bodyClass.</p>
 </dd></dl>
 
@@ -813,7 +813,7 @@ that contains structures for each instance of a WEC-Sim class (e.g.
 <li><code class="docutils literal notranslate"><span class="pre">forceRadiationDamping</span></code> (<cite>array</cite>) = [# of time-steps x 6]</li>
 <li><code class="docutils literal notranslate"><span class="pre">forceAddedMass</span></code> (<cite>array</cite>) = [# of time-steps x 6]</li>
 <li><code class="docutils literal notranslate"><span class="pre">forceRestoring</span></code> (<cite>array</cite>) = [# of time-steps x 6]</li>
-<li><code class="docutils literal notranslate"><span class="pre">forceMorrisonAndViscous</span></code> (<cite>array</cite>) = [# of time-steps x 6]</li>
+<li><code class="docutils literal notranslate"><span class="pre">forceMorisonAndViscous</span></code> (<cite>array</cite>) = [# of time-steps x 6]</li>
 <li><code class="docutils literal notranslate"><span class="pre">forceLinearDamping</span></code> (<cite>array</cite>) = [# of time-steps x 6]</li>
 </ul>
 <p>There are additional <code class="docutils literal notranslate"><span class="pre">output.bodies</span></code> structures for non-linar hydro (e.g.
@@ -1170,13 +1170,13 @@ ParaView. This method is executed by specifying
 <dl class="attribute">
 <dt id="objects.simulationClass.morisonElement">
 <code class="descname">morisonElement</code><em class="property"> = '0'</em><a class="headerlink" href="#objects.simulationClass.morisonElement" title="Permalink to this definition">¶</a></dt>
-<dd><p>(<cite>integer</cite>) Option for Morrison Element calculation: off-&gt;0, on-&gt;1. Default = <code class="docutils literal notranslate"><span class="pre">0</span></code></p>
+<dd><p>(<cite>integer</cite>) Option for Morison Element calculation: off-&gt;0, on-&gt;1 or 2. Default = <code class="docutils literal notranslate"><span class="pre">0</span></code>. Option 1 uses an approach that allows the user to define drag and inertial coefficients along the x-, y-, and z-axes and Option 2 uses an approach that defines the Morison Element with normal and tangential tangential drag and interial coefficients..</p>
 </dd></dl>
 
 <dl class="attribute">
 <dt id="objects.simulationClass.outputtxt">
 <code class="descname">outputtxt</code><em class="property"> = '0'</em><a class="headerlink" href="#objects.simulationClass.outputtxt" title="Permalink to this definition">¶</a></dt>
-<dd><p>(<cite>integer</cite>) Option to save results as ASCII files: off-&gt;0, on-&gt;1. Default = <code class="docutils literal notranslate"><span class="pre">0</span></code></p>
+<dd><p>(<cite>integer</cite>) Option to save results as ASCII files off-&gt;0, on-&gt;1. Default = <code class="docutils literal notranslate"><span class="pre">0</span></code></p>
 </dd></dl>
 
 <dl class="attribute">
