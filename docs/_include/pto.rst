@@ -26,6 +26,29 @@ Additionally, by combining constraints and PTOs in series you can obtain differe
 For example, a massless rigid rod between two bodies, hinged at each body, can be obtained by using a two rotational constraints in series, both rotating in pitch, but with different locations.
 A roll-pitch constraint can also be obtained with two rotational constraints in series; one rotating in pitch, and the other in roll, and both at the same location. 
 
+Incorporating Joint/Actuation Stroke Limits
+""""""""""""""""""""""""""""""
+
+Beginning in MATLAB 2019a, hard-stops can be specified directly for PTOs and translational or rotational constraints by specifying joint-primitive dialog options in the ``wecSimInputFile.m``. Limits are modeled as an opposing spring damper force applied when a certain extents of motion are exceeded. Note that in this implementation, it is possible that the constraint/PTO will exceed these limits if an inadequate spring and/or damping coefficient is specified, acting instead as a soft motion constraint. More detail on this implementation can be found at <https://www.mathworks.com/help/physmod/sm/ref/prismaticjoint.html#mw_316368a1-4b9e-4cfb-86e0-9abdd0c4d7a8>. To specify joint or actuation stroke limits for a PTO, the following parameters must be specified in ``wecSimInputFile.m``
+
+	:code: `pto(i).hardStops.upperLimitSpecify = 'on'`
+	:code: `pto(i).hardStops.lowerLimitSpecify = 'on'`
+
+to enable upper and lower stroke limits, respectively. The specifics of the limit and the acting forces are described in turn by
+
+	pto(i).hardStops.upperLimitBound
+	pto(i).hardStops.upperLimitStiffness
+	pto(i).hardStops.upperLimitDamping
+	pto(i).hardStops.upperLimitTransitionRegionWidth
+	pto(i).hardStops.lowerLimitBound
+	pto(i).hardStops.lowerLimitStiffness
+	pto(i).hardStops.lowerLimitDamping
+	pto(i).hardStops.lowerLimitTransitionRegionWidth
+	
+where pto(i) is replaced with constraint(i) on all of the above if the limits are to be applied to a constraint. 
+
+In MATLAB versions prior to 2019a, specifying any of the above parameters will have no effect on the simulation, and may generate warnings. It is instead recommended that hard-stops are implemented in a similar fashion using an Actuation Force/Torque PTO block in which the actuation force is specified in a custom MATLAB Function block.   
+
 
 PTO-Sim
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
