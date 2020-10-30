@@ -11,8 +11,6 @@ Advanced Features
 	Application issues:
 	
 	Passive Yaw - Divide runYawCases.m into run and plot scripts for consistency with other applications (done in PR)
-		- Isn't this the same as using BEM data with different wave directionality?
-		- Interpolation method vs wave directionality?
 
 	Other issues with BEMIO runs in the Applications repo:
 	RM3 Aij in heave turns up slightly at frequency=5rad/s instead of asymptoting smoothly
@@ -318,6 +316,8 @@ To use this, select a Flex Body Block from the WEC-Sim Library (under Body Eleme
 * Construct discretized mass and impedance matrices using these structural modes
 * Include these additional flexible degrees of freedom in the BEM code to calculate hydrodynamic coefficients for the WEC device
 * Import the hydrodynamic coefficients to WEC-Sim and conduct dynamic analysis of the hybrid rigid and flexible body system
+
+The `WEC-Sim Applications repository <https://github.com/WEC-Sim/WEC-Sim_Applications>`_ contains a working sample of a barge with four additional degrees of freedom to account for bending and shearing of the body. See this example for details on how to implement and use generalized body modes in WEC-Sim.
 
 .. Note::
 

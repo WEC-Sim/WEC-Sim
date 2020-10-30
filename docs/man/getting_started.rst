@@ -1,9 +1,5 @@
 .. _getting_started:
 
-.. Note:: 
-	Adam:
-	see Index notes on expanding on what WEC-Sim is and can do. Merge with index into an Introduction section?
-
 Getting Started
 ===============
 This section provides instructions on how to download, install, and test the WEC-Sim code.

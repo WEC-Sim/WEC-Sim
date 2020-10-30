@@ -2,12 +2,6 @@
 
 Tutorials
 =========
-.. Note:: 
-	Adam:
-	In general, I find the tutorials to be thorough and easy to read. I feel confident in moving forward with the WEC-Sim applications after the tutorials. There is enought information on how to recreate the tutorials and have them run successfully. However, there’s not a lot of detail on /how/ they run or why they do what they do. Add some explanation on what is going on so that the user can understand and not just replicate. Expand on the differences between the two and what the user should notice between them.
-	I think this section is better placed immediately after the Overview or with the Theory right next to advanced features. The appropriate order largely depends on if someone is a user or developer. User layout might be something like: Overview,  Code Structure, Tutorials, Theory, Advanced Features
-	Developer layout: as is
-
 This section provides step-by-step instructions on how to run the WEC-Sim code using the provided Tutorials (located in the WEC-Sim ``$WECSIM/tutorials`` directory). 
 Two WEC-Sim tutorials are provided: the Two-Body Point Absorber (RM3), and the Oscillating Surge WEC (OSWEC). 
 For information about the implementation of the WEC-Sim code refer to the refer to the :ref:`code_structure` section. 
@@ -28,35 +22,31 @@ The RM3 is a two-body point absorber consisting of a float and a reaction plate.
    :width: 300pt
    :align: center
 
-+-------------------------------------------------+
-|Float Full Scale Properties                      |
-+======+=========+================================+
-|      |Mass     |Moment of                       |
-+CG (m)+(tonne)  +Inertia (kg-m^2)                +
-+------+---------+----------+----------+----------+
-|  0   |         |20,907,301|0         |0         |
-+------+         +----------+----------+----------+
-|  0   |727.01   |0         |21,306,091|0         |
-+------+         +----------+----------+----------+
-|-0.72 |         |0         |0         |37,085,481|
-+------+---------+----------+----------+----------+   
++-----------------------------------------------------------+
+|Float Full Scale Properties                                |
++=========+======+=========+================================+
+|Direction|      |Mass     |Moment of                       |
++         +CG (m)+(tonne)  +Inertia (kg-m^2)                +
++---------+------+---------+----------+----------+----------+
+|    x    |  0   |         |20,907,301|0         |0         |
++---------+------+         +----------+----------+----------+
+|    y    |  0   |727.01   |0         |21,306,091|0         |
++---------+------+         +----------+----------+----------+
+|    z    |-0.72 |         |0         |0         |37,085,481|
++---------+------+---------+----------+----------+----------+   
 
-+-------------------------------------------------+
-|Plate Full Scale Properties                      |
-+======+=========+================================+
-|      |Mass     |Moment of                       |
-+CG (m)+(tonne)  +Inertia (kg-m^2)                +
-+------+---------+----------+----------+----------+
-|  0   |         |94,419,615|0         |0         |
-+------+         +----------+----------+----------+
-|  0   |878.30   |0         |94,407,091|0         |
-+------+         +----------+----------+----------+
-|-21.29|         |0         |0         |28,542,225|
-+------+---------+----------+----------+----------+ 
-
-.. Note:: 
-	Adam:
-	This is a user's first real look at WEC-Sim. Put x, y, z in the properties tables below for clarity.
++-----------------------------------------------------------+
+|Plate Full Scale Properties                                |
++=========+======+=========+================================+
+|Direction|      |Mass     |Moment of                       |
++         +CG (m)+(tonne)  +Inertia (kg-m^2)                +
++---------+------+---------+----------+----------+----------+
+|    x    |  0   |         |94,419,615|0         |0         |
++---------+------+         +----------+----------+----------+
+|    x    |  0   |878.30   |0         |94,407,091|0         |
++---------+------+         +----------+----------+----------+
+|    x    |-21.29|         |0         |0         |28,542,225|
++---------+------+---------+----------+----------+----------+ 
 
 Model Files
 ^^^^^^^^^^^^^^^^^^^^^^^
@@ -75,12 +65,6 @@ RM3 Tutorial
 
 Step 1: Run BEMIO
 """"""""""""""""""""""""
-.. Note:: 
-	Adam:
-	The correct tendency for phi and X are not described in the BEMIO plots.
-	RM3 - Aij value for surge and heave don't have the right tendency
-	OSWEC - why does the pitch direction have such a noisy, erratic response?
-
 Hydrodynamic data for each RM3 body must be parsed into a HDF5 file using :ref:`bemio`. 
 BEMIO converts hydrodynamic data from WAMIT, NEMOH or AQWA into a HDF5 file, ``*.h5`` that is then read by WEC-Sim.
 The RM3 tutorial includes data from a WAMIT run, ``rm3.out``, of the RM3 geometry in the ``$WECSIM/tutorials/rm3/hydroData/`` directory.

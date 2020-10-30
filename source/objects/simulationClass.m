@@ -34,7 +34,7 @@ classdef simulationClass<handle
         domainSize          = 200                                          % (`float`) Size of free surface and seabed. This variable is only used for visualization. Default = ``200`` m
         ssCalc              = 0                                            % (`integer`) Option for convolution integral or state-space calculation: convolution integral->0, state-space->1. Default = ``0``
         mode                = 'normal'                                     % (`string`) Simulation execution mode, 'normal', 'accelerator', 'rapid-accelerator'. Default = ``'normal'``
-        solver              = 'ode4'                                       % (`string`) PDE solver used by the Simulink/SimMechanics simulation, 'ode4, 'ode45'. Default = ``'ode4'``
+        solver              = 'ode45'                                      % (`string`) PDE solver used by the Simulink/SimMechanics simulation, 'ode4, 'ode45'. Default = ``'ode45'``
         numIntMidTimeSteps  = 5                                            % (`integer`) Number of intermediate time steps. Default = ``5`` for ode4 method
         autoRateTranBlk     = 'on'                                         % (`string`) Automatically handle rate transition for data transfer, 'on', 'off'. Default = ``'on'``
         zeroCrossCont       = 'DisableAll'                                 % (`string`) Disable zero cross control. Default = ``'DisableAll'``

@@ -44,7 +44,7 @@ BEMIO Functions
 		* *ah1_filename* – ``*.AH1`` AQWA output file 
 		* *lis_filename* – ``*.LIS`` AQWA output file
 
-**Normalize:** Normalizes NEMOH and AQWA hydrodynamics coefficients in the same manner that WAMIT outputs are normalized. Specifically, the linear hydrostatic restoring stiffness is normalized as, :math:`C_{i,j}/\rho g`; the radiation added mass is normalized as, :math:`A_{i,j}/\rho`; radiation wave damping is normalized as, :math:`B_{i,j}/\rho \omega`; and the wave-exciting forces are normalized as, :math:`X_i/\rho g`. Typically, this function would not be called directly by the user; it is automatically implemented within the Read_NEMOH and Read_AQWA functions. 
+**Normalize:** Normalizes NEMOH and AQWA hydrodynamics coefficients in the same manner that WAMIT outputs are normalized. Specifically, the linear hydrostatic restoring stiffness is normalized as, :math:`C_{i,j}/\rho g`; the radiation added mass is normalized as, :math:`A_{i,j}/\rho`; radiation wave damping is normalized as, :math:`B_{i,j}/\rho \omega`; and the wave-exciting forces are normalized as, :math:`F_{exc,i}/\rho g`. Typically, this function would not be called directly by the user; it is automatically implemented within the Read_NEMOH and Read_AQWA functions. 
 
 	*hydro = Normalize(hydro)*
 		* *hydro* – data structure
@@ -75,7 +75,7 @@ BEMIO Functions
 
 **Excitation_IRF:** Calculates the excitation impulse response function.
 
-	:math:`\overline{K}_{e,i,\beta}(t) = {\frac{1}{2\pi}}\intop_{-\infty}^{\infty}{\frac{X_i(\omega,\beta)e^{i{\omega}t}}{{\rho}g}}d\omega`
+	:math:`\overline{K}_{e,i,\theta}(t) = {\frac{1}{2\pi}}\intop_{-\infty}^{\infty}{\frac{X_i(\omega,\theta)e^{i{\omega}t}}{{\rho}g}}d\omega`
 
 	*hydro = Excitation_IRF(hydro, t_end, n_t, n_w, w_min, w_max)*
 			* *hydro* – data structure
@@ -114,6 +114,7 @@ body          {1,Nb}                     body names
 cb            [3,Nb]                     center of buoyancy
 cg            [3,Nb]                     center of gravity
 code          string                    BEM code (WAMIT, AQWA, or NEMOH)
+C             [6,6,Nb]                 hydrostatic restoring stiffness
 dof 	      [6 + GBM, Nb] 		Degrees of freedom (DOF) for each body. Default DOF for each body is 6 plus number of possible generalized body modes (GBM).
 exc_im         [6*Nb,Nh,Nf]               imaginary component of excitation force or torque
 exc_K          [6*Nb,Nh,length(ex_t)]     excitation IRF
@@ -129,7 +130,6 @@ fk_ph         [6*Nb,Nh,Nf]               phase of Froude-Krylov excitation compo
 fk_re         [6*Nb,Nh,Nf]               real component of Froude-Krylov contribution to the excitation force or torque
 g             [1,1]                     gravity
 h             [1,1]                     water depth
-Khs             [6,6,Nb]                 hydrostatic restoring stiffness
 Nb            [1,1]                     number of bodies
 Nf            [1,1]                     number of wave frequencies
 Nh            [1,1]                     number of wave headings
