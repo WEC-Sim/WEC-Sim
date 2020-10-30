@@ -104,7 +104,7 @@ end
 simu.numWecBodies = numHydroBodies; clear numHydroBodies
 simu.numDragBodies = numDragBodies; clear numDragBodies
 for ii = 1:simu.numWecBodies
-    body(ii).checkinputs;
+    body(ii).checkinputs(simu.morisonElement);
     %Determine if hydro data needs to be reloaded from h5 file, or if hydroData
     % was stored in memory from a previous run.
     if exist('mcr','var') == 1 && simu.reloadH5Data == 0 && imcr > 1

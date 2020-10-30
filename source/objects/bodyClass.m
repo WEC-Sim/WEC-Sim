@@ -416,7 +416,7 @@ classdef bodyClass<handle
             quiver3(c(:,1),c(:,2),c(:,3),n(:,1),n(:,2),n(:,3))
         end
         
-        function checkinputs(obj)
+        function checkinputs(obj,morisonElement)
             % This method checks WEC-Sim user inputs and generates error messages if parameters are not properly defined for the bodyClass.
             if exist(obj.h5File,'file')==0 && obj.nhBody==0
                 error('The hdf5 file %s does not exist',obj.h5File)
@@ -424,6 +424,15 @@ classdef bodyClass<handle
             % geometry file
             if exist(obj.geometryFile,'file') == 0
                 error('Could not locate and open geometry file %s',obj.geometryFile)
+            end
+            % geometry file
+            if morisonElement == 1
+                [r,~] = size(obj.morisonElement.z);
+                for ii = 1:r
+                    if norm(obj.morisonElement.z(ii,:)) ~= 1
+                        error(['Ensure the Morison Element .z variable is a unit vector for the ',num2str(ii),' index'])
+                    end
+                end
             end
         end
     end
