@@ -2,7 +2,7 @@
 
 Advanced Features
 =================
-The advanced features documentation provides an overview of WEC-Sim features that were not covered in the WEC-Sim :ref:`tutorials`. The diagram below highlights some of WEC-Sim's advanced features, details of which will be described in the following sections. 
+The advanced features documentation provides an overview of WEC-Sim features and applications that were not covered in the WEC-Sim :ref:`tutorials`. The diagram below highlights some of WEC-Sim's advanced features, details of which will be described in the following sections. Most advanced features have a corresponding example case within the `WEC-Sim_Applications repository <https://github.com/WEC-Sim/WEC-Sim_Applications>`_ or the ``WEC-Sim/Examples`` directory in the WEC-Sim source code. For those topics of interest, it is recommended that users run and understand the output of an application while reading the documentation on the feature.
 
 .. codeFeatures:
 
@@ -30,7 +30,7 @@ This section provides an overview of WEC-Sim's simulation class features; for mo
 
 Multiple Condition Runs (MCR)
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
-WEC-Sim allows users to execute batch runs by typing ``wecSimMCR`` into the MATLAB Command Window. This command executes the Multiple Condition Run (MCR) option, which can be executed three different ways:
+WEC-Sim allows users to easily perform batch runs by typing ``wecSimMCR`` into the MATLAB Command Window. This command executes the Multiple Condition Run (MCR) option, which can be initiated three different ways:
 
 	**Option 1.** Specify a range of sea states and PTO damping coefficients in the WEC-Sim input file, example: 
 	``waves.H = 1:0.5:5; waves.T = 5:1:15;``
@@ -44,7 +44,11 @@ WEC-Sim allows users to execute batch runs by typing ``wecSimMCR`` into the MATL
 
 For Multiple Condition Runs, the ``*.h5`` hydrodynamic data is only loaded once. To reload the ``*.h5`` data between runs,  set ``simu.reloadH5Data =1`` in the WEC-Sim input file. 
 
-For more information, refer to :ref:`webinar1`, and the **RM3_MCR** example on the `WEC-Sim Applications <https://github.com/WEC-Sim/WEC-Sim_Applications>`_ repository. 
+The **RM3_MCR** examples on the `WEC-Sim Applications <https://github.com/WEC-Sim/WEC-Sim_Applications>`_ repository demonstrate the use of WEC-Sim MCR for each option above (arrays, .xls, .mat). The fourth case demonstrates how to vary the wave spectrum input file in each case run by WEC-Sim MCR. 
+
+The directory of an MCR case can contain a :code:`userDefinedFunctionsMCR.m` file that will function as the standard :code:`userDefinedFunctions.m` file. Within the MCR application, the :code:`userDefinedFunctionsMCR.m` script creates a power matrix from the PTO damping coefficient after all cases have been run.
+
+For more information, refer to :ref:`webinar1`, 
 
 Parallel Computing Toolbox (PCT)
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
@@ -64,13 +68,13 @@ The convolution integral term in the equation of motion can be linearized using 
 
 Time-Step Features
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
-The default WEC-Sim solver is 'ode4'. Refer to the **NonlinearHydro** example on the `WEC-Sim Applications <https://github.com/WEC-Sim/WEC-Sim_Applications>`_ repository for a comparisons between 'ode4' to 'ode45'. The following variables may be changed in the simulationClass (where N is number of increment steps, default: N=1):
+The default WEC-Sim solver is 'ode4'. Refer to the **NonlinearHydro** example on the `WEC-Sim Applications <https://github.com/WEC-Sim/WEC-Sim_Applications>`_ repository for a comparisons between 'ode4' to `'ode45' <https://www.mathworks.com/help/matlab/ref/ode45.html>`_. The following variables may be changed in the simulationClass (where N is number of increment steps, default: N=1):
 
 * Fixed time-step: :code:`simu.dt` 
 * Output time-step: :code:`simu.dtOut=N*simu.dt` 
 * Nonlinear Buoyancy and Froude-Krylov Excitation time-step: :code:`simu.dtNL=N*simu.dt` 
 * Convolution integral time-step: :code:`simu.dtCITime=N*simu.dt` 	
-* Morison force time-step: :code:`simu.dtME = N*N*simu.dt` 
+* Morison force time-step: :code:`simu.dtME = N*simu.dt` 
 
 
 Fixed Time-Step (ode4)
@@ -85,15 +89,17 @@ To run WEC-Sim with a variable time-step, the following variables must be define
 * Numerical solver: :code:`simu.solver='ode45'` 
 * Max time-step: :code:`simu.dt` 
 
+This option sets the maximum time step of the simulation (:code:`simu.dt`) and automatically adjusts the instantaneous time step to that required by MATLAB's differential equation solver.
+
 
 Wave Features
 -------------------------
-This section provides an overview of WEC-Sim's wave class features. For more information about the wave class code structure, refer to :ref:`man/code_structure:Wave Class`. 
+This section provides an overview of WEC-Sim's wave class features. For more information about the wave class code structure, refer to :ref:`man/code_structure:Wave Class`. The various wave features can be compared by running the cases within ``the WEC-Sim/Examples/RM3`` and ``the WEC-Sim/Examples/OSWEC`` directories.
 
 
 Irregular Wave Binning
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
-WEC-Sim's default spectral binning method divides the wave spectrum into 499 bins with equal energy content, defined by 500 wave frequencies. As a result, the wave forces on the WEC using the equal energy method are only computed at each of the 500 wave frequencies. The equal energy formulation speeds up the irregular wave simulation time by reducing the number of frequencies the wave train is defined by, and thus the number of frequencies for which the wave forces are calculated. The equal energy method is specified by defining the following wave class variable in the WEC-Sim input file:
+WEC-Sim's default spectral binning method divides the wave spectrum into 499 bins with equal energy content, defined by 500 wave frequencies. As a result, the wave forces on the WEC using the equal energy method are only computed at each of the 500 wave frequencies. The equal energy formulation speeds up the irregular wave simulation time by reducing the number of frequencies the wave train is defined by, and thus the number of frequencies for which the wave forces are calculated. It prevents bins with very little energy from being created and unnecessarily adding to the computational cost. The equal energy method is specified by defining the following wave class variable in the WEC-Sim input file:
 
 	:code:`waves.freqDisc = 'EqualEnergy';`
 
@@ -106,7 +112,7 @@ Users may override the default number of wave frequencies by defining ``waves.nu
 
 Wave Directionality
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
-WEC-Sim has the ability to model waves with various angles of incidence, :math:`\beta`. To define wave directionality in WEC-Sim, the following wave class variable must be defined in the WEC-Sim input file:
+WEC-Sim has the ability to model waves with various angles of incidence, :math:`\theta`. To define wave directionality in WEC-Sim, the following wave class variable must be defined in the WEC-Sim input file:
 
 	:code:`waves.waveDir = <user defined wave direction(s)>; %[deg]`  	
 	
@@ -114,7 +120,7 @@ The incident wave direction has a default heading of 0 Degrees (Default = 0), an
 
 Wave Directional Spreading
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
-WEC-Sim has the ability to model waves with directional spreading, :math:`D\left( \beta \right)`. To define wave directional spreading in WEC-Sim, the following wave class variable must be defined in the WEC-Sim input file:
+WEC-Sim has the ability to model waves with directional spreading, :math:`D\left( \theta \right)`. To define wave directional spreading in WEC-Sim, the following wave class variable must be defined in the WEC-Sim input file:
 
 	:code:`waves.waveSpread = <user defined directional spreading>;`  	
 	
@@ -177,14 +183,20 @@ For more information, refer to the :ref:`webinar2`, and the **NonlinearHydro** e
 Nonlinear Settings
 """"""""""""""""""""""""""""""
 **simu.nlHydro**  - 
-The nonlinear hydrodynamics option can be used by setting :code:`simu.nlHydro = 2` or :code:`simu.nlHydro = 1` in your WEC-Sim input file. Typically, :code:`simu.nlHydro = 2` is recommended if nonlinear buoyancy and Froude-Krylov effects need to be used. Note that :code:`simu.nlHydro = 1` only considers the nonlinear hydrostatic and Froude-Krylov wave excitations based on the body position and mean wave elevation. 
+The nonlinear hydrodynamics option can be used with the parameter: :code:`simu.nlHydro` in your WEC-Sim input file. When any of the three nonlinear options (below) are used, WEC-Sim integrates the wave pressure over the surface of the body, resulting in more accurate buoyancy and Froude-Krylov force calculations.
+
+	**Option 1.** :code:`simu.nlHydro = 1` This option integrates the pressure due to the mean wave elevation and the instantaneous body position.
+
+	**Option 2.** :code:`simu.nlHydro = 2` This option integrates the pressure due to the instantaneous wave elevation and the instantaneous body position. This option is recommended if nonlinear effects need to be considered.
+
+	**Option 3.** :code:`simu.nlHydro = 3` This option calculates the nonlinear Froude-Krylov force directly from a BEM result. This requires additional output files from the BEM code (.3fk and .3sc files for WAMIT, and DiffractionForce.tec and FKForce.tec files for NEMOH).
+
 
 **simu.dtNL** - 
 An option available to reduce the nonlinear simulation time is to specify a nonlinear time step, :code:`simu.dtNL=N*simu.dt`, where N is number of increment steps. The nonlinear time step specifies the interval at which the nonlinear hydrodynamic forces are calculated. As the ratio of the nonlinear to system time step increases, the computation time is reduced, again, at the expense of the simulation accuracy.
 
-
 .. Note::
-	WEC-Sim's nonlinear buoyancy and Froude-Krylov wave excitation option may be used for regular or irregular waves but not with user-defined irregular waves. 
+	WEC-Sim's nonlinear buoyancy and Froude-Krylov wave excitation option may be used for regular or irregular waves but not with user-defined irregular waves.
 
 
 STL File Generation
@@ -298,6 +310,8 @@ To use this, select a Flex Body Block from the WEC-Sim Library (under Body Eleme
 * Include these additional flexible degrees of freedom in the BEM code to calculate hydrodynamic coefficients for the WEC device
 * Import the hydrodynamic coefficients to WEC-Sim and conduct dynamic analysis of the hybrid rigid and flexible body system
 
+The `WEC-Sim Applications repository <https://github.com/WEC-Sim/WEC-Sim_Applications>`_ contains a working sample of a barge with four additional degrees of freedom to account for bending and shearing of the body. See this example for details on how to implement and use generalized body modes in WEC-Sim.
+
 .. Note::
 
 	Generalized body modes module has only been tested with WAMIT, where BEMIO may need to be modified for NEMOH. 
@@ -361,7 +375,7 @@ The Morison Element time-step may also be defined as :code:`simu.dtME = N*simu.d
 
 .. Note::
 
-	Morison Elements cannot but used with :code:`etaImport`.
+	Morison Elements cannot be used with :code:`etaImport`.
 
 Drag Body Implementation
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
@@ -445,4 +459,9 @@ The following propoerties must be defined prior to using the object's :code:`set
 * :code:`pto(i).loc`
 * :code:`mooring.ref` 
 
-For more information, refer to the **IEA_OES_Task10_freeDecay** example on the `WEC-Sim Applications <https://github.com/WEC-Sim/WEC-Sim_Applications>`_ repository.
+For more information, refer to the **Free Decay** example on the `WEC-Sim Applications <https://github.com/WEC-Sim/WEC-Sim_Applications>`_ repository.
+
+
+Other Applications
+---------------------------------
+The WEC-Sim Applications repository also includes examples of using WEC-Sim to model a Desalination plant and a numerical model of the WaveStar device for control implementation. The WaveStar device was used in the WECCCOMP wave energy control competition.
