@@ -105,7 +105,7 @@ parfor imcr=1:length(mcr.cases(:,1))
     fileID = fopen(filename,'a');
     fprintf(fileID,'wecSimMCR Case %g/%g on Worker Number %g/%g \n',imcr,length(mcr.cases(:,1)),t.ID,totalNumOfWorkers);
 % Run WEC-Sim
-    makewecSimFcn(imcr,mcr,parallelComputing_dir,totalNumOfWorkers);   
+    wecSimFcn(imcr,mcr,parallelComputing_dir,totalNumOfWorkers);   
     fclose(fileID);
 end
 
