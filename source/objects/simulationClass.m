@@ -137,8 +137,15 @@ classdef simulationClass<handle
             end            
             obj.CTTime = 0:obj.dtCITime:obj.CITime;            
             obj.CIkt = length(obj.CTTime);
-            obj.caseFile = [obj.caseDir filesep 'output' filesep obj.simMechanicsFile(1:end-4) '_matlabWorkspace.mat'];
-            obj.logFile = [obj.caseDir filesep 'output' filesep obj.simMechanicsFile(1:end-4) '_simulationLog.txt'];
+            obj.caseFile = [obj.simMechanicsFile(length(obj.caseDir)+1:end-4) '_matlabWorkspace.mat'];            
+            % Remove existing output folder
+            if exist(obj.outputDir,'dir') ~= 0
+                try
+                    rmdir(obj.outputDir,'s')
+                catch
+                    warning('The output directory could not be removed. Please close any files in the output directory and try running WEC-Sim again')
+                end
+            end
             mkdir(obj.outputDir)
             obj.getWecSimVer;
         end
@@ -150,16 +157,9 @@ classdef simulationClass<handle
                 error('simu.endTime, the simulation end time must be specified in the wecSimInputFile')
             end            
             % Check simMechanics file exists
+            obj.simMechanicsFile = [obj.caseDir filesep obj.simMechanicsFile];     
             if exist(obj.simMechanicsFile,'file') ~= 4
                 error('The simMechanics file, %s, does not exist in the case directory',obj.simMechanicsFile)
-            end
-            % Remove existing output folder
-            if exist(obj.outputDir,'dir') ~= 0
-                try
-                    rmdir(obj.outputDir,'s')
-                catch
-                    warning('The output directory could not be removed. Please close any files in the output directory and try running WEC-Sim again')
-                end
             end
         end
 

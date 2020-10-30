@@ -1,36 +1,26 @@
 .. WEC-Sim Documentation
 
-.. figure:: _images/wec_sim_header.png
-   :target: https://github.com/WEC-Sim/WEC-Sim
+.. figure:: /_static/images/wec_sim_header.png
+   :target: https://github.com/WEC-Sim/akeeste
 
 
 .. toctree::
    :maxdepth: 4
    :hidden:
 
-   getting_started.rst
-   overview.rst
-   theory.rst
-   code_structure.rst   
-   tutorials.rst
-   advanced_features.rst
-   applications.rst
-   webinars.rst   
-   license.rst
-   acknowledgements.rst
-   publications.rst
-   release_notes.rst
-   api.rst
-   terminology.rst
-
-.. Note:: 
-	Adam:
-	I agree with many of Mat's comments on this page. I think that this section might be better off merged with the getting started page and labeled 'Introduction to WEC-Sim'. It can include some examples of WEC-Sims ability and more details to draw users in. What can WEC-Sim simulate? What does a user require to run it? (qualitative overview, not the same technical details and file types in the overview section) Draw users/developers in and introduce them to WEC-sims extensive capabilities
-
-	Other issues:
-	- it doesn't appear on the TOC on the left of the webpage,
-	- it appears as Ch. 17 in the compiled pdf, not at the beginning
-	- In the pdf, the list of authors in the title page runs off the page
+   man/getting_started.rst
+   man/overview.rst
+   man/theory.rst
+   man/code_structure.rst
+   man/tutorials.rst
+   man/advanced_features.rst
+   man/webinars.rst
+   man/license.rst
+   man/acknowledgements.rst
+   man/publications.rst
+   man/release_notes.rst
+   man/api.rst
+   man/terminology.rst
 
 
 ######################################################
@@ -65,11 +55,6 @@ Development and maintenance of the WEC-Sim code is funded by the U.S. Department
 The National Renewable Energy Laboratory is a national laboratory of the U.S. Department of Energy, Office of Energy Efficiency and Renewable Energy, operated by the Alliance for Sustainable Energy, LLC. under contract No. DE-AC36-08GO28308.
 
 Sandia National Laboratories is a multi-mission laboratory managed and operated by National Technology and Engineering Solutions of Sandia, LLC., a wholly owned subsidiary of Honeywell International, Inc., for the U.S. Department of Energy’s National Nuclear Security Administration under contract DE-NA0003525.
-
-.. Note:: 
-	Adam:
-	This information is repeated from the acknowledgements section.
-
 
 
 .. Indices and tables

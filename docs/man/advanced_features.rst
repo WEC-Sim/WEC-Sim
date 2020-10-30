@@ -2,27 +2,11 @@
 
 Advanced Features
 =================
-.. Note:: 
-	Adam:
-	My summary: Some sections feel like a strange mix of theoretical information and code details. I think it is better to break up each 'feature' into an initial theory subsection (what it is, why it is necessary/useful, what its pros/cons are) and a following implementation subsection (variable names, related functions, classes, etc, example of how to implement if more complex).
-	Also, the advanced features are essentially the same cases as the WEC-Sim Applications repo. However, this not made very clear at the beginning. I think that the Adv. Features section can better mesh with the applications by acting as a walkthrough for a user interested in that topic. As in other parts of the documentation, the 'what is happening' is well covered but not the 'why/how/pros/cons'. Make it easy for users to see the advantages of the code and the pros/cons of each feature by utilizing the applications. Consistently use a runThisApplication.m, plotThisApplication.m scripts to easily compare the advantages of that application and to a standard case.
-	These two areas are closely tied, so I will also write my notes on the WEC-Sim app repo below. Not all advanced features are covered by an application, and not all applications have an adv. feature section. These should have clear connections with minimal mixing of cases so that it is easy to follow.
-	
-	Application issues:
-	
-	Passive Yaw - Divide runYawCases.m into run and plot scripts for consistency with other applications (done in PR)
-
-	Other issues with BEMIO runs in the Applications repo:
-	RM3 Aij in heave turns up slightly at frequency=5rad/s instead of asymptoting smoothly
-	OSWEC flap Aij in surge and pitch doesn't asymptote
-	Why is the OSWEC flap so jagged in heave and pitch Bij, Kij, Xij and phi_ij?
-..
-
 The advanced features documentation provides an overview of WEC-Sim features and applications that were not covered in the WEC-Sim :ref:`tutorials`. The diagram below highlights some of WEC-Sim's advanced features, details of which will be described in the following sections. Most advanced features have a corresponding example case within the `WEC-Sim_Applications repository <https://github.com/WEC-Sim/WEC-Sim_Applications>`_ or the ``WEC-Sim/Examples`` directory in the WEC-Sim source code. For those topics of interest, it is recommended that users run and understand the output of an application while reading the documentation on the feature.
 
 .. codeFeatures:
 
-.. figure:: _images/codeFeatures.png
+.. figure:: /_static/images/codeFeatures.png
    :width: 400pt
    :align: center   
     
@@ -35,12 +19,14 @@ The advanced features documentation provides an overview of WEC-Sim features and
 BEMIO
 -----
 
-.. include:: bemio.rst
+.. include:: /_include/bemio.rst
 
 
 Simulation Features
 ---------------------------------
 This section provides an overview of WEC-Sim's simulation class features; for more information about the simulation class code structure, refer to :ref:`code_structure:Simulation Class`. 
+
+.. _mcr:
 
 Multiple Condition Runs (MCR)
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
@@ -64,6 +50,14 @@ The directory of an MCR case can contain a :code:`userDefinedFunctionsMCR.m` fil
 
 For more information, refer to :ref:`webinar1`, 
 
+Parallel Computing Toolbox (PCT)
+^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+WEC-Sim allows users to execute batch runs by typing ``wecSimPCT`` into the MATLAB Command Window. This command executes the MATLAB `Parallel Computing Toolbox <https://www.mathworks.com/products/parallel-computing.html>`_ (PCT), which allows parallel capability for :ref:`mcr` but adds an additional MATLAB dependency to use this feature. Similar to MCR, this feature can be executed in three ways (Options 1~3).
+
+For PCT runs, the ``*.h5`` hydrodynamic data must be reload, regardless the setting for ``simu.reloadH5Data`` in the WEC-Sim input file.
+
+.. Note::
+	The ``userDefinedFunctionsMCR.m`` is not compatible with ``wecSimPCT``. Please use ``userDefinedFunctions.m`` instead.
 
 State-Space Representation
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
@@ -218,7 +212,7 @@ There are many ways to generate an STL file; however, it is important to verify 
 **Refining STL File** - The script ``refine_stl`` in the BEMIO directory performs a simple mesh refinement on an ``*.stl`` file by subdividing each panel with an area above the specified threshold into four smaller panels with new vertices at the mid-points of the original panel edges. This procedure is iterated for each panel until all panels have an area below the specified threshold, as in the example rectangle. 
 
 
-.. figure:: _images/rectangles.png 
+.. figure:: /_static/images/rectangles.png 
    :width: 300pt 
    :align: center
 
@@ -231,7 +225,7 @@ The body tested in the study is an ellipsoid with a cross- section characterized
 
 .. _nonlinearEllipsoid:
 
-.. figure:: _images/nonlinearEllipsoid.png
+.. figure:: /_static/images/nonlinearEllipsoid.png
     :width: 350pt
     :align: center
 
@@ -239,7 +233,7 @@ STL file with the discretized body surface is shown below (``ellipsoid.stl``)
 
 .. _nonlinearMesh:
 
-.. figure:: _images/nonlinearMesh.png
+.. figure:: /_static/images/nonlinearMesh.png
     :width: 250pt
     :align: center
     
@@ -247,7 +241,7 @@ The single-body heave only WEC model is shown below (``nonLinearHydro.slx``)
 
 .. _nonlinearWEC:
 
-.. figure:: _images/nonlinearWEC.png
+.. figure:: /_static/images/nonlinearWEC.png
     :width: 450pt
     :align: center
 
@@ -374,7 +368,7 @@ The Morison Element time-step may also be defined as :code:`simu.dtME = N*simu.d
 Constraint and PTO Features
 ----------------------------
 
-.. include:: pto.rst
+.. include:: /_include/pto.rst
 
 
 
@@ -383,7 +377,7 @@ Constraint and PTO Features
 Mooring Features
 ----------------
 
-.. include:: mooring.rst
+.. include:: /_include/mooring.rst
 
 
 
@@ -392,7 +386,7 @@ Mooring Features
 Visualization/Paraview
 ----------------------
 
-.. include:: viz.rst
+.. include:: /_include/viz.rst
 
 
 Decay Tests

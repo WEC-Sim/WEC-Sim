@@ -19,15 +19,19 @@
 
 clear mcr imcr i j k l1 l2 m n name nseed kkk len numConditions
 clear body waves simu output pto constraint ptoSim
+global mcr
+
 % open the local cluster profile
 p = parcluster('local');
+totalNumOfWorkers=p.NumWorkers;
 
 % open the parallel pool, recording the time it takes
 tic;
 parpool(p); % open the pool
+
 fprintf('Opening the parallel pool took %g seconds.\n', toc)
 
-  evalc('wecSimInputFile');
+evalc('wecSimInputFile');
 
 if isempty(simu.mcrCaseFile) == 0
     load(simu.mcrCaseFile);
@@ -89,31 +93,24 @@ else
         end; clear i j k l1 l2 m n name nseed kkk len numConditions
     end
 end
-%%
-% % Check to see if changing h5 file between runs
-% % If one of the MCR headers is body(#).h5File, then the hydro data will be
-% % loaded from the h5 file for each condition run.
-% % reloadHydroDataFlag = true;
-% if isempty(cell2mat(regexp(mcr.header, 'body\(\d+\).h5File')))
-%     reloadHydroDataFlag = false;
-%     clear hydroData
-% end
-%%
+
+%% Execute wecSimPCT
 pause(1)
 delete savedLog*
 parfor imcr=1:length(mcr.cases(:,1))
+    warning('off', 'MATLAB:MKDIR:DirectoryExists');
     t = getCurrentTask();
     filename = sprintf('savedLog%03d.txt', t.ID);
     parallelComputing_dir = sprintf('parallelComputing_dir_%g', t.ID);
     mkdir(parallelComputing_dir) 
     fileID = fopen(filename,'a');
-    fprintf(fileID,'wecSimMCR Case %g/%g\n',imcr,length(mcr.cases(:,1)));
+    fprintf(fileID,'wecSimMCR Case %g/%g on Worker Number %g/%g \n',imcr,length(mcr.cases(:,1)),t.ID,totalNumOfWorkers);
 % Run WEC-Sim
-    wecSimFcn(imcr,parallelComputing_dir);   
+    wecSimFcn(imcr,mcr,parallelComputing_dir,totalNumOfWorkers);   
     fclose(fileID);
 end
 
-clear imcr
+clear imcr totalNumOfWorkers
 delete(gcp); % close the parallel pool
 
 
