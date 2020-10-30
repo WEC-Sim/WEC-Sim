@@ -132,7 +132,7 @@ if exist('./ptoSimInputFile.m','file') == 2
     ptosim.countblocks;
 end
 
-if simu.yawNonLin==1 && simu.yawThresh==1;
+if simu.yawNonLin==1 && simu.yawThresh==1
     warning(['yawNonLin using (default) 1 dg interpolation threshold.' newline 'Ensure this is appropriate for your geometry'])
 end
 
@@ -216,14 +216,22 @@ end
 if strcmp(waves.type,'etaImport') && simu.morisonElement ~= 0
     error(['Cannot run WEC-Sim with Morrison Element (simu.morisonElement) and "etaImport" wave type'])
 end
+
 % check for morisonElement inputs for simu.morisonElement == 1
-if simu.morisonElement == 1 && true(isfinite(body.morisonElement.z)) == true
-    warning('ADD A WARNING')
-    fprintf('ADD A WARNING if z is defined\n')
+if simu.morisonElement == 1 
+    if true(isfinite(body.morisonElement.z)) == true
+        warning(['"body.morisonElement.z" is not used for "simu.morisonElement == 1"'])
+    end
+    if isnan(body.morisonElement.cd(3)) == 1 || isnan(body.morisonElement.ca(3)) == 1 || isnan(body.morisonElement.characteristicArea(3)) == 1
+        error(['Coefficients for "simu.morisonElement == 1" must be of size [1x3], third column of data must be defined'])
+    end    
 end
+
 % check for morisonElement inputs for simu.morisonElement == 2
 if simu.morisonElement == 2
-    warning(['ADD A WARNING if a [1x3] is defined'])
+    if isnan(body.morisonElement.cd(3)) == 0 || isnan(body.morisonElement.ca(3)) == 0 || isnan(body.morisonElement.characteristicArea(3)) == 0
+        warning(['Coefficients for "simu.morisonElement == 2" must be of size [1x2], third column of data is not used'])
+    end
 end
 
 %% Set variant subsystems options
