@@ -48,8 +48,12 @@ For more information, refer to :ref:`webinar1`, and the **RM3_MCR** example on t
 
 Parallel Computing Toolbox (PCT)
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
-WEC-Sim allows users to execute batch runs by typing ``wecSimPCT`` into the MATLAB Command Window. This command executes the MATLAB `Parallel Computing Toolbox <https://www.mathworks.com/products/parallel-computing.html>`_ (PCT), which adds an additional MATLAB dependency to use this feature. Similar to :ref:`mcr` Multiple Condition Runs (MCR), this feature can be executed in three ways.
+WEC-Sim allows users to execute batch runs by typing ``wecSimPCT`` into the MATLAB Command Window. This command executes the MATLAB `Parallel Computing Toolbox <https://www.mathworks.com/products/parallel-computing.html>`_ (PCT), which allows parallel capability for :ref:`mcr` but adds an additional MATLAB dependency to use this feature. Similar to MCR, this feature can be executed in three ways (Options 1~3).
 
+For PCT, the *.h5 hydrodynamic data is forced to reload regardless the setting for simu.reloadH5Data in the WEC-Sim input file.
+
+.. Note::
+	The "userDefinedFunctionsMCR.m" is not compatible with ``wecSimPCT``. Please use "userDefinedFunctions.m" instead.
 
 State-Space Representation
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
