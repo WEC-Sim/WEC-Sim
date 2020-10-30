@@ -13,7 +13,7 @@ Recordings of each of the course topics are available below, along with the pres
 	
 WEC-Sim Overview
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
-The WEC-Sim Overview presentation is available for download here ( :download:`WEC-Sim Overview Slides </_static/downloads/WEC-Sim_Overview.pdf>` ), and the recording is available below. 
+The WEC-Sim Overview presentation is available for download here ( `WEC-Sim Overview Slides <../_static/downloads/WEC-Sim_Overview.pdf>`__ ), and the recording is available below. 
 	
 	.. raw:: html
 	
@@ -22,7 +22,7 @@ The WEC-Sim Overview presentation is available for download here ( :download:`WE
 
 Theory & Workflow
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
-The WEC-Sim Theory & Workflow presentation is available for download here ( :download:`Theory & Workflow Slides </_static/downloads/WEC-Sim_Theory&Workflow.pdf>` ), and the recording is available below. 
+The WEC-Sim Theory & Workflow presentation is available for download here ( `Theory & Workflow Slides <../_static/downloads/WEC-Sim_Theory&Workflow.pdf>`__ ), and the recording is available below. 
 
 	.. raw:: html
 	
@@ -33,7 +33,7 @@ WEC-Sim Code Structure
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 This section of the course provides an overview of how the WEC-Sim code is structured by describing the :ref:`man/code_structure:WEC-Sim Source Code` (e.g. :ref:`man/code_structure:WEC-Sim Objects` and :ref:`man/code_structure:WEC-Sim Library`, and how they are defined in the :ref:`man/overview:WEC-Sim Model Files`
 (i.e. ``wecSimInputFile.m`` and ``<Simulink_model_name>.slx``). 
-The WEC-Sim Code Structure Overview presentation is available for download here ( :download:`WEC-Sim Code Structure Slides </_static/downloads/WEC-Sim_CodeStructure.pdf>` ), and the recording is available below. 
+The WEC-Sim Code Structure Overview presentation is available for download here ( `WEC-Sim Code Structure Slides <../_static/downloads/WEC-Sim_CodeStructure.pdf>`__ ), and the recording is available below. 
 	
 	.. raw:: html
 	
@@ -43,7 +43,7 @@ The WEC-Sim Code Structure Overview presentation is available for download here 
 Wave Implementation
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 This section of the course provides an overview of how waves are implemented in the WEC-Sim code, both in the :ref:`man/code_structure:Wave Class`, and in the :ref:`man/code_structure:WEC-Sim Library`. 
-The Wave Implementation presentation is available for download here (:download:`Wave Implementation Slides </_static/downloads/WEC-Sim_WaveImplementation.pdf>` ), and the recording is available below. 
+The Wave Implementation presentation is available for download here ( `Wave Implementation Slides <../_static/downloads/WEC-Sim_WaveImplementation.pdf>`__ ), and the recording is available below. 
 	
 	.. raw:: html
 	
@@ -53,7 +53,7 @@ The Wave Implementation presentation is available for download here (:download:`
 Body Implementation
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 This section of the course provides an overview of how bodies are implemented in the WEC-Sim code, both in the :ref:`man/code_structure:Body Class`, and in the :ref:`man/code_structure:WEC-Sim Library`. 
-The Body Implementation presentation is available for download here ( :download:`Body Implementation Slides </_static/downloads/WEC-Sim_BodyImplementation.pdf>` ), and the recording is available below. 
+The Body Implementation presentation is available for download here ( `Body Implementation Slides <../_static/downloads/WEC-Sim_BodyImplementation.pdf>`__ ), and the recording is available below. 
 	
 	.. raw:: html
 	
@@ -78,7 +78,7 @@ The WEC-Sim team hosted a series of Advanced Features Webinars.  Dates and topic
 
 Webinar 1 - BEMIO and MCR
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
-The WEC-Sim webinar on BEMIO and MCR was hosted on April 18, 2017. The presentation is available for download here ( :download:`Webinar 1 Slides </_static/downloads/WEC-Sim_Webinar1.pdf>` ), and the recordings are available below.   
+The WEC-Sim webinar on BEMIO and MCR was hosted on April 18, 2017. The presentation is available for download here ( `Webinar 1 Slides <../_static/downloads/WEC-Sim_Webinar1.pdf>`__ ), and the recordings are available below.   
 
 
 **Webinar 1 - BEMIO**
@@ -99,7 +99,7 @@ The WEC-Sim webinar on BEMIO and MCR was hosted on April 18, 2017. The presentat
 Webinar 2 - Nonlinear Buoyancy and Froude-Krylov Wave Excitation, Non-Hydro and B2B
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 The WEC-Sim webinar on Nonlinear Buoyancy and Froude-Krylov Wave Excitation, Non-Hydro, and B2B was hosted on May 24, 2017. 
-The presentation is available for download here ( :download:`Webinar 2 Slides </_static/downloads/WEC-Sim_Webinar2.pdf>` ), and the recordings are available below. 
+The presentation is available for download here ( `Webinar 2 Slides <../_static/downloads/WEC-Sim_Webinar2.pdf>`__ ), and the recordings are available below. 
 
 
 **Webinar 2 - Nonlinear Buoyancy and Froude-Krylov Wave Excitation**
@@ -118,7 +118,7 @@ The presentation is available for download here ( :download:`Webinar 2 Slides </
 		
 Webinar 3 - PTO and Control
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
-The WEC-Sim webinar on PTO and Control was hosted on June 13, 2017. The presentation is available for download here ( :download:`Webinar 3 Slides </_static/downloads/WEC-Sim_Webinar3.pdf>` ), and the recordings are available below. 
+The WEC-Sim webinar on PTO and Control was hosted on June 13, 2017. The presentation is available for download here ( `Webinar 3 Slides <../_static/downloads/WEC-Sim_Webinar3.pdf>`__ ), and the recordings are available below. 
 
 
 **Webinar 3 - PTO**
@@ -137,7 +137,7 @@ The WEC-Sim webinar on PTO and Control was hosted on June 13, 2017. The presenta
 		
 Webinar 4 - Mooring and Visualization
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
-The WEC-Sim webinar on Mooring and Visualization was hosted on July 18, 2017. The presentation is available for download here ( :download:`Webinar 4 Slides </_static/downloads/WEC-Sim_Webinar4.pdf>` ), and the recordings are available below.   
+The WEC-Sim webinar on Mooring and Visualization was hosted on July 18, 2017. The presentation is available for download here ( `Webinar 4 Slides <../_static/downloads/WEC-Sim_Webinar4.pdf>`__ ), and the recordings are available below.   
    
    
 **Webinar 4 - Mooring**
