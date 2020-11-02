@@ -154,7 +154,6 @@ end
 % simulation setup
 simu.setupSim;
 
-
 % wave setup
 waves.waveSetup(body(1).hydroData.simulation_parameters.w, body(1).hydroData.simulation_parameters.water_depth, simu.rampTime, simu.dt, simu.maxIt, simu.g, simu.rho,  simu.endTime);
 % Check that waveDir and freq are within range of hydro data
@@ -226,20 +225,47 @@ if strcmp(waves.type,'etaImport') && simu.morisonElement ~= 0
 end
 
 % check for morisonElement inputs for simu.morisonElement == 1
-if simu.morisonElement == 1 
-    if true(isfinite(body.morisonElement.z)) == true
-        warning(['"body.morisonElement.z" is not used for "simu.morisonElement == 1"'])
-    end
-    if isnan(body.morisonElement.cd(3)) == 1 || isnan(body.morisonElement.ca(3)) == 1 || isnan(body.morisonElement.characteristicArea(3)) == 1
-        error(['Coefficients for "simu.morisonElement == 1" must be of size [1x3], third column of data must be defined'])
-    end    
+% if simu.morisonElement == 1 
+%     if true(isfinite(body.morisonElement.z)) == true
+%         warning(['"body.morisonElement.z" is not used for "simu.morisonElement == 1"'])
+%     end
+%     if isnan(body.morisonElement.cd(3)) == 1 || isnan(body.morisonElement.ca(3)) == 1 || isnan(body.morisonElement.characteristicArea(3)) == 1
+%         error(['Coefficients for "simu.morisonElement == 1" must be of size [1x3], third column of data must be defined'])
+%     end    
+% end
+if simu.morisonElement == 1
+    for ii = 1:length(body(1,:))
+        if body(ii).nhBody ~=1
+            %
+            [rgME,~] = size(body(ii).morisonElement.rgME);
+            %
+            for jj = 1:rgME
+                if true(isfinite(body(ii).morisonElement.z(jj,:))) == true
+                    warning(['"body.morisonElement.z" is not used for "simu.morisonElement = 1. Check body ',num2str(ii),' element ',num2str(jj)])
+                end
+                %
+                if isnan(body(ii).morisonElement.cd(jj,3)) == 1 || isnan(body(ii).morisonElement.ca(jj,3)) == 1 || isnan(body(ii).morisonElement.characteristicArea(jj,3)) == 1
+                    error(['cd, ca, and characteristicArea coefficients for each elelement for "simu.morisonElement = 1" must be of size [1x3] and all columns of data must be real and finite. Check body ',num2str(ii),' element ',num2str(jj),' coefficients'])
+                end
+            end; clear jj
+        end
+    end; clear ii
 end
 
 % check for morisonElement inputs for simu.morisonElement == 2
 if simu.morisonElement == 2
-    if isnan(body.morisonElement.cd(3)) == 0 || isnan(body.morisonElement.ca(3)) == 0 || isnan(body.morisonElement.characteristicArea(3)) == 0
-        warning(['Coefficients for "simu.morisonElement == 2" must be of size [1x2], third column of data is not used'])
-    end
+    for ii = 1:length(body(1,:))
+        if body(ii).nhBody ~=1
+            %
+            [rgME,~] = size(body(ii).morisonElement.rgME);
+            %
+            for jj = 1:rgME
+                if isnan(body(ii).morisonElement.cd(jj,3)) == 0 || isnan(body(ii).morisonElement.ca(jj,3)) == 0 || isnan(body(ii).morisonElement.characteristicArea(jj,3)) == 0
+                    warning(['cd, ca, and characteristicArea coefficients for "simu.morisonElement == 2" must be of size [1x2], third column of data is not used. Check body ',num2str(ii),' element ',num2str(jj),' coefficients'])
+                end
+            end; clear jj
+        end
+    end; clear ii
 end
 
 %% Set variant subsystems options
