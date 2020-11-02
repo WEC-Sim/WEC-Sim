@@ -1,6 +1,7 @@
 
 
-This section provides an overview of  WEC-Sim's constraint and pto classes; for more information about the constraint and pto classes' code structure, refer to :ref:`man/code_structure:Constraint Class` and :ref:`man/code_structure:PTO Class`.
+This section provides an overview of  WEC-Sim's constraint and PTO classes; for more information about the constraint and PTO classes' code structure, refer to :ref:`man/code_structure:Constraint Class` and :ref:`man/code_structure:PTO Class`.
+
 
 Modifying Constraints and PTOs
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
@@ -26,6 +27,29 @@ Additionally, by combining constraints and PTOs in series you can obtain differe
 For example, a massless rigid rod between two bodies, hinged at each body, can be obtained by using a two rotational constraints in series, both rotating in pitch, but with different locations.
 A roll-pitch constraint can also be obtained with two rotational constraints in series; one rotating in pitch, and the other in roll, and both at the same location. 
 
+Incorporating Joint/Actuation Stroke Limits
+""""""""""""""""""""""""""""""
+
+Beginning in MATLAB 2019a, hard-stops can be specified directly for PTOs and translational or rotational constraints by specifying joint-primitive dialog options in the ``wecSimInputFile.m``. Limits are modeled as an opposing spring damper force applied when a certain extents of motion are exceeded. Note that in this implementation, it is possible that the constraint/PTO will exceed these limits if an inadequate spring and/or damping coefficient is specified, acting instead as a soft motion constraint. More detail on this implementation can be found at <https://www.mathworks.com/help/physmod/sm/ref/prismaticjoint.html#mw_316368a1-4b9e-4cfb-86e0-9abdd0c4d7a8>. To specify joint or actuation stroke limits for a PTO, the following parameters must be specified in ``wecSimInputFile.m``
+
+	:code: `pto(i).hardStops.upperLimitSpecify = 'on'`
+	:code: `pto(i).hardStops.lowerLimitSpecify = 'on'`
+
+to enable upper and lower stroke limits, respectively. The specifics of the limit and the acting forces at the upper and lower limits are described in turn by
+
+	pto(i).hardStops.upperLimitBound
+	pto(i).hardStops.upperLimitStiffness
+	pto(i).hardStops.upperLimitDamping
+	pto(i).hardStops.upperLimitTransitionRegionWidth
+	pto(i).hardStops.lowerLimitBound
+	pto(i).hardStops.lowerLimitStiffness
+	pto(i).hardStops.lowerLimitDamping
+	pto(i).hardStops.lowerLimitTransitionRegionWidth
+	
+where pto(i) is replaced with constraint(i) on all of the above if the limits are to be applied to a constraint. 
+
+In MATLAB versions prior to 2019a, specifying any of the above parameters will have no effect on the simulation, and may generate warnings. It is instead recommended that hard-stops are implemented in a similar fashion using an Actuation Force/Torque PTO block in which the actuation force is specified in a custom MATLAB Function block.   
+
 
 PTO-Sim
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
@@ -36,7 +60,21 @@ Similarly, the PTO force or torque is the WEC-Sim input.
 For more information on how PTO-Sim works, refer to [So et al., 2015], and :ref:`webinar3`.
 
 
-The files for the PTO-Sim tutorials described in this section can be found in the **PTO-Sim** examples on the `WEC-Sim Applications repository <https://github.com/WEC-Sim/WEC-Sim_Applications>`_ .
+The files for the PTO-Sim tutorials described in this section can be found in the **PTO-Sim** examples on the `WEC-Sim Applications repository <https://github.com/WEC-Sim/WEC-Sim_Applications>`_ . Five PTO examples are contained in the PTO-Sim application and can be used as a starting point for users to develop their own. They cover two WEC types and mechanical, hydraulic, and electrial PTO's:
+
+	+--------------------------------+-------------------------------------------+
+	|     **PTO-Sim Application**    |               **Description**             |                
+	+--------------------------------+-------------------------------------------+
+	|   RM3_Hydraulic_PTO            | RM3 with hydraulic PTO                    |
+	+--------------------------------+-------------------------------------------+
+	|   RM3_cHydraulic_PTO           | RM3 with compressible hydraulic PTO       |
+	+--------------------------------+-------------------------------------------+
+	|   RM3_DD_PTO                   | RM3 with direct drive linear generator    |
+	+--------------------------------+-------------------------------------------+
+	|   OSWEC_Hydraulic_PTO          | OSWEC with hydraulic PTO (adjustable rod) |
+	+--------------------------------+-------------------------------------------+
+	|   OSWEC_Hydraulic_Crank_PTO    | OSWEC with hydraulic PTO (crank)          |
+	+--------------------------------+-------------------------------------------+
 
 
 Tutorial: RM3 with PTO-Sim
@@ -51,7 +89,7 @@ The hydraulic PTO example used in this section consists of a piston, a rectifyin
 .. figure:: /_static/images/HYDPHYMODEL.PNG
    :width: 400pt 
 
-There are two ways of modeling the hydraulic PTO with a compressible fluid hydraulic, and with a non-compressible fluid hydraulic. The compressible fluid model uses the properties of fluid such as an effective bulk modulus and density while the non-compressible fluid does not.
+There are two ways of modeling the hydraulic PTO: with a compressible fluid hydraulic, and with a non-compressible fluid hydraulic. The compressible fluid model uses the properties of fluid such as an effective bulk modulus and density while the non-compressible fluid does not.
 
 In this section, a step by step tutorial on how to set up and run the RM3 simulation with PTO-Sim is provided. All the files used in WEC-Sim will remain the same. An additional file that is needed is the PTO-Sim input file (``ptoSimInputFile.m``). If the rotary generator lookup table is used, a datasheet that contains generator efficiency, torque, and angular velocity is needed and should be named as ``table`` in Workspace (``table.eff``, ``table.Tpu``,and ``table.omegapu``). More details, refer to `Step 8`_. In summary, the files need to run RM3 with PTO-Sim case are the following:
 
@@ -103,7 +141,7 @@ The Simulink model can be built as follows:
 
 .. _`Step 8`:
 
-* Step 8: If a rotary generator lookup table is used, this block assumes the user will provide the datasheet. After the datasheet is loaded into ``Workspace``, it needs to be named as ``table`` because the word ``table`` is used inside Simulink lookup table block. The datasheet in tutorials is taken from ABB datasheet part number M3BJ315SMC. The lookup table takes three inputs: efficiency (``table.eff``), angular velocity (``table.Tpu``), and generator torque (``table.omegapu``), respectively. 
+* Step 8: If a rotary generator lookup table is used, this block assumes the user will provide the datasheet. After the datasheet is loaded into ``Workspace``, it needs to be named as ``table`` because the word ``table`` is used inside Simulink lookup table block. The datasheet in tutorials is taken from ABB datasheet part number M3BJ315SMC. The lookup table takes three inputs: efficiency (``table.eff``), angular velocity (``table.omegapu``), and generator torque (``table.Tpu``), respectively. 
 
 .. figure:: /_static/images/ROTARYHIGHLEVELBLOCK.PNG
    :width: 400pt
@@ -209,23 +247,3 @@ The Simulink model can be built as following:
 
 **Input File, Simulation, and Post-processing**
 The same as :ref:`man/advanced_features:RM3 with Hydraulic PTO`.
-
-
-Other PTO-Sim Tutorials
-""""""""""""""""""""""""""""""
-
-Other PTO-Sim tutorials that were not discussed above can be found on the `WEC-Sim Applications <https://github.com/WEC-Sim/WEC-Sim_Applications>`_ repository.
-
-	+--------------------------------+-------------------------------------------+
-	|     **PTO-Sim Application**    |               **Description**             |                
-	+--------------------------------+-------------------------------------------+
-	|   RM3_Hydraulic_PTO            | RM3 with hydraulic PTO                    |
-	+--------------------------------+-------------------------------------------+
-	|   RM3_cHydraulic_PTO           | RM3 with compressible hydraulic PTO       |
-	+--------------------------------+-------------------------------------------+
-	|   RM3_DD_PTO                   | RM3 with direct drive linear generator    |
-	+--------------------------------+-------------------------------------------+
-	|   OSWEC_Hydraulic_PTO          | OSWEC with hydraulic PTO (adjustable rod) |
-	+--------------------------------+-------------------------------------------+
-	|   OSWEC_Hydraulic_Crank_PTO    | OSWEC with hydraulic PTO (crank)          |
-	+--------------------------------+-------------------------------------------+

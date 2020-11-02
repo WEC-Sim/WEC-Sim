@@ -122,7 +122,6 @@ In the MATLAB Command Window type::
 This should run an example case using the Reference Model 3 (RM3) point absorber. 
 A SimMechanics Explorer window will open within the MATLAB window, and figures will be generated displaying simulation outputs. 
 
-
 .. Note:: 
 	
 	If a git lfs error is produced, there was a problem with git-lfs installation. You may need to manually install `Git Large File Storage <https://git-lfs.github.com/>`_ , or run ``$WECSIM/examples/RM3/hydroData/bemio.m`` to generate the correct ``rm3.h5`` file.

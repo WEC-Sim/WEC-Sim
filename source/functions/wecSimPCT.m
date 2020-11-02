@@ -1,15 +1,15 @@
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-% Copyright 2014 National Renewable Energy Laboratory and National 
-% Technology & Engineering Solutions of Sandia, LLC (NTESS). 
-% Under the terms of Contract DE-NA0003525 with NTESS, 
+% Copyright 2014 National Renewable Energy Laboratory and National
+% Technology & Engineering Solutions of Sandia, LLC (NTESS).
+% Under the terms of Contract DE-NA0003525 with NTESS,
 % the U.S. Government retains certain rights in this software.
-% 
+%
 % Licensed under the Apache License, Version 2.0 (the "License");
 % you may not use this file except in compliance with the License.
 % You may obtain a copy of the License at
-% 
+%
 % http://www.apache.org/licenses/LICENSE-2.0
-% 
+%
 % Unless required by applicable law or agreed to in writing, software
 % distributed under the License is distributed on an "AS IS" BASIS,
 % WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
@@ -19,6 +19,17 @@
 
 clear mcr imcr i j k l1 l2 m n name nseed kkk len numConditions
 clear body waves simu output pto constraint ptoSim
+global mcr
+
+% open the local cluster profile
+p = parcluster('local');
+totalNumOfWorkers=p.NumWorkers;
+
+% open the parallel pool, recording the time it takes
+tic;
+parpool(p); % open the pool
+
+fprintf('Opening the parallel pool took %g seconds.\n', toc)
 
 evalc('wecSimInputFile');
 
@@ -82,21 +93,24 @@ else
         end; clear i j k l1 l2 m n name nseed kkk len numConditions
     end
 end
-%% Execute wecSimMCR
+
+%% Execute wecSimPCT
+pause(1)
+delete savedLog*
+parfor imcr=1:length(mcr.cases(:,1))
+    warning('off', 'MATLAB:MKDIR:DirectoryExists');
+    t = getCurrentTask();
+    filename = sprintf('savedLog%03d.txt', t.ID);
+    parallelComputing_dir = sprintf('parallelComputing_dir_%g', t.ID);
+    mkdir(parallelComputing_dir) 
+    fileID = fopen(filename,'a');
+    fprintf(fileID,'wecSimMCR Case %g/%g on Worker Number %g/%g \n',imcr,length(mcr.cases(:,1)),t.ID,totalNumOfWorkers);
 % Run WEC-Sim
-warning('off','MATLAB:DELETE:FileNotFound'); delete('mcrCase*.mat')
-for imcr=1:length(mcr.cases(:,1))
-    wecSim;
-    if exist('userDefinedFunctionsMCR.m','file') == 2 
-        userDefinedFunctionsMCR; 
-    end
-%% Store hydrodata in memory for reuse in future runs.
-    if simu.reloadH5Data == 0 && imcr == 1        % Off->'0', On->'1', (default = 0)  
-        for ii = 1:simu.numWecBodies 
-            hydroData(ii) = body(ii).hydroData;
-        end
-    end
-end; clear imcr ans hydroData 
-%%
+    wecSimFcn(imcr,mcr,parallelComputing_dir,totalNumOfWorkers);   
+    fclose(fileID);
+end
+
+clear imcr totalNumOfWorkers
+delete(gcp); % close the parallel pool
 
 
