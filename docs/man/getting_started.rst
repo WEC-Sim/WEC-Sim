@@ -37,33 +37,56 @@ Ensure that the correct version of MATLAB and the required toolboxes are install
 
 
 Download WEC-Sim
-----------------
+------------------------------
 The WEC-Sim source code is hosted on the `WEC-Sim GitHub repository <https://github.com/WEC-Sim/wec-sim>`_. 
-There are three ways of obtaining the WEC-Sim code, detailed below.
+The best way to install the code depends on if one is a user or wants to contribute to WEC-Sim development. These options are detailed below.
+
  
-Option 1: Clone Repository from GitHub 
+User Instructions
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
-This option is recommended for WEC-Sim users. 
-The WEC-Sim source code can be obtained by installing `Git Large File Storage <https://git-lfs.github.com/>`_ (git lfs) to access large files (e.g. ``*.h5`` files), and `cloning <https://help.github.com/articles/cloning-a-repository/>`_ the WEC-Sim GitHub repository. 
-To install WEC-Sim using `git <https://git-scm.com/>`_::
+WEC-Sim users are recommended to clone the Github repository. This allows users to easily pull the latest updates to the WEC-Sim source code. These updates may improve the code's speed, accuracy and add additional functionality or advanced features.
+The WEC-Sim source code can be cloned by installing `Git Large File Storage <https://git-lfs.github.com/>`_ (git lfs) to access large files (e.g. ``*.h5`` files), and `cloning <https://help.github.com/articles/cloning-a-repository/>`_ the WEC-Sim GitHub repository. 
+To install WEC-Sim using `git <https://git-scm.com/>`_:, in a git interface type:
 
 	>> git lfs install
 	>> git clone https://github.com/WEC-Sim/WEC-Sim
 
-This option is recommended for users because the local copy of WEC-Sim can easily be updated to the latest version of the code hosted on the GitHub repository by using the pull command::
+The local copy of WEC-Sim can easily be updated to the latest version of the code hosted on the GitHub repository by using the pull command::
 
 	>> git pull
 
-Option 2: Fork Repository on GitHub 
+For new users who are new to git, it is recommended to go through examples on `GitHub <https://docs.github.com/en/free-pro-team@latest/github/getting-started-with-github>`_ or other sources while getting started. If you have problems downloading, installing or using WEC-Sim please submit a question to the `WEC-Sim Issues page <https://github.com/WEC-Sim/WEC-Sim/issues>`_.
+
+.. Note:
+	Users may also download a static version of WEC-Sim from the latest tagged `WEC-Sim Release <https://github.com/WEC-Sim/WEC-Sim/releases>`_.  This is the easiest way to obtain the WEC-Sim code, however it is more difficult to manually download future updates.
+
+
+Developer Instructions
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
-This option is recommended for WEC-Sim developers. If you plan to contribute to the WEC-Sim code, please follow the `forking instructions <https://help.github.com/articles/fork-a-repo/>`_  provided by GitHub. If you make improvements to the code that you would like included in the WEC-Sim master code, please submit a `pull request <https://help.github.com/articles/using-pull-requests/>`_. This pull request will then be reviewed, merged into `WEC-Sim master <https://github.com/WEC-Sim/WEC-Sim>`_, and included in future WEC-Sim releases.
+WEC-Sim developers are recommended to fork the GitHub repository. If you plan to contribute to the WEC-Sim code, please fork the official `WEC-Sim repository <https://github.com/WEC-Sim/WEC-Sim>`_. 
+This method allows you to create a personal copy of the WEC-Sim repository, which can be freely edited without changing the official repository.
+It is easily compared to the main repository when pushing changes or pulling updates.
+
+Once you have forked the code on GitHub, navigate in the git command line to the desired directory. Clone the fork:
+
+	>> git clone https://github.com/YOUR-USERNAME/WEC-Sim/
+
+Push local commits to GitHub:
+
+	>> git push origin BRANCH
+
+To sync your fork with the official repository, add a remote:
+
+	>> git remote add upstream https://github.com/WEC-Sim/WEC-Sim.git
+
+Once the upstream repository is set, pull updates to WEC-Sim:
+
+	>> git pull upstream master
 
 
-Option 3: Static Code Download 
-^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
-The easiest way to obtain a copy of WEC-Sim is to download the latest tagged `WEC-Sim Release <https://github.com/WEC-Sim/WEC-Sim/releases>`_. 
-This option is not recommended because is a static download of the WEC-Sim code. 
-If you choose this option, you will have to manually download the WEC-Sim code in order to receive updates.
+For details on creating and using a fork, see the `forking instructions <https://help.github.com/articles/fork-a-repo/>`_  provided by GitHub.
+
+If you make improvements to the code that you would like included in the WEC-Sim master code, please submit a `pull request <https://help.github.com/articles/using-pull-requests/>`_. This pull request will then be reviewed, merged into the `WEC-Sim development branch <https://github.com/WEC-Sim/WEC-Sim>`_, and included in future WEC-Sim releases. For more details see :ref:`man/overview:WEC-Sim Development`.
 
 
 Install WEC-Sim
@@ -101,7 +124,7 @@ Open the Simulink Library Browser by typing ``slLibraryBrowser`` in the MATLAB C
 	>> slLibraryBrowser
 
 Once the Simulink Library Browser opens, `refresh the Simulink Library <http://www.mathworks.com/help/simulink/gui/use-the-library-browser.html>`_. 
-The WEC-Sim Library (Body Elements, Constraints, Frames Moorings, and PTOs) should now be visible, as shown in the figure below. 
+The WEC-Sim Library (Body Elements, Constraints, Frames, Moorings, and PTOs) should now be visible, as shown in the figure below. 
 The WEC-Sim Library will now be accessible every time Simulink is opened. 
 For more information on using and modifying library blocks refer to the `Simulink Documentation <http://www.mathworks.com/help/simulink/>`_.
 
@@ -113,6 +136,7 @@ For more information on using and modifying library blocks refer to the `Simulin
 
 Step 3. Test the Installation
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+Both users and contributors can test the installation using the following steps. 
 In the MATLAB Command Window type::
 			
 	>> cd $WECSIM/examples/RM3

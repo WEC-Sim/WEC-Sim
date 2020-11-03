@@ -23,6 +23,11 @@
    man/terminology.rst
 
 
+.. Note:: 
+	Adam:
+	I agree with many of Mat's comments on this page. I think that this section might be better off merged with the getting started page and labeled 'Introduction to WEC-Sim'. It can include some examples of WEC-Sims ability and more details to draw users in. What can WEC-Sim simulate? What does a user require to run it? (qualitative overview, not the same technical details and file types in the overview section) Draw users/developers in and introduce them to WEC-sims extensive capabilities
+
+
 ######################################################
 WEC-Sim (Wave Energy Converter SIMulator) 
 ######################################################
