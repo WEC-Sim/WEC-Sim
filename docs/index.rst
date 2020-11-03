@@ -23,15 +23,10 @@
    man/terminology.rst
 
 
-.. Note:: 
-	Adam:
-	I agree with many of Mat's comments on this page. I think that this section might be better off merged with the getting started page and labeled 'Introduction to WEC-Sim'. It can include some examples of WEC-Sims ability and more details to draw users in. What can WEC-Sim simulate? What does a user require to run it? (qualitative overview, not the same technical details and file types in the overview section) Draw users/developers in and introduce them to WEC-sims extensive capabilities
-
-
 ######################################################
 WEC-Sim (Wave Energy Converter SIMulator) 
 ######################################################
-`WEC-Sim (Wave Energy Converter SIMulator) <https://github.com/WEC-Sim/WEC-Sim>`_ is an open-source code for simulating wave energy converters. The code is developed in MATLAB/SIMULINK using the multi-body dynamics solver Simscape Multibody. WEC-Sim has the ability to model devices that are comprised of bodies, joints, power take-off systems, and mooring systems. WEC-Sim can model both rigid and flexible with generalized body modes. Simulations are performed in the time-domain by solving the governing wave energy converter equations of motion in the 6 Cartesian degrees-of-freedom, plus any number of user-defined modes. The `WEC-Sim Applications repository <https://github.com/WEC-Sim/WEC-Sim_Applications>`_ contains a wide variety of scenarios that WEC-Sim can be used to model, including desalination, mooring dynamics, nonlinear hydrodynamic bodies, passive yawing, batch simulations and many others. The code is very flexible and can be adapted to many scenarios within the wave energy industry.
+`WEC-Sim (Wave Energy Converter SIMulator) <https://github.com/WEC-Sim/WEC-Sim>`_ is an open-source code for simulating wave energy converters. The code is developed in MATLAB/SIMULINK using the multi-body dynamics solver Simscape Multibody. WEC-Sim has the ability to model devices that are comprised of bodies, joints, power take-off systems, and mooring systems. WEC-Sim can model both rigid bodies and flexible bodies with generalized body modes. Simulations are performed in the time-domain by solving the governing wave energy converter equations of motion in the 6 Cartesian degrees-of-freedom, plus any number of user-defined modes. The `WEC-Sim Applications repository <https://github.com/WEC-Sim/WEC-Sim_Applications>`_ contains a wide variety of scenarios that WEC-Sim can be used to model, including desalination, mooring dynamics, nonlinear hydrodynamic bodies, passive yawing, batch simulations and many others. The code is very flexible and can be adapted to many scenarios within the wave energy industry.
 
 .. _developers:
 

@@ -66,9 +66,9 @@ A WEC-Sim input file (``wecSimInputFile.m``) is required for each run. The input
 
 An example WEC-Sim input file is shown below for the OSWEC. 
 Additional examples are provided in the :ref:`tutorials` section.
-WEC-Sim is an object oriented code and the input file reflects this in instantiating the WEC-Sim classes to create objects that are tied with the Simulink library.
+WEC-Sim is an object oriented code and the input file reflects this by instantiating the WEC-Sim classes to create objects that are tied to the Simulink library.
 
-The WEC-Sim input file (``wecSimInputFile.m``) for the OSWEC initializes and specifies properties for simulation, body, constraint and pto classes.
+The WEC-Sim input file (``wecSimInputFile.m``) for the OSWEC initializes and specifies properties for the simulation, body, constraint and pto classes.
      
 .. literalinclude:: ../../tutorials/OSWEC/OSWEC_wecSimInputFile.m
    :language: matlab
