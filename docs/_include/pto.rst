@@ -170,6 +170,20 @@ In this section, PTO-Sim input file (``ptoSimInputFile.m``) is defined and categ
 **Simulation and Post-processing**
 Simulation and post-processing are the same process as described in WEC-Sim Simulation example above.
 
+**Additional Considerations**
+In the current example a customized hydraulic PTO is used.The hydraulic PTO is receiving an input from the Translational PTO. The connection of the PTO is simulated in this block. In addition, there is a subsystem called InternalMechanics. 
+
+.. figure:: /_static/images/InternalMechanics.jpg
+   :width: 400pt
+
+This subsystem is versatile, it is possible to customize it depending on the specific characteristics of the PTO simulated. The default configuration of this subsystem is solving the dynamic equation for a translational PTO mechanism represented as a linear spring damper system:
+
+.. math::
+
+	F_{pto}=-K{}_{pto}X_{rel}-C_{pto}\dot{X}_{rel}
+
+This equation can change depending on the specific needs of the simulated system. This can be used to simulate, for example, the energy loss by friction in the mechanical connection of the PTO. Also, it can be used to simulate a customized PTO system. In the specific case of this tutorial, the damping and the stiffness are zero because otherwise the simulation would have two PTO systems at the same time.
+
 
 RM3 with Direct Drive PTO
 ++++++++++++++++++++++++++++++
