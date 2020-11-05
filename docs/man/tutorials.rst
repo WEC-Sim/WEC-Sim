@@ -293,8 +293,8 @@ Example using `Multiple Condition Runs (MCR) <http://wec-sim.github.io/WEC-Sim/a
 
 * MCROPT1: Cases defined using arrays of values for period and height.
 * MCROPT2: Cases defined with wave statistics in an Excel spreadsheet
-* MCROPT3: Cases defined in a MATLAB data file (.mat)
-* MCROPT4: Cases defined using several MATLAB data files (*.mat) of the wave spectrum
+* MCROPT3: Cases defined in a MATLAB data file (``.mat``)
+* MCROPT4: Cases defined using several MATLAB data files (``*.mat``) of the wave spectrum
 
 
 Nonhydrodynamic Body

@@ -127,7 +127,7 @@ In this step, users run :ref:`BEMIO<bemio>` to convert the hydrodynamic coeffici
       * More details on AQWA setup are given in the AQWA Reference Manual.
 
 .. Note:: 
-	Users are also able to specify their own hydrodynamic coefficients by creating their own ``*.h5Ste file with customized hydrodynamic coefficients following the ``*.h5`` format created by BEMIO.
+	Users are also able to specify their own hydrodynamic coefficients by creating their own ``*.h5`` file with customized hydrodynamic coefficients following the ``*.h5`` format created by BEMIO.
 
 .. Note:: 
 	
@@ -178,11 +178,11 @@ Fixing many issues within a single PR, often leads to hard-to-track changes and 
 If multiple PRs are submitted, use different branches on your fork to keep track of them. 
 Delete branches once a PR is closed to keep your fork clean.
 
-To submit a pull request of your feature, first pull the latest commits to the WEC-Sim/master branch:
+To submit a pull request of your feature, first pull the latest commits to the WEC-Sim/master branch::
 
 	>> git pull upstream master
 
-Merge any conflicts that occur when pulling the latest updates, and implement your changes. Commit changes and push them to your fork:
+Merge any conflicts that occur when pulling the latest updates, and implement your changes. Commit changes and push them to your fork::
 
 	>> git commit -m 'commit message'
 	>> git push origin BRANCH_NAME

@@ -46,7 +46,7 @@ User Instructions
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 WEC-Sim users are recommended to clone the Github repository. This allows users to easily pull the latest updates to the WEC-Sim source code. These updates may improve the code's speed, accuracy and add additional functionality or advanced features.
 The WEC-Sim source code can be cloned by installing `Git Large File Storage <https://git-lfs.github.com/>`_ (git lfs) to access large files (e.g. ``*.h5`` files), and `cloning <https://help.github.com/articles/cloning-a-repository/>`_ the WEC-Sim GitHub repository. 
-To install WEC-Sim using `git <https://git-scm.com/>`_:, in a git interface type:
+To install WEC-Sim using `git <https://git-scm.com/>`_, in a git interface type::
 
 	>> git lfs install
 	>> git clone https://github.com/WEC-Sim/WEC-Sim
@@ -67,21 +67,24 @@ WEC-Sim developers are recommended to fork the GitHub repository. If you plan to
 This method allows you to create a personal copy of the WEC-Sim repository, which can be freely edited without changing the official repository.
 It is easily compared to the main repository when pushing changes or pulling updates.
 
-Once you have forked the code on GitHub, navigate in the git command line to the desired directory. Clone the fork:
+Once you have forked the code on GitHub, navigate in the git command line to the desired directory. Clone the fork::
 
-	>> git clone https://github.com/YOUR-USERNAME/WEC-Sim/
+	>> git clone https://github.com/USERNAME/WEC-Sim/
 
-Push local commits to GitHub:
+Push local commits to GitHub::
 
-	>> git push origin BRANCH
+	>> git push your_remote your_branch
 
-To sync your fork with the official repository, add a remote:
+To sync your fork with the official repository, add a remote::
 
 	>> git remote add upstream https://github.com/WEC-Sim/WEC-Sim.git
 
-Once the upstream repository is set, pull updates to WEC-Sim:
+Once the upstream repository is set, pull updates to WEC-Sim::
 
 	>> git pull upstream master
+
+.. Note::
+	Many users also use 'origin' to point to the official repository that the fork came from.
 
 
 For details on creating and using a fork, see the `forking instructions <https://help.github.com/articles/fork-a-repo/>`_  provided by GitHub.
@@ -124,7 +127,7 @@ Open the Simulink Library Browser by typing ``slLibraryBrowser`` in the MATLAB C
 	>> slLibraryBrowser
 
 Once the Simulink Library Browser opens, `refresh the Simulink Library <http://www.mathworks.com/help/simulink/gui/use-the-library-browser.html>`_. 
-The WEC-Sim Library (Body Elements, Constraints, Frames, Moorings, and PTOs) should now be visible, as shown in the figure below. 
+The WEC-Sim Library (Body Elements, Constraints, Frames, Moorings, and PTOs) should now be visible, as shown in the figure below.
 The WEC-Sim Library will now be accessible every time Simulink is opened. 
 For more information on using and modifying library blocks refer to the `Simulink Documentation <http://www.mathworks.com/help/simulink/>`_.
 
@@ -136,7 +139,7 @@ For more information on using and modifying library blocks refer to the `Simulin
 
 Step 3. Test the Installation
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
-Both users and contributors can test the installation using the following steps. 
+Both users and contributors can test the installation using the following steps.
 In the MATLAB Command Window type::
 			
 	>> cd $WECSIM/examples/RM3
