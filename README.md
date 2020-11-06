@@ -6,7 +6,7 @@
 * **Examples**: WEC-Sim model examples
 * **Source**: WEC-Sim source code
 * **Tests**: WEC-Sim tests run by Jenkins Server for [MATLAB Continuous Integration](https://www.mathworks.com/solutions/continuous-integration.html)
-* **Tutorials**: [WEC-Sim Tutorials](http://wec-sim.github.io/WEC-Sim/tutorials.html)
+* **Tutorials**: [WEC-Sim Tutorials](http://wec-sim.github.io/WEC-Sim/master/index.html)
 
 Refer to the [WEC-Sim Applications](https://github.com/WEC-Sim/WEC-Sim_Applications)
 repository for more applications of the WEC-Sim code.
