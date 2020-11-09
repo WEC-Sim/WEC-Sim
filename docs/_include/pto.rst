@@ -28,7 +28,7 @@ For example, a massless rigid rod between two bodies, hinged at each body, can b
 A roll-pitch constraint can also be obtained with two rotational constraints in series; one rotating in pitch, and the other in roll, and both at the same location. 
 
 Incorporating Joint/Actuation Stroke Limits
-""""""""""""""""""""""""""""""
+""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 
 Beginning in MATLAB 2019a, hard-stops can be specified directly for PTOs and translational or rotational constraints by specifying joint-primitive dialog options in the ``wecSimInputFile.m``. Limits are modeled as an opposing spring damper force applied when a certain extents of motion are exceeded. Note that in this implementation, it is possible that the constraint/PTO will exceed these limits if an inadequate spring and/or damping coefficient is specified, acting instead as a soft motion constraint. More detail on this implementation can be found at <https://www.mathworks.com/help/physmod/sm/ref/prismaticjoint.html#mw_316368a1-4b9e-4cfb-86e0-9abdd0c4d7a8>. To specify joint or actuation stroke limits for a PTO, the following parameters must be specified in ``wecSimInputFile.m``
 
