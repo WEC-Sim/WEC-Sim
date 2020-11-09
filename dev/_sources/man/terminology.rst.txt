@@ -12,13 +12,13 @@ Term or Variable       	 	Definition
 :math:`A_{d}`			Characteristic drag area
 :math:`\bold{A_d}`		State space discrete time state matrix
 :math:`\bold{A_r}`		State space time-invariant state matrix
-:math:`A_{ws}			Wave spectrum coefficient
+:math:`A_{ws}`			Wave spectrum coefficient
 :math:`\alpha`			Wave spectrum coefficient (JONSWAP)
 :math:`B(\omega)`		Frequency dependent radiation wave damping (N/m/s)
 :math:`\overline{B(\omega)}`	Normalized radiation wave damping (m^3/s^2)
 :math:`\bold{B_d}`		State space discrete time input matrix
 :math:`\bold{B_r}`		State space time-invariant input matrix
-:math:`B_{ws}			Wave spectrum coefficient
+:math:`B_{ws}`			Wave spectrum coefficient
 BEM	           		Boundary Element Method
 BEMIO              		Boundary Element Method Input/Output
 :math:`cg`			Center of gravity
@@ -31,7 +31,7 @@ BEMIO              		Boundary Element Method Input/Output
 :math:`C_{pto}` 		PTO damping coefficient (N/m/s)
 :math:`\bold{C_d}`		State space discrete time output matrix
 :math:`\bold{C_r}`		State space time-invariant output matrix
-:math:`C_{ws}			Wave spectrum coefficient (JONSWAP)
+:math:`C_{ws}`			Wave spectrum coefficient (JONSWAP)
 :math:`C_{v}` 			Linear (viscous) damping coefficient (N/m/s)
 ``$CASE``          		WEC-Sim case directory
 dof				Degree of freedom
