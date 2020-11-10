@@ -56,9 +56,17 @@ An example Simulink model file for the OSWEC is shown below. For more informatio
    :align: center   
 
 
-Input File 
-^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
-A WEC-Sim input file (``wecSimInputFile.m``) is required for each run. The input file **MUST** be named ``wecSimInputFile.m`` and placed within the case directory. The main structure of the input file consists of initializing all the objects necessary to run WEC-Sim simulations, and defining any user specified properties for each object. Specifically, the input file requires initialization and definition of the simulation and wave classes, at least one instance of the body class, and at least one instance of the constraint or PTO classes. For details about WEC-Sim's objects and available properties for each object, refer to the :ref:`man/code_structure:WEC-Sim Objects` section.
+Input File
+^^^^^^^^^^
+
+A WEC-Sim input file (``wecSimInputFile.m``) is required for each run. The 
+input file **MUST** be named ``wecSimInputFile.m`` and placed within the case 
+directory. WEC-Sim uses `object orientated programming 
+<https://uk.mathworks.com/discovery/object-oriented-programming.html>`__ to 
+describe components of the WEC model; the main structure of the input file 
+consists of initializing all the objects necessary to run WEC-Sim simulations 
+and defining any user specified properties for each object. 
+Specifically, the input file requires initialization and definition of the simulation and wave classes, at least one instance of the body class, and at least one instance of the constraint or PTO classes. For details about WEC-Sim's objects and available properties for each object, refer to the :ref:`man/code_structure:WEC-Sim Objects` section. 
 
 An example WEC-Sim input file is shown below for the OSWEC. 
 Additional examples are provided in the :ref:`tutorials` section.
