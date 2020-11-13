@@ -12,6 +12,7 @@ jobs:
       - checkout
       - matlab/install:
           release: "R2020a"
+      - run: matlab -batch "ver -support"
       - run: matlab -batch "addpath([genpath('source') genpath('tests')]), savepath pathdef.m;"
       - run: matlab -batch "lb = LibraryBrowser.LibraryBrowser2, refresh(lb);"
       - run: matlab -batch "run_wecSim_tests"
