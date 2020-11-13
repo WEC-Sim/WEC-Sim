@@ -12,9 +12,6 @@ jobs:
       - checkout
       - matlab/install:
           release: "R2020a"
-      - matlab/run-tests:
-          source-folder: "source; tests"
-          test-results-junit: test-results/matlab/results.xml
-          code-coverage-cobertura: test-results/matlab/coverage.xml
-      - store_test_results:
-          path: test-results
+      - matlab -batch "addpath([genpath('source') genpath('tests')]), savepath pathdef.m;"
+      - matlab -batch "lb = LibraryBrowser.LibraryBrowser2, refresh(lb);"
+      - matlab -batch "run_wecSim_tests"
