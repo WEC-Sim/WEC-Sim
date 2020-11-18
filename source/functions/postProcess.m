@@ -104,7 +104,6 @@ for iMoor = 1:simu.numMoorings
     end
 end; clear iMoor
 % Calculate correct added mass and total forces
-% ^ why is this necessary? 
 for iBod = 1:simu.numWecBodies
     body(iBod).restoreMassMatrix
     output.bodies(iBod).forceTotal = output.bodies(iBod).forceTotal + output.bodies(iBod).forceAddedMass;
