@@ -12,7 +12,5 @@ jobs:
       - checkout
       - matlab/install:
           release: "latest"
-      - run: sudo apt-get update
-      - run: sudo apt-get install gcc-8
-      - run: matlab -batch "addpath([genpath('source') genpath('tests')]), savepath pathdef.m;"
+      - run: matlab -batch "addpath([genpath('source') genpath('tests')]), savepath pathdef.m, opengl('save' 'software');"
       - run: matlab -batch "run_wecSim_tests"
