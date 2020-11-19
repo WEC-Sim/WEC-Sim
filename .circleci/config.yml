@@ -1,7 +1,7 @@
 version: 2.1
 
 orbs:
-  matlab: mathworks/matlab@0.2.0
+  matlab: mathworks/matlab@0.2.1
   
 jobs:
   build:
@@ -11,7 +11,7 @@ jobs:
     steps:
       - checkout
       - matlab/install:
-          release: "R2020a"
+          release: "latest"
       - run: sudo apt-get update
       - run: sudo apt-get install gcc-8
       - run: matlab -batch "addpath([genpath('source') genpath('tests')]), savepath pathdef.m;"
