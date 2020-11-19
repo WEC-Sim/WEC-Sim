@@ -12,5 +12,5 @@ jobs:
       - checkout
       - matlab/install:
           release: "latest"
-      - run: matlab -batch "addpath([genpath('source') genpath('tests')]), savepath pathdef.m, opengl('save' 'software');"
+      - run: matlab -batch "addpath([genpath('source') genpath('tests')]), savepath pathdef.m, opengl('save', 'software');"
       - run: matlab -batch "run_wecSim_tests"
