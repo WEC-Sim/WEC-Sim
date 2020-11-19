@@ -7,7 +7,14 @@ Created on Mon Nov  9 10:08:14 2020
 Initial working script provided by David Ogden here:
 https://github.com/mattEhall/FrequencyDomain/blob/b89dd4f4a732fbe4afde56efe2b52c3e32e22d53/FrequencyDomain.py#L842
 
-This script calls Capytaine
+This script calls Capytaine and adds hydrodynamic output to each body.
+Note that one minor revision is needed in the Capytaine source code:
+capytaine/io/xarray.py Line 166 should change from:
+>>    for body_property in ['mass','hydrostatic_stiffness']:
+to
+>>    for body_property in ['mass', 'center_of_buoyancy', 'center_of_mass', 'displaced_volume' ,'hydrostatic_stiffness']:
+
+This ensures that the center of mass, center of bouyancy and displaced volume are also attached to each floatingBody and output
 """
 
 import numpy as np
