@@ -1,23 +1,27 @@
 function hydro = Read_CAPYTAINE(hydro,filename)
 
 %% Reads data from a Capytaine netcdf file
-% hydro = Read_Read_capytaine_v1(hydro, filename)
+%
+% hydro = Read_Read_capytaine(hydro, filename)
 %     hydro -   data structure
 %     filename - Capytaine output file.
 % 
 % - hydrostatics supported if output from Capytaine appropriately:
 % output data should contain center_of_mass, center_of_buoyancy,
 % displaced_volume, hydrostatic_stiffness variables
-% See Adam Keester's function to add this functionality to Capytaine
 %
-% todo
-% - Body-to-body interaction not supported. 
-%       The off diagonal 6x6 matrices for added mass, damping, stiffness
-%       are currently set to 0
-% - Netcdf file must contain data for both bodies. Working to account for
-%   multiple bodies in separate files (this probably won't happen when b2b is
-%   implemented?)
-% - GBM should be supported. todo - test with barge example
+% See the call_capytaine function in WEC-Sim/examples/BEMIO/CAPYTAINE for
+% correctly outputting these quantities.
+%
+% Notes:
+%     - Body-to-body interaction not currently supported. Only include the 6
+%     standard dofs for each body.
+%     - Generalized body modes should be supported, but has not yet been
+%     tested with the barge example.
+%
+% TODO:
+%     - Add B2B interaction support
+%     - Test GBM with barge example
 % 
 % See '...WEC-Sim\examples\BEMIO\CAPYTAINE...' for examples of usage.
 
@@ -35,6 +39,7 @@ hydro(F).code = 'CAPYTAINE';
 [filepath,name,ext] = fileparts(filename);
 hydro(F).file = name;  % Base name
 
+% Load info (names, size, ...) of Capytaine variables, dimensions, ...
 info = ncinfo(filename);
 
 % get all variables names in Capytaine output
@@ -104,30 +109,10 @@ tmp = ncread(filename,'body_name')';
 for i=1:hydro(F).Nb
     hydro(F).body{i} = tmp(i,:);
 end
-% for i=1:hydro(F).Nb
-%     tmp2 = tmp(i,:);
-%     i1 = 0;
-%     i2 = length(tmp)+1;
-%     if contains(tmp2,'/')
-%         inds = strfind(tmp2,'/');
-%         i1 = inds(end);
-%     end
-%     if contains(tmp2,'\')
-%         inds = strfind(tmp2,'\');
-%         i1 = max(i1, inds(end));
-%     end
-%     if contains(tmp2,'.')
-%         inds = strfind(tmp2,'.');
-%         i2 = inds(end);
-%     end
-%     tmp2 = tmp2(i1+1:i2-1);
-%     hydro(F).body{i} = tmp2(i,:);
-% end
-
 
 % Read center of gravity, center of buoyancy, displaced volume
-% NOTE: requires additional Capytaine functions to work correctly. (these
-% are not currently output in Capytaine, hence the if statement)
+% NOTE: requires additional Capytaine hydrostatics functions to work. 
+% (these are not currently output in Capytaine, hence the if statement)
 hydro(F).cg = [0;0;0];
 hydro(F).cb = [0;0;1e-2];
 hydro(F).Vo = 0;
@@ -137,7 +122,9 @@ if max(contains(lower(cpt_vars), 'center_of_mass')) && ...
 
     hydro(F).cg = ncread(filename,'center_of_mass'); % center of gravity
     hydro(F).cb = ncread(filename,'center_of_buoyancy'); % center of buoyancy
-    hydro(F).Vo = ncread(filename,'displaced_volume'); % displaced volume
+    hydro(F).Vo = ncread(filename,'displaced_volume')'; % displaced volume
+else
+    warning('Hydrostatics data not included in Capytaine output. Using default values.');
 end
 
 % Read density, gravity and water depth
@@ -225,26 +212,14 @@ if max(contains(lower(cpt_vars), 'hydrostatic_stiffness'))
     % read variable
     tmp = ncread(filename,'hydrostatic_stiffness');
 
-    % permute variable to correct dimensions if incorrect
-    if hydro(F).Nb == 1 || i_bod == 0
-        tmp = permute(tmp,[i_infdof, i_raddof]);
-    else
-        tmp = permute(tmp,[i_infdof, i_raddof, i_bod]);
-    end
-
-    % permute the influenced dof direction is not output by Capytaine correctly
-    if reset_idofs
-        tmp = reset_dofs(tmp,idofs,1);
-    end
-    if reset_rdofs
-        tmp = reset_dofs(tmp,rdofs,2);
-    end
-
     % Loop through bodies and add each body's stiffness to the matrix
     for n=1:hydro(F).Nb
-        hydro(F).C(:,:,n) = tmp(:,n); % Linear restoring stiffness
+        % Assign stiffness values to matrix
+        tmp2 = [tmp(1,n) tmp(2,n) tmp(3,n); ...
+                tmp(2,n) tmp(4,n) tmp(5,n); ...
+                tmp(3,n) tmp(5,n) tmp(6,n)];
+        hydro(F).C(3:5,3:5,n) = tmp2; % Linear restoring stiffness
     end
-
 end
 waitbar(3/8);
 
