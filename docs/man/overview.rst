@@ -180,12 +180,12 @@ Delete branches once a PR is closed to keep your fork clean.
 
 To submit a pull request of your feature, first pull the latest commits to the WEC-Sim/master branch::
 
-	>> git pull upstream master
+	>> git pull origin master
 
 Merge any conflicts that occur when pulling the latest updates, and implement your changes. Commit changes and push them to your fork::
 
 	>> git commit -m 'commit message'
-	>> git push origin BRANCH_NAME
+	>> git push REMOTE_NAME BRANCH_NAME
 
 Run the software test (below). If successful, you may submit a PR for your improvements. Navigate to the `WEC-Sim repository <https://github.com/WEC-Sim/WEC-Sim/pulls>`_ on GitHub and click 'New Pull Request'.
 For more details on submitting pull requests, see the `About pull requests <https://docs.github.com/en/free-pro-team@latest/github/collaborating-with-issues-and-pull-requests/about-pull-requests>`_ documentation on GitHub
