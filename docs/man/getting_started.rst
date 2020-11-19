@@ -77,14 +77,14 @@ Push local commits to GitHub::
 
 To sync your fork with the official repository, add a remote::
 
-	>> git remote add upstream https://github.com/WEC-Sim/WEC-Sim.git
+	>> git remote add origin https://github.com/WEC-Sim/WEC-Sim.git
 
-Once the upstream repository is set, pull updates to WEC-Sim::
+Once the origin repository is set, pull updates to WEC-Sim::
 
-	>> git pull upstream master
+	>> git pull origin master
 
 .. Note::
-	Many users also use 'origin' to point to the official repository that the fork came from.
+	The remotes can be named by any convention the user desires. However it is common for 'origin' to point to the official repository that the fork came from.
 
 
 For details on creating and using a fork, see the `forking instructions <https://help.github.com/articles/fork-a-repo/>`_  provided by GitHub.
