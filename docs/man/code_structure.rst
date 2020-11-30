@@ -41,7 +41,7 @@ Within the ``wecSimInputFile.m``, users must initialize the simulation class (``
 	simu=simulationClass();
 	simu.simMechanicsFile='<WEC Model Name>.slx'
 	
-
+	
 Users may specify other simulation class properties using the ``simu`` object in the ``wecSimInputFile.m``, such as: simulation start time (``simu.startTime``), end time (``simu.endTime``), ramp time (``simu.rampTime``) and time step (``simu.dt``). 
 All simulation class properties are specified as variables within the ``simu`` object as members of the ``simulationClass``.
 
@@ -255,7 +255,7 @@ The available parameters are explained in the :ref:`man/code_structure:Output St
 
 WEC-Sim Library
 ----------------
-In addition to the ``wecSimInputFile.m``, a WEC-Sim simulation requires a Simulink model (``*.slx``) that represents the WEC system components and connectivities.
+In addition to the ``wecSimInputFile.m``, a WEC-Sim simulation requires a simulink model (``*.slx``) that represents the WEC system components and connectivities.
 Similar to how the input file uses the WEC-Sim classes, the Simulink model uses WEC-Sim library blocks.
 There should be a one-to-one between the objects defined in the input file and the blocks used in the Simulink model.
 
@@ -300,8 +300,8 @@ The ``Global Reference Frame`` block uses the simulation class variable `simu` a
 .. figure:: /_static/images/WEC-Sim_Lib_frames.PNG
    :width: 400pt
    :align: center
-
-
+   
+   
 Constraints 
 ^^^^^^^^^^^^^^^^^^^^^^^
 The blocks within the Constraints library are used to define the DOF of a specific body. 
@@ -313,8 +313,8 @@ For a single body system, the base would be the ``Global Reference Frame`` and t
 .. figure:: /_static/images/WEC-Sim_Lib_constraints.PNG
    :width: 400pt
    :align: center
-
-
+   
+   
 A brief description of each constraint block is given below. More information can also be found by double clicking on the library block and viewing the Block Parameters box.
 
 +--------------------+-----+-----------------------------------------+
