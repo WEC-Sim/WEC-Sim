@@ -124,7 +124,12 @@ for i=1:hydro(F).Nb
         error(['Error:read_capytaine_v1: Length of influenced and radiating degrees of freedom do not' ...
             'match. Check input / BEM simulation.']);
     end
-    hydro(F).dof(1,i) = dof_i; % 6 normally, >6 with GBM
+    if dof_i < 6*hydro(F).Nb || dof_r < 6*hydro(F).Nb
+        error(['Error:read_capytaine_v1: Length of influenced and radiating degrees of freedom is less' ...
+            'than 6*Nb (standard dofs for each body). Check input / BEM simulation.']);
+    end
+    % TODO: adapt this calculation for GBM and B2B combination
+    hydro(F).dof(1,i) = dof_i/hydro(F).Nb; % 6 normally, >6 with GBM
 end
 waitbar(1/8);
 
@@ -172,7 +177,7 @@ end
 reset_idofs = ~tmp;
 clear tmp
 
-check that these functions above are checking the dofs correctly. then test out with cubes_b2b_test.nc
+% check that these functions above are checking the dofs correctly. then test out with cubes_b2b_test.nc
 
 waitbar(2/8);
 
@@ -202,6 +207,7 @@ if max(contains(lower(cpt_vars), 'hydrostatic_stiffness'))
         hydro(F).C(3:5,3:5,n) = tmp2; % Linear restoring stiffness
     end
 end
+clear tmp tmp2
 waitbar(3/8);
 
 %% Radiation added mass [6*Nb, 6*Nb, Nf]
@@ -226,18 +232,22 @@ else
 end
 
 % permute the influenced dof direction is not output by Capytaine correctly
+reset_rdofs = true;
+reset_idofs = true;
 if reset_idofs
     tmp = reset_dofs(tmp,idofs,1,hydro.body);
 end
 if reset_rdofs
-    tmp = reset_dofs(tmp,dofs,2,hydro.body);
+    tmp = reset_dofs(tmp,rdofs,2,hydro.body);
 end
 
 % Loop through bodies and add each body to its diagonal 6x6 matrix
+% TODO: change 6*Nb to nDOF to account for GBM
 hydro(F).A = zeros(6*hydro(F).Nb, 6*hydro(F).Nb, hydro(F).Nf);
 for n=1:hydro(F).Nb
-    hydro(F).A(6*(n-1)+1:6*n,6*(n-1)+1:6*n,:) = tmp(:,:,:,n); % Radiation added mass matrix
+    hydro(F).A(6*(n-1)+1:6*n,:,:) = tmp(6*(n-1)+1:6*n,:,:,n); % Radiation added mass matrix
 end
+clear tmp
 
 %% Radiation damping [6*Nb, 6*Nb, Nf]
 % Get index of variable
@@ -265,14 +275,16 @@ if reset_idofs
     tmp = reset_dofs(tmp,idofs,1,hydro.body);
 end
 if reset_rdofs
-    tmp = reset_dofs(tmp,dofs,2,hydro.body);
+    tmp = reset_dofs(tmp,rdofs,2,hydro.body);
 end
 
 % Loop through bodies and add each body to its diagonal 6x6 matrix
+% TODO: change 6*Nb to nDOF to account for GBM
 hydro(F).B = zeros(6*hydro(F).Nb, 6*hydro(F).Nb, hydro(F).Nf);
 for n=1:hydro(F).Nb
-    hydro(F).B(6*(n-1)+1:6*n,6*(n-1)+1:6*n,:) = tmp(:,:,:,n); % Radiation damping matrix
+    hydro(F).B(6*(n-1)+1:6*n,:,:) = tmp(6*(n-1)+1:6*n,:,:,n); % Radiation damping matrix
 end
+clear tmp
 waitbar(4/8);
 
 %% Froude-Krylov force file [6*Nb,Nh,Nf];
@@ -304,12 +316,16 @@ end
 
 % Set real and imaginary components of variable. Calculate magnitude and
 % phase from components
+% TODO: change 6*Nb to nDOF to account for GBM
+hydro(F).fk_re = zeros(6*hydro(F).Nb,hydro(F).Nh,hydro(F).Nf);
+hydro(F).fk_im = zeros(6*hydro(F).Nb,hydro(F).Nh,hydro(F).Nf);
 for n=1:hydro(F).Nb
-    hydro(F).fk_re(6*(n-1)+1:6*n,:,:) = tmp(:,:,:,i_re,n);      % Real part of Froude Krylov force
-    hydro(F).fk_im(6*(n-1)+1:6*n,:,:) = -tmp(:,:,:,i_im,n);     % Imaginary part of Froude Krylov force, negative because Nemoh/Capytaine x-direction is flipped
+    hydro(F).fk_re(6*(n-1)+1:6*n,:,:) =  tmp(6*(n-1)+1:6*n,:,:,i_re,n);    % Real part of Froude Krylov force
+    hydro(F).fk_im(6*(n-1)+1:6*n,:,:) = -tmp(6*(n-1)+1:6*n,:,:,i_im,n);    % Imaginary part of Froude Krylov force, negative because Nemoh/Capytaine x-direction is flipped
 end
 hydro(F).fk_ma = (hydro(F).fk_re.^2 + hydro(F).fk_im.^2).^0.5;  % Magnitude of Froude Krylov force
 hydro(F).fk_ph = angle(hydro(F).fk_re + 1i*hydro(F).fk_im);     % Phase of Froude Krylov force
+clear tmp
 waitbar(5/8);
 
 %% Diffraction Force (scattering) [6*Nb,Nh,Nf];
@@ -341,12 +357,16 @@ end
 
 % Set real and imaginary components of variable. Calculate magnitude and
 % phase from components
+% TODO: change 6*Nb to nDOF to account for GBM
+hydro(F).sc_re = zeros(6*hydro(F).Nb,hydro(F).Nh,hydro(F).Nf);
+hydro(F).sc_im = zeros(6*hydro(F).Nb,hydro(F).Nh,hydro(F).Nf);
 for n=1:hydro(F).Nb
-    hydro(F).sc_re(6*(n-1)+1:6*n,:,:) = tmp(:,:,:,i_re,n);      % Real part of diffraction force
-    hydro(F).sc_im(6*(n-1)+1:6*n,:,:) = -tmp(:,:,:,i_im,n);     % Imaginary part of diffraction force, negative because Nemoh/Capytaine x-direction is flipped
+    hydro(F).sc_re(6*(n-1)+1:6*n,:,:) =  tmp(6*(n-1)+1:6*n,:,:,i_re,n);    % Real part of diffraction force
+    hydro(F).sc_im(6*(n-1)+1:6*n,:,:) = -tmp(6*(n-1)+1:6*n,:,:,i_im,n);    % Imaginary part of diffraction force, negative because Nemoh/Capytaine x-direction is flipped
 end
 hydro(F).sc_ma = (hydro(F).sc_re.^2 + hydro(F).sc_im.^2).^0.5;  % Magnitude of diffraction force
 hydro(F).sc_ph = angle(hydro(F).sc_re + 1i*hydro(F).sc_im);     % Phase of diffraction force
+clear tmp
 waitbar(6/8);
 
 %% Excitation Force [6*Nb,Nh,Nf];
@@ -358,7 +378,7 @@ hydro(F).ex_ph = angle(hydro(F).ex_re + 1i*hydro(F).ex_im);     % Phase of excit
 waitbar(7/8);
 
 %% Kochin diffraction
-% from 
+% from Read_WAMIT()
 % theta(ntheta)= Kochin(3*(ntheta-1)+1); % theta
 % Kochin_BVP(ntheta,1,x)= Kochin(3*(ntheta-1)+2); % magnitude
 % Kochin_BVP(ntheta,2,x)= Kochin(3*(ntheta-1)+3); % phase
@@ -421,14 +441,15 @@ if length(body_names)>1
     for i=1:length(body_names)
         tmp = [tmp strcat(body_names{i},'__',new_dofs)];
     end
-    new_dofs = tmp;
+    new_dofs = tmp';
 end
+n_newdofs = length(new_dofs);
 
 % Check for any GBM degrees of freedom, and add them to a list of GBM dof
 % names if any
 gbm_dofs = [];
-if length(old_dofs) > 6
-    n_gbm = length(old_dofs)-6; % number of GBM dofs
+if length(old_dofs) > n_newdofs
+    n_gbm = length(old_dofs)-n_newdofs; % number of GBM dofs
     gbm_dofs = []; % list of GBM dofs (string)
     
     % Loop through all of the variables dofs. If a dof is not contained in
@@ -448,11 +469,11 @@ end
 
 % concatenate standard and GBM dofs
 new_dofs = [new_dofs gbm_dofs];
-new_inds = zeros(6+n_gbm,1);
+new_inds = zeros(n_newdofs+n_gbm,1);
 
 % find the index of the old_dof, and assign to correct location in new_inds
-for j=1:6+n_gbm
-    for i=1:6+n_gbm
+for j=1:n_newdofs+n_gbm
+    for i=1:n_newdofs+n_gbm
         if lower(old_dofs(j)) == new_dofs(i)
             new_inds(i) = j;
             continue
