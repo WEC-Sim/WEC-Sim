@@ -322,6 +322,10 @@ postProcess
 if exist('userDefinedFunctions.m','file') == 2
     userDefinedFunctions;
 end
+
+% Paraview output. Must call while output is an instance of responseClass 
+paraViewVisualization
+
 % ASCII files
 if simu.outputtxt==1
     output.writetxt();
@@ -331,7 +335,6 @@ if simu.outputStructure==1
     output = struct(output);
 end
 
-paraViewVisualization
 
 %% Save files
 clear ans table tout;

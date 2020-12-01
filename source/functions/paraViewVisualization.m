@@ -50,7 +50,8 @@ if simu.paraview == 1
             NewTimeParaview(:,1) = simu.StartTimeParaview:simu.dtParaview:simu.EndTimeParaview;
             PositionBodyParav = interp1(TimeBodyParav,PositionBodyParav,NewTimeParaview);
             TimeBodyParav = NewTimeParaview-simu.StartTimeParaview;
-            body(ii).write_paraview_vtp(TimeBodyParav, PositionBodyParav, bodyname, simu.simMechanicsFile, datestr(simu.simulationDate), hspressure{ii}, wpressurenl{ii}, wpressurel{ii}, simu.pathParaviewVideo,vtkbodiesii);
+%             body(ii).write_paraview_vtp(TimeBodyParav, PositionBodyParav, bodyname, simu.simMechanicsFile, datestr(simu.simulationDate), hspressure{ii}, wpressurenl{ii}, wpressurel{ii}, simu.pathParaviewVideo,vtkbodiesii);
+            body(ii).write_paraview_vtp(TimeBodyParav, PositionBodyParav, bodyname, simu.simMechanicsFile, datestr(simu.simulationDate), output.bodies(ii).cellPressures_hydrostatic, output.bodies(ii).cellPressures_waveNonLinear, output.bodies(ii).cellPressures_waveLinear, simu.pathParaviewVideo,vtkbodiesii);
             bodies{vtkbodiesii} = bodyname;
             fprintf(fid,[bodyname '\n']);
             fprintf(fid,[num2str(body(vtkbodiesii).viz.color) '\n']);

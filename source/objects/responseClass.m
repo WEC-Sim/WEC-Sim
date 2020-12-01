@@ -164,6 +164,11 @@ classdef responseClass<handle
                     obj.bodies(ii).cellPressures_hydrostatic   = bodiesOutput(ii).hspressure.signals.values;
                     obj.bodies(ii).cellPressures_waveLinear    = bodiesOutput(ii).wpressurel.signals.values;
                     obj.bodies(ii).cellPressures_waveNonLinear = bodiesOutput(ii).wpressurenl.signals.values;
+                else
+                    obj.bodies(ii).cellPressures_time = [];
+                    obj.bodies(ii).cellPressures_hydrostatic   = [];
+                    obj.bodies(ii).cellPressures_waveLinear    = [];
+                    obj.bodies(ii).cellPressures_waveNonLinear = [];
                 end
             end
             % PTOs
