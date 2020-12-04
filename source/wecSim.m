@@ -320,9 +320,13 @@ simu.loadSimMechModel(simu.simMechanicsFile);
 sim(simu.simMechanicsFile, [], simset('SrcWorkspace','parent'));
 try cd (['..' filesep parallelComputing_dir filesep '..' filesep]); end
 
-% Restore modified stuff
-clear nlHydro sv_linearHydro sv_nonlinearHydro ssCalc radiation_option sv_convolution sv_stateSpace sv_constantCoeff typeNum B2B sv_B2B sv_noB2B;
-clear nhbod* sv_b* sv_noWave sv_regularWaves sv_irregularWaves sv_udfWaves sv_instFS sv_meanFS sv_MEOn sv_MEOff morisonElement flexHydrobody_* sv_irregularWavesNonLinYaw sv_regularWavesNonLinYaw yawNonLin numBody;
+% Clear Variant Subsystem Variables
+% clear sv_linearHydro sv_nonlinearHydro sv_convolution sv_stateSpace sv_constantCoeff sv_B2B sv_noB2B;
+% clear nhbod* sv_b* sv_noWave sv_regularWaves sv_irregularWaves sv_udfWaves sv_instFS sv_meanFS sv_MEOn sv_MEOff sv_irregularWavesNonLinYaw sv_regularWavesNonLinYaw;
+
+% Clear Other Variables
+clear nlHydro ssCalc radiation_option typeNum B2B morisonElement flexHydrobody_* yawNonLin numBody it idx hydroBodLogic dragBodLogic;
+
 toc
 
 tic
@@ -356,4 +360,6 @@ if simu.saveMat==1
     outputFile = [simu.caseDir filesep 'output' filesep simu.caseFile];
     save(outputFile,'-v7.3')
 end
-try cd (['..' filesep parallelComputing_dir filesep '..' filesep]); end
+try 
+    cd (['..' filesep parallelComputing_dir filesep '..' filesep]); 
+end
