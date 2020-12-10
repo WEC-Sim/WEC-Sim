@@ -869,7 +869,7 @@ An option available to reduce the nonlinear simulation time is to specify a nonl
 <div class="section" id="non-hydrodynamic-bodies">
 <h3>Non-Hydrodynamic Bodies<a class="headerlink" href="#non-hydrodynamic-bodies" title="Permalink to this headline">¶</a></h3>
 <p>For some simulations, it might be important to model bodies that do not have hydrodynamic forces acting on them. This could be bodies that are completely outside of the water but are still connected through a joint to the WEC bodies, or it could be bodies deeply submerged to the point where the hydrodynamics may be neglected. WEC-Sim allows for bodies which have no hydrodynamic forces acting on them and for which no BEM data is provided.</p>
-<p>To do this, use a Body Block from the WEC-Sim  Library and initialize it in the WEC-Sim input file as any other body but leave the name of the <code class="docutils literal notranslate"><span class="pre">h5</span></code> file as an empty string. Specify <code class="code docutils literal notranslate"><span class="pre">body(i).nhBody</span> <span class="pre">=</span> <span class="pre">1;</span></code> and specify body name, mass, moments of inertia, cg, geometry file, location, and displaced volume. You can also specify visualization options and initial displacement.</p>
+<p>To do this, use a Body Block from the WEC-Sim  Library and initialize it in the WEC-Sim input file as any other body but leave the name of the <code class="docutils literal notranslate"><span class="pre">h5</span></code> file as an empty string. Specify <code class="code docutils literal notranslate"><span class="pre">body(i).nhBody</span> <span class="pre">=</span> <span class="pre">1;</span></code> and specify body name, mass, moments of inertia, center of gravity, center of buoyancy, geometry file, location, and displaced volume. You can also specify visualization options and initial displacement.</p>
 <p>To use non-hydrodynamic bodies, the following body class variable must be defined in the WEC-Sim input file, for example:</p>
 <blockquote>
 <div><code class="code docutils literal notranslate"><span class="pre">body(i).nhBody</span> <span class="pre">=</span> <span class="pre">1</span></code></div></blockquote>
@@ -960,36 +960,32 @@ An option available to reduce the nonlinear simulation time is to specify a nonl
 <div class="section" id="drag-body-implementation">
 <h3>Drag Body Implementation<a class="headerlink" href="#drag-body-implementation" title="Permalink to this headline">¶</a></h3>
 <p>A body may be subjected to viscous drag or Morison forces, but does not experience significant wave excitation or radiation. And example may be a deeply-submerged heave plate of large surface area tethered to a float. In these instances, the drag body implementation can be utilized by defining the following body class variable:</p>
-<blockquote>
-<div><table class="docutils field-list" frame="void" rules="none">
-<col class="field-name" />
-<col class="field-body" />
-<tbody valign="top">
-<tr class="field-odd field"><th class="field-name">code:</th><td class="field-body"><cite>body(i).nhBody = 2</cite>.</td>
-</tr>
-</tbody>
-</table>
-</div></blockquote>
-<p>Drag bodies have zero wave excitation or radiation forces, but viscous forces can be applied in the same manner as a hydrodynamic body via the parameters</p>
-<blockquote>
-<div>body(i).viscDrag.Drag
-body(i).viscDrag.cd
-body(i).viscDrag.characteristicArea
-body(i).linearDamping</div></blockquote>
-<p>or if using Morison Elements,</p>
-<blockquote>
-<div>body(i).morisonElement.cd
-body(i).morisonElement.ca
-body(i).morisonElement.characteristicArea
-body(i).morisonElement.VME
-body(i).morisonElement.rgME</div></blockquote>
-<p>which are described in more detail in the forthcoming section. At a minimum, it is necessary to define</p>
-<blockquote>
-<div>body(i).mass
-body(i).momOfInertia
-body(i).cg
-body(i).cb
-body(i).dispVol</div></blockquote>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">body</span><span class="p">(</span><span class="n">i</span><span class="p">)</span><span class="o">.</span><span class="n">nhBody</span> <span class="o">=</span> <span class="mi">2</span>
+</pre></div>
+</div>
+<p>Drag bodies have zero wave excitation or radiation forces, but viscous forces can be applied in the same manner as a hydrodynamic body via the parameters:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">body</span><span class="p">(</span><span class="n">i</span><span class="p">)</span><span class="o">.</span><span class="n">viscDrag</span><span class="o">.</span><span class="n">Drag</span>
+<span class="n">body</span><span class="p">(</span><span class="n">i</span><span class="p">)</span><span class="o">.</span><span class="n">viscDrag</span><span class="o">.</span><span class="n">cd</span>
+<span class="n">body</span><span class="p">(</span><span class="n">i</span><span class="p">)</span><span class="o">.</span><span class="n">viscDrag</span><span class="o">.</span><span class="n">characteristicArea</span>
+<span class="n">body</span><span class="p">(</span><span class="n">i</span><span class="p">)</span><span class="o">.</span><span class="n">linearDamping</span>
+</pre></div>
+</div>
+<p>or if using Morison Elements:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">body</span><span class="p">(</span><span class="n">i</span><span class="p">)</span><span class="o">.</span><span class="n">morisonElement</span><span class="o">.</span><span class="n">cd</span>
+<span class="n">body</span><span class="p">(</span><span class="n">i</span><span class="p">)</span><span class="o">.</span><span class="n">morisonElement</span><span class="o">.</span><span class="n">ca</span>
+<span class="n">body</span><span class="p">(</span><span class="n">i</span><span class="p">)</span><span class="o">.</span><span class="n">morisonElement</span><span class="o">.</span><span class="n">characteristicArea</span>
+<span class="n">body</span><span class="p">(</span><span class="n">i</span><span class="p">)</span><span class="o">.</span><span class="n">morisonElement</span><span class="o">.</span><span class="n">VME</span>
+<span class="n">body</span><span class="p">(</span><span class="n">i</span><span class="p">)</span><span class="o">.</span><span class="n">morisonElement</span><span class="o">.</span><span class="n">rgME</span>
+</pre></div>
+</div>
+<p>which are described in more detail in the forthcoming section. At a minimum, it is necessary to define:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">body</span><span class="p">(</span><span class="n">i</span><span class="p">)</span><span class="o">.</span><span class="n">mass</span>
+<span class="n">body</span><span class="p">(</span><span class="n">i</span><span class="p">)</span><span class="o">.</span><span class="n">momOfInertia</span>
+<span class="n">body</span><span class="p">(</span><span class="n">i</span><span class="p">)</span><span class="o">.</span><span class="n">cg</span>
+<span class="n">body</span><span class="p">(</span><span class="n">i</span><span class="p">)</span><span class="o">.</span><span class="n">cb</span>
+<span class="n">body</span><span class="p">(</span><span class="n">i</span><span class="p">)</span><span class="o">.</span><span class="n">dispVol</span>
+</pre></div>
+</div>
 <p>to resolve drag body dynamics. One can additionally describe initial body displacement in the manner of a hydrodynamic body.</p>
 </div>
 </div>
