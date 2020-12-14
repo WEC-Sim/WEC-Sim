@@ -1,29 +1,13 @@
-function hydro = Read_CAPYTAINE(hydro,filename)
+function hydro = Read_CAPYTAINE_b2b_v4(hydro,filename)
 
 %% Reads data from a Capytaine netcdf file
 %
-% hydro = Read_Read_capytaine(hydro, filename)
-%     hydro -   data structure
-%     filename - Capytaine output file.
-% 
-% - hydrostatics supported if output from Capytaine appropriately:
-% output data should contain center_of_mass, center_of_buoyancy,
-% displaced_volume, hydrostatic_stiffness variables
+% Adding B2B interaction capability
+% Current with Read_CAPYTAINE() as of 11/24 (commit 1692c3684fe)
 %
-% See the call_capytaine function in WEC-Sim/examples/BEMIO/CAPYTAINE for
-% correctly outputting these quantities.
-%
-% Notes:
-%     - Body-to-body interaction not currently supported. Only include the 6
-%     standard dofs for each body.
-%     - Generalized body modes should be supported, but has not yet been
-%     tested with the barge example.
-%
-% TODO:
-%     - Add B2B interaction support
-%     - Test GBM with barge example
-% 
-% See '...WEC-Sim\examples\BEMIO\CAPYTAINE...' for examples of usage.
+% _v3 changes the sorting function to work with both GBM and B2B
+% _v4 changes b2b functionality to work with actual Capytaine b2b output
+% body=(body1+body2+...)
 
 %% Check file for required variables
 [a,b] = size(hydro);  % Check on what is already there
@@ -36,7 +20,7 @@ end
 p = waitbar(0,'Reading Capytaine netcdf output file...'); %Progress bar
 
 hydro(F).code = 'CAPYTAINE';
-[filepath,name,ext] = fileparts(filename);
+[~,name,~] = fileparts(filename);
 hydro(F).file = name;  % Base name
 
 % Load info (names, size, ...) of Capytaine variables, dimensions, ...
@@ -69,10 +53,11 @@ req_vars = {
     'radiation_damping',...
     'diffraction_force',...
     'Froude_Krylov_force',...
-    'center_of_mass',...
-    'center_of_buoyancy',...
-    'hydrostatic_stiffness',...
-    'displaced_volume'};
+%     'center_of_mass',...
+%     'center_of_buoyancy',...
+%     'hydrostatic_stiffness',...
+%     'displaced_volume',...
+    };
 
 % Other vars in Capytaine .nc file not currently used
 % {'theta','kochin_diffraction','kochin',...
@@ -86,31 +71,74 @@ for i=1:length(req_vars)
         tmp = strcat(tmp, sprintf('Capytaine output does not contain: %s \n',req_vars{i}));
     end
 end
-if isempty(tmp)
-    error(tmp);
-end
-
-% test dofs reordering function
-% test = ["Surge","Heave","Yaw","Sway","Roll","Pitch"];
-% var = ([1:6]'*[1 3 6 2 4 5])';
-% nv = reset_dofs(var,test,1);
+error(tmp); % only throws error if required variables are not present (tmp ~= '')
+% if ~isempty(tmp)
+%     error(tmp);
+% end
 
 %% begin parsing netcdf file to hydro struct
-% Read number of bodies
-tmp = getInd(info.Dimensions,'body_name');
-if tmp==0
-    hydro(F).Nb = 1;
-else
-    hydro(F).Nb = info.Dimensions(tmp).Length;
-end
-
-% Read body names and strip file path/extension if necessary
+% Read body names
 tmp = ncread(filename,'body_name')';
-for i=1:hydro(F).Nb
-    hydro(F).body{i} = tmp(i,:);
+[s1,s2] = size(tmp);
+for i=1:s1
+    hydro(F).body{i} = erase(tmp(i,:), char(0)); % assign preliminary value to body names
+end
+% hydro(F).body = tmp;
+
+% sort radiating dof into standard list if necessary
+rdofs = lower(string(ncread(filename,'radiating_dof')'));
+rdofs = erase(rdofs, char(0));
+[r_sorted_dofs,rinds,reset_rdofs,r_nDofs,r_bodies] = sorted_dof_list(rdofs, hydro(F).body);
+
+% sort radiating dof into standard list if necessary
+idofs = lower(string(ncread(filename,'influenced_dof')'));
+idofs = erase(idofs, char(0));
+[i_sorted_dofs,iinds,reset_idofs,i_nDofs,i_bodies] = sorted_dof_list(idofs, hydro(F).body);
+
+% Set number of bodies. 
+% Can't use the 'body_name' variable bc in Capytaine B2B this becomes one 
+%    value with 'body1+body2+...bodyN'
+if length(r_nDofs) == length(i_nDofs)
+    hydro(F).Nb = length(i_nDofs);
+else
+    error('Error:read_capytaine: Number of bodies in radiating and influenced dofs does not match.');
 end
 
-% Read center of gravity, center of buoyancy, displaced volume
+% number of dofs / body (should be 6 or larger for GBM)
+hydro(F).dof = i_nDofs;
+
+% update body names
+hydro(F).body = i_bodies;
+
+%% Reorder dofs if needed
+% check the ordering of the 'complex' dimension
+tmp = ncread(filename,'complex')';
+if tmp(1,:) == "re" && tmp(2,:) == "im"
+    i_re = 1;
+    i_im = 2;
+elseif tmp(1,:) == "im" && tmp(2,:) == "re"
+    i_im = 1;
+    i_re = 2;
+else
+    error('check complex dimension indices');
+end
+
+% Check that radiating & influenced dofs are same length and at least 6*Nb
+dof_i = length(i_sorted_dofs);
+dof_r = length(r_sorted_dofs);
+if dof_i ~= dof_r
+    error(['Error:read_capytaine_v1: Length of influenced and radiating degrees of freedom do not' ...
+        'match. Check input / BEM simulation.']);
+end
+if dof_i < 6*hydro(F).Nb || dof_r < 6*hydro(F).Nb
+    error(['Error:read_capytaine_v1: Length of influenced and radiating degrees of freedom is less' ...
+        'than 6*Nb (standard dofs for each body). Check input / BEM simulation.']);
+end
+
+waitbar(1/8);
+
+%% Read hydrostatics and basic parameters
+% center of gravity, center of buoyancy, displaced volume
 % NOTE: requires additional Capytaine hydrostatics functions to work. 
 % (these are not currently output in Capytaine, hence the if statement)
 hydro(F).cg = [0;0;0];
@@ -124,7 +152,7 @@ if max(contains(lower(cpt_vars), 'center_of_mass')) && ...
     hydro(F).cb = ncread(filename,'center_of_buoyancy'); % center of buoyancy
     hydro(F).Vo = ncread(filename,'displaced_volume')'; % displaced volume
 else
-    warning('Hydrostatics data not included in Capytaine output. Using default values.');
+    warning('Hydrostatics data not included in Capytaine output. Using zero for cg,cb,Vo.');
 end
 
 % Read density, gravity and water depth
@@ -141,59 +169,7 @@ hydro(F).w = ncread(filename,'omega')';
 hydro(F).T = 2*pi./hydro(F).w;
 hydro(F).beta = ncread(filename,'wave_direction')';
 
-% Read number of dofs (should be 6x6 or larger for GBM)
-for i=1:hydro(F).Nb
-    dof_i = info.Dimensions(getInd(info.Dimensions,'influenced_dof')).Length;
-    dof_r = info.Dimensions(getInd(info.Dimensions,'radiating_dof')).Length;
-    if dof_i ~= dof_r
-        error(['Error:read_capytaine_v1: Length of influenced and radiating degrees of freedom do not' ...
-            'match. Check input / BEM simulation.']);
-    end
-    hydro(F).dof(1,i) = dof_i; % 6 normally, >6 with GBM
-end
 waitbar(2/8);
-
-%% Reordering parameters
-% check the ordering of the 'complex' dimension
-tmp = ncread(filename,'complex')';
-if tmp(1,:) == "re" && tmp(2,:) == "im"
-    i_re = 1;
-    i_im = 2;
-elseif tmp(1,:) == "im" && tmp(2,:) == "re"
-    i_im = 1;
-    i_re = 2;
-else
-    error('check complex dimension indices');
-end
-
-% check the ordering of the 'radiating_dof' dimension
-rdofs = lower(string(ncread(filename,'radiating_dof')'));
-rdofs = erase(rdofs, char(0));
-if strcmp(rdofs(1), "surge") && ... 
-        strcmp(rdofs(2), "sway") && ...
-        strcmp(rdofs(3), "heave") && ...
-        strcmp(rdofs(4), "roll") && ...
-        strcmp(rdofs(5), "pitch") && ...
-        strcmp(rdofs(6), "yaw")
-    reset_rdofs = false;
-else
-    reset_rdofs = true;
-end
-
-% check the ordering of the 'influenced_dof' dimension
-idofs = lower(string(ncread(filename,'influenced_dof')'));
-idofs = erase(idofs,char(0));
-if strcmp(idofs(1), "surge") && ... 
-        strcmp(idofs(2), "sway") && ...
-        strcmp(idofs(3), "heave") && ...
-        strcmp(idofs(4), "roll") && ...
-        strcmp(idofs(5), "pitch") && ...
-        strcmp(idofs(6), "yaw")
-    reset_idofs = false;
-else
-    reset_idofs = true;
-end
-waitbar(1/8);
 
 %% Linear restoring stiffness [6, 6, Nb]
 % Note: Capytaine does not calculate this by default. Must currently
@@ -221,6 +197,7 @@ if max(contains(lower(cpt_vars), 'hydrostatic_stiffness'))
         hydro(F).C(3:5,3:5,n) = tmp2; % Linear restoring stiffness
     end
 end
+clear tmp tmp2
 waitbar(3/8);
 
 %% Radiation added mass [6*Nb, 6*Nb, Nf]
@@ -242,21 +219,20 @@ if hydro(F).Nb == 1 || i_bod == 0
     tmp = permute(tmp,[i_infdof, i_raddof, i_w]);
 else
     tmp = permute(tmp,[i_infdof, i_raddof, i_w, i_bod]);
+    tmp = sum(tmp,4); % combine body dimensions
 end
 
-% permute the influenced dof direction is not output by Capytaine correctly
+% permute the influenced/radiating dofs if not output by Capytaine correctly
 if reset_idofs
-    tmp = reset_dofs(tmp,idofs,1);
+    tmp = tmp(iinds,:,:);
 end
 if reset_rdofs
-    tmp = reset_dofs(tmp,rdofs,2);
+    tmp = tmp(:,rinds,:);
 end
 
-% Loop through bodies and add each body to its diagonal 6x6 matrix
-hydro(F).A = zeros(6*hydro(F).Nb, 6*hydro(F).Nb, hydro(F).Nf);
-for n=1:hydro(F).Nb
-    hydro(F).A(6*(n-1)+1:6*n,6*(n-1)+1:6*n,:) = tmp(:,:,:,n); % Radiation added mass matrix
-end
+hydro(F).A = tmp;
+
+clear tmp
 
 %% Radiation damping [6*Nb, 6*Nb, Nf]
 % Get index of variable
@@ -277,21 +253,20 @@ if hydro(F).Nb == 1 || i_bod == 0
     tmp = permute(tmp,[i_infdof, i_raddof, i_w]);
 else
     tmp = permute(tmp,[i_infdof, i_raddof, i_w, i_bod]);
+    tmp = sum(tmp,4); % combine body dimensions
 end
 
-% permute the influenced dof direction is not output by Capytaine correctly
+% permute the influenced/radiating dofs if not output by Capytaine correctly
 if reset_idofs
-    tmp = reset_dofs(tmp,idofs,1);
+    tmp = tmp(iinds,:,:);
 end
 if reset_rdofs
-    tmp = reset_dofs(tmp,rdofs,2);
+    tmp = tmp(:,rinds,:);
 end
 
-% Loop through bodies and add each body to its diagonal 6x6 matrix
-hydro(F).B = zeros(6*hydro(F).Nb, 6*hydro(F).Nb, hydro(F).Nf);
-for n=1:hydro(F).Nb
-    hydro(F).B(6*(n-1)+1:6*n,6*(n-1)+1:6*n,:) = tmp(:,:,:,n); % Radiation damping matrix
-end
+hydro(F).B = tmp;
+
+clear tmp
 waitbar(4/8);
 
 %% Froude-Krylov force file [6*Nb,Nh,Nf];
@@ -314,22 +289,23 @@ if hydro(F).Nb == 1 || i_bod == 0
     tmp = permute(tmp,[i_infdof, i_dir, i_w, i_comp]);
 else
     tmp = permute(tmp,[i_infdof, i_dir, i_w, i_comp, i_bod]);
+    tmp = sum(tmp,5); % combine body dimensions
 end
 
-% permute the influenced dof direction is not output by Capytaine correctly
+% permute the influenced dofs if not output by Capytaine correctly
 if reset_idofs
-    tmp = reset_dofs(tmp,idofs,1);
+    tmp = tmp(iinds,:,:,:);
 end
 
 % Set real and imaginary components of variable. Calculate magnitude and
 % phase from components
-for n=1:hydro(F).Nb
-    hydro(F).fk_re(6*(n-1)+1:6*n,:,:) = tmp(:,:,:,i_re,n);      % Real part of Froude Krylov force
-    hydro(F).fk_im(6*(n-1)+1:6*n,:,:) = -tmp(:,:,:,i_im,n);     % Imaginary part of Froude Krylov force, negative because Nemoh/Capytaine x-direction is flipped
-end
+hydro(F).fk_re = tmp(:,:,:,i_re);
+hydro(F).fk_im = -tmp(:,:,:,i_im);
 hydro(F).fk_ma = (hydro(F).fk_re.^2 + hydro(F).fk_im.^2).^0.5;  % Magnitude of Froude Krylov force
 hydro(F).fk_ph = angle(hydro(F).fk_re + 1i*hydro(F).fk_im);     % Phase of Froude Krylov force
-waitbar(6/8);
+
+clear tmp
+waitbar(5/8);
 
 %% Diffraction Force (scattering) [6*Nb,Nh,Nf];
 % Get index of variable
@@ -351,22 +327,23 @@ if hydro(F).Nb == 1 || i_bod == 0
     tmp = permute(tmp,[i_infdof, i_dir, i_w, i_comp]);
 else
     tmp = permute(tmp,[i_infdof, i_dir, i_w, i_comp, i_bod]);
+    tmp = sum(tmp,5); % combine body dimensions
 end
 
-% permute the influenced dof direction is not output by Capytaine correctly
+% permute the influenced dofs if not output by Capytaine correctly
 if reset_idofs
-    tmp = reset_dofs(tmp,idofs,1); 
+    tmp = tmp(iinds,:,:,:);
 end
 
 % Set real and imaginary components of variable. Calculate magnitude and
 % phase from components
-for n=1:hydro(F).Nb
-    hydro(F).sc_re(6*(n-1)+1:6*n,:,:) = tmp(:,:,:,i_re,n);      % Real part of diffraction force
-    hydro(F).sc_im(6*(n-1)+1:6*n,:,:) = -tmp(:,:,:,i_im,n);     % Imaginary part of diffraction force, negative because Nemoh/Capytaine x-direction is flipped
-end
+hydro(F).sc_re = tmp(:,:,:,i_re);
+hydro(F).sc_im = -tmp(:,:,:,i_im);
 hydro(F).sc_ma = (hydro(F).sc_re.^2 + hydro(F).sc_im.^2).^0.5;  % Magnitude of diffraction force
 hydro(F).sc_ph = angle(hydro(F).sc_re + 1i*hydro(F).sc_im);     % Phase of diffraction force
-waitbar(5/8);
+
+clear tmp
+waitbar(6/8);
 
 %% Excitation Force [6*Nb,Nh,Nf];
 % Calculate total excitation force: F_ex = F_sc + F_fk
@@ -374,10 +351,11 @@ hydro(F).ex_re = hydro(F).sc_re + hydro(F).fk_re;
 hydro(F).ex_im = hydro(F).sc_im + hydro(F).fk_im;
 hydro(F).ex_ma = (hydro(F).ex_re.^2 + hydro(F).ex_im.^2).^0.5;  % Magnitude of excitation force
 hydro(F).ex_ph = angle(hydro(F).ex_re + 1i*hydro(F).ex_im);     % Phase of excitation force
+
 waitbar(7/8);
 
 %% Kochin diffraction
-% from 
+% from Read_WAMIT()
 % theta(ntheta)= Kochin(3*(ntheta-1)+1); % theta
 % Kochin_BVP(ntheta,1,x)= Kochin(3*(ntheta-1)+2); % magnitude
 % Kochin_BVP(ntheta,2,x)= Kochin(3*(ntheta-1)+3); % phase
@@ -426,62 +404,66 @@ close(p);
 
 end
 
-function new_var = reset_dofs(variable, old_dofs, dim)
+%% functions
+function [sorted_dofs,inds,reset_tf, nDofs_per_body, new_body_names] = sorted_dof_list(old_dofs, body_names)
+% 1. sort by body name: 'bodyName{i}__dofName'
+% 2. sort each body's dofs by std + gbm: surge, sway, heave, roll, pitch, yaw, gbm1, gbm2, ...
+% 3. concate
 % this function will rearrange dimension 'dim' of a 'variable' if the dofs
 % ('old_dofs') are not in the correct order: 
 %    [surge, sway, heave, roll, pitch, yaw, gbm, ...]
 
-% todo - may need to change standard dof list when b2b is implemented
-
 % list of standard dofs
-new_dofs = ["surge", "sway", "heave", "roll", "pitch", "yaw"];
+std_dofs = ["surge", "sway", "heave", "roll", "pitch", "yaw"];
+tmp = '__';
 
-% Check for any GBM degrees of freedom, and add them to a list of GBM dof
-% names if any
-gbm_dofs = [];
-if length(old_dofs) > 6
-    n_gbm = length(old_dofs)-6; % number of GBM dofs
-    gbm_dofs = []; % list of GBM dofs (string)
-    
-    % Loop through all of the variables dofs. If a dof is not contained in
-    % the standard list of 6, add it to the GBM dof list
-    for i=1:n_gbm+6
-        if ~max(contains(new_dofs,old_dofs(i)))
-            if isempty(gbm_dofs)
-                gbm_dofs = old_dofs(i);
-            else
-                gbm_dofs(end+1) = old_dofs(i);
-            end
+new_body_names = body_names;
+if length(body_names)==1
+    if contains(body_names,'+')
+        tmpi = strfind(body_names,'+');
+        tmpname = body_names;
+        
+        body_names{1} = tmpname{1}(1:tmpi{1}-1); % first
+        for i=1:length(tmpi)-1
+            body_names{i+1} = tmpname{1}(tmpi{i-1}+1:tmpi{i}-1); % rest
         end
+        body_names{end+1} = tmpname{1}(tmpi{end}+1:end); % first
+        new_body_names = body_names; % reset if body_names was 'body1+body2+body3+...'
+        clear tmpi tmpname i
+    else
+        body_names = {''};
+        tmp = '';
     end
-else
-    n_gbm = 0;
+end
+nDofs_per_body = zeros(1,length(body_names));
+
+sorted_dofs = [];
+for k=1:length(body_names)
+    body_dofs = old_dofs(contains(old_dofs,body_names{k})); % all dofs for body k
+    std_body_dofs = strcat(body_names{k},tmp,std_dofs); % standard 6 dofs for body k
+    gbm_dofs = body_dofs(~contains(body_dofs,std_body_dofs)); % any gbm dofs for body k (i.e. not in std list)
+    
+    if isempty(gbm_dofs); gbm_dofs=[]; end % prevent formatting error when concatenating on next line
+    sorted_dofs = [sorted_dofs std_body_dofs gbm_dofs]; % concatenate [std(k) gbm(k) std(k+1) gbm(k+1)...]
+    
+    nDofs_per_body(k) = length(body_dofs); % set number of dofs for each body
 end
 
-% concatenate standard and GBM dofs
-new_dofs = [new_dofs gbm_dofs];
-new_inds = zeros(6+n_gbm,1);
-
-% find the index of the old_dof, and assign to correct location in new_inds
-for j=1:6+n_gbm
-    for i=1:6+n_gbm
-        if lower(old_dofs(j)) == new_dofs(i)
-            new_inds(i) = j;
+% set the indices that sort the old dofs/variables into the correct order
+for j=1:length(old_dofs)
+    for i=1:length(sorted_dofs)
+        if lower(old_dofs(j)) == sorted_dofs(i)
+            inds(i) = j;
             continue
         end
     end
 end
 
-% Create new_var as the reordered variable(:,new_inds,:,:,:,:,:,...); 
-% If necessary, they are reordered as:
-%    [surge, sway, heave, roll, pitch, yaw, gbm...]
-% Colons are included to ensure all dimensions are captured
-new_var = zeros(size(variable));
-str = [repmat(':,',[1,dim-1]) 'new_inds' repmat(',:',[1,(ndims(variable)-dim)])];
-
-% eval(['new_var = variable(' str ');']);
-new_var = variable;
+% check that inds is setup correctly. test should match sorted_dofs
+% test = old_dofs(inds); 
+reset_tf = any(inds~=1:length(sorted_dofs));
 end
+
 
 function ind = getInd(dimStruct, str2find)
     ind = 0;
