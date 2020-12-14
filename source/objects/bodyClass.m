@@ -448,7 +448,7 @@ classdef bodyClass<handle
     
     methods (Access = 'protected') %modify object = T; output = F
         function noExcitation(obj)
-            % Set exciation force for no excitation case
+            % Set excitation force for no excitation case
             nDOF = obj.dof;
             obj.hydroForce.fExt.re=zeros(1,nDOF);
             obj.hydroForce.fExt.im=zeros(1,nDOF);
@@ -620,7 +620,7 @@ classdef bodyClass<handle
             else
                 obj.hydroForce.fAddedMass=obj.hydroData.hydro_coeffs.added_mass.inf_freq(:,obj.dof_start:obj.dof_end) .*rho;
             end
-            % Radition IRF
+            % Radiation IRF
             obj.hydroForce.fDamping=zeros(nDOF,LDOF);
             irfk = obj.hydroData.hydro_coeffs.radiation_damping.impulse_response_fun.K  .*rho;
             irft = obj.hydroData.hydro_coeffs.radiation_damping.impulse_response_fun.t;
