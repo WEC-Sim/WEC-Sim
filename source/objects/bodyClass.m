@@ -195,7 +195,7 @@ classdef bodyClass<handle
             else
                 obj.hydroForce.visDrag = diag(0.5*rho.*obj.viscDrag.cd.*obj.viscDrag.characteristicArea);
             end
-            obj.hydroForce.linearDamping = obj.linearDamping
+            obj.hydroForce.linearDamping = obj.linearDamping;
             obj.dof = length(obj.viscDrag.Drag);
         end
         

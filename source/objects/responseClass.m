@@ -51,9 +51,12 @@ classdef responseClass<handle
     %   *  ``forceMorisonAndViscous`` (`array`) = [# of time-steps x 6]
     %   *  ``forceLinearDamping`` (`array`) = [# of time-steps x 6]
     %
-    %   There are additional ``output.bodies`` structures for non-linar hydro (e.g.
-    %   ``cellPressures_time``, ``cellPressures_hydrostatic``,
-    %   ``cellPressures_waveLinear``, ``cellPressures_waveNonLinear``)
+    %   There are 4 additional ``output.bodies`` arrays when using non-linear hydro and Paraview output:
+    %
+    %   *  ``cellPressures_time`` ('array') = [# of Paraview time-steps x 1]
+    %   *  ``cellPressures_hydrostatic`` ('array') = [# of Paraview time-steps x # of mesh faces]
+    %   *  ``cellPressures_waveLinear`` ('array') = [# of Paraview time-steps x # of mesh faces]
+    %   *  ``cellPressures_waveNonLinear`` ('array') = [# of Paraview time-steps x # of mesh faces]
     %
     %.. autoattribute:: objects.responseClass.ptos
     %    
