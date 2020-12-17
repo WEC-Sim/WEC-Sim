@@ -274,7 +274,13 @@ For information about the implementation and structure of the WEC-Sim source cod
 </div>
 <div class="section" id="input-file">
 <h3>Input File<a class="headerlink" href="#input-file" title="Permalink to this headline">¶</a></h3>
-<p>A WEC-Sim input file (<code class="docutils literal notranslate"><span class="pre">wecSimInputFile.m</span></code>) is required for each run. The input file <strong>MUST</strong> be named <code class="docutils literal notranslate"><span class="pre">wecSimInputFile.m</span></code> and placed within the case directory. The main structure of the input file consists of initializing all the objects necessary to run WEC-Sim simulations, and defining any user specified properties for each object. Specifically, the input file requires initialization and definition of the simulation and wave classes, at least one instance of the body class, and at least one instance of the constraint or PTO classes. For details about WEC-Sim’s objects and available properties for each object, refer to the <a class="reference internal" href="code_structure.html#wec-sim-objects"><span class="std std-ref">WEC-Sim Objects</span></a> section.</p>
+<p>A WEC-Sim input file (<code class="docutils literal notranslate"><span class="pre">wecSimInputFile.m</span></code>) is required for each run. The
+input file <strong>MUST</strong> be named <code class="docutils literal notranslate"><span class="pre">wecSimInputFile.m</span></code> and placed within the case
+directory. WEC-Sim uses <a class="reference external" href="https://uk.mathworks.com/discovery/object-oriented-programming.html">object orientated programming</a> to
+describe components of the WEC model; the main structure of the input file
+consists of initializing all the objects necessary to run WEC-Sim simulations
+and defining any user specified properties for each object.
+Specifically, the input file requires initialization and definition of the simulation and wave classes, at least one instance of the body class, and at least one instance of the constraint or PTO classes. For details about WEC-Sim’s objects and available properties for each object, refer to the <a class="reference internal" href="code_structure.html#wec-sim-objects"><span class="std std-ref">WEC-Sim Objects</span></a> section.</p>
 <p>An example WEC-Sim input file is shown below for the OSWEC.
 Additional examples are provided in the <a class="reference internal" href="tutorials.html#tutorials"><span class="std std-ref">Tutorials</span></a> section.
 WEC-Sim is an object oriented code and the input file reflects this by instantiating the WEC-Sim classes to create objects that are tied to the Simulink library.</p>

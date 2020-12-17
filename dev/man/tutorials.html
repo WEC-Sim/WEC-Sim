@@ -237,35 +237,49 @@ This tutorial is provided in the WEC-Sim code release in the <code class="docuti
 <div class="section" id="device-geometry">
 <h3>Device Geometry<a class="headerlink" href="#device-geometry" title="Permalink to this headline">¶</a></h3>
 <p>The RM3 two-body point absorber WEC has been characterized both numerically and experimentally as a result of the DOE-funded <a class="reference external" href="http://energy.sandia.gov/rmp">Reference Model Project</a>.
-The RM3 is a two-body point absorber consisting of a float and a reaction plate. Full-scale dimensions of the RM3 and its mass properties are shown below.</p>
+The RM3 is a two-body point absorber consisting of a float and a reaction  plate. Full-scale dimensions and mass properties of the RM3 are shown below.</p>
 <div class="figure align-center">
 <a class="reference internal image-reference" href="../_images/RM3_Geom.png"><img alt="../_images/RM3_Geom.png" src="../_images/RM3_Geom.png" style="width: 300pt;" /></a>
 </div>
 <table border="1" class="docutils">
 <colgroup>
-<col width="17%" />
-<col width="11%" />
-<col width="17%" />
-<col width="19%" />
-<col width="19%" />
-<col width="19%" />
+<col width="32%" />
+<col width="68%" />
 </colgroup>
 <thead valign="bottom">
-<tr class="row-odd"><th class="head" colspan="6">Float Full Scale Properties</th>
+<tr class="row-odd"><th class="head">Body</th>
+<th class="head">Mass (tonne)</th>
 </tr>
 </thead>
 <tbody valign="top">
-<tr class="row-even"><td rowspan="2">Direction</td>
-<td rowspan="2">CG (m)</td>
-<td rowspan="2">Mass
-(tonne)</td>
-<td colspan="3" rowspan="2">Moment of
-Inertia (kg-m^2)</td>
+<tr class="row-even"><td>Float</td>
+<td>727.01</td>
 </tr>
-<tr class="row-odd"></tr>
-<tr class="row-even"><td>x</td>
+<tr class="row-odd"><td>Plate</td>
+<td>878.30</td>
+</tr>
+</tbody>
+</table>
+<table border="1" class="docutils">
+<colgroup>
+<col width="9%" />
+<col width="14%" />
+<col width="31%" />
+<col width="15%" />
+<col width="15%" />
+<col width="15%" />
+</colgroup>
+<thead valign="bottom">
+<tr class="row-odd"><th class="head">Body</th>
+<th class="head">Direction</th>
+<th class="head">Center of Gravity* (m)</th>
+<th class="head" colspan="3">Moment of Inertia Tensor (kg m^2)</th>
+</tr>
+</thead>
+<tbody valign="top">
+<tr class="row-even"><td rowspan="3">Float</td>
+<td>x</td>
 <td>0</td>
-<td rowspan="3">727.01</td>
 <td>20,907,301</td>
 <td>0</td>
 <td>0</td>
@@ -282,44 +296,20 @@ Inertia (kg-m^2)</td>
 <td>0</td>
 <td>37,085,481</td>
 </tr>
-</tbody>
-</table>
-<table border="1" class="docutils">
-<colgroup>
-<col width="17%" />
-<col width="11%" />
-<col width="17%" />
-<col width="19%" />
-<col width="19%" />
-<col width="19%" />
-</colgroup>
-<thead valign="bottom">
-<tr class="row-odd"><th class="head" colspan="6">Plate Full Scale Properties</th>
-</tr>
-</thead>
-<tbody valign="top">
-<tr class="row-even"><td rowspan="2">Direction</td>
-<td rowspan="2">CG (m)</td>
-<td rowspan="2">Mass
-(tonne)</td>
-<td colspan="3" rowspan="2">Moment of
-Inertia (kg-m^2)</td>
-</tr>
-<tr class="row-odd"></tr>
-<tr class="row-even"><td>x</td>
+<tr class="row-odd"><td rowspan="3">Plate</td>
+<td>x</td>
 <td>0</td>
-<td rowspan="3">878.30</td>
 <td>94,419,615</td>
 <td>0</td>
 <td>0</td>
 </tr>
-<tr class="row-odd"><td>x</td>
+<tr class="row-even"><td>y</td>
 <td>0</td>
 <td>0</td>
 <td>94,407,091</td>
 <td>0</td>
 </tr>
-<tr class="row-even"><td>x</td>
+<tr class="row-odd"><td>z</td>
 <td>-21.29</td>
 <td>0</td>
 <td>0</td>
@@ -327,6 +317,7 @@ Inertia (kg-m^2)</td>
 </tr>
 </tbody>
 </table>
+<p><strong>* The origin lies at the undisturbed free surface (SWL)</strong></p>
 </div>
 <div class="section" id="model-files">
 <h3>Model Files<a class="headerlink" href="#model-files" title="Permalink to this headline">¶</a></h3>
@@ -463,38 +454,66 @@ The RM3 WAMIT <code class="docutils literal notranslate"><span class="pre">rm3.o
 This tutorial is provided in the WEC-Sim code release in the <code class="docutils literal notranslate"><span class="pre">$WECSIM/tutorials</span></code> directory.</p>
 <div class="section" id="id3">
 <h3>Device Geometry<a class="headerlink" href="#id3" title="Permalink to this headline">¶</a></h3>
-<p>The OSWEC was selected because its design is fundamentally different from the RM3. This is critical because WECs span an extensive design space, and it is important to model devices in WEC-Sim that operate under different principles.  The OSWEC is fixed to the ground and has a flap that is connected through a hinge to the base that restricts the flap in order to pitch about the hinge. The full-scale dimensions of the OSWEC and the mass properties are shown in the figure and table below.</p>
+<p>The OSWEC was selected because its design is fundamentally different from the RM3. This is critical because WECs span an extensive design space, and it is important to model devices in WEC-Sim that operate under different principles.  The OSWEC is fixed to the ground and has a flap that is connected through a hinge to the base that restricts the flap in order to pitch about the hinge.
+The full-scale dimensions and mass properties of the OSWEC are shown below.</p>
 <div class="figure align-center">
 <a class="reference internal image-reference" href="../_images/OSWEC_Geom.png"><img alt="../_images/OSWEC_Geom.png" src="../_images/OSWEC_Geom.png" style="width: 300pt;" /></a>
 </div>
 <table border="1" class="docutils">
 <colgroup>
-<col width="22%" />
-<col width="33%" />
-<col width="44%" />
+<col width="32%" />
+<col width="68%" />
 </colgroup>
 <thead valign="bottom">
-<tr class="row-odd"><th class="head" colspan="3">Flap Full Scale Properties</th>
+<tr class="row-odd"><th class="head">Body</th>
+<th class="head">Mass (tonne)</th>
 </tr>
 </thead>
 <tbody valign="top">
-<tr class="row-even"><td rowspan="2">CG (m)</td>
-<td rowspan="2">Mass (kg)</td>
-<td rowspan="2">Pitch Moment
-of Inertia
-(kg-m^2)</td>
-</tr>
-<tr class="row-odd"></tr>
-<tr class="row-even"><td>0</td>
-<td rowspan="3">127,000</td>
-<td rowspan="3">1,850,000</td>
-</tr>
-<tr class="row-odd"><td>0</td>
-</tr>
-<tr class="row-even"><td>-3.9</td>
+<tr class="row-even"><td>Flap</td>
+<td>127</td>
 </tr>
 </tbody>
 </table>
+<table border="1" class="docutils">
+<colgroup>
+<col width="9%" />
+<col width="14%" />
+<col width="31%" />
+<col width="15%" />
+<col width="15%" />
+<col width="15%" />
+</colgroup>
+<thead valign="bottom">
+<tr class="row-odd"><th class="head">Body</th>
+<th class="head">Direction</th>
+<th class="head">Center of Gravity* (m)</th>
+<th class="head" colspan="3">Moment of Inertia Tensor (kg m^2)</th>
+</tr>
+</thead>
+<tbody valign="top">
+<tr class="row-even"><td rowspan="3">Flap</td>
+<td>x</td>
+<td>0</td>
+<td>1,850,000</td>
+<td>0</td>
+<td>0</td>
+</tr>
+<tr class="row-odd"><td>y</td>
+<td>0</td>
+<td>0</td>
+<td>0</td>
+<td>0</td>
+</tr>
+<tr class="row-even"><td>z</td>
+<td>-3.9</td>
+<td>0</td>
+<td>0</td>
+<td>0</td>
+</tr>
+</tbody>
+</table>
+<p><strong>* The origin lies at the undisturbed free surface</strong></p>
 </div>
 <div class="section" id="id4">
 <h3>Model Files<a class="headerlink" href="#id4" title="Permalink to this headline">¶</a></h3>
