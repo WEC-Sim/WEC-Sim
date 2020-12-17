@@ -351,6 +351,3 @@ References
 .. bibliography:: ../refs/WEC-Sim_Tutorials.bib
    :style: unsrt
    :labelprefix: A
-
-.. |nbsp| unicode:: 0xA0 
-   :trim:
