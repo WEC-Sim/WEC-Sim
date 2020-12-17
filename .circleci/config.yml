@@ -13,8 +13,6 @@ jobs:
       - matlab/install:
           release: "latest"
       - run: matlab -batch "addpath([genpath('source') genpath('tests')]), savepath pathdef.m;"
-      - run: matlab -nodisplay -batch "runtests"
-          test-results-junit: tests/matlab/results.xml
-          code-coverage-cobertura: tests/matlab/coverage.xml      
+      - run: matlab -nodisplay -batch "runtests"     
       - store_test_results:
           path: tests
