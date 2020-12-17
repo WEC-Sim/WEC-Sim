@@ -827,9 +827,13 @@ that contains structures for each instance of a WEC-Sim class (e.g.
 <li><code class="docutils literal notranslate"><span class="pre">forceMorisonAndViscous</span></code> (<cite>array</cite>) = [# of time-steps x 6]</li>
 <li><code class="docutils literal notranslate"><span class="pre">forceLinearDamping</span></code> (<cite>array</cite>) = [# of time-steps x 6]</li>
 </ul>
-<p>There are additional <code class="docutils literal notranslate"><span class="pre">output.bodies</span></code> structures for non-linar hydro (e.g.
-<code class="docutils literal notranslate"><span class="pre">cellPressures_time</span></code>, <code class="docutils literal notranslate"><span class="pre">cellPressures_hydrostatic</span></code>,
-<code class="docutils literal notranslate"><span class="pre">cellPressures_waveLinear</span></code>, <code class="docutils literal notranslate"><span class="pre">cellPressures_waveNonLinear</span></code>)</p>
+<p>There are 4 additional <code class="docutils literal notranslate"><span class="pre">output.bodies</span></code> arrays when using non-linear hydro and Paraview output:</p>
+<ul class="simple">
+<li><code class="docutils literal notranslate"><span class="pre">cellPressures_time</span></code> (‘array’) = [# of Paraview time-steps x 1]</li>
+<li><code class="docutils literal notranslate"><span class="pre">cellPressures_hydrostatic</span></code> (‘array’) = [# of Paraview time-steps x # of mesh faces]</li>
+<li><code class="docutils literal notranslate"><span class="pre">cellPressures_waveLinear</span></code> (‘array’) = [# of Paraview time-steps x # of mesh faces]</li>
+<li><code class="docutils literal notranslate"><span class="pre">cellPressures_waveNonLinear</span></code> (‘array’) = [# of Paraview time-steps x # of mesh faces]</li>
+</ul>
 </div></blockquote>
 </dd></dl>
 
