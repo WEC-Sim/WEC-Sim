@@ -276,7 +276,7 @@ Non-Hydrodynamic Bodies
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 For some simulations, it might be important to model bodies that do not have hydrodynamic forces acting on them. This could be bodies that are completely outside of the water but are still connected through a joint to the WEC bodies, or it could be bodies deeply submerged to the point where the hydrodynamics may be neglected. WEC-Sim allows for bodies which have no hydrodynamic forces acting on them and for which no BEM data is provided.
 
-To do this, use a Body Block from the WEC-Sim  Library and initialize it in the WEC-Sim input file as any other body but leave the name of the ``h5`` file as an empty string. Specify :code:`body(i).nhBody = 1;` and specify body name, mass, moments of inertia, cg, geometry file, location, and displaced volume. You can also specify visualization options and initial displacement.
+To do this, use a Body Block from the WEC-Sim  Library and initialize it in the WEC-Sim input file as any other body but leave the name of the ``h5`` file as an empty string. Specify :code:`body(i).nhBody = 1;` and specify body name, mass, moments of inertia, center of gravity, center of buoyancy, geometry file, location, and displaced volume. You can also specify visualization options and initial displacement.
 
 To use non-hydrodynamic bodies, the following body class variable must be defined in the WEC-Sim input file, for example:
 
@@ -379,18 +379,18 @@ The Morison Element time-step may also be defined as :code:`simu.dtME = N*simu.d
 
 Drag Body Implementation
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
-A body may be subjected to viscous drag or Morison forces, but does not experience significant wave excitation or radiation. And example may be a deeply-submerged heave plate of large surface area tethered to a float. In these instances, the drag body implementation can be utilized by defining the following body class variable:
+A body may be subjected to viscous drag or Morison forces, but does not experience significant wave excitation or radiation. And example may be a deeply-submerged heave plate of large surface area tethered to a float. In these instances, the drag body implementation can be utilized by defining the following body class variable::
 
-	:code: `body(i).nhBody = 2`.
+	body(i).nhBody = 2
 	
-Drag bodies have zero wave excitation or radiation forces, but viscous forces can be applied in the same manner as a hydrodynamic body via the parameters
+Drag bodies have zero wave excitation or radiation forces, but viscous forces can be applied in the same manner as a hydrodynamic body via the parameters::
 
 	body(i).viscDrag.Drag
 	body(i).viscDrag.cd
 	body(i).viscDrag.characteristicArea
 	body(i).linearDamping
 
-or if using Morison Elements, 	
+or if using Morison Elements::	
 
 	body(i).morisonElement.cd
 	body(i).morisonElement.ca
@@ -398,7 +398,7 @@ or if using Morison Elements,
 	body(i).morisonElement.VME
 	body(i).morisonElement.rgME
 	
-which are described in more detail in the forthcoming section. At a minimum, it is necessary to define
+which are described in more detail in the forthcoming section. At a minimum, it is necessary to define::
 
 	body(i).mass
 	body(i).momOfInertia

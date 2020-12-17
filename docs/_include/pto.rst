@@ -4,7 +4,7 @@ This section provides an overview of  WEC-Sim's constraint and PTO classes; for 
 
 
 Modifying Constraints and PTOs
-^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 The default linear and rotational constraints and PTOs allow for heave and pitch motions of the follower relative to the base.
 To obtain a linear or rotational constraint in a different direction you must modify the constraint's or PTO's coordinate orientation.
 The important thing to remember is that a linear constraint or PTO will always allow motion along the joint's Z-axis, and a rotational constraint or PTO will allow rotation about the joint's Y-axis.
