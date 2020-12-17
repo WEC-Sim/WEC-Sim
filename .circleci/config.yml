@@ -12,6 +12,7 @@ jobs:
       - checkout
       - matlab/install:
           release: "latest"
+      - run: matlab -batch "addpath([genpath('source') genpath('tests')]), savepath pathdef.m;"
       - run: matlab -nodisplay -batch "runtests"
       - store_test_results:
           path: test-results
