@@ -1,7 +1,6 @@
 # Visit the [WEC-Sim website](http://wec-sim.github.io/WEC-Sim) for more information.
 
 ## WEC-Sim Repository
-testing testing testing CircleCI config
 
 * **Examples**: WEC-Sim model examples
 * **Source**: WEC-Sim source code
