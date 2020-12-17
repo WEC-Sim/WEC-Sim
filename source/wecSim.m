@@ -225,14 +225,6 @@ if strcmp(waves.type,'etaImport') && simu.morisonElement ~= 0
 end
 
 % check for morisonElement inputs for simu.morisonElement == 1
-% if simu.morisonElement == 1 
-%     if true(isfinite(body.morisonElement.z)) == true
-%         warning(['"body.morisonElement.z" is not used for "simu.morisonElement == 1"'])
-%     end
-%     if isnan(body.morisonElement.cd(3)) == 1 || isnan(body.morisonElement.ca(3)) == 1 || isnan(body.morisonElement.characteristicArea(3)) == 1
-%         error(['Coefficients for "simu.morisonElement == 1" must be of size [1x3], third column of data must be defined'])
-%     end    
-% end
 if simu.morisonElement == 1
     for ii = 1:length(body(1,:))
         if body(ii).nhBody ~=1
