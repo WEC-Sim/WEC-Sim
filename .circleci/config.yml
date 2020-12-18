@@ -11,7 +11,7 @@ jobs:
     steps:
       - checkout
       - matlab/install:
-          release: "2020a"
+          release: "latest"
       - run: matlab -batch "addpath([genpath('source') genpath('tests')]), savepath pathdef.m;"
       - run: matlab -nodisplay -batch "results = runtests, assertSuccess(results)" 
       - store_test_results:
