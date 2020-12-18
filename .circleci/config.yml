@@ -13,7 +13,7 @@ jobs:
       - matlab/install:
           release: "2020a"
       - run: matlab -batch "addpath([genpath('source') genpath('tests')]), savepath pathdef.m;"
-      - run: matlab -nodisplay -batch "results = runtests, assertSuccess(results);"
+      - matlab/run-tests: -nodisplay -batch
           test-results-junit: tests/matlab/results.xml
           code-coverage-cobertura: tests/matlab/coverage.xml      
       - store_test_results:
