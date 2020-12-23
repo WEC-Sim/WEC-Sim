@@ -358,6 +358,7 @@ try cd (['..' filesep parallelComputing_dir filesep '..' filesep]); end
 clear nlHydro sv_linearHydro sv_nonlinearHydro ssCalc radiation_option sv_convolution sv_stateSpace sv_constantCoeff typeNum B2B sv_B2B sv_noB2B;
 clear nhbod* sv_b* sv_noWave sv_regularWaves sv_irregularWaves sv_udfWaves sv_instFS sv_meanFS sv_MEOn sv_MEOff morisonElement flexHydrobody_* sv_irregularWavesNonLinYaw sv_regularWavesNonLinYaw yawNonLin numBody;
 clear dragBodLogic hydroBodLogic idx it;
+
 toc
 
 tic
@@ -367,6 +368,10 @@ postProcess
 if exist('userDefinedFunctions.m','file') == 2
     userDefinedFunctions;
 end
+
+% Paraview output. Must call while output is an instance of responseClass 
+paraViewVisualization
+
 % ASCII files
 if simu.outputtxt==1
     output.writetxt();
@@ -376,7 +381,6 @@ if simu.outputStructure==1
     output = struct(output);
 end
 
-paraViewVisualization
 
 %% Save files
 clear ans table tout;
@@ -391,4 +395,6 @@ if simu.saveMat==1
     outputFile = [simu.caseDir filesep 'output' filesep simu.caseFile];
     save(outputFile,'-v7.3')
 end
-try cd (['..' filesep parallelComputing_dir filesep '..' filesep]); end
+try 
+    cd (['..' filesep parallelComputing_dir filesep '..' filesep]); 
+end

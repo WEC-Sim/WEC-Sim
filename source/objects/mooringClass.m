@@ -160,8 +160,7 @@ classdef mooringClass<handle
             end
             for it = 1:length(TimeBodyParav)
                 % open file
-                filename = [pathParaviewVideo,'\\vtk' filesep 'mooring' filesep 'mooring_' num2str(it) '.vtp'];
-                %filename = ['vtk' filesep 'mooring' filesep 'mooring_' num2str(it) '.vtp'];
+                filename = [pathParaviewVideo, filesep 'mooring' filesep 'mooring_' num2str(it) '.vtp'];
                 fid = fopen(filename, 'w');
                 % write header
                 fprintf(fid, '<?xml version="1.0"?>\n');
