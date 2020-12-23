@@ -129,16 +129,16 @@
 <li class="toctree-l4"><a class="reference internal" href="#nonlinear-buoyancy-and-froude-krylov-wave-excitation-tutorial-heaving-ellipsoid">Nonlinear Buoyancy and Froude-Krylov Wave Excitation Tutorial - Heaving Ellipsoid</a></li>
 </ul>
 </li>
-<li class="toctree-l3"><a class="reference internal" href="#passive-yaw-implementation">Passive Yaw Implementation</a></li>
-<li class="toctree-l3"><a class="reference internal" href="#non-hydrodynamic-bodies">Non-Hydrodynamic Bodies</a></li>
-<li class="toctree-l3"><a class="reference internal" href="#body-to-body-interactions">Body-To-Body Interactions</a></li>
-<li class="toctree-l3"><a class="reference internal" href="#generalized-body-modes">Generalized Body Modes</a></li>
 <li class="toctree-l3"><a class="reference internal" href="#viscous-damping-and-morison-elements">Viscous Damping and Morison Elements</a><ul>
 <li class="toctree-l4"><a class="reference internal" href="#viscous-damping">Viscous Damping</a></li>
 <li class="toctree-l4"><a class="reference internal" href="#morison-elements">Morison Elements</a></li>
 </ul>
 </li>
-<li class="toctree-l3"><a class="reference internal" href="#drag-body-implementation">Drag Body Implementation</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#non-hydrodynamic-bodies">Non-Hydrodynamic Bodies</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#drag-bodies">Drag Bodies</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#body-to-body-interactions">Body-To-Body Interactions</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#generalized-body-modes">Generalized Body Modes</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#passive-yaw-implementation">Passive Yaw Implementation</a></li>
 </ul>
 </li>
 <li class="toctree-l2"><a class="reference internal" href="#constraint-and-pto-features">Constraint and PTO Features</a><ul>
@@ -658,7 +658,7 @@ Then the functions provided are used to create and populate the <code class="doc
 <p>For more information, refer to <a class="reference internal" href="webinars.html#webinar1"><span class="std std-ref">Webinar 1 - BEMIO and MCR</span></a>,</p>
 </div>
 <div class="section" id="parallel-computing-toolbox-pct">
-<h3>Parallel Computing Toolbox (PCT)<a class="headerlink" href="#parallel-computing-toolbox-pct" title="Permalink to this headline">¶</a></h3>
+<span id="pct"></span><h3>Parallel Computing Toolbox (PCT)<a class="headerlink" href="#parallel-computing-toolbox-pct" title="Permalink to this headline">¶</a></h3>
 <p>WEC-Sim allows users to execute batch runs by typing <code class="docutils literal notranslate"><span class="pre">wecSimPCT</span></code> into the MATLAB Command Window. This command executes the MATLAB <a class="reference external" href="https://www.mathworks.com/products/parallel-computing.html">Parallel Computing Toolbox</a> (PCT), which allows parallel capability for <a class="reference internal" href="#mcr"><span class="std std-ref">Multiple Condition Runs (MCR)</span></a> but adds an additional MATLAB dependency to use this feature. Similar to MCR, this feature can be executed in three ways (Options 1~3).</p>
 <p>For PCT runs, the <code class="docutils literal notranslate"><span class="pre">*.h5</span></code> hydrodynamic data must be reload, regardless the setting for <code class="docutils literal notranslate"><span class="pre">simu.reloadH5Data</span></code> in the WEC-Sim input file.</p>
 <div class="admonition note">
@@ -852,57 +852,6 @@ An option available to reduce the nonlinear simulation time is to specify a nonl
 <p>Simulation and post-processing is the same process as described in <a class="reference internal" href="tutorials.html#tutorials"><span class="std std-ref">Tutorials</span></a> section.</p>
 </div>
 </div>
-<div class="section" id="passive-yaw-implementation">
-<h3>Passive Yaw Implementation<a class="headerlink" href="#passive-yaw-implementation" title="Permalink to this headline">¶</a></h3>
-<p>For non-axisymmetric bodies with yaw orientation that changes substantially with time, WEC-Sim allows a correction to excitation forces for large yaw displacements. To enable this correction, add the following to your <code class="docutils literal notranslate"><span class="pre">wecSimInputFile</span></code>:</p>
-<blockquote>
-<div><code class="code docutils literal notranslate"><span class="pre">simu.yawNonLin</span> <span class="pre">=</span> <span class="pre">1</span></code></div></blockquote>
-<p>Under the default implementation (<code class="code docutils literal notranslate"><span class="pre">simu.yawNonLin</span> <span class="pre">=</span> <span class="pre">0</span></code>), WEC-Sim uses the initial yaw orientation of the device relative to the incident waves to calculate the wave excitation coefficients that will be used for the duration of the simulation. When the correction is enabled, excitation coefficients are interpolated from BEM data based upon the instantaneous relative yaw position. For this to enhance simulation accuracy, BEM data must be available over the range of observed yaw positions at a sufficiently dense discretization to capture the significant variations of excitation coefficients with yaw position. For robust simulation, BEM data should be available from -180 to 170 degrees of yaw (or equivalent).</p>
-<p>This can increase simulation time, especially for irregular waves, due to the large number of interpolations that must occur. To prevent interpolation at every time-step, <code class="docutils literal notranslate"><span class="pre">simu.yawThresh</span></code> (default 1 degree) can be specified in the <code class="docutils literal notranslate"><span class="pre">wecSimInputFile</span></code> to specify the minimum yaw displacement (in degrees) that must occur before another interpolation of excitation coefficients will be calculated. The minimum threshold for good simulation accuracy will be device specific: if it is too large, no interpolation will occur and the simulation will behave as <code class="code docutils literal notranslate"><span class="pre">simu.yawNonLin</span> <span class="pre">=</span> <span class="pre">0</span></code>, but overly small values may not significantly enhance simulation accuracy while increasing simulation time.</p>
-<p>When <code class="code docutils literal notranslate"><span class="pre">simu.yawNonLin</span> <span class="pre">=</span> <span class="pre">1</span></code>, hydrostatic and radiation forces are determined from the local body-fixed coordinate system based upon the instantaneous relative yaw position of the body, as this may differ substantially from the global coordinate system for large relative yaw values.</p>
-<p>A demonstration case of this feature is included in the <strong>PassiveYaw</strong> example on the <a class="reference external" href="https://github.com/WEC-Sim/WEC-Sim_Applications">WEC-Sim Applications</a> repository.</p>
-<div class="admonition note">
-<p class="first admonition-title">Note</p>
-<p class="last">Caution must be exercised when simultaneously using passive yaw and body-to-body interactions. Passive yaw relies on interpolated BEM solutions to determine the cross-coupling coefficients used in body-to-body calculations. Because these BEM solutions are based upon the assumption of small displacements, they are unlikely to be accurate if a large relative yaw displacement occurs between the bodies.</p>
-</div>
-</div>
-<div class="section" id="non-hydrodynamic-bodies">
-<h3>Non-Hydrodynamic Bodies<a class="headerlink" href="#non-hydrodynamic-bodies" title="Permalink to this headline">¶</a></h3>
-<p>For some simulations, it might be important to model bodies that do not have hydrodynamic forces acting on them. This could be bodies that are completely outside of the water but are still connected through a joint to the WEC bodies, or it could be bodies deeply submerged to the point where the hydrodynamics may be neglected. WEC-Sim allows for bodies which have no hydrodynamic forces acting on them and for which no BEM data is provided.</p>
-<p>To do this, use a Body Block from the WEC-Sim  Library and initialize it in the WEC-Sim input file as any other body but leave the name of the <code class="docutils literal notranslate"><span class="pre">h5</span></code> file as an empty string. Specify <code class="code docutils literal notranslate"><span class="pre">body(i).nhBody</span> <span class="pre">=</span> <span class="pre">1;</span></code> and specify body name, mass, moments of inertia, center of gravity, center of buoyancy, geometry file, location, and displaced volume. You can also specify visualization options and initial displacement.</p>
-<p>To use non-hydrodynamic bodies, the following body class variable must be defined in the WEC-Sim input file, for example:</p>
-<blockquote>
-<div><code class="code docutils literal notranslate"><span class="pre">body(i).nhBody</span> <span class="pre">=</span> <span class="pre">1</span></code></div></blockquote>
-<p>For more information, refer to <a class="reference internal" href="webinars.html#webinar2"><span class="std std-ref">Webinar 2 - Nonlinear Buoyancy and Froude-Krylov Wave Excitation, Non-Hydro and B2B</span></a>, and the <strong>OSWEC_nhBody</strong> example on the <a class="reference external" href="https://github.com/WEC-Sim/WEC-Sim_Applications">WEC-Sim Applications</a> repository.</p>
-</div>
-<div class="section" id="body-to-body-interactions">
-<h3>Body-To-Body Interactions<a class="headerlink" href="#body-to-body-interactions" title="Permalink to this headline">¶</a></h3>
-<p>WEC-Sim allows for body-to-body interactions in the radiation force calculation, thus allowing the motion of one body to impart a force on all other bodies. The radiation matrices for each body (radiation wave damping and added mass) required by WEC-Sim and contained in the <code class="docutils literal notranslate"><span class="pre">*.h5</span></code> file. <strong>For body-to-body interactions with N total hydrodynamic bodies, the</strong> <code class="docutils literal notranslate"><span class="pre">*h5</span></code> <strong>data structure is [(6*N), 6]</strong>.</p>
-<p>When body-to-body interactions are used, the augmented [(6*N), 6] matrices are multiplied by concatenated velocity and acceleration vectors of all hydrodynamic bodies. For example, the radiation damping force for body(2) in a 3-body system with body-to-body interactions would be calculated as the product of a [1,18] velocity vector and a [18,6] radiation damping coefficients matrix.</p>
-<p>To use body-to-body interactions, the following simulation class variable must be defined in the WEC-Sim input file:</p>
-<blockquote>
-<div><code class="code docutils literal notranslate"><span class="pre">simu.b2b</span> <span class="pre">=</span> <span class="pre">1</span></code></div></blockquote>
-<p>For more information, refer to <a class="reference internal" href="webinars.html#webinar2"><span class="std std-ref">Webinar 2 - Nonlinear Buoyancy and Froude-Krylov Wave Excitation, Non-Hydro and B2B</span></a>, and the <strong>RM3_B2B</strong> example in the <a class="reference external" href="https://github.com/WEC-Sim/WEC-Sim_Applications">WEC-Sim Applications</a> repository.</p>
-<div class="admonition note">
-<p class="first admonition-title">Note</p>
-<p class="last">By default, body-to-body interactions  are off (<code class="code docutils literal notranslate"><span class="pre">simu.b2b</span> <span class="pre">=</span> <span class="pre">0</span></code>), and only the <span class="math notranslate nohighlight">\([1+6(i-1):6i, 1+6(i-1):6i]\)</span> sub-matrices are used for each body (where <span class="math notranslate nohighlight">\(i\)</span> is the body number).</p>
-</div>
-</div>
-<div class="section" id="generalized-body-modes">
-<h3>Generalized Body Modes<a class="headerlink" href="#generalized-body-modes" title="Permalink to this headline">¶</a></h3>
-<p>To use this, select a Flex Body Block from the WEC-Sim Library (under Body Elements) and initialize it in the WEC-Sim input file as any other body. Calculating dynamic response of WECs considering structural flexibilities using WEC-Sim should consist of multiple steps, including:</p>
-<ul class="simple">
-<li>Modal analysis of the studied WEC to identify a set of system natural frequencies and corresponding mode shapes</li>
-<li>Construct discretized mass and impedance matrices using these structural modes</li>
-<li>Include these additional flexible degrees of freedom in the BEM code to calculate hydrodynamic coefficients for the WEC device</li>
-<li>Import the hydrodynamic coefficients to WEC-Sim and conduct dynamic analysis of the hybrid rigid and flexible body system</li>
-</ul>
-<p>The <a class="reference external" href="https://github.com/WEC-Sim/WEC-Sim_Applications">WEC-Sim Applications repository</a> contains a working sample of a barge with four additional degrees of freedom to account for bending and shearing of the body. See this example for details on how to implement and use generalized body modes in WEC-Sim.</p>
-<div class="admonition note">
-<p class="first admonition-title">Note</p>
-<p class="last">Generalized body modes module has only been tested with WAMIT, where BEMIO may need to be modified for NEMOH.</p>
-</div>
-</div>
 <div class="section" id="viscous-damping-and-morison-elements">
 <h3>Viscous Damping and Morison Elements<a class="headerlink" href="#viscous-damping-and-morison-elements" title="Permalink to this headline">¶</a></h3>
 <p>WEC-Sim allows for the definition of additional damping and added-mass terms; for more information about the numerical formulation of viscous damping and Morison Elements, refer to <a class="reference internal" href="theory.html#viscous-damping-and-morison-elements"><span class="std std-ref">Viscous Damping and Morison Elements</span></a>.</p>
@@ -924,14 +873,10 @@ An option available to reduce the nonlinear simulation time is to specify a nonl
 </div>
 <div class="section" id="morison-elements">
 <span id="morison"></span><h4>Morison Elements<a class="headerlink" href="#morison-elements" title="Permalink to this headline">¶</a></h4>
-<p>To use Morison Elements, the following simulation class variable must be defined in the WEC-Sim input file:</p>
-<blockquote>
-<div><p><code class="code docutils literal notranslate"><span class="pre">simu.morisonElement</span>&#160; <span class="pre">=</span> <span class="pre">1</span></code></p>
-<p>or</p>
-<p><code class="code docutils literal notranslate"><span class="pre">simu.morisonElement</span>&#160; <span class="pre">=</span> <span class="pre">2</span></code></p>
-</div></blockquote>
+<p>To use Morison Elements, the following simulation class variable must be defined in the WEC-Sim input file with <code class="code docutils literal notranslate"><span class="pre">simu.morisonElement</span>&#160; <span class="pre">=</span> <span class="pre">1</span></code> or .:code:<cite>simu.morisonElement  = 2</cite></p>
 <p>Implementation Option 1 allows for the Morison Element properties to be defined independently for the x-, y-, and z-axis while implementation option 2 uses a normal and tangential representation of the Morison Element properties. Note that the two options allow the user flexibility to implement hydrodynamic forcing that best suits their modeling needs; however, the two options have slightly different calculation methods and therefore the outputs will not necessarily provide the same forcing values. The user is directed to look at the Simulink Morison Element block within the WEC-Sim library to better determine which approach better suits their modeling requirements.</p>
-<p>Morison Elements must be defined for each body using the <code class="code docutils literal notranslate"><span class="pre">body(#).morisonElement</span></code> property of the body class. This property requires definition of the following body class parameters in the WEC-Sim input file (each of which have a default value of zero(s)). For <code class="code docutils literal notranslate"><span class="pre">simu.morisonElement</span>&#160; <span class="pre">=</span> <span class="pre">1</span></code></p>
+<p>Morison Elements must be defined for each body using the <code class="code docutils literal notranslate"><span class="pre">body(#).morisonElement</span></code> property of the body class. This property requires definition of the following body class parameters in the WEC-Sim input file (each of which have a default value of zero(s)).</p>
+<p>For <code class="code docutils literal notranslate"><span class="pre">simu.morisonElement</span>&#160; <span class="pre">=</span> <span class="pre">1</span></code></p>
 <div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">body</span><span class="p">(</span><span class="n">i</span><span class="p">)</span><span class="o">.</span><span class="n">morisonElement</span><span class="o">.</span><span class="n">cd</span> <span class="o">=</span> <span class="p">[</span><span class="n">c_</span><span class="p">{</span><span class="n">dx</span><span class="p">}</span> <span class="n">c_</span><span class="p">{</span><span class="n">dy</span><span class="p">}</span> <span class="n">c_</span><span class="p">{</span><span class="n">dz</span><span class="p">}]</span>
 <span class="n">body</span><span class="p">(</span><span class="n">i</span><span class="p">)</span><span class="o">.</span><span class="n">morisonElement</span><span class="o">.</span><span class="n">ca</span> <span class="o">=</span> <span class="p">[</span><span class="n">c_</span><span class="p">{</span><span class="n">ax</span><span class="p">}</span> <span class="n">c_</span><span class="p">{</span><span class="n">ay</span><span class="p">}</span> <span class="n">c_</span><span class="p">{</span><span class="n">az</span><span class="p">}]</span>
 <span class="n">body</span><span class="p">(</span><span class="n">i</span><span class="p">)</span><span class="o">.</span><span class="n">morisonElement</span><span class="o">.</span><span class="n">characteristicArea</span> <span class="o">=</span> <span class="p">[</span><span class="n">A_</span><span class="p">{</span><span class="n">x</span><span class="p">}</span> <span class="n">A_</span><span class="p">{</span><span class="n">y</span><span class="p">}</span> <span class="n">A_</span><span class="p">{</span><span class="n">z</span><span class="p">}]</span>
@@ -940,7 +885,11 @@ An option available to reduce the nonlinear simulation time is to specify a nonl
 <span class="n">body</span><span class="p">(</span><span class="n">i</span><span class="p">)</span><span class="o">.</span><span class="n">morisonElement</span><span class="o">.</span><span class="n">z</span> <span class="o">=</span> <span class="p">[</span><span class="mi">0</span> <span class="mi">0</span> <span class="mi">0</span><span class="p">]</span>
 </pre></div>
 </div>
-<p>Please note that for option 1, the unit normal <code class="code docutils literal notranslate"><span class="pre">body(#).morisonElement.z</span></code> must be initialized as a [1x3] vector although it will not be used in the hydrodynamic calculation. For <code class="code docutils literal notranslate"><span class="pre">simu.morisonElement</span>&#160; <span class="pre">=</span> <span class="pre">2</span></code></p>
+<div class="admonition note">
+<p class="first admonition-title">Note</p>
+<p class="last">For Option 1, the unit normal <code class="code docutils literal notranslate"><span class="pre">body(#).morisonElement.z</span></code> must be initialized as a [1x3] vector although it will not be used in the hydrodynamic calculation.</p>
+</div>
+<p>For <code class="code docutils literal notranslate"><span class="pre">simu.morisonElement</span>&#160; <span class="pre">=</span> <span class="pre">2</span></code></p>
 <div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">body</span><span class="p">(</span><span class="n">i</span><span class="p">)</span><span class="o">.</span><span class="n">morisonElement</span><span class="o">.</span><span class="n">cd</span> <span class="o">=</span> <span class="p">[</span><span class="n">c_</span><span class="p">{</span><span class="n">dn</span><span class="p">}</span> <span class="n">c_</span><span class="p">{</span><span class="n">dt</span><span class="p">}</span> <span class="mi">0</span><span class="p">]</span>
 <span class="n">body</span><span class="p">(</span><span class="n">i</span><span class="p">)</span><span class="o">.</span><span class="n">morisonElement</span><span class="o">.</span><span class="n">ca</span> <span class="o">=</span> <span class="p">[</span><span class="n">c_</span><span class="p">{</span><span class="n">an</span><span class="p">}</span> <span class="n">c_</span><span class="p">{</span><span class="n">at</span><span class="p">}</span> <span class="mi">0</span><span class="p">]</span>
 <span class="n">body</span><span class="p">(</span><span class="n">i</span><span class="p">)</span><span class="o">.</span><span class="n">morisonElement</span><span class="o">.</span><span class="n">characteristicArea</span> <span class="o">=</span> <span class="p">[</span><span class="n">A_</span><span class="p">{</span><span class="n">n</span><span class="p">}</span> <span class="n">A_</span><span class="p">{</span><span class="n">t</span><span class="p">}</span> <span class="mi">0</span><span class="p">]</span>
@@ -949,7 +898,10 @@ An option available to reduce the nonlinear simulation time is to specify a nonl
 <span class="n">body</span><span class="p">(</span><span class="n">i</span><span class="p">)</span><span class="o">.</span><span class="n">morisonElement</span><span class="o">.</span><span class="n">z</span> <span class="o">=</span> <span class="p">[</span><span class="n">z_</span><span class="p">{</span><span class="n">x</span><span class="p">}</span> <span class="n">z_</span><span class="p">{</span><span class="n">y</span><span class="p">}</span> <span class="n">z_</span><span class="p">{</span><span class="n">z</span><span class="p">}]</span>
 </pre></div>
 </div>
-<p>Please note that for option 2, the <code class="code docutils literal notranslate"><span class="pre">body(#).morisonElement.cd</span></code>, <code class="code docutils literal notranslate"><span class="pre">body(#).morisonElement.ca</span></code>, and <code class="code docutils literal notranslate"><span class="pre">body(#).morisonElement.characteristicArea</span></code> variables need to be initialized as [1x3] vectors with the last index set to zero. While <code class="code docutils literal notranslate"><span class="pre">body(#).morisonElement.z</span></code> is a unit normal vector that defines the orientation of the Morison Element.</p>
+<div class="admonition note">
+<p class="first admonition-title">Note</p>
+<p class="last">For Option 2, the <code class="code docutils literal notranslate"><span class="pre">body(#).morisonElement.cd</span></code>, <code class="code docutils literal notranslate"><span class="pre">body(#).morisonElement.ca</span></code>, and <code class="code docutils literal notranslate"><span class="pre">body(#).morisonElement.characteristicArea</span></code> variables need to be initialized as [1x3] vectors with the last index set to zero. While <code class="code docutils literal notranslate"><span class="pre">body(#).morisonElement.z</span></code> is a unit normal vector that defines the orientation of the Morison Element.</p>
+</div>
 <p>The Morison Element time-step may also be defined as <code class="code docutils literal notranslate"><span class="pre">simu.dtME</span> <span class="pre">=</span> <span class="pre">N*simu.dt</span></code>, where N is number of increment steps. For an example application of using Morison Elements in WEC-Sim, refer to the <a class="reference external" href="https://github.com/WEC-Sim/WEC-Sim_Applications">WEC-Sim Applications</a> repository <strong>Free_Decay/1m-ME</strong> example.</p>
 <div class="admonition note">
 <p class="first admonition-title">Note</p>
@@ -957,8 +909,17 @@ An option available to reduce the nonlinear simulation time is to specify a nonl
 </div>
 </div>
 </div>
-<div class="section" id="drag-body-implementation">
-<h3>Drag Body Implementation<a class="headerlink" href="#drag-body-implementation" title="Permalink to this headline">¶</a></h3>
+<div class="section" id="non-hydrodynamic-bodies">
+<h3>Non-Hydrodynamic Bodies<a class="headerlink" href="#non-hydrodynamic-bodies" title="Permalink to this headline">¶</a></h3>
+<p>For some simulations, it might be important to model bodies that do not have hydrodynamic forces acting on them. This could be bodies that are completely outside of the water but are still connected through a joint to the WEC bodies, or it could be bodies deeply submerged to the point where the hydrodynamics may be neglected. WEC-Sim allows for bodies which have no hydrodynamic forces acting on them and for which no BEM data is provided.</p>
+<p>To do this, use a Body Block from the WEC-Sim  Library and initialize it in the WEC-Sim input file as any other body but leave the name of the <code class="docutils literal notranslate"><span class="pre">h5</span></code> file as an empty string. Specify <code class="code docutils literal notranslate"><span class="pre">body(i).nhBody</span> <span class="pre">=</span> <span class="pre">1;</span></code> and specify body name, mass, moments of inertia, center of gravity, center of buoyancy, geometry file, location, and displaced volume. You can also specify visualization options and initial displacement.</p>
+<p>To use non-hydrodynamic bodies, the following body class variable must be defined in the WEC-Sim input file, for example:</p>
+<blockquote>
+<div>body(i).nhBody = 1</div></blockquote>
+<p>For more information, refer to <a class="reference internal" href="webinars.html#webinar2"><span class="std std-ref">Webinar 2 - Nonlinear Buoyancy and Froude-Krylov Wave Excitation, Non-Hydro and B2B</span></a>, and the <strong>OSWEC_nhBody</strong> example on the <a class="reference external" href="https://github.com/WEC-Sim/WEC-Sim_Applications">WEC-Sim Applications</a> repository.</p>
+</div>
+<div class="section" id="drag-bodies">
+<h3>Drag Bodies<a class="headerlink" href="#drag-bodies" title="Permalink to this headline">¶</a></h3>
 <p>A body may be subjected to viscous drag or Morison forces, but does not experience significant wave excitation or radiation. And example may be a deeply-submerged heave plate of large surface area tethered to a float. In these instances, the drag body implementation can be utilized by defining the following body class variable:</p>
 <div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">body</span><span class="p">(</span><span class="n">i</span><span class="p">)</span><span class="o">.</span><span class="n">nhBody</span> <span class="o">=</span> <span class="mi">2</span>
 </pre></div>
@@ -987,6 +948,50 @@ An option available to reduce the nonlinear simulation time is to specify a nonl
 </pre></div>
 </div>
 <p>to resolve drag body dynamics. One can additionally describe initial body displacement in the manner of a hydrodynamic body.</p>
+</div>
+<div class="section" id="body-to-body-interactions">
+<h3>Body-To-Body Interactions<a class="headerlink" href="#body-to-body-interactions" title="Permalink to this headline">¶</a></h3>
+<p>WEC-Sim allows for body-to-body interactions in the radiation force calculation, thus allowing the motion of one body to impart a force on all other bodies. The radiation matrices for each body (radiation wave damping and added mass) required by WEC-Sim and contained in the <code class="docutils literal notranslate"><span class="pre">*.h5</span></code> file. <strong>For body-to-body interactions with N total hydrodynamic bodies, the</strong> <code class="docutils literal notranslate"><span class="pre">*h5</span></code> <strong>data structure is [(6*N), 6]</strong>.</p>
+<p>When body-to-body interactions are used, the augmented [(6*N), 6] matrices are multiplied by concatenated velocity and acceleration vectors of all hydrodynamic bodies. For example, the radiation damping force for body(2) in a 3-body system with body-to-body interactions would be calculated as the product of a [1,18] velocity vector and a [18,6] radiation damping coefficients matrix.</p>
+<p>To use body-to-body interactions, the following simulation class variable must be defined in the WEC-Sim input file:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">simu</span><span class="o">.</span><span class="n">b2b</span> <span class="o">=</span> <span class="mi">1</span>
+</pre></div>
+</div>
+<p>For more information, refer to <a class="reference internal" href="webinars.html#webinar2"><span class="std std-ref">Webinar 2 - Nonlinear Buoyancy and Froude-Krylov Wave Excitation, Non-Hydro and B2B</span></a>, and the <strong>RM3_B2B</strong> example in the <a class="reference external" href="https://github.com/WEC-Sim/WEC-Sim_Applications">WEC-Sim Applications</a> repository.</p>
+<div class="admonition note">
+<p class="first admonition-title">Note</p>
+<p class="last">By default, body-to-body interactions  are off (<code class="code docutils literal notranslate"><span class="pre">simu.b2b</span> <span class="pre">=</span> <span class="pre">0</span></code>), and only the <span class="math notranslate nohighlight">\([1+6(i-1):6i, 1+6(i-1):6i]\)</span> sub-matrices are used for each body (where <span class="math notranslate nohighlight">\(i\)</span> is the body number).</p>
+</div>
+</div>
+<div class="section" id="generalized-body-modes">
+<h3>Generalized Body Modes<a class="headerlink" href="#generalized-body-modes" title="Permalink to this headline">¶</a></h3>
+<p>To use this, select a Flex Body Block from the WEC-Sim Library (under Body Elements) and initialize it in the WEC-Sim input file as any other body. Calculating dynamic response of WECs considering structural flexibilities using WEC-Sim should consist of multiple steps, including:</p>
+<ul class="simple">
+<li>Modal analysis of the studied WEC to identify a set of system natural frequencies and corresponding mode shapes</li>
+<li>Construct discretized mass and impedance matrices using these structural modes</li>
+<li>Include these additional flexible degrees of freedom in the BEM code to calculate hydrodynamic coefficients for the WEC device</li>
+<li>Import the hydrodynamic coefficients to WEC-Sim and conduct dynamic analysis of the hybrid rigid and flexible body system</li>
+</ul>
+<p>The <a class="reference external" href="https://github.com/WEC-Sim/WEC-Sim_Applications">WEC-Sim Applications repository</a> contains a working sample of a barge with four additional degrees of freedom to account for bending and shearing of the body. See this example for details on how to implement and use generalized body modes in WEC-Sim.</p>
+<div class="admonition note">
+<p class="first admonition-title">Note</p>
+<p class="last">Generalized body modes module has only been tested with WAMIT, where BEMIO may need to be modified for NEMOH.</p>
+</div>
+</div>
+<div class="section" id="passive-yaw-implementation">
+<h3>Passive Yaw Implementation<a class="headerlink" href="#passive-yaw-implementation" title="Permalink to this headline">¶</a></h3>
+<p>For non-axisymmetric bodies with yaw orientation that changes substantially with time, WEC-Sim allows a correction to excitation forces for large yaw displacements. To enable this correction, add the following to your <code class="docutils literal notranslate"><span class="pre">wecSimInputFile</span></code>:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">simu</span><span class="o">.</span><span class="n">yawNonLin</span> <span class="o">=</span> <span class="mi">1</span>
+</pre></div>
+</div>
+<p>Under the default implementation (<code class="code docutils literal notranslate"><span class="pre">simu.yawNonLin</span> <span class="pre">=</span> <span class="pre">0</span></code>), WEC-Sim uses the initial yaw orientation of the device relative to the incident waves to calculate the wave excitation coefficients that will be used for the duration of the simulation. When the correction is enabled, excitation coefficients are interpolated from BEM data based upon the instantaneous relative yaw position. For this to enhance simulation accuracy, BEM data must be available over the range of observed yaw positions at a sufficiently dense discretization to capture the significant variations of excitation coefficients with yaw position. For robust simulation, BEM data should be available from -180 to 170 degrees of yaw (or equivalent).</p>
+<p>This can increase simulation time, especially for irregular waves, due to the large number of interpolations that must occur. To prevent interpolation at every time-step, <code class="docutils literal notranslate"><span class="pre">simu.yawThresh</span></code> (default 1 degree) can be specified in the <code class="docutils literal notranslate"><span class="pre">wecSimInputFile</span></code> to specify the minimum yaw displacement (in degrees) that must occur before another interpolation of excitation coefficients will be calculated. The minimum threshold for good simulation accuracy will be device specific: if it is too large, no interpolation will occur and the simulation will behave as <code class="code docutils literal notranslate"><span class="pre">simu.yawNonLin</span> <span class="pre">=</span> <span class="pre">0</span></code>, but overly small values may not significantly enhance simulation accuracy while increasing simulation time.</p>
+<p>When <code class="code docutils literal notranslate"><span class="pre">simu.yawNonLin</span> <span class="pre">=</span> <span class="pre">1</span></code>, hydrostatic and radiation forces are determined from the local body-fixed coordinate system based upon the instantaneous relative yaw position of the body, as this may differ substantially from the global coordinate system for large relative yaw values.</p>
+<p>A demonstration case of this feature is included in the <strong>PassiveYaw</strong> example on the <a class="reference external" href="https://github.com/WEC-Sim/WEC-Sim_Applications">WEC-Sim Applications</a> repository.</p>
+<div class="admonition note">
+<p class="first admonition-title">Note</p>
+<p class="last">Caution must be exercised when simultaneously using passive yaw and body-to-body interactions. Passive yaw relies on interpolated BEM solutions to determine the cross-coupling coefficients used in body-to-body calculations. Because these BEM solutions are based upon the assumption of small displacements, they are unlikely to be accurate if a large relative yaw displacement occurs between the bodies.</p>
+</div>
 </div>
 </div>
 <div class="section" id="constraint-and-pto-features">

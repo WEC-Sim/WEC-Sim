@@ -3,8 +3,71 @@
 Release Notes
 =============
 
-`WEC-Sim v4.1 <https://github.com/WEC-Sim/WEC-Sim/releases/tag/v4.1>`_
+`WEC-Sim v4.2 <https://github.com/WEC-Sim/WEC-Sim/releases/tag/v4.2>`_
 ---------------------------------------------------------------------------------
+
+* Added normal/tangential option for Morison Force (``simu.morisonElement = 2``) `#408 <https://github.com/WEC-Sim/WEC-Sim/pull/408>`_
+
+* Added Drag Body (``body(i).nhBody=2``) `#423 <https://github.com/WEC-Sim/WEC-Sim/pull/423>`_ `#384 <https://github.com/WEC-Sim/WEC-Sim/issues/384>`_
+
+* WEC-Sim output saved to structure `#426 <https://github.com/WEC-Sim/WEC-Sim/pull/426>`_
+
+* Added WEC-Sim parallel execution for batch runs (``wecSimPCT`) using MATLAB parallel computing toolbox `#438 <https://github.com/WEC-Sim/WEC-Sim/pull/438>`_
+
+* Added end stops to PTOs `#445 <https://github.com/WEC-Sim/WEC-Sim/pull/445>`_
+
+* Documentation 
+
+  * Automatically compile docs with TravisCI `#439 <https://github.com/WEC-Sim/WEC-Sim/pull/439>`_
+
+  * Generate docs for master and dev branches of WEC-Sim
+  
+* Bug Fixes
+
+  * Resolved convolution integral bug for body-to-body interactions  `#444 <https://github.com/WEC-Sim/WEC-Sim/pull/444>`_
+  
+  * Resolved PTO-Sim bug for linear to rotary conversion blocks  `#247 <https://github.com/WEC-Sim/WEC-Sim/issues/247)>`_ `#485 <https://github.com/WEC-Sim/WEC-Sim/pull/485>`_
+
+  * Resolved variant subsystem labeling bug  `#486 <https://github.com/WEC-Sim/WEC-Sim/pull/486)>`_ `#479 <https://github.com/WEC-Sim/WEC-Sim/issues/479>`_
+
+.. image:: https://zenodo.org/badge/DOI/10.5281/zenodo.3924765.svg
+   :target: https://doi.org/10.5281/zenodo.3924765
+   
+Citation
+^^^^^^^^^^^^^^^^^^^^^^^^
+To cite WEC-Sim, please reference the DOI, and use the following citation.
+
+[1] Yi-Hsiang Yu, Kelley Ruehl, Jennifer Van Rij, Nathan Tom, Dominic Forbush, David Ogden, Adam Keester, and Jorge Leon. (2020, December 23), WEC-Sim v4.1 (Version v4.2), `DOI 10.5281/zenodo.3924765 <https://doi.org/10.5281/zenodo.3924765>`_.
+
+.. code-block:: none
+
+	@software{wecsim_v4_2,
+	  author       = {Yi-Hsiang Yu and
+			  Kelley Ruehl and
+			  Jennifer Van Rij and
+			  Nathan Tom and
+			  Dominic Forbush and
+			  David Ogden and
+			  Adam Keester and
+			  Jorge Leon},
+	  title        = {WEC-Sim v4.2},
+	  month        = December,
+	  year         = 2020,
+	  publisher    = {Zenodo},
+	  version      = {v4.2},
+	  doi          = {10.5281/zenodo.3924765},
+	  url          = {https://doi.org/10.5281/zenodo.3924765}
+	}
+
+
+
+
+Previous Releases
+------------------
+
+
+`WEC-Sim v4.1 <https://github.com/WEC-Sim/WEC-Sim/releases/tag/v4.1>`_
+^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
 * Added passive yaw
 
@@ -25,36 +88,7 @@ Release Notes
 .. image:: https://zenodo.org/badge/DOI/10.5281/zenodo.3924765.svg
    :target: https://doi.org/10.5281/zenodo.3924765
    
-Citation
-^^^^^^^^^^^^^^^^^^^^^^^^
-To cite WEC-Sim, please reference the DOI, and use the following citation.
-
-[1] Yi-Hsiang Yu, Kelley Ruehl, Jennifer Van Rij, Nathan Tom, Dominic Forbush, and David Ogden. (2020, June 30), WEC-Sim v4.1 (Version v4.1), `DOI 10.5281/zenodo.3924765 <https://doi.org/10.5281/zenodo.3924765>`_.
-
-.. code-block:: none
-
-	@software{wecsim_v4_1,
-	  author       = {Yi-Hsiang Yu and
-			  Kelley Ruehl and
-			  Jennifer Van Rij and
-			  Nathan Tom and
-			  Dominic Forbush and
-			  David Ogden},
-	  title        = {WEC-Sim v4.1},
-	  month        = June,
-	  year         = 2020,
-	  publisher    = {Zenodo},
-	  version      = {v4.1},
-	  doi          = {10.5281/zenodo.3924765},
-	  url          = {https://doi.org/10.5281/zenodo.3924765}
-	}
-
-
-
-
-Previous Releases
-------------------
-
+   
 `WEC-Sim v4.0 <https://github.com/WEC-Sim/WEC-Sim/releases/tag/v4.0>`_
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 

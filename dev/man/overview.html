@@ -459,14 +459,15 @@ Delete branches once a PR is closed to keep your fork clean.</p>
 For more details on submitting pull requests, see the <a class="reference external" href="https://docs.github.com/en/free-pro-team&#64;latest/github/collaborating-with-issues-and-pull-requests/about-pull-requests">About pull requests</a> documentation on GitHub</p>
 </div>
 <div class="section" id="software-tests">
-<h3>Software Tests<a class="headerlink" href="#software-tests" title="Permalink to this headline">¶</a></h3>
-<p>WEC-Sim includes continuous integration software tests that test the source code functionality. The tests are run each time changes are made to the repository, and are designed to ensure that the code is performing as expected. New tests are developed each time new functions are added or modified.
-<strong>Developers should run software tests before submitting a pull request.</strong> If all tests pass, submit your PR. Post a question on the <a class="reference external" href="https://github.com/WEC-Sim/WEC-Sim/issues">Issues Page</a> if you have difficulty using the tests.</p>
-<p>Refer to MATLAB’s <a class="reference external" href="https://www.mathworks.com/help/matlab/matlab-unit-test-framework.html?s_tid=CRUX_lftnav">unit test</a> and <a class="reference external" href="https://www.mathworks.com/help/matlab/matlab_prog/continuous-integration-with-matlab-on-ci-platforms.html">continuous integration</a> documentation for more information.</p>
+<span id="tests"></span><h3>Software Tests<a class="headerlink" href="#software-tests" title="Permalink to this headline">¶</a></h3>
+<p>WEC-Sim includes continuous integration tests that check the source code’s functionality. The tests are run each time changes are made to the repository, and are designed to ensure that the code is performing as expected. New tests are developed each time new functions are added or modified.
+<strong>Developers should run software tests before submitting a pull request.</strong> If all tests pass, submit your PR.
+Refer to MATLAB’s <a class="reference external" href="https://www.mathworks.com/help/matlab/matlab-unit-test-framework.html?s_tid=CRUX_lftnav">unit test</a> and <a class="reference external" href="https://www.mathworks.com/help/matlab/matlab_prog/continuous-integration-with-matlab-on-ci-platforms.html">continuous integration</a> documentation for more information.
+Please post a question on the <a class="reference external" href="https://github.com/WEC-Sim/WEC-Sim/issues">Issues Page</a> if you have difficulty using the tests.</p>
 <div class="section" id="run-tests">
 <h4>Run Tests<a class="headerlink" href="#run-tests" title="Permalink to this headline">¶</a></h4>
-<p>The WEC-Sim unit tests are located in the <code class="docutils literal notranslate"><span class="pre">$WECSIM/tests</span></code> directory.
-To run the WEC-Sim unit tests locally, navigate to the <code class="docutils literal notranslate"><span class="pre">$WECSIM</span></code> (e.g. <code class="docutils literal notranslate"><span class="pre">C:/User/Documents/GitHub/WEC-Sim</span></code>) directory, and type the following command into the MATLAB Command Window:</p>
+<p>The WEC-Sim tests are located in the <code class="docutils literal notranslate"><span class="pre">$WECSIM/tests</span></code> directory.
+To run the WEC-Sim  tests locally, navigate to the <code class="docutils literal notranslate"><span class="pre">$WECSIM</span></code> (e.g. <code class="docutils literal notranslate"><span class="pre">C:/User/Documents/GitHub/WEC-Sim</span></code>) directory, and type the following command into the MATLAB Command Window:</p>
 <div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="o">&gt;&gt;</span> <span class="n">runtests</span>
 
 

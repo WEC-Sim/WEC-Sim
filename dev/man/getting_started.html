@@ -193,13 +193,10 @@
     <p class="scv-banner scv-sphinx_rtd_theme"><a href="../../master/man/getting_started.html"><b>Warning:</b> This document is for the development version of WEC-Sim. The main version is master.</a></p>
 <div class="section" id="getting-started">
 <span id="id1"></span><h1>Getting Started<a class="headerlink" href="#getting-started" title="Permalink to this headline">¶</a></h1>
-<p>This section provides instructions on how to download, install, and test the WEC-Sim code.</p>
+<p>This section provides instructions on how to download, install, and test the installation of WEC-Sim.</p>
 <div class="section" id="matlab-requirements">
 <h2>MATLAB Requirements<a class="headerlink" href="#matlab-requirements" title="Permalink to this headline">¶</a></h2>
-<p>WEC-Sim is developed in MATLAB/Simulink, and requires the toolboxes listed below.
-WEC-Sim’s Simulink Library is saved in MATLAB version R2015b, so any newer MATLAB release should be compatible with WEC-Sim.
-Certain advanced features relying on external functions, such as <a class="reference internal" href="advanced_features.html#moordyn"><span class="std std-ref">MoorDyn</span></a>, may not be compatible with older versions of MATLAB.
-Full functionality has been verified on 2018a through 2019b.</p>
+<p>WEC-Sim is developed in MATLAB/Simulink, and requires the following toolboxes:</p>
 <table border="1" class="docutils">
 <colgroup>
 <col width="47%" />
@@ -210,28 +207,32 @@ Full functionality has been verified on 2018a through 2019b.</p>
 <td><strong>Oldest Compatible Version</strong></td>
 </tr>
 <tr class="row-even"><td>MATLAB</td>
-<td>Version 8.6  (R2015b)</td>
+<td>Version 9.7  (R2019b)</td>
 </tr>
 <tr class="row-odd"><td>Simulink</td>
-<td>Version 8.6  (R2015b)</td>
+<td>Version 10.0 (R2019b)</td>
 </tr>
 <tr class="row-even"><td>Simscape</td>
-<td>Version 3.14 (R2015b)</td>
+<td>Version 4.7  (R2019b)</td>
 </tr>
 <tr class="row-odd"><td>Simscape Multibody</td>
-<td>Version 4.7  (R2015b)</td>
+<td>Version 7.0  (R2019b)</td>
 </tr>
 </tbody>
 </table>
-<p>Ensure that the correct version of MATLAB and the required toolboxes are installed by typing <code class="docutils literal notranslate"><span class="pre">ver</span></code> in the MATLAB Command Window:</p>
+<p>WEC-Sim’s Simulink Library is saved in MATLAB R2019b, so any newer MATLAB release should be compatible with WEC-Sim.
+Certain advanced features relying on external functions, such as <a class="reference internal" href="advanced_features.html#moordyn"><span class="std std-ref">MoorDyn</span></a>, and additional MATLAB Toolboxes, such as <span class="xref std std-ref">man/advanced_features:pct</span>.
+WEC-Sim tests are currently run on MATLAB 2020a, refer to <span class="xref std std-ref">man/overview:tests</span>.</p>
+<p>Verify that the correct version of MATLAB and required toolboxes are installed by typing <code class="docutils literal notranslate"><span class="pre">ver</span></code> in the MATLAB Command Window:</p>
 <div class="highlight-matlabsession notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt; </span><span class="n">ver</span>
-<span class="go">--------------------------------------------------------------------------------------</span>
-<span class="go">MATLAB Version: 9.5.0.944444 (R2018b)</span>
-<span class="go">--------------------------------------------------------------------------------------</span>
-<span class="go">MATLAB                                                Version 9.5         (R2018b)</span>
-<span class="go">Simulink                                              Version 9.2         (R2018b)</span>
-<span class="go">Simscape                                              Version 4.5         (R2018b)</span>
-<span class="go">Simscape Multibody                                    Version 6.0         (R2018b)</span>
+<span class="go">-----------------------------------------------------------------------------------------------------</span>
+<span class="go">MATLAB Version: 9.7.0.1434023 (R2019b)</span>
+<span class="go">-----------------------------------------------------------------------------------------------------</span>
+<span class="go">MATLAB                                                Version 9.7         (R2019b)</span>
+<span class="go">Simulink                                              Version 10.0        (R2019b)</span>
+<span class="go">Simscape                                              Version 4.7         (R2019b)</span>
+<span class="go">Simscape Multibody                                    Version 7.0         (R2019b)</span>
+<span class="go">Parallel Computing Toolbox                            Version 7.1         (R2019b)</span>
 </pre></div>
 </div>
 </div>
