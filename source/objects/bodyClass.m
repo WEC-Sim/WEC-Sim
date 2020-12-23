@@ -749,7 +749,7 @@ classdef bodyClass<handle
                 vertex_mod = obj.rotateXYZ(vertex_mod,[0 0 1],pos(6));
                 vertex_mod = obj.offsetXYZ(vertex_mod,pos(1:3));
                 % open file
-                filename = [pathParaviewVideo,filesep,'vtk' filesep 'body' num2str(vtkbodiesii) '_' bodyname filesep bodyname '_' num2str(it) '.vtp'];
+                filename = [pathParaviewVideo, filesep 'body' num2str(vtkbodiesii) '_' bodyname filesep bodyname '_' num2str(it) '.vtp'];
                 fid = fopen(filename, 'w');
                 % write header
                 fprintf(fid, '<?xml version="1.0"?>\n');

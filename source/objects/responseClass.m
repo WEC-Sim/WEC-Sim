@@ -590,7 +590,7 @@ classdef responseClass<handle
                 fs = filesep;
             end
             % open file
-            fid = fopen([pathParaviewVideo,'\\vtk' fs model(1:end-4) '.pvd'], 'w');
+            fid = fopen([pathParaviewVideo, fs model(1:end-4) '.pvd'], 'w');
             % write header
             fprintf(fid, '<?xml version="1.0"?>\n');
             fprintf(fid, ['<!-- WEC-Sim Visualization using ParaView -->\n']);
