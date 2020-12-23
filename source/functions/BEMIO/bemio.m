@@ -17,7 +17,6 @@
 % limitations under the License.
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
-clc; clear all; close all;
 hydro = struct();
 
 %% Parse a WAMIT output file

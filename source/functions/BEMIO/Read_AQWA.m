@@ -165,7 +165,9 @@ hydro(F).Vo = [];
 hydro(F).cb = [];
 lnlog=zeros(length(raw2),1); % initialize line find log
 for ln=1:length(raw2)
-    if isempty(strfind(raw2{ln},'MESH BASED DISPLACEMENT'))==0
+    if isempty(find(ln==lnlog,1))==0
+        continue
+    elseif isempty(strfind(raw2{ln},'MESH BASED DISPLACEMENT'))==0
         tmp = textscan(raw2{ln}(find(raw2{ln}=='=')+1:end),'%f');
         hydro(F).Vo = [hydro(F).Vo tmp{1}];   % Volume
     
@@ -177,7 +179,7 @@ for ln=1:length(raw2)
         end
         hydro(F).cb = [hydro(F).cb cb]; % Center of buoyancy
         
-    elseif isempty(strfind(raw2{ln},'FROUDE KRYLOV + DIFFRACTION FORCES-VARIATION WITH WAVE PERIOD'))==0
+    elseif isempty(strfind(raw2{ln},'FROUDE KRYLOV FORCES-VARIATION WITH WAVE PERIOD'))==0
         k=str2num(raw2{ln-2}(end-9:end-8));                       % Body number flag
         if isempty(k) 
             k=str2num(raw2{ln-3}(end-9:end-8));                     % Version 2020 R1

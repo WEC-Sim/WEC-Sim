@@ -34,7 +34,7 @@ classdef simulationClass<handle
         domainSize          = 200                                          % (`float`) Size of free surface and seabed. This variable is only used for visualization. Default = ``200`` m
         ssCalc              = 0                                            % (`integer`) Option for convolution integral or state-space calculation: convolution integral->0, state-space->1. Default = ``0``
         mode                = 'normal'                                     % (`string`) Simulation execution mode, 'normal', 'accelerator', 'rapid-accelerator'. Default = ``'normal'``
-        solver              = 'ode4'                                       % (`string`) PDE solver used by the Simulink/SimMechanics simulation, 'ode4, 'ode45'. Default = ``'ode4'``
+        solver              = 'ode4'                                      % (`string`) PDE solver used by the Simulink/SimMechanics simulation, 'ode4, 'ode45'. Default = ``'ode45'``
         numIntMidTimeSteps  = 5                                            % (`integer`) Number of intermediate time steps. Default = ``5`` for ode4 method
         autoRateTranBlk     = 'on'                                         % (`string`) Automatically handle rate transition for data transfer, 'on', 'off'. Default = ``'on'``
         zeroCrossCont       = 'DisableAll'                                 % (`string`) Disable zero cross control. Default = ``'DisableAll'``
@@ -52,8 +52,8 @@ classdef simulationClass<handle
         pathParaviewVideo = 'vtk';                                         % (`string`) Path of the folder for Paraview vtk files. Default = ``'vtk'``     
         adjMassWeightFun    = 2                                            % (`integer`) Weighting function for adjusting added mass term in the translational direction. Default = ``2``
         mcrCaseFile         = []                                           % (`string`) mat file that contain a list of the multiple conditions runs with given conditions. Default = ``'NOT DEFINED'``  
-        morisonElement     = 0                                             % (`integer`) Option for Morrison Element calculation: off->0, on->1. Default = ``0``
-        outputtxt           = 0                                            % (`integer`) Option to save results as ASCII files: off->0, on->1. Default = ``0``
+        morisonElement      = 0                                            % (`integer`) Option for Morison Element calculation: off->0, on->1 or 2. Default = ``0``. Option 1 uses an approach that allows the user to define drag and inertial coefficients along the x-, y-, and z-axes and Option 2 uses an approach that defines the Morison Element with normal and tangential tangential drag and interial coefficients.. 
+        outputtxt           = 0                                            % (`integer`) Option to save results as ASCII files off->0, on->1. Default = ``0``
         outputStructure     = 1                                            % (`integer`) Option to save results as a MATLAB structure: off->0, on->1. Default = ``1``
         reloadH5Data        = 0                                            % (`integer`) Option to re-load hydro data from hf5 file between runs: off->0, on->1. Default = ``0``
         saveMat             = 1                                            % (`integer`) Option to save .mat file for each run: off->0, on->1. Default = ``1``
@@ -61,7 +61,7 @@ classdef simulationClass<handle
     end
 
     properties (SetAccess = 'public', GetAccess = 'public')%internal
-        version             = '4.0'                                        % (`string`) WEC-Sim version
+        version             = '4.2'                                        % (`string`) WEC-Sim version
         simulationDate      = datetime                                     % (`string`) Simulation date and time
         outputDir           = 'output'                                     % (`string`) Data output directory name. Default = ``'output'``
         time                = 0                                            % (`float`) Simulation time [s]. Default = ``0`` s

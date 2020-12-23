@@ -109,7 +109,7 @@ end
 simu.numWecBodies = numHydroBodies; clear numHydroBodies
 simu.numDragBodies = numDragBodies; clear numDragBodies
 for ii = 1:simu.numWecBodies
-    body(ii).checkinputs;
+    body(ii).checkinputs(simu.morisonElement);
     %Determine if hydro data needs to be reloaded from h5 file, or if hydroData
     % was stored in memory from a previous run.
     if exist('totalNumOfWorkers','var') ==0 && exist('mcr','var') == 1 && simu.reloadH5Data == 0 && imcr > 1
@@ -137,7 +137,7 @@ if exist('./ptoSimInputFile.m','file') == 2
     ptosim.countblocks;
 end
 
-if simu.yawNonLin==1 && simu.yawThresh==1;
+if simu.yawNonLin==1 && simu.yawThresh==1
     warning(['yawNonLin using (default) 1 dg interpolation threshold.' newline 'Ensure this is appropriate for your geometry'])
 end
 
@@ -153,7 +153,6 @@ end
 %% HydroForce Pre-Processing: Wave Setup & HydroForcePre.
 % simulation setup
 simu.setupSim;
-
 
 % wave setup
 waves.waveSetup(body(1).hydroData.simulation_parameters.w, body(1).hydroData.simulation_parameters.water_depth, simu.rampTime, simu.dt, simu.maxIt, simu.g, simu.rho,  simu.endTime);
@@ -221,10 +220,45 @@ if strcmp(waves.type,'etaImport') && simu.nlHydro == 1
 end
 
 % check for etaImport with morisonElement
-if strcmp(waves.type,'etaImport') && simu.morisonElement == 1
+if strcmp(waves.type,'etaImport') && simu.morisonElement ~= 0
     error(['Cannot run WEC-Sim with Morrison Element (simu.morisonElement) and "etaImport" wave type'])
 end
 
+% check for morisonElement inputs for simu.morisonElement == 1
+if simu.morisonElement == 1
+    for ii = 1:length(body(1,:))
+        if body(ii).nhBody ~=1
+            %
+            [rgME,~] = size(body(ii).morisonElement.rgME);
+            %
+            for jj = 1:rgME
+                if true(isfinite(body(ii).morisonElement.z(jj,:))) == true
+                    warning(['"body.morisonElement.z" is not used for "simu.morisonElement = 1. Check body ',num2str(ii),' element ',num2str(jj)])
+                end
+                %
+                if isnan(body(ii).morisonElement.cd(jj,3)) == 1 || isnan(body(ii).morisonElement.ca(jj,3)) == 1 || isnan(body(ii).morisonElement.characteristicArea(jj,3)) == 1
+                    error(['cd, ca, and characteristicArea coefficients for each elelement for "simu.morisonElement = 1" must be of size [1x3] and all columns of data must be real and finite. Check body ',num2str(ii),' element ',num2str(jj),' coefficients'])
+                end
+            end; clear jj
+        end
+    end; clear ii
+end
+
+% check for morisonElement inputs for simu.morisonElement == 2
+if simu.morisonElement == 2
+    for ii = 1:length(body(1,:))
+        if body(ii).nhBody ~=1
+            %
+            [rgME,~] = size(body(ii).morisonElement.rgME);
+            %
+            for jj = 1:rgME
+                if isnan(body(ii).morisonElement.cd(jj,3)) == 0 || isnan(body(ii).morisonElement.ca(jj,3)) == 0 || isnan(body(ii).morisonElement.characteristicArea(jj,3)) == 0
+                    warning(['cd, ca, and characteristicArea coefficients for "simu.morisonElement == 2" must be of size [1x2], third column of data is not used. Check body ',num2str(ii),' element ',num2str(jj),' coefficients'])
+                end
+            end; clear jj
+        end
+    end; clear ii
+end
 
 %% Set variant subsystems options
 nlHydro = simu.nlHydro;
@@ -236,7 +270,7 @@ sv_instFS=Simulink.Variant('nlHydro==2');
 % Morrison Element
 morisonElement = simu.morisonElement;
 sv_MEOff=Simulink.Variant('morisonElement==0');
-sv_MEOn=Simulink.Variant('morisonElement==1');
+sv_MEOn=Simulink.Variant('morisonElement==1 || morisonElement==2');
 % Radiation Damping
 if waves.typeNum==0 || waves.typeNum==10 %'noWave' & 'regular'
     radiation_option = 1;
@@ -320,12 +354,10 @@ simu.loadSimMechModel(simu.simMechanicsFile);
 sim(simu.simMechanicsFile, [], simset('SrcWorkspace','parent'));
 try cd (['..' filesep parallelComputing_dir filesep '..' filesep]); end
 
-% Clear Variant Subsystem Variables
-% clear sv_linearHydro sv_nonlinearHydro sv_convolution sv_stateSpace sv_constantCoeff sv_B2B sv_noB2B;
-% clear nhbod* sv_b* sv_noWave sv_regularWaves sv_irregularWaves sv_udfWaves sv_instFS sv_meanFS sv_MEOn sv_MEOff sv_irregularWavesNonLinYaw sv_regularWavesNonLinYaw;
-
-% Clear Other Variables
-clear nlHydro ssCalc radiation_option typeNum B2B morisonElement flexHydrobody_* yawNonLin numBody it idx hydroBodLogic dragBodLogic;
+% Restore modified stuff
+clear nlHydro sv_linearHydro sv_nonlinearHydro ssCalc radiation_option sv_convolution sv_stateSpace sv_constantCoeff typeNum B2B sv_B2B sv_noB2B;
+clear nhbod* sv_b* sv_noWave sv_regularWaves sv_irregularWaves sv_udfWaves sv_instFS sv_meanFS sv_MEOn sv_MEOff morisonElement flexHydrobody_* sv_irregularWavesNonLinYaw sv_regularWavesNonLinYaw yawNonLin numBody;
+clear dragBodLogic hydroBodLogic idx it;
 
 toc
 

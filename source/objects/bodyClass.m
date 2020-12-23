@@ -56,12 +56,13 @@ classdef bodyClass<handle
             'color', [1 1 0], ...                            %
             'opacity', 1)                                    % Structure defining visualization properties in either SimScape or Paraview. ``color`` (`3x1 float vector`) is defined as the body visualization color, Default = [``1 1 0``]. ``opacity`` (`integer`) is defined as the body opacity, Default = ``1``.
         bodyparaview      = 1;                               % (`integer`) Flag for visualisation in Paraview either 0 (no) or 1 (yes). Default = ``1`` since only called in paraview.
-        morisonElement   = struct(...                        %
-            'cd',                 [0 0 0], ...               %
-            'ca',                 [0 0 0], ...               %
-            'characteristicArea', [0 0 0], ...               %
-            'VME',                 0     , ...               %
-            'rgME',               [0 0 0])                   % Structure defining the Morrison Element properties connected to the body. ``cd`` (`3x1 float vector`) is defined as the viscous quadratic drag coefficients in the following format [cd_x cd_y cd_z], Default = [``0 0 0``]. ``ca`` is defined as the added mass coefficent for the Morrison Element in the following format [ca_x ca_y ca_z], Default = [``0 0 0``], ``characteristicArea`` is defined as the characteristic area for the Morrison Element [m^2] in the following format [Area_x Area_y Area_z], Default = [0 0 0]. ``VME`` is the characteristic volume of the Morrison Element [m^3], Default = ``0``. ``rgME`` is defined as the vector from the body COG to point of application for the Morrison Element [m] in the following format [x y z], Default = [``0 0 0``].
+        morisonElement   = struct(...                        % 
+            'cd',                 [NaN NaN NaN], ...         % 
+            'ca',                 [NaN NaN NaN], ...         % 
+            'characteristicArea', [NaN NaN NaN], ...         % 
+            'VME',                 NaN     , ...             % 
+            'rgME',               [NaN NaN NaN], ...         %
+            'z',                  [NaN NaN NaN])             % Structure defining the Morison Element properties connected to the body. ``cd`` (`1x3 float vector`) is defined as the viscous normal and tangential drag coefficients in the following format, Option 1 [cd_x cd_y cd_z], Option 2 [cd_N cd_T NaN], Default = [``NaN NaN NaN``]. ``ca`` is defined as the added mass coefficent for the Morison Element in the following format, Option 1 [ca_x ca_y ca_z], Option 2 [ca_N ca_T NaN], Default = [``NaN NaN NaN``], ``characteristicArea`` is defined as the characteristic area for the Morison Element [m^2] in the following format, Option 1 [Area_x Area_y Area_z], Option 2 [Area_N Area_T NaN], Default = [NaN NaN NaN]. ``VME`` is the characteristic volume of the Morison Element [m^3], Default = ``NaN``. ``rgME`` is defined as the vector from the body COG to point of application for the Morison Element [m] in the following format [x y z], Default = [``NaN NaN NaN``].``z`` is defined as the unit normal vector center axis of the Morison Element in the following format, Option 1 not used, Option 2 [n_{x} n_{y} n_{z}], Default = [``NaN NaN NaN``].
         nhBody            = 0                                % (`integer`) Flag for non-hydro body either 0 (no) or 1 (yes). Default = ``0``.
         flexHydroBody     = 0                                % (`integer`) Flag for flexible body either 0 (no) or 1 (yes). Default = ``0``.
         meanDriftForce    = 0                                % (`integer`) Flag for mean drift force with three options:  0 (no), 1 (yes, from control surface) or 2 (yes, from momentum conservation). Default = ``0``.
@@ -194,7 +195,7 @@ classdef bodyClass<handle
             else
                 obj.hydroForce.visDrag = diag(0.5*rho.*obj.viscDrag.cd.*obj.viscDrag.characteristicArea);
             end
-            obj.hydroForce.linearDamping = obj.linearDamping
+            obj.hydroForce.linearDamping = obj.linearDamping;
             obj.dof = length(obj.viscDrag.Drag);
         end
         
@@ -415,7 +416,7 @@ classdef bodyClass<handle
             quiver3(c(:,1),c(:,2),c(:,3),n(:,1),n(:,2),n(:,3))
         end
         
-        function checkinputs(obj)
+        function checkinputs(obj,morisonElement)
             % This method checks WEC-Sim user inputs and generates error messages if parameters are not properly defined for the bodyClass.
             if exist(obj.h5File,'file')==0 && obj.nhBody==0
                 error('The hdf5 file %s does not exist',obj.h5File)
@@ -424,12 +425,30 @@ classdef bodyClass<handle
             if exist(obj.geometryFile,'file') == 0
                 error('Could not locate and open geometry file %s',obj.geometryFile)
             end
+            % Check Morison Element Inputs for option 1
+            if morisonElement == 1
+                [rgME,~] = size(obj.morisonElement.rgME);
+                [rz,~] = size(obj.morisonElement.z);
+                if rgME > rz
+                    obj.morisonElement.z = NaN(rgME,3);
+                end
+                clear rgME rz
+            end
+            % Check Morison Element Inputs for option 2
+            if morisonElement == 2
+                [r,~] = size(obj.morisonElement.z);
+                for ii = 1:r
+                    if norm(obj.morisonElement.z(ii,:)) ~= 1
+                        error(['Ensure the Morison Element .z variable is a unit vector for the ',num2str(ii),' index'])
+                    end
+                end
+            end
         end
     end
     
     methods (Access = 'protected') %modify object = T; output = F
         function noExcitation(obj)
-            % Set exciation force for no excitation case
+            % Set excitation force for no excitation case
             nDOF = obj.dof;
             obj.hydroForce.fExt.re=zeros(1,nDOF);
             obj.hydroForce.fExt.im=zeros(1,nDOF);
@@ -601,7 +620,7 @@ classdef bodyClass<handle
             else
                 obj.hydroForce.fAddedMass=obj.hydroData.hydro_coeffs.added_mass.inf_freq(:,obj.dof_start:obj.dof_end) .*rho;
             end
-            % Radition IRF
+            % Radiation IRF
             obj.hydroForce.fDamping=zeros(nDOF,LDOF);
             irfk = obj.hydroData.hydro_coeffs.radiation_damping.impulse_response_fun.K  .*rho;
             irft = obj.hydroData.hydro_coeffs.radiation_damping.impulse_response_fun.t;
