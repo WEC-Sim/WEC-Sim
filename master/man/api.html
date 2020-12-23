@@ -40,7 +40,7 @@
     <link rel="index" title="Index" href="../genindex.html" />
     <link rel="search" title="Search" href="../search.html" />
     <link rel="next" title="Terminology" href="terminology.html" />
-    <link rel="prev" title="Online Forum" href="contact.html" /> 
+    <link rel="prev" title="Release Notes" href="release_notes.html" /> 
 </head>
 
 <body class="wy-body-for-nav">
@@ -101,7 +101,6 @@
 <li class="toctree-l1"><a class="reference internal" href="acknowledgements.html">Acknowledgements</a></li>
 <li class="toctree-l1"><a class="reference internal" href="publications.html">Publications</a></li>
 <li class="toctree-l1"><a class="reference internal" href="release_notes.html">Release Notes</a></li>
-<li class="toctree-l1"><a class="reference internal" href="contact.html">Online Forum</a></li>
 <li class="toctree-l1 current"><a class="current reference internal" href="#">WEC-Sim API</a><ul>
 <li class="toctree-l2"><a class="reference internal" href="#body-class">Body Class</a></li>
 <li class="toctree-l2"><a class="reference internal" href="#contstraint-class">Contstraint Class</a></li>
@@ -304,8 +303,8 @@ to define WEC-Sim’s hydrodynamic and non-hydrodynamic bodies.</p>
 
 <dl class="attribute">
 <dt id="objects.bodyClass.morisonElement">
-<code class="descname">morisonElement</code><em class="property"> = &quot;struct(            'cd',                 [0 0 0],             'ca',                 [0 0 0],             'characteristicArea', [0 0 0],             'VME',                 0     ,             'rgME',               [0 0 0])&quot;</em><a class="headerlink" href="#objects.bodyClass.morisonElement" title="Permalink to this definition">¶</a></dt>
-<dd><p>Structure defining the Morrison Element properties connected to the body. <code class="docutils literal notranslate"><span class="pre">cd</span></code> (<cite>3x1 float vector</cite>) is defined as the viscous quadratic drag coefficients in the following format [cd_x cd_y cd_z], Default = [<code class="docutils literal notranslate"><span class="pre">0</span> <span class="pre">0</span> <span class="pre">0</span></code>]. <code class="docutils literal notranslate"><span class="pre">ca</span></code> is defined as the added mass coefficent for the Morrison Element in the following format [ca_x ca_y ca_z], Default = [<code class="docutils literal notranslate"><span class="pre">0</span> <span class="pre">0</span> <span class="pre">0</span></code>], <code class="docutils literal notranslate"><span class="pre">characteristicArea</span></code> is defined as the characteristic area for the Morrison Element [m^2] in the following format [Area_x Area_y Area_z], Default = [0 0 0]. <code class="docutils literal notranslate"><span class="pre">VME</span></code> is the characteristic volume of the Morrison Element [m^3], Default = <code class="docutils literal notranslate"><span class="pre">0</span></code>. <code class="docutils literal notranslate"><span class="pre">rgME</span></code> is defined as the vector from the body COG to point of application for the Morrison Element [m] in the following format [x y z], Default = [<code class="docutils literal notranslate"><span class="pre">0</span> <span class="pre">0</span> <span class="pre">0</span></code>].</p>
+<code class="descname">morisonElement</code><em class="property"> = &quot;struct(            'cd',                 [NaN NaN NaN],             'ca',                 [NaN NaN NaN],             'characteristicArea', [NaN NaN NaN],             'VME',                 NaN     ,             'rgME',               [NaN NaN NaN],             'z',                  [NaN NaN NaN])&quot;</em><a class="headerlink" href="#objects.bodyClass.morisonElement" title="Permalink to this definition">¶</a></dt>
+<dd><p>Structure defining the Morison Element properties connected to the body. <code class="docutils literal notranslate"><span class="pre">cd</span></code> (<cite>1x3 float vector</cite>) is defined as the viscous normal and tangential drag coefficients in the following format, Option 1 [cd_x cd_y cd_z], Option 2 [cd_N cd_T NaN], Default = [<code class="docutils literal notranslate"><span class="pre">NaN</span> <span class="pre">NaN</span> <span class="pre">NaN</span></code>]. <code class="docutils literal notranslate"><span class="pre">ca</span></code> is defined as the added mass coefficent for the Morison Element in the following format, Option 1 [ca_x ca_y ca_z], Option 2 [ca_N ca_T NaN], Default = [<code class="docutils literal notranslate"><span class="pre">NaN</span> <span class="pre">NaN</span> <span class="pre">NaN</span></code>], <code class="docutils literal notranslate"><span class="pre">characteristicArea</span></code> is defined as the characteristic area for the Morison Element [m^2] in the following format, Option 1 [Area_x Area_y Area_z], Option 2 [Area_N Area_T NaN], Default = [NaN NaN NaN]. <code class="docutils literal notranslate"><span class="pre">VME</span></code> is the characteristic volume of the Morison Element [m^3], Default = <code class="docutils literal notranslate"><span class="pre">NaN</span></code>. <code class="docutils literal notranslate"><span class="pre">rgME</span></code> is defined as the vector from the body COG to point of application for the Morison Element [m] in the following format [x y z], Default = [<code class="docutils literal notranslate"><span class="pre">NaN</span> <span class="pre">NaN</span> <span class="pre">NaN</span></code>].``z`` is defined as the unit normal vector center axis of the Morison Element in the following format, Option 1 not used, Option 2 [n_{x} n_{y} n_{z}], Default = [<code class="docutils literal notranslate"><span class="pre">NaN</span> <span class="pre">NaN</span> <span class="pre">NaN</span></code>].</p>
 </dd></dl>
 
 <dl class="attribute">
@@ -387,7 +386,7 @@ coefficients.</p>
 
 <dl class="method">
 <dt id="objects.bodyClass.checkinputs">
-<code class="descname">checkinputs</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#objects.bodyClass.checkinputs" title="Permalink to this definition">¶</a></dt>
+<code class="descname">checkinputs</code><span class="sig-paren">(</span><em>morisonElement</em><span class="sig-paren">)</span><a class="headerlink" href="#objects.bodyClass.checkinputs" title="Permalink to this definition">¶</a></dt>
 <dd><p>This method checks WEC-Sim user inputs and generates error messages if parameters are not properly defined for the bodyClass.</p>
 </dd></dl>
 
@@ -437,6 +436,12 @@ frame or relative to other bodies.</p>
 <dt id="objects.constraintClass.initDisp">
 <code class="descname">initDisp</code><em class="property"> = &quot;struct(                                         'initLinDisp',          [0 0 0])&quot;</em><a class="headerlink" href="#objects.constraintClass.initDisp" title="Permalink to this definition">¶</a></dt>
 <dd><p>Structure defining the initial displacement of the constraint. <code class="docutils literal notranslate"><span class="pre">initLinDisp</span></code> (<cite>3x1 float vector</cite>) is defined as the initial displacement of the constraint [m] in the following format [x y z], Default = [<code class="docutils literal notranslate"><span class="pre">0</span> <span class="pre">0</span> <span class="pre">0</span></code>].</p>
+</dd></dl>
+
+<dl class="attribute">
+<dt id="objects.constraintClass.hardStops">
+<code class="descname">hardStops</code><em class="property"> = &quot;struct(                                          'upperLimitSpecify', 'off',        % (`string`) Initialize upper stroke limit. ``  'on' or 'off' `` Default = ``off``. \n'upperLimitBound', 1,                                           'upperLimitStiffness', 1e6,                                           'upperLimitDamping', 1e3,                                           'upperLimitTransitionRegionWidth', 1e-4,                                           'lowerLimitSpecify', 'off',                                          'lowerLimitBound', -1,                                           'lowerLimitStiffness', 1e6,                                           'lowerLimitDamping', 1e3,                                           'lowerLimitTransitionRegionWidth', 1e-4)&quot;</em><a class="headerlink" href="#objects.constraintClass.hardStops" title="Permalink to this definition">¶</a></dt>
+<dd><p>(<cite>float</cite>) Define lower limit transition region, over which spring and damping values ramp up to full values. Increase for stability. m or deg. <code class="docutils literal notranslate"><span class="pre">Default</span> <span class="pre">=</span> <span class="pre">1e-4</span></code></p>
 </dd></dl>
 
 <dl class="method">
@@ -674,13 +679,13 @@ frame or relative to other bodies.</p>
 <dl class="attribute">
 <dt id="objects.ptoClass.equilibriumPosition">
 <code class="descname">equilibriumPosition</code><em class="property"> = '0'</em><a class="headerlink" href="#objects.ptoClass.equilibriumPosition" title="Permalink to this definition">¶</a></dt>
-<dd><p>(<cite>float</cite>) Linear PTO damping coefficient. Default = <cite>0</cite>.</p>
+<dd><p>(<cite>float</cite>) Linear PTO equilibrium position, m or deg. Default = <cite>0</cite>.</p>
 </dd></dl>
 
 <dl class="attribute">
 <dt id="objects.ptoClass.pretension">
 <code class="descname">pretension</code><em class="property"> = '0'</em><a class="headerlink" href="#objects.ptoClass.pretension" title="Permalink to this definition">¶</a></dt>
-<dd><p>(<cite>float</cite>) Linear PTO damping coefficient. Default = <cite>0</cite>.</p>
+<dd><p>(<cite>float</cite>) Linear PTO pretension, N or N-m. Default = <cite>0</cite>.</p>
 </dd></dl>
 
 <dl class="attribute">
@@ -699,6 +704,12 @@ frame or relative to other bodies.</p>
 <dt id="objects.ptoClass.initDisp">
 <code class="descname">initDisp</code><em class="property"> = &quot;struct(                                         'initLinDisp',          [0 0 0])&quot;</em><a class="headerlink" href="#objects.ptoClass.initDisp" title="Permalink to this definition">¶</a></dt>
 <dd><p>Structure defining the initial displacement of the pto. <code class="docutils literal notranslate"><span class="pre">initLinDisp</span></code> (<cite>3x1 float vector</cite>) is defined as the initial displacement of the pto [m] in the following format [x y z], Default = [<code class="docutils literal notranslate"><span class="pre">0</span> <span class="pre">0</span> <span class="pre">0</span></code>].</p>
+</dd></dl>
+
+<dl class="attribute">
+<dt id="objects.ptoClass.hardStops">
+<code class="descname">hardStops</code><em class="property"> = &quot;struct(                                          'upperLimitSpecify', 'off',        % (`string`) Initialize upper stroke limit. ``  'on' or 'off' `` Default = ``off``. \n'upperLimitBound', 1,                                           'upperLimitStiffness', 1e6,                                           'upperLimitDamping', 1e3,                                           'upperLimitTransitionRegionWidth', 1e-4,                                           'lowerLimitSpecify', 'off',                                          'lowerLimitBound', -1,                                           'lowerLimitStiffness', 1e6,                                           'lowerLimitDamping', 1e3,                                           'lowerLimitTransitionRegionWidth', 1e-4)&quot;</em><a class="headerlink" href="#objects.ptoClass.hardStops" title="Permalink to this definition">¶</a></dt>
+<dd><p>(<cite>float</cite>) Define lower limit transition region, over which spring and damping values ramp up to full values. Increase for stability. m or deg. <code class="docutils literal notranslate"><span class="pre">Default</span> <span class="pre">=</span> <span class="pre">1e-4</span></code></p>
 </dd></dl>
 
 <dl class="method">
@@ -810,12 +821,16 @@ that contains structures for each instance of a WEC-Sim class (e.g.
 <li><code class="docutils literal notranslate"><span class="pre">forceRadiationDamping</span></code> (<cite>array</cite>) = [# of time-steps x 6]</li>
 <li><code class="docutils literal notranslate"><span class="pre">forceAddedMass</span></code> (<cite>array</cite>) = [# of time-steps x 6]</li>
 <li><code class="docutils literal notranslate"><span class="pre">forceRestoring</span></code> (<cite>array</cite>) = [# of time-steps x 6]</li>
-<li><code class="docutils literal notranslate"><span class="pre">forceMorrisonAndViscous</span></code> (<cite>array</cite>) = [# of time-steps x 6]</li>
+<li><code class="docutils literal notranslate"><span class="pre">forceMorisonAndViscous</span></code> (<cite>array</cite>) = [# of time-steps x 6]</li>
 <li><code class="docutils literal notranslate"><span class="pre">forceLinearDamping</span></code> (<cite>array</cite>) = [# of time-steps x 6]</li>
 </ul>
-<p>There are additional <code class="docutils literal notranslate"><span class="pre">output.bodies</span></code> structures for non-linar hydro (e.g.
-<code class="docutils literal notranslate"><span class="pre">cellPressures_time</span></code>, <code class="docutils literal notranslate"><span class="pre">cellPressures_hydrostatic</span></code>,
-<code class="docutils literal notranslate"><span class="pre">cellPressures_waveLinear</span></code>, <code class="docutils literal notranslate"><span class="pre">cellPressures_waveNonLinear</span></code>)</p>
+<p>There are 4 additional <code class="docutils literal notranslate"><span class="pre">output.bodies</span></code> arrays when using non-linear hydro and Paraview output:</p>
+<ul class="simple">
+<li><code class="docutils literal notranslate"><span class="pre">cellPressures_time</span></code> (‘array’) = [# of Paraview time-steps x 1]</li>
+<li><code class="docutils literal notranslate"><span class="pre">cellPressures_hydrostatic</span></code> (‘array’) = [# of Paraview time-steps x # of mesh faces]</li>
+<li><code class="docutils literal notranslate"><span class="pre">cellPressures_waveLinear</span></code> (‘array’) = [# of Paraview time-steps x # of mesh faces]</li>
+<li><code class="docutils literal notranslate"><span class="pre">cellPressures_waveNonLinear</span></code> (‘array’) = [# of Paraview time-steps x # of mesh faces]</li>
+</ul>
 </div></blockquote>
 </dd></dl>
 
@@ -1059,7 +1074,7 @@ ParaView. This method is executed by specifying
 <dl class="attribute">
 <dt id="objects.simulationClass.solver">
 <code class="descname">solver</code><em class="property"> = &quot;'ode4'&quot;</em><a class="headerlink" href="#objects.simulationClass.solver" title="Permalink to this definition">¶</a></dt>
-<dd><p>(<cite>string</cite>) PDE solver used by the Simulink/SimMechanics simulation, ‘ode4, ‘ode45’. Default = <code class="docutils literal notranslate"><span class="pre">'ode4'</span></code></p>
+<dd><p>(<cite>string</cite>) PDE solver used by the Simulink/SimMechanics simulation, ‘ode4, ‘ode45’. Default = <code class="docutils literal notranslate"><span class="pre">'ode45'</span></code></p>
 </dd></dl>
 
 <dl class="attribute">
@@ -1167,13 +1182,13 @@ ParaView. This method is executed by specifying
 <dl class="attribute">
 <dt id="objects.simulationClass.morisonElement">
 <code class="descname">morisonElement</code><em class="property"> = '0'</em><a class="headerlink" href="#objects.simulationClass.morisonElement" title="Permalink to this definition">¶</a></dt>
-<dd><p>(<cite>integer</cite>) Option for Morrison Element calculation: off-&gt;0, on-&gt;1. Default = <code class="docutils literal notranslate"><span class="pre">0</span></code></p>
+<dd><p>(<cite>integer</cite>) Option for Morison Element calculation: off-&gt;0, on-&gt;1 or 2. Default = <code class="docutils literal notranslate"><span class="pre">0</span></code>. Option 1 uses an approach that allows the user to define drag and inertial coefficients along the x-, y-, and z-axes and Option 2 uses an approach that defines the Morison Element with normal and tangential tangential drag and interial coefficients..</p>
 </dd></dl>
 
 <dl class="attribute">
 <dt id="objects.simulationClass.outputtxt">
 <code class="descname">outputtxt</code><em class="property"> = '0'</em><a class="headerlink" href="#objects.simulationClass.outputtxt" title="Permalink to this definition">¶</a></dt>
-<dd><p>(<cite>integer</cite>) Option to save results as ASCII files: off-&gt;0, on-&gt;1. Default = <code class="docutils literal notranslate"><span class="pre">0</span></code></p>
+<dd><p>(<cite>integer</cite>) Option to save results as ASCII files off-&gt;0, on-&gt;1. Default = <code class="docutils literal notranslate"><span class="pre">0</span></code></p>
 </dd></dl>
 
 <dl class="attribute">
@@ -1202,7 +1217,7 @@ ParaView. This method is executed by specifying
 
 <dl class="attribute">
 <dt id="objects.simulationClass.version">
-<code class="descname">version</code><em class="property"> = &quot;'4.0'&quot;</em><a class="headerlink" href="#objects.simulationClass.version" title="Permalink to this definition">¶</a></dt>
+<code class="descname">version</code><em class="property"> = &quot;'4.2'&quot;</em><a class="headerlink" href="#objects.simulationClass.version" title="Permalink to this definition">¶</a></dt>
 <dd><p>(<cite>string</cite>) WEC-Sim version</p>
 </dd></dl>
 
@@ -1640,7 +1655,7 @@ time, used by: <span class="math notranslate nohighlight">\(waveClass.write_para
         <a href="terminology.html" class="btn btn-neutral float-right" title="Terminology" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right"></span></a>
       
       
-        <a href="contact.html" class="btn btn-neutral float-left" title="Online Forum" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left"></span> Previous</a>
+        <a href="release_notes.html" class="btn btn-neutral float-left" title="Release Notes" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left"></span> Previous</a>
       
     </div>
   
@@ -1681,7 +1696,6 @@ time, used by: <span class="math notranslate nohighlight">\(waveClass.write_para
     <div class="rst-other-versions">
         <dl>
             <dt>Branches</dt>
-            <dd><a href="../../dev/man/api.html">dev</a></dd>
             <dd><a href="api.html">master</a></dd>
         </dl>
     </div>

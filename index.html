@@ -100,7 +100,6 @@
 <li class="toctree-l1"><a class="reference internal" href="man/acknowledgements.html">Acknowledgements</a></li>
 <li class="toctree-l1"><a class="reference internal" href="man/publications.html">Publications</a></li>
 <li class="toctree-l1"><a class="reference internal" href="man/release_notes.html">Release Notes</a></li>
-<li class="toctree-l1"><a class="reference internal" href="man/contact.html">Online Forum</a></li>
 <li class="toctree-l1"><a class="reference internal" href="man/api.html">WEC-Sim API</a></li>
 <li class="toctree-l1"><a class="reference internal" href="man/terminology.html">Terminology</a></li>
 </ul>
@@ -181,17 +180,25 @@
 </div>
 <div class="section" id="wec-sim-wave-energy-converter-simulator">
 <h1>WEC-Sim (Wave Energy Converter SIMulator)<a class="headerlink" href="#wec-sim-wave-energy-converter-simulator" title="Permalink to this headline">¶</a></h1>
-<p><a class="reference external" href="https://github.com/WEC-Sim/WEC-Sim">WEC-Sim (Wave Energy Converter SIMulator)</a> is an open-source code for simulating wave energy converters. The code is developed in MATLAB/SIMULINK using the multi-body dynamics solver Simscape Multibody. WEC-Sim has the ability to model devices that are comprised of rigid bodies, joints, power take-off systems, and mooring systems. Simulations are performed in the time-domain by solving the governing wave energy converter equations of motion in 6 degrees-of-freedom.</p>
+<p><a class="reference external" href="https://github.com/WEC-Sim/WEC-Sim">WEC-Sim (Wave Energy Converter SIMulator)</a> is an open-source code for simulating wave energy converters. The code is developed in MATLAB/SIMULINK using the multi-body dynamics solver Simscape Multibody. WEC-Sim has the ability to model devices that are comprised of bodies, joints, power take-off systems, and mooring systems. WEC-Sim can model both rigid bodies and flexible bodies with generalized body modes. Simulations are performed in the time-domain by solving the governing wave energy converter equations of motion in the 6 Cartesian degrees-of-freedom, plus any number of user-defined modes. The <a class="reference external" href="https://github.com/WEC-Sim/WEC-Sim_Applications">WEC-Sim Applications repository</a> contains a wide variety of scenarios that WEC-Sim can be used to model, including desalination, mooring dynamics, nonlinear hydrodynamic bodies, passive yawing, batch simulations and many others. The code is very flexible and can be adapted to many scenarios within the wave energy industry.</p>
 <div class="section" id="wec-sim-developers">
 <span id="developers"></span><h2>WEC-Sim Developers<a class="headerlink" href="#wec-sim-developers" title="Permalink to this headline">¶</a></h2>
 <p>WEC-Sim is a collaboration between the <a class="reference external" href="http://www.nrel.gov/water/">National Renewable Energy Laboratory (NREL)</a> and <a class="reference external" href="http://energy.sandia.gov/energy/renewable-energy/water-power/">Sandia National Laboratories (Sandia)</a>, funded by the U.S. Department of Energy’s Water Power Technologies Office. Due to the open source nature of the code, WEC-Sim  has also had many external contributions, for more information refer to  <a class="reference internal" href="man/acknowledgements.html#acknowledgements"><span class="std std-ref">Acknowledgements</span></a>.</p>
+<p>Current members of the development team include:</p>
 <ul class="simple">
 <li>Yi-Hsiang Yu (NREL - PI)</li>
 <li>Kelley Ruehl (Sandia - PI)</li>
-<li>Jennifer Van Rij (NREL)</li>
 <li>Nathan Tom (NREL)</li>
 <li>Dominic Forbush (Sandia)</li>
 <li>David Ogden (NREL)</li>
+<li>Adam Keester (Sandia)</li>
+<li>Jorge Leon (Sandia)</li>
+</ul>
+<p>Former members of the development team include:</p>
+<ul class="simple">
+<li>Jennifer Van Rij (NREL)</li>
+<li>Michael Lawson (NREL)</li>
+<li>Carlos Michelen (Sandia)</li>
 </ul>
 </div>
 <div class="section" id="funding">
@@ -252,7 +259,6 @@
     <div class="rst-other-versions">
         <dl>
             <dt>Branches</dt>
-            <dd><a href="dev/index.html">dev</a></dd>
             <dd><a href="master/index.html">master</a></dd>
         </dl>
     </div>

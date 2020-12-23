@@ -100,7 +100,6 @@
 <li class="toctree-l1"><a class="reference internal" href="acknowledgements.html">Acknowledgements</a></li>
 <li class="toctree-l1"><a class="reference internal" href="publications.html">Publications</a></li>
 <li class="toctree-l1"><a class="reference internal" href="release_notes.html">Release Notes</a></li>
-<li class="toctree-l1"><a class="reference internal" href="contact.html">Online Forum</a></li>
 <li class="toctree-l1"><a class="reference internal" href="api.html">WEC-Sim API</a></li>
 <li class="toctree-l1 current"><a class="current reference internal" href="#">Terminology</a></li>
 </ul>
@@ -178,8 +177,8 @@
 <span id="id1"></span><h1>Terminology<a class="headerlink" href="#terminology" title="Permalink to this headline">¶</a></h1>
 <table border="1" class="docutils">
 <colgroup>
-<col width="23%" />
-<col width="77%" />
+<col width="26%" />
+<col width="74%" />
 </colgroup>
 <thead valign="bottom">
 <tr class="row-odd"><th class="head">Term or Variable</th>
@@ -190,17 +189,59 @@
 <tr class="row-even"><td><span class="math notranslate nohighlight">\(A(\omega)\)</span></td>
 <td>Frequency dependent radiation added mass (kg)</td>
 </tr>
-<tr class="row-odd"><td><span class="math notranslate nohighlight">\(A_{\infty}\)</span></td>
+<tr class="row-odd"><td><span class="math notranslate nohighlight">\(\overline{A(\omega)}\)</span></td>
+<td>Normalized radiation added mass (m^3)</td>
+</tr>
+<tr class="row-even"><td><span class="math notranslate nohighlight">\(A_{\infty}\)</span></td>
 <td>Added mass at infinite frequency (kg)</td>
+</tr>
+<tr class="row-odd"><td><span class="math notranslate nohighlight">\(A_{d}\)</span></td>
+<td>Characteristic drag area</td>
+</tr>
+<tr class="row-even"><td><span class="math notranslate nohighlight">\(\bold{A_d}\)</span></td>
+<td>State space discrete time state matrix</td>
+</tr>
+<tr class="row-odd"><td><span class="math notranslate nohighlight">\(\bold{A_r}\)</span></td>
+<td>State space time-invariant state matrix</td>
+</tr>
+<tr class="row-even"><td><span class="math notranslate nohighlight">\(A_{ws}\)</span></td>
+<td>Wave spectrum coefficient</td>
+</tr>
+<tr class="row-odd"><td><span class="math notranslate nohighlight">\(\alpha\)</span></td>
+<td>Wave spectrum coefficient (JONSWAP)</td>
 </tr>
 <tr class="row-even"><td><span class="math notranslate nohighlight">\(B(\omega)\)</span></td>
 <td>Frequency dependent radiation wave damping (N/m/s)</td>
+</tr>
+<tr class="row-odd"><td><span class="math notranslate nohighlight">\(\overline{B(\omega)}\)</span></td>
+<td>Normalized radiation wave damping (m^3/s^2)</td>
+</tr>
+<tr class="row-even"><td><span class="math notranslate nohighlight">\(\bold{B_d}\)</span></td>
+<td>State space discrete time input matrix</td>
+</tr>
+<tr class="row-odd"><td><span class="math notranslate nohighlight">\(\bold{B_r}\)</span></td>
+<td>State space time-invariant input matrix</td>
+</tr>
+<tr class="row-even"><td><span class="math notranslate nohighlight">\(B_{ws}\)</span></td>
+<td>Wave spectrum coefficient</td>
 </tr>
 <tr class="row-odd"><td>BEM</td>
 <td>Boundary Element Method</td>
 </tr>
 <tr class="row-even"><td>BEMIO</td>
 <td>Boundary Element Method Input/Output</td>
+</tr>
+<tr class="row-odd"><td><span class="math notranslate nohighlight">\(cg\)</span></td>
+<td>Center of gravity</td>
+</tr>
+<tr class="row-even"><td><span class="math notranslate nohighlight">\(cb\)</span></td>
+<td>Center of buoyancy</td>
+</tr>
+<tr class="row-odd"><td><span class="math notranslate nohighlight">\(C_{hs}\)</span></td>
+<td>Linear hydrostatic restoring coefficient (N/m)</td>
+</tr>
+<tr class="row-even"><td><span class="math notranslate nohighlight">\(\overline{C_{hs}}\)</span></td>
+<td>Normalized linear hydrostatic restoring coefficient (m^2)</td>
 </tr>
 <tr class="row-odd"><td><span class="math notranslate nohighlight">\(C_{a}\)</span></td>
 <td>Morison element coefficient of added mass</td>
@@ -214,17 +255,41 @@
 <tr class="row-even"><td><span class="math notranslate nohighlight">\(C_{pto}\)</span></td>
 <td>PTO damping coefficient (N/m/s)</td>
 </tr>
-<tr class="row-odd"><td><span class="math notranslate nohighlight">\(C_{v}\)</span></td>
+<tr class="row-odd"><td><span class="math notranslate nohighlight">\(\bold{C_d}\)</span></td>
+<td>State space discrete time output matrix</td>
+</tr>
+<tr class="row-even"><td><span class="math notranslate nohighlight">\(\bold{C_r}\)</span></td>
+<td>State space time-invariant output matrix</td>
+</tr>
+<tr class="row-odd"><td><span class="math notranslate nohighlight">\(C_{ws}\)</span></td>
+<td>Wave spectrum coefficient (JONSWAP)</td>
+</tr>
+<tr class="row-even"><td><span class="math notranslate nohighlight">\(C_{v}\)</span></td>
 <td>Linear (viscous) damping coefficient (N/m/s)</td>
 </tr>
-<tr class="row-even"><td><code class="docutils literal notranslate"><span class="pre">$CASE</span></code></td>
+<tr class="row-odd"><td><code class="docutils literal notranslate"><span class="pre">$CASE</span></code></td>
 <td>WEC-Sim case directory</td>
 </tr>
-<tr class="row-odd"><td><span class="math notranslate nohighlight">\(\eta\)</span></td>
+<tr class="row-even"><td>dof</td>
+<td>Degree of freedom</td>
+</tr>
+<tr class="row-odd"><td><span class="math notranslate nohighlight">\(D\)</span></td>
+<td>Mean water depth</td>
+</tr>
+<tr class="row-even"><td><span class="math notranslate nohighlight">\(\bold{D_d}\)</span></td>
+<td>State space discrete time feed through matrix</td>
+</tr>
+<tr class="row-odd"><td><span class="math notranslate nohighlight">\(\bold{D_r}\)</span></td>
+<td>State space time-invariant feed through matrix</td>
+</tr>
+<tr class="row-even"><td><span class="math notranslate nohighlight">\(\eta\)</span></td>
 <td>Incident wave (m)</td>
 </tr>
-<tr class="row-even"><td><span class="math notranslate nohighlight">\(f\)</span></td>
+<tr class="row-odd"><td><span class="math notranslate nohighlight">\(f\)</span></td>
 <td>Wave frequency (Hz)</td>
+</tr>
+<tr class="row-even"><td><span class="math notranslate nohighlight">\(f_{p}\)</span></td>
+<td>Peak wave frequency (Hz)</td>
 </tr>
 <tr class="row-odd"><td><span class="math notranslate nohighlight">\(F_{B}\)</span></td>
 <td>Net buoyancy restoring force (N) or torque (N.m)</td>
@@ -232,23 +297,29 @@
 <tr class="row-even"><td><span class="math notranslate nohighlight">\(F_{exc}\)</span></td>
 <td>Wave excitation force (N) or torque (N.m)</td>
 </tr>
-<tr class="row-odd"><td><span class="math notranslate nohighlight">\(F_{rad}\)</span></td>
+<tr class="row-odd"><td><span class="math notranslate nohighlight">\(\overline{F_{exc}}\)</span></td>
+<td>Normalized wave excitation force (m^3) or torque (m^4)</td>
+</tr>
+<tr class="row-even"><td><span class="math notranslate nohighlight">\(F_{rad}\)</span></td>
 <td>Wave radiation force (N) or torque (N.m)</td>
 </tr>
-<tr class="row-even"><td><span class="math notranslate nohighlight">\(F_{pto}\)</span></td>
+<tr class="row-odd"><td><span class="math notranslate nohighlight">\(F_{pto}\)</span></td>
 <td>Power take-off force (N) or torque (N.m)</td>
 </tr>
-<tr class="row-odd"><td><span class="math notranslate nohighlight">\(F_{me}\)</span></td>
+<tr class="row-even"><td><span class="math notranslate nohighlight">\(F_{me}\)</span></td>
 <td>Morison element force (N) or torque (N.m)</td>
 </tr>
-<tr class="row-even"><td><span class="math notranslate nohighlight">\(F_{v}\)</span></td>
+<tr class="row-odd"><td><span class="math notranslate nohighlight">\(F_{v}\)</span></td>
 <td>Damping or friction force (N) or torque (N.m)</td>
 </tr>
-<tr class="row-odd"><td><span class="math notranslate nohighlight">\(F_{m}\)</span></td>
+<tr class="row-even"><td><span class="math notranslate nohighlight">\(F_{m}\)</span></td>
 <td>Mooring connection force (N) or torque (N.m)</td>
 </tr>
-<tr class="row-even"><td><span class="math notranslate nohighlight">\(g\)</span></td>
-<td>Gravity (m/s/s)</td>
+<tr class="row-odd"><td><span class="math notranslate nohighlight">\(g\)</span></td>
+<td>Gravitational acceleration (m/s/s)</td>
+</tr>
+<tr class="row-even"><td>GBM</td>
+<td>Generalized body mode</td>
 </tr>
 <tr class="row-odd"><td><span class="math notranslate nohighlight">\(h\)</span></td>
 <td>Water depth (m)</td>
@@ -256,14 +327,20 @@
 <tr class="row-even"><td><span class="math notranslate nohighlight">\(H\)</span></td>
 <td>Wave height (m)</td>
 </tr>
-<tr class="row-odd"><td><span class="math notranslate nohighlight">\(H_{s}\)</span></td>
+<tr class="row-odd"><td><span class="math notranslate nohighlight">\(\bold{H}\)</span></td>
+<td>Hankel matrix of the impulse response function</td>
+</tr>
+<tr class="row-even"><td><span class="math notranslate nohighlight">\(H_{s}\)</span></td>
 <td>Significant wave height, mean wave height of the tallest third of waves (m)</td>
 </tr>
-<tr class="row-even"><td><span class="math notranslate nohighlight">\(H_{m0}\)</span></td>
+<tr class="row-odd"><td><span class="math notranslate nohighlight">\(H_{m0}\)</span></td>
 <td>Spectrally derived significant wave height (m)</td>
 </tr>
-<tr class="row-odd"><td>Heave (Z)</td>
+<tr class="row-even"><td>Heave (Z)</td>
 <td>Motion along the Z-axis</td>
+</tr>
+<tr class="row-odd"><td>IRF</td>
+<td>Impulse Response function</td>
 </tr>
 <tr class="row-even"><td>JS</td>
 <td>JONSWAP Spectrum</td>
@@ -271,17 +348,29 @@
 <tr class="row-odd"><td><span class="math notranslate nohighlight">\(k\)</span></td>
 <td>Wave number (rad/m), <span class="math notranslate nohighlight">\(k = \frac{2\pi}{\lambda}\)</span></td>
 </tr>
-<tr class="row-even"><td><span class="math notranslate nohighlight">\(K_{hs}\)</span></td>
-<td>Linear hydrostatic restoring coefficient (N/m)</td>
+<tr class="row-even"><td><span class="math notranslate nohighlight">\(K_e\)</span></td>
+<td>Excitation impulse response function</td>
 </tr>
-<tr class="row-odd"><td><span class="math notranslate nohighlight">\(K_{m}\)</span></td>
+<tr class="row-odd"><td><span class="math notranslate nohighlight">\(\overline{K_e}\)</span></td>
+<td>Normalized excitation impulse response function</td>
+</tr>
+<tr class="row-even"><td><span class="math notranslate nohighlight">\(K_{m}\)</span></td>
 <td>Mooring stiffness matrix (N/m)</td>
 </tr>
-<tr class="row-even"><td><span class="math notranslate nohighlight">\(K_{pto}\)</span></td>
+<tr class="row-odd"><td><span class="math notranslate nohighlight">\(K_{pto}\)</span></td>
 <td>PTO stiffness coefficient (N/m)</td>
 </tr>
-<tr class="row-odd"><td><span class="math notranslate nohighlight">\(\lambda\)</span></td>
+<tr class="row-even"><td><span class="math notranslate nohighlight">\(K_r\)</span></td>
+<td>Radiation impulse response function</td>
+</tr>
+<tr class="row-odd"><td><span class="math notranslate nohighlight">\(\overline{K_r}\)</span></td>
+<td>Normalized radiation impulse response function</td>
+</tr>
+<tr class="row-even"><td><span class="math notranslate nohighlight">\(\lambda\)</span></td>
 <td>Wave length (m)</td>
+</tr>
+<tr class="row-odd"><td><span class="math notranslate nohighlight">\(\lambda_{fd}\)</span></td>
+<td>Flux linkage</td>
 </tr>
 <tr class="row-even"><td><span class="math notranslate nohighlight">\(m\)</span></td>
 <td>Mass of body (kg)</td>
@@ -295,29 +384,41 @@
 <tr class="row-odd"><td><span class="math notranslate nohighlight">\(\phi\)</span></td>
 <td>Wave phase (rad)</td>
 </tr>
+<tr class="row-even"><td><span class="math notranslate nohighlight">\(\sigma\)</span></td>
+<td>Wave spectrum coefficient (JONSWAP)</td>
+</tr>
+<tr class="row-odd"><td><span class="math notranslate nohighlight">\(\gamma\)</span></td>
+<td>Wave spectrum non-dimensional peak shape parameter</td>
+</tr>
 <tr class="row-even"><td>Pitch (Ry)</td>
 <td>Rotation about the Y-axis</td>
 </tr>
 <tr class="row-odd"><td>PM</td>
-<td>Pierson-Moskowitz Spectrum</td>
+<td>Pierson-Moskowitz Specturm</td>
 </tr>
-<tr class="row-even"><td>PTO</td>
+<tr class="row-even"><td><span class="math notranslate nohighlight">\(P_{PTO}\)</span></td>
+<td>Power from the PTO</td>
+</tr>
+<tr class="row-odd"><td>PTO</td>
 <td>Power Take-Off</td>
 </tr>
-<tr class="row-odd"><td><span class="math notranslate nohighlight">\(R_{f}\)</span></td>
+<tr class="row-even"><td><span class="math notranslate nohighlight">\(R_{f}\)</span></td>
 <td>Ramp function</td>
 </tr>
-<tr class="row-even"><td><span class="math notranslate nohighlight">\(\rho\)</span></td>
+<tr class="row-odd"><td><span class="math notranslate nohighlight">\(\rho\)</span></td>
 <td>Water density (kg/m3)</td>
 </tr>
-<tr class="row-odd"><td>Roll (Rx)</td>
+<tr class="row-even"><td>Roll (Rx)</td>
 <td>Rotation about the X-axis</td>
 </tr>
-<tr class="row-even"><td>Surge(x)</td>
+<tr class="row-odd"><td>Surge(x)</td>
 <td>Motion along the X-axis</td>
 </tr>
-<tr class="row-odd"><td>Sway (Y)</td>
+<tr class="row-even"><td>Sway (Y)</td>
 <td>Motion along the Y-axis</td>
+</tr>
+<tr class="row-odd"><td><span class="math notranslate nohighlight">\(S(\omega)\)</span></td>
+<td>General wave spectrum</td>
 </tr>
 <tr class="row-even"><td><span class="math notranslate nohighlight">\(t\)</span></td>
 <td>Simulation time (s)</td>
@@ -331,14 +432,26 @@
 <tr class="row-odd"><td><span class="math notranslate nohighlight">\(T_{p}\)</span></td>
 <td>Peak period (s)</td>
 </tr>
+<tr class="row-even"><td><span class="math notranslate nohighlight">\(\tau\)</span></td>
+<td>Magnetic pole pitch</td>
+</tr>
+<tr class="row-odd"><td><span class="math notranslate nohighlight">\(\bold{u}\)</span></td>
+<td>State space input</td>
+</tr>
+<tr class="row-even"><td><span class="math notranslate nohighlight">\(V_0\)</span></td>
+<td>Displaced water volume (m^3)</td>
+</tr>
+<tr class="row-odd"><td><code class="docutils literal notranslate"><span class="pre">$WECSIM</span></code></td>
+<td>WEC-Sim source code directory</td>
+</tr>
 <tr class="row-even"><td><span class="math notranslate nohighlight">\(X\)</span></td>
 <td>Translation and rotation displacement vector (m) or (rad)</td>
 </tr>
-<tr class="row-odd"><td>Yaw (Rz)</td>
-<td>Rotation about the Z-axis</td>
+<tr class="row-odd"><td><span class="math notranslate nohighlight">\(X_r\)</span></td>
+<td>State space state vector</td>
 </tr>
-<tr class="row-even"><td><code class="docutils literal notranslate"><span class="pre">$WECSIM</span></code></td>
-<td>WEC-Sim source code directory</td>
+<tr class="row-even"><td>Yaw (Rz)</td>
+<td>Rotation about the Z-axis</td>
 </tr>
 </tbody>
 </table>
@@ -394,7 +507,6 @@
     <div class="rst-other-versions">
         <dl>
             <dt>Branches</dt>
-            <dd><a href="../../dev/man/terminology.html">dev</a></dd>
             <dd><a href="terminology.html">master</a></dd>
         </dl>
     </div>
