@@ -1,4 +1,7 @@
 # Visit the [WEC-Sim website](http://wec-sim.github.io/WEC-Sim) for more information.
+[![DOI](https://zenodo.org/badge/20451353.svg)](https://zenodo.org/badge/latestdoi/20451353)
+[![Build Status](https://travis-ci.com/WEC-Sim/WEC-Sim.svg?branch=master)](https://travis-ci.com/WEC-Sim/WEC-Sim)
+
 
 ## WEC-Sim Repository
 
