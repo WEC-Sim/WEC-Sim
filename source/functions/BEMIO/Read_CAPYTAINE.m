@@ -2,14 +2,10 @@ function hydro = Read_CAPYTAINE(hydro,filename)
 
 %% Reads data from a Capytaine netcdf file
 %
-% Adding B2B interaction capability
-% Current with Read_CAPYTAINE() as of 11/24 (commit 1692c3684fe)
+% hydro = Read_CAPYTAINE(hydro, filename)
+%     hydro –     data structure
+%     filename –  CAPYTAINE .nc output file
 %
-% _v3 changes the sorting function to work with both GBM and B2B
-% _v4 changes b2b functionality to work with actual Capytaine b2b output
-% body=(body1+body2+...)
-%
-% this script is Read_CAPYTAINE_b2b_v4()
 
 %% Check file for required variables
 [a,b] = size(hydro);  % Check on what is already there

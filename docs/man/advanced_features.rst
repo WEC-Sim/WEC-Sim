@@ -395,7 +395,7 @@ The `WEC-Sim Applications repository <https://github.com/WEC-Sim/WEC-Sim_Applica
 
 .. Note::
 
-	Generalized body modes module has only been tested with WAMIT, where BEMIO may need to be modified for NEMOH. 
+	Generalized body modes module has only been tested with WAMIT, where BEMIO may need to be modified for NEMOH, AQWA and CAPYTAINE.
 
 
 Passive Yaw Implementation
