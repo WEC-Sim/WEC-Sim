@@ -195,7 +195,7 @@ classdef bodyClass<handle
             else
                 obj.hydroForce.visDrag = diag(0.5*rho.*obj.viscDrag.cd.*obj.viscDrag.characteristicArea);
             end
-            obj.hydroForce.linearDamping = obj.linearDamping
+            obj.hydroForce.linearDamping = obj.linearDamping;
             obj.dof = length(obj.viscDrag.Drag);
         end
         
@@ -448,7 +448,7 @@ classdef bodyClass<handle
     
     methods (Access = 'protected') %modify object = T; output = F
         function noExcitation(obj)
-            % Set exciation force for no excitation case
+            % Set excitation force for no excitation case
             nDOF = obj.dof;
             obj.hydroForce.fExt.re=zeros(1,nDOF);
             obj.hydroForce.fExt.im=zeros(1,nDOF);
@@ -620,7 +620,7 @@ classdef bodyClass<handle
             else
                 obj.hydroForce.fAddedMass=obj.hydroData.hydro_coeffs.added_mass.inf_freq(:,obj.dof_start:obj.dof_end) .*rho;
             end
-            % Radition IRF
+            % Radiation IRF
             obj.hydroForce.fDamping=zeros(nDOF,LDOF);
             irfk = obj.hydroData.hydro_coeffs.radiation_damping.impulse_response_fun.K  .*rho;
             irft = obj.hydroData.hydro_coeffs.radiation_damping.impulse_response_fun.t;
@@ -768,7 +768,7 @@ classdef bodyClass<handle
                 vertex_mod = obj.rotateXYZ(vertex_mod,[0 0 1],pos(6));
                 vertex_mod = obj.offsetXYZ(vertex_mod,pos(1:3));
                 % open file
-                filename = [pathParaviewVideo,filesep,'vtk' filesep 'body' num2str(vtkbodiesii) '_' bodyname filesep bodyname '_' num2str(it) '.vtp'];
+                filename = [pathParaviewVideo, filesep 'body' num2str(vtkbodiesii) '_' bodyname filesep bodyname '_' num2str(it) '.vtp'];
                 fid = fopen(filename, 'w');
                 % write header
                 fprintf(fid, '<?xml version="1.0"?>\n');
@@ -818,7 +818,7 @@ classdef bodyClass<handle
                 if ~isempty(hspressure)
                     fprintf(fid,'        <DataArray type="Float32" Name="Hydrostatic Pressure" NumberOfComponents="1" format="ascii">\n');
                     for ii = 1:numFace
-                        fprintf(fid, '          %i', hspressure.signals.values(it,ii));
+                        fprintf(fid, '          %i', hspressure(it,ii));
                     end
                     fprintf(fid, '\n');
                     fprintf(fid,'        </DataArray>\n');
@@ -827,7 +827,7 @@ classdef bodyClass<handle
                 if ~isempty(wavenonlinearpressure)
                     fprintf(fid,'        <DataArray type="Float32" Name="Wave Pressure NonLinear" NumberOfComponents="1" format="ascii">\n');
                     for ii = 1:numFace
-                        fprintf(fid, '          %i', wavenonlinearpressure.signals.values(it,ii));
+                        fprintf(fid, '          %i', wavenonlinearpressure(it,ii));
                     end
                     fprintf(fid, '\n');
                     fprintf(fid,'        </DataArray>\n');
@@ -836,7 +836,7 @@ classdef bodyClass<handle
                 if ~isempty(wavelinearpressure)
                     fprintf(fid,'        <DataArray type="Float32" Name="Wave Pressure Linear" NumberOfComponents="1" format="ascii">\n');
                     for ii = 1:numFace
-                        fprintf(fid, '          %i', wavelinearpressure.signals.values(it,ii));
+                        fprintf(fid, '          %i', wavelinearpressure(it,ii));
                     end
                     fprintf(fid, '\n');
                     fprintf(fid,'        </DataArray>\n');

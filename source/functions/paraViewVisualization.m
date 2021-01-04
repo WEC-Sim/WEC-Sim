@@ -37,20 +37,20 @@ if simu.paraview == 1
         end
     end
    % bodies
-    filename = [simu.pathParaviewVideo filesep 'vtk' filesep 'bodies.txt'];
-    mkdir([simu.pathParaviewVideo filesep 'vtk'])
+    filename = [simu.pathParaviewVideo filesep 'bodies.txt'];
+    mkdir([simu.pathParaviewVideo])
     [fid ,errmsg] = fopen(filename, 'w');
     vtkbodiesii = 1;
     for ii = 1:length(body(1,:))
         if body(ii).bodyparaview == 1
             bodyname = output.bodies(ii).name;
-            mkdir([simu.pathParaviewVideo filesep 'vtk' filesep 'body' num2str(vtkbodiesii) '_' bodyname]);
+            mkdir([simu.pathParaviewVideo filesep 'body' num2str(vtkbodiesii) '_' bodyname]);
             TimeBodyParav = output.bodies(ii).time;
             PositionBodyParav = output.bodies(ii).position;
             NewTimeParaview(:,1) = simu.StartTimeParaview:simu.dtParaview:simu.EndTimeParaview;
             PositionBodyParav = interp1(TimeBodyParav,PositionBodyParav,NewTimeParaview);
             TimeBodyParav = NewTimeParaview-simu.StartTimeParaview;
-            body(ii).write_paraview_vtp(TimeBodyParav, PositionBodyParav, bodyname, simu.simMechanicsFile, datestr(simu.simulationDate), hspressure{ii}, wpressurenl{ii}, wpressurel{ii}, simu.pathParaviewVideo,vtkbodiesii);
+            body(ii).write_paraview_vtp(TimeBodyParav, PositionBodyParav, bodyname, simu.simMechanicsFile, datestr(simu.simulationDate), output.bodies(ii).cellPressures_hydrostatic, output.bodies(ii).cellPressures_waveNonLinear, output.bodies(ii).cellPressures_waveLinear, simu.pathParaviewVideo,vtkbodiesii);
             bodies{vtkbodiesii} = bodyname;
             fprintf(fid,[bodyname '\n']);
             fprintf(fid,[num2str(body(vtkbodiesii).viz.color) '\n']);
@@ -61,11 +61,11 @@ if simu.paraview == 1
     end; clear ii
     fclose(fid);
     % waves
-       mkdir([simu.pathParaviewVideo filesep 'vtk' filesep 'waves'])
+       mkdir([simu.pathParaviewVideo filesep 'waves'])
         waves.write_paraview_vtp(NewTimeParaview, waves.viz.numPointsX, waves.viz.numPointsY, simu.domainSize, simu.simMechanicsFile, datestr(simu.simulationDate),moordynFlag,simu.pathParaviewVideo,TimeBodyParav, simu.g);    % mooring
     % mooring
     if moordynFlag == 1
-        mkdir([simu.pathParaviewVideo filesep 'vtk' filesep 'mooring'])
+        mkdir([simu.pathParaviewVideo filesep 'mooring'])
         mooring.write_paraview_vtp(output.moorDyn, simu.simMechanicsFile, output.moorDyn.Lines.Time, datestr(simu.simulationDate), mooring.moorDynLines, mooring.moorDynNodes,simu.pathParaviewVideo,TimeBodyParav,NewTimeParaview)
     end
     % all

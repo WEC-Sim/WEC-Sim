@@ -51,9 +51,12 @@ classdef responseClass<handle
     %   *  ``forceMorisonAndViscous`` (`array`) = [# of time-steps x 6]
     %   *  ``forceLinearDamping`` (`array`) = [# of time-steps x 6]
     %
-    %   There are additional ``output.bodies`` structures for non-linar hydro (e.g.
-    %   ``cellPressures_time``, ``cellPressures_hydrostatic``,
-    %   ``cellPressures_waveLinear``, ``cellPressures_waveNonLinear``)
+    %   There are 4 additional ``output.bodies`` arrays when using non-linear hydro and Paraview output:
+    %
+    %   *  ``cellPressures_time`` ('array') = [# of Paraview time-steps x 1]
+    %   *  ``cellPressures_hydrostatic`` ('array') = [# of Paraview time-steps x # of mesh faces]
+    %   *  ``cellPressures_waveLinear`` ('array') = [# of Paraview time-steps x # of mesh faces]
+    %   *  ``cellPressures_waveNonLinear`` ('array') = [# of Paraview time-steps x # of mesh faces]
     %
     %.. autoattribute:: objects.responseClass.ptos
     %    
@@ -164,6 +167,11 @@ classdef responseClass<handle
                     obj.bodies(ii).cellPressures_hydrostatic   = bodiesOutput(ii).hspressure.signals.values;
                     obj.bodies(ii).cellPressures_waveLinear    = bodiesOutput(ii).wpressurel.signals.values;
                     obj.bodies(ii).cellPressures_waveNonLinear = bodiesOutput(ii).wpressurenl.signals.values;
+                else
+                    obj.bodies(ii).cellPressures_time = [];
+                    obj.bodies(ii).cellPressures_hydrostatic   = [];
+                    obj.bodies(ii).cellPressures_waveLinear    = [];
+                    obj.bodies(ii).cellPressures_waveNonLinear = [];
                 end
             end
             % PTOs
@@ -585,7 +593,7 @@ classdef responseClass<handle
                 fs = filesep;
             end
             % open file
-            fid = fopen([pathParaviewVideo,'\\vtk' fs model(1:end-4) '.pvd'], 'w');
+            fid = fopen([pathParaviewVideo, fs model(1:end-4) '.pvd'], 'w');
             % write header
             fprintf(fid, '<?xml version="1.0"?>\n');
             fprintf(fid, ['<!-- WEC-Sim Visualization using ParaView -->\n']);

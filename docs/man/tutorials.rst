@@ -16,37 +16,38 @@ This tutorial is provided in the WEC-Sim code release in the ``$WECSIM/tutorials
 Device Geometry
 ^^^^^^^^^^^^^^^^^^^^^^^
 The RM3 two-body point absorber WEC has been characterized both numerically and experimentally as a result of the DOE-funded `Reference Model Project <http://energy.sandia.gov/rmp>`_. 
-The RM3 is a two-body point absorber consisting of a float and a reaction plate. Full-scale dimensions of the RM3 and its mass properties are shown below.
+The RM3 is a two-body point absorber consisting of a float and a reaction  plate. Full-scale dimensions and mass properties of the RM3 are shown below. 
+
 
 .. figure:: /_static/images/RM3_Geom.png
    :width: 300pt
    :align: center
 
-+-----------------------------------------------------------+
-|Float Full Scale Properties                                |
-+=========+======+=========+================================+
-|Direction|      |Mass     |Moment of                       |
-+         +CG (m)+(tonne)  +Inertia (kg-m^2)                +
-+---------+------+---------+----------+----------+----------+
-|    x    |  0   |         |20,907,301|0         |0         |
-+---------+------+         +----------+----------+----------+
-|    y    |  0   |727.01   |0         |21,306,091|0         |
-+---------+------+         +----------+----------+----------+
-|    z    |-0.72 |         |0         |0         |37,085,481|
-+---------+------+---------+----------+----------+----------+   
++-------+---------------+
+| Body  | Mass (tonne)  |
++=======+===============+
+| Float | 727.01        |
++-------+---------------+
+| Plate | 878.30        |
++-------+---------------+
 
-+-----------------------------------------------------------+
-|Plate Full Scale Properties                                |
-+=========+======+=========+================================+
-|Direction|      |Mass     |Moment of                       |
-+         +CG (m)+(tonne)  +Inertia (kg-m^2)                +
-+---------+------+---------+----------+----------+----------+
-|    x    |  0   |         |94,419,615|0         |0         |
-+---------+------+         +----------+----------+----------+
-|    x    |  0   |878.30   |0         |94,407,091|0         |
-+---------+------+         +----------+----------+----------+
-|    x    |-21.29|         |0         |0         |28,542,225|
-+---------+------+---------+----------+----------+----------+ 
++-------+-----------+------------------------+--------------------------------------+
+| Body  | Direction | Center of Gravity* (m) | Moment of Inertia Tensor (kg m^2)    |
++=======+===========+========================+============+============+============+
+|       |    x      |  0                     | 20,907,301 | 0          | 0          |
+|       +-----------+------------------------+------------+------------+------------+
+| Float |    y      |  0                     | 0          | 21,306,091 | 0          |
+|       +-----------+------------------------+------------+------------+------------+
+|       |    z      | -0.72                  | 0          | 0          | 37,085,481 |
++-------+-----------+------------------------+------------+------------+------------+
+|       |    x      |  0                     | 94,419,615 | 0          | 0          |
+|       +-----------+------------------------+------------+------------+------------+
+| Plate |    y      |  0                     | 0          | 94,407,091 | 0          |
+|       +-----------+------------------------+------------+------------+------------+
+|       |    z      | -21.29                 | 0          | 0          | 28,542,225 |
++-------+-----------+------------------------+------------+------------+------------+
+
+**\* The origin lies at the undisturbed free surface (SWL)**
 
 Model Files
 ^^^^^^^^^^^^^^^^^^^^^^^
@@ -138,26 +139,30 @@ This tutorial is provided in the WEC-Sim code release in the ``$WECSIM/tutorials
 
 Device Geometry
 ^^^^^^^^^^^^^^^^^^^^^^^
-The OSWEC was selected because its design is fundamentally different from the RM3. This is critical because WECs span an extensive design space, and it is important to model devices in WEC-Sim that operate under different principles.  The OSWEC is fixed to the ground and has a flap that is connected through a hinge to the base that restricts the flap in order to pitch about the hinge. The full-scale dimensions of the OSWEC and the mass properties are shown in the figure and table below.
+The OSWEC was selected because its design is fundamentally different from the RM3. This is critical because WECs span an extensive design space, and it is important to model devices in WEC-Sim that operate under different principles.  The OSWEC is fixed to the ground and has a flap that is connected through a hinge to the base that restricts the flap in order to pitch about the hinge.
+The full-scale dimensions and mass properties of the OSWEC are shown below.
 
 .. figure:: /_static/images/OSWEC_Geom.png
    :width: 300pt
    :align: center
 
-+-----------------------------+
-|Flap Full Scale Properties   |
-+======+=========+============+
-|      |         |Pitch Moment|
-+CG (m)+Mass (kg)+of Inertia  +
-|      |         |(kg-m^2)    |
-+------+---------+------------+
-|  0   |         |            |
-+------+         +            +
-|  0   |127,000  |1,850,000   |
-+------+         +            +
-| -3.9 |         |            |
-+------+---------+------------+
++-------+---------------+
+| Body  | Mass (tonne)  |
++=======+===============+
+| Flap  | 127           |
++-------+---------------+
 
++-------+-----------+------------------------+--------------------------------------+
+| Body  | Direction | Center of Gravity* (m) | Moment of Inertia Tensor (kg m^2)    |
++=======+===========+========================+============+============+============+
+|       |    x      |  0                     | 1,850,000  | 0          | 0          |
+|       +-----------+------------------------+------------+------------+------------+
+| Flap  |    y      |  0                     | 0          | 0          | 0          |
+|       +-----------+------------------------+------------+------------+------------+
+|       |    z      | -3.9                   | 0          | 0          | 0          |
++-------+-----------+------------------------+------------+------------+------------+
+
+**\* The origin lies at the undisturbed free surface**
 
 Model Files
 ^^^^^^^^^^^^^^^^^^^^^^^
@@ -291,10 +296,10 @@ Multiple Condition Run
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 Example using `Multiple Condition Runs (MCR) <http://wec-sim.github.io/WEC-Sim/advanced_features.html#multiple-condition-runs-mcr>`_ to run WEC-Sim with Multiple Condition Runs for the `RM3 <http://wec-sim.github.io/WEC-Sim/tutorials.html#two-body-point-absorber-rm3>`_. These examples demonstrate each of the 3 different ways to run WEC-Sim with MCR and generates a power matrix for each PTO damping value. The last example demonstrates how to use MCR to vary the imported sea state test file and specify corresponding phase. Execute `wecSimMCR.m` from the case directory to run an example. 
 
-MCROPT1: Cases defined using arrays of values for period and height.
-MCROPT2: Cases defined with wave statistics in an Excel spreadsheet (this is very ambiguous)
-MCROPT3: Cases defined in a MATLAB data file (.mat)
-MCROPT4: Cases defined using several MATLAB data files (.mat) of the wave spectrum
+* MCROPT1: Cases defined using arrays of values for period and height.
+* MCROPT2: Cases defined with wave statistics in an Excel spreadsheet
+* MCROPT3: Cases defined in a MATLAB data file (``.mat``)
+* MCROPT4: Cases defined using several MATLAB data files (``*.mat``) of the wave spectrum
 
 
 Nonhydrodynamic Body

@@ -225,14 +225,6 @@ if strcmp(waves.type,'etaImport') && simu.morisonElement ~= 0
 end
 
 % check for morisonElement inputs for simu.morisonElement == 1
-% if simu.morisonElement == 1 
-%     if true(isfinite(body.morisonElement.z)) == true
-%         warning(['"body.morisonElement.z" is not used for "simu.morisonElement == 1"'])
-%     end
-%     if isnan(body.morisonElement.cd(3)) == 1 || isnan(body.morisonElement.ca(3)) == 1 || isnan(body.morisonElement.characteristicArea(3)) == 1
-%         error(['Coefficients for "simu.morisonElement == 1" must be of size [1x3], third column of data must be defined'])
-%     end    
-% end
 if simu.morisonElement == 1
     for ii = 1:length(body(1,:))
         if body(ii).nhBody ~=1
@@ -366,6 +358,7 @@ try cd (['..' filesep parallelComputing_dir filesep '..' filesep]); end
 clear nlHydro sv_linearHydro sv_nonlinearHydro ssCalc radiation_option sv_convolution sv_stateSpace sv_constantCoeff typeNum B2B sv_B2B sv_noB2B;
 clear nhbod* sv_b* sv_noWave sv_regularWaves sv_irregularWaves sv_udfWaves sv_instFS sv_meanFS sv_MEOn sv_MEOff morisonElement flexHydrobody_* sv_irregularWavesNonLinYaw sv_regularWavesNonLinYaw yawNonLin numBody;
 clear dragBodLogic hydroBodLogic idx it;
+
 toc
 
 tic
@@ -375,6 +368,10 @@ postProcess
 if exist('userDefinedFunctions.m','file') == 2
     userDefinedFunctions;
 end
+
+% Paraview output. Must call while output is an instance of responseClass 
+paraViewVisualization
+
 % ASCII files
 if simu.outputtxt==1
     output.writetxt();
@@ -384,7 +381,6 @@ if simu.outputStructure==1
     output = struct(output);
 end
 
-paraViewVisualization
 
 %% Save files
 clear ans table tout;
@@ -399,4 +395,6 @@ if simu.saveMat==1
     outputFile = [simu.caseDir filesep 'output' filesep simu.caseFile];
     save(outputFile,'-v7.3')
 end
-try cd (['..' filesep parallelComputing_dir filesep '..' filesep]); end
+try 
+    cd (['..' filesep parallelComputing_dir filesep '..' filesep]); 
+end
