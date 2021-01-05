@@ -1,5 +1,5 @@
 function [u,v,w,xa,ya,za] = orbital_velocity(disp,k,omega,waveAmp,theta,t,rampT, beta, h, g)
-% Calcualtes the orbital velocity and acceleration for morison calcs
+% Calculates the orbital velocity and acceleration for morison calcs
 
 beta = beta * pi/180;
 kh = k*h;

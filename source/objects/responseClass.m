@@ -633,21 +633,4 @@ classdef responseClass<handle
             fclose(fid);
         end
     end
- end
-
-
-function rotMat = eulXYZ2RotMat(phi, theta, psi)
-    % function for converting global kinematic vectors to the local frame
-    % when using yawNonLin.
-    rotMat = [cos(theta)*cos(psi), -cos(theta)*sin(psi), sin(theta);
-              (cos(phi)*sin(psi) + sin(phi)*sin(theta)*cos(psi)), (cos(phi)*cos(psi) - sin(phi)*sin(theta)*sin(psi)), -sin(phi)*cos(theta);
-              (sin(phi)*sin(psi) - cos(phi)*sin(theta)*cos(psi)), (sin(phi)*cos(psi) + cos(phi)*sin(theta)*sin(psi)), cos(phi)*cos(theta)]; 
-end
-
-function [phi, theta, psi] = rotMatXYZ2Eul(rotMat)
-    % function for converting global kinematic vectors to the local frame
-    % when using yawNonLin.
-    phi = atan2(-rotMat(2,3), rotMat(3,3));
-    theta = asin(rotMat(1,3));
-    psi = atan2(-rotMat(1,2), rotMat(1,1));
 end
