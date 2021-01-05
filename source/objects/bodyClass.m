@@ -727,31 +727,31 @@ classdef bodyClass<handle
             clear tmp
         end
         
-        function xn = rotateXYZ(obj,x,ax,t)
-            % Function to rotate a point about an arbitrary axis
-            % x: 3-componenet coordiantes
-            % ax: axis about which to rotate (must be a normal vector)
-            % t: rotation angle
-            % xn: new coordinates after rotation
-            rotMat = zeros(3);
-            rotMat(1,1) = ax(1)*ax(1)*(1-cos(t))    + cos(t);
-            rotMat(1,2) = ax(2)*ax(1)*(1-cos(t))    + ax(3)*sin(t);
-            rotMat(1,3) = ax(3)*ax(1)*(1-cos(t))    - ax(2)*sin(t);
-            rotMat(2,1) = ax(1)*ax(2)*(1-cos(t))    - ax(3)*sin(t);
-            rotMat(2,2) = ax(2)*ax(2)*(1-cos(t))    + cos(t);
-            rotMat(2,3) = ax(3)*ax(2)*(1-cos(t))    + ax(1)*sin(t);
-            rotMat(3,1) = ax(1)*ax(3)*(1-cos(t))    + ax(2)*sin(t);
-            rotMat(3,2) = ax(2)*ax(3)*(1-cos(t))    - ax(1)*sin(t);
-            rotMat(3,3) = ax(3)*ax(3)*(1-cos(t))    + cos(t);
-            xn = x*rotMat;
-        end
+%         function xn = rotateXYZ(obj,x,ax,t)
+%             % Function to rotate a point about an arbitrary axis
+%             % x: 3-componenet coordiantes
+%             % ax: axis about which to rotate (must be a normal vector)
+%             % t: rotation angle
+%             % xn: new coordinates after rotation
+%             rotMat = zeros(3);
+%             rotMat(1,1) = ax(1)*ax(1)*(1-cos(t))    + cos(t);
+%             rotMat(1,2) = ax(2)*ax(1)*(1-cos(t))    + ax(3)*sin(t);
+%             rotMat(1,3) = ax(3)*ax(1)*(1-cos(t))    - ax(2)*sin(t);
+%             rotMat(2,1) = ax(1)*ax(2)*(1-cos(t))    - ax(3)*sin(t);
+%             rotMat(2,2) = ax(2)*ax(2)*(1-cos(t))    + cos(t);
+%             rotMat(2,3) = ax(3)*ax(2)*(1-cos(t))    + ax(1)*sin(t);
+%             rotMat(3,1) = ax(1)*ax(3)*(1-cos(t))    + ax(2)*sin(t);
+%             rotMat(3,2) = ax(2)*ax(3)*(1-cos(t))    - ax(1)*sin(t);
+%             rotMat(3,3) = ax(3)*ax(3)*(1-cos(t))    + cos(t);
+%             xn = x*rotMat;
+%         end
         
-        function verts_out = offsetXYZ(obj,verts,x)
-            % Function to move the position vertices
-            verts_out(:,1) = verts(:,1) + x(1);
-            verts_out(:,2) = verts(:,2) + x(2);
-            verts_out(:,3) = verts(:,3) + x(3);
-        end
+%         function verts_out = offsetXYZ(obj,verts,x)
+%             % Function to move the position vertices
+%             verts_out(:,1) = verts(:,1) + x(1);
+%             verts_out(:,2) = verts(:,2) + x(2);
+%             verts_out(:,3) = verts(:,3) + x(3);
+%         end
         
         function write_paraview_vtp(obj, t, pos_all, bodyname, model, simdate, hspressure,wavenonlinearpressure,wavelinearpressure,pathParaviewVideo,vtkbodiesii)
             % This methods writes vtp files for Paraview visualization.
@@ -763,10 +763,10 @@ classdef bodyClass<handle
             for it = 1:length(t)
                 % calculate new position
                 pos = pos_all(it,:);
-                vertex_mod = obj.rotateXYZ(vertex,[1 0 0],pos(4));
-                vertex_mod = obj.rotateXYZ(vertex_mod,[0 1 0],pos(5));
-                vertex_mod = obj.rotateXYZ(vertex_mod,[0 0 1],pos(6));
-                vertex_mod = obj.offsetXYZ(vertex_mod,pos(1:3));
+                vertex_mod = rotateXYZ(vertex,[1 0 0],pos(4));
+                vertex_mod = rotateXYZ(vertex_mod,[0 1 0],pos(5));
+                vertex_mod = rotateXYZ(vertex_mod,[0 0 1],pos(6));
+                vertex_mod = offsetXYZ(vertex_mod,pos(1:3));
                 % open file
                 filename = [pathParaviewVideo, filesep 'body' num2str(vtkbodiesii) '_' bodyname filesep bodyname '_' num2str(it) '.vtp'];
                 fid = fopen(filename, 'w');
