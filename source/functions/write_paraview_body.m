@@ -7,26 +7,26 @@ function write_paraview_body(body, t, pos_all, bodyname, model, simdate, hspress
 % ------------
 %   body : bodyClass
 %       Instance of the bodyClass that is being written to Paraview files.
-%   t : float
-%       asdf
-%   pos_all : 
-%       asdf
-%   bodyname : 
-%       asdf
-%   model : 
-%       asdf
-%   simdate : 
-%       asdf
-%   hspressure : 
-%       asdf
-%   wavenonlinearpressure : 
-%       asdf
-%   wavelinearpressure : 
-%       asdf
-%   pathParaviewVideo :  
-%       asdf
-%   vtkbodiesii : 
-%       asdf
+%   t : float vector
+%       Body time vector 
+%   pos_all : float vector
+%       6D position of the body interpolated to the Paraview output time, t
+%   bodyname : string
+%       Name of the body
+%   model : string
+%       The simMechanics ``.slx`` filename
+%   simdate : string
+%       Date and time of the simulation
+%   hspressure : float vector
+%       Hydrostatic pressure on the body cells
+%   wavenonlinearpressure : float vector
+%       Nonlinear Froude-Krylov pressure on the body cells
+%   wavelinearpressure : float vector
+%       Linear Froude-Krylov pressure on the body cells
+%   pathParaviewVideo : directory
+%       Directory the Paraview files were saved
+%   vtkbodiesii : int
+%       Index of the body (1 - number of Paraview bodies)
 % 
 numVertex = body.bodyGeometry.numVertex;
 numFace = body.bodyGeometry.numFace;

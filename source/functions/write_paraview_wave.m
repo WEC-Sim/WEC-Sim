@@ -5,12 +5,28 @@ function write_paraview_wave(waves, t, numPointsX, numPointsY, domainSize, model
 % 
 % Parameters
 % ------------
-%   var : type
-%       description
-% 
-% 
-% 
-% 
+%   waves : waveClass
+%       Instance of the waveClass that is being written to Paraview files.
+%   t : float vector
+%       Wave time vector 
+%   numPointsX : int
+%       Number of points for visualization in the x direction
+%   numPointsY : int
+%       Number of points for visualization in the y direction
+%   domainSize : int
+%       Length of the wave field in meters
+%   model : string
+%       The simMechanics ``.slx`` filename
+%   simdate : string
+%       Date and time of the simulation
+%   mooring : int
+%       MoorDyn flag
+%   pathParaviewVideo : directory
+%       Directory the Paraview files were saved
+%   TimeBodyParav : float vector
+%       Paraview time vector
+%   g : float
+%       Gravitational acceleration constant
 % 
 
 % ground plane

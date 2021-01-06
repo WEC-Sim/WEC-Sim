@@ -8,11 +8,11 @@ function write_paraview_mooring(moorDyn, model,t,simdate,nline,nnode,pathParavie
 %   moorDyn : obj
 %       The moorDyn object
 %   model : string
-%       The simMechanics ``.slx`` file
+%       The simMechanics ``.slx`` filename
 %   t : float vector
 %       Moordyn time vector 
 %   simdate : string
-%       Date string
+%       Date and time of the simulation
 %   nline : integer
 %       Number of mooring lines
 %   nnode : integer
@@ -21,8 +21,8 @@ function write_paraview_mooring(moorDyn, model,t,simdate,nline,nnode,pathParavie
 %       Directory the Paraview files were saved
 %   TimeBodyParav : float vector
 %       Paraview time vector
-%   simu.g : float
-%       Gravitational acceleration from simulationClass
+%   NewTimeParaview : float vector
+%       Total simulation time interpolated by the Paraview time step
 %
 
 nsegment = nnode -1;

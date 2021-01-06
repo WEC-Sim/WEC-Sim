@@ -5,15 +5,21 @@ function write_paraview_response(bodies, t, model, simdate, wavetype, mooring, p
 % 
 % Parameters
 % ------------
-%   var : type
-%       description
-% 
-% 
-% 
-% 
-% 
-This method is executed by specifying 
-% ``simu.paraview=1`` in the ``wecSimInputFile.m``.
+%   bodies : bodyClass vector 
+%       Instances of the bodyClass that are being written to Paraview files.
+%   t : float vector
+%       output time vector
+%   model : string
+%       The simMechanics ``.slx`` filename
+%   simdate : string
+%       Date and time of the simulation
+%   wavetype : string
+%       Type of wave used in the simulation
+%   mooring : int
+%       MoorDyn flag
+%   pathParaviewVideo : directory
+%       Directory the Paraview files were saved
+%       
 
 % set fileseperator to fs
 if strcmp(filesep, '\')
@@ -22,7 +28,8 @@ else
     fs = filesep;
 end
 % open file
-fid = fopen([pathParaviewVideo, fs model(1:end-4) '.pvd'], 'w');
+% fid = fopen([pathParaviewVideo, fs model(1:end-4) '.pvd'], 'w');
+fid = fopen([pathParaviewVideo, fs erase(model(1:end-4),pwd) '.pvd'], 'w');
 % write header
 fprintf(fid, '<?xml version="1.0"?>\n');
 fprintf(fid, ['<!-- WEC-Sim Visualization using ParaView -->\n']);
