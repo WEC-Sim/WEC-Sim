@@ -1,6 +1,6 @@
 function [phi, theta, psi] = rotMatXYZ2Eul(rotMat)
-    % Function to convert rotational transformation matrix to Euler angles.
-    % Used in yawNonLin to convert between global and local kinematic frames.
+    % Function to convert rotation matrix to Euler angles (extrinsic x-y-z convention).
+    % Used in yawNonLin to convert between global and local reference frames.
     %
     % Parameters
     % ------------
