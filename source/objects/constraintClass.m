@@ -132,29 +132,6 @@ classdef constraintClass<handle
             obj.initDisp.initLinDisp= linDisp + addLinDisp; 
         end
 
-%         function xn = rotateXYZ(obj,x,ax,t)
-%             %This method rotates a point about an arbitrary axis.
-%             %
-%             %``x`` (`3x1 float vector`) is the point coordiantes.
-%             %
-%             %``ax`` (`3x1 float vector`) is the axis about which to rotate the constraint and must be a normal vector.
-%             %
-%             %``t``  (`float`) is the rotation angle of the constraint.
-%             % 
-%             %``xn`` (`3x1 float vector`) is the new point coordiantes after rotation.
-%             rotMat = zeros(3);
-%             rotMat(1,1) = ax(1)*ax(1)*(1-cos(t))    + cos(t);
-%             rotMat(1,2) = ax(2)*ax(1)*(1-cos(t))    + ax(3)*sin(t);
-%             rotMat(1,3) = ax(3)*ax(1)*(1-cos(t))    - ax(2)*sin(t);
-%             rotMat(2,1) = ax(1)*ax(2)*(1-cos(t))    - ax(3)*sin(t);
-%             rotMat(2,2) = ax(2)*ax(2)*(1-cos(t))    + cos(t);
-%             rotMat(2,3) = ax(3)*ax(2)*(1-cos(t))    + ax(1)*sin(t);
-%             rotMat(3,1) = ax(1)*ax(3)*(1-cos(t))    + ax(2)*sin(t);
-%             rotMat(3,2) = ax(2)*ax(3)*(1-cos(t))    - ax(1)*sin(t);
-%             rotMat(3,3) = ax(3)*ax(3)*(1-cos(t))    + cos(t);
-%             xn = x*rotMat;
-%         end
-
         function listInfo(obj)
             % This method prints constraint information to the MATLAB Command Window.
             fprintf('\n\t***** Constraint Name: %s *****\n',obj.name)

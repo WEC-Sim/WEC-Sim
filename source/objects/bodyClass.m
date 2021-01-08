@@ -727,32 +727,6 @@ classdef bodyClass<handle
             clear tmp
         end
         
-%         function xn = rotateXYZ(obj,x,ax,t)
-%             % Function to rotate a point about an arbitrary axis
-%             % x: 3-componenet coordiantes
-%             % ax: axis about which to rotate (must be a normal vector)
-%             % t: rotation angle
-%             % xn: new coordinates after rotation
-%             rotMat = zeros(3);
-%             rotMat(1,1) = ax(1)*ax(1)*(1-cos(t))    + cos(t);
-%             rotMat(1,2) = ax(2)*ax(1)*(1-cos(t))    + ax(3)*sin(t);
-%             rotMat(1,3) = ax(3)*ax(1)*(1-cos(t))    - ax(2)*sin(t);
-%             rotMat(2,1) = ax(1)*ax(2)*(1-cos(t))    - ax(3)*sin(t);
-%             rotMat(2,2) = ax(2)*ax(2)*(1-cos(t))    + cos(t);
-%             rotMat(2,3) = ax(3)*ax(2)*(1-cos(t))    + ax(1)*sin(t);
-%             rotMat(3,1) = ax(1)*ax(3)*(1-cos(t))    + ax(2)*sin(t);
-%             rotMat(3,2) = ax(2)*ax(3)*(1-cos(t))    - ax(1)*sin(t);
-%             rotMat(3,3) = ax(3)*ax(3)*(1-cos(t))    + cos(t);
-%             xn = x*rotMat;
-%         end
-        
-%         function verts_out = offsetXYZ(obj,verts,x)
-%             % Function to move the position vertices
-%             verts_out(:,1) = verts(:,1) + x(1);
-%             verts_out(:,2) = verts(:,2) + x(2);
-%             verts_out(:,3) = verts(:,3) + x(3);
-%         end
-        
         function write_paraview_vtp(obj, t, pos_all, bodyname, model, simdate, hspressure,wavenonlinearpressure,wavelinearpressure,pathParaviewVideo,vtkbodiesii)
             % This methods writes vtp files for Paraview visualization.
             numVertex = obj.bodyGeometry.numVertex;
