@@ -18,7 +18,7 @@ end
 p = waitbar(0,'Reading Capytaine netcdf output file...'); %Progress bar
 
 hydro(F).code = 'CAPYTAINE';
-[~,name,~] = fileparts(filename);
+[meshdir,name,~] = fileparts(filename);
 hydro(F).file = name;  % Base name
 
 % Load info (names, size, ...) of Capytaine variables, dimensions, ...
@@ -137,20 +137,32 @@ waitbar(1/8);
 
 %% Read hydrostatics and basic parameters
 % center of gravity, center of buoyancy, displaced volume
-% NOTE: requires additional Capytaine hydrostatics functions to work. 
-% (these are not currently output in Capytaine, hence the if statement)
-hydro(F).cg = [0;0;0];
-hydro(F).cb = [0;0;1e-2];
-hydro(F).Vo = 0;
-if max(contains(lower(cpt_vars), 'center_of_mass')) && ...
-    max(contains(lower(cpt_vars), 'center_of_buoyancy')) && ...
-    max(contains(lower(cpt_vars), 'displaced_volume'))
-
-    hydro(F).cg = ncread(filename,'center_of_mass'); % center of gravity
-    hydro(F).cb = ncread(filename,'center_of_buoyancy'); % center of buoyancy
-    hydro(F).Vo = ncread(filename,'displaced_volume')'; % displaced volume
-else
-    warning('Hydrostatics data not included in Capytaine output. Using zero for cg,cb,Vo.');
+% Note: Capytaine does not calculate these by default. Must currently
+% include additional function to calculate this before reading Capytaine
+% output.
+%
+% Format is the same Hydrostatics.dat files that Nemoh uses.
+for m = 1:hydro(F).Nb
+    try
+        hydro(F).dof(m) = 6;  % Default degrees of freedom for each body is 6
+        if hydro(F).Nb == 1
+            fileID = fopen(fullfile(meshdir,'Hydrostatics.dat'));
+        else
+            fileID = fopen([fullfile(meshdir,'Hydrostatics_'),num2str(m-1),'.dat']);
+        end
+        raw = textscan(fileID,'%[^\n\r]');  % Read Hydrostatics.dat
+        raw = raw{:};
+        fclose(fileID);
+        for i=1:3
+            tmp = textscan(raw{i},'%s %s %f %s %s %s %f');
+            hydro(F).cg(i,m) = tmp{7};  % Center of gravity
+            hydro(F).cb(i,m) = tmp{3};  % Center of buoyancy
+        end
+        tmp = textscan(raw{4},'%s %s %f');
+        hydro(F).Vo(m) = tmp{3};  % Displacement volume
+    catch
+        warning('Hydrostatics data not included in Capytaine output. No value for cg,cb,Vo.');
+    end
 end
 
 % Read density, gravity and water depth
@@ -171,31 +183,28 @@ waitbar(2/8);
 
 %% Linear restoring stiffness [6, 6, Nb]
 % Note: Capytaine does not calculate this by default. Must currently
-% include additional function to calculate this before outputting
-hydro(F).C = zeros(6,6,hydro(F).Nb);  % Linear restoring stiffness, Defaults to 0 if Capytaine doesn't include
-if max(contains(lower(cpt_vars), 'hydrostatic_stiffness'))
-    % Get index of variable
-    i_var = getInd(info.Variables,'hydrostatic_stiffness');
-
-    % get dimensions of the variable
-    dim = info.Variables(i_var).Dimensions;
-    i_infdof = getInd(dim,'influenced_dof');
-    i_raddof = getInd(dim,'radiating_dof');
-    i_bod = getInd(dim,'body_name');
-
-    % read variable
-    tmp = ncread(filename,'hydrostatic_stiffness');
-
-    % Loop through bodies and add each body's stiffness to the matrix
-    for n=1:hydro(F).Nb
-        % Assign stiffness values to matrix
-        tmp2 = [tmp(1,n) tmp(2,n) tmp(3,n); ...
-                tmp(2,n) tmp(4,n) tmp(5,n); ...
-                tmp(3,n) tmp(5,n) tmp(6,n)];
-        hydro(F).C(3:5,3:5,n) = tmp2; % Linear restoring stiffness
+% include additional function to calculate this before reading Capytaine
+% output.
+%
+% Format is the same KH.dat files that Nemoh uses.
+for m = 1:hydro(F).Nb
+    try
+        if hydro(F).Nb == 1
+            fileID = fopen(fullfile(meshdir,'KH.dat'));
+        else
+            fileID = fopen([fullfile(meshdir,'KH_'),num2str(m-1),'.dat']);
+        end
+        raw = textscan(fileID,'%[^\n\r]');
+        raw = raw{:};
+        fclose(fileID);
+        for i=1:6
+            tmp = textscan(raw{i},'%f');
+            hydro(F).C(i,:,m) = tmp{1,1}(1:6);  % Linear restoring stiffness
+        end
+    catch
+        warning('Hydrostatics data not included in Capytaine output. No value for C.');
     end
 end
-clear tmp tmp2
 waitbar(3/8);
 
 %% Radiation added mass [6*Nb, 6*Nb, Nf]
