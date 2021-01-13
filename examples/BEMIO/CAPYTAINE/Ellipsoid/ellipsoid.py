@@ -17,36 +17,34 @@ sys.path.insert(1,'C:/Users/akeeste/Documents/Software/GitHub/capytaine/my_cases
 import call_capytaine as cc # call_capytaine.py has some mods from david's original function
 
 
-# Load ellipsoid mesh file ------------------------------------------------------#
-ellipsoid_file = ((os.getcwd() + os.path.sep + 'ellipsoid.dat'),) # .dat nemoh, .gdf wamit
-ellipsoid_cg = ((0,0,0),) # center of gravity
-ellipsoid_name = ('ellipsoid_cpt',) # body name
+# Define ellipsoid parameters ------------------------------------------------#
+ellipsoid_file = ((os.getcwd() + os.path.sep + 'ellipsoid.dat'),) # mesh file, .dat nemoh, .gdf wamit
+ellipsoid_cg = ((0,0,0),)                                         # center of gravity
+ellipsoid_name = ('ellipsoid_cpt',)                               # body name
 
-ellipsoid_w = np.linspace(0.03, 9.24, 308) # 308 for full, 3 for tests
-ellipsoid_headings = np.linspace(0,0,1)
-ellipsoid_depth = -np.infty
+ellipsoid_w = np.linspace(0.03, 9.24, 3)                          # wave frequencies. 308 for full run
+ellipsoid_headings = np.linspace(0,0,1)                           # wave heading
+ellipsoid_depth = np.infty                                        # water depth
 
-ellipsoid_nc = True
-ellipsoid_ncFile = os.getcwd() + os.path.sep + 'ellipsoid_full.nc'
+ellipsoid_ncFile = os.getcwd() + os.path.sep + 'test.nc'          # path for output .nc file
 # ----------------------------------------------------------------------------#
 
-# if os.path.isfile(ellipsoid_ncFile):
-#     print(f'Output ({ellipsoid_ncFile}) file already exists and will be overwritten. '
-#           'Do you wish to proceed? (y/n)')
-#     ans = input()
-#     if ans.lower() != 'y':
-#         print('\nEnding simulation. file not overwritten')
-#         sys.exit(0)
+# check that old output is not being overwritten (runs take awhile)
+if os.path.isfile(ellipsoid_ncFile):
+    print(f'Output ({ellipsoid_ncFile}) file already exists and will be overwritten. '
+          'Do you wish to proceed? (y/n)')
+    ans = input()
+    if ans.lower() != 'y':
+        print('\nEnding simulation. file not overwritten')
+        sys.exit(0)
 
+# Run Capytaine
 cc.call_capy(meshFName = ellipsoid_file,
              wCapy     = ellipsoid_w,
              CoG       = ellipsoid_cg,
              headings  = ellipsoid_headings,
-             saveNc    = ellipsoid_nc,
              ncFName   = ellipsoid_ncFile,
              body_name = ellipsoid_name,
              depth     = ellipsoid_depth,
              density   = 1000.0)
-
-print('\n\nFunction completed. Ellipsoid data is saved.\n')
 

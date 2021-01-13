@@ -17,38 +17,36 @@ sys.path.insert(1,'C:/Users/akeeste/Documents/Software/GitHub/capytaine/my_cases
 import call_capytaine as cc # call_capytaine.py has some mods from david's original function
 
 
-# Load cubes mesh file ------------------------------------------------------#
+# Define cubes parameters ----------------------------------------------------#
 cubes_file = (os.getcwd() + os.path.sep + 'r_cube.dat',
-             os.getcwd() + os.path.sep + 't_cube.dat') # .dat nemoh, .gdf wamit
+             os.getcwd() + os.path.sep + 't_cube.dat')      # mesh files, .dat nemoh, .gdf wamit
 cubes_cg = ((0,0,-2.5),
-            (100,0,-2.5)) # centers of gravity
+            (100,0,-2.5))                                   # centers of gravity
 cubes_name = ('r_cube_capytaine',
-              't_cube_capytaine') # body names
+              't_cube_capytaine')                           # body names
 
-cubes_w = np.linspace(0.03, 15.0, 500) # 500 for full, 3 for tests
-cubes_headings = np.linspace(0,90,10)
-cubes_depth = -20.0
+cubes_w = np.linspace(0.03, 15.0, 3)                        # wave frequencies. 500 for full run
+cubes_headings = np.linspace(0,90,10)                       # wave headings
+cubes_depth = 20.0                                          # water depth
 
-cubes_nc = True
-cubes_ncFile = os.getcwd() + os.path.sep + 'cubes_full.nc'
+cubes_ncFile = os.getcwd() + os.path.sep + 'test.nc'        # path for output .nc file
 # ----------------------------------------------------------------------------#
 
-# if os.path.isfile(cubes_ncFile):
-#     print(f'Output ({cubes_ncFile}) file already exists and will be overwritten. '
-#           'Do you wish to proceed? (y/n)')
-#     ans = input()
-#     if ans.lower() != 'y':
-#         print('\nEnding simulation. file not overwritten')
-#         sys.exit(0)
+# check that old output is not being overwritten (runs take awhile)
+if os.path.isfile(cubes_ncFile):
+    print(f'Output ({cubes_ncFile}) file already exists and will be overwritten. '
+          'Do you wish to proceed? (y/n)')
+    ans = input()
+    if ans.lower() != 'y':
+        print('\nEnding simulation. file not overwritten')
+        sys.exit(0)
 
-cc.call_capy(meshFName = cubes_file,
+# Run Capytaine
+cd = cc.call_capy(meshFName = cubes_file,
              wCapy     = cubes_w,
              CoG       = cubes_cg,
              headings  = cubes_headings,
-             saveNc    = cubes_nc,
              ncFName   = cubes_ncFile,
              body_name = cubes_name,
              depth     = cubes_depth,
              density   = 1000.0)
-
-print('\n\nFunction completed. Cubes data is saved.\n')
