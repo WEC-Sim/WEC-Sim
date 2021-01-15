@@ -22,7 +22,8 @@ import os
 def __init__(self):
     LOG.info("Capytaine imported.")
 
-def body_hydrostatics(myBodies, savepath=''):
+
+def hydrostatics(myBodies, savepath=''):
     '''
     use meshmagick functions to calculate and output the hydrostatic stiffness,
     interia, center of gravity, center of buoyancy and displaced volume of a 
@@ -63,7 +64,7 @@ def body_hydrostatics(myBodies, savepath=''):
         # use meshmagick to compute hydrostatic stiffness matrix
         # NOTE: meshmagick currently has issue if a body is copmletely submerged (OSWEC base)
         # use try-except statement to catch this error use alternate function for cb/vo
-        # if completely submerged, stiffness is 0
+        # if completely submerged, stiffness is 0?
         body_mesh = mmm.Mesh(body.mesh.vertices, body.mesh.faces, name= body.mesh.name)
         try:
             body_hs = mmhs.Hydrostatics(working_mesh=body_mesh,
@@ -77,18 +78,12 @@ def body_hydrostatics(myBodies, savepath=''):
             # Exception if body is fully submerged
             vo = body_mesh.volume
             cb = cg
-            hs_s = [0, 0, 0, 0, 0, 0]
             khs = np.zeros((3,3))
         
         # set file index
         fileind = ''
         if nbod != 1:
             fileind = '_' + str(i)
-            
-        # set file path based on where call_capytaine is called from (using ncFName)
-        # filepath = ''
-        # if savepath is not '':
-        #     filepath,tmp = os.path.split(ncFName)
         
         # Write hydrostatic stiffness to KH.dat file as 
         khs_full = np.zeros((6,6))
@@ -109,14 +104,19 @@ def body_hydrostatics(myBodies, savepath=''):
 
 
 def call_capy(meshFName, wCapy, CoG=([0,0,0],), headings=[0.0],ncFName=None, 
-              wDes=None, body_name=('',), depth=np.infty, density=1025.0):
+              wDes=None, body_name=('',), depth=np.infty, density=1025.0,
+              additional_dofs_dir=None):
     '''
     call Capytaine for a given mesh, frequency range and wave headings
     This function is modified from David Ogden's work 
     (see https://github.com/mattEhall/FrequencyDomain/blob/b89dd4f4a732fbe4afde56efe2b52c3e32e22d53/FrequencyDomain.py#L842 for the original function).
     
-    May be called with multiple bodies (automatically implements B2B). In this case, 
-    the meshFName, CoG, body_name should be a tuple of the values for each body
+    May be called with multiple bodies (automatically implements B2B). 
+    In this case, the meshFName, CoG, body_name should be a tuple of the
+    values for each body.
+    
+    Also has the ability to add generalized body modes by inputting the path to
+    a 'gbm_dofs.py' file (see RM3 example).
     
     Parameters
     ----------
@@ -129,6 +129,8 @@ def call_capy(meshFName, wCapy, CoG=([0,0,0],), headings=[0.0],ncFName=None,
         tuple contains a 3x1 list of each body's CoG
     headings: list
         list of wave headings to compute
+    saveNc: Bool
+        save results to .nc file
     ncFName: str
         name of .nc file
     wDes: array
@@ -143,29 +145,17 @@ def call_capy(meshFName, wCapy, CoG=([0,0,0],), headings=[0.0],ncFName=None,
     density: float
         Water density. Use decimal value to prevent Capytaine outputting int32 
         types. Default 1025.0
-
+    additional_dofs: string
+        path to a gbm_dofs.py file that returns GBM dofs to this function
+    
     Returns
     -------
-    hydrodynamic coefficients; as computed or interpolated
-
-    Notes
-    -----
-    TODO:
-    - expand to generalized body modes using an additional_dof parameter
+    capyData: xarray Dataset
+        Hydrodynamic coefficients as computed
+    problems: list
+        capytaine Problems that were solved
     '''
-    
-    # Create Capytaine floating bodies form each mesh file and calculate 
-    # additional body properties (cg, dofs, hydrostatics).
-    # body_dict = {}
-    # for i in np.arange(0, len(meshFName)):
-    #     body_dict["body{0}".format(i)] = cpt.FloatingBody.from_file(meshFName[i])
-    #     body_dict["body{0}".format(i)].center_of_mass = CoG[i]
-    #     body_dict["body{0}".format(i)].keep_immersed_part()
-    #     if body_name != '':
-    #         body_dict["body{0}".format(i)].name = body_name[i]
-    #     body_dict["body{0}".format(i)].add_all_rigid_body_dofs()
-    # bodies = list(body_dict.values())
-    
+        
     bodies = []
     for i in np.arange(0, len(meshFName)):
         bodies.append(cpt.FloatingBody.from_file(meshFName[i]))
@@ -175,15 +165,27 @@ def call_capy(meshFName, wCapy, CoG=([0,0,0],), headings=[0.0],ncFName=None,
             bodies[i].name = body_name[i]
         bodies[i].add_all_rigid_body_dofs()
     
-    
-    # output hydrostatics data to KH.dat and Hydrostatics.dat files
+    # calculate hydrostatics and output to KH.dat and Hydrostatics.dat files
     path,tmp = os.path.split(ncFName)
     path += os.path.sep
-    body_hydrostatics(bodies,path)
-            
+    hydrostatics(bodies,path)
     
-    # add gbm dofs here or before
-    
+    # add gbm dofs
+    # 1. pass gbm_dofs.py path to call_capy
+    # 2. Here: pass mesh to a local gbm_dofs.py script
+    # 3. in the gbm_dofs.py script, create dofs based on body mesh that is passed in
+    # 4. pass dof dict back to call_capy and continue adding to body
+    if additional_dofs_dir is not None:
+        old_dir = os.getcwd()
+        os.chdir(additional_dofs_dir)
+        import gbm_dofs
+        additional_dofs = gbm_dofs.new_dofs(bodies)
+        
+        for i in np.arange(0, len(meshFName)):
+            if body_name[i] in additional_dofs:
+                for k,v in additional_dofs[body_name[i]].items():
+                    bodies[i].dofs[k] = v
+        os.chdir(old_dir)
     
     # combine all bodies to account for B2B interactions
     combo = bodies[0]
@@ -198,11 +200,11 @@ def call_capy(meshFName, wCapy, CoG=([0,0,0],), headings=[0.0],ncFName=None,
           f'w range = {wCapy[0]:.3f} - {wCapy[-1]:.3f} rad/s\n'
           f'dw = {(wCapy[1]-wCapy[0]):.3f} rad/s\n'
           f'no of headings = {len(headings)}\n'
-          # f'no of radiation & diffraction problems = {len(problems)}\n'
+           f'no of radiation & diffraction problems = {len(wCapy)*(len(headings) + len(combo.dofs))}\n'
           f'-------------------------------\n')
 
-    #    Create a dataset of parameters. 
-    #    'fill_dataset()' automatically creates problems and solves them.
+    # Create a dataset of parameters. 
+    #     'fill_dataset()' automatically creates problems and solves them.
     problems = xr.Dataset(coords={
         'omega': wCapy,
         'wave_direction': headings,
@@ -211,25 +213,15 @@ def call_capy(meshFName, wCapy, CoG=([0,0,0],), headings=[0.0],ncFName=None,
         'rho': [density],
         })
     
-    # define default Capytaine solver
     solver = cpt.BEMSolver()
-    
-    # Solve datset of problems. Hydrostatics off because they're saved 
-    # externally in Nemoh format
     capyData = solver.fill_dataset(problems, [combo], hydrostatics=False)
     
-    # add kochin diffraction results
+    # # add kochin diffraction results
     # kochin = cpt.io.xarray.kochin_data_array(results, headings)
     # capyData.update(kochin)
-    
-    # use to test read_capytaine_v1() ability to catch and reorder dofs
-    # sorted_idofs = ["Heave", "Sway", "Pitch", "Surge", "Yaw", "Roll"]
-    # sorted_rdofs = ["Sway", "Heave", "Surge", "Roll", "Pitch", "Yaw"]
-    # capyData = capyData.sel(radiating_dof=sorted_idofs, influenced_dof=sorted_rdofs)
 
     # save to .nc file
     cpt.io.xarray.separate_complex_values(capyData).to_netcdf(ncFName)
-    
     
     print('\n\nCapytaine call complete. Data saved to \n' + ncFName)
     
