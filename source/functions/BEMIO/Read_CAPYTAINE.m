@@ -6,6 +6,9 @@ function hydro = Read_CAPYTAINE(hydro,filename)
 %     hydro –     data structure
 %     filename –  CAPYTAINE .nc output file
 %
+% Note: dof sorting and permute has been well assessed. These checks can
+% probably be removed.
+%
 
 %% Check file for required variables
 [a,b] = size(hydro);  % Check on what is already there
@@ -51,15 +54,13 @@ req_vars = {
     'radiation_damping',...
     'diffraction_force',...
     'Froude_Krylov_force',...
-%     'center_of_mass',...
-%     'center_of_buoyancy',...
-%     'hydrostatic_stiffness',...
-%     'displaced_volume',...
     };
 
-% Other vars in Capytaine .nc file not currently used
+% Other vars in Capytaine .nc file not currently used:
 % {'theta','kochin_diffraction','kochin',...
-% 'wavenumber';'wavelength';'radiation_damping';}
+% 'wavenumber';'wavelength','center_of_mass',...
+% 'center_of_buoyancy','hydrostatic_stiffness',...
+% 'displaced_volume'};
 
 % check that all required Capytaine output is present
 tmp = '';
@@ -135,8 +136,7 @@ end
 
 waitbar(1/8);
 
-%% Read hydrostatics and basic parameters
-% center of gravity, center of buoyancy, displaced volume
+%% Read hydrostatics - center of gravity, center of buoyancy, displaced volume
 % Note: Capytaine does not calculate these by default. Must currently
 % include additional function to calculate this before reading Capytaine
 % output.
@@ -362,53 +362,17 @@ hydro(F).ex_ph = angle(hydro(F).ex_re + 1i*hydro(F).ex_im);     % Phase of excit
 waitbar(7/8);
 
 %% Kochin diffraction
-% from Read_WAMIT()
+% necessary?
+% from Read_WAMIT():
 % theta(ntheta)= Kochin(3*(ntheta-1)+1); % theta
 % Kochin_BVP(ntheta,1,x)= Kochin(3*(ntheta-1)+2); % magnitude
 % Kochin_BVP(ntheta,2,x)= Kochin(3*(ntheta-1)+3); % phase
 
-% CHECK if the kochin_diffraction is actually the excitation force??
-% i_var = getInd(info.Variables,'kochin_diffraction');
+hydro = Normalize(hydro);  % Normalize the data according the WAMIT convention
 
 waitbar(8/8);
 
-hydro = Normalize(hydro);  % Normalize the data according the WAMIT convention
-
 close(p);
-
-%% test reset_dofs w/ gbm
-% a = magic(6);
-% amix = a;
-% ar = ["surge", "sway", "heave", "roll", "pitch", "yaw"];
-% ai = ["surge", "sway", "heave", "roll", "pitch", "yaw"];
-% a2 = reset_dofs(amix, ar, 1);
-% a2 = reset_dofs(a2, ai, 2);
-% fprintf(['a should be unchanged. max diff: ' int2str(max(abs(a2-a),[],'all')) '\n']);
-% 
-% b = magic(7);
-% bmix = b(:,[1 7 2 3 4 5 6]);
-% br = ["surge", "sway", "heave", "roll", "pitch", "yaw", "gbm1asdf"];
-% bi = ["surge", "gbm1", "sway", "heave", "roll", "pitch", "yaw"];
-% b2 = reset_dofs(bmix, br, 1);
-% b2 = reset_dofs(b2, bi, 2);
-% fprintf(['b should be unchanged. max diff: ' int2str(max(abs(b2-b),[],'all')) '\n']);
-% 
-% c = magic(7);
-% cmix = c;
-% cr = ["surge", "sway", "heave", "roll", "pitch", "yaw", "gbm1asdf"];
-% ci = ["surge", "sway", "heave", "roll", "pitch", "yaw", "gbm1"];
-% c2 = reset_dofs(cmix, cr, 1);
-% c2 = reset_dofs(c2, ci, 2);
-% fprintf(['c should be unchanged. max diff: ' int2str(max(abs(c2-c),[],'all')) '\n']);
-% 
-% d = magic(6);
-% dmix = d([2 1 3 5 4 6],[1 2 4 3 5 6]);
-% dr = ["sway", "surge", "heave", "pitch", "roll", "yaw"];
-% di = ["surge", "sway", "roll", "heave", "pitch", "yaw"];
-% d2 = reset_dofs(dmix, dr, 1);
-% d2 = reset_dofs(d2, di, 2);
-% fprintf(['d should be unchanged. max diff: ' int2str(max(abs(d2-d),[],'all')) '\n']);
-
 end
 
 %% functions
@@ -430,11 +394,11 @@ if length(body_names)==1
         tmpi = strfind(body_names,'+');
         tmpname = body_names;
         
-        body_names{1} = tmpname{1}(1:tmpi{1}-1); % first
+        body_names{1} = tmpname{1}(1:tmpi{1}-1); % first body names
         for i=1:length(tmpi)-1
-            body_names{i+1} = tmpname{1}(tmpi{i-1}+1:tmpi{i}-1); % rest
+            body_names{i+1} = tmpname{1}(tmpi{i-1}+1:tmpi{i}-1); % 2(end-1) body names
         end
-        body_names{end+1} = tmpname{1}(tmpi{end}+1:end); % first
+        body_names{end+1} = tmpname{1}(tmpi{end}+1:end); % last body name
         new_body_names = body_names; % reset if body_names was 'body1+body2+body3+...'
         clear tmpi tmpname i
     else
@@ -448,7 +412,7 @@ sorted_dofs = [];
 for k=1:length(body_names)
     body_dofs = old_dofs(contains(old_dofs,body_names{k})); % all dofs for body k
     std_body_dofs = strcat(body_names{k},tmp,std_dofs); % standard 6 dofs for body k
-    gbm_dofs = body_dofs(~contains(body_dofs,std_body_dofs)); % any gbm dofs for body k (i.e. not in std list)
+    gbm_dofs = body_dofs(~contains(body_dofs,std_body_dofs))'; % any gbm dofs for body k (i.e. not in std list)
     
     if isempty(gbm_dofs); gbm_dofs=[]; end % prevent formatting error when concatenating on next line
     sorted_dofs = [sorted_dofs std_body_dofs gbm_dofs]; % concatenate [std(k) gbm(k) std(k+1) gbm(k+1)...]
@@ -470,7 +434,6 @@ end
 % test = old_dofs(inds); 
 reset_tf = any(inds~=1:length(sorted_dofs));
 end
-
 
 function ind = getInd(dimStruct, str2find)
     ind = 0;
