@@ -29,7 +29,7 @@ else
 end
 % open file
 % fid = fopen([pathParaviewVideo, fs model(1:end-4) '.pvd'], 'w');
-fid = fopen([pathParaviewVideo, fs erase(model(1:end-4),pwd) '.pvd'], 'w');
+fid = fopen([pathParaviewVideo, fs model '.pvd'], 'w');
 % write header
 fprintf(fid, '<?xml version="1.0"?>\n');
 fprintf(fid, ['<!-- WEC-Sim Visualization using ParaView -->\n']);
