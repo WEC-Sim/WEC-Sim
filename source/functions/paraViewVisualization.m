@@ -27,6 +27,7 @@ if simu.paraview == 1
             error('The vtk directory could not be removed. Please close any files in the vtk directory and try running WEC-Sim again')
         end
     end
+    [~,modelName,~] = fileparts(simu.simMechanicsFile); % get model name to define CASE.pvd file (case name = simscape file without path or extension)
     % check mooring
     moordynFlag = 0;
     if exist('mooring','var')
@@ -50,7 +51,7 @@ if simu.paraview == 1
             NewTimeParaview(:,1) = simu.StartTimeParaview:simu.dtParaview:simu.EndTimeParaview;
             PositionBodyParav = interp1(TimeBodyParav,PositionBodyParav,NewTimeParaview);
             TimeBodyParav = NewTimeParaview-simu.StartTimeParaview;
-            body(ii).write_paraview_vtp(TimeBodyParav, PositionBodyParav, bodyname, simu.simMechanicsFile, datestr(simu.simulationDate), output.bodies(ii).cellPressures_hydrostatic, output.bodies(ii).cellPressures_waveNonLinear, output.bodies(ii).cellPressures_waveLinear, simu.pathParaviewVideo,vtkbodiesii);
+            body(ii).write_paraview_vtp(TimeBodyParav, PositionBodyParav, bodyname, modelName, datestr(simu.simulationDate), output.bodies(ii).cellPressures_hydrostatic, output.bodies(ii).cellPressures_waveNonLinear, output.bodies(ii).cellPressures_waveLinear, simu.pathParaviewVideo,vtkbodiesii);
             bodies{vtkbodiesii} = bodyname;
             fprintf(fid,[bodyname '\n']);
             fprintf(fid,[num2str(body(vtkbodiesii).viz.color) '\n']);
@@ -61,15 +62,15 @@ if simu.paraview == 1
     end; clear ii
     fclose(fid);
     % waves
-       mkdir([simu.pathParaviewVideo filesep 'waves'])
-        waves.write_paraview_vtp(NewTimeParaview, waves.viz.numPointsX, waves.viz.numPointsY, simu.domainSize, simu.simMechanicsFile, datestr(simu.simulationDate),moordynFlag,simu.pathParaviewVideo,TimeBodyParav, simu.g);    % mooring
+        mkdir([simu.pathParaviewVideo filesep 'waves'])
+        waves.write_paraview_vtp(NewTimeParaview, waves.viz.numPointsX, waves.viz.numPointsY, simu.domainSize, modelName, datestr(simu.simulationDate),moordynFlag,simu.pathParaviewVideo,TimeBodyParav, simu.g);    % mooring
     % mooring
     if moordynFlag == 1
         mkdir([simu.pathParaviewVideo filesep 'mooring'])
-        mooring.write_paraview_vtp(output.moorDyn, simu.simMechanicsFile, output.moorDyn.Lines.Time, datestr(simu.simulationDate), mooring.moorDynLines, mooring.moorDynNodes,simu.pathParaviewVideo,TimeBodyParav,NewTimeParaview)
+        mooring.write_paraview_vtp(output.moorDyn, modelName, output.moorDyn.Lines.Time, datestr(simu.simulationDate), mooring.moorDynLines, mooring.moorDynNodes,simu.pathParaviewVideo,TimeBodyParav,NewTimeParaview)
     end
     % all
-       output.write_paraview(bodies, TimeBodyParav, simu.simMechanicsFile, datestr(simu.simulationDate), waves.type, moordynFlag, simu.pathParaviewVideo);
-    clear bodies fid filename
+       output.write_paraview(bodies, TimeBodyParav, modelName, datestr(simu.simulationDate), waves.type, moordynFlag, simu.pathParaviewVideo);
+    clear bodies fid filename modelname
 end
 clear body*_hspressure_out body*_wavenonlinearpressure_out body*_wavelinearpressure_out  hspressure wpressurenl wpressurel cellareas bodyname 
