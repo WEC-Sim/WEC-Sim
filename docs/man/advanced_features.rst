@@ -280,7 +280,7 @@ Alternatively, one can define :math:`C_{D}` directly::
 
 Morison Elements 
 """"""""""""""""""""""""""""""
-To use Morison Elements, the following simulation class variable must be defined in the WEC-Sim input file with :code:`simu.morisonElement  = 1` or .:code:`simu.morisonElement  = 2`
+To use Morison Elements, the following simulation class variable must be defined in the WEC-Sim input file with :code:`simu.morisonElement  = 1` or :code:`simu.morisonElement  = 2`
 
 Implementation Option 1 allows for the Morison Element properties to be defined independently for the x-, y-, and z-axis while implementation option 2 uses a normal and tangential representation of the Morison Element properties. Note that the two options allow the user flexibility to implement hydrodynamic forcing that best suits their modeling needs; however, the two options have slightly different calculation methods and therefore the outputs will not necessarily provide the same forcing values. The user is directed to look at the Simulink Morison Element block within the WEC-Sim library to better determine which approach better suits their modeling requirements. 
 
