@@ -25,9 +25,9 @@ Next you will need to add some WEC-Sim specific macros, as follows:
 
 * Open Paraview
 * Click on ``Macros => Add new macro``
-* Navigate to the WEC-Sim ``source/functions/paraview_macros`` directory
+* Navigate to the WEC-Sim ``source/functions/paraview`` directory
 * Select the first file and click ``OK``
-* Repeat this for all files in the ``paraview_macros directory.``
+* Repeat this for all files in the ``paraview directory.``
 
 
 Setting Up Paraview Output
