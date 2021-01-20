@@ -59,7 +59,6 @@ The National Renewable Energy Laboratory is a national laboratory of the U.S. De
 
 Sandia National Laboratories is a multi-mission laboratory managed and operated by National Technology and Engineering Solutions of Sandia, LLC., a wholly owned subsidiary of Honeywell International, Inc., for the U.S. Department of Energy’s National Nuclear Security Administration under contract DE-NA0003525.
 
-
 .. Indices and tables
 .. ========================
 
