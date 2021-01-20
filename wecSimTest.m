@@ -255,6 +255,27 @@ fprintf(['2nd Order Spectral Moment, Diff = ' num2str(max(abs(org-new))) '\n'])
 
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% Compilation Tests for Applications Repo
+fprintf('\nCompilation Tests for Applications Repo \n')
+fprintf('---------------------------------------\n')
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%% Compilation cases 
+% These are not meant to be simulation regressions, only to set-up various 
+% cases and ensure new changes have not broken a specific WEC-Sim setup
+cd ./tests/CompilationCases;
+tic
+runB2BCase4;
+runB2BCase6;
+runDecayME;
+runGBM;
+runMCR;
+runMooring;
+runNonHydro;
+runParaview;
+toc
+cd ../..
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 % Run Test Cases
 % Use the following command to run tests locally,  "runtests"
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
