@@ -256,24 +256,83 @@ fprintf(['2nd Order Spectral Moment, Diff = ' num2str(max(abs(org-new))) '\n'])
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 % Compilation Tests for Applications Repo
+% These are not meant to be simulation regressions, only to set-up various 
+% cases and ensure new changes have not broken a specific WEC-Sim setup
+% ~75 seconds when endTime=10, ~60 seconds when endTime=4
 fprintf('\nCompilation Tests for Applications Repo \n')
 fprintf('---------------------------------------\n')
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-%% Compilation cases 
-% These are not meant to be simulation regressions, only to set-up various 
-% cases and ensure new changes have not broken a specific WEC-Sim setup
-cd ./tests/CompilationCases;
-tic
-runB2BCase4;
-runB2BCase6;
-runDecayME;
-runGBM;
-runMCR;
-runMooring;
-runNonHydro;
-runParaview;
-toc
-cd ../..
+%% B2B, regularCIC wave, ode4
+load('b2b4.mat');
+assert(i_b2b4 == 1)
+if i_b2b4
+    fprintf('B2B #4 application runs.\n')
+else
+    fprintf('B2B #4 application does not run\n')
+end
+
+%% B2B + SS, regularCIC wave, ode4
+load('b2b6.mat');
+assert(i_b2b6 == 1)
+if i_b2b6
+    fprintf('B2B #6 application runs.\n')
+else
+    fprintf('B2B #6 application does not run\n')
+end
+
+%% Decay case, nowaveCIC, Morison element
+load('decay.mat');
+assert(i_decay == 1)
+if i_decay
+    fprintf('Decay 1m-ME application runs.\n')
+else
+    fprintf('Decay 1m-ME application does not run\n')
+end
+
+%% GBM, ode45, regular wave
+load('gbm.mat');
+assert(i_gbm == 1)
+if i_gbm
+    fprintf('Generalized body mode application runs.\n')
+else
+    fprintf('Generalized body mode application does not run\n')
+end
+
+%% MRC, spectrum import, MCR case file import
+load('mcr.mat');
+assert(i_mcr == 1)
+if i_mcr
+    fprintf('MCR #3 sea state application runs.\n')
+else
+    fprintf('MCR #3 sea state application does not run.\n')
+end
+
+%% Mooring matrix
+load('mooring.mat');
+assert(i_mooring == 1)
+if i_mooring
+    fprintf('Mooring matrix application runs.\n')
+else
+    fprintf('Mooring matrix application does not run.\n')
+end
+
+%% Nonhydro body
+load('nh.mat');
+assert(i_nh == 1)
+if i_nh
+    fprintf('Nonhydro body application runs.\n')
+else
+    fprintf('Nonhydro body application does not run.\n')
+end
+
+%% Paraview, nonlinear hydro, accelerator
+load('paraview.mat');
+assert(i_paraview == 1)
+if i_paraview
+    fprintf('Paraview OSWEC application runs.\n')
+else
+    fprintf('Paraview OSWEC application does not run.\n')
+end
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 % Run Test Cases

@@ -53,6 +53,74 @@ if runYaw==1
     savefig('figYawIrr');
     cd .. ; close all;
 end
+if runComp==1
+    cd .\CompilationCases;
+    try
+        runB2BCase4; % covers b2b, regularCIC wave, ode4
+        i_b2b4 = 1;
+    catch
+        i_b2b4 = 0;
+    end
+    save('b2b4.mat','i_b2b4');
+    
+    try
+        runB2BCase6; % covers b2b + SS, regularCIC, ode4
+        i_b2b6 = 1;
+    catch
+        i_b2b6 = 0;
+    end
+    save('b2b6.mat','i_b2b6');
+    
+    try
+        runDecayME; % covers nowaveCIC and morison element
+        i_decay = 1;
+    catch
+        i_decay = 0;
+    end
+    save('decay.mat','i_decay');
+    
+    try
+        runGBM; % covers gbm, ode45, regular wave
+        i_gbm = 1;
+    catch
+        i_gbm = 0;
+    end
+    save('gbm.mat','i_gbm');
+    
+    try
+        runMCR; % covers mcr with spectrum import and mcr casefile import
+        clear mcr
+        i_mcr = 1;
+    catch
+        i_mcr = 0;
+    end
+    save('mcr.mat','i_mcr');
+    
+    try
+        runMooring; % covers mooring matrix
+        i_mooring = 1;
+    catch
+        i_mooring = 0;
+    end
+    save('mooring.mat','i_mooring');
+    
+    try
+        runNonHydro; % covers nonhydro body
+        i_nh = 1;
+    catch
+        i_nh = 0;
+    end
+    save('nh.mat','i_nh');
+    
+    try
+        runParaview; % covers nonlinear hydro, paraview, simulink accelerator
+        i_paraview = 1;
+    catch
+        i_paraview = 0;
+    end
+    save('paraview.mat','i_paraview');
+    cd ..
+end
   
 %% Plot Solver Comparisons
 if plotSolvers==1

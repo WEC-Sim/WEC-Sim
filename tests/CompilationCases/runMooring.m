@@ -34,8 +34,8 @@ fclose(fileID);
 fileID = fopen(inputfile,'a');
 fprintf(fileID,'%s\n',"simu.explorer = 'off';");
 fprintf(fileID,'%s\n',"simu.startTime = 0;");
-fprintf(fileID,'%s\n',"simu.rampTime = 5;");
-fprintf(fileID,'%s\n',"simu.endTime = 10;");
+fprintf(fileID,'%s\n',"simu.rampTime = 2;");
+fprintf(fileID,'%s\n',"simu.endTime = 4;");
 fprintf(fileID,'%s\n',"simu.dt = 0.1;");
 fclose(fileID);
 
@@ -60,14 +60,14 @@ cd(locdir)
 % Restore original input file
 fileID = fopen(inputfile,'w');
 for i=1:length(old_input)
-    fprintf(fileID,'%s\n',old_input{i});
+    fprintf(fileID,'%s\r\n',old_input{i});
 end
 fclose(fileID);
 
 % Restore original plot file
 fileID = fopen(plotfile,'w');
 for i=1:length(old_plot)
-    fprintf(fileID,'%s\n',old_plot{i});
+    fprintf(fileID,'%s\r\n',old_plot{i});
 end
 fclose(fileID);
 
