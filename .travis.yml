@@ -15,5 +15,5 @@ jobs:
     - git config --global user.name "Travis CI"
     - git remote set-url --push origin "git@github.com:$TRAVIS_REPO_SLUG"
     - sphinx-versioning push -b -e .nojekyll -e README.md docs gh-pages .
-    if: "(branch = master OR branch = dev) AND type = push"
+    if: branch = new_docs_structure AND type = push
 
