@@ -333,7 +333,7 @@ classdef bodyClass<handle
             % addLinDisp: initial linear displacement (in addition to the displacement caused by rotation)
             cg = obj.cg;
             relCoord = cg - x_rot;
-            rotatedRelCoord = obj.rotateXYZ(relCoord,ax_rot,ang_rot);
+            rotatedRelCoord = rotateXYZ(relCoord,ax_rot,ang_rot);
             newCoord = rotatedRelCoord + x_rot;
             linDisp = newCoord-cg;
             obj.initDisp.initLinDisp= linDisp + addLinDisp;
