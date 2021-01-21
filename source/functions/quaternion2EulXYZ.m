@@ -1,6 +1,5 @@
 function E = quaternion2EulXYZ(Q)
-% Euler Angle Type II or Tait-Bryan Angle for sequence 321 or zyx (Nautical or Cardan angles).
-% Yaw [-180,180], followed by pitch [-90,90], followed by roll [-180,180]
+% Euler/Tait-Bryan angles; x-y-z extrinsic convention
 %
 % Parameters
 % ------------
@@ -12,8 +11,7 @@ function E = quaternion2EulXYZ(Q)
 %   E : 1 x 3 float vector 
 %       Euler angles equivalent of the quaternion (radian)
 %       E(1) rotation about x, E(2) rotation about y, E(3) rotation about z
-%
-
+% 
 E = zeros(3,1);
 E(1) = atan2((2*(Q(1)*Q(2)+Q(3)*Q(4))), (1-2*(Q(2)^2+Q(3)^2)));
 E(2) = asin(  2*(Q(1)*Q(3)-Q(4)*Q(2)));
