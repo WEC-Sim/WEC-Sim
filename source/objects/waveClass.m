@@ -335,7 +335,7 @@ classdef waveClass<handle
         
         function Z = waveElevationGrid(obj, t, X, Y, TimeBodyParav, it, g)
             % This method calculates wave elevation on a grid at a given
-            % time, used by: :math:`waveClass.write_paraview_vtp`.
+            % time, used by: :func:`write_paraview_wave`.
             %             
             % Parameters
             % ------------
