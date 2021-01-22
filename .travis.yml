@@ -14,6 +14,7 @@ jobs:
     - git config --global user.email "builds@travis-ci.com"
     - git config --global user.name "Travis CI"
     - git remote set-url --push origin "git@github.com:$TRAVIS_REPO_SLUG"
+    - sphinx-build -b html docs_new docs/_build/html/new
     - sphinx-versioning push -b -e .nojekyll -e README.md docs gh-pages .
     if: branch = new_docs_structure AND type = push
 
