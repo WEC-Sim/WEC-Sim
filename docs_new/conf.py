@@ -31,19 +31,15 @@ import re
 # ones.
 extensions = [
     'sphinx.ext.autodoc',
-    'sphinx.ext.autosectionlabel',
     'sphinx.ext.mathjax',
     'sphinx.ext.napoleon',
     'sphinxcontrib.bibtex',
     'sphinxcontrib.matlab',
-    'sphinxext.remoteliteralinclude'    
+    'sphinxext.remoteliteralinclude'
 ]
 
 # autodoc settings
 autodoc_member_order = 'bysource'
-
-# autosectionlabel settings
-autosectionlabel_prefix_document = True
 
 # Napoleon settings
 napoleon_google_docstring = True
