@@ -22,7 +22,7 @@
    man/api.rst
    man/terminology.rst
 
-**See the new documentation `here </new/index.html>`_.**
+**See the new documentation** `HERE </new/index.html>`_.
 
 #########################################
 WEC-Sim (Wave Energy Converter SIMulator) 
