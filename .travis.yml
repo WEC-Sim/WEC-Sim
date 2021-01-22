@@ -15,6 +15,6 @@ jobs:
     - git config --global user.name "Travis CI"
     - git remote set-url --push origin "git@github.com:$TRAVIS_REPO_SLUG"
     - sphinx-versioning push -b -e .nojekyll -e README.md -e new/.empty docs gh-pages .
-    - sphinx-versioning push -e .empty -e README.md docs_new gh-pages new
+    - sphinx-versioning push -e .empty docs_new gh-pages new
     if: branch = new_docs_structure AND type = push
 
