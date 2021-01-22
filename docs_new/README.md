@@ -42,3 +42,21 @@ To test the current branch, use the following:
 The front page of the docs can be accessed at 
 `docs/_build/html/new/index.html`. 
 
+#### Building Final Version Locally
+
+The final documentation can be built locally for inspection prior to 
+publishing. They are built in the `docs/_build` directory. Note, docs are built 
+from the remote, so only pushed changes will be shown. 
+
+To build the docs as they would be published, use the following:
+
+```
+> conda activate _sphinx
+(_sphinx) > cd path/to/WEC-Sim
+(_sphinx) > sphinx-versioning build docs_new docs/_build/html/new
+(_sphinx) > conda deactivate
+>
+```
+
+The front page of the docs can be accessed at 
+`docs/_build/html/new/index.html`. 
