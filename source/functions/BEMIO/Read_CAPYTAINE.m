@@ -202,7 +202,7 @@ for m = 1:hydro(F).Nb
             hydro(F).C(i,:,m) = tmp{1,1}(1:6);  % Linear restoring stiffness
         end
     catch
-        warning('Hydrostatics data not included in Capytaine output. No value for C.');
+        error('No KH.dat files found. Hydrostatics cant be computed.');
     end
 end
 waitbar(3/8);
