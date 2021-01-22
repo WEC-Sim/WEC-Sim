@@ -161,7 +161,7 @@ for m = 1:hydro(F).Nb
         tmp = textscan(raw{4},'%s %s %f');
         hydro(F).Vo(m) = tmp{3};  % Displacement volume
     catch
-        warning('Hydrostatics data not included in Capytaine output. No value for cg,cb,Vo.');
+        error('Hydrostatics data not included in Capytaine output. No value for cg,cb,Vo.');
     end
 end
 
