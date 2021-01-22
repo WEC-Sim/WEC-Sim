@@ -21,9 +21,7 @@ reading the documentation on the feature.
     
    ..
 
-
-
-.. _bemio:
+.. _user-advanced-features-bemio:
 
 BEMIO
 -----
@@ -39,7 +37,7 @@ This section provides an overview of WEC-Sim's simulation class features; for
 more information about the simulation class code structure, refer to 
 :ref:`user-code-structure-simulation-class`. 
 
-.. _mcr:
+.. _user-advanced-features-mcr:
 
 Multiple Condition Runs (MCR)
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
@@ -81,7 +79,7 @@ been run.
 
 For more information, refer to :ref:`webinar1`, 
 
-.. _pct:
+.. _user-advanced-features-pct:
 
 Parallel Computing Toolbox (PCT)
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
@@ -89,9 +87,9 @@ Parallel Computing Toolbox (PCT)
 WEC-Sim allows users to execute batch runs by typing ``wecSimPCT`` into the 
 MATLAB Command Window. This command executes the MATLAB `Parallel Computing 
 Toolbox <https://www.mathworks.com/products/parallel-computing.html>`_ (PCT), 
-which allows parallel capability for :ref:`mcr` but adds an additional MATLAB 
-dependency to use this feature. Similar to MCR, this feature can be executed in 
-three ways (Options 1~3). 
+which allows parallel capability for :ref:`user-advanced-features-mcr` but adds 
+an additional MATLAB dependency to use this feature. Similar to MCR, this 
+feature can be executed in three ways (Options 1~3). 
 
 For PCT runs, the ``*.h5`` hydrodynamic data must be reload, regardless the 
 setting for ``simu.reloadH5Data`` in the WEC-Sim input file. 
@@ -231,7 +229,7 @@ direction. For more information about the spectral formulation, refer to
     conserved. Recommended directional spreading functions include 
     Cosine-Squared and Cosine-2s.
 
-.. _seeded_phase:
+.. _user-advanced-features-seeded-phase:
 
 Irregular Waves with Seeded Phase
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
@@ -301,7 +299,7 @@ following features are available:
   buoyancy and Froude-Krylov excitation and ParaView visualization files. Users 
   can then visualize the geometry using the :code:`body(i).plotStl` method.
 
-.. _nonlinear:
+.. _user-advanced-features-nonlinear:
 
 Nonlinear Buoyancy and Froude-Krylov Excitation
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
@@ -406,7 +404,7 @@ equilibrium position with its origin located at the mean water surface. The
 mass of the body is then set to 1.342×105 kg, and the center of gravity is 
 located 2 m below the origin. 
 
-.. _nonlinearEllipsoid:
+.. _user-advanced-features-nonlinearEllipsoid:
 
 .. figure:: /_static/images/nonlinearEllipsoid.png
     :width: 350pt
@@ -414,7 +412,7 @@ located 2 m below the origin.
 
 STL file with the discretized body surface is shown below (``ellipsoid.stl``)
 
-.. _nonlinearMesh:
+.. _user-advanced-features-nonlinearMesh:
 
 .. figure:: /_static/images/nonlinearMesh.png
     :width: 250pt
@@ -422,7 +420,7 @@ STL file with the discretized body surface is shown below (``ellipsoid.stl``)
     
 The single-body heave only WEC model is shown below (``nonLinearHydro.slx``)
 
-.. _nonlinearWEC:
+.. _user-advanced-features-nonlinearWEC:
 
 .. figure:: /_static/images/nonlinearWEC.png
     :width: 450pt
@@ -430,7 +428,7 @@ The single-body heave only WEC model is shown below (``nonLinearHydro.slx``)
 
 The WEC-Sim input file used to run the nonlinear hydro WEC-Sim simulation:
 
-.. _nonLinearwecSimInputFile:
+.. _user-advanced-features-nonLinearwecSimInputFile:
 
 .. rli:: https://raw.githubusercontent.com/WEC-Sim/WEC-Sim_Applications/master/Nonlinear_Hydro/ode4/Regular/wecSimInputFile.m
    :language: matlab
@@ -467,7 +465,7 @@ Alternatively, one can define :math:`C_{D}` directly::
 
     body(i).viscDrag.Drag
 
-.. _morison:
+.. _user-advanced-features-morison:
 
 Morison Elements 
 """"""""""""""""
@@ -553,7 +551,6 @@ initial displacement.
 
 To use non-hydrodynamic bodies, the following body class variable must be 
 defined in the WEC-Sim input file, for example: 
-
 
     body(i).nhBody = 1
 

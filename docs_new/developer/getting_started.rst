@@ -3,12 +3,13 @@
 Getting Started
 ===============
 
-WEC-Sim developers are recommended to fork the GitHub repository. If you plan 
-to contribute to the WEC-Sim code, please fork the official `WEC-Sim repository 
-<https://github.com/WEC-Sim/WEC-Sim>`_. This method allows you to create a 
-personal copy of the WEC-Sim repository, which can be freely edited without 
-changing the official repository. It is easily compared to the main repository 
-when pushing changes or pulling updates. 
+The WEC-Sim source code is hosted on the `WEC-Sim GitHub repository 
+<https://github.com/WEC-Sim/wec-sim>`_. WEC-Sim developers are recommended to 
+fork the GitHub repository. If you plan to contribute to the WEC-Sim code, 
+please fork the official `WEC-Sim repository <https://github.com/WEC-Sim/WEC-Sim>`_.
+This method allows you to create a personal copy of the WEC-Sim repository, 
+which can be freely edited without changing the official repository. It is 
+easily compared to the main repository when pushing changes or pulling updates. 
 
 Once you have forked the code on GitHub, navigate in the git command line to 
 the desired directory. Clone the fork:: 

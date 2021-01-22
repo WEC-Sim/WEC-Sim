@@ -7,6 +7,8 @@ This section provides a description of the WEC-Sim source code and its
 structure. For more information about WEC-Sim's code structure, refer to the 
 :ref:`welcome-webinars-code-structure` webinar. 
 
+.. _user-code-structure-src:
+
 WEC-Sim Source Code
 -------------------
 
@@ -26,6 +28,8 @@ WEC-Sim Executable          ``wecSim.m``          ``$WECSIM/source``
 WEC-Sim MATLAB Objects      ``<object>Class.m``   ``$WECSIM/source/objects``
 WEC-Sim Simulink Library    ``<block>_Lib.slx``   ``$WECSIM/source/lib``
 =========================   ====================  ==========================
+
+.. _user-code-structure-objects:
 
 WEC-Sim Objects
 ---------------
@@ -369,6 +373,8 @@ The response class is not initialized by the user. Instead, it is created at
 the end of a WEC-Sim simulation. It contains all the output time-series and 
 methods to plot and interact with the results. The available parameters are 
 explained in the :ref:`user-code-structure-output` section. 
+
+.. _user-code-structure-library:
 
 WEC-Sim Library
 ---------------

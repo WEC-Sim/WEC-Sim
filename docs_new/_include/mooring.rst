@@ -36,6 +36,8 @@ mooring matrix properties in the WEC-Sim input file using:
     "i" indicates the mooring number. More than one mooring can be specified in 
     the WEC-Sim model when the mooring matrix block is used. 
 
+.. _mooring-moordyn:
+
 MoorDyn
 ^^^^^^^
 

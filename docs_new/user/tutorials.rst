@@ -8,8 +8,8 @@ using the provided Tutorials (located in the WEC-Sim ``$WECSIM/tutorials``
 directory). Two WEC-Sim tutorials are provided: the Two-Body Point Absorber 
 (RM3), and the Oscillating Surge WEC (OSWEC). For information about the 
 implementation of the WEC-Sim code refer to the refer to the 
-:ref:`code_structure` section. For information about additional WEC-Sim 
-features, refer to :ref:`advanced_features`. 
+:ref:`user-code-structure` section. For information about additional WEC-Sim 
+features, refer to :ref:`user-advanced-features`. 
 
 .. _user-tutorials-rm3:
 
@@ -89,11 +89,12 @@ Step 1: Run BEMIO
 """""""""""""""""
 
 Hydrodynamic data for each RM3 body must be parsed into a HDF5 file using 
-:ref:`bemio`. BEMIO converts hydrodynamic data from WAMIT, NEMOH or AQWA into a 
-HDF5 file, ``*.h5`` that is then read by WEC-Sim. The RM3 tutorial includes 
-data from a WAMIT run, ``rm3.out``, of the RM3 geometry in the 
-``$WECSIM/tutorials/rm3/hydroData/`` directory. The RM3 WAMIT ``rm3.out`` file 
-and the BEMIO ``bemio.m`` script are then used to generate the ``rm3.h5`` file. 
+:ref:`user-advanced-features-bemio`. BEMIO converts hydrodynamic data from 
+WAMIT, NEMOH or AQWA into a HDF5 file, ``*.h5`` that is then read by WEC-Sim. 
+The RM3 tutorial includes data from a WAMIT run, ``rm3.out``, of the RM3 
+geometry in the ``$WECSIM/tutorials/rm3/hydroData/`` directory. The RM3 WAMIT 
+``rm3.out`` file and the BEMIO ``bemio.m`` script are then used to generate the 
+``rm3.h5`` file. 
 
 This is done by navigating to the ``$WECSIM/tutorials/rm3/hydroData/`` 
 directory, and typing``bemio`` in the MATLAB Command Window:: 
@@ -275,12 +276,12 @@ Step 1: Run BEMIO
 """""""""""""""""
 
 Hydrodynamic data for each OSWEC body must be parsed into a HDF5 file using 
-:ref:`bemio`. BEMIO converts hydrodynamic data from WAMIT, NEMOH or AQWA into a 
-HDF5 file, ``*.h5`` that is then read by WEC-Sim. The OSWEC tutorial includes 
-data from a WAMIT run, ``oswec.out``, of the OSWEC geometry in the 
-``$WECSIM/tutorials/rm3/hydroData/`` directory. The OSWEC WAMIT ``oswec.out`` 
-file and the BEMIO ``bemio.m`` script are then used to generate the 
-``oswec.h5`` file. 
+:ref:`user-advanced-features-bemio`. BEMIO converts hydrodynamic data from 
+WAMIT, NEMOH or AQWA into a HDF5 file, ``*.h5`` that is then read by WEC-Sim. 
+The OSWEC tutorial includes data from a WAMIT run, ``oswec.out``, of the OSWEC 
+geometry in the ``$WECSIM/tutorials/rm3/hydroData/`` directory. The OSWEC WAMIT 
+``oswec.out`` file and the BEMIO ``bemio.m`` script are then used to generate 
+the ``oswec.h5`` file. 
 
 This is done by navigating to the ``$WECSIM/tutorials/oswec/hydroData/`` 
 directory, and typing``bemio`` in the MATLAB Command Window:: 
