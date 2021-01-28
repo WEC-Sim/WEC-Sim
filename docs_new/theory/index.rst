@@ -5,7 +5,7 @@ Theory Manual
 #############
 
 .. toctree::
-   :maxdepth: 1
+   :maxdepth: 2
    
    theory.rst
    terminology.rst

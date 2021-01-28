@@ -7,6 +7,7 @@ Welcome to WEC-Sim
 .. toctree::
    :maxdepth: 1
    
+   introduction.rst
    applications.rst
    webinars.rst
    publications.rst

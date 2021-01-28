@@ -5,7 +5,7 @@ User Manual
 ###########
 
 .. toctree::
-   :maxdepth: 1
+   :maxdepth: 2
    
    getting_started.rst
    workflow.rst

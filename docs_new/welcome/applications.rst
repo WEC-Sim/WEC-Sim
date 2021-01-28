@@ -93,15 +93,6 @@ variable time-step solvers <http://wec-sim.github.io/WEC-Sim/advanced_features.h
 (ode4/ode45), and different regular wave formulations (with/without CIC). 
 Execute the `runNL.m` script to run this case. 
 
-Numerical Options
-^^^^^^^^^^^^^^^^^
-
-Example that compares various numerical options in WEC-Sim. This case compares
-the differential equation solver `time step settings <https://wec-sim.github.io/WEC-Sim/advanced_features.html#time-step-features>`_
-(``ode4, ode45``), the `convolution integral <https://wec-sim.github.io/WEC-Sim/theory.html#convolution-integral-formulation>`_ 
-and the `state-space <https://wec-sim.github.io/WEC-Sim/theory.html#state-space>`_ 
-representations. Execute the `run_NumOpt.m` script to run this case. 
-
 Paraview Visualization
 ^^^^^^^^^^^^^^^^^^^^^^
 
