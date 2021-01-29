@@ -5,7 +5,7 @@ Welcome to WEC-Sim
 ##################
 
 .. toctree::
-   :maxdepth: 1
+   :maxdepth: 2
    
    introduction.rst
    applications.rst
