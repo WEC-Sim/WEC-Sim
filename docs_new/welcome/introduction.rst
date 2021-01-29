@@ -81,13 +81,48 @@ The WEC-Sim Applications repository contains a wide variety of scenarios that WE
 .. TODO:
 	use table instead of figures to list WEC-Sims key capabilities?
 
-WEC-Sim's capabilities include the ability to model both nonlinear hydrodynamic effects (Froude-Krylov forces and hydrostatic stiffness) and nonhydrodynamic bodies, body-to-body interactions, mooring systems, passive yawing. WEC-Sim contains numerous numerical options and ability to perform highly customizable batch simulations. WEC-Sim can take in data from a variety of boundary element method codes using its BEMIO (BEM-in/out) functionality and can output paraview files for visualization.
+WEC-Sim's capabilities include the ability to model both nonlinear hydrodynamic effects (Froude-Krylov forces and hydrostatic stiffness) and nonhydrodynamic bodies, body-to-body interactions, mooring systems, passive yawing. WEC-Sim contains numerous numerical options and ability to perform highly customizable batch simulations. WEC-Sim can take in data from a variety of boundary element method codes using its BEMIO (BEM-in/out) functionality and can output paraview files for visualization. Some of its advanced features are highlighted in the figures below.
 
 .. TODO:
 	insert plots showing WEC-Sim adv. features
+	from above:
+	X b2b
+	X NLhydro
+	nonhydro?
+	X numerical options
+	passive yaw
+	MCR / batch run -> large power matrix?
+
+.. |b2b| image:: /_static/images/new_figs/b2b_comparison2.png
+   :width: 400pt
+.. |nlh| image:: /_static/images/new_figs/nlhydro_comparison4.png
+   :width: 400pt
+.. |num| image:: /_static/images/new_figs/numOpt_comparison.png
+   :width: 400pt
+.. |yaw| image:: /_static/images/new_figs/passiveYaw_comparison.png
+   :width: 400pt
+
+
++---------+---------+
+|  |nlh|  +  |num|  |
++---------+---------+
+|  |b2b|  +  |yaw|  |
++---------+---------+
+
+
 
 The Paraview figures below highlight some of WEC-Sim's capabilities and the various geometries that have been successfully modeled.
 
 .. TODO:
 	insert figures of special geometries that WEC-sim can handle
-
+	from above:
+	RM's
+	OSWEC
+	desal
+	WECCCOMP
+	GBM
+	ptosim?
+	wigley?
+	Any teamer?
+	FOSWEC?
+	mooring

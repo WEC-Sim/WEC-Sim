@@ -41,7 +41,7 @@ classdef simulationClass<handle
         explorer            = 'on'                                         % (`string`) SimMechanics Explorer 'on' or 'off'. Default = ``'on'``
         rho                 = 1000                                         % (`float`) Density of water. Default = ``1000`` kg/m^3
         g                   = 9.81                                         % (`float`) Acceleration due to gravity. Default = ``9.81`` m/s
-        nlHydro             = 0                                            % (`integer`) Option for nonlinear hydrohanamics calculation: linear->0, nonlinear->1. Default = ``0``
+        nlHydro             = 0                                            % (`integer`) Option for nonlinear hydrohanamics calculation: linear->0, nonlinear->1,2. Default = ``0``
         yawNonLin           = 0                                            % (`integer`) Option for nonlinear yaw calculation linear->0, nonlinear->1 for nonlinear. Default = ``0`` 
         yawThresh           = 1                                            % (`float`) Yaw position threshold (in degrees) above which excitation coefficients will be interpolated in non-linear yaw. Default = ``1`` dg
         b2b                 = 0                                            % (`integer`) Option for body2body interactions: off->0, on->1. Default = ``0``
