@@ -3,12 +3,15 @@
 Tutorials
 =========
 
-This section provides step-by-step instructions on how to run the WEC-Sim code 
+This section provides step-by-step instructions on how to set-up and run the WEC-Sim code 
 using the provided Tutorials (located in the WEC-Sim ``$WECSIM/tutorials`` 
 directory). Two WEC-Sim tutorials are provided: the Two-Body Point Absorber 
-(RM3), and the Oscillating Surge WEC (OSWEC). For information about the 
-implementation of the WEC-Sim code refer to the refer to the 
-:ref:`user-code-structure` section. For information about additional WEC-Sim 
+(RM3), and the Oscillating Surge WEC (OSWEC). 
+For cases that are already set-up and ready to run, see Step 3 of :ref:`user-install`.
+
+For information about the implementation of the WEC-Sim code refer to the 
+:ref:`user-code-structure` section. 
+For information about additional WEC-Sim 
 features, refer to :ref:`user-advanced-features`. 
 
 .. _user-tutorials-rm3:

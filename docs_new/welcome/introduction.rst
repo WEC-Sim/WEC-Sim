@@ -1,4 +1,4 @@
-.. _user-getting-started:
+.. _welcome-intro:
 
 Overview of WEC-Sim
 =======================
