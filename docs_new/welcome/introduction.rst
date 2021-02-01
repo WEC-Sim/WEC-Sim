@@ -90,7 +90,7 @@ WEC-Sim's capabilities include the ability to model both nonlinear hydrodynamic 
 	X NLhydro
 	nonhydro?
 	X numerical options
-	passive yaw
+	X passive yaw
 	MCR / batch run -> large power matrix?
 
 .. |b2b| image:: /_static/images/new_figs/b2b_comparison2.png
