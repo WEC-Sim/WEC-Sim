@@ -1,0 +1,1641 @@
+
+
+<!DOCTYPE html>
+<html class="writer-html4" lang="en" >
+<head>
+  <meta charset="utf-8" />
+  
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  
+  <title>WEC-Sim API &mdash; WEC-Sim  documentation</title>
+  
+
+  
+  <link rel="stylesheet" href="../_static/css/theme.css" type="text/css" />
+  <link rel="stylesheet" href="../_static/pygments.css" type="text/css" />
+  <link rel="stylesheet" href="../_static/theme_overrides.css" type="text/css" />
+  <link rel="stylesheet" href="../_static/banner.css" type="text/css" />
+
+  
+  
+
+  
+  
+
+  
+
+  
+  <!--[if lt IE 9]>
+    <script src="../_static/js/html5shiv.min.js"></script>
+  <![endif]-->
+  
+    
+      <script type="text/javascript" id="documentation_options" data-url_root="../" src="../_static/documentation_options.js"></script>
+        <script type="text/javascript" src="../_static/jquery.js"></script>
+        <script type="text/javascript" src="../_static/underscore.js"></script>
+        <script type="text/javascript" src="../_static/doctools.js"></script>
+        <script type="text/javascript" src="../_static/language_data.js"></script>
+        <script async="async" type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.5/latest.js?config=TeX-AMS-MML_HTMLorMML"></script>
+    
+    <script type="text/javascript" src="../_static/js/theme.js"></script>
+
+    
+    <link rel="index" title="Index" href="../genindex.html" />
+    <link rel="search" title="Search" href="../search.html" />
+    <link rel="next" title="Terminology" href="terminology.html" />
+    <link rel="prev" title="Release Notes" href="release_notes.html" /> 
+</head>
+
+<body class="wy-body-for-nav">
+
+   
+  <div class="wy-grid-for-nav">
+    
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+          
+
+          
+            <a href="../index.html" class="icon icon-home"> WEC-Sim
+          
+
+          
+          </a>
+
+          
+            
+            
+              <div class="version">
+                v4.2
+              </div>
+            
+          
+
+          
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+
+          
+        </div>
+
+        
+        <div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="main navigation">
+          
+            
+            
+              
+            
+            
+              <ul class="current">
+<li class="toctree-l1"><a class="reference internal" href="getting_started.html">Getting Started</a></li>
+<li class="toctree-l1"><a class="reference internal" href="overview.html">Overview</a></li>
+<li class="toctree-l1"><a class="reference internal" href="theory.html">Theory</a></li>
+<li class="toctree-l1"><a class="reference internal" href="code_structure.html">Code Structure</a></li>
+<li class="toctree-l1"><a class="reference internal" href="tutorials.html">Tutorials</a></li>
+<li class="toctree-l1"><a class="reference internal" href="advanced_features.html">Advanced Features</a></li>
+<li class="toctree-l1"><a class="reference internal" href="webinars.html">Webinars</a></li>
+<li class="toctree-l1"><a class="reference internal" href="license.html">License</a></li>
+<li class="toctree-l1"><a class="reference internal" href="acknowledgements.html">Acknowledgements</a></li>
+<li class="toctree-l1"><a class="reference internal" href="publications.html">Publications</a></li>
+<li class="toctree-l1"><a class="reference internal" href="release_notes.html">Release Notes</a></li>
+<li class="toctree-l1 current"><a class="current reference internal" href="#">WEC-Sim API</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="#body-class">Body Class</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#contstraint-class">Contstraint Class</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#mooring-class">Mooring Class</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#pto-class">PTO Class</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#response-class">Response Class</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#simulation-class">Simulation Class</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#wave-class">Wave Class</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="terminology.html">Terminology</a></li>
+</ul>
+
+            
+          
+        </div>
+        
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap">
+
+      
+      <nav class="wy-nav-top" aria-label="top navigation">
+        
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../index.html">WEC-Sim</a>
+        
+      </nav>
+
+
+      <div class="wy-nav-content">
+        
+        <div class="rst-content">
+        
+          
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<div role="navigation" aria-label="breadcrumbs navigation">
+
+  <ul class="wy-breadcrumbs">
+    
+      <li><a href="../index.html" class="icon icon-home"></a> &raquo;</li>
+        
+      <li>WEC-Sim API</li>
+    
+    
+      <li class="wy-breadcrumbs-aside">
+        
+          
+            <a href="../_sources/man/api.rst.txt" rel="nofollow"> View page source</a>
+          
+        
+      </li>
+    
+  </ul>
+
+  
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+            
+  
+
+
+    
+    
+
+
+
+    <p class="scv-banner scv-sphinx_rtd_theme"><a href="../../master/man/api.html"><b>Warning:</b> This document is for the development version of WEC-Sim. The main version is master.</a></p>
+<div class="section" id="wec-sim-api">
+<span id="api"></span><h1>WEC-Sim API<a class="headerlink" href="#wec-sim-api" title="Permalink to this headline">¶</a></h1>
+<div class="section" id="body-class">
+<span id="body"></span><h2>Body Class<a class="headerlink" href="#body-class" title="Permalink to this headline">¶</a></h2>
+<dl class="class">
+<dt id="objects.bodyClass">
+<em class="property">class </em><code class="descclassname">objects.</code><code class="descname">bodyClass</code><span class="sig-paren">(</span><em>filename</em><span class="sig-paren">)</span><a class="headerlink" href="#objects.bodyClass" title="Permalink to this definition">¶</a></dt>
+<dd><p>The  <code class="docutils literal notranslate"><span class="pre">bodyClass</span></code> creates a <code class="docutils literal notranslate"><span class="pre">body</span></code> object saved to the MATLAB
+workspace. The <code class="docutils literal notranslate"><span class="pre">bodyClass</span></code> includes properties and methods used
+to define WEC-Sim’s hydrodynamic and non-hydrodynamic bodies.</p>
+<dl class="attribute">
+<dt id="objects.bodyClass.name">
+<code class="descname">name</code><em class="property"> = '[]'</em><a class="headerlink" href="#objects.bodyClass.name" title="Permalink to this definition">¶</a></dt>
+<dd><p>(<cite>string</cite>) Specifies the body name. For hydrodynamic bodies this is defined in h5 file. For nonhydrodynamic bodies this is defined by the user, Default = <code class="docutils literal notranslate"><span class="pre">[]</span></code>.</p>
+</dd></dl>
+
+<dl class="attribute">
+<dt id="objects.bodyClass.mass">
+<code class="descname">mass</code><em class="property"> = '[]'</em><a class="headerlink" href="#objects.bodyClass.mass" title="Permalink to this definition">¶</a></dt>
+<dd><p>(<cite>float</cite>) Translational inertia or mass [kg]. Defined by the user or specify ‘equilibrium’ to set the mass equal to the fluid density times displaced volume. Default = <code class="docutils literal notranslate"><span class="pre">[]</span></code>.</p>
+</dd></dl>
+
+<dl class="attribute">
+<dt id="objects.bodyClass.momOfInertia">
+<code class="descname">momOfInertia</code><em class="property"> = '[]'</em><a class="headerlink" href="#objects.bodyClass.momOfInertia" title="Permalink to this definition">¶</a></dt>
+<dd><p>(<cite>3x1 float vector</cite>) Rotational inertia or mass moment of inertia [kg*m^{2}]. Defined by the user in the following format [Ixx Iyy Izz]. Default = <code class="docutils literal notranslate"><span class="pre">[]</span></code>.</p>
+</dd></dl>
+
+<dl class="attribute">
+<dt id="objects.bodyClass.cg">
+<code class="descname">cg</code><em class="property"> = '[]'</em><a class="headerlink" href="#objects.bodyClass.cg" title="Permalink to this definition">¶</a></dt>
+<dd><p>(<cite>3x1 float vector</cite>) Body center of gravity [m]. Defined in the following format [x y z]. For hydrodynamic bodies this is defined in the h5 file while for nonhydrodynamic bodies this is defined by the user. Default = <code class="docutils literal notranslate"><span class="pre">[]</span></code>.</p>
+</dd></dl>
+
+<dl class="attribute">
+<dt id="objects.bodyClass.cb">
+<code class="descname">cb</code><em class="property"> = '[]'</em><a class="headerlink" href="#objects.bodyClass.cb" title="Permalink to this definition">¶</a></dt>
+<dd><p>(<cite>3x1 float vector</cite>) Body center of buoyancy [m]. Defined in the following format [x y z]. For hydrodynamic bodies this is defined in the h5 file while for nonhydrodynamic bodies this is defined by the user. Default = <code class="docutils literal notranslate"><span class="pre">[]</span></code>.</p>
+</dd></dl>
+
+<dl class="attribute">
+<dt id="objects.bodyClass.dispVol">
+<code class="descname">dispVol</code><em class="property"> = '[]'</em><a class="headerlink" href="#objects.bodyClass.dispVol" title="Permalink to this definition">¶</a></dt>
+<dd><p>(<cite>float</cite>) Displaced volume at equilibrium position [m^{3}]. For hydrodynamic bodies this is defined in the h5 file while for nonhydrodynamic bodies this is defined by the user. Default = <code class="docutils literal notranslate"><span class="pre">[]</span></code>.</p>
+</dd></dl>
+
+<dl class="attribute">
+<dt id="objects.bodyClass.dof">
+<code class="descname">dof</code><em class="property"> = '6'</em><a class="headerlink" href="#objects.bodyClass.dof" title="Permalink to this definition">¶</a></dt>
+<dd><p>(<cite>integer</cite>) Number of degree of freedoms (DOFs). For hydrodynamic bodies this is given in the h5 file. If not defined in the h5 file, Default = <code class="docutils literal notranslate"><span class="pre">6</span></code>.</p>
+</dd></dl>
+
+<dl class="attribute">
+<dt id="objects.bodyClass.dof_gbm">
+<code class="descname">dof_gbm</code><em class="property"> = '[]'</em><a class="headerlink" href="#objects.bodyClass.dof_gbm" title="Permalink to this definition">¶</a></dt>
+<dd><p>(<cite>integer</cite>) Number of degree of freedoms (DOFs) for generalized body mode (GBM). Default = <code class="docutils literal notranslate"><span class="pre">[]</span></code>.</p>
+</dd></dl>
+
+<dl class="attribute">
+<dt id="objects.bodyClass.dof_start">
+<code class="descname">dof_start</code><em class="property"> = '[]'</em><a class="headerlink" href="#objects.bodyClass.dof_start" title="Permalink to this definition">¶</a></dt>
+<dd><p>(<cite>integer</cite>) Index the DOF starts for body(<code class="docutils literal notranslate"><span class="pre">bodyNumber</span></code>). For WEC bodies this is given in the h5 file, but if not defined in the h5 file, Default = <code class="docutils literal notranslate"><span class="pre">(bodyNumber-1)*6+1</span></code>.</p>
+</dd></dl>
+
+<dl class="attribute">
+<dt id="objects.bodyClass.dof_end">
+<code class="descname">dof_end</code><em class="property"> = '[]'</em><a class="headerlink" href="#objects.bodyClass.dof_end" title="Permalink to this definition">¶</a></dt>
+<dd><p>(<cite>integer</cite>) Index the DOF ends for body(<code class="docutils literal notranslate"><span class="pre">bodyNumber</span></code>). For WEC bodies this is given in the h5 file, but if not defined in the h5 file, Default = <code class="docutils literal notranslate"><span class="pre">(bodyNumber-1)*6+6</span></code>.</p>
+</dd></dl>
+
+<dl class="attribute">
+<dt id="objects.bodyClass.geometryFile">
+<code class="descname">geometryFile</code><em class="property"> = &quot;'NONE'&quot;</em><a class="headerlink" href="#objects.bodyClass.geometryFile" title="Permalink to this definition">¶</a></dt>
+<dd><p>(<cite>string</cite>) Pathway to the body geomtry <code class="docutils literal notranslate"><span class="pre">.stl</span></code> file.</p>
+</dd></dl>
+
+<dl class="attribute">
+<dt id="objects.bodyClass.viscDrag">
+<code class="descname">viscDrag</code><em class="property"> = &quot;struct(            'Drag',                 zeros(6),             'cd',                   [0 0 0 0 0 0],             'characteristicArea',   [0 0 0 0 0 0])&quot;</em><a class="headerlink" href="#objects.bodyClass.viscDrag" title="Permalink to this definition">¶</a></dt>
+<dd><p>Structure defining the viscous quadratic drag forces. First option define <code class="docutils literal notranslate"><span class="pre">Drag</span></code>, (<cite>6x6 float matrix</cite>), Default = <code class="docutils literal notranslate"><span class="pre">zeros(6)</span></code>. Second option define <code class="docutils literal notranslate"><span class="pre">cd</span></code>, (<cite>6x1 float vector</cite>), Default = <code class="docutils literal notranslate"><span class="pre">zeros(6,1)</span></code>, and <code class="docutils literal notranslate"><span class="pre">characteristicArea</span></code>, (<cite>6x1 float vector</cite>), Default = <code class="docutils literal notranslate"><span class="pre">zeros(6,1)</span></code>.</p>
+</dd></dl>
+
+<dl class="attribute">
+<dt id="objects.bodyClass.initDisp">
+<code class="descname">initDisp</code><em class="property"> = &quot;struct(            'initLinDisp',          [0 0 0],             'initAngularDispAxis',  [0 1 0],             'initAngularDispAngle', 0)&quot;</em><a class="headerlink" href="#objects.bodyClass.initDisp" title="Permalink to this definition">¶</a></dt>
+<dd><p>Structure defining the initial displacement of the body. <code class="docutils literal notranslate"><span class="pre">initLinDisp</span></code> (<cite>3x1 float vector</cite>) is defined as the initial displacement of the body center of gravity (COG) [m] in the following format [x y z], Default = [<code class="docutils literal notranslate"><span class="pre">0</span> <span class="pre">0</span> <span class="pre">0</span></code>]. <code class="docutils literal notranslate"><span class="pre">initAngularDispAxis</span></code> (<cite>3x1 float vector</cite>) is defined as the axis of rotation in the following format [x y z], Default = [<code class="docutils literal notranslate"><span class="pre">0</span> <span class="pre">1</span> <span class="pre">0</span></code>]. <code class="docutils literal notranslate"><span class="pre">initAngularDispAngle</span></code> (<cite>float</cite>) is defined as the initial angular displacement of the body COG [rad], Default = <code class="docutils literal notranslate"><span class="pre">0</span></code>.</p>
+</dd></dl>
+
+<dl class="attribute">
+<dt id="objects.bodyClass.hydroStiffness">
+<code class="descname">hydroStiffness</code><em class="property"> = 'zeros(6)'</em><a class="headerlink" href="#objects.bodyClass.hydroStiffness" title="Permalink to this definition">¶</a></dt>
+<dd><p>(<cite>6x6 float matrix</cite>) Linear hydrostatic stiffness matrix. Default = <code class="docutils literal notranslate"><span class="pre">zeros(6)</span></code>. If the variable is nonzero, the matrix will override the h5 file values.</p>
+</dd></dl>
+
+<dl class="attribute">
+<dt id="objects.bodyClass.linearDamping">
+<code class="descname">linearDamping</code><em class="property"> = 'zeros(6)'</em><a class="headerlink" href="#objects.bodyClass.linearDamping" title="Permalink to this definition">¶</a></dt>
+<dd><p>(<cite>6x6 float matrix</cite>) Linear damping coefficient matrix. Default = <code class="docutils literal notranslate"><span class="pre">zeros(6)</span></code>.</p>
+</dd></dl>
+
+<dl class="attribute">
+<dt id="objects.bodyClass.userDefinedExcIRF">
+<code class="descname">userDefinedExcIRF</code><em class="property"> = '[]'</em><a class="headerlink" href="#objects.bodyClass.userDefinedExcIRF" title="Permalink to this definition">¶</a></dt>
+<dd><p>(<cite>[]</cite>) Excitation Impulse Response Function, calculated in BEMIO, only used with the <cite>waveClass</cite> <code class="docutils literal notranslate"><span class="pre">etaImport</span></code> type. Default = <code class="docutils literal notranslate"><span class="pre">[]</span></code>.</p>
+</dd></dl>
+
+<dl class="attribute">
+<dt id="objects.bodyClass.viz">
+<code class="descname">viz</code><em class="property"> = &quot;struct(            'color', [1 1 0],             'opacity', 1)&quot;</em><a class="headerlink" href="#objects.bodyClass.viz" title="Permalink to this definition">¶</a></dt>
+<dd><p>Structure defining visualization properties in either SimScape or Paraview. <code class="docutils literal notranslate"><span class="pre">color</span></code> (<cite>3x1 float vector</cite>) is defined as the body visualization color, Default = [<code class="docutils literal notranslate"><span class="pre">1</span> <span class="pre">1</span> <span class="pre">0</span></code>]. <code class="docutils literal notranslate"><span class="pre">opacity</span></code> (<cite>integer</cite>) is defined as the body opacity, Default = <code class="docutils literal notranslate"><span class="pre">1</span></code>.</p>
+</dd></dl>
+
+<dl class="attribute">
+<dt id="objects.bodyClass.bodyparaview">
+<code class="descname">bodyparaview</code><em class="property"> = '1'</em><a class="headerlink" href="#objects.bodyClass.bodyparaview" title="Permalink to this definition">¶</a></dt>
+<dd><p>(<cite>integer</cite>) Flag for visualisation in Paraview either 0 (no) or 1 (yes). Default = <code class="docutils literal notranslate"><span class="pre">1</span></code> since only called in paraview.</p>
+</dd></dl>
+
+<dl class="attribute">
+<dt id="objects.bodyClass.morisonElement">
+<code class="descname">morisonElement</code><em class="property"> = &quot;struct(            'cd',                 [0 0 0],             'ca',                 [0 0 0],             'characteristicArea', [0 0 0],             'VME',                 0     ,             'rgME',               [0 0 0],             'z',                  [0 0 1])&quot;</em><a class="headerlink" href="#objects.bodyClass.morisonElement" title="Permalink to this definition">¶</a></dt>
+<dd><p>Structure defining the Morison Element properties connected to the body. <code class="docutils literal notranslate"><span class="pre">cd</span></code> (<cite>1x3 float vector</cite>) is defined as the viscous normal and tangential drag coefficients in the following format, Option 1 [cd_x cd_y cd_z], Option 2 [cd_N cd_T NaN], Default = [<code class="docutils literal notranslate"><span class="pre">NaN</span> <span class="pre">NaN</span> <span class="pre">NaN</span></code>]. <code class="docutils literal notranslate"><span class="pre">ca</span></code> is defined as the added mass coefficent for the Morison Element in the following format, Option 1 [ca_x ca_y ca_z], Option 2 [ca_N ca_T NaN], Default = [<code class="docutils literal notranslate"><span class="pre">NaN</span> <span class="pre">NaN</span> <span class="pre">NaN</span></code>], <code class="docutils literal notranslate"><span class="pre">characteristicArea</span></code> is defined as the characteristic area for the Morison Element [m^2] in the following format, Option 1 [Area_x Area_y Area_z], Option 2 [Area_N Area_T NaN], Default = [NaN NaN NaN]. <code class="docutils literal notranslate"><span class="pre">VME</span></code> is the characteristic volume of the Morison Element [m^3], Default = <code class="docutils literal notranslate"><span class="pre">NaN</span></code>. <code class="docutils literal notranslate"><span class="pre">rgME</span></code> is defined as the vector from the body COG to point of application for the Morison Element [m] in the following format [x y z], Default = [<code class="docutils literal notranslate"><span class="pre">NaN</span> <span class="pre">NaN</span> <span class="pre">NaN</span></code>].``z`` is defined as the unit normal vector center axis of the Morison Element in the following format, Option 1 not used, Option 2 [n_{x} n_{y} n_{z}], Default = [<code class="docutils literal notranslate"><span class="pre">NaN</span> <span class="pre">NaN</span> <span class="pre">NaN</span></code>].</p>
+</dd></dl>
+
+<dl class="attribute">
+<dt id="objects.bodyClass.nhBody">
+<code class="descname">nhBody</code><em class="property"> = '0'</em><a class="headerlink" href="#objects.bodyClass.nhBody" title="Permalink to this definition">¶</a></dt>
+<dd><p>(<cite>integer</cite>) Flag for non-hydro body either 0 (no) or 1 (yes). Default = <code class="docutils literal notranslate"><span class="pre">0</span></code>.</p>
+</dd></dl>
+
+<dl class="attribute">
+<dt id="objects.bodyClass.flexHydroBody">
+<code class="descname">flexHydroBody</code><em class="property"> = '0'</em><a class="headerlink" href="#objects.bodyClass.flexHydroBody" title="Permalink to this definition">¶</a></dt>
+<dd><p>(<cite>integer</cite>) Flag for flexible body either 0 (no) or 1 (yes). Default = <code class="docutils literal notranslate"><span class="pre">0</span></code>.</p>
+</dd></dl>
+
+<dl class="attribute">
+<dt id="objects.bodyClass.meanDriftForce">
+<code class="descname">meanDriftForce</code><em class="property"> = '0'</em><a class="headerlink" href="#objects.bodyClass.meanDriftForce" title="Permalink to this definition">¶</a></dt>
+<dd><p>(<cite>integer</cite>) Flag for mean drift force with three options:  0 (no), 1 (yes, from control surface) or 2 (yes, from momentum conservation). Default = <code class="docutils literal notranslate"><span class="pre">0</span></code>.</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="objects.bodyClass.bodyClass">
+<code class="descname">bodyClass</code><span class="sig-paren">(</span><em>filename</em><span class="sig-paren">)</span><a class="headerlink" href="#objects.bodyClass.bodyClass" title="Permalink to this definition">¶</a></dt>
+<dd><p>This method initilizes the <code class="docutils literal notranslate"><span class="pre">bodyClass</span></code> and creates a
+<code class="docutils literal notranslate"><span class="pre">body</span></code> object.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><strong>filename</strong> (<em>string</em>) – String specifying the location of the body h5 file</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body"><strong>body</strong> – bodyClass object</td>
+</tr>
+<tr class="field-odd field"><th class="field-name">Return type:</th><td class="field-body">obj</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="method">
+<dt id="objects.bodyClass.readH5File">
+<code class="descname">readH5File</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#objects.bodyClass.readH5File" title="Permalink to this definition">¶</a></dt>
+<dd><p>WECSim internal function that reads the body h5 file.</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="objects.bodyClass.loadHydroData">
+<code class="descname">loadHydroData</code><span class="sig-paren">(</span><em>hydroData</em><span class="sig-paren">)</span><a class="headerlink" href="#objects.bodyClass.loadHydroData" title="Permalink to this definition">¶</a></dt>
+<dd><p>WECSim function that loads the hydroData structure from a MATLAB variable as alternative to reading the h5 file. This process reduces computational time when using wecSimMCR.</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="objects.bodyClass.dragForcePre">
+<code class="descname">dragForcePre</code><span class="sig-paren">(</span><em>rho</em><span class="sig-paren">)</span><a class="headerlink" href="#objects.bodyClass.dragForcePre" title="Permalink to this definition">¶</a></dt>
+<dd><p>DragBody Pre-processing calculations
+Similar to hydroForcePre, but only loads in the necessary
+values to calculate linear damping and viscous drag. Note
+that body DOF is inherited from the length of the drag
+coefficients.</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="objects.bodyClass.listInfo">
+<code class="descname">listInfo</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#objects.bodyClass.listInfo" title="Permalink to this definition">¶</a></dt>
+<dd><p>This method prints body information to the MATLAB Command Window.</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="objects.bodyClass.checkStl">
+<code class="descname">checkStl</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#objects.bodyClass.checkStl" title="Permalink to this definition">¶</a></dt>
+<dd><p>The method will check the <code class="docutils literal notranslate"><span class="pre">.stl</span></code> file and return an error if the normal vectors are not equal to one.</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="objects.bodyClass.plotStl">
+<code class="descname">plotStl</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#objects.bodyClass.plotStl" title="Permalink to this definition">¶</a></dt>
+<dd><p>This method plots the body .stl mesh and normal vectors.</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="objects.bodyClass.checkinputs">
+<code class="descname">checkinputs</code><span class="sig-paren">(</span><em>morisonElement</em><span class="sig-paren">)</span><a class="headerlink" href="#objects.bodyClass.checkinputs" title="Permalink to this definition">¶</a></dt>
+<dd><p>This method checks WEC-Sim user inputs and generates error messages if parameters are not properly defined for the bodyClass.</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="objects.bodyClass.forceAddedMass">
+<code class="descname">forceAddedMass</code><span class="sig-paren">(</span><em>acc</em>, <em>B2B</em><span class="sig-paren">)</span><a class="headerlink" href="#objects.bodyClass.forceAddedMass" title="Permalink to this definition">¶</a></dt>
+<dd><p>This method calculates and outputs the real added mass force time history.</p>
+</dd></dl>
+
+</dd></dl>
+
+</div>
+<div class="section" id="contstraint-class">
+<span id="constraint"></span><h2>Contstraint Class<a class="headerlink" href="#contstraint-class" title="Permalink to this headline">¶</a></h2>
+<dl class="class">
+<dt id="objects.constraintClass">
+<em class="property">class </em><code class="descclassname">objects.</code><code class="descname">constraintClass</code><span class="sig-paren">(</span><em>name</em><span class="sig-paren">)</span><a class="headerlink" href="#objects.constraintClass" title="Permalink to this definition">¶</a></dt>
+<dd><p>The <code class="docutils literal notranslate"><span class="pre">constraintClass</span></code> creates a <code class="docutils literal notranslate"><span class="pre">constraint</span></code> object saved to the MATLAB
+workspace. The <code class="docutils literal notranslate"><span class="pre">constraintClass</span></code> includes properties and methods used
+to define constraints between the body motion relative to the global reference
+frame or relative to other bodies.</p>
+<dl class="attribute">
+<dt id="objects.constraintClass.name">
+<code class="descname">name</code><em class="property"> = &quot;'NOT DEFINED'&quot;</em><a class="headerlink" href="#objects.constraintClass.name" title="Permalink to this definition">¶</a></dt>
+<dd><p>(<cite>string</cite>) Specifies the constraint name. For constraints this is defined by the user, Default = <code class="docutils literal notranslate"><span class="pre">NOT</span> <span class="pre">DEFINED</span></code>.</p>
+</dd></dl>
+
+<dl class="attribute">
+<dt id="objects.constraintClass.loc">
+<code class="descname">loc</code><em class="property"> = '[999 999 999]'</em><a class="headerlink" href="#objects.constraintClass.loc" title="Permalink to this definition">¶</a></dt>
+<dd><p>(<cite>3x1 float vector</cite>) Constraint location [m]. Defined in the following format [x y z]. Default = <code class="docutils literal notranslate"><span class="pre">[999</span> <span class="pre">999</span> <span class="pre">999]</span></code>.</p>
+</dd></dl>
+
+<dl class="attribute">
+<dt id="objects.constraintClass.orientation">
+<code class="descname">orientation</code><em class="property"> = &quot;struct(                                         'z', [0, 0, 1],                                          'y', [0, 1, 0],                                          'x', [],                                          'rotationMatrix',[])&quot;</em><a class="headerlink" href="#objects.constraintClass.orientation" title="Permalink to this definition">¶</a></dt>
+<dd><p>Structure defining the orientation axis of the constraint. <code class="docutils literal notranslate"><span class="pre">z</span></code> (<cite>3x1 float vector</cite>) defines the direciton of the Z-coordinate of the constraint, Default = [<code class="docutils literal notranslate"><span class="pre">0</span> <span class="pre">0</span> <span class="pre">1</span></code>]. <code class="docutils literal notranslate"><span class="pre">y</span></code> (<cite>3x1 float vector</cite>) defines the direciton of the Y-coordinate of the constraint, Default = [<code class="docutils literal notranslate"><span class="pre">0</span> <span class="pre">1</span> <span class="pre">0</span></code>]. <code class="docutils literal notranslate"><span class="pre">x</span></code> (<cite>3x1 float vector</cite>) internally calculated vector defining the direction of the X-coordinate for the constraint, Default = <code class="docutils literal notranslate"><span class="pre">[]</span></code>. <code class="docutils literal notranslate"><span class="pre">rotationMatrix</span></code> (<cite>3x3 float matrix</cite>) internally calculated rotation matrix to go from standard coordinate orientation to the constraint coordinate orientation, Default = <code class="docutils literal notranslate"><span class="pre">[]</span></code>.</p>
+</dd></dl>
+
+<dl class="attribute">
+<dt id="objects.constraintClass.initDisp">
+<code class="descname">initDisp</code><em class="property"> = &quot;struct(                                         'initLinDisp',          [0 0 0])&quot;</em><a class="headerlink" href="#objects.constraintClass.initDisp" title="Permalink to this definition">¶</a></dt>
+<dd><p>Structure defining the initial displacement of the constraint. <code class="docutils literal notranslate"><span class="pre">initLinDisp</span></code> (<cite>3x1 float vector</cite>) is defined as the initial displacement of the constraint [m] in the following format [x y z], Default = [<code class="docutils literal notranslate"><span class="pre">0</span> <span class="pre">0</span> <span class="pre">0</span></code>].</p>
+</dd></dl>
+
+<dl class="attribute">
+<dt id="objects.constraintClass.hardStops">
+<code class="descname">hardStops</code><em class="property"> = &quot;struct(                                          'upperLimitSpecify', 'off',        % (`string`) Initialize upper stroke limit. ``  'on' or 'off' `` Default = ``off``. \n'upperLimitBound', 1,                                           'upperLimitStiffness', 1e6,                                           'upperLimitDamping', 1e3,                                           'upperLimitTransitionRegionWidth', 1e-4,                                           'lowerLimitSpecify', 'off',                                          'lowerLimitBound', -1,                                           'lowerLimitStiffness', 1e6,                                           'lowerLimitDamping', 1e3,                                           'lowerLimitTransitionRegionWidth', 1e-4)&quot;</em><a class="headerlink" href="#objects.constraintClass.hardStops" title="Permalink to this definition">¶</a></dt>
+<dd><p>(<cite>float</cite>) Define lower limit transition region, over which spring and damping values ramp up to full values. Increase for stability. m or deg. <code class="docutils literal notranslate"><span class="pre">Default</span> <span class="pre">=</span> <span class="pre">1e-4</span></code></p>
+</dd></dl>
+
+<dl class="method">
+<dt id="objects.constraintClass.constraintClass">
+<code class="descname">constraintClass</code><span class="sig-paren">(</span><em>name</em><span class="sig-paren">)</span><a class="headerlink" href="#objects.constraintClass.constraintClass" title="Permalink to this definition">¶</a></dt>
+<dd><p>This method initilizes the <code class="docutils literal notranslate"><span class="pre">constraintClass</span></code> and creates a
+<code class="docutils literal notranslate"><span class="pre">constraint</span></code> object.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><strong>filename</strong> (<em>string</em>) – String specifying the name of the constraint</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body"><strong>constraint</strong> – contraintClass object</td>
+</tr>
+<tr class="field-odd field"><th class="field-name">Return type:</th><td class="field-body">obj</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="method">
+<dt id="objects.constraintClass.checkLoc">
+<code class="descname">checkLoc</code><span class="sig-paren">(</span><em>action</em><span class="sig-paren">)</span><a class="headerlink" href="#objects.constraintClass.checkLoc" title="Permalink to this definition">¶</a></dt>
+<dd><p>This method checks WEC-Sim user inputs and generate an error message if the constraint location is not defined in constraintClass.</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="objects.constraintClass.setOrientation">
+<code class="descname">setOrientation</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#objects.constraintClass.setOrientation" title="Permalink to this definition">¶</a></dt>
+<dd><p>This method calculates the constraint <code class="docutils literal notranslate"><span class="pre">x</span></code> vector and <code class="docutils literal notranslate"><span class="pre">rotationMatrix</span></code> matrix in the <code class="docutils literal notranslate"><span class="pre">orientation</span></code> structure based on user input.</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="objects.constraintClass.setInitDisp">
+<code class="descname">setInitDisp</code><span class="sig-paren">(</span><em>x_rot</em>, <em>ax_rot</em>, <em>ang_rot</em>, <em>addLinDisp</em><span class="sig-paren">)</span><a class="headerlink" href="#objects.constraintClass.setInitDisp" title="Permalink to this definition">¶</a></dt>
+<dd><p>This method sets initial displacement while considering an initial rotation orientation.</p>
+<p><code class="docutils literal notranslate"><span class="pre">x_rot</span></code> (<cite>3x1 float vector</cite>) is rotation point [m] in the following format [x y z], Default = <code class="docutils literal notranslate"><span class="pre">[]</span></code>.</p>
+<p><code class="docutils literal notranslate"><span class="pre">ax_rot</span></code> (<cite>3x1 float vector</cite>) is the axis about which to rotate to constraint and must be a normal vector, Default = <code class="docutils literal notranslate"><span class="pre">[]</span></code>.</p>
+<p><code class="docutils literal notranslate"><span class="pre">ang_rot</span></code> (<cite>float</cite>) is the rotation angle [rad], Default = <code class="docutils literal notranslate"><span class="pre">[]</span></code>.</p>
+<p><code class="docutils literal notranslate"><span class="pre">addLinDisp</span></code> (‘float’) is the initial linear displacement [m] in addition to the displacement caused by the constraint rotation, Default = ‘[]’.</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="objects.constraintClass.listInfo">
+<code class="descname">listInfo</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#objects.constraintClass.listInfo" title="Permalink to this definition">¶</a></dt>
+<dd><p>This method prints constraint information to the MATLAB Command Window.</p>
+</dd></dl>
+
+</dd></dl>
+
+</div>
+<div class="section" id="mooring-class">
+<span id="mooringapi"></span><h2>Mooring Class<a class="headerlink" href="#mooring-class" title="Permalink to this headline">¶</a></h2>
+<dl class="class">
+<dt id="objects.mooringClass">
+<em class="property">class </em><code class="descclassname">objects.</code><code class="descname">mooringClass</code><span class="sig-paren">(</span><em>name</em><span class="sig-paren">)</span><a class="headerlink" href="#objects.mooringClass" title="Permalink to this definition">¶</a></dt>
+<dd><p>This class contains mooring parameters and settings</p>
+<dl class="attribute">
+<dt id="objects.mooringClass.name">
+<code class="descname">name</code><em class="property"> = &quot;'NOT DEFINED'&quot;</em><a class="headerlink" href="#objects.mooringClass.name" title="Permalink to this definition">¶</a></dt>
+<dd><p>(<cite>string</cite>) Name of the mooring. Default = <code class="docutils literal notranslate"><span class="pre">'NOT</span> <span class="pre">DEFINED'</span></code></p>
+</dd></dl>
+
+<dl class="attribute">
+<dt id="objects.mooringClass.ref">
+<code class="descname">ref</code><em class="property"> = '[0 0 0]'</em><a class="headerlink" href="#objects.mooringClass.ref" title="Permalink to this definition">¶</a></dt>
+<dd><p>(<cite>float 1 x 3</cite>) Mooring Reference location. Default = <code class="docutils literal notranslate"><span class="pre">[0</span> <span class="pre">0</span> <span class="pre">0]</span></code></p>
+</dd></dl>
+
+<dl class="attribute">
+<dt id="objects.mooringClass.moorDynLines">
+<code class="descname">moorDynLines</code><em class="property"> = '0'</em><a class="headerlink" href="#objects.mooringClass.moorDynLines" title="Permalink to this definition">¶</a></dt>
+<dd><p>(<cite>integer</cite>) Number of lines in MoorDyn. Default = <code class="docutils literal notranslate"><span class="pre">0</span></code></p>
+</dd></dl>
+
+<dl class="attribute">
+<dt id="objects.mooringClass.moorDynNodes">
+<code class="descname">moorDynNodes</code><em class="property"> = '[]'</em><a class="headerlink" href="#objects.mooringClass.moorDynNodes" title="Permalink to this definition">¶</a></dt>
+<dd><p>(<cite>integer</cite>) number of nodes for each line. Default = <code class="docutils literal notranslate"><span class="pre">'NOT</span> <span class="pre">DEFINED'</span></code></p>
+</dd></dl>
+
+<dl class="attribute">
+<dt id="objects.mooringClass.loc">
+<code class="descname">loc</code><em class="property"> = '[]'</em><a class="headerlink" href="#objects.mooringClass.loc" title="Permalink to this definition">¶</a></dt>
+<dd><p>(<cite>float 1 x 6</cite>) Initial 6DOF location. Default = <code class="docutils literal notranslate"><span class="pre">[0</span> <span class="pre">0</span> <span class="pre">0</span> <span class="pre">0</span> <span class="pre">0</span> <span class="pre">0]</span></code></p>
+</dd></dl>
+
+<dl class="attribute">
+<dt id="objects.mooringClass.mooringNum">
+<code class="descname">mooringNum</code><em class="property"> = '[]'</em><a class="headerlink" href="#objects.mooringClass.mooringNum" title="Permalink to this definition">¶</a></dt>
+<dd><p>(<cite>integer</cite>) Mooring number. Default = <code class="docutils literal notranslate"><span class="pre">'NOT</span> <span class="pre">DEFINED'</span></code></p>
+</dd></dl>
+
+<dl class="attribute">
+<dt id="objects.mooringClass.moorDyn">
+<code class="descname">moorDyn</code><em class="property"> = '0'</em><a class="headerlink" href="#objects.mooringClass.moorDyn" title="Permalink to this definition">¶</a></dt>
+<dd><p>(<cite>integer</cite>) Flag to indicate a MoorDyn block, 0 or 1. Default = <code class="docutils literal notranslate"><span class="pre">0</span></code></p>
+</dd></dl>
+
+<dl class="attribute">
+<dt id="objects.mooringClass.moorDynInputRaw">
+<code class="descname">moorDynInputRaw</code><em class="property"> = '[]'</em><a class="headerlink" href="#objects.mooringClass.moorDynInputRaw" title="Permalink to this definition">¶</a></dt>
+<dd><p>(<cite>string</cite>) MoorDyn input file, each line read as a string into a cell array. Default = <code class="docutils literal notranslate"><span class="pre">'NOT</span> <span class="pre">DEFINED'</span></code></p>
+</dd></dl>
+
+<dl class="method">
+<dt id="objects.mooringClass.mooringClass">
+<code class="descname">mooringClass</code><span class="sig-paren">(</span><em>name</em><span class="sig-paren">)</span><a class="headerlink" href="#objects.mooringClass.mooringClass" title="Permalink to this definition">¶</a></dt>
+<dd><p>This method initializes the mooringClass object</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="objects.mooringClass.setLoc">
+<code class="descname">setLoc</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#objects.mooringClass.setLoc" title="Permalink to this definition">¶</a></dt>
+<dd><p>This method sets mooring location</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="objects.mooringClass.setInitDisp">
+<code class="descname">setInitDisp</code><span class="sig-paren">(</span><em>x_rot</em>, <em>ax_rot</em>, <em>ang_rot</em>, <em>addLinDisp</em><span class="sig-paren">)</span><a class="headerlink" href="#objects.mooringClass.setInitDisp" title="Permalink to this definition">¶</a></dt>
+<dd><p>Method to set the initial displacement with an initial rotation</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first last simple">
+<li><strong>x_rot</strong> (<em>3 x 1 float vector</em>) – displacement of mooring reference</li>
+<li><strong>ax_rot</strong> (<em>3 x 1 float vector</em>) – axis about which to rotate (must be a normal vector)</li>
+<li><strong>ang_rot</strong> (<em>float</em>) – rotation displacement (radians)</li>
+<li><strong>addLinDisp</strong> (<em>3 x 1 float vector</em>) – initial linear displacement (additional to rotation-induced displacement)</li>
+</ul>
+</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="method">
+<dt id="objects.mooringClass.moorDynInput">
+<code class="descname">moorDynInput</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#objects.mooringClass.moorDynInput" title="Permalink to this definition">¶</a></dt>
+<dd><p>Method to read MoorDyn input file</p>
+</dd></dl>
+
+</dd></dl>
+
+</div>
+<div class="section" id="pto-class">
+<span id="ptoapi"></span><h2>PTO Class<a class="headerlink" href="#pto-class" title="Permalink to this headline">¶</a></h2>
+<dl class="class">
+<dt id="objects.ptoClass">
+<em class="property">class </em><code class="descclassname">objects.</code><code class="descname">ptoClass</code><span class="sig-paren">(</span><em>name</em><span class="sig-paren">)</span><a class="headerlink" href="#objects.ptoClass" title="Permalink to this definition">¶</a></dt>
+<dd><p>The <code class="docutils literal notranslate"><span class="pre">ptoClass</span></code> creates a <code class="docutils literal notranslate"><span class="pre">pto</span></code> object saved to the MATLAB
+workspace. The <code class="docutils literal notranslate"><span class="pre">ptoClass</span></code> includes properties and methods used
+to define PTO connections between the body motion relative to the global reference
+frame or relative to other bodies.</p>
+<dl class="attribute">
+<dt id="objects.ptoClass.name">
+<code class="descname">name</code><em class="property"> = &quot;'NOT DEFINED'&quot;</em><a class="headerlink" href="#objects.ptoClass.name" title="Permalink to this definition">¶</a></dt>
+<dd><p>(<cite>string</cite>) Specifies the pto name. For ptos this is defined by the user, Default = <code class="docutils literal notranslate"><span class="pre">NOT</span> <span class="pre">DEFINED</span></code>.</p>
+</dd></dl>
+
+<dl class="attribute">
+<dt id="objects.ptoClass.k">
+<code class="descname">k</code><em class="property"> = '0'</em><a class="headerlink" href="#objects.ptoClass.k" title="Permalink to this definition">¶</a></dt>
+<dd><p>(<cite>float</cite>) Linear PTO stiffness coefficient. Default = <cite>0</cite>.</p>
+</dd></dl>
+
+<dl class="attribute">
+<dt id="objects.ptoClass.c">
+<code class="descname">c</code><em class="property"> = '0'</em><a class="headerlink" href="#objects.ptoClass.c" title="Permalink to this definition">¶</a></dt>
+<dd><p>(<cite>float</cite>) Linear PTO damping coefficient. Default = <cite>0</cite>.</p>
+</dd></dl>
+
+<dl class="attribute">
+<dt id="objects.ptoClass.equilibriumPosition">
+<code class="descname">equilibriumPosition</code><em class="property"> = '0'</em><a class="headerlink" href="#objects.ptoClass.equilibriumPosition" title="Permalink to this definition">¶</a></dt>
+<dd><p>(<cite>float</cite>) Linear PTO equilibrium position, m or deg. Default = <cite>0</cite>.</p>
+</dd></dl>
+
+<dl class="attribute">
+<dt id="objects.ptoClass.pretension">
+<code class="descname">pretension</code><em class="property"> = '0'</em><a class="headerlink" href="#objects.ptoClass.pretension" title="Permalink to this definition">¶</a></dt>
+<dd><p>(<cite>float</cite>) Linear PTO pretension, N or N-m. Default = <cite>0</cite>.</p>
+</dd></dl>
+
+<dl class="attribute">
+<dt id="objects.ptoClass.loc">
+<code class="descname">loc</code><em class="property"> = '[999 999 999]'</em><a class="headerlink" href="#objects.ptoClass.loc" title="Permalink to this definition">¶</a></dt>
+<dd><p>(<cite>3x1 float vector</cite>) PTO location [m]. Defined in the following format [x y z]. Default = <code class="docutils literal notranslate"><span class="pre">[999</span> <span class="pre">999</span> <span class="pre">999]</span></code>.</p>
+</dd></dl>
+
+<dl class="attribute">
+<dt id="objects.ptoClass.orientation">
+<code class="descname">orientation</code><em class="property"> = &quot;struct(                                         'z', [0, 0, 1],                                          'y', [0, 1, 0],                                          'x', [],                                          'rotationMatrix',[])&quot;</em><a class="headerlink" href="#objects.ptoClass.orientation" title="Permalink to this definition">¶</a></dt>
+<dd><p>Structure defining the orientation axis of the pto. <code class="docutils literal notranslate"><span class="pre">z</span></code> (<cite>3x1 float vector</cite>) defines the direciton of the Z-coordinate of the pto, Default = [<code class="docutils literal notranslate"><span class="pre">0</span> <span class="pre">0</span> <span class="pre">1</span></code>]. <code class="docutils literal notranslate"><span class="pre">y</span></code> (<cite>3x1 float vector</cite>) defines the direciton of the Y-coordinate of the pto, Default = [<code class="docutils literal notranslate"><span class="pre">0</span> <span class="pre">1</span> <span class="pre">0</span></code>]. <code class="docutils literal notranslate"><span class="pre">x</span></code> (<cite>3x1 float vector</cite>) internally calculated vector defining the direction of the X-coordinate for the pto, Default = <code class="docutils literal notranslate"><span class="pre">[]</span></code>. <code class="docutils literal notranslate"><span class="pre">rotationMatrix</span></code> (<cite>3x3 float matrix</cite>) internally calculated rotation matrix to go from standard coordinate orientation to the pto coordinate orientation, Default = <code class="docutils literal notranslate"><span class="pre">[]</span></code>.</p>
+</dd></dl>
+
+<dl class="attribute">
+<dt id="objects.ptoClass.initDisp">
+<code class="descname">initDisp</code><em class="property"> = &quot;struct(                                         'initLinDisp',          [0 0 0])&quot;</em><a class="headerlink" href="#objects.ptoClass.initDisp" title="Permalink to this definition">¶</a></dt>
+<dd><p>Structure defining the initial displacement of the pto. <code class="docutils literal notranslate"><span class="pre">initLinDisp</span></code> (<cite>3x1 float vector</cite>) is defined as the initial displacement of the pto [m] in the following format [x y z], Default = [<code class="docutils literal notranslate"><span class="pre">0</span> <span class="pre">0</span> <span class="pre">0</span></code>].</p>
+</dd></dl>
+
+<dl class="attribute">
+<dt id="objects.ptoClass.hardStops">
+<code class="descname">hardStops</code><em class="property"> = &quot;struct(                                          'upperLimitSpecify', 'off',        % (`string`) Initialize upper stroke limit. ``  'on' or 'off' `` Default = ``off``. \n'upperLimitBound', 1,                                           'upperLimitStiffness', 1e6,                                           'upperLimitDamping', 1e3,                                           'upperLimitTransitionRegionWidth', 1e-4,                                           'lowerLimitSpecify', 'off',                                          'lowerLimitBound', -1,                                           'lowerLimitStiffness', 1e6,                                           'lowerLimitDamping', 1e3,                                           'lowerLimitTransitionRegionWidth', 1e-4)&quot;</em><a class="headerlink" href="#objects.ptoClass.hardStops" title="Permalink to this definition">¶</a></dt>
+<dd><p>(<cite>float</cite>) Define lower limit transition region, over which spring and damping values ramp up to full values. Increase for stability. m or deg. <code class="docutils literal notranslate"><span class="pre">Default</span> <span class="pre">=</span> <span class="pre">1e-4</span></code></p>
+</dd></dl>
+
+<dl class="method">
+<dt id="objects.ptoClass.ptoClass">
+<code class="descname">ptoClass</code><span class="sig-paren">(</span><em>name</em><span class="sig-paren">)</span><a class="headerlink" href="#objects.ptoClass.ptoClass" title="Permalink to this definition">¶</a></dt>
+<dd><p>This method initilizes the <code class="docutils literal notranslate"><span class="pre">ptoClass</span></code> and creates a
+<code class="docutils literal notranslate"><span class="pre">pto</span></code> object.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><strong>filename</strong> (<em>string</em>) – String specifying the name of the pto</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body"><strong>pto</strong> – ptoClass object</td>
+</tr>
+<tr class="field-odd field"><th class="field-name">Return type:</th><td class="field-body">obj</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="method">
+<dt id="objects.ptoClass.checkLoc">
+<code class="descname">checkLoc</code><span class="sig-paren">(</span><em>action</em><span class="sig-paren">)</span><a class="headerlink" href="#objects.ptoClass.checkLoc" title="Permalink to this definition">¶</a></dt>
+<dd><p>This method checks WEC-Sim user inputs and generate an error message if the constraint location is not defined in constraintClass.</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="objects.ptoClass.setOrientation">
+<code class="descname">setOrientation</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#objects.ptoClass.setOrientation" title="Permalink to this definition">¶</a></dt>
+<dd><p>This method calculates the constraint <code class="docutils literal notranslate"><span class="pre">x</span></code> vector and <code class="docutils literal notranslate"><span class="pre">rotationMatrix</span></code> matrix in the <code class="docutils literal notranslate"><span class="pre">orientation</span></code> structure based on user input.</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="objects.ptoClass.setPretension">
+<code class="descname">setPretension</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#objects.ptoClass.setPretension" title="Permalink to this definition">¶</a></dt>
+<dd><p>This method calculates the equilibrium position in the joint to provide pretension, which is activated when the pretension value is not equal to zero and equilibrium position is not over written.</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="objects.ptoClass.setInitDisp">
+<code class="descname">setInitDisp</code><span class="sig-paren">(</span><em>x_rot</em>, <em>ax_rot</em>, <em>ang_rot</em>, <em>addLinDisp</em><span class="sig-paren">)</span><a class="headerlink" href="#objects.ptoClass.setInitDisp" title="Permalink to this definition">¶</a></dt>
+<dd><p>This method sets initial displacement while considering an initial rotation orientation.</p>
+<p><code class="docutils literal notranslate"><span class="pre">x_rot</span></code> (<cite>3x1 float vector</cite>) is rotation point [m] in the following format [x y z], Default = <code class="docutils literal notranslate"><span class="pre">[]</span></code>.</p>
+<p><code class="docutils literal notranslate"><span class="pre">ax_rot</span></code> (<cite>3x1 float vector</cite>) is the axis about which to rotate to constraint and must be a normal vector, Default = <code class="docutils literal notranslate"><span class="pre">[]</span></code>.</p>
+<p><code class="docutils literal notranslate"><span class="pre">ang_rot</span></code> (<cite>float</cite>) is the rotation angle [rad], Default = <code class="docutils literal notranslate"><span class="pre">[]</span></code>.</p>
+<p><code class="docutils literal notranslate"><span class="pre">addLinDisp</span></code> (‘float’) is the initial linear displacement [m] in addition to the displacement caused by the pto rotation, Default = ‘[]’.</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="objects.ptoClass.listInfo">
+<code class="descname">listInfo</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#objects.ptoClass.listInfo" title="Permalink to this definition">¶</a></dt>
+<dd><p>This method prints pto information to the MATLAB Command Window.</p>
+</dd></dl>
+
+</dd></dl>
+
+</div>
+<div class="section" id="response-class">
+<span id="response"></span><h2>Response Class<a class="headerlink" href="#response-class" title="Permalink to this headline">¶</a></h2>
+<dl class="class">
+<dt id="objects.responseClass">
+<em class="property">class </em><code class="descclassname">objects.</code><code class="descname">responseClass</code><span class="sig-paren">(</span><em>bodiesOutput</em>, <em>ptosOutput</em>, <em>constraintsOutput</em>, <em>ptosimOutput</em>, <em>mooringOutput</em>, <em>waveOutput</em>, <em>yawNonLin</em><span class="sig-paren">)</span><a class="headerlink" href="#objects.responseClass" title="Permalink to this definition">¶</a></dt>
+<dd><blockquote>
+<div>The  <code class="docutils literal notranslate"><span class="pre">responseClass</span></code> creates an <code class="docutils literal notranslate"><span class="pre">output</span></code> object saved to the MATLAB workspace
+that contains structures for each instance of a WEC-Sim class (e.g.
+<code class="docutils literal notranslate"><span class="pre">waveClass</span></code>, <code class="docutils literal notranslate"><span class="pre">bodyClass</span></code>, <code class="docutils literal notranslate"><span class="pre">ptoClass</span></code>, <code class="docutils literal notranslate"><span class="pre">mooringClass</span></code>, etc).</div></blockquote>
+<dl class="attribute">
+<dt id="objects.responseClass.wave">
+<code class="descname">wave</code><em class="property"> = 'struct()'</em><a class="headerlink" href="#objects.responseClass.wave" title="Permalink to this definition">¶</a></dt>
+<dd><p>This property generates the <code class="docutils literal notranslate"><span class="pre">wave</span></code> structure for each instance of the <code class="docutils literal notranslate"><span class="pre">waveClass</span></code>
+, it includes:</p>
+<blockquote>
+<div><ul class="simple">
+<li><code class="docutils literal notranslate"><span class="pre">type</span></code> (<cite>string</cite>) = ‘waveType’</li>
+<li><code class="docutils literal notranslate"><span class="pre">time</span></code> (<cite>array</cite>) = [# of time-steps x 1]</li>
+<li><code class="docutils literal notranslate"><span class="pre">elevation</span></code> (<cite>array</cite>) = [# of time-steps x 1]</li>
+<li><code class="docutils literal notranslate"><span class="pre">waveGauge1Elevation</span></code> (<cite>array</cite>) = [# of time-steps x 1]</li>
+<li><code class="docutils literal notranslate"><span class="pre">waveGauge2Elevation</span></code> (<cite>array</cite>) = [# of time-steps x 1]</li>
+<li><code class="docutils literal notranslate"><span class="pre">waveGauge3Elevation</span></code> (<cite>array</cite>) = [# of time-steps x 1]</li>
+</ul>
+</div></blockquote>
+</dd></dl>
+
+<dl class="attribute">
+<dt id="objects.responseClass.bodies">
+<code class="descname">bodies</code><em class="property"> = 'struct()'</em><a class="headerlink" href="#objects.responseClass.bodies" title="Permalink to this definition">¶</a></dt>
+<dd><p>This property generates the <code class="docutils literal notranslate"><span class="pre">bodies</span></code> structure for each instance of the <code class="docutils literal notranslate"><span class="pre">bodyClass</span></code> (i.e. for each Body block)
+, it includes:</p>
+<blockquote>
+<div><ul class="simple">
+<li><code class="docutils literal notranslate"><span class="pre">name</span></code> (<cite>string</cite>) = ‘bodyName’</li>
+<li><code class="docutils literal notranslate"><span class="pre">time</span></code> (<cite>array</cite>) = [# of time-steps x 1]</li>
+<li><code class="docutils literal notranslate"><span class="pre">position</span></code> (<cite>array</cite>) = [# of time-steps x 6]</li>
+<li><code class="docutils literal notranslate"><span class="pre">velocity</span></code> (<cite>array</cite>) = [# of time-steps x 6]</li>
+<li><code class="docutils literal notranslate"><span class="pre">accleration</span></code> (<cite>array</cite>) = [# of time-steps x 6]</li>
+<li><code class="docutils literal notranslate"><span class="pre">forceTotal</span></code> (<cite>array</cite>) = [# of time-steps x 6]</li>
+<li><code class="docutils literal notranslate"><span class="pre">forceExcitation</span></code> (<cite>array</cite>) = [# of time-steps x 6]</li>
+<li><code class="docutils literal notranslate"><span class="pre">forceRadiationDamping</span></code> (<cite>array</cite>) = [# of time-steps x 6]</li>
+<li><code class="docutils literal notranslate"><span class="pre">forceAddedMass</span></code> (<cite>array</cite>) = [# of time-steps x 6]</li>
+<li><code class="docutils literal notranslate"><span class="pre">forceRestoring</span></code> (<cite>array</cite>) = [# of time-steps x 6]</li>
+<li><code class="docutils literal notranslate"><span class="pre">forceMorisonAndViscous</span></code> (<cite>array</cite>) = [# of time-steps x 6]</li>
+<li><code class="docutils literal notranslate"><span class="pre">forceLinearDamping</span></code> (<cite>array</cite>) = [# of time-steps x 6]</li>
+</ul>
+<p>There are 4 additional <code class="docutils literal notranslate"><span class="pre">output.bodies</span></code> arrays when using non-linear hydro and Paraview output:</p>
+<ul class="simple">
+<li><code class="docutils literal notranslate"><span class="pre">cellPressures_time</span></code> (‘array’) = [# of Paraview time-steps x 1]</li>
+<li><code class="docutils literal notranslate"><span class="pre">cellPressures_hydrostatic</span></code> (‘array’) = [# of Paraview time-steps x # of mesh faces]</li>
+<li><code class="docutils literal notranslate"><span class="pre">cellPressures_waveLinear</span></code> (‘array’) = [# of Paraview time-steps x # of mesh faces]</li>
+<li><code class="docutils literal notranslate"><span class="pre">cellPressures_waveNonLinear</span></code> (‘array’) = [# of Paraview time-steps x # of mesh faces]</li>
+</ul>
+</div></blockquote>
+</dd></dl>
+
+<dl class="attribute">
+<dt id="objects.responseClass.ptos">
+<code class="descname">ptos</code><em class="property"> = 'struct()'</em><a class="headerlink" href="#objects.responseClass.ptos" title="Permalink to this definition">¶</a></dt>
+<dd><p>This property generates the <code class="docutils literal notranslate"><span class="pre">ptos</span></code> structure for each instance of the <code class="docutils literal notranslate"><span class="pre">ptoClass</span></code> (i.e. for each PTO block)
+, it includes:</p>
+<blockquote>
+<div><ul class="simple">
+<li><code class="docutils literal notranslate"><span class="pre">name</span></code> (<cite>string</cite>) = ‘ptoName’</li>
+<li><code class="docutils literal notranslate"><span class="pre">time</span></code> (<cite>array</cite>) = [# of time-steps x 1]</li>
+<li><code class="docutils literal notranslate"><span class="pre">position</span></code> (<cite>array</cite>) = [# of time-steps x 6]</li>
+<li><code class="docutils literal notranslate"><span class="pre">velocity</span></code> (<cite>array</cite>) = [# of time-steps x 6]</li>
+<li><code class="docutils literal notranslate"><span class="pre">accleration</span></code> (<cite>array</cite>) = [# of time-steps x 6]</li>
+<li><code class="docutils literal notranslate"><span class="pre">forceTotal</span></code> (<cite>array</cite>) = [# of time-steps x 6]</li>
+<li><code class="docutils literal notranslate"><span class="pre">forceActuation</span></code> (<cite>array</cite>) = [# of time-steps x 6]</li>
+<li><code class="docutils literal notranslate"><span class="pre">forceConstraint</span></code> (<cite>array</cite>) = [# of time-steps x 6]</li>
+<li><code class="docutils literal notranslate"><span class="pre">forceInternalMechanics</span></code> (<cite>array</cite>) = [# of time-steps x 6]</li>
+<li><code class="docutils literal notranslate"><span class="pre">powerInternalMechanics</span></code> (<cite>array</cite>) = [# of time-steps x 6]</li>
+</ul>
+</div></blockquote>
+</dd></dl>
+
+<dl class="attribute">
+<dt id="objects.responseClass.constraints">
+<code class="descname">constraints</code><em class="property"> = 'struct()'</em><a class="headerlink" href="#objects.responseClass.constraints" title="Permalink to this definition">¶</a></dt>
+<dd><p>This property generates the <code class="docutils literal notranslate"><span class="pre">constraints</span></code> structure for each instance of the <code class="docutils literal notranslate"><span class="pre">coonstraintClass</span></code> (i.e. for each Constraint block)
+, it includes:</p>
+<blockquote>
+<div><ul class="simple">
+<li><code class="docutils literal notranslate"><span class="pre">name</span></code> (<cite>string</cite>) = ‘coonstraintName’</li>
+<li><code class="docutils literal notranslate"><span class="pre">time</span></code> (<cite>array</cite>) = [# of time-steps x 1]</li>
+<li><code class="docutils literal notranslate"><span class="pre">position</span></code> (<cite>array</cite>) = [# of time-steps x 6]</li>
+<li><code class="docutils literal notranslate"><span class="pre">velocity</span></code> (<cite>array</cite>) = [# of time-steps x 6]</li>
+<li><code class="docutils literal notranslate"><span class="pre">accleration</span></code> (<cite>array</cite>) = [# of time-steps x 6]</li>
+<li><code class="docutils literal notranslate"><span class="pre">forceConstraint</span></code> (<cite>array</cite>) = [# of time-steps x 6]</li>
+</ul>
+</div></blockquote>
+</dd></dl>
+
+<dl class="attribute">
+<dt id="objects.responseClass.mooring">
+<code class="descname">mooring</code><em class="property"> = 'struct()'</em><a class="headerlink" href="#objects.responseClass.mooring" title="Permalink to this definition">¶</a></dt>
+<dd><p>This property generates the <code class="docutils literal notranslate"><span class="pre">mooring</span></code> structure for each instance of the <code class="docutils literal notranslate"><span class="pre">mooringClass</span></code> (i.e. for each Mooring block)
+, it includes:</p>
+<blockquote>
+<div><ul class="simple">
+<li><code class="docutils literal notranslate"><span class="pre">position</span></code> (<cite>array</cite>) = [# of time-steps x 6]</li>
+<li><code class="docutils literal notranslate"><span class="pre">velocity</span></code> (<cite>array</cite>) = [# of time-steps x 6]</li>
+<li><code class="docutils literal notranslate"><span class="pre">forceMooring</span></code> (<cite>array</cite>) = [# of time-steps x 6]</li>
+</ul>
+</div></blockquote>
+</dd></dl>
+
+<dl class="attribute">
+<dt id="objects.responseClass.moorDyn">
+<code class="descname">moorDyn</code><em class="property"> = 'struct()'</em><a class="headerlink" href="#objects.responseClass.moorDyn" title="Permalink to this definition">¶</a></dt>
+<dd><p>This property generates the <code class="docutils literal notranslate"><span class="pre">moorDyn</span></code> structure for each instance of the <code class="docutils literal notranslate"><span class="pre">mooringClass</span></code> using MoorDyn (i.e. for each MoorDyn block), it includes <code class="docutils literal notranslate"><span class="pre">Lines</span></code>  and <code class="docutils literal notranslate"><span class="pre">Line#</span></code>.</p>
+</dd></dl>
+
+<dl class="attribute">
+<dt id="objects.responseClass.ptosim">
+<code class="descname">ptosim</code><em class="property"> = 'struct()'</em><a class="headerlink" href="#objects.responseClass.ptosim" title="Permalink to this definition">¶</a></dt>
+<dd><p>This property generates the <code class="docutils literal notranslate"><span class="pre">ptosim</span></code> structure for each instance of the <code class="docutils literal notranslate"><span class="pre">ptoSimClass</span></code> (i.e. for each PTO-Sim block).</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="objects.responseClass.responseClass">
+<code class="descname">responseClass</code><span class="sig-paren">(</span><em>bodiesOutput</em>, <em>ptosOutput</em>, <em>constraintsOutput</em>, <em>ptosimOutput</em>, <em>mooringOutput</em>, <em>waveOutput</em>, <em>yawNonLin</em><span class="sig-paren">)</span><a class="headerlink" href="#objects.responseClass.responseClass" title="Permalink to this definition">¶</a></dt>
+<dd><p>This method initializes the <code class="docutils literal notranslate"><span class="pre">responseClass</span></code>, reads
+output from each instance of a WEC-Sim class (e.g.
+<code class="docutils literal notranslate"><span class="pre">waveClass</span></code>, <code class="docutils literal notranslate"><span class="pre">bodyClass</span></code>, <code class="docutils literal notranslate"><span class="pre">ptoClass</span></code>, <code class="docutils literal notranslate"><span class="pre">mooringClass</span></code>, etc)
+, and saves the response to an <code class="docutils literal notranslate"><span class="pre">output</span></code> object.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Returns:</th><td class="field-body"><strong>output</strong> – responseClass object</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Return type:</th><td class="field-body">obj</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="method">
+<dt id="objects.responseClass.loadMoorDyn">
+<code class="descname">loadMoorDyn</code><span class="sig-paren">(</span><em>numLines</em><span class="sig-paren">)</span><a class="headerlink" href="#objects.responseClass.loadMoorDyn" title="Permalink to this definition">¶</a></dt>
+<dd><p>This method reads MoorDyn outputs for each instance of the
+<code class="docutils literal notranslate"><span class="pre">mooringClass</span></code></p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><strong>numLines</strong> (<em>integer</em>) – the number of MoorDyn lines</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="method">
+<dt id="objects.responseClass.plotResponse">
+<code class="descname">plotResponse</code><span class="sig-paren">(</span><em>bodyNum</em>, <em>comp</em><span class="sig-paren">)</span><a class="headerlink" href="#objects.responseClass.plotResponse" title="Permalink to this definition">¶</a></dt>
+<dd><p>This method plots the response of a body for a given DOF.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first last simple">
+<li><strong>bodyNum</strong> (<em>integer</em>) – the body number to plot</li>
+<li><strong>comp</strong> (<em>integer</em>) – the response component (i.e. dof) to be plotted (e.g. 1-6)</li>
+</ul>
+</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="method">
+<dt id="objects.responseClass.plotForces">
+<code class="descname">plotForces</code><span class="sig-paren">(</span><em>bodyNum</em>, <em>comp</em><span class="sig-paren">)</span><a class="headerlink" href="#objects.responseClass.plotForces" title="Permalink to this definition">¶</a></dt>
+<dd><p>This method plots the forces on a body for a given DOF.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first last simple">
+<li><strong>bodyNum</strong> (<em>integer</em>) – the body number to plot</li>
+<li><strong>comp</strong> (<em>integer</em>) – the force component (i.e. dof) to be plotted (e.g. 1-6)</li>
+</ul>
+</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="method">
+<dt id="objects.responseClass.writetxt">
+<code class="descname">writetxt</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#objects.responseClass.writetxt" title="Permalink to this definition">¶</a></dt>
+<dd><p>This method writes WEC-Sim outputs to a (ASCII) text file.
+This method is executed by specifying <code class="docutils literal notranslate"><span class="pre">simu.outputtxt=1</span></code>
+in the <code class="docutils literal notranslate"><span class="pre">wecSimInputFile.m</span></code>.</p>
+</dd></dl>
+
+</dd></dl>
+
+</div>
+<div class="section" id="simulation-class">
+<span id="simulation"></span><h2>Simulation Class<a class="headerlink" href="#simulation-class" title="Permalink to this headline">¶</a></h2>
+<dl class="class">
+<dt id="objects.simulationClass">
+<em class="property">class </em><code class="descclassname">objects.</code><code class="descname">simulationClass</code><a class="headerlink" href="#objects.simulationClass" title="Permalink to this definition">¶</a></dt>
+<dd><p>This class contains WEC-Sim simulation parameters and settings</p>
+<dl class="attribute">
+<dt id="objects.simulationClass.simMechanicsFile">
+<code class="descname">simMechanicsFile</code><em class="property"> = &quot;'NOT DEFINED'&quot;</em><a class="headerlink" href="#objects.simulationClass.simMechanicsFile" title="Permalink to this definition">¶</a></dt>
+<dd><p>(<cite>string</cite>) Simulink/SimMecahnics model file. Default = <code class="docutils literal notranslate"><span class="pre">'NOT</span> <span class="pre">DEFINED'</span></code></p>
+</dd></dl>
+
+<dl class="attribute">
+<dt id="objects.simulationClass.startTime">
+<code class="descname">startTime</code><em class="property"> = '0'</em><a class="headerlink" href="#objects.simulationClass.startTime" title="Permalink to this definition">¶</a></dt>
+<dd><p>(<cite>float</cite>) Simulation start time. Default = <code class="docutils literal notranslate"><span class="pre">0</span></code> s</p>
+</dd></dl>
+
+<dl class="attribute">
+<dt id="objects.simulationClass.rampTime">
+<code class="descname">rampTime</code><em class="property"> = '100'</em><a class="headerlink" href="#objects.simulationClass.rampTime" title="Permalink to this definition">¶</a></dt>
+<dd><p>(<cite>float</cite>) Ramp time for wave forcing. Default = <code class="docutils literal notranslate"><span class="pre">100</span></code> s</p>
+</dd></dl>
+
+<dl class="attribute">
+<dt id="objects.simulationClass.endTime">
+<code class="descname">endTime</code><em class="property"> = '[]'</em><a class="headerlink" href="#objects.simulationClass.endTime" title="Permalink to this definition">¶</a></dt>
+<dd><p>(<cite>float</cite>) Simulation end time. Default = <code class="docutils literal notranslate"><span class="pre">'NOT</span> <span class="pre">DEFINED'</span></code></p>
+</dd></dl>
+
+<dl class="attribute">
+<dt id="objects.simulationClass.dt">
+<code class="descname">dt</code><em class="property"> = '0.1'</em><a class="headerlink" href="#objects.simulationClass.dt" title="Permalink to this definition">¶</a></dt>
+<dd><p>(<cite>float</cite>) Simulation time step. Default = <code class="docutils literal notranslate"><span class="pre">0.1</span></code> s</p>
+</dd></dl>
+
+<dl class="attribute">
+<dt id="objects.simulationClass.dtOut">
+<code class="descname">dtOut</code><em class="property"> = '[]'</em><a class="headerlink" href="#objects.simulationClass.dtOut" title="Permalink to this definition">¶</a></dt>
+<dd><p>(<cite>float</cite>) Output sampling time. Default = <code class="docutils literal notranslate"><span class="pre">dt</span></code></p>
+</dd></dl>
+
+<dl class="attribute">
+<dt id="objects.simulationClass.dtNL">
+<code class="descname">dtNL</code><em class="property"> = '[]'</em><a class="headerlink" href="#objects.simulationClass.dtNL" title="Permalink to this definition">¶</a></dt>
+<dd><p>(<cite>float</cite>) Sample time to calculate nonlinear forces. Default = <code class="docutils literal notranslate"><span class="pre">dt</span></code></p>
+</dd></dl>
+
+<dl class="attribute">
+<dt id="objects.simulationClass.dtCITime">
+<code class="descname">dtCITime</code><em class="property"> = '[]'</em><a class="headerlink" href="#objects.simulationClass.dtCITime" title="Permalink to this definition">¶</a></dt>
+<dd><p>(<cite>float</cite>) Sample time to calculate Convolution Integral. Default = <code class="docutils literal notranslate"><span class="pre">dt</span></code></p>
+</dd></dl>
+
+<dl class="attribute">
+<dt id="objects.simulationClass.dtME">
+<code class="descname">dtME</code><em class="property"> = '[]'</em><a class="headerlink" href="#objects.simulationClass.dtME" title="Permalink to this definition">¶</a></dt>
+<dd><p>(<cite>float</cite>) Sample time to calculate Morison Element forces. Default = <code class="docutils literal notranslate"><span class="pre">dt</span></code></p>
+</dd></dl>
+
+<dl class="attribute">
+<dt id="objects.simulationClass.CITime">
+<code class="descname">CITime</code><em class="property"> = '60'</em><a class="headerlink" href="#objects.simulationClass.CITime" title="Permalink to this definition">¶</a></dt>
+<dd><p>(<cite>float</cite>) Convolution integral time. Default = <code class="docutils literal notranslate"><span class="pre">60</span></code> s</p>
+</dd></dl>
+
+<dl class="attribute">
+<dt id="objects.simulationClass.domainSize">
+<code class="descname">domainSize</code><em class="property"> = '200'</em><a class="headerlink" href="#objects.simulationClass.domainSize" title="Permalink to this definition">¶</a></dt>
+<dd><p>(<cite>float</cite>) Size of free surface and seabed. This variable is only used for visualization. Default = <code class="docutils literal notranslate"><span class="pre">200</span></code> m</p>
+</dd></dl>
+
+<dl class="attribute">
+<dt id="objects.simulationClass.ssCalc">
+<code class="descname">ssCalc</code><em class="property"> = '0'</em><a class="headerlink" href="#objects.simulationClass.ssCalc" title="Permalink to this definition">¶</a></dt>
+<dd><p>(<cite>integer</cite>) Option for convolution integral or state-space calculation: convolution integral-&gt;0, state-space-&gt;1. Default = <code class="docutils literal notranslate"><span class="pre">0</span></code></p>
+</dd></dl>
+
+<dl class="attribute">
+<dt id="objects.simulationClass.mode">
+<code class="descname">mode</code><em class="property"> = &quot;'normal'&quot;</em><a class="headerlink" href="#objects.simulationClass.mode" title="Permalink to this definition">¶</a></dt>
+<dd><p>(<cite>string</cite>) Simulation execution mode, ‘normal’, ‘accelerator’, ‘rapid-accelerator’. Default = <code class="docutils literal notranslate"><span class="pre">'normal'</span></code></p>
+</dd></dl>
+
+<dl class="attribute">
+<dt id="objects.simulationClass.solver">
+<code class="descname">solver</code><em class="property"> = &quot;'ode4'&quot;</em><a class="headerlink" href="#objects.simulationClass.solver" title="Permalink to this definition">¶</a></dt>
+<dd><p>(<cite>string</cite>) PDE solver used by the Simulink/SimMechanics simulation, ‘ode4, ‘ode45’. Default = <code class="docutils literal notranslate"><span class="pre">'ode45'</span></code></p>
+</dd></dl>
+
+<dl class="attribute">
+<dt id="objects.simulationClass.numIntMidTimeSteps">
+<code class="descname">numIntMidTimeSteps</code><em class="property"> = '5'</em><a class="headerlink" href="#objects.simulationClass.numIntMidTimeSteps" title="Permalink to this definition">¶</a></dt>
+<dd><p>(<cite>integer</cite>) Number of intermediate time steps. Default = <code class="docutils literal notranslate"><span class="pre">5</span></code> for ode4 method</p>
+</dd></dl>
+
+<dl class="attribute">
+<dt id="objects.simulationClass.autoRateTranBlk">
+<code class="descname">autoRateTranBlk</code><em class="property"> = &quot;'on'&quot;</em><a class="headerlink" href="#objects.simulationClass.autoRateTranBlk" title="Permalink to this definition">¶</a></dt>
+<dd><p>(<cite>string</cite>) Automatically handle rate transition for data transfer, ‘on’, ‘off’. Default = <code class="docutils literal notranslate"><span class="pre">'on'</span></code></p>
+</dd></dl>
+
+<dl class="attribute">
+<dt id="objects.simulationClass.zeroCrossCont">
+<code class="descname">zeroCrossCont</code><em class="property"> = &quot;'DisableAll'&quot;</em><a class="headerlink" href="#objects.simulationClass.zeroCrossCont" title="Permalink to this definition">¶</a></dt>
+<dd><p>(<cite>string</cite>) Disable zero cross control. Default = <code class="docutils literal notranslate"><span class="pre">'DisableAll'</span></code></p>
+</dd></dl>
+
+<dl class="attribute">
+<dt id="objects.simulationClass.explorer">
+<code class="descname">explorer</code><em class="property"> = &quot;'on'&quot;</em><a class="headerlink" href="#objects.simulationClass.explorer" title="Permalink to this definition">¶</a></dt>
+<dd><p>(<cite>string</cite>) SimMechanics Explorer ‘on’ or ‘off’. Default = <code class="docutils literal notranslate"><span class="pre">'on'</span></code></p>
+</dd></dl>
+
+<dl class="attribute">
+<dt id="objects.simulationClass.rho">
+<code class="descname">rho</code><em class="property"> = '1000'</em><a class="headerlink" href="#objects.simulationClass.rho" title="Permalink to this definition">¶</a></dt>
+<dd><p>(<cite>float</cite>) Density of water. Default = <code class="docutils literal notranslate"><span class="pre">1000</span></code> kg/m^3</p>
+</dd></dl>
+
+<dl class="attribute">
+<dt id="objects.simulationClass.g">
+<code class="descname">g</code><em class="property"> = '9.81'</em><a class="headerlink" href="#objects.simulationClass.g" title="Permalink to this definition">¶</a></dt>
+<dd><p>(<cite>float</cite>) Acceleration due to gravity. Default = <code class="docutils literal notranslate"><span class="pre">9.81</span></code> m/s</p>
+</dd></dl>
+
+<dl class="attribute">
+<dt id="objects.simulationClass.nlHydro">
+<code class="descname">nlHydro</code><em class="property"> = '0'</em><a class="headerlink" href="#objects.simulationClass.nlHydro" title="Permalink to this definition">¶</a></dt>
+<dd><p>(<cite>integer</cite>) Option for nonlinear hydrohanamics calculation: linear-&gt;0, nonlinear-&gt;1. Default = <code class="docutils literal notranslate"><span class="pre">0</span></code></p>
+</dd></dl>
+
+<dl class="attribute">
+<dt id="objects.simulationClass.yawNonLin">
+<code class="descname">yawNonLin</code><em class="property"> = '0'</em><a class="headerlink" href="#objects.simulationClass.yawNonLin" title="Permalink to this definition">¶</a></dt>
+<dd><p>(<cite>integer</cite>) Option for nonlinear yaw calculation linear-&gt;0, nonlinear-&gt;1 for nonlinear. Default = <code class="docutils literal notranslate"><span class="pre">0</span></code></p>
+</dd></dl>
+
+<dl class="attribute">
+<dt id="objects.simulationClass.yawThresh">
+<code class="descname">yawThresh</code><em class="property"> = '1'</em><a class="headerlink" href="#objects.simulationClass.yawThresh" title="Permalink to this definition">¶</a></dt>
+<dd><p>(<cite>float</cite>) Yaw position threshold (in degrees) above which excitation coefficients will be interpolated in non-linear yaw. Default = <code class="docutils literal notranslate"><span class="pre">1</span></code> dg</p>
+</dd></dl>
+
+<dl class="attribute">
+<dt id="objects.simulationClass.b2b">
+<code class="descname">b2b</code><em class="property"> = '0'</em><a class="headerlink" href="#objects.simulationClass.b2b" title="Permalink to this definition">¶</a></dt>
+<dd><p>(<cite>integer</cite>) Option for body2body interactions: off-&gt;0, on-&gt;1. Default = <code class="docutils literal notranslate"><span class="pre">0</span></code></p>
+</dd></dl>
+
+<dl class="attribute">
+<dt id="objects.simulationClass.paraview">
+<code class="descname">paraview</code><em class="property"> = '0'</em><a class="headerlink" href="#objects.simulationClass.paraview" title="Permalink to this definition">¶</a></dt>
+<dd><p>(<cite>integer</cite>) Option for writing vtp files for paraview visualization, off-&gt;0, on-&gt;1. Default = <code class="docutils literal notranslate"><span class="pre">0</span></code></p>
+</dd></dl>
+
+<dl class="attribute">
+<dt id="objects.simulationClass.StartTimeParaview">
+<code class="descname">StartTimeParaview</code><em class="property"> = '0'</em><a class="headerlink" href="#objects.simulationClass.StartTimeParaview" title="Permalink to this definition">¶</a></dt>
+<dd><p>(<cite>float</cite>) Start time for the vtk file of Paraview. Default = <code class="docutils literal notranslate"><span class="pre">0</span></code></p>
+</dd></dl>
+
+<dl class="attribute">
+<dt id="objects.simulationClass.EndTimeParaview">
+<code class="descname">EndTimeParaview</code><em class="property"> = '100'</em><a class="headerlink" href="#objects.simulationClass.EndTimeParaview" title="Permalink to this definition">¶</a></dt>
+<dd><p>(<cite>float</cite>) End time for the vtk file of Paraview. Default = <code class="docutils literal notranslate"><span class="pre">0</span></code></p>
+</dd></dl>
+
+<dl class="attribute">
+<dt id="objects.simulationClass.dtParaview">
+<code class="descname">dtParaview</code><em class="property"> = '0.1'</em><a class="headerlink" href="#objects.simulationClass.dtParaview" title="Permalink to this definition">¶</a></dt>
+<dd><p>(<cite>float</cite>) Timestep for Paraview. Default = <code class="docutils literal notranslate"><span class="pre">0.1</span></code></p>
+</dd></dl>
+
+<dl class="attribute">
+<dt id="objects.simulationClass.pathParaviewVideo">
+<code class="descname">pathParaviewVideo</code><em class="property"> = &quot;'vtk'&quot;</em><a class="headerlink" href="#objects.simulationClass.pathParaviewVideo" title="Permalink to this definition">¶</a></dt>
+<dd><p>(<cite>string</cite>) Path of the folder for Paraview vtk files. Default = <code class="docutils literal notranslate"><span class="pre">'vtk'</span></code></p>
+</dd></dl>
+
+<dl class="attribute">
+<dt id="objects.simulationClass.adjMassWeightFun">
+<code class="descname">adjMassWeightFun</code><em class="property"> = '2'</em><a class="headerlink" href="#objects.simulationClass.adjMassWeightFun" title="Permalink to this definition">¶</a></dt>
+<dd><p>(<cite>integer</cite>) Weighting function for adjusting added mass term in the translational direction. Default = <code class="docutils literal notranslate"><span class="pre">2</span></code></p>
+</dd></dl>
+
+<dl class="attribute">
+<dt id="objects.simulationClass.mcrCaseFile">
+<code class="descname">mcrCaseFile</code><em class="property"> = '[]'</em><a class="headerlink" href="#objects.simulationClass.mcrCaseFile" title="Permalink to this definition">¶</a></dt>
+<dd><p>(<cite>string</cite>) mat file that contain a list of the multiple conditions runs with given conditions. Default = <code class="docutils literal notranslate"><span class="pre">'NOT</span> <span class="pre">DEFINED'</span></code></p>
+</dd></dl>
+
+<dl class="attribute">
+<dt id="objects.simulationClass.morisonElement">
+<code class="descname">morisonElement</code><em class="property"> = '0'</em><a class="headerlink" href="#objects.simulationClass.morisonElement" title="Permalink to this definition">¶</a></dt>
+<dd><p>(<cite>integer</cite>) Option for Morison Element calculation: off-&gt;0, on-&gt;1 or 2. Default = <code class="docutils literal notranslate"><span class="pre">0</span></code>. Option 1 uses an approach that allows the user to define drag and inertial coefficients along the x-, y-, and z-axes and Option 2 uses an approach that defines the Morison Element with normal and tangential tangential drag and interial coefficients..</p>
+</dd></dl>
+
+<dl class="attribute">
+<dt id="objects.simulationClass.outputtxt">
+<code class="descname">outputtxt</code><em class="property"> = '0'</em><a class="headerlink" href="#objects.simulationClass.outputtxt" title="Permalink to this definition">¶</a></dt>
+<dd><p>(<cite>integer</cite>) Option to save results as ASCII files off-&gt;0, on-&gt;1. Default = <code class="docutils literal notranslate"><span class="pre">0</span></code></p>
+</dd></dl>
+
+<dl class="attribute">
+<dt id="objects.simulationClass.outputStructure">
+<code class="descname">outputStructure</code><em class="property"> = '1'</em><a class="headerlink" href="#objects.simulationClass.outputStructure" title="Permalink to this definition">¶</a></dt>
+<dd><p>(<cite>integer</cite>) Option to save results as a MATLAB structure: off-&gt;0, on-&gt;1. Default = <code class="docutils literal notranslate"><span class="pre">1</span></code></p>
+</dd></dl>
+
+<dl class="attribute">
+<dt id="objects.simulationClass.reloadH5Data">
+<code class="descname">reloadH5Data</code><em class="property"> = '0'</em><a class="headerlink" href="#objects.simulationClass.reloadH5Data" title="Permalink to this definition">¶</a></dt>
+<dd><p>(<cite>integer</cite>) Option to re-load hydro data from hf5 file between runs: off-&gt;0, on-&gt;1. Default = <code class="docutils literal notranslate"><span class="pre">0</span></code></p>
+</dd></dl>
+
+<dl class="attribute">
+<dt id="objects.simulationClass.saveMat">
+<code class="descname">saveMat</code><em class="property"> = '1'</em><a class="headerlink" href="#objects.simulationClass.saveMat" title="Permalink to this definition">¶</a></dt>
+<dd><p>(<cite>integer</cite>) Option to save .mat file for each run: off-&gt;0, on-&gt;1. Default = <code class="docutils literal notranslate"><span class="pre">1</span></code></p>
+</dd></dl>
+
+<dl class="attribute">
+<dt id="objects.simulationClass.pressureDis">
+<code class="descname">pressureDis</code><em class="property"> = '0'</em><a class="headerlink" href="#objects.simulationClass.pressureDis" title="Permalink to this definition">¶</a></dt>
+<dd><p>(<cite>integer</cite>) Option to save pressure distribution: off-&gt;0, on-&gt;1. Default = <code class="docutils literal notranslate"><span class="pre">0</span></code></p>
+</dd></dl>
+
+<dl class="attribute">
+<dt id="objects.simulationClass.version">
+<code class="descname">version</code><em class="property"> = &quot;'4.2'&quot;</em><a class="headerlink" href="#objects.simulationClass.version" title="Permalink to this definition">¶</a></dt>
+<dd><p>(<cite>string</cite>) WEC-Sim version</p>
+</dd></dl>
+
+<dl class="attribute">
+<dt id="objects.simulationClass.simulationDate">
+<code class="descname">simulationDate</code><em class="property"> = 'datetime'</em><a class="headerlink" href="#objects.simulationClass.simulationDate" title="Permalink to this definition">¶</a></dt>
+<dd><p>(<cite>string</cite>) Simulation date and time</p>
+</dd></dl>
+
+<dl class="attribute">
+<dt id="objects.simulationClass.outputDir">
+<code class="descname">outputDir</code><em class="property"> = &quot;'output'&quot;</em><a class="headerlink" href="#objects.simulationClass.outputDir" title="Permalink to this definition">¶</a></dt>
+<dd><p>(<cite>string</cite>) Data output directory name. Default = <code class="docutils literal notranslate"><span class="pre">'output'</span></code></p>
+</dd></dl>
+
+<dl class="attribute">
+<dt id="objects.simulationClass.time">
+<code class="descname">time</code><em class="property"> = '0'</em><a class="headerlink" href="#objects.simulationClass.time" title="Permalink to this definition">¶</a></dt>
+<dd><p>(<cite>float</cite>) Simulation time [s]. Default = <code class="docutils literal notranslate"><span class="pre">0</span></code> s</p>
+</dd></dl>
+
+<dl class="attribute">
+<dt id="objects.simulationClass.inputFile">
+<code class="descname">inputFile</code><em class="property"> = &quot;'wecSimInputFile'&quot;</em><a class="headerlink" href="#objects.simulationClass.inputFile" title="Permalink to this definition">¶</a></dt>
+<dd><p>(<cite>string</cite>) Name of WEC-Sim input file. Default = <code class="docutils literal notranslate"><span class="pre">'wecSimInputFile'</span></code></p>
+</dd></dl>
+
+<dl class="attribute">
+<dt id="objects.simulationClass.logFile">
+<code class="descname">logFile</code><em class="property"> = '[]'</em><a class="headerlink" href="#objects.simulationClass.logFile" title="Permalink to this definition">¶</a></dt>
+<dd><p>(<cite>string</cite>) File with run information summary. Default = <code class="docutils literal notranslate"><span class="pre">'log'</span></code></p>
+</dd></dl>
+
+<dl class="attribute">
+<dt id="objects.simulationClass.caseFile">
+<code class="descname">caseFile</code><em class="property"> = '[]'</em><a class="headerlink" href="#objects.simulationClass.caseFile" title="Permalink to this definition">¶</a></dt>
+<dd><p>(<cite>string</cite>) .mat file with all simulation information. Default = dependent</p>
+</dd></dl>
+
+<dl class="attribute">
+<dt id="objects.simulationClass.caseDir">
+<code class="descname">caseDir</code><em class="property"> = '[]'</em><a class="headerlink" href="#objects.simulationClass.caseDir" title="Permalink to this definition">¶</a></dt>
+<dd><p>(<cite>string</cite>) WEC-Sim case directory. Default = dependent</p>
+</dd></dl>
+
+<dl class="attribute">
+<dt id="objects.simulationClass.CIkt">
+<code class="descname">CIkt</code><em class="property"> = '[]'</em><a class="headerlink" href="#objects.simulationClass.CIkt" title="Permalink to this definition">¶</a></dt>
+<dd><p>(<cite>integer</cite>) Number of timesteps in the convolution integral length. Default = dependent</p>
+</dd></dl>
+
+<dl class="attribute">
+<dt id="objects.simulationClass.maxIt">
+<code class="descname">maxIt</code><em class="property"> = '[]'</em><a class="headerlink" href="#objects.simulationClass.maxIt" title="Permalink to this definition">¶</a></dt>
+<dd><p>(<cite>integer</cite>) Total number of simulation time steps. Default = dependent</p>
+</dd></dl>
+
+<dl class="attribute">
+<dt id="objects.simulationClass.CTTime">
+<code class="descname">CTTime</code><em class="property"> = '[]'</em><a class="headerlink" href="#objects.simulationClass.CTTime" title="Permalink to this definition">¶</a></dt>
+<dd><p>(<cite>float vector</cite>) Convolution integral time series. Default = dependent</p>
+</dd></dl>
+
+<dl class="attribute">
+<dt id="objects.simulationClass.numWecBodies">
+<code class="descname">numWecBodies</code><em class="property"> = '[]'</em><a class="headerlink" href="#objects.simulationClass.numWecBodies" title="Permalink to this definition">¶</a></dt>
+<dd><p>(<cite>integer</cite>) Number of hydrodynamic bodies that comprise the WEC device. Default = <code class="docutils literal notranslate"><span class="pre">'NOT</span> <span class="pre">DEFINED'</span></code></p>
+</dd></dl>
+
+<dl class="attribute">
+<dt id="objects.simulationClass.numDragBodies">
+<code class="descname">numDragBodies</code><em class="property"> = '[]'</em><a class="headerlink" href="#objects.simulationClass.numDragBodies" title="Permalink to this definition">¶</a></dt>
+<dd><p>(<cite>integer</cite>) Number of drag bodies that comprise the WEC device (excluding hydrodynamic bodies). Default = <code class="docutils literal notranslate"><span class="pre">'NOT</span> <span class="pre">DEFINED'</span></code></p>
+</dd></dl>
+
+<dl class="attribute">
+<dt id="objects.simulationClass.numPtos">
+<code class="descname">numPtos</code><em class="property"> = '[]'</em><a class="headerlink" href="#objects.simulationClass.numPtos" title="Permalink to this definition">¶</a></dt>
+<dd><p>(<cite>integer</cite>) Number of power take-off elements in the model. Default = <code class="docutils literal notranslate"><span class="pre">'NOT</span> <span class="pre">DEFINED'</span></code></p>
+</dd></dl>
+
+<dl class="attribute">
+<dt id="objects.simulationClass.numConstraints">
+<code class="descname">numConstraints</code><em class="property"> = '[]'</em><a class="headerlink" href="#objects.simulationClass.numConstraints" title="Permalink to this definition">¶</a></dt>
+<dd><p>(<cite>integer</cite>) Number of contraints in the wec model. Default = <code class="docutils literal notranslate"><span class="pre">'NOT</span> <span class="pre">DEFINED'</span></code></p>
+</dd></dl>
+
+<dl class="attribute">
+<dt id="objects.simulationClass.numMoorings">
+<code class="descname">numMoorings</code><em class="property"> = '[]'</em><a class="headerlink" href="#objects.simulationClass.numMoorings" title="Permalink to this definition">¶</a></dt>
+<dd><p>(<cite>integer</cite>) Number of moorings in the wec model. Default = <code class="docutils literal notranslate"><span class="pre">'NOT</span> <span class="pre">DEFINED'</span></code></p>
+</dd></dl>
+
+<dl class="method">
+<dt id="objects.simulationClass.simulationClass">
+<code class="descname">simulationClass</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#objects.simulationClass.simulationClass" title="Permalink to this definition">¶</a></dt>
+<dd><p>This method initializes the <code class="docutils literal notranslate"><span class="pre">simulationClass</span></code>.</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="objects.simulationClass.loadSimMechModel">
+<code class="descname">loadSimMechModel</code><span class="sig-paren">(</span><em>fName</em><span class="sig-paren">)</span><a class="headerlink" href="#objects.simulationClass.loadSimMechModel" title="Permalink to this definition">¶</a></dt>
+<dd><p>This method loads the simulink model and sets parameters</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><strong>fname</strong> (<em>string</em>) – the name of the SimMechanics <code class="docutils literal notranslate"><span class="pre">.slx</span></code> file</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="method">
+<dt id="objects.simulationClass.setupSim">
+<code class="descname">setupSim</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#objects.simulationClass.setupSim" title="Permalink to this definition">¶</a></dt>
+<dd><p>Sets simulation properties based on values specified in input file</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="objects.simulationClass.checkinputs">
+<code class="descname">checkinputs</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#objects.simulationClass.checkinputs" title="Permalink to this definition">¶</a></dt>
+<dd><p>Checks user input to ensure that <code class="docutils literal notranslate"><span class="pre">simu.endTime</span></code> is specified and that the SimMechanics model exists</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="objects.simulationClass.rhoDensitySetup">
+<code class="descname">rhoDensitySetup</code><span class="sig-paren">(</span><em>rho</em>, <em>g</em><span class="sig-paren">)</span><a class="headerlink" href="#objects.simulationClass.rhoDensitySetup" title="Permalink to this definition">¶</a></dt>
+<dd><p>Assigns density and gravity values</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first last simple">
+<li><strong>rho</strong> (<em>float</em>) – density of the fluid medium (kg/m^3)</li>
+<li><strong>g</strong> (<em>float</em>) – gravitational acceleration constant (m/s^2)</li>
+</ul>
+</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+</dd></dl>
+
+</div>
+<div class="section" id="wave-class">
+<span id="wave"></span><h2>Wave Class<a class="headerlink" href="#wave-class" title="Permalink to this headline">¶</a></h2>
+<dl class="class">
+<dt id="objects.waveClass">
+<em class="property">class </em><code class="descclassname">objects.</code><code class="descname">waveClass</code><span class="sig-paren">(</span><em>type</em><span class="sig-paren">)</span><a class="headerlink" href="#objects.waveClass" title="Permalink to this definition">¶</a></dt>
+<dd><p>The  <code class="docutils literal notranslate"><span class="pre">waveClass</span></code> creates a <code class="docutils literal notranslate"><span class="pre">waves</span></code> object saved to the MATLAB
+workspace. The <code class="docutils literal notranslate"><span class="pre">waveClass</span></code> includes properties and methods used
+to define WEC-Sim’s wave input.</p>
+<dl class="attribute">
+<dt id="objects.waveClass.type">
+<code class="descname">type</code><em class="property"> = &quot;'NOT DEFINED'&quot;</em><a class="headerlink" href="#objects.waveClass.type" title="Permalink to this definition">¶</a></dt>
+<dd><p>(<cite>string</cite>) Specifies the wave type, options include:<code class="docutils literal notranslate"><span class="pre">noWave</span></code>, <code class="docutils literal notranslate"><span class="pre">noWaveCIC</span></code>, <code class="docutils literal notranslate"><span class="pre">regular</span></code>, <code class="docutils literal notranslate"><span class="pre">regularCIC</span></code>, <code class="docutils literal notranslate"><span class="pre">irregular</span></code>, <code class="docutils literal notranslate"><span class="pre">spectrumImport</span></code>, or <code class="docutils literal notranslate"><span class="pre">etaImport</span></code>. Default = <code class="docutils literal notranslate"><span class="pre">'NOT</span> <span class="pre">DEFINED'</span></code></p>
+</dd></dl>
+
+<dl class="attribute">
+<dt id="objects.waveClass.T">
+<code class="descname">T</code><em class="property"> = &quot;'NOT DEFINED'&quot;</em><a class="headerlink" href="#objects.waveClass.T" title="Permalink to this definition">¶</a></dt>
+<dd><p>(<cite>float</cite>) Wave period [s] . Defined as wave period for <code class="docutils literal notranslate"><span class="pre">regular</span></code>, peak period for <code class="docutils literal notranslate"><span class="pre">irregular</span></code>, or period of BEM data used for hydrodynamic coefficients for <code class="docutils literal notranslate"><span class="pre">noWave</span></code>. Default = <code class="docutils literal notranslate"><span class="pre">'NOT</span> <span class="pre">DEFINED'</span></code></p>
+</dd></dl>
+
+<dl class="attribute">
+<dt id="objects.waveClass.H">
+<code class="descname">H</code><em class="property"> = &quot;'NOT DEFINED'&quot;</em><a class="headerlink" href="#objects.waveClass.H" title="Permalink to this definition">¶</a></dt>
+<dd><p>(<cite>float</cite>) Wave height [m]. Defined as wave height for <code class="docutils literal notranslate"><span class="pre">regular</span></code>, or significant wave height for <code class="docutils literal notranslate"><span class="pre">irregular</span></code>. Default =  <code class="docutils literal notranslate"><span class="pre">'NOT</span> <span class="pre">DEFINED'</span></code></p>
+</dd></dl>
+
+<dl class="attribute">
+<dt id="objects.waveClass.spectrumType">
+<code class="descname">spectrumType</code><em class="property"> = &quot;'NOT DEFINED'&quot;</em><a class="headerlink" href="#objects.waveClass.spectrumType" title="Permalink to this definition">¶</a></dt>
+<dd><p>(<cite>string</cite>) Specifies the wave spectrum type, options inlcude:<code class="docutils literal notranslate"><span class="pre">PM</span></code> or <code class="docutils literal notranslate"><span class="pre">JS</span></code>. Default = <code class="docutils literal notranslate"><span class="pre">'NOT</span> <span class="pre">DEFINED'</span></code></p>
+</dd></dl>
+
+<dl class="attribute">
+<dt id="objects.waveClass.gamma">
+<code class="descname">gamma</code><em class="property"> = '[]'</em><a class="headerlink" href="#objects.waveClass.gamma" title="Permalink to this definition">¶</a></dt>
+<dd><p>(<cite>float</cite>) Defines gamma, only used for <code class="docutils literal notranslate"><span class="pre">JS</span></code> wave spectrum type. Default = <code class="docutils literal notranslate"><span class="pre">[]</span></code></p>
+</dd></dl>
+
+<dl class="attribute">
+<dt id="objects.waveClass.phaseSeed">
+<code class="descname">phaseSeed</code><em class="property"> = '0'</em><a class="headerlink" href="#objects.waveClass.phaseSeed" title="Permalink to this definition">¶</a></dt>
+<dd><p>(<cite>integer</cite>) Defines the random phase seed, only used for <code class="docutils literal notranslate"><span class="pre">irregular</span></code> and <code class="docutils literal notranslate"><span class="pre">spectrumImport</span></code> waves. Default = <code class="docutils literal notranslate"><span class="pre">0</span></code></p>
+</dd></dl>
+
+<dl class="attribute">
+<dt id="objects.waveClass.spectrumDataFile">
+<code class="descname">spectrumDataFile</code><em class="property"> = &quot;'NOT DEFINED'&quot;</em><a class="headerlink" href="#objects.waveClass.spectrumDataFile" title="Permalink to this definition">¶</a></dt>
+<dd><p>(<cite>string</cite>) Data file that contains the spectrum data file.  Default = <code class="docutils literal notranslate"><span class="pre">'NOT</span> <span class="pre">DEFINED'</span></code></p>
+</dd></dl>
+
+<dl class="attribute">
+<dt id="objects.waveClass.etaDataFile">
+<code class="descname">etaDataFile</code><em class="property"> = &quot;'NOT DEFINED'&quot;</em><a class="headerlink" href="#objects.waveClass.etaDataFile" title="Permalink to this definition">¶</a></dt>
+<dd><p>(<cite>string</cite>) Data file that contains the times-series data file. Default = <code class="docutils literal notranslate"><span class="pre">'NOT</span> <span class="pre">DEFINED'</span></code></p>
+</dd></dl>
+
+<dl class="attribute">
+<dt id="objects.waveClass.freqRange">
+<code class="descname">freqRange</code><em class="property"> = '[]'</em><a class="headerlink" href="#objects.waveClass.freqRange" title="Permalink to this definition">¶</a></dt>
+<dd><p>(<cite>2x1 vector</cite>) Min and max wave frequency [rad/s], only used for <code class="docutils literal notranslate"><span class="pre">irregular</span></code> and <code class="docutils literal notranslate"><span class="pre">spectrumImport</span></code>. If not specified, the BEM data frequency range is used. Default = <code class="docutils literal notranslate"><span class="pre">[]</span></code></p>
+</dd></dl>
+
+<dl class="attribute">
+<dt id="objects.waveClass.numFreq">
+<code class="descname">numFreq</code><em class="property"> = '[]'</em><a class="headerlink" href="#objects.waveClass.numFreq" title="Permalink to this definition">¶</a></dt>
+<dd><p>(<cite>integer</cite>) Number of interpolated wave frequencies, only used for <code class="docutils literal notranslate"><span class="pre">irregular</span></code> and <code class="docutils literal notranslate"><span class="pre">spectrumImport</span></code>. Number of frequencies used varies depending on <code class="docutils literal notranslate"><span class="pre">freqDisc</span></code>, 1000 for <code class="docutils literal notranslate"><span class="pre">'Traditional'</span></code>, and 500 for <code class="docutils literal notranslate"><span class="pre">'EqualEnergy'</span></code> and <code class="docutils literal notranslate"><span class="pre">Imported</span></code>. Default = <code class="docutils literal notranslate"><span class="pre">[]</span></code></p>
+</dd></dl>
+
+<dl class="attribute">
+<dt id="objects.waveClass.waveDir">
+<code class="descname">waveDir</code><em class="property"> = '0'</em><a class="headerlink" href="#objects.waveClass.waveDir" title="Permalink to this definition">¶</a></dt>
+<dd><p>(<cite>float</cite>) Incident wave direction(s) [deg]. Incident wave direction defined using WEC-Sim global coordinate system. Should be defined as a column vector for more than one wave direction. Default = <code class="docutils literal notranslate"><span class="pre">0</span></code></p>
+</dd></dl>
+
+<dl class="attribute">
+<dt id="objects.waveClass.waveSpread">
+<code class="descname">waveSpread</code><em class="property"> = '1'</em><a class="headerlink" href="#objects.waveClass.waveSpread" title="Permalink to this definition">¶</a></dt>
+<dd><p>(<cite>float</cite>) Wave Spread probability associated with wave direction(s). Should be defined as a column vector for more than one wave direction. Default = <code class="docutils literal notranslate"><span class="pre">1</span></code></p>
+</dd></dl>
+
+<dl class="attribute">
+<dt id="objects.waveClass.viz">
+<code class="descname">viz</code><em class="property"> = &quot;struct( 'numPointsX', 50,                       'numPointsY', 50 )&quot;</em><a class="headerlink" href="#objects.waveClass.viz" title="Permalink to this definition">¶</a></dt>
+<dd><p>(<cite>structure</cite>) Defines visualization options, structure contains the fields <code class="docutils literal notranslate"><span class="pre">numPointsX</span></code> for the number of visualization points in x direction, and <code class="docutils literal notranslate"><span class="pre">numPointsY</span></code> for the number of visualization points in y direction.</p>
+</dd></dl>
+
+<dl class="attribute">
+<dt id="objects.waveClass.statisticsDataLoad">
+<code class="descname">statisticsDataLoad</code><em class="property"> = '[]'</em><a class="headerlink" href="#objects.waveClass.statisticsDataLoad" title="Permalink to this definition">¶</a></dt>
+<dd><p>(<cite>string</cite>) File name from which to load wave statistics data. Default = <code class="docutils literal notranslate"><span class="pre">[]</span></code></p>
+</dd></dl>
+
+<dl class="attribute">
+<dt id="objects.waveClass.freqDisc">
+<code class="descname">freqDisc</code><em class="property"> = &quot;'EqualEnergy'&quot;</em><a class="headerlink" href="#objects.waveClass.freqDisc" title="Permalink to this definition">¶</a></dt>
+<dd><p>(<cite>string</cite>) Method of frequency discretization for irregular waves, options include: <code class="docutils literal notranslate"><span class="pre">'EqualEnergy'</span></code> or <code class="docutils literal notranslate"><span class="pre">'Traditional'</span></code>. Default = <code class="docutils literal notranslate"><span class="pre">'EqualEnergy'</span></code></p>
+</dd></dl>
+
+<dl class="attribute">
+<dt id="objects.waveClass.wavegauge1loc">
+<code class="descname">wavegauge1loc</code><em class="property"> = '[NaN,NaN]'</em><a class="headerlink" href="#objects.waveClass.wavegauge1loc" title="Permalink to this definition">¶</a></dt>
+<dd><p>(<cite>1x2 vector</cite>) Wave gauge 1 [x,y] location [m]. Default = <code class="docutils literal notranslate"><span class="pre">[NaN,NaN]</span></code></p>
+</dd></dl>
+
+<dl class="attribute">
+<dt id="objects.waveClass.wavegauge2loc">
+<code class="descname">wavegauge2loc</code><em class="property"> = '[NaN,NaN]'</em><a class="headerlink" href="#objects.waveClass.wavegauge2loc" title="Permalink to this definition">¶</a></dt>
+<dd><p>(<cite>1x2 vector</cite>) Wave gauge 2 [x,y] location [m]. Default = <code class="docutils literal notranslate"><span class="pre">[NaN,NaN]</span></code></p>
+</dd></dl>
+
+<dl class="attribute">
+<dt id="objects.waveClass.wavegauge3loc">
+<code class="descname">wavegauge3loc</code><em class="property"> = '[NaN,NaN]'</em><a class="headerlink" href="#objects.waveClass.wavegauge3loc" title="Permalink to this definition">¶</a></dt>
+<dd><p>(<cite>1x2 vector</cite>) Wave gauge 3 [x,y] location [m]. Default = <code class="docutils literal notranslate"><span class="pre">[NaN,NaN]</span></code></p>
+</dd></dl>
+
+<dl class="attribute">
+<dt id="objects.waveClass.currentOption">
+<code class="descname">currentOption</code><em class="property"> = '3'</em><a class="headerlink" href="#objects.waveClass.currentOption" title="Permalink to this definition">¶</a></dt>
+<dd><p>(<cite>integer</cite>) Define the sub-surface current model to be used in WEC-Sim, options include: <code class="docutils literal notranslate"><span class="pre">0</span></code> for depth-independent model, <code class="docutils literal notranslate"><span class="pre">1</span></code> for 1/7 power law variation with depth, <code class="docutils literal notranslate"><span class="pre">2</span></code> for linear variation with depth, or <code class="docutils literal notranslate"><span class="pre">3</span></code> for no current. Default = <code class="docutils literal notranslate"><span class="pre">3</span></code></p>
+</dd></dl>
+
+<dl class="attribute">
+<dt id="objects.waveClass.currentSpeed">
+<code class="descname">currentSpeed</code><em class="property"> = '0'</em><a class="headerlink" href="#objects.waveClass.currentSpeed" title="Permalink to this definition">¶</a></dt>
+<dd><p>(<cite>float</cite>) Current seed [m/s]. Surface current speed that is uniform along the water column. Default = <code class="docutils literal notranslate"><span class="pre">0</span></code></p>
+</dd></dl>
+
+<dl class="attribute">
+<dt id="objects.waveClass.currentDirection">
+<code class="descname">currentDirection</code><em class="property"> = '0'</em><a class="headerlink" href="#objects.waveClass.currentDirection" title="Permalink to this definition">¶</a></dt>
+<dd><p>(<cite>float</cite>) Current direction [deg]. Surface current direction defined using WEC-Sim global coordinate system. Default = <code class="docutils literal notranslate"><span class="pre">0</span></code></p>
+</dd></dl>
+
+<dl class="attribute">
+<dt id="objects.waveClass.currentDepth">
+<code class="descname">currentDepth</code><em class="property"> = '0'</em><a class="headerlink" href="#objects.waveClass.currentDepth" title="Permalink to this definition">¶</a></dt>
+<dd><p>(<cite>float</cite>) Current depth [m]. Define the depth over which the sub-surface current is modeled. Must be defined for options <code class="docutils literal notranslate"><span class="pre">1</span></code> and <code class="docutils literal notranslate"><span class="pre">2</span></code>. The current is not calculated for any depths greater than the specified current depth. Default = <code class="docutils literal notranslate"><span class="pre">0</span></code></p>
+</dd></dl>
+
+</dd></dl>
+
+<dl class="method">
+<dt id="objects.waveClass.waveClass">
+<code class="descclassname">waveClass.</code><code class="descname">waveClass</code><span class="sig-paren">(</span><em>type</em><span class="sig-paren">)</span><a class="headerlink" href="#objects.waveClass.waveClass" title="Permalink to this definition">¶</a></dt>
+<dd><p>This method initilizes the <code class="docutils literal notranslate"><span class="pre">waveClass</span></code> and creates a
+<code class="docutils literal notranslate"><span class="pre">waves</span></code> object.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><strong>type</strong> (<em>string</em>) – <p>String specifying the wave type, options include:</p>
+<blockquote>
+<div><dl class="docutils">
+<dt>noWave</dt>
+<dd>No waves</dd>
+<dt>noWaveCIC</dt>
+<dd>No waves but with the Convolution Integral Calculation to calculate radiation effects</dd>
+<dt>regular</dt>
+<dd>Regular waves</dd>
+<dt>regularCIC</dt>
+<dd>Regular waves with Convolution Integral Calculation to calculate radiation effects</dd>
+<dt>irregular</dt>
+<dd>Irregular Waves</dd>
+<dt>spectrumImport</dt>
+<dd>Irregular Waves with predefined phase</dd>
+<dt>etaImport</dt>
+<dd>Irregular Waves with predefined elevation</dd>
+</dl>
+</div></blockquote>
+</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body"><strong>waves</strong> – waveClass object</td>
+</tr>
+<tr class="field-odd field"><th class="field-name">Return type:</th><td class="field-body">obj</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="method">
+<dt id="objects.waveClass.plotEta">
+<code class="descclassname">waveClass.</code><code class="descname">plotEta</code><span class="sig-paren">(</span><em>rampTime</em><span class="sig-paren">)</span><a class="headerlink" href="#objects.waveClass.plotEta" title="Permalink to this definition">¶</a></dt>
+<dd><p>This method plots wave elevation time-history.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><strong>rampTime</strong> (<em>float, optional</em>) – Specify wave ramp time to include in plot</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body"><strong>figure</strong> – Plot of wave elevation versus time</td>
+</tr>
+<tr class="field-odd field"><th class="field-name">Return type:</th><td class="field-body">fig</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="method">
+<dt id="objects.waveClass.plotSpectrum">
+<code class="descclassname">waveClass.</code><code class="descname">plotSpectrum</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#objects.waveClass.plotSpectrum" title="Permalink to this definition">¶</a></dt>
+<dd><p>This method plots the wave spectrum.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Returns:</th><td class="field-body"><strong>figure</strong> – Plot of wave spectrum versus wave frequency</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Return type:</th><td class="field-body">fig</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="method">
+<dt id="objects.waveClass.waveSetup">
+<code class="descclassname">waveClass.</code><code class="descname">waveSetup</code><span class="sig-paren">(</span><em>bemFreq</em>, <em>wDepth</em>, <em>rampTime</em>, <em>dt</em>, <em>maxIt</em>, <em>g</em>, <em>rho</em>, <em>endTime</em><span class="sig-paren">)</span><a class="headerlink" href="#objects.waveClass.waveSetup" title="Permalink to this definition">¶</a></dt>
+<dd><p>This method calculates WEC-Sim’s wave properties
+based on the specified wave type.</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="objects.waveClass.listInfo">
+<code class="descclassname">waveClass.</code><code class="descname">listInfo</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#objects.waveClass.listInfo" title="Permalink to this definition">¶</a></dt>
+<dd><p>This method prints wave information to the MATLAB Command Window.</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="objects.waveClass.waveNumber">
+<code class="descclassname">waveClass.</code><code class="descname">waveNumber</code><span class="sig-paren">(</span><em>g</em><span class="sig-paren">)</span><a class="headerlink" href="#objects.waveClass.waveNumber" title="Permalink to this definition">¶</a></dt>
+<dd><p>This method calculates the wave number,
+used by: <code class="xref mat mat-meth docutils literal notranslate"><span class="pre">waveClass.waveSetup()</span></code>.</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="objects.waveClass.checkinputs">
+<code class="descclassname">waveClass.</code><code class="descname">checkinputs</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#objects.waveClass.checkinputs" title="Permalink to this definition">¶</a></dt>
+<dd><p>This method checks WEC-Sim user inputs and generates error
+messages if parameters are not properly defined.</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="objects.waveClass.waveElevationGrid">
+<code class="descclassname">waveClass.</code><code class="descname">waveElevationGrid</code><span class="sig-paren">(</span><em>t</em>, <em>X</em>, <em>Y</em>, <em>TimeBodyParav</em>, <em>it</em>, <em>g</em><span class="sig-paren">)</span><a class="headerlink" href="#objects.waveClass.waveElevationGrid" title="Permalink to this definition">¶</a></dt>
+<dd><p>This method calculates wave elevation on a grid at a given
+time, used by: <code class="xref mat mat-func docutils literal notranslate"><span class="pre">write_paraview_wave()</span></code>.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first simple">
+<li><strong>waves</strong> (<em>obj</em>) – waveClass object</li>
+<li><strong>t</strong> (<em>float</em>) – the current time</li>
+<li><strong>X</strong> (<em>matrix</em>) – (m x n) matrix of X coordinates at which to calculate the wave elevation</li>
+<li><strong>Y</strong> (<em>matrix</em>) – (m x n) matrix of Y coordinates at which to calculate the wave elevation</li>
+<li><strong>TimeBodyParav</strong> (<em>Time vector starting from zero specified for</em>) – paraview video files.</li>
+<li><strong>it</strong> (<em>time step iteration,</em>) – </li>
+<li><strong>g</strong> (<em>gravitational acceleration constant from simulationClass</em>) – </li>
+</ul>
+</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body"><p class="first"><strong>Z</strong> – (m x n) matrix of Z coordinates of the wave elevation</p>
+</td>
+</tr>
+<tr class="field-odd field"><th class="field-name">Return type:</th><td class="field-body"><p class="first last">matrix</p>
+</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+</div>
+</div>
+
+
+           </div>
+           
+          </div>
+          <footer>
+    <div class="rst-footer-buttons" role="navigation" aria-label="footer navigation">
+        <a href="terminology.html" class="btn btn-neutral float-right" title="Terminology" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
+        <a href="release_notes.html" class="btn btn-neutral float-left" title="Release Notes" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> Previous</a>
+    </div>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>
+        &#169; Copyright 2020, National Renewable Energy Laboratory and National Technology &amp; Engineering Solutions of Sandia, LLC (NTESS).
+
+    </p>
+  </div>
+    
+    
+    
+    Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
+    
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
+    
+    provided by <a href="https://readthedocs.org">Read the Docs</a>. 
+
+</footer>
+        </div>
+      </div>
+
+    </section>
+
+  </div>
+  
+<div class="rst-versions" data-toggle="rst-versions" role="note" aria-label="versions">
+    <span class="rst-current-version" data-toggle="rst-current-version">
+        <span class="fa fa-book"> Other Versions</span>
+        v: dev
+        <span class="fa fa-caret-down"></span>
+    </span>
+    <div class="rst-other-versions">
+        <dl>
+            <dt>Branches</dt>
+            <dd><a href="api.html">dev</a></dd>
+            <dd><a href="../../master/man/api.html">master</a></dd>
+        </dl>
+    </div>
+</div>
+
+
+  <script type="text/javascript">
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script>
+
+  
+  
+    
+    <!-- Theme Analytics -->
+    <script>
+    (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+      (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+      m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+    })(window,document,'script','https://www.google-analytics.com/analytics.js','ga');
+
+    ga('create', 'UA-88158104-1', 'auto');
+    
+    ga('send', 'pageview');
+    </script>
+
+    
+   
+
+</body>
+</html>
