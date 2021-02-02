@@ -78,15 +78,13 @@ Wave Class
 
 .. automethod:: objects.waveClass.plotSpectrum
 
-
 .. automethod:: objects.waveClass.waveSetup
+
 .. automethod:: objects.waveClass.listInfo
 
 .. automethod:: objects.waveClass.waveNumber
 
 .. automethod:: objects.waveClass.checkinputs
-
-.. automethod:: objects.waveClass.write_paraview_vtp
 
 .. automethod:: objects.waveClass.waveElevationGrid
 
