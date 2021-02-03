@@ -61,8 +61,8 @@ if exist('mcr','var') == 1
         waves.etaDataFile      = ['..' filesep parallelComputing_dir filesep '..' filesep waves.etaDataFile];
     end
 end
-% Waves and Simu: check inputs
 
+% Waves and Simu: check inputs
 waves.checkinputs;
 simu.checkinputs;
 % Constraints: count & set orientation
