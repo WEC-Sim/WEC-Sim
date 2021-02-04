@@ -77,7 +77,7 @@ classdef ptoClass<handle
         end
         
         function obj = checkLoc(obj,action)               
-            % This method checks WEC-Sim user inputs and generate an error message if the constraint location is not defined in constraintClass.
+            % This method checks WEC-Sim user inputs and generate an error message if the PTO location is not defined in ptoClass.
             
             % Checks if location is set and outputs a warning or error. Used in mask Initialization.
             switch action
@@ -103,13 +103,13 @@ classdef ptoClass<handle
         end
         
         function obj = setOrientation(obj)
-            % This method calculates the constraint ``x`` vector and ``rotationMatrix`` matrix in the ``orientation`` structure based on user input.
+            % This method calculates the PTO ``x`` vector and ``rotationMatrix`` matrix in the ``orientation`` structure based on user input.
             obj.orientation.z = obj.orientation.z / norm(obj.orientation.z);
             obj.orientation.y = obj.orientation.y / norm(obj.orientation.y);
             z = obj.orientation.z;
             y = obj.orientation.y;
             if abs(dot(y,z))>0.001
-                error('The Y and Z vectors defining the constraint''s orientation must be orthogonal.')
+                error('The Y and Z vectors defining the PTO''s orientation must be orthogonal.')
             end
             x = cross(y,z)/norm(cross(y,z));
             x = x(:)';
@@ -133,7 +133,7 @@ classdef ptoClass<handle
             %
             %``x_rot`` (`3x1 float vector`) is rotation point [m] in the following format [x y z], Default = ``[]``.
             % 
-            %``ax_rot`` (`3x1 float vector`) is the axis about which to rotate to constraint and must be a normal vector, Default = ``[]``.
+            %``ax_rot`` (`3x1 float vector`) is the axis about which to rotate the PTO and must be a normal vector, Default = ``[]``.
             %
             %``ang_rot`` (`float`) is the rotation angle [rad], Default = ``[]``.
             %

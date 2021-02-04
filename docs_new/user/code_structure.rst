@@ -1,5 +1,13 @@
 .. _user-code-structure:
 
+.. adam:
+	I think that this section needs some additional overhaul. Now that it is in a distinct user manual it is more apparent that the 'what/how' of each class/block is missing. There is a lot of information on the location of the source files (this should move to dev manual, users don't need to know this) and how to initialize classes. But I feel that each class is missing an overview on what it does and how it does it (tie back to theory).
+	
+	e.g. The purpose of the simulation class is to set-up a WEC-Sim case and holds all of the numerical options and flags required for the simulation. Parameters A and B are passed to C and D classes for reasons X and Y, etc..
+	
+	Also, the classes and library blocks are intentionally tied together so they should be presented that way. I suggest further restructuring this section based on each class. In each class' section, specific types of blocks can be presented as needed. The Global Reference Frame can be included with the simulation or wave class
+	
+
 Code Structure
 ==============
 
@@ -76,13 +84,21 @@ properties. These default values can be overwritten by the user, for example,
 the end time of a simulation can be set by entering the following command: 
 ``simu.endTime = <user specified end time>``. 
 
+At a high level, the simulation class interacts with the rest of WEC-Sim as shown in the diagram below. 
+The purpose of the simulation class is largely to define different options and flags for WEC-Sim.
+These simulation parameters include numerical settings such as the time step, start time, differential equation solver method, and flags for various output options and nonlinear options. 
+The most common flags and attributes that are passed to the other classes are shown here.
+
+.. figure:: /_static/images/new_figs/simulation_diagram.png
+   :width: 100%
+
 Available simulation properties, default values, and functions can be found by 
 typing ``doc simulationClass`` in the MATLAB command window, or by opening the 
 ``simulationClass.m`` file in ``$WECSIM//objects`` directory by typing ``open 
 simulationClass`` in MATLAB Command Window. 
 
 For more information about application of WEC-Sim's simulation class, refer to 
-:ref:`user-advanced-features-irregular-wave-binning`. 
+:ref:`user-advanced-features-simulation`. 
 
 .. _user-code-structure-wave-class:
 
@@ -113,11 +129,6 @@ sections.
 ``spectrumImport`` ``waves.spectrumDataFile``                      
 ``etaImport``      ``waves.etaDataFile``                           
 ================== ================================================
-
-Available wave class properties, default values, and functions can be found by 
-typing ``doc waveClass`` in the MATLAB command window, or by opening the 
-``waveClass.m`` file in ``$WECSIM/source/objects`` directory by typing ``open 
-waveClass`` in the Matlab Command Window. 
 
 noWave
 """"""
@@ -241,8 +252,23 @@ file::
     waves = waveClass('etaImport');
     waves.etaDataFile ='<eta file>.mat';
 
+
+At a high level, the wave class interacts with the rest of WEC-Sim as shown in the diagram below. 
+The purpose of the wave class is to define the incoming wave for the body blocks.
+The excitation force, added mass, radiation damping and other frequency based parameters that influence a body's motion depend on the defined wave. 
+The most common flags and attributes that are passed to the other classes are shown here. The wave primarily interacts with the body class through Simulink as described in the sections below.
+
+.. figure:: /_static/images/new_figs/wave_diagram.png
+   :width: 100%
+
+Available wave class properties, default values, and functions can be found by 
+typing ``doc waveClass`` in the MATLAB command window, or by opening the 
+``waveClass.m`` file in ``$WECSIM/source/objects`` directory by typing ``open 
+waveClass`` in the Matlab Command Window. 
+
 For more information about application of WEC-Sim's wave class, refer to 
 :ref:`user-advanced-features-wave`. 
+
 
 .. _user-code-structure-body-class:
 
@@ -262,16 +288,37 @@ results::
     body(<#>)=bodyClass('<bem_data>.h5')
     body(<#>).geometryFile = '<geom>.stl'; 
 
+.. note:
+	The *.h5 file defines the hydrodynamic data for all relevant bodies. 
+	It is required that any drag body or nonhydrodyamic body be numbered after all hydrodynamic bodies. The body index must correspond with the index in the *.h5 file and the number in the Simulink diagram.
+
 Users may specify other body class properties using the ``body`` object for 
-each body in the ``wecSimInputFile.m``. WEC-Sim assumes that every WEC is 
-composed of rigid bodies exposed to wave forcing. Body class properties include 
-mass (``body(#).mass``) and moment of inertia (``body(#).momOfInertia``). For 
-example, viscous drag can be specified by entering the viscous drag coefficient 
+each body in the ``wecSimInputFile.m``. WEC-Sim bodies may be one of four types:
+
+* Hydrodynamic body (default)
+* Flexible hydrodynamic body
+* Drag body
+* Nonhydrodynamic body
+
+Each type of body requires various parameters and input BEM data. The :ref:user-advanced-features-body: section contains more details on these important distinctions. 
+Regardless of type, body class properties need to include the 
+mass (``body(#).mass``) and moment of inertia (``body(#).momOfInertia``). 
+Other parameters are specified as needed.
+For example, viscous drag can be specified by entering the viscous drag coefficient 
 and the characteristic area in vector format the WEC-Sim input file as 
 follows:: 
 
-    body(<#>).viscDrag.cd= [0 0 1.3 0 0 0]
-    body(<#>).viscDrag.characteristicArea= [0 0 100 0 0 0]
+    body(<#>).viscDrag.cd = [0 0 1.3 0 0 0]
+    body(<#>).viscDrag.characteristicArea = [0 0 100 0 0 0]
+
+
+The body class represents what WEC-Sim simulates: rigid or flexible bodies undergoing hydrodynamic loads.
+The body class is defined by hydrodynamic data from the *.h5 file. 
+The corresponding block uses the hydro data and wave class to calculate all relevant forces on the body and solve for its resultant motion.
+At a high level, the body class interacts with the rest of WEC-Sim as shown in the diagram below.
+
+.. figure:: /_static/images/new_figs/body_diagram.png
+   :width: 750pt
 
 Available body properties, default values, and functions can be found by typing 
 ``doc bodyClass`` in the MATLAB command window, or opening the `bodyClass.m` 
@@ -280,6 +327,7 @@ Matlab Command Window.
 
 For more information about application of WEC-Sim's body class, refer to 
 :ref:`user-advanced-features-body`.
+
 
 .. _user-code-structure-constraint-class:
 
@@ -299,6 +347,11 @@ constraint ``name``, by including the following lines::
 For rotational constraint (ex: pitch), the user also needs to specify the 
 location of the rotational joint with respect to the global reference frame in 
 the ``constraint(<#>).loc`` variable. 
+
+At a high level, the constraint class interacts with the rest of WEC-Sim as shown in the diagram below.
+
+.. figure:: /_static/images/new_figs/constraint_diagram.png
+   :width: 750pt
 
 Available constraint properties, default values, and functions can be found by 
 typing ``doc constraintClass`` in the MATLAB command window, or opening the 
@@ -336,6 +389,11 @@ value by entering the following in the WEC-Sim input file::
     pto(<#>).c = <pto damping value>;
     pto(<#>).k = <pto stiffness value>;
 
+At a high level, the PTO class interacts with the rest of WEC-Sim as shown in the diagram below.
+
+.. figure:: /_static/images/new_figs/pto_diagram.png
+   :width: 750pt
+
 Available pto properties, default values, and functions can be found by typing 
 ``doc ptoClass`` in the MATLAB command window, or opening the `ptoClass.m` file 
 in ``$WECSIM/source/objects`` directory by typing ``open ptoClass`` in MATLAB 
@@ -358,13 +416,22 @@ mooring ``name``, by including the following lines::
     mooring(#)= mooringClass('name');
 
 The mooring class (``mooringClass``) allows for different fidelity simulations 
-of mooring systems. Available mooring properties, default values, and functions 
+of mooring systems. 
+At a high level, the PTO class interacts with the rest of WEC-Sim as shown in the diagram below.
+
+.. figure:: /_static/images/new_figs/mooring_diagram.png
+   :width: 750pt
+
+Available mooring properties, default values, and functions 
 can be found by typing ``doc mooringClass`` in the MATLAB command window, or 
 opening the `mooringClass.m` file in ``$WECSIM/source/objects`` directory by 
 typing ``open mooringClass`` in MATLAB Command Window. 
 
 For more information about application of WEC-Sim's mooring class, refer to 
 :ref:`user-advanced-features-mooring`.
+
+
+.. _user-code-structure-response-class:
 
 Response Class
 ^^^^^^^^^^^^^^
