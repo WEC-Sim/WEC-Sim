@@ -36,7 +36,18 @@
 %%
 
 %% Start WEC-Sim log
-%bdclose('all'); clc; diary off; close all;
+try
+    % Close any open simulink models if not running. This ensures that:
+    % - the model is open, if WEC-Sim run from Simulink 
+    % - any old models are closed, if WEC-Sim run from command line
+%     bdclose('all');
+    if gcs ~= 'WECSim_Lib'
+        close_system(bdroot,gcs,'closeReferencedModels',true);
+    end
+catch
+    fprintf('Model not closed.');
+end
+clc; diary off; close all;
 clear body waves simu output pto constraint ptoSim mooring values names InParam
 delete('*.log');
 diary('simulation.log')
@@ -46,25 +57,33 @@ diary('simulation.log')
 tic
 try fprintf('wecSimMCR Case %g\n',imcr); end
 
-% Convert Parameters of the masked subsystem to struct InParam
-values = get_param([bdroot,'/Parameters'],'MaskValues');    % Cell array containing all Masked Parameter values
-names = get_param([bdroot,'/Parameters'],'MaskNames');      % Cell array containing all Masked Parameter names
-InParam = struct('init',1);                                 % Initialize InParam struct
-for i = 1:length(names)
-    InParam = setfield(InParam,names{i,1},values{i,1});     % Update struct with Masked Parameter names and cooresponding values
-end; clear i;
+if exist(bdroot)
+    % Run wecSim input through Simulink block
+    fprintf('\nWEC-Sim Input From Simulink...   \n');
+    
+    % Convert Parameters of the masked subsystem to struct InParam
+    values = get_param([bdroot,'/Parameters'],'MaskValues');    % Cell array containing all Masked Parameter values
+    names = get_param([bdroot,'/Parameters'],'MaskNames');      % Cell array containing all Masked Parameter names
+    InParam = struct('init',1);                                 % Initialize InParam struct
+    for i = 1:length(names)
+        InParam = setfield(InParam,names{i,1},values{i,1});     % Update struct with Masked Parameter names and cooresponding values
+    end; clear i;
 
-% Input parameters based on user selection of Read from file, or Custom
-if strcmp(InParam.ParamInput,'Read from file')
-    fprintf('\nWEC-Sim Read Input File ...   \n');
-    run(InParam.InputFile)                                  % Run file selected by user
+    % Input parameters based on user selection of Read from file, or Custom
+    if strcmp(InParam.ParamInput,'Read from file')
+        fprintf('\nWEC-Sim Read Input File ...   \n');
+        run(InParam.InputFile)                                  % Run file selected by user
+    else
+        fprintf('\nWEC-Sim Read Custom Parameters ...   \n');
+        run('wecSimCustomParameters')                           % Run file to read custom parameters
+    end
+    clear values names InParam;
 else
-    fprintf('\nWEC-Sim Read Custom Parameters ...   \n');
-    run('wecSimCustomParameters')                           % Run file to read custom parameters
+    % Run wecSimInputFile.m in standard manner
+    bdclose('all');
+    fprintf('\nWEC-Sim Read Input File ...   \n');
+    evalc('wecSimInputFile');
 end
-clear values names InParam; 
-
-
 
 % Read Inputs for Multiple Conditions Run
 if exist('mcr','var') == 1
@@ -75,7 +94,12 @@ if exist('mcr','var') == 1
             eval([mcr.header{n} '= mcr.cases(imcr,n);']);
         end
     end; clear n combine;
+    try 
+        waves.spectrumDataFile = ['..' filesep parallelComputing_dir filesep '..' filesep waves.spectrumDataFile];
+        waves.etaDataFile      = ['..' filesep parallelComputing_dir filesep '..' filesep waves.etaDataFile];
+    end
 end
+
 % Waves and Simu: check inputs
 waves.checkinputs;
 simu.checkinputs;
@@ -151,7 +175,7 @@ if exist('./ptoSimInputFile.m','file') == 2
     ptosim.countblocks;
 end
 
-if simu.yawNonLin==1 && simu.yawThresh==1;
+if simu.yawNonLin==1 && simu.yawThresh==1
     warning(['yawNonLin using (default) 1 dg interpolation threshold.' newline 'Ensure this is appropriate for your geometry'])
 end
 
@@ -188,10 +212,14 @@ if (simu.nlHydro >0) || (simu.paraview == 1)
 end
 
 % hydroForcePre
-for kk = 1:simu.numWecBodies
-    body(kk).hydroForcePre(waves.w,waves.waveDir,simu.CIkt,simu.CTTime,waves.numFreq,simu.dt,...
-        simu.rho,simu.g,waves.type,waves.waveAmpTime,kk,simu.numWecBodies,simu.ssCalc,simu.nlHydro,simu.b2b,simu.yawNonLin);
-end; clear kk
+idx = find(hydroBodLogic==1);
+if ~isempty(idx)
+    for kk = 1:length(idx)
+        it = idx(kk);
+        body(it).hydroForcePre(waves.w,waves.waveDir,simu.CIkt,simu.CTTime,waves.numFreq,simu.dt,...
+            simu.rho,simu.g,waves.type,waves.waveAmpTime,kk,simu.numWecBodies,simu.ssCalc,simu.nlHydro,simu.b2b,simu.yawNonLin);
+    end; clear kk idx
+end
 
 % dragBodyPre
 idx = find(dragBodLogic==1);
@@ -347,7 +375,7 @@ fprintf('\n')
 
 %% Load simMechanics file & Run Simulation
 tic
-% fprintf('\nSimulating the WEC device defined in the SimMechanics model %s...   \n',simu.simMechanicsFile)
+fprintf('\nSimulating the WEC device defined in the SimMechanics model %s...   \n',simu.simMechanicsFile)
 % Modify some stuff for simulation
 for iBod = 1:simu.numWecBodies
     body(iBod).adjustMassMatrix(simu.adjMassWeightFun,simu.b2b);
@@ -356,10 +384,11 @@ warning('off','Simulink:blocks:TDelayTimeTooSmall');
 warning('off','Simulink:blocks:BusSelDupBusCreatorSigNames');
 warning('off','MATLAB:loadlibrary:FunctionNotFound');
 warning('off','MATLAB:loadlibrary:parsewarnings');
+warning('off','MATLAB:printf:BadEscapeSequenceInFormat');
 warning('off','Simulink:blocks:DivideByZero');
 warning('off','sm:sli:setup:compile:SteadyStateStartNotSupported')
 set_param(0, 'ErrorIfLoadNewModel', 'off')
-% Load simulation parameters to Simulink model
+% Load parameters to Simulink model
 simu.loadSimMechModel(simu.simMechanicsFile);
 
 %% Removed, simulink model already called
