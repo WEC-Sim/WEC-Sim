@@ -41,13 +41,20 @@ try
     % - the model is open, if WEC-Sim run from Simulink 
     % - any old models are closed, if WEC-Sim run from command line
 %     bdclose('all');
-    if gcs ~= 'WECSim_Lib'
-        close_system(bdroot,gcs,'closeReferencedModels',true);
+    if gcs ~= "WECSim_Lib"
+        close_system(bdroot,0,...
+            'closeReferencedModels',true,...
+            'OverwriteIfChangedOnDisk',false,...
+            'SaveModelWorkspace',false);
+        close_system(gcs,0,...
+            'closeReferencedModels',true,...
+            'OverwriteIfChangedOnDisk',false,...
+            'SaveModelWorkspace',false);
     end
 catch
-    fprintf('Model not closed.');
+    fprintf('Simulink model not closed.');
 end
-clc; diary off; close all;
+% clc; diary off; close all;
 clear body waves simu output pto constraint ptoSim mooring values names InParam
 delete('*.log');
 diary('simulation.log')
@@ -57,7 +64,7 @@ diary('simulation.log')
 tic
 try fprintf('wecSimMCR Case %g\n',imcr); end
 
-if exist(bdroot)
+if exist(bdroot) && bdroot~="WECSim_Lib"
     % Run wecSim input through Simulink block
     fprintf('\nWEC-Sim Input From Simulink...   \n');
     
