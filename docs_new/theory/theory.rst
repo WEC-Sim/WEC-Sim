@@ -729,7 +729,7 @@ obtainable in closed-form expressions or with finite element analysis. Once the
 hydrodynamic coefficients that include these additional flexible DOF are 
 obtained from the BEM solver, the 6DOF rigid body motion for each body and the 
 additional GBM DOFs are solved together in one system of equations. See this 
-example and :ref:advanced_features for more details on implementing GBM. 
+example and :ref:`user-advanced-features` for more details on implementing GBM. 
 
 References
 ----------

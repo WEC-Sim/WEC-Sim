@@ -304,7 +304,7 @@ each body in the ``wecSimInputFile.m``. WEC-Sim bodies may be one of four types:
 * Drag body
 * Nonhydrodynamic body
 
-Each type of body requires various parameters and input BEM data. The :ref:user-advanced-features-body: section contains more details on these important distinctions. 
+Each type of body requires various parameters and input BEM data. The :ref:`user-advanced-features-body` section contains more details on these important distinctions. 
 Regardless of type, body class properties need to include the 
 mass (``body(#).mass``) and moment of inertia (``body(#).momOfInertia``). 
 Other parameters are specified as needed.
@@ -487,7 +487,7 @@ Before simulation, one variant is activated by a flag in the body object (body.n
 The flex body block is used to represent hydrodynamic bodies that contain additional flexible degrees of freedom ('generalized body modes').
 The flex body is determined automatically by the degrees of freedom contained in the BEM input data.
 At least one instance of a hydrodynamic body block (rigid or flex) is required in each model.
-The :ref:user-advanced-features-body section describes the various types of WEC-Sim bodies in detail.
+The :ref:`user-advanced-features-body` section describes the various types of WEC-Sim bodies in detail.
 
 Both in Simulink and the input file, the user has to name the blocks ``body(i)`` (where i=1,2,...).
 The mass properties, hydrodynamic data, geometry file, mooring, and other properties are 

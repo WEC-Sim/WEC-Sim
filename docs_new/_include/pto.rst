@@ -57,8 +57,7 @@ damper force applied when a certain extents of motion are exceeded. Note that
 in this implementation, it is possible that the constraint/PTO will exceed 
 these limits if an inadequate spring and/or damping coefficient is specified, 
 acting instead as a soft motion constraint. More detail on this implementation 
-can be found at
-<https://www.mathworks.com/help/physmod/sm/ref/prismaticjoint.html#mw_316368a1-4b9e-4cfb-86e0-9abdd0c4d7a8>.
+can be found in the `Simscape documentation <https://www.mathworks.com/help/physmod/sm/ref/prismaticjoint.html#mw_316368a1-4b9e-4cfb-86e0-9abdd0c4d7a8>`_.
 To specify joint or actuation stroke limits for a PTO, the following parameters 
 must be specified in ``wecSimInputFile.m`` 
 
