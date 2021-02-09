@@ -114,11 +114,13 @@ WEC-Sim's capabilities include the ability to model both nonlinear hydrodynamic 
 
 
 +---------------------------+---------------------------+
-|  |nlh|                    +  |num|                    |
-| Nonlinear hydrodynamics   + Various numerical options |
+|            Advanced Features Demonstration            |
++===========================+===========================+
+|           |nlh|           +           |num|           |
+|  Nonlinear hydrodynamics  + Various numerical options |
 +---------------------------+---------------------------+
-|  |b2b|                    +  |yaw|                    |
-| Body-to-body interactions + Passive Yaw               |
+|           |b2b|           +           |yaw|           |
+| Body-to-body interactions +        Passive Yaw        |
 +---------------------------+---------------------------+
 
 
