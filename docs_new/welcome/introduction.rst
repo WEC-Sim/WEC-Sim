@@ -54,7 +54,7 @@ modes. As long as boundary element method data is available, a body may also
 move in any number of generalized body modes such as shear, torsion, or 
 bending. 
 
-.. figure:: /_static/images/new_figs/overview_diagram.jpg
+.. figure:: /_static/images/new_figs/overview_diagram.JPG
    :width: 750pt
 
 At a high level, the only external input that WEC-Sim requires is boundary 
