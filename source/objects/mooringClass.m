@@ -72,42 +72,12 @@ classdef mooringClass<handle
             %
             loc = obj.ref;
             relCoord = loc - x_rot;
-            rotatedRelCoord = obj.rotateXYZ(relCoord,ax_rot,ang_rot);
+            rotatedRelCoord = rotateXYZ(relCoord,ax_rot,ang_rot);
             newCoord = rotatedRelCoord + x_rot;
             linDisp = newCoord-loc;
             obj.initDisp.initLinDisp= linDisp + addLinDisp; 
             obj.initDisp.initAngularDispAxis = ax_rot;
             obj.initDisp.initAngularDispAngle = ang_rot;
-        end
-
-        function xn = rotateXYZ(obj,x,ax,t)
-            % Method to rotate a point about an arbitrary axis
-            % 
-            % Parameters
-            % ------------
-            %   x : 1 x 3 float vector
-            %       coordinates of point to rotate
-            %   ax : 1 x 3 float vector
-            %       axis about which to rotate 
-            %   t : float  
-            %       rotation angle (radian)
-            %
-            % Returns
-            % ------------
-            %   xn : 1 x 3 float vector 
-            %       new coordinates after rotation
-            %
-            rotMat = zeros(3);
-            rotMat(1,1) = ax(1)*ax(1)*(1-cos(t))    + cos(t);
-            rotMat(1,2) = ax(2)*ax(1)*(1-cos(t))    + ax(3)*sin(t);
-            rotMat(1,3) = ax(3)*ax(1)*(1-cos(t))    - ax(2)*sin(t);
-            rotMat(2,1) = ax(1)*ax(2)*(1-cos(t))    - ax(3)*sin(t);
-            rotMat(2,2) = ax(2)*ax(2)*(1-cos(t))    + cos(t);
-            rotMat(2,3) = ax(3)*ax(2)*(1-cos(t))    + ax(1)*sin(t);
-            rotMat(3,1) = ax(1)*ax(3)*(1-cos(t))    + ax(2)*sin(t);
-            rotMat(3,2) = ax(2)*ax(3)*(1-cos(t))    - ax(1)*sin(t);
-            rotMat(3,3) = ax(3)*ax(3)*(1-cos(t))    + cos(t);
-            xn = x*rotMat;
         end
 
         function obj = moorDynInput(obj)
