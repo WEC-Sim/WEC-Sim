@@ -60,14 +60,17 @@ different fields in a structure.
 
 Simulation Class
 ^^^^^^^^^^^^^^^^
-The simulation class contains the simulation parameters, flags and solver settings necessary to execute the WEC-Sim code. 
-These simulation parameters include numerical settings such as the time step, start time, differential equation solver method, and flags for various output options and nonlinear hydrodynamics options. 
-At a high level, the simulation class interacts with the rest of WEC-Sim as shown in the diagram below. 
-The most common flags and attributes that are passed to the other classes are shown here.
+
+The simulation class contains the simulation parameters, flags and solver 
+settings necessary to execute the WEC-Sim code. These simulation parameters 
+include numerical settings such as the time step, start time, differential 
+equation solver method, and flags for various output options and nonlinear 
+hydrodynamics options. At a high level, the simulation class interacts with the 
+rest of WEC-Sim as shown in the diagram below. The most common flags and 
+attributes that are passed to the other classes are shown here. 
 
 .. figure:: /_static/images/new_figs/simulation_diagram.png
    :width: 100%
-
 
 The simulation class file, ``simulationClass.m``, is located in the 
 ``$WECSIM/source/objects`` directory. Within the ``wecSimInputFile.m``, users must initialize the simulation 
@@ -101,16 +104,20 @@ For more information about application of WEC-Sim's simulation class, refer to
 
 Wave Class
 ^^^^^^^^^^
-The wave class contains all wave information necessary to define the incident wave condition for the WEC-Sim time-domain simulation.
-The wave class passes the incoming wave information to the body objects to determine the excitation force, added mass, radiation damping and other frequency based parameters that influence a body's motion. 
 
-At a high level, the wave class interacts with the rest of WEC-Sim as shown in the diagram below. 
-The most common flags and attributes that are passed to the other classes are shown here.
-The wave primarily interacts with the body class through Simulink as described in the sections below.
+The wave class contains all wave information necessary to define the incident 
+wave condition for the WEC-Sim time-domain simulation. The wave class passes 
+the incoming wave information to the body objects to determine the excitation 
+force, added mass, radiation damping and other frequency based parameters that 
+influence a body's motion. 
+
+At a high level, the wave class interacts with the rest of WEC-Sim as shown in 
+the diagram below. The most common flags and attributes that are passed to the 
+other classes are shown here. The wave primarily interacts with the body class 
+through Simulink as described in the sections below. 
 
 .. figure:: /_static/images/new_figs/wave_diagram.png
    :width: 100%
-
 
 The wave class file, ``waveClass.m``, is located in the 
 ``$WECSIM/source/objects`` directory. Within the ``wecSimInputFile.m``, users must initialize 
@@ -265,16 +272,17 @@ waveClass`` in the Matlab Command Window.
 For more information about application of WEC-Sim's wave class, refer to 
 :ref:`user-advanced-features-wave`. 
 
-
 .. _user-code-structure-body-class:
 
 Body Class
 ^^^^^^^^^^
 
-The body class represents each rigid or flexible body that comprises the WEC being simulated.
-It contains the mass and hydrodynamic properties of each body, defined by hydrodynamic data from the *.h5 file.
-The corresponding body block uses the hydrodynamic data and wave class to calculate all relevant forces on the body and solve for its resultant motion.
-At a high level, the body class interacts with the rest of WEC-Sim as shown in the diagram below.
+The body class represents each rigid or flexible body that comprises the WEC 
+being simulated. It contains the mass and hydrodynamic properties of each body, 
+defined by hydrodynamic data from the \*.h5 file. The corresponding body block 
+uses the hydrodynamic data and wave class to calculate all relevant forces on 
+the body and solve for its resultant motion. At a high level, the body class 
+interacts with the rest of WEC-Sim as shown in the diagram below. 
 
 .. figure:: /_static/images/new_figs/body_diagram.png
    :width: 750pt
