@@ -36,25 +36,9 @@
 %%
 
 %% Start WEC-Sim log
-try
-    % Close any open simulink models if not running. This ensures that:
-    % - the model is open, if WEC-Sim run from Simulink 
-    % - any old models are closed, if WEC-Sim run from command line
-%     bdclose('all');
-    if gcs ~= "WECSim_Lib"
-        close_system(bdroot,0,...
-            'closeReferencedModels',true,...
-            'OverwriteIfChangedOnDisk',false,...
-            'SaveModelWorkspace',false);
-        close_system(gcs,0,...
-            'closeReferencedModels',true,...
-            'OverwriteIfChangedOnDisk',false,...
-            'SaveModelWorkspace',false);
-    end
-catch
-    fprintf('Simulink model not closed.');
-end
-% clc; diary off; close all;
+% Clear old input, plots, log file and start new log file.
+% bdclose('all');
+clc; diary off; close all;
 clear body waves simu output pto constraint ptoSim mooring values names InParam
 delete('*.log');
 diary('simulation.log')
@@ -62,37 +46,35 @@ diary('simulation.log')
 
 %% Read input file
 tic
-try fprintf('wecSimMCR Case %g\n',imcr); end
 
-if exist(bdroot) && bdroot~="WECSim_Lib"
-    % Run wecSim input through Simulink block
-    fprintf('\nWEC-Sim Input From Simulink...   \n');
-    
-    % Convert Parameters of the masked subsystem to struct InParam
-    values = get_param([bdroot,'/Parameters'],'MaskValues');    % Cell array containing all Masked Parameter values
-    names = get_param([bdroot,'/Parameters'],'MaskNames');      % Cell array containing all Masked Parameter names
-    InParam = struct('init',1);                                 % Initialize InParam struct
-    for i = 1:length(names)
-        InParam = setfield(InParam,names{i,1},values{i,1});     % Update struct with Masked Parameter names and cooresponding values
-    end; clear i;
+% Convert Parameters of the masked subsystem to struct InParam
+values = get_param([bdroot,'/Parameters'],'MaskValues');    % Cell array containing all Masked Parameter values
+names = get_param([bdroot,'/Parameters'],'MaskNames');      % Cell array containing all Masked Parameter names
+InParam = struct('init',1);                                 % Initialize InParam struct
+for i = 1:length(names)
+    InParam = setfield(InParam,names{i,1},values{i,1});     % Update struct with Masked Parameter names and cooresponding values
+end; clear i;
 
-    % Input parameters based on user selection of Read from file, or Custom
-    if strcmp(InParam.ParamInput,'Read from file')
-        fprintf('\nWEC-Sim Read Input File ...   \n');
-        run(InParam.InputFile)                                  % Run file selected by user
-    else
-        fprintf('\nWEC-Sim Read Custom Parameters ...   \n');
-        run('wecSimCustomParameters')                           % Run file to read custom parameters
-    end
-    clear values names InParam;
+% Input parameters based on command line start (wecSim.m, wecSimInputFile.m)
+%    or user selection of 'Read from file' or 'Custom' in Simulink
+if exist('runWecSimCML','var') && runWecSimCML==1
+    % wecSim input from wecSimInputFile.m of case directory in the standard manner
+    fprintf('\nWEC-Sim Input From Standard wecSimInputFile.m Of Case Directory... \n');
+    run('wecSimInputFile');
+elseif strcmp(InParam.ParamInput,'Read from file')
+    % wecSim input from input file selected in Simulink block
+    fprintf('\nWEC-Sim Input From File Selected In Simulink... \n');
+    run(InParam.InputFile);
 else
-    % Run wecSimInputFile.m in standard manner
-    bdclose('all');
-    fprintf('\nWEC-Sim Read Input File ...   \n');
-    evalc('wecSimInputFile');
+    % wecSim input from custom parameters in Simulink block
+    fprintf('\nWEC-Sim Input From Custom Parameters In Simulink... \n');
+    run('wecSimCustomParameters');
 end
+clear values names InParam;
 
 % Read Inputs for Multiple Conditions Run
+try fprintf('wecSimMCR Case %g\n',imcr); end
+
 if exist('mcr','var') == 1
     for n=1:length(mcr.cases(1,:))
         if iscell(mcr.cases)

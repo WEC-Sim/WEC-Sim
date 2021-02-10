@@ -11,6 +11,8 @@
 %   constraint
 %   pto
 
+% TODO - add ability to write the customer parameters to a new wecSimInputFile.m
+
 % Designed to replicate wecSimInputFile.m
 % str2num is used because parameters are read in as 'char' data type
 

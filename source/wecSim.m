@@ -402,11 +402,25 @@
 % 
 
 % Initialize WEC-Sim
-wecSimInitFunction
+run('wecSimInputFile');
+simFile = simu.simMechanicsFile;
+% clearvars -except simFile
+clear simu waves body pto constraint ptosim mooring 
 
 % Run simulink model
-sim(simu.simMechanicsFile, [], simset('SrcWorkspace','parent'));
+% Current set-up assumes that /all/ WEC-Sim simulink models have the
+% initialization and will have the init/stop functions called
+runWecSimCML = 1;
+sim(simFile, [], simset('SrcWorkspace','parent'));
 
-% WEC-Sim postprocessing
-wecSimStopFunction
-
+%TODO:
+% at least combine total initialization block with global reference frame
+%
+% have each block type initializes its own info --> prevents issue with
+% providing enough bodies/constraints/etc
+% global reference frame contains initialization for simu,waves
+%
+% 
+% look into versioning problems with _sfun issue
+% 
+% Write new input file with wecSimCustomerParameters.m
