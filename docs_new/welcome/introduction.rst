@@ -137,27 +137,27 @@ figures below.
 +-------------------------------------------------------------+
 |               Advanced Features Demonstration               |
 +==============================+==============================+
-| | Nonlinear hydrodynamics:   | | Various numerical options: |
-| |                            | |                            |
-| |          |nlh|             | |           |num|            |
+| |           |nlh|            | |           |num|            |
+| |  Nonlinear hydrodynamics   | | Various numerical options  |
 +------------------------------+------------------------------+
-| | Body-to-body interactions: | |       Passive Yaw:         |
-| |                            | |                            |
-| |          |b2b|             | |          |yaw|             |
+| |           |b2b|            | |           |yaw|            |
+| | Body-to-body interactions  | |        Passive yaw         |
 +------------------------------+------------------------------+
 
 
-WEC-Sim's advanced features and capabilities, including those highlighted above, 
-allow a wide variety of marine renewable energy devices to be modeled.
+WEC-Sim can accurately model a wide variety of marine renewable energy and offshore devices
+due to its advanced features and capabilities, including those highlighted above.
 The Paraview figures below highlight a small sample of devices that WEC-Sim has successfully modeled in the past.
  
 .. TODO:
-    insert figures of special geometries that WEC-sim has modeled:
+    insert figures of special geometries that WEC-sim has modeled
+    add url to each case in the figure or image? 
+    
     Paraview:
     X RM3 w/ mooring
     RM5
     X OSWEC
-    BEMIO examples (cubes, cylinder, ellipsoid, sphere)
+    BEMIO examples (cubes, cylinder, X ellipsoid, X sphere)
     X GBM -> more flexible design that can show off bending modes in a gif?
     X wigley hull
     COER COMP
@@ -199,6 +199,20 @@ The Paraview figures below highlight a small sample of devices that WEC-Sim has 
 
 
 TODO BEMIO cases
+
+
+.. figure:: /_static/images/new_figs/sphere_freedecay_iso_side.png
+   :align: center
+   :width: 500pt
+   
+   Hemisphere in Free Decay
+
+
+.. figure:: /_static/images/new_figs/ellipsoid_iso_side.png
+   :align: center
+   :width: 500pt
+   
+   Ellipsoid
 
 
 .. figure:: /_static/images/new_figs/gbm_iso_side.png
