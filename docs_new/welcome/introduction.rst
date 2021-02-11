@@ -123,10 +123,12 @@ figures below.
    :width: 400pt
    :height: 175pt
    :align: middle
+   
 .. |num| image:: /_static/images/new_figs/numOpt_comparison.png
    :width: 400pt
    :height: 175pt
    :align: middle
+   
 .. |yaw| image:: /_static/images/new_figs/passiveYaw_comparison.png
    :width: 400pt
    :height: 175pt
@@ -145,19 +147,112 @@ figures below.
 +------------------------------+------------------------------+
 
 
-The Paraview figures below highlight some of WEC-Sim's capabilities and the 
-various geometries that have been successfully modeled. 
-
+WEC-Sim's advanced features and capabilities, including those highlighted above, 
+allow a wide variety of marine renewable energy devices to be modeled.
+The Paraview figures below highlight a small sample of devices that WEC-Sim has successfully modeled in the past.
+ 
 .. TODO:
-    insert grid figures of special geometries that WEC-sim can handle
-    from above:
-    RM's
-    OSWEC
-    desal
-    WECCCOMP
-    GBM
-    wigley
-    ptosim?
-    Any teamer?
+    insert figures of special geometries that WEC-sim has modeled:
+    Paraview:
+    X RM3 w/ mooring
+    RM5
+    X OSWEC
+    BEMIO examples (cubes, cylinder, ellipsoid, sphere)
+    X GBM -> more flexible design that can show off bending modes in a gif?
+    X wigley hull
+    COER COMP
+    X WECCCOMP
+    X OC6 Phase I
+    OC6 Phase II
     FOSWEC?
-    mooring
+    Other industry designs? (Aquaharmonics, Calwave, NWEI, ...?)
+    
+    Simulink + simscape explorer/Paraview:
+    desal
+    ptosim variations:
+    	RM3 + hydraulic drive
+    	RM3 + direct drive
+    	OSWEC + crank
+    	OSWEC + 
+    Any teamer designs?
+
+
+.. figure:: /_static/images/new_figs/rm3_iso_side.png
+   :align: center
+   :width: 500pt
+   
+   Reference Model 3
+
+
+.. figure:: /_static/images/new_figs/rm3_iso_side.png
+   :align: center
+   :width: 500pt
+   
+   Reference Model 5 TODO
+
+
+.. figure:: /_static/images/new_figs/oswec_iso_side.png
+   :align: center
+   :width: 500pt
+   
+   Bottom-fixed Oscillating Surge WEC (OSWEC)
+
+
+TODO BEMIO cases
+
+
+.. figure:: /_static/images/new_figs/gbm_iso_side.png
+   :align: center
+   :width: 500pt
+   
+   Barge with Four Flexible Body Modes
+
+
+.. figure:: /_static/images/new_figs/wigley_iso_side.png
+   :align: center
+   :width: 500pt
+   
+   Wigley Ship Hull
+   
+   
+   TODO COER COMP
+
+
+.. figure:: /_static/images/new_figs/wecccomp_iso_side.png
+   :align: center
+   :width: 500pt
+   
+   Wave Energy Converter Control Competition (WECCCOMP) Wavestar Device
+
+
+.. figure:: /_static/images/new_figs/oc6_iso_side.png
+   :align: center
+   :width: 500pt
+   
+   OC6 Phase I DeepCwind Floating Semisubmersible
+   
+
+
+
+.. |viz_oswec| image:: /_static/images/new_figs/rm3_iso_side.png
+   :align: middle
+   
+.. |viz_foswec| image:: /_static/images/new_figs/rm3_iso_side.png
+   :align: middle
+   
+.. |viz_wigley| image:: /_static/images/new_figs/rm3_iso_side.png
+   :align: middle
+
+
+.. 
+	+-------------------------------------------------------------+
+	|                 Proven WEC-Sim Applications                 |
+	+==============================+==============================+
+	| |  Nonlinear hydrodynamics   | | Various numerical options  |
+	| |                            | |                            |
+	| |         |viz_rm3|          | |        |viz_oswec|         |
+	+------------------------------+------------------------------+
+	| |       Floating OSWEC       | |        Passive Yaw         |
+	| |                            | |                            |
+	| |        |viz_foswec|        | |        |viz_wigley|        |
+	+------------------------------+------------------------------+
