@@ -26,6 +26,8 @@ classdef bodyClass<handle
     %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
     
     properties (SetAccess = 'private', GetAccess = 'public') %hdf5 file
+        dof_start         = []                               % (`integer`) Index the DOF starts for body(``bodyNumber``). For WEC bodies this is given in the h5 file, but if not defined in the h5 file, Default = ``(bodyNumber-1)*6+1``.
+        dof_end           = []                               % (`integer`) Index the DOF ends for body(``bodyNumber``). For WEC bodies this is given in the h5 file, but if not defined in the h5 file, Default = ``(bodyNumber-1)*6+6``.
         hydroData         = struct()                                            % Hydrodynamic data from BEM or user defined.
     end
     
@@ -38,8 +40,6 @@ classdef bodyClass<handle
         dispVol           = []                               % (`float`) Displaced volume at equilibrium position [m^{3}]. For hydrodynamic bodies this is defined in the h5 file while for nonhydrodynamic bodies this is defined by the user. Default = ``[]``.
         dof               = 6                                % (`integer`) Number of degree of freedoms (DOFs). For hydrodynamic bodies this is given in the h5 file. If not defined in the h5 file, Default = ``6``.
         dof_gbm           = []                               % (`integer`) Number of degree of freedoms (DOFs) for generalized body mode (GBM). Default = ``[]``.
-        dof_start         = []                               % (`integer`) Index the DOF starts for body(``bodyNumber``). For WEC bodies this is given in the h5 file, but if not defined in the h5 file, Default = ``(bodyNumber-1)*6+1``.
-        dof_end           = []                               % (`integer`) Index the DOF ends for body(``bodyNumber``). For WEC bodies this is given in the h5 file, but if not defined in the h5 file, Default = ``(bodyNumber-1)*6+6``.
         geometryFile      = 'NONE'                           % (`string`) Pathway to the body geomtry ``.stl`` file.
         viscDrag          = struct(...                       %
             'Drag',                 zeros(6), ...            %

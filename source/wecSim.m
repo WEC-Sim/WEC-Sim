@@ -204,6 +204,10 @@ if ~isempty(idx)
     for kk = 1:length(idx)
         it = idx(kk);
         body(it).dragForcePre(simu.rho);
+        if isempty(body(it).cb)
+            body(it).cb = body(it).cg;
+            warning('Non-hydro body(%i) center of buoyancy (cb) set equal to center of gravity (cg), [%g %g %g]',body(it).bodyNumber,body(it).cb(1),body(it).cb(2),body(it).cb(3))
+        end        
     end; clear kk idx
 end
     
