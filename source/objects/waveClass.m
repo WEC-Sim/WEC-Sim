@@ -338,7 +338,7 @@ classdef waveClass<handle
             %
             
             % ground plane
-            filename = [pathParaviewVideo,'\\vtk' filesep 'ground.txt'];
+            filename = [pathParaviewVideo, filesep 'ground.txt'];
             fid = fopen(filename, 'w');
             fprintf(fid,[num2str(domainSize) '\n']);
             fprintf(fid,[num2str(obj.waterDepth) '\n']);
@@ -354,7 +354,7 @@ classdef waveClass<handle
             numFace = (lx-1) * (ly-1);
             for it = 1:length(t)
                 % open file
-                filename = [pathParaviewVideo,'\\vtk' filesep 'waves' filesep 'waves_' num2str(it) '.vtp'];
+                filename = [pathParaviewVideo, filesep 'waves' filesep 'waves_' num2str(it) '.vtp'];
                 fid = fopen(filename, 'w');
                 % calculate wave elevation
                 Z = waveElevationGrid (obj, t(it), X, Y, TimeBodyParav, it, g);                % write header

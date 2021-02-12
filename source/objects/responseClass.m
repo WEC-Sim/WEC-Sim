@@ -48,12 +48,15 @@ classdef responseClass<handle
     %   *  ``forceRadiationDamping`` (`array`) = [# of time-steps x 6]
     %   *  ``forceAddedMass`` (`array`) = [# of time-steps x 6]
     %   *  ``forceRestoring`` (`array`) = [# of time-steps x 6]
-    %   *  ``forceMorrisonAndViscous`` (`array`) = [# of time-steps x 6]
+    %   *  ``forceMorisonAndViscous`` (`array`) = [# of time-steps x 6]
     %   *  ``forceLinearDamping`` (`array`) = [# of time-steps x 6]
     %
-    %   There are additional ``output.bodies`` structures for non-linar hydro (e.g.
-    %   ``cellPressures_time``, ``cellPressures_hydrostatic``,
-    %   ``cellPressures_waveLinear``, ``cellPressures_waveNonLinear``)
+    %   There are 4 additional ``output.bodies`` arrays when using non-linear hydro and Paraview output:
+    %
+    %   *  ``cellPressures_time`` ('array') = [# of Paraview time-steps x 1]
+    %   *  ``cellPressures_hydrostatic`` ('array') = [# of Paraview time-steps x # of mesh faces]
+    %   *  ``cellPressures_waveLinear`` ('array') = [# of Paraview time-steps x # of mesh faces]
+    %   *  ``cellPressures_waveNonLinear`` ('array') = [# of Paraview time-steps x # of mesh faces]
     %
     %.. autoattribute:: objects.responseClass.ptos
     %    
@@ -132,7 +135,7 @@ classdef responseClass<handle
                 obj.wave.waveGauge3Elevation = waveOutput.waveAmpTime3(:,2);
             end
             % Bodies
-            signals = {'position','velocity','acceleration','forceTotal','forceExcitation','forceRadiationDamping','forceAddedMass','forceRestoring','forceMorrisonAndViscous','forceLinearDamping'};
+            signals = {'position','velocity','acceleration','forceTotal','forceExcitation','forceRadiationDamping','forceAddedMass','forceRestoring','forceMorisonAndViscous','forceLinearDamping'};
             for ii = 1:length(bodiesOutput)
                 obj.bodies(ii).name = bodiesOutput(ii).name;
                 obj.bodies(ii).time = bodiesOutput(ii).time;
@@ -164,6 +167,11 @@ classdef responseClass<handle
                     obj.bodies(ii).cellPressures_hydrostatic   = bodiesOutput(ii).hspressure.signals.values;
                     obj.bodies(ii).cellPressures_waveLinear    = bodiesOutput(ii).wpressurel.signals.values;
                     obj.bodies(ii).cellPressures_waveNonLinear = bodiesOutput(ii).wpressurenl.signals.values;
+                else
+                    obj.bodies(ii).cellPressures_time = [];
+                    obj.bodies(ii).cellPressures_hydrostatic   = [];
+                    obj.bodies(ii).cellPressures_waveLinear    = [];
+                    obj.bodies(ii).cellPressures_waveNonLinear = [];
                 end
             end
             % PTOs
@@ -292,7 +300,7 @@ classdef responseClass<handle
             FRD=-1*obj.bodies(bodyNum).forceRadiationDamping(:,comp);
             FAM=-1*obj.bodies(bodyNum).forceAddedMass(:,comp);
             FR=-1*obj.bodies(bodyNum).forceRestoring(:,comp);
-            FMV=-1*obj.bodies(bodyNum).forceMorrisonAndViscous(:,comp);
+            FMV=-1*obj.bodies(bodyNum).forceMorisonAndViscous(:,comp);
             FLD=-1*obj.bodies(bodyNum).forceLinearDamping(:,comp);
             figure();
             plot(t,FT,...
@@ -350,7 +358,7 @@ classdef responseClass<handle
             fprintf(fid,data_fmt,data');
             fclose(fid);
             % bodies
-            signals = {'position','velocity','acceleration','forceTotal','forceExcitation','forceRadiationDamping','forceAddedMass','forceRestoring','forceMorrisonAndViscous','forceLinearDamping'};
+            signals = {'position','velocity','acceleration','forceTotal','forceExcitation','forceRadiationDamping','forceAddedMass','forceRestoring','forceMorisonAndViscous','forceLinearDamping'};
             header = {'time', ...
                       'position_1'               ,'position_2'               ,'position_3'               ,'position_4'               ,'position_5'               ,'position_6'               , ...
                       'velocity_1'               ,'velocity_2'               ,'velocity_3'               ,'velocity_4'               ,'velocity_5'               ,'velocity_6'               , ...
@@ -360,7 +368,7 @@ classdef responseClass<handle
                       'forceRadiationDamping_1'  ,'forceRadiationDamping_2'  ,'forceRadiationDamping_3'  ,'forceRadiationDamping_4'  ,'forceRadiationDamping_5'  ,'forceRadiationDamping_6'  , ...
                       'forceAddedMass_1'         ,'forceAddedMass_2'         ,'forceAddedMass_3'         ,'forceAddedMass_4'         ,'forceAddedMass_5'         ,'forceAddedMass_6'         , ...
                       'forceRestoring_1'         ,'forceRestoring_2'         ,'forceRestoring_3'         ,'forceRestoring_4'         ,'forceRestoring_5'         ,'forceRestoring_6'         , ...
-                      'forceMorrisonAndViscous_1','forceMorrisonAndViscous_2','forceMorrisonAndViscous_3','forceMorrisonAndViscous_4','forceMorrisonAndViscous_5','forceMorrisonAndViscous_6', ...
+                      'forceMorisonAndViscous_1' ,'forceMorisonAndViscous_2' ,'forceMorisonAndViscous_3' ,'forceMorisonAndViscous_4' ,'forceMorisonAndViscous_5' ,'forceMorisonAndViscous_6' , ...
                       'forceLinearDamping_1'     ,'forceLinearDamping_2'     ,'forceLinearDamping_3'     ,'forceLinearDamping_4'     ,'forceLinearDamping_5'     ,'forceLinearDamping_6'     };
             for ii=1:length(signals)
                 tmp(ii) = length(signals{ii});
@@ -585,7 +593,7 @@ classdef responseClass<handle
                 fs = filesep;
             end
             % open file
-            fid = fopen([pathParaviewVideo,'\\vtk' fs model(1:end-4) '.pvd'], 'w');
+            fid = fopen([pathParaviewVideo, fs model '.pvd'], 'w');
             % write header
             fprintf(fid, '<?xml version="1.0"?>\n');
             fprintf(fid, ['<!-- WEC-Sim Visualization using ParaView -->\n']);
