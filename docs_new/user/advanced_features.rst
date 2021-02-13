@@ -748,7 +748,7 @@ bodies, constraints, PTOs, and moorings. To do this, you would use the:
 * :code:`mooring(i).setInitDisp()` 
 
 methods in the WEC-Sim input file. A description of the required input can be 
-found in the method's header comments. The following propoerties must be 
+found in the method's header comments. The following properties must be 
 defined prior to using the object's :code:`setInitDisp()` method: 
 
 * :code:`body(i).cg`

@@ -31,7 +31,7 @@ mooring matrix properties in the WEC-Sim input file using:
 
 * Mooring pretension - :code:`mooring(i).matrix.preTension = [1x6]` in [N]
 
-.. Note: 
+.. Note::
 
     "i" indicates the mooring number. More than one mooring can be specified in 
     the WEC-Sim model when the mooring matrix block is used. 
@@ -49,7 +49,7 @@ defined in MoorDyn (``mooring(1).moorDynLines = <Number of mooring lines>``)
 A mooring folder that includes a moorDyn input file (``lines.txt``) is required 
 in the simulation folder. 
 
-.. Note: 
+.. Note::
     WEC-Sim/MoorDyn coupling only allows one mooring configuration in the 
     simulation.
 

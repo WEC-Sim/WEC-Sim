@@ -44,7 +44,7 @@ WEC-Sim Code Structure
 
 This section of the course provides an overview of how the WEC-Sim code is 
 structured by describing the :ref:`user-code-structure-src` (e.g. 
-:ref:`user-code-structure-objects` and :ref:`user-code-structure-library`, and 
+:ref:`user-code-structure-classes` and :ref:`user-code-structure-library`, and 
 how they are defined in the :ref:`user-workflow-input-files` (i.e. 
 ``wecSimInputFile.m`` and ``<Simulink_model_name>.slx``). The WEC-Sim Code 
 Structure Overview presentation is available for download here ( `WEC-Sim Code 

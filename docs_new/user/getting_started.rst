@@ -67,7 +67,7 @@ or other sources while getting started. If you have problems downloading,
 installing or using WEC-Sim please submit a question to the 
 `WEC-Sim Issues page <https://github.com/WEC-Sim/WEC-Sim/issues>`_. 
 
-.. Note:
+.. Note::
     Users may also download a static version of WEC-Sim from the latest tagged 
     `WEC-Sim Release <https://github.com/WEC-Sim/WEC-Sim/releases>`_.  This is 
     the easiest way to obtain the WEC-Sim code, however it is more difficult to 

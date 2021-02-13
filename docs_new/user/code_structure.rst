@@ -1,9 +1,21 @@
 .. adam:
-    I think that this section needs some additional overhaul. Now that it is in a distinct user manual it is more apparent that the 'what/how' of each class/block is missing. There is a lot of information on the location of the source files (this should move to dev manual, users don't need to know this) and how to initialize classes. But I feel that each class is missing an overview on what it does and how it does it (tie back to theory).
+    I think that this section needs some additional overhaul. 
+    Now that it is in a distinct user manual it is more apparent that the 'what/how' of 
+    each class/block is missing. There is a lot of information on the location of the 
+    source files (this should move to dev manual, users don't need to know this) and how 
+    to initialize classes. But I feel that each class is missing an overview on what it does
+    and how it does it (tie back to theory).
     
-    e.g. The purpose of the simulation class is to set-up a WEC-Sim case and holds all of the numerical options and flags required for the simulation. Parameters A and B are passed to C and D classes for reasons X and Y, etc..
+    e.g. The purpose of the simulation class is to set-up a WEC-Sim case and holds all of
+    the numerical options and flags required for the simulation. Parameters A and B are 
+    passed to C and D classes for reasons X and Y, etc..
     
-    Also, the classes and library blocks are intentionally tied together so they should be presented that way. I suggest further restructuring this section based on each class. In each class' section, specific types of blocks can be presented as needed. The Global Reference Frame can be included with the simulation or wave class
+    Also, the classes and library blocks are intentionally tied together so I feel they 
+    should be presented that way. I suggest further restructuring this section based on 
+    each class. In each class' section, specific types of blocks can be presented as needed.
+    The Global Reference Frame can be included with the simulation or wave class
+    
+    TODO: tie to theory section and add basic equations in the wave and body sections
     
 .. _user-code-structure:
 
@@ -22,39 +34,106 @@ WEC-Sim Source Code
 The directory where the WEC-Sim code is contained is referred to as ``$WECSIM`` 
 (e.g. ``C:/User/Documents/GitHub/WEC-Sim``). The WEC-Sim source code files are 
 contained within a source directory referred to as ``$WECSIM/source``. The 
-WEC-Sim source code consists of a series of MATLAB ``*.m`` objects (defined in 
-WEC-Sim as classes) and Simulink ``*.slx`` library blocks which are executed by 
-the ``wecSim.m`` script. Executing ``wecSim.m`` parses the user input data, 
+WEC-Sim source code consists primarily of three components as described in the table:
+
+=========================   ====================  ============================
+**File Type**               **File name**         **Directory**               
+WEC-Sim Executable          ``wecSim.m``          ``$WECSIM/source``          
+WEC-Sim MATLAB Functions    ``<functionName>.m``  ``$WECSIM/source/functions``
+WEC-Sim MATLAB Classes      ``<object>Class.m``   ``$WECSIM/source/objects``  
+WEC-Sim Simulink Library    ``WECSim_Lib.slx``    ``$WECSIM/source/lib``      
+=========================   ====================  ============================
+
+The core of WEC-Sim is the ``wecSim.m`` file.
+Executing ``wecSim.m`` from a case directory parses the user input data, 
 performs preprocessing calculations in each of the classes, selects and 
-initializes variant subsystems in the Simulink model, and runs the time-domain 
-simulations in WEC-Sim. 
+initializes variant subsystems in the Simulink model, runs the time-domain 
+simulations in WEC-Sim, and calls post-processing scripts. 
+When a WEC-Sim case is properly set-up, the user only needs to use the single command ``wecSim`` 
+in the command line to run the simulation.
 
-=========================   ====================  ==========================
-**File Type**               **File name**         **Directory**
-WEC-Sim Executable          ``wecSim.m``          ``$WECSIM/source``
-WEC-Sim MATLAB Objects      ``<object>Class.m``   ``$WECSIM/source/objects``
-WEC-Sim Simulink Library    ``<block>_Lib.slx``   ``$WECSIM/source/lib``
-=========================   ====================  ==========================
 
-.. _user-code-structure-objects:
+.. _user-code-structure-classes:
 
-WEC-Sim Objects
+WEC-Sim Classes
 ---------------
 
 All information required to run WEC-Sim simulations is contained within the 
 ``simu``, ``waves``, ``body(i)``, ``pto(i)``, ``constraint(i)``, and 
 ``mooring(i)`` objects (instances of the simulationClass, waveClass, bodyClass, 
-constraintClass, ptoClass, and mooringClass). The user can interact with these 
-classes within the WEC-Sim input file (``wecSimInputFile.m``). The remainder of 
-this section describes the role of the WEC-Sim objects, and how to interact 
-with the WEC-Sim objects to define input properties. 
+constraintClass, ptoClass, and mooringClass). 
+The user can instantiate and interact with these classes within the WEC-Sim input
+file (``wecSimInputFile.m``). The following :ref:`user-code-structure-source-details`
+section describes the role of the WEC-Sim objects, and how to and interact with the
+WEC-Sim objects to define input properties. 
 
 There are two ways to look at the available properties and methods within a 
 class. The first is to type ``doc <className>`` in Matlab Command Window, and 
 the second is to open the class definitions located in the 
 ``$WECSIM/source/objects`` directory by typing ``open <className>`` in MATLAB 
 Command Window. The latter provides more information since it also defines the 
-different fields in a structure. 
+different fields in a structure.
+
+
+.. _user-code-structure-library:
+
+WEC-Sim Library
+---------------
+
+In addition to the ``wecSimInputFile.m`` that instantiates classes, a WEC-Sim 
+simulation requires a simulink model (``*.slx``) that represents the WEC 
+system components and connectivities. Similar to how the input file uses the 
+WEC-Sim classes, the Simulink model uses WEC-Sim library blocks. There should 
+be a one-to-one relationship between the objects defined in the input file and
+the blocks used in the Simulink model. 
+
+The WEC-Sim library is divided into 5 different types of library blocks. The 
+user should be able to model their WEC device using the available WEC-Sim 
+blocks (and possibly other Simulink/Simscape blocks). The image below shows the 
+WEC-Sim block grouping by type. 
+
+.. figure:: /_static/images/WEC-Sim_Lib.PNG
+   :width: 400pt    
+   :align: center
+
+The following sections describe the five different library types, the related class, and their general 
+purpose. The Body Elements library contains the Rigid Body block used to 
+simulate the different bodies. The Frames library contains the Global Reference 
+Frame block necessary for every simulation. The Constraints library contains 
+blocks that are used to constrain the DOF of the bodies without including any 
+additional forcing or resistance. The PTOs library contains blocks used to both 
+simulate a PTO system and restrict the body motion. Both constraints and PTOs 
+can be used to restrict the relative motion between multi-body systems. The 
+Mooring library contains blocks used to simulate mooring systems. 
+
+.. _user-code-structure-source-details:
+
+Source Details
+--------------
+Corresponding WEC-Sim classes and library blocks largely represent the same information, but serve different functions during simulation.
+The classes contain functions for initialization, reading input data, pre-processing and post-processing.
+The library blocks use these pre-processed parameters during the time-domain simulation in Simulink.
+Due to their similarity, in the following subsections the classes are presented concurrently with their relevant library blocks.
+
+There are eight WEC-Sim classes and five WEC-Sim library blocks. 
+The relation between classes and blocks is summarized in the table below. 
+Details on each are presented below.
+
+.. adam: move pto_sim to another section?...
+
+
+===================== =====================================
+**WEC-Sim Class**     **Corresponding Library Block**
+Body Class            Body Elements (4 types)
+Constraint Class      Constraints (5 types)
+Mooring Class         Moorings (2 types)
+PTO Class             PTOs (6 types)
+PTO-Sim Class         ``PTOSim_Lib.slx``
+Response Class        None
+Simulation Class      Frames (1 type)
+Wave Class            Frames (1 type)
+===================== =====================================
+
 
 .. _user-code-structure-simulation-class:
 
@@ -67,30 +146,35 @@ include numerical settings such as the time step, start time, differential
 equation solver method, and flags for various output options and nonlinear 
 hydrodynamics options. At a high level, the simulation class interacts with the 
 rest of WEC-Sim as shown in the diagram below. The most common flags and 
-attributes that are passed to the other classes are shown here. 
+attributes that are passed to other objects are the start, end, and ramp times,
+time steps, global variables (gravity, density, etc). 
 
 .. figure:: /_static/images/new_figs/simulation_diagram.png
    :width: 100%
 
-The simulation class file, ``simulationClass.m``, is located in the 
-``$WECSIM/source/objects`` directory. Within the ``wecSimInputFile.m``, users 
+Within the ``wecSimInputFile.m``, users 
 must initialize the simulation class (``simulationClass``) and specify the name 
 of the WEC-Sim (``*.slx``) model file by including the following lines:: 
 
     simu=simulationClass();
     simu.simMechanicsFile='<WEC Model Name>.slx'
 
-Users may specify other simulation class properties using the ``simu`` object 
-in the ``wecSimInputFile.m``, such as: simulation start time 
-(``simu.startTime``), end time (``simu.endTime``), ramp time 
-(``simu.rampTime``) and time step (``simu.dt``). All simulation class 
-properties are specified as variables within the ``simu`` object as members of 
-the ``simulationClass``. 
-
+All simulation class properties are specified as variables within the ``simu``
+object as members of the ``simulationClass``.
 The WEC-Sim code has default values defined for the simulation class 
-properties. These default values can be overwritten by the user, for example, 
-the end time of a simulation can be set by entering the following command: 
+properties. These default values can be overwritten by the user in the input file,
+for example, the end time of a simulation can be set by entering the following command: 
 ``simu.endTime = <user specified end time>``. 
+
+Users may specify other simulation class properties using the ``simu`` object 
+in the ``wecSimInputFile.m``, such as: 
+
+===================== ==================
+Simulation start time ``simu.startTime``
+End time              ``simu.endTime``  
+Ramp time             ``simu.rampTime`` 
+Time step             ``simu.dt``       
+===================== ================== 
 
 Available simulation properties, default values, and functions can be found by 
 typing ``doc simulationClass`` in the MATLAB command window, or by opening the 
@@ -100,27 +184,43 @@ simulationClass`` in MATLAB Command Window.
 For more information about application of WEC-Sim's simulation class, refer to 
 :ref:`user-advanced-features-simulation`. 
 
+Frames Block
+""""""""""""
+
+The simulation class is most closely related to the Frames library.
+The Frames library contains one block that is necessary in every model. The 
+``Global Reference Frame`` block defines the global coordinates, solver 
+configuration, seabed and free surface description, simulation time, and other 
+global settings. It can be useful to think of the Global Reference Frame as 
+being the seabed when creating a model. Every model requires one instance of 
+the Global Reference Frame block. The ``Global Reference Frame`` block uses the 
+simulation class variable `simu` and the wave class variable `waves`, which 
+must be defined in the input file. 
+
+.. figure:: /_static/images/WEC-Sim_Lib_frames.PNG
+   :width: 400pt
+   :align: center
+
+
 .. _user-code-structure-wave-class:
 
 Wave Class
 ^^^^^^^^^^
 
 The wave class contains all wave information necessary to define the incident 
-wave condition for the WEC-Sim time-domain simulation. The wave class passes 
-the incoming wave information to the body objects to determine the excitation 
+wave condition for the WEC-Sim time-domain simulation. The wave class contains 
+the incoming wave information that determines the excitation 
 force, added mass, radiation damping and other frequency based parameters that 
 influence a body's motion. 
 
 At a high level, the wave class interacts with the rest of WEC-Sim as shown in 
-the diagram below. The most common flags and attributes that are passed to the 
-other classes are shown here. The wave primarily interacts with the body class 
-through Simulink as described in the sections below. 
+the diagram below. The wave primarily interacts with the body class 
+through during pre-processing of wave forces and in Simulink.
 
 .. figure:: /_static/images/new_figs/wave_diagram.PNG
    :width: 100%
 
-The wave class file, ``waveClass.m``, is located in the 
-``$WECSIM/source/objects`` directory. Within the ``wecSimInputFile.m``, users 
+Within the ``wecSimInputFile.m``, users 
 must initialize the wave class (``waveClass``) and specify the wave ``type`` by 
 including the following lines:: 
 
@@ -141,6 +241,8 @@ sections.
 ``spectrumImport`` ``waves.spectrumDataFile``                      
 ``etaImport``      ``waves.etaDataFile``                           
 ================== ================================================
+
+.. adam: TODO: these wave types aren't appearing as a drop down in the TOC tree
 
 noWave
 """"""
@@ -271,6 +373,7 @@ waveClass`` in the Matlab Command Window.
 
 For more information about application of WEC-Sim's wave class, refer to 
 :ref:`user-advanced-features-wave`. 
+There is no corresponding block for the Wave Class.
 
 .. _user-code-structure-body-class:
 
@@ -283,12 +386,13 @@ defined by hydrodynamic data from the \*.h5 file. The corresponding body block
 uses the hydrodynamic data and wave class to calculate all relevant forces on 
 the body and solve for its resultant motion. At a high level, the body class 
 interacts with the rest of WEC-Sim as shown in the diagram below. 
+Bodies hold hydrodynamic BEM input data, calculate body forces and pass forces 
+and motions to other Simulink blocks.
 
 .. figure:: /_static/images/new_figs/body_diagram.PNG
    :width: 750pt
 
-The body class file, ``bodyClass.m``, is located in the 
-``$WECSIM/source/objects`` directory. Within the ``wecSimInputFile.m``, 
+Within the ``wecSimInputFile.m``, 
 users must initialize each iteration of the body class (``bodyClass``), and 
 specify the location of the hydrodynamic data file (``*.h5``) and geometry 
 file (``*.stl``) for each body. The body class is defined by including the 
@@ -298,11 +402,13 @@ following lines in the WEC-Sim input file, where # is the body number
     body(<#>)=bodyClass('<bem_data>.h5')
     body(<#>).geometryFile = '<geom>.stl'; 
 
-.. note:
-    The *.h5 file defines the hydrodynamic data for all relevant bodies. It is 
+.. Note::
+    The ``*.h5`` file defines the hydrodynamic data for all relevant bodies. It is 
     required that any drag body or nonhydrodyamic body be numbered after all 
     hydrodynamic bodies The body index must correspond with the index in the 
-    *.h5 file and the number in the Simulink diagram. 
+    ``*.h5`` file and the number in the Simulink diagram. 
+
+.. adam: TODO: add a table for each body type on required input parameters similar to the wave type tables
 
 Users may specify other body class properties using the ``body`` object for 
 each body in the ``wecSimInputFile.m``. WEC-Sim bodies may be one of four types:
@@ -314,12 +420,12 @@ each body in the ``wecSimInputFile.m``. WEC-Sim bodies may be one of four types:
 
 Each type of body requires various parameters and input BEM data. The 
 :ref:`user-advanced-features-body` section contains more details on these 
-important distinctions. Regardless of type, body class properties need to 
-include the mass (``body(#).mass``) and moment of inertia 
-(``body(#).momOfInertia``). Other parameters are specified as needed. For 
-example, viscous drag can be specified by entering the viscous drag coefficient 
-and the characteristic area in vector format the WEC-Sim input file as 
-follows:: 
+important distinctions. Body class properties include quantities such as 
+the mass (``body(#).mass``) and moment of inertia (``body(#).momOfInertia``). 
+Other parameters are specified as needed. 
+For example, viscous drag can be specified by entering the viscous drag 
+coefficient and the characteristic area in vector format the WEC-Sim 
+input file as follows:: 
 
     body(<#>).viscDrag.cd = [0 0 1.3 0 0 0]
     body(<#>).viscDrag.characteristicArea = [0 0 100 0 0 0]
@@ -332,170 +438,10 @@ Matlab Command Window.
 For more information about application of WEC-Sim's body class, refer to 
 :ref:`user-advanced-features-body`.
 
-
-.. _user-code-structure-constraint-class:
-
-Constraint Class
-^^^^^^^^^^^^^^^^
-
-The WEC-Sim constraint class and blocks connect WEC bodies to one another (and 
-possibly to the seabed) by constraining DOFs. Constraint objects do not apply 
-any force or resistance to body motion outside of the reactive force required 
-to prevent motion in a given DOF. At a high level, the constraint class 
-interacts with the rest of WEC-Sim as shown in the diagram below. Constraint 
-objects largely interact with other blocks through Simscape connections that 
-pass resistive forces to other bodies, constraints, ptos, etc. 
-
-.. figure:: /_static/images/new_figs/constraint_diagram.PNG
-   :width: 750pt
-
-
-The constraint class file, ``constraintClass.m``, is located in the 
-``$WECSIM/source/objects`` directory. The 
-properties of the constraint class (``constraintClass``) are defined in the 
-``constraint`` object. Within the ``wecSimInputFile.m``, users must initialize 
-each iteration the constraint class (``constraintClass``) and specify the 
-constraint ``name``, by including the following lines:: 
-
-    constraint(<#>)=constraintClass('<constraint name>'); 
-
-For rotational constraint (ex: pitch), the user also needs to specify the 
-location of the rotational joint with respect to the global reference frame in 
-the ``constraint(<#>).loc`` variable. 
-
-Available constraint properties, default values, and functions can be found by 
-typing ``doc constraintClass`` in the MATLAB command window, or opening the 
-`constraintClass.m` file in ``$WECSIM/source/objects`` directory by typing 
-``open constraintClass`` in MATLAB Command Window. 
-
-For more information about application of WEC-Sim's constraint class, refer to 
-:ref:`user-advanced-features-pto`. 
-
-.. _user-code-structure-pto-class:
-
-PTO Class
-^^^^^^^^^
-
-WEC-Sim Power Take-Off (PTO) blocks connect WEC bodies to one other (and 
-possibly to the seabed) by constraining DOFs and applying linear damping and 
-stiffness. The ability to apply damping, stiffness, or other external forcing 
-differentiates a `PTO` from a `Constraint`. 
-
-At a high level, the PTO class interacts with the rest of WEC-Sim as shown in 
-the diagram below. PTO objects largely interact with other blocks through 
-Simscape connections that pass resistive forces to other bodies, constraints, 
-ptos, etc. 
-
-.. figure:: /_static/images/new_figs/pto_diagram.PNG
-   :width: 750pt
-
-The pto class file, ``ptoClass.m``, is located in the 
-``$WECSIM/source/objects`` directory.  The pto class (``ptoClass``) 
-extracts power from relative body motion with respect to a fixed reference 
-frame or another body. The properties of the PTO class (``ptoClass``) are 
-defined in the ``pto`` object. Within the ``wecSimInputFile.m``, users must 
-initialize each iteration the pto class (``ptoClass``) and specify the pto 
-``name``, by including the following lines:: 
-
-    pto(<#>) = ptoClass('<pto name>');
-
-For rotational ptos, the user also needs to specify the location of the 
-rotational joint with respect to the global reference frame in the 
-``constraint(<#>).loc`` variable. In the PTO class, users can also specify 
-linear damping (``pto(<#>).c``) and stiffness (``pto(<#>).k``) values to 
-represent the PTO system (both have a default value of 0). Users can overwrite 
-the default values in the input file. For example, users can specify a damping 
-value by entering the following in the WEC-Sim input file:: 
-
-    pto(<#>).c = <pto damping value>;
-    pto(<#>).k = <pto stiffness value>;
-
-Available pto properties, default values, and functions can be found by typing 
-``doc ptoClass`` in the MATLAB command window, or opening the `ptoClass.m` file 
-in ``$WECSIM/source/objects`` directory by typing ``open ptoClass`` in MATLAB 
-Command Window. 
-
-For more information about application of WEC-Sim's constraint class, refer to 
-:ref:`user-advanced-features-pto`. 
-
-.. _user-code-structure-mooring-class:
-
-Mooring Class
-^^^^^^^^^^^^^
-
-The mooring class (``mooringClass``) allows for different fidelity simulations 
-of mooring systems. Two possibilities are available, a lumped mooring matrix or 
-MoorDyn. These differences are determined by the Simulink block chosen, and are 
-described below. At a high level, the Mooring class interacts with the rest of 
-WEC-Sim as shown in the diagram below. The interaction is similar to a 
-constraint or PTO, where some resistive forcing is calculated and passed to a 
-body block through a Simscape connection. 
-
-.. figure:: /_static/images/new_figs/mooring_diagram.PNG
-   :width: 750pt
-
-The mooring class file, `mooringClass.m``, is located in the 
-``$WECSIM/source/objects`` directory. The properties of the mooring class 
-(``mooringClass``) are defined in the ``mooring`` object. Within the 
-``wecSimInputFile.m``, users must initialize the mooring class and specify the 
-mooring ``name``, by including the following lines:: 
-
-    mooring(#)= mooringClass('name');
-
-Available mooring properties, default values, and functions 
-can be found by typing ``doc mooringClass`` in the MATLAB command window, or 
-opening the `mooringClass.m` file in ``$WECSIM/source/objects`` directory by 
-typing ``open mooringClass`` in MATLAB Command Window. 
-
-For more information about application of WEC-Sim's mooring class, refer to 
-:ref:`user-advanced-features-mooring`.
-
-
-.. _user-code-structure-response-class:
-
-Response Class
-^^^^^^^^^^^^^^
-The response class contains all the output time-series and methods to plot and 
-interact with the results. It is not initialized by the user. Instead, it is 
-created automatically at the end of a WEC-Sim simulation. The response class 
-does not input any parameter back to WEC-Sim, only taking output data from the 
-various objects and blocks. The available parameters are explained in the 
-:ref:`user-code-structure-output` section. 
-
-.. _user-code-structure-library:
-
-WEC-Sim Library
----------------
-
-In addition to the ``wecSimInputFile.m``, a WEC-Sim simulation requires a 
-simulink model (``*.slx``) that represents the WEC system components and 
-connectivities. Similar to how the input file uses the WEC-Sim classes, the 
-Simulink model uses WEC-Sim library blocks. There should be a one-to-one 
-relationship between the objects defined in the input file and the blocks used 
-in the Simulink model. 
-
-The WEC-Sim library is divided into 5 different types of library blocks. The 
-user should be able to model their WEC device using the available WEC-Sim 
-blocks (and possibly other Simulink/Simscape blocks). The image below shows the 
-WEC-Sim block grouping by type. 
-
-.. figure:: /_static/images/WEC-Sim_Lib.PNG
-   :width: 400pt    
-   :align: center
-
-This section describes the five different library types and their general 
-purpose. The Body Elements library contains the Rigid Body block used to 
-simulate the different bodies. The Frames library contains the Global Reference 
-Frame block necessary for every simulation. The Constraints library contains 
-blocks that are used to constrain the DOF of the bodies without including any 
-additional forcing or resistance. The PTOs library contains blocks used to both 
-simulate a PTO system and restrict the body motion. Both constraints and PTOs 
-can be used to restrict the relative motion between multi-body systems. The 
-Mooring library contains blocks used to simulate mooring systems. 
-
 Body Elements
-^^^^^^^^^^^^^
+"""""""""""""
 
+The Body Class is most closely associated with the Body Elements library.
 The Body Elements library shown below contains four body types in two blocks: 
 the ``Rigid Body`` block and the ``Flex Body`` block. The rigid body block is 
 used to represent hydrodynamic, nonhydrodynamic, and drag bodies. Each type of 
@@ -518,27 +464,54 @@ restoring, viscous damping, and mooring forces are calculated.
 .. figure:: /_static/images/WEC-Sim_Lib_bodies.PNG
    :width: 400pt
    :align: center
-   
-Frames
-^^^^^^
 
-The Frames library contains one block that is necessary in every model. The 
-``Global Reference Frame`` block defines the global coordinates, solver 
-configuration, seabed and free surface description, simulation time, and other 
-global settings. It can be useful to think of the Global Reference Frame as 
-being the seabed when creating a model. Every model requires one instance of 
-the Global Reference Frame block. The ``Global Reference Frame`` block uses the 
-simulation class variable `simu` and the wave class variable `waves`, which 
-must be defined in the input file. 
 
-.. figure:: /_static/images/WEC-Sim_Lib_frames.PNG
-   :width: 400pt
-   :align: center
+.. _user-code-structure-constraint-class:
+
+Constraint Class
+^^^^^^^^^^^^^^^^
+
+The WEC-Sim constraint class and blocks connect WEC bodies to one another (and 
+possibly to the seabed) by constraining DOFs. Constraint objects do not apply 
+any force or resistance to body motion outside of the reactive force required 
+to prevent motion in a given DOF. At a high level, the constraint class 
+interacts with the rest of WEC-Sim as shown in the diagram below. Constraint 
+objects largely interact with other blocks through Simscape connections that 
+pass resistive forces to other bodies, constraints, ptos, etc. 
+
+.. figure:: /_static/images/new_figs/constraint_diagram.PNG
+   :width: 750pt
+
+
+The 
+properties of the constraint class (``constraintClass``) are defined in the 
+``constraint`` object. Within the ``wecSimInputFile.m``, users must initialize 
+each iteration the constraint class (``constraintClass``) and specify the 
+constraint ``name``, by including the following lines:: 
+
+    constraint(<#>)=constraintClass('<constraint name>'); 
+
+For rotational constraint (ex: pitch), the user also needs to specify the 
+location and orientation of the rotational joint with respect to the global 
+reference frame::
+    
+    constraint(<#>).loc=[<x> <y> <z>];
+    constraint(<#>).orientation.z = [<x> <y> <z>];
+    constraint(<#>).orientation.y = [<x> <y> <z>];
+
+Available constraint properties, default values, and functions can be found by 
+typing ``doc constraintClass`` in the MATLAB command window, or opening the 
+`constraintClass.m` file in ``$WECSIM/source/objects`` directory by typing 
+``open constraintClass`` in MATLAB Command Window. 
+
+For more information about application of WEC-Sim's constraint class, refer to 
+:ref:`user-advanced-features-pto`. 
 
 Constraints 
-^^^^^^^^^^^
+"""""""""""
 
-The blocks within the Constraints library are used to define the DOF of a 
+The Constraint Class is tied to the blocks within the Constraints library.
+These are used to define the DOF of a 
 specific body. Constraint blocks define only the DOF, but do not otherwise 
 apply any forcing or resistance to the body motion. Each Constraint block has 
 two connections: a base (B) and a follower (F). The Constraints block restricts 
@@ -580,14 +553,58 @@ Parameters box.
 +--------------------+-----+-----------------------------------------+
 
 
-PTOs
-^^^^
+.. _user-code-structure-pto-class:
 
-The PTOs library is used to simulate linear PTO systems and to restrict 
-relative motion between multiple bodies or between one body and the seabed. The 
-PTO blocks can simulate simple PTO systems by applying a linear stiffness and 
-damping to the connection. Similar to the Constraint blocks, the PTO blocks 
-have a base (B) and a follower (F). Users must name each PTO block ``pto(i)`` 
+PTO Class
+^^^^^^^^^
+
+WEC-Sim Power Take-Off (PTO) blocks connect WEC bodies to one other (and 
+possibly to the seabed) by constraining DOFs and applying linear damping and 
+stiffness. The ability to apply damping, stiffness, or other external forcing 
+differentiates a 'PTO' from a 'Constraint'. The damping and stiffness allow a
+pto to extract power from relative body motion with respect to a fixed reference 
+frame or another body. 
+
+At a high level, the PTO class interacts with the rest of WEC-Sim as shown in 
+the diagram below. PTO objects largely interact with other blocks through 
+Simscape connections that pass resistive forces to other bodies, constraints, 
+ptos, etc. 
+
+.. figure:: /_static/images/new_figs/pto_diagram.PNG
+   :width: 750pt
+
+The properties of the PTO class (``ptoClass``) are 
+defined in the ``pto`` object. Within the ``wecSimInputFile.m``, users must 
+initialize each iteration the pto class (``ptoClass``) and specify the pto 
+``name``, by including the following lines:: 
+
+    pto(<#>) = ptoClass('<pto name>');
+
+For rotational ptos, the user also needs to specify the location of the 
+rotational joint with respect to the global reference frame in the 
+``constraint(<#>).loc`` variable. In the PTO class, users can also specify 
+linear damping (``pto(<#>).c``) and stiffness (``pto(<#>).k``) values to 
+represent the PTO system (both have a default value of 0). Users can overwrite 
+the default values in the input file. For example, users can specify a damping 
+value by entering the following in the WEC-Sim input file:: 
+
+    pto(<#>).c = <pto damping value>;
+    pto(<#>).k = <pto stiffness value>;
+
+Available pto properties, default values, and functions can be found by typing 
+``doc ptoClass`` in the MATLAB command window, or opening the `ptoClass.m` file 
+in ``$WECSIM/source/objects`` directory by typing ``open ptoClass`` in MATLAB 
+Command Window. 
+
+For more information about application of WEC-Sim's constraint class, refer to 
+:ref:`user-advanced-features-pto`. 
+
+PTOs
+""""
+
+The PTO Class is tied to the PTOs library.
+Similar to the Constraint blocks, the PTO blocks have a base (B) and
+a follower (F). Users must name each PTO block ``pto(i)`` 
 (where i=1,2,...) and then define their properties in the input file. 
 
 The ``Translational PTO`` and ``Rotational PTO`` are identical to the 
@@ -610,12 +627,46 @@ the PTO. These can be useful to simulate forced-oscillation tests.
     coordinate system. This is true for both the sensed (measured) and actuated 
     (commanded) loads and displacements.
 
-Mooring
-^^^^^^^
+.. _user-code-structure-mooring-class:
 
-The mooring library is used to simulate mooring systems. The ``MooringMatrix`` 
-block applies linear damping and stiffness based on the motion of the follower 
-relative to the base. The ``MoorDyn`` block uses the compiled MoorDyn 
+Mooring Class
+^^^^^^^^^^^^^
+
+The mooring class (``mooringClass``) allows for different fidelity simulations 
+of mooring systems. Two possibilities are available, a lumped mooring matrix or 
+MoorDyn. These differences are determined by the Simulink block chosen, and are 
+described below. At a high level, the Mooring class interacts with the rest of 
+WEC-Sim as shown in the diagram below. The interaction is similar to a 
+constraint or PTO, where some resistive forcing is calculated and passed to a 
+body block through a Simscape connection. 
+
+.. figure:: /_static/images/new_figs/mooring_diagram.PNG
+   :width: 750pt
+
+The properties of the mooring class 
+(``mooringClass``) are defined in the ``mooring`` object. Within the 
+``wecSimInputFile.m``, users must initialize the mooring class and specify the 
+mooring ``name``, by including the following lines:: 
+
+    mooring(#)= mooringClass('name');
+
+Available mooring properties, default values, and functions 
+can be found by typing ``doc mooringClass`` in the MATLAB command window, or 
+opening the `mooringClass.m` file in ``$WECSIM/source/objects`` directory by 
+typing ``open mooringClass`` in MATLAB Command Window. 
+
+For more information about application of WEC-Sim's mooring class, refer to 
+:ref:`user-advanced-features-mooring`.
+
+Mooring
+"""""""
+
+The Mooring Class is tied to the Mooring library.
+Two types of blocks may be used\: a 'Mooring Matrix' or a 'MoorDyn' system.
+The ``MooringMatrix`` block applies linear damping and stiffness based on 
+the motion of the follower relative to the base. 
+Damping and stiffness can be specified between all DOFs in a 6x6 matrix.
+The ``MoorDyn`` block uses the compiled MoorDyn 
 executables and a MoorDyn input file to simulate a realistic mooring system. 
 There can only be one MoorDyn block per Simulink model. There are no 
 restrictions on the number of MooringMatrix blocks. 
@@ -624,16 +675,17 @@ restrictions on the number of MooringMatrix blocks.
    :width: 400 pt
    :align: center
 
-Simulink/Simscape Blocks
-^^^^^^^^^^^^^^^^^^^^^^^^
 
-In some situations, users may want to use Simulink/Simscape blocks that are not 
-included in the WEC-Sim Library to build their WEC model. 
+.. _user-code-structure-response-class:
 
-.. _user-code-structure-output:
-
-Output Structure
-----------------
+Response Class
+^^^^^^^^^^^^^^
+The response class contains all the output time-series and methods to plot and 
+interact with the results. It is not initialized by the user, and there is no 
+related Simulink block. Instead, it is 
+created automatically at the end of a WEC-Sim simulation. The response class 
+does not input any parameter back to WEC-Sim, only taking output data from the 
+various objects and blocks.
 
 After WEC-Sim is done running, there will be a new variable called ``output`` 
 saved to the MATLAB workspace. The ``output`` object is an instance of the 
@@ -644,6 +696,9 @@ given as [# of time-steps x 6] arrays, where 6 is the degrees of freedom.
 
 WEC-Sim outputs can be written to ASCII files by specifying ``simu.outputtxt = 1;`` 
 in ``wecSimInputFile.m``, in addition to the responseClass ``output`` variable. 
+
+
+.. _user-code-structure-functions:
 
 Functions & External Codes
 --------------------------
@@ -657,3 +712,22 @@ visualization, and the PTO-Sim class and library. Additionally, BEMIO can be
 used to create the hydrodynamic ``*.h5`` file required by WEC-Sim. MoorDyn is 
 an open source code that must be downloaded separately. Users may also obtain, 
 modify, and recompile the code as desired.
+
+
+.. _user-code-structure-external-blocks:
+
+External Simulink/Simscape Blocks
+---------------------------------
+
+In some situations, users may want to use Simulink/Simscape blocks that are not 
+included in the WEC-Sim Library to build their WEC model. 
+External blocks may be linked to the standard WEC-Sim library to implement
+controllers, additional bodies, complex power take-offs and other custom designs.
+
+.. Note::
+    Gravity is not used in WEC-Sim, and is instead defined as a force that is 
+    combined with the buoyancy force. 
+    Users who wish to add external bodies should account for gravity by:
+    1. Create nonhydrodynamic bodies with zero displaced volume, or
+    2. Manually add the gravity force into their external functionality
+

@@ -102,16 +102,17 @@ consists of initializing all the objects necessary to run WEC-Sim simulations
 and defining any user specified properties for each object. Specifically, the 
 input file requires initialization and definition of the simulation and wave 
 classes, at least one instance of the body class, and at least one instance of 
-the constraint or PTO classes. For details about WEC-Sim's objects and 
-available properties for each object, refer to the 
-:ref:`user-code-structure-objects` section. 
+the constraint or PTO classes. For details about WEC-Sim's classes and 
+available properties for each, refer to the 
+:ref:`user-code-structure-classes` section. 
 
 An example WEC-Sim input file is shown below for the OSWEC. Additional examples 
 are provided in the :ref:`user-tutorials` section. WEC-Sim is an object 
 oriented code and the input file reflects this by instantiating the WEC-Sim 
 classes to create objects that are tied to the Simulink library. 
 
-The WEC-Sim input file (``wecSimInputFile.m``) for the OSWEC initializes and 
+The WEC-Sim input file (``wecSimInputFile.m``) for the OSWEC example 
+(``WEC-Sim/examples/OSWEC/``) initializes and 
 specifies properties for the simulation, body, constraint and pto classes. 
 
 .. literalinclude:: ../../tutorials/OSWEC/OSWEC_wecSimInputFile.m
@@ -122,7 +123,7 @@ specifies properties for the simulation, body, constraint and pto classes.
 Running WEC-Sim
 ---------------
 
-This section provides a description of the steps to run the WEC-Sim code, refer 
+This section provides a description of the steps to run the WEC-Sim code. Refer 
 to the :ref:`WEC-Sim Workflow Diagram <user-workflow-chart>` while following 
 the steps to run WEC-Sim. 
 
