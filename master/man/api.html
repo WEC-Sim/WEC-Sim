@@ -199,6 +199,18 @@
 workspace. The <code class="docutils literal notranslate"><span class="pre">bodyClass</span></code> includes properties and methods used
 to define WEC-Sim’s hydrodynamic and non-hydrodynamic bodies.</p>
 <dl class="attribute">
+<dt id="objects.bodyClass.dof_start">
+<code class="descname">dof_start</code><em class="property"> = '[]'</em><a class="headerlink" href="#objects.bodyClass.dof_start" title="Permalink to this definition">¶</a></dt>
+<dd><p>(<cite>integer</cite>) Index the DOF starts for body(<code class="docutils literal notranslate"><span class="pre">bodyNumber</span></code>). For WEC bodies this is given in the h5 file, but if not defined in the h5 file, Default = <code class="docutils literal notranslate"><span class="pre">(bodyNumber-1)*6+1</span></code>.</p>
+</dd></dl>
+
+<dl class="attribute">
+<dt id="objects.bodyClass.dof_end">
+<code class="descname">dof_end</code><em class="property"> = '[]'</em><a class="headerlink" href="#objects.bodyClass.dof_end" title="Permalink to this definition">¶</a></dt>
+<dd><p>(<cite>integer</cite>) Index the DOF ends for body(<code class="docutils literal notranslate"><span class="pre">bodyNumber</span></code>). For WEC bodies this is given in the h5 file, but if not defined in the h5 file, Default = <code class="docutils literal notranslate"><span class="pre">(bodyNumber-1)*6+6</span></code>.</p>
+</dd></dl>
+
+<dl class="attribute">
 <dt id="objects.bodyClass.name">
 <code class="descname">name</code><em class="property"> = '[]'</em><a class="headerlink" href="#objects.bodyClass.name" title="Permalink to this definition">¶</a></dt>
 <dd><p>(<cite>string</cite>) Specifies the body name. For hydrodynamic bodies this is defined in h5 file. For nonhydrodynamic bodies this is defined by the user, Default = <code class="docutils literal notranslate"><span class="pre">[]</span></code>.</p>
@@ -244,18 +256,6 @@ to define WEC-Sim’s hydrodynamic and non-hydrodynamic bodies.</p>
 <dt id="objects.bodyClass.dof_gbm">
 <code class="descname">dof_gbm</code><em class="property"> = '[]'</em><a class="headerlink" href="#objects.bodyClass.dof_gbm" title="Permalink to this definition">¶</a></dt>
 <dd><p>(<cite>integer</cite>) Number of degree of freedoms (DOFs) for generalized body mode (GBM). Default = <code class="docutils literal notranslate"><span class="pre">[]</span></code>.</p>
-</dd></dl>
-
-<dl class="attribute">
-<dt id="objects.bodyClass.dof_start">
-<code class="descname">dof_start</code><em class="property"> = '[]'</em><a class="headerlink" href="#objects.bodyClass.dof_start" title="Permalink to this definition">¶</a></dt>
-<dd><p>(<cite>integer</cite>) Index the DOF starts for body(<code class="docutils literal notranslate"><span class="pre">bodyNumber</span></code>). For WEC bodies this is given in the h5 file, but if not defined in the h5 file, Default = <code class="docutils literal notranslate"><span class="pre">(bodyNumber-1)*6+1</span></code>.</p>
-</dd></dl>
-
-<dl class="attribute">
-<dt id="objects.bodyClass.dof_end">
-<code class="descname">dof_end</code><em class="property"> = '[]'</em><a class="headerlink" href="#objects.bodyClass.dof_end" title="Permalink to this definition">¶</a></dt>
-<dd><p>(<cite>integer</cite>) Index the DOF ends for body(<code class="docutils literal notranslate"><span class="pre">bodyNumber</span></code>). For WEC bodies this is given in the h5 file, but if not defined in the h5 file, Default = <code class="docutils literal notranslate"><span class="pre">(bodyNumber-1)*6+6</span></code>.</p>
 </dd></dl>
 
 <dl class="attribute">
@@ -392,7 +392,8 @@ coefficients.</p>
 <dl class="method">
 <dt id="objects.bodyClass.checkinputs">
 <code class="descname">checkinputs</code><span class="sig-paren">(</span><em>morisonElement</em><span class="sig-paren">)</span><a class="headerlink" href="#objects.bodyClass.checkinputs" title="Permalink to this definition">¶</a></dt>
-<dd><p>This method checks WEC-Sim user inputs and generates error messages if parameters are not properly defined for the bodyClass.</p>
+<dd><p>This method checks WEC-Sim user inputs and generates error messages if parameters are not properly defined for the bodyClass.
+Check h5 file</p>
 </dd></dl>
 
 <dl class="method">
@@ -1691,10 +1692,6 @@ time, used by: <span class="math notranslate nohighlight">\(waveClass.write_para
         <span class="fa fa-caret-down"></span>
     </span>
     <div class="rst-other-versions">
-        <dl>
-            <dt>Tags</dt>
-            <dd><a href="../../v4.2/man/api.html">v4.2</a></dd>
-        </dl>
         <dl>
             <dt>Branches</dt>
             <dd><a href="../../dev/man/api.html">dev</a></dd>
