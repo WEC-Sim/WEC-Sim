@@ -15,7 +15,9 @@
     each class. In each class' section, specific types of blocks can be presented as needed.
     The Global Reference Frame can be included with the simulation or wave class
     
-    TODO: tie to theory section and add basic equations in the wave and body sections
+    TODO:
+    tie to theory section and add basic equations in the wave and body sections
+    add details on each Class's output in each section, or all in responseClass
     
 .. _user-code-structure:
 
@@ -119,12 +121,12 @@ There are eight WEC-Sim classes and five WEC-Sim library blocks.
 The relation between classes and blocks is summarized in the table below. 
 Details on each are presented below.
 
-.. adam: move pto_sim to another section?...
+.. TODO: move pto_sim to another section?...
 
 
 ===================== =====================================
 **WEC-Sim Class**     **Corresponding Library Block**
-Body Class            Body Elements (4 types)
+Body Class            Body Elements (2 types)
 Constraint Class      Constraints (5 types)
 Mooring Class         Moorings (2 types)
 PTO Class             PTOs (6 types)
@@ -151,6 +153,9 @@ time steps, global variables (gravity, density, etc).
 
 .. figure:: /_static/images/new_figs/simulation_diagram.png
    :width: 100%
+
+Class Initialization
+""""""""""""""""""""
 
 Within the ``wecSimInputFile.m``, users 
 must initialize the simulation class (``simulationClass``) and specify the name 
@@ -184,8 +189,8 @@ simulationClass`` in MATLAB Command Window.
 For more information about application of WEC-Sim's simulation class, refer to 
 :ref:`user-advanced-features-simulation`. 
 
-Frames Block
-""""""""""""
+Library Blocks
+""""""""""""""
 
 The simulation class is most closely related to the Frames library.
 The Frames library contains one block that is necessary in every model. The 
@@ -220,6 +225,9 @@ through during pre-processing of wave forces and in Simulink.
 .. figure:: /_static/images/new_figs/wave_diagram.PNG
    :width: 100%
 
+Class Initialization
+""""""""""""""""""""
+
 Within the ``wecSimInputFile.m``, users 
 must initialize the wave class (``waveClass``) and specify the wave ``type`` by 
 including the following lines:: 
@@ -242,7 +250,7 @@ sections.
 ``etaImport``      ``waves.etaDataFile``                           
 ================== ================================================
 
-.. adam: TODO: these wave types aren't appearing as a drop down in the TOC tree
+.. TODO: these wave types aren't appearing as a drop down in the TOC tree
 
 noWave
 """"""
@@ -392,11 +400,14 @@ and motions to other Simulink blocks.
 .. figure:: /_static/images/new_figs/body_diagram.PNG
    :width: 750pt
 
+Class Initialization
+""""""""""""""""""""
+
 Within the ``wecSimInputFile.m``, 
 users must initialize each iteration of the body class (``bodyClass``), and 
 specify the location of the hydrodynamic data file (``*.h5``) and geometry 
 file (``*.stl``) for each body. The body class is defined by including the 
-following lines in the WEC-Sim input file, where # is the body number 
+following lines in the WEC-Sim input file, where # is the body number and 
 '<bem_data>.h5' is the name of the h5 file containing the BEM results:: 
 
     body(<#>)=bodyClass('<bem_data>.h5')
@@ -408,21 +419,45 @@ following lines in the WEC-Sim input file, where # is the body number
     hydrodynamic bodies The body index must correspond with the index in the 
     ``*.h5`` file and the number in the Simulink diagram. 
 
-.. adam: TODO: add a table for each body type on required input parameters similar to the wave type tables
+WEC-Sim bodies may be one of four types\: hydrodynamic (default), flexible, 
+drag, or nonhydrodynamic. These types represent varying degrees of complexity
+and require various input parameters and BEM data, detailed in the table below.
+The :ref:`user-advanced-features-body` section contains more details on these
+important distinctions. 
+
++-------------------------+-----------------------------------------+
+|**Body Type**            |**Description**                          |
++=========================+=========================================+
+|``Hydrodynamic Body``    |``body(<#>)=bodyClass('<bem_data>.h5')`` |
+|                         |``body(<#>).mass``                       |
+|                         |``body(<#>).momOfInertia``               |
++-------------------------+-----------------------------------------+
+|``Drag Body``            |``body(<#>)=bodyClass('')``              |
+|                         |``body(<#>).mass``                       |
+|                         |``body(<#>).momOfInertia``               |
+|                         |``body(<#>).cg``                         |
+|                         |``body(<#>).cb``                         |
+|                         |``body(<#>).dispVol``                    |
+|                         |``body(<#>).nhBody=1``                   |
++-------------------------+-----------------------------------------+
+|``Nonhydrodynamic Body`` |``body(<#>)=bodyClass('')``              |
+|                         |``body(<#>).mass``                       |
+|                         |``body(<#>).momOfInertia``               |
+|                         |``body(<#>).cg``                         |
+|                         |``body(<#>).cb``                         |
+|                         |``body(<#>).dispVol``                    |
+|                         |``body(<#>).nhBody=2``                   |
++-------------------------+-----------------------------------------+
+|``Flexible Body``        |``body(<#>)=bodyClass('<bem_data>.h5')`` |
+|                         |``body(<#>).mass``                       |
+|                         |``body(<#>).momOfInertia``               |
++-------------------------+-----------------------------------------+
 
 Users may specify other body class properties using the ``body`` object for 
-each body in the ``wecSimInputFile.m``. WEC-Sim bodies may be one of four types:
-
-* Hydrodynamic body (default)
-* Flexible hydrodynamic body
-* Drag body
-* Nonhydrodynamic body
-
-Each type of body requires various parameters and input BEM data. The 
-:ref:`user-advanced-features-body` section contains more details on these 
-important distinctions. Body class properties include quantities such as 
-the mass (``body(#).mass``) and moment of inertia (``body(#).momOfInertia``). 
-Other parameters are specified as needed. 
+each body in the ``wecSimInputFile.m``. 
+Important body class properties include quantities such as 
+the mass, moment of inertia, center of gravity and center of buoyancy. 
+Other parameters are specified as needed.
 For example, viscous drag can be specified by entering the viscous drag 
 coefficient and the characteristic area in vector format the WEC-Sim 
 input file as follows:: 
@@ -438,8 +473,8 @@ Matlab Command Window.
 For more information about application of WEC-Sim's body class, refer to 
 :ref:`user-advanced-features-body`.
 
-Body Elements
-"""""""""""""
+Library Blocks
+""""""""""""""
 
 The Body Class is most closely associated with the Body Elements library.
 The Body Elements library shown below contains four body types in two blocks: 
@@ -482,6 +517,8 @@ pass resistive forces to other bodies, constraints, ptos, etc.
 .. figure:: /_static/images/new_figs/constraint_diagram.PNG
    :width: 750pt
 
+Class Initialization
+""""""""""""""""""""
 
 The 
 properties of the constraint class (``constraintClass``) are defined in the 
@@ -507,8 +544,8 @@ typing ``doc constraintClass`` in the MATLAB command window, or opening the
 For more information about application of WEC-Sim's constraint class, refer to 
 :ref:`user-advanced-features-pto`. 
 
-Constraints 
-"""""""""""
+Library Blocks
+""""""""""""""
 
 The Constraint Class is tied to the blocks within the Constraints library.
 These are used to define the DOF of a 
@@ -573,6 +610,9 @@ ptos, etc.
 .. figure:: /_static/images/new_figs/pto_diagram.PNG
    :width: 750pt
 
+Class Initialization
+""""""""""""""""""""
+
 The properties of the PTO class (``ptoClass``) are 
 defined in the ``pto`` object. Within the ``wecSimInputFile.m``, users must 
 initialize each iteration the pto class (``ptoClass``) and specify the pto 
@@ -599,8 +639,8 @@ Command Window.
 For more information about application of WEC-Sim's constraint class, refer to 
 :ref:`user-advanced-features-pto`. 
 
-PTOs
-""""
+Library Blocks
+""""""""""""""
 
 The PTO Class is tied to the PTOs library.
 Similar to the Constraint blocks, the PTO blocks have a base (B) and
@@ -643,6 +683,9 @@ body block through a Simscape connection.
 .. figure:: /_static/images/new_figs/mooring_diagram.PNG
    :width: 750pt
 
+Class Initialization
+""""""""""""""""""""
+
 The properties of the mooring class 
 (``mooringClass``) are defined in the ``mooring`` object. Within the 
 ``wecSimInputFile.m``, users must initialize the mooring class and specify the 
@@ -658,8 +701,8 @@ typing ``open mooringClass`` in MATLAB Command Window.
 For more information about application of WEC-Sim's mooring class, refer to 
 :ref:`user-advanced-features-mooring`.
 
-Mooring
-"""""""
+Library Blocks
+""""""""""""""
 
 The Mooring Class is tied to the Mooring library.
 Two types of blocks may be used\: a 'Mooring Matrix' or a 'MoorDyn' system.

@@ -8,40 +8,15 @@ Overview of WEC-Sim
     X reiterate home page data
     X WEC-Sim capabilities / core features
     X high level input/output
-    - compare to other codes
+    - compare to other codes?
         advantages over other options
-    - speed / accuracy?
-        Could reference OC6P1 paper and comparison?
+        speed / accuracy comparison
+        Could reference OC6P1 paper and how well WEC-Sim performs?
     - highlight variety of applications that have been successfully modeled with WEC-Sim
     - paraview figures /gifs of Application cases
-        Could cite private industries who have used WEC-Sim? Justification-increase their visibility and show our credibility/experience
-    - break up paragraphs with figures. Demonstrate I/O, BEM
-    - Is all the above just condensing the following sections into too much information? -> check with team
+    - break up paragraphs with figures
+    - Is all the above just condensing the following sections into too much information?
 
-.. TODO:
-    plots:
-    speed comparison with similar codes?
-    accuracy comparison with similar codes?
-    OC6 Phase 1
-    effect of WS adv. features
-        X b2b
-        X NLhydro
-        nonhydro
-        X mooring
-        X numerical options
-        X passive yaw
-        MCR / batch run -> large power matrix?
-    .
-    figures:
-    RM's
-    OSWEC
-    desal
-    WECCCOMP
-    GBM
-    ptosim?
-    wigley?
-    Any teamer?
-    FOSWEC
 
 WEC-Sim (Wave Energy Converter SIMulator) is an open-source code for simulating 
 wave energy converters. The code is developed in MATLAB/SIMULINK using the 
@@ -67,13 +42,8 @@ forces and power absorbed or lost in individual bodies, joints and PTOs. Output
 is readily available in MATLAB for custom post-processing or coupling with 
 external tools such as the `WecOptTool <https://snl-waterpower.github.io/WecOptTool/>`_. 
 
-.. TODO: 
-    reference other codes or not?
-    speed/accuracy comparisons to external codes?
-    .
-    "WEC-Sim's time domain model is more robust and accurate in modeling controls, forcings, and body motions than extending frequency-based models such as WAMIT or Ansys AQWA. 
-    Its intended use is similar to softward such as Orcina OrcaFlex or Ansys AQWA in the time domain."
-    .
+.. TODO:
+    If reference / comparing to other codes, I propose doing so here
 
 Several interfaces with Simulink are included that allow users to couple 
 WEC-Sim with a wide variety of other models and scripts relevant to their 
@@ -92,9 +62,6 @@ of scenarios that WEC-Sim can model. This repository includes both
 demonstrations of WEC-Sim's advanced features and applications of WEC-Sim to 
 unique devices. 
 
-.. TODO:
-    use table instead of figures to list WEC-Sims key capabilities?
-
 WEC-Sim's capabilities include the ability to model both nonlinear hydrodynamic 
 effects (Froude-Krylov forces and hydrostatic stiffness) and nonhydrodynamic 
 bodies, body-to-body interactions, mooring systems, passive yawing. WEC-Sim 
@@ -106,13 +73,15 @@ figures below.
 
 .. TODO:
     insert plots showing WEC-Sim adv. features
-    from above:
+    use table instead of figures to list WEC-Sim's key capabilities?
+    .
     X b2b
     X NLhydro
     nonhydro?
     X numerical options
     X passive yaw
-    MCR / batch run -> large power matrix?
+    MCR/PCT with large power matrix
+
 
 .. |b2b| image:: /_static/images/new_figs/b2b_comparison2.png
    :width: 400pt
@@ -151,8 +120,9 @@ The Paraview figures below highlight a small sample of devices that WEC-Sim has 
  
 .. TODO:
     insert figures of special geometries that WEC-sim has modeled
-    add url to each case in the figure or image? 
+    Add url to each case in the caption or image? 
     
+    FOSWEC
     Paraview:
     X RM3 w/ mooring
     RM5
@@ -163,9 +133,13 @@ The Paraview figures below highlight a small sample of devices that WEC-Sim has 
     COER COMP
     X WECCCOMP
     X OC6 Phase I
-    OC6 Phase II
+    OC6 Phase II (maybe)
     FOSWEC?
-    Other industry designs? (Aquaharmonics, Calwave, NWEI, ...?)
+    
+    Other industry/academic designs?
+    On PAMEC presentation: Triton, WaveSub, Alletone, ISWEC
+    Others from PAMEC lit review?
+    Any teamer designs?
     
     Simulink + simscape explorer/Paraview:
     desal
@@ -174,7 +148,6 @@ The Paraview figures below highlight a small sample of devices that WEC-Sim has 
     	RM3 + direct drive
     	OSWEC + crank
     	OSWEC + 
-    Any teamer designs?
 
 
 .. figure:: /_static/images/new_figs/rm3_iso_side.png
@@ -184,21 +157,11 @@ The Paraview figures below highlight a small sample of devices that WEC-Sim has 
    Reference Model 3
 
 
-.. figure:: /_static/images/new_figs/rm3_iso_side.png
-   :align: center
-   :width: 500pt
-   
-   Reference Model 5 TODO
-
-
 .. figure:: /_static/images/new_figs/oswec_iso_side.png
    :align: center
    :width: 500pt
    
    Bottom-fixed Oscillating Surge WEC (OSWEC)
-
-
-TODO BEMIO cases
 
 
 .. figure:: /_static/images/new_figs/sphere_freedecay_iso_side.png
@@ -228,9 +191,6 @@ TODO BEMIO cases
    
    Wigley Ship Hull
    
-   
-   TODO COER COMP
-
 
 .. figure:: /_static/images/new_figs/wecccomp_iso_side.png
    :align: center
@@ -246,27 +206,3 @@ TODO BEMIO cases
    OC6 Phase I DeepCwind Floating Semisubmersible
    
 
-
-
-.. |viz_oswec| image:: /_static/images/new_figs/rm3_iso_side.png
-   :align: middle
-   
-.. |viz_foswec| image:: /_static/images/new_figs/rm3_iso_side.png
-   :align: middle
-   
-.. |viz_wigley| image:: /_static/images/new_figs/rm3_iso_side.png
-   :align: middle
-
-
-.. 
-	+-------------------------------------------------------------+
-	|                 Proven WEC-Sim Applications                 |
-	+==============================+==============================+
-	| |  Nonlinear hydrodynamics   | | Various numerical options  |
-	| |                            | |                            |
-	| |         |viz_rm3|          | |        |viz_oswec|         |
-	+------------------------------+------------------------------+
-	| |       Floating OSWEC       | |        Passive Yaw         |
-	| |                            | |                            |
-	| |        |viz_foswec|        | |        |viz_wigley|        |
-	+------------------------------+------------------------------+
