@@ -1,4 +1,3 @@
-
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 % Copyright 2014 National Renewable Energy Laboratory and National 
 % Technology & Engineering Solutions of Sandia, LLC (NTESS). 
@@ -37,7 +36,9 @@
 %%
 
 %% Start WEC-Sim log
-%bdclose('all'); clc; diary off; close all;
+% Clear old input, plots, log file and start new log file.
+% bdclose('all');
+clc; diary off; close all;
 clear body waves simu output pto constraint ptoSim mooring values names InParam
 delete('*.log');
 diary('simulation.log')
@@ -45,7 +46,6 @@ diary('simulation.log')
 
 %% Read input file
 tic
-try fprintf('wecSimMCR Case %g\n',imcr); end
 
 % Convert Parameters of the masked subsystem to struct InParam
 values = get_param([bdroot,'/Parameters'],'MaskValues');    % Cell array containing all Masked Parameter values
@@ -55,19 +55,26 @@ for i = 1:length(names)
     InParam = setfield(InParam,names{i,1},values{i,1});     % Update struct with Masked Parameter names and cooresponding values
 end; clear i;
 
-% Input parameters based on user selection of Read from file, or Custom
-if strcmp(InParam.ParamInput,'Read from file')
-    fprintf('\nWEC-Sim Read Input File ...   \n');
-    run(InParam.InputFile)                                  % Run file selected by user
+% Input parameters based on command line start (wecSim.m, wecSimInputFile.m)
+%    or user selection of 'Read from file' or 'Custom' in Simulink
+if exist('runWecSimCML','var') && runWecSimCML==1
+    % wecSim input from wecSimInputFile.m of case directory in the standard manner
+    fprintf('\nWEC-Sim Input From Standard wecSimInputFile.m Of Case Directory... \n');
+    run('wecSimInputFile');
+elseif strcmp(InParam.ParamInput,'Read from file')
+    % wecSim input from input file selected in Simulink block
+    fprintf('\nWEC-Sim Input From File Selected In Simulink... \n');
+    run(InParam.InputFile);
 else
-    fprintf('\nWEC-Sim Read Custom Parameters ...   \n');
-    run('wecSimCustomParameters')                           % Run file to read custom parameters
+    % wecSim input from custom parameters in Simulink block
+    fprintf('\nWEC-Sim Input From Custom Parameters In Simulink... \n');
+    run('wecSimCustomParameters');
 end
-clear values names InParam; 
-
-
+clear values names InParam;
 
 % Read Inputs for Multiple Conditions Run
+try fprintf('wecSimMCR Case %g\n',imcr); end
+
 if exist('mcr','var') == 1
     for n=1:length(mcr.cases(1,:))
         if iscell(mcr.cases)
@@ -76,7 +83,12 @@ if exist('mcr','var') == 1
             eval([mcr.header{n} '= mcr.cases(imcr,n);']);
         end
     end; clear n combine;
+    try 
+        waves.spectrumDataFile = ['..' filesep parallelComputing_dir filesep '..' filesep waves.spectrumDataFile];
+        waves.etaDataFile      = ['..' filesep parallelComputing_dir filesep '..' filesep waves.etaDataFile];
+    end
 end
+
 % Waves and Simu: check inputs
 waves.checkinputs;
 simu.checkinputs;
@@ -106,22 +118,28 @@ if exist('mooring','var') == 1
     end; clear ii
 end
 % Bodies: count, check inputs, read hdf5 file
-numHydroBodies = 0;
+numHydroBodies = 0; numDragBodies = 0; 
+hydroBodLogic = zeros(length(body(1,:)),1);
+dragBodLogic = zeros(length(body(1,:)),1);
 for ii = 1:length(body(1,:))
     body(ii).bodyNumber = ii;
     if body(ii).nhBody==0
         numHydroBodies = numHydroBodies + 1;
+        hydroBodLogic(ii) = 1; 
+    elseif body(ii).nhBody==2
+        numDragBodies = numDragBodies + 1;
+        dragBodLogic(ii) = 1; 
     else
         body(ii).massCalcMethod = 'user';
     end
 end
 simu.numWecBodies = numHydroBodies; clear numHydroBodies
-
+simu.numDragBodies = numDragBodies; clear numDragBodies
 for ii = 1:simu.numWecBodies
-    body(ii).checkinputs;
+    body(ii).checkinputs(simu.morisonElement);
     %Determine if hydro data needs to be reloaded from h5 file, or if hydroData
     % was stored in memory from a previous run.
-    if exist('mcr','var') == 1 && simu.reloadH5Data == 0 && imcr > 1
+    if exist('totalNumOfWorkers','var') ==0 && exist('mcr','var') == 1 && simu.reloadH5Data == 0 && imcr > 1
         body(ii).loadHydroData(hydroData(ii));
     else
         % check for correct h5 file
@@ -146,7 +164,7 @@ if exist('./ptoSimInputFile.m','file') == 2
     ptosim.countblocks;
 end
 
-if simu.yawNonLin==1 && simu.yawThresh==1;
+if simu.yawNonLin==1 && simu.yawThresh==1
     warning(['yawNonLin using (default) 1 dg interpolation threshold.' newline 'Ensure this is appropriate for your geometry'])
 end
 
@@ -155,6 +173,9 @@ toc
 %% Pre-processing start
 tic
 fprintf('\nWEC-Sim Pre-processing ...   \n');
+try
+    cd(parallelComputing_dir);
+end
 
 %% HydroForce Pre-Processing: Wave Setup & HydroForcePre.
 % simulation setup
@@ -180,11 +201,24 @@ if (simu.nlHydro >0) || (simu.paraview == 1)
 end
 
 % hydroForcePre
-for kk = 1:simu.numWecBodies
-    body(kk).hydroForcePre(waves.w,waves.waveDir,simu.CIkt,simu.CTTime,waves.numFreq,simu.dt,...
-        simu.rho,simu.g,waves.type,waves.waveAmpTime,kk,simu.numWecBodies,simu.ssCalc,simu.nlHydro,simu.b2b,simu.yawNonLin);
-end; clear kk
+idx = find(hydroBodLogic==1);
+if ~isempty(idx)
+    for kk = 1:length(idx)
+        it = idx(kk);
+        body(it).hydroForcePre(waves.w,waves.waveDir,simu.CIkt,simu.CTTime,waves.numFreq,simu.dt,...
+            simu.rho,simu.g,waves.type,waves.waveAmpTime,kk,simu.numWecBodies,simu.ssCalc,simu.nlHydro,simu.b2b,simu.yawNonLin);
+    end; clear kk idx
+end
 
+% dragBodyPre
+idx = find(dragBodLogic==1);
+if ~isempty(idx)
+    for kk = 1:length(idx)
+        it = idx(kk);
+        body(it).dragForcePre(simu.rho);
+    end; clear kk idx
+end
+    
 % Check CITime
 if waves.typeNum~=0 && waves.typeNum~=10
     for iBod = 1:simu.numWecBodies
@@ -213,10 +247,45 @@ if strcmp(waves.type,'etaImport') && simu.nlHydro == 1
 end
 
 % check for etaImport with morisonElement
-if strcmp(waves.type,'etaImport') && simu.morisonElement == 1
+if strcmp(waves.type,'etaImport') && simu.morisonElement ~= 0
     error(['Cannot run WEC-Sim with Morrison Element (simu.morisonElement) and "etaImport" wave type'])
 end
 
+% check for morisonElement inputs for simu.morisonElement == 1
+if simu.morisonElement == 1
+    for ii = 1:length(body(1,:))
+        if body(ii).nhBody ~=1
+            %
+            [rgME,~] = size(body(ii).morisonElement.rgME);
+            %
+            for jj = 1:rgME
+                if true(isfinite(body(ii).morisonElement.z(jj,:))) == true
+                    warning(['"body.morisonElement.z" is not used for "simu.morisonElement = 1. Check body ',num2str(ii),' element ',num2str(jj)])
+                end
+                %
+                if isnan(body(ii).morisonElement.cd(jj,3)) == 1 || isnan(body(ii).morisonElement.ca(jj,3)) == 1 || isnan(body(ii).morisonElement.characteristicArea(jj,3)) == 1
+                    error(['cd, ca, and characteristicArea coefficients for each elelement for "simu.morisonElement = 1" must be of size [1x3] and all columns of data must be real and finite. Check body ',num2str(ii),' element ',num2str(jj),' coefficients'])
+                end
+            end; clear jj
+        end
+    end; clear ii
+end
+
+% check for morisonElement inputs for simu.morisonElement == 2
+if simu.morisonElement == 2
+    for ii = 1:length(body(1,:))
+        if body(ii).nhBody ~=1
+            %
+            [rgME,~] = size(body(ii).morisonElement.rgME);
+            %
+            for jj = 1:rgME
+                if isnan(body(ii).morisonElement.cd(jj,3)) == 0 || isnan(body(ii).morisonElement.ca(jj,3)) == 0 || isnan(body(ii).morisonElement.characteristicArea(jj,3)) == 0
+                    warning(['cd, ca, and characteristicArea coefficients for "simu.morisonElement == 2" must be of size [1x2], third column of data is not used. Check body ',num2str(ii),' element ',num2str(jj),' coefficients'])
+                end
+            end; clear jj
+        end
+    end; clear ii
+end
 
 %% Set variant subsystems options
 nlHydro = simu.nlHydro;
@@ -228,14 +297,14 @@ sv_instFS=Simulink.Variant('nlHydro==2');
 % Morrison Element
 morisonElement = simu.morisonElement;
 sv_MEOff=Simulink.Variant('morisonElement==0');
-sv_MEOn=Simulink.Variant('morisonElement==1');
+sv_MEOn=Simulink.Variant('morisonElement==1 || morisonElement==2');
 % Radiation Damping
 if waves.typeNum==0 || waves.typeNum==10 %'noWave' & 'regular'
-   radiation_option = 1;
+    radiation_option = 1;
 elseif simu.ssCalc == 1
-   radiation_option = 3;
+    radiation_option = 3;
 else
-   radiation_option = 2;
+    radiation_option = 2;
 end
 sv_constantCoeff=Simulink.Variant('radiation_option==1');
 sv_convolution=Simulink.Variant('radiation_option==2');
@@ -255,10 +324,10 @@ sv_B2B=Simulink.Variant('B2B==1');
 numBody=simu.numWecBodies;
 % nonHydroBody
 for ii=1:length(body(1,:))
-   eval(['nhbody_' num2str(ii) ' = body(ii).nhBody;'])
-   eval(['sv_b' num2str(ii) '_hydroBody = Simulink.Variant(''nhbody_' num2str(ii) '==0'');'])
-   eval(['sv_b' num2str(ii) '_nonHydroBody = Simulink.Variant(''nhbody_' num2str(ii) '==1'');'])
-%    eval(['sv_b' num2str(ii) '_flexBody = Simulink.Variant(''nhbody_' num2str(ii) '==2'');'])
+    eval(['nhbody_' num2str(ii) ' = body(ii).nhBody;'])
+    eval(['sv_b' num2str(ii) '_hydroBody = Simulink.Variant(''nhbody_' num2str(ii) '==0'');'])
+    eval(['sv_b' num2str(ii) '_nonHydroBody = Simulink.Variant(''nhbody_' num2str(ii) '==1'');'])
+    eval(['sv_b' num2str(ii) '_dragBody = Simulink.Variant(''nhbody_' num2str(ii) '==2'');'])
 %    eval(['sv_b' num2str(ii) '_rigidBody = Simulink.Variant(''nhbody_' num2str(ii) '==0'');'])
 end; clear ii
 
@@ -295,7 +364,7 @@ fprintf('\n')
 
 %% Load simMechanics file & Run Simulation
 tic
-% fprintf('\nSimulating the WEC device defined in the SimMechanics model %s...   \n',simu.simMechanicsFile)
+fprintf('\nSimulating the WEC device defined in the SimMechanics model %s...   \n',simu.simMechanicsFile)
 % Modify some stuff for simulation
 for iBod = 1:simu.numWecBodies
     body(iBod).adjustMassMatrix(simu.adjMassWeightFun,simu.b2b);
@@ -304,10 +373,11 @@ warning('off','Simulink:blocks:TDelayTimeTooSmall');
 warning('off','Simulink:blocks:BusSelDupBusCreatorSigNames');
 warning('off','MATLAB:loadlibrary:FunctionNotFound');
 warning('off','MATLAB:loadlibrary:parsewarnings');
+warning('off','MATLAB:printf:BadEscapeSequenceInFormat');
 warning('off','Simulink:blocks:DivideByZero');
 warning('off','sm:sli:setup:compile:SteadyStateStartNotSupported')
 set_param(0, 'ErrorIfLoadNewModel', 'off')
-% Load simulation parameters to Simulink model
+% Load parameters to Simulink model
 simu.loadSimMechModel(simu.simMechanicsFile);
 
 %% Removed, simulink model already called

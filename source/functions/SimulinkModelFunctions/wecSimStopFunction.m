@@ -3,9 +3,15 @@
 % has ended. These functions were pulled from the wecSim.m file, following
 % the command to simulate the Simulink model.
 
+try cd (['..' filesep parallelComputing_dir filesep '..' filesep]); end
+
+% Clear intermediate variables and variant subsystem flags
 clear nlHydro sv_linearHydro sv_nonlinearHydro ssCalc radiation_option sv_convolution sv_stateSpace sv_constantCoeff typeNum B2B sv_B2B sv_noB2B;
 clear nhbod* sv_b* sv_noWave sv_regularWaves sv_irregularWaves sv_udfWaves sv_instFS sv_meanFS sv_MEOn sv_MEOff morisonElement flexHydrobody_* sv_irregularWavesNonLinYaw sv_regularWavesNonLinYaw yawNonLin numBody;
+clear dragBodLogic hydroBodLogic idx it;
+clear runWecSimCML
 
+toc
 
 tic
 %% Post processing and Saving Results
@@ -14,17 +20,33 @@ postProcess
 if exist('userDefinedFunctions.m','file') == 2
     userDefinedFunctions;
 end
+
+% Paraview output. Must call while output is an instance of responseClass 
+paraViewVisualization
+
 % ASCII files
 if simu.outputtxt==1
     output.writetxt();
 end
-paraViewVisualization
+if simu.outputStructure==1
+    warning('off','MATLAB:structOnObject')
+    output = struct(output);
+end
+
 
 %% Save files
 clear ans table tout;
 toc
 diary off
-%movefile('simulation.log',simu.logFile)
+
 if simu.saveMat==1
-    save(simu.caseFile,'-v7.3')
+    try 
+       cd(parallelComputing_dir);
+       simu.caseDir = [simu.caseDir filesep parallelComputing_dir];
+    end
+    outputFile = [simu.caseDir filesep 'output' filesep simu.caseFile];
+    save(outputFile,'-v7.3')
+end
+try 
+    cd (['..' filesep parallelComputing_dir filesep '..' filesep]); 
 end
