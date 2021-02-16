@@ -1,10 +1,11 @@
+function LoadParamCallback(blockHandle)
 %% Load Parameters from Input File to Masked Subsystem 
 % Reads user-selected input file, and loads all values into masked
 % parameters. CAN NOT override any parameter values that have not been
 % applied by the user in the dialog box.
 %% Run Selected file
-values = get_param([bdroot,'/Parameters'],'MaskValues');    % Cell array containing all Masked Parameter values
-names = get_param([bdroot,'/Parameters'],'MaskNames');      % Cell array containing all Masked Parameter names
+values = get_param(blockHandle,'MaskValues');    % Cell array containing all Masked Parameter values
+names = get_param(blockHandle,'MaskNames');      % Cell array containing all Masked Parameter names
 InParam = struct('init',1);                                 % Initialize InParam struct
 for i = 1:length(names)
     InParam = setfield(InParam,names{i,1},values{i,1});     % Update struct with Masked Parameter names and cooresponding values
@@ -64,10 +65,10 @@ for i = 1:length(values)
 end; clear i;
 
 % Load Masked Subsystem with updated values
-set_param([bdroot,'/Parameters'],'MaskValues',values)
+set_param(blockHandle,'MaskValues',values)
 
 % Clear variables from workspace
 clear InParam values names simu waves body constraint pto
 
 % Run WaveClass callback to have correct visibilities
-run('WaveClassCallback')
+WaveClassCallback(blockHandle);

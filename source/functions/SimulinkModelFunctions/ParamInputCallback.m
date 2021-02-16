@@ -1,7 +1,8 @@
-%% Callback function for ParamInput
+function ParamInputCallback(blockHandle)
+% Callback function for ParamInput
 % Changes the visibility of the custom parameters based on ParamInput
-values = get_param([bdroot,'/Parameters'],'MaskValues');    % Get values of all Masked Parameters    
-names = get_param([bdroot,'/Parameters'],'MaskNames');      % Get names of all Masked Parameters
+values = get_param(blockHandle,'MaskValues');    % Get values of all Masked Parameters    
+names = get_param(blockHandle,'MaskNames');      % Get names of all Masked Parameters
 j = 0;
 % Find index for ParamInput, parameter that decides input method
 for i = 1:length(names)
@@ -11,7 +12,7 @@ for i = 1:length(names)
 end
 
 % Create variable for Group of Custom Parameters
-p=Simulink.Mask.get([bdroot,'/Parameters']);
+p=Simulink.Mask.get(blockHandle);
 ParameterGroupVar = p.getDialogControl('ParameterGroupVar');
 
 if strcmp(values{j,1},'Input File')

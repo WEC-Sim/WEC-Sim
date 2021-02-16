@@ -1,8 +1,9 @@
-%% Callback function for WaveClass
+function WaveClassCallback(blockHandle)
+% Callback function for WaveClass
 % Changes the visibility of Wave parameters based on WaveClass
-list = get_param([bdroot,'/Parameters'],'MaskVisibilities');    % Get list of visibilities for all Masked Parameters
-values = get_param([bdroot,'/Parameters'],'MaskValues');        % Get values of all Masked Parameters
-names = get_param([bdroot,'/Parameters'],'MaskNames');          % Get names of all Masked Parameters
+list = get_param(blockHandle,'MaskVisibilities');    % Get list of visibilities for all Masked Parameters
+values = get_param(blockHandle,'MaskValues');        % Get values of all Masked Parameters
+names = get_param(blockHandle,'MaskNames');          % Get names of all Masked Parameters
 
 % Find index for all Wave parameters
 for i = 1:length(names)
@@ -30,7 +31,7 @@ for i = 1:length(names)
 end
 
 % Create variables for buttons used for Wave parameters
-mask=Simulink.Mask.get([bdroot,'/Parameters']);
+mask=Simulink.Mask.get(blockHandle);
 SpecButton = mask.getDialogControl('SpecButton');
 ETAbutton = mask.getDialogControl('ETAbutton');
 
@@ -45,7 +46,7 @@ if strcmp(values{j,1},'noWaveCIC')
     list{t,1} = 'off';
     list{u,1} = 'off';
     list{v,1} = 'off';
-    set_param([bdroot,'/Parameters'],'MaskVisibilities',list)
+    set_param(blockHandle,'MaskVisibilities',list)
     ETAbutton.Visible = 'off';
     SpecButton.Visible = 'off';
 elseif strcmp(values{j,1},'spectrumImport')
@@ -58,7 +59,7 @@ elseif strcmp(values{j,1},'spectrumImport')
     list{t,1} = 'on';
     list{u,1} = 'off';
     list{v,1} = 'off';
-    set_param([bdroot,'/Parameters'],'MaskVisibilities',list)
+    set_param(blockHandle,'MaskVisibilities',list)
     ETAbutton.Visible = 'off';
     SpecButton.Visible = 'on';
 elseif strcmp(values{j,1},'etaImport')
@@ -71,7 +72,7 @@ elseif strcmp(values{j,1},'etaImport')
     list{t,1} = 'off';
     list{u,1} = 'off';
     list{v,1} = 'off';
-    set_param([bdroot,'/Parameters'],'MaskVisibilities',list)
+    set_param(blockHandle,'MaskVisibilities',list)
     ETAbutton.Visible = 'on';
     SpecButton.Visible = 'off';
 elseif strcmp(values{j,1},'regular')||strcmp(values{j,1},'regularCIC')
@@ -84,7 +85,7 @@ elseif strcmp(values{j,1},'regular')||strcmp(values{j,1},'regularCIC')
     list{t,1} = 'off';
     list{u,1} = 'on';
     list{v,1} = 'on';
-    set_param([bdroot,'/Parameters'],'MaskVisibilities',list)
+    set_param(blockHandle,'MaskVisibilities',list)
     ETAbutton.Visible = 'off';
     SpecButton.Visible = 'off';
 elseif strcmp(values{j,1},'irregular')
@@ -97,7 +98,7 @@ elseif strcmp(values{j,1},'irregular')
     list{t,1} = 'on';
     list{u,1} = 'on';
     list{v,1} = 'on';
-    set_param([bdroot,'/Parameters'],'MaskVisibilities',list)
+    set_param(blockHandle,'MaskVisibilities',list)
     ETAbutton.Visible = 'off';
     SpecButton.Visible = 'off';
 else
@@ -110,7 +111,7 @@ else
     list{t,1} = 'off';
     list{u,1} = 'off';
     list{v,1} = 'off';
-    set_param([bdroot,'/Parameters'],'MaskVisibilities',list)
+    set_param(blockHandle,'MaskVisibilities',list)
     ETAbutton.Visible = 'off';
     SpecButton.Visible = 'off';
 end
