@@ -40,7 +40,7 @@ classdef bodyClass<handle
         dof_gbm           = []                               % (`integer`) Number of degree of freedoms (DOFs) for generalized body mode (GBM). Default = ``[]``.
         dof_start         = []                               % (`integer`) Index the DOF starts for body(``bodyNumber``). For WEC bodies this is given in the h5 file, but if not defined in the h5 file, Default = ``(bodyNumber-1)*6+1``.
         dof_end           = []                               % (`integer`) Index the DOF ends for body(``bodyNumber``). For WEC bodies this is given in the h5 file, but if not defined in the h5 file, Default = ``(bodyNumber-1)*6+6``.
-        geometryFile      = 'NONE'                           % (`string`) Pathway to the body geomtry ``.stl`` file.
+        geometryFile      = 'NONE'                           % (`string`) Pathway to the body geometry ``.stl`` file.
         viscDrag          = struct(...                       %
             'Drag',                 zeros(6), ...            %
             'cd',                   [0 0 0 0 0 0], ...       %

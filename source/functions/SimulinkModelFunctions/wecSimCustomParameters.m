@@ -1,4 +1,4 @@
-%% Reads Custom Parameters from Masked Subsystem 
+% Reads Custom Parameters from Masked Subsystem 
 
 % INPUTS:
 %   InParam - struct containing all masked parameters and their values
@@ -16,90 +16,133 @@
 % Designed to replicate wecSimInputFile.m
 % str2num is used because parameters are read in as 'char' data type
 
-%% Simulation Data
-simu = simulationClass();                                   % Initialize Simulation Class
-simu.simMechanicsFile = [bdroot,'.slx'];                    % Specify Simulink Model File
-simu.mode = InParam.SimMode;                                % Specify Simulation Mode ('normal','accelerator','rapid-accelerator')
-simu.explorer = InParam.SimExp;                             % Turn SimMechanics Explorer (on/off)
-simu.startTime = str2num(InParam.StartTime);                % Simulation Start Time [s]
-simu.rampTime = str2num(InParam.RampTime);                  % Wave Ramp Time [s]
-simu.endTime = str2num(InParam.EndTime);                    % Simulation End Time [s]
-simu.solver = InParam.SimSolve;                             % simu.solver = 'ode4' for fixed step & simu.solver = 'ode45' for variable step 
-simu.dt = str2num(InParam.StepSize);                        % Simulation time-step [s]
-simu.CITime = str2num(InParam.CITime);                      % Specify CI Time [s]
-if strcmp(InParam.StateSpace,'on')
-    simu.ssCalc = 1;                                        % Turn on State Space
+% Get all block names
+blocks = find_system(bdroot,'Type','Block');
+% idx = strcmp(blocks,[bdroot, '/Parameters']);
+% blocks(idx) = [];
+
+% Get the mask names of each class
+for i=1:length(blocks)
+    names = get_param(blocks{i},'MaskNames');
+    values = get_param(blocks{i},'MaskValues');
+    maskVars = struct();
+    for j = 1:length(names)
+        maskVars = setfield(maskVars,names{j,1},values{j,1}); % Update struct with Masked Parameter names and cooresponding values
+    end; clear j;
+    
+    if isfield(maskVars,'simu') && isfield(maskVars,'waves')
+        % Block is Global Reference Frame
+        simu = simulationClass();                                   % Initialize Simulation Class
+        simu.simMechanicsFile = [bdroot,'.slx'];                    % Specify Simulink Model File
+        simu.mode = maskVars.mode;                                % Specify Simulation Mode ('normal','accelerator','rapid-accelerator')
+        simu.explorer = maskVars.explorer;                             % Turn SimMechanics Explorer (on/off)
+        simu.startTime = str2num(maskVars.startTime);                % Simulation Start Time [s]
+        simu.rampTime = str2num(maskVars.rampTime);                  % Wave Ramp Time [s]
+        simu.endTime = str2num(maskVars.endTime);                    % Simulation End Time [s]
+        simu.solver = maskVars.solver;                             % simu.solver = 'ode4' for fixed step & simu.solver = 'ode45' for variable step 
+        simu.dt = str2num(maskVars.dt);                        % Simulation time-step [s]
+        simu.CITime = str2num(maskVars.CITime);                      % Specify CI Time [s]
+        if strcmp(maskVars.ssCalc,'on')
+            simu.ssCalc = 1;     % Turn on State Space
+        else
+            simu.ssCalc = 0;
+        end
+        
+        % Wave Information 
+        waves = waveClass(maskVars.WaveClass);                       % Initialize Wave Class and Specify Type
+        switch maskVars.WaveClass
+            
+            case 'noWaveCIC'
+            % noWaveCIC, no waves with radiation CIC  
+
+            case 'regular'
+            % Regular Waves                                            
+            waves.H = str2num(maskVars.H);                           % Wave Height [m]
+            waves.T = str2num(maskVars.T);                           % Wave Period [s]
+            waves.waveDir = str2num(maskVars.waveDir);               % Wave Directionality [deg]
+            waves.waveSpread = str2num(maskVars.waveSpread);         % Wave Directional Spreading [%]
+
+            case 'regularCIC'
+            % Regular Waves with CIC                              
+            waves.H = str2num(maskVars.H);                           % Wave Height [m]
+            waves.T = str2num(maskVars.T);                           % Wave Period [s]
+            waves.waveDir = str2num(maskVars.waveDir);               % Wave Directionality [deg]
+            waves.waveSpread = str2num(maskVars.waveSpread);         % Wave Directional Spreading [%]
+
+            case 'irregular'
+            % Irregular Waves
+            waves.H = str2num(maskVars.H);                           % Significant Wave Height [m]
+            waves.T = str2num(maskVars.T);                           % Peak Period [s]
+            waves.waveDir = str2num(maskVars.waveDir);               % Wave Directionality [deg]
+            waves.waveSpread = str2num(maskVars.waveSpread);         % Wave Directional Spreading [%]
+            waves.spectrumType = maskVars.spectrumType;              % Specify Wave Spectrum Type
+            waves.freqDisc = maskVars.freqDisc;                      % Uses 'EqualEnergy' bins (default) 
+            waves.phaseSeed = str2num(maskVars.phaseSeed);           % Phase is seeded so eta is the same
+
+            case 'spectrumImport'
+            % Irregular Waves with imported spectrum
+            waves.spectrumDataFile = maskVars.spectrumDataFile;      % Name of User-Defined Spectrum File [:,2] = [f, Sf]
+            waves.phaseSeed = str2num(maskVars.phaseSeed);           % Phase is seeded so eta is the same
+
+            case 'etaImport'
+            % Waves with imported wave elevation time-history  
+            waves.etaDataFile = maskVars.etaDataFile;                % Name of User-Defined Time-Series File [:,2] = [time, eta]
+        end
+
+    elseif isfield(maskVars,'body')
+        % Block is a body
+        tmp = string(maskVars.body);
+        num = str2num(extractBetween(tmp,strfind(tmp,'('),strfind(tmp,')'),'Boundaries','Exclusive'));
+        body(num) = bodyClass(maskVars.h5File);                       % Create the body(1) Variable, Set Location of Hydrodynamic Data File and Body Number Within this File.   
+        
+        body(num).geometryFile = maskVars.geometryFile;                    % Location of Geomtry File
+        if strcmp(maskVars.mass,'equilibrium') || strcmp(maskVars.mass,'fixed')
+            body(num).mass = maskVars.mass;                           % Body Mass. The 'equilibrium' Option Sets it to the Displaced Water Weight.
+        else
+            body(num).mass = str2num(maskVars.mass);              % Body Mass
+        end
+        body(num).momOfInertia = str2num(maskVars.momOfInertia);               % Moment of Inertia [kg*m^2]     
+
+    elseif isfield(maskVars,'constraint')
+        % Block is a constraint
+        tmp = string(maskVars.constraint);
+        num = str2num(extractBetween(tmp,strfind(tmp,'('),strfind(tmp,')'),'Boundaries','Exclusive'));
+        constraint(num) = constraintClass(maskVars.constraint);       % Create the body(1) Variable, Set Location of Hydrodynamic Data File and Body Number Within this File.   
+        
+        constraint(num).loc = str2num(maskVars.loc);                % Constraint Location [m]
+
+    elseif isfield(maskVars,'pto')
+        % Block is a PTO
+        tmp = string(maskVars.pto);
+        num = str2num(extractBetween(tmp,strfind(tmp,'('),strfind(tmp,')'),'Boundaries','Exclusive'));
+        pto(num) = ptoClass(maskVars.pto);       % Create the body(1) Variable, Set Location of Hydrodynamic Data File and Body Number Within this File.   
+        
+        pto(num).k = str2num(maskVars.k);                       % PTO Stiffness [N/m]
+        pto(num).c = str2num(maskVars.c);                        % PTO Damping [N/(m/s)]
+        pto(num).loc = str2num(maskVars.loc);                       % PTO Location [m]
+
+
+    elseif isfield(maskVars,'mooring')
+        % Block is a Mooring system
+        tmp = string(maskVars.mooring);
+        num = str2num(extractBetween(tmp,strfind(tmp,'('),strfind(tmp,')'),'Boundaries','Exclusive'));
+        mooring(num) = mooringClass(maskVars.mooring);       % Create the body(1) Variable, Set Location of Hydrodynamic Data File and Body Number Within this File.   
+        
+        mooring(num).ref = maskVars.ref;
+        try
+            mooring(num).matrix.k = maskVars.stiffness;
+            mooring(num).matrix.c = maskVars.damping;
+            mooring(num).matrix.preTension = maskVars.preTension;
+        end
+        try
+            mooring(num).moorDynLines = maskVars.moorDynLines;
+            mooring(num).moorDynNodes = maskVars.moorDynNodes;
+        end
+        
+    end
+    clear names values maskVars
 end
-%% Wave Information 
-waves = waveClass(InParam.WaveClass);                       % Initialize Wave Class and Specify Type
 
-switch InParam.WaveClass
 
-    case 'noWaveCIC'
-    % noWaveCIC, no waves with radiation CIC  
 
-    case 'regular'
-    % Regular Waves                                            
-    waves.H = str2num(InParam.WaveHeight);                  % Wave Height [m]
-    waves.T = str2num(InParam.WavePeriod);                  % Wave Period [s]
-    waves.waveDir = str2num(InParam.WaveDir);               % Wave Directionality [deg]
-    waves.waveSpread = str2num(InParam.WaveSpread);         % Wave Directional Spreading [%]
-
-    case 'regularCIC'
-    % Regular Waves with CIC                              
-    waves.H = str2num(InParam.WaveHeight);                  % Wave Height [m]
-    waves.T = str2num(InParam.WavePeriod);                  % Wave Period [s]
-    waves.waveDir = str2num(InParam.WaveDir);               % Wave Directionality [deg]
-    waves.waveSpread = str2num(InParam.WaveSpread);         % Wave Directional Spreading [%]
-
-    case 'irregular'
-    % Irregular Waves
-    waves.H = str2num(InParam.WaveHeight);                  % Significant Wave Height [m]
-    waves.T = str2num(InParam.WavePeriod);                  % Peak Period [s]
-    waves.waveDir = str2num(InParam.WaveDir);               % Wave Directionality [deg]
-    waves.waveSpread = str2num(InParam.WaveSpread);         % Wave Directional Spreading [%]
-    waves.spectrumType = InParam.SpecType;                  % Specify Wave Spectrum Type
-    waves.freqDisc = InParam.FreqDisc;                      % Uses 'EqualEnergy' bins (default) 
-    waves.phaseSeed = str2num(InParam.PhaseSeed);           % Phase is seeded so eta is the same
-
-    case 'spectrumImport'
-    % Irregular Waves with imported spectrum
-    waves.spectrumDataFile = InParam.SpecIN;                % Name of User-Defined Spectrum File [:,2] = [f, Sf]
-    waves.phaseSeed = str2num(InParam.PhaseSeed);           % Phase is seeded so eta is the same
-
-    case 'etaImport'
-    % Waves with imported wave elevation time-history  
-    waves.etaDataFile = InParam.ETAin;                      % Name of User-Defined Time-Series File [:,2] = [time, eta]
-end
-%% Body Data
-% Float
-body(1) = bodyClass(InParam.FileH51);                       % Create the body(1) Variable, Set Location of Hydrodynamic Data File and Body Number Within this File.   
-body(1).geometryFile = InParam.FileGeo1;                    % Location of Geomtry File
-if strcmp(InParam.BodyMass1,'equilibrium')
-    body(1).mass = InParam.BodyMass1;                           % Body Mass. The 'equilibrium' Option Sets it to the Displaced Water Weight.
-else
-    body(1).mass = str2num(InParam.BodyMass1);              % Body Mass
-end
-body(1).momOfInertia = str2num(InParam.MoI1);               % Moment of Inertia [kg*m^2]     
-
-% Spar/Plate
-body(2) = bodyClass(InParam.FileH52); 
-body(2).geometryFile = InParam.FileGeo2; 
-if strcmp(InParam.BodyMass2,'equilibrium')
-    body(2).mass = InParam.BodyMass2;                   
-else
-    body(2).mass = str2num(InParam.BodyMass2);
-end                  
-body(2).momOfInertia = str2num(InParam.MoI2);
-
-%% PTO and Constraint Parameters
-% Floating (3DOF) Joint
-constraint(1) = constraintClass('Constraint1');             % Initialize Constraint Class for Constraint1
-constraint(1).loc = str2num(InParam.ConLoc);                % Constraint Location [m]
-
-% Translational PTO
-pto(1) = ptoClass('PTO1');                                  % Initialize PTO Class for PTO1
-pto(1).k = str2num(InParam.PTOStiff);                       % PTO Stiffness [N/m]
-pto(1).c = str2num(InParam.PTODamp);                        % PTO Damping [N/(m/s)]
-pto(1).loc = str2num(InParam.PTOLoc);                       % PTO Location [m]
 

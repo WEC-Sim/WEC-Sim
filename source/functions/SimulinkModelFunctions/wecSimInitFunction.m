@@ -48,15 +48,14 @@ diary('simulation.log')
 tic
 
 % Convert Parameters of the masked subsystem to struct InParam
-values = get_param([bdroot,'/Parameters'],'MaskValues');    % Cell array containing all Masked Parameter values
-names = get_param([bdroot,'/Parameters'],'MaskNames');      % Cell array containing all Masked Parameter names
+values = get_param([bdroot,'/Global Reference Frame'],'MaskValues');    % Cell array containing all Masked Parameter values
+names = get_param([bdroot,'/Global Reference Frame'],'MaskNames');      % Cell array containing all Masked Parameter names
 InParam = struct('init',1);                                 % Initialize InParam struct
 for i = 1:length(names)
     InParam = setfield(InParam,names{i,1},values{i,1});     % Update struct with Masked Parameter names and cooresponding values
 end; clear i;
 
-% Input parameters based on command line start (wecSim.m, wecSimInputFile.m)
-%    or user selection of 'Read from file' or 'Custom' in Simulink
+% Set input parameters based on how the simulation is called
 if exist('runWecSimCML','var') && runWecSimCML==1
     % wecSim input from wecSimInputFile.m of case directory in the standard manner
     fprintf('\nWEC-Sim Input From Standard wecSimInputFile.m Of Case Directory... \n');

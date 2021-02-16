@@ -9,23 +9,23 @@ names = get_param(blockHandle,'MaskNames');          % Get names of all Masked P
 for i = 1:length(names)
    if strcmp(names{i,1},'WaveClass')
        j = i;
-   elseif strcmp(names{i,1},'WaveHeight')
+   elseif strcmp(names{i,1},'H')
        k = i;
-   elseif strcmp(names{i,1},'WavePeriod')
+   elseif strcmp(names{i,1},'T')
        m = i;
-   elseif strcmp(names{i,1},'ETAin')
+   elseif strcmp(names{i,1},'etaDataFile')
        n = i;
-   elseif strcmp(names{i,1},'SpecIN')
+   elseif strcmp(names{i,1},'spectrumDataFile')
        p = i;
-   elseif strcmp(names{i,1},'SpecType')
+   elseif strcmp(names{i,1},'spectrumType')
        q = i;
-   elseif strcmp(names{i,1},'FreqDisc')
+   elseif strcmp(names{i,1},'freqDisc')
        s = i;
-   elseif strcmp(names{i,1},'PhaseSeed')
+   elseif strcmp(names{i,1},'phaseSeed')
        t = i;
-   elseif strcmp(names{i,1},'WaveDir')
+   elseif strcmp(names{i,1},'waveDir')
        u = i;
-   elseif strcmp(names{i,1},'WaveSpread')
+   elseif strcmp(names{i,1},'waveSpread')
        v = i;
    end
 end
