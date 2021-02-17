@@ -63,18 +63,18 @@ switch type
     maskVars.momOfInertia = body(num).momOfInertia;              % Moment of Inertia [kg*m^2]     
 
     case 2
-    % Constraint Parameters
-    tmp = string(maskVars.constraint);
-    num = str2num(extractBetween(tmp,strfind(tmp,'('),strfind(tmp,')'),'Boundaries','Exclusive'));
-    maskVars.loc = constraint(num).loc;                            % Constraint Location [m]
-    
-    case 3
     % PTO Parameters
     tmp = string(maskVars.pto);
     num = str2num(extractBetween(tmp,strfind(tmp,'('),strfind(tmp,')'),'Boundaries','Exclusive'));
     maskVars.loc = pto(num).loc;                                   % PTO Location [m]
     maskVars.k = pto(num).k;                                       % PTO Stiffness [N/m]
     maskVars.c = pto(num).c;                                       % PTO Damping [N/(m/s)]
+    
+    case 3
+    % Constraint Parameters
+    tmp = string(maskVars.constraint);
+    num = str2num(extractBetween(tmp,strfind(tmp,'('),strfind(tmp,')'),'Boundaries','Exclusive'));
+    maskVars.loc = constraint(num).loc;                            % Constraint Location [m]
     
     case 4
     % Mooring Parameters
