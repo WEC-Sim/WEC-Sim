@@ -102,32 +102,28 @@ for i=1:length(blocks)
             body(num).mass = str2num(maskVars.mass);              % Body Mass
         end
         body(num).momOfInertia = str2num(maskVars.momOfInertia);               % Moment of Inertia [kg*m^2]     
-
+        
     elseif isfield(maskVars,'constraint')
         % Block is a constraint
         tmp = string(maskVars.constraint);
         num = str2num(extractBetween(tmp,strfind(tmp,'('),strfind(tmp,')'),'Boundaries','Exclusive'));
         constraint(num) = constraintClass(maskVars.constraint);       % Create the body(1) Variable, Set Location of Hydrodynamic Data File and Body Number Within this File.   
-        
         constraint(num).loc = str2num(maskVars.loc);                % Constraint Location [m]
-
+        
     elseif isfield(maskVars,'pto')
         % Block is a PTO
         tmp = string(maskVars.pto);
         num = str2num(extractBetween(tmp,strfind(tmp,'('),strfind(tmp,')'),'Boundaries','Exclusive'));
         pto(num) = ptoClass(maskVars.pto);       % Create the body(1) Variable, Set Location of Hydrodynamic Data File and Body Number Within this File.   
-        
         pto(num).k = str2num(maskVars.k);                       % PTO Stiffness [N/m]
         pto(num).c = str2num(maskVars.c);                        % PTO Damping [N/(m/s)]
         pto(num).loc = str2num(maskVars.loc);                       % PTO Location [m]
-
-
+        
     elseif isfield(maskVars,'mooring')
         % Block is a Mooring system
         tmp = string(maskVars.mooring);
         num = str2num(extractBetween(tmp,strfind(tmp,'('),strfind(tmp,')'),'Boundaries','Exclusive'));
-        mooring(num) = mooringClass(maskVars.mooring);       % Create the body(1) Variable, Set Location of Hydrodynamic Data File and Body Number Within this File.   
-        
+        mooring(num) = mooringClass(maskVars.mooring);       % Create the body(1) Variable, Set Location of Hydrodynamic Data File and Body Number Within this File. 
         mooring(num).ref = maskVars.ref;
         try
             mooring(num).matrix.k = maskVars.stiffness;
@@ -138,7 +134,6 @@ for i=1:length(blocks)
             mooring(num).moorDynLines = maskVars.moorDynLines;
             mooring(num).moorDynNodes = maskVars.moorDynNodes;
         end
-        
     end
     clear names values maskVars
 end
