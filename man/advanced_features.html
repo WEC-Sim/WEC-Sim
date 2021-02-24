@@ -107,15 +107,11 @@
 </li>
 <li class="toctree-l2"><a class="reference internal" href="#simulation-features">Simulation Features</a><ul>
 <li class="toctree-l3"><a class="reference internal" href="#multiple-condition-runs-mcr">Multiple Condition Runs (MCR)</a></li>
-<li class="toctree-l3"><a class="reference internal" href="#parallel-computing-toolbox-pct">Parallel Computing Toolbox (PCT)</a></li>
-<li class="toctree-l3"><a class="reference internal" href="#state-space-representation">State-Space Representation</a></li>
-<li class="toctree-l3"><a class="reference internal" href="#time-step-features">Time-Step Features</a><ul>
-<li class="toctree-l4"><a class="reference internal" href="#fixed-time-step-ode4">Fixed Time-Step (ode4)</a></li>
-<li class="toctree-l4"><a class="reference internal" href="#variable-time-step-ode45">Variable Time-Step (ode45)</a></li>
 </ul>
 </li>
 </ul>
 </li>
+<li class="toctree-l1"><a class="reference internal" href="#for-more-information-refer-to-webinar1-and-the-rm3-mcr-example-on-the-wec-sim-applications-repository">For more information, refer to <code class="docutils literal notranslate"><span class="pre">webinar1</span></code>, and the <strong>RM3_MCR</strong> example on the WEC-Sim Applications repository.</a><ul>
 <li class="toctree-l2"><a class="reference internal" href="#wave-features">Wave Features</a><ul>
 <li class="toctree-l3"><a class="reference internal" href="#irregular-wave-binning">Irregular Wave Binning</a></li>
 <li class="toctree-l3"><a class="reference internal" href="#wave-directionality">Wave Directionality</a></li>
@@ -655,27 +651,24 @@ Then the functions provided are used to create and populate the <code class="doc
 <code class="docutils literal notranslate"><span class="pre">simu.mcrCaseFile</span> <span class="pre">=</span> <span class="pre">&quot;&lt;File</span> <span class="pre">name&gt;.mat&quot;</span></code></p>
 </div></blockquote>
 <p>For Multiple Condition Runs, the <code class="docutils literal notranslate"><span class="pre">*.h5</span></code> hydrodynamic data is only loaded once. To reload the <code class="docutils literal notranslate"><span class="pre">*.h5</span></code> data between runs,  set <code class="docutils literal notranslate"><span class="pre">simu.reloadH5Data</span> <span class="pre">=1</span></code> in the WEC-Sim input file.</p>
+<p>If the Simulink model relies upon <code class="docutils literal notranslate"><span class="pre">From</span> <span class="pre">Workspace</span></code> input blocks other than those utilized by the WEC-Sim library blocks (e.g. <code class="docutils literal notranslate"><span class="pre">Wave.etaDataFile</span></code>), these can be iterated through using Option 3. The MCR file header MUST be a cell containing the exact string <code class="docutils literal notranslate"><span class="pre">'LoadFile'</span></code>. The pathways of the files to be loaded to the workspace must be given in the <code class="docutils literal notranslate"><span class="pre">cases</span></code> field of the MCR <em>.mat</em> file. WEC-Sim MCR will then run WEC-Sim in sequence, once for each file to be loaded. The variable name of each loaded file shoud be consistent, and specified by the <code class="docutils literal notranslate"><span class="pre">From</span> <span class="pre">Workspace</span></code> block.</p>
+</div>
+</div>
+</div>
+<div class="section" id="for-more-information-refer-to-webinar1-and-the-rm3-mcr-example-on-the-wec-sim-applications-repository">
+<h1>For more information, refer to <a class="reference internal" href="webinars.html#webinar1"><span class="std std-ref">Webinar 1 - BEMIO and MCR</span></a>, and the <strong>RM3_MCR</strong> example on the <a class="reference external" href="https://github.com/WEC-Sim/WEC-Sim_Applications">WEC-Sim Applications</a> repository.<a class="headerlink" href="#for-more-information-refer-to-webinar1-and-the-rm3-mcr-example-on-the-wec-sim-applications-repository" title="Permalink to this headline">¶</a></h1>
 <p>The <strong>RM3_MCR</strong> examples on the <a class="reference external" href="https://github.com/WEC-Sim/WEC-Sim_Applications">WEC-Sim Applications</a> repository demonstrate the use of WEC-Sim MCR for each option above (arrays, .xls, .mat). The fourth case demonstrates how to vary the wave spectrum input file in each case run by WEC-Sim MCR.</p>
 <p>The directory of an MCR case can contain a <code class="code docutils literal notranslate"><span class="pre">userDefinedFunctionsMCR.m</span></code> file that will function as the standard <code class="code docutils literal notranslate"><span class="pre">userDefinedFunctions.m</span></code> file. Within the MCR application, the <code class="code docutils literal notranslate"><span class="pre">userDefinedFunctionsMCR.m</span></code> script creates a power matrix from the PTO damping coefficient after all cases have been run.</p>
 <p>For more information, refer to <a class="reference internal" href="webinars.html#webinar1"><span class="std std-ref">Webinar 1 - BEMIO and MCR</span></a>,</p>
-</div>
-<div class="section" id="parallel-computing-toolbox-pct">
-<span id="pct"></span><h3>Parallel Computing Toolbox (PCT)<a class="headerlink" href="#parallel-computing-toolbox-pct" title="Permalink to this headline">¶</a></h3>
 <p>WEC-Sim allows users to execute batch runs by typing <code class="docutils literal notranslate"><span class="pre">wecSimPCT</span></code> into the MATLAB Command Window. This command executes the MATLAB <a class="reference external" href="https://www.mathworks.com/products/parallel-computing.html">Parallel Computing Toolbox</a> (PCT), which allows parallel capability for <a class="reference internal" href="#mcr"><span class="std std-ref">Multiple Condition Runs (MCR)</span></a> but adds an additional MATLAB dependency to use this feature. Similar to MCR, this feature can be executed in three ways (Options 1~3).</p>
 <p>For PCT runs, the <code class="docutils literal notranslate"><span class="pre">*.h5</span></code> hydrodynamic data must be reload, regardless the setting for <code class="docutils literal notranslate"><span class="pre">simu.reloadH5Data</span></code> in the WEC-Sim input file.</p>
 <div class="admonition note">
 <p class="first admonition-title">Note</p>
 <p class="last">The <code class="docutils literal notranslate"><span class="pre">userDefinedFunctionsMCR.m</span></code> is not compatible with <code class="docutils literal notranslate"><span class="pre">wecSimPCT</span></code>. Please use <code class="docutils literal notranslate"><span class="pre">userDefinedFunctions.m</span></code> instead.</p>
 </div>
-</div>
-<div class="section" id="state-space-representation">
-<h3>State-Space Representation<a class="headerlink" href="#state-space-representation" title="Permalink to this headline">¶</a></h3>
 <p>The convolution integral term in the equation of motion can be linearized using the state-space representation as described in the <a class="reference internal" href="theory.html#theory"><span class="std std-ref">Theory</span></a> section. To use a state-space representation, the <code class="docutils literal notranslate"><span class="pre">simu.ssCalc</span></code> simulationClass variable must be defined in the WEC-Sim input file, for example:</p>
 <blockquote>
 <div><code class="code docutils literal notranslate"><span class="pre">simu.ssCalc</span> <span class="pre">=</span> <span class="pre">1</span></code></div></blockquote>
-</div>
-<div class="section" id="time-step-features">
-<h3>Time-Step Features<a class="headerlink" href="#time-step-features" title="Permalink to this headline">¶</a></h3>
 <p>The default WEC-Sim solver is ‘ode4’. Refer to the <strong>NonlinearHydro</strong> example on the <a class="reference external" href="https://github.com/WEC-Sim/WEC-Sim_Applications">WEC-Sim Applications</a> repository for a comparisons between ‘ode4’ to <a class="reference external" href="https://www.mathworks.com/help/matlab/ref/ode45.html">‘ode45’</a>. The following variables may be changed in the simulationClass (where N is number of increment steps, default: N=1):</p>
 <ul class="simple">
 <li>Fixed time-step: <code class="code docutils literal notranslate"><span class="pre">simu.dt</span></code></li>
@@ -684,21 +677,13 @@ Then the functions provided are used to create and populate the <code class="doc
 <li>Convolution integral time-step: <code class="code docutils literal notranslate"><span class="pre">simu.dtCITime=N*simu.dt</span></code></li>
 <li>Morison force time-step: <code class="code docutils literal notranslate"><span class="pre">simu.dtME</span> <span class="pre">=</span> <span class="pre">N*simu.dt</span></code></li>
 </ul>
-<div class="section" id="fixed-time-step-ode4">
-<h4>Fixed Time-Step (ode4)<a class="headerlink" href="#fixed-time-step-ode4" title="Permalink to this headline">¶</a></h4>
 <p>When running WEC-Sim with a fixed time-step, 100-200 time-steps per wave period is recommended to provide accurate hydrodynamic force calculations (ex: simu.dt = T/100, where T is wave period). However, a smaller time-step may be required (such as when coupling WEC-Sim with MoorDyn or PTO-Sim). To reduce the required WEC-Sim simulation time, a different time-step  may be specified for nonlinear buoyancy and Froude-Krylov excitation and for convolution integral calculations. For all simulations, the time-step should be chosen based on numerical stability and a convergence study should be performed.</p>
-</div>
-<div class="section" id="variable-time-step-ode45">
-<h4>Variable Time-Step (ode45)<a class="headerlink" href="#variable-time-step-ode45" title="Permalink to this headline">¶</a></h4>
 <p>To run WEC-Sim with a variable time-step, the following variables must be defined in the simulationClass:</p>
 <ul class="simple">
 <li>Numerical solver: <code class="code docutils literal notranslate"><span class="pre">simu.solver='ode45'</span></code></li>
 <li>Max time-step: <code class="code docutils literal notranslate"><span class="pre">simu.dt</span></code></li>
 </ul>
 <p>This option sets the maximum time step of the simulation (<code class="code docutils literal notranslate"><span class="pre">simu.dt</span></code>) and automatically adjusts the instantaneous time step to that required by MATLAB’s differential equation solver.</p>
-</div>
-</div>
-</div>
 <div class="section" id="wave-features">
 <h2>Wave Features<a class="headerlink" href="#wave-features" title="Permalink to this headline">¶</a></h2>
 <p>This section provides an overview of WEC-Sim’s wave class features. For more information about the wave class code structure, refer to <a class="reference internal" href="code_structure.html#wave-class"><span class="std std-ref">Wave Class</span></a>. The various wave features can be compared by running the cases within <code class="docutils literal notranslate"><span class="pre">the</span> <span class="pre">WEC-Sim/Examples/RM3</span></code> and <code class="docutils literal notranslate"><span class="pre">the</span> <span class="pre">WEC-Sim/Examples/OSWEC</span></code> directories.</p>
@@ -811,44 +796,44 @@ An option available to reduce the nonlinear simulation time is to specify a nonl
 <a class="reference internal image-reference" href="../_images/nonlinearWEC.png"><img alt="../_images/nonlinearWEC.png" src="../_images/nonlinearWEC.png" style="width: 450pt;" /></a>
 </div>
 <p>The WEC-Sim input file used to run the nonlinear hydro WEC-Sim simulation:</p>
-<div class="highlight-matlab notranslate" id="nonlinearwecsiminputfile"><div class="highlight"><pre><span></span><span class="c">%% Simulation Data</span>
-<span class="n">simu</span> <span class="p">=</span> <span class="n">simulationClass</span><span class="p">();</span>               
-<span class="n">simu</span><span class="p">.</span><span class="n">simMechanicsFile</span> <span class="p">=</span> <span class="s">&#39;ellipsoid.slx&#39;</span><span class="p">;</span>   
-<span class="n">simu</span><span class="p">.</span><span class="n">mode</span> <span class="p">=</span> <span class="s">&#39;normal&#39;</span><span class="p">;</span>                   <span class="c">% Specify Simulation Mode (&#39;normal&#39;,&#39;accelerator&#39;,&#39;rapid-accelerator&#39;)</span>
-<span class="n">simu</span><span class="p">.</span><span class="n">explorer</span><span class="p">=</span><span class="s">&#39;off&#39;</span><span class="p">;</span>                     <span class="c">% Turn SimMechanics Explorer (on/off)</span>
-<span class="n">simu</span><span class="p">.</span><span class="n">startTime</span> <span class="p">=</span> <span class="mi">0</span><span class="p">;</span>                     
-<span class="n">simu</span><span class="p">.</span><span class="n">rampTime</span> <span class="p">=</span> <span class="mi">50</span><span class="p">;</span>                        
-<span class="n">simu</span><span class="p">.</span><span class="n">endTime</span><span class="p">=</span><span class="mi">150</span><span class="p">;</span>                       
-<span class="n">simu</span><span class="p">.</span><span class="n">dt</span> <span class="p">=</span> <span class="mf">0.05</span><span class="p">;</span>                         
-<span class="n">simu</span><span class="p">.</span><span class="n">rho</span><span class="p">=</span><span class="mi">1025</span><span class="p">;</span>                                                                                                           
-<span class="n">simu</span><span class="p">.</span><span class="n">nlHydro</span> <span class="p">=</span> <span class="mi">2</span><span class="p">;</span>                       <span class="c">% Non-linear hydro on/off</span>
+<div class="highlight-matlab notranslate" id="nonlinearwecsiminputfile"><div class="highlight"><pre><span></span><span class="c">%% Simulation Data</span><span class="w"></span>
+<span class="n">simu</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="n">simulationClass</span><span class="p">();</span><span class="w">               </span>
+<span class="n">simu</span><span class="p">.</span><span class="n">simMechanicsFile</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="s">&#39;ellipsoid.slx&#39;</span><span class="p">;</span><span class="w">   </span>
+<span class="n">simu</span><span class="p">.</span><span class="n">mode</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="s">&#39;normal&#39;</span><span class="p">;</span><span class="w">                   </span><span class="c">% Specify Simulation Mode (&#39;normal&#39;,&#39;accelerator&#39;,&#39;rapid-accelerator&#39;)</span><span class="w"></span>
+<span class="n">simu</span><span class="p">.</span><span class="n">explorer</span><span class="p">=</span><span class="s">&#39;off&#39;</span><span class="p">;</span><span class="w">                     </span><span class="c">% Turn SimMechanics Explorer (on/off)</span><span class="w"></span>
+<span class="n">simu</span><span class="p">.</span><span class="n">startTime</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="mi">0</span><span class="p">;</span><span class="w">                     </span>
+<span class="n">simu</span><span class="p">.</span><span class="n">rampTime</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="mi">50</span><span class="p">;</span><span class="w">                        </span>
+<span class="n">simu</span><span class="p">.</span><span class="n">endTime</span><span class="p">=</span><span class="mi">150</span><span class="p">;</span><span class="w">                       </span>
+<span class="n">simu</span><span class="p">.</span><span class="n">dt</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="mf">0.05</span><span class="p">;</span><span class="w">                         </span>
+<span class="n">simu</span><span class="p">.</span><span class="n">rho</span><span class="p">=</span><span class="mi">1025</span><span class="p">;</span><span class="w">                                                                                                           </span>
+<span class="n">simu</span><span class="p">.</span><span class="n">nlHydro</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="mi">2</span><span class="p">;</span><span class="w">                       </span><span class="c">% Non-linear hydro on/off</span><span class="w"></span>
 
-<span class="c">%% Wave Information</span>
-<span class="c">% Regular Waves </span>
-<span class="n">waves</span> <span class="p">=</span> <span class="n">waveClass</span><span class="p">(</span><span class="s">&#39;regular&#39;</span><span class="p">);</span>                 
-<span class="n">waves</span><span class="p">.</span><span class="n">H</span> <span class="p">=</span> <span class="mi">4</span><span class="p">;</span>                            
-<span class="n">waves</span><span class="p">.</span><span class="n">T</span> <span class="p">=</span> <span class="mi">6</span><span class="p">;</span>   
+<span class="c">%% Wave Information</span><span class="w"></span>
+<span class="c">% Regular Waves </span><span class="w"></span>
+<span class="n">waves</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="n">waveClass</span><span class="p">(</span><span class="s">&#39;regular&#39;</span><span class="p">);</span><span class="w">                 </span>
+<span class="n">waves</span><span class="p">.</span><span class="n">H</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="mi">4</span><span class="p">;</span><span class="w">                            </span>
+<span class="n">waves</span><span class="p">.</span><span class="n">T</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="mi">6</span><span class="p">;</span><span class="w">   </span>
 
-<span class="c">%% Body Data</span>
-<span class="n">body</span><span class="p">(</span><span class="mi">1</span><span class="p">)</span> <span class="p">=</span> <span class="n">bodyClass</span><span class="p">(</span><span class="s">&#39;../../hydroData/ellipsoid.h5&#39;</span><span class="p">);</span>
-<span class="n">body</span><span class="p">(</span><span class="mi">1</span><span class="p">).</span><span class="n">mass</span> <span class="p">=</span> <span class="s">&#39;equilibrium&#39;</span><span class="p">;</span>           
-<span class="n">body</span><span class="p">(</span><span class="mi">1</span><span class="p">).</span><span class="n">momOfInertia</span> <span class="p">=</span> <span class="k">...</span><span class="c">              </span>
-    <span class="p">[</span><span class="mf">1.375264e6</span> <span class="mf">1.375264e6</span> <span class="mf">1.341721e6</span><span class="p">];</span>      
-<span class="n">body</span><span class="p">(</span><span class="mi">1</span><span class="p">).</span><span class="n">geometryFile</span> <span class="p">=</span> <span class="s">&#39;../../geometry/elipsoid.stl&#39;</span> <span class="p">;</span>    
-<span class="n">body</span><span class="p">(</span><span class="mi">1</span><span class="p">).</span><span class="n">viscDrag</span><span class="p">.</span><span class="n">cd</span><span class="p">=[</span><span class="mi">1</span> <span class="mi">0</span> <span class="mi">1</span> <span class="mi">0</span> <span class="mi">1</span> <span class="mi">0</span><span class="p">];</span>
-<span class="n">body</span><span class="p">(</span><span class="mi">1</span><span class="p">).</span><span class="n">viscDrag</span><span class="p">.</span><span class="n">characteristicArea</span><span class="p">=[</span><span class="mi">25</span> <span class="mi">0</span> <span class="nb">pi</span><span class="o">*</span><span class="mi">5</span>^<span class="mi">2</span> <span class="mi">0</span> <span class="nb">pi</span><span class="o">*</span><span class="mi">5</span>^<span class="mi">5</span> <span class="mi">0</span><span class="p">];</span>
+<span class="c">%% Body Data</span><span class="w"></span>
+<span class="n">body</span><span class="p">(</span><span class="mi">1</span><span class="p">)</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="n">bodyClass</span><span class="p">(</span><span class="s">&#39;../../hydroData/ellipsoid.h5&#39;</span><span class="p">);</span><span class="w"></span>
+<span class="n">body</span><span class="p">(</span><span class="mi">1</span><span class="p">).</span><span class="n">mass</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="s">&#39;equilibrium&#39;</span><span class="p">;</span><span class="w">           </span>
+<span class="n">body</span><span class="p">(</span><span class="mi">1</span><span class="p">).</span><span class="n">momOfInertia</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="k">...</span><span class="c">              </span><span class="w"></span>
+<span class="w">    </span><span class="p">[</span><span class="mf">1.375264e6</span><span class="w"> </span><span class="mf">1.375264e6</span><span class="w"> </span><span class="mf">1.341721e6</span><span class="p">];</span><span class="w">      </span>
+<span class="n">body</span><span class="p">(</span><span class="mi">1</span><span class="p">).</span><span class="n">geometryFile</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="s">&#39;../../geometry/elipsoid.stl&#39;</span><span class="w"> </span><span class="p">;</span><span class="w">    </span>
+<span class="n">body</span><span class="p">(</span><span class="mi">1</span><span class="p">).</span><span class="n">viscDrag</span><span class="p">.</span><span class="n">cd</span><span class="p">=[</span><span class="mi">1</span><span class="w"> </span><span class="mi">0</span><span class="w"> </span><span class="mi">1</span><span class="w"> </span><span class="mi">0</span><span class="w"> </span><span class="mi">1</span><span class="w"> </span><span class="mi">0</span><span class="p">];</span><span class="w"></span>
+<span class="n">body</span><span class="p">(</span><span class="mi">1</span><span class="p">).</span><span class="n">viscDrag</span><span class="p">.</span><span class="n">characteristicArea</span><span class="p">=[</span><span class="mi">25</span><span class="w"> </span><span class="mi">0</span><span class="w"> </span><span class="nb">pi</span><span class="o">*</span><span class="mi">5</span>^<span class="mi">2</span><span class="w"> </span><span class="mi">0</span><span class="w"> </span><span class="nb">pi</span><span class="o">*</span><span class="mi">5</span>^<span class="mi">5</span><span class="w"> </span><span class="mi">0</span><span class="p">];</span><span class="w"></span>
 
-<span class="c">%% PTO and Constraint Parameters</span>
-<span class="c">% Fixed Constraint</span>
-<span class="n">constraint</span><span class="p">(</span><span class="mi">1</span><span class="p">)</span> <span class="p">=</span> <span class="n">constraintClass</span><span class="p">(</span><span class="s">&#39;Constraint1&#39;</span><span class="p">);</span> 
-<span class="n">constraint</span><span class="p">(</span><span class="mi">1</span><span class="p">).</span><span class="n">loc</span> <span class="p">=</span> <span class="p">[</span><span class="mi">0</span> <span class="mi">0</span> <span class="o">-</span><span class="mf">12.5</span><span class="p">];</span>        
+<span class="c">%% PTO and Constraint Parameters</span><span class="w"></span>
+<span class="c">% Fixed Constraint</span><span class="w"></span>
+<span class="n">constraint</span><span class="p">(</span><span class="mi">1</span><span class="p">)</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="n">constraintClass</span><span class="p">(</span><span class="s">&#39;Constraint1&#39;</span><span class="p">);</span><span class="w"> </span>
+<span class="n">constraint</span><span class="p">(</span><span class="mi">1</span><span class="p">).</span><span class="n">loc</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="p">[</span><span class="mi">0</span><span class="w"> </span><span class="mi">0</span><span class="w"> </span><span class="o">-</span><span class="mf">12.5</span><span class="p">];</span><span class="w">        </span>
 
-<span class="c">% Translational PTO</span>
-<span class="n">pto</span><span class="p">(</span><span class="mi">1</span><span class="p">)</span> <span class="p">=</span> <span class="n">ptoClass</span><span class="p">(</span><span class="s">&#39;PTO1&#39;</span><span class="p">);</span>              
-<span class="n">pto</span><span class="p">(</span><span class="mi">1</span><span class="p">).</span><span class="n">k</span><span class="p">=</span><span class="mi">0</span><span class="p">;</span>                             
-<span class="n">pto</span><span class="p">(</span><span class="mi">1</span><span class="p">).</span><span class="n">c</span><span class="p">=</span><span class="mi">1200000</span><span class="p">;</span>                      
-<span class="n">pto</span><span class="p">(</span><span class="mi">1</span><span class="p">).</span><span class="n">loc</span> <span class="p">=</span> <span class="p">[</span><span class="mi">0</span> <span class="mi">0</span> <span class="o">-</span><span class="mf">12.5</span><span class="p">];</span>
-<span class="n">pto</span><span class="p">(</span><span class="mi">1</span><span class="p">).</span><span class="n">loc</span> <span class="p">=</span> <span class="p">[</span><span class="mi">0</span> <span class="mi">0</span> <span class="o">-</span><span class="mf">12.5</span><span class="p">];</span>
+<span class="c">% Translational PTO</span><span class="w"></span>
+<span class="n">pto</span><span class="p">(</span><span class="mi">1</span><span class="p">)</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="n">ptoClass</span><span class="p">(</span><span class="s">&#39;PTO1&#39;</span><span class="p">);</span><span class="w">              </span>
+<span class="n">pto</span><span class="p">(</span><span class="mi">1</span><span class="p">).</span><span class="n">k</span><span class="p">=</span><span class="mi">0</span><span class="p">;</span><span class="w">                             </span>
+<span class="n">pto</span><span class="p">(</span><span class="mi">1</span><span class="p">).</span><span class="n">c</span><span class="p">=</span><span class="mi">1200000</span><span class="p">;</span><span class="w">                      </span>
+<span class="n">pto</span><span class="p">(</span><span class="mi">1</span><span class="p">).</span><span class="n">loc</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="p">[</span><span class="mi">0</span><span class="w"> </span><span class="mi">0</span><span class="w"> </span><span class="o">-</span><span class="mf">12.5</span><span class="p">];</span><span class="w"></span>
+<span class="n">pto</span><span class="p">(</span><span class="mi">1</span><span class="p">).</span><span class="n">loc</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="p">[</span><span class="mi">0</span><span class="w"> </span><span class="mi">0</span><span class="w"> </span><span class="o">-</span><span class="mf">12.5</span><span class="p">];</span><span class="w"></span>
 </pre></div>
 </div>
 <p>Simulation and post-processing is the same process as described in <a class="reference internal" href="tutorials.html#tutorials"><span class="std std-ref">Tutorials</span></a> section.</p>
@@ -1280,57 +1265,57 @@ Refer to the <a class="reference internal" href="#rm3-with-moordyn"><span class=
 <ul class="simple">
 <li><strong>WEC-Sim Input File</strong>: In the <code class="docutils literal notranslate"><span class="pre">wecSimInputFile.m</span></code> file, the user needs to initiate the mooring class and define the number of mooring lines.</li>
 </ul>
-<div class="highlight-matlab notranslate" id="wecsiminputmoordyn"><div class="highlight"><pre><span></span><span class="c">%% Simulation Data</span>
-<span class="n">simu</span> <span class="p">=</span> <span class="n">simulationClass</span><span class="p">();</span>             
-<span class="n">simu</span><span class="p">.</span><span class="n">simMechanicsFile</span> <span class="p">=</span> <span class="s">&#39;RM3MoorDyn.slx&#39;</span><span class="p">;</span>      <span class="c">% Location of Simulink Model File with MoorDyn</span>
-<span class="n">simu</span><span class="p">.</span><span class="n">mode</span><span class="p">=</span><span class="s">&#39;accelerator&#39;</span><span class="p">;</span>                
-<span class="n">simu</span><span class="p">.</span><span class="n">explorer</span> <span class="p">=</span> <span class="s">&#39;off&#39;</span><span class="p">;</span>
-<span class="n">simu</span><span class="p">.</span><span class="n">rampTime</span> <span class="p">=</span> <span class="mi">40</span><span class="p">;</span>                        
-<span class="n">simu</span><span class="p">.</span><span class="n">endTime</span><span class="p">=</span><span class="mi">400</span><span class="p">;</span>                       
-<span class="n">simu</span><span class="p">.</span><span class="n">dt</span> <span class="p">=</span> <span class="mf">0.01</span><span class="p">;</span>                          
-<span class="n">simu</span><span class="p">.</span><span class="n">dtCITime</span> <span class="p">=</span> <span class="mf">0.05</span><span class="p">;</span>
+<div class="highlight-matlab notranslate" id="wecsiminputmoordyn"><div class="highlight"><pre><span></span><span class="c">%% Simulation Data</span><span class="w"></span>
+<span class="n">simu</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="n">simulationClass</span><span class="p">();</span><span class="w">             </span>
+<span class="n">simu</span><span class="p">.</span><span class="n">simMechanicsFile</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="s">&#39;RM3MoorDyn.slx&#39;</span><span class="p">;</span><span class="w">      </span><span class="c">% Location of Simulink Model File with MoorDyn</span><span class="w"></span>
+<span class="n">simu</span><span class="p">.</span><span class="n">mode</span><span class="p">=</span><span class="s">&#39;accelerator&#39;</span><span class="p">;</span><span class="w">                </span>
+<span class="n">simu</span><span class="p">.</span><span class="n">explorer</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="s">&#39;off&#39;</span><span class="p">;</span><span class="w"></span>
+<span class="n">simu</span><span class="p">.</span><span class="n">rampTime</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="mi">40</span><span class="p">;</span><span class="w">                        </span>
+<span class="n">simu</span><span class="p">.</span><span class="n">endTime</span><span class="p">=</span><span class="mi">400</span><span class="p">;</span><span class="w">                       </span>
+<span class="n">simu</span><span class="p">.</span><span class="n">dt</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="mf">0.01</span><span class="p">;</span><span class="w">                          </span>
+<span class="n">simu</span><span class="p">.</span><span class="n">dtCITime</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="mf">0.05</span><span class="p">;</span><span class="w"></span>
 
-<span class="c">%% Wave Information</span>
-<span class="c">% User-Defined Time-Series</span>
-<span class="n">waves</span> <span class="p">=</span> <span class="n">waveClass</span><span class="p">(</span><span class="s">&#39;etaImport&#39;</span><span class="p">);</span>         <span class="c">% Create the Wave Variable and Specify Type</span>
-<span class="n">waves</span><span class="p">.</span><span class="n">etaDataFile</span> <span class="p">=</span> <span class="s">&#39;etaData.mat&#39;</span><span class="p">;</span>      <span class="c">% Name of User-Defined Time-Series File [:,2] = [time, eta]</span>
+<span class="c">%% Wave Information</span><span class="w"></span>
+<span class="c">% User-Defined Time-Series</span><span class="w"></span>
+<span class="n">waves</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="n">waveClass</span><span class="p">(</span><span class="s">&#39;etaImport&#39;</span><span class="p">);</span><span class="w">         </span><span class="c">% Create the Wave Variable and Specify Type</span><span class="w"></span>
+<span class="n">waves</span><span class="p">.</span><span class="n">etaDataFile</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="s">&#39;etaData.mat&#39;</span><span class="p">;</span><span class="w">      </span><span class="c">% Name of User-Defined Time-Series File [:,2] = [time, eta]</span><span class="w"></span>
 
-<span class="c">%% Body Data</span>
-<span class="c">% Float</span>
-<span class="n">body</span><span class="p">(</span><span class="mi">1</span><span class="p">)</span> <span class="p">=</span> <span class="n">bodyClass</span><span class="p">(</span><span class="s">&#39;../hydroData/rm3.h5&#39;</span><span class="p">);</span>      
-<span class="n">body</span><span class="p">(</span><span class="mi">1</span><span class="p">).</span><span class="n">geometryFile</span> <span class="p">=</span> <span class="s">&#39;../geometry/float.stl&#39;</span><span class="p">;</span>      
-<span class="n">body</span><span class="p">(</span><span class="mi">1</span><span class="p">).</span><span class="n">mass</span> <span class="p">=</span> <span class="s">&#39;equilibrium&#39;</span><span class="p">;</span>                   
-<span class="n">body</span><span class="p">(</span><span class="mi">1</span><span class="p">).</span><span class="n">momOfInertia</span> <span class="p">=</span> <span class="p">[</span><span class="mi">20907301</span> <span class="mf">21306090.66</span> <span class="mf">37085481.11</span><span class="p">];</span> 
+<span class="c">%% Body Data</span><span class="w"></span>
+<span class="c">% Float</span><span class="w"></span>
+<span class="n">body</span><span class="p">(</span><span class="mi">1</span><span class="p">)</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="n">bodyClass</span><span class="p">(</span><span class="s">&#39;../hydroData/rm3.h5&#39;</span><span class="p">);</span><span class="w">      </span>
+<span class="n">body</span><span class="p">(</span><span class="mi">1</span><span class="p">).</span><span class="n">geometryFile</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="s">&#39;../geometry/float.stl&#39;</span><span class="p">;</span><span class="w">      </span>
+<span class="n">body</span><span class="p">(</span><span class="mi">1</span><span class="p">).</span><span class="n">mass</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="s">&#39;equilibrium&#39;</span><span class="p">;</span><span class="w">                   </span>
+<span class="n">body</span><span class="p">(</span><span class="mi">1</span><span class="p">).</span><span class="n">momOfInertia</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="p">[</span><span class="mi">20907301</span><span class="w"> </span><span class="mf">21306090.66</span><span class="w"> </span><span class="mf">37085481.11</span><span class="p">];</span><span class="w"> </span>
 
-<span class="c">% Spar/Plate</span>
-<span class="n">body</span><span class="p">(</span><span class="mi">2</span><span class="p">)</span> <span class="p">=</span> <span class="n">bodyClass</span><span class="p">(</span><span class="s">&#39;../hydroData/rm3.h5&#39;</span><span class="p">);</span>     
-<span class="n">body</span><span class="p">(</span><span class="mi">2</span><span class="p">).</span><span class="n">geometryFile</span> <span class="p">=</span> <span class="s">&#39;../geometry/plate.stl&#39;</span><span class="p">;</span>
-<span class="n">body</span><span class="p">(</span><span class="mi">2</span><span class="p">).</span><span class="n">mass</span> <span class="p">=</span> <span class="s">&#39;equilibrium&#39;</span><span class="p">;</span>                   
-<span class="n">body</span><span class="p">(</span><span class="mi">2</span><span class="p">).</span><span class="n">momOfInertia</span> <span class="p">=</span> <span class="p">[</span><span class="mf">94419614.57</span> <span class="mf">94407091.24</span> <span class="mf">28542224.82</span><span class="p">];</span>
-<span class="n">body</span><span class="p">(</span><span class="mi">2</span><span class="p">).</span><span class="n">initDisp</span><span class="p">.</span><span class="n">initLinDisp</span> <span class="p">=</span> <span class="p">[</span><span class="mi">0</span> <span class="mi">0</span> <span class="o">-</span><span class="mf">0.21</span><span class="p">];</span>  <span class="c">% Initial Displacement</span>
+<span class="c">% Spar/Plate</span><span class="w"></span>
+<span class="n">body</span><span class="p">(</span><span class="mi">2</span><span class="p">)</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="n">bodyClass</span><span class="p">(</span><span class="s">&#39;../hydroData/rm3.h5&#39;</span><span class="p">);</span><span class="w">     </span>
+<span class="n">body</span><span class="p">(</span><span class="mi">2</span><span class="p">).</span><span class="n">geometryFile</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="s">&#39;../geometry/plate.stl&#39;</span><span class="p">;</span><span class="w"></span>
+<span class="n">body</span><span class="p">(</span><span class="mi">2</span><span class="p">).</span><span class="n">mass</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="s">&#39;equilibrium&#39;</span><span class="p">;</span><span class="w">                   </span>
+<span class="n">body</span><span class="p">(</span><span class="mi">2</span><span class="p">).</span><span class="n">momOfInertia</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="p">[</span><span class="mf">94419614.57</span><span class="w"> </span><span class="mf">94407091.24</span><span class="w"> </span><span class="mf">28542224.82</span><span class="p">];</span><span class="w"></span>
+<span class="n">body</span><span class="p">(</span><span class="mi">2</span><span class="p">).</span><span class="n">initDisp</span><span class="p">.</span><span class="n">initLinDisp</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="p">[</span><span class="mi">0</span><span class="w"> </span><span class="mi">0</span><span class="w"> </span><span class="o">-</span><span class="mf">0.21</span><span class="p">];</span><span class="w">  </span><span class="c">% Initial Displacement</span><span class="w"></span>
 
-<span class="c">%% PTO and Constraint Parameters</span>
-<span class="c">% Floating (3DOF) Joint</span>
-<span class="n">constraint</span><span class="p">(</span><span class="mi">1</span><span class="p">)</span> <span class="p">=</span> <span class="n">constraintClass</span><span class="p">(</span><span class="s">&#39;Constraint1&#39;</span><span class="p">);</span> 
-<span class="n">constraint</span><span class="p">(</span><span class="mi">1</span><span class="p">).</span><span class="n">loc</span> <span class="p">=</span> <span class="p">[</span><span class="mi">0</span> <span class="mi">0</span> <span class="mi">0</span><span class="p">];</span>    
+<span class="c">%% PTO and Constraint Parameters</span><span class="w"></span>
+<span class="c">% Floating (3DOF) Joint</span><span class="w"></span>
+<span class="n">constraint</span><span class="p">(</span><span class="mi">1</span><span class="p">)</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="n">constraintClass</span><span class="p">(</span><span class="s">&#39;Constraint1&#39;</span><span class="p">);</span><span class="w"> </span>
+<span class="n">constraint</span><span class="p">(</span><span class="mi">1</span><span class="p">).</span><span class="n">loc</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="p">[</span><span class="mi">0</span><span class="w"> </span><span class="mi">0</span><span class="w"> </span><span class="mi">0</span><span class="p">];</span><span class="w">    </span>
 
-<span class="c">% Translational PTO</span>
-<span class="n">pto</span><span class="p">(</span><span class="mi">1</span><span class="p">)</span> <span class="p">=</span> <span class="n">ptoClass</span><span class="p">(</span><span class="s">&#39;PTO1&#39;</span><span class="p">);</span>              	
-<span class="n">pto</span><span class="p">(</span><span class="mi">1</span><span class="p">).</span><span class="n">k</span><span class="p">=</span><span class="mi">0</span><span class="p">;</span>                             	
-<span class="n">pto</span><span class="p">(</span><span class="mi">1</span><span class="p">).</span><span class="n">c</span><span class="p">=</span><span class="mi">1200000</span><span class="p">;</span>                       	
-<span class="n">pto</span><span class="p">(</span><span class="mi">1</span><span class="p">).</span><span class="n">loc</span> <span class="p">=</span> <span class="p">[</span><span class="mi">0</span> <span class="mi">0</span> <span class="mi">0</span><span class="p">];</span>     
+<span class="c">% Translational PTO</span><span class="w"></span>
+<span class="n">pto</span><span class="p">(</span><span class="mi">1</span><span class="p">)</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="n">ptoClass</span><span class="p">(</span><span class="s">&#39;PTO1&#39;</span><span class="p">);</span><span class="w">              	</span>
+<span class="n">pto</span><span class="p">(</span><span class="mi">1</span><span class="p">).</span><span class="n">k</span><span class="p">=</span><span class="mi">0</span><span class="p">;</span><span class="w">                             	</span>
+<span class="n">pto</span><span class="p">(</span><span class="mi">1</span><span class="p">).</span><span class="n">c</span><span class="p">=</span><span class="mi">1200000</span><span class="p">;</span><span class="w">                       	</span>
+<span class="n">pto</span><span class="p">(</span><span class="mi">1</span><span class="p">).</span><span class="n">loc</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="p">[</span><span class="mi">0</span><span class="w"> </span><span class="mi">0</span><span class="w"> </span><span class="mi">0</span><span class="p">];</span><span class="w">     </span>
 
-<span class="c">%% Mooring</span>
-<span class="c">% Moordyn</span>
-<span class="n">mooring</span><span class="p">(</span><span class="mi">1</span><span class="p">)</span> <span class="p">=</span> <span class="n">mooringClass</span><span class="p">(</span><span class="s">&#39;mooring&#39;</span><span class="p">);</span>       <span class="c">% Initialize mooringClass</span>
-<span class="n">mooring</span><span class="p">(</span><span class="mi">1</span><span class="p">).</span><span class="n">moorDynLines</span> <span class="p">=</span> <span class="mi">6</span><span class="p">;</span>                <span class="c">% Specify number of lines</span>
-<span class="n">mooring</span><span class="p">(</span><span class="mi">1</span><span class="p">).</span><span class="n">moorDynNodes</span><span class="p">(</span><span class="mi">1</span><span class="p">:</span><span class="mi">3</span><span class="p">)</span> <span class="p">=</span> <span class="mi">16</span><span class="p">;</span>          <span class="c">% Specify number of nodes per line</span>
-<span class="n">mooring</span><span class="p">(</span><span class="mi">1</span><span class="p">).</span><span class="n">moorDynNodes</span><span class="p">(</span><span class="mi">4</span><span class="p">:</span><span class="mi">6</span><span class="p">)</span> <span class="p">=</span> <span class="mi">6</span><span class="p">;</span>           <span class="c">% Specify number of nodes per line</span>
-<span class="n">mooring</span><span class="p">(</span><span class="mi">1</span><span class="p">).</span><span class="n">initDisp</span><span class="p">.</span><span class="n">initLinDisp</span> <span class="p">=</span> <span class="p">[</span><span class="mi">0</span> <span class="mi">0</span> <span class="o">-</span><span class="mf">0.21</span><span class="p">];</span>      <span class="c">% Initial Displacement</span>
+<span class="c">%% Mooring</span><span class="w"></span>
+<span class="c">% Moordyn</span><span class="w"></span>
+<span class="n">mooring</span><span class="p">(</span><span class="mi">1</span><span class="p">)</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="n">mooringClass</span><span class="p">(</span><span class="s">&#39;mooring&#39;</span><span class="p">);</span><span class="w">       </span><span class="c">% Initialize mooringClass</span><span class="w"></span>
+<span class="n">mooring</span><span class="p">(</span><span class="mi">1</span><span class="p">).</span><span class="n">moorDynLines</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="mi">6</span><span class="p">;</span><span class="w">                </span><span class="c">% Specify number of lines</span><span class="w"></span>
+<span class="n">mooring</span><span class="p">(</span><span class="mi">1</span><span class="p">).</span><span class="n">moorDynNodes</span><span class="p">(</span><span class="mi">1</span><span class="p">:</span><span class="mi">3</span><span class="p">)</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="mi">16</span><span class="p">;</span><span class="w">          </span><span class="c">% Specify number of nodes per line</span><span class="w"></span>
+<span class="n">mooring</span><span class="p">(</span><span class="mi">1</span><span class="p">).</span><span class="n">moorDynNodes</span><span class="p">(</span><span class="mi">4</span><span class="p">:</span><span class="mi">6</span><span class="p">)</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="mi">6</span><span class="p">;</span><span class="w">           </span><span class="c">% Specify number of nodes per line</span><span class="w"></span>
+<span class="n">mooring</span><span class="p">(</span><span class="mi">1</span><span class="p">).</span><span class="n">initDisp</span><span class="p">.</span><span class="n">initLinDisp</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="p">[</span><span class="mi">0</span><span class="w"> </span><span class="mi">0</span><span class="w"> </span><span class="o">-</span><span class="mf">0.21</span><span class="p">];</span><span class="w">      </span><span class="c">% Initial Displacement</span><span class="w"></span>
 </pre></div>
 </div>
 <ul class="simple">
-<li><strong>MoorDyn Input File</strong>: A mooring folder that includes a moorDyn input file (<code class="docutils literal notranslate"><span class="pre">lines.txt</span></code>) is created. The moorDyn input file (<code class="docutils literal notranslate"><span class="pre">lines.txt</span></code>) is shown in the figure below. More details on how to setup the MooDyn input file are described in the MoorDyn User Guide <a class="reference internal" href="theory.html#hall2015moordynguide" id="id14">[B1]</a>.</li>
+<li><strong>MoorDyn Input File</strong>: A mooring folder that includes a moorDyn input file (<code class="docutils literal notranslate"><span class="pre">lines.txt</span></code>) is created. The moorDyn input file (<code class="docutils literal notranslate"><span class="pre">lines.txt</span></code>) is shown in the figure below. More details on how to setup the MooDyn input file are described in the MoorDyn User Guide <a class="reference internal" href="theory.html#hall2015moordynguide" id="id15">[B1]</a>.</li>
 </ul>
 <div class="figure align-center" id="moordyninput">
 <a class="reference internal image-reference" href="../_images/moorDynInput.png"><img alt="../_images/moorDynInput.png" src="../_images/moorDynInput.png" style="width: 400pt;" /></a>
