@@ -22,3 +22,4 @@ New WEC-Sim features are developed on forks of the WEC-Sim repository, and [pull
 When submitting a pull-request for a new WEC-Sim feature, pull-requests should be submitted to the [dev branch](https://github.com/WEC-Sim/WEC-Sim/tree/dev). 
 The only exception to this workflow is for bug fixes, pull-request for bug fixes should be should submitted to the [master branch](https://github.com/WEC-Sim/WEC-Sim).
 
+Demo for class
