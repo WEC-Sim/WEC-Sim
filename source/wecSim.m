@@ -50,7 +50,9 @@ evalc('wecSimInputFile');
 % Read Inputs for Multiple Conditions Run
 if exist('mcr','var') == 1
     for n=1:length(mcr.cases(1,:))
-        if iscell(mcr.cases)
+        if strcmp(mcr.header{n},'LoadFile')                                 % added this flag for system ID efforts!
+            load(mcr.cases{imcr,n});
+        elseif iscell(mcr.cases)
             eval([mcr.header{n} '= mcr.cases{imcr,n};']);
         else
             eval([mcr.header{n} '= mcr.cases(imcr,n);']);
