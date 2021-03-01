@@ -107,11 +107,15 @@
 </li>
 <li class="toctree-l2"><a class="reference internal" href="#simulation-features">Simulation Features</a><ul>
 <li class="toctree-l3"><a class="reference internal" href="#multiple-condition-runs-mcr">Multiple Condition Runs (MCR)</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#parallel-computing-toolbox-pct">Parallel Computing Toolbox (PCT)</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#state-space-representation">State-Space Representation</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#time-step-features">Time-Step Features</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="#fixed-time-step-ode4">Fixed Time-Step (ode4)</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#variable-time-step-ode45">Variable Time-Step (ode45)</a></li>
 </ul>
 </li>
 </ul>
 </li>
-<li class="toctree-l1"><a class="reference internal" href="#for-more-information-refer-to-webinar1-and-the-rm3-mcr-example-on-the-wec-sim-applications-repository">For more information, refer to <code class="docutils literal notranslate"><span class="pre">webinar1</span></code>, and the <strong>RM3_MCR</strong> example on the WEC-Sim Applications repository.</a><ul>
 <li class="toctree-l2"><a class="reference internal" href="#wave-features">Wave Features</a><ul>
 <li class="toctree-l3"><a class="reference internal" href="#irregular-wave-binning">Irregular Wave Binning</a></li>
 <li class="toctree-l3"><a class="reference internal" href="#wave-directionality">Wave Directionality</a></li>
@@ -652,23 +656,28 @@ Then the functions provided are used to create and populate the <code class="doc
 </div></blockquote>
 <p>For Multiple Condition Runs, the <code class="docutils literal notranslate"><span class="pre">*.h5</span></code> hydrodynamic data is only loaded once. To reload the <code class="docutils literal notranslate"><span class="pre">*.h5</span></code> data between runs,  set <code class="docutils literal notranslate"><span class="pre">simu.reloadH5Data</span> <span class="pre">=1</span></code> in the WEC-Sim input file.</p>
 <p>If the Simulink model relies upon <code class="docutils literal notranslate"><span class="pre">From</span> <span class="pre">Workspace</span></code> input blocks other than those utilized by the WEC-Sim library blocks (e.g. <code class="docutils literal notranslate"><span class="pre">Wave.etaDataFile</span></code>), these can be iterated through using Option 3. The MCR file header MUST be a cell containing the exact string <code class="docutils literal notranslate"><span class="pre">'LoadFile'</span></code>. The pathways of the files to be loaded to the workspace must be given in the <code class="docutils literal notranslate"><span class="pre">cases</span></code> field of the MCR <em>.mat</em> file. WEC-Sim MCR will then run WEC-Sim in sequence, once for each file to be loaded. The variable name of each loaded file shoud be consistent, and specified by the <code class="docutils literal notranslate"><span class="pre">From</span> <span class="pre">Workspace</span></code> block.</p>
-</div>
-</div>
-</div>
-<div class="section" id="for-more-information-refer-to-webinar1-and-the-rm3-mcr-example-on-the-wec-sim-applications-repository">
-<h1>For more information, refer to <a class="reference internal" href="webinars.html#webinar1"><span class="std std-ref">Webinar 1 - BEMIO and MCR</span></a>, and the <strong>RM3_MCR</strong> example on the <a class="reference external" href="https://github.com/WEC-Sim/WEC-Sim_Applications">WEC-Sim Applications</a> repository.<a class="headerlink" href="#for-more-information-refer-to-webinar1-and-the-rm3-mcr-example-on-the-wec-sim-applications-repository" title="Permalink to this headline">¶</a></h1>
+<p>For more information, refer to <a class="reference internal" href="webinars.html#webinar1"><span class="std std-ref">Webinar 1 - BEMIO and MCR</span></a>, and the <strong>RM3_MCR</strong> example on the <a class="reference external" href="https://github.com/WEC-Sim/WEC-Sim_Applications">WEC-Sim Applications</a> repository.</p>
 <p>The <strong>RM3_MCR</strong> examples on the <a class="reference external" href="https://github.com/WEC-Sim/WEC-Sim_Applications">WEC-Sim Applications</a> repository demonstrate the use of WEC-Sim MCR for each option above (arrays, .xls, .mat). The fourth case demonstrates how to vary the wave spectrum input file in each case run by WEC-Sim MCR.</p>
 <p>The directory of an MCR case can contain a <code class="code docutils literal notranslate"><span class="pre">userDefinedFunctionsMCR.m</span></code> file that will function as the standard <code class="code docutils literal notranslate"><span class="pre">userDefinedFunctions.m</span></code> file. Within the MCR application, the <code class="code docutils literal notranslate"><span class="pre">userDefinedFunctionsMCR.m</span></code> script creates a power matrix from the PTO damping coefficient after all cases have been run.</p>
 <p>For more information, refer to <a class="reference internal" href="webinars.html#webinar1"><span class="std std-ref">Webinar 1 - BEMIO and MCR</span></a>,</p>
+</div>
+<div class="section" id="parallel-computing-toolbox-pct">
+<span id="pct"></span><h3>Parallel Computing Toolbox (PCT)<a class="headerlink" href="#parallel-computing-toolbox-pct" title="Permalink to this headline">¶</a></h3>
 <p>WEC-Sim allows users to execute batch runs by typing <code class="docutils literal notranslate"><span class="pre">wecSimPCT</span></code> into the MATLAB Command Window. This command executes the MATLAB <a class="reference external" href="https://www.mathworks.com/products/parallel-computing.html">Parallel Computing Toolbox</a> (PCT), which allows parallel capability for <a class="reference internal" href="#mcr"><span class="std std-ref">Multiple Condition Runs (MCR)</span></a> but adds an additional MATLAB dependency to use this feature. Similar to MCR, this feature can be executed in three ways (Options 1~3).</p>
 <p>For PCT runs, the <code class="docutils literal notranslate"><span class="pre">*.h5</span></code> hydrodynamic data must be reload, regardless the setting for <code class="docutils literal notranslate"><span class="pre">simu.reloadH5Data</span></code> in the WEC-Sim input file.</p>
 <div class="admonition note">
 <p class="first admonition-title">Note</p>
 <p class="last">The <code class="docutils literal notranslate"><span class="pre">userDefinedFunctionsMCR.m</span></code> is not compatible with <code class="docutils literal notranslate"><span class="pre">wecSimPCT</span></code>. Please use <code class="docutils literal notranslate"><span class="pre">userDefinedFunctions.m</span></code> instead.</p>
 </div>
+</div>
+<div class="section" id="state-space-representation">
+<h3>State-Space Representation<a class="headerlink" href="#state-space-representation" title="Permalink to this headline">¶</a></h3>
 <p>The convolution integral term in the equation of motion can be linearized using the state-space representation as described in the <a class="reference internal" href="theory.html#theory"><span class="std std-ref">Theory</span></a> section. To use a state-space representation, the <code class="docutils literal notranslate"><span class="pre">simu.ssCalc</span></code> simulationClass variable must be defined in the WEC-Sim input file, for example:</p>
 <blockquote>
 <div><code class="code docutils literal notranslate"><span class="pre">simu.ssCalc</span> <span class="pre">=</span> <span class="pre">1</span></code></div></blockquote>
+</div>
+<div class="section" id="time-step-features">
+<h3>Time-Step Features<a class="headerlink" href="#time-step-features" title="Permalink to this headline">¶</a></h3>
 <p>The default WEC-Sim solver is ‘ode4’. Refer to the <strong>NonlinearHydro</strong> example on the <a class="reference external" href="https://github.com/WEC-Sim/WEC-Sim_Applications">WEC-Sim Applications</a> repository for a comparisons between ‘ode4’ to <a class="reference external" href="https://www.mathworks.com/help/matlab/ref/ode45.html">‘ode45’</a>. The following variables may be changed in the simulationClass (where N is number of increment steps, default: N=1):</p>
 <ul class="simple">
 <li>Fixed time-step: <code class="code docutils literal notranslate"><span class="pre">simu.dt</span></code></li>
@@ -677,13 +686,21 @@ Then the functions provided are used to create and populate the <code class="doc
 <li>Convolution integral time-step: <code class="code docutils literal notranslate"><span class="pre">simu.dtCITime=N*simu.dt</span></code></li>
 <li>Morison force time-step: <code class="code docutils literal notranslate"><span class="pre">simu.dtME</span> <span class="pre">=</span> <span class="pre">N*simu.dt</span></code></li>
 </ul>
+<div class="section" id="fixed-time-step-ode4">
+<h4>Fixed Time-Step (ode4)<a class="headerlink" href="#fixed-time-step-ode4" title="Permalink to this headline">¶</a></h4>
 <p>When running WEC-Sim with a fixed time-step, 100-200 time-steps per wave period is recommended to provide accurate hydrodynamic force calculations (ex: simu.dt = T/100, where T is wave period). However, a smaller time-step may be required (such as when coupling WEC-Sim with MoorDyn or PTO-Sim). To reduce the required WEC-Sim simulation time, a different time-step  may be specified for nonlinear buoyancy and Froude-Krylov excitation and for convolution integral calculations. For all simulations, the time-step should be chosen based on numerical stability and a convergence study should be performed.</p>
+</div>
+<div class="section" id="variable-time-step-ode45">
+<h4>Variable Time-Step (ode45)<a class="headerlink" href="#variable-time-step-ode45" title="Permalink to this headline">¶</a></h4>
 <p>To run WEC-Sim with a variable time-step, the following variables must be defined in the simulationClass:</p>
 <ul class="simple">
 <li>Numerical solver: <code class="code docutils literal notranslate"><span class="pre">simu.solver='ode45'</span></code></li>
 <li>Max time-step: <code class="code docutils literal notranslate"><span class="pre">simu.dt</span></code></li>
 </ul>
 <p>This option sets the maximum time step of the simulation (<code class="code docutils literal notranslate"><span class="pre">simu.dt</span></code>) and automatically adjusts the instantaneous time step to that required by MATLAB’s differential equation solver.</p>
+</div>
+</div>
+</div>
 <div class="section" id="wave-features">
 <h2>Wave Features<a class="headerlink" href="#wave-features" title="Permalink to this headline">¶</a></h2>
 <p>This section provides an overview of WEC-Sim’s wave class features. For more information about the wave class code structure, refer to <a class="reference internal" href="code_structure.html#wave-class"><span class="std std-ref">Wave Class</span></a>. The various wave features can be compared by running the cases within <code class="docutils literal notranslate"><span class="pre">the</span> <span class="pre">WEC-Sim/Examples/RM3</span></code> and <code class="docutils literal notranslate"><span class="pre">the</span> <span class="pre">WEC-Sim/Examples/OSWEC</span></code> directories.</p>
