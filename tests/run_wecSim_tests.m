@@ -29,32 +29,40 @@ plotSolvers=1;  % 1 to plot new run comparison by sln method
 openCompare=1;  % 1 opens all new run vs. stored run plots for comparison of each solver
 
 %% Run and Load Simulations
+
 if runReg==1
-    cd ./tests/RegularWaves/regular; runLoadRegular; cd .. ;
+    cd(testdir)
+    cd RegularWaves/regular; runLoadRegular; cd .. ;
     savefig('figReg');
     cd regularCIC; runLoadRegularCIC; cd .. ;
     savefig('figRegCIC');
     cd regularSS; runLoadRegularSS; cd .. ;
     savefig('figRegSS');
-    cd .. ;  close all;
+    close all;
+%     cd(testdir)
 end
 if runIrreg==1
+    cd(testdir);
     cd IrregularWaves/irregularCIC; runLoadIrregularCIC; cd ..;
     savefig('figIrregCIC') ;
     cd irregularSS; runLoadIrregularSS; cd ..;
     savefig('figIrregSS');
-    cd .. ; close all;
+    close all;
+%     cd(testdir)
 end
 if runYaw==1
     % regular
+    cd(testdir)
     cd PassiveYaw/RegularWaves; runLoadPassiveYawReg; cd ..;
     savefig('figYawReg');
     cd IrregularWaves; runLoadPassiveYawIrr; cd .. ;
     savefig('figYawIrr');
-    cd .. ; close all;
+    close all;
+%     cd(testdir)
 end
 if runComp==1
-    cd .\CompilationCases;
+    cd(testdir)
+    cd CompilationCases;
     try
         runB2BCase4; % covers b2b, regularCIC wave, ode4
         i_b2b4 = 1;
@@ -119,36 +127,42 @@ if runComp==1
         i_paraview = 0;
     end
     save('paraview.mat','i_paraview');
-    cd ..
+
+    cd(testdir)
 end
   
 %% Plot Solver Comparisons
-if plotSolvers==1
+if plotSolvers==1    
     if runReg==1
+        cd(testdir);
         cd RegularWaves; printPlotRegular;
-        cd .. ;
+%         cd(testdir);
     end
     if runIrreg==1
+        cd(testdir);
         cd IrregularWaves; printPlotIrregular;
-        cd .. ;
+%         cd(testdir);
     end
 end
 
 %% Open new vs. org Comparisons
 if openCompare==1
     if runReg==1
+        cd(testdir);
         cd RegularWaves; openfig('figReg.fig'); openfig('figRegCIC.fig'); openfig('figRegSS.fig');
-        cd .. ;
+%         cd(testdir);
     end
     if runIrreg==1
+        cd(testdir);
         cd IrregularWaves; openfig('figIrregCIC.fig'); openfig('figIrregSS.fig');
-        cd .. ;
+%         cd(testdir);
     end
     if runYaw==1
+        cd(testdir);
         cd PassiveYaw; open('figYawReg.fig'); open('figYawIrr.fig'); 
-        cd ..;
+%         cd(testdir);
     end
 end
 
-cd .. 
+cd(wsdir)
 

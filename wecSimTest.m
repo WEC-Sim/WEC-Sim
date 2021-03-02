@@ -14,10 +14,12 @@
 % limitations under the License.
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
+wsdir = pwd;
+testdir = fullfile(wsdir,'tests');
 addpath(genpath('.\tests'))
 addpath(genpath('.\source'))
 run_wecSim_tests
-% setting up Jenkins CI
+% setting up CI
 
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
