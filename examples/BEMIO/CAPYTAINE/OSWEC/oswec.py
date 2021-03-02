@@ -1,12 +1,5 @@
 # -*- coding: utf-8 -*-
 """
-Created on Mon Nov  10 13:35:00 2020
-
-@author: akeeste
-"""
-
-# -*- coding: utf-8 -*-
-"""
 Created on Thu Nov  5 13:15:35 2020
 
 @author: akeeste
@@ -19,10 +12,11 @@ parameters from WEC-Sim (frequency range, directions, etc)
 import numpy as np
 import os
 import sys
-sys.path.insert(1,'C:/Users/akeeste/Documents/Software/GitHub/capytaine/my_cases')
 
-import call_capytaine as cc # call_capytaine.py has some mods from david's original function
-
+# Add directory with the call_capytaine.py file to the system path.
+currentdir = os.path.dirname(os.getcwd())
+sys.path.append(currentdir)
+import call_capytaine as cc
 
 # Define OSWEC parameters ----------------------------------------------------#
 oswec_file = (os.getcwd() + os.path.sep + 'flap.dat',
