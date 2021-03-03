@@ -359,7 +359,7 @@ The RM3 is a two-body point absorber consisting of a float and a reaction  plate
 <div class="section" id="step-1-run-bemio">
 <h4>Step 1: Run BEMIO<a class="headerlink" href="#step-1-run-bemio" title="Permalink to this headline">¶</a></h4>
 <p>Hydrodynamic data for each RM3 body must be parsed into a HDF5 file using <a class="reference internal" href="advanced_features.html#bemio"><span class="std std-ref">BEMIO</span></a>.
-BEMIO converts hydrodynamic data from WAMIT, NEMOH or AQWA into a HDF5 file, <code class="docutils literal notranslate"><span class="pre">*.h5</span></code> that is then read by WEC-Sim.
+BEMIO converts hydrodynamic data from WAMIT, NEMOH, AQWA, or CAPYTAINE into a HDF5 file, <code class="docutils literal notranslate"><span class="pre">*.h5</span></code> that is then read by WEC-Sim.
 The RM3 tutorial includes data from a WAMIT run, <code class="docutils literal notranslate"><span class="pre">rm3.out</span></code>, of the RM3 geometry in the <code class="docutils literal notranslate"><span class="pre">$WECSIM/tutorials/rm3/hydroData/</span></code> directory.
 The RM3 WAMIT <code class="docutils literal notranslate"><span class="pre">rm3.out</span></code> file and the BEMIO <code class="docutils literal notranslate"><span class="pre">bemio.m</span></code> script are then used to generate the <code class="docutils literal notranslate"><span class="pre">rm3.h5</span></code> file.</p>
 <p>This is done by navigating to the <code class="docutils literal notranslate"><span class="pre">$WECSIM/tutorials/rm3/hydroData/</span></code> directory, and typing``bemio`` in the MATLAB Command Window:</p>
@@ -557,7 +557,7 @@ In addition to the required files listed below, users may supply a <code class="
 <div class="section" id="id5">
 <h4>Step 1: Run BEMIO<a class="headerlink" href="#id5" title="Permalink to this headline">¶</a></h4>
 <p>Hydrodynamic data for each OSWEC body must be parsed into a HDF5 file using <a class="reference internal" href="advanced_features.html#bemio"><span class="std std-ref">BEMIO</span></a>.
-BEMIO converts hydrodynamic data from WAMIT, NEMOH or AQWA into a HDF5 file, <code class="docutils literal notranslate"><span class="pre">*.h5</span></code> that is then read by WEC-Sim.
+BEMIO converts hydrodynamic data from WAMIT, NEMOH, AQWA, or CAPYTAINE into a HDF5 file, <code class="docutils literal notranslate"><span class="pre">*.h5</span></code> that is then read by WEC-Sim.
 The OSWEC tutorial includes data from a WAMIT run, <code class="docutils literal notranslate"><span class="pre">oswec.out</span></code>, of the OSWEC geometry in the <code class="docutils literal notranslate"><span class="pre">$WECSIM/tutorials/rm3/hydroData/</span></code> directory.
 The OSWEC WAMIT <code class="docutils literal notranslate"><span class="pre">oswec.out</span></code> file and the BEMIO <code class="docutils literal notranslate"><span class="pre">bemio.m</span></code> script are then used to generate the <code class="docutils literal notranslate"><span class="pre">oswec.h5</span></code> file.</p>
 <p>This is done by navigating to the <code class="docutils literal notranslate"><span class="pre">$WECSIM/tutorials/oswec/hydroData/</span></code> directory, and typing``bemio`` in the MATLAB Command Window:</p>
@@ -727,7 +727,7 @@ The WEC-Sim Applications repository is included as a <a class="reference externa
 <div class="section" id="write-hdf5">
 <h3>Write HDF5<a class="headerlink" href="#write-hdf5" title="Permalink to this headline">¶</a></h3>
 <p>This is an example of how to write your own h5 file using MATLAB.
-Can be useful if you want to modify your coefficients, use experimental coefficients, or coefficients from another BEM code other than NEMOH, WAMIT, or AQWA.
+Can be useful if you want to modify your coefficients, use experimental coefficients, or coefficients from another BEM code other than NEMOH, WAMIT, AQWA, or CAPYTAINE.
 For more details see <a class="reference external" href="http://wec-sim.github.io/WEC-Sim/features.html#bemio-writing-your-own-h5-file">BEMIO feature</a> documentation.</p>
 </div>
 </div>

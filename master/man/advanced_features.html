@@ -264,9 +264,9 @@
 </div>
 <div class="section" id="bemio">
 <span id="id2"></span><h2>BEMIO<a class="headerlink" href="#bemio" title="Permalink to this headline">¶</a></h2>
-<p>The Boundary Element Method Input/Output (BEMIO) functions are used to pre-process the BEM hydrodynamic data prior to running WEC-Sim. For more information about the WEC-Sim workflow, refer to <a class="reference internal" href="overview.html#running-wec-sim"><span class="std std-ref">Running WEC-Sim</span></a>. The following section can also be followed in conjunction with the cases in the WEC-Sim/Examples directory in the WEC-Sim source code. This includes several cases with WAMIT, NEMOH and AQWA. For more information, refer to <a class="reference internal" href="webinars.html#webinar1"><span class="std std-ref">Webinar 1 - BEMIO and MCR</span></a>. BEMIO functions perform the following tasks:</p>
+<p>The Boundary Element Method Input/Output (BEMIO) functions are used to pre-process the BEM hydrodynamic data prior to running WEC-Sim. For more information about the WEC-Sim workflow, refer to <a class="reference internal" href="overview.html#running-wec-sim"><span class="std std-ref">Running WEC-Sim</span></a>. The following section can also be followed in conjunction with the cases in the WEC-Sim/Examples directory in the WEC-Sim source code. This includes several cases with WAMIT, NEMOH, AQWA, and CAPYTAINE. For more information, refer to <span class="xref std std-ref">man/webinar1</span>. BEMIO functions perform the following tasks:</p>
 <ul class="simple">
-<li>Read BEM results from <strong>WAMIT</strong>, <strong>NEMOH</strong>, or <strong>AQWA</strong>.</li>
+<li>Read BEM results from <strong>WAMIT</strong>, <strong>NEMOH</strong>, <strong>AQWA</strong>, or <strong>CAPYTAINE</strong>.</li>
 <li>Calculate the radiation and excitation impulse response functions (IRFs).</li>
 <li>Calculate the state space realization for the radiation IRF.</li>
 <li>Save the resulting data in Hierarchical Data Format 5 (HDF5).</li>
@@ -331,7 +331,18 @@
 </dd>
 </dl>
 </div></blockquote>
-<p><strong>Normalize:</strong> Normalizes NEMOH and AQWA hydrodynamics coefficients in the same manner that WAMIT outputs are normalized. Specifically, the linear hydrostatic restoring stiffness is normalized as, <span class="math notranslate nohighlight">\(C_{i,j}/\rho g\)</span>; the radiation added mass is normalized as, <span class="math notranslate nohighlight">\(A_{i,j}/\rho\)</span>; radiation wave damping is normalized as, <span class="math notranslate nohighlight">\(B_{i,j}/\rho \omega\)</span>; and the wave-exciting forces are normalized as, <span class="math notranslate nohighlight">\(F_{exc,i}/\rho g\)</span>. Typically, this function would not be called directly by the user; it is automatically implemented within the Read_NEMOH and Read_AQWA functions.</p>
+<p><strong>Read_CAPYTAINE:</strong> Reads data from Capytaine output files</p>
+<blockquote>
+<div><dl class="docutils">
+<dt><a href="#id3"><span class="problematic" id="id4">*</span></a>hydro = Read_CAPYTAINE(hydro, filename)</dt>
+<dd><ul class="first last simple">
+<li><em>hydro</em> - data structure</li>
+<li><em>filename</em> - <code class="docutils literal notranslate"><span class="pre">*.nc</span></code> CAPYTAINE output file</li>
+</ul>
+</dd>
+</dl>
+</div></blockquote>
+<p><strong>Normalize:</strong> Normalizes NEMOH, AQWA and CAPYTAINE hydrodynamics coefficients in the same manner that WAMIT outputs are normalized. Specifically, the linear hydrostatic restoring stiffness is normalized as, <span class="math notranslate nohighlight">\(C_{i,j}/\rho g\)</span>; the radiation added mass is normalized as, <span class="math notranslate nohighlight">\(A_{i,j}/\rho\)</span>; radiation wave damping is normalized as, <span class="math notranslate nohighlight">\(B_{i,j}/\rho \omega\)</span>; and the wave-exciting forces are normalized as, <span class="math notranslate nohighlight">\(F_{exc,i}/\rho g\)</span>. Typically, this function would not be called directly by the user; it is automatically implemented within the Read_NEMOH, Read_AQWA, and Read_CAPYTAINE functions.</p>
 <blockquote>
 <div><dl class="docutils">
 <dt><em>hydro = Normalize(hydro)</em></dt>
@@ -463,14 +474,14 @@
 </tr>
 <tr class="row-odd"><td>code</td>
 <td>string</td>
-<td>BEM code (WAMIT, AQWA, or NEMOH)</td>
+<td>BEM code (WAMIT, AQWA, NEMOH, or CAPYTAINE)</td>
 </tr>
 <tr class="row-even"><td>C</td>
 <td>[6,6,Nb]</td>
 <td>hydrostatic restoring stiffness</td>
 </tr>
 <tr class="row-odd"><td>dof</td>
-<td>[6 + GBM, Nb]</td>
+<td>[1,Nb]</td>
 <td>Degrees of freedom (DOF) for each body. Default DOF for each body is 6 plus number of possible generalized body modes (GBM).</td>
 </tr>
 <tr class="row-even"><td>exc_im</td>
@@ -979,7 +990,7 @@ An option available to reduce the nonlinear simulation time is to specify a nonl
 <p>The <a class="reference external" href="https://github.com/WEC-Sim/WEC-Sim_Applications">WEC-Sim Applications repository</a> contains a working sample of a barge with four additional degrees of freedom to account for bending and shearing of the body. See this example for details on how to implement and use generalized body modes in WEC-Sim.</p>
 <div class="admonition note">
 <p class="first admonition-title">Note</p>
-<p class="last">Generalized body modes module has only been tested with WAMIT, where BEMIO may need to be modified for NEMOH.</p>
+<p class="last">Generalized body modes module has only been tested with WAMIT, where BEMIO may need to be modified for NEMOH, AQWA and CAPYTAINE.</p>
 </div>
 </div>
 <div class="section" id="passive-yaw-implementation">
@@ -1332,7 +1343,7 @@ Refer to the <a class="reference internal" href="#rm3-with-moordyn"><span class=
 </pre></div>
 </div>
 <ul class="simple">
-<li><strong>MoorDyn Input File</strong>: A mooring folder that includes a moorDyn input file (<code class="docutils literal notranslate"><span class="pre">lines.txt</span></code>) is created. The moorDyn input file (<code class="docutils literal notranslate"><span class="pre">lines.txt</span></code>) is shown in the figure below. More details on how to setup the MooDyn input file are described in the MoorDyn User Guide <a class="reference internal" href="theory.html#hall2015moordynguide" id="id15">[B1]</a>.</li>
+<li><strong>MoorDyn Input File</strong>: A mooring folder that includes a moorDyn input file (<code class="docutils literal notranslate"><span class="pre">lines.txt</span></code>) is created. The moorDyn input file (<code class="docutils literal notranslate"><span class="pre">lines.txt</span></code>) is shown in the figure below. More details on how to setup the MooDyn input file are described in the MoorDyn User Guide <a class="reference internal" href="theory.html#hall2015moordynguide" id="id17">[B1]</a>.</li>
 </ul>
 <div class="figure align-center" id="moordyninput">
 <a class="reference internal image-reference" href="../_images/moorDynInput.png"><img alt="../_images/moorDynInput.png" src="../_images/moorDynInput.png" style="width: 400pt;" /></a>
@@ -1371,9 +1382,9 @@ Next you will need to add some WEC-Sim specific macros, as follows:</p>
 <ul class="simple">
 <li>Open Paraview</li>
 <li>Click on <code class="docutils literal notranslate"><span class="pre">Macros</span> <span class="pre">=&gt;</span> <span class="pre">Add</span> <span class="pre">new</span> <span class="pre">macro</span></code></li>
-<li>Navigate to the WEC-Sim <code class="docutils literal notranslate"><span class="pre">source/functions/paraview_macros</span></code> directory</li>
+<li>Navigate to the WEC-Sim <code class="docutils literal notranslate"><span class="pre">source/functions/paraview</span></code> directory</li>
 <li>Select the first file and click <code class="docutils literal notranslate"><span class="pre">OK</span></code></li>
-<li>Repeat this for all files in the <code class="docutils literal notranslate"><span class="pre">paraview_macros</span> <span class="pre">directory.</span></code></li>
+<li>Repeat this for all files in the <code class="docutils literal notranslate"><span class="pre">paraview</span> <span class="pre">directory.</span></code></li>
 </ul>
 </div>
 <div class="section" id="setting-up-paraview-output">

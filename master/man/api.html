@@ -308,7 +308,7 @@ to define WEC-Sim’s hydrodynamic and non-hydrodynamic bodies.</p>
 
 <dl class="attribute">
 <dt id="objects.bodyClass.morisonElement">
-<code class="descname">morisonElement</code><em class="property"> = &quot;struct(            'cd',                 [NaN NaN NaN], \n'ca',                 [NaN NaN NaN], \n'characteristicArea', [NaN NaN NaN], \n'VME',                 NaN     , \n'rgME',               [NaN NaN NaN], \n'z',                  [NaN NaN NaN])&quot;</em><a class="headerlink" href="#objects.bodyClass.morisonElement" title="Permalink to this definition">¶</a></dt>
+<code class="descname">morisonElement</code><em class="property"> = &quot;struct(            'cd',                 [0 0 0], \n'ca',                 [0 0 0], \n'characteristicArea', [0 0 0], \n'VME',                 0     , \n'rgME',               [0 0 0], \n'z',                  [0 0 1])&quot;</em><a class="headerlink" href="#objects.bodyClass.morisonElement" title="Permalink to this definition">¶</a></dt>
 <dd><p>Structure defining the Morison Element properties connected to the body. <code class="docutils literal notranslate"><span class="pre">cd</span></code> (<cite>1x3 float vector</cite>) is defined as the viscous normal and tangential drag coefficients in the following format, Option 1 [cd_x cd_y cd_z], Option 2 [cd_N cd_T NaN], Default = [<code class="docutils literal notranslate"><span class="pre">NaN</span> <span class="pre">NaN</span> <span class="pre">NaN</span></code>]. <code class="docutils literal notranslate"><span class="pre">ca</span></code> is defined as the added mass coefficent for the Morison Element in the following format, Option 1 [ca_x ca_y ca_z], Option 2 [ca_N ca_T NaN], Default = [<code class="docutils literal notranslate"><span class="pre">NaN</span> <span class="pre">NaN</span> <span class="pre">NaN</span></code>], <code class="docutils literal notranslate"><span class="pre">characteristicArea</span></code> is defined as the characteristic area for the Morison Element [m^2] in the following format, Option 1 [Area_x Area_y Area_z], Option 2 [Area_N Area_T NaN], Default = [NaN NaN NaN]. <code class="docutils literal notranslate"><span class="pre">VME</span></code> is the characteristic volume of the Morison Element [m^3], Default = <code class="docutils literal notranslate"><span class="pre">NaN</span></code>. <code class="docutils literal notranslate"><span class="pre">rgME</span></code> is defined as the vector from the body COG to point of application for the Morison Element [m] in the following format [x y z], Default = [<code class="docutils literal notranslate"><span class="pre">NaN</span> <span class="pre">NaN</span> <span class="pre">NaN</span></code>].``z`` is defined as the unit normal vector center axis of the Morison Element in the following format, Option 1 not used, Option 2 [n_{x} n_{y} n_{z}], Default = [<code class="docutils literal notranslate"><span class="pre">NaN</span> <span class="pre">NaN</span> <span class="pre">NaN</span></code>].</p>
 </dd></dl>
 
@@ -402,12 +402,6 @@ Check h5 file</p>
 <dd><p>This method calculates and outputs the real added mass force time history.</p>
 </dd></dl>
 
-<dl class="method">
-<dt id="objects.bodyClass.write_paraview_vtp">
-<code class="descname">write_paraview_vtp</code><span class="sig-paren">(</span><em>t</em>, <em>pos_all</em>, <em>bodyname</em>, <em>model</em>, <em>simdate</em>, <em>hspressure</em>, <em>wavenonlinearpressure</em>, <em>wavelinearpressure</em>, <em>pathParaviewVideo</em>, <em>vtkbodiesii</em><span class="sig-paren">)</span><a class="headerlink" href="#objects.bodyClass.write_paraview_vtp" title="Permalink to this definition">¶</a></dt>
-<dd><p>This methods writes vtp files for Paraview visualization.</p>
-</dd></dl>
-
 </dd></dl>
 
 </div>
@@ -489,16 +483,6 @@ frame or relative to other bodies.</p>
 <p><code class="docutils literal notranslate"><span class="pre">ax_rot</span></code> (<cite>3x1 float vector</cite>) is the axis about which to rotate to constraint and must be a normal vector, Default = <code class="docutils literal notranslate"><span class="pre">[]</span></code>.</p>
 <p><code class="docutils literal notranslate"><span class="pre">ang_rot</span></code> (<cite>float</cite>) is the rotation angle [rad], Default = <code class="docutils literal notranslate"><span class="pre">[]</span></code>.</p>
 <p><code class="docutils literal notranslate"><span class="pre">addLinDisp</span></code> (‘float’) is the initial linear displacement [m] in addition to the displacement caused by the constraint rotation, Default = ‘[]’.</p>
-</dd></dl>
-
-<dl class="method">
-<dt id="objects.constraintClass.rotateXYZ">
-<code class="descname">rotateXYZ</code><span class="sig-paren">(</span><em>x</em>, <em>ax</em>, <em>t</em><span class="sig-paren">)</span><a class="headerlink" href="#objects.constraintClass.rotateXYZ" title="Permalink to this definition">¶</a></dt>
-<dd><p>This method rotates a point about an arbitrary axis.</p>
-<p><code class="docutils literal notranslate"><span class="pre">x</span></code> (<cite>3x1 float vector</cite>) is the point coordiantes.</p>
-<p><code class="docutils literal notranslate"><span class="pre">ax</span></code> (<cite>3x1 float vector</cite>) is the axis about which to rotate the constraint and must be a normal vector.</p>
-<p><code class="docutils literal notranslate"><span class="pre">t</span></code>  (<cite>float</cite>) is the rotation angle of the constraint.</p>
-<p><code class="docutils literal notranslate"><span class="pre">xn</span></code> (<cite>3x1 float vector</cite>) is the new point coordiantes after rotation.</p>
 </dd></dl>
 
 <dl class="method">
@@ -597,59 +581,9 @@ frame or relative to other bodies.</p>
 </dd></dl>
 
 <dl class="method">
-<dt id="objects.mooringClass.rotateXYZ">
-<code class="descname">rotateXYZ</code><span class="sig-paren">(</span><em>x</em>, <em>ax</em>, <em>t</em><span class="sig-paren">)</span><a class="headerlink" href="#objects.mooringClass.rotateXYZ" title="Permalink to this definition">¶</a></dt>
-<dd><p>Method to rotate a point about an arbitrary axis</p>
-<table class="docutils field-list" frame="void" rules="none">
-<col class="field-name" />
-<col class="field-body" />
-<tbody valign="top">
-<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first simple">
-<li><strong>x</strong> (<em>1 x 3 float vector</em>) – coordinates of point to rotate</li>
-<li><strong>ax</strong> (<em>1 x 3 float vector</em>) – axis about which to rotate</li>
-<li><strong>t</strong> (<em>float</em>) – rotation angle (radian)</li>
-</ul>
-</td>
-</tr>
-<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body"><p class="first"><strong>xn</strong> – new coordinates after rotation</p>
-</td>
-</tr>
-<tr class="field-odd field"><th class="field-name">Return type:</th><td class="field-body"><p class="first last">1 x 3 float vector</p>
-</td>
-</tr>
-</tbody>
-</table>
-</dd></dl>
-
-<dl class="method">
 <dt id="objects.mooringClass.moorDynInput">
 <code class="descname">moorDynInput</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#objects.mooringClass.moorDynInput" title="Permalink to this definition">¶</a></dt>
 <dd><p>Method to read MoorDyn input file</p>
-</dd></dl>
-
-<dl class="method">
-<dt id="objects.mooringClass.write_paraview_vtp">
-<code class="descname">write_paraview_vtp</code><span class="sig-paren">(</span><em>moorDyn</em>, <em>model</em>, <em>t</em>, <em>simdate</em>, <em>nline</em>, <em>nnode</em>, <em>pathParaviewVideo</em>, <em>TimeBodyParav</em>, <em>NewTimeParaview</em><span class="sig-paren">)</span><a class="headerlink" href="#objects.mooringClass.write_paraview_vtp" title="Permalink to this definition">¶</a></dt>
-<dd><p>Method to write <code class="docutils literal notranslate"><span class="pre">vtp</span></code> Paraview visualization files</p>
-<table class="docutils field-list" frame="void" rules="none">
-<col class="field-name" />
-<col class="field-body" />
-<tbody valign="top">
-<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first last simple">
-<li><strong>moorDyn</strong> (<em>obj</em>) – The moorDyn object</li>
-<li><strong>model</strong> (<em>string</em>) – The simMechanics <code class="docutils literal notranslate"><span class="pre">.slx</span></code> file</li>
-<li><strong>t</strong> (<em>float vector</em>) – Moordyn time vector</li>
-<li><strong>simdate</strong> (<em>string</em>) – Date string</li>
-<li><strong>nline</strong> (<em>integer</em>) – Number of mooring lines</li>
-<li><strong>nnode</strong> (<em>integer</em>) – Number of nodes on mooring lines</li>
-<li><strong>pathParaviewVideo</strong> (<em>directory</em>) – Directory the Paraview files were saved</li>
-<li><strong>TimeBodyParav</strong> (<em>float vector</em>) – Paraview time vector</li>
-<li><strong>simu.g</strong> (<em>float</em>) – Gravitational acceleration from simulationClass</li>
-</ul>
-</td>
-</tr>
-</tbody>
-</table>
 </dd></dl>
 
 </dd></dl>
@@ -763,16 +697,6 @@ frame or relative to other bodies.</p>
 <p><code class="docutils literal notranslate"><span class="pre">ax_rot</span></code> (<cite>3x1 float vector</cite>) is the axis about which to rotate to constraint and must be a normal vector, Default = <code class="docutils literal notranslate"><span class="pre">[]</span></code>.</p>
 <p><code class="docutils literal notranslate"><span class="pre">ang_rot</span></code> (<cite>float</cite>) is the rotation angle [rad], Default = <code class="docutils literal notranslate"><span class="pre">[]</span></code>.</p>
 <p><code class="docutils literal notranslate"><span class="pre">addLinDisp</span></code> (‘float’) is the initial linear displacement [m] in addition to the displacement caused by the pto rotation, Default = ‘[]’.</p>
-</dd></dl>
-
-<dl class="method">
-<dt id="objects.ptoClass.rotateXYZ">
-<code class="descname">rotateXYZ</code><span class="sig-paren">(</span><em>x</em>, <em>ax</em>, <em>t</em><span class="sig-paren">)</span><a class="headerlink" href="#objects.ptoClass.rotateXYZ" title="Permalink to this definition">¶</a></dt>
-<dd><p>This method rotates a point about an arbitrary axis.</p>
-<p><code class="docutils literal notranslate"><span class="pre">x</span></code> (<cite>3x1 float vector</cite>) is the point coordiantes.</p>
-<p><code class="docutils literal notranslate"><span class="pre">ax</span></code> (<cite>3x1 float vector</cite>) is the axis about which to rotate the pto and must be a normal vector.</p>
-<p><code class="docutils literal notranslate"><span class="pre">t</span></code>  (<cite>float</cite>) is the rotation angle of the pto.</p>
-<p><code class="docutils literal notranslate"><span class="pre">xn</span></code> (<cite>3x1 float vector</cite>) is the new point coordiantes after rotation.</p>
 </dd></dl>
 
 <dl class="method">
@@ -980,14 +904,6 @@ output from each instance of a WEC-Sim class (e.g.
 <dd><p>This method writes WEC-Sim outputs to a (ASCII) text file.
 This method is executed by specifying <code class="docutils literal notranslate"><span class="pre">simu.outputtxt=1</span></code>
 in the <code class="docutils literal notranslate"><span class="pre">wecSimInputFile.m</span></code>.</p>
-</dd></dl>
-
-<dl class="method">
-<dt id="objects.responseClass.write_paraview">
-<code class="descname">write_paraview</code><span class="sig-paren">(</span><em>bodies</em>, <em>t</em>, <em>model</em>, <em>simdate</em>, <em>wavetype</em>, <em>mooring</em>, <em>pathParaviewVideo</em><span class="sig-paren">)</span><a class="headerlink" href="#objects.responseClass.write_paraview" title="Permalink to this definition">¶</a></dt>
-<dd><p>This method writes <code class="docutils literal notranslate"><span class="pre">*.vtp</span></code> files for visualization with
-ParaView. This method is executed by specifying
-<code class="docutils literal notranslate"><span class="pre">simu.paraview=1</span></code> in the <code class="docutils literal notranslate"><span class="pre">wecSimInputFile.m</span></code>.</p>
 </dd></dl>
 
 </dd></dl>
@@ -1222,9 +1138,15 @@ ParaView. This method is executed by specifying
 </dd></dl>
 
 <dl class="attribute">
-<dt id="objects.simulationClass.version">
-<code class="descname">version</code><em class="property"> = &quot;'4.2'&quot;</em><a class="headerlink" href="#objects.simulationClass.version" title="Permalink to this definition">¶</a></dt>
+<dt id="objects.simulationClass.wsVersion">
+<code class="descname">wsVersion</code><em class="property"> = &quot;'4.2'&quot;</em><a class="headerlink" href="#objects.simulationClass.wsVersion" title="Permalink to this definition">¶</a></dt>
 <dd><p>(<cite>string</cite>) WEC-Sim version</p>
+</dd></dl>
+
+<dl class="attribute">
+<dt id="objects.simulationClass.gitCommit">
+<code class="descname">gitCommit</code><em class="property"> = '[]'</em><a class="headerlink" href="#objects.simulationClass.gitCommit" title="Permalink to this definition">¶</a></dt>
+<dd><p>(<cite>string</cite>) GitHub commit</p>
 </dd></dl>
 
 <dl class="attribute">
@@ -1365,6 +1287,12 @@ ParaView. This method is executed by specifying
 </tr>
 </tbody>
 </table>
+</dd></dl>
+
+<dl class="method">
+<dt id="objects.simulationClass.getGitCommit">
+<code class="descname">getGitCommit</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#objects.simulationClass.getGitCommit" title="Permalink to this definition">¶</a></dt>
+<dd><p>Determines GitHub commit tag</p>
 </dd></dl>
 
 </dd></dl>
@@ -1612,16 +1540,10 @@ messages if parameters are not properly defined.</p>
 </dd></dl>
 
 <dl class="method">
-<dt id="objects.waveClass.write_paraview_vtp">
-<code class="descclassname">waveClass.</code><code class="descname">write_paraview_vtp</code><span class="sig-paren">(</span><em>t</em>, <em>numPointsX</em>, <em>numPointsY</em>, <em>domainSize</em>, <em>model</em>, <em>simdate</em>, <em>mooring</em>, <em>pathParaviewVideo</em>, <em>TimeBodyParav</em>, <em>g</em><span class="sig-paren">)</span><a class="headerlink" href="#objects.waveClass.write_paraview_vtp" title="Permalink to this definition">¶</a></dt>
-<dd><p>This methods writes vtp files for Paraview visualization.</p>
-</dd></dl>
-
-<dl class="method">
 <dt id="objects.waveClass.waveElevationGrid">
 <code class="descclassname">waveClass.</code><code class="descname">waveElevationGrid</code><span class="sig-paren">(</span><em>t</em>, <em>X</em>, <em>Y</em>, <em>TimeBodyParav</em>, <em>it</em>, <em>g</em><span class="sig-paren">)</span><a class="headerlink" href="#objects.waveClass.waveElevationGrid" title="Permalink to this definition">¶</a></dt>
 <dd><p>This method calculates wave elevation on a grid at a given
-time, used by: <span class="math notranslate nohighlight">\(waveClass.write_paraview_vtp\)</span>.</p>
+time, used by: <code class="xref mat mat-func docutils literal notranslate"><span class="pre">write_paraview_wave()</span></code>.</p>
 <table class="docutils field-list" frame="void" rules="none">
 <col class="field-name" />
 <col class="field-body" />
