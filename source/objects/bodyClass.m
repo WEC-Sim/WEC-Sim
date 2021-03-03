@@ -57,12 +57,12 @@ classdef bodyClass<handle
             'opacity', 1)                                    % Structure defining visualization properties in either SimScape or Paraview. ``color`` (`3x1 float vector`) is defined as the body visualization color, Default = [``1 1 0``]. ``opacity`` (`integer`) is defined as the body opacity, Default = ``1``.
         bodyparaview      = 1;                               % (`integer`) Flag for visualisation in Paraview either 0 (no) or 1 (yes). Default = ``1`` since only called in paraview.
         morisonElement   = struct(...                        % 
-            'cd',                 [NaN NaN NaN], ...         % 
-            'ca',                 [NaN NaN NaN], ...         % 
-            'characteristicArea', [NaN NaN NaN], ...         % 
-            'VME',                 NaN     , ...             % 
-            'rgME',               [NaN NaN NaN], ...         %
-            'z',                  [NaN NaN NaN])             % Structure defining the Morison Element properties connected to the body. ``cd`` (`1x3 float vector`) is defined as the viscous normal and tangential drag coefficients in the following format, Option 1 [cd_x cd_y cd_z], Option 2 [cd_N cd_T NaN], Default = [``NaN NaN NaN``]. ``ca`` is defined as the added mass coefficent for the Morison Element in the following format, Option 1 [ca_x ca_y ca_z], Option 2 [ca_N ca_T NaN], Default = [``NaN NaN NaN``], ``characteristicArea`` is defined as the characteristic area for the Morison Element [m^2] in the following format, Option 1 [Area_x Area_y Area_z], Option 2 [Area_N Area_T NaN], Default = [NaN NaN NaN]. ``VME`` is the characteristic volume of the Morison Element [m^3], Default = ``NaN``. ``rgME`` is defined as the vector from the body COG to point of application for the Morison Element [m] in the following format [x y z], Default = [``NaN NaN NaN``].``z`` is defined as the unit normal vector center axis of the Morison Element in the following format, Option 1 not used, Option 2 [n_{x} n_{y} n_{z}], Default = [``NaN NaN NaN``].
+            'cd',                 [0 0 0], ...               % 
+            'ca',                 [0 0 0], ...               % 
+            'characteristicArea', [0 0 0], ...               % 
+            'VME',                 0     , ...               % 
+            'rgME',               [0 0 0], ...               %
+            'z',                  [0 0 1])                   % Structure defining the Morison Element properties connected to the body. ``cd`` (`1x3 float vector`) is defined as the viscous normal and tangential drag coefficients in the following format, Option 1 [cd_x cd_y cd_z], Option 2 [cd_N cd_T NaN], Default = [``NaN NaN NaN``]. ``ca`` is defined as the added mass coefficent for the Morison Element in the following format, Option 1 [ca_x ca_y ca_z], Option 2 [ca_N ca_T NaN], Default = [``NaN NaN NaN``], ``characteristicArea`` is defined as the characteristic area for the Morison Element [m^2] in the following format, Option 1 [Area_x Area_y Area_z], Option 2 [Area_N Area_T NaN], Default = [NaN NaN NaN]. ``VME`` is the characteristic volume of the Morison Element [m^3], Default = ``NaN``. ``rgME`` is defined as the vector from the body COG to point of application for the Morison Element [m] in the following format [x y z], Default = [``NaN NaN NaN``].``z`` is defined as the unit normal vector center axis of the Morison Element in the following format, Option 1 not used, Option 2 [n_{x} n_{y} n_{z}], Default = [``NaN NaN NaN``].
         nhBody            = 0                                % (`integer`) Flag for non-hydro body either 0 (no) or 1 (yes). Default = ``0``.
         flexHydroBody     = 0                                % (`integer`) Flag for flexible body either 0 (no) or 1 (yes). Default = ``0``.
         meanDriftForce    = 0                                % (`integer`) Flag for mean drift force with three options:  0 (no), 1 (yes, from control surface) or 2 (yes, from momentum conservation). Default = ``0``.
@@ -333,7 +333,7 @@ classdef bodyClass<handle
             % addLinDisp: initial linear displacement (in addition to the displacement caused by rotation)
             cg = obj.cg;
             relCoord = cg - x_rot;
-            rotatedRelCoord = obj.rotateXYZ(relCoord,ax_rot,ang_rot);
+            rotatedRelCoord = rotateXYZ(relCoord,ax_rot,ang_rot);
             newCoord = rotatedRelCoord + x_rot;
             linDisp = newCoord-cg;
             obj.initDisp.initLinDisp= linDisp + addLinDisp;
@@ -725,130 +725,6 @@ classdef bodyClass<handle
                 fam(:,i) = tmp;
             end
             clear tmp
-        end
-        
-        function xn = rotateXYZ(obj,x,ax,t)
-            % Function to rotate a point about an arbitrary axis
-            % x: 3-componenet coordiantes
-            % ax: axis about which to rotate (must be a normal vector)
-            % t: rotation angle
-            % xn: new coordinates after rotation
-            rotMat = zeros(3);
-            rotMat(1,1) = ax(1)*ax(1)*(1-cos(t))    + cos(t);
-            rotMat(1,2) = ax(2)*ax(1)*(1-cos(t))    + ax(3)*sin(t);
-            rotMat(1,3) = ax(3)*ax(1)*(1-cos(t))    - ax(2)*sin(t);
-            rotMat(2,1) = ax(1)*ax(2)*(1-cos(t))    - ax(3)*sin(t);
-            rotMat(2,2) = ax(2)*ax(2)*(1-cos(t))    + cos(t);
-            rotMat(2,3) = ax(3)*ax(2)*(1-cos(t))    + ax(1)*sin(t);
-            rotMat(3,1) = ax(1)*ax(3)*(1-cos(t))    + ax(2)*sin(t);
-            rotMat(3,2) = ax(2)*ax(3)*(1-cos(t))    - ax(1)*sin(t);
-            rotMat(3,3) = ax(3)*ax(3)*(1-cos(t))    + cos(t);
-            xn = x*rotMat;
-        end
-        
-        function verts_out = offsetXYZ(obj,verts,x)
-            % Function to move the position vertices
-            verts_out(:,1) = verts(:,1) + x(1);
-            verts_out(:,2) = verts(:,2) + x(2);
-            verts_out(:,3) = verts(:,3) + x(3);
-        end
-        
-        function write_paraview_vtp(obj, t, pos_all, bodyname, model, simdate, hspressure,wavenonlinearpressure,wavelinearpressure,pathParaviewVideo,vtkbodiesii)
-            % This methods writes vtp files for Paraview visualization.
-            numVertex = obj.bodyGeometry.numVertex;
-            numFace = obj.bodyGeometry.numFace;
-            vertex = obj.bodyGeometry.vertex;
-            face = obj.bodyGeometry.face;
-            cellareas = obj.bodyGeometry.area;
-            for it = 1:length(t)
-                % calculate new position
-                pos = pos_all(it,:);
-                vertex_mod = obj.rotateXYZ(vertex,[1 0 0],pos(4));
-                vertex_mod = obj.rotateXYZ(vertex_mod,[0 1 0],pos(5));
-                vertex_mod = obj.rotateXYZ(vertex_mod,[0 0 1],pos(6));
-                vertex_mod = obj.offsetXYZ(vertex_mod,pos(1:3));
-                % open file
-                filename = [pathParaviewVideo, filesep 'body' num2str(vtkbodiesii) '_' bodyname filesep bodyname '_' num2str(it) '.vtp'];
-                fid = fopen(filename, 'w');
-                % write header
-                fprintf(fid, '<?xml version="1.0"?>\n');
-                fprintf(fid, ['<!-- WEC-Sim Visualization using ParaView -->\n']);
-                fprintf(fid, ['<!--   model: ' model ' - ran on ' simdate ' -->\n']);
-                fprintf(fid, ['<!--   body:  ' bodyname ' -->\n']);
-                fprintf(fid, ['<!--   time:  ' num2str(t(it)) ' -->\n']);
-                fprintf(fid, '<VTKFile type="PolyData" version="0.1">\n');
-                fprintf(fid, '  <PolyData>\n');
-                % write body info
-                fprintf(fid,['    <Piece NumberOfPoints="' num2str(numVertex) '" NumberOfPolys="' num2str(numFace) '">\n']);
-                % write points
-                fprintf(fid,'      <Points>\n');
-                fprintf(fid,'        <DataArray type="Float32" NumberOfComponents="3" format="ascii">\n');
-                for ii = 1:numVertex
-                    fprintf(fid, '          %5.5f %5.5f %5.5f\n', vertex_mod(ii,:));
-                end
-                clear vertex_mod
-                fprintf(fid,'        </DataArray>\n');
-                fprintf(fid,'      </Points>\n');
-                % write tirangles connectivity
-                fprintf(fid,'      <Polys>\n');
-                fprintf(fid,'        <DataArray type="Int32" Name="connectivity" format="ascii">\n');
-                for ii = 1:numFace
-                    fprintf(fid, '          %i %i %i\n', face(ii,:)-1);
-                end
-                fprintf(fid,'        </DataArray>\n');
-                fprintf(fid,'        <DataArray type="Int32" Name="offsets" format="ascii">\n');
-                fprintf(fid, '         ');
-                for ii = 1:numFace
-                    n = ii * 3;
-                    fprintf(fid, ' %i', n);
-                end
-                fprintf(fid, '\n');
-                fprintf(fid,'        </DataArray>\n');
-                fprintf(fid, '      </Polys>\n');
-                % write cell data
-                fprintf(fid,'      <CellData>\n');
-                % Cell Areas
-                fprintf(fid,'        <DataArray type="Float32" Name="Cell Area" NumberOfComponents="1" format="ascii">\n');
-                for ii = 1:numFace
-                    fprintf(fid, '          %i', cellareas(ii));
-                end
-                fprintf(fid, '\n');
-                fprintf(fid,'        </DataArray>\n');
-                % Hydrostatic Pressure
-                if ~isempty(hspressure)
-                    fprintf(fid,'        <DataArray type="Float32" Name="Hydrostatic Pressure" NumberOfComponents="1" format="ascii">\n');
-                    for ii = 1:numFace
-                        fprintf(fid, '          %i', hspressure(it,ii));
-                    end
-                    fprintf(fid, '\n');
-                    fprintf(fid,'        </DataArray>\n');
-                end
-                % Non-Linear Froude-Krylov Wave Pressure
-                if ~isempty(wavenonlinearpressure)
-                    fprintf(fid,'        <DataArray type="Float32" Name="Wave Pressure NonLinear" NumberOfComponents="1" format="ascii">\n');
-                    for ii = 1:numFace
-                        fprintf(fid, '          %i', wavenonlinearpressure(it,ii));
-                    end
-                    fprintf(fid, '\n');
-                    fprintf(fid,'        </DataArray>\n');
-                end
-                % Linear Froude-Krylov Wave Pressure
-                if ~isempty(wavelinearpressure)
-                    fprintf(fid,'        <DataArray type="Float32" Name="Wave Pressure Linear" NumberOfComponents="1" format="ascii">\n');
-                    for ii = 1:numFace
-                        fprintf(fid, '          %i', wavelinearpressure(it,ii));
-                    end
-                    fprintf(fid, '\n');
-                    fprintf(fid,'        </DataArray>\n');
-                end
-                fprintf(fid,'      </CellData>\n');
-                % end file
-                fprintf(fid, '    </Piece>\n');
-                fprintf(fid, '  </PolyData>\n');
-                fprintf(fid, '</VTKFile>');
-                % close file
-                fclose(fid);
-            end
         end
     end
 end

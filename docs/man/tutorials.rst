@@ -67,7 +67,7 @@ RM3 Tutorial
 Step 1: Run BEMIO
 """"""""""""""""""""""""
 Hydrodynamic data for each RM3 body must be parsed into a HDF5 file using :ref:`bemio`. 
-BEMIO converts hydrodynamic data from WAMIT, NEMOH or AQWA into a HDF5 file, ``*.h5`` that is then read by WEC-Sim.
+BEMIO converts hydrodynamic data from WAMIT, NEMOH, AQWA, or CAPYTAINE into a HDF5 file, ``*.h5`` that is then read by WEC-Sim.
 The RM3 tutorial includes data from a WAMIT run, ``rm3.out``, of the RM3 geometry in the ``$WECSIM/tutorials/rm3/hydroData/`` directory.
 The RM3 WAMIT ``rm3.out`` file and the BEMIO ``bemio.m`` script are then used to generate the ``rm3.h5`` file. 
 
@@ -185,7 +185,7 @@ OSWEC Tutorial
 Step 1: Run BEMIO
 """"""""""""""""""""""""
 Hydrodynamic data for each OSWEC body must be parsed into a HDF5 file using :ref:`bemio`. 
-BEMIO converts hydrodynamic data from WAMIT, NEMOH or AQWA into a HDF5 file, ``*.h5`` that is then read by WEC-Sim.
+BEMIO converts hydrodynamic data from WAMIT, NEMOH, AQWA, or CAPYTAINE into a HDF5 file, ``*.h5`` that is then read by WEC-Sim.
 The OSWEC tutorial includes data from a WAMIT run, ``oswec.out``, of the OSWEC geometry in the ``$WECSIM/tutorials/rm3/hydroData/`` directory.
 The OSWEC WAMIT ``oswec.out`` file and the BEMIO ``bemio.m`` script are then used to generate the ``oswec.h5`` file. 
 
@@ -342,7 +342,7 @@ Numerical model for the WEC Control Competition (WECCCOMP) using WEC-Sim to mode
 Write HDF5
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 This is an example of how to write your own h5 file using MATLAB. 
-Can be useful if you want to modify your coefficients, use experimental coefficients, or coefficients from another BEM code other than NEMOH, WAMIT, or AQWA.
+Can be useful if you want to modify your coefficients, use experimental coefficients, or coefficients from another BEM code other than NEMOH, WAMIT, AQWA, or CAPYTAINE.
 For more details see `BEMIO feature <http://wec-sim.github.io/WEC-Sim/features.html#bemio-writing-your-own-h5-file>`_ documentation.
 
 
