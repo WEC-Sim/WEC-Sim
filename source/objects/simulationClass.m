@@ -61,7 +61,8 @@ classdef simulationClass<handle
     end
 
     properties (SetAccess = 'public', GetAccess = 'public')%internal
-        version             = '4.2'                                        % (`string`) WEC-Sim version
+        wsVersion             = '4.2'                                      % (`string`) WEC-Sim version
+        gitCommit           = []                                           % (`string`) GitHub commit
         simulationDate      = datetime                                     % (`string`) Simulation date and time
         outputDir           = 'output'                                     % (`string`) Data output directory name. Default = ``'output'``
         time                = 0                                            % (`float`) Simulation time [s]. Default = ``0`` s
@@ -83,7 +84,7 @@ classdef simulationClass<handle
         function obj = simulationClass()
             % This method initializes the ``simulationClass``.
             fprintf('WEC-Sim: An open-source code for simulating wave energy converters\n')
-            fprintf('Version: %s\n\n',obj.version)
+            fprintf('Version: %s\n\n',obj.wsVersion)
             fprintf('Initializing the Simulation Class...\n')
             obj.caseDir = pwd; 
             fprintf('\tCase Dir: %s \n',obj.caseDir)
@@ -147,7 +148,7 @@ classdef simulationClass<handle
                 end
             end
             mkdir(obj.outputDir)
-            obj.getWecSimVer;
+            obj.getGitCommit;
         end
 
         function checkinputs(obj)
@@ -191,15 +192,15 @@ classdef simulationClass<handle
             fprintf('\tTotal Number of Time Steps           = %u \n',obj.maxIt)
         end
 
-        function getWecSimVer(obj)
-            % Determines WEC-Sim version used
+        function getGitCommit(obj)
+            % Determines GitHub commit tag
             try
                 ws_exe = which('wecSim');
                 ws_dir = fileparts(ws_exe);
                 git_ver_file = [ws_dir '/../.git/refs/heads/master'];
-                obj.version = textread(git_ver_file,'%s');
+                obj.gitCommit = textread(git_ver_file,'%s');
             catch
-                obj.version = 'No git version available';
+                obj.gitCommit = 'No git commit tag available';
             end
         end
     end

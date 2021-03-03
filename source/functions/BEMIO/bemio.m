@@ -28,6 +28,9 @@ hydro = struct();
 %% Parse AQWA output files
 hydro = Read_AQWA(hydro,'..\..\..\tutorials\BEMIO\AQWA\Example\aqwa_example_data.AH1','..\..\..\tutorials\BEMIO\AQWA\Example\aqwa_example_data.LIS');
 
+%% Parse CAPYTAINE output file
+hydro = Read_CAPYTAINE(hydro,'..\..\..\examples\BEMIO\Capytaine\RM3\rm3_full.nc');
+
 %% Combine multiple BEM outputs, if using multiple BEM outputs
 % hydro = Combine_BEM(hydro);
 
