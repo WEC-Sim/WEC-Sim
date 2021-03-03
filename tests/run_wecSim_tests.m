@@ -64,6 +64,7 @@ if runComp==1
     catch
         i_b2b4 = 0;
     end
+    save('b2b4.mat','i_b2b4');
     
     try
         runB2BCase6; % covers b2b + SS, regularCIC, ode4
@@ -71,6 +72,7 @@ if runComp==1
     catch
         i_b2b6 = 0;
     end
+    save('b2b6.mat','i_b2b6');
     
     try
         runDecayME; % covers nowaveCIC and morison element
@@ -78,6 +80,7 @@ if runComp==1
     catch
         i_decay = 0;
     end
+    save('decay.mat','i_decay');
     
     try
         runGBM; % covers gbm, ode45, regular wave
@@ -85,6 +88,7 @@ if runComp==1
     catch
         i_gbm = 0;
     end
+    save('gbm.mat','i_gbm');
     
     try
         runMCR; % covers mcr with spectrum import and mcr casefile import
@@ -93,6 +97,7 @@ if runComp==1
     catch
         i_mcr = 0;
     end
+    save('mcr.mat','i_mcr');
     
     try
         runMooring; % covers mooring matrix
@@ -100,6 +105,7 @@ if runComp==1
     catch
         i_mooring = 0;
     end
+    save('mooring.mat','i_mooring');
     
     try
         runNonHydro; % covers nonhydro body
@@ -107,6 +113,7 @@ if runComp==1
     catch
         i_nh = 0;
     end
+    save('nh.mat','i_nh');
     
     try
         runParaview; % covers nonlinear hydro, paraview, simulink accelerator
@@ -114,6 +121,7 @@ if runComp==1
     catch
         i_paraview = 0;
     end
+    save('paraview.mat','i_paraview');
     
     try
         runPassiveYaw; % covers nonlinear hydro, paraview, simulink accelerator
@@ -121,10 +129,7 @@ if runComp==1
     catch
         i_yaw = 0;
     end
-    
-    % i_b2b4, i_b2b6, i_decay, i_gbm, i_mcr, i_mooring, i_nh,
-    % i_paraview, i_yaw
-    save('compilation_results.mat','-regexp','^i_'); 
+    save('yaw.mat','i_yaw');
 
     cd(testdir)
 end
