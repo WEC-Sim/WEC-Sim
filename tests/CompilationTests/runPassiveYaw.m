@@ -14,14 +14,13 @@
 % limitations under the License.
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
-%% Run the WEC-Sim Applications Repo Paraview case
-% This script will run the OSWEC Paraview case in the
+%% Run the WEC-Sim Applications Repo Passive Yaw case
+% This script will run the OSWEC Passive Yaw case in the
 % WEC-Sim Applications repo but with a short simulation time.
 locdir = pwd;
-casedir = '..\..\..\WEC-Sim_Applications\Paraview_Visualization\OSWEC_NonLinear_Viz';
+casedir = '..\..\..\WEC-Sim_Applications\Passive_Yaw\PassiveYawON';
 
 inputfile = [casedir '\wecSimInputFile.m'];
-plotfile = [casedir '\userDefinedFunctions.m'];
 
 %% Change application input and plot files
 % read original input file
@@ -36,21 +35,7 @@ fprintf(fileID,'%s\n',"simu.explorer = 'off';");
 fprintf(fileID,'%s\n',"simu.startTime = 0;");
 fprintf(fileID,'%s\n',"simu.rampTime = 2;");
 fprintf(fileID,'%s\n',"simu.endTime = 4;");
-fprintf(fileID,'%s\n',"simu.dt = 0.1;");
-fprintf(fileID,'%s\n',"simu.StartTimeParaview = 1;");
-fprintf(fileID,'%s\n',"simu.EndTimeParaview = 3;");
-fprintf(fileID,'%s\n',"simu.dtParaview = 1;");
-fclose(fileID);
-
-% Read original plot file
-fileID = fopen(plotfile,'r');
-old_plot = textscan(fileID,'%s','Delimiter','\n\r');  % Read/copy raw output and new lines
-old_plot = old_plot{:};
-fclose(fileID);
-
-% Write no functions to plot file
-fileID = fopen(plotfile,'w');
-fprintf(fileID,'%s',"");
+fprintf(fileID,'%s\n',"simu.dt = 0.01;");
 fclose(fileID);
 
 %% Run Simulation
@@ -64,13 +49,6 @@ cd(locdir)
 fileID = fopen(inputfile,'w');
 for i=1:length(old_input)
     fprintf(fileID,'%s\r\n',old_input{i});
-end
-fclose(fileID);
-
-% Restore original plot file
-fileID = fopen(plotfile,'w');
-for i=1:length(old_plot)
-    fprintf(fileID,'%s\r\n',old_plot{i});
 end
 fclose(fileID);
 

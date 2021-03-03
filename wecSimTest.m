@@ -263,9 +263,9 @@ fprintf(['2nd Order Spectral Moment, Diff = ' num2str(max(abs(org-new))) '\n'])
 % ~75 seconds when endTime=10, ~60 seconds when endTime=4
 fprintf('\nCompilation Tests for Applications Repo \n')
 fprintf('---------------------------------------\n')
+load('compilation_results.mat');
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %% B2B, regularCIC wave, ode4
-load('b2b4.mat');
 assert(i_b2b4 == 1)
 if i_b2b4
     fprintf('B2B #4 application runs.\n')
@@ -274,7 +274,6 @@ else
 end
 
 %% B2B + SS, regularCIC wave, ode4
-load('b2b6.mat');
 assert(i_b2b6 == 1)
 if i_b2b6
     fprintf('B2B #6 application runs.\n')
@@ -283,7 +282,6 @@ else
 end
 
 %% Decay case, nowaveCIC, Morison element
-load('decay.mat');
 assert(i_decay == 1)
 if i_decay
     fprintf('Decay 1m-ME application runs.\n')
@@ -292,7 +290,6 @@ else
 end
 
 %% GBM, ode45, regular wave
-load('gbm.mat');
 assert(i_gbm == 1)
 if i_gbm
     fprintf('Generalized body mode application runs.\n')
@@ -301,7 +298,6 @@ else
 end
 
 %% MRC, spectrum import, MCR case file import
-load('mcr.mat');
 assert(i_mcr == 1)
 if i_mcr
     fprintf('MCR #3 sea state application runs.\n')
@@ -310,7 +306,6 @@ else
 end
 
 %% Mooring matrix
-load('mooring.mat');
 assert(i_mooring == 1)
 if i_mooring
     fprintf('Mooring matrix application runs.\n')
@@ -319,7 +314,6 @@ else
 end
 
 %% Nonhydro body
-load('nh.mat');
 assert(i_nh == 1)
 if i_nh
     fprintf('Nonhydro body application runs.\n')
@@ -328,12 +322,19 @@ else
 end
 
 %% Paraview, nonlinear hydro, accelerator
-load('paraview.mat');
 assert(i_paraview == 1)
 if i_paraview
     fprintf('Paraview OSWEC application runs.\n')
 else
     fprintf('Paraview OSWEC application does not run.\n')
+end
+
+%% Passive Yaw, morison element
+assert(i_yaw == 1)
+if i_yaw
+    fprintf('Passive yaw OSWEC application runs.\n')
+else
+    fprintf('Passive yaw OSWEC application does not run.\n')
 end
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%

@@ -14,9 +14,9 @@
 % limitations under the License.
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
-%% Run the WEC-Sim Applications Repo nonhydro case
-% This script will run the nonhydro body case in the WEC-Sim Applications repo
-% but with an end time of 10s and timestep of 0.1s
+%% Run the WEC-Sim Applications Repo MCR case
+% This script will run the MCR case in the 
+% WEC-Sim Applications repo but with a short simulation time.
 locdir = pwd;
 casedir = '..\..\..\WEC-Sim_Applications\Multiple_Condition_Runs\RM3_MCROPT3_SeaState\';
 

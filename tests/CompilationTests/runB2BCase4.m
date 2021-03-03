@@ -14,9 +14,9 @@
 % limitations under the License.
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
-%% Run the WEC-Sim Applications Repo nonhydro case
+%% Run the WEC-Sim Applications Repo B2B case
 % This script will run the B2B case #4 (b2b, no ss) in the 
-% WEC-Sim Applications repo but with an end time of 10s and timestep of 0.1s
+% WEC-Sim Applications repo but with a short simulation time.
 locdir = pwd;
 casedir = '..\..\..\WEC-Sim_Applications\Body-to-Body_Interactions\B2B_Case4\';
 
