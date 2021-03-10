@@ -72,42 +72,12 @@ classdef mooringClass<handle
             %
             loc = obj.ref;
             relCoord = loc - x_rot;
-            rotatedRelCoord = obj.rotateXYZ(relCoord,ax_rot,ang_rot);
+            rotatedRelCoord = rotateXYZ(relCoord,ax_rot,ang_rot);
             newCoord = rotatedRelCoord + x_rot;
             linDisp = newCoord-loc;
             obj.initDisp.initLinDisp= linDisp + addLinDisp; 
             obj.initDisp.initAngularDispAxis = ax_rot;
             obj.initDisp.initAngularDispAngle = ang_rot;
-        end
-
-        function xn = rotateXYZ(obj,x,ax,t)
-            % Method to rotate a point about an arbitrary axis
-            % 
-            % Parameters
-            % ------------
-            %   x : 1 x 3 float vector
-            %       coordinates of point to rotate
-            %   ax : 1 x 3 float vector
-            %       axis about which to rotate 
-            %   t : float  
-            %       rotation angle (radian)
-            %
-            % Returns
-            % ------------
-            %   xn : 1 x 3 float vector 
-            %       new coordinates after rotation
-            %
-            rotMat = zeros(3);
-            rotMat(1,1) = ax(1)*ax(1)*(1-cos(t))    + cos(t);
-            rotMat(1,2) = ax(2)*ax(1)*(1-cos(t))    + ax(3)*sin(t);
-            rotMat(1,3) = ax(3)*ax(1)*(1-cos(t))    - ax(2)*sin(t);
-            rotMat(2,1) = ax(1)*ax(2)*(1-cos(t))    - ax(3)*sin(t);
-            rotMat(2,2) = ax(2)*ax(2)*(1-cos(t))    + cos(t);
-            rotMat(2,3) = ax(3)*ax(2)*(1-cos(t))    + ax(1)*sin(t);
-            rotMat(3,1) = ax(1)*ax(3)*(1-cos(t))    + ax(2)*sin(t);
-            rotMat(3,2) = ax(2)*ax(3)*(1-cos(t))    - ax(1)*sin(t);
-            rotMat(3,3) = ax(3)*ax(3)*(1-cos(t))    + cos(t);
-            xn = x*rotMat;
         end
 
         function obj = moorDynInput(obj)
@@ -118,107 +88,6 @@ classdef mooringClass<handle
         function listInfo(obj)
             % Method to list mooring info
             fprintf('\n\t***** Mooring Name: %s *****\n',obj.name)
-        end
-
-        function write_paraview_vtp(obj,moorDyn, model,t,simdate,nline,nnode,pathParaviewVideo,TimeBodyParav,NewTimeParaview)
-            % Method to write ``vtp`` Paraview visualization files
-            % 
-            % Parameters
-            % ------------
-            %   moorDyn : obj
-            %       The moorDyn object
-            %   model : string
-            %       The simMechanics ``.slx`` file
-            %   t : float vector
-            %       Moordyn time vector 
-            %   simdate : string
-            %       Date string
-            %   nline : integer
-            %       Number of mooring lines
-            %   nnode : integer
-            %       Number of nodes on mooring lines
-            %   pathParaviewVideo : directory
-            %       Directory the Paraview files were saved
-            %   TimeBodyParav : float vector
-            %       Paraview time vector
-            %   simu.g : float
-            %       Gravitational acceleration from simulationClass
-            %
-            
-            nsegment = nnode -1;
-            for iline = 1:nline
-                for inode = 0:nnode(iline)-1
-                    moorDyn.(['Line' num2str(iline)]).(['Node' num2str(inode) 'px']) = interp1(t,moorDyn.(['Line' num2str(iline)]).(['Node' num2str(inode) 'px'])(:),NewTimeParaview);
-                    moorDyn.(['Line' num2str(iline)]).(['Node' num2str(inode) 'py']) = interp1(t,moorDyn.(['Line' num2str(iline)]).(['Node' num2str(inode) 'py'])(:),NewTimeParaview);
-                    moorDyn.(['Line' num2str(iline)]).(['Node' num2str(inode) 'pz']) = interp1(t,moorDyn.(['Line' num2str(iline)]).(['Node' num2str(inode) 'pz'])(:),NewTimeParaview);
-                end 
-            end          
-            for iline = 1:nline
-                for isegment = 0:nsegment(iline)-1
-                    moorDyn.(['Line' num2str(iline)]).(['Seg' num2str(isegment) 'Te']) = interp1(t,moorDyn.(['Line' num2str(iline)]).(['Seg' num2str(isegment) 'Te'])(:),NewTimeParaview);
-                end 
-            end
-            for it = 1:length(TimeBodyParav)
-                % open file
-                filename = [pathParaviewVideo, filesep 'mooring' filesep 'mooring_' num2str(it) '.vtp'];
-                fid = fopen(filename, 'w');
-                % write header
-                fprintf(fid, '<?xml version="1.0"?>\n');
-                fprintf(fid, ['<!-- WEC-Sim Visualization using ParaView -->\n']);
-                fprintf(fid, ['<!--   model: ' model ' - ran on ' simdate ' -->\n']);
-                fprintf(fid, ['<!--   mooring:  MoorDyn -->\n']);
-                fprintf(fid, ['<!--   time:  ' num2str(TimeBodyParav(it)) ' -->\n']);
-                fprintf(fid, '<VTKFile type="PolyData" version="0.1">\n');
-                fprintf(fid, '  <PolyData>\n');
-                % write line info
-                for iline = 1:nline
-                    fprintf(fid,['    <Piece NumberOfPoints="' num2str(nnode(iline)) '" NumberOfLines="' num2str(nsegment(iline)) '">\n']);
-                    % write points
-                    fprintf(fid,'      <Points>\n');
-                    fprintf(fid,'        <DataArray type="Float32" NumberOfComponents="3" format="ascii">\n');
-                    for inode = 0:nnode(iline)-1
-                        pt = [moorDyn.(['Line' num2str(iline)]).(['Node' num2str(inode) 'px'])(it), moorDyn.(['Line' num2str(iline)]).(['Node' num2str(inode) 'py'])(it), moorDyn.(['Line' num2str(iline)]).(['Node' num2str(inode) 'pz'])(it)];
-                        fprintf(fid, '          %5.5f %5.5f %5.5f\n', pt);
-                    end; clear pt inode
-                    fprintf(fid,'        </DataArray>\n');
-                    fprintf(fid,'      </Points>\n');
-                    % write lines connectivity
-                    fprintf(fid,'      <Lines>\n');
-                    fprintf(fid,'        <DataArray type="Int32" Name="connectivity" format="ascii">\n');
-                    count = 0;
-                    for isegment = 1:nsegment(iline)
-                        fprintf(fid, ['          ' num2str(count) ' ' num2str(count+1) '\n']);
-                        count = count +1;        
-                    end; clear count isegment
-                    fprintf(fid,'        </DataArray>\n');
-                    fprintf(fid,'        <DataArray type="Int32" Name="offsets" format="ascii">\n');
-                    fprintf(fid, '         ');
-                    for isegment = 1:nsegment(iline)
-                        n = 2*isegment;
-                        fprintf(fid, ' %i', n);
-                    end; clear n isegment
-                    fprintf(fid, '\n');
-                    fprintf(fid,'        </DataArray>\n');
-                    fprintf(fid, '      </Lines>\n');
-                    % write cell data
-                    fprintf(fid,'      <CellData>\n');
-                    % Segment Tension
-                    fprintf(fid,'        <DataArray type="Float32" Name="Segment Tension" NumberOfComponents="1" format="ascii">\n');
-                    for isegment = 0:nsegment(iline)-1
-                        fprintf(fid, '          %i', moorDyn.(['Line' num2str(iline)]).(['Seg' num2str(isegment) 'Te'])(it));
-                    end; 
-                    fprintf(fid, '\n');
-                    fprintf(fid,'        </DataArray>\n');
-                    fprintf(fid,'      </CellData>\n');
-                    % end file
-                    fprintf(fid, '    </Piece>\n');        
-                end;
-                % close file
-                fprintf(fid, '  </PolyData>\n');
-                fprintf(fid, '</VTKFile>');
-                fclose(fid);
-            end; 
-            clear it iline nline nnode nsegment model t
         end
     end
 end

@@ -50,7 +50,9 @@ evalc('wecSimInputFile');
 % Read Inputs for Multiple Conditions Run
 if exist('mcr','var') == 1
     for n=1:length(mcr.cases(1,:))
-        if iscell(mcr.cases)
+        if strcmp(mcr.header{n},'LoadFile')                                 % added this flag for system ID efforts!
+            load(mcr.cases{imcr,n});
+        elseif iscell(mcr.cases)
             eval([mcr.header{n} '= mcr.cases{imcr,n};']);
         else
             eval([mcr.header{n} '= mcr.cases(imcr,n);']);
@@ -62,7 +64,6 @@ if exist('mcr','var') == 1
     end
 end
 % Waves and Simu: check inputs
-
 waves.checkinputs;
 simu.checkinputs;
 % Constraints: count & set orientation
@@ -91,14 +92,18 @@ if exist('mooring','var') == 1
     end; clear ii
 end
 % Bodies: count, check inputs, read hdf5 file
-numHydroBodies = 0; numDragBodies = 0; 
+numHydroBodies = 0; numNonHydroBodies = 0; numDragBodies = 0; 
 hydroBodLogic = zeros(length(body(1,:)),1);
+nonHydroBodLogic = zeros(length(body(1,:)),1);
 dragBodLogic = zeros(length(body(1,:)),1);
 for ii = 1:length(body(1,:))
     body(ii).bodyNumber = ii;
     if body(ii).nhBody==0
         numHydroBodies = numHydroBodies + 1;
-        hydroBodLogic(ii) = 1; 
+        hydroBodLogic(ii) = 1;         
+    elseif body(ii).nhBody==1
+        numNonHydroBodies = numNonHydroBodies + 1;
+        nonHydroBodLogic(ii) = 1; 
     elseif body(ii).nhBody==2
         numDragBodies = numDragBodies + 1;
         dragBodLogic(ii) = 1; 
@@ -183,12 +188,28 @@ if ~isempty(idx)
     end; clear kk idx
 end
 
+% nonHydroPre
+idx = find(nonHydroBodLogic==1);
+if ~isempty(idx)
+    for kk = 1:length(idx)
+        it = idx(kk);
+        if isempty(body(it).cb)
+            body(it).cb = body(it).cg;
+            warning('Non-hydro body(%i) center of buoyancy (cb) set equal to center of gravity (cg), [%g %g %g]',body(it).bodyNumber,body(it).cb(1),body(it).cb(2),body(it).cb(3))
+        end
+    end; clear kk idx
+end      
+
 % dragBodyPre
 idx = find(dragBodLogic==1);
 if ~isempty(idx)
     for kk = 1:length(idx)
         it = idx(kk);
         body(it).dragForcePre(simu.rho);
+        if isempty(body(it).cb)
+            body(it).cb = body(it).cg;
+            warning('Non-hydro body(%i) center of buoyancy (cb) set equal to center of gravity (cg), [%g %g %g]',body(it).bodyNumber,body(it).cb(1),body(it).cb(2),body(it).cb(3))
+        end        
     end; clear kk idx
 end
     
@@ -214,12 +235,12 @@ for ii = 1:simu.numWecBodies
     end
 end; clear ii;
 
-% check for etaImport with nlHydro
+% Check for etaImport with nlHydro
 if strcmp(waves.type,'etaImport') && simu.nlHydro == 1
     error(['Cannot run WEC-Sim with non-linear hydro (simu.nlHydro) and "etaImport" wave type'])
 end
 
-% check for etaImport with morisonElement
+% Check for etaImport with morisonElement
 if strcmp(waves.type,'etaImport') && simu.morisonElement ~= 0
     error(['Cannot run WEC-Sim with Morrison Element (simu.morisonElement) and "etaImport" wave type'])
 end
@@ -346,6 +367,7 @@ warning('off','Simulink:blocks:TDelayTimeTooSmall');
 warning('off','Simulink:blocks:BusSelDupBusCreatorSigNames');
 warning('off','MATLAB:loadlibrary:FunctionNotFound');
 warning('off','MATLAB:loadlibrary:parsewarnings');
+warning('off','MATLAB:printf:BadEscapeSequenceInFormat');
 warning('off','Simulink:blocks:DivideByZero');
 warning('off','sm:sli:setup:compile:SteadyStateStartNotSupported')
 set_param(0, 'ErrorIfLoadNewModel', 'off')

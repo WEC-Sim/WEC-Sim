@@ -41,7 +41,7 @@ Input File           ``wecSimInputFile.m``  ``$CASE``
 
 Hydrodynamic Data
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
-The Hydrodynamic coefficients for each body may be generated using a boundary element method (BEM) code (e.g., **WAMIT**, **NEMOH** or **AQWA**). The WEC-Sim code requires hydrodynamic data from the BEM solution in the form of HDF5 format (``*.h5`` file). This ``*.h5`` hydrodynamic data file can be generated using the BEMIO pre-processor. BEMIO (Boundary Element Method Input/Output) is a code developed by the WEC-Sim team to process BEM output files from **WAMIT**, **NEMOH**, and **AQWA** into a data structure than can be read by WEC-Sim. For more information about the BEMIO pre-processor, refer to the :ref:`bemio` section.
+The Hydrodynamic coefficients for each body may be generated using a boundary element method (BEM) code (e.g., **WAMIT**, **NEMOH**, **AQWA**, or **CAPYTAINE**). The WEC-Sim code requires hydrodynamic data from the BEM solution in the form of HDF5 format (``*.h5`` file). This ``*.h5`` hydrodynamic data file can be generated using the BEMIO pre-processor. BEMIO (Boundary Element Method Input/Output) is a code developed by the WEC-Sim team to process BEM output files from **WAMIT**, **NEMOH**, **AQWA**, and **CAPYTAINE** into a data structure than can be read by WEC-Sim. For more information about the BEMIO pre-processor, refer to the :ref:`bemio` section.
 
 
 Geometry File
@@ -99,7 +99,7 @@ In the pre-processing step, users need to create the WEC geometry, and run a BEM
 
 * **Compute Hydrodynamic Coefficients**: WEC-Sim requires frequency-domain hydrodynamic coefficients (e.g. added mass, radiation damping, and wave excitation). 
 
-   * The coefficients for each body may be generated using a boundary element method (BEM) code (e.g., **WAMIT**, **NEMOH** or **AQWA**). 
+   * The coefficients for each body may be generated using a boundary element method (BEM) code (e.g., **WAMIT**, **NEMOH**, **AQWA**, or **CAPYTAINE**). 
    * WEC-Sim requires that all hydrodynamic coefficients must be specified at **the center of gravity** for each body.
 
 
@@ -110,7 +110,7 @@ In this step, users run :ref:`BEMIO<bemio>` to convert the hydrodynamic coeffici
 * **Run BEMIO**: to generate ``*.h5`` Hydrodynamic Coefficients for WEC-Sim
 
    * The hydrodynamic coefficients for each body generated from the BEM code can be parsed into a ``*.h5`` data structure using :ref:`BEMIO<bemio>`, which was developed by the WEC-Sim team.
-   * BEMIO currently supports WAMIT, NEMOH and AQWA. 
+   * BEMIO currently supports WAMIT, NEMOH, AQWA and CAPYTAINE. 
 
 
 .. Note:: 
@@ -133,6 +133,11 @@ In this step, users run :ref:`BEMIO<bemio>` to convert the hydrodynamic coeffici
       * The origin of the global coordinate system is at the mean water surface, and the origin of the body coordinate system for each body must be at the center of gravity (defined using the AQWA GUI or in the ``*.dat`` input file).
       * In order to run BEMIO, AQWA users must output both the default ``*.LIS`` file and output the ``*.AH1`` hydrodynamic database file. Both of these files are reacquired to run BEMIO. 
       * More details on AQWA setup are given in the AQWA Reference Manual.
+
+   * **If CAPYTAINE is used:** 
+   
+      * The origin of the mesh for each body (``*.dat``) is located at the mean water surface, which follows the same coordinate used in WEC-Sim. 
+      * More details on CAPYTAINE setup are given in the `Capytaine webpage <https://ancell.in/capytaine/latest/>`_.
 
 .. Note:: 
 	Users are also able to specify their own hydrodynamic coefficients by creating their own ``*.h5`` file with customized hydrodynamic coefficients following the ``*.h5`` format created by BEMIO.
