@@ -44,6 +44,11 @@ WEC-Sim allows users to easily perform batch runs by typing ``wecSimMCR`` into t
 
 For Multiple Condition Runs, the ``*.h5`` hydrodynamic data is only loaded once. To reload the ``*.h5`` data between runs,  set ``simu.reloadH5Data =1`` in the WEC-Sim input file. 
 
+
+If the Simulink model relies upon ``From Workspace`` input blocks other than those utilized by the WEC-Sim library blocks (e.g. ``Wave.etaDataFile``), these can be iterated through using Option 3. The MCR file header MUST be a cell containing the exact string ``'LoadFile'``. The pathways of the files to be loaded to the workspace must be given in the ``cases`` field of the MCR *.mat* file. WEC-Sim MCR will then run WEC-Sim in sequence, once for each file to be loaded. The variable name of each loaded file shoud be consistent, and specified by the ``From Workspace`` block.  
+
+For more information, refer to :ref:`webinar1`, and the **RM3_MCR** example on the `WEC-Sim Applications <https://github.com/WEC-Sim/WEC-Sim_Applications>`_ repository. 
+
 The **RM3_MCR** examples on the `WEC-Sim Applications <https://github.com/WEC-Sim/WEC-Sim_Applications>`_ repository demonstrate the use of WEC-Sim MCR for each option above (arrays, .xls, .mat). The fourth case demonstrates how to vary the wave spectrum input file in each case run by WEC-Sim MCR. 
 
 The directory of an MCR case can contain a :code:`userDefinedFunctionsMCR.m` file that will function as the standard :code:`userDefinedFunctions.m` file. Within the MCR application, the :code:`userDefinedFunctionsMCR.m` script creates a power matrix from the PTO damping coefficient after all cases have been run.
@@ -51,6 +56,7 @@ The directory of an MCR case can contain a :code:`userDefinedFunctionsMCR.m` fil
 For more information, refer to :ref:`webinar1`, 
 
 .. _pct:
+
 
 Parallel Computing Toolbox (PCT)
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
@@ -280,7 +286,7 @@ Alternatively, one can define :math:`C_{D}` directly::
 
 Morison Elements 
 """"""""""""""""""""""""""""""
-To use Morison Elements, the following simulation class variable must be defined in the WEC-Sim input file with :code:`simu.morisonElement  = 1` or .:code:`simu.morisonElement  = 2`
+To use Morison Elements, the following simulation class variable must be defined in the WEC-Sim input file with :code:`simu.morisonElement  = 1` or :code:`simu.morisonElement  = 2`
 
 Implementation Option 1 allows for the Morison Element properties to be defined independently for the x-, y-, and z-axis while implementation option 2 uses a normal and tangential representation of the Morison Element properties. Note that the two options allow the user flexibility to implement hydrodynamic forcing that best suits their modeling needs; however, the two options have slightly different calculation methods and therefore the outputs will not necessarily provide the same forcing values. The user is directed to look at the Simulink Morison Element block within the WEC-Sim library to better determine which approach better suits their modeling requirements. 
 
