@@ -395,12 +395,12 @@ end
 paraViewVisualization
 
 % ASCII files
-if simu.saveText==1
+if simu.outputtxt==1
     output.writetxt();
 end
-if simu.saveStructure==1
+if simu.outputStructure==1
     warning('off','MATLAB:structOnObject')
-    outputStructure = struct(output);
+    output = struct(output);
 end
 
 
@@ -409,7 +409,7 @@ clear ans table tout;
 toc
 diary off
 
-if simu.saveWorkspace==1
+if simu.saveMat==1
     try 
        cd(parallelComputing_dir);
        simu.caseDir = [simu.caseDir filesep parallelComputing_dir];
