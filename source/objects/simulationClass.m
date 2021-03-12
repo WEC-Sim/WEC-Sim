@@ -54,7 +54,7 @@ classdef simulationClass<handle
         mcrCaseFile         = []                                           % (`string`) mat file that contain a list of the multiple conditions runs with given conditions. Default = ``'NOT DEFINED'``  
         morisonElement      = 0                                            % (`integer`) Option for Morison Element calculation: off->0, on->1 or 2. Default = ``0``. Option 1 uses an approach that allows the user to define drag and inertial coefficients along the x-, y-, and z-axes and Option 2 uses an approach that defines the Morison Element with normal and tangential tangential drag and interial coefficients.. 
         reloadH5Data        = 0                                            % (`integer`) Option to re-load hydro data from hf5 file between runs: off->0, on->1. Default = ``0``
-        saveStructure       = 1                                            % (`integer`) Option to save results as a MATLAB structure: off->0, on->1. Default = ``1``
+        saveStructure       = 0                                            % (`integer`) Option to save results as a MATLAB structure: off->0, on->1. Default = ``1``
         saveText            = 0                                            % (`integer`) Option to save results as ASCII files off->0, on->1. Default = ``0``
         saveWorkspace       = 1                                            % (`integer`) Option to save .mat file for each run: off->0, on->1. Default = ``1``
         pressureDis         = 0                                            % (`integer`) Option to save pressure distribution: off->0, on->1. Default = ``0``
