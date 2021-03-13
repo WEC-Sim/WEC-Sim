@@ -10,6 +10,7 @@
 %   body
 %   constraint
 %   pto
+%   mooring
 
 % TODO - add ability to write the customer parameters to a new wecSimInputFile.m
 
