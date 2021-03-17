@@ -40,7 +40,7 @@ if os.path.isfile(bem_ncFile):
         sys.exit(0)
 
 # Run Capytaine
-cd = cc.call_capy(meshFName = bem_file,
+cc.call_capy(meshFName = bem_file,
              wCapy     = bem_w,
              CoG       = bem_cg,
              headings  = bem_headings,

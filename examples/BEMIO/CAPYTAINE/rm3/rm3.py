@@ -43,11 +43,11 @@ if os.path.isfile(bem_ncFile):
         sys.exit(0)
 
 # Run Capytaine
-cd, p = cc.call_capy(meshFName = bem_file,
-              wCapy     = bem_w,
-              CoG       = bem_cg,
-              headings  = bem_headings,
-              ncFName   = bem_ncFile,
-              body_name = bem_name,
-              depth     = bem_depth,
-              density   = 1000.0)
+cc.call_capy(meshFName = bem_file,
+             wCapy     = bem_w,
+             CoG       = bem_cg,
+             headings  = bem_headings,
+             ncFName   = bem_ncFile,
+             body_name = bem_name,
+             depth     = bem_depth,
+             density   = 1000.0)
