@@ -19,23 +19,23 @@ sys.path.append(currentdir)
 import call_capytaine as cc
 
 # Define RM3 parameters ------------------------------------------------------#
-rm3_file = (os.getcwd() + os.path.sep + 'float.dat',
-             os.getcwd() + os.path.sep + 'spar.dat') # mesh files, .dat nemoh, .gdf wamit
-rm3_cg = ((0,0,-0.72),
+bem_file = (os.getcwd() + os.path.sep + 'float.dat',
+            os.getcwd() + os.path.sep + 'spar.dat' ) # mesh files, .dat nemoh, .gdf wamit
+bem_cg = ((0,0,-0.72),
           (0,0,-21.29))                              # centers of gravity
-rm3_name = ('rm3_float',
+bem_name = ('rm3_float',
             'rm3_spar')                              # body names
 
-rm3_w = np.linspace(0.02, 5.2, 3)                    # wave frequencies. 260 for full run
-rm3_headings = np.linspace(0,0,1)                    # wave headings
-rm3_depth = np.infty                                 # water depth
+bem_w = np.linspace(0.02, 5.2, 3)                    # wave frequencies. 260 for full run
+bem_headings = np.linspace(0,0,1)                    # wave headings
+bem_depth = np.infty                                 # water depth
 
-rm3_ncFile = os.getcwd() + os.path.sep + 'test.nc'   # path for output .nc file
+bem_ncFile = os.getcwd() + os.path.sep + 'test.nc'   # path for output .nc file
 # ----------------------------------------------------------------------------#
 
 # check that old output is not being overwritten (runs take awhile)
-if os.path.isfile(rm3_ncFile):
-    print(f'Output ({rm3_ncFile}) file already exists and will be overwritten. '
+if os.path.isfile(bem_ncFile):
+    print(f'Output ({bem_ncFile}) file already exists and will be overwritten. '
           'Do you wish to proceed? (y/n)')
     ans = input()
     if ans.lower() != 'y':
@@ -43,11 +43,11 @@ if os.path.isfile(rm3_ncFile):
         sys.exit(0)
 
 # Run Capytaine
-cd, p = cc.call_capy(meshFName = rm3_file,
-              wCapy     = rm3_w,
-              CoG       = rm3_cg,
-              headings  = rm3_headings,
-              ncFName   = rm3_ncFile,
-              body_name = rm3_name,
-              depth     = rm3_depth,
+cd, p = cc.call_capy(meshFName = bem_file,
+              wCapy     = bem_w,
+              CoG       = bem_cg,
+              headings  = bem_headings,
+              ncFName   = bem_ncFile,
+              body_name = bem_name,
+              depth     = bem_depth,
               density   = 1000.0)
