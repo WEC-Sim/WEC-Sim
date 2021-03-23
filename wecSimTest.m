@@ -14,13 +14,16 @@
 % limitations under the License.
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
-wsdir = pwd;
-testdir = fullfile(wsdir,'tests');
+wsDir = pwd;
+testDir = fullfile(wsDir,'tests');
+applicationsDir = fullfile(wsDir,'..\WEC-Sim_Applications\');
+
 addpath(genpath('.\tests'))
 addpath(genpath('.\source'))
+
+setupAppFiles
 run_wecSim_tests
 % setting up CI
-
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 % Regular Wave Tests
@@ -266,86 +269,52 @@ fprintf('---------------------------------------\n')
 % load('compilation_results.mat');
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %% B2B, regularCIC wave, ode4
-load('b2b4.mat');
-assert(i_b2b4 == 1)
-if i_b2b4
-    fprintf('B2B #4 application runs.\n')
-else
-    fprintf('B2B #4 application does not run\n')
-end
+assert(runComp == 1,'Skipping compilation tests');
+cd(fullfile(testAppDir, 'Body-to-Body_Interactions\B2B_Case4'));
+wecSim
 
 %% B2B + SS, regularCIC wave, ode4
-load('b2b6.mat');
-assert(i_b2b6 == 1)
-if i_b2b6
-    fprintf('B2B #6 application runs.\n')
-else
-    fprintf('B2B #6 application does not run\n')
-end
+assert(runComp == 1,'Skipping compilation tests');
+cd(fullfile(testAppDir, 'Body-to-Body_Interactions\B2B_Case6'));
+wecSim
 
 %% Decay case, nowaveCIC, Morison element
-load('decay.mat');
-assert(i_decay == 1)
-if i_decay
-    fprintf('Decay 1m-ME application runs.\n')
-else
-    fprintf('Decay 1m-ME application does not run\n')
-end
+assert(runComp == 1,'Skipping compilation tests');
+cd(fullfile(testAppDir, 'Free_Decay\1m-ME'));
+wecSim
 
 %% GBM, ode45, regular wave
-load('gbm.mat');
-assert(i_gbm == 1)
-if i_gbm
-    fprintf('Generalized body mode application runs.\n')
-else
-    fprintf('Generalized body mode application does not run\n')
-end
+assert(runComp == 1,'Skipping compilation tests');
+cd(fullfile(testAppDir, 'Generalized_Body_Modes'));
+wecSim
 
-%% MRC, spectrum import, MCR case file import
-load('mcr.mat');
-assert(i_mcr == 1)
-if i_mcr
-    fprintf('MCR #3 sea state application runs.\n')
-else
-    fprintf('MCR #3 sea state application does not run.\n')
-end
+%% MCR, spectrum import, MCR case file import
+assert(runComp == 1,'Skipping compilation tests');
+cd(fullfile(testAppDir, 'Multiple_Condition_Runs\RM3_MCROPT3_SeaState'));
+wecSimMCR
 
 %% Mooring matrix
-load('mooring.mat');
-assert(i_mooring == 1)
-if i_mooring
-    fprintf('Mooring matrix application runs.\n')
-else
-    fprintf('Mooring matrix application does not run.\n')
-end
+assert(runComp == 1,'Skipping compilation tests');
+cd(fullfile(testAppDir, 'Mooring\MooringMatrix'));
+wecSim
 
 %% Nonhydro body
-load('nh.mat');
-assert(i_nh == 1)
-if i_nh
-    fprintf('Nonhydro body application runs.\n')
-else
-    fprintf('Nonhydro body application does not run.\n')
-end
+assert(runComp == 1,'Skipping compilation tests');
+cd(fullfile(testAppDir, 'Nonhydro_Body'));
+wecSim
 
 %% Paraview, nonlinear hydro, accelerator
-load('paraview.mat');
-assert(i_paraview == 1)
-if i_paraview
-    fprintf('Paraview OSWEC application runs.\n')
-else
-    fprintf('Paraview OSWEC application does not run.\n')
-end
+assert(runComp == 1,'Skipping compilation tests');
+cd(fullfile(testAppDir, 'Paraview_Visualization\OSWEC_NonLinear_Viz'));
+wecSim
 
 %% Passive Yaw, morison element
-load('yaw.mat');
-assert(i_yaw == 1)
-if i_yaw
-    fprintf('Passive yaw OSWEC application runs.\n')
-else
-    fprintf('Passive yaw OSWEC application does not run.\n')
-end
+assert(runComp == 1,'Skipping compilation tests');
+cd(fullfile(testAppDir, 'Passive_Yaw\PassiveYawON'));
+wecSim
 
+bdclose('all');
+cd(wsDir)
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 % Run Test Cases
 % Use the following command to run tests locally,  "runtests"
