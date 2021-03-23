@@ -1,9 +1,7 @@
 % This script copies the appropriate files from the designated
 % Applications repository directory to the test folder for use in
 % the compilation tests.
-
-applicationsDir = 'C:\Users\akeeste\Documents\Software\GitHub\WEC-Sim_Applications';    %Start here. or name an absolute directory
-testAppDir = 'C:\Users\akeeste\Documents\Software\GitHub\WEC-Sim\tests\CompilationTests\WEC-Sim_Applications';
+bdclose('all');
 
 % Get directory of all input files, .slx, .h5, .mat
 filesToCopy = dir([applicationsDir '\**\wecSimInputFile.m']);
@@ -27,7 +25,8 @@ filesToCopy = filesToCopy(inds);
 for i=1:length(filesToCopy)
     % Get destination folder for each file. Same directory structure as
     % WEC-Sim_Applications repo
-    tmp = erase(filesToCopy(i).folder,applicationsDir);
+    j = strfind(filesToCopy(i).folder,'WEC-Sim_Applications');
+    tmp = filesToCopy(i).folder(j+20:end);
     filesToCopy(i).dest = fullfile(testAppDir,tmp);
     
     % Make new directory in tests folder if necessary

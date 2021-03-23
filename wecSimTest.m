@@ -16,6 +16,7 @@
 
 wsDir = pwd;
 testDir = fullfile(wsDir,'tests');
+testAppDir = fullfile(testDir,'CompilationTests\WEC-Sim_Applications');
 applicationsDir = fullfile(wsDir,'..\WEC-Sim_Applications\');
 
 addpath(genpath('.\tests'))
@@ -23,7 +24,63 @@ addpath(genpath('.\source'))
 
 setupAppFiles
 run_wecSim_tests
-% setting up CI
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% Compilation Tests for Applications Repo
+% These are not meant to be simulation regressions, only to set-up various 
+% cases and ensure new changes have not broken a specific WEC-Sim setup
+% ~75 seconds when endTime=10, ~60 seconds when endTime=4
+fprintf('\nCompilation Tests for Applications Repo \n')
+fprintf('---------------------------------------\n')
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%% B2B, regularCIC wave, ode4
+assert(runComp == 1,'Skipping compilation tests');
+cd(fullfile(testAppDir, 'Body-to-Body_Interactions\B2B_Case4'));
+wecSim
+
+%% B2B + SS, regularCIC wave, ode4
+assert(runComp == 1,'Skipping compilation tests');
+cd(fullfile(testAppDir, 'Body-to-Body_Interactions\B2B_Case6'));
+wecSim
+
+%% Decay case, nowaveCIC, Morison element
+assert(runComp == 1,'Skipping compilation tests');
+cd(fullfile(testAppDir, 'Free_Decay\1m-ME'));
+wecSim
+
+%% GBM, ode45, regular wave
+assert(runComp == 1,'Skipping compilation tests');
+cd(fullfile(testAppDir, 'Generalized_Body_Modes'));
+wecSim
+
+%% MCR, spectrum import, MCR case file import
+assert(runComp == 1,'Skipping compilation tests');
+cd(fullfile(testAppDir, 'Multiple_Condition_Runs\RM3_MCROPT3_SeaState'));
+wecSimMCR
+clear mcr imcr
+
+%% Mooring matrix
+assert(runComp == 1,'Skipping compilation tests');
+cd(fullfile(testAppDir, 'Mooring\MooringMatrix'));
+wecSim
+
+%% Nonhydro body
+assert(runComp == 1,'Skipping compilation tests');
+cd(fullfile(testAppDir, 'Nonhydro_Body'));
+wecSim
+
+%% Paraview, nonlinear hydro, accelerator
+assert(runComp == 1,'Skipping compilation tests');
+cd(fullfile(testAppDir, 'Paraview_Visualization\OSWEC_NonLinear_Viz'));
+wecSim
+
+%% Passive Yaw, morison element
+assert(runComp == 1,'Skipping compilation tests');
+cd(fullfile(testAppDir, 'Passive_Yaw\PassiveYawON'));
+wecSim
+
+bdclose('all');
+cd(wsDir)
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 % Regular Wave Tests
@@ -258,63 +315,7 @@ new = IrrYaw.Sp.WEC_Sim_new.m2;
 assert(max(abs(org-new)) <= tol)
 fprintf(['2nd Order Spectral Moment, Diff = ' num2str(max(abs(org-new))) '\n'])
 
-
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-% Compilation Tests for Applications Repo
-% These are not meant to be simulation regressions, only to set-up various 
-% cases and ensure new changes have not broken a specific WEC-Sim setup
-% ~75 seconds when endTime=10, ~60 seconds when endTime=4
-fprintf('\nCompilation Tests for Applications Repo \n')
-fprintf('---------------------------------------\n')
-% load('compilation_results.mat');
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-%% B2B, regularCIC wave, ode4
-assert(runComp == 1,'Skipping compilation tests');
-cd(fullfile(testAppDir, 'Body-to-Body_Interactions\B2B_Case4'));
-wecSim
-
-%% B2B + SS, regularCIC wave, ode4
-assert(runComp == 1,'Skipping compilation tests');
-cd(fullfile(testAppDir, 'Body-to-Body_Interactions\B2B_Case6'));
-wecSim
-
-%% Decay case, nowaveCIC, Morison element
-assert(runComp == 1,'Skipping compilation tests');
-cd(fullfile(testAppDir, 'Free_Decay\1m-ME'));
-wecSim
-
-%% GBM, ode45, regular wave
-assert(runComp == 1,'Skipping compilation tests');
-cd(fullfile(testAppDir, 'Generalized_Body_Modes'));
-wecSim
-
-%% MCR, spectrum import, MCR case file import
-assert(runComp == 1,'Skipping compilation tests');
-cd(fullfile(testAppDir, 'Multiple_Condition_Runs\RM3_MCROPT3_SeaState'));
-wecSimMCR
-
-%% Mooring matrix
-assert(runComp == 1,'Skipping compilation tests');
-cd(fullfile(testAppDir, 'Mooring\MooringMatrix'));
-wecSim
-
-%% Nonhydro body
-assert(runComp == 1,'Skipping compilation tests');
-cd(fullfile(testAppDir, 'Nonhydro_Body'));
-wecSim
-
-%% Paraview, nonlinear hydro, accelerator
-assert(runComp == 1,'Skipping compilation tests');
-cd(fullfile(testAppDir, 'Paraview_Visualization\OSWEC_NonLinear_Viz'));
-wecSim
-
-%% Passive Yaw, morison element
-assert(runComp == 1,'Skipping compilation tests');
-cd(fullfile(testAppDir, 'Passive_Yaw\PassiveYawON'));
-wecSim
-
-bdclose('all');
-cd(wsDir)
+plotRegressionTests
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 % Run Test Cases
 % Use the following command to run tests locally,  "runtests"
