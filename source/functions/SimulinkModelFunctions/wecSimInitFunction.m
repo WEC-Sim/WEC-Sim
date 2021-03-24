@@ -69,7 +69,7 @@ else
         % wecSim input from custom parameters in Simulink block
         fprintf('\nWEC-Sim Input From Custom Parameters In Simulink... \n');
         run('wecSimCustomParameters');
-        run('writeCustomParameters');
+        run('writeInputFromBlocks');
     end
 end
 clear values names InParam;

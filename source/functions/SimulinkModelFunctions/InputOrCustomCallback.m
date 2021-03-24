@@ -1,7 +1,7 @@
-function InputOrCustomCallback(grfBlockHandle)
+function inputOrCustomCallback(grfBlockHandle)
 % This script is called when the Global Reference Frame chooses to use an
 % Input file path or custom parameters.
-% This script finds all the WEC-Sim blocks and calls 'ParamInputCallback'
+% This script finds all the WEC-Sim blocks and calls 'customVisibilityCallback'
 % for each to show/hide a message denoting an input file is being used, or
 % show/hide the custom mask parameters which are then set in Simulink.
 
@@ -31,6 +31,6 @@ for i=1:length(blocks)
     % Check if the block is from the WEC-Sim library
     if any(contains(names,{'simu','waves','body','pto','constraint','mooring'}))
         blockHandle = getSimulinkBlockHandle(blocks{i});
-        ParamInputCallback(blockHandle,useInputFile);
+        customVisibilityCallback(blockHandle,useInputFile);
     end
 end

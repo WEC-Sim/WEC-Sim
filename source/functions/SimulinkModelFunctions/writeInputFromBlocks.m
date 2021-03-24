@@ -1,4 +1,3 @@
-
 % Script to write the custom parameters set in Simulink to an input file
 % for reference. This script only runs if custom parameters are set in
 % Simulink. It does not run if the simulation is run using wecSim.m or if
@@ -15,7 +14,7 @@ default_constraint = constraintClass('');
 default_mooring = mooringClass('');
 
 % New input file. Write header
-fid = fopen('./testin.m','w');
+fid = fopen('./wecSimInputFile_simulinkCustomParameters.m','w');
 fprintf(fid,'%% %s\r\n','WEC-Sim Input File, written with custom Simulink parameters');
 fprintf(fid,'%% %s\r\n',string(datetime));
 

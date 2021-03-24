@@ -1,4 +1,4 @@
-function WaveClassCallback(blockHandle)
+function waveClassCallback(blockHandle)
 % Callback function for WaveClass
 % Changes the visibility of Wave parameters based on WaveClass
 list = get_param(blockHandle,'MaskVisibilities');    % Get list of visibilities for all Masked Parameters
