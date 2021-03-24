@@ -60,8 +60,24 @@ switch type
     maskVars.h5File = body(num).h5File;                          % Create the body(1) Variable, Set Location of Hydrodynamic Data File and Body Number Within this File.   
     maskVars.geometryFile = body(num).geometryFile;              % Location of Geomtry File
     maskVars.mass = body(num).mass;                              % Body Mass
-    maskVars.momOfInertia = body(num).momOfInertia;              % Moment of Inertia [kg*m^2]     
-
+    maskVars.momOfInertia = body(num).momOfInertia;              % Moment of Inertia [kg*m^2]  
+    maskVars.nhBody = body(num).nhBody;
+    maskVars.flexHydroBody = body(num).flexHydroBody;
+    maskVars.cg = body(num).cg;
+    maskVars.cb = body(num).cb;
+    maskVars.dof = body(num).dof;
+    maskVars.dispVol = body(num).dispVol;
+    maskVars.initLinDisp = body(num).initDisp.initLinDisp;
+    maskVars.initAngularDispAxis = body(num).initDisp.initAngularDispAxis;
+    maskVars.initAngularDispAngle = body(num).initDisp.initAngularDispAngle;
+    maskVars.cd = body(num).morisonElement.cd;
+    maskVars.ca = body(num).morisonElement.ca;
+    maskVars.characteristicArea = body(num).morisonElement.characteristicArea;
+    maskVars.VME = body(num).morisonElement.VME;
+    maskVars.rgME = body(num).morisonElement.rgME;
+    maskVars.z = body(num).morisonElement.z;
+    
+    
     case 2
     % PTO Parameters
     tmp = string(maskVars.pto);

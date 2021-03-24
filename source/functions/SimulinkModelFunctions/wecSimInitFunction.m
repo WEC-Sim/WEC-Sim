@@ -53,26 +53,25 @@ if exist('runWecSimCML','var') && runWecSimCML==1
     fprintf('\nWEC-Sim Input From Standard wecSimInputFile.m Of Case Directory... \n');
     run('wecSimInputFile');
 else
-    % Convert Parameters of the masked subsystem to struct InParam
+    % Get global reference frame parameters
     values = get_param([bdroot,'/Global Reference Frame'],'MaskValues');    % Cell array containing all Masked Parameter values
     names = get_param([bdroot,'/Global Reference Frame'],'MaskNames');      % Cell array containing all Masked Parameter names
-    InParam = struct('init',1);                                 % Initialize InParam struct
-    for i = 1:length(names)
-        InParam = setfield(InParam,names{i,1},values{i,1});     % Update struct with Masked Parameter names and cooresponding values
-    end; clear i;
+    j = find(strcmp(names,'ParamInput'));
     
-    if strcmp(InParam.ParamInput,'Read from file')
+    if strcmp(values{j},'Read from file')
         % wecSim input from input file selected in Simulink block
         fprintf('\nWEC-Sim Input From File Selected In Simulink... \n');
-        run(InParam.InputFile);
+        i = find(strcmp(names,'InputFile'));
+        run(values{i});
     else
         % wecSim input from custom parameters in Simulink block
         fprintf('\nWEC-Sim Input From Custom Parameters In Simulink... \n');
-        run('wecSimCustomParameters');
-        run('writeInputFromBlocks');
+        inputFile = 'wecSimInputFile_simulinkCustomParameters';
+        writeInputFromBlocks(inputFile);
+        run(inputFile);
     end
 end
-clear values names InParam;
+clear values names i j;
 
 % Read Inputs for Multiple Conditions Run
 try fprintf('wecSimMCR Case %g\n',imcr); end

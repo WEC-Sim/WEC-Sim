@@ -1,130 +1,158 @@
-% Script to write the custom parameters set in Simulink to an input file
-% for reference. This script only runs if custom parameters are set in
-% Simulink. It does not run if the simulation is run using wecSim.m or if
-% the option to use a specific wecSimInputFile.m is chosen in the Global
-% Reference Frame block.
+function writeInputFromBlocks(inputFile)
+% This script reads custom parameters from masked WEC-Sim blocks, and 
+% writes a new wecSimInputFile.m based on the mask variables
+% 
+% Note: str2num used because mask parameters are always read as 'char'
+% Note: mat2str used so that types are printed in the correct format
 
-% Get default parameters.
-default_simu = simulationClass();
-default_simu.setupSim();
-default_wave = waveClass('');
-default_body = bodyClass('');
-default_pto = ptoClass('');
-default_constraint = constraintClass('');
-default_mooring = mooringClass('');
+% Get all block names
+blocks = find_system(bdroot,'Type','Block');
 
-% New input file. Write header
-fid = fopen('./wecSimInputFile_simulinkCustomParameters.m','w');
+% Write input file
+fid = fopen(['./' inputFile '.m'],'w');
 fprintf(fid,'%% %s\r\n','WEC-Sim Input File, written with custom Simulink parameters');
 fprintf(fid,'%% %s\r\n',string(datetime));
 
-if exist('simu','var')
-    fprintf(fid,'%s\r\n','%% Simulation Class');
-    fprintf(fid,'simu = simulationClass(); \r\n');
+% Get write each mask to an input file section
+for i=1:length(blocks)
+    names = get_param(blocks{i},'MaskNames');
+    values = get_param(blocks{i},'MaskValues');
     
-    props = properties(simu);
+    % Create struct with mask variable name/value pairs
+    maskVars = struct();
+    for j = 1:length(names)
+        maskVars.(names{j,1}) = values{j,1};
+    end; clear j;
     
-    for j=1:length(props)
-        if ~isequal(simu.(props{j}),default_simu.(props{j}))
-            try
-                default_simu.(props{j}) = 0; % test that property setAccess is public
-                fprintf(fid,'%s.%s = %s; \r\n','simu',props{j},mat2str(simu.(props{j})));
-            end
+    if isfield(maskVars,'simu') && isfield(maskVars,'waves')
+        % Block is Global Reference Frame
+        fprintf(fid,'\r\n%s\r\n','%% Simulation Class');
+        fprintf(fid,'simu = simulationClass(); \r\n');
+        fprinf(fid,'simu.simMechanicsFile = ''%s.slx''; \r\n',bdroot);
+        fprinf(fid,'simu.mode = %s; \r\n',mat2str(maskVars.mode));
+        fprinf(fid,'simu.explorer = %s; \r\n',mat2str(maskVars.explorer));
+        fprinf(fid,'simu.startTime = %f; \r\n',maskVars.startTime);
+        fprinf(fid,'simu.rampTime = %f; \r\n',maskVars.rampTime);
+        fprinf(fid,'simu.endTime = %f; \r\n',maskVars.endTime);
+        fprinf(fid,'simu.solver = %s; \r\n',mat2str(maskVars.solver));
+        fprinf(fid,'simu.dt = %f; \r\n',maskVars.dt);
+        fprinf(fid,'simu.CITime = %f; \r\n',maskVars.CITime);
+        if strcmp(maskVars.ssCalc,'on')
+            fprinf(fid,'simu.ssCalc = 1; \r\n');
+        else
+            fprinf(fid,'simu.ssCalc = 0; \r\n');
         end
+        
+        % Wave Information 
+        fprintf(fid,'\r\n%s\r\n','%% Wave Class');
+        fprinf(fid,'waves = waveClass(%s); \r\n',mat2str(maskVars.WaveClass));
+        
+        switch maskVars.WaveClass
+            
+            case 'noWaveCIC'
+            % noWaveCIC, no waves with radiation CIC  
+
+            case 'regular'
+            % Regular Waves
+            fprinf(fid,'waves.H = %f; \r\n',maskVars.H);
+            fprinf(fid,'waves.T = %f; \r\n',maskVars.T);
+            fprinf(fid,'waves.waveDir = %s; \r\n',mat2str(str2num(maskVars.waveDir)));
+            fprinf(fid,'waves.waveSpread = %s; \r\n',mat2str(str2num(maskVars.waveSpread)));
+        
+            case 'regularCIC'
+            % Regular Waves with CIC
+            fprinf(fid,'waves.H = %f; \r\n',maskVars.H);
+            fprinf(fid,'waves.T = %f; \r\n',maskVars.T);
+            fprinf(fid,'waves.waveDir = %s; \r\n',mat2str(str2num(maskVars.waveDir)));
+            fprinf(fid,'waves.waveSpread = %s; \r\n',mat2str(str2num(maskVars.waveSpread)));
+
+            case 'irregular'
+            % Irregular Waves
+            fprinf(fid,'waves.H = %f; \r\n',maskVars.H);
+            fprinf(fid,'waves.T = %f; \r\n',maskVars.T);
+            fprinf(fid,'waves.waveDir = %s; \r\n',mat2str(str2num(maskVars.waveDir)));
+            fprinf(fid,'waves.waveSpread = %s; \r\n',mat2str(str2num(maskVars.waveSpread)));
+            fprinf(fid,'waves.spectrumType = %s; \r\n',mat2str(maskVars.spectrumType));
+            fprinf(fid,'waves.freqDisc = %s; \r\n',mat2str(maskVars.freqDisc));
+            
+            case 'spectrumImport'
+            % Irregular Waves with imported spectrum
+            fprinf(fid,'waves.spectrumDataFile = %s; \r\n',mat2str(maskVars.spectrumDataFile));
+            fprinf(fid,'waves.phaseSeed = %f; \r\n',maskVars.phaseSeed);
+            
+            case 'etaImport'
+            % Waves with imported wave elevation time-history  
+            fprinf(fid,'waves.etaDataFile = %s; \r\n',mat2str(maskVars.etaDataFile));
+        end
+
+    elseif isfield(maskVars,'body')
+        % Block is a body
+        fprintf(fid,'\r\n%s\r\n','%% Body Class');
+        
+        tmp = string(maskVars.body);
+        num = str2num(extractBetween(tmp,strfind(tmp,'('),strfind(tmp,')'),'Boundaries','Exclusive'));
+        
+        fprintf(fid,'body(%d) = bodyClass(''body%d''); \r\n',num,num);
+        fprintf(fid,'body(%d).geometryFile = %s; \r\n',num,mat2str(maskVars.geometryFile));
+        
+        if strcmp(maskVars.mass,'equilibrium') || strcmp(maskVars.mass,'fixed')
+            fprintf(fid,'body(%d).mass = %s; \r\n',num,mat2str(maskVars.mass));
+        else
+            fprintf(fid,'body(%d).mass = %f; \r\n',num,maskVars.mass);
+        end
+        fprintf(fid,'body(%d).nhBody = %s; \r\n',num,mat2str(maskVars.momOfInertia));
+        fprintf(fid,'body(%d).flexHydroBody = %s; \r\n',num,mat2str(maskVars.momOfInertia));
+        fprintf(fid,'body(%d).cg = %s; \r\n',num,mat2str(maskVars.momOfInertia));
+        fprintf(fid,'body(%d).cb = %s; \r\n',num,mat2str(maskVars.momOfInertia));
+        fprintf(fid,'body(%d).dof = %s; \r\n',num,mat2str(maskVars.momOfInertia));
+        fprintf(fid,'body(%d).dispVol = %s; \r\n',num,mat2str(maskVars.momOfInertia));
+        fprintf(fid,'body(%d).initDisp.initLinDisp = %s; \r\n',num,mat2str(maskVars.initLinDisp));
+        fprintf(fid,'body(%d).initDisp.initAngularDispAxis = %s; \r\n',num,mat2str(maskVars.initAngularDispAxis));
+        fprintf(fid,'body(%d).initDisp.initAngularDispAngle = %s; \r\n',num,mat2str(maskVars.initAngularDispAngle));
+        fprintf(fid,'body(%d).morisonElement.cd = %s; \r\n',num,mat2str(maskVars.cd));
+        fprintf(fid,'body(%d).morisonElement.ca = %s; \r\n',num,mat2str(maskVars.ca));
+        fprintf(fid,'body(%d).morisonElement.characteristicArea = %s; \r\n',num,mat2str(maskVars.characteristicArea));
+        fprintf(fid,'body(%d).morisonElement.VME = %s; \r\n',num,mat2str(maskVars.VME));
+        fprintf(fid,'body(%d).morisonElement.rgME = %s; \r\n',num,mat2str(maskVars.rgME));
+        fprintf(fid,'body(%d).morisonElement.z = %s; \r\n',num,mat2str(maskVars.z));
+        
+    elseif isfield(maskVars,'constraint')
+        % Block is a constraint
+        tmp = string(maskVars.constraint);
+        num = str2num(extractBetween(tmp,strfind(tmp,'('),strfind(tmp,')'),'Boundaries','Exclusive'));
+        fprintf(fid,'constraint(%d) = constraintClass(''constraint%d''); \r\n',num,num);
+        fprintf(fid,'constraint(%d).loc = %s; \r\n',num,mat2str(str2num(maskVars.loc)));
+        
+    elseif isfield(maskVars,'pto')
+        % Block is a PTO
+        tmp = string(maskVars.pto);
+        num = str2num(extractBetween(tmp,strfind(tmp,'('),strfind(tmp,')'),'Boundaries','Exclusive'));
+        fprintf(fid,'pto(%d) = ptoClass(''pto%d''); \r\n',num,num);
+        fprintf(fid,'pto(%d).k = %f; \r\n',num,maskVars.k);
+        fprintf(fid,'pto(%d).c = %f; \r\n',num,maskVars.c);
+        fprintf(fid,'pto(%d).loc = %s; \r\n',num,mat2str(str2num(maskVars.loc)));
+        
+    elseif isfield(maskVars,'mooring') && isfield(maskVars,'stiffness')
+        % Block is a Mooring system
+        tmp = string(maskVars.mooring);
+        num = str2num(extractBetween(tmp,strfind(tmp,'('),strfind(tmp,')'),'Boundaries','Exclusive'));
+        fprintf(fid,'mooring(%d) = mooringClass(''mooring%d''); \r\n',num,num);
+        fprintf(fid,'mooring(%d).ref = %s; \r\n',num,mat2str(str2num(maskVars.ref)));
+        fprintf(fid,'mooring(%d).matrix.k = %s; \r\n',num,mat2str(str2num(maskVars.stiffness)));
+        fprintf(fid,'mooring(%d).matrix.c = %s; \r\n',num,mat2str(str2num(maskVars.damping)));
+        fprintf(fid,'mooring(%d).matrix.preTension = %s; \r\n',num,mat2str(str2num(maskVars.preTension)));
+        
+    elseif isfield(maskVars,'mooring') && isfield(maskVars,'moorDynlines')
+        % Block is a Mooring system
+        tmp = string(maskVars.mooring);
+        num = str2num(extractBetween(tmp,strfind(tmp,'('),strfind(tmp,')'),'Boundaries','Exclusive'));
+        fprintf(fid,'mooring(%d) = mooringClass(''mooring%d''); \r\n',num,num);
+        fprintf(fid,'mooring(%d).ref = %s; \r\n',num,mat2str(str2num(maskVars.ref)));
+        fprintf(fid,'mooring(%d).moorDynLines = %s; \r\n',num,mat2str(str2num(maskVars.moorDynLines)));
+        fprintf(fid,'mooring(%d).moorDynNodes = %s; \r\n',num,mat2str(str2num(maskVars.moorDynNodes)));
     end
+    clear names values maskVars
 end
 
-if exist('waves','var')
-    fprintf(fid,'\r\n%s\r\n','%% Wave Class');
-    fprintf(fid,'waves = waveClass(''%s''); \r\n',waves.type);
-    
-    props = properties(waves);
-    
-	for j=1:length(props)
-        if ~isequal(waves.(props{j}),default_wave.(props{j})) && ~any(isnan(waves.(props{j})))
-            try
-                default_wave.(props{j}) = 0; % test that property setAccess is public
-                fprintf(fid,'%s.%s = %s; \r\n','waves',props{j},mat2str(waves.(props{j})));
-            end
-        end
-    end
-end
+run(inputFile);
 
-if exist('body','var')
-    fprintf(fid,'\r\n%s\r\n','%% Body Class');
-    
-	for i = 1:length(body)
-        fprintf(fid,'body(%d) = bodyClass(''%s''); \r\n',i,body(i).name);
-        
-        props = properties(body(i));
-        
-        for j=1:length(props)
-            if ~isequal(body(i).(props{j}),default_body.(props{j}))
-                try
-                    default_body.(props{j}) = 0; % test that property setAccess is public
-                    fprintf(fid,'%s(%d).%s = %s; \r\n','body',i,props{j},mat2str(body(i).(props{j})));
-                end
-            end
-        end
-	end
-end
-
-if exist('constraint','var')
-    fprintf(fid,'\r\n%s\r\n','%% Constraint Class');
-    
-	for i = 1:length(constraint)
-        fprintf(fid,'constraint(%d) = constraintClass(''%s''); \r\n',i,constraint(i).name);
-        
-        props = properties(constraint(i));
-        
-        for j=1:length(props)
-            if ~isequal(constraint(i).(props{j}),default_constraint.(props{j}))
-                try
-                    default_constraint.(props{j}) = 0; % test that property setAccess is public
-                    fprintf(fid,'%s(%d).%s = %s; \r\n','constraint',i,props{j},mat2str(constraint(i).(props{j})));
-                end
-            end
-        end
-	end
-end
-
-if exist('pto','var')
-    fprintf(fid,'\r\n%s\r\n','%% PTO Class');
-    
-	for i = 1:length(pto)
-        fprintf(fid,'pto(%d) = ptoClass(''%s''); \r\n',i,pto(i).name);
-        
-        props = properties(pto(i));
-        
-        for j=1:length(props)
-            if ~isequal(pto(i).(props{j}),default_pto.(props{j}))
-                try
-                    default_pto.(props{j}) = 0; % test that property setAccess is public
-                    fprintf(fid,'%s(%d).%s = %s; \r\n','pto',i,props{j},mat2str(pto(i).(props{j})));
-                end
-            end
-        end
-	end
-end
-
-if exist('mooring','var')
-    fprintf(fid,'\r\n%s\r\n','%% Mooring Class');
-    
-	for i = 1:length(mooring)
-        fprintf(fid,'mooring(%d) = mooringClass(''%s''); \r\n',i,mooring(i).name);
-        
-        props = properties(mooring(i));
-        
-        for j=1:length(props)
-            if ~isequal(mooring(i).(props{j}),default_mooring.(props{j}))
-                try
-                    default_mooring.(props{j}) = 0; % test that property setAccess is public
-                    fprintf(fid,'%s(%d).%s = %s; \r\n','mooring',i,props{j},mat2str(mooring(i).(props{j})));
-                end
-            end
-        end
-    end
-end
-
-fclose(fid);
-clear default_* props
