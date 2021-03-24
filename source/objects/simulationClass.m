@@ -99,7 +99,8 @@ classdef simulationClass<handle
             %       the name of the SimMechanics ``.slx`` file
             %
            
-            modelName = gcs;
+%             modelName = string(fName);
+            [~,modelName,~] = fileparts(fName);
             set_param(modelName,'Solver',obj.solver,...
             'StopTime',num2str(obj.endTime),...
             'SimulationMode',obj.mode,...

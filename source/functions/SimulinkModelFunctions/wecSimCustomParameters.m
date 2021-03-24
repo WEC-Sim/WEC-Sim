@@ -19,8 +19,6 @@
 
 % Get all block names
 blocks = find_system(bdroot,'Type','Block');
-% idx = strcmp(blocks,[bdroot, '/Parameters']);
-% blocks(idx) = [];
 
 % Get the mask names of each class
 for i=1:length(blocks)

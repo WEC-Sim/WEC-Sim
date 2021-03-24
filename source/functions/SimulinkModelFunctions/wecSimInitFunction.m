@@ -47,28 +47,30 @@ diary('simulation.log')
 %% Read input file
 tic
 
-% Convert Parameters of the masked subsystem to struct InParam
-values = get_param([bdroot,'/Global Reference Frame'],'MaskValues');    % Cell array containing all Masked Parameter values
-names = get_param([bdroot,'/Global Reference Frame'],'MaskNames');      % Cell array containing all Masked Parameter names
-InParam = struct('init',1);                                 % Initialize InParam struct
-for i = 1:length(names)
-    InParam = setfield(InParam,names{i,1},values{i,1});     % Update struct with Masked Parameter names and cooresponding values
-end; clear i;
-
 % Set input parameters based on how the simulation is called
 if exist('runWecSimCML','var') && runWecSimCML==1
     % wecSim input from wecSimInputFile.m of case directory in the standard manner
     fprintf('\nWEC-Sim Input From Standard wecSimInputFile.m Of Case Directory... \n');
     run('wecSimInputFile');
-elseif strcmp(InParam.ParamInput,'Read from file')
-    % wecSim input from input file selected in Simulink block
-    fprintf('\nWEC-Sim Input From File Selected In Simulink... \n');
-    run(InParam.InputFile);
 else
-    % wecSim input from custom parameters in Simulink block
-    fprintf('\nWEC-Sim Input From Custom Parameters In Simulink... \n');
-    run('wecSimCustomParameters');
-    run('writeCustomParameters');
+    % Convert Parameters of the masked subsystem to struct InParam
+    values = get_param([bdroot,'/Global Reference Frame'],'MaskValues');    % Cell array containing all Masked Parameter values
+    names = get_param([bdroot,'/Global Reference Frame'],'MaskNames');      % Cell array containing all Masked Parameter names
+    InParam = struct('init',1);                                 % Initialize InParam struct
+    for i = 1:length(names)
+        InParam = setfield(InParam,names{i,1},values{i,1});     % Update struct with Masked Parameter names and cooresponding values
+    end; clear i;
+    
+    if strcmp(InParam.ParamInput,'Read from file')
+        % wecSim input from input file selected in Simulink block
+        fprintf('\nWEC-Sim Input From File Selected In Simulink... \n');
+        run(InParam.InputFile);
+    else
+        % wecSim input from custom parameters in Simulink block
+        fprintf('\nWEC-Sim Input From Custom Parameters In Simulink... \n');
+        run('wecSimCustomParameters');
+        run('writeCustomParameters');
+    end
 end
 clear values names InParam;
 

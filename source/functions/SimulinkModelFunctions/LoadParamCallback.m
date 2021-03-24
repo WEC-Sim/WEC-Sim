@@ -1,10 +1,9 @@
-function LoadParamCallback(blockHandle,type)
-%% Load Parameters from Input File to Masked Subsystem 
-% Reads user-selected input file, and loads all values into masked
-% parameters. CAN NOT override any parameter values that have not been
+function LoadParamCallback(blockHandle,type,inputFile)
+% Load Parameters from Input File to Masked Subsystem 
+% CAN NOT override any parameter values that have not been
 % applied by the user in the dialog box.
 
-% 'type' refers to the block type being used:
+% 'type' refers to the WEC-Sim block type being used:
 % type = 0, Global Reference Frame
 % type = 1, Body
 % type = 2, PTO
@@ -12,16 +11,17 @@ function LoadParamCallback(blockHandle,type)
 % type = 4, Mooring
 % type = 5, MoorDyn
 
-%% Run Selected input file
+run(inputFile);
+
+% Get struct of block's mask variables
 values = get_param(blockHandle,'MaskValues');                % Cell array containing all Masked Parameter values
 names = get_param(blockHandle,'MaskNames');                  % Cell array containing all Masked Parameter names
-maskVars = struct('init',1);                                 % Initialize InParam struct
-for i = 1:length(names)
-    maskVars = setfield(maskVars,names{i,1},values{i,1});    % Update struct with Masked Parameter names and cooresponding values
-end; clear i;
-run(maskVars.InputFile)
+maskVars = struct();
+for i=1:length(names)
+    maskVars.(names{i}) = values{i};
+end
 
-%% Read relevant class data
+% Read relevant class data into the block mask
 switch type
     
     case 0
@@ -93,7 +93,6 @@ switch type
     maskVars.moorDynNodes = mooring(num).moorDynNodes;
 end
 
-%% Set Parameter Values
 % Update all values in string format
 for i = 1:length(values)
     values{i,1} = num2str(maskVars.(names{i,1}));

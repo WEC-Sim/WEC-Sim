@@ -1,22 +1,16 @@
-function ParamInputCallback(blockHandle)
-% Callback function for ParamInput
-% Changes the visibility of the custom parameters based on ParamInput
-values = get_param(blockHandle,'MaskValues');    % Get values of all Masked Parameters    
-names = get_param(blockHandle,'MaskNames');      % Get names of all Masked Parameters
-j = 0;
-% Find index for ParamInput, parameter that decides input method
-for i = 1:length(names)
-   if strcmp(names{i,1},'ParamInput')
-       j = i;
-   end
-end
+function ParamInputCallback(blockHandle,useInputFile)
+% Changes the visibility of the custom parameters based on Global Reference
+% Frame ParamInput setting. Called by InputOrCustomCallback.m
 
 % Create variable for Group of Custom Parameters
-p=Simulink.Mask.get(blockHandle);
+p = Simulink.Mask.get(blockHandle);
 ParameterGroupVar = p.getDialogControl('ParameterGroupVar');
+CusInFile = p.getDialogControl('CusInFile');
 
-if strcmp(values{j,1},'Input File')
+if useInputFile
     ParameterGroupVar.Visible = 'off';                      % If user selects Input File, hide all custom parameters
+    CusInFile.Visible = 'on';
 else
     ParameterGroupVar.Visible = 'on';                       % If user selects Custom Parameters, make them visible
+    CusInFile.Visible = 'off';
 end  
