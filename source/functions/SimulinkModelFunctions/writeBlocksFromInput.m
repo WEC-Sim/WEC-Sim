@@ -34,12 +34,9 @@ switch type
     maskVars.solver = simu.solver;                               % simu.solver = 'ode4' for fixed step & simu.solver = 'ode45' for variable step 
     maskVars.dt = simu.dt;                                       % Simulation time-step [s]
     maskVars.CITime = simu.CITime;                               % Specify CI Time [s]
-    if simu.ssCalc == 1                                          % Check if state-space is enabled
-        maskVars.ssCalc = 'on';
-    else
-        maskVars.ssCalc = 'off';
-    end
-
+    maskVars.ssCalc = simu.ssCalc;                               % State-space calculation
+    maskVars.morisonElement = simu.morisonElement;               % Morison element
+    
     % Wave Information
     maskVars.WaveClass = waves.type;                             % Initialize Wave Class and Specify Type                                           
     maskVars.H = waves.H;                                        % Wave Height [m]
@@ -85,12 +82,40 @@ switch type
     maskVars.loc = pto(num).loc;                                   % PTO Location [m]
     maskVars.k = pto(num).k;                                       % PTO Stiffness [N/m]
     maskVars.c = pto(num).c;                                       % PTO Damping [N/(m/s)]
+    maskVars.x = pto(num).orientation.x;
+    maskVars.y = pto(num).orientation.y;
+    maskVars.z = pto(num).orientation.z;
+    maskVars.initLinDisp = pto(num).initDisp.initLinDisp;
+    maskVars.upperLimitSpecify = pto(num).hardStops.upperLimitSpecify;
+    maskVars.upperLimitBound = pto(num).hardStops.upperLimitBound;
+    maskVars.upperLimitStiffness = pto(num).hardStops.upperLimitStiffness;
+    maskVars.upperLimitDamping = pto(num).hardStops.upperLimitDamping;
+    maskVars.upperLimitTransitionRegionWidth = pto(num).hardStops.upperLimitTransitionRegionWidth;
+    maskVars.lowerLimitSpecify = pto(num).hardStops.lowerLimitSpecify;
+    maskVars.lowerLimitBound = pto(num).hardStops.lowerLimitBound;
+    maskVars.lowerLimitStiffness = pto(num).hardStops.lowerLimitStiffness;
+    maskVars.lowerLimitDamping = pto(num).hardStops.lowerLimitDamping;
+    maskVars.lowerLimitTransitionRegionWidth = pto(num).hardStops.lowerLimitTransitionRegionWidth;
     
     case 3
     % Constraint Parameters
     tmp = string(maskVars.constraint);
     num = str2num(extractBetween(tmp,strfind(tmp,'('),strfind(tmp,')'),'Boundaries','Exclusive'));
     maskVars.loc = constraint(num).loc;                            % Constraint Location [m]
+    maskVars.x = constraint(num).orientation.x;
+    maskVars.y = constraint(num).orientation.y;
+    maskVars.z = constraint(num).orientation.z;
+    maskVars.initLinDisp = constraint(num).initDisp.initLinDisp;
+    maskVars.upperLimitSpecify = constraint(num).hardStops.upperLimitSpecify;
+    maskVars.upperLimitBound = constraint(num).hardStops.upperLimitBound;
+    maskVars.upperLimitStiffness = constraint(num).hardStops.upperLimitStiffness;
+    maskVars.upperLimitDamping = constraint(num).hardStops.upperLimitDamping;
+    maskVars.upperLimitTransitionRegionWidth = constraint(num).hardStops.upperLimitTransitionRegionWidth;
+    maskVars.lowerLimitSpecify = constraint(num).hardStops.lowerLimitSpecify;
+    maskVars.lowerLimitBound = constraint(num).hardStops.lowerLimitBound;
+    maskVars.lowerLimitStiffness = constraint(num).hardStops.lowerLimitStiffness;
+    maskVars.lowerLimitDamping = constraint(num).hardStops.lowerLimitDamping;
+    maskVars.lowerLimitTransitionRegionWidth = constraint(num).hardStops.lowerLimitTransitionRegionWidth;
     
     case 4
     % Mooring Parameters

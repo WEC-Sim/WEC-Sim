@@ -37,11 +37,8 @@ for i=1:length(blocks)
         fprinf(fid,'simu.solver = %s; \r\n',mat2str(maskVars.solver));
         fprinf(fid,'simu.dt = %f; \r\n',maskVars.dt);
         fprinf(fid,'simu.CITime = %f; \r\n',maskVars.CITime);
-        if strcmp(maskVars.ssCalc,'on')
-            fprinf(fid,'simu.ssCalc = 1; \r\n');
-        else
-            fprinf(fid,'simu.ssCalc = 0; \r\n');
-        end
+        fprinf(fid,'simu.ssCalc = %f; \r\n',maskVars.ssCalc);
+        fprinf(fid,'simu.morisonElement = %f; \r\n',maskVars.morisonElement);
         
         % Wave Information 
         fprintf(fid,'\r\n%s\r\n','%% Wave Class');
@@ -122,6 +119,19 @@ for i=1:length(blocks)
         num = str2num(extractBetween(tmp,strfind(tmp,'('),strfind(tmp,')'),'Boundaries','Exclusive'));
         fprintf(fid,'constraint(%d) = constraintClass(''constraint%d''); \r\n',num,num);
         fprintf(fid,'constraint(%d).loc = %s; \r\n',num,mat2str(str2num(maskVars.loc)));
+        fprintf(fid,'constraint(%d).orientation.y = %s; \r\n',num,mat2str(str2num(maskVars.y)));
+        fprintf(fid,'constraint(%d).orientation.z = %s; \r\n',num,mat2str(str2num(maskVars.z)));
+        fprintf(fid,'constraint(%d).initDisp.initLinDisp = %s; \r\n',num,mat2str(str2num(maskVars.initLinDisp)));
+        fprintf(fid,'constraint(%d).hardStops.upperLimitSpecify = %s; \r\n',num,mat2str(maskVars.upperLimitSpecify));
+        fprintf(fid,'constraint(%d).hardStops.upperLimitBound = %f; \r\n',num,maskVars.upperLimitBound);
+        fprintf(fid,'constraint(%d).hardStops.upperLimitStiffness = %f; \r\n',num,maskVars.upperLimitStiffness);
+        fprintf(fid,'constraint(%d).hardStops.upperLimitDamping = %f; \r\n',num,maskVars.upperLimitDamping);
+        fprintf(fid,'constraint(%d).hardStops.upperLimitTransitionRegionWidth = %f; \r\n',num,maskVars.upperLimitTransitionRegionWidth);
+        fprintf(fid,'constraint(%d).hardStops.lowerLimitSpecify = %s; \r\n',num,mat2str(maskVars.lowerLimitSpecify));
+        fprintf(fid,'constraint(%d).hardStops.lowerLimitBound = %f; \r\n',num,maskVars.lowerLimitBound);
+        fprintf(fid,'constraint(%d).hardStops.lowerLimitStiffness = %f; \r\n',num,maskVars.lowerLimitStiffness);
+        fprintf(fid,'constraint(%d).hardStops.lowerLimitDamping = %f; \r\n',num,maskVars.lowerLimitDamping);
+        fprintf(fid,'constraint(%d).hardStops.lowerLimitTransitionRegionWidth = %f; \r\n',num,maskVars.lowerLimitTransitionRegionWidth);
         
     elseif isfield(maskVars,'pto')
         % Block is a PTO
@@ -131,6 +141,20 @@ for i=1:length(blocks)
         fprintf(fid,'pto(%d).k = %f; \r\n',num,maskVars.k);
         fprintf(fid,'pto(%d).c = %f; \r\n',num,maskVars.c);
         fprintf(fid,'pto(%d).loc = %s; \r\n',num,mat2str(str2num(maskVars.loc)));
+        fprintf(fid,'pto(%d).orientation.y = %s; \r\n',num,mat2str(str2num(maskVars.y)));
+        fprintf(fid,'pto(%d).orientation.z = %s; \r\n',num,mat2str(str2num(maskVars.z)));
+        fprintf(fid,'pto(%d).initDisp.initLinDisp = %s; \r\n',num,mat2str(str2num(maskVars.initLinDisp)));
+        fprintf(fid,'pto(%d).hardStops.upperLimitSpecify = %s; \r\n',num,mat2str(maskVars.upperLimitSpecify));
+        fprintf(fid,'pto(%d).hardStops.upperLimitBound = %f; \r\n',num,maskVars.upperLimitBound);
+        fprintf(fid,'pto(%d).hardStops.upperLimitStiffness = %f; \r\n',num,maskVars.upperLimitStiffness);
+        fprintf(fid,'pto(%d).hardStops.upperLimitDamping = %f; \r\n',num,maskVars.upperLimitDamping);
+        fprintf(fid,'pto(%d).hardStops.upperLimitTransitionRegionWidth = %f; \r\n',num,maskVars.upperLimitTransitionRegionWidth);
+        fprintf(fid,'pto(%d).hardStops.lowerLimitSpecify = %s; \r\n',num,mat2str(maskVars.lowerLimitSpecify));
+        fprintf(fid,'pto(%d).hardStops.lowerLimitBound = %f; \r\n',num,maskVars.lowerLimitBound);
+        fprintf(fid,'pto(%d).hardStops.lowerLimitStiffness = %f; \r\n',num,maskVars.lowerLimitStiffness);
+        fprintf(fid,'pto(%d).hardStops.lowerLimitDamping = %f; \r\n',num,maskVars.lowerLimitDamping);
+        fprintf(fid,'pto(%d).hardStops.lowerLimitTransitionRegionWidth = %f; \r\n',num,maskVars.lowerLimitTransitionRegionWidth);
+        
         
     elseif isfield(maskVars,'mooring') && isfield(maskVars,'stiffness')
         % Block is a Mooring system
