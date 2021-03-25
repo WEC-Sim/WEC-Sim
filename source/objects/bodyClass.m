@@ -56,7 +56,7 @@ classdef bodyClass<handle
             'color', [1 1 0], ...                            %
             'opacity', 1)                                    % Structure defining visualization properties in either SimScape or Paraview. ``color`` (`3x1 float vector`) is defined as the body visualization color, Default = [``1 1 0``]. ``opacity`` (`integer`) is defined as the body opacity, Default = ``1``.
         bodyparaview      = 1;                               % (`integer`) Flag for visualisation in Paraview either 0 (no) or 1 (yes). Default = ``1`` since only called in paraview.
-        morisonElement   = struct(...                        % 
+        morisonElement    = struct(...                       % 
             'cd',                 [0 0 0], ...               % 
             'ca',                 [0 0 0], ...               % 
             'characteristicArea', [0 0 0], ...               % 
@@ -325,14 +325,14 @@ classdef bodyClass<handle
             obj.hydroForce.storage.output_forceTotal = ft_mod;
         end
         
-        function setInitDisp(obj, x_rot, ax_rot, ang_rot, addLinDisp)
+        function setInitDisp(obj, relCoord, x_rot, ax_rot, ang_rot, addLinDisp)
             % Function to set the initial displacement when having initial rotation
+            % relCoord: Distance from x_rot to the body center of gravity as defined by relCoord = cg - x_rot
             % x_rot: rotation point
             % ax_rot: axis about which to rotate (must be a normal vector)
             % ang_rot: rotation angle in radians
             % addLinDisp: initial linear displacement (in addition to the displacement caused by rotation)
-            cg = obj.cg;
-            relCoord = cg - x_rot;
+            cg = relCoord + x_rot;
             rotatedRelCoord = rotateXYZ(relCoord,ax_rot,ang_rot);
             newCoord = rotatedRelCoord + x_rot;
             linDisp = newCoord-cg;
