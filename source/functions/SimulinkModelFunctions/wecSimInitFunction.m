@@ -37,7 +37,6 @@
 
 %% Start WEC-Sim log
 % Clear old input, plots, log file and start new log file.
-% bdclose('all');
 clc; diary off; close all;
 clear body waves simu output pto constraint ptoSim mooring values names InParam
 delete('*.log');
@@ -51,6 +50,7 @@ tic
 if exist('runWecSimCML','var') && runWecSimCML==1
     % wecSim input from wecSimInputFile.m of case directory in the standard manner
     fprintf('\nWEC-Sim Input From Standard wecSimInputFile.m Of Case Directory... \n');
+    bdclose('all');
     run('wecSimInputFile');
 else
     % Get global reference frame parameters
