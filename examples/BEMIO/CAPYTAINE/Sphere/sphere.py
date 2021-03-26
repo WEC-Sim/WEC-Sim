@@ -12,10 +12,11 @@ parameters from WEC-Sim (frequency range, directions, etc)
 import numpy as np
 import os
 import sys
-sys.path.insert(1,'C:/Users/akeeste/Documents/Software/GitHub/capytaine/my_cases')
 
+# Add directory with the call_capytaine.py file to the system path.
+currentdir = os.path.dirname(os.getcwd())
+sys.path.append(currentdir)
 import call_capytaine as cc
-
 
 # Define sphere parameters ---------------------------------------------------#
 sphere_file = ((os.getcwd() + os.path.sep + 'sphere.dat'),) # mesh file, .dat nemoh, .gdf wamit

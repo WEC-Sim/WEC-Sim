@@ -78,7 +78,9 @@ try fprintf('wecSimMCR Case %g\n',imcr); end
 
 if exist('mcr','var') == 1
     for n=1:length(mcr.cases(1,:))
-        if iscell(mcr.cases)
+        if strcmp(mcr.header{n},'LoadFile')                                 % added this flag for system ID efforts!
+            load(mcr.cases{imcr,n});
+        elseif iscell(mcr.cases)
             eval([mcr.header{n} '= mcr.cases{imcr,n};']);
         else
             eval([mcr.header{n} '= mcr.cases(imcr,n);']);
@@ -89,7 +91,6 @@ if exist('mcr','var') == 1
         waves.etaDataFile      = ['..' filesep parallelComputing_dir filesep '..' filesep waves.etaDataFile];
     end
 end
-
 % Waves and Simu: check inputs
 waves.checkinputs;
 simu.checkinputs;
@@ -119,14 +120,18 @@ if exist('mooring','var') == 1
     end; clear ii
 end
 % Bodies: count, check inputs, read hdf5 file
-numHydroBodies = 0; numDragBodies = 0; 
+numHydroBodies = 0; numNonHydroBodies = 0; numDragBodies = 0; 
 hydroBodLogic = zeros(length(body(1,:)),1);
+nonHydroBodLogic = zeros(length(body(1,:)),1);
 dragBodLogic = zeros(length(body(1,:)),1);
 for ii = 1:length(body(1,:))
     body(ii).bodyNumber = ii;
     if body(ii).nhBody==0
         numHydroBodies = numHydroBodies + 1;
-        hydroBodLogic(ii) = 1; 
+        hydroBodLogic(ii) = 1;         
+    elseif body(ii).nhBody==1
+        numNonHydroBodies = numNonHydroBodies + 1;
+        nonHydroBodLogic(ii) = 1; 
     elseif body(ii).nhBody==2
         numDragBodies = numDragBodies + 1;
         dragBodLogic(ii) = 1; 
@@ -211,12 +216,28 @@ if ~isempty(idx)
     end; clear kk idx
 end
 
+% nonHydroPre
+idx = find(nonHydroBodLogic==1);
+if ~isempty(idx)
+    for kk = 1:length(idx)
+        it = idx(kk);
+        if isempty(body(it).cb)
+            body(it).cb = body(it).cg;
+            warning('Non-hydro body(%i) center of buoyancy (cb) set equal to center of gravity (cg), [%g %g %g]',body(it).bodyNumber,body(it).cb(1),body(it).cb(2),body(it).cb(3))
+        end
+    end; clear kk idx
+end      
+
 % dragBodyPre
 idx = find(dragBodLogic==1);
 if ~isempty(idx)
     for kk = 1:length(idx)
         it = idx(kk);
         body(it).dragForcePre(simu.rho);
+        if isempty(body(it).cb)
+            body(it).cb = body(it).cg;
+            warning('Non-hydro body(%i) center of buoyancy (cb) set equal to center of gravity (cg), [%g %g %g]',body(it).bodyNumber,body(it).cb(1),body(it).cb(2),body(it).cb(3))
+        end        
     end; clear kk idx
 end
     
@@ -242,17 +263,17 @@ for ii = 1:simu.numWecBodies
     end
 end; clear ii;
 
-% check for etaImport with nlHydro
+% Check for etaImport with nlHydro
 if strcmp(waves.type,'etaImport') && simu.nlHydro == 1
     error(['Cannot run WEC-Sim with non-linear hydro (simu.nlHydro) and "etaImport" wave type'])
 end
 
-% check for etaImport with morisonElement
+% Check for etaImport with morisonElement
 if strcmp(waves.type,'etaImport') && simu.morisonElement ~= 0
     error(['Cannot run WEC-Sim with Morrison Element (simu.morisonElement) and "etaImport" wave type'])
 end
 
-% check for morisonElement inputs for simu.morisonElement == 1
+% Check for morisonElement inputs for simu.morisonElement == 1
 if simu.morisonElement == 1
     for ii = 1:length(body(1,:))
         if body(ii).nhBody ~=1
@@ -272,7 +293,7 @@ if simu.morisonElement == 1
     end; clear ii
 end
 
-% check for morisonElement inputs for simu.morisonElement == 2
+% Check for morisonElement inputs for simu.morisonElement == 2
 if simu.morisonElement == 2
     for ii = 1:length(body(1,:))
         if body(ii).nhBody ~=1
@@ -362,7 +383,6 @@ else
 end
 fprintf('\n')
 
-
 %% Load simMechanics file & Run Simulation
 tic
 fprintf('\nSimulating the WEC device defined in the SimMechanics model %s...   \n',simu.simMechanicsFile)
@@ -381,36 +401,4 @@ set_param(0, 'ErrorIfLoadNewModel', 'off')
 % Load parameters to Simulink model
 simu.loadSimMechModel(simu.simMechanicsFile);
 
-%% Removed, simulink model already called
-% sim(simu.simMechanicsFile, [], simset('SrcWorkspace','parent'));
-
-%% Moved to script wecSimStopFunction
-% Restore modified stuff
-% clear nlHydro sv_linearHydro sv_nonlinearHydro ssCalc radiation_option sv_convolution sv_stateSpace sv_constantCoeff typeNum B2B sv_B2B sv_noB2B;
-% clear nhbod* sv_b* sv_noWave sv_regularWaves sv_irregularWaves sv_udfWaves sv_instFS sv_meanFS sv_MEOn sv_MEOff morisonElement flexHydrobody_* sv_irregularWavesNonLinYaw sv_regularWavesNonLinYaw yawNonLin numBody;
 toc
-
-
-%% Moved to script wecSimStopFunction
-%tic
-%% Post processing and Saving Results
-%postProcess
-%% User Defined Post-Processing
-%if exist('userDefinedFunctions.m','file') == 2
-%    userDefinedFunctions;
-%end
-%% ASCII files
-%if simu.outputtxt==1
-%    output.writetxt();
-%end
-%paraViewVisualization
-%
-%%% Save files
-%clear ans table tout;
-%toc
-%diary off
-%%movefile('simulation.log',simu.logFile)
-%if simu.saveMat==1
-%    save(simu.caseFile,'-v7.3')
-%end
-

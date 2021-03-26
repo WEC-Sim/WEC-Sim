@@ -53,15 +53,16 @@ classdef simulationClass<handle
         adjMassWeightFun    = 2                                            % (`integer`) Weighting function for adjusting added mass term in the translational direction. Default = ``2``
         mcrCaseFile         = []                                           % (`string`) mat file that contain a list of the multiple conditions runs with given conditions. Default = ``'NOT DEFINED'``  
         morisonElement      = 0                                            % (`integer`) Option for Morison Element calculation: off->0, on->1 or 2. Default = ``0``. Option 1 uses an approach that allows the user to define drag and inertial coefficients along the x-, y-, and z-axes and Option 2 uses an approach that defines the Morison Element with normal and tangential tangential drag and interial coefficients.. 
-        outputtxt           = 0                                            % (`integer`) Option to save results as ASCII files off->0, on->1. Default = ``0``
-        outputStructure     = 1                                            % (`integer`) Option to save results as a MATLAB structure: off->0, on->1. Default = ``1``
         reloadH5Data        = 0                                            % (`integer`) Option to re-load hydro data from hf5 file between runs: off->0, on->1. Default = ``0``
-        saveMat             = 1                                            % (`integer`) Option to save .mat file for each run: off->0, on->1. Default = ``1``
+        saveStructure       = 0                                            % (`integer`) Option to save results as a MATLAB structure: off->0, on->1. Default = ``1``
+        saveText            = 0                                            % (`integer`) Option to save results as ASCII files off->0, on->1. Default = ``0``
+        saveWorkspace       = 1                                            % (`integer`) Option to save .mat file for each run: off->0, on->1. Default = ``1``
         pressureDis         = 0                                            % (`integer`) Option to save pressure distribution: off->0, on->1. Default = ``0``
     end
 
     properties (SetAccess = 'public', GetAccess = 'public')%internal
-        version             = '4.2'                                        % (`string`) WEC-Sim version
+        wsVersion             = '4.2'                                      % (`string`) WEC-Sim version
+        gitCommit           = []                                           % (`string`) GitHub commit
         simulationDate      = datetime                                     % (`string`) Simulation date and time
         outputDir           = 'output'                                     % (`string`) Data output directory name. Default = ``'output'``
         time                = 0                                            % (`float`) Simulation time [s]. Default = ``0`` s
@@ -83,7 +84,7 @@ classdef simulationClass<handle
         function obj = simulationClass()
             % This method initializes the ``simulationClass``.
             fprintf('WEC-Sim: An open-source code for simulating wave energy converters\n')
-            fprintf('Version: %s\n\n',obj.version)
+            fprintf('Version: %s\n\n',obj.wsVersion)
             fprintf('Initializing the Simulation Class...\n')
             obj.caseDir = pwd; 
             fprintf('\tCase Dir: %s \n',obj.caseDir)
@@ -146,7 +147,7 @@ classdef simulationClass<handle
                 end
             end
             mkdir(obj.outputDir)
-            obj.getWecSimVer;
+            obj.getGitCommit;
         end
 
         function checkinputs(obj)
@@ -190,15 +191,15 @@ classdef simulationClass<handle
             fprintf('\tTotal Number of Time Steps           = %u \n',obj.maxIt)
         end
 
-        function getWecSimVer(obj)
-            % Determines WEC-Sim version used
+        function getGitCommit(obj)
+            % Determines GitHub commit tag
             try
                 ws_exe = which('wecSim');
                 ws_dir = fileparts(ws_exe);
                 git_ver_file = [ws_dir '/../.git/refs/heads/master'];
-                obj.version = textread(git_ver_file,'%s');
+                obj.gitCommit = textread(git_ver_file,'%s');
             catch
-                obj.version = 'No git version available';
+                obj.gitCommit = 'No git commit tag available';
             end
         end
     end

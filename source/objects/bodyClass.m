@@ -26,6 +26,8 @@ classdef bodyClass<handle
     %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
     
     properties (SetAccess = 'private', GetAccess = 'public') %hdf5 file
+        dof_start         = []                               % (`integer`) Index the DOF starts for body(``bodyNumber``). For WEC bodies this is given in the h5 file, but if not defined in the h5 file, Default = ``(bodyNumber-1)*6+1``.
+        dof_end           = []                               % (`integer`) Index the DOF ends for body(``bodyNumber``). For WEC bodies this is given in the h5 file, but if not defined in the h5 file, Default = ``(bodyNumber-1)*6+6``.
         hydroData         = struct()                                            % Hydrodynamic data from BEM or user defined.
     end
     
@@ -38,8 +40,6 @@ classdef bodyClass<handle
         dispVol           = []                               % (`float`) Displaced volume at equilibrium position [m^{3}]. For hydrodynamic bodies this is defined in the h5 file while for nonhydrodynamic bodies this is defined by the user. Default = ``[]``.
         dof               = 6                                % (`integer`) Number of degree of freedoms (DOFs). For hydrodynamic bodies this is given in the h5 file. If not defined in the h5 file, Default = ``6``.
         dof_gbm           = []                               % (`integer`) Number of degree of freedoms (DOFs) for generalized body mode (GBM). Default = ``[]``.
-        dof_start         = []                               % (`integer`) Index the DOF starts for body(``bodyNumber``). For WEC bodies this is given in the h5 file, but if not defined in the h5 file, Default = ``(bodyNumber-1)*6+1``.
-        dof_end           = []                               % (`integer`) Index the DOF ends for body(``bodyNumber``). For WEC bodies this is given in the h5 file, but if not defined in the h5 file, Default = ``(bodyNumber-1)*6+6``.
         geometryFile      = 'NONE'                           % (`string`) Pathway to the body geometry ``.stl`` file.
         viscDrag          = struct(...                       %
             'Drag',                 zeros(6), ...            %
@@ -56,7 +56,7 @@ classdef bodyClass<handle
             'color', [1 1 0], ...                            %
             'opacity', 1)                                    % Structure defining visualization properties in either SimScape or Paraview. ``color`` (`3x1 float vector`) is defined as the body visualization color, Default = [``1 1 0``]. ``opacity`` (`integer`) is defined as the body opacity, Default = ``1``.
         bodyparaview      = 1;                               % (`integer`) Flag for visualisation in Paraview either 0 (no) or 1 (yes). Default = ``1`` since only called in paraview.
-        morisonElement   = struct(...                        % 
+        morisonElement    = struct(...                       % 
             'cd',                 [0 0 0], ...               % 
             'ca',                 [0 0 0], ...               % 
             'characteristicArea', [0 0 0], ...               % 
@@ -325,14 +325,14 @@ classdef bodyClass<handle
             obj.hydroForce.storage.output_forceTotal = ft_mod;
         end
         
-        function setInitDisp(obj, x_rot, ax_rot, ang_rot, addLinDisp)
+        function setInitDisp(obj, relCoord, x_rot, ax_rot, ang_rot, addLinDisp)
             % Function to set the initial displacement when having initial rotation
+            % relCoord: Distance from x_rot to the body center of gravity as defined by relCoord = cg - x_rot
             % x_rot: rotation point
             % ax_rot: axis about which to rotate (must be a normal vector)
             % ang_rot: rotation angle in radians
             % addLinDisp: initial linear displacement (in addition to the displacement caused by rotation)
-            cg = obj.cg;
-            relCoord = cg - x_rot;
+            cg = relCoord + x_rot;
             rotatedRelCoord = rotateXYZ(relCoord,ax_rot,ang_rot);
             newCoord = rotatedRelCoord + x_rot;
             linDisp = newCoord-cg;
@@ -418,10 +418,11 @@ classdef bodyClass<handle
         
         function checkinputs(obj,morisonElement)
             % This method checks WEC-Sim user inputs and generates error messages if parameters are not properly defined for the bodyClass.
+            % Check h5 file
             if exist(obj.h5File,'file')==0 && obj.nhBody==0
                 error('The hdf5 file %s does not exist',obj.h5File)
             end
-            % geometry file
+            % Check geometry file
             if exist(obj.geometryFile,'file') == 0
                 error('Could not locate and open geometry file %s',obj.geometryFile)
             end
@@ -454,8 +455,7 @@ classdef bodyClass<handle
             obj.hydroForce.fExt.im=zeros(1,nDOF);
         end
         
-        function regExcitation(obj,w,waveDir,rho,g,yawFlag)
-            
+        function regExcitation(obj,w,waveDir,rho,g,yawFlag)            
             % Regular wave excitation force
             % Used by hydroForcePre
             nDOF = obj.dof;

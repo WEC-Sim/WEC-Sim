@@ -8,7 +8,7 @@ try cd (['..' filesep parallelComputing_dir filesep '..' filesep]); end
 % Clear intermediate variables and variant subsystem flags
 clear nlHydro sv_linearHydro sv_nonlinearHydro ssCalc radiation_option sv_convolution sv_stateSpace sv_constantCoeff typeNum B2B sv_B2B sv_noB2B;
 clear nhbod* sv_b* sv_noWave sv_regularWaves sv_irregularWaves sv_udfWaves sv_instFS sv_meanFS sv_MEOn sv_MEOff morisonElement flexHydrobody_* sv_irregularWavesNonLinYaw sv_regularWavesNonLinYaw yawNonLin numBody;
-clear dragBodLogic hydroBodLogic idx it;
+clear dragBodLogic hydroBodLogic nonHydroBodLogic idx it;
 clear runWecSimCML
 
 toc
@@ -25,12 +25,12 @@ end
 paraViewVisualization
 
 % ASCII files
-if simu.outputtxt==1
+if simu.saveText==1
     output.writetxt();
 end
-if simu.outputStructure==1
+if simu.saveStructure==1
     warning('off','MATLAB:structOnObject')
-    output = struct(output);
+    outputStructure = struct(output);
 end
 
 
@@ -39,7 +39,7 @@ clear ans table tout;
 toc
 diary off
 
-if simu.saveMat==1
+if simu.saveWorkspace==1
     try 
        cd(parallelComputing_dir);
        simu.caseDir = [simu.caseDir filesep parallelComputing_dir];

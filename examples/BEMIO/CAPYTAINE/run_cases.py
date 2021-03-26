@@ -4,7 +4,8 @@ Created on Wed Nov 18 11:32:31 2020
 
 @author: akeeste
 
-This script runs all of the current cases for WEC-Sim bemio examples.
+This script runs all of the Capytaine cases needed for the WEC-Sim bemio examples.
+This script runs Capytaine, not BEMIO.
 
 """
 import os
@@ -31,7 +32,7 @@ import coer_comp
 
 # # Multiple body cases ------------------------------------------------------#
 print('Run Cubes case') # 11000 problems, 8.5 hours (new b2b)
-os.chdir("./Cubes")
+os.chdir("../Cubes")
 import cubes
 
 print('Run RM3 case') # 3380 problems, 21 hours (new b2b)
