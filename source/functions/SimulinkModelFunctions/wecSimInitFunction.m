@@ -58,12 +58,12 @@ else
     names = get_param([bdroot,'/Global Reference Frame'],'MaskNames');      % Cell array containing all Masked Parameter names
     j = find(strcmp(names,'ParamInput'));
     
-    if strcmp(values{j},'Read from file')
+    if strcmp(values{j},'Input File')
         % wecSim input from input file selected in Simulink block
         fprintf('\nWEC-Sim Input From File Selected In Simulink... \n');
         i = find(strcmp(names,'InputFile'));
         run(values{i});
-    else
+    elseif strcmp(values{j},'Custom Parameters')
         % wecSim input from custom parameters in Simulink block
         fprintf('\nWEC-Sim Input From Custom Parameters In Simulink... \n');
         inputFile = 'wecSimInputFile_simulinkCustomParameters';
