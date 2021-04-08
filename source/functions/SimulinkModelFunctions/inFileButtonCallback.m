@@ -5,7 +5,7 @@ function inFileButtonCallback(blockHandle)
 values = get_param(blockHandle,'MaskValues');        % Get values of all Masked Parameters
 names = get_param(blockHandle,'MaskNames');          % Get names of all Masked Parameters
 
-if filename~=0 && filepath~=0
+if ~isequal(filename,0) && ~isequal(filepath,0)
     % Find index for InputFile, parameter that stores Input File
     for i = 1:length(names)
        if strcmp(names{i,1},'InputFile')

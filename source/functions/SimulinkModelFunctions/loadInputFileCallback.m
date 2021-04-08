@@ -5,8 +5,7 @@ names = get_param(grfBlockHandle,'MaskNames');                  % Cell array con
 
 % Find input file index from mask variables and run file
 j = find(strcmp(names,'InputFile'));
-inputFile = values{j};
-% run(inputFile);
+inputFile = values{j};;
 
 %% Set class parameters in block mask
 % Get all simulink blocks

@@ -147,4 +147,6 @@ clear maskVars values names simu waves body constraint pto mooring
 
 if type==0
     waveClassCallback(blockHandle);
+elseif type==1
+    bodyClassCallback(blockHandle);
 end

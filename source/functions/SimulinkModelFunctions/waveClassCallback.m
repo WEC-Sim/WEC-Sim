@@ -6,29 +6,16 @@ values = get_param(blockHandle,'MaskValues');        % Get values of all Masked 
 names = get_param(blockHandle,'MaskNames');          % Get names of all Masked Parameters
 
 % Find index for all Wave parameters
-for i = 1:length(names)
-   if strcmp(names{i,1},'WaveClass')
-       j = i;
-   elseif strcmp(names{i,1},'H')
-       k = i;
-   elseif strcmp(names{i,1},'T')
-       m = i;
-   elseif strcmp(names{i,1},'etaDataFile')
-       n = i;
-   elseif strcmp(names{i,1},'spectrumDataFile')
-       p = i;
-   elseif strcmp(names{i,1},'spectrumType')
-       q = i;
-   elseif strcmp(names{i,1},'freqDisc')
-       s = i;
-   elseif strcmp(names{i,1},'phaseSeed')
-       t = i;
-   elseif strcmp(names{i,1},'waveDir')
-       u = i;
-   elseif strcmp(names{i,1},'waveSpread')
-       v = i;
-   end
-end
+j = find(strcmp(names,'WaveClass'));
+k = find(strcmp(names,'H'));
+m = find(strcmp(names,'T'));
+n = find(strcmp(names,'etaDataFile'));
+p = find(strcmp(names,'spectrumDataFile'));
+q = find(strcmp(names,'spectrumType'));
+s = find(strcmp(names,'freqDisc'));
+t = find(strcmp(names,'phaseSeed'));
+u = find(strcmp(names,'waveDir'));
+v = find(strcmp(names,'waveSpread'));
 
 % Create variables for buttons used for Wave parameters
 mask=Simulink.Mask.get(blockHandle);
