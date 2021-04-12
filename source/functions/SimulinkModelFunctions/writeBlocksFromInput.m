@@ -16,6 +16,8 @@ run(inputFile);
 % Get struct of block's mask variables
 values = get_param(blockHandle,'MaskValues');                % Cell array containing all Masked Parameter values
 names = get_param(blockHandle,'MaskNames');                  % Cell array containing all Masked Parameter names
+enabled = get_param(blockHandle,'MaskEnables');
+
 maskVars = struct();
 for i=1:length(names)
     maskVars.(names{i}) = values{i};
@@ -48,7 +50,10 @@ switch type
     maskVars.phaseSeed = waves.phaseSeed;                        % Phase is seeded so eta is the same
     maskVars.spectrumDataFile = waves.spectrumDataFile;          % Name of User-Defined Spectrum File [:,2] = [f, Sf]
     maskVars.etaDataFile = waves.etaDataFile;                    % Name of User-Defined Time-Series File [:,2] = [time, eta]
-
+    
+    % Update body blocks mask parameters to open/read only depending on simu flags
+    bodyClassCallback(blockHandle);
+    
     case 1
     % Body Data
     % Float
@@ -134,9 +139,11 @@ switch type
     maskVars.moorDynNodes = mooring(num).moorDynNodes;
 end
 
-% Update all values in string format
+% Assign values if enabled (not read only) as strings
 for i = 1:length(values)
-    values{i,1} = num2str(maskVars.(names{i,1}));
+    if strcmp(enabled{i},'on')
+        values{i,1} = num2str(maskVars.(names{i,1}));
+    end
 end; clear i;
 
 % Load Masked Subsystem with updated values

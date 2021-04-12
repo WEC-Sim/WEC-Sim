@@ -5,41 +5,61 @@ names = get_param(grfBlockHandle,'MaskNames');                  % Cell array con
 
 % Find input file index from mask variables and run file
 j = find(strcmp(names,'InputFile'));
-inputFile = values{j};;
+inputFile = values{j};
 
 %% Set class parameters in block mask
 % Get all simulink blocks
 blocks = find_system(bdroot,'Type','Block');
 
+% reorder blocks into standard input file format:
+%    simu/waves, body, constraints, ptos, moorings
+inds = [];
+indb = [];
+indc = [];
+indp = [];
+indm = [];
+for i=1:length(blocks)
+    names = get_param(blocks{i},'MaskNames');
+    if any(strcmp(names,'simu'))
+        inds = i;
+    elseif any(strcmp(names,'body'))
+        indb(end+1) = i;
+    elseif any(strcmp(names,'constraint'))
+        indc(end+1) = i;
+    elseif any(strcmp(names,'pto'))
+        indp(end+1) = i;
+    elseif any(strcmp(names,'mooring'))
+        indm(end+1) = i;
+    end
+end
+ind = [inds indb indc indp indm];
+blocks = blocks(ind);
+
+
 for i=1:length(blocks)
     % Variable names and values of a block
     names = get_param(blocks{i},'MaskNames');
-    values = get_param(blocks{i},'MaskValues');
+    blockHandle = getSimulinkBlockHandle(blocks{i});
     
     % Check if the block is from the WEC-Sim library
-    if any(contains(names,{'simu','waves'}))
-        blockHandle = getSimulinkBlockHandle(blocks{i});
-        writeBlocksFromInput(blockHandle,0,inputFile);
-        
-    elseif any(contains(names,{'body'}))
-        blockHandle = getSimulinkBlockHandle(blocks{i});
-        writeBlocksFromInput(blockHandle,1,inputFile);
-        
-    elseif any(contains(names,{'pto'}))
-        blockHandle = getSimulinkBlockHandle(blocks{i});
-        writeBlocksFromInput(blockHandle,2,inputFile);
-        
-    elseif any(contains(names,{'constraint'}))
-        blockHandle = getSimulinkBlockHandle(blocks{i});
-        writeBlocksFromInput(blockHandle,3,inputFile);
-        
-    elseif any(contains(names,{'mooring'})) && any(contains(names,{'stiffness'}))
-        blockHandle = getSimulinkBlockHandle(blocks{i});
-        writeBlocksFromInput(blockHandle,4,inputFile);
-        
-    elseif any(contains(names,{'mooring'})) && any(contains(names,{'moorDynLines'}))
-        blockHandle = getSimulinkBlockHandle(blocks{i});
-        writeBlocksFromInput(blockHandle,5,inputFile);
-        
+    if any(contains(names,{'simu','waves'})) % Global reference frame
+        type = 0;
+    elseif any(contains(names,{'body'})) % flexible or rigid body
+        type = 1;
+    elseif any(contains(names,{'pto'})) % pto
+        type = 2;
+    elseif any(contains(names,{'constraint'})) % constraint
+        type = 3;
+    elseif any(contains(names,{'mooring'})) && any(contains(names,{'stiffness'})) % mooring matrix
+        type = 4;
+    elseif any(contains(names,{'mooring'})) && any(contains(names,{'moorDynLines'})) % moorDyn
+        type = 5;
     end
+    
+    writeBlocksFromInput(blockHandle,type,inputFile);
+    
+    % write blocks again to account for read only params that are now updated
+%     if type==1 || type==0
+%         writeBlocksFromInput(blockHandle,type,inputFile);
+%     end
 end

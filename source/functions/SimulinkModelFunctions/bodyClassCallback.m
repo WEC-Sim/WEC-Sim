@@ -51,28 +51,14 @@ else
 
     % Change visibilities of cg based on nhBody selection
     if values{j,1} == '1' || values{j,1} == '2'
-        cgParam.ReadOnly = 'off';
         cgParam.Enabled = 'on';
-        
-        cbParam.ReadOnly = 'off';
         cbParam.Enabled = 'on';
-        
-        dofParam.ReadOnly = 'off';
         dofParam.Enabled = 'on';
-        
-        dispVolParam.ReadOnly = 'off';
         dispVolParam.Enabled = 'on';
     elseif values{j,1} == '0'
-        cgParam.ReadOnly = 'on';
         cgParam.Enabled = 'off';
-        
-        cbParam.ReadOnly = 'on';
         cbParam.Enabled = 'off';
-        
-        dofParam.ReadOnly = 'on';
         dofParam.Enabled = 'off';
-        
-        dispVolParam.ReadOnly = 'on';
         dispVolParam.Enabled = 'off';
     end
 end
