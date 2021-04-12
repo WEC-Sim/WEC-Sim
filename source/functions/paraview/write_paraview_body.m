@@ -36,10 +36,10 @@ cellareas = body.bodyGeometry.area;
 for it = 1:length(t)
     % calculate new position
     pos = pos_all(it,:);
-    vertex_mod = body.rotateXYZ(vertex,[1 0 0],pos(4));
-    vertex_mod = body.rotateXYZ(vertex_mod,[0 1 0],pos(5));
-    vertex_mod = body.rotateXYZ(vertex_mod,[0 0 1],pos(6));
-    vertex_mod = body.offsetXYZ(vertex_mod,pos(1:3));
+    vertex_mod = rotateXYZ(vertex,[1 0 0],pos(4));
+    vertex_mod = rotateXYZ(vertex_mod,[0 1 0],pos(5));
+    vertex_mod = rotateXYZ(vertex_mod,[0 0 1],pos(6));
+    vertex_mod = offsetXYZ(vertex_mod,pos(1:3));
     % open file
     filename = [pathParaviewVideo, filesep 'body' num2str(vtkbodiesii) '_' bodyname filesep bodyname '_' num2str(it) '.vtp'];
     fid = fopen(filename, 'w');

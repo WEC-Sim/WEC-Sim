@@ -26,6 +26,8 @@ classdef bodyClass<handle
     %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
     
     properties (SetAccess = 'private', GetAccess = 'public') %hdf5 file
+        dof_start         = []                               % (`integer`) Index the DOF starts for body(``bodyNumber``). For WEC bodies this is given in the h5 file, but if not defined in the h5 file, Default = ``(bodyNumber-1)*6+1``.
+        dof_end           = []                               % (`integer`) Index the DOF ends for body(``bodyNumber``). For WEC bodies this is given in the h5 file, but if not defined in the h5 file, Default = ``(bodyNumber-1)*6+6``.
         hydroData         = struct()                                            % Hydrodynamic data from BEM or user defined.
     end
     
@@ -38,8 +40,6 @@ classdef bodyClass<handle
         dispVol           = []                               % (`float`) Displaced volume at equilibrium position [m^{3}]. For hydrodynamic bodies this is defined in the h5 file while for nonhydrodynamic bodies this is defined by the user. Default = ``[]``.
         dof               = 6                                % (`integer`) Number of degree of freedoms (DOFs). For hydrodynamic bodies this is given in the h5 file. If not defined in the h5 file, Default = ``6``.
         dof_gbm           = []                               % (`integer`) Number of degree of freedoms (DOFs) for generalized body mode (GBM). Default = ``[]``.
-        dof_start         = []                               % (`integer`) Index the DOF starts for body(``bodyNumber``). For WEC bodies this is given in the h5 file, but if not defined in the h5 file, Default = ``(bodyNumber-1)*6+1``.
-        dof_end           = []                               % (`integer`) Index the DOF ends for body(``bodyNumber``). For WEC bodies this is given in the h5 file, but if not defined in the h5 file, Default = ``(bodyNumber-1)*6+6``.
         geometryFile      = 'NONE'                           % (`string`) Pathway to the body geomtry ``.stl`` file.
         viscDrag          = struct(...                       %
             'Drag',                 zeros(6), ...            %
@@ -56,13 +56,13 @@ classdef bodyClass<handle
             'color', [1 1 0], ...                            %
             'opacity', 1)                                    % Structure defining visualization properties in either SimScape or Paraview. ``color`` (`3x1 float vector`) is defined as the body visualization color, Default = [``1 1 0``]. ``opacity`` (`integer`) is defined as the body opacity, Default = ``1``.
         bodyparaview      = 1;                               % (`integer`) Flag for visualisation in Paraview either 0 (no) or 1 (yes). Default = ``1`` since only called in paraview.
-        morisonElement   = struct(...                        % 
-            'cd',                 [NaN NaN NaN], ...         % 
-            'ca',                 [NaN NaN NaN], ...         % 
-            'characteristicArea', [NaN NaN NaN], ...         % 
-            'VME',                 NaN     , ...             % 
-            'rgME',               [NaN NaN NaN], ...         %
-            'z',                  [NaN NaN NaN])             % Structure defining the Morison Element properties connected to the body. ``cd`` (`1x3 float vector`) is defined as the viscous normal and tangential drag coefficients in the following format, Option 1 [cd_x cd_y cd_z], Option 2 [cd_N cd_T NaN], Default = [``NaN NaN NaN``]. ``ca`` is defined as the added mass coefficent for the Morison Element in the following format, Option 1 [ca_x ca_y ca_z], Option 2 [ca_N ca_T NaN], Default = [``NaN NaN NaN``], ``characteristicArea`` is defined as the characteristic area for the Morison Element [m^2] in the following format, Option 1 [Area_x Area_y Area_z], Option 2 [Area_N Area_T NaN], Default = [NaN NaN NaN]. ``VME`` is the characteristic volume of the Morison Element [m^3], Default = ``NaN``. ``rgME`` is defined as the vector from the body COG to point of application for the Morison Element [m] in the following format [x y z], Default = [``NaN NaN NaN``].``z`` is defined as the unit normal vector center axis of the Morison Element in the following format, Option 1 not used, Option 2 [n_{x} n_{y} n_{z}], Default = [``NaN NaN NaN``].
+        morisonElement    = struct(...                       % 
+            'cd',                 [0 0 0], ...               % 
+            'ca',                 [0 0 0], ...               % 
+            'characteristicArea', [0 0 0], ...               % 
+            'VME',                 0     , ...               % 
+            'rgME',               [0 0 0], ...               %
+            'z',                  [0 0 1])                   % Structure defining the Morison Element properties connected to the body. ``cd`` (`1x3 float vector`) is defined as the viscous normal and tangential drag coefficients in the following format, Option 1 [cd_x cd_y cd_z], Option 2 [cd_N cd_T NaN], Default = [``NaN NaN NaN``]. ``ca`` is defined as the added mass coefficent for the Morison Element in the following format, Option 1 [ca_x ca_y ca_z], Option 2 [ca_N ca_T NaN], Default = [``NaN NaN NaN``], ``characteristicArea`` is defined as the characteristic area for the Morison Element [m^2] in the following format, Option 1 [Area_x Area_y Area_z], Option 2 [Area_N Area_T NaN], Default = [NaN NaN NaN]. ``VME`` is the characteristic volume of the Morison Element [m^3], Default = ``NaN``. ``rgME`` is defined as the vector from the body COG to point of application for the Morison Element [m] in the following format [x y z], Default = [``NaN NaN NaN``].``z`` is defined as the unit normal vector center axis of the Morison Element in the following format, Option 1 not used, Option 2 [n_{x} n_{y} n_{z}], Default = [``NaN NaN NaN``].
         nhBody            = 0                                % (`integer`) Flag for non-hydro body either 0 (no) or 1 (yes). Default = ``0``.
         flexHydroBody     = 0                                % (`integer`) Flag for flexible body either 0 (no) or 1 (yes). Default = ``0``.
         meanDriftForce    = 0                                % (`integer`) Flag for mean drift force with three options:  0 (no), 1 (yes, from control surface) or 2 (yes, from momentum conservation). Default = ``0``.
@@ -325,15 +325,15 @@ classdef bodyClass<handle
             obj.hydroForce.storage.output_forceTotal = ft_mod;
         end
         
-        function setInitDisp(obj, x_rot, ax_rot, ang_rot, addLinDisp)
+        function setInitDisp(obj, relCoord, x_rot, ax_rot, ang_rot, addLinDisp)
             % Function to set the initial displacement when having initial rotation
+            % relCoord: Distance from x_rot to the body center of gravity as defined by relCoord = cg - x_rot
             % x_rot: rotation point
             % ax_rot: axis about which to rotate (must be a normal vector)
             % ang_rot: rotation angle in radians
             % addLinDisp: initial linear displacement (in addition to the displacement caused by rotation)
-            cg = obj.cg;
-            relCoord = cg - x_rot;
-            rotatedRelCoord = obj.rotateXYZ(relCoord,ax_rot,ang_rot);
+            cg = relCoord + x_rot;
+            rotatedRelCoord = rotateXYZ(relCoord,ax_rot,ang_rot);
             newCoord = rotatedRelCoord + x_rot;
             linDisp = newCoord-cg;
             obj.initDisp.initLinDisp= linDisp + addLinDisp;
@@ -418,10 +418,11 @@ classdef bodyClass<handle
         
         function checkinputs(obj,morisonElement)
             % This method checks WEC-Sim user inputs and generates error messages if parameters are not properly defined for the bodyClass.
+            % Check h5 file
             if exist(obj.h5File,'file')==0 && obj.nhBody==0
                 error('The hdf5 file %s does not exist',obj.h5File)
             end
-            % geometry file
+            % Check geometry file
             if exist(obj.geometryFile,'file') == 0
                 error('Could not locate and open geometry file %s',obj.geometryFile)
             end
@@ -454,8 +455,7 @@ classdef bodyClass<handle
             obj.hydroForce.fExt.im=zeros(1,nDOF);
         end
         
-        function regExcitation(obj,w,waveDir,rho,g,yawFlag)
-            
+        function regExcitation(obj,w,waveDir,rho,g,yawFlag)            
             % Regular wave excitation force
             % Used by hydroForcePre
             nDOF = obj.dof;
@@ -725,32 +725,6 @@ classdef bodyClass<handle
                 fam(:,i) = tmp;
             end
             clear tmp
-        end
-        
-        function xn = rotateXYZ(obj,x,ax,t)
-            % Function to rotate a point about an arbitrary axis
-            % x: 3-componenet coordiantes
-            % ax: axis about which to rotate (must be a normal vector)
-            % t: rotation angle
-            % xn: new coordinates after rotation
-            rotMat = zeros(3);
-            rotMat(1,1) = ax(1)*ax(1)*(1-cos(t))    + cos(t);
-            rotMat(1,2) = ax(2)*ax(1)*(1-cos(t))    + ax(3)*sin(t);
-            rotMat(1,3) = ax(3)*ax(1)*(1-cos(t))    - ax(2)*sin(t);
-            rotMat(2,1) = ax(1)*ax(2)*(1-cos(t))    - ax(3)*sin(t);
-            rotMat(2,2) = ax(2)*ax(2)*(1-cos(t))    + cos(t);
-            rotMat(2,3) = ax(3)*ax(2)*(1-cos(t))    + ax(1)*sin(t);
-            rotMat(3,1) = ax(1)*ax(3)*(1-cos(t))    + ax(2)*sin(t);
-            rotMat(3,2) = ax(2)*ax(3)*(1-cos(t))    - ax(1)*sin(t);
-            rotMat(3,3) = ax(3)*ax(3)*(1-cos(t))    + cos(t);
-            xn = x*rotMat;
-        end
-        
-        function verts_out = offsetXYZ(obj,verts,x)
-            % Function to move the position vertices
-            verts_out(:,1) = verts(:,1) + x(1);
-            verts_out(:,2) = verts(:,2) + x(2);
-            verts_out(:,3) = verts(:,3) + x(3);
         end
     end
 end
