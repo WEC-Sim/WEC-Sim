@@ -58,8 +58,8 @@ for i=1:length(blocks)
     
     writeBlocksFromInput(blockHandle,type,inputFile);
     
-    % write blocks again to account for read only params that are now updated
-%     if type==1 || type==0
-%         writeBlocksFromInput(blockHandle,type,inputFile);
-%     end
+    % write blocks again to account for read only params that are now open
+    if type==1 || type==0
+        writeBlocksFromInput(blockHandle,type,inputFile);
+    end
 end

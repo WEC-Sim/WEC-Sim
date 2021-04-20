@@ -27,9 +27,9 @@ if any(strcmp(names,'simu')) % called by morisonElement drop down
             meParam = mask.getDialogControl('morisonElement');
             
             if simuMEParam == '1'
-                meParam.Enabled = 'on';
+                meParam.Visible = 'on';
             else
-                meParam.Enabled = 'off';
+                meParam.Visible = 'off';
             end
         end
     end
@@ -51,15 +51,15 @@ else
 
     % Change visibilities of cg based on nhBody selection
     if values{j,1} == '1' || values{j,1} == '2'
-        cgParam.Enabled = 'on';
-        cbParam.Enabled = 'on';
-        dofParam.Enabled = 'on';
-        dispVolParam.Enabled = 'on';
+        cgParam.Visible = 'on';
+        cbParam.Visible = 'on';
+        dofParam.Visible = 'on';
+        dispVolParam.Visible = 'on';
     elseif values{j,1} == '0'
-        cgParam.Enabled = 'off';
-        cbParam.Enabled = 'off';
-        dofParam.Enabled = 'off';
-        dispVolParam.Enabled = 'off';
+        cgParam.Visible = 'off';
+        cbParam.Visible = 'off';
+        dofParam.Visible = 'off';
+        dispVolParam.Visible = 'off';
     end
 end
 
