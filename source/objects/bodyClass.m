@@ -327,18 +327,39 @@ classdef bodyClass<handle
         
         function setInitDisp(obj, relCoord, x_rot, ax_rot, ang_rot, addLinDisp)
             % Function to set the initial displacement when having initial rotation
-            % relCoord: Distance from x_rot to the body center of gravity as defined by relCoord = cg - x_rot
-            % x_rot: rotation point
-            % ax_rot: axis about which to rotate (must be a normal vector)
-            % ang_rot: rotation angle in radians
-            % addLinDisp: initial linear displacement (in addition to the displacement caused by rotation)
+            %
+            % Parameters
+            % ------------
+            %    relCoord : [nAngle 3] float vector
+            %        Distance from x_rot to the body center of gravity as defined by relCoord = cg - x_rot
+            %
+            %    x_rot : [1 3] float vector
+            %        Rotation point
+            %
+            %    ax_rot : [nAngle 3] float vector
+            %        Axis about which to rotate (must be a normal vector)
+            %
+            %    ang_rot : [nAngle 1] float vector
+            %        Rotation angle in radians
+            %
+            %    addLinDisp : [1 3] float vector
+            %        Initial linear displacement (in addition to the displacement caused by rotation)
+            %
+            
             cg = relCoord + x_rot;
-            rotatedRelCoord = rotateXYZ(relCoord,ax_rot,ang_rot);
+            n = size(x_rot,1);
+            rotatedRelCoord = relCoord;
+            rotMat = eye(3);
+            for i=1:n
+                rotatedRelCoord = rotateXYZ(rotatedRelCoord,ax_rot(i,:),ang_rot(i,:));
+                rotMat = rotMat*axisAngle2RotMat(ax_rot(i,:),ang_rot(i,:));
+            end
+            [ax_rot_net, ang_rot_net] = rotMat2AxisAngle(rotMat);
             newCoord = rotatedRelCoord + x_rot;
             linDisp = newCoord-cg;
             obj.initDisp.initLinDisp= linDisp + addLinDisp;
-            obj.initDisp.initAngularDispAxis = ax_rot;
-            obj.initDisp.initAngularDispAngle = ang_rot;
+            obj.initDisp.initAngularDispAxis = ax_rot_net;
+            obj.initDisp.initAngularDispAngle = ang_rot_net;
         end
         
         function listInfo(obj)
