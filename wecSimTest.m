@@ -22,14 +22,23 @@ applicationsDir = fullfile(wsDir,'..\WEC-Sim_Applications\');
 addpath(genpath('.\tests'))
 addpath(genpath('.\source'))
 
-setupAppFiles
 run_wecSim_tests
+
+if runComp==1
+    try
+        setupAppFiles
+    catch
+        fprintf(['\nWEC-Sim Applications directory not set correctly for CI tests.\n'...
+            'Change the ''applicationsDir'' variable in wecSimTest.m to run \n' ...
+            'the compilation tests using the applications repo cases.\n\n']);
+        runComp = 0;
+    end
+end
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 % Compilation Tests for Applications Repo
 % These are not meant to be simulation regressions, only to set-up various 
-% cases and ensure new changes have not broken a specific WEC-Sim setup
-% ~75 seconds when endTime=10, ~60 seconds when endTime=4
+% cases and ensure new changes have not broken a specific WEC-Sim setup.
 fprintf('\nCompilation Tests for Applications Repo \n')
 fprintf('---------------------------------------\n')
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
