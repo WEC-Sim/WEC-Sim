@@ -22,8 +22,45 @@ applicationsDir = fullfile(wsDir,'..\WEC-Sim_Applications\');
 addpath(genpath('.\tests'))
 addpath(genpath('.\source'))
 
-run_wecSim_tests
+% User Input
+global plotNO;
+runReg=1;       % 1 to run regular wave simulations
+runIrreg=1;     % 1 to run irregular wave simulations
+runYaw=1;       % 1 to run passive yaw simulations
+runComp=1;      % 1 to run compilation of various cases
+plotNO=1;       % 1 to plot new run vs. stored run for comparison of each solver
+plotSolvers=1;  % 1 to plot new run comparison by sln method
+openCompare=1;  % 1 opens all new run vs. stored run plots for comparison of each solver
 
+% Run regression tests
+if runReg==1
+    cd(fullfile(testDir,'RegressionTests'))
+    cd RegularWaves/regular; runLoadRegular; cd .. ;
+    savefig('figReg');
+    cd regularCIC; runLoadRegularCIC; cd .. ;
+    savefig('figRegCIC');
+    cd regularSS; runLoadRegularSS; cd .. ;
+    savefig('figRegSS');
+    close all;
+end
+if runIrreg==1
+    cd(fullfile(testDir,'RegressionTests'))    
+    cd IrregularWaves/irregularCIC; runLoadIrregularCIC; cd ..;
+    savefig('figIrregCIC') ;
+    cd irregularSS; runLoadIrregularSS; cd ..;
+    savefig('figIrregSS');
+    close all;
+end
+if runYaw==1
+    cd(fullfile(testDir,'RegressionTests'))
+    cd PassiveYaw/RegularWaves; runLoadPassiveYawReg; cd ..;
+    savefig('figYawReg');
+    cd IrregularWaves; runLoadPassiveYawIrr; cd .. ;
+    savefig('figYawIrr');
+    close all;
+end
+
+% Set up compilation test files
 if runComp==1
     try
         setupAppFiles
@@ -43,48 +80,39 @@ fprintf('\nCompilation Tests for Applications Repo \n')
 fprintf('---------------------------------------\n')
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %% B2B, regularCIC wave, ode4
-assert(runComp == 1,'Skipping compilation tests');
 cd(fullfile(testAppDir, 'Body-to-Body_Interactions\B2B_Case4'));
 wecSim
 
 %% B2B + SS, regularCIC wave, ode4
-assert(runComp == 1,'Skipping compilation tests');
 cd(fullfile(testAppDir, 'Body-to-Body_Interactions\B2B_Case6'));
 wecSim
 
 %% Decay case, nowaveCIC, Morison element
-assert(runComp == 1,'Skipping compilation tests');
 cd(fullfile(testAppDir, 'Free_Decay\1m-ME'));
 wecSim
 
 %% GBM, ode45, regular wave
-assert(runComp == 1,'Skipping compilation tests');
 cd(fullfile(testAppDir, 'Generalized_Body_Modes'));
 wecSim
 
 %% MCR, spectrum import, MCR case file import
-assert(runComp == 1,'Skipping compilation tests');
 cd(fullfile(testAppDir, 'Multiple_Condition_Runs\RM3_MCROPT3_SeaState'));
 wecSimMCR
 clear mcr imcr
 
 %% Mooring matrix
-assert(runComp == 1,'Skipping compilation tests');
 cd(fullfile(testAppDir, 'Mooring\MooringMatrix'));
 wecSim
 
 %% Nonhydro body
-assert(runComp == 1,'Skipping compilation tests');
 cd(fullfile(testAppDir, 'Nonhydro_Body'));
 wecSim
 
 %% Paraview, nonlinear hydro, accelerator
-assert(runComp == 1,'Skipping compilation tests');
 cd(fullfile(testAppDir, 'Paraview_Visualization\OSWEC_NonLinear_Viz'));
 wecSim
 
 %% Passive Yaw, morison element
-assert(runComp == 1,'Skipping compilation tests');
 cd(fullfile(testAppDir, 'Passive_Yaw\PassiveYawON'));
 wecSim
 
