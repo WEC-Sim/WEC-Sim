@@ -1,7 +1,7 @@
 ---
 name: Bug report
 about: Create a report to help us improve
-title: ''
+title: "[BUG]"
 labels: bug
 assignees: ''
 
@@ -25,7 +25,8 @@ If applicable, add screenshots to help explain your problem.
 
 **Desktop (please complete the following information):**
  - OS: [e.g. iOS]
- - Version [e.g. 22]
+ - MATLAB Release [e.g. 2020a, 2020b, 2021a]
+ - WEC-Sim Release [e.g. v4.2]
 
 **Additional context**
 Add any other context about the problem here.
