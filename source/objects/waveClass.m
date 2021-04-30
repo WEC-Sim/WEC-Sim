@@ -602,10 +602,10 @@ classdef waveClass<handle
             obj.waveNumber(g)                                                   %Calculate Wave Number for Larger Number of Frequencies Before Down Sampling in Equal Energy Method
             if obj.deepWaterWave == 1
                 % Deepwater Approximation
-                obj.Pw = sum(1/2*rho*g^(2)*S_f.*obj.dw./obj.w);
+                obj.Pw = sum(1/2*rho*g^(2)*S_f/(2*pi).*obj.dw./obj.w);
             else
                 % Full Wave Power Equation
-                obj.Pw = sum((1/2)*rho*g.*S_f.*obj.dw.*sqrt(9.81./obj.k.*tanh(obj.k.*obj.waterDepth)).*(1 + 2.*obj.k.*obj.waterDepth./sinh(2.*obj.k.*obj.waterDepth)));
+                obj.Pw = sum((1/2)*rho*g.*S_f/(2*pi).*obj.dw.*sqrt(9.81./obj.k.*tanh(obj.k.*obj.waterDepth)).*(1 + 2.*obj.k.*obj.waterDepth./sinh(2.*obj.k.*obj.waterDepth)));
             end
             %
             switch obj.freqDisc
