@@ -25,7 +25,7 @@ If applicable, add screenshots to help explain your problem.
 
 **Desktop (please complete the following information):**
  - OS: [e.g. iOS8.1, Windows 10, Linux 5.12.1]
- - MATLAB/Simulink Release [e.g. 22]
+ - [MATLAB/Simulink Release] (http://wec-sim.github.io/WEC-Sim/man/release_notes.html) [e.g. 22]
  - WEC-Sim Release [v3.1, v4.0, v4.1]
 
 **Additional context**
