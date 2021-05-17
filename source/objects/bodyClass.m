@@ -330,7 +330,7 @@ classdef bodyClass<handle
             %
             % Parameters
             % ------------
-            %    relCoord : [nAngle 3] float vector
+            %    relCoord : [1 3] float vector
             %        Distance from x_rot to the body center of gravity as defined by relCoord = cg - x_rot
             %
             %    x_rot : [1 3] float vector
@@ -347,7 +347,7 @@ classdef bodyClass<handle
             %
             
             cg = relCoord + x_rot;
-            n = size(x_rot,1);
+            n = size(ax_rot,1);
             rotatedRelCoord = relCoord;
             rotMat = eye(3);
             for i=1:n
