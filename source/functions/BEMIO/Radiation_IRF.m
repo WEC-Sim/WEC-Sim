@@ -33,9 +33,9 @@ N = length(t)*sum(hydro.dof)*sum(hydro.dof);
 
 % Calculate the impulse response function for radiation
 n = 0;
-for k = 1:length(t);
-    for i = 1:sum(hydro.dof);
-        for j = 1:sum(hydro.dof);
+for k = 1:length(t)
+    for i = 1:sum(hydro.dof)
+        for j = 1:sum(hydro.dof)
             ra_B = interp1(hydro.w,squeeze(hydro.B(i,j,:)),w);
             hydro.ra_K(i,j,k) = (2/pi)*trapz(w,ra_B.*(cos(w*t(k)).*w));
             % hydro.ra_L(i,j,k) = (2/pi)*trapz(w,ra_B.*(sin(w*t(k))));  %Not used
@@ -43,6 +43,22 @@ for k = 1:length(t);
         end
     end
     waitbar(n/N)
+end
+
+% Calculate the infinite frequency added mass
+ra_Ainf_temp = zeros(length(hydro.w),1);                                    %Initialize the variable
+[~,F] = size(hydro);                                                        %Last data set in
+if strcmp(hydro(F).code,'WAMIT')==0
+    for i = 1:sum(hydro.dof)
+        for j = 1:sum(hydro.dof)
+            ra_A            = squeeze(hydro.A(i,j,:));
+            ra_K            = squeeze(hydro.ra_K(i,j,:));
+            for k = 1:length(hydro.w)                                       %Calculate the infinite frequency added mass at each input frequency
+                ra_Ainf_temp(k,1)  = ra_A(k) + (1./hydro.w(k))*trapz(t,ra_K.*sin(hydro.w(k).*t.'));
+            end
+            hydro.Ainf(i,j) = mean(ra_Ainf_temp);                           %Take the mean across the vector of infinite frequency added mass 
+        end
+    end
 end
 
 hydro.ra_t = t;
