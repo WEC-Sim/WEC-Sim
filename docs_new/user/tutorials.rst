@@ -93,7 +93,7 @@ Step 1: Run BEMIO
 
 Hydrodynamic data for each RM3 body must be parsed into a HDF5 file using 
 :ref:`user-advanced-features-bemio`. BEMIO converts hydrodynamic data from 
-WAMIT, NEMOH or AQWA into a HDF5 file, ``*.h5`` that is then read by WEC-Sim. 
+WAMIT, NEMOH, AQWA, or CAPYTAINE into a HDF5 file, ``*.h5`` that is then read by WEC-Sim. 
 The RM3 tutorial includes data from a WAMIT run, ``rm3.out``, of the RM3 
 geometry in the ``$WECSIM/tutorials/rm3/hydroData/`` directory. The RM3 WAMIT 
 ``rm3.out`` file and the BEMIO ``bemio.m`` script are then used to generate the 
@@ -280,7 +280,7 @@ Step 1: Run BEMIO
 
 Hydrodynamic data for each OSWEC body must be parsed into a HDF5 file using 
 :ref:`user-advanced-features-bemio`. BEMIO converts hydrodynamic data from 
-WAMIT, NEMOH or AQWA into a HDF5 file, ``*.h5`` that is then read by WEC-Sim. 
+WAMIT, NEMOH, AQWA, or CAPYTAINE into a HDF5 file, ``*.h5`` that is then read by WEC-Sim. 
 The OSWEC tutorial includes data from a WAMIT run, ``oswec.out``, of the OSWEC 
 geometry in the ``$WECSIM/tutorials/rm3/hydroData/`` directory. The OSWEC WAMIT 
 ``oswec.out`` file and the BEMIO ``bemio.m`` script are then used to generate 

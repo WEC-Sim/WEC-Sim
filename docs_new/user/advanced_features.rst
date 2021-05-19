@@ -65,6 +65,10 @@ For Multiple Condition Runs, the ``*.h5`` hydrodynamic data is only loaded
 once. To reload the ``*.h5`` data between runs, set ``simu.reloadH5Data =1`` in 
 the WEC-Sim input file. 
 
+If the Simulink model relies upon ``From Workspace`` input blocks other than those utilized by the WEC-Sim library blocks (e.g. ``Wave.etaDataFile``), these can be iterated through using Option 3. The MCR file header MUST be a cell containing the exact string ``'LoadFile'``. The pathways of the files to be loaded to the workspace must be given in the ``cases`` field of the MCR *.mat* file. WEC-Sim MCR will then run WEC-Sim in sequence, once for each file to be loaded. The variable name of each loaded file shoud be consistent, and specified by the ``From Workspace`` block.  
+
+For more information, refer to :ref:`webinar1`, and the **RM3_MCR** example on the `WEC-Sim Applications <https://github.com/WEC-Sim/WEC-Sim_Applications>`_ repository. 
+
 The **RM3_MCR** examples on the `WEC-Sim Applications 
 <https://github.com/WEC-Sim/WEC-Sim_Applications>`_ repository demonstrate the 
 use of WEC-Sim MCR for each option above (arrays, .xls, .mat). The fourth case 
@@ -77,7 +81,7 @@ Within the MCR application, the :code:`userDefinedFunctionsMCR.m` script
 creates a power matrix from the PTO damping coefficient after all cases have 
 been run. 
 
-For more information, refer to :ref:`webinar1`, 
+For more information, refer to :ref:`webinar1`. 
 
 .. _user-advanced-features-pct:
 
@@ -653,7 +657,7 @@ how to implement and use generalized body modes in WEC-Sim.
 .. Note::
 
     Generalized body modes module has only been tested with WAMIT, where BEMIO 
-    may need to be modified for NEMOH. 
+    may need to be modified for NEMOH, AQWA and CAPYTAINE.
 
 Passive Yaw Implementation
 ^^^^^^^^^^^^^^^^^^^^^^^^^^

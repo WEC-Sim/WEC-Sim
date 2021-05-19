@@ -4,11 +4,11 @@ pre-process the BEM hydrodynamic data prior to running WEC-Sim. For more
 information about the WEC-Sim workflow, refer to 
 :ref:`user-workflow-running-wec-sim`. The following section can also be 
 followed in conjunction with the cases in the WEC-Sim/Examples directory in the 
-WEC-Sim source code. This includes several cases with WAMIT, NEMOH and AQWA. 
+WEC-Sim source code. This includes several cases with WAMIT, NEMOH, AQWA, and CAPYTAINE. 
 For more information, refer to :ref:`webinar1`. BEMIO functions perform the 
 following tasks: 
 
-* Read BEM results from **WAMIT**, **NEMOH**, or **AQWA**.
+* Read BEM results from **WAMIT**, **NEMOH**, **AQWA**, or **CAPYTAINE**.
 * Calculate the radiation and excitation impulse response functions (IRFs).
 * Calculate the state space realization for the radiation IRF.
 * Save the resulting data in Hierarchical Data Format 5 (HDF5).
@@ -50,7 +50,13 @@ BEMIO Functions
 		* *ah1_filename* – ``*.AH1`` AQWA output file 
 		* *lis_filename* – ``*.LIS`` AQWA output file
 
-**Normalize:** Normalizes NEMOH and AQWA hydrodynamics coefficients in the same manner that WAMIT outputs are normalized. Specifically, the linear hydrostatic restoring stiffness is normalized as, :math:`C_{i,j}/\rho g`; the radiation added mass is normalized as, :math:`A_{i,j}/\rho`; radiation wave damping is normalized as, :math:`B_{i,j}/\rho \omega`; and the wave-exciting forces are normalized as, :math:`F_{exc,i}/\rho g`. Typically, this function would not be called directly by the user; it is automatically implemented within the Read_NEMOH and Read_AQWA functions. 
+**Read_CAPYTAINE:** Reads data from Capytaine output files
+
+	*hydro = Read_CAPYTAINE(hydro, filename)
+		* *hydro* - data structure
+		* *filename* - ``*.nc`` CAPYTAINE output file
+
+**Normalize:** Normalizes NEMOH, AQWA and CAPYTAINE hydrodynamics coefficients in the same manner that WAMIT outputs are normalized. Specifically, the linear hydrostatic restoring stiffness is normalized as, :math:`C_{i,j}/\rho g`; the radiation added mass is normalized as, :math:`A_{i,j}/\rho`; radiation wave damping is normalized as, :math:`B_{i,j}/\rho \omega`; and the wave-exciting forces are normalized as, :math:`F_{exc,i}/\rho g`. Typically, this function would not be called directly by the user; it is automatically implemented within the Read_NEMOH, Read_AQWA, and Read_CAPYTAINE functions.
 
 	*hydro = Normalize(hydro)*
 		* *hydro* – data structure
@@ -109,6 +115,7 @@ BEMIO Functions
 BEMIO *hydro* Data Structure
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 .. Kelley update this
+.. Adam with addition of GBM, the labeled 6*Nb sizes may be misleading. Consider changing 6*Nb to sum(dof)
 
 ============  ========================  ======================================
 **Variable**  **Format**                **Description**
@@ -119,9 +126,9 @@ theta         [1,Nh]                    wave headings (deg)
 body          {1,Nb}                    body names
 cb            [3,Nb]                    center of buoyancy
 cg            [3,Nb]                    center of gravity
-code          string                    BEM code (WAMIT, AQWA, or NEMOH)
+code          string                    BEM code (WAMIT, NEMOH, AQWA, or CAPYTAINE))
 C             [6,6,Nb]                  hydrostatic restoring stiffness
-dof 	      [6 + GBM, Nb] 		Degrees of freedom (DOF) for each body. Default DOF for each body is 6 plus number of possible generalized body modes (GBM).
+dof 	      [1, Nb]                   Degrees of freedom (DOF) for each body. Default DOF for each body is 6 plus number of possible generalized body modes (GBM).
 exc_im        [6*Nb,Nh,Nf]              imaginary component of excitation force or torque
 exc_K         [6*Nb,Nh,length(ex_t)]    excitation IRF
 exc_ma        [6*Nb,Nh,Nf]              magnitude of excitation force or torque

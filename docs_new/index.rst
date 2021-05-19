@@ -14,7 +14,6 @@
    user/index.rst
    developer/index.rst
 
-**See the old documentation** `HERE </WEC-Sim/index.html>`_.
 
 #########################################
 WEC-Sim (Wave Energy Converter SIMulator) 

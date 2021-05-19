@@ -59,8 +59,7 @@ matlab_src_dir = os.path.abspath("../source")
 matlab_keep_package_prefix = False
 
 # sphinxcontrib-versioning settings
-scv_root_ref = 'new_docs_structure'
-scv_whitelist_branches = ('^new_docs_structure$',)
+scv_whitelist_branches = ('master','dev')
 scv_whitelist_tags = (re.compile('a^'),)
 
 # Add any paths that contain templates here, relative to this directory.

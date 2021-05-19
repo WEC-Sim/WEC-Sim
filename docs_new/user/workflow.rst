@@ -53,12 +53,12 @@ Hydrodynamic Data
 ^^^^^^^^^^^^^^^^^
 
 The Hydrodynamic coefficients for each body may be generated using a boundary 
-element method (BEM) code (e.g., **WAMIT**, **NEMOH** or **AQWA**). The WEC-Sim 
+element method (BEM) code (e.g., **WAMIT**, **NEMOH**, **AQWA**, or **CAPYTAINE**). The WEC-Sim 
 code requires hydrodynamic data from the BEM solution in the form of HDF5 
 format (``*.h5`` file). This ``*.h5`` hydrodynamic data file can be generated 
 using the BEMIO pre-processor. BEMIO (Boundary Element Method Input/Output) is 
 a code developed by the WEC-Sim team to process BEM output files from 
-**WAMIT**, **NEMOH**, and **AQWA** into a data structure than can be read by 
+**WAMIT**, **NEMOH**, **AQWA**, and **CAPYTAINE** into a data structure than can be read by 
 WEC-Sim. For more information about the BEMIO pre-processor, refer to the 
 :ref:`user-advanced-features-bemio` section. 
 
@@ -146,7 +146,7 @@ BEM code to calculate the hydrodynamic coefficients.
   excitation). 
 
    * The coefficients for each body may be generated using a boundary element 
-     method (BEM) code (e.g., **WAMIT**, **NEMOH** or **AQWA**). 
+     method (BEM) code (e.g., **WAMIT**, **NEMOH**, **AQWA**, or **CAPYTAINE**). 
    * WEC-Sim requires that all hydrodynamic coefficients must be specified at 
      **the center of gravity** for each body.
 
@@ -163,7 +163,7 @@ for WEC-Sim to read:
      can be parsed into a ``*.h5`` data structure using 
      :ref:`BEMIO<user-advanced-features-bemio>`, which was developed by the 
      WEC-Sim team.
-   * BEMIO currently supports WAMIT, NEMOH and AQWA. 
+   * BEMIO currently supports WAMIT, NEMOH, AQWA, and CAPYTAINE. 
 
 .. Note:: 
    * **If WAMIT is used:**
@@ -204,6 +204,11 @@ for WEC-Sim to read:
         ``*.LIS`` file and output the ``*.AH1`` hydrodynamic database file. 
         Both of these files are reacquired to run BEMIO. 
       * More details on AQWA setup are given in the AQWA Reference Manual.
+      
+   * **If CAPYTAINE is used:** 
+   
+      * The origin of the mesh for each body (``*.dat``) is located at the mean water surface, which follows the same coordinate used in WEC-Sim. 
+      * More details on CAPYTAINE setup are given in the `Capytaine webpage <https://ancell.in/capytaine/latest/>`_.
 
 .. Note::
     

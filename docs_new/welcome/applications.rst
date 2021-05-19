@@ -133,6 +133,6 @@ Write HDF5
 
 This is an example of how to write your own h5 file using MATLAB. Can be useful 
 if you want to modify your coefficients, use experimental coefficients, or 
-coefficients from another BEM code other than NEMOH, WAMIT, or AQWA. For more 
+coefficients from another BEM code other than WAMIT, NEMOH, AQWA, or CAPYTAINE. For more 
 details see `BEMIO feature <http://wec-sim.github.io/WEC-Sim/features.html#bemio-writing-your-own-h5-file>`_ 
 documentation. 
