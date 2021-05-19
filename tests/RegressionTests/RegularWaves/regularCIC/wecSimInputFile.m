@@ -5,7 +5,6 @@ simu.rampTime = 100;                    % Wave Ramp Time [s]
 simu.endTime=200;                       % Simulation End Time [s]
 simu.dt = 0.1;                          % Simulation Time-Step [s]
 simu.explorer = 'off';
-simu.ssCalc = 1;
 simu.CITime = 20;
 
 %% Wave Information
@@ -16,14 +15,14 @@ waves.T = 8;                            % Wave Period [s]
 
 %% Body Data
 % Float
-body(1) = bodyClass('../../../examples/RM3/hydroData/rm3.h5');
-body(1).geometryFile = '../../../examples/RM3/geometry/float.stl'; 
+body(1) = bodyClass('../../../../examples/RM3/hydroData/rm3.h5');
+body(1).geometryFile = '../../../../examples/RM3/geometry/float.stl'; 
 body(1).mass = 'equilibrium';
 body(1).momOfInertia = [20907301 21306090.66 37085481.11];   
 
 % Spar/Plate
-body(2) = bodyClass('../../../examples/RM3/hydroData/rm3.h5');
-body(2).geometryFile = '../../../examples/RM3/geometry/plate.stl';
+body(2) = bodyClass('../../../../examples/RM3/hydroData/rm3.h5');
+body(2).geometryFile = '../../../../examples/RM3/geometry/plate.stl';
 body(2).mass = 'equilibrium';
 body(2).momOfInertia = [94419614.57 94407091.24 28542224.82];
 

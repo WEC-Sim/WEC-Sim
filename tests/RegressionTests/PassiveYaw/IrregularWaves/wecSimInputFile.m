@@ -27,7 +27,7 @@ waves.phaseSeed=1;                      % Specify phase so repeatable
 % Flap  NOTE: DO NOT POINT TO examples/OSWEC/hydroData. This test uses
 % unique BEM
 body(1) = bodyClass('../hydroData/oswec.h5');      % Initialize bodyClass for Flap
-body(1).geometryFile = '../../../examples/OSWEC/geometry/flap.stl';     % Geometry File
+body(1).geometryFile = '../../../../examples/OSWEC/geometry/flap.stl';     % Geometry File
 body(1).mass = 12700;                           % User-Defined mass [kg]
 body(1).momOfInertia = [1.85e6 1.85e6 1.85e6];  % Moment of Inertia [kg-m^2]
 %body(1).viscDrag.cd = [3 3 3 3 3 3];
@@ -35,7 +35,7 @@ body(1).momOfInertia = [1.85e6 1.85e6 1.85e6];  % Moment of Inertia [kg-m^2]
 % Base: NOTE: DO NOT POINT TO examples/OSWEC/hydroData. This test uses
 % unique BEM
 body(2) = bodyClass('../hydroData/oswec.h5');      % Initialize bodyClass for Base
-body(2).geometryFile = '../../../examples/OSWEC/geometry/base.stl';     % Geometry File
+body(2).geometryFile = '../../../../examples/OSWEC/geometry/base.stl';     % Geometry File
 body(2).mass = 'fixed';                         % Creates Fixed Body
 
 %% PTO and Constraint Parameters
