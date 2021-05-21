@@ -52,7 +52,7 @@ BEMIO Functions
 
 **Read_CAPYTAINE:** Reads data from Capytaine output files
 
-	*hydro = Read_CAPYTAINE(hydro, filename)
+	*hydro = Read_CAPYTAINE(hydro, filename)*
 		* *hydro* - data structure
 		* *filename* - ``*.nc`` CAPYTAINE output file
 
