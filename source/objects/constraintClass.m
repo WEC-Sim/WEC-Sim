@@ -115,21 +115,22 @@ classdef constraintClass<handle
         end
 
         function setInitDisp(obj, x_rot, ax_rot, ang_rot, addLinDisp)
-            % This method sets initial displacement while considering an initial rotation orientation. 
-            %
-            %``x_rot`` (`3x1 float vector`) is rotation point [m] in the following format [x y z], Default = ``[]``.
-            % 
-            %``ax_rot`` (`3x1 float vector`) is the axis about which to rotate to constraint and must be a normal vector, Default = ``[]``.
-            %
-            %``ang_rot`` (`float`) is the rotation angle [rad], Default = ``[]``.
-            %
-            %``addLinDisp`` ('float') is the initial linear displacement [m] in addition to the displacement caused by the constraint rotation, Default = '[]'.
-            loc = obj.loc;
-            relCoord = loc - x_rot;
-            rotatedRelCoord = rotateXYZ(relCoord,ax_rot,ang_rot);
-            newCoord = rotatedRelCoord + x_rot;
-            linDisp = newCoord-loc;
-            obj.initDisp.initLinDisp= linDisp + addLinDisp; 
+%             % This method sets initial displacement while considering an initial rotation orientation. 
+%             %
+%             %``x_rot`` (`3x1 float vector`) is rotation point [m] in the following format [x y z], Default = ``[]``.
+%             % 
+%             %``ax_rot`` (`3x1 float vector`) is the axis about which to rotate to constraint and must be a normal vector, Default = ``[]``.
+%             %
+%             %``ang_rot`` (`float`) is the rotation angle [rad], Default = ``[]``.
+%             %
+%             %``addLinDisp`` ('float') is the initial linear displacement [m] in addition to the displacement caused by the constraint rotation, Default = '[]'.
+%             loc = obj.loc;
+%             relCoord = loc - x_rot;
+%             rotatedRelCoord = rotateXYZ(relCoord,ax_rot,ang_rot);
+%             newCoord = rotatedRelCoord + x_rot;
+%             linDisp = newCoord-loc;
+%             obj.initDisp.initLinDisp= linDisp + addLinDisp; 
+            obj = setInitDisp(obj, x_rot, ax_rot, ang_rot, addLinDisp);
         end
 
         function listInfo(obj)
