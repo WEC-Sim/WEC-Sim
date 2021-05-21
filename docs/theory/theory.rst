@@ -1,7 +1,7 @@
 .. _theory-theory:
 
-Theory
-======
+Overview
+--------
 
 Modeling wave energy converters (WECs) involves the interaction between the 
 incident waves, device motion, power-take-off (PTO mechanism), and mooring. 
@@ -730,6 +730,13 @@ hydrodynamic coefficients that include these additional flexible DOF are
 obtained from the BEM solver, the 6DOF rigid body motion for each body and the 
 additional GBM DOFs are solved together in one system of equations. See this 
 example and :ref:`user-advanced-features` for more details on implementing GBM. 
+
+
+Terminology
+-----------
+
+.. include:: /theory/terminology.rst
+
 
 References
 ----------

@@ -1,6 +1,6 @@
-.. _welcome-intro:
+.. _intro-overview:
 
-Overview of WEC-Sim
+Overview
 =======================
 
 .. TODO:
@@ -29,7 +29,7 @@ modes. As long as boundary element method data is available, a body may also
 move in any number of generalized body modes such as shear, torsion, or 
 bending. 
 
-.. figure:: /_static/images/new_figs/overview_diagram.JPG
+.. figure:: /_static/images/overview/overview_diagram.JPG
    :width: 750pt
 
 At a high level, the only external input that WEC-Sim requires is boundary 
@@ -50,7 +50,7 @@ WEC-Sim with a wide variety of other models and scripts relevant to their
 devices. Complex power take-off systems and advanced control algorithms are 
 just two examples of the advanced tools that can be coupled with WEC-Sim. 
 
-.. figure:: /_static/images/new_figs/OSWEC_with_ptosim.JPG
+.. figure:: /_static/images/overview/OSWEC_with_ptosim.JPG
    :width: 750pt
 
 .. TODO:
@@ -83,22 +83,22 @@ figures below.
     MCR/PCT with large power matrix
 
 
-.. |b2b| image:: /_static/images/new_figs/b2b_comparison2.png
+.. |b2b| image:: /_static/images/overview/b2b_comparison2.png
    :width: 400pt
    :height: 175pt
    :align: middle
    
-.. |nlh| image:: /_static/images/new_figs/nlhydro_comparison4.png
+.. |nlh| image:: /_static/images/overview/nlhydro_comparison4.png
    :width: 400pt
    :height: 175pt
    :align: middle
    
-.. |num| image:: /_static/images/new_figs/numOpt_comparison.png
+.. |num| image:: /_static/images/overview/numOpt_comparison.png
    :width: 400pt
    :height: 175pt
    :align: middle
    
-.. |yaw| image:: /_static/images/new_figs/passiveYaw_comparison.png
+.. |yaw| image:: /_static/images/overview/passiveYaw_comparison.png
    :width: 400pt
    :height: 175pt
    :align: middle
@@ -150,56 +150,56 @@ The Paraview figures below highlight a small sample of devices that WEC-Sim has 
     	OSWEC + 
 
 
-.. figure:: /_static/images/new_figs/rm3_iso_side.png
+.. figure:: /_static/images/overview/rm3_iso_side.png
    :align: center
    :width: 500pt
    
    Reference Model 3
 
 
-.. figure:: /_static/images/new_figs/oswec_iso_side.png
+.. figure:: /_static/images/overview/oswec_iso_side.png
    :align: center
    :width: 500pt
    
    Bottom-fixed Oscillating Surge WEC (OSWEC)
 
 
-.. figure:: /_static/images/new_figs/sphere_freedecay_iso_side.png
+.. figure:: /_static/images/overview/sphere_freedecay_iso_side.png
    :align: center
    :width: 500pt
    
    Hemisphere in Free Decay
 
 
-.. figure:: /_static/images/new_figs/ellipsoid_iso_side.png
+.. figure:: /_static/images/overview/ellipsoid_iso_side.png
    :align: center
    :width: 500pt
    
    Ellipsoid
 
 
-.. figure:: /_static/images/new_figs/gbm_iso_side.png
+.. figure:: /_static/images/overview/gbm_iso_side.png
    :align: center
    :width: 500pt
    
    Barge with Four Flexible Body Modes
 
 
-.. figure:: /_static/images/new_figs/wigley_iso_side.png
+.. figure:: /_static/images/overview/wigley_iso_side.png
    :align: center
    :width: 500pt
    
    Wigley Ship Hull
    
 
-.. figure:: /_static/images/new_figs/wecccomp_iso_side.png
+.. figure:: /_static/images/overview/wecccomp_iso_side.png
    :align: center
    :width: 500pt
    
    Wave Energy Converter Control Competition (WECCCOMP) Wavestar Device
 
 
-.. figure:: /_static/images/new_figs/oc6_iso_side.png
+.. figure:: /_static/images/overview/oc6_iso_side.png
    :align: center
    :width: 500pt
    

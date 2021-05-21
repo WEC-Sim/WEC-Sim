@@ -8,4 +8,3 @@ Theory Manual
    :maxdepth: 2
    
    theory.rst
-   terminology.rst

@@ -1,4 +1,4 @@
-.. _welcome-webinars:
+.. _intro-webinars:
 
 Webinars
 ========
@@ -37,7 +37,7 @@ The WEC-Sim Theory & Workflow presentation is available for download here (
         <iframe width="560" height="315" src="https://www.youtube.com/embed/_lekKj41VZM?ecver=1" frameborder="0" allowfullscreen></iframe>
         
 
-.. _welcome-webinars-code-structure:
+.. _user-webinars-code-structure:
 
 WEC-Sim Code Structure 
 ^^^^^^^^^^^^^^^^^^^^^^

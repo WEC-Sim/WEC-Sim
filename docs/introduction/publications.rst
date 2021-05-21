@@ -1,10 +1,12 @@
-.. _welcome-publications:
+.. _intro-publications:
 
 Publications
 ============
 
 WEC-Sim Publications
 ^^^^^^^^^^^^^^^^^^^^
+
+.. TODO update. this list only goes up to 2018
 
 Here is a list of publications written by the WEC-Sim multi-lab team about the development and application of the WEC-Sim code:
 

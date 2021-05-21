@@ -1,4 +1,4 @@
-.. _welcome-license:
+.. _intro-license:
 
 License
 =======

@@ -1,10 +1,13 @@
-.. _welcome-release-notes:
+.. _intro-release-notes:
 
 Release Notes
 =============
 
+Current Release
+----------------
+
 `WEC-Sim v4.2 <https://github.com/WEC-Sim/WEC-Sim/releases/tag/v4.2>`_
----------------------------------------------------------------------------------
+^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
 * Added normal/tangential option for Morison Force (``simu.morisonElement = 2``) `#408 <https://github.com/WEC-Sim/WEC-Sim/pull/408>`_
 
@@ -32,33 +35,6 @@ Release Notes
 
 .. image:: https://zenodo.org/badge/DOI/10.5281/zenodo.4391330.svg
    :target: https://doi.org/10.5281/zenodo.4391330
-   
-Citation
-------------------
-To cite WEC-Sim, please reference the DOI, and use the following citation.
-
-[1] Yi-Hsiang Yu, Kelley Ruehl, Jennifer Van Rij, Nathan Tom, Dominic Forbush, David Ogden, Adam Keester, and Jorge Leon. (2020, December), WEC-Sim (Version v4.2), `DOI 10.5281/zenodo.3924764 <https://doi.org/10.5281/zenodo.3924764>`_.
-
-.. code-block:: none
-
-	@software{wecsim,
-	  author       = {Yi-Hsiang Yu and
-			  Kelley Ruehl and
-			  Jennifer Van Rij and
-			  Nathan Tom and
-			  Dominic Forbush and
-			  David Ogden and
-			  Adam Keester and
-			  Jorge Leon},
-	  title        = {WEC-Sim v4.2},
-	  month        = December,
-	  year         = 2020,
-	  publisher    = {Zenodo},
-	  version      = {v4.2},
-	  doi          = {10.5281/zenodo.3924764},
-	  url          = {https://doi.org/10.5281/zenodo.3924764}
-	}
-
 
 
 

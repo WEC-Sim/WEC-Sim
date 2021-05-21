@@ -1,23 +1,6 @@
-.. adam:
-    I think that this section needs some additional overhaul. 
-    Now that it is in a distinct user manual it is more apparent that the 'what/how' of 
-    each class/block is missing. There is a lot of information on the location of the 
-    source files (this should move to dev manual, users don't need to know this) and how 
-    to initialize classes. But I feel that each class is missing an overview on what it does
-    and how it does it (tie back to theory).
-    
-    e.g. The purpose of the simulation class is to set-up a WEC-Sim case and holds all of
-    the numerical options and flags required for the simulation. Parameters A and B are 
-    passed to C and D classes for reasons X and Y, etc..
-    
-    Also, the classes and library blocks are intentionally tied together so I feel they 
-    should be presented that way. I suggest further restructuring this section based on 
-    each class. In each class' section, specific types of blocks can be presented as needed.
-    The Global Reference Frame can be included with the simulation or wave class
-    
-    TODO:
+.. TODO:
     tie to theory section and add basic equations in the wave and body sections
-    add details on each Class's output in each section, or all in responseClass
+    
     
 .. _user-code-structure:
 
@@ -26,7 +9,7 @@ Code Structure
 
 This section provides a description of the WEC-Sim source code and its 
 structure. For more information about WEC-Sim's code structure, refer to the 
-:ref:`welcome-webinars-code-structure` webinar. 
+:ref:`user-webinars-code-structure` webinar. 
 
 .. _user-code-structure-src:
 
@@ -151,7 +134,7 @@ rest of WEC-Sim as shown in the diagram below. The most common flags and
 attributes that are passed to other objects are the start, end, and ramp times,
 time steps, global variables (gravity, density, etc). 
 
-.. figure:: /_static/images/new_figs/simulation_diagram.png
+.. figure:: /_static/images/code_structure/simulation_diagram.png
    :width: 100%
 
 Class Initialization
@@ -222,7 +205,7 @@ At a high level, the wave class interacts with the rest of WEC-Sim as shown in
 the diagram below. The wave primarily interacts with the body class 
 through during pre-processing of wave forces and in Simulink.
 
-.. figure:: /_static/images/new_figs/wave_diagram.PNG
+.. figure:: /_static/images/code_structure/wave_diagram.PNG
    :width: 100%
 
 Class Initialization
@@ -397,7 +380,7 @@ interacts with the rest of WEC-Sim as shown in the diagram below.
 Bodies hold hydrodynamic BEM input data, calculate body forces and pass forces 
 and motions to other Simulink blocks.
 
-.. figure:: /_static/images/new_figs/body_diagram.PNG
+.. figure:: /_static/images/code_structure/body_diagram.PNG
    :width: 750pt
 
 Class Initialization
@@ -514,7 +497,7 @@ interacts with the rest of WEC-Sim as shown in the diagram below. Constraint
 objects largely interact with other blocks through Simscape connections that 
 pass resistive forces to other bodies, constraints, ptos, etc. 
 
-.. figure:: /_static/images/new_figs/constraint_diagram.PNG
+.. figure:: /_static/images/code_structure/constraint_diagram.PNG
    :width: 750pt
 
 Class Initialization
@@ -607,7 +590,7 @@ the diagram below. PTO objects largely interact with other blocks through
 Simscape connections that pass resistive forces to other bodies, constraints, 
 ptos, etc. 
 
-.. figure:: /_static/images/new_figs/pto_diagram.PNG
+.. figure:: /_static/images/code_structure/pto_diagram.PNG
    :width: 750pt
 
 Class Initialization
@@ -680,7 +663,7 @@ WEC-Sim as shown in the diagram below. The interaction is similar to a
 constraint or PTO, where some resistive forcing is calculated and passed to a 
 body block through a Simscape connection. 
 
-.. figure:: /_static/images/new_figs/mooring_diagram.PNG
+.. figure:: /_static/images/code_structure/mooring_diagram.PNG
    :width: 750pt
 
 Class Initialization

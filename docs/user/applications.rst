@@ -17,6 +17,7 @@ WEC-Sim repository. The applications are summarized below.
 .. Adam: right now these descriptions are copy/pasted from the application 
    READMEs. We can expand or link them later on depending on what will be done 
    with the App repo
+   
 
 Body-to-Body Interactions
 ^^^^^^^^^^^^^^^^^^^^^^^^^

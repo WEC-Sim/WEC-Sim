@@ -11,4 +11,6 @@ User Manual
    workflow.rst
    tutorials.rst
    code_structure.rst
+   applications.rst 
    advanced_features.rst
+   webinars.rst

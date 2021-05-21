@@ -9,7 +9,7 @@
    :hidden:
    
    Home <self>
-   welcome/index.rst
+   introduction/index.rst
    theory/index.rst
    user/index.rst
    developer/index.rst
@@ -43,7 +43,7 @@ WEC-Sim is a collaboration between the `National Renewable Energy Laboratory
 (Sandia) <http://energy.sandia.gov/energy/renewable-energy/water-power/>`_, 
 funded by the U.S. Department of Energy’s Water Power Technologies Office. 
 Due to the open source nature of the code, WEC-Sim has also had many external 
-contributions, for more information refer to :ref:`welcome-acknowledgements`. 
+contributions, for more information refer to :ref:`intro-acknowledgements`. 
 
 Current members of the development team include:
 
