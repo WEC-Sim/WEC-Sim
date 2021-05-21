@@ -234,7 +234,9 @@ def call_capy(meshFName, wCapy, CoG=([0,0,0],), headings=[0.0],ncFName=None,
     # capyData.update(kochin)
 
     # save to .nc file
-    cpt.io.xarray.separate_complex_values(capyData).to_netcdf(ncFName)
+    cpt.io.xarray.separate_complex_values(capyData).to_netcdf(ncFName,
+                                                              encoding={'radiating_dof': {'dtype': 'U'},
+                                                                        'influenced_dof': {'dtype': 'U'}})
     
     print('\n\nCapytaine call complete. Data saved to \n' + ncFName)
     
