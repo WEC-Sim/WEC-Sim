@@ -49,7 +49,6 @@ end
 if strcmp(hydro(F).code,'WAMIT')==0  % Normalize
     hydro(F).C = hydro(F).C/(hydro(F).g*hydro(F).rho);
     hydro(F).A = hydro(F).A/(hydro(F).rho);
-    hydro(F).Ainf = hydro(F).A(:,:,end);
     for i=1:length(hydro(F).w)
         hydro(F).B(:,:,i) = hydro(F).B(:,:,i)/(hydro(F).rho*hydro(F).w(i));
     end
