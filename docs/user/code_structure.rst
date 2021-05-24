@@ -233,8 +233,6 @@ sections.
 ``etaImport``      ``waves.etaDataFile``                           
 ================== ================================================
 
-.. TODO: these wave types aren't appearing as a drop down in the TOC tree
-
 noWave
 """"""
 

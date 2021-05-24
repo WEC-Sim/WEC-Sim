@@ -5,7 +5,7 @@ Overview
 
 .. TODO
     - compare to other codes?
-        advantages over other options
+        table of advantages over similar codes
         speed / accuracy comparison
         Reference OC6P1 paper and how well WEC-Sim performs
 
@@ -67,17 +67,6 @@ method codes using its BEMIO (BEM-in/out) functionality and can output paraview
 files for visualization. Some of its advanced features are highlighted in the 
 figures below. 
 
-.. TODO:
-    insert plots showing WEC-Sim adv. features
-    use table instead of figures to list WEC-Sim's key capabilities?
-    .
-    X b2b
-    X NLhydro
-    nonhydro?
-    X numerical options
-    X passive yaw
-    MCR/PCT with large power matrix
-
 
 .. |b2b| image:: /_static/images/overview/b2b_comparison2.png
    :width: 400pt
@@ -128,32 +117,15 @@ due to its advanced features and capabilities, including those highlighted above
 The Paraview figures below highlight a small sample of devices that WEC-Sim has successfully modeled in the past.
  
 .. TODO:
-    insert figures of special geometries that WEC-sim has modeled
-    Add url to each case in the caption or image? 
-    
-    Paraview:
-    X RM3 w/ mooring
+    Paraview figures or simscape diagrams:
     RM5
-    X OSWEC
-    BEMIO examples (cubes, cylinder, X ellipsoid, X sphere)
-    X GBM -> more flexible design that can show off bending modes in a gif?
-    X wigley hull
+    GBM -> use more flexible design where bending can be seen
     COER COMP
-    X WECCCOMP
-    X OC6 Phase I
     OC6 Phase II (future)
-    FOSWEC?
-    
-    Other industry/academic designs? 
-    (pull from teamer or any other industry collaboration if allowed)
-    
-    Simulink + simscape explorer/Paraview:
+    FOSWEC
     desal
-    ptosim variations:
-    	RM3 + hydraulic drive
-    	RM3 + direct drive
-    	OSWEC + crank
-    	OSWEC + 
+    ptosim
+    Industry/academic designs? 
 
 
 .. |rm3| image:: /_static/images/overview/rm3_iso_side.png

@@ -735,7 +735,7 @@ example and :ref:`user-advanced-features` for more details on implementing GBM.
 Terminology
 -----------
 
-.. include:: /theory/terminology.rst
+.. include:: /_include/terminology.rst
 
 
 References
