@@ -325,33 +325,44 @@ classdef bodyClass<handle
             obj.hydroForce.storage.output_forceTotal = ft_mod;
         end
         
-        function setInitDisp(obj, relCoord, eulXYZ, addLinDisp)
-%             setInitDisp(obj, relCoord, ax_rot, ang_rot, eulXYZ, addLinDisp);
+        function setInitDisp(obj, relCoord, axisList, angleList, addLinDisp)
+            % Function to set a body's initial displacement
+            % 
+            % This function assumes that all rotations are about the same relative coordinate. 
+            % If not, the user should input a relative coordinate of 0,0,0 and 
+            % use the additional linear displacement parameter to set the cg or loc
+            % correctly.
+            %
+            % Parameters
+            % ------------
+            %    relCoord : [1 3] float vector
+            %        Distance from x_rot to the body center of gravity or the constraint
+            %        or pto location as defined by: relCoord = cg - x_rot. [m]
+            %
+            %    axisList : [nAngle 3] float vector
+            %        Axes of the rotations. Applied in order
+            %
+            %    angleList : [nAngle] float vector
+            %        Angles of the rotations. Applied in order with the given axis [rad]
+            %
+            %    addLinDisp : [1 3] float vector
+            %        Initial linear displacement (in addition to the 
+            %        displacement caused by rotation) [m]
+            % 
             
             % initialize quantities before for loop
-%             nAngle = size(ax_rot,1);
+            nAngle = size(axisList,1);
             rotatedRelCoord = relCoord;
             rotMat = eye(3);
             
-            % calculate net rotation
-%             if (isempty(eulXYZ) && isempty([ax_rot ang_rot])) || (~isempty(eulXYZ) && ~isempty([ax_rot ang_rot]))
-%                 error(['No rotation applied. Please input only one rotation method: ' ...
-%                     'Euler XYZ extrinsic (eulXYZ) or axis-angle (ax_rot, ang_rot).']);
-%                 
-%             elseif ~isempty(eulXYZ)
-%                 rotMat = eulXYZ2RotMat(eulXYZ(1), eulXYZ(2), eulXYZ(3));
-%                 
-%             else
-%                 for i=1:nAngle
-%             %         rotatedRelCoord = rotateXYZ(rotatedRelCoord,ax_rot(i,:),ang_rot(i,:));
-%                     rotMat = rotMat*axisAngle2RotMat(ax_rot(i,:),ang_rot(i,:));
-%                 end
-%             end
-
-            rotMat = eulXYZ2RotMat(eulXYZ(1), eulXYZ(2), eulXYZ(3));
+            % Loop through all axes and angles.
+            for i=1:nAngle
+                rotatedRelCoord = rotateXYZ(rotatedRelCoord,axisList(i,:),angleList(i));
+                rotMat = axisAngle2RotMat(axisList(i,:),angleList(i))*rotMat;
+            end
 
             % calculate net axis-angle rotation
-            [ax_rot_net, ang_rot_net] = rotMat2AxisAngle(rotMat);
+            [netAxis, netAngle] = rotMat2AxisAngle(rotMat);
 
             % calculate net displacement due to rotation
             rotatedRelCoord = relCoord*(rotMat');
@@ -359,11 +370,8 @@ classdef bodyClass<handle
 
             % apply rotation and displacement to object
             obj.initDisp.initLinDisp = linDisp + addLinDisp;
-            if isequal(class(obj),'bodyClass')
-                % only bodies have axis-angle option.
-                obj.initDisp.initAngularDispAxis = ax_rot_net;
-                obj.initDisp.initAngularDispAngle = ang_rot_net;
-            end
+            obj.initDisp.initAngularDispAxis = netAxis;
+            obj.initDisp.initAngularDispAngle = netAngle;
             
         end
         

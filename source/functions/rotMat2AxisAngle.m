@@ -1,29 +1,31 @@
-function [totalAxis,totalAngle] = rotMat2AxisAngle(rotMat)
-    % Converts a net rotation matrix from multiple consecutive rotations to one
-    % rotation about an arbitrary axis. Used with body.setInitDisp() to easily
-    % add multiple initial rotations.
+function [netAxis,netAngle] = rotMat2AxisAngle(rotMat)
+    % Converts a net rotation matrix from any number of consecutive 
+    % rotations to one rotation about an arbitrary axis. 
+    % Used with body, constraint, and pto setInitDisp() method to easily 
+    % combine multiple rotations.
     % 
     % Parameters
     % ------------
-    %   rotMat : 3 x 3 float vector 
+    %   rotMat : [3 3] float vector 
     %       Rotation matrix from the input axis and angle
     %
     % Returns
     % ------------
-    %   ax : 1 x 3 float vector
+    %   netAxis : [1 3] float vector
     %       Axis about which to rotate the point x
-    %   t : float
+    %
+    %   netAngle : float
     %       Rotation angle (radian)
     %
 
     % Convert total rotation matrix to one rotation about some arbitrary axis 
-    % for use with body.setInitDisp()
+    % for use with body, constraint, or pto setInitDisp() method
     tol = 0.001;
     sumDiag = rotMat(1,1) + rotMat(2,2) + rotMat(3,3);
     if abs(sumDiag-3) < tol
         % angle is 0, axis doesn't matter
-        totalAngle = 0;
-        totalAxis = [0 0 1];
+        netAngle = 0;
+        netAxis = [0 0 1];
     elseif sumDiag+1 < tol
         % angle is pi
         if ( (rotMat(1,1) > rotMat(2,2)) && (rotMat(1,1) > rotMat(3,3)) )
@@ -34,15 +36,15 @@ function [totalAxis,totalAngle] = rotMat2AxisAngle(rotMat)
             u = vertcat(rotMat(3,1), rotMat(3,2), rotMat(3,3)+1);
         end
         n = u.'*u;
-        totalAxis = u./sqrt(n); % normalize
-        totalAngle = pi;
+        netAxis = u./sqrt(n); % normalize
+        netAngle = pi;
     else
         % angle between 0 and pi
-        totalAngle = acos((sumDiag-1)*0.5);
-        n_inv = 1/(2*sin(totalAngle));
+        netAngle = acos((sumDiag-1)*0.5);
+        n_inv = 1/(2*sin(netAngle));
 
         x = (rotMat(3,2) - rotMat(2,3))*n_inv;
         y = (rotMat(1,3) - rotMat(3,1))*n_inv;
         z = (rotMat(2,1) - rotMat(1,2))*n_inv;
-        totalAxis = [x y z];
+        netAxis = [x y z];
     end

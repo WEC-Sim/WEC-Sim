@@ -1,16 +1,16 @@
-function rotMat = axisAngle2RotMat(ax,t)
+function rotMat = axisAngle2RotMat(axis,angle)
 % Function to get the rotation matrix for a given axis and angle where x 
 % is a column vector, such that:
-%    x_new = rotMat*x 
+%    xNew = rotMat*x 
 % 
 % Alternate use where x is a row vector: 
-%    x_new = x*rotMat'
+%    xNew = x*rotMat'
 % 
 % Parameters
 % ------------
-%   ax : 1 x 3 float vector
+%   axis : 1 x 3 float vector
 %       Axis about which to rotate the point x
-%   t : float
+%   angle : float
 %       Rotation angle (radian)
 %
 % Returns
@@ -20,14 +20,14 @@ function rotMat = axisAngle2RotMat(ax,t)
 %
 
 rotMat = zeros(3);
-rotMat(1,1) = ax(1)*ax(1)*(1-cos(t)) + cos(t);
-rotMat(1,2) = ax(2)*ax(1)*(1-cos(t)) - ax(3)*sin(t);
-rotMat(1,3) = ax(3)*ax(1)*(1-cos(t)) + ax(2)*sin(t);
-rotMat(2,1) = ax(1)*ax(2)*(1-cos(t)) + ax(3)*sin(t);
-rotMat(2,2) = ax(2)*ax(2)*(1-cos(t)) + cos(t);
-rotMat(2,3) = ax(3)*ax(2)*(1-cos(t)) - ax(1)*sin(t);
-rotMat(3,1) = ax(1)*ax(3)*(1-cos(t)) - ax(2)*sin(t);
-rotMat(3,2) = ax(2)*ax(3)*(1-cos(t)) + ax(1)*sin(t);
-rotMat(3,3) = ax(3)*ax(3)*(1-cos(t)) + cos(t);
+rotMat(1,1) = axis(1)*axis(1)*(1-cos(angle)) + cos(angle);
+rotMat(1,2) = axis(2)*axis(1)*(1-cos(angle)) - axis(3)*sin(angle);
+rotMat(1,3) = axis(3)*axis(1)*(1-cos(angle)) + axis(2)*sin(angle);
+rotMat(2,1) = axis(1)*axis(2)*(1-cos(angle)) + axis(3)*sin(angle);
+rotMat(2,2) = axis(2)*axis(2)*(1-cos(angle)) + cos(angle);
+rotMat(2,3) = axis(3)*axis(2)*(1-cos(angle)) - axis(1)*sin(angle);
+rotMat(3,1) = axis(1)*axis(3)*(1-cos(angle)) - axis(2)*sin(angle);
+rotMat(3,2) = axis(2)*axis(3)*(1-cos(angle)) + axis(1)*sin(angle);
+rotMat(3,3) = axis(3)*axis(3)*(1-cos(angle)) + cos(angle);
 
 end

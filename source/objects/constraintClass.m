@@ -113,24 +113,53 @@ classdef constraintClass<handle
             obj.orientation.x = x;
             obj.orientation.rotationMatrix  = [x',y',z'];
         end
+        
+        function setInitDisp(obj, relCoord, axisList, angleList, addLinDisp)
+            % Function to set a body's initial displacement
+            % 
+            % This function assumes that all rotations are about the same relative coordinate. 
+            % If not, the user should input a relative coordinate of 0,0,0 and 
+            % use the additional linear displacement parameter to set the cg or loc
+            % correctly.
+            %
+            % Parameters
+            % ------------
+            %    relCoord : [1 3] float vector
+            %        Distance from x_rot to the body center of gravity or the constraint
+            %        or pto location as defined by: relCoord = cg - x_rot. [m]
+            %
+            %    axisList : [nAngle 3] float vector
+            %        Axes of the rotations. Applied in order
+            %
+            %    angleList : [nAngle] float vector
+            %        Angles of the rotations. Applied in order with the given axis [rad]
+            %
+            %    addLinDisp : [1 3] float vector
+            %        Initial linear displacement (in addition to the 
+            %        displacement caused by rotation) [m]
+            % 
+            
+            % initialize quantities before for loop
+            nAngle = size(axisList,1);
+            rotatedRelCoord = relCoord;
+            rotMat = eye(3);
+            
+            % Loop through all axes and angles.
+            for i=1:nAngle
+                rotatedRelCoord = rotateXYZ(rotatedRelCoord,axisList(i,:),angleList(i));
+                rotMat = axisAngle2RotMat(axisList(i,:),angleList(i))*rotMat;
+            end
 
-        function setInitDisp(obj, x_rot, ax_rot, ang_rot, addLinDisp)
-%             % This method sets initial displacement while considering an initial rotation orientation. 
-%             %
-%             %``x_rot`` (`3x1 float vector`) is rotation point [m] in the following format [x y z], Default = ``[]``.
-%             % 
-%             %``ax_rot`` (`3x1 float vector`) is the axis about which to rotate to constraint and must be a normal vector, Default = ``[]``.
-%             %
-%             %``ang_rot`` (`float`) is the rotation angle [rad], Default = ``[]``.
-%             %
-%             %``addLinDisp`` ('float') is the initial linear displacement [m] in addition to the displacement caused by the constraint rotation, Default = '[]'.
-%             loc = obj.loc;
-%             relCoord = loc - x_rot;
-%             rotatedRelCoord = rotateXYZ(relCoord,ax_rot,ang_rot);
-%             newCoord = rotatedRelCoord + x_rot;
-%             linDisp = newCoord-loc;
-%             obj.initDisp.initLinDisp= linDisp + addLinDisp; 
-            obj = setInitDisp(obj, x_rot, ax_rot, ang_rot, addLinDisp);
+            % calculate net axis-angle rotation
+            [netAxis, netAngle] = rotMat2AxisAngle(rotMat);
+
+            % calculate net displacement due to rotation
+            rotatedRelCoord = relCoord*(rotMat');
+            linDisp = rotatedRelCoord - relCoord;
+
+            % apply rotation and displacement to object
+            obj.initDisp.initLinDisp = linDisp + addLinDisp;
+            
         end
 
         function listInfo(obj)
