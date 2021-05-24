@@ -3,19 +3,11 @@
 Overview
 =======================
 
-.. TODO:
-    content to cover:
-    X reiterate home page data
-    X WEC-Sim capabilities / core features
-    X high level input/output
+.. TODO
     - compare to other codes?
         advantages over other options
         speed / accuracy comparison
-        Could reference OC6P1 paper and how well WEC-Sim performs?
-    - highlight variety of applications that have been successfully modeled with WEC-Sim
-    - paraview figures /gifs of Application cases
-    - break up paragraphs with figures
-    - Is all the above just condensing the following sections into too much information?
+        Reference OC6P1 paper and how well WEC-Sim performs
 
 
 WEC-Sim (Wave Energy Converter SIMulator) is an open-source code for simulating 
@@ -29,7 +21,8 @@ modes. As long as boundary element method data is available, a body may also
 move in any number of generalized body modes such as shear, torsion, or 
 bending. 
 
-.. figure:: /_static/images/overview/overview_diagram.JPG
+.. /_static/images/overview/overview_diagram.JPG
+.. figure:: /_static/images/WEC-Sim_flowChart.png
    :width: 750pt
 
 At a high level, the only external input that WEC-Sim requires is boundary 
@@ -42,8 +35,7 @@ forces and power absorbed or lost in individual bodies, joints and PTOs. Output
 is readily available in MATLAB for custom post-processing or coupling with 
 external tools such as the `WecOptTool <https://snl-waterpower.github.io/WecOptTool/>`_. 
 
-.. TODO:
-    If reference / comparing to other codes, I propose doing so here
+.. TODO if reference / comparing to other codes, do so here
 
 Several interfaces with Simulink are included that allow users to couple 
 WEC-Sim with a wide variety of other models and scripts relevant to their 
@@ -52,9 +44,13 @@ just two examples of the advanced tools that can be coupled with WEC-Sim.
 
 .. figure:: /_static/images/overview/OSWEC_with_ptosim.JPG
    :width: 750pt
+   
+   Block diagram of an OSWEC device with hydraulic PTO created with PTO-Sim.
 
-.. TODO:
-    insert simulink diagram of WEC with advanced controls model
+.. figure:: /_static/images/overview/wecccomp_diagram.png
+   :width: 750pt
+   
+   Block diagram of the WECCCOMP device with advanced controller.
 
 Together with PTO and control systems, WEC-Sim is able to model a wide variety 
 of marine devices. The WEC-Sim Applications repository contains a wide variety 
@@ -102,16 +98,29 @@ figures below.
    :width: 400pt
    :height: 175pt
    :align: middle
+   
+.. |mcr1| image:: /_static/images/overview/mcr_waveElev-heaveResp.png
+   :width: 400pt
+   :height: 175pt
+   :align: middle
+   
+.. |mcr2| image:: /_static/images/overview/mcr_powerMatrix.png
+   :width: 400pt
+   :height: 175pt
+   :align: middle
 
-+-------------------------------------------------------------+
-|               Advanced Features Demonstration               |
-+==============================+==============================+
-| |           |nlh|            | |           |num|            |
-| |  Nonlinear hydrodynamics   | | Various numerical options  |
-+------------------------------+------------------------------+
-| |           |b2b|            | |           |yaw|            |
-| | Body-to-body interactions  | |        Passive yaw         |
-+------------------------------+------------------------------+
++-------------------------------------------------------------------+
+|                   Advanced Features Demonstration                 |
++=================================+=================================+
+| |nlh|                           | |num|                           |
+| Nonlinear hydrodynamics         | Various numerical options       |
++---------------------------------+---------------------------------+
+| |b2b|                           | |yaw|                           |
+| Body-to-body interactions       | Passive yaw                     |
++---------------------------------+---------------------------------+
+| |mcr1|                          | |mcr2|                          |
+| Multiple case run: elevation    | Multiple case run: power matrix |
++---------------------------------+---------------------------------+
 
 
 WEC-Sim can accurately model a wide variety of marine renewable energy and offshore devices
@@ -122,7 +131,6 @@ The Paraview figures below highlight a small sample of devices that WEC-Sim has 
     insert figures of special geometries that WEC-sim has modeled
     Add url to each case in the caption or image? 
     
-    FOSWEC
     Paraview:
     X RM3 w/ mooring
     RM5
@@ -133,13 +141,11 @@ The Paraview figures below highlight a small sample of devices that WEC-Sim has 
     COER COMP
     X WECCCOMP
     X OC6 Phase I
-    OC6 Phase II (maybe)
+    OC6 Phase II (future)
     FOSWEC?
     
-    Other industry/academic designs?
-    On PAMEC presentation: Triton, WaveSub, Alletone, ISWEC
-    Others from PAMEC lit review?
-    Any teamer designs?
+    Other industry/academic designs? 
+    (pull from teamer or any other industry collaboration if allowed)
     
     Simulink + simscape explorer/Paraview:
     desal
@@ -150,59 +156,75 @@ The Paraview figures below highlight a small sample of devices that WEC-Sim has 
     	OSWEC + 
 
 
-.. figure:: /_static/images/overview/rm3_iso_side.png
-   :align: center
-   :width: 500pt
-   
-   Reference Model 3
-
-
-.. figure:: /_static/images/overview/oswec_iso_side.png
-   :align: center
-   :width: 500pt
-   
-   Bottom-fixed Oscillating Surge WEC (OSWEC)
-
-
-.. figure:: /_static/images/overview/sphere_freedecay_iso_side.png
-   :align: center
-   :width: 500pt
-   
-   Hemisphere in Free Decay
-
-
-.. figure:: /_static/images/overview/ellipsoid_iso_side.png
-   :align: center
-   :width: 500pt
-   
-   Ellipsoid
-
-
-.. figure:: /_static/images/overview/gbm_iso_side.png
-   :align: center
-   :width: 500pt
-   
-   Barge with Four Flexible Body Modes
-
-
-.. figure:: /_static/images/overview/wigley_iso_side.png
-   :align: center
-   :width: 500pt
-   
-   Wigley Ship Hull
+.. |rm3| image:: /_static/images/overview/rm3_iso_side.png
+   :align: middle
+   :width: 400pt
+   :target: https://github.com/WEC-Sim/WEC-Sim/tree/master/examples/RM3
    
 
-.. figure:: /_static/images/overview/wecccomp_iso_side.png
-   :align: center
-   :width: 500pt
-   
-   Wave Energy Converter Control Competition (WECCCOMP) Wavestar Device
+.. |oswec| image:: /_static/images/overview/oswec_iso_side.png
+   :align: middle
+   :width: 400pt
+   :target: https://github.com/WEC-Sim/WEC-Sim/tree/master/examples/OSWEC
 
 
-.. figure:: /_static/images/overview/oc6_iso_side.png
-   :align: center
-   :width: 500pt
-   
-   OC6 Phase I DeepCwind Floating Semisubmersible
+.. |sphere| image:: /_static/images/overview/sphere_freedecay_iso_side.png
+   :align: middle
+   :width: 400pt
+   :target: https://github.com/WEC-Sim/WEC-Sim_Applications/tree/master/Free_Decay
+
+
+.. |ellipsoid| image:: /_static/images/overview/ellipsoid_iso_side.png
+   :align: middle
+   :width: 400pt
+   :target: https://github.com/WEC-Sim/WEC-Sim_Applications/tree/master/Nonlinear_Hydro
+
+
+.. |gbm| image:: /_static/images/overview/gbm_iso_side.png
+   :align: middle
+   :width: 400pt
+   :target: https://github.com/WEC-Sim/WEC-Sim_Applications/tree/master/Generalized_Body_Modes
+
+
+.. |wigley| image:: /_static/images/overview/wigley_iso_side.png
+   :align: middle
+   :width: 400pt
+   :target: https://github.com/WEC-Sim/Wigley
    
 
+.. |wec3| image:: /_static/images/overview/wecccomp_iso_side.png
+   :align: middle
+   :width: 400pt
+   :target: https://github.com/WEC-Sim/WECCCOMP
+
+
+.. |oc6p1| image:: /_static/images/overview/oc6_iso_side.png
+   :align: middle
+   :width: 400pt
+   
+
+.. rm3 Reference Model 3
+   oswec Bottom-fixed Oscillating Surge WEC (OSWEC)
+   sphere 
+   ellipsoid Ellipsoid
+   gbm Barge with Four Flexible Body Modes
+   wigley Wigley Ship Hull
+   wec3 Wave Energy Converter Control Competition (WECCCOMP) Wavestar Device
+   oc6p1 OC6 Phase I DeepCwind Floating Semisubmersible
+   
+
++----------------------------------------------------------------------+----------------------------------------------------------------------+
+| Sample of devices that have been with WEC-Sim                                                                                               |
++======================================================================+======================================================================+
+| |rm3|                                                                | |oswec|                                                              |
+| Reference Model 3                                                    | Bottom-fixed Oscillating Surge WEC (OSWEC)                           |
++----------------------------------------------------------------------+----------------------------------------------------------------------+
+| |sphere|                                                             | |ellipsoid|                                                          |
+| Hemisphere in Free Decay                                             | Ellipsoid                                                            |
++----------------------------------------------------------------------+----------------------------------------------------------------------+
+| |wigley|                                                             | |gbm|                                                                |
+| Wigley Ship Hull                                                     | Barge with Four Flexible Body Modes                                  |
++----------------------------------------------------------------------+----------------------------------------------------------------------+
+| |wec3|                                                               | |oc6p1|                                                              |
+| Wave Energy Converter Control Competition (WECCCOMP) Wavestar Device | OC6 Phase I DeepCwind Floating Semisubmersible                       |
++----------------------------------------------------------------------+----------------------------------------------------------------------+

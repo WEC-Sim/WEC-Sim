@@ -4,19 +4,21 @@ Applications
 ============
 
 The `WEC-Sim Applications <https://github.com/WEC-Sim/WEC-Sim_Applications>`_ 
-repository contains many applications of the WEC-Sim code that demonstrate 
+repository contains many more applications of the WEC-Sim code that demonstrate 
 WEC-Sim :ref:`Advanced Features <user-advanced-features>`. This includes 
 tutorials by the WEC-Sim team as well as user-shared examples and covers topics 
-from body interactions, numerical set-up, batch runs, visualization, control 
-examples, mooring and many more cases. These applications highlight the 
+such as body interactions, numerical set-up, batch runs, visualization, control 
+examples, mooring and more. These applications highlight the 
 versatility of WEC-Sim and can be used as a starting point for users interested 
-in a given application. The WEC-Sim Applications repository is included as a 
+in a given application. 
+It is highly recommended that users go through an application case along with the 
+relevant advanced feature section when learning to implement a new WEC-Sim feature.
+The WEC-Sim Applications repository is included as a 
 `submodule <https://git-scm.com/book/en/v2/Git-Tools-Submodules>`_ of the 
-WEC-Sim repository. The applications are summarized below. 
+WEC-Sim repository. The applications are summarized below.
 
-.. Adam: right now these descriptions are copy/pasted from the application 
-   READMEs. We can expand or link them later on depending on what will be done 
-   with the App repo
+.. TODO currently these descriptions are copy/pasted from the application READMEs.
+   Expand on descriptions and link directly to the READMEs later on.
    
 
 Body-to-Body Interactions
