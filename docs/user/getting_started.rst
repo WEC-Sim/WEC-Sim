@@ -63,15 +63,21 @@ code hosted on the GitHub repository by using the pull command::
 
 For new users who are new to git, it is recommended to go through examples on 
 `GitHub <https://docs.github.com/en/free-pro-team@latest/github/getting-started-with-github>`_ 
-or other sources while getting started. If you have problems downloading, 
-installing or using WEC-Sim please submit a question to the 
-`WEC-Sim Issues page <https://github.com/WEC-Sim/WEC-Sim/issues>`_. 
+or other sources while getting started. 
 
 .. Note::
     Users may also download a static version of WEC-Sim from the latest tagged 
     `WEC-Sim Release <https://github.com/WEC-Sim/WEC-Sim/releases>`_.  This is 
     the easiest way to obtain the WEC-Sim code, however it is more difficult to 
     manually download future updates.
+
+If you have problems downloading, installing or using WEC-Sim please submit a question to the 
+`WEC-Sim Issues page <https://github.com/WEC-Sim/WEC-Sim/issues>`_.
+When opening an issue, use one of the provided issue templates: 
+bug report, feature request, theory or implementation, or WEC-Sim application.
+Issue templates help the development team to quickly and thoroughly address questions.
+Users who do not use a template will be asked to reopen their issue with the appropriate layout.
+
 
 .. _user-install:
 
