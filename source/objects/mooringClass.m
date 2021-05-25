@@ -53,31 +53,54 @@ classdef mooringClass<handle
             obj.loc = [obj.ref + obj.initDisp.initLinDisp 0 0 0];
         end
 
-        function setInitDisp(obj, x_rot, ax_rot, ang_rot, addLinDisp)
-            % Method to set the initial displacement with an initial rotation
+        function setInitDisp(obj, relCoord, axisList, angleList, addLinDisp)
+            % Function to set a mooring's initial displacement
+            % 
+            % This function assumes that all rotations are about the same relative coordinate. 
+            % If not, the user should input a relative coordinate of 0,0,0 and 
+            % use the additional linear displacement parameter to set the cg or loc
+            % correctly.
             %
             % Parameters
             % ------------
-            %    x_rot : 3 x 1 float vector
-            %        displacement of mooring reference
+            %    relCoord : [1 3] float vector
+            %        Distance from x_rot to the body center of gravity or the constraint
+            %        or pto location as defined by: relCoord = cg - x_rot. [m]
             %
-            %    ax_rot : 3 x 1 float vector 
-            %       axis about which to rotate (must be a normal vector)
+            %    axisList : [nAngle 3] float vector
+            %        Axes of the rotations. Applied in order
             %
-            %    ang_rot : float  
-            %       rotation displacement (radians)
+            %    angleList : [nAngle] float vector
+            %        Angles of the rotations. Applied in order with the given axis [rad]
             %
-            %    addLinDisp : 3 x 1 float vector
-            %       initial linear displacement (additional to rotation-induced displacement)
-            %
-            loc = obj.ref;
-            relCoord = loc - x_rot;
-            rotatedRelCoord = rotateXYZ(relCoord,ax_rot,ang_rot);
-            newCoord = rotatedRelCoord + x_rot;
-            linDisp = newCoord-loc;
-            obj.initDisp.initLinDisp= linDisp + addLinDisp; 
-            obj.initDisp.initAngularDispAxis = ax_rot;
-            obj.initDisp.initAngularDispAngle = ang_rot;
+            %    addLinDisp : [1 3] float vector
+            %        Initial linear displacement (in addition to the 
+            %        displacement caused by rotation) [m]
+            % 
+            
+            % initialize quantities before for loop
+            nAngle = size(axisList,1);
+            rotatedRelCoord = relCoord;
+            rotMat = eye(3);
+            
+            % Loop through all axes and angles.
+            for i=1:nAngle
+                rotatedRelCoord = rotateXYZ(rotatedRelCoord,axisList(i,:),angleList(i));
+                rotMat = axisAngle2RotMat(axisList(i,:),angleList(i))*rotMat;
+            end
+
+            % calculate net axis-angle rotation
+            [netAxis, netAngle] = rotMat2AxisAngle(rotMat);
+
+            % calculate net displacement due to rotation
+            rotatedRelCoord = relCoord*(rotMat');
+            linDisp = rotatedRelCoord - relCoord;
+
+            % apply rotation and displacement to object
+            obj.initDisp.initLinDisp = linDisp + addLinDisp;
+            obj.initDisp.initAngularDispAxis = netAxis;
+            obj.initDisp.initAngularDispAngle = netAngle;
+            
         end
 
         function obj = moorDynInput(obj)

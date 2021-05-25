@@ -115,7 +115,7 @@ classdef constraintClass<handle
         end
         
         function setInitDisp(obj, relCoord, axisList, angleList, addLinDisp)
-            % Function to set a body's initial displacement
+            % Function to set a constraints's initial displacement
             % 
             % This function assumes that all rotations are about the same relative coordinate. 
             % If not, the user should input a relative coordinate of 0,0,0 and 

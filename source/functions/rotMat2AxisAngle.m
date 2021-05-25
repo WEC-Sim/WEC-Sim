@@ -17,9 +17,7 @@ function [netAxis,netAngle] = rotMat2AxisAngle(rotMat)
     %   netAngle : float
     %       Rotation angle (radian)
     %
-
-    % Convert total rotation matrix to one rotation about some arbitrary axis 
-    % for use with body, constraint, or pto setInitDisp() method
+    
     tol = 0.001;
     sumDiag = rotMat(1,1) + rotMat(2,2) + rotMat(3,3);
     if abs(sumDiag-3) < tol
