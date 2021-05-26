@@ -1,7 +1,7 @@
-.. _api:
+.. _dev-api:
 
-WEC-Sim API
-===========
+API
+===
 
 .. _body:
 

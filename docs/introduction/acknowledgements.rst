@@ -1,4 +1,4 @@
-.. _acknowledgements:
+.. _intro-acknowledgements:
 
 Acknowledgements
 ================

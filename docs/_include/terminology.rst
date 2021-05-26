@@ -1,7 +1,4 @@
-.. _terminology:
-
-Terminology
-===========
+.. _theory-terminology:
 
 ============================ ===================================================
 Term or Variable       	 	Definition
@@ -10,14 +7,14 @@ Term or Variable       	 	Definition
 :math:`\overline{A(\omega)}`	Normalized radiation added mass (m^3)
 :math:`A_{\infty}`		Added mass at infinite frequency (kg)
 :math:`A_{d}`			Characteristic drag area
-:math:`\bold{A_d}`		State space discrete time state matrix
-:math:`\bold{A_r}`		State space time-invariant state matrix
+:math:`\boldsymbol{A_d}`	State space discrete time state matrix
+:math:`\boldsymbol{A_r}`	State space time-invariant state matrix
 :math:`A_{ws}`			Wave spectrum coefficient
 :math:`\alpha`			Wave spectrum coefficient (JONSWAP)
 :math:`B(\omega)`		Frequency dependent radiation wave damping (N/m/s)
 :math:`\overline{B(\omega)}`	Normalized radiation wave damping (m^3/s^2)
-:math:`\bold{B_d}`		State space discrete time input matrix
-:math:`\bold{B_r}`		State space time-invariant input matrix
+:math:`\boldsymbol{B_d}`	State space discrete time input matrix
+:math:`\boldsymbol{B_r}`	State space time-invariant input matrix
 :math:`B_{ws}`			Wave spectrum coefficient
 BEM	           		Boundary Element Method
 BEMIO              		Boundary Element Method Input/Output
@@ -29,15 +26,15 @@ BEMIO              		Boundary Element Method Input/Output
 :math:`C_{d}` 			Quadratic drag coefficient
 :math:`C_{m}` 			Mooring damping matrix (N/m/s)
 :math:`C_{pto}` 		PTO damping coefficient (N/m/s)
-:math:`\bold{C_d}`		State space discrete time output matrix
-:math:`\bold{C_r}`		State space time-invariant output matrix
+:math:`\boldsymbol{C_d}`	State space discrete time output matrix
+:math:`\boldsymbol{C_r}`	State space time-invariant output matrix
 :math:`C_{ws}`			Wave spectrum coefficient (JONSWAP)
 :math:`C_{v}` 			Linear (viscous) damping coefficient (N/m/s)
 ``$CASE``          		WEC-Sim case directory
 dof				Degree of freedom
 :math:`D`			Mean water depth
-:math:`\bold{D_d}`		State space discrete time feed through matrix
-:math:`\bold{D_r}`		State space time-invariant feed through matrix
+:math:`\boldsymbol{D_d}`	State space discrete time feed through matrix
+:math:`\boldsymbol{D_r}`	State space time-invariant feed through matrix
 :math:`\eta` 			Incident wave (m)
 :math:`f` 			Wave frequency (Hz)
 :math:`f_{p}` 			Peak wave frequency (Hz)
@@ -53,7 +50,7 @@ dof				Degree of freedom
 GBM				Generalized body mode
 :math:`h` 			Water depth (m)
 :math:`H` 			Wave height (m)
-:math:`\bold{H}` 		Hankel matrix of the impulse response function
+:math:`\boldsymbol{H}` 	        Hankel matrix of the impulse response function
 :math:`H_{s}`			Significant wave height, mean wave height of the tallest third of waves (m)
 :math:`H_{m0}`			Spectrally derived significant wave height (m)
 Heave (Z)          		Motion along the Z-axis
@@ -89,7 +86,7 @@ Sway (Y)           		Motion along the Y-axis
 :math:`\theta`			Wave direction (Degrees) 
 :math:`T_{p}` 			Peak period (s)
 :math:`\tau`			Magnetic pole pitch
-:math:`\bold{u}`		State space input
+:math:`\boldsymbol{u}`		State space input
 :math:`V_0`			Displaced water volume (m^3)
 ``$WECSIM``        		WEC-Sim source code directory
 :math:`X` 			Translation and rotation displacement vector (m) or (rad)
