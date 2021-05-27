@@ -12,7 +12,7 @@ function [netAxis,netAngle] = rotMat2AxisAngle(rotMat)
     % Returns
     % ------------
     %   netAxis : [1 3] float vector
-    %       Axis about which to rotate the point x
+    %       Axis about which to rotate
     %
     %   netAngle : float
     %       Rotation angle (radian)
@@ -27,14 +27,13 @@ function [netAxis,netAngle] = rotMat2AxisAngle(rotMat)
     elseif sumDiag+1 < tol
         % angle is pi
         if ( (rotMat(1,1) > rotMat(2,2)) && (rotMat(1,1) > rotMat(3,3)) )
-            u = vertcat(rotMat(1,1)+1, rotMat(1,2), rotMat(1,3));
+            u = horzcat(rotMat(1,1)+1, rotMat(1,2), rotMat(1,3));
         elseif (rotMat(2,2) > rotMat(3,3))
-            u = vertcat(rotMat(2,1), rotMat(2,2)+1, rotMat(2,3));
+            u = horzcat(rotMat(2,1), rotMat(2,2)+1, rotMat(2,3));
         else
-            u = vertcat(rotMat(3,1), rotMat(3,2), rotMat(3,3)+1);
+            u = horzcat(rotMat(3,1), rotMat(3,2), rotMat(3,3)+1);
         end
-        n = u.'*u;
-        netAxis = u./sqrt(n); % normalize
+        netAxis = u./norm(u); % normalize
         netAngle = pi;
     else
         % angle between 0 and pi

@@ -352,12 +352,10 @@ classdef bodyClass<handle
             
             % initialize quantities before for loop
             nAngle = size(axisList,1);
-            rotatedRelCoord = relCoord;
             rotMat = eye(3);
             
             % Loop through all axes and angles.
             for i=1:nAngle
-                rotatedRelCoord = rotateXYZ(rotatedRelCoord,axisList(i,:),angleList(i));
                 rotMat = axisAngle2RotMat(axisList(i,:),angleList(i))*rotMat;
             end
 

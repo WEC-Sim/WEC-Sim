@@ -115,7 +115,7 @@ classdef constraintClass<handle
         end
         
         function setInitDisp(obj, relCoord, axisList, angleList, addLinDisp)
-            % Function to set a constraints's initial displacement
+            % Function to set a body's initial displacement
             % 
             % This function assumes that all rotations are about the same relative coordinate. 
             % If not, the user should input a relative coordinate of 0,0,0 and 
@@ -141,12 +141,10 @@ classdef constraintClass<handle
             
             % initialize quantities before for loop
             nAngle = size(axisList,1);
-            rotatedRelCoord = relCoord;
             rotMat = eye(3);
             
             % Loop through all axes and angles.
             for i=1:nAngle
-                rotatedRelCoord = rotateXYZ(rotatedRelCoord,axisList(i,:),angleList(i));
                 rotMat = axisAngle2RotMat(axisList(i,:),angleList(i))*rotMat;
             end
 
