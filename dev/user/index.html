@@ -1,0 +1,330 @@
+
+
+<!DOCTYPE html>
+<html class="writer-html4" lang="en" >
+<head>
+  <meta charset="utf-8" />
+  
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  
+  <title>User Manual &mdash; WEC-Sim  documentation</title>
+  
+
+  
+  <link rel="stylesheet" href="../_static/css/theme.css" type="text/css" />
+  <link rel="stylesheet" href="../_static/pygments.css" type="text/css" />
+  <link rel="stylesheet" href="../_static/theme_overrides.css" type="text/css" />
+  <link rel="stylesheet" href="../_static/banner.css" type="text/css" />
+
+  
+  
+
+  
+  
+
+  
+
+  
+  <!--[if lt IE 9]>
+    <script src="../_static/js/html5shiv.min.js"></script>
+  <![endif]-->
+  
+    
+      <script type="text/javascript" id="documentation_options" data-url_root="../" src="../_static/documentation_options.js"></script>
+        <script type="text/javascript" src="../_static/jquery.js"></script>
+        <script type="text/javascript" src="../_static/underscore.js"></script>
+        <script type="text/javascript" src="../_static/doctools.js"></script>
+        <script type="text/javascript" src="../_static/language_data.js"></script>
+        <script async="async" type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.5/latest.js?config=TeX-AMS-MML_HTMLorMML"></script>
+    
+    <script type="text/javascript" src="../_static/js/theme.js"></script>
+
+    
+    <link rel="index" title="Index" href="../genindex.html" />
+    <link rel="search" title="Search" href="../search.html" />
+    <link rel="next" title="Getting Started" href="getting_started.html" />
+    <link rel="prev" title="Overview" href="../theory/theory.html" /> 
+</head>
+
+<body class="wy-body-for-nav">
+
+   
+  <div class="wy-grid-for-nav">
+    
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+          
+
+          
+            <a href="../index.html" class="icon icon-home"> WEC-Sim
+          
+
+          
+          </a>
+
+          
+            
+            
+              <div class="version">
+                v4.2
+              </div>
+            
+          
+
+          
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+
+          
+        </div>
+
+        
+        <div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="main navigation">
+          
+            
+            
+              
+            
+            
+              <ul class="current">
+<li class="toctree-l1"><a class="reference internal" href="../index.html">Home</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../introduction/index.html">Introduction</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../theory/index.html">Theory Manual</a></li>
+<li class="toctree-l1 current"><a class="current reference internal" href="#">User Manual</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="getting_started.html">Getting Started</a></li>
+<li class="toctree-l2"><a class="reference internal" href="workflow.html">Workflow</a></li>
+<li class="toctree-l2"><a class="reference internal" href="tutorials.html">Tutorials</a></li>
+<li class="toctree-l2"><a class="reference internal" href="code_structure.html">Code Structure</a></li>
+<li class="toctree-l2"><a class="reference internal" href="applications.html">Applications</a></li>
+<li class="toctree-l2"><a class="reference internal" href="advanced_features.html">Advanced Features</a></li>
+<li class="toctree-l2"><a class="reference internal" href="webinars.html">Webinars</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="../developer/index.html">Developers Manual</a></li>
+</ul>
+
+            
+          
+        </div>
+        
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap">
+
+      
+      <nav class="wy-nav-top" aria-label="top navigation">
+        
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../index.html">WEC-Sim</a>
+        
+      </nav>
+
+
+      <div class="wy-nav-content">
+        
+        <div class="rst-content">
+        
+          
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<div role="navigation" aria-label="breadcrumbs navigation">
+
+  <ul class="wy-breadcrumbs">
+    
+      <li><a href="../index.html" class="icon icon-home"></a> &raquo;</li>
+        
+      <li>User Manual</li>
+    
+    
+      <li class="wy-breadcrumbs-aside">
+        
+          
+            <a href="../_sources/user/index.rst.txt" rel="nofollow"> View page source</a>
+          
+        
+      </li>
+    
+  </ul>
+
+  
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+            
+  
+
+
+    
+    
+
+
+
+    <p class="scv-banner scv-sphinx_rtd_theme"><b>Warning:</b> This document is for the development version of WEC-Sim.</p>
+<div class="section" id="user-manual">
+<span id="user"></span><h1>User Manual<a class="headerlink" href="#user-manual" title="Permalink to this headline">¶</a></h1>
+<div class="toctree-wrapper compound">
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="getting_started.html">Getting Started</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="getting_started.html#matlab-requirements">MATLAB Requirements</a></li>
+<li class="toctree-l2"><a class="reference internal" href="getting_started.html#download-wec-sim">Download WEC-Sim</a></li>
+<li class="toctree-l2"><a class="reference internal" href="getting_started.html#install-wec-sim">Install WEC-Sim</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="workflow.html">Workflow</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="workflow.html#wec-sim-input-files">WEC-Sim Input Files</a></li>
+<li class="toctree-l2"><a class="reference internal" href="workflow.html#running-wec-sim">Running WEC-Sim</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="tutorials.html">Tutorials</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="tutorials.html#two-body-point-absorber-rm3">Two-Body Point Absorber (RM3)</a></li>
+<li class="toctree-l2"><a class="reference internal" href="tutorials.html#oscillating-surge-wec-oswec">Oscillating Surge WEC (OSWEC)</a></li>
+<li class="toctree-l2"><a class="reference internal" href="tutorials.html#wec-sim-examples">WEC-Sim Examples</a></li>
+<li class="toctree-l2"><a class="reference internal" href="tutorials.html#references">References</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="code_structure.html">Code Structure</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="code_structure.html#wec-sim-source-code">WEC-Sim Source Code</a></li>
+<li class="toctree-l2"><a class="reference internal" href="code_structure.html#wec-sim-classes">WEC-Sim Classes</a></li>
+<li class="toctree-l2"><a class="reference internal" href="code_structure.html#wec-sim-library">WEC-Sim Library</a></li>
+<li class="toctree-l2"><a class="reference internal" href="code_structure.html#source-details">Source Details</a></li>
+<li class="toctree-l2"><a class="reference internal" href="code_structure.html#functions-external-codes">Functions &amp; External Codes</a></li>
+<li class="toctree-l2"><a class="reference internal" href="code_structure.html#external-simulink-simscape-blocks">External Simulink/Simscape Blocks</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="applications.html">Applications</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="applications.html#body-to-body-interactions">Body-to-Body Interactions</a></li>
+<li class="toctree-l2"><a class="reference internal" href="applications.html#desalination">Desalination</a></li>
+<li class="toctree-l2"><a class="reference internal" href="applications.html#free-decay">Free Decay</a></li>
+<li class="toctree-l2"><a class="reference internal" href="applications.html#generalized-body-modes">Generalized Body Modes</a></li>
+<li class="toctree-l2"><a class="reference internal" href="applications.html#mooring">Mooring</a></li>
+<li class="toctree-l2"><a class="reference internal" href="applications.html#multiple-condition-run">Multiple Condition Run</a></li>
+<li class="toctree-l2"><a class="reference internal" href="applications.html#nonhydrodynamic-body">Nonhydrodynamic Body</a></li>
+<li class="toctree-l2"><a class="reference internal" href="applications.html#nonlinear-hydrodynamic-body">Nonlinear Hydrodynamic Body</a></li>
+<li class="toctree-l2"><a class="reference internal" href="applications.html#paraview-visualization">Paraview Visualization</a></li>
+<li class="toctree-l2"><a class="reference internal" href="applications.html#passive-yaw">Passive Yaw</a></li>
+<li class="toctree-l2"><a class="reference internal" href="applications.html#pto-sim">PTO-Sim</a></li>
+<li class="toctree-l2"><a class="reference internal" href="applications.html#wecccomp">WECCCOMP</a></li>
+<li class="toctree-l2"><a class="reference internal" href="applications.html#write-hdf5">Write HDF5</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="advanced_features.html">Advanced Features</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="advanced_features.html#bemio">BEMIO</a></li>
+<li class="toctree-l2"><a class="reference internal" href="advanced_features.html#simulation-features">Simulation Features</a></li>
+<li class="toctree-l2"><a class="reference internal" href="advanced_features.html#wave-features">Wave Features</a></li>
+<li class="toctree-l2"><a class="reference internal" href="advanced_features.html#body-features">Body Features</a></li>
+<li class="toctree-l2"><a class="reference internal" href="advanced_features.html#constraint-and-pto-features">Constraint and PTO Features</a></li>
+<li class="toctree-l2"><a class="reference internal" href="advanced_features.html#mooring-features">Mooring Features</a></li>
+<li class="toctree-l2"><a class="reference internal" href="advanced_features.html#visualization-paraview">Visualization/Paraview</a></li>
+<li class="toctree-l2"><a class="reference internal" href="advanced_features.html#decay-tests">Decay Tests</a></li>
+<li class="toctree-l2"><a class="reference internal" href="advanced_features.html#other-applications">Other Applications</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="webinars.html">Webinars</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="webinars.html#online-training-course">Online Training Course</a></li>
+<li class="toctree-l2"><a class="reference internal" href="webinars.html#advanced-features-webinars">Advanced Features Webinars</a></li>
+</ul>
+</li>
+</ul>
+</div>
+</div>
+
+
+           </div>
+           
+          </div>
+          <footer>
+    <div class="rst-footer-buttons" role="navigation" aria-label="footer navigation">
+        <a href="getting_started.html" class="btn btn-neutral float-right" title="Getting Started" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
+        <a href="../theory/theory.html" class="btn btn-neutral float-left" title="Overview" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> Previous</a>
+    </div>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>
+        &#169; Copyright 2020, National Renewable Energy Laboratory and National Technology &amp; Engineering Solutions of Sandia, LLC (NTESS).
+
+    </p>
+  </div>
+    
+    
+    
+    Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
+    
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
+    
+    provided by <a href="https://readthedocs.org">Read the Docs</a>. 
+
+</footer>
+        </div>
+      </div>
+
+    </section>
+
+  </div>
+  
+<div class="rst-versions" data-toggle="rst-versions" role="note" aria-label="versions">
+    <span class="rst-current-version" data-toggle="rst-current-version">
+        <span class="fa fa-book"> Other Versions</span>
+        v: dev
+        <span class="fa fa-caret-down"></span>
+    </span>
+    <div class="rst-other-versions">
+        <dl>
+            <dt>Branches</dt>
+            <dd><a href="index.html">dev</a></dd>
+            <dd><a href="../../master/index.html">master</a></dd>
+        </dl>
+    </div>
+</div>
+
+
+  <script type="text/javascript">
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script>
+
+  
+  
+    
+    <!-- Theme Analytics -->
+    <script>
+    (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+      (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+      m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+    })(window,document,'script','https://www.google-analytics.com/analytics.js','ga');
+
+    ga('create', 'UA-88158104-1', 'auto');
+    
+    ga('send', 'pageview');
+    </script>
+
+    
+   
+
+</body>
+</html>

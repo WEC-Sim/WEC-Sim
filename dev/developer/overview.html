@@ -1,0 +1,342 @@
+
+
+<!DOCTYPE html>
+<html class="writer-html4" lang="en" >
+<head>
+  <meta charset="utf-8" />
+  
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  
+  <title>Overview &mdash; WEC-Sim  documentation</title>
+  
+
+  
+  <link rel="stylesheet" href="../_static/css/theme.css" type="text/css" />
+  <link rel="stylesheet" href="../_static/pygments.css" type="text/css" />
+  <link rel="stylesheet" href="../_static/theme_overrides.css" type="text/css" />
+  <link rel="stylesheet" href="../_static/banner.css" type="text/css" />
+
+  
+  
+
+  
+  
+
+  
+
+  
+  <!--[if lt IE 9]>
+    <script src="../_static/js/html5shiv.min.js"></script>
+  <![endif]-->
+  
+    
+      <script type="text/javascript" id="documentation_options" data-url_root="../" src="../_static/documentation_options.js"></script>
+        <script type="text/javascript" src="../_static/jquery.js"></script>
+        <script type="text/javascript" src="../_static/underscore.js"></script>
+        <script type="text/javascript" src="../_static/doctools.js"></script>
+        <script type="text/javascript" src="../_static/language_data.js"></script>
+        <script async="async" type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.5/latest.js?config=TeX-AMS-MML_HTMLorMML"></script>
+    
+    <script type="text/javascript" src="../_static/js/theme.js"></script>
+
+    
+    <link rel="index" title="Index" href="../genindex.html" />
+    <link rel="search" title="Search" href="../search.html" />
+    <link rel="next" title="API" href="api.html" />
+    <link rel="prev" title="Getting Started" href="getting_started.html" /> 
+</head>
+
+<body class="wy-body-for-nav">
+
+   
+  <div class="wy-grid-for-nav">
+    
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+          
+
+          
+            <a href="../index.html" class="icon icon-home"> WEC-Sim
+          
+
+          
+          </a>
+
+          
+            
+            
+              <div class="version">
+                v4.2
+              </div>
+            
+          
+
+          
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+
+          
+        </div>
+
+        
+        <div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="main navigation">
+          
+            
+            
+              
+            
+            
+              <ul class="current">
+<li class="toctree-l1"><a class="reference internal" href="../index.html">Home</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../introduction/index.html">Introduction</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../theory/index.html">Theory Manual</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../user/index.html">User Manual</a></li>
+<li class="toctree-l1 current"><a class="reference internal" href="index.html">Developers Manual</a><ul class="current">
+<li class="toctree-l2"><a class="reference internal" href="getting_started.html">Getting Started</a></li>
+<li class="toctree-l2 current"><a class="current reference internal" href="#">Overview</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#online-forum">Online Forum</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#pull-requests">Pull Requests</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#software-tests">Software Tests</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="#run-tests">Run Tests</a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="api.html">API</a></li>
+</ul>
+</li>
+</ul>
+
+            
+          
+        </div>
+        
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap">
+
+      
+      <nav class="wy-nav-top" aria-label="top navigation">
+        
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../index.html">WEC-Sim</a>
+        
+      </nav>
+
+
+      <div class="wy-nav-content">
+        
+        <div class="rst-content">
+        
+          
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<div role="navigation" aria-label="breadcrumbs navigation">
+
+  <ul class="wy-breadcrumbs">
+    
+      <li><a href="../index.html" class="icon icon-home"></a> &raquo;</li>
+        
+          <li><a href="index.html">Developers Manual</a> &raquo;</li>
+        
+      <li>Overview</li>
+    
+    
+      <li class="wy-breadcrumbs-aside">
+        
+          
+            <a href="../_sources/developer/overview.rst.txt" rel="nofollow"> View page source</a>
+          
+        
+      </li>
+    
+  </ul>
+
+  
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+            
+  
+
+
+    
+    
+
+
+
+    <p class="scv-banner scv-sphinx_rtd_theme"><b>Warning:</b> This document is for the development version of WEC-Sim.</p>
+<div class="section" id="overview">
+<span id="dev-overview"></span><h1>Overview<a class="headerlink" href="#overview" title="Permalink to this headline">¶</a></h1>
+<p>The <a class="reference external" href="http://wec-sim.github.io/WEC-Sim/index.html#wec-sim-developers">WEC-Sim development team</a>
+is currently engaged in continuous code development and support. Efforts are
+made by the development team to improve the code’s flexibility, accuracy, and
+usability.</p>
+<div class="section" id="online-forum">
+<h2>Online Forum<a class="headerlink" href="#online-forum" title="Permalink to this headline">¶</a></h2>
+<p>Please post questions about WEC-Sim on the <a class="reference external" href="https://github.com/WEC-Sim/WEC-Sim/issues">Issues Page</a>. This forum is managed and
+continuously monitored by the WEC-Sim code development team and users. The
+issues page is frequently used to interact with the WEC-Sim community, ask
+questions, request new features, and report bugs.</p>
+</div>
+<div class="section" id="pull-requests">
+<h2>Pull Requests<a class="headerlink" href="#pull-requests" title="Permalink to this headline">¶</a></h2>
+<p>The WEC-Sim team currently uses a fork-pull request based development workflow.
+In this system, features are incorporated into the development branch (‘dev’)
+of the WEC-Sim repository by a pull request (PR) from an individual’s fork.</p>
+<p>Contributors who wish to propose new features or improvements to WEC-Sim should
+follow the same workflow so their suggestions can be evaluated and implemented
+easily. First, follow the <a class="reference internal" href="getting_started.html#dev-getting-started"><span class="std std-ref">Developer Instructions</span></a>
+to fork the repository.</p>
+<p>A pull request should focus on one feature or update at a time. This ensures
+that bugs within a PR are easily identified, and the repository history remains
+clean and straightforward. Fixing many issues within a single PR, often leads
+to hard-to-track changes and difficulty in merging the branch. If multiple PRs
+are submitted, use different branches on your fork to keep track of them.
+Delete branches once a PR is closed to keep your fork clean.</p>
+<p>To submit a pull request of your feature, first pull the latest commits to the
+WEC-Sim/master branch:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="o">&gt;&gt;</span> <span class="n">git</span> <span class="n">pull</span> <span class="n">origin</span> <span class="n">master</span>
+</pre></div>
+</div>
+<p>Merge any conflicts that occur when pulling the latest updates, and implement
+your changes. Commit changes and push them to your fork:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="o">&gt;&gt;</span> <span class="n">git</span> <span class="n">commit</span> <span class="o">-</span><span class="n">m</span> <span class="s1">&#39;commit message&#39;</span>
+<span class="o">&gt;&gt;</span> <span class="n">git</span> <span class="n">push</span> <span class="n">REMOTE_NAME</span> <span class="n">BRANCH_NAME</span>
+</pre></div>
+</div>
+<p>Run the software test (below). If successful, you may submit a PR for your
+improvements. Navigate to the <a class="reference external" href="https://github.com/WEC-Sim/WEC-Sim/pulls">WEC-Sim repository</a> on GitHub and click ‘New Pull
+Request’. For more details on submitting pull requests, see the <a class="reference external" href="https://docs.github.com/en/free-pro-team&#64;latest/github/collaborating-with-issues-and-pull-requests/about-pull-requests">About pull
+requests</a>
+documentation on GitHub.</p>
+</div>
+<div class="section" id="software-tests">
+<span id="dev-overview-tests"></span><h2>Software Tests<a class="headerlink" href="#software-tests" title="Permalink to this headline">¶</a></h2>
+<p>WEC-Sim includes continuous integration tests that check the source code’s
+functionality. The tests are run each time changes are made to the repository,
+and are designed to ensure that the code is performing as expected. New tests
+are developed each time new functions are added or modified. <strong>Developers
+should run software tests before submitting a pull request.</strong> If all tests
+pass, submit your PR. Refer to MATLAB’s <a class="reference external" href="https://www.mathworks.com/help/matlab/matlab-unit-test-framework.html?s_tid=CRUX_lftnav">unit test</a>
+and <a class="reference external" href="https://www.mathworks.com/help/matlab/matlab_prog/continuous-integration-with-matlab-on-ci-platforms.html">continuous integration</a>
+documentation for more information. Please post a question on the <a class="reference external" href="https://github.com/WEC-Sim/WEC-Sim/issues">Issues Page</a> if you have difficulty using the
+tests.</p>
+<div class="section" id="run-tests">
+<h3>Run Tests<a class="headerlink" href="#run-tests" title="Permalink to this headline">¶</a></h3>
+<p>The WEC-Sim tests are located in the <code class="docutils literal notranslate"><span class="pre">$WECSIM/tests</span></code> directory. To run the
+WEC-Sim tests locally, navigate to the <code class="docutils literal notranslate"><span class="pre">$WECSIM</span></code> (e.g.
+<code class="docutils literal notranslate"><span class="pre">C:/User/Documents/GitHub/WEC-Sim</span></code>) directory, and type the following command
+into the MATLAB Command Window:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="o">&gt;&gt;</span> <span class="n">runtests</span>
+
+
+<span class="n">Totals</span><span class="p">:</span>
+   <span class="mi">25</span> <span class="n">Passed</span><span class="p">,</span> <span class="mi">0</span> <span class="n">Failed</span><span class="p">,</span> <span class="mi">0</span> <span class="n">Incomplete</span><span class="o">.</span>
+</pre></div>
+</div>
+<p>This executes the WEC-Sim tests and generates a build report.</p>
+</div>
+</div>
+</div>
+
+
+           </div>
+           
+          </div>
+          <footer>
+    <div class="rst-footer-buttons" role="navigation" aria-label="footer navigation">
+        <a href="api.html" class="btn btn-neutral float-right" title="API" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
+        <a href="getting_started.html" class="btn btn-neutral float-left" title="Getting Started" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> Previous</a>
+    </div>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>
+        &#169; Copyright 2020, National Renewable Energy Laboratory and National Technology &amp; Engineering Solutions of Sandia, LLC (NTESS).
+
+    </p>
+  </div>
+    
+    
+    
+    Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
+    
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
+    
+    provided by <a href="https://readthedocs.org">Read the Docs</a>. 
+
+</footer>
+        </div>
+      </div>
+
+    </section>
+
+  </div>
+  
+<div class="rst-versions" data-toggle="rst-versions" role="note" aria-label="versions">
+    <span class="rst-current-version" data-toggle="rst-current-version">
+        <span class="fa fa-book"> Other Versions</span>
+        v: dev
+        <span class="fa fa-caret-down"></span>
+    </span>
+    <div class="rst-other-versions">
+        <dl>
+            <dt>Branches</dt>
+            <dd><a href="overview.html">dev</a></dd>
+            <dd><a href="../../master/index.html">master</a></dd>
+        </dl>
+    </div>
+</div>
+
+
+  <script type="text/javascript">
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script>
+
+  
+  
+    
+    <!-- Theme Analytics -->
+    <script>
+    (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+      (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+      m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+    })(window,document,'script','https://www.google-analytics.com/analytics.js','ga');
+
+    ga('create', 'UA-88158104-1', 'auto');
+    
+    ga('send', 'pageview');
+    </script>
+
+    
+   
+
+</body>
+</html>
