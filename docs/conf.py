@@ -31,19 +31,15 @@ import re
 # ones.
 extensions = [
     'sphinx.ext.autodoc',
-    'sphinx.ext.autosectionlabel',
     'sphinx.ext.mathjax',
     'sphinx.ext.napoleon',
     'sphinxcontrib.bibtex',
     'sphinxcontrib.matlab',
-    'sphinxext.remoteliteralinclude'    
+    'sphinxext.remoteliteralinclude'
 ]
 
 # autodoc settings
 autodoc_member_order = 'bysource'
-
-# autosectionlabel settings
-autosectionlabel_prefix_document = True
 
 # Napoleon settings
 napoleon_google_docstring = True
@@ -63,7 +59,7 @@ matlab_src_dir = os.path.abspath("../source")
 matlab_keep_package_prefix = False
 
 # sphinxcontrib-versioning settings
-scv_whitelist_branches = ('master', 'dev')
+scv_whitelist_branches = ('master','dev')
 scv_whitelist_tags = (re.compile('a^'),)
 
 # Add any paths that contain templates here, relative to this directory.
