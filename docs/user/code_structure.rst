@@ -37,6 +37,12 @@ simulations in WEC-Sim, and calls post-processing scripts.
 When a WEC-Sim case is properly set-up, the user only needs to use the single command ``wecSim`` 
 in the command line to run the simulation.
 
+Beginning in WEC-Sim v4.3, the classes and Simulink library are more closely tied together. 
+Users can now run WEC-Sim from the command line with the command ``wecSim`` or from Simulink
+by loading a standard input file or setting custom parameters in the library  masks.
+When WEC-Sim is run from Simulink, each block is written to a new input file that is 
+used to run WEc-Sim. By default, blocks are written to a ``wecSimInputFile_customParameters.m``
+file which is then used in place of the standard ``wecSimInputFile.m``.
 
 .. _user-code-structure-classes:
 
@@ -175,7 +181,7 @@ For more information about application of WEC-Sim's simulation class, refer to
 Library Blocks
 """"""""""""""
 
-The simulation class is most closely related to the Frames library.
+The simulation class is tied to the Frames library.
 The Frames library contains one block that is necessary in every model. The 
 ``Global Reference Frame`` block defines the global coordinates, solver 
 configuration, seabed and free surface description, simulation time, and other 
@@ -203,7 +209,7 @@ influence a body's motion.
 
 At a high level, the wave class interacts with the rest of WEC-Sim as shown in 
 the diagram below. The wave primarily interacts with the body class 
-through during pre-processing of wave forces and in Simulink.
+through the pre-processing of wave forces and in Simulink.
 
 .. figure:: /_static/images/code_structure/wave_diagram.PNG
    :width: 100%

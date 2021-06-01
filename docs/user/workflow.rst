@@ -247,10 +247,37 @@ geometry file(s) ``*.stl``, and the hydrodynamic data file (``*.h5``) .
 Step 5: Run WEC-Sim
 ^^^^^^^^^^^^^^^^^^^
 
-Lastly, execute the WEC-Sim code by typing ``wecSim`` into the MATLAB Command 
-Window. The WEC-Sim source code is located in the ``$WECSIM`` directory, but 
-``wecSim`` must be executed from the ``$CASE`` directory. 
+Lastly, execute the WEC-Sim code from the ``$CASE`` directory by typing ``wecSim`` in the MATLAB Command Window.
 
-.. Note::
-    WEC-Sim simulations should always be executed from the MATLAB Command 
-    Window, not from Simulink.
+Beginning in version 4.3, WEC-Sim may also be run from Simulink. 
+The WEC-Sim library now allows for an input file or custom parameters to be used inside the block masks.
+This mode is useful when using WEC-Sim in conjunction with hardware-in-the-loop or other Simulink models with their own initialization.
+To run WEC-Sim from Simulink, open the Simulink ``.slx`` file and choose whether to use an input file or custom parameters in the Global Reference Frame.
+Next type ``wecSimInitFunction`` in the MATLAB Command Window. 
+Lastly, run the model from the Simulink interface.
+
+The various methods of running WEC-Sim are summarized below:
+
+* Run from MATLAB Command Window
+	* Type ``wecSim``
+	* \*This mode does not depend on the Global Reference Frame setting.
+* Run from Simulink with a wecSimInputFile.m
+	* Set the Global Reference Frame to use an input file
+	* Choose the correct input file
+	* Type ``wecSimInitFunction`` in the Command Window
+	* Run the model from Simulink
+* Run from Simulink with custom parameters
+	* Set the Global  Reference Frame to use custom parameters
+	* (Optional) prefill parameters by loading an input file.
+	* Edit custom parameters as desired
+	* Type ``wecSimInitFunction`` in the Command Window
+	* Run the model from Simulink
+
+Users may also use ``wecSimMCR`` and ``wecSimPCT`` as described in the advanced features 
+sections :ref:`user-advanced-features-mcr` and :ref:`user-advanced-features-pct`. 
+These options are only available in through the MATLAB Command Window.
+
+.. Note:: The WEC-Sim source code is located in the ``$WECSIM`` directory, but 
+	WEC-Sim must be executed from the ``$CASE`` directory. 
+	The MATLAB path must include the WEC-Sim source directory.
+
