@@ -409,6 +409,10 @@ clear ans table tout;
 toc
 diary off
 
+if ~exist('mcr','var')
+    clear functions
+end
+
 if simu.saveWorkspace==1
     try 
        cd(parallelComputing_dir);
