@@ -142,7 +142,7 @@ fprintf('---------------------------------------\n')
 cd(runFromSimDir)
 simFile = fullfile(runFromSimDir,'fromSimCustom.slx');
 load_system(simFile);
-run('wecSimInitFunction');
+run('wecSimInitialize');
 sim(simFile, [], simset('SrcWorkspace','current'));
 close_system(simFile);
 bdclose('all')
@@ -150,7 +150,7 @@ bdclose('all')
 %% Run WEC-Sim from Simulink with input file
 simFile = fullfile(runFromSimDir,'fromSimInput.slx');
 load_system(simFile);
-run('wecSimInitFunction');
+run('wecSimInitialize');
 sim(simFile, [], simset('SrcWorkspace','current'));
 close_system(simFile);
 bdclose('all')
