@@ -137,7 +137,7 @@ Lastly, run the model from the Simulink interface.
 	* Type ``wecSimInitialize`` in the Command Window
 	* Run the model from Simulink
 	
-Upon completion of a WEC-Sim simulation run from Simulink a ``wecSimInputFile_simulinkCustomParameters.m`` file is written to the `$CASE`` directory including the WEC-Sim parameters used for the WEC-Sim simulation.
+Upon completion of a WEC-Sim simulation run from Simulink a ``wecSimInputFile_simulinkCustomParameters.m`` file is written to the ``$CASE`` directory including the WEC-Sim parameters used for the WEC-Sim simulation.
 
 Refer to :ref:`user-tutorials-examples` for more details on how to run the examples 
 

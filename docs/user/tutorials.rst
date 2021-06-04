@@ -394,13 +394,14 @@ provided includes examples of how to run different wave cases:
 * Run from MATLAB Command Window (for RM3 and OSWEC examples)
 	* Type ``wecSim`` in the Command Window
 * Run from Simulink (for RM3FromSimulink example)
+	* Open the relevant WEC-Sim Simulink file
 	* Type ``wecSimInitialize`` in the Command Window
 	* Hit Play in Simulink model to run 
 
-To customize or develop a new WEC-Sim model that runs from Simlunk (e.g. for Hardware-in-the-Loop, HIL, applications) refer to ref:`user-advanced-features-simulink` for more information.
+To customize or develop a new WEC-Sim model that runs from Simulink (e.g. for Hardware-in-the-Loop, HIL, applications) refer to :ref:`user-advanced-features-simulink` for more information.
 Users may also use ``wecSimMCR``, ``wecSimPCT``, ``wecSimFcn`` and  as described in the advanced features 
 sections :ref:`user-advanced-features-mcr` and :ref:`user-advanced-features-pct`. 
-These options are only available in through the MATLAB Command Window.
+These options are only available through the MATLAB Command Window.
 
 References
 ------------------------
