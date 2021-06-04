@@ -359,30 +359,31 @@ plotRegressionTests
 % Rotation tests for setInitDisp() methods
 fprintf('\nRotation Tests for setInitDisp() methods.\n')
 fprintf('---------------------------------------\n')
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %% setInitDisp - 0 deg rotation
 tol = 1e-12;
 bodytest = bodyClass('');
-bodytest.setInitDisp([1 1 1],[1 0 0; 0 1 0; 0 0 1],[pi pi pi],[0 0 0]);
-assert(sum(bodytest.initDisp.initLinDisp - [0 0 0] <= tol) && ...
+bodytest.setInitDisp([1 1 1],[1 0 0 pi; 0 1 0 pi; 0 0 1 pi],[0 0 0]);
+assert(sum(bodytest.initDisp.initLinDisp - [0 0 0]) <= tol && ...
     bodytest.initDisp.initAngularDispAngle - 0 <= tol && ...
-    sum(bodytest.initDisp.initAngularDispAxis - [0 0 1] <= tol));
+    sum(bodytest.initDisp.initAngularDispAxis - [0 0 1]) <= tol);
 clear bodytest
 
 %% setInitDisp - inverted
 tol = 1e-12;
 bodytest = bodyClass('');
-bodytest.setInitDisp([1 1 1],[1 0 0; 0 1 0; 0 0 1],[pi/2 pi/2 pi/2],[0 0 0]);
-assert(sum(bodytest.initDisp.initLinDisp - [-2 -2 -2] <= tol) && ...
+bodytest.setInitDisp([1 1 1],[1 0 0 pi/2; 0 1 0 pi/2; 0 0 1 -pi/2],[0 0 0]);
+assert(sum(bodytest.initDisp.initLinDisp - [-2 -2 -2]) <= tol && ...
     bodytest.initDisp.initAngularDispAngle - pi <= tol && ...
-    sum(bodytest.initDisp.initAngularDispAxis - [-sqrt(2)/2 0 sqrt(2)/2] <= tol));
+    sum(bodytest.initDisp.initAngularDispAxis - [-sqrt(2)/2 0 sqrt(2)/2]) <= tol);
 clear bodytest
 
 %% setInitDisp - 90 deg in y
 tol = 1e-12;
 bodytest = bodyClass('');
-bodytest.setInitDisp([1 1 1],[1 0 0; 0 0 1; 1 0 0],[pi/2 pi/2 -pi/2],[0 0 0]);
-assert(sum(bodytest.initDisp.initLinDisp - [0 1 0] <= tol) && ...
-    bodytest.initDisp.initAngularDispAngle - pi <= tol);
+bodytest.setInitDisp([1 1 1],[1 0 0 pi/2; 0 0 1 pi/2; 1 0 0 -pi/2],[0 0 0]);
+assert(sum(bodytest.initDisp.initLinDisp - [0 1 0]) <= tol && ...
+    bodytest.initDisp.initAngularDispAngle - pi/2 <= tol);
 clear bodytest
 
 %% rotMat to axisAngle 0 deg special case

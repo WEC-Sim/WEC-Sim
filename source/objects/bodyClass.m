@@ -325,7 +325,7 @@ classdef bodyClass<handle
             obj.hydroForce.storage.output_forceTotal = ft_mod;
         end
         
-        function setInitDisp(obj, relCoord, axisList, angleList, addLinDisp)
+        function setInitDisp(obj, relCoord, axisAngleList, addLinDisp)
             % Function to set a body's initial displacement
             % 
             % This function assumes that all rotations are about the same relative coordinate. 
@@ -339,11 +339,10 @@ classdef bodyClass<handle
             %        Distance from x_rot to the body center of gravity or the constraint
             %        or pto location as defined by: relCoord = cg - x_rot. [m]
             %
-            %    axisList : [nAngle 3] float vector
-            %        Axes of the rotations. Applied in order
-            %
-            %    angleList : [nAngle] float vector
-            %        Angles of the rotations. Applied in order with the given axis [rad]
+            %    axisAngleList : [nAngle 4] float vector
+            %        List of axes and angles of the rotations with the 
+            %        format: [n_x n_y n_z angle] (angle in rad)
+            %        Rotations applied consecutively in order of dimension 1
             %
             %    addLinDisp : [1 3] float vector
             %        Initial linear displacement (in addition to the 
@@ -351,6 +350,8 @@ classdef bodyClass<handle
             % 
             
             % initialize quantities before for loop
+            axisList = axisAngleList(:,1:3);
+            angleList = axisAngleList(:,4);
             nAngle = size(axisList,1);
             rotMat = eye(3);
             
