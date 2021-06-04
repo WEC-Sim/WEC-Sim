@@ -247,37 +247,24 @@ geometry file(s) ``*.stl``, and the hydrodynamic data file (``*.h5``) .
 Step 5: Run WEC-Sim
 ^^^^^^^^^^^^^^^^^^^
 
-Lastly, execute the WEC-Sim code from the ``$CASE`` directory by typing ``wecSim`` in the MATLAB Command Window.
+Lastly, WEC-Sim can be executed from the ``$CASE`` directory using the following methods:
 
-Beginning in version 4.3, WEC-Sim may also be run from Simulink. 
-The WEC-Sim library now allows for an input file or custom parameters to be used inside the block masks.
-This mode is useful when using WEC-Sim in conjunction with hardware-in-the-loop or other Simulink models with their own initialization.
-To run WEC-Sim from Simulink, open the Simulink ``.slx`` file and choose whether to use an input file or custom parameters in the Global Reference Frame.
-Next type ``wecSimInitFunction`` in the MATLAB Command Window. 
-Lastly, run the model from the Simulink interface.
 
-The various methods of running WEC-Sim are summarized below:
+* Run from MATLAB Command Window (for RM3 and OSWEC examples)
+	* Type ``wecSim`` in the Command Window
+* Run from Simulink (for RM3FromSimulink example)
+	* Type ``wecSimInitialize`` in the Command Window
+	* Hit Play in Simulink model to run 
 
-* Run from MATLAB Command Window
-	* Type ``wecSim``
-	* \*This mode does not depend on the Global Reference Frame setting.
-* Run from Simulink with a wecSimInputFile.m
-	* Set the Global Reference Frame to use an input file
-	* Choose the correct input file
-	* Type ``wecSimInitFunction`` in the Command Window
-	* Run the model from Simulink
-* Run from Simulink with custom parameters
-	* Set the Global  Reference Frame to use custom parameters
-	* (Optional) prefill parameters by loading an input file.
-	* Edit custom parameters as desired
-	* Type ``wecSimInitFunction`` in the Command Window
-	* Run the model from Simulink
+Refer to :ref:`user-tutorials-examples` for more details on how to run the examples. To customize or develop a new WEC-Sim model that runs from Simlunk (e.g. for Hardware-in-the-Loop, HIL, applications) refer to ref:`user-advanced-features-simulink` for more information.
 
-Users may also use ``wecSimMCR`` and ``wecSimPCT`` as described in the advanced features 
-sections :ref:`user-advanced-features-mcr` and :ref:`user-advanced-features-pct`. 
+Users may also use ``wecSimMCR``, ``wecSimPCT``, ``wecSimFcn`` and  as described in the advanced features 
+sections :ref:`user-advanced-features-mcr`, :ref:`user-advanced-features-pct`, and :ref:`user-advanced-features-fcn`. 
 These options are only available in through the MATLAB Command Window.
 
 .. Note:: The WEC-Sim source code is located in the ``$WECSIM`` directory, but 
 	WEC-Sim must be executed from the ``$CASE`` directory. 
 	The MATLAB path must include the WEC-Sim source directory.
+
+
 

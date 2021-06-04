@@ -103,6 +103,45 @@ setting for ``simu.reloadH5Data`` in the WEC-Sim input file.
     The ``userDefinedFunctionsMCR.m`` is not compatible with ``wecSimPCT``. 
     Please use ``userDefinedFunctions.m`` instead.
 
+
+.. _user-advanced-features-fcn:
+
+Running as Function 
+^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+WEC-Sim allows users to execute WEC-Sim as a funection by using ``wecSimFcn``.
+
+
+
+.. _user-advanced-features-simulink:
+
+Running from Simulink
+^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+Beginning in version 4.3, WEC-Sim can also be run from Simulink. 
+The WEC-Sim library now allows for an input file or custom parameters to be used inside the block masks.
+This mode is useful when using WEC-Sim in conjunction with hardware-in-the-loop or other Simulink models with their own initialization.
+To run WEC-Sim from Simulink, open the Simulink ``.slx`` file and choose whether to use an input file or custom parameters in the Global Reference Frame.
+Next type ``wecSimInitialize`` in the MATLAB Command Window. 
+Lastly, run the model from the Simulink interface.
+
+* Run from Simulink with a wecSimInputFile.m
+	* Set the Global Reference Frame to use an input file
+	* Choose the correct input file
+	* Type ``wecSimInitialize`` in the Command Window
+	* Run the model from Simulink
+* Run from Simulink with custom parameters
+	* Set the Global  Reference Frame to use custom parameters
+	* (Optional) prefill parameters by loading an input file.
+	* Edit custom parameters as desired
+	* Type ``wecSimInitialize`` in the Command Window
+	* Run the model from Simulink
+	
+Upon completion of a WEC-Sim simulation run from Simulink a ``wecSimInputFile_simulinkCustomParameters.m`` file is written to the `$CASE`` directory including the WEC-Sim parameters used for the WEC-Sim simulation.
+
+Refer to :ref:`user-tutorials-examples` for more details on how to run the examples 
+
+
 State-Space Representation
 ^^^^^^^^^^^^^^^^^^^^^^^^^^
 

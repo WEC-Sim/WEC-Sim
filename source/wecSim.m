@@ -41,7 +41,7 @@ simFile = simu.simMechanicsFile;
 clear simu waves body pto constraint ptosim mooring 
 
 runWecSimCML = 1;
-run('wecSimInitFunction');
+run('wecSimInitialize');
 sim(simFile, [], simset('SrcWorkspace','parent'));
 
 % Post-processing called as the Global Reference Frame stop function 
