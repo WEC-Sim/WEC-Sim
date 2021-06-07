@@ -79,7 +79,7 @@ tmp = ncread(filename,'body_name')';
 for i=1:s1
     hydro(F).body{i} = erase(tmp(i,:), char(0)); % assign preliminary value to body names
 end
-% hydro(F).body = tmp;
+hydro(F).body = split(hydro(F).body,'+');
 
 % sort radiating dof into standard list if necessary
 rdofs = lower(string(ncread(filename,'radiating_dof')'));
@@ -105,8 +105,6 @@ for i=1:hydro(F).Nb
     hydro(F).dof(i) = max(6,i_nDofs(i));
 end
 
-% update body names
-hydro(F).body = i_bodies;
 
 %% Reorder dofs if needed
 % check the ordering of the 'complex' dimension
@@ -245,6 +243,8 @@ if reset_idofs || reset_rdofs
             end
         end
     end
+else
+    AM = tmp;
 end
 hydro(F).A = AM;
 clear tmp AM
@@ -283,6 +283,8 @@ if reset_idofs || reset_rdofs
             end
         end
     end
+else
+    RD = tmp;
 end
 hydro(F).B = RD;
 
@@ -322,6 +324,8 @@ if reset_idofs
             FK(j,:,:,:) = tmp(iinds(j),:,:,:);
         end
     end
+else
+    FK = tmp;
 end
 
 % Set real and imaginary components of variable. Calculate magnitude and
@@ -367,6 +371,8 @@ if reset_idofs
             DF(j,:,:,:) = tmp(iinds(j),:,:,:);
         end
     end
+else
+    DF = tmp;
 end
 
 % Set real and imaginary components of variable. Calculate magnitude and
@@ -403,42 +409,39 @@ close(p);
 end
 
 %% functions
-function [sorted_dofs,inds,reset_tf, nDofs_per_body, new_body_names] = sorted_dof_list(old_dofs, body_names)
-% 1. sort by body name: 'bodyName{i}__dofName'
-% 2. sort each body's dofs by std + gbm: surge, sway, heave, roll, pitch, yaw, gbm1, gbm2, ...
+function [sorted_dofs,inds,reset_tf, nDofs_per_body, split_body_names] = sorted_dof_list(old_dofs, body_names)
+% This function reorders a list of dofs if not in the correct order: 
+%    [body 1 surge, sway, heave, roll, pitch, yaw, gbm, body 2 surge, ...]\
+% Steps:
+% 1. Find each body name
+% 2. sort each body's dofs by [standard gbm]: surge, sway, heave, roll, pitch, yaw, gbm1, gbm2, ...
 % 3. concatenate dofs
-% this function will rearrange dimension 'dim' of a 'variable' if the dofs
-% ('old_dofs') are not in the correct order: 
-%    [surge, sway, heave, roll, pitch, yaw, gbm, ...]
 
 % list of standard dofs
 std_dofs = ["surge", "sway", "heave", "roll", "pitch", "yaw"];
-tmp = '__';
+nDofs = length(old_dofs);
 
-new_body_names = body_names;
+% Split Capytaine name variable to get each body name.
+% If using multiple bodies w/ body interactions, Captaine sets a single
+% name as "body1Name+body2Name+..."
 if length(body_names)==1
     if contains(body_names,'+')
-        tmpi = strfind(body_names,'+');
-        tmpname = body_names;
-        
-        body_names{1} = tmpname{1}(1:tmpi{1}-1); % first body names
-        for i=1:length(tmpi)-1
-            body_names{i+1} = tmpname{1}(tmpi{i-1}+1:tmpi{i}-1); % 2(end-1) body names
-        end
-        body_names{end+1} = tmpname{1}(tmpi{end}+1:end); % last body name
-        new_body_names = body_names; % reset if body_names was 'body1+body2+body3+...'
-        clear tmpi tmpname i
+        split_body_names = split(body_names,'+');
+        tmp = '__';
     else
-        body_names = {''};
+        split_body_names = {''};
         tmp = '';
     end
+else
+    split_body_names = body_names;
+    tmp = '__';
 end
-nDofs_per_body = zeros(1,length(body_names));
+nDofs_per_body = zeros(1,length(split_body_names));
 
 sorted_dofs = [];
-for k=1:length(body_names)
-    body_dofs = old_dofs(contains(old_dofs,body_names{k})); % all dofs for body k
-    std_body_dofs = strcat(body_names{k},tmp,std_dofs); % standard 6 dofs for body k
+for k=1:length(split_body_names)
+    body_dofs = old_dofs(contains(old_dofs,split_body_names{k})); % all dofs for body k
+    std_body_dofs = strcat(split_body_names{k},tmp,std_dofs); % standard 6 dofs for body k
     gbm_dofs = body_dofs(~contains(body_dofs,std_body_dofs))'; % any gbm dofs for body k (i.e. not in std list)
     
     if isempty(gbm_dofs); gbm_dofs=[]; end % prevent formatting error when concatenating on next line
