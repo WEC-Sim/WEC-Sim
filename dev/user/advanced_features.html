@@ -112,6 +112,8 @@
 <li class="toctree-l3"><a class="reference internal" href="#simulation-features">Simulation Features</a><ul>
 <li class="toctree-l4"><a class="reference internal" href="#multiple-condition-runs-mcr">Multiple Condition Runs (MCR)</a></li>
 <li class="toctree-l4"><a class="reference internal" href="#parallel-computing-toolbox-pct">Parallel Computing Toolbox (PCT)</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#running-as-function">Running as Function</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#running-from-simulink">Running from Simulink</a></li>
 <li class="toctree-l4"><a class="reference internal" href="#state-space-representation">State-Space Representation</a></li>
 <li class="toctree-l4"><a class="reference internal" href="#time-step-features">Time-Step Features</a></li>
 </ul>
@@ -701,6 +703,46 @@ setting for <code class="docutils literal notranslate"><span class="pre">simu.re
 <p class="last">The <code class="docutils literal notranslate"><span class="pre">userDefinedFunctionsMCR.m</span></code> is not compatible with <code class="docutils literal notranslate"><span class="pre">wecSimPCT</span></code>.
 Please use <code class="docutils literal notranslate"><span class="pre">userDefinedFunctions.m</span></code> instead.</p>
 </div>
+</div>
+<div class="section" id="running-as-function">
+<span id="user-advanced-features-fcn"></span><h3>Running as Function<a class="headerlink" href="#running-as-function" title="Permalink to this headline">¶</a></h3>
+<p>WEC-Sim allows users to execute WEC-Sim as a funection by using <code class="docutils literal notranslate"><span class="pre">wecSimFcn</span></code>.</p>
+</div>
+<div class="section" id="running-from-simulink">
+<span id="user-advanced-features-simulink"></span><h3>Running from Simulink<a class="headerlink" href="#running-from-simulink" title="Permalink to this headline">¶</a></h3>
+<p>Beginning in version 4.3, WEC-Sim can also be run from Simulink.
+The WEC-Sim library now allows for an input file or custom parameters to be used inside the block masks.
+This mode is useful when using WEC-Sim in conjunction with hardware-in-the-loop or other Simulink models with their own initialization.
+To run WEC-Sim from Simulink, open the Simulink <code class="docutils literal notranslate"><span class="pre">.slx</span></code> file and choose whether to use an input file or custom parameters in the Global Reference Frame.
+Next type <code class="docutils literal notranslate"><span class="pre">wecSimInitialize</span></code> in the MATLAB Command Window.
+Lastly, run the model from the Simulink interface.</p>
+<ul class="simple">
+<li><dl class="first docutils">
+<dt>Run from Simulink with a wecSimInputFile.m</dt>
+<dd><ul class="first last">
+<li>Set the Global Reference Frame to use an input file</li>
+<li>Choose the correct input file</li>
+<li>Type <code class="docutils literal notranslate"><span class="pre">wecSimInitialize</span></code> in the Command Window</li>
+<li>Run the model from Simulink</li>
+</ul>
+</dd>
+</dl>
+</li>
+<li><dl class="first docutils">
+<dt>Run from Simulink with custom parameters</dt>
+<dd><ul class="first last">
+<li>Set the Global  Reference Frame to use custom parameters</li>
+<li>(Optional) prefill parameters by loading an input file.</li>
+<li>Edit custom parameters as desired</li>
+<li>Type <code class="docutils literal notranslate"><span class="pre">wecSimInitialize</span></code> in the Command Window</li>
+<li>Run the model from Simulink</li>
+</ul>
+</dd>
+</dl>
+</li>
+</ul>
+<p>Upon completion of a WEC-Sim simulation run from Simulink a <code class="docutils literal notranslate"><span class="pre">wecSimInputFile_simulinkCustomParameters.m</span></code> file is written to the <code class="docutils literal notranslate"><span class="pre">$CASE</span></code> directory including the WEC-Sim parameters used for the WEC-Sim simulation.</p>
+<p>Refer to <a class="reference internal" href="tutorials.html#user-tutorials-examples"><span class="std std-ref">WEC-Sim Examples</span></a> for more details on how to run the examples</p>
 </div>
 <div class="section" id="state-space-representation">
 <h3>State-Space Representation<a class="headerlink" href="#state-space-representation" title="Permalink to this headline">¶</a></h3>

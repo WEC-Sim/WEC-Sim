@@ -712,8 +712,8 @@ to the <strong>output</strong> variable in the MATLAB workspace.</p>
 </div>
 </div>
 <div class="section" id="wec-sim-examples">
-<h2>WEC-Sim Examples<a class="headerlink" href="#wec-sim-examples" title="Permalink to this headline">¶</a></h2>
-<p>Working examples of using WEC-Sim to model the RM3 and OSWEC are provided in
+<span id="user-tutorials-examples"></span><h2>WEC-Sim Examples<a class="headerlink" href="#wec-sim-examples" title="Permalink to this headline">¶</a></h2>
+<p>Working examples of using WEC-Sim to model the RM3, OSWEC, and RM3FromSimulink are provided in
 the <code class="docutils literal notranslate"><span class="pre">$WECSIM/examples/</span></code> directory. For each example the <code class="docutils literal notranslate"><span class="pre">wecSimInputFile.m</span></code>
 provided includes examples of how to run different wave cases:</p>
 <ul class="simple">
@@ -723,7 +723,29 @@ provided includes examples of how to run different wave cases:</p>
 <li><code class="docutils literal notranslate"><span class="pre">irregular</span></code> - irregular waves using a Bretschneider Spectrum with state space calculation</li>
 <li><code class="docutils literal notranslate"><span class="pre">spectrumImport</span></code> - irregular waves using a user-defined spectrum</li>
 <li><code class="docutils literal notranslate"><span class="pre">etaImport</span></code> - user-defined time-series</li>
+<li><dl class="first docutils">
+<dt>Run from MATLAB Command Window (for RM3 and OSWEC examples)</dt>
+<dd><ul class="first last">
+<li>Type <code class="docutils literal notranslate"><span class="pre">wecSim</span></code> in the Command Window</li>
 </ul>
+</dd>
+</dl>
+</li>
+<li><dl class="first docutils">
+<dt>Run from Simulink (for RM3FromSimulink example)</dt>
+<dd><ul class="first last">
+<li>Open the relevant WEC-Sim Simulink file</li>
+<li>Type <code class="docutils literal notranslate"><span class="pre">wecSimInitialize</span></code> in the Command Window</li>
+<li>Hit Play in Simulink model to run</li>
+</ul>
+</dd>
+</dl>
+</li>
+</ul>
+<p>To customize or develop a new WEC-Sim model that runs from Simulink (e.g. for Hardware-in-the-Loop, HIL, applications) refer to <a class="reference internal" href="advanced_features.html#user-advanced-features-simulink"><span class="std std-ref">Running from Simulink</span></a> for more information.
+Users may also use <code class="docutils literal notranslate"><span class="pre">wecSimMCR</span></code>, <code class="docutils literal notranslate"><span class="pre">wecSimPCT</span></code>, <code class="docutils literal notranslate"><span class="pre">wecSimFcn</span></code> and  as described in the advanced features
+sections <a class="reference internal" href="advanced_features.html#user-advanced-features-mcr"><span class="std std-ref">Multiple Condition Runs (MCR)</span></a> and <a class="reference internal" href="advanced_features.html#user-advanced-features-pct"><span class="std std-ref">Parallel Computing Toolbox (PCT)</span></a>.
+These options are only available through the MATLAB Command Window.</p>
 </div>
 <div class="section" id="references">
 <h2>References<a class="headerlink" href="#references" title="Permalink to this headline">¶</a></h2>

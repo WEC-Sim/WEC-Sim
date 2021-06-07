@@ -249,6 +249,12 @@ initializes variant subsystems in the Simulink model, runs the time-domain
 simulations in WEC-Sim, and calls post-processing scripts.
 When a WEC-Sim case is properly set-up, the user only needs to use the single command <code class="docutils literal notranslate"><span class="pre">wecSim</span></code>
 in the command line to run the simulation.</p>
+<p>Beginning in WEC-Sim v4.3, the classes and Simulink library are more closely tied together.
+Users can now run WEC-Sim from the command line with the command <code class="docutils literal notranslate"><span class="pre">wecSim</span></code> or from Simulink
+by loading a standard input file or setting custom parameters in the library  masks.
+When WEC-Sim is run from Simulink, each block is written to a new input file that is
+used to run WEc-Sim. By default, blocks are written to a <code class="docutils literal notranslate"><span class="pre">wecSimInputFile_customParameters.m</span></code>
+file which is then used in place of the standard <code class="docutils literal notranslate"><span class="pre">wecSimInputFile.m</span></code>.</p>
 </div>
 <div class="section" id="wec-sim-classes">
 <span id="user-code-structure-classes"></span><h2>WEC-Sim Classes<a class="headerlink" href="#wec-sim-classes" title="Permalink to this headline">¶</a></h2>
@@ -395,7 +401,7 @@ typing <code class="docutils literal notranslate"><span class="pre">doc</span> <
 </div>
 <div class="section" id="library-blocks">
 <h4>Library Blocks<a class="headerlink" href="#library-blocks" title="Permalink to this headline">¶</a></h4>
-<p>The simulation class is most closely related to the Frames library.
+<p>The simulation class is tied to the Frames library.
 The Frames library contains one block that is necessary in every model. The
 <code class="docutils literal notranslate"><span class="pre">Global</span> <span class="pre">Reference</span> <span class="pre">Frame</span></code> block defines the global coordinates, solver
 configuration, seabed and free surface description, simulation time, and other
@@ -418,7 +424,7 @@ force, added mass, radiation damping and other frequency based parameters that
 influence a body’s motion.</p>
 <p>At a high level, the wave class interacts with the rest of WEC-Sim as shown in
 the diagram below. The wave primarily interacts with the body class
-through during pre-processing of wave forces and in Simulink.</p>
+through the pre-processing of wave forces and in Simulink.</p>
 <div class="figure">
 <a class="reference internal image-reference" href="../_images/wave_diagram.PNG"><img alt="../_images/wave_diagram.PNG" src="../_images/wave_diagram.PNG" style="width: 100%;" /></a>
 </div>
