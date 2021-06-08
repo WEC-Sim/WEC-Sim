@@ -9,6 +9,7 @@ filesToCopy = [filesToCopy; dir([applicationsDir '\**\*.slx'])];
 filesToCopy = [filesToCopy; dir([applicationsDir '\**\*.stl'])];
 filesToCopy = [filesToCopy; dir([applicationsDir '\**\*.h5'])];
 filesToCopy = [filesToCopy; dir([applicationsDir '\**\*.mat'])];
+filesToCopy = [filesToCopy; dir([applicationsDir '\**\controller_init.m'])]; % for WECCCOMP app
 
 % remove output, simulink project and savedData .mat files
 inds = false(length(filesToCopy),1);
@@ -132,5 +133,5 @@ fprintf(fileID,'%s\n',"simu.explorer = 'off';");
 fprintf(fileID,'%s\n',"simu.startTime = 0;");
 fprintf(fileID,'%s\n',"simu.rampTime = 2;");
 fprintf(fileID,'%s\n',"simu.endTime = 4;");
-fprintf(fileID,'%s\n',"simu.dt = 0.1;");
+fprintf(fileID,'%s\n',"simu.dt = 0.001;");
 fclose(fileID);
