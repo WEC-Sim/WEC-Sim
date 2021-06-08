@@ -26,7 +26,6 @@ classdef regressionTest < matlab.unittest.TestCase
             
             % Add directories to path
             addpath(genpath(obj.testDir))
-            addpath(genpath(obj.wsDir))
             
             if exist('runReg','var')
                 obj.runReg = runReg;

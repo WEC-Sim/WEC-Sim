@@ -17,7 +17,7 @@ classdef compilationTest < matlab.unittest.TestCase
             obj.testDir = temp(1:i(end));
             
             obj.wsDir = fullfile(obj.testDir,'..');
-            obj.testAppDir = fullfile(obj.testDir,'CompilationTests\');=
+            obj.testAppDir = fullfile(obj.testDir,'CompilationTests\');
             
             if exist('applicationsDir','var')
                 obj.applicationsDir = applicationsDir;
@@ -27,7 +27,6 @@ classdef compilationTest < matlab.unittest.TestCase
             
             % Add directories to path
             addpath(genpath(obj.testDir))
-            addpath(genpath(obj.wsDir))
             
             if exist('runComp','var')
                 obj.runComp = runComp;
@@ -184,7 +183,7 @@ classdef compilationTest < matlab.unittest.TestCase
             testCase.assumeEqual(testCase.runComp,1,'Test off (runComp=0).')
             cd(fullfile(testCase.testAppDir, 'Body-to-Body_Interactions\B2B_Case4'));
             wecSim
-            clear body cosntraint output pto simu waves
+            clear body constraint output pto simu waves
         end
         
         function b2b_6(testCase)
@@ -192,7 +191,7 @@ classdef compilationTest < matlab.unittest.TestCase
             testCase.assumeEqual(testCase.runComp,1,'Test off (runComp=0).')
             cd(fullfile(testCase.testAppDir, 'Body-to-Body_Interactions\B2B_Case6'));
             wecSim
-            clear body cosntraint output pto simu waves
+            clear body constraint output pto simu waves
         end
         
         function decay(testCase)
@@ -200,7 +199,7 @@ classdef compilationTest < matlab.unittest.TestCase
             testCase.assumeEqual(testCase.runComp,1,'Test off (runComp=0).')
             cd(fullfile(testCase.testAppDir, 'Free_Decay\1m-ME'));
             wecSim
-            clear body cosntraint output pto simu waves
+            clear body constraint output pto simu waves
         end
         
         function gbm(testCase)
@@ -208,7 +207,7 @@ classdef compilationTest < matlab.unittest.TestCase
             testCase.assumeEqual(testCase.runComp,1,'Test off (runComp=0).')
             cd(fullfile(testCase.testAppDir, 'Generalized_Body_Modes'));
             wecSim
-            clear body cosntraint output pto simu waves
+            clear body constraint output pto simu waves
         end
         
         function mcr(testCase)
@@ -216,7 +215,7 @@ classdef compilationTest < matlab.unittest.TestCase
             testCase.assumeEqual(testCase.runComp,1,'Test off (runComp=0).')
             cd(fullfile(testCase.testAppDir, 'Multiple_Condition_Runs\RM3_MCROPT3_SeaState'));
             wecSimMCR
-            clear body cosntraint output pto simu waves mcr imcr
+            clear body constraint output pto simu waves mcr imcr
         end
         
         function mooring(testCase)
@@ -224,7 +223,7 @@ classdef compilationTest < matlab.unittest.TestCase
             testCase.assumeEqual(testCase.runComp,1,'Test off (runComp=0).')
             cd(fullfile(testCase.testAppDir, 'Mooring\MooringMatrix'));
             wecSim
-            clear body cosntraint output pto simu waves
+            clear body constraint output pto simu waves
         end
         
         function nhBody(testCase)
@@ -232,7 +231,7 @@ classdef compilationTest < matlab.unittest.TestCase
             testCase.assumeEqual(testCase.runComp,1,'Test off (runComp=0).')
             cd(fullfile(testCase.testAppDir, 'Nonhydro_Body'));
             wecSim
-            clear body cosntraint output pto simu waves
+            clear body constraint output pto simu waves
         end
         
         function paraview(testCase)
@@ -240,7 +239,7 @@ classdef compilationTest < matlab.unittest.TestCase
             testCase.assumeEqual(testCase.runComp,1,'Test off (runComp=0).')
             cd(fullfile(testCase.testAppDir, 'Paraview_Visualization\OSWEC_NonLinear_Viz'));
             wecSim
-            clear body cosntraint output pto simu waves
+            clear body constraint output pto simu waves
         end
         
         function yaw(testCase)
@@ -248,7 +247,7 @@ classdef compilationTest < matlab.unittest.TestCase
             testCase.assumeEqual(testCase.runComp,1,'Test off (runComp=0).')
             cd(fullfile(testCase.testAppDir, 'Passive_Yaw\PassiveYawON'));
             wecSim
-            clear body cosntraint output pto simu waves
+            clear body constraint output pto simu waves
         end
     end
 end
