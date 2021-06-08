@@ -129,6 +129,11 @@ wecSim
 cd(fullfile(testAppDir, 'Passive_Yaw\PassiveYawON'));
 wecSim
 
+%% WECCCOMP
+cd(fullfile(testAppDir, 'WECCCOMP_Fault_Implementation\'));
+wecSim
+
+
 bdclose('all');
 cd(wsDir)
 

@@ -126,9 +126,11 @@ fprintf(fileID,'%s\n',"simu.endTime = 4;");
 fprintf(fileID,'%s\n',"simu.dt = 0.01;");
 fclose(fileID);
 
-
-
-
-
-
-
+% WECCCOMP
+fileID = fopen(fullfile(testAppDir, '\WECCCOMP_Fault_Implementation\wecSimInputFile.m'),'a');
+fprintf(fileID,'%s\n',"simu.explorer = 'off';");
+fprintf(fileID,'%s\n',"simu.startTime = 0;");
+fprintf(fileID,'%s\n',"simu.rampTime = 2;");
+fprintf(fileID,'%s\n',"simu.endTime = 4;");
+fprintf(fileID,'%s\n',"simu.dt = 0.1;");
+fclose(fileID);
