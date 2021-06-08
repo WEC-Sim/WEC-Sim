@@ -14,10 +14,16 @@
 % limitations under the License.
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% Run Test Cases
+% Use the following command to run tests locally,  "runtests"
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
 wsDir = pwd;
 testDir = fullfile(wsDir,'tests');
-testAppDir = fullfile(testDir,'CompilationTests\WEC-Sim_Applications');
+testAppDir = fullfile(testDir,'\CompilationTests\WEC-Sim_Applications');
 applicationsDir = fullfile(wsDir,'..\WEC-Sim_Applications\');
+runFromSimDir = fullfile(testDir,'\runFromSimulinkTests');
 
 addpath(genpath('.\tests'))
 addpath(genpath('.\source'))
@@ -28,6 +34,7 @@ runReg=1;       % 1 to run regular wave simulations
 runIrreg=1;     % 1 to run irregular wave simulations
 runYaw=1;       % 1 to run passive yaw simulations
 runComp=1;      % 1 to run compilation of various cases
+runFromSim=1;   % 1 to run from Simulink tests
 plotNO=1;       % 1 to plot new run vs. stored run for comparison of each solver
 plotSolvers=1;  % 1 to plot new run comparison by sln method
 openCompare=1;  % 1 opens all new run vs. stored run plots for comparison of each solver
@@ -67,10 +74,16 @@ if runComp==1
     catch
         fprintf(['\nWEC-Sim Applications directory not set correctly for CI tests.\n'...
             'Change the ''applicationsDir'' variable in wecSimTest.m to run \n' ...
-            'the compilation tests using the applications repo cases.\n\n']);
+            'the compilation tests using the applications repository cases.\n\n']);
         runComp = 0;
     end
 end
+
+% Set up run from Simulink test files
+if runFromSim==1
+    setupFromSimFiles;
+end
+
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 % Compilation Tests for Applications Repo
@@ -118,6 +131,31 @@ wecSim
 
 bdclose('all');
 cd(wsDir)
+
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% Run from Simulink Tests
+fprintf('\nRun from Simulink Tests using example\n')
+fprintf('---------------------------------------\n')
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%% Run WEC-Sim from Simulink with custom parameters
+cd(runFromSimDir)
+simFile = fullfile(runFromSimDir,'fromSimCustom.slx');
+load_system(simFile);
+run('wecSimInitialize');
+sim(simFile, [], simset('SrcWorkspace','current'));
+close_system(simFile);
+bdclose('all')
+
+%% Run WEC-Sim from Simulink with input file
+simFile = fullfile(runFromSimDir,'fromSimInput.slx');
+load_system(simFile);
+run('wecSimInitialize');
+sim(simFile, [], simset('SrcWorkspace','current'));
+close_system(simFile);
+bdclose('all')
+
+cd(wsDir);
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 % Regular Wave Tests
@@ -406,3 +444,4 @@ clear rotMat axis angle
 % Run Test Cases
 % Use the following command to run tests locally,  "runtests"
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+cd(wsDir)
