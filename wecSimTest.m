@@ -129,6 +129,10 @@ wecSim
 cd(fullfile(testAppDir, 'Passive_Yaw\PassiveYawON'));
 wecSim
 
+%% WECCCOMP
+cd(fullfile(testAppDir, 'WECCCOMP_Fault_Implementation\'));
+wecSim
+
 bdclose('all');
 cd(wsDir)
 
@@ -144,15 +148,16 @@ simFile = fullfile(runFromSimDir,'fromSimCustom.slx');
 load_system(simFile);
 run('wecSimInitialize');
 sim(simFile, [], simset('SrcWorkspace','current'));
-close_system(simFile);
+close_system(simFile,0);
 bdclose('all')
 
 %% Run WEC-Sim from Simulink with input file
+cd(runFromSimDir)
 simFile = fullfile(runFromSimDir,'fromSimInput.slx');
 load_system(simFile);
 run('wecSimInitialize');
 sim(simFile, [], simset('SrcWorkspace','current'));
-close_system(simFile);
+close_system(simFile,0);
 bdclose('all')
 
 cd(wsDir);
