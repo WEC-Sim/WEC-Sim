@@ -70,7 +70,6 @@ wecSimInputFile_simulinkCustomParameters.m
 /tests/**/*.mat
 /tests/CompilationTests/
 /tests/runFromSimulinkTests/
-/tests/
 !/tests/**/**/regular_org.mat
 !/tests/**/**/regularCIC_org.mat
 !/tests/**/**/regularSS_org.mat
