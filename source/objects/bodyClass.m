@@ -325,20 +325,53 @@ classdef bodyClass<handle
             obj.hydroForce.storage.output_forceTotal = ft_mod;
         end
         
-        function setInitDisp(obj, relCoord, x_rot, ax_rot, ang_rot, addLinDisp)
-            % Function to set the initial displacement when having initial rotation
-            % relCoord: Distance from x_rot to the body center of gravity as defined by relCoord = cg - x_rot
-            % x_rot: rotation point
-            % ax_rot: axis about which to rotate (must be a normal vector)
-            % ang_rot: rotation angle in radians
-            % addLinDisp: initial linear displacement (in addition to the displacement caused by rotation)
-            cg = relCoord + x_rot;
-            rotatedRelCoord = rotateXYZ(relCoord,ax_rot,ang_rot);
-            newCoord = rotatedRelCoord + x_rot;
-            linDisp = newCoord-cg;
-            obj.initDisp.initLinDisp= linDisp + addLinDisp;
-            obj.initDisp.initAngularDispAxis = ax_rot;
-            obj.initDisp.initAngularDispAngle = ang_rot;
+        function setInitDisp(obj, relCoord, axisAngleList, addLinDisp)
+            % Function to set a body's initial displacement
+            % 
+            % This function assumes that all rotations are about the same relative coordinate. 
+            % If not, the user should input a relative coordinate of 0,0,0 and 
+            % use the additional linear displacement parameter to set the cg or loc
+            % correctly.
+            %
+            % Parameters
+            % ------------
+            %    relCoord : [1 3] float vector
+            %        Distance from x_rot to the body center of gravity or the constraint
+            %        or pto location as defined by: relCoord = cg - x_rot. [m]
+            %
+            %    axisAngleList : [nAngle 4] float vector
+            %        List of axes and angles of the rotations with the 
+            %        format: [n_x n_y n_z angle] (angle in rad)
+            %        Rotations applied consecutively in order of dimension 1
+            %
+            %    addLinDisp : [1 3] float vector
+            %        Initial linear displacement (in addition to the 
+            %        displacement caused by rotation) [m]
+            % 
+            
+            % initialize quantities before for loop
+            axisList = axisAngleList(:,1:3);
+            angleList = axisAngleList(:,4);
+            nAngle = size(axisList,1);
+            rotMat = eye(3);
+            
+            % Loop through all axes and angles.
+            for i=1:nAngle
+                rotMat = axisAngle2RotMat(axisList(i,:),angleList(i))*rotMat;
+            end
+
+            % calculate net axis-angle rotation
+            [netAxis, netAngle] = rotMat2AxisAngle(rotMat);
+
+            % calculate net displacement due to rotation
+            rotatedRelCoord = relCoord*(rotMat');
+            linDisp = rotatedRelCoord - relCoord;
+
+            % apply rotation and displacement to object
+            obj.initDisp.initLinDisp = linDisp + addLinDisp;
+            obj.initDisp.initAngularDispAxis = netAxis;
+            obj.initDisp.initAngularDispAngle = netAngle;
+            
         end
         
         function listInfo(obj)
