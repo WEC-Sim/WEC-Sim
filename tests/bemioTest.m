@@ -40,6 +40,7 @@ classdef bemioTest < matlab.unittest.TestCase
 %     
     methods(TestMethodTeardown)
         function closePlotsHydro(testCase)
+            close(waitbar(0));
             close all
             clear hydro
         end
@@ -52,7 +53,7 @@ classdef bemioTest < matlab.unittest.TestCase
     end
     
     methods(Test)
-        function bemio_Functions(testCase)
+        function combine_bem(testCase)
             testCase.assumeEqual(testCase.runBEMIO,1,'Test off (runBEMIO=0).')
             cd(fullfile(testCase.capytaineDir,'Cylinder'))
             
@@ -62,10 +63,18 @@ classdef bemioTest < matlab.unittest.TestCase
             hydro(end).body = {'cylinder_nemoh'};
             hydro = Read_WAMIT(hydro,'..\..\WAMIT\Cylinder\cyl.out',[]);
             hydro(end).body = {'cylinder_wamit'};
-            hydro = Combine_BEM(hydro); % Compare to NEMOH and WAMIT
-            hydro = Radiation_IRF(hydro,15,[],[],[],[]);
+            hydro = Combine_BEM(hydro);
+        end
+        
+        function complete_BEMIO(testCase)
+            testCase.assumeEqual(testCase.runBEMIO,1,'Test off (runBEMIO=0).')
+            cd(fullfile(testCase.nemohDir,'Cylinder'))
+            
+            hydro = struct();
+            hydro = Read_NEMOH(hydro,'..\Cylinder\');
+            hydro = Radiation_IRF(hydro,5,[],[],[],[]);
             hydro = Radiation_IRF_SS(hydro,[],[]);
-            hydro = Excitation_IRF(hydro,15,[],[],[],[]);
+            hydro = Excitation_IRF(hydro,5,[],[],[],[]);
             Write_H5(hydro)
             Plot_BEMIO(hydro)
         end

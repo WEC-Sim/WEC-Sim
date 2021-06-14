@@ -14,9 +14,6 @@
 % limitations under the License.
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
-addpath(genpath('.\tests'))
-addpath(genpath('.\source'))
-
 % User Input
 global plotNO;
 runReg=1;       % 1 to run regular wave simulations
@@ -35,6 +32,10 @@ wsDir = pwd;
 testDir = fullfile(wsDir,'tests');
 testAppDir = fullfile(testDir,'CompilationTests\WEC-Sim_Applications');
 applicationsDir = fullfile(wsDir,'..\WEC-Sim_Applications\');
+
+addpath(testDir)
+addpath(genpath(fullfile(testDir, 'RegressionTests')))
+addpath(genpath('.\source'))
 
 % Initialize Tests
 bemTest = bemioTest(runBEMIO);

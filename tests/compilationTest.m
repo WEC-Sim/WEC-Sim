@@ -168,7 +168,7 @@ classdef compilationTest < matlab.unittest.TestCase
             fclose(fileID);
             
             % WECCCOMP
-            fileID = fopen(fullfile(testAppDir, '\WECCCOMP_Fault_Implementation\wecSimInputFile.m'),'a');
+            fileID = fopen(fullfile(testCase.testAppDir, '\WECCCOMP_Fault_Implementation\wecSimInputFile.m'),'a');
             fprintf(fileID,'%s\n',"simu.explorer = 'off';");
             fprintf(fileID,'%s\n',"simu.startTime = 0;");
             fprintf(fileID,'%s\n',"simu.rampTime = 2;");
