@@ -35,32 +35,17 @@ testDir = fullfile(wsDir,'tests');
 testAppDir = fullfile(testDir,'CompilationTests\WEC-Sim_Applications');
 applicationsDir = fullfile(wsDir,'..\WEC-Sim_Applications\');
 
-% Set up compilation test files
-if runComp==1
-    try
-        setupAppFiles
-    catch
-        fprintf(['\nWEC-Sim Applications directory not set correctly for CI tests.\n'...
-            'Change the ''applicationsDir'' variable in wecSimTest.m to run \n' ...
-            'the compilation tests using the applications repository cases.\n\n']);
-        runComp = 0;
-    end
-end
-
-% Set up run from Simulink test files
-if runFromSim==1
-    setupFromSimFiles;
-end
-
 % Initialize Tests
 bmTest = bemioTest(runBEMIO);
 rgTest = regressionTest(runReg, runIrreg, runYaw, plotNO, plotSolvers, openCompare);
 cpTest = compilationTest(applicationsDir,runComp);
+rsTest = runFromSimTest(runFromSim);
 
 % Run tests
 bmResults = bmTest.run;
 rgResults = rgTest.run;
 cpResults = cpTest.run;
+rsResults = rsTest.run;
 
 % WEC-Sim runs clear command window, reprint results
 disp('BEMIO Test Results: ');
@@ -72,31 +57,8 @@ disp(rgResults);
 disp('Compilation Test Results: ');
 disp(cpResults);
 
-
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-% Run from Simulink Tests
-fprintf('\nRun from Simulink Tests using example\n')
-fprintf('---------------------------------------\n')
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-%% Run WEC-Sim from Simulink with custom parameters
-cd(runFromSimDir)
-simFile = fullfile(runFromSimDir,'fromSimCustom.slx');
-load_system(simFile);
-run('wecSimInitialize');
-sim(simFile, [], simset('SrcWorkspace','current'));
-close_system(simFile,0);
-bdclose('all')
-
-%% Run WEC-Sim from Simulink with input file
-cd(runFromSimDir)
-simFile = fullfile(runFromSimDir,'fromSimInput.slx');
-load_system(simFile);
-run('wecSimInitialize');
-sim(simFile, [], simset('SrcWorkspace','current'));
-close_system(simFile,0);
-bdclose('all')
-
-cd(wsDir);
+disp('Run From Simulink Test Results: ');
+disp(rsResults);
 
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
