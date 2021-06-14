@@ -25,6 +25,7 @@ runYaw=0;       % 1 to run passive yaw simulations
 runComp=1;      % 1 to run compilation of various cases
 runBEMIO=1;     % 1 to run BEMIO read_X cases
 runFromSim=1;   % 1 to run from Simulink tests
+runRotation=1;  % 1 to run rotation tests for setInitDisp method and axisAngle2RotMat
 plotNO=1;       % 1 to plot new run vs. stored run for comparison of each solver
 plotSolvers=1;  % 1 to plot new run comparison by sln method
 openCompare=1;  % 1 opens all new run vs. stored run plots for comparison of each solver
@@ -36,77 +37,35 @@ testAppDir = fullfile(testDir,'CompilationTests\WEC-Sim_Applications');
 applicationsDir = fullfile(wsDir,'..\WEC-Sim_Applications\');
 
 % Initialize Tests
-bmTest = bemioTest(runBEMIO);
-rgTest = regressionTest(runReg, runIrreg, runYaw, plotNO, plotSolvers, openCompare);
-cpTest = compilationTest(applicationsDir,runComp);
-rsTest = runFromSimTest(runFromSim);
+bemTest = bemioTest(runBEMIO);
+regTest = regressionTest(runReg, runIrreg, runYaw, plotNO, plotSolvers, openCompare);
+cmpTest = compilationTest(applicationsDir,runComp);
+simTest = runFromSimTest(runFromSim);
+rotTest = rotationTest(runRotation);
 
 % Run tests
-bmResults = bmTest.run;
-rgResults = rgTest.run;
-cpResults = cpTest.run;
-rsResults = rsTest.run;
+bemResults = bemTest.run;
+regResults = regTest.run;
+cmpResults = cmpTest.run;
+simResults = simTest.run;
+rotResults = rotTest.run;
 
 % WEC-Sim runs clear command window, reprint results
 disp('BEMIO Test Results: ');
-disp(bmResults);
+disp(bemResults);
 
 disp('Regression Test Results: ');
-disp(rgResults);
+disp(regResults);
 
 disp('Compilation Test Results: ');
-disp(cpResults);
+disp(cmpResults);
 
 disp('Run From Simulink Test Results: ');
-disp(rsResults);
+disp(simResults);
 
+disp('Rotation Test Results: ');
+disp(rotResults);
 
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-% Rotation tests for setInitDisp() methods
-fprintf('\nRotation Tests for setInitDisp() methods.\n')
-fprintf('---------------------------------------\n')
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-%% setInitDisp - 0 deg rotation
-tol = 1e-12;
-bodytest = bodyClass('');
-bodytest.setInitDisp([1 1 1],[1 0 0 pi; 0 1 0 pi; 0 0 1 pi],[0 0 0]);
-assert(sum(bodytest.initDisp.initLinDisp - [0 0 0]) <= tol && ...
-    bodytest.initDisp.initAngularDispAngle - 0 <= tol && ...
-    sum(bodytest.initDisp.initAngularDispAxis - [0 0 1]) <= tol);
-clear bodytest
-
-%% setInitDisp - inverted
-tol = 1e-12;
-bodytest = bodyClass('');
-bodytest.setInitDisp([1 1 1],[1 0 0 pi/2; 0 1 0 pi/2; 0 0 1 -pi/2],[0 0 0]);
-assert(sum(bodytest.initDisp.initLinDisp - [-2 -2 -2]) <= tol && ...
-    bodytest.initDisp.initAngularDispAngle - pi <= tol && ...
-    sum(bodytest.initDisp.initAngularDispAxis - [-sqrt(2)/2 0 sqrt(2)/2]) <= tol);
-clear bodytest
-
-%% setInitDisp - 90 deg in y
-tol = 1e-12;
-bodytest = bodyClass('');
-bodytest.setInitDisp([1 1 1],[1 0 0 pi/2; 0 0 1 pi/2; 1 0 0 -pi/2],[0 0 0]);
-assert(sum(bodytest.initDisp.initLinDisp - [0 1 0]) <= tol && ...
-    bodytest.initDisp.initAngularDispAngle - pi/2 <= tol);
-clear bodytest
-
-%% rotMat to axisAngle 0 deg special case
-tol = 1e-12;
-rotMat = [1 0 0; 0 1 0; 0 0 1];
-[axis,angle] = rotMat2AxisAngle(rotMat);
-assert(sum(axis - [0 0 1]) <= tol && ...
-    angle - 0 <= tol);
-clear rotMat axis angle
-
-%% rotMat to axisAngle to 180 deg special case
-tol = 1e-12;
-rotMat = [1 0 0; 0 -1 0; 0 0 -1];
-[axis,angle] = rotMat2AxisAngle(rotMat);
-assert(sum(axis - [1 0 0]) <= tol && ...
-    angle - pi <= tol);
-clear rotMat axis angle
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 % Run Test Cases
