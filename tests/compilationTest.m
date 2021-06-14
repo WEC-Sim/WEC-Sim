@@ -166,6 +166,15 @@ classdef compilationTest < matlab.unittest.TestCase
             fprintf(fileID,'%s\n',"simu.endTime = 4;");
             fprintf(fileID,'%s\n',"simu.dt = 0.01;");
             fclose(fileID);
+            
+            % WECCCOMP
+            fileID = fopen(fullfile(testAppDir, '\WECCCOMP_Fault_Implementation\wecSimInputFile.m'),'a');
+            fprintf(fileID,'%s\n',"simu.explorer = 'off';");
+            fprintf(fileID,'%s\n',"simu.startTime = 0;");
+            fprintf(fileID,'%s\n',"simu.rampTime = 2;");
+            fprintf(fileID,'%s\n',"simu.endTime = 4;");
+            fprintf(fileID,'%s\n',"simu.dt = 0.001;");
+            fclose(fileID);
         end
     end
     
@@ -246,6 +255,14 @@ classdef compilationTest < matlab.unittest.TestCase
             % Passive Yaw, morison element
             testCase.assumeEqual(testCase.runComp,1,'Test off (runComp=0).')
             cd(fullfile(testCase.testAppDir, 'Passive_Yaw\PassiveYawON'));
+            wecSim
+            clear body constraint output pto simu waves
+        end
+        
+        function wecccomp(testCase)
+            % Passive Yaw, morison element
+            testCase.assumeEqual(testCase.runComp,1,'Test off (runComp=0).')
+            cd(fullfile(testCase.testAppDir, 'WECCCOMP_Fault_Implementation\'));
             wecSim
             clear body constraint output pto simu waves
         end

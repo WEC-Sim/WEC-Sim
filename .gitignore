@@ -61,10 +61,15 @@ $ cat .gitignore
 # BEMIO
 *.h5
 
+#Examples
+wecSimInputFile_simulinkCustomParameters.m
+**.slx.r2019b
+
 # Tests
 /tests/**/**/*.mat
 /tests/**/*.mat
-/tests/CompilationTests/WEC-Sim_Applications
+/tests/CompilationTests/
+/tests/runFromSimulinkTests/
 !/tests/**/**/regular_org.mat
 !/tests/**/**/regularCIC_org.mat
 !/tests/**/**/regularSS_org.mat
