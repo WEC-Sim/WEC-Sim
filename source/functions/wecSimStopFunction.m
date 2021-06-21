@@ -10,6 +10,7 @@ clear nlHydro sv_linearHydro sv_nonlinearHydro ssCalc radiation_option sv_convol
 clear nhbod* sv_b* sv_noWave sv_regularWaves sv_irregularWaves sv_udfWaves sv_instFS sv_meanFS sv_MEOn sv_MEOff morisonElement flexHydrobody_* sv_irregularWavesNonLinYaw sv_regularWavesNonLinYaw yawNonLin numBody;
 clear dragBodLogic hydroBodLogic nonHydroBodLogic idx it;
 clear runWecSimCML
+clear mex
 
 toc
 
@@ -38,6 +39,7 @@ end
 clear ans table tout;
 toc
 diary off
+fclose('all');
 
 if simu.saveWorkspace==1
     try 
