@@ -4,26 +4,22 @@ classdef runFromSimTest < matlab.unittest.TestCase
         testDir = '';
         wsDir = '';
         runFromSimDir = '';
-        
-        runFromSim = 1;
+        runFromSim = [];
     end
     
     methods (Access = 'public')
         function obj = runFromSimTest(runFromSim)
-            % Set WEC-Sim, test and applications directories
-            temp = mfilename('fullpath');
-            i = strfind(temp,filesep);
-            obj.testDir = temp(1:i(end));
+            arguments
+                runFromSim (1,1) double = 1;
+            end
             
+            % Assign arguments to test Class
+            obj.runFromSim = runFromSim;
+            
+            % Set WEC-Sim, test and simulink directories
+            obj.testDir = fileparts(mfilename('fullpath'));
             obj.wsDir = fullfile(obj.testDir,'..');
             obj.runFromSimDir = fullfile(obj.testDir,'runFromSimulinkTests\');
-            
-            % Add directories to path
-            addpath(genpath(obj.testDir))
-            
-            if exist('runFromSim','var')
-                obj.runFromSim = runFromSim;
-            end
         end
     end
     
@@ -130,6 +126,8 @@ classdef runFromSimTest < matlab.unittest.TestCase
         function removeInputFiles(testCase)
             bdclose('all');
             cd(testCase.wsDir)
+            rmpath(testCase.runFromSimDir);
+            rmdir(testCase.runFromSimDir,'s');
         end
     end
     
@@ -162,8 +160,6 @@ classdef runFromSimTest < matlab.unittest.TestCase
             close_system(simFile,0);
             bdclose('all')
             clear body constraint output pto simu waves
-            
-            cd(testCase.wsDir);
         end
         
     end

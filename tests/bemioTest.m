@@ -8,17 +8,20 @@ classdef bemioTest < matlab.unittest.TestCase
         nemohDir = '';
         capytaineDir = '';
         aqwaDir = '';
-        
-        runBEMIO = 1;
+        runBEMIO = [];
     end
     
     methods (Access = 'public')
         function obj = bemioTest(runBEMIO)
-            % Set WEC-Sim, test and BEMIO example directories
-            temp = mfilename('fullpath');
-            i = strfind(temp,filesep);
-            obj.testDir = temp(1:i(end));
+            arguments
+                runBEMIO (1,1) double = 1;
+            end
             
+            % Assign arguments to test Class
+            obj.runBEMIO = runBEMIO;
+            
+            % Set WEC-Sim, test and BEMIO example directories
+            obj.testDir = fileparts(mfilename('fullpath'));
             obj.wsDir = fullfile(obj.testDir,'..');
             obj.bemioDir = fullfile(obj.wsDir,'examples\BEMIO\');
             obj.wamitDir = fullfile(obj.bemioDir,'WAMIT\');
@@ -26,23 +29,17 @@ classdef bemioTest < matlab.unittest.TestCase
             obj.capytaineDir = fullfile(obj.bemioDir,'CAPYTAINE\');
             obj.aqwaDir = fullfile(obj.bemioDir,'AQWA\');
             
-            if exist('runBEMIO','var')
-                obj.runBEMIO = runBEMIO;
-            end
+            % Hide figures
+            set(0,'DefaultFigureVisible','off')
         end
     end
     
-%     methods(TestClassSetup)
-%         function tempsetup(testCase)
-%             
-%         end
-%     end
-%     
     methods(TestMethodTeardown)
         function closePlotsHydro(testCase)
             close(waitbar(0));
             close all
             clear hydro
+            set(0,'DefaultFigureVisible','off')
         end
     end
     

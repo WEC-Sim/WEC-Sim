@@ -14,8 +14,12 @@
 % limitations under the License.
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% Run Test Cases
+% Use the following command to run tests locally,  "wecSimTest"
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
 % User Input
-global plotNO;
 runReg=1;       % 1 to run regular wave simulations
 runIrreg=0;     % 1 to run irregular wave simulations
 runYaw=0;       % 1 to run passive yaw simulations
@@ -27,6 +31,9 @@ plotNO=1;       % 1 to plot new run vs. stored run for comparison of each solver
 plotSolvers=1;  % 1 to plot new run comparison by sln method
 openCompare=1;  % 1 opens all new run vs. stored run plots for comparison of each solver
 
+% Hide figures
+set(0,'DefaultFigureVisible','off')
+
 % Directory variables
 wsDir = pwd;
 testDir = fullfile(wsDir,'tests');
@@ -34,8 +41,7 @@ testAppDir = fullfile(testDir,'CompilationTests\WEC-Sim_Applications');
 applicationsDir = fullfile(wsDir,'..\WEC-Sim_Applications\');
 
 addpath(testDir)
-addpath(genpath(fullfile(testDir, 'RegressionTests')))
-addpath(genpath('.\source'))
+% suite = matlab.unittest.TestSuite.fromFolder(testDir);
 
 % Initialize Tests
 bemTest = bemioTest(runBEMIO);
@@ -45,13 +51,13 @@ simTest = runFromSimTest(runFromSim);
 rotTest = rotationTest(runRotation);
 
 % Run tests
-bemResults = bemTest.run;
-regResults = regTest.run;
 cmpResults = cmpTest.run;
+regResults = regTest.run;
+bemResults = bemTest.run;
 simResults = simTest.run;
 rotResults = rotTest.run;
 
-% WEC-Sim runs clear command window, reprint results
+% Reprint results (WEC-Sim runs clear command window)
 disp('BEMIO Test Results: ');
 disp(bemResults);
 
@@ -67,9 +73,7 @@ disp(simResults);
 disp('Rotation Test Results: ');
 disp(rotResults);
 
-
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-% Run Test Cases
-% Use the following command to run tests locally,  "runtests"
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% Clean-up
 cd(wsDir)
+rmpath(testDir);
+set(0,'DefaultFigureVisible','on')

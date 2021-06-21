@@ -5,32 +5,24 @@ classdef compilationTest < matlab.unittest.TestCase
         wsDir = '';
         testAppDir = '';
         applicationsDir = '';
-        
-        runComp = 1;
+        runComp = [];
     end
     
     methods (Access = 'public')
         function obj = compilationTest(applicationsDir,runComp)
-            % Set WEC-Sim, test and applications directories
-            temp = mfilename('fullpath');
-            i = strfind(temp,filesep);
-            obj.testDir = temp(1:i(end));
+            arguments
+                applicationsDir = fullfile(fileparts(mfilename('fullpath')),'..\..\WEC-Sim_Applications');
+                runComp (1,1) double = 1;
+            end
             
+            % Assign arguments to test Class
+            obj.runComp = runComp;
+            
+            % Set WEC-Sim, test and applications directories
+            obj.testDir = fileparts(mfilename('fullpath'));
             obj.wsDir = fullfile(obj.testDir,'..');
             obj.testAppDir = fullfile(obj.testDir,'CompilationTests\');
-            
-            if exist('applicationsDir','var')
-                obj.applicationsDir = applicationsDir;
-            else
-                obj.applicationsDir = fullfile(obj.testDir,'..\..\WEC-Sim_Applications');
-            end
-            
-            % Add directories to path
-            addpath(genpath(obj.testDir))
-            
-            if exist('runComp','var')
-                obj.runComp = runComp;
-            end
+            obj.applicationsDir = applicationsDir;
         end
     end
     
@@ -38,6 +30,12 @@ classdef compilationTest < matlab.unittest.TestCase
         function copyInputFiles(testCase)
             try
                 bdclose('all');
+            
+                % Create directory if necessary
+                cd(testCase.testDir)
+                if ~exist('CompilationTests','dir')
+                    mkdir('CompilationTests');
+                end
 
                 % Get directory of all input files, .slx, .h5, .mat
                 filesToCopy = dir([testCase.applicationsDir '\**\wecSimInputFile.m']);
@@ -45,6 +43,7 @@ classdef compilationTest < matlab.unittest.TestCase
                 filesToCopy = [filesToCopy; dir([testCase.applicationsDir '\**\*.stl'])];
                 filesToCopy = [filesToCopy; dir([testCase.applicationsDir '\**\*.h5'])];
                 filesToCopy = [filesToCopy; dir([testCase.applicationsDir '\**\*.mat'])];
+                filesToCopy = [filesToCopy; dir([testCase.applicationsDir '\**\*controller_init.m'])];
 
                 % remove output, simulink project and savedData .mat files
                 inds = false(length(filesToCopy),1);
@@ -182,7 +181,8 @@ classdef compilationTest < matlab.unittest.TestCase
         function removeInputFiles(testCase)
             bdclose('all');
             cd(testCase.wsDir)
-%             rmdir(testCase.testAppDir);
+            rmpath(testCase.testAppDir);
+            rmdir(testCase.testAppDir,'s');
         end
     end
     

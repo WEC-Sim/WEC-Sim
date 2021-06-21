@@ -3,22 +3,21 @@ classdef rotationTest < matlab.unittest.TestCase
     properties
         testDir = '';
         wsDir = '';
-        
-        runRotation = 1;
+        runRotation = [];
     end
     
     methods (Access = 'public')
         function obj = rotationTest(runRotation)
-            % Set WEC-Sim, test and applications directories
-            temp = mfilename('fullpath');
-            i = strfind(temp,filesep);
-            obj.testDir = temp(1:i(end));
-            
-            obj.wsDir = fullfile(obj.testDir,'..');
-            
-            if exist('runRotation','var')
-                obj.runRotation = runRotation;
+            arguments
+                runRotation (1,1) double = 1;
             end
+            
+            % Assign arguments to test Class
+            obj.runRotation = runRotation;
+            
+            % Set WEC-Sim, test and applications directories
+            obj.testDir = fileparts(mfilename('fullpath'));
+            obj.wsDir = fullfile(obj.testDir,'..');
         end
     end
     

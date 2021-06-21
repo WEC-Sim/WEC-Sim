@@ -4,52 +4,41 @@ classdef regressionTest < matlab.unittest.TestCase
         testDir = '';
         wsDir = '';
         testRegDir = '';
-        
-        runReg = 1;       % 1 to run regular wave simulations
-        runIrreg = 1;     % 1 to run irregular wave simulations
-        runYaw = 1;       % 1 to run passive yaw simulations
-        plotNO = 1;       % 1 to plot new run vs. stored run for comparison of each solver
-        plotSolvers = 1;  % 1 to plot new run comparison by sln method
-        openCompare = 1;  % 1 opens all new run vs. stored run plots for comparison of each solver
+        runReg = [];       % 1 to run regular wave simulations
+        runIrreg = [];     % 1 to run irregular wave simulations
+        runYaw = [];       % 1 to run passive yaw simulations
+        plotNO = [];       % 1 to plot new run vs. stored run for comparison of each solver
+        plotSolvers = [];  % 1 to plot new run comparison by sln method
+        openCompare = [];  % 1 opens all new run vs. stored run plots for comparison of each solver
         
     end
     
     methods(Access = 'public')
         function obj = regressionTest(runReg, runIrreg, runYaw, plotNO, plotSolvers, openCompare)
-            % Set WEC-Sim, test and case directories
-            temp = mfilename('fullpath');
-            i = strfind(temp,filesep);
-            obj.testDir = temp(1:i(end));
+            arguments
+                runReg      (1,1) double = 1;
+                runIrreg    (1,1) double = 1;
+                runYaw      (1,1) double = 1;
+                plotNO      (1,1) double = 1;
+                plotSolvers (1,1) double = 1;
+                openCompare (1,1) double = 1;
+            end
             
+            % Assign arguments to test Class
+            obj.runReg = runReg;
+            obj.runIrreg = runIrreg;
+            obj.runYaw = runYaw;
+            obj.plotNO = plotNO;
+            obj.plotSolvers = plotSolvers;
+            obj.openCompare = openCompare;
+            
+            % Set WEC-Sim, test and case directories
+            obj.testDir = fileparts(mfilename('fullpath'));
             obj.wsDir = fullfile(obj.testDir,'..');
             obj.testRegDir = fullfile(obj.testDir,'RegressionTests\');
             
             % Add directories to path
-            addpath(genpath(obj.testDir))
-            
-            if exist('runReg','var')
-                obj.runReg = runReg;
-            end
-            
-            if exist('runIrreg','var')
-                obj.runIrreg = runIrreg;
-            end
-            
-            if exist('runYaw','var')
-                obj.runYaw = runYaw;
-            end
-            
-            if exist('plotNO','var')
-                obj.plotNO = plotNO;
-            end
-            
-            if exist('plotSolvers','var')
-                obj.plotSolvers = plotSolvers;
-            end
-            
-            if exist('openCompare','var')
-                obj.openCompare = openCompare;
-            end
+            addpath(genpath(obj.testRegDir))
         end
     end
     
@@ -132,8 +121,9 @@ classdef regressionTest < matlab.unittest.TestCase
                     cd PassiveYaw; open('figYawReg.fig'); open('figYawIrr.fig'); 
                 end
             end
-
+            
             cd(testCase.wsDir);
+            rmpath(genpath(testCase.testRegDir));
         end
     end
     
