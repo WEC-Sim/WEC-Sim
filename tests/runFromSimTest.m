@@ -4,17 +4,11 @@ classdef runFromSimTest < matlab.unittest.TestCase
         testDir = '';
         wsDir = '';
         runFromSimDir = '';
-        runFromSim = [];
     end
     
     methods (Access = 'public')
-        function obj = runFromSimTest(runFromSim)
-            arguments
-                runFromSim (1,1) double = 1;
-            end
-            
-            % Assign arguments to test Class
-            obj.runFromSim = runFromSim;
+        
+        function obj = runFromSimTest()
             
             % Set WEC-Sim, test and simulink directories
             obj.testDir = fileparts(mfilename('fullpath'));
@@ -24,7 +18,9 @@ classdef runFromSimTest < matlab.unittest.TestCase
     end
     
     methods(TestClassSetup)
-        function copyInputFiles(testCase)
+        
+        function setupInputFiles(testCase)
+            
             bdclose('all');
             
             % Create directory if necessary
@@ -47,9 +43,7 @@ classdef runFromSimTest < matlab.unittest.TestCase
                 fullfile(testCase.runFromSimDir,'fromSimCustom.slx'));
             
             cd(testCase.runFromSimDir);
-        end
         
-        function editInputFiles(testCase)
             % Set proper parameters fromSimInput case
             load_system('fromSimInput.slx');
             
@@ -134,7 +128,6 @@ classdef runFromSimTest < matlab.unittest.TestCase
     methods(Test)
         function fromSimCustom(testCase)
             % Run WEC-Sim from Simulink with custom parameters
-            testCase.assumeEqual(testCase.runFromSim,1,'Test off (runFromSim=0).')
             cd(testCase.runFromSimDir)
             
             simFile = fullfile(testCase.runFromSimDir,'fromSimCustom.slx');
@@ -149,7 +142,6 @@ classdef runFromSimTest < matlab.unittest.TestCase
         
         function fromSimInput(testCase)
             % Run WEC-Sim from Simulink with input file
-            testCase.assumeEqual(testCase.runFromSim,1,'Test off (runFromSim=0).')
             cd(testCase.runFromSimDir)
             
             simFile = fullfile(testCase.runFromSimDir,'fromSimInput.slx');

@@ -2,32 +2,31 @@ classdef compilationTest < matlab.unittest.TestCase
     
     properties
         testDir = '';
-        wsDir = '';
         testAppDir = '';
         applicationsDir = '';
         runComp = [];
     end
     
     methods (Access = 'public')
-        function obj = compilationTest(applicationsDir,runComp)
+        
+        function obj = compilationTest(applicationsDir)
+            
             arguments
                 applicationsDir = fullfile(fileparts(mfilename('fullpath')),'..\..\WEC-Sim_Applications');
-                runComp (1,1) double = 1;
             end
-            
-            % Assign arguments to test Class
-            obj.runComp = runComp;
             
             % Set WEC-Sim, test and applications directories
             obj.testDir = fileparts(mfilename('fullpath'));
-            obj.wsDir = fullfile(obj.testDir,'..');
             obj.testAppDir = fullfile(obj.testDir,'CompilationTests\');
             obj.applicationsDir = applicationsDir;
+            
         end
+    
     end
     
     methods(TestClassSetup)
-        function copyInputFiles(testCase)
+        
+        function setupInputFiles(testCase)
             try
                 bdclose('all');
             
@@ -74,14 +73,11 @@ classdef compilationTest < matlab.unittest.TestCase
                         fullfile(filesToCopy(i).dest, filesToCopy(i).name));
                 end
             catch
-                fprintf(['\nWEC-Sim Applications directory not set correctly for CI tests.\n'...
+                error(['\nWEC-Sim Applications directory not set correctly for CI tests.\n'...
                     'Change the ''applicationsDir'' variable in wecSimTest.m to run \n' ...
                     'the compilation tests using the applications repo cases.\n\n']);
-                testCase.runComp = 0;
             end
-        end
-        
-        function editInputFiles(testCase)
+            
             % B2B #4
             fileID = fopen(fullfile(testCase.testAppDir, '\Body-to-Body_Interactions\B2B_Case4\wecSimInputFile.m'),'a');
             fprintf(fileID,'%s\n',"simu.explorer = 'off';");
@@ -175,12 +171,13 @@ classdef compilationTest < matlab.unittest.TestCase
             fprintf(fileID,'%s\n',"simu.dt = 0.001;");
             fclose(fileID);
         end
+       
     end
     
     methods(TestClassTeardown)
         function removeInputFiles(testCase)
             bdclose('all');
-            cd(testCase.wsDir)
+            cd(testCase.testDir)
             rmpath(testCase.testAppDir);
             rmdir(testCase.testAppDir,'s');
         end
@@ -189,7 +186,6 @@ classdef compilationTest < matlab.unittest.TestCase
     methods(Test)
         function b2b_4(testCase)
             % B2B, regularCIC wave, ode4
-            testCase.assumeEqual(testCase.runComp,1,'Test off (runComp=0).')
             cd(fullfile(testCase.testAppDir, 'Body-to-Body_Interactions\B2B_Case4'));
             wecSim
             clear body constraint output pto simu waves
@@ -197,7 +193,6 @@ classdef compilationTest < matlab.unittest.TestCase
         
         function b2b_6(testCase)
             % B2B + SS, regularCIC wave, ode4
-            testCase.assumeEqual(testCase.runComp,1,'Test off (runComp=0).')
             cd(fullfile(testCase.testAppDir, 'Body-to-Body_Interactions\B2B_Case6'));
             wecSim
             clear body constraint output pto simu waves
@@ -205,7 +200,6 @@ classdef compilationTest < matlab.unittest.TestCase
         
         function decay(testCase)
             % Decay case, nowaveCIC, Morison element
-            testCase.assumeEqual(testCase.runComp,1,'Test off (runComp=0).')
             cd(fullfile(testCase.testAppDir, 'Free_Decay\1m-ME'));
             wecSim
             clear body constraint output pto simu waves
@@ -213,7 +207,6 @@ classdef compilationTest < matlab.unittest.TestCase
         
         function gbm(testCase)
             % GBM, ode45, regular wave
-            testCase.assumeEqual(testCase.runComp,1,'Test off (runComp=0).')
             cd(fullfile(testCase.testAppDir, 'Generalized_Body_Modes'));
             wecSim
             clear body constraint output pto simu waves
@@ -221,7 +214,6 @@ classdef compilationTest < matlab.unittest.TestCase
         
         function mcr(testCase)
             % MCR, spectrum import, MCR case file import
-            testCase.assumeEqual(testCase.runComp,1,'Test off (runComp=0).')
             cd(fullfile(testCase.testAppDir, 'Multiple_Condition_Runs\RM3_MCROPT3_SeaState'));
             wecSimMCR
             clear body constraint output pto simu waves mcr imcr
@@ -229,7 +221,6 @@ classdef compilationTest < matlab.unittest.TestCase
         
         function mooring(testCase)
             % Mooring matrix
-            testCase.assumeEqual(testCase.runComp,1,'Test off (runComp=0).')
             cd(fullfile(testCase.testAppDir, 'Mooring\MooringMatrix'));
             wecSim
             clear body constraint output pto simu waves
@@ -237,7 +228,6 @@ classdef compilationTest < matlab.unittest.TestCase
         
         function nhBody(testCase)
             % Nonhydro body
-            testCase.assumeEqual(testCase.runComp,1,'Test off (runComp=0).')
             cd(fullfile(testCase.testAppDir, 'Nonhydro_Body'));
             wecSim
             clear body constraint output pto simu waves
@@ -245,7 +235,6 @@ classdef compilationTest < matlab.unittest.TestCase
         
         function paraview(testCase)
             % Paraview, nonlinear hydro, accelerator
-            testCase.assumeEqual(testCase.runComp,1,'Test off (runComp=0).')
             cd(fullfile(testCase.testAppDir, 'Paraview_Visualization\OSWEC_NonLinear_Viz'));
             wecSim
             clear body constraint output pto simu waves
@@ -253,7 +242,6 @@ classdef compilationTest < matlab.unittest.TestCase
         
         function yaw(testCase)
             % Passive Yaw, morison element
-            testCase.assumeEqual(testCase.runComp,1,'Test off (runComp=0).')
             cd(fullfile(testCase.testAppDir, 'Passive_Yaw\PassiveYawON'));
             wecSim
             clear body constraint output pto simu waves
@@ -261,7 +249,6 @@ classdef compilationTest < matlab.unittest.TestCase
         
         function wecccomp(testCase)
             % Passive Yaw, morison element
-            testCase.assumeEqual(testCase.runComp,1,'Test off (runComp=0).')
             cd(fullfile(testCase.testAppDir, 'WECCCOMP_Fault_Implementation\'));
             wecSim
             clear body constraint output pto simu waves
