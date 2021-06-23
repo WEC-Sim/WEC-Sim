@@ -4,4 +4,4 @@
 
 wecSimPath = '<wecSim>';
 addpath(genpath(wecSimPath));
-
+clear wecSimPath
