@@ -1,407 +1,468 @@
 classdef regressionTest < matlab.unittest.TestCase
     
     properties
-        testDir = '';
-        wsDir = '';
-        testRegDir = '';
-        runReg = [];       % 1 to run regular wave simulations
-        runIrreg = [];     % 1 to run irregular wave simulations
-        runYaw = [];       % 1 to run passive yaw simulations
-        plotNO = [];       % 1 to plot new run vs. stored run for comparison of each solver
-        plotSolvers = [];  % 1 to plot new run comparison by sln method
-        openCompare = [];  % 1 opens all new run vs. stored run plots for comparison of each solver
-        
+        testDir = ''
+        plotNO = []       % 1 to plot new run vs. stored run for comparison of each solver
+        plotSolvers = []  % 1 to plot new run comparison by sln method
+        openCompare = []  % 1 opens all new run vs. stored run plots for comparison of each solver
+        regular
+        regularCIC
+        regularSS
+        irregularCIC
+        irregularSS
+        RegYaw
+        IrrYaw
+        OriginalDefault
     end
     
     methods(Access = 'public')
-        function obj = regressionTest(runReg, runIrreg, runYaw, plotNO, plotSolvers, openCompare)
+        
+        function obj = regressionTest(plotNO, plotSolvers, openCompare)
+            
             arguments
-                runReg      (1,1) double = 1;
-                runIrreg    (1,1) double = 1;
-                runYaw      (1,1) double = 1;
-                plotNO      (1,1) double = 1;
-                plotSolvers (1,1) double = 1;
-                openCompare (1,1) double = 1;
+                plotNO      (1,1) double = 1
+                plotSolvers (1,1) double = 1
+                openCompare (1,1) double = 1
             end
             
             % Assign arguments to test Class
-            obj.runReg = runReg;
-            obj.runIrreg = runIrreg;
-            obj.runYaw = runYaw;
             obj.plotNO = plotNO;
             obj.plotSolvers = plotSolvers;
             obj.openCompare = openCompare;
             
-            % Set WEC-Sim, test and case directories
+            % Set test directory
             obj.testDir = fileparts(mfilename('fullpath'));
-            obj.wsDir = fullfile(obj.testDir,'..');
-            obj.testRegDir = fullfile(obj.testDir,'RegressionTests\');
             
-            % Add directories to path
-            addpath(genpath(obj.testRegDir))
+            % Save the visibility state at construction
+            obj.OriginalDefault = get(0,'DefaultFigureVisible');
+            
+        end
+        
+    end
+    
+    methods (TestMethodSetup)
+        function killPlots (~)
+            set(0,'DefaultFigureVisible','off');
         end
     end
     
     methods(TestClassSetup)
-        function runRegTests(testCase)
-            if testCase.runReg==1
-                cd(fullfile(testCase.testDir,'RegressionTests'))
-                cd RegularWaves/regular; runLoadRegular; cd .. ;
-                savefig('figReg');
-                cd regularCIC; runLoadRegularCIC; cd .. ;
-                savefig('figRegCIC');
-                cd regularSS; runLoadRegularSS; cd .. ;
-                savefig('figRegSS');
-                close all;
-            end
+        
+        function runRegTest(testCase)
+            
+            cd(fullfile(testCase.testDir,       ...
+                        'RegressionTests',      ...
+                        'RegularWaves',         ...
+                        'regular'))
+            
+            runLoadRegular;
+            testCase.regular = load('regular.mat').("regular");
+            savefig(fullfile('..', 'figReg'));
+            
             cd(testCase.testDir);
+            
         end
         
-        function runIrregTests(testCase)
-            if testCase.runIrreg==1
-                cd(fullfile(testCase.testDir,'RegressionTests'))    
-                cd IrregularWaves/irregularCIC; runLoadIrregularCIC; cd ..;
-                savefig('figIrregCIC') ;
-                cd irregularSS; runLoadIrregularSS; cd ..;
-                savefig('figIrregSS');
-                close all;
-            end
+        function runRegCICTest(testCase)
+            
+            cd(fullfile(testCase.testDir,       ...
+                        'RegressionTests',      ...
+                        'RegularWaves',         ...
+                        'regularCIC'))
+            
+            runLoadRegularCIC;
+            testCase.regularCIC = load('regularCIC.mat').("regularCIC");
+            savefig(fullfile('..', 'figRegCIC'));
+            
             cd(testCase.testDir);
+            
         end
         
-        function runYawTests(testCase)
-            if testCase.runYaw==1
-                cd(fullfile(testCase.testDir,'RegressionTests'))
-                cd PassiveYaw/RegularWaves; runLoadPassiveYawReg; cd ..;
-                savefig('figYawReg');
-                cd IrregularWaves; runLoadPassiveYawIrr; cd .. ;
-                savefig('figYawIrr');
-                close all;
-                cd(fullfile(testCase.testDir));
-            end
+        function runRegSSTest(testCase)
+            
+            cd(fullfile(testCase.testDir,       ...
+                        'RegressionTests',      ...
+                        'RegularWaves',         ...
+                        'regularSS'))
+            
+            runLoadRegularSS;
+            testCase.regularSS = load('regularSS.mat').("regularSS");
+            savefig(fullfile('..', 'figRegSS'));
+            
             cd(testCase.testDir);
+        
+        end
+        
+        function runIrregCICTest(testCase)
+            
+            cd(fullfile(testCase.testDir,   ...
+                        'RegressionTests',  ...
+                        'IrregularWaves',   ...
+                        'irregularCIC'))
+                    
+            runLoadIrregularCIC;
+            testCase.irregularCIC = ...
+                                load('irregularCIC.mat').("irregularCIC");
+            savefig(fullfile('..', 'figIrregCIC'));
+            
+            cd(testCase.testDir);
+            
+        end
+        
+        function runIrregSSTest(testCase)
+            
+            cd(fullfile(testCase.testDir,   ...
+                        'RegressionTests',  ...
+                        'IrregularWaves',   ...
+                        'irregularSS'))
+                    
+            runLoadIrregularSS;
+            testCase.irregularSS = load('irregularSS.mat').("irregularSS");
+            savefig(fullfile('..', 'figIrregSS'));
+            
+            cd(testCase.testDir);
+            
+        end
+        
+        function runYawRegTest(testCase)
+            
+            cd(fullfile(testCase.testDir,   ...
+                        'RegressionTests',  ...
+                        'PassiveYaw',       ...
+                        'RegularWaves'))
+                    
+            runLoadPassiveYawReg;
+            testCase.RegYaw = load('RegYaw.mat').("RegYaw");
+            savefig(fullfile('..', 'figYawReg'));
+            
+            cd(testCase.testDir);
+            
+        end
+        
+        function runYawIrrTest(testCase)
+            
+            cd(fullfile(testCase.testDir,   ...
+                        'RegressionTests',  ...
+                        'PassiveYaw',       ...
+                        'IrregularWaves'))
+                    
+            runLoadPassiveYawIrr;
+            testCase.IrrYaw = load('IrrYaw.mat').("IrrYaw");
+            savefig(fullfile('..', 'figYawIrr'));
+            
+            cd(testCase.testDir);
+            
         end
         
     end
     
     methods(TestClassTeardown)
+        
         function plotRegTests(testCase)
-            load('regular.mat','regular');
-            load('regularCIC.mat','regularCIC');
-            load('regularSS.mat','regularSS');
-            load('irregularCIC.mat','irregularCIC');
-            load('irregularSS.mat','irregularSS');
-            load('RegYaw.mat','RegYaw');
-            load('IrrYaw.mat','IrrYaw');
             
+            regular = testCase.regular;
+            regularCIC = testCase.regularCIC;
+            regularSS = testCase.regularSS;
+            irregularCIC = testCase.irregularCIC;
+            irregularSS = testCase.irregularSS;
+            RegYaw = testCase.RegYaw;
+            IrrYaw = testCase.IrrYaw;
+
             % Plot Solver Comparisons
-            if testCase.plotSolvers==1
-                if testCase.runReg==1
-                    cd(fullfile(testCase.testDir,'RegressionTests'));
-                    cd RegularWaves; printPlotRegular;
-                end
-                if testCase.runIrreg==1
-                    cd(fullfile(testCase.testDir,'RegressionTests'));
-                    cd IrregularWaves; printPlotIrregular;
-                end
+            if testCase.plotSolvers == 1
+                
+                cd(fullfile(testCase.testDir,   ...
+                            'RegressionTests',  ...
+                            'RegularWaves'));
+                printPlotRegular;
+                
+                cd(fullfile(testCase.testDir,   ...
+                            'RegressionTests',  ...
+                            'IrregularWaves'));
+                printPlotIrregular;
+                
             end
 
             % Open new vs. org Comparisons
-            if testCase.openCompare==1
-                if testCase.runReg==1
-                    cd(fullfile(testCase.testDir,'RegressionTests'));
-                    cd RegularWaves; openfig('figReg.fig'); openfig('figRegCIC.fig'); openfig('figRegSS.fig');
-                end
-                if testCase.runIrreg==1
-                    cd(fullfile(testCase.testDir,'RegressionTests'));
-                    cd IrregularWaves; openfig('figIrregCIC.fig'); openfig('figIrregSS.fig');
-                end
-                if testCase.runYaw==1
-                    cd(fullfile(testCase.testDir,'RegressionTests'));
-                    cd PassiveYaw; open('figYawReg.fig'); open('figYawIrr.fig'); 
-                end
+            if testCase.openCompare == 1
+                
+                cd(fullfile(testCase.testDir,   ...
+                            'RegressionTests',  ...
+                            'RegularWaves'));
+                openfig('figReg.fig');
+                openfig('figRegCIC.fig');
+                openfig('figRegSS.fig');
+                
+                cd(fullfile(testCase.testDir,   ...
+                            'RegressionTests',  ...
+                            'IrregularWaves'));
+                openfig('figIrregCIC.fig');
+                openfig('figIrregSS.fig');
+                
+                cd(fullfile(testCase.testDir,   ...
+                            'RegressionTests',  ...
+                            'PassiveYaw'));
+                open('figYawReg.fig'); 
+                open('figYawIrr.fig'); 
+                
             end
             
-            cd(testCase.wsDir);
-            rmpath(genpath(testCase.testRegDir));
+            set(0,'DefaultFigureVisible',testCase.OriginalDefault);
+            testCase.assertEqual(get(0,'DefaultFigureVisible'),     ...
+                                 testCase.OriginalDefault);
+            
         end
     end
     
     methods(Test)
+        
         function body1_reg_disp_heave(testCase)
             % Body1 Displacement in Heave
-            testCase.assumeEqual(testCase.runReg,1,'Test off (runReg=0).');
-            load('regular.mat','regular');
             tol = 1e-10;
-            org = regular.B1.WEC_Sim_org.heave;
-            new = regular.B1.WEC_Sim_new.heave;
+            org = testCase.regular.B1.WEC_Sim_org.heave;
+            new = testCase.regular.B1.WEC_Sim_new.heave;
             testCase.verifyEqual(new,org,'AbsTol',tol);
-            fprintf(['Body1 Displacement in Heave, Diff = ' num2str(max(abs(org-new))) '\n']);
+            fprintf(['Body1 Displacement in Heave, Diff = '     ...
+                     num2str(max(abs(org-new))) '\n']);
         end
         
         function body2_reg_disp_heave(testCase)
             % Body2 Displacement in Heave
-            testCase.assumeEqual(testCase.runReg,1,'Test off (runReg=0).');
-            load('regular.mat','regular');
             tol = 1e-10;
-            org = regular.B2.WEC_Sim_org.heave;
-            new = regular.B2.WEC_Sim_new.heave;
+            org = testCase.regular.B2.WEC_Sim_org.heave;
+            new = testCase.regular.B2.WEC_Sim_new.heave;
             testCase.verifyEqual(new,org,'AbsTol',tol);
-            fprintf(['Body2 Displacement in Heave, Diff = ' num2str(max(abs(org-new))) '\n']);
+            fprintf(['Body2 Displacement in Heave, Diff = '     ...
+                     num2str(max(abs(org-new))) '\n']);
         end
         
         function bodyRel_reg_disp_heave(testCase)
             % Relative Displacement in Heave
-            testCase.assumeEqual(testCase.runReg,1,'Test off (runReg=0).');
-            load('regular.mat','regular');
             tol = 1e-10;
-            org = regular.Rel.WEC_Sim_org.heave;
-            new = regular.Rel.WEC_Sim_new.heave;
+            org = testCase.regular.Rel.WEC_Sim_org.heave;
+            new = testCase.regular.Rel.WEC_Sim_new.heave;
             testCase.verifyEqual(new,org,'AbsTol',tol);
-            fprintf(['Relative Displacement in Heave, Diff = ' num2str(max(abs(org-new))) '\n']);
+            fprintf(['Relative Displacement in Heave, Diff = '  ...
+                     num2str(max(abs(org-new))) '\n']);
         end
         
         
         function body1_regCIC_disp_heave(testCase)
             % Body1 Displacement in Heave
-            testCase.assumeEqual(testCase.runReg,1,'Test off (runReg=0).');
-            load('regularCIC.mat','regularCIC');
             tol = 1e-10;
-            org = regularCIC.B1.WEC_Sim_org.heave;
-            new = regularCIC.B1.WEC_Sim_new.heave;
+            org = testCase.regularCIC.B1.WEC_Sim_org.heave;
+            new = testCase.regularCIC.B1.WEC_Sim_new.heave;
             testCase.verifyEqual(new,org,'AbsTol',tol);
-            fprintf(['Body1 Displacement in Heave, Diff = ' num2str(max(abs(org-new))) '\n']);
+            fprintf(['Body1 Displacement in Heave, Diff = '     ...
+                      num2str(max(abs(org-new))) '\n']);
         end
         
         function body2_regCIC_disp_heave(testCase)
             % Body2 Displacement in Heave
-            testCase.assumeEqual(testCase.runReg,1,'Test off (runReg=0).');
-            load('regularCIC.mat','regularCIC');
             tol = 1e-10;
-            org = regularCIC.B2.WEC_Sim_org.heave;
-            new = regularCIC.B2.WEC_Sim_new.heave;
+            org = testCase.regularCIC.B2.WEC_Sim_org.heave;
+            new = testCase.regularCIC.B2.WEC_Sim_new.heave;
             testCase.verifyEqual(new,org,'AbsTol',tol);
-            fprintf(['Body2 Displacement in Heave, Diff = ' num2str(max(abs(org-new))) '\n']);
+            fprintf(['Body2 Displacement in Heave, Diff = '     ...
+                      num2str(max(abs(org-new))) '\n']);
         end
         
         function bodyRel_regCIC_disp_heave(testCase)
             % Relative Displacement in Heave
-            testCase.assumeEqual(testCase.runReg,1,'Test off (runReg=0).');
-            load('regularCIC.mat','regularCIC');
             tol = 1e-10;
-            org = regularCIC.Rel.WEC_Sim_org.heave;
-            new = regularCIC.Rel.WEC_Sim_new.heave;
+            org = testCase.regularCIC.Rel.WEC_Sim_org.heave;
+            new = testCase.regularCIC.Rel.WEC_Sim_new.heave;
             testCase.verifyEqual(new,org,'AbsTol',tol);
-            fprintf(['Relative Displacement in Heave, Diff = ' num2str(max(abs(org-new))) '\n']);
+            fprintf(['Relative Displacement in Heave, Diff = '  ...
+                     num2str(max(abs(org-new))) '\n']);
         end
         
         
         function body1_regSS_disp_heave(testCase)
             % Body1 Displacement in Heave
-            testCase.assumeEqual(testCase.runReg,1,'Test off (runReg=0).');
-            load('regularSS.mat','regularSS');
             tol = 1e-10;
-            org = regularSS.B1.WEC_Sim_org.heave;
-            new = regularSS.B1.WEC_Sim_new.heave;
+            org = testCase.regularSS.B1.WEC_Sim_org.heave;
+            new = testCase.regularSS.B1.WEC_Sim_new.heave;
             testCase.verifyEqual(new,org,'AbsTol',tol);
-            fprintf(['Body1 Displacement in Heave, Diff = ' num2str(max(abs(org-new))) '\n']);
+            fprintf(['Body1 Displacement in Heave, Diff = '     ...
+                     num2str(max(abs(org-new))) '\n']);
         end
         
         function body2_regSS_disp_heave(testCase)
             % Body2 Displacement in Heave
-            testCase.assumeEqual(testCase.runReg,1,'Test off (runReg=0).');
-            load('regularSS.mat','regularSS');
             tol = 1e-10;
-            org = regularSS.B2.WEC_Sim_org.heave;
-            new = regularSS.B2.WEC_Sim_new.heave;
+            org = testCase.regularSS.B2.WEC_Sim_org.heave;
+            new = testCase.regularSS.B2.WEC_Sim_new.heave;
             testCase.verifyEqual(new,org,'AbsTol',tol);
-            fprintf(['Body2 Displacement in Heave, Diff = ' num2str(max(abs(org-new))) '\n']);
+            fprintf(['Body2 Displacement in Heave, Diff = '     ...
+                     num2str(max(abs(org-new))) '\n']);
         end
         
         function bodyRel_regSS_disp_heave(testCase)
             % Relative Displacement in Heave
-            testCase.assumeEqual(testCase.runReg,1,'Test off (runReg=0).');
-            load('regularSS.mat','regularSS');
             tol = 1e-10;
-            org = regularSS.Rel.WEC_Sim_org.heave;
-            new = regularSS.Rel.WEC_Sim_new.heave;
+            org = testCase.regularSS.Rel.WEC_Sim_org.heave;
+            new = testCase.regularSS.Rel.WEC_Sim_new.heave;
             testCase.verifyEqual(new,org,'AbsTol',tol);
-            fprintf(['Relative Displacement in Heave, Diff = ' num2str(max(abs(org-new))) '\n']);
+            fprintf(['Relative Displacement in Heave, Diff = '  ...
+                     num2str(max(abs(org-new))) '\n']);
         end
         
         
         function body1_irreg_disp_heave(testCase)
             % Body1 Displacement in Heave
-            testCase.assumeEqual(testCase.runIrreg,1,'Test off (runIrreg=0).');
-            load('irregularCIC.mat','irregularCIC');
             tol = 1e-10;
-            org = irregularCIC.B1.WEC_Sim_org.heave;
-            new = irregularCIC.B1.WEC_Sim_new.heave;
+            org = testCase.irregularCIC.B1.WEC_Sim_org.heave;
+            new = testCase.irregularCIC.B1.WEC_Sim_new.heave;
             testCase.verifyEqual(new,org,'AbsTol',tol);
-            fprintf(['Body1 Displacement in Heave, Diff = ' num2str(max(abs(org-new))) '\n']);
+            fprintf(['Body1 Displacement in Heave, Diff = '     ...
+                     num2str(max(abs(org-new))) '\n']);
         end
         
         function body2_irreg_disp_heave(testCase)
             % Body2 Displacement in Heave
-            testCase.assumeEqual(testCase.runIrreg,1,'Test off (runIrreg=0).');
-            load('irregularCIC.mat','irregularCIC');
             tol = 1e-10;
-            org = irregularCIC.B2.WEC_Sim_org.heave;
-            new = irregularCIC.B2.WEC_Sim_new.heave;
+            org = testCase.irregularCIC.B2.WEC_Sim_org.heave;
+            new = testCase.irregularCIC.B2.WEC_Sim_new.heave;
             testCase.verifyEqual(new,org,'AbsTol',tol);
-            fprintf(['Body2 Displacement in Heave, Diff = ' num2str(max(abs(org-new))) '\n']);
+            fprintf(['Body2 Displacement in Heave, Diff = '     ...
+                     num2str(max(abs(org-new))) '\n']);
         end
         
         function bodyRel_irreg_disp_heave(testCase)
             % Relative Displacement in Heave
-            testCase.assumeEqual(testCase.runIrreg,1,'Test off (runIrreg=0).');
-            load('irregularCIC.mat','irregularCIC');
             tol = 1e-10;
-            org = irregularCIC.Rel.WEC_Sim_org.heave;
-            new = irregularCIC.Rel.WEC_Sim_new.heave;
+            org = testCase.irregularCIC.Rel.WEC_Sim_org.heave;
+            new = testCase.irregularCIC.Rel.WEC_Sim_new.heave;
             testCase.verifyEqual(new,org,'AbsTol',tol);
-            fprintf(['Relative Displacement in Heave, Diff = ' num2str(max(abs(org-new))) '\n']);
+            fprintf(['Relative Displacement in Heave, Diff = '  ...
+                      num2str(max(abs(org-new))) '\n']);
         end
         
         function irreg_0th_Spectral_Moment(testCase)
             % 0th Order Spectral Moment
-            testCase.assumeEqual(testCase.runIrreg,1,'Test off (runIrreg=0).');
-            load('irregularCIC.mat','irregularCIC');
             tol = 1e-10;
-            org = irregularCIC.Sp.WEC_Sim_org.m0;
-            new = irregularCIC.Sp.WEC_Sim_new.m0;
+            org = testCase.irregularCIC.Sp.WEC_Sim_org.m0;
+            new = testCase.irregularCIC.Sp.WEC_Sim_new.m0;
             testCase.verifyEqual(new,org,'AbsTol',tol);
-            fprintf(['0th Order Spectral Moment, Diff = ' num2str(max(abs(org-new))) '\n']);
+            fprintf(['0th Order Spectral Moment, Diff = '       ...
+                      num2str(max(abs(org-new))) '\n']);
         end
         
         function irreg_2nd_Spectral_Moment(testCase)
             % 2nd Order Spectral Moment
-            testCase.assumeEqual(testCase.runIrreg,1,'Test off (runIrreg=0).');
-            load('irregularCIC.mat','irregularCIC');
             tol = 1e-10;
-            org = irregularCIC.Sp.WEC_Sim_org.m2;
-            new = irregularCIC.Sp.WEC_Sim_new.m2;
+            org = testCase.irregularCIC.Sp.WEC_Sim_org.m2;
+            new = testCase.irregularCIC.Sp.WEC_Sim_new.m2;
             testCase.verifyEqual(new,org,'AbsTol',tol);
-            fprintf(['2nd Order Spectral Moment, Diff = ' num2str(max(abs(org-new))) '\n']);
+            fprintf(['2nd Order Spectral Moment, Diff = '       ...
+                      num2str(max(abs(org-new))) '\n']);
         end
         
         
         function body1_irregSS_disp_heave(testCase)
             % Body1 Displacement in Heave
-            testCase.assumeEqual(testCase.runIrreg,1,'Test off (runIrreg=0).');
-            load('irregularSS.mat','irregularSS');
             tol = 1e-10;
-            org = irregularSS.B1.WEC_Sim_org.heave;
-            new = irregularSS.B1.WEC_Sim_new.heave;
+            org = testCase.irregularSS.B1.WEC_Sim_org.heave;
+            new = testCase.irregularSS.B1.WEC_Sim_new.heave;
             testCase.verifyEqual(new,org,'AbsTol',tol);
-            fprintf(['Body1 Displacement in Heave, Diff = ' num2str(max(abs(org-new))) '\n']);
+            fprintf(['Body1 Displacement in Heave, Diff = '     ...
+                      num2str(max(abs(org-new))) '\n']);
         end
         
         function body2_irregSS_disp_heave(testCase)
             % Body2 Displacement in Heave
-            testCase.assumeEqual(testCase.runIrreg,1,'Test off (runIrreg=0).');
-            load('irregularSS.mat','irregularSS');
             tol = 1e-10;
-            org = irregularSS.B2.WEC_Sim_org.heave;
-            new = irregularSS.B2.WEC_Sim_new.heave;
+            org = testCase.irregularSS.B2.WEC_Sim_org.heave;
+            new = testCase.irregularSS.B2.WEC_Sim_new.heave;
             testCase.verifyEqual(new,org,'AbsTol',tol);
-            fprintf(['Body2 Displacement in Heave, Diff = ' num2str(max(abs(org-new))) '\n']);
+            fprintf(['Body2 Displacement in Heave, Diff = '     ...
+                     num2str(max(abs(org-new))) '\n']);
         end
         
         function bodyRel_irregSS_disp_heave(testCase)
             % Relative Displacement in Heave
-            testCase.assumeEqual(testCase.runIrreg,1,'Test off (runIrreg=0).');
-            load('irregularSS.mat','irregularSS');
             tol = 1e-10;
-            org = irregularSS.Rel.WEC_Sim_org.heave;
-            new = irregularSS.Rel.WEC_Sim_new.heave;
+            org = testCase.irregularSS.Rel.WEC_Sim_org.heave;
+            new = testCase.irregularSS.Rel.WEC_Sim_new.heave;
             testCase.verifyEqual(new,org,'AbsTol',tol);
-            fprintf(['Relative Displacement in Heave, Diff = ' num2str(max(abs(org-new))) '\n']);
+            fprintf(['Relative Displacement in Heave, Diff = '  ...
+                      num2str(max(abs(org-new))) '\n']);
         end
         
         function irregSS_0th_Spectral_Moment(testCase)
             % 0th Order Spectral Moment
-            testCase.assumeEqual(testCase.runIrreg,1,'Test off (runIrreg=0).');
-            load('irregularSS.mat','irregularSS');
             tol = 1e-10;
-            org = irregularSS.Sp.WEC_Sim_org.m0;
-            new = irregularSS.Sp.WEC_Sim_new.m0;
+            org = testCase.irregularSS.Sp.WEC_Sim_org.m0;
+            new = testCase.irregularSS.Sp.WEC_Sim_new.m0;
             testCase.verifyEqual(new,org,'AbsTol',tol);
-            fprintf(['0th Order Spectral Moment, Diff = ' num2str(max(abs(org-new))) '\n']);
+            fprintf(['0th Order Spectral Moment, Diff = '       ...
+                     num2str(max(abs(org-new))) '\n']);
         end
         
         function irregSS_2nd_Spectral_Moment(testCase)
             % 2nd Order Spectral Moment
-            testCase.assumeEqual(testCase.runIrreg,1,'Test off (runIrreg=0).');
-            load('irregularSS.mat','irregularSS');
             tol = 1e-10;
-            org = irregularSS.Sp.WEC_Sim_org.m2;
-            new = irregularSS.Sp.WEC_Sim_new.m2;
+            org = testCase.irregularSS.Sp.WEC_Sim_org.m2;
+            new = testCase.irregularSS.Sp.WEC_Sim_new.m2;
             testCase.verifyEqual(new,org,'AbsTol',tol);
-            fprintf(['2nd Order Spectral Moment, Diff = ' num2str(max(abs(org-new))) '\n']);
+            fprintf(['2nd Order Spectral Moment, Diff = '       ...
+                     num2str(max(abs(org-new))) '\n']);
         end
         
         
         function body1_regYaw_disp_yaw(testCase)
             % Body1 Displacement in Yaw
-            testCase.assumeEqual(testCase.runYaw,1,'Test off (runYaw=0).');
-            load('RegYaw','RegYaw');
             tol = 1e-10;
-            testCase.verifyEqual(RegYaw.Pos_diff,0,'AbsTol',tol);
-            fprintf(['Body1 Displacement in Yaw, Diff = ' num2str(RegYaw.Pos_diff) '\n']);
+            testCase.verifyEqual(testCase.RegYaw.Pos_diff,0,'AbsTol',tol);
+            fprintf(['Body1 Displacement in Yaw, Diff = '       ...
+                     num2str(testCase.RegYaw.Pos_diff) '\n']);
         end
         
         function body1_regYaw_torque_yaw(testCase)
             % Body1 Torque in Yaw
-            testCase.assumeEqual(testCase.runYaw,1,'Test off (runYaw=0).');
-            load('RegYaw','RegYaw');
             tol=1e-4;
-            testCase.verifyEqual(RegYaw.Force_diff,0,'AbsTol',tol);
-            fprintf(['Body1 Torque in Yaw, Diff = ' num2str(RegYaw.Force_diff) '\n']);
+            testCase.verifyEqual(testCase.RegYaw.Force_diff,0,'AbsTol',tol);
+            fprintf(['Body1 Torque in Yaw, Diff = '             ...
+                     num2str(testCase.RegYaw.Force_diff) '\n']);
         end
-        
         
         function body1_irregYaw_disp_yaw(testCase)
             % Body1 Displacement in Yaw
-            testCase.assumeEqual(testCase.runYaw,1,'Test off (runYaw=0).');
-            load('IrrYaw','IrrYaw');
             tol = 1e-10;
-            testCase.verifyEqual(IrrYaw.Pos_diff,0,'AbsTol',tol);
-            fprintf(['Body1 Displacement in Yaw, Diff = ' num2str(IrrYaw.Pos_diff) '\n']);
+            testCase.verifyEqual(testCase.IrrYaw.Pos_diff,0,'AbsTol',tol);
+            fprintf(['Body1 Displacement in Yaw, Diff = '       ...
+                     num2str(testCase.IrrYaw.Pos_diff) '\n']);
         end
 
         function body1_irregYaw_torque_yaw(testCase)
             % Body1 Torque in Yaw
-            testCase.assumeEqual(testCase.runYaw,1,'Test off (runYaw=0).');
-            load('IrrYaw','IrrYaw');
             tol = 1e-4;
-            testCase.verifyEqual(IrrYaw.Force_diff,0,'AbsTol',tol);
-            fprintf(['Body1 Torque in Yaw, Diff = ' num2str(IrrYaw.Force_diff) '\n']);
+            testCase.verifyEqual(testCase.IrrYaw.Force_diff,0,'AbsTol',tol);
+            fprintf(['Body1 Torque in Yaw, Diff = '             ...
+                     num2str(testCase.IrrYaw.Force_diff) '\n']);
         end
         
         function irregYaw_0th_Spectral_Moment(testCase)
             % 0th Order Spectral Moment
-            testCase.assumeEqual(testCase.runYaw,1,'Test off (runYaw=0).');
-            load('IrrYaw','IrrYaw');
             tol = 1e-10;
-            org = IrrYaw.Sp.WEC_Sim_org.m0;
-            new = IrrYaw.Sp.WEC_Sim_new.m0;
+            org = testCase.IrrYaw.Sp.WEC_Sim_org.m0;
+            new = testCase.IrrYaw.Sp.WEC_Sim_new.m0;
             testCase.verifyEqual(new,org,'AbsTol',tol);
-            fprintf(['0th Order Spectral Moment, Diff = ' num2str(max(abs(org-new))) '\n']);
+            fprintf(['0th Order Spectral Moment, Diff = '       ...
+                      num2str(max(abs(org-new))) '\n']);
         end
         
         function irregYaw_2nd_Spectral_Moment(testCase)
             % 2nd Order Spectral Moment
-            testCase.assumeEqual(testCase.runYaw,1,'Test off (runYaw=0).');
-            load('IrrYaw','IrrYaw');
             tol = 1e-10;
-            org = IrrYaw.Sp.WEC_Sim_org.m2;
-            new = IrrYaw.Sp.WEC_Sim_new.m2;
+            org = testCase.IrrYaw.Sp.WEC_Sim_org.m2;
+            new = testCase.IrrYaw.Sp.WEC_Sim_new.m2;
             testCase.verifyEqual(new,org,'AbsTol',tol);
-            fprintf(['2nd Order Spectral Moment, Diff = ' num2str(max(abs(org-new))) '\n']);
+            fprintf(['2nd Order Spectral Moment, Diff = '       ...
+                     num2str(max(abs(org-new))) '\n']);
         end
-
-        
         
     end
+    
 end

@@ -8,17 +8,11 @@ classdef bemioTest < matlab.unittest.TestCase
         nemohDir = '';
         capytaineDir = '';
         aqwaDir = '';
-        runBEMIO = [];
     end
     
     methods (Access = 'public')
-        function obj = bemioTest(runBEMIO)
-            arguments
-                runBEMIO (1,1) double = 1;
-            end
-            
-            % Assign arguments to test Class
-            obj.runBEMIO = runBEMIO;
+        
+        function obj = bemioTest
             
             % Set WEC-Sim, test and BEMIO example directories
             obj.testDir = fileparts(mfilename('fullpath'));
@@ -31,27 +25,34 @@ classdef bemioTest < matlab.unittest.TestCase
             
             % Hide figures
             set(0,'DefaultFigureVisible','off')
+            
         end
+        
     end
     
     methods(TestMethodTeardown)
+        
         function closePlotsHydro(testCase)
             close(waitbar(0));
             close all
             clear hydro
             set(0,'DefaultFigureVisible','off')
         end
+        
     end
     
     methods(TestClassTeardown)
+        
         function cdToTestDir(testCase)
             cd(testCase.testDir);
         end
+        
     end
     
     methods(Test)
+        
         function combine_bem(testCase)
-            testCase.assumeEqual(testCase.runBEMIO,1,'Test off (runBEMIO=0).')
+
             cd(fullfile(testCase.capytaineDir,'Cylinder'))
             
             hydro = struct();
@@ -61,10 +62,11 @@ classdef bemioTest < matlab.unittest.TestCase
             hydro = Read_WAMIT(hydro,'..\..\WAMIT\Cylinder\cyl.out',[]);
             hydro(end).body = {'cylinder_wamit'};
             hydro = Combine_BEM(hydro);
+            
         end
         
         function complete_BEMIO(testCase)
-            testCase.assumeEqual(testCase.runBEMIO,1,'Test off (runBEMIO=0).')
+
             cd(fullfile(testCase.nemohDir,'Cylinder'))
             
             hydro = struct();
@@ -74,34 +76,33 @@ classdef bemioTest < matlab.unittest.TestCase
             hydro = Excitation_IRF(hydro,5,[],[],[],[]);
             Write_H5(hydro)
             Plot_BEMIO(hydro)
+            
         end
         
         function read_wamit(testCase)
-            testCase.assumeEqual(testCase.runBEMIO,1,'Test off (runBEMIO=0).')
             cd(fullfile(testCase.wamitDir,'RM3'))
             hydro = struct();
             hydro = Read_WAMIT(hydro,'rm3.out',[]);
         end
         
         function read_nemoh(testCase)
-            testCase.assumeEqual(testCase.runBEMIO,1,'Test off (runBEMIO=0).')
             cd(fullfile(testCase.nemohDir,'RM3'))
             hydro = struct();
             hydro = Read_NEMOH(hydro,'..\RM3\');
         end
         
         function read_capytaine(testCase)
-            testCase.assumeEqual(testCase.runBEMIO,1,'Test off (runBEMIO=0).')
             cd(fullfile(testCase.capytaineDir,'RM3'))
             hydro = struct();
             hydro = Read_CAPYTAINE(hydro,'.\rm3_full.nc');
         end
         
         function read_aqwa(testCase)
-            testCase.assumeEqual(testCase.runBEMIO,1,'Test off (runBEMIO=0).')
             cd(fullfile(testCase.aqwaDir,'Example'))
             hydro = struct();
-            hydro = Read_AQWA(hydro,'aqwa_example_data.AH1','aqwa_example_data.LIS');
+            hydro = Read_AQWA(hydro,                    ...
+                              'aqwa_example_data.AH1',  ...
+                              'aqwa_example_data.LIS');
         end
         
     end
