@@ -179,13 +179,14 @@ Please take the time to follow these steps before opening an issue on GitHub:
 ^^^^^^^^^^^^^^^^^^^^^
 
 Before opening an issue on GitHub, it is expected that users do a fair share of debugging.
-WEC-Sim is intentionally easy to use and contains convenient MATLAB/Simulink interfaces. 
-However, this ease does not detract from the difficulty and time required to create an accurate and robust simulation.
+WEC-Sim is intentionally easy to use and utilizes convenient MATLAB/Simulink interfaces. 
+However, this ease of use does not detract from the difficulty and time required to create an accurate and robust simulation.
 Users should spend time carefully setting up and debugging their WEC-Sim cases. For example:
 
 - Follow all error codes to the root cause of the error 
 - Confirm that all user-defined inputs are set correctly
 - Confirm that WEC-Sim is called in the intended way (wecSim, wecSimMCR, wecSimPCT, from Simulink, etc)
+- Check BEM input data for expected results
 
 
 2. Identify Root Cause
@@ -193,7 +194,7 @@ Users should spend time carefully setting up and debugging their WEC-Sim cases. 
 Identify if MATLAB and Simulink, or WEC-Sim is the root cause of the problem.
 Does the problem occur in a WEC-Sim class, function or Simulink model? If so, it may be a WEC-Sim error. 
 Carefully check input file paths, especially when copying previously working WEC-Sim examples. 
-Please do not submit issues for errors in using MATLAB. 
+Please do not submit issues for errors related to using MATLAB. 
 The development team cannot provide support for MATLAB errors outside of WEC-Sim.
 
 
@@ -218,26 +219,26 @@ If these are related but not sufficient, tag them in your GitHub issue for easy 
 
 If the above steps do not solve your problem, please open an issue using one of the provided templates: bug report, feature request, theory or implementation, or WEC-Sim application.
 Issue templates serve to layout the information required to solve an issue in a consistent, upfront manner. 
-Templates are new to the WEC-Sim workflow, and we welcome input on their use. 
+Templates are new to the WEC-Sim workflow, and input on their use is welcome. 
 The development team hopes this will help address questions as quickly and thoroughly as possible for users.
 
 Users may remove all italic descriptive text in a template, but must keep the bold headers that organize the issue.
 Users who do not use a template will be asked to reopen their issue with the appropriate layout.
-If the provided templates do not fit an issue, users may open a blank issue with an initial statement explaining why there is not template and providing sufficient information.
-If done as a convenience for the user, the issue will not be address until it is reopened appropriately.
+If the provided templates do not fit an issue, users may open a blank issue with an initial statement explaining why there is no template and providing sufficient information.
 
-When open an issue, please provide all relevant information. 
+When opening an issue, please provide all relevant information. 
 Link to the relevant documentation section and past issues if appropriate.
 
 The development team makes every effort to respond to issues each week. 
 Issues are not addressed over weekends or U.S. holidays.
-The issue board is provided as a convenience to users. Users should not expect or request an immediate response from the developers.
+The issue board is provided as a convenience to users. 
+Users should not expect or request an immediate response from the developers.
 
 
-.. Note: 
-Currently the WEC-Sim development team does not support BEM codes. 
-We will do our best to aid users with using BEMIO to create input data for WEC-Sim.
-Unfortunately we cannot provide support on using BEM codes, or supplying input files or meshes for geometries.
-Please contact the representative of a given BEM code to gain assistance.
+.. Note:: 
+    Currently the WEC-Sim development team does not support BEM codes. 
+    We will do our best to aid users with using BEMIO to create input data for WEC-Sim.
+    Unfortunately we cannot provide support on using BEM codes, or supplying input files or meshes for geometries.
+    Please contact the representative of a given BEM code to gain assistance.
 
 
