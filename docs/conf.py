@@ -36,7 +36,8 @@ extensions = [
     'sphinx.ext.napoleon',
     'sphinxcontrib.bibtex',
     'sphinxcontrib.matlab',
-    'sphinxext.remoteliteralinclude'    
+    'sphinxext.remoteliteralinclude',
+    'sphinx_multiversion'
 ]
 
 # autodoc settings
@@ -57,14 +58,18 @@ napoleon_use_ivar = False
 napoleon_use_param = True
 napoleon_use_rtype = True
 
+# sphinxcontrib.bibtex settings
+bibtex_bibfiles = ['refs/WEC-Sim_Theory.bib',
+                   'refs/WEC-Sim_Tutorials.bib']
+
 # sphinxcontrib.matlab settings
 primary_domain = 'mat'
 matlab_src_dir = os.path.abspath("../source")
 matlab_keep_package_prefix = False
 
-# sphinxcontrib-versioning settings
-scv_whitelist_branches = ('master', 'dev')
-scv_whitelist_tags = (re.compile('a^'),)
+# sphinx_multiversion settings
+smv_branch_whitelist = r'\b(master|dev)\b'
+smv_tag_whitelist = None
 
 # Add any paths that contain templates here, relative to this directory.
 templates_path = ['_templates']
