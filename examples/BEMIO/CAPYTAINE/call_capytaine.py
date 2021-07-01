@@ -243,8 +243,7 @@ def call_capy(meshFName, wCapy, CoG=([0,0,0],), headings=[0.0],ncFName=None,
         ncFName_thread = ncFName[0:len(ncFName)-3] + "_*.nc"
         capyData = read_netcdfs(ncFName_thread, dim='omega')
         print('\nCombine Capytaine data and saved to \n' + ncFName +'\n\n')        
-        capyData.to_netcdf(ncFName,encoding={'radiating_dof': {'dtype': 'U'},
-                                             'influenced_dof': {'dtype': 'U'}})
+        capyData.to_netcdf(ncFName)
 
     # Create a dataset of parameters. 
     #     'fill_dataset()' automatically creates problems and solves them.
@@ -294,9 +293,7 @@ def capy_solver(wCapy, CoG, headings,ncFName,wDes, body_name, depth, density,
     # capyData.update(kochin)
 
     # save to .nc file
-    cpt.io.xarray.separate_complex_values(capyData).to_netcdf(ncFName,
-                                                              encoding={'radiating_dof': {'dtype': 'U'},
-                                                                        'influenced_dof': {'dtype': 'U'}})
+    cpt.io.xarray.separate_complex_values(capyData).to_netcdf(ncFName)
     
     print('\nCapytaine call complete. Data saved to \n' + ncFName +'\n\n')
 

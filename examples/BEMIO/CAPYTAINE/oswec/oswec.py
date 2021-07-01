@@ -9,8 +9,10 @@ parameters from WEC-Sim (frequency range, directions, etc)
 """
 
 # setup environment
-import numpy as np
 import os
+os.environ["OMP_NUM_THREADS"] = "1" 
+
+import numpy as np
 import sys
 
 # Add directory with the call_capytaine.py file to the system path.
@@ -32,15 +34,6 @@ bem_depth = 10.90                                               # water depth
 
 bem_ncFile = os.getcwd() + os.path.sep + 'test.nc'              # path for output .nc file
 # ----------------------------------------------------------------------------#
-
-# check that old output is not being overwritten (runs take awhile)
-if os.path.isfile(bem_ncFile):
-    print(f'Output ({bem_ncFile}) file already exists and will be overwritten. '
-          'Do you wish to proceed? (y/n)')
-    ans = input()
-    if ans.lower() != 'y':
-        print('\nEnding simulation. file not overwritten')
-        sys.exit(0)
 
 # Run Capytaine
 cc.call_capy(meshFName = bem_file,
