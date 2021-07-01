@@ -1,26 +1,22 @@
 # -*- coding: utf-8 -*-
 """
 Created on Mon Nov  9 10:08:14 2020
-Modified on Thu July 1 07:25:00 2021
 
-@author: akeeste; Yi-Hsiang
+@author: akeeste
 
 Initial working script by David Ogden from:
 https://github.com/mattEhall/FrequencyDomain/blob/b89dd4f4a732fbe4afde56efe2b52c3e32e22d53/FrequencyDomain.py#L842
 
 """
-import os
 
-from multiprocessing import Process
 import numpy as np
-
+# import xarray as xr
 import capytaine as cpt
 import meshmagick.mesh as mmm
 import meshmagick.hydrostatics as mmhs
 import xarray as xr
 import logging as LOG
-from glob import glob
-import xarray as xr
+import os
 # import sys
 
 def __init__(self):
@@ -66,23 +62,36 @@ def hydrostatics(myBodies, savepath=''):
         cg = body.center_of_mass
         
         # use meshmagick to compute hydrostatic stiffness matrix
-        # NOTE: meshmagick currently has issue if a body is copmletely submerged (OSWEC base)
+        # NOTE: meshmagick currently has issue if a body is completely submerged (OSWEC base)
+        # See issues #7, #19 on meshmagick GitHub page.
         # use try-except statement to catch this error use alternate function for cb/vo
-        # if completely submerged, stiffness is 0?
-        body_mesh = mmm.Mesh(body.mesh.vertices, body.mesh.faces, name= body.mesh.name)
-        try:
-            body_hs = mmhs.Hydrostatics(working_mesh=body_mesh,
-                                        cog=body.center_of_mass,
-                                        rho_water=1023.0,
-                                        grav=9.81)
-            vo = body_hs.displacement_volume
-            cb = body_hs.buoyancy_center
-            khs = body_hs.hydrostatic_stiffness_matrix
-        except:
-            # Exception if body is fully submerged
-            vo = body_mesh.volume
-            cb = cg
-            khs = np.zeros((3,3))
+        body_mesh = mmm.Mesh(body.mesh.vertices, body.mesh.faces, name=body.mesh.name)
+        # try:
+        #     body_hs = mmhs.Hydrostatics(working_mesh=body_mesh,
+        #                                 cog=body.center_of_mass,
+        #                                 rho_water=1023.0,
+        #                                 grav=9.81)
+        #     vo = body_hs.displacement_volume
+        #     cb = body_hs.buoyancy_center
+        #     khs = body_hs.hydrostatic_stiffness_matrix
+        # except:
+        #     # Exception if body is fully submerged.
+        #     # if fully submerged:
+        #         # stiffness is 0 as small displacements do not change the displaced volume
+        #         # displaced volume is the total mesh volume
+        #         # center of buoyancy is equal to the center of gravity of the mesh with a constant density 
+        #     vo = body_mesh.volume
+        #     khs = np.zeros((3,3))
+        #     inertia = body_mesh.eval_plain_mesh_inertias()
+        #     cb = inertia.gravity_center
+            
+        body_hs = mmhs.Hydrostatics(working_mesh=body_mesh,
+                                    cog=body.center_of_mass,
+                                    rho_water=1023.0,
+                                    grav=9.81)
+        vo = body_hs.displacement_volume
+        cb = body_hs.buoyancy_center
+        khs = body_hs.hydrostatic_stiffness_matrix
         
         # set file index
         fileind = ''
@@ -109,12 +118,11 @@ def hydrostatics(myBodies, savepath=''):
 
 def call_capy(meshFName, wCapy, CoG=([0,0,0],), headings=[0.0],ncFName=None, 
               wDes=None, body_name=('',), depth=np.infty, density=1025.0,
-              additional_dofs_dir=None,num_threads=1):
+              additional_dofs_dir=None):
     '''
-    Setup the problem and call the capytine solver.
-
-    Setup parallel computing for different frequencies and combine the data 
-    after the parallel simulation is completed.
+    call Capytaine for a given mesh, frequency range and wave headings
+    This function is modified from David Ogden's work 
+    (see https://github.com/mattEhall/FrequencyDomain/blob/b89dd4f4a732fbe4afde56efe2b52c3e32e22d53/FrequencyDomain.py#L842 for the original function).
     
     May be called with multiple bodies (automatically implements B2B). 
     In this case, the meshFName, CoG, body_name should be a tuple of the
@@ -152,7 +160,7 @@ def call_capy(meshFName, wCapy, CoG=([0,0,0],), headings=[0.0],ncFName=None,
         types. Default 1025.0
     additional_dofs: string
         path to a gbm_dofs.py file that returns GBM dofs to this function
-
+    
     Returns
     -------
     capyData: xarray Dataset
@@ -161,15 +169,6 @@ def call_capy(meshFName, wCapy, CoG=([0,0,0],), headings=[0.0],ncFName=None,
         capytaine Problems that were solved
     '''
         
-    # check that old output is not being overwritten (runs take awhile)
-    if os.path.isfile(ncFName):
-        print(f'Output ({ncFName}) file already exists and will be overwritten. '
-               'Do you wish to proceed? (y/n)')
-        ans = input()
-        if ans.lower() != 'y':
-            print('\nEnding simulation. file not overwritten')
-            sys.exit(0)
-
     bodies = []
     for i in np.arange(0, len(meshFName)):
         bodies.append(cpt.FloatingBody.from_file(meshFName[i]))
@@ -214,70 +213,11 @@ def call_capy(meshFName, wCapy, CoG=([0,0,0],), headings=[0.0],ncFName=None,
           f'w range = {wCapy[0]:.3f} - {wCapy[-1]:.3f} rad/s\n'
           f'dw = {(wCapy[1]-wCapy[0]):.3f} rad/s\n'
           f'no of headings = {len(headings)}\n'
-          f'no of radiation & diffraction problems = {len(wCapy)*(len(headings) + len(combo.dofs))}\n'
+           f'no of radiation & diffraction problems = {len(wCapy)*(len(headings) + len(combo.dofs))}\n'
           f'-------------------------------\n')
-
-    wCapy_threads = np.array_split(np.array(wCapy),num_threads)
-
-    # An array for the processes.
-    processing_jobs = []
-
-    for i in range(num_threads):
-        if num_threads == 1:
-            ncFName_each_thread = ncFName
-        else:
-            ncFName_each_thread = ncFName[0:len(ncFName)-3] + "_{}.nc".format(i+1)
-
-        p = Process(target=capy_solver, args= (wCapy_threads[i], CoG, headings,ncFName_each_thread,wDes, body_name, depth, density,
-                    combo,additional_dofs_dir))
-        processing_jobs.append(p)
-        p.start()
-
-    # Wait for all processes to finish.
-    for proc in processing_jobs:
-        proc.join()
-
-    if num_threads == 1:
-        capyData = read_netcdfs(ncFName, dim='omega')
-    else:
-        ncFName_thread = ncFName[0:len(ncFName)-3] + "_*.nc"
-        capyData = read_netcdfs(ncFName_thread, dim='omega')
-        print('\nCombine Capytaine data and saved to \n' + ncFName +'\n\n')        
-        capyData.to_netcdf(ncFName,encoding={'radiating_dof': {'dtype': 'U'},
-                                             'influenced_dof': {'dtype': 'U'}})
 
     # Create a dataset of parameters. 
     #     'fill_dataset()' automatically creates problems and solves them.
-    problems = xr.Dataset(coords={
-        'omega': wCapy,
-        'wave_direction': headings,
-        'radiating_dof': list(combo.dofs),
-        'water_depth': [depth],
-        'rho': [density],
-        })
-
-    return capyData, problems
-
-def read_netcdfs(files, dim):
-    # glob expands paths with * to a list of files, like the unix shell
-    paths = sorted(glob(files))
-    datasets = [xr.open_dataset(p) for p in paths]
-    combined = xr.concat(datasets, dim)
-    return combined    
-    
-def capy_solver(wCapy, CoG, headings,ncFName,wDes, body_name, depth, density,
-                combo,additional_dofs_dir):
-    '''
-    call Capytaine for a given mesh, frequency range and wave headings
-    This function is modified from David Ogden's work 
-    (see https://github.com/mattEhall/FrequencyDomain/blob/b89dd4f4a732fbe4afde56efe2b52c3e32e22d53/FrequencyDomain.py#L842 for the original function).
-    
-    save the results to a file in Network Common Data Form.
-
-    Returns
-    -------
-    None
-    '''
     problems = xr.Dataset(coords={
         'omega': wCapy,
         'wave_direction': headings,
@@ -298,8 +238,6 @@ def capy_solver(wCapy, CoG, headings,ncFName,wDes, body_name, depth, density,
                                                               encoding={'radiating_dof': {'dtype': 'U'},
                                                                         'influenced_dof': {'dtype': 'U'}})
     
-    print('\nCapytaine call complete. Data saved to \n' + ncFName +'\n\n')
-
-    return
-
-
+    print('\n\nCapytaine call complete. Data saved to \n' + ncFName)
+    
+    return capyData, problems

@@ -89,3 +89,4 @@ docs/_build
 .DS_Store
 view_html.sh
 *vis-temp*
+*.pyc
