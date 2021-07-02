@@ -17,4 +17,4 @@ assignees: ''
 - [ ] Other
 
 **Describe the issue**
-_A clear and concise description of the issue being encountered and any necessary context.
+_A clear and concise description of the issue being encountered and any necessary context._
