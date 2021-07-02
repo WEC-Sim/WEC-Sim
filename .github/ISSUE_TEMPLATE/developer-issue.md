@@ -10,7 +10,7 @@ assignees: ''
 
 **Note: italicized text below is include as an example and should be updated before submission. If you feel any section is not applicable to your request, please replace with 'N/A' rather than delete a section.**
 
-### Project
+ Project
 - [ ] WEC-Sim Roadmap
 - [ ] Training Courses Roadmap
 - [ ] Open-Source BEM Roadmap
