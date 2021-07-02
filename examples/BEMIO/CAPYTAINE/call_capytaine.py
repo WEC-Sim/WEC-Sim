@@ -23,6 +23,8 @@ from glob import glob
 import xarray as xr
 # import sys
 
+os.system("taskset -p 0xff %d" % os.getpid())
+
 def __init__(self):
     LOG.info("Capytaine imported.")
 
