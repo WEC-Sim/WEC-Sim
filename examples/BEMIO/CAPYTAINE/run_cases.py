@@ -35,14 +35,14 @@ print('Run Cubes case') # 11000 problems, 8.5 hours (new b2b)
 os.chdir("../cubes")
 os.system('python cubes.py')
 
-print('Run RM3 case') # 3380 problems, 21 hours (new b2b)
-os.chdir("../rm3")
-os.system('python rm3.py')
-
 print('Run OSWEC case') # 11000 problems, 43 hours (new b2b)
 os.chdir("../oswec")
 os.system('python oswec.py')
 
+# # Multiple body cases + Parallel Computing (an example of 2 cores) ---------#
+print('Run RM3 case') # 3380 problems, 21 hours (new b2b)
+os.chdir("../rm3")
+os.system('python rm3.py')
 
 print('All simulations complete.')
 

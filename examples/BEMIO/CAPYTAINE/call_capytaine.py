@@ -24,7 +24,10 @@ import xarray as xr
 import shutil
 # import sys
 
-os.system("taskset -p 0xff %d" % os.getpid())
+# Set the affinity back on all the cores solving the single core issue.
+#   0xf is essentially a hexadecimal bitmask, corresponding to 4 cores 
+#   0xffffffffff is used here for a maximum of 40 cores.
+os.system("taskset -p 0xffffffffff %d" % os.getpid())
 
 def __init__(self):
     LOG.info("Capytaine imported.")
