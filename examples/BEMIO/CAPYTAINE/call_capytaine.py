@@ -21,6 +21,7 @@ import xarray as xr
 import logging as LOG
 from glob import glob
 import xarray as xr
+import shutil
 # import sys
 
 os.system("taskset -p 0xff %d" % os.getpid())
@@ -221,6 +222,14 @@ def call_capy(meshFName, wCapy, CoG=([0,0,0],), headings=[0.0],ncFName=None,
 
     wCapy_threads = np.array_split(np.array(wCapy),num_threads)
 
+    if num_threads != 1:
+        try:
+            shutil.rmtree('capyParallelFolder')
+        except OSError as e:        
+            pass
+
+        os.mkdir('capyParallelFolder')
+
     # An array for the processes.
     processing_jobs = []
 
@@ -228,7 +237,9 @@ def call_capy(meshFName, wCapy, CoG=([0,0,0],), headings=[0.0],ncFName=None,
         if num_threads == 1:
             ncFName_each_thread = ncFName
         else:
-            ncFName_each_thread = ncFName[0:len(ncFName)-3] + "_{}.nc".format(i+1)
+            os.chdir("./capyParallelFolder")
+            ncFName_each_thread = os.getcwd() + os.path.sep + "capyParallel_{}.nc".format(i+1)
+            os.chdir("../")
 
         p = Process(target=capy_solver, args= (wCapy_threads[i], CoG, headings,ncFName_each_thread,wDes, body_name, depth, density,
                     combo,additional_dofs_dir))
@@ -242,10 +253,18 @@ def call_capy(meshFName, wCapy, CoG=([0,0,0],), headings=[0.0],ncFName=None,
     if num_threads == 1:
         capyData = read_netcdfs(ncFName, dim='omega')
     else:
-        ncFName_thread = ncFName[0:len(ncFName)-3] + "_*.nc"
+        os.chdir("./capyParallelFolder")
+        ncFName_thread = os.getcwd() + os.path.sep + 'capyParallel_*.nc'
+        os.chdir("../")
         capyData = read_netcdfs(ncFName_thread, dim='omega')
         print('\nCombine Capytaine data and saved to \n' + ncFName +'\n\n')        
         capyData.to_netcdf(ncFName)
+
+        # Remove saved Capytaine data from each thread. 
+        try:
+            shutil.rmtree('capyParallelFolder')
+        except OSError as e:        
+            pass
 
     # Create a dataset of parameters. 
     #     'fill_dataset()' automatically creates problems and solves them.
