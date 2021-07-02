@@ -3,27 +3,22 @@ function results = wecSimTest(options)
     arguments
         options.bemioTest = true
         options.regressionTest = true
-        options.compilationTest = true
         options.runFromSimTest = true
         options.rotationTest = true
     end
-
+    
     import matlab.unittest.TestRunner;
     import matlab.unittest.TestSuite;
     import matlab.unittest.Test
-
+    
     suites = Test.empty();
-
+    
     if options.bemioTest
         suites = [suites TestSuite.fromFile('tests/bemioTest.m')];
     end
     
     if options.regressionTest
         suites = [suites TestSuite.fromFile('tests/regressionTest.m')];
-    end
-    
-    if options.compilationTest
-        suites = [suites TestSuite.fromFile('tests/compilationTest.m')];
     end
     
     if options.runFromSimTest
@@ -36,7 +31,7 @@ function results = wecSimTest(options)
     
     % Build the runner
     runner = TestRunner.withTextOutput;
-
+    
     % Run the tests
     results = runner.run(suites);
     
