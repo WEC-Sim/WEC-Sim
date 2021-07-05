@@ -6,9 +6,6 @@ function hydro = Read_CAPYTAINE(hydro,filename)
 %     hydro –     data structure
 %     filename –  CAPYTAINE .nc output file
 %
-% Note: dof sorting and permute has been well assessed. These checks can
-% probably be removed.
-%
 
 %% Check file for required variables
 [a,b] = size(hydro);  % Check on what is already there
@@ -82,7 +79,7 @@ tmp = ncread(filename,'body_name')';
 for i=1:s1
     hydro(F).body{i} = erase(tmp(i,:), char(0)); % assign preliminary value to body names
 end
-% hydro(F).body = tmp;
+hydro(F).body = split(hydro(F).body,'+');
 
 % sort radiating dof into standard list if necessary
 rdofs = lower(string(ncread(filename,'radiating_dof')'));
@@ -104,10 +101,10 @@ else
 end
 
 % number of dofs / body (should be 6 or larger for GBM)
-hydro(F).dof = i_nDofs;
+for i=1:hydro(F).Nb
+    hydro(F).dof(i) = max(6,i_nDofs(i));
+end
 
-% update body names
-hydro(F).body = i_bodies;
 
 %% Reorder dofs if needed
 % check the ordering of the 'complex' dimension
@@ -119,18 +116,18 @@ elseif tmp(1,:) == "im" && tmp(2,:) == "re"
     i_im = 1;
     i_re = 2;
 else
-    error('check complex dimension indices');
+    error('Error:BEMIO:Read_Capytaine: check complex dimension indices');
 end
 
 % Check that radiating & influenced dofs are same length and at least 6*Nb
 dof_i = length(i_sorted_dofs);
 dof_r = length(r_sorted_dofs);
 if dof_i ~= dof_r
-    error(['Error:read_capytaine_v1: Length of influenced and radiating degrees of freedom do not' ...
+    error(['Error:BEMIO:Read_Capytaine: Length of influenced and radiating degrees of freedom do not' ...
         'match. Check input / BEM simulation.']);
 end
 if dof_i < 6*hydro(F).Nb || dof_r < 6*hydro(F).Nb
-    error(['Error:read_capytaine_v1: Length of influenced and radiating degrees of freedom is less' ...
+    warning(['Warning:BEMIO:Read_Capytaine: Length of influenced and radiating degrees of freedom is less' ...
         'than 6*Nb (standard dofs for each body). Check input / BEM simulation.']);
 end
 
@@ -144,7 +141,7 @@ waitbar(1/8);
 % Format is the same Hydrostatics.dat files that Nemoh uses.
 for m = 1:hydro(F).Nb
     try
-        hydro(F).dof(m) = 6;  % Default degrees of freedom for each body is 6
+%         hydro(F).dof(m) = 6;  % Default degrees of freedom for each body is 6
         if hydro(F).Nb == 1
             fileID = fopen(fullfile(meshdir,'Hydrostatics.dat'));
         else
@@ -161,7 +158,11 @@ for m = 1:hydro(F).Nb
         tmp = textscan(raw{4},'%s %s %f');
         hydro(F).Vo(m) = tmp{3};  % Displacement volume
     catch
-        error('Hydrostatics data not included in Capytaine output. No value for cg,cb,Vo.');
+        warning(['Hydrostatics data not included in Capytaine output.' ...
+            ' Value of zero assigned to cg, cb, Vo.']);
+        hydro(F).cg = zeros(3,hydro(F).Nb);
+        hydro(F).cb = zeros(3,hydro(F).Nb);
+        hydro(F).Vo = zeros(1,hydro(F).Nb);
     end
 end
 
@@ -202,7 +203,8 @@ for m = 1:hydro(F).Nb
             hydro(F).C(i,:,m) = tmp{1,1}(1:6);  % Linear restoring stiffness
         end
     catch
-        error('No KH.dat files found. Hydrostatics cant be computed.');
+        warning('No KH.dat files found. Hydrostatics can''t be computed.');
+        hydro(F).C = zeros(6,6,hydro(F).Nb);
     end
 end
 waitbar(3/8);
@@ -230,16 +232,22 @@ else
 end
 
 % permute the influenced/radiating dofs if not output by Capytaine correctly
-if reset_idofs
-    tmp = tmp(iinds,:,:);
+% Initialize added mass as 6x6xNf (or larger if gbm) to allow reading 
+% Capytaine simulations in <6 DOFs
+AM = zeros(sum(hydro(F).dof), sum(hydro(F).dof), hydro(F).Nf);
+if reset_idofs || reset_rdofs
+    for j=1:sum(hydro(F).dof)
+        for k=1:sum(hydro(F).dof)
+            if iinds(j) ~= 0 && rinds(k) ~= 0
+                AM(j,k,:) = tmp(iinds(j),rinds(k),:);
+            end
+        end
+    end
+else
+    AM = tmp;
 end
-if reset_rdofs
-    tmp = tmp(:,rinds,:);
-end
-
-hydro(F).A = tmp;
-
-clear tmp
+hydro(F).A = AM;
+clear tmp AM
 
 %% Radiation damping [6*Nb, 6*Nb, Nf]
 % Get index of variable
@@ -264,16 +272,23 @@ else
 end
 
 % permute the influenced/radiating dofs if not output by Capytaine correctly
-if reset_idofs
-    tmp = tmp(iinds,:,:);
+% Initialize radiation damping as 6x6xNf (or larger if gbm) to allow reading 
+% Capytaine simulations in <6 DOFs
+RD = zeros(sum(hydro(F).dof), sum(hydro(F).dof), hydro(F).Nf);
+if reset_idofs || reset_rdofs
+    for j=1:sum(hydro(F).dof)
+        for k=1:sum(hydro(F).dof)
+            if iinds(j) ~= 0 && rinds(k) ~= 0
+                RD(j,k,:) = tmp(iinds(j),rinds(k),:);
+            end
+        end
+    end
+else
+    RD = tmp;
 end
-if reset_rdofs
-    tmp = tmp(:,rinds,:);
-end
+hydro(F).B = RD;
 
-hydro(F).B = tmp;
-
-clear tmp
+clear tmp RD
 waitbar(4/8);
 
 %% Froude-Krylov force file [6*Nb,Nh,Nf];
@@ -300,18 +315,27 @@ else
 end
 
 % permute the influenced dofs if not output by Capytaine correctly
+% Initialize FK force as 6xNhxNf (or larger if gbm) to allow reading 
+% Capytaine simulations in <6 DOFs
+FK = zeros(sum(hydro(F).dof), hydro(F).Nh, hydro(F).Nf, 2);
 if reset_idofs
-    tmp = tmp(iinds,:,:,:);
+    for j=1:sum(hydro(F).dof)
+        if iinds(j) ~= 0
+            FK(j,:,:,:) = tmp(iinds(j),:,:,:);
+        end
+    end
+else
+    FK = tmp;
 end
 
 % Set real and imaginary components of variable. Calculate magnitude and
 % phase from components
-hydro(F).fk_re = tmp(:,:,:,i_re);
-hydro(F).fk_im = -tmp(:,:,:,i_im);
+hydro(F).fk_re = FK(:,:,:,i_re);
+hydro(F).fk_im = -FK(:,:,:,i_im);
 hydro(F).fk_ma = (hydro(F).fk_re.^2 + hydro(F).fk_im.^2).^0.5;  % Magnitude of Froude Krylov force
 hydro(F).fk_ph = angle(hydro(F).fk_re + 1i*hydro(F).fk_im);     % Phase of Froude Krylov force
 
-clear tmp
+clear tmp FK
 waitbar(5/8);
 
 %% Diffraction Force (scattering) [6*Nb,Nh,Nf];
@@ -338,18 +362,27 @@ else
 end
 
 % permute the influenced dofs if not output by Capytaine correctly
+% Initialize Diffraction force as 6xNhxNf (or larger if gbm) to allow reading 
+% Capytaine simulations in <6 DOFs
+DF = zeros(sum(hydro(F).dof), hydro(F).Nh, hydro(F).Nf, 2);
 if reset_idofs
-    tmp = tmp(iinds,:,:,:);
+    for j=1:sum(hydro(F).dof)
+        if iinds(j) ~= 0
+            DF(j,:,:,:) = tmp(iinds(j),:,:,:);
+        end
+    end
+else
+    DF = tmp;
 end
 
 % Set real and imaginary components of variable. Calculate magnitude and
 % phase from components
-hydro(F).sc_re = tmp(:,:,:,i_re);
-hydro(F).sc_im = -tmp(:,:,:,i_im);
+hydro(F).sc_re = DF(:,:,:,i_re);
+hydro(F).sc_im = -DF(:,:,:,i_im);
 hydro(F).sc_ma = (hydro(F).sc_re.^2 + hydro(F).sc_im.^2).^0.5;  % Magnitude of diffraction force
 hydro(F).sc_ph = angle(hydro(F).sc_re + 1i*hydro(F).sc_im);     % Phase of diffraction force
 
-clear tmp
+clear tmp DF
 waitbar(6/8);
 
 %% Excitation Force [6*Nb,Nh,Nf];
@@ -376,42 +409,39 @@ close(p);
 end
 
 %% functions
-function [sorted_dofs,inds,reset_tf, nDofs_per_body, new_body_names] = sorted_dof_list(old_dofs, body_names)
-% 1. sort by body name: 'bodyName{i}__dofName'
-% 2. sort each body's dofs by std + gbm: surge, sway, heave, roll, pitch, yaw, gbm1, gbm2, ...
-% 3. concate
-% this function will rearrange dimension 'dim' of a 'variable' if the dofs
-% ('old_dofs') are not in the correct order: 
-%    [surge, sway, heave, roll, pitch, yaw, gbm, ...]
+function [sorted_dofs,inds,reset_tf, nDofs_per_body, split_body_names] = sorted_dof_list(old_dofs, body_names)
+% This function reorders a list of dofs if not in the correct order: 
+%    [body 1 surge, sway, heave, roll, pitch, yaw, gbm, body 2 surge, ...]\
+% Steps:
+% 1. Find each body name
+% 2. sort each body's dofs by [standard gbm]: surge, sway, heave, roll, pitch, yaw, gbm1, gbm2, ...
+% 3. concatenate dofs
 
 % list of standard dofs
 std_dofs = ["surge", "sway", "heave", "roll", "pitch", "yaw"];
-tmp = '__';
+nDofs = length(old_dofs);
 
-new_body_names = body_names;
+% Split Capytaine name variable to get each body name.
+% If using multiple bodies w/ body interactions, Captaine sets a single
+% name as "body1Name+body2Name+..."
 if length(body_names)==1
     if contains(body_names,'+')
-        tmpi = strfind(body_names,'+');
-        tmpname = body_names;
-        
-        body_names{1} = tmpname{1}(1:tmpi{1}-1); % first body names
-        for i=1:length(tmpi)-1
-            body_names{i+1} = tmpname{1}(tmpi{i-1}+1:tmpi{i}-1); % 2(end-1) body names
-        end
-        body_names{end+1} = tmpname{1}(tmpi{end}+1:end); % last body name
-        new_body_names = body_names; % reset if body_names was 'body1+body2+body3+...'
-        clear tmpi tmpname i
+        split_body_names = split(body_names,'+');
+        tmp = '__';
     else
-        body_names = {''};
+        split_body_names = {''};
         tmp = '';
     end
+else
+    split_body_names = body_names;
+    tmp = '__';
 end
-nDofs_per_body = zeros(1,length(body_names));
+nDofs_per_body = zeros(1,length(split_body_names));
 
 sorted_dofs = [];
-for k=1:length(body_names)
-    body_dofs = old_dofs(contains(old_dofs,body_names{k})); % all dofs for body k
-    std_body_dofs = strcat(body_names{k},tmp,std_dofs); % standard 6 dofs for body k
+for k=1:length(split_body_names)
+    body_dofs = old_dofs(contains(old_dofs,split_body_names{k})); % all dofs for body k
+    std_body_dofs = strcat(split_body_names{k},tmp,std_dofs); % standard 6 dofs for body k
     gbm_dofs = body_dofs(~contains(body_dofs,std_body_dofs))'; % any gbm dofs for body k (i.e. not in std list)
     
     if isempty(gbm_dofs); gbm_dofs=[]; end % prevent formatting error when concatenating on next line
@@ -421,6 +451,7 @@ for k=1:length(body_names)
 end
 
 % set the indices that sort the old dofs/variables into the correct order
+inds = zeros(1,max([6,sum(nDofs_per_body)]));
 for j=1:length(old_dofs)
     for i=1:length(sorted_dofs)
         if lower(old_dofs(j)) == sorted_dofs(i)
