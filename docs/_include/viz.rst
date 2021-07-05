@@ -20,7 +20,7 @@ It should only be turned on when visualization is desired. The user also needs t
 
 Getting Started - Installation
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
-You will need to install `Paraview <http://www.paraview.org/>`_ and install and setup Python.  
+You will need to install `Paraview 5.9.1 <http://www.paraview.org/>`_.  
 Next you will need to add some WEC-Sim specific macros, as follows:
 
 * Open Paraview
@@ -77,18 +77,17 @@ When ``simu.paraview`` is set to 1, a user-specified directory containing ``vtk`
 All files necessary for Paraview visualization are located there.
 To view in Paraview:
 
-* Open the ``YOUR_PATH/vtk/filename.pvd`` file in Paraview
-* Click ``Apply``
+* Open the ``$CASE/vtk/filename.pvd`` file in Paraview
 * With the model selected in the pipeline, run the ``WEC-Sim`` macro
 * Move the camera to desired view
 * Click the green arrow (play) button
 
-The WEC-Sim macro:
+The ``WEC-Sim`` macro:
 
 * Extracts each body, sets the color and opacity, and renames them
 * Extracts the waves, sets color and opacity, and renames
 * Creates the ground plane
-* Sets the camera to ``parallel view``
+* Sets the camera to top view
 
 
 Basic Visualization Manipulation
@@ -123,6 +122,15 @@ The ``pressureGlyphs`` macro calculates cell normals, and cell centers. It then 
 * Total pressure (hydrostatic plus non-linear Froude-Krylov)
 * Froude-Krylov delta (non-linear minus linear)
 
+To view in Paraview:
+
+* Open the ``$CASE/vtk/filename.pvd`` file in Paraview
+* With the model selected in the pipeline, run the ``WEC-Sim`` macro
+* Move the camera to desired view
+* With the non-linear hydro body selected in the pipeline, run the ``pressureGlyphs`` macro
+* Select which features to visualize in the pipline
+* Click the green arrow (play) button
+
 The video below shows three different views of the RM3 model described in the tutorials.
 The top right shows glyphs of the non-linear Froude-Krylov pressure acting on the float. 
 The bottom right shows the float colored by hydrostatic pressure.
@@ -131,3 +139,7 @@ The bottom right shows the float colored by hydrostatic pressure.
 
 	<iframe width="420" height="315" src="https://www.youtube.com/embed/VIPXsS8h9pg" frameborder="0" allowfullscreen></iframe>
 
+
+Loading a State File
+^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+If a previous Paraview `*.pvsm`` state file was saved, the state can be applied to a different ``*.pvd`` Paraview file.
