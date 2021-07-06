@@ -10,7 +10,9 @@ function results = wecSimTest(options)
     end
     
     import matlab.unittest.TestSuite;
-    import matlab.unittest.Test
+    import matlab.unittest.Test;
+    import matlab.unittest.TestRunner;
+    import matlab.unittest.plugins.*;
     
     suites = Test.empty();
     
@@ -34,8 +36,13 @@ function results = wecSimTest(options)
         suites = [suites TestSuite.fromFile('tests/rotationTest.m')];
     end
     
+    % Create TestRunner
+    runner = TestRunner.withTextOutput; % Contains TestRunProgressPlugin, DiagnosticsOutputPlugin
+    runner.addPlugin(DiagnosticsRecordingPlugin);
+    runner.addPlugin(CodeCoveragePlugin.forFolder('./source'));
+    
     % Run the tests
-    results = run(suites);
+    results = runner.run(suites);
     
 end
 
