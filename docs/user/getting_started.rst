@@ -207,7 +207,7 @@ If documentation in an area is lacking, please identify this in your GitHub issu
 
 
 4. Search Closed WEC-Sim Issues
-^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
 In many cases, another user has had a similar issue before. 
 Search the issues page for closed issues that relate to your current problem.
@@ -227,18 +227,20 @@ Users who do not use a template will be asked to reopen their issue with the app
 If the provided templates do not fit an issue, users may open a blank issue with an initial statement explaining why there is no template and providing sufficient information.
 
 When opening an issue, please provide all relevant information. 
-Link to the relevant documentation section and past issues if appropriate.
-
-The development team makes every effort to respond to issues each week. 
-Issues are not addressed over weekends or U.S. holidays.
-The issue board is provided as a convenience to users. 
-Users should not expect or request an immediate response from the developers.
+Link to the relevant documentation section and past issues, and upload a case file whenever possible.
 
 
-.. Note:: 
-    Currently the WEC-Sim development team does not support BEM codes. 
-    We will do our best to aid users with using BEMIO to create input data for WEC-Sim.
-    Unfortunately we cannot provide support on using BEM codes, or supplying input files or meshes for geometries.
-    Please contact the representative of a given BEM code to gain assistance.
+Notes on the Issue Board
+^^^^^^^^^^^^^^^^^^^^^^^^
+Unfortunately, the WEC-Sim development team does not have the time and funding to address issues outside of WEC-Sim.
+The following topics cannot be addressed when there is not a direct relation to WEC-Sim code, theory or implementation: 
 
+- MATLAB/Simulink/Simscape-based issues
+- general hydrodynamics questions
+- performing tasks for a user's case, i.e. supplying nonlinear meshes or \*.h5 files
+- running BEM codes
+- use or development of BEM codes
 
+The issue board is provided as a convenience to users and the development team makes every effort to respond to issues each week. 
+Issues are not addressed over weekends nor U.S. holidays.
+Users should not expect nor request an immediate response from the developers.
