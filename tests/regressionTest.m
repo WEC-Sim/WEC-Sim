@@ -2,7 +2,6 @@ classdef regressionTest < matlab.unittest.TestCase
     
     properties
         testDir = ''
-        plotNO = []       % 1 to plot new run vs. stored run for comparison of each solver
         plotSolvers = []  % 1 to plot new run comparison by sln method
         openCompare = []  % 1 opens all new run vs. stored run plots for comparison of each solver
         regular
@@ -10,23 +9,19 @@ classdef regressionTest < matlab.unittest.TestCase
         regularSS
         irregularCIC
         irregularSS
-        RegYaw
-        IrrYaw
         OriginalDefault
     end
     
     methods(Access = 'public')
         
-        function obj = regressionTest(plotNO, plotSolvers, openCompare)
+        function obj = regressionTest(plotSolvers, openCompare)
             
             arguments
-                plotNO      (1,1) double = 1
                 plotSolvers (1,1) double = 1
                 openCompare (1,1) double = 1
             end
             
             % Assign arguments to test Class
-            obj.plotNO = plotNO;
             obj.plotSolvers = plotSolvers;
             obj.openCompare = openCompare;
             
@@ -124,36 +119,6 @@ classdef regressionTest < matlab.unittest.TestCase
             
         end
         
-        function runYawRegTest(testCase)
-            
-            cd(fullfile(testCase.testDir,   ...
-                        'RegressionTests',  ...
-                        'PassiveYaw',       ...
-                        'RegularWaves'))
-                    
-            runLoadPassiveYawReg;
-            testCase.RegYaw = load('RegYaw.mat').("RegYaw");
-            savefig(fullfile('..', 'figYawReg'));
-            
-            cd(testCase.testDir);
-            
-        end
-        
-        function runYawIrrTest(testCase)
-            
-            cd(fullfile(testCase.testDir,   ...
-                        'RegressionTests',  ...
-                        'PassiveYaw',       ...
-                        'IrregularWaves'))
-                    
-            runLoadPassiveYawIrr;
-            testCase.IrrYaw = load('IrrYaw.mat').("IrrYaw");
-            savefig(fullfile('..', 'figYawIrr'));
-            
-            cd(testCase.testDir);
-            
-        end
-        
     end
     
     methods(TestClassTeardown)
@@ -165,8 +130,6 @@ classdef regressionTest < matlab.unittest.TestCase
             regularSS = testCase.regularSS;
             irregularCIC = testCase.irregularCIC;
             irregularSS = testCase.irregularSS;
-            RegYaw = testCase.RegYaw;
-            IrrYaw = testCase.IrrYaw;
 
             % Plot Solver Comparisons
             if testCase.plotSolvers == 1
@@ -198,12 +161,6 @@ classdef regressionTest < matlab.unittest.TestCase
                             'IrregularWaves'));
                 openfig('figIrregCIC.fig');
                 openfig('figIrregSS.fig');
-                
-                cd(fullfile(testCase.testDir,   ...
-                            'RegressionTests',  ...
-                            'PassiveYaw'));
-                open('figYawReg.fig'); 
-                open('figYawIrr.fig'); 
                 
             end
             
@@ -405,59 +362,6 @@ classdef regressionTest < matlab.unittest.TestCase
             tol = 1e-10;
             org = testCase.irregularSS.Sp.WEC_Sim_org.m2;
             new = testCase.irregularSS.Sp.WEC_Sim_new.m2;
-            testCase.verifyEqual(new,org,'AbsTol',tol);
-            fprintf(['2nd Order Spectral Moment, Diff = '       ...
-                     num2str(max(abs(org-new))) '\n']);
-        end
-        
-        
-        function body1_regYaw_disp_yaw(testCase)
-            % Body1 Displacement in Yaw
-            tol = 1e-10;
-            testCase.verifyEqual(testCase.RegYaw.Pos_diff,0,'AbsTol',tol);
-            fprintf(['Body1 Displacement in Yaw, Diff = '       ...
-                     num2str(testCase.RegYaw.Pos_diff) '\n']);
-        end
-        
-        function body1_regYaw_torque_yaw(testCase)
-            % Body1 Torque in Yaw
-            tol=1e-4;
-            testCase.verifyEqual(testCase.RegYaw.Force_diff,0,'AbsTol',tol);
-            fprintf(['Body1 Torque in Yaw, Diff = '             ...
-                     num2str(testCase.RegYaw.Force_diff) '\n']);
-        end
-        
-        function body1_irregYaw_disp_yaw(testCase)
-            % Body1 Displacement in Yaw
-            tol = 1e-10;
-            testCase.verifyEqual(testCase.IrrYaw.Pos_diff,0,'AbsTol',tol);
-            fprintf(['Body1 Displacement in Yaw, Diff = '       ...
-                     num2str(testCase.IrrYaw.Pos_diff) '\n']);
-        end
-
-        function body1_irregYaw_torque_yaw(testCase)
-            % Body1 Torque in Yaw
-            tol = 1e-4;
-            testCase.verifyEqual(testCase.IrrYaw.Force_diff,0,'AbsTol',tol);
-            fprintf(['Body1 Torque in Yaw, Diff = '             ...
-                     num2str(testCase.IrrYaw.Force_diff) '\n']);
-        end
-        
-        function irregYaw_0th_Spectral_Moment(testCase)
-            % 0th Order Spectral Moment
-            tol = 1e-10;
-            org = testCase.IrrYaw.Sp.WEC_Sim_org.m0;
-            new = testCase.IrrYaw.Sp.WEC_Sim_new.m0;
-            testCase.verifyEqual(new,org,'AbsTol',tol);
-            fprintf(['0th Order Spectral Moment, Diff = '       ...
-                      num2str(max(abs(org-new))) '\n']);
-        end
-        
-        function irregYaw_2nd_Spectral_Moment(testCase)
-            % 2nd Order Spectral Moment
-            tol = 1e-10;
-            org = testCase.IrrYaw.Sp.WEC_Sim_org.m2;
-            new = testCase.IrrYaw.Sp.WEC_Sim_new.m2;
             testCase.verifyEqual(new,org,'AbsTol',tol);
             fprintf(['2nd Order Spectral Moment, Diff = '       ...
                      num2str(max(abs(org-new))) '\n']);

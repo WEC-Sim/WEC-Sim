@@ -3,11 +3,12 @@ function results = wecSimTest(options)
     arguments
         options.bemioTest = true
         options.regressionTest = true
+        options.passiveYawTest = false
+        options.compilationTest = true
         options.runFromSimTest = true
         options.rotationTest = true
     end
     
-    import matlab.unittest.TestRunner;
     import matlab.unittest.TestSuite;
     import matlab.unittest.Test
     
@@ -21,6 +22,10 @@ function results = wecSimTest(options)
         suites = [suites TestSuite.fromFile('tests/regressionTest.m')];
     end
     
+    if options.passiveYawTest
+        suites = [suites TestSuite.fromFile('tests/passiveYawTest.m')];
+    end
+    
     if options.runFromSimTest
         suites = [suites TestSuite.fromFile('tests/runFromSimTest.m')];
     end
@@ -29,11 +34,8 @@ function results = wecSimTest(options)
         suites = [suites TestSuite.fromFile('tests/rotationTest.m')];
     end
     
-    % Build the runner
-    runner = TestRunner.withTextOutput;
-    
     % Run the tests
-    results = runner.run(suites);
+    results = run(suites);
     
 end
 
