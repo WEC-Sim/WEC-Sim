@@ -187,6 +187,7 @@ Users should spend time carefully setting up and debugging their WEC-Sim cases. 
 - Confirm that all user-defined inputs are set correctly
 - Confirm that WEC-Sim is called in the intended way (wecSim, wecSimMCR, wecSimPCT, from Simulink, etc)
 - Check BEM input data for expected results
+- If creating your own WEC-Sim case, go through the 
 
 
 2. Identify Root Cause
@@ -210,7 +211,7 @@ If documentation in an area is lacking, please identify this in your GitHub issu
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
 In many cases, another user has had a similar issue before. 
-Search the issues page for closed issues that relate to your current problem.
+Search the issues page and the below FAQ for topics that relate to your current problem.
 If these are related but not sufficient, tag them in your GitHub issue for easy reference of the development team and future users.
 
 
@@ -244,3 +245,97 @@ The following topics cannot be addressed when there is not a direct relation to 
 The issue board is provided as a convenience to users and the development team makes every effort to respond to issues each week. 
 Issues are not addressed over weekends nor U.S. holidays.
 Users should not expect nor request an immediate response from the developers.
+
+
+Frequently Asked Questions
+^^^^^^^^^^^^^^^^^^^^^^^^^^
+This section highlights some of the frequently encountered issues when using WEC-Sim.
+All FAQ information is available when searching closed GitHub issues but is repeated here for convenience.
+
+Solution Singularity
+~~~~~~~~~~~~~~~~~~~~
+
+**Problem**
+
+The simulation is numerically unstable. Bodies may rise or fall indefinitely and have unphysical responses.
+This occurs because there is an imbalance between the gravity and hydrostatic forces.
+If the gravity force is much larger than the hydrostatic force, bodies may fall indefinitely. The result is opposite when gravity is too small.
+An extremely large or small stiffness can also cause this problem. 
+A small stiffness will not restore a body to an equilibrium position. 
+A large stiffness may require a very small time step to be effective.
+
+**Possible error messages**
+
+.. code-block:: none
+
+	Derivative of state ... in block ... at time ... is not finite. 
+	The simulation will be stopped. There may be a singularity in the solution
+
+**Solution**
+
+Reevaluate the hydrostatic stability of the device.
+Compare the mass and displaced volume of the device to evaluate if it will float properly.
+Calculate an approximate stiffness that will restore the body to equilibrium in still water. 
+Compare the mass, volume, and stiffness to those results in the BEM data.
+
+
+Degenerate Mass Distribution
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+**Problem**
+
+When two PTOs or Constraints are connected in series with no mass between them, Simulink attempts to connect two joints directly together.
+Simulink cannot reconcile the forcing and motion between those joints without a mass between series joints.
+
+**Possible error messages**
+
+.. code-block:: none
+
+	... Joint has a degenerate mass distribution on its base/follower side.
+
+**Solution**
+
+Add an insignificantly small mass (e.g. ``Simulink Library/Simscape/Multibody/Body Elements/Inertia``) between the two joints.
+Alternatively, if special degrees of freedom are required create a new PTO or constraint using one of the many joints 
+available in the Simscape Multibody Joints library.
+
+
+Hydrodynamic Data File
+~~~~~~~~~~~~~~~~~~~~~~
+
+**Problem**
+
+The path to the ``*.h5`` file does not exist or it is incomplete (size < 1kB).
+
+**Possible error messages**
+
+.. code-block:: none
+
+	The hdf5 file hydroData/*.h5 does not exist
+
+.. code-block:: none
+
+	This is not the correct *.h5 file. Please install git-lfs to access the correct *.h5 file, or run \hydroData\bemio.m to generate a new *.h5 file
+
+**Solution**
+
+Check the path to the \*.h5 file in the wecSimInputFile.m or run BEMIO for the source examples.
+
+
+.. format
+	problem name
+	~~~~~~~~~
+
+	**Problem**
+
+	Description
+
+	**Possible error messages**
+
+	.. code-block:: none
+
+		Message
+
+	**Solution**
+
+	Description
