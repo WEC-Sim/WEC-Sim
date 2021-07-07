@@ -8,13 +8,12 @@ jobs:
     # Fix git repo so all branches can be seen by sphinx-multiversion
     - git config --replace-all remote.origin.fetch +refs/heads/*:refs/remotes/origin/*
     - git fetch
-    - git branch -r
     - mkdir html
-    - sphinx-multiversion docs/ html/
     - sphinx-multiversion docs/ html/
     before_deploy:
     - touch html/.nojekyll
-    - cp assets/gh-pages-redirect.html html/index.html
+    - cp docs/_assets/gh-pages-redirect.html html/index.html
+    - cp docs/_assets/README.md html
     deploy:
     - provider: pages
       skip_cleanup: true
