@@ -5,11 +5,13 @@ jobs:
     install:
     - pip install "docutils<0.17" sphinxcontrib-matlabdomain sphinxext-remoteliteralinclude sphinx-multiversion sphinxcontrib-bibtex sphinx_rtd_theme
     script:
-    - git remote
+    # Fix git repo so all branches can be seen by sphinx-multiversion
+    - git config --replace-all remote.origin.fetch +refs/heads/*:refs/remotes/origin/*
+    - git fetch
     - git branch -r
-    - ls
     - mkdir html
     - sphinx-multiversion --dump-metadata -D "smv_remote_whitelist=r'^(origin)$'" docs/ html/
+    - sphinx-multiversion -D "smv_remote_whitelist=r'^(origin)$'" docs/ html/
     before_deploy:
     - touch html/.nojekyll
     - cp assets/gh-pages-redirect.html html/index.html
@@ -19,5 +21,8 @@ jobs:
       github_token: $GITHUB_TOKEN
       keep_history: false
       local_dir: html
+      on:
+        all_branches: true
+        condition: $TRAVIS_BRANCH =~ ^(sphinx-multiversion|master|dev)$
     if: "(branch = sphinx-multiversion) AND type = push"
 
