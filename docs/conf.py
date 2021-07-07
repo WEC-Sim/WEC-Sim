@@ -70,7 +70,7 @@ matlab_keep_package_prefix = False
 # sphinx_multiversion settings
 smv_branch_whitelist = r'\b(master|dev)\b'
 smv_tag_whitelist = None
-smv_remote_whitelist = None
+smv_remote_whitelist=r'^(origin)$'
 
 # Add any paths that contain templates here, relative to this directory.
 templates_path = ['_templates']
