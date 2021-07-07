@@ -24,6 +24,5 @@ jobs:
       local_dir: html
       on:
         all_branches: true
-        condition: $TRAVIS_BRANCH =~ ^(sphinx-multiversion|master|dev)$
-    if: "(branch = sphinx-multiversion) AND type = push"
-
+        condition: $TRAVIS_BRANCH =~ ^(master|dev)$
+    if: "(branch = master OR branch = dev) AND type = push"
