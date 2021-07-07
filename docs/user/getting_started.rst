@@ -13,13 +13,13 @@ WEC-Sim is developed in MATLAB/Simulink, and requires the following toolboxes:
  
 ==========================  =============================
 **Required Toolbox**        **Oldest Compatible Version**
-MATLAB                      Version 9.7  (R2019a)
-Simulink                    Version 10.0 (R2019a)
-Simscape                    Version 4.7  (R2019a)
-Simscape Multibody          Version 7.0  (R2019a)
+MATLAB                      Version 9.7  (R2019b)
+Simulink                    Version 10.0 (R2019b)
+Simscape                    Version 4.7  (R2019b)
+Simscape Multibody          Version 7.0  (R2019b)
 ==========================  =============================
 
-WEC-Sim's Simulink Library is saved in MATLAB R2019a, so any newer MATLAB 
+WEC-Sim's Simulink Library is saved in MATLAB R2019b, so any newer MATLAB 
 release should be compatible with WEC-Sim. Certain advanced features rely on 
 external functions, such as :ref:`mooring-moordyn`, and 
 additional MATLAB Toolboxes, such as :ref:`user-advanced-features-pct`. WEC-Sim 
