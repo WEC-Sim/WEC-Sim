@@ -8,12 +8,14 @@ jobs:
     # Fix git repo so all branches can be seen by sphinx-multiversion
     - git config --replace-all remote.origin.fetch +refs/heads/*:refs/remotes/origin/*
     - git fetch
+    # Build docs to deploy in html folder
     - mkdir html
     - sphinx-multiversion docs/ html/
     before_deploy:
+    # Copy static front matter
     - touch html/.nojekyll
     - cp docs/_assets/gh-pages-redirect.html html/index.html
-    - cp docs/_assets/README.md html
+    - cp docs/_assets/gh-pages-readme.md html/README.md
     deploy:
     - provider: pages
       skip_cleanup: true
