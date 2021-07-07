@@ -91,6 +91,95 @@ The issue board is provided as a convenience to users and the development team m
 Issues are not addressed over weekends nor U.S. holidays.
 Users should not expect nor request an immediate response from the developers.
 
+
+Numerical Test Cases
+--------------------
+This section describe a series of numerical test cases that should be performed when creating a novel WEC-Sim case.
+These various wave cases are necessary to ensure a robust, accurate solution and speed the debugging process for users.
+When opening a support question for case development, users will be asked to supply information on which test cases are functioning or not.
+Note that this workflow is not foolproof, but can be used as a guide to create a more robust solution when developing a WEC-Sim case.
+
+======  =================================  =========================
+Number  Purpose                            Input parameters utilized
+======  =================================  =========================
+1A      Hydrostatic stability              noWave
+1B      Hydrostatic stability              noWaveCIC
+2A      Decay test, hydrostatic stiffness  noWave, initDisp
+2B      Decay test, hydrostatic stiffness  noWaveCIC, initDisp
+3A      Viscous drag                       regular
+3B      Viscous drag                       regularCIC
+4A      Full functionality                 irregular, initDisp
+======  =================================  =========================
+
+Various problems may while progressing through these test cases.
+Users should not advance to the next test until the previous ones run without error and with physical responses.
+
+Test 1:
+^^^^^^^
+
+Issues with Test 1A-B indicate there is an imbalance between the gravity and buoyant forces. 
+This may cause the "solution singularity" as described in the FAQ, or result in a body rising or falling indefinitely.
+To solve this problem, recalculate the mass that will balance the displaced volume from the BEM data.
+Alteratively utilize the ``body(#).mass = equilibrium`` option.
+
+Test 2:
+^^^^^^^
+
+Failure in Test 2 but not Test 1 inidicates an inaccurate hydrostatic stiffness.
+The hydrostatic stiffness returns a device to equilibrium after some displacement.
+If the stiffness is too large, the simulation may require a very small time step. 
+If too small, an initial displacement may still cause infinite motion.
+Try altering the stiffness by using ``body(#).hydroStiffness`` in the input file.
+
+Test 3:
+^^^^^^^
+
+A hydrostatically stable device that has an unphysical response to a regular wave requires different drag and damping.
+Viscous drag is essential to a physical response in WEC-Sim.
+Tune the parameters ``body(#).viscDrag`` or ``body(#).linearDamping`` to cause a more realistic response.
+
+Test 4:
+^^^^^^^
+
+If a simulation is stable and realistic in Test 4 and all previous test cases, it can likely be used in additional cases as desired.
+Passing these test cases does not necessarily indicate accuracy, but it should result in a simulation without numerical errors.
+It is up to each user to tune body, PTO and mooring parameters appropriately to model a device accurately.
+
+
+Tests A vs B:
+^^^^^^^^^^^^^
+
+The CIC waves can be used to evaluate if "good" BEM data is being used. 
+If a non-CIC wave has unphysical behavior at a specific frequency but not others, there is likely IRR spikes in the BEM data.
+The CIC wave decreases the impact of IRR issues in the input data.
+
+If a CIC wave continues to oscillate without decaying to a steady state, the convolution integral time is not long enough.
+Increase ``simu.CITime`` to a greater value or use the state space option (``simu.ssCalc=1``).
+
+Other notes:
+^^^^^^^^^^^^
+
+If a user wishes to use the non-linear hydro options, they should follow this same workflow once with ``simu.nlHydro=0`` and again with ``simu.nlHydro=1,2``
+The non-linear hydro effects must be used with case and are difficult to set-up. 
+A highly refined mesh is required to get an accurate displaced volume and wetted surface area at each time step.
+
+
+
+.. 
+	Case 1a: No wave
+	^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+	**Purpose:** 
+
+	**Set-up**::
+
+		waves = waveClass(...
+
+	**Issues:**
+
+	**Solutions:**
+
+
+
 Frequently Asked Questions
 --------------------------
 This section highlights some of the frequently encountered issues when using WEC-Sim.
