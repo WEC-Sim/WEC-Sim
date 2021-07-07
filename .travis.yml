@@ -2,6 +2,8 @@ language: python
 jobs:
   include:
   - stage: pages
+    install:
+    - pip install sphinxcontrib-matlabdomain sphinxext-remoteliteralinclude sphinx-multiversion sphinxcontrib-bibtex sphinx_rtd_theme
     script:
     - mkdir html
     - sphinx-multiversion docs/ html/
