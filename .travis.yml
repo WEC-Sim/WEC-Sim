@@ -10,8 +10,8 @@ jobs:
     - git fetch
     - git branch -r
     - mkdir html
-    - sphinx-multiversion --dump-metadata -D "smv_remote_whitelist=r'^(origin)$'" docs/ html/
-    - sphinx-multiversion -D "smv_remote_whitelist=r'^(origin)$'" docs/ html/
+    - sphinx-multiversion docs/ html/
+    - sphinx-multiversion docs/ html/
     before_deploy:
     - touch html/.nojekyll
     - cp assets/gh-pages-redirect.html html/index.html
