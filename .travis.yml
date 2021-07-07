@@ -6,6 +6,8 @@ jobs:
     - pip install "docutils<0.17" sphinxcontrib-matlabdomain sphinxext-remoteliteralinclude sphinx-multiversion sphinxcontrib-bibtex sphinx_rtd_theme
     script:
     - git remote
+    - git branch -r
+    - ls
     - mkdir html
     - sphinx-multiversion --dump-metadata -D "smv_remote_whitelist=r'^(origin)$'" docs/ html/
     before_deploy:
