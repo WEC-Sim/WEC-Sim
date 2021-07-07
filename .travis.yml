@@ -3,7 +3,7 @@ jobs:
   include:
   - stage: pages
     install:
-    - pip install sphinxcontrib-matlabdomain sphinxext-remoteliteralinclude sphinx-multiversion sphinxcontrib-bibtex sphinx_rtd_theme
+    - pip install docutils<0.17 sphinxcontrib-matlabdomain sphinxext-remoteliteralinclude sphinx-multiversion sphinxcontrib-bibtex sphinx_rtd_theme
     script:
     - git remote
     - mkdir html
