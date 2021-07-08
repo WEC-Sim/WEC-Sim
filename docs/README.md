@@ -14,12 +14,10 @@ replace slashes (`/`) in paths with backslashes (`\ `).
 2. Create the Sphinx environment:
    
    ```
-   > conda create -c conda-forge -n _sphinx git click colorama colorclass future pip "sphinx=1.8.5" sphinxcontrib-bibtex sphinx_rtd_theme 
-   > conda activate _sphinx
-   (_sphinx) > pip install sphinxcontrib-matlabdomain
-   (_sphinx) > pip install --no-deps sphinxext-remoteliteralinclude
-   (_sphinx) > pip install https://github.com/H0R5E/sphinxcontrib-versioning/archive/v1.8.5_support.zip
-   (_sphinx) > conda deactivate
+   > conda create -c conda-forge -n _wssphinx git click colorama colorclass future pip sphinxcontrib-bibtex sphinx_rtd_theme 
+   > conda activate _wssphinx
+   (_wssphinx) > pip install sphinxcontrib-matlabdomain sphinxext-remoteliteralinclude sphinx-multiversion
+   (_wssphinx) > conda deactivate
    >
    ```
 
@@ -33,10 +31,10 @@ available.
 To test the current branch, use the following:
 
 ```
-> conda activate _sphinx
-(_sphinx) > cd path/to/WEC-Sim
-(_sphinx) > sphinx-build -b html docs docs/_build/html
-(_sphinx) > conda deactivate
+> conda activate _wssphinx
+(_wssphinx) > cd path/to/WEC-Sim
+(_wssphinx) > sphinx-build -b html docs docs/_build/html
+(_wssphinx) > conda deactivate
 >
 ```
 
@@ -52,15 +50,15 @@ from the remote, so only pushed changes will be shown.
 To build the docs as they would be published, use the following:
 
 ```
-> conda activate _sphinx
-(_sphinx) > cd path/to/WEC-Sim
-(_sphinx) > sphinx-versioning build -b docs docs/_build/html
-(_sphinx) > conda deactivate
+> conda activate _wssphinx
+(_wssphinx) > cd path/to/WEC-Sim
+(_wssphinx) > sphinx-multiversion docs docs/_build/html
+(_wssphinx) > conda deactivate
 >
 ```
 
 The front page of the docs can be accessed at 
-`docs/_build/html/index.html`. 
+`docs/_build/html/master/index.html`. 
 
 #### Publishing Final Version Remotely
 
@@ -70,10 +68,10 @@ https://github.com/WEC-Sim/WEC-Sim) repository. They can also be  published
 manually, as follows:
 
 ```
-> conda activate _sphinx
-(_sphinx) > cd path/to/WEC-Sim
-(_sphinx) > sphinx-versioning push -b -e .nojekyll -e README.md -P <REMOTE> docs <BRANCH> .
-(_sphinx) > conda deactivate
+> conda activate _wssphinx
+(_wssphinx) > cd path/to/WEC-Sim
+(_wssphinx) > sphinx-versioning push -b -e .nojekyll -e README.md -P <REMOTE> docs <BRANCH> .
+(_wssphinx) > conda deactivate
 >
 ```
 
