@@ -63,18 +63,5 @@ The front page of the docs can be accessed at
 #### Publishing Final Version Remotely
 
 The WEC-Sim docs are rebuilt automatically following every merge commit made 
-to the master branch of the [WEC-Sim/WEC-Sim](
-https://github.com/WEC-Sim/WEC-Sim) repository. They can also be  published 
-manually, as follows:
-
-```
-> conda activate _wssphinx
-(_wssphinx) > cd path/to/WEC-Sim
-(_wssphinx) > sphinx-versioning push -b -e .nojekyll -e README.md -P <REMOTE> docs <BRANCH> .
-(_wssphinx) > conda deactivate
->
-```
-
-\<REMOTE\> refers to the git remote which will be pushed to and \<BRANCH\> 
-refers to the target branch on the remote. Note, this command will add a new 
-commit to the remote, so use with care.
+to the master or dev branch of the [WEC-Sim/WEC-Sim](
+https://github.com/WEC-Sim/WEC-Sim) repository.
