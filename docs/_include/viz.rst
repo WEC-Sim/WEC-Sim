@@ -1,54 +1,55 @@
 
 
-This section describes how to setup, output, and use Paraview files for visualizing a WEC-Sim simulation. 
-For more information about using Paraview for visualization, refer to the :ref:`webinar4`, and the **Viz** example on the `WEC-Sim Applications <https://github.com/WEC-Sim/WEC-Sim_Applications>`_ repository.
+This section describes how to use ParaView for visualizing data from a WEC-Sim simulation. 
+For more information about using ParaView for visualization, refer to the :ref:`webinar4`, and the **Paraview_Visualization** examples on the `WEC-Sim Applications <https://github.com/WEC-Sim/WEC-Sim_Applications>`_ repository.
 
-Using Paraview visualization improves on SimMechanics's explorer by:
+Using ParaView visualization improves on SimMechanics's explorer by:
 
-* Visualization of the wave field
-* Visualization of the cell-by-cell non-linear hydrodynamic forces (when using nonlinear buoyancy and Froude-Krylov wave excitation)
-* Allow data manipulation and more visualization options
+* Visualizing the wave field
+* Visualizing the cell-by-cell non-linear hydrodynamic forces (when using nonlinear buoyancy and Froude-Krylov wave excitation)
+* Allowing data manipulation and additional visualization options
 
-On the other hand the SimMechanics explorer shows the following information not shown in Paraview visualizing:
+However, SimMechanics explorer shows the following information not included in the ParaView visualization:
 
-* Location of the center of gravity
-* Location of the different frames including PTO and Constraint frames
+* Location of center of gravity
+* Location of different frames (e.g. PTO and Constraint frames)
 
-Visualization with paraview requires many files to be written, which makes the WEC-Sim simulation take significantly more time, and makes the directory significantly larger. 
-It should only be turned on when visualization is desired. The user also needs to have some familiarity with using Paraview.
+Visualization with ParaView requires additional output files to be written to a ``vtk`` directory. 
+This makes the WEC-Sim simulation take more time and the case directory larger, so it should only be used when additional visualization is desired. 
+Users will also need to have some familiarity with using ParaView.
 
 
-Getting Started - Installation
+ParaView Installation
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
-You will need to install `Paraview 5.9.1 <http://www.paraview.org/>`_.  
-Next you will need to add some WEC-Sim specific macros, as follows:
+First, install `ParaView 5.9.1 <http://www.paraview.org/>`_.  
+Then, add the WEC-Sim specific macros using the following steps:
 
-* Open Paraview
+* Open ParaView
 * Click on ``Macros => Add new macro``
 * Navigate to the WEC-Sim ``source/functions/paraview`` directory
 * Select the first file and click ``OK``
 * Repeat this for all files in the ``paraview directory.``
 
 
-Setting Up Paraview Output
+ParaView Visualization Parameters
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
-The following table shows the variables that can be specified in the ``wecSimInputFile`` to control the Paraview visualization. The ``body.viz`` properties are also used in the SimMechanics explorer visualization.
+The following table shows the variables that can be specified in the ``wecSimInputFile`` to control the ParaView visualization. The ``body.viz`` properties are also used in the SimMechanics explorer visualization.
 
 +---------------------------------------------------------------------------------------+
-| WEC-Sim Visualization using Paraview                                                  |
+| WEC-Sim Visualization using ParaView                                                  |
 +===========================+===========================================================+
 | Variable                  | Description                                               |
 +---------------------------+-----------------------------------------------------------+
-| | ``simu.paraview``       | | 0 to not output Paraview files [default]                |
-|                           | | 1 to output Paraview files                              |
+| | ``simu.paraview``       | | 0 to not output ParaView files [default]                |
+|                           | | 1 to output ParaView files                              |
 +---------------------------+-----------------------------------------------------------+
-| ``simu.StartTimeParaview``| time (s) to start Paraview visualization                  |
+| ``simu.StartTimeParaview``| time (s) to start ParaView visualization                  |
 +---------------------------+-----------------------------------------------------------+
-| ``simu.EndTimeParaview``  | time (s) to end Paraview visualization	                |
+| ``simu.EndTimeParaview``  | time (s) to end ParaView visualization	                |
 +---------------------------+-----------------------------------------------------------+
-| ``simu.dtParaview``       | time step between adjacent Paraview frames [default 1]    |
+| ``simu.dtParaview``       | time step between adjacent ParaView frames [default 1]    |
 +---------------------------+-----------------------------------------------------------+
-| ``simu.pathParaviewVideo``| directory to create Paraview visualization files          |
+| ``simu.pathParaviewVideo``| directory to create ParaView visualization files          |
 +---------------------------+-----------------------------------------------------------+
 | | ``simu.nlHydro``        | | 0 for no non-linear hydro [default]                     |
 |                           | | 1 for non-linear hydro with mean free surface           |
@@ -62,8 +63,8 @@ The following table shows the variables that can be specified in the ``wecSimInp
 +---------------------------+-----------------------------------------------------------+   
 | ``body(i).viz.opacity``   | body opacity [default 1]                                  |
 +---------------------------+-----------------------------------------------------------+
-| | ``body(i).bodyparaview``| | 0 to exclude body from Paraview visualization           |
-|                           | | 1 to include body in Paraview visualization [default]   |
+| | ``body(i).bodyparaview``| | 0 to exclude body from ParaView visualization           |
+|                           | | 1 to include body in ParaView visualization [default]   |
 +---------------------------+-----------------------------------------------------------+   
 | ``waves.viz.numPointsX``  | wave plane discretization: number of X points [default 50]|
 +---------------------------+-----------------------------------------------------------+   
@@ -71,13 +72,13 @@ The following table shows the variables that can be specified in the ``wecSimInp
 +---------------------------+-----------------------------------------------------------+   
 
 
-Outputs and Opening in Paraview
+Data Visualization in ParaView
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 When ``simu.paraview`` is set to 1, a user-specified directory containing ``vtk`` is created. 
-All files necessary for Paraview visualization are located there.
-To view in Paraview:
+All files necessary for ParaView visualization are located there.
+To view in ParaView:
 
-* Open the ``$CASE/vtk/filename.pvd`` file in Paraview
+* Open the ``$CASE/vtk/filename.pvd`` file in ParaView
 * With the model selected in the pipeline, run the ``WEC-Sim`` macro
 * Move the camera to desired view
 * Click the green arrow (play) button
@@ -90,10 +91,8 @@ The ``WEC-Sim`` macro:
 * Sets the camera to top view
 
 
-Basic Visualization Manipulation
-^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 After opening the ``.pvd`` file and running the ``WEC-Sim`` macro you can do a number of things to visualize the simulation in different ways. 
-You can color waves and bodies by any of the available properties and apply any of the Paraview filters.
+You can color waves and bodies by any of the available properties and apply any of the ParaView filters.
 
 The video below shows three different views of the OSWEC model described in the tutorials.
 On the bottom right view the wave elevation is used to color the free surface. The top right view uses the ``slice`` filter.
@@ -104,7 +103,7 @@ On the bottom right view the wave elevation is used to color the free surface. T
 
 
 
-Visualizing Non-Linear Buoyancy and Froude-Krylov Wave Excitation
+Visualizing Non-Linear Hydro in ParaView
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 When using non-linear buoyancy and Froude-Krylov Wave Excitation the paraview files also contain cell data for the bodies.
 The cell data are:
@@ -122,13 +121,13 @@ The ``pressureGlyphs`` macro calculates cell normals, and cell centers. It then 
 * Total pressure (hydrostatic plus non-linear Froude-Krylov)
 * Froude-Krylov delta (non-linear minus linear)
 
-To view in Paraview:
+To view in ParaView:
 
-* Open the ``$CASE/vtk/filename.pvd`` file in Paraview
-* With the model selected in the pipeline, run the ``WEC-Sim`` macro
+* Open the ``$CASE/vtk/filename.pvd`` file in ParaView
+* Select the WEC-Sim model in the pipeline, run the ``WEC-Sim`` macro
 * Move the camera to desired view
-* With the non-linear hydro body selected in the pipeline, run the ``pressureGlyphs`` macro
-* Select which features to visualize in the pipline
+* Select the non-linear hydro body in the pipeline, run the ``pressureGlyphs`` macro
+* Select which features to visualize in the pipeline
 * Click the green arrow (play) button
 
 The video below shows three different views of the RM3 model described in the tutorials.
@@ -140,6 +139,14 @@ The bottom right shows the float colored by hydrostatic pressure.
 	<iframe width="420" height="315" src="https://www.youtube.com/embed/VIPXsS8h9pg" frameborder="0" allowfullscreen></iframe>
 
 
-Loading a State File
+Loading a ParaView State File
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
-If a previous Paraview `*.pvsm`` state file was saved, the state can be applied to a different ``*.pvd`` Paraview file.
+If a previous `*.pvsm`` ParaView state file was saved, the state can be applied to a ``*.pvd`` ParaView file. To load a state file:
+
+* Open the ``$CASE/vtk/filename.pvd`` file in ParaView
+* Select "Load State" from File menu
+* Select the desired ``$CASE/filename.pvsm`` Paraview state file to apply
+* Select the "Search files under specified directory" option, and specify the desired WEC-Sim $CASE directory 
+
+
+
