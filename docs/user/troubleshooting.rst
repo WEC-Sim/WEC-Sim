@@ -30,8 +30,9 @@ Users should spend time carefully setting up and debugging their WEC-Sim cases. 
 - Follow all error codes to the root cause of the error 
 - Confirm that all user-defined inputs are set correctly
 - Confirm that WEC-Sim is called in the intended way (wecSim, wecSimMCR, wecSimPCT, from Simulink, etc)
+- When recreating a premade WEC-Sim case (OSWEC, RM3) carefully compare to the working examples before opening an issue
 - Check BEM input data for expected results
-- If creating your own WEC-Sim case, go through the wave test cases below and check the common issues and solutions for each test.
+- If creating your own WEC-Sim case, go through the wave test cases below. Check the common issues and solutions for each test.
 
 
 2. Identify Root Cause
@@ -46,9 +47,9 @@ The development team cannot provide support for MATLAB errors outside of WEC-Sim
 3. Review  Relevant Documentation
 ---------------------------------
 
-Find the appropriate documentation section for solutions or clarification on a particular issue. 
-The documentation is thorough and requires careful reading on sections relevant to your project.
-If documentation in an area is lacking, please identify this in your GitHub issue so that we may improve WEC-Sim.
+Read the appropriate documentation section for solutions or clarification on use of a particular feature. 
+The documentation is thorough but requires careful reading of relevant sections.
+If documentation in an area is lacking, please identify this in a GitHub issue so that we may improve WEC-Sim.
 
 
 4. Search Closed WEC-Sim Issues
@@ -56,7 +57,7 @@ If documentation in an area is lacking, please identify this in your GitHub issu
 
 In many cases, another user has had a similar issue before. 
 Search the issues page and the below FAQ for topics that relate to your current problem.
-If these are related but not sufficient, tag them in your GitHub issue for easy reference of the development team and future users.
+If these are related but insufficient, tag them in your GitHub issue for easy reference of the development team and future users.
 
 
 5. Open an Issue
@@ -83,7 +84,7 @@ The following topics cannot be addressed when there is not a direct relation to 
 
 - MATLAB/Simulink/Simscape-based issues
 - general hydrodynamics questions
-- performing tasks for a user's case, i.e. supplying nonlinear meshes or \*.h5 files
+- performing tasks for a user's case, i.e. supplying nonlinear meshes, \*.h5 files, BEM results
 - running BEM codes
 - use or development of BEM codes
 
@@ -97,7 +98,7 @@ Numerical Test Cases
 This section describe a series of numerical test cases that should be performed when creating a novel WEC-Sim case.
 These various wave cases are necessary to ensure a robust, accurate solution and speed the debugging process for users.
 When opening a support question for case development, users will be asked to supply information on which test cases are functioning or not.
-Note that this workflow is not foolproof, but can be used as a guide to create a more robust solution when developing a WEC-Sim case.
+Note that this workflow is not foolproof, but can be used as a guide to create a more robust WEC-Sim case.
 
 ======  =================================  =========================
 Number  Purpose                            Input parameters utilized
@@ -111,8 +112,8 @@ Number  Purpose                            Input parameters utilized
 4A      Full functionality                 irregular, initDisp
 ======  =================================  =========================
 
-Various problems may while progressing through these test cases.
-Users should not advance to the next test until the previous ones run without error and with physical responses.
+Various problems may occur while progressing through these test cases.
+Users should not advance to the next test unless the previous tests run without error and result in a physical response.
 
 Test 1:
 ^^^^^^^
@@ -125,18 +126,18 @@ Alteratively utilize the ``body(#).mass = equilibrium`` option.
 Test 2:
 ^^^^^^^
 
-Failure in Test 2 but not Test 1 inidicates an inaccurate hydrostatic stiffness.
+Failure in Test 2 but not Test 1 indicates an inaccurate hydrostatic stiffness.
 The hydrostatic stiffness returns a device to equilibrium after some displacement.
 If the stiffness is too large, the simulation may require a very small time step. 
-If too small, an initial displacement may still cause infinite motion.
-Try altering the stiffness by using ``body(#).hydroStiffness`` in the input file.
+If too small, an initial displacement may cause infinite motion.
+Reevaluate the BEM input or tune the stiffness with ``body(#).hydroStiffness`` in the input file.
 
 Test 3:
 ^^^^^^^
 
-A hydrostatically stable device that has an unphysical response to a regular wave requires different drag and damping.
-Viscous drag is essential to a physical response in WEC-Sim.
-Tune the parameters ``body(#).viscDrag`` or ``body(#).linearDamping`` to cause a more realistic response.
+A hydrostatically stable device that has an unphysical response to a regular wave requires improved drag and damping.
+BEM codes inherently assume inviscid flow. Recreating the effects of viscous drag in WEC-Sim is essential to obtaining a physical response.
+Tune the parameters ``body(#).viscDrag`` or ``body(#).linearDamping`` to create a realistic response to a regular wave.
 
 Test 4:
 ^^^^^^^
@@ -149,20 +150,20 @@ It is up to each user to tune body, PTO and mooring parameters appropriately to 
 Tests A vs B:
 ^^^^^^^^^^^^^
 
-The CIC waves can be used to evaluate if "good" BEM data is being used. 
-If a non-CIC wave has unphysical behavior at a specific frequency but not others, there is likely IRR spikes in the BEM data.
-The CIC wave decreases the impact of IRR issues in the input data.
+CIC waves are one way to evaluate if "good" BEM data is being used. 
+If a non-CIC wave has unphysical behavior at a specific frequency but not others, there are likely irregular frequency (IRR) spikes in the BEM data.
+The CIC wave decreases the impact of these spikes in radiation damping.
 
 If a CIC wave continues to oscillate without decaying to a steady state, the convolution integral time is not long enough.
 Increase ``simu.CITime`` to a greater value or use the state space option (``simu.ssCalc=1``).
+In BEMIO, check that the convolution integral time is long enough for all oscillations to decay. 
 
 Other notes:
 ^^^^^^^^^^^^
 
-If a user wishes to use the non-linear hydro options, they should follow this same workflow once with ``simu.nlHydro=0`` and again with ``simu.nlHydro=1,2``
-The non-linear hydro effects must be used with case and are difficult to set-up. 
+If a user wishes to use the non-linear hydro options, they should first follow this same workflow with ``simu.nlHydro=0`` and again with ``simu.nlHydro=1,2``
+The non-linear hydro options are difficult to set-up and must be used with care. 
 A highly refined mesh is required to get an accurate displaced volume and wetted surface area at each time step.
-
 
 
 .. 
@@ -193,9 +194,10 @@ Problem
 
 The simulation is numerically unstable. Bodies may rise or fall indefinitely and have unphysical responses.
 This occurs because there is an imbalance between the gravity and hydrostatic forces.
-If the gravity force is much larger than the hydrostatic force, bodies may fall indefinitely. The result is opposite when gravity is too small.
+If the gravity force is much larger than the hydrostatic force, bodies may fall indefinitely. 
+The opposite may occur when gravity is small compared to the hydrostatic force.
 An extremely large or small stiffness can also cause this problem. 
-A small stiffness will not restore a body to an equilibrium position. 
+A small stiffness may not restore a body to an equilibrium position. 
 A large stiffness may require a very small time step to be effective.
 
 Possible error messages
@@ -221,8 +223,8 @@ Degenerate Mass Distribution
 Problem
 ~~~~~~~
 
-When two PTOs or Constraints are connected in series with no mass between them, Simulink attempts to connect two joints directly together.
-Simulink cannot reconcile the forcing and motion between those joints without a mass between series joints.
+When two PTOs or Constraints are connected in series with no mass between them, Simulink attempts to connect two joint blocks directly together.
+Simulink cannot reconcile the forcing and motion between these series joints without a mass between them.
 
 Possible error messages
 ~~~~~~~~~~~~~~~~~~~~~~~
@@ -235,8 +237,8 @@ Solution
 ~~~~~~~~
 
 Add an insignificantly small mass (e.g. ``Simulink Library/Simscape/Multibody/Body Elements/Inertia``) between the two joints.
-Alternatively, if special degrees of freedom are required create a new PTO or constraint using one of the many joints 
-available in the Simscape Multibody Joints library.
+Alternatively, create a new PTO or constraint with one of the many joints available in the 
+Simscape Multibody Joints library if special degrees of freedom are required.
 
 
 Hydrodynamic Data File
