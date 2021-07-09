@@ -3,17 +3,26 @@ jobs:
   include:
   - stage: pages
     install:
-    - pip install click colorama colorclass future "sphinx==1.8.5" "sphinxcontrib-bibtex==0.4.2"
-      sphinx_rtd_theme sphinxcontrib-matlabdomain
-    - pip install --no-deps sphinxext-remoteliteralinclude
-    - pip install https://github.com/H0R5E/sphinxcontrib-versioning/archive/v1.8.5_support.zip
+    - pip install "docutils<0.17" sphinxcontrib-matlabdomain sphinxext-remoteliteralinclude sphinx-multiversion sphinxcontrib-bibtex sphinx_rtd_theme
     script:
-    - eval "$(ssh-agent -s)"; touch .travis/key; chmod 0600 .travis/key
-    - openssl aes-256-cbc -d -K $encrypted_498cfbdbee76_key -iv $encrypted_498cfbdbee76_iv
-      < .travis/key.enc > .travis/key && ssh-add .travis/key
-    - git config --global user.email "builds@travis-ci.com"
-    - git config --global user.name "Travis CI"
-    - git remote set-url --push origin "git@github.com:$TRAVIS_REPO_SLUG"
-    - sphinx-versioning push -b -e .nojekyll -e README.md docs gh-pages .
+    # Fix git repo so all branches can be seen by sphinx-multiversion
+    - git config --replace-all remote.origin.fetch +refs/heads/*:refs/remotes/origin/*
+    - git fetch
+    # Build docs to deploy in html folder
+    - mkdir html
+    - sphinx-multiversion docs/ html/
+    before_deploy:
+    # Copy static front matter
+    - touch html/.nojekyll
+    - cp docs/_assets/gh-pages-redirect.html html/index.html
+    - cp docs/_assets/gh-pages-readme.md html/README.md
+    deploy:
+    - provider: pages
+      skip_cleanup: true
+      github_token: $GITHUB_TOKEN
+      keep_history: false
+      local_dir: html
+      on:
+        all_branches: true
+        condition: $TRAVIS_BRANCH =~ ^(master|dev)$
     if: "(branch = master OR branch = dev) AND type = push"
-
