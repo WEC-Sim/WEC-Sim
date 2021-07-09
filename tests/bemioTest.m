@@ -1,13 +1,13 @@
 classdef bemioTest < matlab.unittest.TestCase
     
     properties
-        wsDir = '';
-        testDir = '';
-        bemioDir = '';
-        wamitDir = '';
-        nemohDir = '';
-        capytaineDir = '';
-        aqwaDir = '';
+        wsDir = ''
+        testDir = ''
+        bemioDir = ''
+        wamitDir = ''
+        nemohDir = ''
+        capytaineDir = ''
+        aqwaDir = ''
     end
     
     methods (Access = 'public')

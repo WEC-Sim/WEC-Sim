@@ -1,9 +1,9 @@
 classdef runFromSimTest < matlab.unittest.TestCase
     
     properties
-        testDir = '';
-        wsDir = '';
-        runFromSimDir = '';
+        testDir = ''
+        wsDir = ''
+        runFromSimDir = ''
     end
     
     methods (Access = 'public')

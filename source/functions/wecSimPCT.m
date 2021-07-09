@@ -111,7 +111,6 @@ parfor imcr=1:length(mcr.cases(:,1))
 end
 
 clear imcr totalNumOfWorkers
-clear functions
 delete(gcp); % close the parallel pool
 
 

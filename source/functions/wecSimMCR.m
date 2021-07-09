@@ -97,7 +97,6 @@ for imcr=1:length(mcr.cases(:,1))
         end
     end
 end; clear imcr ans hydroData
-clear functions
 %%
 
 

@@ -1,18 +1,28 @@
 function results = wecSimTest(options)
+    % Runs WEC-Sim continuous integration testing suite.
+    %
+    % results = wecSimTest(options)
+    %     options - struct containing a run flag for each test class.
+    %
+    % All tests run by default. If runtime is long, users may turn off the 
+    % passive yaw test with the argument ``options.passiveYawTest = false``
+    % Users should also run the appropriate applications tests when
+    % creating a PR into the WEC-Sim repository.
 
     arguments
         options.bemioTest = true
         options.regressionTest = true
-        options.passiveYawTest = false
+        options.passiveYawTest = true
         options.compilationTest = true
         options.runFromSimTest = true
         options.rotationTest = true
     end
     
-    import matlab.unittest.TestSuite;
-    import matlab.unittest.Test;
-    import matlab.unittest.TestRunner;
-    import matlab.unittest.plugins.*;
+    import matlab.unittest.TestSuite
+    import matlab.unittest.Test
+    import matlab.unittest.TestRunner
+    import matlab.unittest.plugins.DiagnosticsRecordingPlugin
+    import matlab.unittest.plugins.CodeCoveragePlugin
     
     suites = Test.empty();
     

@@ -1,8 +1,8 @@
 classdef rotationTest < matlab.unittest.TestCase
     
     properties
-        testDir = '';
-        wsDir = '';
+        testDir = ''
+        wsDir = ''
     end
     
     methods (Access = 'public')
