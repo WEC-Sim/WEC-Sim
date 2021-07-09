@@ -1,15 +1,13 @@
 
 
 This section describes how to use ParaView for visualizing data from a WEC-Sim simulation. 
-For more information about using ParaView for visualization, refer to the :ref:`webinar4`, and the **Paraview_Visualization** examples on the `WEC-Sim Applications <https://github.com/WEC-Sim/WEC-Sim_Applications>`_ repository.
-
-Using ParaView visualization improves on SimMechanics's explorer by:
+Using ParaView visualization improves on the SimMechanics explorer by:
 
 * Visualizing the wave field
 * Visualizing the cell-by-cell non-linear hydrodynamic forces (when using nonlinear buoyancy and Froude-Krylov wave excitation)
 * Allowing data manipulation and additional visualization options
 
-However, SimMechanics explorer shows the following information not included in the ParaView visualization:
+However, the SimMechanics explorer shows the following information not included in the ParaView visualization:
 
 * Location of center of gravity
 * Location of different frames (e.g. PTO and Constraint frames)
@@ -17,23 +15,24 @@ However, SimMechanics explorer shows the following information not included in t
 Visualization with ParaView requires additional output files to be written to a ``vtk`` directory. 
 This makes the WEC-Sim simulation take more time and the case directory larger, so it should only be used when additional visualization is desired. 
 Users will also need to have some familiarity with using ParaView.
+For more information about using ParaView for visualization, refer to the :ref:`webinar4`, and the **Paraview_Visualization** examples on the `WEC-Sim Applications <https://github.com/WEC-Sim/WEC-Sim_Applications>`_ repository.
 
 
-ParaView Installation
+Install ParaView and WEC-Sim Macros
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 First, install `ParaView 5.9.1 <http://www.paraview.org/>`_.  
-Then, add the WEC-Sim specific macros using the following steps:
+Then, add the WEC-Sim specific macros with the following steps:
 
 * Open ParaView
 * Click on ``Macros => Add new macro``
 * Navigate to the WEC-Sim ``source/functions/paraview`` directory
 * Select the first file and click ``OK``
-* Repeat this for all files in the ``paraview directory.``
+* Repeat this for all files in the ``source/functions/paraview`` directory
 
 
 ParaView Visualization Parameters
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
-The following table shows the variables that can be specified in the ``wecSimInputFile`` to control the ParaView visualization. The ``body.viz`` properties are also used in the SimMechanics explorer visualization.
+The following table lists the WEC-Sim simulation parameters that can be specified in the ``wecSimInputFile`` to control the ParaView visualization. Note, the ``body.viz`` properties are also used for the SimMechanics explorer visualization.
 
 +---------------------------------------------------------------------------------------+
 | WEC-Sim Visualization using ParaView                                                  |
@@ -72,14 +71,14 @@ The following table shows the variables that can be specified in the ``wecSimInp
 +---------------------------+-----------------------------------------------------------+   
 
 
-Data Visualization in ParaView
+WEC-Sim Visualization in ParaView
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
-When ``simu.paraview`` is set to 1, a user-specified directory containing ``vtk`` is created. 
+When ``simu.paraview`` is set to 1, a ``vtk`` directory is created inside the WEC-Sim $CASE directory. 
 All files necessary for ParaView visualization are located there.
 To view in ParaView:
 
-* Open the ``$CASE/vtk/filename.pvd`` file in ParaView
-* With the model selected in the pipeline, run the ``WEC-Sim`` macro
+* Open the ``$CASE/vtk/<filename>.pvd`` file in ParaView
+* Select the WEC-Sim model in the pipeline, and run the ``WEC-Sim`` macro
 * Move the camera to desired view
 * Click the green arrow (play) button
 
@@ -93,17 +92,21 @@ The ``WEC-Sim`` macro:
 
 After opening the ``.pvd`` file and running the ``WEC-Sim`` macro you can do a number of things to visualize the simulation in different ways. 
 You can color waves and bodies by any of the available properties and apply any of the ParaView filters.
-
 The video below shows three different views of the OSWEC model described in the tutorials.
-On the bottom right view the wave elevation is used to color the free surface. The top right view uses the ``slice`` filter.
+The left view uses the WEC-Sim macro.
+The top right view uses the ``slice`` filter.
+The bottom right view shows the free surface colored by wave elevation. 
 
 .. raw:: html
 
 	<iframe width="420" height="315" src="https://www.youtube.com/embed/KcsLi38Xjv0" frameborder="0" allowfullscreen></iframe>
 
 
+An example using Paraview for visualization of WEC-Sim data is provided in the ``Paraview_Visualization`` directory on the `WEC-Sim Applications <https://github.com/WEC-Sim/WEC-Sim_Applications>`_ repository.
+The **RM3_MoorDyn_Viz** example uses ParaView for WEC-Sim data visualization of a WEC-Sim model coupled with [MoorDyn](http://wec-sim.github.io/WEC-Sim/advanced_features.html#moordyn) to simulate a mooring system for the [RM3](http://wec-sim.github.io/WEC-Sim/tutorials.html#two-body-point-absorber-rm3) geometry. 
 
-Visualizing Non-Linear Hydro in ParaView
+
+Non-Linear Hydro Visualization in ParaView
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 When using non-linear buoyancy and Froude-Krylov Wave Excitation the paraview files also contain cell data for the bodies.
 The cell data are:
@@ -121,12 +124,12 @@ The ``pressureGlyphs`` macro calculates cell normals, and cell centers. It then 
 * Total pressure (hydrostatic plus non-linear Froude-Krylov)
 * Froude-Krylov delta (non-linear minus linear)
 
-To view in ParaView:
+To view WEC-Sim non-linear hydro data in ParaView:
 
-* Open the ``$CASE/vtk/filename.pvd`` file in ParaView
-* Select the WEC-Sim model in the pipeline, run the ``WEC-Sim`` macro
+* Open the ``$CASE/vtk/<filename>.pvd`` file in ParaView
+* Select the WEC-Sim model in the pipeline, and run the ``WEC-Sim`` macro
 * Move the camera to desired view
-* Select the non-linear hydro body in the pipeline, run the ``pressureGlyphs`` macro
+* Select the non-linear hydro body in the pipeline, and run the ``pressureGlyphs`` macro
 * Select which features to visualize in the pipeline
 * Click the green arrow (play) button
 
@@ -139,14 +142,16 @@ The bottom right shows the float colored by hydrostatic pressure.
 	<iframe width="420" height="315" src="https://www.youtube.com/embed/VIPXsS8h9pg" frameborder="0" allowfullscreen></iframe>
 
 
+An example using Paraview for visualization of non-linear hydro WEC-Sim data is provided in the ``Paraview_Visualization`` directory on the `WEC-Sim Applications <https://github.com/WEC-Sim/WEC-Sim_Applications>`_ repository.
+The **OSWEC_NonLinear_Viz** example uses ParaView for WEC-Sim data visualization of a WEC-Sim model with [Non-linear Hydro](http://wec-sim.github.io/WEC-Sim/advanced_features.html#nonlinear-buoyancy-and-froude-krylov-excitation) to simulate non-linear wave excitation on the flap of the [OSWEC](http://wec-sim.github.io/WEC-Sim/tutorials.html#oscillating-surge-wec-oswec) geometry. 
+
 Loading a ParaView State File
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 If a previous `*.pvsm`` ParaView state file was saved, the state can be applied to a ``*.pvd`` ParaView file. To load a state file:
 
-* Open the ``$CASE/vtk/filename.pvd`` file in ParaView
-* Select "Load State" from File menu
-* Select the desired ``$CASE/filename.pvsm`` Paraview state file to apply
-* Select the "Search files under specified directory" option, and specify the desired WEC-Sim $CASE directory 
+* Open the ``$CASE/vtk/<filename>.pvd`` file in ParaView
+* Click on ``File => Load State``
+* Select the desired ``$CASE/<filename>.pvsm`` Paraview state file to apply
+* Select the "Search files under specified directory" option, specify the desired WECS-Sim ``$CASE/vtk/`` directory, and click ``OK``
 
-
-
+Paraview state files are provided for both **Paraview_Visualization** examples on the `WEC-Sim Applications <https://github.com/WEC-Sim/WEC-Sim_Applications>`_ repository, one for the RM3 using MoorDyn, and another for the OSWEC with non-linear hydro.
