@@ -38,7 +38,6 @@ end
 clear ans table tout;
 toc
 diary off
-fclose('all');
 
 if simu.saveWorkspace==1
     try 
