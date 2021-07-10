@@ -443,7 +443,7 @@ Mooring Features
 
 .. ParaView
 
-Visualization/Paraview
+Paraview Visualization
 ----------------------
 
 .. include:: /_include/viz.rst
