@@ -143,7 +143,7 @@ The OSWEC was selected because its design is fundamentally different from the RM
 The full-scale dimensions and mass properties of the OSWEC are shown below.
 
 .. figure:: /_static/images/OSWEC_Geom.png
-   :width: 300pt
+   :width: 600pt
    :align: center
 
 +-------+---------------+
