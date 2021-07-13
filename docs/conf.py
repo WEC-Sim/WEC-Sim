@@ -84,7 +84,7 @@ master_doc = 'index'
 # -- Project information -----------------------------------------------------
 # General information about the project.
 project = 'WEC-Sim'
-copyright = '2020, National Renewable Energy Laboratory and National ' \
+copyright = '2021, National Renewable Energy Laboratory and National ' \
             'Technology & Engineering Solutions of Sandia, LLC (NTESS)'
 author = 'The WEC-Sim Developers'
 
