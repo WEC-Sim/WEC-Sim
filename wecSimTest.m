@@ -1,13 +1,52 @@
 function results = wecSimTest(options)
-    % Runs WEC-Sim continuous integration testing suite.
+    % wecSimTest runs WEC-Sim continuous integration testing suite.
     %
-    % results = wecSimTest(options)
-    %     options - struct containing a run flag for each test class.
+    %   results = wecSimTest returns a matlab.unittest.TestResult object
     %
-    % All tests run by default. If runtime is long, users may turn off the 
-    % passive yaw test with the argument ``options.passiveYawTest = false``
-    % Users should also run the appropriate applications tests when
-    % creating a PR into the WEC-Sim repository.
+    %   results = wecSimTest(..., NAME1, VALUE1, NAME2, VALUE2, ...) returns
+    %   a matlab.unittest.TestResult object, depending on the values of the 
+    %   optional parameter name/value pairs. See Parameters below.
+    %
+    %   Parameters
+    %   ----------
+    %   'bemioTest'       Run tests for BEMIO. Default is true.
+    %
+    %   'regressionTest'  Run regression tests. These tests check if values
+    %                     have changed from a previous run. Default is true.
+    %
+    %   'passiveYawTest'  Run passive yaw tests. Default is true.
+    %
+    %   'compilationTest' Run compilation tests. These tests do not check
+    %                     correctness of the results. Default is true.
+    %
+    %   'runFromSimTest'  Run tests for execution of WECSim from Simulink.
+    %                     Default is true.
+    %
+    %   'rotationTest'    Run rotation tests. Default is true.
+    %
+    %   All tests run by default. If runtime is long, users may turn off the 
+    %   passive yaw test by calling the function as follows:
+    %
+    %       results = wecSimTest('passiveYawTest', false)
+    %
+    %   Users should also run the appropriate applications tests when
+    %   creating a PR into the WEC-Sim repository.
+    
+    %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+    % Copyright 2014 the National Renewable Energy Laboratory and Sandia Corporation
+    %
+    % Licensed under the Apache License, Version 2.0 (the "License");
+    % you may not use this file except in compliance with the License.
+    % You may obtain a copy of the License at
+    %
+    %     http://www.apache.org/licenses/LICENSE-2.0
+    %
+    % Unless required by applicable law or agreed to in writing, software
+    % distributed under the License is distributed on an "AS IS" BASIS,
+    % WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+    % See the License for the specific language governing permissions and
+    % limitations under the License.
+    %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
     arguments
         options.bemioTest = true
@@ -55,19 +94,3 @@ function results = wecSimTest(options)
     results = runner.run(suites);
     
 end
-
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-% Copyright 2014 the National Renewable Energy Laboratory and Sandia Corporation
-%
-% Licensed under the Apache License, Version 2.0 (the "License");
-% you may not use this file except in compliance with the License.
-% You may obtain a copy of the License at
-%
-%     http://www.apache.org/licenses/LICENSE-2.0
-%
-% Unless required by applicable law or agreed to in writing, software
-% distributed under the License is distributed on an "AS IS" BASIS,
-% WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
-% See the License for the specific language governing permissions and
-% limitations under the License.
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
