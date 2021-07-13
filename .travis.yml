@@ -3,7 +3,7 @@ jobs:
   include:
   - stage: pages
     install:
-    - pip install "docutils<0.17" "sphinx<4.1" sphinxcontrib-matlabdomain sphinxext-remoteliteralinclude sphinx-multiversion sphinxcontrib-bibtex sphinx_rtd_theme
+    - pip install "docutils<0.17" sphinxcontrib-matlabdomain sphinxext-remoteliteralinclude sphinx-multiversion sphinxcontrib-bibtex sphinx_rtd_theme
     script:
     # Fix git repo so all branches can be seen by sphinx-multiversion
     - git config --replace-all remote.origin.fetch +refs/heads/*:refs/remotes/origin/*
