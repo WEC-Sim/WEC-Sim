@@ -763,7 +763,7 @@ Mooring Features
 .. include:: /_include/mooring.rst
 
 
-Visualization/Paraview
+Paraview Visualization
 ----------------------
 
 .. include:: /_include/viz.rst
