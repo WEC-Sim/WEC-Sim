@@ -98,7 +98,7 @@ classdef bemioTest < matlab.unittest.TestCase
         end
         
         function read_aqwa(testCase)
-            cd(fullfile(testCase.aqwaDir,'Example'))
+            cd(fullfile(testCase.aqwaDir,'Example\16.0'))
             hydro = struct();
             hydro = Read_AQWA(hydro,                    ...
                               'aqwa_example_data.AH1',  ...

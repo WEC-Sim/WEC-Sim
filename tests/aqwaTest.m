@@ -1,71 +1,76 @@
 classdef aqwaTest < matlab.unittest.TestCase
     
     properties
-        testDir = ''
-        wsDir = ''
+        testDir = '';
+        wsDir = '';
+        aqwaDir = '';
     end
     
     methods (Access = 'public')
-        function obj = rotationTest()
+        function obj = aqwaTest()
             % Set WEC-Sim, test and applications directories
             obj.testDir = fileparts(mfilename('fullpath'));
             obj.wsDir = fullfile(obj.testDir,'..');
+            obj.aqwaDir = fullfile(obj.wsDir,'examples\BEMIO\AQWA\Example');
         end
     end
     
+     methods(TestMethodTeardown)
+        
+        function closePlotsHydro(testCase)
+            close(waitbar(0));
+            close all
+            clear hydro
+            set(0,'DefaultFigureVisible','off');
+        end
+        
+    end
+    
+    methods(TestClassTeardown)
+        
+        function cdToTestDir(testCase)
+            cd(testCase.testDir);
+        end
+        
+    end
+    
     methods(Test)
-        function setInitDisp_0deg(testCase)
-            % setInitDisp - 0 deg rotation            
-            tol = 1e-12;
-            bodytest = bodyClass('');
-            bodytest.setInitDisp([1 1 1],[1 0 0 pi; 0 1 0 pi; 0 0 1 pi],[0 0 0]);
-            
-            testCase.assertEqual(bodytest.initDisp.initLinDisp, [0 0 0],'AbsTol', tol);
-            testCase.assertEqual(bodytest.initDisp.initAngularDispAngle, 0,'AbsTol', tol);
-            testCase.assertEqual(bodytest.initDisp.initAngularDispAxis, [0 0 1],'AbsTol', tol);
+        
+        function read_aqwa_16_0(testCase)
+            cd(fullfile(testCase.aqwaDir,'16.0'))
+            hydro = struct();
+            hydro = Read_AQWA(hydro,                    ...
+                              'aqwa_example_data.AH1',  ...
+                              'aqwa_example_data.LIS');
+                          
+            testCase.assertEqual(hydro.Nh, 5);
+            testCase.assertEqual(hydro.h, 1.37);
+            testCase.assertEqual(hydro.g, 9.807);
         end
         
-        function setInitDisp_inverted(testCase)
-            % setInitDisp - inverted rotation            
-            tol = 1e-12;
-            bodytest = bodyClass('');
-            bodytest.setInitDisp([1 1 1],[1 0 0 pi/2; 0 1 0 pi/2; 0 0 1 -pi/2],[0 0 0]);
-            
-            testCase.assertEqual(bodytest.initDisp.initLinDisp, [-2 -2 -2],'AbsTol', tol);
-            testCase.assertEqual(bodytest.initDisp.initAngularDispAngle, pi,'AbsTol', tol);
-            testCase.assertEqual(bodytest.initDisp.initAngularDispAxis, [-sqrt(2)/2 0 sqrt(2)/2],'AbsTol', tol);
+        function read_aqwa_19_1(testCase)
+            cd(fullfile(testCase.aqwaDir,'19.1'))
+            hydro = struct();
+            hydro = Read_AQWA(hydro,                    ...
+                              'ANALYSIS.AH1',  ...
+                              'ANALYSIS.LIS');
+                          
+            testCase.assertEqual(hydro.cg, [0;0;-.01]);
+            testCase.assertEqual(hydro.cb, [0;0;-0.0467000000000000]);
+            testCase.assertEqual(hydro.beta, [-180,-90,0,90,180]);
         end
         
-        function setInitDisp_90deg_y(testCase)
-            % setInitDisp - 90 deg in y            
-            tol = 1e-12;
-            bodytest = bodyClass('');
-            bodytest.setInitDisp([1 1 1],[1 0 0 pi/2; 0 0 1 pi/2; 1 0 0 -pi/2],[0 0 0]);
-            
-            testCase.assertEqual(bodytest.initDisp.initAngularDispAngle, pi/2,'AbsTol', tol);
-            testCase.assertEqual(bodytest.initDisp.initAngularDispAxis, [0 1 0],'AbsTol', tol);
+         function read_aqwa_2020_R2(testCase)
+            cd(fullfile(testCase.aqwaDir,'2020_R2'))
+            hydro = struct();
+            hydro = Read_AQWA(hydro,                    ...
+                              'ANALYSIS.AH1',  ...
+                              'ANALYSIS.LIS');
+                          
+            testCase.assertEqual(hydro.Nb, 2);
+            testCase.assertEqual(hydro.dof, [6,6]);
+            testCase.assertEqual(hydro.rho, 1025);
         end
         
-        function rotMat2AxisAngle_0deg(testCase)
-            % rotMat to axisAngle 0 deg special case            
-            tol = 1e-12;
-            rotMat = [1 0 0; 0 1 0; 0 0 1];
-            [axis,angle] = rotMat2AxisAngle(rotMat);
-            
-            testCase.assertEqual(axis, [0 0 1],'AbsTol', tol);
-            testCase.assertEqual(angle, 0,'AbsTol', tol);
-            clear rotMat axis angle
-        end
-        
-        function rotMat2AxisAngle_180deg(testCase)
-            % rotMat to axisAngle to 180 deg special case            
-            tol = 1e-12;
-            rotMat = [1 0 0; 0 -1 0; 0 0 -1];
-            [axis,angle] = rotMat2AxisAngle(rotMat);
-            
-            testCase.assertEqual(axis, [1 0 0],'AbsTol', tol);
-            testCase.assertEqual(angle, pi,'AbsTol', tol);
-            clear rotMat axis angle
-        end
     end
 end
