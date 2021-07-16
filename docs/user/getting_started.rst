@@ -91,15 +91,9 @@ referred to as ``$WECSIM`` (e.g. ``C:/User/Documents/GitHub/WEC-Sim``).
 Step 1. Add WEC-Sim to MATLAB Path
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
-Open the ``$WECSIM/source/wecSimStartup.m`` file.
+Open the ``$WECSIM folder and run the "activate_wecsim.m" script.
 
-.. literalinclude:: ../../source/wecSimStartup.m
-   :language: matlab
-
-Rename the ``wecSimStartup.m`` file ``startup.m`` and paste it into the `MATLAB 
-Startup Folder <https://www.mathworks.com/help/matlab/ref/startup.html>`_. Set 
-``<wecSim>`` to the ``$WECSIM/source`` directory, save the revised 
-``startup.m`` file, and restart MATLAB. Verify the path was set up correctly by 
+Verify the path was set up correctly by 
 checking that the WEC-Sim source directory, ``$WECSIM/source``, is listed in 
 the MATLAB search path. This is done by typing ``path`` in the MATLAB Command 
 Window:: 
@@ -155,3 +149,6 @@ Both the RM3 and the OSWEC examples (``$WECSIM/examples/OSWEC``) come ready-to-r
     Storage <https://git-lfs.github.com/>`_ , or run 
     ``$WECSIM/examples/RM3/hydroData/bemio.m`` to generate the correct 
     ``rm3.h5`` file.
+
+.. Note:: You can remove the WEC-Sim Source folder from MATLAB path by running the "activate_wecsim.m" script in the ``$WECSIM folder. 
+However, it advisable to let the Source stay in MATLAB path.
