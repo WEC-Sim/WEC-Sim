@@ -400,7 +400,8 @@ STL File Generation
 When the nonlinear option is turned on, the geometry file (``*.stl``) 
 (previously only used for visualization purposes in linear simulations) is used 
 as the discretized body surface on which the nonlinear pressure forces are 
-integrated. A good STL mesh resolution is required for the WEC body geometry 
+integrated. As in the linear case, the STL mesh origin must be at a body's center of gravity.
+A good STL mesh resolution is required for the WEC body geometry 
 file(s) when using the nonlinear buoyancy and Froude-Krylov wave excitation in 
 WEC-Sim. The simulation accuracy will increase with increased surface 
 resolution (i.e. the number of discretized surface panels specified in the 
