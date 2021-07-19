@@ -27,6 +27,7 @@ hydro.ss_D = zeros(sum(hydro.dof),sum(hydro.dof),1);
 hydro.ss_K = zeros(sum(hydro.dof),sum(hydro.dof),length(t));
 hydro.ss_conv = zeros(sum(hydro.dof),sum(hydro.dof));
 hydro.ss_R2 = zeros(sum(hydro.dof),sum(hydro.dof));
+hydro.ss_O = zeros(sum(hydro.dof),sum(hydro.dof));
 
 for i=1:sum(hydro.dof)
     for j=1:sum(hydro.dof)

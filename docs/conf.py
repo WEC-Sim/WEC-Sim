@@ -35,7 +35,8 @@ extensions = [
     'sphinx.ext.napoleon',
     'sphinxcontrib.bibtex',
     'sphinxcontrib.matlab',
-    'sphinxext.remoteliteralinclude'
+    'sphinxext.remoteliteralinclude',
+    'sphinx_multiversion'
 ]
 
 # autodoc settings
@@ -53,14 +54,19 @@ napoleon_use_ivar = False
 napoleon_use_param = True
 napoleon_use_rtype = True
 
+# sphinxcontrib.bibtex settings
+bibtex_bibfiles = ['refs/WEC-Sim_Theory.bib',
+                   'refs/WEC-Sim_Tutorials.bib']
+
 # sphinxcontrib.matlab settings
 primary_domain = 'mat'
 matlab_src_dir = os.path.abspath("../source")
 matlab_keep_package_prefix = False
 
-# sphinxcontrib-versioning settings
-scv_whitelist_branches = ('master','dev')
-scv_whitelist_tags = (re.compile('a^'),)
+# sphinx_multiversion settings
+smv_branch_whitelist = r'(master|dev)$'
+smv_tag_whitelist = None
+smv_remote_whitelist = r'^(origin)$'
 
 # Add any paths that contain templates here, relative to this directory.
 templates_path = ['_templates']
@@ -78,7 +84,7 @@ master_doc = 'index'
 # -- Project information -----------------------------------------------------
 # General information about the project.
 project = 'WEC-Sim'
-copyright = '2020, National Renewable Energy Laboratory and National ' \
+copyright = '2021, National Renewable Energy Laboratory and National ' \
             'Technology & Engineering Solutions of Sandia, LLC (NTESS)'
 author = 'The WEC-Sim Developers'
 
@@ -104,7 +110,8 @@ language = None
 
 # List of patterns, relative to source directory, that match files and
 # directories to ignore when looking for source files.
-exclude_patterns = ['_include']
+exclude_patterns = ['_include',
+                    '_assets']
 
 # The reST default role (used for this markup: `text`) to use for all
 # documents.
