@@ -60,6 +60,17 @@ classdef aqwaTest < matlab.unittest.TestCase
             testCase.assertEqual(hydro.beta, [-180,-90,0,90,180]);
         end
         
+        function read_aqwa_2020_R1(testCase)
+            cd(fullfile(testCase.aqwaDir,'2020_R1'))
+            hydro = struct();
+            hydro = Read_AQWA(hydro,                    ...
+                              'ANALYSIS.AH1',  ...
+                              'ANALYSIS.LIS');
+                          
+            testCase.assertEqual(hydro.Vo, [261.487000000000]);
+            testCase.assertEqual(hydro.body, {'body1'});
+        end
+        
          function read_aqwa_2020_R2(testCase)
             cd(fullfile(testCase.aqwaDir,'2020_R2'))
             hydro = struct();
