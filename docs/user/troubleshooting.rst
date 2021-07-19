@@ -142,10 +142,12 @@ Tune the parameters ``body(#).viscDrag`` or ``body(#).linearDamping`` to create 
 Test 4:
 ^^^^^^^
 
-If a simulation is stable and realistic in Test 4 and all previous test cases, it can likely be used in additional cases as desired.
+If Test 4 fails, users should check that the IRF decays to zero in BEMIO as done for the other CIC waves. Users may also investigate
+different body drag, or change the mooring and PTO stiffness or damping. The state space or other numerical options may be helpful to stabilize 
+the irregular wave case.
+Once a simulation is stable and realistic in Test 4 and all previous test cases, it can likely be used in additional cases as desired.
 Passing these test cases does not necessarily indicate accuracy, but it should result in a simulation without numerical errors.
 It is up to each user to tune body, PTO and mooring parameters appropriately to model a device accurately.
-
 
 Tests A vs B:
 ^^^^^^^^^^^^^
