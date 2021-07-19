@@ -11,7 +11,7 @@ The WEC-Sim development team actively maintains a `WEC-Sim Issues page <https://
 This issue page is upkept to assist users with immediate needs and to document all past issues.
 In this way, it serves as a significant resource for users in solving WEC-Sim problems or clarifying its implementation.
 
-If you have problems downloading, installing or using WEC-Sim please follow the troubleshooting guidelines on this page. 
+If you have problems downloading, installing, or using WEC-Sim please follow the troubleshooting guidelines on this page. 
 Completing these steps will help users address their own questions and aid the development team in maintaining the issue board effectively.
 Maintanence of an overwhelmed issue board takes time and effort away from WEC-Sim developments.
 Please take the time to follow these steps before opening an issue on GitHub:
@@ -38,7 +38,7 @@ Users should spend time carefully setting up and debugging their WEC-Sim cases. 
 2. Identify Root Cause
 ----------------------
 Identify if MATLAB and Simulink, or WEC-Sim is the root cause of the problem.
-Does the problem occur in a WEC-Sim class, function or Simulink model? If so, it may be a WEC-Sim error. 
+Does the problem occur in a WEC-Sim class, function, or Simulink model? If so, it may be a WEC-Sim error. 
 Carefully check input file paths, especially when copying previously working WEC-Sim examples. 
 Please do not submit issues for errors related to using MATLAB. 
 The development team cannot provide support for MATLAB errors outside of WEC-Sim.
@@ -80,7 +80,7 @@ Notes on the Issue Board
 ------------------------
 
 Unfortunately, the WEC-Sim development team does not have the time and funding to address issues outside of WEC-Sim.
-The following topics cannot be addressed when there is not a direct relation to WEC-Sim code, theory or implementation: 
+The following topics cannot be addressed when there is not a direct relation to WEC-Sim code, theory, or implementation: 
 
 - MATLAB/Simulink/Simscape-based issues
 - general hydrodynamics questions
@@ -121,7 +121,7 @@ Test 1:
 Issues with Test 1A-B indicate there is an imbalance between the gravity and buoyant forces. 
 This may cause the "solution singularity" as described in the FAQ, or result in a body rising or falling indefinitely.
 To solve this problem, recalculate the mass that will balance the displaced volume from the BEM data.
-Alteratively utilize the ``body(#).mass = equilibrium`` option.
+Alternatively utilize the ``body(#).mass = equilibrium`` option.
 
 Test 2:
 ^^^^^^^
