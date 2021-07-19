@@ -2,10 +2,6 @@
 
 Troubleshooting
 ===============
-.. Topics to cover:
-    - common download / installation issues
-	- numerical workflow
-
 
 The WEC-Sim development team actively maintains a `WEC-Sim Issues page <https://github.com/WEC-Sim/WEC-Sim/issues>`_ on GitHub. 
 This issue page is upkept to assist users with immediate needs and to document all past issues.
@@ -15,8 +11,6 @@ If you have problems downloading, installing, or using WEC-Sim please follow the
 Completing these steps will help users address their own questions and aid the development team in maintaining the issue board effectively.
 Maintanence of an overwhelmed issue board takes time and effort away from WEC-Sim developments.
 Please take the time to follow these steps before opening an issue on GitHub:
-
-.. We also encourage users to address the issues of other users if they are confident in their knowledge of WEC-Sim. 
 
 
 1. Personal Debugging
@@ -57,7 +51,7 @@ If documentation in an area is lacking, please identify this in a GitHub issue s
 
 In many cases, another user has had a similar issue before. 
 Search the issues page and the below FAQ for topics that relate to your current problem.
-If these are related but insufficient, tag them in your GitHub issue for easy reference of the development team and future users.
+If these are related but insufficient, tag them in your GitHub issue for as references for the development team and future users.
 
 
 5. Open an Issue
@@ -168,21 +162,6 @@ The non-linear hydro options are difficult to set-up and must be used with care.
 A highly refined mesh is required to get an accurate displaced volume and wetted surface area at each time step.
 
 
-.. 
-	Case 1a: No wave
-	^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
-	**Purpose:** 
-
-	**Set-up**::
-
-		waves = waveClass(...
-
-	**Issues:**
-
-	**Solutions:**
-
-
-
 Frequently Asked Questions
 --------------------------
 This section highlights some of the frequently encountered issues when using WEC-Sim.
@@ -267,24 +246,3 @@ Solution
 
 Check the path to the \*.h5 file in the wecSimInputFile.m or run BEMIO for the source examples.
 
-
-.. format
-	problem name
-	^^^^^^^^^^^^
-	
-	Problem
-	~~~~~~~
-	
-	Description
-	
-	Possible error messages
-	~~~~~~~~~~~~~~~~~~~~~~~
-	
-	.. code-block:: none
-	
-		Message
-		
-	Solution
-	~~~~~~~~
-	
-	Description
