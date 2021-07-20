@@ -190,15 +190,21 @@ classdef waveClass<handle
             axis tight manual % this ensures that getframe() returns a consistent size
             filename = 'Surf.gif';
             
+            random=[-.1,.1];
            
-            for n = 1:100:length(obj.waveAmpTime(:,1))
+            for n = 1:1:length(obj.waveAmpTime(:,1))
                 
-                yline(obj.waveAmpTime(n,2), 'b')
-                yline(body_pos(n), 'r')
+                plot(random,obj.waveAmpTime(n,2)*ones(1,2), '-b');
+                hold on
+                plot(random,body_pos(n)*ones(1,2), '-r');
+                hold on
+                
+                legend('Wave Elevation','Body Displacement')
+                hold off
                 
                 axis([-.1 .1 -2 2])
                 pause(.01)
-             %{
+             
                   % Capture the plot as an image 
                   frame = getframe(h); 
                   im = frame2im(frame); 
@@ -207,7 +213,7 @@ classdef waveClass<handle
                   if n == 1 
                       imwrite(imind,cm,filename,'gif', 'Loopcount',inf); 
                   else 
-                      imwrite(imind,cm,filename,'gif','WriteMode','append','DelayTime',.0001); 
+                      imwrite(imind,cm,filename,'gif','WriteMode','append','DelayTime',.01); 
                   end 
                 %}
             end
