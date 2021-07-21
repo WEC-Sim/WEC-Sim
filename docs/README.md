@@ -63,5 +63,5 @@ The front page of the docs can be accessed at
 #### Publishing Final Version Remotely
 
 The WEC-Sim docs are rebuilt automatically following every merge commit made 
-to the master branch of the [WEC-Sim/WEC-Sim](
+to the master or dev branch of the [WEC-Sim/WEC-Sim](
 https://github.com/WEC-Sim/WEC-Sim) repository.

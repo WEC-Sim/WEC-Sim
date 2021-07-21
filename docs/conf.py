@@ -31,7 +31,6 @@ import re
 # ones.
 extensions = [
     'sphinx.ext.autodoc',
-    'sphinx.ext.autosectionlabel',
     'sphinx.ext.mathjax',
     'sphinx.ext.napoleon',
     'sphinxcontrib.bibtex',
@@ -42,9 +41,6 @@ extensions = [
 
 # autodoc settings
 autodoc_member_order = 'bysource'
-
-# autosectionlabel settings
-autosectionlabel_prefix_document = True
 
 # Napoleon settings
 napoleon_google_docstring = True
@@ -88,7 +84,7 @@ master_doc = 'index'
 # -- Project information -----------------------------------------------------
 # General information about the project.
 project = 'WEC-Sim'
-copyright = '2020, National Renewable Energy Laboratory and National ' \
+copyright = '2021, National Renewable Energy Laboratory and National ' \
             'Technology & Engineering Solutions of Sandia, LLC (NTESS)'
 author = 'The WEC-Sim Developers'
 
