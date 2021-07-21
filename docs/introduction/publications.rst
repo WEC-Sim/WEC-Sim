@@ -10,7 +10,7 @@ WEC-Sim Publications
 
 Here is a list of publications written by the WEC-Sim multi-lab team about the development and application of the WEC-Sim code:
 
-[1] Y.-H. Yu, M. Lawson, K. Ruehl, and C. Michelen, “`Development and Demonstration of the WEC-Sim Wave Energy Converter Simulation Tool <https://energy.sandia.gov/wp-content/gallery/uploads/SAND2014-3013.pdf>`_,” in Proceedings of the 2nd Marine Energy Technology Symposium, METS 2014, Seattle, WA, 2014.   
+[1] Y.-H. Yu, M. Lawson, K. Ruehl, and C. Michelen, “`Development and Demonstration of the WEC-Sim Wave Energy Converter Simulation Tool <http://vtechworks.lib.vt.edu/bitstream/handle/10919/49236/137-Lawson.pdf?sequence=1&isAllowed=y>`_,” in Proceedings of the 2nd Marine Energy Technology Symposium, METS 2014, Seattle, WA, 2014.   
 
 [2] Y.-H. Yu, Y. Li, K. Hallett, and C. Hotimsky, “`Design and Analysis for a Floating Oscillating Surge Wave Energy Converter <http://www.nrel.gov/docs/fy14osti/61283.pdf>`_,” in Proceedings of the 33rd International Conference on Ocean, Offshore and Arctic Engineering, OMAE 2014, San Francisco, CA, 2014.    
 
@@ -44,13 +44,13 @@ Here is a list of publications written by the WEC-Sim multi-lab team about the d
 
 [17] E. Quon, A. Platt, Y.-H. Yu, and M. Lawson, 2016, “`Application of the Most Likely Extreme Response Method for Wave Energy Converters <http://www.nrel.gov/docs/fy16osti/65926.pdf>`_,” in Proceedings of the 35th International Conference on Ocean, Offshore and Arctic Engineering, OMAE 2016, Busan, South Korea, 2016.
 
-[18] R. So, C. Michelen, B. Bosma, P. Lenee-Bluhm, and T. K. A. Brekken, “`Statistical Analysis of a 1:7 Scale Field Test Wave Energy Converter Using WEC-Sim <https://ieeexplore.ieee.org/document/7829405>`_,” IEEE Transactions on Sustainable Energy, vol. 8, no. 3, pp. 1118–1126, Jul. 2017.
+[18] R. So, C. Michelen, B. Bosma, P. Lenee-Bluhm, and T. K. A. Brekken, “`Statistical Analysis of a 1:7 Scale Field Test Wave Energy Converter Using WEC-Sim <http://ieeexplore.ieee.org/stamp/stamp.jsp?arnumber=7829405>`_,” IEEE Transactions on Sustainable Energy, vol. 8, no. 3, pp. 1118–1126, Jul. 2017.
 
 [19] J. Van Rij, Y.-H. Yu, and Y. Guo, “`Structural loads analysis for wave energy converters <https://www.nrel.gov/docs/fy17osti/68048.pdf>`_,” in Proceedings of the 36th International Conference on Ocean, Offshore and Arctic Engineering, OMAE 2017, Trondheim, Norway, 2017.
 
 [20] Y.-H. Yu and D. Jenne, “`Analysis of a wave-powered, reverse-osmosis system and its economic availability in the United States <https://www.nrel.gov/docs/fy17osti/67973.pdf>`_,” in Proceedings of the 36th International Conference on Ocean, Offshore and Arctic Engineering, OMAE 2017, Trondheim, Norway, 2017.
 
-[21] J. Ringwood et al., “`A competition for WEC control systems <https://tethys-engineering.pnnl.gov/sites/default/files/publications/Ringwoodetal2017.pdf>`_,” in Proceedings of the 12th European Wave and Tidal Energy Conference, EWTEC 2017, Cork, Ireland, 2017.
+[21] J. Ringwood et al., “`A competition for WEC control systems <http://www.eeng.nuim.ie/jringwood/Respubs/C284JREW.pdf>`_,” in Proceedings of the 12th European Wave and Tidal Energy Conference, EWTEC 2017, Cork, Ireland, 2017.
 
 [22] F. Wendt et al., “`International Energy Agency Ocean Energy Systems Task 10 Wave Energy Converter Modeling Verification and Validation <https://www.nrel.gov/docs/fy18osti/68465.pdf>`_,” in Proceedings of the 12th European Wave and Tidal Energy Conference, EWTEC 2017, Cork, Ireland, 2017.
 
@@ -68,7 +68,7 @@ Refer to https://tethys-engineering.pnnl.gov/signature-projects/wec-sim for more
 News Articles
 ^^^^^^^^^^^^^
 
-* August 2013 – Sandia National Laboratories, `Sandia-NREL Wave Energy Converter (WEC)-Sim Development Meeting <https://www.osti.gov/servlets/purl/1671209>`_
+* August 2013 – Sandia National Laboratories, `Sandia-NREL Wave Energy Converter (WEC)-Sim Development Meeting <http://energy.sandia.gov/sandia-nrel-wave-energy-converter-wec-sim-development-meeting/>`_
 
 * April 2014 – Sandia National Laboratories, `WEC-Sim Code Development Meeting at the National Renewable Energy Laboratory <http://energy.sandia.gov/wec-sim-code-development-meeting-at-the-national-renewable-energy-laboratory/>`_
 
