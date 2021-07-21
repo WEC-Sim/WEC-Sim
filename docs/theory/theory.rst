@@ -581,7 +581,7 @@ Mooring
 
 The mooring load is represented using a linear quasi-static mooring stiffness 
 or by using the mooring forces calculated from `MoorDyn 
-<https://github.com/WEC-Sim/MoorDyn>`_ :cite:`Hall2015MoorDynGuide`, which is an 
+<http://www.matt-hall.ca/moordyn>`_ :cite:`Hall2015MoorDynGuide`, which is an 
 open-source lumped-mass mooring dynamics model. 
 
 Mooring Matrix
