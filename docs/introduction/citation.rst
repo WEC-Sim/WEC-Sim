@@ -17,7 +17,7 @@ The citation for the most recent version of WEC-Sim is below.
 Publications
 ------------
 
-[1] Y.-H. Yu, M. Lawson, K. Ruehl, and C. Michelen, "`Development and Demonstration of the WEC-Sim Wave Energy Converter Simulation Tool <http://vtechworks.lib.vt.edu/bitstream/handle/10919/49236/137-Lawson.pdf?sequence=1&isAllowed=y>`_," in Proceedings of the 2nd Marine Energy Technology Symposium, METS 2014, Seattle, WA, 2014.   
+[1] Y.-H. Yu, M. Lawson, K. Ruehl, and C. Michelen, "`Development and Demonstration of the WEC-Sim Wave Energy Converter Simulation Tool <https://energy.sandia.gov/wp-content/gallery/uploads/SAND2014-3013.pdf>`_," in Proceedings of the 2nd Marine Energy Technology Symposium, METS 2014, Seattle, WA, 2014.   
 
 
 Code
