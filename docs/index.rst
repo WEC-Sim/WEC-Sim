@@ -39,8 +39,8 @@ within the wave energy industry.
 WEC-Sim Developers
 =====================
 WEC-Sim is a collaboration between the `National Renewable Energy Laboratory 
-(NREL) <http://www.nrel.gov/water/>`_ and `Sandia National Laboratories 
-(Sandia) <http://energy.sandia.gov/energy/renewable-energy/water-power/>`_, 
+(NREL) <https://www.nrel.gov/water/>`_ and `Sandia National Laboratories 
+(Sandia) <https://energy.sandia.gov/programs/renewable-energy/water-power/>`_, 
 funded by the U.S. Department of Energy’s Water Power Technologies Office. 
 Due to the open source nature of the code, WEC-Sim has also had many external 
 contributions, for more information refer to :ref:`intro-acknowledgements`. 
