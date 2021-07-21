@@ -64,7 +64,7 @@ Multiple Condition Run
 ^^^^^^^^^^^^^^^^^^^^^^
 
 Example using :ref:`Multiple Condition Runs <user-advanced-features-mcr>`
-to run WEC-Sim with Multiple Condition Runs for the :ref:`RM3 <user-tutorials-rm3>`.
+to run the :ref:`RM3 <user-tutorials-rm3>`.
 These examples demonstrate each of the 3 different ways to run WEC-Sim with MCR
 and generates a power matrix for each PTO damping value. The last example
 demonstrates how to use MCR to vary the imported sea state test file and
@@ -136,5 +136,5 @@ Write HDF5
 This is an example of how to write your own h5 file using MATLAB. Can be useful 
 if you want to modify your coefficients, use experimental coefficients, or 
 coefficients from another BEM code other than WAMIT, NEMOH, AQWA, or CAPYTAINE. For more 
-details see :ref:`BEMIO <user-advanced-features-bemio>` 
+details see :ref:`BEMIO <user-advanced-features-bemio-h5>` 
 documentation. 
