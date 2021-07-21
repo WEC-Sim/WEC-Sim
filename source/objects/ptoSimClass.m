@@ -136,7 +136,7 @@ classdef ptoSimClass<handle
                 for jj = 1:length(obj.(names{ii}))
                     for kk = 1:length(signals.(names{ii}))
                         try
-                            tmp = evalin('base',[names{ii} num2str(jj) '_out.signals.values(:,' num2str(kk) ')']);
+                            tmp = evalin('caller',[names{ii} num2str(jj) '_out.signals.values(:,' num2str(kk) ')']);
                             ptosimOutput.(names{ii})(jj).(signals.(names{ii}){kk}) = tmp;
                         end
                     end
