@@ -97,13 +97,57 @@ classdef bemioTest < matlab.unittest.TestCase
             hydro = Read_CAPYTAINE(hydro,'.\rm3_full.nc');
         end
         
-        function read_aqwa(testCase)
-            cd(fullfile(testCase.aqwaDir,'Example\16.0'))
+        function read_aqwa_16_0(testCase)
+            cd(fullfile(testCase.testDir,'\RegressionTests\AQWA'))
             hydro = struct();
             hydro = Read_AQWA(hydro,                    ...
-                              'aqwa_example_data.AH1',  ...
-                              'aqwa_example_data.LIS');
+                              '16_0.AH1',  ...
+                              '16_0.LIS');
+                          
+            testCase.assertEqual(hydro.Nh, 5);
+            testCase.assertEqual(hydro.h, 1.37);
+            testCase.assertEqual(hydro.g, 9.807);
         end
+        
+        function read_aqwa_19_1(testCase)
+            cd(fullfile(testCase.testDir,'\RegressionTests\AQWA'))
+            hydro = struct();
+            hydro = Read_AQWA(hydro,                    ...
+                              '19_1.AH1',  ...
+                              '19_1.LIS');
+                          
+            testCase.assertEqual(hydro.cg, [0;0;-.01]);
+            testCase.assertEqual(hydro.cb, [0;0;-0.0467000000000000]);
+            testCase.assertEqual(hydro.beta, [-180,-90,0,90,180]);
+        end
+        
+        function read_aqwa_2020_R1(testCase)
+            cd(fullfile(testCase.aqwaDir,'2020_R1'))
+            hydro = struct();
+            hydro = Read_AQWA(hydro,                    ...
+                              'ANALYSIS.AH1',  ...
+                              'ANALYSIS.LIS');
+                          
+            testCase.assertEqual(hydro.Vo, [261.487000000000]);
+            testCase.assertEqual(hydro.body, {'body1'});
+        end
+        
+         function read_aqwa_2020_R2(testCase)
+            cd(fullfile(testCase.aqwaDir,'2020_R2'))
+            hydro = struct();
+            hydro = Read_AQWA(hydro,                    ...
+                              'ANALYSIS.AH1',  ...
+                              'ANALYSIS.LIS');
+                          
+            testCase.assertEqual(hydro.Nb, 2);
+            testCase.assertEqual(hydro.dof, [6,6]);
+            testCase.assertEqual(hydro.rho, 1025);
+        end
+        %}
+        
+        %separate test functions for aqwa versions
+        %rename depending on what geometry
+        %move old ones to tests/aqwa directory
         
     end
 end
