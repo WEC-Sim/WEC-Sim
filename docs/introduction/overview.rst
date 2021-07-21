@@ -33,7 +33,7 @@ time-domain where they can be better coupled with controls, power take-off
 systems, and other external bodies and forcings. WEC-Sim outputs the motions, 
 forces and power absorbed or lost in individual bodies, joints and PTOs. Output 
 is readily available in MATLAB for custom post-processing or coupling with 
-external tools such as the `WecOptTool <https://snl-waterpower.github.io/WecOptTool/>`_. 
+external tools such as the `WecOptTool <https://github.com/SNL-WaterPower/WecOptTool>`_. 
 
 .. TODO if reference / comparing to other codes, do so here
 

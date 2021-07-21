@@ -3,7 +3,7 @@
 Overview
 ========
 
-The `WEC-Sim development team <http://wec-sim.github.io/WEC-Sim/index.html#wec-sim-developers>`_ 
+The :ref:`WEC-Sim development team <developers>` 
 is currently engaged in continuous code development and support. Efforts are 
 made by the development team to improve the code's flexibility, accuracy, and 
 usability. 

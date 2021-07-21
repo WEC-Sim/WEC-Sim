@@ -296,6 +296,8 @@ The ``regularCIC`` case is defined by including the following in the input file:
     waves.T = <user defined wave period>; %[s]
     waves.H = <user defined wave height>; %[m]
 
+.. _user-code-structure-irregular:
+
 irregular
 """""""""
 

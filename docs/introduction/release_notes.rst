@@ -98,11 +98,11 @@ Previous Releases
 `WEC-Sim v3.0 <https://github.com/WEC-Sim/WEC-Sim/releases/tag/v3.0>`_
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
-* Added option of `equal energy spacing <http://wec-sim.github.io/WEC-Sim/advanced_features.html#irregular-wave-binning>`_ for irregular waves (default)
+* Added option of :ref:`equal energy spacing <user-advanced-features-irregular-wave-binning>` for irregular waves (default)
 
 * Added option to calculate the wave elevation at a location different from the origin
 
-* Added option to define `gamma for JONSWAP spectrum <http://wec-sim.github.io/WEC-Sim/code_structure.html#irregular>`_
+* Added option to define :ref:`gamma for JONSWAP spectrum <user-code-structure-irregular>`
 
 * Improved the WEC-Sim simulation speed when using rapid-acceleration mode
 
@@ -110,11 +110,11 @@ Previous Releases
 
 * Changed/Added following WEC-Sim parameters
 
-	* waves.randPreDefined -> `waves.phaseSeed <http://wec-sim.github.io/WEC-Sim/advanced_features.html#irregular-waves-with-seeded-phase>`_
+	* waves.randPreDefined -> :ref:`waves.phaseSeed <user-advanced-features-seeded-phase>`
 	* waves.phaseRand -> waves.phase           
-	* simu.dtFeNonlin -> `simu.dtNL <http://wec-sim.github.io/WEC-Sim/advanced_features.html#non-linear-hydrodynamics>`_
-	* simu.rampT -> `simu.rampTime <http://wec-sim.github.io/WEC-Sim/code_structure.html#simulation-class>`_
-	* Added simu.dtME  to allow specification of `Morison force time-step <http://wec-sim.github.io/WEC-Sim/advanced_features.html#time-step-features>`_
+	* simu.dtFeNonlin -> :ref:`simu.dtNL <user-advanced-features-nonlinear>`
+	* simu.rampT -> :ref:`simu.rampTime <user-code-structure-simulation-class>`
+	* Added simu.dtME  to allow specification of :ref:`Morison force time-step <user-advanced-features-time-step>`
 
 
 `WEC-Sim v2.2 <https://github.com/WEC-Sim/WEC-Sim/releases/tag/v2.2>`_
@@ -126,7 +126,7 @@ Previous Releases
 	* Implemented `Git LFS <https://git-lfs.github.com/>`_ for tracking ``*.h5`` files
 	* Added `WEC-Sim Application  repository <https://github.com/WEC-Sim/WEC-Sim_Applications>`_ as a `submodule <https://git-scm.com/book/en/v2/Git-Tools-Submodules>`_
 	* Moved `moorDyn <https://github.com/WEC-Sim/moorDyn>`_ to its own repository
-	* Removed publications from repository, `available on website <http://wec-sim.github.io/WEC-Sim/publications.html>`_
+	* Removed publications from repository, :ref:`available on website <intro-publications>`
 
 .. Note::
 
@@ -189,7 +189,7 @@ Previous Releases
 * WEC-Sim v1.1, `now available on GitHub <https://github.com/WEC-Sim/WEC-Sim/releases/tag/v1.1>`_ 
 * Improvements in code stability through modifications to the added mass, radiation damping calculations, and impulse response function calculations
 * Implementation of state space representation of radiation damping convolution integral calculation
-* New hydrodynamic data format based on `BEMIO <http://wec-sim.github.io/bemio/#>`_ output, a python code that reads data from WAMIT, NEMOH, and AQWA and writes to the `Hierarchical Data Format 5 <http://www.hdfgroup.org/>`_ (HDF5) format used by WEC-Sim.
+* New hydrodynamic data format based on :ref:`BEMIO <user-advanced-features-bemio>` output, a python code that reads data from WAMIT, NEMOH, and AQWA and writes to the `Hierarchical Data Format 5 <http://www.hdfgroup.org/>`_ (HDF5) format used by WEC-Sim.
 * Documentation available on WEC-Sim Website
 
 `WEC-Sim v1.0 <https://github.com/WEC-Sim/WEC-Sim/releases/tag/v1.0>`_
