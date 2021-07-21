@@ -9,6 +9,7 @@ simu.endTime=400;                       % Simulation End Time [s]
 simu.solver = 'ode4';                   % simu.solver = 'ode4' for fixed step & simu.solver = 'ode45' for variable step 
 simu.dt = 0.1;                          % Simulation Time-Step [s]
 simu.CITime = 30;                       % Specify CI Time [s]
+simu.yawNonLin = 1;
 
 %% Wave Information
 % % noWaveCIC, no waves with radiation CIC  

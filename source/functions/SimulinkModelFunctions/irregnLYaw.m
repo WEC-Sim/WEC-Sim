@@ -83,6 +83,7 @@ for ii=1:length(WaveDir)
     E11 = bsxfun(@times,B11,D11);
     Fext = Fext + sum(bsxfun(@minus,E1,E11));
 end
+
 end
 
 
