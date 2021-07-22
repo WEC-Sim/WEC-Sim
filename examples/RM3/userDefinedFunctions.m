@@ -20,4 +20,4 @@ output.plotForces(1,3);
 output.plotForces(2,3);
 
 
-waves.plotSurfgif(output.bodies(1).position(:,3)-output.bodies(1).position(1,3));
+%waves.plotSurfgif(output.bodies(1).position(:,3)-output.bodies(1).position(1,3));
