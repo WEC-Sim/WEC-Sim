@@ -37,7 +37,7 @@ extensions = [
     'sphinxcontrib.matlab',
     'sphinxext.remoteliteralinclude'
 ]
-
+bibtex_bibfiles = ['refs.bib']
 # autodoc settings
 autodoc_member_order = 'bysource'
 
