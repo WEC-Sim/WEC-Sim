@@ -1,4 +1,5 @@
-
+clc
+close all
 
 t = waves.waveAmpTime(:,1);
 it = simu.dt;
@@ -8,19 +9,25 @@ y = linspace(-100, 100, 100);
 
 float = stlread('geometry\float.stl');
 plate = stlread('geometry\plate.stl');
-plate_p = plate.Points;
-plate_c = plate.ConnectivityList;
-plate_p(:,3) = plate.Points(:,3) - 10;
-plate = triangulation(plate_c,plate_p);
 
-
- h = figure;
- axis([-20 20 -20 20 -2 2])
- axis tight manual % this ensures that getframe() returns a consistent size
- filename = 'WaveSurf.gif';
+h = figure;
+axis([-20 20 -20 20 -2 2])
+axis tight manual % this ensures that getframe() returns a consistent size
+filename = 'WaveSurf.gif';
 
 
 for n=1:length(t)
+    
+    float_p = float.Points;
+    float_c = float.ConnectivityList;
+    float_p(n,3) = float.Points(n,3) + (output.bodies(1).position(n,3)-output.bodies(1).position(1,3));
+    float = triangulation(float_c,float_p);
+
+    plate_p = plate.Points;
+    plate_c = plate.ConnectivityList;
+    plate_p(n,3) = plate.Points(n,3) + (output.bodies(2).position(n,3)-output.bodies(2).position(1,3));
+    plate = triangulation(plate_c,plate_p);
+
     
     trisurf(float,'FaceColor','y','EdgeColor','k')
     hold on
@@ -30,6 +37,7 @@ for n=1:length(t)
     Z = waveElevationGrid(waves, t(n), X, Y, t(n), it, simu.g);
     
     surf(X,Y,Z, 'EdgeColor','none')
+    caxis([-1.25 1.25])
 
     % Capture the plot as an image 
     frame = getframe(h); 
