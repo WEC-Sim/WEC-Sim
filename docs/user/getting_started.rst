@@ -151,4 +151,4 @@ Both the RM3 and the OSWEC examples (``$WECSIM/examples/OSWEC``) come ready-to-r
     ``rm3.h5`` file.
 
 .. Note:: You can remove the WEC-Sim Source folder from MATLAB path by running the "deactivate_wecsim.m" script in the ``$WECSIM folder. 
-However, it advisable to let the Source stay in MATLAB path.
+However, it is advisable to let the Source stay in MATLAB path.
