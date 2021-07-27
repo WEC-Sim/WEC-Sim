@@ -152,6 +152,7 @@ must be defined in the WEC-Sim input file, for example:
 
     :code:`simu.ssCalc = 1` 
 
+.. _user-advanced-features-time-step:
 
 Time-Step Features
 ^^^^^^^^^^^^^^^^^^
@@ -400,7 +401,8 @@ STL File Generation
 When the nonlinear option is turned on, the geometry file (``*.stl``) 
 (previously only used for visualization purposes in linear simulations) is used 
 as the discretized body surface on which the nonlinear pressure forces are 
-integrated. A good STL mesh resolution is required for the WEC body geometry 
+integrated. As in the linear case, the STL mesh origin must be at a body's center of gravity.
+A good STL mesh resolution is required for the WEC body geometry 
 file(s) when using the nonlinear buoyancy and Froude-Krylov wave excitation in 
 WEC-Sim. The simulation accuracy will increase with increased surface 
 resolution (i.e. the number of discretized surface panels specified in the 
@@ -436,6 +438,8 @@ Note that the linear discretization of curved edges is not refined via this
 algorithm. The header comments of the function explain the inputs and outputs. 
 This function calls ``import_stl_fast``, included with the WEC-Sim 
 distribution, to import the ``.*stl`` file. 
+
+.. _user-advanced-features-nonlinear-tutorial-heaving-ellipsoid:
 
 Nonlinear Buoyancy and Froude-Krylov Wave Excitation Tutorial - Heaving Ellipsoid
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
@@ -575,6 +579,8 @@ Applications <https://github.com/WEC-Sim/WEC-Sim_Applications>`_ repository
 
     Morison Elements cannot be used with :code:`etaImport`.
 
+.. _user-advanced-features-non-hydro-body:
+
 Non-Hydrodynamic Bodies
 ^^^^^^^^^^^^^^^^^^^^^^^
 
@@ -640,6 +646,8 @@ is necessary to define::
 to resolve drag body dynamics. One can additionally describe initial body 
 displacement in the manner of a hydrodynamic body. 
 
+.. _user-advanced-features-b2b:
+
 Body-To-Body Interactions
 ^^^^^^^^^^^^^^^^^^^^^^^^^
 
@@ -671,6 +679,8 @@ repository.
     only the :math:`[1+6(i-1):6i, 1+6(i-1):6i]` sub-matrices are used for each 
     body (where :math:`i` is the body number).
 
+.. _user-advanced-features-generalized-body-modes:
+
 Generalized Body Modes
 ^^^^^^^^^^^^^^^^^^^^^^
 
@@ -697,6 +707,8 @@ how to implement and use generalized body modes in WEC-Sim.
 
     Generalized body modes module has only been tested with WAMIT, where BEMIO 
     may need to be modified for NEMOH, AQWA and CAPYTAINE.
+
+.. _user-advanced-features-passive-yaw:
 
 Passive Yaw Implementation
 ^^^^^^^^^^^^^^^^^^^^^^^^^^
@@ -763,11 +775,12 @@ Mooring Features
 .. include:: /_include/mooring.rst
 
 
-Visualization/Paraview
+Paraview Visualization
 ----------------------
 
 .. include:: /_include/viz.rst
 
+.. _user-advanced-features-decay:
 
 Decay Tests
 -----------

@@ -96,7 +96,7 @@ for imcr=1:length(mcr.cases(:,1))
             hydroData(ii) = body(ii).hydroData;
         end
     end
-end; clear imcr ans hydroData 
+end; clear imcr ans hydroData
 %%
 
 

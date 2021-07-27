@@ -210,6 +210,8 @@ post-processing. Additionally, once the WEC-Sim run is complete, the
 WEC-Sim results are saved to the **output** variable in the MATLAB 
 workspace. 
 
+.. _user-tutorials-oswec:
+
 Oscillating Surge WEC (OSWEC)
 -----------------------------
 
@@ -230,7 +232,7 @@ hinge to the base that restricts the flap in order to pitch about the hinge.
 The full-scale dimensions and mass properties of the OSWEC are shown below. 
 
 .. figure:: /_static/images/OSWEC_Geom.png
-   :width: 300pt
+   :width: 600pt
    :align: center
 
 +-------+---------------+
