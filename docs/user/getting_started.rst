@@ -144,4 +144,6 @@ Both the RM3 and the OSWEC examples (``$WECSIM/examples/OSWEC``) come ready-to-r
     ``$WECSIM/examples/RM3/hydroData/bemio.m`` to generate the correct 
     ``rm3.h5`` file.
 
-.. Note:: You can remove the WEC-Sim Source folder from MATLAB path by running the "deactivate_wecsim.m" script in the ``$WECSIM folder. However, it is advisable to let the Source stay in MATLAB path.
+.. Note:: 
+
+     The user must run the "activate_wecsim.m" script each time they start MATLAB to activate WEC-Sim Source code and libraries. The user can remove the WEC-Sim Source folder from MATLAB path by running the "deactivate_wecsim.m" script in the ``$WECSIM folder". However, it is advisable to let the Source stay in MATLAB path. 
