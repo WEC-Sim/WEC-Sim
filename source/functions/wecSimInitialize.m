@@ -23,7 +23,7 @@
 %%
 %% simu = simulationClass();                                               - To Create the Simulation Variable
 %%
-%% waves = waveClass('<wave type');                                       - To create the Wave Variable and Specify Type
+%% waves = waveClass('<wave type');                                        - To create the Wave Variable and Specify Type
 %%
 %% body(<body number>) = bodyClass('<hydrodynamics data file name>.h5');   - To initialize bodyClass:
 %%
@@ -91,6 +91,7 @@ if exist('mcr','var') == 1
         waves.etaDataFile      = ['..' filesep parallelComputing_dir filesep '..' filesep waves.etaDataFile];
     end
 end
+
 % Waves and Simu: check inputs
 waves.checkinputs;
 simu.checkinputs;
@@ -102,6 +103,7 @@ if exist('constraint','var') == 1
         constraint(ii).setOrientation();
     end; clear ii
 end
+
 % PTOs: count & set orientation & set pretension
 if exist('pto','var') == 1
     simu.numPtos = length(pto(1,:));
@@ -111,6 +113,7 @@ if exist('pto','var') == 1
         pto(ii).setPretension();
     end; clear ii
 end
+
 % Mooring Configuration: count
 if exist('mooring','var') == 1
     simu.numMoorings = length(mooring(1,:));
@@ -119,6 +122,7 @@ if exist('mooring','var') == 1
         mooring(ii).setLoc;
     end; clear ii
 end
+
 % Bodies: count, check inputs, read hdf5 file
 numHydroBodies = 0; numNonHydroBodies = 0; numDragBodies = 0; 
 hydroBodLogic = zeros(length(body(1,:)),1);
@@ -164,6 +168,7 @@ for ii = 1:simu.numWecBodies
         body(ii).lenJ = zeros(6,1);
     end
 end; clear ii
+
 % PTO-Sim: read input, count
 if exist('./ptoSimInputFile.m','file') == 2
     ptoSimInputFile
@@ -318,8 +323,11 @@ sv_meanFS=Simulink.Variant('nlHydro<2');
 sv_instFS=Simulink.Variant('nlHydro==2');
 % Morrison Element
 morisonElement = simu.morisonElement;
-sv_MEOff=Simulink.Variant('morisonElement==0');
-sv_MEOn=Simulink.Variant('morisonElement==1 || morisonElement==2');
+for ii=1:length(body(1,:))
+    eval(['morisonElement_' num2str(ii) ' = morisonElement(ii)'])
+    eval(['sv_b' num2str(ii) '_MEOff = Simulink.Variant(''morisonElement_' num2str(ii) '==0'');'])
+    eval(['sv_b' num2str(ii) '_MEOn = Simulink.Variant(''morisonElement_' num2str(ii) '==1 || morisonElement_' num2str(ii) '==2'');'])
+end
 % Radiation Damping
 if waves.typeNum==0 || waves.typeNum==10 %'noWave' & 'regular'
     radiation_option = 1;
