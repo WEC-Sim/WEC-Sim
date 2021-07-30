@@ -14,34 +14,34 @@ import os
 
 # Single body cases --------------------------------------------------------#
 print('Run sphere case') # 2940 problems, ~30 min (no b2b). 
-os.chdir("./Sphere")
-import sphere
+os.chdir("./sphere")
+os.system('python sphere.py')
 
 print('Run Ellipsoid case') # 2156 problems, ~30 min (no b2b). 
-os.chdir("../Ellipsoid")
-import ellipsoid
+os.chdir("../ellipsoid")
+os.system('python ellipsoid.py')
 
 print('Run Cylinder case') # 3675 problems, ~30 min (no b2b). 
-os.chdir("../Cylinder")
-import cylinder
+os.chdir("../cylinder")
+os.system('python cylinder.py')
 
 print('Run Coer_Comp case') # 12800 problems, ~7 hours (no b2b). 
-os.chdir("../Coer_Comp")
-import coer_comp
+os.chdir("../coer_comp")
+os.system('python coer_comp.py')
 
 
 # # Multiple body cases ------------------------------------------------------#
 print('Run Cubes case') # 11000 problems, 8.5 hours (new b2b)
-os.chdir("../Cubes")
-import cubes
+os.chdir("../cubes")
+os.system('python cubes.py')
 
 print('Run RM3 case') # 3380 problems, 21 hours (new b2b)
-os.chdir("../RM3")
-import rm3
+os.chdir("../rm3")
+os.system('python rm3.py')
 
 print('Run OSWEC case') # 11000 problems, 43 hours (new b2b)
-os.chdir("../OSWEC")
-import oswec
+os.chdir("../oswec")
+os.system('python oswec.py')
 
 
 print('All simulations complete.')

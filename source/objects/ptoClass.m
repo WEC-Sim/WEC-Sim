@@ -77,7 +77,7 @@ classdef ptoClass<handle
         end
         
         function obj = checkLoc(obj,action)               
-            % This method checks WEC-Sim user inputs and generate an error message if the constraint location is not defined in constraintClass.
+            % This method checks WEC-Sim user inputs and generate an error message if the PTO location is not defined in ptoClass.
             
             % Checks if location is set and outputs a warning or error. Used in mask Initialization.
             switch action
@@ -103,13 +103,13 @@ classdef ptoClass<handle
         end
         
         function obj = setOrientation(obj)
-            % This method calculates the constraint ``x`` vector and ``rotationMatrix`` matrix in the ``orientation`` structure based on user input.
+            % This method calculates the PTO ``x`` vector and ``rotationMatrix`` matrix in the ``orientation`` structure based on user input.
             obj.orientation.z = obj.orientation.z / norm(obj.orientation.z);
             obj.orientation.y = obj.orientation.y / norm(obj.orientation.y);
             z = obj.orientation.z;
             y = obj.orientation.y;
             if abs(dot(y,z))>0.001
-                error('The Y and Z vectors defining the constraint''s orientation must be orthogonal.')
+                error('The Y and Z vectors defining the PTO''s orientation must be orthogonal.')
             end
             x = cross(y,z)/norm(cross(y,z));
             x = x(:)';
@@ -127,25 +127,53 @@ classdef ptoClass<handle
             end
         end
 
-
-        function setInitDisp(obj, x_rot, ax_rot, ang_rot, addLinDisp)
-            % This method sets initial displacement while considering an initial rotation orientation. 
-            %
-            %``x_rot`` (`3x1 float vector`) is rotation point [m] in the following format [x y z], Default = ``[]``.
+        function setInitDisp(obj, relCoord, axisAngleList, addLinDisp)
+            % Function to set a pto's initial displacement
             % 
-            %``ax_rot`` (`3x1 float vector`) is the axis about which to rotate to constraint and must be a normal vector, Default = ``[]``.
+            % This function assumes that all rotations are about the same relative coordinate. 
+            % If not, the user should input a relative coordinate of 0,0,0 and 
+            % use the additional linear displacement parameter to set the cg or loc
+            % correctly.
             %
-            %``ang_rot`` (`float`) is the rotation angle [rad], Default = ``[]``.
+            % Parameters
+            % ------------
+            %    relCoord : [1 3] float vector
+            %        Distance from x_rot to the body center of gravity or the constraint
+            %        or pto location as defined by: relCoord = cg - x_rot. [m]
             %
-            %``addLinDisp`` ('float') is the initial linear displacement [m] in addition to the displacement caused by the pto rotation, Default = '[]'.
-            loc = obj.loc;
-            relCoord = loc - x_rot;
-            rotatedRelCoord = rotateXYZ(relCoord,ax_rot,ang_rot);
-            newCoord = rotatedRelCoord + x_rot;
-            linDisp = newCoord-loc;
-            obj.initDisp.initLinDisp= linDisp + addLinDisp; 
-        end
+            %    axisAngleList : [nAngle 4] float vector
+            %        List of axes and angles of the rotations with the 
+            %        format: [n_x n_y n_z angle] (angle in rad)
+            %        Rotations applied consecutively in order of dimension 1
+            %
+            %    addLinDisp : [1 3] float vector
+            %        Initial linear displacement (in addition to the 
+            %        displacement caused by rotation) [m]
+            % 
+            
+            % initialize quantities before for loop
+            axisList = axisAngleList(:,1:3);
+            angleList = axisAngleList(:,4);
+            nAngle = size(axisList,1);
+            rotMat = eye(3);
+            
+            % Loop through all axes and angles.
+            for i=1:nAngle
+                rotMat = axisAngle2RotMat(axisList(i,:),angleList(i))*rotMat;
+            end
 
+            % calculate net axis-angle rotation
+            [netAxis, netAngle] = rotMat2AxisAngle(rotMat);
+
+            % calculate net displacement due to rotation
+            rotatedRelCoord = relCoord*(rotMat');
+            linDisp = rotatedRelCoord - relCoord;
+
+            % apply rotation and displacement to object
+            obj.initDisp.initLinDisp = linDisp + addLinDisp;
+            
+        end
+        
         function listInfo(obj)                                         
             % This method prints pto information to the MATLAB Command Window.
             fprintf('\n\t***** PTO Name: %s *****\n',obj.name)

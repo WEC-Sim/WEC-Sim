@@ -62,23 +62,36 @@ def hydrostatics(myBodies, savepath=''):
         cg = body.center_of_mass
         
         # use meshmagick to compute hydrostatic stiffness matrix
-        # NOTE: meshmagick currently has issue if a body is copmletely submerged (OSWEC base)
+        # NOTE: meshmagick currently has issue if a body is completely submerged (OSWEC base)
+        # See issues #7, #19 on meshmagick GitHub page.
         # use try-except statement to catch this error use alternate function for cb/vo
-        # if completely submerged, stiffness is 0?
-        body_mesh = mmm.Mesh(body.mesh.vertices, body.mesh.faces, name= body.mesh.name)
-        try:
-            body_hs = mmhs.Hydrostatics(working_mesh=body_mesh,
-                                        cog=body.center_of_mass,
-                                        rho_water=1023.0,
-                                        grav=9.81)
-            vo = body_hs.displacement_volume
-            cb = body_hs.buoyancy_center
-            khs = body_hs.hydrostatic_stiffness_matrix
-        except:
-            # Exception if body is fully submerged
-            vo = body_mesh.volume
-            cb = cg
-            khs = np.zeros((3,3))
+        body_mesh = mmm.Mesh(body.mesh.vertices, body.mesh.faces, name=body.mesh.name)
+        # try:
+        #     body_hs = mmhs.Hydrostatics(working_mesh=body_mesh,
+        #                                 cog=body.center_of_mass,
+        #                                 rho_water=1023.0,
+        #                                 grav=9.81)
+        #     vo = body_hs.displacement_volume
+        #     cb = body_hs.buoyancy_center
+        #     khs = body_hs.hydrostatic_stiffness_matrix
+        # except:
+        #     # Exception if body is fully submerged.
+        #     # if fully submerged:
+        #         # stiffness is 0 as small displacements do not change the displaced volume
+        #         # displaced volume is the total mesh volume
+        #         # center of buoyancy is equal to the center of gravity of the mesh with a constant density 
+        #     vo = body_mesh.volume
+        #     khs = np.zeros((3,3))
+        #     inertia = body_mesh.eval_plain_mesh_inertias()
+        #     cb = inertia.gravity_center
+            
+        body_hs = mmhs.Hydrostatics(working_mesh=body_mesh,
+                                    cog=body.center_of_mass,
+                                    rho_water=1023.0,
+                                    grav=9.81)
+        vo = body_hs.displacement_volume
+        cb = body_hs.buoyancy_center
+        khs = body_hs.hydrostatic_stiffness_matrix
         
         # set file index
         fileind = ''
@@ -221,7 +234,9 @@ def call_capy(meshFName, wCapy, CoG=([0,0,0],), headings=[0.0],ncFName=None,
     # capyData.update(kochin)
 
     # save to .nc file
-    cpt.io.xarray.separate_complex_values(capyData).to_netcdf(ncFName)
+    cpt.io.xarray.separate_complex_values(capyData).to_netcdf(ncFName,
+                                                              encoding={'radiating_dof': {'dtype': 'U'},
+                                                                        'influenced_dof': {'dtype': 'U'}})
     
     print('\n\nCapytaine call complete. Data saved to \n' + ncFName)
     
