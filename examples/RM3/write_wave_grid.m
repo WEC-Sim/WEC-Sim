@@ -8,36 +8,59 @@ y = linspace(-100, 100, 100);
 [X,Y] = meshgrid(x,y);
 
 float = stlread('geometry\float.stl');
+float_p = float.Points;
+float_c = float.ConnectivityList;
 plate = stlread('geometry\plate.stl');
+plate_p = plate.Points;
+plate_c = plate.ConnectivityList;
 
 h = figure;
-axis([-20 20 -20 20 -40 40])
-axis tight manual % this ensures that getframe() returns a consistent size
+
 filename = 'WaveSurf.gif';
 
 
-for n=1:length(t)
+for i=1:length(t)
     
-    float_p = float.Points;
-    float_c = float.ConnectivityList;
-    float_p(:,3) = float.Points(:,3) + (output.bodies(1).position(n,3)-output.bodies(1).position(1,3));
+    for ii=1:length(float_p(:,1))
+        
+        
+        
+    end
+    
+    float_p(:,3) = float.Points(:,3) + (output.bodies(1).position(i,3)-output.bodies(1).position(1,3));
     float_final = triangulation(float_c,float_p);
 
-    plate_p = plate.Points;
-    plate_c = plate.ConnectivityList;
-    plate_p(:,3) = plate.Points(:,3) + (output.bodies(2).position(n,3)-output.bodies(2).position(1,3));
+    plate_p(:,3) = plate.Points(:,3) + (output.bodies(2).position(i,3)-output.bodies(2).position(1,3));
     plate_final = triangulation(plate_c,plate_p);
 
-    trisurf(float_final,'FaceColor','y','EdgeColor','k')
+    trisurf(float_final,'FaceColor',[1 1 0],'EdgeColor','k','EdgeAlpha',.2)
     hold on
-    trisurf(plate_final,'FaceColor','y','EdgeColor','k')
+    trisurf(plate_final,'FaceColor',[1 1 0],'EdgeColor','k','EdgeAlpha',.2)
     hold on
     
-    Z = waveElevationGrid(waves, t(n), X, Y, t(n), it, simu.g);
+    Z = waveElevationGrid(waves, t(i), X, Y, t(i), it, simu.g);
     
     surf(X,Y,Z, 'EdgeColor','none')
-    caxis([-1.25 1.25])
-
+    caxis([-waves.A waves.A])
+    hold on
+    
+    %{
+    depth = -waves.waterDepth*ones(length(X));
+    surf(X,Y,depth,'FaceColor',[.4 .4 0])
+    hold on
+    %}
+    
+    delete(findall(gcf,'type','annotation'));
+    t_annot = ['time = ', num2str(t(i)), 's'];
+    annotation('textbox',[.7 .4 .3 .3],'String',t_annot,'FitBoxToText','on');
+    axis([-100 100 -100 100 -15 35])
+    xlabel('x(m)')
+    ylabel('y(m)')
+    zlabel('z(m)')
+    
+    drawnow;
+    
+%{
     % Capture the plot as an image 
     frame = getframe(h); 
     im = frame2im(frame); 
@@ -48,9 +71,10 @@ for n=1:length(t)
     else 
       imwrite(imind,cm,filename,'gif','WriteMode','append','DelayTime',.1); 
     end 
+    %}
     
     hold off
-
+    
 
 end
  %}
