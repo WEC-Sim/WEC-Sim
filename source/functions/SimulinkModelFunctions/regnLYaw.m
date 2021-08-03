@@ -4,7 +4,14 @@ function [Fext,relYawLast,coeffsLastMD,coeffsLastRE,coeffsLastIM] = regnLYaw(A,w
 % yaw at which that last interpolation was performed. If the current
 % relative yaw angle - last interpolated > threshold, the interpolation is
 % performed again. To interpolate every time step, let threshold=0. 
-
+%{
+%initialize outputs
+Fext = zeros(1,6);
+relYawLast=0;
+coeffsLastMD=zeros(length(w),6); % should be (1,6) for regular waves
+coeffsLastRE=zeros(length(w),6);
+coeffsLastIM=zeros(length(w),6);
+%}
 for ii=1:length(WaveDir) % should be length=1 for regular waves
     relYaw=WaveDir(ii)-(Disp(6).*180/pi); % relative yaw angle, convert to deg
    
