@@ -62,30 +62,19 @@ for ii=1:length(plate_p)
 end
 
 for i=1:length(t)
-    
-            float_theta_y_new = float_theta_y+del_float_ry(i);
 
-            float_p(:,1) = float_r_y.*cos(float_theta_y_new);
-            float_p(:,3) = float_r_y.*sin(float_theta_y_new);
-    
+    float_theta_y_new = float_theta_y+del_float_ry(i);
+    float_p(:,1) = float_r_y.*cos(float_theta_y_new);
+    float_p(:,3) = float_r_y.*sin(float_theta_y_new);
 
-            
+    plate_theta_y_new = plate_theta_y+del_plate_ry(i);
+    plate_p(:,1) = plate_r_y.*cos(plate_theta_y_new);
+    plate_p(:,3) = plate_r_y.*sin(plate_theta_y_new);
    
-    
- 
-            plate_theta_y_new = plate_theta_y+del_plate_ry(i);
-
-            plate_p(:,1) = plate_r_y.*cos(plate_theta_y_new);
-            plate_p(:,3) = plate_r_y.*sin(plate_theta_y_new);
-      
-      
-        
-    
-    
-    float_p(:,3) = float.Points(:,3) + (del_float_z(i));
+    float_p(:,3) = float_p(:,3) + (del_float_z(i));
     float_final = triangulation(float_c,float_p);
 
-    plate_p(:,3) = plate.Points(:,3) + (del_plate_z(i));
+    plate_p(:,3) = plate_p(:,3) + (del_plate_z(i));
     plate_final = triangulation(plate_c,plate_p);
 
     trisurf(float_final,'FaceColor',[1 1 0],'EdgeColor','k','EdgeAlpha',.2)
@@ -95,7 +84,7 @@ for i=1:length(t)
     
     Z = waveElevationGrid(waves, t(i), X, Y, t(i), it, simu.g);
     
-    %surf(X,Y,Z, 'EdgeColor','none')
+    surf(X,Y,Z, 'EdgeColor','none')
     caxis([-waves.A waves.A])
     hold on
     
@@ -108,14 +97,15 @@ for i=1:length(t)
     delete(findall(gcf,'type','annotation'));
     t_annot = ['time = ', num2str(t(i)), 's'];
     annotation('textbox',[.7 .4 .3 .3],'String',t_annot,'FitBoxToText','on');
-    axis([-40 40 -40 40 -25 40])
+    axis([-100 100 -100 100 -15 35])
     xlabel('x(m)')
     ylabel('y(m)')
     zlabel('z(m)')
     
     drawnow;
     
-%{
+    
+
     % Capture the plot as an image 
     frame = getframe(h); 
     im = frame2im(frame); 
