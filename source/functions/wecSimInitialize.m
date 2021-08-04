@@ -278,40 +278,47 @@ if strcmp(waves.type,'etaImport') && simu.morisonElement ~= 0
     error(['Cannot run WEC-Sim with Morrison Element (simu.morisonElement) and "etaImport" wave type'])
 end
 
-% Check for morisonElement inputs for simu.morisonElement == 1
-if simu.morisonElement == 1
-    for ii = 1:length(body(1,:))
-        if body(ii).nhBody ~=1
-            %
-            [rgME,~] = size(body(ii).morisonElement.rgME);
-            %
-            for jj = 1:rgME
-                if true(isfinite(body(ii).morisonElement.z(jj,:))) == true
-                    warning(['"body.morisonElement.z" is not used for "simu.morisonElement = 1. Check body ',num2str(ii),' element ',num2str(jj)])
+% Check for morisonElement inputs for simu.morisonElement == 1 || simu.morisonElement == 2
+if length(simu.morisonElement) == 1 && simu.morisonElement == 0
+    warning(['"simu.morisonElement" needs to be a [n x 1] column vector where n is the number of bodies. WEC-Sim has assumed no bodies have active Morison Elements.'])
+    simu.morisonElement = zeros(length(body(1,:)),1);
+else
+    if length(body(1,:))==length(simu.morisonElement)
+        for ii = 1:length(body(1,:))
+            if simu.morisonElement(ii) == 1
+                if body(ii).nhBody ~=1
+                    [rgME,~] = size(body(ii).morisonElement.rgME);
+                    for jj = 1:rgME
+                        if true(isfinite(body(ii).morisonElement.z(jj,:))) == true
+                            warning(['"body.morisonElement.z" is not used for "simu.morisonElement = 1. Check body ',num2str(ii),' element ',num2str(jj)])
+                        end
+                        if (body(ii).morisonElement.cd(jj,3)) == 1 || isnan(body(ii).morisonElement.ca(jj,3)) == 1 || isnan(body(ii).morisonElement.characteristicArea(jj,3)) == 1
+                            error(['cd, ca, and characteristicArea coefficients for each elelement for "simu.morisonElement = 1" must be of size [1x3] and all columns of data must be real and finite. Check body ',num2str(ii),' element ',num2str(jj),' coefficients'])
+                        end
+                    end; clear jj
+                else
+                    if simu.morisonElement(ii) ==1 || simu.morisonElement(ii) ==2
+                        warning(['Morison elements are not available for non-hydro bodies. Please check body ',num2str(ii),' inputs.'])
+                    end
                 end
-                %
-                if isnan(body(ii).morisonElement.cd(jj,3)) == 1 || isnan(body(ii).morisonElement.ca(jj,3)) == 1 || isnan(body(ii).morisonElement.characteristicArea(jj,3)) == 1
-                    error(['cd, ca, and characteristicArea coefficients for each elelement for "simu.morisonElement = 1" must be of size [1x3] and all columns of data must be real and finite. Check body ',num2str(ii),' element ',num2str(jj),' coefficients'])
+            elseif simu.morisonElement(ii) == 2
+                if body(ii).nhBody ~=1
+                    [rgME,~] = size(body(ii).morisonElement.rgME);
+                    for jj = 1:rgME
+                        if body(ii).morisonElement.cd(jj,3) ~= 0 || body(ii).morisonElement.ca(jj,3) ~= 0 || body(ii).morisonElement.characteristicArea(jj,3) ~= 0
+                            warning(['cd, ca, and characteristicArea coefficients for "simu.morisonElement == 2" must be of size [1x2], third column of data is not used. Check body ',num2str(ii),' element ',num2str(jj),' coefficients'])
+                        end
+                    end; clear jj
+                else
+                    if simu.morisonElement(ii) ==1 || simu.morisonElement(ii) ==2
+                        warning(['Morison elements are not available for non-hydro bodies. Please check body ',num2str(ii),' inputs.'])
+                    end
                 end
-            end; clear jj
+            end; clear ii
         end
-    end; clear ii
-end
-
-% Check for morisonElement inputs for simu.morisonElement == 2
-if simu.morisonElement == 2
-    for ii = 1:length(body(1,:))
-        if body(ii).nhBody ~=1
-            %
-            [rgME,~] = size(body(ii).morisonElement.rgME);
-            %
-            for jj = 1:rgME
-                if isnan(body(ii).morisonElement.cd(jj,3)) == 0 || isnan(body(ii).morisonElement.ca(jj,3)) == 0 || isnan(body(ii).morisonElement.characteristicArea(jj,3)) == 0
-                    warning(['cd, ca, and characteristicArea coefficients for "simu.morisonElement == 2" must be of size [1x2], third column of data is not used. Check body ',num2str(ii),' element ',num2str(jj),' coefficients'])
-                end
-            end; clear jj
-        end
-    end; clear ii
+    else
+        error(['Cannot run WEC-Sim with simu.morisonElement not set for each body. "simu.morisonElement" needs to be a [n x 1] column vector where n is the number of bodies.'])
+    end
 end
 
 %% Set variant subsystems options
@@ -324,9 +331,11 @@ sv_instFS=Simulink.Variant('nlHydro==2');
 % Morrison Element
 morisonElement = simu.morisonElement;
 for ii=1:length(body(1,:))
-    eval(['morisonElement_' num2str(ii) ' = morisonElement(ii)'])
+    if body(ii).nhBody ~=1
+    eval(['morisonElement_' num2str(ii) ' = morisonElement(ii);'])
     eval(['sv_b' num2str(ii) '_MEOff = Simulink.Variant(''morisonElement_' num2str(ii) '==0'');'])
     eval(['sv_b' num2str(ii) '_MEOn = Simulink.Variant(''morisonElement_' num2str(ii) '==1 || morisonElement_' num2str(ii) '==2'');'])
+    end
 end
 % Radiation Damping
 if waves.typeNum==0 || waves.typeNum==10 %'noWave' & 'regular'
