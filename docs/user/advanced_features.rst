@@ -518,11 +518,13 @@ Morison Elements
 """"""""""""""""
 
 To use Morison Elements, the following simulation class variable must be 
-defined in the WEC-Sim input file with :code:`simu.morisonElement = 1` or 
-:code:`simu.morisonElement = 2` 
+defined in the WEC-Sim input file with :code:`simu.morisonElement = [n x 1]` where :code:`n` is the number of bodies. Each element of the vector can be defined with the following three options: 
+:code:`simu.morisonElement(i) = 0`, :code:`simu.morisonElement(i) = 1`, :code:`simu.morisonElement(i) = 2` where :code:`i` is the body number.
+
+Implementation Option 0 Morison Elements are not included in the body force and moment calculations. 
 
 Implementation Option 1 allows for the Morison Element properties to be defined 
-independently for the x-, y-, and z-axis while implementation option 2 uses a 
+independently for the x-, y-, and z-axis while Implementation Option 2 uses a 
 normal and tangential representation of the Morison Element properties. Note 
 that the two options allow the user flexibility to implement hydrodynamic 
 forcing that best suits their modeling needs; however, the two options have 
@@ -532,11 +534,11 @@ the Simulink Morison Element block within the WEC-Sim library to better
 determine which approach better suits their modeling requirements. 
 
 Morison Elements must be defined for each body using the 
-:code:`body(#).morisonElement` property of the body class. This property 
+:code:`body(i).morisonElement` property of the body class. This property 
 requires definition of the following body class parameters in the WEC-Sim input 
 file (each of which have a default value of zero(s)). 
 
-For :code:`simu.morisonElement  = 1` ::
+For :code:`simu.morisonElement(i)  = 1` ::
     
     body(i).morisonElement.cd = [c_{dx} c_{dy} c_{dz}]
     body(i).morisonElement.ca = [c_{ax} c_{ay} c_{az}]
@@ -548,10 +550,10 @@ For :code:`simu.morisonElement  = 1` ::
 .. Note::
 
     For Option 1, the unit normal :code:`body(#).morisonElement.z` must be 
-    initialized as a [1x3] vector although it will not be used in the 
+    initialized as a [:code:`n` x3] vector, where :code:`n` is the number of Morison Elements, although it will not be used in the 
     hydrodynamic calculation. 
     
-For :code:`simu.morisonElement  = 2` ::
+For :code:`simu.morisonElement(i)  = 2` ::
     
     body(i).morisonElement.cd = [c_{dn} c_{dt} 0]
     body(i).morisonElement.ca = [c_{an} c_{at} 0]
@@ -562,11 +564,11 @@ For :code:`simu.morisonElement  = 2` ::
     
 .. Note::
 
-    For Option 2, the :code:`body(#).morisonElement.cd`, 
-    :code:`body(#).morisonElement.ca`, and 
-    :code:`body(#).morisonElement.characteristicArea` variables need to be 
-    initialized as [1x3] vectors with the last index set to zero. While 
-    :code:`body(#).morisonElement.z` is a unit normal vector that defines the 
+    For Option 2, the :code:`body(i).morisonElement.cd`, 
+    :code:`body(i).morisonElement.ca`, and 
+    :code:`body(i).morisonElement.characteristicArea` variables need to be 
+    initialized as [:code:`n` x3] vector, where :code:`n` is the number of Morison Elements, with the third column index set to zero. While 
+    :code:`body(i).morisonElement.z` is a unit normal vector that defines the 
     orientation of the Morison Element. 
 
 The Morison Element time-step may also be defined as
@@ -577,7 +579,7 @@ Applications <https://github.com/WEC-Sim/WEC-Sim_Applications>`_ repository
 
 .. Note::
 
-    Morison Elements cannot be used with :code:`etaImport`.
+    Morison Elements cannot be used with :code:`etaImport` or with Wave Directional Spreading.
 
 .. _user-advanced-features-non-hydro-body:
 
