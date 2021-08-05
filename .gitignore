@@ -2,6 +2,8 @@ $ cat .gitignore
 
 # File Extensions
 *~
+*.3dm
+*.3dmbak
 *.acn
 *.acr
 *.alg
@@ -21,6 +23,7 @@ $ cat .gitignore
 *.glo
 *.gls
 *.idx
+*.igs
 *.ilg
 *.ind
 *.ist
