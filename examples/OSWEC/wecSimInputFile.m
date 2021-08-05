@@ -39,9 +39,9 @@ waves.T = 8;                            % Wave Period [s]
 
 
 % waves.wavegauge<i>loc = <user defined wave gauge i x-location>; %(y-position assumed to be 0 m)
-waves.wavegauge1loc = 0*[waves.H,0]; %(y-position assumed to be 0 m)
-waves.wavegauge2loc = 4*[waves.H,5]; %(y-position assumed to be 0 m)
-waves.wavegauge3loc = 4*[-waves.H,-5]; %(y-position assumed to be 0 m)
+% waves.wavegauge1loc = 1*[waves.H,10]; %(y-position assumed to be 0 m)
+% waves.wavegauge2loc = 4*[waves.H,5]; %(y-position assumed to be 0 m)
+% waves.wavegauge3loc = 4*[-waves.H,-5]; %(y-position assumed to be 0 m)
 % waves.waveAmpTime<i> = incident wave elevation time series at wave gauge i
 %% Body Data
 % Flap
