@@ -1,0 +1,24 @@
+name: Run MATLAB Tests on GitHub-Hosted Runner
+on:
+  # Trigger the workflow on push or pull request,
+  # but only for the github_actions branch
+  push:
+    branches:
+      - github_actions
+  pull_request:
+    branches:
+      - github_actions
+jobs:
+  my-job:
+    name: Run MATLAB Tests and Generate Artifacts
+    runs-on: ubuntu-latest
+    steps:
+      - name: Check out repository
+        uses: actions/checkout@v2
+      - name: Install MATLAB
+        uses: matlab-actions/setup-matlab@v1
+      - name: Run tests and generate artifacts
+        uses: matlab-actions/run-tests@v1
+        with:
+          source-folder: tests
+          code-coverage-cobertura: code-coverage/coverage.xml
