@@ -1,20 +1,17 @@
-name: Run MATLAB Tests on GitHub-Hosted Runner
+name: Run MATLAB tests on dev branch
 on:
   # Trigger the workflow on push or pull request,
-  # but only for the github_actions branch
+  # but only for the dev branch
   push:
     branches:
-      - github_actions
+      - dev
   pull_request:
     branches:
-      - github_actions
+      - dev
 jobs:
   test:
     name: Run MATLAB Tests and Generate Artifacts
-    runs-on: ${{ matrix.os }}
-    strategy:
-        matrix:
-            os: [macos-latest, windows-latest, ubuntu-latest]
+    runs-on: ubuntu-latest
     steps:
       - name: Check out repository
         uses: actions/checkout@v2
