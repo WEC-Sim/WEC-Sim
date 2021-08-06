@@ -53,7 +53,7 @@ classdef bemioTest < matlab.unittest.TestCase
         
         function combine_bem(testCase)
 
-            cd(fullfile(testCase.capytaineDir, 'Cylinder'))
+            cd(fullfile(testCase.capytaineDir, 'cylinder'))
             
             hydro = struct();
             hydro = Read_CAPYTAINE(hydro, 'cylinder_full.nc');
@@ -77,7 +77,7 @@ classdef bemioTest < matlab.unittest.TestCase
             cd(fullfile(testCase.nemohDir,'Cylinder'))
             
             hydro = struct();
-            hydro = Read_NEMOH(hydro,'..\Cylinder\');
+            hydro = Read_NEMOH(hydro, fullfile('..', 'Cylinder'));
             hydro = Radiation_IRF(hydro,5,[],[],[],[]);
             hydro = Radiation_IRF_SS(hydro,[],[]);
             hydro = Excitation_IRF(hydro,5,[],[],[],[]);
@@ -89,27 +89,27 @@ classdef bemioTest < matlab.unittest.TestCase
         function read_wamit(testCase)
             cd(fullfile(testCase.wamitDir,'RM3'))
             hydro = struct();
-            hydro = Read_WAMIT(hydro,'rm3.out',[]);
+            Read_WAMIT(hydro,'rm3.out',[]);
         end
         
         function read_nemoh(testCase)
             cd(fullfile(testCase.nemohDir,'RM3'))
             hydro = struct();
-            hydro = Read_NEMOH(hydro,'..\RM3\');
+            Read_NEMOH(hydro, fullfile('..', 'RM3'));
         end
         
         function read_capytaine(testCase)
             cd(fullfile(testCase.capytaineDir,'RM3'))
             hydro = struct();
-            hydro = Read_CAPYTAINE(hydro,'.\rm3_full.nc');
+            Read_CAPYTAINE(hydro, 'rm3_full.nc');
         end
         
         function read_aqwa(testCase)
             cd(fullfile(testCase.aqwaDir,'Example'))
             hydro = struct();
-            hydro = Read_AQWA(hydro,                    ...
-                              'aqwa_example_data.AH1',  ...
-                              'aqwa_example_data.LIS');
+            Read_AQWA(hydro,                    ...
+                      'aqwa_example_data.AH1',  ...
+                      'aqwa_example_data.LIS');
         end
         
     end
