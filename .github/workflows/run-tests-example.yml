@@ -22,7 +22,6 @@ jobs:
         with:
           command: addpath(genpath('source'));, savepath pathdef.m;
       - name: Run tests and generate artifacts
-        uses: matlab-actions/run-tests@v1
+        uses: matlab-actions/run-command@v1
         with:
-          source-folder: tests
-          code-coverage-cobertura: code-coverage/coverage.xml
+          command: results = wecSimTest, assertSuccess(results);
