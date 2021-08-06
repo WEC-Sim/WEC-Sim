@@ -17,11 +17,11 @@ classdef bemioTest < matlab.unittest.TestCase
             % Set WEC-Sim, test and BEMIO example directories
             obj.testDir = fileparts(mfilename('fullpath'));
             obj.wsDir = fullfile(obj.testDir,'..');
-            obj.bemioDir = fullfile(obj.wsDir,'examples\BEMIO\');
-            obj.wamitDir = fullfile(obj.bemioDir,'WAMIT\');
-            obj.nemohDir = fullfile(obj.bemioDir,'NEMOH\');
-            obj.capytaineDir = fullfile(obj.bemioDir,'CAPYTAINE\');
-            obj.aqwaDir = fullfile(obj.bemioDir,'AQWA\');
+            obj.bemioDir = fullfile(obj.wsDir,'examples','BEMIO');
+            obj.wamitDir = fullfile(obj.bemioDir,'WAMIT');
+            obj.nemohDir = fullfile(obj.bemioDir,'NEMOH');
+            obj.capytaineDir = fullfile(obj.bemioDir,'CAPYTAINE');
+            obj.aqwaDir = fullfile(obj.bemioDir,'AQWA');
             
             % Hide figures
             set(0,'DefaultFigureVisible','off')
@@ -53,15 +53,22 @@ classdef bemioTest < matlab.unittest.TestCase
         
         function combine_bem(testCase)
 
-            cd(fullfile(testCase.capytaineDir,'Cylinder'))
+            cd(fullfile(testCase.capytaineDir, 'Cylinder'))
             
             hydro = struct();
-            hydro = Read_CAPYTAINE(hydro,'.\cylinder_full.nc');
-            hydro = Read_NEMOH(hydro,'..\..\NEMOH\Cylinder\');
+            hydro = Read_CAPYTAINE(hydro, 'cylinder_full.nc');
+            hydro = Read_NEMOH(hydro,   ...
+                               fullfile('..', '..', 'NEMOH', 'Cylinder'));
             hydro(end).body = {'cylinder_nemoh'};
-            hydro = Read_WAMIT(hydro,'..\..\WAMIT\Cylinder\cyl.out',[]);
+            hydro = Read_WAMIT(hydro,               ...
+                               fullfile('..',       ...
+                                        '..',       ...
+                                        'WAMIT',    ...
+                                        'Cylinder', ...
+                                        'cyl.out'), ...
+                               []);
             hydro(end).body = {'cylinder_wamit'};
-            hydro = Combine_BEM(hydro);
+            Combine_BEM(hydro);
             
         end
         
