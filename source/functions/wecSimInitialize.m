@@ -392,6 +392,8 @@ for iBod = 1:simu.numWecBodies
 end; clear iBod
 warning('off','Simulink:blocks:TDelayTimeTooSmall');
 warning('off','Simulink:blocks:BusSelDupBusCreatorSigNames');
+warning('off','Simulink:Engine:InputNotConnected')
+warning('off','Simulink:Engine:OutputNotConnected')
 warning('off','MATLAB:loadlibrary:FunctionNotFound');
 warning('off','MATLAB:loadlibrary:parsewarnings');
 warning('off','MATLAB:printf:BadEscapeSequenceInFormat');
