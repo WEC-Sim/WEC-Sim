@@ -13,8 +13,10 @@ classdef runFromSimTest < matlab.unittest.TestCase
             % Set WEC-Sim, test and simulink directories
             obj.testDir = fileparts(mfilename('fullpath'));
             obj.wsDir = fullfile(obj.testDir,'..');
-            obj.runFromSimDir = fullfile(obj.testDir,'runFromSimulinkTests\');
+            obj.runFromSimDir = fullfile(obj.testDir,  ...
+                                         'runFromSimulinkTests');
         end
+        
     end
     
     methods(TestClassSetup)
