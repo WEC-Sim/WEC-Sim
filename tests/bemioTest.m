@@ -99,7 +99,7 @@ classdef bemioTest < matlab.unittest.TestCase
         end
         
         function read_capytaine(testCase)
-            cd(fullfile(testCase.capytaineDir,'RM3'))
+            cd(fullfile(testCase.capytaineDir,'rm3'))
             hydro = struct();
             Read_CAPYTAINE(hydro, 'rm3_full.nc');
         end
