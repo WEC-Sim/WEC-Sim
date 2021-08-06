@@ -8,13 +8,13 @@ on:
   pull_request:
     branches:
       - github_actions
-strategy:
-  matrix:
-    os: [macos-latest, windows-latest, ubuntu-latest]
 jobs:
-  my-job:
+  test:
     name: Run MATLAB Tests and Generate Artifacts
     runs-on: ${{ matrix.os }}
+    strategy:
+        matrix:
+            os: [macos-latest, windows-latest, ubuntu-latest]
     steps:
       - name: Check out repository
         uses: actions/checkout@v2
