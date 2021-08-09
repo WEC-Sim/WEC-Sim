@@ -93,12 +93,12 @@ PTO-Sim is the WEC-Sim module responsible for accurately modeling a WEC's
 conversion of mechanical power to electrical power. While the PTO blocks native 
 to WEC-Sim are modeled as a simple linear spring-damper systems, PTO-Sim is 
 capable of modeling many power conversion chains (PCC) such as mechanical 
-drivetrain and hydraulic drivetrain. PTO-Sim is made of native Simulink blocks 
+and hydraulic drivetrains. PTO-Sim is made of native Simulink blocks 
 coupled with WEC-Sim, using WEC-Sim's user-defined PTO blocks, where the 
 WEC-Sim response (relative displacement and velocity for linear motion and 
 angular position and velocity for rotary motion) is the PTO-Sim input. 
 Similarly, the PTO force or torque is the WEC-Sim input. For more information 
-on how PTO-Sim works, refer to [So et al., 2015], and :ref:`webinar3`. 
+on how PTO-Sim works, refer to [So et al., 2015] and :ref:`webinar3`. 
 
 The files for the PTO-Sim tutorials described in this section can be found in 
 the **PTO-Sim** examples on the `WEC-Sim Applications repository 
@@ -148,15 +148,16 @@ density while the non-compressible fluid does not.
 In this section, a step by step tutorial on how to set up and run the RM3 
 simulation with PTO-Sim is provided. All the files used in WEC-Sim will remain 
 the same, but some may need to be added to the working folder. An additional 
-file that is needed is the PTO-Sim input file (``ptoSimInputFile.m``). If the 
+file that is needed is the PTO-Sim input file (``ptoSimInputFile.m``). For the 
+hydraulic PTO, the function for variable motor volume will need to be 
+added as well (``variableMotorVolume.m``). If the 
 rotary generator lookup table is used, a datasheet that contains generator 
 efficiency, torque, and angular velocity is needed and should be named as ``table`` 
 in Workspace (``table.eff``, ``table.Tpu``,and ``table.omegapu``). An example 
-lookup table can be found and downloaded from the `WEC-Sim Applications 
+lookup table and variable motor volume file can be found and downloaded from the `WEC-Sim Applications 
 <https://github.com/WEC-Sim/WEC-Sim_Applications>`_ repository in the `PTO-Sim 
 <http://wec-sim.github.io/WEC-Sim/advanced_features.html#pto-sim>`_ folder.
-For the hydraulic PTO, the function for variable motor volume will need to be 
-added as well (``variableMotorVolume.m``).  More details, refer to `Step 8`_. In 
+  More details, refer to `Step 8`_. In 
 summary, the files need to run RM3 with PTO-Sim case are the following: 
 
 * WEC-Sim input file: ``wecSimInputFile.m`` (make sure to set the PTO linear 
@@ -182,14 +183,14 @@ The Simulink model can be built as follows:
 .. figure:: /_static/images/translational_pto.PNG
    :width: 500pt 
 
-* Step 3: Use a subsystem and rename it to PTO-Sim where input is response and
+* Step 3: Create a subsystem and rename it to PTO-Sim where input is response and
   output is force.
 
 .. figure:: /_static/images/rm3with_pto_sim.PNG
    :width: 500pt
 
 * Step 4: Go inside PTO-Sim block and add one bus selector and two selector 
-  blocks. Since PTO-Sim block is connected to the WEC-Sim translational joint 
+  blocks. Since the PTO-Sim block is connected to the WEC-Sim translational joint 
   block, you can select position and velocity and remove "signal1" and 
   "signal2" from the selected elements column in the bus selector. For each of 
   the two selectors, the input port size should be changed to 6. Because the heave 
@@ -199,13 +200,13 @@ The Simulink model can be built as follows:
 .. figure:: /_static/images/selectors.PNG
    :width: 500pt
 
-* Step 5: Go to Simulink Library Browser to access PTO-Sim Library. 
+* Step 5: Go to Simulink Library Browser to access the PTO-Sim Library. 
 
 .. figure:: /_static/images/pto_sim_hyd.PNG
    :width: 500pt
 
 * Step 6: By looking at the physical hydraulic PTO model as shown above, the user 
-  can simply drag and drop PTO-Sim library blocks. Piston, valves, and accumulator 
+  can simply drag and drop PTO-Sim library blocks. Piston, valve, and accumulator 
   blocks are located under the Hydraulic block. Rotary generator lookup table 
   is under the Generator block. 
 
@@ -230,7 +231,7 @@ The Simulink model can be built as follows:
   `PTO-Sim <http://wec-sim.github.io/WEC-Sim/advanced_features.html#pto-sim>`_ 
   folder. After the datasheet is loaded into ``Workspace``, it needs to be named 
   as ``table`` because the word ``table`` is used inside Simulink lookup table 
-  block. The datasheet in tutorials is taken from ABB datasheet part number 
+  block. The example datasheet is taken from ABB datasheet part number 
   M3BJ315SMC. The lookup table takes three inputs: efficiency (``table.eff``), 
   angular velocity (``table.omegapu``), and generator torque (``table.Tpu``), 
   respectively. 
@@ -264,7 +265,7 @@ hydraulic motor. The figure below shows how to connect all the blocks together.
 
 **Input File**
 
-In this section, PTO-Sim input file (``ptoSimInputFile.m``) is defined and 
+In this section, the PTO-Sim input file (``ptoSimInputFile.m``) is defined and 
 categorized into sections such as piston, rectifying check valve, high pressure 
 accumulator, hydraulic motor, low pressure accumulator, and rotary generator. 
 
@@ -273,8 +274,7 @@ accumulator, hydraulic motor, low pressure accumulator, and rotary generator.
 
 **Simulation and Post-processing**
 
-Simulation and post-processing are the same process as described in WEC-Sim 
-Simulation example above. 
+Simulation and post-processing are the same process as described in :ref:`user-tutorials-rm3`. 
 
 RM3 with Direct Drive PTO
 +++++++++++++++++++++++++
@@ -291,9 +291,9 @@ coil: therefore, current is induced in the coil and electricity is generated.
 
 **Simulink Model**
 
-Step 1 through 3 are the same as in :ref:`pto-rm3-hydraulic`. 
+Steps 1 through 3 are the same as in :ref:`pto-rm3-hydraulic`. 
 
-* Step 4: Go inside PTO-Sim block and add one bus selector and one selector 
+* Step 4: Go inside the PTO-Sim block and add one bus selector and one selector 
   block. Only velocity is needed for this example meaning velocity should be 
   the only parameter in the selected elements column of the bus selector. For 
   the selector, the input port size and selection index should again be 
@@ -307,7 +307,7 @@ Step 1 through 3 are the same as in :ref:`pto-rm3-hydraulic`.
 * Step 6: By looking at the physical mechanical PTO model as shown above, the 
   user can simply drag and drop PTO-Sim library blocks. In this case, only the 
   direct drive linear generator is needed, and it is located under the 
-  generator box.
+  Generator block.
 
 .. figure:: /_static/images/pto_sim_lin.PNG
    :width: 500pt
@@ -352,7 +352,7 @@ The same as :ref:`pto-rm3-hydraulic`.
 
 The Simulink model can be built as following:
 
-* Step 1: Copy OSWEC tutorial folder to get started  ``$WECSIM\examples\OSWEC``. 
+* Step 1: Copy the OSWEC example folder to get started  ``$WECSIM\examples\OSWEC``. 
 
 * Step 2: Open ``OSWEC.slx`` file and replace Rotational PTO with 
   Rotational PTO Actuation Torque.
@@ -360,13 +360,13 @@ The Simulink model can be built as following:
 .. figure:: /_static/images/rotational_pto.PNG
    :width: 500pt
 
-* Step 3: Use a subsystem and rename it to PTO-Sim where input is response and 
+* Step 3: Create a subsystem and rename it to PTO-Sim where input is response and 
   output is torque.
 
 .. figure:: /_static/images/oswec_pto_sim.PNG
    :width: 500pt
 
-* Step 4: Go inside PTO-Sim block and drag and drop one bus selector and two 
+* Step 4: Go inside the PTO-Sim block and drag and drop one bus selector and two 
   selector blocks. The input port sizes need to be changed to 6, and since pitch is driving the piston, selection index of each 
   selector needs to be changed to 5. Next, go to PTO-Sim library and drag and 
   drop all the blocks for the hydraulic PTO. The rotary to linear adjustable 
