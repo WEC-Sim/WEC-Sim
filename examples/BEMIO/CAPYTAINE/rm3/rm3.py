@@ -28,22 +28,23 @@ bem_cg = ((0,0,-0.72),
 bem_name = ('rm3_float',
             'rm3_spar')                              # body names
 
-bem_w = np.linspace(0.02, 5.2, 4)                   # wave frequencies. 260 for full run
+bem_w = np.linspace(0.02, 5.2, 260)                  # wave frequencies
 bem_headings = np.linspace(0,0,1)                    # wave headings
 bem_depth = np.infty                                 # water depth
 
-bem_ncFile = os.getcwd() + os.path.sep + 'test.nc'   # path for output .nc file
+bem_ncFile = os.getcwd() + os.path.sep + 'rm3.nc'    # path for output .nc file
 
 num_threads = 2                                      # number of threads for parallelization (in wave frequency)
 # ----------------------------------------------------------------------------#
 
 # Run Capytaine
-cc.call_capy(meshFName = bem_file,
-             wCapy     = bem_w,
-             CoG       = bem_cg,
-             headings  = bem_headings,
-             ncFName   = bem_ncFile,
-             body_name = bem_name,
-             depth     = bem_depth,
-             density   = 1000.0,
-             num_threads = num_threads)
+if __name__ == '__main__':
+    cc.call_capy(meshFName = bem_file,
+                 wCapy     = bem_w,
+                 CoG       = bem_cg,
+                 headings  = bem_headings,
+                 ncFName   = bem_ncFile,
+                 body_name = bem_name,
+                 depth     = bem_depth,
+                 density   = 1000.0,
+                 num_threads = num_threads)

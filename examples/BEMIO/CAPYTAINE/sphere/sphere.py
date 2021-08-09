@@ -25,19 +25,20 @@ bem_file = ((os.getcwd() + os.path.sep + 'sphere.dat'),) # mesh file, .dat nemoh
 bem_cg = ((0,0,-2.0),)                                   # center of gravity
 bem_name = ('sphere_cpt',)                               # body name
 
-bem_w = np.linspace(0.02, 8.4, 3)                        # wave frequencies. 420 for full run
+bem_w = np.linspace(0.02, 8.4, 420)                      # wave frequencies
 bem_headings = np.linspace(0,0,1)                        # wave heading
 bem_depth = 50.0                                         # water depth
 
-bem_ncFile = os.getcwd() + os.path.sep + 'test.nc'       # path for output .nc file
+bem_ncFile = os.getcwd() + os.path.sep + 'sphere.nc'     # path for output .nc file
 # ----------------------------------------------------------------------------#
 
 # Run Capytaine
-cc.call_capy(meshFName = bem_file,
-             wCapy     = bem_w,
-             CoG       = bem_cg,
-             headings  = bem_headings,
-             ncFName   = bem_ncFile,
-             body_name = bem_name,
-             depth     = bem_depth,
-             density   = 1000.0)
+if __name__ == '__main__':
+    cc.call_capy(meshFName = bem_file,
+                 wCapy     = bem_w,
+                 CoG       = bem_cg,
+                 headings  = bem_headings,
+                 ncFName   = bem_ncFile,
+                 body_name = bem_name,
+                 depth     = bem_depth,
+                 density   = 1000.0)
