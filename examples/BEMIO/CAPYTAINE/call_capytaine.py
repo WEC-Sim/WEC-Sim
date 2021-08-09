@@ -14,7 +14,8 @@ import os
 from multiprocessing import Process
 import numpy as np
 import capytaine as cpt
-import meshmagick.mesh as mmmtry:
+import meshmagick.mesh as mmm
+try:
     # latest version on github removed the previous 
     # meshmagick.hydrostatics.Hydrostatics() method. Use old module w/ new version
     import meshmagick.hydrostatics_old as mmhs
