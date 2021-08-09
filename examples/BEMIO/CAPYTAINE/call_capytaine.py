@@ -13,17 +13,22 @@ import os
 
 from multiprocessing import Process
 import numpy as np
-
 import capytaine as cpt
-import meshmagick.mesh as mmm
-import meshmagick.hydrostatics as mmhs
+import meshmagick.mesh as mmmtry:
+    # latest version on github removed the previous 
+    # meshmagick.hydrostatics.Hydrostatics() method. Use old module w/ new version
+    import meshmagick.hydrostatics_old as mmhs
+except ModuleNotFoundError:
+    # older versions of meshmagick should have meshmagick.hydrostatics.Hydrostatics() method
+    import meshmagick.hydrostatics as mmhs
+
 import xarray as xr
 import logging as LOG
 from glob import glob
 import xarray as xr
 import shutil
 import platform
-# import sys
+import sys
 
 # Set the affinity back on all the cores solving the single core issue.
 #   0xf is essentially a hexadecimal bitmask, corresponding to 4 cores 
@@ -34,7 +39,7 @@ if platform == "linux" or platform == "linux2":
 
 def __init__(self):
     LOG.info("Capytaine imported.")
-
+    
 
 def hydrostatics(myBodies, savepath=''):
     '''
@@ -174,7 +179,14 @@ def call_capy(meshFName, wCapy, CoG=([0,0,0],), headings=[0.0],ncFName=None,
     if os.path.isfile(ncFName):
         print(f'Output ({ncFName}) file already exists and will be overwritten. '
                'Do you wish to proceed? (y/n)')
-        ans = input()
+        try:
+            ans = input()
+        except EOFError:
+            # Catch error that occurs when this script is run in a 
+            # non-interactive way ('python CASE.py' in run_cases.py, etc) and
+            # default to overwriting the output file
+            ans = 'y'
+            pass
         if ans.lower() != 'y':
             print('\nEnding simulation. file not overwritten')
             sys.exit(0)
@@ -225,7 +237,7 @@ def call_capy(meshFName, wCapy, CoG=([0,0,0],), headings=[0.0],ncFName=None,
           f'no of headings = {len(headings)}\n'
           f'no of radiation & diffraction problems = {len(wCapy)*(len(headings) + len(combo.dofs))}\n'
           f'-------------------------------\n')
-
+    
     wCapy_threads = np.array_split(np.array(wCapy),num_threads)
 
     if num_threads != 1:
@@ -271,7 +283,7 @@ def call_capy(meshFName, wCapy, CoG=([0,0,0],), headings=[0.0],ncFName=None,
             shutil.rmtree('capyParallelFolder')
         except OSError as e:        
             pass
-
+    
     # Create a dataset of parameters. 
     #     'fill_dataset()' automatically creates problems and solves them.
     problems = xr.Dataset(coords={
@@ -281,6 +293,8 @@ def call_capy(meshFName, wCapy, CoG=([0,0,0],), headings=[0.0],ncFName=None,
         'water_depth': [depth],
         'rho': [density],
         })
+    
+    print('\nCapytaine call complete. \n\n')
 
     return capyData, problems
 
