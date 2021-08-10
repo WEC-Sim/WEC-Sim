@@ -9,7 +9,7 @@ function bod = plotWaves(obj,t,it,g,xlims,ylims,body,waves)
             for ibod=1:length(obj.bodies)
                 
                 % Read and assign geometry data
-                
+                read_bod = stlread(body(ibod).geometryFile);
                 bod(ibod).Points = read_bod.Points;
                 bod(ibod).Conns = read_bod.ConnectivityList;
 
@@ -54,13 +54,13 @@ function bod = plotWaves(obj,t,it,g,xlims,ylims,body,waves)
                     
                     % Apply changes to each point based on angles
                     % x-axis
-                    theta_new = bod(ibod).theta+bod(ibod).del_theta(i);
+                    theta_new = bod(ibod).theta+bod(ibod).del_theta(i,:);
 
                     x_change = (bod(ibod).dist(:,2).*cos(theta_new(:,2))-bod(ibod).Points(:,1))+...
-                        (bod(ibod).dist(:,3).*sin(theta_new(:,3))-bod(ibod).Points(:,1));
+                        (bod(ibod).dist(:,3).*cos(theta_new(:,3))-bod(ibod).Points(:,1));
                     y_change = (bod(ibod).dist(:,1).*cos(theta_new(:,1))-bod(ibod).Points(:,2))+...
                         (bod(ibod).dist(:,3).*sin(theta_new(:,3))-bod(ibod).Points(:,2));
-                    z_change = (bod(ibod).dist(:,1).*cos(theta_new(:,1))-bod(ibod).Points(:,3))+...
+                    z_change = (bod(ibod).dist(:,1).*sin(theta_new(:,1))-bod(ibod).Points(:,3))+...
                         (bod(ibod).dist(:,2).*sin(theta_new(:,2))-bod(ibod).Points(:,3));
 
                     bod(ibod).pos_change = [x_change,y_change,z_change] + bod(ibod).del_pos(i,:);

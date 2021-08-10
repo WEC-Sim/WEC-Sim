@@ -19,4 +19,4 @@ output.plotForces(1,3);
 %Plot heave forces for body 2
 output.plotForces(2,3);
 
-output.plotWaves(waves.waveAmpTime(:,1),simu.dt,simu.g,[-100,100],[-100,100],body,waves);
+%output.plotWaves(waves.waveAmpTime(:,1),simu.dt,simu.g,[-100,100],[-100,100],body,waves);
