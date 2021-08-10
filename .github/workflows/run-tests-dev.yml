@@ -10,7 +10,7 @@ on:
       - dev
 jobs:
   test_latest:
-    name: Run Latest MATLAB
+    name: MATLAB Latest 
     runs-on: ubuntu-latest
     steps:
       - name: Check out repository
@@ -29,8 +29,8 @@ jobs:
         uses: matlab-actions/run-command@v1
         with:
           command: results = wecSimTest, assertSuccess(results);
-  test_2020a:
-    name: Run MATLAB 2020a
+  test_r2020a:
+    name: MATLAB R2020a
     runs-on: ubuntu-latest
     steps:
       - name: Check out repository
