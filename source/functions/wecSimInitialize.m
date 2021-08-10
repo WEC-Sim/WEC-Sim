@@ -188,19 +188,27 @@ end
 simu.setupSim;
 
 % wave setup
-waves.waveSetup(body(1).hydroData.simulation_parameters.w, body(1).hydroData.simulation_parameters.water_depth, simu.rampTime, simu.dt, simu.maxIt, simu.g, simu.rho,  simu.endTime);
-% Check that waveDir and freq are within range of hydro data
-if  min(waves.waveDir) <  min(body(1).hydroData.simulation_parameters.wave_dir) || max(waves.waveDir) >  max(body(1).hydroData.simulation_parameters.wave_dir)
-    error('waves.waveDir outside of range of available hydro data')
-end
-if strcmp(waves.type,'etaImport')~=1 && strcmp(waves.type,'noWave')~=1 && strcmp(waves.type,'noWaveCIC')~=1
-    if  min(waves.w) <  min(body(1).hydroData.simulation_parameters.w) || max(waves.w) >  max(body(1).hydroData.simulation_parameters.w)
-        error('waves.w outside of range of available hydro data')
+if any(hydroBodLogic == 1)
+    % When hydro bodies (and an .h5) are present, define the wave using those
+    % parameters.
+    waves.waveSetup(body(1).hydroData.simulation_parameters.w, body(1).hydroData.simulation_parameters.water_depth, simu.rampTime, simu.dt, simu.maxIt, simu.g, simu.rho,  simu.endTime);
+    % Check that waveDir and freq are within range of hydro data
+    if  min(waves.waveDir) <  min(body(1).hydroData.simulation_parameters.wave_dir) || max(waves.waveDir) >  max(body(1).hydroData.simulation_parameters.wave_dir)
+        error('waves.waveDir outside of range of available hydro data')
     end
+    if strcmp(waves.type,'etaImport')~=1 && strcmp(waves.type,'noWave')~=1 && strcmp(waves.type,'noWaveCIC')~=1
+        if  min(waves.w) <  min(body(1).hydroData.simulation_parameters.w) || max(waves.w) >  max(body(1).hydroData.simulation_parameters.w)
+            error('waves.w outside of range of available hydro data')
+        end
+    end
+else
+    % When no hydro bodies (and no .h5) are present, define the wave using
+    % input file parameters
+    waves.waveSetup([], [], simu.rampTime, simu.dt, simu.maxIt, simu.g, simu.rho,  simu.endTime);
 end
 
 % Non-linear hydro
-if (simu.nlHydro >0) || (simu.paraview == 1)
+if (simu.nlHydro > 0) || (simu.paraview == 1)
     for kk = 1:length(body(1,:))
         body(kk).bodyGeo(body(kk).geometryFile)
     end; clear kk
@@ -221,23 +229,24 @@ idx = find(nonHydroBodLogic==1);
 if ~isempty(idx)
     for kk = 1:length(idx)
         it = idx(kk);
+        body(it).nonHydroForcePre(simu.rho,simu.nlHydro);
         if isempty(body(it).cb)
             body(it).cb = body(it).cg;
             warning('Non-hydro body(%i) center of buoyancy (cb) set equal to center of gravity (cg), [%g %g %g]',body(it).bodyNumber,body(it).cb(1),body(it).cb(2),body(it).cb(3))
         end
     end; clear kk idx
-end      
+end
 
 % dragBodyPre
-idx = find(dragBodLogic==1);
+idx = find(dragBodLogic == 1);
 if ~isempty(idx)
     for kk = 1:length(idx)
         it = idx(kk);
-        body(it).dragForcePre(simu.rho);
+        body(it).dragForcePre(simu.rho,simu.nlHydro);
         if isempty(body(it).cb)
             body(it).cb = body(it).cg;
             warning('Non-hydro body(%i) center of buoyancy (cb) set equal to center of gravity (cg), [%g %g %g]',body(it).bodyNumber,body(it).cb(1),body(it).cb(2),body(it).cb(3))
-        end        
+        end
     end; clear kk idx
 end
     

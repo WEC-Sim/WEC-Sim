@@ -184,12 +184,20 @@ classdef bodyClass<handle
             obj.dof_gbm   = obj.dof-6;
         end
         
-        function dragForcePre(obj,rho)
+        function nonHydroForcePre(obj,rho,nlHydro)
+            % nonHydro Pre-processing calculations
+            % Similar to dragForcePre, but only adjusts the mass for cases 
+            % using 'fixed' or 'equilibrium' 
+            obj.setMassMatrix(rho,nlHydro);
+        end
+        
+        function dragForcePre(obj,rho,nlHydro)
             % DragBody Pre-processing calculations
             % Similar to hydroForcePre, but only loads in the necessary
             % values to calculate linear damping and viscous drag. Note
             % that body DOF is inherited from the length of the drag
             % coefficients.
+            obj.setMassMatrix(rho,nlHydro);
             if  any(any(obj.viscDrag.Drag)) == 1  %check if obj.viscDrag.Drag is defined
                 obj.hydroForce.visDrag = obj.viscDrag.Drag;
             else
@@ -718,9 +726,9 @@ classdef bodyClass<handle
             % This method sets mass for the special cases of body at equilibrium or fixed and is used by hydroForcePre.
             if strcmp(obj.mass, 'equilibrium')
                 obj.massCalcMethod = obj.mass;
-                if nlHydro == 0
+                if obj.nhBody == 0 && nlHydro == 0
                     obj.mass = obj.hydroData.properties.disp_vol * rho;
-                else
+                elseif obj.nhBody == 0 && nlHydro ~= 0
                     cg_tmp = obj.hydroData.properties.cg;
                     z = obj.bodyGeometry.center(:,3) + cg_tmp(3);
                     z(z>0) = 0;
@@ -728,6 +736,8 @@ classdef bodyClass<handle
                     av = [area area area] .* -obj.bodyGeometry.norm;
                     tmp = rho*[z z z].*-av;
                     obj.mass = sum(tmp(:,3));
+                else
+                    obj.mass = obj.dispVol * rho;
                 end
             elseif strcmp(obj.mass, 'fixed')
                 obj.massCalcMethod = obj.mass;
