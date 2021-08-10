@@ -42,7 +42,7 @@ jobs:
       - name: Install MATLAB
         uses: matlab-actions/setup-matlab@v1
         with:
-            release: 2020a
+            release: R2020a
       - name: Install WEC-Sim
         uses: matlab-actions/run-command@v1
         with:
