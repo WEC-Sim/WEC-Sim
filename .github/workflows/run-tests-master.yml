@@ -9,8 +9,8 @@ on:
     branches:
       - master
 jobs:
-  test:
-    name: Run MATLAB Tests and Generate Artifacts
+  test_latest:
+    name: MATLAB Latest 
     runs-on: ubuntu-latest
     steps:
       - name: Check out repository
@@ -21,6 +21,28 @@ jobs:
         run: git lfs checkout
       - name: Install MATLAB
         uses: matlab-actions/setup-matlab@v1
+      - name: Install WEC-Sim
+        uses: matlab-actions/run-command@v1
+        with:
+          command: addpath(genpath('source'));, savepath pathdef.m;
+      - name: Run tests and generate artifacts
+        uses: matlab-actions/run-command@v1
+        with:
+          command: results = wecSimTest, assertSuccess(results);
+  test_r2020a:
+    name: MATLAB R2020a
+    runs-on: ubuntu-latest
+    steps:
+      - name: Check out repository
+        uses: actions/checkout@v2
+        with:
+          lfs: true
+      - name: Checkout LFS objects
+        run: git lfs checkout
+      - name: Install MATLAB
+        uses: matlab-actions/setup-matlab@v1
+        with:
+            release: R2020a
       - name: Install WEC-Sim
         uses: matlab-actions/run-command@v1
         with:
