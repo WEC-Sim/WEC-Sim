@@ -1,4 +1,4 @@
-function bod = plotWaves(obj,t,it,g,xlims,ylims,body,waves)
+function plotWaves(obj,t,it,g,xlims,ylims,body,waves)
             
             %t = waves.waveAmpTime(:,1);
             %it = simu.dt;
@@ -45,9 +45,13 @@ function bod = plotWaves(obj,t,it,g,xlims,ylims,body,waves)
             % Initialize figure
             h = figure;
             % Set filename for gif
-            filename = 'WaveSurf.gif';
+            gif_filename = 'WaveSurf.gif';
+            mkdir visualization
+            video = VideoWriter('visualization\yourvideo.avi'); %create the video object
+            video.FrameRate = 1/it;
+            open(video); %open the file for writing
 
-            for i=1:length(t)
+            for i=1:40%length(t)
 
                 for ibod=1:length(obj.bodies)
                 
@@ -112,14 +116,29 @@ function bod = plotWaves(obj,t,it,g,xlims,ylims,body,waves)
                 writeVideo(video,I); %write the image to file
                 end
                 close(video); %close the file
-
+%}
 
           
                 % Capture the plot as an image 
                 frame = getframe(h); 
+                
+%                num = num2str(i);
+ %               vid_filename = ['visualization\image' num '.jpg'];
+  %              imwrite(frame.cdata, vid_filename);                
+                
+                
+
+
+  %              I = imread(vid_filename); %read the next image
+                writeVideo(video,frame); %write the image to file
+                
+                
+                %{
                 im = frame2im(frame); 
                 [imind,cm] = rgb2ind(im,256); 
+       
                 % Write to the GIF File 
+                
                 if i == 1 
                   imwrite(imind,cm,filename,'gif', 'Loopcount',inf); 
                 else 
@@ -135,5 +154,6 @@ function bod = plotWaves(obj,t,it,g,xlims,ylims,body,waves)
             end
              
                %}
+               close(video); %close the file
             
-            %end
+            end

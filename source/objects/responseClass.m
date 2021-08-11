@@ -317,15 +317,44 @@ classdef responseClass<handle
 
             clear t FT FE FRD FR FV FM i
         end
-        %{
-        function plotWaves(obj,t,it,g,xlims,ylims,body,waves)
+        
+        function plotWaves(obj,it,g,xlims,ylims,body,waves,save)
+            % This method plots the wave elevation and body geometry over
+            % time to visualize the waves and response
+            %
+            % Parameters
+            % ------------
+            %     it : simulation time step
+            %         (simu.dt)   
+            %
+            %     g : gravity
+            %         acceleration due to gravity (simu.g)
+            %
+            %     xlims : x-limits
+            %         limits to the grid in the x direction
+            %
+            %     ylims : y-limits
+            %         limits to the grid in the y direction
+            %
+            %     body : body class
+            %         (body)
+            %
+            %     waves : wave class
+            %         (waves)
+            %
+            %     save : file setting
+            %         0 = avi video file, 1 = gif file
+            %     
             
-            %t = waves.waveAmpTime(:,1);
-            %it = simu.dt;
+            % Set time vector
+            t = waves.waveAmpTime(:,1);
+            
+            % Create grid using provided x and y coordinates
             x = linspace(xlims(1),xlims(2),100);
             y = linspace(ylims(1),ylims(2),100);
             [X,Y] = meshgrid(x,y);
 
+            % Read in data for each body
             for ibod=1:length(obj.bodies)
                 
                 % Read and assign geometry data
@@ -334,15 +363,21 @@ classdef responseClass<handle
                 bod(ibod).Conns = read_bod.ConnectivityList;
 
                 % Read changes and assign angles and position changes over time
-                bod(ibod).del_pos = [obj.bodies(ibod).position(:,1)-obj.bodies(ibod).position(1,1),obj.bodies(ibod).position(:,2)-obj.bodies(ibod).position(1,2),obj.bodies(ibod).position(:,3)-obj.bodies(ibod).position(1,3)];
-                bod(ibod).del_theta = [obj.bodies(ibod).position(:,4)-obj.bodies(ibod).position(1,4),obj.bodies(ibod).position(:,5)-obj.bodies(ibod).position(1,5),obj.bodies(ibod).position(:,6)-obj.bodies(ibod).position(1,6)];
+                bod(ibod).del_pos = [obj.bodies(ibod).position(:,1)-obj.bodies(ibod).position(1,1),... 
+                    obj.bodies(ibod).position(:,2)-obj.bodies(ibod).position(1,2),...
+                    obj.bodies(ibod).position(:,3)-obj.bodies(ibod).position(1,3)];
+                bod(ibod).del_theta = [obj.bodies(ibod).position(:,4)-obj.bodies(ibod).position(1,4),...
+                    obj.bodies(ibod).position(:,5)-obj.bodies(ibod).position(1,5),...
+                    obj.bodies(ibod).position(:,6)-obj.bodies(ibod).position(1,6)];
             
-                % Find distances and angles about each axis for the bodies
-                % distances from each axis
-                bod(ibod).dist = [sqrt(bod(ibod).Points(:,2).^2+bod(ibod).Points(:,3).^2),sqrt(bod(ibod).Points(:,1).^2+bod(ibod).Points(:,3).^2),sqrt(bod(ibod).Points(:,1).^2+bod(ibod).Points(:,2).^2)];
+                % Find distances from each axis for the bodies
+                bod(ibod).dist = [sqrt(bod(ibod).Points(:,2).^2+bod(ibod).Points(:,3).^2),...
+                    sqrt(bod(ibod).Points(:,1).^2+bod(ibod).Points(:,3).^2),...
+                    sqrt(bod(ibod).Points(:,1).^2+bod(ibod).Points(:,2).^2)];
+                
+         
+                % Calculate angles about each axis for body points
                 bod(ibod).theta = zeros(length(bod(ibod).Points),3);
-
-                % angles from each axis
                 for ii=1:length(bod(ibod).Points)
                      if bod(ibod).Points(ii,2)>=0
                          bod(ibod).theta(ii,1) = atan(bod(ibod).Points(ii,3)/bod(ibod).Points(ii,2));
@@ -357,89 +392,102 @@ classdef responseClass<handle
                          bod(ibod).theta(ii,3) = atan(bod(ibod).Points(ii,2)/bod(ibod).Points(ii,1))+pi;
                      end
                 end
-            end
 
+            end
+            
+            if save == 0
+                % Create video file and open it for writing
+                video = VideoWriter('wave_visualization.avi'); 
+                video.FrameRate = 1/it; 
+                open(video); 
+            elseif save == 1
+                % Create the gif file
+                gif_filename = 'wave_visualization.gif';
+            end
+            
             % Initialize figure
             h = figure;
-            % Set filename for gif
-            filename = 'WaveSurf.gif';
 
             for i=1:length(t)
 
                 for ibod=1:length(obj.bodies)
+                
                     
-                % Apply changes to each point based on angles
-                % x-axis
-                theta_new = bod(ibod).theta+bod(ibod).del_theta(i);
-                bod(ibod).Points = [bod(ibod).dist(:,2).*cos(theta_new(:,2))+bod(ibod).dist(:,3).*cos(theta_new(:,3)),bod(ibod).dist(:,1).*cos(theta_new(:,1))+bod(ibod).dist(:,3).*cos(theta_new(:,3)),bod(ibod).dist(:,1).*cos(theta_new(:,1))+bod(ibod).dist(:,2).*cos(theta_new(:,2))];
-                
-                % Apply position changes to each point
-                bod(ibod).Points = bod(ibod).Points + (bod(ibod).del_pos(i,:)); % x-axis
-                bod_final = triangulation(bod(ibod).Conns,bod(ibod).Points);
-                
-                % Plot geometry
-                trisurf(bod_final,'FaceColor',[1 1 0],'EdgeColor','k','EdgeAlpha',.2)
-                hold on
+                    % Apply changes to angles
+                    theta_new = bod(ibod).theta+bod(ibod).del_theta(i,:);
 
+                    % Calculate changes to each point based on angles
+                    x_change = (bod(ibod).dist(:,2).*cos(theta_new(:,2))-bod(ibod).Points(:,1))+...
+                        (bod(ibod).dist(:,3).*cos(theta_new(:,3))-bod(ibod).Points(:,1));
+                    y_change = (bod(ibod).dist(:,1).*cos(theta_new(:,1))-bod(ibod).Points(:,2))+...
+                        (bod(ibod).dist(:,3).*sin(theta_new(:,3))-bod(ibod).Points(:,2));
+                    z_change = (bod(ibod).dist(:,1).*sin(theta_new(:,1))-bod(ibod).Points(:,3))+...
+                        (bod(ibod).dist(:,2).*sin(theta_new(:,2))-bod(ibod).Points(:,3));
+
+                    % Calculate full position changes due to rotation and translation
+                    bod(ibod).pos_change = [x_change,y_change,z_change] + bod(ibod).del_pos(i,:);
+                    
+                    % Apply position changes to each point
+                    bod(ibod).Points_new = bod(ibod).Points + bod(ibod).pos_change;
+                    
+                    % Create and plot final triangulation of geometry with applied changes
+                    bod_final = triangulation(bod(ibod).Conns,bod(ibod).Points_new);
+                    trisurf(bod_final,'FaceColor',[1 1 0],'EdgeColor','k','EdgeAlpha',.2)
+                    hold on
+                    
                 end
                 
-                % Create wave elevation grid
+                % Create and wave elevation grid
                 Z = waveElevationGrid(waves, t(i), X, Y, t(i), it, g);
                 surf(X,Y,Z, 'EdgeColor','none')
+                
+                % Settings and labels
                 caxis([-waves.A waves.A])
                 colormap winter
                 c = colorbar;
                 ylabel(c, 'Wave Elevaion (m)')
+                axis([-100 100 -100 100 -15 35])
+                title('Wave Elevation and Geometry Visualization')
+                xlabel('x(m)')
+                ylabel('y(m)')
+                zlabel('z(m)')
                 hold on
-
-                %{
-                depth = -waves.waterDepth*ones(length(X));
-                surf(X,Y,depth,'FaceColor',[.4 .4 0])
-                hold on
-                %}
 
                 % Time visual
                 delete(findall(gcf,'type','annotation'));
                 t_annot = ['time = ', num2str(t(i)), 's'];
                 annotation('textbox',[.6 .625 .3 .3],'String',t_annot,'FitBoxToText','on');
-                axis([-100 100 -100 100 -15 35])
-                xlabel('x(m)')
-                ylabel('y(m)')
-                zlabel('z(m)')
 
+                % Create figure while iterating through time loop
                 drawnow;
-  %{
-                video = VideoWriter('yourvideo.avi'); %create the video object
-                open(video); %open the file for writing
-                for ii=1:N %where N is the number of images
-                I = imread('the ith image.jpg'); %read the next image
-                writeVideo(video,I); %write the image to file
+                
+                % Capture figure for saving
+                frame = getframe(h);
+                
+                if save == 0
+                    % Save to video
+                    writeVideo(video,frame); 
+                elseif save == 1
+                    % Save to gif
+                    im = frame2im(frame); 
+                    [imind,cm] = rgb2ind(im,256); 
+                    if i == 1 
+                        imwrite(imind,cm,gif_filename,'gif', 'Loopcount',inf); 
+                    else 
+                        imwrite(imind,cm,gif_filename,'gif','WriteMode','append','DelayTime',it); 
+                    end 
                 end
-                close(video); %close the file
-
-
-          
-                % Capture the plot as an image 
-                frame = getframe(h); 
-                im = frame2im(frame); 
-                [imind,cm] = rgb2ind(im,256); 
-                % Write to the GIF File 
-                if i == 1 
-                  imwrite(imind,cm,filename,'gif', 'Loopcount',inf); 
-                else 
-                  imwrite(imind,cm,filename,'gif','WriteMode','append','DelayTime',.1); 
-                end 
-                %}
-
+ 
                 hold off
-
-
+               
             end
-             
             
-            
+            % Close video file
+            if save == 0
+                close(video); 
             end
-      %}
+            
+        end
         
         function writetxt(obj)
             % This method writes WEC-Sim outputs to a (ASCII) text file.
