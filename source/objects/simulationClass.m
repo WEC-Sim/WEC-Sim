@@ -21,7 +21,7 @@
 classdef simulationClass<handle
     % This class contains WEC-Sim simulation parameters and settings
     properties (SetAccess = 'public', GetAccess = 'public')%input file
-        simMechanicsFile    = 'NOT DEFINED'                                % (`string`) Simulink/SimMechanics model file. Default = ``'NOT DEFINED'``
+        simMechanicsFile    = 'NOT DEFINED'                                % (`string`) Simulink/SimMecahnics model file. Default = ``'NOT DEFINED'``
         startTime           = 0                                            % (`float`) Simulation start time. Default = ``0`` s
         rampTime            = 100                                          % (`float`) Ramp time for wave forcing. Default = ``100`` s
         endTime             = []                                           % (`float`) Simulation end time. Default = ``'NOT DEFINED'``
@@ -34,14 +34,14 @@ classdef simulationClass<handle
         domainSize          = 200                                          % (`float`) Size of free surface and seabed. This variable is only used for visualization. Default = ``200`` m
         ssCalc              = 0                                            % (`integer`) Option for convolution integral or state-space calculation: convolution integral->0, state-space->1. Default = ``0``
         mode                = 'normal'                                     % (`string`) Simulation execution mode, 'normal', 'accelerator', 'rapid-accelerator'. Default = ``'normal'``
-        solver              = 'ode4'                                       % (`string`) PDE solver used by the Simulink/SimMechanics simulation, 'ode4, 'ode45'. Default = ``'ode45'``
+        solver              = 'ode4'                                      % (`string`) PDE solver used by the Simulink/SimMechanics simulation, 'ode4, 'ode45'. Default = ``'ode45'``
         numIntMidTimeSteps  = 5                                            % (`integer`) Number of intermediate time steps. Default = ``5`` for ode4 method
         autoRateTranBlk     = 'on'                                         % (`string`) Automatically handle rate transition for data transfer, 'on', 'off'. Default = ``'on'``
         zeroCrossCont       = 'DisableAll'                                 % (`string`) Disable zero cross control. Default = ``'DisableAll'``
         explorer            = 'on'                                         % (`string`) SimMechanics Explorer 'on' or 'off'. Default = ``'on'``
         rho                 = 1000                                         % (`float`) Density of water. Default = ``1000`` kg/m^3
         g                   = 9.81                                         % (`float`) Acceleration due to gravity. Default = ``9.81`` m/s
-        nlHydro             = 0                                            % (`integer`) Option for nonlinear hydrohanamics calculation: linear->0, nonlinear->1,2. Default = ``0``
+        nlHydro             = 0                                            % (`integer`) Option for nonlinear hydrohanamics calculation: linear->0, nonlinear->1. Default = ``0``
         yawNonLin           = 0                                            % (`integer`) Option for nonlinear yaw calculation linear->0, nonlinear->1 for nonlinear. Default = ``0`` 
         yawThresh           = 1                                            % (`float`) Yaw position threshold (in degrees) above which excitation coefficients will be interpolated in non-linear yaw. Default = ``1`` dg
         b2b                 = 0                                            % (`integer`) Option for body2body interactions: off->0, on->1. Default = ``0``
@@ -53,15 +53,15 @@ classdef simulationClass<handle
         adjMassWeightFun    = 2                                            % (`integer`) Weighting function for adjusting added mass term in the translational direction. Default = ``2``
         mcrCaseFile         = []                                           % (`string`) mat file that contain a list of the multiple conditions runs with given conditions. Default = ``'NOT DEFINED'``  
         morisonElement      = 0                                            % (`integer`) Option for Morison Element calculation: off->0, on->1 or 2. Default = ``0``. Option 1 uses an approach that allows the user to define drag and inertial coefficients along the x-, y-, and z-axes and Option 2 uses an approach that defines the Morison Element with normal and tangential tangential drag and interial coefficients.. 
+        outputtxt           = 0                                            % (`integer`) Option to save results as ASCII files off->0, on->1. Default = ``0``
+        outputStructure     = 1                                            % (`integer`) Option to save results as a MATLAB structure: off->0, on->1. Default = ``1``
         reloadH5Data        = 0                                            % (`integer`) Option to re-load hydro data from hf5 file between runs: off->0, on->1. Default = ``0``
-        saveStructure       = 0                                            % (`integer`) Option to save results as a MATLAB structure: off->0, on->1. Default = ``1``
-        saveText            = 0                                            % (`integer`) Option to save results as ASCII files off->0, on->1. Default = ``0``
-        saveWorkspace       = 1                                            % (`integer`) Option to save .mat file for each run: off->0, on->1. Default = ``1``
+        saveMat             = 1                                            % (`integer`) Option to save .mat file for each run: off->0, on->1. Default = ``1``
         pressureDis         = 0                                            % (`integer`) Option to save pressure distribution: off->0, on->1. Default = ``0``
     end
 
     properties (SetAccess = 'public', GetAccess = 'public')%internal
-        wsVersion             = '4.3'                                      % (`string`) WEC-Sim version
+        wsVersion             = '4.2'                                      % (`string`) WEC-Sim version
         gitCommit           = []                                           % (`string`) GitHub commit
         simulationDate      = datetime                                     % (`string`) Simulation date and time
         outputDir           = 'output'                                     % (`string`) Data output directory name. Default = ``'output'``
@@ -77,6 +77,7 @@ classdef simulationClass<handle
         numDragBodies       = []                                           % (`integer`) Number of drag bodies that comprise the WEC device (excluding hydrodynamic bodies). Default = ``'NOT DEFINED'``
         numPtos             = []                                           % (`integer`) Number of power take-off elements in the model. Default = ``'NOT DEFINED'``
         numConstraints      = []                                           % (`integer`) Number of contraints in the wec model. Default = ``'NOT DEFINED'``
+        numCables           = []                                           % (`integer`) Number of cables in the wec model. Default = ``'NOT DEFINED'``
         numMoorings         = []                                           % (`integer`) Number of moorings in the wec model. Default = ``'NOT DEFINED'``
     end
 
@@ -101,18 +102,19 @@ classdef simulationClass<handle
             %
             
             load_system(fName);
-            [~,modelName,~] = fileparts(fName);
-            set_param(modelName,'Solver',obj.solver,...
-                'StopTime',num2str(obj.endTime),...
-                'SimulationMode',obj.mode,...
-                'StartTime',num2str(obj.startTime),...
-                'FixedStep',num2str(obj.dt),...
-                'MaxStep',num2str(obj.dt),...
-                'AutoInsertRateTranBlk',obj.autoRateTranBlk,...
-                'ZeroCrossControl',obj.zeroCrossCont,...
-                'SimCompilerOptimization','on',...            
-                'ReturnWorkspaceOutputs','off',...
-                'SimMechanicsOpenEditorOnUpdate',obj.explorer);
+                 obj.simMechanicsFile = fName;
+                 [~,modelName,~] = fileparts(obj.simMechanicsFile);
+                 set_param(modelName,'Solver',obj.solver,...
+                 'StopTime',num2str(obj.endTime),...
+                 'SimulationMode',obj.mode,...
+                 'StartTime',num2str(obj.startTime),...
+                 'FixedStep',num2str(obj.dt),...
+                 'MaxStep',num2str(obj.dt),...
+                 'AutoInsertRateTranBlk',obj.autoRateTranBlk,...
+                 'ZeroCrossControl',obj.zeroCrossCont,...
+                 'SimCompilerOptimization','on',...            
+                 'ReturnWorkspaceOutputs','off',...
+                 'SimMechanicsOpenEditorOnUpdate',obj.explorer);
         end
 
         function setupSim(obj)
