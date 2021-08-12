@@ -324,27 +324,28 @@ classdef responseClass<handle
             %
             % Parameters
             % ------------
-            %     it : simulation time step
-            %         (simu.dt)   
+            %     it : float
+            %         simulation time step (simu.dt)   
             %
-            %     tsf : time step factor
-            %         number of simulation time steps per video frame
-            %         higher number decreases computation time
+            %     tsf : float
+            %         (time step factor) number of simulation time steps
+            %         per video frame (higher number decreases computation
+            %         time)
             %
-            %     g : gravity
+            %     g : float
             %         acceleration due to gravity (simu.g)
             %
-            %     axis_lims : axes limits for figure
+            %     axis_lims : 1x6 float matrix
             %         upper and lower limits to the figure
             %         [xmin xmax ymin ymax zmin zmax]
             %
-            %     body : body class
-            %         (body)
+            %     body :
+            %         bodyClass object
             %
-            %     waves : wave class
-            %         (waves)
+            %     waves : 
+            %         waveClass object
             %
-            %     save : file setting
+            %     save : integer
             %         0 = avi video file, 1 = gif file
             %     
             
