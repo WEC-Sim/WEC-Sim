@@ -318,7 +318,7 @@ classdef responseClass<handle
             clear t FT FE FRD FR FV FM i
         end
         
-        function plotWaves(obj,it,g,xlims,ylims,body,waves,save)
+        function plotWaves(obj,it,tsf,g,axis_lims,body,waves,save)
             % This method plots the wave elevation and body geometry over
             % time to visualize the waves and response
             %
@@ -327,14 +327,16 @@ classdef responseClass<handle
             %     it : simulation time step
             %         (simu.dt)   
             %
+            %     tsf : time step factor
+            %         number of simulation time steps per video frame
+            %         higher number decreases computation time
+            %
             %     g : gravity
             %         acceleration due to gravity (simu.g)
             %
-            %     xlims : x-limits
-            %         limits to the grid in the x direction
-            %
-            %     ylims : y-limits
-            %         limits to the grid in the y direction
+            %     axis_lims : axes limits for figure
+            %         upper and lower limits to the figure
+            %         [xmin xmax ymin ymax zmin zmax]
             %
             %     body : body class
             %         (body)
@@ -347,58 +349,30 @@ classdef responseClass<handle
             %     
             
             % Set time vector
-            t = waves.waveAmpTime(:,1);
+            t = obj.wave.time(1:tsf:end,1);
             
             % Create grid using provided x and y coordinates
-            x = linspace(xlims(1),xlims(2),100);
-            y = linspace(ylims(1),ylims(2),100);
+            x = linspace(axis_lims(1),axis_lims(2),200);
+            y = linspace(axis_lims(3),axis_lims(4),200);
             [X,Y] = meshgrid(x,y);
 
             % Read in data for each body
             for ibod=1:length(obj.bodies)
-                
                 % Read and assign geometry data
                 read_bod = stlread(body(ibod).geometryFile);
                 bod(ibod).Points = read_bod.Points;
                 bod(ibod).Conns = read_bod.ConnectivityList;
-
-                % Read changes and assign angles and position changes over time
-                bod(ibod).del_pos = [obj.bodies(ibod).position(:,1)-obj.bodies(ibod).position(1,1),... 
-                    obj.bodies(ibod).position(:,2)-obj.bodies(ibod).position(1,2),...
-                    obj.bodies(ibod).position(:,3)-obj.bodies(ibod).position(1,3)];
-                bod(ibod).del_theta = [obj.bodies(ibod).position(:,4)-obj.bodies(ibod).position(1,4),...
-                    obj.bodies(ibod).position(:,5)-obj.bodies(ibod).position(1,5),...
-                    obj.bodies(ibod).position(:,6)-obj.bodies(ibod).position(1,6)];
-            
-                % Find distances from each axis for the bodies
-                bod(ibod).dist = [sqrt(bod(ibod).Points(:,2).^2+bod(ibod).Points(:,3).^2),...
-                    sqrt(bod(ibod).Points(:,1).^2+bod(ibod).Points(:,3).^2),...
-                    sqrt(bod(ibod).Points(:,1).^2+bod(ibod).Points(:,2).^2)];
                 
-         
-                % Calculate angles about each axis for body points
-                bod(ibod).theta = zeros(length(bod(ibod).Points),3);
-                for ii=1:length(bod(ibod).Points)
-                     if bod(ibod).Points(ii,2)>=0
-                         bod(ibod).theta(ii,1) = atan(bod(ibod).Points(ii,3)/bod(ibod).Points(ii,2));
-                     else
-                         bod(ibod).theta(ii,1) = atan(bod(ibod).Points(ii,3)/bod(ibod).Points(ii,2))+pi;
-                     end
-                     if bod(ibod).Points(ii,1)>=0
-                         bod(ibod).theta(ii,2) = atan(bod(ibod).Points(ii,3)/bod(ibod).Points(ii,1));
-                         bod(ibod).theta(ii,3) = atan(bod(ibod).Points(ii,2)/bod(ibod).Points(ii,1));
-                     else
-                         bod(ibod).theta(ii,2) = atan(bod(ibod).Points(ii,3)/bod(ibod).Points(ii,1))+pi;
-                         bod(ibod).theta(ii,3) = atan(bod(ibod).Points(ii,2)/bod(ibod).Points(ii,1))+pi;
-                     end
-                end
-
+                % Read changes and assign angles and position changes over time
+                bod(ibod).del_pos = [obj.bodies(ibod).position(1:tsf:end,1)-obj.bodies(ibod).position(1,1),... 
+                obj.bodies(ibod).position(1:tsf:end,2)-obj.bodies(ibod).position(1,2),...
+                obj.bodies(ibod).position(1:tsf:end,3)-obj.bodies(ibod).position(1,3)];
             end
             
             if save == 0
                 % Create video file and open it for writing
                 video = VideoWriter('wave_visualization.avi'); 
-                video.FrameRate = 1/it; 
+                video.FrameRate = 1/(it*tsf); 
                 open(video); 
             elseif save == 1
                 % Create the gif file
@@ -406,51 +380,29 @@ classdef responseClass<handle
             end
             
             % Initialize figure
-            h = figure;
+            figure();
 
             for i=1:length(t)
-
                 for ibod=1:length(obj.bodies)
-                
-                    
-                    % Apply changes to angles
-                    theta_new = bod(ibod).theta+bod(ibod).del_theta(i,:);
+                    % Apply rotation to each point
+                    rotMat = eulXYZ2RotMat(obj.bodies(ibod).position(1+tsf*(i-1),4), obj.bodies(ibod).position(1+tsf*(i-1),5), obj.bodies(ibod).position(1+tsf*(i-1),6));
+                    for ipts=1:length(bod(ibod).Points(:,1))
+                        bod(ibod).rot(ipts,:) = (rotMat*bod(ibod).Points(ipts,:).').';
+                    end
 
-                    % Calculate changes to each point based on angles
-                    x_change = (bod(ibod).dist(:,2).*cos(theta_new(:,2))-bod(ibod).Points(:,1))+...
-                        (bod(ibod).dist(:,3).*cos(theta_new(:,3))-bod(ibod).Points(:,1));
-                    y_change = (bod(ibod).dist(:,1).*cos(theta_new(:,1))-bod(ibod).Points(:,2))+...
-                        (bod(ibod).dist(:,3).*sin(theta_new(:,3))-bod(ibod).Points(:,2));
-                    z_change = (bod(ibod).dist(:,1).*sin(theta_new(:,1))-bod(ibod).Points(:,3))+...
-                        (bod(ibod).dist(:,2).*sin(theta_new(:,2))-bod(ibod).Points(:,3));
-
-                    % Calculate full position changes due to rotation and translation
-                    bod(ibod).pos_change = [x_change,y_change,z_change] + bod(ibod).del_pos(i,:);
-                    
-                    % Apply position changes to each point
-                    bod(ibod).Points_new = bod(ibod).Points + bod(ibod).pos_change;
+                    % Calculate full position changes due to rotation,
+                    % translation, and center of gravity
+                    bod(ibod).Points_new = bod(ibod).rot + bod(ibod).del_pos(i,:) + body(ibod).cg.';
                     
                     % Create and plot final triangulation of geometry with applied changes
                     bod_final = triangulation(bod(ibod).Conns,bod(ibod).Points_new);
                     trisurf(bod_final,'FaceColor',[1 1 0],'EdgeColor','k','EdgeAlpha',.2)
                     hold on
-                    
                 end
                 
                 % Create and wave elevation grid
                 Z = waveElevationGrid(waves, t(i), X, Y, t(i), it, g);
-                surf(X,Y,Z, 'EdgeColor','none')
-                
-                % Settings and labels
-                caxis([-waves.A waves.A])
-                colormap winter
-                c = colorbar;
-                ylabel(c, 'Wave Elevaion (m)')
-                axis([-100 100 -100 100 -15 35])
-                title('Wave Elevation and Geometry Visualization')
-                xlabel('x(m)')
-                ylabel('y(m)')
-                zlabel('z(m)')
+                surf(X,Y,Z,'FaceAlpha',.85,'EdgeColor','none')
                 hold on
 
                 % Time visual
@@ -458,11 +410,22 @@ classdef responseClass<handle
                 t_annot = ['time = ', num2str(t(i)), 's'];
                 annotation('textbox',[.6 .625 .3 .3],'String',t_annot,'FitBoxToText','on');
 
+                % Settings and labels
+                caxis([min(-waves.A) max(waves.A)])
+                colormap winter
+                c = colorbar;
+                ylabel(c, 'Wave Elevaion (m)')
+                title('Wave Elevation and Geometry Visualization')
+                xlabel('x(m)')
+                ylabel('y(m)')
+                zlabel('z(m)')
+                axis(axis_lims)
+                
                 % Create figure while iterating through time loop
                 drawnow;
                 
                 % Capture figure for saving
-                frame = getframe(h);
+                frame = getframe(gcf);
                 
                 if save == 0
                     % Save to video
