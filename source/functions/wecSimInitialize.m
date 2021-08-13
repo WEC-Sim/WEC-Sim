@@ -164,6 +164,23 @@ for ii = 1:simu.numWecBodies
         body(ii).lenJ = zeros(6,1);
     end
 end; clear ii
+
+% Cable Configuration: count, set Cg/Cb, PTO loc, L0 and initialize bodies
+if exist('cable','var')==1
+    simu.numCables = length(cable(1,:));
+    for ii = 1:simu.numCables
+        cable(ii).cableNum = ii;
+        cable(ii).setCg();
+        cable(ii).setCbLoc();
+        cable(ii).setTransPTOLoc();
+        cable(ii).setL0();
+        cable(ii).dragForcePre(simu.rho);
+        cable(ii).checkFloat(simu.rho);
+        cable(ii).setOrientation();
+        cable(ii).checkPTOApprox();
+        cable(ii).linDampMatrix();
+    end
+end
 % PTO-Sim: read input, count
 if exist('./ptoSimInputFile.m','file') == 2
     ptoSimInputFile

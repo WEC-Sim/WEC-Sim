@@ -53,10 +53,10 @@ classdef responseClass<handle
     %
     %   There are 4 additional ``output.bodies`` arrays when using non-linear hydro and Paraview output:
     %
-    %   *  ``cellPressures_time`` ('array') = [# of Paraview time-steps x 1]
-    %   *  ``cellPressures_hydrostatic`` ('array') = [# of Paraview time-steps x # of mesh faces]
-    %   *  ``cellPressures_waveLinear`` ('array') = [# of Paraview time-steps x # of mesh faces]
-    %   *  ``cellPressures_waveNonLinear`` ('array') = [# of Paraview time-steps x # of mesh faces]
+    %   *  ``cellPressures_time`` (`array`) = [# of Paraview time-steps x 1]
+    %   *  ``cellPressures_hydrostatic`` (`array`) = [# of Paraview time-steps x # of mesh faces]
+    %   *  ``cellPressures_waveLinear`` (`array`) = [# of Paraview time-steps x # of mesh faces]
+    %   *  ``cellPressures_waveNonLinear`` (`array`) = [# of Paraview time-steps x # of mesh faces]
     %
     %.. autoattribute:: objects.responseClass.ptos
     %    
@@ -92,10 +92,6 @@ classdef responseClass<handle
     %   * ``velocity`` (`array`) = [# of time-steps x 6]
     %   *  ``forceMooring`` (`array`) = [# of time-steps x 6]
     % 
-    %.. autoattribute:: objects.responseClass.cable
-    %
-    % , it includes:
-    % 
     %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
     
@@ -111,7 +107,7 @@ classdef responseClass<handle
     end
     
     methods (Access = 'public')
-        function obj = responseClass(bodiesOutput,ptosOutput,constraintsOutput,ptosimOutput,cablesOutput,mooringOutput,waveOutput, yawNonLin)                      
+        function obj = responseClass(bodiesOutput,ptosOutput,constraintsOutput,ptosimOutput,cablesOutput,mooringOutput,waveOutput, yawNonLin) 
             % This method initializes the ``responseClass``, reads 
             % output from each instance of a WEC-Sim class (e.g.
             % ``waveClass``, ``bodyClass``, ``ptoClass``, ``mooringClass``, etc)
