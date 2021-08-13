@@ -318,26 +318,14 @@ classdef responseClass<handle
             clear t FT FE FRD FR FV FM i
         end
         
-        function plotWaves(obj,it,tsf,g,axis_lims,body,waves,save)
+        function plotWaves(obj,simu,body,waves,timesPerFrame,save)
             % This method plots the wave elevation and body geometry over
             % time to visualize the waves and response
             %
             % Parameters
             % ------------
-            %     it : float
-            %         simulation time step (simu.dt)   
-            %
-            %     tsf : float
-            %         (time step factor) number of simulation time steps
-            %         per video frame (higher number decreases computation
-            %         time)
-            %
-            %     g : float
-            %         acceleration due to gravity (simu.g)
-            %
-            %     axis_lims : 1x6 float matrix
-            %         upper and lower limits to the figure
-            %         [xmin xmax ymin ymax zmin zmax]
+            %     simu :
+            %         simulationClass object
             %
             %     body :
             %         bodyClass object
@@ -345,39 +333,43 @@ classdef responseClass<handle
             %     waves : 
             %         waveClass object
             %
-            %     save : integer
+            %     timesPerFrame : float
+            %         number of simulation time steps per video frame 
+            %         (higher number decreases computatitime)
+            %
+            %     saveSetting : integer
             %         0 = avi video file, 1 = gif file
             %     
             
             % Set time vector
-            t = obj.wave.time(1:tsf:end,1);
+            t = obj.wave.time(1:timesPerFrame:end,1);
             
             % Create grid using provided x and y coordinates
-            x = linspace(axis_lims(1),axis_lims(2),200);
-            y = linspace(axis_lims(3),axis_lims(4),200);
+            x = linspace(-simu.domainSize/2,simu.domainSize/2,200);
+            y = linspace(-simu.domainSize/2,simu.domainSize/2,200);
             [X,Y] = meshgrid(x,y);
 
             % Read in data for each body
             for ibod=1:length(obj.bodies)
                 % Read and assign geometry data
-                read_bod = stlread(body(ibod).geometryFile);
-                bod(ibod).Points = read_bod.Points;
-                bod(ibod).Conns = read_bod.ConnectivityList;
+                readBodyMesh = stlread(body(ibod).geometryFile);
+                bodyMesh(ibod).Points = readBodyMesh.Points;
+                bodyMesh(ibod).Conns = readBodyMesh.ConnectivityList;
                 
                 % Read changes and assign angles and position changes over time
-                bod(ibod).del_pos = [obj.bodies(ibod).position(1:tsf:end,1)-obj.bodies(ibod).position(1,1),... 
-                obj.bodies(ibod).position(1:tsf:end,2)-obj.bodies(ibod).position(1,2),...
-                obj.bodies(ibod).position(1:tsf:end,3)-obj.bodies(ibod).position(1,3)];
+                bodyMesh(ibod).deltaPos = [obj.bodies(ibod).position(1:timesPerFrame:end,1)-obj.bodies(ibod).position(1,1),... 
+                obj.bodies(ibod).position(1:timesPerFrame:end,2)-obj.bodies(ibod).position(1,2),...
+                obj.bodies(ibod).position(1:timesPerFrame:end,3)-obj.bodies(ibod).position(1,3)];
             end
             
             if save == 0
                 % Create video file and open it for writing
-                video = VideoWriter('wave_visualization.avi'); 
-                video.FrameRate = 1/(it*tsf); 
+                video = VideoWriter('waveVisualization.avi'); 
+                video.FrameRate = 1/(simu.dtOut*timesPerFrame); 
                 open(video); 
             elseif save == 1
                 % Create the gif file
-                gif_filename = 'wave_visualization.gif';
+                gifFilename = 'waveVisualization.gif';
             end
             
             % Initialize figure
@@ -386,30 +378,30 @@ classdef responseClass<handle
             for i=1:length(t)
                 for ibod=1:length(obj.bodies)
                     % Apply rotation to each point
-                    rotMat = eulXYZ2RotMat(obj.bodies(ibod).position(1+tsf*(i-1),4), obj.bodies(ibod).position(1+tsf*(i-1),5), obj.bodies(ibod).position(1+tsf*(i-1),6));
-                    for ipts=1:length(bod(ibod).Points(:,1))
-                        bod(ibod).rot(ipts,:) = (rotMat*bod(ibod).Points(ipts,:).').';
+                    rotMat = eulXYZ2RotMat(obj.bodies(ibod).position(1+timesPerFrame*(i-1),4), obj.bodies(ibod).position(1+timesPerFrame*(i-1),5), obj.bodies(ibod).position(1+timesPerFrame*(i-1),6));
+                    for ipts=1:length(bodyMesh(ibod).Points(:,1))
+                        bodyMesh(ibod).rotation(ipts,:) = (rotMat*bodyMesh(ibod).Points(ipts,:).').';
                     end
 
                     % Calculate full position changes due to rotation,
                     % translation, and center of gravity
-                    bod(ibod).Points_new = bod(ibod).rot + bod(ibod).del_pos(i,:) + body(ibod).cg.';
+                    bodyMesh(ibod).pointsNew = bodyMesh(ibod).rotation + bodyMesh(ibod).deltaPos(i,:) + body(ibod).cg.';
                     
                     % Create and plot final triangulation of geometry with applied changes
-                    bod_final = triangulation(bod(ibod).Conns,bod(ibod).Points_new);
-                    trisurf(bod_final,'FaceColor',[1 1 0],'EdgeColor','k','EdgeAlpha',.2)
+                    bodFinal = triangulation(bodyMesh(ibod).Conns,bodyMesh(ibod).pointsNew);
+                    trisurf(bodFinal,'FaceColor',[1 1 0],'EdgeColor','k','EdgeAlpha',.2)
                     hold on
                 end
                 
                 % Create and wave elevation grid
-                Z = waveElevationGrid(waves, t(i), X, Y, t(i), it, g);
+                Z = waveElevationGrid(waves, t(i), X, Y, t(i), simu.dtOut, simu.g);
                 surf(X,Y,Z,'FaceAlpha',.85,'EdgeColor','none')
                 hold on
 
                 % Time visual
                 delete(findall(gcf,'type','annotation'));
-                t_annot = ['time = ', num2str(t(i)), 's'];
-                annotation('textbox',[.6 .625 .3 .3],'String',t_annot,'FitBoxToText','on');
+                tAnnot = ['time = ', num2str(t(i)), 's'];
+                annotation('textbox',[.6 .625 .3 .3],'String',tAnnot,'FitBoxToText','on');
 
                 % Settings and labels
                 caxis([min(-waves.A) max(waves.A)])
@@ -420,7 +412,8 @@ classdef responseClass<handle
                 xlabel('x(m)')
                 ylabel('y(m)')
                 zlabel('z(m)')
-                axis(axis_lims)
+                axis([-simu.domainSize/2 simu.domainSize/2 -simu.domainSize/2 simu.domainSize/2 -simu.domainSize/2 simu.domainSize/2])
+                daspect([1 1 1])
                 
                 % Create figure while iterating through time loop
                 drawnow;
@@ -436,9 +429,9 @@ classdef responseClass<handle
                     im = frame2im(frame); 
                     [imind,cm] = rgb2ind(im,256); 
                     if i == 1 
-                        imwrite(imind,cm,gif_filename,'gif', 'Loopcount',inf); 
+                        imwrite(imind,cm,gifFilename,'gif', 'Loopcount',inf); 
                     else 
-                        imwrite(imind,cm,gif_filename,'gif','WriteMode','append','DelayTime',it); 
+                        imwrite(imind,cm,gifFilename,'gif','WriteMode','append','DelayTime',simu.dtOut); 
                     end 
                 end
  
