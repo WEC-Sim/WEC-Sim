@@ -66,7 +66,8 @@ Geometry File
 ^^^^^^^^^^^^^
 
 The WEC-Sim code also requires a geometry file (``*.stl``) that defines the 
-outer surface of the device. Most CAD programs can export a geometry as a 
+outer surface of the device. The origin of the geometry file must be at the center
+of gravity of that body. Most CAD programs can export a geometry as a 
 ``*.stl`` file. When running WEC-Sim with linear hydrodynamics, the ``*.stl`` 
 is only used for the Simscape Mechanics Explorer visualization. However, when 
 running WEC-Sim with nonlinear buoyancy and Froude-Krylov forces the mesh 
