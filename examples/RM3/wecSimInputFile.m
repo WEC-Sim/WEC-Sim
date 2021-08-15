@@ -53,9 +53,15 @@ waves.T = 8;                            % Wave Period [s]
 % waves = waveClass('etaImport');         % Create the Wave Variable and Specify Type
 % waves.etaDataFile = 'etaData.mat'; % Name of User-Defined Time-Series File [:,2] = [time, eta]
 % waves.wavegauge<i>loc = <user defined wave gauge i x-location>; %(y-position assumed to be 0 m)
-waves.wavegauge1loc = 0*[waves.H,0]; %(y-position assumed to be 0 m)
-waves.wavegauge2loc = 4*[waves.H,0]; %(y-position assumed to be 0 m)
-waves.wavegauge3loc = 4*[-waves.H,0]; %(y-position assumed to be 0 m)
+waves.wavegauge1loc = [-5*waves.H,-5]; 
+waves.wavegauge2loc = [-5*waves.H,0];
+waves.wavegauge3loc = [-5*waves.H,5]; 
+waves.wavegauge4loc = [waves.H,-5]; 
+waves.wavegauge5loc = [waves.H,0]; 
+waves.wavegauge6loc = [waves.H,5]; 
+waves.wavegauge7loc = [6*waves.H,-5]; 
+waves.wavegauge8loc = [6*waves.H,0]; 
+waves.wavegauge9loc = [6*waves.H,5]; 
 % waves.waveAmpTime<i> = incident wave elevation time series at wave gauge i
 %% Body Data
 % Float
