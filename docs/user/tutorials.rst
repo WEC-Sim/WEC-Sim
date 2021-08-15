@@ -210,6 +210,8 @@ post-processing. Additionally, once the WEC-Sim run is complete, the
 WEC-Sim results are saved to the **output** variable in the MATLAB 
 workspace. 
 
+.. _user-tutorials-oswec:
+
 Oscillating Surge WEC (OSWEC)
 -----------------------------
 

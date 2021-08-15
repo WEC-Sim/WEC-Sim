@@ -60,6 +60,7 @@ $ cat .gitignore
 
 # BEMIO
 *.h5
+**/__pycache__/
 
 #Examples
 wecSimInputFile_simulinkCustomParameters.m

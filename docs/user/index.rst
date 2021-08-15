@@ -14,3 +14,4 @@ User Manual
    applications.rst 
    advanced_features.rst
    webinars.rst
+   troubleshooting.rst

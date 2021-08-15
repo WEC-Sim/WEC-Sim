@@ -23,12 +23,12 @@ Publications
 Code
 ------------------
 
-`WEC-Sim v4.2 <https://github.com/WEC-Sim/WEC-Sim/releases/tag/v4.2>`_
+`WEC-Sim v4.3 <https://github.com/WEC-Sim/WEC-Sim/releases/tag/v4.3>`_
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
 .. Note this author list is not what appears on Zenodo (appears to be generated from all GH contributors to WEC-Sim)
 
-[1] Yi-Hsiang Yu, Kelley Ruehl, Jennifer Van Rij, Nathan Tom, Dominic Forbush, David Ogden, Adam Keester, and Jorge Leon. (2020, December), WEC-Sim (Version v4.2), `DOI 10.5281/zenodo.4391330 <https://doi.org/10.5281/zenodo.4391330>`_.
+[1] Yi-Hsiang Yu, Kelley Ruehl, Jennifer Van Rij, Nathan Tom, Dominic Forbush, David Ogden, Adam Keester, and Jorge Leon. (2021, July), WEC-Sim (Version v4.3), `DOI 10.5281/zenodo.5122959 <https://doi.org/10.5281/zenodo.5122959>`_.
 
 .. code-block:: none
 
@@ -41,14 +41,15 @@ Code
 			  David Ogden and
 			  Adam Keester and
 			  Jorge Leon},
-	  title        = {WEC-Sim v4.2},
-	  month        = December,
-	  year         = 2020,
+	  title        = {WEC-Sim v4.3},
+	  month        = July,
+	  year         = 2021,
 	  publisher    = {Zenodo},
-	  version      = {v4.2},
-	  doi          = {10.5281/zenodo.4391330},
-	  url          = {https://doi.org/10.5281/zenodo.4391330}
+	  version      = {v4.3},
+	  doi          = {10.5281/zenodo.5122959},
+	  url          = {https://doi.org/10.5281/zenodo.5122959}
 	}
+    
 
-.. image:: https://zenodo.org/badge/DOI/10.5281/zenodo.4391330.svg
-   :target: https://doi.org/10.5281/zenodo.4391330
+.. image:: https://zenodo.org/badge/DOI/10.5281/zenodo.5122959.svg
+   :target: https://doi.org/10.5281/zenodo.5122959
