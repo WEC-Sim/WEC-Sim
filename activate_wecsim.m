@@ -1,5 +1,4 @@
 % Root directory of this running .m file
-warning off
 projectRootDir = pwd;
 % Add project directories to path
 addpath(fullfile(projectRootDir,genpath('source')),'-end');
