@@ -104,33 +104,34 @@ classdef mooringClass<handle
 
         function obj = moorDynInput(obj)
             % Method to read MoorDyn input file
-            linesFilePath = obj.getLinesFilePath;
-            obj.moorDynInputRaw = textread(linesFilePath);
+            
+            mooringDir = caseInsenstiveDir("mooring", "directories", true);
+            
+            if length(mooringDir) ~= 1
+                error("Error:mooringClass:TooManyMooringDirs",  ...
+                      "More than one directory named like Mooring found");
+            end
+            
+            mooringDir = mooringDir{1};
+            linesFile = caseInsenstiveDir("lines.txt",          ...
+                                          "path", mooringDir,   ...
+                                          "files", true);
+            
+            if length(linesFile) ~= 1
+                error("Error:mooringClass:TooManyLinesFiles",  ...
+                      "More than one file named like lines.txt found");
+            end
+            
+            linesFile = linesFile{1};
+            filePath = fullfile(mooringDir, linesFile);
+            obj.moorDynInputRaw = textread(filePath);
+            
         end
 
         function listInfo(obj)
             % Method to list mooring info
             fprintf('\n\t***** Mooring Name: %s *****\n',obj.name)
         end
-    end
-    
-    methods(Static)
-        
-        function linesFilePath = getLinesFilePath
-            
-            if exist(fullfile(pwd, 'mooring'), 'dir')
-                mooringFolder = fullfile(pwd, 'mooring');
-            elseif exist(fullfile(pwd, 'Mooring'), 'dir')
-                mooringFolder = fullfile(pwd, 'Mooring');
-            else
-                error('Error:mooringClass:NoMooringDirectory',   ...
-                      'Error. Mooring directory is missing');
-            end
-            
-            linesFilePath = fullfile(mooringFolder, 'lines.txt');
-            
-        end
-        
     end
     
 end

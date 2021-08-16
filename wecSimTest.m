@@ -26,6 +26,7 @@ function results = wecSimTest(options)
     %
     %   'objectTest'      Run unit tests on objects. Default is true.
     %
+    %   'functionTest'    Run unit tests on functions. Default is true.
     %
     %   All tests run by default. If runtime is long, users may turn off the 
     %   passive yaw test by calling the function as follows:
@@ -59,6 +60,7 @@ function results = wecSimTest(options)
         options.runFromSimTest = true
         options.rotationTest = true
         options.objectTest = true
+        options.functionTest = true
     end
     
     import matlab.unittest.TestSuite
@@ -92,6 +94,12 @@ function results = wecSimTest(options)
     if options.objectTest
         suites = [suites                                ...
                  TestSuite.fromFolder('tests/objects',  ...
+                                      'IncludingSubfolders', true)];
+    end
+    
+    if options.functionTest
+        suites = [suites                                    ...
+                 TestSuite.fromFolder('tests/functions',    ...
                                       'IncludingSubfolders', true)];
     end
     
