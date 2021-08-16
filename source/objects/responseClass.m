@@ -397,7 +397,12 @@ classdef responseClass<handle
                 Z = waveElevationGrid(waves, t(i), X, Y, t(i), simu.dtOut, simu.g);
                 surf(X,Y,Z,'FaceAlpha',.85,'EdgeColor','none')
                 hold on
-
+                
+                % Display seafloor
+                seaFloor = -waves.waterDepth*ones(size(X, 1));
+                surf(X,Y,seaFloor,'FaceColor',[.4 .4 0],'EdgeColor','none');
+                hold on
+                
                 % Time visual
                 delete(findall(gcf,'type','annotation'));
                 tAnnot = ['time = ', num2str(t(i)), 's'];
