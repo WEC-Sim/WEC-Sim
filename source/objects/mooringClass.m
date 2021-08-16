@@ -104,8 +104,8 @@ classdef mooringClass<handle
 
         function obj = moorDynInput(obj)
             % Method to read MoorDyn input file
-            obj.moorDynInputRaw = textread('./Mooring/lines.txt', '%s', ...
-                                           'delimiter', '\n');
+            linesFilePath = obj.getLinesFilePath;
+            obj.moorDynInputRaw = textread(linesFilePath);
         end
 
         function listInfo(obj)
@@ -113,4 +113,24 @@ classdef mooringClass<handle
             fprintf('\n\t***** Mooring Name: %s *****\n',obj.name)
         end
     end
+    
+    methods(Static)
+        
+        function linesFilePath = getLinesFilePath
+            
+            if exist(fullfile(pwd, 'mooring'), 'dir')
+                mooringFolder = fullfile(pwd, 'mooring');
+            elseif exist(fullfile(pwd, 'Mooring'), 'dir')
+                mooringFolder = fullfile(pwd, 'Mooring');
+            else
+                error('Error:mooringClass:NoMooringDirectory',   ...
+                      'Error. Mooring directory is missing');
+            end
+            
+            linesFilePath = fullfile(mooringFolder, 'lines.txt');
+            
+        end
+        
+    end
+    
 end
