@@ -335,7 +335,8 @@ classdef responseClass<handle
             %
             %     options 
             %         axisLimits : 1x6 float matrix
-            %             x, y, and z-bounds of figure axes
+            %             x, y, and z-bounds of figure axes in the format:
+            %             [min x, max x, min y, max y, min z, max z]
             %             (default = [-simu.domainSize/2 simu.domainSize/2
             %             -simu.domainSize/2 simu.domainSize/2 -waves.waterDepth 10])
             %         timesPerFrame : float
@@ -351,17 +352,18 @@ classdef responseClass<handle
                 simu
                 body
                 waves
-                options.axisLimits (1,6) double {mustBeReal, mustBeNonNan, mustBeFinite} = [-simu.domainSize/2 simu.domainSize/2 -simu.domainSize/2 simu.domainSize/2 -waves.waterDepth 10];
+                options.axisLimits (1,6) double {mustBeReal, mustBeNonNan, mustBeFinite} = [-simu.domainSize/2 simu.domainSize/2 -simu.domainSize/2 simu.domainSize/2 -waves.waterDepth -999];
                 options.timesPerFrame (1,1) double {mustBeReal, mustBeNonnegative, mustBeNonNan, mustBeFinite} = 1;
                 options.saveSetting (1,1) double {mustBeNumericOrLogical} = 0;
             end
             
             % Set time vector
-            t = obj.wave.time(1:options.timesPerFrame:end,1);
+            t = obj.wave.time(1:options.timesPerFrame*round(simu.dtOut/simu.dt,0):end,1);
+%             t = obj.wave.time(1:options.timesPerFrame:end,1);
             
             % Create grid using provided x and y coordinates
-            x = linspace(-simu.domainSize/2,simu.domainSize/2,200);
-            y = linspace(-simu.domainSize/2,simu.domainSize/2,200);
+            x = linspace(options.axisLimits(1),options.axisLimits(2),200);
+            y = linspace(options.axisLimits(3),options.axisLimits(4),200);
             [X,Y] = meshgrid(x,y);
             
             % Initialize maximum body height
@@ -383,6 +385,10 @@ classdef responseClass<handle
                 if max(bodyMesh(ibod).Points(:,3))+max(bodyMesh(ibod).deltaPos(:,3)) > maxHeight
                     maxHeight = max(bodyMesh(ibod).Points(:,3))+max(bodyMesh(ibod).deltaPos(:,3));
                 end
+            end
+            
+            if options.axisLimits(6) == -999
+                options.axisLimits(6) = maxHeight;
             end
             
             if options.saveSetting == 0
@@ -429,19 +435,20 @@ classdef responseClass<handle
                 hold on
                 
                 % Time visual
-                delete(findall(gcf,'type','annotation'));
-                tAnnot = ['time = ', num2str(t(i)), 's'];
-                annotation('textbox',[.6 .625 .3 .3],'String',tAnnot,'FitBoxToText','on');
-
+                nDecimals = max(0,ceil(-log10(simu.dtOut*options.timesPerFrame)));
+                nLeading = ceil(log10(max(t)));
+                tAnnot = sprintf(['time = %' num2str(nDecimals+nLeading+1) '.' num2str(nDecimals) 'f s'],t(i));
+                
                 % Settings and labels
                 caxis([min(-waves.A) max(waves.A)])
                 colormap winter
                 c = colorbar;
-                ylabel(c, 'Wave Elevaion (m)')
-                title('Wave Elevation and Geometry Visualization')
+                ylabel(c, 'Wave Elevation (m)')
+                title({'Wave Elevation and Geometry Visualization',tAnnot})
                 xlabel('x(m)')
                 ylabel('y(m)')
                 zlabel('z(m)')
+                daspect([1 1 1])
                 axis(options.axisLimits)
 
                 % Create figure while iterating through time loop
