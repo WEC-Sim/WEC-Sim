@@ -318,7 +318,7 @@ classdef responseClass<handle
             clear t FT FE FRD FR FV FM i
         end
         
-        function plotWaves(obj,simu,body,waves,timesPerFrame,save)
+        function plotWaves(obj,simu,body,waves,options)
             % This method plots the wave elevation and body geometry over
             % time to visualize the waves and response
             %
@@ -333,21 +333,39 @@ classdef responseClass<handle
             %     waves : 
             %         waveClass object
             %
-            %     timesPerFrame : float
-            %         number of simulation time steps per video frame 
-            %         (higher number decreases computatitime)
-            %
-            %     saveSetting : integer
-            %         0 = avi video file, 1 = gif file
+            %     options 
+            %         axisLimits : 1x6 float matrix
+            %             x, y, and z-bounds of figure axes
+            %             (default = [-simu.domainSize/2 simu.domainSize/2
+            %             -simu.domainSize/2 simu.domainSize/2 -waves.waterDepth 10])
+            %         timesPerFrame : float
+            %             number of simulation time steps per video frame 
+            %             (higher number decreases computation time)
+            %             (default = 1)
+            %         saveSetting : integer
+            %             0(default) = video, 1 = gif
             %     
             
+            arguments
+                obj
+                simu
+                body
+                waves
+                options.axisLimits (1,6) double {mustBeReal, mustBeNonNan, mustBeFinite} = [-simu.domainSize/2 simu.domainSize/2 -simu.domainSize/2 simu.domainSize/2 -waves.waterDepth 10];
+                options.timesPerFrame (1,1) double {mustBeReal, mustBeNonnegative, mustBeNonNan, mustBeFinite} = 1;
+                options.saveSetting (1,1) double {mustBeNumericOrLogical} = 0;
+            end
+            
             % Set time vector
-            t = obj.wave.time(1:timesPerFrame:end,1);
+            t = obj.wave.time(1:options.timesPerFrame:end,1);
             
             % Create grid using provided x and y coordinates
             x = linspace(-simu.domainSize/2,simu.domainSize/2,200);
             y = linspace(-simu.domainSize/2,simu.domainSize/2,200);
             [X,Y] = meshgrid(x,y);
+            
+            % Initialize maximum body height
+            maxHeight = 0;
 
             % Read in data for each body
             for ibod=1:length(obj.bodies)
@@ -357,17 +375,22 @@ classdef responseClass<handle
                 bodyMesh(ibod).Conns = readBodyMesh.ConnectivityList;
                 
                 % Read changes and assign angles and position changes over time
-                bodyMesh(ibod).deltaPos = [obj.bodies(ibod).position(1:timesPerFrame:end,1)-obj.bodies(ibod).position(1,1),... 
-                obj.bodies(ibod).position(1:timesPerFrame:end,2)-obj.bodies(ibod).position(1,2),...
-                obj.bodies(ibod).position(1:timesPerFrame:end,3)-obj.bodies(ibod).position(1,3)];
+                bodyMesh(ibod).deltaPos = [obj.bodies(ibod).position(1:options.timesPerFrame:end,1)-obj.bodies(ibod).position(1,1),... 
+                obj.bodies(ibod).position(1:options.timesPerFrame:end,2)-obj.bodies(ibod).position(1,2),...
+                obj.bodies(ibod).position(1:options.timesPerFrame:end,3)-obj.bodies(ibod).position(1,3)];
+            
+                % Save maximum body height
+                if max(bodyMesh(ibod).Points(:,3))+max(bodyMesh(ibod).deltaPos(:,3)) > maxHeight
+                    maxHeight = max(bodyMesh(ibod).Points(:,3))+max(bodyMesh(ibod).deltaPos(:,3));
+                end
             end
             
-            if save == 0
+            if options.saveSetting == 0
                 % Create video file and open it for writing
                 video = VideoWriter('waveVisualization.avi'); 
-                video.FrameRate = 1/(simu.dtOut*timesPerFrame); 
+                video.FrameRate = 1/(simu.dtOut*options.timesPerFrame); 
                 open(video); 
-            elseif save == 1
+            elseif options.saveSetting == 1
                 % Create the gif file
                 gifFilename = 'waveVisualization.gif';
             end
@@ -378,7 +401,9 @@ classdef responseClass<handle
             for i=1:length(t)
                 for ibod=1:length(obj.bodies)
                     % Apply rotation to each point
-                    rotMat = eulXYZ2RotMat(obj.bodies(ibod).position(1+timesPerFrame*(i-1),4), obj.bodies(ibod).position(1+timesPerFrame*(i-1),5), obj.bodies(ibod).position(1+timesPerFrame*(i-1),6));
+                    rotMat = eulXYZ2RotMat(obj.bodies(ibod).position(1+options.timesPerFrame*(i-1),4), ...
+                        obj.bodies(ibod).position(1+options.timesPerFrame*(i-1),5), ...
+                        obj.bodies(ibod).position(1+options.timesPerFrame*(i-1),6));
                     for ipts=1:length(bodyMesh(ibod).Points(:,1))
                         bodyMesh(ibod).rotation(ipts,:) = (rotMat*bodyMesh(ibod).Points(ipts,:).').';
                     end
@@ -417,19 +442,18 @@ classdef responseClass<handle
                 xlabel('x(m)')
                 ylabel('y(m)')
                 zlabel('z(m)')
-                axis([-simu.domainSize/2 simu.domainSize/2 -simu.domainSize/2 simu.domainSize/2 -simu.domainSize/2 simu.domainSize/2])
-                daspect([1 1 1])
-                
+                axis(options.axisLimits)
+
                 % Create figure while iterating through time loop
                 drawnow;
                 
                 % Capture figure for saving
                 frame = getframe(gcf);
                 
-                if save == 0
+                if options.saveSetting == 0
                     % Save to video
                     writeVideo(video,frame); 
-                elseif save == 1
+                elseif options.saveSetting == 1
                     % Save to gif
                     im = frame2im(frame); 
                     [imind,cm] = rgb2ind(im,256); 
@@ -445,7 +469,7 @@ classdef responseClass<handle
             end
             
             % Close video file
-            if save == 0
+            if options.saveSetting == 0
                 close(video); 
             end
             
