@@ -337,14 +337,14 @@ classdef responseClass<handle
             %         axisLimits : 1x6 float matrix
             %             x, y, and z-bounds of figure axes in the format:
             %             [min x, max x, min y, max y, min z, max z]
-            %             (default = [-simu.domainSize/2 simu.domainSize/2
-            %             -simu.domainSize/2 simu.domainSize/2 -waves.waterDepth 10])
+            %             Default = [-simu.domainSize/2 simu.domainSize/2
+            %             -simu.domainSize/2 simu.domainSize/2 -waves.waterDepth maximumHeight]
             %         timesPerFrame : float
             %             number of simulation time steps per video frame 
             %             (higher number decreases computation time)
-            %             (default = 1)
+            %             Default = 1
             %         saveSetting : integer
-            %             0(default) = video, 1 = gif
+            %             0 = video, 1 = gif. Default = 0
             %     
             
             arguments
