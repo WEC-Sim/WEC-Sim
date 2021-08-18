@@ -16,17 +16,17 @@ simu.CITime = 30;                       % Specify CI Time [s]
 % waves = waveClass('noWaveCIC');       % Initialize Wave Class and Specify Type  
 
 % % Regular Waves 
-waves = waveClass('regular');           % Initialize Wave Class and Specify Type                                 
-waves.H = 2.5;                          % Wave Height [m]
-waves.T = 8;                            % Wave Period [s]
+% waves = waveClass('regular');           % Initialize Wave Class and Specify Type                                 
+% waves.H = 2.5;                          % Wave Height [m]
+% waves.T = 8;                            % Wave Period [s]
 
 % Irregular Waves using PM Spectrum with Directionality 
-% waves = waveClass('irregular');         % Initialize Wave Class and Specify Type
-% waves.H = 2.5;                          % Significant Wave Height [m]
-% waves.T = 8;                            % Peak Period [s]
-% waves.spectrumType = 'PM';              % Specify Spectrum Type
-% waves.waveDir = [0,30,90];              % Wave Directionality [deg]
-% waves.waveSpread = [0.1,0.2,0.7];       % Wave Directional Spreading [%}
+waves = waveClass('irregular');         % Initialize Wave Class and Specify Type
+waves.H = 2.5;                          % Significant Wave Height [m]
+waves.T = 8;                            % Peak Period [s]
+waves.spectrumType = 'PM';              % Specify Spectrum Type
+waves.waveDir = [0,30,90];              % Wave Directionality [deg]
+waves.waveSpread = [0.1,0.2,0.7];       % Wave Directional Spreading [%}
 
 % % Irregular Waves with imported spectrum
 % waves = waveClass('spectrumImport');        % Create the Wave Variable and Specify Type
