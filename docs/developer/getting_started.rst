@@ -6,7 +6,7 @@ Getting Started
 The WEC-Sim source code is hosted on the `WEC-Sim GitHub repository 
 <https://github.com/WEC-Sim/wec-sim>`_. WEC-Sim developers are recommended to 
 fork the GitHub repository. If you plan to contribute to the WEC-Sim code, 
-please fork the official `WEC-Sim repository <https://github.com/WEC-Sim/WEC-Sim>`_.
+please fork the official WEC-Sim repository.
 This method allows you to create a personal copy of the WEC-Sim repository, 
 which can be freely edited without changing the official repository. It is 
 easily compared to the main repository when pushing changes or pulling updates. 
@@ -39,10 +39,10 @@ For details on creating and using a fork, see the `forking instructions
 <https://help.github.com/articles/fork-a-repo/>`_ provided by GitHub. 
 
 
-.. _dev-getting-started-prs
+.. _dev-getting-started-prs:
 
 Pull Requests
-^^^^^^^^^^^^^
+-------------
 
 The WEC-Sim team currently uses a fork-pull request based development workflow. 
 In this system, features are incorporated into the development branch ('dev') 
@@ -80,10 +80,10 @@ Request'. For more details on submitting pull requests, see the `About pull
 requests <https://docs.github.com/en/free-pro-team@latest/github/collaborating-with-issues-and-pull-requests/about-pull-requests>`_ 
 documentation on GitHub.
 
-.. _dev-getting-started-tests
+.. _dev-getting-started-tests:
 
 Software Tests
-^^^^^^^^^^^^^^
+--------------
 
 WEC-Sim includes continuous integration tests that check the source code's 
 functionality. The tests are run each time changes are made to the repository, 
