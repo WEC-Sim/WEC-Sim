@@ -34,7 +34,7 @@ classdef simulationClass<handle
         domainSize          = 200                                          % (`float`) Size of free surface and seabed. This variable is only used for visualization. Default = ``200`` m
         ssCalc              = 0                                            % (`integer`) Option for convolution integral or state-space calculation: convolution integral->0, state-space->1. Default = ``0``
         mode                = 'normal'                                     % (`string`) Simulation execution mode, 'normal', 'accelerator', 'rapid-accelerator'. Default = ``'normal'``
-        solver              = 'ode4'                                       % (`string`) PDE solver used by the Simulink/SimMechanics simulation, 'ode4, 'ode45'. Default = ``'ode45'``
+        solver              = 'ode4'                                       % (`string`) PDE solver used by the Simulink/SimMechanics simulation. Any continuous solver in Simulink possible. Recommended to use 'ode4, 'ode45' for WEC-Sim. Default = ``'ode4'``
         numIntMidTimeSteps  = 5                                            % (`integer`) Number of intermediate time steps. Default = ``5`` for ode4 method
         autoRateTranBlk     = 'on'                                         % (`string`) Automatically handle rate transition for data transfer, 'on', 'off'. Default = ``'on'``
         zeroCrossCont       = 'DisableAll'                                 % (`string`) Disable zero cross control. Default = ``'DisableAll'``
@@ -49,7 +49,7 @@ classdef simulationClass<handle
         StartTimeParaview   = 0;                                           % (`float`) Start time for the vtk file of Paraview. Default = ``0``                                    
         EndTimeParaview     = 100;                                         % (`float`) End time for the vtk file of Paraview. Default = ``0``                                      
         dtParaview          = 0.1;                                         % (`float`) Timestep for Paraview. Default = ``0.1``         
-        pathParaviewVideo = 'vtk';                                         % (`string`) Path of the folder for Paraview vtk files. Default = ``'vtk'``     
+        pathParaviewVideo   = 'vtk';                                       % (`string`) Path of the folder for Paraview vtk files. Default = ``'vtk'``     
         adjMassWeightFun    = 2                                            % (`integer`) Weighting function for adjusting added mass term in the translational direction. Default = ``2``
         mcrCaseFile         = []                                           % (`string`) mat file that contain a list of the multiple conditions runs with given conditions. Default = ``'NOT DEFINED'``  
         morisonElement      = 0                                            % (`integer`) Option for Morison Element calculation: off->0, on->1 or 2. Default = ``0``. Option 1 uses an approach that allows the user to define drag and inertial coefficients along the x-, y-, and z-axes and Option 2 uses an approach that defines the Morison Element with normal and tangential tangential drag and interial coefficients.. 
@@ -61,7 +61,7 @@ classdef simulationClass<handle
     end
 
     properties (SetAccess = 'public', GetAccess = 'public')%internal
-        wsVersion             = '4.3'                                      % (`string`) WEC-Sim version
+        wsVersion           = '4.3'                                        % (`string`) WEC-Sim version
         gitCommit           = []                                           % (`string`) GitHub commit
         simulationDate      = datetime                                     % (`string`) Simulation date and time
         outputDir           = 'output'                                     % (`string`) Data output directory name. Default = ``'output'``
@@ -71,7 +71,7 @@ classdef simulationClass<handle
         caseFile            = []                                           % (`string`) .mat file with all simulation information. Default = dependent
         caseDir             = []                                           % (`string`) WEC-Sim case directory. Default = dependent
         CIkt                = []                                           % (`integer`) Number of timesteps in the convolution integral length. Default = dependent
-        maxIt               = []                                           % (`integer`) Total number of simulation time steps. Default = dependent
+        maxIt               = []                                           % (`integer`) Total number of simulation time steps. Approximate for variable step solvers. Default = dependent
         CTTime              = []                                           % (`float vector`) Convolution integral time series. Default = dependent
         numWecBodies        = []                                           % (`integer`) Number of hydrodynamic bodies that comprise the WEC device. Default = ``'NOT DEFINED'``
         numDragBodies       = []                                           % (`integer`) Number of drag bodies that comprise the WEC device (excluding hydrodynamic bodies). Default = ``'NOT DEFINED'``
@@ -188,7 +188,7 @@ classdef simulationClass<handle
             if waveTypeNum > 10
                 fprintf('\tConvolution Integral Interval  (sec) = %G\n',obj.CITime)
             end
-            fprintf('\tTotal Number of Time Steps           = %u \n',obj.maxIt)
+            fprintf('\tApproximate Number of Time Steps     = %u \n',obj.maxIt)
         end
 
         function getGitCommit(obj)
