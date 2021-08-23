@@ -9,13 +9,14 @@ classdef cableClass<handle
     %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
     properties (SetAccess = 'public', GetAccess = 'public')%input file
         name                    = 'NOT DEFINED'
-        k_0                     = 0                                             % (`float`) Linear PTO stiffness coefficient. Default = `0`.
-        c_0                     = 0                                             % (`float`) Linear PTO damping coefficient. Default = `0`.                                             % (`float`) Rotational PTO cable-to-body coupling damping coefficient. Default = `0`.
-        K                       = 0
-        C                       = 0
-        L0                      = 0
-        rotk                    = 0
-        rotc                    = 0
+        k_0                     = 0                                        % (`float`) Linear PTO stiffness coefficient. Default = `0`.
+        c_0                     = 0                                        % (`float`) Linear PTO damping coefficient. Default = `0`.                                             % (`float`) Rotational PTO cable-to-body coupling damping coefficient. Default = `0`.
+        K                       = 0                                        % (`float`) Cable stiffness (N/m). Default = `0`.
+        C                       = 0                                        % (`float`) Cable damping coefficient (N/(m/s)). Default = `0`.
+        L0                      = 0                                        % (`float`) Cable equilibrium length (m), calculated from rotloc and preTension. Default =`0`.
+        preTension              = 0                                        % (`float`) Cable pretension (N).    
+        rotk                    = 0                                        % (`float`) Cable connection rotary stiffness (if 3DOF) (N/deg). Default=`0`.
+        rotc                    = 0                                        % (`float`) Cable connection rotary damping (if 3DOF) (N/deg). Default=`0`.
         rotloc1                 = [999 999 999]                                 % (`3x1 float vector`) PTO location [m]. Defined in the following format [x y z]. Default = ``[999 999 999]``.
         rotloc2                 = [999 999 999]
         loc                     = [0 0 0]
@@ -163,37 +164,37 @@ classdef cableClass<handle
             obj.rotorientation.rotationMatrix2  = [x',y',z'];
         end
         
-        function setInitDisp(obj, x_rot, ax_rot, ang_rot, addLinDisp)
-            % This method sets initial displacement while considering an initial rotation orientation.
-            %
-            %``x_rot`` (`3x1 float vector`) is rotation point [m] in the following format [x y z], Default = ``[]``.
-            %
-            %``ax_rot`` (`3x1 float vector`) is the axis about which to rotate to constraint and must be a normal vector, Default = ``[]``.
-            %
-            %``ang_rot`` (`float`) is the rotation angle [rad], Default = ``[]``.
-            %
-            %``addLinDisp`` ('float') is the initial linear displacement [m] in addition to the displacement caused by the pto rotation, Default = '[]'.
-            loc = obj.loc;
-            relCoord = loc - x_rot;
-            rotatedRelCoord = rotateXYZ(relCoord,ax_rot,ang_rot);
-            newCoord = rotatedRelCoord + x_rot;
-            linDisp = newCoord-loc;
-            obj.initDisp.initLinDisp= linDisp + addLinDisp;
-            %
-            rotloc1 = obj.rotloc1;
-            relCoord = rotloc1 - x_rot;
-            rotatedRelCoord = rotateXYZ(relCoord,ax_rot,ang_rot);
-            newCoord = rotatedRelCoord + x_rot;
-            linDisp = newCoord-rotloc1;
-            obj.rotinitDisp.initLinDisp1= linDisp + addLinDisp;
-            %
-            rotloc2 = obj.rotloc2;
-            relCoord = rotloc2 - x_rot;
-            rotatedRelCoord = rotateXYZ(relCoord,ax_rot,ang_rot);
-            newCoord = rotatedRelCoord + x_rot;
-            linDisp = newCoord-rotloc2;
-            obj.rotinitDisp.initLinDisp2= linDisp + addLinDisp;
-        end
+%         function setInitDisp(obj, x_rot, ax_rot, ang_rot, addLinDisp)
+%             % This method sets initial displacement while considering an initial rotation orientation.
+%             %
+%             %``x_rot`` (`3x1 float vector`) is rotation point [m] in the following format [x y z], Default = ``[]``.
+%             %
+%             %``ax_rot`` (`3x1 float vector`) is the axis about which to rotate to constraint and must be a normal vector, Default = ``[]``.
+%             %
+%             %``ang_rot`` (`float`) is the rotation angle [rad], Default = ``[]``.
+%             %
+%             %``addLinDisp`` ('float') is the initial linear displacement [m] in addition to the displacement caused by the pto rotation, Default = '[]'.
+%             loc = obj.loc;
+%             relCoord = loc - x_rot;
+%             rotatedRelCoord = rotateXYZ(relCoord,ax_rot,ang_rot);
+%             newCoord = rotatedRelCoord + x_rot;
+%             linDisp = newCoord-loc;
+%             obj.initDisp.initLinDisp= linDisp + addLinDisp;
+%             %
+%             rotloc1 = obj.rotloc1;
+%             relCoord = rotloc1 - x_rot;
+%             rotatedRelCoord = rotateXYZ(relCoord,ax_rot,ang_rot);
+%             newCoord = rotatedRelCoord + x_rot;
+%             linDisp = newCoord-rotloc1;
+%             obj.rotinitDisp.initLinDisp1= linDisp + addLinDisp;
+%             %
+%             rotloc2 = obj.rotloc2;
+%             relCoord = rotloc2 - x_rot;
+%             rotatedRelCoord = rotateXYZ(relCoord,ax_rot,ang_rot);
+%             newCoord = rotatedRelCoord + x_rot;
+%             linDisp = newCoord-rotloc2;
+%             obj.rotinitDisp.initLinDisp2= linDisp + addLinDisp;
+%         end
         
         function checkFloat(obj, rho)
             dispVol = obj.dispVol;
@@ -261,11 +262,22 @@ classdef cableClass<handle
         function setL0(obj)
             % This method specifies L0 as the distance between cable fixed
             % ends (i.e. pretension = 0), if not otherwise specified.
-            if ~any(obj.L0)
+            if ~any(obj.L0) && ~any(obj.preTension)
                 obj.L0 = sqrt((obj.rotloc2(1)-obj.rotloc1(1)).^2 ...
                 + (obj.rotloc2(2)-obj.rotloc1(2)).^2 ...
                 + (obj.rotloc2(3)-obj.rotloc1(3)).^2);
-            fprintf('\n\t L0 undefined, set equal to distance between rotloc1 and rotloc2 \n')
+            fprintf('\n\t L0 undefined and preTension undefined. \n \r L0 set equal to distance between rotloc1 and rotloc2 \n and preTension set equal to zero \n')
+            elseif ~any(obj.L0) && any(obj.preTension)
+                obj.L0 = sqrt((obj.rotloc2(1)-obj.rotloc1(1)).^2 ...
+                + (obj.rotloc2(2)-obj.rotloc1(2)).^2 ...
+                + (obj.rotloc2(3)-obj.rotloc1(3)).^2) + obj.preTension/obj.K;
+            elseif ~any(obj.preTension) && any(obj.L0)
+                obj.preTension = obj.K * (sqrt((obj.rotloc2(1)-obj.rotloc1(1)).^2 ...
+                + (obj.rotloc2(2)-obj.rotloc1(2)).^2 ...
+                + (obj.rotloc2(3)-obj.rotloc1(3)).^2) - obj.L0); 
+            elseif any(obj.preTension) && any(obj.L0)
+                fprintf('\n\t System overdefined. Please define preTension OR L0, not both. Pretension set to 0.')
+                obj.preTension = 0;
             end
         end
         

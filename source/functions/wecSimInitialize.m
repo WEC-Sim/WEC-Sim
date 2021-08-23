@@ -177,6 +177,7 @@ if exist('cable','var')==1
         cable(ii).dragForcePre(simu.rho);
         cable(ii).checkFloat(simu.rho);
         cable(ii).setOrientation();
+        %cable(ii).setInitDisp();
         cable(ii).checkPTOApprox();
         cable(ii).linDampMatrix();
     end
