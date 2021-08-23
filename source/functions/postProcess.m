@@ -66,6 +66,17 @@ if exist('constraint','var')
 else
     constraintsOutput = 0;
 end
+% Cable
+if exist('cable','var')
+    for iCab = 1:simu.numCables
+        eval(['cable' num2str(iCab) '_out.name = cable(' num2str(iCab) ').name;'])
+        if iCab == 1; cablesOutput =cable1_out; end
+        cablesOutput(iCab) = eval(['cable' num2str(iCab) '_out']);
+        eval(['clear cable' num2str(iCab) '_out']);
+    end; clear iCab
+else
+    cablesOutput = 0;
+end
 % Mooring
 if exist('mooring','var')
     for iMoor = 1:simu.numMoorings
@@ -95,8 +106,8 @@ waveOutput.waveAmpTime2 = waves.waveAmpTime2;
 waveOutput.waveAmpTime3 = waves.waveAmpTime3;
 
 % All
-output = responseClass(bodiesOutput,ptosOutput,constraintsOutput,ptosimOutput,mooringOutput,waveOutput, simu.yawNonLin);
-clear bodiesOutput ptosOutput constraintsOutput ptosimOutput mooringOutput waveOutput
+output = responseClass(bodiesOutput,ptosOutput,constraintsOutput,ptosimOutput,cablesOutput,mooringOutput,waveOutput, simu.yawNonLin);
+clear bodiesOutput ptosOutput constraintsOutput ptosimOutput cablesOutput mooringOutput waveOutput
 % MoorDyn
 for iMoor = 1:simu.numMoorings
     if mooring(iMoor).moorDyn==1
