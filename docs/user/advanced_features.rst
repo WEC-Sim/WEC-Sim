@@ -850,6 +850,41 @@ results in the following figure:
    Demonstration of output.plotWaves() method for the OSWEC example.
 
 
+Plot Eta
+^^^^^^^^
+
+The ``waveClass.plotEta()`` method can be used to plot the wave elevation time
+series at the domain origin. The ramp time is also marked. The only required input
+is ``simu.rampTime``. Users must manually plot or overlay the wave elevation at a 
+wave gauge location.
+
+.. figure:: /_static/images/OSWEC_plotEta.PNG
+   :width: 250pt
+   :figwidth: 250pt
+   :align: center
+   
+   Demonstration of waves.plotEta() method for the OSWEC example.
+
+
+Plot Spectrum
+^^^^^^^^^^^^^
+
+The ``waveClass.plotSpectrum()`` method can be used to plot the frequency spectrum
+of an irregular or spectrum import wave. No input parameters are required.
+
+.. figure:: /_static/images/OSWEC_plotSpectrum.PNG
+   :width: 250pt
+   :figwidth: 250pt
+   :align: center
+   
+   Demonstration of waves.plotSpectrum() method for the OSWEC example.
+
+
+
+
+
+
+
 .. _user-advanced-features-decay:
 
 Decay Tests
