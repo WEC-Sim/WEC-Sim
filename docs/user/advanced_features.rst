@@ -773,8 +773,8 @@ Paraview Visualization
 
 .. _user-advanced-features-WSviz:
 
-WEC-Sim Visualizations
-----------------------
+WEC-Sim Visualization
+---------------------
 
 The WEC-Sim contains several built in methods inside the response class and wave 
 class to assist users in visualizing WEC-Sim output: ``output.plotForces``, 
