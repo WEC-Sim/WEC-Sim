@@ -205,11 +205,11 @@ if strcmp(waves.type,'etaImport')~=1 && strcmp(waves.type,'noWave')~=1 && strcmp
 end
 
 % Non-linear hydro
-if (simu.nlHydro >0) || (simu.paraview == 1)
-    for kk = 1:length(body(1,:))
+for kk = 1:length(body(1,:))
+    if (simu.nlHydro(kk) >0) || (simu.paraview == 1)
         body(kk).bodyGeo(body(kk).geometryFile)
-    end; clear kk
-end
+    end
+end; clear kk
 
 % hydroForcePre
 idx = find(hydroBodLogic==1);
@@ -322,12 +322,24 @@ else
 end
 
 %% Set variant subsystems options
+% nlHydro Activation
 nlHydro = simu.nlHydro;
+for ii=1:length(body(1,:))
+%     if body(ii).nhBody~=1 || body(ii).nhbody~=2
+    if body(ii).nhBody==0
+        %Nonlinear FK Force Variant Subsystem
+        eval(['nonLinearHydro_' num2str(ii) ' = nlHydro(ii);']);
+        eval(['sv_b' num2str(ii) '_linearHydro = Simulink.Variant(''nonLinearHydro_', num2str(ii), '==0'');']);
+        eval(['sv_b' num2str(ii) '_nonlinearHydro=Simulink.Variant(''nonLinearHydro_', num2str(ii), '>0'');']);
+%         eval(['sv_b' num2str(ii) '_linearHydro = Simulink.Variant(''nlHydro==0'');'])
+%         eval(['sv_b' num2str(ii) '_nonlinearHydro=Simulink.Variant(''nlHydro>0'');'])
+        %
+        eval(['sv_b' num2str(ii) '_meanFS=Simulink.Variant(''nonLinearHydro_', num2str(ii), '<2'');']);
+        eval(['sv_b' num2str(ii) '_instFS=Simulink.Variant(''nonLinearHydro_', num2str(ii), '==2'');']);
+    end
+end; clear ii;
+% yawNonLin Activation
 yawNonLin=simu.yawNonLin;
-sv_linearHydro=Simulink.Variant('nlHydro==0');
-sv_nonlinearHydro=Simulink.Variant('nlHydro>0');
-sv_meanFS=Simulink.Variant('nlHydro<2');
-sv_instFS=Simulink.Variant('nlHydro==2');
 % Morrison Element
 morisonElement = simu.morisonElement;
 for ii=1:length(body(1,:))
@@ -336,7 +348,7 @@ for ii=1:length(body(1,:))
     eval(['sv_b' num2str(ii) '_MEOff = Simulink.Variant(''morisonElement_' num2str(ii) '==0'');'])
     eval(['sv_b' num2str(ii) '_MEOn = Simulink.Variant(''morisonElement_' num2str(ii) '==1 || morisonElement_' num2str(ii) '==2'');'])
     end
-end
+end; clear ii;
 % Radiation Damping
 if waves.typeNum==0 || waves.typeNum==10 %'noWave' & 'regular'
     radiation_option = 1;

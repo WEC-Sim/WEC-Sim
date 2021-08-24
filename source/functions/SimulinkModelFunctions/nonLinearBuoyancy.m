@@ -29,7 +29,7 @@ function [f,p] = fHydrostatic(center,elv,instcg,av,rho,g)
 % Function to calculate the force and moment about the cog due to hydrostatic pressure
 f = zeros(6,1);
 
-% Zeor out regions above the mean free surface
+% Zero out regions above the mean free surface
 z=center(:,3); z((z-elv)>0)=0;
 
 % Calculate the hydrostatic pressure at each triangle center
