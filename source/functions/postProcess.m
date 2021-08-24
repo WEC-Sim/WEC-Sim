@@ -20,6 +20,10 @@
 %% Post processing and Saving Results
 fprintf('\nPost-processing and saving...   \n')
 
+% Update simulation class with actual simulation time
+simu.time = clock_out.time;
+clear clock_out
+
 % Bodies
 for iBod = 1:length(body(1,:))
     eval(['body' num2str(iBod) '_out.name = body(' num2str(iBod) ').name;']);

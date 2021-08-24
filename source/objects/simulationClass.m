@@ -119,25 +119,36 @@ classdef simulationClass<handle
             % Sets simulation properties based on values specified in input file
             obj.time = obj.startTime:obj.dt:obj.endTime;
             obj.maxIt = floor((obj.endTime - obj.startTime) / obj.dt);
+            
             % Set dtOut if it was not specificed in input file
             if isempty(obj.dtOut) || obj.dtOut < obj.dt
                 obj.dtOut = obj.dt;
             end
+            
             % Set dtNL if it was not specificed in input file
             if isempty(obj.dtNL) || obj.dtNL < obj.dt
                 obj.dtNL = obj.dt;
             end
+            
             % Set dtCITime if it was not specificed in input file
             if isempty(obj.dtCITime) || obj.dtCITime < obj.dt
                 obj.dtCITime = obj.dt;
             end
+            
             % Set dtME if it was not specificed in input file
             if isempty(obj.dtME) || obj.dtME < obj.dt
                 obj.dtME = obj.dt;
-            end            
+            end
+            
+            % Set dtParaview if it was not specified in input file
+            if isempty(obj.dtParaview) || obj.dtParaview < obj.dtParaview
+                obj.dtParaview = obj.dtOut;
+            end
+            
             obj.CTTime = 0:obj.dtCITime:obj.CITime;            
             obj.CIkt = length(obj.CTTime);
-            obj.caseFile = [obj.simMechanicsFile(length(obj.caseDir)+1:end-4) '_matlabWorkspace.mat'];            
+            obj.caseFile = [obj.simMechanicsFile(length(obj.caseDir)+1:end-4) '_matlabWorkspace.mat'];
+            
             % Remove existing output folder
             if exist(obj.outputDir,'dir') ~= 0
                 try
