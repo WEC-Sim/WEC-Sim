@@ -763,11 +763,94 @@ Mooring Features
 .. include:: /_include/mooring.rst
 
 
+.. _user-advanced-features-paraview:
+
 Paraview Visualization
 ----------------------
 
 .. include:: /_include/viz.rst
 
+
+.. _user-advanced-features-WSviz:
+
+WEC-Sim Visualizations
+----------------------
+
+The WEC-Sim contains several built in methods inside the response class and wave 
+class to assist users in visualizing WEC-Sim output: ``output.plotForces``, 
+``output.plotResponse``, ``output.plotWaves``, ``waves.plotEta()``, and
+``waves.plotSpectrum``. This section will demonstrate the use of these methods. 
+They are fully documented in the WEC-Sim :ref:`dev-api`.
+
+Plot Forces
+^^^^^^^^^^^
+
+The ``responseClass.plotForces()`` method can be used to plot the time series of 
+each force component for a body. The first argument takes in a body number, the 
+second a degree of freedom of the force. For example, ``output.plotForces(2,3)``
+will plot the vertical forces that act on the 2nd body. The total force is split
+into its :ref:`components <theory-time-domain>`: 
+
+- total force
+- excitation force
+- radiation damping force
+- added mass force
+- restoring force (combination of buoyancy, gravity and hydrostatic stiffness), 
+- Morison element and viscous drag force
+- linear damping force
+
+.. figure:: /_static/images/OSWEC_heaveForces.PNG
+   :width: 250pt
+   :figwidth: 250pt
+   :align: center
+   
+   Demonstration of output.plotForces() method for the OSWEC example.
+
+
+Plot Response
+^^^^^^^^^^^^^
+
+The ``responseClass.plotResponse()`` method is very similar to ``plotForces`` 
+except that it will plot the time series of a bodies motion in a given degree 
+of freedom. For example, ``output.plotResponse(1,5)`` will plot the pitch motion
+of the 1st body. The position, velocity and acceleration of that body is shown.
+
+.. figure:: /_static/images/OSWEC_pitchResponse.PNG
+   :width: 250pt
+   :figwidth: 250pt
+   :align: center
+   
+   Demonstration of output.plotResponse() method for the OSWEC example.
+
+
+Plot Waves
+^^^^^^^^^^
+
+The ``responseClass.plotWaves()`` method can be used to create a complete 
+animation of the simulation. The animation shows the 3D response of all bodies
+over time on top of a surface plot of the entire directional wave field. The 
+default wave domain is defined by ``simu.domainSize``, ``waves.waterDepth``, and
+the maximum height that the STL mesh of any body reaches. Users may optionally 
+input the axis limits to restrict or widen the field of view, the timesteps per 
+animation frame and the output file format. Users can choose to save the animation
+as either a ``.gif`` or ``.avi`` file. This function can take significant time to 
+run depending on simulation time and time step, however it may be faster and easier 
+than Paraview. Users are still recommended to use the provided Paraview macros for 
+more complex animations.
+
+For example, in the OSWEC case the command 
+``plotWaves(output,simu,body,waves,'timesPerFrame',5,'axisLimits',[-50 50 -50 50 -12 20])``
+results in the following figure:
+
+.. figure:: /_static/images/OSWEC_plotWaves.PNG
+   :width: 250pt
+   :figwidth: 250pt
+   :align: center
+   
+   Demonstration of output.plotWaves() method for the OSWEC example.
+
+
+.. _user-advanced-features-decay:
 
 Decay Tests
 -----------
