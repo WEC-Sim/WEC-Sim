@@ -20,4 +20,5 @@ output.plotForces(1,3);
 output.plotForces(2,3);
 
 % %Save waves and response as video
-% output.plotWaves(simu,body,waves)
+% output.plotWaves(output,simu,body,waves,...
+%     'timesPerFrame',5,'axisLimits',[-50 50 -50 50 -12 20])
