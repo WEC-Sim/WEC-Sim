@@ -79,14 +79,33 @@ Install WEC-Sim
 ---------------
 
 Once you have downloaded the WEC-Sim source code, take the following steps to 
-install the WEC-Sim code. The directory where the WEC-Sim code is contained is 
+install the WEC-Sim code. The directory where the WEC-Sim code is saved is 
 referred to as ``$WECSIM`` (e.g. ``C:/User/Documents/GitHub/WEC-Sim``). 
 
-Step 1. Add WEC-Sim to MATLAB Path
+*Legacy versions added WEC-Sim to the MATLAB path using* **Legacy Step 1**. *which will be discontinued in the future releases.*
+
+Step 1. Add WEC-Sim to the MATLAB Path
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
 Open the ``$WECSIM`` folder and run the "activate_wecsim.m" script.
 
+
+Legacy Step 1. Add WEC-Sim to the MATLAB Path
+^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+(*will be discontinued in the future releases*)
+
+Open the ``$WECSIM/source/wecSimStartup.m`` file.
+
+.. literalinclude:: ../../source/wecSimStartup.m
+   :language: matlab
+
+Rename the ``wecSimStartup.m`` file ``startup.m`` and paste it into the `MATLAB 
+Startup Folder <https://www.mathworks.com/help/matlab/ref/startup.html>`_. Set 
+``<wecSim>`` to the ``$WECSIM/source`` directory, save the revised 
+``startup.m`` file, and restart MATLAB.
+
+Step 2. Verify the path
+^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 Verify the path was set up correctly by 
 checking that the WEC-Sim source directory, ``$WECSIM/source``, is listed in 
 the MATLAB search path. This is done by typing ``path`` in the MATLAB Command 
@@ -101,7 +120,7 @@ Window::
 The WEC-Sim source directory, ``$WECSIM/source``, and its subfolders should 
 appear in this list. 
 
-Step 2. Add WEC-Sim Library to Simulink
+Step 3. Add WEC-Sim Library to Simulink
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
 Open the Simulink Library Browser by typing ``slLibraryBrowser`` in the MATLAB 
@@ -122,7 +141,7 @@ and modifying library blocks refer to the `Simulink Documentation
 
    ..
 
-Step 3. Test the Installation
+Step 4. Test the Installation
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
 Both users and contributors can test the installation using the following steps.
@@ -146,4 +165,4 @@ Both the RM3 and the OSWEC examples (``$WECSIM/examples/OSWEC``) come ready-to-r
 
 .. Note:: 
 
-     The user must run the "activate_wecsim.m" script each time they start MATLAB to activate WEC-Sim Source code and libraries. The user can remove the WEC-Sim Source folder from MATLAB path by running the "deactivate_wecsim.m" script in the ``$WECSIM folder". However, it is advisable to let the Source stay in MATLAB path. 
+     The user must run the "activate_wecsim.m" script each time they start MATLAB to activate WEC-Sim Source code and libraries. The user can remove the WEC-Sim Source folder from MATLAB path by running the "deactivate_wecsim.m" script in the ``$WECSIM folder". However, it is advisable to let the Source stay on the MATLAB path. 
