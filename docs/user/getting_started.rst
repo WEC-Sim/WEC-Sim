@@ -86,13 +86,13 @@ referred to as ``$WECSIM`` (e.g. ``C:/User/Documents/GitHub/WEC-Sim``).
 Step 1. Add WEC-Sim to the MATLAB Path
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
-Open the ``$WECSIM/source/wecSimStartup.m`` file. 
+Open the ``$WECSIM/source/pathWecSim.m`` file. 
 Set ``<wecSim>`` to the ``$WECSIM/source`` directory.
 Rename the file to ``startup.m`` and save it in the `MATLAB 
 Startup Folder <https://www.mathworks.com/help/matlab/ref/startup.html>`_. 
 Restart MATLAB, and the ``$WECSIM/source`` directory will automatically be added to the MATLAB path.
 
-.. literalinclude:: ../../source/wecSimStartup.m
+.. literalinclude:: ../../source/pathWecSim.m
    :language: matlab
 
 .. Note:: 

@@ -37,7 +37,6 @@
 % Initialize WEC-Sim
 run('wecSimInputFile');
 simFile = simu.simMechanicsFile;
-% clearvars -except simFile
 clear simu waves body pto constraint ptosim mooring 
 
 runWecSimCML = 1;
