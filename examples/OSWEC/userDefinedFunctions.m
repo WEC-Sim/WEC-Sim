@@ -16,3 +16,6 @@ output.plotResponse(1,5);
 
 % Plot x forces for body 2
 plotForces(output,2,1)
+
+% %Save waves and response as video
+% output.plotWaves(simu,body,waves)

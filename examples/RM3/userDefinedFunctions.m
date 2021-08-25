@@ -18,3 +18,6 @@ output.plotForces(1,3);
 
 %Plot heave forces for body 2
 output.plotForces(2,3);
+
+% %Save waves and response as video
+% output.plotWaves(simu,body,waves)
