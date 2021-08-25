@@ -13,15 +13,15 @@ WEC-Sim is developed in MATLAB/Simluink, and requires the following toolboxes:
  
 ==========================  =============================
 **Required Toolbox**        **Oldest Compatible Version**
-MATLAB                      Version 9.7  (R2019b)
-Simulink                    Version 10.0 (R2019b)
-Simscape                    Version 4.7  (R2019b)
-Simscape Multibody          Version 7.0  (R2019b)
+MATLAB                      Version 9.8  (R2020a)
+Simulink                    Version 10.1 (R2020a)
+Simscape                    Version 4.8  (R2020a)
+Simscape Multibody          Version 7.1  (R2020a)
 ==========================  =============================
 
-WEC-Sim tests are run on MATLAB R2020a and newer, so those versions are tested and stable, refer to :ref:`dev-overview-tests` for more information. 
-However, WEC-Sim's Simulink Library is saved in MATLAB R2019b, so any newer MATLAB 
-release should be compatible with WEC-Sim. 
+WEC-Sim tests are run on MATLAB R2020a and newer, and WEC-Sim's Simulink Library is saved in MATLAB R2020a.
+Any version of MATLAB newer than 2020a should be compatible with WEC-Sim. 
+The stability of each MATLAB release is available via GitHub Actions, refer to :ref:`dev-overview-tests` for more information. 
 Certain advanced features rely on external functions, such as :ref:`mooring-moordyn`, and 
 additional MATLAB Toolboxes, such as :ref:`user-advanced-features-pct`. 
 
@@ -33,13 +33,12 @@ by typing ``ver`` in the MATLAB Command Window:
 
     >> ver
     -----------------------------------------------------------------------------------------------------
-    MATLAB Version: 9.7.0.1434023 (R2019b) 
+    MATLAB Version: 9.8.0.1451342 (R2020a) 
     -----------------------------------------------------------------------------------------------------
-    MATLAB                                                Version 9.7         (R2019b)
-    Simulink                                              Version 10.0        (R2019b)
-    Simscape                                              Version 4.7         (R2019b)
-    Simscape Multibody                                    Version 7.0         (R2019b)
-    Parallel Computing Toolbox                            Version 7.1         (R2019b)
+    MATLAB                                                Version 9.8         (R2020a)
+    Simulink                                              Version 10.1        (R2020a)
+    Simscape                                              Version 4.8         (R2020a)
+    Simscape Multibody                                    Version 7.1         (R2020a)
 
 
 Download WEC-Sim
