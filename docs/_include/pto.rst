@@ -156,9 +156,9 @@ efficiency, torque, and angular velocity is needed and should be named as ``tabl
 in Workspace (``table.eff``, ``table.Tpu``,and ``table.omegapu``). An example 
 lookup table and variable motor volume file can be found and downloaded from the `WEC-Sim Applications 
 <https://github.com/WEC-Sim/WEC-Sim_Applications>`_ repository in the `PTO-Sim 
-<http://wec-sim.github.io/WEC-Sim/advanced_features.html#pto-sim>`_ folder.
-  More details, refer to `Step 8`_. In 
-summary, the files need to run RM3 with PTO-Sim case are the following: 
+<http://wec-sim.github.io/WEC-Sim/advanced_features.html#pto-sim>`_ folder. For
+more details, refer to `Step 8`_. In summary, the files need to run RM3 with
+PTO-Sim case are the following: 
 
 * WEC-Sim input file: ``wecSimInputFile.m`` (make sure to set the PTO linear 
   damping to zero)
