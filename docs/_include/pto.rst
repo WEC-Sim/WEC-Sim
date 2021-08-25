@@ -268,9 +268,11 @@ hydraulic motor. The figure below shows how to connect all the blocks together.
 In this section, the PTO-Sim input file (``ptoSimInputFile.m``) is defined and 
 categorized into sections such as piston, rectifying check valve, high pressure 
 accumulator, hydraulic motor, low pressure accumulator, and rotary generator. 
+  
+.. _PTOSimInput:
 
-.. literalinclude:: ../../examples/RM3/ptoSimInputFile.m
-   :language: matlab
+.. rli:: https://raw.githubusercontent.com/WEC-Sim/WEC-Sim_Applications/master/PTO-Sim/RM3/RM3_Hydraulic_PTO/ptoSimInputFile.m
+   :language: matlab   
 
 **Simulation and Post-processing**
 
