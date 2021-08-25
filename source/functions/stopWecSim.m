@@ -1,4 +1,4 @@
-%% wecSimStopFunction
+%% wecSimFinalize
 % Post processing and save functions that are performed after simulation
 % has ended. These functions were pulled from the wecSim.m file, following
 % the command to simulate the Simulink model.
@@ -50,3 +50,17 @@ end
 try 
     cd (['..' filesep parallelComputing_dir filesep '..' filesep]); 
 end
+
+%% Remove 'temp' directory
+
+% Store root directory of this *.m file
+% projectRootDir = pwd;
+
+% Remove 'temp' directory from path and remove 'temp' directory
+rmpath(fullfile(projectRootDir,'temp'));
+rmdir(fullfile(projectRootDir,'temp'),'s');
+
+% Reset the loction of Simulink-generated files
+Simulink.fileGenControl('reset');
+
+clear projectRootDir
