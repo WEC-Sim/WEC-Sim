@@ -1,11 +1,14 @@
-% Root directory of this running .m file
+% Store root directory of this *.m file
 projectRootDir = pwd;
 
-% Remove project directories from path
+% Remove WEC-Sim 'source' directory to path
 rmpath(fullfile(projectRootDir,genpath('source')));
-% rmpath(fullfile(projectRootDir,genpath('models')));
-rmpath(fullfile(projectRootDir,'work'));
+
+% Remove 'temp' directory from path and remove 'temp' directory
+rmpath(fullfile(projectRootDir,'temp'));
+rmdir(fullfile(projectRootDir,'temp'),'s');
+
 % Reset the loction of Simulink-generated files
 Simulink.fileGenControl('reset');
-% leave no trace...
+
 clear projectRootDir
