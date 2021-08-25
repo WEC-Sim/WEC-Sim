@@ -755,9 +755,11 @@ External blocks may be linked to the standard WEC-Sim library to implement
 controllers, additional bodies, complex power take-offs and other custom designs.
 
 .. Note::
-    Gravity is not used in WEC-Sim, and is instead defined as a force that is 
+    The Simulink Mechanism Configuration for automatic gravity calculations is
+    not used in WEC-Sim. Gravity is instead defined as a force that is 
     combined with the buoyancy force. 
     Users who wish to add external bodies should account for gravity by:
+    
     1. Create nonhydrodynamic bodies with zero displaced volume, or
     2. Manually add the gravity force into their external functionality
 
