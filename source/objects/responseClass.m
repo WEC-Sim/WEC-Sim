@@ -318,6 +318,170 @@ classdef responseClass<handle
             clear t FT FE FRD FR FV FM i
         end
         
+        function plotWaves(obj,simu,body,waves,options)
+            % This method plots the wave elevation and body geometry over
+            % time to visualize the waves and response
+            %
+            % Parameters
+            % ------------
+            %     simu :
+            %         simulationClass object
+            %
+            %     body :
+            %         bodyClass object
+            %
+            %     waves : 
+            %         waveClass object
+            %
+            %     options 
+            %         axisLimits : 1x6 float matrix
+            %             x, y, and z-bounds of figure axes in the format:
+            %             [min x, max x, min y, max y, min z, max z]
+            %             Default = [-simu.domainSize/2 simu.domainSize/2
+            %             -simu.domainSize/2 simu.domainSize/2 -waves.waterDepth maximumHeight]
+            %         timesPerFrame : float
+            %             number of simulation time steps per video frame 
+            %             (higher number decreases computation time)
+            %             Default = 1
+            %         saveSetting : integer
+            %             0 = video, 1 = gif. Default = 0
+            %     
+            
+            arguments
+                obj
+                simu
+                body
+                waves
+                options.axisLimits (1,6) double {mustBeReal, mustBeNonNan, mustBeFinite} = [-simu.domainSize/2 simu.domainSize/2 -simu.domainSize/2 simu.domainSize/2 -waves.waterDepth -999];
+                options.timesPerFrame (1,1) double {mustBeReal, mustBeNonnegative, mustBeNonNan, mustBeFinite} = 1;
+                options.saveSetting (1,1) double {mustBeNumericOrLogical} = 0;
+            end
+            
+            % Set time vector
+            t = obj.wave.time(1:options.timesPerFrame*round(simu.dtOut/simu.dt,0):end,1);
+%             t = obj.wave.time(1:options.timesPerFrame:end,1);
+            
+            % Create grid using provided x and y coordinates
+            x = linspace(options.axisLimits(1),options.axisLimits(2),200);
+            y = linspace(options.axisLimits(3),options.axisLimits(4),200);
+            [X,Y] = meshgrid(x,y);
+            
+            % Initialize maximum body height
+            maxHeight = 0;
+
+            % Read in data for each body
+            for ibod=1:length(obj.bodies)
+                % Read and assign geometry data
+                readBodyMesh = stlread(body(ibod).geometryFile);
+                bodyMesh(ibod).Points = readBodyMesh.Points;
+                bodyMesh(ibod).Conns = readBodyMesh.ConnectivityList;
+                
+                % Read changes and assign angles and position changes over time
+                bodyMesh(ibod).deltaPos = [obj.bodies(ibod).position(1:options.timesPerFrame:end,1)-obj.bodies(ibod).position(1,1),... 
+                obj.bodies(ibod).position(1:options.timesPerFrame:end,2)-obj.bodies(ibod).position(1,2),...
+                obj.bodies(ibod).position(1:options.timesPerFrame:end,3)-obj.bodies(ibod).position(1,3)];
+            
+                % Save maximum body height
+                if max(bodyMesh(ibod).Points(:,3))+max(bodyMesh(ibod).deltaPos(:,3)) > maxHeight
+                    maxHeight = max(bodyMesh(ibod).Points(:,3))+max(bodyMesh(ibod).deltaPos(:,3));
+                end
+            end
+            
+            if options.axisLimits(6) == -999
+                options.axisLimits(6) = maxHeight;
+            end
+            
+            if options.saveSetting == 0
+                % Create video file and open it for writing
+                video = VideoWriter('waveVisualization.avi'); 
+                video.FrameRate = 1/(simu.dtOut*options.timesPerFrame); 
+                open(video); 
+            elseif options.saveSetting == 1
+                % Create the gif file
+                gifFilename = 'waveVisualization.gif';
+            end
+            
+            % Initialize figure
+            figure();
+
+            for i=1:length(t)
+                for ibod=1:length(obj.bodies)
+                    % Apply rotation to each point
+                    rotMat = eulXYZ2RotMat(obj.bodies(ibod).position(1+options.timesPerFrame*(i-1),4), ...
+                        obj.bodies(ibod).position(1+options.timesPerFrame*(i-1),5), ...
+                        obj.bodies(ibod).position(1+options.timesPerFrame*(i-1),6));
+                    for ipts=1:length(bodyMesh(ibod).Points(:,1))
+                        bodyMesh(ibod).rotation(ipts,:) = (rotMat*bodyMesh(ibod).Points(ipts,:).').';
+                    end
+
+                    % Calculate full position changes due to rotation,
+                    % translation, and center of gravity
+                    bodyMesh(ibod).pointsNew = bodyMesh(ibod).rotation + bodyMesh(ibod).deltaPos(i,:) + body(ibod).cg.';
+                    
+                    % Create and plot final triangulation of geometry with applied changes
+                    bodFinal = triangulation(bodyMesh(ibod).Conns,bodyMesh(ibod).pointsNew);
+                    trisurf(bodFinal,'FaceColor',[1 1 0],'EdgeColor','k','EdgeAlpha',.2)
+                    hold on
+                end
+                
+                % Create and wave elevation grid
+                Z = waveElevationGrid(waves, t(i), X, Y, t(i), simu.dtOut, simu.g);
+                surf(X,Y,Z,'FaceAlpha',.85,'EdgeColor','none')
+                hold on
+                
+                % Display seafloor
+                seaFloor = -waves.waterDepth*ones(size(X, 1));
+                surf(X,Y,seaFloor,'FaceColor',[.4 .4 0],'EdgeColor','none');
+                hold on
+                
+                % Time visual
+                nDecimals = max(0,ceil(-log10(simu.dtOut*options.timesPerFrame)));
+                nLeading = ceil(log10(max(t)));
+                tAnnot = sprintf(['time = %' num2str(nDecimals+nLeading+1) '.' num2str(nDecimals) 'f s'],t(i));
+                
+                % Settings and labels
+                caxis([min(-waves.A) max(waves.A)])
+                colormap winter
+                c = colorbar;
+                ylabel(c, 'Wave Elevation (m)')
+                title({'Wave Elevation and Geometry Visualization',tAnnot})
+                xlabel('x(m)')
+                ylabel('y(m)')
+                zlabel('z(m)')
+                daspect([1 1 1])
+                axis(options.axisLimits)
+
+                % Create figure while iterating through time loop
+                drawnow;
+                
+                % Capture figure for saving
+                frame = getframe(gcf);
+                
+                if options.saveSetting == 0
+                    % Save to video
+                    writeVideo(video,frame); 
+                elseif options.saveSetting == 1
+                    % Save to gif
+                    im = frame2im(frame); 
+                    [imind,cm] = rgb2ind(im,256); 
+                    if i == 1 
+                        imwrite(imind,cm,gifFilename,'gif', 'Loopcount',inf); 
+                    else 
+                        imwrite(imind,cm,gifFilename,'gif','WriteMode','append','DelayTime',simu.dtOut); 
+                    end 
+                end
+ 
+                hold off
+               
+            end
+            
+            % Close video file
+            if options.saveSetting == 0
+                close(video); 
+            end
+            
+        end
+        
         function writetxt(obj)
             % This method writes WEC-Sim outputs to a (ASCII) text file.
             % This method is executed by specifying ``simu.outputtxt=1``
