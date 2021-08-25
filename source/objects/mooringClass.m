@@ -39,7 +39,6 @@ classdef mooringClass<handle
         loc                     = []                                            % (`float 1 x 6`) Initial 6DOF location. Default = ``[0 0 0 0 0 0]``
         mooringNum              = []                                            % (`integer`) Mooring number. Default = ``'NOT DEFINED'``
         moorDyn                 = 0                                             % (`integer`) Flag to indicate a MoorDyn block, 0 or 1. Default = ``0``
-        moorDynInputRaw         = []                                            % (`string`) MoorDyn input file, each line read as a string into a cell array. Default = ``'NOT DEFINED'``
     end
 
     methods (Access = 'public')                                        
@@ -101,11 +100,7 @@ classdef mooringClass<handle
             obj.initDisp.initAngularDispAngle = netAngle;
             
         end
-
-        function obj = moorDynInput(obj)
-            % Method to read MoorDyn input file
-        end
-
+        
         function listInfo(obj)
             % Method to list mooring info
             fprintf('\n\t***** Mooring Name: %s *****\n',obj.name)
