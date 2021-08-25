@@ -778,7 +778,7 @@ WEC-Sim Visualization
 
 The WEC-Sim contains several built in methods inside the response class and wave 
 class to assist users in visualizing WEC-Sim output: ``output.plotForces``, 
-``output.plotResponse``, ``output.plotWaves``, ``waves.plotEta()``, and
+``output.plotResponse``, ``output.plotWaves``, ``waves.plotEta``, and
 ``waves.plotSpectrum``. This section will demonstrate the use of these methods. 
 They are fully documented in the WEC-Sim :ref:`dev-api`.
 
@@ -811,7 +811,7 @@ Plot Response
 ^^^^^^^^^^^^^
 
 The ``responseClass.plotResponse()`` method is very similar to ``plotForces`` 
-except that it will plot the time series of a bodies motion in a given degree 
+except that it will plot the time series of a body's motion in a given degree 
 of freedom. For example, ``output.plotResponse(1,5)`` will plot the pitch motion
 of the 1st body. The position, velocity and acceleration of that body is shown.
 
@@ -832,11 +832,11 @@ over time on top of a surface plot of the entire directional wave field. The
 default wave domain is defined by ``simu.domainSize``, ``waves.waterDepth``, and
 the maximum height that the STL mesh of any body reaches. Users may optionally 
 input the axis limits to restrict or widen the field of view, the timesteps per 
-animation frame and the output file format. Users can choose to save the animation
+animation frame, and the output file format. Users can choose to save the animation
 as either a ``.gif`` or ``.avi`` file. This function can take significant time to 
 run depending on simulation time and time step, however it may be faster and easier 
 than Paraview. Users are still recommended to use the provided Paraview macros for 
-more complex animations.
+more complex animations and analysis.
 
 For example, in the OSWEC case the command 
 ``plotWaves(output,simu,body,waves,'timesPerFrame',5,'axisLimits',[-50 50 -50 50 -12 20])``
