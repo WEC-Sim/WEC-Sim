@@ -852,7 +852,7 @@ than Paraview. Users are still recommended to use the provided Paraview macros f
 more complex animations and analysis.
 
 For example, in the OSWEC case the command 
-``output.plotWaves(output,simu,body,waves,'timesPerFrame',5,'axisLimits',[-50 50 -50 50 -12 20])``
+``output.plotWaves(simu,body,waves,'timesPerFrame',5,'axisLimits',[-50 50 -50 50 -12 20])``
 results in the following figure:
 
 .. figure:: /_static/images/OSWEC_plotWaves.PNG
