@@ -199,7 +199,7 @@ The Simulink model can be built as follows:
   motion is driving the piston, the selection index of each selector needs to be 
   changed to 3.
 
-.. figure:: /_static/images/selectors.PNG
+.. figure:: /_static/images/SELECTORS.PNG
    :width: 500pt
 
 * Step 5: Go to Simulink Library Browser to access the PTO-Sim Library. 
@@ -303,7 +303,7 @@ Steps 1 through 3 are the same as in :ref:`pto-rm3-hydraulic`.
   the selector, the input port size and selection index should again be 
   changed to 6 and 3, respectively.
 
-.. figure:: /_static/images/SELECTORS.PNG
+.. figure:: /_static/images/SELECTORS2.PNG
    :width: 500pt
 
 * Step 5: Go to PTO-Sim library.
