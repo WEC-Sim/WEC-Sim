@@ -104,7 +104,7 @@ classdef mooringClass<handle
 
         function obj = moorDynInput(obj)
             % Method to read MoorDyn input file
-            obj.moorDynInputRaw = textread('./mooring/lines.txt', '%s', 'delimiter', '\n');
+            obj.moorDynInputRaw = textread('./Mooring/lines.txt', '%s', 'delimiter', '\n');
         end
 
         function listInfo(obj)
