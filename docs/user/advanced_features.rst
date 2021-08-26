@@ -109,7 +109,7 @@ setting for ``simu.reloadH5Data`` in the WEC-Sim input file.
 Running as Function 
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
-WEC-Sim allows users to execute WEC-Sim as a funection by using ``wecSimFcn``.
+WEC-Sim allows users to execute WEC-Sim as a function by using ``wecSimFcn``.
 
 
 
