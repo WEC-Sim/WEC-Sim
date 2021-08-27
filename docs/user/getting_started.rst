@@ -93,7 +93,7 @@ options to do this:
 
 Open ``$WECSIM/addWecSimSource.m`` and copy contents to a new file called ``startup.m``. 
 Set ``wecSimSource`` variable to the local ``$WECSIM/source`` directory, eg. ``wecSimSource = 'path\to\WEC-Sim\source``.
-Save ``startup.m`` in the `MATLAB Startup Folder <https://www.mathworks.com/help/matlab/ref/startup.html>`_. 
+Save ``startup.m`` to the `MATLAB Startup Folder <https://www.mathworks.com/help/matlab/ref/startup.html>`_. 
 Restart MATLAB, and the ``$WECSIM/source`` directory will automatically be added to the MATLAB path.
 
 
