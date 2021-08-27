@@ -13,17 +13,18 @@ WEC-Sim is developed in MATLAB/Simluink, and requires the following toolboxes:
  
 ==========================  =============================
 **Required Toolbox**        **Oldest Compatible Version**
-MATLAB                      Version 9.7  (R2019b)
-Simulink                    Version 10.0 (R2019b)
-Simscape                    Version 4.7  (R2019b)
-Simscape Multibody          Version 7.0  (R2019b)
+MATLAB                      Version 9.8  (R2020a)
+Simulink                    Version 10.1 (R2020a)
+Simscape                    Version 4.8  (R2020a)
+Simscape Multibody          Version 7.1  (R2020a)
 ==========================  =============================
 
-WEC-Sim tests are run on MATLAB R2020a and newer, so those versions are tested and stable, refer to :ref:`dev-overview-tests` for more information. 
-However, WEC-Sim's Simulink Library is saved in MATLAB R2019b, so any newer MATLAB 
-release should be compatible with WEC-Sim. 
-Certain advanced features rely on external functions, such as :ref:`mooring-moordyn`, 
-and additional MATLAB Toolboxes, such as :ref:`user-advanced-features-pct`. 
+WEC-Sim tests are run on MATLAB R2020a and newer, and WEC-Sim's Simulink Library is saved in MATLAB R2020a.
+Any version of MATLAB newer than 2020a should be compatible with WEC-Sim. 
+The stability of each MATLAB release is available via GitHub Actions, refer to :ref:`dev-overview-tests` for more information. 
+Certain advanced features rely on external functions, such as :ref:`mooring-moordyn`, and 
+additional MATLAB Toolboxes, such as :ref:`user-advanced-features-pct`. 
+
 
 Verify that the correct version of MATLAB and required toolboxes are installed 
 by typing ``ver`` in the MATLAB Command Window: 
@@ -32,13 +33,12 @@ by typing ``ver`` in the MATLAB Command Window:
 
     >> ver
     -----------------------------------------------------------------------------------------------------
-    MATLAB Version: 9.7.0.1434023 (R2019b) 
+    MATLAB Version: 9.8.0.1451342 (R2020a) 
     -----------------------------------------------------------------------------------------------------
-    MATLAB                                                Version 9.7         (R2019b)
-    Simulink                                              Version 10.0        (R2019b)
-    Simscape                                              Version 4.7         (R2019b)
-    Simscape Multibody                                    Version 7.0         (R2019b)
-    Parallel Computing Toolbox                            Version 7.1         (R2019b)
+    MATLAB                                                Version 9.8         (R2020a)
+    Simulink                                              Version 10.1        (R2020a)
+    Simscape                                              Version 4.8         (R2020a)
+    Simscape Multibody                                    Version 7.1         (R2020a)
 
 
 Download WEC-Sim
@@ -86,27 +86,29 @@ referred to as ``$WECSIM`` (e.g. ``C:/User/Documents/GitHub/WEC-Sim``).
 Step 1. Add WEC-Sim to the MATLAB Path
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
-Open the ``$WECSIM/source/wecSimStartup.m`` file. 
-Set ``<wecSim>`` to the ``$WECSIM/source`` directory.
-Rename the file to ``startup.m`` and save it in the `MATLAB 
-Startup Folder <https://www.mathworks.com/help/matlab/ref/startup.html>`_. 
+To run WEC-Sim, the source directory must be on the MATLAB path. Users have two 
+options to do this:
+
+**Option 1. Automatically add the WEC-Sim source on MATLAB startup.**
+
+Open ``$WECSIM/addWecSimSource.m`` and copy contents to a new file called ``startup.m``. 
+Set ``wecSimSource`` variable to the local ``$WECSIM/source`` directory, eg. ``wecSimSource = 'path\to\WEC-Sim\source``.
+Save ``startup.m`` to the `MATLAB Startup Folder <https://www.mathworks.com/help/matlab/ref/startup.html>`_. 
 Restart MATLAB, and the ``$WECSIM/source`` directory will automatically be added to the MATLAB path.
 
-.. literalinclude:: ../../source/wecSimStartup.m
+
+.. literalinclude:: ../../addWecSimSource.m
    :language: matlab
 
-.. Note:: 
-     This option automatically adds the WEC-Sim source directory to the path whenever MATLAB is opened. 
 
+**Option 2. Manually add and remove the WEC-Sim source from the MATLAB path.**
 
-Alternatively, users can navigate to the ``$WECSIM`` directory and run ``activate_wecsim``.
+This option requires users to run ``addWecSimSource`` each time MATLAB is opened
+to add the WEC-Sim source directory to the path.
+Navigate to the ``$WECSIM`` directory and run ``addWecSimSource``.
 The ``$WECSIM/source`` directory will then be added to the MATLAB path for this instance of MATLAB.
-
-.. Note:: 
-     This option requires users to run ``activate_wecsim`` each time MATLAB
-     is opened to add the WEC-Sim source directory to the path. Users can 
-     remove the WEC-Sim source from MATLAB path by navigating to the ``$WECSIM`` 
-     directory and running ``deactivate_wecsim``. 
+To remove WEC-Sim from the path, run ``removeWecSimSource``. 
+Both scripts must be run from the ``$WEC-Sim`` directory.
 
 
 Step 2. Verify the Path
