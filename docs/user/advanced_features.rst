@@ -782,7 +782,6 @@ Paraview Visualization
 
 .. include:: /_include/viz.rst
 
-.. _user-advanced-features-decay:
 
 .. _user-advanced-features-WSviz:
 
