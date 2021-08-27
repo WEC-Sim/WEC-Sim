@@ -146,7 +146,8 @@ end
 simu.numWecBodies = numHydroBodies; clear numHydroBodies
 simu.numDragBodies = numDragBodies; clear numDragBodies
 for ii = 1:simu.numWecBodies
-    body(ii).checkinputs(simu.morisonElement);
+%     body(ii).checkinputs(simu.morisonElement);
+    body(ii).checkinputs(body(ii).morisonElement.option);
     %Determine if hydro data needs to be reloaded from h5 file, or if hydroData
     % was stored in memory from a previous run.
     if exist('totalNumOfWorkers','var') ==0 && exist('mcr','var') == 1 && simu.reloadH5Data == 0 && imcr > 1
@@ -206,7 +207,7 @@ end
 
 % Non-linear hydro
 for kk = 1:length(body(1,:))
-    if (simu.nlHydro(kk) >0) || (simu.paraview == 1)
+    if (body(kk).nlHydro >0) || (simu.paraview == 1)
         body(kk).bodyGeo(body(kk).geometryFile)
     end
 end; clear kk
@@ -217,7 +218,7 @@ if ~isempty(idx)
     for kk = 1:length(idx)
         it = idx(kk);
         body(it).hydroForcePre(waves.w,waves.waveDir,simu.CIkt,simu.CTTime,waves.numFreq,simu.dt,...
-            simu.rho,simu.g,waves.type,waves.waveAmpTime,kk,simu.numWecBodies,simu.ssCalc,simu.nlHydro,simu.b2b,simu.yawNonLin);
+            simu.rho,simu.g,waves.type,waves.waveAmpTime,kk,simu.numWecBodies,simu.ssCalc,body(it).nlHydro,simu.b2b,simu.yawNonLin);
     end; clear kk idx
 end
 
@@ -269,82 +270,72 @@ for ii = 1:simu.numWecBodies
 end; clear ii;
 
 % Check for etaImport with nlHydro
-if strcmp(waves.type,'etaImport') && simu.nlHydro == 1
-    error(['Cannot run WEC-Sim with non-linear hydro (simu.nlHydro) and "etaImport" wave type'])
+for ii = 1:simu.numWecBodies
+    if strcmp(waves.type,'etaImport') && body(ii).nlHydro == 1
+        error(['Cannot run WEC-Sim with non-linear hydro (body(ii).nlHydro) and "etaImport" wave type'])
+    end
 end
 
 % Check for etaImport with morisonElement
-if strcmp(waves.type,'etaImport') && simu.morisonElement ~= 0
-    error(['Cannot run WEC-Sim with Morrison Element (simu.morisonElement) and "etaImport" wave type'])
+for ii = 1:simu.numWecBodies
+    if strcmp(waves.type,'etaImport') && body(ii).morisonElement.option ~= 0
+        error(['Cannot run WEC-Sim with Morrison Element (body(ii).morisonElement.option>0) and "etaImport" wave type'])
+    end
 end
 
-% Check for morisonElement inputs for simu.morisonElement == 1 || simu.morisonElement == 2
-if length(simu.morisonElement) == 1 && simu.morisonElement == 0
-    warning(['"simu.morisonElement" needs to be a [n x 1] column vector where n is the number of bodies. WEC-Sim has assumed no bodies have active Morison Elements.'])
-    simu.morisonElement = zeros(length(body(1,:)),1);
-else
-    if length(body(1,:))==length(simu.morisonElement)
-        for ii = 1:length(body(1,:))
-            if simu.morisonElement(ii) == 1
-                if body(ii).nhBody ~=1
-                    [rgME,~] = size(body(ii).morisonElement.rgME);
-                    for jj = 1:rgME
-                        if true(isfinite(body(ii).morisonElement.z(jj,:))) == true
-                            warning(['"body.morisonElement.z" is not used for "simu.morisonElement = 1. Check body ',num2str(ii),' element ',num2str(jj)])
-                        end
-                        if (body(ii).morisonElement.cd(jj,3)) == 1 || isnan(body(ii).morisonElement.ca(jj,3)) == 1 || isnan(body(ii).morisonElement.characteristicArea(jj,3)) == 1
-                            error(['cd, ca, and characteristicArea coefficients for each elelement for "simu.morisonElement = 1" must be of size [1x3] and all columns of data must be real and finite. Check body ',num2str(ii),' element ',num2str(jj),' coefficients'])
-                        end
-                    end; clear jj
-                else
-                    if simu.morisonElement(ii) ==1 || simu.morisonElement(ii) ==2
-                        warning(['Morison elements are not available for non-hydro bodies. Please check body ',num2str(ii),' inputs.'])
-                    end
+% Check for morisonElement inputs for body(ii).morisonElement.option == 1 || body(ii).morisonElement.option == 2
+for ii = 1:length(body(1,:))
+    if body(ii).morisonElement.option == 1
+        if body(ii).nhBody ~=1
+            [rgME,~] = size(body(ii).morisonElement.rgME);
+            for jj = 1:rgME
+                if true(isfinite(body(ii).morisonElement.z(jj,:))) == true
+                    warning(['"body.morisonElement.z" is not used for "simu.morisonElement = 1. Check body ',num2str(ii),' element ',num2str(jj)])
                 end
-            elseif simu.morisonElement(ii) == 2
-                if body(ii).nhBody ~=1
-                    [rgME,~] = size(body(ii).morisonElement.rgME);
-                    for jj = 1:rgME
-                        if body(ii).morisonElement.cd(jj,3) ~= 0 || body(ii).morisonElement.ca(jj,3) ~= 0 || body(ii).morisonElement.characteristicArea(jj,3) ~= 0
-                            warning(['cd, ca, and characteristicArea coefficients for "simu.morisonElement == 2" must be of size [1x2], third column of data is not used. Check body ',num2str(ii),' element ',num2str(jj),' coefficients'])
-                        end
-                    end; clear jj
-                else
-                    if simu.morisonElement(ii) ==1 || simu.morisonElement(ii) ==2
-                        warning(['Morison elements are not available for non-hydro bodies. Please check body ',num2str(ii),' inputs.'])
-                    end
+                if (body(ii).morisonElement.cd(jj,3)) == 1 || isnan(body(ii).morisonElement.ca(jj,3)) == 1 || isnan(body(ii).morisonElement.characteristicArea(jj,3)) == 1
+                    error(['cd, ca, and characteristicArea coefficients for each elelement for "simu.morisonElement = 1" must be of size [1x3] and all columns of data must be real and finite. Check body ',num2str(ii),' element ',num2str(jj),' coefficients'])
                 end
-            end; clear ii
+            end; clear jj
+        else
+            if body(ii).morisonElement.option == 1 || body(ii).morisonElement.option == 2
+                warning(['Morison elements are not available for non-hydro bodies. Please check body ',num2str(ii),' inputs.'])
+            end
         end
-    else
-        error(['Cannot run WEC-Sim with simu.morisonElement not set for each body. "simu.morisonElement" needs to be a [n x 1] column vector where n is the number of bodies.'])
-    end
+    elseif body(ii).morisonElement.option == 2
+        if body(ii).nhBody ~=1
+            [rgME,~] = size(body(ii).morisonElement.rgME);
+            for jj = 1:rgME
+                if body(ii).morisonElement.cd(jj,3) ~= 0 || body(ii).morisonElement.ca(jj,3) ~= 0 || body(ii).morisonElement.characteristicArea(jj,3) ~= 0
+                    warning(['cd, ca, and characteristicArea coefficients for "simu.morisonElement == 2" must be of size [1x2], third column of data is not used. Check body ',num2str(ii),' element ',num2str(jj),' coefficients'])
+                end
+            end; clear jj
+        else
+            if body(ii).morisonElement.option ==1 || body(ii).morisonElement.option ==2
+                warning(['Morison elements are not available for non-hydro bodies. Please check body ',num2str(ii),' inputs.'])
+            end
+        end
+    end; clear ii
 end
 
 %% Set variant subsystems options
 % nlHydro Activation
-nlHydro = simu.nlHydro;
 for ii=1:length(body(1,:))
-%     if body(ii).nhBody~=1 || body(ii).nhbody~=2
     if body(ii).nhBody==0
-        %Nonlinear FK Force Variant Subsystem
-        eval(['nonLinearHydro_' num2str(ii) ' = nlHydro(ii);']);
+        % Nonlinear FK Force Variant Subsystem
+        eval(['nonLinearHydro_' num2str(ii) ' = body(ii).nlHydro;']);
         eval(['sv_b' num2str(ii) '_linearHydro = Simulink.Variant(''nonLinearHydro_', num2str(ii), '==0'');']);
         eval(['sv_b' num2str(ii) '_nonlinearHydro=Simulink.Variant(''nonLinearHydro_', num2str(ii), '>0'');']);
-%         eval(['sv_b' num2str(ii) '_linearHydro = Simulink.Variant(''nlHydro==0'');'])
-%         eval(['sv_b' num2str(ii) '_nonlinearHydro=Simulink.Variant(''nlHydro>0'');'])
-        %
+        % Nonlinear Wave Elevation Variant Subsystem
         eval(['sv_b' num2str(ii) '_meanFS=Simulink.Variant(''nonLinearHydro_', num2str(ii), '<2'');']);
         eval(['sv_b' num2str(ii) '_instFS=Simulink.Variant(''nonLinearHydro_', num2str(ii), '==2'');']);
     end
 end; clear ii;
 % yawNonLin Activation
 yawNonLin=simu.yawNonLin;
-% Morrison Element
-morisonElement = simu.morisonElement;
+% Morrison Element Activation
 for ii=1:length(body(1,:))
     if body(ii).nhBody ~=1
-    eval(['morisonElement_' num2str(ii) ' = morisonElement(ii);'])
+    eval(['morisonElement_' num2str(ii) ' = body(ii).morisonElement.option;'])
     eval(['sv_b' num2str(ii) '_MEOff = Simulink.Variant(''morisonElement_' num2str(ii) '==0'');'])
     eval(['sv_b' num2str(ii) '_MEOn = Simulink.Variant(''morisonElement_' num2str(ii) '==1 || morisonElement_' num2str(ii) '==2'');'])
     end
@@ -381,7 +372,6 @@ for ii=1:length(body(1,:))
     eval(['sv_b' num2str(ii) '_dragBody = Simulink.Variant(''nhbody_' num2str(ii) '==2'');'])
 %    eval(['sv_b' num2str(ii) '_rigidBody = Simulink.Variant(''nhbody_' num2str(ii) '==0'');'])
 end; clear ii
-
 
 %% End Pre-Processing and Output All the Simulation and Model Setting
 toc
