@@ -86,27 +86,31 @@ referred to as ``$WECSIM`` (e.g. ``C:/User/Documents/GitHub/WEC-Sim``).
 Step 1. Add WEC-Sim to the MATLAB Path
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
-Open the ``$WECSIM/source/pathWecSim.m`` file. 
-Set ``<wecSim>`` to the ``$WECSIM/source`` directory.
-Rename the file to ``startup.m`` and save it in the `MATLAB 
+To run WEC-Sim, the source directory must be on the MATLAB path. Users have two 
+options to do this:
+
+**1. Automatically add the WEC-Sim source on MATLAB startup.**
+
+Open the ``$WECSIM/addWecSimSource.m`` function. 
+Set the variable ``wecSimSource`` to the local ``$WECSIM/source`` directory.
+Copy the two lines of relevant code to ``startup.m`` in the `MATLAB 
 Startup Folder <https://www.mathworks.com/help/matlab/ref/startup.html>`_. 
 Restart MATLAB, and the ``$WECSIM/source`` directory will automatically be added to the MATLAB path.
+Note that MATLAB no longer contains a startup.m file by default. However users may
+create one in the startup folder that will run every time MATLAB opens.
 
-.. literalinclude:: ../../source/pathWecSim.m
+.. literalinclude:: ../../addWecSimSource.m
    :language: matlab
 
-.. Note:: 
-     This option automatically adds the WEC-Sim source directory to the path whenever MATLAB is opened. 
 
+**2. Manually add and remove the WEC-Sim source from the MATLAB path.**
 
-Alternatively, users can navigate to the ``$WECSIM`` directory and run ``addWecSim``.
+This option requires users to run ``addWecSimSource`` each time MATLAB is opened
+to add the WEC-Sim source directory to the path.
+Navigate to the ``$WECSIM`` directory and run ``addWecSimSource``.
 The ``$WECSIM/source`` directory will then be added to the MATLAB path for this instance of MATLAB.
-
-.. Note:: 
-     This option requires users to run ``addWecSim`` each time MATLAB
-     is opened to add the WEC-Sim source directory to the path. Users can 
-     remove the WEC-Sim source from MATLAB path by navigating to the ``$WECSIM`` 
-     directory and running ``removeWecSim``. 
+The ``removeWecSimSource`` function may be used to remove WEC-Sim from the path. 
+Both functions must be run from the ``$WEC-Sim`` directory.
 
 
 Step 2. Verify the Path
