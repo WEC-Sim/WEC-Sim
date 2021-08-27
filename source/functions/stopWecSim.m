@@ -1,4 +1,4 @@
-%% wecSimFinalize
+%% stopWecSim
 % Post processing and save functions that are performed after simulation
 % has ended. These functions were pulled from the wecSim.m file, following
 % the command to simulate the Simulink model.

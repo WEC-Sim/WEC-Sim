@@ -134,7 +134,7 @@ classdef runFromSimTest < matlab.unittest.TestCase
             
             simFile = fullfile(testCase.runFromSimDir,'fromSimCustom.slx');
             load_system(simFile);
-            run('startWecSim');
+            run('initializeWecSim');
             sim(simFile, [], simset('SrcWorkspace','current'));
             
             close_system(simFile,0);
@@ -148,7 +148,7 @@ classdef runFromSimTest < matlab.unittest.TestCase
             
             simFile = fullfile(testCase.runFromSimDir,'fromSimInput.slx');
             load_system(simFile);
-            run('startWecSim');
+            run('initializeWecSim');
             sim(simFile, [], simset('SrcWorkspace','current'));
             
             close_system(simFile,0);
