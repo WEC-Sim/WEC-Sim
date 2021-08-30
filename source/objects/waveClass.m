@@ -189,7 +189,7 @@ classdef waveClass<handle
             obj.bemFreq = bemFreq;
             if isempty(obj.freqRange) && isempty(obj.bemFreq)
                 % No .h5 file and no freq range defined --> error
-                error('Must define frequency range in waves.freqRange when zero hydro bodies (no .h5 file).');
+                error('Must define frequency range in waves.freqRange when zero hydro bodies are used (no .h5 file).');
             elseif isempty(obj.freqRange) && ~isempty(obj.bemFreq)
                 % Use .h5 file range if not defined in input file
                 obj.freqRange = obj.bemFreq;
