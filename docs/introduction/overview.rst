@@ -17,9 +17,8 @@ devices that are comprised of hydrodynamic bodies, joints and constraints,
 power take-of systems, and mooring systems. Simulations are performed in the 
 time-domain by solving the governing wave energy converter equations of motion 
 in the 6 rigid Cartesian degrees-of-freedom, plus any number of user-defined 
-modes. As long as boundary element method data is available, a body may also 
-move in any number of generalized body modes such as shear, torsion, or 
-bending. 
+modes. A body may also contain any number of generalized body modes to represent 
+hydrodynamic effects in shear, torsion, bending, and others.
 
 .. /_static/images/overview/overview_diagram.JPG
 .. figure:: /_static/images/WEC-Sim_flowChart.png
@@ -31,7 +30,7 @@ boundary element method represents the hydrodynamic response of the device for
 a given wave frequency. WEC-Sim uses this data to simulate devices in the 
 time-domain where they can be better coupled with controls, power take-off 
 systems, and other external bodies and forcings. WEC-Sim outputs the motions, 
-forces and power absorbed or lost in individual bodies, joints and PTOs. Output 
+forces, and power absorbed or lost in individual bodies, joints and PTOs. Output 
 is readily available in MATLAB for custom post-processing or coupling with 
 external tools such as the `WecOptTool <https://github.com/SNL-WaterPower/WecOptTool>`_. 
 

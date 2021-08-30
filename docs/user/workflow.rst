@@ -83,6 +83,26 @@ model file (``*.slx``). This Simulink/Simscape model is defined using the
 WEC-Sim library blocks. Additional components or power take-off systems can be 
 created in this file and coupled with the WEC geometry. 
 
+.. okay to cite simscape documentation like this?
+
+As described in the `Mathworks documentation<https://www.mathworks.com/help/physmod/sm/>`_:
+    "Simscape™ Multibody™ provides a multibody simulation environment for 3D 
+    mechanical systems, such as robots, vehicle suspensions, construction 
+    equipment, and aircraft landing gear. You can model multibody systems using 
+    blocks representing bodies, joints, constraints, force elements, and sensors. 
+    Simscape Multibody formulates and solves the equations of motion for the 
+    complete mechanical system."
+    
+WEC-Sim's library blocks are built on top of Simscape Multibody. Body blocks 
+contain masks that activate and parse all relevant hydrodynamic parameters, 
+and apply the appropriate time-dependent hydrodynamic forcing to a Simscape 
+body. Other library blocks serve as joints to connect bodies or bodies and 
+the seafloor. The topmost level of a WEC-Sim simulink file will contain 
+Simscape connections. These connections pass forcing and power information 
+between blocks in order to solve the relevant equations of motion. Users should
+reference Mathworks documentation on `Simscape Multibody<https://www.mathworks.com/help/physmod/sm/>`_
+for additional details on how Simscape functions.
+
 An example Simulink model file for the OSWEC is shown below. For more 
 information about the OSWEC, and how to build WEC-Sim Simulink models, refer to 
 the :ref:`user-tutorials` section. 
