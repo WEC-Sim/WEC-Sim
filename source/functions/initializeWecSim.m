@@ -158,7 +158,7 @@ end
 simu.numWecBodies = numHydroBodies; clear numHydroBodies
 simu.numDragBodies = numDragBodies; clear numDragBodies
 for ii = 1:simu.numWecBodies
-    body(ii).checkinputs(simu.morisonElement);
+    body(ii).checkinputs(body(ii).morisonElement.option);
     %Determine if hydro data needs to be reloaded from h5 file, or if hydroData
     % was stored in memory from a previous run.
     if exist('totalNumOfWorkers','var') ==0 && exist('mcr','var') == 1 && simu.reloadH5Data == 0 && imcr > 1
@@ -228,7 +228,7 @@ if ~isempty(idx)
     for kk = 1:length(idx)
         it = idx(kk);
         body(it).hydroForcePre(waves.w,waves.waveDir,simu.CIkt,simu.CTTime,waves.numFreq,simu.dt,...
-            simu.rho,simu.g,waves.type,waves.waveAmpTime,kk,simu.numWecBodies,simu.ssCalc,simu.nlHydro,simu.b2b,simu.yawNonLin);
+            simu.rho,simu.g,waves.type,waves.waveAmpTime,kk,simu.numWecBodies,simu.ssCalc,body(it).nlHydro,simu.b2b,simu.yawNonLin);
     end; clear kk idx
 end
 
@@ -339,6 +339,8 @@ for ii=1:length(body(1,:))
         eval(['sv_b' num2str(ii) '_instFS=Simulink.Variant(''nonLinearHydro_', num2str(ii), '==2'');']);
     end
 end; clear ii;
+% yawNonLin Activation
+yawNonLin=simu.yawNonLin;
 % Morrison Element
 for ii=1:length(body(1,:))
     if body(ii).nhBody ~=1
