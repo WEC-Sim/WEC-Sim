@@ -28,7 +28,7 @@ for iBod = 1:length(body(1,:))
 end
 % Add hydrostatic and FK pressures to bodiesOutput if required.
 for iBod = 1:length(body(1,:))
-    if simu.nlHydro~=0 && body(iBod).nhBody==0 && simu.pressureDis == 1 
+     if body(iBod).nlHydro~=0 && body(iBod).nhBody==0 && simu.pressureDis == 1 
         % hydrostatic pressure
         eval(['bodiesOutput(' num2str(iBod) ').hspressure = body' num2str(iBod) '_hspressure_out;']);
         % wave (Froude-Krylov) nonlinear pressure
@@ -36,7 +36,7 @@ for iBod = 1:length(body(1,:))
         % wave (Froude-Krylov) linear pressure
         eval(['bodiesOutput(' num2str(iBod) ').wpressurel = body' num2str(iBod) '_wavelinearpressure_out;']);
     else
-        if simu.nlHydro==0 && simu.pressureDis == 1 
+        if body(iBod).nlHydro ==0 && simu.pressureDis == 1 
             warning('Pressure distribution on the body is only output when wecSim is run with non-linear hydro (simu.pressureDis == 1 && simu.nlHydro~=0 && body(i).nhBody==0)')
         end
         bodiesOutput(iBod).hspressure = [];
