@@ -351,7 +351,7 @@ Nonlinear Buoyancy and Froude-Krylov Excitation
 WEC-Sim has the option to include the nonlinear hydrostatic restoring and 
 Froude-Krylov forces when solving the system dynamics of WECs, accounting for 
 the weakly nonlinear effect on the body hydrodynamics. To use nonlinear 
-buoyancy and Froude-Krylov excitation, the **simu.nlHydro** simulationClass 
+buoyancy and Froude-Krylov excitation, the **body(ii).nlHydro** bodyClass 
 variable must be defined in the WEC-Sim input file, for example: 
 
     :code:`body(ii).nlHydro = 2`  
@@ -365,7 +365,7 @@ Nonlinear Settings
 
 **body(ii).nlHydro**  - 
 The nonlinear hydrodynamics option can be used with the parameter: 
-:code:`simu.nlHydro` in your WEC-Sim input file. When any of the three 
+:code:`body(ii).nlHydro` in your WEC-Sim input file. When any of the three 
 nonlinear options (below) are used, WEC-Sim integrates the wave pressure over 
 the surface of the body, resulting in more accurate buoyancy and Froude-Krylov 
 force calculations. 
@@ -512,9 +512,8 @@ Alternatively, one can define :math:`C_{D}` directly::
 Morison Elements 
 """"""""""""""""
 
-To use Morison Elements, the following simulation class variable must be 
-defined in the WEC-Sim input file with :code:`simu.morisonElement = [n x 1]` where :code:`n` is the number of bodies. Each element of the vector can be defined with the following three options: 
-:code:`simu.morisonElement(i) = 0`, :code:`simu.morisonElement(i) = 1`, :code:`simu.morisonElement(i) = 2` where :code:`i` is the body number.
+To use Morison Elements, the following body class variable must be 
+defined in the WEC-Sim input file with :code:`body(ii).morisonElement.option`.
 
 Implementation Option 0 Morison Elements are not included in the body force and moment calculations. 
 
@@ -533,7 +532,7 @@ Morison Elements must be defined for each body using the
 requires definition of the following body class parameters in the WEC-Sim input 
 file (each of which have a default value of zero(s)). 
 
-For :code:`simu.morisonElement(i)  = 1` ::
+For :code:`body(ii).morisonElement.option  = 1` ::
     
     body(i).morisonElement.cd = [c_{dx} c_{dy} c_{dz}]
     body(i).morisonElement.ca = [c_{ax} c_{ay} c_{az}]
@@ -548,7 +547,7 @@ For :code:`simu.morisonElement(i)  = 1` ::
     initialized as a [:code:`n` x3] vector, where :code:`n` is the number of Morison Elements, although it will not be used in the 
     hydrodynamic calculation. 
     
-For :code:`simu.morisonElement(i)  = 2` ::
+For :code:`body(ii).morisonElement.option  = 2` ::
     
     body(i).morisonElement.cd = [c_{dn} c_{dt} 0]
     body(i).morisonElement.ca = [c_{an} c_{at} 0]
