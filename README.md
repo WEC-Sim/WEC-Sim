@@ -4,7 +4,6 @@
 [![MATLAB Build Status](https://github.com/WEC-Sim/WEC-Sim/actions/workflows/run-tests-dev.yml/badge.svg)](https://github.com/WEC-Sim/WEC-Sim/actions/workflows/run-tests-dev.yml)
 
 
-
 ## WEC-Sim Repository
 
 * **Docs**: WEC-Sim documentation. Refer to [these instructions](https://github.com/WEC-Sim/WEC-Sim/tree/dev/docs/README.md) to compile the [WEC-Sim Website](http://wec-sim.github.io/WEC-Sim/dev/index.html). 
