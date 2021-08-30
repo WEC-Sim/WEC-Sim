@@ -43,6 +43,22 @@ delete('*.log');
 diary('simulation.log')
 
 
+%% Add 'temp' directory
+% Store root directory of this *.m file
+projectRootDir = pwd;
+
+% Create 'temp' directory if it doesn't exist and add to 'temp' path
+% status = mkdir('temp');
+if mkdir('temp') == 0
+    mkdir 'temp'
+end
+addpath(fullfile(projectRootDir,'temp'),'-end');
+
+% Save Simulink-generated helper files to 'temp' directory
+Simulink.fileGenControl('set',...
+    'CacheFolder',fullfile(projectRootDir,'temp'))
+
+
 %% Read input file
 tic
 

@@ -86,6 +86,9 @@ is the radiation added mass coefficient, :math:`B` is the radiation wave
 damping coefficient, and :math:`C_{hs}` is the linear hydrostatic restoring 
 coefficient. 
 
+
+.. _theory-time-domain:
+
 Time-Domain Formulation
 -----------------------
 
@@ -147,7 +150,7 @@ excitation force. The ramp function is given by
 .. math::
 
     R_{f}(t)=\begin{cases}
-    \frac{1}{2}(1+\cos(\pi+\frac{\pi t}{t_{r}}) & \frac{t}{t_{r}}<1\\
+    \frac{1}{2}(1+\cos(\pi+\frac{\pi t}{t_{r}})) & \frac{t}{t_{r}}<1\\
     1 & \frac{t}{t_{r}}\geq1
     \end{cases}
 
