@@ -180,7 +180,7 @@ for WEC-Sim to read:
    * **If NEMOH is used:** 
    
       * The origin of the mesh for each body (``*.dat``) is located at the mean 
-         water surface, which follows the same coordinate used in WEC-Sim. 
+        water surface. 
       * The location to output the hydrodynamic coefficients for each degree of 
         freedom is defined in the ``Nemoh.cal`` file.
       * Please refer to `NEMOH-Mesh <https://lheea.ec-nantes.fr/logiciels-et-brevets/nemoh-mesh-192932.kjsp?RH=1489593406974>`_ 
@@ -208,7 +208,8 @@ for WEC-Sim to read:
       
    * **If CAPYTAINE is used:** 
    
-      * The origin of the mesh for each body (``*.dat``) is located at the mean water surface, which follows the same coordinate used in WEC-Sim. 
+      * The origin of the mesh for each body (``*.dat``) is located at the mean
+        water surface. 
       * More details on CAPYTAINE setup are given in the `Capytaine webpage <https://ancell.in/capytaine/latest/>`_.
 
 .. Note::

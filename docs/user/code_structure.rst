@@ -474,7 +474,7 @@ Before simulation, one variant is activated by a flag in the body object
 (body.nhBody=0,1,2). The flex body block is used to represent hydrodynamic 
 bodies that contain additional flexible degrees of freedom ('generalized body 
 modes'). The flex body is determined automatically by the degrees of freedom 
-contained in the BEM input data. At least one instance of a hydrodynamic body 
+contained in the BEM input data. At least one instance of a body 
 block (rigid or flex) is required in each model. The 
 :ref:`user-advanced-features-body` section describes the various types of 
 WEC-Sim bodies in detail. 

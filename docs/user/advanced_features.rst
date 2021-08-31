@@ -486,9 +486,19 @@ Simulation and post-processing is the same process as described in the
 Viscous Damping and Morison Elements
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
-WEC-Sim allows for the definition of additional damping and added-mass terms; 
-for more information about the numerical formulation of viscous damping and 
-Morison Elements, refer to :ref:`theory-viscous-damping-morison`. 
+WEC-Sim allows for the definition of additional damping and added-mass terms 
+to allow users to tune their models precisely. Viscous damping and Morison Element
+may be defined for hydrodynamic, drag, or flexible bodies. It is highly recommended
+that users add viscous or Morison drag to create a realistic model.
+
+When the Morison Element
+option is used in combination with a hydrodynamic or flexible body, it serves as a 
+tuning method. The equation of motion for hydrodynamic and flexible bodies with a 
+Morison Element is more complex than the traditional Morison Element formulation.
+A traditional Morison Element may be created by using a drag body 
+(``body(#).nhBody=2``) with ``simu.morisonElement = 1 or 2``.
+For more information about the numerical formulation of viscous damping and 
+Morison Elements, refer to the theory section :ref:`theory-viscous-damping-morison`. 
 
 Viscous Damping
 """""""""""""""
@@ -599,9 +609,16 @@ location, and displaced volume. You can also specify visualization options and
 initial displacement. 
 
 To use non-hydrodynamic bodies, the following body class variable must be 
-defined in the WEC-Sim input file, for example: 
+defined in the WEC-Sim input file, for example:: 
 
     body(i).nhBody = 1
+
+Non-hydrodynamic bodies require the following properties to be defined::
+
+    body(i).mass
+    body(i).momOfInertia
+    body(i).cg
+    body(i).dispVol
 
 For more information, refer to :ref:`webinar2`, and the **OSWEC_nhBody** 
 example on the `WEC-Sim Applications 
@@ -640,7 +657,6 @@ is necessary to define::
     body(i).mass
     body(i).momOfInertia
     body(i).cg
-    body(i).cb
     body(i).dispVol
     
 to resolve drag body dynamics. One can additionally describe initial body 

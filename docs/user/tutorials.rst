@@ -207,7 +207,7 @@ Step 5: Post-processing
 The RM3 tutorial includes a ``userDefinedFunctions.m`` which plots RM3 
 forces and responses. This file can be modified by users for 
 post-processing. Additionally, once the WEC-Sim run is complete, the 
-WEC-Sim results are saved to the **output** variable in the MATLAB 
+WEC-Sim results are saved to the ``output`` variable in the MATLAB 
 workspace. 
 
 .. _user-tutorials-oswec:
