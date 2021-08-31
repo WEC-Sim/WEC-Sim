@@ -619,6 +619,15 @@ Non-hydrodynamic bodies require the following properties to be defined::
     body(i).momOfInertia
     body(i).cg
     body(i).dispVol
+    
+In the case where only non-hydrodynamic and drag bodies are used, WEC-Sim does
+not read an ``*.h5`` file. Users must define these additional parameters to 
+account for certain wave settings as there is no hydrodynamic body present in
+the simulation to define them::
+
+    waves.freqRange
+    waves.waterDepth
+
 
 For more information, refer to :ref:`webinar2`, and the **OSWEC_nhBody** 
 example on the `WEC-Sim Applications 
