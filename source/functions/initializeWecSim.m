@@ -302,8 +302,8 @@ for ii = 1:length(body(1,:))
                 if true(isfinite(body(ii).morisonElement.z(jj,:))) == true
                     warning(['"body.morisonElement.z" is not used for "simu.morisonElement = 1. Check body ',num2str(ii),' element ',num2str(jj)])
                 end
-                if (body(ii).morisonElement.cd(jj,3)) == 1 || isnan(body(ii).morisonElement.ca(jj,3)) == 1 || isnan(body(ii).morisonElement.characteristicArea(jj,3)) == 1
-                    error(['cd, ca, and characteristicArea coefficients for each elelement for "simu.morisonElement = 1" must be of size [1x3] and all columns of data must be real and finite. Check body ',num2str(ii),' element ',num2str(jj),' coefficients'])
+                if length(body(ii).morisonElement.cd(jj,:)) ~= 3 || length(body(ii).morisonElement.ca(jj,:)) ~= 3 || length(body(ii).morisonElement.characteristicArea(jj,:)) ~= 3
+                    error(['cd, ca, and characteristicArea coefficients for each elelement for "body.morisonElement.option = 1" must be of size [1x3] and all columns of data must be real and finite. Check body ',num2str(ii),' element ',num2str(jj),' coefficients'])
                 end
             end; clear jj
         else
