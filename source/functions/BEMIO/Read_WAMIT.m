@@ -65,7 +65,7 @@ for n = 1:N
     end
     if isempty(strfind(raw{n},'Volumes (VOLX,VOLY,VOLZ):'))==0
         tmp = textscan(raw{n}(find(raw{n}==':')+1:end),'%f');
-        hydro(F).Vo(hydro(F).Nb) = tmp{1}(3);  % Displacement volume
+        hydro(F).Vo(hydro(F).Nb) = median(tmp{:});  % Displacement volume
     end
     if isempty(strfind(raw{n},'Center of Buoyancy (Xb,Yb,Zb):'))==0
         tmp = textscan(raw{n}(find(raw{n}==':')+1:end),'%f');
