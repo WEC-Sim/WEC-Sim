@@ -4,7 +4,7 @@ simu.simMechanicsFile = 'RM3.slx';      % Specify Simulink Model File
 simu.mode = 'normal';                   % Specify Simulation Mode ('normal','accelerator','rapid-accelerator')
 simu.explorer='on';                     % Turn SimMechanics Explorer (on/off)
 simu.startTime = 0;                     % Simulation Start Time [s]
-simu.rampTime = 100;                   	% Wave Ramp Time [s]
+simu.rampTime = 0*100;                   	% Wave Ramp Time [s]
 simu.endTime=400;                       % Simulation End Time [s]
 simu.solver = 'ode4';                   % simu.solver = 'ode4' for fixed step & simu.solver = 'ode45' for variable step 
 simu.dt = 0.1; 							% Simulation time-step [s]
@@ -62,6 +62,8 @@ waves.wavegauge6loc = [waves.H,5];
 waves.wavegauge7loc = [6*waves.H,-5]; 
 waves.wavegauge8loc = [6*waves.H,0]; 
 waves.wavegauge9loc = [6*waves.H,5]; 
+waves.wavegaugeLoc =  [-1,-1;-2,-2;-3,-3;-4,-4;-5,-5;-6,-6;-7,-7;-8,-8;-9,-9];
+%;1,1;2,2;3,3;4,4;5,5;6,6;7,7;8,8;9,9
 % waves.waveAmpTime<i> = incident wave elevation time series at wave gauge i
 %% Body Data
 % Float

@@ -54,6 +54,7 @@ classdef waveClass<handle
         wavegauge7loc = [NaN,NaN];  % (`1x2 vector`) Wave gauge 7 [x,y] location [m]. Default = ``[NaN,NaN]``
         wavegauge8loc = [NaN,NaN];  % (`1x2 vector`) Wave gauge 8 [x,y] location [m]. Default = ``[NaN,NaN]``
         wavegauge9loc = [NaN,NaN];  % (`1x2 vector`) Wave gauge 9 [x,y] location [m]. Default = ``[NaN,NaN]``
+        wavegaugeLoc  = [];
         currentOption = 3;      % (`integer`) Define the sub-surface current model to be used in WEC-Sim, options include: ``0`` for depth-independent model, ``1`` for 1/7 power law variation with depth, ``2`` for linear variation with depth, or ``3`` for no current. Default = ``3`` 
         currentSpeed = 0;       % (`float`) Current seed [m/s]. Surface current speed that is uniform along the water column. Default = ``0``
         currentDirection = 0;   % (`float`) Current direction [deg]. Surface current direction defined using WEC-Sim global coordinate system. Default = ``0``
@@ -77,6 +78,7 @@ classdef waveClass<handle
         waveAmpTime7 = [];  % Wave elevation time history at a wave gauge 7 location specified by user [m] 
         waveAmpTime8 = [];  % Wave elevation time history at a wave gauge 8 location specified by user [m] 
         waveAmpTime9 = [];  % Wave elevation time history at a wave gauge 9 location specified by user [m]
+        waveAmpTimeViz = [];
         A = [];             % Wave amplitude [m]. For regular waves or 2*(wave spectrum vector) for irregular waves
         w = [];             % Wave frequency (regular waves) or wave frequency vector (irregular waves) [rad/s] 
         phase = 0;          % Wave phase [rad] . Only used for ``irregular`` waves.
@@ -514,12 +516,24 @@ classdef waveClass<handle
             if ~isnan(obj.wavegauge9loc)
                obj.waveAmpTime9 = zeros(maxIt+1,2);
             end
+            if ~isnan(obj.wavegaugeLoc)
+               SZwaveAmpTimeViz = size(obj.wavegaugeLoc);
+               obj.waveAmpTimeViz = zeros(maxIt+1,SZwaveAmpTimeViz(1)+1);
+            end
             maxRampIT=round(rampTime/dt);
             if rampTime==0
                 for i=1:maxIt+1
                     t = (i-1)*dt;
                     obj.waveAmpTime(i,1)    = t;
                     obj.waveAmpTime(i,2)    = obj.A*cos(obj.w*t);
+                    
+                    for j = 1:SZwaveAmpTimeViz(1)
+                    if ~isnan(obj.wavegaugeLoc)
+                        obj.waveAmpTimeViz(i,1)   = t;
+                       obj.waveAmpTimeViz(i,j+1)   = obj.A*cos(obj.w*t-obj.k*(obj.wavegaugeLoc(j,1).*cos(obj.waveDir*pi/180) + obj.wavegaugeLoc(j,2).*sin(obj.waveDir*pi/180)));
+                    end  
+                    end
+                    
                     if ~isnan(obj.wavegauge1loc)
                         obj.waveAmpTime1(i,1)   = t;
                         obj.waveAmpTime1(i,2)   = obj.A*cos(obj.w*t-obj.k*(obj.wavegauge1loc(1).*cos(obj.waveDir*pi/180) + obj.wavegauge1loc(2).*sin(obj.waveDir*pi/180)));
