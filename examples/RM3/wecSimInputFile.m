@@ -54,15 +54,15 @@ waves.T = 8;                            % Wave Period [s]
 % waves.etaDataFile = 'etaData.mat'; % Name of User-Defined Time-Series File [:,2] = [time, eta]
 % waves.wavegauge<i>loc = <user defined wave gauge i x-location>; %(y-position assumed to be 0 m)
 waves.wavegauge1loc = [-1,-1]; 
-waves.wavegauge2loc = [-5*waves.H,0];
-waves.wavegauge3loc = [-5*waves.H,5]; 
-waves.wavegauge4loc = [waves.H,-5]; 
-waves.wavegauge5loc = [waves.H,0]; 
-waves.wavegauge6loc = [waves.H,5]; 
-waves.wavegauge7loc = [6*waves.H,-5]; 
-waves.wavegauge8loc = [6*waves.H,0]; 
-waves.wavegauge9loc = [6*waves.H,5]; 
-waves.wavegaugeLoc =  [-1,-1;-2,-2;-3,-3;-4,-4;-5,-5;-6,-6;-7,-7;-8,-8;-9,-9];
+% waves.wavegauge2loc = [-5*waves.H,0];
+% waves.wavegauge3loc = [-5*waves.H,5]; 
+% waves.wavegauge4loc = [waves.H,-5]; 
+% waves.wavegauge5loc = [waves.H,0]; 
+% waves.wavegauge6loc = [waves.H,5]; 
+% waves.wavegauge7loc = [6*waves.H,-5]; 
+% waves.wavegauge8loc = [6*waves.H,0]; 
+% waves.wavegauge9loc = [6*waves.H,5]; 
+waves.wavegaugeLoc =  [-1,-1;-2,-2;-3,-3;-4,-4;-5,-5;-6,-6;-7,-7;-8,-8;-9,-9;1,1;2,2;3,3;4,4;5,5;6,6;7,7;8,8;9,9];
 %;1,1;2,2;3,3;4,4;5,5;6,6;7,7;8,8;9,9
 % waves.waveAmpTime<i> = incident wave elevation time series at wave gauge i
 %% Body Data
