@@ -4,7 +4,7 @@ simu.simMechanicsFile = 'RM3.slx';      % Specify Simulink Model File
 simu.mode = 'normal';                   % Specify Simulation Mode ('normal','accelerator','rapid-accelerator')
 simu.explorer='on';                     % Turn SimMechanics Explorer (on/off)
 simu.startTime = 0;                     % Simulation Start Time [s]
-simu.rampTime = 0*100;                   	% Wave Ramp Time [s]
+simu.rampTime = 100;                   	% Wave Ramp Time [s]
 simu.endTime=400;                       % Simulation End Time [s]
 simu.solver = 'ode4';                   % simu.solver = 'ode4' for fixed step & simu.solver = 'ode45' for variable step 
 simu.dt = 0.1; 							% Simulation time-step [s]
@@ -14,9 +14,9 @@ simu.dt = 0.1; 							% Simulation time-step [s]
 % waves = waveClass('noWaveCIC');       % Initialize Wave Class and Specify Type  
 
 % Regular Waves  
-waves = waveClass('regular');           % Initialize Wave Class and Specify Type                                 
-waves.H = 2.5;                          % Wave Height [m]
-waves.T = 8;                            % Wave Period [s]
+% waves = waveClass('regular');           % Initialize Wave Class and Specify Type                                 
+% waves.H = 2.5;                          % Wave Height [m]
+% waves.T = 8;                            % Wave Period [s]
 
 % % Regular Waves with CIC
 % waves = waveClass('regularCIC');           % Initialize Wave Class and Specify Type                                 
@@ -24,10 +24,10 @@ waves.T = 8;                            % Wave Period [s]
 % waves.T = 8;                            % Wave Period [s]
 
 % % Irregular Waves using PM Spectrum 
-% waves = waveClass('irregular');         % Initialize Wave Class and Specify Type
-% waves.H = 2.5;                          % Significant Wave Height [m]
-% waves.T = 8;                            % Peak Period [s]
-% waves.spectrumType = 'PM';              % Specify Wave Spectrum Type
+waves = waveClass('irregular');         % Initialize Wave Class and Specify Type
+waves.H = 2.5;                          % Significant Wave Height [m]
+waves.T = 8;                            % Peak Period [s]
+waves.spectrumType = 'PM';              % Specify Wave Spectrum Type
 
 % % Irregular Waves using JS Spectrum with Equal Energy and Seeded Phase
 % waves = waveClass('irregular');         % Initialize Wave Class and Specify Type
@@ -53,17 +53,12 @@ waves.T = 8;                            % Wave Period [s]
 % waves = waveClass('etaImport');         % Create the Wave Variable and Specify Type
 % waves.etaDataFile = 'etaData.mat'; % Name of User-Defined Time-Series File [:,2] = [time, eta]
 % waves.wavegauge<i>loc = <user defined wave gauge i x-location>; %(y-position assumed to be 0 m)
-waves.wavegauge1loc = [-1,-1]; 
-% waves.wavegauge2loc = [-5*waves.H,0];
-% waves.wavegauge3loc = [-5*waves.H,5]; 
-% waves.wavegauge4loc = [waves.H,-5]; 
-% waves.wavegauge5loc = [waves.H,0]; 
-% waves.wavegauge6loc = [waves.H,5]; 
-% waves.wavegauge7loc = [6*waves.H,-5]; 
-% waves.wavegauge8loc = [6*waves.H,0]; 
-% waves.wavegauge9loc = [6*waves.H,5]; 
-waves.wavegaugeLoc =  [-1,-1;-2,-2;-3,-3;-4,-4;-5,-5;-6,-6;-7,-7;-8,-8;-9,-9;1,1;2,2;3,3;4,4;5,5;6,6;7,7;8,8;9,9];
-%;1,1;2,2;3,3;4,4;5,5;6,6;7,7;8,8;9,9
+waves.wavegauge1loc = [0,0]; 
+mrk = 10;
+dmrk = 4;
+% waves.wavegaugeLoc = [[-mrk:mrk]',[-mrk:mrk]'];
+[X,Y] = meshgrid(-mrk:dmrk:mrk,-mrk:dmrk:mrk);
+ waves.wavegaugeLoc = [reshape(X,[],1),reshape(Y,[],1)];
 % waves.waveAmpTime<i> = incident wave elevation time series at wave gauge i
 %% Body Data
 % Float
