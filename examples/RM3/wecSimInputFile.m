@@ -14,9 +14,9 @@ simu.dt = 0.1; 							% Simulation time-step [s]
 % waves = waveClass('noWaveCIC');       % Initialize Wave Class and Specify Type  
 
 % Regular Waves  
-waves = waveClass('regular');           % Initialize Wave Class and Specify Type                                 
-waves.H = 2.5;                          % Wave Height [m]
-waves.T = 8;                            % Wave Period [s]
+% waves = waveClass('regular');           % Initialize Wave Class and Specify Type                                 
+% waves.H = 2.5;                          % Wave Height [m]
+% waves.T = 8;                            % Wave Period [s]
 
 % % Regular Waves with CIC
 % waves = waveClass('regularCIC');           % Initialize Wave Class and Specify Type                                 
@@ -24,10 +24,10 @@ waves.T = 8;                            % Wave Period [s]
 % waves.T = 8;                            % Wave Period [s]
 
 % % Irregular Waves using PM Spectrum 
-% waves = waveClass('irregular');         % Initialize Wave Class and Specify Type
-% waves.H = 2.5;                          % Significant Wave Height [m]
-% waves.T = 8;                            % Peak Period [s]
-% waves.spectrumType = 'PM';              % Specify Wave Spectrum Type
+waves = waveClass('irregular');         % Initialize Wave Class and Specify Type
+waves.H = 2.5;                          % Significant Wave Height [m]
+waves.T = 8;                            % Peak Period [s]
+waves.spectrumType = 'PM';              % Specify Wave Spectrum Type
 
 % % Irregular Waves using JS Spectrum with Equal Energy and Seeded Phase
 % waves = waveClass('irregular');         % Initialize Wave Class and Specify Type
@@ -53,16 +53,12 @@ waves.T = 8;                            % Wave Period [s]
 % waves = waveClass('etaImport');         % Create the Wave Variable and Specify Type
 % waves.etaDataFile = 'etaData.mat'; % Name of User-Defined Time-Series File [:,2] = [time, eta]
 % waves.wavegauge<i>loc = <user defined wave gauge i x-location>; %(y-position assumed to be 0 m)
-waves.wavegauge1loc = [-5*waves.H,-5]; 
-waves.wavegauge2loc = [-5*waves.H,0];
-waves.wavegauge3loc = [-5*waves.H,5]; 
-waves.wavegauge4loc = [waves.H,-5]; 
-waves.wavegauge5loc = [waves.H,0]; 
-waves.wavegauge6loc = [waves.H,5]; 
-waves.wavegauge7loc = [6*waves.H,-5]; 
-waves.wavegauge8loc = [6*waves.H,0]; 
-waves.wavegauge9loc = [6*waves.H,5]; 
-% waves.waveAmpTime<i> = incident wave elevation time series at wave gauge i
+waves.wavegauge1loc = [0,0]; 
+mrk = 10;
+dmrk = 4;
+[X,Y] = meshgrid(-mrk:dmrk:mrk,-mrk:dmrk:mrk);
+waves.wavegaugeLoc = [reshape(X,[],1),reshape(Y,[],1)];
+clear('mrk','dmrk','X','Y')
 %% Body Data
 % Float
 body(1) = bodyClass('hydroData/rm3.h5');      
