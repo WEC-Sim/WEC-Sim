@@ -48,12 +48,6 @@ classdef waveClass<handle
         wavegauge1loc = [NaN,NaN];  % (`1x2 vector`) Wave gauge 1 [x,y] location [m]. Default = ``[NaN,NaN]``
         wavegauge2loc = [NaN,NaN];  % (`1x2 vector`) Wave gauge 2 [x,y] location [m]. Default = ``[NaN,NaN]``
         wavegauge3loc = [NaN,NaN];  % (`1x2 vector`) Wave gauge 3 [x,y] location [m]. Default = ``[NaN,NaN]``
-        wavegauge4loc = [NaN,NaN];  % (`1x2 vector`) Wave gauge 4 [x,y] location [m]. Default = ``[NaN,NaN]``
-        wavegauge5loc = [NaN,NaN];  % (`1x2 vector`) Wave gauge 5 [x,y] location [m]. Default = ``[NaN,NaN]``
-        wavegauge6loc = [NaN,NaN];  % (`1x2 vector`) Wave gauge 6 [x,y] location [m]. Default = ``[NaN,NaN]``
-        wavegauge7loc = [NaN,NaN];  % (`1x2 vector`) Wave gauge 7 [x,y] location [m]. Default = ``[NaN,NaN]``
-        wavegauge8loc = [NaN,NaN];  % (`1x2 vector`) Wave gauge 8 [x,y] location [m]. Default = ``[NaN,NaN]``
-        wavegauge9loc = [NaN,NaN];  % (`1x2 vector`) Wave gauge 9 [x,y] location [m]. Default = ``[NaN,NaN]``
         wavegaugeLoc  = [];
         currentOption = 3;      % (`integer`) Define the sub-surface current model to be used in WEC-Sim, options include: ``0`` for depth-independent model, ``1`` for 1/7 power law variation with depth, ``2`` for linear variation with depth, or ``3`` for no current. Default = ``3`` 
         currentSpeed = 0;       % (`float`) Current seed [m/s]. Surface current speed that is uniform along the water column. Default = ``0``
@@ -72,12 +66,6 @@ classdef waveClass<handle
         waveAmpTime1 = [];  % Wave elevation time history at a wave gauge 1 location specified by user [m] 
         waveAmpTime2 = [];  % Wave elevation time history at a wave gauge 2 location specified by user [m] 
         waveAmpTime3 = [];  % Wave elevation time history at a wave gauge 3 location specified by user [m] 
-        waveAmpTime4 = [];  % Wave elevation time history at a wave gauge 4 location specified by user [m] 
-        waveAmpTime5 = [];  % Wave elevation time history at a wave gauge 5 location specified by user [m] 
-        waveAmpTime6 = [];  % Wave elevation time history at a wave gauge 6 location specified by user [m]
-        waveAmpTime7 = [];  % Wave elevation time history at a wave gauge 7 location specified by user [m] 
-        waveAmpTime8 = [];  % Wave elevation time history at a wave gauge 8 location specified by user [m] 
-        waveAmpTime9 = [];  % Wave elevation time history at a wave gauge 9 location specified by user [m]
         waveAmpTimeViz = [];
         A = [];             % Wave amplitude [m]. For regular waves or 2*(wave spectrum vector) for irregular waves
         w = [];             % Wave frequency (regular waves) or wave frequency vector (irregular waves) [rad/s] 
