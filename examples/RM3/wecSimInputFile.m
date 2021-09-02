@@ -56,10 +56,9 @@ waves.spectrumType = 'PM';              % Specify Wave Spectrum Type
 waves.wavegauge1loc = [0,0]; 
 mrk = 10;
 dmrk = 4;
-% waves.wavegaugeLoc = [[-mrk:mrk]',[-mrk:mrk]'];
 [X,Y] = meshgrid(-mrk:dmrk:mrk,-mrk:dmrk:mrk);
- waves.wavegaugeLoc = [reshape(X,[],1),reshape(Y,[],1)];
-% waves.waveAmpTime<i> = incident wave elevation time series at wave gauge i
+waves.wavegaugeLoc = [reshape(X,[],1),reshape(Y,[],1)];
+clear('mrk','dmrk','X','Y')
 %% Body Data
 % Float
 body(1) = bodyClass('hydroData/rm3.h5');      
