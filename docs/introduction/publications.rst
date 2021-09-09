@@ -3,12 +3,8 @@
 Publications
 ============
 
-WEC-Sim Publications
-^^^^^^^^^^^^^^^^^^^^
-
-.. TODO update. this list only goes up to 2018
-
-Here is a list of publications written by the WEC-Sim multi-lab team about the development and application of the WEC-Sim code:
+Refer to the `WEC-Sim Signature Project page <https://tethys-engineering.pnnl.gov/signature-projects/wec-sim>`_ for a complete list of WEC-Sim publications, including publications written by users of the WEC-Sim code outside of the WEC-Sim development team.
+Here is a list of publications written by the WEC-Sim multi-lab team about the development and application of WEC-Sim:
 
 [1] Y.-H. Yu, M. Lawson, K. Ruehl, and C. Michelen, “`Development and Demonstration of the WEC-Sim Wave Energy Converter Simulation Tool <http://vtechworks.lib.vt.edu/bitstream/handle/10919/49236/137-Lawson.pdf?sequence=1&isAllowed=y>`_,” in Proceedings of the 2nd Marine Energy Technology Symposium, METS 2014, Seattle, WA, 2014.   
 
@@ -60,10 +56,8 @@ Here is a list of publications written by the WEC-Sim multi-lab team about the d
 
 [25] Y.-H. Yu, N. Tom, and D. Jenne, “`Numerical analysis on hydraulic power take-off for wave energy converter and power smoothing methods <https://www.nrel.gov/docs/fy19osti/71078.pdf>`_,” in Proceedings of the 37th International Conference on Ocean, Offshore and Arctic Engineering, OMAE 2018, Madrid, Spain, 2018.
 
-Other WEC-Sim Publications
-^^^^^^^^^^^^^^^^^^^^^^^^^^
+.. TODO    This list of publications only goes through 2018   
 
-Refer to https://tethys-engineering.pnnl.gov/signature-projects/wec-sim for more WEC-Sim publications, including publications written by users of the WEC-Sim code outside of the WEC-Sim development team.
 
 News Articles
 ^^^^^^^^^^^^^
@@ -109,3 +103,6 @@ News Articles
 * November 2017 -  MATLAB Newsletter, `Modeling and Simulating Next-Generation Wave Farm Technology <https://www.mathworks.com/company/newsletters/articles/modeling-and-simulating-next-generation-wave-farm-technology.html>`_
 
 * December 2017 - NUI Maynooth Centre for Ocean Energy Research, `WEC Control Competition (WECCCOMP)  <http://www.eeng.nuim.ie/coer/wec-control-competition-released/>`_
+
+.. TODO    This list of publications only goes through 2017
+

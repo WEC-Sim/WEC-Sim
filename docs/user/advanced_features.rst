@@ -932,7 +932,7 @@ defined prior to using the object's :code:`setInitDisp()` method:
 For more information, refer to the **Free Decay** example on the `WEC-Sim 
 Applications <https://github.com/WEC-Sim/WEC-Sim_Applications>`_ repository. 
 
-Other Applications
+Other Features
 ------------------
 
 The WEC-Sim Applications repository also includes examples of using WEC-Sim to 

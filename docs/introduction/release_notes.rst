@@ -3,11 +3,13 @@
 Release Notes
 =============
 
-Current Release
-----------------
-
 `WEC-Sim v4.3 <https://github.com/WEC-Sim/WEC-Sim/releases/tag/v4.3>`_
-^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+--------------------------------------------------------------------------------
+
+.. image:: https://zenodo.org/badge/DOI/10.5281/zenodo.5122959.svg
+   :target: https://doi.org/10.5281/zenodo.5122959
+
+
 * New Features
 
   * Added the ability for WEC-Sim to be run directly from Simulink `#503 <https://github.com/WEC-Sim/WEC-Sim/pull/503>`_ `#512 <https://github.com/WEC-Sim/WEC-Sim/pull/512>`_ `#548 <https://github.com/WEC-Sim/WEC-Sim/pull/548>`_
@@ -52,13 +54,12 @@ Current Release
    
   * Combine_BEM Ainf initialization `#611 <https://github.com/WEC-Sim/WEC-Sim/pull/611>`_
 
+* Issues and Pull Requests
+  
+  * \>100 issues closed since v4.2
 
-\>100 issues closed since v4.2
+  *   \>45 PRs merged since v4.2
 
-\>45 PRs merged since v4.2
- 
-.. image:: https://zenodo.org/badge/DOI/10.5281/zenodo.5122959.svg
-   :target: https://doi.org/10.5281/zenodo.5122959
 
 
 Previous Releases
@@ -66,6 +67,10 @@ Previous Releases
 
 `WEC-Sim v4.2 <https://github.com/WEC-Sim/WEC-Sim/releases/tag/v4.2>`_
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+.. image:: https://zenodo.org/badge/DOI/10.5281/zenodo.4391330.svg
+   :target: https://doi.org/10.5281/zenodo.4391330
+
 
 * Added normal/tangential option for Morison Force (``simu.morisonElement = 2``) `#408 <https://github.com/WEC-Sim/WEC-Sim/pull/408>`_
 
@@ -91,12 +96,12 @@ Previous Releases
 
   * Resolved variant subsystem labeling bug  `#486 <https://github.com/WEC-Sim/WEC-Sim/pull/486)>`_ `#479 <https://github.com/WEC-Sim/WEC-Sim/issues/479>`_
 
-.. image:: https://zenodo.org/badge/DOI/10.5281/zenodo.4391330.svg
-   :target: https://doi.org/10.5281/zenodo.4391330
 
 
 `WEC-Sim v4.1 <https://github.com/WEC-Sim/WEC-Sim/releases/tag/v4.1>`_
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+.. image:: https://zenodo.org/badge/DOI/10.5281/zenodo.3924765.svg
+   :target: https://doi.org/10.5281/zenodo.3924765
 
 * Added passive yaw
 
@@ -114,12 +119,13 @@ Previous Releases
   
   * Extended capabilities for ParaView visualization `#355 <https://github.com/WEC-Sim/WEC-Sim/pull/355>`_
 
-.. image:: https://zenodo.org/badge/DOI/10.5281/zenodo.3924765.svg
-   :target: https://doi.org/10.5281/zenodo.3924765
    
    
 `WEC-Sim v4.0 <https://github.com/WEC-Sim/WEC-Sim/releases/tag/v4.0>`_
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+.. image:: https://zenodo.org/badge/DOI/10.5281/zenodo.3827897.svg
+   :target: https://doi.org/10.5281/zenodo.3827897
 
 * Added mean drift force calculation
 
@@ -127,8 +133,6 @@ Previous Releases
 
 * Updated BEMIO for mean drift force and generalized body modes
 
-.. image:: https://zenodo.org/badge/DOI/10.5281/zenodo.3827897.svg
-   :target: https://doi.org/10.5281/zenodo.3827897
    
 
 
@@ -163,54 +167,73 @@ Previous Releases
 
 * Changed/Added following WEC-Sim parameters
 
-	* waves.randPreDefined -> :ref:`waves.phaseSeed <user-advanced-features-seeded-phase>`
-	* waves.phaseRand -> waves.phase           
-	* simu.dtFeNonlin -> :ref:`simu.dtNL <user-advanced-features-nonlinear>`
-	* simu.rampT -> :ref:`simu.rampTime <user-code-structure-simulation-class>`
-	* Added simu.dtME  to allow specification of :ref:`Morison force time-step <user-advanced-features-time-step>`
+  *  waves.randPreDefined -> :ref:`waves.phaseSeed <user-advanced-features-seeded-phase>`
+	
+  *  waves.phaseRand -> waves.phase           
+	
+  *  simu.dtFeNonlin -> :ref:`simu.dtNL <user-advanced-features-nonlinear>`
+	
+  * simu.rampT -> :ref:`simu.rampTime <user-code-structure-simulation-class>`
+	
+  * Added simu.dtME  to allow specification of :ref:`Morison force time-step <user-advanced-features-time-step>`
 
 
 `WEC-Sim v2.2 <https://github.com/WEC-Sim/WEC-Sim/releases/tag/v2.2>`_
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
 * Added option to save pressure data for non-linear hydro (`simu.pressureDis`)
+
 * Update to moorDyn parser (doesn't require line#.out)  
+
 * Repository cleanup
 
-	* Implemented `Git LFS <https://git-lfs.github.com/>`_ for tracking ``*.h5`` files
-	* Added `WEC-Sim Application  repository <https://github.com/WEC-Sim/WEC-Sim_Applications>`_ as a `submodule <https://git-scm.com/book/en/v2/Git-Tools-Submodules>`_
-	* Moved `moorDyn <https://github.com/WEC-Sim/moorDyn>`_ to its own repository
-	* Removed publications from repository, :ref:`available on website <intro-publications>`
+  * Implemented `Git LFS <https://git-lfs.github.com/>`_ for tracking ``*.h5`` files
+	
+  *  Added `WEC-Sim Application  repository <https://github.com/WEC-Sim/WEC-Sim_Applications>`_ as a `submodule <https://git-scm.com/book/en/v2/Git-Tools-Submodules>`_
+	
+  *  Moved `moorDyn <https://github.com/WEC-Sim/moorDyn>`_ to its own repository
+	
+  *  Removed publications from repository, :ref:`available on website <intro-publications>`
 
-.. Note::
-
-	GitHub repository history was re-written to make repository *much* smaller. Re-cloning the repository is highly recommended - it should be much faster than before. 
 
 
 `WEC-Sim v2.1 <https://github.com/WEC-Sim/WEC-Sim/releases/tag/v2.1>`_
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
 * Added MATLAB version of BEMIO (to replace python version)
+
 * Added variable time-step option with 'ode45' by @ratanakso 
+
 * Update to MCR, option to not re-load ``*.h5`` file by @bradling 
+
 * Update to waveClass to allow for definition of min/max wave frequency by @bradling 
 
 .. Note::
 
-	Backward Compatibility: **WEC-Sim v2.1 is not backward compatible**
+	**WEC-Sim v2.1 is not backward compatible**
 
 `WEC-Sim v2.0 <https://github.com/WEC-Sim/WEC-Sim/releases/tag/v2.0>`_
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
 * Updated WEC-Sim Library (generalized joints/constraints/PTOs)
+
 * Body-to-body interactions for radiation forces
+
 * Morison forces
+
 * Batch run mode (MCR)
+
 * Mooring sub-library implemented in mooringClass (no longer in body or joint)
+
 * More realistic PTO and mooring modeling through PTO-Sim and integration with MoorDyn
+
 * Non-hydrodynamic body option
+
 * Visualization using ParaView
 
 .. Note::
 
-	Backward Compatibility: **WEC-Sim v2.0 is not backward compatible**
+	**WEC-Sim v2.0 is not backward compatible**
 
 `WEC-Sim v1.3 <https://github.com/WEC-Sim/WEC-Sim/releases/tag/v1.3>`_
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
@@ -235,7 +258,7 @@ Previous Releases
 
 .. Note::
 
-	Backward Compatibility: **WEC-Sim v1.2 is not backward compatible**
+	**WEC-Sim v1.2 is not backward compatible**
 
 `WEC-Sim v1.1 <https://github.com/WEC-Sim/WEC-Sim/releases/tag/v1.1>`_
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^

@@ -3,32 +3,33 @@
 Citing WEC-Sim
 ===============
 
-WEC-Sim has been an extensive project with many developments and publications over the years.
-To cite WEC-Sim, please reference the publications below and the appropriate software version used.
+WEC-Sim development has been ongoing since 2013, with many new features and publications over the years.
+To cite WEC-Sim, please reference the publication below and the appropriate software version used.
 The citation for the most recent version of WEC-Sim is below.
 
 .. Note 
-   it seems many applications have corresponding references that are not noted in teh readmes.
+   it seems many applications have corresponding references that are not noted in the readmes.
    Add these refernces to each readme here then uncomment the line below.
    
-.. To cite one of the WEC-Sim applications, please see that application's README for appropriate citations.
+.. TODO To cite one of the WEC-Sim applications, please see that application's README for appropriate citations.
 
 
-Publications
+Publication
 ------------
 
-[1] Y.-H. Yu, M. Lawson, K. Ruehl, and C. Michelen, "`Development and Demonstration of the WEC-Sim Wave Energy Converter Simulation Tool <http://vtechworks.lib.vt.edu/bitstream/handle/10919/49236/137-Lawson.pdf?sequence=1&isAllowed=y>`_," in Proceedings of the 2nd Marine Energy Technology Symposium, METS 2014, Seattle, WA, 2014.   
-
-
-Code
-------------------
+[1] D. Ogden, K. Ruehl, Y.H. Yu, A. Keester, D. Forbush, J. Leon, N. Tom, "Review of WEC-Sim Development and Applications" in Proceedings of the 14th European Wave and Tidal Energy Conference, EWTEC 2021, Plymouth, UK, 2021. 
 
 `WEC-Sim v4.3 <https://github.com/WEC-Sim/WEC-Sim/releases/tag/v4.3>`_
-^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+------------------------------------------------------------------------
+
 
 .. Note this author list is not what appears on Zenodo (appears to be generated from all GH contributors to WEC-Sim)
 
-[1] Yi-Hsiang Yu, Kelley Ruehl, Jennifer Van Rij, Nathan Tom, Dominic Forbush, David Ogden, Adam Keester, and Jorge Leon. (2021, July), WEC-Sim (Version v4.3), `DOI 10.5281/zenodo.5122959 <https://doi.org/10.5281/zenodo.5122959>`_.
+[1] Yi-Hsiang Yu, Kelley Ruehl, Jennifer Van Rij, Nathan Tom, Dominic Forbush, David Ogden, Adam Keester, and Jorge Leon. (2021, July), WEC-Sim (Version v4.3), DOI 10.5281/zenodo.5122959.
+
+
+.. image:: https://zenodo.org/badge/DOI/10.5281/zenodo.5122959.svg
+   :target: https://doi.org/10.5281/zenodo.5122959
 
 .. code-block:: none
 
@@ -51,5 +52,3 @@ Code
 	}
     
 
-.. image:: https://zenodo.org/badge/DOI/10.5281/zenodo.5122959.svg
-   :target: https://doi.org/10.5281/zenodo.5122959
