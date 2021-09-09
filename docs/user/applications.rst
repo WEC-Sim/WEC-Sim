@@ -1,7 +1,7 @@
 .. _user-applications:
 
-Applications
-============
+WEC-Sim Applications
+========================
 
 The `WEC-Sim Applications <https://github.com/WEC-Sim/WEC-Sim_Applications>`_ 
 repository contains many more applications of the WEC-Sim code that demonstrate 

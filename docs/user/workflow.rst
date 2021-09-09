@@ -26,16 +26,16 @@ and structure of the WEC-Sim source code, refer to the
 
 .. _user-workflow-input-files:
 
-WEC-Sim Input Files
+WEC-Sim Case Files
 -------------------
 
-Before WEC-Sim can be used, a wave energy converter design must exist. This 
-design must include a surface mesh, frequency-based hydrodynamic data from a 
-boundary element method solver, and a Simulink/Simscape model of the WEC. The 
-WEC's geometry and other parameters must be detailed in the wecSimInputFile. 
 All files required for a WEC-Sim simulation must be contained within a case 
 directory referred to as ``$CASE``. This directory can be located anywhere on 
-your computer. The table below lists the WEC-Sim case directory structure and 
+your computer. 
+The case directory must include a geometry file, frequency-domain hydrodynamic data from a 
+boundary element method solver, and a Simulink model of the device, and a WEC-Sim input file. The 
+WEC's geometry and other parameters must be detailed in the ``wecSimInputFile``. 
+The table below lists the WEC-Sim case directory structure and 
 required files. 
 
 ==================== ====================== ====================
@@ -53,12 +53,12 @@ Hydrodynamic Data
 ^^^^^^^^^^^^^^^^^
 
 The Hydrodynamic coefficients for each body may be generated using a boundary 
-element method (BEM) code (e.g., **WAMIT**, **NEMOH**, **AQWA**, or **CAPYTAINE**). The WEC-Sim 
+element method (BEM) code (e.g., WAMIT, NEMOH, AQWA, or CAPYTAINE). The WEC-Sim 
 code requires hydrodynamic data from the BEM solution in the form of HDF5 
 format (``*.h5`` file). This ``*.h5`` hydrodynamic data file can be generated 
 using the BEMIO pre-processor. BEMIO (Boundary Element Method Input/Output) is 
 a code developed by the WEC-Sim team to process BEM output files from 
-**WAMIT**, **NEMOH**, **AQWA**, and **CAPYTAINE** into a data structure than can be read by 
+WAMIT, NEMOH, AQWA, and CAPYTAINE into a data structure than can be read by 
 WEC-Sim. For more information about the BEMIO pre-processor, refer to the 
 :ref:`user-advanced-features-bemio` section. 
 
