@@ -36,19 +36,12 @@ waves.waveSpread = [0.1,0.2,0.7];       % Wave Directional Spreading [%}
 % waves = waveClass('etaImport');         % Create the Wave Variable and Specify Type
 % waves.etaDataFile = 'etaData.mat'; % Name of User-Defined Time-Series File [:,2] = [time, eta]
 
-
-
-% waves.wavegauge<i>loc = <user defined wave gauge i x-location>; 
-waves.wavegauge1loc = [-5*waves.H,-5]; 
-waves.wavegauge2loc = [-5*waves.H,0];
-waves.wavegauge3loc = [-5*waves.H,5]; 
-waves.wavegauge4loc = [waves.H,-5]; 
-waves.wavegauge5loc = [waves.H,0]; 
-waves.wavegauge6loc = [waves.H,5]; 
-waves.wavegauge7loc = [6*waves.H,-5]; 
-waves.wavegauge8loc = [6*waves.H,0]; 
-waves.wavegauge9loc = [6*waves.H,5]; 
-% waves.waveAmpTime<i> = incident wave elevation time series at wave gauge i
+waves.wavegauge1loc = [0,0]; 
+mrk = 10;
+dmrk = 5;
+[X,Y] = meshgrid(-mrk:dmrk:mrk,-mrk:dmrk:mrk);
+waves.wavegaugeLoc = [reshape(X,[],1),reshape(Y,[],1)];
+clear('mrk','dmrk','X','Y')
 %% Body Data
 % Flap
 body(1) = bodyClass('hydroData/oswec.h5');      % Initialize bodyClass for Flap

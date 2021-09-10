@@ -55,7 +55,7 @@ waves.spectrumType = 'PM';              % Specify Wave Spectrum Type
 % waves.wavegauge<i>loc = <user defined wave gauge i x-location>; %(y-position assumed to be 0 m)
 waves.wavegauge1loc = [0,0]; 
 mrk = 10;
-dmrk = 4;
+dmrk = 5;
 [X,Y] = meshgrid(-mrk:dmrk:mrk,-mrk:dmrk:mrk);
 waves.wavegaugeLoc = [reshape(X,[],1),reshape(Y,[],1)];
 clear('mrk','dmrk','X','Y')
