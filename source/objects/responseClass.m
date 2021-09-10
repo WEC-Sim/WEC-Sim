@@ -268,9 +268,15 @@ classdef responseClass<handle
             %     
             DOF = {'Surge','Sway','Heave','Roll','Pitch','Yaw'};
             t=obj.bodies(bodyNum).time;
+            if comp<4
             pos=obj.bodies(bodyNum).position(:,comp) - obj.bodies(bodyNum).position(1,comp);
             vel=obj.bodies(bodyNum).velocity(:,comp);
             acc=obj.bodies(bodyNum).acceleration(:,comp);
+            else
+            pos=obj.bodies(bodyNum).position(:,comp);
+            vel=obj.bodies(bodyNum).velocity(:,comp);
+            acc=obj.bodies(bodyNum).acceleration(:,comp);
+            end
             figure()
             plot(t,pos,'k-',...
                 t,vel,'b-',...
