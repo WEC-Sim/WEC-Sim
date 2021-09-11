@@ -57,8 +57,11 @@ waves.T = 8;                            % Wave Period [s]
 mrk = 10;
 dmrk = 5;
 [X,Y] = meshgrid(-mrk:dmrk:mrk,-mrk:dmrk:mrk);
-waves.wavegaugeLoc = [reshape(X,[],1),reshape(Y,[],1)];
+waves.markLoc = [reshape(X,[],1),reshape(Y,[],1)]; % Marker Locations [X,Y]
 clear('mrk','dmrk','X','Y')
+
+waves.markStyle   = 3;    % 1: Sphere, 2: Cube, 3: Frame.
+waves.markSize    = 30;   % Marker Size in Pixels
 %% Body Data
 % Float
 body(1) = bodyClass('hydroData/rm3.h5');      
