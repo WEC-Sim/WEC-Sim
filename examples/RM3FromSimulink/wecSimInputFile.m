@@ -53,13 +53,6 @@ waves.T = 8;                            % Wave Period [s]
 % waves = waveClass('etaImport');         % Create the Wave Variable and Specify Type
 % waves.etaDataFile = 'etaData.mat'; % Name of User-Defined Time-Series File [:,2] = [time, eta]
 
-waves.wavegauge1loc = [0,0]; 
-mrk = 10;
-dmrk = 5;
-[X,Y] = meshgrid(-mrk:dmrk:mrk,-mrk:dmrk:mrk);
-waves.wavegaugeLoc = [reshape(X,[],1),reshape(Y,[],1)];
-clear('mrk','dmrk','X','Y')
-
 %% Body Data
 % Float
 body(1) = bodyClass('hydroData/rm3.h5');      

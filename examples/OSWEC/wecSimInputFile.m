@@ -11,7 +11,6 @@ simu.dt = 0.1;                          % Simulation Time-Step [s]
 simu.CITime = 30;                       % Specify CI Time [s]
 
 %% Wave Information
-
 % % noWaveCIC, no waves with radiation CIC  
 % waves = waveClass('noWaveCIC');       % Initialize Wave Class and Specify Type  
 
@@ -36,12 +35,7 @@ waves.waveSpread = [0.1,0.2,0.7];       % Wave Directional Spreading [%}
 % waves = waveClass('etaImport');         % Create the Wave Variable and Specify Type
 % waves.etaDataFile = 'etaData.mat'; % Name of User-Defined Time-Series File [:,2] = [time, eta]
 
-waves.wavegauge1loc = [0,0]; 
-mrk = 10;
-dmrk = 5;
-[X,Y] = meshgrid(-mrk:dmrk:mrk,-mrk:dmrk:mrk);
-waves.wavegaugeLoc = [reshape(X,[],1),reshape(Y,[],1)];
-clear('mrk','dmrk','X','Y')
+
 %% Body Data
 % Flap
 body(1) = bodyClass('hydroData/oswec.h5');      % Initialize bodyClass for Flap

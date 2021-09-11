@@ -54,6 +54,13 @@ waves.T = 8;                            % Wave Period [s]
 % waves.etaDataFile = 'etaData.mat'; % Name of User-Defined Time-Series File [:,2] = [time, eta]
 % waves.wavegauge<i>loc = <user defined wave gauge i x-location>; %(y-position assumed to be 0 m)
 % waves.wavegauge1loc = [0,0]; 
+
+% X = 2*[1;2;3;4;5];
+% Y = 2*[1;2;3;4;5];
+% waves.markLoc = [X,Y];
+% waves.markStyle         = 2;
+% waves.markSize          = 15;
+
 mrk = 10;
 dmrk = 5;
 [X,Y] = meshgrid(-mrk:dmrk:mrk,-mrk:dmrk:mrk);
@@ -61,7 +68,7 @@ waves.markLoc = [reshape(X,[],1),reshape(Y,[],1)]; % Marker Locations [X,Y]
 clear('mrk','dmrk','X','Y')
 
 waves.markStyle   = 3;    % 1: Sphere, 2: Cube, 3: Frame.
-waves.markSize    = 30;   % Marker Size in Pixels
+waves.markSize    = 20;   % Marker Size in Pixels
 %% Body Data
 % Float
 body(1) = bodyClass('hydroData/rm3.h5');      
