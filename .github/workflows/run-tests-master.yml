@@ -9,18 +9,24 @@ on:
     branches:
       - master
 jobs:
-  test:
-    name: Run MATLAB Tests and Generate Artifacts
+  run_tests:
     runs-on: ubuntu-latest
+    strategy:
+      fail-fast: false
+      matrix:
+        release: [R2020a, R2020b, latest]
+    name: MATLAB ${{ matrix.release }}
     steps:
       - name: Check out repository
         uses: actions/checkout@v2
         with:
           lfs: true
-      - name: Checkout LFS objects
+      - name: Check out LFS objects
         run: git lfs checkout
       - name: Install MATLAB
         uses: matlab-actions/setup-matlab@v1
+        with:
+            release: ${{ matrix.release }}
       - name: Install WEC-Sim
         uses: matlab-actions/run-command@v1
         with:
