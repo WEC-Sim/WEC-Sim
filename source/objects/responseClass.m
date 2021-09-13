@@ -106,7 +106,7 @@ classdef responseClass<handle
     end
     
     methods (Access = 'public')
-        function obj = responseClass(bodiesOutput,ptosOutput,constraintsOutput,ptosimOutput,mooringOutput,waveOutput, yawNonLin)                      
+        function obj = responseClass(bodiesOutput,ptosOutput,constraintsOutput,ptosimOutput,mooringOutput,waveOutput, yawNonLin,body)                      
             % This method initializes the ``responseClass``, reads 
             % output from each instance of a WEC-Sim class (e.g.
             % ``waveClass``, ``bodyClass``, ``ptoClass``, ``mooringClass``, etc)
@@ -256,7 +256,7 @@ classdef responseClass<handle
             end
         end
 
-        function plotResponse(obj,bodyNum,comp)
+        function plotResponse(obj,bodyNum,comp,body)
             % This method plots the response of a body for a given DOF.
             %
             % Parameters
@@ -269,7 +269,11 @@ classdef responseClass<handle
             %     
             DOF = {'Surge','Sway','Heave','Roll','Pitch','Yaw'};
             t=obj.bodies(bodyNum).time;
-            pos=obj.bodies(bodyNum).position(:,comp);
+            if comp < 4
+                pos=obj.bodies(bodyNum).position(:,comp)-body(bodyNum).cg(comp);
+            else
+                pos=obj.bodies(bodyNum).position(:,comp);
+            end
             vel=obj.bodies(bodyNum).velocity(:,comp);
             acc=obj.bodies(bodyNum).acceleration(:,comp);
             figure()
