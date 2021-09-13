@@ -8,6 +8,7 @@ $ cat .gitignore
 *.asv
 *.autosave
 *.aux
+*.avi
 *.bak
 *.bat
 *.bbl
@@ -17,6 +18,7 @@ $ cat .gitignore
 *.dvi
 *.exp
 *.fig
+*.gif
 *.glg
 *.glo
 *.gls
@@ -60,6 +62,7 @@ $ cat .gitignore
 
 # BEMIO
 *.h5
+**/__pycache__/
 
 #Examples
 wecSimInputFile_simulinkCustomParameters.m
@@ -89,3 +92,4 @@ docs/_build
 .DS_Store
 view_html.sh
 *vis-temp*
+*.pyc

@@ -10,8 +10,8 @@ Overview
         Reference OC6P1 paper and how well WEC-Sim performs
 
 
-WEC-Sim (Wave Energy Converter SIMulator) is an open-source code for simulating 
-wave energy converters. The code is developed in MATLAB/SIMULINK using the 
+WEC-Sim (Wave Energy Converter SIMulator) is an open-source software for simulating 
+wave energy converters. The software is developed in MATLAB/SIMULINK using the 
 multi-body dynamics solver Simscape Multibody. WEC-Sim has the ability to model 
 devices that are comprised of hydrodynamic bodies, joints and constraints, 
 power take-of systems, and mooring systems. Simulations are performed in the 
@@ -26,16 +26,16 @@ bending.
    :width: 750pt
 
 At a high level, the only external input that WEC-Sim requires is boundary 
-element method data from codes such as WAMIT, AQWA, Capytaine, HAMS, etc. The 
+element method data from software such as WAMIT, AQWA, Capytaine, and NEMOH. The 
 boundary element method represents the hydrodynamic response of the device for 
 a given wave frequency. WEC-Sim uses this data to simulate devices in the 
 time-domain where they can be better coupled with controls, power take-off 
 systems, and other external bodies and forcings. WEC-Sim outputs the motions, 
 forces and power absorbed or lost in individual bodies, joints and PTOs. Output 
 is readily available in MATLAB for custom post-processing or coupling with 
-external tools such as the `WecOptTool <https://snl-waterpower.github.io/WecOptTool/>`_. 
+external tools. 
 
-.. TODO if reference / comparing to other codes, do so here
+.. TODO if reference / comparing to other softwares, do so here
 
 Several interfaces with Simulink are included that allow users to couple 
 WEC-Sim with a wide variety of other models and scripts relevant to their 
@@ -63,7 +63,7 @@ effects (Froude-Krylov forces and hydrostatic stiffness) and nonhydrodynamic
 bodies, body-to-body interactions, mooring systems, passive yawing. WEC-Sim 
 contains numerous numerical options and ability to perform highly customizable 
 batch simulations. WEC-Sim can take in data from a variety of boundary element 
-method codes using its BEMIO (BEM-in/out) functionality and can output paraview 
+method software using its BEMIO (BEM-in/out) functionality and can output paraview 
 files for visualization. Some of its advanced features are highlighted in the 
 figures below. 
 

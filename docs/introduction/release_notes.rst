@@ -3,11 +3,74 @@
 Release Notes
 =============
 
-Current Release
-----------------
+`WEC-Sim v4.3 <https://github.com/WEC-Sim/WEC-Sim/releases/tag/v4.3>`_
+--------------------------------------------------------------------------------
+
+.. image:: https://zenodo.org/badge/DOI/10.5281/zenodo.5122959.svg
+   :target: https://doi.org/10.5281/zenodo.5122959
+
+
+* New Features
+
+  * Added the ability for WEC-Sim to be run directly from Simulink `#503 <https://github.com/WEC-Sim/WEC-Sim/pull/503>`_ `#512 <https://github.com/WEC-Sim/WEC-Sim/pull/512>`_ `#548 <https://github.com/WEC-Sim/WEC-Sim/pull/548>`_
+   
+  * Added capability to read Capytaine (.nc) output. Includes examples of running Capytaine with hydrostatics `#464 <https://github.com/WEC-Sim/WEC-Sim/pull/464>`_
+   
+  * Created a more accurate infinite frequency added mass calculation `#517 <https://github.com/WEC-Sim/WEC-Sim/pull/517>`_
+   
+  * Added ability for setInitDisp to intake multiple initial rotations `#516 <https://github.com/WEC-Sim/WEC-Sim/pull/516>`_ `#586 <https://github.com/WEC-Sim/WEC-Sim/pull/586>`_
+   
+* Documentation 
+
+  * Restructured into four manuals: introduction, theory, user and development `#455 <https://github.com/WEC-Sim/WEC-Sim/pull/455>`_ `#557 <https://github.com/WEC-Sim/WEC-Sim/pull/557>`_
+   
+  * Update of code structure section `#455 <https://github.com/WEC-Sim/WEC-Sim/pull/455>`_, links `#649 <https://github.com/WEC-Sim/WEC-Sim/pull/649>`_ , diagrams `#643 <https://github.com/WEC-Sim/WEC-Sim/pull/643>`_, paraview `#642 <https://github.com/WEC-Sim/WEC-Sim/pull/642>`_, 
+   
+  * Added section on suggested troubleshooting `#641 <https://github.com/WEC-Sim/WEC-Sim/pull/641>`_ 
+   
+* Continuous integration tests 
+
+  * Overhaul and speed up of tests `#508 <https://github.com/WEC-Sim/WEC-Sim/pull/508>`_ `#620 <https://github.com/WEC-Sim/WEC-Sim/pull/620>`_
+   
+  * Extension of tests to the applications cases `#7 <https://github.com/WEC-Sim/WEC-Sim_Applications/pull/7>`_
+   
+* Clean up
+
+  * Created issue templates on GitHub `#575 <https://github.com/WEC-Sim/WEC-Sim/pull/575>`_ `#634 <https://github.com/WEC-Sim/WEC-Sim/pull/634>`_ 
+   
+  * Updated Morison Element warning flags `#408 <https://github.com/WEC-Sim/WEC-Sim/pull/408>`_
+   
+  * Clean up response class methods `#491 <https://github.com/WEC-Sim/WEC-Sim/pull/491>`_ `#514 <https://github.com/WEC-Sim/WEC-Sim/pull/514>`_ 
+   
+  * Clean up paraview output functions `#490 <https://github.com/WEC-Sim/WEC-Sim/pull/490>`_
+   
+* Bug Fixes
+
+  * Paraview macros and .pvsm files `#459 <https://github.com/WEC-Sim/WEC-Sim/pull/459>`_
+   
+  * BEMIO read mean drift force in R2021a `#636 <https://github.com/WEC-Sim/WEC-Sim/pull/636>`_
+   
+  * PTO-Sim calling workspace `#632 <https://github.com/WEC-Sim/WEC-Sim/pull/632>`_
+   
+  * Combine_BEM Ainf initialization `#611 <https://github.com/WEC-Sim/WEC-Sim/pull/611>`_
+
+* Issues and Pull Requests
+  
+  * \>100 issues closed since v4.2
+
+  *   \>45 PRs merged since v4.2
+
+
+
+Previous Releases
+------------------
 
 `WEC-Sim v4.2 <https://github.com/WEC-Sim/WEC-Sim/releases/tag/v4.2>`_
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+.. image:: https://zenodo.org/badge/DOI/10.5281/zenodo.4391330.svg
+   :target: https://doi.org/10.5281/zenodo.4391330
+
 
 * Added normal/tangential option for Morison Force (``simu.morisonElement = 2``) `#408 <https://github.com/WEC-Sim/WEC-Sim/pull/408>`_
 
@@ -33,17 +96,12 @@ Current Release
 
   * Resolved variant subsystem labeling bug  `#486 <https://github.com/WEC-Sim/WEC-Sim/pull/486)>`_ `#479 <https://github.com/WEC-Sim/WEC-Sim/issues/479>`_
 
-.. image:: https://zenodo.org/badge/DOI/10.5281/zenodo.4391330.svg
-   :target: https://doi.org/10.5281/zenodo.4391330
-
-
-
-Previous Releases
-------------------
 
 
 `WEC-Sim v4.1 <https://github.com/WEC-Sim/WEC-Sim/releases/tag/v4.1>`_
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+.. image:: https://zenodo.org/badge/DOI/10.5281/zenodo.3924765.svg
+   :target: https://doi.org/10.5281/zenodo.3924765
 
 * Added passive yaw
 
@@ -61,12 +119,13 @@ Previous Releases
   
   * Extended capabilities for ParaView visualization `#355 <https://github.com/WEC-Sim/WEC-Sim/pull/355>`_
 
-.. image:: https://zenodo.org/badge/DOI/10.5281/zenodo.3924765.svg
-   :target: https://doi.org/10.5281/zenodo.3924765
    
    
 `WEC-Sim v4.0 <https://github.com/WEC-Sim/WEC-Sim/releases/tag/v4.0>`_
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+.. image:: https://zenodo.org/badge/DOI/10.5281/zenodo.3827897.svg
+   :target: https://doi.org/10.5281/zenodo.3827897
 
 * Added mean drift force calculation
 
@@ -74,8 +133,6 @@ Previous Releases
 
 * Updated BEMIO for mean drift force and generalized body modes
 
-.. image:: https://zenodo.org/badge/DOI/10.5281/zenodo.3827897.svg
-   :target: https://doi.org/10.5281/zenodo.3827897
    
 
 
@@ -98,11 +155,11 @@ Previous Releases
 `WEC-Sim v3.0 <https://github.com/WEC-Sim/WEC-Sim/releases/tag/v3.0>`_
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
-* Added option of `equal energy spacing <http://wec-sim.github.io/WEC-Sim/advanced_features.html#irregular-wave-binning>`_ for irregular waves (default)
+* Added option of :ref:`equal energy spacing <user-advanced-features-irregular-wave-binning>` for irregular waves (default)
 
 * Added option to calculate the wave elevation at a location different from the origin
 
-* Added option to define `gamma for JONSWAP spectrum <http://wec-sim.github.io/WEC-Sim/code_structure.html#irregular>`_
+* Added option to define :ref:`gamma for JONSWAP spectrum <user-code-structure-irregular>`
 
 * Improved the WEC-Sim simulation speed when using rapid-acceleration mode
 
@@ -110,54 +167,73 @@ Previous Releases
 
 * Changed/Added following WEC-Sim parameters
 
-	* waves.randPreDefined -> `waves.phaseSeed <http://wec-sim.github.io/WEC-Sim/advanced_features.html#irregular-waves-with-seeded-phase>`_
-	* waves.phaseRand -> waves.phase           
-	* simu.dtFeNonlin -> `simu.dtNL <http://wec-sim.github.io/WEC-Sim/advanced_features.html#non-linear-hydrodynamics>`_
-	* simu.rampT -> `simu.rampTime <http://wec-sim.github.io/WEC-Sim/code_structure.html#simulation-class>`_
-	* Added simu.dtME  to allow specification of `Morison force time-step <http://wec-sim.github.io/WEC-Sim/advanced_features.html#time-step-features>`_
+  *  waves.randPreDefined -> :ref:`waves.phaseSeed <user-advanced-features-seeded-phase>`
+	
+  *  waves.phaseRand -> waves.phase           
+	
+  *  simu.dtFeNonlin -> :ref:`simu.dtNL <user-advanced-features-nonlinear>`
+	
+  * simu.rampT -> :ref:`simu.rampTime <user-code-structure-simulation-class>`
+	
+  * Added simu.dtME  to allow specification of :ref:`Morison force time-step <user-advanced-features-time-step>`
 
 
 `WEC-Sim v2.2 <https://github.com/WEC-Sim/WEC-Sim/releases/tag/v2.2>`_
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
 * Added option to save pressure data for non-linear hydro (`simu.pressureDis`)
+
 * Update to moorDyn parser (doesn't require line#.out)  
+
 * Repository cleanup
 
-	* Implemented `Git LFS <https://git-lfs.github.com/>`_ for tracking ``*.h5`` files
-	* Added `WEC-Sim Application  repository <https://github.com/WEC-Sim/WEC-Sim_Applications>`_ as a `submodule <https://git-scm.com/book/en/v2/Git-Tools-Submodules>`_
-	* Moved `moorDyn <https://github.com/WEC-Sim/moorDyn>`_ to its own repository
-	* Removed publications from repository, `available on website <http://wec-sim.github.io/WEC-Sim/publications.html>`_
+  * Implemented `Git LFS <https://git-lfs.github.com/>`_ for tracking ``*.h5`` files
+	
+  *  Added `WEC-Sim Application  repository <https://github.com/WEC-Sim/WEC-Sim_Applications>`_ as a `submodule <https://git-scm.com/book/en/v2/Git-Tools-Submodules>`_
+	
+  *  Moved `moorDyn <https://github.com/WEC-Sim/moorDyn>`_ to its own repository
+	
+  *  Removed publications from repository, :ref:`available on website <intro-publications>`
 
-.. Note::
-
-	GitHub repository history was re-written to make repository *much* smaller. Re-cloning the repository is highly recommended - it should be much faster than before. 
 
 
 `WEC-Sim v2.1 <https://github.com/WEC-Sim/WEC-Sim/releases/tag/v2.1>`_
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
 * Added MATLAB version of BEMIO (to replace python version)
+
 * Added variable time-step option with 'ode45' by @ratanakso 
+
 * Update to MCR, option to not re-load ``*.h5`` file by @bradling 
+
 * Update to waveClass to allow for definition of min/max wave frequency by @bradling 
 
 .. Note::
 
-	Backward Compatibility: **WEC-Sim v2.1 is not backward compatible**
+	**WEC-Sim v2.1 is not backward compatible**
 
 `WEC-Sim v2.0 <https://github.com/WEC-Sim/WEC-Sim/releases/tag/v2.0>`_
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
 * Updated WEC-Sim Library (generalized joints/constraints/PTOs)
+
 * Body-to-body interactions for radiation forces
+
 * Morison forces
+
 * Batch run mode (MCR)
+
 * Mooring sub-library implemented in mooringClass (no longer in body or joint)
+
 * More realistic PTO and mooring modeling through PTO-Sim and integration with MoorDyn
+
 * Non-hydrodynamic body option
+
 * Visualization using ParaView
 
 .. Note::
 
-	Backward Compatibility: **WEC-Sim v2.0 is not backward compatible**
+	**WEC-Sim v2.0 is not backward compatible**
 
 `WEC-Sim v1.3 <https://github.com/WEC-Sim/WEC-Sim/releases/tag/v1.3>`_
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
@@ -182,14 +258,14 @@ Previous Releases
 
 .. Note::
 
-	Backward Compatibility: **WEC-Sim v1.2 is not backward compatible**
+	**WEC-Sim v1.2 is not backward compatible**
 
 `WEC-Sim v1.1 <https://github.com/WEC-Sim/WEC-Sim/releases/tag/v1.1>`_
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 * WEC-Sim v1.1, `now available on GitHub <https://github.com/WEC-Sim/WEC-Sim/releases/tag/v1.1>`_ 
 * Improvements in code stability through modifications to the added mass, radiation damping calculations, and impulse response function calculations
 * Implementation of state space representation of radiation damping convolution integral calculation
-* New hydrodynamic data format based on `BEMIO <http://wec-sim.github.io/bemio/#>`_ output, a python code that reads data from WAMIT, NEMOH, and AQWA and writes to the `Hierarchical Data Format 5 <http://www.hdfgroup.org/>`_ (HDF5) format used by WEC-Sim.
+* New hydrodynamic data format based on :ref:`BEMIO <user-advanced-features-bemio>` output, a python code that reads data from WAMIT, NEMOH, and AQWA and writes to the `Hierarchical Data Format 5 <http://www.hdfgroup.org/>`_ (HDF5) format used by WEC-Sim.
 * Documentation available on WEC-Sim Website
 
 `WEC-Sim v1.0 <https://github.com/WEC-Sim/WEC-Sim/releases/tag/v1.0>`_

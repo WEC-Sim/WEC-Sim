@@ -26,16 +26,16 @@ and structure of the WEC-Sim source code, refer to the
 
 .. _user-workflow-input-files:
 
-WEC-Sim Input Files
+WEC-Sim Case Files
 -------------------
 
-Before WEC-Sim can be used, a wave energy converter design must exist. This 
-design must include a surface mesh, frequency-based hydrodynamic data from a 
-boundary element method solver, and a Simulink/Simscape model of the WEC. The 
-WEC's geometry and other parameters must be detailed in the wecSimInputFile. 
 All files required for a WEC-Sim simulation must be contained within a case 
 directory referred to as ``$CASE``. This directory can be located anywhere on 
-your computer. The table below lists the WEC-Sim case directory structure and 
+your computer. 
+The case directory must include a geometry file, frequency-domain hydrodynamic data from a 
+boundary element method solver, and a Simulink model of the device, and a WEC-Sim input file. The 
+WEC's geometry and other parameters must be detailed in the ``wecSimInputFile``. 
+The table below lists the WEC-Sim case directory structure and 
 required files. 
 
 ==================== ====================== ====================
@@ -53,12 +53,12 @@ Hydrodynamic Data
 ^^^^^^^^^^^^^^^^^
 
 The Hydrodynamic coefficients for each body may be generated using a boundary 
-element method (BEM) code (e.g., **WAMIT**, **NEMOH**, **AQWA**, or **CAPYTAINE**). The WEC-Sim 
+element method (BEM) code (e.g., WAMIT, NEMOH, AQWA, or CAPYTAINE). The WEC-Sim 
 code requires hydrodynamic data from the BEM solution in the form of HDF5 
 format (``*.h5`` file). This ``*.h5`` hydrodynamic data file can be generated 
 using the BEMIO pre-processor. BEMIO (Boundary Element Method Input/Output) is 
 a code developed by the WEC-Sim team to process BEM output files from 
-**WAMIT**, **NEMOH**, **AQWA**, and **CAPYTAINE** into a data structure than can be read by 
+WAMIT, NEMOH, AQWA, and CAPYTAINE into a data structure than can be read by 
 WEC-Sim. For more information about the BEMIO pre-processor, refer to the 
 :ref:`user-advanced-features-bemio` section. 
 
@@ -66,7 +66,8 @@ Geometry File
 ^^^^^^^^^^^^^
 
 The WEC-Sim code also requires a geometry file (``*.stl``) that defines the 
-outer surface of the device. Most CAD programs can export a geometry as a 
+outer surface of the device. The origin of the geometry file must be at the center
+of gravity of that body. Most CAD programs can export a geometry as a 
 ``*.stl`` file. When running WEC-Sim with linear hydrodynamics, the ``*.stl`` 
 is only used for the Simscape Mechanics Explorer visualization. However, when 
 running WEC-Sim with nonlinear buoyancy and Froude-Krylov forces the mesh 
@@ -254,7 +255,7 @@ Lastly, WEC-Sim can be executed from the ``$CASE`` directory using the following
 	* Type ``wecSim`` in the Command Window
 * Run from Simulink (for RM3FromSimulink example)
 	* Open the relevant WEC-Sim Simulink file
-	* Type ``wecSimInitialize`` in the Command Window
+	* Type ``initializeWecSim`` in the Command Window
 	* Hit Play in Simulink model to run 
 
 Refer to :ref:`user-tutorials-examples` for more details on how to run the examples. To customize or develop a new WEC-Sim model that runs from Simlunk (e.g. for Hardware-in-the-Loop, HIL, applications) refer to :ref:`user-advanced-features-simulink` for more information.
