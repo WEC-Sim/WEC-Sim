@@ -13,8 +13,10 @@ classdef runFromSimTest < matlab.unittest.TestCase
             % Set WEC-Sim, test and simulink directories
             obj.testDir = fileparts(mfilename('fullpath'));
             obj.wsDir = fullfile(obj.testDir,'..');
-            obj.runFromSimDir = fullfile(obj.testDir,'runFromSimulinkTests\');
+            obj.runFromSimDir = fullfile(obj.testDir,  ...
+                                         'runFromSimulinkTests');
         end
+        
     end
     
     methods(TestClassSetup)
@@ -132,7 +134,7 @@ classdef runFromSimTest < matlab.unittest.TestCase
             
             simFile = fullfile(testCase.runFromSimDir,'fromSimCustom.slx');
             load_system(simFile);
-            run('wecSimInitialize');
+            run('initializeWecSim');
             sim(simFile, [], simset('SrcWorkspace','current'));
             
             close_system(simFile,0);
@@ -146,7 +148,7 @@ classdef runFromSimTest < matlab.unittest.TestCase
             
             simFile = fullfile(testCase.runFromSimDir,'fromSimInput.slx');
             load_system(simFile);
-            run('wecSimInitialize');
+            run('initializeWecSim');
             sim(simFile, [], simset('SrcWorkspace','current'));
             
             close_system(simFile,0);

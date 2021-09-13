@@ -109,7 +109,7 @@ setting for ``simu.reloadH5Data`` in the WEC-Sim input file.
 Running as Function 
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
-WEC-Sim allows users to execute WEC-Sim as a funection by using ``wecSimFcn``.
+WEC-Sim allows users to execute WEC-Sim as a function by using ``wecSimFcn``.
 
 
 
@@ -122,19 +122,19 @@ Beginning in version 4.3, WEC-Sim can also be run from Simulink.
 The WEC-Sim library now allows for an input file or custom parameters to be used inside the block masks.
 This mode is useful when using WEC-Sim in conjunction with hardware-in-the-loop or other Simulink models with their own initialization.
 To run WEC-Sim from Simulink, open the Simulink ``.slx`` file and choose whether to use an input file or custom parameters in the Global Reference Frame.
-Next type ``wecSimInitialize`` in the MATLAB Command Window. 
+Next type ``initializeWecSim`` in the MATLAB Command Window. 
 Lastly, run the model from the Simulink interface.
 
 * Run from Simulink with a wecSimInputFile.m
 	* Set the Global Reference Frame to use an input file
 	* Choose the correct input file
-	* Type ``wecSimInitialize`` in the Command Window
+	* Type ``initializeWecSim`` in the Command Window
 	* Run the model from Simulink
 * Run from Simulink with custom parameters
 	* Set the Global  Reference Frame to use custom parameters
 	* (Optional) prefill parameters by loading an input file.
 	* Edit custom parameters as desired
-	* Type ``wecSimInitialize`` in the Command Window
+	* Type ``initializeWecSim`` in the Command Window
 	* Run the model from Simulink
 	
 Upon completion of a WEC-Sim simulation run from Simulink a ``wecSimInputFile_simulinkCustomParameters.m`` file is written to the ``$CASE`` directory including the WEC-Sim parameters used for the WEC-Sim simulation.
@@ -152,6 +152,7 @@ must be defined in the WEC-Sim input file, for example:
 
     :code:`simu.ssCalc = 1` 
 
+.. _user-advanced-features-time-step:
 
 Time-Step Features
 ^^^^^^^^^^^^^^^^^^
@@ -400,7 +401,8 @@ STL File Generation
 When the nonlinear option is turned on, the geometry file (``*.stl``) 
 (previously only used for visualization purposes in linear simulations) is used 
 as the discretized body surface on which the nonlinear pressure forces are 
-integrated. A good STL mesh resolution is required for the WEC body geometry 
+integrated. As in the linear case, the STL mesh origin must be at a body's center of gravity.
+A good STL mesh resolution is required for the WEC body geometry 
 file(s) when using the nonlinear buoyancy and Froude-Krylov wave excitation in 
 WEC-Sim. The simulation accuracy will increase with increased surface 
 resolution (i.e. the number of discretized surface panels specified in the 
@@ -436,6 +438,8 @@ Note that the linear discretization of curved edges is not refined via this
 algorithm. The header comments of the function explain the inputs and outputs. 
 This function calls ``import_stl_fast``, included with the WEC-Sim 
 distribution, to import the ``.*stl`` file. 
+
+.. _user-advanced-features-nonlinear-tutorial-heaving-ellipsoid:
 
 Nonlinear Buoyancy and Froude-Krylov Wave Excitation Tutorial - Heaving Ellipsoid
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
@@ -575,6 +579,8 @@ Applications <https://github.com/WEC-Sim/WEC-Sim_Applications>`_ repository
 
     Morison Elements cannot be used with :code:`etaImport`.
 
+.. _user-advanced-features-non-hydro-body:
+
 Non-Hydrodynamic Bodies
 ^^^^^^^^^^^^^^^^^^^^^^^
 
@@ -640,6 +646,8 @@ is necessary to define::
 to resolve drag body dynamics. One can additionally describe initial body 
 displacement in the manner of a hydrodynamic body. 
 
+.. _user-advanced-features-b2b:
+
 Body-To-Body Interactions
 ^^^^^^^^^^^^^^^^^^^^^^^^^
 
@@ -671,6 +679,8 @@ repository.
     only the :math:`[1+6(i-1):6i, 1+6(i-1):6i]` sub-matrices are used for each 
     body (where :math:`i` is the body number).
 
+.. _user-advanced-features-generalized-body-modes:
+
 Generalized Body Modes
 ^^^^^^^^^^^^^^^^^^^^^^
 
@@ -697,6 +707,8 @@ how to implement and use generalized body modes in WEC-Sim.
 
     Generalized body modes module has only been tested with WAMIT, where BEMIO 
     may need to be modified for NEMOH, AQWA and CAPYTAINE.
+
+.. _user-advanced-features-passive-yaw:
 
 Passive Yaw Implementation
 ^^^^^^^^^^^^^^^^^^^^^^^^^^
@@ -763,11 +775,129 @@ Mooring Features
 .. include:: /_include/mooring.rst
 
 
-Visualization/Paraview
+.. _user-advanced-features-paraview:
+
+Paraview Visualization
 ----------------------
 
 .. include:: /_include/viz.rst
 
+
+.. _user-advanced-features-WSviz:
+
+WEC-Sim Visualization
+---------------------
+
+The WEC-Sim contains several built in methods inside the response class and wave 
+class to assist users in visualizing WEC-Sim output: ``output.plotForces``, 
+``output.plotResponse``, ``output.plotWaves``, ``waves.plotEta``, and
+``waves.plotSpectrum``. This section will demonstrate the use of these methods. 
+They are fully documented in the WEC-Sim :ref:`dev-api`.
+
+Plot Forces
+^^^^^^^^^^^
+
+The ``responseClass.plotForces()`` method can be used to plot the time series of 
+each force component for a body. The first argument takes in a body number, the 
+second a degree of freedom of the force. For example, ``output.plotForces(2,3)``
+will plot the vertical forces that act on the 2nd body. The total force is split
+into its :ref:`components <theory-time-domain>`: 
+
+- total force
+- excitation force
+- radiation damping force
+- added mass force
+- restoring force (combination of buoyancy, gravity and hydrostatic stiffness), 
+- Morison element and viscous drag force
+- linear damping force
+
+.. figure:: /_static/images/OSWEC_heaveForces.PNG
+   :width: 250pt
+   :figwidth: 250pt
+   :align: center
+   
+   Demonstration of output.plotForces() method for the OSWEC example.
+
+
+Plot Response
+^^^^^^^^^^^^^
+
+The ``responseClass.plotResponse()`` method is very similar to ``plotForces`` 
+except that it will plot the time series of a body's motion in a given degree 
+of freedom. For example, ``output.plotResponse(1,5)`` will plot the pitch motion
+of the 1st body. The position, velocity and acceleration of that body is shown.
+
+.. figure:: /_static/images/OSWEC_pitchResponse.PNG
+   :width: 250pt
+   :figwidth: 250pt
+   :align: center
+   
+   Demonstration of output.plotResponse() method for the OSWEC example.
+
+
+Plot Waves
+^^^^^^^^^^
+
+The ``responseClass.plotWaves()`` method can be used to create a complete 
+animation of the simulation. The animation shows the 3D response of all bodies
+over time on top of a surface plot of the entire directional wave field. The 
+default wave domain is defined by ``simu.domainSize``, ``waves.waterDepth``, and
+the maximum height that the STL mesh of any body reaches. Users may optionally 
+input the axis limits to restrict or widen the field of view, the timesteps per 
+animation frame, and the output file format. Users can choose to save the animation
+as either a ``.gif`` or ``.avi`` file. This function can take significant time to 
+run depending on simulation time and time step, however it may be faster and easier 
+than Paraview. Users are still recommended to use the provided Paraview macros for 
+more complex animations and analysis.
+
+For example, in the OSWEC case the command 
+``output.plotWaves(simu,body,waves,'timesPerFrame',5,'axisLimits',[-50 50 -50 50 -12 20])``
+results in the following figure:
+
+.. figure:: /_static/images/OSWEC_plotWaves.PNG
+   :width: 250pt
+   :figwidth: 250pt
+   :align: center
+   
+   Demonstration of output.plotWaves() method for the OSWEC example.
+
+
+Plot Eta
+^^^^^^^^
+
+The ``waveClass.plotEta()`` method can be used to plot the wave elevation time
+series at the domain origin. The ramp time is also marked. The only required input
+is ``simu.rampTime``. Users must manually plot or overlay the wave elevation at a 
+wave gauge location.
+
+.. figure:: /_static/images/OSWEC_plotEta.PNG
+   :width: 250pt
+   :figwidth: 250pt
+   :align: center
+   
+   Demonstration of waves.plotEta() method for the OSWEC example.
+
+
+Plot Spectrum
+^^^^^^^^^^^^^
+
+The ``waveClass.plotSpectrum()`` method can be used to plot the frequency spectrum
+of an irregular or spectrum import wave. No input parameters are required.
+
+.. figure:: /_static/images/OSWEC_plotSpectrum.PNG
+   :width: 250pt
+   :figwidth: 250pt
+   :align: center
+   
+   Demonstration of waves.plotSpectrum() method for the OSWEC example.
+
+
+
+
+
+
+
+.. _user-advanced-features-decay:
 
 Decay Tests
 -----------
@@ -802,7 +932,7 @@ defined prior to using the object's :code:`setInitDisp()` method:
 For more information, refer to the **Free Decay** example on the `WEC-Sim 
 Applications <https://github.com/WEC-Sim/WEC-Sim_Applications>`_ repository. 
 
-Other Applications
+Other Features
 ------------------
 
 The WEC-Sim Applications repository also includes examples of using WEC-Sim to 

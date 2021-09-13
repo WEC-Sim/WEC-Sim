@@ -3,7 +3,7 @@
 Overview
 ========
 
-The `WEC-Sim development team <http://wec-sim.github.io/WEC-Sim/index.html#wec-sim-developers>`_ 
+The :ref:`WEC-Sim development team <developers>` 
 is currently engaged in continuous code development and support. Efforts are 
 made by the development team to improve the code's flexibility, accuracy, and 
 usability. 
@@ -71,19 +71,19 @@ documentation for more information. Please post a question on the `Issues Page
 <https://github.com/WEC-Sim/WEC-Sim/issues>`_ if you have difficulty using the 
 tests. 
 
-Run Tests
-"""""""""
-
 The WEC-Sim tests are located in the ``$WECSIM/tests`` directory. To run the 
 WEC-Sim tests locally, navigate to the ``$WECSIM`` (e.g. 
 ``C:/User/Documents/GitHub/WEC-Sim``) directory, and type the following command 
 into the MATLAB Command Window:: 
 
-	>> runtests
+	>> results = wecSimTest();
 	
 	
 	Totals:
-	   25 Passed, 0 Failed, 0 Incomplete.
+	   38 Passed, 0 Failed, 0 Incomplete.
 	   
 
-This executes the WEC-Sim tests and generates a build report.
+This executes the WEC-Sim tests and generates a build report. The WEC-Sim Applications 
+repository also contains tests of each applications case. To run the applications 
+tests locally, navigate to the the ``$WEC-Sim_Applications`` directory, and use the 
+``runTests`` command to generate a build report.

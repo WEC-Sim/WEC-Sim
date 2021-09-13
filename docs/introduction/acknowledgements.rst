@@ -3,7 +3,7 @@
 Acknowledgements
 ================
 
-Contributors
+External Contributors
 -------------------------
 In addition to development by :ref:`developers`, WEC-Sim has had many  contributors, including:
 
@@ -14,9 +14,6 @@ In addition to development by :ref:`developers`, WEC-Sim has had many  contribut
 * Sam Kanner (University of California at Berkeley)
 * Chris McComb (Carnegie Mellon University)
 * Sam Edwards (University of Michigan)
-* Dominic Forbush (University of Washington)
-* Michael Lawson (NREL)
-* Carlos Michelen (Sandia)
 
 The association with the listed organization is credited to when a contribution to WEC-Sim was made. The contributor may no longer be associated with the listed organization at this time.
 

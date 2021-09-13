@@ -210,6 +210,8 @@ post-processing. Additionally, once the WEC-Sim run is complete, the
 WEC-Sim results are saved to the **output** variable in the MATLAB 
 workspace. 
 
+.. _user-tutorials-oswec:
+
 Oscillating Surge WEC (OSWEC)
 -----------------------------
 
@@ -395,7 +397,7 @@ provided includes examples of how to run different wave cases:
 	* Type ``wecSim`` in the Command Window
 * Run from Simulink (for RM3FromSimulink example)
 	* Open the relevant WEC-Sim Simulink file
-	* Type ``wecSimInitialize`` in the Command Window
+	* Type ``initializeWecSim`` in the Command Window
 	* Hit Play in Simulink model to run 
 
 To customize or develop a new WEC-Sim model that runs from Simulink (e.g. for Hardware-in-the-Loop, HIL, applications) refer to :ref:`user-advanced-features-simulink` for more information.

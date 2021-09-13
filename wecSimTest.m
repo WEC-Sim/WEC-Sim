@@ -88,9 +88,9 @@ function results = wecSimTest(options)
     % Create TestRunner
     runner = TestRunner.withTextOutput; % Contains TestRunProgressPlugin, DiagnosticsOutputPlugin
     runner.addPlugin(DiagnosticsRecordingPlugin);
-    runner.addPlugin(CodeCoveragePlugin.forFolder('./source'));
+    runner.addPlugin(CodeCoveragePlugin.forFolder('./source','IncludingSubfolders',true));
     
     % Run the tests
     results = runner.run(suites);
-    
+    results.table    
 end
