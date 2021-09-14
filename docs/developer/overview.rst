@@ -246,5 +246,54 @@ Library Updates
 TODO
 divison of the library, run from simulink setup, etc
 
+Tracking Library Changes
+^^^^^^^^^^^^^^^^^^^^^^^^
+
+The WEC-Sim library is one of the most difficult files to manage on GitHub. Git 
+cannot track specific changes to binary files (such as ``.slx``) well. This 
+creates a problem when two version of the library each with their own 
+enhancements need to be merged into the development branch. 
+
+To decrease the frequency of these merge conflicts, the development team split 
+the library into multiple files in WEC-Sim v4.4. A combination of separate 
+library files linked using the Forwarding Table and Referenced Subsystems are 
+used to maintains backwards compatibility while splitting the library into 
+different files. 
+
+It is *highly recommended* that all developers use the 
+`MATLAB External Merge Tool <https://www.mathworks.com/help/simulink/ug/customize-external-source-control-to-use-matlab-for-comparison-and-merge.html>`_
+to compare library versions when there are merge conflicts. The MATLAB tool is 
+easy to install and allows users to compare changes directly in Simulink.
+
+To use the tool, merge both branches locally and resolve any conflicts using the 
+merge tool. For example, take the branches ``A`` and ``B`` that each contain 
+new WEC-Sim features. In the Git for Windows command line, these changes can be 
+merged using::
+    
+    # Checkout the A branch and get the latest changes online
+    git checkout A
+    git pull REMOTE/A
+    
+    # Fetch updates to the B branch
+    git fetch REMOTE
+    
+    # Merge B branch into A branch
+    git merge B
+    
+    # Resolve library conflicts using the MATLAB merge tool
+    git mergetool -t mlMerge source/lib/WEC-Sim/WECSim_Lib.slx
+
+The merge tool will then open a special Simulink GUI that allows users to 
+compare code versions both textually and within the block diagram. For each 
+conflict select the appropriate version of the code to use. When finished, save 
+the simulink diagram and commit using::
+
+    git add source/lib/WEC-Sim/WECSim_Lib.slx
+    git commit -m 'merge branch A and branch B changes'
+
+
+Running From Simulink
+^^^^^^^^^^^^^^^^^^^^^
+
 
 
