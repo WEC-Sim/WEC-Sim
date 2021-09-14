@@ -92,40 +92,16 @@ place them directly above the relevant code. Leave one blank line above the
 comment and one blank line after the pertinent code to separate it from code it
 does not reference.
 
-Do::
-    
-    TODO
-
-Don't::
-    
-    TODO
-
 Inline comments should be concise and only explain what is not apparent from 
 variable naming and functions called in that line. Inline comments should not 
 make a line longer than the 84 character limit. The one exception to this are 
 the comments used to describe class inputs. For the API to compile correctly, a
-variable's description must exclusively use the line the variable is defined on.
-
-Do::
-    
-    TODO
-
-Don't::
-    
-    TODO
+variable's description must exclusively use the line a variable definition ends on.
 
 Block comments should precede the code block they pertain to. Block comments
 should be limited to large chunks of code that requires a more detailing 
 explanation or reasoning. It is suggested to section the relevant code
 that pertains to the relevant block comment (``%%`` in MATLAB).
-
-Do::
-    
-    TODO
-
-Don't::
-    
-    TODO
 
 
 Variables, Functions and Classes
