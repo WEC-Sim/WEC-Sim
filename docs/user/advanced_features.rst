@@ -491,7 +491,7 @@ option is used in combination with a hydrodynamic or flexible body, it serves as
 tuning method. The equation of motion for hydrodynamic and flexible bodies with a 
 Morison Element is more complex than the traditional Morison Element formulation.
 A traditional Morison Element may be created by using a drag body 
-(``body(#).nhBody=2``) with ``simu.morisonElement = 1 or 2``.
+(``body(#).nhBody=2``) with ``body(#).morisonElement.option = 1 or 2``.
 For more information about the numerical formulation of viscous damping and 
 Morison Elements, refer to the theory section :ref:`theory-viscous-damping-morison`. 
 

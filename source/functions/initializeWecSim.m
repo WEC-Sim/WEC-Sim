@@ -245,7 +245,7 @@ idx = find(nonHydroBodLogic==1);
 if ~isempty(idx)
     for kk = 1:length(idx)
         it = idx(kk);
-        body(it).nonHydroForcePre(simu.rho,simu.nlHydro);
+        body(it).nonHydroForcePre(simu.rho,body(it).nlHydro);
         if isempty(body(it).cg)
             error('Non-hydro body(%i) center of gravity (cg) must be defined in the wecSimInputFile.m',body(it).bodyNumber);
         end
@@ -264,7 +264,7 @@ idx = find(dragBodLogic == 1);
 if ~isempty(idx)
     for kk = 1:length(idx)
         it = idx(kk);
-        body(it).dragForcePre(simu.rho,simu.nlHydro);
+        body(it).dragForcePre(simu.rho,body(it).nlHydro);
         if isempty(body(it).cg)
             error('Drag body(%i) center of gravity (cg) must be defined in the wecSimInputFile.m',body(it).bodyNumber);
         end
