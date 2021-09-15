@@ -186,20 +186,20 @@ classdef bodyClass<handle
             obj.dof_gbm   = obj.dof-6;
         end
         
-        function nonHydroForcePre(obj,rho,nlHydro)
+        function nonHydroForcePre(obj,rho)
             % nonHydro Pre-processing calculations
             % Similar to dragForcePre, but only adjusts the mass for cases 
             % using 'fixed' or 'equilibrium' 
-            obj.setMassMatrix(rho,nlHydro);
+            obj.setMassMatrix(rho);
         end
         
-        function dragForcePre(obj,rho,nlHydro)
+        function dragForcePre(obj,rho)
             % DragBody Pre-processing calculations
             % Similar to hydroForcePre, but only loads in the necessary
             % values to calculate linear damping and viscous drag. Note
             % that body DOF is inherited from the length of the drag
             % coefficients.
-            obj.setMassMatrix(rho,nlHydro);
+            obj.setMassMatrix(rho);
             if  any(any(obj.viscDrag.Drag)) == 1  %check if obj.viscDrag.Drag is defined
                 obj.hydroForce.visDrag = obj.viscDrag.Drag;
             else
@@ -209,11 +209,11 @@ classdef bodyClass<handle
             obj.dof = length(obj.viscDrag.Drag);
         end
         
-        function hydroForcePre(obj,w,waveDir,CIkt,CTTime,numFreq,dt,rho,g,waveType,waveAmpTime,iBod,numBod,ssCalc,nlHydro,B2B,yawFlag)
+        function hydroForcePre(obj,w,waveDir,CIkt,CTTime,numFreq,dt,rho,g,waveType,waveAmpTime,iBod,numBod,ssCalc,B2B,yawFlag)
             % HydroForce Pre-processing calculations
             % 1. Set the linear hydrodynamic restoring coefficient, viscous drag, and linear damping matrices
             % 2. Set the wave excitation force
-            obj.setMassMatrix(rho,nlHydro)
+            obj.setMassMatrix(rho)
             if (obj.dof_gbm>0)
                 % obj.linearDamping = [obj.linearDamping zeros(1,obj.dof-length(obj.linearDamping))];
                 tmp0 = obj.linearDamping;
@@ -724,13 +724,13 @@ classdef bodyClass<handle
             end
         end
         
-        function setMassMatrix(obj, rho, nlHydro)
+        function setMassMatrix(obj, rho)
             % This method sets mass for the special cases of body at equilibrium or fixed and is used by hydroForcePre.
             if strcmp(obj.mass, 'equilibrium')
                 obj.massCalcMethod = obj.mass;
-                if obj.nhBody == 0 && nlHydro == 0
+                if obj.nhBody == 0 && obj.nlHydro == 0
                     obj.mass = obj.hydroData.properties.disp_vol * rho;
-                elseif obj.nhBody == 0 && nlHydro ~= 0
+                elseif obj.nhBody == 0 && obj.nlHydro ~= 0
                     cg_tmp = obj.hydroData.properties.cg;
                     z = obj.bodyGeometry.center(:,3) + cg_tmp(3);
                     z(z>0) = 0;
