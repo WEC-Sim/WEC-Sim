@@ -351,7 +351,7 @@ classdef responseClass<handle
             %         startEndTime : 1x2 float matrix
             %             Array defining the start and end times of the
             %             visualization
-            %             Default = []
+            %             Default = [min(t) max(t)]
             %         saveSetting : integer
             %             0 = video, 1 = gif. Default = 0
             %     
