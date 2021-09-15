@@ -49,7 +49,7 @@ classdef simulationClass<handle
         StartTimeParaview   = 0;                                           % (`float`) Start time for the vtk file of Paraview. Default = ``0``                                    
         EndTimeParaview     = 100;                                         % (`float`) End time for the vtk file of Paraview. Default = ``0``                                      
         dtParaview          = 0.1;                                         % (`float`) Timestep for Paraview. Default = ``0.1``         
-        pathParaviewVideo = 'vtk';                                         % (`string`) Path of the folder for Paraview vtk files. Default = ``'vtk'``     
+        pathParaviewVideo   = 'vtk';                                       % (`string`) Path of the folder for Paraview vtk files. Default = ``'vtk'``     
         adjMassWeightFun    = 2                                            % (`integer`) Weighting function for adjusting added mass term in the translational direction. Default = ``2``
         mcrCaseFile         = []                                           % (`string`) mat file that contain a list of the multiple conditions runs with given conditions. Default = ``'NOT DEFINED'``  
         morisonElement      = 0                                            % (`integer`) Option for Morison Element calculation: off->0, on->1 or 2. Default = ``0``. Option 1 uses an approach that allows the user to define drag and inertial coefficients along the x-, y-, and z-axes and Option 2 uses an approach that defines the Morison Element with normal and tangential tangential drag and interial coefficients.. 
@@ -61,7 +61,7 @@ classdef simulationClass<handle
     end
 
     properties (SetAccess = 'public', GetAccess = 'public')%internal
-        wsVersion             = '4.3'                                      % (`string`) WEC-Sim version
+        wsVersion           = '4.3'                                        % (`string`) WEC-Sim version
         gitCommit           = []                                           % (`string`) GitHub commit
         simulationDate      = datetime                                     % (`string`) Simulation date and time
         outputDir           = 'output'                                     % (`string`) Data output directory name. Default = ``'output'``

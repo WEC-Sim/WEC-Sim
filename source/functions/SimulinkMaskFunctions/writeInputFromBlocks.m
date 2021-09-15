@@ -206,5 +206,3 @@ for i=1:length(blocks)
 end
 
 fclose(fid);
-run(inputFile);
-

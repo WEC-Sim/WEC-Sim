@@ -294,6 +294,91 @@ the simulink diagram and commit using::
 
 Running From Simulink
 ^^^^^^^^^^^^^^^^^^^^^
+The Run From Simulink advanced feature allows users to initialize WEC-Sim 
+from the command window and then begin the simulation from Simulink. This 
+feature allows greater compatibility with other models or 
+hardware-in-the-loop simulations that must start in Simulink.
+
+Beyond simply allowing users to initialize WEC-Sim and then start the 
+simulation from Simulink, WEC-Sim allows users to define input file 
+parameters from Simulink using block masks. WEC-Sim is originally developed 
+as a class based program, not a simulink-based one. This results in a 
+complex interplay between the class variables and those defined in the 
+block masks.
+
+The mask of each library block allows users to define a subset of possible 
+inputs parameters that would be used in the ``wecSimInputFile``. The values 
+that a user inputs to a block are stored as mask parameters. Each parameter 
+has a certain properties (name, value, prompt, type), attributes, and dialog 
+options (visible, callback) that must be properly defined. It is recommended 
+that developers briefly review Mathworks `Simulink mask parameter 
+documentation <https://www.mathworks.com/help/simulink/slref/simulink.maskparameter-class.html>`_ 
+before preceeding with edits to this advanced feature. 
+
+.. figure:: /_static/images/dev/grf_dev_mask.png
+    :align: center
+    :width: 400pt
+    
+    A sample of simulation class parameters may be defined in the Global 
+    Reference Frame.
+
+Note that to decrease the burden of maintaining these masks, only the most 
+common input file class parameters can be defined in Simulink. For example, 
+the Global Reference Frame contains simulationClass parameters such as 
+``mode, explorer, solver,`` time information, and state space flags. However 
+less common parameters such as ``mcrCaseFile, saveStructure, b2b`` and others 
+are not included. These can added at a later date if desired.
+
+.. figure:: /_static/images/dev/grf_user_mask.png
+    :align: center
+    :width: 400pt
+    
+    A sample of simulation class parameters may be defined in the Global 
+    Reference Frame.
+
+The Run From Simulink functionality differs from the ``wecSim`` command in 
+how the input file is run. All other pre-processing is identical to the
+command line version. The standard ``wecSim`` command begins by running 
+the ``wecSimInputFile`` in the current directory and continuing with the 
+pre-processing steps. Run From Simulink instead either:
+
+   1. Runs the file chosen in the Global Reference Frame when the 
+   'Input File' option is selected
+   
+   2. Writes and then runs a new input file (``wecSimInputFile_customParameters.m``)
+   when the Global Reference when the 'Custom Parameters' option is selected.
+   A new input file is created so that users have a written record of which 
+   parameters were used in a given case.
+   
+
+The difficult and complex part of this functionality comes from two aspects 
+of this advanced feature:
+
+   * Writing an input file from mask parameters (``writeInputFromBlocks``, ``writeLineFromVar``)
+   
+   * Writing block parameters when loading an input file (``writeBlocksFromInput``)
 
 
+
+
+..
+    This setting is controlled by the global 
+    reference frame ``ParamInput`` mask variable.
+
+
+    when changing a parameter name:
+    - update writeBlocksFromInput, writeInputFromBlocks
+
+    - variable name in mask must be the same as the class parameter name!!!
+        required for writeInputFromBlocks to work correctly
+
+    when creating new class:
+    - inputOrCustomCallback
+
+    when updating wave class parameters also check:
+    - spectrumButtonCallback
+    - waveClassCallback
+
+    when updating body class parameters also check:
+    - bodyClassCallback
 
