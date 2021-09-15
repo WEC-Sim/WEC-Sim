@@ -123,6 +123,11 @@ Examples of WEC-Sim models using PTO-Sim are included for the :ref:`RM3 <user-tu
 geometry and :ref:`OSWEC <user-tutorials-oswec>`
 geometry.
 
+Visualization Markers Examples
+^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+Examples of WEC-Sim with Wave Elevation visualization at User-Defined Locations.
+
 WECCCOMP
 ^^^^^^^^
 

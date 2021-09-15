@@ -781,6 +781,67 @@ Paraview Visualization
 
 .. _user-advanced-features-WSviz:
 
+Visualization in SimScape Mechanics Explorer
+-----------------------------------------------------------
+
+The user can visualize the wave elevations at various locations using graphical 
+marker in SimScape Mechanics Explorer. The User needs to define an array of 
+[X,Y] corrdinates, the marker style (sphere, cube, frames), and the marker 
+size in pixels.
+The Global reference block programmatically initiates and adds/deletes the 
+visualization blocks based on the number of markers *(0 to N)* defined by the user,
+Here are the steps to enable and define visualization blocks,
+
+1. Define an array with the first column defining the X coordinates, and the 
+second column defining the corresponding Y coordinates. 
+The user should define,
+
+ ``'waves.markLoc = [].'``
+
+2.  Define marker style by defining 
+
+``'waves.markStyle = [];' % 1: Sphere, 2: Cube, 3: Frame.``
+
+3. Define marker size in pixels by defining 
+
+``'waves.markSize    = [];'   % Marker Size in Pixels``
+
+Here is an example. In this example a mesh of points is described using the 
+meshgrid command and then  making it an array of X and Y coordinates using reshape(). 
+
+.. Note:: 
+
+    The user only needs to define an array of locations to initiate the visualization by an array of visualization blocks.
+
+Examples:
+
+1. An example with a square mesh of visualization blocks:
+For :code:
+``mrk = 10;``
+``dmrk = 5;``
+``[X,Y] = meshgrid(-mrk:dmrk:mrk,-mrk:dmrk:mrk);``
+``waves.markLoc = [reshape(X,[],1),reshape(Y,[],1)]; % Marker Locations [X,Y]``
+``clear('mrk','dmrk','X','Y')``
+
+``waves.markStyle   = 3;    % 1: Sphere, 2: Cube, 3: Frame.``
+``waves.markSize    = 20;   % Marker Size in Pixels.``
+
+.. Note:: 
+
+    The `WEC-Sim Applications <https://github.com/WEC-Sim/WEC-Sim_Applications>`_ repository has a demonstration for this approach. 
+
+.. Note:: 
+
+    The graphic markers will always be depicted on top of the visualization in SimScape Mechanics Explorer. 
+    The user is advised to adapt the marker size and the viewing vantage point based on the particular case.
+
+.. figure:: /_static/images/RM3_vizMarker.jpg
+   :width: 250pt
+   :figwidth: 250pt
+   :align: center
+
+   Demonstration of visualization markers in SimScape Mehcanics Explorer.
+
 WEC-Sim Visualization
 ---------------------
 
