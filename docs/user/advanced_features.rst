@@ -351,10 +351,10 @@ Nonlinear Buoyancy and Froude-Krylov Excitation
 WEC-Sim has the option to include the nonlinear hydrostatic restoring and 
 Froude-Krylov forces when solving the system dynamics of WECs, accounting for 
 the weakly nonlinear effect on the body hydrodynamics. To use nonlinear 
-buoyancy and Froude-Krylov excitation, the **simu.nlHydro** simulationClass 
+buoyancy and Froude-Krylov excitation, the **body(ii).nlHydro** bodyClass 
 variable must be defined in the WEC-Sim input file, for example: 
 
-    :code:`simu.nlHydro = 2`  
+    :code:`body(ii).nlHydro = 2`  
 
 For more information, refer to the :ref:`webinar2`, and the **NonlinearHydro** 
 example on the `WEC-Sim Applications <https://github.com/WEC-Sim/WEC-Sim_Applications>`_ 
@@ -363,24 +363,19 @@ repository.
 Nonlinear Settings
 """"""""""""""""""
 
-**simu.nlHydro**  - 
+**body(ii).nlHydro**  - 
 The nonlinear hydrodynamics option can be used with the parameter: 
-:code:`simu.nlHydro` in your WEC-Sim input file. When any of the three 
+:code:`body(ii).nlHydro` in your WEC-Sim input file. When any of the three 
 nonlinear options (below) are used, WEC-Sim integrates the wave pressure over 
 the surface of the body, resulting in more accurate buoyancy and Froude-Krylov 
 force calculations. 
 
-    **Option 1.** :code:`simu.nlHydro = 1` This option integrates the pressure 
+    **Option 1.** :code:`body(ii).nlHydro = 1` This option integrates the pressure 
     due to the mean wave elevation and the instantaneous body position.
 
-    **Option 2.** :code:`simu.nlHydro = 2` This option integrates the pressure 
+    **Option 2.** :code:`body(ii).nlHydro = 2` This option integrates the pressure 
     due to the instantaneous wave elevation and the instantaneous body position. 
     This option is recommended if nonlinear effects need to be considered.
-
-    **Option 3.** :code:`simu.nlHydro = 3` This option calculates the nonlinear 
-    Froude-Krylov force directly from a BEM result. This requires additional 
-    output files from the BEM code (.3fk and .3sc files for WAMIT, and 
-    DiffractionForce.tec and FKForce.tec files for NEMOH).
 
 **simu.dtNL** - 
 An option available to reduce the nonlinear simulation time is to specify a 
@@ -527,12 +522,13 @@ Alternatively, one can define :math:`C_{D}` directly::
 Morison Elements 
 """"""""""""""""
 
-To use Morison Elements, the following simulation class variable must be 
-defined in the WEC-Sim input file with :code:`simu.morisonElement = 1` or 
-:code:`simu.morisonElement = 2` 
+To use Morison Elements, the following body class variable must be 
+defined in the WEC-Sim input file with :code:`body(ii).morisonElement.option`.
+
+Implementation Option 0 Morison Elements are not included in the body force and moment calculations. 
 
 Implementation Option 1 allows for the Morison Element properties to be defined 
-independently for the x-, y-, and z-axis while implementation option 2 uses a 
+independently for the x-, y-, and z-axis while Implementation Option 2 uses a 
 normal and tangential representation of the Morison Element properties. Note 
 that the two options allow the user flexibility to implement hydrodynamic 
 forcing that best suits their modeling needs; however, the two options have 
@@ -542,11 +538,11 @@ the Simulink Morison Element block within the WEC-Sim library to better
 determine which approach better suits their modeling requirements. 
 
 Morison Elements must be defined for each body using the 
-:code:`body(#).morisonElement` property of the body class. This property 
+:code:`body(i).morisonElement` property of the body class. This property 
 requires definition of the following body class parameters in the WEC-Sim input 
 file (each of which have a default value of zero(s)). 
 
-For :code:`simu.morisonElement  = 1` ::
+For :code:`body(ii).morisonElement.option  = 1` ::
     
     body(i).morisonElement.cd = [c_{dx} c_{dy} c_{dz}]
     body(i).morisonElement.ca = [c_{ax} c_{ay} c_{az}]
@@ -558,10 +554,10 @@ For :code:`simu.morisonElement  = 1` ::
 .. Note::
 
     For Option 1, the unit normal :code:`body(#).morisonElement.z` must be 
-    initialized as a [1x3] vector although it will not be used in the 
+    initialized as a [:code:`n` x3] vector, where :code:`n` is the number of Morison Elements, although it will not be used in the 
     hydrodynamic calculation. 
     
-For :code:`simu.morisonElement  = 2` ::
+For :code:`body(ii).morisonElement.option  = 2` ::
     
     body(i).morisonElement.cd = [c_{dn} c_{dt} 0]
     body(i).morisonElement.ca = [c_{an} c_{at} 0]
@@ -572,18 +568,18 @@ For :code:`simu.morisonElement  = 2` ::
     
 .. Note::
 
-    For Option 2, the :code:`body(#).morisonElement.cd`, 
-    :code:`body(#).morisonElement.ca`, and 
-    :code:`body(#).morisonElement.characteristicArea` variables need to be 
-    initialized as [1x3] vectors with the last index set to zero. While 
-    :code:`body(#).morisonElement.z` is a unit normal vector that defines the 
+    For Option 2, the :code:`body(i).morisonElement.cd`, 
+    :code:`body(i).morisonElement.ca`, and 
+    :code:`body(i).morisonElement.characteristicArea` variables need to be 
+    initialized as [:code:`n` x3] vector, where :code:`n` is the number of Morison Elements, with the third column index set to zero. While 
+    :code:`body(i).morisonElement.z` is a unit normal vector that defines the 
     orientation of the Morison Element. 
 
 The Morison Element time-step may also be defined as
 :code:`simu.dtME = N*simu.dt`, where N is number of increment steps. For an 
 example application of using Morison Elements in WEC-Sim, refer to the `WEC-Sim 
 Applications <https://github.com/WEC-Sim/WEC-Sim_Applications>`_ repository 
-**Free_Decay/1m-ME** example. 
+**Free_Decay/1m-ME** example.  
 
 .. Note::
 
@@ -957,7 +953,7 @@ defined prior to using the object's :code:`setInitDisp()` method:
 For more information, refer to the **Free Decay** example on the `WEC-Sim 
 Applications <https://github.com/WEC-Sim/WEC-Sim_Applications>`_ repository. 
 
-Other Applications
+Other Features
 ------------------
 
 The WEC-Sim Applications repository also includes examples of using WEC-Sim to 

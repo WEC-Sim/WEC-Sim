@@ -65,3 +65,29 @@ The front page of the docs can be accessed at
 The WEC-Sim docs are rebuilt automatically following every merge commit made 
 to the master or dev branch of the [WEC-Sim/WEC-Sim](
 https://github.com/WEC-Sim/WEC-Sim) repository.
+
+
+## Best Practices
+  - Run spell check (not built into most text editors)
+  - When compiling the website, ``make clean`` and then ``make html``
+
+### Formatting Guidelines
+  - `$CASE` to refer to WEC-Sim case directory
+  - `$WECSIM` to refer to WEC-Sim directory
+  - `$WECSIM/source` to refer to WEC-Sim source directory
+  - `*.mat` syntax to refer to file extension
+  - use ``insert code`` to reference code
+  - Title `####` with overline
+  - Heading 1 `======`
+  - Heading 2 `------`
+  - Heading 3 `^^^^^^`
+  - Heading 4 `""""""`
+  - Heading 5 `++++++`
+  - Use this style guide: https://documentation-style-guide-sphinx.readthedocs.io/en/latest/style-guide.html
+
+### Terminology Guidelines
+  - post-processing (not postprocessing)
+  - pre-processing (not preprocessing)  
+  - nondimensional (not non-dimensional)
+  - nonlinear (not non-linear)
+  - drivetrain (not drive-train)

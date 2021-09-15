@@ -12,7 +12,7 @@ simu.CITime = 40;                       % Specify CI Time [s]
 %simu.dtCITime=0.001;
 simu.yawNonLin=1;
 simu.yawThresh=1;
-simu.nlHydro=0;
+
 %% Wave Information
 % % Irregular Waves 
 waves = waveClass('irregular');         % Initialize Wave Class and Specify Type                                 

@@ -29,8 +29,8 @@ WEC-Sim MATLAB Classes      ``<object>Class.m``   ``$WECSIM/source/objects``
 WEC-Sim Simulink Library    ``WECSim_Lib.slx``    ``$WECSIM/source/lib``      
 =========================   ====================  ============================
 
-The core of WEC-Sim is the ``wecSim.m`` file.
-Executing ``wecSim.m`` from a case directory parses the user input data, 
+The WEC-Sim executable is the ``wecSim.m`` file.
+Executing ``wecSim`` from a case directory parses the user input data, 
 performs preprocessing calculations in each of the classes, selects and 
 initializes variant subsystems in the Simulink model, runs the time-domain 
 simulations in WEC-Sim, and calls post-processing scripts. 
@@ -110,19 +110,15 @@ There are eight WEC-Sim classes and five WEC-Sim library blocks.
 The relation between classes and blocks is summarized in the table below. 
 Details on each are presented below.
 
-.. TODO: move pto_sim to another section?...
-
 
 ===================== =====================================
-**WEC-Sim Class**     **Corresponding Library Block**
-Body Class            Body Elements (2 types)
-Constraint Class      Constraints (5 types)
-Mooring Class         Moorings (2 types)
-PTO Class             PTOs (6 types)
-PTO-Sim Class         ``PTOSim_Lib.slx``
-Response Class        None
-Simulation Class      Frames (1 type)
-Wave Class            Frames (1 type)
+**WEC-Sim Class**     **Corresponding Library Blocks**
+Body Class            Body Elements 
+Constraint Class      Constraints 
+Mooring Class         Moorings 
+PTO Class             PTOs 
+Simulation Class      Frames 
+Wave Class            Frames 
 ===================== =====================================
 
 
@@ -143,8 +139,8 @@ time steps, global variables (gravity, density, etc).
 .. figure:: /_static/images/code_structure/simulation_diagram.png
    :width: 100%
 
-Class Initialization
-""""""""""""""""""""
+Simulation Class Initialization
+""""""""""""""""""""""""""""""""
 
 Within the ``wecSimInputFile.m``, users 
 must initialize the simulation class (``simulationClass``) and specify the name 
@@ -178,7 +174,7 @@ simulationClass`` in MATLAB Command Window.
 For more information about application of WEC-Sim's simulation class, refer to 
 :ref:`user-advanced-features-simulation`. 
 
-Library Blocks
+Frame Block
 """"""""""""""
 
 The simulation class is tied to the Frames library.
@@ -214,8 +210,8 @@ through the pre-processing of wave forces and in Simulink.
 .. figure:: /_static/images/code_structure/wave_diagram.PNG
    :width: 100%
 
-Class Initialization
-""""""""""""""""""""
+Wave Class Initialization
+""""""""""""""""""""""""""
 
 Within the ``wecSimInputFile.m``, users 
 must initialize the wave class (``waveClass``) and specify the wave ``type`` by 
@@ -389,8 +385,8 @@ and motions to other Simulink blocks.
 .. figure:: /_static/images/code_structure/body_diagram.PNG
    :width: 750pt
 
-Class Initialization
-""""""""""""""""""""
+Body Class Initialization
+""""""""""""""""""""""""""
 
 Within the ``wecSimInputFile.m``, 
 users must initialize each iteration of the body class (``bodyClass``), and 
@@ -401,12 +397,6 @@ following lines in the WEC-Sim input file, where # is the body number and
 
     body(<#>)=bodyClass('<bem_data>.h5')
     body(<#>).geometryFile = '<geom>.stl'; 
-
-.. Note::
-    The ``*.h5`` file defines the hydrodynamic data for all relevant bodies. It is 
-    required that any drag body or nonhydrodyamic body be numbered after all 
-    hydrodynamic bodies The body index must correspond with the index in the 
-    ``*.h5`` file and the number in the Simulink diagram. 
 
 WEC-Sim bodies may be one of four types\: hydrodynamic (default), flexible, 
 drag, or nonhydrodynamic. These types represent varying degrees of complexity
@@ -462,7 +452,13 @@ Matlab Command Window.
 For more information about application of WEC-Sim's body class, refer to 
 :ref:`user-advanced-features-body`.
 
-Library Blocks
+.. Note::
+    The ``*.h5`` file defines the hydrodynamic data for all relevant bodies. It is 
+    required that any drag body or nonhydrodyamic body be numbered after all 
+    hydrodynamic bodies The body index must correspond with the index in the 
+    ``*.h5`` file and the number in the Simulink diagram. 
+
+Body Blocks
 """"""""""""""
 
 The Body Class is most closely associated with the Body Elements library.
@@ -506,11 +502,10 @@ pass resistive forces to other bodies, constraints, ptos, etc.
 .. figure:: /_static/images/code_structure/constraint_diagram.PNG
    :width: 750pt
 
-Class Initialization
-""""""""""""""""""""
+Constraint Class Initialization
+""""""""""""""""""""""""""""""""
 
-The 
-properties of the constraint class (``constraintClass``) are defined in the 
+The properties of the constraint class (``constraintClass``) are defined in the 
 ``constraint`` object. Within the ``wecSimInputFile.m``, users must initialize 
 each iteration the constraint class (``constraintClass``) and specify the 
 constraint ``name``, by including the following lines:: 
@@ -533,8 +528,8 @@ typing ``doc constraintClass`` in the MATLAB command window, or opening the
 For more information about application of WEC-Sim's constraint class, refer to 
 :ref:`user-advanced-features-pto`. 
 
-Library Blocks
-""""""""""""""
+Constraint Blocks
+""""""""""""""""""""
 
 The Constraint Class is tied to the blocks within the Constraints library.
 These are used to define the DOF of a 
@@ -599,8 +594,8 @@ ptos, etc.
 .. figure:: /_static/images/code_structure/pto_diagram.PNG
    :width: 750pt
 
-Class Initialization
-""""""""""""""""""""
+PTO Class Initialization
+""""""""""""""""""""""""""
 
 The properties of the PTO class (``ptoClass``) are 
 defined in the ``pto`` object. Within the ``wecSimInputFile.m``, users must 
@@ -628,7 +623,7 @@ Command Window.
 For more information about application of WEC-Sim's constraint class, refer to 
 :ref:`user-advanced-features-pto`. 
 
-Library Blocks
+PTO Blocks
 """"""""""""""
 
 The PTO Class is tied to the PTOs library.
@@ -672,8 +667,8 @@ body block through a Simscape connection.
 .. figure:: /_static/images/code_structure/mooring_diagram.PNG
    :width: 750pt
 
-Class Initialization
-""""""""""""""""""""
+Mooring Class Initialization
+""""""""""""""""""""""""""""""""
 
 The properties of the mooring class 
 (``mooringClass``) are defined in the ``mooring`` object. Within the 
@@ -690,8 +685,8 @@ typing ``open mooringClass`` in MATLAB Command Window.
 For more information about application of WEC-Sim's mooring class, refer to 
 :ref:`user-advanced-features-mooring`.
 
-Library Blocks
-""""""""""""""
+Mooring Blocks
+""""""""""""""""""""
 
 The Mooring Class is tied to the Mooring library.
 Two types of blocks may be used\: a 'Mooring Matrix' or a 'MoorDyn' system.
