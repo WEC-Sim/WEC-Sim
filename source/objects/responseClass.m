@@ -348,6 +348,10 @@ classdef responseClass<handle
             %             number of simulation time steps per video frame 
             %             (higher number decreases computation time)
             %             Default = 1
+            %         startEndTime : 1x2 float matrix
+            %             Array defining the start and end times of the
+            %             visualization
+            %             Default = [min(t) max(t)]
             %         saveSetting : integer
             %             0 = video, 1 = gif. Default = 0
             %     
@@ -359,12 +363,15 @@ classdef responseClass<handle
                 waves
                 options.axisLimits (1,6) double {mustBeReal, mustBeNonNan, mustBeFinite} = [-simu.domainSize/2 simu.domainSize/2 -simu.domainSize/2 simu.domainSize/2 -waves.waterDepth -999];
                 options.timesPerFrame (1,1) double {mustBeReal, mustBeNonnegative, mustBeNonNan, mustBeFinite} = 1;
+                options.startEndTime (1,2) double {mustBeReal, mustBeNonnegative, mustBeNonNan} = [0 0];
                 options.saveSetting (1,1) double {mustBeNumericOrLogical} = 0;
             end
             
             % Set time vector
             t = obj.wave.time(1:options.timesPerFrame*round(simu.dtOut/simu.dt,0):end,1);
-%             t = obj.wave.time(1:options.timesPerFrame:end,1);
+            if isequal(options.startEndTime, [0 0])
+                options.startEndTime = [min(t) max(t)];
+            end
             
             % Create grid using provided x and y coordinates
             x = linspace(options.axisLimits(1),options.axisLimits(2),200);
@@ -410,74 +417,75 @@ classdef responseClass<handle
             figure();
 
             for i=1:length(t)
-                for ibod=1:length(obj.bodies)
-                    % Apply rotation to each point
-                    rotMat = eulXYZ2RotMat(obj.bodies(ibod).position(1+options.timesPerFrame*(i-1),4), ...
-                        obj.bodies(ibod).position(1+options.timesPerFrame*(i-1),5), ...
-                        obj.bodies(ibod).position(1+options.timesPerFrame*(i-1),6));
-                    for ipts=1:length(bodyMesh(ibod).Points(:,1))
-                        bodyMesh(ibod).rotation(ipts,:) = (rotMat*bodyMesh(ibod).Points(ipts,:).').';
+                if t(i) >= options.startEndTime(1) && t(i) <= options.startEndTime(2)
+                    for ibod = 1:length(obj.bodies)
+                        % Apply rotation to each point
+                        rotMat = eulXYZ2RotMat(obj.bodies(ibod).position(1+options.timesPerFrame*(i-1),4), ...
+                            obj.bodies(ibod).position(1+options.timesPerFrame*(i-1),5), ...
+                            obj.bodies(ibod).position(1+options.timesPerFrame*(i-1),6));
+                        for ipts=1:length(bodyMesh(ibod).Points(:,1))
+                            bodyMesh(ibod).rotation(ipts,:) = (rotMat*bodyMesh(ibod).Points(ipts,:).').';
+                        end
+
+                        % Calculate full position changes due to rotation,
+                        % translation, and center of gravity
+                        bodyMesh(ibod).pointsNew = bodyMesh(ibod).rotation + bodyMesh(ibod).deltaPos(i,:) + body(ibod).cg.';
+
+                        % Create and plot final triangulation of geometry with applied changes
+                        bodFinal = triangulation(bodyMesh(ibod).Conns,bodyMesh(ibod).pointsNew);
+                        trisurf(bodFinal,'FaceColor',[1 1 0],'EdgeColor','k','EdgeAlpha',.2)
+                        hold on
                     end
 
-                    % Calculate full position changes due to rotation,
-                    % translation, and center of gravity
-                    bodyMesh(ibod).pointsNew = bodyMesh(ibod).rotation + bodyMesh(ibod).deltaPos(i,:) + body(ibod).cg.';
-                    
-                    % Create and plot final triangulation of geometry with applied changes
-                    bodFinal = triangulation(bodyMesh(ibod).Conns,bodyMesh(ibod).pointsNew);
-                    trisurf(bodFinal,'FaceColor',[1 1 0],'EdgeColor','k','EdgeAlpha',.2)
+                    % Create and wave elevation grid
+                    Z = waveElevationGrid(waves, t(i), X, Y, t(i), simu.dtOut, simu.g);
+                    surf(X,Y,Z,'FaceAlpha',.85,'EdgeColor','none')
                     hold on
-                end
-                
-                % Create and wave elevation grid
-                Z = waveElevationGrid(waves, t(i), X, Y, t(i), simu.dtOut, simu.g);
-                surf(X,Y,Z,'FaceAlpha',.85,'EdgeColor','none')
-                hold on
-                
-                % Display seafloor
-                seaFloor = -waves.waterDepth*ones(size(X, 1));
-                surf(X,Y,seaFloor,'FaceColor',[.4 .4 0],'EdgeColor','none');
-                hold on
-                
-                % Time visual
-                nDecimals = max(0,ceil(-log10(simu.dtOut*options.timesPerFrame)));
-                nLeading = ceil(log10(max(t)));
-                tAnnot = sprintf(['time = %' num2str(nDecimals+nLeading+1) '.' num2str(nDecimals) 'f s'],t(i));
-                
-                % Settings and labels
-                caxis([min(-waves.A) max(waves.A)])
-                colormap winter
-                c = colorbar;
-                ylabel(c, 'Wave Elevation (m)')
-                title({'Wave Elevation and Geometry Visualization',tAnnot})
-                xlabel('x(m)')
-                ylabel('y(m)')
-                zlabel('z(m)')
-                daspect([1 1 1])
-                axis(options.axisLimits)
 
-                % Create figure while iterating through time loop
-                drawnow;
-                
-                % Capture figure for saving
-                frame = getframe(gcf);
-                
-                if options.saveSetting == 0
-                    % Save to video
-                    writeVideo(video,frame); 
-                elseif options.saveSetting == 1
-                    % Save to gif
-                    im = frame2im(frame); 
-                    [imind,cm] = rgb2ind(im,256); 
-                    if i == 1 
-                        imwrite(imind,cm,gifFilename,'gif', 'Loopcount',inf); 
-                    else 
-                        imwrite(imind,cm,gifFilename,'gif','WriteMode','append','DelayTime',simu.dtOut); 
-                    end 
+                    % Display seafloor
+                    seaFloor = -waves.waterDepth*ones(size(X, 1));
+                    surf(X,Y,seaFloor,'FaceColor',[.4 .4 0],'EdgeColor','none');
+                    hold on
+
+                    % Time visual
+                    nDecimals = max(0,ceil(-log10(simu.dtOut*options.timesPerFrame)));
+                    nLeading = ceil(log10(max(t)));
+                    tAnnot = sprintf(['time = %' num2str(nDecimals+nLeading+1) '.' num2str(nDecimals) 'f s'],t(i));
+
+                    % Settings and labels
+                    caxis([min(-waves.A) max(waves.A)])
+                    colormap winter
+                    c = colorbar;
+                    ylabel(c, 'Wave Elevation (m)')
+                    title({'Wave Elevation and Geometry Visualization',tAnnot})
+                    xlabel('x(m)')
+                    ylabel('y(m)')
+                    zlabel('z(m)')
+                    daspect([1 1 1])
+                    axis(options.axisLimits)
+
+                    % Create figure while iterating through time loop
+                    drawnow;
+
+                    % Capture figure for saving
+                    frame = getframe(gcf);
+
+                    if options.saveSetting == 0
+                        % Save to video
+                        writeVideo(video,frame); 
+                    elseif options.saveSetting == 1
+                        % Save to gif
+                        im = frame2im(frame); 
+                        [imind,cm] = rgb2ind(im,256); 
+                        if i == 1 
+                            imwrite(imind,cm,gifFilename,'gif', 'Loopcount',inf); 
+                        else 
+                            imwrite(imind,cm,gifFilename,'gif','WriteMode','append','DelayTime',simu.dtOut); 
+                        end 
+                    end
+
+                    hold off
                 end
- 
-                hold off
-               
             end
             
             % Close video file
