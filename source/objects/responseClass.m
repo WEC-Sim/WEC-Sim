@@ -363,13 +363,13 @@ classdef responseClass<handle
                 waves
                 options.axisLimits (1,6) double {mustBeReal, mustBeNonNan, mustBeFinite} = [-simu.domainSize/2 simu.domainSize/2 -simu.domainSize/2 simu.domainSize/2 -waves.waterDepth -999];
                 options.timesPerFrame (1,1) double {mustBeReal, mustBeNonnegative, mustBeNonNan, mustBeFinite} = 1;
-                options.startEndTime (1,2) double {mustBeReal, mustBeNonnegative, mustBeNonNan} = [];
+                options.startEndTime (1,2) double {mustBeReal, mustBeNonnegative, mustBeNonNan} = [0 0];
                 options.saveSetting (1,1) double {mustBeNumericOrLogical} = 0;
             end
             
             % Set time vector
             t = obj.wave.time(1:options.timesPerFrame*round(simu.dtOut/simu.dt,0):end,1);
-            if isempty(options.startEndTime)
+            if isequal(options.startEndTime, [0 0])
                 options.startEndTime = [min(t) max(t)];
             end
             
