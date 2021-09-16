@@ -310,7 +310,7 @@ end
 % Check for etaImport with morisonElement
 for ii = 1:simu.numWecBodies
     if strcmp(waves.type,'etaImport') && body(ii).morisonElement.option ~= 0
-        error(['Cannot run WEC-Sim with Morrison Element (body(ii).morisonElement.option>0) and "etaImport" wave type'])
+        error(['Cannot run WEC-Sim with Morison Element (body(ii).morisonElement.option>0) and "etaImport" wave type'])
     end
 end
 
@@ -362,7 +362,7 @@ for ii=1:length(body(1,:))
 end; clear ii;
 % yawNonLin Activation
 yawNonLin=simu.yawNonLin;
-% Morrison Element
+% Morison Element
 for ii=1:length(body(1,:))
     if body(ii).nhBody ~=1
     eval(['morisonElement_' num2str(ii) ' = body(ii).morisonElement.option;'])

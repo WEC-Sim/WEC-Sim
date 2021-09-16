@@ -377,8 +377,10 @@ classdef waveClass<handle
             %
             %     Y : matrix
             %       (m x n) matrix of Y coordinates at which to calculate the wave elevation
+            %
             %     TimeBodyParav : Time vector starting from zero specified for
             %       paraview video files.
+            %     
             %     it : time step iteration, 
             %
             %     g : gravitational acceleration constant from simulationClass
