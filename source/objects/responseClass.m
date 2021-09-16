@@ -51,7 +51,7 @@ classdef responseClass<handle
     %   *  ``forceMorisonAndViscous`` (`array`) = [# of time-steps x 6]
     %   *  ``forceLinearDamping`` (`array`) = [# of time-steps x 6]
     %
-    %   There are 4 additional ``output.bodies`` arrays when using non-linear hydro and Paraview output:
+    %   There are 4 additional ``output.bodies`` arrays when using nonlinear hydro and Paraview output:
     %
     %   *  ``cellPressures_time`` (`array`) = [# of Paraview time-steps x 1]
     %   *  ``cellPressures_hydrostatic`` (`array`) = [# of Paraview time-steps x # of mesh faces]

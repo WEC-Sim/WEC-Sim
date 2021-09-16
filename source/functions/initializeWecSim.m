@@ -223,7 +223,7 @@ else
     waves.waveSetup([], [], simu.rampTime, simu.dt, simu.maxIt, simu.g, simu.rho,  simu.endTime);
 end
 
-% Non-linear hydro
+% Nonlinear hydro
 for kk = 1:length(body(1,:))
     if (body(kk).nlHydro >0) || (simu.paraview == 1)
         body(kk).bodyGeo(body(kk).geometryFile)
@@ -303,7 +303,7 @@ end; clear ii;
 % Check for etaImport with nlHydro
 for ii = 1:simu.numWecBodies
     if strcmp(waves.type,'etaImport') && body(ii).nlHydro == 1
-        error(['Cannot run WEC-Sim with non-linear hydro (body(ii).nlHydro) and "etaImport" wave type'])
+        error(['Cannot run WEC-Sim with nonlinear hydro (body(ii).nlHydro) and "etaImport" wave type'])
     end
 end
 

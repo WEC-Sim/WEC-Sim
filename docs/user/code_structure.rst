@@ -31,7 +31,7 @@ WEC-Sim Simulink Library    ``WECSim_Lib.slx``    ``$WECSIM/source/lib``
 
 The WEC-Sim executable is the ``wecSim.m`` file.
 Executing ``wecSim`` from a case directory parses the user input data, 
-performs preprocessing calculations in each of the classes, selects and 
+performs pre-processing calculations in each of the classes, selects and 
 initializes variant subsystems in the Simulink model, runs the time-domain 
 simulations in WEC-Sim, and calls post-processing scripts. 
 When a WEC-Sim case is properly set-up, the user only needs to use the single command ``wecSim`` 

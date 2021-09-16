@@ -181,7 +181,7 @@ Previous Releases
 `WEC-Sim v2.2 <https://github.com/WEC-Sim/WEC-Sim/releases/tag/v2.2>`_
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
-* Added option to save pressure data for non-linear hydro (`simu.pressureDis`)
+* Added option to save pressure data for nonlinear hydro (`simu.pressureDis`)
 
 * Update to moorDyn parser (doesn't require line#.out)  
 
@@ -252,7 +252,7 @@ Previous Releases
 * State space radiation
 * Wave directionality
 * User-defined wave elevation time-series
-* Imports non-dimensionalized BEMIO hydrodynamic data (instead of fully dimensional coefficients)
+* Imports nondimensionalized BEMIO hydrodynamic data (instead of fully dimensional coefficients)
 * Variant Subsystems implemented to improve code stability (instead of if statements)
 * Bug fixes
 
