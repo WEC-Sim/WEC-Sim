@@ -27,73 +27,73 @@ classdef responseClass<handle
     %    
     % , it includes:
     %
-    %   * ``type`` (`string`) = 'waveType'
-    %   *  ``time`` (`array`) = [# of time-steps x 1]
-    %   * ``elevation`` (`array`) = [# of time-steps x 1]
-    %   * ``waveGauge1Elevation`` (`array`) = [# of time-steps x 1]
-    %   * ``waveGauge2Elevation`` (`array`) = [# of time-steps x 1]
-    %   * ``waveGauge3Elevation`` (`array`) = [# of time-steps x 1]
+    %   * ``type`` (`string`) = 'waveType'. Wave type used in the simulation
+    %   *  ``time`` (`array`) = [# of time-steps x 1] Simulation output timeseries. Used in the wave elevation calculations.
+    %   * ``elevation`` (`array`) = [# of time-steps x 1] Wave elevation at the origin (0,0)
+    %   * ``waveGauge1Elevation`` (`array`) = [# of time-steps x 1] Wave elevation at gauge 1 location
+    %   * ``waveGauge2Elevation`` (`array`) = [# of time-steps x 1] Wave elevation at gauge 2 location
+    %   * ``waveGauge3Elevation`` (`array`) = [# of time-steps x 1] Wave elevation at gauge 3 location
     %         
     %.. autoattribute:: objects.responseClass.bodies
     %    
     % , it includes:
     %
-    %   * ``name`` (`string`) = 'bodyName'
-    %   * ``time`` (`array`) = [# of time-steps x 1]
-    %   * ``position`` (`array`) = [# of time-steps x 6]
-    %   * ``velocity`` (`array`) = [# of time-steps x 6]
-    %   *  ``accleration`` (`array`) = [# of time-steps x 6]
-    %   *  ``forceTotal`` (`array`) = [# of time-steps x 6]
-    %   *  ``forceExcitation`` (`array`) = [# of time-steps x 6]
-    %   *  ``forceRadiationDamping`` (`array`) = [# of time-steps x 6]
-    %   *  ``forceAddedMass`` (`array`) = [# of time-steps x 6]
-    %   *  ``forceRestoring`` (`array`) = [# of time-steps x 6]
-    %   *  ``forceMorisonAndViscous`` (`array`) = [# of time-steps x 6]
-    %   *  ``forceLinearDamping`` (`array`) = [# of time-steps x 6]
+    %   * ``name`` (`string`) = 'bodyName' Body name
+    %   * ``time`` (`array`) = [# of time-steps x 1] Simulation output timeseries
+    %   * ``position`` (`array`) = [# of time-steps x 6] 6-DOF body position in the global coordinate system
+    %   * ``velocity`` (`array`) = [# of time-steps x 6] 6-DOF body velocity in the global coordinate system
+    %   *  ``accleration`` (`array`) = [# of time-steps x 6] 6-DOF body acceleration in the global coordinate system
+    %   *  ``forceTotal`` (`array`) = [# of time-steps x 6] Summation of all hydrodynamic forces acting on the body
+    %   *  ``forceExcitation`` (`array`) = [# of time-steps x 6] Wave excitation force exerted by the body
+    %   *  ``forceRadiationDamping`` (`array`) = [# of time-steps x 6] Radiation Damping force exerted by the body
+    %   *  ``forceAddedMass`` (`array`) = [# of time-steps x 6] Added mass force exerted by the body
+    %   *  ``forceRestoring`` (`array`) = [# of time-steps x 6] Hydrostatic restoring force exerted by the body
+    %   *  ``forceMorisonAndViscous`` (`array`) = [# of time-steps x 6] Sum of the Morison element and viscous drag forces exerted by the body
+    %   *  ``forceLinearDamping`` (`array`) = [# of time-steps x 6] Linear damping force exerted by the body
     %
     %   There are 4 additional ``output.bodies`` arrays when using nonlinear hydro and Paraview output:
     %
-    %   *  ``cellPressures_time`` (`array`) = [# of Paraview time-steps x 1]
-    %   *  ``cellPressures_hydrostatic`` (`array`) = [# of Paraview time-steps x # of mesh faces]
-    %   *  ``cellPressures_waveLinear`` (`array`) = [# of Paraview time-steps x # of mesh faces]
-    %   *  ``cellPressures_waveNonLinear`` (`array`) = [# of Paraview time-steps x # of mesh faces]
+    %   *  ``cellPressures_time`` (`array`) = [# of Paraview time-steps x 1] Nonlinear calculation timeseries
+    %   *  ``cellPressures_hydrostatic`` (`array`) = [# of Paraview time-steps x # of mesh faces] Hydrostatic pressure on each stl facet
+    %   *  ``cellPressures_waveLinear`` (`array`) = [# of Paraview time-steps x # of mesh faces] Excitation pressure on each stl facet given zero displacement and the mean free surface
+    %   *  ``cellPressures_waveNonLinear`` (`array`) = [# of Paraview time-steps x # of mesh faces] Excitation pressure on each stl facet given the instantaneous displacement and instantaneous free surface 
     %
     %.. autoattribute:: objects.responseClass.ptos
     %    
     % , it includes:
     %
-    %   * ``name`` (`string`) = 'ptoName'
-    %   * ``time`` (`array`) = [# of time-steps x 1]
-    %   * ``position`` (`array`) = [# of time-steps x 6]
-    %   * ``velocity`` (`array`) = [# of time-steps x 6]
-    %   *  ``accleration`` (`array`) = [# of time-steps x 6]
-    %   *  ``forceTotal`` (`array`) = [# of time-steps x 6]
-    %   * ``forceActuation`` (`array`) = [# of time-steps x 6]
-    %   * ``forceConstraint`` (`array`) = [# of time-steps x 6]
-    %   * ``forceInternalMechanics`` (`array`) = [# of time-steps x 6]
-    %   * ``powerInternalMechanics`` (`array`) = [# of time-steps x 6]
+    %   * ``name`` (`string`) = 'ptoName' PTO name
+    %   * ``time`` (`array`) = [# of time-steps x 1]  Simulation output timeseries
+    %   * ``position`` (`array`) = [# of time-steps x 6] 6-DOF position of the follower relative to the base body at the PTO location
+    %   * ``velocity`` (`array`) = [# of time-steps x 6] 6-DOF velocity of the follower relative to the base body at the PTO location
+    %   *  ``accleration`` (`array`) = [# of time-steps x 6] 6-DOF acceleration of the follower relative to the base body at the PTO location
+    %   *  ``forceTotal`` (`array`) = [# of time-steps x 6] Total force exerted on the follower by the base body
+    %   * ``forceActuation`` (`array`) = [# of time-steps x 6] External force applied to the PTO joint in the unconstrained DOFs
+    %   * ``forceConstraint`` (`array`) = [# of time-steps x 6] Force exerted on the follower by the base body that is required to maintain zero motion in the constrained DOFs
+    %   * ``forceInternalMechanics`` (`array`) = [# of time-steps x 6] Sum of the spring and damping forces
+    %   * ``powerInternalMechanics`` (`array`) = [# of time-steps x 6] Sum of the power dissipated by the damper and absorbed by the spring
     %
     %.. autoattribute:: objects.responseClass.constraints
     %    
     % , it includes:
     %
-    %   * ``name`` (`string`) = 'coonstraintName'
-    %   * ``time`` (`array`) = [# of time-steps x 1]
-    %   * ``position`` (`array`) = [# of time-steps x 6]
-    %   * ``velocity`` (`array`) = [# of time-steps x 6]
-    %   *  ``accleration`` (`array`) = [# of time-steps x 6]
-    %   *  ``forceConstraint`` (`array`) = [# of time-steps x 6]    
+    %   * ``name`` (`string`) = 'coonstraintName' Constraint name
+    %   * ``time`` (`array`) = [# of time-steps x 1] Simulation output timeseries
+    %   * ``position`` (`array`) = [# of time-steps x 6] 6-DOF position of the follower relative to the base body at the constraint location
+    %   * ``velocity`` (`array`) = [# of time-steps x 6] 6-DOF velocity of the follower relative to the base body at the constraint location
+    %   *  ``accleration`` (`array`) = [# of time-steps x 6] 6-DOF acceleration of the follower relative to the base body at the constraint location
+    %   *  ``forceConstraint`` (`array`) = [# of time-steps x 6] Force exerted on the follower by the base body that is required to maintain zero motion in the constrained DOFs
     %
     %.. autoattribute:: objects.responseClass.mooring
     %    
     % , it includes:
     %
-    %   * ``position`` (`array`) = [# of time-steps x 6]
-    %   * ``velocity`` (`array`) = [# of time-steps x 6]
-    %   *  ``forceMooring`` (`array`) = [# of time-steps x 6]
+    %   * ``position`` (`array`) = [# of time-steps x 6] 6-DOF position of the follower body at the mooring location
+    %   * ``velocity`` (`array`) = [# of time-steps x 6] 6-DOF velocity of the follower body at the mooring location
+    %   *  ``forceMooring`` (`array`) = [# of time-steps x 6] Total force exerted on the follower body at the mooring location
     % 
     %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-
+    
     
     properties (SetAccess = 'public', GetAccess = 'public')
         wave                = struct()     % This property generates the ``wave`` structure for each instance of the ``waveClass`` 
