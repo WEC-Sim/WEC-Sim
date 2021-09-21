@@ -50,9 +50,9 @@ The following table lists the WEC-Sim simulation parameters that can be specifie
 +---------------------------+-----------------------------------------------------------+
 | ``simu.pathParaviewVideo``| directory to create ParaView visualization files          |
 +---------------------------+-----------------------------------------------------------+
-| | ``simu.nlHydro``        | | 0 for no nonlinear hydro [default]                     |
-|                           | | 1 for nonlinear hydro with mean free surface           |
-|                           | | 2 for nonlinear hydro with instantaneous free surface  |
+| | ``simu.nlHydro``        | | 0 for no nonlinear hydro [default]                      |
+|                           | | 1 for nonlinear hydro with mean free surface            |
+|                           | | 2 for nonlinear hydro with instantaneous free surface   |
 +---------------------------+-----------------------------------------------------------+
 | ``simu.domainSize``       | size of ground and water planes in meters [default 200]   |
 +---------------------------+-----------------------------------------------------------+
@@ -106,21 +106,21 @@ An example using Paraview for visualization of WEC-Sim data is provided in the `
 The **RM3_MoorDyn_Viz** example uses ParaView for WEC-Sim data visualization of a WEC-Sim model coupled with [MoorDyn](http://wec-sim.github.io/WEC-Sim/advanced_features.html#moordyn) to simulate a mooring system for the [RM3](http://wec-sim.github.io/WEC-Sim/tutorials.html#two-body-point-absorber-rm3) geometry. 
 
 
-nonlinear Hydro Visualization in ParaView
+Nonlinear Hydro Visualization in ParaView
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
-When using nonlinear buoyancy and Froude-Krylov Wave Excitation the paraview files also contain cell data for the bodies.
+When using nonlinear buoyancy and Froude-Krylov wave excitation the paraview files also contain cell data for the bodies.
 The cell data are:
 
 * Cell areas
 * Hydrostatic pressures
 * Linear Froude-Krylov pressures
-* nonlinear Froude-Krylov pressures
+* Nonlinear Froude-Krylov pressures
 
 The ``pressureGlyphs`` macro calculates cell normals, and cell centers. It then creates the following glyphs:
 
-* Hydrostatic Pressure
+* Hydrostatic pressure
 * Linear Froude-Krylov pressure
-* nonlinear Froude-Krylov pressure
+* Nonlinear Froude-Krylov pressure
 * Total pressure (hydrostatic plus nonlinear Froude-Krylov)
 * Froude-Krylov delta (nonlinear minus linear)
 

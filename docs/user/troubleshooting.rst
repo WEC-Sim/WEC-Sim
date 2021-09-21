@@ -156,7 +156,7 @@ If a CIC wave continues to oscillate without decaying to a steady state, the con
 Increase ``simu.CITime`` to a greater value or use the state space option (``simu.ssCalc=1``).
 In BEMIO, check that the convolution integral time is long enough for all oscillations to decay. 
 
-**nonlinear Hydrodynamics:**
+**Nonlinear Hydrodynamics:**
 If a user wishes to use the nonlinear hydro options, they should first follow this same workflow with ``simu.nlHydro=0`` and again with ``simu.nlHydro=1,2``
 The nonlinear hydro options are difficult to set-up and must be used with care. 
 A highly refined mesh is required to get an accurate displaced volume and wetted surface area at each time step.
