@@ -22,7 +22,8 @@ fprintf('\nPost-processing and saving...   \n')
 % Bodies
 for iBod = 1:length(body(1,:))
     eval(['body' num2str(iBod) '_out.name = body(' num2str(iBod) ').name;']);    
-    if iBod == 1; 
+    eval(['body' num2str(iBod) '_out.cg = body(' num2str(iBod) ').cg;']);    
+    if iBod == 1
         bodiesOutput = body1_out; 
     end
     bodiesOutput(iBod) = eval(['body' num2str(iBod) '_out']);
@@ -97,7 +98,7 @@ waveOutput.waveAmpTime2 = waves.waveAmpTime2;
 waveOutput.waveAmpTime3 = waves.waveAmpTime3;
 
 % All
-output = responseClass(bodiesOutput,ptosOutput,constraintsOutput,ptosimOutput,mooringOutput,waveOutput, simu.yawNonLin, body);
+output = responseClass(bodiesOutput,ptosOutput,constraintsOutput,ptosimOutput,mooringOutput,waveOutput, simu.yawNonLin);
 clear bodiesOutput ptosOutput constraintsOutput ptosimOutput mooringOutput waveOutput
 % MoorDyn
 for iMoor = 1:simu.numMoorings
