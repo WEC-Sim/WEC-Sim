@@ -78,7 +78,7 @@ constraint(1).loc = [0 0 -21.29];                    % Constraint Location [m]
 %constraint(2) = constraintClass('Constraint1'); % Initialize Constraint Class for Constraint1
 %constraint(2).loc = [0 0 -12.5];                    % Constraint Location [m]
 
-% 3DOF Tension cable
+%% 3DOF Tension cable
 cable(1) = cableClass('Cable1');
 %cable(1).DOF = 3; 
 cable(1).K = 1000000;
