@@ -8,6 +8,7 @@ $ cat .gitignore
 *.asv
 *.autosave
 *.aux
+*.avi
 *.bak
 *.bat
 *.bbl
