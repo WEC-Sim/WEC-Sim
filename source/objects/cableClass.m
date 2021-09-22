@@ -7,20 +7,19 @@ classdef cableClass<handle
     % It is suggested that the mooringClass be used for connections between
     % the bodies and global reference frame
     %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-    properties (SetAccess = 'public', GetAccess = 'public')%input file
+    properties (SetAccess = 'public', GetAccess = 'public') %input file
         name                    = 'NOT DEFINED'
-        k_0                     = 0                                        % (`float`) Linear PTO stiffness coefficient. Default = `0`.
-        c_0                     = 0                                        % (`float`) Linear PTO damping coefficient. Default = `0`.                                             % (`float`) Rotational PTO cable-to-body coupling damping coefficient. Default = `0`.
+%         k_0                     = 0                                        % (`float`) Linear PTO stiffness coefficient. Default = `0`.
+%         c_0                     = 0                                        % (`float`) Linear PTO damping coefficient. Default = `0`.                                             % (`float`) Rotational PTO cable-to-body coupling damping coefficient. Default = `0`.
         K                       = 0                                        % (`float`) Cable stiffness (N/m). Default = `0`.
         C                       = 0                                        % (`float`) Cable damping coefficient (N/(m/s)). Default = `0`.
         L0                      = 0                                        % (`float`) Cable equilibrium length (m), calculated from rotloc and preTension. Default =`0`.
         preTension              = 0                                        % (`float`) Cable pretension (N).    
         rotk                    = 0                                        % (`float`) Cable connection rotary stiffness (if 3DOF) (N/deg). Default=`0`.
         rotc                    = 0                                        % (`float`) Cable connection rotary damping (if 3DOF) (N/deg). Default=`0`.
-        rotloc1                 = [999 999 999]                                 % (`3x1 float vector`) PTO location [m]. Defined in the following format [x y z]. Default = ``[999 999 999]``.
-        rotloc2                 = [999 999 999]
-        loc                     = [0 0 0]
-        rotorientation             = struct(...                                    %
+        rotloc1                 = [999 999 999]                            % (`3x1 float vector`) PTO location [m]. Defined in the following format [x y z]. Default = ``[999 999 999]``.
+        rotloc2                 = [999 999 999]                            % (`3x1 float vector`) PTO location [m]. Defined in the following format [x y z]. Default = ``[999 999 999]``.
+        rotorientation             = struct(...                                    
             'z', [0, 0, 1], ...                    %
             'y', [0, 1, 0], ...                    %
             'x', [], ...                           %
@@ -75,8 +74,9 @@ classdef cableClass<handle
             'cd', [0 0 0 0 0 0]);
     end
  
-    properties (SetAccess = 'public', GetAccess = 'public')%internal
-        cableNum           = []                                            % Constraint number
+    properties (SetAccess = 'private', GetAccess = 'public')%internal
+        cableNum                = []                                            % Constraint number
+        loc                     = [0 0 0]        
     end
     
     %%
@@ -105,7 +105,7 @@ classdef cableClass<handle
             if ~any(obj.loc)
                 rotDiff = obj.rotloc2-obj.rotloc1;
                 obj.loc = obj.rotloc1 + rotDiff/2;
-                 fprintf('\n\t loc undefined, set halfway between rotloc1 and rotloc2 \n')
+                fprintf('\n\t loc undefined, set halfway between rotloc1 and rotloc2 \n')
             end
         end
         
@@ -197,7 +197,6 @@ classdef cableClass<handle
 %         end
         
         function checkFloat(obj, rho)
-            dispVol = obj.dispVol;
             dispMass = obj.dispVol * rho;
             if dispMass ~= obj.bodyMass;
                 warning('Cable dummy bodies are not neutrally buoyant. Check simu.rho and cable.bodyMass')
@@ -238,13 +237,13 @@ classdef cableClass<handle
             end
         end
         
-        function checkPTOApprox(obj)
-            % This method throws a warning if the dummy bodies are not
-            % neutrally buoyant.
-            if obj.k_0 ~=0 || obj.c_0 ~=0
-                warning(['Cable model pto stiffness and damping are non-zero in the wrong parameters.' newline 'Likely K and C should be non-zero']);
-            end
-        end
+%         function checkPTOApprox(obj)
+%             % This method throws a warning if the dummy bodies are not
+%             % neutrally buoyant.
+%             if obj.k_0 ~=0 || obj.c_0 ~=0
+%                 warning(['Cable model pto stiffness and damping are non-zero in the wrong parameters.' newline 'Likely K and C should be non-zero']);
+%             end
+%         end
         
         function setCg(obj)
             % This method specifies the Cg of the dummy bodies as coinci-

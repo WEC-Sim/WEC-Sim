@@ -1,6 +1,7 @@
 %% Simulation Data
 simu = simulationClass();               % Initialize Simulation Class
-simu.simMechanicsFile = 'RM3_cable.slx';         % Specify Simulink Model File
+simu.simMechanicsFile = 'RM3_3dof_cable.slx';         % Specify Simulink Model File
+% simu.simMechanicsFile = 'RM3_cable.slx';         % Specify Simulink Model File
 simu.mode = 'normal';                   % Specify Simulation Mode ('normal','accelerator','rapid-accelerator')
 simu.explorer='on';                     % Turn SimMechanics Explorer (on/off)
 simu.startTime = 0;                     % Simulation Start Time [s]
@@ -18,40 +19,6 @@ waves = waveClass('regular');           % Initialize Wave Class and Specify Type
 waves.H = 2.5;                          % Wave Height [m]
 waves.T = 8;                            % Wave Period [s]
 
-% % Regular Waves with CIC
-% waves = waveClass('regularCIC');           % Initialize Wave Class and Specify Type                                 
-% waves.H = 2.5;                          % Wave Height [m]
-% waves.T = 8;                            % Wave Period [s]
-
-% % Irregular Waves using PM Spectrum 
-% waves = waveClass('irregular');         % Initialize Wave Class and Specify Type
-% waves.H = 2.5;                          % Significant Wave Height [m]
-% waves.T = 8;                            % Peak Period [s]
-% waves.spectrumType = 'PM';              % Specify Wave Spectrum Type
-
-% % Irregular Waves using JS Spectrum with Equal Energy and Seeded Phase
-% waves = waveClass('irregular');         % Initialize Wave Class and Specify Type
-% waves.H = 2.5;                          % Significant Wave Height [m]
-% waves.T = 8;                            % Peak Period [s]
-% waves.spectrumType = 'JS';              % Specify Wave Spectrum Type
-% waves.freqDisc = 'EqualEnergy';         % Uses 'EqualEnergy' bins (default) 
-% waves.phaseSeed = 1;                    % Phase is seeded so eta is the same
-
-% % Irregular Waves using PM Spectrum with Traditional and State Space 
-% waves = waveClass('irregular');         % Initialize Wave Class and Specify Type
-% waves.H = 2.5;                          % Significant Wave Height [m]
-% waves.T = 8;                            % Peak Period [s]
-% waves.spectrumType = 'PM';              % Specify Wave Spectrum Type
-% simu.ssCalc = 1;                        % Turn on State Space
-% waves.freqDisc = 'Traditional';         % Uses 1000 frequnecies
-
-% % Irregular Waves with imported spectrum
-% waves = waveClass('spectrumImport');        % Create the Wave Variable and Specify Type
-% waves.spectrumDataFile = 'spectrumData.mat';  %Name of User-Defined Spectrum File [:,2] = [f, Sf]
-
-% % Waves with imported wave elevation time-history  
-% waves = waveClass('etaImport');         % Create the Wave Variable and Specify Type
-% waves.etaDataFile = 'etaData.mat'; % Name of User-Defined Time-Series File [:,2] = [time, eta]
 
 %% Body Data
 % Float
@@ -72,14 +39,19 @@ body(2).momOfInertia = [94419614.57 94407091.24 28542224.82];
 
 %% PTO and Constraint Parameters
 % Floating (3DOF) Joint
-constraint(1) = constraintClass('Constraint1'); % Initialize Constraint Class for Constraint1
+constraint(1) = constraintClass('Mooring'); % Initialize Constraint Class for Constraint1
 constraint(1).loc = [0 0 -21.29];                    % Constraint Location [m]
 
-%constraint(2) = constraintClass('Constraint1'); % Initialize Constraint Class for Constraint1
-%constraint(2).loc = [0 0 -12.5];                    % Constraint Location [m]
+%                 KELLEY: for extermal constraints
+% constraint(2) = constraintClass('Cable_Top'); % Initialize Constraint Class for Constraint1
+% constraint(2).loc = [0 0 -5];                    % Constraint Location [m]
+% 
+% constraint(3) = constraintClass('Cable_Bottom'); % Initialize Constraint Class for Constraint1
+% constraint(3).loc = [0 0 -20];                    % Constraint Location [m]
+
 
 %% 3DOF Tension cable
-cable(1) = cableClass('Cable1');
+cable(1) = cableClass('Cable');
 %cable(1).DOF = 3; 
 cable(1).K = 1000000;
 cable(1).C = 100;
