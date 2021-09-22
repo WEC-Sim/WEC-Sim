@@ -139,7 +139,7 @@ classdef responseClass<handle
             for ii = 1:length(bodiesOutput)
                 obj.bodies(ii).name = bodiesOutput(ii).name;
                 obj.bodies(ii).time = bodiesOutput(ii).time;
-%                 obj.bodies(ii).cg   = bodiesOutput(ii).cg;
+                obj.bodies(ii).cg   = body(ii).cg;
                 for jj = 1:length(signals)
                     obj.bodies(ii).(signals{jj}) = bodiesOutput(ii).signals.values(:, (jj-1)*6+1:(jj-1)*6+6);
                 end
@@ -256,7 +256,7 @@ classdef responseClass<handle
             end
         end
 
-        function plotResponse(obj,bodyNum,comp,body)
+        function plotResponse(obj,bodyNum,comp)
             % This method plots the response of a body for a given DOF.
             %
             % Parameters
@@ -270,7 +270,7 @@ classdef responseClass<handle
             DOF = {'Surge','Sway','Heave','Roll','Pitch','Yaw'};
             t=obj.bodies(bodyNum).time;
             if comp < 4
-                pos=obj.bodies(bodyNum).position(:,comp)-body(bodyNum).cg(comp);
+                pos=obj.bodies(bodyNum).position(:,comp)-obj.bodies(bodyNum).cg(comp);
             else
                 pos=obj.bodies(bodyNum).position(:,comp);
             end
