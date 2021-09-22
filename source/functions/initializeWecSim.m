@@ -48,7 +48,7 @@ diary('simulation.log')
 projectRootDir = pwd;
 
 % Create 'temp' directory if it doesn't exist and add to 'temp' path
-% status = mkdir('temp');
+warning('off','MATLAB:MKDIR:DirectoryExists')
 if mkdir('temp') == 0
     mkdir 'temp'
 end
