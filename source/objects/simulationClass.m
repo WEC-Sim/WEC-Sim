@@ -42,7 +42,7 @@ classdef simulationClass<handle
         rho                 = 1000                                         % (`float`) Density of water. Default = ``1000`` kg/m^3
         g                   = 9.81                                         % (`float`) Acceleration due to gravity. Default = ``9.81`` m/s
         yawNonLin           = 0                                            % (`integer`) Option for nonlinear yaw calculation linear->0, nonlinear->1 for nonlinear. Default = ``0`` 
-        yawThresh           = 1                                            % (`float`) Yaw position threshold (in degrees) above which excitation coefficients will be interpolated in non-linear yaw. Default = ``1`` dg
+        yawThresh           = 1                                            % (`float`) Yaw position threshold (in degrees) above which excitation coefficients will be interpolated in nonlinear yaw. Default = ``1`` dg
         b2b                 = 0                                            % (`integer`) Option for body2body interactions: off->0, on->1. Default = ``0``
         paraview            = 0                                            % (`integer`) Option for writing vtp files for paraview visualization, off->0, on->1. Default = ``0``
         StartTimeParaview   = 0;                                           % (`float`) Start time for the vtk file of Paraview. Default = ``0``                                    

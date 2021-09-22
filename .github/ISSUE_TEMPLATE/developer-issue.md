@@ -1,7 +1,7 @@
 ---
 name: Developer Issue
 about: For the use of the development team to note issues associated with the development
-  of WEC-Sim
+  of WEC-Sim. Users please use an alternate template.
 title: "[Developer Issue]"
 labels: ''
 assignees: ''

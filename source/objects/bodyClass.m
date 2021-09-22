@@ -525,7 +525,7 @@ classdef bodyClass<handle
                 BEMdir=sort(obj.hydroData.simulation_parameters.wave_dir);
                 boundDiff(1)=abs(-180 - BEMdir(1)); boundDiff(2)=abs(180 - BEMdir(end));
                 if length(BEMdir)<3 || std(diff(BEMdir))>5 || max(boundDiff)>15
-                    warning(['Non-linear yaw is not recommended without BEM data spanning a full yaw rotation -180 to 180 dg.' newline 'Please inspect BEM data for gaps'])
+                    warning(['Nonlinear yaw is not recommended without BEM data spanning a full yaw rotation -180 to 180 dg.' newline 'Please inspect BEM data for gaps'])
                     clear BEMdir
                 end % wrap BEM directions -180 to 180 dg, if they are not already there
                 [sortedDir,idx]=sort(wrapTo180(obj.hydroData.simulation_parameters.wave_dir));
@@ -568,7 +568,7 @@ classdef bodyClass<handle
                 BEMdir=sort(obj.hydroData.simulation_parameters.wave_dir);
                 boundDiff(1)=abs(-180 - BEMdir(1)); boundDiff(2)=abs(180 - BEMdir(end));
                 if length(BEMdir)<3 || std(diff(BEMdir))>5 || max(boundDiff)>15
-                    warning(['Non-linear yaw is not recommended without BEM data spanning a full yaw rotation -180 to 180 dg.' newline 'Please inspect BEM data for gaps'])
+                    warning(['Nonlinear yaw is not recommended without BEM data spanning a full yaw rotation -180 to 180 dg.' newline 'Please inspect BEM data for gaps'])
                     clear BEMdir boundDiff
                 end
                 [sortedDir,idx]=sort(wrapTo180(obj.hydroData.simulation_parameters.wave_dir));
