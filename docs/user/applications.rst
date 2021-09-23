@@ -127,6 +127,7 @@ Visualization Markers Examples
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
 Examples of WEC-Sim with Wave Elevation visualization at User-Defined Locations.
+The setup for the visualization can be found at `Advanced Features <https://github.com/WEC-Sim/advanced_features>`
 
 WECCCOMP
 ^^^^^^^^

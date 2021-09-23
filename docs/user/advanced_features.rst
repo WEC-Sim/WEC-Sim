@@ -792,17 +792,20 @@ The Global reference block programmatically initiates and adds/deletes the
 visualization blocks based on the number of markers *(0 to N)* defined by the user,
 Here are the steps to enable and define visualization blocks,
 
-1. Define an array with the first column defining the X coordinates, and the 
+1. Enable the wave visualization by setting the variable ``visOn=1`` (The 
+wave visualization blocks can be disabled by setting ``visON = 0;``
+
+2. Define an array with the first column defining the X coordinates, and the 
 second column defining the corresponding Y coordinates. 
 The user should define,
 
  ``'waves.markLoc = [].'``
 
-2.  Define marker style by defining 
+3.  Define marker style by defining 
 
 ``'waves.markStyle = [];' % 1: Sphere, 2: Cube, 3: Frame.``
 
-3. Define marker size in pixels by defining 
+4. Define marker size in pixels by defining 
 
 ``'waves.markSize    = [];'   % Marker Size in Pixels``
 
@@ -817,6 +820,7 @@ Examples:
 
 1. An example with a square mesh of visualization blocks:
 For :code:
+``visON = 1;``
 ``mrk = 10;``
 ``dmrk = 5;``
 ``[X,Y] = meshgrid(-mrk:dmrk:mrk,-mrk:dmrk:mrk);``
