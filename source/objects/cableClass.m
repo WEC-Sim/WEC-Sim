@@ -9,14 +9,12 @@ classdef cableClass<handle
     %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
     properties (SetAccess = 'public', GetAccess = 'public') %input file
         name                    = 'NOT DEFINED'
-%         k_0                     = 0                                        % (`float`) Linear PTO stiffness coefficient. Default = `0`.
-%         c_0                     = 0                                        % (`float`) Linear PTO damping coefficient. Default = `0`.                                             % (`float`) Rotational PTO cable-to-body coupling damping coefficient. Default = `0`.
-        K                       = 0                                        % (`float`) Cable stiffness (N/m). Default = `0`.
-        C                       = 0                                        % (`float`) Cable damping coefficient (N/(m/s)). Default = `0`.
+        k                       = 0                                        % (`float`) Cable stiffness (N/m). Default = `0`.
+        c                       = 0                                        % (`float`) Cable damping coefficient (N/(m/s)). Default = `0`.
         L0                      = 0                                        % (`float`) Cable equilibrium length (m), calculated from rotloc and preTension. Default =`0`.
         preTension              = 0                                        % (`float`) Cable pretension (N).    
-        rotk                    = 0                                        % (`float`) Cable connection rotary stiffness (if 3DOF) (N/deg). Default=`0`.
-        rotc                    = 0                                        % (`float`) Cable connection rotary damping (if 3DOF) (N/deg). Default=`0`.
+%         rotk                    = 0                                        % (`float`) Cable connection rotary stiffness (if 3DOF) (N/deg). Default=`0`.
+%         rotc                    = 0                                        % (`float`) Cable connection rotary damping (if 3DOF) (N/deg). Default=`0`.
         rotorientation             = struct(...                                    
             'z', [0, 0, 1], ...                    %
             'y', [0, 1, 0], ...                    %
@@ -91,7 +89,7 @@ classdef cableClass<handle
             %     filename : string
             %         String specifying the name of the cable
             %     filename : obj
-            %         Object for the base constraint/pto
+            %         Object for the follower constraint/pto
             %     filename : obj
             %         Object for the base constraint/pto
             %
@@ -292,8 +290,8 @@ classdef cableClass<handle
             fprintf('\n\t***** Cable Name: %s *****\n',obj.name)
             fprintf('\tCable Stiffness           (N/m;Nm/rad) = %G\n',obj.K)
             fprintf('\tCable Damping           (Ns/m;Nsm/rad) = %G\n',obj.C)
-            fprintf('\tRot. coupling stiffness           (N/m;Nm/rad) = %G\n',obj.rotk)
-            fprintf('\tRot. coupling damping           (Ns/m;Nsm/rad) = %G\n',obj.rotc)
+%             fprintf('\tRot. coupling stiffness           (N/m;Nm/rad) = %G\n',obj.rotk)
+%             fprintf('\tRot. coupling damping           (Ns/m;Nsm/rad) = %G\n',obj.rotc)
             
         end
     end
