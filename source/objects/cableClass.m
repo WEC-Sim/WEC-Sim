@@ -13,8 +13,6 @@ classdef cableClass<handle
         c                       = 0                                        % (`float`) Cable damping coefficient (N/(m/s)). Default = `0`.
         L0                      = 0                                        % (`float`) Cable equilibrium length (m), calculated from rotloc and preTension. Default =`0`.
         preTension              = 0                                        % (`float`) Cable pretension (N).    
-%         rotk                    = 0                                        % (`float`) Cable connection rotary stiffness (if 3DOF) (N/deg). Default=`0`.
-%         rotc                    = 0                                        % (`float`) Cable connection rotary damping (if 3DOF) (N/deg). Default=`0`.
         rotorientation             = struct(...                                    
             'z', [0, 0, 1], ...                    %
             'y', [0, 1, 0], ...                    %
@@ -59,10 +57,6 @@ classdef cableClass<handle
             'initAngularDispAxis2',  [0 1 0], ...             %
             'initAngularDispAngle2', 0)% Structure defining the initial displacement of the body. ``initLinDisp`` (`3x1 float vector`) is defined as the initial displacement of the body center of gravity (COG) [m] in the following format [x y z], Default = [``0 0 0``]. ``initAngularDispAxis`` (`3x1 float vector`) is defined as the axis of rotation in the following format [x y z], Default = [``0 1 0``]. ``initAngularDispAngle`` (`float`) is defined as the initial angular displacement of the body COG [rad], Default = ``0``.
         dispVol                 = 0.001;                                        % (`float`) displacement volume, defaults to neutral buoyancy
-        cg1                     =[0 0 0];                                       % (`1 x 3 float vector`) cg location of the top dummy body, should be between translational and rotational pto
-        cb1                     =[0 0 0];                                       % (`1 x 3 float vector`) cb location of the top dummy body, should equal cg1
-        cg2                     =[0 0 0];                                       % (`1 x 3 float vector`) cg location of the bottom dummy body, should be between translational and rotational pto
-        cb2                     =[0 0 0];                                       % (`1 x 3 float vector`) cb location of the bottom dummy body, should equal cg2
         linearDamping           =[0 0 0 0 0 0];                                 % (`1 x 6 float vector`)linear damping aplied to body motions
         viscDrag                = struct(...
             'characteristicArea', [0 0 0 0 0 0], ...
@@ -75,6 +69,10 @@ classdef cableClass<handle
         loc                     = [0 0 0]        
         rotloc1                 = [999 999 999]                            % (`3x1 float vector`) PTO location [m]. Defined in the following format [x y z]. Default = ``[999 999 999]``.
         rotloc2                 = [999 999 999]                            % (`3x1 float vector`) PTO location [m]. Defined in the following format [x y z]. Default = ``[999 999 999]``.
+        cg1                     =[0 0 0];                                       % (`1 x 3 float vector`) cg location of the top dummy body, should be between translational and rotational pto
+        cb1                     =[0 0 0];                                       % (`1 x 3 float vector`) cb location of the top dummy body, should equal cg1
+        cg2                     =[0 0 0];                                       % (`1 x 3 float vector`) cg location of the bottom dummy body, should be between translational and rotational pto
+        cb2                     =[0 0 0];                                       % (`1 x 3 float vector`) cb location of the bottom dummy body, should equal cg2
     end
     
     %%
@@ -242,14 +240,6 @@ classdef cableClass<handle
             end
         end
         
-%         function checkPTOApprox(obj)
-%             % This method throws a warning if the dummy bodies are not
-%             % neutrally buoyant.
-%             if obj.k_0 ~=0 || obj.c_0 ~=0
-%                 warning(['Cable model pto stiffness and damping are non-zero in the wrong parameters.' newline 'Likely K and C should be non-zero']);
-%             end
-%         end
-        
         function setCg(obj)
             % This method specifies the Cg of the dummy bodies as coinci-
             %dent with the fixed ends of the cable, if not otherwise specied.
@@ -274,9 +264,9 @@ classdef cableClass<handle
             elseif ~any(obj.L0) && any(obj.preTension)
                 obj.L0 = sqrt((obj.rotloc2(1)-obj.rotloc1(1)).^2 ...
                 + (obj.rotloc2(2)-obj.rotloc1(2)).^2 ...
-                + (obj.rotloc2(3)-obj.rotloc1(3)).^2) + obj.preTension/obj.K;
+                + (obj.rotloc2(3)-obj.rotloc1(3)).^2) + obj.preTension/obj.k;
             elseif ~any(obj.preTension) && any(obj.L0)
-                obj.preTension = obj.K * (sqrt((obj.rotloc2(1)-obj.rotloc1(1)).^2 ...
+                obj.preTension = obj.k * (sqrt((obj.rotloc2(1)-obj.rotloc1(1)).^2 ...
                 + (obj.rotloc2(2)-obj.rotloc1(2)).^2 ...
                 + (obj.rotloc2(3)-obj.rotloc1(3)).^2) - obj.L0); 
             elseif any(obj.preTension) && any(obj.L0)
@@ -288,11 +278,8 @@ classdef cableClass<handle
         function listInfo(obj)
             % This method prints cable information to the MATLAB Command Window.
             fprintf('\n\t***** Cable Name: %s *****\n',obj.name)
-            fprintf('\tCable Stiffness           (N/m;Nm/rad) = %G\n',obj.K)
-            fprintf('\tCable Damping           (Ns/m;Nsm/rad) = %G\n',obj.C)
-%             fprintf('\tRot. coupling stiffness           (N/m;Nm/rad) = %G\n',obj.rotk)
-%             fprintf('\tRot. coupling damping           (Ns/m;Nsm/rad) = %G\n',obj.rotc)
-            
+            fprintf('\tCable Stiffness           (N/m;Nm/rad) = %G\n',obj.k)
+            fprintf('\tCable Damping           (Ns/m;Nsm/rad) = %G\n',obj.c)            
         end
     end
     

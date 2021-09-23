@@ -53,7 +53,6 @@ constraint(3).loc = [0 0 -5];                    % Constraint Location [m]
 
 %% 3DOF Tension cable
 cable(1) = cableClass('Cable',constraint(3),constraint(2));
-%cable(1).DOF = 3; 
 cable(1).k = 1000000;
 cable(1).c = 100;
 %cable(1).L0 = 9.9; % equilibrium length
