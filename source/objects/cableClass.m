@@ -74,7 +74,7 @@ classdef cableClass<handle
             'cd', [0 0 0 0 0 0]);
     end
  
-    properties (SetAccess = 'private', GetAccess = 'public')%internal
+    properties (SetAccess = 'public', GetAccess = 'public')%internal
         cableNum                = []                                            % Constraint number
         loc                     = [0 0 0]        
     end
