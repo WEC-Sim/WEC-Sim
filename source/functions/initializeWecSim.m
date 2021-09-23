@@ -384,6 +384,12 @@ end; clear ii
 
 %Visualization
 
+if exist('visON','var') && (visON==1)
+    visON = 1;
+else
+    visON = 0;
+end
+    
 sv_visualizationON  = Simulink.Variant('visON==1');
 
 sv_visualizationOFF = Simulink.Variant('visON==0');

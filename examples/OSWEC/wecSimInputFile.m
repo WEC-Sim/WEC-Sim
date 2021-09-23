@@ -34,9 +34,6 @@ waves.waveSpread = [0.1,0.2,0.7];       % Wave Directional Spreading [%}
 % % Waves with imported wave elevation time-history  
 % waves = waveClass('etaImport');         % Create the Wave Variable and Specify Type
 % waves.etaDataFile = 'etaData.mat'; % Name of User-Defined Time-Series File [:,2] = [time, eta]
-%% Wave Visualization
-visOn = 0;
-
 
 %% Body Data
 % Flap
