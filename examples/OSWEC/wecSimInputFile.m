@@ -35,6 +35,7 @@ waves.waveSpread = [0.1,0.2,0.7];       % Wave Directional Spreading [%}
 % waves = waveClass('etaImport');         % Create the Wave Variable and Specify Type
 % waves.etaDataFile = 'etaData.mat'; % Name of User-Defined Time-Series File [:,2] = [time, eta]
 
+
 %% Body Data
 % Flap
 body(1) = bodyClass('hydroData/oswec.h5');      % Initialize bodyClass for Flap
