@@ -382,6 +382,11 @@ for ii=1:length(body(1,:))
 %    eval(['sv_b' num2str(ii) '_rigidBody = Simulink.Variant(''nhbody_' num2str(ii) '==0'');'])
 end; clear ii
 
+%Visualization
+
+sv_visualizationON  = Simulink.Variant('visON==1');
+
+sv_visualizationOFF = Simulink.Variant('visON==0');
 
 %% End Pre-Processing and Output All the Simulation and Model Setting
 toc
