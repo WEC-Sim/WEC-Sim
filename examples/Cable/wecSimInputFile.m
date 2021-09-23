@@ -1,7 +1,7 @@
 %% Simulation Data
 simu = simulationClass();               % Initialize Simulation Class
-simu.simMechanicsFile = 'RM3_3dof_cable.slx';         % Specify Simulink Model File
-% simu.simMechanicsFile = 'RM3_cable_external_constraint.slx';         % Specify Simulink Model File
+% simu.simMechanicsFile = 'RM3_3dof_cable.slx';         % Specify Simulink Model File
+simu.simMechanicsFile = 'RM3_cable_external_constraint.slx';         % Specify Simulink Model File
 % simu.simMechanicsFile = 'RM3_cable.slx';         % Specify Simulink Model File
 simu.mode = 'normal';                   % Specify Simulation Mode ('normal','accelerator','rapid-accelerator')
 simu.explorer='on';                     % Turn SimMechanics Explorer (on/off)
@@ -43,12 +43,12 @@ body(2).momOfInertia = [94419614.57 94407091.24 28542224.82];
 constraint(1) = constraintClass('Mooring'); % Initialize Constraint Class for Constraint1
 constraint(1).loc = [0 0 -21.29];                    % Constraint Location [m]
 
-%                 KELLEY: for extermal constraints
-% constraint(2) = constraintClass('Cable_Top'); % Initialize Constraint Class for Constraint1
-% constraint(2).loc = [0 0 -5];                    % Constraint Location [m]
-% 
-% constraint(3) = constraintClass('Cable_Bottom'); % Initialize Constraint Class for Constraint1
-% constraint(3).loc = [0 0 -20];                    % Constraint Location [m]
+%  KELLEY: for extermal constraints
+constraint(2) = constraintClass('Cable_Bottom'); % Initialize Constraint Class for Constraint1
+constraint(2).loc = [0 0 -20];                    % Constraint Location [m]
+
+constraint(3) = constraintClass('Cable_Top'); % Initialize Constraint Class for Constraint1
+constraint(3).loc = [0 0 -5];                    % Constraint Location [m]
 
 
 %% 3DOF Tension cable
@@ -59,6 +59,8 @@ cable(1).C = 100;
 %cable(1).L0 = 9.9; % equilibrium length
 cable(1).rotloc1 = [0 0 -5]; % -0.72
 cable(1).rotloc2 = [0 0 -20];%-21.29
+
+
 %cable(1).rotk=[1];
 %cable(1).viscDrag.viscDrag.cd = [1.4 1.4 1.4 0 0 0];
 %cable(1).viscDrag.viscDrag.characteristicArea = [10 10 10 0 0 0];
