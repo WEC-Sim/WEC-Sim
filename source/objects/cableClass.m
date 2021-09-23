@@ -67,12 +67,12 @@ classdef cableClass<handle
     properties (SetAccess = 'public', GetAccess = 'public')%internal
         cableNum                = []                                       	% Cable number
         loc                     = [0 0 0]        
-        rotloc1                 = [999 999 999]                             % (`3x1 float vector`) PTO location [m]. Defined in the following format [x y z]. Default = ``[999 999 999]``.
-        rotloc2                 = [999 999 999]                             % (`3x1 float vector`) PTO location [m]. Defined in the following format [x y z]. Default = ``[999 999 999]``.
-        cg1                     =[0 0 0];                                   % (`1 x 3 float vector`) cg location of the top dummy body, should be between translational and rotational pto
-        cb1                     =[0 0 0];                                   % (`1 x 3 float vector`) cb location of the top dummy body, should equal cg1
-        cg2                     =[0 0 0];                                   % (`1 x 3 float vector`) cg location of the bottom dummy body, should be between translational and rotational pto
-        cb2                     =[0 0 0];                                   % (`1 x 3 float vector`) cb location of the bottom dummy body, should equal cg2
+        rotloc1                 = [999 999 999]                             % (`3x1 float vector`) base location [m]. Defined in the following format [x y z]. Default = ``[999 999 999]``.
+        rotloc2                 = [999 999 999]                             % (`3x1 float vector`) follower location [m]. Defined in the following format [x y z]. Default = ``[999 999 999]``.
+        cg1                     =[0 0 0];                                   % (`1 x 3 float vector`) cg location of the base dummy body, should be between translational and rotational pto
+        cb1                     =[0 0 0];                                   % (`1 x 3 float vector`) cb location of the base dummy body, should equal cg1
+        cg2                     =[0 0 0];                                   % (`1 x 3 float vector`) cg location of the follower dummy body, should be between translational and rotational pto
+        cb2                     =[0 0 0];                                   % (`1 x 3 float vector`) cb location of the follower dummy body, should equal cg2
     end
     
     %%
@@ -87,9 +87,9 @@ classdef cableClass<handle
             %     filename : string
             %         String specifying the name of the cable
             %     filename : obj
-            %         Object for the follower constraint/pto
-            %     filename : obj
             %         Object for the base constraint/pto
+            %     filename : obj
+            %         Object for the follower constraint/pto
             %
             % Returns
             % ------------
@@ -97,8 +97,8 @@ classdef cableClass<handle
             %         cableClass object
             %
             obj.name = name;
-            obj.rotloc1 = constraint1.loc; 	
-            obj.rotloc2 = constraint2.loc; 
+            obj.rotloc1 = constraint1.loc; 
+            obj.rotloc2 = constraint2.loc; 	                        
         end
         
         
@@ -106,9 +106,9 @@ classdef cableClass<handle
             % This method specifies the translational PTO location as half-
             % way between the fixed ends of the cable
             if ~any(obj.loc)
-                rotDiff = obj.rotloc2-obj.rotloc1;
-                obj.loc = obj.rotloc1 + rotDiff/2;
-                fprintf('\n\t loc undefined, set halfway between rotloc1 and rotloc2 \n')
+                rotDiff = obj.rotloc1-obj.rotloc2;
+                obj.loc = obj.rotloc2 + rotDiff/2;
+                fprintf('\n\t loc undefined, set halfway between rotloc2 and rotloc1 \n')
             end
         end
         
@@ -184,18 +184,18 @@ classdef cableClass<handle
 %             linDisp = newCoord-loc;
 %             obj.initDisp.initLinDisp= linDisp + addLinDisp;
 %             %
-%             rotloc1 = obj.rotloc1;
-%             relCoord = rotloc1 - x_rot;
-%             rotatedRelCoord = rotateXYZ(relCoord,ax_rot,ang_rot);
-%             newCoord = rotatedRelCoord + x_rot;
-%             linDisp = newCoord-rotloc1;
-%             obj.rotinitDisp.initLinDisp1= linDisp + addLinDisp;
-%             %
 %             rotloc2 = obj.rotloc2;
 %             relCoord = rotloc2 - x_rot;
 %             rotatedRelCoord = rotateXYZ(relCoord,ax_rot,ang_rot);
 %             newCoord = rotatedRelCoord + x_rot;
 %             linDisp = newCoord-rotloc2;
+%             obj.rotinitDisp.initLinDisp1= linDisp + addLinDisp;
+%             %
+%             rotloc1 = obj.rotloc1;
+%             relCoord = rotloc1 - x_rot;
+%             rotatedRelCoord = rotateXYZ(relCoord,ax_rot,ang_rot);
+%             newCoord = rotatedRelCoord + x_rot;
+%             linDisp = newCoord-rotloc1;
 %             obj.rotinitDisp.initLinDisp2= linDisp + addLinDisp;
 %         end
         
@@ -245,11 +245,11 @@ classdef cableClass<handle
             %dent with the fixed ends of the cable, if not otherwise specied.
             if ~any(obj.cg1)
                 obj.cg1 = obj.rotloc1;
-                 fprintf('\n\t Cg1 undefined, set equal to rotloc1 \n')
+                fprintf('\n\t Cg1 undefined, set equal to rotloc1 \n')
             end
             if ~any(obj.cg2)
                 obj.cg2 = obj.rotloc2;
-                fprintf('\n\t Cg2 undefined, set equal to rotloc2 \n')
+                 fprintf('\n\t Cg2 undefined, set equal to rotloc2 \n')
             end
         end
         
@@ -257,18 +257,18 @@ classdef cableClass<handle
             % This method specifies L0 as the distance between cable fixed
             % ends (i.e. pretension = 0), if not otherwise specified.
             if ~any(obj.L0) && ~any(obj.preTension)
-                obj.L0 = sqrt((obj.rotloc2(1)-obj.rotloc1(1)).^2 ...
-                + (obj.rotloc2(2)-obj.rotloc1(2)).^2 ...
-                + (obj.rotloc2(3)-obj.rotloc1(3)).^2);
-            fprintf('\n\t L0 undefined and preTension undefined. \n \r L0 set equal to distance between rotloc1 and rotloc2 \n and preTension set equal to zero \n')
+                obj.L0 = sqrt((obj.rotloc1(1)-obj.rotloc2(1)).^2 ...
+                + (obj.rotloc1(2)-obj.rotloc2(2)).^2 ...
+                + (obj.rotloc1(3)-obj.rotloc2(3)).^2);
+            fprintf('\n\t L0 undefined and preTension undefined. \n \r L0 set equal to distance between rotloc2 and rotloc1 \n and preTension set equal to zero \n')
             elseif ~any(obj.L0) && any(obj.preTension)
-                obj.L0 = sqrt((obj.rotloc2(1)-obj.rotloc1(1)).^2 ...
-                + (obj.rotloc2(2)-obj.rotloc1(2)).^2 ...
-                + (obj.rotloc2(3)-obj.rotloc1(3)).^2) + obj.preTension/obj.k;
+                obj.L0 = sqrt((obj.rotloc1(1)-obj.rotloc2(1)).^2 ...
+                + (obj.rotloc1(2)-obj.rotloc2(2)).^2 ...
+                + (obj.rotloc1(3)-obj.rotloc2(3)).^2) + obj.preTension/obj.k;
             elseif ~any(obj.preTension) && any(obj.L0)
-                obj.preTension = obj.k * (sqrt((obj.rotloc2(1)-obj.rotloc1(1)).^2 ...
-                + (obj.rotloc2(2)-obj.rotloc1(2)).^2 ...
-                + (obj.rotloc2(3)-obj.rotloc1(3)).^2) - obj.L0); 
+                obj.preTension = obj.k * (sqrt((obj.rotloc1(1)-obj.rotloc2(1)).^2 ...
+                + (obj.rotloc1(2)-obj.rotloc2(2)).^2 ...
+                + (obj.rotloc1(3)-obj.rotloc2(3)).^2) - obj.L0); 
             elseif any(obj.preTension) && any(obj.L0)
                 fprintf('\n\t System overdefined. Please define preTension OR L0, not both. Pretension set to 0.')
                 obj.preTension = 0;
