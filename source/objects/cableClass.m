@@ -13,24 +13,24 @@ classdef cableClass<handle
         c                       = 0                                        % (`float`) Cable damping coefficient (N/(m/s)). Default = `0`.
         L0                      = 0                                        % (`float`) Cable equilibrium length (m), calculated from rotloc and preTension. Default =`0`.
         preTension              = 0                                        % (`float`) Cable pretension (N).    
+        orientation             = struct(...                                %
+            'z', [0, 0, 1], ...                    %
+            'y', [0, 1, 0], ...                    %
+            'x', [], ...                           %
+            'rotationMatrix',[])                                            % Structure defining the orientation axis of the pto. ``z`` (`3x1 float vector`) defines the direciton of the Z-coordinate of the pto, Default = [``0 0 1``]. ``y`` (`3x1 float vector`) defines the direciton of the Y-coordinate of the pto, Default = [``0 1 0``]. ``x`` (`3x1 float vector`) internally calculated vector defining the direction of the X-coordinate for the pto, Default = ``[]``. ``rotationMatrix`` (`3x3 float matrix`) internally calculated rotation matrix to go from standard coordinate orientation to the pto coordinate orientation, Default = ``[]``.
         rotorientation             = struct(...                                    
             'z', [0, 0, 1], ...                    %
             'y', [0, 1, 0], ...                    %
             'x', [], ...                           %
             'rotationMatrix1',[],...                                        % Structure defining the orientation axis of the pto. ``z`` (`3x1 float vector`) defines the direciton of the Z-coordinate of the pto, Default = [``0 0 1``]. ``y`` (`3x1 float vector`) defines the direciton of the Y-coordinate of the pto, Default = [``0 1 0``]. ``x`` (`3x1 float vector`) internally calculated vector defining the direction of the X-coordinate for the pto, Default = ``[]``. ``rotationMatrix`` (`3x3 float matrix`) internally calculated rotation matrix to go from standard coordinate orientation to the pto coordinate orientation, Default = ``[]``.
             'rotationMatrix2',[])
-        rotInitDisp                = struct(...                             % Structure defining the initial displacement
-            'initLinDisp1',          [0 0 0],...                            % Structure defining the initial displacement of the top cable connection. ``initLinDisp1`` (`3x1 float vector`) is defined as the initial displacement of the pto [m] in the following format [x y z], Default = [``0 0 0``].
-            'initLinDisp2',          [0 0 0])                               % Structure defining the initial displacement of the bottom cable connection. ``initLinDisp2`` (`3x1 float vector`) is defined as the initial displacement of the pto [m] in the following format [x y z], Default = [``0 0 0``].
-        orientation             = struct(...                                %
-            'z', [0, 0, 1], ...                    %
-            'y', [0, 1, 0], ...                    %
-            'x', [], ...                           %
-            'rotationMatrix',[])                                            % Structure defining the orientation axis of the pto. ``z`` (`3x1 float vector`) defines the direciton of the Z-coordinate of the pto, Default = [``0 0 1``]. ``y`` (`3x1 float vector`) defines the direciton of the Y-coordinate of the pto, Default = [``0 1 0``]. ``x`` (`3x1 float vector`) internally calculated vector defining the direction of the X-coordinate for the pto, Default = ``[]``. ``rotationMatrix`` (`3x3 float matrix`) internally calculated rotation matrix to go from standard coordinate orientation to the pto coordinate orientation, Default = ``[]``.
         initDisp                = struct(...                                % Structure defining the initial displacement
             'initLinDisp',          [0 0 0],...                             % Structure defining the initial displacement of the pto. ``initLinDisp`` (`3x1 float vector`) is defined as the initial displacement of the pto [m] in the following format [x y z], Default = [``0 0 0``].
             'initAngularDispAxis',  [0 1 0], ...                            %
             'initAngularDispAngle', 0)                                      % Structure defining the initial displacement of the body. ``initLinDisp`` (`3x1 float vector`) is defined as the initial displacement of the body center of gravity (COG) [m] in the following format [x y z], Default = [``0 0 0``]. ``initAngularDispAxis`` (`3x1 float vector`) is defined as the axis of rotation in the following format [x y z], Default = [``0 1 0``]. ``initAngularDispAngle`` (`float`) is defined as the initial angular displacement of the body COG [rad], Default = ``0``.
+%         rotInitDisp                = struct(...                             % Structure defining the initial displacement
+%             'initLinDisp1',          [0 0 0],...                            % Structure defining the initial displacement of the top cable connection. ``initLinDisp1`` (`3x1 float vector`) is defined as the initial displacement of the pto [m] in the following format [x y z], Default = [``0 0 0``].
+%             'initLinDisp2',          [0 0 0])                               % Structure defining the initial displacement of the bottom cable connection. ``initLinDisp2`` (`3x1 float vector`) is defined as the initial displacement of the pto [m] in the following format [x y z], Default = [``0 0 0``].
         hardStops               = struct(...
             'upperLimitSpecify', 'off',...        % (`string`) Initialize upper stroke limit. ``  'on' or 'off' `` Default = ``off``.
             'upperLimitBound', 1, ...             % (`float`) Define upper stroke limit in m or deg. Only active if `lowerLimitSpecify` is `on` `` Default = ``1``.
@@ -42,13 +42,14 @@ classdef cableClass<handle
             'lowerLimitStiffness', 1e6, ...       % (`float`) Define lower limit spring stiffness, N/m or N-m/deg.  `` Default = ``1e6``.
             'lowerLimitDamping', 1e3, ...         % (`float`) Define lower limit damping, N/m/s or N-m/deg/s.  `` Default = ``1e3``.
             'lowerLimitTransitionRegionWidth', 1e-4) % (`float`) Define lower limit transition region, over which spring and damping values ramp up to full values. Increase for stability. m or deg. ``Default = 1e-4``
-        geometryFile            ='geometry/sphere_out.stl'; % geometry file
+        geometryFile            ='geometry/sphere_out.stl'; % geometry file             %KELLEY use matlab geom
         bodyMass                =1;                                         % (`float`) mass in kg, default 1
+        bodyInertia             = [ 1 1 1];                  % (`1 x 3 float vector`) body inertia kg-m^2, default [1 1 1]
+        dispVol                 = 0.001;                                        % (`float`) displacement volume, defaults to neutral buoyancy       %Kelley - clean this up based on density
         viz               = struct(...                                      %
             'color', [1 0 0.5], ...                                         %
             'opacity', 1)                                    % Structure defining visualization properties in either SimScape or Paraview. ``color`` (`3x1 float vector`) is defined as the body visualization color, Default = [``1 1 0``]. ``opacity`` (`integer`) is defined as the body opacity, Default = ``1``.
         bodyparaview      = 1;                               % (`integer`) Flag for visualisation in Paraview either 0 (no) or 1 (yes). Default = ``1`` since only called in paraview.
-        bodyInertia             = [ 1 1 1];                  % (`1 x 3 float vector`) body inertia kg-m^2, default [1 1 1]
         bodyInitDisp            = struct(...
             'initLinDisp1',          [0 0 0],...              % Structure defining the initial displacement of the pto. ``initLinDisp`` (`3x1 float vector`) is defined as the initial displacement of the pto [m] in the following format [x y z], Default = [``0 0 0``].
             'initAngularDispAxis1',  [0 1 0], ...             %
@@ -56,7 +57,6 @@ classdef cableClass<handle
             'initLinDisp2',          [0 0 0],...              % Structure defining the initial displacement of the pto. ``initLinDisp`` (`3x1 float vector`) is defined as the initial displacement of the pto [m] in the following format [x y z], Default = [``0 0 0``].
             'initAngularDispAxis2',  [0 1 0], ...             %
             'initAngularDispAngle2', 0)                       % Structure defining the initial displacement of the body. ``initLinDisp`` (`3x1 float vector`) is defined as the initial displacement of the body center of gravity (COG) [m] in the following format [x y z], Default = [``0 0 0``]. ``initAngularDispAxis`` (`3x1 float vector`) is defined as the axis of rotation in the following format [x y z], Default = [``0 1 0``]. ``initAngularDispAngle`` (`float`) is defined as the initial angular displacement of the body COG [rad], Default = ``0``.
-        dispVol                 = 0.001;                                        % (`float`) displacement volume, defaults to neutral buoyancy
         linearDamping           =[0 0 0 0 0 0];                                 % (`1 x 6 float vector`)linear damping aplied to body motions
         viscDrag                = struct(...
             'characteristicArea', [0 0 0 0 0 0], ...
@@ -166,7 +166,7 @@ classdef cableClass<handle
             obj.rotorientation.rotationMatrix1  = [x',y',z'];
             obj.rotorientation.rotationMatrix2  = [x',y',z'];
         end
-        
+%         
 %         function setInitDisp(obj, x_rot, ax_rot, ang_rot, addLinDisp)
 %             % This method sets initial displacement while considering an initial rotation orientation.
 %             %
@@ -201,7 +201,7 @@ classdef cableClass<handle
         
         function checkFloat(obj, rho)
             dispMass = obj.dispVol * rho;
-            if dispMass ~= obj.bodyMass;
+            if dispMass ~= obj.bodyMass
                 warning('Cable dummy bodies are not neutrally buoyant. Check simu.rho and cable.bodyMass')
             end
         end
