@@ -42,7 +42,6 @@ classdef cableClass<handle
             'lowerLimitStiffness', 1e6, ...       % (`float`) Define lower limit spring stiffness, N/m or N-m/deg.  `` Default = ``1e6``.
             'lowerLimitDamping', 1e3, ...         % (`float`) Define lower limit damping, N/m/s or N-m/deg/s.  `` Default = ``1e3``.
             'lowerLimitTransitionRegionWidth', 1e-4) % (`float`) Define lower limit transition region, over which spring and damping values ramp up to full values. Increase for stability. m or deg. ``Default = 1e-4``
-        geometryFile            ='geometry/sphere_out.stl'; % geometry file             %KELLEY use matlab geom
         bodyMass                =1;                                         % (`float`) mass in kg, default 1
         bodyInertia             = [ 1 1 1];                  % (`1 x 3 float vector`) body inertia kg-m^2, default [1 1 1]
         dispVol                 = 0.001;                                        % (`float`) displacement volume, defaults to neutral buoyancy       %Kelley - clean this up based on density
