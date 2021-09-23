@@ -17,8 +17,6 @@ classdef cableClass<handle
         preTension              = 0                                        % (`float`) Cable pretension (N).    
         rotk                    = 0                                        % (`float`) Cable connection rotary stiffness (if 3DOF) (N/deg). Default=`0`.
         rotc                    = 0                                        % (`float`) Cable connection rotary damping (if 3DOF) (N/deg). Default=`0`.
-        rotloc1                 = [999 999 999]                            % (`3x1 float vector`) PTO location [m]. Defined in the following format [x y z]. Default = ``[999 999 999]``.
-        rotloc2                 = [999 999 999]                            % (`3x1 float vector`) PTO location [m]. Defined in the following format [x y z]. Default = ``[999 999 999]``.
         rotorientation             = struct(...                                    
             'z', [0, 0, 1], ...                    %
             'y', [0, 1, 0], ...                    %
@@ -77,19 +75,25 @@ classdef cableClass<handle
     properties (SetAccess = 'public', GetAccess = 'public')%internal
         cableNum                = []                                            % Constraint number
         loc                     = [0 0 0]        
+        rotloc1                 = [999 999 999]                            % (`3x1 float vector`) PTO location [m]. Defined in the following format [x y z]. Default = ``[999 999 999]``.
+        rotloc2                 = [999 999 999]                            % (`3x1 float vector`) PTO location [m]. Defined in the following format [x y z]. Default = ``[999 999 999]``.
     end
     
     %%
     methods
         
-        function obj = cableClass(name)
+        function obj = cableClass(name,constraint1,constraint2)
             % This method initilizes the ``cableClass`` and creates a
             % ``cable`` object.
             %
             % Parameters
             % ------------
             %     filename : string
-            %         String specifying the name of the pto
+            %         String specifying the name of the cable
+            %     filename : obj
+            %         Object for the base constraint/pto
+            %     filename : obj
+            %         Object for the base constraint/pto
             %
             % Returns
             % ------------
@@ -97,7 +101,10 @@ classdef cableClass<handle
             %         cableClass object
             %
             obj.name = name;
+            obj.rotloc1 = constraint1.loc; 	
+            obj.rotloc2 = constraint2.loc; 
         end
+        
         
        function setTransPTOLoc(obj)
             % This method specifies the translational PTO location as half-
