@@ -766,6 +766,58 @@ Constraint and PTO Features
 
 .. include:: /_include/pto.rst
 
+Cable Implementation
+^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+Cables or tethers between two bodies that apply a coupling force only when taut or stretched
+can be modeled using the :code:`cableClass` implementation. A cable block must be added to the
+model between the two PTOs or constraints that are to be coupled by the cable. The user must initialize the cable
+class in the wecSimInputFile along with the base and follower connections in that order, as in ::
+
+	cable(i) = cableClass('Cable1',baseConnection,followerConnection);
+
+where baseConnection is either a PTO or constraint block defines the cable connection on the base side, and followerConnection
+is the same for the connection on the follower side.  If a constraint is used at the cable end, the cable moves freely in the 
+unconstrained degrees of freedom. To include dynamics (i.e., a stiffness and damping applied at the cable-to-body coupling), a PTO block 
+can be used instead, and the parameters :code:`pto(i).c` and :code:`pto(i).k` can be used to describe these dynamics. It is additionally 
+necessary to define, at a minimum ::
+
+	cable(i).k
+    cable(i).c
+
+where :code:`k` is the cable stiffness (N/m), and :code:`c` is the cable damping (N/(m*s)). Force from the cable stiffness or 
+damping is applied between the connection points if the current length of the cable exceeds the equilibrium length of the cable. 
+By default, the cable equilibrium length is defined to be the distance between the locations of the baseConnection and followerConnection, 
+so that initially there is no tension on the cable. If a distinct initial condition is desired, one can define either :: 
+	
+    cable(i).L0
+
+or ::
+
+    cable(i).preTension
+
+where :code:`L0` is the equilibrium (i.e., unstretched) length of the cable (m) and :code:`preTension` is the preTension applied
+to the cable at simulation start (N). The unspecified parameter is then calculated from the location of the baseConnection and 
+followerConnection and :code:`cable.k` or :code:`cable.L0` as appropriate. If both :code:`L0` and :code:`preTension` are defined, 
+:code:`L0` takes precedent and :code:`preTension` is set to zero. 
+
+By default, the cable is presumed neutrally buoyant and it is not subjected to fluid drag. To include 
+fluid drag, the user can additionally define these parameters in a style similar to the :code:`bodyClass` ::
+
+	cable(i).viscDrag.cd
+	cable(i).viscDrag.characteristicArea
+	cable(i).viscDrag.Drag
+	cable(i).linearDamping
+	
+The cable mass and fluid drag is modeled with a low-order lumped-capacitance method with 2 nodes. Note that this is not appropriate
+to resolve the actual kinematics of cable motions, but it is sufficient to model the aggregate forces among the connected bodies. 
+The mass and fluid drag forces are exerted at nodes defined by the 2 drag bodies. By default, one is co-located with the baseConnection
+and the other with the followerConnection. The position of these bodies can be manipulated by defining the center of gravity 
+
+Cables that are not neutrally buoyant can be defined by specifying this body mass (kg) and displacement volume (m^3):: 
+
+	cable(i).bodyMass
+	cable(i).dispVol 
 
 .. _user-advanced-features-mooring:
 

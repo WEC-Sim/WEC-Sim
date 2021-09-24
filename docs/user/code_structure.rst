@@ -569,6 +569,10 @@ Parameters box.
 |                    |     |relative to the base to be rotation      |
 |                    |     |about the constraint's Y-axis            |
 +--------------------+-----+-----------------------------------------+
+|``Spherical``       |3    |Contrains the motion of the follower     |
+|					 |	   |relative to the base to be rotation about| 
+|					 |	   |the X-, Y-, and Z- axis.                   |
++--------------------+-----+-----------------------------------------+
 |``Floating (3DOF)`` |3    |Constrains the motion of the follower    |
 |                    |     |relative to the base to planar motion    |
 |                    |     |with translation along the constraint's  |
@@ -636,8 +640,8 @@ Similar to the Constraint blocks, the PTO blocks have a base (B) and
 a follower (F). Users must name each PTO block ``pto(i)`` 
 (where i=1,2,...) and then define their properties in the input file. 
 
-The ``Translational PTO`` and ``Rotational PTO`` are identical to the 
-``Translational`` and ``Rotational`` constraints, but they allow for the 
+The ``Translational PTO``, ``Spherical PTO``, and ``Rotational PTO`` are identical to the 
+``Translational``, ``Spherical``, and ``Rotational`` constraints, but they allow for the 
 application of linear damping and stiffness forces. Additionally, there are two 
 other variations of the Translational and Rotational PTOs. The Actuation 
 Force/Torque PTOs allow the user to define the PTO force/torque at each 
