@@ -37,7 +37,6 @@ switch type
     maskVars.dt = simu.dt;                                       % Simulation time-step [s]
     maskVars.CITime = simu.CITime;                               % Specify CI Time [s]
     maskVars.ssCalc = simu.ssCalc;                               % State-space calculation
-    maskVars.morisonElement = simu.morisonElement;               % Morison element
     
     % Wave Information
     maskVars.WaveClass = waves.type;                             % Initialize Wave Class and Specify Type                                           
@@ -50,9 +49,6 @@ switch type
     maskVars.phaseSeed = waves.phaseSeed;                        % Phase is seeded so eta is the same
     maskVars.spectrumDataFile = waves.spectrumDataFile;          % Name of User-Defined Spectrum File [:,2] = [f, Sf]
     maskVars.etaDataFile = waves.etaDataFile;                    % Name of User-Defined Time-Series File [:,2] = [time, eta]
-    
-    % Update body blocks mask parameters to open/read only depending on simu flags
-    bodyClassCallback(blockHandle);
     
     case 1
     % Body Data
@@ -72,13 +68,13 @@ switch type
     maskVars.initLinDisp = body(num).initDisp.initLinDisp;
     maskVars.initAngularDispAxis = body(num).initDisp.initAngularDispAxis;
     maskVars.initAngularDispAngle = body(num).initDisp.initAngularDispAngle;
+    maskVars.option = body(num).morisonElement.option;
     maskVars.cd = body(num).morisonElement.cd;
     maskVars.ca = body(num).morisonElement.ca;
     maskVars.characteristicArea = body(num).morisonElement.characteristicArea;
     maskVars.VME = body(num).morisonElement.VME;
     maskVars.rgME = body(num).morisonElement.rgME;
     maskVars.z = body(num).morisonElement.z;
-    
     
     case 2
     % PTO Parameters

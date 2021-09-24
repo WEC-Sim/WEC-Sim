@@ -26,16 +26,16 @@ and structure of the WEC-Sim source code, refer to the
 
 .. _user-workflow-input-files:
 
-WEC-Sim Input Files
+WEC-Sim Case Files
 -------------------
 
-Before WEC-Sim can be used, a wave energy converter design must exist. This 
-design must include a surface mesh, frequency-based hydrodynamic data from a 
-boundary element method solver, and a Simulink/Simscape model of the WEC. The 
-WEC's geometry and other parameters must be detailed in the wecSimInputFile. 
 All files required for a WEC-Sim simulation must be contained within a case 
 directory referred to as ``$CASE``. This directory can be located anywhere on 
-your computer. The table below lists the WEC-Sim case directory structure and 
+your computer. 
+The case directory must include a geometry file, frequency-domain hydrodynamic data from a 
+boundary element method solver, and a Simulink model of the device, and a WEC-Sim input file. The 
+WEC's geometry and other parameters must be detailed in the ``wecSimInputFile``. 
+The table below lists the WEC-Sim case directory structure and 
 required files. 
 
 ==================== ====================== ====================
@@ -53,12 +53,12 @@ Hydrodynamic Data
 ^^^^^^^^^^^^^^^^^
 
 The Hydrodynamic coefficients for each body may be generated using a boundary 
-element method (BEM) code (e.g., **WAMIT**, **NEMOH**, **AQWA**, or **CAPYTAINE**). The WEC-Sim 
+element method (BEM) code (e.g., WAMIT, NEMOH, AQWA, or CAPYTAINE). The WEC-Sim 
 code requires hydrodynamic data from the BEM solution in the form of HDF5 
 format (``*.h5`` file). This ``*.h5`` hydrodynamic data file can be generated 
 using the BEMIO pre-processor. BEMIO (Boundary Element Method Input/Output) is 
 a code developed by the WEC-Sim team to process BEM output files from 
-**WAMIT**, **NEMOH**, **AQWA**, and **CAPYTAINE** into a data structure than can be read by 
+WAMIT, NEMOH, AQWA, and CAPYTAINE into a data structure than can be read by 
 WEC-Sim. For more information about the BEMIO pre-processor, refer to the 
 :ref:`user-advanced-features-bemio` section. 
 
@@ -201,7 +201,7 @@ for WEC-Sim to read:
    * **If NEMOH is used:** 
    
       * The origin of the mesh for each body (``*.dat``) is located at the mean 
-         water surface, which follows the same coordinate used in WEC-Sim. 
+        water surface. 
       * The location to output the hydrodynamic coefficients for each degree of 
         freedom is defined in the ``Nemoh.cal`` file.
       * Please refer to `NEMOH-Mesh <https://lheea.ec-nantes.fr/logiciels-et-brevets/nemoh-mesh-192932.kjsp?RH=1489593406974>`_ 
@@ -229,7 +229,8 @@ for WEC-Sim to read:
       
    * **If CAPYTAINE is used:** 
    
-      * The origin of the mesh for each body (``*.dat``) is located at the mean water surface, which follows the same coordinate used in WEC-Sim. 
+      * The origin of the mesh for each body (``*.dat``) is located at the mean
+        water surface. 
       * More details on CAPYTAINE setup are given in the `Capytaine webpage <https://ancell.in/capytaine/latest/>`_.
 
 .. Note::
@@ -269,21 +270,17 @@ geometry file(s) ``*.stl``, and the hydrodynamic data file (``*.h5``) .
 Step 5: Run WEC-Sim
 ^^^^^^^^^^^^^^^^^^^
 
-Lastly, WEC-Sim can be executed from the ``$CASE`` directory using the following methods:
+Lastly, WEC-Sim can be executed from the ``$CASE`` directory using the following method:
 
-
-* Run from MATLAB Command Window (for RM3 and OSWEC examples)
 	* Type ``wecSim`` in the Command Window
-* Run from Simulink (for RM3FromSimulink example)
-	* Open the relevant WEC-Sim Simulink file
-	* Type ``wecSimInitialize`` in the Command Window
-	* Hit Play in Simulink model to run 
 
-Refer to :ref:`user-tutorials-examples` for more details on how to run the examples. To customize or develop a new WEC-Sim model that runs from Simlunk (e.g. for Hardware-in-the-Loop, HIL, applications) refer to :ref:`user-advanced-features-simulink` for more information.
+Refer to :ref:`user-tutorials-examples` for more details on how to run the examples. 
 
-Users may also use ``wecSimMCR``, ``wecSimPCT``, ``wecSimFcn`` and  as described in the advanced features 
-sections :ref:`user-advanced-features-mcr`, :ref:`user-advanced-features-pct`, and :ref:`user-advanced-features-fcn`. 
-These options are only available in through the MATLAB Command Window.
+Users may also run WEC-Sim from Simulink, or use the commands ``wecSimMCR``, 
+``wecSimPCT``, and ``wecSimFcn`` as described in the advanced features 
+sections :ref:`user-advanced-features-simulink`, 
+:ref:`user-advanced-features-mcr`, :ref:`user-advanced-features-pct`, 
+and :ref:`user-advanced-features-fcn`. 
 
 .. Note:: The WEC-Sim source code is located in the ``$WECSIM`` directory, but 
 	WEC-Sim must be executed from the ``$CASE`` directory. 

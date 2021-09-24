@@ -83,7 +83,6 @@ for i=1:length(blocks)
         fprintf(fid,writeLineFromVar(simu, 'dt', maskVars, maskViz, [], []));
         fprintf(fid,writeLineFromVar(simu, 'CITime', maskVars, maskViz, [], []));
         fprintf(fid,writeLineFromVar(simu, 'ssCalc', maskVars, maskViz, [], []));
-        fprintf(fid,writeLineFromVar(simu, 'morisonElement', maskVars, maskViz, [], []));
         
         % Wave Information 
         fprintf(fid,'\r\n%s\r\n','%% Wave Class');
@@ -122,6 +121,7 @@ for i=1:length(blocks)
         fprintf(fid,writeLineFromVar(body, 'initAngularDispAxis', maskVars, maskViz, num, 'initDisp'));
         fprintf(fid,writeLineFromVar(body, 'initAngularDispAngle', maskVars, maskViz, num, 'initDisp'));
         
+        fprintf(fid,writeLineFromVar(body, 'option', maskVars, maskViz, num, 'morisonElement'));
         fprintf(fid,writeLineFromVar(body, 'cd', maskVars, maskViz, num, 'morisonElement'));
         fprintf(fid,writeLineFromVar(body, 'ca', maskVars, maskViz, num, 'morisonElement'));
         fprintf(fid,writeLineFromVar(body, 'characteristicArea', maskVars, maskViz, num, 'morisonElement'));

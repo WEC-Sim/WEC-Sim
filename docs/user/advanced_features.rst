@@ -37,6 +37,76 @@ This section provides an overview of WEC-Sim's simulation class features; for
 more information about the simulation class code structure, refer to 
 :ref:`user-code-structure-simulation-class`. 
 
+Running WEC-Sim
+^^^^^^^^^^^^^^^
+
+The subsection describes the various ways to run WEC-Sim. The standard method is 
+to type the command ``wecSim`` in the MATLAB command window when in a ``$CASE`` 
+directory. This is the same method described in the :ref:`user-workflow` and 
+:ref:`user-tutorials` sections.
+
+
+.. _user-advanced-features-fcn:
+
+Running as Function 
+"""""""""""""""""""
+
+WEC-Sim allows users to execute WEC-Sim as a function by using ``wecSimFcn``. 
+This option may be useful for users who wish to devise their own batch runs, 
+isolate the WEC-Sim workspace, create a special set-up before running WEC-Sim, 
+or link to another software.
+
+
+.. _user-advanced-features-simulink:
+
+Running from Simulink
+"""""""""""""""""""""
+
+Beginning in version 4.3, WEC-Sim can also be run from Simulink. The Run From 
+Simulink advanced feature allows users to initialize WEC-Sim from the command 
+window and then begin the simulation from Simulink. This allows greater 
+compatibility with other models or hardware-in-the-loop simulations that must 
+start in Simulink. The WEC-Sim library contains mask options that allow users to 
+either:
+
+   1. Define an standard input file to use in WEC-Sim or 
+   2. Define custom parameters inside the block masks.
+
+The Global Reference Frame mask controls whether an input file or custom 
+parameters are used for WEC-Sim. Note that when the Custom Parameters options is 
+selected, WEC-Sim will only use those variable in the block masks. Certain options 
+become visible when the correct flag is set. For example, ``body.morisonElement.cd`` 
+will not be visible unless ``body.morisonElement.on > 0``. This method of running 
+WEC-Sim may help some users visualize the interplay between the blocks and classes.
+For more information on how the blocks and classes are related, see the 
+:ref:`user-code-structure` section.
+
+To run WEC-Sim from Simulink, open the Simulink ``.slx`` file and choose whether to 
+use an input file or custom parameters in the Global Reference Frame. Next type 
+``initializeWecSim`` in the MATLAB Command Window. Lastly, run the model from the 
+Simulink interface:
+
+* Run from Simulink with a wecSimInputFile.m
+	* Set the Global Reference Frame to use an input file
+	* Choose the correct input file
+	* Type ``initializeWecSim`` in the Command Window
+	* Run the model from Simulink
+* Run from Simulink with custom parameters
+	* Set the Global  Reference Frame to use custom parameters
+	* (Optional) prefill parameters by loading an input file.
+	* Edit custom parameters as desired
+	* Type ``initializeWecSim`` in the Command Window
+	* Run the model from Simulink
+	
+.. Note::
+    After running WEC-Sim from Simulink with custom parameters, a 
+    ``wecSimInputFile_simulinkCustomParameters.m`` file is written to the ``$CASE`` 
+    directory. This file specifies all non-default WEC-Sim parameters used for the 
+    WEC-Sim simulation. This file serves as a record of how the case was run for 
+    future reference. It may be used in the same manner as other input files when 
+    renamed to ``wecSimInputFile.m``
+
+
 .. _user-advanced-features-mcr:
 
 Multiple Condition Runs (MCR)
@@ -102,44 +172,6 @@ setting for ``simu.reloadH5Data`` in the WEC-Sim input file.
 .. Note::
     The ``userDefinedFunctionsMCR.m`` is not compatible with ``wecSimPCT``. 
     Please use ``userDefinedFunctions.m`` instead.
-
-
-.. _user-advanced-features-fcn:
-
-Running as Function 
-^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
-
-WEC-Sim allows users to execute WEC-Sim as a funection by using ``wecSimFcn``.
-
-
-
-.. _user-advanced-features-simulink:
-
-Running from Simulink
-^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
-
-Beginning in version 4.3, WEC-Sim can also be run from Simulink. 
-The WEC-Sim library now allows for an input file or custom parameters to be used inside the block masks.
-This mode is useful when using WEC-Sim in conjunction with hardware-in-the-loop or other Simulink models with their own initialization.
-To run WEC-Sim from Simulink, open the Simulink ``.slx`` file and choose whether to use an input file or custom parameters in the Global Reference Frame.
-Next type ``wecSimInitialize`` in the MATLAB Command Window. 
-Lastly, run the model from the Simulink interface.
-
-* Run from Simulink with a wecSimInputFile.m
-	* Set the Global Reference Frame to use an input file
-	* Choose the correct input file
-	* Type ``wecSimInitialize`` in the Command Window
-	* Run the model from Simulink
-* Run from Simulink with custom parameters
-	* Set the Global  Reference Frame to use custom parameters
-	* (Optional) prefill parameters by loading an input file.
-	* Edit custom parameters as desired
-	* Type ``wecSimInitialize`` in the Command Window
-	* Run the model from Simulink
-	
-Upon completion of a WEC-Sim simulation run from Simulink a ``wecSimInputFile_simulinkCustomParameters.m`` file is written to the ``$CASE`` directory including the WEC-Sim parameters used for the WEC-Sim simulation.
-
-Refer to :ref:`user-tutorials-examples` for more details on how to run the examples 
 
 
 State-Space Representation
@@ -351,10 +383,10 @@ Nonlinear Buoyancy and Froude-Krylov Excitation
 WEC-Sim has the option to include the nonlinear hydrostatic restoring and 
 Froude-Krylov forces when solving the system dynamics of WECs, accounting for 
 the weakly nonlinear effect on the body hydrodynamics. To use nonlinear 
-buoyancy and Froude-Krylov excitation, the **simu.nlHydro** simulationClass 
+buoyancy and Froude-Krylov excitation, the **body(ii).nlHydro** bodyClass 
 variable must be defined in the WEC-Sim input file, for example: 
 
-    :code:`simu.nlHydro = 2`  
+    :code:`body(ii).nlHydro = 2`  
 
 For more information, refer to the :ref:`webinar2`, and the **NonlinearHydro** 
 example on the `WEC-Sim Applications <https://github.com/WEC-Sim/WEC-Sim_Applications>`_ 
@@ -363,24 +395,19 @@ repository.
 Nonlinear Settings
 """"""""""""""""""
 
-**simu.nlHydro**  - 
+**body(ii).nlHydro**  - 
 The nonlinear hydrodynamics option can be used with the parameter: 
-:code:`simu.nlHydro` in your WEC-Sim input file. When any of the three 
+:code:`body(ii).nlHydro` in your WEC-Sim input file. When any of the three 
 nonlinear options (below) are used, WEC-Sim integrates the wave pressure over 
 the surface of the body, resulting in more accurate buoyancy and Froude-Krylov 
 force calculations. 
 
-    **Option 1.** :code:`simu.nlHydro = 1` This option integrates the pressure 
+    **Option 1.** :code:`body(ii).nlHydro = 1` This option integrates the pressure 
     due to the mean wave elevation and the instantaneous body position.
 
-    **Option 2.** :code:`simu.nlHydro = 2` This option integrates the pressure 
+    **Option 2.** :code:`body(ii).nlHydro = 2` This option integrates the pressure 
     due to the instantaneous wave elevation and the instantaneous body position. 
     This option is recommended if nonlinear effects need to be considered.
-
-    **Option 3.** :code:`simu.nlHydro = 3` This option calculates the nonlinear 
-    Froude-Krylov force directly from a BEM result. This requires additional 
-    output files from the BEM code (.3fk and .3sc files for WAMIT, and 
-    DiffractionForce.tec and FKForce.tec files for NEMOH).
 
 **simu.dtNL** - 
 An option available to reduce the nonlinear simulation time is to specify a 
@@ -486,9 +513,19 @@ Simulation and post-processing is the same process as described in the
 Viscous Damping and Morison Elements
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
-WEC-Sim allows for the definition of additional damping and added-mass terms; 
-for more information about the numerical formulation of viscous damping and 
-Morison Elements, refer to :ref:`theory-viscous-damping-morison`. 
+WEC-Sim allows for the definition of additional damping and added-mass terms 
+to allow users to tune their models precisely. Viscous damping and Morison Element
+may be defined for hydrodynamic, drag, or flexible bodies. It is highly recommended
+that users add viscous or Morison drag to create a realistic model.
+
+When the Morison Element
+option is used in combination with a hydrodynamic or flexible body, it serves as a 
+tuning method. The equation of motion for hydrodynamic and flexible bodies with a 
+Morison Element is more complex than the traditional Morison Element formulation.
+A traditional Morison Element may be created by using a drag body 
+(``body(#).nhBody=2``) with ``body(#).morisonElement.option = 1 or 2``.
+For more information about the numerical formulation of viscous damping and 
+Morison Elements, refer to the theory section :ref:`theory-viscous-damping-morison`. 
 
 Viscous Damping
 """""""""""""""
@@ -517,12 +554,13 @@ Alternatively, one can define :math:`C_{D}` directly::
 Morison Elements 
 """"""""""""""""
 
-To use Morison Elements, the following simulation class variable must be 
-defined in the WEC-Sim input file with :code:`simu.morisonElement = 1` or 
-:code:`simu.morisonElement = 2` 
+To use Morison Elements, the following body class variable must be 
+defined in the WEC-Sim input file with :code:`body(ii).morisonElement.option`.
+
+Implementation Option 0 Morison Elements are not included in the body force and moment calculations. 
 
 Implementation Option 1 allows for the Morison Element properties to be defined 
-independently for the x-, y-, and z-axis while implementation option 2 uses a 
+independently for the x-, y-, and z-axis while Implementation Option 2 uses a 
 normal and tangential representation of the Morison Element properties. Note 
 that the two options allow the user flexibility to implement hydrodynamic 
 forcing that best suits their modeling needs; however, the two options have 
@@ -532,11 +570,11 @@ the Simulink Morison Element block within the WEC-Sim library to better
 determine which approach better suits their modeling requirements. 
 
 Morison Elements must be defined for each body using the 
-:code:`body(#).morisonElement` property of the body class. This property 
+:code:`body(i).morisonElement` property of the body class. This property 
 requires definition of the following body class parameters in the WEC-Sim input 
 file (each of which have a default value of zero(s)). 
 
-For :code:`simu.morisonElement  = 1` ::
+For :code:`body(ii).morisonElement.option  = 1` ::
     
     body(i).morisonElement.cd = [c_{dx} c_{dy} c_{dz}]
     body(i).morisonElement.ca = [c_{ax} c_{ay} c_{az}]
@@ -548,10 +586,10 @@ For :code:`simu.morisonElement  = 1` ::
 .. Note::
 
     For Option 1, the unit normal :code:`body(#).morisonElement.z` must be 
-    initialized as a [1x3] vector although it will not be used in the 
+    initialized as a [:code:`n` x3] vector, where :code:`n` is the number of Morison Elements, although it will not be used in the 
     hydrodynamic calculation. 
     
-For :code:`simu.morisonElement  = 2` ::
+For :code:`body(ii).morisonElement.option  = 2` ::
     
     body(i).morisonElement.cd = [c_{dn} c_{dt} 0]
     body(i).morisonElement.ca = [c_{an} c_{at} 0]
@@ -562,18 +600,18 @@ For :code:`simu.morisonElement  = 2` ::
     
 .. Note::
 
-    For Option 2, the :code:`body(#).morisonElement.cd`, 
-    :code:`body(#).morisonElement.ca`, and 
-    :code:`body(#).morisonElement.characteristicArea` variables need to be 
-    initialized as [1x3] vectors with the last index set to zero. While 
-    :code:`body(#).morisonElement.z` is a unit normal vector that defines the 
+    For Option 2, the :code:`body(i).morisonElement.cd`, 
+    :code:`body(i).morisonElement.ca`, and 
+    :code:`body(i).morisonElement.characteristicArea` variables need to be 
+    initialized as [:code:`n` x3] vector, where :code:`n` is the number of Morison Elements, with the third column index set to zero. While 
+    :code:`body(i).morisonElement.z` is a unit normal vector that defines the 
     orientation of the Morison Element. 
 
 The Morison Element time-step may also be defined as
 :code:`simu.dtME = N*simu.dt`, where N is number of increment steps. For an 
 example application of using Morison Elements in WEC-Sim, refer to the `WEC-Sim 
 Applications <https://github.com/WEC-Sim/WEC-Sim_Applications>`_ repository 
-**Free_Decay/1m-ME** example. 
+**Free_Decay/1m-ME** example.  
 
 .. Note::
 
@@ -599,9 +637,25 @@ location, and displaced volume. You can also specify visualization options and
 initial displacement. 
 
 To use non-hydrodynamic bodies, the following body class variable must be 
-defined in the WEC-Sim input file, for example: 
+defined in the WEC-Sim input file, for example:: 
 
     body(i).nhBody = 1
+
+Non-hydrodynamic bodies require the following properties to be defined::
+
+    body(i).mass
+    body(i).momOfInertia
+    body(i).cg
+    body(i).dispVol
+    
+In the case where only non-hydrodynamic and drag bodies are used, WEC-Sim does
+not read an ``*.h5`` file. Users must define these additional parameters to 
+account for certain wave settings as there is no hydrodynamic body present in
+the simulation to define them::
+
+    waves.freqRange
+    waves.waterDepth
+
 
 For more information, refer to :ref:`webinar2`, and the **OSWEC_nhBody** 
 example on the `WEC-Sim Applications 
@@ -640,7 +694,6 @@ is necessary to define::
     body(i).mass
     body(i).momOfInertia
     body(i).cg
-    body(i).cb
     body(i).dispVol
     
 to resolve drag body dynamics. One can additionally describe initial body 
@@ -775,10 +828,127 @@ Mooring Features
 .. include:: /_include/mooring.rst
 
 
+.. _user-advanced-features-paraview:
+
 Paraview Visualization
 ----------------------
 
 .. include:: /_include/viz.rst
+
+
+.. _user-advanced-features-WSviz:
+
+WEC-Sim Visualization
+---------------------
+
+The WEC-Sim contains several built in methods inside the response class and wave 
+class to assist users in visualizing WEC-Sim output: ``output.plotForces``, 
+``output.plotResponse``, ``output.plotWaves``, ``waves.plotEta``, and
+``waves.plotSpectrum``. This section will demonstrate the use of these methods. 
+They are fully documented in the WEC-Sim :ref:`dev-api`.
+
+Plot Forces
+^^^^^^^^^^^
+
+The ``responseClass.plotForces()`` method can be used to plot the time series of 
+each force component for a body. The first argument takes in a body number, the 
+second a degree of freedom of the force. For example, ``output.plotForces(2,3)``
+will plot the vertical forces that act on the 2nd body. The total force is split
+into its :ref:`components <theory-time-domain>`: 
+
+- total force
+- excitation force
+- radiation damping force
+- added mass force
+- restoring force (combination of buoyancy, gravity and hydrostatic stiffness), 
+- Morison element and viscous drag force
+- linear damping force
+
+.. figure:: /_static/images/OSWEC_heaveForces.PNG
+   :width: 250pt
+   :figwidth: 250pt
+   :align: center
+   
+   Demonstration of output.plotForces() method for the OSWEC example.
+
+
+Plot Response
+^^^^^^^^^^^^^
+
+The ``responseClass.plotResponse()`` method is very similar to ``plotForces`` 
+except that it will plot the time series of a body's motion in a given degree 
+of freedom. For example, ``output.plotResponse(1,5)`` will plot the pitch motion
+of the 1st body. The position, velocity and acceleration of that body is shown.
+
+.. figure:: /_static/images/OSWEC_pitchResponse.PNG
+   :width: 250pt
+   :figwidth: 250pt
+   :align: center
+   
+   Demonstration of output.plotResponse() method for the OSWEC example.
+
+
+Plot Waves
+^^^^^^^^^^
+
+The ``responseClass.plotWaves()`` method can be used to create a complete 
+animation of the simulation. The animation shows the 3D response of all bodies
+over time on top of a surface plot of the entire directional wave field. The 
+default wave domain is defined by ``simu.domainSize``, ``waves.waterDepth``, and
+the maximum height that the STL mesh of any body reaches. Users may optionally 
+input the axis limits to restrict or widen the field of view, the timesteps per 
+animation frame, and the output file format. Users can choose to save the animation
+as either a ``.gif`` or ``.avi`` file. This function can take significant time to 
+run depending on simulation time and time step, however it may be faster and easier 
+than Paraview. Users are still recommended to use the provided Paraview macros for 
+more complex animations and analysis.
+
+For example, in the OSWEC case the command 
+``output.plotWaves(simu,body,waves,'timesPerFrame',5,'axisLimits',[-50 50 -50 50 -12 20])``
+results in the following figure:
+
+.. figure:: /_static/images/OSWEC_plotWaves.PNG
+   :width: 250pt
+   :figwidth: 250pt
+   :align: center
+   
+   Demonstration of output.plotWaves() method for the OSWEC example.
+
+
+Plot Eta
+^^^^^^^^
+
+The ``waveClass.plotEta()`` method can be used to plot the wave elevation time
+series at the domain origin. The ramp time is also marked. The only required input
+is ``simu.rampTime``. Users must manually plot or overlay the wave elevation at a 
+wave gauge location.
+
+.. figure:: /_static/images/OSWEC_plotEta.PNG
+   :width: 250pt
+   :figwidth: 250pt
+   :align: center
+   
+   Demonstration of waves.plotEta() method for the OSWEC example.
+
+
+Plot Spectrum
+^^^^^^^^^^^^^
+
+The ``waveClass.plotSpectrum()`` method can be used to plot the frequency spectrum
+of an irregular or spectrum import wave. No input parameters are required.
+
+.. figure:: /_static/images/OSWEC_plotSpectrum.PNG
+   :width: 250pt
+   :figwidth: 250pt
+   :align: center
+   
+   Demonstration of waves.plotSpectrum() method for the OSWEC example.
+
+
+
+
+
+
 
 .. _user-advanced-features-decay:
 
@@ -815,7 +985,7 @@ defined prior to using the object's :code:`setInitDisp()` method:
 For more information, refer to the **Free Decay** example on the `WEC-Sim 
 Applications <https://github.com/WEC-Sim/WEC-Sim_Applications>`_ repository. 
 
-Other Applications
+Other Features
 ------------------
 
 The WEC-Sim Applications repository also includes examples of using WEC-Sim to 
