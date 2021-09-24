@@ -28,9 +28,6 @@ classdef cableClass<handle
             'initLinDisp',          [0 0 0],...                             % Structure defining the initial displacement of the pto. ``initLinDisp`` (`3x1 float vector`) is defined as the initial displacement of the pto [m] in the following format [x y z], Default = [``0 0 0``].
             'initAngularDispAxis',  [0 1 0], ...                            %
             'initAngularDispAngle', 0)                                      % Structure defining the initial displacement of the body. ``initLinDisp`` (`3x1 float vector`) is defined as the initial displacement of the body center of gravity (COG) [m] in the following format [x y z], Default = [``0 0 0``]. ``initAngularDispAxis`` (`3x1 float vector`) is defined as the axis of rotation in the following format [x y z], Default = [``0 1 0``]. ``initAngularDispAngle`` (`float`) is defined as the initial angular displacement of the body COG [rad], Default = ``0``.
-%         rotInitDisp                = struct(...                             % Structure defining the initial displacement
-%             'initLinDisp1',          [0 0 0],...                            % Structure defining the initial displacement of the top cable connection. ``initLinDisp1`` (`3x1 float vector`) is defined as the initial displacement of the pto [m] in the following format [x y z], Default = [``0 0 0``].
-%             'initLinDisp2',          [0 0 0])                               % Structure defining the initial displacement of the bottom cable connection. ``initLinDisp2`` (`3x1 float vector`) is defined as the initial displacement of the pto [m] in the following format [x y z], Default = [``0 0 0``].
         hardStops               = struct(...
             'upperLimitSpecify', 'off',...                                  % (`string`) Initialize upper stroke limit. ``  'on' or 'off' `` Default = ``off``.
             'upperLimitBound', 1, ...                                       % (`float`) Define upper stroke limit in m or deg. Only active if `lowerLimitSpecify` is `on` `` Default = ``1``.
@@ -185,14 +182,12 @@ classdef cableClass<handle
 %             rotatedRelCoord = rotateXYZ(relCoord,ax_rot,ang_rot);
 %             newCoord = rotatedRelCoord + x_rot;
 %             linDisp = newCoord-rotloc2;
-%             obj.rotinitDisp.initLinDisp1= linDisp + addLinDisp;
 %             %
 %             rotloc1 = obj.rotloc1;
 %             relCoord = rotloc1 - x_rot;
 %             rotatedRelCoord = rotateXYZ(relCoord,ax_rot,ang_rot);
 %             newCoord = rotatedRelCoord + x_rot;
 %             linDisp = newCoord-rotloc1;
-%             obj.rotinitDisp.initLinDisp2= linDisp + addLinDisp;
 %         end
         
         function setDispVol(obj, rho)
