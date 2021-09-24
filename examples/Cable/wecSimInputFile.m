@@ -1,7 +1,6 @@
 %% Simulation Data
 simu = simulationClass();               % Initialize Simulation Class
-% simu.simMechanicsFile = 'RM3_3dof_cable.slx';         % Specify Simulink Model File
-simu.simMechanicsFile = 'RM3_cable_external_constraint.slx';         % Specify Simulink Model File
+simu.simMechanicsFile = 'RM3_cable.slx';         % Specify Simulink Model File
 simu.mode = 'normal';                   % Specify Simulation Mode ('normal','accelerator','rapid-accelerator')
 simu.explorer='on';                     % Turn SimMechanics Explorer (on/off)
 simu.startTime = 0;                     % Simulation Start Time [s]

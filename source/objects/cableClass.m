@@ -9,10 +9,10 @@ classdef cableClass<handle
     %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
     properties (SetAccess = 'public', GetAccess = 'public') %input file
         name                    = 'NOT DEFINED'
-        k                       = 0                                        % (`float`) Cable stiffness (N/m). Default = `0`.
-        c                       = 0                                        % (`float`) Cable damping coefficient (N/(m/s)). Default = `0`.
-        L0                      = 0                                        % (`float`) Cable equilibrium length (m), calculated from rotloc and preTension. Default =`0`.
-        preTension              = 0                                        % (`float`) Cable pretension (N).    
+        k                       = 0                                         % (`float`) Cable stiffness (N/m). Default = `0`.
+        c                       = 0                                         % (`float`) Cable damping coefficient (N/(m/s)). Default = `0`.
+        L0                      = 0                                         % (`float`) Cable equilibrium length (m), calculated from rotloc and preTension. Default =`0`.
+        preTension              = 0                                         % (`float`) Cable pretension (N).    
         orientation             = struct(...                                %
             'z', [0, 0, 1], ...                    %
             'y', [0, 1, 0], ...                    %
@@ -32,31 +32,30 @@ classdef cableClass<handle
 %             'initLinDisp1',          [0 0 0],...                            % Structure defining the initial displacement of the top cable connection. ``initLinDisp1`` (`3x1 float vector`) is defined as the initial displacement of the pto [m] in the following format [x y z], Default = [``0 0 0``].
 %             'initLinDisp2',          [0 0 0])                               % Structure defining the initial displacement of the bottom cable connection. ``initLinDisp2`` (`3x1 float vector`) is defined as the initial displacement of the pto [m] in the following format [x y z], Default = [``0 0 0``].
         hardStops               = struct(...
-            'upperLimitSpecify', 'off',...        % (`string`) Initialize upper stroke limit. ``  'on' or 'off' `` Default = ``off``.
-            'upperLimitBound', 1, ...             % (`float`) Define upper stroke limit in m or deg. Only active if `lowerLimitSpecify` is `on` `` Default = ``1``.
-            'upperLimitStiffness', 1e6, ...       % (`float`) Define upper limit spring stiffness, N/m or N-m/deg. `` Default = ``1e6``.
-            'upperLimitDamping', 1e3, ...         % (`float`) Define upper limit damping, N/m/s or N-m/deg/s.  `` Default = ``1e3``.
-            'upperLimitTransitionRegionWidth', 1e-4, ... % (`float`) Define upper limit transition region, over which spring and damping values ramp up to full values. Increase for stability. m or deg. ``Default = 1e-4``
-            'lowerLimitSpecify', 'off',...        % Initialize lower stroke limit. ``  `on` or `off` `` Default = ``off``.
-            'lowerLimitBound', -1, ...            % (`float`) Define lower stroke limit in m or deg. Only active if `lowerLimitSpecify` is `on` ``   `` Default = ``-1``.
-            'lowerLimitStiffness', 1e6, ...       % (`float`) Define lower limit spring stiffness, N/m or N-m/deg.  `` Default = ``1e6``.
-            'lowerLimitDamping', 1e3, ...         % (`float`) Define lower limit damping, N/m/s or N-m/deg/s.  `` Default = ``1e3``.
-            'lowerLimitTransitionRegionWidth', 1e-4) % (`float`) Define lower limit transition region, over which spring and damping values ramp up to full values. Increase for stability. m or deg. ``Default = 1e-4``
-        bodyMass                =1;                                         % (`float`) mass in kg, default 1
-        bodyInertia             = [ 1 1 1];                  % (`1 x 3 float vector`) body inertia kg-m^2, default [1 1 1]
-        dispVol                 = 0.001;                                        % (`float`) displacement volume, defaults to neutral buoyancy       %Kelley - clean this up based on density
+            'upperLimitSpecify', 'off',...                                  % (`string`) Initialize upper stroke limit. ``  'on' or 'off' `` Default = ``off``.
+            'upperLimitBound', 1, ...                                       % (`float`) Define upper stroke limit in m or deg. Only active if `lowerLimitSpecify` is `on` `` Default = ``1``.
+            'upperLimitStiffness', 1e6, ...                                 % (`float`) Define upper limit spring stiffness, N/m or N-m/deg. `` Default = ``1e6``.
+            'upperLimitDamping', 1e3, ...                                   % (`float`) Define upper limit damping, N/m/s or N-m/deg/s.  `` Default = ``1e3``.
+            'upperLimitTransitionRegionWidth', 1e-4, ...                    % (`float`) Define upper limit transition region, over which spring and damping values ramp up to full values. Increase for stability. m or deg. ``Default = 1e-4``
+            'lowerLimitSpecify', 'off',...                                  % Initialize lower stroke limit. ``  `on` or `off` `` Default = ``off``.
+            'lowerLimitBound', -1, ...                                      % (`float`) Define lower stroke limit in m or deg. Only active if `lowerLimitSpecify` is `on` ``   `` Default = ``-1``.
+            'lowerLimitStiffness', 1e6, ...                                 % (`float`) Define lower limit spring stiffness, N/m or N-m/deg.  `` Default = ``1e6``.
+            'lowerLimitDamping', 1e3, ...                                   % (`float`) Define lower limit damping, N/m/s or N-m/deg/s.  `` Default = ``1e3``.
+            'lowerLimitTransitionRegionWidth', 1e-4)                        % (`float`) Define lower limit transition region, over which spring and damping values ramp up to full values. Increase for stability. m or deg. ``Default = 1e-4``
+        bodyMass                = 1;                                         % (`float`) mass in kg, default 1
+        bodyInertia             = [ 1 1 1];                                 % (`1 x 3 float vector`) body inertia kg-m^2, default [1 1 1]
         viz               = struct(...                                      %
             'color', [1 0 0.5], ...                                         %
-            'opacity', 1)                                    % Structure defining visualization properties in either SimScape or Paraview. ``color`` (`3x1 float vector`) is defined as the body visualization color, Default = [``1 1 0``]. ``opacity`` (`integer`) is defined as the body opacity, Default = ``1``.
-        bodyparaview      = 1;                               % (`integer`) Flag for visualisation in Paraview either 0 (no) or 1 (yes). Default = ``1`` since only called in paraview.
+            'opacity', 1)                                                   % Structure defining visualization properties in either SimScape or Paraview. ``color`` (`3x1 float vector`) is defined as the body visualization color, Default = [``1 1 0``]. ``opacity`` (`integer`) is defined as the body opacity, Default = ``1``.
+        bodyparaview      = 1;                                              % (`integer`) Flag for visualisation in Paraview either 0 (no) or 1 (yes). Default = ``1`` since only called in paraview.
         bodyInitDisp            = struct(...
-            'initLinDisp1',          [0 0 0],...              % Structure defining the initial displacement of the pto. ``initLinDisp`` (`3x1 float vector`) is defined as the initial displacement of the pto [m] in the following format [x y z], Default = [``0 0 0``].
-            'initAngularDispAxis1',  [0 1 0], ...             %
+            'initLinDisp1',          [0 0 0],...                            % Structure defining the initial displacement of the pto. ``initLinDisp`` (`3x1 float vector`) is defined as the initial displacement of the pto [m] in the following format [x y z], Default = [``0 0 0``].
+            'initAngularDispAxis1',  [0 1 0], ...                           %
             'initAngularDispAngle1', 0,....
-            'initLinDisp2',          [0 0 0],...              % Structure defining the initial displacement of the pto. ``initLinDisp`` (`3x1 float vector`) is defined as the initial displacement of the pto [m] in the following format [x y z], Default = [``0 0 0``].
-            'initAngularDispAxis2',  [0 1 0], ...             %
-            'initAngularDispAngle2', 0)                       % Structure defining the initial displacement of the body. ``initLinDisp`` (`3x1 float vector`) is defined as the initial displacement of the body center of gravity (COG) [m] in the following format [x y z], Default = [``0 0 0``]. ``initAngularDispAxis`` (`3x1 float vector`) is defined as the axis of rotation in the following format [x y z], Default = [``0 1 0``]. ``initAngularDispAngle`` (`float`) is defined as the initial angular displacement of the body COG [rad], Default = ``0``.
-        linearDamping           =[0 0 0 0 0 0];                                 % (`1 x 6 float vector`)linear damping aplied to body motions
+            'initLinDisp2',          [0 0 0],...                            % Structure defining the initial displacement of the pto. ``initLinDisp`` (`3x1 float vector`) is defined as the initial displacement of the pto [m] in the following format [x y z], Default = [``0 0 0``].
+            'initAngularDispAxis2',  [0 1 0], ...                           %
+            'initAngularDispAngle2', 0)                                     % Structure defining the initial displacement of the body. ``initLinDisp`` (`3x1 float vector`) is defined as the initial displacement of the body center of gravity (COG) [m] in the following format [x y z], Default = [``0 0 0``]. ``initAngularDispAxis`` (`3x1 float vector`) is defined as the axis of rotation in the following format [x y z], Default = [``0 1 0``]. ``initAngularDispAngle`` (`float`) is defined as the initial angular displacement of the body COG [rad], Default = ``0``.
+        linearDamping           = [0 0 0 0 0 0];                             % (`1 x 6 float vector`)linear damping aplied to body motions
         viscDrag                = struct(...
             'characteristicArea', [0 0 0 0 0 0], ...
             'Drag', zeros(6), ...
@@ -65,13 +64,14 @@ classdef cableClass<handle
  
     properties (SetAccess = 'public', GetAccess = 'public')%internal
         cableNum                = []                                       	% Cable number
-        loc                     = [0 0 0]        
+        loc                     = [999 999 999]                                   % (`3x1 float vector`) pto location [m]. Defined in the following format [x y z]. Default = ``[999 999 999]``.    
         rotloc1                 = [999 999 999]                             % (`3x1 float vector`) base location [m]. Defined in the following format [x y z]. Default = ``[999 999 999]``.
         rotloc2                 = [999 999 999]                             % (`3x1 float vector`) follower location [m]. Defined in the following format [x y z]. Default = ``[999 999 999]``.
-        cg1                     =[0 0 0];                                   % (`1 x 3 float vector`) cg location of the base dummy body, should be between translational and rotational pto
-        cb1                     =[0 0 0];                                   % (`1 x 3 float vector`) cb location of the base dummy body, should equal cg1
-        cg2                     =[0 0 0];                                   % (`1 x 3 float vector`) cg location of the follower dummy body, should be between translational and rotational pto
-        cb2                     =[0 0 0];                                   % (`1 x 3 float vector`) cb location of the follower dummy body, should equal cg2
+        cg1                     = [0 0 0];                                  % (`1 x 3 float vector`) cg location of the base drag body
+        cb1                     = [0 0 0];                                  % (`1 x 3 float vector`) cb location of the base drag body
+        cg2                     = [0 0 0];                                  % (`1 x 3 float vector`) cg location of the follower drag body
+        cb2                     = [0 0 0];                                  % (`1 x 3 float vector`) cb location of the follower drag body
+        dispVol                 = [];                                       % (`float`) displacement volume, defaults to neutral buoyancy 
     end
     
     %%
@@ -112,8 +112,7 @@ classdef cableClass<handle
         end
         
         function obj = checkLoc(obj,action)
-            % This method checks WEC-Sim user inputs and generate an error message if the constraint location is not defined in constraintClass.
-            
+            % This method checks WEC-Sim user inputs and generate an error message if the constraint location is not defined in constraintClass.            
             % Checks if location is set and outputs a warning or error. Used in mask Initialization.
             switch action
                 case 'W'
@@ -121,8 +120,6 @@ classdef cableClass<handle
                         obj.loc = [888 888 888];
                     elseif obj.loc == 888
                         obj.loc = [0 0 0];
-                        s1= ['For ' obj.name ': pto.loc was changed from [999 999 999] to [0 0 0].'];
-                        warning(s1)
                     end
                 case 'E'
                     try
@@ -198,11 +195,9 @@ classdef cableClass<handle
 %             obj.rotinitDisp.initLinDisp2= linDisp + addLinDisp;
 %         end
         
-        function checkFloat(obj, rho)
-            dispMass = obj.dispVol * rho;
-            if dispMass ~= obj.bodyMass
-                warning('Cable dummy bodies are not neutrally buoyant. Check simu.rho and cable.bodyMass')
-            end
+        function setDispVol(obj, rho)
+            obj.dispVol = obj.bodyMass/rho;
+%             dispMass = obj.dispVol * rho;
         end
         
         function dragForcePre(obj,rho)
@@ -211,8 +206,7 @@ classdef cableClass<handle
             % values to calculate linear damping and viscous drag. Note
             % that body DOF is inherited from the length of the drag
             % coefficients.
-            if  any(any(obj.viscDrag.Drag)) == 1  %check if obj.viscDrag.Drag is defined
-            else % if not, calculate it
+            if  any(any(obj.viscDrag.Drag)) ~= 1  %check if obj.viscDrag.Drag is not defined
                 obj.viscDrag.Drag = diag(0.5*rho.*obj.viscDrag.cd.*obj.viscDrag.characteristicArea);
             end
             
@@ -221,7 +215,7 @@ classdef cableClass<handle
         function linDampMatrix(obj)
             % Makes the linear damping vector (as specified) into a 6 x 6
             % matrix with this damping along the diagonal (as required for
-            % calculation). Operates on the dummy bodies representing the
+            % calculation). Operates on the drag bodies representing the
             % cable dynamics.
             obj.linearDamping = diag(obj.linearDamping);
         end
@@ -229,27 +223,15 @@ classdef cableClass<handle
         function setCbLoc(obj)
             % This method sets the buoyancy center to equal the center of
             % gravity, if the center of buoyancy is not defined
-            if ~any(obj.cb1)
                 obj.cb1=obj.cg1;
-                fprintf('\n\t Cb1 undefined, set equal to Cg1 \n')
-            end
-            if ~any(obj.cb2)
                 obj.cb2= obj.cg2;
-                fprintf('\n\t Cb2 undefined, set equal to Cg2 \n')
-            end
         end
         
         function setCg(obj)
-            % This method specifies the Cg of the dummy bodies as coinci-
+            % This method specifies the Cg of the drag bodies as coinci-
             %dent with the fixed ends of the cable, if not otherwise specied.
-            if ~any(obj.cg1)
                 obj.cg1 = obj.rotloc1;
-                fprintf('\n\t Cg1 undefined, set equal to rotloc1 \n')
-            end
-            if ~any(obj.cg2)
                 obj.cg2 = obj.rotloc2;
-                 fprintf('\n\t Cg2 undefined, set equal to rotloc2 \n')
-            end
         end
         
         function setL0(obj)
