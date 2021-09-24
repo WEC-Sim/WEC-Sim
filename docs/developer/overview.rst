@@ -35,9 +35,10 @@ given here with examples
 Documentation
 ^^^^^^^^^^^^^
 The written documentation should follow same guidelines that written code does.
-Paragraphs should be written as blocks, while maintaining the 84 character limit.
-The most common exception is when a url itself is over 84 characters than it maybe
-create a long line. 
+Paragraphs should be written as blocks, while maintaining the 80 character limit.
+One common exception to this character-per-line rule is when a long url is used 
+it may create a long line. 
+
 TODO
 
 Code
@@ -45,7 +46,7 @@ Code
 
 Formatting
 """"""""""
-Code should be limited to 84 characters per line. Use line breaks to prevent code
+Code should be limited to 80 characters per line. Use line breaks to prevent code
 from running over this limit. This helps keep code readable for most windows sizes
 without requiring users to side-scroll, which makes code difficult to read. 
 
@@ -94,7 +95,7 @@ does not reference.
 
 Inline comments should be concise and only explain what is not apparent from 
 variable naming and functions called in that line. Inline comments should not 
-make a line longer than the 84 character limit. The one exception to this are 
+make a line longer than the 80 character limit. The one exception to this are 
 the comments used to describe class inputs. For the API to compile correctly, a
 variable's description must exclusively use the line a variable definition ends on.
 
@@ -242,12 +243,10 @@ of the current time step.
 .. _dev-overview-library:
 
 Library Updates
----------------
-TODO
-divison of the library, run from simulink setup, etc
+===============
 
 Tracking Library Changes
-^^^^^^^^^^^^^^^^^^^^^^^^
+------------------------
 
 The WEC-Sim library is one of the most difficult files to manage on GitHub. Git 
 cannot track specific changes to binary files (such as ``.slx``) well. This 
@@ -292,80 +291,266 @@ the simulink diagram and commit using::
     git commit -m 'merge branch A and branch B changes'
 
 
-Running From Simulink
-^^^^^^^^^^^^^^^^^^^^^
+Run From Simulink
+---------------------
 The Run From Simulink advanced feature allows users to initialize WEC-Sim 
 from the command window and then begin the simulation from Simulink. This 
 feature allows greater compatibility with other models or 
 hardware-in-the-loop simulations that must start in Simulink.
 
-Beyond simply allowing users to initialize WEC-Sim and then start the 
-simulation from Simulink, WEC-Sim allows users to define input file 
-parameters from Simulink using block masks. WEC-Sim is originally developed 
-as a class based program, not a simulink-based one. This results in a 
-complex interplay between the class variables and those defined in the 
-block masks.
 
-The mask of each library block allows users to define a subset of possible 
-inputs parameters that would be used in the ``wecSimInputFile``. The values 
-that a user inputs to a block are stored as mask parameters. Each parameter 
-has a certain properties (name, value, prompt, type), attributes, and dialog 
-options (visible, callback) that must be properly defined. It is recommended 
-that developers briefly review Mathworks `Simulink mask parameter 
-documentation <https://www.mathworks.com/help/simulink/slref/simulink.maskparameter-class.html>`_ 
-before preceeding with edits to this advanced feature. 
+Using the Run From Simulink Feature
+^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
-.. figure:: /_static/images/dev/grf_dev_mask.png
-    :align: center
-    :width: 400pt
-    
-    A sample of simulation class parameters may be defined in the Global 
-    Reference Frame.
+The basic steps to run WEC-Sim from Simulink are:
 
-Note that to decrease the burden of maintaining these masks, only the most 
-common input file class parameters can be defined in Simulink. For example, 
-the Global Reference Frame contains simulationClass parameters such as 
-``mode, explorer, solver,`` time information, and state space flags. However 
-less common parameters such as ``mcrCaseFile, saveStructure, b2b`` and others 
-are not included. These can added at a later date if desired.
+    1. Open the relevant WEC-Sim Simulink file (``.slx``).
+    2. Set the Global Reference Frame to use an input file or set custom parameters
+    3. Type ``wecSimInitialize`` in the Command Window
+    4. Run the model from Simulink
 
-.. figure:: /_static/images/dev/grf_user_mask.png
-    :align: center
-    :width: 400pt
-    
-    A sample of simulation class parameters may be defined in the Global 
-    Reference Frame.
-
-The Run From Simulink functionality differs from the ``wecSim`` command in 
+Internally, the Run From Simulink functionality differs from the ``wecSim`` command in 
 how the input file is run. All other pre-processing is identical to the
-command line version. The standard ``wecSim`` command begins by running 
+command line method. The standard ``wecSim`` command begins by running 
 the ``wecSimInputFile`` in the current directory and continuing with the 
 pre-processing steps. Run From Simulink instead either:
 
-   1. Runs the file chosen in the Global Reference Frame when the 
-   'Input File' option is selected
+   1. Runs the file chosen in the Global Reference Frame 
+   (when the 'Input File' option is selected)
    
-   2. Writes and then runs a new input file (``wecSimInputFile_customParameters.m``)
-   when the Global Reference when the 'Custom Parameters' option is selected.
-   A new input file is created so that users have a written record of which 
-   parameters were used in a given case.
+   2. Writes and then runs a new input file ``wecSimInputFile_customParameters.m``
+   (when the Global Reference when the 'Custom Parameters' option is selected). 
    
 
-The difficult and complex part of this functionality comes from two aspects 
-of this advanced feature:
+Beyond simply allowing users to initialize WEC-Sim and start the 
+simulation from Simulink, WEC-Sim allows users to define input file parameters 
+inside Simulink block masks. When using the ``Custom Parameters`` setting, 
+users can both load an input file into the block masks and write an block masks
+to an input file. This feature was created so that users have a written record 
+of case parameters utilized during a simulation run from Simulink.
 
-   * Writing an input file from mask parameters (``writeInputFromBlocks``, ``writeLineFromVar``)
-   
-   * Writing block parameters when loading an input file (``writeBlocksFromInput``)
+User Definition of Custom Parameters
+^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ 
 
+The mask of each library block allows users to define a subset of possible 
+input parameters that would be defined in the ``wecSimInputFile``. The values 
+that a user inputs to a block are stored as mask parameters. When a block mask 
+is accessed, a prompt similar to the figure below appears:
+
+.. figure:: /_static/images/dev/mask_user_grf.png
+    :align: center
+    :width: 400pt
+    
+    A sample of simulation class parameters may be defined in the Global 
+    Reference Frame.
+
+Turning on certain flags may change the visibility of other parameters. For 
+example, the wave type will affect which wave settings are visible to 
+a user:
+
+.. figure:: /_static/images/dev/mask_user_grf_waveOptions.png
+    :align: center
+    :width: 400pt
+
+The spectrum type, frequency discretization and phase seed are not used for 
+regular waves, so they are no visible. Similarly, a visibility-flag relation 
+is present for each body's Morison element options, nonhydro body parameters, 
+etc. Having a given flag change the visibility of options that cannot be used 
+may help new users understand the interdependence of input parameters.
+
+Note that to decrease the burden of maintaining these masks, only the most 
+common input file parameters can be defined in Simulink. For example, 
+the Global Reference Frame contains simulationClass parameters such as 
+``mode, explorer, solver,`` time information, and state space flags. However 
+less common parameters such as ``mcrCaseFile, saveStructure, b2b`` and others 
+are not included. Users or developers may add additional options using the 
+below instructions.
+
+
+Library Developments with the Run From Simulink Feature
+^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+WEC-Sim is originally developed as a class based software, not a simulink-based 
+one. This results in a complex interplay between the class variables and those 
+defined in the block masks. The difficult and complex part of this feature 
+comes from three aspects:
+
+    * Changing parameter visibility based on a flags value (``callbacks``)
+    
+    * Writing an input file from mask parameters (``writeInputFromBlocks``, ``writeLineFromVar``)
+    
+    * Writing block parameters when loading an input file (``writeBlocksFromInput``)
+
+Each of these items will be addressed in this section, but first an overview of 
+the mask set-up is given. It is recommended that developers briefly review 
+Mathworks `Simulink.MaskParameter documentation 
+<https://www.mathworks.com/help/simulink/slref/simulink.maskparameter-class.html>`_ 
+before preceeding with edits to this advanced feature. 
+
+Mask Structure
+""""""""""""""
+Each block mask first contains the ``number`` as in historical WEC-Sim set-up; 
+``body(1)``, ``pto(2)``, ``constraint(1)``, etc. Next there is a string 
+that clarifying that no custom parameters on shown when the ``Global Reference 
+Frame`` is set to use an input file. A folder than contains all custom 
+parameters within tabs.
+
+.. figure:: /_static/images/dev/mask_dev_body.png
+    :align: center
+    :width: 400pt
+
+Within the custom parameters folder are various tabs. The first tab contains 
+parameters not within a class structure. Additional tabs are organized based 
+on what class structures are used. For example all parameters within the 
+``body(i).morisonElement`` structure are under the morisonElement tab, 
+``body(i).initDisp`` under the initDisp tab, etc. This method of placing class
+structures into tabs helps organize the mask and write parameters to the input 
+file.
+
+
+Parameter Specifics
+"""""""""""""""""""
+
+Each mask parameter has certain properties (``name, value, prompt, type``), 
+attributes, and dialog options (``visible, callback``) that must be properly 
+defined:
+
+.. figure:: /_static/images/dev/mask_dev_grf.png
+    :align: center
+    :width: 400pt
+    
+
+**Properties**
+
+The properties of a mask parameter define the ``name, value, type`` and 
+user-facing ``prompt``. The mask name must be *identical* to the name of the 
+corresponding class property. This is essential to easily writing/reading an 
+input file to/from the mask. The defaults of each parameter should be the same 
+as the corresponding class property.
+
+Parameters with a distinct set of values (flags, wave types, etc) should be of 
+Type ``popup`` to limit users and more easily use callbacks dependent on their 
+values. Use ``checkbox`` not ``popup`` for flags that take values of ``on, off``
+(such as ``pto(i).lowerLimitSpecify``. Other parameters are typically of Type 
+``edit`` to allow flexible user input.
+
+**Attributes**
+
+In general, most parameters should not be read only or hidden, and should be 
+saved. One exception to this is the Global Reference Frame parameters ``waves``
+and ``simu`` which identify the block in the workspace when reading/writing 
+input files.
+
+**Dialog Options**
+
+The dialog options are primarily used to change a parameter's visibility, 
+tooltip and define a callback function. A tooltip defines a string that 
+appears when a user hovers on a parameter. This can be useful to provide 
+additional context that is too long for the prompt. A parameter's callback functions run whenever the value is updated. In WEC-Sim,
+mask callbacks are typically used to with flag parameters to update the 
+visibility of other parameters:
+
+================ ====================================== ==========
+Block / class     Mask parameter                         Callback
+================ ====================================== ==========
+PTO, constraint   upperLimitSpecify, lowerLimitSpecify   hardStopCallback
+Body              STLButton                              stlButtonCallback
+Body              H5Button                               h5ButtonCallback
+Body              nhBody, (morisonElement.) on           bodyClassCallback
+================ ====================================== ==========
+
+
+Callback Functions
+""""""""""""""""""
+
+WEC-Sim callback functions can be split into several categories by their use:
+
+===================== ======================================
+Category               Function name
+===================== ======================================
+Button callbacks       inFileButtonCallback.m, etaButtonCallback.m, spectrumButtonCallback.m, h5ButtonCallback.m, stlButtonCallback.m, loadInputFileCallback.m
+Visibility callbacks   hardStopCallback.m, waveClassCallback.m, bodyClassCallback.m, customVisibilityCallback.m, inputOrCustomCallback.m
+===================== ======================================
+
+Visibility callbacks are used with flag parameters to update the visibility of 
+available options. For example, if ``body(i).morisonElement.on=0``, then a user
+is not able to define ``body(i).morisonElement.cd, .ca,`` etc. This method is 
+also how the Global Reference Frame turns off all custom parameters when it is 
+set to use an input file.The visibility callbacks function by calling the 
+value of a flag:
+
+.. code-block:: matlabsession
+
+    >> mask = Simulink.Mask.get(bodyBlockHandle)
+    >> meParam = mask.getParameter('on')
+    >> nhBodyParam = mask.getParameter('nhBody')
+
+
+Depending on the value of a flag, the visibility of individual variables or an 
+entire tab can be changed:
+
+.. code-block:: matlabsession
+
+    >> meTab = mask.getDialogControl('morisonElement');
+    >> if nhBodyParam.value >= 1
+    >>     cgParam.Visible = 'on';
+    >>     cbParam.Visible = 'on';
+    >> else
+    >>     cgParam.Visible = 'off';
+    >>     cbParam.Visible = 'off';
+    >> end
+    >> 
+    >> if meParam.value >= 1
+    >>     meTab.Visible = 'on';
+    >> else
+    >>     meTab.Visible = 'off';
+    >> end
+
+
+Button callbacks typically open a file explorer and allow users to select 
+a given file. These buttons allow wave spectrum, wave elevation, body h5 or 
+body STL files, etc to be defined in the mask. These callbacks use the MATLAB
+command ``uigetfile()`` and then set the correct mask value based if a valid 
+file is selected.
+
+.. code-block:: matlabsession
+
+    >> [filename,filepath] = uigetfile('.mat');
+    >> 
+    >> % Don't set value if no file is chosen, or prompt canceled.
+    >> if ~isequal(filename,0) && ~isequal(filepath,0)
+    >>     mask = Simulink.Mask.get(bodyBlockHandle)
+    >>     fileParam = mask.getParameter('spectrumDataFile')
+    >>     fileParam.value = [filepath,filename];
+    >> end
+
+
+Writing Input File from Mask
+""""""""""""""""""""""""""""
+
+* Writing an input file from mask parameters 
+(``writeInputFromBlocks``, ``writeLineFromVar``)
+
+
+Writing Mask Parameters from Input File
+"""""""""""""""""""""""""""""""""""""""
+
+* Writing block parameters when loading an input file 
+(``writeBlocksFromInput``)
+
+
+
+======================= ======================================
+Function name            Use
+======================= ======================================
+writeBlocksFromInput.m
+writeInputFromBlocks.m
+writeLineFromVar.m
+======================= ======================================
 
 
 
 ..
-    This setting is controlled by the global 
-    reference frame ``ParamInput`` mask variable.
-
-
     when changing a parameter name:
     - update writeBlocksFromInput, writeInputFromBlocks
 
