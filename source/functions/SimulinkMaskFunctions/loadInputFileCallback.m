@@ -1,11 +1,10 @@
 function loadInputFileCallback(grfBlockHandle)
 %% Run the input file selected in the global reference frame
-values = get_param(grfBlockHandle,'MaskValues');                % Cell array containing all Masked Parameter values
-names = get_param(grfBlockHandle,'MaskNames');                  % Cell array containing all Masked Parameter names
 
-% Find input file index from mask variables and run file
-j = find(strcmp(names,'InputFile'));
-inputFile = values{j};
+% Find input filename
+mask = Simulink.Mask.get(grfBlockHandle);
+InputFile = mask.getParameter('InputFile');
+inputFilePath = InputFile.Value;
 
 %% Set class parameters in block mask
 % Get all simulink blocks
@@ -35,7 +34,7 @@ end
 ind = [inds indb indc indp indm];
 blocks = blocks(ind);
 
-
+% Loop through blocks, writing each to the input file
 for i=1:length(blocks)
     % Variable names and values of a block
     names = get_param(blocks{i},'MaskNames');
@@ -56,10 +55,10 @@ for i=1:length(blocks)
         type = 5;
     end
     
-    writeBlocksFromInput(blockHandle,type,inputFile);
+    writeBlocksFromInput(blockHandle,type,inputFilePath);
     
     % write blocks again to account for read only params that are now open
     if type==1 || type==0
-        writeBlocksFromInput(blockHandle,type,inputFile);
+        writeBlocksFromInput(blockHandle,type,inputFilePath);
     end
 end
