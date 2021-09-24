@@ -3,56 +3,6 @@
 API
 ===
 
-.. _body:
-
-Body Class
-------------------
-
-.. autoclass:: objects.bodyClass
-    :members:
-    :exclude-members: hydroData, bodyGeometry, hydroForce, h5File, hydroDataBodyNum, massCalcMethod, bodyNumber, bodyTotal, lenJ, hydroForcePre, adjustMassMatrix, restoreMassMatrix, storeForceAddedMass, setInitDisp, bodyGeo, triArea, bodyGeo, triArea, triCenter, rotateXYZ, verts_out, offsetXYZ
-    :no-undoc-members:
-    
-.. _constraint:
-
-Contstraint Class
-------------------
-
-.. autoclass:: objects.constraintClass
-    :members:
-    :exclude-members: constraintNum
-    :no-undoc-members:
-
-.. _mooringAPI:
-
-Mooring Class
--------------
-
-.. autoclass:: objects.mooringClass
-	:members:
-	:exclude-members: listInfo
-	:no-undoc-members:
-
-.. _ptoAPI:
-
-PTO Class
-------------------
-
-.. autoclass:: objects.ptoClass
-    :members:
-    :exclude-members: ptoNum
-    :no-undoc-members:
-    
-.. _response:
-
-Response Class
-------------------
-
-.. autoclass:: objects.responseClass
-    :members:
-    :exclude-members: wave, bodies, ptos, constraints, mooring 
-    :no-undoc-members:
-
 .. _simulation:
 
 Simulation Class
@@ -90,3 +40,67 @@ Wave Class
 
 
 .. The waveClass API documents public properties and methods only, we should probably add private as well
+
+
+.. _body:
+
+Body Class
+------------------
+
+.. autoclass:: objects.bodyClass
+    :members:
+    :exclude-members: hydroData, bodyGeometry, hydroForce, h5File, hydroDataBodyNum, massCalcMethod, bodyNumber, bodyTotal, lenJ, hydroForcePre, adjustMassMatrix, restoreMassMatrix, storeForceAddedMass, setInitDisp, bodyGeo, triArea, bodyGeo, triArea, triCenter, rotateXYZ, verts_out, offsetXYZ
+    :no-undoc-members:
+    
+.. _constraint:
+
+Contstraint Class
+------------------
+
+.. autoclass:: objects.constraintClass
+    :members:
+    :exclude-members: constraintNum
+    :no-undoc-members:
+
+.. _ptoAPI:
+
+PTO Class
+------------------
+
+.. autoclass:: objects.ptoClass
+    :members:
+    :exclude-members: ptoNum
+    :no-undoc-members:
+
+.. _mooringAPI:
+
+Mooring Class
+-------------
+
+.. autoclass:: objects.mooringClass
+	:members:
+	:exclude-members: listInfo
+	:no-undoc-members:
+
+
+.. _cableAPI:
+
+Cable Class
+-------------
+
+.. autoclass:: objects.cableClass
+	:members:
+	:exclude-members: cableNum
+	:no-undoc-members:
+
+    
+.. _response:
+
+Response Class
+------------------
+
+.. autoclass:: objects.responseClass
+    :members:
+    :exclude-members: wave, bodies, ptos, constraints, mooring 
+    :no-undoc-members:
+
