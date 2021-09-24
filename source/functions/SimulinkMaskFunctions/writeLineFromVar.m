@@ -43,15 +43,9 @@ function inputString = writeLineFromVar(defaultClass, variableName, maskVars, ma
 % TODO
 % ---- 
 %     Link mask tool tips with input line comments
+%
 
-classAbbrev = inputname(1);
-
-% append the class index if necessary. E.g. 'body' --> 'body(1)'
-if ~isempty(classNum)
-    classAbbrev = [classAbbrev '(' num2str(classNum) ')'];
-end
-
-% booleans to track 
+% Track if variable should be written
 hasStruct = ~isempty(structName); % check if variable is in a class' struct (correspond to a mask tab)
 isVisible = strcmp(maskViz.(variableName),'on'); % check if mask variable is visible
 
@@ -65,6 +59,12 @@ end
 % Only write parameters if they are visible (turned on and relevant) and
 % are different from the class default
 if isVisible && ~isDefault
+    % Append the class index if necessary. E.g. 'body' --> 'body(1)'
+    classAbbrev = inputname(1);
+    if ~isempty(classNum)
+        classAbbrev = [classAbbrev '(' num2str(classNum) ')'];
+    end
+    
     if hasStruct
         % e.g. 'body(1).initDisp.initLinDisp = [1 1 1]; \r\n'
         inputString = [classAbbrev '.' structName '.' variableName ' = ' maskVars.(variableName) '; \r\n'];

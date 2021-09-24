@@ -528,42 +528,74 @@ file is selected.
 Writing Input File from Mask
 """"""""""""""""""""""""""""
 
-* Writing an input file from mask parameters 
-(``writeInputFromBlocks``, ``writeLineFromVar``)
+WEC-Sim writes an input file from mask parameters using the functions 
+``writeInputFromBlocks`` and ``writeLineFromVar``. WEC-Sim scans the open 
+Simulink file for all blocks, and reorders them based on the typical input file
+order: ``simu, waves, body, constraint, pto, mooring``. WEC-Sim also creates 
+default copies of each class. All mask variables are looped through and written
+to ``wecSimInputFile_simulinkCustomParameters`` using the function 
+``writeLineFromVar``. This function takes in a default class, variable name, 
+mask value, number and structure value. For example, in the body class:
+
+.. code-block:: matlabsession
+
+    >> writeLineFromVar(body, 'option', maskVars, maskViz, num, 'morisonElement');
+
+This function allows WEC-Sim to easily compare the mask value with the default, 
+assign variables to a certain class number and structure. Checking a mask value 
+against the class default keeps the new input file clean and easy to read. It is
+critical that any mask parameter written with this function is named 
+identically to its class counterpart. It returns a string to 
+``writeInputFromBlocks`` that is immediately written to the input file. As of 
+now, developers must manually add line that will print a new mask parameter to 
+the input file.
 
 
 Writing Mask Parameters from Input File
 """""""""""""""""""""""""""""""""""""""
 
-* Writing block parameters when loading an input file 
-(``writeBlocksFromInput``)
+WEC-Sim loads mask parameters from an input file using the function 
+``writeBlocksFromInput``. This function is called by ``loadInputFileCallback`` 
+in the ``Global Reference Frame``. This function loops through all blocks in 
+the Simulink model. Within each block, the chosen input file is run. Values of 
+each class variables are assigned directly to the mask value. The default is 
+not checked in this instance, as the mask cannot be cleaned up in the same 
+method as the input file. Developers must manually add a line in each case of 
+``writeBlocksFromInput`` when renaming or creating a new mask parameter.
 
 
+Summary
+"""""""
 
-======================= ======================================
-Function name            Use
-======================= ======================================
-writeBlocksFromInput.m
-writeInputFromBlocks.m
-writeLineFromVar.m
-======================= ======================================
+**To create or rename a mask parameter**
 
+1. Change the mask parameter name and default value in Simulink
+2. If tied to a flag, update callbacks to hide/show the parameter
+3. Update writeInputFromBlocks and writeBlocksFromInput with the new parameter 
+   name
 
+**Creating a new class or block**
 
-..
-    when changing a parameter name:
-    - update writeBlocksFromInput, writeInputFromBlocks
+1. Setup the mask parameter structure described above, or copy from another block 
+   in that class:
+   
+   .. code-block:: matlabsession
+       
+       >> pSource = Simulink.Mask.get(srcBlockName)
+       >> pDest = Simulink.Mask.create(destBlockName)
+       >> pDest.copy(pSource)
 
-    - variable name in mask must be the same as the class parameter name!!!
-        required for writeInputFromBlocks to work correctly
+2. Ensure that inputOrCustomCallback functions correctly to hide/show all custom
+   parameters depending on the ``Global Reference Frame`` setting.
+   
+3. If tied to a flag, update callbacks to hide/show parameters
+4. Permanently hide any parameters not used in that class (e.g. 
+   6DOF Constraint does not have end stops, so that tab is not visible)
+5. A new class will also require new writeInputFromBlocks and 
+   writeBlocksFromInput sections
 
-    when creating new class:
-    - inputOrCustomCallback
-
-    when updating wave class parameters also check:
-    - spectrumButtonCallback
-    - waveClassCallback
-
-    when updating body class parameters also check:
-    - bodyClassCallback
-
+.. Note::
+    * Mask parameters should always have the same name as the corresponding 
+      class property
+    * All mask parameters should have the ability to write to an input file and
+      load from Simulink
