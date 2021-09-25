@@ -190,6 +190,11 @@ classdef waveClass<handle
             % This method calculates WEC-Sim's wave properties 
             % based on the specified wave type.
             %
+            if ~isempty(obj.markLoc)==1
+                if ~width(obj.markLoc)==2
+                    error('The coordinates of the visualization markers should have an ordinate (y-coordinate) and an abscissa (x-coordinate)')
+                end
+            end
             obj.bemFreq    = bemFreq;
             obj.setWaveProps(wDepth)
             switch obj.type
@@ -316,6 +321,12 @@ classdef waveClass<handle
         function checkinputs(obj)
             % This method checks WEC-Sim user inputs and generates error
             % messages if parameters are not properly defined. 
+            
+            if ~isempty(obj.markLoc)
+            if ~ndims(obj.markLoc)==2
+            error('The coordinates of the visualization markers should have an ordinate (y-coordinate) and an abscissa (x-coordinate)')
+            end
+            end
 
             % 'noWave' period undefined for hydro data
             if strcmp(obj.type,'noWave')
@@ -334,7 +345,9 @@ classdef waveClass<handle
             if sum(strcmp(types,obj.type)) ~= 1
                 error(['Unexpected wave environment type setting, choose from: ' ...
                     '"noWave", "noWaveCIC", "regular", "regularCIC", "irregular", "spectrumImport", and "etaImport".'])
-            end               
+            end
+            
+
         end
         
         function Z = waveElevationGrid(obj, t, X, Y, TimeBodyParav, it, g)
@@ -478,6 +491,13 @@ classdef waveClass<handle
         function waveElevReg(obj, rampTime,dt,maxIt)
             % Calculate regular wave elevation time history
             % Used by waveSetup
+            if ~isempty(obj.markLoc)==1
+            if width(obj.markLoc)~=2
+            error('The coordinates of the visualization markers should have an ordinate (y-coordinate) and an abscissa (x-coordinate)')
+            end
+            end
+            
+            
             obj.markStyle   = obj.markStyle;
             obj.markSize    = obj.markSize;
             obj.waveAmpTime = zeros(maxIt+1,2);
@@ -561,6 +581,8 @@ classdef waveClass<handle
         function irregWaveSpectrum(obj,g,rho)
             % Calculate wave spectrum vector (obj.A)
             % Used by wavesIrreg (wavesIrreg used by waveSetup)
+
+            
             freq = obj.w/(2*pi);
             Tp = obj.T;
             Hs = obj.H;
@@ -645,6 +667,12 @@ classdef waveClass<handle
         function waveElevIrreg(obj,rampTime,dt,maxIt,df)
             % Calculate irregular wave elevetaion time history
             % Used by waveSetup
+            if ~isempty(obj.markLoc)==1
+            if width(obj.markLoc)~=2
+            error('The coordinates of the visualization markers should have an ordinate (y-coordinate) and an abscissa (x-coordinate)')
+            end
+            end
+            
             obj.markStyle   = obj.markStyle;
             obj.markSize    = obj.markSize;
             obj.waveAmpTime = zeros(maxIt+1,2);

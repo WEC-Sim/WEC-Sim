@@ -382,9 +382,9 @@ for ii=1:length(body(1,:))
 %    eval(['sv_b' num2str(ii) '_rigidBody = Simulink.Variant(''nhbody_' num2str(ii) '==0'');'])
 end; clear ii
 
-%Visualization
+% Visualization Blocks
 
-if exist('visON','var') && (visON==1)
+if ~isempty(waves.waveAmpTimeViz)
     visON = 1;
 else
     visON = 0;
