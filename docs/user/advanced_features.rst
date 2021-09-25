@@ -781,8 +781,58 @@ Paraview Visualization
 
 .. _user-advanced-features-WSviz:
 
+
+WEC-Sim Visualization
+---------------------
+
+The WEC-Sim contains several built in methods inside the response class and wave 
+class to assist users in visualizing WEC-Sim output: ``output.plotForces``, 
+``output.plotResponse``, ``output.plotWaves``, ``waves.plotEta``, and
+``waves.plotSpectrum``. This section will demonstrate the use of these methods. 
+They are fully documented in the WEC-Sim :ref:`dev-api`.
+
+Plot Forces
+^^^^^^^^^^^
+
+The ``responseClass.plotForces()`` method can be used to plot the time series of 
+each force component for a body. The first argument takes in a body number, the 
+second a degree of freedom of the force. For example, ``output.plotForces(2,3)``
+will plot the vertical forces that act on the 2nd body. The total force is split
+into its :ref:`components <theory-time-domain>`: 
+
+- total force
+- excitation force
+- radiation damping force
+- added mass force
+- restoring force (combination of buoyancy, gravity and hydrostatic stiffness), 
+- Morison element and viscous drag force
+- linear damping force
+
+.. figure:: /_static/images/OSWEC_heaveForces.PNG
+   :width: 250pt
+   :figwidth: 250pt
+   :align: center
+   
+   Demonstration of output.plotForces() method for the OSWEC example.
+
+
+Plot Response
+^^^^^^^^^^^^^
+
+The ``responseClass.plotResponse()`` method is very similar to ``plotForces`` 
+except that it will plot the time series of a body's motion in a given degree 
+of freedom. For example, ``output.plotResponse(1,5)`` will plot the pitch motion
+of the 1st body. The position, velocity and acceleration of that body is shown.
+
+.. figure:: /_static/images/OSWEC_pitchResponse.PNG
+   :width: 250pt
+   :figwidth: 250pt
+   :align: center
+   
+   Demonstration of output.plotResponse() method for the OSWEC example.
+
 Visualization in SimScape Mechanics Explorer
------------------------------------------------------------
+^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
 The user can visualize the wave elevations at various locations using graphical 
 marker in SimScape Mechanics Explorer. The User needs to define an array of 
@@ -841,56 +891,6 @@ For :code:
    :align: center
 
    Demonstration of visualization markers in SimScape Mehcanics Explorer.
-
-WEC-Sim Visualization
----------------------
-
-The WEC-Sim contains several built in methods inside the response class and wave 
-class to assist users in visualizing WEC-Sim output: ``output.plotForces``, 
-``output.plotResponse``, ``output.plotWaves``, ``waves.plotEta``, and
-``waves.plotSpectrum``. This section will demonstrate the use of these methods. 
-They are fully documented in the WEC-Sim :ref:`dev-api`.
-
-Plot Forces
-^^^^^^^^^^^
-
-The ``responseClass.plotForces()`` method can be used to plot the time series of 
-each force component for a body. The first argument takes in a body number, the 
-second a degree of freedom of the force. For example, ``output.plotForces(2,3)``
-will plot the vertical forces that act on the 2nd body. The total force is split
-into its :ref:`components <theory-time-domain>`: 
-
-- total force
-- excitation force
-- radiation damping force
-- added mass force
-- restoring force (combination of buoyancy, gravity and hydrostatic stiffness), 
-- Morison element and viscous drag force
-- linear damping force
-
-.. figure:: /_static/images/OSWEC_heaveForces.PNG
-   :width: 250pt
-   :figwidth: 250pt
-   :align: center
-   
-   Demonstration of output.plotForces() method for the OSWEC example.
-
-
-Plot Response
-^^^^^^^^^^^^^
-
-The ``responseClass.plotResponse()`` method is very similar to ``plotForces`` 
-except that it will plot the time series of a body's motion in a given degree 
-of freedom. For example, ``output.plotResponse(1,5)`` will plot the pitch motion
-of the 1st body. The position, velocity and acceleration of that body is shown.
-
-.. figure:: /_static/images/OSWEC_pitchResponse.PNG
-   :width: 250pt
-   :figwidth: 250pt
-   :align: center
-   
-   Demonstration of output.plotResponse() method for the OSWEC example.
-
 
 Plot Waves
 ^^^^^^^^^^
