@@ -21,12 +21,11 @@ classdef responseClass<handle
     %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
     % The  ``responseClass`` creates an ``output`` object saved to the MATLAB workspace
     % that contains structures for each instance of a WEC-Sim class (e.g.
-    % ``waveClass``, ``bodyClass``, ``ptoClass``, ``mooringClass``, etc).
+    % ``waveClass``, ``bodyClass``, ``constraintClass``, ``ptoClass``, 
+    % ``cableClass``, ``mooringClass``, etc).
     % 
-    %.. autoattribute:: objects.responseClass.wave
+    %.. autoattribute:: objects.responseClass.wave 
     %    
-    % , it includes:
-    %
     %   * ``type`` (`string`) = 'waveType'
     %   *  ``time`` (`array`) = [# of time-steps x 1]
     %   * ``elevation`` (`array`) = [# of time-steps x 1]
@@ -36,8 +35,6 @@ classdef responseClass<handle
     %         
     %.. autoattribute:: objects.responseClass.bodies
     %    
-    % , it includes:
-    %
     %   * ``name`` (`string`) = 'bodyName'
     %   * ``time`` (`array`) = [# of time-steps x 1]
     %   * ``position`` (`array`) = [# of time-steps x 6]
@@ -58,10 +55,17 @@ classdef responseClass<handle
     %   *  ``cellPressures_waveLinear`` (`array`) = [# of Paraview time-steps x # of mesh faces]
     %   *  ``cellPressures_waveNonLinear`` (`array`) = [# of Paraview time-steps x # of mesh faces]
     %
+    %.. autoattribute:: objects.responseClass.constraints
+    %    
+	%   * ``name`` (`string`) = 'coonstraintName'
+    %   * ``time`` (`array`) = [# of time-steps x 1]
+    %   * ``position`` (`array`) = [# of time-steps x 6]
+    %   * ``velocity`` (`array`) = [# of time-steps x 6]
+    %   *  ``accleration`` (`array`) = [# of time-steps x 6]
+    %   *  ``forceConstraint`` (`array`) = [# of time-steps x 6]    
+    %
     %.. autoattribute:: objects.responseClass.ptos
     %    
-    % , it includes:
-    %
     %   * ``name`` (`string`) = 'ptoName'
     %   * ``time`` (`array`) = [# of time-steps x 1]
     %   * ``position`` (`array`) = [# of time-steps x 6]
@@ -73,24 +77,22 @@ classdef responseClass<handle
     %   * ``forceInternalMechanics`` (`array`) = [# of time-steps x 6]
     %   * ``powerInternalMechanics`` (`array`) = [# of time-steps x 6]
     %
-    %.. autoattribute:: objects.responseClass.constraints
-    %    
-    % , it includes:
-    %
-    %   * ``name`` (`string`) = 'coonstraintName'
-    %   * ``time`` (`array`) = [# of time-steps x 1]
-    %   * ``position`` (`array`) = [# of time-steps x 6]
-    %   * ``velocity`` (`array`) = [# of time-steps x 6]
-    %   *  ``accleration`` (`array`) = [# of time-steps x 6]
-    %   *  ``forceConstraint`` (`array`) = [# of time-steps x 6]    
-    %
     %.. autoattribute:: objects.responseClass.mooring
     %    
-    % , it includes:
-    %
     %   * ``position`` (`array`) = [# of time-steps x 6]
     %   * ``velocity`` (`array`) = [# of time-steps x 6]
     %   *  ``forceMooring`` (`array`) = [# of time-steps x 6]
+    %
+    %.. autoattribute:: objects.cableClass.cable
+    %    
+	%   * ``name`` (`string`) = 'cableName'
+    %   * ``time`` (`array`) = [# of time-steps x 1]
+    %   * ``CableFTot`` (`array`) = [# of time-steps x 6]
+    %   * ``CableFAct`` (`array`) = [# of time-steps x 6]
+    %   * ``CableFCon`` (`array`) = [# of time-steps x 6]
+    %   * ``CableFIntMech`` (`array`) = [# of time-steps x 6]
+    %   * ``CablePIntMech`` (`array`) = [# of time-steps x 6]
+    %   * ``CableDisp`` (`array`) = [# of time-steps x 6]
     % 
     %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 

@@ -570,8 +570,8 @@ Parameters box.
 |                    |     |about the constraint's Y-axis            |
 +--------------------+-----+-----------------------------------------+
 |``Spherical``       |3    |Contrains the motion of the follower     |
-|					 |	   |relative to the base to be rotation about| 
-|					 |	   |the X-, Y-, and Z- axis.                   |
+|		     |     |relative to the base to be rotation about| 
+|		     |	   |the X-, Y-, and Z- axis.                 |
 +--------------------+-----+-----------------------------------------+
 |``Floating (3DOF)`` |3    |Constrains the motion of the follower    |
 |                    |     |relative to the base to planar motion    |

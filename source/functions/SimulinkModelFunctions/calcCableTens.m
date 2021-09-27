@@ -1,15 +1,15 @@
 function [T,disp] = calcCableTens(pos1, pos2, k, L0, c, dispVel)
 
 % inputs:
-% pos1 (port): the position of the first cabled body, that will be acted
+% pos1 (port): the position of the base drag body, that will be acted
 %   upon on in the positive direction 
-% pos2 (port): the position of the second cabled body, that will be acted
+% pos2 (port): the position of the follower drag body, that will be acted
 %   upon in the negative direction
 % dispVel (port): the derivative of the relative displacement, used to
 % apply damping
 % L0 (parameter): equilibrium length of the 
-% K (parameter): the spring coefficient of the cable, applied once cable in tension.
-% C (parameter): the damping coefficient of the cable, applied once cable in tension.
+% k (parameter): the spring coefficient of the cable, applied once cable in tension.
+% c (parameter): the damping coefficient of the cable, applied once cable in tension.
 
 % initialize output
 T = 0;

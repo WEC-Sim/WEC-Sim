@@ -19,7 +19,13 @@
 
 
 classdef simulationClass<handle
-    % This class contains WEC-Sim simulation parameters and settings
+    %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+    % The  ``simulationClass`` creates a ``simu`` object saved to the MATLAB
+    % workspace. The ``simulationClass`` includes properties and methods used
+    % to define WEC-Sim's simulation parameters and settings.
+    %
+    %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+    
     properties (SetAccess = 'public', GetAccess = 'public')%input file
         simMechanicsFile    = 'NOT DEFINED'                                % (`string`) Simulink/SimMechanics model file. Default = ``'NOT DEFINED'``
         startTime           = 0                                            % (`float`) Simulation start time. Default = ``0`` s

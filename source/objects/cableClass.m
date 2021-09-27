@@ -1,12 +1,32 @@
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% Copyright 2014 National Renewable Energy Laboratory and National 
+% Technology & Engineering Solutions of Sandia, LLC (NTESS). 
+% Under the terms of Contract DE-NA0003525 with NTESS, 
+% the U.S. Government retains certain rights in this software.
+% 
+% Licensed under the Apache License, Version 2.0 (the "License");
+% you may not use this file except in compliance with the License.
+% You may obtain a copy of the License at
+% 
+% http://www.apache.org/licenses/LICENSE-2.0
+% 
+% Unless required by applicable law or agreed to in writing, software
+% distributed under the License is distributed on an "AS IS" BASIS,
+% WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+% See the License for the specific language governing permissions and
+% limitations under the License.
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
 classdef cableClass<handle
-    
     %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
     % The ``cableClass`` creates a ``cable`` object saved to the MATLAB
     % workspace. The ``cableClass`` includes properties and methods used
     % to define cable connections relative to other bodies.
-    % It is suggested that the mooringClass be used for connections between
-    % the bodies and global reference frame
-    %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+    % It is suggested that the ``cableClass`` be used for connections between
+    % joints or ptos.
+    % 
+    %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%    
+    
     properties (SetAccess = 'public', GetAccess = 'public') %input file
         name                    = 'NOT DEFINED'
         k                       = 0                                         % (`float`) Cable stiffness (N/m). Default = `0`.
@@ -74,7 +94,7 @@ classdef cableClass<handle
     %%
     methods
         
-        function obj = cableClass(name,constraint1,constraint2)
+        function obj = cableClass(name,baseConnection,followerConnection)
             % This method initilizes the ``cableClass`` and creates a
             % ``cable`` object.
             %
@@ -93,8 +113,8 @@ classdef cableClass<handle
             %         cableClass object
             %
             obj.name = name;
-            obj.rotloc1 = constraint1.loc; 
-            obj.rotloc2 = constraint2.loc; 	                        
+            obj.rotloc1 = baseConnection.loc; 
+            obj.rotloc2 = followerConnection.loc; 	                        
         end
         
         
@@ -145,7 +165,6 @@ classdef cableClass<handle
             obj.orientation.x = x;
             obj.orientation.rotationMatrix  = [x',y',z'];
             %
-            % This method calculates the constraint ``x`` vector and ``rotationMatrix`` matrix in the ``orientation`` structure based on user input.
             obj.rotorientation.z = obj.rotorientation.z / norm(obj.rotorientation.z);
             obj.rotorientation.y = obj.rotorientation.y / norm(obj.rotorientation.y);
             z = obj.rotorientation.z;
@@ -159,7 +178,7 @@ classdef cableClass<handle
             obj.rotorientation.rotationMatrix1  = [x',y',z'];
             obj.rotorientation.rotationMatrix2  = [x',y',z'];
         end
-%         
+        
 %         function setInitDisp(obj, x_rot, ax_rot, ang_rot, addLinDisp)
 %             % This method sets initial displacement while considering an initial rotation orientation.
 %             %
@@ -191,13 +210,13 @@ classdef cableClass<handle
 %         end
         
         function setDispVol(obj, rho)
+            % This method mades the mass of the cable drag bodies neutrally bouyant
             obj.dispVol = obj.bodyMass/rho;
-%             dispMass = obj.dispVol * rho;
         end
         
         function dragForcePre(obj,rho)
-            % DragBody Pre-processing calculations
-            % Similar to hydroForcePre, but only loads in the necessary
+            % This method performs Drag Body pre-processing calculations,
+            % similar to hydroForcePre, but only loads in the necessary
             % values to calculate linear damping and viscous drag. Note
             % that body DOF is inherited from the length of the drag
             % coefficients.
@@ -208,7 +227,7 @@ classdef cableClass<handle
         end
         
         function linDampMatrix(obj)
-            % Makes the linear damping vector (as specified) into a 6 x 6
+            % This method makes the linear damping vector (as specified) into a 6 x 6
             % matrix with this damping along the diagonal (as required for
             % calculation). Operates on the drag bodies representing the
             % cable dynamics.
@@ -236,7 +255,8 @@ classdef cableClass<handle
                 obj.L0 = sqrt((obj.rotloc1(1)-obj.rotloc2(1)).^2 ...
                 + (obj.rotloc1(2)-obj.rotloc2(2)).^2 ...
                 + (obj.rotloc1(3)-obj.rotloc2(3)).^2);
-            fprintf('\n\t L0 undefined and preTension undefined. \n \r L0 set equal to distance between rotloc2 and rotloc1 \n and preTension set equal to zero \n')
+            fprintf('\n\t cable(i).L0 undefined and cable(i).preTension undefined. \n \r',...
+                'cable(i).L0 set equal to distance between rotloc2 and rotloc1 \n and cable(i).preTension set equal to zero \n')
             elseif ~any(obj.L0) && any(obj.preTension)
                 obj.L0 = sqrt((obj.rotloc1(1)-obj.rotloc2(1)).^2 ...
                 + (obj.rotloc1(2)-obj.rotloc2(2)).^2 ...
@@ -246,8 +266,7 @@ classdef cableClass<handle
                 + (obj.rotloc1(2)-obj.rotloc2(2)).^2 ...
                 + (obj.rotloc1(3)-obj.rotloc2(3)).^2) - obj.L0); 
             elseif any(obj.preTension) && any(obj.L0)
-                fprintf('\n\t System overdefined. Please define preTension OR L0, not both. Pretension set to 0.')
-                obj.preTension = 0;
+                error('System overdefined. Please define cable(i).preTension OR cable(i).L0, not both.')
             end
         end
         

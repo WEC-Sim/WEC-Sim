@@ -90,7 +90,7 @@ Cable Class
 
 .. autoclass:: objects.cableClass
 	:members:
-	:exclude-members: cableNum
+	:exclude-members: cableNum, loc, rotloc1, rotloc2, cg1, cb1, cg2, cb2, dispVol
 	:no-undoc-members:
 
     
@@ -101,6 +101,6 @@ Response Class
 
 .. autoclass:: objects.responseClass
     :members:
-    :exclude-members: wave, bodies, ptos, constraints, mooring 
+    :exclude-members: wave, bodies, ptos, constraints, mooring, cable, loadMoorDyn
     :no-undoc-members:
 

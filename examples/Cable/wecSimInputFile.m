@@ -53,20 +53,11 @@ constraint(3).loc = [0 0 -5];                    % Constraint Location [m]
 cable(1) = cableClass('Cable',constraint(2),constraint(3));
 cable(1).k = 1000000;
 cable(1).c = 100;
-%cable(1).L0 = 9.9; % equilibrium length
+% cable(1).L0 = 9.9; % Cable equilibrium length [m] 
+% cable(1).preTension = 5100000; % Cable equilibrium pre-tension [N]
 
 % cable(1).viscDrag.cd = [1.4 1.4 1.4 0 0 0];
 % cable(1).viscDrag.characteristicArea = [10 10 10 0 0 0];
-% add a pretension argument (move one of the dummy body cg to accomodate)
 
-%% internal to cable class
-% cable(1).rotloc1 = [0 0 -5]; % -0.72
-% cable(1).rotloc2 = [0 0 -20];%-21.29
-%cable(1).rotk=[1];
-%cable(1).cg1 = [0,0,-5]; % not a real reason to be at another location than the PTO rotloc1/2.
-%cable(1).cg2 = [0,0,-15];% this should default to the rotloc1/2s
-%cable(1).cb1 = [0,0,-5];
-%cable(1).cb2 = [0,0,-15];
-%cable(1).loc = [0 0 -10];% set default as 1/2 the distance between the rotlocs
 
 

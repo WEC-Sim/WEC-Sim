@@ -15,3 +15,4 @@ User Manual
    advanced_features.rst
    webinars.rst
    troubleshooting.rst
+   api.rst
