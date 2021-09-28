@@ -57,4 +57,3 @@ cable(1).c = 100;
 % cable(1).preTension = 5100000; % Cable equilibrium pre-tension [N]
 % cable(1).viscDrag.cd = [1.4 1.4 1.4 0 0 0];
 % cable(1).viscDrag.characteristicArea = [10 10 10 0 0 0];
-
