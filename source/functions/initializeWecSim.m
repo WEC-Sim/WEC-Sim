@@ -48,7 +48,7 @@ diary('simulation.log')
 projectRootDir = pwd;
 
 % Create 'temp' directory if it doesn't exist and add to 'temp' path
-% status = mkdir('temp');
+warning('off','MATLAB:MKDIR:DirectoryExists')
 if mkdir('temp') == 0
     mkdir 'temp'
 end
@@ -204,18 +204,26 @@ end
 simu.setupSim;
 
 % wave setup
-waves.waveSetup(body(1).hydroData.simulation_parameters.w, body(1).hydroData.simulation_parameters.water_depth, simu.rampTime, simu.dt, simu.maxIt, simu.g, simu.rho,  simu.endTime);
-% Check that waveDir and freq are within range of hydro data
-if  min(waves.waveDir) <  min(body(1).hydroData.simulation_parameters.wave_dir) || max(waves.waveDir) >  max(body(1).hydroData.simulation_parameters.wave_dir)
-    error('waves.waveDir outside of range of available hydro data')
-end
-if strcmp(waves.type,'etaImport')~=1 && strcmp(waves.type,'noWave')~=1 && strcmp(waves.type,'noWaveCIC')~=1
-    if  min(waves.w) <  min(body(1).hydroData.simulation_parameters.w) || max(waves.w) >  max(body(1).hydroData.simulation_parameters.w)
-        error('waves.w outside of range of available hydro data')
+if any(hydroBodLogic == 1)
+    % When hydro bodies (and an .h5) are present, define the wave using those
+    % parameters.
+    waves.waveSetup(body(1).hydroData.simulation_parameters.w, body(1).hydroData.simulation_parameters.water_depth, simu.rampTime, simu.dt, simu.maxIt, simu.g, simu.rho,  simu.endTime);
+    % Check that waveDir and freq are within range of hydro data
+    if  min(waves.waveDir) <  min(body(1).hydroData.simulation_parameters.wave_dir) || max(waves.waveDir) >  max(body(1).hydroData.simulation_parameters.wave_dir)
+        error('waves.waveDir outside of range of available hydro data')
     end
+    if strcmp(waves.type,'etaImport')~=1 && strcmp(waves.type,'noWave')~=1 && strcmp(waves.type,'noWaveCIC')~=1
+        if  min(waves.w) <  min(body(1).hydroData.simulation_parameters.w) || max(waves.w) >  max(body(1).hydroData.simulation_parameters.w)
+            error('waves.w outside of range of available hydro data')
+        end
+    end
+else
+    % When no hydro bodies (and no .h5) are present, define the wave using
+    % input file parameters
+    waves.waveSetup([], [], simu.rampTime, simu.dt, simu.maxIt, simu.g, simu.rho,  simu.endTime);
 end
 
-% Non-linear hydro
+% Nonlinear hydro
 for kk = 1:length(body(1,:))
     if (body(kk).nlHydro >0) || (simu.paraview == 1)
         body(kk).bodyGeo(body(kk).geometryFile)
@@ -228,7 +236,7 @@ if ~isempty(idx)
     for kk = 1:length(idx)
         it = idx(kk);
         body(it).hydroForcePre(waves.w,waves.waveDir,simu.CIkt,simu.CTTime,waves.numFreq,simu.dt,...
-            simu.rho,simu.g,waves.type,waves.waveAmpTime,kk,simu.numWecBodies,simu.ssCalc,body(it).nlHydro,simu.b2b,simu.yawNonLin);
+            simu.rho,simu.g,waves.type,waves.waveAmpTime,kk,simu.numWecBodies,simu.ssCalc,simu.b2b,simu.yawNonLin);
     end; clear kk idx
 end
 
@@ -237,23 +245,36 @@ idx = find(nonHydroBodLogic==1);
 if ~isempty(idx)
     for kk = 1:length(idx)
         it = idx(kk);
+        body(it).nonHydroForcePre(simu.rho);
+        if isempty(body(it).cg)
+            error('Non-hydro body(%i) center of gravity (cg) must be defined in the wecSimInputFile.m',body(it).bodyNumber);
+        end
+        if isempty(body(it).dispVol)
+            error('Non-hydro body(%i) displaced volume (dispVol) must be defined in the wecSimInputFile.m',body(it).bodyNumber);
+        end
         if isempty(body(it).cb)
             body(it).cb = body(it).cg;
             warning('Non-hydro body(%i) center of buoyancy (cb) set equal to center of gravity (cg), [%g %g %g]',body(it).bodyNumber,body(it).cb(1),body(it).cb(2),body(it).cb(3))
         end
     end; clear kk idx
-end      
+end
 
 % dragBodyPre
-idx = find(dragBodLogic==1);
+idx = find(dragBodLogic == 1);
 if ~isempty(idx)
     for kk = 1:length(idx)
         it = idx(kk);
         body(it).dragForcePre(simu.rho);
+        if isempty(body(it).cg)
+            error('Drag body(%i) center of gravity (cg) must be defined in the wecSimInputFile.m',body(it).bodyNumber);
+        end
+        if isempty(body(it).dispVol)
+            error('Drag body(%i) displaced volume (dispVol) must be defined in the wecSimInputFile.m',body(it).bodyNumber);
+        end
         if isempty(body(it).cb)
             body(it).cb = body(it).cg;
-            warning('Non-hydro body(%i) center of buoyancy (cb) set equal to center of gravity (cg), [%g %g %g]',body(it).bodyNumber,body(it).cb(1),body(it).cb(2),body(it).cb(3))
-        end        
+            warning('Drag body(%i) center of buoyancy (cb) set equal to center of gravity (cg), [%g %g %g]',body(it).bodyNumber,body(it).cb(1),body(it).cb(2),body(it).cb(3))
+        end
     end; clear kk idx
 end
     
@@ -282,14 +303,14 @@ end; clear ii;
 % Check for etaImport with nlHydro
 for ii = 1:simu.numWecBodies
     if strcmp(waves.type,'etaImport') && body(ii).nlHydro == 1
-        error(['Cannot run WEC-Sim with non-linear hydro (body(ii).nlHydro) and "etaImport" wave type'])
+        error(['Cannot run WEC-Sim with nonlinear hydro (body(ii).nlHydro) and "etaImport" wave type'])
     end
 end
 
 % Check for etaImport with morisonElement
 for ii = 1:simu.numWecBodies
     if strcmp(waves.type,'etaImport') && body(ii).morisonElement.option ~= 0
-        error(['Cannot run WEC-Sim with Morrison Element (body(ii).morisonElement.option>0) and "etaImport" wave type'])
+        error(['Cannot run WEC-Sim with Morison Element (body(ii).morisonElement.option>0) and "etaImport" wave type'])
     end
 end
 
@@ -341,7 +362,7 @@ for ii=1:length(body(1,:))
 end; clear ii;
 % yawNonLin Activation
 yawNonLin=simu.yawNonLin;
-% Morrison Element
+% Morison Element
 for ii=1:length(body(1,:))
     if body(ii).nhBody ~=1
     eval(['morisonElement_' num2str(ii) ' = body(ii).morisonElement.option;'])
