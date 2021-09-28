@@ -21,8 +21,11 @@
 fprintf('\nPost-processing and saving...   \n')
 % Bodies
 for iBod = 1:length(body(1,:))
-    eval(['body' num2str(iBod) '_out.name = body(' num2str(iBod) ').name;']);
-    if iBod == 1; bodiesOutput = body1_out; end
+    eval(['body' num2str(iBod) '_out.name = body(' num2str(iBod) ').name;']);    
+    eval(['body' num2str(iBod) '_out.cg = body(' num2str(iBod) ').cg;']);    
+    if iBod == 1
+        bodiesOutput = body1_out; 
+    end
     bodiesOutput(iBod) = eval(['body' num2str(iBod) '_out']);
     eval(['clear body' num2str(iBod) '_out'])
 end
@@ -37,7 +40,7 @@ for iBod = 1:length(body(1,:))
         eval(['bodiesOutput(' num2str(iBod) ').wpressurel = body' num2str(iBod) '_wavelinearpressure_out;']);
     else
         if body(iBod).nlHydro ==0 && simu.pressureDis == 1 
-            warning('Pressure distribution on the body is only output when wecSim is run with non-linear hydro (simu.pressureDis == 1 && simu.nlHydro~=0 && body(i).nhBody==0)')
+            warning('Pressure distribution on the body is only output when wecSim is run with nonlinear hydro (simu.pressureDis == 1 && simu.nlHydro~=0 && body(i).nhBody==0)')
         end
         bodiesOutput(iBod).hspressure = [];
         bodiesOutput(iBod).wpressurenl = [];

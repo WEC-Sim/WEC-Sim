@@ -39,6 +39,7 @@ classdef waveClass<handle
         etaDataFile = 'NOT DEFINED'; % (`string`) Data file that contains the times-series data file. Default = ``'NOT DEFINED'``
         freqRange = [];     % (`2x1 vector`) Min and max wave frequency [rad/s], only used for ``irregular`` and ``spectrumImport``. If not specified, the BEM data frequency range is used. Default = ``[]``
         numFreq = [];       % (`integer`) Number of interpolated wave frequencies, only used for ``irregular`` and ``spectrumImport``. Number of frequencies used varies depending on ``freqDisc``, 1000 for ``'Traditional'``, and 500 for ``'EqualEnergy'`` and ``Imported``. Default = ``[]``
+        waterDepth = [];    % (`float`) Water depth [m]. Default to BEM water depth if not set. 
         waveDir = 0;        % (`float`) Incident wave direction(s) [deg]. Incident wave direction defined using WEC-Sim global coordinate system. Should be defined as a column vector for more than one wave direction. Default = ``0``
         waveSpread = 1;     % (`float`) Wave Spread probability associated with wave direction(s). Should be defined as a column vector for more than one wave direction. Default = ``1``
         viz = struct( 'numPointsX', 50, ...
@@ -62,7 +63,6 @@ classdef waveClass<handle
         % The following properties are private, for internal use by WEC-Sim
         typeNum = [];       % Number to represent different type of waves        
         bemFreq = [];       % Number of wave frequencies from BEM
-        waterDepth = [];    % Water depth (from BEM) [m] 
         deepWaterWave = []; % Deep water or not, depending on input from WAMIT, NEMOH and AQWA
         waveAmpTime = [];   % Wave elevation time history [m] 
         waveAmpTime1 = [];  % Wave elevation time history at a wave gauge 1 location specified by user [m] 
@@ -186,48 +186,77 @@ classdef waveClass<handle
             ylabel('Spectrum (m^2-s/rad)');
         end
         
-        function waveSetup(obj,bemFreq,wDepth,rampTime,dt,maxIt,g, rho, endTime)
+        function waveSetup(obj,bemFreq,bemWaterDepth,rampTime,dt,maxIt,g, rho, endTime)
             % This method calculates WEC-Sim's wave properties 
             % based on the specified wave type.
             %
+            
             if ~isempty(obj.markLoc)==1
                 if ~width(obj.markLoc)==2
                     error('The coordinates of the visualization markers should have an ordinate (y-coordinate) and an abscissa (x-coordinate)')
                 end
             end
-            obj.bemFreq    = bemFreq;
-            obj.setWaveProps(wDepth)
+            
+            obj.bemFreq = bemFreq;
+            if isempty(obj.freqRange) && isempty(obj.bemFreq)
+                % No .h5 file and no freq range defined --> error
+                error('Must define frequency range in waves.freqRange when zero hydro bodies are used (no .h5 file).');
+            elseif isempty(obj.freqRange) && ~isempty(obj.bemFreq)
+                % Use .h5 file range if not defined in input file
+                obj.freqRange = obj.bemFreq;
+            elseif ~isempty(obj.freqRange) && ~isempty(obj.bemFreq)
+                % check that input file freq range is not larger than
+                % available BEM data
+                if obj.freqRange(1) < min(obj.bemFreq) || obj.freqRange(1) > max(obj.bemFreq)
+                    warning('Min frequency range outside BEM data, min frequency set to min BEM frequency')
+                    obj.freqRange(1) = min(obj.bemFreq);
+                end
+                if obj.freqRange(2) < min(obj.bemFreq) || obj.freqRange(2) > max(obj.bemFreq)
+                    warning('Max frequency range outside BEM data, max frequency set to max BEM frequency')
+                    obj.freqRange(2) = max(obj.bemFreq);
+                end
+            end
+            
+            obj.setWaterDepth(bemWaterDepth);
+            
             switch obj.type
-                case {'noWave','noWaveCIC'}                    
-                    if isempty(obj.w)
+                case {'noWave','noWaveCIC'}
+                    if isempty(obj.w) && strcmp(obj.T,'NOT DEFINED')
+                        obj.w = min(obj.freqRange);
+                        obj.T = 2*pi/obj.w;
+                    elseif isempty(obj.w)
                         obj.w = 2*pi/obj.T;
+                    else
+                        obj.T = 2*pi/obj.w;
                     end
-                    obj.waveNumber(g)
+                    obj.H = 0;
                     obj.A = obj.H/2;
+                    obj.waveNumber(g);
                     obj.waveElevNowave(maxIt,dt);
                 case {'regular','regularCIC'}
-                    if isempty(obj.w)
+                    if isempty(obj.w) && strcmp(obj.T,'NOT DEFINED')
+                        obj.w = min(obj.freqRange);
+                        obj.T = 2*pi/obj.w;
+                    elseif isempty(obj.w)
                         obj.w = 2*pi/obj.T;
+                    else
+                        obj.T = 2*pi/obj.w;
                     end
                     obj.A = obj.H/2;
-                    obj.waveNumber(g)
+                    obj.waveNumber(g);
                     obj.waveElevReg(rampTime, dt, maxIt);
                     obj.wavePowerReg(g,rho);
                 case {'irregular','spectrumImport'}
-                    WFQSt=min(bemFreq);
-                    WFQEd=max(bemFreq);
-                    if ~isempty(obj.freqRange)
-                        if obj.freqRange(1) > WFQSt && obj.freqRange(1) > 0
-                            WFQSt = obj.freqRange(1);
-                        else
-                            warning('Min frequency range outside BEM data, min frequency set to min BEM frequency')
-                        end
-                        if obj.freqRange(2) < WFQEd && obj.freqRange(2) > WFQSt
-                            WFQEd = obj.freqRange(2);
-                        else
-                            warning('Max frequency range outside BEM data, max frequency set to max BEM frequency')
-                        end
+                    if strcmp(obj.type,'spectrumImport')
+                        obj.H = 0;
+                        obj.T = 0;
+                        obj.freqDisc = 'Imported';
+                        obj.spectrumType = 'spectrumImport';
                     end
+                    
+                    WFQSt=min(obj.freqRange);
+                    WFQEd=max(obj.freqRange);
+                    
                     switch obj.freqDisc
                         case {'Traditional'}
                             if isempty(obj.numFreq)
@@ -245,7 +274,7 @@ classdef waveClass<handle
                         case {'Imported'}
                             data = importdata(obj.spectrumDataFile);
                             freq_data = data(:,1);
-                            freq_loc = freq_data>=min(obj.bemFreq)/2/pi & freq_data<=max(obj.bemFreq)/2/pi;
+                            freq_loc = freq_data >= min(obj.freqRange)/2/pi & freq_data <= max(obj.freqRange)/2/pi;
                             obj.w    = freq_data(freq_loc).*2.*pi;
                             obj.numFreq = length(obj.w);
                             obj.dw(1,1)= obj.w(2)-obj.w(1);
@@ -367,8 +396,10 @@ classdef waveClass<handle
             %
             %     Y : matrix
             %       (m x n) matrix of Y coordinates at which to calculate the wave elevation
+            %
             %     TimeBodyParav : Time vector starting from zero specified for
             %       paraview video files.
+            %     
             %     it : time step iteration, 
             %
             %     g : gravitational acceleration constant from simulationClass
@@ -440,7 +471,7 @@ classdef waveClass<handle
                     data = importdata(obj.spectrumDataFile);
                     if size(data,2) == 3
                         freq_data = data(:,1);
-                        freq_loc = freq_data>=min(obj.bemFreq)/2/pi & freq_data<=max(obj.bemFreq)/2/pi;
+                        freq_loc = freq_data>=min(obj.freqRange)/2/pi & freq_data<=max(obj.freqRange)/2/pi;
                         phase_data = data(freq_loc,3);
                         obj.phase = phase_data';
                     else
@@ -450,35 +481,21 @@ classdef waveClass<handle
             obj.phase = obj.phase';
         end
         
-        function setWaveProps(obj,wDepth)
-            % Sets global and type-specific properties
-            % Used by waveSetup
-            if strcmp(wDepth,'infinite')
-                obj.deepWaterWave = 1;
-                obj.waterDepth = 200;
-                fprintf('\tInfinite water depth specified in BEM, "waves.waterDepth" set to 200m for vizualisation.\n')
-            else
-                obj.deepWaterWave = 0;
-                obj.waterDepth = double(wDepth);
-            end
-            switch obj.type
-                case {'noWave'}
-                    obj.H = 0;
-                case {'noWaveCIC'}
-                    obj.H = 0;
-                    if isempty(obj.w) && strcmp(obj.T,'NOT DEFINED')
-                        obj.w = min(obj.bemFreq);
-                        obj.T=2*pi/obj.w;
-                    elseif isempty(obj.w)
-                        obj.w = 2*pi/obj.T;
-                    else
-                        obj.T = 2*pi/obj.w;
-                    end
-                case {'spectrumImport'}
-                    obj.H = 0;
-                    obj.T = 0;
-                    obj.freqDisc = 'Imported';
-                    obj.spectrumType = 'spectrumImport';
+        function setWaterDepth(obj,bemWaterDepth)
+            % Set the water depth. If defined in input file, BEM depth is
+            % not used. Used by waveSetup
+            if isempty(obj.waterDepth)
+                if isempty(bemWaterDepth)
+                    error('Must define water depth in waves.waterDepth when zero hydro bodies (no .h5 file).');
+                elseif strcmp(bemWaterDepth,'infinite')
+                    obj.deepWaterWave = 1;
+                    obj.waterDepth = 200;
+                    fprintf('\tInfinite water depth specified in BEM and "waves.waterDepth" not specified in input file.\n')
+                    fprintf('Set water depth to 200m for visualization.\n')
+                else
+                    obj.deepWaterWave = 0;
+                    obj.waterDepth = double(bemWaterDepth);
+                end
             end
         end
         
@@ -619,7 +636,7 @@ classdef waveClass<handle
                     data = importdata(obj.spectrumDataFile);
                     freq_data = data(:,1);
                     S_data = data(:,2);
-                    freq_loc = freq_data>=min(obj.bemFreq)/2/pi & freq_data<=max(obj.bemFreq)/2/pi;
+                    freq_loc = freq_data >= min(obj.freqRange)/2/pi & freq_data <= max(obj.freqRange)/2/pi;
                     S_f = S_data(freq_loc);                                    % Wave Spectrum [m^2-s] for 'EqualEnergy'
                     obj.S = S_f./(2*pi);                                       % Wave Spectrum [m^2-s/rad] for 'Traditional'
                     fprintf('\t"spectrumImport" uses the number of imported wave frequencies (not "Traditional" or "EqualEnergy")\n')
