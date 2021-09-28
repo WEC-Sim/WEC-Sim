@@ -24,6 +24,8 @@ classdef cableClass<handle
     % to define cable connections relative to other bodies.
     % It is suggested that the ``cableClass`` be used for connections between
     % joints or ptos.
+    %
+    %.. autoattribute:: objects.cableClass.cableClass            
     % 
     %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%    
     
@@ -59,7 +61,7 @@ classdef cableClass<handle
             'lowerLimitStiffness', 1e6, ...                                 % (`float`) Define lower limit spring stiffness, N/m or N-m/deg.  `` Default = ``1e6``.
             'lowerLimitDamping', 1e3, ...                                   % (`float`) Define lower limit damping, N/m/s or N-m/deg/s.  `` Default = ``1e3``.
             'lowerLimitTransitionRegionWidth', 1e-4)                        % (`float`) Define lower limit transition region, over which spring and damping values ramp up to full values. Increase for stability. m or deg. ``Default = 1e-4``
-        bodyMass                = 1;                                         % (`float`) mass in kg, default 1
+        bodyMass                = 1;                                        % (`float`) mass in kg, default 1
         bodyInertia             = [ 1 1 1];                                 % (`1 x 3 float vector`) body inertia kg-m^2, default [1 1 1]
         viz               = struct(...                                      %
             'color', [1 0 0.5], ...                                         %
@@ -72,11 +74,11 @@ classdef cableClass<handle
             'initLinDisp2',          [0 0 0],...                            % Structure defining the initial displacement of the pto. ``initLinDisp`` (`3x1 float vector`) is defined as the initial displacement of the pto [m] in the following format [x y z], Default = [``0 0 0``].
             'initAngularDispAxis2',  [0 1 0], ...                           %
             'initAngularDispAngle2', 0)                                     % Structure defining the initial displacement of the body. ``initLinDisp`` (`3x1 float vector`) is defined as the initial displacement of the body center of gravity (COG) [m] in the following format [x y z], Default = [``0 0 0``]. ``initAngularDispAxis`` (`3x1 float vector`) is defined as the axis of rotation in the following format [x y z], Default = [``0 1 0``]. ``initAngularDispAngle`` (`float`) is defined as the initial angular displacement of the body COG [rad], Default = ``0``.
-        linearDamping           = [0 0 0 0 0 0];                             % (`1 x 6 float vector`)linear damping aplied to body motions
-        viscDrag                = struct(...
-            'characteristicArea', [0 0 0 0 0 0], ...
-            'Drag', zeros(6), ...
-            'cd', [0 0 0 0 0 0]);
+        linearDamping           = [0 0 0 0 0 0];                            % (`1 x 6 float vector`)linear damping aplied to body motions
+        viscDrag                = struct(...                                % 
+            'characteristicArea', [0 0 0 0 0 0], ...                        % 
+            'Drag', zeros(6), ...                                           % 
+            'cd', [0 0 0 0 0 0]);                                           % Structure defining the viscous quadratic drag forces. First option define ``Drag``, (`6x6 float matrix`), Default = ``zeros(6)``. Second option define ``cd``, (`6x1 float vector`), Default = ``zeros(6,1)``, and ``characteristicArea``, (`6x1 float vector`), Default = ``zeros(6,1)``.
     end
  
     properties (SetAccess = 'public', GetAccess = 'public')%internal
@@ -234,7 +236,7 @@ classdef cableClass<handle
             obj.linearDamping = diag(obj.linearDamping);
         end
         
-        function setCbLoc(obj)
+        function setCb(obj)
             % This method sets the buoyancy center to equal the center of
             % gravity, if the center of buoyancy is not defined
                 obj.cb1=obj.cg1;

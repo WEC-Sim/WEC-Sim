@@ -24,6 +24,8 @@ classdef responseClass<handle
     % ``waveClass``, ``bodyClass``, ``constraintClass``, ``ptoClass``, 
     % ``cableClass``, ``mooringClass``, etc).
     % 
+    %.. autoattribute:: objects.responseClass.responseClass            
+    %     
     %.. autoattribute:: objects.responseClass.wave 
     %    
     %   * ``type`` (`string`) = 'waveType'
@@ -77,13 +79,7 @@ classdef responseClass<handle
     %   * ``forceInternalMechanics`` (`array`) = [# of time-steps x 6]
     %   * ``powerInternalMechanics`` (`array`) = [# of time-steps x 6]
     %
-    %.. autoattribute:: objects.responseClass.mooring
-    %    
-    %   * ``position`` (`array`) = [# of time-steps x 6]
-    %   * ``velocity`` (`array`) = [# of time-steps x 6]
-    %   *  ``forceMooring`` (`array`) = [# of time-steps x 6]
-    %
-    %.. autoattribute:: objects.cableClass.cable
+    %.. autoattribute:: objects.responseClass.cable
     %    
 	%   * ``name`` (`string`) = 'cableName'
     %   * ``time`` (`array`) = [# of time-steps x 1]
@@ -94,6 +90,12 @@ classdef responseClass<handle
     %   * ``CablePIntMech`` (`array`) = [# of time-steps x 6]
     %   * ``CableDisp`` (`array`) = [# of time-steps x 6]
     % 
+    %.. autoattribute:: objects.responseClass.mooring
+    %    
+    %   * ``position`` (`array`) = [# of time-steps x 6]
+    %   * ``velocity`` (`array`) = [# of time-steps x 6]
+    %   *  ``forceMooring`` (`array`) = [# of time-steps x 6]
+    %
     %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
     

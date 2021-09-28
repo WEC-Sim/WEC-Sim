@@ -171,7 +171,7 @@ if exist('cable','var')==1
     for ii = 1:simu.numCables
         cable(ii).cableNum = ii;
         cable(ii).setCg();
-        cable(ii).setCbLoc();
+        cable(ii).setCb();
         cable(ii).setTransPTOLoc();
         cable(ii).setL0();
         cable(ii).dragForcePre(simu.rho);

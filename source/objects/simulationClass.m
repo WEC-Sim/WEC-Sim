@@ -24,6 +24,8 @@ classdef simulationClass<handle
     % workspace. The ``simulationClass`` includes properties and methods used
     % to define WEC-Sim's simulation parameters and settings.
     %
+    %.. autoattribute:: objects.simulationClass.simulationClass
+    %
     %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
     
     properties (SetAccess = 'public', GetAccess = 'public')%input file
