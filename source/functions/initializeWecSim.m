@@ -193,8 +193,7 @@ if exist('cable','var')==1
         cable(ii).dragForcePre(simu.rho);
         cable(ii).setDispVol(simu.rho);
         cable(ii).setOrientation();
-        %cable(ii).setInitDisp();
-        cable(ii).linDampMatrix();
+        cable(ii).linearDampingMatrix();
     end
 end
 % PTO-Sim: read input, count

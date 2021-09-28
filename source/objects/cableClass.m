@@ -38,31 +38,14 @@ classdef cableClass<handle
         bodyMass                = 1;                                        % (`float`) mass in kg, default 1
         bodyInertia             = [ 1 1 1];                                 % (`1 x 3 float vector`) body inertia kg-m^2, default [1 1 1]
         orientation             = struct(...                                %
-            'z', [0, 0, 1], ...                    %
-            'y', [0, 1, 0], ...                    %
-            'x', [], ...                           %
+            'z', [0, 0, 1], ...                                             %
+            'y', [0, 1, 0], ...                                             %
+            'x', [], ...                                                    %
             'rotationMatrix',[])                                            % Structure defining the orientation axis of the pto. ``z`` (`3x1 float vector`) defines the direciton of the Z-coordinate of the pto, Default = [``0 0 1``]. ``y`` (`3x1 float vector`) defines the direciton of the Y-coordinate of the pto, Default = [``0 1 0``]. ``x`` (`3x1 float vector`) internally calculated vector defining the direction of the X-coordinate for the pto, Default = ``[]``. ``rotationMatrix`` (`3x3 float matrix`) internally calculated rotation matrix to go from standard coordinate orientation to the pto coordinate orientation, Default = ``[]``.
-        rotorientation             = struct(...                                    
-            'z', [0, 0, 1], ...                    %
-            'y', [0, 1, 0], ...                    %
-            'x', [], ...                           %
-            'rotationMatrix1',[],...                                        % Structure defining the orientation axis of the pto. ``z`` (`3x1 float vector`) defines the direciton of the Z-coordinate of the pto, Default = [``0 0 1``]. ``y`` (`3x1 float vector`) defines the direciton of the Y-coordinate of the pto, Default = [``0 1 0``]. ``x`` (`3x1 float vector`) internally calculated vector defining the direction of the X-coordinate for the pto, Default = ``[]``. ``rotationMatrix`` (`3x3 float matrix`) internally calculated rotation matrix to go from standard coordinate orientation to the pto coordinate orientation, Default = ``[]``.
-            'rotationMatrix2',[])
         initDisp                = struct(...                                % 
             'initLinDisp',          [0 0 0],...                             % 
             'initAngularDispAxis',  [0 1 0], ...                            %
             'initAngularDispAngle', 0)                                      % Structure defining the initial displacement of the body. ``initLinDisp`` (`3x1 float vector`) is defined as the initial displacement of the body center of gravity (COG) [m] in the following format [x y z], Default = [``0 0 0``]. ``initAngularDispAxis`` (`3x1 float vector`) is defined as the axis of rotation in the following format [x y z], Default = [``0 1 0``]. ``initAngularDispAngle`` (`float`) is defined as the initial angular displacement of the body COG [rad], Default = ``0``.
-        hardStops               = struct(...
-            'upperLimitSpecify', 'off',...                                  % (`string`) Initialize upper stroke limit. ``  'on' or 'off' `` Default = ``off``.
-            'upperLimitBound', 1, ...                                       % (`float`) Define upper stroke limit in m or deg. Only active if `lowerLimitSpecify` is `on` `` Default = ``1``.
-            'upperLimitStiffness', 1e6, ...                                 % (`float`) Define upper limit spring stiffness, N/m or N-m/deg. `` Default = ``1e6``.
-            'upperLimitDamping', 1e3, ...                                   % (`float`) Define upper limit damping, N/m/s or N-m/deg/s.  `` Default = ``1e3``.
-            'upperLimitTransitionRegionWidth', 1e-4, ...                    % (`float`) Define upper limit transition region, over which spring and damping values ramp up to full values. Increase for stability. m or deg. ``Default = 1e-4``
-            'lowerLimitSpecify', 'off',...                                  % Initialize lower stroke limit. ``  `on` or `off` `` Default = ``off``.
-            'lowerLimitBound', -1, ...                                      % (`float`) Define lower stroke limit in m or deg. Only active if `lowerLimitSpecify` is `on` ``   `` Default = ``-1``.
-            'lowerLimitStiffness', 1e6, ...                                 % (`float`) Define lower limit spring stiffness, N/m or N-m/deg.  `` Default = ``1e6``.
-            'lowerLimitDamping', 1e3, ...                                   % (`float`) Define lower limit damping, N/m/s or N-m/deg/s.  `` Default = ``1e3``.
-            'lowerLimitTransitionRegionWidth', 1e-4)                        % (`float`) Define lower limit transition region, over which spring and damping values ramp up to full values. Increase for stability. m or deg. ``Default = 1e-4``
         viz               = struct(...                                      %
             'color', [1 0 0.5], ...                                         %
             'opacity', 1)                                                   % Structure defining visualization properties in either SimScape or Paraview. ``color`` (`3x1 float vector`) is defined as the body visualization color, Default = [``1 1 0``]. ``opacity`` (`integer`) is defined as the body opacity, Default = ``1``.
@@ -76,7 +59,7 @@ classdef cableClass<handle
  
     properties (SetAccess = 'public', GetAccess = 'public')%internal
         cableNum                = []                                       	% Cable number
-        loc                     = [999 999 999]                                   % (`3x1 float vector`) pto location [m]. Defined in the following format [x y z]. Default = ``[999 999 999]``.    
+        loc                     = [999 999 999]                             % (`3x1 float vector`) pto location [m]. Defined in the following format [x y z]. Default = ``[999 999 999]``.    
         rotloc1                 = [999 999 999]                             % (`3x1 float vector`) base location [m]. Defined in the following format [x y z]. Default = ``[999 999 999]``.
         rotloc2                 = [999 999 999]                             % (`3x1 float vector`) follower location [m]. Defined in the following format [x y z]. Default = ``[999 999 999]``.
         cg1                     = [0 0 0];                                  % (`1 x 3 float vector`) cg location of the base drag body
@@ -95,11 +78,13 @@ classdef cableClass<handle
             %
             % Parameters
             % ------------
-            %     filename : string
+            %     name : string
             %         String specifying the name of the cable
-            %     filename : obj
+            % 
+            %     baseConnection : obj
             %         Object for the base constraint/pto
-            %     filename : obj
+            % 
+            %     followerConnection : obj
             %         Object for the follower constraint/pto
             %
             % Returns
@@ -113,18 +98,19 @@ classdef cableClass<handle
         end
         
         
-       function setTransPTOLoc(obj)
+        function setTransPTOLoc(obj)
             % This method specifies the translational PTO location as half-
             % way between the fixed ends of the cable
             if ~any(obj.loc)
-                rotDiff = obj.rotloc1-obj.rotloc2;
+                rotDiff = obj.rotloc1 - obj.rotloc2;
                 obj.loc = obj.rotloc2 + rotDiff/2;
                 fprintf('\n\t loc undefined, set halfway between rotloc2 and rotloc1 \n')
             end
         end
         
         function obj = checkLoc(obj,action)
-            % This method checks WEC-Sim user inputs and generate an error message if the constraint location is not defined in constraintClass.            
+            % This method checks WEC-Sim user inputs and generate an error 
+            % message if the constraint location is not defined in constraintClass.          
             % Checks if location is set and outputs a warning or error. Used in mask Initialization.
             switch action
                 case 'W'
@@ -147,7 +133,9 @@ classdef cableClass<handle
         end
         
         function obj = setOrientation(obj)
-            % This method calculates the constraint ``x`` vector and ``rotationMatrix`` matrix in the ``orientation`` structure based on user input.
+            % This method calculates the constraint ``x`` vector and
+            % ``rotationMatrix`` matrix in the ``orientation`` structure
+            % based on user input.
             obj.orientation.z = obj.orientation.z / norm(obj.orientation.z);
             obj.orientation.y = obj.orientation.y / norm(obj.orientation.y);
             z = obj.orientation.z;
@@ -159,19 +147,7 @@ classdef cableClass<handle
             x = x(:)';
             obj.orientation.x = x;
             obj.orientation.rotationMatrix  = [x',y',z'];
-            %
-            obj.rotorientation.z = obj.rotorientation.z / norm(obj.rotorientation.z);
-            obj.rotorientation.y = obj.rotorientation.y / norm(obj.rotorientation.y);
-            z = obj.rotorientation.z;
-            y = obj.rotorientation.y;
-            if abs(dot(y,z))>0.001
-                error('The Y and Z vectors defining the constraint''s orientation must be orthogonal.')
-            end
-            x = cross(y,z)/norm(cross(y,z));
-            x = x(:)';
-            obj.rotorientation.x = x;
-            obj.rotorientation.rotationMatrix1  = [x',y',z'];
-            obj.rotorientation.rotationMatrix2  = [x',y',z'];
+            
         end
 
         function setInitDisp(obj, relCoord, axisAngleList, addLinDisp)
@@ -240,26 +216,26 @@ classdef cableClass<handle
             
         end
         
-        function linDampMatrix(obj)
-            % This method makes the linear damping vector (as specified) into a 6 x 6
-            % matrix with this damping along the diagonal (as required for
-            % calculation). Operates on the drag bodies representing the
-            % cable dynamics.
+        function linearDampingMatrix(obj)
+            % This method makes the linear damping vector (as specified)
+            % into a 6 x 6 matrix with this damping along the diagonal (as
+            % required for calculation). Operates on the drag bodies
+            % representing the cable dynamics.
             obj.linearDamping = diag(obj.linearDamping);
         end
         
         function setCb(obj)
             % This method sets the buoyancy center to equal the center of
             % gravity, if the center of buoyancy is not defined
-                obj.cb1=obj.cg1;
-                obj.cb2= obj.cg2;
+            obj.cb1 = obj.cg1;
+            obj.cb2 = obj.cg2;
         end
         
         function setCg(obj)
-            % This method specifies the Cg of the drag bodies as coinci-
-            %dent with the fixed ends of the cable, if not otherwise specied.
-                obj.cg1 = obj.rotloc1;
-                obj.cg2 = obj.rotloc2;
+            % This method specifies the Cg of the drag bodies as coincident
+            % with the fixed ends of the cable, if not otherwise specied.
+            obj.cg1 = obj.rotloc1;
+            obj.cg2 = obj.rotloc2;
         end
         
         function setL0(obj)
@@ -269,16 +245,19 @@ classdef cableClass<handle
                 obj.L0 = sqrt((obj.rotloc1(1)-obj.rotloc2(1)).^2 ...
                 + (obj.rotloc1(2)-obj.rotloc2(2)).^2 ...
                 + (obj.rotloc1(3)-obj.rotloc2(3)).^2);
-            fprintf('\n\t cable(i).L0 undefined and cable(i).preTension undefined. \n \r',...
-                'cable(i).L0 set equal to distance between rotloc2 and rotloc1 \n and cable(i).preTension set equal to zero \n')
+                fprintf('\n\t cable(i).L0 undefined and cable(i).preTension undefined. \n \r',...
+                    'cable(i).L0 set equal to distance between rotloc2 and rotloc1 \n and cable(i).preTension set equal to zero \n');
+                
             elseif ~any(obj.L0) && any(obj.preTension)
                 obj.L0 = sqrt((obj.rotloc1(1)-obj.rotloc2(1)).^2 ...
                 + (obj.rotloc1(2)-obj.rotloc2(2)).^2 ...
                 + (obj.rotloc1(3)-obj.rotloc2(3)).^2) + obj.preTension/obj.k;
+            
             elseif ~any(obj.preTension) && any(obj.L0)
                 obj.preTension = obj.k * (sqrt((obj.rotloc1(1)-obj.rotloc2(1)).^2 ...
                 + (obj.rotloc1(2)-obj.rotloc2(2)).^2 ...
                 + (obj.rotloc1(3)-obj.rotloc2(3)).^2) - obj.L0); 
+            
             elseif any(obj.preTension) && any(obj.L0)
                 error('System overdefined. Please define cable(i).preTension OR cable(i).L0, not both.')
             end

@@ -63,8 +63,8 @@ classdef responseClass<handle
     %   * ``time`` (`array`) = [# of time-steps x 1]
     %   * ``position`` (`array`) = [# of time-steps x 6]
     %   * ``velocity`` (`array`) = [# of time-steps x 6]
-    %   *  ``accleration`` (`array`) = [# of time-steps x 6]
-    %   *  ``forceConstraint`` (`array`) = [# of time-steps x 6]    
+    %   * ``accleration`` (`array`) = [# of time-steps x 6]
+    %   * ``forceConstraint`` (`array`) = [# of time-steps x 6]    
     %
     %.. autoattribute:: objects.responseClass.ptos
     %    
@@ -72,8 +72,8 @@ classdef responseClass<handle
     %   * ``time`` (`array`) = [# of time-steps x 1]
     %   * ``position`` (`array`) = [# of time-steps x 6]
     %   * ``velocity`` (`array`) = [# of time-steps x 6]
-    %   *  ``accleration`` (`array`) = [# of time-steps x 6]
-    %   *  ``forceTotal`` (`array`) = [# of time-steps x 6]
+    %   * ``accleration`` (`array`) = [# of time-steps x 6]
+    %   * ``forceTotal`` (`array`) = [# of time-steps x 6]
     %   * ``forceActuation`` (`array`) = [# of time-steps x 6]
     %   * ``forceConstraint`` (`array`) = [# of time-steps x 6]
     %   * ``forceInternalMechanics`` (`array`) = [# of time-steps x 6]
@@ -83,18 +83,16 @@ classdef responseClass<handle
     %    
 	%   * ``name`` (`string`) = 'cableName'
     %   * ``time`` (`array`) = [# of time-steps x 1]
-    %   * ``CableFTot`` (`array`) = [# of time-steps x 6]
-    %   * ``CableFAct`` (`array`) = [# of time-steps x 6]
-    %   * ``CableFCon`` (`array`) = [# of time-steps x 6]
-    %   * ``CableFIntMech`` (`array`) = [# of time-steps x 6]
-    %   * ``CablePIntMech`` (`array`) = [# of time-steps x 6]
-    %   * ``CableDisp`` (`array`) = [# of time-steps x 6]
+    %   * ``forceTotal`` (`array`) = [# of time-steps x 6]
+    %   * ``forceActuation`` (`array`) = [# of time-steps x 6]
+    %   * ``forceConstraint`` (`array`) = [# of time-steps x 6]
+    %   * ``displacement`` (`array`) = [# of time-steps x 6]
     % 
     %.. autoattribute:: objects.responseClass.mooring
     %    
     %   * ``position`` (`array`) = [# of time-steps x 6]
     %   * ``velocity`` (`array`) = [# of time-steps x 6]
-    %   *  ``forceMooring`` (`array`) = [# of time-steps x 6]
+    %   * ``forceMooring`` (`array`) = [# of time-steps x 6]
     %
     %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
     
@@ -213,10 +211,10 @@ classdef responseClass<handle
                     end
                 end
             end
-            % cable 
+            % Cable 
             if isstruct(cablesOutput)
-                signals = {'CableFTot','CableFAct','CableFCon',...
-                    'CableFIntMech','CablePIntMech','CableDisp'};
+                signals = {'forceTotal','forceActuation',...
+                    'forceConstraint','CableDisp'};
                 for ii = 1:length(cablesOutput)
                     obj.cable(ii).name = cablesOutput(ii).name;
                     obj.cable(ii).time = cablesOutput(ii).time;
