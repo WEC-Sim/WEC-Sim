@@ -79,7 +79,7 @@ classdef responseClass<handle
     %   * ``forceInternalMechanics`` (`array`) = [# of time-steps x 6]
     %   * ``powerInternalMechanics`` (`array`) = [# of time-steps x 6]
     %
-    %.. autoattribute:: objects.responseClass.cable
+    %.. autoattribute:: objects.responseClass.cables
     %    
 	%   * ``name`` (`string`) = 'cableName'
     %   * ``time`` (`array`) = [# of time-steps x 1]
@@ -105,7 +105,7 @@ classdef responseClass<handle
         ptos                = struct()     % This property generates the ``ptos`` structure for each instance of the ``ptoClass`` (i.e. for each PTO block)
         constraints         = struct()     % This property generates the ``constraints`` structure for each instance of the ``coonstraintClass`` (i.e. for each Constraint block)
         mooring             = struct()     % This property generates the ``mooring`` structure for each instance of the ``mooringClass`` (i.e. for each Mooring block)
-        cable               = struct()     % This property generates the ``cable`` structure for each instance of the ``cableClass`` (i.e. for each Cable block)
+        cables              = struct()     % This property generates the ``cables`` structure for each instance of the ``cableClass`` (i.e. for each Cable block)
         moorDyn             = struct()     % This property generates the ``moorDyn`` structure for each instance of the ``mooringClass`` using MoorDyn (i.e. for each MoorDyn block), it includes ``Lines``  and ``Line#``.
         ptosim              = struct()     % This property generates the ``ptosim`` structure for each instance of the ``ptoSimClass`` (i.e. for each PTO-Sim block).
     end
@@ -213,16 +213,15 @@ classdef responseClass<handle
                     end
                 end
             end
-            % Cable 
+            % Cables
             if isstruct(cablesOutput)
                 signals = {'position','velocity','acceleration','forceTotal','forceActuation',...
                     'forceConstraint'};
-                nSignals = length(signals);
                 for ii = 1:length(cablesOutput)
-                    obj.cable(ii).name = cablesOutput(ii).name;
-                    obj.cable(ii).time = cablesOutput(ii).time;
-                    for jj = 1:nSignals
-                        obj.cable(ii).(signals{jj}) = cablesOutput(ii).signals.values(:,(jj-1)*6+1:(jj-1)*6+6);
+                    obj.cables(ii).name = cablesOutput(ii).name;
+                    obj.cables(ii).time = cablesOutput(ii).time;
+                    for jj = 1:length(signals)
+                        obj.cables(ii).(signals{jj}) = cablesOutput(ii).signals.values(:,(jj-1)*6+1:(jj-1)*6+6);
                     end
                 end
             end
