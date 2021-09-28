@@ -47,8 +47,8 @@ classdef waveClass<handle
         wavegauge2loc = [NaN,NaN];  % (`1x2 vector`) Wave gauge 2 [x,y] location [m]. Default = ``[NaN,NaN]``
         wavegauge3loc = [NaN,NaN];  % (`1x2 vector`) Wave gauge 3 [x,y] location [m]. Default = ``[NaN,NaN]``
         markLoc       = [];         % (`nx2 vector`) Marker [X,Y] locations [m]. Default = ``[]``
-        markStyle     = [];         % (`integer`) Marker style, options include: ``1``: Sphere, ``2``: Cube, ``3``: Frame. Default = ``[]``
-        markSize      = [];         % (`integer`) Marker size in Pixels. Default = ``[]``
+        markerStyle     = [];         % (`integer`) Marker style, options include: ``1``: Sphere, ``2``: Cube, ``3``: Frame. Default = ``[]``
+        markerSize      = [];         % (`integer`) Marker size in Pixels. Default = ``[]``
         currentOption = 3;      % (`integer`) Define the sub-surface current model to be used in WEC-Sim, options include: ``0`` for depth-independent model, ``1`` for 1/7 power law variation with depth, ``2`` for linear variation with depth, or ``3`` for no current. Default = ``3`` 
         currentSpeed = 0;       % (`float`) Current seed [m/s]. Surface current speed that is uniform along the water column. Default = ``0``
         currentDirection = 0;   % (`float`) Current direction [deg]. Surface current direction defined using WEC-Sim global coordinate system. Default = ``0``
@@ -511,8 +511,8 @@ classdef waveClass<handle
             end
             
             
-            obj.markStyle   = obj.markStyle;
-            obj.markSize    = obj.markSize;
+            obj.markerStyle   = obj.markerStyle;
+            obj.markerSize    = obj.markerSize;
             obj.waveAmpTime = zeros(maxIt+1,2);
             if ~isnan(obj.wavegauge1loc)
                 obj.waveAmpTime1 = zeros(maxIt+1,2);
@@ -686,8 +686,8 @@ classdef waveClass<handle
             end
             end
             
-            obj.markStyle   = obj.markStyle;
-            obj.markSize    = obj.markSize;
+            obj.markerStyle   = obj.markerStyle;
+            obj.markerSize    = obj.markerSize;
             obj.waveAmpTime = zeros(maxIt+1,2);
             if ~isnan(obj.wavegauge1loc)
                 obj.waveAmpTime1 = zeros(maxIt+1,2);
