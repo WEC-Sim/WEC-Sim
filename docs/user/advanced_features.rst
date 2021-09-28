@@ -869,7 +869,10 @@ For more information about using ParaView for visualization, refer to the **Visu
 
     The user only needs to define an array of locations to initiate the visualization by an array of visualization blocks.
 
+.. Note:: 
 
+    This feature is not compatible with user-defined waves ``waves = waveClass('etaImport')``
+    
 .. Note:: 
 
     The examples are saved in the 'Visualization Markers Examples' subdirectory in the `WEC-Sim Applications <https://github.com/WEC-Sim/WEC-Sim_Applications>`_ repository. 

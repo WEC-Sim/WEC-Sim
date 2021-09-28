@@ -17,7 +17,6 @@
 % limitations under the License.
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
-
 classdef waveClass<handle
     %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
     % The  ``waveClass`` creates a ``waves`` object saved to the MATLAB
@@ -26,9 +25,7 @@ classdef waveClass<handle
     %
     %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
     
-    properties (SetAccess = 'public', GetAccess = 'public')         
-        % The following properties are public, and can be defined in the
-        % ``wecSimInputFile.m``.
+    properties (SetAccess = 'public', GetAccess = 'public')%input file     
         type = 'NOT DEFINED'; % (`string`) Specifies the wave type, options include:``noWave``, ``noWaveCIC``, ``regular``, ``regularCIC``, ``irregular``, ``spectrumImport``, or ``etaImport``. Default = ``'NOT DEFINED'``
         T = 'NOT DEFINED';  % (`float`) Wave period [s] . Defined as wave period for ``regular``, peak period for ``irregular``, or period of BEM data used for hydrodynamic coefficients for ``noWave``. Default = ``'NOT DEFINED'``
         H = 'NOT DEFINED';  % (`float`) Wave height [m]. Defined as wave height for ``regular``, or significant wave height for ``irregular``. Default =  ``'NOT DEFINED'``
@@ -49,17 +46,16 @@ classdef waveClass<handle
         wavegauge1loc = [NaN,NaN];  % (`1x2 vector`) Wave gauge 1 [x,y] location [m]. Default = ``[NaN,NaN]``
         wavegauge2loc = [NaN,NaN];  % (`1x2 vector`) Wave gauge 2 [x,y] location [m]. Default = ``[NaN,NaN]``
         wavegauge3loc = [NaN,NaN];  % (`1x2 vector`) Wave gauge 3 [x,y] location [m]. Default = ``[NaN,NaN]``
-        markLoc       = [];         % Marker Locations [X,Y]
-        markStyle     = [];         % 1: Sphere, 2: Cube, 3: Frame.
-        markSize      = [];         % Marker Size in Pixels
+        markLoc       = [];         % (`nx2 vector`) Marker [X,Y] locations [m]. Default = ``[]``
+        markStyle     = [];         % (`integer`) Marker style, options include: ``1``: Sphere, ``2``: Cube, ``3``: Frame. Default = ``[]``
+        markSize      = [];         % (`integer`) Marker size in Pixels. Default = ``[]``
         currentOption = 3;      % (`integer`) Define the sub-surface current model to be used in WEC-Sim, options include: ``0`` for depth-independent model, ``1`` for 1/7 power law variation with depth, ``2`` for linear variation with depth, or ``3`` for no current. Default = ``3`` 
         currentSpeed = 0;       % (`float`) Current seed [m/s]. Surface current speed that is uniform along the water column. Default = ``0``
         currentDirection = 0;   % (`float`) Current direction [deg]. Surface current direction defined using WEC-Sim global coordinate system. Default = ``0``
         currentDepth = 0;       % (`float`) Current depth [m]. Define the depth over which the sub-surface current is modeled. Must be defined for options ``1`` and ``2``. The current is not calculated for any depths greater than the specified current depth. Default = ``0``
-    end
-    
-    
-    properties (SetAccess = 'private', GetAccess = 'public')       
+    end    
+  
+    properties (SetAccess = 'private', GetAccess = 'public')%internal       
         % The following properties are private, for internal use by WEC-Sim
         typeNum = [];       % Number to represent different type of waves        
         bemFreq = [];       % Number of wave frequencies from BEM
@@ -68,7 +64,7 @@ classdef waveClass<handle
         waveAmpTime1 = [];  % Wave elevation time history at a wave gauge 1 location specified by user [m] 
         waveAmpTime2 = [];  % Wave elevation time history at a wave gauge 2 location specified by user [m] 
         waveAmpTime3 = [];  % Wave elevation time history at a wave gauge 3 location specified by user [m] 
-        waveAmpTimeViz = [];
+        waveAmpTimeViz = [];% Wave elevation time history at marker locations specified by user [m] 
         A = [];             % Wave amplitude [m]. For regular waves or 2*(wave spectrum vector) for irregular waves
         w = [];             % Wave frequency (regular waves) or wave frequency vector (irregular waves) [rad/s] 
         phase = 0;          % Wave phase [rad] . Only used for ``irregular`` waves.
