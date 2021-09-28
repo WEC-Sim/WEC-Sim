@@ -1,7 +1,7 @@
 .. _user-applications:
 
-Applications
-============
+WEC-Sim Applications
+========================
 
 The `WEC-Sim Applications <https://github.com/WEC-Sim/WEC-Sim_Applications>`_ 
 repository contains many more applications of the WEC-Sim code that demonstrate 
@@ -90,7 +90,7 @@ Nonlinear Hydrodynamic Body
 
 Example using :ref:`Nonlinear Hydro <user-advanced-features-nonlinear>`
 to run WEC-Sim for a :ref:`heaving ellipsoid <user-advanced-features-nonlinear-tutorial-heaving-ellipsoid>`.
-Includes examples of running non-linear hydrodynamics with different :ref:`fixed and
+Includes examples of running nonlinear hydrodynamics with different :ref:`fixed and
 variable time-step solvers <user-advanced-features-time-step>`
 (ode4/ode45), and different regular wave formulations (with/without CIC). 
 Execute the `runNL.m` script to run this case. 

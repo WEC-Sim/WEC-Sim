@@ -59,15 +59,17 @@ classdef bodyClass<handle
             'opacity', 1)                                    % Structure defining visualization properties in either SimScape or Paraview. ``color`` (`3x1 float vector`) is defined as the body visualization color, Default = [``1 1 0``]. ``opacity`` (`integer`) is defined as the body opacity, Default = ``1``.
         bodyparaview      = 1;                               % (`integer`) Flag for visualisation in Paraview either 0 (no) or 1 (yes). Default = ``1`` since only called in paraview.
         morisonElement    = struct(...                       % 
+            'option',              0,...                     %
             'cd',                 [0 0 0], ...               % 
             'ca',                 [0 0 0], ...               % 
             'characteristicArea', [0 0 0], ...               % 
             'VME',                 0     , ...               % 
             'rgME',               [0 0 0], ...               %
-            'z',                  [0 0 1])                   % Structure defining the Morison Element properties connected to the body. ``cd`` (`1x3 float vector`) is defined as the viscous normal and tangential drag coefficients in the following format, Option 1 [cd_x cd_y cd_z], Option 2 [cd_N cd_T NaN], Default = [``NaN NaN NaN``]. ``ca`` is defined as the added mass coefficent for the Morison Element in the following format, Option 1 [ca_x ca_y ca_z], Option 2 [ca_N ca_T NaN], Default = [``NaN NaN NaN``], ``characteristicArea`` is defined as the characteristic area for the Morison Element [m^2] in the following format, Option 1 [Area_x Area_y Area_z], Option 2 [Area_N Area_T NaN], Default = [NaN NaN NaN]. ``VME`` is the characteristic volume of the Morison Element [m^3], Default = ``NaN``. ``rgME`` is defined as the vector from the body COG to point of application for the Morison Element [m] in the following format [x y z], Default = [``NaN NaN NaN``].``z`` is defined as the unit normal vector center axis of the Morison Element in the following format, Option 1 not used, Option 2 [n_{x} n_{y} n_{z}], Default = [``NaN NaN NaN``].
+            'z',                  [0 0 1])                   % Structure defining the Morison Element properties connected to the body. ``option`` (`1x1 integer`) for Morison Element calculation: off->0, on->1 or 2, default = ``0``, Option 1 uses an approach that allows the user to define drag and inertial coefficients along the x-, y-, and z-axes and Option 2 uses an approach that defines the Morison Element with normal and tangential tangential drag and interial coefficients. ``cd`` (`1x3 float vector`) is defined as the viscous normal and tangential drag coefficients in the following format, Option 1 [cd_x cd_y cd_z], Option 2 [cd_N cd_T NaN], Default = [``0 0 0``]. ``ca`` is defined as the added mass coefficent for the Morison Element in the following format, Option 1 [ca_x ca_y ca_z], Option 2 [ca_N ca_T NaN], Default = [``0 0 0``], ``characteristicArea`` is defined as the characteristic area for the Morison Element [m^2] in the following format, Option 1 [Area_x Area_y Area_z], Option 2 [Area_N Area_T NaN], Default = [``0 0 0``]. ``VME`` is the characteristic volume of the Morison Element [m^3], Default = ``0``. ``rgME`` is defined as the vector from the body COG to point of application for the Morison Element [m] in the following format [x y z], Default = [``0 0 0``]. ``z`` is defined as the unit normal vector center axis of the Morison Element in the following format, Option 1 not used, Option 2 [n_{x} n_{y} n_{z}], Default = [``0 0 1``]. 
         nhBody            = 0                                % (`integer`) Flag for non-hydro body either 0 (no) or 1 (yes). Default = ``0``.
         flexHydroBody     = 0                                % (`integer`) Flag for flexible body either 0 (no) or 1 (yes). Default = ``0``.
         meanDriftForce    = 0                                % (`integer`) Flag for mean drift force with three options:  0 (no), 1 (yes, from control surface) or 2 (yes, from momentum conservation). Default = ``0``.
+        nlHydro           = 0                                % (`integer`) Option for nonlinear hydrohanamics calculation: linear->0, nonlinear->1,2. Default = ``0``
     end
     
     properties (SetAccess = 'public', GetAccess = 'public')  %body geometry stl file
@@ -186,12 +188,20 @@ classdef bodyClass<handle
             obj.dof_gbm   = obj.dof-6;
         end
         
+        function nonHydroForcePre(obj,rho)
+            % nonHydro Pre-processing calculations
+            % Similar to dragForcePre, but only adjusts the mass for cases 
+            % using 'fixed' or 'equilibrium' 
+            obj.setMassMatrix(rho);
+        end
+        
         function dragForcePre(obj,rho)
             % DragBody Pre-processing calculations
             % Similar to hydroForcePre, but only loads in the necessary
             % values to calculate linear damping and viscous drag. Note
             % that body DOF is inherited from the length of the drag
             % coefficients.
+            obj.setMassMatrix(rho);
             if  any(any(obj.viscDrag.Drag)) == 1  %check if obj.viscDrag.Drag is defined
                 obj.hydroForce.visDrag = obj.viscDrag.Drag;
             else
@@ -201,11 +211,11 @@ classdef bodyClass<handle
             obj.dof = length(obj.viscDrag.Drag);
         end
         
-        function hydroForcePre(obj,w,waveDir,CIkt,CTTime,numFreq,dt,rho,g,waveType,waveAmpTime,iBod,numBod,ssCalc,nlHydro,B2B,yawFlag)
+        function hydroForcePre(obj,w,waveDir,CIkt,CTTime,numFreq,dt,rho,g,waveType,waveAmpTime,iBod,numBod,ssCalc,B2B,yawFlag)
             % HydroForce Pre-processing calculations
             % 1. Set the linear hydrodynamic restoring coefficient, viscous drag, and linear damping matrices
             % 2. Set the wave excitation force
-            obj.setMassMatrix(rho,nlHydro)
+            obj.setMassMatrix(rho)
             if (obj.dof_gbm>0)
                 % obj.linearDamping = [obj.linearDamping zeros(1,obj.dof-length(obj.linearDamping))];
                 tmp0 = obj.linearDamping;
@@ -517,7 +527,7 @@ classdef bodyClass<handle
                 BEMdir=sort(obj.hydroData.simulation_parameters.wave_dir);
                 boundDiff(1)=abs(-180 - BEMdir(1)); boundDiff(2)=abs(180 - BEMdir(end));
                 if length(BEMdir)<3 || std(diff(BEMdir))>5 || max(boundDiff)>15
-                    warning(['Non-linear yaw is not recommended without BEM data spanning a full yaw rotation -180 to 180 dg.' newline 'Please inspect BEM data for gaps'])
+                    warning(['Nonlinear yaw is not recommended without BEM data spanning a full yaw rotation -180 to 180 dg.' newline 'Please inspect BEM data for gaps'])
                     clear BEMdir
                 end % wrap BEM directions -180 to 180 dg, if they are not already there
                 [sortedDir,idx]=sort(wrapTo180(obj.hydroData.simulation_parameters.wave_dir));
@@ -560,7 +570,7 @@ classdef bodyClass<handle
                 BEMdir=sort(obj.hydroData.simulation_parameters.wave_dir);
                 boundDiff(1)=abs(-180 - BEMdir(1)); boundDiff(2)=abs(180 - BEMdir(end));
                 if length(BEMdir)<3 || std(diff(BEMdir))>5 || max(boundDiff)>15
-                    warning(['Non-linear yaw is not recommended without BEM data spanning a full yaw rotation -180 to 180 dg.' newline 'Please inspect BEM data for gaps'])
+                    warning(['Nonlinear yaw is not recommended without BEM data spanning a full yaw rotation -180 to 180 dg.' newline 'Please inspect BEM data for gaps'])
                     clear BEMdir boundDiff
                 end
                 [sortedDir,idx]=sort(wrapTo180(obj.hydroData.simulation_parameters.wave_dir));
@@ -716,13 +726,13 @@ classdef bodyClass<handle
             end
         end
         
-        function setMassMatrix(obj, rho, nlHydro)
+        function setMassMatrix(obj, rho)
             % This method sets mass for the special cases of body at equilibrium or fixed and is used by hydroForcePre.
             if strcmp(obj.mass, 'equilibrium')
                 obj.massCalcMethod = obj.mass;
-                if nlHydro == 0
+                if obj.nhBody == 0 && obj.nlHydro == 0
                     obj.mass = obj.hydroData.properties.disp_vol * rho;
-                else
+                elseif obj.nhBody == 0 && obj.nlHydro ~= 0
                     cg_tmp = obj.hydroData.properties.cg;
                     z = obj.bodyGeometry.center(:,3) + cg_tmp(3);
                     z(z>0) = 0;
@@ -730,6 +740,8 @@ classdef bodyClass<handle
                     av = [area area area] .* -obj.bodyGeometry.norm;
                     tmp = rho*[z z z].*-av;
                     obj.mass = sum(tmp(:,3));
+                else
+                    obj.mass = obj.dispVol * rho;
                 end
             elseif strcmp(obj.mass, 'fixed')
                 obj.massCalcMethod = obj.mass;

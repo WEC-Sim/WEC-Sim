@@ -37,12 +37,12 @@
 % Initialize WEC-Sim
 run('wecSimInputFile');
 simFile = simu.simMechanicsFile;
-% clearvars -except simFile
 clear simu waves body cable pto constraint ptosim mooring 
+clear simu waves body pto constraint ptosim mooring 
 
 runWecSimCML = 1;
-run('wecSimInitialize');
+run('initializeWecSim');
 sim(simFile, [], simset('SrcWorkspace','parent'));
 
-% Post-processing called as the Global Reference Frame stop function 
-% in Simulink
+% Post-processing called from the Global Reference Frame 
+% stop function in Simulink, run('stopWecSim')
