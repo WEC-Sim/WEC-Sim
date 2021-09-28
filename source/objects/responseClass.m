@@ -83,10 +83,12 @@ classdef responseClass<handle
     %    
 	%   * ``name`` (`string`) = 'cableName'
     %   * ``time`` (`array`) = [# of time-steps x 1]
+    %   * ``position`` (`array`) = [# of time-steps x 6]
+    %   * ``velocity`` (`array`) = [# of time-steps x 6]
+    %   * ``accleration`` (`array`) = [# of time-steps x 6]
     %   * ``forceTotal`` (`array`) = [# of time-steps x 6]
     %   * ``forceActuation`` (`array`) = [# of time-steps x 6]
     %   * ``forceConstraint`` (`array`) = [# of time-steps x 6]
-    %   * ``displacement`` (`array`) = [# of time-steps x 6]
     % 
     %.. autoattribute:: objects.responseClass.mooring
     %    
@@ -213,17 +215,14 @@ classdef responseClass<handle
             end
             % Cable 
             if isstruct(cablesOutput)
-                signals = {'forceTotal','forceActuation',...
-                    'forceConstraint','CableDisp'};
+                signals = {'position','velocity','acceleration','forceTotal','forceActuation',...
+                    'forceConstraint'};
+                nSignals = length(signals);
                 for ii = 1:length(cablesOutput)
                     obj.cable(ii).name = cablesOutput(ii).name;
                     obj.cable(ii).time = cablesOutput(ii).time;
-                    for jj = 1:length(signals)
-                        if jj<length(signals) % first signals are 6 wide
-                            obj.cable(ii).(signals{jj}) = cablesOutput(ii).signals.values(:,(jj-1)*6+1:(jj-1)*6+6);
-                        else % last signal is 1 wide
-                            obj.cable(ii).(signals{jj}) = cablesOutput(ii).signals.values(:,(jj-1)*6+1:(jj-1)*6+1);
-                        end
+                    for jj = 1:nSignals
+                        obj.cable(ii).(signals{jj}) = cablesOutput(ii).signals.values(:,(jj-1)*6+1:(jj-1)*6+6);
                     end
                 end
             end

@@ -36,7 +36,7 @@ classdef cableClass<handle
         L0                      = 0                                         % (`float`) Cable equilibrium length (m), calculated from rotloc and preTension. Default =`0`.
         preTension              = 0                                         % (`float`) Cable pretension (N).    
         bodyMass                = 1;                                        % (`float`) mass in kg, default 1
-        bodyInertia             = [ 1 1 1];                                 % (`1 x 3 float vector`) body inertia kg-m^2, default [1 1 1]
+        bodyInertia             = [1 1 1];                                  % (`1 x 3 float vector`) body inertia kg-m^2, default [1 1 1]
         orientation             = struct(...                                %
             'z', [0, 0, 1], ...                                             %
             'y', [0, 1, 0], ...                                             %
@@ -100,8 +100,9 @@ classdef cableClass<handle
         
         function setTransPTOLoc(obj)
             % This method specifies the translational PTO location as half-
-            % way between the fixed ends of the cable
-            if ~any(obj.loc)
+            % way between the fixed ends of the cable if not previously
+            % set.
+            if any(obj.loc == [999 999 999])
                 rotDiff = obj.rotloc1 - obj.rotloc2;
                 obj.loc = obj.rotloc2 + rotDiff/2;
                 fprintf('\n\t loc undefined, set halfway between rotloc2 and rotloc1 \n')
