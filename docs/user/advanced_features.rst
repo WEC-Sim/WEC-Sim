@@ -135,7 +135,7 @@ For Multiple Condition Runs, the ``*.h5`` hydrodynamic data is only loaded
 once. To reload the ``*.h5`` data between runs, set ``simu.reloadH5Data =1`` in 
 the WEC-Sim input file. 
 
-If the Simulink model relies upon ``From Workspace`` input blocks other than those utilized by the WEC-Sim library blocks (e.g. ``Wave.etaDataFile``), these can be iterated through using Option 3. The MCR file header MUST be a cell containing the exact string ``'LoadFile'``. The pathways of the files to be loaded to the workspace must be given in the ``cases`` field of the MCR *.mat* file. WEC-Sim MCR will then run WEC-Sim in sequence, once for each file to be loaded. The variable name of each loaded file shoud be consistent, and specified by the ``From Workspace`` block.  
+If the Simulink model relies upon ``From Workspace`` input blocks other than those utilized by the WEC-Sim library blocks (e.g. ``Wave.etaDataFile``), these can be iterated through using Option 3. The MCR file header MUST be a cell containing the exact string ``'LoadFile'``. The pathways of the files to be loaded to the workspace must be given in the ``cases`` field of the MCR *.mat* file. WEC-Sim MCR will then run WEC-Sim in sequence, once for each file to be loaded. The variable name of each loaded file should be consistent, and specified by the ``From Workspace`` block.  
 
 For more information, refer to :ref:`webinar1`, and the **RM3_MCR** example on the `WEC-Sim Applications <https://github.com/WEC-Sim/WEC-Sim_Applications>`_ repository. 
 
@@ -739,7 +739,7 @@ Generalized Body Modes
 
 To use this, select a Flex Body Block from the WEC-Sim Library (under Body 
 Elements) and initialize it in the WEC-Sim input file as any other body. 
-Calculating dynamic response of WECs considering structural flexibilities using 
+Calculating dynamic response of WECs considering structural flexibility using 
 WEC-Sim should consist of multiple steps, including: 
 
 * Modal analysis of the studied WEC to identify a set of system natural 
@@ -842,6 +842,81 @@ Paraview Visualization
 WEC-Sim Visualization
 ---------------------
 
+Visualization in SimScape Mechanics Explorer
+^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+The user can visualize the wave elevations at various locations using graphical 
+marker in SimScape Mechanics Explorer. The User needs to define an array of 
+[X,Y] coordinates, the marker style (sphere, cube, frames), and the marker 
+size in pixels.
+The Global reference block programmatically initiates and adds/deletes the 
+visualization blocks based on the number of markers *(0 to N)* defined by the user,
+Here are the steps to enable and define visualization blocks,
+
+1. Define an array by defining: ``waves.markLoc = []``, where the first column defines the X coordinates, and the second column defines the corresponding Y coordinates
+
+2.  Define marker style by defining: ``waves.markStyle = []`` where 1: Sphere, 2: Cube, 3: Frame
+
+3. Define marker size in pixels by defining : ``waves.markSize = []`` to specify Marker Size in Pixels
+
+.. Here is an example. In this example a mesh of points is described using the meshgrid command and then  making it an array of X and Y coordinates using reshape(). 
+
+For more information about using ParaView for visualization, refer to the **Visualization_Markers** examples on the `WEC-Sim Applications <https://github.com/WEC-Sim/WEC-Sim_Applications>`_ repository.
+
+
+
+.. Note:: 
+
+    The user only needs to define an array of locations to initiate the visualization by an array of visualization blocks.
+
+
+.. Note:: 
+
+    The examples are saved in the 'Visualization Markers Examples' subdirectory in the `WEC-Sim Applications <https://github.com/WEC-Sim/WEC-Sim_Applications>`_ repository. 
+
+.. Note:: 
+
+    The graphic markers will always be depicted on top of the visualization in SimScape Mechanics Explorer. 
+    The user is advised to adapt the marker size and the viewing vantage point based on the particular case.
+
+.. figure:: /_static/images/RM3_vizMarker.jpg
+   :width: 250pt
+   :figwidth: 250pt
+   :align: center
+
+   Demonstration of visualization markers in SimScape Mechanics Explorer.
+   
+
+Plot Waves
+^^^^^^^^^^
+
+The ``responseClass.plotWaves()`` method can be used to create a complete 
+animation of the simulation. The animation shows the 3D response of all bodies
+over time on top of a surface plot of the entire directional wave field. The 
+default wave domain is defined by ``simu.domainSize``, ``waves.waterDepth``, and
+the maximum height that the STL mesh of any body reaches. Users may optionally 
+input the axis limits to restrict or widen the field of view, the time steps per 
+animation frame, and the output file format. Users can choose to save the animation
+as either a ``.gif`` or ``.avi`` file. This function can take significant time to 
+run depending on simulation time and time step, however it may be faster and easier 
+than Paraview. Users are still recommended to use the provided Paraview macros for 
+more complex animations and analysis.
+
+For example, in the OSWEC case the command 
+``output.plotWaves(simu,body,waves,'timesPerFrame',5,'axisLimits',[-50 50 -50 50 -12 20])``
+results in the following figure:
+
+.. figure:: /_static/images/OSWEC_plotWaves.PNG
+   :width: 250pt
+   :figwidth: 250pt
+   :align: center
+   
+   Demonstration of output.plotWaves() method for the OSWEC example.   
+   
+
+WEC-Sim Post-Processing
+------------------------
+
 The WEC-Sim contains several built in methods inside the response class and wave 
 class to assist users in visualizing WEC-Sim output: ``output.plotForces``, 
 ``output.plotResponse``, ``output.plotWaves``, ``waves.plotEta``, and
@@ -888,92 +963,6 @@ of the 1st body. The position, velocity and acceleration of that body is shown.
    
    Demonstration of output.plotResponse() method for the OSWEC example.
 
-Visualization in SimScape Mechanics Explorer
-^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
-
-The user can visualize the wave elevations at various locations using graphical 
-marker in SimScape Mechanics Explorer. The User needs to define an array of 
-[X,Y] corrdinates, the marker style (sphere, cube, frames), and the marker 
-size in pixels.
-The Global reference block programmatically initiates and adds/deletes the 
-visualization blocks based on the number of markers *(0 to N)* defined by the user,
-Here are the steps to enable and define visualization blocks,
-
-1. Define an array with the first column defining the X coordinates, and the 
-second column defining the corresponding Y coordinates. 
-The user should define,
-
- ``'waves.markLoc = [].'``
-
-2.  Define marker style by defining 
-
-``'waves.markStyle = [];' % 1: Sphere, 2: Cube, 3: Frame.``
-
-3. Define marker size in pixels by defining 
-
-``'waves.markSize    = [];'   % Marker Size in Pixels``
-
-Here is an example. In this example a mesh of points is described using the 
-meshgrid command and then  making it an array of X and Y coordinates using reshape(). 
-
-.. Note:: 
-
-    The user only needs to define an array of locations to initiate the visualization by an array of visualization blocks.
-
-Examples:
-
-1. An example with a square mesh of visualization blocks:
-For :code:
-``mrk = 10;``
-``dmrk = 5;``
-``[X,Y] = meshgrid(-mrk:dmrk:mrk,-mrk:dmrk:mrk);``
-``waves.markLoc = [reshape(X,[],1),reshape(Y,[],1)]; % Marker Locations [X,Y]``
-``clear('mrk','dmrk','X','Y')``
-
-``waves.markStyle   = 3;    % 1: Sphere, 2: Cube, 3: Frame.``
-``waves.markSize    = 20;   % Marker Size in Pixels.``
-
-.. Note:: 
-
-    The examples are saved in the 'Visualization Markers Examples' subdirectory in the `WEC-Sim Applications <https://github.com/WEC-Sim/WEC-Sim_Applications>`_ repository. 
-
-.. Note:: 
-
-    The graphic markers will always be depicted on top of the visualization in SimScape Mechanics Explorer. 
-    The user is advised to adapt the marker size and the viewing vantage point based on the particular case.
-
-.. figure:: /_static/images/RM3_vizMarker.jpg
-   :width: 250pt
-   :figwidth: 250pt
-   :align: center
-
-   Demonstration of visualization markers in SimScape Mehcanics Explorer.
-
-Plot Waves
-^^^^^^^^^^
-
-The ``responseClass.plotWaves()`` method can be used to create a complete 
-animation of the simulation. The animation shows the 3D response of all bodies
-over time on top of a surface plot of the entire directional wave field. The 
-default wave domain is defined by ``simu.domainSize``, ``waves.waterDepth``, and
-the maximum height that the STL mesh of any body reaches. Users may optionally 
-input the axis limits to restrict or widen the field of view, the timesteps per 
-animation frame, and the output file format. Users can choose to save the animation
-as either a ``.gif`` or ``.avi`` file. This function can take significant time to 
-run depending on simulation time and time step, however it may be faster and easier 
-than Paraview. Users are still recommended to use the provided Paraview macros for 
-more complex animations and analysis.
-
-For example, in the OSWEC case the command 
-``output.plotWaves(simu,body,waves,'timesPerFrame',5,'axisLimits',[-50 50 -50 50 -12 20])``
-results in the following figure:
-
-.. figure:: /_static/images/OSWEC_plotWaves.PNG
-   :width: 250pt
-   :figwidth: 250pt
-   :align: center
-   
-   Demonstration of output.plotWaves() method for the OSWEC example.
 
 
 Plot Eta
@@ -1004,10 +993,6 @@ of an irregular or spectrum import wave. No input parameters are required.
    :align: center
    
    Demonstration of waves.plotSpectrum() method for the OSWEC example.
-
-
-
-
 
 
 
