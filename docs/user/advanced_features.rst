@@ -878,7 +878,7 @@ For :code:
 
 .. Note:: 
 
-    The `WEC-Sim Applications <https://github.com/WEC-Sim/WEC-Sim_Applications>`_ repository has a demonstration for this approach. 
+    The examples are saved in the 'Visualization Markers Examples' subdirectory in the `WEC-Sim Applications <https://github.com/WEC-Sim/WEC-Sim_Applications>`_ repository. 
 
 .. Note:: 
 
