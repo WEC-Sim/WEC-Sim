@@ -64,7 +64,7 @@
 
 #Examples
 wecSimInputFile_simulinkCustomParameters.m
-**.slx.r2019b
+**.slx.*
 
 # Tests
 /tests/**/**/*.mat
