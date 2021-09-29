@@ -59,6 +59,8 @@ classdef cableClass<handle
  
     properties (SetAccess = 'public', GetAccess = 'public')%internal
         cableNum                = []                                       	% Cable number
+        baseConnectionName      = '';                                       % (`string`) name of the base constraint or PTO
+        followerConnectionName  = '';                                       % (`string`) name of the follower constraint or PTO
         loc                     = [999 999 999]                             % (`3x1 float vector`) pto location [m]. Defined in the following format [x y z]. Default = ``[999 999 999]``.    
         rotloc1                 = [999 999 999]                             % (`3x1 float vector`) base location [m]. Defined in the following format [x y z]. Default = ``[999 999 999]``.
         rotloc2                 = [999 999 999]                             % (`3x1 float vector`) follower location [m]. Defined in the following format [x y z]. Default = ``[999 999 999]``.
@@ -72,7 +74,7 @@ classdef cableClass<handle
     %%
     methods
         
-        function obj = cableClass(name,baseConnection,followerConnection)
+        function obj = cableClass(name,baseConnectionName,followerConnectionName)
             % This method initilizes the ``cableClass`` and creates a
             % ``cable`` object.
             %
@@ -81,11 +83,11 @@ classdef cableClass<handle
             %     name : string
             %         String specifying the name of the cable
             % 
-            %     baseConnection : obj
-            %         Object for the base constraint/pto
+            %     baseConnection : string
+            %         Variable for the base constraint/pto as a string
             % 
-            %     followerConnection : obj
-            %         Object for the follower constraint/pto
+            %     followerConnection : string
+            %         Variable for the follower constraint/pto as a string
             %
             % Returns
             % ------------
@@ -93,10 +95,11 @@ classdef cableClass<handle
             %         cableClass object
             %
             obj.name = name;
-            obj.rotloc1 = baseConnection.loc; 
-            obj.rotloc2 = followerConnection.loc; 	                        
+            obj.baseConnectionName = baseConnectionName;
+            obj.followerConnectionName = followerConnectionName;
+            obj.rotloc1 = evalin('caller',[baseConnectionName '.loc']);
+            obj.rotloc2 = evalin('caller',[followerConnectionName '.loc']);
         end
-        
         
         function setTransPTOLoc(obj)
             % This method specifies the translational PTO location as half-
