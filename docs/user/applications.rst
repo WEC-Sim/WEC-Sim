@@ -123,8 +123,8 @@ Examples of WEC-Sim models using PTO-Sim are included for the :ref:`RM3 <user-tu
 geometry and :ref:`OSWEC <user-tutorials-oswec>`
 geometry.
 
-Visualization Markers Examples
-^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+Visualization Markers
+^^^^^^^^^^^^^^^^^^^^^^
 
 Examples of WEC-Sim with Wave Elevation visualization at User-Defined Locations.
 The setup for the visualization can be found at `Advanced Features <https://github.com/WEC-Sim/advanced_features>`
@@ -133,8 +133,8 @@ WECCCOMP
 ^^^^^^^^
 
 Numerical model for the WEC Control Competition (WECCCOMP) using WEC-Sim to 
-model the WaveStar with various fault implementations can be found in the `WECCCOMP <https://github.com/WEC-Sim/WECCCOMP>`_ repository. See the project report 
-written by Erica Lindbeck in the "report" folder. 
+model the WaveStar with various fault implementations can be found in the `WECCCOMP <https://github.com/WEC-Sim/WECCCOMP>`_ repository. 
+See the project report written by Erica Lindbeck in the "report" folder. 
 
 Write HDF5
 ^^^^^^^^^^

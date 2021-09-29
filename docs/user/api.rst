@@ -1,4 +1,4 @@
-.. _dev-api:
+.. _user-api:
 
 API
 ===

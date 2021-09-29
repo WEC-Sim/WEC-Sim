@@ -46,9 +46,9 @@ classdef waveClass<handle
         wavegauge1loc = [NaN,NaN];  % (`1x2 vector`) Wave gauge 1 [x,y] location [m]. Default = ``[NaN,NaN]``
         wavegauge2loc = [NaN,NaN];  % (`1x2 vector`) Wave gauge 2 [x,y] location [m]. Default = ``[NaN,NaN]``
         wavegauge3loc = [NaN,NaN];  % (`1x2 vector`) Wave gauge 3 [x,y] location [m]. Default = ``[NaN,NaN]``
-        markerLoc       = [];         % (`nx2 vector`) Marker [X,Y] locations [m]. Default = ``[]``
-        markerStyle     = [];         % (`integer`) Marker style, options include: ``1``: Sphere, ``2``: Cube, ``3``: Frame. Default = ``[]``
-        markerSize      = [];         % (`integer`) Marker size in Pixels. Default = ``[]``
+        markerLoc       = [];       % (`nx2 vector`) Marker [X,Y] locations [m]. Default = ``[]``
+        markerStyle     = 1;        % (`integer`) Marker style, options include: ``1``: Sphere, ``2``: Cube, ``3``: Frame. Default = ``1``: Sphere
+        markerSize      = 10;       % (`float`) Marker size in Pixels. Default = ``10``
         currentOption = 3;      % (`integer`) Define the sub-surface current model to be used in WEC-Sim, options include: ``0`` for depth-independent model, ``1`` for 1/7 power law variation with depth, ``2`` for linear variation with depth, or ``3`` for no current. Default = ``3`` 
         currentSpeed = 0;       % (`float`) Current seed [m/s]. Surface current speed that is uniform along the water column. Default = ``0``
         currentDirection = 0;   % (`float`) Current direction [deg]. Surface current direction defined using WEC-Sim global coordinate system. Default = ``0``
