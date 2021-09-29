@@ -505,17 +505,20 @@ classdef waveClass<handle
             % Calculate regular wave elevation time history
             % Used by waveSetup
             if ~isempty(obj.markerLoc)==1
-            if width(obj.markerLoc)~=2
-            error('The coordinates of the visualization markers should have an ordinate (y-coordinate) and an abscissa (x-coordinate)')
-            end
-            end
-            
-            
+                if width(obj.markerLoc)~=2
+                    error('The coordinates of the visualization markers should have an ordinate (y-coordinate) and an abscissa (x-coordinate)')
+                end
+            end                        
             obj.waveAmpTime = zeros(maxIt+1,2);
             if ~isnan(obj.wavegauge1loc)
                 obj.waveAmpTime1 = zeros(maxIt+1,2);
             end
-
+            if ~isnan(obj.wavegauge2loc)
+                obj.waveAmpTime2 = zeros(maxIt+1,2);
+            end
+            if ~isnan(obj.wavegauge3loc)
+               obj.waveAmpTime3 = zeros(maxIt+1,2);
+            end        
             if ~isnan(obj.markerLoc)
                SZwaveAmpTimeViz = size(obj.markerLoc);
                obj.waveAmpTimeViz = zeros(maxIt+1,SZwaveAmpTimeViz(1)+1);
@@ -525,20 +528,25 @@ classdef waveClass<handle
                 for i=1:maxIt+1
                     t = (i-1)*dt;
                     obj.waveAmpTime(i,1)    = t;
-                    obj.waveAmpTime(i,2)    = obj.A*cos(obj.w*t);
-                    
-                    for j = 1:SZwaveAmpTimeViz(1)
-                    if ~isnan(obj.markerLoc)
-                        obj.waveAmpTimeViz(i,1)   = t;
-                       obj.waveAmpTimeViz(i,j+1)   = obj.A*cos(obj.w*t-obj.k*(obj.markerLoc(j,1).*cos(obj.waveDir*pi/180) + obj.markerLoc(j,2).*sin(obj.waveDir*pi/180)));
-                    end  
-                    end
-                    
+                    obj.waveAmpTime(i,2)    = obj.A*cos(obj.w*t);                                      
                     if ~isnan(obj.wavegauge1loc)
                         obj.waveAmpTime1(i,1)   = t;
                         obj.waveAmpTime1(i,2)   = obj.A*cos(obj.w*t-obj.k*(obj.wavegauge1loc(1).*cos(obj.waveDir*pi/180) + obj.wavegauge1loc(2).*sin(obj.waveDir*pi/180)));
+                    end                    
+                    if ~isnan(obj.wavegauge2loc)
+                        obj.waveAmpTime2(i,1)   = t;
+                        obj.waveAmpTime2(i,2)   = obj.A*cos(obj.w*t-obj.k*(obj.wavegauge2loc(1).*cos(obj.waveDir*pi/180) + obj.wavegauge2loc(2).*sin(obj.waveDir*pi/180)));
                     end
-
+                    if ~isnan(obj.wavegauge3loc)
+                        obj.waveAmpTime3(i,1)   = t;
+                        obj.waveAmpTime3(i,2)   = obj.A*cos(obj.w*t-obj.k*(obj.wavegauge3loc(1).*cos(obj.waveDir*pi/180) + obj.wavegauge3loc(2).*sin(obj.waveDir*pi/180)));
+                    end                  
+                    for j = 1:SZwaveAmpTimeViz(1)
+                        if ~isnan(obj.markerLoc)
+                            obj.waveAmpTimeViz(i,1)   = t;
+                           obj.waveAmpTimeViz(i,j+1)   = obj.A*cos(obj.w*t-obj.k*(obj.markerLoc(j,1).*cos(obj.waveDir*pi/180) + obj.markerLoc(j,2).*sin(obj.waveDir*pi/180)));
+                        end  
+                    end  
                 end
             else
                 for i=1:maxRampIT
@@ -549,13 +557,19 @@ classdef waveClass<handle
                         obj.waveAmpTime1(i,1)   = t;
                         obj.waveAmpTime1(i,2)   = obj.A*cos(obj.w*t-obj.k*(obj.wavegauge1loc(1).*cos(obj.waveDir*pi/180) + obj.wavegauge1loc(2).*sin(obj.waveDir*pi/180)))*(1+cos(pi+pi*(i-1)/maxRampIT))/2;
                     end
-                    
-                    if ~isnan(obj.markerLoc)                   
-                    for j = 1:SZwaveAmpTimeViz(1)
-
-                        obj.waveAmpTimeViz(i,1)   = t;
-                        obj.waveAmpTimeViz(i,j)   = obj.A*cos(obj.w*t-obj.k*(obj.markerLoc(j,1).*cos(obj.waveDir*pi/180) + obj.markerLoc(j,2).*sin(obj.waveDir*pi/180)))*(1+cos(pi+pi*(i-1)/maxRampIT))/2;
+                    if ~isnan(obj.wavegauge2loc)
+                        obj.waveAmpTime2(i,1)   = t;
+                        obj.waveAmpTime2(i,2)   = obj.A*cos(obj.w*t-obj.k*(obj.wavegauge2loc(1).*cos(obj.waveDir*pi/180) + obj.wavegauge2loc(2).*sin(obj.waveDir*pi/180)))*(1+cos(pi+pi*(i-1)/maxRampIT))/2;
                     end
+                    if ~isnan(obj.wavegauge3loc)
+                        obj.waveAmpTime3(i,1)   = t;
+                        obj.waveAmpTime3(i,2)   = obj.A*cos(obj.w*t-obj.k*(obj.wavegauge3loc(1).*cos(obj.waveDir*pi/180) + obj.wavegauge3loc(2).*sin(obj.waveDir*pi/180)))*(1+cos(pi+pi*(i-1)/maxRampIT))/2;
+                    end               
+                    if ~isnan(obj.markerLoc)                   
+                        for j = 1:SZwaveAmpTimeViz(1)
+                            obj.waveAmpTimeViz(i,1)   = t;
+                            obj.waveAmpTimeViz(i,j)   = obj.A*cos(obj.w*t-obj.k*(obj.markerLoc(j,1).*cos(obj.waveDir*pi/180) + obj.markerLoc(j,2).*sin(obj.waveDir*pi/180)))*(1+cos(pi+pi*(i-1)/maxRampIT))/2;
+                        end
                     end
                 end
                 for i=maxRampIT+1:maxIt+1
@@ -566,13 +580,20 @@ classdef waveClass<handle
                         obj.waveAmpTime1(i,1)   = t;
                         obj.waveAmpTime1(i,2)   = obj.A*cos(obj.w*t-obj.k*(obj.wavegauge1loc(1).*cos(obj.waveDir*pi/180) + obj.wavegauge1loc(2).*sin(obj.waveDir*pi/180)));
                     end
-                    
-                    if ~isnan(obj.markerLoc)                    
-                    for j = 1:SZwaveAmpTimeViz(1)
-
-                        obj.waveAmpTimeViz(i,1)   = t;
-                        obj.waveAmpTimeViz(i,j)   = obj.A*cos(obj.w*t-obj.k*(obj.markerLoc(j,1).*cos(obj.waveDir*pi/180) + obj.markerLoc(j,2).*sin(obj.waveDir*pi/180)));
+                    if ~isnan(obj.wavegauge2loc)
+                        obj.waveAmpTime2(i,1)   = t;
+                        obj.waveAmpTime2(i,2)   = obj.A*cos(obj.w*t-obj.k*(obj.wavegauge2loc(1).*cos(obj.waveDir*pi/180) + obj.wavegauge2loc(2).*sin(obj.waveDir*pi/180)));
                     end
+                    if ~isnan(obj.wavegauge3loc)
+                        obj.waveAmpTime3(i,1)   = t;
+                        obj.waveAmpTime3(i,2)   = obj.A*cos(obj.w*t-obj.k*(obj.wavegauge3loc(1).*cos(obj.waveDir*pi/180) + obj.wavegauge3loc(2).*sin(obj.waveDir*pi/180)));
+                    end                
+                    if ~isnan(obj.markerLoc)                    
+                        for j = 1:SZwaveAmpTimeViz(1)
+
+                            obj.waveAmpTimeViz(i,1)   = t;
+                            obj.waveAmpTimeViz(i,j)   = obj.A*cos(obj.w*t-obj.k*(obj.markerLoc(j,1).*cos(obj.waveDir*pi/180) + obj.markerLoc(j,2).*sin(obj.waveDir*pi/180)));
+                        end
                     end
                 end
             end
@@ -678,22 +699,25 @@ classdef waveClass<handle
         function waveElevIrreg(obj,rampTime,dt,maxIt,df)
             % Calculate irregular wave elevetaion time history
             % Used by waveSetup
-            if ~isempty(obj.markerLoc)==1
-            if width(obj.markerLoc)~=2
-            error('The coordinates of the visualization markers should have an ordinate (y-coordinate) and an abscissa (x-coordinate)')
-            end
-            end
-            
             obj.waveAmpTime = zeros(maxIt+1,2);
             if ~isnan(obj.wavegauge1loc)
                 obj.waveAmpTime1 = zeros(maxIt+1,2);
             end
-
+            if ~isnan(obj.wavegauge2loc)
+                obj.waveAmpTime2 = zeros(maxIt+1,2);
+            end
+            if ~isnan(obj.wavegauge3loc)
+               obj.waveAmpTime3 = zeros(maxIt+1,2);
+            end
+            if ~isempty(obj.markerLoc)==1
+                if width(obj.markerLoc)~=2
+                    error('The coordinates of the visualization markers should have an ordinate (y-coordinate) and an abscissa (x-coordinate)')
+                end
+            end            
             if ~isnan(obj.markerLoc)
                SZwaveAmpTimeViz = size(obj.markerLoc);
                obj.waveAmpTimeViz = zeros(maxIt+1,SZwaveAmpTimeViz(1)+1);
-            end
-            
+            end            
             maxRampIT=round(rampTime/dt);
             if rampTime==0
                 for i=1:maxIt+1
@@ -708,6 +732,16 @@ classdef waveClass<handle
                             obj.waveAmpTime1(i,1)   = t;
                             obj.waveAmpTime1(i,2)   = obj.waveAmpTime1(i,2) + sum(tmp11);
                         end
+                        if ~isnan(obj.wavegauge2loc)
+                            tmp12   = tmp.*real(exp(sqrt(-1).*(obj.w.*t - obj.k*(obj.wavegauge2loc(1).*cos(obj.waveDir(idir)*pi/180) + obj.wavegauge2loc(2).*sin(obj.waveDir(idir)*pi/180)) + obj.phase(:,idir))));
+                            obj.waveAmpTime2(i,1)   = t;
+                            obj.waveAmpTime2(i,2)   = obj.waveAmpTime2(i,2) + sum(tmp12);
+                        end
+                        if ~isnan(obj.wavegauge3loc)
+                            tmp13   = tmp.*real(exp(sqrt(-1).*(obj.w.*t - obj.k*(obj.wavegauge3loc(1).*cos(obj.waveDir(idir)*pi/180) + obj.wavegauge3loc(2).*sin(obj.waveDir(idir)*pi/180)) + obj.phase(:,idir))));
+                            obj.waveAmpTime3(i,1)   = t;
+                            obj.waveAmpTime3(i,2)   = obj.waveAmpTime3(i,2) + sum(tmp13);
+                        end                       
                     if ~isnan(obj.markerLoc)                        
                     for j = 1:SZwaveAmpTimeViz(1)
 
@@ -733,14 +767,22 @@ classdef waveClass<handle
                             obj.waveAmpTime1(i,1)   = t;
                             obj.waveAmpTime1(i,2)   = obj.waveAmpTime1(i,2) + sum(tmp11)*(1+cos(pi+pi*(i-1)/maxRampIT))/2;
                         end
-                        
+                        if ~isnan(obj.wavegauge2loc)
+                            tmp12   = tmp.*real(exp(sqrt(-1).*(obj.w.*t - obj.k*(obj.wavegauge2loc(1).*cos(obj.waveDir(idir)*pi/180) + obj.wavegauge2loc(2).*sin(obj.waveDir(idir)*pi/180)) + obj.phase(:,idir))));
+                            obj.waveAmpTime2(i,1)   = t;
+                            obj.waveAmpTime2(i,2)   = obj.waveAmpTime2(i,2) + sum(tmp12)*(1+cos(pi+pi*(i-1)/maxRampIT))/2;
+                        end
+                        if ~isnan(obj.wavegauge3loc)
+                            tmp13   = tmp.*real(exp(sqrt(-1).*(obj.w.*t - obj.k*(obj.wavegauge3loc(1).*cos(obj.waveDir(idir)*pi/180) + obj.wavegauge3loc(2).*sin(obj.waveDir(idir)*pi/180)) + obj.phase(:,idir))));
+                            obj.waveAmpTime3(i,1)   = t;
+                            obj.waveAmpTime3(i,2)   = obj.waveAmpTime3(i,2) + sum(tmp13)*(1+cos(pi+pi*(i-1)/maxRampIT))/2;
+                        end                                          
                     if ~isnan(obj.markerLoc)                        
-                    for j = 1:SZwaveAmpTimeViz(1)
-
+                        for j = 1:SZwaveAmpTimeViz(1)
                             tmpVizirr2   = tmp.*real(exp(sqrt(-1).*(obj.w.*t - obj.k*(obj.markerLoc(j,1).*cos(obj.waveDir(idir)*pi/180) + obj.markerLoc(j,2).*sin(obj.waveDir(idir)*pi/180)) + obj.phase(:,idir))));
                             obj.waveAmpTimeViz(i,1)   = t;
                             obj.waveAmpTimeViz(i,j)   = obj.waveAmpTimeViz(i,j) + sum(tmpVizirr2)*(1+cos(pi+pi*(i-1)/maxRampIT))/2;
-                    end
+                        end
                     end
 
                     end
@@ -751,22 +793,29 @@ classdef waveClass<handle
                         tmp=sqrt(obj.A.*df*obj.waveSpread(idir));
                         tmp1  = tmp.*real(exp(sqrt(-1).*(obj.w.*t + obj.phase(:,idir))));
                         obj.waveAmpTime(i,1)    = t;
-                        obj.waveAmpTime(i,2)    = obj.waveAmpTime(i,2) + sum(tmp1);
-                        
+                        obj.waveAmpTime(i,2)    = obj.waveAmpTime(i,2) + sum(tmp1);                        
                         if ~isnan(obj.wavegauge1loc)
                             tmp0 = tmp.*real(exp(sqrt(-1).*(obj.w.*t - obj.k*(obj.wavegauge1loc(1).*cos(obj.waveDir(idir)*pi/180) + obj.wavegauge1loc(2).*sin(obj.waveDir(idir)*pi/180)) + obj.phase(:,idir))));
                             obj.waveAmpTime1(i,1)   = t;
                             obj.waveAmpTime1(i,2)   = obj.waveAmpTime1(i,2) + sum(tmp0);
                         end
-                        
-                    if ~isnan(obj.markerLoc)                        
-                    for j = 1:SZwaveAmpTimeViz(1)
-
-                            tmpVizirr3  = tmp.*real(exp(sqrt(-1).*(obj.w.*t - obj.k*(obj.markerLoc(j,1).*cos(obj.waveDir(idir)*pi/180) + obj.markerLoc(j,2).*sin(obj.waveDir(idir)*pi/180)) + obj.phase(:,idir))));
-                            obj.waveAmpTimeViz(i,1)   = t;
-                            obj.waveAmpTimeViz(i,j)   = obj.waveAmpTimeViz(i,j) + sum(tmpVizirr3);
-                    end
-                    end
+                        if ~isnan(obj.wavegauge2loc)
+                            tmp12 = tmp.*real(exp(sqrt(-1).*(obj.w.*t - obj.k*(obj.wavegauge2loc(1).*cos(obj.waveDir(idir)*pi/180) + obj.wavegauge2loc(2).*sin(obj.waveDir(idir)*pi/180)) + obj.phase(:,idir))));
+                            obj.waveAmpTime2(i,1)   = t;
+                            obj.waveAmpTime2(i,2)   = obj.waveAmpTime2(i,2) + sum(tmp12);
+                        end
+                        if ~isnan(obj.wavegauge3loc)
+                            tmp13 = tmp.*real(exp(sqrt(-1).*(obj.w.*t - obj.k*(obj.wavegauge3loc(1).*cos(obj.waveDir(idir)*pi/180) + obj.wavegauge3loc(2).*sin(obj.waveDir(idir)*pi/180)) + obj.phase(:,idir))));
+                            obj.waveAmpTime3(i,1)   = t;
+                            obj.waveAmpTime3(i,2)   = obj.waveAmpTime3(i,2) + sum(tmp13);
+                        end                                                
+                        if ~isnan(obj.markerLoc)                        
+                            for j = 1:SZwaveAmpTimeViz(1)
+                                    tmpVizirr3  = tmp.*real(exp(sqrt(-1).*(obj.w.*t - obj.k*(obj.markerLoc(j,1).*cos(obj.waveDir(idir)*pi/180) + obj.markerLoc(j,2).*sin(obj.waveDir(idir)*pi/180)) + obj.phase(:,idir))));
+                                    obj.waveAmpTimeViz(i,1)   = t;
+                                    obj.waveAmpTimeViz(i,j)   = obj.waveAmpTimeViz(i,j) + sum(tmpVizirr3);
+                            end
+                        end
                     end
                 end
             end
