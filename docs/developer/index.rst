@@ -9,7 +9,6 @@ Developers Manual
    
    overview.rst
    getting_started.rst
-   style.rst
    addedMass.rst
    library.rst
    
