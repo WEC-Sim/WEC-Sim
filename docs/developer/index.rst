@@ -7,6 +7,9 @@ Developers Manual
 .. toctree::
    :maxdepth: 2
    
-   getting_started.rst
    overview.rst
+   getting_started.rst
+   style.rst
+   addedMass.rst
+   library.rst
    

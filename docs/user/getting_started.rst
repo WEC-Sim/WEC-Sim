@@ -22,7 +22,7 @@ Simscape Multibody          Version 7.1  (R2020a)
 Any version of MATLAB newer than R2020a should be compatible with WEC-Sim. 
 WEC-Sim's Simulink Library is saved in MATLAB R2020a, and WEC-Sim tests are run
 on MATLAB R2020a and newer. The stability of each MATLAB release is available 
-via GitHub Actions, refer to :ref:`dev-overview-tests` for more information. 
+via GitHub Actions, refer to :ref:`dev-getting-started-tests:` for more information. 
 Certain advanced features rely on external functions, such as 
 :ref:`mooring-moordyn`, and additional MATLAB Toolboxes, such as 
 :ref:`user-advanced-features-pct`. 
