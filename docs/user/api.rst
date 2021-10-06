@@ -1,4 +1,4 @@
-.. _dev-api:
+.. _user-api:
 
 API
 ===
@@ -13,33 +13,16 @@ Simulation Class
 	:exclude-members: wsVersion, gitCommit, simulationDate, outputDir, time, inputFile, logFile, caseFile, caseDir, CIkt, maxIt, CTTime, numWecBodies, numDragBodies, numPtos, numConstraints, numCables, numMoorings, listInfo, getWecSimVer, loadSimMechModel, setupSim, checkinputs, rhoDensitySetup, getGitCommit, simulationClass
 	:no-undoc-members: 
     
+
 .. _wave:
 
 Wave Class
 ------------------
 
 .. autoclass:: objects.waveClass
-    :members: type, T, H, spectrumType, gamma, phaseSeed, spectrumDataFile, etaDataFile, freqRange, numFreq, waveDir, waveSpread, viz, statisticsDataLoad, freqDisc, wavegauge1loc, wavegauge2loc, wavegauge3loc, currentSpeed, currentDirection, currentOption, currentDepth
+    :members: 
+    :exclude-members: typeNum, bemFreq, deepWaterWave, waveAmpTime, waveAmpTime1, waveAmpTime2, waveAmpTime3, waveAmpTimeViz, A, w, phase, dw, k, S, Pw, waveClass, waveSetup, listInfo, waveNumber, checkinputs, waveElevationGrid
     :no-undoc-members:    
-
-.. automethod:: objects.waveClass.waveClass
-
-.. automethod:: objects.waveClass.plotEta
-
-.. automethod:: objects.waveClass.plotSpectrum
-
-.. automethod:: objects.waveClass.waveSetup
-
-.. automethod:: objects.waveClass.listInfo
-
-.. automethod:: objects.waveClass.waveNumber
-
-.. automethod:: objects.waveClass.checkinputs
-
-.. automethod:: objects.waveClass.waveElevationGrid
-
-
-.. The waveClass API documents public properties and methods only, we should probably add private as well
 
 
 .. _body:

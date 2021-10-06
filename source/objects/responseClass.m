@@ -430,11 +430,13 @@ classdef responseClass<handle
                 gifFilename = 'waveVisualization.gif';
             end
             
-            % Initialize figure
+            % Initialize figure and image counter
             figure();
-
+            imageCount = 0;
+            
             for i=1:length(t)
                 if t(i) >= options.startEndTime(1) && t(i) <= options.startEndTime(2)
+                    imageCount = imageCount + 1;
                     for ibod = 1:length(obj.bodies)
                         % Apply rotation to each point
                         rotMat = eulXYZ2RotMat(obj.bodies(ibod).position(1+options.timesPerFrame*(i-1),4), ...
@@ -494,7 +496,7 @@ classdef responseClass<handle
                         % Save to gif
                         im = frame2im(frame); 
                         [imind,cm] = rgb2ind(im,256); 
-                        if i == 1 
+                        if imageCount == 1 
                             imwrite(imind,cm,gifFilename,'gif', 'Loopcount',inf); 
                         else 
                             imwrite(imind,cm,gifFilename,'gif','WriteMode','append','DelayTime',simu.dtOut); 
