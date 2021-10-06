@@ -98,13 +98,12 @@ Simulink interface:
 	* Type ``initializeWecSim`` in the Command Window
 	* Run the model from Simulink
 	
-.. Note::
-    After running WEC-Sim from Simulink with custom parameters, a 
-    ``wecSimInputFile_simulinkCustomParameters.m`` file is written to the ``$CASE`` 
-    directory. This file specifies all non-default WEC-Sim parameters used for the 
-    WEC-Sim simulation. This file serves as a record of how the case was run for 
-    future reference. It may be used in the same manner as other input files when 
-    renamed to ``wecSimInputFile.m``
+After running WEC-Sim from Simulink with custom parameters, a 
+``wecSimInputFile_simulinkCustomParameters.m`` file is written to the ``$CASE`` 
+directory. This file specifies all non-default WEC-Sim parameters used for the 
+WEC-Sim simulation. This file serves as a record of how the case was run for 
+future reference. It may be used in the same manner as other input files when 
+renamed to ``wecSimInputFile.m``
 
 
 .. _user-advanced-features-mcr:
@@ -672,6 +671,7 @@ following body class variable::
 
     body(i).nhBody = 2
 
+
 Drag bodies have zero wave excitation or radiation forces, but viscous forces 
 can be applied in the same manner as a hydrodynamic body via the parameters:: 
 
@@ -819,6 +819,53 @@ Constraint and PTO Features
 
 .. include:: /_include/pto.rst
 
+
+.. _user-advanced-features-cable:
+
+Cable Features
+----------------------------
+
+Cables or tethers between two bodies apply a force only in tension (when taut or stretched), but not in compression,
+can be modeled using the :code:`cableClass` implementation. A cable block must be added to the
+model between the two PTOs or constraints that are to be connected by a cable. Users must initialize the cable
+class in the ``wecSimInputFile.m`` along with the base and follower connections in that order, by including the following lines:: 
+
+	cable(i) = cableClass('cableName','baseConnection','followerConnection');
+
+where ``baseConnection`` is a PTO or constraint block that defines the cable connection on the base side, and ``followerConnection``
+is  a PTO or constraint block that defineds the connection on the follower side.  
+
+
+It is necessary to define, at a minimum: ::
+
+    cable(i).k = <cableDamping>;
+    cable(i).c = <cableStiffness>;
+
+where :code:`cable(i).k` is the cable stiffness (N/m), and :code:`cable(i).c` is the cable damping (N/(m*s)). Force from the cable stiffness or 
+damping is applied between the connection points if the current length of the cable exceeds the equilibrium length of the cable. 
+By default, the cable equilibrium length is defined to be the distance between the locations of the ``baseConnection`` and ``followerConnection``, so that initially there is no tension on the cable. 
+
+If a distinct initial condition is desired, one can define either ``cable(i).L0`` or ``cable(i).preTension``, where :code:`cable(i).L0` is the equilibrium (i.e., unstretched) length of the cable (m), and :code:`cable(i).preTension` is the pre-tension applied to the cable at simulation start (N). The unspecified parameter is then calculated from the location of the ``baseConnection`` and 
+``followerConnection``. 
+
+To include dynamics applied at the cable-to-body coupling (e.g., a stiffness and damping), a PTO block 
+can be used instead, and the parameters :code:`pto(i).c` and :code:`pto(i).k` can be used to describe these dynamics. 
+
+By default, the cable is presumed neutrally buoyant and it is not subjected to fluid drag. To include fluid drag, the user can additionally define these parameters in a style similar to the :code:`bodyClass` ::
+
+	cable(i).viscDrag.cd
+	cable(i).viscDrag.characteristicArea
+	cable(i).viscDrag.Drag
+	cable(i).linearDamping
+	
+The cable mass and fluid drag is modeled with a low-order lumped-capacitance method with 2 nodes. 
+The mass and fluid drag forces are exerted at nodes defined by the 2 drag bodies. 
+By default, one is co-located with the ``baseConnection``and the other with the ``followerConnection``. 
+The position of these bodies can be manipulated by changing the locations of the base or follower connections points.
+
+.. Note::
+
+	This is not appropriate to resolve the actual kinematics of cable motions, but it is sufficient to model the aggregate forces among the connected bodies. 
 
 .. _user-advanced-features-mooring:
 

@@ -41,6 +41,7 @@
 *.mtc3
 *.o
 *.obj
+*.ppt*
 *.slxc
 *.sublime-workspace
 *.sublime-project
