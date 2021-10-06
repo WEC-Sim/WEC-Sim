@@ -60,11 +60,12 @@ switch type
     maskVars.mass = body(num).mass;                              % Body Mass
     maskVars.momOfInertia = body(num).momOfInertia;              % Moment of Inertia [kg*m^2]  
     maskVars.nhBody = body(num).nhBody;
-    maskVars.flexHydroBody = body(num).flexHydroBody;
+    maskVars.nlHydro = body(num).nlHydro;
     maskVars.cg = body(num).cg;
     maskVars.cb = body(num).cb;
     maskVars.dof = body(num).dof;
     maskVars.dispVol = body(num).dispVol;
+    maskVars.flexHydroBody = body(num).flexHydroBody;
     maskVars.initLinDisp = body(num).initDisp.initLinDisp;
     maskVars.initAngularDispAxis = body(num).initDisp.initAngularDispAxis;
     maskVars.initAngularDispAngle = body(num).initDisp.initAngularDispAngle;
