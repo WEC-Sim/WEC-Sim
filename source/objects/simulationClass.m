@@ -19,7 +19,15 @@
 
 
 classdef simulationClass<handle
-    % This class contains WEC-Sim simulation parameters and settings
+    %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+    % The  ``simulationClass`` creates a ``simu`` object saved to the MATLAB
+    % workspace. The ``simulationClass`` includes properties and methods used
+    % to define WEC-Sim's simulation parameters and settings.
+    %
+    %.. autoattribute:: objects.simulationClass.simulationClass
+    %
+    %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+    
     properties (SetAccess = 'public', GetAccess = 'public')%input file
         simMechanicsFile    = 'NOT DEFINED'                                % (`string`) Simulink/SimMechanics model file. Default = ``'NOT DEFINED'``
         startTime           = 0                                            % (`float`) Simulation start time. Default = ``0`` s
@@ -75,6 +83,7 @@ classdef simulationClass<handle
         numDragBodies       = []                                           % (`integer`) Number of drag bodies that comprise the WEC device (excluding hydrodynamic bodies). Default = ``'NOT DEFINED'``
         numPtos             = []                                           % (`integer`) Number of power take-off elements in the model. Default = ``'NOT DEFINED'``
         numConstraints      = []                                           % (`integer`) Number of contraints in the wec model. Default = ``'NOT DEFINED'``
+        numCables           = []                                           % (`integer`) Number of cables in the wec model. Default = ``'NOT DEFINED'``
         numMoorings         = []                                           % (`integer`) Number of moorings in the wec model. Default = ``'NOT DEFINED'``
     end
 

@@ -29,7 +29,8 @@ for i=1:length(blocks)
     values = get_param(blocks{i},'MaskValues');
     
     % Check if the block is from the WEC-Sim library
-    if any(contains(names,{'simu','waves','body','pto','constraint','mooring'}))
+    if any(contains(names,{'simu','waves','body','pto','constraint','cable','mooring'}))
+        % Update the visibility of WEC-Sim blocks
         blockHandle = getSimulinkBlockHandle(blocks{i});
         customVisibilityCallback(blockHandle,useInputFile);
     end

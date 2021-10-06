@@ -8,32 +8,54 @@ function writeInputFromBlocks(inputFile)
 % Get all block names
 blocks = find_system(bdroot,'Type','Block');
 
-% reorder blocks into standard input file format:
-%    simu/waves, body, constraints, ptos, moorings
-inds = [];
-indb = [];
-indc = [];
-indp = [];
-indm = [];
+%% Reorder blocks 
+% Order blocks by class:
+%    simu/waves, body, constraints, ptos, cables, moorings
+iSimulation = [];
+iBody = [];
+iConstraint = [];
+iPTO = [];
+iCable = [];
+iMooring = [];
+
 for i=1:length(blocks)
     names = get_param(blocks{i},'MaskNames');
     if any(strcmp(names,'simu'))
-        inds = i;
+        iSimulation = i;
     elseif any(strcmp(names,'body'))
-        indb(end+1) = i;
+        iBody(end+1) = i;
     elseif any(strcmp(names,'constraint'))
-        indc(end+1) = i;
+        iConstraint(end+1) = i;
     elseif any(strcmp(names,'pto'))
-        indp(end+1) = i;
+        iPTO(end+1) = i;
+    elseif any(strcmp(names,'cable'))
+        iCable(end+1) = i;
     elseif any(strcmp(names,'mooring'))
-        indm(end+1) = i;
+        iMooring(end+1) = i;
     end
 end
-ind = [inds indb indc indp indm];
+
+% Order classes by number
+iSorted = sortBlocksByNumber(blocks(iBody),'body');
+iBody = iBody(iSorted);
+
+iSorted = sortBlocksByNumber(blocks(iConstraint),'constraint');
+iConstraint = iConstraint(iSorted);
+
+iSorted = sortBlocksByNumber(blocks(iPTO),'pto');
+iPTO = iPTO(iSorted);
+
+iSorted = sortBlocksByNumber(blocks(iCable),'cable');
+iCable = iCable(iSorted);
+
+iSorted = sortBlocksByNumber(blocks(iMooring),'mooring');
+iMooring = iMooring(iSorted);
+
+% Order blocks
+ind = [iSimulation iBody iConstraint iPTO iCable iMooring];
 blocks = blocks(ind);
 
-
-% Write input file
+%% Write input file
 fid = fopen(['./' inputFile '.m'],'w');
 fprintf(fid,'%% %s\r\n','WEC-Sim Input File, written with custom Simulink parameters');
 fprintf(fid,'%% %s\r\n',string(datetime));
@@ -44,9 +66,10 @@ waves = waveClass('');
 body = bodyClass('');
 constraint = constraintClass('');
 pto = ptoClass('');
+cable = cableClass('','constraint','pto');
 mooring = mooringClass('');
 
-% Get write each mask to an input file section
+%% Write each mask to an input file section
 for i=1:length(blocks)
     names = get_param(blocks{i},'MaskNames');
     values = get_param(blocks{i},'MaskValues');
@@ -177,6 +200,25 @@ for i=1:length(blocks)
         fprintf(fid,writeLineFromVar(pto, 'lowerLimitDamping', maskVars, maskViz, num, 'hardStops'));
         fprintf(fid,writeLineFromVar(pto, 'lowerLimitTransitionRegionWidth', maskVars, maskViz, num, 'hardStops'));
         
+    elseif isfield(maskVars,'cable')
+        % Block is a cable
+        fprintf(fid,'\r\n%s\r\n','%% Cable Class');
+        
+        tmp = string(maskVars.cable);
+        num = str2num(extractBetween(tmp,strfind(tmp,'('),strfind(tmp,')'),'Boundaries','Exclusive'));
+        fprintf(fid,'cable(%d) = cableClass(''cable%d'',%s,%s); \r\n',num,num,...
+            maskVars.baseConnectionName,maskVars.followerConnectionName);
+        
+        fprintf(fid,writeLineFromVar(cable, 'k', maskVars, maskViz, num, []));
+        fprintf(fid,writeLineFromVar(cable, 'c', maskVars, maskViz, num, []));
+        fprintf(fid,writeLineFromVar(cable, 'L0', maskVars, maskViz, num, []));
+        fprintf(fid,writeLineFromVar(cable, 'preTension', maskVars, maskViz, num, []));
+        fprintf(fid,writeLineFromVar(cable, 'y', maskVars, maskViz, num, 'orientation'));
+        fprintf(fid,writeLineFromVar(cable, 'z', maskVars, maskViz, num, 'orientation'));
+        fprintf(fid,writeLineFromVar(cable, 'initLinDisp', maskVars, maskViz, num, 'initDisp'));
+        fprintf(fid,writeLineFromVar(cable, 'initAngularDispAxis', maskVars, maskViz, num, 'initDisp'));
+        fprintf(fid,writeLineFromVar(cable, 'initAngularDispAngle', maskVars, maskViz, num, 'initDisp'));
+        
     elseif isfield(maskVars,'mooring') && isfield(maskVars,'stiffness')
         % Block is a Mooring system
         fprintf(fid,'\r\n%s\r\n','%% Mooring Class');
@@ -208,3 +250,16 @@ end
 fclose(fid);
 run(inputFile);
 
+end
+
+function iSorted = sortBlocksByNumber(blockList, className)
+    classNums = [];
+    for i=1:length(blockList)
+        mask = Simulink.Mask.get(blockList{i});
+        tmp = string(mask.getParameter(className).Value);
+        num = str2num(extractBetween(tmp,strfind(tmp,'('),strfind(tmp,')'),'Boundaries','Exclusive'));
+        classNums(i) = num;
+    end
+    [newNums,iSorted] = sort(classNums,'ascend');
+    
+end

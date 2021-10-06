@@ -23,6 +23,8 @@ classdef bodyClass<handle
     % workspace. The ``bodyClass`` includes properties and methods used
     % to define WEC-Sim's hydrodynamic and non-hydrodynamic bodies.
     %
+    %.. autoattribute:: objects.bodyClass.bodyClass            
+    %     
     %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
     
     properties (SetAccess = 'private', GetAccess = 'public') %hdf5 file

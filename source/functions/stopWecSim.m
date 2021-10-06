@@ -9,7 +9,7 @@ try cd (['..' filesep parallelComputing_dir filesep '..' filesep]); end
 clear nlHydro sv_linearHydro sv_nonlinearHydro ssCalc radiation_option sv_convolution sv_stateSpace sv_constantCoeff typeNum B2B sv_B2B sv_noB2B;
 clear nhbod* sv_b* sv_noWave sv_regularWaves sv_irregularWaves sv_udfWaves sv_instFS sv_meanFS sv_MEOn sv_MEOff morisonElement flexHydrobody_* sv_irregularWavesNonLinYaw sv_regularWavesNonLinYaw yawNonLin numBody;
 clear sv_visualizationOFF sv_visualizationON visON X Y
-clear dragBodLogic hydroBodLogic nonHydroBodLogic idx it morisonElement* nonLinearHydro*;
+clear dragBodLogic hydroBodLogic nonHydroBodLogic idx it numNonHydroBodies morisonElement* nonLinearHydro*;
 clear runWecSimCML
 
 toc

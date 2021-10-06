@@ -9,4 +9,3 @@ Developers Manual
    
    getting_started.rst
    overview.rst
-   
