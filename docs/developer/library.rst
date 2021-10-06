@@ -221,6 +221,19 @@ Body                    H5Button                               h5ButtonCallback
 Body                    nhBody, (morisonElement.) on           bodyClassCallback
 ====================== ====================================== ==========
 
+A specific variable's callbacks are defined in: 
+``BLOCK/Mask Editor/Parameters & Dialog/PARAMETER/Property editor/Dialog/Callback/``.
+All callbacks and other functions used in Simulink masks for the Run From 
+Simulink feature are stored as ``*.m`` files in the 
+``$WECSIM/source/functions/SimulinkMaskFunctions/`` directory. 
+
+``SimulinkModelFunctions`` is a different directory that contains functions 
+called by the Simulink model during runtime. These functions implement physics 
+equations such as calculation of the irregular exictation force or the 
+radiation damping convolution integral. These ``SimulinkModelFunctions`` 
+greatly affect the accuracy of WEC-Sim, whereas ``SimulinkMaskFunctions`` 
+are only used in preprocessing when running WEC-Sim from Simulink.
+
 
 Callback Functions
 """"""""""""""""""
