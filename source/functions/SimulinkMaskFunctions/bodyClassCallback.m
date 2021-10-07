@@ -57,6 +57,7 @@ j = find(strcmp(names,'nhBody'));
 
 % get mask parameter controls for cg, cb, dof, volume
 mask = Simulink.Mask.get(blockHandle);
+nlHydroParam = mask.getParameter('nlHydro');
 cgParam = mask.getParameter('cg');
 cbParam = mask.getParameter('cb');
 dofParam = mask.getParameter('dof');
@@ -64,12 +65,14 @@ dispVolParam = mask.getParameter('dispVol');
 
 % Change visibilities based on nhBody selection
 if values{j,1} == '1' || values{j,1} == '2'
+    nlHydroParam.Visible = 'off';
     cgParam.Visible = 'on';
     cbParam.Visible = 'on';
     dofParam.Visible = 'on';
     dispVolParam.Visible = 'on';
     
 elseif values{j,1} == '0'
+    nlHydroParam.Visible = 'on';
     cgParam.Visible = 'off';
     cbParam.Visible = 'off';
     dofParam.Visible = 'off';
