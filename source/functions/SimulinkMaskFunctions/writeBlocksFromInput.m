@@ -52,30 +52,30 @@ switch type
         maskVars.etaDataFile = waves.etaDataFile;                    % Name of User-Defined Time-Series File [:,2] = [time, eta]
     
     case 1
-    % Body Data
-    tmp = string(maskVars.body);
-    num = str2num(extractBetween(tmp,strfind(tmp,'('),strfind(tmp,')'),'Boundaries','Exclusive'));
-    maskVars.h5File = body(num).h5File;                          % Create the body(1) Variable, Set Location of Hydrodynamic Data File and Body Number Within this File.   
-    maskVars.geometryFile = body(num).geometryFile;              % Location of Geomtry File
-    maskVars.mass = body(num).mass;                              % Body Mass
-    maskVars.momOfInertia = body(num).momOfInertia;              % Moment of Inertia [kg*m^2]  
-    maskVars.nhBody = body(num).nhBody;
-    maskVars.nlHydro = body(num).nlHydro;
-    maskVars.cg = body(num).cg;
-    maskVars.cb = body(num).cb;
-    maskVars.dof = body(num).dof;
-    maskVars.dispVol = body(num).dispVol;
-    maskVars.flexHydroBody = body(num).flexHydroBody;
-    maskVars.initLinDisp = body(num).initDisp.initLinDisp;
-    maskVars.initAngularDispAxis = body(num).initDisp.initAngularDispAxis;
-    maskVars.initAngularDispAngle = body(num).initDisp.initAngularDispAngle;
-    maskVars.option = body(num).morisonElement.option;
-    maskVars.cd = body(num).morisonElement.cd;
-    maskVars.ca = body(num).morisonElement.ca;
-    maskVars.characteristicArea = body(num).morisonElement.characteristicArea;
-    maskVars.VME = body(num).morisonElement.VME;
-    maskVars.rgME = body(num).morisonElement.rgME;
-    maskVars.z = body(num).morisonElement.z;
+        % Body Data
+        tmp = string(maskVars.body);
+        num = str2num(extractBetween(tmp,strfind(tmp,'('),strfind(tmp,')'),'Boundaries','Exclusive'));
+        maskVars.h5File = body(num).h5File;                          % Create the body(1) Variable, Set Location of Hydrodynamic Data File and Body Number Within this File.   
+        maskVars.geometryFile = body(num).geometryFile;              % Location of Geomtry File
+        maskVars.mass = body(num).mass;                              % Body Mass
+        maskVars.momOfInertia = body(num).momOfInertia;              % Moment of Inertia [kg*m^2]  
+        maskVars.nhBody = body(num).nhBody;
+        maskVars.nlHydro = body(num).nlHydro;
+        maskVars.flexHydroBody = body(num).flexHydroBody;
+        maskVars.cg = body(num).cg;
+        maskVars.cb = body(num).cb;
+        maskVars.dof = body(num).dof;
+        maskVars.dispVol = body(num).dispVol;
+        maskVars.initLinDisp = body(num).initDisp.initLinDisp;
+        maskVars.initAngularDispAxis = body(num).initDisp.initAngularDispAxis;
+        maskVars.initAngularDispAngle = body(num).initDisp.initAngularDispAngle;
+        maskVars.option = body(num).morisonElement.option;
+        maskVars.cd = body(num).morisonElement.cd;
+        maskVars.ca = body(num).morisonElement.ca;
+        maskVars.characteristicArea = body(num).morisonElement.characteristicArea;
+        maskVars.VME = body(num).morisonElement.VME;
+        maskVars.rgME = body(num).morisonElement.rgME;
+        maskVars.z = body(num).morisonElement.z;
     
     case 2
         % PTO data
