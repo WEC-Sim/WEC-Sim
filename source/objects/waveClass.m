@@ -760,7 +760,7 @@ classdef waveClass<handle
             rampTimeseries = 0:dt:rampTime;
             maxRampIt = length(rampTimeseries);
             rampFunction = (1+cos(pi+pi*rampTimeseries/rampTime))/2;
-            rampFunction(end:end+maxIt-maxRampIt) = 1;            
+            rampFunction(end:end+maxIt+1-maxRampIt) = 1;            
             obj.waveAmpTime = zeros(maxIt+1,2);
             data_t = data(:,1)';                    % Data Time [s]
             data_x = data(:,2)';                    % Wave Surface Elevation [m]            
