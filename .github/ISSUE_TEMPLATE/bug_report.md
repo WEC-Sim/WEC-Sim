@@ -1,6 +1,6 @@
 ---
 name: Bug report
-about: Create a report to help us asses and resolve a potential bug
+about: Create a report to help us assess and resolve a potential bug
 title: "[BUG]"
 labels: bug
 assignees: ''
@@ -14,6 +14,7 @@ _A clear and concise description of what the perceived bug is._
 
 **WEC-Sim file(s)**
 _If known, please identify the the WEC-Sim files causing the bug or error:_
+_Please upload relevant case files if possible to speed debugging._
 
 **To Reproduce**
 _Steps to reproduce the behavior:_
@@ -21,6 +22,8 @@ _Steps to reproduce the behavior:_
 2. _Click on '....'_
 3. _Scroll down to '....'_
 4. _See error_
+
+_State method of running WEC-Sim (command line, from simulink with input file, from simulink with custom parameters)_
 
 **Expected behavior**
 _A clear and concise description of what you expected to happen._

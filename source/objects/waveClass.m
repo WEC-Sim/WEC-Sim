@@ -17,7 +17,6 @@
 % limitations under the License.
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
-
 classdef waveClass<handle
     %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
     % The  ``waveClass`` creates a ``waves`` object saved to the MATLAB
@@ -26,9 +25,7 @@ classdef waveClass<handle
     %
     %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
     
-    properties (SetAccess = 'public', GetAccess = 'public')         
-        % The following properties are public, and can be defined in the
-        % ``wecSimInputFile.m``.
+    properties (SetAccess = 'public', GetAccess = 'public')%input file     
         type = 'NOT DEFINED'; % (`string`) Specifies the wave type, options include:``noWave``, ``noWaveCIC``, ``regular``, ``regularCIC``, ``irregular``, ``spectrumImport``, or ``etaImport``. Default = ``'NOT DEFINED'``
         T = 'NOT DEFINED';  % (`float`) Wave period [s] . Defined as wave period for ``regular``, peak period for ``irregular``, or period of BEM data used for hydrodynamic coefficients for ``noWave``. Default = ``'NOT DEFINED'``
         H = 'NOT DEFINED';  % (`float`) Wave height [m]. Defined as wave height for ``regular``, or significant wave height for ``irregular``. Default =  ``'NOT DEFINED'``
@@ -39,6 +36,7 @@ classdef waveClass<handle
         etaDataFile = 'NOT DEFINED'; % (`string`) Data file that contains the times-series data file. Default = ``'NOT DEFINED'``
         freqRange = [];     % (`2x1 vector`) Min and max wave frequency [rad/s], only used for ``irregular`` and ``spectrumImport``. If not specified, the BEM data frequency range is used. Default = ``[]``
         numFreq = [];       % (`integer`) Number of interpolated wave frequencies, only used for ``irregular`` and ``spectrumImport``. Number of frequencies used varies depending on ``freqDisc``, 1000 for ``'Traditional'``, and 500 for ``'EqualEnergy'`` and ``Imported``. Default = ``[]``
+        waterDepth = [];    % (`float`) Water depth [m]. Default to BEM water depth if not set. 
         waveDir = 0;        % (`float`) Incident wave direction(s) [deg]. Incident wave direction defined using WEC-Sim global coordinate system. Should be defined as a column vector for more than one wave direction. Default = ``0``
         waveSpread = 1;     % (`float`) Wave Spread probability associated with wave direction(s). Should be defined as a column vector for more than one wave direction. Default = ``1``
         viz = struct( 'numPointsX', 50, ...
@@ -48,23 +46,25 @@ classdef waveClass<handle
         wavegauge1loc = [NaN,NaN];  % (`1x2 vector`) Wave gauge 1 [x,y] location [m]. Default = ``[NaN,NaN]``
         wavegauge2loc = [NaN,NaN];  % (`1x2 vector`) Wave gauge 2 [x,y] location [m]. Default = ``[NaN,NaN]``
         wavegauge3loc = [NaN,NaN];  % (`1x2 vector`) Wave gauge 3 [x,y] location [m]. Default = ``[NaN,NaN]``
+        markerLoc       = [];       % (`nx2 vector`) Marker [X,Y] locations [m]. Default = ``[]``
+        markerStyle     = 1;        % (`integer`) Marker style, options include: ``1``: Sphere, ``2``: Cube, ``3``: Frame. Default = ``1``: Sphere
+        markerSize      = 10;       % (`float`) Marker size in Pixels. Default = ``10``
         currentOption = 3;      % (`integer`) Define the sub-surface current model to be used in WEC-Sim, options include: ``0`` for depth-independent model, ``1`` for 1/7 power law variation with depth, ``2`` for linear variation with depth, or ``3`` for no current. Default = ``3`` 
         currentSpeed = 0;       % (`float`) Current seed [m/s]. Surface current speed that is uniform along the water column. Default = ``0``
         currentDirection = 0;   % (`float`) Current direction [deg]. Surface current direction defined using WEC-Sim global coordinate system. Default = ``0``
         currentDepth = 0;       % (`float`) Current depth [m]. Define the depth over which the sub-surface current is modeled. Must be defined for options ``1`` and ``2``. The current is not calculated for any depths greater than the specified current depth. Default = ``0``
-    end
-    
-    
-    properties (SetAccess = 'private', GetAccess = 'public')       
+    end    
+  
+    properties (SetAccess = 'private', GetAccess = 'public')%internal       
         % The following properties are private, for internal use by WEC-Sim
         typeNum = [];       % Number to represent different type of waves        
         bemFreq = [];       % Number of wave frequencies from BEM
-        waterDepth = [];    % Water depth (from BEM) [m] 
         deepWaterWave = []; % Deep water or not, depending on input from WAMIT, NEMOH and AQWA
         waveAmpTime = [];   % Wave elevation time history [m] 
         waveAmpTime1 = [];  % Wave elevation time history at a wave gauge 1 location specified by user [m] 
         waveAmpTime2 = [];  % Wave elevation time history at a wave gauge 2 location specified by user [m] 
         waveAmpTime3 = [];  % Wave elevation time history at a wave gauge 3 location specified by user [m] 
+        waveAmpTimeViz = [];% Wave elevation time history at marker locations specified by user [m] 
         A = [];             % Wave amplitude [m]. For regular waves or 2*(wave spectrum vector) for irregular waves
         w = [];             % Wave frequency (regular waves) or wave frequency vector (irregular waves) [rad/s] 
         phase = 0;          % Wave phase [rad] . Only used for ``irregular`` waves.
@@ -113,19 +113,19 @@ classdef waveClass<handle
 
             obj.type = type;
             switch obj.type
-                case {'noWave'}        % No Waves with Constant Hydrodynamic Coefficients
+                case {'noWave'}         % No Waves with Constant Hydrodynamic Coefficients
                     obj.typeNum = 0;
-                case {'noWaveCIC'}     % No Waves w/Convolution Integral Calculation
+                case {'noWaveCIC'}      % No Waves w/Convolution Integral Calculation
                     obj.typeNum = 1;
-                case {'regular'}       % Regular Waves with Constant Hydrodynamic Coefficients
+                case {'regular'}        % Regular Waves with Constant Hydrodynamic Coefficients
                     obj.typeNum = 10;
-                case {'regularCIC'}    % Regular Waves w/Convolution Integral Calculation
+                case {'regularCIC'}     % Regular Waves w/Convolution Integral Calculation
                     obj.typeNum = 11;
-                case 'irregular'       % Irregular Waves with 'PM' or 'JS' wave spectrum
+                case 'irregular'        % Irregular Waves with 'PM' or 'JS' wave spectrum
                     obj.typeNum = 20;
-                case 'spectrumImport' % Irregular waves with imported wave spectrum
+                case 'spectrumImport'   % Irregular waves with imported wave spectrum
                     obj.typeNum = 21;
-                case 'etaImport'     % Waves with imported wave elevation time-history
+                case 'etaImport'        % Waves with imported wave elevation time-history
                     obj.typeNum = 30;
             end
         end
@@ -182,41 +182,75 @@ classdef waveClass<handle
             ylabel('Spectrum (m^2-s/rad)');
         end
         
-        function waveSetup(obj,bemFreq,wDepth,rampTime,dt,maxIt,g, rho, endTime)
+        function waveSetup(obj,bemFreq,bemWaterDepth,rampTime,dt,maxIt,time,g,rho)
             % This method calculates WEC-Sim's wave properties 
             % based on the specified wave type.
             %
-            obj.bemFreq    = bemFreq;
-            obj.setWaveProps(wDepth)
+            
+            if ~isempty(obj.markerLoc)==1
+                if ~width(obj.markerLoc)==2
+                    error('The coordinates of the visualization markers should have an ordinate (y-coordinate) and an abscissa (x-coordinate)')
+                end
+            end
+            
+            obj.bemFreq = bemFreq;
+            if isempty(obj.freqRange) && isempty(obj.bemFreq)
+                % No .h5 file and no freq range defined --> error
+                error('Must define frequency range in waves.freqRange when zero hydro bodies are used (no .h5 file).');
+            elseif isempty(obj.freqRange) && ~isempty(obj.bemFreq)
+                % Use .h5 file range if not defined in input file
+                obj.freqRange = obj.bemFreq;
+            elseif ~isempty(obj.freqRange) && ~isempty(obj.bemFreq)
+                % check that input file freq range is not larger than
+                % available BEM data
+                if obj.freqRange(1) < min(obj.bemFreq) || obj.freqRange(1) > max(obj.bemFreq)
+                    warning('Min frequency range outside BEM data, min frequency set to min BEM frequency')
+                    obj.freqRange(1) = min(obj.bemFreq);
+                end
+                if obj.freqRange(2) < min(obj.bemFreq) || obj.freqRange(2) > max(obj.bemFreq)
+                    warning('Max frequency range outside BEM data, max frequency set to max BEM frequency')
+                    obj.freqRange(2) = max(obj.bemFreq);
+                end
+            end
+            
+            obj.setWaterDepth(bemWaterDepth);
+            
             switch obj.type
-                case {'noWave','noWaveCIC'}                    
-                    if isempty(obj.w)
+                case {'noWave','noWaveCIC'}
+                    if isempty(obj.w) && strcmp(obj.T,'NOT DEFINED')
+                        obj.w = min(obj.freqRange);
+                        obj.T = 2*pi/obj.w;
+                    elseif isempty(obj.w)
                         obj.w = 2*pi/obj.T;
+                    else
+                        obj.T = 2*pi/obj.w;
                     end
-                    obj.waveNumber(g)
+                    obj.H = 0;
                     obj.A = obj.H/2;
+                    obj.waveNumber(g);
+                    obj.waveElevNowave(time);
                 case {'regular','regularCIC'}
-                    if isempty(obj.w)
+                    if isempty(obj.w) && strcmp(obj.T,'NOT DEFINED')
+                        obj.w = min(obj.freqRange);
+                        obj.T = 2*pi/obj.w;
+                    elseif isempty(obj.w)
                         obj.w = 2*pi/obj.T;
+                    else
+                        obj.T = 2*pi/obj.w;
                     end
                     obj.A = obj.H/2;
-                    obj.waveNumber(g)
+                    obj.waveNumber(g);
+                    obj.waveElevReg(rampTime, time);
                     obj.wavePowerReg(g,rho);
                 case {'irregular','spectrumImport'}
-                    WFQSt=min(bemFreq);
-                    WFQEd=max(bemFreq);
-                    if ~isempty(obj.freqRange)
-                        if obj.freqRange(1) > WFQSt && obj.freqRange(1) > 0
-                            WFQSt = obj.freqRange(1);
-                        else
-                            warning('Min frequency range outside BEM data, min frequency set to min BEM frequency')
-                        end
-                        if obj.freqRange(2) < WFQEd && obj.freqRange(2) > WFQSt
-                            WFQEd = obj.freqRange(2);
-                        else
-                            warning('Max frequency range outside BEM data, max frequency set to max BEM frequency')
-                        end
-                    end
+                    if strcmp(obj.type,'spectrumImport')
+                        obj.H = 0;
+                        obj.T = 0;
+                        obj.freqDisc = 'Imported';
+                        obj.spectrumType = 'spectrumImport';
+                    end                    
+                    WFQSt=min(obj.freqRange);
+                    WFQEd=max(obj.freqRange);                    
                     switch obj.freqDisc
                         case {'Traditional'}
                             if isempty(obj.numFreq)
@@ -234,7 +268,7 @@ classdef waveClass<handle
                         case {'Imported'}
                             data = importdata(obj.spectrumDataFile);
                             freq_data = data(:,1);
-                            freq_loc = freq_data>=min(obj.bemFreq)/2/pi & freq_data<=max(obj.bemFreq)/2/pi;
+                            freq_loc = freq_data >= min(obj.freqRange)/2/pi & freq_data <= max(obj.freqRange)/2/pi;
                             obj.w    = freq_data(freq_loc).*2.*pi;
                             obj.numFreq = length(obj.w);
                             obj.dw(1,1)= obj.w(2)-obj.w(1);
@@ -244,14 +278,14 @@ classdef waveClass<handle
                     obj.setWavePhase;
                     obj.irregWaveSpectrum(g,rho)
                     obj.waveNumber(g)
+                    obj.waveElevIrreg(rampTime, time, obj.dw);
                 case {'etaImport'}    %  This does not account for wave direction
                     % Import 'etaImport' time-series here and interpolate
                     data = importdata(obj.etaDataFile) ;    % Import time-series
-                    t = [0:dt:endTime]';      % WEC-Sim simulation time [s]
-                    obj.waveElevUser(rampTime, dt, maxIt, data, t);
+                    obj.waveElevUser(rampTime, dt, maxIt, data, time);
             end
         end
-        
+
         function calculateElevation(obj,rampTime,timeseries)
             % Calculates the wave elevation based on the wave type.
             % Used by postProcess.m
@@ -270,19 +304,19 @@ classdef waveClass<handle
             switch obj.type
                 case {'noWave','noWaveCIC'}                    
                     obj.waveElevNowave(timeseries);
-                     
+
                 case {'regular','regularCIC'}
                     obj.waveElevReg(rampTime, timeseries);
-                    
+
                 case {'irregular','spectrumImport'}
                     obj.waveElevIrreg(rampTime, timeseries, obj.dw);
-                    
+
                 case {'etaImport'}
                     % Wave elevation is a necessary pre-processing step for
                     % the eta import case.
                     % Used by waveClass.waveSetup()
             end
-        end
+        end        
         
         function listInfo(obj)
             % This method prints wave information to the MATLAB Command Window.
@@ -341,6 +375,12 @@ classdef waveClass<handle
         function checkinputs(obj)
             % This method checks WEC-Sim user inputs and generates error
             % messages if parameters are not properly defined. 
+            
+            if ~isempty(obj.markerLoc)
+            if ~ndims(obj.markerLoc)==2
+            error('The coordinates of the visualization markers should have an ordinate (y-coordinate) and an abscissa (x-coordinate)')
+            end
+            end
 
             % 'noWave' period undefined for hydro data
             if strcmp(obj.type,'noWave')
@@ -359,7 +399,9 @@ classdef waveClass<handle
             if sum(strcmp(types,obj.type)) ~= 1
                 error(['Unexpected wave environment type setting, choose from: ' ...
                     '"noWave", "noWaveCIC", "regular", "regularCIC", "irregular", "spectrumImport", and "etaImport".'])
-            end               
+            end
+            
+
         end
         
         function Z = waveElevationGrid(obj, t, X, Y, TimeBodyParav, it, g)
@@ -383,17 +425,16 @@ classdef waveClass<handle
             %     TimeBodyParav : float array
             %         Time vector starting from zero specified for paraview
             %         video files.
+            %     
+            %     it : time step iteration
             %
-            %     it : float
-            %         time step iteration,
+            %     g : gravitational acceleration constant from simulationClass
             %
-            %     g : float
-            %         gravitational acceleration constant from simulationClass
             %
             % Returns
             % ---------
             %     Z : matrix
-            %         (m x n) matrix of Z coordinates of the wave elevation
+            %         (m x n) matrix of Z coordinates of the wave elevation            
             %
             switch obj.type                
                 case {'noWave','noWaveCIC'}                    
@@ -456,7 +497,7 @@ classdef waveClass<handle
                     data = importdata(obj.spectrumDataFile);
                     if size(data,2) == 3
                         freq_data = data(:,1);
-                        freq_loc = freq_data>=min(obj.bemFreq)/2/pi & freq_data<=max(obj.bemFreq)/2/pi;
+                        freq_loc = freq_data>=min(obj.freqRange)/2/pi & freq_data<=max(obj.freqRange)/2/pi;
                         phase_data = data(freq_loc,3);
                         obj.phase = phase_data';
                     else
@@ -466,78 +507,82 @@ classdef waveClass<handle
             obj.phase = obj.phase';
         end
         
-        function setWaveProps(obj,wDepth)
-            % Sets global and type-specific properties
-            % Used by waveSetup
-            if strcmp(wDepth,'infinite')
-                obj.deepWaterWave = 1;
-                obj.waterDepth = 200;
-                fprintf('\tInfinite water depth specified in BEM, "waves.waterDepth" set to 200m for vizualisation.\n')
-            else
-                obj.deepWaterWave = 0;
-                obj.waterDepth = double(wDepth);
-            end
-            switch obj.type
-                case {'noWave'}
-                    obj.H = 0;
-                case {'noWaveCIC'}
-                    obj.H = 0;
-                    if isempty(obj.w) && strcmp(obj.T,'NOT DEFINED')
-                        obj.w = min(obj.bemFreq);
-                        obj.T=2*pi/obj.w;
-                    elseif isempty(obj.w)
-                        obj.w = 2*pi/obj.T;
-                    else
-                        obj.T = 2*pi/obj.w;
-                    end
-                case {'spectrumImport'}
-                    obj.H = 0;
-                    obj.T = 0;
-                    obj.freqDisc = 'Imported';
-                    obj.spectrumType = 'spectrumImport';
+        function setWaterDepth(obj,bemWaterDepth)
+            % Set the water depth. If defined in input file, BEM depth is
+            % not used. Used by waveSetup
+            if isempty(obj.waterDepth)
+                if isempty(bemWaterDepth)
+                    error('Must define water depth in waves.waterDepth when zero hydro bodies (no .h5 file).');
+                elseif strcmp(bemWaterDepth,'infinite')
+                    obj.deepWaterWave = 1;
+                    obj.waterDepth = 200;
+                    fprintf('\tInfinite water depth specified in BEM and "waves.waterDepth" not specified in input file.\n')
+                    fprintf('Set water depth to 200m for visualization.\n')
+                else
+                    obj.deepWaterWave = 0;
+                    obj.waterDepth = double(bemWaterDepth);
+                end
             end
         end
         
         function waveElevNowave(obj,timeseries)
             % Set noWave elevation time-history
-            % Used by postProcess
+            % Used by waveSetup                    
+            % Used by postProcess for variable step solvers
             obj.waveAmpTime         = zeros(length(timeseries),2);
-            obj.waveAmpTime(:,1)    = timeseries;
+            obj.waveAmpTime(:,1)    = timeseries;            
         end
         
-        function waveElevReg(obj, rampTime, timeseries)
+        function waveElevReg(obj,rampTime,timeseries)
             % Calculate regular wave elevation time history
-            % Used by postProcess
+            % Used by waveSetup                    
+            % Used by postProcess for variable step solvers
             maxIt = length(timeseries);
             [~,i] = min(abs(timeseries-rampTime));
-            
+
             rampTimeseries = timeseries(1:i);
             maxRampIt = length(rampTimeseries);
             rampFunction = (1+cos(pi+pi*rampTimeseries/rampTime))/2;
             rampFunction(end:end+maxIt-maxRampIt) = 1;
-            
+
             obj.waveAmpTime = zeros(maxIt,2);
             obj.waveAmpTime(:,1) = timeseries;
-            obj.waveAmpTime(:,2) = obj.A*cos(obj.w*timeseries);
-            
+            obj.waveAmpTime(:,2) = rampFunction.*(obj.A*cos(obj.w*timeseries));
+
+            % Wave Gauges
             if ~any(isnan(obj.wavegauge1loc))
                 obj.waveAmpTime1 = zeros(maxIt,2);
                 obj.waveAmpTime1(:,1) = timeseries;
                 obj.waveAmpTime1(:,2) = rampFunction.*obj.A.*cos(obj.w*timeseries - obj.k*(obj.wavegauge1loc(1).*cos(obj.waveDir*pi/180) + obj.wavegauge1loc(2).*sin(obj.waveDir*pi/180)));
             end
-            
             if ~any(isnan(obj.wavegauge2loc))
                 obj.waveAmpTime2 = zeros(maxIt,2);
                 obj.waveAmpTime2(:,1) = timeseries;
                 obj.waveAmpTime2(:,2) = rampFunction.*obj.A.*cos(obj.w*timeseries - obj.k*(obj.wavegauge2loc(1).*cos(obj.waveDir*pi/180) + obj.wavegauge2loc(2).*sin(obj.waveDir*pi/180)));
             end
-            
             if ~any(isnan(obj.wavegauge3loc))
                 obj.waveAmpTime3 = zeros(maxIt,2);
                 obj.waveAmpTime3(:,1) = timeseries;
                 obj.waveAmpTime3(:,2) = rampFunction.*obj.A.*cos(obj.w*timeseries - obj.k*(obj.wavegauge3loc(1).*cos(obj.waveDir*pi/180) + obj.wavegauge3loc(2).*sin(obj.waveDir*pi/180)));
             end
-        end
+            
+            % Wave Marker
+            if ~isempty(obj.markerLoc)==1
+                if width(obj.markerLoc)~=2
+                    error('The coordinates of the visualization markers should have an ordinate (y-coordinate) and an abscissa (x-coordinate)')
+                end
+            end                
+            if ~any(isnan(obj.markerLoc))
+               SZwaveAmpTimeViz = size(obj.markerLoc);
+               obj.waveAmpTimeViz = zeros(maxIt,SZwaveAmpTimeViz(1)+1);
+                for j = 1:SZwaveAmpTimeViz(1)
+                    if ~isnan(obj.markerLoc)
+                        obj.waveAmpTimeViz(:,1) = timeseries;
+                        obj.waveAmpTimeViz(:,j+1) = rampFunction.*obj.A.*cos(obj.w*timeseries - obj.k*(obj.markerLoc(j,1).*cos(obj.waveDir*pi/180) + obj.markerLoc(j,2).*sin(obj.waveDir*pi/180)));                   
+                    end  
+                end             
+            end          
+        end        
         
         function wavePowerReg(obj,g,rho)
             % Calculate wave power per unit wave crest for regular waves
@@ -552,7 +597,7 @@ classdef waveClass<handle
         
         function irregWaveSpectrum(obj,g,rho)
             % Calculate wave spectrum vector (obj.A)
-            % Used by wavesIrreg (wavesIrreg used by waveSetup)
+            % Used by wavesIrreg (wavesIrreg used by waveSetup)            
             freq = obj.w/(2*pi);
             Tp = obj.T;
             Hs = obj.H;
@@ -589,7 +634,7 @@ classdef waveClass<handle
                     data = importdata(obj.spectrumDataFile);
                     freq_data = data(:,1);
                     S_data = data(:,2);
-                    freq_loc = freq_data>=min(obj.bemFreq)/2/pi & freq_data<=max(obj.bemFreq)/2/pi;
+                    freq_loc = freq_data >= min(obj.freqRange)/2/pi & freq_data <= max(obj.freqRange)/2/pi;
                     S_f = S_data(freq_loc);                                    % Wave Spectrum [m^2-s] for 'EqualEnergy'
                     obj.S = S_f./(2*pi);                                       % Wave Spectrum [m^2-s/rad] for 'Traditional'
                     fprintf('\t"spectrumImport" uses the number of imported wave frequencies (not "Traditional" or "EqualEnergy")\n')
@@ -633,73 +678,94 @@ classdef waveClass<handle
             end
             obj.A = 2 * obj.S;                                              % Wave Amplitude [m]
         end
-        
+
         function waveElevIrreg(obj,rampTime,timeseries,df)
             % Calculate irregular wave elevetaion time history
-            % Used by postProcess
+            % Used by waveSetup
+            % Used by postProcess for variable time step 
             maxIt = length(timeseries);
             [~,i] = min(abs(timeseries-rampTime));
-            
+
             rampTimeseries = timeseries(1:i);
             maxRampIt = length(rampTimeseries);
             rampFunction = (1+cos(pi+pi*rampTimeseries/rampTime))/2;
             rampFunction(end:end+maxIt-maxRampIt) = 1;
-            
+
             obj.waveAmpTime = zeros(maxIt,2);
             obj.waveAmpTime(:,1) = timeseries;
-            
+
+            % Wave Gauges
             if ~isnan(obj.wavegauge1loc)
                 obj.waveAmpTime1 = zeros(maxIt,2);
                 obj.waveAmpTime1(:,1) = timeseries;
             end
-            
             if ~isnan(obj.wavegauge2loc)
                 obj.waveAmpTime2 = zeros(maxIt,2);
                 obj.waveAmpTime2(:,1) = timeseries;
             end
-            
             if ~isnan(obj.wavegauge3loc)
-                obj.waveAmpTime3 = zeros(maxIt,2);
-                obj.waveAmpTime3(:,1) = timeseries;
+               obj.waveAmpTime3 = zeros(maxIt,2);
+               obj.waveAmpTime3(:,1) = timeseries;
             end
             
+            %  Wave Markers
+            if ~isempty(obj.markerLoc)==1
+                if width(obj.markerLoc)~=2
+                    error('The coordinates of the visualization markers should have an ordinate (y-coordinate) and an abscissa (x-coordinate)')
+                end
+            end                              
+            if ~isnan(obj.markerLoc)
+               SZwaveAmpTimeViz = size(obj.markerLoc);
+               obj.waveAmpTimeViz = zeros(maxIt,SZwaveAmpTimeViz(1)+1);
+               obj.waveAmpTimeViz(:,1) = timeseries;
+            end            
+            
+            % Calculate eta
             for i = 1:length(timeseries)
                 tmp  = sqrt(obj.A.*df*obj.waveSpread);
                 tmp1 = tmp.*real(exp(sqrt(-1).*(obj.w.*timeseries(i) + obj.phase)));
                 obj.waveAmpTime(i,2) = rampFunction(i)*sum(tmp1,'all');
-                
+
+                % Wave Gauges
                 if ~isnan(obj.wavegauge1loc)
                     tmp11 = tmp.*real(exp(sqrt(-1).*(obj.w.*timeseries(i) - obj.k*(obj.wavegauge1loc(1).*cos(obj.waveDir*pi/180) + obj.wavegauge1loc(2).*sin(obj.waveDir*pi/180)) + obj.phase)));
                     obj.waveAmpTime1(i,2) = rampFunction(i).*sum(tmp11,'all');
                 end
-                
+
                 if ~isnan(obj.wavegauge2loc)
                     tmp12 = tmp.*real(exp(sqrt(-1).*(obj.w.*timeseries(i) - obj.k*(obj.wavegauge2loc(1).*cos(obj.waveDir*pi/180) + obj.wavegauge2loc(2).*sin(obj.waveDir*pi/180)) + obj.phase)));
                     obj.waveAmpTime2(i,2) = rampFunction(i)*sum(tmp12,'all');
                 end
-                
+
                 if ~isnan(obj.wavegauge3loc)
                     tmp13 = tmp.*real(exp(sqrt(-1).*(obj.w.*timeseries(i) - obj.k*(obj.wavegauge3loc(1).*cos(obj.waveDir*pi/180) + obj.wavegauge3loc(2).*sin(obj.waveDir*pi/180)) + obj.phase)));
                     obj.waveAmpTime3(i,2) = rampFunction(i)*sum(tmp13,'all');
                 end
+                
+                % Wave Markers
+                if ~isnan(obj.markerLoc)
+                    for j = 1:SZwaveAmpTimeViz(1)
+                        if ~isnan(obj.markerLoc)
+                            tmp14 = tmp.*real(exp(sqrt(-1).*(obj.w.*timeseries(i) - obj.k*(obj.markerLoc(j,1).*cos(obj.waveDir*pi/180) + obj.markerLoc(j,2).*sin(obj.waveDir*pi/180)) + obj.phase)));
+                            obj.waveAmpTimeViz(i,j+1) = rampFunction(i).*sum(tmp14,'all');
+                        end  
+                    end             
+                end                                                                       
             end
-        end
+        end        
         
-        function waveElevUser(obj,rampTime,dt,maxIt,data, t)
+        function waveElevUser(obj,rampTime,dt,maxIt,data,time)
             % Calculate imported wave elevation time history
             % Used by waveSetup
             rampTimeseries = 0:dt:rampTime;
             maxRampIt = length(rampTimeseries);
             rampFunction = (1+cos(pi+pi*rampTimeseries/rampTime))/2;
-            rampFunction(end:end+maxIt-maxRampIt) = 1;
-            
+            rampFunction(end:end+maxIt-maxRampIt) = 1;            
             obj.waveAmpTime = zeros(maxIt+1,2);
             data_t = data(:,1)';                    % Data Time [s]
-            data_x = data(:,2)';                    % Wave Surface Elevation [m]
-            
-            obj.waveAmpTime(:,1) = t;
-            obj.waveAmpTime(:,2) = rampFunction.*interp1(data_t,data_x,t);
-%             obj.waveAmpTime(i,2) = rampFunction.*obj.waveAmpTime(i,2);
+            data_x = data(:,2)';                    % Wave Surface Elevation [m]            
+            obj.waveAmpTime(:,1) = time;
+            obj.waveAmpTime(:,2) = rampFunction.*interp1(data_t,data_x,time);
         end
         
         function printWaveSpectrumType(obj)

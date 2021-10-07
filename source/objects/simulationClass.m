@@ -19,7 +19,15 @@
 
 
 classdef simulationClass<handle
-    % This class contains WEC-Sim simulation parameters and settings
+    %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+    % The  ``simulationClass`` creates a ``simu`` object saved to the MATLAB
+    % workspace. The ``simulationClass`` includes properties and methods used
+    % to define WEC-Sim's simulation parameters and settings.
+    %
+    %.. autoattribute:: objects.simulationClass.simulationClass
+    %
+    %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+    
     properties (SetAccess = 'public', GetAccess = 'public')%input file
         simMechanicsFile    = 'NOT DEFINED'                                % (`string`) Simulink/SimMechanics model file. Default = ``'NOT DEFINED'``
         startTime           = 0                                            % (`float`) Simulation start time. Default = ``0`` s
@@ -41,9 +49,8 @@ classdef simulationClass<handle
         explorer            = 'on'                                         % (`string`) SimMechanics Explorer 'on' or 'off'. Default = ``'on'``
         rho                 = 1000                                         % (`float`) Density of water. Default = ``1000`` kg/m^3
         g                   = 9.81                                         % (`float`) Acceleration due to gravity. Default = ``9.81`` m/s
-        nlHydro             = 0                                            % (`integer`) Option for nonlinear hydrohanamics calculation: linear->0, nonlinear->1,2. Default = ``0``
         yawNonLin           = 0                                            % (`integer`) Option for nonlinear yaw calculation linear->0, nonlinear->1 for nonlinear. Default = ``0`` 
-        yawThresh           = 1                                            % (`float`) Yaw position threshold (in degrees) above which excitation coefficients will be interpolated in non-linear yaw. Default = ``1`` dg
+        yawThresh           = 1                                            % (`float`) Yaw position threshold (in degrees) above which excitation coefficients will be interpolated in nonlinear yaw. Default = ``1`` dg
         b2b                 = 0                                            % (`integer`) Option for body2body interactions: off->0, on->1. Default = ``0``
         paraview            = 0                                            % (`integer`) Option for writing vtp files for paraview visualization, off->0, on->1. Default = ``0``
         StartTimeParaview   = 0;                                           % (`float`) Start time for the vtk file of Paraview. Default = ``0``                                    
@@ -52,7 +59,6 @@ classdef simulationClass<handle
         pathParaviewVideo   = 'vtk';                                       % (`string`) Path of the folder for Paraview vtk files. Default = ``'vtk'``     
         adjMassWeightFun    = 2                                            % (`integer`) Weighting function for adjusting added mass term in the translational direction. Default = ``2``
         mcrCaseFile         = []                                           % (`string`) mat file that contain a list of the multiple conditions runs with given conditions. Default = ``'NOT DEFINED'``  
-        morisonElement      = 0                                            % (`integer`) Option for Morison Element calculation: off->0, on->1 or 2. Default = ``0``. Option 1 uses an approach that allows the user to define drag and inertial coefficients along the x-, y-, and z-axes and Option 2 uses an approach that defines the Morison Element with normal and tangential tangential drag and interial coefficients.. 
         reloadH5Data        = 0                                            % (`integer`) Option to re-load hydro data from hf5 file between runs: off->0, on->1. Default = ``0``
         saveStructure       = 0                                            % (`integer`) Option to save results as a MATLAB structure: off->0, on->1. Default = ``1``
         saveText            = 0                                            % (`integer`) Option to save results as ASCII files off->0, on->1. Default = ``0``
@@ -77,6 +83,7 @@ classdef simulationClass<handle
         numDragBodies       = []                                           % (`integer`) Number of drag bodies that comprise the WEC device (excluding hydrodynamic bodies). Default = ``'NOT DEFINED'``
         numPtos             = []                                           % (`integer`) Number of power take-off elements in the model. Default = ``'NOT DEFINED'``
         numConstraints      = []                                           % (`integer`) Number of contraints in the wec model. Default = ``'NOT DEFINED'``
+        numCables           = []                                           % (`integer`) Number of cables in the wec model. Default = ``'NOT DEFINED'``
         numMoorings         = []                                           % (`integer`) Number of moorings in the wec model. Default = ``'NOT DEFINED'``
     end
 
@@ -199,7 +206,7 @@ classdef simulationClass<handle
             if waveTypeNum > 10
                 fprintf('\tConvolution Integral Interval  (sec) = %G\n',obj.CITime)
             end
-            fprintf('\tApproximate Number of Time Steps     = %u \n',obj.maxIt)
+            fprintf('\t Number of Time Steps     = %u \n',obj.maxIt)
         end
 
         function getGitCommit(obj)

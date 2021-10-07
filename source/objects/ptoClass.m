@@ -25,6 +25,9 @@ classdef ptoClass<handle
     % to define PTO connections between the body motion relative to the global reference 
     % frame or relative to other bodies. 
     %
+    %.. autoattribute:: objects.ptoClass.ptoClass
+    %    
+    
     %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
     properties (SetAccess = 'public', GetAccess = 'public')%input file 
         name                    = 'NOT DEFINED'                                 % (`string`) Specifies the pto name. For ptos this is defined by the user, Default = ``NOT DEFINED``. 

@@ -26,15 +26,18 @@ clear clock_out
 
 % Bodies
 for iBod = 1:length(body(1,:))
-    eval(['body' num2str(iBod) '_out.name = body(' num2str(iBod) ').name;']);
-    if iBod == 1; bodiesOutput = body1_out; end
+    eval(['body' num2str(iBod) '_out.name = body(' num2str(iBod) ').name;']);    
+    eval(['body' num2str(iBod) '_out.cg = body(' num2str(iBod) ').cg;']);    
+    if iBod == 1
+        bodiesOutput = body1_out; 
+    end
     bodiesOutput(iBod) = eval(['body' num2str(iBod) '_out']);
     eval(['clear body' num2str(iBod) '_out'])
 end
 
 % Add hydrostatic and FK pressures to bodiesOutput if required.
 for iBod = 1:length(body(1,:))
-    if simu.nlHydro~=0 && body(iBod).nhBody==0 && simu.pressureDis == 1 
+     if body(iBod).nlHydro~=0 && body(iBod).nhBody==0 && simu.pressureDis == 1 
         % hydrostatic pressure
         eval(['bodiesOutput(' num2str(iBod) ').hspressure = body' num2str(iBod) '_hspressure_out;']);
         % wave (Froude-Krylov) nonlinear pressure
@@ -42,8 +45,8 @@ for iBod = 1:length(body(1,:))
         % wave (Froude-Krylov) linear pressure
         eval(['bodiesOutput(' num2str(iBod) ').wpressurel = body' num2str(iBod) '_wavelinearpressure_out;']);
     else
-        if simu.nlHydro==0 && simu.pressureDis == 1 
-            warning('Pressure distribution on the body is only output when wecSim is run with non-linear hydro (simu.pressureDis == 1 && simu.nlHydro~=0 && body(i).nhBody==0)')
+        if body(iBod).nlHydro ==0 && simu.pressureDis == 1 
+            warning('Pressure distribution on the body is only output when wecSim is run with nonlinear hydro (simu.pressureDis == 1 && simu.nlHydro~=0 && body(i).nhBody==0)')
         end
         bodiesOutput(iBod).hspressure = [];
         bodiesOutput(iBod).wpressurenl = [];
@@ -75,6 +78,18 @@ else
     constraintsOutput = 0;
 end
 
+% Cable
+if exist('cable','var')
+    for iCab = 1:simu.numCables
+        eval(['cable' num2str(iCab) '_out.name = cable(' num2str(iCab) ').name;'])
+        if iCab == 1; cablesOutput =cable1_out; end
+        cablesOutput(iCab) = eval(['cable' num2str(iCab) '_out']);
+        eval(['clear cable' num2str(iCab) '_out']);
+    end; clear iCab
+else
+    cablesOutput = 0;
+end
+
 % Mooring
 if exist('mooring','var')
     for iMoor = 1:simu.numMoorings
@@ -95,7 +110,9 @@ else
 end
 
 % Waves
-waves.calculateElevation(simu.rampTime,bodiesOutput(1).time);
+if strcmp(simu.solver,'ode4')~=1    % Re-calculate wave elevation for variable time-step solver
+    waves.calculateElevation(simu.rampTime,bodiesOutput(1).time);
+end
 waveOutput = struct();
 waveOutput.type = waves.type;
 waveOutput.waveAmpTime = waves.waveAmpTime;
@@ -107,8 +124,8 @@ waveOutput.waveAmpTime2 = waves.waveAmpTime2;
 waveOutput.waveAmpTime3 = waves.waveAmpTime3;
 
 % All
-output = responseClass(bodiesOutput,ptosOutput,constraintsOutput,ptosimOutput,mooringOutput,waveOutput, simu.yawNonLin);
-clear bodiesOutput ptosOutput constraintsOutput ptosimOutput mooringOutput waveOutput
+output = responseClass(bodiesOutput,ptosOutput,constraintsOutput,ptosimOutput,cablesOutput,mooringOutput,waveOutput, simu.yawNonLin);
+clear bodiesOutput ptosOutput constraintsOutput ptosimOutput cablesOutput mooringOutput waveOutput
 
 % MoorDyn
 for iMoor = 1:simu.numMoorings
