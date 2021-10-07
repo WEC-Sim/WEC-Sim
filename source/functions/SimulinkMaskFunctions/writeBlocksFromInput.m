@@ -52,7 +52,7 @@ switch type
         maskVars.etaDataFile = waves.etaDataFile;                    % Name of User-Defined Time-Series File [:,2] = [time, eta]
     
     case 1
-        % Body data
+        % Body Data
         tmp = string(maskVars.body);
         num = str2num(extractBetween(tmp,strfind(tmp,'('),strfind(tmp,')'),'Boundaries','Exclusive'));
         maskVars.h5File = body(num).h5File;                          % Create the body(1) Variable, Set Location of Hydrodynamic Data File and Body Number Within this File.   
@@ -60,6 +60,7 @@ switch type
         maskVars.mass = body(num).mass;                              % Body Mass
         maskVars.momOfInertia = body(num).momOfInertia;              % Moment of Inertia [kg*m^2]  
         maskVars.nhBody = body(num).nhBody;
+        maskVars.nlHydro = body(num).nlHydro;
         maskVars.flexHydroBody = body(num).flexHydroBody;
         maskVars.cg = body(num).cg;
         maskVars.cb = body(num).cb;
