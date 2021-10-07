@@ -54,9 +54,6 @@ end
 
 %% Remove 'temp' directory
 
-% Store root directory of this *.m file
-% projectRootDir = pwd;
-
 % Remove 'temp' directory from path and remove 'temp' directory
 rmpath(fullfile(projectRootDir,'temp'));
 try
