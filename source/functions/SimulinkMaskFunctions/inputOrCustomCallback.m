@@ -6,13 +6,14 @@ function inputOrCustomCallback(grfBlockHandle)
 % show/hide the custom mask parameters which are then set in Simulink.
 
 %% Determine if an Input file or Custom Parameters are being used.
-% Set by the Global reference frame only
-
-mask = Simulink.Mask.get(grfBlockHandle);
+% Set by the Global reference frame only.
+values = get_param(grfBlockHandle,'MaskValues');    % Get values of all Masked Parameters    
+names = get_param(grfBlockHandle,'MaskNames');      % Get names of all Masked Parameters
 
 % Find index for ParamInput, parameter that decides input method
-ParamInput = mask.getParameter('ParamInput');
-if strcmp(ParamInput.Value,'Input File')
+j = find(strcmp(names,'ParamInput'));
+
+if strcmp(values{j,1},'Input File')
     useInputFile = true;
 else
     useInputFile = false;
@@ -25,9 +26,11 @@ blocks = find_system(bdroot,'Type','Block');
 for i=1:length(blocks)
     % Variable names and values of a block
     names = get_param(blocks{i},'MaskNames');
+    values = get_param(blocks{i},'MaskValues');
     
     % Check if the block is from the WEC-Sim library
-    if any(contains(names,{'simu','waves','body','pto','constraint','mooring'}))
+    if any(contains(names,{'simu','waves','body','pto','constraint','cable','mooring'}))
+        % Update the visibility of WEC-Sim blocks
         blockHandle = getSimulinkBlockHandle(blocks{i});
         customVisibilityCallback(blockHandle,useInputFile);
     end

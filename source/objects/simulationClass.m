@@ -19,7 +19,15 @@
 
 
 classdef simulationClass<handle
-    % This class contains WEC-Sim simulation parameters and settings
+    %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+    % The  ``simulationClass`` creates a ``simu`` object saved to the MATLAB
+    % workspace. The ``simulationClass`` includes properties and methods used
+    % to define WEC-Sim's simulation parameters and settings.
+    %
+    %.. autoattribute:: objects.simulationClass.simulationClass
+    %
+    %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+    
     properties (SetAccess = 'public', GetAccess = 'public')%input file
         simMechanicsFile    = 'NOT DEFINED'                                % (`string`) Simulink/SimMechanics model file. Default = ``'NOT DEFINED'``
         startTime           = 0                                            % (`float`) Simulation start time. Default = ``0`` s
@@ -34,7 +42,7 @@ classdef simulationClass<handle
         domainSize          = 200                                          % (`float`) Size of free surface and seabed. This variable is only used for visualization. Default = ``200`` m
         ssCalc              = 0                                            % (`integer`) Option for convolution integral or state-space calculation: convolution integral->0, state-space->1. Default = ``0``
         mode                = 'normal'                                     % (`string`) Simulation execution mode, 'normal', 'accelerator', 'rapid-accelerator'. Default = ``'normal'``
-        solver              = 'ode4'                                       % (`string`) PDE solver used by the Simulink/SimMechanics simulation, 'ode4, 'ode45'. Default = ``'ode45'``
+        solver              = 'ode4'                                       % (`string`) PDE solver used by the Simulink/SimMechanics simulation. Any continuous solver in Simulink possible. Recommended to use 'ode4, 'ode45' for WEC-Sim. Default = ``'ode4'``
         numIntMidTimeSteps  = 5                                            % (`integer`) Number of intermediate time steps. Default = ``5`` for ode4 method
         autoRateTranBlk     = 'on'                                         % (`string`) Automatically handle rate transition for data transfer, 'on', 'off'. Default = ``'on'``
         zeroCrossCont       = 'DisableAll'                                 % (`string`) Disable zero cross control. Default = ``'DisableAll'``
@@ -69,12 +77,13 @@ classdef simulationClass<handle
         caseFile            = []                                           % (`string`) .mat file with all simulation information. Default = dependent
         caseDir             = []                                           % (`string`) WEC-Sim case directory. Default = dependent
         CIkt                = []                                           % (`integer`) Number of timesteps in the convolution integral length. Default = dependent
-        maxIt               = []                                           % (`integer`) Total number of simulation time steps. Default = dependent
+        maxIt               = []                                           % (`integer`) Total number of simulation time steps. Approximate for variable step solvers. Default = dependent
         CTTime              = []                                           % (`float vector`) Convolution integral time series. Default = dependent
         numWecBodies        = []                                           % (`integer`) Number of hydrodynamic bodies that comprise the WEC device. Default = ``'NOT DEFINED'``
         numDragBodies       = []                                           % (`integer`) Number of drag bodies that comprise the WEC device (excluding hydrodynamic bodies). Default = ``'NOT DEFINED'``
         numPtos             = []                                           % (`integer`) Number of power take-off elements in the model. Default = ``'NOT DEFINED'``
         numConstraints      = []                                           % (`integer`) Number of contraints in the wec model. Default = ``'NOT DEFINED'``
+        numCables           = []                                           % (`integer`) Number of cables in the wec model. Default = ``'NOT DEFINED'``
         numMoorings         = []                                           % (`integer`) Number of moorings in the wec model. Default = ``'NOT DEFINED'``
     end
 
@@ -117,25 +126,36 @@ classdef simulationClass<handle
             % Sets simulation properties based on values specified in input file
             obj.time = obj.startTime:obj.dt:obj.endTime;
             obj.maxIt = floor((obj.endTime - obj.startTime) / obj.dt);
+            
             % Set dtOut if it was not specificed in input file
             if isempty(obj.dtOut) || obj.dtOut < obj.dt
                 obj.dtOut = obj.dt;
             end
+            
             % Set dtNL if it was not specificed in input file
             if isempty(obj.dtNL) || obj.dtNL < obj.dt
                 obj.dtNL = obj.dt;
             end
+            
             % Set dtCITime if it was not specificed in input file
             if isempty(obj.dtCITime) || obj.dtCITime < obj.dt
                 obj.dtCITime = obj.dt;
             end
+            
             % Set dtME if it was not specificed in input file
             if isempty(obj.dtME) || obj.dtME < obj.dt
                 obj.dtME = obj.dt;
-            end            
+            end
+            
+            % Set dtParaview if it was not specified in input file
+            if isempty(obj.dtParaview) || obj.dtParaview < obj.dtParaview
+                obj.dtParaview = obj.dtOut;
+            end
+            
             obj.CTTime = 0:obj.dtCITime:obj.CITime;            
             obj.CIkt = length(obj.CTTime);
-            obj.caseFile = [obj.simMechanicsFile(length(obj.caseDir)+1:end-4) '_matlabWorkspace.mat'];            
+            obj.caseFile = [obj.simMechanicsFile(length(obj.caseDir)+1:end-4) '_matlabWorkspace.mat'];
+            
             % Remove existing output folder
             if exist(obj.outputDir,'dir') ~= 0
                 try
@@ -186,7 +206,7 @@ classdef simulationClass<handle
             if waveTypeNum > 10
                 fprintf('\tConvolution Integral Interval  (sec) = %G\n',obj.CITime)
             end
-            fprintf('\tTotal Number of Time Steps           = %u \n',obj.maxIt)
+            fprintf('\t Number of Time Steps     = %u \n',obj.maxIt)
         end
 
         function getGitCommit(obj)
