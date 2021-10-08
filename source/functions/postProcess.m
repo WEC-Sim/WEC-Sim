@@ -19,6 +19,11 @@
 
 %% Post processing and Saving Results
 fprintf('\nPost-processing and saving...   \n')
+
+% Update simulation class with actual simulation time
+simu.time = clock_out.time;
+clear clock_out
+
 % Bodies
 for iBod = 1:length(body(1,:))
     eval(['body' num2str(iBod) '_out.name = body(' num2str(iBod) ').name;']);    
@@ -29,6 +34,7 @@ for iBod = 1:length(body(1,:))
     bodiesOutput(iBod) = eval(['body' num2str(iBod) '_out']);
     eval(['clear body' num2str(iBod) '_out'])
 end
+
 % Add hydrostatic and FK pressures to bodiesOutput if required.
 for iBod = 1:length(body(1,:))
      if body(iBod).nlHydro~=0 && body(iBod).nhBody==0 && simu.pressureDis == 1 
@@ -47,6 +53,7 @@ for iBod = 1:length(body(1,:))
         bodiesOutput(iBod).wpressurel = [];
     end
 end; clear iBod
+
 % PTOs
 if exist('pto','var')
     for iPto = 1:simu.numPtos
@@ -58,6 +65,7 @@ if exist('pto','var')
 else
     ptosOutput = 0;
 end
+
 % Constraints
 if exist('constraint','var')
     for iCon = 1:simu.numConstraints
@@ -69,6 +77,19 @@ if exist('constraint','var')
 else
     constraintsOutput = 0;
 end
+
+% Cable
+if exist('cable','var')
+    for iCab = 1:simu.numCables
+        eval(['cable' num2str(iCab) '_out.name = cable(' num2str(iCab) ').name;'])
+        if iCab == 1; cablesOutput =cable1_out; end
+        cablesOutput(iCab) = eval(['cable' num2str(iCab) '_out']);
+        eval(['clear cable' num2str(iCab) '_out']);
+    end; clear iCab
+else
+    cablesOutput = 0;
+end
+
 % Mooring
 if exist('mooring','var')
     for iMoor = 1:simu.numMoorings
@@ -80,13 +101,18 @@ if exist('mooring','var')
 else
     mooringOutput = 0;
 end
+
 % PTO-Sim
 if exist('ptosim','var')
     ptosimOutput = ptosim.response;
 else
     ptosimOutput = 0;
 end
+
 % Waves
+if strcmp(simu.solver,'ode4')~=1    % Re-calculate wave elevation for variable time-step solver
+    waves.calculateElevation(simu.rampTime,bodiesOutput(1).time);
+end
 waveOutput = struct();
 waveOutput.type = waves.type;
 waveOutput.waveAmpTime = waves.waveAmpTime;
@@ -98,14 +124,16 @@ waveOutput.waveAmpTime2 = waves.waveAmpTime2;
 waveOutput.waveAmpTime3 = waves.waveAmpTime3;
 
 % All
-output = responseClass(bodiesOutput,ptosOutput,constraintsOutput,ptosimOutput,mooringOutput,waveOutput, simu.yawNonLin);
-clear bodiesOutput ptosOutput constraintsOutput ptosimOutput mooringOutput waveOutput
+output = responseClass(bodiesOutput,ptosOutput,constraintsOutput,ptosimOutput,cablesOutput,mooringOutput,waveOutput, simu.yawNonLin);
+clear bodiesOutput ptosOutput constraintsOutput ptosimOutput cablesOutput mooringOutput waveOutput
+
 % MoorDyn
 for iMoor = 1:simu.numMoorings
     if mooring(iMoor).moorDyn==1
         output.loadMoorDyn(mooring(iMoor).moorDynLines);
     end
 end; clear iMoor
+
 % Calculate correct added mass and total forces
 for iBod = 1:simu.numWecBodies
     body(iBod).restoreMassMatrix

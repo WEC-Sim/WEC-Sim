@@ -3,9 +3,6 @@ function bodyClassCallback(blockHandle)
 % morisonElement.option are changed. The visibility of the relevant mask
 % parameters are updated based on these options.
 
-values = get_param(blockHandle,'MaskValues');        % Get values of all Masked Parameters
-names = get_param(blockHandle,'MaskNames');          % Get names of all Masked Parameters
-
 %% Update Morison Element parameters
 
 % Get mask parameter controls for all Morison element parameters

@@ -417,6 +417,10 @@ function [sorted_dofs,inds,reset_tf, nDofs_per_body, split_body_names] = sorted_
 % 2. sort each body's dofs by [standard gbm]: surge, sway, heave, roll, pitch, yaw, gbm1, gbm2, ...
 % 3. concatenate dofs
 
+% Capytaine lowers the case of body names when used in the dof names. Do
+% the same here to parse and reorder dofs correctly.
+body_names = lower(body_names);
+
 % list of standard dofs
 std_dofs = ["surge", "sway", "heave", "roll", "pitch", "yaw"];
 nDofs = length(old_dofs);

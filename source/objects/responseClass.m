@@ -21,35 +21,34 @@ classdef responseClass<handle
     %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
     % The  ``responseClass`` creates an ``output`` object saved to the MATLAB workspace
     % that contains structures for each instance of a WEC-Sim class (e.g.
-    % ``waveClass``, ``bodyClass``, ``ptoClass``, ``mooringClass``, etc).
+    % ``waveClass``, ``bodyClass``, ``constraintClass``, ``ptoClass``, 
+    % ``cableClass``, ``mooringClass``, etc).
     % 
-    %.. autoattribute:: objects.responseClass.wave
+    %.. autoattribute:: objects.responseClass.responseClass            
+    %     
+    %.. autoattribute:: objects.responseClass.wave 
     %    
-    % , it includes:
-    %
-    %   * ``type`` (`string`) = 'waveType'. Wave type used in the simulation
-    %   *  ``time`` (`array`) = [# of time-steps x 1] Simulation output timeseries. Used in the wave elevation calculations.
-    %   * ``elevation`` (`array`) = [# of time-steps x 1] Wave elevation at the origin (0,0)
-    %   * ``waveGauge1Elevation`` (`array`) = [# of time-steps x 1] Wave elevation at gauge 1 location
-    %   * ``waveGauge2Elevation`` (`array`) = [# of time-steps x 1] Wave elevation at gauge 2 location
-    %   * ``waveGauge3Elevation`` (`array`) = [# of time-steps x 1] Wave elevation at gauge 3 location
+    %   * ``type`` (`string`) = 'waveType'
+    %   *  ``time`` (`array`) = [# of time-steps x 1]
+    %   * ``elevation`` (`array`) = [# of time-steps x 1]
+    %   * ``waveGauge1Elevation`` (`array`) = [# of time-steps x 1]
+    %   * ``waveGauge2Elevation`` (`array`) = [# of time-steps x 1]
+    %   * ``waveGauge3Elevation`` (`array`) = [# of time-steps x 1]
     %         
     %.. autoattribute:: objects.responseClass.bodies
     %    
-    % , it includes:
-    %
-    %   * ``name`` (`string`) = 'bodyName' Body name
-    %   * ``time`` (`array`) = [# of time-steps x 1] Simulation output timeseries
-    %   * ``position`` (`array`) = [# of time-steps x 6] 6-DOF body position in the global coordinate system
-    %   * ``velocity`` (`array`) = [# of time-steps x 6] 6-DOF body velocity in the global coordinate system
-    %   *  ``accleration`` (`array`) = [# of time-steps x 6] 6-DOF body acceleration in the global coordinate system
-    %   *  ``forceTotal`` (`array`) = [# of time-steps x 6] Summation of all hydrodynamic forces acting on the body
-    %   *  ``forceExcitation`` (`array`) = [# of time-steps x 6] Wave excitation force exerted by the body
-    %   *  ``forceRadiationDamping`` (`array`) = [# of time-steps x 6] Radiation Damping force exerted by the body
-    %   *  ``forceAddedMass`` (`array`) = [# of time-steps x 6] Added mass force exerted by the body
-    %   *  ``forceRestoring`` (`array`) = [# of time-steps x 6] Hydrostatic restoring force exerted by the body
-    %   *  ``forceMorisonAndViscous`` (`array`) = [# of time-steps x 6] Sum of the Morison element and viscous drag forces exerted by the body
-    %   *  ``forceLinearDamping`` (`array`) = [# of time-steps x 6] Linear damping force exerted by the body
+    %   * ``name`` (`string`) = 'bodyName'
+    %   * ``time`` (`array`) = [# of time-steps x 1]
+    %   * ``position`` (`array`) = [# of time-steps x 6]
+    %   * ``velocity`` (`array`) = [# of time-steps x 6]
+    %   *  ``accleration`` (`array`) = [# of time-steps x 6]
+    %   *  ``forceTotal`` (`array`) = [# of time-steps x 6]
+    %   *  ``forceExcitation`` (`array`) = [# of time-steps x 6]
+    %   *  ``forceRadiationDamping`` (`array`) = [# of time-steps x 6]
+    %   *  ``forceAddedMass`` (`array`) = [# of time-steps x 6]
+    %   *  ``forceRestoring`` (`array`) = [# of time-steps x 6]
+    %   *  ``forceMorisonAndViscous`` (`array`) = [# of time-steps x 6]
+    %   *  ``forceLinearDamping`` (`array`) = [# of time-steps x 6]
     %
     %   There are 4 additional ``output.bodies`` arrays when using nonlinear hydro and Paraview output:
     %
@@ -58,40 +57,45 @@ classdef responseClass<handle
     %   *  ``cellPressures_waveLinear`` (`array`) = [# of Paraview time-steps x # of mesh faces] Excitation pressure on each stl facet given zero displacement and the mean free surface
     %   *  ``cellPressures_waveNonLinear`` (`array`) = [# of Paraview time-steps x # of mesh faces] Excitation pressure on each stl facet given the instantaneous displacement and instantaneous free surface 
     %
-    %.. autoattribute:: objects.responseClass.ptos
-    %    
-    % , it includes:
-    %
-    %   * ``name`` (`string`) = 'ptoName' PTO name
-    %   * ``time`` (`array`) = [# of time-steps x 1]  Simulation output timeseries
-    %   * ``position`` (`array`) = [# of time-steps x 6] 6-DOF position of the follower relative to the base body at the PTO location
-    %   * ``velocity`` (`array`) = [# of time-steps x 6] 6-DOF velocity of the follower relative to the base body at the PTO location
-    %   *  ``accleration`` (`array`) = [# of time-steps x 6] 6-DOF acceleration of the follower relative to the base body at the PTO location
-    %   *  ``forceTotal`` (`array`) = [# of time-steps x 6] Total force exerted on the follower by the base body
-    %   * ``forceActuation`` (`array`) = [# of time-steps x 6] External force applied to the PTO joint in the unconstrained DOFs
-    %   * ``forceConstraint`` (`array`) = [# of time-steps x 6] Force exerted on the follower by the base body that is required to maintain zero motion in the constrained DOFs
-    %   * ``forceInternalMechanics`` (`array`) = [# of time-steps x 6] Sum of the spring and damping forces
-    %   * ``powerInternalMechanics`` (`array`) = [# of time-steps x 6] Sum of the power dissipated by the damper and absorbed by the spring
-    %
     %.. autoattribute:: objects.responseClass.constraints
     %    
-    % , it includes:
+	%   * ``name`` (`string`) = 'coonstraintName'
+    %   * ``time`` (`array`) = [# of time-steps x 1]
+    %   * ``position`` (`array`) = [# of time-steps x 6]
+    %   * ``velocity`` (`array`) = [# of time-steps x 6]
+    %   * ``accleration`` (`array`) = [# of time-steps x 6]
+    %   * ``forceConstraint`` (`array`) = [# of time-steps x 6]    
     %
-    %   * ``name`` (`string`) = 'coonstraintName' Constraint name
-    %   * ``time`` (`array`) = [# of time-steps x 1] Simulation output timeseries
-    %   * ``position`` (`array`) = [# of time-steps x 6] 6-DOF position of the follower relative to the base body at the constraint location
-    %   * ``velocity`` (`array`) = [# of time-steps x 6] 6-DOF velocity of the follower relative to the base body at the constraint location
-    %   *  ``accleration`` (`array`) = [# of time-steps x 6] 6-DOF acceleration of the follower relative to the base body at the constraint location
-    %   *  ``forceConstraint`` (`array`) = [# of time-steps x 6] Force exerted on the follower by the base body that is required to maintain zero motion in the constrained DOFs
+    %.. autoattribute:: objects.responseClass.ptos
+    %    
+    %   * ``name`` (`string`) = 'ptoName'
+    %   * ``time`` (`array`) = [# of time-steps x 1]
+    %   * ``position`` (`array`) = [# of time-steps x 6]
+    %   * ``velocity`` (`array`) = [# of time-steps x 6]
+    %   * ``accleration`` (`array`) = [# of time-steps x 6]
+    %   * ``forceTotal`` (`array`) = [# of time-steps x 6]
+    %   * ``forceActuation`` (`array`) = [# of time-steps x 6]
+    %   * ``forceConstraint`` (`array`) = [# of time-steps x 6]
+    %   * ``forceInternalMechanics`` (`array`) = [# of time-steps x 6]
+    %   * ``powerInternalMechanics`` (`array`) = [# of time-steps x 6]
     %
+    %.. autoattribute:: objects.responseClass.cables
+    %    
+	%   * ``name`` (`string`) = 'cableName'
+    %   * ``time`` (`array`) = [# of time-steps x 1]
+    %   * ``position`` (`array`) = [# of time-steps x 6]
+    %   * ``velocity`` (`array`) = [# of time-steps x 6]
+    %   * ``accleration`` (`array`) = [# of time-steps x 6]
+    %   * ``forceTotal`` (`array`) = [# of time-steps x 6]
+    %   * ``forceActuation`` (`array`) = [# of time-steps x 6]
+    %   * ``forceConstraint`` (`array`) = [# of time-steps x 6]
+    % 
     %.. autoattribute:: objects.responseClass.mooring
     %    
-    % , it includes:
+    %   * ``position`` (`array`) = [# of time-steps x 6]
+    %   * ``velocity`` (`array`) = [# of time-steps x 6]
+    %   * ``forceMooring`` (`array`) = [# of time-steps x 6]
     %
-    %   * ``position`` (`array`) = [# of time-steps x 6] 6-DOF position of the follower body at the mooring location
-    %   * ``velocity`` (`array`) = [# of time-steps x 6] 6-DOF velocity of the follower body at the mooring location
-    %   *  ``forceMooring`` (`array`) = [# of time-steps x 6] Total force exerted on the follower body at the mooring location
-    % 
     %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
     
     
@@ -101,12 +105,13 @@ classdef responseClass<handle
         ptos                = struct()     % This property generates the ``ptos`` structure for each instance of the ``ptoClass`` (i.e. for each PTO block)
         constraints         = struct()     % This property generates the ``constraints`` structure for each instance of the ``coonstraintClass`` (i.e. for each Constraint block)
         mooring             = struct()     % This property generates the ``mooring`` structure for each instance of the ``mooringClass`` (i.e. for each Mooring block)
+        cables              = struct()     % This property generates the ``cables`` structure for each instance of the ``cableClass`` (i.e. for each Cable block)
         moorDyn             = struct()     % This property generates the ``moorDyn`` structure for each instance of the ``mooringClass`` using MoorDyn (i.e. for each MoorDyn block), it includes ``Lines``  and ``Line#``.
         ptosim              = struct()     % This property generates the ``ptosim`` structure for each instance of the ``ptoSimClass`` (i.e. for each PTO-Sim block).
     end
     
     methods (Access = 'public')
-        function obj = responseClass(bodiesOutput,ptosOutput,constraintsOutput,ptosimOutput,mooringOutput,waveOutput, yawNonLin)                      
+        function obj = responseClass(bodiesOutput,ptosOutput,constraintsOutput,ptosimOutput,cablesOutput,mooringOutput,waveOutput, yawNonLin) 
             % This method initializes the ``responseClass``, reads 
             % output from each instance of a WEC-Sim class (e.g.
             % ``waveClass``, ``bodyClass``, ``ptoClass``, ``mooringClass``, etc)
@@ -205,6 +210,18 @@ classdef responseClass<handle
                     obj.mooring(ii).time = mooringOutput(ii).time;
                     for jj = 1:length(signals)
                         obj.mooring(ii).(signals{jj}) = mooringOutput(ii).signals.values(:, (jj-1)*6+1:(jj-1)*6+6);
+                    end
+                end
+            end
+            % Cables
+            if isstruct(cablesOutput)
+                signals = {'position','velocity','acceleration','forceTotal','forceActuation',...
+                    'forceConstraint'};
+                for ii = 1:length(cablesOutput)
+                    obj.cables(ii).name = cablesOutput(ii).name;
+                    obj.cables(ii).time = cablesOutput(ii).time;
+                    for jj = 1:length(signals)
+                        obj.cables(ii).(signals{jj}) = cablesOutput(ii).signals.values(:,(jj-1)*6+1:(jj-1)*6+6);
                     end
                 end
             end
@@ -413,11 +430,13 @@ classdef responseClass<handle
                 gifFilename = 'waveVisualization.gif';
             end
             
-            % Initialize figure
+            % Initialize figure and image counter
             figure();
-
+            imageCount = 0;
+            
             for i=1:length(t)
                 if t(i) >= options.startEndTime(1) && t(i) <= options.startEndTime(2)
+                    imageCount = imageCount + 1;
                     for ibod = 1:length(obj.bodies)
                         % Apply rotation to each point
                         rotMat = eulXYZ2RotMat(obj.bodies(ibod).position(1+options.timesPerFrame*(i-1),4), ...
@@ -477,7 +496,7 @@ classdef responseClass<handle
                         % Save to gif
                         im = frame2im(frame); 
                         [imind,cm] = rgb2ind(im,256); 
-                        if i == 1 
+                        if imageCount == 1 
                             imwrite(imind,cm,gifFilename,'gif', 'Loopcount',inf); 
                         else 
                             imwrite(imind,cm,gifFilename,'gif','WriteMode','append','DelayTime',simu.dtOut); 

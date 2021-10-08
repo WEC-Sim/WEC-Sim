@@ -180,6 +180,22 @@ for ii = 1:simu.numWecBodies
         body(ii).lenJ = zeros(6,1);
     end
 end; clear ii
+
+% Cable Configuration: count, set Cg/Cb, PTO loc, L0 and initialize bodies
+if exist('cable','var')==1
+    simu.numCables = length(cable(1,:));
+    for ii = 1:simu.numCables
+        cable(ii).cableNum = ii;
+        cable(ii).setCg();
+        cable(ii).setCb();
+        cable(ii).setTransPTOLoc();
+        cable(ii).setL0();
+        cable(ii).dragForcePre(simu.rho);
+        cable(ii).setDispVol(simu.rho);
+        cable(ii).setOrientation();
+        cable(ii).linearDampingMatrix();
+    end
+end
 % PTO-Sim: read input, count
 if exist('./ptoSimInputFile.m','file') == 2
     ptoSimInputFile
@@ -207,7 +223,7 @@ simu.setupSim;
 if any(hydroBodLogic == 1)
     % When hydro bodies (and an .h5) are present, define the wave using those
     % parameters.
-    waves.waveSetup(body(1).hydroData.simulation_parameters.w, body(1).hydroData.simulation_parameters.water_depth, simu.rampTime, simu.dt, simu.maxIt, simu.g, simu.rho,  simu.endTime);
+    waves.waveSetup(body(1).hydroData.simulation_parameters.w, body(1).hydroData.simulation_parameters.water_depth, simu.rampTime, simu.dt, simu.maxIt, simu.time, simu.g, simu.rho);
     % Check that waveDir and freq are within range of hydro data
     if  min(waves.waveDir) <  min(body(1).hydroData.simulation_parameters.wave_dir) || max(waves.waveDir) >  max(body(1).hydroData.simulation_parameters.wave_dir)
         error('waves.waveDir outside of range of available hydro data')
@@ -220,7 +236,7 @@ if any(hydroBodLogic == 1)
 else
     % When no hydro bodies (and no .h5) are present, define the wave using
     % input file parameters
-    waves.waveSetup([], [], simu.rampTime, simu.dt, simu.maxIt, simu.g, simu.rho,  simu.endTime);
+    waves.waveSetup([], [], simu.rampTime, simu.dt, simu.maxIt, simu.time, simu.g, simu.rho);
 end
 
 % Nonlinear hydro
@@ -403,6 +419,14 @@ for ii=1:length(body(1,:))
 %    eval(['sv_b' num2str(ii) '_rigidBody = Simulink.Variant(''nhbody_' num2str(ii) '==0'');'])
 end; clear ii
 
+% Visualization Blocks
+if ~isempty(waves.markerLoc)
+    visON = 1;
+else
+    visON = 0;
+end    
+sv_visualizationON  = Simulink.Variant('visON==1');
+sv_visualizationOFF = Simulink.Variant('visON==0');
 
 %% End Pre-Processing and Output All the Simulation and Model Setting
 toc

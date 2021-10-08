@@ -23,6 +23,8 @@ classdef bodyClass<handle
     % workspace. The ``bodyClass`` includes properties and methods used
     % to define WEC-Sim's hydrodynamic and non-hydrodynamic bodies.
     %
+    %.. autoattribute:: objects.bodyClass.bodyClass            
+    %     
     %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
     
     properties (SetAccess = 'private', GetAccess = 'public') %hdf5 file
@@ -241,7 +243,6 @@ classdef bodyClass<handle
                 obj.hydroForce.visDrag = diag(0.5*rho.*obj.viscDrag.cd.*obj.viscDrag.characteristicArea);
             end
             obj.hydroForce.linearDamping = obj.linearDamping;
-            obj.hydroForce.userDefinedFe = zeros(length(waveAmpTime(:,2)),obj.dof);   %initializing userDefinedFe for non imported wave cases
             switch waveType
                 case {'noWave'}
                     obj.noExcitation()
@@ -259,6 +260,7 @@ classdef bodyClass<handle
                     obj.irrExcitation(w,numFreq,waveDir,rho,g,yawFlag);
                     obj.irfInfAddedMassAndDamping(CIkt,CTTime,ssCalc,rho,B2B);
                 case {'etaImport'}
+                    obj.hydroForce.userDefinedFe = zeros(length(waveAmpTime(:,2)),obj.dof);   %initializing userDefinedFe for non imported wave cases
                     obj.userDefinedExcitation(waveAmpTime,dt,waveDir,rho,g);
                     obj.irfInfAddedMassAndDamping(CIkt,CTTime,ssCalc,rho,B2B);
             end

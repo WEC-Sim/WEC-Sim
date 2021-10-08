@@ -41,6 +41,7 @@
 *.mtc3
 *.o
 *.obj
+*.ppt*
 *.slxc
 *.sublime-workspace
 *.sublime-project
@@ -64,7 +65,7 @@
 
 #Examples
 wecSimInputFile_simulinkCustomParameters.m
-**.slx.r2019b
+**.slx.*
 
 # Tests
 /tests/**/**/*.mat
