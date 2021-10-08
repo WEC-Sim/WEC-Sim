@@ -8,6 +8,7 @@ classdef bemioTest < matlab.unittest.TestCase
         nemohDir = ''
         capytaineDir = ''
         aqwaDir = ''
+        OriginalDefault
     end
     
     methods (Access = 'public')
@@ -23,7 +24,8 @@ classdef bemioTest < matlab.unittest.TestCase
             obj.capytaineDir = fullfile(obj.bemioDir,'CAPYTAINE');
             obj.aqwaDir = fullfile(obj.bemioDir,'AQWA');
             
-            % Hide figures
+            % Save the visibility state at construction
+            obj.OriginalDefault = get(0,'DefaultFigureVisible');
             set(0,'DefaultFigureVisible','off')
             
         end
@@ -36,7 +38,7 @@ classdef bemioTest < matlab.unittest.TestCase
             close(waitbar(0));
             close all
             clear hydro
-            set(0,'DefaultFigureVisible','off')
+            set(0,'DefaultFigureVisible',testCase.OriginalDefault);
         end
         
     end
