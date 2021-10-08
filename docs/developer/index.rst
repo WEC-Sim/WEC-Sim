@@ -11,4 +11,3 @@ Developers Manual
    getting_started.rst
    addedMass.rst
    library.rst
-   
