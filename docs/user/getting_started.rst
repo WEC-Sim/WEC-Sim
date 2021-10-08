@@ -20,12 +20,11 @@ Simscape Multibody          Version 7.1  (R2020a)
 ==========================  =============================
 
 Any version of MATLAB newer than R2020a should be compatible with WEC-Sim. 
-WEC-Sim's Simulink Library is saved in MATLAB R2020a, and WEC-Sim tests are run
-on MATLAB R2020a and newer. The stability of each MATLAB release is available 
-via GitHub Actions, refer to :ref:`dev-getting-started-tests:` for more information. 
-Certain advanced features rely on external functions, such as 
-:ref:`mooring-moordyn`, and additional MATLAB Toolboxes, such as 
-:ref:`user-advanced-features-pct`. 
+WEC-Sim's Simulink Library is saved in MATLAB R2020a, and WEC-Sim tests are run on MATLAB R2020a and newer.
+The stability of each MATLAB release is available via GitHub Actions, refer to :ref:`dev-overview-tests` for more information. 
+Certain advanced features rely on external functions, such as :ref:`mooring-moordyn`, and 
+additional MATLAB Toolboxes, such as :ref:`user-advanced-features-pct`. 
+
 
 Verify that the correct version of MATLAB and required toolboxes are installed 
 by typing ``ver`` in the MATLAB Command Window: 
@@ -159,7 +158,7 @@ In the MATLAB Command Window type::
     >> wecSim
 
 This should run an example case using the Reference Model 3 (RM3) point 
-absorber. A Mechanics Explorer window will open within the MATLAB window, 
+absorber. A SimMechanics Explorer window will open within the MATLAB window, 
 and figures will be generated displaying simulation outputs. 
 Both the RM3 and the OSWEC examples (``$WECSIM/examples/OSWEC``) come ready-to-run and can be used once WEC-Sim is installed.
 

@@ -19,6 +19,7 @@ Publication
 
 [1] D. Ogden, K. Ruehl, Y.H. Yu, A. Keester, D. Forbush, J. Leon, N. Tom, "Review of WEC-Sim Development and Applications" in Proceedings of the 14th European Wave and Tidal Energy Conference, EWTEC 2021, Plymouth, UK, 2021. 
 
+
 `WEC-Sim v4.3 <https://github.com/WEC-Sim/WEC-Sim/releases/tag/v4.3>`_
 ------------------------------------------------------------------------
 

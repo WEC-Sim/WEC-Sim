@@ -98,13 +98,12 @@ Simulink interface:
 	* Type ``initializeWecSim`` in the Command Window
 	* Run the model from Simulink
 	
-.. Note::
-    After running WEC-Sim from Simulink with custom parameters, a 
-    ``wecSimInputFile_simulinkCustomParameters.m`` file is written to the ``$CASE`` 
-    directory. This file specifies all non-default WEC-Sim parameters used for the 
-    WEC-Sim simulation. This file serves as a record of how the case was run for 
-    future reference. It may be used in the same manner as other input files when 
-    renamed to ``wecSimInputFile.m``
+After running WEC-Sim from Simulink with custom parameters, a 
+``wecSimInputFile_simulinkCustomParameters.m`` file is written to the ``$CASE`` 
+directory. This file specifies all non-default WEC-Sim parameters used for the 
+WEC-Sim simulation. This file serves as a record of how the case was run for 
+future reference. It may be used in the same manner as other input files when 
+renamed to ``wecSimInputFile.m``
 
 
 .. _user-advanced-features-mcr:
@@ -135,7 +134,7 @@ For Multiple Condition Runs, the ``*.h5`` hydrodynamic data is only loaded
 once. To reload the ``*.h5`` data between runs, set ``simu.reloadH5Data =1`` in 
 the WEC-Sim input file. 
 
-If the Simulink model relies upon ``From Workspace`` input blocks other than those utilized by the WEC-Sim library blocks (e.g. ``Wave.etaDataFile``), these can be iterated through using Option 3. The MCR file header MUST be a cell containing the exact string ``'LoadFile'``. The pathways of the files to be loaded to the workspace must be given in the ``cases`` field of the MCR *.mat* file. WEC-Sim MCR will then run WEC-Sim in sequence, once for each file to be loaded. The variable name of each loaded file shoud be consistent, and specified by the ``From Workspace`` block.  
+If the Simulink model relies upon ``From Workspace`` input blocks other than those utilized by the WEC-Sim library blocks (e.g. ``Wave.etaDataFile``), these can be iterated through using Option 3. The MCR file header MUST be a cell containing the exact string ``'LoadFile'``. The pathways of the files to be loaded to the workspace must be given in the ``cases`` field of the MCR *.mat* file. WEC-Sim MCR will then run WEC-Sim in sequence, once for each file to be loaded. The variable name of each loaded file should be consistent, and specified by the ``From Workspace`` block.  
 
 For more information, refer to :ref:`webinar1`, and the **RM3_MCR** example on the `WEC-Sim Applications <https://github.com/WEC-Sim/WEC-Sim_Applications>`_ repository. 
 
@@ -672,6 +671,7 @@ following body class variable::
 
     body(i).nhBody = 2
 
+
 Drag bodies have zero wave excitation or radiation forces, but viscous forces 
 can be applied in the same manner as a hydrodynamic body via the parameters:: 
 
@@ -739,7 +739,7 @@ Generalized Body Modes
 
 To use this, select a Flex Body Block from the WEC-Sim Library (under Body 
 Elements) and initialize it in the WEC-Sim input file as any other body. 
-Calculating dynamic response of WECs considering structural flexibilities using 
+Calculating dynamic response of WECs considering structural flexibility using 
 WEC-Sim should consist of multiple steps, including: 
 
 * Modal analysis of the studied WEC to identify a set of system natural 
@@ -820,6 +820,53 @@ Constraint and PTO Features
 .. include:: /_include/pto.rst
 
 
+.. _user-advanced-features-cable:
+
+Cable Features
+----------------------------
+
+Cables or tethers between two bodies apply a force only in tension (when taut or stretched), but not in compression,
+can be modeled using the :code:`cableClass` implementation. A cable block must be added to the
+model between the two PTOs or constraints that are to be connected by a cable. Users must initialize the cable
+class in the ``wecSimInputFile.m`` along with the base and follower connections in that order, by including the following lines:: 
+
+	cable(i) = cableClass('cableName','baseConnection','followerConnection');
+
+where ``baseConnection`` is a PTO or constraint block that defines the cable connection on the base side, and ``followerConnection``
+is  a PTO or constraint block that defineds the connection on the follower side.  
+
+
+It is necessary to define, at a minimum: ::
+
+    cable(i).k = <cableDamping>;
+    cable(i).c = <cableStiffness>;
+
+where :code:`cable(i).k` is the cable stiffness (N/m), and :code:`cable(i).c` is the cable damping (N/(m*s)). Force from the cable stiffness or 
+damping is applied between the connection points if the current length of the cable exceeds the equilibrium length of the cable. 
+By default, the cable equilibrium length is defined to be the distance between the locations of the ``baseConnection`` and ``followerConnection``, so that initially there is no tension on the cable. 
+
+If a distinct initial condition is desired, one can define either ``cable(i).L0`` or ``cable(i).preTension``, where :code:`cable(i).L0` is the equilibrium (i.e., unstretched) length of the cable (m), and :code:`cable(i).preTension` is the pre-tension applied to the cable at simulation start (N). The unspecified parameter is then calculated from the location of the ``baseConnection`` and 
+``followerConnection``. 
+
+To include dynamics applied at the cable-to-body coupling (e.g., a stiffness and damping), a PTO block 
+can be used instead, and the parameters :code:`pto(i).c` and :code:`pto(i).k` can be used to describe these dynamics. 
+
+By default, the cable is presumed neutrally buoyant and it is not subjected to fluid drag. To include fluid drag, the user can additionally define these parameters in a style similar to the :code:`bodyClass` ::
+
+	cable(i).viscDrag.cd
+	cable(i).viscDrag.characteristicArea
+	cable(i).viscDrag.Drag
+	cable(i).linearDamping
+	
+The cable mass and fluid drag is modeled with a low-order lumped-capacitance method with 2 nodes. 
+The mass and fluid drag forces are exerted at nodes defined by the 2 drag bodies. 
+By default, one is co-located with the ``baseConnection``and the other with the ``followerConnection``. 
+The position of these bodies can be manipulated by changing the locations of the base or follower connections points.
+
+.. Note::
+
+	This is not appropriate to resolve the actual kinematics of cable motions, but it is sufficient to model the aggregate forces among the connected bodies. 
+
 .. _user-advanced-features-mooring:
 
 Mooring Features
@@ -828,24 +875,14 @@ Mooring Features
 .. include:: /_include/mooring.rst
 
 
-.. _user-advanced-features-paraview:
+WEC-Sim Post-Processing
+------------------------
 
-Paraview Visualization
-----------------------
-
-.. include:: /_include/viz.rst
-
-
-.. _user-advanced-features-WSviz:
-
-WEC-Sim Visualization
----------------------
-
-The WEC-Sim contains several built in methods inside the response class and wave 
-class to assist users in visualizing WEC-Sim output: ``output.plotForces``, 
+WEC-Sim contains several built in methods inside the response class and wave 
+class to assist users in processing WEC-Sim output: ``output.plotForces``, 
 ``output.plotResponse``, ``output.plotWaves``, ``waves.plotEta``, and
 ``waves.plotSpectrum``. This section will demonstrate the use of these methods. 
-They are fully documented in the WEC-Sim :ref:`dev-api`.
+They are fully documented in the WEC-Sim :ref:`user-api`.
 
 Plot Forces
 ^^^^^^^^^^^
@@ -888,32 +925,6 @@ of the 1st body. The position, velocity and acceleration of that body is shown.
    Demonstration of output.plotResponse() method for the OSWEC example.
 
 
-Plot Waves
-^^^^^^^^^^
-
-The ``responseClass.plotWaves()`` method can be used to create a complete 
-animation of the simulation. The animation shows the 3D response of all bodies
-over time on top of a surface plot of the entire directional wave field. The 
-default wave domain is defined by ``simu.domainSize``, ``waves.waterDepth``, and
-the maximum height that the STL mesh of any body reaches. Users may optionally 
-input the axis limits to restrict or widen the field of view, the timesteps per 
-animation frame, and the output file format. Users can choose to save the animation
-as either a ``.gif`` or ``.avi`` file. This function can take significant time to 
-run depending on simulation time and time step, however it may be faster and easier 
-than Paraview. Users are still recommended to use the provided Paraview macros for 
-more complex animations and analysis.
-
-For example, in the OSWEC case the command 
-``output.plotWaves(simu,body,waves,'timesPerFrame',5,'axisLimits',[-50 50 -50 50 -12 20])``
-results in the following figure:
-
-.. figure:: /_static/images/OSWEC_plotWaves.PNG
-   :width: 250pt
-   :figwidth: 250pt
-   :align: center
-   
-   Demonstration of output.plotWaves() method for the OSWEC example.
-
 
 Plot Eta
 ^^^^^^^^
@@ -945,8 +956,75 @@ of an irregular or spectrum import wave. No input parameters are required.
    Demonstration of waves.plotSpectrum() method for the OSWEC example.
 
 
+WEC-Sim Visualization
+---------------------
+WEC-Sim provides visualization in SimScape Mechanics Explorer by default. This section describes some additional options for WEC-Sim visualization
+
+Wave Markers 
+^^^^^^^^^^^^^^^^^^^
+
+This section describes how to visualize the wave elevations at various locations using 
+markers in SimScape Mechanics Explorer. 
+Users must define an array of [X,Y] coordinates, the marker style (sphere, cube, frames), and the marker size in pixels.
+The ``Global Reference Frame`` block programmatically initiates and adds/deletes the visualization blocks based on the number of markers *(0 to N)* defined by the user.
+
+* Define an array of marker locations: ``waves.markLoc = [X,Y]``, where the first column defines the X coordinates, and the second column defines the corresponding Y coordinates, Default = ``[]``
+* Define marker style : ``waves.markStyle = 1``, where 1: Sphere, 2: Cube, 3: Frame, Default = ``1``: Sphere
+* Define marker size : ``waves.markSize = 10``, to specify marker size in Pixels, Default = ``10``
+
+.. Here is an example. In this example a mesh of points is described using the meshgrid command and then  making it an array of X and Y coordinates using reshape(). 
+
+For more information about using ParaView for visualization, refer to the **Wave_Markers** examples on the `WEC-Sim Applications <https://github.com/WEC-Sim/WEC-Sim_Applications>`_ repository.
 
 
+.. Note:: 
+
+    This feature is not compatible with user-defined waves ``waves = waveClass('etaImport')``
+    
+.. figure:: /_static/images/RM3_vizMarker.jpg
+   :width: 250pt
+   :figwidth: 250pt
+   :align: center
+
+   Demonstration of visualization markers in SimScape Mechanics Explorer.
+   
+
+Plot Waves
+^^^^^^^^^^
+
+The ``responseClass.plotWaves()`` method can be used to create a complete 
+animation of the simulation. The animation shows the 3D response of all bodies
+over time on top of a surface plot of the entire directional wave field. The 
+default wave domain is defined by ``simu.domainSize``, ``waves.waterDepth``, and
+the maximum height that the STL mesh of any body reaches. Users may optionally 
+input the axis limits to restrict or widen the field of view, the time steps per 
+animation frame, and the output file format. Users can choose to save the animation
+as either a ``.gif`` or ``.avi`` file. This function can take significant time to 
+run depending on simulation time and time step, however it may be faster and easier 
+than Paraview. Users are still recommended to use the provided Paraview macros for 
+more complex animations and analysis.
+
+For example, in the OSWEC case the command 
+``output.plotWaves(simu,body,waves,'timesPerFrame',5,'axisLimits',[-50 50 -50 50 -12 20])``
+results in the following figure:
+
+.. figure:: /_static/images/OSWEC_plotWaves.PNG
+   :width: 250pt
+   :figwidth: 250pt
+   :align: center
+   
+   Demonstration of output.plotWaves() method for the OSWEC example.   
+
+
+.. _user-advanced-features-paraview:
+   
+Paraview Visualization
+----------------------
+
+.. include:: /_include/viz.rst
+
+
+.. _user-advanced-features-WSviz:
 
 
 
