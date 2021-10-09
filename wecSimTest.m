@@ -14,8 +14,6 @@ function results = wecSimTest(options)
     %   'regressionTest'  Run regression tests. These tests check if values
     %                     have changed from a previous run. Default is true.
     %
-    %   'passiveYawTest'  Run passive yaw tests. Default is true.
-    %
     %   'compilationTest' Run compilation tests. These tests do not check
     %                     correctness of the results. Default is true.
     %
@@ -23,11 +21,6 @@ function results = wecSimTest(options)
     %                     Default is true.
     %
     %   'rotationTest'    Run rotation tests. Default is true.
-    %
-    %   All tests run by default. If runtime is long, users may turn off the 
-    %   passive yaw test by calling the function as follows:
-    %
-    %       results = wecSimTest('passiveYawTest', false)
     %
     %   Users should also run the appropriate applications tests when
     %   creating a PR into the WEC-Sim repository.
@@ -51,7 +44,6 @@ function results = wecSimTest(options)
     arguments
         options.bemioTest = true
         options.regressionTest = true
-        options.passiveYawTest = true
         options.compilationTest = true
         options.runFromSimTest = true
         options.rotationTest = true
@@ -71,10 +63,6 @@ function results = wecSimTest(options)
     
     if options.regressionTest
         suites = [suites TestSuite.fromFile('tests/regressionTest.m')];
-    end
-    
-    if options.passiveYawTest
-        suites = [suites TestSuite.fromFile('tests/passiveYawTest.m')];
     end
     
     if options.runFromSimTest
