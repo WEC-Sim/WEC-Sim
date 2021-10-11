@@ -3,8 +3,7 @@
 Getting Started
 ===============
 
-This section provides instructions on how to download, install, and test the 
-installation of WEC-Sim. 
+This section provides instructions on how to download and install WEC-Sim. 
 
 MATLAB Requirements
 -------------------
@@ -19,16 +18,12 @@ Simscape                    Version 4.8  (R2020a)
 Simscape Multibody          Version 7.1  (R2020a)
 ==========================  =============================
 
+WEC-Sim's Simulink Library is saved in MATLAB R2020a, and WEC-Sim tests are run on MATLAB R2020a and newer. 
 Any version of MATLAB newer than R2020a should be compatible with WEC-Sim. 
-WEC-Sim's Simulink Library is saved in MATLAB R2020a, and WEC-Sim tests are run
-on MATLAB R2020a and newer. The stability of each MATLAB release is available 
-via GitHub Actions, refer to :ref:`dev-getting-started-tests:` for more information. 
-Certain advanced features rely on external functions, such as 
-:ref:`mooring-moordyn`, and additional MATLAB Toolboxes, such as 
-:ref:`user-advanced-features-pct`. 
+The stability of each MATLAB release is available via `WEC-Sim's GitHub Actions <https://github.com/WEC-Sim/WEC-Sim/actions>`_. 
+Certain advanced features rely on external functions (such as :ref:`mooring-moordyn`), and additional MATLAB Toolboxes (such as :ref:`user-advanced-features-pct`). 
 
-Verify that the correct version of MATLAB and required toolboxes are installed 
-by typing ``ver`` in the MATLAB Command Window: 
+Verify that the MATLAB required toolboxes are installed by typing ``ver`` in the MATLAB Command Window: 
 
 .. code-block:: matlabsession
 
@@ -45,27 +40,27 @@ by typing ``ver`` in the MATLAB Command Window:
 Download WEC-Sim
 ----------------
 
-The WEC-Sim source code is hosted on the `WEC-Sim GitHub repository <https://github.com/WEC-Sim/wec-sim>`_. 
-WEC-Sim users are recommended to clone the Github repository.
-Developers who wish to contribute to WEC-Sim should see the corresponding Developer :ref:`dev-getting-started` section.
+The WEC-Sim source code is hosted on `WEC-Sim's GitHub repository <https://github.com/WEC-Sim/wec-sim>`_. 
+WEC-Sim users should clone WEC-Sim's Github repository.
 Cloning the repository allows users to easily pull the latest updates to the WEC-Sim source code.
-These updates may improve the code's speed, accuracy and add additional functionality or advanced features.
 The WEC-Sim source code can be cloned by installing `Git Large File Storage <https://git-lfs.github.com/>`_ (git lfs) to access large files (e.g. ``*.h5`` files), and `cloning <https://help.github.com/articles/cloning-a-repository/>`_ the WEC-Sim GitHub repository. 
-To install WEC-Sim using `git 
-<https://git-scm.com/>`_, in a git interface type:: 
+
+To install WEC-Sim using `git <https://git-scm.com/>`_:: 
 
     >> git lfs install
     >> git clone https://github.com/WEC-Sim/WEC-Sim
 
-The local copy of WEC-Sim can easily be updated to the latest version of the 
-code hosted on the GitHub repository by using the pull command:: 
+The local copy of WEC-Sim can easily be updated to include updates from the master version of the WEC-Sim source code hosted on the GitHub by using the git pull command:: 
 
-    >> git pull
+    >> git pull origin master
 
 For users who are new to git, it is recommended to go through examples on 
 `GitHub <https://docs.github.com/en/free-pro-team@latest/github/getting-started-with-github>`_ 
 or other sources while getting started. 
 If you have problems downloading or installing please see the :ref:`user-troubleshooting` page.
+
+For developers who wish to contribute to WEC-Sim, refer to the Developer :ref:`dev-getting-started` section.
+
 
 .. Note::
     Users may also download a static version of WEC-Sim from the latest tagged 
@@ -93,7 +88,7 @@ options to do this:
 **Option 1. Automatically add the WEC-Sim source on MATLAB startup.**
 
 Open ``$WECSIM/addWecSimSource.m`` and copy contents to a new file called ``startup.m``. 
-Set ``wecSimSource`` variable to the local ``$WECSIM/source`` directory, eg. ``wecSimSource = 'path\to\WEC-Sim\source``.
+Set the WEC-Sim  path to the local ``$WECSIM/source`` directory, eg. ``wecSimSource = 'path\to\WEC-Sim\source``.
 Save ``startup.m`` to the `MATLAB Startup Folder <https://www.mathworks.com/help/matlab/ref/startup.html>`_. 
 Restart MATLAB, and the ``$WECSIM/source`` directory will automatically be added to the MATLAB path.
 
@@ -104,20 +99,17 @@ Restart MATLAB, and the ``$WECSIM/source`` directory will automatically be added
 
 **Option 2. Manually add and remove the WEC-Sim source from the MATLAB path.**
 
-This option requires users to run ``addWecSimSource`` each time MATLAB is opened
-to add the WEC-Sim source directory to the path.
+This option requires users to run a script each time MATLAB is opened to add the WEC-Sim source directory to the path.
 Navigate to the ``$WECSIM`` directory and run ``addWecSimSource``.
 The ``$WECSIM/source`` directory will then be added to the MATLAB path for this instance of MATLAB.
 To remove WEC-Sim from the path, run ``removeWecSimSource``. 
-Both scripts must be run from the ``$WEC-Sim`` directory.
+Both scripts must be run from the ``$WECSIM`` directory.
 
 
 Step 2. Verify the Path
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
-Verify the path was set up correctly by checking that the WEC-Sim source directory, ``$WECSIM/source``, is listed in 
-the MATLAB search path. 
-The WEC-Sim source directory, ``$WECSIM/source``, and its subfolders should 
-be listed. 
+Verify the path was set up correctly by checking that the WEC-Sim source directory is listed in the MATLAB search path. 
+The WEC-Sim source directory, ``$WECSIM/source``, and its subfolders should be listed. 
 To view the MATLAB path, type ``path`` in the MATLAB Command Window:: 
 
     >> path
@@ -136,13 +128,10 @@ Command Window::
 
     >> slLibraryBrowser
 
-Once the Simulink Library Browser opens, `refresh the Simulink Library 
-<http://www.mathworks.com/help/simulink/gui/use-the-library-browser.html>`_. 
-The WEC-Sim Library (Body Elements, Constraints, Frames, Moorings, and PTOs) 
-should now be visible, as shown in the figure below. The WEC-Sim Library will 
-now be accessible every time Simulink is opened. For more information on using 
-and modifying library blocks refer to the `Simulink Documentation 
-<http://www.mathworks.com/help/simulink/>`_. 
+Once the Simulink Library Browser opens, `refresh the Simulink Library <http://www.mathworks.com/help/simulink/gui/use-the-library-browser.html>`_. 
+The WEC-Sim Library should now be visible, as shown in the figure below. 
+The WEC-Sim Library will now be accessible every time Simulink is opened. 
+For more information on using and modifying library blocks refer to the `Simulink Documentation <http://www.mathworks.com/help/simulink/>`_. 
 
 .. figure:: /_static/images/WEC-Sim_Lib.PNG
    :align: center
@@ -158,9 +147,8 @@ In the MATLAB Command Window type::
     >> cd $WECSIM/examples/RM3
     >> wecSim
 
-This should run an example case using the Reference Model 3 (RM3) point 
-absorber. A Mechanics Explorer window will open within the MATLAB window, 
-and figures will be generated displaying simulation outputs. 
+This should run an example case using the Reference Model 3 (RM3) point absorber. 
+A Mechanics Explorer window will open within the MATLAB window, and figures will be generated displaying simulation outputs. 
 Both the RM3 and the OSWEC examples (``$WECSIM/examples/OSWEC``) come ready-to-run and can be used once WEC-Sim is installed.
 
 .. Note:: 
