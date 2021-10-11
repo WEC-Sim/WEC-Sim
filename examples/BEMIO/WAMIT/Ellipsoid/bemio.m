@@ -1,4 +1,3 @@
-clc; clear all; close all;
 hydro = struct();
 
 hydro = Read_WAMIT(hydro,'ellipsoid.out',[]);

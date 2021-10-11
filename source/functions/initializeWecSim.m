@@ -48,7 +48,7 @@ diary('simulation.log')
 projectRootDir = pwd;
 
 % Create 'temp' directory if it doesn't exist and add to 'temp' path
-% status = mkdir('temp');
+warning('off','MATLAB:MKDIR:DirectoryExists')
 if mkdir('temp') == 0
     mkdir 'temp'
 end
@@ -158,7 +158,7 @@ end
 simu.numWecBodies = numHydroBodies; clear numHydroBodies
 simu.numDragBodies = numDragBodies; clear numDragBodies
 for ii = 1:simu.numWecBodies
-    body(ii).checkinputs(simu.morisonElement);
+    body(ii).checkinputs(body(ii).morisonElement.option);
     %Determine if hydro data needs to be reloaded from h5 file, or if hydroData
     % was stored in memory from a previous run.
     if exist('totalNumOfWorkers','var') ==0 && exist('mcr','var') == 1 && simu.reloadH5Data == 0 && imcr > 1
@@ -180,6 +180,22 @@ for ii = 1:simu.numWecBodies
         body(ii).lenJ = zeros(6,1);
     end
 end; clear ii
+
+% Cable Configuration: count, set Cg/Cb, PTO loc, L0 and initialize bodies
+if exist('cable','var')==1
+    simu.numCables = length(cable(1,:));
+    for ii = 1:simu.numCables
+        cable(ii).cableNum = ii;
+        cable(ii).setCg();
+        cable(ii).setCb();
+        cable(ii).setTransPTOLoc();
+        cable(ii).setL0();
+        cable(ii).dragForcePre(simu.rho);
+        cable(ii).setDispVol(simu.rho);
+        cable(ii).setOrientation();
+        cable(ii).linearDampingMatrix();
+    end
+end
 % PTO-Sim: read input, count
 if exist('./ptoSimInputFile.m','file') == 2
     ptoSimInputFile
@@ -204,23 +220,31 @@ end
 simu.setupSim;
 
 % wave setup
-waves.waveSetup(body(1).hydroData.simulation_parameters.w, body(1).hydroData.simulation_parameters.water_depth, simu.rampTime, simu.dt, simu.maxIt, simu.g, simu.rho,  simu.endTime);
-% Check that waveDir and freq are within range of hydro data
-if  min(waves.waveDir) <  min(body(1).hydroData.simulation_parameters.wave_dir) || max(waves.waveDir) >  max(body(1).hydroData.simulation_parameters.wave_dir)
-    error('waves.waveDir outside of range of available hydro data')
-end
-if strcmp(waves.type,'etaImport')~=1 && strcmp(waves.type,'noWave')~=1 && strcmp(waves.type,'noWaveCIC')~=1
-    if  min(waves.w) <  min(body(1).hydroData.simulation_parameters.w) || max(waves.w) >  max(body(1).hydroData.simulation_parameters.w)
-        error('waves.w outside of range of available hydro data')
+if any(hydroBodLogic == 1)
+    % When hydro bodies (and an .h5) are present, define the wave using those
+    % parameters.
+    waves.waveSetup(body(1).hydroData.simulation_parameters.w, body(1).hydroData.simulation_parameters.water_depth, simu.rampTime, simu.dt, simu.maxIt, simu.time, simu.g, simu.rho);
+    % Check that waveDir and freq are within range of hydro data
+    if  min(waves.waveDir) <  min(body(1).hydroData.simulation_parameters.wave_dir) || max(waves.waveDir) >  max(body(1).hydroData.simulation_parameters.wave_dir)
+        error('waves.waveDir outside of range of available hydro data')
     end
+    if strcmp(waves.type,'etaImport')~=1 && strcmp(waves.type,'noWave')~=1 && strcmp(waves.type,'noWaveCIC')~=1
+        if  min(waves.w) <  min(body(1).hydroData.simulation_parameters.w) || max(waves.w) >  max(body(1).hydroData.simulation_parameters.w)
+            error('waves.w outside of range of available hydro data')
+        end
+    end
+else
+    % When no hydro bodies (and no .h5) are present, define the wave using
+    % input file parameters
+    waves.waveSetup([], [], simu.rampTime, simu.dt, simu.maxIt, simu.time, simu.g, simu.rho);
 end
 
-% Non-linear hydro
-if (simu.nlHydro >0) || (simu.paraview == 1)
-    for kk = 1:length(body(1,:))
+% Nonlinear hydro
+for kk = 1:length(body(1,:))
+    if (body(kk).nlHydro >0) || (simu.paraview == 1)
         body(kk).bodyGeo(body(kk).geometryFile)
-    end; clear kk
-end
+    end
+end; clear kk
 
 % hydroForcePre
 idx = find(hydroBodLogic==1);
@@ -228,7 +252,7 @@ if ~isempty(idx)
     for kk = 1:length(idx)
         it = idx(kk);
         body(it).hydroForcePre(waves.w,waves.waveDir,simu.CIkt,simu.CTTime,waves.numFreq,simu.dt,...
-            simu.rho,simu.g,waves.type,waves.waveAmpTime,kk,simu.numWecBodies,simu.ssCalc,simu.nlHydro,simu.b2b,simu.yawNonLin);
+            simu.rho,simu.g,waves.type,waves.waveAmpTime,kk,simu.numWecBodies,simu.ssCalc,simu.b2b,simu.yawNonLin);
     end; clear kk idx
 end
 
@@ -237,23 +261,36 @@ idx = find(nonHydroBodLogic==1);
 if ~isempty(idx)
     for kk = 1:length(idx)
         it = idx(kk);
+        body(it).nonHydroForcePre(simu.rho);
+        if isempty(body(it).cg)
+            error('Non-hydro body(%i) center of gravity (cg) must be defined in the wecSimInputFile.m',body(it).bodyNumber);
+        end
+        if isempty(body(it).dispVol)
+            error('Non-hydro body(%i) displaced volume (dispVol) must be defined in the wecSimInputFile.m',body(it).bodyNumber);
+        end
         if isempty(body(it).cb)
             body(it).cb = body(it).cg;
             warning('Non-hydro body(%i) center of buoyancy (cb) set equal to center of gravity (cg), [%g %g %g]',body(it).bodyNumber,body(it).cb(1),body(it).cb(2),body(it).cb(3))
         end
     end; clear kk idx
-end      
+end
 
 % dragBodyPre
-idx = find(dragBodLogic==1);
+idx = find(dragBodLogic == 1);
 if ~isempty(idx)
     for kk = 1:length(idx)
         it = idx(kk);
         body(it).dragForcePre(simu.rho);
+        if isempty(body(it).cg)
+            error('Drag body(%i) center of gravity (cg) must be defined in the wecSimInputFile.m',body(it).bodyNumber);
+        end
+        if isempty(body(it).dispVol)
+            error('Drag body(%i) displaced volume (dispVol) must be defined in the wecSimInputFile.m',body(it).bodyNumber);
+        end
         if isempty(body(it).cb)
             body(it).cb = body(it).cg;
-            warning('Non-hydro body(%i) center of buoyancy (cb) set equal to center of gravity (cg), [%g %g %g]',body(it).bodyNumber,body(it).cb(1),body(it).cb(2),body(it).cb(3))
-        end        
+            warning('Drag body(%i) center of buoyancy (cb) set equal to center of gravity (cg), [%g %g %g]',body(it).bodyNumber,body(it).cb(1),body(it).cb(2),body(it).cb(3))
+        end
     end; clear kk idx
 end
     
@@ -280,62 +317,75 @@ for ii = 1:simu.numWecBodies
 end; clear ii;
 
 % Check for etaImport with nlHydro
-if strcmp(waves.type,'etaImport') && simu.nlHydro == 1
-    error(['Cannot run WEC-Sim with non-linear hydro (simu.nlHydro) and "etaImport" wave type'])
+for ii = 1:simu.numWecBodies
+    if strcmp(waves.type,'etaImport') && body(ii).nlHydro == 1
+        error(['Cannot run WEC-Sim with nonlinear hydro (body(ii).nlHydro) and "etaImport" wave type'])
+    end
 end
 
 % Check for etaImport with morisonElement
-if strcmp(waves.type,'etaImport') && simu.morisonElement ~= 0
-    error(['Cannot run WEC-Sim with Morrison Element (simu.morisonElement) and "etaImport" wave type'])
+for ii = 1:simu.numWecBodies
+    if strcmp(waves.type,'etaImport') && body(ii).morisonElement.option ~= 0
+        error(['Cannot run WEC-Sim with Morison Element (body(ii).morisonElement.option>0) and "etaImport" wave type'])
+    end
 end
 
-% Check for morisonElement inputs for simu.morisonElement == 1
-if simu.morisonElement == 1
-    for ii = 1:length(body(1,:))
+% Check for morisonElement inputs for body(ii).morisonElement.option == 1 || body(ii).morisonElement.option == 2
+for ii = 1:length(body(1,:))
+    if body(ii).morisonElement.option == 1
         if body(ii).nhBody ~=1
-            %
             [rgME,~] = size(body(ii).morisonElement.rgME);
-            %
             for jj = 1:rgME
                 if true(isfinite(body(ii).morisonElement.z(jj,:))) == true
                     warning(['"body.morisonElement.z" is not used for "simu.morisonElement = 1. Check body ',num2str(ii),' element ',num2str(jj)])
                 end
-                %
-                if isnan(body(ii).morisonElement.cd(jj,3)) == 1 || isnan(body(ii).morisonElement.ca(jj,3)) == 1 || isnan(body(ii).morisonElement.characteristicArea(jj,3)) == 1
-                    error(['cd, ca, and characteristicArea coefficients for each elelement for "simu.morisonElement = 1" must be of size [1x3] and all columns of data must be real and finite. Check body ',num2str(ii),' element ',num2str(jj),' coefficients'])
+                if length(body(ii).morisonElement.cd(jj,:)) ~= 3 || length(body(ii).morisonElement.ca(jj,:)) ~= 3 || length(body(ii).morisonElement.characteristicArea(jj,:)) ~= 3
+                    error(['cd, ca, and characteristicArea coefficients for each elelement for "body.morisonElement.option = 1" must be of size [1x3] and all columns of data must be real and finite. Check body ',num2str(ii),' element ',num2str(jj),' coefficients'])
                 end
             end; clear jj
+        else
+            if body(ii).morisonElement.option == 1 || body(ii).morisonElement.option == 2
+                warning(['Morison elements are not available for non-hydro bodies. Please check body ',num2str(ii),' inputs.'])
+            end
         end
-    end; clear ii
-end
-
-% Check for morisonElement inputs for simu.morisonElement == 2
-if simu.morisonElement == 2
-    for ii = 1:length(body(1,:))
+    elseif body(ii).morisonElement.option == 2
         if body(ii).nhBody ~=1
-            %
             [rgME,~] = size(body(ii).morisonElement.rgME);
-            %
             for jj = 1:rgME
-                if isnan(body(ii).morisonElement.cd(jj,3)) == 0 || isnan(body(ii).morisonElement.ca(jj,3)) == 0 || isnan(body(ii).morisonElement.characteristicArea(jj,3)) == 0
+                if body(ii).morisonElement.cd(jj,3) ~= 0 || body(ii).morisonElement.ca(jj,3) ~= 0 || body(ii).morisonElement.characteristicArea(jj,3) ~= 0
                     warning(['cd, ca, and characteristicArea coefficients for "simu.morisonElement == 2" must be of size [1x2], third column of data is not used. Check body ',num2str(ii),' element ',num2str(jj),' coefficients'])
                 end
             end; clear jj
+        else
+            if body(ii).morisonElement.option ==1 || body(ii).morisonElement.option ==2
+                warning(['Morison elements are not available for non-hydro bodies. Please check body ',num2str(ii),' inputs.'])
+            end
         end
     end; clear ii
 end
 
 %% Set variant subsystems options
-nlHydro = simu.nlHydro;
+for ii=1:length(body(1,:))
+    if body(ii).nhBody==0
+        % Nonlinear FK Force Variant Subsystem
+        eval(['nonLinearHydro_' num2str(ii) ' = body(ii).nlHydro;']);
+        eval(['sv_b' num2str(ii) '_linearHydro = Simulink.Variant(''nonLinearHydro_', num2str(ii), '==0'');']);
+        eval(['sv_b' num2str(ii) '_nonlinearHydro=Simulink.Variant(''nonLinearHydro_', num2str(ii), '>0'');']);
+        % Nonlinear Wave Elevation Variant Subsystem
+        eval(['sv_b' num2str(ii) '_meanFS=Simulink.Variant(''nonLinearHydro_', num2str(ii), '<2'');']);
+        eval(['sv_b' num2str(ii) '_instFS=Simulink.Variant(''nonLinearHydro_', num2str(ii), '==2'');']);
+    end
+end; clear ii;
+% yawNonLin Activation
 yawNonLin=simu.yawNonLin;
-sv_linearHydro=Simulink.Variant('nlHydro==0');
-sv_nonlinearHydro=Simulink.Variant('nlHydro>0');
-sv_meanFS=Simulink.Variant('nlHydro<2');
-sv_instFS=Simulink.Variant('nlHydro==2');
-% Morrison Element
-morisonElement = simu.morisonElement;
-sv_MEOff=Simulink.Variant('morisonElement==0');
-sv_MEOn=Simulink.Variant('morisonElement==1 || morisonElement==2');
+% Morison Element
+for ii=1:length(body(1,:))
+    if body(ii).nhBody ~=1
+    eval(['morisonElement_' num2str(ii) ' = body(ii).morisonElement.option;'])
+    eval(['sv_b' num2str(ii) '_MEOff = Simulink.Variant(''morisonElement_' num2str(ii) '==0'');'])
+    eval(['sv_b' num2str(ii) '_MEOn = Simulink.Variant(''morisonElement_' num2str(ii) '==1 || morisonElement_' num2str(ii) '==2'');'])
+    end
+end; clear ii;
 % Radiation Damping
 if waves.typeNum==0 || waves.typeNum==10 %'noWave' & 'regular'
     radiation_option = 1;
@@ -369,6 +419,14 @@ for ii=1:length(body(1,:))
 %    eval(['sv_b' num2str(ii) '_rigidBody = Simulink.Variant(''nhbody_' num2str(ii) '==0'');'])
 end; clear ii
 
+% Visualization Blocks
+if ~isempty(waves.markerLoc)
+    visON = 1;
+else
+    visON = 0;
+end    
+sv_visualizationON  = Simulink.Variant('visON==1');
+sv_visualizationOFF = Simulink.Variant('visON==0');
 
 %% End Pre-Processing and Output All the Simulation and Model Setting
 toc
