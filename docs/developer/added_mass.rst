@@ -1,7 +1,4 @@
-.. _dev-overview-mass:
-
-Added Mass Treatment
-====================
+.. _dev-added-mass:
 
 Added mass is a special multi-directional fluid dynamic phenomenon that most
 physics software cannot account for well. WEC-Sim uses a special added mass 

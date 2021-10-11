@@ -9,5 +9,7 @@ Developers Manual
    
    overview.rst
    getting_started.rst
-   addedMass.rst
+   pull_requests.rst
+   software_tests.rst
    library.rst
+   advanced_features.rst

@@ -1,10 +1,10 @@
 .. _dev-library:
 
-Library Updates
+WEC-Sim Library
 ===============
 
-Tracking Library Changes
-------------------------
+Tracking Library Revisions
+---------------------------
 
 The WEC-Sim library is one of the most difficult files to manage on GitHub. Git 
 cannot track specific changes to binary files (such as ``.slx``). This 
