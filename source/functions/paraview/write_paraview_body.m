@@ -96,7 +96,7 @@ for it = 1:length(t)
         fprintf(fid, '\n');
         fprintf(fid,'        </DataArray>\n');
     end
-    % Non-Linear Froude-Krylov Wave Pressure
+    % Nonlinear Froude-Krylov Wave Pressure
     if ~isempty(wavenonlinearpressure)
         fprintf(fid,'        <DataArray type="Float32" Name="Wave Pressure NonLinear" NumberOfComponents="1" format="ascii">\n');
         for ii = 1:numFace

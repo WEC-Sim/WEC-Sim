@@ -1,5 +1,4 @@
 %Example of user input MATLAB file for post processing
-close all
 
 %Plot waves
 waves.plotEta(simu.rampTime);
@@ -19,4 +18,5 @@ output.plotForces(2,1)
 
 % Save waves and response as video
 % output.plotWaves(simu,body,waves,...
-%     'timesPerFrame',5,'axisLimits',[-50 50 -50 50 -12 20])
+%     'timesPerFrame',5,'axisLimits',[-50 50 -50 50 -12 20],...
+%     'startEndTime',[100 125]);

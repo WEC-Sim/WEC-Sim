@@ -11,31 +11,6 @@ inputFile = values{j};
 % Get all simulink blocks
 blocks = find_system(bdroot,'Type','Block');
 
-% reorder blocks into standard input file format:
-%    simu/waves, body, constraints, ptos, moorings
-inds = [];
-indb = [];
-indc = [];
-indp = [];
-indm = [];
-for i=1:length(blocks)
-    names = get_param(blocks{i},'MaskNames');
-    if any(strcmp(names,'simu'))
-        inds = i;
-    elseif any(strcmp(names,'body'))
-        indb(end+1) = i;
-    elseif any(strcmp(names,'constraint'))
-        indc(end+1) = i;
-    elseif any(strcmp(names,'pto'))
-        indp(end+1) = i;
-    elseif any(strcmp(names,'mooring'))
-        indm(end+1) = i;
-    end
-end
-ind = [inds indb indc indp indm];
-blocks = blocks(ind);
-
-
 for i=1:length(blocks)
     % Variable names and values of a block
     names = get_param(blocks{i},'MaskNames');
@@ -54,6 +29,8 @@ for i=1:length(blocks)
         type = 4;
     elseif any(contains(names,{'mooring'})) && any(contains(names,{'moorDynLines'})) % moorDyn
         type = 5;
+    elseif any(contains(names,{'cable'}))
+        type = 6;
     end
     
     writeBlocksFromInput(blockHandle,type,inputFile);

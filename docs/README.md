@@ -75,6 +75,8 @@ https://github.com/WEC-Sim/WEC-Sim) repository.
   - `$CASE` to refer to WEC-Sim case directory
   - `$WECSIM` to refer to WEC-Sim directory
   - `$WECSIM/source` to refer to WEC-Sim source directory
+  - `body(i)` or `pto(i)` to refer to an instance of a class
+  - `'<modelFile>.slx'` or `<wavePeriod>` when referring to user-input, but keep camelCase syntax
   - `*.mat` syntax to refer to file extension
   - use ``insert code`` to reference code
   - Title `####` with overline
