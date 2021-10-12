@@ -3,150 +3,136 @@
 WEC-Sim Library
 ===============
 
-Tracking Library Revisions
----------------------------
+GitHub only tracks where a change was made to binary files (e.g.``*.slx``), but not the specific revisions made. 
+This makes tracking revisions made to the WEC-Sim Library more challening than revisions to text files (e.g. ``*.m``). 
+In an attempt to minimize merge conflicts, the WEC-Sim library has been split into multiple files.
+The WEC-Sim library is saved as a `Custom Simulink Library <https://www.mathworks.com/help/simulink/ug/creating-block-libraries.html>`_ with sublibaries.
+To ensure backwards compatibility, a Forwarding Table is used to manage the WEC-Sim Library. 
 
-The WEC-Sim library is one of the most difficult files to manage on GitHub. Git 
-cannot track specific changes to binary files (such as ``.slx``). This 
-creates a problem when two versions of the library, each with their own 
-enhancements, need to be merged together. 
+=========================   	================================== 	============================
+**Simlunk Library**            	**File name**         			**Directory**               
+WEC-Sim Library    		``WECSim_Lib.slx``    			``$WECSIM/source/lib``     
+Frames Sublibrary		``WECSim_Lib_Frames.slx``		``$WECSIM/source/lib``
+Body Elements Sublibrary	``WECSim_Lib_Body_Elements.slx``	``$WECSIM/source/lib``
+Constraints Sublibrary	    	``WECSim_Lib_Constraints.slx``		``$WECSIM/source/lib``
+PTOs Sublibrary	   	    	``WECSim_Lib_PTOs.slx``			``$WECSIM/source/lib``
+Cables Sublibrary		``WECSim_Lib_Cables.slx``		``$WECSIM/source/lib``
+Moorings Sublibrary	    	``WECSim_Lib_Moorings.slx``		``$WECSIM/source/lib``
+=========================   	================================== 	============================
 
-To decrease the frequency of these merge conflicts, WEC-Sim v4.4 splits 
-the library into multiple files. A combination of separate 
-library files linked using the Forwarding Table and Referenced Subsystems are 
-used to maintains backwards compatibility while splitting the library into 
-different files. 
+Formatting Guidelines
+----------------------
+In order to track functionality of the WEC-Sim Library, please use the following color formatting:
 
-It is *highly recommended* that developers use the 
-`MATLAB External Merge Tool <https://www.mathworks.com/help/simulink/ug/customize-external-source-control-to-use-matlab-for-comparison-and-merge.html>`_
-to compare library versions when there are merge conflicts. The MATLAB tool is 
-easy to install and allows users to compare changes directly in Simulink.
+=========================   	================================== 	
+**Library Fumction**            **Color**         			
+Input				Green
+Output				Red
+From Workspace			Yellow
+Simulink Function		Orange
+Subsystem			Gray
+=========================   	================================== 	
 
-To use the tool, merge both branches locally and resolve any conflicts using the 
-merge tool. For example, take the branches ``A`` and ``B`` that each contain 
-new WEC-Sim features. In the Git for Windows command line, these changes can be 
-merged using::
+.. figure:: /_static/images/dev/library_format.png
+    :align: center
+    :width: 400pt
     
-    # Checkout the A branch and get the latest changes online
-    git checkout A
-    git pull REMOTE/A
+    WEC-Sim Library with color formatting 
+
+.. TO DO: Referenced Subsystem		Light Blue
+
+   
+
+MATLAB Merge Tool
+------------------
+It is recommended that developers use the MATLAB Merge Tool to compare library versions when there are merge conflicts. 
+The MATLAB merge tool allows users to compare changes directly in Simulink.
+The merge tool will open a special Simulink GUI that allows users to compare code versions both textually and within the block diagram. 
+To use the tool, merge both branches locally and resolve any conflicts using the merge tool, refer to `MATLAB External Merge Tool <https://www.mathworks.com/help/simulink/ug/customize-external-source-control-to-use-matlab-for-comparison-and-merge.html>`_ documentation for more information. 
+
+For example, take the branches ``<dev>`` and ``<new_feature>`` that each contain new WEC-Sim features. 
+In the Git for Windows command line, these changes can be merged using::
     
-    # Fetch updates to the B branch
-    git fetch REMOTE
+    # Checkout the <dev> branch and pull the latest
+    git checkout <dev>
+    git pull <remote>/<dev>
     
-    # Merge B branch into A branch
-    git merge B
+    # Merge <new_feature> branch into <dev> branch
+    git merge <new_feature>
     
     # Resolve library conflicts using the MATLAB merge tool
-    git mergetool -t mlMerge source/lib/WEC-Sim/WECSim_Lib.slx
-
-The merge tool will then open a special Simulink GUI that allows users to 
-compare code versions both textually and within the block diagram. For each 
-conflict select the appropriate version of the code to use. When finished, save 
-the simulink diagram and commit using::
-
-    git add source/lib/WEC-Sim/WECSim_Lib.slx
-    git commit -m 'merge branch A and branch B changes'
-
-The MATLAB merge tool is most useful to merge overlapping changes between two 
-branches that update many blocks
+    git mergetool -t mlMerge source/lib/WEC-Sim/<library_file>.slx
+    
+    # Save desired revisions, then add and commit changes
+    git add source/lib/WEC-Sim/<library_file>.slx
+    git commit -m 'merge <dev> with <new_feature>'    
 
 
 Run From Simulink
 ---------------------
-The Run From Simulink advanced feature allows users to initialize WEC-Sim 
-from the command window and then begin the simulation from Simulink. This 
-feature allows greater compatibility with other models or 
-hardware-in-the-loop simulations that must start in Simulink.
+The :ref:`user-advanced-features-simulink` feature allows users to initialize WEC-Sim from the command window and then begin the simulation from Simulink. 
+This feature allows greater compatibility with other models or hardware-in-the-loop simulations that must start in Simulink.
 
 
-Using the Run From Simulink Feature
-^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+Internally, the Run From Simulink functionality differs from executing the ``wecSim`` command by how the input file is run. 
+The standard ``wecSim`` command begins by running the ``wecSimInputFile`` in the current directory and continuing with the pre-processing steps. 
+Run From Simulink differs by either:
 
-The basic steps to run WEC-Sim from Simulink are:
-
-    1. Open the relevant WEC-Sim Simulink file (``.slx``).
-    2. Set the Global Reference Frame to use an input file or set custom parameters
-    3. Type ``wecSimInitialize`` in the Command Window
-    4. Run the model from Simulink
-
-Internally, the Run From Simulink functionality differs from the ``wecSim`` command in 
-how the input file is run. All other pre-processing is identical to the
-command line method. The standard ``wecSim`` command begins by running 
-the ``wecSimInputFile`` in the current directory and continuing with the 
-pre-processing steps. Run From Simulink instead either:
-
-   1. Runs the file chosen in the Global Reference Frame 
-   (when the 'Input File' option is selected)
-   
-   2. Writes and then runs a new input file ``wecSimInputFile_customParameters.m``
-   (when the Global Reference when the 'Custom Parameters' option is selected). 
+  * Running the input file selected in the Global Reference Frame (when the ``Input File`` option is selected)   
+  * Writing and then running a new input file ``wecSimInputFile_customParameters.m`` (when the Global Reference when the ``Custom Parameters`` option is selected)
    
 
-Beyond simply allowing users to initialize WEC-Sim and start the 
-simulation from Simulink, WEC-Sim allows users to define input file parameters 
-inside Simulink block masks. When using the ``Custom Parameters`` setting, 
-users can both load an input file into the block masks and write an block masks
-to an input file. This feature was created so that users have a written record 
-of case parameters utilized during a simulation run from Simulink.
+Custom Parameters
+^^^^^^^^^^^^^^^^^^^
+WEC-Sim allows users to define input file parameters  inside Simulink block masks. 
+When using the ``Custom Parameters`` setting, users can both load an input file into the block masks and write an block masks to an input file.
+This feature was created so that users have a written record of case parameters utilized during a simulation run from Simulink.
 
-User Definition of Custom Parameters
-^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ 
-
-The mask of each library block allows users to define a subset of possible 
-input parameters that would be defined in the ``wecSimInputFile``. The values 
-that a user inputs to a block are stored as mask parameters. When a block mask 
-is accessed, a prompt similar to the figure below appears:
+The mask of each library block allows users to define a subset of possible input parameters that would be defined in the ``wecSimInputFile``. 
+The values that a user inputs to a block are stored as mask parameters. 
+When a block mask is accessed, a prompt similar to the figure below appears:
 
 .. figure:: /_static/images/dev/mask_user_grf.png
     :align: center
     :width: 400pt
     
-    A sample of simulation class parameters may be defined in the Global 
-    Reference Frame.
+    Simulation class parameters defined in the Global Reference Frame.
 
-Turning on certain flags may change the visibility of other parameters. For 
-example, the wave type will affect which wave settings are visible to 
-a user:
+Turning on certain flags may change the visibility of other parameters. 
+For example, the wave type will affect which wave settings are visible to a user:
 
 .. figure:: /_static/images/dev/mask_user_grf_waveOptions.png
     :align: center
     :width: 400pt
 
-The spectrum type, frequency discretization and phase seed are not used for 
-regular waves, so they are no visible. Similarly, a visibility-flag relation 
-is present for each body's Morison element options, nonhydro body parameters, 
-etc. Having a given flag change the visibility of options that cannot be used 
-may help new users understand the interdependence of input parameters.
+    Wave class parameters defined in the Global Reference Frame. Visibility changes based on the selected wave type,
 
-Note that to decrease the burden of maintaining these masks, only the most 
-common input file parameters can be defined in Simulink. For example, 
-the Global Reference Frame contains simulationClass parameters such as 
-``mode, explorer, solver,`` time information, and state space flags. However 
-less common parameters such as ``mcrCaseFile, saveStructure, b2b`` and others 
-are not included. Users or developers may add additional options using the 
-below instructions.
+The spectrum type, frequency discretization and phase seed are not used for regular waves, so they are no visible. 
+Similarly, a visibility-flag relation is present for each body's Morison element options, nonhydro body parameters, etc. 
+Having a flag change the visibility of options that cannot be used may help new users understand the interdependence of input parameters.
+
+.. Note::
+	To decrease the burden of maintaining these masks, only the most common input file parameters can be defined in Simulink. 
+	For example, the Global Reference Frame contains simulationClass parameters such as ``mode, explorer, solver,`` time information, and state space flags. 
+	However less common parameters such as ``mcrCaseFile, saveStructure, b2b`` and others are not included. 
+	
 
 
-Library Developments with the Run From Simulink Feature
-^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+Library Development
+^^^^^^^^^^^^^^^^^^^^
+In order to maintain the functionality of the :ref:`user-advanced-features-simulink` feature, the WEC-Sim Library must be updated when new features are added.
+Developers may add additional options using the below instructions.
 
-WEC-Sim is originally developed as a class based software, not a simulink-based 
-one. This results in a complex interplay between the class variables and those 
-defined in the block masks. The difficult and complex part of this feature 
-comes from three aspects:
+WEC-Sim is developed as a class based software. 
+This results in a complex interplay between the class variables and those defined in the block masks. 
+The difficult and complex part of this feature comes from three aspects:
 
-    * Changing parameter visibility based on a flags value (``callbacks``)
-    
-    * Writing an input file from mask parameters (``writeInputFromBlocks``, ``writeLineFromVar``)
-    
+    * Changing parameter visibility based on a flags value (``callbacks``)    
+    * Writing an input file from mask parameters (``writeInputFromBlocks``, ``writeLineFromVar``)    
     * Writing block parameters when loading an input file (``writeBlocksFromInput``)
 
-Each of these items will be addressed in this section, but first an overview of 
-the mask set-up is given. It is recommended that developers briefly review 
-Mathworks `Simulink.MaskParameter documentation 
-<https://www.mathworks.com/help/simulink/slref/simulink.maskparameter-class.html>`_ 
-before preceeding with edits to this advanced feature. 
+Each of these items will be addressed in this section, but first an overview of the mask set-up is given. 
+It is recommended that developers briefly review Mathworks `Simulink.MaskParameter documentation <https://www.mathworks.com/help/simulink/slref/simulink.maskparameter-class.html>`_ before preceeding with edits to this advanced feature. 
 
 Mask Structure
 """"""""""""""
@@ -243,8 +229,8 @@ WEC-Sim callback functions can be split into several categories by their use:
 ===================== ======================================
 Category               Function name
 ===================== ======================================
-Button callbacks       inFileButtonCallback.m, etaButtonCallback.m, spectrumButtonCallback.m, h5ButtonCallback.m, stlButtonCallback.m, loadInputFileCallback.m
-Visibility callbacks   hardStopCallback.m, waveClassCallback.m, bodyClassCallback.m, customVisibilityCallback.m, inputOrCustomCallback.m
+Button callbacks       ``inFileButtonCallback.m``, ``etaButtonCallback.m``, ``spectrumButtonCallback.m``, ``h5ButtonCallback.m``, ``stlButtonCallback.m``, ``loadInputFileCallback.m``
+Visibility callbacks   ``hardStopCallback.m``, ``waveClassCallback.m``, ``bodyClassCallback.m``, ``customVisibilityCallback.m``, ``inputOrCustomCallback.m``
 ===================== ======================================
 
 Visibility callbacks are used with flag parameters to update the visibility of 

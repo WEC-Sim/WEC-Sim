@@ -62,12 +62,10 @@ or link to another software.
 Running from Simulink
 """""""""""""""""""""
 
-Beginning in version 4.3, WEC-Sim can also be run from Simulink. The Run From 
-Simulink advanced feature allows users to initialize WEC-Sim from the command 
-window and then begin the simulation from Simulink. This allows greater 
-compatibility with other models or hardware-in-the-loop simulations that must 
-start in Simulink. The WEC-Sim library contains mask options that allow users to 
-either:
+WEC-Sim can also be run directly from Simulink. 
+The Run From Simulink advanced feature allows users to initialize WEC-Sim from the command window and then begin the simulation from Simulink. 
+This allows greater compatibility with other models or hardware-in-the-loop simulations that must start in Simulink. 
+The WEC-Sim library contains mask options that allow users to either:
 
    1. Define an standard input file to use in WEC-Sim or 
    2. Define custom parameters inside the block masks.
@@ -87,11 +85,12 @@ use an input file or custom parameters in the Global Reference Frame. Next type
 Simulink interface:
 
 * Run from Simulink with a wecSimInputFile.m
+	* Open the WEC-Sim Simulink file (``.slx``).
 	* Set the Global Reference Frame to use an input file
-	* Choose the correct input file
 	* Type ``initializeWecSim`` in the Command Window
 	* Run the model from Simulink
 * Run from Simulink with custom parameters
+	* Open the Simulink file (``.slx``).
 	* Set the Global  Reference Frame to use custom parameters
 	* (Optional) prefill parameters by loading an input file.
 	* Edit custom parameters as desired
