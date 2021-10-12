@@ -31,6 +31,7 @@ Output				Red
 From Workspace			Yellow
 Simulink Function		Orange
 Subsystem			Gray
+Referenced Subsystem		Light Blue
 =========================   	================================== 	
 
 .. figure:: /_static/images/dev/library_format.png
@@ -39,7 +40,6 @@ Subsystem			Gray
     
     WEC-Sim Library with color formatting 
 
-.. TO DO: Referenced Subsystem		Light Blue
 
    
 
