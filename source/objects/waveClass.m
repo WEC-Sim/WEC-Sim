@@ -530,7 +530,13 @@ classdef waveClass<handle
             % Used by waveSetup                    
             % Used by postProcess for variable step solvers
             obj.waveAmpTime         = zeros(length(timeseries),2);
-            obj.waveAmpTime(:,1)    = timeseries;            
+            obj.waveAmpTime(:,1)    = timeseries;
+            
+            if ~isempty(obj.markerLoc)
+                SZwaveAmpTimeViz = size(obj.markerLoc);
+                obj.waveAmpTimeViz = zeros(length(timeseries),SZwaveAmpTimeViz(1)+1);
+                obj.waveAmpTimeViz(:,1) = timeseries;
+            end
         end
         
         function waveElevReg(obj,rampTime,timeseries)
@@ -572,15 +578,13 @@ classdef waveClass<handle
                     error('The coordinates of the visualization markers should have an ordinate (y-coordinate) and an abscissa (x-coordinate)')
                 end
             end                
-            if ~any(isnan(obj.markerLoc))
-               SZwaveAmpTimeViz = size(obj.markerLoc);
-               obj.waveAmpTimeViz = zeros(maxIt,SZwaveAmpTimeViz(1)+1);
+            if ~isempty(obj.markerLoc)
+                SZwaveAmpTimeViz = size(obj.markerLoc);
+                obj.waveAmpTimeViz = zeros(maxIt,SZwaveAmpTimeViz(1)+1);
                 for j = 1:SZwaveAmpTimeViz(1)
-                    if ~isnan(obj.markerLoc)
-                        obj.waveAmpTimeViz(:,1) = timeseries;
-                        obj.waveAmpTimeViz(:,j+1) = rampFunction.*obj.A.*cos(obj.w*timeseries - obj.k*(obj.markerLoc(j,1).*cos(obj.waveDir*pi/180) + obj.markerLoc(j,2).*sin(obj.waveDir*pi/180)));                   
-                    end  
-                end             
+                    obj.waveAmpTimeViz(:,1) = timeseries;
+                    obj.waveAmpTimeViz(:,j+1) = rampFunction.*obj.A.*cos(obj.w*timeseries - obj.k*(obj.markerLoc(j,1).*cos(obj.waveDir*pi/180) + obj.markerLoc(j,2).*sin(obj.waveDir*pi/180)));                   
+                end
             end          
         end        
         
@@ -709,12 +713,12 @@ classdef waveClass<handle
             end
             
             %  Wave Markers
-            if ~isempty(obj.markerLoc)==1
+            if ~isempty(obj.markerLoc)
                 if width(obj.markerLoc)~=2
                     error('The coordinates of the visualization markers should have an ordinate (y-coordinate) and an abscissa (x-coordinate)')
                 end
             end                              
-            if ~isnan(obj.markerLoc)
+            if ~isempty(obj.markerLoc)
                SZwaveAmpTimeViz = size(obj.markerLoc);
                obj.waveAmpTimeViz = zeros(maxIt,SZwaveAmpTimeViz(1)+1);
                obj.waveAmpTimeViz(:,1) = timeseries;
@@ -743,12 +747,10 @@ classdef waveClass<handle
                 end
                 
                 % Wave Markers
-                if ~isnan(obj.markerLoc)
+                if ~isempty(obj.markerLoc)
                     for j = 1:SZwaveAmpTimeViz(1)
-                        if ~isnan(obj.markerLoc)
-                            tmp14 = tmp.*real(exp(sqrt(-1).*(obj.w.*timeseries(i) - obj.k*(obj.markerLoc(j,1).*cos(obj.waveDir*pi/180) + obj.markerLoc(j,2).*sin(obj.waveDir*pi/180)) + obj.phase)));
-                            obj.waveAmpTimeViz(i,j+1) = rampFunction(i).*sum(tmp14,'all');
-                        end  
+                        tmp14 = tmp.*real(exp(sqrt(-1).*(obj.w.*timeseries(i) - obj.k*(obj.markerLoc(j,1).*cos(obj.waveDir*pi/180) + obj.markerLoc(j,2).*sin(obj.waveDir*pi/180)) + obj.phase)));
+                        obj.waveAmpTimeViz(i,j+1) = rampFunction(i).*sum(tmp14,'all');
                     end             
                 end                                                                       
             end
@@ -766,6 +768,17 @@ classdef waveClass<handle
             data_x = data(:,2)';                    % Wave Surface Elevation [m]            
             obj.waveAmpTime(:,1) = time;
             obj.waveAmpTime(:,2) = rampFunction.*interp1(data_t,data_x,time);
+            
+            if any(~isnan(obj.wavegauge1loc)) || ...
+                    any(~isnan(obj.wavegauge2loc)) || ...
+                    any(~isnan(obj.wavegauge3loc)) || ...
+                    ~isempty(obj.markerLoc)
+                warning('Cannot use wave gauges or visualization markers with eta import. Gauges and markers removed.');
+                obj.wavegauge1loc = [NaN,NaN];
+                obj.wavegauge2loc = [NaN,NaN];
+                obj.wavegauge3loc = [NaN,NaN];
+                obj.markerLoc = [];
+            end
         end
         
         function printWaveSpectrumType(obj)
