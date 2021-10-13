@@ -23,7 +23,7 @@ if exist('userDefinedFunctions.m','file') == 2
 end
 
 % Paraview output. Must call while output is an instance of responseClass 
-paraViewVisualization
+paraviewVisualization
 
 % ASCII files
 if simu.saveText==1
