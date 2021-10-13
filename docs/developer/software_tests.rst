@@ -21,7 +21,7 @@ To execute the WEC-Sim tests locally and generates a build report, navigate to t
 
 .. code-block:: matlabsession
 
-	>> results = wecSimTest();
+	>> results = wecSimTest()
 	
 	
 	Totals:
@@ -35,8 +35,11 @@ To execute the WEC-Sim Applications tests locally and generates a build report, 
 
 .. code-block:: matlabsession
 
-	>> results = wecSimAppTest();
-
+	>> results = wecSimAppTest()
+	
+	
+	Totals:
+	   43 Passed, 0 Failed, 0 Incomplete
 
 
 .. TO DO: add section about regression and compilation tests
