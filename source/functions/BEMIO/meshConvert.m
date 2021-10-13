@@ -94,7 +94,7 @@ switch fmt
         
         %% vertex definitions
         for k=2:lnNum;
-            if strcmp(raw(k),'0 0 0 0')                                     % signals start of faces
+            if sum(abs(str2num(raw{k})))==0                                 % signals start of faces
                 break;
             end
             V(k-1,:)=str2num(raw{k});                                     
