@@ -1,5 +1,6 @@
-%% Initializa WEC-Sim run
-%%
+%% initializeWecSim
+% Initialize WEC-Sim run, called from wecSim.m
+%
 %% Following Classes are required to be defined in the WEC-Sim input file:
 %%
 %% simu = simulationClass();                                               - To Create the Simulation Variable

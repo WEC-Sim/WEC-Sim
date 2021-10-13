@@ -1,4 +1,4 @@
-function data=h5load(filename, path)
+function data = Load_H5(filename, path)
 % data = H5LOAD(filename)
 % data = H5LOAD(filename, path_in_file)
 %

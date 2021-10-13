@@ -1,4 +1,4 @@
-function out=refine_stl(stl_file, stl_eol, maxPanelArea, saveName, saveDir);
+function out = refineSTL(stl_file, stl_eol, maxPanelArea, saveName, saveDir);
 % This function refines input STL mesh to a panel area that is less than
 % the specified threshold via the midpoint method. The mesh panels that
 % arise from this refinement will have the same normal vector as the panel

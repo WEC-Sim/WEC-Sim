@@ -17,7 +17,7 @@
 % limitations under the License.
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
-%% ParaView Visualization
+%% Paraview Visualization
 if simu.paraview == 1
     fprintf('    ...writing ParaView files...   \n')
     if exist([simu.pathParaviewVideo filesep 'vtk'],'dir') ~= 0
@@ -51,7 +51,7 @@ if simu.paraview == 1
             NewTimeParaview(:,1) = simu.StartTimeParaview:simu.dtParaview:simu.EndTimeParaview;
             PositionBodyParav = interp1(TimeBodyParav,PositionBodyParav,NewTimeParaview);
             TimeBodyParav = NewTimeParaview-simu.StartTimeParaview;
-            write_paraview_body(body(ii), TimeBodyParav, PositionBodyParav, bodyname, modelName, datestr(simu.simulationDate), output.bodies(ii).cellPressures_hydrostatic, output.bodies(ii).cellPressures_waveNonLinear, output.bodies(ii).cellPressures_waveLinear, simu.pathParaviewVideo,vtkbodiesii);
+            writeParaviewBody(body(ii), TimeBodyParav, PositionBodyParav, bodyname, modelName, datestr(simu.simulationDate), output.bodies(ii).cellPressures_hydrostatic, output.bodies(ii).cellPressures_waveNonLinear, output.bodies(ii).cellPressures_waveLinear, simu.pathParaviewVideo,vtkbodiesii);
             bodies{vtkbodiesii} = bodyname;
             fprintf(fid,[bodyname '\n']);
             fprintf(fid,[num2str(body(vtkbodiesii).viz.color) '\n']);
@@ -63,14 +63,14 @@ if simu.paraview == 1
     fclose(fid);
     % waves
         mkdir([simu.pathParaviewVideo filesep 'waves'])
-        write_paraview_wave(waves, NewTimeParaview, waves.viz.numPointsX, waves.viz.numPointsY, simu.domainSize, modelName, datestr(simu.simulationDate),moordynFlag,simu.pathParaviewVideo,TimeBodyParav, simu.g);    % mooring
+        writeParaviewWave(waves, NewTimeParaview, waves.viz.numPointsX, waves.viz.numPointsY, simu.domainSize, modelName, datestr(simu.simulationDate),moordynFlag,simu.pathParaviewVideo,TimeBodyParav, simu.g);    % mooring
     % mooring
     if moordynFlag == 1
         mkdir([simu.pathParaviewVideo filesep 'mooring'])
-        write_paraview_mooring(output.moorDyn, modelName, output.moorDyn.Lines.Time, datestr(simu.simulationDate), mooring.moorDynLines, mooring.moorDynNodes,simu.pathParaviewVideo,TimeBodyParav,NewTimeParaview)
+        writeParaviewMooring(output.moorDyn, modelName, output.moorDyn.Lines.Time, datestr(simu.simulationDate), mooring.moorDynLines, mooring.moorDynNodes,simu.pathParaviewVideo,TimeBodyParav,NewTimeParaview)
     end
     % all
-       write_paraview_response(bodies, TimeBodyParav, modelName, datestr(simu.simulationDate), waves.type, moordynFlag, simu.pathParaviewVideo);
+       writeParaviewResponse(bodies, TimeBodyParav, modelName, datestr(simu.simulationDate), waves.type, moordynFlag, simu.pathParaviewVideo);
     clear bodies fid filename
 end
 clear body*_hspressure_out body*_wavenonlinearpressure_out body*_wavelinearpressure_out  hspressure wpressurenl wpressurel cellareas bodyname 

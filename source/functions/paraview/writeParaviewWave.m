@@ -1,6 +1,6 @@
-function write_paraview_wave(waves, t, numPointsX, numPointsY, domainSize, model, simdate, mooring, pathParaviewVideo,TimeBodyParav,g)
+function writeParaviewWave(waves, t, numPointsX, numPointsY, domainSize, model, simdate, mooring, pathParaviewVideo,TimeBodyParav,g)
 % Method to write ``vtp`` Paraview visualization files for the waveClass.
-% Executed by paraViewVisualization.m when simu.paraview=1 in the 
+% Executed by paraviewVisualization.m when simu.paraview=1 in the 
 % wecSimInputFile.m
 % 
 % Parameters

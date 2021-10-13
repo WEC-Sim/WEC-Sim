@@ -1,4 +1,4 @@
-function wk = wave_number(wa,h)
+function wk = waveNumber(wa,h)
 % Solves the wave dispersion relation sig^2 = g*k*tanh(k*h)
 %
 % Usage:

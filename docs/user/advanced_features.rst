@@ -447,7 +447,7 @@ Youtube <https://www.youtube.com/watch?v=CrlXAMPfHWI>`_.
     All STL files must be saved as ASCII (not binary)
  
 **Refining STL File** -
-The script ``refine_stl`` in the BEMIO directory performs a simple mesh 
+The script ``refineSTL`` in the BEMIO directory performs a simple mesh 
 refinement on an ``*.stl`` file by subdividing each panel with an area above 
 the specified threshold into four smaller panels with new vertices at the 
 mid-points of the original panel edges. This procedure is iterated for each 

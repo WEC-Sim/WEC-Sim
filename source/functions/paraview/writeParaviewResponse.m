@@ -1,6 +1,6 @@
-function write_paraview_response(bodies, t, model, simdate, wavetype, mooring, pathParaviewVideo)
+function writeParaviewResponse(bodies, t, model, simdate, wavetype, mooring, pathParaviewVideo)
 % Method to write ``vtp`` Paraview visualization files for the
-% responseClass. Executed by paraViewVisualization.m when 
+% responseClass. Executed by paraviewVisualization.m when 
 % simu.paraview=1 in the wecSimInputFile.m
 % 
 % Parameters

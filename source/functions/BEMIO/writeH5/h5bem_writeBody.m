@@ -1,5 +1,6 @@
 function h5bem_writeBody(filename, body_number, cb, cg, disp_vol, K, re, im, added_mass, added_mass_inf, radiation_damping)
-	% Function to write a body's properties and coefficients to an existing WEC-Sim/BEMIO-formatted h5 file
+	% Function to write a body's properties and coefficients to an 
+    %     existing WEC-Sim/BEMIO-formatted h5 file
 	%
 	% inputs:
 	% 	filename:               string name of file to modify 

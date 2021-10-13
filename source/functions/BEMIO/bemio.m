@@ -21,23 +21,23 @@
 hydro = struct();
 
 %% Parse a WAMIT output file
-%hydro = Read_WAMIT(hydro,'..\..\..\tutorials\BEMIO\WAMIT\RM3\rm3.out',[]);
+hydro = Read_WAMIT(hydro,'..\..\..\examples\BEMIO\WAMIT\RM3\rm3.out',[]);
 
 %% Parse a NEMOH output directory
-% hydro = Read_NEMOH(hydro,'..\..\..\tutorials\BEMIO\NEMOH\RM3\');
+% hydro = Read_NEMOH(hydro,'..\..\..\examples\BEMIO\NEMOH\RM3\');
 
 %% Parse AQWA output files
-hydro = Read_AQWA(hydro,'..\..\..\tutorials\BEMIO\AQWA\Example\aqwa_example_data.AH1','..\..\..\tutorials\BEMIO\AQWA\Example\aqwa_example_data.LIS');
+% hydro = Read_AQWA(hydro,'..\..\..\examples\BEMIO\AQWA\Example\aqwa_example_data.AH1','..\..\..\tutorials\BEMIO\AQWA\Example\aqwa_example_data.LIS');
 
 %% Parse CAPYTAINE output file
-hydro = Read_CAPYTAINE(hydro,'..\..\..\examples\BEMIO\Capytaine\RM3\rm3_full.nc');
+% hydro = Read_CAPYTAINE(hydro,'..\..\..\examples\BEMIO\Capytaine\RM3\rm3_full.nc');
 
 %% Combine multiple BEM outputs, if using multiple BEM outputs
 % hydro = Combine_BEM(hydro);
 
 %% Calculate the IRF for radiation
 % hydro = Radiation_IRF(hydro,t_end,n_t,n_w,w_min,w_max), [] for defaults
-hydro = Radiation_IRF(hydro,60,101,151,[],1.9);
+hydro = Radiation_IRF(hydro,20,[],[],[],[]);
 
 %% Calculate the approximate state space IRF for radiation, if using state space
 % hydro = Radiation_IRF_SS(hydro,order_max,R2_min), [] for defaults
@@ -45,7 +45,7 @@ hydro = Radiation_IRF_SS(hydro,[],[]);
 
 %% Calculate the IRF for excitation
 % hydro = Excitation_IRF(hydro,t_end,n_t,n_w,w_min,w_max), [] for defaults
-hydro = Excitation_IRF(hydro,157,101,151,[],1.9);
+hydro = Excitation_IRF(hydro,20,[],[],[],[]);
 
 %% Write the data in standard h5 format
 Write_H5(hydro)

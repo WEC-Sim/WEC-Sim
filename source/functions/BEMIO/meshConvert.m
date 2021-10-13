@@ -1,4 +1,4 @@
-function outmesh=meshConvert(meshfile,fmt,outfmt,outName,stleol,nemohFlag,ISXflag,ISYflag)
+function outmesh = meshConvert(meshfile,fmt,outfmt,outName,stleol,nemohFlag,ISXflag,ISYflag)
 % A mesh converter function. Note that any output dat file will have
 % vertices re-ordered such that node order is consecutive (as implied in
 % GDF format). Also, note that using an un-refined STL mesh is not

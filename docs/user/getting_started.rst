@@ -54,9 +54,7 @@ The local copy of WEC-Sim can easily be updated to include updates from the mast
 
     >> git pull origin master
 
-For users who are new to git, it is recommended to go through examples on 
-`GitHub <https://docs.github.com/en/free-pro-team@latest/github/getting-started-with-github>`_ 
-or other sources while getting started. 
+For users who are new to git, it is recommended to go through examples on `GitHub <https://docs.github.com/en/free-pro-team@latest/github/getting-started-with-github>`_ or other sources while getting started. 
 If you have problems downloading or installing please see the :ref:`user-troubleshooting` page.
 
 For developers who wish to contribute to WEC-Sim, refer to the Developer :ref:`dev-getting-started` section.
@@ -74,21 +72,20 @@ For developers who wish to contribute to WEC-Sim, refer to the Developer :ref:`d
 Install WEC-Sim
 ---------------
 
-Once you have downloaded the WEC-Sim source code, take the following steps to 
-install WEC-Sim. The directory where the WEC-Sim source code is saved is 
-referred to as ``$WECSIM`` (e.g. ``C:/User/Documents/GitHub/WEC-Sim``). 
+Once you have downloaded the WEC-Sim source code, take the following steps to install WEC-Sim. 
+The directory where the WEC-Sim source code is saved is referred to as ``$WECSIM`` (e.g. ``C:/User/Documents/GitHub/WEC-Sim``). 
 
 
 Step 1. Add WEC-Sim to the MATLAB Path
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
-To run WEC-Sim, the source directory must be on the MATLAB path. Users have two 
-options to do this:
+To run WEC-Sim, the source directory must be on the MATLAB path. 
+Users have two options to do this:
 
 **Option 1. Automatically add the WEC-Sim source on MATLAB startup.**
 
-Open ``$WECSIM/addWecSimSource.m`` and copy contents to a new file called ``startup.m``. 
-Set the WEC-Sim  path to the local ``$WECSIM/source`` directory, eg. ``wecSimSource = 'path\to\WEC-Sim\source``.
+Open ``$WECSIM/source/addWecSimSource.m`` and copy contents to a new file called ``startup.m``. 
+Set the WEC-Sim  path to the local ``$WECSIM/source`` directory, eg. ``wecSimSource = 'C:/User/Documents/GitHub/WEC-Sim/source``.
 Save ``startup.m`` to the `MATLAB Startup Folder <https://www.mathworks.com/help/matlab/ref/startup.html>`_. 
 Restart MATLAB, and the ``$WECSIM/source`` directory will automatically be added to the MATLAB path.
 
@@ -100,10 +97,10 @@ Restart MATLAB, and the ``$WECSIM/source`` directory will automatically be added
 **Option 2. Manually add and remove the WEC-Sim source from the MATLAB path.**
 
 This option requires users to run a script each time MATLAB is opened to add the WEC-Sim source directory to the path.
-Navigate to the ``$WECSIM`` directory and run ``addWecSimSource``.
+Navigate to the ``$WECSIM/source`` directory and run ``addWecSimSource``.
 The ``$WECSIM/source`` directory will then be added to the MATLAB path for this instance of MATLAB.
 To remove WEC-Sim from the path, run ``removeWecSimSource``. 
-Both scripts must be run from the ``$WECSIM`` directory.
+Both scripts must be run from the ``$WECSIM/source`` directory.
 
 
 Step 2. Verify the Path

@@ -16,7 +16,7 @@ toc
 
 tic
 %% Post processing and Saving Results
-postProcess
+postProcessWecSim
 % User Defined Post-Processing
 if exist('userDefinedFunctions.m','file') == 2
     userDefinedFunctions;
