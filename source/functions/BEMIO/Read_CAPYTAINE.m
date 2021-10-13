@@ -1,6 +1,5 @@
 function hydro = Read_CAPYTAINE(hydro,filename)
-
-%% Reads data from a Capytaine netcdf file
+% Reads data from a Capytaine netcdf file
 %
 % hydro = Read_CAPYTAINE(hydro, filename)
 %     hydro –     data structure

@@ -1,6 +1,5 @@
 function hydro = Read_WAMIT(hydro,filename,ex_coeff)
-
-%% Reads data from a WAMIT output file.
+% Reads data from a WAMIT output file.
 %
 % hydro = Read_WAMIT(hydro, filename, ex_coeff)
 %     hydro –     data structure

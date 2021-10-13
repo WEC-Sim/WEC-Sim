@@ -1,6 +1,5 @@
 function hydro = Read_AQWA(hydro,ah1_filename,lis_filename)
-
-%% Reads data from AQWA output files.
+% Reads data from AQWA output files.
 %
 % hydro = Read_AQWA(hydro, ah1_filename, lis_filename)
 %     hydro -         data structure

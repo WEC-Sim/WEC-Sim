@@ -17,6 +17,8 @@
 % limitations under the License.
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
+%% wecSimMCR
+% WEC-Sim multiple condition run executable
 clear mcr imcr i j k l1 l2 m n name nseed kkk len numConditions
 clear body waves simu output pto constraint ptoSim
 
