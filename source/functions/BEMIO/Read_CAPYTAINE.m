@@ -8,9 +8,9 @@ function hydro = Read_CAPYTAINE(hydro,filename)
 
 %% Check file for required variables
 [a,b] = size(hydro);  % Check on what is already there
-if b==1 && ~isfield(hydro(b),'Nb')
+if b == 1 && ~isfield(hydro(b),'Nb')
     F = 1;
-elseif b>=1
+elseif b >= 1
     F = b+1;
 end
 

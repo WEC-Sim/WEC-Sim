@@ -34,13 +34,11 @@ function hydro = Read_NEMOH(hydro,filedir)
     end
 
 %%
-
 [a,b] = size(hydro);  % Check on what is already there
-if b==1
-    if isfield(hydro(b),'Nb')==0  F = 1;
-    else  F = 2;
-    end
-elseif b>1  F = b+1;
+if b == 1 && ~isfield(hydro(b),'Nb')
+    F = 1;
+elseif b >= 1
+    F = b+1;
 end
 
 p = waitbar(0,'Reading NEMOH output file...');  % Progress bar

@@ -13,13 +13,11 @@ function hydro = Read_WAMIT(hydro,filename,ex_coeff)
 % be used, the output directory must also include the .3fk and .3sc files.
 
 %% 
-
 [a,b] = size(hydro);  % Check on what is already there
-if b==1
-    if isfield(hydro(b),'Nb')==0  F = 1;
-    else  F = 2;
-    end
-elseif b>1  F = b+1;
+if b == 1 && ~isfield(hydro(b),'Nb')
+    F = 1;
+elseif b >= 1
+    F = b+1;
 end
 
 p = waitbar(0,'Reading WAMIT output file...');  % Progress bar

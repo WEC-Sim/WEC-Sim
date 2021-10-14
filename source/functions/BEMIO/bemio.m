@@ -53,7 +53,6 @@ Write_H5(hydro)
 %% Plot a few key BEMIO results *optional*
 Plot_BEMIO(hydro)
 
-
 %% hydro structure
 % A       : [sum(dof),sum(dof),Nf]           : added mass
 % Ainf    : [sum(dof),sum(dof)]              : infinite frequency added mass
@@ -93,4 +92,3 @@ Plot_BEMIO(hydro)
 % T       : [1,Nf]                           : wave periods
 % Vo      : [1,Nb]                           : displaced volume
 % w       : [1,Nf]                           : wave frequencies
-
