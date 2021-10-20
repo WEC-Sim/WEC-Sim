@@ -1,7 +1,7 @@
 .. _dev:
 
 #################
-Developers Manual
+Developer Manual
 #################
 
 .. toctree::

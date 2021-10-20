@@ -20,6 +20,8 @@ Cables Sublibrary		``WECSim_Lib_Cables.slx``		``$WECSIM/source/lib``
 Moorings Sublibrary	    	``WECSim_Lib_Moorings.slx``		``$WECSIM/source/lib``
 =========================   	================================== 	============================
 
+.. _dev-library_format:
+
 Formatting Guidelines
 ----------------------
 In order to track functionality of the WEC-Sim Library, please use the following color formatting:
@@ -31,6 +33,7 @@ Output				Red
 From Workspace			Yellow
 Simulink Function		Orange
 Subsystem			Gray
+Linked Block			Light Blue
 =========================   	================================== 	
 
 .. figure:: /_static/images/dev/library_format.png
@@ -39,7 +42,6 @@ Subsystem			Gray
     
     WEC-Sim Library with color formatting 
 
-.. TO DO: Referenced Subsystem		Light Blue
 
    
 
@@ -66,6 +68,15 @@ In the Git for Windows command line, these changes can be merged using::
     # Save desired revisions, then add and commit changes
     git add source/lib/WEC-Sim/<library_file>.slx
     git commit -m 'merge <dev> with <new_feature>'    
+
+
+Simulink Functions
+------------------
+Whenever a Simulink Function is called from the WEC-Sim Library, save the function to the ``$WECSIM/source/SimulinkFunctions` directory. 
+This allows revisions to Simulink Functions to be more easily tracked by Git. 
+Simulink Model Functions should be saved to the ``$WECSIM/source/simulinkFunctions/modelFunctions` directory. 
+Simulink Mask Functions should be saved to the ``$WECSIM/source/simulinkFunctions/maskFunctions` directory. 
+Refer to the :ref:`dev-library_format` section for details on color formatting.
 
 
 Run From Simulink

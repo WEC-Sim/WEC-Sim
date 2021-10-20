@@ -1,5 +1,4 @@
 function hydro = Excitation_IRF(hydro,t_end,n_t,n_w,w_min,w_max)
-
 % Calculates the normalized excitation impulse response function.
 % 
 % hydro = Excitation_IRF(hydro, t_end, n_t, n_w, w_min, w_max)

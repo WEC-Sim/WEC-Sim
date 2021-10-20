@@ -17,6 +17,8 @@
 % limitations under the License.
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
+%% wecSimMCR
+% WEC-Sim multiple condition run executable
 clear mcr imcr i j k l1 l2 m n name nseed kkk len numConditions
 clear body waves simu output pto constraint ptoSim
 
@@ -82,6 +84,7 @@ else
         end; clear i j k l1 l2 m n name nseed kkk len numConditions
     end
 end
+
 %% Execute wecSimMCR
 % Run WEC-Sim
 warning('off','MATLAB:DELETE:FileNotFound'); delete('mcrCase*.mat')
@@ -90,13 +93,11 @@ for imcr=1:length(mcr.cases(:,1))
     if exist('userDefinedFunctionsMCR.m','file') == 2 
         userDefinedFunctionsMCR; 
     end
-%% Store hydrodata in memory for reuse in future runs.
+    
+    %% Store hydrodata in memory for reuse in future runs.
     if simu.reloadH5Data == 0 && imcr == 1        % Off->'0', On->'1', (default = 0)  
         for ii = 1:simu.numWecBodies 
             hydroData(ii) = body(ii).hydroData;
         end
     end
 end; clear imcr ans hydroData
-%%
-
-

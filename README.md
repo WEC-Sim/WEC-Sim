@@ -6,8 +6,8 @@
 
 ## WEC-Sim Repository
 
-* **Docs**: WEC-Sim documentation. Refer to [these instructions](https://github.com/WEC-Sim/WEC-Sim/tree/dev/docs/README.md) to compile the [WEC-Sim Website](http://wec-sim.github.io/WEC-Sim/dev/index.html). 
-* **Examples**: WEC-Sim model examples
+* **Docs**: WEC-Sim documentation. Refer to [these instructions](https://github.com/WEC-Sim/WEC-Sim/tree/master/docs/README.md) to compile the [WEC-Sim Website](http://wec-sim.github.io/WEC-Sim/master/index.html). 
+* **Examples**: WEC-Sim  examples
 * **Source**: WEC-Sim source code
 * **Tests**: WEC-Sim tests for [MATLAB Continuous Integration](https://www.mathworks.com/solutions/continuous-integration.html)
 * **Tutorials**: [WEC-Sim Tutorials](http://wec-sim.github.io/WEC-Sim/master/index.html)

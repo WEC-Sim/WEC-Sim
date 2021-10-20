@@ -1,4 +1,4 @@
-% Refine STL
+function out = refineSTL(stl_file, stl_eol, maxPanelArea, saveName, saveDir);
 % This function refines input STL mesh to a panel area that is less than
 % the specified threshold via the midpoint method. The mesh panels that
 % arise from this refinement will have the same normal vector as the panel
@@ -26,11 +26,6 @@
 %       N_final contains final normal vectors.
 %       Refine_Name is a string containing the name of refined stl file.
 % The refined stl file is automatically saved to 'saveDir' as 'saveName'.
-
-% PLEASE: post questions, bug reports, feature requests, etc. to:
-% https://github.com/WEC-Sim/wec-sim/issues.
-
-function out=refine_stl(stl_file, stl_eol, maxPanelArea, saveName, saveDir);
 
 %% read stl file
 

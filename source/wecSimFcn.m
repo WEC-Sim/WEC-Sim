@@ -17,10 +17,7 @@
 % limitations under the License.
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
-function blkStruct = slblocks
-
-Browser.Library='PTOSim_Lib';
-Browser.Name='PTO-Sim';
-Browser.Choice=1; % Option to generate the required repository info in memory.
-
-blkStruct.Browser=Browser;
+function wecSimFcn(imcr,mcr,parallelComputing_dir,totalNumOfWorkers)
+%% wecSimFcn
+% WEC-Sim from function executable
+wecSim

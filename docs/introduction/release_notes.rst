@@ -3,8 +3,47 @@
 Release Notes
 =============
 
-`WEC-Sim v4.3 <https://github.com/WEC-Sim/WEC-Sim/releases/tag/v4.3>`_
+`WEC-Sim v4.4 <https://github.com/WEC-Sim/WEC-Sim/releases/tag/v4.4>`_
 --------------------------------------------------------------------------------
+
+
+* New Features
+
+  * 
+   
+* Documentation 
+
+  * 
+   
+* Continuous integration tests 
+
+  * 
+   
+* Clean up
+
+  * 
+   
+* Bug Fixes
+
+  * 
+
+* Issues and Pull Requests
+  
+  * \>49 issues closed since v4.3
+
+  * \>51 PRs merged since v4.3
+  
+.. is:issue is:closed closed:>2021-06-22 
+.. is:pr is:closed is:merged closed:>2021-06-22 
+
+
+
+Previous Releases
+------------------
+
+
+`WEC-Sim v4.3 <https://github.com/WEC-Sim/WEC-Sim/releases/tag/v4.3>`_
+^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
 .. image:: https://zenodo.org/badge/DOI/10.5281/zenodo.5122959.svg
    :target: https://doi.org/10.5281/zenodo.5122959
@@ -61,9 +100,6 @@ Release Notes
   *   \>45 PRs merged since v4.2
 
 
-
-Previous Releases
-------------------
 
 `WEC-Sim v4.2 <https://github.com/WEC-Sim/WEC-Sim/releases/tag/v4.2>`_
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^

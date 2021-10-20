@@ -1,5 +1,4 @@
 function Write_H5(hydro)
-
 % Writes the hydro data structure to a .h5 file.
 %
 % Write_H5(hydro)
