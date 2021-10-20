@@ -97,10 +97,9 @@ Restart MATLAB, and the ``$WECSIM/source`` directory will automatically be added
 **Option 2. Manually add and remove the WEC-Sim source from the MATLAB path.**
 
 This option requires users to run a script each time MATLAB is opened to add the WEC-Sim source directory to the path.
-Navigate to the ``$WECSIM/source`` directory and run ``addWecSimSource``.
+Navigate to the ``$WECSIM`` directory and run ``addWecSimSource``.
 The ``$WECSIM/source`` directory will then be added to the MATLAB path for this instance of MATLAB.
 To remove WEC-Sim from the path, run ``removeWecSimSource``. 
-Both scripts must be run from the ``$WECSIM/source`` directory.
 
 
 Step 2. Verify the Path

@@ -1,8 +1,8 @@
 function data = Load_H5(filename, path)
-% data = H5LOAD(filename)
-% data = H5LOAD(filename, path_in_file)
+% data = Load_H5(filename)
+% data = Load_H5(filename, path_in_file)
 %
-% Load data in a HDF5 file to a Matlab structure.
+% Load data from a HDF5 file to a Matlab structure.
 %
 % Parameters
 % ----------
