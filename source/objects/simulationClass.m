@@ -66,7 +66,7 @@ classdef simulationClass<handle
     end
 
     properties (SetAccess = 'public', GetAccess = 'public')%internal
-        wsVersion           = '4.3'                                        % (`string`) WEC-Sim version
+        wsVersion           = '4.4'                                        % (`string`) WEC-Sim version
         gitCommit           = []                                           % (`string`) GitHub commit
         simulationDate      = datetime                                     % (`string`) Simulation date and time
         outputDir           = 'output'                                     % (`string`) Data output directory name. Default = ``'output'``
