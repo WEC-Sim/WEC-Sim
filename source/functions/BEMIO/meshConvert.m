@@ -102,15 +102,13 @@ switch fmt
         
         %% node connection instructions
         k=k+1
-        for m=k:lnNum-1                                                     % last line is garbage
+        for m=k:lnNum-2                                                     % last line is garbage
             F(m-(k-1),:)=str2num(raw{m});
         end
-        nodeOrder=reshape(F',[1,length(V)])';
+        %nodeOrder=reshape(F',[1,length(V)])';
         
-        % re-order vertices based upon node order
-        V(:,[2:end])=V(nodeOrder,[2:end]);
         
-        FaceNum=length(nodeOrder);
+        FaceNum=length(F);
         FaceNum=num2str(FaceNum);
         
     case 'vtp'
@@ -138,70 +136,32 @@ switch outfmt
         for k=1:length(header)
             fprintf(FileID,'%s\n',header{k});
         end
-        % write vertices
-        [row,cols]=size(V);
-        % restrict precision to ensure proper representation
-        V=round(V,5);
-        if cols==4;                                                         % if source file presents vertices as 4 columns
-            for k=1:row;
-                Vout(k,1)=mat2cell(V(k,2),1);
-                Vout(k,2)=mat2cell(V(k,3),1);
-                Vout(k,3)=mat2cell(V(k,4),1);
-                if V(k,2)<0;
-                    formatSpec1='%-8g';
-                elseif V(k,2)>0;
-                    formatSpec1='% -8g';
-                elseif V(k,2)==0;
-                    formatSpec1='% #-8.0f';
-                end
-                if V(k,3)<0;
-                    formatSpec2='%-8g';
-                elseif V(k,3)>0;
-                    formatSpec2='% -8g';
-                elseif V(k,3)==0;
-                    formatSpec2='% #-8.0f';
-                end
-                if V(k,4)<0;
-                    formatSpec3='%-8g\n';
-                elseif V(k,4)>0;
-                    formatSpec3='% -8g\n';
-                elseif V(k,4)==0;
-                    formatSpec3='% #-8.0f\n';
-                end
-                formatSpec=sprintf('%s %s %s',formatSpec1,formatSpec2,formatSpec3);
-                fprintf(FileID,formatSpec,Vout{k,:});
-                
-            end
-        elseif cols==3;                                                     % if source file presents vertices as 3 columns
-            for k=1:row;
-                Vout(k,1)=mat2cell(V(k,1),1);
-                Vout(k,2)=mat2cell(V(k,2),1);
-                Vout(k,3)=mat2cell(V(k,3),1);
-                if V(k,1)<0;
-                    formatSpec1='%-8g';
-                elseif V(k,1)>0;
-                    formatSpec1='% -8g';
-                elseif V(k,1)==0;
-                    formatSpec1='% #-8.0f';
-                end
-                if V(k,2)<0;
-                    formatSpec2='%-8g';
-                elseif V(k,2)>0;
-                    formatSpec2='% -8g';
-                elseif V(k,2)==0;
-                    formatSpec2='% #-8.0f';
-                end
-                if V(k,3)<0;
-                    formatSpec3='%-8g\n';
-                elseif V(k,3)>0;
-                    formatSpec3='% -8g\n';
-                elseif V(k,3)==0;
-                    formatSpec3='% #-8.0f\n';
-                end
-                formatSpec=sprintf('%s %s %s',formatSpec1,formatSpec2,formatSpec3);
-                fprintf(FileID,formatSpec,Vout{k,:});
-            end
+        % write panels
+        Panels=zeros(length(F),12)
+        for k=[1:length(F)]
+          for j=[1:4]
+            Panels(k,j*3-2:j*3+2-2)=V(F(k,j),2:end);
+          end
         end
+        row=length(Panels);
+          
+        % restrict precision to ensure proper representation
+        %V=round(V,5);                                             % if source file presents vertices as 4 columns
+        for k=[1:row];
+            for l=[1:12]
+                #Vout(k,l)=mat2cell(Panels(k,l),1);
+                if Panels(k,l)<0;
+                    formatSpec1='%-8g';
+                elseif Panels(k,l)>0;
+                    formatSpec1='% -8g';
+                elseif Panels(k,l)==0;
+                    formatSpec1='% #-8.0f';
+                end
+                formatSpec=sprintf('%s ',formatSpec1);
+                fprintf(FileID,formatSpec,Panels(k,l));
+             end
+             fprintf(FileID,"\n"); 
+         end
         
         
     case 'dat' % 4th column indicates vertex group number, includes face number
