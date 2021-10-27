@@ -367,7 +367,7 @@ following features are available:
   to 999 kg and moment of inertia to [999 999 999] kg-m^2.
 
 * **Import STL** - to read in the geometry (``*.stl``) into Matlab use the 
-  :code:`body(i).bodyGeo` method in the bodyClass. This method will import the 
+  :code:`body(i).importBodyGeometry()` method in the bodyClass. This method will import the 
   mesh details (vertices, faces, normals, areas, centroids) into the 
   :code:`body(i).bodyGeometry` property. This method is also used for nonlinear 
   buoyancy and Froude-Krylov excitation and ParaView visualization files. Users 

@@ -394,13 +394,12 @@ classdef bodyClass<handle
             fprintf('\tBody Diagonal MOI              (kgm2)= [%G,%G,%G]\n',obj.momOfInertia)
         end
         
-        function bodyGeo(obj,fname)
+        function importBodyGeometry(obj)
             % Reads mesh file and calculates areas and centroids
-            try
-                [obj.bodyGeometry.vertex, obj.bodyGeometry.face, obj.bodyGeometry.norm] = import_stl_fast(fname,1,1);
-            catch
-                [obj.bodyGeometry.vertex, obj.bodyGeometry.face, obj.bodyGeometry.norm] = import_stl_fast(fname,1,2);
-            end
+            tr = stlread(obj.geometryFile);
+            obj.bodyGeometry.vertex = tr.Points;
+            obj.bodyGeometry.face = tr.ConnectivityList;
+            obj.bodyGeometry.norm = faceNormal(tr);
             obj.bodyGeometry.numFace = length(obj.bodyGeometry.face);
             obj.bodyGeometry.numVertex = length(obj.bodyGeometry.vertex);
             obj.checkStl();
