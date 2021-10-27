@@ -544,12 +544,8 @@ classdef waveClass<handle
             % Used by waveSetup                    
             % Used by postProcess for variable step solvers
             maxIt = length(timeseries);
-            [~,i] = min(abs(timeseries-rampTime));
-
-            rampTimeseries = timeseries(1:i);
-            maxRampIt = length(rampTimeseries);
-            rampFunction = (1+cos(pi+pi*rampTimeseries/rampTime))/2;
-            rampFunction(end:end+maxIt-maxRampIt) = 1;
+            rampFunction = (1+cos(pi+pi*timeseries/rampTime))/2;
+            rampFunction(timeseries>rampTime) = 1;
 
             obj.waveAmpTime = zeros(maxIt,2);
             obj.waveAmpTime(:,1) = timeseries;
@@ -688,12 +684,8 @@ classdef waveClass<handle
             % Used by waveSetup
             % Used by postProcess for variable time step 
             maxIt = length(timeseries);
-            [~,i] = min(abs(timeseries-rampTime));
-
-            rampTimeseries = timeseries(1:i);
-            maxRampIt = length(rampTimeseries);
-            rampFunction = (1+cos(pi+pi*rampTimeseries/rampTime))/2;
-            rampFunction(end:end+maxIt-maxRampIt) = 1;
+            rampFunction = (1+cos(pi+pi*timeseries/rampTime))/2;
+            rampFunction(timeseries>rampTime) = 1;
 
             obj.waveAmpTime = zeros(maxIt,2);
             obj.waveAmpTime(:,1) = timeseries;
@@ -759,10 +751,9 @@ classdef waveClass<handle
         function waveElevUser(obj,rampTime,dt,maxIt,data,time)
             % Calculate imported wave elevation time history
             % Used by waveSetup
-            rampTimeseries = 0:dt:rampTime;
-            maxRampIt = length(rampTimeseries);
-            rampFunction = (1+cos(pi+pi*rampTimeseries/rampTime))/2;
-            rampFunction(end:end+maxIt+1-maxRampIt) = 1;            
+            rampFunction = (1+cos(pi+pi*time/rampTime))/2;
+            rampFunction(time>rampTime) = 1;
+            
             obj.waveAmpTime = zeros(maxIt+1,2);
             data_t = data(:,1)';                    % Data Time [s]
             data_x = data(:,2)';                    % Wave Surface Elevation [m]            
