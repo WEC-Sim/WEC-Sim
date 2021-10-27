@@ -1,4 +1,4 @@
-# Visit the [WEC-Sim website](http://wec-sim.github.io/WEC-Sim) for more information.
+# Refer to [WEC-Sim documentation](http://wec-sim.github.io/WEC-Sim) for more information.
 [![DOI](https://zenodo.org/badge/20451353.svg)](https://zenodo.org/badge/latestdoi/20451353)
 [![Doc Build Status](https://app.travis-ci.com/WEC-Sim/WEC-Sim.svg?branch=dev)](https://app.travis-ci.com/github/WEC-Sim/WEC-Sim)
 [![MATLAB Build Status](https://github.com/WEC-Sim/WEC-Sim/actions/workflows/run-tests-dev.yml/badge.svg)](https://github.com/WEC-Sim/WEC-Sim/actions/workflows/run-tests-dev.yml)
@@ -6,14 +6,13 @@
 
 ## WEC-Sim Repository
 
-* **Docs**: WEC-Sim documentation. Refer to [these instructions](https://github.com/WEC-Sim/WEC-Sim/tree/master/docs/README.md) to compile the [WEC-Sim Website](http://wec-sim.github.io/WEC-Sim/master/index.html). 
+* **Docs**: [WEC-Sim documentation](http://wec-sim.github.io/WEC-Sim/master/index.html), to compile the docs refer to [these instructions](https://github.com/WEC-Sim/WEC-Sim/tree/master/docs/README.md) 
 * **Examples**: WEC-Sim  examples
 * **Source**: WEC-Sim source code
 * **Tests**: WEC-Sim tests for [MATLAB Continuous Integration](https://www.mathworks.com/solutions/continuous-integration.html)
-* **Tutorials**: [WEC-Sim Tutorials](http://wec-sim.github.io/WEC-Sim/master/index.html)
+* **Tutorials**: [WEC-Sim tutorials](http://wec-sim.github.io/WEC-Sim/master/user/tutorials.html)
 
-Refer to the [WEC-Sim Applications](https://github.com/WEC-Sim/WEC-Sim_Applications)
-repository for more applications of the WEC-Sim code.
+Refer to the [WEC-Sim Applications](https://github.com/WEC-Sim/WEC-Sim_Applications) repository for more applications of the WEC-Sim code.
 
 ## Source Code Management
 

@@ -9,29 +9,44 @@ Release Notes
 
 * New Features
 
-  * 
+  * Added WEC-Sim Library blocks for cable, spherical constraint, and spherical pto `#712 <https://github.com/WEC-Sim/WEC-Sim/pull/712>`_ `#675 <https://github.com/WEC-Sim/WEC-Sim/pull/675>`_ 
+  
+  * Added feature to add/remove WEC-Sim path and create temp directory for each run `#685 <https://github.com/WEC-Sim/WEC-Sim/pull/685>`_ `#686 <https://github.com/WEC-Sim/WEC-Sim/pull/686>`_    
+   
+  * Updated WEC-Sim Library to 2020b and saved Simulink Library Functions to (`*.m`) files `#686 <https://github.com/WEC-Sim/WEC-Sim/pull/686>`_    `#654 <https://github.com/WEC-Sim/WEC-Sim/pull/654>`_    
+   
+  * Split WEC-Sim Library into sublibraries for each class `#720 <https://github.com/WEC-Sim/WEC-Sim/pull/720>`_ 
+  
+  * Restructured WEC-Sim Continuous Integration tests into class-based tests `#620 <https://github.com/WEC-Sim/WEC-Sim/pull/620>`_    
+
+  * Added wave visualization with wave markers and post-processing `#736 <https://github.com/WEC-Sim/WEC-Sim/pull/736>`_  `#678 <https://github.com/WEC-Sim/WEC-Sim/pull/678>`_    
+  
+  * Moved nonlinear hydrodynamics and morison elements to properties of the Body Class `#692 <https://github.com/WEC-Sim/WEC-Sim/pull/692>`_    
    
 * Documentation 
 
-  * 
-   
-* Continuous integration tests 
+  * Added developer manual content for WEC-Sim Library, Run from Simulink, Simulink Functions, Added Mass, Software Tests `#728 <https://github.com/WEC-Sim/WEC-Sim/pull/728>`_ 
+  
+  * Added user manual content for troubleshooting WEC-Sim `#641 <https://github.com/WEC-Sim/WEC-Sim/pull/641>`_ 
 
-  * 
-   
-* Clean up
-
-  * 
+  * Updated content for PTO-Sim, ParaView, WEC-Sim Applications and Tutorials `#668 <https://github.com/WEC-Sim/WEC-Sim/pull/668>`_ `#642 <https://github.com/WEC-Sim/WEC-Sim/pull/642>`_ `#649 <https://github.com/WEC-Sim/WEC-Sim/pull/649>`_ `#643 <https://github.com/WEC-Sim/WEC-Sim/pull/643>`_ 
+  
+  * Added multi-version documentation for ``master`` and ``dev`` branches `#630 <https://github.com/WEC-Sim/WEC-Sim/pull/630>`_ 
+      
    
 * Bug Fixes
 
-  * 
+  * Resolved bug with macro for ParaView 5.9 `#459 <https://github.com/WEC-Sim/WEC-Sim/pull/459>`_ 
+  
+  * Resolved bugs in BEMIO with Read_Capytaine, READ_AQWA, and Write_H5 functions `#727 <https://github.com/WEC-Sim/WEC-Sim/pull/727>`_  `#694 <https://github.com/WEC-Sim/WEC-Sim/pull/694>`_  `#636 <https://github.com/WEC-Sim/WEC-Sim/pull/636>`_ 
+  
+  * Resolved bug with variable time-step solver `#656 <https://github.com/WEC-Sim/WEC-Sim/pull/656>`_ 
 
 * Issues and Pull Requests
   
-  * \>49 issues closed since v4.3
+  * 49 issues closed since v4.3
 
-  * \>51 PRs merged since v4.3
+  * 51 PRs merged since v4.3
   
 .. is:issue is:closed closed:>2021-06-22 
 .. is:pr is:closed is:merged closed:>2021-06-22 
@@ -95,9 +110,9 @@ Previous Releases
 
 * Issues and Pull Requests
   
-  * \>100 issues closed since v4.2
+  * 100 issues closed since v4.2
 
-  *   \>45 PRs merged since v4.2
+  * 45 PRs merged since v4.2
 
 
 

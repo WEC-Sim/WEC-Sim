@@ -72,7 +72,7 @@ JS                 		JONSWAP Spectrum
 :math:`\sigma`			Wave spectrum coefficient (JONSWAP)
 :math:`\gamma`			Wave spectrum nondimensional peak shape parameter
 Pitch (Ry)         		Rotation about the Y-axis
-PM                 		Pierson-Moskowitz Specturm
+PM                 		Pierson-Moskowitz Spectrum
 :math:`P_{PTO}`			Power from the PTO
 PTO                		Power Take-Off
 :math:`R_{f}` 			Ramp function 

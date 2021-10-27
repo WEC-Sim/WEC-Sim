@@ -8,7 +8,7 @@ This section provides instructions on how to download and install WEC-Sim.
 MATLAB Requirements
 -------------------
 
-WEC-Sim is developed in MATLAB/Simluink, and requires the following toolboxes:
+WEC-Sim is developed in MATLAB/Simulink, and requires the following toolboxes:
  
 ==========================  =============================
 **Required Toolbox**        **Oldest Compatible Version**
@@ -85,7 +85,7 @@ Users have two options to do this:
 **Option 1. Automatically add the WEC-Sim source on MATLAB startup.**
 
 Open ``$WECSIM/source/addWecSimSource.m`` and copy contents to a new file called ``startup.m``. 
-Set the WEC-Sim  path to the local ``$WECSIM/source`` directory, eg. ``wecSimSource = 'C:/User/Documents/GitHub/WEC-Sim/source``.
+Set the WEC-Sim  path to the local ``$WECSIM/source`` directory, e.g. ``wecSimSource = 'C:/User/Documents/GitHub/WEC-Sim/source``.
 Save ``startup.m`` to the `MATLAB Startup Folder <https://www.mathworks.com/help/matlab/ref/startup.html>`_. 
 Restart MATLAB, and the ``$WECSIM/source`` directory will automatically be added to the MATLAB path.
 

@@ -9,7 +9,7 @@ The citation for the most recent version of WEC-Sim is below.
 
 .. Note 
    it seems many applications have corresponding references that are not noted in the readmes.
-   Add these refernces to each readme here then uncomment the line below.
+   Add these references to each readme here then uncomment the line below.
    
 .. TODO To cite one of the WEC-Sim applications, please see that application's README for appropriate citations.
 
