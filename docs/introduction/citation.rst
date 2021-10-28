@@ -19,12 +19,7 @@ Publication
 
 .. NOTE: this citation needs to be revised for each release
 
-[1] Kelley Ruehl, David Ogden, Yi-Hsiang Yu, Adam Keester, Nathan Tom, Dominic Forbush, and Jorge Leon. (2021, October), WEC-Sim (Version v4.4), DOI 10.5281/zenodo.5122959.
-
-.. NOTE: this doi badge is always for the lastest release, it does not need to be updated 
-
-.. image:: https://zenodo.org/badge/20451353.svg
-   :target: https://zenodo.org/badge/latestdoi/20451353
+[1] Kelley Ruehl, David Ogden, Yi-Hsiang Yu, Adam Keester, Nathan Tom, Dominic Forbush, and Jorge Leon. (2021, October), WEC-Sim (Version v4.4), DOI 10.5281/zenodo.5608563.
 
 .. NOTE: this citation needs to be revised for each release, but the url is always for the latest release and does not need to be updated
 
@@ -43,8 +38,12 @@ Publication
 	  year         = 2021,
 	  publisher    = {Zenodo},
 	  version      = {v4.4},
-	  doi          = {10.5281/zenodo.5122959},
+	  doi          = {10.5281/zenodo.5608563},
 	  url          = {https://zenodo.org/badge/latestdoi/20451353}
 	}
     
 
+.. NOTE: this doi badge is always for the lastest release, it does not need to be updated 
+
+.. image:: https://zenodo.org/badge/20451353.svg
+   :target: https://zenodo.org/badge/latestdoi/20451353

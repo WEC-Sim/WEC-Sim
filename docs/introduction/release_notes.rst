@@ -5,13 +5,7 @@ Release Notes
 
 `WEC-Sim v4.4 <https://github.com/WEC-Sim/WEC-Sim/releases/tag/v4.4>`_
 --------------------------------------------------------------------------------
-
-.. NOTE: this doi badge is always for the lastest release, it does not need to be updated 
-
-.. image:: https://zenodo.org/badge/20451353.svg
-   :target: https://zenodo.org/badge/latestdoi/20451353
-   
-
+  
 * New Features
 
   * Added WEC-Sim Library blocks for cable, spherical constraint, and spherical pto `#712 <https://github.com/WEC-Sim/WEC-Sim/pull/712>`_ `#675 <https://github.com/WEC-Sim/WEC-Sim/pull/675>`_ 
@@ -52,11 +46,9 @@ Release Notes
   * \> 57 issues closed since v4.3
 
   * \> 54 PRs merged since v4.3
-  
-.. NOTE: examples of how to query issues and prs
-.. is:issue is:closed closed:>2021-06-22 
-.. is:pr is:closed is:merged closed:>2021-06-22 
 
+.. image:: https://zenodo.org/badge/DOI/10.5281/zenodo.5608563.svg
+   :target: https://doi.org/10.5281/zenodo.5608563
 
 
 Previous Releases
@@ -65,10 +57,6 @@ Previous Releases
 
 `WEC-Sim v4.3 <https://github.com/WEC-Sim/WEC-Sim/releases/tag/v4.3>`_
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
-
-.. image:: https://zenodo.org/badge/DOI/10.5281/zenodo.5122959.svg
-   :target: https://doi.org/10.5281/zenodo.5122959
-
 
 * New Features
 
@@ -120,24 +108,25 @@ Previous Releases
 
   * \> 45 PRs merged since v4.2
 
+.. image:: https://zenodo.org/badge/DOI/10.5281/zenodo.5122959.svg
+   :target: https://doi.org/10.5281/zenodo.5122959
+
 
 
 `WEC-Sim v4.2 <https://github.com/WEC-Sim/WEC-Sim/releases/tag/v4.2>`_
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
-.. image:: https://zenodo.org/badge/DOI/10.5281/zenodo.4391330.svg
-   :target: https://doi.org/10.5281/zenodo.4391330
+* New Features
 
+  * Added normal/tangential option for Morison Force (``simu.morisonElement = 2``) `#408 <https://github.com/WEC-Sim/WEC-Sim/pull/408>`_
 
-* Added normal/tangential option for Morison Force (``simu.morisonElement = 2``) `#408 <https://github.com/WEC-Sim/WEC-Sim/pull/408>`_
+  * Added Drag Body (``body(i).nhBody=2``) `#423 <https://github.com/WEC-Sim/WEC-Sim/pull/423>`_ `#384 <https://github.com/WEC-Sim/WEC-Sim/issues/384>`_
 
-* Added Drag Body (``body(i).nhBody=2``) `#423 <https://github.com/WEC-Sim/WEC-Sim/pull/423>`_ `#384 <https://github.com/WEC-Sim/WEC-Sim/issues/384>`_
+  * WEC-Sim output saved to structure `#426 <https://github.com/WEC-Sim/WEC-Sim/pull/426>`_
 
-* WEC-Sim output saved to structure `#426 <https://github.com/WEC-Sim/WEC-Sim/pull/426>`_
+  * Added WEC-Sim parallel execution for batch runs (``wecSimPCT``) using MATLAB parallel computing toolbox `#438 <https://github.com/WEC-Sim/WEC-Sim/pull/438>`_
 
-* Added WEC-Sim parallel execution for batch runs (``wecSimPCT``) using MATLAB parallel computing toolbox `#438 <https://github.com/WEC-Sim/WEC-Sim/pull/438>`_
-
-* Added end stops to PTOs `#445 <https://github.com/WEC-Sim/WEC-Sim/pull/445>`_
+  * Added end stops to PTOs `#445 <https://github.com/WEC-Sim/WEC-Sim/pull/445>`_
 
 * Documentation 
 
@@ -153,12 +142,13 @@ Previous Releases
 
   * Resolved variant subsystem labeling bug  `#486 <https://github.com/WEC-Sim/WEC-Sim/pull/486)>`_ `#479 <https://github.com/WEC-Sim/WEC-Sim/issues/479>`_
 
+.. image:: https://zenodo.org/badge/DOI/10.5281/zenodo.4391330.svg
+   :target: https://doi.org/10.5281/zenodo.4391330
+
 
 
 `WEC-Sim v4.1 <https://github.com/WEC-Sim/WEC-Sim/releases/tag/v4.1>`_
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
-.. image:: https://zenodo.org/badge/DOI/10.5281/zenodo.3924765.svg
-   :target: https://doi.org/10.5281/zenodo.3924765
 
 * Added passive yaw
 
@@ -176,13 +166,12 @@ Previous Releases
   
   * Extended capabilities for ParaView visualization `#355 <https://github.com/WEC-Sim/WEC-Sim/pull/355>`_
 
+.. image:: https://zenodo.org/badge/DOI/10.5281/zenodo.3924765.svg
+   :target: https://doi.org/10.5281/zenodo.3924765
    
    
 `WEC-Sim v4.0 <https://github.com/WEC-Sim/WEC-Sim/releases/tag/v4.0>`_
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
-
-.. image:: https://zenodo.org/badge/DOI/10.5281/zenodo.3827897.svg
-   :target: https://doi.org/10.5281/zenodo.3827897
 
 * Added mean drift force calculation
 
@@ -190,6 +179,8 @@ Previous Releases
 
 * Updated BEMIO for mean drift force and generalized body modes
 
+.. image:: https://zenodo.org/badge/DOI/10.5281/zenodo.3827897.svg
+   :target: https://doi.org/10.5281/zenodo.3827897
    
 
 
