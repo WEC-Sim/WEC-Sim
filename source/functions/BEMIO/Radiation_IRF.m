@@ -1,5 +1,4 @@
 function hydro = Radiation_IRF(hydro,t_end,n_t,n_w,w_min,w_max)
-
 % Calculates the normalized radiation impulse response function.
 % 
 % hydro = Radiation_IRF(hydro, t_end, n_t, n_w, w_min, w_max)

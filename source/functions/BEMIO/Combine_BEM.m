@@ -1,5 +1,4 @@
 function hydro = Combine_BEM(hydro)
-
 % Combines multiple BEM outputs into one hydrodynamic ‘system.’ This function
 % requires that all BEM outputs have the same water depth, wave frequencies,
 % and wave headings. This function would be implemented following multiple

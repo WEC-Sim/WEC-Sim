@@ -1,5 +1,4 @@
 function hydro = Radiation_IRF_SS(hydro,Omax,R2t)
-
 % Calculates the state space (SS) realization of the normalized radiation IRF.
 % If this function is used, it must be implemented after the Radiation_IRF function.
 % 

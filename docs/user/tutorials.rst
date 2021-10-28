@@ -171,8 +171,8 @@ is a sinusoidal wave and the easiest to start with. Define an appropriate wave
 height and period. Waves can also be an irregular spectrum, imported by 
 elevation or spectrum, or multidirectional. 
 
-Third, define all bodies, PTOs and contraints present in the simulink file. 
-There are distinct classes for bodies, PTOs and contraints that contain 
+Third, define all bodies, PTOs and constraints present in the simulink file. 
+There are distinct classes for bodies, PTOs and constraints that contain 
 different properties and function differently. Bodies are hydrodynamic and 
 contain mass and geometry properties. Initialize bodies by calling the 
 bodyClass and the path to the relevant h5 file. Set the path to the geometry 
@@ -207,7 +207,7 @@ Step 5: Post-processing
 The RM3 tutorial includes a ``userDefinedFunctions.m`` which plots RM3 
 forces and responses. This file can be modified by users for 
 post-processing. Additionally, once the WEC-Sim run is complete, the 
-WEC-Sim results are saved to the **output** variable in the MATLAB 
+WEC-Sim results are saved to the ``output`` variable in the MATLAB 
 workspace. 
 
 .. _user-tutorials-oswec:
@@ -345,7 +345,7 @@ Step 3: Write wecSimInputFile.m
 The WEC-Sim input file defines simulation parameters, body properties, and 
 joints for the OSWEC model. Writing the OSWEC input file is similar to writing 
 the RM3 input. Try writing it on your own. Define the simulation class, wave 
-class, bodies, contraints and PTOs. The ``wecSimInputFile.m`` for the OSWEC is 
+class, bodies, constraints and PTOs. The ``wecSimInputFile.m`` for the OSWEC is 
 provided in the OSWEC case directory, and shown below. 
 
 .. literalinclude:: ../../tutorials/OSWEC/OSWEC_wecSimInputFile.m
@@ -397,7 +397,7 @@ provided includes examples of how to run different wave cases:
 	* Type ``wecSim`` in the Command Window
 * Run from Simulink (for RM3FromSimulink example)
 	* Open the relevant WEC-Sim Simulink file
-	* Type ``wecSimInitialize`` in the Command Window
+	* Type ``initializeWecSim`` in the Command Window
 	* Hit Play in Simulink model to run 
 
 To customize or develop a new WEC-Sim model that runs from Simulink (e.g. for Hardware-in-the-Loop, HIL, applications) refer to :ref:`user-advanced-features-simulink` for more information.

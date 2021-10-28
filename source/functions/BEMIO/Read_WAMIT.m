@@ -1,6 +1,5 @@
 function hydro = Read_WAMIT(hydro,filename,ex_coeff)
-
-%% Reads data from a WAMIT output file.
+% Reads data from a WAMIT output file.
 %
 % hydro = Read_WAMIT(hydro, filename, ex_coeff)
 %     hydro –     data structure
@@ -14,13 +13,11 @@ function hydro = Read_WAMIT(hydro,filename,ex_coeff)
 % be used, the output directory must also include the .3fk and .3sc files.
 
 %% 
-
 [a,b] = size(hydro);  % Check on what is already there
-if b==1
-    if isfield(hydro(b),'Nb')==0  F = 1;
-    else  F = 2;
-    end
-elseif b>1  F = b+1;
+if b == 1 && ~isfield(hydro(b),'Nb')
+    F = 1;
+elseif b >= 1
+    F = b+1;
 end
 
 p = waitbar(0,'Reading WAMIT output file...');  % Progress bar
@@ -65,7 +62,7 @@ for n = 1:N
     end
     if isempty(strfind(raw{n},'Volumes (VOLX,VOLY,VOLZ):'))==0
         tmp = textscan(raw{n}(find(raw{n}==':')+1:end),'%f');
-        hydro(F).Vo(hydro(F).Nb) = tmp{1}(3);  % Displacement volume
+        hydro(F).Vo(hydro(F).Nb) = median(tmp{:});  % Displacement volume
     end
     if isempty(strfind(raw{n},'Center of Buoyancy (Xb,Yb,Zb):'))==0
         tmp = textscan(raw{n}(find(raw{n}==':')+1:end),'%f');
