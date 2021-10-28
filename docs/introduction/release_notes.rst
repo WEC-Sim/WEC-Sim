@@ -6,6 +6,11 @@ Release Notes
 `WEC-Sim v4.4 <https://github.com/WEC-Sim/WEC-Sim/releases/tag/v4.4>`_
 --------------------------------------------------------------------------------
 
+.. NOTE: this doi badge is always for the lastest release, it does not need to be updated 
+
+.. image:: https://zenodo.org/badge/20451353.svg
+   :target: https://zenodo.org/badge/latestdoi/20451353
+   
 
 * New Features
 
@@ -44,10 +49,11 @@ Release Notes
 
 * Issues and Pull Requests
   
-  * 49 issues closed since v4.3
+  * \> 57 issues closed since v4.3
 
-  * 51 PRs merged since v4.3
+  * \> 54 PRs merged since v4.3
   
+.. NOTE: examples of how to query issues and prs
 .. is:issue is:closed closed:>2021-06-22 
 .. is:pr is:closed is:merged closed:>2021-06-22 
 
@@ -110,9 +116,9 @@ Previous Releases
 
 * Issues and Pull Requests
   
-  * 100 issues closed since v4.2
+  * \> 100 issues closed since v4.2
 
-  * 45 PRs merged since v4.2
+  * \> 45 PRs merged since v4.2
 
 
 
