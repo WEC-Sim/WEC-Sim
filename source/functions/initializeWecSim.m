@@ -71,6 +71,12 @@ else
 end
 clear values names i j;
 
+% PTO-Sim: read input, count
+if exist('./ptoSimInputFile.m','file') == 2
+    ptoSimInputFile
+    ptosim.countblocks;
+end
+
 % Read Inputs for Multiple Conditions Run
 try fprintf('wecSimMCR Case %g\n',imcr); end
 
@@ -89,9 +95,11 @@ if exist('mcr','var') == 1
         waves.etaDataFile      = ['..' filesep parallelComputing_dir filesep '..' filesep waves.etaDataFile];
     end
 end
+
 % Waves and Simu: check inputs
 waves.checkinputs;
 simu.checkinputs;
+
 % Constraints: count & set orientation
 if exist('constraint','var') == 1
     simu.numConstraints = length(constraint(1,:));
@@ -100,6 +108,7 @@ if exist('constraint','var') == 1
         constraint(ii).setOrientation();
     end; clear ii
 end
+
 % PTOs: count & set orientation & set pretension
 if exist('pto','var') == 1
     simu.numPtos = length(pto(1,:));
@@ -109,6 +118,7 @@ if exist('pto','var') == 1
         pto(ii).setPretension();
     end; clear ii
 end
+
 % Mooring Configuration: count
 if exist('mooring','var') == 1
     simu.numMoorings = length(mooring(1,:));
@@ -117,6 +127,7 @@ if exist('mooring','var') == 1
         mooring(ii).setLoc;
     end; clear ii
 end
+
 % Bodies: count, check inputs, read hdf5 file
 numHydroBodies = 0; numNonHydroBodies = 0; numDragBodies = 0; 
 hydroBodLogic = zeros(length(body(1,:)),1);
@@ -177,11 +188,6 @@ if exist('cable','var')==1
         cable(ii).setOrientation();
         cable(ii).linearDampingMatrix();
     end
-end
-% PTO-Sim: read input, count
-if exist('./ptoSimInputFile.m','file') == 2
-    ptoSimInputFile
-    ptosim.countblocks;
 end
 
 if simu.yawNonLin==1 && simu.yawThresh==1
