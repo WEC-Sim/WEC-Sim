@@ -610,7 +610,7 @@ gravitational and buoyancy forces, hydrodynamic loads, and reactions from
 contact with the seabed. Hydrodynamic drag and added mass are calculated based 
 on Morison's equation. A mooring line's axial stiffness is modeled by applying 
 a linear stiffness to each line segment in tension only. A damping term is also 
-applied in each segment to dampen non-physical resonances caused by the 
+applied in each segment to dampen non-physical resonance caused by the 
 lumped-mass discretization. Bending and torsional stiffnesses are neglected. 
 Bottom contact is represented by vertical stiffness and damping forces applied 
 at the nodes when a node is located below the seabed. 

@@ -1,24 +1,6 @@
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-% Copyright 2014 National Renewable Energy Laboratory and National 
-% Technology & Engineering Solutions of Sandia, LLC (NTESS). 
-% Under the terms of Contract DE-NA0003525 with NTESS, 
-% the U.S. Government retains certain rights in this software.
-% 
-% Licensed under the Apache License, Version 2.0 (the "License");
-% you may not use this file except in compliance with the License.
-% You may obtain a copy of the License at
-% 
-% http://www.apache.org/licenses/LICENSE-2.0
-% 
-% Unless required by applicable law or agreed to in writing, software
-% distributed under the License is distributed on an "AS IS" BASIS,
-% WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
-% See the License for the specific language governing permissions and
-% limitations under the License.
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-
-%%% WEC-Sim run file
-%%
+%% initializeWecSim
+% Initialize WEC-Sim run, called from wecSim.m
+%
 %% Following Classes are required to be defined in the WEC-Sim input file:
 %%
 %% simu = simulationClass();                                               - To Create the Simulation Variable
@@ -89,6 +71,12 @@ else
 end
 clear values names i j;
 
+% PTO-Sim: read input, count
+if exist('./ptoSimInputFile.m','file') == 2
+    ptoSimInputFile
+    ptosim.countblocks;
+end
+
 % Read Inputs for Multiple Conditions Run
 try fprintf('wecSimMCR Case %g\n',imcr); end
 
@@ -107,9 +95,11 @@ if exist('mcr','var') == 1
         waves.etaDataFile      = ['..' filesep parallelComputing_dir filesep '..' filesep waves.etaDataFile];
     end
 end
+
 % Waves and Simu: check inputs
 waves.checkinputs;
 simu.checkinputs;
+
 % Constraints: count & set orientation
 if exist('constraint','var') == 1
     simu.numConstraints = length(constraint(1,:));
@@ -118,6 +108,7 @@ if exist('constraint','var') == 1
         constraint(ii).setOrientation();
     end; clear ii
 end
+
 % PTOs: count & set orientation & set pretension
 if exist('pto','var') == 1
     simu.numPtos = length(pto(1,:));
@@ -127,6 +118,7 @@ if exist('pto','var') == 1
         pto(ii).setPretension();
     end; clear ii
 end
+
 % Mooring Configuration: count
 if exist('mooring','var') == 1
     simu.numMoorings = length(mooring(1,:));
@@ -135,6 +127,7 @@ if exist('mooring','var') == 1
         mooring(ii).setLoc;
     end; clear ii
 end
+
 % Bodies: count, check inputs, read hdf5 file
 numHydroBodies = 0; numNonHydroBodies = 0; numDragBodies = 0; 
 hydroBodLogic = zeros(length(body(1,:)),1);
@@ -195,11 +188,6 @@ if exist('cable','var')==1
         cable(ii).setOrientation();
         cable(ii).linearDampingMatrix();
     end
-end
-% PTO-Sim: read input, count
-if exist('./ptoSimInputFile.m','file') == 2
-    ptoSimInputFile
-    ptosim.countblocks;
 end
 
 if simu.yawNonLin==1 && simu.yawThresh==1
@@ -420,7 +408,7 @@ for ii=1:length(body(1,:))
 end; clear ii
 
 % Visualization Blocks
-if ~isempty(waves.markerLoc)
+if ~isempty(waves.markerLoc) && typeNum < 30
     visON = 1;
 else
     visON = 0;

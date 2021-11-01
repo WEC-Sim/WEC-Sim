@@ -171,8 +171,8 @@ is a sinusoidal wave and the easiest to start with. Define an appropriate wave
 height and period. Waves can also be an irregular spectrum, imported by 
 elevation or spectrum, or multidirectional. 
 
-Third, define all bodies, PTOs and contraints present in the simulink file. 
-There are distinct classes for bodies, PTOs and contraints that contain 
+Third, define all bodies, PTOs and constraints present in the simulink file. 
+There are distinct classes for bodies, PTOs and constraints that contain 
 different properties and function differently. Bodies are hydrodynamic and 
 contain mass and geometry properties. Initialize bodies by calling the 
 bodyClass and the path to the relevant h5 file. Set the path to the geometry 
@@ -345,7 +345,7 @@ Step 3: Write wecSimInputFile.m
 The WEC-Sim input file defines simulation parameters, body properties, and 
 joints for the OSWEC model. Writing the OSWEC input file is similar to writing 
 the RM3 input. Try writing it on your own. Define the simulation class, wave 
-class, bodies, contraints and PTOs. The ``wecSimInputFile.m`` for the OSWEC is 
+class, bodies, constraints and PTOs. The ``wecSimInputFile.m`` for the OSWEC is 
 provided in the OSWEC case directory, and shown below. 
 
 .. literalinclude:: ../../tutorials/OSWEC/OSWEC_wecSimInputFile.m

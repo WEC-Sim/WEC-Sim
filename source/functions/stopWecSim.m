@@ -16,14 +16,14 @@ toc
 
 tic
 %% Post processing and Saving Results
-postProcess
+postProcessWecSim
 % User Defined Post-Processing
 if exist('userDefinedFunctions.m','file') == 2
     userDefinedFunctions;
 end
 
 % Paraview output. Must call while output is an instance of responseClass 
-paraViewVisualization
+paraviewVisualization
 
 % ASCII files
 if simu.saveText==1

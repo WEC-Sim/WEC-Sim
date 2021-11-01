@@ -3,16 +3,13 @@
 Workflow
 ========
 
-The WEC-Sim workflow diagram below shows a high level view of WEC-Sim's 
-function. As a precursor, a functional WEC design with several forms of data 
-must be included. The WEC is defined in an input file. This input file is read 
-by WEC-Sim which instantiates objects based on the device requirements. The 
-objects are used in conjunction with WEC-Sim's Simulink library during the 
-time-domain simulation. User defined functions serve for easy post-processing 
-and visualization of WEC-Sim's output. A detailed description of this workflow 
-is provided in the following sections. For information about the implementation 
-and structure of the WEC-Sim source code, refer to the 
-:ref:`user-code-structure` section. 
+The WEC-Sim workflow diagram below shows a high level view of WEC-Sim's functionality. 
+As a precursor, a WEC design must be defined in an input file and the Simulink model file. 
+This input file is read by WEC-Sim which instantiates objects based on parameters defined in the input file. 
+The objects are used in conjunction with WEC-Sim's Simulink library during the time-domain simulation.
+User defined functions serve for easy post-processing and visualization of WEC-Sim's output. 
+A detailed description of this workflow is provided in the following sections. 
+For information about the implementation and structure of the WEC-Sim source code, refer to the :ref:`user-code-structure` section. 
 
 .. _user-workflow-chart:
 
@@ -29,96 +26,77 @@ and structure of the WEC-Sim source code, refer to the
 WEC-Sim Case Files
 -------------------
 
-All files required for a WEC-Sim simulation must be contained within a case 
-directory referred to as ``$CASE``. This directory can be located anywhere on 
-your computer. 
-The case directory must include a geometry file, frequency-domain hydrodynamic data from a 
-boundary element method solver, and a Simulink model of the device, and a WEC-Sim input file. The 
-WEC's geometry and other parameters must be detailed in the ``wecSimInputFile``. 
-The table below lists the WEC-Sim case directory structure and 
-required files. 
+All files required for a WEC-Sim simulation must be contained within a case directory referred to as ``$CASE``. 
+The case directory can be located anywhere on your computer. 
+It must include: geometry file(s), hydrodynamic data saved to a ``*.h5`` data structure, a WEC-Sim input file, and a Simulink model of the device. 
+The table below lists the WEC-Sim case directory structure and required files. 
 
 ==================== ====================== ====================
 **File Type**        **File Name**          **Directory**
+Geometry File(s)     ``*.stl``              ``$CASE/geometry``
 Hydrodynamic Data    ``*.h5``               ``$CASE/hydroData``
-Geometry File        ``*.stl``              ``$CASE/geometry``
-Simulink Model       ``*.slx``              ``$CASE``
 Input File           ``wecSimInputFile.m``  ``$CASE``
+Simulink Model       ``*.slx``              ``$CASE``
 ==================== ====================== ====================
 
 .. Note:: 
     Where ``*`` denotes a user-specified file name. 
 
-Hydrodynamic Data
-^^^^^^^^^^^^^^^^^
-
-The Hydrodynamic coefficients for each body may be generated using a boundary 
-element method (BEM) code (e.g., WAMIT, NEMOH, AQWA, or CAPYTAINE). The WEC-Sim 
-code requires hydrodynamic data from the BEM solution in the form of HDF5 
-format (``*.h5`` file). This ``*.h5`` hydrodynamic data file can be generated 
-using the BEMIO pre-processor. BEMIO (Boundary Element Method Input/Output) is 
-a code developed by the WEC-Sim team to process BEM output files from 
-WAMIT, NEMOH, AQWA, and CAPYTAINE into a data structure than can be read by 
-WEC-Sim. For more information about the BEMIO pre-processor, refer to the 
-:ref:`user-advanced-features-bemio` section. 
-
 Geometry File
 ^^^^^^^^^^^^^
 
-The WEC-Sim code also requires a geometry file (``*.stl``) that defines the 
-outer surface of the device. The origin of the geometry file must be at the center
-of gravity of that body. Most CAD programs can export a geometry as a 
-``*.stl`` file. When running WEC-Sim with linear hydrodynamics, the ``*.stl`` 
-is only used for the Simscape Mechanics Explorer visualization. However, when 
-running WEC-Sim with nonlinear buoyancy and Froude-Krylov forces the mesh 
-determines the instantaneous wetted surface at each time step. In this 
-nonlinear case, the quality of the ``*.stl`` mesh is critical, refer to the 
-:ref:`user-advanced-features-nonlinear` section for more information. 
+WEC-Sim requires geometry file(s) (``*.stl``) that define each body. 
+The origin of the geometry file(s) must be at the body's center of gravity. 
+When running WEC-Sim with linear hydrodynamics, the ``*.stl`` is only used for the Simscape Mechanics Explorer visualization. 
+However, when running WEC-Sim with nonlinear buoyancy and Froude-Krylov forces the STL mesh determines the instantaneous wetted surface at each time step. 
+In this nonlinear case, the quality of the STL mesh is critical, refer to the :ref:`user-advanced-features-nonlinear` section for more information. 
 
-Simulink Model 
-^^^^^^^^^^^^^^
+Hydrodynamic Data
+^^^^^^^^^^^^^^^^^
 
-In addition to an input file, all WEC-Sim runs require a Simulink/Simscape 
-model file (``*.slx``). This Simulink/Simscape model is defined using the 
-WEC-Sim library blocks. Additional components or power take-off systems can be 
-created in this file and coupled with the WEC geometry. 
-
-An example Simulink model file for the OSWEC is shown below. For more 
-information about the OSWEC, and how to build WEC-Sim Simulink models, refer to 
-the :ref:`user-tutorials` section. 
-
-.. figure:: /_static/images/OSWEC_Model.png
-   :width: 200pt
-   :align: center   
+Hydrodynamic data for each body may be generated using a boundary element method (BEM) software. 
+WEC-Sim requires hydrodynamic data from a BEM solution in the form of a HDF5 file (``*.h5``). 
+This ``*.h5`` hydrodynamic data file can be generated using the BEMIO pre-processor. 
+BEMIO (Boundary Element Method Input/Output) is a pre-processing software developed by the WEC-Sim team to parse BEM output files from WAMIT, NEMOH, AQWA, and CAPYTAINE into a data structure, saved as a ``*.h5`` file, that can be read by WEC-Sim. 
+For more information about the BEMIO pre-processor, refer to the :ref:`user-advanced-features-bemio` section.   
 
 Input File
 ^^^^^^^^^^
 
-A WEC-Sim input file (``wecSimInputFile.m``) is required for each run. The 
-input file **MUST** be named ``wecSimInputFile.m`` and placed within the case 
-directory. WEC-Sim uses `object orientated programming 
-<https://uk.mathworks.com/discovery/object-oriented-programming.html>`__ to 
-describe components of the WEC model; the main structure of the input file 
-consists of initializing all the objects necessary to run WEC-Sim simulations 
-and defining any user specified properties for each object. Specifically, the 
-input file requires initialization and definition of the simulation and wave 
-classes, at least one instance of the body class, and at least one instance of 
-the constraint or PTO classes. For details about WEC-Sim's classes and 
-available properties for each, refer to the 
-:ref:`user-code-structure-classes` section. 
+A WEC-Sim input file (``wecSimInputFile.m``) is required. 
+The input file **MUST** be named ``wecSimInputFile.m`` and placed within the case directory. 
+WEC-Sim uses `object orientated programming <https://uk.mathworks.com/discovery/object-oriented-programming.html>`__ to describe components of the WEC model; 
+the main structure of the input file consists of initializing the WEC-Sim objects and defining properties for each object. 
+The input file requires initialization and definition of the simulation and wave classes, at least one instance of the body class, and at least one instance of the constraint or PTO classes. 
+For details about WEC-Sim's classes and available properties for each, refer to the :ref:`user-code-structure-classes` section. 
 
-An example WEC-Sim input file is shown below for the OSWEC. Additional examples 
-are provided in the :ref:`user-tutorials` section. WEC-Sim is an object 
-oriented code and the input file reflects this by instantiating the WEC-Sim 
-classes to create objects that are tied to the Simulink library. 
+The WEC-Sim input file (``wecSimInputFile.m``) for the OSWEC example (``WEC-Sim/examples/OSWEC/``) is shown below. 
+WEC-Sim is an object oriented code and the input file reflects this by instantiating the WEC-Sim classes to create objects that are tied to the Simulink library. 
+The OSWEC input file initializes and defines properties for the simulation, body, constraint and pto classes. 
 
-The WEC-Sim input file (``wecSimInputFile.m``) for the OSWEC example 
-(``WEC-Sim/examples/OSWEC/``) initializes and 
-specifies properties for the simulation, body, constraint and pto classes. 
 
 .. literalinclude:: ../../tutorials/OSWEC/OSWEC_wecSimInputFile.m
    :language: matlab
 
+Additional examples are provided in the :ref:`user-tutorials` section. 
+
+Simulink Model 
+^^^^^^^^^^^^^^
+
+In addition to an input file, WEC-Sim requires a Simulink model file (``*.slx``). 
+This Simulink model is defined using the WEC-Sim library blocks.
+WEC-Sim's library blocks are based on Simscape Multibody, refer to `Simscape Multibody documentation <https://www.mathworks.com/help/physmod/sm/>`_ for more information.  
+   
+WEC-Sim library blocks contain masks that activate relevant parameters, based on the conditions specified in the ``wecSimInputFile.m``. 
+The top level of the Simulink model contains Simscape physical signals that pass information between blocks in order to solve the relevant equations of motion. 
+
+An example Simulink model file for the OSWEC is shown below. 
+For more information about the OSWEC, and how to build WEC-Sim Simulink models, refer to the :ref:`user-tutorials` section. 
+
+.. figure:: /_static/images/OSWEC_Model.png
+   :width: 200pt
+   :align: center
+   
 .. _user-workflow-running-wec-sim:
 
 Running WEC-Sim
@@ -249,12 +227,13 @@ geometry file(s) ``*.stl``, and the hydrodynamic data file (``*.h5``) .
 Step 5: Run WEC-Sim
 ^^^^^^^^^^^^^^^^^^^
 
-Lastly, WEC-Sim can be executed from the ``$CASE`` directory using the following method:
+Lastly, WEC-Sim can be executed from the ``$CASE`` directory by typing ``wecSim`` from the Command Window:
 
-	* Type ``wecSim`` in the Command Window
+.. code-block:: matlabsession
+
+    >> wecSim
 
 Refer to :ref:`user-tutorials-examples` for more details on how to run the examples. 
-
 Users may also run WEC-Sim from Simulink, or use the commands ``wecSimMCR``, 
 ``wecSimPCT``, and ``wecSimFcn`` as described in the advanced features 
 sections :ref:`user-advanced-features-simulink`, 

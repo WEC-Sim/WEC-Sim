@@ -1,4 +1,4 @@
-
+function outmesh = meshConvert(meshfile,fmt,outfmt,outName,stleol,nemohFlag,ISXflag,ISYflag)
 % A mesh converter function. Note that any output dat file will have
 % vertices re-ordered such that node order is consecutive (as implied in
 % GDF format). Also, note that using an un-refined STL mesh is not
@@ -22,7 +22,6 @@
 % outmesh: The filename of the output mesh (.dat or .gdf). The file itself
 %   will be written to the current directory;
 
-function outmesh=meshConvert(meshfile,fmt,outfmt,outName,stleol,nemohFlag,ISXflag,ISYflag)
 % error if stl read function inputs are not defined
 if nargin<5 && strcmp(fmt,'stl')
     warning('Did not define stl output mode and end of line characters. Using defaults')
@@ -94,7 +93,7 @@ switch fmt
         
         %% vertex definitions
         for k=2:lnNum;
-            if strcmp(raw(k),'0 0 0 0')                                     % signals start of faces
+            if sum(abs(str2num(raw{k})))==0                                 % signals start of faces
                 break;
             end
             V(k-1,:)=str2num(raw{k});                                     
