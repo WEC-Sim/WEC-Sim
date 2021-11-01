@@ -5,17 +5,25 @@ function inputOrCustomCallback(grfBlockHandle)
 % for each to show/hide a message denoting an input file is being used, or
 % show/hide the custom mask parameters which are then set in Simulink.
 
-%% Determine if an Input file or Custom Parameters are being used.
-% Set by the Global reference frame only
-
+%% Check if Global reference frame uses Input file or Custom Parameters
+% Get mask parameters
 mask = Simulink.Mask.get(grfBlockHandle);
+InputMethod = mask.getParameter('InputMethod');
+InputFileGroup = mask.getDialogControl('InputFileGroup');
+CustomParameterGroup = mask.getDialogControl('CustomParameterGroup');
 
-% Find index for ParamInput, parameter that decides input method
-ParamInput = mask.getParameter('ParamInput');
-if strcmp(ParamInput.Value,'Input File')
+% Check input method and adjust visibility
+if strcmp(InputMethod.Value,'Input File')
+    % If user selects Input File, hide all custom parameters
     useInputFile = true;
+    InputFileGroup.Visible = 'on';
+    CustomParameterGroup.Visible = 'off';
 else
+    % If user selects Custom Parameters, make them visible. 
+    % Do not hide the file selection in the Global Reference Frame so
+    % that an input file can be read into the masks.
     useInputFile = false;
+    CustomParameterGroup.Visible = 'on';
 end 
 
 %% Loop blocks and change visibility
@@ -27,7 +35,7 @@ for i=1:length(blocks)
     names = get_param(blocks{i},'MaskNames');
     
     % Check if the block is from the WEC-Sim library
-    if any(contains(names,{'simu','waves','body','pto','constraint','cable','mooring'}))
+    if any(contains(names,{'body','pto','constraint','cable','mooring'}))
         % Update the visibility of WEC-Sim blocks
         blockHandle = getSimulinkBlockHandle(blocks{i});
         customVisibilityCallback(blockHandle,useInputFile);

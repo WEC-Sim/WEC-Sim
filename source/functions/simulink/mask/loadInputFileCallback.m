@@ -1,6 +1,5 @@
 function loadInputFileCallback(grfBlockHandle)
 %% Run the input file selected in the global reference frame
-
 % Find input filename
 mask = Simulink.Mask.get(grfBlockHandle);
 InputFile = mask.getParameter('InputFile');
