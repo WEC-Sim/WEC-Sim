@@ -1,4 +1,7 @@
 function loadInputFileCallback(grfBlockHandle)
+% This function runs an input file and loads the contents into the block
+% masks.
+
 %% Run the input file selected in the global reference frame
 % Find input filename
 mask = Simulink.Mask.get(grfBlockHandle);

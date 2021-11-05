@@ -15,7 +15,7 @@ function inputString = writeLineFromVar(defaultClass, variableName, maskVars, ma
 % Parameters
 % ------------
 %     defaultClass : WEC-Sim Object
-%         Instance of a WEC-Sim class. Must contain the variableName that is
+%         Default instance of a WEC-Sim class. Must contain the variableName that is
 %         being written to the input file
 % 
 %     variableName : string
@@ -30,7 +30,7 @@ function inputString = writeLineFromVar(defaultClass, variableName, maskVars, ma
 % 
 %     classNum : int
 %          Number specifying the index of a class being written
-%          i.e. body(1), pto(4), constraint(7), ...
+%          i.e. 1 for body(1), 4 for pto(4), 7 for constraint(7), ...
 % 
 %     structName : string
 %          Structure containing all mask parameter visibilities

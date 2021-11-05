@@ -1,6 +1,6 @@
 function waveClassCallback(blockHandle)
 % Callback function for WaveClass
-% Changes the visibility of wave parameters based on type
+% Changes the visibility of wave parameters based on the wave type selected
 
 % Get all wave parameters
 mask = Simulink.Mask.get(blockHandle);

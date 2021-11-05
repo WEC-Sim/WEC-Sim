@@ -4,7 +4,6 @@ function bodyClassCallback(blockHandle)
 % parameters are updated based on these options.
 
 %% Update Morison Element parameters
-
 % Get mask parameter controls for all Morison element parameters
 mask = Simulink.Mask.get(blockHandle);
 option = mask.getParameter('option');
@@ -57,18 +56,19 @@ dof = mask.getParameter('dof');
 dispVol = mask.getParameter('dispVol');
 
 % Change visibilities based on nhBody selection
-if nhBody.Value == '1' || nhBody.Value == '2'
-    cg.Visible = 'on';
-    cb.Visible = 'on';
-    dof.Visible = 'on';
-    dispVol.Visible = 'on';
-    
-elseif nhBody.Value == '0'
-    cg.Visible = 'off';
-    cb.Visible = 'off';
-    dof.Visible = 'off';
-    dispVol.Visible = 'off';
-    
+switch nhBody.Value
+    case {'1','2'}
+        cg.Visible = 'on';
+        cb.Visible = 'on';
+        dof.Visible = 'on';
+        dispVol.Visible = 'on';
+        
+    case {'0'}
+        cg.Visible = 'off';
+        cb.Visible = 'off';
+        dof.Visible = 'off';
+        dispVol.Visible = 'off';
+        
 end
 
 end

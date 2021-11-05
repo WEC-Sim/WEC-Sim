@@ -1,6 +1,7 @@
 function customVisibilityCallback(blockHandle,useInputFile)
-% Changes the visibility of the custom parameters based on Global Reference
-% Frame InputMethod setting. Called by inputOrCustomCallback.m
+% Changes the visibility of the a block's custom parameters group based on 
+% the Global Reference Frame InputMethod setting. 
+% Called by inputOrCustomCallback.m
 
 % Create variable for Group of Custom Parameters
 mask = Simulink.Mask.get(blockHandle);
@@ -15,4 +16,4 @@ else
     % If user selects Custom Parameters, make them visible
     InputFileGroup.Visible = 'off';
     CustomParameterGroup.Visible = 'on';
-end  
+end
