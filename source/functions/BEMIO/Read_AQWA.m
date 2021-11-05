@@ -68,6 +68,8 @@ for i = 1:ceil(hydro(F).Nh/6)
     n               = n+1;
 end
 hydro(F).beta(1:3) = [];
+hydro.A = zeros(hydro.Nb*6,hydro.Nb*6,hydro.Nf); 
+hydro.B = zeros(hydro.Nb*6,hydro.Nb*6,hydro.Nf);
 %%
 hydro(F).w = [];
 for i=1:ceil(hydro(F).Nf/6)
@@ -120,8 +122,6 @@ for ln = n:length(raw1)
     end 
     if ((isempty(strfind(raw1{ln},'ADDEDMASS'))==0) && isempty(strfind(raw1{ln},'LF'))==1 && isempty(strfind(raw1{ln},'HF'))==1) || ...
             (isempty(strfind(raw1{ln},'DAMPING'))==0 && isempty(strfind(raw1{ln},'LF'))==1)
-        hydro.A = zeros(hydro.Nb*6,hydro.Nb*6,hydro.Nf); 
-        hydro.B = zeros(hydro.Nb*6,hydro.Nb*6,hydro.Nf);
         flag = 0;
         if isempty(strfind(raw1{ln},'ADDEDMASS'))==0 f = 0; else f = 1; end
         for m=1:hydro(F).Nb  
