@@ -1,6 +1,5 @@
 function hydro = Read_AQWA(hydro,ah1_filename,lis_filename)
-
-%% Reads data from AQWA output files.
+% Reads data from AQWA output files.
 %
 % hydro = Read_AQWA(hydro, ah1_filename, lis_filename)
 %     hydro -         data structure
@@ -10,13 +9,11 @@ function hydro = Read_AQWA(hydro,ah1_filename,lis_filename)
 % See '...WEC-Sim\examples\BEMIO\AQWA...' for examples of usage.
 
 %%
-
 [a,b] = size(hydro);  % Check on what is already there
-if b==1
-    if isfield(hydro(b),'Nb')==0  F = 1;
-    else  F = 2;
-    end
-elseif b>1  F = b+1;
+if b == 1 && ~isfield(hydro(b),'Nb')
+    F = 1;
+elseif b >= 1
+    F = b+1;
 end
 
 %%
@@ -79,7 +76,7 @@ for i=1:ceil(hydro(F).Nf/6)
 end
 hydro(F).T = 2*pi./hydro(F).w;
 %%
-for ln = n:length(raw1);
+for ln = n:length(raw1)
     if isempty(strfind(raw1{ln},'GENERAL'))==0
         if V182 == 1  % General information columns in Versions>18.2
             tmp = str2num(raw1{ln+1});
@@ -120,24 +117,32 @@ for ln = n:length(raw1);
                 end
             end
         end
-    end
+    end 
     if ((isempty(strfind(raw1{ln},'ADDEDMASS'))==0) && isempty(strfind(raw1{ln},'LF'))==1 && isempty(strfind(raw1{ln},'HF'))==1) || ...
             (isempty(strfind(raw1{ln},'DAMPING'))==0 && isempty(strfind(raw1{ln},'LF'))==1)
+        hydro.A = zeros(hydro.Nb*6,hydro.Nb*6,hydro.Nf); 
+        hydro.B = zeros(hydro.Nb*6,hydro.Nb*6,hydro.Nf);
+        flag = 0;
         if isempty(strfind(raw1{ln},'ADDEDMASS'))==0 f = 0; else f = 1; end
-        for m=1:hydro(F).Nb
+        for m=1:hydro(F).Nb  
             for k=1:hydro(F).Nb
                 for j=1:hydro(F).Nf
                     for i=1:6
                         tmp = str2num(raw1{ln+(m-1)*hydro(F).Nb*hydro(F).Nf*6+(k-1)*hydro(F).Nf*6+(j-1)*6+i});
+                        if isempty(tmp) flag = 1; break; end % if temp variable is empty, exit loops
                         if length(tmp)>6 ind = tmp(1:3); tmp(1:3)=[]; end
                         if f==0 % Added Mass
                             hydro(F).A((ind(2)-1)*6+i,((ind(1)-1)*6+1):(ind(1)*6),ind(3)) = tmp;
                         elseif f==1 % Radiation Damping
                             hydro(F).B((ind(2)-1)*6+i,((ind(1)-1)*6+1):(ind(1)*6),ind(3)) = tmp;
                         end
+                        if flag == 1 break; end
                     end
+                    if flag == 1 break; end
                 end
+                if flag == 1 break; end
             end
+            if flag == 1 break; end
         end
     end
     if isempty(strfind(raw1{ln},'FORCERAO'))==0
@@ -259,4 +264,5 @@ end
 %%
 hydro = Normalize(hydro);  % Normalize the data according the WAMIT convention
 close(p);
+assignin('base','hydro',hydro);
 end

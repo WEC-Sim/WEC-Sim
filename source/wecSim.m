@@ -17,7 +17,8 @@
 % limitations under the License.
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
-%%% WEC-Sim run file
+%% wecSim
+% WEC-Sim executable
 %%
 %% Following Classes are required to be defined in the WEC-Sim input file:
 %%
