@@ -1,4 +1,3 @@
-clc; clear all; close all;
 hydro = struct();
 
 hydro = Read_CAPYTAINE(hydro,'.\cylinder_full.nc');

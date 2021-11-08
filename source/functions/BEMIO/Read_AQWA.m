@@ -1,6 +1,5 @@
 function hydro = Read_AQWA(hydro,ah1_filename,lis_filename)
-
-%% Reads data from AQWA output files.
+% Reads data from AQWA output files.
 %
 % hydro = Read_AQWA(hydro, ah1_filename, lis_filename)
 %     hydro -         data structure
@@ -10,13 +9,11 @@ function hydro = Read_AQWA(hydro,ah1_filename,lis_filename)
 % See '...WEC-Sim\examples\BEMIO\AQWA...' for examples of usage.
 
 %%
-
 [a,b] = size(hydro);  % Check on what is already there
-if b==1
-    if isfield(hydro(b),'Nb')==0  F = 1;
-    else  F = 2;
-    end
-elseif b>1  F = b+1;
+if b == 1 && ~isfield(hydro(b),'Nb')
+    F = 1;
+elseif b >= 1
+    F = b+1;
 end
 
 %%

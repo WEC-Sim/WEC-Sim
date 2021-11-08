@@ -21,12 +21,13 @@ classdef responseClass<handle
     %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
     % The  ``responseClass`` creates an ``output`` object saved to the MATLAB workspace
     % that contains structures for each instance of a WEC-Sim class (e.g.
-    % ``waveClass``, ``bodyClass``, ``ptoClass``, ``mooringClass``, etc).
+    % ``waveClass``, ``bodyClass``, ``constraintClass``, ``ptoClass``, 
+    % ``cableClass``, ``mooringClass``, etc).
     % 
-    %.. autoattribute:: objects.responseClass.wave
+    %.. autoattribute:: objects.responseClass.responseClass            
+    %     
+    %.. autoattribute:: objects.responseClass.wave 
     %    
-    % , it includes:
-    %
     %   * ``type`` (`string`) = 'waveType'
     %   *  ``time`` (`array`) = [# of time-steps x 1]
     %   * ``elevation`` (`array`) = [# of time-steps x 1]
@@ -36,8 +37,6 @@ classdef responseClass<handle
     %         
     %.. autoattribute:: objects.responseClass.bodies
     %    
-    % , it includes:
-    %
     %   * ``name`` (`string`) = 'bodyName'
     %   * ``time`` (`array`) = [# of time-steps x 1]
     %   * ``position`` (`array`) = [# of time-steps x 6]
@@ -51,49 +50,54 @@ classdef responseClass<handle
     %   *  ``forceMorisonAndViscous`` (`array`) = [# of time-steps x 6]
     %   *  ``forceLinearDamping`` (`array`) = [# of time-steps x 6]
     %
-    %   There are 4 additional ``output.bodies`` arrays when using non-linear hydro and Paraview output:
+    %   There are 4 additional ``output.bodies`` arrays when using nonlinear hydro and Paraview output:
     %
-    %   *  ``cellPressures_time`` (`array`) = [# of Paraview time-steps x 1]
-    %   *  ``cellPressures_hydrostatic`` (`array`) = [# of Paraview time-steps x # of mesh faces]
-    %   *  ``cellPressures_waveLinear`` (`array`) = [# of Paraview time-steps x # of mesh faces]
-    %   *  ``cellPressures_waveNonLinear`` (`array`) = [# of Paraview time-steps x # of mesh faces]
+    %   *  ``cellPressures_time`` (`array`) = [# of Paraview time-steps x 1] Nonlinear calculation timeseries
+    %   *  ``cellPressures_hydrostatic`` (`array`) = [# of Paraview time-steps x # of mesh faces] Hydrostatic pressure on each stl facet
+    %   *  ``cellPressures_waveLinear`` (`array`) = [# of Paraview time-steps x # of mesh faces] Excitation pressure on each stl facet given zero displacement and the mean free surface
+    %   *  ``cellPressures_waveNonLinear`` (`array`) = [# of Paraview time-steps x # of mesh faces] Excitation pressure on each stl facet given the instantaneous displacement and instantaneous free surface 
+    %
+    %.. autoattribute:: objects.responseClass.constraints
+    %    
+	%   * ``name`` (`string`) = 'coonstraintName'
+    %   * ``time`` (`array`) = [# of time-steps x 1]
+    %   * ``position`` (`array`) = [# of time-steps x 6]
+    %   * ``velocity`` (`array`) = [# of time-steps x 6]
+    %   * ``accleration`` (`array`) = [# of time-steps x 6]
+    %   * ``forceConstraint`` (`array`) = [# of time-steps x 6]    
     %
     %.. autoattribute:: objects.responseClass.ptos
     %    
-    % , it includes:
-    %
     %   * ``name`` (`string`) = 'ptoName'
     %   * ``time`` (`array`) = [# of time-steps x 1]
     %   * ``position`` (`array`) = [# of time-steps x 6]
     %   * ``velocity`` (`array`) = [# of time-steps x 6]
-    %   *  ``accleration`` (`array`) = [# of time-steps x 6]
-    %   *  ``forceTotal`` (`array`) = [# of time-steps x 6]
+    %   * ``accleration`` (`array`) = [# of time-steps x 6]
+    %   * ``forceTotal`` (`array`) = [# of time-steps x 6]
     %   * ``forceActuation`` (`array`) = [# of time-steps x 6]
     %   * ``forceConstraint`` (`array`) = [# of time-steps x 6]
     %   * ``forceInternalMechanics`` (`array`) = [# of time-steps x 6]
     %   * ``powerInternalMechanics`` (`array`) = [# of time-steps x 6]
     %
-    %.. autoattribute:: objects.responseClass.constraints
+    %.. autoattribute:: objects.responseClass.cables
     %    
-    % , it includes:
-    %
-    %   * ``name`` (`string`) = 'coonstraintName'
+	%   * ``name`` (`string`) = 'cableName'
     %   * ``time`` (`array`) = [# of time-steps x 1]
     %   * ``position`` (`array`) = [# of time-steps x 6]
     %   * ``velocity`` (`array`) = [# of time-steps x 6]
-    %   *  ``accleration`` (`array`) = [# of time-steps x 6]
-    %   *  ``forceConstraint`` (`array`) = [# of time-steps x 6]    
-    %
+    %   * ``accleration`` (`array`) = [# of time-steps x 6]
+    %   * ``forceTotal`` (`array`) = [# of time-steps x 6]
+    %   * ``forceActuation`` (`array`) = [# of time-steps x 6]
+    %   * ``forceConstraint`` (`array`) = [# of time-steps x 6]
+    % 
     %.. autoattribute:: objects.responseClass.mooring
     %    
-    % , it includes:
-    %
     %   * ``position`` (`array`) = [# of time-steps x 6]
     %   * ``velocity`` (`array`) = [# of time-steps x 6]
-    %   *  ``forceMooring`` (`array`) = [# of time-steps x 6]
-    % 
+    %   * ``forceMooring`` (`array`) = [# of time-steps x 6]
+    %
     %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-
+    
     
     properties (SetAccess = 'public', GetAccess = 'public')
         wave                = struct()     % This property generates the ``wave`` structure for each instance of the ``waveClass`` 
@@ -101,12 +105,13 @@ classdef responseClass<handle
         ptos                = struct()     % This property generates the ``ptos`` structure for each instance of the ``ptoClass`` (i.e. for each PTO block)
         constraints         = struct()     % This property generates the ``constraints`` structure for each instance of the ``coonstraintClass`` (i.e. for each Constraint block)
         mooring             = struct()     % This property generates the ``mooring`` structure for each instance of the ``mooringClass`` (i.e. for each Mooring block)
+        cables              = struct()     % This property generates the ``cables`` structure for each instance of the ``cableClass`` (i.e. for each Cable block)
         moorDyn             = struct()     % This property generates the ``moorDyn`` structure for each instance of the ``mooringClass`` using MoorDyn (i.e. for each MoorDyn block), it includes ``Lines``  and ``Line#``.
         ptosim              = struct()     % This property generates the ``ptosim`` structure for each instance of the ``ptoSimClass`` (i.e. for each PTO-Sim block).
     end
     
     methods (Access = 'public')
-        function obj = responseClass(bodiesOutput,ptosOutput,constraintsOutput,ptosimOutput,mooringOutput,waveOutput, yawNonLin)                      
+        function obj = responseClass(bodiesOutput,ptosOutput,constraintsOutput,ptosimOutput,cablesOutput,mooringOutput,waveOutput, yawNonLin) 
             % This method initializes the ``responseClass``, reads 
             % output from each instance of a WEC-Sim class (e.g.
             % ``waveClass``, ``bodyClass``, ``ptoClass``, ``mooringClass``, etc)
@@ -139,6 +144,7 @@ classdef responseClass<handle
             for ii = 1:length(bodiesOutput)
                 obj.bodies(ii).name = bodiesOutput(ii).name;
                 obj.bodies(ii).time = bodiesOutput(ii).time;
+                obj.bodies(ii).cg   = bodiesOutput(ii).cg;
                 for jj = 1:length(signals)
                     obj.bodies(ii).(signals{jj}) = bodiesOutput(ii).signals.values(:, (jj-1)*6+1:(jj-1)*6+6);
                 end
@@ -207,6 +213,18 @@ classdef responseClass<handle
                     end
                 end
             end
+            % Cables
+            if isstruct(cablesOutput)
+                signals = {'position','velocity','acceleration','forceTotal','forceActuation',...
+                    'forceConstraint'};
+                for ii = 1:length(cablesOutput)
+                    obj.cables(ii).name = cablesOutput(ii).name;
+                    obj.cables(ii).time = cablesOutput(ii).time;
+                    for jj = 1:length(signals)
+                        obj.cables(ii).(signals{jj}) = cablesOutput(ii).signals.values(:,(jj-1)*6+1:(jj-1)*6+6);
+                    end
+                end
+            end
             % PTO-Sim
             if isstruct(ptosimOutput)
                 obj.ptosim=ptosimOutput;
@@ -268,7 +286,11 @@ classdef responseClass<handle
             %     
             DOF = {'Surge','Sway','Heave','Roll','Pitch','Yaw'};
             t=obj.bodies(bodyNum).time;
-            pos=obj.bodies(bodyNum).position(:,comp) - obj.bodies(bodyNum).position(1,comp);
+            if comp < 4
+                pos=obj.bodies(bodyNum).position(:,comp)-obj.bodies(bodyNum).cg(comp);
+            else
+                pos=obj.bodies(bodyNum).position(:,comp);
+            end
             vel=obj.bodies(bodyNum).velocity(:,comp);
             acc=obj.bodies(bodyNum).acceleration(:,comp);
             figure()
@@ -343,6 +365,10 @@ classdef responseClass<handle
             %             number of simulation time steps per video frame 
             %             (higher number decreases computation time)
             %             Default = 1
+            %         startEndTime : 1x2 float matrix
+            %             Array defining the start and end times of the
+            %             visualization
+            %             Default = [min(t) max(t)]
             %         saveSetting : integer
             %             0 = video, 1 = gif. Default = 0
             %     
@@ -354,12 +380,15 @@ classdef responseClass<handle
                 waves
                 options.axisLimits (1,6) double {mustBeReal, mustBeNonNan, mustBeFinite} = [-simu.domainSize/2 simu.domainSize/2 -simu.domainSize/2 simu.domainSize/2 -waves.waterDepth -999];
                 options.timesPerFrame (1,1) double {mustBeReal, mustBeNonnegative, mustBeNonNan, mustBeFinite} = 1;
+                options.startEndTime (1,2) double {mustBeReal, mustBeNonnegative, mustBeNonNan} = [0 0];
                 options.saveSetting (1,1) double {mustBeNumericOrLogical} = 0;
             end
             
             % Set time vector
             t = obj.wave.time(1:options.timesPerFrame*round(simu.dtOut/simu.dt,0):end,1);
-%             t = obj.wave.time(1:options.timesPerFrame:end,1);
+            if isequal(options.startEndTime, [0 0])
+                options.startEndTime = [min(t) max(t)];
+            end
             
             % Create grid using provided x and y coordinates
             x = linspace(options.axisLimits(1),options.axisLimits(2),200);
@@ -401,78 +430,81 @@ classdef responseClass<handle
                 gifFilename = 'waveVisualization.gif';
             end
             
-            % Initialize figure
+            % Initialize figure and image counter
             figure();
-
+            imageCount = 0;
+            
             for i=1:length(t)
-                for ibod=1:length(obj.bodies)
-                    % Apply rotation to each point
-                    rotMat = eulXYZ2RotMat(obj.bodies(ibod).position(1+options.timesPerFrame*(i-1),4), ...
-                        obj.bodies(ibod).position(1+options.timesPerFrame*(i-1),5), ...
-                        obj.bodies(ibod).position(1+options.timesPerFrame*(i-1),6));
-                    for ipts=1:length(bodyMesh(ibod).Points(:,1))
-                        bodyMesh(ibod).rotation(ipts,:) = (rotMat*bodyMesh(ibod).Points(ipts,:).').';
+                if t(i) >= options.startEndTime(1) && t(i) <= options.startEndTime(2)
+                    imageCount = imageCount + 1;
+                    for ibod = 1:length(obj.bodies)
+                        % Apply rotation to each point
+                        rotMat = eulXYZ2RotMat(obj.bodies(ibod).position(1+options.timesPerFrame*(i-1),4), ...
+                            obj.bodies(ibod).position(1+options.timesPerFrame*(i-1),5), ...
+                            obj.bodies(ibod).position(1+options.timesPerFrame*(i-1),6));
+                        for ipts=1:length(bodyMesh(ibod).Points(:,1))
+                            bodyMesh(ibod).rotation(ipts,:) = (rotMat*bodyMesh(ibod).Points(ipts,:).').';
+                        end
+
+                        % Calculate full position changes due to rotation,
+                        % translation, and center of gravity
+                        bodyMesh(ibod).pointsNew = bodyMesh(ibod).rotation + bodyMesh(ibod).deltaPos(i,:) + body(ibod).cg.';
+
+                        % Create and plot final triangulation of geometry with applied changes
+                        bodFinal = triangulation(bodyMesh(ibod).Conns,bodyMesh(ibod).pointsNew);
+                        trisurf(bodFinal,'FaceColor',[1 1 0],'EdgeColor','k','EdgeAlpha',.2)
+                        hold on
                     end
 
-                    % Calculate full position changes due to rotation,
-                    % translation, and center of gravity
-                    bodyMesh(ibod).pointsNew = bodyMesh(ibod).rotation + bodyMesh(ibod).deltaPos(i,:) + body(ibod).cg.';
-                    
-                    % Create and plot final triangulation of geometry with applied changes
-                    bodFinal = triangulation(bodyMesh(ibod).Conns,bodyMesh(ibod).pointsNew);
-                    trisurf(bodFinal,'FaceColor',[1 1 0],'EdgeColor','k','EdgeAlpha',.2)
+                    % Create and wave elevation grid
+                    Z = waveElevationGrid(waves, t(i), X, Y, t(i), simu.dtOut, simu.g);
+                    surf(X,Y,Z,'FaceAlpha',.85,'EdgeColor','none')
                     hold on
-                end
-                
-                % Create and wave elevation grid
-                Z = waveElevationGrid(waves, t(i), X, Y, t(i), simu.dtOut, simu.g);
-                surf(X,Y,Z,'FaceAlpha',.85,'EdgeColor','none')
-                hold on
-                
-                % Display seafloor
-                seaFloor = -waves.waterDepth*ones(size(X, 1));
-                surf(X,Y,seaFloor,'FaceColor',[.4 .4 0],'EdgeColor','none');
-                hold on
-                
-                % Time visual
-                nDecimals = max(0,ceil(-log10(simu.dtOut*options.timesPerFrame)));
-                nLeading = ceil(log10(max(t)));
-                tAnnot = sprintf(['time = %' num2str(nDecimals+nLeading+1) '.' num2str(nDecimals) 'f s'],t(i));
-                
-                % Settings and labels
-                caxis([min(-waves.A) max(waves.A)])
-                colormap winter
-                c = colorbar;
-                ylabel(c, 'Wave Elevation (m)')
-                title({'Wave Elevation and Geometry Visualization',tAnnot})
-                xlabel('x(m)')
-                ylabel('y(m)')
-                zlabel('z(m)')
-                daspect([1 1 1])
-                axis(options.axisLimits)
 
-                % Create figure while iterating through time loop
-                drawnow;
-                
-                % Capture figure for saving
-                frame = getframe(gcf);
-                
-                if options.saveSetting == 0
-                    % Save to video
-                    writeVideo(video,frame); 
-                elseif options.saveSetting == 1
-                    % Save to gif
-                    im = frame2im(frame); 
-                    [imind,cm] = rgb2ind(im,256); 
-                    if i == 1 
-                        imwrite(imind,cm,gifFilename,'gif', 'Loopcount',inf); 
-                    else 
-                        imwrite(imind,cm,gifFilename,'gif','WriteMode','append','DelayTime',simu.dtOut); 
-                    end 
+                    % Display seafloor
+                    seaFloor = -waves.waterDepth*ones(size(X, 1));
+                    surf(X,Y,seaFloor,'FaceColor',[.4 .4 0],'EdgeColor','none');
+                    hold on
+
+                    % Time visual
+                    nDecimals = max(0,ceil(-log10(simu.dtOut*options.timesPerFrame)));
+                    nLeading = ceil(log10(max(t)));
+                    tAnnot = sprintf(['time = %' num2str(nDecimals+nLeading+1) '.' num2str(nDecimals) 'f s'],t(i));
+
+                    % Settings and labels
+                    caxis([min(-waves.A) max(waves.A)])
+                    colormap winter
+                    c = colorbar;
+                    ylabel(c, 'Wave Elevation (m)')
+                    title({'Wave Elevation and Geometry Visualization',tAnnot})
+                    xlabel('x(m)')
+                    ylabel('y(m)')
+                    zlabel('z(m)')
+                    daspect([1 1 1])
+                    axis(options.axisLimits)
+
+                    % Create figure while iterating through time loop
+                    drawnow;
+
+                    % Capture figure for saving
+                    frame = getframe(gcf);
+
+                    if options.saveSetting == 0
+                        % Save to video
+                        writeVideo(video,frame); 
+                    elseif options.saveSetting == 1
+                        % Save to gif
+                        im = frame2im(frame); 
+                        [imind,cm] = rgb2ind(im,256); 
+                        if imageCount == 1 
+                            imwrite(imind,cm,gifFilename,'gif', 'Loopcount',inf); 
+                        else 
+                            imwrite(imind,cm,gifFilename,'gif','WriteMode','append','DelayTime',simu.dtOut); 
+                        end 
+                    end
+
+                    hold off
                 end
- 
-                hold off
-               
             end
             
             % Close video file
