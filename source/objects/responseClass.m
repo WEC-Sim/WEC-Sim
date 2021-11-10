@@ -340,7 +340,7 @@ classdef responseClass<handle
             clear t FT FE FRD FR FV FM i
         end
         
-        function plotWaves(obj,simu,body,waves,options)
+        function plotWaveBodyVisualization(obj,simu,body,waves,options)
             % This method plots the wave elevation and body geometry over
             % time to visualize the waves and response
             %
