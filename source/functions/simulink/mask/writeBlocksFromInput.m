@@ -164,9 +164,6 @@ end; clear i;
 % Load Masked Subsystem with updated values
 set_param(blockHandle,'MaskValues',values);
 
-% Clear variables from workspace
-clear maskVars values names simu waves body constraint pto mooring
-
 % update visibilities of wave and body parameters based on flags
 if type==0
     waveClassCallback(blockHandle);

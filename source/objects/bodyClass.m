@@ -372,7 +372,7 @@ classdef bodyClass<handle
                 rotMat = axisAngle2RotMat(axisList(i,:),angleList(i))*rotMat;
             end
 
-            % calculate net axis-angle rotation
+            % Convert to net axis-angle rotation to fit required input format
             [netAxis, netAngle] = rotMat2AxisAngle(rotMat);
 
             % calculate net displacement due to rotation
