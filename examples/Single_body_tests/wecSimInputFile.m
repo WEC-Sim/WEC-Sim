@@ -7,7 +7,7 @@ simu.startTime = 0;                     % Simulation Start Time [s]
 simu.rampTime = 100;                   	% Wave Ramp Time [s]
 simu.endTime = 200;                     % Simulation End Time [s]
 simu.solver = 'ode4';                   % simu.solver = 'ode4' for fixed step & simu.solver = 'ode45' for variable step 
-simu.dt = 0.001; 							% Simulation time-step [s]
+simu.dt = 0.01; 							% Simulation time-step [s]
 
 %% Wave Information 
 % % noWaveCIC, no waves with radiation CIC  
@@ -15,7 +15,7 @@ simu.dt = 0.001; 							% Simulation time-step [s]
 
 % Regular Waves  
 waves = waveClass('regular');           % Initialize Wave Class and Specify Type                                 
-waves.H = 2.5;                          % Wave Height [m]
+waves.H = 1.5;                          % Wave Height [m]
 waves.T = 8;                            % Wave Period [s]
 
 % % Regular Waves with CIC
@@ -62,11 +62,26 @@ body(1).geometryFile = 'geometry/float.stl';    % Location of Geomtry File
 body(1).mass = 'equilibrium';                   
     % Body Mass. The 'equilibrium' Option Sets it to the Displaced Water 
     % Weight.
-body(1).momOfInertia = [1 1 1];  %Moment of Inertia [kg*m^2]     
+body(1).momOfInertia = [1e2 1e2 1e2];  %Moment of Inertia [kg*m^2]     
 
 %%
+%{
+% Floating (1DOF) Joint
+constraint(1) = constraintClass('Constraint1'); % Initialize Constraint Class for Constraint1
+constraint(1).loc = [0 0 0];                    % Constraint Location [m]
+constraint(1).orientation.z = [1 0 0];    
+%}
 % Translational PTO
 pto(1) = ptoClass('PTO1');                      % Initialize PTO Class for PTO1
 pto(1).k = 0;                                   % PTO Stiffness [N/m]
 pto(1).c = 1e1;                             % PTO Damping [N/(m/s)]
 pto(1).loc = [0 0 0];                           % PTO Location [m]
+
+%% Mooring
+% Mooring Matrix
+mooring(1) = mooringClass('mooring');       % Initialize mooringClass
+mooring(1).matrix.k = zeros(6,6);
+mooring(1).matrix.k(1,1) = 1e3;
+mooring(1).matrix.c = zeros(6,6);
+mooring(1).matrix.preTension = zeros(1,6);
+%}
