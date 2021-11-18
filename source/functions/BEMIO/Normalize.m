@@ -1,5 +1,4 @@
 function hydro = Normalize(hydro)
-
 % Normalizes NEMOH and AQWA hydrodynamic coefficients in the same manner
 % that WAMIT outputs are normalized. Specifically,the linear restoring
 % stiffness is normalized as, C(i,j)/(rho*g); added mass is normalized as,

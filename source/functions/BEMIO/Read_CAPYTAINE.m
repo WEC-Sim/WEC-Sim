@@ -1,6 +1,5 @@
 function hydro = Read_CAPYTAINE(hydro,filename)
-
-%% Reads data from a Capytaine netcdf file
+% Reads data from a Capytaine netcdf file
 %
 % hydro = Read_CAPYTAINE(hydro, filename)
 %     hydro –     data structure
@@ -9,9 +8,9 @@ function hydro = Read_CAPYTAINE(hydro,filename)
 
 %% Check file for required variables
 [a,b] = size(hydro);  % Check on what is already there
-if b==1 && ~isfield(hydro(b),'Nb')
+if b == 1 && ~isfield(hydro(b),'Nb')
     F = 1;
-elseif b>=1
+elseif b >= 1
     F = b+1;
 end
 
@@ -416,6 +415,10 @@ function [sorted_dofs,inds,reset_tf, nDofs_per_body, split_body_names] = sorted_
 % 1. Find each body name
 % 2. sort each body's dofs by [standard gbm]: surge, sway, heave, roll, pitch, yaw, gbm1, gbm2, ...
 % 3. concatenate dofs
+
+% Capytaine lowers the case of body names when used in the dof names. Do
+% the same here to parse and reorder dofs correctly.
+body_names = lower(body_names);
 
 % list of standard dofs
 std_dofs = ["surge", "sway", "heave", "roll", "pitch", "yaw"];

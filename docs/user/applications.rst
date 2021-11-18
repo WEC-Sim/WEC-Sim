@@ -1,7 +1,7 @@
 .. _user-applications:
 
-Applications
-============
+WEC-Sim Applications
+========================
 
 The `WEC-Sim Applications <https://github.com/WEC-Sim/WEC-Sim_Applications>`_ 
 repository contains many more applications of the WEC-Sim code that demonstrate 
@@ -90,7 +90,7 @@ Nonlinear Hydrodynamic Body
 
 Example using :ref:`Nonlinear Hydro <user-advanced-features-nonlinear>`
 to run WEC-Sim for a :ref:`heaving ellipsoid <user-advanced-features-nonlinear-tutorial-heaving-ellipsoid>`.
-Includes examples of running non-linear hydrodynamics with different :ref:`fixed and
+Includes examples of running nonlinear hydrodynamics with different :ref:`fixed and
 variable time-step solvers <user-advanced-features-time-step>`
 (ode4/ode45), and different regular wave formulations (with/without CIC). 
 Execute the `runNL.m` script to run this case. 
@@ -123,12 +123,18 @@ Examples of WEC-Sim models using PTO-Sim are included for the :ref:`RM3 <user-tu
 geometry and :ref:`OSWEC <user-tutorials-oswec>`
 geometry.
 
+Visualization Markers
+^^^^^^^^^^^^^^^^^^^^^^
+
+Examples of WEC-Sim with Wave Elevation visualization at User-Defined Locations.
+The setup for the visualization can be found at `Advanced Features <https://github.com/WEC-Sim/advanced_features>`
+
 WECCCOMP
 ^^^^^^^^
 
 Numerical model for the WEC Control Competition (WECCCOMP) using WEC-Sim to 
-model the WaveStar with various fault implementations can be found in the `WECCCOMP <https://github.com/WEC-Sim/WECCCOMP>`_ repository. See the project report 
-written by Erica Lindbeck in the "report" folder. 
+model the WaveStar with various fault implementations can be found in the `WECCCOMP <https://github.com/WEC-Sim/WECCCOMP>`_ repository. 
+See the project report written by Erica Lindbeck in the "report" folder. 
 
 Write HDF5
 ^^^^^^^^^^

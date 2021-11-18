@@ -56,12 +56,11 @@ classdef runFromSimTest < matlab.unittest.TestCase
                 values = get_param(blocks{i},'MaskValues');
                 
                 % Check if the block is the global reference frame
-                if contains(names,{'simu','waves'})
+                if any(contains(names,{'simu','waves'}))
                     grfBlockHandle = getSimulinkBlockHandle(blocks{i});
-                    j = strcmp(names,'ParamInput');
-                    values(j) = 'Input File';
-                    
-                    set_param(grfBlockHandle,'MaskValues',values);
+                    mask = Simulink.Mask.get(grfBlockHandle);
+                    InputMethod = mask.getParameter('InputMethod');
+                    InputMethod.Value = 'Input File';
                 end
             end
             save_system('fromSimInput.slx');
@@ -74,6 +73,7 @@ classdef runFromSimTest < matlab.unittest.TestCase
             fprintf(fileID,'%s\n',"simu.rampTime = 2;");
             fprintf(fileID,'%s\n',"simu.endTime = 4;");
             fprintf(fileID,'%s\n',"simu.dt = 0.01;");
+            fprintf(fileID,'%s\n',"simu.simMechanicsFile = 'fromSimInput.slx';");
             fclose(fileID);
             
             bdclose('all');
@@ -88,27 +88,16 @@ classdef runFromSimTest < matlab.unittest.TestCase
                 values = get_param(blocks{i},'MaskValues');
                 
                 % Check if the block is the global reference frame
-                if contains(names,{'simu','waves'})
+                if any(contains(names,{'simu','waves'}))
                     grfBlockHandle = getSimulinkBlockHandle(blocks{i});
-                    j = strcmp(names,'ParamInput');
-                    values(j) = 'Input File';
+                    mask = Simulink.Mask.get(grfBlockHandle);
                     
-                    j = strcmp(names,'explorer');
-                    values(j) = 'off';
+                    InputMethod = mask.getParameter('InputMethod');
+                    InputMethod.Value = 'Custom Parameters';
                     
-                    j = strcmp(names,'startTime');
-                    values(j) = 0;
-                    
-                    j = strcmp(names,'rampTime');
-                    values(j) = 2;
-                    
-                    j = strcmp(names,'endTime');
-                    values(j) = 4;
-                    
-                    j = strcmp(names,'dt');
-                    values(j) = 0.01;
-                    
-                    set_param(grfBlockHandle,'MaskValues',values);
+                    InputFile = mask.getParameter('InputFile');
+                    InputFile.Value = 'wecSimInputFile.m';
+                    loadInputFileCallback(grfBlockHandle);
                 end
             end
             save_system('fromSimCustom.slx');

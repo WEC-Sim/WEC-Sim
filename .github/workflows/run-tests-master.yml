@@ -14,7 +14,7 @@ jobs:
     strategy:
       fail-fast: false
       matrix:
-        release: [R2020a, R2020b, latest]
+        release: [R2020b, R2021a, latest]
     name: MATLAB ${{ matrix.release }}
     steps:
       - name: Check out repository
