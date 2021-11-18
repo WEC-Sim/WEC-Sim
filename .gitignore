@@ -1,5 +1,3 @@
-$ cat .gitignore
-
 # File Extensions
 *~
 *.acn
@@ -8,6 +6,7 @@ $ cat .gitignore
 *.asv
 *.autosave
 *.aux
+*.avi
 *.bak
 *.bat
 *.bbl
@@ -17,6 +16,7 @@ $ cat .gitignore
 *.dvi
 *.exp
 *.fig
+*.gif
 *.glg
 *.glo
 *.gls
@@ -41,6 +41,7 @@ $ cat .gitignore
 *.mtc3
 *.o
 *.obj
+*.ppt*
 *.slxc
 *.sublime-workspace
 *.sublime-project
@@ -64,7 +65,7 @@ $ cat .gitignore
 
 #Examples
 wecSimInputFile_simulinkCustomParameters.m
-**.slx.r2019b
+**.slx.*
 
 # Tests
 /tests/**/**/*.mat
@@ -90,3 +91,4 @@ docs/_build
 .DS_Store
 view_html.sh
 *vis-temp*
+*.pyc

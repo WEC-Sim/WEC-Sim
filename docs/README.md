@@ -1,6 +1,4 @@
-# Visit the [WEC-Sim website](http://wec-sim.github.io/WEC-Sim) for more information.
-
-## WEC-Sim Documentation
+# [WEC-Sim Documentation](http://wec-sim.github.io/WEC-Sim)
 
 ### Compile Instructions
 
@@ -14,7 +12,7 @@ replace slashes (`/`) in paths with backslashes (`\ `).
 2. Create the Sphinx environment:
    
    ```
-   > conda create -c conda-forge -n _wssphinx git click colorama colorclass future pip sphinxcontrib-bibtex sphinx_rtd_theme 
+   > conda create -c conda-forge -n _wssphinx git click colorama colorclass future pip sphinxcontrib-bibtex "sphinx_rtd_theme<1"
    > conda activate _wssphinx
    (_wssphinx) > pip install sphinxcontrib-matlabdomain sphinxext-remoteliteralinclude sphinx-multiversion
    (_wssphinx) > conda deactivate
@@ -37,7 +35,6 @@ To test the current branch, use the following:
 (_wssphinx) > conda deactivate
 >
 ```
-
 The front page of the docs can be accessed at 
 `docs/_build/html/index.html`. 
 
@@ -65,3 +62,34 @@ The front page of the docs can be accessed at
 The WEC-Sim docs are rebuilt automatically following every merge commit made 
 to the master or dev branch of the [WEC-Sim/WEC-Sim](
 https://github.com/WEC-Sim/WEC-Sim) repository.
+
+
+## Best Practices
+  - Start each sentence on a new line (use a text editor with text-wrapping)
+  - Whenever possible link to outside reference instead of write guidance available elsewhere (e.g. how to use Git, MATLAB/Simulink features)
+  - Whenever possible link to other sections of the documentation instead of writing similar information in multiple places
+  - Run spell check (not built into most text editors)
+  - ``sphinx-build -a -b html docs docs/_build/html` to build a clean verion of the website
+
+### Formatting Guidelines
+  - `$CASE` to refer to WEC-Sim case directory
+  - `$WECSIM` to refer to WEC-Sim directory
+  - `$WECSIM/source` to refer to WEC-Sim source directory
+  - `body(i)` or `pto(i)` to refer to an instance of a class
+  - `'<modelFile>.slx'` or `<wavePeriod>` when referring to user-input, but keep camelCase syntax
+  - `*.mat` syntax to refer to file extension
+  - use ``insert code`` to reference code
+  - Title `####` with overline
+  - Heading 1 `======`
+  - Heading 2 `------`
+  - Heading 3 `^^^^^^`
+  - Heading 4 `""""""`
+  - Heading 5 `++++++`
+  - Use this style guide: https://documentation-style-guide-sphinx.readthedocs.io/en/latest/style-guide.html
+
+### Terminology Guidelines
+  - post-processing (not postprocessing)
+  - pre-processing (not preprocessing)  
+  - nondimensional (not non-dimensional)
+  - nonlinear (not non-linear)
+  - drivetrain (not drive-train)

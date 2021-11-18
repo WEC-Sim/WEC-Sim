@@ -1,6 +1,5 @@
 function hydro = Read_NEMOH(hydro,filedir)
-
-%% Reads data from a NEMOH working folder.
+% Reads data from a NEMOH working folder.
 %
 % hydro = Read_NEMOH(hydro, filedir)
 %     hydro -   data structure
@@ -35,13 +34,11 @@ function hydro = Read_NEMOH(hydro,filedir)
     end
 
 %%
-
 [a,b] = size(hydro);  % Check on what is already there
-if b==1
-    if isfield(hydro(b),'Nb')==0  F = 1;
-    else  F = 2;
-    end
-elseif b>1  F = b+1;
+if b == 1 && ~isfield(hydro(b),'Nb')
+    F = 1;
+elseif b >= 1
+    F = b+1;
 end
 
 p = waitbar(0,'Reading NEMOH output file...');  % Progress bar
@@ -313,7 +310,7 @@ if exist(fullfile(resultsdir,'Kochin.    1.dat'),'file')==2
     w=hydro(F).w;
     depth=hydro(F).h;
     for j=1:nw
-        m0(j)=wave_number(w(j),depth);
+        m0(j)=waveNumber(w(j),depth);
         k0(j)=(w(j)^2)/9.81; % wave number at an infinite water depth
     
         local1=zeros(ntheta,nb_DOF*nBodies+1);

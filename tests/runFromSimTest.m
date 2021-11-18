@@ -56,10 +56,10 @@ classdef runFromSimTest < matlab.unittest.TestCase
                 values = get_param(blocks{i},'MaskValues');
                 
                 % Check if the block is the global reference frame
-                if contains(names,{'simu','waves'})
+                if any(contains(names,{'simu','waves'}))
                     grfBlockHandle = getSimulinkBlockHandle(blocks{i});
                     j = strcmp(names,'ParamInput');
-                    values(j) = 'Input File';
+                    values{j} = 'Input File';
                     
                     set_param(grfBlockHandle,'MaskValues',values);
                 end
@@ -74,6 +74,7 @@ classdef runFromSimTest < matlab.unittest.TestCase
             fprintf(fileID,'%s\n',"simu.rampTime = 2;");
             fprintf(fileID,'%s\n',"simu.endTime = 4;");
             fprintf(fileID,'%s\n',"simu.dt = 0.01;");
+            fprintf(fileID,'%s\n',"simu.simMechanicsFile = 'fromSimInput.slx';");
             fclose(fileID);
             
             bdclose('all');
@@ -88,25 +89,25 @@ classdef runFromSimTest < matlab.unittest.TestCase
                 values = get_param(blocks{i},'MaskValues');
                 
                 % Check if the block is the global reference frame
-                if contains(names,{'simu','waves'})
+                if any(contains(names,{'simu','waves'}))
                     grfBlockHandle = getSimulinkBlockHandle(blocks{i});
+                    % Fill parameters from input file
                     j = strcmp(names,'ParamInput');
-                    values(j) = 'Input File';
+                    values{j} = 'Input File';
                     
-                    j = strcmp(names,'explorer');
-                    values(j) = 'off';
+                    j = strcmp(names,'InputFile');
+                    values{j} = 'wecSimInputFile.m';
                     
-                    j = strcmp(names,'startTime');
-                    values(j) = 0;
+                    set_param(grfBlockHandle,'MaskValues',values);
+                    loadInputFileCallback(grfBlockHandle);
                     
-                    j = strcmp(names,'rampTime');
-                    values(j) = 2;
+                    % Load block parameters updated by input file
+                    names = get_param(blocks{i},'MaskNames');
+                    values = get_param(blocks{i},'MaskValues');
                     
-                    j = strcmp(names,'endTime');
-                    values(j) = 4;
-                    
-                    j = strcmp(names,'dt');
-                    values(j) = 0.01;
+                    % Change input method back to custom parameters
+                    j = strcmp(names,'ParamInput');
+                    values{j} = 'Custom Parameters';
                     
                     set_param(grfBlockHandle,'MaskValues',values);
                 end
@@ -134,7 +135,7 @@ classdef runFromSimTest < matlab.unittest.TestCase
             
             simFile = fullfile(testCase.runFromSimDir,'fromSimCustom.slx');
             load_system(simFile);
-            run('wecSimInitialize');
+            run('initializeWecSim');
             sim(simFile, [], simset('SrcWorkspace','current'));
             
             close_system(simFile,0);
@@ -148,7 +149,7 @@ classdef runFromSimTest < matlab.unittest.TestCase
             
             simFile = fullfile(testCase.runFromSimDir,'fromSimInput.slx');
             load_system(simFile);
-            run('wecSimInitialize');
+            run('initializeWecSim');
             sim(simFile, [], simset('SrcWorkspace','current'));
             
             close_system(simFile,0);

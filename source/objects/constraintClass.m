@@ -17,7 +17,6 @@
 % limitations under the License.
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
-
 classdef constraintClass<handle
     %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
     % The ``constraintClass`` creates a ``constraint`` object saved to the MATLAB
@@ -25,6 +24,8 @@ classdef constraintClass<handle
     % to define constraints between the body motion relative to the global reference 
     % frame or relative to other bodies. 
     %
+    %.. autoattribute:: objects.constraintClass.constraintClass            
+    %     
     %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
     
     properties (SetAccess = 'public', GetAccess = 'public')%input file 
