@@ -367,7 +367,7 @@ following features are available:
   to 999 kg and moment of inertia to [999 999 999] kg-m^2.
 
 * **Import STL** - to read in the geometry (``*.stl``) into Matlab use the 
-  :code:`body(i).bodyGeo` method in the bodyClass. This method will import the 
+  :code:`body(i).importBodyGeometry()` method in the bodyClass. This method will import the 
   mesh details (vertices, faces, normals, areas, centroids) into the 
   :code:`body(i).bodyGeometry` property. This method is also used for nonlinear 
   buoyancy and Froude-Krylov excitation and ParaView visualization files. Users 
@@ -427,42 +427,33 @@ When the nonlinear option is turned on, the geometry file (``*.stl``)
 (previously only used for visualization purposes in linear simulations) is used 
 as the discretized body surface on which the nonlinear pressure forces are 
 integrated. As in the linear case, the STL mesh origin must be at a body's center of gravity.
-A good STL mesh resolution is required for the WEC body geometry 
-file(s) when using the nonlinear buoyancy and Froude-Krylov wave excitation in 
+
+A good STL mesh resolution is required when using the nonlinear buoyancy and Froude-Krylov wave excitation in 
 WEC-Sim. The simulation accuracy will increase with increased surface 
 resolution (i.e. the number of discretized surface panels specified in the 
 ``*.stl`` file), but the computation time will also increase. 
-
 There are many ways to generate an STL file; however, it is important to verify 
 the quality of the mesh before running WEC-Sim simulations with the nonlinear 
 hydro flag turned on. An STL file can be exported from most CAD programs, but 
-few allow adequate mesh refinement. A good program to perform STL mesh 
-refinement is `Rhino <https://www.rhino3d.com/>`_. Some helpful resources 
-explaining how to generate and refine an STL mesh in Rhino can be found `on 
-Rhino's website <https://wiki.mcneel.com/rhino/meshfaqdetails>`_ and `on 
-Youtube <https://www.youtube.com/watch?v=CrlXAMPfHWI>`_. 
-
-.. Note::
-    
-    All STL files must be saved as ASCII (not binary)
- 
-**Refining STL File** -
-The script ``refineSTL`` in the BEMIO directory performs a simple mesh 
-refinement on an ``*.stl`` file by subdividing each panel with an area above 
-the specified threshold into four smaller panels with new vertices at the 
-mid-points of the original panel edges. This procedure is iterated for each 
-panel until all panels have an area below the specified threshold, as in the 
-example rectangle. 
+few allow adequate mesh refinement. By default, most CAD programs write an STL
+file similar to the left figure, with the minimum panels possible. 
+To accurately model nonlinear hydrodynamics in WEC-Sim, STL files should be refined to 
+have an aspect ratio close to one, and contain a high resolution in the vertical direction 
+so that an accurate instantaneous displaced volume can be calculated.
 
 .. figure:: /_static/images/rectangles.png 
    :width: 300pt 
    :align: center
 
-In this way, the each new panel retains the aspect ratio of the original panel. 
-Note that the linear discretization of curved edges is not refined via this 
-algorithm. The header comments of the function explain the inputs and outputs. 
-This function calls ``import_stl_fast``, included with the WEC-Sim 
-distribution, to import the ``.*stl`` file. 
+Many commercial and free software exist to convert between mesh formats and 
+refine STL files, including:
+
+* `Free CAD <https://www.freecadweb.org/>`_
+* `BEM Rosetta <https://github.com/BEMRosetta/BEMRosetta>`_
+* `Meshmagick <https://lheea.github.io/meshmagick/index.html>`_
+* `Coreform CUBIT <https://coreform.com/products/coreform-cubit/>`_ (commercial)
+* `Rhino <https://www.rhino3d.com/>`_ (commercial)
+
 
 .. _user-advanced-features-nonlinear-tutorial-heaving-ellipsoid:
 
@@ -859,7 +850,7 @@ By default, the cable is presumed neutrally buoyant and it is not subjected to f
 	
 The cable mass and fluid drag is modeled with a low-order lumped-capacitance method with 2 nodes. 
 The mass and fluid drag forces are exerted at nodes defined by the 2 drag bodies. 
-By default, one is co-located with the ``baseConnection``and the other with the ``followerConnection``. 
+By default, one is co-located with the ``baseConnection`` and the other with the ``followerConnection``. 
 The position of these bodies can be manipulated by changing the locations of the base or follower connections points.
 
 .. Note::

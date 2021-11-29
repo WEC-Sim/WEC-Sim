@@ -54,7 +54,7 @@ else
     % Get global reference frame parameters
     values = get_param([bdroot,'/Global Reference Frame'],'MaskValues');    % Cell array containing all Masked Parameter values
     names = get_param([bdroot,'/Global Reference Frame'],'MaskNames');      % Cell array containing all Masked Parameter names
-    j = find(strcmp(names,'ParamInput'));
+    j = find(strcmp(names,'InputMethod'));
     
     if strcmp(values{j},'Input File')
         % wecSim input from input file selected in Simulink block
@@ -229,8 +229,8 @@ end
 
 % Nonlinear hydro
 for kk = 1:length(body(1,:))
-    if (body(kk).nlHydro >0) || (simu.paraview == 1)
-        body(kk).bodyGeo(body(kk).geometryFile)
+    if (body(kk).nlHydro > 0) || (simu.paraview == 1)
+        body(kk).importBodyGeometry()
     end
 end; clear kk
 

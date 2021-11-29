@@ -15,7 +15,7 @@ function inputString = writeLineFromVar(defaultClass, variableName, maskVars, ma
 % Parameters
 % ------------
 %     defaultClass : WEC-Sim Object
-%         Instance of a WEC-Sim class. Must contain the variableName that is
+%         Default instance of a WEC-Sim class. Must contain the variableName that is
 %         being written to the input file
 % 
 %     variableName : string
@@ -30,7 +30,7 @@ function inputString = writeLineFromVar(defaultClass, variableName, maskVars, ma
 % 
 %     classNum : int
 %          Number specifying the index of a class being written
-%          i.e. body(1), pto(4), constraint(7), ...
+%          i.e. 1 for body(1), 4 for pto(4), 7 for constraint(7), ...
 % 
 %     structName : string
 %          Structure containing all mask parameter visibilities
@@ -43,15 +43,9 @@ function inputString = writeLineFromVar(defaultClass, variableName, maskVars, ma
 % TODO
 % ---- 
 %     Link mask tool tips with input line comments
+%
 
-classAbbrev = inputname(1);
-
-% append the class index if necessary. E.g. 'body' --> 'body(1)'
-if ~isempty(classNum)
-    classAbbrev = [classAbbrev '(' num2str(classNum) ')'];
-end
-
-% booleans to track 
+% Track if variable should be written
 hasStruct = ~isempty(structName); % check if variable is in a class' struct (correspond to a mask tab)
 isVisible = strcmp(maskViz.(variableName),'on'); % check if mask variable is visible
 
@@ -65,6 +59,12 @@ end
 % Only write parameters if they are visible (turned on and relevant) and
 % are different from the class default
 if isVisible && ~isDefault
+    % Append the class index if necessary. E.g. 'body' --> 'body(1)'
+    classAbbrev = inputname(1);
+    if ~isempty(classNum)
+        classAbbrev = [classAbbrev '(' num2str(classNum) ')'];
+    end
+    
     if hasStruct
         % e.g. 'body(1).initDisp.initLinDisp = [1 1 1]; \r\n'
         inputString = [classAbbrev '.' structName '.' variableName ' = ' maskVars.(variableName) '; \r\n'];

@@ -3,46 +3,41 @@ function bodyClassCallback(blockHandle)
 % morisonElement.option are changed. The visibility of the relevant mask
 % parameters are updated based on these options.
 
-values = get_param(blockHandle,'MaskValues');        % Get values of all Masked Parameters
-names = get_param(blockHandle,'MaskNames');          % Get names of all Masked Parameters
-
 %% Update Morison Element parameters
-% Find index of the morisonElement option flag
-j = find(strcmp(names,'option'));
-
-% get mask parameter controls for cd, ca, area, VME, rgME, z
+% Get mask parameter controls for all Morison element parameters
 mask = Simulink.Mask.get(blockHandle);
-cdParam = mask.getParameter('cd');
-caParam = mask.getParameter('ca');
-characteristicAreaParam = mask.getParameter('characteristicArea');
-VMEParam = mask.getParameter('VME');
-rgMEParam = mask.getParameter('rgME');
-zParam = mask.getParameter('z');
+option = mask.getParameter('option');
+cd = mask.getParameter('cd');
+ca = mask.getParameter('ca');
+characteristicArea = mask.getParameter('characteristicArea');
+VME = mask.getParameter('VME');
+rgME = mask.getParameter('rgME');
+z = mask.getParameter('z');
 
 % Change visibilities based on body.morisonElement.option selection
-if values{j,1} == '1' % X-Y-Z ME option
-    cdParam.Visible = 'on';
-    caParam.Visible = 'on';
-    characteristicAreaParam.Visible = 'on';
-    VMEParam.Visible = 'on';
-    rgMEParam.Visible = 'on';
-    zParam.Visible = 'off';
+if option.Value == '0'
+    cd.Visible = 'off';
+    ca.Visible = 'off';
+    characteristicArea.Visible = 'off';
+    VME.Visible = 'off';
+    rgME.Visible = 'off';
+    z.Visible = 'off';
     
-elseif values{j,1} == '2' % Normal-tangential ME option
-    cdParam.Visible = 'on';
-    caParam.Visible = 'on';
-    characteristicAreaParam.Visible = 'on';
-    VMEParam.Visible = 'on';
-    rgMEParam.Visible = 'on';
-    zParam.Visible = 'on';
+elseif option.Value == '1' % X-Y-Z ME option
+    cd.Visible = 'on';
+    ca.Visible = 'on';
+    characteristicArea.Visible = 'on';
+    VME.Visible = 'on';
+    rgME.Visible = 'on';
+    z.Visible = 'off';
     
-elseif values{j,1} == '0'
-    cdParam.Visible = 'off';
-    caParam.Visible = 'off';
-    characteristicAreaParam.Visible = 'off';
-    VMEParam.Visible = 'off';
-    rgMEParam.Visible = 'off';
-    zParam.Visible = 'off';
+elseif option.Value == '2' % Normal-tangential ME option
+    cd.Visible = 'on';
+    ca.Visible = 'on';
+    characteristicArea.Visible = 'on';
+    VME.Visible = 'on';
+    rgME.Visible = 'on';
+    z.Visible = 'on';
     
 end
 
@@ -52,32 +47,28 @@ end
 % If a body is nonhydro or drag, than these parameters must be defined by
 % the user.
 
-% Find index of the nhBody flag
-j = find(strcmp(names,'nhBody'));
-
-% get mask parameter controls for cg, cb, dof, volume
+% Get mask parameter controls for cg, cb, dof, volume
 mask = Simulink.Mask.get(blockHandle);
-nlHydroParam = mask.getParameter('nlHydro');
-cgParam = mask.getParameter('cg');
-cbParam = mask.getParameter('cb');
-dofParam = mask.getParameter('dof');
-dispVolParam = mask.getParameter('dispVol');
+nhBody = mask.getParameter('nhBody');
+cg = mask.getParameter('cg');
+cb = mask.getParameter('cb');
+dof = mask.getParameter('dof');
+dispVol = mask.getParameter('dispVol');
 
 % Change visibilities based on nhBody selection
-if values{j,1} == '1' || values{j,1} == '2'
-    nlHydroParam.Visible = 'off';
-    cgParam.Visible = 'on';
-    cbParam.Visible = 'on';
-    dofParam.Visible = 'on';
-    dispVolParam.Visible = 'on';
-    
-elseif values{j,1} == '0'
-    nlHydroParam.Visible = 'on';
-    cgParam.Visible = 'off';
-    cbParam.Visible = 'off';
-    dofParam.Visible = 'off';
-    dispVolParam.Visible = 'off';
-    
+switch nhBody.Value
+    case {'1','2'}
+        cg.Visible = 'on';
+        cb.Visible = 'on';
+        dof.Visible = 'on';
+        dispVol.Visible = 'on';
+        
+    case {'0'}
+        cg.Visible = 'off';
+        cb.Visible = 'off';
+        dof.Visible = 'off';
+        dispVol.Visible = 'off';
+        
 end
 
 end
