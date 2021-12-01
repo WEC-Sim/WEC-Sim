@@ -55,14 +55,14 @@ waves.T = 8;                            % Wave Period [s]
 
 %% Body Data
 % Float
-body(1) = bodyClass('hydroData/sphere.h5');      
+body(1) = bodyClass('hydroData/spherewamit.h5');      
     % Create the body(1) Variable, Set Location of Hydrodynamic Data File 
     % and Body Number Within this File.   
 body(1).geometryFile = 'geometry/float.stl';    % Location of Geomtry File
 body(1).mass = 'equilibrium';                   
     % Body Mass. The 'equilibrium' Option Sets it to the Displaced Water 
     % Weight.
-body(1).momOfInertia = [1e2 1e2 1e2];  %Moment of Inertia [kg*m^2]     
+body(1).momOfInertia = [1e1 1e1 1e1];  %Moment of Inertia [kg*m^2]     
 
 %%
 %{
@@ -74,7 +74,7 @@ constraint(1).orientation.z = [1 0 0];
 % Translational PTO
 pto(1) = ptoClass('PTO1');                      % Initialize PTO Class for PTO1
 pto(1).k = 0;                                   % PTO Stiffness [N/m]
-pto(1).c = 1e3;                             % PTO Damping [N/(m/s)]
+pto(1).c = 1e2;                             % PTO Damping [N/(m/s)]
 pto(1).loc = [0 0 0];                           % PTO Location [m]
 
 %{
