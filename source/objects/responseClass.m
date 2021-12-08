@@ -340,9 +340,9 @@ classdef responseClass<handle
             clear t FT FE FRD FR FV FM i
         end
         
-        function plotWaveBodyVisualization(obj,simu,body,waves,options)
-            % This method plots the wave elevation and body geometry over
-            % time to visualize the waves and response
+        function saveViz(obj,simu,body,waves,options)
+            % This method plots and saves the wave elevation and body 
+            % geometry over time to visualize the waves and response
             %
             % Parameters
             % ------------
@@ -422,12 +422,12 @@ classdef responseClass<handle
             
             if options.saveSetting == 0
                 % Create video file and open it for writing
-                video = VideoWriter('waveVisualization.avi'); 
+                video = VideoWriter('waveViz.avi'); 
                 video.FrameRate = 1/(simu.dtOut*options.timesPerFrame); 
                 open(video); 
             elseif options.saveSetting == 1
                 % Create the gif file
-                gifFilename = 'waveVisualization.gif';
+                gifFilename = 'waveViz.gif';
             end
             
             % Initialize figure and image counter
