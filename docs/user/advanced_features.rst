@@ -870,7 +870,7 @@ WEC-Sim Post-Processing
 
 WEC-Sim contains several built in methods inside the response class and wave 
 class to assist users in processing WEC-Sim output: ``output.plotForces``, 
-``output.plotResponse``, ``output.plotWaves``, ``waves.plotEta``, and
+``output.plotResponse``, ``output.saveViz``, ``waves.plotEta``, and
 ``waves.plotSpectrum``. This section will demonstrate the use of these methods. 
 They are fully documented in the WEC-Sim :ref:`user-api`.
 
@@ -979,10 +979,10 @@ For more information about using ParaView for visualization, refer to the **Wave
    Demonstration of visualization markers in SimScape Mechanics Explorer.
    
 
-Plot Waves
-^^^^^^^^^^
+Save Visualization
+^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
-The ``responseClass.plotWaves()`` method can be used to create a complete 
+The ``responseClass.saveViz()`` method can be used to create a complete 
 animation of the simulation. The animation shows the 3D response of all bodies
 over time on top of a surface plot of the entire directional wave field. The 
 default wave domain is defined by ``simu.domainSize``, ``waves.waterDepth``, and
@@ -995,7 +995,7 @@ than Paraview. Users are still recommended to use the provided Paraview macros f
 more complex animations and analysis.
 
 For example, in the OSWEC case the command 
-``output.plotWaves(simu,body,waves,'timesPerFrame',5,'axisLimits',[-50 50 -50 50 -12 20])``
+``output.saveViz(simu,body,waves,'timesPerFrame',5,'axisLimits',[-50 50 -50 50 -12 20])``
 results in the following figure:
 
 .. figure:: /_static/images/OSWEC_plotWaves.PNG
@@ -1003,7 +1003,7 @@ results in the following figure:
    :figwidth: 250pt
    :align: center
    
-   Demonstration of output.plotWaves() method for the OSWEC example.   
+   Demonstration of output.saveViz() method for the OSWEC example.   
 
 
 .. _user-advanced-features-paraview:
