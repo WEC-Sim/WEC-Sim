@@ -16,7 +16,7 @@
 
 function blkStruct = slblocks
 
-Browser.Library='PTOSim_Lib_Updated';
+Browser.Library='PTOSim_Lib_UpdatedV3';
 Browser.Name='PTO-Sim Updated';
 Browser.Choice=1; % Option to generate the required repository info in memory.
 
