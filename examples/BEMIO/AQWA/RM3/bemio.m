@@ -1,7 +1,7 @@
 clc; clear all; close all;
 hydro = struct();
 
-hydro = Read_AQWA(hydro, 'rm3.AH1', 'rm3.LIS');
+hydro = Read_AQWA(hydro, 'RM3.AH1', 'RM3.LIS');
 hydro = Radiation_IRF(hydro,150,[],[],[],[]);
 hydro = Radiation_IRF_SS(hydro,[],[]);
 hydro = Excitation_IRF(hydro,150,[],[],[],[]);
