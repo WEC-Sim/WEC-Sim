@@ -102,16 +102,17 @@ The WEC-Sim Option 1 implementation solves for the of the Morison Element Force 
       
    Schematic of the water flow vector decomposition reletive to the Morison Element orientation.
       
-Test Test
-=========
+Implementation
+==============
 
-In mathematics, for a given vector at a point on a surface, the vector can be uniquely decomposed into the sum of its tangential and normal components. The tangential component of the vector, :math:`v_{\parallel}`, is parallel to the surface while the normal component of the vectors, :math:`v_{\perp}`, is perpendicular to the surface. This property is used in relation to the ME’s central axis. The WEC-Sim input file was altered to consider a tangential and normal component for the drag coefficient [C_(d),C_(d)] , added mass coefficient [C_(a),C_(a)], characteristic area [A,A_(||)], and the central axis vector of the ME [z_x,z_y,z_z].
+In mathematics, for a given vector at a point on a surface, the vector can be uniquely decomposed into the sum of its tangential and normal components. The tangential component of the vector, :math:`v_{\parallel}`, is parallel to the surface while the normal component of the vectors, :math:`v_{\perp}`, is perpendicular to the surface which is used in relation to the central axis to the ME. The WEC-Sim input file was altered to consider a tangential and normal component for the drag coefficient [:math:`C_{d\perp}` , :math:`C_{d\parallel}`] , added mass coefficient [:math:`C_{a\perp}` , :math:`C_{a\parallel}`], characteristic area [:math:`A_{\perp}` , :math:`A_{\parallel}`], and the central axis vector of the ME [:math:`z_{x}` , :math:`z_{y}` , :math:`z_{z}`].
 
-Fluid velocity, fluid acceleration, WEC body velocity and WEC body acceleration are decomposed into tangential and normal components in the updated code. A general vector, k, can be decomposed into the tangential component as a projection of vector k on to the central axis z as follows:
-	
+A general vector, :math:`\vec{k}`, can be decomposed into the tangential component as a projection of vector k on to the central axis z as follows:
+
 .. math::
-  \vec{k}
+   \vec{k}_{\parallel} = \frac{\vec{z} \cdot \vec{k}}{ || \vec{z} || } \frac{ \vec{z} }{ || \vec{z} || }
+   
+As the vector :math:`\vec{k}` is uniquely decomposed into the sum of its tangential and normal components, the normal component can be defined as the difference between the vector :math:`\vec{k}` and its tangential component, in Equation 14.
 
-As the vector k is uniquely decomposed into the sum of its tangential and normal components, the normal component can be defined as the difference between the vector k and its tangential component, in Equation 14.
-
-The Morison equation for a moving body relative to fluid flow is modified to include the following decomposition of force components and consider the magnitude of the flow into Equation 15. 
+.. math::
+   \vec{k}_{\perp} = \vec{k} - \vec{k}_{\parallel}
