@@ -242,6 +242,11 @@ classdef responseClass<handle
             %         the number of MoorDyn lines
             %
             
+            arguments
+                obj
+                numLines {mustBeInteger(numLines)}
+            end
+            
             % load Lines.out
             filename = './Mooring/Lines.out';
             fid = fopen(filename, 'r');
@@ -283,7 +288,14 @@ classdef responseClass<handle
             %
             %     comp : integer
             %         the response component (i.e. dof) to be plotted (e.g. 1-6)   
-            %     
+            % 
+
+            arguments
+                obj
+                bodyNum {mustBeInteger(bodyNum)}
+                comp {mustBeMember(comp,1:6)}
+            end
+
             DOF = {'Surge','Sway','Heave','Roll','Pitch','Yaw'};
             t=obj.bodies(bodyNum).time;
             if comp < 4
@@ -314,7 +326,14 @@ classdef responseClass<handle
             %
             %     comp : integer
             %         the force component (i.e. dof) to be plotted (e.g. 1-6)
-            %     
+            %    
+            
+            arguments
+                obj
+                bodyNum {mustBeInteger(bodyNum)}
+                comp {mustBeMember(comp,1:6)}
+            end
+            
             DOF = {'Surge','Sway','Heave','Roll','Pitch','Yaw'};
             t=obj.bodies(bodyNum).time;
             FT=obj.bodies(bodyNum).forceTotal(:,comp);
@@ -381,7 +400,7 @@ classdef responseClass<handle
                 options.axisLimits (1,6) double {mustBeReal, mustBeNonNan, mustBeFinite} = [-simu.domainSize/2 simu.domainSize/2 -simu.domainSize/2 simu.domainSize/2 -waves.waterDepth -999];
                 options.timesPerFrame (1,1) double {mustBeReal, mustBeNonnegative, mustBeNonNan, mustBeFinite} = 1;
                 options.startEndTime (1,2) double {mustBeReal, mustBeNonnegative, mustBeNonNan} = [0 0];
-                options.saveSetting (1,1) double {mustBeNumericOrLogical} = 0;
+                options.saveSetting {mustBeMember(options.saveSetting,0:1)} = 0;
             end
             
             % Set time vector
@@ -517,6 +536,11 @@ classdef responseClass<handle
             % This method writes WEC-Sim outputs to a (ASCII) text file.
             % This method is executed by specifying ``simu.outputtxt=1``
             % in the ``wecSimInputFile.m``.
+            
+            arguments
+                obj
+            end
+            
             filename = ['output/wave.txt'];
             fid = fopen(filename,'w+');
             header = {'time','elevation'};

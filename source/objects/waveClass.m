@@ -142,7 +142,13 @@ classdef waveClass<handle
             % ------------
             %     figure : fig
             %         Plot of wave elevation versus time  
-            %            
+            %          
+            
+            arguments
+                obj
+                rampTime double {mustBeReal, mustBeNonNan, mustBeFinite} = 0
+            end
+            
             figure
             plot(obj.waveAmpTime(:,1),obj.waveAmpTime(:,2))
             title('Wave Surfave Elevation')
@@ -163,6 +169,11 @@ classdef waveClass<handle
             %     figure : fig
             %         Plot of wave spectrum versus wave frequency
             %                 
+            
+            arguments
+                obj
+            end
+            
             m0 = trapz(obj.w,obj.S);
             HsTest = 4*sqrt(m0);
             [~,I] = max(abs(obj.S));
