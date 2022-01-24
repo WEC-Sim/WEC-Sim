@@ -244,7 +244,7 @@ classdef responseClass<handle
             
             arguments
                 obj
-                numLines {mustBeInteger(numLines)}
+                numLines (1,1) double {mustBeInteger}
             end
             
             % load Lines.out
@@ -292,8 +292,8 @@ classdef responseClass<handle
 
             arguments
                 obj
-                bodyNum {mustBeInteger(bodyNum)}
-                comp {mustBeMember(comp,1:6)}
+                bodyNum (1,1) double {mustBeInteger}
+                comp (1,1) double {mustBeMember(comp,1:6)}
             end
 
             DOF = {'Surge','Sway','Heave','Roll','Pitch','Yaw'};
@@ -330,8 +330,8 @@ classdef responseClass<handle
             
             arguments
                 obj
-                bodyNum {mustBeInteger(bodyNum)}
-                comp {mustBeMember(comp,1:6)}
+                bodyNum (1,1) double {mustBeInteger}
+                comp (1,1) double {mustBeMember(comp,1:6)}
             end
             
             DOF = {'Surge','Sway','Heave','Roll','Pitch','Yaw'};
@@ -398,9 +398,9 @@ classdef responseClass<handle
                 body
                 waves
                 options.axisLimits (1,6) double {mustBeReal, mustBeNonNan, mustBeFinite} = [-simu.domainSize/2 simu.domainSize/2 -simu.domainSize/2 simu.domainSize/2 -waves.waterDepth -999];
-                options.timesPerFrame (1,1) double {mustBeReal, mustBeNonnegative, mustBeNonNan, mustBeFinite} = 1;
+                options.timesPerFrame (1,1) double {mustBeInteger, mustBePositive} = 1;
                 options.startEndTime (1,2) double {mustBeReal, mustBeNonnegative, mustBeNonNan} = [0 0];
-                options.saveSetting {mustBeMember(options.saveSetting,0:1)} = 0;
+                options.saveSetting (1,1) {mustBeMember(options.saveSetting,0:1)} = 0;
             end
             
             % Set time vector
