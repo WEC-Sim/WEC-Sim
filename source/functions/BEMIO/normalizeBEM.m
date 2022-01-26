@@ -1,5 +1,5 @@
 function hydro = normalizeBEM(hydro)
-% normalizeBEMs NEMOH and AQWA hydrodynamic coefficients in the same manner
+% Normalizes NEMOH and AQWA hydrodynamic coefficients in the same manner
 % that WAMIT outputs are normalized. Specifically,the linear restoring
 % stiffness is normalized as, C(i,j)/(rho*g); added mass is normalized as,
 % A(i,j)/rho; radiation damping is normalized as, B(i,j)/(rho*w); and,

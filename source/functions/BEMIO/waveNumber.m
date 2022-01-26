@@ -63,31 +63,31 @@ twopi = 2*pi; %Internal variable
     v = 0;  %current velocity in y direction [m/s]
 % end
 
-%Make initial guess with Guo (2002)
+% Make initial guess with Guo (2002)
 xi = wa./sqrt(g./h); %note: =h*wa/sqrt(h*g/h)
 yi = xi.*xi/(1.0-exp(-xi.^2.4908)).^0.4015;
 wki = yi/h; %Initial guess without current-wave interaction
 
-%Current velocity in wave direction
+% Current velocity in wave direction
 uk = cos(wd).*u + sin(wd).*v; 
 
-%Simple correction for currents (tends to overcorrect, hense the relaxation)
+% Simple correction for currents (tends to overcorrect, hense the relaxation)
 wki = 0.3*wki + 0.7*(wa-wki.*uk).^2./(g*tanh(wki.*h));
 
-%Save wavenumber for iteration
+% Save wavenumber for iteration
 wk = wki; 
 
-%Save for screen output
+% Save for screen output
 if nargin==0
     wleni = twopi./wki; %initial wave length [m]
 end
 
-%Set default tolerance
+% Set default tolerance
 if nargin<7
     tol = 0.0001; %default tolerance for Newton-Raphson iteration loop
 end
 
-%Main loop for Newton-Raphson iteration
+% Main loop for Newton-Raphson iteration
 for iter=1:10
     sig = wa-wk.*uk; 
     tanhkh = tanh(wk.*h);
@@ -101,7 +101,7 @@ for iter=1:10
     wki = wk;
 end
 
-%Compute final error in dispersion relation if needed
+% Compute final error in dispersion relation if needed
 if nargout>=2 || nargin==0
     sig = wa-wk.*uk; 
     tanhkh = tanh(wk.*h);
@@ -109,7 +109,7 @@ if nargout>=2 || nargin==0
     err(iblk) = NaN;
 end
 
-%Screen output for demo
+% Screen output for demo
 if nargin==0
     wlen = twopi./wk;   %final wave length [m]
     disp('Initial Wave Length = ')

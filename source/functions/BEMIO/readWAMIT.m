@@ -1,10 +1,10 @@
-function hydro = readWAMIT(hydro,filename,ex_coeff)
+function hydro = readWAMIT(hydro,filename,exCoeff)
 % Reads data from a WAMIT output file.
 %
-% hydro = readWAMIT(hydro, filename, ex_coeff)
+% hydro = readWAMIT(hydro, filename, exCoeff)
 %     hydro –     data structure
 %     filename –  WAMIT output file
-%     ex_coeff -  flag indicating the type of excitation force coefficients
+%     exCoeff -  flag indicating the type of excitation force coefficients
 %                 to read, ‘diffraction’ (default, []), ‘haskind’, or ‘rao’
 %
 % See ‘...WEC-Sim\examples\BEMIO\WAMIT...’ for examples of usage.
@@ -23,7 +23,7 @@ end
 p = waitbar(0,'Reading WAMIT output file...');  % Progress bar
 e = 0;
 
-if isempty(ex_coeff)==1;  ex_coeff = 'diffraction';  end  % 'diffraction' or 'haskind'
+if isempty(exCoeff)==1;  exCoeff = 'diffraction';  end  % 'diffraction' or 'haskind'
 
 hydro(F).code = 'WAMIT';
 [filepath,name,ext] = fileparts(filename);
@@ -109,11 +109,11 @@ for n = 1:N
         end
     end
     if ((isempty(strfind(raw{n},'HASKIND EXCITING FORCES AND MOMENTS'))==0 & ...
-            strcmp(ex_coeff,'haskind')==1) |...
+            strcmp(exCoeff,'haskind')==1) |...
             (isempty(strfind(raw{n},'DIFFRACTION EXCITING FORCES AND MOMENTS'))==0 & ...
-            strcmp(ex_coeff,'diffraction')==1) |...
+            strcmp(exCoeff,'diffraction')==1) |...
             (isempty(strfind(raw{n},'RESPONSE AMPLITUDE OPERATORS'))==0 & ...
-            strcmp(ex_coeff,'rao')==1))
+            strcmp(exCoeff,'rao')==1))
         hydro(F).Nh = 0;  % Number of wave headings
         i = n+1;
         while isempty(strfind(raw{i},'Wave Heading'))==0

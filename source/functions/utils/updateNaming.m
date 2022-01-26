@@ -38,9 +38,9 @@ for i = 1:length(fileList)
     rawNew = strrep(raw,oldVariableName,newVariableName);
 
     % Write updated file
-%     [filepath,name,ext] = fileparts(filename);
-%     newFilename = fullfile(filepath,[name '_v5' ext]);
-    newFilename = filename;
+    [filepath,name,ext] = fileparts(filename);
+    newFilename = fullfile(filepath,[name '_v5' ext]);
+%     newFilename = filename;
     fileID = fopen(newFilename,'w');
     fprintf(fileID,'%s',rawNew);
     fclose(fileID);

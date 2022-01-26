@@ -1,16 +1,16 @@
-function hydro = radiationIRF(hydro,t_end,n_t,n_w,w_min,w_max)
+function hydro = radiationIRF(hydro,tEnd,nDt,nDw,wMin,wMax)
 % Calculates the normalized radiation impulse response function.
 % 
-% hydro = radiationIRF(hydro, t_end, n_t, n_w, w_min, w_max)
+% hydro = radiationIRF(hydro, tEnd, nDt, nDw, wMin, wMax)
 %     hydro – data structure
-%     t_end – calculation range for the IRF, where the IRF is calculated from
-%             t = 0 to t_end, and the default is 100 s
-%     n_t –   number of time steps in the IRF, the default is 1001
-%     n_w –   number of frequency steps used in the IRF calculation (hydrodynamic
+%     tEnd – calculation range for the IRF, where the IRF is calculated from
+%             t = 0 to tEnd, and the default is 100 s
+%     nDt –   number of time steps in the IRF, the default is 1001
+%     nDw –   number of frequency steps used in the IRF calculation (hydrodynamic
 %             coefficients are interpolated to correspond), the default is 1001
-%     w_min – minimum frequency to use in the IRF calculation, the default is
+%     wMin – minimum frequency to use in the IRF calculation, the default is
 %             the minimum frequency from the BEM data
-%     w_max – maximum frequency to use in the IRF calculation, the default is
+%     wMax – maximum frequency to use in the IRF calculation, the default is
 %             the maximum frequency from the BEM data
 % 
 % Default values are indicated by [].
@@ -19,15 +19,15 @@ function hydro = radiationIRF(hydro,t_end,n_t,n_w,w_min,w_max)
 p = waitbar(0,'Calculating radiation IRFs...');  % Progress bar
 
 % Set defaults if empty
-if isempty(t_end)==1;  t_end = 100;           end
-if isempty(n_t)==1;    n_t = 1001;            end
-if isempty(n_w)==1;    n_w = 1001;            end
-if isempty(w_min)==1;  w_min = min(hydro.w);  end
-if isempty(w_max)==1;  w_max = max(hydro.w);  end
+if isempty(tEnd)==1;  tEnd = 100;           end
+if isempty(nDt)==1;    nDt = 1001;            end
+if isempty(nDw)==1;    nDw = 1001;            end
+if isempty(wMin)==1;  wMin = min(hydro.w);  end
+if isempty(wMax)==1;  wMax = max(hydro.w);  end
 
 % Interpolate to the given t and w
-t = linspace(0,t_end,n_t);
-w = linspace(w_min,w_max,n_w);
+t = linspace(0,tEnd,nDt);
+w = linspace(wMin,wMax,nDw);
 N = length(t)*sum(hydro.dof)*sum(hydro.dof);
 
 % Calculate the impulse response function for radiation

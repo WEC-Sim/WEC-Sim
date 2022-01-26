@@ -20,15 +20,15 @@ function data = loadH5(filename, path)
 
 
 if nargin > 1
-  path_parts = regexp(path, '/', 'split');
+  pathParts = regexp(path, '/', 'split');
 else
   path = '';
-  path_parts = [];
+  pathParts = [];
 end
 
 loc = H5F.open(filename, 'H5F_ACC_RDONLY', 'H5P_DEFAULT');
 try
-  data = load_one(loc, path_parts, path);
+  data = loadOne(loc, pathParts, path);
   H5F.close(loc);
 catch exc
   H5F.close(loc);
@@ -36,11 +36,11 @@ catch exc
 end
 
 
-function data=load_one(loc, path_parts, full_path)
+function data = loadOne(loc, pathParts, fullPath)
 % Load a record recursively.
 
-while ~isempty(path_parts) && strcmp(path_parts{1}, '')
-  path_parts = path_parts(2:end);
+while ~isempty(pathParts) && strcmp(pathParts{1}, '')
+  pathParts = pathParts(2:end);
 end
 
 data = struct();
@@ -50,7 +50,7 @@ num_objs = H5G.get_num_objs(loc);
 % 
 % Load groups and datasets
 %
-for j_item=0:num_objs-1,
+for j_item = 0:num_objs-1
   objtype = H5G.get_objtype_by_idx(loc, j_item);
   objname = H5G.get_objname_by_idx(loc, j_item);
 
@@ -61,20 +61,20 @@ for j_item=0:num_objs-1,
     % Group
     name = regexprep(objname, '.*/', '');
   
-    if isempty(path_parts) || strcmp(path_parts{1}, name)
+    if isempty(pathParts) || strcmp(pathParts{1}, name)
       if ~isempty(regexp(name,'^[a-zA-Z].*','ONCE'))
-	group_loc = H5G.open(loc, name);
+	groupLoc = H5G.open(loc, name);
 	try
-	  sub_data = load_one(group_loc, path_parts(2:end), full_path);
-	  H5G.close(group_loc);
+	  subData = loadOne(groupLoc, pathParts(2:end), fullPath);
+	  H5G.close(groupLoc);
 	catch exc
-	  H5G.close(group_loc);
+	  H5G.close(groupLoc);
 	  rethrow(exc);
 	end
-	if isempty(path_parts)
-      data.(name) = sub_data;
+	if isempty(pathParts)
+      data.(name) = subData;
 	else
-	  data = sub_data;
+	  data = subData;
 	  return
 	end
       end
@@ -84,24 +84,24 @@ for j_item=0:num_objs-1,
     % Dataset
     name = regexprep(objname, '.*/', '');
   
-    if isempty(path_parts) || strcmp(path_parts{1}, name)
+    if isempty(pathParts) || strcmp(pathParts{1}, name)
       if ~isempty(regexp(name,'^[a-zA-Z].*','ONCE'))
-	dataset_loc = H5D.open(loc, name);
+	datasetLoc = H5D.open(loc, name);
 	try
-	  sub_data = H5D.read(dataset_loc, ...
+	  subData = H5D.read(datasetLoc, ...
 	      'H5ML_DEFAULT', 'H5S_ALL','H5S_ALL','H5P_DEFAULT');
-	  H5D.close(dataset_loc);
+	  H5D.close(datasetLoc);
 	catch exc
-	  H5D.close(dataset_loc);
+	  H5D.close(datasetLoc);
 	  rethrow(exc);
 	end
 	
-	sub_data = fix_data(sub_data);
+	subData = fixData(subData);
 	
-	if isempty(path_parts)
-      data.(name) = sub_data;
+	if isempty(pathParts)
+      data.(name) = subData;
 	else
-	  data = sub_data;
+	  data = subData;
 	  return
 	end
       end
@@ -110,12 +110,12 @@ for j_item=0:num_objs-1,
 end
 
 % Check that we managed to load something if path walking is in progress
-if ~isempty(path_parts)
-  error('Path "%s" not found in the HDF5 file', full_path);
+if ~isempty(pathParts)
+  error('Path "%s" not found in the HDF5 file', fullPath);
 end
 
 
-function data=fix_data(data)
+function data = fixData(data)
 % Fix some common types of data to more friendly form.
 
 if isstruct(data)

@@ -1,11 +1,11 @@
-function h5bemWriteParameters(filename, wave_dir, water_depth, w, T)
+function h5bemWriteParameters(filename, waveDir, waterDepth, w, T)
 	% Function to write the simulation parameters to an existing 
     %     WEC-Sim/BEMIO-formatted h5 file
 	%
 	% inputs:
 	% 	filename:       string name of file to modify
-	%	wave_dir:       vector of wave directions in degrees
-	%	water_depth:    scalar water depth in meters
+	%	waveDir:       vector of wave directions in degrees
+	%	waterDepth:    scalar water depth in meters
 	% 	w:              vector of frequencies in radians per second
 	%	T:              vector of periods in seconds
 	%
@@ -13,8 +13,8 @@ function h5bemWriteParameters(filename, wave_dir, water_depth, w, T)
 	%	modified file
 	%
 
-	h5write(filename,['/simulation_parameters/wave_dir'], wave_dir);
-	h5write(filename,['/simulation_parameters/water_depth'], water_depth);
+	h5write(filename,['/simulation_parameters/wave_dir'], waveDir);
+	h5write(filename,['/simulation_parameters/water_depth'], waterDepth);
 	h5write(filename,['/simulation_parameters/w'], w);
 	h5write(filename,['/simulation_parameters/T'], T);
 end
