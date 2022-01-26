@@ -1,4 +1,4 @@
-function h5bem_create(filename, numBodies, numFreq, numWaveDir, bodyNames, scaled)
+function h5bemCreate(filename, numBodies, numFreq, numWaveDir, bodyNames, scaled)
 	% Function to create a WEC-Sim/BEMIO-formatted h5 file and populate 
     %     the string datasets
 	%

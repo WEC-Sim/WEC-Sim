@@ -1,4 +1,4 @@
-function h5bem_writeParameters(filename, wave_dir, water_depth, w, T)
+function h5bemWriteParameters(filename, wave_dir, water_depth, w, T)
 	% Function to write the simulation parameters to an existing 
     %     WEC-Sim/BEMIO-formatted h5 file
 	%

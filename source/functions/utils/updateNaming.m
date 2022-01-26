@@ -1,4 +1,8 @@
 function updateNaming(fileList,oldVariableName,newVariableName)
+% This file will read EVERY file in fileList and replace the
+% old variable name with the specified new name.
+% To make this rewriting less dangerous, the updated file has "_v5"
+% appended to the name so that a new file is created.
 arguments
     fileList (1,:) cell;
     oldVariableName (1,1) string;
@@ -34,9 +38,9 @@ for i = 1:length(fileList)
     rawNew = strrep(raw,oldVariableName,newVariableName);
 
     % Write updated file
-    [filepath,name,ext] = fileparts(filename);
-    newFilename = fullfile(filepath,[name '_v5' ext]);
-%     newFilename = filename;
+%     [filepath,name,ext] = fileparts(filename);
+%     newFilename = fullfile(filepath,[name '_v5' ext]);
+    newFilename = filename;
     fileID = fopen(newFilename,'w');
     fprintf(fileID,'%s',rawNew);
     fclose(fileID);

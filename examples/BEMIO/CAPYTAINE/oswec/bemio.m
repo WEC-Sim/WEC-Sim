@@ -10,4 +10,4 @@ hydro = radiationIRF(hydro,40,[],[],[],[]);
 hydro = radiationIRFSS(hydro,[],[]);
 hydro = excitationIRF(hydro,75,[],[],[],[]);
 writeH5(hydro)
-plotBemio(hydro)
+plotBEMIO(hydro)

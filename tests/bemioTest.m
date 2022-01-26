@@ -68,7 +68,7 @@ classdef bemioTest < matlab.unittest.TestCase
             hydro = radiationIRFSS(hydro,[],[]);
             hydro = excitationIRF(hydro,5,[],[],[],[]);
             writeH5(hydro)
-            plotBemio(hydro)            
+            plotBEMIO(hydro)            
         end        
         function read_wamit(testCase)
             cd(fullfile(testCase.wamitDir,'RM3'))

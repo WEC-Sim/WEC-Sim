@@ -51,7 +51,7 @@ hydro = excitationIRF(hydro,20,[],[],[],[]);
 writeH5(hydro)
 
 %% Plot a few key BEMIO results *optional*
-plotBemio(hydro)
+plotBEMIO(hydro)
 
 %% hydro structure
 % A       : [sum(dof),sum(dof),Nf]           : added mass
