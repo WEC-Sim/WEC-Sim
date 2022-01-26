@@ -1,7 +1,7 @@
-function hydro = Read_AQWA(hydro,ah1_filename,lis_filename)
+function hydro = readAQWA(hydro,ah1_filename,lis_filename)
 % Reads data from AQWA output files.
 %
-% hydro = Read_AQWA(hydro, ah1_filename, lis_filename)
+% hydro = readAQWA(hydro, ah1_filename, lis_filename)
 %     hydro -         data structure
 %     ah1_filename -  .AH1 AQWA output file
 %     lis_filename -  .LIS AQWA output file
@@ -247,7 +247,7 @@ for ln=1:length(raw2)
     
 end
 %%
-hydro = Normalize(hydro);  % Normalize the data according the WAMIT convention
+hydro = normalizeBEM(hydro);  % normalizeBEM the data according the WAMIT convention
 close(p);
 assignin('base','hydro',hydro);
 end

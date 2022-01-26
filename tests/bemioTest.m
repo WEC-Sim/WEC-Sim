@@ -46,11 +46,11 @@ classdef bemioTest < matlab.unittest.TestCase
         function combine_bem(testCase)
             cd(fullfile(testCase.capytaineDir, 'cylinder'))            
             hydro = struct();
-            hydro = Read_CAPYTAINE(hydro, 'cylinder_full.nc');
-            hydro = Read_NEMOH(hydro,   ...
+            hydro = readCAPYTAINE(hydro, 'cylinder_full.nc');
+            hydro = readNEMOH(hydro,   ...
                                fullfile('..', '..', 'NEMOH', 'Cylinder'));
             hydro(end).body = {'cylinder_nemoh'};
-            hydro = Read_WAMIT(hydro,               ...
+            hydro = readWAMIT(hydro,               ...
                                fullfile('..',       ...
                                         '..',       ...
                                         'WAMIT',    ...
@@ -58,37 +58,37 @@ classdef bemioTest < matlab.unittest.TestCase
                                         'cyl.out'), ...
                                []);
             hydro(end).body = {'cylinder_wamit'};
-            Combine_BEM(hydro);            
+            combineBEM(hydro);            
         end        
         function complete_BEMIO(testCase)
             cd(fullfile(testCase.nemohDir,'Cylinder'))            
             hydro = struct();
-            hydro = Read_NEMOH(hydro, fullfile('..', 'Cylinder'));
-            hydro = Radiation_IRF(hydro,5,[],[],[],[]);
-            hydro = Radiation_IRF_SS(hydro,[],[]);
-            hydro = Excitation_IRF(hydro,5,[],[],[],[]);
-            Write_H5(hydro)
-            Plot_BEMIO(hydro)            
+            hydro = readNEMOH(hydro, fullfile('..', 'Cylinder'));
+            hydro = radiationIRF(hydro,5,[],[],[],[]);
+            hydro = radiationIRFSS(hydro,[],[]);
+            hydro = excitationIRF(hydro,5,[],[],[],[]);
+            writeH5(hydro)
+            plotBemio(hydro)            
         end        
         function read_wamit(testCase)
             cd(fullfile(testCase.wamitDir,'RM3'))
             hydro = struct();
-            Read_WAMIT(hydro,'rm3.out',[]);
+            readWAMIT(hydro,'rm3.out',[]);
         end        
         function read_nemoh(testCase)
             cd(fullfile(testCase.nemohDir,'RM3'))
             hydro = struct();
-            Read_NEMOH(hydro, fullfile('..', 'RM3'));
+            readNEMOH(hydro, fullfile('..', 'RM3'));
         end        
         function read_capytaine(testCase)
             cd(fullfile(testCase.capytaineDir,'rm3'))
             hydro = struct();
-            Read_CAPYTAINE(hydro, 'rm3_full.nc');
+            readCAPYTAINE(hydro, 'rm3_full.nc');
         end        
         function read_aqwa(testCase)
             cd(fullfile(testCase.aqwaDir,'RM3'))
             hydro = struct();
-            hydro = Read_AQWA(hydro,'RM3.AH1','RM3.LIS');
+            hydro = readAQWA(hydro,'RM3.AH1','RM3.LIS');
         end
     end
 end

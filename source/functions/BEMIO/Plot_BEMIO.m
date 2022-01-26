@@ -1,17 +1,17 @@
-function Plot_BEMIO(hydro)
+function plotBemio(hydro)
 % Plots the added mass, radiation damping, radiation IRF, excitation force magnitude, excitation force phase, and excitation IRF for each body in the heave, surge and pitch degrees of freedom.
 % 
-% Plot_BEMIO(hydro)
-%     hydro – data structure
+% plotBemio(hydro)
+%     hydro â€“ data structure
 % 
-% See ‘...WEC-Sim\examples\BEMIO...’ for examples of usage.
+% See â€˜...WEC-Sim\examples\BEMIO...â€™ for examples of usage.
 
-p = waitbar(0,'Plotting BEMIO results…');  % Progress bar
+p = waitbar(0,'Plotting BEMIO resultsâ€¦');  % Progress bar
 
 %% Added Mass
 clear X Y Legends
 Fig1 = figure('Position',[50,500,975,521]);
-Title = ['Normalized Added Mass: $$\bar{A}_{i,j}(\omega) = {\frac{A_{i,j}(\omega)}{\rho}}$$'];
+Title = ['normalizeBEMd Added Mass: $$\bar{A}_{i,j}(\omega) = {\frac{A_{i,j}(\omega)}{\rho}}$$'];
 Subtitles = {'Surge','Heave','Pitch'};
 XLables = {'$$\omega (rad/s)$$','$$\omega (rad/s)$$','$$\omega (rad/s)$$'};
 YLables = {'$$\bar{A}_{1,1}(\omega)$$','$$\bar{A}_{3,3}(\omega)$$','$$\bar{A}_{5,5}(\omega)$$'};
@@ -40,7 +40,7 @@ waitbar(1/6);
 %% Radiation Damping
 clear X Y Legends
 Fig2 = figure('Position',[50,300,975,521]);
-Title = ['Normalized Radiation Damping: $$\bar{B}_{i,j}(\omega) = {\frac{B_{i,j}(\omega)}{\rho\omega}}$$'];
+Title = ['normalizeBEMd Radiation Damping: $$\bar{B}_{i,j}(\omega) = {\frac{B_{i,j}(\omega)}{\rho\omega}}$$'];
 Subtitles = {'Surge','Heave','Pitch'};
 XLables = {'$$\omega (rad/s)$$','$$\omega (rad/s)$$','$$\omega (rad/s)$$'};
 YLables = {'$$\bar{B}_{1,1}(\omega)$$','$$\bar{B}_{3,3}(\omega)$$','$$\bar{B}_{5,5}(\omega)$$'};
@@ -69,7 +69,7 @@ waitbar(2/6);
 %% Radiation IRFs
 clear X Y Legends
 Fig3 = figure('Position',[50,100,975,521]);
-Title = ['Normalized Radiation Impulse Response Functions: ',...
+Title = ['normalizeBEMd Radiation Impulse Response Functions: ',...
     '$$\bar{K}_{i,j}(t) = {\frac{2}{\pi}}\int_0^{\infty}{\frac{B_{i,j}(\omega)}{\rho}}\cos({\omega}t)d\omega$$'];
 Subtitles = {'Surge','Heave','Pitch'};
 XLables = {'$$t (s)$$','$$t (s)$$','$$t (s)$$'};
@@ -111,7 +111,7 @@ waitbar(3/6);
 B=1;  % Wave heading index
 clear X Y Legends
 Fig4 = figure('Position',[950,500,975,521]);
-Title = ['Normalized Excitation Force Magnitude: ',...
+Title = ['normalizeBEMd Excitation Force Magnitude: ',...
     '$$\bar{X_i}(\omega,\beta) = {\frac{X_i(\omega,\beta)}{{\rho}g}}$$'];
 Subtitles = {'Surge','Heave','Pitch'};
 XLables = {'$$\omega (rad/s)$$','$$\omega (rad/s)$$','$$\omega (rad/s)$$'};
@@ -164,7 +164,7 @@ waitbar(5/6);
 B=1;  % Wave heading index
 clear X Y Legends
 Fig6 = figure('Position',[950,100,975,521]);
-Title = ['Normalized Excitation Impulse Response Functions:   ',...
+Title = ['normalizeBEMd Excitation Impulse Response Functions:   ',...
     '$$\bar{K}_i(t) = {\frac{1}{2\pi}}\int_{-\infty}^{\infty}{\frac{X_i(\omega,\beta)e^{i{\omega}t}}{{\rho}g}}d\omega$$'];
 Subtitles = {'Surge','Heave','Pitch'};
 XLables = {'$$t (s)$$','$$t (s)$$','$$t (s)$$'};
@@ -196,10 +196,10 @@ waitbar(6/6);
 close(p);
 % saveas(Fig1,'Added_Mass.png');
 % saveas(Fig2,'Radiation_Damping.png');
-% saveas(Fig3,'Radiation_IRFs.png');
+% saveas(Fig3,'radiationIRFs.png');
 % saveas(Fig4,'Excitation_Magnitude.png');
 % saveas(Fig5,'Excitation_Phase.png');
-% saveas(Fig6,'Excitation_IRFs.png');
+% saveas(Fig6,'excitationIRFs.png');
 end
 
 

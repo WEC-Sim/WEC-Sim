@@ -1,8 +1,8 @@
 hydro = struct();
 
-hydro = Read_WAMIT(hydro,'wec3.out',[]);
-hydro = Radiation_IRF(hydro,160,[],[],[],[]);
-hydro = Radiation_IRF_SS(hydro,[],[]);
-hydro = Excitation_IRF(hydro,160,[],[],[],[]);
-Write_H5(hydro)
-Plot_BEMIO(hydro)
+hydro = readWAMIT(hydro,'wec3.out',[]);
+hydro = radiationIRF(hydro,160,[],[],[],[]);
+hydro = radiationIRFSS(hydro,[],[]);
+hydro = excitationIRF(hydro,160,[],[],[],[]);
+writeH5(hydro)
+plotBemio(hydro)

@@ -1,10 +1,10 @@
-function Write_H5(hydro)
+function writeH5(hydro)
 % Writes the hydro data structure to a .h5 file.
 %
-% Write_H5(hydro)
-%     hydro – data structure
+% writeH5(hydro)
+%     hydro â€“ data structure
 %
-% See ‘…\WEC-Sim\tutorials\BEMIO\...’ for examples of usage.
+% See â€˜â€¦\WEC-Sim\tutorials\BEMIO\...â€™ for examples of usage.
 
 p = waitbar(0,'Writing data in h5 format...');  % Progress bar
 N = 1+(1+1+1)*hydro.Nb;  % Rough division of tasks

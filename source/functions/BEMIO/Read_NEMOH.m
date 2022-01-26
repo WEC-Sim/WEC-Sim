@@ -1,7 +1,7 @@
-function hydro = Read_NEMOH(hydro,filedir)
+function hydro = readNEMOH(hydro,filedir)
 % Reads data from a NEMOH working folder.
 %
-% hydro = Read_NEMOH(hydro, filedir)
+% hydro = readNEMOH(hydro, filedir)
 %     hydro -   data structure
 %     filedir - NEMOH working folder, must include:
 %         - Nemoh.cal
@@ -346,7 +346,7 @@ end
 
 waitbar(8/8);
 
-hydro = Normalize(hydro);  % Normalize the data according the WAMIT convention
+hydro = normalizeBEM(hydro);  % normalizeBEM the data according the WAMIT convention
 
 close(p);
 end

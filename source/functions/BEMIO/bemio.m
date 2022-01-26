@@ -21,37 +21,37 @@
 hydro = struct();
 
 %% Parse a WAMIT output file
-hydro = Read_WAMIT(hydro,'..\..\..\examples\BEMIO\WAMIT\RM3\rm3.out',[]);
+hydro = readWAMIT(hydro,'..\..\..\examples\BEMIO\WAMIT\RM3\rm3.out',[]);
 
 %% Parse a NEMOH output directory
-% hydro = Read_NEMOH(hydro,'..\..\..\examples\BEMIO\NEMOH\RM3\');
+% hydro = readNEMOH(hydro,'..\..\..\examples\BEMIO\NEMOH\RM3\');
 
 %% Parse AQWA output files
-% hydro = Read_AQWA(hydro,'..\..\..\examples\BEMIO\AQWA\Example\aqwa_example_data.AH1','..\..\..\tutorials\BEMIO\AQWA\Example\aqwa_example_data.LIS');
+% hydro = readAQWA(hydro,'..\..\..\examples\BEMIO\AQWA\Example\aqwa_example_data.AH1','..\..\..\tutorials\BEMIO\AQWA\Example\aqwa_example_data.LIS');
 
 %% Parse CAPYTAINE output file
-% hydro = Read_CAPYTAINE(hydro,'..\..\..\examples\BEMIO\Capytaine\RM3\rm3_full.nc');
+% hydro = readCAPYTAINE(hydro,'..\..\..\examples\BEMIO\Capytaine\RM3\rm3_full.nc');
 
 %% Combine multiple BEM outputs, if using multiple BEM outputs
-% hydro = Combine_BEM(hydro);
+% hydro = combineBEM(hydro);
 
 %% Calculate the IRF for radiation
-% hydro = Radiation_IRF(hydro,t_end,n_t,n_w,w_min,w_max), [] for defaults
-hydro = Radiation_IRF(hydro,20,[],[],[],[]);
+% hydro = radiationIRF(hydro,t_end,n_t,n_w,w_min,w_max), [] for defaults
+hydro = radiationIRF(hydro,20,[],[],[],[]);
 
 %% Calculate the approximate state space IRF for radiation, if using state space
-% hydro = Radiation_IRF_SS(hydro,order_max,R2_min), [] for defaults
-hydro = Radiation_IRF_SS(hydro,[],[]);
+% hydro = radiationIRFSS(hydro,order_max,R2_min), [] for defaults
+hydro = radiationIRFSS(hydro,[],[]);
 
 %% Calculate the IRF for excitation
-% hydro = Excitation_IRF(hydro,t_end,n_t,n_w,w_min,w_max), [] for defaults
-hydro = Excitation_IRF(hydro,20,[],[],[],[]);
+% hydro = excitationIRF(hydro,t_end,n_t,n_w,w_min,w_max), [] for defaults
+hydro = excitationIRF(hydro,20,[],[],[],[]);
 
 %% Write the data in standard h5 format
-Write_H5(hydro)
+writeH5(hydro)
 
 %% Plot a few key BEMIO results *optional*
-Plot_BEMIO(hydro)
+plotBemio(hydro)
 
 %% hydro structure
 % A       : [sum(dof),sum(dof),Nf]           : added mass

@@ -1,12 +1,12 @@
 hydro = struct();
 
-hydro = Read_NEMOH(hydro,'..\Cubes\');
-% hydro = Read_WAMIT(hydro,'..\..\WAMIT\Cubes\cubes.out',[]);
-% hydro = Combine_BEM(hydro); % Compare WAMIT
-hydro = Radiation_IRF(hydro,20,[],[],[],[]);
-hydro = Radiation_IRF_SS(hydro,[],[]);
-hydro = Excitation_IRF(hydro,200,[],[],[],[]);
-Write_H5(hydro)
-Plot_BEMIO(hydro)
+hydro = readNEMOH(hydro,'..\Cubes\');
+% hydro = readWAMIT(hydro,'..\..\WAMIT\Cubes\cubes.out',[]);
+% hydro = combineBEM(hydro); % Compare WAMIT
+hydro = radiationIRF(hydro,20,[],[],[],[]);
+hydro = radiationIRFSS(hydro,[],[]);
+hydro = excitationIRF(hydro,200,[],[],[],[]);
+writeH5(hydro)
+plotBemio(hydro)
 
 

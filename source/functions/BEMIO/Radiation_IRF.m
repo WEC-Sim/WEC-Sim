@@ -1,20 +1,20 @@
-function hydro = Radiation_IRF(hydro,t_end,n_t,n_w,w_min,w_max)
+function hydro = radiationIRF(hydro,t_end,n_t,n_w,w_min,w_max)
 % Calculates the normalized radiation impulse response function.
 % 
-% hydro = Radiation_IRF(hydro, t_end, n_t, n_w, w_min, w_max)
-%     hydro – data structure
-%     t_end – calculation range for the IRF, where the IRF is calculated from
+% hydro = radiationIRF(hydro, t_end, n_t, n_w, w_min, w_max)
+%     hydro â€“ data structure
+%     t_end â€“ calculation range for the IRF, where the IRF is calculated from
 %             t = 0 to t_end, and the default is 100 s
-%     n_t –   number of time steps in the IRF, the default is 1001
-%     n_w –   number of frequency steps used in the IRF calculation (hydrodynamic
+%     n_t â€“   number of time steps in the IRF, the default is 1001
+%     n_w â€“   number of frequency steps used in the IRF calculation (hydrodynamic
 %             coefficients are interpolated to correspond), the default is 1001
-%     w_min – minimum frequency to use in the IRF calculation, the default is
+%     w_min â€“ minimum frequency to use in the IRF calculation, the default is
 %             the minimum frequency from the BEM data
-%     w_max – maximum frequency to use in the IRF calculation, the default is
+%     w_max â€“ maximum frequency to use in the IRF calculation, the default is
 %             the maximum frequency from the BEM data
 % 
 % Default values are indicated by [].
-% See ‘...WEC-Sim\examples\BEMIO...’ for examples of usage.
+% See â€˜...WEC-Sim\examples\BEMIO...â€™ for examples of usage.
 
 p = waitbar(0,'Calculating radiation IRFs...');  % Progress bar
 

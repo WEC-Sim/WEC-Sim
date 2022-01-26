@@ -1,14 +1,14 @@
-function hydro = Combine_BEM(hydro)
-% Combines multiple BEM outputs into one hydrodynamic ‘system.’ This function
+function hydro = combineBEM(hydro)
+% Combines multiple BEM outputs into one hydrodynamic â€˜system.â€™ This function
 % requires that all BEM outputs have the same water depth, wave frequencies,
 % and wave headings. This function would be implemented following multiple
-% Read_WAMIT, Read_NEMOH, or Read_AQWA function calls and before Radiation_IRF,
-% Radiation_IRF_SS, Excitation_IRF, Write_H5, or Plot_BEMIO function calls.
+% readWAMIT, readNEMOH, or readAQWA function calls and before radiationIRF,
+% radiationIRFSS, excitationIRF, writeH5, or plotBemio function calls.
 %
-% hydro = Combine_BEM(hydro)
-%     hydro – data structure
+% hydro = combineBEM(hydro)
+%     hydro â€“ data structure
 %
-% See ‘...WEC-Sim\examples\BEMIO\NEMOH...’ for examples of usage.
+% See â€˜...WEC-Sim\examples\BEMIO\NEMOH...â€™ for examples of usage.
 
 p = waitbar(0,'Combining multiple BEM results...');  % Progress bar
 
