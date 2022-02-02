@@ -79,8 +79,8 @@ where :math:`\omega` is the angular velocity of the body and :math:`\times` deno
 .. math::
    \vec{\dot{V}}_{A} = \vec{\dot{V}}_{B} + \omega \times \omega \times r_{BA} + \dot{\omega} \times r_{BA}~~.
    
-Implementation Within WEC-Sim
-#############################
+Implementations Within WEC-Sim
+##############################
 
 Test
 
@@ -102,9 +102,6 @@ The WEC-Sim Option 1 implementation solves for the of the Morison Element Force 
       
    Schematic of the water flow vector decomposition reletive to the Morison Element orientation.
       
-Implementation
-==============
-
 In mathematics, for a given vector at a point on a surface, the vector can be uniquely decomposed into the sum of its tangential and normal components. The tangential component of the vector, :math:`v_{\parallel}`, is parallel to the surface while the normal component of the vectors, :math:`v_{\perp}`, is perpendicular to the surface which is used in relation to the central axis to the ME. The WEC-Sim input file was altered to consider a tangential and normal component for the drag coefficient [:math:`C_{d\perp}` , :math:`C_{d\parallel}`] , added mass coefficient [:math:`C_{a\perp}` , :math:`C_{a\parallel}`], characteristic area [:math:`A_{\perp}` , :math:`A_{\parallel}`], and the central axis vector of the ME [:math:`z_{x}` , :math:`z_{y}` , :math:`z_{z}`].
 
 A general vector, :math:`\vec{k}`, can be decomposed into the tangential component as a projection of vector k on to the central axis z as follows:
@@ -112,7 +109,34 @@ A general vector, :math:`\vec{k}`, can be decomposed into the tangential compone
 .. math::
    \vec{k}_{\parallel} = \frac{\vec{z} \cdot \vec{k}}{ || \vec{z} || } \frac{ \vec{z} }{ || \vec{z} || }
    
-As the vector :math:`\vec{k}` is uniquely decomposed into the sum of its tangential and normal components, the normal component can be defined as the difference between the vector :math:`\vec{k}` and its tangential component, in Equation 14.
+As the vector :math:`\vec{k}` is uniquely decomposed into the sum of its tangential and normal components, the normal component can be defined as the difference between the vector :math:`\vec{k}` and its tangential component as follows:
 
 .. math::
    \vec{k}_{\perp} = \vec{k} - \vec{k}_{\parallel}
+   
+The Morison equation for a moving body relative to fluid flow is modified to include the following decomposition of force components and consider the magnitude of the flow 
+
+Comparison of Performance Between Option 1 and Option 2
+********************************************************
+
+A simple test case, which defines a ME as vertical and stationary relative to horizontal fluid flow, was built to compare the MF calculation between Option 1 and Option 2 within WEC-Sim. Theoretically, the magnitude of the MF should remain constant as the orientation of the flow direction is rotated in the X-Y plane. The MF was calculated as the orientation of the flow was rotated about the z-axis from 1 to 360 degrees where the central axis of the ME is parallel wtih the z-axis. The remaining WEC-Sim input values for the simulation can be found in the following table. 
+
+=========================   	===================== 	================================== 	
+**Variable Type**            	**Variable Symbol**	**WEC-Sim Input Values**         			
+ME Central Axis     		:math:`\vec{z}`		[0, 0 , 1]    			
+Fluid flow velocity		:math:`\vec{U}`		[-1, 0, 0] :math:`m/s`		
+Fluid flow acceleration		:math:`\vec{\dot{U}}`   [-1, 0, 0] :math:`m/s^{2}`	
+Drag Coefficient	    	:math:`C_{D}`		[1, 1, 0]		
+Mass Coefficient	   	:math:`C_{a}`		[1, 1, 0]			
+Area 				:math:`A`		[1, 1, 0]		
+Density 		    	:math:`\rho`		1000 :math:`kg/m^{3}`
+Displaced Volume		:math:`\forall`		0.10 :math:`m^{3}`
+=========================   	===================== 	==================================
+
+.. figure:: /_static/images/compPerformanceBetweenOption1Option2.png
+   :width: 500pt
+   :align: center
+      
+   Graphical representation of the comparison between ME Option 1 and Option 2 within WEC-Sim.
+   
+:math:`F_{ME,1}` and :math:`F_{ME,2}` is the MF output from Option 1 and Option 2 within WEC-Sim, respectively. Shown in the above figure, in Option 1 there is an oscillation in MF magnitude with flow direction while Option 2 demonstrates a constant force magnitude at any flow direction. The reason behind this performance is that Option 1 solves for the MF individually using the individual the x-, y-, and z- components of the flow while Option 2 calculates the force relative to the flow magnitude and distributed among the normal and tangential unit vectors of the flow.  
