@@ -86,7 +86,7 @@ classdef bemioTest < matlab.unittest.TestCase
             Read_CAPYTAINE(hydro, 'rm3_full.nc');
         end        
         function read_aqwa(testCase)
-            cd(fullfile(testCase.aqwaDir,'RM3data'))
+            cd(fullfile(testCase.aqwaDir,'RM3'))
             hydro = struct();
             hydro = Read_AQWA(hydro,'RM3.AH1','RM3.LIS');
         end
