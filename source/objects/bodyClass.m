@@ -419,7 +419,7 @@ classdef bodyClass<handle
         end
         
         function checkStl(obj)
-            % The method will check the ``.stl`` file and return an error if the normal vectors are not equal to one.
+            % The method will check the ``.stl`` file and return an error if the normal vectors are not equal to one and if it is too large for the domain.
             tnorm = obj.bodyGeometry.norm;
             %av = zeros(length(area_mag),3);
             %av(:,1) = area_mag.*tnorm(:,1);
@@ -460,7 +460,7 @@ classdef bodyClass<handle
             quiver3(c(:,1),c(:,2),c(:,3),n(:,1),n(:,2),n(:,3))
         end
         
-        function checkinputs(obj,morisonElement)
+        function checkinputs(obj,morisonElement,domainSize)
             % This method checks WEC-Sim user inputs and generates error messages if parameters are not properly defined for the bodyClass.
             % Check h5 file
             if exist(obj.h5File,'file')==0 && obj.nhBody==0
@@ -469,6 +469,14 @@ classdef bodyClass<handle
             % Check geometry file
             if exist(obj.geometryFile,'file') == 0
                 error('Could not locate and open geometry file %s',obj.geometryFile)
+            end
+            % Check mesh size
+            tr = stlread(obj.geometryFile);
+            obj.bodyGeometry.vertex = tr.Points;
+            if max(obj.bodyGeometry.vertex) > domainSize/2
+                error('STL mesh is larger than the domain. Reminder: WEC-Sim requires that the STL be saved with units of meters for accurate visualization.')
+            elseif max(obj.bodyGeometry.vertex) > domainSize/4
+                warning('STL mesh is very large. Reminder: WEC-Sim requires that the STL be saved with units of meters for accurate visualization.')
             end
             % Check Morison Element Inputs for option 1
             if morisonElement == 1

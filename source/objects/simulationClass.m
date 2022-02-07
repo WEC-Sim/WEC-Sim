@@ -29,40 +29,40 @@ classdef simulationClass<handle
     
     properties (SetAccess = 'public', GetAccess = 'public')%input file
         simMechanicsFile char                               = 'NOT DEFINED'     % (`string`) Simulink/SimMechanics model file. Default = ``'NOT DEFINED'``
-        startTime (1,1) double {mustBeNonnegative}          = 0                 % (`float`) Simulation start time. Default = ``0`` s
-        rampTime (1,1) double {mustBeNonnegative}           = 100               % (`float`) Ramp time for wave forcing. Default = ``100`` s
+        startTime (1,1) {mustBeNonnegative}                 = 0                 % (`float`) Simulation start time. Default = ``0`` s
+        rampTime (1,1) {mustBeNonnegative}                  = 100               % (`float`) Ramp time for wave forcing. Default = ``100`` s
         endTime                                             = []                % (`float`) Simulation end time. Default = ``'NOT DEFINED'``
-        dt (1,1) double {mustBePositive}                    = 0.1               % (`float`) Simulation time step. Default = ``0.1`` s
+        dt (1,1) {mustBePositive}                           = 0.1               % (`float`) Simulation time step. Default = ``0.1`` s
         dtOut {mustBePositive}                              = []                % (`float`) Output sampling time. Default = ``dt``
         dtNL {mustBePositive}                               = []                % (`float`) Sample time to calculate nonlinear forces. Default = ``dt``
         dtCITime {mustBePositive}                           = []                % (`float`) Sample time to calculate Convolution Integral. Default = ``dt``
         dtME {mustBePositive}                               = []            	% (`float`) Sample time to calculate Morison Element forces. Default = ``dt``
-        CITime (1,1) double {mustBeNonnegative}             = 60            	% (`float`) Convolution integral time. Default = ``60`` s
-        domainSize (1,1) double {mustBePositive}            = 200           	% (`float`) Size of free surface and seabed. This variable is only used for visualization. Default = ``200`` m
-        ssCalc (1,1) double {mustBeInteger}                 = 0              	% (`integer`) Option for convolution integral or state-space calculation: convolution integral->0, state-space->1. Default = ``0``
+        CITime (1,1) {mustBeNonnegative}                    = 60            	% (`float`) Convolution integral time. Default = ``60`` s
+        domainSize (1,1) {mustBePositive}                   = 200           	% (`float`) Size of free surface and seabed. This variable is only used for visualization. Default = ``200`` m
+        ssCalc (1,1) {mustBeMember(ssCalc,0:1)}             = 0              	% (`integer`) Option for convolution integral or state-space calculation: convolution integral->0, state-space->1. Default = ``0``
         mode char                                           = 'normal'         	% (`string`) Simulation execution mode, 'normal', 'accelerator', 'rapid-accelerator'. Default = ``'normal'``
         solver char                                         = 'ode4'         	% (`string`) PDE solver used by the Simulink/SimMechanics simulation. Any continuous solver in Simulink possible. Recommended to use 'ode4, 'ode45' for WEC-Sim. Default = ``'ode4'``
-        numIntMidTimeSteps (1,1) double {mustBeInteger}     = 5                	% (`integer`) Number of intermediate time steps. Default = ``5`` for ode4 method
+        numIntMidTimeSteps (1,1) {mustBeInteger}            = 5                	% (`integer`) Number of intermediate time steps. Default = ``5`` for ode4 method
         autoRateTranBlk char                                = 'on'           	% (`string`) Automatically handle rate transition for data transfer, 'on', 'off'. Default = ``'on'``
         zeroCrossCont char                                  = 'DisableAll'    	% (`string`) Disable zero cross control. Default = ``'DisableAll'``
         explorer char                                       = 'on'             	% (`string`) SimMechanics Explorer 'on' or 'off'. Default = ``'on'``
-        rho (1,1) double {mustBePositive}                   = 1000            	% (`float`) Density of water. Default = ``1000`` kg/m^3
-        g (1,1) double {mustBePositive}                     = 9.81             	% (`float`) Acceleration due to gravity. Default = ``9.81`` m/s
-        yawNonLin (1,1) double {mustBeInteger}              = 0              	% (`integer`) Option for nonlinear yaw calculation linear->0, nonlinear->1 for nonlinear. Default = ``0`` 
-        yawThresh (1,1) double {mustBePositive}             = 1                 % (`float`) Yaw position threshold (in degrees) above which excitation coefficients will be interpolated in nonlinear yaw. Default = ``1`` dg
-        b2b (1,1) double {mustBeInteger}                    = 0               	% (`integer`) Option for body2body interactions: off->0, on->1. Default = ``0``
-        paraview (1,1) double {mustBeInteger}               = 0               	% (`integer`) Option for writing vtp files for paraview visualization, off->0, on->1. Default = ``0``
-        StartTimeParaview (1,1) double {mustBeNonnegative}  = 0;            	% (`float`) Start time for the vtk file of Paraview. Default = ``0``                                    
-        EndTimeParaview (1,1) double {mustBePositive}       = 100;            	% (`float`) End time for the vtk file of Paraview. Default = ``0``                                      
-        dtParaview (1,1) double {mustBePositive}            = 0.1;           	% (`float`) Timestep for Paraview. Default = ``0.1``         
+        rho (1,1) {mustBePositive}                          = 1000            	% (`float`) Density of water. Default = ``1000`` kg/m^3
+        g (1,1) {mustBePositive}                            = 9.81             	% (`float`) Acceleration due to gravity. Default = ``9.81`` m/s
+        yawNonLin (1,1) {mustBeInteger}                     = 0              	% (`integer`) Option for nonlinear yaw calculation linear->0, nonlinear->1 for nonlinear. Default = ``0`` 
+        yawThresh (1,1) {mustBePositive}                    = 1                 % (`float`) Yaw position threshold (in degrees) above which excitation coefficients will be interpolated in nonlinear yaw. Default = ``1`` dg
+        b2b (1,1) {mustBeInteger}                           = 0               	% (`integer`) Option for body2body interactions: off->0, on->1. Default = ``0``
+        paraview (1,1) {mustBeInteger}                      = 0               	% (`integer`) Option for writing vtp files for paraview visualization, off->0, on->1. Default = ``0``
+        StartTimeParaview (1,1) {mustBeNonnegative}         = 0;            	% (`float`) Start time for the vtk file of Paraview. Default = ``0``                                    
+        EndTimeParaview (1,1) {mustBePositive}              = 100;            	% (`float`) End time for the vtk file of Paraview. Default = ``0``                                      
+        dtParaview (1,1) {mustBePositive}                   = 0.1;           	% (`float`) Timestep for Paraview. Default = ``0.1``         
         pathParaviewVideo char                              = 'vtk';          	% (`string`) Path of the folder for Paraview vtk files. Default = ``'vtk'``     
-        adjMassWeightFun (1,1) double {mustBeInteger}       = 2                 % (`integer`) Weighting function for adjusting added mass term in the translational direction. Default = ``2``
+        adjMassWeightFun (1,1) {mustBeInteger}              = 2                 % (`integer`) Weighting function for adjusting added mass term in the translational direction. Default = ``2``
         mcrCaseFile char                                    = []             	% (`string`) mat file that contain a list of the multiple conditions runs with given conditions. Default = ``'NOT DEFINED'``  
-        reloadH5Data (1,1) double {mustBeInteger}           = 0                	% (`integer`) Option to re-load hydro data from hf5 file between runs: off->0, on->1. Default = ``0``
-        saveStructure (1,1) double {mustBeInteger}          = 0                	% (`integer`) Option to save results as a MATLAB structure: off->0, on->1. Default = ``1``
-        saveText (1,1) double {mustBeInteger}               = 0                	% (`integer`) Option to save results as ASCII files off->0, on->1. Default = ``0``
-        saveWorkspace (1,1) double {mustBeInteger}          = 1               	% (`integer`) Option to save .mat file for each run: off->0, on->1. Default = ``1``
-        pressureDis (1,1) double {mustBeInteger}            = 0               	% (`integer`) Option to save pressure distribution: off->0, on->1. Default = ``0``
+        reloadH5Data {mustBeMember(reloadH5Data,0:1)}       = 0                	% (`integer`) Option to re-load hydro data from hf5 file between runs: off->0, on->1. Default = ``0``
+        saveStructure {mustBeMember(saveStructure,0:1)}     = 0                	% (`integer`) Option to save results as a MATLAB structure: off->0, on->1. Default = ``1``
+        saveText {mustBeMember(saveText,0:1)}               = 0                	% (`integer`) Option to save results as ASCII files off->0, on->1. Default = ``0``
+        saveWorkspace {mustBeMember(saveWorkspace,0:1)}     = 1               	% (`integer`) Option to save .mat file for each run: off->0, on->1. Default = ``1``
+        pressureDis {mustBeMember(pressureDis,0:1)}         = 0               	% (`integer`) Option to save pressure distribution: off->0, on->1. Default = ``0``
     end
 
     properties (SetAccess = 'public', GetAccess = 'public')%internal
@@ -180,8 +180,6 @@ classdef simulationClass<handle
                 warning('Mechanics explorer not allowed in accelerator or rapid-accelerator modes. Turning mechanics explorer off.');
                 obj.explorer = 'off';
             end
-            
-            validateattributes(obj.endTime,{'double'},{'nonempty','positive'},'','simu.endTime')
             
             % Checks user input to ensure that ``simu.endTime`` is specified
             if isempty(obj.endTime)
