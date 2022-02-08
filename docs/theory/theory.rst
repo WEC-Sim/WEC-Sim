@@ -101,12 +101,13 @@ as:
 
 .. math::
 
-    m\ddot{X}=F_{exc}(t)+F_{rad}(t)+F_{pto}(t)+F_{v}(t)+F_{me}(t)+F_{B}(t)+F_{m}(t)
+    m\ddot{X}=F_{exc}(t)+F_{md}(t)+F_{rad}(t)+F_{pto}(t)+F_{v}(t)+F_{me}(t)+F_{B}(t)+F_{m}(t)
 
 
 where :math:`\ddot{X}` is the (translational and rotational) acceleration 
 vector of the device, :math:`m` is the mass matrix, :math:`F_{exc}(t)` is the 
-wave excitation force and torque (6-element) vector, :math:`F_{rad}(t)` is the 
+wave excitation force and torque (6-element) vector,  :math:`F_{md}(t)` is the 
+mean drift force and torque vector, :math:`F_{rad}(t)` is the 
 force and torque vector resulting from wave radiation, :math:`F_{pto}(t)` is 
 the PTO force and torque vector, :math:`F_{v}(t)` is the damping force and 
 torque vector, :math:`F_{me}(t)` is the Morison Element force and torque 
@@ -130,7 +131,7 @@ Numerical Methods
 ------------------
 
 WEC-Sim can be used for regular and irregular wave simulations, but note that 
-:math:`F_{exc}(t)` and :math:`F_{rad}(t)` are calculated differently for 
+:math:`F_{rad}(t)` is calculated differently for 
 sinusoidal steady-state response scenarios and random sea simulations. The 
 sinusoidal steady-state response is often used for simple WEC designs with 
 regular incoming waves. However, for random sea simulations or any simulations 
@@ -186,6 +187,14 @@ ramp function, :math:`H` is the wave height, :math:`F_{exc}` is the frequency
 dependent complex wave-excitation amplitude vector, and :math:`\theta` is the 
 wave direction. 
 
+The mean drift force can optionally be included if coefficients are defined in the BEM data. 
+The mean drift force is obtained from
+
+.. math::
+    F_{md}(t)=\left(\frac{H}{2}\right)^2F_{md}(\omega,\theta)
+    
+This force is combined with the excitation force in the response class output.
+
 Convolution Integral Formulation
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
@@ -226,7 +235,9 @@ where :math:`\phi` is the randomized phase angle and :math:`N` is the number of
 frequency bands selected to discretize the wave spectrum. For repeatable 
 simulation of an irregular wave field :math:`S(\omega)`, WEC-Sim allows 
 specification of :math:`\phi`, refer to the :ref:`user-advanced-features-seeded-phase` 
-section. Additionally, an excitation force impulse response function is defined 
+section. 
+
+Additionally, an excitation force impulse response function is defined 
 as 
 
 .. math::
@@ -234,6 +245,7 @@ as
     K_{e}(t) = \frac{1}{2\pi} \intop_{0-\infty}^{\infty}
                                 F_{exc}(\omega,\theta)e^{i\omega t} d\omega
 
+The excitation impulse response function is only used for the userDefinedElevation wave case.
 
 State Space
 ^^^^^^^^^^^
@@ -710,7 +722,7 @@ formulation for each element on the body can be given as
     F_{me}=\rho\forall\dot{v} + \rho\forall C_{a}(\dot{v}-\ddot{X}) + 
                         \frac{C_{d}\rho A_{d}}{2}(v-\dot{X})|v-\dot{X}|
 
-where :math:`v` is the fluid particle velocity due to wave and current, 
+where :math:`v` is the fluid particle velocity due to the wave and current speed, 
 :math:`C_{a}` is the coefficient of added mass, and :math:`\forall` is the 
 displaced volume. 
 

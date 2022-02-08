@@ -340,6 +340,21 @@ series:
 
     :code:`waves.waveAmpTime<i> = incident wave elevation time series at wave gauge i`
 
+Ocean Current
+^^^^^^^^^^^^^
+The speed of an ocean current can be included through the wave class parameters::
+
+    waves.currentOption
+    waves.currentSpeed
+    waves.currentDirection
+    waves.currentDepth
+
+The current option determines the method used to propagate the surface current across the 
+specified depth. Option 0 is depth independent, option 1 uses a 1/7 power law, option 2
+uses linear variation with depth and option 3 specifies no ocean current. These parameters
+are only used to calculate a more accurate fluid velocity in the Morison Element calculation.
+To incorporate the mean drift force on a body, mean drift coefficients must be input to BEMIO.
+
 .. _user-advanced-features-body:
 
 Body Features
