@@ -611,6 +611,13 @@ For :code:`body(ii).morisonElement.option  = 2` ::
     :code:`body(i).morisonElement.z` is a unit normal vector that defines the 
     orientation of the Morison Element. 
 
+To better represent certain scenarios, an ocean current speed can be defined to 
+calculate a more accurate fluid velocity and acceleration on the Morison 
+Element. These can be defined through the wave class parameters 
+``waves.currentOption``, ``waves.currentSpeed``, ``waves.currentDirection``, 
+and ``waves.currentDepth``. See :ref:`user-advanced-features-wave` for more 
+detail on using these options.
+
 The Morison Element time-step may also be defined as
 :code:`simu.dtME = N*simu.dt`, where N is number of increment steps. For an 
 example application of using Morison Elements in WEC-Sim, refer to the `WEC-Sim 
