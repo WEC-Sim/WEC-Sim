@@ -127,18 +127,7 @@ classdef responseClass<handle
             obj.wave.type = waveOutput.type;
             obj.wave.time = waveOutput.waveAmpTime(:,1);
             obj.wave.elevation = waveOutput.waveAmpTime(:,2);
-            if ~isnan(waveOutput.wavegauge1loc)
-                obj.wave.waveGauge1Location = waveOutput.wavegauge1loc;
-                obj.wave.waveGauge1Elevation = waveOutput.waveAmpTime1(:,2);
-            end
-            if ~isnan(waveOutput.wavegauge2loc)
-                obj.wave.waveGauge2Location = waveOutput.wavegauge2loc;
-                obj.wave.waveGauge2Elevation = waveOutput.waveAmpTime2(:,2);
-            end
-            if ~isnan(waveOutput.wavegauge3loc)
-                obj.wave.waveGauge3Location = waveOutput.wavegauge3loc;
-                obj.wave.waveGauge3Elevation = waveOutput.waveAmpTime3(:,2);
-            end
+
             % Bodies
             signals = {'position','velocity','acceleration','forceTotal','forceExcitation','forceRadiationDamping','forceAddedMass','forceRestoring','forceMorisonAndViscous','forceLinearDamping'};
             for ii = 1:length(bodiesOutput)
@@ -520,15 +509,6 @@ classdef responseClass<handle
             filename = ['output/wave.txt'];
             fid = fopen(filename,'w+');
             header = {'time','elevation'};
-            if isfield(obj.wave, 'waveGauge1Elevation')
-                header{end+1} = 'waveGauge1Elevation';
-            end
-            if isfield(obj.wave, 'waveGauge2Elevation')
-                header{end+1} = 'waveGauge2Elevation';
-            end
-            if isfield(obj.wave, 'waveGauge3Elevation')
-                header{end+1} = 'waveGauge3Elevation';
-            end
             for ii=1:length(header)
                 tmp(ii) = length(header{ii});
             end

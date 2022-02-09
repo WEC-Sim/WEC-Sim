@@ -99,12 +99,6 @@ end
 waveOutput = struct();
 waveOutput.type = waves.type;
 waveOutput.waveAmpTime = waves.waveAmpTime;
-waveOutput.wavegauge1loc = waves.wavegauge1loc;
-waveOutput.wavegauge2loc = waves.wavegauge2loc;
-waveOutput.wavegauge3loc = waves.wavegauge3loc;
-waveOutput.waveAmpTime1 = waves.waveAmpTime1;
-waveOutput.waveAmpTime2 = waves.waveAmpTime2;
-waveOutput.waveAmpTime3 = waves.waveAmpTime3;
 
 % All
 output = responseClass(bodiesOutput,ptosOutput,constraintsOutput,ptosimOutput,cablesOutput,mooringOutput,waveOutput, simu.yawNonLin);
