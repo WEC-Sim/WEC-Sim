@@ -3,7 +3,7 @@ function hydro = combineBEM(hydro)
 % requires that all BEM outputs have the same water depth, wave frequencies,
 % and wave headings. This function would be implemented following multiple
 % readWAMIT, readNEMOH, or readAQWA function calls and before radiationIRF,
-% radiationIRFSS, excitationIRF, writeH5, or plotBEMIO function calls.
+% radiationIRFSS, excitationIRF, writeBEMIOH5, or plotBEMIO function calls.
 %
 % hydro = combineBEM(hydro)
 %     hydro – data structure

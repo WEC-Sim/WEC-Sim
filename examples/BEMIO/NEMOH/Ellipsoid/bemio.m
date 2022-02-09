@@ -6,6 +6,6 @@ hydro = readNEMOH(hydro,'..\Ellipsoid\');
 hydro = radiationIRF(hydro,10,[],[],[],[]);
 hydro = radiationIRFSS(hydro,[],[]);
 hydro = excitationIRF(hydro,15,[],[],[],[]);
-writeH5(hydro)
+writeBEMIOH5(hydro)
 plotBEMIO(hydro)
 

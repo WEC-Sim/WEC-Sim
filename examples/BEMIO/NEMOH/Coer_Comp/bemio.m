@@ -6,5 +6,5 @@ hydro = readNEMOH(hydro,'..\Coer_Comp\');
 hydro = radiationIRF(hydro,10,[],[],[],[]);
 hydro = radiationIRFSS(hydro,[],[]);
 hydro = excitationIRF(hydro,10,[],[],[],[]);
-writeH5(hydro)
+writeBEMIOH5(hydro)
 plotBEMIO(hydro)

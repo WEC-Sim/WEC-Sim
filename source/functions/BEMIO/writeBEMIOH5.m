@@ -1,7 +1,7 @@
 function writeBEMIOH5(hydro)
 % Writes the hydro data structure to a .h5 file.
 %
-% writeH5(hydro)
+% writeBEMIOH5(hydro)
 %     hydro – data structure
 %
 % See ‘…\WEC-Sim\tutorials\BEMIO\...’ for examples of usage.
