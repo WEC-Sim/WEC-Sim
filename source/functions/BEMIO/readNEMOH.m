@@ -350,4 +350,3 @@ hydro = normalizeBEM(hydro);  % normalizeBEM the data according the WAMIT conven
 
 close(p);
 end
-

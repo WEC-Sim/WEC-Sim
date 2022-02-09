@@ -1,5 +1,7 @@
 function plotBEMIO(hydro)
-% Plots the added mass, radiation damping, radiation IRF, excitation force magnitude, excitation force phase, and excitation IRF for each body in the heave, surge and pitch degrees of freedom.
+% Plots the added mass, radiation damping, radiation IRF, excitation force 
+% magnitude, excitation force phase, and excitation IRF for each body in 
+% the heave, surge and pitch degrees of freedom.
 % 
 % plotBEMIO(hydro)
 %     hydro – data structure
@@ -11,7 +13,7 @@ p = waitbar(0,'Plotting BEMIO results…');  % Progress bar
 %% Added Mass
 clear X Y Legends
 Fig1 = figure('Position',[50,500,975,521]);
-Title = ['normalizeBEMd Added Mass: $$\bar{A}_{i,j}(\omega) = {\frac{A_{i,j}(\omega)}{\rho}}$$'];
+Title = ['Normalized Added Mass: $$\bar{A}_{i,j}(\omega) = {\frac{A_{i,j}(\omega)}{\rho}}$$'];
 Subtitles = {'Surge','Heave','Pitch'};
 XLables = {'$$\omega (rad/s)$$','$$\omega (rad/s)$$','$$\omega (rad/s)$$'};
 YLables = {'$$\bar{A}_{1,1}(\omega)$$','$$\bar{A}_{3,3}(\omega)$$','$$\bar{A}_{5,5}(\omega)$$'};
@@ -34,13 +36,13 @@ Notes = {'Notes:',...
     'pitch DOFs are plotted here. If another DOF is significant to the system, ',...
     'that $$\bar{A}_{i,j}(\omega)$$ should also be plotted and verified before ',...
     'proceeding.']};
-FormatPlot(Fig1,Title,Subtitles,XLables,YLables,X,Y,Legends,Notes)
+formatPlot(Fig1,Title,Subtitles,XLables,YLables,X,Y,Legends,Notes)
 waitbar(1/6);
 
 %% Radiation Damping
 clear X Y Legends
 Fig2 = figure('Position',[50,300,975,521]);
-Title = ['normalizeBEMd Radiation Damping: $$\bar{B}_{i,j}(\omega) = {\frac{B_{i,j}(\omega)}{\rho\omega}}$$'];
+Title = ['Normalized Radiation Damping: $$\bar{B}_{i,j}(\omega) = {\frac{B_{i,j}(\omega)}{\rho\omega}}$$'];
 Subtitles = {'Surge','Heave','Pitch'};
 XLables = {'$$\omega (rad/s)$$','$$\omega (rad/s)$$','$$\omega (rad/s)$$'};
 YLables = {'$$\bar{B}_{1,1}(\omega)$$','$$\bar{B}_{3,3}(\omega)$$','$$\bar{B}_{5,5}(\omega)$$'};
@@ -63,13 +65,13 @@ Notes = {'Notes:',...
     'pitch DOFs are plotted here. If another DOF is significant to the system ',...
     'that $$\bar{B}_{i,j}(\omega)$$ should also be plotted and verified before ',...
     'proceeding.']};
-FormatPlot(Fig2,Title,Subtitles,XLables,YLables,X,Y,Legends,Notes)
+formatPlot(Fig2,Title,Subtitles,XLables,YLables,X,Y,Legends,Notes)
 waitbar(2/6);
 
 %% Radiation IRFs
 clear X Y Legends
 Fig3 = figure('Position',[50,100,975,521]);
-Title = ['normalizeBEMd Radiation Impulse Response Functions: ',...
+Title = ['Normalized Radiation Impulse Response Functions: ',...
     '$$\bar{K}_{i,j}(t) = {\frac{2}{\pi}}\int_0^{\infty}{\frac{B_{i,j}(\omega)}{\rho}}\cos({\omega}t)d\omega$$'];
 Subtitles = {'Surge','Heave','Pitch'};
 XLables = {'$$t (s)$$','$$t (s)$$','$$t (s)$$'};
@@ -104,14 +106,14 @@ Notes = {'Notes:',...
     ['$$\bullet$$ Only the IRFs for the surge, heave, and pitch DOFs are plotted ',...
     'here. If another DOF is significant to the system, that IRF should also ',...
     'be plotted and verified before proceeding.']};
-FormatPlot(Fig3,Title,Subtitles,XLables,YLables,X,Y,Legends,Notes)
+formatPlot(Fig3,Title,Subtitles,XLables,YLables,X,Y,Legends,Notes)
 waitbar(3/6);
 
 %% Excitation Force Magnitude
 B=1;  % Wave heading index
 clear X Y Legends
 Fig4 = figure('Position',[950,500,975,521]);
-Title = ['normalizeBEMd Excitation Force Magnitude: ',...
+Title = ['Normalized Excitation Force Magnitude: ',...
     '$$\bar{X_i}(\omega,\beta) = {\frac{X_i(\omega,\beta)}{{\rho}g}}$$'];
 Subtitles = {'Surge','Heave','Pitch'};
 XLables = {'$$\omega (rad/s)$$','$$\omega (rad/s)$$','$$\omega (rad/s)$$'};
@@ -131,7 +133,7 @@ for i = 1:hydro.Nb
     a = a + m;
 end
 Notes = {''};
-FormatPlot(Fig4,Title,Subtitles,XLables,YLables,X,Y,Legends,Notes)
+formatPlot(Fig4,Title,Subtitles,XLables,YLables,X,Y,Legends,Notes)
 waitbar(4/6);
 
 %% Excitation Force Phase
@@ -157,14 +159,14 @@ for i = 1:hydro.Nb
     a = a + m;
 end
 Notes = {''};
-FormatPlot(Fig5,Title,Subtitles,XLables,YLables,X,Y,Legends,Notes)
+formatPlot(Fig5,Title,Subtitles,XLables,YLables,X,Y,Legends,Notes)
 waitbar(5/6);
 
 %% Excitation IRFs
 B=1;  % Wave heading index
 clear X Y Legends
 Fig6 = figure('Position',[950,100,975,521]);
-Title = ['normalizeBEMd Excitation Impulse Response Functions:   ',...
+Title = ['Normalized Excitation Impulse Response Functions:   ',...
     '$$\bar{K}_i(t) = {\frac{1}{2\pi}}\int_{-\infty}^{\infty}{\frac{X_i(\omega,\beta)e^{i{\omega}t}}{{\rho}g}}d\omega$$'];
 Subtitles = {'Surge','Heave','Pitch'};
 XLables = {'$$t (s)$$','$$t (s)$$','$$t (s)$$'};
@@ -190,7 +192,7 @@ Notes = {'Notes:',...
     ['$$\bullet$$ Only the IRFs for the first wave heading, surge, heave, and ',...
     'pitch DOFs are plotted here. If another wave heading or DOF is significant ',...
     'to the system, that IRF should also be plotted and verified before proceeding.']};
-FormatPlot(Fig6,Title,Subtitles,XLables,YLables,X,Y,Legends,Notes)
+formatPlot(Fig6,Title,Subtitles,XLables,YLables,X,Y,Legends,Notes)
 waitbar(6/6);
 
 close(p);
@@ -204,7 +206,7 @@ end
 
 
 %% Format
-function FormatPlot(fig,heading,subtitle,x_lables,y_lables,X_data,Y_data,legends,notes)
+function formatPlot(fig,heading,subtitle,x_lables,y_lables,X_data,Y_data,legends,notes)
 
 axes1 = axes('Parent',fig,'Position',[0.0731 0.3645 0.2521 0.4720]);
 hold(axes1,'on');

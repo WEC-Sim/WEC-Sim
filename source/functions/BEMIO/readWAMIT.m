@@ -346,5 +346,3 @@ hydro = normalizeBEM(hydro);  % For WAMIT this just sorts the data, if neccessar
 
 close(p);
 end
-
-

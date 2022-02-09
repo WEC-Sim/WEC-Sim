@@ -39,3 +39,4 @@ end
 
 % Spectral moment calculation
 mn = trapz(angFreq,angFreq.^(order).*S_f);
+end

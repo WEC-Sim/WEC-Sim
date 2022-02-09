@@ -477,4 +477,3 @@ function ind = getInd(dimStruct, str2find)
         end
     end
 end
-
