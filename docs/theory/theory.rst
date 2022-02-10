@@ -187,13 +187,13 @@ ramp function, :math:`H` is the wave height, :math:`F_{exc}` is the frequency
 dependent complex wave-excitation amplitude vector, and :math:`\theta` is the 
 wave direction. 
 
-The mean drift force can optionally be included if coefficients are defined in the BEM data. 
-The mean drift force is obtained from
+The mean drift term can optionally be included if coefficients are defined in the BEM data. 
+It is obtained from
 
 .. math::
     F_{md}(t)=\left(\frac{H}{2}\right)^2F_{md}(\omega,\theta)
     
-This force is combined with the excitation force in the response class output.
+The mean drift force is combined with the excitation force in the response class output.
 
 Convolution Integral Formulation
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
@@ -242,7 +242,7 @@ as
 
 .. math::
 
-    K_{e}(t) = \frac{1}{2\pi} \intop_{0-\infty}^{\infty}
+    K_{e}(t) = \frac{1}{2\pi} \intop_{-\infty}^{\infty}
                                 F_{exc}(\omega,\theta)e^{i\omega t} d\omega
 
 The excitation impulse response function is only used for the userDefinedElevation wave case.
