@@ -1,40 +1,53 @@
-function plotBEMIO(hydro,varargin)
+function plotBEMIO(varargin)
 % Plots the added mass, radiation damping, radiation IRF, excitation force
 % magnitude, excitation force phase, and excitation IRF for each body in
 % the heave, surge and pitch degrees of freedom.
 % 
-% plotBEMIO(hydro)
-%     hydro data structure
+% Usage
+% -----
+% plotBEMIO(hydro, hydro2, hydro3, ...)
 % 
-% See WEC-Sim\examples\BEMIO for examples of usage.
-
+% See WEC-Sim\examples\BEMIO for additional examples of usage.
+% 
+% Parameters
+% ----------
+%     varargin : struct(s)
+%         The hydroData structure `hydro` created by the other BEMIO
+%         functions. One or more may be input.
+% 
 % DEVELOPER NOTE:
 % This function /must/ pass varargin to the next plotting functions as
 % varargin{:}. 
 % 
 % This notation will expand the variable arguments back into distinct
-% parameters. However this gives multiple outputs and cannot be assigned to
-% a new variable, it must be passed to the function directly as varargin{:}
+% parameters. However since this gives multiple outputs, it cannot be
+% assigned to a new variable. It must be passed to the plotting functions
+% directly as varargin{:}
 % 
-% If varargin is empty, varargin{:} gives passes nothing to the plotX
-% functions. (Not an empty array, but nothing). 
+% If varargin is empty, varargin{:} gives passes nothing to the plotting
+% functions.
+
+if isempty(varargin)
+    error(['plotBEMIO: No arguments passed. Include one or more hydro ' ...
+        'structures when calling: plotBEMIO(hydro1, hydro2, ...)']);
+end
 
 %% Added Mass
-plotAddedMass(hydro,varargin{:})
+plotAddedMass(varargin{:})
 
 %% Radiation Damping
-plotRadiationDamping(hydro,varargin{:})
+plotRadiationDamping(varargin{:})
 % 
 %% Radiation IRFs
-plotRadiationIRF(hydro,varargin{:})
+plotRadiationIRF(varargin{:})
 
 %% Excitation Force Magnitude
-plotExcitationMagnitude(hydro,varargin{:})
+plotExcitationMagnitude(varargin{:})
 
 %% Excitation Force Phase
-plotExcitationPhase(hydro,varargin{:})
+plotExcitationPhase(varargin{:})
 
 %% Excitation IRFs
-plotExcitationIRF(hydro,varargin{:})
+plotExcitationIRF(varargin{:})
 
 end
