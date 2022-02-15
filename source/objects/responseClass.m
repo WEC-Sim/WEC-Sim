@@ -29,11 +29,11 @@ classdef responseClass<handle
     %.. autoattribute:: objects.responseClass.wave 
     %    
     %   * ``type`` (`string`) = 'waveType'
-    %   *  ``time`` (`array`) = [# of time-steps x 1]
+    %   * ``time`` (`array`) = [# of time-steps x 1]
     %   * ``elevation`` (`array`) = [# of time-steps x 1]
-    %   * ``waveGauge1Elevation`` (`array`) = [# of time-steps x 1]
-    %   * ``waveGauge2Elevation`` (`array`) = [# of time-steps x 1]
-    %   * ``waveGauge3Elevation`` (`array`) = [# of time-steps x 1]
+    %   * ``waveGauge1Elevation`` (`array`) = [# of time-steps x 1] Wave elevation at the location of wave gauge 1 
+    %   * ``waveGauge2Elevation`` (`array`) = [# of time-steps x 1] Wave elevation at the location of wave gauge 2 
+    %   * ``waveGauge3Elevation`` (`array`) = [# of time-steps x 1] Wave elevation at the location of wave gauge 3 
     %         
     %.. autoattribute:: objects.responseClass.bodies
     %    
@@ -41,43 +41,43 @@ classdef responseClass<handle
     %   * ``time`` (`array`) = [# of time-steps x 1]
     %   * ``position`` (`array`) = [# of time-steps x 6]
     %   * ``velocity`` (`array`) = [# of time-steps x 6]
-    %   *  ``accleration`` (`array`) = [# of time-steps x 6]
-    %   *  ``forceTotal`` (`array`) = [# of time-steps x 6]
-    %   *  ``forceExcitation`` (`array`) = [# of time-steps x 6]
-    %   *  ``forceRadiationDamping`` (`array`) = [# of time-steps x 6]
-    %   *  ``forceAddedMass`` (`array`) = [# of time-steps x 6]
-    %   *  ``forceRestoring`` (`array`) = [# of time-steps x 6]
-    %   *  ``forceMorisonAndViscous`` (`array`) = [# of time-steps x 6]
-    %   *  ``forceLinearDamping`` (`array`) = [# of time-steps x 6]
+    %   * ``acceleration`` (`array`) = [# of time-steps x 6]
+    %   * ``forceTotal`` (`array`) = [# of time-steps x 6] The sum of all hydrodynamic forces applied to the body
+    %   * ``forceExcitation`` (`array`) = [# of time-steps x 6] The sum of the Froude-Krylov excitation force and the mean drift force exerted by the incoming wave on the body
+    %   * ``forceRadiationDamping`` (`array`) = [# of time-steps x 6] The negative radiation damping force due to body velocity
+    %   * ``forceAddedMass`` (`array`) = [# of time-steps x 6] The negative added mass force due to body acceleration
+    %   * ``forceRestoring`` (`array`) = [# of time-steps x 6] The negative sum of the gravity force, buoyant force, the hydrostatic stiffness force, and any moment due to separation between the center of gravity and the center of buoyancy
+    %   * ``forceMorisonAndViscous`` (`array`) = [# of time-steps x 6] The negative sum of the Morison element force and the viscous drag force 
+    %   * ``forceLinearDamping`` (`array`) = [# of time-steps x 6] The negative force due to linear damping and the body velocity 
     %
     %   There are 4 additional ``output.bodies`` arrays when using nonlinear hydro and Paraview output:
     %
-    %   *  ``cellPressures_time`` (`array`) = [# of Paraview time-steps x 1] Nonlinear calculation timeseries
-    %   *  ``cellPressures_hydrostatic`` (`array`) = [# of Paraview time-steps x # of mesh faces] Hydrostatic pressure on each stl facet
-    %   *  ``cellPressures_waveLinear`` (`array`) = [# of Paraview time-steps x # of mesh faces] Excitation pressure on each stl facet given zero displacement and the mean free surface
-    %   *  ``cellPressures_waveNonLinear`` (`array`) = [# of Paraview time-steps x # of mesh faces] Excitation pressure on each stl facet given the instantaneous displacement and instantaneous free surface 
+    %   * ``cellPressures_time`` (`array`) = [# of Paraview time-steps x 1] Nonlinear calculation timeseries
+    %   * ``cellPressures_hydrostatic`` (`array`) = [# of Paraview time-steps x # of mesh faces] Hydrostatic pressure on each stl facet
+    %   * ``cellPressures_waveLinear`` (`array`) = [# of Paraview time-steps x # of mesh faces] Excitation pressure on each stl facet given zero displacement and the mean free surface
+    %   * ``cellPressures_waveNonLinear`` (`array`) = [# of Paraview time-steps x # of mesh faces] Excitation pressure on each stl facet given the instantaneous displacement and instantaneous free surface 
     %
     %.. autoattribute:: objects.responseClass.constraints
     %    
-	%   * ``name`` (`string`) = 'coonstraintName'
+	%   * ``name`` (`string`) = 'constraintName'
     %   * ``time`` (`array`) = [# of time-steps x 1]
-    %   * ``position`` (`array`) = [# of time-steps x 6]
-    %   * ``velocity`` (`array`) = [# of time-steps x 6]
-    %   * ``accleration`` (`array`) = [# of time-steps x 6]
-    %   * ``forceConstraint`` (`array`) = [# of time-steps x 6]    
+    %   * ``position`` (`array`) = [# of time-steps x 6] The constraint position relative to the initial condition
+    %   * ``velocity`` (`array`) = [# of time-steps x 6] The constraint velocity relative to the initial condition
+    %   * ``acceleration`` (`array`) = [# of time-steps x 6] The constraint acceleration relative to the initial condition
+    %   * ``forceConstraint`` (`array`) = [# of time-steps x 6] The force required to resist motion in the restricted DOFs
     %
     %.. autoattribute:: objects.responseClass.ptos
     %    
     %   * ``name`` (`string`) = 'ptoName'
     %   * ``time`` (`array`) = [# of time-steps x 1]
-    %   * ``position`` (`array`) = [# of time-steps x 6]
-    %   * ``velocity`` (`array`) = [# of time-steps x 6]
-    %   * ``accleration`` (`array`) = [# of time-steps x 6]
-    %   * ``forceTotal`` (`array`) = [# of time-steps x 6]
-    %   * ``forceActuation`` (`array`) = [# of time-steps x 6]
-    %   * ``forceConstraint`` (`array`) = [# of time-steps x 6]
-    %   * ``forceInternalMechanics`` (`array`) = [# of time-steps x 6]
-    %   * ``powerInternalMechanics`` (`array`) = [# of time-steps x 6]
+    %   * ``position`` (`array`) = [# of time-steps x 6] The constraint position relative to the initial condition
+    %   * ``velocity`` (`array`) = [# of time-steps x 6] The constraint velocity relative to the initial condition
+    %   * ``acceleration`` (`array`) = [# of time-steps x 6] The constraint acceleration relative to the initial condition
+    %   * ``forceTotal`` (`array`) = [# of time-steps x 6] The sum of the actuation, constraint and internal mechanics forces
+    %   * ``forceActuation`` (`array`) = [# of time-steps x 6] The prescribed force input to the PTO to control its motion
+    %   * ``forceConstraint`` (`array`) = [# of time-steps x 6] The force required to resist motion in the restricted DOFs
+    %   * ``forceInternalMechanics`` (`array`) = [# of time-steps x 6] The net force in the joint DOF due to stiffness and damping
+    %   * ``powerInternalMechanics`` (`array`) = [# of time-steps x 6] The net power lost in the joint DOF due to stiffness and damping
     %
     %.. autoattribute:: objects.responseClass.cables
     %    
@@ -85,29 +85,29 @@ classdef responseClass<handle
     %   * ``time`` (`array`) = [# of time-steps x 1]
     %   * ``position`` (`array`) = [# of time-steps x 6]
     %   * ``velocity`` (`array`) = [# of time-steps x 6]
-    %   * ``accleration`` (`array`) = [# of time-steps x 6]
-    %   * ``forceTotal`` (`array`) = [# of time-steps x 6]
-    %   * ``forceActuation`` (`array`) = [# of time-steps x 6]
-    %   * ``forceConstraint`` (`array`) = [# of time-steps x 6]
+    %   * ``acceleration`` (`array`) = [# of time-steps x 6]
+    %   * ``forceTotal`` (`array`) = [# of time-steps x 6] The sum of the actuation and constraint forces
+    %   * ``forceActuation`` (`array`) = [# of time-steps x 6] The cable tension 
+    %   * ``forceConstraint`` (`array`) = [# of time-steps x 6] The force required to resist motion in the restricted DOFs
     % 
     %.. autoattribute:: objects.responseClass.mooring
     %    
     %   * ``position`` (`array`) = [# of time-steps x 6]
     %   * ``velocity`` (`array`) = [# of time-steps x 6]
-    %   * ``forceMooring`` (`array`) = [# of time-steps x 6]
+    %   * ``forceMooring`` (`array`) = [# of time-steps x 6] The sum of the stiffness, damping and pretension forces applied on the body by the mooring
     %
     %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
     
     
     properties (SetAccess = 'public', GetAccess = 'public')
-        wave                = struct()     % This property generates the ``wave`` structure for each instance of the ``waveClass`` 
-        bodies              = struct()     % This property generates the ``bodies`` structure for each instance of the ``bodyClass`` (i.e. for each Body block)
-        ptos                = struct()     % This property generates the ``ptos`` structure for each instance of the ``ptoClass`` (i.e. for each PTO block)
-        constraints         = struct()     % This property generates the ``constraints`` structure for each instance of the ``coonstraintClass`` (i.e. for each Constraint block)
-        mooring             = struct()     % This property generates the ``mooring`` structure for each instance of the ``mooringClass`` (i.e. for each Mooring block)
-        cables              = struct()     % This property generates the ``cables`` structure for each instance of the ``cableClass`` (i.e. for each Cable block)
-        moorDyn             = struct()     % This property generates the ``moorDyn`` structure for each instance of the ``mooringClass`` using MoorDyn (i.e. for each MoorDyn block), it includes ``Lines``  and ``Line#``.
-        ptosim              = struct()     % This property generates the ``ptosim`` structure for each instance of the ``ptoSimClass`` (i.e. for each PTO-Sim block).
+        wave                = struct()     % This property contains a structure for each instance of the ``waveClass`` 
+        bodies              = struct()     % This property contains a structure for each instance of the ``bodyClass`` (i.e. for each Body block)
+        ptos                = struct()     % This property contains a structure for each instance of the ``ptoClass`` (i.e. for each PTO block). PTO motion is relative from frame F to frame B. PTO forces act on frame F.
+        constraints         = struct()     % This property contains a structure for each instance of the ``constraintClass`` (i.e. for each Constraint block). Constraint motion is relative from frame F to frame B. Constraint forces act on frame F.
+        mooring             = struct()     % This property contains a structure for each instance of the ``mooringClass`` using the mooring matrix (i.e. for each MooringMatrix block)
+        cables              = struct()     % This property contains a structure for each instance of the ``cableClass`` (i.e. for each Cable block)
+        moorDyn             = struct()     % This property contains a structure for each instance of the ``mooringClass`` using MoorDyn (i.e. for each MoorDyn block), it includes ``Lines``  and ``Line#``.
+        ptosim              = struct()     % This property contains a structure for each instance of the ``ptoSimClass`` (i.e. for each PTO-Sim block).
     end
     
     methods (Access = 'public')

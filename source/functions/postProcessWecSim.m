@@ -87,10 +87,11 @@ end
 
 % PTO-Sim
 if exist('ptosim','var')
-    ptosimOutput = ptosim.response;
+    ptosimOutput = ptosim.response();
 else
     ptosimOutput = 0;
 end
+clear pistonCF*_out pistonNCF*_out checkValve*_out valve*_out accumulator*_out hydraulicMotor*_out rotaryGenerator*_out pmLinearGenerator*_out pmRotaryGenerator*_out motionMechanism*_out
 
 % Waves
 if strcmp(simu.solver,'ode4')~=1    % Re-calculate wave elevation for variable time-step solver
