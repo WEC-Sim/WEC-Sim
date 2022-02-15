@@ -30,8 +30,8 @@ function plotAddedMass(hydro,varargin)
     end
     
     numHydro = length(varargin);
-    if numHydro>=1
-        if numHydro ==1
+    if numHydro >= 1
+        if numHydro == 1
             try
                 isnumeric(varargin{1}.Nb) == 1;
             catch

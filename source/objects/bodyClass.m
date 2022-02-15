@@ -176,7 +176,9 @@ classdef bodyClass<handle
         end
         
         function loadHydroData(obj, hydroData)
-            % WECSim function that loads the hydroData structure from a MATLAB variable as alternative to reading the h5 file. This process reduces computational time when using wecSimMCR.
+            % WECSim function that loads the hydroData structure from a
+            % MATLAB variable as alternative to reading the h5 file. This
+            % process reduces computational time when using wecSimMCR.
             obj.hydroData = hydroData;
             obj.cg        = hydroData.properties.cg';
             obj.cb        = hydroData.properties.cb';

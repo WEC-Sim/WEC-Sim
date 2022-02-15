@@ -1,8 +1,8 @@
 function outputData = reverseDimensionOrder(inputData)
     % This function reverse the order of the dimensions in data.
-    % Called by bodyClass.readH5File() to permute data into the correct format.
+    % Called by readBEMIOH5() to permute data into the correct format.
     % 
-    % This required permutation is a legacy of the loadH5.m
+    % This required permutation is a legacy of the Load_H5.m
     % function that reordered dimensions of hydrodata upon reading
 
     % Parameters
