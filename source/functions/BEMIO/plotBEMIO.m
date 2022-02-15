@@ -8,22 +8,33 @@ function plotBEMIO(hydro,varargin)
 % 
 % See WEC-Sim\examples\BEMIO for examples of usage.
 
+% DEVELOPER NOTE:
+% This function /must/ pass varargin to the next plotting functions as
+% varargin{:}. 
+% 
+% This notation will expand the variable arguments back into distinct
+% parameters. However this gives multiple outputs and cannot be assigned to
+% a new variable, it must be passed to the function directly as varargin{:}
+% 
+% If varargin is empty, varargin{:} gives passes nothing to the plotX
+% functions. (Not an empty array, but nothing). 
+
 %% Added Mass
-plotAddedMass(hydro,varargin)
+plotAddedMass(hydro,varargin{:})
 
 %% Radiation Damping
-plotRadiationDamping(hydro,varargin)
-
+plotRadiationDamping(hydro,varargin{:})
+% 
 %% Radiation IRFs
-plotRadiationIRF(hydro,varargin)
+plotRadiationIRF(hydro,varargin{:})
 
 %% Excitation Force Magnitude
-plotExcitationMagnitude(hydro,varargin)
+plotExcitationMagnitude(hydro,varargin{:})
 
 %% Excitation Force Phase
-plotExcitationPhase(hydro,varargin)
+plotExcitationPhase(hydro,varargin{:})
 
 %% Excitation IRFs
-plotExcitationIRF(hydro,varargin)
+plotExcitationIRF(hydro,varargin{:})
 
 end

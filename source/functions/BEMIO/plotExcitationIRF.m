@@ -36,14 +36,6 @@ function plotExcitationIRF(hydro,varargin)
     
     numHydro = length(varargin);
     if numHydro>=1
-        if numHydro ==1
-            try
-                isnumeric(varargin{1}.Nb) == 1;
-            catch
-                varargin = varargin{1};
-                numHydro = length(varargin);
-            end
-        end     
         for ii=1:numHydro
             numBod = varargin{ii}.Nb;
             tmp1 = strcat('X',num2str(ii));

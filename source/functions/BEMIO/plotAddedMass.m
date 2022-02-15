@@ -1,6 +1,5 @@
 function plotAddedMass(hydro,varargin)
     
-    clear X Y Legends
     Fig1 = figure('Position',[50,500,975,521]);
     Title = ['Normalized Added Mass: $$\bar{A}_{i,j}(\omega) = {\frac{A_{i,j}(\omega)}{\rho}}$$'];
     Subtitles = {'Surge','Heave','Pitch'};
@@ -31,14 +30,6 @@ function plotAddedMass(hydro,varargin)
     
     numHydro = length(varargin);
     if numHydro >= 1
-        if numHydro == 1
-            try
-                isnumeric(varargin{1}.Nb) == 1;
-            catch
-                varargin = varargin{1};
-                numHydro = length(varargin);
-            end
-        end
         for ii=1:numHydro
             numBod = varargin{ii}.Nb;
             tmp1 = strcat('X',num2str(ii));
