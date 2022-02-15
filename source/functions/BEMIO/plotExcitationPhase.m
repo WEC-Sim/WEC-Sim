@@ -45,7 +45,7 @@ for ii = 1:numHydro
     end
 end
 
-FormatPlot(figHandle,titleString,subtitleString,xString,yString,X,Y,legendStrings,notes)  
+formatPlot(figHandle,titleString,subtitleString,xString,yString,X,Y,legendStrings,notes)  
 saveas(figHandle,'Excitation_Phase.png');
 
 end

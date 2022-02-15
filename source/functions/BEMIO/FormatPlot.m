@@ -1,4 +1,4 @@
-function FormatPlot(fig,titleString,subtitleStrings,xString,yString,X,Y,legendStrings,notes)
+function formatPlot(fig,titleString,subtitleStrings,xString,yString,X,Y,legendStrings,notes)
 % Creates a set of 1x3 subplots for the given input data. Adds formatting
 % based on the given x and y axes labels, legend, title, subtitles and
 % notes.

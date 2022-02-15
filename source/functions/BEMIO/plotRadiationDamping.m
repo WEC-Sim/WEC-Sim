@@ -48,7 +48,7 @@ for ii=1:numHydro
     end
 end
 
-FormatPlot(figHandle,titleString,subtitleStrings,xString,yString,X,Y,legendStrings,notes)  
+formatPlot(figHandle,titleString,subtitleStrings,xString,yString,X,Y,legendStrings,notes)  
 saveas(figHandle,'Radiation_Damping.png');
 
 end
