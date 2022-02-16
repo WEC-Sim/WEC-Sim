@@ -1,6 +1,6 @@
 %% Simulation Data
 simu = simulationClass();               
-simu.simMechanicsFile = 'RM3_cHydraulic_PTOV3.slx'; %Location of Simulink Model File with PTO-Sim                 
+simu.simMechanicsFile = 'RM3_cHydraulic_PTOV4.slx'; %Location of Simulink Model File with PTO-Sim                 
 simu.startTime = 0;                     
 simu.rampTime = 100;                       
 simu.endTime=400;   
@@ -85,11 +85,12 @@ PTOSimBlock(4).GasHydAccumulator.pIprecharge = 1392.4*6894.75;
 %Hydraulic Motor
 PTOSimBlock(5) = PTOSimClassUpdated('PTOSim5');
 PTOSimBlock(5).PTOSimBlockNum  = 5;
-PTOSimBlock(5).HydraulicMotor.Displacement = 120;
-PTOSimBlock(5).HydraulicMotor.EffTableShaftSpeed = linspace(0,2500,20);
-PTOSimBlock(5).HydraulicMotor.EffTableDeltaP = linspace(0,200*1e5,20);
-PTOSimBlock(5).HydraulicMotor.EffTableVolEff = ones(20,20)*0.9;
-PTOSimBlock(5).HydraulicMotor.EffTableMechEff = ones(20,20)*0.85;
+PTOSimBlock(5).HydraulicMotorV2.EffModel = 2;
+PTOSimBlock(5).HydraulicMotorV2.Displacement = 120;
+PTOSimBlock(5).HydraulicMotorV2.EffTableShaftSpeed = linspace(0,2500,20);
+PTOSimBlock(5).HydraulicMotorV2.EffTableDeltaP = linspace(0,200*1e5,20);
+PTOSimBlock(5).HydraulicMotorV2.EffTableVolEff = ones(20,20)*0.9;
+PTOSimBlock(5).HydraulicMotorV2.EffTableMechEff = ones(20,20)*0.85;
 
 %Electric motor
 PTOSimBlock(6) = PTOSimClassUpdated('PTOSim6');

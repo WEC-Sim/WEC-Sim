@@ -419,6 +419,22 @@ for ii=1:length(body(1,:))
 %    eval(['sv_b' num2str(ii) '_rigidBody = Simulink.Variant(''nhbody_' num2str(ii) '==0'');'])
 end; clear ii
 
+%Efficiency model
+for ii=1:length(PTOSimBlock(1,:))
+    %if PTOSimBlock(ii).HydraulicMotorV2.EffModel==1
+        % Analytical efficiency variant
+        eval(['EffModel_' num2str(ii) ' = PTOSimBlock(ii).HydraulicMotorV2.EffModel;']);
+        eval(['sv_b' num2str(ii) '_AnalyticalEfficiency = Simulink.Variant(''EffModel_', num2str(ii), '==1'');']);
+        eval(['sv_b' num2str(ii) '_TabulatedEfficiency = Simulink.Variant(''EffModel_', num2str(ii), '==2'');']);
+%     elseif PTOSimBlock(ii).HydraulicMotorV2.EffModel==2
+%         % Tabulated efficiency variant
+%         eval(['EffModel_' num2str(ii) ' = PTOSimBlock(ii).HydraulicMotorV2.EffModel;']);
+%         eval(['sv_b' num2str(ii) '_AnalyticalEfficiency = Simulink.Variant(''EffModel_', num2str(ii), '==0'');']);
+%         eval(['sv_b' num2str(ii) '_TabulatedEfficiency = Simulink.Variant(''EffModel_', num2str(ii), '==1'');']);
+%     end
+end; clear ii;
+
+
 % Visualization Blocks
 if ~isempty(waves.markerLoc) && typeNum < 30
     visON = 1;

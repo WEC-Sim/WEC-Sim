@@ -46,13 +46,23 @@ classdef PTOSimClassUpdated<handle
             'pMin'            ,'NOT DEFINED',...            % Cracking pressure
             'rho'             ,'NOT DEFINED',...            % Fluid density
             'k1'              ,'NOT DEFINED',...            % Valve coefficiente
-            'k2'              ,'NOT DEFINED')               % Valve coefficient, it's a function of the other valve variables
+             'k2'              ,'NOT DEFINED')               % Valve coefficient, it's a function of the other valve variables
         HydraulicMotor               = struct(...                           % hydraulic Block properties
             'Displacement'                    ,'NOT DEFINED',...            % [cc/rev] Volumetric displacement
             'EffTableShaftSpeed'              ,'NOT DEFINED',...            % Vector with shaft speed data for efficiency
             'EffTableDeltaP'                  ,'NOT DEFINED',...            % Vector with pressure data for efficiency
             'EffTableVolEff'                  ,'NOT DEFINED',...            % Matrix with vol. efficiency data
             'EffTableMechEff'                 ,'NOT DEFINED')               % Matrix with mech. efficiency data
+        HydraulicMotorV2               = struct(...                           % hydraulic Block properties
+            'Displacement'                    ,'NOT DEFINED',...            % [cc/rev] Volumetric displacement
+            'EffModel'                    ,'NOT DEFINED',...            % 1 for Analytical or 2 for tabulated
+            'EffTableShaftSpeed'              ,'NOT DEFINED',...            % Vector with shaft speed data for efficiency
+            'EffTableDeltaP'                  ,'NOT DEFINED',...            % Vector with pressure data for efficiency
+            'EffTableVolEff'                  ,'NOT DEFINED',...            % Matrix with vol. efficiency data
+            'EffTableMechEff'                 ,'NOT DEFINED',...            % Matrix with mech. efficiency data
+            'Aplha1'                  ,'NOT DEFINED',...            % Matrix with vol. efficiency data
+            'Aplha2'                  ,'NOT DEFINED',...            % Matrix with vol. efficiency data
+            'Aplha3'                  ,'NOT DEFINED')            % Matrix with vol. efficiency data
     end
     
     properties (SetAccess = 'public', GetAccess = 'public')%internal
@@ -60,7 +70,7 @@ classdef PTOSimClassUpdated<handle
     end
     
     methods
-        function obj        = PtoSimClassElectric(name)
+        function obj        = PTOSimClassUpdated(name)
             % Initilization function
             obj.name   = name;
         end
@@ -74,6 +84,29 @@ classdef PTOSimClassUpdated<handle
 %                 end
 %             end
 %         end
-        
+        function ptosimOutput = response(obj)
+            % Create PTO-Sim output
+            names = {'HydraulicPiston','HydraulicAccumulator','RectifyingValve','HydraulicMotor','ElectricMachine'};
+            
+            signals.HydraulicPiston = {'PressureA','ForcePTO','PressureB'};
+            signals.HydraulicAccumulator = {'Pressure','FlowRate'};
+            signals.RectifyingValve = {'QA','QB','QC','QD'};
+            signals.HydraulicMotor = {'ShaftSpeed','Torque','DeltaP','FlowRate'};
+            signals.ElectricMachine = {'Tem','ShaftSpeed','Current','Voltage'};
+            
+            
+            ptosimOutput = struct;
+            for ii = 1:length(names)
+                for jj = 1:length(obj.(names{ii}))
+                    for kk = 1:length(signals.(names{ii}))
+                        try
+                            tmp = evalin('caller',[names{ii} num2str(jj) '_out.signals.values(:,' num2str(kk) ')']);
+                            ptosimOutput.(names{ii})(jj).(signals.(names{ii}){kk}) = tmp;
+                        end
+                    end
+                    evalin('caller',['clear ' names{ii} num2str(jj) '_out']);
+                end
+            end
+        end
     end
 end
