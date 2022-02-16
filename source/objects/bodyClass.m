@@ -461,7 +461,7 @@ classdef bodyClass<handle
         end
         
         function checkinputs(obj,morisonElement,domainSize)
-            % This method checks WEC-Sim user inputs and generates error messages if parameters are not properly defined for the bodyClass.
+            % This method checks WEC-Sim user inputs for each body and generates error messages if parameters are not properly defined for the bodyClass.
             % Check h5 file
             if exist(obj.h5File,'file')==0 && obj.nhBody==0
                 error('The hdf5 file %s does not exist',obj.h5File)
@@ -470,13 +470,17 @@ classdef bodyClass<handle
             if exist(obj.geometryFile,'file') == 0
                 error('Could not locate and open geometry file %s',obj.geometryFile)
             end
+            % Check definitions
+            if (~isnumeric(obj.mass)  && ~strcmp(obj.mass, 'equilibrium')) || isempty(obj.mass)
+                error('Body mass needs to be defined numerically or set to ''equilibrium''.')
+            end
             % Check mesh size
             tr = stlread(obj.geometryFile);
             obj.bodyGeometry.vertex = tr.Points;
             if max(obj.bodyGeometry.vertex) > domainSize/2
                 error('STL mesh is larger than the domain. Reminder: WEC-Sim requires that the STL be saved with units of meters for accurate visualization.')
             elseif max(obj.bodyGeometry.vertex) > domainSize/4
-                warning('STL mesh is very large. Reminder: WEC-Sim requires that the STL be saved with units of meters for accurate visualization.')
+                warning('STL mesh is very large compared to the domain. Reminder: WEC-Sim requires that the STL be saved with units of meters for accurate visualization.')
             end
             % Check Morison Element Inputs for option 1
             if morisonElement == 1
