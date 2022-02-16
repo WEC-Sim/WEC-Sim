@@ -1,4 +1,3 @@
-clc; clear all; close all;
 hydro = struct();
 
 hydro = readAQWA(hydro, 'cubes.AH1', 'cubes.LIS');

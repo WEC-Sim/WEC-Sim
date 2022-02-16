@@ -1,4 +1,3 @@
-clc; clear all; close all;
 hydro = struct();
 
 hydro = readAQWA(hydro, 'OSWEC.AH1', 'OSWEC.LIS');

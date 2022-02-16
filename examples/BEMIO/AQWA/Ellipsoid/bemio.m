@@ -1,4 +1,3 @@
-clc; clear all; close all;
 hydro = struct();
 
 hydro = readAQWA(hydro, 'ellipsoid.AH1', 'ellipsoid.LIS');
