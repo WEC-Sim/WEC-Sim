@@ -96,6 +96,28 @@ classdef responseClass<handle
     %   * ``velocity`` (`array`) = [# of time-steps x 6]
     %   * ``forceMooring`` (`array`) = [# of time-steps x 6] The sum of the stiffness, damping and pretension forces applied on the body by the mooring
     %
+    %.. autoattribute:: objects.responseClass.moorDyn
+    %    
+    %   * ``Lines`` (`struct`) = [1 x 1] Contains the time and fairlead tensions
+    %   * ``Line#`` (`struct`) = [1 x 1] One structure for each mooring line: Line1, Line2, etc. Each line structure contains node positions in x, y, z and segment tensions
+    %
+    %.. autoattribute:: objects.responseClass.ptosim
+    %    
+    %   * ``time`` (`struct`) = [# of time-steps x 1] Simulation timeseries
+    % 
+    %   There are additional ``output.ptosim`` structs corresponding to the Simulink blocks used:
+    % 
+    %   * ``pistonCF`` (`struct`) = [1 x # of pistons] Structure containing timeseries of compressible fluid piston properties including absolute power, force, position, velocity
+    %   * ``pistonNCF`` (`array`) = [1 x # of pistons] Structure containing timeseries of non-compressible fluid piston properties including absolute power, force, top pressure and bottom pressure
+    %   * ``checkValve`` (`struct`) = [1 x # of valves] Structure containing timeseries of check valve properies including volume flow rate
+    %   * ``valve`` (`struct`) = [1 x # of valves] Structure containing
+    %   timeseries of valve properties including volume flow rate
+    %   * ``accumulator`` (`struct`) = [1 x # of accumulators] Structure containing timeseries of accumulator properties including pressure and volume
+    %   * ``hydraulicMotor`` (`struct`) = [1 x # of motors] Structure containing timeseries of hydraulic motor properties including angular velocity and volume flow rate
+    %   * ``rotaryGenerator`` (`struct`) = [1 x # of generators] Structure containing timeseries of rotary generator properties including electrical power and generated power
+    %   * ``pmLinearGenerator`` (`struct`) = [1 x # of generators] Structure containing timeseries of permanent magnet linear generator properties including absolute power, force, friction force, current, voltage, velocity and electrical power
+    %   * ``pmRotaryGenerator`` (`struct`) = [1 x # of generators] Structure containing timeseries of permanent magnet rotary generator properties including absolute power, force, friction force, current, voltage, velocity and electrical power 
+    %   * ``motionMechanism`` (`struct`) = [1 x # of mechanisms] Structure containing timeseries of motion mechanism properties including PTO torque, angular position and angular velocity
     %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
     
     
@@ -106,7 +128,7 @@ classdef responseClass<handle
         constraints         = struct()     % This property contains a structure for each instance of the ``constraintClass`` (i.e. for each Constraint block). Constraint motion is relative from frame F to frame B. Constraint forces act on frame F.
         mooring             = struct()     % This property contains a structure for each instance of the ``mooringClass`` using the mooring matrix (i.e. for each MooringMatrix block)
         cables              = struct()     % This property contains a structure for each instance of the ``cableClass`` (i.e. for each Cable block)
-        moorDyn             = struct()     % This property contains a structure for each instance of the ``mooringClass`` using MoorDyn (i.e. for each MoorDyn block), it includes ``Lines``  and ``Line#``.
+        moorDyn             = struct()     % This property contains a structure for each instance of the ``mooringClass`` using MoorDyn (i.e. for each MoorDyn block)
         ptosim              = struct()     % This property contains a structure for each instance of the ``ptoSimClass`` (i.e. for each PTO-Sim block).
     end
     
