@@ -110,8 +110,7 @@ classdef responseClass<handle
     %   * ``pistonCF`` (`struct`) = [1 x # of pistons] Structure containing timeseries of compressible fluid piston properties including absolute power, force, position, velocity
     %   * ``pistonNCF`` (`array`) = [1 x # of pistons] Structure containing timeseries of non-compressible fluid piston properties including absolute power, force, top pressure and bottom pressure
     %   * ``checkValve`` (`struct`) = [1 x # of valves] Structure containing timeseries of check valve properies including volume flow rate
-    %   * ``valve`` (`struct`) = [1 x # of valves] Structure containing
-    %   timeseries of valve properties including volume flow rate
+    %   * ``valve`` (`struct`) = [1 x # of valves] Structure containing timeseries of valve properties including volume flow rate
     %   * ``accumulator`` (`struct`) = [1 x # of accumulators] Structure containing timeseries of accumulator properties including pressure and volume
     %   * ``hydraulicMotor`` (`struct`) = [1 x # of motors] Structure containing timeseries of hydraulic motor properties including angular velocity and volume flow rate
     %   * ``rotaryGenerator`` (`struct`) = [1 x # of generators] Structure containing timeseries of rotary generator properties including electrical power and generated power
