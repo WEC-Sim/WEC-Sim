@@ -346,7 +346,7 @@ end
 
 waitbar(8/8);
 
-hydro = normalizeBEM(hydro);  % normalizeBEM the data according the WAMIT convention
+hydro = normalizeBEM(hydro);  % Normalize the data according the WAMIT convention
 
 close(p);
 end

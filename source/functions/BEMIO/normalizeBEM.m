@@ -47,7 +47,7 @@ if issorted(hydro(F).w)==0  % Sort, if necessary
     hydro(F).fk_im = hydro(F).fk_im(:,:,I);
 end
 
-if strcmp(hydro(F).code,'WAMIT')==0  % normalizeBEM
+if strcmp(hydro(F).code,'WAMIT')==0  % normalize
     hydro(F).C = hydro(F).C/(hydro(F).g*hydro(F).rho);
     hydro(F).A = hydro(F).A/(hydro(F).rho);
     hydro(F).Ainf = hydro(F).A(:,:,end); % overwritten with more accurate method by radiationIRF.m 

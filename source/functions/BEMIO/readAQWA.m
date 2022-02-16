@@ -247,7 +247,7 @@ for ln=1:length(raw2)
     
 end
 %%
-hydro = normalizeBEM(hydro);  % normalizeBEM the data according the WAMIT convention
+hydro = normalizeBEM(hydro);  % Normalize the data according the WAMIT convention
 close(p);
 assignin('base','hydro',hydro);
 end
