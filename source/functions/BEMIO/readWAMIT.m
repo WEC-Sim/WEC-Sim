@@ -1,13 +1,13 @@
-function hydro = Read_WAMIT(hydro,filename,ex_coeff)
+function hydro = readWAMIT(hydro,filename,exCoeff)
 % Reads data from a WAMIT output file.
 %
-% hydro = Read_WAMIT(hydro, filename, ex_coeff)
-%     hydro –     data structure
-%     filename –  WAMIT output file
-%     ex_coeff -  flag indicating the type of excitation force coefficients
-%                 to read, ‘diffraction’ (default, []), ‘haskind’, or ‘rao’
+% hydro = readWAMIT(hydro, filename, exCoeff)
+%     hydro â€“     data structure
+%     filename â€“  WAMIT output file
+%     exCoeff -  flag indicating the type of excitation force coefficients
+%                 to read, â€˜diffractionâ€™ (default, []), â€˜haskindâ€™, or â€˜raoâ€™
 %
-% See ‘...WEC-Sim\examples\BEMIO\WAMIT...’ for examples of usage.
+% See â€˜...WEC-Sim\examples\BEMIO\WAMIT...â€™ for examples of usage.
 % Note: If generalized body modes are used, the output directory must also
 % include the *.cfg, *.mmx, and *.hst files. And, if simu.nlHydro = 3 will 
 % be used, the output directory must also include the .3fk and .3sc files.
@@ -23,7 +23,7 @@ end
 p = waitbar(0,'Reading WAMIT output file...');  % Progress bar
 e = 0;
 
-if isempty(ex_coeff)==1;  ex_coeff = 'diffraction';  end  % 'diffraction' or 'haskind'
+if isempty(exCoeff)==1;  exCoeff = 'diffraction';  end  % 'diffraction' or 'haskind'
 
 hydro(F).code = 'WAMIT';
 [filepath,name,ext] = fileparts(filename);
@@ -109,11 +109,11 @@ for n = 1:N
         end
     end
     if ((isempty(strfind(raw{n},'HASKIND EXCITING FORCES AND MOMENTS'))==0 & ...
-            strcmp(ex_coeff,'haskind')==1) |...
+            strcmp(exCoeff,'haskind')==1) |...
             (isempty(strfind(raw{n},'DIFFRACTION EXCITING FORCES AND MOMENTS'))==0 & ...
-            strcmp(ex_coeff,'diffraction')==1) |...
+            strcmp(exCoeff,'diffraction')==1) |...
             (isempty(strfind(raw{n},'RESPONSE AMPLITUDE OPERATORS'))==0 & ...
-            strcmp(ex_coeff,'rao')==1))
+            strcmp(exCoeff,'rao')==1))
         hydro(F).Nh = 0;  % Number of wave headings
         i = n+1;
         while isempty(strfind(raw{i},'Wave Heading'))==0
@@ -342,9 +342,7 @@ if exist([tmp{1} '.cfg'],'file')==2
 end
 
 %%
-hydro = Normalize(hydro);  % For WAMIT this just sorts the data, if neccessary
+hydro = normalizeBEM(hydro);  % For WAMIT this just sorts the data, if neccessary
 
 close(p);
 end
-
-

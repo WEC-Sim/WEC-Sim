@@ -143,40 +143,42 @@ classdef bodyClass<handle
             obj.dof_start = obj.hydroData.properties.dof_start;
             obj.dof_end   = obj.hydroData.properties.dof_end;
             obj.dof_gbm   = obj.dof-6;
-            obj.hydroData.hydro_coeffs.linear_restoring_stiffness = Load_H5(filename, [name '/hydro_coeffs/linear_restoring_stiffness']);
-            obj.hydroData.hydro_coeffs.excitation.re = Load_H5(filename, [name '/hydro_coeffs/excitation/re']);
-            obj.hydroData.hydro_coeffs.excitation.im = Load_H5(filename, [name '/hydro_coeffs/excitation/im']);
-            try obj.hydroData.hydro_coeffs.excitation.impulse_response_fun.f = Load_H5(filename, [name '/hydro_coeffs/excitation/impulse_response_fun/f']); end
-            try obj.hydroData.hydro_coeffs.excitation.impulse_response_fun.t = Load_H5(filename, [name '/hydro_coeffs/excitation/impulse_response_fun/t']); end
-            obj.hydroData.hydro_coeffs.added_mass.all = Load_H5(filename, [name '/hydro_coeffs/added_mass/all']);
-            obj.hydroData.hydro_coeffs.added_mass.inf_freq = Load_H5(filename, [name '/hydro_coeffs/added_mass/inf_freq']);
-            obj.hydroData.hydro_coeffs.radiation_damping.all = Load_H5(filename, [name '/hydro_coeffs/radiation_damping/all']);
-            try obj.hydroData.hydro_coeffs.radiation_damping.impulse_response_fun.K = Load_H5(filename, [name '/hydro_coeffs/radiation_damping/impulse_response_fun/K']); end
-            try obj.hydroData.hydro_coeffs.radiation_damping.impulse_response_fun.t = Load_H5(filename, [name '/hydro_coeffs/radiation_damping/impulse_response_fun/t']); end
-            try obj.hydroData.hydro_coeffs.radiation_damping.state_space.it = Load_H5(filename, [name '/hydro_coeffs/radiation_damping/state_space/it']); end
-            try obj.hydroData.hydro_coeffs.radiation_damping.state_space.A.all = Load_H5(filename, [name '/hydro_coeffs/radiation_damping/state_space/A/all']); end
-            try obj.hydroData.hydro_coeffs.radiation_damping.state_space.B.all = Load_H5(filename, [name '/hydro_coeffs/radiation_damping/state_space/B/all']); end
-            try obj.hydroData.hydro_coeffs.radiation_damping.state_space.C.all = Load_H5(filename, [name '/hydro_coeffs/radiation_damping/state_space/C/all']); end
-            try obj.hydroData.hydro_coeffs.radiation_damping.state_space.D.all = Load_H5(filename, [name '/hydro_coeffs/radiation_damping/state_space/D/all']); end
-            try tmp = Load_H5(filename, [name '/properties/mass']);
+            obj.hydroData.hydro_coeffs.linear_restoring_stiffness = reverseDimensionOrder(h5read(filename, [name '/hydro_coeffs/linear_restoring_stiffness']));
+            obj.hydroData.hydro_coeffs.excitation.re = reverseDimensionOrder(h5read(filename, [name '/hydro_coeffs/excitation/re']));
+            obj.hydroData.hydro_coeffs.excitation.im = reverseDimensionOrder(h5read(filename, [name '/hydro_coeffs/excitation/im']));
+            try obj.hydroData.hydro_coeffs.excitation.impulse_response_fun.f = reverseDimensionOrder(h5read(filename, [name '/hydro_coeffs/excitation/impulse_response_fun/f'])); end
+            try obj.hydroData.hydro_coeffs.excitation.impulse_response_fun.t = reverseDimensionOrder(h5read(filename, [name '/hydro_coeffs/excitation/impulse_response_fun/t'])); end
+            obj.hydroData.hydro_coeffs.added_mass.all = reverseDimensionOrder(h5read(filename, [name '/hydro_coeffs/added_mass/all']));
+            obj.hydroData.hydro_coeffs.added_mass.inf_freq = reverseDimensionOrder(h5read(filename, [name '/hydro_coeffs/added_mass/inf_freq']));
+            obj.hydroData.hydro_coeffs.radiation_damping.all = reverseDimensionOrder(h5read(filename, [name '/hydro_coeffs/radiation_damping/all']));
+            try obj.hydroData.hydro_coeffs.radiation_damping.impulse_response_fun.K = reverseDimensionOrder(h5read(filename, [name '/hydro_coeffs/radiation_damping/impulse_response_fun/K'])); end
+            try obj.hydroData.hydro_coeffs.radiation_damping.impulse_response_fun.t = reverseDimensionOrder(h5read(filename, [name '/hydro_coeffs/radiation_damping/impulse_response_fun/t'])); end
+            try obj.hydroData.hydro_coeffs.radiation_damping.state_space.it = reverseDimensionOrder(h5read(filename, [name '/hydro_coeffs/radiation_damping/state_space/it'])); end
+            try obj.hydroData.hydro_coeffs.radiation_damping.state_space.A.all = reverseDimensionOrder(h5read(filename, [name '/hydro_coeffs/radiation_damping/state_space/A/all'])); end
+            try obj.hydroData.hydro_coeffs.radiation_damping.state_space.B.all = reverseDimensionOrder(h5read(filename, [name '/hydro_coeffs/radiation_damping/state_space/B/all'])); end
+            try obj.hydroData.hydro_coeffs.radiation_damping.state_space.C.all = reverseDimensionOrder(h5read(filename, [name '/hydro_coeffs/radiation_damping/state_space/C/all'])); end
+            try obj.hydroData.hydro_coeffs.radiation_damping.state_space.D.all = reverseDimensionOrder(h5read(filename, [name '/hydro_coeffs/radiation_damping/state_space/D/all'])); end
+            try tmp = reverseDimensionOrder(h5read(filename, [name '/properties/mass']));
                 obj.hydroData.gbm.mass      = tmp(obj.dof_start+6:obj.dof_end,obj.dof_start+6:obj.dof_end); clear tmp; end;
-            try tmp = Load_H5(filename, [name '/properties/stiffness']);
+            try tmp = reverseDimensionOrder(h5read(filename, [name '/properties/stiffness']));
                 obj.hydroData.gbm.stiffness = tmp(obj.dof_start+6:obj.dof_end,obj.dof_start+6:obj.dof_end); clear tmp; end;
-            try tmp = Load_H5(filename, [name '/properties/damping']);
+            try tmp = reverseDimensionOrder(h5read(filename, [name '/properties/damping']));
                 obj.hydroData.gbm.damping   = tmp(obj.dof_start+6:obj.dof_end,obj.dof_start+6:obj.dof_end); clear tmp;end;
             if obj.meanDriftForce == 0
                 obj.hydroData.hydro_coeffs.mean_drift = 0.*obj.hydroData.hydro_coeffs.excitation.re;
             elseif obj.meanDriftForce == 1
-                obj.hydroData.hydro_coeffs.mean_drift =  Load_H5(filename, [name '/hydro_coeffs/mean_drift/control_surface/val']);
+                obj.hydroData.hydro_coeffs.mean_drift =  reverseDimensionOrder(h5read(filename, [name '/hydro_coeffs/mean_drift/control_surface/val']));
             elseif obj.meanDriftForce == 2
-                obj.hydroData.hydro_coeffs.mean_drift =  Load_H5(filename, [name '/hydro_coeffs/mean_drift/momentum_conservation/val']);
+                obj.hydroData.hydro_coeffs.mean_drift =  reverseDimensionOrder(h5read(filename, [name '/hydro_coeffs/mean_drift/momentum_conservation/val']));
             else
                 error('Wrong flag for mean drift force.')
             end
         end
         
         function loadHydroData(obj, hydroData)
-            % WECSim function that loads the hydroData structure from a MATLAB variable as alternative to reading the h5 file. This process reduces computational time when using wecSimMCR.
+            % WECSim function that loads the hydroData structure from a
+            % MATLAB variable as alternative to reading the h5 file. This
+            % process reduces computational time when using wecSimMCR.
             obj.hydroData = hydroData;
             obj.cg        = hydroData.properties.cg';
             obj.cb        = hydroData.properties.cb';
