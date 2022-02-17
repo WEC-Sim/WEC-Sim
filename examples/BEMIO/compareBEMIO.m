@@ -10,6 +10,8 @@ WAMIT_hydro = readWAMIT(WAMIT_hydro,WAMIT_out,[]);
 WAMIT_hydro = radiationIRF(WAMIT_hydro,15,[],[],[],[]);
 WAMIT_hydro = excitationIRF(WAMIT_hydro,15,[],[],[],[]);
 
+writeBEMIOH5(WAMIT_hydro)
+
 % Load AQWA hydro data 
 AQWA_hydro = struct();
 AQWA_AH1 = '.\AQWA\Sphere\sphere.AH1';

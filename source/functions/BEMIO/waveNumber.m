@@ -1,41 +1,41 @@
-function k = waveNumber(w,waterDepth,g,deepWaterWave)
-% Solves the wave dispersion relation w^2 = g*k*tanh(k*h) for the wave
+function k = waveNumber(omega,waterDepth,g,deepWaterWave)
+% Solves the wave dispersion relation omega^2 = g*k*tanh(k*h) for the wave
 % number
 % 
 % Parameters
 % ----------
-%     w : [1 1] float
+%     omega : float
 %         Wave frequency [rad/s]
 %     
-%     waterDepth : [1 1] float
+%     waterDepth : float
 %         Water depth [m]
 %     
-%     g : [1 1] float
+%     g : float
 %         Gravitational acceleration [m/s^2]
 %     
-%     deepWaterWave : [1 1] float
+%     deepWaterWave : integar
 %         waveClass flag inidicating a deep water wave [-]
 % 
 % Returns
 % ------------
-%    k : [1 1] float
+%    k : float
 %        Wave number [m]
 % 
 
 arguments
-    w
+    omega
     waterDepth
-    g = 9.81
+    g = 9.81;
     deepWaterWave = 0;
 end
 
-% Initial guess
-k = w.^2./g;
+% Deep water approximation, initial guess 
+k = omega.^2./g;
 
-% Iterate for shallow and intermediate depths
+% Iterate for shallow and intermediate water, full dispersion relationship
 if deepWaterWave == 0
     for i = 1:100
-        k = w.^2./g./tanh(k.*waterDepth);
+        k = omega.^2./g./tanh(k.*waterDepth);
     end
 end
 
