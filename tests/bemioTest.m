@@ -110,7 +110,7 @@ classdef bemioTest < matlab.unittest.TestCase
             WAMIT_hydro = excitationIRF(WAMIT_hydro,15,[],[],[],[]);
             % Load Capytaine hydro data 
             CAP_hydro = struct();
-            cd(fullfile(testCase.capytaineDir,'Sphere'))                        
+            cd(fullfile(testCase.capytaineDir,'sphere'))                        
             CAP_hydro = readCAPYTAINE(CAP_hydro,'sphere_full.nc');
             CAP_hydro = radiationIRF(CAP_hydro,15,[],[],[],[]);
             CAP_hydro = excitationIRF(CAP_hydro,15,[],[],[],[]);
