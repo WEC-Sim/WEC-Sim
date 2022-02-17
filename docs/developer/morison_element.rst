@@ -14,7 +14,7 @@ For a fixed body in an oscillating flow the force imposed by the fluid is given 
 where :math:`\vec{F}_{ME}` is the Morison element hydrodynamic force, :math:`\rho` is the fluid density, :math:`\forall` is the displaced volume, :math:`C_{m}` is the inertia coefficient, :math:`A` is the reference area, :math:`C_{D}` is the drag coefficient, and :math:`u` is the fluid velocity. The inertia coefficient is defined as: 
 
 .. math::
-    C_{m} = 1 + C_{a},
+    C_{m} = 1 + C_{a}
     :label: inertiacoeff
 
 where :math:`C_{a}` is the added mass coefficient. The inertia term is the sum of the Froude- Krylov Force, :math:`\rho \forall \dot{u}`, and the hydrodynamic mass force, :math:`\rho C_{a} \forall \dot{u}`. The inertia and drag coefficients are generally obtained experimentally and have been found to be a function of the Reynolds (Re) and Kulegan Carpenter (KC) numbers
@@ -68,7 +68,7 @@ Moving Body
 If the body is allowed to move in an oscillating flow then Eqn. :eq:`fixed` must be adjusted as follows:
 
 .. math::
-   \vec{F}_{ME} = \rho \forall \dot{\vec{u}} + \rho \forall C_{a} \left( \dot{\vec{u}} - \dot{\vec{U}} \right) + \frac{1}{2}\rho C_{D} A \left( \vec{u} - \vec{U} \right) \left| \vec{u} - \vec{U} \right|~~,
+   \vec{F}_{ME} = \rho \forall \dot{\vec{u}} + \rho \forall C_{a} \left( \dot{\vec{u}} - \dot{\vec{U}} \right) + \frac{1}{2}\rho C_{D} A \left( \vec{u} - \vec{U} \right) \left| \vec{u} - \vec{U} \right|~~
    :label: moving
    
 where :math:`U` is the body velocity.  In the calculations performed by WEC-Sim, it is assumed that the body does not alter the wave field and the fluid velocity and acceleration can be calculated from the incident wave potential as from Eqn. :eq:`eqnb` and :eq:`dotuw`.
@@ -80,13 +80,13 @@ Review of Rigid Body Dynamics
 A rigid body is an idealization of a solid body in which deformation is neglected. In other words, the distance between any two given points of a rigid body remains constant in time regardless of external forces exerted on it.  The position of the whole body is represented by its linear position together with its angular position with a global fixed reference frame.  WEC-Sim calculates the position, velocity, and acceleration of the rigid body about its center of gravity; however, the placement of each morrison element will have a different local velocity that affects the fluid force.  The relative velocity between point A and point B on a rigid body is given by:
 
 .. math::
-   \vec{U}_{A} = \vec{U}_{B} + \omega \times r_{BA}~~,
+   \vec{U}_{A} = \vec{U}_{B} + \omega \times r_{BA}~~
    :label: relV
 
 where :math:`\omega` is the angular velocity of the body and :math:`\times` denotes the cross product.  Taking the time derivative of Eqn. :eq:`relV` provides the relative acceleration:
 
 .. math::
-   \vec{\dot{U}}_{A} = \vec{\dot{U}}_{B} + \omega \times \omega \times r_{BA} + \dot{\omega} \times r_{BA}~~.
+   \vec{\dot{U}}_{A} = \vec{\dot{U}}_{B} + \omega \times \omega \times r_{BA} + \dot{\omega} \times r_{BA}~~
    :label: relA
    
 WEC-Sim Implementations
