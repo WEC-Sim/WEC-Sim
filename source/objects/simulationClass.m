@@ -147,7 +147,7 @@ classdef simulationClass<handle
             end
             
             % Set dtParaview if it was not specified in input file
-            if isempty(obj.dtParaview) || obj.dtParaview < obj.dtParaview
+            if isempty(obj.dtParaview) || obj.dtParaview < obj.dtOut
                 obj.dtParaview = obj.dtOut;
             end
             
