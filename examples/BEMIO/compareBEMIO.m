@@ -43,7 +43,7 @@ clear all;clc; close all
 WAMIT_hydro = struct();
 WAMIT_out = '.\WAMIT\RM3\rm3.out';
 WAMIT_hydro = readWAMIT(WAMIT_hydro,WAMIT_out,[]);
-WAMIT_hydro = radiationIRF(WAMIT_hydro,20,[],[],[],[]);
+WAMIT_hydro = radiationIRF(WAMIT_hydro,60,[],[],[],[]);
 WAMIT_hydro = excitationIRF(WAMIT_hydro,20,[],[],[],[]);
 
 % Load AQWA hydro data 
@@ -51,15 +51,22 @@ AQWA_hydro = struct();
 AQWA_AH1 = '.\AQWA\RM3\RM3.AH1';
 AQWA_LIS = '.\AQWA\RM3\RM3.LIS';
 AQWA_hydro = readAQWA(AQWA_hydro, AQWA_AH1, AQWA_LIS);
-AQWA_hydro = radiationIRF(AQWA_hydro,20,[],[],[],[]);
+AQWA_hydro = radiationIRF(AQWA_hydro,60,[],[],[],[]);
 AQWA_hydro = excitationIRF(AQWA_hydro,20,[],[],[],[]);
 
 % Load Capytaine hydro data 
 CAP_hydro = struct();
 CAP_nc = '.\Capytaine\RM3\rm3_full.nc';
 CAP_hydro = readCAPYTAINE(CAP_hydro,CAP_nc);
-CAP_hydro = radiationIRF(CAP_hydro,20,[],[],[],1.9);
+CAP_hydro = radiationIRF(CAP_hydro,60,[],[],[],1.9);
 CAP_hydro = excitationIRF(CAP_hydro,20,[],[],[],1.9);
+
+% Load NEMOH hydro data 
+NEMOH_hydro = struct();
+NEMOH_dir = '.\NEMOH\RM3';
+NEMOH_hydro = readNEMOH(NEMOH_hydro,NEMOH_dir);
+NEMOH_hydro = radiationIRF(NEMOH_hydro,60,[],[],[],1.9);
+NEMOH_hydro = excitationIRF(NEMOH_hydro,20,[],[],[],1.9);
 
 % Plot each hydro data parameter
 % plotAddedMass(WAMIT_hydro,AQWA_hydro,CAP_hydro)
@@ -70,7 +77,7 @@ CAP_hydro = excitationIRF(CAP_hydro,20,[],[],[],1.9);
 % plotExcitationIRF(WAMIT_hydro,AQWA_hydro,CAP_hydro)
 
 % Plot all hydro data parameters
-plotBEMIO(WAMIT_hydro,AQWA_hydro,CAP_hydro)
+plotBEMIO(WAMIT_hydro,AQWA_hydro,CAP_hydro,NEMOH_hydro)
 
 %% WEC3 (3 bodies)
 clear all;clc; close all
