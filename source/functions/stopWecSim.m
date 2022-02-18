@@ -27,7 +27,7 @@ paraviewVisualization
 
 % ASCII files
 if simu.saveText==1
-    output.writetxt();
+    output.writeText();
 end
 if simu.saveStructure==1
     warning('off','MATLAB:structOnObject')

@@ -534,7 +534,7 @@ classdef responseClass<handle
             
         end
         
-        function writetxt(obj)
+        function writeText(obj)
             % This method writes WEC-Sim outputs to a (ASCII) text file.
             % This method is executed by specifying ``simu.outputtxt=1``
             % in the ``wecSimInputFile.m``.
