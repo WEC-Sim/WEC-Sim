@@ -120,7 +120,7 @@ for i=1:length(blocks)
         
         fprintf(fid,writeLineFromVar(waves, 'H', maskVars, maskViz, [], []));
         fprintf(fid,writeLineFromVar(waves, 'T', maskVars, maskViz, [], []));
-        fprintf(fid,writeLineFromVar(waves, 'waveDir', maskVars, maskViz, [], []));
+        fprintf(fid,writeLineFromVar(waves, 'waveDirection', maskVars, maskViz, [], []));
         fprintf(fid,writeLineFromVar(waves, 'waveSpread', maskVars, maskViz, [], []));
         fprintf(fid,writeLineFromVar(waves, 'spectrumType', maskVars, maskViz, [], []));
         fprintf(fid,writeLineFromVar(waves, 'freqDisc', maskVars, maskViz, [], []));

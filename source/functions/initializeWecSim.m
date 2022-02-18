@@ -218,9 +218,9 @@ if any(hydroBodLogic == 1)
     % When hydro bodies (and an .h5) are present, define the wave using those
     % parameters.
     waves.waveSetup(body(1).hydroData.simulation_parameters.w, body(1).hydroData.simulation_parameters.water_depth, simu.rampTime, simu.dt, simu.maxIt, simu.time, simu.g, simu.rho);
-    % Check that waveDir and freq are within range of hydro data
-    if  min(waves.waveDir) <  min(body(1).hydroData.simulation_parameters.wave_dir) || max(waves.waveDir) >  max(body(1).hydroData.simulation_parameters.wave_dir)
-        error('waves.waveDir outside of range of available hydro data')
+    % Check that waveDirection and freq are within range of hydro data
+    if  min(waves.waveDirection) <  min(body(1).hydroData.simulation_parameters.wave_dir) || max(waves.waveDirection) >  max(body(1).hydroData.simulation_parameters.wave_dir)
+        error('waves.waveDirection outside of range of available hydro data')
     end
     if strcmp(waves.type,'waveImport')~=1 && strcmp(waves.type,'noWave')~=1 && strcmp(waves.type,'noWaveCIC')~=1
         if  min(waves.w) <  min(body(1).hydroData.simulation_parameters.w) || max(waves.w) >  max(body(1).hydroData.simulation_parameters.w)
@@ -245,7 +245,7 @@ idx = find(hydroBodLogic==1);
 if ~isempty(idx)
     for kk = 1:length(idx)
         it = idx(kk);
-        body(it).hydroForcePre(waves.w,waves.waveDir,simu.CIkt,simu.CTTime,waves.numFreq,simu.dt,...
+        body(it).hydroForcePre(waves.w,waves.waveDirection,simu.CIkt,simu.CTTime,waves.numFreq,simu.dt,...
             simu.rho,simu.g,waves.type,waves.waveAmpTime,kk,simu.numWecBodies,simu.ssCalc,simu.b2b,simu.yawNonLin);
     end; clear kk idx
 end
