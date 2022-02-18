@@ -26,51 +26,51 @@ classdef waveClass<handle
     %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
     
     properties (SetAccess = 'public', GetAccess = 'public')%input file     
-        T = 'NOT DEFINED';  % (`float`) Wave period [s] . Defined as wave period for ``regular``, peak period for ``irregular``, or period of BEM data used for hydrodynamic coefficients for ``noWave``. Default = ``'NOT DEFINED'``
-        H = 'NOT DEFINED';  % (`float`) Wave height [m]. Defined as wave height for ``regular``, or significant wave height for ``irregular``. Default =  ``'NOT DEFINED'``
+        T = 'NOT DEFINED';      % (`float`) Wave period [s] . Defined as wave period for ``regular``, peak period for ``irregular``, or period of BEM data used for hydrodynamic coefficients for ``noWave``. Default = ``'NOT DEFINED'``
+        H = 'NOT DEFINED';      % (`float`) Wave height [m]. Defined as wave height for ``regular``, or significant wave height for ``irregular``. Default =  ``'NOT DEFINED'``
         currentDepth = 0;       % (`float`) Current depth [m]. Define the depth over which the sub-surface current is modeled. Must be defined for options ``1`` and ``2``. The current is not calculated for any depths greater than the specified current depth. Default = ``0``
         currentDirection = 0;   % (`float`) Current direction [deg]. Surface current direction defined using WEC-Sim global coordinate system. Default = ``0``
         currentOption = 3;      % (`integer`) Define the sub-surface current model to be used in WEC-Sim, options include: ``0`` for depth-independent model, ``1`` for 1/7 power law variation with depth, ``2`` for linear variation with depth, or ``3`` for no current. Default = ``3`` 
         currentSpeed = 0;       % (`float`) Current seed [m/s]. Surface current speed that is uniform along the water column. Default = ``0``
         freqDisc = 'EqualEnergy'; % (`string`) Method of frequency discretization for irregular waves, options include: ``'EqualEnergy'`` or ``'Traditional'``. Default = ``'EqualEnergy'``
-        freqRange = [];     % (`2x1 vector`) Min and max wave frequency [rad/s], only used for ``irregular`` and ``spectrumImport``. If not specified, the BEM data frequency range is used. Default = ``[]``
-        gamma = [];         % (`float`) Defines gamma, only used for ``JS`` wave spectrum type. Default = ``[]``
-        markerLoc       = [];       % (`nx2 vector`) Marker [X,Y] locations [m]. Default = ``[]``
-        markerSize      = 10;       % (`float`) Marker size in Pixels. Default = ``10``
-        markerStyle     = 1;        % (`integer`) Marker style, options include: ``1``: Sphere, ``2``: Cube, ``3``: Frame. Default = ``1``: Sphere
-        numFreq = [];       % (`integer`) Number of interpolated wave frequencies, only used for ``irregular`` and ``spectrumImport``. Number of frequencies used varies depending on ``freqDisc``, 1000 for ``'Traditional'``, and 500 for ``'EqualEnergy'`` and ``Imported``. Default = ``[]``
-        phaseSeed = 0;      % (`integer`) Defines the random phase seed, only used for ``irregular`` and ``spectrumImport`` waves. Default = ``0``
+        freqNum = [];           % (`integer`) Number of interpolated wave frequencies, only used for ``irregular`` and ``spectrumImport``. Number of frequencies used varies depending on ``freqDisc``, 1000 for ``'Traditional'``, and 500 for ``'EqualEnergy'`` and ``Imported``. Default = ``[]``
+        freqRange = [];         % (`2x1 vector`) Min and max wave frequency [rad/s], only used for ``irregular`` and ``spectrumImport``. If not specified, the BEM data frequency range is used. Default = ``[]``
+        gamma = [];             % (`float`) Defines gamma, only used for ``JS`` wave spectrum type. Default = ``[]``
+        markerLoc       = [];   % (`nx2 vector`) Marker [X,Y] locations [m]. Default = ``[]``
+        markerSize      = 10;   % (`float`) Marker size in Pixels. Default = ``10``
+        markerStyle     = 1;    % (`integer`) Marker style, options include: ``1``: Sphere, ``2``: Cube, ``3``: Frame. Default = ``1``: Sphere
+        phaseSeed = 0;          % (`integer`) Defines the random phase seed, only used for ``irregular`` and ``spectrumImport`` waves. Default = ``0``
         spectrumType = 'NOT DEFINED';  % (`string`) Specifies the wave spectrum type, options inlcude:``PM`` or ``JS``. Default = ``'NOT DEFINED'``
-        type = 'NOT DEFINED'; % (`string`) Specifies the wave type, options include:``noWave``, ``noWaveCIC``, ``regular``, ``regularCIC``, ``irregular``, ``spectrumImport``, or ``waveImport``. Default = ``'NOT DEFINED'``
+        type = 'NOT DEFINED';   % (`string`) Specifies the wave type, options include:``noWave``, ``noWaveCIC``, ``regular``, ``regularCIC``, ``irregular``, ``spectrumImport``, or ``waveImport``. Default = ``'NOT DEFINED'``
         viz = struct( 'numPointsX', 50, ...
                       'numPointsY', 50 ); % (`structure`) Defines visualization options, structure contains the fields ``numPointsX`` for the number of visualization points in x direction, and ``numPointsY`` for the number of visualization points in y direction. 
-        waterDepth = [];    % (`float`) Water depth [m]. Default to BEM water depth if not set. 
-        waveDirection = 0;        % (`float`) Incident wave direction(s) [deg]. Incident wave direction defined using WEC-Sim global coordinate system. Should be defined as a column vector for more than one wave direction. Default = ``0``
-        waveElevationFile = 'NOT DEFINED'; % (`string`) Data file that contains the times-series data file. Default = ``'NOT DEFINED'``
-        waveSpectrumFile = 'NOT DEFINED'; % (`string`) Data file that contains the spectrum data file.  Default = ``'NOT DEFINED'``                
-        wavegauge1loc = [NaN,NaN];  % (`1x2 vector`) Wave gauge 1 [x,y] location [m]. Default = ``[NaN,NaN]``
-        wavegauge2loc = [NaN,NaN];  % (`1x2 vector`) Wave gauge 2 [x,y] location [m]. Default = ``[NaN,NaN]``
-        wavegauge3loc = [NaN,NaN];  % (`1x2 vector`) Wave gauge 3 [x,y] location [m]. Default = ``[NaN,NaN]``
-        waveSpread = 1;     % (`float`) Wave Spread probability associated with wave direction(s). Should be defined as a column vector for more than one wave direction. Default = ``1``
+        waterDepth = [];        % (`float`) Water depth [m]. Default to BEM water depth if not set. 
+        waveDirection = 0;      % (`float`) Incident wave direction(s) [deg]. Incident wave direction defined using WEC-Sim global coordinate system. Should be defined as a column vector for more than one wave direction. Default = ``0``
+        waveElevationFile = 'NOT DEFINED';  % (`string`) Data file that contains the times-series data file. Default = ``'NOT DEFINED'``
+        waveSpectrumFile = 'NOT DEFINED';   % (`string`) Data file that contains the spectrum data file.  Default = ``'NOT DEFINED'``                
+        waveSpread = 1;         % (`float`) Wave Spread probability associated with wave direction(s). Should be defined as a column vector for more than one wave direction. Default = ``1``
+        wavegauge1loc = [NaN,NaN];      % (`1x2 vector`) Wave gauge 1 [x,y] location [m]. Default = ``[NaN,NaN]``
+        wavegauge2loc = [NaN,NaN];      % (`1x2 vector`) Wave gauge 2 [x,y] location [m]. Default = ``[NaN,NaN]``
+        wavegauge3loc = [NaN,NaN];      % (`1x2 vector`) Wave gauge 3 [x,y] location [m]. Default = ``[NaN,NaN]``        
     end    
   
     properties (SetAccess = 'private', GetAccess = 'public')%internal       
         % The following properties are private, for internal use by WEC-Sim
-        A = [];             % Wave amplitude [m]. For regular waves or 2*(wave spectrum vector) for irregular waves
-        S = [];             % Wave Spectrum [m^2-s/rad] for ``Traditional``
-        Pw = [];            % Wave Power Per Unit Wave Crest [W/m]        
-        bemFreq = [];       % Number of wave frequencies from BEM
-        deepWaterWave = []; % Deep water or not, depending on input from WAMIT, NEMOH and AQWA
-        dw = 0;             % Frequency spacing [rad] for ``irregular`` waves.
-        k = [];             % Wave Number
-        phase = 0;          % Wave phase [rad] . Only used for ``irregular`` waves.
-        typeNum = [];       % Number to represent different type of waves        
-        w = [];             % Wave frequency (regular waves) or wave frequency vector (irregular waves) [rad/s] 
-        waveAmpTime = [];   % Wave elevation time history [m] 
-        waveAmpTime1 = [];  % Wave elevation time history at a wave gauge 1 location specified by user [m] 
-        waveAmpTime2 = [];  % Wave elevation time history at a wave gauge 2 location specified by user [m] 
-        waveAmpTime3 = [];  % Wave elevation time history at a wave gauge 3 location specified by user [m] 
-        waveAmpTimeViz = [];% Wave elevation time history at marker locations specified by user [m]         
+        A = [];                 % Wave amplitude [m]. For regular waves or 2*(wave spectrum vector) for irregular waves
+        S = [];                 % Wave Spectrum [m^2-s/rad] for ``Traditional``
+        Pw = [];                % Wave Power Per Unit Wave Crest [W/m]        
+        bemFreq = [];           % Number of wave frequencies from BEM
+        deepWaterWave = [];     % Deep water or not, depending on input from WAMIT, NEMOH and AQWA
+        dw = 0;                 % Frequency spacing [rad] for ``irregular`` waves.
+        k = [];                 % Wave Number
+        phase = 0;              % Wave phase [rad] . Only used for ``irregular`` waves.
+        typeNum = [];           % Number to represent different type of waves        
+        w = [];                 % Wave frequency (regular waves) or wave frequency vector (irregular waves) [rad/s] 
+        waveAmpTime = [];       % Wave elevation time history [m] 
+        waveAmpTime1 = [];      % Wave elevation time history at a wave gauge 1 location specified by user [m] 
+        waveAmpTime2 = [];      % Wave elevation time history at a wave gauge 2 location specified by user [m] 
+        waveAmpTime3 = [];      % Wave elevation time history at a wave gauge 3 location specified by user [m] 
+        waveAmpTimeViz = [];    % Wave elevation time history at marker locations specified by user [m]         
     end
     
     methods (Access = 'public')
@@ -251,27 +251,27 @@ classdef waveClass<handle
                     WFQEd=max(obj.freqRange);                    
                     switch obj.freqDisc
                         case {'Traditional'}
-                            if isempty(obj.numFreq)
-                                obj.numFreq = 1000;
+                            if isempty(obj.freqNum)
+                                obj.freqNum = 1000;
                             end
-                            obj.w = (WFQSt:(WFQEd-WFQSt)/(obj.numFreq-1):WFQEd)';
-                            obj.dw= ones(obj.numFreq,1).*(WFQEd-WFQSt)./(obj.numFreq-1);
+                            obj.w = (WFQSt:(WFQEd-WFQSt)/(obj.freqNum-1):WFQEd)';
+                            obj.dw= ones(obj.freqNum,1).*(WFQEd-WFQSt)./(obj.freqNum-1);
                         case {'EqualEnergy'}
-                            numFreq_interp = 500000;
-                            obj.w = (WFQSt:(WFQEd-WFQSt)/numFreq_interp:WFQEd)';
+                            freqNum_interp = 500000;
+                            obj.w = (WFQSt:(WFQEd-WFQSt)/freqNum_interp:WFQEd)';
                             obj.dw = mean(diff(obj.w));
-                            if isempty(obj.numFreq)
-                                obj.numFreq = 500;
+                            if isempty(obj.freqNum)
+                                obj.freqNum = 500;
                             end
                         case {'Imported'}
                             data = importdata(obj.waveSpectrumFile);
                             freq_data = data(:,1);
                             freq_loc = freq_data >= min(obj.freqRange)/2/pi & freq_data <= max(obj.freqRange)/2/pi;
                             obj.w    = freq_data(freq_loc).*2.*pi;
-                            obj.numFreq = length(obj.w);
+                            obj.freqNum = length(obj.w);
                             obj.dw(1,1)= obj.w(2)-obj.w(1);
-                            obj.dw(2:obj.numFreq-1,1)=(obj.w(3:end)-obj.w(1:end-2))/2;
-                            obj.dw(obj.numFreq,1)= obj.w(end)-obj.w(end-1);
+                            obj.dw(2:obj.freqNum-1,1)=(obj.w(3:end)-obj.w(1:end-2))/2;
+                            obj.dw(obj.freqNum,1)= obj.w(end)-obj.w(end-1);
                     end
                     obj.setWavePhase;
                     obj.irregWaveSpectrum(g,rho)
@@ -490,7 +490,7 @@ classdef waveClass<handle
             end
             switch obj.freqDisc
                 case {'EqualEnergy','Traditional'}
-                    obj.phase = 2*pi*rand(length(obj.waveDirection),obj.numFreq);
+                    obj.phase = 2*pi*rand(length(obj.waveDirection),obj.freqNum);
                 case {'Imported'}
                     data = importdata(obj.waveSpectrumFile);
                     if size(data,2) == 3
@@ -499,7 +499,7 @@ classdef waveClass<handle
                         phase_data = data(freq_loc,3);
                         obj.phase = phase_data';
                     else
-                        obj.phase = 2*pi*rand(1,obj.numFreq);
+                        obj.phase = 2*pi*rand(1,obj.freqNum);
                     end
             end
             obj.phase = obj.phase';
@@ -652,7 +652,7 @@ classdef waveClass<handle
             switch obj.freqDisc
                 case {'EqualEnergy'}
                     m0 = trapz(freq,abs(S_f));
-                    numBins = obj.numFreq+1;
+                    numBins = obj.freqNum+1;
                     a_targ = m0/(numBins);
                     SF = cumtrapz(freq,S_f);
                     wn(1) = 1;

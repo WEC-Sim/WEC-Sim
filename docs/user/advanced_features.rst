@@ -264,7 +264,7 @@ following wave class variable must be defined in the WEC-Sim input file:
     :code:`waves.freqDisc = 'Traditional';`
 
 Users may override the default number of wave frequencies by defining 
-``waves.numFreq``. However, it is on the user to ensure that the wave spectrum 
+``waves.freqNum``. However, it is on the user to ensure that the wave spectrum 
 is adequately defined by the number of wave frequencies, and that the wave 
 forces are not impacted by this change. 
 
