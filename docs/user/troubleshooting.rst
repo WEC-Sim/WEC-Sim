@@ -153,7 +153,7 @@ If a non-CIC wave has unphysical behavior at a specific frequency but not others
 The CIC wave decreases the impact of these spikes in radiation damping.
 
 If a CIC wave continues to oscillate without decaying to a steady state, the convolution integral time is not long enough.
-Increase ``simu.CITime`` to a greater value or use the state space option (``simu.ssCalc=1``).
+Increase ``simu.cicEndTime`` to a greater value or use the state space option (``simu.ssCalc=1``).
 In BEMIO, check that the convolution integral time is long enough for all oscillations to decay. 
 
 **Nonlinear Hydrodynamics:**

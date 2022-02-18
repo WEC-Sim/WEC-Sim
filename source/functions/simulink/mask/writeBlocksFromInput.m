@@ -36,7 +36,7 @@ switch type
         maskVars.endTime = simu.endTime;                             % Simulation End Time [s]
         maskVars.solver = simu.solver;                               % simu.solver = 'ode4' for fixed step & simu.solver = 'ode45' for variable step 
         maskVars.dt = simu.dt;                                       % Simulation time-step [s]
-        maskVars.CITime = simu.CITime;                               % Specify CI Time [s]
+        maskVars.cicEndTime = simu.cicEndTime;                               % Specify CI Time [s]
         maskVars.ssCalc = simu.ssCalc;                               % State-space calculation
 
         % Wave data

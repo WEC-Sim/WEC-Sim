@@ -288,11 +288,11 @@ if ~isempty(idx)
     end; clear kk idx
 end
     
-% Check CITime
+% Check cicEndTime
 if waves.typeNum~=0 && waves.typeNum~=10
     for iBod = 1:simu.numWecBodies
-        if simu.CITime > max(body(iBod).hydroData.hydro_coeffs.radiation_damping.impulse_response_fun.t)
-            error('simu.CITime is larger than the length of the IRF');
+        if simu.cicEndTime > max(body(iBod).hydroData.hydro_coeffs.radiation_damping.impulse_response_fun.t)
+            error('simu.cicEndTime is larger than the length of the IRF');
         end
     end
 end

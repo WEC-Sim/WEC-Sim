@@ -6,7 +6,7 @@ simu.endTime=200;                       % Simulation End Time [s]
 simu.dt = 0.1;                          % Simulation Time-Step [s]
 simu.explorer = 'off';
 simu.ssCalc = 1;
-simu.CITime = 20;
+simu.cicEndTime = 20;
 
 %% Wave Information
 %Regular Waves with Convolution Integral

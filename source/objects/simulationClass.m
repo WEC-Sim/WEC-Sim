@@ -28,22 +28,22 @@ classdef simulationClass<handle
     %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
     
     properties (SetAccess = 'public', GetAccess = 'public')%input file
-        CITime              = 60                                           % (`float`) Convolution integral time. Default = ``60`` s
         adjMassWeightFun    = 2                                            % (`integer`) Weighting function for adjusting added mass term in the translational direction. Default = ``2``
         autoRateTranBlk     = 'on'                                         % (`string`) Automatically handle rate transition for data transfer, 'on', 'off'. Default = ``'on'``
         b2b                 = 0                                            % (`integer`) Option for body2body interactions: off->0, on->1. Default = ``0``
+        cicDt               = []                                           % (`float`) Sample time to calculate Convolution Integral. Default = ``dt``
+        cicEndTime          = 60                                           % (`float`) Convolution integral time. Default = ``60`` s
         domainSize          = 200                                          % (`float`) Size of free surface and seabed. This variable is only used for visualization. Default = ``200`` m
         explorer            = 'on'                                         % (`string`) SimMechanics Explorer 'on' or 'off'. Default = ``'on'``
         dt                  = 0.1                                          % (`float`) Simulation time step. Default = ``0.1`` s
         dtOut               = []                                           % (`float`) Output sampling time. Default = ``dt``
-        dtNL                = []                                           % (`float`) Sample time to calculate nonlinear forces. Default = ``dt``
-        dtCITime            = []                                           % (`float`) Sample time to calculate Convolution Integral. Default = ``dt``
-        dtME                = []                                           % (`float`) Sample time to calculate Morison Element forces. Default = ``dt``
         endTime             = []                                           % (`float`) Simulation end time. Default = ``'NOT DEFINED'``
         g                   = 9.81                                         % (`float`) Acceleration due to gravity. Default = ``9.81`` m/s
-        mcrMatFile         = []                                            % (`string`) mat file that contain a list of the multiple conditions runs with given conditions. Default = ``'NOT DEFINED'``  
-        mcrExcelFile = [];                                                 % (`string`) File name from which to load wave statistics data. Default = ``[]``        
+        mcrMatFile          = []                                           % (`string`) mat file that contain a list of the multiple conditions runs with given conditions. Default = ``'NOT DEFINED'``  
+        mcrExcelFile        = [];                                          % (`string`) File name from which to load wave statistics data. Default = ``[]``        
         mode                = 'normal'                                     % (`string`) Simulation execution mode, 'normal', 'accelerator', 'rapid-accelerator'. Default = ``'normal'``
+        morisonDt           = []                                           % (`float`) Sample time to calculate Morison Element forces. Default = ``dt``
+        nonlinearDt         = []                                           % (`float`) Sample time to calculate nonlinear forces. Default = ``dt``
         numIntMidTimeSteps  = 5                                            % (`integer`) Number of intermediate time steps. Default = ``5`` for ode4 method
         paraview            = 0                                            % (`integer`) Option for writing vtp files for paraview visualization, off->0, on->1. Default = ``0``
         paraviewDt          = 0.1;                                         % (`float`) Timestep for Paraview. Default = ``0.1``         
@@ -132,19 +132,19 @@ classdef simulationClass<handle
                 obj.dtOut = obj.dt;
             end
             
-            % Set dtNL if it was not specificed in input file
-            if isempty(obj.dtNL) || obj.dtNL < obj.dt
-                obj.dtNL = obj.dt;
+            % Set nonlinearDt if it was not specificed in input file
+            if isempty(obj.nonlinearDt) || obj.nonlinearDt < obj.dt
+                obj.nonlinearDt = obj.dt;
             end
             
-            % Set dtCITime if it was not specificed in input file
-            if isempty(obj.dtCITime) || obj.dtCITime < obj.dt
-                obj.dtCITime = obj.dt;
+            % Set cicDt if it was not specificed in input file
+            if isempty(obj.cicDt) || obj.cicDt < obj.dt
+                obj.cicDt = obj.dt;
             end
             
-            % Set dtME if it was not specificed in input file
-            if isempty(obj.dtME) || obj.dtME < obj.dt
-                obj.dtME = obj.dt;
+            % Set morisonDt if it was not specificed in input file
+            if isempty(obj.morisonDt) || obj.morisonDt < obj.dt
+                obj.morisonDt = obj.dt;
             end
             
             % Set paraviewDt if it was not specified in input file
@@ -152,7 +152,7 @@ classdef simulationClass<handle
                 obj.paraviewDt = obj.dtOut;
             end
             
-            obj.CTTime = 0:obj.dtCITime:obj.CITime;            
+            obj.CTTime = 0:obj.cicDt:obj.cicEndTime;            
             obj.CIkt = length(obj.CTTime);
             obj.caseFile = [obj.simMechanicsFile(length(obj.caseDir)+1:end-4) '_matlabWorkspace.mat'];
             
@@ -211,7 +211,7 @@ classdef simulationClass<handle
             fprintf('\tTime Step Size                 (sec) = %G\n',obj.dt)
             fprintf('\tRamp Function Time             (sec) = %G\n',obj.rampTime)
             if waveTypeNum > 10
-                fprintf('\tConvolution Integral Interval  (sec) = %G\n',obj.CITime)
+                fprintf('\tConvolution Integral Interval  (sec) = %G\n',obj.cicEndTime)
             end
             fprintf('\t Number of Time Steps     = %u \n',obj.maxIt)
         end

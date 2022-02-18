@@ -111,7 +111,7 @@ for i=1:length(blocks)
         fprintf(fid,writeLineFromVar(simu, 'endTime', maskVars, maskViz, [], []));
         fprintf(fid,writeLineFromVar(simu, 'solver', maskVars, maskViz, [], []));
         fprintf(fid,writeLineFromVar(simu, 'dt', maskVars, maskViz, [], []));
-        fprintf(fid,writeLineFromVar(simu, 'CITime', maskVars, maskViz, [], []));
+        fprintf(fid,writeLineFromVar(simu, 'cicEndTime', maskVars, maskViz, [], []));
         fprintf(fid,writeLineFromVar(simu, 'ssCalc', maskVars, maskViz, [], []));
         
         % Wave Information 

@@ -196,9 +196,9 @@ steps, default: N=1):
 
 * Fixed time-step: :code:`simu.dt` 
 * Output time-step: :code:`simu.dtOut=N*simu.dt` 
-* Nonlinear Buoyancy and Froude-Krylov Excitation time-step: :code:`simu.dtNL=N*simu.dt` 
-* Convolution integral time-step: :code:`simu.dtCITime=N*simu.dt`   
-* Morison force time-step: :code:`simu.dtME = N*simu.dt` 
+* Nonlinear Buoyancy and Froude-Krylov Excitation time-step: :code:`simu.nonlinearDt=N*simu.dt` 
+* Convolution integral time-step: :code:`simu.cicDt=N*simu.dt`   
+* Morison force time-step: :code:`simu.morisonDt = N*simu.dt` 
 
 Fixed Time-Step (ode4)
 """"""""""""""""""""""
@@ -407,9 +407,9 @@ force calculations.
     due to the instantaneous wave elevation and the instantaneous body position. 
     This option is recommended if nonlinear effects need to be considered.
 
-**simu.dtNL** - 
+**simu.nonlinearDt** - 
 An option available to reduce the nonlinear simulation time is to specify a 
-nonlinear time step, :code:`simu.dtNL=N*simu.dt`, where N is number of 
+nonlinear time step, :code:`simu.nonlinearDt=N*simu.dt`, where N is number of 
 increment steps. The nonlinear time step specifies the interval at which the 
 nonlinear hydrodynamic forces are calculated. As the ratio of the nonlinear to 
 system time step increases, the computation time is reduced, again, at the 
@@ -597,7 +597,7 @@ For :code:`body(ii).morisonElement.option  = 2` ::
     orientation of the Morison Element. 
 
 The Morison Element time-step may also be defined as
-:code:`simu.dtME = N*simu.dt`, where N is number of increment steps. For an 
+:code:`simu.morisonDt = N*simu.dt`, where N is number of increment steps. For an 
 example application of using Morison Elements in WEC-Sim, refer to the `WEC-Sim 
 Applications <https://github.com/WEC-Sim/WEC-Sim_Applications>`_ repository 
 **Free_Decay/1m-ME** example.  

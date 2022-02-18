@@ -6,7 +6,7 @@ function F_FM = ConvolutionIntegral_interp(velocity, IRKB, CTTime)
 % Dimensions:
 % nDOF = the body's number of degrees of freedom = body.dof
 % LDOF = radiating dofs from all bodies (6*Nbodies)
-% nt = length of CTTime (simu.CITime / simu.dtCTTime)
+% nt = length of CTTime (simu.cicEndTime / simu.dtCTTime)
 %
 % Paramters:
 %     velocity : float [LDOF]
