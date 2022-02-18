@@ -44,10 +44,10 @@ classdef waveClass<handle
         type = 'NOT DEFINED'; % (`string`) Specifies the wave type, options include:``noWave``, ``noWaveCIC``, ``regular``, ``regularCIC``, ``irregular``, ``spectrumImport``, or ``waveImport``. Default = ``'NOT DEFINED'``
         viz = struct( 'numPointsX', 50, ...
                       'numPointsY', 50 ); % (`structure`) Defines visualization options, structure contains the fields ``numPointsX`` for the number of visualization points in x direction, and ``numPointsY`` for the number of visualization points in y direction. 
-        waveElevationFile = 'NOT DEFINED'; % (`string`) Data file that contains the times-series data file. Default = ``'NOT DEFINED'``
-        spectrumDataFile = 'NOT DEFINED'; % (`string`) Data file that contains the spectrum data file.  Default = ``'NOT DEFINED'``                
         waterDepth = [];    % (`float`) Water depth [m]. Default to BEM water depth if not set. 
         waveDir = 0;        % (`float`) Incident wave direction(s) [deg]. Incident wave direction defined using WEC-Sim global coordinate system. Should be defined as a column vector for more than one wave direction. Default = ``0``
+        waveElevationFile = 'NOT DEFINED'; % (`string`) Data file that contains the times-series data file. Default = ``'NOT DEFINED'``
+        waveSpectrumFile = 'NOT DEFINED'; % (`string`) Data file that contains the spectrum data file.  Default = ``'NOT DEFINED'``                
         wavegauge1loc = [NaN,NaN];  % (`1x2 vector`) Wave gauge 1 [x,y] location [m]. Default = ``[NaN,NaN]``
         wavegauge2loc = [NaN,NaN];  % (`1x2 vector`) Wave gauge 2 [x,y] location [m]. Default = ``[NaN,NaN]``
         wavegauge3loc = [NaN,NaN];  % (`1x2 vector`) Wave gauge 3 [x,y] location [m]. Default = ``[NaN,NaN]``
@@ -264,7 +264,7 @@ classdef waveClass<handle
                                 obj.numFreq = 500;
                             end
                         case {'Imported'}
-                            data = importdata(obj.spectrumDataFile);
+                            data = importdata(obj.waveSpectrumFile);
                             freq_data = data(:,1);
                             freq_loc = freq_data >= min(obj.freqRange)/2/pi & freq_data <= max(obj.freqRange)/2/pi;
                             obj.w    = freq_data(freq_loc).*2.*pi;
@@ -344,7 +344,7 @@ classdef waveClass<handle
                     fprintf('\tSignificant Wave Height, Hs      (m) = %G\n',obj.H)
                     fprintf('\tPeak Wave Period, Tp           (sec) = %G\n',obj.T)
                 case 'spectrumImport'
-                    if size(importdata(obj.spectrumDataFile),2) == 3
+                    if size(importdata(obj.waveSpectrumFile),2) == 3
                         fprintf('\tWave Type                            = Irregular waves with imported wave spectrum (Imported Phase)\n')
                     elseif obj.phaseSeed == 0
                         fprintf('\tWave Type                            = Irregular waves with imported wave spectrum (Random Phase)\n')
@@ -386,10 +386,10 @@ classdef waveClass<handle
                     error('"waves.T" must be defined for the hydrodynamic data period when using the "noWave" wave type');
                 end
             end
-            % spectrumDataFile defined for 'spectrumImport' case
+            % waveSpectrumFile defined for 'spectrumImport' case
             if strcmp(obj.type,'spectrumImport')
-                if strcmp(obj.spectrumDataFile,'NOT DEFINED')
-                    error('The "spectrumDataFile variable must be defined when using the "spectrumImport" wave type');
+                if strcmp(obj.waveSpectrumFile,'NOT DEFINED')
+                    error('The "waveSpectrumFile variable must be defined when using the "spectrumImport" wave type');
                 end
             end
             % check waves types
@@ -492,7 +492,7 @@ classdef waveClass<handle
                 case {'EqualEnergy','Traditional'}
                     obj.phase = 2*pi*rand(length(obj.waveDir),obj.numFreq);
                 case {'Imported'}
-                    data = importdata(obj.spectrumDataFile);
+                    data = importdata(obj.waveSpectrumFile);
                     if size(data,2) == 3
                         freq_data = data(:,1);
                         freq_loc = freq_data>=min(obj.freqRange)/2/pi & freq_data<=max(obj.freqRange)/2/pi;
@@ -629,7 +629,7 @@ classdef waveClass<handle
                     end
                     obj.S = S_f./(2*pi);                                       % Wave Spectrum [m^2-s/rad]
                 case 'spectrumImport' % Imported Wave Spectrum
-                    data = importdata(obj.spectrumDataFile);
+                    data = importdata(obj.waveSpectrumFile);
                     freq_data = data(:,1);
                     S_data = data(:,2);
                     freq_loc = freq_data >= min(obj.freqRange)/2/pi & freq_data <= max(obj.freqRange)/2/pi;

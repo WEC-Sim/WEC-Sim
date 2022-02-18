@@ -326,7 +326,7 @@ it will be randomly defined. An example file is provided in the
 in the input file:: 
 
     waves = waveClass('spectrumImport');
-    waves.spectrumDataFile='<waveSpectrumFile>.mat';
+    waves.waveSpectrumFile='<waveSpectrumFile>.mat';
 
 .. Note::
     When using the ``spectrumImport`` option, users must specify a sufficient 
@@ -336,7 +336,7 @@ in the input file::
     :ref:`user-advanced-features-irregular-wave-binning` section.
 
 waveImport
-"""""""""
+"""""""""""
 
 The ``waveImport`` case is the wave type for wave simulations using user-defined 
 time-series (ex: from experiments). The user-defined wave surface elevation 

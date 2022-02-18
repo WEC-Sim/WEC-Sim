@@ -309,7 +309,7 @@ file is selected.
     >> % Don't set value if no file is chosen, or prompt canceled.
     >> if ~isequal(filename,0) && ~isequal(filepath,0)
     >>     mask = Simulink.Mask.get(bodyBlockHandle)
-    >>     fileParam = mask.getParameter('spectrumDataFile')
+    >>     fileParam = mask.getParameter('waveSpectrumFile')
     >>     fileParam.value = [filepath,filename];
     >> end
 

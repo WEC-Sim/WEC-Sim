@@ -27,13 +27,13 @@ simu.CITime = 30;                       % Specify CI Time [s]
 % % % waves.waveDir = [0,30,90];              % Wave Directionality [deg]
 % % % waves.waveSpread = [0.1,0.2,0.7];       % Wave Directional Spreading [%}
 
-% % Irregular Waves with imported spectrum
-% waves = waveClass('spectrumImport');        % Create the Wave Variable and Specify Type
-% waves.spectrumDataFile = 'spectrumData.mat';  %Name of User-Defined Spectrum File [:,2] = [f, Sf]
+% Irregular Waves with imported spectrum
+waves = waveClass('spectrumImport');        % Create the Wave Variable and Specify Type
+waves.waveSpectrumFile = 'spectrumData.mat';  %Name of User-Defined Spectrum File [:,2] = [f, Sf]
 
-% Waves with imported wave elevation time-history  
-waves = waveClass('waveImport');         % Create the Wave Variable and Specify Type
-waves.waveElevationFile = 'waveData.mat'; % Name of User-Defined Time-Series File [:,2] = [time, eta]
+% % Waves with imported wave elevation time-history  
+% waves = waveClass('waveImport');         % Create the Wave Variable and Specify Type
+% waves.waveElevationFile = 'waveData.mat'; % Name of User-Defined Time-Series File [:,2] = [time, eta]
 
 
 %% Body Data

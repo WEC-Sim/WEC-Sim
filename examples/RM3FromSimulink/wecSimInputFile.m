@@ -47,11 +47,11 @@ waves.T = 8;                            % Wave Period [s]
 
 % % Irregular Waves with imported spectrum
 % waves = waveClass('spectrumImport');        % Create the Wave Variable and Specify Type
-% waves.spectrumDataFile = 'spectrumData.mat';  %Name of User-Defined Spectrum File [:,2] = [f, Sf]
+% waves.waveSpectrumFile = 'spectrumData.mat';  %Name of User-Defined Spectrum File [:,2] = [f, Sf]
 
 % % Waves with imported wave elevation time-history  
 % waves = waveClass('waveImport');         % Create the Wave Variable and Specify Type
-% waves.etaDataFile = 'waveData.mat'; % Name of User-Defined Time-Series File [:,2] = [time, eta]
+% waves.waveElevationFile = 'waveData.mat'; % Name of User-Defined Time-Series File [:,2] = [time, eta]
 
 %% Body Data
 % Float

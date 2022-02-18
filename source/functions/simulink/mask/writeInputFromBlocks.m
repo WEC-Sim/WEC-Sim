@@ -124,7 +124,7 @@ for i=1:length(blocks)
         fprintf(fid,writeLineFromVar(waves, 'waveSpread', maskVars, maskViz, [], []));
         fprintf(fid,writeLineFromVar(waves, 'spectrumType', maskVars, maskViz, [], []));
         fprintf(fid,writeLineFromVar(waves, 'freqDisc', maskVars, maskViz, [], []));
-        fprintf(fid,writeLineFromVar(waves, 'spectrumDataFile', maskVars, maskViz, [], []));
+        fprintf(fid,writeLineFromVar(waves, 'waveSpectrumFile', maskVars, maskViz, [], []));
         fprintf(fid,writeLineFromVar(waves, 'phaseSeed', maskVars, maskViz, [], []));
         fprintf(fid,writeLineFromVar(waves, 'waveElevationFile', maskVars, maskViz, [], []));
             

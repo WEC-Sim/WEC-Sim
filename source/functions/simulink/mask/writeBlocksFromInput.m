@@ -48,7 +48,7 @@ switch type
         maskVars.spectrumType = waves.spectrumType;                  % Specify Wave Spectrum Type
         maskVars.freqDisc = waves.freqDisc;                          % Uses 'EqualEnergy' bins (default) 
         maskVars.phaseSeed = waves.phaseSeed;                        % Phase is seeded so eta is the same
-        maskVars.spectrumDataFile = waves.spectrumDataFile;          % Name of User-Defined Spectrum File [:,2] = [f, Sf]
+        maskVars.waveSpectrumFile = waves.waveSpectrumFile;          % Name of User-Defined Spectrum File [:,2] = [f, Sf]
         maskVars.waveElevationFile = waves.waveElevationFile;                    % Name of User-Defined Time-Series File [:,2] = [time, eta]
     
     case 1

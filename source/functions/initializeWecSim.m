@@ -91,7 +91,7 @@ if exist('mcr','var') == 1
         end
     end; clear n combine;
     try 
-        waves.spectrumDataFile = ['..' filesep parallelComputing_dir filesep '..' filesep waves.spectrumDataFile];
+        waves.waveSpectrumFile = ['..' filesep parallelComputing_dir filesep '..' filesep waves.waveSpectrumFile];
         waves.waveElevationFile      = ['..' filesep parallelComputing_dir filesep '..' filesep waves.waveElevationFile];
     end
 end
