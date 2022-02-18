@@ -46,10 +46,10 @@ classdef simulationClass<handle
         mode                = 'normal'                                     % (`string`) Simulation execution mode, 'normal', 'accelerator', 'rapid-accelerator'. Default = ``'normal'``
         numIntMidTimeSteps  = 5                                            % (`integer`) Number of intermediate time steps. Default = ``5`` for ode4 method
         paraview            = 0                                            % (`integer`) Option for writing vtp files for paraview visualization, off->0, on->1. Default = ``0``
-        StartTimeParaview   = 0;                                           % (`float`) Start time for the vtk file of Paraview. Default = ``0``                                    
-        EndTimeParaview     = 100;                                         % (`float`) End time for the vtk file of Paraview. Default = ``0``                                      
-        dtParaview          = 0.1;                                         % (`float`) Timestep for Paraview. Default = ``0.1``         
-        pathParaviewVideo   = 'vtk';                                       % (`string`) Path of the folder for Paraview vtk files. Default = ``'vtk'``     
+        paraviewDt          = 0.1;                                         % (`float`) Timestep for Paraview. Default = ``0.1``         
+        paraviewStartTime   = 0;                                           % (`float`) Start time for the vtk file of Paraview. Default = ``0``                                    
+        paraviewEndTime     = 100;                                         % (`float`) End time for the vtk file of Paraview. Default = ``0``                                      
+        paraviewDirectory   = 'vtk';                                       % (`string`) Path of the folder for Paraview vtk files. Default = ``'vtk'``     
         pressureDis         = 0                                            % (`integer`) Option to save pressure distribution: off->0, on->1. Default = ``0``
         rampTime            = 100                                          % (`float`) Ramp time for wave forcing. Default = ``100`` s        
         reloadH5Data        = 0                                            % (`integer`) Option to re-load hydro data from hf5 file between runs: off->0, on->1. Default = ``0``
@@ -147,9 +147,9 @@ classdef simulationClass<handle
                 obj.dtME = obj.dt;
             end
             
-            % Set dtParaview if it was not specified in input file
-            if isempty(obj.dtParaview) || obj.dtParaview < obj.dtOut
-                obj.dtParaview = obj.dtOut;
+            % Set paraviewDt if it was not specified in input file
+            if isempty(obj.paraviewDt) || obj.paraviewDt < obj.dtOut
+                obj.paraviewDt = obj.dtOut;
             end
             
             obj.CTTime = 0:obj.dtCITime:obj.CITime;            

@@ -1,4 +1,4 @@
-function writeParaviewBody(body, t, pos_all, bodyname, model, simdate, hspressure,wavenonlinearpressure,wavelinearpressure,pathParaviewVideo,vtkbodiesii)
+function writeParaviewBody(body, t, pos_all, bodyname, model, simdate, hspressure,wavenonlinearpressure,wavelinearpressure,paraviewDirectory,vtkbodiesii)
 % Method to write ``vtp`` Paraview visualization files for the bodyClass.
 % Executed by paraviewVisualization.m when simu.paraview=1 in the 
 % wecSimInputFile.m
@@ -23,7 +23,7 @@ function writeParaviewBody(body, t, pos_all, bodyname, model, simdate, hspressur
 %       Nonlinear Froude-Krylov pressure on the body cells
 %   wavelinearpressure : float vector
 %       Linear Froude-Krylov pressure on the body cells
-%   pathParaviewVideo : directory
+%   paraviewDirectory : directory
 %       Directory the Paraview files were saved
 %   vtkbodiesii : int
 %       Index of the body (1 - number of Paraview bodies)
@@ -41,7 +41,7 @@ for it = 1:length(t)
     vertex_mod = rotateXYZ(vertex_mod,[0 0 1],pos(6));
     vertex_mod = offsetXYZ(vertex_mod,pos(1:3));
     % open file
-    filename = [pathParaviewVideo, filesep 'body' num2str(vtkbodiesii) '_' bodyname filesep bodyname '_' num2str(it) '.vtp'];
+    filename = [paraviewDirectory, filesep 'body' num2str(vtkbodiesii) '_' bodyname filesep bodyname '_' num2str(it) '.vtp'];
     fid = fopen(filename, 'w');
     % write header
     fprintf(fid, '<?xml version="1.0"?>\n');

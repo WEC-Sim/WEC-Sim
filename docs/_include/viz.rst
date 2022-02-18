@@ -42,13 +42,13 @@ The following table lists the WEC-Sim simulation parameters that can be specifie
 | | ``simu.paraview``       | | 0 to not output ParaView files [default]                |
 |                           | | 1 to output ParaView files                              |
 +---------------------------+-----------------------------------------------------------+
-| ``simu.StartTimeParaview``| time (s) to start ParaView visualization                  |
+| ``simu.paraviewStartTime``| time (s) to start ParaView visualization                  |
 +---------------------------+-----------------------------------------------------------+
-| ``simu.EndTimeParaview``  | time (s) to end ParaView visualization	                |
+| ``simu.paraviewEndTime``  | time (s) to end ParaView visualization	                |
 +---------------------------+-----------------------------------------------------------+
-| ``simu.dtParaview``       | time step between adjacent ParaView frames [default 1]    |
+| ``simu.paraviewDt``       | time step between adjacent ParaView frames [default 1]    |
 +---------------------------+-----------------------------------------------------------+
-| ``simu.pathParaviewVideo``| directory to create ParaView visualization files          |
+| ``simu.paraviewDirectory``| directory to create ParaView visualization files          |
 +---------------------------+-----------------------------------------------------------+
 | | ``simu.nlHydro``        | | 0 for no nonlinear hydro [default]                      |
 |                           | | 1 for nonlinear hydro with mean free surface            |
