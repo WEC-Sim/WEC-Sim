@@ -32,7 +32,6 @@ classdef waveClass<handle
         currentDirection = 0;   % (`float`) Current direction [deg]. Surface current direction defined using WEC-Sim global coordinate system. Default = ``0``
         currentOption = 3;      % (`integer`) Define the sub-surface current model to be used in WEC-Sim, options include: ``0`` for depth-independent model, ``1`` for 1/7 power law variation with depth, ``2`` for linear variation with depth, or ``3`` for no current. Default = ``3`` 
         currentSpeed = 0;       % (`float`) Current seed [m/s]. Surface current speed that is uniform along the water column. Default = ``0``
-        etaDataFile = 'NOT DEFINED'; % (`string`) Data file that contains the times-series data file. Default = ``'NOT DEFINED'``
         freqDisc = 'EqualEnergy'; % (`string`) Method of frequency discretization for irregular waves, options include: ``'EqualEnergy'`` or ``'Traditional'``. Default = ``'EqualEnergy'``
         freqRange = [];     % (`2x1 vector`) Min and max wave frequency [rad/s], only used for ``irregular`` and ``spectrumImport``. If not specified, the BEM data frequency range is used. Default = ``[]``
         gamma = [];         % (`float`) Defines gamma, only used for ``JS`` wave spectrum type. Default = ``[]``
@@ -41,11 +40,12 @@ classdef waveClass<handle
         markerStyle     = 1;        % (`integer`) Marker style, options include: ``1``: Sphere, ``2``: Cube, ``3``: Frame. Default = ``1``: Sphere
         numFreq = [];       % (`integer`) Number of interpolated wave frequencies, only used for ``irregular`` and ``spectrumImport``. Number of frequencies used varies depending on ``freqDisc``, 1000 for ``'Traditional'``, and 500 for ``'EqualEnergy'`` and ``Imported``. Default = ``[]``
         phaseSeed = 0;      % (`integer`) Defines the random phase seed, only used for ``irregular`` and ``spectrumImport`` waves. Default = ``0``
-        spectrumDataFile = 'NOT DEFINED'; % (`string`) Data file that contains the spectrum data file.  Default = ``'NOT DEFINED'``                
         spectrumType = 'NOT DEFINED';  % (`string`) Specifies the wave spectrum type, options inlcude:``PM`` or ``JS``. Default = ``'NOT DEFINED'``
-        type = 'NOT DEFINED'; % (`string`) Specifies the wave type, options include:``noWave``, ``noWaveCIC``, ``regular``, ``regularCIC``, ``irregular``, ``spectrumImport``, or ``etaImport``. Default = ``'NOT DEFINED'``
+        type = 'NOT DEFINED'; % (`string`) Specifies the wave type, options include:``noWave``, ``noWaveCIC``, ``regular``, ``regularCIC``, ``irregular``, ``spectrumImport``, or ``waveImport``. Default = ``'NOT DEFINED'``
         viz = struct( 'numPointsX', 50, ...
                       'numPointsY', 50 ); % (`structure`) Defines visualization options, structure contains the fields ``numPointsX`` for the number of visualization points in x direction, and ``numPointsY`` for the number of visualization points in y direction. 
+        waveElevationFile = 'NOT DEFINED'; % (`string`) Data file that contains the times-series data file. Default = ``'NOT DEFINED'``
+        spectrumDataFile = 'NOT DEFINED'; % (`string`) Data file that contains the spectrum data file.  Default = ``'NOT DEFINED'``                
         waterDepth = [];    % (`float`) Water depth [m]. Default to BEM water depth if not set. 
         waveDir = 0;        % (`float`) Incident wave direction(s) [deg]. Incident wave direction defined using WEC-Sim global coordinate system. Should be defined as a column vector for more than one wave direction. Default = ``0``
         wavegauge1loc = [NaN,NaN];  % (`1x2 vector`) Wave gauge 1 [x,y] location [m]. Default = ``[NaN,NaN]``
@@ -56,21 +56,21 @@ classdef waveClass<handle
   
     properties (SetAccess = 'private', GetAccess = 'public')%internal       
         % The following properties are private, for internal use by WEC-Sim
-        typeNum = [];       % Number to represent different type of waves        
+        A = [];             % Wave amplitude [m]. For regular waves or 2*(wave spectrum vector) for irregular waves
+        S = [];             % Wave Spectrum [m^2-s/rad] for ``Traditional``
+        Pw = [];            % Wave Power Per Unit Wave Crest [W/m]        
         bemFreq = [];       % Number of wave frequencies from BEM
         deepWaterWave = []; % Deep water or not, depending on input from WAMIT, NEMOH and AQWA
+        dw = 0;             % Frequency spacing [rad] for ``irregular`` waves.
+        k = [];             % Wave Number
+        phase = 0;          % Wave phase [rad] . Only used for ``irregular`` waves.
+        typeNum = [];       % Number to represent different type of waves        
+        w = [];             % Wave frequency (regular waves) or wave frequency vector (irregular waves) [rad/s] 
         waveAmpTime = [];   % Wave elevation time history [m] 
         waveAmpTime1 = [];  % Wave elevation time history at a wave gauge 1 location specified by user [m] 
         waveAmpTime2 = [];  % Wave elevation time history at a wave gauge 2 location specified by user [m] 
         waveAmpTime3 = [];  % Wave elevation time history at a wave gauge 3 location specified by user [m] 
-        waveAmpTimeViz = [];% Wave elevation time history at marker locations specified by user [m] 
-        A = [];             % Wave amplitude [m]. For regular waves or 2*(wave spectrum vector) for irregular waves
-        w = [];             % Wave frequency (regular waves) or wave frequency vector (irregular waves) [rad/s] 
-        phase = 0;          % Wave phase [rad] . Only used for ``irregular`` waves.
-        dw = 0;             % Frequency spacing [rad] for ``irregular`` waves.
-        k = [];             % Wave Number
-        S = [];             % Wave Spectrum [m^2-s/rad] for ``Traditional``
-        Pw = [];            % Wave Power Per Unit Wave Crest [W/m]
+        waveAmpTimeViz = [];% Wave elevation time history at marker locations specified by user [m]         
     end
     
     methods (Access = 'public')
@@ -100,7 +100,7 @@ classdef waveClass<handle
             %           spectrumImport 
             %           	Irregular Waves with predefined phase
             % 
-            %           etaImport 
+            %           waveImport 
             %               Irregular Waves with predefined elevation
             %
             % Returns
@@ -123,7 +123,7 @@ classdef waveClass<handle
                     obj.typeNum = 20;
                 case 'spectrumImport'   % Irregular waves with imported wave spectrum
                     obj.typeNum = 21;
-                case 'etaImport'        % Waves with imported wave elevation time-history
+                case 'waveImport'        % Waves with imported wave elevation time-history
                     obj.typeNum = 30;
             end
         end
@@ -277,9 +277,9 @@ classdef waveClass<handle
                     obj.irregWaveSpectrum(g,rho)
                     obj.k = waveNumber(obj.w,obj.waterDepth,g,obj.deepWaterWave);
                     obj.waveElevIrreg(rampTime, time, obj.dw);
-                case {'etaImport'}    %  This does not account for wave direction
-                    % Import 'etaImport' time-series here and interpolate
-                    data = importdata(obj.etaDataFile) ;    % Import time-series
+                case {'waveImport'}    %  This does not account for wave direction
+                    % Import 'waveImport' time-series here and interpolate
+                    data = importdata(obj.waveElevationFile) ;    % Import time-series
                     obj.waveElevUser(rampTime, dt, maxIt, data, time);
             end
         end
@@ -309,7 +309,7 @@ classdef waveClass<handle
                 case {'irregular','spectrumImport'}
                     obj.waveElevIrreg(rampTime, timeseries, obj.dw);
 
-                case {'etaImport'}
+                case {'waveImport'}
                     % Wave elevation is a necessary pre-processing step for
                     % the eta import case.
                     % Used by waveClass.waveSetup()
@@ -352,9 +352,9 @@ classdef waveClass<handle
                         fprintf('\tWave Type                            = Irregular waves with imported wave spectrum (Seeded Phase)\n')
                     end
                     obj.printWaveSpectrumType;
-                case 'etaImport'
+                case 'waveImport'
                     fprintf( '\tWave Type                           = Waves with imported wave elevation time-history\n')
-                    fprintf(['\tWave Elevation Time-Series File    	= ' obj.etaDataFile '  \n'])
+                    fprintf(['\tWave Elevation Time-Series File    	= ' obj.waveElevationFile '  \n'])
             end
         end
         
@@ -393,10 +393,10 @@ classdef waveClass<handle
                 end
             end
             % check waves types
-            types = {'noWave', 'noWaveCIC', 'regular', 'regularCIC', 'irregular', 'spectrumImport', 'etaImport'};
+            types = {'noWave', 'noWaveCIC', 'regular', 'regularCIC', 'irregular', 'spectrumImport', 'waveImport'};
             if sum(strcmp(types,obj.type)) ~= 1
                 error(['Unexpected wave environment type setting, choose from: ' ...
-                    '"noWave", "noWaveCIC", "regular", "regularCIC", "irregular", "spectrumImport", and "etaImport".'])
+                    '"noWave", "noWaveCIC", "regular", "regularCIC", "irregular", "spectrumImport", and "waveImport".'])
             end
             
 
@@ -448,7 +448,7 @@ classdef waveClass<handle
                             Z = Z + sqrt(obj.A(iw)*obj.waveSpread(idir).*obj.dw(iw)) * cos(-1*obj.k(iw)*Xt + obj.w(iw)*t + obj.phase(iw,idir));
                         end
                     end
-                case{'etaImport'}
+                case{'waveImport'}
                     if it ==1
                         warning('Paraview wave surface discretization for qualitative purposes only.')
                     end

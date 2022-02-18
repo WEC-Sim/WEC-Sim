@@ -92,7 +92,7 @@ if exist('mcr','var') == 1
     end; clear n combine;
     try 
         waves.spectrumDataFile = ['..' filesep parallelComputing_dir filesep '..' filesep waves.spectrumDataFile];
-        waves.etaDataFile      = ['..' filesep parallelComputing_dir filesep '..' filesep waves.etaDataFile];
+        waves.waveElevationFile      = ['..' filesep parallelComputing_dir filesep '..' filesep waves.waveElevationFile];
     end
 end
 
@@ -222,7 +222,7 @@ if any(hydroBodLogic == 1)
     if  min(waves.waveDir) <  min(body(1).hydroData.simulation_parameters.wave_dir) || max(waves.waveDir) >  max(body(1).hydroData.simulation_parameters.wave_dir)
         error('waves.waveDir outside of range of available hydro data')
     end
-    if strcmp(waves.type,'etaImport')~=1 && strcmp(waves.type,'noWave')~=1 && strcmp(waves.type,'noWaveCIC')~=1
+    if strcmp(waves.type,'waveImport')~=1 && strcmp(waves.type,'noWave')~=1 && strcmp(waves.type,'noWaveCIC')~=1
         if  min(waves.w) <  min(body(1).hydroData.simulation_parameters.w) || max(waves.w) >  max(body(1).hydroData.simulation_parameters.w)
             error('waves.w outside of range of available hydro data')
         end
@@ -310,17 +310,17 @@ for ii = 1:simu.numWecBodies
     end
 end; clear ii;
 
-% Check for etaImport with nlHydro
+% Check for waveImport with nlHydro
 for ii = 1:simu.numWecBodies
-    if strcmp(waves.type,'etaImport') && body(ii).nlHydro == 1
-        error(['Cannot run WEC-Sim with nonlinear hydro (body(ii).nlHydro) and "etaImport" wave type'])
+    if strcmp(waves.type,'waveImport') && body(ii).nlHydro == 1
+        error(['Cannot run WEC-Sim with nonlinear hydro (body(ii).nlHydro) and "waveImport" wave type'])
     end
 end
 
-% Check for etaImport with morisonElement
+% Check for waveImport with morisonElement
 for ii = 1:simu.numWecBodies
-    if strcmp(waves.type,'etaImport') && body(ii).morisonElement.option ~= 0
-        error(['Cannot run WEC-Sim with Morison Element (body(ii).morisonElement.option>0) and "etaImport" wave type'])
+    if strcmp(waves.type,'waveImport') && body(ii).morisonElement.option ~= 0
+        error(['Cannot run WEC-Sim with Morison Element (body(ii).morisonElement.option>0) and "waveImport" wave type'])
     end
 end
 

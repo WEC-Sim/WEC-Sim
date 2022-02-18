@@ -133,7 +133,7 @@ For Multiple Condition Runs, the ``*.h5`` hydrodynamic data is only loaded
 once. To reload the ``*.h5`` data between runs, set ``simu.reloadH5Data =1`` in 
 the WEC-Sim input file. 
 
-If the Simulink model relies upon ``From Workspace`` input blocks other than those utilized by the WEC-Sim library blocks (e.g. ``Wave.etaDataFile``), these can be iterated through using Option 3. The MCR file header MUST be a cell containing the exact string ``'LoadFile'``. The pathways of the files to be loaded to the workspace must be given in the ``cases`` field of the MCR *.mat* file. WEC-Sim MCR will then run WEC-Sim in sequence, once for each file to be loaded. The variable name of each loaded file should be consistent, and specified by the ``From Workspace`` block.  
+If the Simulink model relies upon ``From Workspace`` input blocks other than those utilized by the WEC-Sim library blocks (e.g. ``waves.waveElevationFile``), these can be iterated through using Option 3. The MCR file header MUST be a cell containing the exact string ``'LoadFile'``. The pathways of the files to be loaded to the workspace must be given in the ``cases`` field of the MCR *.mat* file. WEC-Sim MCR will then run WEC-Sim in sequence, once for each file to be loaded. The variable name of each loaded file should be consistent, and specified by the ``From Workspace`` block.  
 
 For more information, refer to :ref:`webinar1`, and the **RM3_MCR** example on the `WEC-Sim Applications <https://github.com/WEC-Sim/WEC-Sim_Applications>`_ repository. 
 
@@ -604,7 +604,7 @@ Applications <https://github.com/WEC-Sim/WEC-Sim_Applications>`_ repository
 
 .. Note::
 
-    Morison Elements cannot be used with :code:`etaImport`.
+    Morison Elements cannot be used with :code:`waveImport`.
 
 .. _user-advanced-features-non-hydro-body:
 
@@ -969,7 +969,7 @@ For more information about using ParaView for visualization, refer to the **Wave
 
 .. Note:: 
 
-    This feature is not compatible with user-defined waves ``waves = waveClass('etaImport')``
+    This feature is not compatible with user-defined waves ``waves = waveClass('waveImport')``
     
 .. figure:: /_static/images/RM3_vizMarker.jpg
    :width: 250pt

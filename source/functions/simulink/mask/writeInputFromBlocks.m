@@ -126,7 +126,7 @@ for i=1:length(blocks)
         fprintf(fid,writeLineFromVar(waves, 'freqDisc', maskVars, maskViz, [], []));
         fprintf(fid,writeLineFromVar(waves, 'spectrumDataFile', maskVars, maskViz, [], []));
         fprintf(fid,writeLineFromVar(waves, 'phaseSeed', maskVars, maskViz, [], []));
-        fprintf(fid,writeLineFromVar(waves, 'etaDataFile', maskVars, maskViz, [], []));
+        fprintf(fid,writeLineFromVar(waves, 'waveElevationFile', maskVars, maskViz, [], []));
             
 
     elseif isfield(maskVars,'body')

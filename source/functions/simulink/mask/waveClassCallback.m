@@ -7,7 +7,7 @@ mask = Simulink.Mask.get(blockHandle);
 type = mask.getParameter('WaveClass');
 H = mask.getParameter('H');
 T = mask.getParameter('T');
-etaDataFile = mask.getParameter('etaDataFile');
+waveElevationFile = mask.getParameter('waveElevationFile');
 spectrumDataFile = mask.getParameter('spectrumDataFile');
 spectrumType = mask.getParameter('spectrumType');
 freqDisc = mask.getParameter('freqDisc');
@@ -24,7 +24,7 @@ switch type.Value
     case 'noWave'
         H.Visible = 'on';
         T.Visible = 'on';
-        etaDataFile.Visible = 'off';
+        waveElevationFile.Visible = 'off';
         spectrumDataFile.Visible = 'off';
         spectrumType.Visible = 'off';
         freqDisc.Visible = 'off';
@@ -37,7 +37,7 @@ switch type.Value
     case 'noWaveCIC'
         H.Visible = 'off';
         T.Visible = 'off';
-        etaDataFile.Visible = 'off';
+        waveElevationFile.Visible = 'off';
         spectrumDataFile.Visible = 'off';
         spectrumType.Visible = 'off';
         freqDisc.Visible = 'off';
@@ -50,7 +50,7 @@ switch type.Value
     case {'regular' 'regularCIC'}
         H.Visible = 'on';
         T.Visible = 'on';
-        etaDataFile.Visible = 'off';
+        waveElevationFile.Visible = 'off';
         spectrumDataFile.Visible = 'off';
         spectrumType.Visible = 'off';
         freqDisc.Visible = 'off';
@@ -63,7 +63,7 @@ switch type.Value
     case 'irregular'
         H.Visible = 'on';
         T.Visible = 'on';
-        etaDataFile.Visible = 'off';
+        waveElevationFile.Visible = 'off';
         spectrumDataFile.Visible = 'off';
         spectrumType.Visible = 'on';
         freqDisc.Visible = 'on';
@@ -76,7 +76,7 @@ switch type.Value
     case 'spectrumImport'
         H.Visible = 'off';
         T.Visible = 'off';
-        etaDataFile.Visible = 'off';
+        waveElevationFile.Visible = 'off';
         spectrumDataFile.Visible = 'on';
         spectrumType.Visible = 'off';
         freqDisc.Visible = 'off';
@@ -86,10 +86,10 @@ switch type.Value
         ETAbutton.Visible = 'off';
         SpecButton.Visible = 'on';
         
-    case 'etaImport'
+    case 'waveImport'
         H.Visible = 'off';
         T.Visible = 'off';
-        etaDataFile.Visible = 'on';
+        waveElevationFile.Visible = 'on';
         spectrumDataFile.Visible = 'off';
         spectrumType.Visible = 'off';
         freqDisc.Visible = 'off';

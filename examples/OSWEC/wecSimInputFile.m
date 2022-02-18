@@ -19,21 +19,21 @@ simu.CITime = 30;                       % Specify CI Time [s]
 % waves.H = 2.5;                          % Wave Height [m]
 % waves.T = 8;                            % Wave Period [s]
 
-% Irregular Waves using PM Spectrum with Directionality 
-waves = waveClass('irregular');         % Initialize Wave Class and Specify Type
-waves.H = 2.5;                          % Significant Wave Height [m]
-waves.T = 8;                            % Peak Period [s]
-waves.spectrumType = 'PM';              % Specify Spectrum Type
-waves.waveDir = [0,30,90];              % Wave Directionality [deg]
-waves.waveSpread = [0.1,0.2,0.7];       % Wave Directional Spreading [%}
+% % % % Irregular Waves using PM Spectrum with Directionality 
+% % % waves = waveClass('irregular');         % Initialize Wave Class and Specify Type
+% % % waves.H = 2.5;                          % Significant Wave Height [m]
+% % % waves.T = 8;                            % Peak Period [s]
+% % % waves.spectrumType = 'PM';              % Specify Spectrum Type
+% % % waves.waveDir = [0,30,90];              % Wave Directionality [deg]
+% % % waves.waveSpread = [0.1,0.2,0.7];       % Wave Directional Spreading [%}
 
 % % Irregular Waves with imported spectrum
 % waves = waveClass('spectrumImport');        % Create the Wave Variable and Specify Type
 % waves.spectrumDataFile = 'spectrumData.mat';  %Name of User-Defined Spectrum File [:,2] = [f, Sf]
 
-% % Waves with imported wave elevation time-history  
-% waves = waveClass('etaImport');         % Create the Wave Variable and Specify Type
-% waves.etaDataFile = 'etaData.mat'; % Name of User-Defined Time-Series File [:,2] = [time, eta]
+% Waves with imported wave elevation time-history  
+waves = waveClass('waveImport');         % Create the Wave Variable and Specify Type
+waves.waveElevationFile = 'waveData.mat'; % Name of User-Defined Time-Series File [:,2] = [time, eta]
 
 
 %% Body Data
