@@ -123,11 +123,11 @@ the MATLAB Command Window. This command executes the Multiple Condition Run
     **Option 2.**  Specify the excel filename that contains a set of wave 
     statistic data in the WEC-Sim input file. This option is generally useful 
     for power matrix generation, example:
-    ``waves.statisticsDataLoad = "<Excel file name>.xls"``
+    ``simu.mcrExcelFile = "<Excel file name>.xls"``
 
     **Option 3.**  Provide a MCR case *.mat* file, and specify the filename in 
     the WEC-Sim input file, example:
-    ``simu.mcrCaseFile = "<File name>.mat"``
+    ``simu.mcrMatFile = "<File name>.mat"``
 
 For Multiple Condition Runs, the ``*.h5`` hydrodynamic data is only loaded 
 once. To reload the ``*.h5`` data between runs, set ``simu.reloadH5Data =1`` in 

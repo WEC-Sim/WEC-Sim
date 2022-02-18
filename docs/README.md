@@ -69,7 +69,7 @@ https://github.com/WEC-Sim/WEC-Sim) repository.
   - Whenever possible link to outside reference instead of write guidance available elsewhere (e.g. how to use Git, MATLAB/Simulink features)
   - Whenever possible link to other sections of the documentation instead of writing similar information in multiple places
   - Run spell check (not built into most text editors)
-  - ``sphinx-build -a -b html docs docs/_build/html` to build a clean verion of the website
+  - `sphinx-build -a -b html docs docs/_build/html` to build a clean verion of the website
 
 ### Formatting Guidelines
   - `$CASE` to refer to WEC-Sim case directory

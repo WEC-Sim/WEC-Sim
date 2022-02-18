@@ -135,7 +135,7 @@ Having a flag change the visibility of options that cannot be used may help new 
 .. Note::
 	To decrease the burden of maintaining these masks, only the most common input file parameters can be defined in Simulink. 
 	For example, the Global Reference Frame contains simulationClass parameters such as ``mode``, ``explorer``, ``solver``, time information, and state space flags. 
-	However less common parameters such as ``mcrCaseFile``, ``saveStructure``, ``b2b`` and others are not included. 
+	However less common parameters such as ``mcrMatFile``, ``saveStructure``, ``b2b`` and others are not included. 
 	
 
 .. _dev-run-sim-lib:

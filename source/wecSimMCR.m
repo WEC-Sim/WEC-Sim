@@ -24,13 +24,13 @@ clear body waves simu output pto constraint ptoSim
 
 evalc('wecSimInputFile');
 
-if isempty(simu.mcrCaseFile) == 0
-    load(simu.mcrCaseFile);
+if isempty(simu.mcrMatFile) == 0
+    load(simu.mcrMatFile);
 else
     kkk=0;
     mcr.header = {'waves.H','waves.T'};
-    if isempty(waves.statisticsDataLoad) == 0
-        mcr.waveSS = xlsread(waves.statisticsDataLoad);
+    if isempty(simu.mcrExcelFile) == 0
+        mcr.waveSS = xlsread(simu.mcrExcelFile);
         mcr.waveSS(isnan(mcr.waveSS))=0;
         for i=2:length(mcr.waveSS(:,1))
             for j=2:length(mcr.waveSS(1,:))
