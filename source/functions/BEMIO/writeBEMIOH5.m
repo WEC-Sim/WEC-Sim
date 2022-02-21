@@ -6,7 +6,7 @@ function writeBEMIOH5(hydro)
 % Parameters
 % ----------
 %     hydro : [1 x 1] struct
-%         Structure of hydro data that is written to hydro.file
+%         Structure of hydro data that is written to ``hydro.file``
 % 
 
 p = waitbar(0,'Writing data in h5 format...');  % Progress bar

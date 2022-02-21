@@ -42,15 +42,21 @@ BEMIO Functions
 
 .. autofunction:: functions.BEMIO.excitationIRF
 
+.. autofunction:: functions.BEMIO.readBEMIOH5
+
+.. autofunction:: functions.BEMIO.reverseDimensionOrder
+
 .. autofunction:: functions.BEMIO.writeBEMIOH5
+
+.. autofunction:: functions.BEMIO.spectralMoment
+
+.. autofunction:: functions.BEMIO.waveNumber
 
 .. Note::
  	Technically, this step should not be necessary - the MATLAB data structure *hydro* is written to a ``*.h5`` file by BEMIO and then read back into a new MATLAB data structure *hydroData* for each body by WEC-Sim. The reasons this step was retained were, first, to remain compatible with the python based BEMIO output and, second, for the simpler data visualization and verification capabilities offered by the ``*.h5`` file viewer.
 
-**plotBEMIO:** Plots the radiation added mass, radiation wave damping, radiation IRF, excitation force magnitude, excitation force phase, and excitation IRF for each body in the heave, surge and pitch degrees of freedom. 
+.. autofunction:: functions.BEMIO.plotBEMIO
 
-	*plotBEMIO(hydro)*
-		* *hydro* – data structure
 
 .. _user-advanced-features-bemio-h5:
 

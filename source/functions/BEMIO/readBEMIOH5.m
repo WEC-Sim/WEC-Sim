@@ -1,6 +1,25 @@
 function hydroData = readBEMIOH5(filename,bodyNumber,meanDriftForceFlag)
 % Function to read BEMIO data from an h5 file into a hydrodata structure
 % for the bodyClass
+% 
+% Parameters
+% ----------
+%     filename : string
+%         Path to the BEMIO .h5 file to read
+%     
+%     bodyNumber : integer
+%         Body number to read from the .h5 file. For example, body(2) in
+%         the input file must read body2 from the .h5 file.
+%     
+%     meanDriftForceFlag : integer
+%         Flag to optionally read mean drift force coefficients
+% 
+% Returns
+% -------
+%     hydroData : struct
+%         Struct of hydroData used by the bodyClass. Different format than
+%         the BEMIO hydro struct
+% 
 
 % Get name of the body in the .h5 file
 h5BodyName = ['/body' num2str(bodyNumber)];
