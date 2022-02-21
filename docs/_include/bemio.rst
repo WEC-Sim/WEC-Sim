@@ -4,11 +4,11 @@ pre-process the BEM hydrodynamic data prior to running WEC-Sim. For more
 information about the WEC-Sim workflow, refer to 
 :ref:`user-workflow-running-wec-sim`. The following section can also be 
 followed in conjunction with the cases in the WEC-Sim/Examples directory in the 
-WEC-Sim source code. This includes several cases with WAMIT, NEMOH, AQWA, and CAPYTAINE. 
+WEC-Sim source code. This includes several cases with WAMIT, NEMOH, Aqwa, and Capytaine. 
 For more information, refer to :ref:`webinar1`. BEMIO functions perform the 
 following tasks: 
 
-* Read BEM results from **WAMIT**, **NEMOH**, **AQWA**, or **CAPYTAINE**.
+* Read BEM results from **WAMIT**, **NEMOH**, **Aqwa**, or **Capytaine**.
 * Calculate the radiation and excitation impulse response functions (IRFs).
 * Calculate the state space realization for the radiation IRF.
 * Save the resulting data in Hierarchical Data Format 5 (HDF5).
@@ -42,20 +42,20 @@ BEMIO Functions
 	* Instructions on how to download and use the open source BEM code NEMOH are provided on the `NEMOH website <https://lheea.ec-nantes.fr/logiciels-et-brevets/nemoh-presentation-192863.kjsp>`_. 
 	* The NEMOH Mesh.exe code creates the ``Hydrostatics.dat`` and ``KH.dat`` files (among other files) for one input body at a time. For the readNEMOH function to work correctly in the case of a multiple body system, the user must manually rename ``Hydrostatics.dat`` and ``KH.dat`` files to ``Hydrostatics_0.dat``, ``Hydrostatics_1.dat``, …, and ``KH_0.dat``, ``KH_1.dat``,…, corresponding to the body order specified in the ``Nemoh.cal`` file.
 
-**readAQWA:** Reads data from AQWA output files
+**readAQWA:** Reads data from Aqwa output files
 
 	*hydro = readAQWA(hydro, ah1_filename, lis_filename)*
 		* *hydro* – data structure
-		* *ah1_filename* – ``*.AH1`` AQWA output file 
-		* *lis_filename* – ``*.LIS`` AQWA output file
+		* *ah1_filename* – ``*.AH1`` Aqwa output file 
+		* *lis_filename* – ``*.LIS`` Aqwa output file
 
 **readCAPYTAINE:** Reads data from Capytaine output files
 
 	*hydro = readCAPYTAINE(hydro, filename)*
 		* *hydro* - data structure
-		* *filename* - ``*.nc`` CAPYTAINE output file
+		* *filename* - ``*.nc`` Capytaine output file
 
-**normalizeBEM:** Normalizes NEMOH, AQWA and CAPYTAINE hydrodynamics coefficients in the same manner that WAMIT outputs are normalized. Specifically, the linear hydrostatic restoring stiffness is normalized as, :math:`C_{i,j}/\rho g`; the radiation added mass is normalized as, :math:`A_{i,j}/\rho`; radiation wave damping is normalized as, :math:`B_{i,j}/\rho \omega`; and the wave-exciting forces are normalized as, :math:`F_{exc,i}/\rho g`. Typically, this function would not be called directly by the user; it is automatically implemented within the readNEMOH, readAQWA, and readCAPYTAINE functions.
+**normalizeBEM:** Normalizes NEMOH, Aqwa and Capytaine hydrodynamics coefficients in the same manner that WAMIT outputs are normalized. Specifically, the linear hydrostatic restoring stiffness is normalized as, :math:`C_{i,j}/\rho g`; the radiation added mass is normalized as, :math:`A_{i,j}/\rho`; radiation wave damping is normalized as, :math:`B_{i,j}/\rho \omega`; and the wave-exciting forces are normalized as, :math:`F_{exc,i}/\rho g`. Typically, this function would not be called directly by the user; it is automatically implemented within the readNEMOH, readAQWA, and readCAPYTAINE functions.
 
 	*hydro = normalizeBEM(hydro)*
 		* *hydro* – data structure
@@ -125,7 +125,7 @@ theta         [1,Nh]                    wave headings (deg)
 body          {1,Nb}                    body names
 cb            [3,Nb]                    center of buoyancy
 cg            [3,Nb]                    center of gravity
-code          string                    BEM code (WAMIT, NEMOH, AQWA, or CAPYTAINE)
+code          string                    BEM code (WAMIT, NEMOH, Aqwa, or Capytaine)
 C             [6,6,Nb]                  hydrostatic restoring stiffness
 dof 	      [1, Nb]                   Degrees of freedom (DOF) for each body. Default DOF for each body is 6 plus number of possible generalized body modes (GBM).
 exc_im        [6*Nb,Nh,Nf]              imaginary component of excitation force or torque

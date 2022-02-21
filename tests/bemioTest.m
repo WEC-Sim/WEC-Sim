@@ -25,10 +25,13 @@ classdef bemioTest < matlab.unittest.TestCase
             obj.wamitDir = fullfile(obj.bemioDir,'WAMIT');
             obj.nemohDir = fullfile(obj.bemioDir,'NEMOH');
             obj.capytaineDir = fullfile(obj.bemioDir,'CAPYTAINE');
-            obj.aqwaDir = fullfile(obj.bemioDir,'AQWA');            
+            obj.aqwaDir = fullfile(obj.bemioDir,'AQWA');   
+
             % Save the visibility state at construction
             obj.OriginalDefault = get(0,'DefaultFigureVisible');
-            set(0,'DefaultFigureVisible','off')
+            set(0,'DefaultFigureVisible','off');
+
+            % Create empty structs to hold various hydro data
             obj.wamitHydro = struct();
             obj.nemohHydro = struct();
             obj.aqwaHydro = struct();
