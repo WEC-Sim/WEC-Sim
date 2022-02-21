@@ -20,40 +20,17 @@ following tasks:
 BEMIO Functions
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
-**readWAMIT:** Reads data from a WAMIT output file
+.. autofunction:: functions.BEMIO.readWAMIT
 
-	*hydro = readWAMIT(hydro, filename, ex_coeff)*
-		* *hydro* – data structure
-		* *filename* – ``*.out`` WAMIT output file
-		* *ex_coeff* - flag indicating the type of excitation force coefficients to read, ‘diffraction’ (default) or ‘haskind’
-
-**readNEMOH:** Reads data from a NEMOH working folder
-
-	*hydro = readNEMOH(hydro, filedir)*
-		* *hydro* – data structure
-		* *filedir* – NEMOH working folder, must include:
-			* ``Nemoh.cal``
-			* ``Mesh/Hydrostatics.dat`` (or ``Hydrostatiscs_0.dat``, ``Hydrostatics_1.dat``, etc. for multiple bodies)
-			* ``Mesh/KH.dat`` (or ``KH_0.dat``, ``KH_1.dat``, etc. for multiple bodies)
-			* ``Results/RadiationCoefficients.tec``
-			* ``Results/ExcitationForce.tec``
+.. autofunction:: functions.BEMIO.readNEMOH
 
 .. Note:: 
 	* Instructions on how to download and use the open source BEM code NEMOH are provided on the `NEMOH website <https://lheea.ec-nantes.fr/logiciels-et-brevets/nemoh-presentation-192863.kjsp>`_. 
 	* The NEMOH Mesh.exe code creates the ``Hydrostatics.dat`` and ``KH.dat`` files (among other files) for one input body at a time. For the readNEMOH function to work correctly in the case of a multiple body system, the user must manually rename ``Hydrostatics.dat`` and ``KH.dat`` files to ``Hydrostatics_0.dat``, ``Hydrostatics_1.dat``, …, and ``KH_0.dat``, ``KH_1.dat``,…, corresponding to the body order specified in the ``Nemoh.cal`` file.
 
-**readAQWA:** Reads data from Aqwa output files
+.. autofunction:: functions.BEMIO.readAQWA
 
-	*hydro = readAQWA(hydro, ah1_filename, lis_filename)*
-		* *hydro* – data structure
-		* *ah1_filename* – ``*.AH1`` Aqwa output file 
-		* *lis_filename* – ``*.LIS`` Aqwa output file
-
-**readCAPYTAINE:** Reads data from Capytaine output files
-
-	*hydro = readCAPYTAINE(hydro, filename)*
-		* *hydro* - data structure
-		* *filename* - ``*.nc`` Capytaine output file
+.. autofunction:: functions.BEMIO.readCAPYTAINE
 
 **normalizeBEM:** Normalizes NEMOH, Aqwa and Capytaine hydrodynamics coefficients in the same manner that WAMIT outputs are normalized. Specifically, the linear hydrostatic restoring stiffness is normalized as, :math:`C_{i,j}/\rho g`; the radiation added mass is normalized as, :math:`A_{i,j}/\rho`; radiation wave damping is normalized as, :math:`B_{i,j}/\rho \omega`; and the wave-exciting forces are normalized as, :math:`F_{exc,i}/\rho g`. Typically, this function would not be called directly by the user; it is automatically implemented within the readNEMOH, readAQWA, and readCAPYTAINE functions.
 

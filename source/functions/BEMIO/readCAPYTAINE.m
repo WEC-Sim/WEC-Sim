@@ -1,10 +1,20 @@
 function hydro = readCAPYTAINE(hydro,filename)
 % Reads data from a Capytaine netcdf file
+% 
+% See ``WEC-Sim\examples\BEMIO\CAPYTAINE`` for examples of usage.
 %
-% hydro = readCAPYTAINE(hydro, filename)
-%     hydro –     data structure
-%     filename –  CAPYTAINE .nc output file
+% Parameters
+% ----------
+%     hydro : struct
+%         Structure of hydro data that Capytaine input data will be appended to
+%     
+%     filename : string
+%         Capytaine .nc output file
 %
+% Returns
+% -------
+%     hydro : struct
+%         Structure of hydro data with Capytaine data appended
 
 %% Check file for required variables
 [a,b] = size(hydro);  % Check on what is already there
