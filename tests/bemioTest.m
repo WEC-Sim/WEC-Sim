@@ -9,6 +9,11 @@ classdef bemioTest < matlab.unittest.TestCase
         capytaineDir = ''
         aqwaDir = ''
         OriginalDefault
+        wamitHydro
+        nemohHydro
+        aqwaHydro
+        capytaineHydro
+        comboHydro
     end
     
     methods (Access = 'public')        
@@ -23,7 +28,12 @@ classdef bemioTest < matlab.unittest.TestCase
             obj.aqwaDir = fullfile(obj.bemioDir,'AQWA');            
             % Save the visibility state at construction
             obj.OriginalDefault = get(0,'DefaultFigureVisible');
-            set(0,'DefaultFigureVisible','off')            
+            set(0,'DefaultFigureVisible','off')
+            obj.wamitHydro = struct();
+            obj.nemohHydro = struct();
+            obj.aqwaHydro = struct();
+            obj.capytaineHydro = struct();
+            obj.comboHydro = struct();
         end        
     end
     
@@ -31,7 +41,6 @@ classdef bemioTest < matlab.unittest.TestCase
         function closePlotsHydro(testCase)
             close(waitbar(0));
             close all
-            clear hydro
             set(0,'DefaultFigureVisible',testCase.OriginalDefault);
         end        
     end
@@ -42,80 +51,88 @@ classdef bemioTest < matlab.unittest.TestCase
         end        
     end
     
-    methods(Test)                 
+    methods(Test)
         function testReadWAMIT(testCase)
             cd(fullfile(testCase.wamitDir,'RM3'))
             hydro = struct();
-            readWAMIT(hydro,'rm3.out',[]);
+            hydro = readWAMIT(hydro,'rm3.out',[]);
+            testCase.wamitHydro = hydro;
         end        
         function testReadNEMOH(testCase)
             cd(fullfile(testCase.nemohDir,'RM3'))
             hydro = struct();
-            % Read hydro data
-            readNEMOH(hydro, fullfile('..', 'RM3'));
+            hydro = readNEMOH(hydro, fullfile('..', 'RM3'));
+            testCase.nemohHydro = hydro;
         end        
         function testReadCAPYTAINE(testCase)
             cd(fullfile(testCase.capytaineDir,'rm3'))
             hydro = struct();
-            % Read hydro data
-            readCAPYTAINE(hydro, 'rm3_full.nc');
+            hydro = readCAPYTAINE(hydro, 'rm3_full.nc');
+            testCase.capytaineHydro = hydro;
         end        
         function testReadAQWA(testCase)
             cd(fullfile(testCase.aqwaDir,'RM3'))
             hydro = struct();
-            % Read hydro data
-            readAQWA(hydro,'RM3.AH1','RM3.LIS');
+            hydro = readAQWA(hydro,'RM3.AH1','RM3.LIS');
+            testCase.aqwaHydro = hydro;
         end
-        function testFullBEMIO(testCase)
-            cd(fullfile(testCase.nemohDir,'Cylinder'))            
+        function testCombineBEM(testCase)
             hydro = struct();
-            % Read hydro data
-            hydro = readNEMOH(hydro, fullfile('..', 'Cylinder'));
-            % Calculate parameters
+            hydro(1) = testCase.wamitHydro;
+            hydro(2) = testCase.nemohHydro;
+            hydro(3) = testCase.capytaineHydro;
+            testCase.comboHydro = combineBEM(hydro);            
+        end
+        function testIRF(testCase)
+            hydro = testCase.wamitHydro;
             hydro = radiationIRF(hydro,5,[],[],[],[]);
             hydro = radiationIRFSS(hydro,[],[]);
             hydro = excitationIRF(hydro,5,[],[],[],[]);
-            % Write h5
-            writeBEMIOH5(hydro)
-            % Plot hydro data
-            plotBEMIO(hydro)            
+            testCase.wamitHydro = hydro;          
         end
-        function testCombineBEM(testCase)
-            cd(fullfile(testCase.capytaineDir, 'cylinder'))            
-            hydro = struct();
-            % Read Capytaine hydro data
-            hydro = readCAPYTAINE(hydro, 'cylinder_full.nc');
-            % Read NEMOH hydro data
-            hydro = readNEMOH(hydro,   ...
-                               fullfile('..', '..', 'NEMOH', 'Cylinder'));
-            hydro(end).body = {'cylinder_nemoh'};
-            % Read WAMIT hydro data
-            hydro = readWAMIT(hydro,               ...
-                               fullfile('..',       ...
-                                        '..',       ...
-                                        'WAMIT',    ...
-                                        'Cylinder', ...
-                                        'cyl.out'), ...
-                               []);
-            hydro(end).body = {'cylinder_wamit'};
-            % Combine hydro data
-            combineBEM(hydro);            
-        end            
-        function testCompareBEMIO(testCase)                        
-            % Load WAMIT hydro data 
-            WAMIT_hydro = struct();
-            cd(fullfile(testCase.wamitDir,'Sphere'))            
-            WAMIT_hydro = readWAMIT(WAMIT_hydro,'sphere.out',[]);
-            WAMIT_hydro = radiationIRF(WAMIT_hydro,15,[],[],[],[]);
-            WAMIT_hydro = excitationIRF(WAMIT_hydro,15,[],[],[],[]);
-            % Load Capytaine hydro data 
-            CAP_hydro = struct();
-            cd(fullfile(testCase.capytaineDir,'sphere'))                        
-            CAP_hydro = readCAPYTAINE(CAP_hydro,'sphere_full.nc');
-            CAP_hydro = radiationIRF(CAP_hydro,15,[],[],[],[]);
-            CAP_hydro = excitationIRF(CAP_hydro,15,[],[],[],[]);
-            % Plot comparison
-            plotBEMIO(WAMIT_hydro,CAP_hydro)            
-        end          
+        function testWriteBEMIOH5(testCase)
+            writeBEMIOH5(testCase.wamitHydro);
+            writeBEMIOH5(testCase.comboHydro);
+        end
+        function testPlotBEMIO(testCase)
+            plotBEMIO(testCase.wamitHydro);
+            plotBEMIO(testCase.comboHydro);
+            plotBEMIO(testCase.wamitHydro,testCase.capytaineHydro);
+        end
+        function testReverseDimensionOrder(testCase)
+            tol = 1e-10;
+            m = randi([0 1],[4 5 7 9]);
+            mInv_exp = permute(m,[4 3 2 1]);
+            mInv = reverseDimensionOrder(m);
+            testCase.verifyEqual(mInv,mInv_exp,'AbsTol',tol);
+        end
+        function testWaveNumberDeep(testCase)
+            tol = 1e-10;
+            depth = 100;
+            g = 9.81;
+            w = 3;
+
+            kDeep = waveNumber(w,depth,g,1);
+            kDeepNoFlag = waveNumber(w,depth,g,0);
+            kDeep_exp = w^2/g;
+            testCase.verifyEqual(kDeep,kDeep_exp,'AbsTol',tol);
+            testCase.verifyEqual(kDeepNoFlag,kDeep_exp,'AbsTol',tol);
+        end
+        function testWaveNumberShallow(testCase)
+            tol = 1e-10;
+            depth = 5;
+            g = 9.81;
+            w = 3;
+
+            kShallow = waveNumber(w,depth,g,0);
+            kDeep = w^2/g;
+            w2gShallow = kShallow*tanh(kShallow*depth);
+            w2gShallow_exp = w^2/g;
+            testCase.verifyEqual(w2gShallow,w2gShallow_exp,'AbsTol',tol);
+            testCase.verifyNotEqual(kDeep,kShallow,'AbsTol',tol);
+        end
+        function testSpectralMoment()
+            % TODO
+        end
     end
 end
