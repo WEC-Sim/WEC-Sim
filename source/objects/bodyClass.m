@@ -460,7 +460,7 @@ classdef bodyClass<handle
             quiver3(c(:,1),c(:,2),c(:,3),n(:,1),n(:,2),n(:,3))
         end
         
-        function checkinputs(obj,morisonElement,domainSize)
+        function checkInputs(obj,domainSize)
             % This method checks WEC-Sim user inputs for each body and generates error messages if parameters are not properly defined for the bodyClass.
             % Check h5 file
             if exist(obj.h5File,'file')==0 && obj.nhBody==0
@@ -471,8 +471,11 @@ classdef bodyClass<handle
                 error('Could not locate and open geometry file %s',obj.geometryFile)
             end
             % Check definitions
-            if (~isnumeric(obj.mass)  && ~strcmp(obj.mass, 'equilibrium')) || isempty(obj.mass)
+            if (~isnumeric(obj.mass) && ~strcmp(obj.mass, 'equilibrium') && ~strcmp(obj.mass, 'fixed')) || isempty(obj.mass)
                 error('Body mass needs to be defined numerically or set to ''equilibrium''.')
+            end
+            if isempty(obj.momOfInertia) && ~strcmp(obj.mass, 'fixed')
+                error('Body moment of inertia needs to be defined for all non-fixed bodies.')
             end
             % Check mesh size
             tr = stlread(obj.geometryFile);
@@ -482,6 +485,10 @@ classdef bodyClass<handle
             elseif max(obj.bodyGeometry.vertex) > domainSize/4
                 warning('STL mesh is very large compared to the domain. Reminder: WEC-Sim requires that the STL be saved with units of meters for accurate visualization.')
             end
+        end
+        
+        function checkHydroInputs(obj,morisonElement)
+            % This method checks WEC-Sim user inputs for each hydro body and generates error messages if parameters are not properly defined for the bodyClass.
             % Check Morison Element Inputs for option 1
             if morisonElement == 1
                 [rgME,~] = size(obj.morisonElement.rgME);
@@ -500,6 +507,11 @@ classdef bodyClass<handle
                     end
                 end
             end
+            
+            if ~isempty(obj.cg) || ~isempty(obj.cb)
+                warning('Center of gravity and center of buoyancy are overwritten by h5 data for hydro bodies.')
+            end
+            %}
         end
     end
     

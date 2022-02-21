@@ -128,16 +128,19 @@ if exist('mooring','var') == 1
     end; clear ii
 end
 
-% Bodies: count, check inputs, read hdf5 file
+% Bodies: count, check inputs, read hdf5 file, and check inputs for each
+% body type
 numHydroBodies = 0; numNonHydroBodies = 0; numDragBodies = 0; 
 hydroBodLogic = zeros(length(body(1,:)),1);
 nonHydroBodLogic = zeros(length(body(1,:)),1);
 dragBodLogic = zeros(length(body(1,:)),1);
 for ii = 1:length(body(1,:))
     body(ii).bodyNumber = ii;
+    body(ii).checkInputs(simu.domainSize);
     if body(ii).nhBody==0
         numHydroBodies = numHydroBodies + 1;
-        hydroBodLogic(ii) = 1;         
+        hydroBodLogic(ii) = 1;
+        body(ii).checkHydroInputs(body(ii).morisonElement.option);
     elseif body(ii).nhBody==1
         numNonHydroBodies = numNonHydroBodies + 1;
         nonHydroBodLogic(ii) = 1; 
@@ -151,7 +154,7 @@ end
 simu.numWecBodies = numHydroBodies; clear numHydroBodies
 simu.numDragBodies = numDragBodies; clear numDragBodies
 for ii = 1:simu.numWecBodies
-    body(ii).checkinputs(body(ii).morisonElement.option,simu.domainSize);
+    
     %Determine if hydro data needs to be reloaded from h5 file, or if hydroData
     % was stored in memory from a previous run.
     if exist('totalNumOfWorkers','var') ==0 && exist('mcr','var') == 1 && simu.reloadH5Data == 0 && imcr > 1

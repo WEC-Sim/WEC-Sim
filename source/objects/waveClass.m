@@ -38,7 +38,7 @@ classdef waveClass<handle
         numFreq                         = [];                   % (`integer`) Number of interpolated wave frequencies, only used for ``irregular`` and ``spectrumImport``. Number of frequencies used varies depending on ``freqDisc``, 1000 for ``'Traditional'``, and 500 for ``'EqualEnergy'`` and ``Imported``. Default = ``[]``
         waterDepth {mustBePositive}     = [];                   % (`float`) Water depth [m]. Default to BEM water depth if not set. 
         waveDir double                  = 0;                    % (`float`) Incident wave direction(s) [deg]. Incident wave direction defined using WEC-Sim global coordinate system. Should be defined as a column vector for more than one wave direction. Default = ``0``
-        waveSpread double               = 1;                    % (`float`) Wave Spread probability associated with wave direction(s). Should be defined as a column vector for more than one wave direction. Default = ``1``
+        waveSpread  = 1;   % (`float`) Wave Spread probability associated with wave direction(s). Should be defined as a column vector for more than one wave direction. Default = ``1``
         viz                             = struct( 'numPointsX', 50, ...
                                         'numPointsY', 50 );     % (`structure`) Defines visualization options, structure contains the fields ``numPointsX`` for the number of visualization points in x direction, and ``numPointsY`` for the number of visualization points in y direction. 
         statisticsDataLoad              = [];                   % (`string`) File name from which to load wave statistics data. Default = ``[]``        

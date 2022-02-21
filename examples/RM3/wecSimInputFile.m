@@ -59,7 +59,7 @@ body(1) = bodyClass('hydroData/rm3.h5');
     % Create the body(1) Variable, Set Location of Hydrodynamic Data File 
     % and Body Number Within this File.   
 body(1).geometryFile = 'geometry/float.stl';    % Location of Geomtry File
-body(1).mass = 'equilibrium';                   
+body(1).mass = 'equilibrium'; 
     % Body Mass. The 'equilibrium' Option Sets it to the Displaced Water 
     % Weight.
 body(1).momOfInertia = [20907301 21306090.66 37085481.11];  %Moment of Inertia [kg*m^2]     
