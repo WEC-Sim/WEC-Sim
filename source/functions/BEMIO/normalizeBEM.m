@@ -1,6 +1,6 @@
 function hydro = normalizeBEM(hydro)
 % Normalizes BEM hydrodynamic coefficients in the same manner
-% that WAMIT outputs are normalized. Specifically,the linear restoring
+% that WAMIT outputs are normalized. Specifically, the linear restoring
 % stiffness is normalized as, C(i,j)/(rho*g); added mass is normalized as,
 % A(i,j)/rho; radiation damping is normalized as, B(i,j)/(rho*w); and,
 % exciting forces are normalized as, X(i)/(rho*g). And, if necessary, sort
@@ -10,8 +10,16 @@ function hydro = normalizeBEM(hydro)
 % implemented within the readWAMIT, readCAPYTAINE, readNEMOH, and readAQWA
 % functions.
 %
-% hydro = normalizeBEM(hydro)
-%     hydro – data structure
+% Parameters
+% ----------
+%     hydro : [1 x 1] struct
+%         Structure of hydro data that will be  normalized and sorted
+%         depending on the value of hydro.code
+%
+% Returns
+% -------
+%     hydro : [1 x 1] struct
+%         Normalized hydro data
 % 
 
 [a,b] = size(hydro);  % Last data set in

@@ -32,51 +32,17 @@ BEMIO Functions
 
 .. autofunction:: functions.BEMIO.readCAPYTAINE
 
-**normalizeBEM:** Normalizes NEMOH, Aqwa and Capytaine hydrodynamics coefficients in the same manner that WAMIT outputs are normalized. Specifically, the linear hydrostatic restoring stiffness is normalized as, :math:`C_{i,j}/\rho g`; the radiation added mass is normalized as, :math:`A_{i,j}/\rho`; radiation wave damping is normalized as, :math:`B_{i,j}/\rho \omega`; and the wave-exciting forces are normalized as, :math:`F_{exc,i}/\rho g`. Typically, this function would not be called directly by the user; it is automatically implemented within the readNEMOH, readAQWA, and readCAPYTAINE functions.
+.. autofunction:: functions.BEMIO.normalizeBEM
 
-	*hydro = normalizeBEM(hydro)*
-		* *hydro* – data structure
+.. autofunction:: functions.BEMIO.combineBEM
 
-**combineBEM:** Combines multiple BEM outputs into one hydrodynamic "system". This function requires that all BEM outputs have the same water depth, wave frequencies, and wave headings. This function would be implemented following multiple Read functions and before the IRF, writeBEMIOH5, or plotBEMIO functions.
+.. autofunction:: functions.BEMIO.radiationIRF
 
-	*hydro = combineBEM(hydro)*
-		* *hydro* – data structure
+.. autofunction:: functions.BEMIO.radiationIRFSS
 
-**radiationIRF:** Calculates the normalized radiation impulse response function. This is equivalent to the radiation IRF in the theory section normalized by :math:`\rho`:
+.. autofunction:: functions.BEMIO.excitationIRF
 
-	:math:`\overline{K}_{r,i,j}(t) = {\frac{2}{\pi}}\intop_0^{\infty}{\frac{B_{i,j}(\omega)}{\rho}}\cos({\omega}t)d\omega`
-
-	*hydro = radiationIRF(hydro, t_end, n_t, n_w, w_min, w_max)*
-			* *hydro* – data structure
-			* *t_end* – calculation range for the IRF, where the IRF is calculated from t = 0 to t_end, and the default is 100 s
-			* *n_t* – number of time steps in the IRF, the default is 1001
-			* *n_w* – number of frequency steps used in the IRF calculation (hydrodynamic coefficients are interpolated to correspond), the default is 1001
-			* *w_min* – minimum frequency to use in the IRF calculation, the default is the minimum frequency from the BEM data
-			* *w_max* – maximum frequency to use in the IRF calculation, the default is the maximum frequency from the BEM data.
-
-**radiationIRFSS:** Calculates the state space (SS) realization of the radiation IRF. If this function is used, it must be implemented after the radiationIRF function.
-
-	*hydro = radiationIRFSS(hydro, Omax, R2t)*
-		* *hydro* – data structure
-		* *Omax* – maximum order of the SS realization, the default is 10
-		* *R2t* – :math:`R^2` threshold (coefficient of determination) for the SS realization, where :math:`R^2` may range from 0 to 1, and the default is 0.95
-
-**excitationIRF:** Calculates the excitation impulse response function.
-
-	:math:`\overline{K}_{e,i,\theta}(t) = {\frac{1}{2\pi}}\intop_{-\infty}^{\infty}{\frac{X_i(\omega,\theta)e^{i{\omega}t}}{{\rho}g}}d\omega`
-
-	*hydro = excitationIRF(hydro, t_end, n_t, n_w, w_min, w_max)*
-			* *hydro* – data structure
-			* *t_end* – calculation range for the IRF, where the IRF is calculated from t = -t_end to t_end, and the default is 100 s
-			* *n_t* – number of time steps in the IRF, the default is 1001
-			* *n_w* – number of frequency steps used in the IRF calculation (hydrodynamic coefficients are interpolated to correspond), the default is 1001
-			* *w_min* – minimum frequency to use in the IRF calculation, the default is the minimum frequency from the BEM data
-			* *w_max* – maximum frequency to use in the IRF calculation, the default is the maximum frequency from the BEM data.
-
-**writeBEMIOH5:** Writes the hydro data structure to a ``*.h5`` file. 
-
-	writeBEMIOH5(hydro)
-		* *hydro* – data structure
+.. autofunction:: functions.BEMIO.writeBEMIOH5
 
 .. Note::
  	Technically, this step should not be necessary - the MATLAB data structure *hydro* is written to a ``*.h5`` file by BEMIO and then read back into a new MATLAB data structure *hydroData* for each body by WEC-Sim. The reasons this step was retained were, first, to remain compatible with the python based BEMIO output and, second, for the simpler data visualization and verification capabilities offered by the ``*.h5`` file viewer.

@@ -2,14 +2,28 @@ function hydro = radiationIRFSS(hydro,Omax,R2t)
 % Calculates the state space (SS) realization of the normalized radiation IRF.
 % If this function is used, it must be implemented after the radiationIRF function.
 % 
-% hydro = radiationIRFSS(hydro, Omax, R2t)
-%     hydro – data structure
-%     Omax –  maximum order of the SS realization, the default is 10
-%     R2t –   R2R2 threshold (coefficient of determination) for the SS realization,
-%             where R2R2 may range from 0 to 1, and the default is 0.95
-% 
 % Default values are indicated by [].
-% See ‘...WEC-Sim\examples\BEMIO...’ for examples of usage.
+% See ``WEC-Sim\examples\BEMIO`` for examples of usage.
+% 
+% Parameters
+% ----------
+%     hydro : struct
+%         Structure of hydro data
+%     
+%     Omax : integer 
+%         Maximum order of the SS realization, the default is 10
+% 
+%     R2t : float
+%         :math:`R^2` threshold (coefficient of determination) for the SS
+%         realization, where :math:`R^2` may range from 0 to 1, and the
+%         default is 0.95
+%
+% Returns
+% -------
+%     hydro : struct
+%         Structure of hydro data with radiation IRF state space
+%         coefficients
+% 
 
 p = waitbar(0,'Calculating state space radiation IRFs...');  % Progress bar
 
