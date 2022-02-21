@@ -165,7 +165,7 @@ for WEC-Sim to read:
         webpage for more mesh generation details.
       * The NEMOH Mesh.exe code creates the ``Hydrostatics.dat`` and ``KH.dat`` 
         files (among other files) for one input body at a time. For the 
-        Read_NEMOH function to work correctly in the case of a multiple body 
+        readNEMOH function to work correctly in the case of a multiple body 
         system, the user must manually rename ``Hydrostatics.dat`` and 
         ``KH.dat`` files to ``Hydrostatics_0.dat``, ``Hydrostatics_1.dat``, …, 
         and ``KH_0.dat``, ``KH_1.dat``,…, corresponding to the body order 

@@ -1,7 +1,7 @@
-function hydro = Read_CAPYTAINE(hydro,filename)
+function hydro = readCAPYTAINE(hydro,filename)
 % Reads data from a Capytaine netcdf file
 %
-% hydro = Read_CAPYTAINE(hydro, filename)
+% hydro = readCAPYTAINE(hydro, filename)
 %     hydro –     data structure
 %     filename –  CAPYTAINE .nc output file
 %
@@ -395,12 +395,12 @@ waitbar(7/8);
 
 %% Kochin diffraction
 % necessary?
-% from Read_WAMIT():
+% from readWAMIT():
 % theta(ntheta)= Kochin(3*(ntheta-1)+1); % theta
 % Kochin_BVP(ntheta,1,x)= Kochin(3*(ntheta-1)+2); % magnitude
 % Kochin_BVP(ntheta,2,x)= Kochin(3*(ntheta-1)+3); % phase
 
-hydro = Normalize(hydro);  % Normalize the data according the WAMIT convention
+hydro = normalizeBEM(hydro);  % Normalize the data according the WAMIT convention
 
 waitbar(8/8);
 
@@ -477,4 +477,3 @@ function ind = getInd(dimStruct, str2find)
         end
     end
 end
-
