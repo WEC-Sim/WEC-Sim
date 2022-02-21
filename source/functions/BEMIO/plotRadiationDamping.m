@@ -2,9 +2,8 @@ function plotRadiationDamping(varargin)
 % Plots the radiation damping for each hydro structure's bodies in
 % the heave, surge and pitch degrees of freedom.
 % 
-% Usage
-% -----
-% plotRadiationDamping(hydro, hydro2, hydro3, ...)
+% Usage:
+% ``plotRadiationDamping(hydro, hydro2, hydro3, ...)``
 % 
 % Parameters
 % ----------

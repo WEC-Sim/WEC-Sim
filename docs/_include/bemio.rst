@@ -46,17 +46,28 @@ BEMIO Functions
 
 .. autofunction:: functions.BEMIO.reverseDimensionOrder
 
-.. autofunction:: functions.BEMIO.writeBEMIOH5
-
 .. autofunction:: functions.BEMIO.spectralMoment
 
 .. autofunction:: functions.BEMIO.waveNumber
+
+.. autofunction:: functions.BEMIO.writeBEMIOH5
 
 .. Note::
  	Technically, this step should not be necessary - the MATLAB data structure *hydro* is written to a ``*.h5`` file by BEMIO and then read back into a new MATLAB data structure *hydroData* for each body by WEC-Sim. The reasons this step was retained were, first, to remain compatible with the python based BEMIO output and, second, for the simpler data visualization and verification capabilities offered by the ``*.h5`` file viewer.
 
 .. autofunction:: functions.BEMIO.plotBEMIO
 
+.. autofunction:: functions.BEMIO.plotAddedMass
+
+.. autofunction:: functions.BEMIO.plotRadiationDamping
+
+.. autofunction:: functions.BEMIO.plotRadiationIRF
+
+.. autofunction:: functions.BEMIO.plotExcitationMagnitude
+
+.. autofunction:: functions.BEMIO.plotExcitationPhase
+
+.. autofunction:: functions.BEMIO.plotExcitationIRF
 
 .. _user-advanced-features-bemio-h5:
 

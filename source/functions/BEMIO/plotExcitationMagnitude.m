@@ -2,9 +2,8 @@ function plotExcitationMagnitude(varargin)
 % Plots the excitation force magnitude for each hydro structure's bodies in
 % the heave, surge and pitch degrees of freedom.
 % 
-% Usage
-% -----
-% plotExcitationMagnitude(hydro, hydro2, hydro3, ...)
+% Usage:
+% ``plotExcitationMagnitude(hydro, hydro2, hydro3, ...)``
 % 
 % Parameters
 % ----------

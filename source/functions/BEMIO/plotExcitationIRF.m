@@ -2,9 +2,8 @@ function plotExcitationIRF(varargin)
 % Plots the excitation IRF for each hydro structure's bodies in
 % the heave, surge and pitch degrees of freedom.
 % 
-% Usage
-% -----
-% plotExcitationIRF(hydro, hydro2, hydro3, ...)
+% Usage:
+% ``plotExcitationIRF(hydro, hydro2, hydro3, ...)``
 % 
 % Parameters
 % ----------

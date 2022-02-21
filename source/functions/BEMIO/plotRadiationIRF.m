@@ -2,9 +2,8 @@ function plotRadiationIRF(varargin)
 % Plots the radiation IRF for each hydro structure's bodies in
 % the heave, surge and pitch degrees of freedom.
 % 
-% Usage
-% -----
-% plotRadiationIRF(hydro, hydro2, hydro3, ...)
+% Usage:
+% ``plotRadiationIRF(hydro, hydro2, hydro3, ...)``
 % 
 % Parameters
 % ----------

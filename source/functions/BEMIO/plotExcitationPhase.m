@@ -2,9 +2,8 @@ function plotExcitationPhase(varargin)
 % Plots the excitation force phase for each hydro structure's bodies in
 % the heave, surge and pitch degrees of freedom.
 % 
-% Usage
-% -----
-% plotExcitationPhase(hydro, hydro2, hydro3, ...)
+% Usage:
+% ``plotExcitationPhase(hydro, hydro2, hydro3, ...)``
 % 
 % Parameters
 % ----------

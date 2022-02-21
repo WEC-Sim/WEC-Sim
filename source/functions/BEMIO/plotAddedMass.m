@@ -2,9 +2,8 @@ function plotAddedMass(varargin)
 % Plots the added mass for each hydro structure's bodies in
 % the heave, surge and pitch degrees of freedom.
 % 
-% Usage
-% -----
-% plotAddedMass(hydro, hydro2, hydro3, ...)
+% Usage:
+% ``plotAddedMass(hydro, hydro2, hydro3, ...)``
 % 
 % Parameters
 % ----------
