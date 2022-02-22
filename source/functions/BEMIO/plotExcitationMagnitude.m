@@ -8,8 +8,9 @@ function plotExcitationMagnitude(varargin)
 % Parameters
 % ----------
 %     varargin : struct(s)
-%         The hydroData structure `hydro` created by the other BEMIO
-%         functions. One or more may be input.
+%         The hydroData structure(s) created by the other BEMIO functions.
+%         One or more may be input.
+% 
 
 if isempty(varargin)
     error(['plotExcitationMagnitude: No arguments passed. Include one or more hydro ' ...

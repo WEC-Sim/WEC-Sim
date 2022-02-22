@@ -2,7 +2,7 @@ function hydro = radiationIRFSS(hydro,Omax,R2t)
 % Calculates the state space (SS) realization of the normalized radiation IRF.
 % If this function is used, it must be implemented after the radiationIRF function.
 % 
-% Default values are indicated by [].
+% Default parameters can be used by inputting [].
 % See ``WEC-Sim\examples\BEMIO`` for examples of usage.
 % 
 % Parameters

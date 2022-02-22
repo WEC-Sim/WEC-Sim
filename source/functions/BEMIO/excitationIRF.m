@@ -3,7 +3,7 @@ function hydro = excitationIRF(hydro,tEnd,nDt,nDw,wMin,wMax)
 % 
 % 	:math:`\overline{K}_{e,i,\theta}(t) = {\frac{1}{2\pi}}\intop_{-\infty}^{\infty}{\frac{X_i(\omega,\theta)e^{i{\omega}t}}{{\rho}g}}d\omega`
 % 
-% Default values are indicated by [].
+% Default parameters can be used by inputting [].
 % See ``WEC-Sim\examples\BEMIO`` for examples of usage.
 % 
 % Parameters

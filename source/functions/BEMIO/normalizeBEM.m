@@ -1,9 +1,9 @@
 function hydro = normalizeBEM(hydro)
 % Normalizes BEM hydrodynamic coefficients in the same manner
 % that WAMIT outputs are normalized. Specifically, the linear restoring
-% stiffness is normalized as, C(i,j)/(rho*g); added mass is normalized as,
-% A(i,j)/rho; radiation damping is normalized as, B(i,j)/(rho*w); and,
-% exciting forces are normalized as, X(i)/(rho*g). And, if necessary, sort
+% stiffness is normalized as :math:`C_{i,j}/(\rho g)`; added mass is normalized as
+% :math:`A_{i,j}/\rho`; radiation damping is normalized as :math:`B_{i,j}/(\rho \omega)`; and,
+% exciting forces are normalized as :math:`X_i/(\rho g)`. And, if necessary, sort
 % data according to ascending frequency.
 %
 % This function is not called directly by the user; it is automatically

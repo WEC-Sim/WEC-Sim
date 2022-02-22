@@ -5,6 +5,7 @@ function hydro = radiationIRF(hydro,tEnd,nDt,nDw,wMin,wMax)
 % 
 %     :math:`\overline{K}_{r,i,j}(t) = {\frac{2}{\pi}}\intop_0^{\infty}{\frac{B_{i,j}(\omega)}{\rho}}\cos({\omega}t)d\omega`
 % 
+% Default parameters can be used by inputting [].
 % See ``WEC-Sim\examples\BEMIO`` for examples of usage.
 % 
 % Parameters

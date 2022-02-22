@@ -10,6 +10,7 @@ function hydro = readNEMOH(hydro,filedir)
 %
 %     filename : string
 %         Path to the NEMOH working folder, must include:
+%             
 %             - ``Nemoh.cal``
 %             - ``Mesh/Hydrostatics.dat`` (or ``Hydrostatiscs_0.dat``, ``Hydrostatics_1.dat``, etc. for multiple bodies)
 %             - ``Mesh/KH.dat (or ``KH_0.dat``, ``KH_1.dat``, etc. for multiple bodies)
