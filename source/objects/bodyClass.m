@@ -28,36 +28,28 @@ classdef bodyClass<handle
     %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
     
     properties (SetAccess = 'private', GetAccess = 'public') %hdf5 file
-        dof_start         = []                               % (`integer`) Index the DOF starts for body(``bodyNumber``). For WEC bodies this is given in the h5 file, but if not defined in the h5 file, Default = ``(bodyNumber-1)*6+1``.
-        dof_end           = []                               % (`integer`) Index the DOF ends for body(``bodyNumber``). For WEC bodies this is given in the h5 file, but if not defined in the h5 file, Default = ``(bodyNumber-1)*6+6``.
+        dofStart         = []                               % (`integer`) Index the DOF starts for body(``bodyNumber``). For WEC bodies this is given in the h5 file, but if not defined in the h5 file, Default = ``(bodyNumber-1)*6+1``.
+        dofEnd           = []                               % (`integer`) Index the DOF ends for body(``bodyNumber``). For WEC bodies this is given in the h5 file, but if not defined in the h5 file, Default = ``(bodyNumber-1)*6+6``.
         hydroData         = struct()                                            % Hydrodynamic data from BEM or user defined.
     end
     
-    properties (SetAccess = 'public', GetAccess = 'public') %input file
-        name              = []                               % (`string`) Specifies the body name. For hydrodynamic bodies this is defined in h5 file. For nonhydrodynamic bodies this is defined by the user, Default = ``[]``.
-        mass              = []                               % (`float`) Translational inertia or mass [kg]. Defined by the user or specify 'equilibrium' to set the mass equal to the fluid density times displaced volume. Default = ``[]``.
-        momOfInertia      = []                               % (`3x1 float vector`) Rotational inertia or mass moment of inertia [kg*m^{2}]. Defined by the user in the following format [Ixx Iyy Izz]. Default = ``[]``.
+    properties (SetAccess = 'public', GetAccess = 'public') %input file        
         cg                = []                               % (`3x1 float vector`) Body center of gravity [m]. Defined in the following format [x y z]. For hydrodynamic bodies this is defined in the h5 file while for nonhydrodynamic bodies this is defined by the user. Default = ``[]``.
         cb                = []                               % (`3x1 float vector`) Body center of buoyancy [m]. Defined in the following format [x y z]. For hydrodynamic bodies this is defined in the h5 file while for nonhydrodynamic bodies this is defined by the user. Default = ``[]``.
         dispVol           = []                               % (`float`) Displaced volume at equilibrium position [m^{3}]. For hydrodynamic bodies this is defined in the h5 file while for nonhydrodynamic bodies this is defined by the user. Default = ``[]``.
         dof               = 6                                % (`integer`) Number of degree of freedoms (DOFs). For hydrodynamic bodies this is given in the h5 file. If not defined in the h5 file, Default = ``6``.
-        dof_gbm           = []                               % (`integer`) Number of degree of freedoms (DOFs) for generalized body mode (GBM). Default = ``[]``.
+        dofGBM           = []                                % (`integer`) Number of degree of freedoms (DOFs) for generalized body mode (GBM). Default = ``[]``.
+        flexBody     = 0                                % (`integer`) Flag for flexible body either 0 (no) or 1 (yes). Default = ``0``.
         geometryFile      = 'NONE'                           % (`string`) Pathway to the body geometry ``.stl`` file.
-        viscDrag          = struct(...                       %
-            'Drag',                 zeros(6), ...            %
-            'cd',                   [0 0 0 0 0 0], ...       %
-            'characteristicArea',   [0 0 0 0 0 0])           % Structure defining the viscous quadratic drag forces. First option define ``Drag``, (`6x6 float matrix`), Default = ``zeros(6)``. Second option define ``cd``, (`6x1 float vector`), Default = ``zeros(6,1)``, and ``characteristicArea``, (`6x1 float vector`), Default = ``zeros(6,1)``.
+        hydroStiffness   = zeros(6)                          % (`6x6 float matrix`) Linear hydrostatic stiffness matrix. Default = ``zeros(6)``. If the variable is nonzero, the matrix will override the h5 file values.
         initDisp          = struct(...                       %
             'initLinDisp',          [0 0 0], ...             %
             'initAngularDispAxis',  [0 1 0], ...             %
             'initAngularDispAngle', 0)                       % Structure defining the initial displacement of the body. ``initLinDisp`` (`3x1 float vector`) is defined as the initial displacement of the body center of gravity (COG) [m] in the following format [x y z], Default = [``0 0 0``]. ``initAngularDispAxis`` (`3x1 float vector`) is defined as the axis of rotation in the following format [x y z], Default = [``0 1 0``]. ``initAngularDispAngle`` (`float`) is defined as the initial angular displacement of the body COG [rad], Default = ``0``.
-        hydroStiffness   = zeros(6)                          % (`6x6 float matrix`) Linear hydrostatic stiffness matrix. Default = ``zeros(6)``. If the variable is nonzero, the matrix will override the h5 file values.
         linearDamping     = zeros(6)                         % (`6x6 float matrix`) Linear damping coefficient matrix. Default = ``zeros(6)``.
-        userDefinedExcIRF = []                               % (`[]`) Excitation Impulse Response Function, calculated in BEMIO, only used with the `waveClass` ``waveImport`` type. Default = ``[]``.
-        viz               = struct(...                       %
-            'color', [1 1 0], ...                            %
-            'opacity', 1)                                    % Structure defining visualization properties in either SimScape or Paraview. ``color`` (`3x1 float vector`) is defined as the body visualization color, Default = [``1 1 0``]. ``opacity`` (`integer`) is defined as the body opacity, Default = ``1``.
-        bodyparaview      = 1;                               % (`integer`) Flag for visualisation in Paraview either 0 (no) or 1 (yes). Default = ``1`` since only called in paraview.
+        mass              = []                               % (`float`) Translational inertia or mass [kg]. Defined by the user or specify 'equilibrium' to set the mass equal to the fluid density times displaced volume. Default = ``[]``.
+        meanDriftForce    = 0                                % (`integer`) Flag for mean drift force with three options:  0 (no), 1 (yes, from control surface) or 2 (yes, from momentum conservation). Default = ``0``.
+        momOfInertia      = []                               % (`3x1 float vector`) Rotational inertia or mass moment of inertia [kg*m^{2}]. Defined by the user in the following format [Ixx Iyy Izz]. Default = ``[]``.
         morisonElement    = struct(...                       % 
             'option',              0,...                     %
             'cd',                 [0 0 0], ...               % 
@@ -66,10 +58,19 @@ classdef bodyClass<handle
             'VME',                 0     , ...               % 
             'rgME',               [0 0 0], ...               %
             'z',                  [0 0 1])                   % Structure defining the Morison Element properties connected to the body. ``option`` (`1x1 integer`) for Morison Element calculation: off->0, on->1 or 2, default = ``0``, Option 1 uses an approach that allows the user to define drag and inertial coefficients along the x-, y-, and z-axes and Option 2 uses an approach that defines the Morison Element with normal and tangential tangential drag and interial coefficients. ``cd`` (`1x3 float vector`) is defined as the viscous normal and tangential drag coefficients in the following format, Option 1 [cd_x cd_y cd_z], Option 2 [cd_N cd_T NaN], Default = [``0 0 0``]. ``ca`` is defined as the added mass coefficent for the Morison Element in the following format, Option 1 [ca_x ca_y ca_z], Option 2 [ca_N ca_T NaN], Default = [``0 0 0``], ``characteristicArea`` is defined as the characteristic area for the Morison Element [m^2] in the following format, Option 1 [Area_x Area_y Area_z], Option 2 [Area_N Area_T NaN], Default = [``0 0 0``]. ``VME`` is the characteristic volume of the Morison Element [m^3], Default = ``0``. ``rgME`` is defined as the vector from the body COG to point of application for the Morison Element [m] in the following format [x y z], Default = [``0 0 0``]. ``z`` is defined as the unit normal vector center axis of the Morison Element in the following format, Option 1 not used, Option 2 [n_{x} n_{y} n_{z}], Default = [``0 0 1``]. 
-        nhBody            = 0                                % (`integer`) Flag for non-hydro body either 0 (no) or 1 (yes). Default = ``0``.
-        flexHydroBody     = 0                                % (`integer`) Flag for flexible body either 0 (no) or 1 (yes). Default = ``0``.
-        meanDriftForce    = 0                                % (`integer`) Flag for mean drift force with three options:  0 (no), 1 (yes, from control surface) or 2 (yes, from momentum conservation). Default = ``0``.
-        nlHydro           = 0                                % (`integer`) Option for nonlinear hydrohanamics calculation: linear->0, nonlinear->1,2. Default = ``0``
+        name              = []                               % (`string`) Specifies the body name. For hydrodynamic bodies this is defined in h5 file. For nonhydrodynamic bodies this is defined by the user, Default = ``[]``.
+        
+        nonHydroBody            = 0    			     % (`integer`) Flag for non-hydro body either 0 (no) or 1 (yes). Default = ``0``.
+        nonlinearHydro           = 0                         % (`integer`) Option for nonlinear hydrohanamics calculation: linear->0, nonlinear->1,2. Default = ``0``
+        paraviewBody      = 1;                               % (`integer`) Flag for visualisation in Paraview either 0 (no) or 1 (yes). Default = ``1`` since only called in paraview.
+        userDefinedExcIRF = []                               % (`[]`) Excitation Impulse Response Function, calculated in BEMIO, only used with the `waveClass` ``waveImport`` type. Default = ``[]``.
+        viscDrag          = struct(...                       %
+            'Drag',                 zeros(6), ...            %
+            'cd',                   [0 0 0 0 0 0], ...       %
+            'characteristicArea',   [0 0 0 0 0 0])           % Structure defining the viscous quadratic drag forces. First option define ``Drag``, (`6x6 float matrix`), Default = ``zeros(6)``. Second option define ``cd``, (`6x1 float vector`), Default = ``zeros(6,1)``, and ``characteristicArea``, (`6x1 float vector`), Default = ``zeros(6,1)``.        
+        viz               = struct(...                       %
+            'color', [1 1 0], ...                            %
+            'opacity', 1)                                    % Structure defining visualization properties in either SimScape or Paraview. ``color`` (`3x1 float vector`) is defined as the body visualization color, Default = [``1 1 0``]. ``opacity`` (`integer`) is defined as the body opacity, Default = ``1``.        
     end
     
     properties (SetAccess = 'public', GetAccess = 'public')  %body geometry stl file
@@ -84,13 +85,13 @@ classdef bodyClass<handle
     end
     
     properties (SetAccess = 'public', GetAccess = 'public') %internal
-        hydroForce        = struct()                         % Hydrodynamic forces and coefficients used during simulation.
-        h5File            = ''                               % hdf5 file containing the hydrodynamic data
-        hydroDataBodyNum  = []                               % Body number within the hdf5 file.
-        massCalcMethod    = []                               % Method used to obtain mass: 'user', 'fixed', 'equilibrium'
         bodyNumber        = []                               % bodyNumber in WEC-Sim as defined in the input file. Can be different from the BEM body number.
         bodyTotal         = []                               % Total number of WEC-Sim bodies (body block iterations)
+        h5File            = ''                               % hdf5 file containing the hydrodynamic data
+        hydroDataBodyNum  = []                               % Body number within the hdf5 file.
+        hydroForce        = struct()                         % Hydrodynamic forces and coefficients used during simulation.
         lenJ              = []                               % Matrices length. 6 for no body-to-body interactions. 6*numBodies if body-to-body interactions.
+        massCalcMethod    = []                               % Method used to obtain mass: 'user', 'fixed', 'equilibrium'        
     end
     
     methods (Access = 'public') %modify object = T; output = F
@@ -134,15 +135,15 @@ classdef bodyClass<handle
             obj.hydroData.properties.cb = h5read(filename,[name '/properties/cb']);
             obj.hydroData.properties.disp_vol = h5read(filename,[name '/properties/disp_vol']);
             obj.hydroData.properties.dof       = 6;
-            obj.hydroData.properties.dof_start = (obj.bodyNumber-1)*6+1;
-            obj.hydroData.properties.dof_end   = (obj.bodyNumber-1)*6+6;
+            obj.hydroData.properties.dofStart = (obj.bodyNumber-1)*6+1;
+            obj.hydroData.properties.dofEnd   = (obj.bodyNumber-1)*6+6;
             try obj.hydroData.properties.dof       = h5read(filename,[name '/properties/dof']);       end
-            try obj.hydroData.properties.dof_start = h5read(filename,[name '/properties/dof_start']); end
-            try obj.hydroData.properties.dof_end   = h5read(filename,[name '/properties/dof_end']);   end
+            try obj.hydroData.properties.dofStart = h5read(filename,[name '/properties/dofStart']); end
+            try obj.hydroData.properties.dofEnd   = h5read(filename,[name '/properties/dofEnd']);   end
             obj.dof       = obj.hydroData.properties.dof;
-            obj.dof_start = obj.hydroData.properties.dof_start;
-            obj.dof_end   = obj.hydroData.properties.dof_end;
-            obj.dof_gbm   = obj.dof-6;
+            obj.dofStart = obj.hydroData.properties.dofStart;
+            obj.dofEnd   = obj.hydroData.properties.dofEnd;
+            obj.dofGBM   = obj.dof-6;
             obj.hydroData.hydro_coeffs.linear_restoring_stiffness = reverseDimensionOrder(h5read(filename, [name '/hydro_coeffs/linear_restoring_stiffness']));
             obj.hydroData.hydro_coeffs.excitation.re = reverseDimensionOrder(h5read(filename, [name '/hydro_coeffs/excitation/re']));
             obj.hydroData.hydro_coeffs.excitation.im = reverseDimensionOrder(h5read(filename, [name '/hydro_coeffs/excitation/im']));
@@ -159,11 +160,11 @@ classdef bodyClass<handle
             try obj.hydroData.hydro_coeffs.radiation_damping.state_space.C.all = reverseDimensionOrder(h5read(filename, [name '/hydro_coeffs/radiation_damping/state_space/C/all'])); end
             try obj.hydroData.hydro_coeffs.radiation_damping.state_space.D.all = reverseDimensionOrder(h5read(filename, [name '/hydro_coeffs/radiation_damping/state_space/D/all'])); end
             try tmp = reverseDimensionOrder(h5read(filename, [name '/properties/mass']));
-                obj.hydroData.gbm.mass      = tmp(obj.dof_start+6:obj.dof_end,obj.dof_start+6:obj.dof_end); clear tmp; end;
+                obj.hydroData.gbm.mass      = tmp(obj.dofStart+6:obj.dofEnd,obj.dofStart+6:obj.dofEnd); clear tmp; end;
             try tmp = reverseDimensionOrder(h5read(filename, [name '/properties/stiffness']));
-                obj.hydroData.gbm.stiffness = tmp(obj.dof_start+6:obj.dof_end,obj.dof_start+6:obj.dof_end); clear tmp; end;
+                obj.hydroData.gbm.stiffness = tmp(obj.dofStart+6:obj.dofEnd,obj.dofStart+6:obj.dofEnd); clear tmp; end;
             try tmp = reverseDimensionOrder(h5read(filename, [name '/properties/damping']));
-                obj.hydroData.gbm.damping   = tmp(obj.dof_start+6:obj.dof_end,obj.dof_start+6:obj.dof_end); clear tmp;end;
+                obj.hydroData.gbm.damping   = tmp(obj.dofStart+6:obj.dofEnd,obj.dofStart+6:obj.dofEnd); clear tmp;end;
             if obj.meanDriftForce == 0
                 obj.hydroData.hydro_coeffs.mean_drift = 0.*obj.hydroData.hydro_coeffs.excitation.re;
             elseif obj.meanDriftForce == 1
@@ -185,9 +186,9 @@ classdef bodyClass<handle
             obj.dispVol   = hydroData.properties.disp_vol;
             obj.name      = hydroData.properties.name;
             obj.dof       = obj.hydroData.properties.dof;
-            obj.dof_start = obj.hydroData.properties.dof_start;
-            obj.dof_end   = obj.hydroData.properties.dof_end;
-            obj.dof_gbm   = obj.dof-6;
+            obj.dofStart = obj.hydroData.properties.dofStart;
+            obj.dofEnd   = obj.hydroData.properties.dofEnd;
+            obj.dofGBM   = obj.dof-6;
         end
         
         function nonHydroForcePre(obj,rho)
@@ -218,7 +219,7 @@ classdef bodyClass<handle
             % 1. Set the linear hydrodynamic restoring coefficient, viscous drag, and linear damping matrices
             % 2. Set the wave excitation force
             obj.setMassMatrix(rho)
-            if (obj.dof_gbm>0)
+            if (obj.dofGBM>0)
                 % obj.linearDamping = [obj.linearDamping zeros(1,obj.dof-length(obj.linearDamping))];
                 tmp0 = obj.linearDamping;
                 tmp1 = size(obj.linearDamping);
@@ -236,7 +237,7 @@ classdef bodyClass<handle
             if any(any(obj.hydroStiffness)) == 1  %check if obj.hydroStiffness is defined
                 obj.hydroForce.linearHydroRestCoef = obj.hydroStiffness;
             else
-                k = obj.hydroData.hydro_coeffs.linear_restoring_stiffness;%(:,obj.dof_start:obj.dof_end);
+                k = obj.hydroData.hydro_coeffs.linear_restoring_stiffness;%(:,obj.dofStart:obj.dofEnd);
                 obj.hydroForce.linearHydroRestCoef = k .*rho .*g;
             end
             if  any(any(obj.viscDrag.Drag)) == 1  %check if obj.viscDrag.Drag is defined
@@ -266,12 +267,12 @@ classdef bodyClass<handle
                     obj.userDefinedExcitation(waveAmpTime,dt,waveDirection,rho,g);
                     obj.irfInfAddedMassAndDamping(CIkt,CTTime,ssCalc,rho,B2B);
             end
-            gbmDOF = obj.dof_gbm;
+            gbmDOF = obj.dofGBM;
             if (gbmDOF>0)
                 obj.hydroForce.gbm.stiffness=obj.hydroData.gbm.stiffness;
                 obj.hydroForce.gbm.damping=obj.hydroData.gbm.damping;
-                obj.hydroForce.gbm.mass_ff=obj.hydroForce.fAddedMass(7:obj.dof,obj.dof_start+6:obj.dof_end)+obj.hydroData.gbm.mass;   % need scaling for hydro part
-                obj.hydroForce.fAddedMass(7:obj.dof,obj.dof_start+6:obj.dof_end) = 0;
+                obj.hydroForce.gbm.mass_ff=obj.hydroForce.fAddedMass(7:obj.dof,obj.dofStart+6:obj.dofEnd)+obj.hydroData.gbm.mass;   % need scaling for hydro part
+                obj.hydroForce.fAddedMass(7:obj.dof,obj.dofStart+6:obj.dofEnd) = 0;
                 obj.hydroForce.gbm.mass_ff_inv=inv(obj.hydroForce.gbm.mass_ff);
                 
                 % state-space formulation for solving the GBM
@@ -281,8 +282,8 @@ classdef bodyClass<handle
                 obj.hydroForce.gbm.state_space.B = eye(2*gbmDOF,2*gbmDOF);
                 obj.hydroForce.gbm.state_space.C = eye(2*gbmDOF,2*gbmDOF);
                 obj.hydroForce.gbm.state_space.D = zeros(2*gbmDOF,2*gbmDOF);
-                obj.flexHydroBody = 1;
-                obj.nhBody=0;
+                obj.flexBody = 1;
+                obj.nonHydroBody=0;
             end
         end
         
@@ -465,7 +466,7 @@ classdef bodyClass<handle
         function checkinputs(obj,morisonElement)
             % This method checks WEC-Sim user inputs and generates error messages if parameters are not properly defined for the bodyClass.
             % Check h5 file
-            if exist(obj.h5File,'file')==0 && obj.nhBody==0
+            if exist(obj.h5File,'file')==0 && obj.nonHydroBody==0
                 error('The hdf5 file %s does not exist',obj.h5File)
             end
             % Check geometry file
@@ -640,7 +641,7 @@ classdef bodyClass<handle
                     obj.hydroForce.totDOF  =zeros(nDOF,nDOF);
                     for ii=1:nDOF
                         for jj=1:nDOF
-                            jjj = obj.dof_start-1+jj;
+                            jjj = obj.dofStart-1+jj;
                             obj.hydroForce.fAddedMass(ii,jj) = interp1(obj.hydroData.simulation_parameters.w,squeeze(am(ii,jjj,:)),w,'spline');
                             obj.hydroForce.fDamping(ii,jj) = interp1(obj.hydroData.simulation_parameters.w,squeeze(rd(ii,jjj,:)),w,'spline');
                         end
@@ -664,7 +665,7 @@ classdef bodyClass<handle
             if B2B == 1
                 obj.hydroForce.fAddedMass=obj.hydroData.hydro_coeffs.added_mass.inf_freq .*rho;
             else
-                obj.hydroForce.fAddedMass=obj.hydroData.hydro_coeffs.added_mass.inf_freq(:,obj.dof_start:obj.dof_end) .*rho;
+                obj.hydroForce.fAddedMass=obj.hydroData.hydro_coeffs.added_mass.inf_freq(:,obj.dofStart:obj.dofEnd) .*rho;
             end
             % Radiation IRF
             obj.hydroForce.fDamping=zeros(nDOF,LDOF);
@@ -680,7 +681,7 @@ classdef bodyClass<handle
             else
                 for ii=1:nDOF
                     for jj=1:LDOF
-                        jjj = obj.dof_start-1+jj;
+                        jjj = obj.dofStart-1+jj;
                         obj.hydroForce.irkb(:,ii,jj) = interp1(irft,squeeze(irfk(ii,jjj,:)),CTTime,'spline');
                     end
                 end
@@ -705,8 +706,8 @@ classdef bodyClass<handle
                     obj.hydroForce.ssRadf.D = zeros(nDOF,LDOF);
                 else
                     for ii = 1:nDOF
-                        for jj = obj.dof_start:obj.dof_end
-                            jInd = jj-obj.dof_start+1;
+                        for jj = obj.dofStart:obj.dofEnd
+                            jInd = jj-obj.dofStart+1;
                             arraySize = obj.hydroData.hydro_coeffs.radiation_damping.state_space.it(ii,jj);
                             if ii == 1 && jInd == 1 % Begin construction of combined state, input, and output matrices
                                 Af(1:arraySize,1:arraySize) = obj.hydroData.hydro_coeffs.radiation_damping.state_space.A.all(ii,jj,1:arraySize,1:arraySize);
@@ -731,9 +732,9 @@ classdef bodyClass<handle
             % This method sets mass for the special cases of body at equilibrium or fixed and is used by hydroForcePre.
             if strcmp(obj.mass, 'equilibrium')
                 obj.massCalcMethod = obj.mass;
-                if obj.nhBody == 0 && obj.nlHydro == 0
+                if obj.nonHydroBody == 0 && obj.nonlinearHydro == 0
                     obj.mass = obj.hydroData.properties.disp_vol * rho;
-                elseif obj.nhBody == 0 && obj.nlHydro ~= 0
+                elseif obj.nonHydroBody == 0 && obj.nonlinearHydro ~= 0
                     cg_tmp = obj.hydroData.properties.cg;
                     z = obj.bodyGeometry.center(:,3) + cg_tmp(3);
                     z(z>0) = 0;
