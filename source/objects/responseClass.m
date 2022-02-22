@@ -59,7 +59,7 @@ classdef responseClass<handle
     %
     %.. autoattribute:: objects.responseClass.constraints
     %    
-	%   * ``name`` (`string`) = 'constraintName'
+    %   * ``name`` (`string`) = 'constraintName'
     %   * ``time`` (`array`) = [# of time-steps x 1]
     %   * ``position`` (`array`) = [# of time-steps x 6] The constraint position relative to the initial condition
     %   * ``velocity`` (`array`) = [# of time-steps x 6] The constraint velocity relative to the initial condition
@@ -81,7 +81,7 @@ classdef responseClass<handle
     %
     %.. autoattribute:: objects.responseClass.cables
     %    
-	%   * ``name`` (`string`) = 'cableName'
+    %   * ``name`` (`string`) = 'cableName'
     %   * ``time`` (`array`) = [# of time-steps x 1]
     %   * ``position`` (`array`) = [# of time-steps x 6]
     %   * ``velocity`` (`array`) = [# of time-steps x 6]
@@ -121,14 +121,14 @@ classdef responseClass<handle
     
     
     properties (SetAccess = 'public', GetAccess = 'public')
-        wave                = struct()     % This property contains a structure for each instance of the ``waveClass`` 
         bodies              = struct()     % This property contains a structure for each instance of the ``bodyClass`` (i.e. for each Body block)
-        ptos                = struct()     % This property contains a structure for each instance of the ``ptoClass`` (i.e. for each PTO block). PTO motion is relative from frame F to frame B. PTO forces act on frame F.
-        constraints         = struct()     % This property contains a structure for each instance of the ``constraintClass`` (i.e. for each Constraint block). Constraint motion is relative from frame F to frame B. Constraint forces act on frame F.
-        mooring             = struct()     % This property contains a structure for each instance of the ``mooringClass`` using the mooring matrix (i.e. for each MooringMatrix block)
         cables              = struct()     % This property contains a structure for each instance of the ``cableClass`` (i.e. for each Cable block)
+        constraints         = struct()     % This property contains a structure for each instance of the ``constraintClass`` (i.e. for each Constraint block). Constraint motion is relative from frame F to frame B. Constraint forces act on frame F.
         moorDyn             = struct()     % This property contains a structure for each instance of the ``mooringClass`` using MoorDyn (i.e. for each MoorDyn block)
+        mooring             = struct()     % This property contains a structure for each instance of the ``mooringClass`` using the mooring matrix (i.e. for each MooringMatrix block)
+        ptos                = struct()     % This property contains a structure for each instance of the ``ptoClass`` (i.e. for each PTO block). PTO motion is relative from frame F to frame B. PTO forces act on frame F.
         ptosim              = struct()     % This property contains a structure for each instance of the ``ptoSimClass`` (i.e. for each PTO-Sim block).
+        wave                = struct()     % This property contains a structure for each instance of the ``waveClass``         
     end
     
     methods (Access = 'public')
