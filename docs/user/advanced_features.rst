@@ -761,9 +761,9 @@ with time, WEC-Sim allows a correction to excitation forces for large yaw
 displacements. To enable this correction, add the following to your 
 ``wecSimInputFile``:: 
 
-    simu.yawNonLin = 1
+    simu.yaw = 1
 
-Under the default implementation (:code:`simu.yawNonLin = 0`), WEC-Sim uses the 
+Under the default implementation (:code:`simu.yaw = 0`), WEC-Sim uses the 
 initial yaw orientation of the device relative to the incident waves to 
 calculate the wave excitation coefficients that will be used for the duration 
 of the simulation. When the correction is enabled, excitation coefficients are 
@@ -784,7 +784,7 @@ specific: if it is too large, no interpolation will occur and the simulation
 will behave as :code:`simu.yawNonLin = 0`, but overly small values may not 
 significantly enhance simulation accuracy while increasing simulation time. 
 
-When :code:`simu.yawNonLin = 1`, hydrostatic and radiation forces are 
+When :code:`simu.yaw = 1`, hydrostatic and radiation forces are 
 determined from the local body-fixed coordinate system based upon the 
 instantaneous relative yaw position of the body, as this may differ 
 substantially from the global coordinate system for large relative yaw values. 

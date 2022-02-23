@@ -196,8 +196,8 @@ if exist('cable','var')==1
     end
 end
 
-if simu.yawNonLin==1 && simu.yawThresh==1
-    warning(['yawNonLin using (default) 1 dg interpolation threshold.' newline 'Ensure this is appropriate for your geometry'])
+if simu.yaw==1 && simu.yawThresh==1
+    warning(['yaw using (default) 1 dg interpolation threshold.' newline 'Ensure this is appropriate for your geometry'])
 end
 
 toc
@@ -246,7 +246,7 @@ if ~isempty(idx)
     for kk = 1:length(idx)
         it = idx(kk);
         body(it).hydroForcePre(waves.w,waves.waveDirection,simu.CIkt,simu.CTTime,waves.freqNum,simu.dt,...
-            simu.rho,simu.g,waves.type,waves.waveAmpTime,kk,simu.numWecBodies,simu.stateSpace,simu.b2b,simu.yawNonLin);
+            simu.rho,simu.g,waves.type,waves.waveAmpTime,kk,simu.numWecBodies,simu.stateSpace,simu.b2b,simu.yaw);
     end; clear kk idx
 end
 
@@ -370,8 +370,8 @@ for ii=1:length(body(1,:))
         eval(['sv_b' num2str(ii) '_instFS=Simulink.Variant(''nonLinearHydro_', num2str(ii), '==2'');']);
     end
 end; clear ii;
-% yawNonLin Activation
-yawNonLin=simu.yawNonLin;
+% yaw Activation
+yaw=simu.yaw;
 % Morison Element
 for ii=1:length(body(1,:))
     if body(ii).nonHydroBody ~=1
@@ -394,10 +394,10 @@ sv_stateSpace=Simulink.Variant('radiation_option==3');
 % Wave type
 typeNum = waves.typeNum;
 sv_noWave=Simulink.Variant('typeNum<10');
-sv_regularWaves=Simulink.Variant('typeNum>=10 && typeNum<20 && yawNonLin~=1');
-sv_regularWavesNonLinYaw=Simulink.Variant('typeNum>=10 && typeNum<20 && yawNonLin==1');
-sv_irregularWaves=Simulink.Variant('typeNum>=20 && typeNum<30 && yawNonLin~=1');
-sv_irregularWavesNonLinYaw=Simulink.Variant('typeNum>=20 && typeNum<30 && yawNonLin==1');
+sv_regularWaves=Simulink.Variant('typeNum>=10 && typeNum<20 && yaw~=1');
+sv_regularWavesNonLinYaw=Simulink.Variant('typeNum>=10 && typeNum<20 && yaw==1');
+sv_irregularWaves=Simulink.Variant('typeNum>=20 && typeNum<30 && yaw~=1');
+sv_irregularWavesNonLinYaw=Simulink.Variant('typeNum>=20 && typeNum<30 && yaw==1');
 sv_udfWaves=Simulink.Variant('typeNum>=30');
 % Body2Body
 B2B = simu.b2b;

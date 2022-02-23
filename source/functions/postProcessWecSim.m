@@ -108,7 +108,7 @@ waveOutput.waveAmpTime2 = waves.waveAmpTime2;
 waveOutput.waveAmpTime3 = waves.waveAmpTime3;
 
 % All
-output = responseClass(bodiesOutput,ptosOutput,constraintsOutput,ptosimOutput,cablesOutput,mooringOutput,waveOutput, simu.yawNonLin);
+output = responseClass(bodiesOutput,ptosOutput,constraintsOutput,ptosimOutput,cablesOutput,mooringOutput,waveOutput, simu.yaw);
 clear bodiesOutput ptosOutput constraintsOutput ptosimOutput cablesOutput mooringOutput waveOutput
 
 % MoorDyn
