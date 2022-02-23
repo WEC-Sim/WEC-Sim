@@ -107,7 +107,7 @@ classdef responseClass<handle
         mooring             = struct()     % This property generates the ``mooring`` structure for each instance of the ``mooringClass`` (i.e. for each Mooring block)
         cables              = struct()     % This property generates the ``cables`` structure for each instance of the ``cableClass`` (i.e. for each Cable block)
         moorDyn             = struct()     % This property generates the ``moorDyn`` structure for each instance of the ``mooringClass`` using MoorDyn (i.e. for each MoorDyn block), it includes ``Lines``  and ``Line#``.
-        ptosim              = struct()     % This property generates the ``ptosim`` structure for each instance of the ``ptoSimClass`` (i.e. for each PTO-Sim block).
+        PTOSimBlock              = struct()     % This property generates the ``ptosim`` structure for each instance of the ``ptoSimClass`` (i.e. for each PTO-Sim block).
     end
     
     methods (Access = 'public')
@@ -227,8 +227,8 @@ classdef responseClass<handle
             end
             % PTO-Sim
             if isstruct(ptosimOutput)
-                obj.ptosim=ptosimOutput;
-                obj.ptosim.time = obj.bodies(1).time;
+                obj.PTOSimBlock=ptosimOutput;
+                obj.PTOSimBlock.time = obj.bodies(1).time;
             end
         end
         
@@ -712,18 +712,18 @@ classdef responseClass<handle
                 end
             end
             % ptoSim
-            if isfield(obj.ptosim,'time')
-                f1 = fields(obj.ptosim);
+            if isfield(obj.PTOSimBlock,'time')
+                f1 = fields(obj.PTOSimBlock);
                 count = 1;
                 header = {'time'};
-                data = obj.ptosim.time;
+                data = obj.PTOSimBlock.time;
                 for ifld1=1:(length(f1)-1)
-                    f2 = fields(obj.ptosim.(f1{ifld1}));
-                    for iins = 1:length(obj.ptosim.(f1{ifld1}))
+                    f2 = fields(obj.PTOSimBlock.(f1{ifld1}));
+                    for iins = 1:length(obj.PTOSimBlock.(f1{ifld1}))
                         for ifld2 = 1:length(f2)
                             count = count+1;
                             header{count} = [f1{ifld1} num2str(iins) '_' f2{ifld2}];
-                            data(:,count) = obj.ptosim.(f1{ifld1}).(f2{ifld2});
+                            data(:,count) = obj.PTOSimBlock.(f1{ifld1}).(f2{ifld2});
                         end
                     end
                 end

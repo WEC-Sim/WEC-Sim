@@ -103,8 +103,8 @@ else
 end
 
 % PTO-Sim
-if exist('ptosim','var')
-    ptosimOutput = ptosim.response;
+if exist('PTOSimBlock','var')
+    ptosimOutput = PTOSimBlock.response;
 else
     ptosimOutput = 0;
 end

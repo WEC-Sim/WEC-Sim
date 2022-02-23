@@ -86,13 +86,13 @@ classdef PTOSimClassUpdated<handle
 %         end
         function ptosimOutput = response(obj)
             % Create PTO-Sim output
-            names = {'HydraulicPiston','HydraulicAccumulator','RectifyingValve','HydraulicMotor','ElectricMachine'};
+            names = {'HydPistonCompressible','GasHydAccumulator','RectifyingCheckValve','HydraulicMotorV2','ElectricMachineEC'};
             
-            signals.HydraulicPiston = {'PressureA','ForcePTO','PressureB'};
-            signals.HydraulicAccumulator = {'Pressure','FlowRate'};
-            signals.RectifyingValve = {'QA','QB','QC','QD'};
-            signals.HydraulicMotor = {'ShaftSpeed','Torque','DeltaP','FlowRate'};
-            signals.ElectricMachine = {'Tem','ShaftSpeed','Current','Voltage'};
+            signals.HydPistonCompressible = {'PressureA','ForcePTO','PressureB'};
+            signals.GasHydAccumulator = {'Pressure','FlowRate'};
+            signals.RectifyingCheckValve = {'QA','QB','QC','QD'};
+            signals.HydraulicMotorV2 = {'ShaftSpeed','Torque','DeltaP','FlowRate'};
+            signals.ElectricMachineEC = {'Tem','ShaftSpeed','Current','Voltage'};
             
             
             ptosimOutput = struct;
