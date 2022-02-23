@@ -220,7 +220,7 @@ classdef waveClass<handle
                     end
                     obj.H = 0;
                     obj.A = obj.H/2;
-                    obj.waveNumber(g);
+                    obj.k = waveNumber(obj.w,obj.waterDepth,g,obj.deepWaterWave);
                     obj.waveElevNowave(time);
                 case {'regular','regularCIC'}
                     if isempty(obj.w) && strcmp(obj.T,'NOT DEFINED')
@@ -232,7 +232,7 @@ classdef waveClass<handle
                         obj.T = 2*pi/obj.w;
                     end
                     obj.A = obj.H/2;
-                    obj.waveNumber(g);
+                    obj.k = waveNumber(obj.w,obj.waterDepth,g,obj.deepWaterWave);
                     obj.waveElevReg(rampTime, time);
                     obj.wavePowerReg(g,rho);
                 case {'irregular','spectrumImport'}
@@ -270,7 +270,7 @@ classdef waveClass<handle
                     end
                     obj.setWavePhase;
                     obj.irregWaveSpectrum(g,rho)
-                    obj.waveNumber(g)
+                    obj.k = waveNumber(obj.w,obj.waterDepth,g,obj.deepWaterWave);
                     obj.waveElevIrreg(rampTime, time, obj.dw);
                 case {'etaImport'}    %  This does not account for wave direction
                     % Import 'etaImport' time-series here and interpolate
@@ -618,7 +618,7 @@ classdef waveClass<handle
                     error('Following IEC Standard, our Bretschneider Sprectrum (BS) option is exactly how the Pierson-Moskowitz (PM) Spectrum is defined. Please use PM instead');
             end
             % Power per Unit Wave Crest
-            obj.waveNumber(g)                                                   %Calculate Wave Number for Larger Number of Frequencies Before Down Sampling in Equal Energy Method
+            obj.k = waveNumber(obj.w,obj.waterDepth,g,obj.deepWaterWave); %Calculate Wave Number for Larger Number of Frequencies Before Down Sampling in Equal Energy Method
             if obj.deepWaterWave == 1
                 % Deepwater Approximation
                 obj.Pw = sum(1/2*rho*g^(2)*S_f/(2*pi).*obj.dw./obj.w);

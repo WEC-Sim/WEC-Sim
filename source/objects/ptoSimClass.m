@@ -140,7 +140,6 @@ classdef ptoSimClass<handle
                             ptosimOutput.(names{ii})(jj).(signals.(names{ii}){kk}) = tmp;
                         end
                     end
-                    evalin('caller',['clear ' names{ii} num2str(jj) '_out']);
                 end
             end
         end
