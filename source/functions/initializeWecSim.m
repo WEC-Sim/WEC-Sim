@@ -174,9 +174,9 @@ for ii = 1:simu.numWecBodies
     end
     body(ii).bodyTotal = simu.numWecBodies;
     if simu.b2b==1
-        body(ii).lenJ = zeros(6*body(ii).bodyTotal,1);
+        body(ii).dofCoupled = zeros(6*body(ii).bodyTotal,1);
     else
-        body(ii).lenJ = zeros(6,1);
+        body(ii).dofCoupled = zeros(6,1);
     end
 end; clear ii
 
