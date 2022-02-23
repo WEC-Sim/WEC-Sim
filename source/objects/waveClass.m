@@ -128,7 +128,7 @@ classdef waveClass<handle
             end
         end
         
-        function plotEta(obj,rampTime)
+        function plotElevation(obj,rampTime)
             % This method plots wave elevation time-history.
             %
             % Parameters

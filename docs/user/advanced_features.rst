@@ -870,7 +870,7 @@ WEC-Sim Post-Processing
 
 WEC-Sim contains several built in methods inside the response class and wave 
 class to assist users in processing WEC-Sim output: ``output.plotForces``, 
-``output.plotResponse``, ``output.saveViz``, ``waves.plotEta``, and
+``output.plotResponse``, ``output.saveViz``, ``waves.plotElevation``, and
 ``waves.plotSpectrum``. This section will demonstrate the use of these methods. 
 They are fully documented in the WEC-Sim :ref:`user-api`.
 
@@ -916,10 +916,10 @@ of the 1st body. The position, velocity and acceleration of that body is shown.
 
 
 
-Plot Eta
-^^^^^^^^
+Plot Elevation
+^^^^^^^^^^^^^^^
 
-The ``waveClass.plotEta()`` method can be used to plot the wave elevation time
+The ``waveClass.plotElevation()`` method can be used to plot the wave elevation time
 series at the domain origin. The ramp time is also marked. The only required input
 is ``simu.rampTime``. Users must manually plot or overlay the wave elevation at a 
 wave gauge location.
@@ -929,7 +929,7 @@ wave gauge location.
    :figwidth: 250pt
    :align: center
    
-   Demonstration of waves.plotEta() method for the OSWEC example.
+   Demonstration of waves.plotElevation() method for the OSWEC example.
 
 
 Plot Spectrum

@@ -10,7 +10,7 @@ Simulation Class
 
 .. autoclass:: objects.simulationClass
 	:members:
-	:exclude-members: wsVersion, gitCommit, simulationDate, outputDir, time, inputFile, logFile, caseFile, caseDir, CIkt, maxIt, CTTime, numWecBodies, numDragBodies, numPtos, numConstraints, numCables, numMoorings, listInfo, getWecSimVer, loadSimMechModel, simuSetup, checkinputs, rhoDensitySetup, getGitCommit, simulationClass
+	:exclude-members: wsVersion, gitCommit, simulationDate, outputDir, time, inputFile, logFile, caseFile, caseDir, CIkt, maxIt, CTTime, numWecBodies, numDragBodies, numPtos, numConstraints, numCables, numMoorings, listInfo, getWecSimVer, loadSimMechModel, simulationClass, simuSetup, checkinputs, rhoDensitySetup, getGitCommit, simulationClass
 	:no-undoc-members: 
     
 
