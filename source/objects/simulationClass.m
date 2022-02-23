@@ -29,8 +29,8 @@ classdef simulationClass<handle
     
     properties (SetAccess = 'public', GetAccess = 'public')%input file
         adjMassWeightFun    = 2                                            % (`integer`) Weighting function for adjusting added mass term in the translational direction. Default = ``2``
-        autoRateTranBlk     = 'on'                                         % (`string`) Automatically handle rate transition for data transfer, 'on', 'off'. Default = ``'on'``
-        b2b                 = 0                                            % (`integer`) Option for body2body interactions: off->0, on->1. Default = ``0``
+        autoRateTranBlk     = 'on'                                         % (`string`) Flag for automatically handling rate transition for data transfer, Opyions: 'on', 'off'. Default = ``'on'``
+        b2b                 = 0                                            % (`integer`) Flag for body2body interactions, Options: 0 (off), 1 (on). Default = ``0``
         cicDt               = []                                           % (`float`) Sample time to calculate Convolution Integral. Default = ``dt``
         cicEndTime          = 60                                           % (`float`) Convolution integral time. Default = ``60`` s
         domainSize          = 200                                          % (`float`) Size of free surface and seabed. This variable is only used for visualization. Default = ``200`` m
@@ -45,23 +45,23 @@ classdef simulationClass<handle
         morisonDt           = []                                           % (`float`) Sample time to calculate Morison Element forces. Default = ``dt``
         nonlinearDt         = []                                           % (`float`) Sample time to calculate nonlinear forces. Default = ``dt``
         numIntMidTimeSteps  = 5                                            % (`integer`) Number of intermediate time steps. Default = ``5`` for ode4 method
-        paraview            = 0                                            % (`integer`) Option for writing vtp files for paraview visualization, off->0, on->1. Default = ``0``
+        paraview            = 0                                            % (`integer`) Flag for paraview visualization, and writing vtp files, Options: 0 (off) , 1 (on). Default = ``0``
         paraviewDt          = 0.1;                                         % (`float`) Timestep for Paraview. Default = ``0.1``         
         paraviewStartTime   = 0;                                           % (`float`) Start time for the vtk file of Paraview. Default = ``0``                                    
         paraviewEndTime     = 100;                                         % (`float`) End time for the vtk file of Paraview. Default = ``0``                                      
         paraviewDirectory   = 'vtk';                                       % (`string`) Path of the folder for Paraview vtk files. Default = ``'vtk'``     
-        pressureDis         = 0                                            % (`integer`) Option to save pressure distribution: off->0, on->1. Default = ``0``
+        pressureDis         = 0                                            % (`integer`) Flag to save pressure distribution, Options: 0 (off), 1 (on). Default = ``0``
         rampTime            = 100                                          % (`float`) Ramp time for wave forcing. Default = ``100`` s        
-        reloadH5Data        = 0                                            % (`integer`) Option to re-load hydro data from hf5 file between runs: off->0, on->1. Default = ``0``
+        reloadH5Data        = 0                                            % (`integer`) Flag to re-load hydro data from h5 file between runs, Options: 0 (off), 1 (on). Default = ``0``
         rho                 = 1000                                         % (`float`) Density of water. Default = ``1000`` kg/m^3
-        saveStructure       = 0                                            % (`integer`) Option to save results as a MATLAB structure: off->0, on->1. Default = ``1``
-        saveText            = 0                                            % (`integer`) Option to save results as ASCII files off->0, on->1. Default = ``0``
-        saveWorkspace       = 1                                            % (`integer`) Option to save .mat file for each run: off->0, on->1. Default = ``1``
+        saveStructure       = 0                                            % (`integer`) Flag to save results as a MATLAB structure, Options: 0 (off), 1 (on). Default = ``1``
+        saveText            = 0                                            % (`integer`) Flag to save results as ASCII files, Options: 0 (off), 1 (on). Default = ``0``
+        saveWorkspace       = 1                                            % (`integer`) FLag to save .mat file for each run, Options: 0 (off), 1 (on). Default = ``1``
         simMechanicsFile    = 'NOT DEFINED'                                % (`string`) Simulink/SimMechanics model file. Default = ``'NOT DEFINED'``
         solver              = 'ode4'                                       % (`string`) PDE solver used by the Simulink/SimMechanics simulation. Any continuous solver in Simulink possible. Recommended to use 'ode4, 'ode45' for WEC-Sim. Default = ``'ode4'``
-        ssCalc              = 0                                            % (`integer`) Option for convolution integral or state-space calculation: convolution integral->0, state-space->1. Default = ``0``
+        stateSpace          = 0                                            % (`integer`) Flag for convolution integral or state-space calculation, Options: 0 (convolution integral), 1 (state-space). Default = ``0``
         startTime           = 0                                            % (`float`) Simulation start time. Default = ``0`` s        
-        yawNonLin           = 0                                            % (`integer`) Option for nonlinear yaw calculation linear->0, nonlinear->1 for nonlinear. Default = ``0`` 
+        yaw                 = 0                                            % (`integer`) Flag for passive yaw calculation, Options: 0 (off), 1 (on). Default = ``0`` 
         yawThresh           = 1                                            % (`float`) Yaw position threshold (in degrees) above which excitation coefficients will be interpolated in nonlinear yaw. Default = ``1`` dg
         zeroCrossCont       = 'DisableAll'                                 % (`string`) Disable zero cross control. Default = ``'DisableAll'``
     end
