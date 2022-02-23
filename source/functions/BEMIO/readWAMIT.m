@@ -9,7 +9,7 @@ function hydro = readWAMIT(hydro,filename,exCoeff)
 %
 % See ‘...WEC-Sim\examples\BEMIO\WAMIT...’ for examples of usage.
 % Note: If generalized body modes are used, the output directory must also
-% include the *.cfg, *.mmx, and *.hst files. And, if simu.nlHydro = 3 will 
+% include the *.cfg, *.mmx, and *.hst files. And, if simu.nonlinearHydro = 3 will 
 % be used, the output directory must also include the .3fk and .3sc files.
 
 %% 

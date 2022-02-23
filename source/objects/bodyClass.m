@@ -213,7 +213,7 @@ classdef bodyClass<handle
             obj.dof = length(obj.viscDrag.Drag);
         end
         
-        function hydroForcePre(obj,w,waveDirection,CIkt,CTTime,numFreq,dt,rho,g,waveType,waveAmpTime,iBod,numBod,stateSpace,B2B,yawFlag)
+        function hydroForcePre(obj,w,waveDirection,CIkt,CTTime,freqNum,dt,rho,g,waveType,waveAmpTime,iBod,numBod,stateSpace,B2B,yawFlag)
             % HydroForce Pre-processing calculations
             % 1. Set the linear hydrodynamic restoring coefficient, viscous drag, and linear damping matrices
             % 2. Set the wave excitation force
@@ -259,7 +259,7 @@ classdef bodyClass<handle
                     obj.regExcitation(w,waveDirection,rho,g,yawFlag);
                     obj.irfInfAddedMassAndDamping(CIkt,CTTime,stateSpace,rho,B2B);
                 case {'irregular','spectrumImport'}
-                    obj.irrExcitation(w,numFreq,waveDirection,rho,g,yawFlag);
+                    obj.irrExcitation(w,freqNum,waveDirection,rho,g,yawFlag);
                     obj.irfInfAddedMassAndDamping(CIkt,CTTime,stateSpace,rho,B2B);
                 case {'waveImport'}
                     obj.hydroForce.userDefinedFe = zeros(length(waveAmpTime(:,2)),obj.dof);   %initializing userDefinedFe for non imported wave cases
@@ -544,16 +544,16 @@ classdef bodyClass<handle
             end
         end
         
-        function irrExcitation(obj,wv,numFreq,waveDirection,rho,g,yawFlag)
+        function irrExcitation(obj,wv,freqNum,waveDirection,rho,g,yawFlag)
             % Irregular wave excitation force
             % Used by hydroForcePre
             nDOF = obj.dof;
             re = obj.hydroData.hydro_coeffs.excitation.re(:,:,:) .*rho.*g;
             im = obj.hydroData.hydro_coeffs.excitation.im(:,:,:) .*rho.*g;
             md = obj.hydroData.hydro_coeffs.mean_drift(:,:,:)    .*rho.*g;
-            obj.hydroForce.fExt.re=zeros(length(waveDirection),numFreq,nDOF);
-            obj.hydroForce.fExt.im=zeros(length(waveDirection),numFreq,nDOF);
-            obj.hydroForce.fExt.md=zeros(length(waveDirection),numFreq,nDOF);
+            obj.hydroForce.fExt.re=zeros(length(waveDirection),freqNum,nDOF);
+            obj.hydroForce.fExt.im=zeros(length(waveDirection),freqNum,nDOF);
+            obj.hydroForce.fExt.md=zeros(length(waveDirection),freqNum,nDOF);
             for ii=1:nDOF
                 if length(obj.hydroData.simulation_parameters.wave_dir) > 1
                     [X,Y] = meshgrid(obj.hydroData.simulation_parameters.w, obj.hydroData.simulation_parameters.wave_dir);

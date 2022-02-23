@@ -10,8 +10,8 @@ function hydro = readNEMOH(hydro,filedir)
 %         - Mesh/KH.dat (or KH_0.dat, KH_1.dat, etc. for multiple bodies)
 %         - Results/RadiationCoefficients.tec
 %         - Results/ExcitationForce.tec
-%         - Results/DiffractionForce.tec - If simu.nlHydro = 3 will be used
-%         - Results/FKForce.tec - If simu.nlHydro = 3 will be used
+%         - Results/DiffractionForce.tec - If simu.nonlinearHydro = 3 will be used
+%         - Results/FKForce.tec - If simu.nonlinearHydro = 3 will be used
 %
 % See '...WEC-Sim\examples\BEMIO\NEMOH...' for examples of usage.
 
