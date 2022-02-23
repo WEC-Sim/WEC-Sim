@@ -182,8 +182,14 @@ classdef simulationClass<handle
             end
             
             % Checks user input to ensure that ``simu.endTime`` is specified
-            if isempty(obj.endTime)
-                error('simu.endTime, the simulation end time must be specified in the wecSimInputFile')
+            if isempty(obj.endTime) || obj.endTime < obj.startTime
+                error('simu.endTime, the simulation end time must be specified in the wecSimInputFile and must be greater than simu.startTime.')
+            end
+            
+            % Checks user input to ensure that output timestep is larger
+            % than or equal to simulation timestep
+            if obj.dtOut < obj.dt
+                warning('Simu.dtOut, the output timestep, should be greater than or equal to simu.dt, the simulation timestep. The smaller output timestep will be overwritten with the value of the simulation timestep to avoid errors.')
             end
         end
 

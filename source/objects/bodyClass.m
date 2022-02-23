@@ -507,11 +507,24 @@ classdef bodyClass<handle
                     end
                 end
             end
-            
+            % Warning for cg and cb being overwritten
             if ~isempty(obj.cg) || ~isempty(obj.cb)
                 warning('Center of gravity and center of buoyancy are overwritten by h5 data for hydro bodies.')
             end
-            %}
+        end
+        
+        function checkDragNonHydroInputs(obj,ii)
+            % This method checks WEC-Sim user inputs for each non-hydro
+            % body and generates error messages if parameters are not properly defined for the bodyClass.
+            if isempty(obj.cg)
+                error('Non-hydro or drag body(%i) center of gravity (cg) must be defined in the wecSimInputFile.m',ii);
+            end
+            if isempty(obj.dispVol)
+                error('Non-hydro or drag body(%i) displaced volume (dispVol) must be defined in the wecSimInputFile.m',ii);
+            end
+            if isempty(obj.cb)
+                warning('Non-hydro or drag body(%i) center of buoyancy (cb) set equal to center of gravity (cg), [%g %g %g]',ii,obj.cg(1),obj.cg(2),obj.cg(3))
+            end
         end
     end
     
