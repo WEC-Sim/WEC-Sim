@@ -6,7 +6,7 @@ simu.endTime=200;                           % Simulation End Time [s]
 simu.dt = 0.1;                              % Simulation Time-Step [s]
 simu.explorer = 'off';
 simu.cicEndTime = 20;
-simu.ssCalc = 1;
+simu.stateSpace = 1;
 
 %% Wave Information
 % Irregular Waves using BS Spectrum with State Space Calculation

@@ -246,7 +246,7 @@ if ~isempty(idx)
     for kk = 1:length(idx)
         it = idx(kk);
         body(it).hydroForcePre(waves.w,waves.waveDirection,simu.CIkt,simu.CTTime,waves.freqNum,simu.dt,...
-            simu.rho,simu.g,waves.type,waves.waveAmpTime,kk,simu.numWecBodies,simu.ssCalc,simu.b2b,simu.yawNonLin);
+            simu.rho,simu.g,waves.type,waves.waveAmpTime,kk,simu.numWecBodies,simu.stateSpace,simu.b2b,simu.yawNonLin);
     end; clear kk idx
 end
 
@@ -383,7 +383,7 @@ end; clear ii;
 % Radiation Damping
 if waves.typeNum==0 || waves.typeNum==10 %'noWave' & 'regular'
     radiation_option = 1;
-elseif simu.ssCalc == 1
+elseif simu.stateSpace == 1
     radiation_option = 3;
 else
     radiation_option = 2;

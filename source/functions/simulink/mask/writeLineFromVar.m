@@ -69,7 +69,7 @@ if isVisible && ~isDefault
         % e.g. 'body(1).initDisp.initLinDisp = [1 1 1]; \r\n'
         inputString = [classAbbrev '.' structName '.' variableName ' = ' maskVars.(variableName) '; \r\n'];
     else
-        % e.g. 'simu.ssCalc = 'on'; \r\n'
+        % e.g. 'simu.stateSpace = 'on'; \r\n'
         inputString = [classAbbrev '.' variableName ' = ' maskVars.(variableName) '; \r\n'];
     end
 else

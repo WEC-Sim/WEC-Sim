@@ -42,7 +42,7 @@ waves.T = 8;                            % Wave Period [s]
 % waves.H = 2.5;                          % Significant Wave Height [m]
 % waves.T = 8;                            % Peak Period [s]
 % waves.spectrumType = 'PM';              % Specify Wave Spectrum Type
-% simu.ssCalc = 1;                        % Turn on State Space
+% simu.stateSpace = 1;                        % Turn on State Space
 % waves.freqDisc = 'Traditional';         % Uses 1000 frequnecies
 
 % % Irregular Waves with imported spectrum

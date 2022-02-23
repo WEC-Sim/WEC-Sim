@@ -213,7 +213,7 @@ classdef bodyClass<handle
             obj.dof = length(obj.viscDrag.Drag);
         end
         
-        function hydroForcePre(obj,w,waveDirection,CIkt,CTTime,numFreq,dt,rho,g,waveType,waveAmpTime,iBod,numBod,ssCalc,B2B,yawFlag)
+        function hydroForcePre(obj,w,waveDirection,CIkt,CTTime,numFreq,dt,rho,g,waveType,waveAmpTime,iBod,numBod,stateSpace,B2B,yawFlag)
             % HydroForce Pre-processing calculations
             % 1. Set the linear hydrodynamic restoring coefficient, viscous drag, and linear damping matrices
             % 2. Set the wave excitation force
@@ -251,20 +251,20 @@ classdef bodyClass<handle
                     obj.constAddedMassAndDamping(w,CIkt,rho,B2B);
                 case {'noWaveCIC'}
                     obj.noExcitation()
-                    obj.irfInfAddedMassAndDamping(CIkt,CTTime,ssCalc,rho,B2B);
+                    obj.irfInfAddedMassAndDamping(CIkt,CTTime,stateSpace,rho,B2B);
                 case {'regular'}
                     obj.regExcitation(w,waveDirection,rho,g,yawFlag);
                     obj.constAddedMassAndDamping(w,CIkt,rho,B2B);
                 case {'regularCIC'}
                     obj.regExcitation(w,waveDirection,rho,g,yawFlag);
-                    obj.irfInfAddedMassAndDamping(CIkt,CTTime,ssCalc,rho,B2B);
+                    obj.irfInfAddedMassAndDamping(CIkt,CTTime,stateSpace,rho,B2B);
                 case {'irregular','spectrumImport'}
                     obj.irrExcitation(w,numFreq,waveDirection,rho,g,yawFlag);
-                    obj.irfInfAddedMassAndDamping(CIkt,CTTime,ssCalc,rho,B2B);
+                    obj.irfInfAddedMassAndDamping(CIkt,CTTime,stateSpace,rho,B2B);
                 case {'waveImport'}
                     obj.hydroForce.userDefinedFe = zeros(length(waveAmpTime(:,2)),obj.dof);   %initializing userDefinedFe for non imported wave cases
                     obj.userDefinedExcitation(waveAmpTime,dt,waveDirection,rho,g);
-                    obj.irfInfAddedMassAndDamping(CIkt,CTTime,ssCalc,rho,B2B);
+                    obj.irfInfAddedMassAndDamping(CIkt,CTTime,stateSpace,rho,B2B);
             end
             gbmDOF = obj.dofGBM;
             if (gbmDOF>0)
@@ -648,7 +648,7 @@ classdef bodyClass<handle
             end
         end
         
-        function irfInfAddedMassAndDamping(obj,CIkt,CTTime,ssCalc,rho,B2B)
+        function irfInfAddedMassAndDamping(obj,CIkt,CTTime,stateSpace,rho,B2B)
             % Set radiation force properties using impulse response function
             % Used by hydroForcePre
             % Added mass at infinite frequency
@@ -686,7 +686,7 @@ classdef bodyClass<handle
                 end
             end
             % State Space Formulation
-            if ssCalc == 1
+            if stateSpace == 1
                 if B2B == 1
                     for ii = 1:nDOF
                         for jj = 1:LDOF

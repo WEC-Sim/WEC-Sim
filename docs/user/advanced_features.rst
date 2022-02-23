@@ -177,10 +177,10 @@ State-Space Representation
 
 The convolution integral term in the equation of motion can be linearized using 
 the state-space representation as described in the :ref:`theory` section. To 
-use a state-space representation, the ``simu.ssCalc`` simulationClass variable 
+use a state-space representation, the ``simu.stateSpace`` simulationClass variable 
 must be defined in the WEC-Sim input file, for example: 
 
-    :code:`simu.ssCalc = 1` 
+    :code:`simu.stateSpace = 1` 
 
 .. _user-advanced-features-time-step:
 
