@@ -16,8 +16,8 @@ classdef bemioTest < matlab.unittest.TestCase
         comboHydro
     end
     
-    methods (Access = 'public')        
-        function obj = bemioTest            
+    methods (Access = 'public')
+        function obj = bemioTest
             % Set WEC-Sim, test and BEMIO example directories
             obj.testDir = fileparts(mfilename('fullpath'));
             obj.wsDir = fullfile(obj.testDir,'..');
@@ -37,70 +37,81 @@ classdef bemioTest < matlab.unittest.TestCase
             obj.aqwaHydro = struct();
             obj.capytaineHydro = struct();
             obj.comboHydro = struct();
-        end        
+        end
     end
-    
-    methods(TestMethodTeardown)        
-        function closePlotsHydro(testCase)
-            close(waitbar(0));
-            close all
-            set(0,'DefaultFigureVisible',testCase.OriginalDefault);
-        end        
-    end
-    
-    methods(TestClassTeardown)        
-        function cdToTestDir(testCase)
-            cd(testCase.testDir);
-        end        
-    end
-    
-    methods(Test)
+
+    methods(TestClassSetup)
+        % TODO
+        % Right now these functions have to be in set-up to write data back
+        % to testCase. Find a way to actually update data on testCase so
+        % that these functions can move back into the methods(test) section
         function testReadWAMIT(testCase)
-            cd(fullfile(testCase.wamitDir,'RM3'))
+            cd(fullfile(testCase.wamitDir,'Sphere'))
             hydro = struct();
-            hydro = readWAMIT(hydro,'rm3.out',[]);
+            hydro = readWAMIT(hydro,'sphere.out',[]);
             testCase.wamitHydro = hydro;
-        end        
+        end
         function testReadNEMOH(testCase)
-            cd(fullfile(testCase.nemohDir,'RM3'))
+            cd(fullfile(testCase.nemohDir,'Sphere'))
             hydro = struct();
-            hydro = readNEMOH(hydro, fullfile('..', 'RM3'));
+            hydro = readNEMOH(hydro, fullfile('..', 'Sphere'));
             testCase.nemohHydro = hydro;
-        end        
+        end
         function testReadCAPYTAINE(testCase)
-            cd(fullfile(testCase.capytaineDir,'rm3'))
+            cd(fullfile(testCase.capytaineDir,'Sphere'))
             hydro = struct();
-            hydro = readCAPYTAINE(hydro, 'rm3_full.nc');
+            hydro = readCAPYTAINE(hydro, 'sphere_full.nc');
             testCase.capytaineHydro = hydro;
-        end        
+        end
         function testReadAQWA(testCase)
-            cd(fullfile(testCase.aqwaDir,'RM3'))
+            cd(fullfile(testCase.aqwaDir,'Sphere'))
             hydro = struct();
-            hydro = readAQWA(hydro,'RM3.AH1','RM3.LIS');
+            hydro = readAQWA(hydro,'sphere.AH1','sphere.LIS');
             testCase.aqwaHydro = hydro;
         end
         function testCombineBEM(testCase)
-            hydro = struct();
             hydro(1) = testCase.wamitHydro;
             hydro(2) = testCase.nemohHydro;
             hydro(3) = testCase.capytaineHydro;
-            testCase.comboHydro = combineBEM(hydro);            
+            testCase.comboHydro = combineBEM(hydro);
         end
         function testIRF(testCase)
             hydro = testCase.wamitHydro;
             hydro = radiationIRF(hydro,5,[],[],[],[]);
             hydro = radiationIRFSS(hydro,[],[]);
             hydro = excitationIRF(hydro,5,[],[],[],[]);
-            testCase.wamitHydro = hydro;          
+            testCase.wamitHydro = hydro;
+
+            hydro = testCase.comboHydro;
+            hydro = radiationIRF(hydro,5,[],[],[],[]);
+            hydro = excitationIRF(hydro,5,[],[],[],[]);
+            testCase.comboHydro = hydro;
         end
+    end
+    
+    methods(TestMethodTeardown)
+        function closePlotsHydro(testCase)
+            close(waitbar(0));
+            close all
+            set(0,'DefaultFigureVisible',testCase.OriginalDefault);
+        end
+    end
+    
+    methods(TestClassTeardown)
+        function cdToTestDir(testCase)
+            cd(testCase.testDir);
+        end
+    end
+    
+    methods(Test)
         function testWriteBEMIOH5(testCase)
-            writeBEMIOH5(testCase.wamitHydro);
-            writeBEMIOH5(testCase.comboHydro);
+            writeBEMIOH5(testCase.wamitHydro); % write 1 body
+            writeBEMIOH5(testCase.comboHydro); % write 3 bodies
         end
         function testPlotBEMIO(testCase)
-            plotBEMIO(testCase.wamitHydro);
-            plotBEMIO(testCase.comboHydro);
-            plotBEMIO(testCase.wamitHydro,testCase.capytaineHydro);
+            plotBEMIO(testCase.wamitHydro); % plot 1 struct, 1 body
+            plotBEMIO(testCase.comboHydro); % plot 1 struct, 3 bodies
+            plotBEMIO(testCase.wamitHydro,testCase.comboHydro); % plot 2 structs, 1 and 3 bodies
         end
         function testReverseDimensionOrder(testCase)
             tol = 1e-10;
@@ -119,7 +130,7 @@ classdef bemioTest < matlab.unittest.TestCase
             kDeepNoFlag = waveNumber(w,depth,g,0);
             kDeep_exp = w^2/g;
             testCase.verifyEqual(kDeep,kDeep_exp,'AbsTol',tol);
-            testCase.verifyEqual(kDeepNoFlag,kDeep_exp,'AbsTol',tol);
+            testCase.verifyEqual(kDeepNoFlag,kDeep_exp,'AbsTol',tol); % verify that shallow water flag gives same result in deep water
         end
         function testWaveNumberShallow(testCase)
             tol = 1e-10;
@@ -131,11 +142,22 @@ classdef bemioTest < matlab.unittest.TestCase
             kDeep = w^2/g;
             w2gShallow = kShallow*tanh(kShallow*depth);
             w2gShallow_exp = w^2/g;
-            testCase.verifyEqual(w2gShallow,w2gShallow_exp,'AbsTol',tol);
-            testCase.verifyNotEqual(kDeep,kShallow,'AbsTol',tol);
+            testCase.verifyEqual(w2gShallow,w2gShallow_exp,'AbsTol',tol); % verify that shallow water gives w^2/g = k*tanh(k*h)
+            testCase.verifyNotEqual(kDeep,kShallow);
         end
-        function testSpectralMoment()
-            % TODO
+        function testSpectralMoment(testCase)
+            tol = 1e-3;
+            w = 0:0.01:10;
+            wend = w(end);
+            sf = sin(w).^2;
+            m1 = spectralMoment(w,sf,1); % 1st order spectral moment
+            m2 = spectralMoment(w,sf,2); % 2nd order spectral moment
+
+            m1_exp = wend^2/4 - wend/4*sin(2*wend) - 1/8*cos(2*wend) + 1/8; % analytical integral of x*sin(x)^2
+            m2_exp = wend^3/6 - (wend^2/4-1/8)*sin(2*wend) - wend/4*cos(2*wend); % analytical integral of x^2*sin(x)^2
+
+            testCase.verifyEqual(m1,m1_exp,'AbsTol',tol);
+            testCase.verifyEqual(m2,m2_exp,'AbsTol',tol);
         end
     end
 end
