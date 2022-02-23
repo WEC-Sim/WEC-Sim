@@ -142,7 +142,7 @@ for i=1:length(blocks)
         fprintf(fid,writeLineFromVar(body, 'momOfInertia', maskVars, maskViz, num, []));
         fprintf(fid,writeLineFromVar(body, 'nonHydroBody', maskVars, maskViz, num, []));
         fprintf(fid,writeLineFromVar(body, 'nonlinearHydro', maskVars, maskViz, num, []));
-        fprintf(fid,writeLineFromVar(body, 'flexHydroBody', maskVars, maskViz, num, []));
+        fprintf(fid,writeLineFromVar(body, 'flexBody', maskVars, maskViz, num, []));
         fprintf(fid,writeLineFromVar(body, 'cg', maskVars, maskViz, num, []));
         fprintf(fid,writeLineFromVar(body, 'cb', maskVars, maskViz, num, []));
         fprintf(fid,writeLineFromVar(body, 'dof', maskVars, maskViz, num, []));
