@@ -62,7 +62,7 @@ The following table lists the WEC-Sim simulation parameters that can be specifie
 +---------------------------+-----------------------------------------------------------+   
 | ``body(i).viz.opacity``   | body opacity [default 1]                                  |
 +---------------------------+-----------------------------------------------------------+
-| | ``body(i).bodyparaview``| | 0 to exclude body from ParaView visualization           |
+| | ``body(i).paraviewBody``| | 0 to exclude body from ParaView visualization           |
 |                           | | 1 to include body in ParaView visualization [default]   |
 +---------------------------+-----------------------------------------------------------+   
 | ``waves.viz.numPointsX``  | wave plane discretization: number of X points [default 50]|
