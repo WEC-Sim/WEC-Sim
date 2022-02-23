@@ -357,9 +357,9 @@ following features are available:
 
 * **Floating Body** - the user may set :code:`body(i).mass = 'equilibrium'` 
   which will calculate the body mass based on displaced volume and water 
-  density. If :code:`simu.nlhydro = 0`, then the mass is calculated using the 
-  displaced volume contained in the ``*.h5`` file. If :code:`simu.nlhydro = 1` 
-  or :code:`simu.nlhydro = 2`, then the mass is calculated using the displaced 
+  density. If :code:`simu.nonlinearHydro = 0`, then the mass is calculated using the 
+  displaced volume contained in the ``*.h5`` file. If :code:`simu.nonlinearHydro = 1` 
+  or :code:`simu.nonlinearHydro = 2`, then the mass is calculated using the displaced 
   volume of the provided STL geometry file.
 
 * **Fixed Body** - if the mass is unknown (or not important to the dynamics), 
@@ -381,10 +381,10 @@ Nonlinear Buoyancy and Froude-Krylov Excitation
 WEC-Sim has the option to include the nonlinear hydrostatic restoring and 
 Froude-Krylov forces when solving the system dynamics of WECs, accounting for 
 the weakly nonlinear effect on the body hydrodynamics. To use nonlinear 
-buoyancy and Froude-Krylov excitation, the **body(ii).nlHydro** bodyClass 
+buoyancy and Froude-Krylov excitation, the **body(ii).nonlinearHydro** bodyClass 
 variable must be defined in the WEC-Sim input file, for example: 
 
-    :code:`body(ii).nlHydro = 2`  
+    :code:`body(ii).nonlinearHydro = 2`  
 
 For more information, refer to the :ref:`webinar2`, and the **NonlinearHydro** 
 example on the `WEC-Sim Applications <https://github.com/WEC-Sim/WEC-Sim_Applications>`_ 
@@ -393,17 +393,17 @@ repository.
 Nonlinear Settings
 """"""""""""""""""
 
-**body(ii).nlHydro**  - 
+**body(ii).nonlinearHydro**  - 
 The nonlinear hydrodynamics option can be used with the parameter: 
-:code:`body(ii).nlHydro` in your WEC-Sim input file. When any of the three 
+:code:`body(ii).nonlinearHydro` in your WEC-Sim input file. When any of the three 
 nonlinear options (below) are used, WEC-Sim integrates the wave pressure over 
 the surface of the body, resulting in more accurate buoyancy and Froude-Krylov 
 force calculations. 
 
-    **Option 1.** :code:`body(ii).nlHydro = 1` This option integrates the pressure 
+    **Option 1.** :code:`body(ii).nonlinearHydro = 1` This option integrates the pressure 
     due to the mean wave elevation and the instantaneous body position.
 
-    **Option 2.** :code:`body(ii).nlHydro = 2` This option integrates the pressure 
+    **Option 2.** :code:`body(ii).nonlinearHydro = 2` This option integrates the pressure 
     due to the instantaneous wave elevation and the instantaneous body position. 
     This option is recommended if nonlinear effects need to be considered.
 

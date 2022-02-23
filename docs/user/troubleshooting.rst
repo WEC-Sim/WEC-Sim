@@ -157,7 +157,7 @@ Increase ``simu.cicEndTime`` to a greater value or use the state space option (`
 In BEMIO, check that the convolution integral time is long enough for all oscillations to decay. 
 
 **Nonlinear Hydrodynamics:**
-If a user wishes to use the nonlinear hydro options, they should first follow this same workflow with ``simu.nlHydro=0`` and again with ``simu.nlHydro=1,2``
+If a user wishes to use the nonlinear hydro options, they should first follow this same workflow with ``simu.nonlinearHydro=0`` and again with ``simu.nonlinearHydro=1,2``
 The nonlinear hydro options are difficult to set-up and must be used with care. 
 A highly refined mesh is required to get an accurate displaced volume and wetted surface area at each time step.
 

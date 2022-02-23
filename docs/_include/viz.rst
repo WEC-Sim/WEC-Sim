@@ -50,7 +50,7 @@ The following table lists the WEC-Sim simulation parameters that can be specifie
 +---------------------------+-----------------------------------------------------------+
 | ``simu.paraviewDirectory``| directory to create ParaView visualization files          |
 +---------------------------+-----------------------------------------------------------+
-| | ``simu.nlHydro``        | | 0 for no nonlinear hydro [default]                      |
+| | ``simu.nonlinearHydro`` | | 0 for no nonlinear hydro [default]                      |
 |                           | | 1 for nonlinear hydro with mean free surface            |
 |                           | | 2 for nonlinear hydro with instantaneous free surface   |
 +---------------------------+-----------------------------------------------------------+

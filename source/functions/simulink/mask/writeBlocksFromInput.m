@@ -60,7 +60,7 @@ switch type
         maskVars.mass = body(num).mass;                              % Body Mass
         maskVars.momOfInertia = body(num).momOfInertia;              % Moment of Inertia [kg*m^2]  
         maskVars.nonHydroBody = body(num).nonHydroBody;
-        maskVars.nlHydro = body(num).nlHydro;
+        maskVars.nonlinearHydro = body(num).nonlinearHydro;
         maskVars.flexHydroBody = body(num).flexHydroBody;
         maskVars.cg = body(num).cg;
         maskVars.cb = body(num).cb;

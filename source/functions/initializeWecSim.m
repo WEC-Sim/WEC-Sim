@@ -235,7 +235,7 @@ end
 
 % Nonlinear hydro
 for kk = 1:length(body(1,:))
-    if (body(kk).nlHydro > 0) || (simu.paraview == 1)
+    if (body(kk).nonlinearHydro > 0) || (simu.paraview == 1)
         body(kk).importBodyGeometry()
     end
 end; clear kk
@@ -310,10 +310,10 @@ for ii = 1:simu.numWecBodies
     end
 end; clear ii;
 
-% Check for waveImport with nlHydro
+% Check for waveImport with nonlinearHydro
 for ii = 1:simu.numWecBodies
-    if strcmp(waves.type,'waveImport') && body(ii).nlHydro == 1
-        error(['Cannot run WEC-Sim with nonlinear hydro (body(ii).nlHydro) and "waveImport" wave type'])
+    if strcmp(waves.type,'waveImport') && body(ii).nonlinearHydro == 1
+        error(['Cannot run WEC-Sim with nonlinear hydro (body(ii).nonlinearHydro) and "waveImport" wave type'])
     end
 end
 
@@ -362,7 +362,7 @@ end
 for ii=1:length(body(1,:))
     if body(ii).nonHydroBody==0
         % Nonlinear FK Force Variant Subsystem
-        eval(['nonLinearHydro_' num2str(ii) ' = body(ii).nlHydro;']);
+        eval(['nonLinearHydro_' num2str(ii) ' = body(ii).nonlinearHydro;']);
         eval(['sv_b' num2str(ii) '_linearHydro = Simulink.Variant(''nonLinearHydro_', num2str(ii), '==0'');']);
         eval(['sv_b' num2str(ii) '_nonlinearHydro=Simulink.Variant(''nonLinearHydro_', num2str(ii), '>0'');']);
         % Nonlinear Wave Elevation Variant Subsystem
