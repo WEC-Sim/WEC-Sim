@@ -59,7 +59,7 @@ switch type
         maskVars.geometryFile = body(num).geometryFile;              % Location of Geomtry File
         maskVars.mass = body(num).mass;                              % Body Mass
         maskVars.momOfInertia = body(num).momOfInertia;              % Moment of Inertia [kg*m^2]  
-        maskVars.nhBody = body(num).nhBody;
+        maskVars.nonHydroBody = body(num).nonHydroBody;
         maskVars.nlHydro = body(num).nlHydro;
         maskVars.flexHydroBody = body(num).flexHydroBody;
         maskVars.cg = body(num).cg;

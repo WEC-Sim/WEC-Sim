@@ -226,7 +226,7 @@ Block / class           Mask parameter                         Callback
 PTO, constraint, cable  upperLimitSpecify, lowerLimitSpecify   ``hardStopCallback``
 Body                    STLButton                              ``stlButtonCallback``
 Body                    H5Button                               ``h5ButtonCallback``
-Body                    nhBody, (morisonElement.) on           ``bodyClassCallback``
+Body                    nonHydroBody, (morisonElement.) on           ``bodyClassCallback``
 ====================== ====================================== ==========
 
 A specific variable's callbacks are defined in: 
@@ -263,7 +263,7 @@ The visibility callbacks function by checking the value of a flag:
 
     >> mask = Simulink.Mask.get(bodyBlockHandle)
     >> meParam = mask.getParameter('on')
-    >> nhBodyParam = mask.getParameter('nhBody')
+    >> nhBodyParam = mask.getParameter('nonHydroBody')
 
 
 Depending on the value of a flag, the visibility of individual variables or an 

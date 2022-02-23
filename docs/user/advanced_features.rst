@@ -512,7 +512,7 @@ option is used in combination with a hydrodynamic or flexible body, it serves as
 tuning method. The equation of motion for hydrodynamic and flexible bodies with a 
 Morison Element is more complex than the traditional Morison Element formulation.
 A traditional Morison Element may be created by using a drag body 
-(``body(#).nhBody=2``) with ``body(#).morisonElement.option = 1 or 2``.
+(``body(#).nonHydroBody=2``) with ``body(#).morisonElement.option = 1 or 2``.
 For more information about the numerical formulation of viscous damping and 
 Morison Elements, refer to the theory section :ref:`theory-viscous-damping-morison`. 
 
@@ -620,7 +620,7 @@ acting on them and for which no BEM data is provided.
 
 To do this, use a Body Block from the WEC-Sim Library and initialize it in the 
 WEC-Sim input file as any other body but leave the name of the ``h5`` file as 
-an empty string. Specify :code:`body(i).nhBody = 1;` and specify body name, 
+an empty string. Specify :code:`body(i).nonHydroBody = 1;` and specify body name, 
 mass, moments of inertia, center of gravity, center of buoyancy, geometry file, 
 location, and displaced volume. You can also specify visualization options and 
 initial displacement. 
@@ -628,7 +628,7 @@ initial displacement.
 To use non-hydrodynamic bodies, the following body class variable must be 
 defined in the WEC-Sim input file, for example:: 
 
-    body(i).nhBody = 1
+    body(i).nonHydroBody = 1
 
 Non-hydrodynamic bodies require the following properties to be defined::
 
@@ -659,7 +659,7 @@ deeply-submerged heave plate of large surface area tethered to a float. In
 these instances, the drag body implementation can be utilized by defining the 
 following body class variable:: 
 
-    body(i).nhBody = 2
+    body(i).nonHydroBody = 2
 
 
 Drag bodies have zero wave excitation or radiation forces, but viscous forces 
