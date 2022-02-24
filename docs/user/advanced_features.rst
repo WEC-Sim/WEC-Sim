@@ -340,6 +340,8 @@ series:
 
     :code:`waves.waveAmpTime<i> = incident wave elevation time series at wave gauge i`
 
+.. _user-advanced-features-current:
+
 Ocean Current
 ^^^^^^^^^^^^^
 The speed of an ocean current can be included through the wave class parameters::
@@ -351,9 +353,11 @@ The speed of an ocean current can be included through the wave class parameters:
 
 The current option determines the method used to propagate the surface current across the 
 specified depth. Option 0 is depth independent, option 1 uses a 1/7 power law, option 2
-uses linear variation with depth and option 3 specifies no ocean current. These parameters
-are only used to calculate a more accurate fluid velocity in the Morison Element calculation.
-To incorporate the mean drift force on a body, mean drift coefficients must be input to BEMIO.
+uses linear variation with depth and option 3 specifies no ocean current.
+The ``currentSpeed`` parameter represents the surface current speed, and ``currentDepth`` 
+the depth at which the current speed decays to zero (given as a positive number).
+See :ref:`theory-current` for more details on each method.
+These parameters are used to calculate the fluid velocity in the Morison Element calculation.
 
 .. _user-advanced-features-body:
 
@@ -615,7 +619,7 @@ To better represent certain scenarios, an ocean current speed can be defined to
 calculate a more accurate fluid velocity and acceleration on the Morison 
 Element. These can be defined through the wave class parameters 
 ``waves.currentOption``, ``waves.currentSpeed``, ``waves.currentDirection``, 
-and ``waves.currentDepth``. See :ref:`user-advanced-features-wave` for more 
+and ``waves.currentDepth``. See :ref:`user-advanced-features-current` for more 
 detail on using these options.
 
 The Morison Element time-step may also be defined as
