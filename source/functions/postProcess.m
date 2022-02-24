@@ -21,7 +21,7 @@
 fprintf('\nPost-processing and saving...   \n')
 
 % Update simulation class with actual simulation time
-simu.time = clock_out.time;
+%simu.time = clock_out.time;
 clear clock_out
 
 % Bodies
@@ -103,12 +103,25 @@ else
 end
 
 % PTO-Sim
+% if exist('PTOSimBlock','var')
+%     ptosimOutput = PTOSimBlock.response;
+% else
+%     ptosimOutput = 0;
+% end
+disp('The code works here 1')
 if exist('PTOSimBlock','var')
-    ptosimOutput = PTOSimBlock.response;
+    for iPtoB = 1:simu.numPtoBlocks
+        %iPtoB
+        eval(['PTOSimBlock' num2str(iPtoB) '_out.name = PTOSimBlock(' num2str(iPtoB) ').name;'])
+        eval(['PTOSimBlock' num2str(iPtoB) '_out.type = PTOSimBlock(' num2str(iPtoB) ').PTOSimBlockType;'])
+        if iPtoB == 1; ptoBlocksOutput = PTOSimBlock1_out; end
+        ptoBlocksOutput(iPtoB) = eval(['PTOSimBlock' num2str(iPtoB) '_out']);
+        eval(['clear PTOSimBlock' num2str(iPtoB) '_out'])
+    end; clear iPtoB
 else
-    ptosimOutput = 0;
+    ptoBlocksOutput = 0;
 end
-
+disp('The code works here 2')
 % Waves
 if strcmp(simu.solver,'ode4')~=1    % Re-calculate wave elevation for variable time-step solver
     waves.calculateElevation(simu.rampTime,bodiesOutput(1).time);
@@ -124,8 +137,9 @@ waveOutput.waveAmpTime2 = waves.waveAmpTime2;
 waveOutput.waveAmpTime3 = waves.waveAmpTime3;
 
 % All
-output = responseClass(bodiesOutput,ptosOutput,constraintsOutput,ptosimOutput,cablesOutput,mooringOutput,waveOutput, simu.yawNonLin);
-clear bodiesOutput ptosOutput constraintsOutput ptosimOutput cablesOutput mooringOutput waveOutput
+disp('The code works here 3')
+output = responseClass(bodiesOutput,ptosOutput,constraintsOutput,ptoBlocksOutput,cablesOutput,mooringOutput,waveOutput, simu.yawNonLin);
+clear bodiesOutput ptosOutput constraintsOutput ptoBlocksOutput cablesOutput mooringOutput waveOutput
 
 % MoorDyn
 for iMoor = 1:simu.numMoorings

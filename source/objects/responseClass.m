@@ -107,11 +107,11 @@ classdef responseClass<handle
         mooring             = struct()     % This property generates the ``mooring`` structure for each instance of the ``mooringClass`` (i.e. for each Mooring block)
         cables              = struct()     % This property generates the ``cables`` structure for each instance of the ``cableClass`` (i.e. for each Cable block)
         moorDyn             = struct()     % This property generates the ``moorDyn`` structure for each instance of the ``mooringClass`` using MoorDyn (i.e. for each MoorDyn block), it includes ``Lines``  and ``Line#``.
-        PTOSimBlock              = struct()     % This property generates the ``ptosim`` structure for each instance of the ``ptoSimClass`` (i.e. for each PTO-Sim block).
+        PTOBlocks              = struct()     % This property generates the ``ptosim`` structure for each instance of the ``ptoSimClass`` (i.e. for each PTO-Sim block).
     end
     
     methods (Access = 'public')
-        function obj = responseClass(bodiesOutput,ptosOutput,constraintsOutput,ptosimOutput,cablesOutput,mooringOutput,waveOutput, yawNonLin) 
+        function obj = responseClass(bodiesOutput,ptosOutput,constraintsOutput,ptoBlocksOutput,cablesOutput,mooringOutput,waveOutput, yawNonLin) 
             % This method initializes the ``responseClass``, reads 
             % output from each instance of a WEC-Sim class (e.g.
             % ``waveClass``, ``bodyClass``, ``ptoClass``, ``mooringClass``, etc)
@@ -226,9 +226,34 @@ classdef responseClass<handle
                 end
             end
             % PTO-Sim
-            if isstruct(ptosimOutput)
-                obj.PTOSimBlock=ptosimOutput;
-                obj.PTOSimBlock.time = obj.bodies(1).time;
+            if isstruct(ptoBlocksOutput)
+                %names = {'HydPistonCompressible','GasHydAccumulator','RectifyingCheckValve','HydraulicMotorV2','ElectricMachineEC'};
+                HydPistonCompressibleSignals = {'PressureA','ForcePTO','PressureB'};
+                GasHydAccumulatorSignals = {'Pressure','FlowRate'};
+                RectifyingCheckValveSignals = {'QA','QB','QC','QD'};
+                HydraulicMotorV2Signals = {'ShaftSpeed','Torque','DeltaP','FlowRate'};
+                ElectricMachineECSignals = {'Tem','ShaftSpeed','Current','Voltage'};
+
+                for ii = 1:length(ptoBlocksOutput)
+                    ii
+                    obj.PTOBlocks(ii).name = ptoBlocksOutput(ii).name;
+                    obj.PTOBlocks(ii).time = ptoBlocksOutput(ii).time;
+                    obj.PTOBlocks(ii).type = ptoBlocksOutput(ii).type;
+                    if ptoBlocksOutput(ii).type == 1
+                        signals = ElectricMachineECSignals;
+                    elseif ptoBlocksOutput(ii).type == 2
+                        signals = HydPistonCompressibleSignals;
+                    elseif ptoBlocksOutput(ii).type == 3
+                        signals = GasHydAccumulatorSignals;
+                    elseif ptoBlocksOutput(ii).type == 4
+                        signals = RectifyingCheckValveSignals;
+                    elseif ptoBlocksOutput(ii).type == 6
+                        signals = HydraulicMotorV2Signals;
+                    end
+                    for jj = 1:length(signals)
+                        obj.PTOBlocks(ii).(signals{jj}) = ptoBlocksOutput(ii).signals.values(:,jj);
+                    end
+                end
             end
         end
         
@@ -712,36 +737,36 @@ classdef responseClass<handle
                 end
             end
             % ptoSim
-            if isfield(obj.PTOSimBlock,'time')
-                f1 = fields(obj.PTOSimBlock);
-                count = 1;
-                header = {'time'};
-                data = obj.PTOSimBlock.time;
-                for ifld1=1:(length(f1)-1)
-                    f2 = fields(obj.PTOSimBlock.(f1{ifld1}));
-                    for iins = 1:length(obj.PTOSimBlock.(f1{ifld1}))
-                        for ifld2 = 1:length(f2)
-                            count = count+1;
-                            header{count} = [f1{ifld1} num2str(iins) '_' f2{ifld2}];
-                            data(:,count) = obj.PTOSimBlock.(f1{ifld1}).(f2{ifld2});
-                        end
-                    end
-                end
-                for ii=1:length(header)
-                    tmp(ii) = length(header{ii});
-                end
-                numChar = max(tmp)+2; clear tmp;
-                header_fmt = ['%' num2str(numChar) 's ']; 
-                data_fmt = [repmat('%10.5f ',1,length(header)) '\n'];
-                filename = ['output/ptosim.txt'];
-                fid = fopen(filename,'w+');
-                for ii=1:length(header)
-                    fprintf(fid,header_fmt,header{ii});
-                end
-                fprintf(fid,'\n');
-                fprintf(fid,data_fmt,data');
-                fclose(fid);
-            end
+%             if isfield(obj.PTOSimBlock,'time')
+%                 f1 = fields(obj.PTOSimBlock);
+%                 count = 1;
+%                 header = {'time'};
+%                 data = obj.PTOSimBlock.time;
+%                 for ifld1=1:(length(f1)-1)
+%                     f2 = fields(obj.PTOSimBlock.(f1{ifld1}));
+%                     for iins = 1:length(obj.PTOSimBlock.(f1{ifld1}))
+%                         for ifld2 = 1:length(f2)
+%                             count = count+1;
+%                             header{count} = [f1{ifld1} num2str(iins) '_' f2{ifld2}];
+%                             data(:,count) = obj.PTOSimBlock.(f1{ifld1}).(f2{ifld2});
+%                         end
+%                     end
+%                 end
+%                 for ii=1:length(header)
+%                     tmp(ii) = length(header{ii});
+%                 end
+%                 numChar = max(tmp)+2; clear tmp;
+%                 header_fmt = ['%' num2str(numChar) 's ']; 
+%                 data_fmt = [repmat('%10.5f ',1,length(header)) '\n'];
+%                 filename = ['output/ptosim.txt'];
+%                 fid = fopen(filename,'w+');
+%                 for ii=1:length(header)
+%                     fprintf(fid,header_fmt,header{ii});
+%                 end
+%                 fprintf(fid,'\n');
+%                 fprintf(fid,data_fmt,data');
+%                 fclose(fid);
+%             end
             % mooring
             if isfield(obj.mooring,'name')
                 signals = {'position','velocity','forceMooring'};

@@ -197,9 +197,18 @@ if exist('cable','var')==1
     end
 end
 % PTO-Sim: read input, count
-if exist('./ptoSimInputFile.m','file') == 2
+if exist('PTOSimBlock','var') == 2
     ptoSimInputFile
-    ptosim.countblocks;
+    PTOSimBlock.countblocks;
+end
+
+if exist('PTOSimBlock','var') == 1
+    simu.numPtoBlocks = length(PTOSimBlock(1,:));
+    for ii = 1:simu.numPtoBlocks
+        PTOSimBlock(ii).ptoNum = ii;
+%         pto(ii).setOrientation();
+%         pto(ii).setPretension();
+    end; clear ii
 end
 
 if simu.yawNonLin==1 && simu.yawThresh==1

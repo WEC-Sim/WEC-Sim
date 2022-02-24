@@ -45,6 +45,7 @@ pto(1).loc = [0 0 0];                   % PTO Location [m]
 %PTOSimBlcock(1) = PTOSimClassUpdated('HydraulicPiston');
 PTOSimBlock(1) = PTOSimClassUpdated('PTOSim1');
 PTOSimBlock(1).PTOSimBlockNum  = 1;
+PTOSimBlock(1).PTOSimBlockType = 2;
 PTOSimBlock(1).HydPistonCompressible.xi_piston = 35;
 PTOSimBlock(1).HydPistonCompressible.Ap_A = 0.0378;
 PTOSimBlock(1).HydPistonCompressible.Ap_B = 0.0378;
@@ -56,6 +57,7 @@ PTOSimBlock(1).HydPistonCompressible.pBi = 2.1333e7;
 %Rectifying Check Valve
 PTOSimBlock(2) = PTOSimClassUpdated('PTOSim2');
 PTOSimBlock(2).PTOSimBlockNum = 2;
+PTOSimBlock(2).PTOSimBlockType = 4;
 PTOSimBlock(2).RectifyingCheckValve.Cd = 0.61;
 PTOSimBlock(2).RectifyingCheckValve.Amax = 0.002;
 PTOSimBlock(2).RectifyingCheckValve.Amin = 1e-8;
@@ -71,6 +73,7 @@ PTOSimBlock(2).RectifyingCheckValve.k2 = ...
 %High Pressure Hydraulic Accumulator
 PTOSimBlock(3) = PTOSimClassUpdated('PTOSim3');
 PTOSimBlock(3).PTOSimBlockNum  = 3;
+PTOSimBlock(3).PTOSimBlockType = 3;
 PTOSimBlock(3).GasHydAccumulator.VI0 = 8.5;
 PTOSimBlock(3).GasHydAccumulator.pIprecharge = 2784.7*6894.75;
 %PTOSimBlcock(3).GasHydAccumulator.VIeq = 0.00001;
@@ -78,6 +81,7 @@ PTOSimBlock(3).GasHydAccumulator.pIprecharge = 2784.7*6894.75;
 %Low Pressure Hydraulic Accumulator
 PTOSimBlock(4) = PTOSimClassUpdated('PTOSim4');
 PTOSimBlock(4).PTOSimBlockNum  = 4;
+PTOSimBlock(4).PTOSimBlockType = 3;
 PTOSimBlock(4).GasHydAccumulator.VI0 = 8.5;
 PTOSimBlock(4).GasHydAccumulator.pIprecharge = 1392.4*6894.75;
 %PTOSimBlcock(4).GasHydAccumulator.VIeq = 0.00001;
@@ -85,6 +89,7 @@ PTOSimBlock(4).GasHydAccumulator.pIprecharge = 1392.4*6894.75;
 %Hydraulic Motor
 PTOSimBlock(5) = PTOSimClassUpdated('PTOSim5');
 PTOSimBlock(5).PTOSimBlockNum  = 5;
+PTOSimBlock(5).PTOSimBlockType = 6;
 PTOSimBlock(5).HydraulicMotorV2.EffModel = 2;
 PTOSimBlock(5).HydraulicMotorV2.Displacement = 120;
 PTOSimBlock(5).HydraulicMotorV2.EffTableShaftSpeed = linspace(0,2500,20);
@@ -95,6 +100,7 @@ PTOSimBlock(5).HydraulicMotorV2.EffTableMechEff = ones(20,20)*0.85;
 %Electric motor
 PTOSimBlock(6) = PTOSimClassUpdated('PTOSim6');
 PTOSimBlock(6).PTOSimBlockNum = 6;
+PTOSimBlock(6).PTOSimBlockType = 1;
 PTOSimBlock(6).ElectricMachineEC.Ra = 0.8;
 PTOSimBlock(6).ElectricMachineEC.La = 0.8;
 PTOSimBlock(6).ElectricMachineEC.Ke = 0.8;

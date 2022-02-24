@@ -66,7 +66,9 @@ classdef PTOSimClassUpdated<handle
     end
     
     properties (SetAccess = 'public', GetAccess = 'public')%internal
-        PTOSimBlockNum           = []                                            % Constraint number
+        PTOSimBlockNum           = []                                            % PTOBlock number
+        PTOSimBlockType           = [] %
+        ptoNum  = []
     end
     
     methods
@@ -77,36 +79,52 @@ classdef PTOSimClassUpdated<handle
         
 %         function countblocks(obj)
 %             % Counts and numbers the instances of each type of block
-%             names = {'HydraulicBlock'};%,'GasHydAccumulator'};
+%             %names = {'PTOSimBlock'};%,'GasHydAccumulator'};
+%             names = {'HydPistonCompressible','GasHydAccumulator','RectifyingCheckValve','HydraulicMotorV2','ElectricMachineEC'};
 %             for jj = 1:length(names)
 %                 for kk = 1:length(obj.(names{jj}))
 %                     obj.(names{jj})(kk).number = kk;
 %                 end
 %             end
 %         end
-        function ptosimOutput = response(obj)
-            % Create PTO-Sim output
-            names = {'HydPistonCompressible','GasHydAccumulator','RectifyingCheckValve','HydraulicMotorV2','ElectricMachineEC'};
-            
-            signals.HydPistonCompressible = {'PressureA','ForcePTO','PressureB'};
-            signals.GasHydAccumulator = {'Pressure','FlowRate'};
-            signals.RectifyingCheckValve = {'QA','QB','QC','QD'};
-            signals.HydraulicMotorV2 = {'ShaftSpeed','Torque','DeltaP','FlowRate'};
-            signals.ElectricMachineEC = {'Tem','ShaftSpeed','Current','Voltage'};
-            
-            
-            ptosimOutput = struct;
-            for ii = 1:length(names)
-                for jj = 1:length(obj.(names{ii}))
-                    for kk = 1:length(signals.(names{ii}))
-                        try
-                            tmp = evalin('caller',[names{ii} num2str(jj) '_out.signals.values(:,' num2str(kk) ')']);
-                            ptosimOutput.(names{ii})(jj).(signals.(names{ii}){kk}) = tmp;
-                        end
-                    end
-                    evalin('caller',['clear ' names{ii} num2str(jj) '_out']);
-                end
-            end
-        end
+% 
+%         function ptosimOutput = response(obj)
+%             % Create PTO-Sim output
+%             %names = {'HydPistonCompressible','GasHydAccumulator','RectifyingCheckValve','HydraulicMotorV2','ElectricMachineEC'};
+%             %names = {'PTOSimBlock'};
+%             names = {'HydPistonCompressible','GasHydAccumulator','RectifyingCheckValve','HydraulicMotorV2','ElectricMachineEC'};
+%             
+%             signals.HydPistonCompressible = {'PressureA','ForcePTO','PressureB'};
+%             signals.GasHydAccumulator = {'Pressure','FlowRate'};
+%             signals.RectifyingCheckValve = {'QA','QB','QC','QD'};
+%             signals.HydraulicMotorV2 = {'ShaftSpeed','Torque','DeltaP','FlowRate'};
+%             signals.ElectricMachineEC = {'Tem','ShaftSpeed','Current','Voltage'};
+%             
+%             
+%             ptosimOutput = struct;
+%             ii = 1;
+%                 %for jj = 1:length(obj.(names{ii}))
+%                     BlockNumber = 1;
+%                     for kk = 1:length(signals.(names{ii}))
+%                         try
+%                             tmp = evalin('caller',[names{ii} num2str(BlockNumber) '_out.signals.values(:,' num2str(kk) ')']);
+%                             ptosimOutput.PTOsimBlock(BlockNumber).(names{ii}).(signals.PTOSimBlock.(names{ii}){kk}) = tmp;
+%                         end
+%                     end
+%                     evalin('caller',['clear ' names{ii} num2str(BlockNumber) '_out']);
+%                 %end
+% %             for ii = 1:length(names)
+% %                 %for jj = 1:length(obj.(names{ii}))
+% %                     BlockNumber = obj.PTOSimBlockNum;
+% %                     for kk = 1:length(signals.(names{ii}))
+% %                         try
+% %                             tmp = evalin('caller',[names{ii} num2str(BlockNumber) '_out.signals.values(:,' num2str(kk) ')']);
+% %                             ptosimOutput.PTOsimBlock(BlockNumber).(names{ii}).(signals.PTOSimBlock.(names{ii}){kk}) = tmp;
+% %                         end
+% %                     end
+% %                     evalin('caller',['clear ' names{ii} num2str(BlockNumber) '_out']);
+% %                 %end
+% %             end
+%         end
     end
 end
