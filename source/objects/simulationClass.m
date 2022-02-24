@@ -67,7 +67,7 @@ classdef simulationClass<handle
     end
 
     properties (SetAccess = 'public', GetAccess = 'public')%internal        
-        CTTime              = []                                           % (`float vector`) Convolution integral time series. Default = dependent
+        cicTime              = []                                           % (`float vector`) Convolution integral time series. Default = dependent
         CIkt                = []                                           % (`integer`) Number of timesteps in the convolution integral length. Default = dependent
         caseDir             = []                                           % (`string`) WEC-Sim case directory. Default = dependent
         caseFile            = []                                           % (`string`) .mat file with all simulation information. Default = dependent
@@ -152,8 +152,8 @@ classdef simulationClass<handle
                 obj.paraviewDt = obj.dtOut;
             end
             
-            obj.CTTime = 0:obj.cicDt:obj.cicEndTime;            
-            obj.CIkt = length(obj.CTTime);
+            obj.cicTime = 0:obj.cicDt:obj.cicEndTime;            
+            obj.CIkt = length(obj.cicTime);
             obj.caseFile = [obj.simMechanicsFile(length(obj.caseDir)+1:end-4) '_matlabWorkspace.mat'];
             
             % Remove existing output folder
