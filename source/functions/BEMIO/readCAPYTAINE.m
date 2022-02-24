@@ -199,11 +199,11 @@ for m = 1:hydro(F).Nb
         fclose(fileID);
         for i=1:6
             tmp = textscan(raw{i},'%f');
-            hydro(F).C(i,:,m) = tmp{1,1}(1:6);  % Linear restoring stiffness
+            hydro(F).Khs(i,:,m) = tmp{1,1}(1:6);  % Linear restoring stiffness
         end
     catch
         warning('No KH.dat files found. Hydrostatics can''t be computed.');
-        hydro(F).C = zeros(6,6,hydro(F).Nb);
+        hydro(F).Khs = zeros(6,6,hydro(F).Nb);
     end
 end
 waitbar(3/8);

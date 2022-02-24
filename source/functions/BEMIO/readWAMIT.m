@@ -69,16 +69,16 @@ for n = 1:N
         hydro(F).cb(:,hydro(F).Nb) = hydro(F).cg(:,hydro(F).Nb) + tmp{1};  % Center of buoyancy
     end
     if isempty(strfind(raw{n},'Hydrostatic and gravitational'))==0
-        hydro(F).C(:,:,hydro(F).Nb) = zeros(6,6);  % Linear restoring stiffness
+        hydro(F).Khs(:,:,hydro(F).Nb) = zeros(6,6);  % Linear restoring stiffness
         tmp = textscan(raw{n+1}(find(raw{n+1}==':')+1:end),'%f');
-        hydro(F).C(3,3:5,hydro(F).Nb) = tmp{1};
-        hydro(F).C(3:5,3,hydro(F).Nb) = tmp{1};
+        hydro(F).Khs(3,3:5,hydro(F).Nb) = tmp{1};
+        hydro(F).Khs(3:5,3,hydro(F).Nb) = tmp{1};
         tmp = textscan(raw{n+2}(find(raw{n+2}==':')+1:end),'%f');
-        hydro(F).C(4,4:6,hydro(F).Nb) = tmp{1};
-        hydro(F).C(4:6,4,hydro(F).Nb) = tmp{1};
+        hydro(F).Khs(4,4:6,hydro(F).Nb) = tmp{1};
+        hydro(F).Khs(4:6,4,hydro(F).Nb) = tmp{1};
         tmp = textscan(raw{n+3}(find(raw{n+3}==':')+1:end),'%f');
-        hydro(F).C(5,5:6,hydro(F).Nb) = tmp{1};
-        hydro(F).C(5:6,5,hydro(F).Nb) = tmp{1};
+        hydro(F).Khs(5,5:6,hydro(F).Nb) = tmp{1};
+        hydro(F).Khs(5:6,5,hydro(F).Nb) = tmp{1};
     end
     if isempty(strfind(raw{n},'Wave period'))==0
         if isempty(strfind(raw{n},'Wave period = infinite'))==0  T = 0;  end
@@ -337,7 +337,7 @@ if exist([tmp{1} '.cfg'],'file')==2
         for n = 2:N
             tmp = textscan(raw{n},'%f');
             hydro(F).gbm(tmp{1,1}(1),tmp{1,1}(2),4) = tmp{1,1}(3);  % gbm[:,:,4] - Hydrostatic Stiffness
-        end     % hydro.gbm([1:6],[1:6],4) will be redundant of rigid body hydro.C values
+        end     % hydro.gbm([1:6],[1:6],4) will be redundant of rigid body hydro.Khs values
     end
 end
 

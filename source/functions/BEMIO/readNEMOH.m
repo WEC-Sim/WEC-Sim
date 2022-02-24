@@ -126,7 +126,7 @@ for m = 1:hydro(F).Nb
     fclose(fileID);
     for i=1:6
         tmp = textscan(raw{i},'%f');
-        hydro(F).C(i,:,m) = tmp{1,1}(1:6);  % Linear restoring stiffness
+        hydro(F).Khs(i,:,m) = tmp{1,1}(1:6);  % Linear restoring stiffness
     end
 end
 waitbar(3/8);
@@ -289,7 +289,7 @@ if exist(fullfile(resultsdir,'Kochin.    1.dat'),'file')==2
             M((6*(m-1))+k+3,((6*(m-1))+4):((6*(m-1))+6))=ligne;
     end
  end       
-    KHyd = squeeze(hydro(F).C);
+    KHyd = squeeze(hydro(F).Khs);
     for k=1:length(w)
         for j=1:nb_DOF
             RAO1(k,j)=(Fe(j,k))/(-(M(j,j)+A(j,j,k))*(w(k))^2-1i*w(k)*(B(j,j,k))+KHyd(j,j)); % No coupling between the DoF

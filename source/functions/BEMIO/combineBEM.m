@@ -30,7 +30,7 @@ if n>1
     n = n+1;
     hydro(n).theta = hydro(1).theta;
     hydro(n).body = [];
-    hydro(n).C = [];
+    hydro(n).Khs = [];
     hydro(n).cb = [];
     hydro(n).cg = [];
     hydro(n).code = [];
@@ -59,7 +59,7 @@ if n>1
     hydro(n).w = hydro(1).w;
     for i = 1:(n-1)
         hydro(n).body = [hydro(n).body, hydro(i).body];
-        hydro(n).C = cat(3, hydro(n).C, hydro(i).C);
+        hydro(n).Khs = cat(3, hydro(n).Khs, hydro(i).Khs);
         hydro(n).cb = [hydro(n).cb, hydro(i).cb];
         hydro(n).cg = [hydro(n).cg, hydro(i).cg];
         hydro(n).code = [hydro(n).code, hydro(i).code];

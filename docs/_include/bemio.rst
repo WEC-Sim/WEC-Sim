@@ -126,7 +126,7 @@ body          {1,Nb}                    body names
 cb            [3,Nb]                    center of buoyancy
 cg            [3,Nb]                    center of gravity
 code          string                    BEM code (WAMIT, NEMOH, AQWA, or CAPYTAINE)
-C             [6,6,Nb]                  hydrostatic restoring stiffness
+K_hs 	      [6,6,Nb]                  hydrostatic restoring stiffness
 dof 	      [1, Nb]                   Degrees of freedom (DOF) for each body. Default DOF for each body is 6 plus number of possible generalized body modes (GBM).
 exc_im        [6*Nb,Nh,Nf]              imaginary component of excitation force or torque
 exc_K         [6*Nb,Nh,length(ex_t)]    excitation IRF

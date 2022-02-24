@@ -64,7 +64,7 @@ for i = 1:hydro.Nb
         writeH5Parameter(filename,['/body' num2str(i) '/hydro_coeffs/linear_restoring_stiffness'],tmp(1,m_add + 1:m_add + m,:),'Hydrostatic stiffness','N/m');
         clear tmp;
     else
-        writeH5Parameter(filename,['/body' num2str(i) '/hydro_coeffs/linear_restoring_stiffness'],hydro.C(:,:,i),'Hydrostatic stiffness matrix','');        
+        writeH5Parameter(filename,['/body' num2str(i) '/hydro_coeffs/linear_restoring_stiffness'],hydro.Khs(:,:,i),'Hydrostatic stiffness matrix','');        
     end
 
     % Write added mass coefficients

@@ -113,7 +113,7 @@ for ln = n:length(raw1)
                 tmp = str2num(raw1{ln+(j-1)*6+i});
                 if length(tmp)>6 tmp(1)=[]; end
                 if f==0
-                    hydro(F).C(i,:,j) = tmp; % Linear restoring stiffness
+                    hydro(F).Khs(i,:,j) = tmp; % Linear restoring stiffness
                 elseif f==1
                     M(i,:,j) = tmp; % Mass
                 end
