@@ -88,7 +88,7 @@ for n = 1:N
     if isempty(strfind(raw{n},'Number of wave directions'))==0
         tmp = textscan(raw{n},'%f %f %f');
         hydro(F).Nh = tmp{1};  % Number of wave headings
-        hydro(F).beta = linspace(tmp{2},tmp{3},tmp{1});  % Wave headings
+        hydro(F).theta = linspace(tmp{2},tmp{3},tmp{1});  % Wave headings
     end
 end
 waitbar(1/8);
@@ -328,16 +328,16 @@ if exist(fullfile(resultsdir,'Kochin.    1.dat'),'file')==2
     % initialize mean drift field;
     hydro(F).md_mc=hydro(F).ex_ma.*0;
     
-    for k=1:hydro(F).Nh; % wave heading loop (in case length(beta)>1)
-        rad = pi/180*hydro(F).beta(k); % conversion degrees to radians for nemoh wave direction
-        ind_beta=find(abs(theta-rad)==min(abs(theta-rad))); % ind_beta used for determining the appropriate angle of H(dir)
-        ind_beta=min(ind_beta); % in case of 2 min found
+    for k=1:hydro(F).Nh; % wave heading loop (in case length(theta)>1)
+        rad = pi/180*hydro(F).theta(k); % conversion degrees to radians for nemoh wave direction
+        ind_theta=find(abs(theta-rad)==min(abs(theta-rad))); % ind_theta used for determining the appropriate angle of H(dir)
+        ind_theta=min(ind_theta); % in case of 2 min found
         for j=1:nw
             % FORMULA (2.170) in Delhommeau Thesis
             first_constant(j)=-2*pi*ampl_wave*hydro(F).rho*w(j);
             second_constant(j)=-(8*pi*hydro(F).rho*m0(j)*(k0(j)*depth)^2)/(depth*(m0(j)^2*depth^2-k0(j)^2*depth^2+k0(j)*depth));
-            Fdrift_x(j)=first_constant(j)*cos(rad)*imag(H(ind_beta,j)) + second_constant(j)*imag(trapz(theta,H_real(:,j).*imag(conj(H(:,j))).*cos(theta')));
-            Fdrift_y(j)=first_constant(j)*sin(rad)*imag(H(ind_beta,j)) + second_constant(j)*imag(trapz(theta,H_real(:,j).*imag(conj(H(:,j))).*sin(theta')));
+            Fdrift_x(j)=first_constant(j)*cos(rad)*imag(H(ind_theta,j)) + second_constant(j)*imag(trapz(theta,H_real(:,j).*imag(conj(H(:,j))).*cos(theta')));
+            Fdrift_y(j)=first_constant(j)*sin(rad)*imag(H(ind_theta,j)) + second_constant(j)*imag(trapz(theta,H_real(:,j).*imag(conj(H(:,j))).*sin(theta')));
         end
         hydro(F).md_mc(1,k,:) = Fdrift_x./hydro(F).rho./9.81;
         hydro(F).md_mc(2,k,:) = Fdrift_y./hydro(F).rho./9.81;

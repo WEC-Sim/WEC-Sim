@@ -34,7 +34,7 @@ writeH5Parameter(filename,'/simulation_parameters/w',hydro.w,'Wave frequencies',
 if hydro.h~=inf     % A residual of the python based code
     writeH5Parameter(filename,'/simulation_parameters/water_depth',hydro.h,'Water depth','m');
 end
-writeH5Parameter(filename,'/simulation_parameters/wave_dir',hydro.beta,'Wave direction','deg');
+writeH5Parameter(filename,'/simulation_parameters/wave_dir',hydro.theta,'Wave direction','deg');
 waitbar(1/N);
 
 n = 0;

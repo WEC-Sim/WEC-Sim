@@ -119,7 +119,7 @@ for n = 1:N
         while isempty(strfind(raw{i},'Wave Heading'))==0
             hydro(F).Nh = hydro(F).Nh+1;
             tmp = textscan(raw{i}(find(raw{i}==':')+1:end),'%f');
-            hydro(F).beta(hydro(F).Nh) = tmp{1};  % Wave headings
+            hydro(F).theta(hydro(F).Nh) = tmp{1};  % Wave headings
             i = i+2;
             while (isempty(strfind(raw{i},'*******************************'))~=0 & ...
                     isempty(strfind(raw{i},'EXCITING FORCES AND MOMENTS'))~=0 & ...
@@ -150,7 +150,7 @@ for n = 1:N
         while isempty(strfind(raw{i},'Wave Heading'))==0
             hydro(F).Nh = hydro(F).Nh+1;
             tmp = textscan(raw{i}(find(raw{i}==':')+1:end),'%f');
-            hydro(F).beta(hydro(F).Nh) = tmp{1}(1);  % Wave headings
+            hydro(F).theta(hydro(F).Nh) = tmp{1}(1);  % Wave headings
             i = i+2;
             while (isempty(strfind(raw{i},'*******************************'))~=0 & ...
                     isempty(strfind(raw{i},'EXCITING FORCES AND MOMENTS'))~=0 & ...
@@ -180,7 +180,7 @@ for n = 1:N
         while isempty(strfind(raw{i},'Wave Heading'))==0
             hydro(F).Nh = hydro(F).Nh+1;
             tmp = textscan(raw{i}(find(raw{i}==':')+1:end),'%f');
-            hydro(F).beta(hydro(F).Nh) = tmp{1}(1);  % Wave headings
+            hydro(F).theta(hydro(F).Nh) = tmp{1}(1);  % Wave headings
             i = i+2;
             while (isempty(strfind(raw{i},'*******************************'))~=0 & ...
                     isempty(strfind(raw{i},'EXCITING FORCES AND MOMENTS'))~=0 & ...
@@ -210,7 +210,7 @@ for n = 1:N
         while isempty(strfind(raw{i},'Wave Heading'))==0
             hydro(F).Nh = hydro(F).Nh+1;
             tmp = textscan(raw{i}(find(raw{i}==':')+1:end),'%f');
-            hydro(F).beta(hydro(F).Nh) = tmp{1}(1);  % Wave headings
+            hydro(F).theta(hydro(F).Nh) = tmp{1}(1);  % Wave headings
             i = i+2;
             while (isempty(strfind(raw{i},'*******************************'))~=0 & ...
                     isempty(strfind(raw{i},'EXCITING FORCES AND MOMENTS'))~=0 & ...

@@ -20,12 +20,12 @@ end
 B=1;  % Wave heading index
 figHandle = figure('Position',[950,500,975,521]);
 titleString = ['Normalized Excitation Force Magnitude: ',...
-    '$$\bar{X_i}(\omega,\beta) = {\frac{X_i(\omega,\beta)}{{\rho}g}}$$'];
+    '$$\bar{X_i}(\omega,\theta) = {\frac{X_i(\omega,\theta)}{{\rho}g}}$$'];
 subtitleString = {'Surge','Heave','Pitch'};
 xString = {'$$\omega (rad/s)$$','$$\omega (rad/s)$$','$$\omega (rad/s)$$'};
-yString = {['$$\bar{X_1}(\omega,\beta$$',' = ',num2str(varargin{1}.beta(B)),'$$^{\circ}$$)'],...
-    ['$$\bar{X_3}(\omega,\beta$$',' = ',num2str(varargin{1}.beta(B)),'$$^{\circ}$$)'],...
-    ['$$\bar{X_5}(\omega,\beta$$',' = ',num2str(varargin{1}.beta(B)),'$$^{\circ}$$)']};
+yString = {['$$\bar{X_1}(\omega,\theta$$',' = ',num2str(varargin{1}.theta(B)),'$$^{\circ}$$)'],...
+    ['$$\bar{X_3}(\omega,\theta$$',' = ',num2str(varargin{1}.theta(B)),'$$^{\circ}$$)'],...
+    ['$$\bar{X_5}(\omega,\theta$$',' = ',num2str(varargin{1}.theta(B)),'$$^{\circ}$$)']};
 
 notes = {''};
 

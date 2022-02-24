@@ -19,12 +19,12 @@ end
 
 B=1;  % Wave heading index
 figHandle = figure('Position',[950,300,975,521]);
-titleString = ['Excitation Force Phase: $$\phi_i(\omega,\beta)$$'];
+titleString = ['Excitation Force Phase: $$\phi_i(\omega,\theta)$$'];
 subtitleString = {'Surge','Heave','Pitch'};
 xString = {'$$\omega (rad/s)$$','$$\omega (rad/s)$$','$$\omega (rad/s)$$'};
-yString = {['$$\phi_1(\omega,\beta$$',' = ',num2str(varargin{1}.beta(B)),'$$^{\circ})$$'],...
-    ['$$\phi_3(\omega,\beta$$',' = ',num2str(varargin{1}.beta(B)),'$$^{\circ}$$)'],...
-    ['$$\phi_5(\omega,\beta$$',' = ',num2str(varargin{1}.beta(B)),'$$^{\circ}$$)']};
+yString = {['$$\phi_1(\omega,\theta$$',' = ',num2str(varargin{1}.theta(B)),'$$^{\circ})$$'],...
+    ['$$\phi_3(\omega,\theta$$',' = ',num2str(varargin{1}.theta(B)),'$$^{\circ}$$)'],...
+    ['$$\phi_5(\omega,\theta$$',' = ',num2str(varargin{1}.theta(B)),'$$^{\circ}$$)']};
 
 notes = {''};
 
