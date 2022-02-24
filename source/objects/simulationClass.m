@@ -31,7 +31,7 @@ classdef simulationClass<handle
         adjMassWeightFun    = 2                                            % (`integer`) Weighting function for adjusting added mass term in the translational direction. Default = ``2``
         autoRateTranBlk     = 'on'                                         % (`string`) Flag for automatically handling rate transition for data transfer, Opyions: 'on', 'off'. Default = ``'on'``
         b2b                 = 0                                            % (`integer`) Flag for body2body interactions, Options: 0 (off), 1 (on). Default = ``0``
-        cicDt               = []                                           % (`float`) Sample time to calculate Convolution Integral. Default = ``dt``
+        cicDt               = []                                           % (`float`) Time step to calculate Convolution Integral. Default = ``dt``
         cicEndTime          = 60                                           % (`float`) Convolution integral time. Default = ``60`` s
         domainSize          = 200                                          % (`float`) Size of free surface and seabed. This variable is only used for visualization. Default = ``200`` m
         explorer            = 'on'                                         % (`string`) SimMechanics Explorer 'on' or 'off'. Default = ``'on'``
@@ -67,8 +67,8 @@ classdef simulationClass<handle
     end
 
     properties (SetAccess = 'public', GetAccess = 'public')%internal        
-        cicTime              = []                                           % (`float vector`) Convolution integral time series. Default = dependent
-        CIkt                = []                                           % (`integer`) Number of timesteps in the convolution integral length. Default = dependent
+        cicTime             = []                                           % (`float vector`) Convolution integral time series. Default = dependent
+        cicLength           = []                                           % (`integer`) Number of timesteps in the convolution integral length. Default = dependent
         caseDir             = []                                           % (`string`) WEC-Sim case directory. Default = dependent
         caseFile            = []                                           % (`string`) .mat file with all simulation information. Default = dependent
         gitCommit           = []                                           % (`string`) GitHub commit
@@ -153,7 +153,7 @@ classdef simulationClass<handle
             end
             
             obj.cicTime = 0:obj.cicDt:obj.cicEndTime;            
-            obj.CIkt = length(obj.cicTime);
+            obj.cicLength = length(obj.cicTime);
             obj.caseFile = [obj.simMechanicsFile(length(obj.caseDir)+1:end-4) '_matlabWorkspace.mat'];
             
             % Remove existing output folder
