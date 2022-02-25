@@ -46,7 +46,7 @@ classdef PTOSimClassUpdated<handle
             'pMin'            ,'NOT DEFINED',...            % Cracking pressure
             'rho'             ,'NOT DEFINED',...            % Fluid density
             'k1'              ,'NOT DEFINED',...            % Valve coefficiente
-             'k2'              ,'NOT DEFINED')               % Valve coefficient, it's a function of the other valve variables
+            'k2'              ,'NOT DEFINED')               % Valve coefficient, it's a function of the other valve variables
         HydraulicMotor               = struct(...                           % hydraulic Block properties
             'Displacement'                    ,'NOT DEFINED',...            % [cc/rev] Volumetric displacement
             'EffTableShaftSpeed'              ,'NOT DEFINED',...            % Vector with shaft speed data for efficiency
@@ -55,19 +55,25 @@ classdef PTOSimClassUpdated<handle
             'EffTableMechEff'                 ,'NOT DEFINED')               % Matrix with mech. efficiency data
         HydraulicMotorV2               = struct(...                           % hydraulic Block properties
             'Displacement'                    ,'NOT DEFINED',...            % [cc/rev] Volumetric displacement
-            'EffModel'                    ,'NOT DEFINED',...            % 1 for Analytical or 2 for tabulated
+            'EffModel'                        ,'NOT DEFINED',...            % 1 for Analytical or 2 for tabulated
             'EffTableShaftSpeed'              ,'NOT DEFINED',...            % Vector with shaft speed data for efficiency
             'EffTableDeltaP'                  ,'NOT DEFINED',...            % Vector with pressure data for efficiency
             'EffTableVolEff'                  ,'NOT DEFINED',...            % Matrix with vol. efficiency data
             'EffTableMechEff'                 ,'NOT DEFINED',...            % Matrix with mech. efficiency data
-            'Aplha1'                  ,'NOT DEFINED',...            % Matrix with vol. efficiency data
-            'Aplha2'                  ,'NOT DEFINED',...            % Matrix with vol. efficiency data
-            'Aplha3'                  ,'NOT DEFINED')            % Matrix with vol. efficiency data
+            'wNominal'                        ,'NOT DEFINED',...            % [rpm] Nominal shaft angular velocity
+            'deltaPNominal'                   ,'NOT DEFINED',...            % [Pa] Matrix with vol. efficiency data
+            'VisNominal'                      ,'NOT DEFINED',...            % [m^2/s] Nominal kinematic viscosity at which the nominal efficiency is measured
+            'DensityNominal'                  ,'NOT DEFINED',...            % [kg/m^3] Nominal fluid density at which the nominal efficiency is measured
+            'EffVolNom'                       ,'NOT DEFINED',...            % [1] Volumetric efficiency at nominal conditions
+            'TorqueNoLoad'                    ,'NOT DEFINED',...            % [Nm] No load torque
+            'TorqueVsPressure'                ,'NOT DEFINED',...            % [Nm/Pa] Friction torque vs pressure drop coefficient
+            'rho'                             ,'NOT DEFINED',...            % [kg/m^3] Actual fluid density. It could be different than the nominal fluid density
+            'Viscosity'                       ,'NOT DEFINED')               % [m^2/s] Actual viscosity. It could be different than the nominal viscosity
     end
     
     properties (SetAccess = 'public', GetAccess = 'public')%internal
-        PTOSimBlockNum           = []                                            % PTOBlock number
-        PTOSimBlockType           = [] %
+        PTOSimBlockNum           = []                                       % PTOBlock number
+        PTOSimBlockType           = []                                      % PTO Block type.
         ptoNum  = []
     end
     
@@ -76,55 +82,5 @@ classdef PTOSimClassUpdated<handle
             % Initilization function
             obj.name   = name;
         end
-        
-%         function countblocks(obj)
-%             % Counts and numbers the instances of each type of block
-%             %names = {'PTOSimBlock'};%,'GasHydAccumulator'};
-%             names = {'HydPistonCompressible','GasHydAccumulator','RectifyingCheckValve','HydraulicMotorV2','ElectricMachineEC'};
-%             for jj = 1:length(names)
-%                 for kk = 1:length(obj.(names{jj}))
-%                     obj.(names{jj})(kk).number = kk;
-%                 end
-%             end
-%         end
-% 
-%         function ptosimOutput = response(obj)
-%             % Create PTO-Sim output
-%             %names = {'HydPistonCompressible','GasHydAccumulator','RectifyingCheckValve','HydraulicMotorV2','ElectricMachineEC'};
-%             %names = {'PTOSimBlock'};
-%             names = {'HydPistonCompressible','GasHydAccumulator','RectifyingCheckValve','HydraulicMotorV2','ElectricMachineEC'};
-%             
-%             signals.HydPistonCompressible = {'PressureA','ForcePTO','PressureB'};
-%             signals.GasHydAccumulator = {'Pressure','FlowRate'};
-%             signals.RectifyingCheckValve = {'QA','QB','QC','QD'};
-%             signals.HydraulicMotorV2 = {'ShaftSpeed','Torque','DeltaP','FlowRate'};
-%             signals.ElectricMachineEC = {'Tem','ShaftSpeed','Current','Voltage'};
-%             
-%             
-%             ptosimOutput = struct;
-%             ii = 1;
-%                 %for jj = 1:length(obj.(names{ii}))
-%                     BlockNumber = 1;
-%                     for kk = 1:length(signals.(names{ii}))
-%                         try
-%                             tmp = evalin('caller',[names{ii} num2str(BlockNumber) '_out.signals.values(:,' num2str(kk) ')']);
-%                             ptosimOutput.PTOsimBlock(BlockNumber).(names{ii}).(signals.PTOSimBlock.(names{ii}){kk}) = tmp;
-%                         end
-%                     end
-%                     evalin('caller',['clear ' names{ii} num2str(BlockNumber) '_out']);
-%                 %end
-% %             for ii = 1:length(names)
-% %                 %for jj = 1:length(obj.(names{ii}))
-% %                     BlockNumber = obj.PTOSimBlockNum;
-% %                     for kk = 1:length(signals.(names{ii}))
-% %                         try
-% %                             tmp = evalin('caller',[names{ii} num2str(BlockNumber) '_out.signals.values(:,' num2str(kk) ')']);
-% %                             ptosimOutput.PTOsimBlock(BlockNumber).(names{ii}).(signals.PTOSimBlock.(names{ii}){kk}) = tmp;
-% %                         end
-% %                     end
-% %                     evalin('caller',['clear ' names{ii} num2str(BlockNumber) '_out']);
-% %                 %end
-% %             end
-%         end
     end
 end

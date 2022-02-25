@@ -235,7 +235,6 @@ classdef responseClass<handle
                 ElectricMachineECSignals = {'Tem','ShaftSpeed','Current','Voltage'};
 
                 for ii = 1:length(ptoBlocksOutput)
-                    ii
                     obj.PTOBlocks(ii).name = ptoBlocksOutput(ii).name;
                     obj.PTOBlocks(ii).time = ptoBlocksOutput(ii).time;
                     obj.PTOBlocks(ii).type = ptoBlocksOutput(ii).type;

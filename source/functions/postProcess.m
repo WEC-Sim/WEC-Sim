@@ -21,7 +21,7 @@
 fprintf('\nPost-processing and saving...   \n')
 
 % Update simulation class with actual simulation time
-%simu.time = clock_out.time;
+simu.time = clock_out.time;
 clear clock_out
 
 % Bodies
@@ -103,12 +103,6 @@ else
 end
 
 % PTO-Sim
-% if exist('PTOSimBlock','var')
-%     ptosimOutput = PTOSimBlock.response;
-% else
-%     ptosimOutput = 0;
-% end
-disp('The code works here 1')
 if exist('PTOSimBlock','var')
     for iPtoB = 1:simu.numPtoBlocks
         %iPtoB
@@ -121,7 +115,7 @@ if exist('PTOSimBlock','var')
 else
     ptoBlocksOutput = 0;
 end
-disp('The code works here 2')
+
 % Waves
 if strcmp(simu.solver,'ode4')~=1    % Re-calculate wave elevation for variable time-step solver
     waves.calculateElevation(simu.rampTime,bodiesOutput(1).time);
@@ -137,7 +131,6 @@ waveOutput.waveAmpTime2 = waves.waveAmpTime2;
 waveOutput.waveAmpTime3 = waves.waveAmpTime3;
 
 % All
-disp('The code works here 3')
 output = responseClass(bodiesOutput,ptosOutput,constraintsOutput,ptoBlocksOutput,cablesOutput,mooringOutput,waveOutput, simu.yawNonLin);
 clear bodiesOutput ptosOutput constraintsOutput ptoBlocksOutput cablesOutput mooringOutput waveOutput
 
