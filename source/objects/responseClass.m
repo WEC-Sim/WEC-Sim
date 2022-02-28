@@ -235,6 +235,7 @@ classdef responseClass<handle
                 ElectricMachineECSignals = {'Tem','ShaftSpeed','Current','Voltage'};
                 LinearCrankSignals = {'ptoTorque','angPosition','angVelocity'};
                 AdjustableRodSignals = {'ptoTorque','angPosition','angVelocity'};
+                CheckValveSignals = {'FlowCheckValve','DeltaPCheckValve'};
 
                 for ii = 1:length(ptoBlocksOutput)
                     obj.PTOBlocks(ii).name = ptoBlocksOutput(ii).name;
@@ -254,6 +255,8 @@ classdef responseClass<handle
                         signals = LinearCrankSignals;
                     elseif ptoBlocksOutput(ii).type == 8
                         signals = AdjustableRodSignals;
+                    elseif ptoBlocksOutput(ii).type == 9
+                        signals = CheckValveSignals;
                     end
                     for jj = 1:length(signals)
                         obj.PTOBlocks(ii).(signals{jj}) = ptoBlocksOutput(ii).signals.values(:,jj);

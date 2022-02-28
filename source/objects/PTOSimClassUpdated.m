@@ -77,6 +77,15 @@ classdef PTOSimClassUpdated<handle
             'crank'                           ,'NOT DEFINED',...            % [m] Crank length
             'offset'                          ,'NOT DEFINED',...            % [m] Offset length
             'rodLength'                       ,'NOT DEFINED')               % [m] Rod length
+        CheckValve                     = struct(...                         % Linear crank block properties
+            'k1'                              ,'NOT DEFINED',...            % [m^2/N] Valve coefficient
+            'rho'                             ,'NOT DEFINED',...            % [kg/m^3] Fluid density
+            'pMax'                            ,'NOT DEFINED',...            % [Pa] Valve pressure at maximum opening area
+            'pMin'                            ,'NOT DEFINED',...            % [Pa] Valve pressure at minimum opening area
+            'k2'                              ,'NOT DEFINED',...            % [m^2/N] Valve coefficient
+            'Amin'                            ,'NOT DEFINED',...            % [m^2] Minimum valve area
+            'Amax'                            ,'NOT DEFINED',...            % [m^2] Maximum valve area
+            'Cd'                              ,'NOT DEFINED')               % [1] Discharge coefficient
     end
     
     properties (SetAccess = 'public', GetAccess = 'public')%internal
