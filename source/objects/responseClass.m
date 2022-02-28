@@ -233,6 +233,8 @@ classdef responseClass<handle
                 RectifyingCheckValveSignals = {'QA','QB','QC','QD'};
                 HydraulicMotorV2Signals = {'ShaftSpeed','Torque','DeltaP','FlowRate'};
                 ElectricMachineECSignals = {'Tem','ShaftSpeed','Current','Voltage'};
+                LinearCrankSignals = {'ptoTorque','angPosition','angVelocity'};
+                AdjustableRodSignals = {'ptoTorque','angPosition','angVelocity'};
 
                 for ii = 1:length(ptoBlocksOutput)
                     obj.PTOBlocks(ii).name = ptoBlocksOutput(ii).name;
@@ -248,6 +250,10 @@ classdef responseClass<handle
                         signals = RectifyingCheckValveSignals;
                     elseif ptoBlocksOutput(ii).type == 6
                         signals = HydraulicMotorV2Signals;
+                    elseif ptoBlocksOutput(ii).type == 7
+                        signals = LinearCrankSignals;
+                    elseif ptoBlocksOutput(ii).type == 8
+                        signals = AdjustableRodSignals;
                     end
                     for jj = 1:length(signals)
                         obj.PTOBlocks(ii).(signals{jj}) = ptoBlocksOutput(ii).signals.values(:,jj);

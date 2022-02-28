@@ -69,6 +69,14 @@ classdef PTOSimClassUpdated<handle
             'TorqueVsPressure'                ,'NOT DEFINED',...            % [Nm/Pa] Friction torque vs pressure drop coefficient
             'rho'                             ,'NOT DEFINED',...            % [kg/m^3] Actual fluid density. It could be different than the nominal fluid density
             'Viscosity'                       ,'NOT DEFINED')               % [m^2/s] Actual viscosity. It could be different than the nominal viscosity
+        AdjustableRod                  = struct(...                         % Adjustable rod block properties
+            'crank'                           ,'NOT DEFINED',...            % [m] Crank length
+            'offset'                          ,'NOT DEFINED',...            % [m] Offset length
+            'rodInit'                         ,'NOT DEFINED')               % [m] Rod initial length
+        LinearCrank                    = struct(...                         % Linear crank block properties
+            'crank'                           ,'NOT DEFINED',...            % [m] Crank length
+            'offset'                          ,'NOT DEFINED',...            % [m] Offset length
+            'rodLength'                       ,'NOT DEFINED')               % [m] Rod length
     end
     
     properties (SetAccess = 'public', GetAccess = 'public')%internal
