@@ -82,20 +82,20 @@ but there may be additional DOF from generalized body modes.
 A             [nDOF,nDOF,Nf]            radiation added mass
 Ainf          [nDOF,nDOF]               infinite frequency added mass
 B             [nDOF,nDOF,Nf]            radiation wave damping
-theta         [1,Nh]                    wave headings (deg)
+beta          [1,Nh]                    wave headings (deg)
 body          {1,Nb}                    body names
 cb            [3,Nb]                    center of buoyancy
 cg            [3,Nb]                    center of gravity
 code          string                    BEM code (WAMIT, NEMOH, Aqwa, or Capytaine)
 C             [6,6,Nb]                  hydrostatic restoring stiffness
 dof 	      [1, Nb]                   Degrees of freedom (DOF) for each body. Default DOF for each body is 6 plus number of possible generalized body modes (GBM).
-exc_im        [nDOF,Nh,Nf]              imaginary component of excitation force or torque
-exc_K         [nDOF,Nh,length(ex_t)]    excitation IRF
-exc_ma        [nDOF,Nh,Nf]              magnitude of excitation force or torque
-exc_ph        [nDOF,Nh,Nf]              phase of excitation force or torque
-exc_re        [nDOF,Nh,Nf]              real component of excitation force or torque
-exc_t         [1,length(ex_t)]          time steps in the excitation IRF
-exc_w         [1,length(ex_w)]          frequency step in the excitation IRF
+ex_im         [nDOF,Nh,Nf]              imaginary component of excitation force or torque
+ex_K          [nDOF,Nh,length(ex_t)]    excitation IRF
+ex_ma         [nDOF,Nh,Nf]              magnitude of excitation force or torque
+ex_ph         [nDOF,Nh,Nf]              phase of excitation force or torque
+ex_re         [nDOF,Nh,Nf]              real component of excitation force or torque
+ex_t          [1,length(ex_t)]          time steps in the excitation IRF
+ex_w          [1,length(ex_w)]          frequency step in the excitation IRF
 file          string                    BEM output filename
 fk_im         [nDOF,Nh,Nf]              imaginary component of Froude-Krylov contribution to the excitation force or torque
 fk_ma         [nDOF,Nh,Nf]              magnitude of Froude-Krylov excitation component
@@ -124,7 +124,7 @@ ss_O          [nDOF,nDOF]               state space order
 ss_R2         [nDOF,nDOF]               state space R2 fit
 T             [1,Nf]                    wave periods
 Vo            [1,Nb]                    displaced volume
-omega         [1,Nf]                    wave frequencies
+w             [1,Nf]                    wave frequencies
 ============  ========================  ======================================
 
 
