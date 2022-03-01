@@ -29,7 +29,7 @@ waves.waveSpread = [0.1,0.2,0.7];       % Wave Directional Spreading [%}
 
 % % Irregular Waves with imported spectrum
 % waves = waveClass('spectrumImport');        % Create the Wave Variable and Specify Type
-% waves.waveSpectrumFile = 'spectrumData.mat';  %Name of User-Defined Spectrum File [:,2] = [f, Sf]
+% waves.spectrumFile = 'spectrumData.mat';  %Name of User-Defined Spectrum File [:,2] = [f, Sf]
 
 % % Waves with imported wave elevation time-history  
 % waves = waveClass('waveImport');         % Create the Wave Variable and Specify Type

@@ -8,7 +8,7 @@ type = mask.getParameter('WaveClass');
 H = mask.getParameter('H');
 T = mask.getParameter('T');
 waveElevationFile = mask.getParameter('waveElevationFile');
-waveSpectrumFile = mask.getParameter('waveSpectrumFile');
+spectrumFile = mask.getParameter('spectrumFile');
 spectrumType = mask.getParameter('spectrumType');
 freqDisc = mask.getParameter('freqDisc');
 phaseSeed = mask.getParameter('phaseSeed');
@@ -25,7 +25,7 @@ switch type.Value
         H.Visible = 'on';
         T.Visible = 'on';
         waveElevationFile.Visible = 'off';
-        waveSpectrumFile.Visible = 'off';
+        spectrumFile.Visible = 'off';
         spectrumType.Visible = 'off';
         freqDisc.Visible = 'off';
         phaseSeed.Visible = 'off';
@@ -38,7 +38,7 @@ switch type.Value
         H.Visible = 'off';
         T.Visible = 'off';
         waveElevationFile.Visible = 'off';
-        waveSpectrumFile.Visible = 'off';
+        spectrumFile.Visible = 'off';
         spectrumType.Visible = 'off';
         freqDisc.Visible = 'off';
         phaseSeed.Visible = 'off';
@@ -51,7 +51,7 @@ switch type.Value
         H.Visible = 'on';
         T.Visible = 'on';
         waveElevationFile.Visible = 'off';
-        waveSpectrumFile.Visible = 'off';
+        spectrumFile.Visible = 'off';
         spectrumType.Visible = 'off';
         freqDisc.Visible = 'off';
         phaseSeed.Visible = 'off';
@@ -64,7 +64,7 @@ switch type.Value
         H.Visible = 'on';
         T.Visible = 'on';
         waveElevationFile.Visible = 'off';
-        waveSpectrumFile.Visible = 'off';
+        spectrumFile.Visible = 'off';
         spectrumType.Visible = 'on';
         freqDisc.Visible = 'on';
         phaseSeed.Visible = 'on';
@@ -77,7 +77,7 @@ switch type.Value
         H.Visible = 'off';
         T.Visible = 'off';
         waveElevationFile.Visible = 'off';
-        waveSpectrumFile.Visible = 'on';
+        spectrumFile.Visible = 'on';
         spectrumType.Visible = 'off';
         freqDisc.Visible = 'off';
         phaseSeed.Visible = 'on';
@@ -90,7 +90,7 @@ switch type.Value
         H.Visible = 'off';
         T.Visible = 'off';
         waveElevationFile.Visible = 'on';
-        waveSpectrumFile.Visible = 'off';
+        spectrumFile.Visible = 'off';
         spectrumType.Visible = 'off';
         freqDisc.Visible = 'off';
         phaseSeed.Visible = 'off';
