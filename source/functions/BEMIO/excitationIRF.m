@@ -32,14 +32,12 @@ N = length(t)*sum(hydro.dof)*hydro.Nh;
 
 % Calculate the impulse response function for excitation
 n = 0;
-for k = 1:length(t)
-    for i = 1:sum(hydro.dof)
-        for j = 1:hydro.Nh
-            ex_re = interp1(hydro.w,squeeze(hydro.ex_re(i,j,:)),w);
-            ex_im = interp1(hydro.w,squeeze(hydro.ex_im(i,j,:)),w);
-            hydro.ex_K(i,j,k) = (1/pi)*trapz(w,ex_re.*cos(w*t(k))-ex_im.*sin(w*t(k)));
-            n = n+1;
-        end
+for i = 1:sum(hydro.dof)
+    for j = 1:hydro.Nh
+        ex_re = interp1(hydro.w,squeeze(hydro.ex_re(i,j,:)),w);
+        ex_im = interp1(hydro.w,squeeze(hydro.ex_im(i,j,:)),w);
+        hydro.ex_K(i,j,:) = (1/pi)*trapz(w,ex_re.*cos(w*t(:))-ex_im.*sin(w.*t(:)),2);
+        n = n+1;
     end
     waitbar(n/N)
 end
