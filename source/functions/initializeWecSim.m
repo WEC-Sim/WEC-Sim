@@ -430,7 +430,7 @@ end; clear ii
 
 %Efficiency model
 for ii=1:length(PTOSimBlock(1,:))
-    eval(['EffModel_' num2str(ii) ' = PTOSimBlock(ii).HydraulicMotorV2.EffModel;']);
+    eval(['EffModel_' num2str(ii) ' = PTOSimBlock(ii).HydraulicMotor.EffModel;']);
     eval(['sv_b' num2str(ii) '_AnalyticalEfficiency = Simulink.Variant(''EffModel_', num2str(ii), '==1'');']);
     eval(['sv_b' num2str(ii) '_TabulatedEfficiency = Simulink.Variant(''EffModel_', num2str(ii), '==2'');']);
 end; clear ii;

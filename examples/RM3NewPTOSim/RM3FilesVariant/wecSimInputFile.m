@@ -43,7 +43,7 @@ pto(1).loc = [0 0 0];                   % PTO Location [m]
 
 %Hydraulic Cylinder
 %PTOSimBlcock(1) = PTOSimClassUpdated('HydraulicPiston');
-PTOSimBlock(1) = PTOSimClassUpdated('PTOSim1');
+PTOSimBlock(1) = PTOSimClass('PTOSim1');
 PTOSimBlock(1).PTOSimBlockNum  = 1;
 PTOSimBlock(1).PTOSimBlockType = 2;
 PTOSimBlock(1).HydPistonCompressible.xi_piston = 35;
@@ -55,7 +55,7 @@ PTOSimBlock(1).HydPistonCompressible.pAi = 2.1333e7;
 PTOSimBlock(1).HydPistonCompressible.pBi = 2.1333e7;
 
 %Rectifying Check Valve
-PTOSimBlock(2) = PTOSimClassUpdated('PTOSim2');
+PTOSimBlock(2) = PTOSimClass('PTOSim2');
 PTOSimBlock(2).PTOSimBlockNum = 2;
 PTOSimBlock(2).PTOSimBlockType = 4;
 PTOSimBlock(2).RectifyingCheckValve.Cd = 0.61;
@@ -71,7 +71,7 @@ PTOSimBlock(2).RectifyingCheckValve.k2 = ...
     1/(PTOSimBlock(2).RectifyingCheckValve.pMin-(PTOSimBlock(2).RectifyingCheckValve.pMax + PTOSimBlock(2).RectifyingCheckValve.pMin)/2);
 
 %High Pressure Hydraulic Accumulator
-PTOSimBlock(3) = PTOSimClassUpdated('PTOSim3');
+PTOSimBlock(3) = PTOSimClass('PTOSim3');
 PTOSimBlock(3).PTOSimBlockNum  = 3;
 PTOSimBlock(3).PTOSimBlockType = 3;
 PTOSimBlock(3).GasHydAccumulator.VI0 = 8.5;
@@ -79,7 +79,7 @@ PTOSimBlock(3).GasHydAccumulator.pIprecharge = 2784.7*6894.75;
 %PTOSimBlcock(3).GasHydAccumulator.VIeq = 0.00001;
 
 %Low Pressure Hydraulic Accumulator
-PTOSimBlock(4) = PTOSimClassUpdated('PTOSim4');
+PTOSimBlock(4) = PTOSimClass('PTOSim4');
 PTOSimBlock(4).PTOSimBlockNum  = 4;
 PTOSimBlock(4).PTOSimBlockType = 3;
 PTOSimBlock(4).GasHydAccumulator.VI0 = 8.5;
@@ -87,22 +87,22 @@ PTOSimBlock(4).GasHydAccumulator.pIprecharge = 1392.4*6894.75;
 %PTOSimBlcock(4).GasHydAccumulator.VIeq = 0.00001;
 
 %Hydraulic Motor
-PTOSimBlock(5) = PTOSimClassUpdated('PTOSim5');
+PTOSimBlock(5) = PTOSimClass('PTOSim5');
 PTOSimBlock(5).PTOSimBlockNum  = 5;
-PTOSimBlock(5).PTOSimBlockType = 6;
-PTOSimBlock(5).HydraulicMotorV2.EffModel = 2;
-PTOSimBlock(5).HydraulicMotorV2.Displacement = 120;
-PTOSimBlock(5).HydraulicMotorV2.EffTableShaftSpeed = linspace(0,2500,20);
-PTOSimBlock(5).HydraulicMotorV2.EffTableDeltaP = linspace(0,200*1e5,20);
-PTOSimBlock(5).HydraulicMotorV2.EffTableVolEff = ones(20,20)*0.9;
-PTOSimBlock(5).HydraulicMotorV2.EffTableMechEff = ones(20,20)*0.85;
+PTOSimBlock(5).PTOSimBlockType = 5;
+PTOSimBlock(5).HydraulicMotor.EffModel = 2;
+PTOSimBlock(5).HydraulicMotor.Displacement = 120;
+PTOSimBlock(5).HydraulicMotor.EffTableShaftSpeed = linspace(0,2500,20);
+PTOSimBlock(5).HydraulicMotor.EffTableDeltaP = linspace(0,200*1e5,20);
+PTOSimBlock(5).HydraulicMotor.EffTableVolEff = ones(20,20)*0.9;
+PTOSimBlock(5).HydraulicMotor.EffTableMechEff = ones(20,20)*0.85;
 
-%Electric motor
-PTOSimBlock(6) = PTOSimClassUpdated('PTOSim6');
+%Electric generator
+PTOSimBlock(6) = PTOSimClass('PTOSim6');
 PTOSimBlock(6).PTOSimBlockNum = 6;
 PTOSimBlock(6).PTOSimBlockType = 1;
-PTOSimBlock(6).ElectricMachineEC.Ra = 0.8;
-PTOSimBlock(6).ElectricMachineEC.La = 0.8;
-PTOSimBlock(6).ElectricMachineEC.Ke = 0.8;
-PTOSimBlock(6).ElectricMachineEC.Jem = 0.8;
-PTOSimBlock(6).ElectricMachineEC.bShaft = 0.8;
+PTOSimBlock(6).ElectricGeneratorEC.Ra = 0.8;
+PTOSimBlock(6).ElectricGeneratorEC.La = 0.8;
+PTOSimBlock(6).ElectricGeneratorEC.Ke = 0.8;
+PTOSimBlock(6).ElectricGeneratorEC.Jem = 0.8;
+PTOSimBlock(6).ElectricGeneratorEC.bShaft = 0.8;

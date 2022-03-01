@@ -231,7 +231,7 @@ classdef responseClass<handle
                 HydPistonCompressibleSignals = {'PressureA','ForcePTO','PressureB'};
                 GasHydAccumulatorSignals = {'Pressure','FlowRate'};
                 RectifyingCheckValveSignals = {'QA','QB','QC','QD'};
-                HydraulicMotorV2Signals = {'ShaftSpeed','Torque','DeltaP','FlowRate'};
+                HydraulicMotorSignals = {'ShaftSpeed','Torque','DeltaP','FlowRate'};
                 ElectricMachineECSignals = {'Tem','ShaftSpeed','Current','Voltage'};
                 LinearCrankSignals = {'ptoTorque','angPosition','angVelocity'};
                 AdjustableRodSignals = {'ptoTorque','angPosition','angVelocity'};
@@ -249,13 +249,13 @@ classdef responseClass<handle
                         signals = GasHydAccumulatorSignals;
                     elseif ptoBlocksOutput(ii).type == 4
                         signals = RectifyingCheckValveSignals;
+                    elseif ptoBlocksOutput(ii).type == 5
+                        signals = HydraulicMotorSignals;
                     elseif ptoBlocksOutput(ii).type == 6
-                        signals = HydraulicMotorV2Signals;
-                    elseif ptoBlocksOutput(ii).type == 7
                         signals = LinearCrankSignals;
-                    elseif ptoBlocksOutput(ii).type == 8
+                    elseif ptoBlocksOutput(ii).type == 7
                         signals = AdjustableRodSignals;
-                    elseif ptoBlocksOutput(ii).type == 9
+                    elseif ptoBlocksOutput(ii).type == 8
                         signals = CheckValveSignals;
                     end
                     for jj = 1:length(signals)
