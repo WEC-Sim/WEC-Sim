@@ -187,13 +187,22 @@ ramp function, :math:`H` is the wave height, :math:`F_{exc}` is the frequency
 dependent complex wave-excitation amplitude vector, and :math:`\theta` is the 
 wave direction. 
 
-The mean drift term can optionally be included if coefficients are defined in the BEM data. 
-It is obtained from
+The mean drift force has two contributions:
+
+    * 2nd-order hydrodynamic pressure due to the first-order wave 
+    * Interaction between the first-order motion and the first-order wave
+
+Currently, WEC-Sim only reads mean drift coefficients representing the first contribution. 
+The mean drift force can optionally be included if these coefficients are defined in the BEM data.
+The mean drift force is obtained from:
 
 .. math::
     F_{md}(t)=\left(\frac{H}{2}\right)^2F_{md}(\omega,\theta)
     
 The mean drift force is combined with the excitation force in the response class output.
+
+.. Note::
+    Currently, WEC-Sim only supports mean drift coefficients from WAMIT.
 
 Convolution Integral Formulation
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
