@@ -129,7 +129,9 @@ if exist('mooring','var') == 1
 end
 
 % Bodies: count, check inputs, read hdf5 file
-numHydroBodies = 0; numNonHydroBodies = 0; numDragBodies = 0; 
+numHydroBodies = 0; 
+numNonHydroBodies = 0;
+numDragBodies = 0; 
 hydroBodLogic = zeros(length(body(1,:)),1);
 nonHydroBodLogic = zeros(length(body(1,:)),1);
 dragBodLogic = zeros(length(body(1,:)),1);
@@ -164,7 +166,11 @@ for ii = 1:simu.numWecBodies
             error(['This is not the correct *.h5 file. Please install git-lfs to access the correct *.h5 file, or run \hydroData\bemio.m to generate a new *.h5 file'])
         end
         clearvars h5Info
-        body(ii).readH5File;
+        
+        % Read hydro data from BEMIO and load into the bodyClass
+        tmp_hydroData = readBEMIOH5(body(ii).h5File, body(ii).bodyNumber, body(ii).meanDriftForce);
+        body(ii).loadHydroData(tmp_hydroData);
+        clear tmp_hydroData
     end
     body(ii).bodyTotal = simu.numWecBodies;
     if simu.b2b==1

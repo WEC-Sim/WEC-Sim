@@ -19,18 +19,17 @@ following tasks:
 
 BEMIO Functions
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
-.. Kelley convert this to API doc
 
-**Read_WAMIT:** Reads data from a WAMIT output file
+**readWAMIT:** Reads data from a WAMIT output file
 
-	*hydro = Read_WAMIT(hydro, filename, ex_coeff)*
+	*hydro = readWAMIT(hydro, filename, ex_coeff)*
 		* *hydro* – data structure
 		* *filename* – ``*.out`` WAMIT output file
 		* *ex_coeff* - flag indicating the type of excitation force coefficients to read, ‘diffraction’ (default) or ‘haskind’
 
-**Read_NEMOH:** Reads data from a NEMOH working folder
+**readNEMOH:** Reads data from a NEMOH working folder
 
-	*hydro = Read_NEMOH(hydro, filedir)*
+	*hydro = readNEMOH(hydro, filedir)*
 		* *hydro* – data structure
 		* *filedir* – NEMOH working folder, must include:
 			* ``Nemoh.cal``
@@ -41,36 +40,36 @@ BEMIO Functions
 
 .. Note:: 
 	* Instructions on how to download and use the open source BEM code NEMOH are provided on the `NEMOH website <https://lheea.ec-nantes.fr/logiciels-et-brevets/nemoh-presentation-192863.kjsp>`_. 
-	* The NEMOH Mesh.exe code creates the ``Hydrostatics.dat`` and ``KH.dat`` files (among other files) for one input body at a time. For the Read_NEMOH function to work correctly in the case of a multiple body system, the user must manually rename ``Hydrostatics.dat`` and ``KH.dat`` files to ``Hydrostatics_0.dat``, ``Hydrostatics_1.dat``, …, and ``KH_0.dat``, ``KH_1.dat``,…, corresponding to the body order specified in the ``Nemoh.cal`` file.
+	* The NEMOH Mesh.exe code creates the ``Hydrostatics.dat`` and ``KH.dat`` files (among other files) for one input body at a time. For the readNEMOH function to work correctly in the case of a multiple body system, the user must manually rename ``Hydrostatics.dat`` and ``KH.dat`` files to ``Hydrostatics_0.dat``, ``Hydrostatics_1.dat``, …, and ``KH_0.dat``, ``KH_1.dat``,…, corresponding to the body order specified in the ``Nemoh.cal`` file.
 
-**Read_AQWA:** Reads data from AQWA output files
+**readAQWA:** Reads data from AQWA output files
 
-	*hydro = Read_AQWA(hydro, ah1_filename, lis_filename)*
+	*hydro = readAQWA(hydro, ah1_filename, lis_filename)*
 		* *hydro* – data structure
 		* *ah1_filename* – ``*.AH1`` AQWA output file 
 		* *lis_filename* – ``*.LIS`` AQWA output file
 
-**Read_CAPYTAINE:** Reads data from Capytaine output files
+**readCAPYTAINE:** Reads data from Capytaine output files
 
-	*hydro = Read_CAPYTAINE(hydro, filename)*
+	*hydro = readCAPYTAINE(hydro, filename)*
 		* *hydro* - data structure
 		* *filename* - ``*.nc`` CAPYTAINE output file
 
-**Normalize:** Normalizes NEMOH, AQWA and CAPYTAINE hydrodynamics coefficients in the same manner that WAMIT outputs are normalized. Specifically, the linear hydrostatic restoring stiffness is normalized as, :math:`C_{i,j}/\rho g`; the radiation added mass is normalized as, :math:`A_{i,j}/\rho`; radiation wave damping is normalized as, :math:`B_{i,j}/\rho \omega`; and the wave-exciting forces are normalized as, :math:`F_{exc,i}/\rho g`. Typically, this function would not be called directly by the user; it is automatically implemented within the Read_NEMOH, Read_AQWA, and Read_CAPYTAINE functions.
+**normalizeBEM:** Normalizes NEMOH, AQWA and CAPYTAINE hydrodynamics coefficients in the same manner that WAMIT outputs are normalized. Specifically, the linear hydrostatic restoring stiffness is normalized as, :math:`C_{i,j}/\rho g`; the radiation added mass is normalized as, :math:`A_{i,j}/\rho`; radiation wave damping is normalized as, :math:`B_{i,j}/\rho \omega`; and the wave-exciting forces are normalized as, :math:`F_{exc,i}/\rho g`. Typically, this function would not be called directly by the user; it is automatically implemented within the readNEMOH, readAQWA, and readCAPYTAINE functions.
 
-	*hydro = Normalize(hydro)*
+	*hydro = normalizeBEM(hydro)*
 		* *hydro* – data structure
 
-**Combine_BEM:** Combines multiple BEM outputs into one hydrodynamic "system". This function requires that all BEM outputs have the same water depth, wave frequencies, and wave headings. This function would be implemented following multiple Read functions and before the IRF, Write_H5, or Plot_BEMIO functions.
+**combineBEM:** Combines multiple BEM outputs into one hydrodynamic "system". This function requires that all BEM outputs have the same water depth, wave frequencies, and wave headings. This function would be implemented following multiple Read functions and before the IRF, writeBEMIOH5, or plotBEMIO functions.
 
-	*hydro = Combine_BEM(hydro)*
+	*hydro = combineBEM(hydro)*
 		* *hydro* – data structure
 
-**Radiation_IRF:** Calculates the normalized radiation impulse response function. This is equivalent to the radiation IRF in the theory section normalized by :math:`\rho`:
+**radiationIRF:** Calculates the normalized radiation impulse response function. This is equivalent to the radiation IRF in the theory section normalized by :math:`\rho`:
 
 	:math:`\overline{K}_{r,i,j}(t) = {\frac{2}{\pi}}\intop_0^{\infty}{\frac{B_{i,j}(\omega)}{\rho}}\cos({\omega}t)d\omega`
 
-	*hydro = Radiation_IRF(hydro, t_end, n_t, n_w, w_min, w_max)*
+	*hydro = radiationIRF(hydro, t_end, n_t, n_w, w_min, w_max)*
 			* *hydro* – data structure
 			* *t_end* – calculation range for the IRF, where the IRF is calculated from t = 0 to t_end, and the default is 100 s
 			* *n_t* – number of time steps in the IRF, the default is 1001
@@ -78,18 +77,18 @@ BEMIO Functions
 			* *w_min* – minimum frequency to use in the IRF calculation, the default is the minimum frequency from the BEM data
 			* *w_max* – maximum frequency to use in the IRF calculation, the default is the maximum frequency from the BEM data.
 
-**Radiation_IRF_SS:** Calculates the state space (SS) realization of the radiation IRF. If this function is used, it must be implemented after the Radiation_IRF function.
+**radiationIRFSS:** Calculates the state space (SS) realization of the radiation IRF. If this function is used, it must be implemented after the radiationIRF function.
 
-	*hydro = Radiation_IRF_SS(hydro, Omax, R2t)*
+	*hydro = radiationIRFSS(hydro, Omax, R2t)*
 		* *hydro* – data structure
 		* *Omax* – maximum order of the SS realization, the default is 10
 		* *R2t* – :math:`R^2` threshold (coefficient of determination) for the SS realization, where :math:`R^2` may range from 0 to 1, and the default is 0.95
 
-**Excitation_IRF:** Calculates the excitation impulse response function.
+**excitationIRF:** Calculates the excitation impulse response function.
 
 	:math:`\overline{K}_{e,i,\theta}(t) = {\frac{1}{2\pi}}\intop_{-\infty}^{\infty}{\frac{X_i(\omega,\theta)e^{i{\omega}t}}{{\rho}g}}d\omega`
 
-	*hydro = Excitation_IRF(hydro, t_end, n_t, n_w, w_min, w_max)*
+	*hydro = excitationIRF(hydro, t_end, n_t, n_w, w_min, w_max)*
 			* *hydro* – data structure
 			* *t_end* – calculation range for the IRF, where the IRF is calculated from t = -t_end to t_end, and the default is 100 s
 			* *n_t* – number of time steps in the IRF, the default is 1001
@@ -97,17 +96,17 @@ BEMIO Functions
 			* *w_min* – minimum frequency to use in the IRF calculation, the default is the minimum frequency from the BEM data
 			* *w_max* – maximum frequency to use in the IRF calculation, the default is the maximum frequency from the BEM data.
 
-**Write_H5:** Writes the hydro data structure to a ``*.h5`` file. 
+**writeBEMIOH5:** Writes the hydro data structure to a ``*.h5`` file. 
 
-	Write_H5(hydro)
+	writeBEMIOH5(hydro)
 		* *hydro* – data structure
 
 .. Note::
  	Technically, this step should not be necessary - the MATLAB data structure *hydro* is written to a ``*.h5`` file by BEMIO and then read back into a new MATLAB data structure *hydroData* for each body by WEC-Sim. The reasons this step was retained were, first, to remain compatible with the python based BEMIO output and, second, for the simpler data visualization and verification capabilities offered by the ``*.h5`` file viewer.
 
-**Plot_BEMIO:** Plots the radiation added mass, radiation wave damping, radiation IRF, excitation force magnitude, excitation force phase, and excitation IRF for each body in the heave, surge and pitch degrees of freedom. 
+**plotBEMIO:** Plots the radiation added mass, radiation wave damping, radiation IRF, excitation force magnitude, excitation force phase, and excitation IRF for each body in the heave, surge and pitch degrees of freedom. 
 
-	*Plot_BEMIO(hydro)*
+	*plotBEMIO(hydro)*
 		* *hydro* – data structure
 
 .. _user-advanced-features-bemio-h5:

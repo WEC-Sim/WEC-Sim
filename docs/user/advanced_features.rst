@@ -322,23 +322,23 @@ simulation.
 Wave Gauge Placement
 ^^^^^^^^^^^^^^^^^^^^
 
-By default, the wave surface elevation is calculated at the origin. Users are 
-allowed up to 3 other x-locations to calculate the wave surface elevation 
-offset from the origin in the global x-direction by defining the wave class 
-variable, ``waves.wavegauge<i>loc``, in the WEC-Sim input file: 
+By default, the wave surface elevation at the origin is calculated by WEC-Sim. 
+In past releases, there was the option to define up to three numerical wave gauge 
+locations where WEC-Sim would also calculate the undisturbed linear incident wave 
+elevation. WEC-Sim now has the feature to define wave markers that oscillate 
+vertically with the undistrubed linear wave elevation (see 
+`WEC-Sim Visualization Wave Markers <http://wec-sim.github.io/WEC-Sim/master/user/advanced_features.html#wave-markers>`_).
+This feature does not limit the number of point measurements of the undisturbed 
+free surface elevation and the time history calculation at the marker location 
+is identical to the previous wave gauge implementation. Users who desire to 
+continuing using the previous wave gauge feature will only need to update the 
+variable called within WEC-Sim and an example can be found in the 
+`WECCCOMP Repository <https://github.com/WEC-Sim/WECCCOMP>`_. 
 
-    :code:`waves.wavegauge<i>loc = <user defined wave gauge i x-location>; %(y-position assumed to be 0 m)`
+.. Note::
+    The numerical wave markers (wave gauges) do not handle the incident wave interaction with the radiated or diffracted 
+    waves that are generated because of the presence and motion of any hydrodynamic bodies.
 
-where i = 1, 2, or 3
-
-The WEC-Sim numerical wave gauges output the undisturbed linear incident wave 
-elevation at the wave gauge locations defined above. The numerical wave gauges 
-do not handle the incident wave interaction with the radiated or diffracted 
-waves that are generated because of the presence and motion of the WEC 
-hydrodynamic bodies. This option provides the following wave elevation time 
-series: 
-
-    :code:`waves.waveAmpTime<i> = incident wave elevation time series at wave gauge i`
 
 .. _user-advanced-features-current:
 

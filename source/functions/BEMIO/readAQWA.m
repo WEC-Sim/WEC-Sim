@@ -1,10 +1,10 @@
-function hydro = Read_AQWA(hydro,ah1_filename,lis_filename)
+function hydro = readAQWA(hydro,ah1Filename,lisFilename)
 % Reads data from AQWA output files.
 %
-% hydro = Read_AQWA(hydro, ah1_filename, lis_filename)
+% hydro = readAQWA(hydro, ah1Filename, lisFilename)
 %     hydro -         data structure
-%     ah1_filename -  .AH1 AQWA output file
-%     lis_filename -  .LIS AQWA output file
+%     ah1Filename -  .AH1 AQWA output file
+%     lisFilename -  .LIS AQWA output file
 %
 % See '...WEC-Sim\examples\BEMIO\AQWA...' for examples of usage.
 
@@ -23,14 +23,14 @@ e = 0;
 
 hydro(F).code   = 'AQWA';
 V182            = 0; % Set AqwaVersion flag "Version 18.2 or larger" to 0
-tmp             = strsplit(ah1_filename,{' ','\','.'});
+tmp             = strsplit(ah1Filename,{' ','\','.'});
 hydro(F).file   = tmp{length(tmp)-1};  % Base filename
 
-fileID          = fopen(ah1_filename);
+fileID          = fopen(ah1Filename);
 raw1            = textscan(fileID,'%[^\n\r]'); %Read/copy raw output, ah1
 raw1            = raw1{:};
 fclose(fileID);
-fileID          = fopen(lis_filename);
+fileID          = fopen(lisFilename);
 raw2            = textscan(fileID,'%[^\n\r]'); %Read/copy raw output, lis
 raw2            = raw2{:};
 fclose(fileID);
@@ -247,7 +247,7 @@ for ln=1:length(raw2)
     
 end
 %%
-hydro = Normalize(hydro);  % Normalize the data according the WAMIT convention
+hydro = normalizeBEM(hydro);  % Normalize the data according the WAMIT convention
 close(p);
 assignin('base','hydro',hydro);
 end

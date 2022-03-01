@@ -87,10 +87,11 @@ end
 
 % PTO-Sim
 if exist('ptosim','var')
-    ptosimOutput = ptosim.response;
+    ptosimOutput = ptosim.response();
 else
     ptosimOutput = 0;
 end
+clear pistonCF*_out pistonNCF*_out checkValve*_out valve*_out accumulator*_out hydraulicMotor*_out rotaryGenerator*_out pmLinearGenerator*_out pmRotaryGenerator*_out motionMechanism*_out
 
 % Waves
 if strcmp(simu.solver,'ode4')~=1    % Re-calculate wave elevation for variable time-step solver
@@ -99,12 +100,6 @@ end
 waveOutput = struct();
 waveOutput.type = waves.type;
 waveOutput.waveAmpTime = waves.waveAmpTime;
-waveOutput.wavegauge1loc = waves.wavegauge1loc;
-waveOutput.wavegauge2loc = waves.wavegauge2loc;
-waveOutput.wavegauge3loc = waves.wavegauge3loc;
-waveOutput.waveAmpTime1 = waves.waveAmpTime1;
-waveOutput.waveAmpTime2 = waves.waveAmpTime2;
-waveOutput.waveAmpTime3 = waves.waveAmpTime3;
 
 % All
 output = responseClass(bodiesOutput,ptosOutput,constraintsOutput,ptosimOutput,cablesOutput,mooringOutput,waveOutput, simu.yawNonLin);

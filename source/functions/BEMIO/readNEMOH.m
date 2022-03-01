@@ -1,7 +1,7 @@
-function hydro = Read_NEMOH(hydro,filedir)
+function hydro = readNEMOH(hydro,filedir)
 % Reads data from a NEMOH working folder.
 %
-% hydro = Read_NEMOH(hydro, filedir)
+% hydro = readNEMOH(hydro, filedir)
 %     hydro -   data structure
 %     filedir - NEMOH working folder, must include:
 %         - Nemoh.cal
@@ -339,15 +339,14 @@ if exist(fullfile(resultsdir,'Kochin.    1.dat'),'file')==2
             Fdrift_x(j)=first_constant(j)*cos(rad)*imag(H(ind_beta,j)) + second_constant(j)*imag(trapz(theta,H_real(:,j).*imag(conj(H(:,j))).*cos(theta')));
             Fdrift_y(j)=first_constant(j)*sin(rad)*imag(H(ind_beta,j)) + second_constant(j)*imag(trapz(theta,H_real(:,j).*imag(conj(H(:,j))).*sin(theta')));
         end
-        hydro(F).md_mc(1,k,:) = Fdrift_x./hydro(F).rho./9.81;
-        hydro(F).md_mc(2,k,:) = Fdrift_y./hydro(F).rho./9.81;
+        hydro(F).md_mc(1,k,:) = Fdrift_x;
+        hydro(F).md_mc(2,k,:) = Fdrift_y;
     end
 end
 
 waitbar(8/8);
 
-hydro = Normalize(hydro);  % Normalize the data according the WAMIT convention
+hydro = normalizeBEM(hydro);  % Normalize the data according the WAMIT convention
 
 close(p);
 end
-
