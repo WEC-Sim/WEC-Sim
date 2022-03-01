@@ -213,7 +213,7 @@ classdef bodyClass<handle
             obj.dof = length(obj.viscDrag.Drag);
         end
         
-        function hydroForcePre(obj,w,waveDirection,cicLength,cicTime,freqNum,dt,rho,g,waveType,waveAmpTime,iBod,numBod,stateSpace,B2B,yawFlag)
+        function hydroForcePre(obj,w,direction,cicLength,cicTime,freqNum,dt,rho,g,waveType,waveAmpTime,iBod,numBod,stateSpace,B2B,yawFlag)
             % HydroForce Pre-processing calculations
             % 1. Set the linear hydrodynamic restoring coefficient, viscous drag, and linear damping matrices
             % 2. Set the wave excitation force
@@ -253,17 +253,17 @@ classdef bodyClass<handle
                     obj.noExcitation()
                     obj.irfInfAddedMassAndDamping(cicLength,cicTime,stateSpace,rho,B2B);
                 case {'regular'}
-                    obj.regExcitation(w,waveDirection,rho,g,yawFlag);
+                    obj.regExcitation(w,direction,rho,g,yawFlag);
                     obj.constAddedMassAndDamping(w,cicLength,rho,B2B);
                 case {'regularCIC'}
-                    obj.regExcitation(w,waveDirection,rho,g,yawFlag);
+                    obj.regExcitation(w,direction,rho,g,yawFlag);
                     obj.irfInfAddedMassAndDamping(cicLength,cicTime,stateSpace,rho,B2B);
                 case {'irregular','spectrumImport'}
-                    obj.irrExcitation(w,freqNum,waveDirection,rho,g,yawFlag);
+                    obj.irrExcitation(w,freqNum,direction,rho,g,yawFlag);
                     obj.irfInfAddedMassAndDamping(cicLength,cicTime,stateSpace,rho,B2B);
                 case {'waveImport'}
                     obj.hydroForce.userDefinedFe = zeros(length(waveAmpTime(:,2)),obj.dof);   %initializing userDefinedFe for non imported wave cases
-                    obj.userDefinedExcitation(waveAmpTime,dt,waveDirection,rho,g);
+                    obj.userDefinedExcitation(waveAmpTime,dt,direction,rho,g);
                     obj.irfInfAddedMassAndDamping(cicLength,cicTime,stateSpace,rho,B2B);
             end
             gbmDOF = obj.dofGBM;
@@ -501,7 +501,7 @@ classdef bodyClass<handle
             obj.hydroForce.fExt.im=zeros(1,nDOF);
         end
         
-        function regExcitation(obj,w,waveDirection,rho,g,yawFlag)            
+        function regExcitation(obj,w,direction,rho,g,yawFlag)            
             % Regular wave excitation force
             % Used by hydroForcePre
             nDOF = obj.dof;
@@ -514,10 +514,10 @@ classdef bodyClass<handle
             for ii=1:nDOF
                 if length(obj.hydroData.simulation_parameters.wave_dir) > 1
                     [X,Y] = meshgrid(obj.hydroData.simulation_parameters.w, obj.hydroData.simulation_parameters.wave_dir);
-                    obj.hydroForce.fExt.re(ii) = interp2(X, Y, squeeze(re(ii,:,:)), w, waveDirection);
-                    obj.hydroForce.fExt.im(ii) = interp2(X, Y, squeeze(im(ii,:,:)), w, waveDirection);
-                    obj.hydroForce.fExt.md(ii) = interp2(X, Y, squeeze(md(ii,:,:)), w, waveDirection);
-                elseif obj.hydroData.simulation_parameters.wave_dir == waveDirection
+                    obj.hydroForce.fExt.re(ii) = interp2(X, Y, squeeze(re(ii,:,:)), w, direction);
+                    obj.hydroForce.fExt.im(ii) = interp2(X, Y, squeeze(im(ii,:,:)), w, direction);
+                    obj.hydroForce.fExt.md(ii) = interp2(X, Y, squeeze(md(ii,:,:)), w, direction);
+                elseif obj.hydroData.simulation_parameters.wave_dir == direction
                     obj.hydroForce.fExt.re(ii) = interp1(obj.hydroData.simulation_parameters.w,squeeze(re(ii,1,:)),w,'spline');
                     obj.hydroForce.fExt.im(ii) = interp1(obj.hydroData.simulation_parameters.w,squeeze(im(ii,1,:)),w,'spline');
                     obj.hydroForce.fExt.md(ii) = interp1(obj.hydroData.simulation_parameters.w,squeeze(md(ii,1,:)),w,'spline');
@@ -544,23 +544,23 @@ classdef bodyClass<handle
             end
         end
         
-        function irrExcitation(obj,wv,freqNum,waveDirection,rho,g,yawFlag)
+        function irrExcitation(obj,wv,freqNum,direction,rho,g,yawFlag)
             % Irregular wave excitation force
             % Used by hydroForcePre
             nDOF = obj.dof;
             re = obj.hydroData.hydro_coeffs.excitation.re(:,:,:) .*rho.*g;
             im = obj.hydroData.hydro_coeffs.excitation.im(:,:,:) .*rho.*g;
             md = obj.hydroData.hydro_coeffs.mean_drift(:,:,:)    .*rho.*g;
-            obj.hydroForce.fExt.re=zeros(length(waveDirection),freqNum,nDOF);
-            obj.hydroForce.fExt.im=zeros(length(waveDirection),freqNum,nDOF);
-            obj.hydroForce.fExt.md=zeros(length(waveDirection),freqNum,nDOF);
+            obj.hydroForce.fExt.re=zeros(length(direction),freqNum,nDOF);
+            obj.hydroForce.fExt.im=zeros(length(direction),freqNum,nDOF);
+            obj.hydroForce.fExt.md=zeros(length(direction),freqNum,nDOF);
             for ii=1:nDOF
                 if length(obj.hydroData.simulation_parameters.wave_dir) > 1
                     [X,Y] = meshgrid(obj.hydroData.simulation_parameters.w, obj.hydroData.simulation_parameters.wave_dir);
-                    obj.hydroForce.fExt.re(:,:,ii) = interp2(X, Y, squeeze(re(ii,:,:)), wv, waveDirection);
-                    obj.hydroForce.fExt.im(:,:,ii) = interp2(X, Y, squeeze(im(ii,:,:)), wv, waveDirection);
-                    obj.hydroForce.fExt.md(:,:,ii) = interp2(X, Y, squeeze(md(ii,:,:)), wv, waveDirection);
-                elseif obj.hydroData.simulation_parameters.wave_dir == waveDirection
+                    obj.hydroForce.fExt.re(:,:,ii) = interp2(X, Y, squeeze(re(ii,:,:)), wv, direction);
+                    obj.hydroForce.fExt.im(:,:,ii) = interp2(X, Y, squeeze(im(ii,:,:)), wv, direction);
+                    obj.hydroForce.fExt.md(:,:,ii) = interp2(X, Y, squeeze(md(ii,:,:)), wv, direction);
+                elseif obj.hydroData.simulation_parameters.wave_dir == direction
                     obj.hydroForce.fExt.re(:,:,ii) = interp1(obj.hydroData.simulation_parameters.w,squeeze(re(ii,1,:)),wv,'spline');
                     obj.hydroForce.fExt.im(:,:,ii) = interp1(obj.hydroData.simulation_parameters.w,squeeze(im(ii,1,:)),wv,'spline');
                     obj.hydroForce.fExt.md(:,:,ii) = interp1(obj.hydroData.simulation_parameters.w,squeeze(md(ii,1,:)),wv,'spline');
@@ -587,7 +587,7 @@ classdef bodyClass<handle
             end
         end
         
-        function userDefinedExcitation(obj,waveAmpTime,dt,waveDirection,rho,g)
+        function userDefinedExcitation(obj,waveAmpTime,dt,direction,rho,g)
             % Calculated User-Defined wave excitation force with non-causal convolution
             % Used by hydroForcePre
             nDOF = obj.dof;
@@ -598,12 +598,12 @@ classdef bodyClass<handle
                 if length(obj.hydroData.simulation_parameters.wave_dir) > 1
                     [X,Y] = meshgrid(kt, obj.hydroData.simulation_parameters.wave_dir);
                     kernel = squeeze(kf(ii,:,:));
-                    obj.userDefinedExcIRF = interp2(X, Y, kernel, t, waveDirection);
-                elseif obj.hydroData.simulation_parameters.wave_dir == waveDirection
+                    obj.userDefinedExcIRF = interp2(X, Y, kernel, t, direction);
+                elseif obj.hydroData.simulation_parameters.wave_dir == direction
                     kernel = squeeze(kf(ii,1,:));
                     obj.userDefinedExcIRF = interp1(kt,kernel,min(kt):dt:max(kt));
                 else
-                    error('Default wave direction different from hydro database value. Wave direction (waves.waveDirection) should be specified on input file.')
+                    error('Default wave direction different from hydro database value. Wave direction (waves.direction) should be specified on input file.')
                 end
                 obj.hydroForce.userDefinedFe(:,ii) = conv(waveAmpTime(:,2),obj.userDefinedExcIRF,'same')*dt;
             end

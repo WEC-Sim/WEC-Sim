@@ -43,7 +43,7 @@ switch type
         maskVars.WaveClass = waves.type;                             % Initialize Wave Class and Specify Type                                           
         maskVars.H = waves.H;                                        % Wave Height [m]
         maskVars.T = waves.T;                                        % Wave Period [s]
-        maskVars.waveDirection = waves.waveDirection;                            % Wave Directionality [deg]
+        maskVars.direction = waves.direction;                        % Wave Directionality [deg]
         maskVars.waveSpread = waves.waveSpread;                      % Wave Directional Spreading [%]
         maskVars.spectrumType = waves.spectrumType;                  % Specify Wave Spectrum Type
         maskVars.freqDisc = waves.freqDisc;                          % Uses 'EqualEnergy' bins (default) 

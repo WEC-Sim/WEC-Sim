@@ -32,6 +32,8 @@ classdef waveClass<handle
         currentDirection = 0;   % (`float`) Current direction [deg]. Surface current direction defined using WEC-Sim global coordinate system. Default = ``0``
         currentOption = 3;      % (`integer`) Define the sub-surface current model to be used in WEC-Sim, options include: ``0`` for depth-independent model, ``1`` for 1/7 power law variation with depth, ``2`` for linear variation with depth, or ``3`` for no current. Default = ``3`` 
         currentSpeed = 0;       % (`float`) Current seed [m/s]. Surface current speed that is uniform along the water column. Default = ``0``
+        direction = 0;      % (`float`) Incident wave direction(s) [deg]. Incident wave direction defined using WEC-Sim global coordinate system. Should be defined as a column vector for more than one wave direction. Default = ``0``
+        elevationFile = 'NOT DEFINED';  % (`string`) Data file that contains the times-series data file. Default = ``'NOT DEFINED'``
         freqDisc = 'EqualEnergy'; % (`string`) Method of frequency discretization for irregular waves, options include: ``'EqualEnergy'`` or ``'Traditional'``. Default = ``'EqualEnergy'``
         freqNum = [];           % (`integer`) Number of interpolated wave frequencies, only used for ``irregular`` and ``spectrumImport``. Number of frequencies used varies depending on ``freqDisc``, 1000 for ``'Traditional'``, and 500 for ``'EqualEnergy'`` and ``Imported``. Default = ``[]``
         freqRange = [];         % (`2x1 vector`) Min and max wave frequency [rad/s], only used for ``irregular`` and ``spectrumImport``. If not specified, the BEM data frequency range is used. Default = ``[]``
@@ -45,9 +47,7 @@ classdef waveClass<handle
         viz = struct( 'numPointsX', 50, ...
                       'numPointsY', 50 ); % (`structure`) Defines visualization options, structure contains the fields ``numPointsX`` for the number of visualization points in x direction, and ``numPointsY`` for the number of visualization points in y direction. 
         waterDepth = [];        % (`float`) Water depth [m]. Default to BEM water depth if not set. 
-        waveDirection = 0;      % (`float`) Incident wave direction(s) [deg]. Incident wave direction defined using WEC-Sim global coordinate system. Should be defined as a column vector for more than one wave direction. Default = ``0``
-        waveElevationFile = 'NOT DEFINED';  % (`string`) Data file that contains the times-series data file. Default = ``'NOT DEFINED'``
-        waveSpectrumFile = 'NOT DEFINED';   % (`string`) Data file that contains the spectrum data file.  Default = ``'NOT DEFINED'``                
+        spectrumFile = 'NOT DEFINED';   % (`string`) Data file that contains the spectrum data file.  Default = ``'NOT DEFINED'``                
         waveSpread = 1;         % (`float`) Wave Spread probability associated with wave direction(s). Should be defined as a column vector for more than one wave direction. Default = ``1``
         wavegauge1loc = [NaN,NaN];      % (`1x2 vector`) Wave gauge 1 [x,y] location [m]. Default = ``[NaN,NaN]``
         wavegauge2loc = [NaN,NaN];      % (`1x2 vector`) Wave gauge 2 [x,y] location [m]. Default = ``[NaN,NaN]``
@@ -264,7 +264,7 @@ classdef waveClass<handle
                                 obj.freqNum = 500;
                             end
                         case {'Imported'}
-                            data = importdata(obj.waveSpectrumFile);
+                            data = importdata(obj.spectrumFile);
                             freq_data = data(:,1);
                             freq_loc = freq_data >= min(obj.freqRange)/2/pi & freq_data <= max(obj.freqRange)/2/pi;
                             obj.w    = freq_data(freq_loc).*2.*pi;
@@ -279,7 +279,7 @@ classdef waveClass<handle
                     obj.waveElevIrreg(rampTime, time, obj.dw);
                 case {'waveImport'}    %  This does not account for wave direction
                     % Import 'waveImport' time-series here and interpolate
-                    data = importdata(obj.waveElevationFile) ;    % Import time-series
+                    data = importdata(obj.elevationFile) ;    % Import time-series
                     obj.waveElevUser(rampTime, dt, maxIt, data, time);
             end
         end
@@ -344,7 +344,7 @@ classdef waveClass<handle
                     fprintf('\tSignificant Wave Height, Hs      (m) = %G\n',obj.H)
                     fprintf('\tPeak Wave Period, Tp           (sec) = %G\n',obj.T)
                 case 'spectrumImport'
-                    if size(importdata(obj.waveSpectrumFile),2) == 3
+                    if size(importdata(obj.spectrumFile),2) == 3
                         fprintf('\tWave Type                            = Irregular waves with imported wave spectrum (Imported Phase)\n')
                     elseif obj.phaseSeed == 0
                         fprintf('\tWave Type                            = Irregular waves with imported wave spectrum (Random Phase)\n')
@@ -354,7 +354,7 @@ classdef waveClass<handle
                     obj.printWaveSpectrumType;
                 case 'waveImport'
                     fprintf( '\tWave Type                           = Waves with imported wave elevation time-history\n')
-                    fprintf(['\tWave Elevation Time-Series File    	= ' obj.waveElevationFile '  \n'])
+                    fprintf(['\tWave Elevation Time-Series File    	= ' obj.elevationFile '  \n'])
             end
         end
         
@@ -386,10 +386,10 @@ classdef waveClass<handle
                     error('"waves.T" must be defined for the hydrodynamic data period when using the "noWave" wave type');
                 end
             end
-            % waveSpectrumFile defined for 'spectrumImport' case
+            % spectrumFile defined for 'spectrumImport' case
             if strcmp(obj.type,'spectrumImport')
-                if strcmp(obj.waveSpectrumFile,'NOT DEFINED')
-                    error('The "waveSpectrumFile variable must be defined when using the "spectrumImport" wave type');
+                if strcmp(obj.spectrumFile,'NOT DEFINED')
+                    error('The "spectrumFile variable must be defined when using the "spectrumImport" wave type');
                 end
             end
             % check waves types
@@ -438,12 +438,12 @@ classdef waveClass<handle
                 case {'noWave','noWaveCIC'}                    
                     Z = zeros (size (X));                    
                 case {'regular', 'regularCIC'}                    
-                    Xt = X*cos (obj.waveDirection*pi/180) + Y * sin(obj.waveDirection*pi/180);                    
+                    Xt = X*cos (obj.direction*pi/180) + Y * sin(obj.direction*pi/180);                    
                     Z = obj.A * cos(-1 * obj.k * Xt  +  obj.w * t);                    
                 case {'irregular', 'spectrumImport'}
                     Z = zeros (size (X));
-                    for idir=1:length(obj.waveDirection)
-                        Xt = X*cos(obj.waveDirection(idir)*pi/180) + Y*sin(obj.waveDirection(idir)*pi/180);
+                    for idir=1:length(obj.direction)
+                        Xt = X*cos(obj.direction(idir)*pi/180) + Y*sin(obj.direction(idir)*pi/180);
                         for iw = 1:length(obj.w)
                             Z = Z + sqrt(obj.A(iw)*obj.waveSpread(idir).*obj.dw(iw)) * cos(-1*obj.k(iw)*Xt + obj.w(iw)*t + obj.phase(iw,idir));
                         end
@@ -468,7 +468,7 @@ classdef waveClass<handle
                     PhasesEtaImp2 = angle(YY/L);
                     PhasesEtaImp1 = PhasesEtaImp2(1:round(L/2)+1);
                     kWaveEle = (2*pi.*ff).^2./g; % deep water wave approximation
-                    Xt = X*cos(obj.waveDirection*pi/180) + Y*sin(obj.waveDirection*pi/180);
+                    Xt = X*cos(obj.direction*pi/180) + Y*sin(obj.direction*pi/180);
                     [~,ix0] = min(abs(Xt(1,:)));
                     Zint=zeros(size(X));
                     for iw = 2:length(ff)
@@ -490,9 +490,9 @@ classdef waveClass<handle
             end
             switch obj.freqDisc
                 case {'EqualEnergy','Traditional'}
-                    obj.phase = 2*pi*rand(length(obj.waveDirection),obj.freqNum);
+                    obj.phase = 2*pi*rand(length(obj.direction),obj.freqNum);
                 case {'Imported'}
-                    data = importdata(obj.waveSpectrumFile);
+                    data = importdata(obj.spectrumFile);
                     if size(data,2) == 3
                         freq_data = data(:,1);
                         freq_loc = freq_data>=min(obj.freqRange)/2/pi & freq_data<=max(obj.freqRange)/2/pi;
@@ -553,17 +553,17 @@ classdef waveClass<handle
             if ~any(isnan(obj.wavegauge1loc))
                 obj.waveAmpTime1 = zeros(maxIt,2);
                 obj.waveAmpTime1(:,1) = timeseries;
-                obj.waveAmpTime1(:,2) = rampFunction.*obj.A.*cos(obj.w*timeseries - obj.k*(obj.wavegauge1loc(1).*cos(obj.waveDirection*pi/180) + obj.wavegauge1loc(2).*sin(obj.waveDirection*pi/180)));
+                obj.waveAmpTime1(:,2) = rampFunction.*obj.A.*cos(obj.w*timeseries - obj.k*(obj.wavegauge1loc(1).*cos(obj.direction*pi/180) + obj.wavegauge1loc(2).*sin(obj.direction*pi/180)));
             end
             if ~any(isnan(obj.wavegauge2loc))
                 obj.waveAmpTime2 = zeros(maxIt,2);
                 obj.waveAmpTime2(:,1) = timeseries;
-                obj.waveAmpTime2(:,2) = rampFunction.*obj.A.*cos(obj.w*timeseries - obj.k*(obj.wavegauge2loc(1).*cos(obj.waveDirection*pi/180) + obj.wavegauge2loc(2).*sin(obj.waveDirection*pi/180)));
+                obj.waveAmpTime2(:,2) = rampFunction.*obj.A.*cos(obj.w*timeseries - obj.k*(obj.wavegauge2loc(1).*cos(obj.direction*pi/180) + obj.wavegauge2loc(2).*sin(obj.direction*pi/180)));
             end
             if ~any(isnan(obj.wavegauge3loc))
                 obj.waveAmpTime3 = zeros(maxIt,2);
                 obj.waveAmpTime3(:,1) = timeseries;
-                obj.waveAmpTime3(:,2) = rampFunction.*obj.A.*cos(obj.w*timeseries - obj.k*(obj.wavegauge3loc(1).*cos(obj.waveDirection*pi/180) + obj.wavegauge3loc(2).*sin(obj.waveDirection*pi/180)));
+                obj.waveAmpTime3(:,2) = rampFunction.*obj.A.*cos(obj.w*timeseries - obj.k*(obj.wavegauge3loc(1).*cos(obj.direction*pi/180) + obj.wavegauge3loc(2).*sin(obj.direction*pi/180)));
             end
             
             % Wave Marker
@@ -577,7 +577,7 @@ classdef waveClass<handle
                 obj.waveAmpTimeViz = zeros(maxIt,SZwaveAmpTimeViz(1)+1);
                 for j = 1:SZwaveAmpTimeViz(1)
                     obj.waveAmpTimeViz(:,1) = timeseries;
-                    obj.waveAmpTimeViz(:,j+1) = rampFunction.*obj.A.*cos(obj.w*timeseries - obj.k*(obj.markerLoc(j,1).*cos(obj.waveDirection*pi/180) + obj.markerLoc(j,2).*sin(obj.waveDirection*pi/180)));                   
+                    obj.waveAmpTimeViz(:,j+1) = rampFunction.*obj.A.*cos(obj.w*timeseries - obj.k*(obj.markerLoc(j,1).*cos(obj.direction*pi/180) + obj.markerLoc(j,2).*sin(obj.direction*pi/180)));                   
                 end
             end          
         end        
@@ -629,7 +629,7 @@ classdef waveClass<handle
                     end
                     obj.S = S_f./(2*pi);                                       % Wave Spectrum [m^2-s/rad]
                 case 'spectrumImport' % Imported Wave Spectrum
-                    data = importdata(obj.waveSpectrumFile);
+                    data = importdata(obj.spectrumFile);
                     freq_data = data(:,1);
                     S_data = data(:,2);
                     freq_loc = freq_data >= min(obj.freqRange)/2/pi & freq_data <= max(obj.freqRange)/2/pi;
@@ -722,24 +722,24 @@ classdef waveClass<handle
 
                 % Wave Gauges
                 if ~isnan(obj.wavegauge1loc)
-                    tmp11 = tmp.*real(exp(sqrt(-1).*(obj.w.*timeseries(i) - obj.k*(obj.wavegauge1loc(1).*cos(obj.waveDirection*pi/180) + obj.wavegauge1loc(2).*sin(obj.waveDirection*pi/180)) + obj.phase)));
+                    tmp11 = tmp.*real(exp(sqrt(-1).*(obj.w.*timeseries(i) - obj.k*(obj.wavegauge1loc(1).*cos(obj.direction*pi/180) + obj.wavegauge1loc(2).*sin(obj.direction*pi/180)) + obj.phase)));
                     obj.waveAmpTime1(i,2) = rampFunction(i).*sum(tmp11,'all');
                 end
 
                 if ~isnan(obj.wavegauge2loc)
-                    tmp12 = tmp.*real(exp(sqrt(-1).*(obj.w.*timeseries(i) - obj.k*(obj.wavegauge2loc(1).*cos(obj.waveDirection*pi/180) + obj.wavegauge2loc(2).*sin(obj.waveDirection*pi/180)) + obj.phase)));
+                    tmp12 = tmp.*real(exp(sqrt(-1).*(obj.w.*timeseries(i) - obj.k*(obj.wavegauge2loc(1).*cos(obj.direction*pi/180) + obj.wavegauge2loc(2).*sin(obj.direction*pi/180)) + obj.phase)));
                     obj.waveAmpTime2(i,2) = rampFunction(i)*sum(tmp12,'all');
                 end
 
                 if ~isnan(obj.wavegauge3loc)
-                    tmp13 = tmp.*real(exp(sqrt(-1).*(obj.w.*timeseries(i) - obj.k*(obj.wavegauge3loc(1).*cos(obj.waveDirection*pi/180) + obj.wavegauge3loc(2).*sin(obj.waveDirection*pi/180)) + obj.phase)));
+                    tmp13 = tmp.*real(exp(sqrt(-1).*(obj.w.*timeseries(i) - obj.k*(obj.wavegauge3loc(1).*cos(obj.direction*pi/180) + obj.wavegauge3loc(2).*sin(obj.direction*pi/180)) + obj.phase)));
                     obj.waveAmpTime3(i,2) = rampFunction(i)*sum(tmp13,'all');
                 end
                 
                 % Wave Markers
                 if ~isempty(obj.markerLoc)
                     for j = 1:SZwaveAmpTimeViz(1)
-                        tmp14 = tmp.*real(exp(sqrt(-1).*(obj.w.*timeseries(i) - obj.k*(obj.markerLoc(j,1).*cos(obj.waveDirection*pi/180) + obj.markerLoc(j,2).*sin(obj.waveDirection*pi/180)) + obj.phase)));
+                        tmp14 = tmp.*real(exp(sqrt(-1).*(obj.w.*timeseries(i) - obj.k*(obj.markerLoc(j,1).*cos(obj.direction*pi/180) + obj.markerLoc(j,2).*sin(obj.direction*pi/180)) + obj.phase)));
                         obj.waveAmpTimeViz(i,j+1) = rampFunction(i).*sum(tmp14,'all');
                     end             
                 end                                                                       
