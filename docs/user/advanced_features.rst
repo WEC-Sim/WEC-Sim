@@ -275,7 +275,7 @@ WEC-Sim has the ability to model waves with various angles of incidence,
 :math:`\theta`. To define wave directionality in WEC-Sim, the following wave 
 class variable must be defined in the WEC-Sim input file: 
 
-    :code:`waves.waveDirection = <user defined wave direction(s)>; %[deg]`    
+    :code:`waves.direction = <user defined wave direction(s)>; %[deg]`    
 
 The incident wave direction has a default heading of 0 Degrees (Default = 0), 
 and should be defined as a column vector for more than one wave direction. For 
@@ -290,7 +290,7 @@ WEC-Sim has the ability to model waves with directional spreading,
 WEC-Sim, the following wave class variable must be defined in the WEC-Sim input 
 file: 
 
-    :code:`waves.waveSpread = <user defined directional spreading>;`
+    :code:`waves.spread = <user defined directional spreading>;`
 
 The wave directional spreading has a default value of 1 (Default = 1), and 
 should be defined as a column vector of directional spreading for each one wave 

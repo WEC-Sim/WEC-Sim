@@ -36,20 +36,20 @@ switch type
         maskVars.endTime = simu.endTime;                             % Simulation End Time [s]
         maskVars.solver = simu.solver;                               % simu.solver = 'ode4' for fixed step & simu.solver = 'ode45' for variable step 
         maskVars.dt = simu.dt;                                       % Simulation time-step [s]
-        maskVars.cicEndTime = simu.cicEndTime;                               % Specify CI Time [s]
-        maskVars.stateSpace = simu.stateSpace;                               % State-space calculation
+        maskVars.cicEndTime = simu.cicEndTime;                       % Specify CI Time [s]
+        maskVars.stateSpace = simu.stateSpace;                       % State-space calculation
 
         % Wave data
         maskVars.WaveClass = waves.type;                             % Initialize Wave Class and Specify Type                                           
         maskVars.H = waves.H;                                        % Wave Height [m]
         maskVars.T = waves.T;                                        % Wave Period [s]
         maskVars.direction = waves.direction;                        % Wave Directionality [deg]
-        maskVars.waveSpread = waves.waveSpread;                      % Wave Directional Spreading [%]
+        maskVars.spread = waves.spread;                              % Wave Directional Spreading [%]
         maskVars.spectrumType = waves.spectrumType;                  % Specify Wave Spectrum Type
         maskVars.freqDisc = waves.freqDisc;                          % Uses 'EqualEnergy' bins (default) 
         maskVars.phaseSeed = waves.phaseSeed;                        % Phase is seeded so eta is the same
         maskVars.spectrumFile = waves.spectrumFile;                  % Name of User-Defined Spectrum File [:,2] = [f, Sf]
-        maskVars.elevationFile = waves.elevationFile;                    % Name of User-Defined Time-Series File [:,2] = [time, eta]
+        maskVars.elevationFile = waves.elevationFile;                % Name of User-Defined Time-Series File [:,2] = [time, eta]
     
     case 1
         % Body Data

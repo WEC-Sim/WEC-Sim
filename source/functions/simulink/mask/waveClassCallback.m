@@ -13,7 +13,7 @@ spectrumType = mask.getParameter('spectrumType');
 freqDisc = mask.getParameter('freqDisc');
 phaseSeed = mask.getParameter('phaseSeed');
 direction = mask.getParameter('direction');
-waveSpread = mask.getParameter('waveSpread');
+spread = mask.getParameter('spread');
 
 % Create variables for buttons used for Wave parameters
 SpecButton = mask.getDialogControl('SpecButton');
@@ -30,7 +30,7 @@ switch type.Value
         freqDisc.Visible = 'off';
         phaseSeed.Visible = 'off';
         direction.Visible = 'off';
-        waveSpread.Visible = 'off';
+        spread.Visible = 'off';
         ETAbutton.Visible = 'off';
         SpecButton.Visible = 'off';
         
@@ -43,7 +43,7 @@ switch type.Value
         freqDisc.Visible = 'off';
         phaseSeed.Visible = 'off';
         direction.Visible = 'off';
-        waveSpread.Visible = 'off';
+        spread.Visible = 'off';
         ETAbutton.Visible = 'off';
         SpecButton.Visible = 'off';
         
@@ -56,7 +56,7 @@ switch type.Value
         freqDisc.Visible = 'off';
         phaseSeed.Visible = 'off';
         direction.Visible = 'on';
-        waveSpread.Visible = 'on';
+        spread.Visible = 'on';
         ETAbutton.Visible = 'off';
         SpecButton.Visible = 'off';
         
@@ -69,7 +69,7 @@ switch type.Value
         freqDisc.Visible = 'on';
         phaseSeed.Visible = 'on';
         direction.Visible = 'on';
-        waveSpread.Visible = 'on';
+        spread.Visible = 'on';
         ETAbutton.Visible = 'off';
         SpecButton.Visible = 'off';
         
@@ -82,7 +82,7 @@ switch type.Value
         freqDisc.Visible = 'off';
         phaseSeed.Visible = 'on';
         direction.Visible = 'off';
-        waveSpread.Visible = 'off';
+        spread.Visible = 'off';
         ETAbutton.Visible = 'off';
         SpecButton.Visible = 'on';
         
@@ -95,7 +95,7 @@ switch type.Value
         freqDisc.Visible = 'off';
         phaseSeed.Visible = 'off';
         direction.Visible = 'off';
-        waveSpread.Visible = 'off';
+        spread.Visible = 'off';
         ETAbutton.Visible = 'on';
         SpecButton.Visible = 'off';
         
