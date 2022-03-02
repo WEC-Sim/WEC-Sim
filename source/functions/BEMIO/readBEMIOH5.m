@@ -58,7 +58,11 @@ try hydroData.hydro_coeffs.radiation_damping.state_space.C.all = reverseDimensio
 try hydroData.hydro_coeffs.radiation_damping.state_space.D.all = reverseDimensionOrder(h5read(filename, [h5BodyName '/hydro_coeffs/radiation_damping/state_space/D/all'])); end
 
 % Read GBM parameters if available
-try 
+try
+    
+    dof_start = hydroData.properties.dof_start;
+    dof_end   = hydroData.properties.dof_end;
+
     tmp_mass = reverseDimensionOrder(h5read(filename, [h5BodyName '/properties/mass']));
     hydroData.gbm.mass = tmp_mass(dof_start+6:dof_end,dof_start+6:dof_end);
 
@@ -68,6 +72,7 @@ try
     tmp_damping = reverseDimensionOrder(h5read(filename, [h5BodyName '/properties/damping']));
     hydroData.gbm.damping = tmp_damping(dof_start+6:dof_end,dof_start+6:dof_end);
     clear tmp_mass tmp_stiffness tmp_damping;
+
 end
 
 % Read mean drift coefficients if available
