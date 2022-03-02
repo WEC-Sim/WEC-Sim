@@ -7,6 +7,6 @@ function etaButtonCallback(blockHandle)
 % Don't set value if no file is chosen, or prompt canceled.
 if ~isequal(filename,0) && ~isequal(filepath,0)
     mask = Simulink.Mask.get(blockHandle);
-    fileParam = mask.getParameter('waveElevationFile');
-    fileParam.Value = [filepath,filename];             % Update waveElevationFile with new filename
+    fileParam = mask.getParameter('elevationFile');
+    fileParam.Value = [filepath,filename];             % Update elevationFile with new filename
 end

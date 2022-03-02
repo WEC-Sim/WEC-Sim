@@ -38,20 +38,20 @@ waves.T = 8;                            % Wave Period [s]
 % waves.phaseSeed = 1;                    % Phase is seeded so eta is the same
 
 % % Irregular Waves using PM Spectrum with Traditional and State Space 
-% waves = waveClass('irregular');         % Initialize Wave Class and Specify Type
-% waves.H = 2.5;                          % Significant Wave Height [m]
-% waves.T = 8;                            % Peak Period [s]
-% waves.spectrumType = 'PM';              % Specify Wave Spectrum Type
-% simu.stateSpace = 1;                        % Turn on State Space
-% waves.freqDisc = 'Traditional';         % Uses 1000 frequnecies
+% waves = waveClass('irregular');           % Initialize Wave Class and Specify Type
+% waves.H = 2.5;                            % Significant Wave Height [m]
+% waves.T = 8;                              % Peak Period [s]
+% waves.spectrumType = 'PM';                % Specify Wave Spectrum Type
+% simu.stateSpace = 1;                      % Turn on State Space
+% waves.freqDisc = 'Traditional';           % Uses 1000 frequnecies
 
 % % Irregular Waves with imported spectrum
-% waves = waveClass('spectrumImport');        % Create the Wave Variable and Specify Type
-% waves.spectrumFile = 'spectrumData.mat';  %Name of User-Defined Spectrum File [:,2] = [f, Sf]
+% waves = waveClass('spectrumImport');	% Create the Wave Variable and Specify Type
+% waves.spectrumFile = 'spectrumData.mat';  % Name of User-Defined Spectrum File [:,2] = [f, Sf]
 
 % % Waves with imported wave elevation time-history  
-% waves = waveClass('waveImport');         % Create the Wave Variable and Specify Type
-% waves.waveElevationFile = 'waveData.mat'; % Name of User-Defined Time-Series File [:,2] = [time, eta]
+% waves = waveClass('waveImport');          % Create the Wave Variable and Specify Type
+% waves.elevationFile = 'waveData.mat';     % Name of User-Defined Time-Series File [:,2] = [time, eta]
 
 %% Body Data
 % Float
