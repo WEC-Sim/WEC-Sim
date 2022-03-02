@@ -1,4 +1,4 @@
-function [Fext,relYawLast,coeffsLastMD,coeffsLastRE,coeffsLastIM] = irregnLYaw(A,w,dofGRD,dirGRD,wGRD,fEHRE,fEHIM, fEHMD, phaseRand,dw,time,direction,WaveSpread, Disp, intThresh, prevYaw, prevCoeffMD, prevCoeffRE, prevCoeffIM)
+function [Fext,relYawLast,coeffsLastMD,coeffsLastRE,coeffsLastIM] = irregnLYaw(A,w,dofGRD,dirGRD,wGRD,fEHRE,fEHIM, fEHMD, phaseRand,dw,time,direction,spread, Disp, intThresh, prevYaw, prevCoeffMD, prevCoeffRE, prevCoeffIM)
 %#codegen
 % Fext is the excitation force output, relYawLast is the angle of relative
 % yaw at which that last interpolation was performed. If the current
@@ -17,7 +17,7 @@ coeffsLastIM=zeros(length(w),6);
 for ii=1:length(direction)
     relYaw=direction(ii)-(Disp(6)*180/pi); % relative yaw angle
     phaseRandint=phaseRand(:,ii);
-    WaveSpreadint=WaveSpread(ii);
+    WaveSpreadint=spread(ii);
     
        % compare relYaw to available direction data
         if relYaw>max(dirGRD(1,:,1)) % handle interpolation out of BEM range by wrapping other bound

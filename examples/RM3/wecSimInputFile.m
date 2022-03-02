@@ -51,7 +51,7 @@ waves.T = 8;                            % Wave Period [s]
 
 % % Waves with imported wave elevation time-history  
 % waves = waveClass('elevationImport');          % Create the Wave Variable and Specify Type
-% waves.elevationFile = 'waveData.mat';     % Name of User-Defined Time-Series File [:,2] = [time, eta]
+% waves.elevationFile = 'elevationData.mat';     % Name of User-Defined Time-Series File [:,2] = [time, eta]
 
 %% Body Data
 % Float
