@@ -28,25 +28,19 @@ if isempty(wMax)==1;  wMax = max(hydro.w);  end
 % Interpolate to the given t and w
 t = linspace(0,tEnd,nDt);
 w = linspace(wMin,wMax,nDw);
-% N = length(t)*sum(hydro.dof)*sum(hydro.dof);
 N = sum(hydro.dof) * sum(hydro.dof);
 
 % Calculate the impulse response function for radiation
 n = 0;
-
 hydro.ra_K = nan(sum(hydro.dof), sum(hydro.dof), length(t));
-
 for i = 1:sum(hydro.dof)
     for j = 1:sum(hydro.dof)
         ra_B = interp1(hydro.w,squeeze(hydro.B(i,j,:)),w);
         hydro.ra_K(i,j,:) = (2/pi)*trapz(w,ra_B.*(cos(w.*t(:)).*w), 2);
-        % hydro.ra_L(i,j,k) = (2/pi)*trapz(w,ra_B.*(sin(w*t(k))));  %Not used
         n = n+1;
     end
     waitbar(n/N)
 end
-
-
 
 % Calculate the infinite frequency added mass
 ra_Ainf_temp = zeros(length(hydro.w),1);                                    %Initialize the variable
