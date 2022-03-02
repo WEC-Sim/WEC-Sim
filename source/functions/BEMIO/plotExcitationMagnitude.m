@@ -41,7 +41,7 @@ for ii = 1:numHydro
         Y.(tmp2)(1,i,:) = squeeze(varargin{ii}.ex_ma(a+1,B,:));
         Y.(tmp2)(2,i,:) = squeeze(varargin{ii}.ex_ma(a+3,B,:));
         Y.(tmp2)(3,i,:) = squeeze(varargin{ii}.ex_ma(a+5,B,:));
-        legendStrings{i,ii} = [varargin{ii}.body{i}];
+        legendStrings{i,ii} = [varargin{ii}.code,' ',varargin{ii}.body{i}];
         a = a + m;
     end
 end

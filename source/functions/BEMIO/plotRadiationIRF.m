@@ -45,13 +45,13 @@ for ii = 1:numHydro
         Y.(tmp2)(1,i,:) = squeeze(varargin{ii}.ra_K(a+1,a+1,:));
         Y.(tmp2)(2,i,:) = squeeze(varargin{ii}.ra_K(a+3,a+3,:));
         Y.(tmp2)(3,i,:) = squeeze(varargin{ii}.ra_K(a+5,a+5,:));
-        legendStrings{i,ii} = [varargin{ii}.body{iBod}];
+        legendStrings{i,ii} = [varargin{ii}.code,' ',varargin{ii}.body{iBod}];
         i = i+1;
         if isfield(varargin{ii},'ss_A')==1
             Y.(tmp2)(1,i,:) = squeeze(varargin{ii}.ss_K(a+1,a+1,:));
             Y.(tmp2)(2,i,:) = squeeze(varargin{ii}.ss_K(a+3,a+3,:));
             Y.(tmp2)(3,i,:) = squeeze(varargin{ii}.ss_K(a+5,a+5,:));
-            legendStrings{i,ii} = [varargin{ii}.body{iBod},' (SS)'];
+            legendStrings{i,ii} = [varargin{ii}.code,' ',varargin{ii}.body{iBod},' (SS)'];
             i = i+1;
         end
         a = a + m;
