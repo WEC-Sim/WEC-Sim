@@ -1,10 +1,10 @@
-function Fext = irregExcF(A,w,fExtRE,fExtIM,phaseRand,dw,time,waveDirection,WaveSpread,fExtMD)
+function Fext = irregExcF(A,w,fExtRE,fExtIM,phaseRand,dw,time,direction,WaveSpread,fExtMD)
 %#codegen
 % pversistent A1 B1 B11 C1 D1 D11 E1 E11
 
 A1=bsxfun(@plus,w*time,pi/2);
 Fext = zeros(1,size(fExtRE,3));
-for ii=1:length(waveDirection)
+for ii=1:length(direction)
     B1= sin(bsxfun(@plus,A1,phaseRand(:,ii)));
     B11 = sin(bsxfun(@plus,w*time,phaseRand(:,ii)));
     C0 = bsxfun(@times,A*WaveSpread(ii),dw);

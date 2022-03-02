@@ -12,7 +12,7 @@ spectrumFile = mask.getParameter('spectrumFile');
 spectrumType = mask.getParameter('spectrumType');
 freqDisc = mask.getParameter('freqDisc');
 phaseSeed = mask.getParameter('phaseSeed');
-waveDirection = mask.getParameter('waveDirection');
+direction = mask.getParameter('direction');
 waveSpread = mask.getParameter('waveSpread');
 
 % Create variables for buttons used for Wave parameters
@@ -29,7 +29,7 @@ switch type.Value
         spectrumType.Visible = 'off';
         freqDisc.Visible = 'off';
         phaseSeed.Visible = 'off';
-        waveDirection.Visible = 'off';
+        direction.Visible = 'off';
         waveSpread.Visible = 'off';
         ETAbutton.Visible = 'off';
         SpecButton.Visible = 'off';
@@ -42,7 +42,7 @@ switch type.Value
         spectrumType.Visible = 'off';
         freqDisc.Visible = 'off';
         phaseSeed.Visible = 'off';
-        waveDirection.Visible = 'off';
+        direction.Visible = 'off';
         waveSpread.Visible = 'off';
         ETAbutton.Visible = 'off';
         SpecButton.Visible = 'off';
@@ -55,7 +55,7 @@ switch type.Value
         spectrumType.Visible = 'off';
         freqDisc.Visible = 'off';
         phaseSeed.Visible = 'off';
-        waveDirection.Visible = 'on';
+        direction.Visible = 'on';
         waveSpread.Visible = 'on';
         ETAbutton.Visible = 'off';
         SpecButton.Visible = 'off';
@@ -68,7 +68,7 @@ switch type.Value
         spectrumType.Visible = 'on';
         freqDisc.Visible = 'on';
         phaseSeed.Visible = 'on';
-        waveDirection.Visible = 'on';
+        direction.Visible = 'on';
         waveSpread.Visible = 'on';
         ETAbutton.Visible = 'off';
         SpecButton.Visible = 'off';
@@ -81,12 +81,12 @@ switch type.Value
         spectrumType.Visible = 'off';
         freqDisc.Visible = 'off';
         phaseSeed.Visible = 'on';
-        waveDirection.Visible = 'off';
+        direction.Visible = 'off';
         waveSpread.Visible = 'off';
         ETAbutton.Visible = 'off';
         SpecButton.Visible = 'on';
         
-    case 'waveImport'
+    case 'elevationImport'
         H.Visible = 'off';
         T.Visible = 'off';
         elevationFile.Visible = 'on';
@@ -94,7 +94,7 @@ switch type.Value
         spectrumType.Visible = 'off';
         freqDisc.Visible = 'off';
         phaseSeed.Visible = 'off';
-        waveDirection.Visible = 'off';
+        direction.Visible = 'off';
         waveSpread.Visible = 'off';
         ETAbutton.Visible = 'on';
         SpecButton.Visible = 'off';

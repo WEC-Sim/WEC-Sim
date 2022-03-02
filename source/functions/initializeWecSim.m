@@ -222,7 +222,7 @@ if any(hydroBodLogic == 1)
     if  min(waves.direction) <  min(body(1).hydroData.simulation_parameters.wave_dir) || max(waves.direction) >  max(body(1).hydroData.simulation_parameters.wave_dir)
         error('waves.direction outside of range of available hydro data')
     end
-    if strcmp(waves.type,'waveImport')~=1 && strcmp(waves.type,'noWave')~=1 && strcmp(waves.type,'noWaveCIC')~=1
+    if strcmp(waves.type,'elevationImport')~=1 && strcmp(waves.type,'noWave')~=1 && strcmp(waves.type,'noWaveCIC')~=1
         if  min(waves.w) <  min(body(1).hydroData.simulation_parameters.w) || max(waves.w) >  max(body(1).hydroData.simulation_parameters.w)
             error('waves.w outside of range of available hydro data')
         end
@@ -310,17 +310,17 @@ for ii = 1:simu.numWecBodies
     end
 end; clear ii;
 
-% Check for waveImport with nonlinearHydro
+% Check for elevationImport with nonlinearHydro
 for ii = 1:simu.numWecBodies
-    if strcmp(waves.type,'waveImport') && body(ii).nonlinearHydro == 1
-        error(['Cannot run WEC-Sim with nonlinear hydro (body(ii).nonlinearHydro) and "waveImport" wave type'])
+    if strcmp(waves.type,'elevationImport') && body(ii).nonlinearHydro == 1
+        error(['Cannot run WEC-Sim with nonlinear hydro (body(ii).nonlinearHydro) and "elevationImport" wave type'])
     end
 end
 
-% Check for waveImport with morisonElement
+% Check for elevationImport with morisonElement
 for ii = 1:simu.numWecBodies
-    if strcmp(waves.type,'waveImport') && body(ii).morisonElement.option ~= 0
-        error(['Cannot run WEC-Sim with Morison Element (body(ii).morisonElement.option>0) and "waveImport" wave type'])
+    if strcmp(waves.type,'elevationImport') && body(ii).morisonElement.option ~= 0
+        error(['Cannot run WEC-Sim with Morison Element (body(ii).morisonElement.option>0) and "elevationImport" wave type'])
     end
 end
 

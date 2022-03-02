@@ -1,6 +1,6 @@
 function etaButtonCallback(blockHandle)
 % Callback function for ETAButton
-% Allows user to specify what .mat file to use for waveImport wave type
+% Allows user to specify what .mat file to use for elevationImport wave type
 
 [filename,filepath] = uigetfile('.mat');               % Return filename, filepath of user-chosen file
 

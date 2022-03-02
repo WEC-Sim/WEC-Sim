@@ -50,7 +50,7 @@ waves.T = 8;                            % Wave Period [s]
 % waves.spectrumFile = 'spectrumData.mat';  % Name of User-Defined Spectrum File [:,2] = [f, Sf]
 
 % % Waves with imported wave elevation time-history  
-% waves = waveClass('waveImport');          % Create the Wave Variable and Specify Type
+% waves = waveClass('elevationImport');          % Create the Wave Variable and Specify Type
 % waves.elevationFile = 'waveData.mat';     % Name of User-Defined Time-Series File [:,2] = [time, eta]
 
 %% Body Data

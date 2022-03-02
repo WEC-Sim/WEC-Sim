@@ -48,7 +48,7 @@ classdef simulationClass<handle
         paraview            = 0                                            % (`integer`) Flag for paraview visualization, and writing vtp files, Options: 0 (off) , 1 (on). Default = ``0``
         paraviewDt          = 0.1;                                         % (`float`) Timestep for Paraview. Default = ``0.1``         
         paraviewStartTime   = 0;                                           % (`float`) Start time for the vtk file of Paraview. Default = ``0``                                    
-        paraviewEndTime     = 100;                                         % (`float`) End time for the vtk file of Paraview. Default = ``0``                                      
+        paraviewEndTime     = 100;                                         % (`float`) End time for the vtk file of Paraview. Default = ``100``                                      
         paraviewDirectory   = 'vtk';                                       % (`string`) Path of the folder for Paraview vtk files. Default = ``'vtk'``     
         pressureDis         = 0                                            % (`integer`) Flag to save pressure distribution, Options: 0 (off), 1 (on). Default = ``0``
         rampTime            = 100                                          % (`float`) Ramp time for wave forcing. Default = ``100`` s        
