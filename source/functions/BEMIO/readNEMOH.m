@@ -1,19 +1,29 @@
 function hydro = readNEMOH(hydro,filedir)
 % Reads data from a NEMOH working folder.
 %
-% hydro = readNEMOH(hydro, filedir)
-%     hydro -   data structure
-%     filedir - NEMOH working folder, must include:
-%         - Nemoh.cal
-%         - Mesh/Hydrostatics.dat (or Hydrostatiscs_0.dat, Hydrostatics_1.dat,
-%           etc. for multiple bodies)
-%         - Mesh/KH.dat (or KH_0.dat, KH_1.dat, etc. for multiple bodies)
-%         - Results/RadiationCoefficients.tec
-%         - Results/ExcitationForce.tec
-%         - Results/DiffractionForce.tec - If simu.nlHydro = 3 will be used
-%         - Results/FKForce.tec - If simu.nlHydro = 3 will be used
+% See ``WEC-Sim\examples\BEMIO\NEMOH`` for examples of usage.
+% 
+% Parameters
+% ----------
+%     hydro : struct
+%         Structure of hydro data that NEMOH input data will be appended to
 %
-% See '...WEC-Sim\examples\BEMIO\NEMOH...' for examples of usage.
+%     filename : string
+%         Path to the NEMOH working folder, must include:
+%             
+%             - ``Nemoh.cal``
+%             - ``Mesh/Hydrostatics.dat`` (or ``Hydrostatiscs_0.dat``, ``Hydrostatics_1.dat``, etc. for multiple bodies)
+%             - ``Mesh/KH.dat (or ``KH_0.dat``, ``KH_1.dat``, etc. for multiple bodies)
+%             - ``Results/RadiationCoefficients.tec``
+%             - ``Results/ExcitationForce.tec``
+%             - ``Results/DiffractionForce.tec`` - If simu.nlHydro = 3 will be used
+%             - ``Results/FKForce.tec`` - If simu.nlHydro = 3 will be used
+% 
+% Returns
+% -------
+%     hydro : struct
+%         Structure of hydro data with NEMOH data appended
+%
 
 %% Check filedir for required directories
 % NOTE: reads upper and lower case directories

@@ -20,7 +20,7 @@ A body may also contain any number of generalized body modes to represent hydrod
 .. figure:: /_static/images/WEC-Sim_flowChart.png
    :width: 750pt
 
-At a high level, the only external input WEC-Sim requires is hydrodynamic data from boundary element method (BEM) software such as WAMIT, AQWA, Capytaine, and NEMOH. 
+At a high level, the only external input WEC-Sim requires is hydrodynamic data from boundary element method (BEM) software such as WAMIT, NEMOH, Aqwa, and Capytaine. 
 The boundary element method data represents the hydrodynamic response of the device for a given wave frequency. 
 WEC-Sim uses this data to simulate devices in the time-domain where they can be coupled with controls, power take-off systems, and other external bodies and forces. 
 WEC-Sim outputs the motions, forces, and power for individual bodies, joints and PTOs in MATLAB for custom post-processing or coupling with external tools. 

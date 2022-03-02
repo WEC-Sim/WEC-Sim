@@ -81,6 +81,6 @@ Response Class
 
 .. autoclass:: objects.responseClass
     :members:
-    :exclude-members: wave, bodies, ptos, constraints, mooring, cable, loadMoorDyn, responseClass
+    :exclude-members: wave, bodies, ptos, constraints, mooring, cables, moorDyn, ptosim, responseClass, loadMoorDyn
     :no-undoc-members:
     

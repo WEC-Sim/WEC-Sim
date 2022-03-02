@@ -1,12 +1,24 @@
 function hydro = readAQWA(hydro,ah1Filename,lisFilename)
 % Reads data from AQWA output files.
+% 
+% See ``WEC-Sim\examples\BEMIO\AQWA`` for examples of usage.
+% 
+% Parameters
+% ----------
+%     hydro : struct
+%         Structure of hydro data that Aqwa input data will be appended to
+%     
+%     ah1Filename : string
+%         .AH1 AQWA output file
+%     
+%     lisFilename : string
+%         .LIS AQWA output file
+% 
+% Returns
+% -------
+%     hydro : struct
+%         Structure of hydro data with Aqwa data appended
 %
-% hydro = readAQWA(hydro, ah1Filename, lisFilename)
-%     hydro -         data structure
-%     ah1Filename -  .AH1 AQWA output file
-%     lisFilename -  .LIS AQWA output file
-%
-% See '...WEC-Sim\examples\BEMIO\AQWA...' for examples of usage.
 
 %%
 [a,b] = size(hydro);  % Check on what is already there

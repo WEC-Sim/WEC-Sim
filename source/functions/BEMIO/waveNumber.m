@@ -1,6 +1,6 @@
 function k = waveNumber(omega,waterDepth,g,deepWaterWave)
-% Solves the wave dispersion relation omega^2 = g*k*tanh(k*h) for the wave
-% number
+% Solves the wave dispersion relation :math:`\omega^2 = g k*tanh(k h)` for
+% the wave number
 % 
 % Parameters
 % ----------
