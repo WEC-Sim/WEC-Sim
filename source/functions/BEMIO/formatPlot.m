@@ -43,22 +43,27 @@ function formatPlot(fig,titleString,subtitleStrings,xString,yString,X,Y,legendSt
 % Overall title for all subplots
 sgtitle(titleString,'Interpreter','latex','FontWeight','bold','FontSize',12);
 
+legendStrings1D = legendStrings(:);
+legendStrings1D = legendStrings1D(~cellfun(@isempty, legendStrings1D));
+
 % Figures
-[~,nBodies,~] = size(Y.Y1);
-for iBody = 1:nBodies
+nHydro = length(fieldnames(X));
+nBodiesTotal = 0;
+for iHydro = 1:nHydro
+    tmp1 = strcat('X',num2str(iHydro));
+    tmp2 = strcat('Y',num2str(iHydro));
+    [~,nBodies,~] = size(Y.(tmp2));
+    nBodiesTotal = nBodiesTotal + nBodies;
 
     % Surge
     subplot('Position',[0.0731 0.3645 0.2521 0.4720])
     hold('on');
     box('on');
-    numHydro = length(fieldnames(X));
-    for ii = 1:numHydro           
-        tmp1 = strcat('X',num2str(ii));
-        tmp2 = strcat('Y',num2str(ii));
+    for iBody = 1:nBodies
         plot(X.(tmp1),squeeze(Y.(tmp2)(1,iBody,:)),'LineWidth',1)  
     end
-    if iBody == nBodies
-        legend(reshape(legendStrings,[(numHydro)*nBodies,1]),'location','best','Box','off','Interpreter','none')
+    if iHydro == nHydro
+        legend(legendStrings1D,'location','best','Box','off','Interpreter','none')
         title(subtitleStrings(1));
         xlabel(xString(1),'Interpreter','latex');
         ylabel(yString(1),'Interpreter','latex');    
@@ -68,14 +73,11 @@ for iBody = 1:nBodies
     subplot('Position',[0.3983 0.3645 0.2521 0.4720]);
     hold('on');
     box('on');
-    numHydro = length(fieldnames(X));
-    for ii = 1:numHydro           
-        tmp1 = strcat('X',num2str(ii));
-        tmp2 = strcat('Y',num2str(ii));
+    for iBody = 1:nBodies
         plot(X.(tmp1),squeeze(Y.(tmp2)(2,iBody,:)),'LineWidth',1);  
     end
-    if iBody == nBodies
-        legend(reshape(legendStrings,[(numHydro)*nBodies,1]),'location','best','Box','off','Interpreter','none')
+    if iHydro == nHydro
+        legend(legendStrings1D,'location','best','Box','off','Interpreter','none')
         title(subtitleStrings(2));
         xlabel(xString(2),'Interpreter','latex');
         ylabel(yString(2),'Interpreter','latex');
@@ -85,14 +87,11 @@ for iBody = 1:nBodies
     subplot('Position',[0.7235 0.3645 0.2521 0.4720]);
     hold('on');
     box('on');
-    numHydro = length(fieldnames(X));
-    for ii = 1:numHydro           
-        tmp1 = strcat('X',num2str(ii));
-        tmp2 = strcat('Y',num2str(ii));
+    for iBody = 1:nBodies
         plot(X.(tmp1),squeeze(Y.(tmp2)(3,iBody,:)),'LineWidth',1);  
     end
-    if iBody == nBodies
-        legend(reshape(legendStrings,[(numHydro)*nBodies,1]),'location','best','Box','off','Interpreter','none')
+    if iHydro == nHydro
+        legend(legendStrings1D,'location','best','Box','off','Interpreter','none')
         title(subtitleStrings(3));
         xlabel(xString(3),'Interpreter','latex');
         ylabel(yString(3),'Interpreter','latex');

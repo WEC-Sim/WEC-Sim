@@ -775,7 +775,7 @@ how to implement and use generalized body modes in WEC-Sim.
 .. Note::
 
     Generalized body modes module has only been tested with WAMIT, where BEMIO 
-    may need to be modified for NEMOH, AQWA and CAPYTAINE.
+    may need to be modified for NEMOH, Aqwa and Capytaine.
 
 .. _user-advanced-features-passive-yaw:
 

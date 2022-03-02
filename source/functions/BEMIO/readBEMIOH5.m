@@ -1,6 +1,25 @@
 function hydroData = readBEMIOH5(filename,bodyNumber,meanDriftForceFlag)
 % Function to read BEMIO data from an h5 file into a hydrodata structure
 % for the bodyClass
+% 
+% Parameters
+% ----------
+%     filename : string
+%         Path to the BEMIO .h5 file to read
+%     
+%     bodyNumber : integer
+%         Body number to read from the .h5 file. For example, body(2) in
+%         the input file must read body2 from the .h5 file.
+%     
+%     meanDriftForceFlag : integer
+%         Flag to optionally read mean drift force coefficients
+% 
+% Returns
+% -------
+%     hydroData : struct
+%         Struct of hydroData used by the bodyClass. Different format than
+%         the BEMIO hydro struct
+% 
 
 % Get name of the body in the .h5 file
 h5BodyName = ['/body' num2str(bodyNumber)];
@@ -58,6 +77,8 @@ try hydroData.hydro_coeffs.radiation_damping.state_space.C.all = reverseDimensio
 try hydroData.hydro_coeffs.radiation_damping.state_space.D.all = reverseDimensionOrder(h5read(filename, [h5BodyName '/hydro_coeffs/radiation_damping/state_space/D/all'])); end
 
 % Read GBM parameters if available
+dof_start = hydroData.properties.dof_start;
+dof_end = hydroData.properties.dof_end;
 try 
     tmp_mass = reverseDimensionOrder(h5read(filename, [h5BodyName '/properties/mass']));
     hydroData.gbm.mass = tmp_mass(dof_start+6:dof_end,dof_start+6:dof_end);

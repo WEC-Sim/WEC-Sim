@@ -1,20 +1,43 @@
 function hydro = radiationIRF(hydro,tEnd,nDt,nDw,wMin,wMax)
-% Calculates the normalized radiation impulse response function.
+% Calculates the normalized radiation impulse response function. This is
+% equivalent to the radiation IRF in the theory section normalized by
+% :math:`\rho`:
 % 
-% hydro = radiationIRF(hydro, tEnd, nDt, nDw, wMin, wMax)
-%     hydro – data structure
-%     tEnd – calculation range for the IRF, where the IRF is calculated from
-%             t = 0 to tEnd, and the default is 100 s
-%     nDt –   number of time steps in the IRF, the default is 1001
-%     nDw –   number of frequency steps used in the IRF calculation (hydrodynamic
-%             coefficients are interpolated to correspond), the default is 1001
-%     wMin – minimum frequency to use in the IRF calculation, the default is
-%             the minimum frequency from the BEM data
-%     wMax – maximum frequency to use in the IRF calculation, the default is
-%             the maximum frequency from the BEM data
+%     :math:`\overline{K}_{r,i,j}(t) = {\frac{2}{\pi}}\intop_0^{\infty}{\frac{B_{i,j}(\omega)}{\rho}}\cos({\omega}t)d\omega`
 % 
-% Default values are indicated by [].
-% See ‘...WEC-Sim\examples\BEMIO...’ for examples of usage.
+% Default parameters can be used by inputting [].
+% See ``WEC-Sim\examples\BEMIO`` for examples of usage.
+% 
+% Parameters
+% ----------
+%     hydro : struct
+%         Structure of hydro data
+%     
+%     tEnd : float
+%         Calculation range for the IRF, where the IRF is calculated from t
+%         = 0 to tEnd, and the default is 100 s
+%     
+%     nDt : float
+%         Number of time steps in the IRF, the default is 1001 
+%     
+%     nDw : float
+%         Number of frequency steps used in the IRF calculation
+%         (hydrodynamic coefficients are interpolated to correspond), the
+%         default is 1001
+% 
+%     wMin : float
+%         Minimum frequency to use in the IRF calculation, the default is
+%         the minimum frequency from the BEM data
+% 
+%     wMax : float
+%         Maximum frequency to use in the IRF calculation, the default is
+%         the maximum frequency from the BEM data
+%
+% Returns
+% -------
+%     hydro : struct
+%         Structure of hydro data with radiation IRF
+% 
 
 p = waitbar(0,'Calculating radiation IRFs...');  % Progress bar
 
