@@ -322,11 +322,44 @@ simulation.
 Wave Gauge Placement
 ^^^^^^^^^^^^^^^^^^^^
 
-By default, the wave surface elevation at the origin is calculated by WEC-Sim. In past releases, there was the option to define up to three numerical wave gauge locations where WEC-Sim would also calculate the undistrubed linear incident wave elevation. WEC-Sim now has the feature to define wave markers that oscillate vertically with the undistrubed linear wave elevation (see `WEC-Sim Visualization Wave Markers <http://wec-sim.github.io/WEC-Sim/master/user/advanced_features.html#wave-markers>`_). This feature does not limit the number of point measurements of the undisturbed free surface elevation and the time history calculation at the marker location is identical to the previous wave gauge implementation. Users who desire to continuing using the previous wave gauge feature will only need to update the variable called within WEC-Sim and an example can be found in the `WECCCOMP Repository <https://github.com/WEC-Sim/WECCCOMP>`_. 
+By default, the wave surface elevation at the origin is calculated by WEC-Sim. 
+In past releases, there was the option to define up to three numerical wave gauge 
+locations where WEC-Sim would also calculate the undisturbed linear incident wave 
+elevation. WEC-Sim now has the feature to define wave markers that oscillate 
+vertically with the undistrubed linear wave elevation (see 
+`WEC-Sim Visualization Wave Markers <http://wec-sim.github.io/WEC-Sim/master/user/advanced_features.html#wave-markers>`_).
+This feature does not limit the number of point measurements of the undisturbed 
+free surface elevation and the time history calculation at the marker location 
+is identical to the previous wave gauge implementation. Users who desire to 
+continuing using the previous wave gauge feature will only need to update the 
+variable called within WEC-Sim and an example can be found in the 
+`WECCCOMP Repository <https://github.com/WEC-Sim/WECCCOMP>`_. 
 
 .. Note::
     The numerical wave markers (wave gauges) do not handle the incident wave interaction with the radiated or diffracted 
     waves that are generated because of the presence and motion of any hydrodynamic bodies.
+
+
+.. _user-advanced-features-current:
+
+Ocean Current
+^^^^^^^^^^^^^
+The speed of an ocean current can be included through the wave class parameters::
+
+    waves.currentOption
+    waves.currentSpeed
+    waves.currentDirection
+    waves.currentDepth
+
+The current option determines the method used to propagate the surface current across the 
+specified depth. Option 0 is depth independent, option 1 uses a 1/7 power law, option 2
+uses linear variation with depth and option 3 specifies no ocean current.
+The ``currentSpeed`` parameter represents the surface current speed, and ``currentDepth`` 
+the depth at which the current speed decays to zero (given as a positive number).
+See :ref:`theory-current` for more details on each method.
+These parameters are used to calculate the fluid velocity in the Morison Element calculation.
+
+.. _user-advanced-features-body:
 
 Body Features
 -------------
@@ -581,6 +614,13 @@ For :code:`body(ii).morisonElement.option  = 2` ::
     initialized as [:code:`n` x3] vector, where :code:`n` is the number of Morison Elements, with the third column index set to zero. While 
     :code:`body(i).morisonElement.z` is a unit normal vector that defines the 
     orientation of the Morison Element. 
+
+To better represent certain scenarios, an ocean current speed can be defined to 
+calculate a more accurate fluid velocity and acceleration on the Morison 
+Element. These can be defined through the wave class parameters 
+``waves.currentOption``, ``waves.currentSpeed``, ``waves.currentDirection``, 
+and ``waves.currentDepth``. See :ref:`user-advanced-features-current` for more 
+detail on using these options.
 
 The Morison Element time-step may also be defined as
 :code:`simu.dtME = N*simu.dt`, where N is number of increment steps. For an 
