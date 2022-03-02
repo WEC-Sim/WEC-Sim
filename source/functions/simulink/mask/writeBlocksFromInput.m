@@ -46,7 +46,7 @@ switch type
         maskVars.direction = waves.direction;                        % Wave Directionality [deg]
         maskVars.spread = waves.spread;                              % Wave Directional Spreading [%]
         maskVars.spectrumType = waves.spectrumType;                  % Specify Wave Spectrum Type
-        maskVars.freqDisc = waves.freqDisc;                          % Uses 'EqualEnergy' bins (default) 
+        maskVars.option = waves.bem.option;                          % Uses 'EqualEnergy' bins (default) 
         maskVars.phaseSeed = waves.phaseSeed;                        % Phase is seeded so eta is the same
         maskVars.spectrumFile = waves.spectrumFile;                  % Name of User-Defined Spectrum File [:,2] = [f, Sf]
         maskVars.elevationFile = waves.elevationFile;                % Name of User-Defined Time-Series File [:,2] = [time, eta]

@@ -28,16 +28,17 @@ classdef waveClass<handle
     properties (SetAccess = 'public', GetAccess = 'public')%input file     
         T = 'NOT DEFINED';      % (`float`) Wave period [s] . Defined as wave period for ``regular``, peak period for ``irregular``, or period of BEM data used for hydrodynamic coefficients for ``noWave``. Default = ``'NOT DEFINED'``
         H = 'NOT DEFINED';      % (`float`) Wave height [m]. Defined as wave height for ``regular``, or significant wave height for ``irregular``. Default =  ``'NOT DEFINED'``
+        bem          = struct(...   	% (`structure`) Defines the implemtation of BEM data for the `waveClass`
+            'option',           'EqualEnergy',...   % (`string`) Method of frequency discretization for irregular waves, options include: ``'EqualEnergy'`` or ``'Traditional'``. Default = ``'EqualEnergy'``
+            'count',            [], ...             % (`integer`) Number of interpolated wave frequencies, only used for ``irregular`` and ``spectrumImport``. Number of frequencies used varies depending on ``bem.option``, 1000 for ``'Traditional'``, and 500 for ``'EqualEnergy'`` and ``Imported``. Default = ``[]``
+            'range',            [])                 % (`2x1 vector`) Min and max wave frequency [rad/s], only used for ``irregular`` and ``spectrumImport``. If not specified, the BEM data frequency range is used. Default = ``[]``
         current          = struct(...   	% (`structure`) Defines the current implementation. ``option`` (`integer`) Define the sub-surface current model to be used in WEC-Sim, options include: ``0`` for depth-independent model, ``1`` for 1/7 power law variation with depth, ``2`` for linear variation with depth, or ``3`` for no current. Default = ``3``, ``depth`` (`float`) Current depth [m]. Define the depth over which the sub-surface current is modeled. Must be defined for options ``1`` and ``2``. The current is not calculated for any depths greater than the specified current depth. Default = ``0``, ``direction`` (`float`) Current direction [deg]. Surface current direction defined using WEC-Sim global coordinate system. Default = ``0``, ``speed``  (`float`) Current seed [m/s]. Surface current speed that is uniform along the water column. Default = ``0``
-            'option',               3,...   %
-            'depth',                0, ...  %
-            'direction',            0, ...  %
+            'option',               3,...           %
+            'depth',                0, ...          %
+            'direction',            0, ...          %
             'speed',                0)      % (`structure`) Defines the current implementation. ``option`` (`integer`) Define the sub-surface current model to be used in WEC-Sim, options include: ``0`` for depth-independent model, ``1`` for 1/7 power law variation with depth, ``2`` for linear variation with depth, or ``3`` for no current. Default = ``3``, ``depth`` (`float`) Current depth [m]. Define the depth over which the sub-surface current is modeled. Must be defined for options ``1`` and ``2``. The current is not calculated for any depths greater than the specified current depth. Default = ``0``, ``direction`` (`float`) Current direction [deg]. Surface current direction defined using WEC-Sim global coordinate system. Default = ``0``, ``speed``  (`float`) Current seed [m/s]. Surface current speed that is uniform along the water column. Default = ``0``         
         direction = 0;          % (`float`) Incident wave direction(s) [deg]. Incident wave direction defined using WEC-Sim global coordinate system. Should be defined as a column vector for more than one wave direction. Default = ``0``
         elevationFile = 'NOT DEFINED';  % (`string`) Data file that contains the times-series data file. Default = ``'NOT DEFINED'``
-        freqDisc = 'EqualEnergy'; % (`string`) Method of frequency discretization for irregular waves, options include: ``'EqualEnergy'`` or ``'Traditional'``. Default = ``'EqualEnergy'``
-        freqNum = [];           % (`integer`) Number of interpolated wave frequencies, only used for ``irregular`` and ``spectrumImport``. Number of frequencies used varies depending on ``freqDisc``, 1000 for ``'Traditional'``, and 500 for ``'EqualEnergy'`` and ``Imported``. Default = ``[]``
-        freqRange = [];         % (`2x1 vector`) Min and max wave frequency [rad/s], only used for ``irregular`` and ``spectrumImport``. If not specified, the BEM data frequency range is used. Default = ``[]``
         gamma = [];             % (`float`) Defines gamma, only used for ``JS`` wave spectrum type. Default = ``[]``
         markerLoc       = [];   % (`nx2 vector`) Marker [X,Y] locations [m]. Default = ``[]``
         markerSize      = 10;   % (`float`) Marker size in Pixels. Default = ``10``
@@ -193,22 +194,22 @@ classdef waveClass<handle
             end
             
             obj.bemFreq = bemFreq;
-            if isempty(obj.freqRange) && isempty(obj.bemFreq)
+            if isempty(obj.bem.range) && isempty(obj.bemFreq)
                 % No .h5 file and no freq range defined --> error
-                error('Must define frequency range in waves.freqRange when zero hydro bodies are used (no .h5 file).');
-            elseif isempty(obj.freqRange) && ~isempty(obj.bemFreq)
+                error('Must define frequency range in waves.bem.range when zero hydro bodies are used (no .h5 file).');
+            elseif isempty(obj.bem.range) && ~isempty(obj.bemFreq)
                 % Use .h5 file range if not defined in input file
-                obj.freqRange = obj.bemFreq;
-            elseif ~isempty(obj.freqRange) && ~isempty(obj.bemFreq)
+                obj.bem.range = obj.bemFreq;
+            elseif ~isempty(obj.bem.range) && ~isempty(obj.bemFreq)
                 % check that input file freq range is not larger than
                 % available BEM data
-                if obj.freqRange(1) < min(obj.bemFreq) || obj.freqRange(1) > max(obj.bemFreq)
+                if obj.bem.range(1) < min(obj.bemFreq) || obj.bem.range(1) > max(obj.bemFreq)
                     warning('Min frequency range outside BEM data, min frequency set to min BEM frequency')
-                    obj.freqRange(1) = min(obj.bemFreq);
+                    obj.bem.range(1) = min(obj.bemFreq);
                 end
-                if obj.freqRange(2) < min(obj.bemFreq) || obj.freqRange(2) > max(obj.bemFreq)
+                if obj.bem.range(2) < min(obj.bemFreq) || obj.bem.range(2) > max(obj.bemFreq)
                     warning('Max frequency range outside BEM data, max frequency set to max BEM frequency')
-                    obj.freqRange(2) = max(obj.bemFreq);
+                    obj.bem.range(2) = max(obj.bemFreq);
                 end
             end
             
@@ -217,7 +218,7 @@ classdef waveClass<handle
             switch obj.type
                 case {'noWave','noWaveCIC'}
                     if isempty(obj.w) && strcmp(obj.T,'NOT DEFINED')
-                        obj.w = min(obj.freqRange);
+                        obj.w = min(obj.bem.range);
                         obj.T = 2*pi/obj.w;
                     elseif isempty(obj.w)
                         obj.w = 2*pi/obj.T;
@@ -230,7 +231,7 @@ classdef waveClass<handle
                     obj.waveElevNowave(time);
                 case {'regular','regularCIC'}
                     if isempty(obj.w) && strcmp(obj.T,'NOT DEFINED')
-                        obj.w = min(obj.freqRange);
+                        obj.w = min(obj.bem.range);
                         obj.T = 2*pi/obj.w;
                     elseif isempty(obj.w)
                         obj.w = 2*pi/obj.T;
@@ -245,34 +246,34 @@ classdef waveClass<handle
                     if strcmp(obj.type,'spectrumImport')
                         obj.H = 0;
                         obj.T = 0;
-                        obj.freqDisc = 'Imported';
+                        obj.bem.option = 'Imported';
                         obj.spectrumType = 'spectrumImport';
                     end                    
-                    WFQSt=min(obj.freqRange);
-                    WFQEd=max(obj.freqRange);                    
-                    switch obj.freqDisc
+                    WFQSt=min(obj.bem.range);
+                    WFQEd=max(obj.bem.range);                    
+                    switch obj.bem.option
                         case {'Traditional'}
-                            if isempty(obj.freqNum)
-                                obj.freqNum = 1000;
+                            if isempty(obj.bem.count)
+                                obj.bem.count = 1000;
                             end
-                            obj.w = (WFQSt:(WFQEd-WFQSt)/(obj.freqNum-1):WFQEd)';
-                            obj.dw= ones(obj.freqNum,1).*(WFQEd-WFQSt)./(obj.freqNum-1);
+                            obj.w = (WFQSt:(WFQEd-WFQSt)/(obj.bem.count-1):WFQEd)';
+                            obj.dw= ones(obj.bem.count,1).*(WFQEd-WFQSt)./(obj.bem.count-1);
                         case {'EqualEnergy'}
-                            freqNum_interp = 500000;
-                            obj.w = (WFQSt:(WFQEd-WFQSt)/freqNum_interp:WFQEd)';
+                            bemCount_interp = 500000;
+                            obj.w = (WFQSt:(WFQEd-WFQSt)/bemCount_interp:WFQEd)';
                             obj.dw = mean(diff(obj.w));
-                            if isempty(obj.freqNum)
-                                obj.freqNum = 500;
+                            if isempty(obj.bem.count)
+                                obj.bem.count = 500;
                             end
                         case {'Imported'}
                             data = importdata(obj.spectrumFile);
                             freq_data = data(:,1);
-                            freq_loc = freq_data >= min(obj.freqRange)/2/pi & freq_data <= max(obj.freqRange)/2/pi;
+                            freq_loc = freq_data >= min(obj.bem.range)/2/pi & freq_data <= max(obj.bem.range)/2/pi;
                             obj.w    = freq_data(freq_loc).*2.*pi;
-                            obj.freqNum = length(obj.w);
+                            obj.bem.count = length(obj.w);
                             obj.dw(1,1)= obj.w(2)-obj.w(1);
-                            obj.dw(2:obj.freqNum-1,1)=(obj.w(3:end)-obj.w(1:end-2))/2;
-                            obj.dw(obj.freqNum,1)= obj.w(end)-obj.w(end-1);
+                            obj.dw(2:obj.bem.count-1,1)=(obj.w(3:end)-obj.w(1:end-2))/2;
+                            obj.dw(obj.bem.count,1)= obj.w(end)-obj.w(end-1);
                     end
                     obj.setWavePhase;
                     obj.irregWaveSpectrum(g,rho)
@@ -489,18 +490,18 @@ classdef waveClass<handle
             else
                 rng('shuffle');         % Phase seed shuffled
             end
-            switch obj.freqDisc
+            switch obj.bem.option
                 case {'EqualEnergy','Traditional'}
-                    obj.phase = 2*pi*rand(length(obj.direction),obj.freqNum);
+                    obj.phase = 2*pi*rand(length(obj.direction),obj.bem.count);
                 case {'Imported'}
                     data = importdata(obj.spectrumFile);
                     if size(data,2) == 3
                         freq_data = data(:,1);
-                        freq_loc = freq_data>=min(obj.freqRange)/2/pi & freq_data<=max(obj.freqRange)/2/pi;
+                        freq_loc = freq_data>=min(obj.bem.range)/2/pi & freq_data<=max(obj.bem.range)/2/pi;
                         phase_data = data(freq_loc,3);
                         obj.phase = phase_data';
                     else
-                        obj.phase = 2*pi*rand(1,obj.freqNum);
+                        obj.phase = 2*pi*rand(1,obj.bem.count);
                     end
             end
             obj.phase = obj.phase';
@@ -633,7 +634,7 @@ classdef waveClass<handle
                     data = importdata(obj.spectrumFile);
                     freq_data = data(:,1);
                     S_data = data(:,2);
-                    freq_loc = freq_data >= min(obj.freqRange)/2/pi & freq_data <= max(obj.freqRange)/2/pi;
+                    freq_loc = freq_data >= min(obj.bem.range)/2/pi & freq_data <= max(obj.bem.range)/2/pi;
                     S_f = S_data(freq_loc);                                    % Wave Spectrum [m^2-s] for 'EqualEnergy'
                     obj.S = S_f./(2*pi);                                       % Wave Spectrum [m^2-s/rad] for 'Traditional'
                     fprintf('\t"spectrumImport" uses the number of imported wave frequencies (not "Traditional" or "EqualEnergy")\n')
@@ -650,10 +651,10 @@ classdef waveClass<handle
                 obj.Pw = sum((1/2)*rho*g.*S_f/(2*pi).*obj.dw.*sqrt(9.81./obj.k.*tanh(obj.k.*obj.waterDepth)).*(1 + 2.*obj.k.*obj.waterDepth./sinh(2.*obj.k.*obj.waterDepth)));
             end
             %
-            switch obj.freqDisc
+            switch obj.bem.option
                 case {'EqualEnergy'}
                     m0 = trapz(freq,abs(S_f));
-                    numBins = obj.freqNum+1;
+                    numBins = obj.bem.count+1;
                     a_targ = m0/(numBins);
                     SF = cumtrapz(freq,S_f);
                     wn(1) = 1;

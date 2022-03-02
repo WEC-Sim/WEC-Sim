@@ -34,7 +34,7 @@ waves.T = 8;                            % Wave Period [s]
 % waves.H = 2.5;                          % Significant Wave Height [m]
 % waves.T = 8;                            % Peak Period [s]
 % waves.spectrumType = 'JS';              % Specify Wave Spectrum Type
-% waves.freqDisc = 'EqualEnergy';         % Uses 'EqualEnergy' bins (default) 
+% waves.bem.option = 'EqualEnergy';       % Uses 'EqualEnergy' bins (default) 
 % waves.phaseSeed = 1;                    % Phase is seeded so eta is the same
 
 % % Irregular Waves using PM Spectrum with Traditional and State Space 
@@ -42,8 +42,8 @@ waves.T = 8;                            % Wave Period [s]
 % waves.H = 2.5;                          % Significant Wave Height [m]
 % waves.T = 8;                            % Peak Period [s]
 % waves.spectrumType = 'PM';              % Specify Wave Spectrum Type
-% simu.stateSpace = 1;                        % Turn on State Space
-% waves.freqDisc = 'Traditional';         % Uses 1000 frequnecies
+% simu.stateSpace = 1;                    % Turn on State Space
+% waves.bem.option = 'Traditional';       % Uses 1000 frequnecies
 
 % % Irregular Waves with imported spectrum
 % waves = waveClass('spectrumImport');        % Create the Wave Variable and Specify Type

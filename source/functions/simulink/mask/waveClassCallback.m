@@ -10,7 +10,7 @@ T = mask.getParameter('T');
 elevationFile = mask.getParameter('elevationFile');
 spectrumFile = mask.getParameter('spectrumFile');
 spectrumType = mask.getParameter('spectrumType');
-freqDisc = mask.getParameter('freqDisc');
+option = mask.getParameter('option');
 phaseSeed = mask.getParameter('phaseSeed');
 direction = mask.getParameter('direction');
 spread = mask.getParameter('spread');
@@ -27,7 +27,7 @@ switch type.Value
         elevationFile.Visible = 'off';
         spectrumFile.Visible = 'off';
         spectrumType.Visible = 'off';
-        freqDisc.Visible = 'off';
+        option.Visible = 'off';
         phaseSeed.Visible = 'off';
         direction.Visible = 'off';
         spread.Visible = 'off';
@@ -40,7 +40,7 @@ switch type.Value
         elevationFile.Visible = 'off';
         spectrumFile.Visible = 'off';
         spectrumType.Visible = 'off';
-        freqDisc.Visible = 'off';
+        option.Visible = 'off';
         phaseSeed.Visible = 'off';
         direction.Visible = 'off';
         spread.Visible = 'off';
@@ -53,7 +53,7 @@ switch type.Value
         elevationFile.Visible = 'off';
         spectrumFile.Visible = 'off';
         spectrumType.Visible = 'off';
-        freqDisc.Visible = 'off';
+        option.Visible = 'off';
         phaseSeed.Visible = 'off';
         direction.Visible = 'on';
         spread.Visible = 'on';
@@ -66,7 +66,7 @@ switch type.Value
         elevationFile.Visible = 'off';
         spectrumFile.Visible = 'off';
         spectrumType.Visible = 'on';
-        freqDisc.Visible = 'on';
+        option.Visible = 'on';
         phaseSeed.Visible = 'on';
         direction.Visible = 'on';
         spread.Visible = 'on';
@@ -79,7 +79,7 @@ switch type.Value
         elevationFile.Visible = 'off';
         spectrumFile.Visible = 'on';
         spectrumType.Visible = 'off';
-        freqDisc.Visible = 'off';
+        option.Visible = 'off';
         phaseSeed.Visible = 'on';
         direction.Visible = 'off';
         spread.Visible = 'off';
@@ -92,7 +92,7 @@ switch type.Value
         elevationFile.Visible = 'on';
         spectrumFile.Visible = 'off';
         spectrumType.Visible = 'off';
-        freqDisc.Visible = 'off';
+        option.Visible = 'off';
         phaseSeed.Visible = 'off';
         direction.Visible = 'off';
         spread.Visible = 'off';

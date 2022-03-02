@@ -123,7 +123,7 @@ for i=1:length(blocks)
         fprintf(fid,writeLineFromVar(waves, 'direction', maskVars, maskViz, [], []));
         fprintf(fid,writeLineFromVar(waves, 'spread', maskVars, maskViz, [], []));
         fprintf(fid,writeLineFromVar(waves, 'spectrumType', maskVars, maskViz, [], []));
-        fprintf(fid,writeLineFromVar(waves, 'freqDisc', maskVars, maskViz, [], []));
+        fprintf(fid,writeLineFromVar(waves, 'option', maskVars, maskViz, [], 'bem'));
         fprintf(fid,writeLineFromVar(waves, 'spectrumFile', maskVars, maskViz, [], []));
         fprintf(fid,writeLineFromVar(waves, 'phaseSeed', maskVars, maskViz, [], []));
         fprintf(fid,writeLineFromVar(waves, 'elevationFile', maskVars, maskViz, [], []));
