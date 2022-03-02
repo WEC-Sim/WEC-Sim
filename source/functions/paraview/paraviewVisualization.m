@@ -24,7 +24,7 @@ if simu.paraview == 1
     [fid ,errmsg] = fopen(filename, 'w');
     vtkbodiesii = 1;
     for ii = 1:length(body(1,:))
-        if body(ii).paraviewBody == 1
+        if body(ii).paraview == 1
             bodyname = output.bodies(ii).name;
             mkdir([simu.paraviewDirectory filesep 'body' num2str(vtkbodiesii) '_' bodyname]);
             TimeBodyParav = output.bodies(ii).time;

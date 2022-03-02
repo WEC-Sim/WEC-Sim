@@ -49,7 +49,7 @@ classdef cableClass<handle
         viz               = struct(...                                      %
             'color', [1 0 0.5], ...                                         %
             'opacity', 1)                                                   % Structure defining visualization properties in either SimScape or Paraview. ``color`` (`3x1 float vector`) is defined as the body visualization color, Default = [``1 1 0``]. ``opacity`` (`integer`) is defined as the body opacity, Default = ``1``.
-        paraviewBody      = 1;                                              % (`integer`) Flag for visualisation in Paraview either 0 (no) or 1 (yes). Default = ``1`` since only called in paraview.
+        paraview      = 1;                                                  % (`integer`) Flag for visualisation in Paraview either 0 (no) or 1 (yes). Default = ``1`` since only called in paraview.
         linearDamping           = [0 0 0 0 0 0];                            % (`1 x 6 float vector`)linear damping aplied to body motions
         viscDrag                = struct(...                                % 
             'characteristicArea', [0 0 0 0 0 0], ...                        % 

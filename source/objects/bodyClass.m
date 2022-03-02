@@ -61,7 +61,7 @@ classdef bodyClass<handle
         name              = []                               % (`string`) Specifies the body name. For hydrodynamic bodies this is defined in h5 file. For nonhydrodynamic bodies this is defined by the user, Default = ``[]``.        
         nonHydroBody      = 0                                % (`integer`) Flag for non-hydro body, Options: 0 (no) or 1 (yes). Default = ``0``.
         nonlinearHydro    = 0                                % (`integer`) Flag for nonlinear hydrohanamics calculation, Options: 0 (linear), 1 (nonlinear), 2 (nonlinear). Default = ``0``
-        paraviewBody      = 1;                               % (`integer`) Flag for visualisation in Paraview either, Options: 0 (no) or 1 (yes). Default = ``1``, only called in paraview.
+        paraview      = 1;                                   % (`integer`) Flag for visualisation in Paraview either, Options: 0 (no) or 1 (yes). Default = ``1``, only called in paraview.
         userDefinedExcIRF = []                               % (`vector`) Excitation Impulse Response Function, calculated in BEMIO, only used with the `waveClass` ``elevationImport`` type. Default = ``[]``.
         viscDrag          = struct(...                       %
             'Drag',                 zeros(6), ...            %
