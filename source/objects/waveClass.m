@@ -28,15 +28,15 @@ classdef waveClass<handle
     properties (SetAccess = 'public', GetAccess = 'public')%input file     
         T = 'NOT DEFINED';      % (`float`) Wave period [s] . Defined as wave period for ``regular``, peak period for ``irregular``, or period of BEM data used for hydrodynamic coefficients for ``noWave``. Default = ``'NOT DEFINED'``
         H = 'NOT DEFINED';      % (`float`) Wave height [m]. Defined as wave height for ``regular``, or significant wave height for ``irregular``. Default =  ``'NOT DEFINED'``
-        bem          = struct(...   	% (`structure`) Defines the implemtation of BEM data for the `waveClass`
-            'option',           'EqualEnergy',...   % (`string`) Method of frequency discretization for irregular waves, options include: ``'EqualEnergy'`` or ``'Traditional'``. Default = ``'EqualEnergy'``
-            'count',            [], ...             % (`integer`) Number of interpolated wave frequencies, only used for ``irregular`` and ``spectrumImport``. Number of frequencies used varies depending on ``bem.option``, 1000 for ``'Traditional'``, and 500 for ``'EqualEnergy'`` and ``Imported``. Default = ``[]``
-            'range',            [])                 % (`2x1 vector`) Min and max wave frequency [rad/s], only used for ``irregular`` and ``spectrumImport``. If not specified, the BEM data frequency range is used. Default = ``[]``
-        current          = struct(...   	% (`structure`) Defines the current implementation. ``option`` (`integer`) Define the sub-surface current model to be used in WEC-Sim, options include: ``0`` for depth-independent model, ``1`` for 1/7 power law variation with depth, ``2`` for linear variation with depth, or ``3`` for no current. Default = ``3``, ``depth`` (`float`) Current depth [m]. Define the depth over which the sub-surface current is modeled. Must be defined for options ``1`` and ``2``. The current is not calculated for any depths greater than the specified current depth. Default = ``0``, ``direction`` (`float`) Current direction [deg]. Surface current direction defined using WEC-Sim global coordinate system. Default = ``0``, ``speed``  (`float`) Current seed [m/s]. Surface current speed that is uniform along the water column. Default = ``0``
-            'option',               3,...           %
-            'depth',                0, ...          %
-            'direction',            0, ...          %
-            'speed',                0)      % (`structure`) Defines the current implementation. ``option`` (`integer`) Define the sub-surface current model to be used in WEC-Sim, options include: ``0`` for depth-independent model, ``1`` for 1/7 power law variation with depth, ``2`` for linear variation with depth, or ``3`` for no current. Default = ``3``, ``depth`` (`float`) Current depth [m]. Define the depth over which the sub-surface current is modeled. Must be defined for options ``1`` and ``2``. The current is not calculated for any depths greater than the specified current depth. Default = ``0``, ``direction`` (`float`) Current direction [deg]. Surface current direction defined using WEC-Sim global coordinate system. Default = ``0``, ``speed``  (`float`) Current seed [m/s]. Surface current speed that is uniform along the water column. Default = ``0``         
+        bem         = struct(...   	% (`structure`) Defines the BEM data implemtation. 
+            'option',	'EqualEnergy',...   % 
+            'count',	[], ...             %             
+            'range',	[])                 % (`structure`) Defines the BEM data implemtation. ``option`` % (`string`) Method of frequency discretization for irregular waves, options include: ``'EqualEnergy'`` or ``'Traditional'``. Default = ``'EqualEnergy'``. ``count`` (`integer`) Number of interpolated wave frequencies, only used for ``irregular`` and ``spectrumImport``. Number of frequencies used varies depending on ``bem.option``, 1000 for ``'Traditional'``, and 500 for ``'EqualEnergy'`` and ``Imported``. Default = ``[]``. ``range`` (`2x1 vector`) Min and max wave frequency [rad/s], only used for ``irregular`` and ``spectrumImport``. If not specified, the BEM data frequency range is used. Default = ``[]``     
+        current     = struct(...   	% (`structure`) Defines the current implementation. 
+            'option',	3,...       %
+            'depth',	0, ...      %
+            'direction',0, ...      %
+            'speed',	0)      % (`structure`) Defines the current implementation. ``option`` (`integer`) Define the sub-surface current model to be used in WEC-Sim, options include: ``0`` for depth-independent model, ``1`` for 1/7 power law variation with depth, ``2`` for linear variation with depth, or ``3`` for no current. Default = ``3``, ``depth`` (`float`) Current depth [m]. Define the depth over which the sub-surface current is modeled. Must be defined for options ``1`` and ``2``. The current is not calculated for any depths greater than the specified current depth. Default = ``0``, ``direction`` (`float`) Current direction [deg]. Surface current direction defined using WEC-Sim global coordinate system. Default = ``0``, ``speed``  (`float`) Current seed [m/s]. Surface current speed that is uniform along the water column. Default = ``0``         
         direction = 0;          % (`float`) Incident wave direction(s) [deg]. Incident wave direction defined using WEC-Sim global coordinate system. Should be defined as a column vector for more than one wave direction. Default = ``0``
         elevationFile = 'NOT DEFINED';  % (`string`) Data file that contains the times-series data file. Default = ``'NOT DEFINED'``
         gamma = [];             % (`float`) Defines gamma, only used for ``JS`` wave spectrum type. Default = ``[]``
@@ -130,58 +130,88 @@ classdef waveClass<handle
             end
         end
         
-        function plotElevation(obj,rampTime)
-            % This method plots wave elevation time-history.
-            %
-            % Parameters
-            % ------------
-            %     rampTime : float, optional
-            %         Specify wave ramp time to include in plot    
-            %
-            % Returns
-            % ------------
-            %     figure : fig
-            %         Plot of wave elevation versus time  
-            %            
-            figure
-            plot(obj.waveAmpTime(:,1),obj.waveAmpTime(:,2))
-            title('Wave Surfave Elevation')
-            if nargin==2
-                hold on
-                line([rampTime,rampTime],[1.5*min(obj.waveAmpTime(:,2)),1.5*max(obj.waveAmpTime(:,2))],'Color','k')
-                title(['Wave Surface Elevation, Ramp Time ' num2str(rampTime) ' (s)'])
-            end
-            xlabel('Time (s)')
-            ylabel('Elevation (m)')
-        end
-        
-        function plotSpectrum(obj)
-            % This method plots the wave spectrum.
-            %
-            % Returns
-            % ------------
-            %     figure : fig
-            %         Plot of wave spectrum versus wave frequency
-            %                 
-            m0 = trapz(obj.w,obj.S);
-            HsTest = 4*sqrt(m0);
-            [~,I] = max(abs(obj.S));
-            wp = obj.w(I);
-            TpTest = 2*pi/wp;
+        function checkinputs(obj)
+            % This method checks WEC-Sim user inputs and generates error
+            % messages if parameters are not properly defined. 
             
-            figure
-            plot(obj.w,obj.S,'s-')
-            hold on
-            line([wp,wp],[0,max(obj.S)],'Color','k')
-            xlim([0 max(obj.w)])
-            title([obj.spectrumType, ' Spectrum, T_p= ' num2str(TpTest) ' [s], '  'H_m_0= ' num2str(HsTest), ' [m]'])
-            if strcmp(obj.spectrumType,'JS') == 1
-                title([obj.spectrumType, ' Spectrum, T_p= ' num2str(TpTest) ' [s], H_m_0= ' num2str(HsTest), ' [m], gamma = ' num2str(obj.gamma)])
+            % check 'markerLoc'
+            if ~isempty(obj.markerLoc)
+                if ~ndims(obj.markerLoc)==2
+                    error('The coordinates of the visualization markers should have an ordinate (y-coordinate) and an abscissa (x-coordinate)')
+                end
             end
-            xlabel('Frequency (rad/s)')
-            ylabel('Spectrum (m^2-s/rad)');
+            % 'noWave' period undefined for hydro data
+            if strcmp(obj.type,'noWave')
+                if strcmp(obj.T,'NOT DEFINED')
+                    error('"waves.T" must be defined for the hydrodynamic data period when using the "noWave" wave type');
+                end
+            end
+            % spectrumFile defined for 'spectrumImport' case
+            if strcmp(obj.type,'spectrumImport')
+                if strcmp(obj.spectrumFile,'NOT DEFINED')
+                    error('The "spectrumFile variable must be defined when using the "spectrumImport" wave type');
+                end
+            end
+            % check waves types
+            types = {'noWave', 'noWaveCIC', 'regular', 'regularCIC', 'irregular', 'spectrumImport', 'elevationImport'};
+            if sum(strcmp(types,obj.type)) ~= 1
+                error(['Unexpected wave environment type setting, choose from: ' ...
+                    '"noWave", "noWaveCIC", "regular", "regularCIC", "irregular", "spectrumImport", and "elevationImport".'])
+            end
+            % check 'waves.bem' fields
+            if length(fieldnames(obj.bem)) ~=3
+                error(['Unrecognized method, property, or field for class "waveClass", ' ... 
+                    '"waveClass.bem" structure must only include fields: "option", "count", "range"']);
+            end
+            % check 'waves.current' fields
+            if length(fieldnames(obj.current)) ~=4
+                error(['Unrecognized method, property, or field for class "waveClass", ' ... 
+                    '"waveClass.current" structure must only include fields: "option", "depth", "direction", "speed"']);
+            end
         end
-        
+
+        function listInfo(obj)
+            % This method prints wave information to the MATLAB Command Window.
+            %             
+            fprintf('\nWave Environment: \n')
+            switch obj.type
+                case 'noWave'
+                    fprintf('\tWave Type                            = No Wave (Constant Hydrodynamic Coefficients)\n')
+                    fprintf('\tHydro Data Wave Period, T (sec)    	= %G\n',obj.T)
+                case 'regular'
+                    fprintf('\tWave Type                            = Regular Waves (Constant Hydrodynamic Coefficients)\n')
+                    fprintf('\tWave Height, H (m)                   = %G\n',obj.H)
+                    fprintf('\tWave Period, T (sec)                 = %G\n',obj.T)
+                case 'noWaveCIC'
+                    fprintf('\tWave Type                            = No Wave (Convolution Integral Calculation)\n')
+                case 'regularCIC'
+                    fprintf('\tWave Type                            = Regular Waves (Convolution Integral Calculation)\n')
+                    fprintf('\tWave Height, H (m)                   = %G\n',obj.H)
+                    fprintf('\tWave Period, T (sec)                 = %G\n',obj.T)
+                case 'irregular'
+                    if obj.phaseSeed == 0
+                        fprintf('\tWave Type                            = Irregular Waves (Arbitrary Random Phase)\n')
+                    else
+                        fprintf('\tWave Type                            = Irregular Waves (Predefined Random Phase)\n')
+                    end
+                    obj.printWaveSpectrumType;
+                    fprintf('\tSignificant Wave Height, Hs      (m) = %G\n',obj.H)
+                    fprintf('\tPeak Wave Period, Tp           (sec) = %G\n',obj.T)
+                case 'spectrumImport'
+                    if size(importdata(obj.spectrumFile),2) == 3
+                        fprintf('\tWave Type                            = Irregular waves with imported wave spectrum (Imported Phase)\n')
+                    elseif obj.phaseSeed == 0
+                        fprintf('\tWave Type                            = Irregular waves with imported wave spectrum (Random Phase)\n')
+                    else
+                        fprintf('\tWave Type                            = Irregular waves with imported wave spectrum (Seeded Phase)\n')
+                    end
+                    obj.printWaveSpectrumType;
+                case 'elevationImport'
+                    fprintf( '\tWave Type                           = Waves with imported wave elevation time-history\n')
+                    fprintf(['\tWave Elevation Time-Series File    	= ' obj.elevationFile '  \n'])
+            end
+        end
+                
         function waveSetup(obj,bemFreq,bemWaterDepth,rampTime,dt,maxIt,time,g,rho)
             % This method calculates WEC-Sim's wave properties 
             % based on the specified wave type.
@@ -316,49 +346,7 @@ classdef waveClass<handle
                     % the eta import case.
                     % Used by waveClass.waveSetup()
             end
-        end        
-        
-        function listInfo(obj)
-            % This method prints wave information to the MATLAB Command Window.
-            %             
-            fprintf('\nWave Environment: \n')
-            switch obj.type
-                case 'noWave'
-                    fprintf('\tWave Type                            = No Wave (Constant Hydrodynamic Coefficients)\n')
-                    fprintf('\tHydro Data Wave Period, T (sec)    	= %G\n',obj.T)
-                case 'regular'
-                    fprintf('\tWave Type                            = Regular Waves (Constant Hydrodynamic Coefficients)\n')
-                    fprintf('\tWave Height, H (m)                   = %G\n',obj.H)
-                    fprintf('\tWave Period, T (sec)                 = %G\n',obj.T)
-                case 'noWaveCIC'
-                    fprintf('\tWave Type                            = No Wave (Convolution Integral Calculation)\n')
-                case 'regularCIC'
-                    fprintf('\tWave Type                            = Regular Waves (Convolution Integral Calculation)\n')
-                    fprintf('\tWave Height, H (m)                   = %G\n',obj.H)
-                    fprintf('\tWave Period, T (sec)                 = %G\n',obj.T)
-                case 'irregular'
-                    if obj.phaseSeed == 0
-                        fprintf('\tWave Type                            = Irregular Waves (Arbitrary Random Phase)\n')
-                    else
-                        fprintf('\tWave Type                            = Irregular Waves (Predefined Random Phase)\n')
-                    end
-                    obj.printWaveSpectrumType;
-                    fprintf('\tSignificant Wave Height, Hs      (m) = %G\n',obj.H)
-                    fprintf('\tPeak Wave Period, Tp           (sec) = %G\n',obj.T)
-                case 'spectrumImport'
-                    if size(importdata(obj.spectrumFile),2) == 3
-                        fprintf('\tWave Type                            = Irregular waves with imported wave spectrum (Imported Phase)\n')
-                    elseif obj.phaseSeed == 0
-                        fprintf('\tWave Type                            = Irregular waves with imported wave spectrum (Random Phase)\n')
-                    else
-                        fprintf('\tWave Type                            = Irregular waves with imported wave spectrum (Seeded Phase)\n')
-                    end
-                    obj.printWaveSpectrumType;
-                case 'elevationImport'
-                    fprintf( '\tWave Type                           = Waves with imported wave elevation time-history\n')
-                    fprintf(['\tWave Elevation Time-Series File    	= ' obj.elevationFile '  \n'])
-            end
-        end
+        end                
         
         function waveNumber(obj,g)
             % This method calculates the wave number, 
@@ -371,39 +359,7 @@ classdef waveClass<handle
                 end
             end
         end
-        
-        function checkinputs(obj)
-            % This method checks WEC-Sim user inputs and generates error
-            % messages if parameters are not properly defined. 
-            
-            if ~isempty(obj.markerLoc)
-            if ~ndims(obj.markerLoc)==2
-            error('The coordinates of the visualization markers should have an ordinate (y-coordinate) and an abscissa (x-coordinate)')
-            end
-            end
-
-            % 'noWave' period undefined for hydro data
-            if strcmp(obj.type,'noWave')
-                if strcmp(obj.T,'NOT DEFINED')
-                    error('"waves.T" must be defined for the hydrodynamic data period when using the "noWave" wave type');
-                end
-            end
-            % spectrumFile defined for 'spectrumImport' case
-            if strcmp(obj.type,'spectrumImport')
-                if strcmp(obj.spectrumFile,'NOT DEFINED')
-                    error('The "spectrumFile variable must be defined when using the "spectrumImport" wave type');
-                end
-            end
-            % check waves types
-            types = {'noWave', 'noWaveCIC', 'regular', 'regularCIC', 'irregular', 'spectrumImport', 'elevationImport'};
-            if sum(strcmp(types,obj.type)) ~= 1
-                error(['Unexpected wave environment type setting, choose from: ' ...
-                    '"noWave", "noWaveCIC", "regular", "regularCIC", "irregular", "spectrumImport", and "elevationImport".'])
-            end
-            
-
-        end
-        
+                
         function Z = waveElevationGrid(obj, t, X, Y, TimeBodyParav, it, g)
             % This method calculates wave elevation on a grid at a given
             % time, used by: :func:`write_paraview_wave`.
@@ -478,7 +434,60 @@ classdef waveClass<handle
                     end
                     Z = Zint;
             end            
-        end        
+        end
+        
+        function plotElevation(obj,rampTime)
+            % This method plots wave elevation time-history.
+            %
+            % Parameters
+            % ------------
+            %     rampTime : float, optional
+            %         Specify wave ramp time to include in plot    
+            %
+            % Returns
+            % ------------
+            %     figure : fig
+            %         Plot of wave elevation versus time  
+            %            
+            figure
+            plot(obj.waveAmpTime(:,1),obj.waveAmpTime(:,2))
+            title('Wave Surfave Elevation')
+            if nargin==2
+                hold on
+                line([rampTime,rampTime],[1.5*min(obj.waveAmpTime(:,2)),1.5*max(obj.waveAmpTime(:,2))],'Color','k')
+                title(['Wave Surface Elevation, Ramp Time ' num2str(rampTime) ' (s)'])
+            end
+            xlabel('Time (s)')
+            ylabel('Elevation (m)')
+        end
+        
+        function plotSpectrum(obj)
+            % This method plots the wave spectrum.
+            %
+            % Returns
+            % ------------
+            %     figure : fig
+            %         Plot of wave spectrum versus wave frequency
+            %                 
+            m0 = trapz(obj.w,obj.S);
+            HsTest = 4*sqrt(m0);
+            [~,I] = max(abs(obj.S));
+            wp = obj.w(I);
+            TpTest = 2*pi/wp;
+            
+            figure
+            plot(obj.w,obj.S,'s-')
+            hold on
+            line([wp,wp],[0,max(obj.S)],'Color','k')
+            xlim([0 max(obj.w)])
+            title([obj.spectrumType, ' Spectrum, T_p= ' num2str(TpTest) ' [s], '  'H_m_0= ' num2str(HsTest), ' [m]'])
+            if strcmp(obj.spectrumType,'JS') == 1
+                title([obj.spectrumType, ' Spectrum, T_p= ' num2str(TpTest) ' [s], H_m_0= ' num2str(HsTest), ' [m], gamma = ' num2str(obj.gamma)])
+            end
+            xlabel('Frequency (rad/s)')
+            ylabel('Spectrum (m^2-s/rad)');
+        end
+    
     end
     
     methods (Access = 'protected')
