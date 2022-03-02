@@ -211,7 +211,7 @@ end
 
 %% HydroForce Pre-Processing: Wave Setup & HydroForcePre.
 % simulation setup
-simu.simuSetup;
+simu.setup;
 
 % wave setup
 if any(hydroBodLogic == 1)

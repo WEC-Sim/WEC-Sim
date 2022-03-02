@@ -122,7 +122,7 @@ classdef simulationClass<handle
                 'SimMechanicsOpenEditorOnUpdate',obj.explorer);
         end
 
-        function simuSetup(obj)
+        function setup(obj)
             % Sets simulation properties based on values specified in input file
             obj.time = obj.startTime:obj.dt:obj.endTime;
             obj.maxIt = floor((obj.endTime - obj.startTime) / obj.dt);

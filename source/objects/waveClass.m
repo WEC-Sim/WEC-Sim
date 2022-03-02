@@ -134,29 +134,18 @@ classdef waveClass<handle
             % This method checks WEC-Sim user inputs and generates error
             % messages if parameters are not properly defined. 
             
-            % check 'markerLoc'
-            if ~isempty(obj.markerLoc)
-                if ~ndims(obj.markerLoc)==2
-                    error('The coordinates of the visualization markers should have an ordinate (y-coordinate) and an abscissa (x-coordinate)')
-                end
+           
+            % check waves types
+            types = {'noWave', 'noWaveCIC', 'regular', 'regularCIC', 'irregular', 'spectrumImport', 'elevationImport'};
+            if sum(strcmp(types,obj.type)) ~= 1
+                error(['Unexpected wave environment type setting, choose from: ' ...
+                    '"noWave", "noWaveCIC", "regular", "regularCIC", "irregular", "spectrumImport", and "elevationImport".'])
             end
             % 'noWave' period undefined for hydro data
             if strcmp(obj.type,'noWave')
                 if strcmp(obj.T,'NOT DEFINED')
                     error('"waves.T" must be defined for the hydrodynamic data period when using the "noWave" wave type');
                 end
-            end
-            % spectrumFile defined for 'spectrumImport' case
-            if strcmp(obj.type,'spectrumImport')
-                if strcmp(obj.spectrumFile,'NOT DEFINED')
-                    error('The "spectrumFile variable must be defined when using the "spectrumImport" wave type');
-                end
-            end
-            % check waves types
-            types = {'noWave', 'noWaveCIC', 'regular', 'regularCIC', 'irregular', 'spectrumImport', 'elevationImport'};
-            if sum(strcmp(types,obj.type)) ~= 1
-                error(['Unexpected wave environment type setting, choose from: ' ...
-                    '"noWave", "noWaveCIC", "regular", "regularCIC", "irregular", "spectrumImport", and "elevationImport".'])
             end
             % check 'waves.bem' fields
             if length(fieldnames(obj.bem)) ~=3
@@ -167,7 +156,25 @@ classdef waveClass<handle
             if length(fieldnames(obj.current)) ~=4
                 error(['Unrecognized method, property, or field for class "waveClass", ' ... 
                     '"waveClass.current" structure must only include fields: "option", "depth", "direction", "speed"']);
+            end            
+            % 'elevationFile' defined for 'elevationImport' case
+            if strcmp(obj.type,'elevationImport')
+                if strcmp(obj.spectrumFile,'NOT DEFINED')
+                    error('"elevationFile" must be defined when using the "elevationImport" wave type');
+                end
+            end            
+            % 'spectrumFile' defined for 'spectrumImport' case
+            if strcmp(obj.type,'spectrumImport')
+                if strcmp(obj.spectrumFile,'NOT DEFINED')
+                    error('"spectrumFile" must be defined when using the "spectrumImport" wave type');
+                end
             end
+            % check 'markerLoc'
+            if ~isempty(obj.markerLoc)
+                if ~ndims(obj.markerLoc)==2
+                    error('The coordinates of the visualization markers should have an ordinate (y-coordinate) and an abscissa (x-coordinate)')
+                end
+            end                        
         end
 
         function listInfo(obj)
