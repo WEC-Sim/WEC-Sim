@@ -63,7 +63,7 @@ classdef bodyClass<handle
         nonlinearHydro    = 0                                % (`integer`) Flag for nonlinear hydrohanamics calculation, Options: 0 (linear), 1 (nonlinear), 2 (nonlinear). Default = ``0``
         paraview      = 1;                                   % (`integer`) Flag for visualisation in Paraview either, Options: 0 (no) or 1 (yes). Default = ``1``, only called in paraview.
         userDefinedExcIRF = []                               % (`vector`) Excitation Impulse Response Function, calculated in BEMIO, only used with the `waveClass` ``elevationImport`` type. Default = ``[]``.
-        viscDrag          = struct(...                       % (`structure`)  Defines the viscous quadratic drag forces.
+        viscousDrag          = struct(...                       % (`structure`)  Defines the viscous quadratic drag forces.
             'Drag',                 zeros(6), ...            %
             'cd',                   [0 0 0 0 0 0], ...       %
             'characteristicArea',   [0 0 0 0 0 0])           % (`structure`)  Defines the viscous quadratic drag forces. First option define ``Drag``, (`6x6 float matrix`), Default = ``zeros(6)``. Second option define ``cd``, (`6x1 float vector`), Default = ``zeros(6,1)``, and ``characteristicArea``, (`6x1 float vector`), Default = ``zeros(6,1)``.        
@@ -150,10 +150,10 @@ classdef bodyClass<handle
                 error(['Unrecognized method, property, or field for class "bodyClass", ' ... 
                     '"bodyClass.morisonElement" structure must only include fields: "option", "cd", "ca", "characteristicArea", "VME", "rgME", "z" . ']);
             end               
-            % check 'body.viscDrag' fields
-            if length(fieldnames(obj.viscDrag)) ~=3
+            % check 'body.viscousDrag' fields
+            if length(fieldnames(obj.viscousDrag)) ~=3
                 error(['Unrecognized method, property, or field for class "bodyClass", ' ... 
-                    '"bodyClass.viscDrag" structure must only include fields: "Drag", "cd", "characteristicArea"']);
+                    '"bodyClass.viscousDrag" structure must only include fields: "Drag", "cd", "characteristicArea"']);
             end                
             % check 'body.viz' fields
             if length(fieldnames(obj.viz)) ~=2
@@ -199,13 +199,13 @@ classdef bodyClass<handle
             % that body DOF is inherited from the length of the drag
             % coefficients.
             obj.setMassMatrix(rho);
-            if  any(any(obj.viscDrag.Drag)) == 1  %check if obj.viscDrag.Drag is defined
-                obj.hydroForce.visDrag = obj.viscDrag.Drag;
+            if  any(any(obj.viscousDrag.Drag)) == 1  %check if obj.viscousDrag.Drag is defined
+                obj.hydroForce.viscousDrag = obj.viscousDrag.Drag;
             else
-                obj.hydroForce.visDrag = diag(0.5*rho.*obj.viscDrag.cd.*obj.viscDrag.characteristicArea);
+                obj.hydroForce.viscousDrag = diag(0.5*rho.*obj.viscousDrag.cd.*obj.viscousDrag.characteristicArea);
             end
             obj.hydroForce.linearDamping = obj.linearDamping;
-            obj.dof = length(obj.viscDrag.Drag);
+            obj.dof = length(obj.viscousDrag.Drag);
         end
         
         function hydroForcePre(obj,w,direction,cicLength,cicTime,bemCount,dt,rho,g,waveType,waveAmpTime,iBod,numBod,stateSpace,B2B,yawFlag)
@@ -220,13 +220,13 @@ classdef bodyClass<handle
                 obj.linearDamping = zeros (obj.dof);
                 obj.linearDamping(1:tmp1(1),1:tmp1(2)) = tmp0;
                 
-                tmp0 = obj.viscDrag.Drag;
-                tmp1 = size(obj.viscDrag.Drag);
-                obj.viscDrag.Drag = zeros (obj.dof);
-                obj.viscDrag.Drag(1:tmp1(1),1:tmp1(2)) = tmp0;
+                tmp0 = obj.viscousDrag.Drag;
+                tmp1 = size(obj.viscousDrag.Drag);
+                obj.viscousDrag.Drag = zeros (obj.dof);
+                obj.viscousDrag.Drag(1:tmp1(1),1:tmp1(2)) = tmp0;
                 
-                obj.viscDrag.cd   = [obj.viscDrag.cd   zeros(1,obj.dof-length(obj.viscDrag.cd  ))];
-                obj.viscDrag.characteristicArea = [obj.viscDrag.characteristicArea zeros(1,obj.dof-length(obj.viscDrag.characteristicArea))];
+                obj.viscousDrag.cd   = [obj.viscousDrag.cd   zeros(1,obj.dof-length(obj.viscousDrag.cd  ))];
+                obj.viscousDrag.characteristicArea = [obj.viscousDrag.characteristicArea zeros(1,obj.dof-length(obj.viscousDrag.characteristicArea))];
             end; clear tmp0 tmp1
             if any(any(obj.hydroStiffness)) == 1  %check if obj.hydroStiffness is defined
                 obj.hydroForce.linearHydroRestCoef = obj.hydroStiffness;
@@ -234,10 +234,10 @@ classdef bodyClass<handle
                 k = obj.hydroData.hydro_coeffs.linear_restoring_stiffness;%(:,obj.dofStart:obj.dofEnd);
                 obj.hydroForce.linearHydroRestCoef = k .*rho .*g;
             end
-            if  any(any(obj.viscDrag.Drag)) == 1  %check if obj.viscDrag.Drag is defined
-                obj.hydroForce.visDrag = obj.viscDrag.Drag;
+            if  any(any(obj.viscousDrag.Drag)) == 1  %check if obj.viscousDrag.Drag is defined
+                obj.hydroForce.viscousDrag = obj.viscousDrag.Drag;
             else
-                obj.hydroForce.visDrag = diag(0.5*rho.*obj.viscDrag.cd.*obj.viscDrag.characteristicArea);
+                obj.hydroForce.viscousDrag = diag(0.5*rho.*obj.viscousDrag.cd.*obj.viscousDrag.characteristicArea);
             end
             obj.hydroForce.linearDamping = obj.linearDamping;
             switch waveType

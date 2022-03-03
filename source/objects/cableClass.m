@@ -51,7 +51,7 @@ classdef cableClass<handle
             'opacity', 1)                                                   % Structure defining visualization properties in either SimScape or Paraview. ``color`` (`3x1 float vector`) is defined as the body visualization color, Default = [``1 1 0``]. ``opacity`` (`integer`) is defined as the body opacity, Default = ``1``.
         paraview      = 1;                                                  % (`integer`) Flag for visualisation in Paraview either 0 (no) or 1 (yes). Default = ``1`` since only called in paraview.
         linearDamping           = [0 0 0 0 0 0];                            % (`1 x 6 float vector`)linear damping aplied to body motions
-        viscDrag                = struct(...                                % 
+        viscousDrag                = struct(...                                % 
             'characteristicArea', [0 0 0 0 0 0], ...                        % 
             'Drag', zeros(6), ...                                           % 
             'cd', [0 0 0 0 0 0]);                                           % Structure defining the viscous quadratic drag forces. First option define ``Drag``, (`6x6 float matrix`), Default = ``zeros(6)``. Second option define ``cd``, (`6x1 float vector`), Default = ``zeros(6,1)``, and ``characteristicArea``, (`6x1 float vector`), Default = ``zeros(6,1)``.
@@ -214,8 +214,8 @@ classdef cableClass<handle
             % values to calculate linear damping and viscous drag. Note
             % that body DOF is inherited from the length of the drag
             % coefficients.
-            if  any(any(obj.viscDrag.Drag)) ~= 1  %check if obj.viscDrag.Drag is not defined
-                obj.viscDrag.Drag = diag(0.5*rho.*obj.viscDrag.cd.*obj.viscDrag.characteristicArea);
+            if  any(any(obj.viscousDrag.Drag)) ~= 1  %check if obj.viscousDrag.Drag is not defined
+                obj.viscousDrag.Drag = diag(0.5*rho.*obj.viscousDrag.cd.*obj.viscousDrag.characteristicArea);
             end
             
         end
