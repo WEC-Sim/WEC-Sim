@@ -49,7 +49,7 @@ for it = 1:length(t)
     filename = [paraview.path, filesep 'waves' filesep 'waves_' num2str(it) '.vtp'];
     fid = fopen(filename, 'w');
     % calculate wave elevation
-    Z = waveElevationGrid (waves, t(it), X, Y, TimeBodyParav, it, g);                % write header
+    Z = waveElevationGrid (waves, t(it), X, Y, it, g);                % write header
     fprintf(fid, '<?xml version="1.0"?>\n');
     fprintf(fid, ['<!-- WEC-Sim Visualization using ParaView -->\n']);
     fprintf(fid, ['<!--   model: ' model ' - ran on ' simdate ' -->\n']);
