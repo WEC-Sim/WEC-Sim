@@ -137,13 +137,13 @@ nonHydroBodLogic = zeros(length(body(1,:)),1);
 dragBodLogic = zeros(length(body(1,:)),1);
 for ii = 1:length(body(1,:))
     body(ii).bodyNumber = ii;
-    if body(ii).nonHydroBody==0
+    if body(ii).nonHydro==0
         numHydroBodies = numHydroBodies + 1;
         hydroBodLogic(ii) = 1;         
-    elseif body(ii).nonHydroBody==1
+    elseif body(ii).nonHydro==1
         numNonHydroBodies = numNonHydroBodies + 1;
         nonHydroBodLogic(ii) = 1; 
-    elseif body(ii).nonHydroBody==2
+    elseif body(ii).nonHydro==2
         numDragBodies = numDragBodies + 1;
         dragBodLogic(ii) = 1; 
     else
@@ -327,7 +327,7 @@ end
 % Check for morisonElement inputs for body(ii).morisonElement.option == 1 || body(ii).morisonElement.option == 2
 for ii = 1:length(body(1,:))
     if body(ii).morisonElement.option == 1
-        if body(ii).nonHydroBody ~=1
+        if body(ii).nonHydro ~=1
             [rgME,~] = size(body(ii).morisonElement.rgME);
             for jj = 1:rgME
                 if true(isfinite(body(ii).morisonElement.z(jj,:))) == true
@@ -343,7 +343,7 @@ for ii = 1:length(body(1,:))
             end
         end
     elseif body(ii).morisonElement.option == 2
-        if body(ii).nonHydroBody ~=1
+        if body(ii).nonHydro ~=1
             [rgME,~] = size(body(ii).morisonElement.rgME);
             for jj = 1:rgME
                 if body(ii).morisonElement.cd(jj,3) ~= 0 || body(ii).morisonElement.ca(jj,3) ~= 0 || body(ii).morisonElement.characteristicArea(jj,3) ~= 0
@@ -360,7 +360,7 @@ end
 
 %% Set variant subsystems options
 for ii=1:length(body(1,:))
-    if body(ii).nonHydroBody==0
+    if body(ii).nonHydro==0
         % Nonlinear FK Force Variant Subsystem
         eval(['nonLinearHydro_' num2str(ii) ' = body(ii).nonlinearHydro;']);
         eval(['sv_b' num2str(ii) '_linearHydro = Simulink.Variant(''nonLinearHydro_', num2str(ii), '==0'');']);
@@ -374,7 +374,7 @@ end; clear ii;
 yaw=simu.yaw;
 % Morison Element
 for ii=1:length(body(1,:))
-    if body(ii).nonHydroBody ~=1
+    if body(ii).nonHydro ~=1
     eval(['morisonElement_' num2str(ii) ' = body(ii).morisonElement.option;'])
     eval(['sv_b' num2str(ii) '_MEOff = Simulink.Variant(''morisonElement_' num2str(ii) '==0'');'])
     eval(['sv_b' num2str(ii) '_MEOn = Simulink.Variant(''morisonElement_' num2str(ii) '==1 || morisonElement_' num2str(ii) '==2'');'])
@@ -404,9 +404,9 @@ B2B = simu.b2b;
 sv_noB2B=Simulink.Variant('B2B==0');
 sv_B2B=Simulink.Variant('B2B==1');
 numBody=simu.numWecBodies;
-% nonHydroBody
+% nonHydro
 for ii=1:length(body(1,:))
-    eval(['nhbody_' num2str(ii) ' = body(ii).nonHydroBody;'])
+    eval(['nhbody_' num2str(ii) ' = body(ii).nonHydro;'])
     eval(['sv_b' num2str(ii) '_hydroBody = Simulink.Variant(''nhbody_' num2str(ii) '==0'');'])
     eval(['sv_b' num2str(ii) '_nonHydroBody = Simulink.Variant(''nhbody_' num2str(ii) '==1'');'])
     eval(['sv_b' num2str(ii) '_dragBody = Simulink.Variant(''nhbody_' num2str(ii) '==2'');'])
