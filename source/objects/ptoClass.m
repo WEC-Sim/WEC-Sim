@@ -118,7 +118,6 @@ classdef ptoClass<handle
             obj.orientation.x = x;
             obj.orientation.rotationMatrix  = [x',y',z'];
         end
-
         
         function obj = setPretension(obj)
             % This method calculates the equilibrium position in the joint to provide pretension, which is activated when the pretension value is not equal to zero and equilibrium position is not over written.
@@ -157,23 +156,18 @@ classdef ptoClass<handle
             axisList = axisAngleList(:,1:3);
             angleList = axisAngleList(:,4);
             nAngle = size(axisList,1);
-            rotMat = eye(3);
-            
+            rotMat = eye(3);            
             % Loop through all axes and angles.
             for i=1:nAngle
                 rotMat = axisAngle2RotMat(axisList(i,:),angleList(i))*rotMat;
             end
-
             % calculate net axis-angle rotation
-            [netAxis, netAngle] = rotMat2AxisAngle(rotMat);
-
+%             [netAxis, netAngle] = rotMat2AxisAngle(rotMat);
             % calculate net displacement due to rotation
             rotatedRelCoord = relCoord*(rotMat');
             linDisp = rotatedRelCoord - relCoord;
-
             % apply rotation and displacement to object
-            obj.initDisp.initLinDisp = linDisp + addLinDisp;
-            
+            obj.initDisp.initLinDisp = linDisp + addLinDisp;            
         end
         
         function listInfo(obj)                                         
