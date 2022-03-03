@@ -68,7 +68,7 @@ classdef waveClass<handle
         phase = 0;              % Wave phase [rad] . Only used for ``irregular`` waves.
         typeNum = [];           % Number to represent different type of waves        
         w = [];                 % Wave frequency (regular waves) or wave frequency vector (irregular waves) [rad/s] 
-        waveAmpTime = [];       % Wave elevation time history [m] 
+        waveAmpTime = [];       % Wave elevation time history [m] at the (0, 0, 0) origin  
         waveAmpTime1 = [];      % Wave elevation time history at a wave gauge 1 location specified by user [m] 
         waveAmpTime2 = [];      % Wave elevation time history at a wave gauge 2 location specified by user [m] 
         waveAmpTime3 = [];      % Wave elevation time history at a wave gauge 3 location specified by user [m] 
@@ -178,7 +178,6 @@ classdef waveClass<handle
         function setup(obj,bemFreq,bemWaterDepth,rampTime,dt,maxIt,time,g,rho)
             % This method calculates WEC-Sim's wave properties 
             % based on the specified wave type.
-            %
             
             if ~isempty(obj.markerLoc)==1
                 if ~width(obj.markerLoc)==2
@@ -281,7 +280,7 @@ classdef waveClass<handle
 
         function listInfo(obj)
             % This method prints wave information to the MATLAB Command Window.
-            %             
+            
             fprintf('\nWave Environment: \n')
             switch obj.type
                 case 'noWave'
@@ -565,23 +564,6 @@ classdef waveClass<handle
             obj.waveAmpTime(:,1) = timeseries;
             obj.waveAmpTime(:,2) = rampFunction.*(obj.A*cos(obj.w*timeseries));
 
-            % Wave Gauges
-            if ~any(isnan(obj.wavegauge1loc))
-                obj.waveAmpTime1 = zeros(maxIt,2);
-                obj.waveAmpTime1(:,1) = timeseries;
-                obj.waveAmpTime1(:,2) = rampFunction.*obj.A.*cos(obj.w*timeseries - obj.k*(obj.wavegauge1loc(1).*cos(obj.direction*pi/180) + obj.wavegauge1loc(2).*sin(obj.direction*pi/180)));
-            end
-            if ~any(isnan(obj.wavegauge2loc))
-                obj.waveAmpTime2 = zeros(maxIt,2);
-                obj.waveAmpTime2(:,1) = timeseries;
-                obj.waveAmpTime2(:,2) = rampFunction.*obj.A.*cos(obj.w*timeseries - obj.k*(obj.wavegauge2loc(1).*cos(obj.direction*pi/180) + obj.wavegauge2loc(2).*sin(obj.direction*pi/180)));
-            end
-            if ~any(isnan(obj.wavegauge3loc))
-                obj.waveAmpTime3 = zeros(maxIt,2);
-                obj.waveAmpTime3(:,1) = timeseries;
-                obj.waveAmpTime3(:,2) = rampFunction.*obj.A.*cos(obj.w*timeseries - obj.k*(obj.wavegauge3loc(1).*cos(obj.direction*pi/180) + obj.wavegauge3loc(2).*sin(obj.direction*pi/180)));
-            end
-            
             % Wave Marker
             if ~isempty(obj.markerLoc)==1
                 if width(obj.markerLoc)~=2
@@ -703,20 +685,6 @@ classdef waveClass<handle
 
             obj.waveAmpTime = zeros(maxIt,2);
             obj.waveAmpTime(:,1) = timeseries;
-
-            % Wave Gauges
-            if ~isnan(obj.wavegauge1loc)
-                obj.waveAmpTime1 = zeros(maxIt,2);
-                obj.waveAmpTime1(:,1) = timeseries;
-            end
-            if ~isnan(obj.wavegauge2loc)
-                obj.waveAmpTime2 = zeros(maxIt,2);
-                obj.waveAmpTime2(:,1) = timeseries;
-            end
-            if ~isnan(obj.wavegauge3loc)
-               obj.waveAmpTime3 = zeros(maxIt,2);
-               obj.waveAmpTime3(:,1) = timeseries;
-            end
             
             %  Wave Markers
             if ~isempty(obj.markerLoc)
@@ -736,21 +704,6 @@ classdef waveClass<handle
                 tmp1 = tmp.*real(exp(sqrt(-1).*(obj.w.*timeseries(i) + obj.phase)));
                 obj.waveAmpTime(i,2) = rampFunction(i)*sum(tmp1,'all');
 
-                % Wave Gauges
-                if ~isnan(obj.wavegauge1loc)
-                    tmp11 = tmp.*real(exp(sqrt(-1).*(obj.w.*timeseries(i) - obj.k*(obj.wavegauge1loc(1).*cos(obj.direction*pi/180) + obj.wavegauge1loc(2).*sin(obj.direction*pi/180)) + obj.phase)));
-                    obj.waveAmpTime1(i,2) = rampFunction(i).*sum(tmp11,'all');
-                end
-
-                if ~isnan(obj.wavegauge2loc)
-                    tmp12 = tmp.*real(exp(sqrt(-1).*(obj.w.*timeseries(i) - obj.k*(obj.wavegauge2loc(1).*cos(obj.direction*pi/180) + obj.wavegauge2loc(2).*sin(obj.direction*pi/180)) + obj.phase)));
-                    obj.waveAmpTime2(i,2) = rampFunction(i)*sum(tmp12,'all');
-                end
-
-                if ~isnan(obj.wavegauge3loc)
-                    tmp13 = tmp.*real(exp(sqrt(-1).*(obj.w.*timeseries(i) - obj.k*(obj.wavegauge3loc(1).*cos(obj.direction*pi/180) + obj.wavegauge3loc(2).*sin(obj.direction*pi/180)) + obj.phase)));
-                    obj.waveAmpTime3(i,2) = rampFunction(i)*sum(tmp13,'all');
-                end
                 
                 % Wave Markers
                 if ~isempty(obj.markerLoc)
@@ -774,14 +727,8 @@ classdef waveClass<handle
             obj.waveAmpTime(:,1) = time;
             obj.waveAmpTime(:,2) = rampFunction.*interp1(data_t,data_x,time);
             
-            if any(~isnan(obj.wavegauge1loc)) || ...
-                    any(~isnan(obj.wavegauge2loc)) || ...
-                    any(~isnan(obj.wavegauge3loc)) || ...
-                    ~isempty(obj.markerLoc)
+            if any(~isempty(obj.markerLoc))
                 warning('Cannot use wave gauges or visualization markers with eta import. Gauges and markers removed.');
-                obj.wavegauge1loc = [NaN,NaN];
-                obj.wavegauge2loc = [NaN,NaN];
-                obj.wavegauge3loc = [NaN,NaN];
                 obj.markerLoc = [];
             end
         end

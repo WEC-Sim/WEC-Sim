@@ -322,23 +322,42 @@ simulation.
 Wave Gauge Placement
 ^^^^^^^^^^^^^^^^^^^^
 
-By default, the wave surface elevation is calculated at the origin. Users are 
-allowed up to 3 other x-locations to calculate the wave surface elevation 
-offset from the origin in the global x-direction by defining the wave class 
-variable, ``waves.wavegauge<i>loc``, in the WEC-Sim input file: 
+By default, the wave surface elevation at the origin is calculated by WEC-Sim. 
+In past releases, there was the option to define up to three numerical wave gauge 
+locations where WEC-Sim would also calculate the undisturbed linear incident wave 
+elevation. WEC-Sim now has the feature to define wave markers that oscillate 
+vertically with the undistrubed linear wave elevation (see 
+`WEC-Sim Visualization Wave Markers <http://wec-sim.github.io/WEC-Sim/master/user/advanced_features.html#wave-markers>`_).
+This feature does not limit the number of point measurements of the undisturbed 
+free surface elevation and the time history calculation at the marker location 
+is identical to the previous wave gauge implementation. Users who desire to 
+continuing using the previous wave gauge feature will only need to update the 
+variable called within WEC-Sim and an example can be found in the 
+`WECCCOMP Repository <https://github.com/WEC-Sim/WECCCOMP>`_. 
 
-    :code:`waves.wavegauge<i>loc = <user defined wave gauge i x-location>; %(y-position assumed to be 0 m)`
+.. Note::
+    The numerical wave markers (wave gauges) do not handle the incident wave interaction with the radiated or diffracted 
+    waves that are generated because of the presence and motion of any hydrodynamic bodies.
 
-where i = 1, 2, or 3
 
-The WEC-Sim numerical wave gauges output the undisturbed linear incident wave 
-elevation at the wave gauge locations defined above. The numerical wave gauges 
-do not handle the incident wave interaction with the radiated or diffracted 
-waves that are generated because of the presence and motion of the WEC 
-hydrodynamic bodies. This option provides the following wave elevation time 
-series: 
+.. _user-advanced-features-current:
 
-    :code:`waves.waveAmpTime<i> = incident wave elevation time series at wave gauge i`
+Ocean Current
+^^^^^^^^^^^^^
+The speed of an ocean current can be included through the wave class parameters::
+
+    waves.currentOption
+    waves.currentSpeed
+    waves.currentDirection
+    waves.currentDepth
+
+The current option determines the method used to propagate the surface current across the 
+specified depth. Option 0 is depth independent, option 1 uses a 1/7 power law, option 2
+uses linear variation with depth and option 3 specifies no ocean current.
+The ``currentSpeed`` parameter represents the surface current speed, and ``currentDepth`` 
+the depth at which the current speed decays to zero (given as a positive number).
+See :ref:`theory-current` for more details on each method.
+These parameters are used to calculate the fluid velocity in the Morison Element calculation.
 
 .. _user-advanced-features-body:
 
@@ -596,6 +615,13 @@ For :code:`body(ii).morisonElement.option  = 2` ::
     :code:`body(i).morisonElement.z` is a unit normal vector that defines the 
     orientation of the Morison Element. 
 
+To better represent certain scenarios, an ocean current speed can be defined to 
+calculate a more accurate fluid velocity and acceleration on the Morison 
+Element. These can be defined through the wave class parameters 
+``waves.currentOption``, ``waves.currentSpeed``, ``waves.currentDirection``, 
+and ``waves.currentDepth``. See :ref:`user-advanced-features-current` for more 
+detail on using these options.
+
 The Morison Element time-step may also be defined as
 :code:`simu.morisonDt = N*simu.dt`, where N is number of increment steps. For an 
 example application of using Morison Elements in WEC-Sim, refer to the `WEC-Sim 
@@ -749,7 +775,7 @@ how to implement and use generalized body modes in WEC-Sim.
 .. Note::
 
     Generalized body modes module has only been tested with WAMIT, where BEMIO 
-    may need to be modified for NEMOH, AQWA and CAPYTAINE.
+    may need to be modified for NEMOH, Aqwa and Capytaine.
 
 .. _user-advanced-features-passive-yaw:
 
