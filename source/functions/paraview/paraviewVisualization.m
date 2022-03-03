@@ -1,5 +1,5 @@
 %% Paraview Visualization
-if simu.paraview == 1
+if simu.paraview.option == 1
     fprintf('    ...writing ParaView files...   \n')
     if exist([simu.paraview.path filesep 'vtk'],'dir') ~= 0
         try

@@ -1,6 +1,6 @@
 function writeParaviewMooring(moorDyn, model,t,simdate,nline,nnode,paraview.path,TimeBodyParav,NewTimeParaview)
 % Method to write ``vtp`` Paraview visualization files for the
-% mooringClass. Executed by paraviewVisualization.m when simu.paraview=1 
+% mooringClass. Executed by paraviewVisualization.m when simu.paraview.option=1 
 % in the wecSimInputFile.m
 % 
 % Parameters

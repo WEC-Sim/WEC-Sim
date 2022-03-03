@@ -62,7 +62,7 @@ classdef waveClass<handle
         S = [];                 % Wave Spectrum [m^2-s/rad] for ``Traditional``
         Pw = [];                % Wave Power Per Unit Wave Crest [W/m]        
         bemFreq = [];           % Number of wave frequencies from BEM
-        deepWaterWave = [];     % Deep water or not, depending on input from WAMIT, NEMOH and AQWA
+        deepWater = [];     % Deep water or not, depending on input from WAMIT, NEMOH and AQWA
         dw = 0;                 % Frequency spacing [rad] for ``irregular`` waves.
         k = [];                 % Wave Number
         phase = 0;              % Wave phase [rad] . Only used for ``irregular`` waves.
@@ -219,7 +219,7 @@ classdef waveClass<handle
                     end
                     obj.H = 0;
                     obj.A = obj.H/2;
-                    obj.k = waveNumber(obj.w,obj.waterDepth,g,obj.deepWaterWave);
+                    obj.k = waveNumber(obj.w,obj.waterDepth,g,obj.deepWater);
                     obj.waveElevNowave(time);
                 case {'regular','regularCIC'}
                     if isempty(obj.w) && strcmp(obj.T,'NOT DEFINED')
@@ -231,7 +231,7 @@ classdef waveClass<handle
                         obj.T = 2*pi/obj.w;
                     end
                     obj.A = obj.H/2;
-                    obj.k = waveNumber(obj.w,obj.waterDepth,g,obj.deepWaterWave);
+                    obj.k = waveNumber(obj.w,obj.waterDepth,g,obj.deepWater);
                     obj.waveElevReg(rampTime, time);
                     obj.wavePowerReg(g,rho);
                 case {'irregular','spectrumImport'}
@@ -269,7 +269,7 @@ classdef waveClass<handle
                     end
                     obj.setWavePhase;
                     obj.irregWaveSpectrum(g,rho)
-                    obj.k = waveNumber(obj.w,obj.waterDepth,g,obj.deepWaterWave);
+                    obj.k = waveNumber(obj.w,obj.waterDepth,g,obj.deepWater);
                     obj.waveElevIrreg(rampTime, time, obj.dw);
                 case {'elevationImport'}    %  This does not account for wave direction
                     % Import 'elevationImport' time-series here and interpolate
@@ -352,18 +352,6 @@ classdef waveClass<handle
             end
         end                
         
-        function waveNumber(obj,g)
-            % This method calculates the wave number, 
-            % used by: :meth:`waveClass.setup`.
-            % 
-            obj.k = obj.w.^2./g;
-            if obj.deepWaterWave == 0
-                for i=1:100
-                    obj.k = obj.w.^2./g./tanh(obj.k.*obj.waterDepth);
-                end
-            end
-        end
-                
         function Z = waveElevationGrid(obj, t, X, Y, TimeBodyParav, it, g)
             % This method calculates wave elevation on a grid at a given
             % time, used by: :func:`write_paraview_wave`.
@@ -527,12 +515,12 @@ classdef waveClass<handle
                 if isempty(bemWaterDepth)
                     error('Must define water depth in waves.waterDepth when zero hydro bodies (no .h5 file).');
                 elseif strcmp(bemWaterDepth,'infinite')
-                    obj.deepWaterWave = 1;
+                    obj.deepWater = 1;
                     obj.waterDepth = 200;
                     fprintf('\tInfinite water depth specified in BEM and "waves.waterDepth" not specified in input file.\n')
                     fprintf('Set water depth to 200m for visualization.\n')
                 else
-                    obj.deepWaterWave = 0;
+                    obj.deepWater = 0;
                     obj.waterDepth = double(bemWaterDepth);
                 end
             end
@@ -582,7 +570,7 @@ classdef waveClass<handle
         
         function wavePowerReg(obj,g,rho)
             % Calculate wave power per unit wave crest for regular waves
-            if obj.deepWaterWave == 1
+            if obj.deepWater == 1
                 % Deepwater Approximation
                 obj.Pw = 1/(8*pi)*rho*g^(2)*(obj.A).^(2).*obj.T;               
             else
@@ -638,8 +626,8 @@ classdef waveClass<handle
                     error('Following IEC Standard, our Bretschneider Sprectrum (BS) option is exactly how the Pierson-Moskowitz (PM) Spectrum is defined. Please use PM instead');
             end
             % Power per Unit Wave Crest
-            obj.k = waveNumber(obj.w,obj.waterDepth,g,obj.deepWaterWave); %Calculate Wave Number for Larger Number of Frequencies Before Down Sampling in Equal Energy Method
-            if obj.deepWaterWave == 1
+            obj.k = waveNumber(obj.w,obj.waterDepth,g,obj.deepWater); %Calculate Wave Number for Larger Number of Frequencies Before Down Sampling in Equal Energy Method
+            if obj.deepWater == 1
                 % Deepwater Approximation
                 obj.Pw = sum(1/2*rho*g^(2)*S_f/(2*pi).*obj.dw./obj.w);
             else

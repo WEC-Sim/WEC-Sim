@@ -1,7 +1,7 @@
 function writeParaviewResponse(bodies, t, model, simdate, wavetype, mooring, paraview.path)
 % Method to write ``vtp`` Paraview visualization files for the
 % responseClass. Executed by paraviewVisualization.m when 
-% simu.paraview=1 in the wecSimInputFile.m
+% simu.paraview.option=1 in the wecSimInputFile.m
 % 
 % Parameters
 % ------------

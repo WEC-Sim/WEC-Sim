@@ -77,8 +77,8 @@ try hydroData.hydro_coeffs.radiation_damping.state_space.C.all = reverseDimensio
 try hydroData.hydro_coeffs.radiation_damping.state_space.D.all = reverseDimensionOrder(h5read(filename, [h5BodyName '/hydro_coeffs/radiation_damping/state_space/D/all'])); end
 
 % Read GBM parameters if available
-dof_start = hydroData.properties.dof_start;
-dof_end = hydroData.properties.dof_end;
+dofStart = hydroData.properties.dofStart;
+dofEnd = hydroData.properties.dofEnd;
 try 
     tmp_mass = reverseDimensionOrder(h5read(filename, [h5BodyName '/properties/mass']));
     hydroData.gbm.mass = tmp_mass(dofStart+6:dofEnd,dofStart+6:dofEnd);

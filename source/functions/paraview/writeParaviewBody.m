@@ -1,6 +1,6 @@
 function writeParaviewBody(body, t, pos_all, bodyname, model, simdate, hspressure,wavenonlinearpressure,wavelinearpressure,paraview.path,vtkbodiesii)
 % Method to write ``vtp`` Paraview visualization files for the bodyClass.
-% Executed by paraviewVisualization.m when simu.paraview=1 in the 
+% Executed by paraviewVisualization.m when simu.paraview.option=1 in the 
 % wecSimInputFile.m
 % 
 % Parameters

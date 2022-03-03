@@ -235,7 +235,7 @@ end
 
 % Nonlinear hydro
 for kk = 1:length(body(1,:))
-    if (body(kk).nonlinearHydro > 0) || (simu.paraview == 1)
+    if (body(kk).nonlinearHydro > 0) || (simu.paraview.option == 1)
         body(kk).importBodyGeometry()
     end
 end; clear kk
