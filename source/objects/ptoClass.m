@@ -29,19 +29,9 @@ classdef ptoClass<handle
     
     %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
     properties (SetAccess = 'public', GetAccess = 'public')%input file 
-        name                    = 'NOT DEFINED'                                 % (`string`) Specifies the pto name. For ptos this is defined by the user, Default = ``NOT DEFINED``. 
-        k                       = 0                                             % (`float`) Linear PTO stiffness coefficient. Default = `0`.
         c                       = 0                                             % (`float`) Linear PTO damping coefficient. Default = `0`.
         equilibriumPosition     = 0                                             % (`float`) Linear PTO equilibrium position, m or deg. Default = `0`.
-        pretension              = 0                                             % (`float`) Linear PTO pretension, N or N-m. Default = `0`.
-        loc                     = [999 999 999]                                 % (`3x1 float vector`) PTO location [m]. Defined in the following format [x y z]. Default = ``[999 999 999]``.
-        orientation             = struct(...                                    % 
-                                         'z', [0, 0, 1], ...                    % 
-                                         'y', [0, 1, 0], ...                    % 
-                                         'x', [], ...                           % 
-                                         'rotationMatrix',[])                   % Structure defining the orientation axis of the pto. ``z`` (`3x1 float vector`) defines the direciton of the Z-coordinate of the pto, Default = [``0 0 1``]. ``y`` (`3x1 float vector`) defines the direciton of the Y-coordinate of the pto, Default = [``0 1 0``]. ``x`` (`3x1 float vector`) internally calculated vector defining the direction of the X-coordinate for the pto, Default = ``[]``. ``rotationMatrix`` (`3x3 float matrix`) internally calculated rotation matrix to go from standard coordinate orientation to the pto coordinate orientation, Default = ``[]``.
-        initDisp                = struct(...                                    % Structure defining the initial displacement
-                                         'initLinDisp',          [0 0 0])       % Structure defining the initial displacement of the pto. ``initLinDisp`` (`3x1 float vector`) is defined as the initial displacement of the pto [m] in the following format [x y z], Default = [``0 0 0``].
+        k                       = 0                                             % (`float`) Linear PTO stiffness coefficient. Default = `0`.
         hardStops               = struct(...
                                           'upperLimitSpecify', 'off',...        % (`string`) Initialize upper stroke limit. ``  'on' or 'off' `` Default = ``off``. 
                                           'upperLimitBound', 1, ...             % (`float`) Define upper stroke limit in m or deg. Only active if `lowerLimitSpecify` is `on` `` Default = ``1``. 
@@ -54,6 +44,16 @@ classdef ptoClass<handle
                                           'lowerLimitDamping', 1e3, ...         % (`float`) Define lower limit damping, N/m/s or N-m/deg/s.  `` Default = ``1e3``.
                                           'lowerLimitTransitionRegionWidth', 1e-4) % (`float`) Define lower limit transition region, over which spring and damping values ramp up to full values. Increase for stability. m or deg. ``Default = 1e-4``
     
+        initDisp                = struct(...                                    % Structure defining the initial displacement
+                                         'initLinDisp',          [0 0 0])       % Structure defining the initial displacement of the pto. ``initLinDisp`` (`3x1 float vector`) is defined as the initial displacement of the pto [m] in the following format [x y z], Default = [``0 0 0``].
+        loc                     = [999 999 999]                                 % (`3x1 float vector`) PTO location [m]. Defined in the following format [x y z]. Default = ``[999 999 999]``.
+        name                    = 'NOT DEFINED'                                 % (`string`) Specifies the pto name. For ptos this is defined by the user, Default = ``NOT DEFINED``. 
+        orientation             = struct(...                                    % 
+                                         'z', [0, 0, 1], ...                    % 
+                                         'y', [0, 1, 0], ...                    % 
+                                         'x', [], ...                           % 
+                                         'rotationMatrix',[])                   % Structure defining the orientation axis of the pto. ``z`` (`3x1 float vector`) defines the direciton of the Z-coordinate of the pto, Default = [``0 0 1``]. ``y`` (`3x1 float vector`) defines the direciton of the Y-coordinate of the pto, Default = [``0 1 0``]. ``x`` (`3x1 float vector`) internally calculated vector defining the direction of the X-coordinate for the pto, Default = ``[]``. ``rotationMatrix`` (`3x3 float matrix`) internally calculated rotation matrix to go from standard coordinate orientation to the pto coordinate orientation, Default = ``[]``.
+        pretension              = 0                                             % (`float`) Linear PTO pretension, N or N-m. Default = `0`.
     end 
     
     properties (SetAccess = 'public', GetAccess = 'public')%internal
