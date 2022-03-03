@@ -131,9 +131,7 @@ classdef waveClass<handle
         end
         
         function checkinputs(obj)
-            % This method checks WEC-Sim user inputs and generates error
-            % messages if parameters are not properly defined. 
-            
+            % This method checks WEC-Sim user inputs and generates error messages if parameters are not properly defined.             
            
             % check waves types
             types = {'noWave', 'noWaveCIC', 'regular', 'regularCIC', 'irregular', 'spectrumImport', 'elevationImport'};
@@ -176,50 +174,8 @@ classdef waveClass<handle
                 end
             end                        
         end
-
-        function listInfo(obj)
-            % This method prints wave information to the MATLAB Command Window.
-            %             
-            fprintf('\nWave Environment: \n')
-            switch obj.type
-                case 'noWave'
-                    fprintf('\tWave Type                            = No Wave (Constant Hydrodynamic Coefficients)\n')
-                    fprintf('\tHydro Data Wave Period, T (sec)    	= %G\n',obj.T)
-                case 'regular'
-                    fprintf('\tWave Type                            = Regular Waves (Constant Hydrodynamic Coefficients)\n')
-                    fprintf('\tWave Height, H (m)                   = %G\n',obj.H)
-                    fprintf('\tWave Period, T (sec)                 = %G\n',obj.T)
-                case 'noWaveCIC'
-                    fprintf('\tWave Type                            = No Wave (Convolution Integral Calculation)\n')
-                case 'regularCIC'
-                    fprintf('\tWave Type                            = Regular Waves (Convolution Integral Calculation)\n')
-                    fprintf('\tWave Height, H (m)                   = %G\n',obj.H)
-                    fprintf('\tWave Period, T (sec)                 = %G\n',obj.T)
-                case 'irregular'
-                    if obj.phaseSeed == 0
-                        fprintf('\tWave Type                            = Irregular Waves (Arbitrary Random Phase)\n')
-                    else
-                        fprintf('\tWave Type                            = Irregular Waves (Predefined Random Phase)\n')
-                    end
-                    obj.printWaveSpectrumType;
-                    fprintf('\tSignificant Wave Height, Hs      (m) = %G\n',obj.H)
-                    fprintf('\tPeak Wave Period, Tp           (sec) = %G\n',obj.T)
-                case 'spectrumImport'
-                    if size(importdata(obj.spectrumFile),2) == 3
-                        fprintf('\tWave Type                            = Irregular waves with imported wave spectrum (Imported Phase)\n')
-                    elseif obj.phaseSeed == 0
-                        fprintf('\tWave Type                            = Irregular waves with imported wave spectrum (Random Phase)\n')
-                    else
-                        fprintf('\tWave Type                            = Irregular waves with imported wave spectrum (Seeded Phase)\n')
-                    end
-                    obj.printWaveSpectrumType;
-                case 'elevationImport'
-                    fprintf( '\tWave Type                           = Waves with imported wave elevation time-history\n')
-                    fprintf(['\tWave Elevation Time-Series File    	= ' obj.elevationFile '  \n'])
-            end
-        end
                 
-        function waveSetup(obj,bemFreq,bemWaterDepth,rampTime,dt,maxIt,time,g,rho)
+        function setup(obj,bemFreq,bemWaterDepth,rampTime,dt,maxIt,time,g,rho)
             % This method calculates WEC-Sim's wave properties 
             % based on the specified wave type.
             %
@@ -323,6 +279,48 @@ classdef waveClass<handle
             end
         end
 
+        function listInfo(obj)
+            % This method prints wave information to the MATLAB Command Window.
+            %             
+            fprintf('\nWave Environment: \n')
+            switch obj.type
+                case 'noWave'
+                    fprintf('\tWave Type                            = No Wave (Constant Hydrodynamic Coefficients)\n')
+                    fprintf('\tHydro Data Wave Period, T (sec)    	= %G\n',obj.T)
+                case 'regular'
+                    fprintf('\tWave Type                            = Regular Waves (Constant Hydrodynamic Coefficients)\n')
+                    fprintf('\tWave Height, H (m)                   = %G\n',obj.H)
+                    fprintf('\tWave Period, T (sec)                 = %G\n',obj.T)
+                case 'noWaveCIC'
+                    fprintf('\tWave Type                            = No Wave (Convolution Integral Calculation)\n')
+                case 'regularCIC'
+                    fprintf('\tWave Type                            = Regular Waves (Convolution Integral Calculation)\n')
+                    fprintf('\tWave Height, H (m)                   = %G\n',obj.H)
+                    fprintf('\tWave Period, T (sec)                 = %G\n',obj.T)
+                case 'irregular'
+                    if obj.phaseSeed == 0
+                        fprintf('\tWave Type                            = Irregular Waves (Arbitrary Random Phase)\n')
+                    else
+                        fprintf('\tWave Type                            = Irregular Waves (Predefined Random Phase)\n')
+                    end
+                    obj.printWaveSpectrumType;
+                    fprintf('\tSignificant Wave Height, Hs      (m) = %G\n',obj.H)
+                    fprintf('\tPeak Wave Period, Tp           (sec) = %G\n',obj.T)
+                case 'spectrumImport'
+                    if size(importdata(obj.spectrumFile),2) == 3
+                        fprintf('\tWave Type                            = Irregular waves with imported wave spectrum (Imported Phase)\n')
+                    elseif obj.phaseSeed == 0
+                        fprintf('\tWave Type                            = Irregular waves with imported wave spectrum (Random Phase)\n')
+                    else
+                        fprintf('\tWave Type                            = Irregular waves with imported wave spectrum (Seeded Phase)\n')
+                    end
+                    obj.printWaveSpectrumType;
+                case 'elevationImport'
+                    fprintf( '\tWave Type                           = Waves with imported wave elevation time-history\n')
+                    fprintf(['\tWave Elevation Time-Series File    	= ' obj.elevationFile '  \n'])
+            end
+        end
+        
         function calculateElevation(obj,rampTime,timeseries)
             % Calculates the wave elevation based on the wave type.
             % Used by postProcess.m
@@ -351,13 +349,13 @@ classdef waveClass<handle
                 case {'elevationImport'}
                     % Wave elevation is a necessary pre-processing step for
                     % the eta import case.
-                    % Used by waveClass.waveSetup()
+                    % Used by waveClass.setup()
             end
         end                
         
         function waveNumber(obj,g)
             % This method calculates the wave number, 
-            % used by: :meth:`waveClass.waveSetup`.
+            % used by: :meth:`waveClass.setup`.
             % 
             obj.k = obj.w.^2./g;
             if obj.deepWaterWave == 0
@@ -500,7 +498,7 @@ classdef waveClass<handle
     methods (Access = 'protected')
         function setWavePhase(obj)
             % Sets the irregular wave's random phase
-            % Used by waveSetup
+            % used by: :meth:`waveClass.setup`.
             if obj.phaseSeed ~= 0
                 rng(obj.phaseSeed); % Phase seed = 1,2,3,...,etc
             else
@@ -525,7 +523,7 @@ classdef waveClass<handle
         
         function setWaterDepth(obj,bemWaterDepth)
             % Set the water depth. If defined in input file, BEM depth is
-            % not used. Used by waveSetup
+            % not used. used by: :meth:`waveClass.setup`.
             if isempty(obj.waterDepth)
                 if isempty(bemWaterDepth)
                     error('Must define water depth in waves.waterDepth when zero hydro bodies (no .h5 file).');
@@ -543,7 +541,7 @@ classdef waveClass<handle
         
         function waveElevNowave(obj,timeseries)
             % Set noWave elevation time-history
-            % Used by waveSetup                    
+            % used by: :meth:`waveClass.setup`.                    
             % Used by postProcess for variable step solvers
             obj.waveAmpTime         = zeros(length(timeseries),2);
             obj.waveAmpTime(:,1)    = timeseries;
@@ -557,7 +555,7 @@ classdef waveClass<handle
         
         function waveElevReg(obj,rampTime,timeseries)
             % Calculate regular wave elevation time history
-            % Used by waveSetup                    
+            % used by: :meth:`waveClass.setup`.                    
             % Used by postProcess for variable step solvers
             maxIt = length(timeseries);
             rampFunction = (1+cos(pi+pi*timeseries/rampTime))/2;
@@ -613,7 +611,7 @@ classdef waveClass<handle
         
         function irregWaveSpectrum(obj,g,rho)
             % Calculate wave spectrum vector (obj.A)
-            % Used by wavesIrreg (wavesIrreg used by waveSetup)            
+            % Used by wavesIrreg (wavesIrreg used by: :meth:`waveClass.setup`.)            
             freq = obj.w/(2*pi);
             Tp = obj.T;
             Hs = obj.H;
@@ -697,7 +695,7 @@ classdef waveClass<handle
 
         function waveElevIrreg(obj,rampTime,timeseries,df)
             % Calculate irregular wave elevetaion time history
-            % Used by waveSetup
+            % used by: :meth:`waveClass.setup`.
             % Used by postProcess for variable time step 
             maxIt = length(timeseries);
             rampFunction = (1+cos(pi+pi*timeseries/rampTime))/2;
@@ -766,7 +764,7 @@ classdef waveClass<handle
         
         function waveElevUser(obj,rampTime,dt,maxIt,data,time)
             % Calculate imported wave elevation time history
-            % Used by waveSetup
+            % used by: :meth:`waveClass.setup`.
             rampFunction = (1+cos(pi+pi*time/rampTime))/2;
             rampFunction(time>rampTime) = 1;
             

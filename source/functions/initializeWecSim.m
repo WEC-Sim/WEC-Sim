@@ -217,7 +217,7 @@ simu.setup;
 if any(hydroBodLogic == 1)
     % When hydro bodies (and an .h5) are present, define the wave using those
     % parameters.
-    waves.waveSetup(body(1).hydroData.simulation_parameters.w, body(1).hydroData.simulation_parameters.water_depth, simu.rampTime, simu.dt, simu.maxIt, simu.time, simu.g, simu.rho);
+    waves.setup(body(1).hydroData.simulation_parameters.w, body(1).hydroData.simulation_parameters.water_depth, simu.rampTime, simu.dt, simu.maxIt, simu.time, simu.g, simu.rho);
     % Check that direction and freq are within range of hydro data
     if  min(waves.direction) <  min(body(1).hydroData.simulation_parameters.wave_dir) || max(waves.direction) >  max(body(1).hydroData.simulation_parameters.wave_dir)
         error('waves.direction outside of range of available hydro data')
@@ -230,7 +230,7 @@ if any(hydroBodLogic == 1)
 else
     % When no hydro bodies (and no .h5) are present, define the wave using
     % input file parameters
-    waves.waveSetup([], [], simu.rampTime, simu.dt, simu.maxIt, simu.time, simu.g, simu.rho);
+    waves.setup([], [], simu.rampTime, simu.dt, simu.maxIt, simu.time, simu.g, simu.rho);
 end
 
 % Nonlinear hydro

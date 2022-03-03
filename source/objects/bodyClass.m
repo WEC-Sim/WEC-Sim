@@ -111,6 +111,65 @@ classdef bodyClass<handle
             obj.h5File = filename;
         end
         
+        function checkinputs(obj,morisonElement)
+            % This method checks WEC-Sim user inputs and generates error messages if parameters are not properly defined for the bodyClass.
+            
+            % Check h5 file
+            if exist(obj.h5File,'file')==0 && obj.nonHydro==0
+                error('The hdf5 file %s does not exist',obj.h5File)
+            end
+            % Check geometry file
+            if exist(obj.geometryFile,'file') == 0
+                error('Could not locate and open geometry file %s',obj.geometryFile)
+            end
+            % Check Morison Element Inputs for option 1
+            if morisonElement == 1
+                [rgME,~] = size(obj.morisonElement.rgME);
+                [rz,~] = size(obj.morisonElement.z);
+                if rgME > rz
+                    obj.morisonElement.z = NaN(rgME,3);
+                end
+                clear rgME rz
+            end
+            % Check Morison Element Inputs for option 2
+            if morisonElement == 2
+                [r,~] = size(obj.morisonElement.z);
+                for ii = 1:r
+                    if norm(obj.morisonElement.z(ii,:)) ~= 1
+                        error(['Ensure the Morison Element .z variable is a unit vector for the ',num2str(ii),' index'])
+                    end
+                end
+            end
+            % check 'body.initDisp' fields
+            if length(fieldnames(obj.initDisp)) ~=3
+                error(['Unrecognized method, property, or field for class "bodyClass", ' ... 
+                    '"bodyClass.initDisp" structure must only include fields: "initLinDisp", "initAngularDispAxis", "initAngularDispAngle"']);
+            end              
+            % check 'body.morisonElement' fields
+            if length(fieldnames(obj.morisonElement)) ~=7
+                error(['Unrecognized method, property, or field for class "bodyClass", ' ... 
+                    '"bodyClass.morisonElement" structure must only include fields: "option", "cd", "ca", "characteristicArea", "VME", "rgME", "z" . ']);
+            end               
+            % check 'body.viscDrag' fields
+            if length(fieldnames(obj.viscDrag)) ~=3
+                error(['Unrecognized method, property, or field for class "bodyClass", ' ... 
+                    '"bodyClass.viscDrag" structure must only include fields: "Drag", "cd", "characteristicArea"']);
+            end                
+            % check 'body.viz' fields
+            if length(fieldnames(obj.viz)) ~=2
+                error(['Unrecognized method, property, or field for class "bodyClass", ' ... 
+                    '"bodyClass.viz" structure must only include fields: "color", "opacity"']);
+            end                
+        end
+        
+        function listInfo(obj)
+            % This method prints body information to the MATLAB Command Window.
+            fprintf('\n\t***** Body Number %G, Name: %s *****\n',obj.hydroData.properties.body_number,obj.hydroData.properties.name)
+            fprintf('\tBody CG                          (m) = [%G,%G,%G]\n',obj.hydroData.properties.cg)
+            fprintf('\tBody Mass                       (kg) = %G \n',obj.mass);
+            fprintf('\tBody Diagonal MOI              (kgm2)= [%G,%G,%G]\n',obj.momOfInertia)
+        end
+        
         function readH5File(obj)
             % WECSim internal function that reads the body h5 file.
             filename = obj.h5File;
@@ -387,15 +446,7 @@ classdef bodyClass<handle
             obj.initDisp.initAngularDispAngle = netAngle;
             
         end
-        
-        function listInfo(obj)
-            % This method prints body information to the MATLAB Command Window.
-            fprintf('\n\t***** Body Number %G, Name: %s *****\n',obj.hydroData.properties.body_number,obj.hydroData.properties.name)
-            fprintf('\tBody CG                          (m) = [%G,%G,%G]\n',obj.hydroData.properties.cg)
-            fprintf('\tBody Mass                       (kg) = %G \n',obj.mass);
-            fprintf('\tBody Diagonal MOI              (kgm2)= [%G,%G,%G]\n',obj.momOfInertia)
-        end
-        
+                
         function importBodyGeometry(obj)
             % Reads mesh file and calculates areas and centroids
             tr = stlread(obj.geometryFile);
@@ -462,35 +513,7 @@ classdef bodyClass<handle
             quiver3(c(:,1),c(:,2),c(:,3),n(:,1),n(:,2),n(:,3))
         end
         
-        function checkinputs(obj,morisonElement)
-            % This method checks WEC-Sim user inputs and generates error messages if parameters are not properly defined for the bodyClass.
-            % Check h5 file
-            if exist(obj.h5File,'file')==0 && obj.nonHydro==0
-                error('The hdf5 file %s does not exist',obj.h5File)
-            end
-            % Check geometry file
-            if exist(obj.geometryFile,'file') == 0
-                error('Could not locate and open geometry file %s',obj.geometryFile)
-            end
-            % Check Morison Element Inputs for option 1
-            if morisonElement == 1
-                [rgME,~] = size(obj.morisonElement.rgME);
-                [rz,~] = size(obj.morisonElement.z);
-                if rgME > rz
-                    obj.morisonElement.z = NaN(rgME,3);
-                end
-                clear rgME rz
-            end
-            % Check Morison Element Inputs for option 2
-            if morisonElement == 2
-                [r,~] = size(obj.morisonElement.z);
-                for ii = 1:r
-                    if norm(obj.morisonElement.z(ii,:)) ~= 1
-                        error(['Ensure the Morison Element .z variable is a unit vector for the ',num2str(ii),' index'])
-                    end
-                end
-            end
-        end
+        
     end
     
     methods (Access = 'protected') %modify object = T; output = F

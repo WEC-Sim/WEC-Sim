@@ -44,12 +44,13 @@ classdef simulationClass<handle
         mode                = 'normal'                                     % (`string`) Simulation execution mode, 'normal', 'accelerator', 'rapid-accelerator'. Default = ``'normal'``
         morisonDt           = []                                           % (`float`) Sample time to calculate Morison Element forces. Default = ``dt``
         nonlinearDt         = []                                           % (`float`) Sample time to calculate nonlinear forces. Default = ``dt``
-        numIntMidTimeSteps  = 5                                            % (`integer`) Number of intermediate time steps. Default = ``5`` for ode4 method
-        paraview            = 0                                            % (`integer`) Flag for paraview visualization, and writing vtp files, Options: 0 (off) , 1 (on). Default = ``0``
-        paraviewDt          = 0.1;                                         % (`float`) Timestep for Paraview. Default = ``0.1``         
-        paraviewStartTime   = 0;                                           % (`float`) Start time for the vtk file of Paraview. Default = ``0``                                    
-        paraviewEndTime     = 100;                                         % (`float`) End time for the vtk file of Paraview. Default = ``100``                                      
-        paraviewDirectory   = 'vtk';                                       % (`string`) Path of the folder for Paraview vtk files. Default = ``'vtk'``     
+        numIntMidTimeSteps  = 5                                            % (`integer`) Number of intermediate time steps. Default = ``5`` for ode4 method        
+        paraview         = struct(...   	% (`structure`) Defines the BEM data implemtation. 
+            'option',       0,...           % 
+            'startTime',	0, ...          % 
+            'endTime',      100, ...        % 
+            'dt',           0.1, ...        %             
+            'path',         'vtk')          % (`structure`) Defines the BEM data implemtation. ``option`` (`integer`) Flag for paraview visualization, and writing vtp files, Options: 0 (off) , 1 (on). Default = ``0``. ``startTime`` (`float`) Start time for the vtk file of Paraview. Default = ``0``. ``endTime`` (`float`) End time for the vtk file of Paraview. Default = ``100``.  ``dt`` (`float`) Timestep for Paraview. Default = ``0.1``. ``path`` (`string`) Path of the folder for Paraview vtk files. Default = ``'vtk'``.        
         pressureDis         = 0                                            % (`integer`) Flag to save pressure distribution, Options: 0 (off), 1 (on). Default = ``0``
         rampTime            = 100                                          % (`float`) Ramp time for wave forcing. Default = ``100`` s        
         reloadH5Data        = 0                                            % (`integer`) Flag to re-load hydro data from h5 file between runs, Options: 0 (off), 1 (on). Default = ``0``
@@ -98,30 +99,31 @@ classdef simulationClass<handle
             obj.outputDir = ['.' filesep obj.outputDir];
         end
 
-        function obj = loadSimMechModel(obj,fName)
-            % This method loads the simulink model and sets parameters
-            % 
-            % Parameters
-            % ------------
-            %   fname : string
-            %       the name of the SimMechanics ``.slx`` file
-            %
-            
-            load_system(fName);
-            [~,modelName,~] = fileparts(fName);
-            set_param(modelName,'Solver',obj.solver,...
-                'StopTime',num2str(obj.endTime),...
-                'SimulationMode',obj.mode,...
-                'StartTime',num2str(obj.startTime),...
-                'FixedStep',num2str(obj.dt),...
-                'MaxStep',num2str(obj.dt),...
-                'AutoInsertRateTranBlk',obj.autoRateTranBlk,...
-                'ZeroCrossControl',obj.zeroCrossCont,...
-                'SimCompilerOptimization','on',...            
-                'ReturnWorkspaceOutputs','off',...
-                'SimMechanicsOpenEditorOnUpdate',obj.explorer);
+        function checkinputs(obj)
+            % This method checks WEC-Sim user inputs and generates error messages if parameters are not properly defined.             
+           
+            % Checks user input to ensure that ``simu.endTime`` is specified 
+            if isempty(obj.endTime)
+                error('simu.endTime, the simulation end time must be specified in the wecSimInputFile')
+            end            
+            % Check that simMechanics file exists
+            obj.simMechanicsFile = [obj.caseDir filesep obj.simMechanicsFile];     
+            if exist(obj.simMechanicsFile,'file') ~= 4
+                error('The simMechanics file, %s, does not exist in the case directory',obj.simMechanicsFile)
+            end            
+            % check 'simu.paraview' fields
+            if length(fieldnames(obj.paraview)) ~=5
+                error(['Unrecognized method, property, or field for class "simulationClass", ' ... 
+                    '"simulationClass.paraview" structure must only include fields: "option", "startTime", "endTime", "dt", "path"']);
+            end            
+            % check that visualization is off when using accelerator modes
+            if (strcmp(obj.mode,'accelerator') || strcmp(obj.mode,'rapid-accelerator')) ...
+                    && strcmp(obj.explorer,'on')
+                warning('Mechanics explorer not allowed in accelerator or rapid-accelerator modes. Turning mechanics explorer off.');
+                obj.explorer = 'off';
+            end
         end
-
+        
         function setup(obj)
             % Sets simulation properties based on values specified in input file
             obj.time = obj.startTime:obj.dt:obj.endTime;
@@ -147,9 +149,9 @@ classdef simulationClass<handle
                 obj.morisonDt = obj.dt;
             end
             
-            % Set paraviewDt if it was not specified in input file
-            if isempty(obj.paraviewDt) || obj.paraviewDt < obj.dtOut
-                obj.paraviewDt = obj.dtOut;
+            % Set paraview.dt if it was not specified in input file
+            if isempty(obj.paraview.dt) || obj.paraview.dt < obj.dtOut
+                obj.paraview.dt = obj.dtOut;
             end
             
             obj.cicTime = 0:obj.cicDt:obj.cicEndTime;            
@@ -167,25 +169,43 @@ classdef simulationClass<handle
             mkdir(obj.outputDir)
             obj.getGitCommit;
         end
-
-        function checkinputs(obj)
-            % Checks user input to ensure that ``simu.endTime`` is specified and that the SimMechanics model exists
-            if isempty(obj.endTime)
-                error('simu.endTime, the simulation end time must be specified in the wecSimInputFile')
+        
+        function listInfo(obj,waveTypeNum)
+            % Lists simulation info
+            fprintf('\nWEC-Sim Simulation Settings:\n');
+            %fprintf('\tTime Marching Solver                 = Fourth-Order Runge-Kutta Formula \n')
+            fprintf('\tStart Time                     (sec) = %G\n',obj.startTime)
+            fprintf('\tEnd Time                       (sec) = %G\n',obj.endTime)
+            fprintf('\tTime Step Size                 (sec) = %G\n',obj.dt)
+            fprintf('\tRamp Function Time             (sec) = %G\n',obj.rampTime)
+            if waveTypeNum > 10
+                fprintf('\tConvolution Integral Interval  (sec) = %G\n',obj.cicEndTime)
             end
+            fprintf('\t Number of Time Steps     = %u \n',obj.maxIt)
+        end
+        
+        function obj = loadSimMechModel(obj,fName)
+            % This method loads the simulink model and sets parameters
+            % 
+            % Parameters
+            % ------------
+            %   fname : string
+            %       the name of the SimMechanics ``.slx`` file
+            %
             
-            % Check simMechanics file exists
-            obj.simMechanicsFile = [obj.caseDir filesep obj.simMechanicsFile];     
-            if exist(obj.simMechanicsFile,'file') ~= 4
-                error('The simMechanics file, %s, does not exist in the case directory',obj.simMechanicsFile)
-            end
-            
-            % check that visualization is off when using accelerator modes
-            if (strcmp(obj.mode,'accelerator') || strcmp(obj.mode,'rapid-accelerator')) ...
-                    && strcmp(obj.explorer,'on')
-                warning('Mechanics explorer not allowed in accelerator or rapid-accelerator modes. Turning mechanics explorer off.');
-                obj.explorer = 'off';
-            end
+            load_system(fName);
+            [~,modelName,~] = fileparts(fName);
+            set_param(modelName,'Solver',obj.solver,...
+                'StopTime',num2str(obj.endTime),...
+                'SimulationMode',obj.mode,...
+                'StartTime',num2str(obj.startTime),...
+                'FixedStep',num2str(obj.dt),...
+                'MaxStep',num2str(obj.dt),...
+                'AutoInsertRateTranBlk',obj.autoRateTranBlk,...
+                'ZeroCrossControl',obj.zeroCrossCont,...
+                'SimCompilerOptimization','on',...            
+                'ReturnWorkspaceOutputs','off',...
+                'SimMechanicsOpenEditorOnUpdate',obj.explorer);
         end
 
         function rhoDensitySetup(obj,rho,g)
@@ -200,20 +220,6 @@ classdef simulationClass<handle
             %
             obj.rho = rho;
             obj.g   = g;
-        end
-
-        function listInfo(obj,waveTypeNum)
-            % Lists simulation info
-            fprintf('\nWEC-Sim Simulation Settings:\n');
-            %fprintf('\tTime Marching Solver                 = Fourth-Order Runge-Kutta Formula \n')
-            fprintf('\tStart Time                     (sec) = %G\n',obj.startTime)
-            fprintf('\tEnd Time                       (sec) = %G\n',obj.endTime)
-            fprintf('\tTime Step Size                 (sec) = %G\n',obj.dt)
-            fprintf('\tRamp Function Time             (sec) = %G\n',obj.rampTime)
-            if waveTypeNum > 10
-                fprintf('\tConvolution Integral Interval  (sec) = %G\n',obj.cicEndTime)
-            end
-            fprintf('\t Number of Time Steps     = %u \n',obj.maxIt)
         end
 
         function getGitCommit(obj)
