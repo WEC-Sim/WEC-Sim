@@ -51,7 +51,7 @@ classdef simulationClass<handle
             'endTime',      100, ...        % 
             'dt',           0.1, ...        %             
             'path',         'vtk')          % (`structure`) Defines the BEM data implemtation. ``option`` (`integer`) Flag for paraview visualization, and writing vtp files, Options: 0 (off) , 1 (on). Default = ``0``. ``startTime`` (`float`) Start time for the vtk file of Paraview. Default = ``0``. ``endTime`` (`float`) End time for the vtk file of Paraview. Default = ``100``.  ``dt`` (`float`) Timestep for Paraview. Default = ``0.1``. ``path`` (`string`) Path of the folder for Paraview vtk files. Default = ``'vtk'``.        
-        pressureDis         = 0                                            % (`integer`) Flag to save pressure distribution, Options: 0 (off), 1 (on). Default = ``0``
+        pressure            = 0                                            % (`integer`) Flag to save pressure distribution, Options: 0 (off), 1 (on). Default = ``0``
         rampTime            = 100                                          % (`float`) Ramp time for wave forcing. Default = ``100`` s        
         reloadH5Data        = 0                                            % (`integer`) Flag to re-load hydro data from h5 file between runs, Options: 0 (off), 1 (on). Default = ``0``
         rho                 = 1000                                         % (`float`) Density of water. Default = ``1000`` kg/m^3
@@ -72,6 +72,7 @@ classdef simulationClass<handle
         cicLength           = []                                           % (`integer`) Number of timesteps in the convolution integral length. Default = dependent
         caseDir             = []                                           % (`string`) WEC-Sim case directory. Default = dependent
         caseFile            = []                                           % (`string`) .mat file with all simulation information. Default = dependent
+        date                = datetime                                     % (`string`) Simulation date and time
         gitCommit           = []                                           % (`string`) GitHub commit
         inputFile           = 'wecSimInputFile'                            % (`string`) Name of WEC-Sim input file. Default = ``'wecSimInputFile'``
         logFile             = []                                           % (`string`) File with run information summary. Default = ``'log'``        
@@ -81,9 +82,8 @@ classdef simulationClass<handle
         numDragBodies       = []                                           % (`integer`) Number of drag bodies that comprise the WEC device (excluding hydrodynamic bodies). Default = ``'NOT DEFINED'``
         numMoorings         = []                                           % (`integer`) Number of moorings in the wec model. Default = ``'NOT DEFINED'``
         numPtos             = []                                           % (`integer`) Number of power take-off elements in the model. Default = ``'NOT DEFINED'``
-        numWecBodies        = []                                           % (`integer`) Number of hydrodynamic bodies that comprise the WEC device. Default = ``'NOT DEFINED'``
+        numHydroBodies      = []                                           % (`integer`) Number of hydrodynamic bodies that comprise the WEC device. Default = ``'NOT DEFINED'``
         outputDir           = 'output'                                     % (`string`) Data output directory name. Default = ``'output'``
-        simulationDate      = datetime                                     % (`string`) Simulation date and time
         time                = 0                                            % (`float`) Simulation time [s]. Default = ``0`` s
         wsVersion           = '4.4'                                        % (`string`) WEC-Sim version        
     end
@@ -114,7 +114,7 @@ classdef simulationClass<handle
             % check 'simu.paraview' fields
             if length(fieldnames(obj.paraview)) ~=5
                 error(['Unrecognized method, property, or field for class "simulationClass", ' ... 
-                    '"simulationClass.paraview" structure must only include fields: "option", "startTime", "endTime", "dt", "path"']);
+                    '"simulationClass.paraview" structure must only include fields: "option", "startTime", "endTime", "dt", "outputDir"']);
             end            
             % check that visualization is off when using accelerator modes
             if (strcmp(obj.mode,'accelerator') || strcmp(obj.mode,'rapid-accelerator')) ...
@@ -127,37 +127,30 @@ classdef simulationClass<handle
         function setup(obj)
             % Sets simulation properties based on values specified in input file
             obj.time = obj.startTime:obj.dt:obj.endTime;
-            obj.maxIt = floor((obj.endTime - obj.startTime) / obj.dt);
-            
+            obj.maxIt = floor((obj.endTime - obj.startTime) / obj.dt);            
             % Set dtOut if it was not specificed in input file
             if isempty(obj.dtOut) || obj.dtOut < obj.dt
                 obj.dtOut = obj.dt;
-            end
-            
+            end            
             % Set nonlinearDt if it was not specificed in input file
             if isempty(obj.nonlinearDt) || obj.nonlinearDt < obj.dt
                 obj.nonlinearDt = obj.dt;
-            end
-            
+            end            
             % Set cicDt if it was not specificed in input file
             if isempty(obj.cicDt) || obj.cicDt < obj.dt
                 obj.cicDt = obj.dt;
-            end
-            
+            end            
             % Set morisonDt if it was not specificed in input file
             if isempty(obj.morisonDt) || obj.morisonDt < obj.dt
                 obj.morisonDt = obj.dt;
-            end
-            
+            end            
             % Set paraview.dt if it was not specified in input file
             if isempty(obj.paraview.dt) || obj.paraview.dt < obj.dtOut
                 obj.paraview.dt = obj.dtOut;
-            end
-            
+            end            
             obj.cicTime = 0:obj.cicDt:obj.cicEndTime;            
             obj.cicLength = length(obj.cicTime);
-            obj.caseFile = [obj.simMechanicsFile(length(obj.caseDir)+1:end-4) '_matlabWorkspace.mat'];
-            
+            obj.caseFile = [obj.simMechanicsFile(length(obj.caseDir)+1:end-4) '_matlabWorkspace.mat'];            
             % Remove existing output folder
             if exist(obj.outputDir,'dir') ~= 0
                 try

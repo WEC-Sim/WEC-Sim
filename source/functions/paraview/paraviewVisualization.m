@@ -32,7 +32,7 @@ if simu.paraview.option == 1
             NewTimeParaview(:,1) = simu.paraview.startTime:simu.paraview.dt:simu.paraview.endTime;
             PositionBodyParav = interp1(TimeBodyParav,PositionBodyParav,NewTimeParaview);
             TimeBodyParav = NewTimeParaview-simu.paraview.startTime;
-            writeParaviewBody(body(ii), TimeBodyParav, PositionBodyParav, bodyname, modelName, datestr(simu.simulationDate), output.bodies(ii).cellPressures_hydrostatic, output.bodies(ii).cellPressures_waveNonLinear, output.bodies(ii).cellPressures_waveLinear, simu.paraview.path,vtkbodiesii);
+            writeParaviewBody(body(ii), TimeBodyParav, PositionBodyParav, bodyname, modelName, datestr(simu.date), output.bodies(ii).cellPressures_hydrostatic, output.bodies(ii).cellPressures_waveNonLinear, output.bodies(ii).cellPressures_waveLinear, simu.paraview.path,vtkbodiesii);
             bodies{vtkbodiesii} = bodyname;
             fprintf(fid,[bodyname '\n']);
             fprintf(fid,[num2str(body(vtkbodiesii).viz.color) '\n']);
@@ -44,14 +44,14 @@ if simu.paraview.option == 1
     fclose(fid);
     % waves
         mkdir([simu.paraview.path filesep 'waves'])
-        writeParaviewWave(waves, NewTimeParaview, waves.viz.numPointsX, waves.viz.numPointsY, simu.domainSize, modelName, datestr(simu.simulationDate),moordynFlag,simu.paraview.path,TimeBodyParav, simu.g);    % mooring
+        writeParaviewWave(waves, NewTimeParaview, waves.viz.numPointsX, waves.viz.numPointsY, simu.domainSize, modelName, datestr(simu.date),moordynFlag,simu.paraview.path,TimeBodyParav, simu.g);    % mooring
     % mooring
     if moordynFlag == 1
         mkdir([simu.paraview.path filesep 'mooring'])
-        writeParaviewMooring(output.moorDyn, modelName, output.moorDyn.Lines.Time, datestr(simu.simulationDate), mooring.moorDynLines, mooring.moorDynNodes,simu.paraview.path,TimeBodyParav,NewTimeParaview)
+        writeParaviewMooring(output.moorDyn, modelName, output.moorDyn.Lines.Time, datestr(simu.date), mooring.moorDynLines, mooring.moorDynNodes,simu.paraview.path,TimeBodyParav,NewTimeParaview)
     end
     % all
-       writeParaviewResponse(bodies, TimeBodyParav, modelName, datestr(simu.simulationDate), waves.type, moordynFlag, simu.paraview.path);
+       writeParaviewResponse(bodies, TimeBodyParav, modelName, datestr(simu.date), waves.type, moordynFlag, simu.paraview.path);
     clear bodies fid filename
 end
 clear body*_hspressure_out body*_wavenonlinearpressure_out body*_wavelinearpressure_out  hspressure wpressurenl wpressurel cellareas bodyname 

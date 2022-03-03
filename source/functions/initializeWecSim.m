@@ -150,9 +150,9 @@ for ii = 1:length(body(1,:))
         body(ii).massCalcMethod = 'user';
     end
 end
-simu.numWecBodies = numHydroBodies; clear numHydroBodies
+simu.numHydroBodies = numHydroBodies; clear numHydroBodies
 simu.numDragBodies = numDragBodies; clear numDragBodies
-for ii = 1:simu.numWecBodies
+for ii = 1:simu.numHydroBodies
     body(ii).checkinputs(body(ii).morisonElement.option);
     %Determine if hydro data needs to be reloaded from h5 file, or if hydroData
     % was stored in memory from a previous run.
@@ -172,7 +172,7 @@ for ii = 1:simu.numWecBodies
         body(ii).loadHydroData(tmp_hydroData);
         clear tmp_hydroData
     end
-    body(ii).bodyTotal = simu.numWecBodies;
+    body(ii).bodyTotal = simu.numHydroBodies;
     if simu.b2b==1
         body(ii).dofCoupled = zeros(6*body(ii).bodyTotal,1);
     else
@@ -290,7 +290,7 @@ end
     
 % Check cicEndTime
 if waves.typeNum~=0 && waves.typeNum~=10
-    for iBod = 1:simu.numWecBodies
+    for iBod = 1:simu.numHydroBodies
         if simu.cicEndTime > max(body(iBod).hydroData.hydro_coeffs.radiation_damping.impulse_response_fun.t)
             error('simu.cicEndTime is larger than the length of the IRF');
         end
@@ -298,7 +298,7 @@ if waves.typeNum~=0 && waves.typeNum~=10
 end
 
 % Check that the hydro data for each body is given for the same frequencies
-for ii = 1:simu.numWecBodies
+for ii = 1:simu.numHydroBodies
     if length(body(1).hydroData.simulation_parameters.w) ~= length(body(ii).hydroData.simulation_parameters.w)
         error('BEM simulations for each body must have the same number of frequencies')
     else
@@ -311,14 +311,14 @@ for ii = 1:simu.numWecBodies
 end; clear ii;
 
 % Check for elevationImport with nonlinearHydro
-for ii = 1:simu.numWecBodies
+for ii = 1:simu.numHydroBodies
     if strcmp(waves.type,'elevationImport') && body(ii).nonlinearHydro == 1
         error(['Cannot run WEC-Sim with nonlinear hydro (body(ii).nonlinearHydro) and "elevationImport" wave type'])
     end
 end
 
 % Check for elevationImport with morisonElement
-for ii = 1:simu.numWecBodies
+for ii = 1:simu.numHydroBodies
     if strcmp(waves.type,'elevationImport') && body(ii).morisonElement.option ~= 0
         error(['Cannot run WEC-Sim with Morison Element (body(ii).morisonElement.option>0) and "elevationImport" wave type'])
     end
@@ -403,14 +403,13 @@ sv_udfWaves=Simulink.Variant('typeNum>=30');
 B2B = simu.b2b;
 sv_noB2B=Simulink.Variant('B2B==0');
 sv_B2B=Simulink.Variant('B2B==1');
-numBody=simu.numWecBodies;
+numBody=simu.numHydroBodies;
 % nonHydro
 for ii=1:length(body(1,:))
     eval(['nhbody_' num2str(ii) ' = body(ii).nonHydro;'])
     eval(['sv_b' num2str(ii) '_hydroBody = Simulink.Variant(''nhbody_' num2str(ii) '==0'');'])
     eval(['sv_b' num2str(ii) '_nonHydroBody = Simulink.Variant(''nhbody_' num2str(ii) '==1'');'])
     eval(['sv_b' num2str(ii) '_dragBody = Simulink.Variant(''nhbody_' num2str(ii) '==2'');'])
-%    eval(['sv_b' num2str(ii) '_rigidBody = Simulink.Variant(''nhbody_' num2str(ii) '==0'');'])
 end; clear ii
 
 % Visualization Blocks
@@ -427,8 +426,8 @@ toc
 simu.listInfo(waves.typeNum);
 waves.listInfo
 fprintf('\nList of Body: ');
-fprintf('Number of Bodies = %u \n',simu.numWecBodies)
-for i = 1:simu.numWecBodies
+fprintf('Number of Bodies = %u \n',simu.numHydroBodies)
+for i = 1:simu.numHydroBodies
     body(i).listInfo
 end;  clear i
 fprintf('\nList of PTO(s): ');
@@ -455,7 +454,7 @@ fprintf('\n')
 tic
 fprintf('\nSimulating the WEC device defined in the SimMechanics model %s...   \n',simu.simMechanicsFile)
 % Modify some stuff for simulation
-for iBod = 1:simu.numWecBodies
+for iBod = 1:simu.numHydroBodies
     body(iBod).adjustMassMatrix(simu.adjMassWeightFun,simu.b2b);
 end; clear iBod
 warning('off','Simulink:blocks:TDelayTimeTooSmall');

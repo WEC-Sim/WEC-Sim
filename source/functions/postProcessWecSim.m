@@ -20,7 +20,7 @@ end
 
 % Add hydrostatic and FK pressures to bodiesOutput if required.
 for iBod = 1:length(body(1,:))
-     if body(iBod).nonlinearHydro~=0 && body(iBod).nonHydro==0 && simu.pressureDis == 1 
+     if body(iBod).nonlinearHydro~=0 && body(iBod).nonHydro==0 && simu.pressure == 1 
         % hydrostatic pressure
         eval(['bodiesOutput(' num2str(iBod) ').hspressure = body' num2str(iBod) '_hspressure_out;']);
         % wave (Froude-Krylov) nonlinear pressure
@@ -28,8 +28,8 @@ for iBod = 1:length(body(1,:))
         % wave (Froude-Krylov) linear pressure
         eval(['bodiesOutput(' num2str(iBod) ').wpressurel = body' num2str(iBod) '_wavelinearpressure_out;']);
     else
-        if body(iBod).nonlinearHydro ==0 && simu.pressureDis == 1 
-            warning('Pressure distribution on the body is only output when wecSim is run with nonlinear hydro (simu.pressureDis == 1 && simu.nonlinearHydro~=0 && body(i).nonHydro==0)')
+        if body(iBod).nonlinearHydro ==0 && simu.pressure == 1 
+            warning('Pressure distribution on the body is only output when wecSim is run with nonlinear hydro (simu.pressure == 1 && simu.nonlinearHydro~=0 && body(i).nonHydro==0)')
         end
         bodiesOutput(iBod).hspressure = [];
         bodiesOutput(iBod).wpressurenl = [];
@@ -113,7 +113,7 @@ for iMoor = 1:simu.numMoorings
 end; clear iMoor
 
 % Calculate correct added mass and total forces
-for iBod = 1:simu.numWecBodies
+for iBod = 1:simu.numHydroBodies
     body(iBod).restoreMassMatrix
     output.bodies(iBod).forceTotal = output.bodies(iBod).forceTotal + output.bodies(iBod).forceAddedMass;
     output.bodies(iBod).forceAddedMass = body(iBod).forceAddedMass(output.bodies(iBod).acceleration,simu.b2b);
