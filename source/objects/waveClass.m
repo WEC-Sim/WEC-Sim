@@ -51,9 +51,6 @@ classdef waveClass<handle
                       'numPointsY', 50 ); % (`structure`) Defines visualization options, structure contains the fields ``numPointsX`` for the number of visualization points in x direction, and ``numPointsY`` for the number of visualization points in y direction. 
         waterDepth = [];        % (`float`) Water depth [m]. Default to BEM water depth if not set. 
         spread = 1;             % (`float`) Wave Spread probability associated with wave direction(s). Should be defined as a column vector for more than one wave direction. Default = ``1``
-        wavegauge1loc = [NaN,NaN];      % (`1x2 vector`) Wave gauge 1 [x,y] location [m]. Default = ``[NaN,NaN]``
-        wavegauge2loc = [NaN,NaN];      % (`1x2 vector`) Wave gauge 2 [x,y] location [m]. Default = ``[NaN,NaN]``
-        wavegauge3loc = [NaN,NaN];      % (`1x2 vector`) Wave gauge 3 [x,y] location [m]. Default = ``[NaN,NaN]``        
     end    
   
     properties (SetAccess = 'private', GetAccess = 'public')%internal       
@@ -62,16 +59,13 @@ classdef waveClass<handle
         S = [];                 % Wave Spectrum [m^2-s/rad] for ``Traditional``
         Pw = [];                % Wave Power Per Unit Wave Crest [W/m]        
         bemFreq = [];           % Number of wave frequencies from BEM
-        deepWater = [];     % Deep water or not, depending on input from WAMIT, NEMOH and AQWA
+        deepWater = [];         % Deep water or not, depending on input from WAMIT, NEMOH and AQWA
         dw = 0;                 % Frequency spacing [rad] for ``irregular`` waves.
         k = [];                 % Wave Number
         phase = 0;              % Wave phase [rad] . Only used for ``irregular`` waves.
         typeNum = [];           % Number to represent different type of waves        
         w = [];                 % Wave frequency (regular waves) or wave frequency vector (irregular waves) [rad/s] 
         waveAmpTime = [];       % Wave elevation time history [m] at the (0, 0, 0) origin  
-        waveAmpTime1 = [];      % Wave elevation time history at a wave gauge 1 location specified by user [m] 
-        waveAmpTime2 = [];      % Wave elevation time history at a wave gauge 2 location specified by user [m] 
-        waveAmpTime3 = [];      % Wave elevation time history at a wave gauge 3 location specified by user [m] 
         waveAmpTimeViz = [];    % Wave elevation time history at marker locations specified by user [m]         
     end
     
