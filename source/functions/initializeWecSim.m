@@ -245,8 +245,8 @@ idx = find(hydroBodLogic==1);
 if ~isempty(idx)
     for kk = 1:length(idx)
         it = idx(kk);
-        body(it).hydroForcePre(waves.w,waves.direction,simu.cicLength,simu.cicTime,waves.bem.count,simu.dt,...
-            simu.rho,simu.g,waves.type,waves.waveAmpTime,kk,simu.numWecBodies,simu.stateSpace,simu.b2b,simu.yaw);
+        body(it).hydroForcePre(waves.w,waves.direction,simu.cicTime,waves.bem.count,simu.dt,...
+            simu.rho,simu.g,waves.type,waves.waveAmpTime,simu.stateSpace,simu.b2b,simu.yaw);
     end; clear kk idx
 end
 
