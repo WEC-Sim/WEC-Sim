@@ -1,25 +1,22 @@
 # [WEC-Sim Documentation](http://wec-sim.github.io/WEC-Sim)
 
-### Compile Instructions
+## Compile Instructions
 
 These instructions work for both Linux and Windows. For Windows, remember to
 replace slashes (`/`) in paths with backslashes (`\ `).
 
-#### Setup Sphinx (One Time Only)
+### Setup Sphinx (One Time Only)
 
 1. Install [Anaconda Python](https://www.anaconda.com/distribution/).
 
 2. Create the Sphinx environment:
    
    ```
-   > conda create -c conda-forge -n _wssphinx git click colorama colorclass future pip sphinxcontrib-bibtex "sphinx_rtd_theme<1"
-   > conda activate _wssphinx
-   (_wssphinx) > pip install sphinxcontrib-matlabdomain sphinxext-remoteliteralinclude sphinx-multiversion
-   (_wssphinx) > conda deactivate
-   >
+   > cd path/to/WEC-Sim
+   > conda env create -y --file docs/environment.yml
    ```
 
-#### Testing the Current Branch
+### Testing the Current Branch
 
 The documentation for the current branch can be built locally for inspection 
 prior to publishing. They are built in the `docs/_build` directory. Note, 
@@ -31,14 +28,14 @@ To test the current branch, use the following:
 ```
 > conda activate _wssphinx
 (_wssphinx) > cd path/to/WEC-Sim
-(_wssphinx) > sphinx-build -b html docs docs/_build/html
+(_wssphinx) > sphinx-build -W --keep-going -b html docs docs/_build/html
 (_wssphinx) > conda deactivate
 >
 ```
 The front page of the docs can be accessed at 
 `docs/_build/html/index.html`. 
 
-#### Building Final Version Locally
+### Building Final Version Locally
 
 The final documentation can be built locally for inspection prior to 
 publishing. They are built in the `docs/_build` directory. Note, docs are built 
@@ -49,7 +46,7 @@ To build the docs as they would be published, use the following:
 ```
 > conda activate _wssphinx
 (_wssphinx) > cd path/to/WEC-Sim
-(_wssphinx) > sphinx-multiversion docs docs/_build/html
+(_wssphinx) > sphinx-multiversion -W --keep-going docs docs/_build/html
 (_wssphinx) > conda deactivate
 >
 ```
@@ -57,7 +54,7 @@ To build the docs as they would be published, use the following:
 The front page of the docs can be accessed at 
 `docs/_build/html/master/index.html`. 
 
-#### Publishing Final Version Remotely
+### Publishing Final Version Remotely
 
 The WEC-Sim docs are rebuilt automatically following every merge commit made 
 to the master or dev branch of the [WEC-Sim/WEC-Sim](
