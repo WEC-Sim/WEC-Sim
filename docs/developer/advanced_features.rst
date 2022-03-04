@@ -7,7 +7,7 @@ Advanced Features
 Added Mass
 -----------
 
-.. include:: added_mass.rst
+.. include:: /_include/added_mass.rst
 
 
 
