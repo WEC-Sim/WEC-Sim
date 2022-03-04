@@ -64,7 +64,7 @@ bibtex_bibfiles = ['refs/WEC-Sim_Theory.bib',
 
 # sphinxcontrib.matlab settings
 primary_domain = 'mat'
-matlab_src_dir = package_dir.resolve()
+matlab_src_dir = package_dir
 matlab_keep_package_prefix = False
 
 # sphinx_multiversion settings
