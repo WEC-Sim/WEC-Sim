@@ -86,6 +86,16 @@ classdef PTOSimClass<handle
             'Amin'                            ,'NOT DEFINED',...            % [m^2] Minimum valve area
             'Amax'                            ,'NOT DEFINED',...            % [m^2] Maximum valve area
             'Cd'                              ,'NOT DEFINED')               % [1] Discharge coefficient
+        DirectLinearGenerator          = struct(...                         % Linear crank block properties
+            'tau_p'                           ,'NOT DEFINED',...            % [m^2/N] Valve coefficient
+            'theta_d_0'                       ,'NOT DEFINED',...            % [kg/m^3] Fluid density
+            'Bfric'                           ,'NOT DEFINED',...            % [Pa] Valve pressure at maximum opening area
+            'lambda_sd_0'                     ,'NOT DEFINED',...            % [Pa] Valve pressure at minimum opening area
+            'Rs'                              ,'NOT DEFINED',...            % [m^2/N] Valve coefficient
+            'lambda_fd'                       ,'NOT DEFINED',...            % [m^2] Minimum valve area
+            'Ls'                              ,'NOT DEFINED',...            % [m^2] Maximum valve area
+            'lambda_sq_0'                     ,'NOT DEFINED',...
+            'Rload'                           ,'NOT DEFINED')
     end
     
     properties (SetAccess = 'public', GetAccess = 'public')%internal

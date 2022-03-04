@@ -794,7 +794,25 @@ can be found by typing ``doc PTOSimClass`` in the MATLAB command window, or
 opening the `PTOSimClass.m` file in ``$WECSIM/source/objects`` directory by 
 typing ``open PTOSimClass`` in MATLAB Command Window. 
 For more information about application of WEC-Sim's mooring class, refer to 
-:ref:`user-advanced-features-cable`.
+:ref:`user-advanced-features-PTOSim`.
+
+PTO-Sim Blocks
+""""""""""""""""""""
+
+There are eight different types of blocks in the PTO-Sim class divided
+in three sub-categories: Hydraulic, Electric, and Motion Conversion. In the hydraulic sub-category
+there are five blocks: Check Valve, Compressible Fluid Piston, 
+Gas-Charged Hydraulic Accumulator, Hydraulic Motor, and Rectifying Check Valve.
+In the Electric sub-category there is a block call Electric Generator Equivalent Circuit which models an electric generator
+with an equivalent circuit. The motion conversion blocks (Rotary to Linear Adjustable Rod, and
+Rotary to Linear Crank) can be used to to convert rotational motion into linear motion to add a hydraulic cylinder
+to the PTO model. There are no restrictions on the number of PTO-Sim blocks.
+
+
+.. figure:: /_static/images/WEC-Sim_Lib_PTOSim.png
+   :width: 400 pt
+   :align: center
+
 
 .. _user-code-structure-response-class:
 
