@@ -62,6 +62,10 @@ https://github.com/WEC-Sim/WEC-Sim) repository.
 
 
 ## Best Practices
+  - If using the `include` directive, place the included file in the `docs/_include` directory and link from there. For example:
+      ```rst
+      .. include:: /_include/added_mass.rst
+      ```
   - Start each sentence on a new line (use a text editor with text-wrapping)
   - Whenever possible link to outside reference instead of write guidance available elsewhere (e.g. how to use Git, MATLAB/Simulink features)
   - Whenever possible link to other sections of the documentation instead of writing similar information in multiple places
