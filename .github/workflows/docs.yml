@@ -1,4 +1,5 @@
 name: Documentation
+on:
   push:
     branches:
       - master
