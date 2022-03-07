@@ -10,9 +10,11 @@ To ensure stability across MATLAB distributions, WEC-Sim tests are also run on c
 Refer to MATLAB's `unit test framework <https://www.mathworks.com/help/matlab/matlab-unit-test-framework.html?s_tid=CRUX_lftnav>`_ and `continuous integration <https://www.mathworks.com/help/matlab/matlab_prog/continuous-integration-with-matlab-on-ci-platforms.html>`_ documentation for more information. 
 
 When new features are added, tests should developed to verify functionality. 
-All tests should be run run locally to ensure stability prior to submitting a pull request. 
-In order for a pull reqeust to be merged into the WEC-Sim repository it must pass all software tests, refer to 
+All tests should be run locally to ensure stability prior to submitting a pull request. 
+In order for a pull request to be merged into the WEC-Sim repository it must pass all software tests, refer to 
 :ref:`dev-pull-requests`. 
+
+.. _dev-software-tests-ws:
 
 WEC-Sim Tests
 --------------
@@ -21,12 +23,14 @@ To execute the WEC-Sim tests locally and generates a build report, navigate to t
 
 .. code-block:: matlabsession
 
-	>> results = wecSimTest();
+	>> results = wecSimTest()
 	
 	
 	Totals:
 	   38 Passed, 0 Failed, 0 Incomplete.
 	   
+
+.. _dev-software-tests-wsa:
 
 WEC-Sim Applications Tests
 ---------------------------
@@ -35,14 +39,17 @@ To execute the WEC-Sim Applications tests locally and generates a build report, 
 
 .. code-block:: matlabsession
 
-	>> results = wecSimAppTest();
-
+	>> results = wecSimAppTest()
+	
+	
+	Totals:
+	   43 Passed, 0 Failed, 0 Incomplete
 
 
 .. TO DO: add section about regression and compilation tests
 
 .. Regression Tests
-.. WEC-Sim regression tests are used to compare the latest version of WEC-Sim with a solution from a previuos (stable) release. A maximum difference is asserted in each unit test to ensure that the latest version does not deviate from a previous release.
+.. WEC-Sim regression tests are used to compare the latest version of WEC-Sim with a solution from a previous (stable) release. A maximum difference is asserted in each unit test to ensure that the latest version does not deviate from a previous release.
 
 .. Compilation Tests
 .. WEC-Sim compilation tests are used to check that new features do not break existing functionality by verifying that WEC-Sim runs for a selection of existing application cases. However, for these cases no regression comparison is performed.	

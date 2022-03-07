@@ -13,7 +13,7 @@ When a new version of WEC-Sim is released, the dev branch is pulled into master 
 
 A `pull request (PR) <https://help.github.com/articles/using-pull-requests/>`_  should focus on one update at a time. 
 This ensures that PR revisions are easily tracked, and keeps the repository history remains clean. 
-If working on multiple updates, please use different branches, and submit seperate pull requests. 
+If working on multiple updates, please use different branches, and submit separate pull requests. 
 Once a PR is merged please delete legacy branches to keep your fork clean. 
 
 Prior to submitting a pull request, pull the latest commits from the WEC-Sim repository, resolve any merge conflicts, and commit revisions to your fork:: 
@@ -22,6 +22,6 @@ Prior to submitting a pull request, pull the latest commits from the WEC-Sim rep
 	>> git commit -m 'commit message'
 	>> git push <USERNAME> <branch>
 
-In order for a pull reqeust to be merged into the WEC-Sim repository it must pass all software tests, refer to 
+In order for a pull request to be merged into the WEC-Sim repository it must pass all software tests, refer to 
 :ref:`dev-software-tests`. 
 To submit a pull request, navigate to the `WEC-Sim's pull requests <https://github.com/WEC-Sim/WEC-Sim/pulls>`_ and submit a new pull request. 
