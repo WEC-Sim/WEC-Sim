@@ -136,7 +136,7 @@ nonHydroBodLogic = zeros(length(body(1,:)),1);
 dragBodLogic = zeros(length(body(1,:)),1);
 for ii = 1:length(body(1,:))
     body(ii).bodyNumber = ii;
-    body(ii).checkInputs(simu.domainSize);
+    body(ii).checkInputs(simu.domainSize,simu.explorer);
     if body(ii).nhBody==0
         numHydroBodies = numHydroBodies + 1;
         hydroBodLogic(ii) = 1;

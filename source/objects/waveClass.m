@@ -388,9 +388,12 @@ classdef waveClass<handle
             % messages if parameters are not properly defined. 
             
             if ~isempty(obj.markerLoc) && ~ndims(obj.markerLoc)==2
-            error('The coordinates of the visualization markers should have an ordinate (y-coordinate) and an abscissa (x-coordinate)')
+                error('The coordinates of the visualization markers should have an ordinate (y-coordinate) and an abscissa (x-coordinate)')
             end
-
+            if sum(obj.waveSpread)~=1
+                error('The wave spread should always sum to 1 to preserve spectrum/energy accuracy.')
+            end
+            
             % Check inputs based on type
             if strcmp(obj.type,'noWave') && strcmp(obj.T,'NOT DEFINED')
                 error('"waves.T" must be defined for the hydrodynamic data period when using the "noWave" wave type');
@@ -556,6 +559,10 @@ classdef waveClass<handle
                 else
                     obj.deepWaterWave = 0;
                     obj.waterDepth = double(bemWaterDepth);
+                end
+            else
+                if ~isempty(bemWaterDepth)
+                    warning('Because water depth is specified in the wecSimInputFile, the water depth from the BEM data is ignored')
                 end
             end
         end

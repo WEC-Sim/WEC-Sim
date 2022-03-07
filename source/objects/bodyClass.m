@@ -460,15 +460,11 @@ classdef bodyClass<handle
             quiver3(c(:,1),c(:,2),c(:,3),n(:,1),n(:,2),n(:,3))
         end
         
-        function checkInputs(obj,domainSize)
+        function checkInputs(obj,domainSize,explorer)
             % This method checks WEC-Sim user inputs for each body and generates error messages if parameters are not properly defined for the bodyClass.
             % Check h5 file
             if exist(obj.h5File,'file')==0 && obj.nhBody==0
                 error('The hdf5 file %s does not exist',obj.h5File)
-            end
-            % Check geometry file
-            if exist(obj.geometryFile,'file') == 0
-                error('Could not locate and open geometry file %s',obj.geometryFile)
             end
             % Check definitions
             if (~isnumeric(obj.mass) && ~strcmp(obj.mass, 'equilibrium') && ~strcmp(obj.mass, 'fixed')) || isempty(obj.mass)
@@ -477,13 +473,19 @@ classdef bodyClass<handle
             if isempty(obj.momOfInertia) && ~strcmp(obj.mass, 'fixed')
                 error('Body moment of inertia needs to be defined for all non-fixed bodies.')
             end
-            % Check mesh size
-            tr = stlread(obj.geometryFile);
-            obj.bodyGeometry.vertex = tr.Points;
-            if max(obj.bodyGeometry.vertex) > domainSize/2
-                error('STL mesh is larger than the domain. Reminder: WEC-Sim requires that the STL be saved with units of meters for accurate visualization.')
-            elseif max(obj.bodyGeometry.vertex) > domainSize/4
-                warning('STL mesh is very large compared to the domain. Reminder: WEC-Sim requires that the STL be saved with units of meters for accurate visualization.')
+            if strcmp(explorer, 'on') %if mechanics explorer is set to on
+                % Check geometry file
+                if exist(obj.geometryFile,'file') == 0
+                    error('Could not locate and open geometry file %s',obj.geometryFile)
+                end
+                % Check mesh size
+                tr = stlread(obj.geometryFile);
+                obj.bodyGeometry.vertex = tr.Points;
+                if max(obj.bodyGeometry.vertex) > domainSize/2
+                    error('STL mesh is larger than the domain. Reminder: WEC-Sim requires that the STL be saved with units of meters for accurate visualization.')
+                elseif max(obj.bodyGeometry.vertex) > domainSize/4
+                    warning('STL mesh is very large compared to the domain. Reminder: WEC-Sim requires that the STL be saved with units of meters for accurate visualization.')
+                end
             end
         end
         
