@@ -138,6 +138,9 @@ for ii = 1:length(body(1,:))
     body(ii).bodyNumber = ii;
     body(ii).checkInputs(simu.domainSize,simu.explorer);
     if body(ii).nhBody==0
+        if numNonHydroBodies > 0 || numDragBodies > 0
+            error('All hydro bodies must be specified before any drag or non-hydro bodies.')
+        end
         numHydroBodies = numHydroBodies + 1;
         hydroBodLogic(ii) = 1;
         body(ii).checkHydroInputs(body(ii).morisonElement.option);
