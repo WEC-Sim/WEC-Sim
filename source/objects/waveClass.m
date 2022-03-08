@@ -152,7 +152,7 @@ classdef waveClass<handle
             end            
             % 'elevationFile' defined for 'elevationImport' case
             if strcmp(obj.type,'elevationImport')
-                if strcmp(obj.spectrumFile,'NOT DEFINED')
+                if strcmp(obj.elevationFile,'NOT DEFINED')
                     error('"elevationFile" must be defined when using the "elevationImport" wave type');
                 end
             end            
