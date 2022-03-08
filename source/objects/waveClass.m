@@ -45,9 +45,6 @@ classdef waveClass<handle
             'loc',      [],...          % 
             'size',     10, ...         %             
             'style',	1)              % (`structure`) Defines the wave marker. `loc` (`nx2 vector`) Marker [X,Y] locations [m]. Default = ``[]``. ``size`` (`float`) Marker size in Pixels. Default = ``10``. ``style`` Marker style, options include: ``1``: Sphere, ``2``: Cube, ``3``: Frame. Default = ``1``: Sphere        
-% % %         marker.loc       = [];   % (`nx2 vector`) Marker [X,Y] locations [m]. Default = ``[]``
-% % %         marker.size      = 10;   % (`float`) Marker size in Pixels. Default = ``10``
-% % %         marker.style     = 1;    % (`integer`) Marker style, options include: ``1``: Sphere, ``2``: Cube, ``3``: Frame. Default = ``1``: Sphere        
         phaseSeed = 0;              % (`integer`) Defines the random phase seed, only used for ``irregular`` and ``spectrumImport`` waves. Default = ``0``
         spectrumFile = 'NOT DEFINED';   % (`string`) Data file that contains the spectrum data file.  Default = ``'NOT DEFINED'``                
         spectrumType = 'NOT DEFINED';   % (`string`) Specifies the wave spectrum type, options inlcude:``PM`` or ``JS``. Default = ``'NOT DEFINED'``

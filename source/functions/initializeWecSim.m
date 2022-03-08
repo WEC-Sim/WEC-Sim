@@ -387,21 +387,12 @@ sv_stateSpace=Simulink.Variant('radiation_option==3');
 typeNum = waves.typeNum;
 sv_noWave=Simulink.Variant('typeNum<10');
 
-% % yaw Activation 
-% yaw=simu.yaw; %%%% KELLEY FIX THIS!!!!!!!!!!!!!!!!!!!!
+% Passive Yaw
 for ii=1:length(body(1,:))
-%     yaw = body(ii).yaw;     
-    eval(['yaw_' num2str(ii) ' = body(ii).yaw;'])
-%     eval(['sv_b' num2str(ii) '_yawOff = Simulink.Variant(''yaw_' num2str(ii) '==0'');'])
-%     eval(['sv_b' num2str(ii) '_yawOn = Simulink.Variant(''yaw_' num2str(ii) '==1'');'])
-        
-%     sv_regularWaves=Simulink.Variant('typeNum>=10 && typeNum<20 && yaw~=1');
+    eval(['yaw_' num2str(ii) ' = body(ii).yaw.option;'])
     eval(['sv_regularWaves_b' num2str(ii) '= Simulink.Variant(''typeNum>=10 && typeNum<20 && yaw_', num2str(ii), '==0'');'])    
-%     sv_regularWavesNonLinYaw=Simulink.Variant('typeNum>=10 && typeNum<20 && yaw==1');
     eval(['sv_regularWavesYaw_b' num2str(ii) '= Simulink.Variant(''typeNum>=10 && typeNum<20 && yaw_' num2str(ii) '==1'');'])    
-%     sv_irregularWaves=Simulink.Variant('typeNum>=20 && typeNum<30 && yaw~=1');
     eval(['sv_irregularWaves_b' num2str(ii) '= Simulink.Variant(''typeNum>=20 && typeNum<30 && yaw_' num2str(ii) '==0'');'])    
-%     sv_irregularWavesNonLinYaw=Simulink.Variant('typeNum>=20 && typeNum<30 && yaw==1');
     eval(['sv_irregularWavesYaw_b' num2str(ii) '= Simulink.Variant(''typeNum>=20 && typeNum<30 && yaw_' num2str(ii) '==1'');'])    
 end; clear ii
 

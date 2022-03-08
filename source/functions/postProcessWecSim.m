@@ -36,7 +36,7 @@ for iBod = 1:length(body(1,:))
         bodiesOutput(iBod).wpressurel = [];
      end
     % Add yaw to structure
-    bodiesOutput(iBod).yaw = body(iBod).yaw;
+    bodiesOutput(iBod).yaw = body(iBod).yaw.option;
 end; clear iBod
 
 % PTOs

@@ -70,8 +70,12 @@ classdef bodyClass<handle
         viz               = struct(...                       % (`structure`)  Defines visualization properties in either SimScape or Paraview.
             'color', [1 1 0], ...                            %
             'opacity', 1)                                    % (`structure`)  Defines visualization properties in either SimScape or Paraview. ``color`` (`3x1 float vector`) is defined as the body visualization color, Default = [``1 1 0``]. ``opacity`` (`integer`) is defined as the body opacity, Default = ``1``.        
-        yaw                 = 0                              % (`integer`) Flag for passive yaw calculation, Options: 0 (off), 1 (on). Default = ``0`` 
-        yawThresh           = 1                              % (`float`) Yaw position threshold (in degrees) above which excitation coefficients will be interpolated in passive yaw. Default = ``1`` dg
+%         yaw                 = 0                              % 
+%         yawThresh           = 1                              % 
+        yaw = struct(...                                    % (`structure`) Defines the passive yaw implementation. 
+            'option',	0,...                               %
+            'threshold',	1)                              % (`structure`) Defines the passive yaw mplementation. ``option`` (`integer`) Flag for passive yaw calculation, Options: 0 (off), 1 (on). Default = ``0``. ``threshold`` (`float`) Yaw position threshold (in degrees) above which excitation coefficients will be interpolated in passive yaw. Default = ``1`` [deg].
+        
     end
     
     properties (SetAccess = 'public', GetAccess = 'public')  %body geometry stl file
@@ -163,7 +167,7 @@ classdef bodyClass<handle
                     '"bodyClass.viz" structure must only include fields: "color", "opacity"']);
             end               
             % Check passive yaw configuration
-            if obj.yaw==1 && obj.yawThresh==1
+            if obj.yaw.option==1 && obj.yaw.threshold==1
                 warning(['yaw using (default) 1 deg interpolation threshold.' newline 'Ensure this is appropriate for your geometry'])
             end
         end
@@ -473,7 +477,7 @@ classdef bodyClass<handle
                     obj.hydroForce.fExt.md(ii) = interp1(obj.hydroData.simulation_parameters.w,squeeze(md(ii,1,:)),w,'spline');
                 end
             end
-            if obj.yaw==1
+            if obj.yaw.option==1
                 % show warning for passive yaw run with incomplete BEM data
                 BEMdir=sort(obj.hydroData.simulation_parameters.wave_dir);
                 boundDiff(1)=abs(-180 - BEMdir(1)); boundDiff(2)=abs(180 - BEMdir(end));
@@ -517,7 +521,7 @@ classdef bodyClass<handle
                     obj.hydroForce.fExt.md(:,:,ii) = interp1(obj.hydroData.simulation_parameters.w,squeeze(md(ii,1,:)),wv,'spline');
                 end
             end
-            if obj.yaw==1
+            if obj.yaw.option==1
                 % show warning for passive yaw run with incomplete BEM data
                 BEMdir=sort(obj.hydroData.simulation_parameters.wave_dir);
                 boundDiff(1)=abs(-180 - BEMdir(1)); boundDiff(2)=abs(180 - BEMdir(end));
