@@ -132,7 +132,7 @@ classdef responseClass<handle
     end
     
     methods (Access = 'public')
-        function obj = responseClass(bodiesOutput,ptosOutput,constraintsOutput,ptosimOutput,cablesOutput,mooringOutput,waveOutput,yaw) 
+        function obj = responseClass(bodiesOutput,ptosOutput,constraintsOutput,ptosimOutput,cablesOutput,mooringOutput,waveOutput) 
             % This method initializes the ``responseClass``, reads 
             % output from each instance of a WEC-Sim class (e.g.
             % ``waveClass``, ``bodyClass``, ``ptoClass``, ``mooringClass``, etc)
@@ -158,11 +158,9 @@ classdef responseClass<handle
                 for jj = 1:length(signals)
                     obj.bodies(ii).(signals{jj}) = bodiesOutput(ii).signals.values(:, (jj-1)*6+1:(jj-1)*6+6);
                 end
-                if(yaw==1)
+                if(bodiesOutput(ii).yaw==1)
                     for t = 1:length(obj.wave.time)
-                        % convert kinematic data from global frame to local
-                        % frame (for use with yaw when yaw
-                        % displacements may be large). 
+                        % convert kinematic data from global frame to local frame (for use with yaw when yaw displacements may be large). 
                         rotMatYaw = eulXYZ2RotMat(0, 0, obj.bodies(ii).position(t,6));
                         rotMatGlobal = eulXYZ2RotMat(obj.bodies(ii).position(t,4), obj.bodies(ii).position(t,5), obj.bodies(ii).position(t,6));
                         rotMatLocal = rotMatYaw.' * rotMatGlobal;

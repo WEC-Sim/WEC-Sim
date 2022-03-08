@@ -153,7 +153,7 @@ end
 simu.numHydroBodies = numHydroBodies; clear numHydroBodies
 simu.numDragBodies = numDragBodies; clear numDragBodies
 for ii = 1:simu.numHydroBodies
-    body(ii).checkinputs(body(ii).morisonElement.option);
+    body(ii).checkinputs();
     %Determine if hydro data needs to be reloaded from h5 file, or if hydroData
     % was stored in memory from a previous run.
     if exist('totalNumOfWorkers','var') ==0 && exist('mcr','var') == 1 && simu.reloadH5Data == 0 && imcr > 1
@@ -165,8 +165,7 @@ for ii = 1:simu.numHydroBodies
         if h5Info.bytes < 1000
             error(['This is not the correct *.h5 file. Please install git-lfs to access the correct *.h5 file, or run \hydroData\bemio.m to generate a new *.h5 file'])
         end
-        clearvars h5Info
-        
+        clearvars h5Info        
         % Read hydro data from BEMIO and load into the bodyClass
         tmp_hydroData = readBEMIOH5(body(ii).h5File, body(ii).bodyNumber, body(ii).meanDrift);
         body(ii).loadHydroData(tmp_hydroData);
@@ -195,11 +194,6 @@ if exist('cable','var')==1
         cable(ii).linearDampingMatrix();
     end
 end
-
-if simu.yaw==1 && simu.yawThresh==1
-    warning(['yaw using (default) 1 dg interpolation threshold.' newline 'Ensure this is appropriate for your geometry'])
-end
-
 toc
 
 %% Pre-processing start
@@ -246,7 +240,7 @@ if ~isempty(idx)
     for kk = 1:length(idx)
         it = idx(kk);
         body(it).hydroForcePre(waves.w,waves.direction,simu.cicTime,waves.bem.count,simu.dt,...
-            simu.rho,simu.g,waves.type,waves.waveAmpTime,simu.stateSpace,simu.b2b,simu.yaw);
+            simu.rho,simu.g,waves.type,waves.waveAmpTime,simu.stateSpace,simu.b2b);
     end; clear kk idx
 end
 
@@ -370,14 +364,12 @@ for ii=1:length(body(1,:))
         eval(['sv_b' num2str(ii) '_instFS=Simulink.Variant(''nonLinearHydro_', num2str(ii), '==2'');']);
     end
 end; clear ii;
-% yaw Activation
-yaw=simu.yaw;
 % Morison Element
 for ii=1:length(body(1,:))
     if body(ii).nonHydro ~=1
-    eval(['morisonElement_' num2str(ii) ' = body(ii).morisonElement.option;'])
-    eval(['sv_b' num2str(ii) '_MEOff = Simulink.Variant(''morisonElement_' num2str(ii) '==0'');'])
-    eval(['sv_b' num2str(ii) '_MEOn = Simulink.Variant(''morisonElement_' num2str(ii) '==1 || morisonElement_' num2str(ii) '==2'');'])
+        eval(['morisonElement_' num2str(ii) ' = body(ii).morisonElement.option;'])
+        eval(['sv_b' num2str(ii) '_MEOff = Simulink.Variant(''morisonElement_' num2str(ii) '==0'');'])
+        eval(['sv_b' num2str(ii) '_MEOn = Simulink.Variant(''morisonElement_' num2str(ii) '==1 || morisonElement_' num2str(ii) '==2'');'])        
     end
 end; clear ii;
 % Radiation Damping
@@ -394,10 +386,25 @@ sv_stateSpace=Simulink.Variant('radiation_option==3');
 % Wave type
 typeNum = waves.typeNum;
 sv_noWave=Simulink.Variant('typeNum<10');
-sv_regularWaves=Simulink.Variant('typeNum>=10 && typeNum<20 && yaw~=1');
-sv_regularWavesNonLinYaw=Simulink.Variant('typeNum>=10 && typeNum<20 && yaw==1');
-sv_irregularWaves=Simulink.Variant('typeNum>=20 && typeNum<30 && yaw~=1');
-sv_irregularWavesNonLinYaw=Simulink.Variant('typeNum>=20 && typeNum<30 && yaw==1');
+
+% % yaw Activation 
+% yaw=simu.yaw; %%%% KELLEY FIX THIS!!!!!!!!!!!!!!!!!!!!
+for ii=1:length(body(1,:))
+%     yaw = body(ii).yaw;     
+    eval(['yaw_' num2str(ii) ' = body(ii).yaw;'])
+%     eval(['sv_b' num2str(ii) '_yawOff = Simulink.Variant(''yaw_' num2str(ii) '==0'');'])
+%     eval(['sv_b' num2str(ii) '_yawOn = Simulink.Variant(''yaw_' num2str(ii) '==1'');'])
+        
+%     sv_regularWaves=Simulink.Variant('typeNum>=10 && typeNum<20 && yaw~=1');
+    eval(['sv_regularWaves_b' num2str(ii) '= Simulink.Variant(''typeNum>=10 && typeNum<20 && yaw_', num2str(ii), '==0'');'])    
+%     sv_regularWavesNonLinYaw=Simulink.Variant('typeNum>=10 && typeNum<20 && yaw==1');
+    eval(['sv_regularWavesYaw_b' num2str(ii) '= Simulink.Variant(''typeNum>=10 && typeNum<20 && yaw_' num2str(ii) '==1'');'])    
+%     sv_irregularWaves=Simulink.Variant('typeNum>=20 && typeNum<30 && yaw~=1');
+    eval(['sv_irregularWaves_b' num2str(ii) '= Simulink.Variant(''typeNum>=20 && typeNum<30 && yaw_' num2str(ii) '==0'');'])    
+%     sv_irregularWavesNonLinYaw=Simulink.Variant('typeNum>=20 && typeNum<30 && yaw==1');
+    eval(['sv_irregularWavesYaw_b' num2str(ii) '= Simulink.Variant(''typeNum>=20 && typeNum<30 && yaw_' num2str(ii) '==1'');'])    
+end; clear ii
+
 sv_udfWaves=Simulink.Variant('typeNum>=30');
 % Body2Body
 B2B = simu.b2b;

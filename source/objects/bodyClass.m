@@ -70,6 +70,8 @@ classdef bodyClass<handle
         viz               = struct(...                       % (`structure`)  Defines visualization properties in either SimScape or Paraview.
             'color', [1 1 0], ...                            %
             'opacity', 1)                                    % (`structure`)  Defines visualization properties in either SimScape or Paraview. ``color`` (`3x1 float vector`) is defined as the body visualization color, Default = [``1 1 0``]. ``opacity`` (`integer`) is defined as the body opacity, Default = ``1``.        
+        yaw                 = 0                              % (`integer`) Flag for passive yaw calculation, Options: 0 (off), 1 (on). Default = ``0`` 
+        yawThresh           = 1                              % (`float`) Yaw position threshold (in degrees) above which excitation coefficients will be interpolated in passive yaw. Default = ``1`` dg
     end
     
     properties (SetAccess = 'public', GetAccess = 'public')  %body geometry stl file
@@ -111,7 +113,7 @@ classdef bodyClass<handle
             obj.h5File = filename;
         end
         
-        function checkinputs(obj,morisonElement)
+        function checkinputs(obj)
             % This method checks WEC-Sim user inputs and generates error messages if parameters are not properly defined for the bodyClass.
             
             % Check h5 file
@@ -123,7 +125,7 @@ classdef bodyClass<handle
                 error('Could not locate and open geometry file %s',obj.geometryFile)
             end
             % Check Morison Element Inputs for option 1
-            if morisonElement == 1
+            if obj.morisonElement.option == 1
                 [rgME,~] = size(obj.morisonElement.rgME);
                 [rz,~] = size(obj.morisonElement.z);
                 if rgME > rz
@@ -132,7 +134,7 @@ classdef bodyClass<handle
                 clear rgME rz
             end
             % Check Morison Element Inputs for option 2
-            if morisonElement == 2
+            if obj.morisonElement.option == 2
                 [r,~] = size(obj.morisonElement.z);
                 for ii = 1:r
                     if norm(obj.morisonElement.z(ii,:)) ~= 1
@@ -142,24 +144,28 @@ classdef bodyClass<handle
             end
             % check 'body.initDisp' fields
             if length(fieldnames(obj.initDisp)) ~=3
-                error(['Unrecognized method, property, or field for class "bodyClass", ' ... 
+                error(['Unrecognized method, property, or field for class "bodyClass", ' newline
                     '"bodyClass.initDisp" structure must only include fields: "initLinDisp", "initAngularDispAxis", "initAngularDispAngle"']);
             end              
             % check 'body.morisonElement' fields
             if length(fieldnames(obj.morisonElement)) ~=7
-                error(['Unrecognized method, property, or field for class "bodyClass", ' ... 
+                error(['Unrecognized method, property, or field for class "bodyClass", ' newline
                     '"bodyClass.morisonElement" structure must only include fields: "option", "cd", "ca", "characteristicArea", "VME", "rgME", "z" . ']);
             end               
             % check 'body.viscousDrag' fields
             if length(fieldnames(obj.viscousDrag)) ~=3
-                error(['Unrecognized method, property, or field for class "bodyClass", ' ... 
+                error(['Unrecognized method, property, or field for class "bodyClass", ' newline
                     '"bodyClass.viscousDrag" structure must only include fields: "Drag", "cd", "characteristicArea"']);
             end                
             % check 'body.viz' fields
             if length(fieldnames(obj.viz)) ~=2
-                error(['Unrecognized method, property, or field for class "bodyClass", ' ... 
+                error(['Unrecognized method, property, or field for class "bodyClass", ' newline
                     '"bodyClass.viz" structure must only include fields: "color", "opacity"']);
-            end                
+            end               
+            % Check passive yaw configuration
+            if obj.yaw==1 && obj.yawThresh==1
+                warning(['yaw using (default) 1 deg interpolation threshold.' newline 'Ensure this is appropriate for your geometry'])
+            end
         end
         
         function listInfo(obj)
@@ -208,7 +214,7 @@ classdef bodyClass<handle
             obj.dof = length(obj.viscousDrag.Drag);
         end
         
-        function hydroForcePre(obj,w,direction,cicTime,bemCount,dt,rho,g,waveType,waveAmpTime,stateSpace,B2B,yaw)
+        function hydroForcePre(obj,w,direction,cicTime,bemCount,dt,rho,g,waveType,waveAmpTime,stateSpace,B2B)
             % HydroForce Pre-processing calculations
             % 1. Set the linear hydrodynamic restoring coefficient, viscous drag, and linear damping matrices
             % 2. Set the wave excitation force
@@ -248,13 +254,13 @@ classdef bodyClass<handle
                     obj.noExcitation()
                     obj.irfInfAddedMassAndDamping(cicTime,stateSpace,rho,B2B);
                 case {'regular'}
-                    obj.regExcitation(w,direction,rho,g,yaw);
+                    obj.regExcitation(w,direction,rho,g);
                     obj.constAddedMassAndDamping(w,rho,B2B);
                 case {'regularCIC'}
-                    obj.regExcitation(w,direction,rho,g,yaw);
+                    obj.regExcitation(w,direction,rho,g);
                     obj.irfInfAddedMassAndDamping(cicTime,stateSpace,rho,B2B);
                 case {'irregular','spectrumImport'}
-                    obj.irrExcitation(w,bemCount,direction,rho,g,yaw);
+                    obj.irrExcitation(w,bemCount,direction,rho,g);
                     obj.irfInfAddedMassAndDamping(cicTime,stateSpace,rho,B2B);
                 case {'elevationImport'}
                     obj.hydroForce.userDefinedFe = zeros(length(waveAmpTime(:,2)),obj.dof);   %initializing userDefinedFe for non imported wave cases
@@ -445,7 +451,7 @@ classdef bodyClass<handle
             obj.hydroForce.fExt.im=zeros(1,nDOF);
         end
         
-        function regExcitation(obj,w,direction,rho,g,yaw)            
+        function regExcitation(obj,w,direction,rho,g)            
             % Regular wave excitation force
             % Used by hydroForcePre
             nDOF = obj.dof;
@@ -467,12 +473,13 @@ classdef bodyClass<handle
                     obj.hydroForce.fExt.md(ii) = interp1(obj.hydroData.simulation_parameters.w,squeeze(md(ii,1,:)),w,'spline');
                 end
             end
-            if yaw==1
-                % show warning for NL yaw run with incomplete BEM data
+            if obj.yaw==1
+                % show warning for passive yaw run with incomplete BEM data
                 BEMdir=sort(obj.hydroData.simulation_parameters.wave_dir);
                 boundDiff(1)=abs(-180 - BEMdir(1)); boundDiff(2)=abs(180 - BEMdir(end));
                 if length(BEMdir)<3 || std(diff(BEMdir))>5 || max(boundDiff)>15
-                    warning(['Nonlinear yaw is not recommended without BEM data spanning a full yaw rotation -180 to 180 dg.' newline 'Please inspect BEM data for gaps'])
+                    warning(['Passive yaw is not recommended without BEM data spanning a full yaw rotation -180 to 180 dg.' newline ...
+                        'Please inspect BEM data for gaps'])
                     clear BEMdir
                 end % wrap BEM directions -180 to 180 dg, if they are not already there
                 [sortedDir,idx]=sort(wrapTo180(obj.hydroData.simulation_parameters.wave_dir));
@@ -488,7 +495,7 @@ classdef bodyClass<handle
             end
         end
         
-        function irrExcitation(obj,wv,bemCount,direction,rho,g,yaw)
+        function irrExcitation(obj,wv,bemCount,direction,rho,g)
             % Irregular wave excitation force
             % Used by hydroForcePre
             nDOF = obj.dof;
@@ -510,12 +517,13 @@ classdef bodyClass<handle
                     obj.hydroForce.fExt.md(:,:,ii) = interp1(obj.hydroData.simulation_parameters.w,squeeze(md(ii,1,:)),wv,'spline');
                 end
             end
-            if yaw==1
-                % show warning for NL yaw run with incomplete BEM data
+            if obj.yaw==1
+                % show warning for passive yaw run with incomplete BEM data
                 BEMdir=sort(obj.hydroData.simulation_parameters.wave_dir);
                 boundDiff(1)=abs(-180 - BEMdir(1)); boundDiff(2)=abs(180 - BEMdir(end));
                 if length(BEMdir)<3 || std(diff(BEMdir))>5 || max(boundDiff)>15
-                    warning(['Nonlinear yaw is not recommended without BEM data spanning a full yaw rotation -180 to 180 dg.' newline 'Please inspect BEM data for gaps'])
+                    warning(['Passive yaw is not recommended without BEM data spanning a full yaw rotation -180 to 180 dg.' newline ...
+                        'Please inspect BEM data for gaps'])
                     clear BEMdir boundDiff
                 end
                 [sortedDir,idx]=sort(wrapTo180(obj.hydroData.simulation_parameters.wave_dir));

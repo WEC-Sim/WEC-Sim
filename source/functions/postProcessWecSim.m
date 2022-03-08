@@ -34,7 +34,9 @@ for iBod = 1:length(body(1,:))
         bodiesOutput(iBod).hspressure = [];
         bodiesOutput(iBod).wpressurenl = [];
         bodiesOutput(iBod).wpressurel = [];
-    end
+     end
+    % Add yaw to structure
+    bodiesOutput(iBod).yaw = body(iBod).yaw;
 end; clear iBod
 
 % PTOs
@@ -102,7 +104,7 @@ waveOutput.type = waves.type;
 waveOutput.waveAmpTime = waves.waveAmpTime;
 
 % All
-output = responseClass(bodiesOutput,ptosOutput,constraintsOutput,ptosimOutput,cablesOutput,mooringOutput,waveOutput, simu.yaw);
+output = responseClass(bodiesOutput,ptosOutput,constraintsOutput,ptosimOutput,cablesOutput,mooringOutput,waveOutput);
 clear bodiesOutput ptosOutput constraintsOutput ptosimOutput cablesOutput mooringOutput waveOutput
 
 % MoorDyn

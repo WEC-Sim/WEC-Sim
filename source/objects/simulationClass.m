@@ -62,8 +62,8 @@ classdef simulationClass<handle
         solver              = 'ode4'                                       % (`string`) PDE solver used by the Simulink/SimMechanics simulation. Any continuous solver in Simulink possible. Recommended to use 'ode4, 'ode45' for WEC-Sim. Default = ``'ode4'``
         stateSpace          = 0                                            % (`integer`) Flag for convolution integral or state-space calculation, Options: 0 (convolution integral), 1 (state-space). Default = ``0``
         startTime           = 0                                            % (`float`) Simulation start time. Default = ``0`` s        
-        yaw                 = 0                                            % (`integer`) Flag for passive yaw calculation, Options: 0 (off), 1 (on). Default = ``0`` 
-        yawThresh           = 1                                            % (`float`) Yaw position threshold (in degrees) above which excitation coefficients will be interpolated in nonlinear yaw. Default = ``1`` dg
+%         yaw                 = 0                                            % (`integer`) Flag for passive yaw calculation, Options: 0 (off), 1 (on). Default = ``0`` 
+%         yawThresh           = 1                                            % (`float`) Yaw position threshold (in degrees) above which excitation coefficients will be interpolated in passive yaw. Default = ``1`` dg
         zeroCrossCont       = 'DisableAll'                                 % (`string`) Disable zero cross control. Default = ``'DisableAll'``
     end
 
