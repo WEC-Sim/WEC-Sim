@@ -413,7 +413,7 @@ for ii=1:length(body(1,:))
 end; clear ii
 
 % Visualization Blocks
-if ~isempty(waves.markerLoc) && typeNum < 30
+if ~isempty(waves.marker.loc) && typeNum < 30
     visON = 1;
 else
     visON = 0;

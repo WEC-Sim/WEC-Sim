@@ -26,32 +26,36 @@ classdef waveClass<handle
     %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
     
     properties (SetAccess = 'public', GetAccess = 'public')%input file     
-        T = 'NOT DEFINED';      % (`float`) Wave period [s] . Defined as wave period for ``regular``, peak period for ``irregular``, or period of BEM data used for hydrodynamic coefficients for ``noWave``. Default = ``'NOT DEFINED'``
-        H = 'NOT DEFINED';      % (`float`) Wave height [m]. Defined as wave height for ``regular``, or significant wave height for ``irregular``. Default =  ``'NOT DEFINED'``
-        bem         = struct(...   	% (`structure`) Defines the BEM data implemtation. 
+        T = 'NOT DEFINED';          % (`float`) Wave period [s] . Defined as wave period for ``regular``, peak period for ``irregular``, or period of BEM data used for hydrodynamic coefficients for ``noWave``. Default = ``'NOT DEFINED'``
+        H = 'NOT DEFINED';          % (`float`) Wave height [m]. Defined as wave height for ``regular``, or significant wave height for ``irregular``. Default =  ``'NOT DEFINED'``
+        bem = struct(...            % (`structure`) Defines the BEM data implemtation. 
             'option',	'EqualEnergy',...   % 
             'count',	[], ...             %             
-            'frequency',     [], ...        %             
+            'frequency',[], ...        %             
             'range',	[])                 % (`structure`) Defines the BEM data implemtation. ``option`` (`string`) Method of frequency discretization for irregular waves, options include: ``'EqualEnergy'`` or ``'Traditional'``. Default = ``'EqualEnergy'``. ``count`` (`integer`) Number of interpolated wave frequencies, only used for ``irregular`` and ``spectrumImport``. Number of frequencies used varies depending on ``bem.option``, 1000 for ``'Traditional'``, and 500 for ``'EqualEnergy'`` and ``Imported``. Default = ``[]``. ``frequency`` (`vector`) Wave frequencies [rad/s] from BEM. Default = ``[]``. ``range`` (`2x1 vector`) Min and max wave frequency [rad/s], only used for ``irregular`` and ``spectrumImport``. If not specified, the BEM data frequency range is used. Default = ``[]``     
-        current     = struct(...   	% (`structure`) Defines the current implementation. 
-            'option',	3,...       %
-            'depth',	0, ...      %
-            'direction',0, ...      %
-            'speed',	0)      % (`structure`) Defines the current implementation. ``option`` (`integer`) Define the sub-surface current model to be used in WEC-Sim, options include: ``0`` for depth-independent model, ``1`` for 1/7 power law variation with depth, ``2`` for linear variation with depth, or ``3`` for no current. Default = ``3``, ``depth`` (`float`) Current depth [m]. Define the depth over which the sub-surface current is modeled. Must be defined for options ``1`` and ``2``. The current is not calculated for any depths greater than the specified current depth. Default = ``0``, ``direction`` (`float`) Current direction [deg]. Surface current direction defined using WEC-Sim global coordinate system. Default = ``0``, ``speed``  (`float`) Current seed [m/s]. Surface current speed that is uniform along the water column. Default = ``0``         
-        direction = 0;          % (`float`) Incident wave direction(s) [deg]. Incident wave direction defined using WEC-Sim global coordinate system. Should be defined as a column vector for more than one wave direction. Default = ``0``
+        current = struct(...        % (`structure`) Defines the current implementation. 
+            'option',	3,...           %
+            'depth',	0, ...          %
+            'direction',0, ...          %
+            'speed',	0)              % (`structure`) Defines the current implementation. ``option`` (`integer`) Define the sub-surface current model to be used in WEC-Sim, options include: ``0`` for depth-independent model, ``1`` for 1/7 power law variation with depth, ``2`` for linear variation with depth, or ``3`` for no current. Default = ``3``, ``depth`` (`float`) Current depth [m]. Define the depth over which the sub-surface current is modeled. Must be defined for options ``1`` and ``2``. The current is not calculated for any depths greater than the specified current depth. Default = ``0``, ``direction`` (`float`) Current direction [deg]. Surface current direction defined using WEC-Sim global coordinate system. Default = ``0``, ``speed``  (`float`) Current seed [m/s]. Surface current speed that is uniform along the water column. Default = ``0``         
+        direction = 0;              % (`float`) Incident wave direction(s) [deg]. Incident wave direction defined using WEC-Sim global coordinate system. Should be defined as a column vector for more than one wave direction. Default = ``0``
         elevationFile = 'NOT DEFINED';  % (`string`) Data file that contains the times-series data file. Default = ``'NOT DEFINED'``
-        gamma = [];             % (`float`) Defines gamma, only used for ``JS`` wave spectrum type. Default = ``[]``
-        markerLoc       = [];   % (`nx2 vector`) Marker [X,Y] locations [m]. Default = ``[]``
-        markerSize      = 10;   % (`float`) Marker size in Pixels. Default = ``10``
-        markerStyle     = 1;    % (`integer`) Marker style, options include: ``1``: Sphere, ``2``: Cube, ``3``: Frame. Default = ``1``: Sphere
-        phaseSeed = 0;          % (`integer`) Defines the random phase seed, only used for ``irregular`` and ``spectrumImport`` waves. Default = ``0``
+        gamma = [];                 % (`float`) Defines gamma, only used for ``JS`` wave spectrum type. Default = ``[]``        
+        marker = struct(...         % (`structure`) Defines the wave marker. 
+            'loc',      [],...          % 
+            'size',     10, ...         %             
+            'style',	1)              % (`structure`) Defines the wave marker. `loc` (`nx2 vector`) Marker [X,Y] locations [m]. Default = ``[]``. ``size`` (`float`) Marker size in Pixels. Default = ``10``. ``style`` Marker style, options include: ``1``: Sphere, ``2``: Cube, ``3``: Frame. Default = ``1``: Sphere        
+% % %         marker.loc       = [];   % (`nx2 vector`) Marker [X,Y] locations [m]. Default = ``[]``
+% % %         marker.size      = 10;   % (`float`) Marker size in Pixels. Default = ``10``
+% % %         marker.style     = 1;    % (`integer`) Marker style, options include: ``1``: Sphere, ``2``: Cube, ``3``: Frame. Default = ``1``: Sphere        
+        phaseSeed = 0;              % (`integer`) Defines the random phase seed, only used for ``irregular`` and ``spectrumImport`` waves. Default = ``0``
         spectrumFile = 'NOT DEFINED';   % (`string`) Data file that contains the spectrum data file.  Default = ``'NOT DEFINED'``                
-        spectrumType = 'NOT DEFINED';  % (`string`) Specifies the wave spectrum type, options inlcude:``PM`` or ``JS``. Default = ``'NOT DEFINED'``
-        type = 'NOT DEFINED';   % (`string`) Specifies the wave type, options include:``noWave``, ``noWaveCIC``, ``regular``, ``regularCIC``, ``irregular``, ``spectrumImport``, or ``elevationImport``. Default = ``'NOT DEFINED'``
+        spectrumType = 'NOT DEFINED';   % (`string`) Specifies the wave spectrum type, options inlcude:``PM`` or ``JS``. Default = ``'NOT DEFINED'``
+        type = 'NOT DEFINED';       % (`string`) Specifies the wave type, options include:``noWave``, ``noWaveCIC``, ``regular``, ``regularCIC``, ``irregular``, ``spectrumImport``, or ``elevationImport``. Default = ``'NOT DEFINED'``
         viz = struct( 'numPointsX', 50, ...
                       'numPointsY', 50 ); % (`structure`) Defines visualization options, structure contains the fields ``numPointsX`` for the number of visualization points in x direction, and ``numPointsY`` for the number of visualization points in y direction. 
-        waterDepth = [];        % (`float`) Water depth [m]. Default to BEM water depth if not set. 
-        spread = 1;             % (`float`) Wave Spread probability associated with wave direction(s). Should be defined as a column vector for more than one wave direction. Default = ``1``
+        waterDepth = [];            % (`float`) Water depth [m]. Default to BEM water depth if not set. 
+        spread = 1;                 % (`float`) Wave Spread probability associated with wave direction(s). Should be defined as a column vector for more than one wave direction. Default = ``1``
     end    
   
     properties (SetAccess = 'private', GetAccess = 'public')%internal       
@@ -161,9 +165,9 @@ classdef waveClass<handle
                     error('"spectrumFile" must be defined when using the "spectrumImport" wave type');
                 end
             end
-            % check 'markerLoc'
-            if ~isempty(obj.markerLoc)
-                if ~ndims(obj.markerLoc)==2
+            % check 'marker.loc'
+            if ~isempty(obj.marker.loc)
+                if ~ndims(obj.marker.loc)==2
                     error('The coordinates of the visualization markers should have an ordinate (y-coordinate) and an abscissa (x-coordinate)')
                 end
             end                        
@@ -173,8 +177,8 @@ classdef waveClass<handle
             % This method calculates WEC-Sim's wave properties 
             % based on the specified wave type.
             
-            if ~isempty(obj.markerLoc)==1
-                if ~width(obj.markerLoc)==2
+            if ~isempty(obj.marker.loc)==1
+                if ~width(obj.marker.loc)==2
                     error('The coordinates of the visualization markers should have an ordinate (y-coordinate) and an abscissa (x-coordinate)')
                 end
             end            
@@ -518,8 +522,8 @@ classdef waveClass<handle
             obj.waveAmpTime         = zeros(length(timeseries),2);
             obj.waveAmpTime(:,1)    = timeseries;
             
-            if ~isempty(obj.markerLoc)
-                SZwaveAmpTimeViz = size(obj.markerLoc);
+            if ~isempty(obj.marker.loc)
+                SZwaveAmpTimeViz = size(obj.marker.loc);
                 obj.waveAmpTimeViz = zeros(length(timeseries),SZwaveAmpTimeViz(1)+1);
                 obj.waveAmpTimeViz(:,1) = timeseries;
             end
@@ -538,17 +542,17 @@ classdef waveClass<handle
             obj.waveAmpTime(:,2) = rampFunction.*(obj.A*cos(obj.w*timeseries));
 
             % Wave Marker
-            if ~isempty(obj.markerLoc)==1
-                if width(obj.markerLoc)~=2
+            if ~isempty(obj.marker.loc)==1
+                if width(obj.marker.loc)~=2
                     error('The coordinates of the visualization markers should have an ordinate (y-coordinate) and an abscissa (x-coordinate)')
                 end
             end                
-            if ~isempty(obj.markerLoc)
-                SZwaveAmpTimeViz = size(obj.markerLoc);
+            if ~isempty(obj.marker.loc)
+                SZwaveAmpTimeViz = size(obj.marker.loc);
                 obj.waveAmpTimeViz = zeros(maxIt,SZwaveAmpTimeViz(1)+1);
                 for j = 1:SZwaveAmpTimeViz(1)
                     obj.waveAmpTimeViz(:,1) = timeseries;
-                    obj.waveAmpTimeViz(:,j+1) = rampFunction.*obj.A.*cos(obj.w*timeseries - obj.k*(obj.markerLoc(j,1).*cos(obj.direction*pi/180) + obj.markerLoc(j,2).*sin(obj.direction*pi/180)));                   
+                    obj.waveAmpTimeViz(:,j+1) = rampFunction.*obj.A.*cos(obj.w*timeseries - obj.k*(obj.marker.loc(j,1).*cos(obj.direction*pi/180) + obj.marker.loc(j,2).*sin(obj.direction*pi/180)));                   
                 end
             end          
         end        
@@ -660,13 +664,13 @@ classdef waveClass<handle
             obj.waveAmpTime(:,1) = timeseries;
             
             %  Wave Markers
-            if ~isempty(obj.markerLoc)
-                if width(obj.markerLoc)~=2
+            if ~isempty(obj.marker.loc)
+                if width(obj.marker.loc)~=2
                     error('The coordinates of the visualization markers should have an ordinate (y-coordinate) and an abscissa (x-coordinate)')
                 end
             end                              
-            if ~isempty(obj.markerLoc)
-               SZwaveAmpTimeViz = size(obj.markerLoc);
+            if ~isempty(obj.marker.loc)
+               SZwaveAmpTimeViz = size(obj.marker.loc);
                obj.waveAmpTimeViz = zeros(maxIt,SZwaveAmpTimeViz(1)+1);
                obj.waveAmpTimeViz(:,1) = timeseries;
             end            
@@ -679,9 +683,11 @@ classdef waveClass<handle
 
                 
                 % Wave Markers
-                if ~isempty(obj.markerLoc)
+                if ~isempty(obj.marker.loc)
                     for j = 1:SZwaveAmpTimeViz(1)
-                        tmp14 = tmp.*real(exp(sqrt(-1).*(obj.w.*timeseries(i) - obj.k*(obj.markerLoc(j,1).*cos(obj.direction*pi/180) + obj.markerLoc(j,2).*sin(obj.direction*pi/180)) + obj.phase)));
+                        tmp14 = tmp.*real(exp(sqrt(-1).*(obj.w.*timeseries(i) ...
+                            - obj.k*(obj.marker.loc(j,1).*cos(obj.direction*pi/180) ...
+                            + obj.marker.loc(j,2).*sin(obj.direction*pi/180)) + obj.phase)));
                         obj.waveAmpTimeViz(i,j+1) = rampFunction(i).*sum(tmp14,'all');
                     end             
                 end                                                                       
@@ -700,9 +706,9 @@ classdef waveClass<handle
             obj.waveAmpTime(:,1) = time;
             obj.waveAmpTime(:,2) = rampFunction.*interp1(data_t,data_x,time);
             
-            if any(~isempty(obj.markerLoc))
+            if any(~isempty(obj.marker.loc))
                 warning('Cannot use wave gauges or visualization markers with eta import. Gauges and markers removed.');
-                obj.markerLoc = [];
+                obj.marker.loc = [];
             end
         end
         
