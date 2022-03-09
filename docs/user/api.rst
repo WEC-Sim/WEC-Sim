@@ -10,7 +10,7 @@ Simulation Class
 
 .. autoclass:: objects.simulationClass
 	:members:
-	:exclude-members: wsVersion, gitCommit, simulationDate, outputDir, time, inputFile, logFile, caseFile, caseDir, CIkt, maxIt, CTTime, numWecBodies, numDragBodies, numPtos, numConstraints, numCables, numMoorings, listInfo, getWecSimVer, loadSimMechModel, setupSim, checkinputs, rhoDensitySetup, getGitCommit, simulationClass
+	:exclude-members: wsVersion, gitCommit, simulationDate, outputDir, time, inputFile, logFile, caseFile, caseDir, CIkt, maxIt, CTTime, numWecBodies, numDragBodies, numPtos, numConstraints, numCables, numMoorings, listInfo, getWecSimVer, loadSimMechModel, simulationClass, simuSetup, checkinputs, rhoDensitySetup, getGitCommit, simulationClass
 	:no-undoc-members: 
     
 
@@ -32,7 +32,7 @@ Body Class
 
 .. autoclass:: objects.bodyClass
     :members:
-    :exclude-members: hydroData, bodyGeometry, hydroForce, h5File, hydroDataBodyNum, massCalcMethod, bodyNumber, bodyTotal, lenJ, hydroForcePre, adjustMassMatrix, restoreMassMatrix, storeForceAddedMass, setInitDisp, bodyGeo, triArea, bodyGeo, triArea, triCenter, rotateXYZ, verts_out, offsetXYZ, readH5File, loadHydroData, dragForcePre, listInfo, checkStl, checkinputs, forceAddedMass, bodyClass
+    :exclude-members: hydroData, bodyGeometry, hydroForce, h5File, hydroBodyTotal, massCalcMethod, bodyNumber, bodyTotal, dofCoupled, hydroForcePre, adjustMassMatrix, restoreMassMatrix, storeForceAddedMass, setInitDisp, bodyGeo, triArea, bodyGeo, triArea, triCenter, rotateXYZ, verts_out, offsetXYZ, readH5File, loadHydroData, dragForcePre, listInfo, checkStl, checkinputs, forceAddedMass, bodyClass
     :no-undoc-members:
     
 .. _constraint:
@@ -81,6 +81,6 @@ Response Class
 
 .. autoclass:: objects.responseClass
     :members:
-    :exclude-members: wave, bodies, ptos, constraints, mooring, cables, moorDyn, ptosim, responseClass, loadMoorDyn
+    :exclude-members: bodies, cables, constraints, moorDyn, mooring,  ptos, ptosim, wave, loadMoorDyn, responseClass
     :no-undoc-members:
     

@@ -111,8 +111,8 @@ for i=1:length(blocks)
         fprintf(fid,writeLineFromVar(simu, 'endTime', maskVars, maskViz, [], []));
         fprintf(fid,writeLineFromVar(simu, 'solver', maskVars, maskViz, [], []));
         fprintf(fid,writeLineFromVar(simu, 'dt', maskVars, maskViz, [], []));
-        fprintf(fid,writeLineFromVar(simu, 'CITime', maskVars, maskViz, [], []));
-        fprintf(fid,writeLineFromVar(simu, 'ssCalc', maskVars, maskViz, [], []));
+        fprintf(fid,writeLineFromVar(simu, 'cicEndTime', maskVars, maskViz, [], []));
+        fprintf(fid,writeLineFromVar(simu, 'stateSpace', maskVars, maskViz, [], []));
         
         % Wave Information 
         fprintf(fid,'\r\n%s\r\n','%% Wave Class');
@@ -120,13 +120,13 @@ for i=1:length(blocks)
         
         fprintf(fid,writeLineFromVar(waves, 'H', maskVars, maskViz, [], []));
         fprintf(fid,writeLineFromVar(waves, 'T', maskVars, maskViz, [], []));
-        fprintf(fid,writeLineFromVar(waves, 'waveDir', maskVars, maskViz, [], []));
-        fprintf(fid,writeLineFromVar(waves, 'waveSpread', maskVars, maskViz, [], []));
+        fprintf(fid,writeLineFromVar(waves, 'direction', maskVars, maskViz, [], []));
+        fprintf(fid,writeLineFromVar(waves, 'spread', maskVars, maskViz, [], []));
         fprintf(fid,writeLineFromVar(waves, 'spectrumType', maskVars, maskViz, [], []));
-        fprintf(fid,writeLineFromVar(waves, 'freqDisc', maskVars, maskViz, [], []));
-        fprintf(fid,writeLineFromVar(waves, 'spectrumDataFile', maskVars, maskViz, [], []));
+        fprintf(fid,writeLineFromVar(waves, 'option', maskVars, maskViz, [], 'bem'));
+        fprintf(fid,writeLineFromVar(waves, 'spectrumFile', maskVars, maskViz, [], []));
         fprintf(fid,writeLineFromVar(waves, 'phaseSeed', maskVars, maskViz, [], []));
-        fprintf(fid,writeLineFromVar(waves, 'etaDataFile', maskVars, maskViz, [], []));
+        fprintf(fid,writeLineFromVar(waves, 'elevationFile', maskVars, maskViz, [], []));
             
 
     elseif isfield(maskVars,'body')
@@ -140,9 +140,9 @@ for i=1:length(blocks)
         fprintf(fid,writeLineFromVar(body, 'geometryFile', maskVars, maskViz, num, []));
         fprintf(fid,writeLineFromVar(body, 'mass', maskVars, maskViz, num, []));
         fprintf(fid,writeLineFromVar(body, 'momOfInertia', maskVars, maskViz, num, []));
-        fprintf(fid,writeLineFromVar(body, 'nhBody', maskVars, maskViz, num, []));
-        fprintf(fid,writeLineFromVar(body, 'nlHydro', maskVars, maskViz, num, []));
-        fprintf(fid,writeLineFromVar(body, 'flexHydroBody', maskVars, maskViz, num, []));
+        fprintf(fid,writeLineFromVar(body, 'nonHydro', maskVars, maskViz, num, []));
+        fprintf(fid,writeLineFromVar(body, 'nonlinearHydro', maskVars, maskViz, num, []));
+        fprintf(fid,writeLineFromVar(body, 'flex', maskVars, maskViz, num, []));
         fprintf(fid,writeLineFromVar(body, 'cg', maskVars, maskViz, num, []));
         fprintf(fid,writeLineFromVar(body, 'cb', maskVars, maskViz, num, []));
         fprintf(fid,writeLineFromVar(body, 'dof', maskVars, maskViz, num, []));

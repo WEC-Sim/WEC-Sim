@@ -36,20 +36,20 @@ switch type
         maskVars.endTime = simu.endTime;                             % Simulation End Time [s]
         maskVars.solver = simu.solver;                               % simu.solver = 'ode4' for fixed step & simu.solver = 'ode45' for variable step 
         maskVars.dt = simu.dt;                                       % Simulation time-step [s]
-        maskVars.CITime = simu.CITime;                               % Specify CI Time [s]
-        maskVars.ssCalc = simu.ssCalc;                               % State-space calculation
+        maskVars.cicEndTime = simu.cicEndTime;                       % Specify CI Time [s]
+        maskVars.stateSpace = simu.stateSpace;                       % State-space calculation
 
         % Wave data
         maskVars.WaveClass = waves.type;                             % Initialize Wave Class and Specify Type                                           
         maskVars.H = waves.H;                                        % Wave Height [m]
         maskVars.T = waves.T;                                        % Wave Period [s]
-        maskVars.waveDir = waves.waveDir;                            % Wave Directionality [deg]
-        maskVars.waveSpread = waves.waveSpread;                      % Wave Directional Spreading [%]
+        maskVars.direction = waves.direction;                        % Wave Directionality [deg]
+        maskVars.spread = waves.spread;                              % Wave Directional Spreading [%]
         maskVars.spectrumType = waves.spectrumType;                  % Specify Wave Spectrum Type
-        maskVars.freqDisc = waves.freqDisc;                          % Uses 'EqualEnergy' bins (default) 
+        maskVars.option = waves.bem.option;                          % Uses 'EqualEnergy' bins (default) 
         maskVars.phaseSeed = waves.phaseSeed;                        % Phase is seeded so eta is the same
-        maskVars.spectrumDataFile = waves.spectrumDataFile;          % Name of User-Defined Spectrum File [:,2] = [f, Sf]
-        maskVars.etaDataFile = waves.etaDataFile;                    % Name of User-Defined Time-Series File [:,2] = [time, eta]
+        maskVars.spectrumFile = waves.spectrumFile;                  % Name of User-Defined Spectrum File [:,2] = [f, Sf]
+        maskVars.elevationFile = waves.elevationFile;                % Name of User-Defined Time-Series File [:,2] = [time, eta]
     
     case 1
         % Body Data
@@ -59,9 +59,9 @@ switch type
         maskVars.geometryFile = body(num).geometryFile;              % Location of Geomtry File
         maskVars.mass = body(num).mass;                              % Body Mass
         maskVars.momOfInertia = body(num).momOfInertia;              % Moment of Inertia [kg*m^2]  
-        maskVars.nhBody = body(num).nhBody;
-        maskVars.nlHydro = body(num).nlHydro;
-        maskVars.flexHydroBody = body(num).flexHydroBody;
+        maskVars.nonHydro = body(num).nonHydro;
+        maskVars.nonlinearHydro = body(num).nonlinearHydro;
+        maskVars.flex = body(num).flex;
         maskVars.cg = body(num).cg;
         maskVars.cb = body(num).cb;
         maskVars.dof = body(num).dof;

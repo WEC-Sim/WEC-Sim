@@ -7,6 +7,6 @@ function spectrumButtonCallback(blockHandle)
 % Don't set value if no file is chosen, or prompt canceled.
 if ~isequal(filename,0) && ~isequal(filepath,0)
     mask = Simulink.Mask.get(blockHandle);
-    fileParam = mask.getParameter('spectrumDataFile');
-    fileParam.Value = [filepath,filename];             % Update spectrumDataFile with new filename
+    fileParam = mask.getParameter('spectrumFile');
+    fileParam.Value = [filepath,filename];             % Update spectrumFile with new filename
 end

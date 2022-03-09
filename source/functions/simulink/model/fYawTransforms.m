@@ -1,5 +1,5 @@
-function [F_Excitation, F_RadiationDamping, F_AddedMass, F_Restoring] = fYawTransforms(yawNonLin, dispGlobal, F_RadiationDampingLocal, F_AddedMassLocal, F_ExcitationLocal, F_RestoringLocal)
-if yawNonLin ==1
+function [F_Excitation, F_RadiationDamping, F_AddedMass, F_Restoring] = fYawTransforms(yaw, dispGlobal, F_RadiationDampingLocal, F_AddedMassLocal, F_ExcitationLocal, F_RestoringLocal)
+if yaw ==1
     % transform force vectors from local frame to global frame
     rotMatYaw = [cos(dispGlobal(6)), -sin(dispGlobal(6)), 0;
                  sin(dispGlobal(6)),  cos(dispGlobal(6)), 0;

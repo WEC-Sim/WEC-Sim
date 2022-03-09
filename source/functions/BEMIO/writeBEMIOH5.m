@@ -37,7 +37,7 @@ writeH5Parameter(filename,'/simulation_parameters/w',hydro.w,'Wave frequencies',
 if hydro.h~=inf     % A residual of the python based code
     writeH5Parameter(filename,'/simulation_parameters/water_depth',hydro.h,'Water depth','m');
 end
-writeH5Parameter(filename,'/simulation_parameters/wave_dir',hydro.beta,'Wave direction','deg');
+writeH5Parameter(filename,'/simulation_parameters/wave_dir',hydro.theta,'Wave direction','deg');
 waitbar(1/N);
 
 n = 0;
@@ -67,7 +67,7 @@ for i = 1:hydro.Nb
         writeH5Parameter(filename,['/body' num2str(i) '/hydro_coeffs/linear_restoring_stiffness'],tmp(1,m_add + 1:m_add + m,:),'Hydrostatic stiffness','N/m');
         clear tmp;
     else
-        writeH5Parameter(filename,['/body' num2str(i) '/hydro_coeffs/linear_restoring_stiffness'],hydro.C(:,:,i),'Hydrostatic stiffness matrix','');        
+        writeH5Parameter(filename,['/body' num2str(i) '/hydro_coeffs/linear_restoring_stiffness'],hydro.Khs(:,:,i),'Hydrostatic stiffness matrix','');        
     end
 
     % Write added mass coefficients

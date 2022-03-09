@@ -1,5 +1,5 @@
 function bodyClassCallback(blockHandle)
-% Callback function for bodyClass that is called whenever nhBody or
+% Callback function for bodyClass that is called whenever nonHydro or
 % morisonElement.option are changed. The visibility of the relevant mask
 % parameters are updated based on these options.
 
@@ -49,14 +49,14 @@ end
 
 % Get mask parameter controls for cg, cb, dof, volume
 mask = Simulink.Mask.get(blockHandle);
-nhBody = mask.getParameter('nhBody');
+nonHydro = mask.getParameter('nonHydro');
 cg = mask.getParameter('cg');
 cb = mask.getParameter('cb');
 dof = mask.getParameter('dof');
 dispVol = mask.getParameter('dispVol');
 
-% Change visibilities based on nhBody selection
-switch nhBody.Value
+% Change visibilities based on nonHydro selection
+switch nonHydro.Value
     case {'1','2'}
         cg.Visible = 'on';
         cb.Visible = 'on';

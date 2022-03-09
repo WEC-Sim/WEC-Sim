@@ -123,17 +123,17 @@ the MATLAB Command Window. This command executes the Multiple Condition Run
     **Option 2.**  Specify the excel filename that contains a set of wave 
     statistic data in the WEC-Sim input file. This option is generally useful 
     for power matrix generation, example:
-    ``waves.statisticsDataLoad = "<Excel file name>.xls"``
+    ``simu.mcrExcelFile = "<Excel file name>.xls"``
 
     **Option 3.**  Provide a MCR case *.mat* file, and specify the filename in 
     the WEC-Sim input file, example:
-    ``simu.mcrCaseFile = "<File name>.mat"``
+    ``simu.mcrMatFile = "<File name>.mat"``
 
 For Multiple Condition Runs, the ``*.h5`` hydrodynamic data is only loaded 
 once. To reload the ``*.h5`` data between runs, set ``simu.reloadH5Data =1`` in 
 the WEC-Sim input file. 
 
-If the Simulink model relies upon ``From Workspace`` input blocks other than those utilized by the WEC-Sim library blocks (e.g. ``Wave.etaDataFile``), these can be iterated through using Option 3. The MCR file header MUST be a cell containing the exact string ``'LoadFile'``. The pathways of the files to be loaded to the workspace must be given in the ``cases`` field of the MCR *.mat* file. WEC-Sim MCR will then run WEC-Sim in sequence, once for each file to be loaded. The variable name of each loaded file should be consistent, and specified by the ``From Workspace`` block.  
+If the Simulink model relies upon ``From Workspace`` input blocks other than those utilized by the WEC-Sim library blocks (e.g. ``waves.waveElevationFile``), these can be iterated through using Option 3. The MCR file header MUST be a cell containing the exact string ``'LoadFile'``. The pathways of the files to be loaded to the workspace must be given in the ``cases`` field of the MCR *.mat* file. WEC-Sim MCR will then run WEC-Sim in sequence, once for each file to be loaded. The variable name of each loaded file should be consistent, and specified by the ``From Workspace`` block.  
 
 For more information, refer to :ref:`webinar1`, and the **RM3_MCR** example on the `WEC-Sim Applications <https://github.com/WEC-Sim/WEC-Sim_Applications>`_ repository. 
 
@@ -177,10 +177,10 @@ State-Space Representation
 
 The convolution integral term in the equation of motion can be linearized using 
 the state-space representation as described in the :ref:`theory` section. To 
-use a state-space representation, the ``simu.ssCalc`` simulationClass variable 
+use a state-space representation, the ``simu.stateSpace`` simulationClass variable 
 must be defined in the WEC-Sim input file, for example: 
 
-    :code:`simu.ssCalc = 1` 
+    :code:`simu.stateSpace = 1` 
 
 .. _user-advanced-features-time-step:
 
@@ -196,9 +196,9 @@ steps, default: N=1):
 
 * Fixed time-step: :code:`simu.dt` 
 * Output time-step: :code:`simu.dtOut=N*simu.dt` 
-* Nonlinear Buoyancy and Froude-Krylov Excitation time-step: :code:`simu.dtNL=N*simu.dt` 
-* Convolution integral time-step: :code:`simu.dtCITime=N*simu.dt`   
-* Morison force time-step: :code:`simu.dtME = N*simu.dt` 
+* Nonlinear Buoyancy and Froude-Krylov Excitation time-step: :code:`simu.nonlinearDt=N*simu.dt` 
+* Convolution integral time-step: :code:`simu.cicDt=N*simu.dt`   
+* Morison force time-step: :code:`simu.morisonDt = N*simu.dt` 
 
 Fixed Time-Step (ode4)
 """"""""""""""""""""""
@@ -264,7 +264,7 @@ following wave class variable must be defined in the WEC-Sim input file:
     :code:`waves.freqDisc = 'Traditional';`
 
 Users may override the default number of wave frequencies by defining 
-``waves.numFreq``. However, it is on the user to ensure that the wave spectrum 
+``waves.freqNum``. However, it is on the user to ensure that the wave spectrum 
 is adequately defined by the number of wave frequencies, and that the wave 
 forces are not impacted by this change. 
 
@@ -275,7 +275,7 @@ WEC-Sim has the ability to model waves with various angles of incidence,
 :math:`\theta`. To define wave directionality in WEC-Sim, the following wave 
 class variable must be defined in the WEC-Sim input file: 
 
-    :code:`waves.waveDir = <user defined wave direction(s)>; %[deg]`    
+    :code:`waves.direction = <user defined wave direction(s)>; %[deg]`    
 
 The incident wave direction has a default heading of 0 Degrees (Default = 0), 
 and should be defined as a column vector for more than one wave direction. For 
@@ -290,7 +290,7 @@ WEC-Sim has the ability to model waves with directional spreading,
 WEC-Sim, the following wave class variable must be defined in the WEC-Sim input 
 file: 
 
-    :code:`waves.waveSpread = <user defined directional spreading>;`
+    :code:`waves.spread = <user defined directional spreading>;`
 
 The wave directional spreading has a default value of 1 (Default = 1), and 
 should be defined as a column vector of directional spreading for each one wave 
@@ -376,9 +376,9 @@ following features are available:
 
 * **Floating Body** - the user may set :code:`body(i).mass = 'equilibrium'` 
   which will calculate the body mass based on displaced volume and water 
-  density. If :code:`simu.nlhydro = 0`, then the mass is calculated using the 
-  displaced volume contained in the ``*.h5`` file. If :code:`simu.nlhydro = 1` 
-  or :code:`simu.nlhydro = 2`, then the mass is calculated using the displaced 
+  density. If :code:`simu.nonlinearHydro = 0`, then the mass is calculated using the 
+  displaced volume contained in the ``*.h5`` file. If :code:`simu.nonlinearHydro = 1` 
+  or :code:`simu.nonlinearHydro = 2`, then the mass is calculated using the displaced 
   volume of the provided STL geometry file.
 
 * **Fixed Body** - if the mass is unknown (or not important to the dynamics), 
@@ -400,10 +400,10 @@ Nonlinear Buoyancy and Froude-Krylov Excitation
 WEC-Sim has the option to include the nonlinear hydrostatic restoring and 
 Froude-Krylov forces when solving the system dynamics of WECs, accounting for 
 the weakly nonlinear effect on the body hydrodynamics. To use nonlinear 
-buoyancy and Froude-Krylov excitation, the **body(ii).nlHydro** bodyClass 
+buoyancy and Froude-Krylov excitation, the **body(ii).nonlinearHydro** bodyClass 
 variable must be defined in the WEC-Sim input file, for example: 
 
-    :code:`body(ii).nlHydro = 2`  
+    :code:`body(ii).nonlinearHydro = 2`  
 
 For more information, refer to the :ref:`webinar2`, and the **NonlinearHydro** 
 example on the `WEC-Sim Applications <https://github.com/WEC-Sim/WEC-Sim_Applications>`_ 
@@ -412,23 +412,23 @@ repository.
 Nonlinear Settings
 """"""""""""""""""
 
-**body(ii).nlHydro**  - 
+**body(ii).nonlinearHydro**  - 
 The nonlinear hydrodynamics option can be used with the parameter: 
-:code:`body(ii).nlHydro` in your WEC-Sim input file. When any of the three 
+:code:`body(ii).nonlinearHydro` in your WEC-Sim input file. When any of the three 
 nonlinear options (below) are used, WEC-Sim integrates the wave pressure over 
 the surface of the body, resulting in more accurate buoyancy and Froude-Krylov 
 force calculations. 
 
-    **Option 1.** :code:`body(ii).nlHydro = 1` This option integrates the pressure 
+    **Option 1.** :code:`body(ii).nonlinearHydro = 1` This option integrates the pressure 
     due to the mean wave elevation and the instantaneous body position.
 
-    **Option 2.** :code:`body(ii).nlHydro = 2` This option integrates the pressure 
+    **Option 2.** :code:`body(ii).nonlinearHydro = 2` This option integrates the pressure 
     due to the instantaneous wave elevation and the instantaneous body position. 
     This option is recommended if nonlinear effects need to be considered.
 
-**simu.dtNL** - 
+**simu.nonlinearDt** - 
 An option available to reduce the nonlinear simulation time is to specify a 
-nonlinear time step, :code:`simu.dtNL=N*simu.dt`, where N is number of 
+nonlinear time step, :code:`simu.nonlinearDt=N*simu.dt`, where N is number of 
 increment steps. The nonlinear time step specifies the interval at which the 
 nonlinear hydrodynamic forces are calculated. As the ratio of the nonlinear to 
 system time step increases, the computation time is reduced, again, at the 
@@ -531,7 +531,7 @@ option is used in combination with a hydrodynamic or flexible body, it serves as
 tuning method. The equation of motion for hydrodynamic and flexible bodies with a 
 Morison Element is more complex than the traditional Morison Element formulation.
 A traditional Morison Element may be created by using a drag body 
-(``body(#).nhBody=2``) with ``body(#).morisonElement.option = 1 or 2``.
+(``body(#).nonHydroBody=2``) with ``body(#).morisonElement.option = 1 or 2``.
 For more information about the numerical formulation of viscous damping and 
 Morison Elements, refer to the theory section :ref:`theory-viscous-damping-morison`. 
 
@@ -623,14 +623,14 @@ and ``waves.currentDepth``. See :ref:`user-advanced-features-current` for more
 detail on using these options.
 
 The Morison Element time-step may also be defined as
-:code:`simu.dtME = N*simu.dt`, where N is number of increment steps. For an 
+:code:`simu.morisonDt = N*simu.dt`, where N is number of increment steps. For an 
 example application of using Morison Elements in WEC-Sim, refer to the `WEC-Sim 
 Applications <https://github.com/WEC-Sim/WEC-Sim_Applications>`_ repository 
 **Free_Decay/1m-ME** example.  
 
 .. Note::
 
-    Morison Elements cannot be used with :code:`etaImport`.
+    Morison Elements cannot be used with :code:`waveImport`.
 
 .. _user-advanced-features-non-hydro-body:
 
@@ -646,7 +646,7 @@ acting on them and for which no BEM data is provided.
 
 To do this, use a Body Block from the WEC-Sim Library and initialize it in the 
 WEC-Sim input file as any other body but leave the name of the ``h5`` file as 
-an empty string. Specify :code:`body(i).nhBody = 1;` and specify body name, 
+an empty string. Specify :code:`body(i).nonHydroBody = 1;` and specify body name, 
 mass, moments of inertia, center of gravity, center of buoyancy, geometry file, 
 location, and displaced volume. You can also specify visualization options and 
 initial displacement. 
@@ -654,7 +654,7 @@ initial displacement.
 To use non-hydrodynamic bodies, the following body class variable must be 
 defined in the WEC-Sim input file, for example:: 
 
-    body(i).nhBody = 1
+    body(i).nonHydroBody = 1
 
 Non-hydrodynamic bodies require the following properties to be defined::
 
@@ -685,7 +685,7 @@ deeply-submerged heave plate of large surface area tethered to a float. In
 these instances, the drag body implementation can be utilized by defining the 
 following body class variable:: 
 
-    body(i).nhBody = 2
+    body(i).nonHydroBody = 2
 
 
 Drag bodies have zero wave excitation or radiation forces, but viscous forces 
@@ -787,9 +787,9 @@ with time, WEC-Sim allows a correction to excitation forces for large yaw
 displacements. To enable this correction, add the following to your 
 ``wecSimInputFile``:: 
 
-    simu.yawNonLin = 1
+    simu.yaw = 1
 
-Under the default implementation (:code:`simu.yawNonLin = 0`), WEC-Sim uses the 
+Under the default implementation (:code:`simu.yaw = 0`), WEC-Sim uses the 
 initial yaw orientation of the device relative to the incident waves to 
 calculate the wave excitation coefficients that will be used for the duration 
 of the simulation. When the correction is enabled, excitation coefficients are 
@@ -810,7 +810,7 @@ specific: if it is too large, no interpolation will occur and the simulation
 will behave as :code:`simu.yawNonLin = 0`, but overly small values may not 
 significantly enhance simulation accuracy while increasing simulation time. 
 
-When :code:`simu.yawNonLin = 1`, hydrostatic and radiation forces are 
+When :code:`simu.yaw = 1`, hydrostatic and radiation forces are 
 determined from the local body-fixed coordinate system based upon the 
 instantaneous relative yaw position of the body, as this may differ 
 substantially from the global coordinate system for large relative yaw values. 
@@ -896,7 +896,7 @@ WEC-Sim Post-Processing
 
 WEC-Sim contains several built in methods inside the response class and wave 
 class to assist users in processing WEC-Sim output: ``output.plotForces``, 
-``output.plotResponse``, ``output.saveViz``, ``waves.plotEta``, and
+``output.plotResponse``, ``output.saveViz``, ``waves.plotElevation``, and
 ``waves.plotSpectrum``. This section will demonstrate the use of these methods. 
 They are fully documented in the WEC-Sim :ref:`user-api`.
 
@@ -942,10 +942,10 @@ of the 1st body. The position, velocity and acceleration of that body is shown.
 
 
 
-Plot Eta
-^^^^^^^^
+Plot Elevation
+^^^^^^^^^^^^^^^
 
-The ``waveClass.plotEta()`` method can be used to plot the wave elevation time
+The ``waveClass.plotElevation()`` method can be used to plot the wave elevation time
 series at the domain origin. The ramp time is also marked. The only required input
 is ``simu.rampTime``. Users must manually plot or overlay the wave elevation at a 
 wave gauge location.
@@ -955,7 +955,7 @@ wave gauge location.
    :figwidth: 250pt
    :align: center
    
-   Demonstration of waves.plotEta() method for the OSWEC example.
+   Demonstration of waves.plotElevation() method for the OSWEC example.
 
 
 Plot Spectrum
@@ -995,7 +995,7 @@ For more information about using ParaView for visualization, refer to the **Wave
 
 .. Note:: 
 
-    This feature is not compatible with user-defined waves ``waves = waveClass('etaImport')``
+    This feature is not compatible with user-defined waves ``waves = waveClass('waveImport')``
     
 .. figure:: /_static/images/RM3_vizMarker.jpg
    :width: 250pt

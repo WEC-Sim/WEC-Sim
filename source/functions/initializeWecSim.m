@@ -91,8 +91,8 @@ if exist('mcr','var') == 1
         end
     end; clear n combine;
     try 
-        waves.spectrumDataFile = ['..' filesep parallelComputing_dir filesep '..' filesep waves.spectrumDataFile];
-        waves.etaDataFile      = ['..' filesep parallelComputing_dir filesep '..' filesep waves.etaDataFile];
+        waves.spectrumFile = ['..' filesep parallelComputing_dir filesep '..' filesep waves.spectrumFile];
+        waves.elevationFile      = ['..' filesep parallelComputing_dir filesep '..' filesep waves.elevationFile];
     end
 end
 
@@ -137,23 +137,23 @@ nonHydroBodLogic = zeros(length(body(1,:)),1);
 dragBodLogic = zeros(length(body(1,:)),1);
 for ii = 1:length(body(1,:))
     body(ii).bodyNumber = ii;
-    if body(ii).nhBody==0
+    if body(ii).nonHydro==0
         numHydroBodies = numHydroBodies + 1;
         hydroBodLogic(ii) = 1;         
-    elseif body(ii).nhBody==1
+    elseif body(ii).nonHydro==1
         numNonHydroBodies = numNonHydroBodies + 1;
         nonHydroBodLogic(ii) = 1; 
-    elseif body(ii).nhBody==2
+    elseif body(ii).nonHydro==2
         numDragBodies = numDragBodies + 1;
         dragBodLogic(ii) = 1; 
     else
         body(ii).massCalcMethod = 'user';
     end
 end
-simu.numWecBodies = numHydroBodies; clear numHydroBodies
+simu.numHydroBodies = numHydroBodies; clear numHydroBodies
 simu.numDragBodies = numDragBodies; clear numDragBodies
-for ii = 1:simu.numWecBodies
-    body(ii).checkinputs(body(ii).morisonElement.option);
+for ii = 1:simu.numHydroBodies
+    body(ii).checkinputs();
     %Determine if hydro data needs to be reloaded from h5 file, or if hydroData
     % was stored in memory from a previous run.
     if exist('totalNumOfWorkers','var') ==0 && exist('mcr','var') == 1 && simu.reloadH5Data == 0 && imcr > 1
@@ -165,18 +165,17 @@ for ii = 1:simu.numWecBodies
         if h5Info.bytes < 1000
             error(['This is not the correct *.h5 file. Please install git-lfs to access the correct *.h5 file, or run \hydroData\bemio.m to generate a new *.h5 file'])
         end
-        clearvars h5Info
-        
+        clearvars h5Info        
         % Read hydro data from BEMIO and load into the bodyClass
-        tmp_hydroData = readBEMIOH5(body(ii).h5File, body(ii).bodyNumber, body(ii).meanDriftForce);
+        tmp_hydroData = readBEMIOH5(body(ii).h5File, body(ii).bodyNumber, body(ii).meanDrift);
         body(ii).loadHydroData(tmp_hydroData);
         clear tmp_hydroData
     end
-    body(ii).bodyTotal = simu.numWecBodies;
+    body(ii).bodyTotal = simu.numHydroBodies;
     if simu.b2b==1
-        body(ii).lenJ = zeros(6*body(ii).bodyTotal,1);
+        body(ii).dofCoupled = zeros(6*body(ii).bodyTotal,1);
     else
-        body(ii).lenJ = zeros(6,1);
+        body(ii).dofCoupled = zeros(6,1);
     end
 end; clear ii
 
@@ -195,11 +194,6 @@ if exist('cable','var')==1
         cable(ii).linearDampingMatrix();
     end
 end
-
-if simu.yawNonLin==1 && simu.yawThresh==1
-    warning(['yawNonLin using (default) 1 dg interpolation threshold.' newline 'Ensure this is appropriate for your geometry'])
-end
-
 toc
 
 %% Pre-processing start
@@ -211,18 +205,18 @@ end
 
 %% HydroForce Pre-Processing: Wave Setup & HydroForcePre.
 % simulation setup
-simu.setupSim;
+simu.setup;
 
 % wave setup
 if any(hydroBodLogic == 1)
     % When hydro bodies (and an .h5) are present, define the wave using those
     % parameters.
-    waves.waveSetup(body(1).hydroData.simulation_parameters.w, body(1).hydroData.simulation_parameters.water_depth, simu.rampTime, simu.dt, simu.maxIt, simu.time, simu.g, simu.rho);
-    % Check that waveDir and freq are within range of hydro data
-    if  min(waves.waveDir) <  min(body(1).hydroData.simulation_parameters.wave_dir) || max(waves.waveDir) >  max(body(1).hydroData.simulation_parameters.wave_dir)
-        error('waves.waveDir outside of range of available hydro data')
+    waves.setup(body(1).hydroData.simulation_parameters.w, body(1).hydroData.simulation_parameters.water_depth, simu.rampTime, simu.dt, simu.maxIt, simu.time, simu.g, simu.rho);
+    % Check that direction and freq are within range of hydro data
+    if  min(waves.direction) <  min(body(1).hydroData.simulation_parameters.wave_dir) || max(waves.direction) >  max(body(1).hydroData.simulation_parameters.wave_dir)
+        error('waves.direction outside of range of available hydro data')
     end
-    if strcmp(waves.type,'etaImport')~=1 && strcmp(waves.type,'noWave')~=1 && strcmp(waves.type,'noWaveCIC')~=1
+    if strcmp(waves.type,'elevationImport')~=1 && strcmp(waves.type,'noWave')~=1 && strcmp(waves.type,'noWaveCIC')~=1
         if  min(waves.w) <  min(body(1).hydroData.simulation_parameters.w) || max(waves.w) >  max(body(1).hydroData.simulation_parameters.w)
             error('waves.w outside of range of available hydro data')
         end
@@ -230,12 +224,12 @@ if any(hydroBodLogic == 1)
 else
     % When no hydro bodies (and no .h5) are present, define the wave using
     % input file parameters
-    waves.waveSetup([], [], simu.rampTime, simu.dt, simu.maxIt, simu.time, simu.g, simu.rho);
+    waves.setup([], [], simu.rampTime, simu.dt, simu.maxIt, simu.time, simu.g, simu.rho);
 end
 
 % Nonlinear hydro
 for kk = 1:length(body(1,:))
-    if (body(kk).nlHydro > 0) || (simu.paraview == 1)
+    if (body(kk).nonlinearHydro > 0) || (simu.paraview.option == 1)
         body(kk).importBodyGeometry()
     end
 end; clear kk
@@ -245,8 +239,8 @@ idx = find(hydroBodLogic==1);
 if ~isempty(idx)
     for kk = 1:length(idx)
         it = idx(kk);
-        body(it).hydroForcePre(waves.w,waves.waveDir,simu.CIkt,simu.CTTime,waves.numFreq,simu.dt,...
-            simu.rho,simu.g,waves.type,waves.waveAmpTime,kk,simu.numWecBodies,simu.ssCalc,simu.b2b,simu.yawNonLin);
+        body(it).hydroForcePre(waves.w,waves.direction,simu.cicTime,waves.bem.count,simu.dt,...
+            simu.rho,simu.g,waves.type,waves.waveAmpTime,simu.stateSpace,simu.b2b);
     end; clear kk idx
 end
 
@@ -288,17 +282,17 @@ if ~isempty(idx)
     end; clear kk idx
 end
     
-% Check CITime
+% Check cicEndTime
 if waves.typeNum~=0 && waves.typeNum~=10
-    for iBod = 1:simu.numWecBodies
-        if simu.CITime > max(body(iBod).hydroData.hydro_coeffs.radiation_damping.impulse_response_fun.t)
-            error('simu.CITime is larger than the length of the IRF');
+    for iBod = 1:simu.numHydroBodies
+        if simu.cicEndTime > max(body(iBod).hydroData.hydro_coeffs.radiation_damping.impulse_response_fun.t)
+            error('simu.cicEndTime is larger than the length of the IRF');
         end
     end
 end
 
 % Check that the hydro data for each body is given for the same frequencies
-for ii = 1:simu.numWecBodies
+for ii = 1:simu.numHydroBodies
     if length(body(1).hydroData.simulation_parameters.w) ~= length(body(ii).hydroData.simulation_parameters.w)
         error('BEM simulations for each body must have the same number of frequencies')
     else
@@ -310,24 +304,24 @@ for ii = 1:simu.numWecBodies
     end
 end; clear ii;
 
-% Check for etaImport with nlHydro
-for ii = 1:simu.numWecBodies
-    if strcmp(waves.type,'etaImport') && body(ii).nlHydro == 1
-        error(['Cannot run WEC-Sim with nonlinear hydro (body(ii).nlHydro) and "etaImport" wave type'])
+% Check for elevationImport with nonlinearHydro
+for ii = 1:simu.numHydroBodies
+    if strcmp(waves.type,'elevationImport') && body(ii).nonlinearHydro == 1
+        error(['Cannot run WEC-Sim with nonlinear hydro (body(ii).nonlinearHydro) and "elevationImport" wave type'])
     end
 end
 
-% Check for etaImport with morisonElement
-for ii = 1:simu.numWecBodies
-    if strcmp(waves.type,'etaImport') && body(ii).morisonElement.option ~= 0
-        error(['Cannot run WEC-Sim with Morison Element (body(ii).morisonElement.option>0) and "etaImport" wave type'])
+% Check for elevationImport with morisonElement
+for ii = 1:simu.numHydroBodies
+    if strcmp(waves.type,'elevationImport') && body(ii).morisonElement.option ~= 0
+        error(['Cannot run WEC-Sim with Morison Element (body(ii).morisonElement.option>0) and "elevationImport" wave type'])
     end
 end
 
 % Check for morisonElement inputs for body(ii).morisonElement.option == 1 || body(ii).morisonElement.option == 2
 for ii = 1:length(body(1,:))
     if body(ii).morisonElement.option == 1
-        if body(ii).nhBody ~=1
+        if body(ii).nonHydro ~=1
             [rgME,~] = size(body(ii).morisonElement.rgME);
             for jj = 1:rgME
                 if true(isfinite(body(ii).morisonElement.z(jj,:))) == true
@@ -343,7 +337,7 @@ for ii = 1:length(body(1,:))
             end
         end
     elseif body(ii).morisonElement.option == 2
-        if body(ii).nhBody ~=1
+        if body(ii).nonHydro ~=1
             [rgME,~] = size(body(ii).morisonElement.rgME);
             for jj = 1:rgME
                 if body(ii).morisonElement.cd(jj,3) ~= 0 || body(ii).morisonElement.ca(jj,3) ~= 0 || body(ii).morisonElement.characteristicArea(jj,3) ~= 0
@@ -360,9 +354,9 @@ end
 
 %% Set variant subsystems options
 for ii=1:length(body(1,:))
-    if body(ii).nhBody==0
+    if body(ii).nonHydro==0
         % Nonlinear FK Force Variant Subsystem
-        eval(['nonLinearHydro_' num2str(ii) ' = body(ii).nlHydro;']);
+        eval(['nonLinearHydro_' num2str(ii) ' = body(ii).nonlinearHydro;']);
         eval(['sv_b' num2str(ii) '_linearHydro = Simulink.Variant(''nonLinearHydro_', num2str(ii), '==0'');']);
         eval(['sv_b' num2str(ii) '_nonlinearHydro=Simulink.Variant(''nonLinearHydro_', num2str(ii), '>0'');']);
         % Nonlinear Wave Elevation Variant Subsystem
@@ -370,20 +364,18 @@ for ii=1:length(body(1,:))
         eval(['sv_b' num2str(ii) '_instFS=Simulink.Variant(''nonLinearHydro_', num2str(ii), '==2'');']);
     end
 end; clear ii;
-% yawNonLin Activation
-yawNonLin=simu.yawNonLin;
 % Morison Element
 for ii=1:length(body(1,:))
-    if body(ii).nhBody ~=1
-    eval(['morisonElement_' num2str(ii) ' = body(ii).morisonElement.option;'])
-    eval(['sv_b' num2str(ii) '_MEOff = Simulink.Variant(''morisonElement_' num2str(ii) '==0'');'])
-    eval(['sv_b' num2str(ii) '_MEOn = Simulink.Variant(''morisonElement_' num2str(ii) '==1 || morisonElement_' num2str(ii) '==2'');'])
+    if body(ii).nonHydro ~=1
+        eval(['morisonElement_' num2str(ii) ' = body(ii).morisonElement.option;'])
+        eval(['sv_b' num2str(ii) '_MEOff = Simulink.Variant(''morisonElement_' num2str(ii) '==0'');'])
+        eval(['sv_b' num2str(ii) '_MEOn = Simulink.Variant(''morisonElement_' num2str(ii) '==1 || morisonElement_' num2str(ii) '==2'');'])        
     end
 end; clear ii;
 % Radiation Damping
 if waves.typeNum==0 || waves.typeNum==10 %'noWave' & 'regular'
     radiation_option = 1;
-elseif simu.ssCalc == 1
+elseif simu.stateSpace == 1
     radiation_option = 3;
 else
     radiation_option = 2;
@@ -394,27 +386,32 @@ sv_stateSpace=Simulink.Variant('radiation_option==3');
 % Wave type
 typeNum = waves.typeNum;
 sv_noWave=Simulink.Variant('typeNum<10');
-sv_regularWaves=Simulink.Variant('typeNum>=10 && typeNum<20 && yawNonLin~=1');
-sv_regularWavesNonLinYaw=Simulink.Variant('typeNum>=10 && typeNum<20 && yawNonLin==1');
-sv_irregularWaves=Simulink.Variant('typeNum>=20 && typeNum<30 && yawNonLin~=1');
-sv_irregularWavesNonLinYaw=Simulink.Variant('typeNum>=20 && typeNum<30 && yawNonLin==1');
+
+% Passive Yaw
+for ii=1:length(body(1,:))
+    eval(['yaw_' num2str(ii) ' = body(ii).yaw.option;'])
+    eval(['sv_regularWaves_b' num2str(ii) '= Simulink.Variant(''typeNum>=10 && typeNum<20 && yaw_', num2str(ii), '==0'');'])    
+    eval(['sv_regularWavesYaw_b' num2str(ii) '= Simulink.Variant(''typeNum>=10 && typeNum<20 && yaw_' num2str(ii) '==1'');'])    
+    eval(['sv_irregularWaves_b' num2str(ii) '= Simulink.Variant(''typeNum>=20 && typeNum<30 && yaw_' num2str(ii) '==0'');'])    
+    eval(['sv_irregularWavesYaw_b' num2str(ii) '= Simulink.Variant(''typeNum>=20 && typeNum<30 && yaw_' num2str(ii) '==1'');'])    
+end; clear ii
+
 sv_udfWaves=Simulink.Variant('typeNum>=30');
 % Body2Body
 B2B = simu.b2b;
 sv_noB2B=Simulink.Variant('B2B==0');
 sv_B2B=Simulink.Variant('B2B==1');
-numBody=simu.numWecBodies;
-% nonHydroBody
+numBody=simu.numHydroBodies;
+% nonHydro
 for ii=1:length(body(1,:))
-    eval(['nhbody_' num2str(ii) ' = body(ii).nhBody;'])
+    eval(['nhbody_' num2str(ii) ' = body(ii).nonHydro;'])
     eval(['sv_b' num2str(ii) '_hydroBody = Simulink.Variant(''nhbody_' num2str(ii) '==0'');'])
     eval(['sv_b' num2str(ii) '_nonHydroBody = Simulink.Variant(''nhbody_' num2str(ii) '==1'');'])
     eval(['sv_b' num2str(ii) '_dragBody = Simulink.Variant(''nhbody_' num2str(ii) '==2'');'])
-%    eval(['sv_b' num2str(ii) '_rigidBody = Simulink.Variant(''nhbody_' num2str(ii) '==0'');'])
 end; clear ii
 
 % Visualization Blocks
-if ~isempty(waves.markerLoc) && typeNum < 30
+if ~isempty(waves.marker.loc) && typeNum < 30
     visON = 1;
 else
     visON = 0;
@@ -427,8 +424,8 @@ toc
 simu.listInfo(waves.typeNum);
 waves.listInfo
 fprintf('\nList of Body: ');
-fprintf('Number of Bodies = %u \n',simu.numWecBodies)
-for i = 1:simu.numWecBodies
+fprintf('Number of Bodies = %u \n',simu.numHydroBodies)
+for i = 1:simu.numHydroBodies
     body(i).listInfo
 end;  clear i
 fprintf('\nList of PTO(s): ');
@@ -455,7 +452,7 @@ fprintf('\n')
 tic
 fprintf('\nSimulating the WEC device defined in the SimMechanics model %s...   \n',simu.simMechanicsFile)
 % Modify some stuff for simulation
-for iBod = 1:simu.numWecBodies
+for iBod = 1:simu.numHydroBodies
     body(iBod).adjustMassMatrix(simu.adjMassWeightFun,simu.b2b);
 end; clear iBod
 warning('off','Simulink:blocks:TDelayTimeTooSmall');

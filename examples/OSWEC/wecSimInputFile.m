@@ -8,7 +8,7 @@ simu.rampTime = 100;                    % Wave Ramp Time [s]
 simu.endTime = 400;                     % Simulation End Time [s]        
 simu.solver = 'ode4';                   % simu.solver = 'ode4' for fixed step & simu.solver = 'ode45' for variable step 
 simu.dt = 0.1;                          % Simulation Time-Step [s]
-simu.CITime = 30;                       % Specify CI Time [s]
+simu.cicEndTime = 30;                       % Specify CI Time [s]
 
 %% Wave Information
 % % noWaveCIC, no waves with radiation CIC  
@@ -24,16 +24,16 @@ waves = waveClass('irregular');         % Initialize Wave Class and Specify Type
 waves.H = 2.5;                          % Significant Wave Height [m]
 waves.T = 8;                            % Peak Period [s]
 waves.spectrumType = 'PM';              % Specify Spectrum Type
-waves.waveDir = [0,30,90];              % Wave Directionality [deg]
-waves.waveSpread = [0.1,0.2,0.7];       % Wave Directional Spreading [%}
+waves.direction = [0,30,90];            % Wave Directionality [deg]
+waves.spread = [0.1,0.2,0.7];       % Wave Directional Spreading [%}
 
 % % Irregular Waves with imported spectrum
-% waves = waveClass('spectrumImport');        % Create the Wave Variable and Specify Type
-% waves.spectrumDataFile = 'spectrumData.mat';  %Name of User-Defined Spectrum File [:,2] = [f, Sf]
+% waves = waveClass('spectrumImport');      % Create the Wave Variable and Specify Type
+% waves.spectrumFile = 'spectrumData.mat';  % Name of User-Defined Spectrum File [:,2] = [f, Sf]
 
 % % Waves with imported wave elevation time-history  
-% waves = waveClass('etaImport');         % Create the Wave Variable and Specify Type
-% waves.etaDataFile = 'etaData.mat'; % Name of User-Defined Time-Series File [:,2] = [time, eta]
+% waves = waveClass('elevationImport');          % Create the Wave Variable and Specify Type
+% waves.elevationFile = 'elevationData.mat';     % Name of User-Defined Time-Series File [:,2] = [time, eta]
 
 
 %% Body Data
