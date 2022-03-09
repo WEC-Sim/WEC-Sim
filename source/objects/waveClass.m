@@ -42,7 +42,7 @@ classdef waveClass<handle
         elevationFile = 'NOT DEFINED';  % (`string`) Data file that contains the times-series data file. Default = ``'NOT DEFINED'``
         gamma = [];                 % (`float`) Defines gamma, only used for ``JS`` wave spectrum type. Default = ``[]``        
         marker = struct(...         % (`structure`) Defines the wave marker. 
-            'loc',      [],...          % 
+            'location',      [],...          % 
             'size',     10, ...         %             
             'style',	1)              % (`structure`) Defines the wave marker. `loc` (`nx2 vector`) Marker [X,Y] locations [m]. Default = ``[]``. ``size`` (`float`) Marker size in Pixels. Default = ``10``. ``style`` Marker style, options include: ``1``: Sphere, ``2``: Cube, ``3``: Frame. Default = ``1``: Sphere        
         phaseSeed = 0;              % (`integer`) Defines the random phase seed, only used for ``irregular`` and ``spectrumImport`` waves. Default = ``0``
