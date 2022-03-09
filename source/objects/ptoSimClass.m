@@ -26,7 +26,9 @@ classdef PTOSimClass<handle
             'La'              ,0.1,...            % [H]         Piston Area, side A
             'Ke'              ,0.1,...            % [V/(rad/s)] Back emf constant
             'Jem'             ,0.1,...            % [kg*m^2]    Bulk modulus of the hydraulic fluid
-            'bShaft'          ,0.1)               % [N*m*s]     Bulk modulus of the hydraulic fluid
+            'bShaft'          ,0.1,...            % [N*m*s]     Bulk modulus of the hydraulic fluid
+            'CurrentIni'      ,0.0,...            % [A]         Electric motor current initial value
+            'wShaftIni'       ,0.0)               % [rpm]       Shaft speed initial value
         HydPistonCompressible           = struct(...                                         % hydraulic Block properties
             'xi_piston'       ,'NOT DEFINED',...            % [m]     Initial displacement of the piston measured from port A
             'Ap_A'            ,'NOT DEFINED',...            % [m^2]   Piston Area, side A
@@ -47,12 +49,6 @@ classdef PTOSimClass<handle
             'rho'             ,'NOT DEFINED',...            % Fluid density
             'k1'              ,'NOT DEFINED',...            % Valve coefficiente
             'k2'              ,'NOT DEFINED')               % Valve coefficient, it's a function of the other valve variables
-%         HydraulicMotor               = struct(...                           % hydraulic Block properties
-%             'Displacement'                    ,'NOT DEFINED',...            % [cc/rev] Volumetric displacement
-%             'EffTableShaftSpeed'              ,'NOT DEFINED',...            % Vector with shaft speed data for efficiency
-%             'EffTableDeltaP'                  ,'NOT DEFINED',...            % Vector with pressure data for efficiency
-%             'EffTableVolEff'                  ,'NOT DEFINED',...            % Matrix with vol. efficiency data
-%             'EffTableMechEff'                 ,'NOT DEFINED')               % Matrix with mech. efficiency data
         HydraulicMotor                 = struct(...                           % hydraulic Block properties
             'Displacement'                    ,'NOT DEFINED',...            % [cc/rev] Volumetric displacement
             'EffModel'                        ,'NOT DEFINED',...            % 1 for Analytical or 2 for tabulated
@@ -87,19 +83,34 @@ classdef PTOSimClass<handle
             'Amax'                            ,'NOT DEFINED',...            % [m^2] Maximum valve area
             'Cd'                              ,'NOT DEFINED')               % [1] Discharge coefficient
         DirectLinearGenerator          = struct(...                         % Linear crank block properties
-            'tau_p'                           ,'NOT DEFINED',...            % [m^2/N] Valve coefficient
-            'theta_d_0'                       ,'NOT DEFINED',...            % [kg/m^3] Fluid density
-            'Bfric'                           ,'NOT DEFINED',...            % [Pa] Valve pressure at maximum opening area
-            'lambda_sd_0'                     ,'NOT DEFINED',...            % [Pa] Valve pressure at minimum opening area
-            'Rs'                              ,'NOT DEFINED',...            % [m^2/N] Valve coefficient
-            'lambda_fd'                       ,'NOT DEFINED',...            % [m^2] Minimum valve area
-            'Ls'                              ,'NOT DEFINED',...            % [m^2] Maximum valve area
-            'lambda_sq_0'                     ,'NOT DEFINED',...
-            'Rload'                           ,'NOT DEFINED')
+            'tau_p'                           ,'NOT DEFINED',...            % Magnet pole pitch
+            'theta_d_0'                       ,'NOT DEFINED',...            % Initial theta value
+            'Bfric'                           ,'NOT DEFINED',...            % Friction coeeficient
+            'lambda_sd_0'                     ,'NOT DEFINED',...            % Stator d-axis flow linkage
+            'Rs'                              ,'NOT DEFINED',...            % Winding resistance
+            'lambda_fd'                       ,'NOT DEFINED',...            % Flux linkage of the stator d winding due to flux produced by the rotor magnets [Wb-turns]
+            'Ls'                              ,'NOT DEFINED',...            % Winding inductance
+            'lambda_sq_0'                     ,'NOT DEFINED',...            % Stator q-axis flow linkage
+            'Rload'                           ,'NOT DEFINED')               % External load
+        DirectRotaryGenerator          = struct(...                         % Linear crank block properties
+            'radius'                          ,'NOT DEFINED',...            % Rotary generator radius
+            'tau_p'                           ,'NOT DEFINED',...            % Magnet pole pitch
+            'theta_d_0'                       ,'NOT DEFINED',...            % Initial theta value
+            'Bfric'                           ,'NOT DEFINED',...            % Friction coeeficient
+            'lambda_sd_0'                     ,'NOT DEFINED',...            % Stator d-axis flow linkage
+            'Rs'                              ,'NOT DEFINED',...            % Winding resistance
+            'lambda_fd'                       ,'NOT DEFINED',...            % Flux linkage of the stator d winding due to flux produced by the rotor magnets [Wb-turns]
+            'Ls'                              ,'NOT DEFINED',...            % Winding inductance
+            'lambda_sq_0'                     ,'NOT DEFINED',...            % Stator q-axis flow linkage
+            'Rload'                           ,'NOT DEFINED')               % External load
     end
     
     properties (SetAccess = 'public', GetAccess = 'public')%internal
         PTOSimBlockNum           = []                                       % PTOBlock number
+%         PTOSimBlockType: This property must be defined to specify the
+%         type of block that will be used. The type value of each block is
+%         presented below:
+%
 %         Type = 1 ---- Electric generator equivalent circuit
 %         Type = 2 ---- Hydraulic cylinder
 %         Type = 3 ---- Hydraulic accumulator
@@ -108,8 +119,10 @@ classdef PTOSimClass<handle
 %         Type = 6 ---- Linear crank 
 %         Type = 7 ---- Adjustable rod 
 %         Type = 8 ---- Check valve 
+%         Type = 9 ---- Direct drive linear generator 
+%         Type = 10 ---- Direct drive Rotary generator
         PTOSimBlockType           = []                                      % PTO Block type
-        ptoNum  = []
+        ptoNum = []
     end
     
     methods

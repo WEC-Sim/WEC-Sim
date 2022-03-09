@@ -759,7 +759,7 @@ The properties of the PTO-Sim class (``PTOSimClass``) are defined in the ``PTOSi
 initialized in the ``wecSimInputFile.m`` script. There are three properties that must be initialized for all the PTO-Sim blocks,
 those are the name, the block number, and the type:: 
 
-    PTOSimBlock(i) = cableClass('PTOsimName');
+    PTOSimBlock(i) = PTOSimClass('PTOsimName');
     PTOSimBlock(i).PTOSimBlockNum = i;
     PTOSimBlock(i).PTOSimBlockType = <TypeNumber>;
 

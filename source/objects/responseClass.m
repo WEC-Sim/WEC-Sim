@@ -236,6 +236,8 @@ classdef responseClass<handle
                 LinearCrankSignals = {'ptoTorque','angPosition','angVelocity'};
                 AdjustableRodSignals = {'ptoTorque','angPosition','angVelocity'};
                 CheckValveSignals = {'FlowCheckValve','DeltaPCheckValve'};
+                LinearGeneratorSignals = {'absPower','force','fricForce','Ia','Ib','Ic','Va','Vb','Vc','elecPower','vel'};
+                RotaryGeneratorSignals = {'absPower','Torque','fricTorque','Ia','Ib','Ic','Va','Vb','Vc','elecPower','vel'};
 
                 for ii = 1:length(ptoBlocksOutput)
                     obj.PTOBlocks(ii).name = ptoBlocksOutput(ii).name;
@@ -257,6 +259,10 @@ classdef responseClass<handle
                         signals = AdjustableRodSignals;
                     elseif ptoBlocksOutput(ii).type == 8
                         signals = CheckValveSignals;
+                    elseif ptoBlocksOutput(ii).type == 9
+                        signals = LinearGeneratorSignals;
+                    elseif ptoBlocksOutput(ii).type == 10
+                        signals = RotaryGeneratorSignals;
                     end
                     for jj = 1:length(signals)
                         obj.PTOBlocks(ii).(signals{jj}) = ptoBlocksOutput(ii).signals.values(:,jj);
@@ -744,37 +750,37 @@ classdef responseClass<handle
                     fclose(fid);
                 end
             end
-            % ptoSim
-%             if isfield(obj.PTOSimBlock,'time')
-%                 f1 = fields(obj.PTOSimBlock);
-%                 count = 1;
-%                 header = {'time'};
-%                 data = obj.PTOSimBlock.time;
-%                 for ifld1=1:(length(f1)-1)
-%                     f2 = fields(obj.PTOSimBlock.(f1{ifld1}));
-%                     for iins = 1:length(obj.PTOSimBlock.(f1{ifld1}))
-%                         for ifld2 = 1:length(f2)
-%                             count = count+1;
-%                             header{count} = [f1{ifld1} num2str(iins) '_' f2{ifld2}];
-%                             data(:,count) = obj.PTOSimBlock.(f1{ifld1}).(f2{ifld2});
-%                         end
-%                     end
-%                 end
-%                 for ii=1:length(header)
-%                     tmp(ii) = length(header{ii});
-%                 end
-%                 numChar = max(tmp)+2; clear tmp;
-%                 header_fmt = ['%' num2str(numChar) 's ']; 
-%                 data_fmt = [repmat('%10.5f ',1,length(header)) '\n'];
-%                 filename = ['output/ptosim.txt'];
-%                 fid = fopen(filename,'w+');
-%                 for ii=1:length(header)
-%                     fprintf(fid,header_fmt,header{ii});
-%                 end
-%                 fprintf(fid,'\n');
-%                 fprintf(fid,data_fmt,data');
-%                 fclose(fid);
-%             end
+            %ptoSim
+            if isfield(obj.PTOBlocks,'time')
+                f1 = fields(obj.PTOBlocks);
+                count = 1;
+                header = {'time'};
+                data = obj.PTOBlocks.time;
+                for ifld1=1:(length(f1)-1)
+                    f2 = fields(obj.PTOBlocks.(f1{ifld1}));
+                    for iins = 1:length(obj.PTOBlocks.(f1{ifld1}))
+                        for ifld2 = 1:length(f2)
+                            count = count+1;
+                            header{count} = [f1{ifld1} num2str(iins) '_' f2{ifld2}];
+                            data(:,count) = obj.PTOBlocks.(f1{ifld1}).(f2{ifld2});
+                        end
+                    end
+                end
+                for ii=1:length(header)
+                    tmp(ii) = length(header{ii});
+                end
+                numChar = max(tmp)+2; clear tmp;
+                header_fmt = ['%' num2str(numChar) 's ']; 
+                data_fmt = [repmat('%10.5f ',1,length(header)) '\n'];
+                filename = ['output/ptosim.txt'];
+                fid = fopen(filename,'w+');
+                for ii=1:length(header)
+                    fprintf(fid,header_fmt,header{ii});
+                end
+                fprintf(fid,'\n');
+                fprintf(fid,data_fmt,data');
+                fclose(fid);
+            end
             % mooring
             if isfield(obj.mooring,'name')
                 signals = {'position','velocity','forceMooring'};
