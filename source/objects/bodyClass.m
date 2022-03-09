@@ -111,72 +111,10 @@ classdef bodyClass<handle
             obj.h5File = filename;
         end
         
-        function readH5File(obj)
-            % WECSim internal function that reads the body h5 file.
-            filename = obj.h5File;
-            name = ['/body' num2str(obj.bodyNumber)];
-            obj.cg = h5read(filename,[name '/properties/cg']);
-            obj.cg = obj.cg';
-            obj.cb = h5read(filename,[name '/properties/cb']);
-            obj.cb = obj.cb';
-            obj.dispVol = h5read(filename,[name '/properties/disp_vol']);
-            obj.name = h5read(filename,[name '/properties/name']);
-            try obj.name = obj.name{1}; end
-            obj.hydroData.simulation_parameters.scaled = h5read(filename,'/simulation_parameters/scaled');
-            obj.hydroData.simulation_parameters.wave_dir = h5read(filename,'/simulation_parameters/wave_dir');
-            obj.hydroData.simulation_parameters.water_depth = h5read(filename,'/simulation_parameters/water_depth');
-            obj.hydroData.simulation_parameters.w = h5read(filename,'/simulation_parameters/w');
-            obj.hydroData.simulation_parameters.T = h5read(filename,'/simulation_parameters/T');
-            obj.hydroData.properties.name = h5read(filename,[name '/properties/name']);
-            try obj.hydroData.properties.name = obj.hydroData.properties.name{1}; end
-            obj.hydroData.properties.body_number = h5read(filename,[name '/properties/body_number']);
-            obj.hydroData.properties.cg = h5read(filename,[name '/properties/cg']);
-            obj.hydroData.properties.cb = h5read(filename,[name '/properties/cb']);
-            obj.hydroData.properties.disp_vol = h5read(filename,[name '/properties/disp_vol']);
-            obj.hydroData.properties.dof       = 6;
-            obj.hydroData.properties.dof_start = (obj.bodyNumber-1)*6+1;
-            obj.hydroData.properties.dof_end   = (obj.bodyNumber-1)*6+6;
-            try obj.hydroData.properties.dof       = h5read(filename,[name '/properties/dof']);       end
-            try obj.hydroData.properties.dof_start = h5read(filename,[name '/properties/dof_start']); end
-            try obj.hydroData.properties.dof_end   = h5read(filename,[name '/properties/dof_end']);   end
-            obj.dof       = obj.hydroData.properties.dof;
-            obj.dof_start = obj.hydroData.properties.dof_start;
-            obj.dof_end   = obj.hydroData.properties.dof_end;
-            obj.dof_gbm   = obj.dof-6;
-            obj.hydroData.hydro_coeffs.linear_restoring_stiffness = Load_H5(filename, [name '/hydro_coeffs/linear_restoring_stiffness']);
-            obj.hydroData.hydro_coeffs.excitation.re = Load_H5(filename, [name '/hydro_coeffs/excitation/re']);
-            obj.hydroData.hydro_coeffs.excitation.im = Load_H5(filename, [name '/hydro_coeffs/excitation/im']);
-            try obj.hydroData.hydro_coeffs.excitation.impulse_response_fun.f = Load_H5(filename, [name '/hydro_coeffs/excitation/impulse_response_fun/f']); end
-            try obj.hydroData.hydro_coeffs.excitation.impulse_response_fun.t = Load_H5(filename, [name '/hydro_coeffs/excitation/impulse_response_fun/t']); end
-            obj.hydroData.hydro_coeffs.added_mass.all = Load_H5(filename, [name '/hydro_coeffs/added_mass/all']);
-            obj.hydroData.hydro_coeffs.added_mass.inf_freq = Load_H5(filename, [name '/hydro_coeffs/added_mass/inf_freq']);
-            obj.hydroData.hydro_coeffs.radiation_damping.all = Load_H5(filename, [name '/hydro_coeffs/radiation_damping/all']);
-            try obj.hydroData.hydro_coeffs.radiation_damping.impulse_response_fun.K = Load_H5(filename, [name '/hydro_coeffs/radiation_damping/impulse_response_fun/K']); end
-            try obj.hydroData.hydro_coeffs.radiation_damping.impulse_response_fun.t = Load_H5(filename, [name '/hydro_coeffs/radiation_damping/impulse_response_fun/t']); end
-            try obj.hydroData.hydro_coeffs.radiation_damping.state_space.it = Load_H5(filename, [name '/hydro_coeffs/radiation_damping/state_space/it']); end
-            try obj.hydroData.hydro_coeffs.radiation_damping.state_space.A.all = Load_H5(filename, [name '/hydro_coeffs/radiation_damping/state_space/A/all']); end
-            try obj.hydroData.hydro_coeffs.radiation_damping.state_space.B.all = Load_H5(filename, [name '/hydro_coeffs/radiation_damping/state_space/B/all']); end
-            try obj.hydroData.hydro_coeffs.radiation_damping.state_space.C.all = Load_H5(filename, [name '/hydro_coeffs/radiation_damping/state_space/C/all']); end
-            try obj.hydroData.hydro_coeffs.radiation_damping.state_space.D.all = Load_H5(filename, [name '/hydro_coeffs/radiation_damping/state_space/D/all']); end
-            try tmp = Load_H5(filename, [name '/properties/mass']);
-                obj.hydroData.gbm.mass      = tmp(obj.dof_start+6:obj.dof_end,obj.dof_start+6:obj.dof_end); clear tmp; end;
-            try tmp = Load_H5(filename, [name '/properties/stiffness']);
-                obj.hydroData.gbm.stiffness = tmp(obj.dof_start+6:obj.dof_end,obj.dof_start+6:obj.dof_end); clear tmp; end;
-            try tmp = Load_H5(filename, [name '/properties/damping']);
-                obj.hydroData.gbm.damping   = tmp(obj.dof_start+6:obj.dof_end,obj.dof_start+6:obj.dof_end); clear tmp;end;
-            if obj.meanDriftForce == 0
-                obj.hydroData.hydro_coeffs.mean_drift = 0.*obj.hydroData.hydro_coeffs.excitation.re;
-            elseif obj.meanDriftForce == 1
-                obj.hydroData.hydro_coeffs.mean_drift =  Load_H5(filename, [name '/hydro_coeffs/mean_drift/control_surface/val']);
-            elseif obj.meanDriftForce == 2
-                obj.hydroData.hydro_coeffs.mean_drift =  Load_H5(filename, [name '/hydro_coeffs/mean_drift/momentum_conservation/val']);
-            else
-                error('Wrong flag for mean drift force.')
-            end
-        end
-        
         function loadHydroData(obj, hydroData)
-            % WECSim function that loads the hydroData structure from a MATLAB variable as alternative to reading the h5 file. This process reduces computational time when using wecSimMCR.
+            % WECSim function that loads the hydroData structure from a
+            % MATLAB variable as alternative to reading the h5 file. This
+            % process reduces computational time when using wecSimMCR.
             obj.hydroData = hydroData;
             obj.cg        = hydroData.properties.cg';
             obj.cb        = hydroData.properties.cb';
@@ -372,7 +310,7 @@ classdef bodyClass<handle
                 rotMat = axisAngle2RotMat(axisList(i,:),angleList(i))*rotMat;
             end
 
-            % calculate net axis-angle rotation
+            % Convert to net axis-angle rotation to fit required input format
             [netAxis, netAngle] = rotMat2AxisAngle(rotMat);
 
             % calculate net displacement due to rotation
@@ -394,13 +332,12 @@ classdef bodyClass<handle
             fprintf('\tBody Diagonal MOI              (kgm2)= [%G,%G,%G]\n',obj.momOfInertia)
         end
         
-        function bodyGeo(obj,fname)
+        function importBodyGeometry(obj)
             % Reads mesh file and calculates areas and centroids
-            try
-                [obj.bodyGeometry.vertex, obj.bodyGeometry.face, obj.bodyGeometry.norm] = import_stl_fast(fname,1,1);
-            catch
-                [obj.bodyGeometry.vertex, obj.bodyGeometry.face, obj.bodyGeometry.norm] = import_stl_fast(fname,1,2);
-            end
+            tr = stlread(obj.geometryFile);
+            obj.bodyGeometry.vertex = tr.Points;
+            obj.bodyGeometry.face = tr.ConnectivityList;
+            obj.bodyGeometry.norm = faceNormal(tr);
             obj.bodyGeometry.numFace = length(obj.bodyGeometry.face);
             obj.bodyGeometry.numVertex = length(obj.bodyGeometry.vertex);
             obj.checkStl();

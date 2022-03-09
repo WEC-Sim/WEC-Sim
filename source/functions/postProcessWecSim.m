@@ -131,4 +131,3 @@ for iBod = 1:simu.numWecBodies
     output.bodies(iBod).forceAddedMass = body(iBod).forceAddedMass(output.bodies(iBod).acceleration,simu.b2b);
     output.bodies(iBod).forceTotal = output.bodies(iBod).forceTotal - output.bodies(iBod).forceAddedMass;
 end; clear iBod
-

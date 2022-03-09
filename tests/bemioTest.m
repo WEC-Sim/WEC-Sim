@@ -103,55 +103,6 @@ classdef bemioTest < matlab.unittest.TestCase
         end
     end
     
-<<<<<<< HEAD
-    methods(Test)        
-        function combine_bem(testCase)
-            cd(fullfile(testCase.capytaineDir, 'cylinder'))            
-            hydro = struct();
-            hydro = Read_CAPYTAINE(hydro, 'cylinder_full.nc');
-            hydro = Read_NEMOH(hydro,   ...
-                               fullfile('..', '..', 'NEMOH', 'Cylinder'));
-            hydro(end).body = {'cylinder_nemoh'};
-            hydro = Read_WAMIT(hydro,               ...
-                               fullfile('..',       ...
-                                        '..',       ...
-                                        'WAMIT',    ...
-                                        'Cylinder', ...
-                                        'cyl.out'), ...
-                               []);
-            hydro(end).body = {'cylinder_wamit'};
-            Combine_BEM(hydro);            
-        end        
-        function complete_BEMIO(testCase)
-            cd(fullfile(testCase.nemohDir,'Cylinder'))            
-            hydro = struct();
-            hydro = Read_NEMOH(hydro, fullfile('..', 'Cylinder'));
-            hydro = Radiation_IRF(hydro,5,[],[],[],[]);
-            hydro = Radiation_IRF_SS(hydro,[],[]);
-            hydro = Excitation_IRF(hydro,5,[],[],[],[]);
-            Write_H5(hydro)
-            Plot_BEMIO(hydro)            
-        end        
-        function read_wamit(testCase)
-            cd(fullfile(testCase.wamitDir,'RM3'))
-            hydro = struct();
-            Read_WAMIT(hydro,'rm3.out',[]);
-        end        
-        function read_nemoh(testCase)
-            cd(fullfile(testCase.nemohDir,'RM3'))
-            hydro = struct();
-            Read_NEMOH(hydro, fullfile('..', 'RM3'));
-        end        
-        function read_capytaine(testCase)
-            cd(fullfile(testCase.capytaineDir,'rm3'))
-            hydro = struct();
-            Read_CAPYTAINE(hydro, 'rm3_full.nc');
-        end        
-        function read_aqwa(testCase)
-            cd(fullfile(testCase.aqwaDir,'RM3'))
-            hydro = struct();
-            hydro = Read_AQWA(hydro,'RM3.AH1','RM3.LIS');
-=======
     methods(Test)
         function testWriteBEMIOH5(testCase)
             writeBEMIOH5(testCase.wamitHydro); % write 1 body
@@ -207,7 +158,6 @@ classdef bemioTest < matlab.unittest.TestCase
 
             testCase.verifyEqual(m1,m1_exp,'AbsTol',tol);
             testCase.verifyEqual(m2,m2_exp,'AbsTol',tol);
->>>>>>> 9c13a3240b2886b0dd230aac8a59022d891124a0
         end
     end
 end

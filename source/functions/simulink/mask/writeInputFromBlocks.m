@@ -1,8 +1,15 @@
 function writeInputFromBlocks(inputFile)
-% This script reads custom parameters from masked WEC-Sim blocks, and 
-% writes a new wecSimInputFile.m based on the mask variables
+% This function reads custom parameters from masked WEC-Sim blocks, and 
+% writes a new wecSimInputFile.m based on the mask variables. 
 % 
-% Note: str2num used because mask parameters are always read as 'char'
+% Steps:
+% 1. Blocks are reordered into the standard WEC-Sim input file order
+%    (simu, waves, body, constraint, pto, cable, mooring)
+% 2. Open a new output file and create default classes
+% 3. For every mask variable, call the writeLineFromVar() function for 
+%    that block to determine the appropriate string for the input file
+% 
+% Note: str2num used because mask parameters are always read as type 'char'
 % Note: mat2str used so that types are printed in the correct format
 
 % Get all block names
@@ -249,11 +256,13 @@ for i=1:length(blocks)
 end
 
 fclose(fid);
-run(inputFile);
 
 end
 
 function iSorted = sortBlocksByNumber(blockList, className)
+    % This function takes in a list of blocks (bodies or ptos or
+    % constraints, but not bodies and ptos, etc) and orders the blocks
+    % based on the class number
     classNums = [];
     for i=1:length(blockList)
         mask = Simulink.Mask.get(blockList{i});
@@ -261,6 +270,6 @@ function iSorted = sortBlocksByNumber(blockList, className)
         num = str2num(extractBetween(tmp,strfind(tmp,'('),strfind(tmp,')'),'Boundaries','Exclusive'));
         classNums(i) = num;
     end
-    [newNums,iSorted] = sort(classNums,'ascend');
+    [~,iSorted] = sort(classNums,'ascend');
     
 end
