@@ -1,24 +1,6 @@
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-% Copyright 2014 National Renewable Energy Laboratory and National 
-% Technology & Engineering Solutions of Sandia, LLC (NTESS). 
-% Under the terms of Contract DE-NA0003525 with NTESS, 
-% the U.S. Government retains certain rights in this software.
-% 
-% Licensed under the Apache License, Version 2.0 (the "License");
-% you may not use this file except in compliance with the License.
-% You may obtain a copy of the License at
-% 
-% http://www.apache.org/licenses/LICENSE-2.0
-% 
-% Unless required by applicable law or agreed to in writing, software
-% distributed under the License is distributed on an "AS IS" BASIS,
-% WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
-% See the License for the specific language governing permissions and
-% limitations under the License.
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-
-%%% WEC-Sim run file
-%%
+%% initializeWecSim
+% Initialize WEC-Sim run, called from wecSim.m
+%
 %% Following Classes are required to be defined in the WEC-Sim input file:
 %%
 %% simu = simulationClass();                                               - To Create the Simulation Variable
@@ -72,7 +54,7 @@ else
     % Get global reference frame parameters
     values = get_param([bdroot,'/Global Reference Frame'],'MaskValues');    % Cell array containing all Masked Parameter values
     names = get_param([bdroot,'/Global Reference Frame'],'MaskNames');      % Cell array containing all Masked Parameter names
-    j = find(strcmp(names,'ParamInput'));
+    j = find(strcmp(names,'InputMethod'));
     
     if strcmp(values{j},'Input File')
         % wecSim input from input file selected in Simulink block
@@ -88,6 +70,12 @@ else
     end
 end
 clear values names i j;
+
+% PTO-Sim: read input, count
+if exist('./ptoSimInputFile.m','file') == 2
+    ptoSimInputFile
+    ptosim.countblocks;
+end
 
 % Read Inputs for Multiple Conditions Run
 try fprintf('wecSimMCR Case %g\n',imcr); end
@@ -107,9 +95,11 @@ if exist('mcr','var') == 1
         waves.etaDataFile      = ['..' filesep parallelComputing_dir filesep '..' filesep waves.etaDataFile];
     end
 end
+
 % Waves and Simu: check inputs
 waves.checkinputs;
 simu.checkinputs;
+
 % Constraints: count & set orientation
 if exist('constraint','var') == 1
     simu.numConstraints = length(constraint(1,:));
@@ -118,6 +108,7 @@ if exist('constraint','var') == 1
         constraint(ii).setOrientation();
     end; clear ii
 end
+
 % PTOs: count & set orientation & set pretension
 if exist('pto','var') == 1
     simu.numPtos = length(pto(1,:));
@@ -127,6 +118,7 @@ if exist('pto','var') == 1
         pto(ii).setPretension();
     end; clear ii
 end
+
 % Mooring Configuration: count
 if exist('mooring','var') == 1
     simu.numMoorings = length(mooring(1,:));
@@ -135,8 +127,11 @@ if exist('mooring','var') == 1
         mooring(ii).setLoc;
     end; clear ii
 end
+
 % Bodies: count, check inputs, read hdf5 file
-numHydroBodies = 0; numNonHydroBodies = 0; numDragBodies = 0; 
+numHydroBodies = 0; 
+numNonHydroBodies = 0;
+numDragBodies = 0; 
 hydroBodLogic = zeros(length(body(1,:)),1);
 nonHydroBodLogic = zeros(length(body(1,:)),1);
 dragBodLogic = zeros(length(body(1,:)),1);
@@ -171,7 +166,11 @@ for ii = 1:simu.numWecBodies
             error(['This is not the correct *.h5 file. Please install git-lfs to access the correct *.h5 file, or run \hydroData\bemio.m to generate a new *.h5 file'])
         end
         clearvars h5Info
-        body(ii).readH5File;
+        
+        % Read hydro data from BEMIO and load into the bodyClass
+        tmp_hydroData = readBEMIOH5(body(ii).h5File, body(ii).bodyNumber, body(ii).meanDriftForce);
+        body(ii).loadHydroData(tmp_hydroData);
+        clear tmp_hydroData
     end
     body(ii).bodyTotal = simu.numWecBodies;
     if simu.b2b==1
@@ -196,12 +195,8 @@ if exist('cable','var')==1
         cable(ii).linearDampingMatrix();
     end
 end
-% PTO-Sim: read input, count
-if exist('PTOSimBlock','var') == 2
-    ptoSimInputFile
-    PTOSimBlock.countblocks;
-end
 
+% PTO-Sim: read input, count
 if exist('PTOSimBlock','var') == 1
     simu.numPtoBlocks = length(PTOSimBlock(1,:));
     for ii = 1:simu.numPtoBlocks
@@ -210,6 +205,7 @@ if exist('PTOSimBlock','var') == 1
 %         pto(ii).setPretension();
     end; clear ii
 end
+
 
 if simu.yawNonLin==1 && simu.yawThresh==1
     warning(['yawNonLin using (default) 1 dg interpolation threshold.' newline 'Ensure this is appropriate for your geometry'])
@@ -250,8 +246,8 @@ end
 
 % Nonlinear hydro
 for kk = 1:length(body(1,:))
-    if (body(kk).nlHydro >0) || (simu.paraview == 1)
-        body(kk).bodyGeo(body(kk).geometryFile)
+    if (body(kk).nlHydro > 0) || (simu.paraview == 1)
+        body(kk).importBodyGeometry()
     end
 end; clear kk
 

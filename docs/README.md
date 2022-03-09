@@ -1,6 +1,4 @@
-# Visit the [WEC-Sim website](http://wec-sim.github.io/WEC-Sim) for more information.
-
-## WEC-Sim Documentation
+# [WEC-Sim Documentation](http://wec-sim.github.io/WEC-Sim)
 
 ### Compile Instructions
 
@@ -14,7 +12,7 @@ replace slashes (`/`) in paths with backslashes (`\ `).
 2. Create the Sphinx environment:
    
    ```
-   > conda create -c conda-forge -n _wssphinx git click colorama colorclass future pip sphinxcontrib-bibtex sphinx_rtd_theme 
+   > conda create -c conda-forge -n _wssphinx git click colorama colorclass future pip sphinxcontrib-bibtex "sphinx_rtd_theme<1"
    > conda activate _wssphinx
    (_wssphinx) > pip install sphinxcontrib-matlabdomain sphinxext-remoteliteralinclude sphinx-multiversion
    (_wssphinx) > conda deactivate
@@ -37,7 +35,6 @@ To test the current branch, use the following:
 (_wssphinx) > conda deactivate
 >
 ```
-
 The front page of the docs can be accessed at 
 `docs/_build/html/index.html`. 
 
@@ -72,7 +69,7 @@ https://github.com/WEC-Sim/WEC-Sim) repository.
   - Whenever possible link to outside reference instead of write guidance available elsewhere (e.g. how to use Git, MATLAB/Simulink features)
   - Whenever possible link to other sections of the documentation instead of writing similar information in multiple places
   - Run spell check (not built into most text editors)
-  - When compiling the website, ``sphinx-build -a -b html docs docs/_build/html` to build a clean verion
+  - ``sphinx-build -a -b html docs docs/_build/html` to build a clean verion of the website
 
 ### Formatting Guidelines
   - `$CASE` to refer to WEC-Sim case directory

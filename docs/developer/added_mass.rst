@@ -86,4 +86,4 @@ The acceleration used for the added mass represents the previous time step (:mat
 This can be thought of as a ``i-0.001%`` time step; a close approximation of the current time step.
 
 .. Note::
-	Depending on the wave formulation used, :math:`A` can either be a function of wave frequency :math:`A(\omega)`, or equal to the added mass at infinite wave frequnecy :math:`A_{\infty}`
+	Depending on the wave formulation used, :math:`A` can either be a function of wave frequency :math:`A(\omega)`, or equal to the added mass at infinite wave frequency :math:`A_{\infty}`

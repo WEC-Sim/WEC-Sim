@@ -70,7 +70,7 @@ WEC-Sim Library
 
 In addition to the ``wecSimInputFile.m`` that instantiates classes, a WEC-Sim 
 simulation requires a simulink model (``*.slx``) that represents the WEC 
-system components and connectivities. Similar to how the input file uses the 
+system components and their connectivity. Similar to how the input file uses the 
 WEC-Sim classes, the Simulink model uses WEC-Sim library blocks. There should 
 be a one-to-one relationship between the objects defined in the input file and
 the blocks used in the Simulink model. 

@@ -58,10 +58,9 @@ classdef runFromSimTest < matlab.unittest.TestCase
                 % Check if the block is the global reference frame
                 if any(contains(names,{'simu','waves'}))
                     grfBlockHandle = getSimulinkBlockHandle(blocks{i});
-                    j = strcmp(names,'ParamInput');
-                    values{j} = 'Input File';
-                    
-                    set_param(grfBlockHandle,'MaskValues',values);
+                    mask = Simulink.Mask.get(grfBlockHandle);
+                    InputMethod = mask.getParameter('InputMethod');
+                    InputMethod.Value = 'Input File';
                 end
             end
             save_system('fromSimInput.slx');
@@ -91,25 +90,14 @@ classdef runFromSimTest < matlab.unittest.TestCase
                 % Check if the block is the global reference frame
                 if any(contains(names,{'simu','waves'}))
                     grfBlockHandle = getSimulinkBlockHandle(blocks{i});
-                    % Fill parameters from input file
-                    j = strcmp(names,'ParamInput');
-                    values{j} = 'Input File';
+                    mask = Simulink.Mask.get(grfBlockHandle);
                     
-                    j = strcmp(names,'InputFile');
-                    values{j} = 'wecSimInputFile.m';
+                    InputMethod = mask.getParameter('InputMethod');
+                    InputMethod.Value = 'Custom Parameters';
                     
-                    set_param(grfBlockHandle,'MaskValues',values);
+                    InputFile = mask.getParameter('InputFile');
+                    InputFile.Value = 'wecSimInputFile.m';
                     loadInputFileCallback(grfBlockHandle);
-                    
-                    % Load block parameters updated by input file
-                    names = get_param(blocks{i},'MaskNames');
-                    values = get_param(blocks{i},'MaskValues');
-                    
-                    % Change input method back to custom parameters
-                    j = strcmp(names,'ParamInput');
-                    values{j} = 'Custom Parameters';
-                    
-                    set_param(grfBlockHandle,'MaskValues',values);
                 end
             end
             save_system('fromSimCustom.slx');

@@ -17,7 +17,6 @@
 % limitations under the License.
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
-
 classdef simulationClass<handle
     %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
     % The  ``simulationClass`` creates a ``simu`` object saved to the MATLAB
@@ -67,7 +66,7 @@ classdef simulationClass<handle
     end
 
     properties (SetAccess = 'public', GetAccess = 'public')%internal
-        wsVersion           = '4.3'                                        % (`string`) WEC-Sim version
+        wsVersion           = '4.4'                                        % (`string`) WEC-Sim version
         gitCommit           = []                                           % (`string`) GitHub commit
         simulationDate      = datetime                                     % (`string`) Simulation date and time
         outputDir           = 'output'                                     % (`string`) Data output directory name. Default = ``'output'``
@@ -149,7 +148,7 @@ classdef simulationClass<handle
             end
             
             % Set dtParaview if it was not specified in input file
-            if isempty(obj.dtParaview) || obj.dtParaview < obj.dtParaview
+            if isempty(obj.dtParaview) || obj.dtParaview < obj.dtOut
                 obj.dtParaview = obj.dtOut;
             end
             
@@ -171,14 +170,21 @@ classdef simulationClass<handle
 
         function checkinputs(obj)
             % Checks user input to ensure that ``simu.endTime`` is specified and that the SimMechanics model exists
-            
             if isempty(obj.endTime)
                 error('simu.endTime, the simulation end time must be specified in the wecSimInputFile')
-            end            
+            end
+            
             % Check simMechanics file exists
             obj.simMechanicsFile = [obj.caseDir filesep obj.simMechanicsFile];     
             if exist(obj.simMechanicsFile,'file') ~= 4
                 error('The simMechanics file, %s, does not exist in the case directory',obj.simMechanicsFile)
+            end
+            
+            % check that visualization is off when using accelerator modes
+            if (strcmp(obj.mode,'accelerator') || strcmp(obj.mode,'rapid-accelerator')) ...
+                    && strcmp(obj.explorer,'on')
+                warning('Mechanics explorer not allowed in accelerator or rapid-accelerator modes. Turning mechanics explorer off.');
+                obj.explorer = 'off';
             end
         end
 

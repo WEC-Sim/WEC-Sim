@@ -17,7 +17,7 @@
 % limitations under the License.
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
-classdef PTOSimClass<handle
+classdef ptoSimClass<handle
     % This class contains PTO-Sim parameters and settings
     properties
         name = 'NOT DEFINED'                                                        % Electric Block Name

@@ -10,6 +10,10 @@ Added Mass
 .. include:: added_mass.rst
 
 
+Morison Element
+---------------
+
+.. include:: morison_element.rst
 
 .. TO DO: add passive yaw
 .. TO DO: add morison element

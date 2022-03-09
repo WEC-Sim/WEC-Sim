@@ -68,7 +68,7 @@ Search WEC-Sim Issues
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
 In many cases, another user has had a similar issue before. 
-Search the issues page (both open and clsoed) and the below FAQ for topics that relate to your current problem.
+Search the issues page (both open and closed) and the below FAQ for topics that relate to your current problem.
 If these are related but insufficient, tag them in your GitHub issue for as references for the development team and future users.
 
 
@@ -76,7 +76,7 @@ Open an Issue
 ^^^^^^^^^^^^^^^^^^^^^
 
 If the above steps do not solve your problem, please open an issue using one of the provided templates: bug report, feature request, theory or implementation, or WEC-Sim application.
-Issue templates serve to layout the information required to solve an issue in a consistent, upfront manner. 
+Issue templates serve to layout the information required to solve an issue in a consistent, up front manner. 
 Templates are new to the WEC-Sim workflow, and input on their use is welcome. 
 The development team hopes this will help address questions as quickly and thoroughly as possible for users.
 
