@@ -54,8 +54,7 @@ else
     % Get global reference frame parameters
     values = get_param([bdroot,'/Global Reference Frame'],'MaskValues');    % Cell array containing all Masked Parameter values
     names = get_param([bdroot,'/Global Reference Frame'],'MaskNames');      % Cell array containing all Masked Parameter names
-    j = find(strcmp(names,'InputMethod'));
-    
+    j = find(strcmp(names,'InputMethod'));    
     if strcmp(values{j},'Input File')
         % wecSim input from input file selected in Simulink block
         fprintf('\nWEC-Sim Input From File Selected In Simulink... \n');
@@ -92,7 +91,7 @@ if exist('mcr','var') == 1
     end; clear n combine;
     try 
         waves.spectrumFile = ['..' filesep parallelComputing_dir filesep '..' filesep waves.spectrumFile];
-        waves.elevationFile      = ['..' filesep parallelComputing_dir filesep '..' filesep waves.elevationFile];
+        waves.elevationFile = ['..' filesep parallelComputing_dir filesep '..' filesep waves.elevationFile];
     end
 end
 
@@ -171,9 +170,9 @@ for ii = 1:simu.numHydroBodies
         body(ii).loadHydroData(tmp_hydroData);
         clear tmp_hydroData
     end
-    body(ii).bodyTotal = simu.numHydroBodies;
+    body(ii).total = simu.numHydroBodies;
     if simu.b2b==1
-        body(ii).dofCoupled = zeros(6*body(ii).bodyTotal,1);
+        body(ii).dofCoupled = zeros(6*body(ii).total,1);
     else
         body(ii).dofCoupled = zeros(6,1);
     end

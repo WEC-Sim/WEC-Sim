@@ -45,6 +45,7 @@ classdef regressionTest < matlab.unittest.TestCase
                         'regular'))            
             runLoadRegular;
             testCase.regular = load('regular.mat').("regular");
+%             regular = load('regular.mat').("regular");            
             savefig(fullfile('..', 'figReg'));            
             cd(testCase.testDir);            
         end
