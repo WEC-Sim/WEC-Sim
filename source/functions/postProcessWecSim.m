@@ -86,10 +86,17 @@ else
 end
 
 % PTO-Sim
-if exist('ptosim','var')
-    ptosimOutput = ptosim.response;
+if exist('PTOSimBlock','var')
+    for iPtoB = 1:simu.numPtoBlocks
+        %iPtoB
+        eval(['PTOSimBlock' num2str(iPtoB) '_out.name = PTOSimBlock(' num2str(iPtoB) ').name;'])
+        eval(['PTOSimBlock' num2str(iPtoB) '_out.type = PTOSimBlock(' num2str(iPtoB) ').PTOSimBlockType;'])
+        if iPtoB == 1; ptoBlocksOutput = PTOSimBlock1_out; end
+        ptoBlocksOutput(iPtoB) = eval(['PTOSimBlock' num2str(iPtoB) '_out']);
+        eval(['clear PTOSimBlock' num2str(iPtoB) '_out'])
+    end; clear iPtoB
 else
-    ptosimOutput = 0;
+    ptoBlocksOutput = 0;
 end
 
 % Waves
@@ -107,8 +114,8 @@ waveOutput.waveAmpTime2 = waves.waveAmpTime2;
 waveOutput.waveAmpTime3 = waves.waveAmpTime3;
 
 % All
-output = responseClass(bodiesOutput,ptosOutput,constraintsOutput,ptosimOutput,cablesOutput,mooringOutput,waveOutput, simu.yawNonLin);
-clear bodiesOutput ptosOutput constraintsOutput ptosimOutput cablesOutput mooringOutput waveOutput
+output = responseClass(bodiesOutput,ptosOutput,constraintsOutput,ptoBlocksOutput,cablesOutput,mooringOutput,waveOutput, simu.yawNonLin);
+clear bodiesOutput ptosOutput constraintsOutput ptoBlocksOutput cablesOutput mooringOutput waveOutput
 
 % MoorDyn
 for iMoor = 1:simu.numMoorings
