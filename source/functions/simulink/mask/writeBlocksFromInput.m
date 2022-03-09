@@ -82,8 +82,8 @@ switch type
         tmp = string(maskVars.pto);
         num = str2num(extractBetween(tmp,strfind(tmp,'('),strfind(tmp,')'),'Boundaries','Exclusive'));
         maskVars.loc = pto(num).location;                                   % PTO Location [m]
-        maskVars.k = pto(num).stiffness;                                       % PTO Stiffness [N/m]
-        maskVars.c = pto(num).c;                                       % PTO Damping [N/(m/s)]
+        maskVars.stiffness = pto(num).stiffness;                                       % PTO Stiffness [N/m]
+        maskVars.damping = pto(num).damping;                                       % PTO Damping [N/(m/s)]
         maskVars.x = pto(num).orientation.x;
         maskVars.y = pto(num).orientation.y;
         maskVars.z = pto(num).orientation.z;
@@ -123,27 +123,26 @@ switch type
         % Mooring data
         tmp = string(maskVars.mooring);
         num = str2num(extractBetween(tmp,strfind(tmp,'('),strfind(tmp,')'),'Boundaries','Exclusive'));
-        maskVars.ref = mooring(num).ref;
-        maskVars.k = mooring(num).stiffness;
-        maskVars.c = mooring(num).c;
+        maskVars.loc = mooring(num).location;
+        maskVars.stiffness = mooring(num).stiffness;
+        maskVars.damping = mooring(num).damping;
     
     case 5
         % MoorDyn data
         tmp = string(maskVars.mooring);
         num = str2num(extractBetween(tmp,strfind(tmp,'('),strfind(tmp,')'),'Boundaries','Exclusive'));
-        maskVars.ref = mooring(num).ref;
+        maskVars.loc = mooring(num).location;
         maskVars.moorDynLines = mooring(num).moorDynLines;
         maskVars.moorDynNodes = mooring(num).moorDynNodes;
     
     case 6
         % Cable data
         tmp = string(maskVars.cable);
-        num = str2num(extractBetween(tmp,strfind(tmp,'('),strfind(tmp,')'),'Boundaries','Exclusive'));
-       
+        num = str2num(extractBetween(tmp,strfind(tmp,'('),strfind(tmp,')'),'Boundaries','Exclusive'));       
         maskVars.baseConnectionName = cable(num).baseConnectionName;
         maskVars.followerConnectionName = cable(num).followerConnectionName;
-        maskVars.k = cable(num).stiffness;
-        maskVars.c = cable(num).c;
+        maskVars.stiffness = cable(num).stiffness;
+        maskVars.damping = cable(num).damping;
         maskVars.L0 = cable(num).L0;
         maskVars.preTension = cable(num).preTension;
         maskVars.initLinDisp = cable(num).initDisp.initLinDisp;

@@ -19,7 +19,7 @@ waves.H = 2.5;                          % Wave Height [m]
 waves.T = 8;                            % Wave Period [s]
 
 % % Regular Waves with CIC
-% waves = waveClass('regularCIC');           % Initialize Wave Class and Specify Type                                 
+% waves = waveClass('regularCIC');        % Initialize Wave Class and Specify Type                                 
 % waves.H = 2.5;                          % Wave Height [m]
 % waves.T = 8;                            % Wave Period [s]Simu
 
@@ -46,11 +46,11 @@ waves.T = 8;                            % Wave Period [s]
 % waves.bem.option = 'Traditional';       % Uses 1000 frequnecies
 
 % % Irregular Waves with imported spectrum
-% waves = waveClass('spectrumImport');        % Create the Wave Variable and Specify Type
-% waves.spectrumFile = 'spectrumData.mat';  %Name of User-Defined Spectrum File [:,2] = [f, Sf]
+% waves = waveClass('spectrumImport');      % Create the Wave Variable and Specify Type
+% waves.spectrumFile = 'spectrumData.mat';  % Name of User-Defined Spectrum File [:,2] = [f, Sf]
 
 % % Waves with imported wave elevation time-history  
-% waves = waveClass('elevationImport');         % Create the Wave Variable and Specify Type
+% waves = waveClass('elevationImport');      % Create the Wave Variable and Specify Type
 % waves.elevationFile = 'elevationData.mat'; % Name of User-Defined Time-Series File [:,2] = [time, eta]
 
 %% Body Data
@@ -62,7 +62,7 @@ body(1).geometryFile = 'geometry/float.stl';    % Location of Geomtry File
 body(1).mass = 'equilibrium';                   
     % Body Mass. The 'equilibrium' Option Sets it to the Displaced Water 
     % Weight.
-body(1).momOfInertia = [20907301 21306090.66 37085481.11];  %Moment of Inertia [kg*m^2]     
+body(1).momOfInertia = [20907301 21306090.66 37085481.11];  % Moment of Inertia [kg*m^2]     
 
 % Spar/Plate
 body(2) = bodyClass('hydroData/rm3.h5'); 
@@ -73,10 +73,10 @@ body(2).momOfInertia = [94419614.57 94407091.24 28542224.82];
 %% PTO and Constraint Parameters
 % Floating (3DOF) Joint
 constraint(1) = constraintClass('Constraint1'); % Initialize Constraint Class for Constraint1
-constraint(1).location = [0 0 0];                    % Constraint Location [m]
+constraint(1).location = [0 0 0];               % Constraint Location [m]
 
 % Translational PTO
 pto(1) = ptoClass('PTO1');                      % Initialize PTO Class for PTO1
-pto(1).stiffness = 0;                                   % PTO Stiffness [N/m]
-pto(1).damping = 1200000;                             % PTO Damping [N/(m/s)]
-pto(1).location = [0 0 0];                           % PTO Location [m]
+pto(1).stiffness = 0;                           % PTO Stiffness [N/m]
+pto(1).damping = 1200000;                       % PTO Damping [N/(m/s)]
+pto(1).location = [0 0 0];                      % PTO Location [m]
