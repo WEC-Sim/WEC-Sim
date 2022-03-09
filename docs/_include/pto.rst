@@ -104,15 +104,13 @@ on how PTO-Sim works, refer to [So et al., 2015] and :ref:`webinar3`.
 
 The files for the PTO-Sim tutorials described in this section can be found in 
 the **PTO-Sim** examples on the `WEC-Sim Applications repository 
-<https://github.com/WEC-Sim/WEC-Sim_Applications>`_ . Five PTO examples are 
+<https://github.com/WEC-Sim/WEC-Sim_Applications>`_ . Four PTO examples are 
 contained in the PTO-Sim application and can be used as a starting point for 
 users to develop their own. They cover two WEC types and mechanical, hydraulic, 
 and electrial PTO's: 
 
 	+--------------------------------+-------------------------------------------+
 	|     **PTO-Sim Application**    |               **Description**             |                
-	+--------------------------------+-------------------------------------------+
-	|   RM3_Hydraulic_PTO            | RM3 with hydraulic PTO                    |
 	+--------------------------------+-------------------------------------------+
 	|   RM3_cHydraulic_PTO           | RM3 with compressible hydraulic PTO       |
 	+--------------------------------+-------------------------------------------+
@@ -127,7 +125,7 @@ Tutorial: RM3 with PTO-Sim
 """"""""""""""""""""""""""
 
 This section describes how to use RM3 with PTO-Sim. Two tutorials will be given 
-in this section: one for the RM3 with a hydraulic PTO (non-compressible) and 
+in this section: one for the RM3 with a hydraulic PTO and 
 another for the RM3 with a direct drive PTO. 
 
 .. _pto-rm3-hydraulic:
@@ -142,24 +140,10 @@ rotary generator, and a low pressure accumulator.
 .. figure:: /_static/images/HYDPHYMODEL.PNG
    :width: 500pt 
 
-There are two ways of modeling the hydraulic PTO: with a compressible fluid 
-hydraulic, and with a non-compressible fluid hydraulic. The compressible fluid 
-model uses the properties of fluid such as an effective bulk modulus and 
-density while the non-compressible fluid does not. 
-
 In this section, a step by step tutorial on how to set up and run the RM3 
 simulation with PTO-Sim is provided. All the files used in WEC-Sim will remain 
-the same, but some may need to be added to the working folder. An additional 
-file that is needed is the PTO-Sim input file (``ptoSimInputFile.m``). For the 
-hydraulic PTO, the function for variable motor volume will need to be 
-added as well (``variableMotorVolume.m``). If the 
-rotary generator lookup table is used, a datasheet that contains generator 
-efficiency, torque, and angular velocity is needed and should be named as ``table`` 
-in Workspace (``table.eff``, ``table.Tpu``,and ``table.omegapu``). An example 
-lookup table and variable motor volume file can be found and downloaded from the `WEC-Sim Applications 
-<https://github.com/WEC-Sim/WEC-Sim_Applications>`_ repository in the `PTO-Sim 
-<http://wec-sim.github.io/WEC-Sim/advanced_features.html#pto-sim>`_ folder. For
-more details, refer to `Step 8`_. In summary, the files need to run RM3 with
+the same, but some may need to be added to the working folder. The ``wecSimInputFile.m`` must
+be modified to add the definition of the different PTO-Sim blocks. The files used to run RM3 with
 PTO-Sim case are the following: 
 
 * WEC-Sim input file: ``wecSimInputFile.m`` (make sure to set the PTO linear 
@@ -169,9 +153,6 @@ PTO-Sim case are the following:
 * Hydrodynamic data file(s): ``rm3.h5``
 * Optional user defined post-processing file: ``userDefinedFunction.m``
 * PTO-Sim input file: ``ptoSimInputFile.m``
-* Datasheet for the rotary generator: ``table`` (``table.eff``, ``table.Tpu``,
-  and ``table.omegapu``) (`PTO-Sim <http://wec-sim.github.io/WEC-Sim/advanced_features.html#pto-sim>`_)
-* For the hydraulic PTOs: ``variableMotorVolume.m``
 
 **Simulink Model**
 
@@ -185,100 +166,68 @@ The Simulink model can be built as follows:
 .. figure:: /_static/images/translational_pto.PNG
    :width: 500pt 
 
-* Step 3: Create a subsystem and rename it to PTO-Sim where input is response and
+* Step 3: Create a subsystem and rename it to PTO-Sim where the input is the response and
   output is force.
 
 .. figure:: /_static/images/rm3with_pto_sim.PNG
    :width: 500pt
 
-* Step 4: Go inside PTO-Sim block and add one bus selector and two selector 
-  blocks. Since the PTO-Sim block is connected to the WEC-Sim translational joint 
-  block, you can select position and velocity and remove "signal1" and 
-  "signal2" from the selected elements column in the bus selector. For each of 
-  the two selectors, the input port size should be changed to 6. Because the heave 
-  motion is driving the piston, the selection index of each selector needs to be 
-  changed to 3.
+* Step 4: Go to Simulink Library Browser to access the PTO-Sim Library. 
 
-.. figure:: /_static/images/SELECTORS.PNG
+.. figure:: /_static/images/pto_sim_lib.png
    :width: 500pt
 
-* Step 5: Go to Simulink Library Browser to access the PTO-Sim Library. 
+* Step 5: By looking at the physical hydraulic PTO model as shown above, the user 
+  can simply drag and drop PTO-Sim library blocks. Hydraulic cylinder, rectifying valve, and accumulator 
+  blocks are located under the Hydraulic block. The electric generator equivalent circuit is located under the Electric library. 
 
-.. figure:: /_static/images/pto_sim_hyd.PNG
+* Step 6: Since multiple PTO-Sim blocks will be used, it is necessary to name each block to identify them
+  when its variables are defined in the ``wecSimInputFile.m``. To change the name of each block, 
+  double click the block and add the name ``PTOSimBlock(i)`` where ``i`` 
+  must be different for each block used in the simulation. The name of each block
+  will be used in the ``wecSimInputFile.m`` to define its variables.
+
+.. figure:: /_static/images/PTOSimBlock1.png
    :width: 500pt
 
-* Step 6: By looking at the physical hydraulic PTO model as shown above, the user 
-  can simply drag and drop PTO-Sim library blocks. Piston, valve, and accumulator 
-  blocks are located under the Hydraulic block. Rotary generator lookup table 
-  is under the Generator block. 
 
-.. figure:: /_static/images/pto_sim.PNG
+* Step 7: Connect the inputs and outputs of the blocks according to the desired physical layout.
+
+.. figure:: /_static/images/RM3withPTOSimBlocks.png
    :width: 500pt
 
-* Step 7: Since two accumulators are needed for the high pressure accumulator 
-  and low pressure accumulator, the user needs to double-click on each block 
-  and give a number to each accumulator. For example, ``ptosim.accumulator(1)`` 
-  is called high pressure accumulator and ``ptosim.accumulator(2)`` is called 
-  low pressure accumulator.
+* Step 8: Define the input for ``Rload`` in the Electric Generator block. The input could be a constant
+  value or it could be used to control the load of the generator to achieve a desired physical behaviour.
+  In this example, the value of ``Rload`` is used to control the shaft speed of the generator by using a
+  simple PI controller. The desired shaft speed in this case is 1000 rpm.
 
-.. figure:: /_static/images/multiple_accumulators.PNG
-   :width: 500pt
-
-.. _`Step 8`:
-
-* Step 8: If a rotary generator lookup table is used, this block assumes the 
-  user will provide the datasheet. An example datasheet can be found and 
-  downloaded from the `WEC-Sim Applications 
-  <https://github.com/WEC-Sim/WEC-Sim_Applications>`_ repository in the 
-  `PTO-Sim <http://wec-sim.github.io/WEC-Sim/advanced_features.html#pto-sim>`_ 
-  folder. After the datasheet is loaded into ``Workspace``, it needs to be named 
-  as ``table`` because the word ``table`` is used inside Simulink lookup table 
-  block. The example datasheet is taken from ABB datasheet part number 
-  M3BJ315SMC. The lookup table takes three inputs: efficiency (``table.eff``), 
-  angular velocity (``table.omegapu``), and generator torque (``table.Tpu``), 
-  respectively. 
-
-.. figure:: /_static/images/rotary.PNG
-   :width: 500pt
-
-.. figure:: /_static/images/rotary_inside.PNG
-   :width: 500pt
-
-.. figure:: /_static/images/rotary_lookup.PNG
-   :width: 500pt
-
-* Step 9: After the high pressure and low pressure accumulators have been 
-  identified, and the rotary generator lookup table datasheet has been setup, 
-  all the blocks can be connected together. 
-
-Position and velocity from selectors are used as inputs to the compressible 
-fluid piston. This block also needs to know top and bottom volumetric flows 
-which come from the rectifying check valve. The piston then outputs PTO force 
-that will be used by WEC-Sim. Two other outputs are the piston pressures. The 
-rectifying check valve takes both the pressures from the piston and 
-accumulators. Both high and low pressure accumulators take the volumetric flows 
-from the rectifying check valve and hydraulic motor. The hydraulic motor uses 
-the knowledge of the pressures from both accumulator and generator torque from 
-the rotary generator. The rotary generator needs pressure difference, motor volume, and angular velocity from the 
-hydraulic motor. The figure below shows how to connect all the blocks together. 
-
-.. figure:: /_static/images/hyd_pto_sim.PNG
+.. figure:: /_static/images/GeneratorSpeedControl.png
    :width: 500pt
 
 **Input File**
 
-In this section, the PTO-Sim input file (``ptoSimInputFile.m``) is defined and 
-categorized into sections such as piston, rectifying check valve, high pressure 
-accumulator, hydraulic motor, low pressure accumulator, and rotary generator. 
+In this section, the WEC-Sim input file (``wecSimInputFile.m``) is defined and 
+categorized into sections such as hydraulic cylinder, rectifying check valve, high pressure 
+accumulator, low pressure accumulator, hydraulic motor, and generator. 
   
-.. _PTOSimInput:
+.. _WECSimInput:
 
-.. rli:: https://raw.githubusercontent.com/WEC-Sim/WEC-Sim_Applications/master/PTO-Sim/RM3/RM3_Hydraulic_PTO/ptoSimInputFile.m
+.. rli:: https://raw.githubusercontent.com/WEC-Sim/WEC-Sim_Applications/master/PTO-Sim/RM3/RM3_cHydraulic_PTO/wecSimInputFile.m
    :language: matlab   
 
 **Simulation and Post-processing**
 
-Simulation and post-processing are the same process as described in :ref:`user-tutorials-rm3`. 
+Simulation and post-processing are similar process as described in :ref:`user-tutorials-rm3`.
+There are some specific variable definitions that must be considered when using the output
+signals of the PTO-Sim blocks. For example, the hydraulic accumulator has two output signals: flow rate
+and pressure, and the time vector. In the RM3 example with hydraulic PTO, the high pressure hydraulic
+accumulator was defined as ``PTOSimBlock(3)`` in the WEC-Sim input file; then, to use the output
+flow rate and pressure of this block, the next line of code must be used:
+
+``FlowRateAccumulator = output.PTOBlocks(3).FlowRate``
+``PressureAccumulator = output.PTOBlocks(3).Pressure``
+
+In general, the output signal of any PTO-Sim block can be used with this line of code:  ``output.PTOBlocks(i).VariableName``
 
 RM3 with Direct Drive PTO
 +++++++++++++++++++++++++
@@ -295,31 +244,14 @@ coil: therefore, current is induced in the coil and electricity is generated.
 
 **Simulink Model**
 
-Steps 1 through 3 are the same as in :ref:`pto-rm3-hydraulic`. 
+Steps 1 through 4 are the same as in :ref:`pto-rm3-hydraulic`. 
 
-* Step 4: Go inside the PTO-Sim block and add one bus selector and one selector 
-  block. Only velocity is needed for this example meaning velocity should be 
-  the only parameter in the selected elements column of the bus selector. For 
-  the selector, the input port size and selection index should again be 
-  changed to 6 and 3, respectively.
+* Step 5: Look for the block "Direct Drive Linear Generator" and drag the block into the PTO-Sim subsystem
 
-.. figure:: /_static/images/SELECTORS2.PNG
-   :width: 500pt
 
-* Step 5: Go to PTO-Sim library.
+* Step 6: Connect the input "respose" to the input of the PTO-Sim block and the output "Force" to the output of the subsystem.
 
-* Step 6: By looking at the physical mechanical PTO model as shown above, the 
-  user can simply drag and drop PTO-Sim library blocks. In this case, only the 
-  direct drive linear generator is needed, and it is located under the 
-  Generator block.
-
-.. figure:: /_static/images/pto_sim_lin.PNG
-   :width: 500pt
-
-* Step 7: Simply connect velocity from the selector to the input of the direct 
-  drive linear generator. The output PTO force is fed back to WEC-Sim. 
-
-.. figure:: /_static/images/pto_sim_lin_conn.PNG
+.. figure:: /_static/images/DirectDrivePorts.png
    :width: 500pt
 
 **Input File, Simulation, and Post-processing**
@@ -340,17 +272,36 @@ OSWEC with Hydraulic PTO
 ++++++++++++++++++++++++
 
 A hydraulic PTO or mechanical PTO can be used with OSWEC but for simplicity a 
-hydraulic PTO will be used as an example. 
+hydraulic PTO will be used as an example. An schematic representation of the OSWEC device
+is shown in the figure below:
 
 .. figure:: /_static/images/OSWECPHYMODEL.PNG
    :width: 500pt
 
-.. figure:: /_static/images/MoTIONMECHANISM.PNG
+Two blocks were developed in the PTO-Sim library to model a system like the OSWEC.
+The blocks can be found under the ``Motion Convertion`` library.
+
+.. figure:: /_static/images/MotionConversionLib.png
+   :width: 500pt
+
+The block "Rotary to Linear Adjustable Rod" is used to model a rod with a variable length. For the OSWEC case,
+this block can be use when the cylinder rod of the hydraulic PTO is connected to the adjustable rod,
+like in the schematic presented in the figure below:
+
+.. figure:: /_static/images/AdjustableRodHPTO.png
+   :width: 500pt
+
+
+On the other hand, the block "Rotary to Linear Crank" is used to model a slider-crank mechanism that is used to convert
+the rotational motion of the OSWEC device into linear motion for the hydraulic cylinder in the PTO. In this case, the
+cylinder rod of the hydraulic PTO is connected to the slider part of the mechanism, as shown in the figure below:
+
+.. figure:: /_static/images/SliderandCrankMechanism.png
    :width: 500pt
 
 **Modeling of OSWEC with Hydraulic PTO**
 
-The same as :ref:`pto-rm3-hydraulic`.
+The files needed for the OSWEC case are the same as the ones described in :ref:`pto-rm3-hydraulic`.
 
 **Simulink Model**
 
@@ -370,27 +321,36 @@ The Simulink model can be built as following:
 .. figure:: /_static/images/oswec_pto_sim.PNG
    :width: 500pt
 
-* Step 4: Go inside the PTO-Sim block and drag and drop one bus selector and two 
-  selector blocks. The input port sizes need to be changed to 6, and since pitch is driving the piston, selection index of each 
-  selector needs to be changed to 5. Next, go to PTO-Sim library and drag and 
-  drop all the blocks for the hydraulic PTO. The rotary to linear adjustable 
-  rod block can be found under rotary to linear conversion box. 
+* Step 4: Go to Simulink Library Browser to access the PTO-Sim Library. 
 
-.. figure:: /_static/images/rotary_to_lin.PNG
+* Step 5: By looking at the physical hydraulic PTO model as shown above, the user 
+  can simply drag and drop PTO-Sim library blocks. Hydraulic cylinder, rectifying valve, and accumulator 
+  blocks are located under the Hydraulic block. The electric generator equivalent circuit is located under the Electric library. 
+  The "Rotary to Linear Adjustable Rod" is under the Motion Conversion library.
+
+* Step 6: Since multiple PTO-Sim blocks will be used, it is necessary to name each block to identify them
+  when its variables are defined in the ``wecSimInputFile.m``. To change the name of each block, 
+  double click the block and add the name ``PTOSimBlock(i)`` where ``i`` 
+  must be different for each block used in the simulation. The name of each block
+  will be used in the ``wecSimInputFile.m`` to define its variables. For this example,
+  the motion conversion block will be called ``PTOSimBlock(1)``
+
+.. figure:: /_static/images/PTOSimBlock1OSWEC.png
    :width: 500pt
 
-* Step 5: The rotary to linear adjustable rod block takes angular position and 
-  velocity from index selector blocks and PTO force from compressible fluid 
-  piston block. The outputs of the rotary to linear adjustable rod block are 
-  linear position, velocity, and torque. Linear position and velocity are used 
-  as inputs for compressible fluid piston and torque is fed back to WEC-Sim. 
-  The rest of the connections are the same as in RM3 with hydraulic PTO. The 
-  user is encouraged to go up one level to check the connections between 
-  PTO-Sim and WEC-Sim.  
 
-.. figure:: /_static/images/oswec_pto_sim_conn.PNG
+* Step 7: Connect the inputs and outputs of the blocks according to the desired physical layout.
+
+.. figure:: /_static/images/OSWECPTOSimExample.png
    :width: 500pt
+
+* Step 8: Define the input for ``Rload`` in the Electric Generator block. The input could be a constant
+  value or it could be used to control the load of the generator to achieve a desired physical behaviour.
+  In this example, the value of ``Rload`` is used to control the shaft speed of the generator by using a
+  simple PI controller. The desired shaft speed in this case is 3000 rpm.
 
 **Input File, Simulation, and Post-processing**
 
-The same as :ref:`pto-rm3-hydraulic`.
+The input file for this case is similar to the input file
+described in :ref:`pto-rm3-hydraulic`. The naming and numbering of the PTO blocks
+change in this case, but the way the variables are defined is the same.

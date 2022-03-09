@@ -62,6 +62,7 @@
 # BEMIO
 *.h5
 **/__pycache__/
+examples/**/*.png
 
 #Examples
 wecSimInputFile_simulinkCustomParameters.m
@@ -72,6 +73,7 @@ wecSimInputFile_simulinkCustomParameters.m
 /tests/**/*.mat
 /tests/CompilationTests/
 /tests/runFromSimulinkTests/
+/tests/*.png
 !/tests/**/**/regular_org.mat
 !/tests/**/**/regularCIC_org.mat
 !/tests/**/**/regularSS_org.mat

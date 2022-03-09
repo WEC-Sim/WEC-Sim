@@ -126,7 +126,7 @@ classdef ptoSimClass<handle
     end
     
     methods
-        function obj        = PTOSimClass(name)
+        function obj        = ptoSimClass(name)
             % Initilization function
             obj.name   = name;
         end

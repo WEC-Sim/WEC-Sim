@@ -147,7 +147,7 @@ The **OSWEC_NonLinear_Viz** example uses ParaView for WEC-Sim data visualization
 
 Loading a ParaView State File
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
-If a previous `*.pvsm`` ParaView state file was saved, the state can be applied to a ``*.pvd`` ParaView file. To load a state file:
+If a previous ``*.pvsm`` ParaView state file was saved, the state can be applied to a ``*.pvd`` ParaView file. To load a state file:
 
 * Open the ``$CASE/vtk/<filename>.pvd`` file in ParaView
 * Click on ``File => Load State``

@@ -84,6 +84,7 @@ classdef simulationClass<handle
         numConstraints      = []                                           % (`integer`) Number of contraints in the wec model. Default = ``'NOT DEFINED'``
         numCables           = []                                           % (`integer`) Number of cables in the wec model. Default = ``'NOT DEFINED'``
         numMoorings         = []                                           % (`integer`) Number of moorings in the wec model. Default = ``'NOT DEFINED'``
+        numPtoBlocks        = []                                           % (`integer`) Number of PTO-Sim blocks elements in the model. Default = ``'NOT DEFINED'``
     end
 
     methods

@@ -190,6 +190,14 @@ if exist('cable','var')==1
     end
 end
 
+% PTO-Sim: read input, count
+if exist('PTOSimBlock','var') == 1
+    simu.numPtoBlocks = length(PTOSimBlock(1,:));
+    for ii = 1:simu.numPtoBlocks
+        PTOSimBlock(ii).ptoNum = ii;
+    end; clear ii
+end
+
 if simu.yawNonLin==1 && simu.yawThresh==1
     warning(['yawNonLin using (default) 1 dg interpolation threshold.' newline 'Ensure this is appropriate for your geometry'])
 end
@@ -406,6 +414,13 @@ for ii=1:length(body(1,:))
     eval(['sv_b' num2str(ii) '_dragBody = Simulink.Variant(''nhbody_' num2str(ii) '==2'');'])
 %    eval(['sv_b' num2str(ii) '_rigidBody = Simulink.Variant(''nhbody_' num2str(ii) '==0'');'])
 end; clear ii
+
+%Efficiency model
+for ii=1:length(PTOSimBlock(1,:))
+    eval(['EffModel_' num2str(ii) ' = PTOSimBlock(ii).HydraulicMotor.EffModel;']);
+    eval(['sv_b' num2str(ii) '_AnalyticalEfficiency = Simulink.Variant(''EffModel_', num2str(ii), '==1'');']);
+    eval(['sv_b' num2str(ii) '_TabulatedEfficiency = Simulink.Variant(''EffModel_', num2str(ii), '==2'');']);
+end; clear ii;
 
 % Visualization Blocks
 if ~isempty(waves.markerLoc) && typeNum < 30
