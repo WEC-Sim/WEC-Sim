@@ -70,8 +70,6 @@ classdef bodyClass<handle
         viz               = struct(...                       % (`structure`)  Defines visualization properties in either SimScape or Paraview.
             'color', [1 1 0], ...                            %
             'opacity', 1)                                    % (`structure`)  Defines visualization properties in either SimScape or Paraview. ``color`` (`3x1 float vector`) is defined as the body visualization color, Default = [``1 1 0``]. ``opacity`` (`integer`) is defined as the body opacity, Default = ``1``.        
-%         yaw                 = 0                              % 
-%         yawThresh           = 1                              % 
         yaw = struct(...                                    % (`structure`) Defines the passive yaw implementation. 
             'option',	0,...                               %
             'threshold',	1)                              % (`structure`) Defines the passive yaw mplementation. ``option`` (`integer`) Flag for passive yaw calculation, Options: 0 (off), 1 (on). Default = ``0``. ``threshold`` (`float`) Yaw position threshold (in degrees) above which excitation coefficients will be interpolated in passive yaw. Default = ``1`` [deg].
