@@ -103,7 +103,11 @@ classdef ptoSimClass<handle
     methods
         function obj        = ptoSimClass(name)
             % Initilization function
-            obj.name   = name;
+            if exist('name','var')
+                obj.name = name;
+            else
+                error('The ptoSim class number(s) in the wecSimInputFile must be specified in ascending order starting from 1. The ptoSimClass() function should be called first to initialize each ptoSim block with a name.')
+            end
         end    
         
         function countblocks(obj)

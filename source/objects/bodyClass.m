@@ -108,7 +108,11 @@ classdef bodyClass<handle
             %     body : obj
             %         bodyClass object
             %
-            obj.h5File = filename;
+            if exist('filename','var')
+                obj.h5File = filename;
+            else
+                error('The body class number(s) in the wecSimInputFile must be specified in ascending order starting from 1. The bodyClass() function should be called first to initialize each body with an h5 file.')
+            end
         end
         
         function readH5File(obj)
