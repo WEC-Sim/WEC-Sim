@@ -32,7 +32,7 @@ classdef mooringClass<handle
                                    'initLinDisp', [0 0 0], ...                      
                                    'initAngularDispAxis',  [0 1 0], ...           
                                    'initAngularDispAngle', 0)               
-        loc                     = [0 0 0]                                       % (`float 1 x 3`) Mooring Reference location. Default = ``[0 0 0]``        
+        location                = [0 0 0]                                       % (`float 1 x 3`) Mooring Reference location. Default = ``[0 0 0]``        
         matrix                  = struct(...                                    % (`obj`) Structure defining damping, stiffness, and pre-tension. Defaults = ``zeros(6,6), zeros(6,6), zeros(1,6)`` respectively
                                          'c',          zeros(6,6), ...              
                                          'k',          zeros(6,6), ...             
@@ -43,9 +43,9 @@ classdef mooringClass<handle
     end
 
     properties (SetAccess = 'public', GetAccess = 'public') %internal
-        orientation             = []                                            % (`float 1 x 6`) Initial 6DOF location. Default = ``[0 0 0 0 0 0]``
-        mooringNum              = []                                            % (`integer`) Mooring number. Default = ``'NOT DEFINED'``
         moorDyn                 = 0                                             % (`integer`) Flag to indicate a MoorDyn block, 0 or 1. Default = ``0``
+        number                  = []                                            % (`integer`) Mooring number. Default = ``'NOT DEFINED'``        
+        orientation             = []                                            % (`float 1 x 6`) Initial 6DOF location. Default = ``[0 0 0 0 0 0]``        
     end
 
     methods (Access = 'public')                                        
@@ -56,7 +56,7 @@ classdef mooringClass<handle
 
         function obj = setLoc(obj)
             % This method sets mooring location
-            obj.orientation = [obj.loc + obj.initDisp.initLinDisp 0 0 0];
+            obj.orientation = [obj.location + obj.initDisp.initLinDisp 0 0 0];
         end
 
         function setInitDisp(obj, relCoord, axisAngleList, addLinDisp)

@@ -31,7 +31,7 @@ classdef waveClass<handle
         bem = struct(...            % (`structure`) Defines the BEM data implemtation. 
             'option',	'EqualEnergy',...   % 
             'count',	[], ...             %             
-            'frequency',[], ...        %             
+            'frequency',[], ...             %             
             'range',	[])                 % (`structure`) Defines the BEM data implemtation. ``option`` (`string`) Method of frequency discretization for irregular waves, options include: ``'EqualEnergy'`` or ``'Traditional'``. Default = ``'EqualEnergy'``. ``count`` (`integer`) Number of interpolated wave frequencies, only used for ``irregular`` and ``spectrumImport``. Number of frequencies used varies depending on ``bem.option``, 1000 for ``'Traditional'``, and 500 for ``'EqualEnergy'`` and ``Imported``. Default = ``[]``. ``frequency`` (`vector`) Wave frequencies [rad/s] from BEM. Default = ``[]``. ``range`` (`2x1 vector`) Min and max wave frequency [rad/s], only used for ``irregular`` and ``spectrumImport``. If not specified, the BEM data frequency range is used. Default = ``[]``     
         current = struct(...        % (`structure`) Defines the current implementation. 
             'option',	3,...           %
@@ -143,7 +143,7 @@ classdef waveClass<handle
             % check 'waves.bem' fields
             if length(fieldnames(obj.bem)) ~=4
                 error(['Unrecognized method, property, or field for class "waveClass", ' ... 
-                    '"waveClass.bem" structure must only include fields: "option", "count", "range"']);
+                    '"waveClass.bem" structure must only include fields: "option", "count", "frequency", "range"']);
             end
             % check 'waves.current' fields
             if length(fieldnames(obj.current)) ~=4

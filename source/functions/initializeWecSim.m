@@ -104,7 +104,7 @@ simu.checkinputs;
 if exist('constraint','var') == 1
     simu.numConstraints = length(constraint(1,:));
     for ii = 1:simu.numConstraints
-        constraint(ii).constraintNum = ii;
+        constraint(ii).number = ii;
         constraint(ii).setOrientation();
     end; clear ii
 end
@@ -113,7 +113,7 @@ end
 if exist('pto','var') == 1
     simu.numPtos = length(pto(1,:));
     for ii = 1:simu.numPtos
-        pto(ii).ptoNum = ii;
+        pto(ii).number = ii;
         pto(ii).setOrientation();
         pto(ii).setPretension();
     end; clear ii
@@ -123,7 +123,7 @@ end
 if exist('mooring','var') == 1
     simu.numMoorings = length(mooring(1,:));
     for ii = 1:simu.numMoorings
-        mooring(ii).mooringNum = ii;
+        mooring(ii).number = ii;
         mooring(ii).setLoc;
     end; clear ii
 end
@@ -136,7 +136,7 @@ hydroBodLogic = zeros(length(body(1,:)),1);
 nonHydroBodLogic = zeros(length(body(1,:)),1);
 dragBodLogic = zeros(length(body(1,:)),1);
 for ii = 1:length(body(1,:))
-    body(ii).bodyNumber = ii;
+    body(ii).number = ii;
     if body(ii).nonHydro==0
         numHydroBodies = numHydroBodies + 1;
         hydroBodLogic(ii) = 1;         
@@ -167,7 +167,7 @@ for ii = 1:simu.numHydroBodies
         end
         clearvars h5Info        
         % Read hydro data from BEMIO and load into the bodyClass
-        tmp_hydroData = readBEMIOH5(body(ii).h5File, body(ii).bodyNumber, body(ii).meanDrift);
+        tmp_hydroData = readBEMIOH5(body(ii).h5File, body(ii).number, body(ii).meanDrift);
         body(ii).loadHydroData(tmp_hydroData);
         clear tmp_hydroData
     end
@@ -183,7 +183,7 @@ end; clear ii
 if exist('cable','var')==1
     simu.numCables = length(cable(1,:));
     for ii = 1:simu.numCables
-        cable(ii).cableNum = ii;
+        cable(ii).number = ii;
         cable(ii).setCg();
         cable(ii).setCb();
         cable(ii).setTransPTOLoc();
@@ -251,14 +251,14 @@ if ~isempty(idx)
         it = idx(kk);
         body(it).nonHydroForcePre(simu.rho);
         if isempty(body(it).cg)
-            error('Non-hydro body(%i) center of gravity (cg) must be defined in the wecSimInputFile.m',body(it).bodyNumber);
+            error('Non-hydro body(%i) center of gravity (cg) must be defined in the wecSimInputFile.m',body(it).number);
         end
         if isempty(body(it).dispVol)
-            error('Non-hydro body(%i) displaced volume (dispVol) must be defined in the wecSimInputFile.m',body(it).bodyNumber);
+            error('Non-hydro body(%i) displaced volume (dispVol) must be defined in the wecSimInputFile.m',body(it).number);
         end
         if isempty(body(it).cb)
             body(it).cb = body(it).cg;
-            warning('Non-hydro body(%i) center of buoyancy (cb) set equal to center of gravity (cg), [%g %g %g]',body(it).bodyNumber,body(it).cb(1),body(it).cb(2),body(it).cb(3))
+            warning('Non-hydro body(%i) center of buoyancy (cb) set equal to center of gravity (cg), [%g %g %g]',body(it).number,body(it).cb(1),body(it).cb(2),body(it).cb(3))
         end
     end; clear kk idx
 end
@@ -270,14 +270,14 @@ if ~isempty(idx)
         it = idx(kk);
         body(it).dragForcePre(simu.rho);
         if isempty(body(it).cg)
-            error('Drag body(%i) center of gravity (cg) must be defined in the wecSimInputFile.m',body(it).bodyNumber);
+            error('Drag body(%i) center of gravity (cg) must be defined in the wecSimInputFile.m',body(it).number);
         end
         if isempty(body(it).dispVol)
-            error('Drag body(%i) displaced volume (dispVol) must be defined in the wecSimInputFile.m',body(it).bodyNumber);
+            error('Drag body(%i) displaced volume (dispVol) must be defined in the wecSimInputFile.m',body(it).number);
         end
         if isempty(body(it).cb)
             body(it).cb = body(it).cg;
-            warning('Drag body(%i) center of buoyancy (cb) set equal to center of gravity (cg), [%g %g %g]',body(it).bodyNumber,body(it).cb(1),body(it).cb(2),body(it).cb(3))
+            warning('Drag body(%i) center of buoyancy (cb) set equal to center of gravity (cg), [%g %g %g]',body(it).number,body(it).cb(1),body(it).cb(2),body(it).cb(3))
         end
     end; clear kk idx
 end
@@ -453,7 +453,7 @@ tic
 fprintf('\nSimulating the WEC device defined in the SimMechanics model %s...   \n',simu.simMechanicsFile)
 % Modify some stuff for simulation
 for iBod = 1:simu.numHydroBodies
-    body(iBod).adjustMassMatrix(simu.adjMassWeightFun,simu.b2b);
+    body(iBod).adjustMassMatrix(simu.adjMassFactor,simu.b2b);
 end; clear iBod
 warning('off','Simulink:blocks:TDelayTimeTooSmall');
 warning('off','Simulink:blocks:BusSelDupBusCreatorSigNames');

@@ -29,9 +29,8 @@ classdef ptoClass<handle
     
     %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
     properties (SetAccess = 'public', GetAccess = 'public')%input file 
-        c                       = 0                                             % (`float`) Linear PTO damping coefficient. Default = `0`.
+        damping                 = 0                                             % (`float`) Linear PTO damping coefficient. Default = `0`.
         equilibriumPosition     = 0                                             % (`float`) Linear PTO equilibrium position, m or deg. Default = `0`.
-        k                       = 0                                             % (`float`) Linear PTO stiffness coefficient. Default = `0`.
         hardStops               = struct(...
                                           'upperLimitSpecify', 'off',...        % (`string`) Initialize upper stroke limit. ``  'on' or 'off' `` Default = ``off``. 
                                           'upperLimitBound', 1, ...             % (`float`) Define upper stroke limit in m or deg. Only active if `lowerLimitSpecify` is `on` `` Default = ``1``. 
@@ -46,7 +45,7 @@ classdef ptoClass<handle
     
         initDisp                = struct(...                                    % Structure defining the initial displacement
                                          'initLinDisp',          [0 0 0])       % Structure defining the initial displacement of the pto. ``initLinDisp`` (`3x1 float vector`) is defined as the initial displacement of the pto [m] in the following format [x y z], Default = [``0 0 0``].
-        loc                     = [999 999 999]                                 % (`3x1 float vector`) PTO location [m]. Defined in the following format [x y z]. Default = ``[999 999 999]``.
+        location                = [999 999 999]                                 % (`3x1 float vector`) PTO location [m]. Defined in the following format [x y z]. Default = ``[999 999 999]``.
         name                    = 'NOT DEFINED'                                 % (`string`) Specifies the pto name. For ptos this is defined by the user, Default = ``NOT DEFINED``. 
         orientation             = struct(...                                    % 
                                          'z', [0, 0, 1], ...                    % 
@@ -54,10 +53,11 @@ classdef ptoClass<handle
                                          'x', [], ...                           % 
                                          'rotationMatrix',[])                   % Structure defining the orientation axis of the pto. ``z`` (`3x1 float vector`) defines the direciton of the Z-coordinate of the pto, Default = [``0 0 1``]. ``y`` (`3x1 float vector`) defines the direciton of the Y-coordinate of the pto, Default = [``0 1 0``]. ``x`` (`3x1 float vector`) internally calculated vector defining the direction of the X-coordinate for the pto, Default = ``[]``. ``rotationMatrix`` (`3x3 float matrix`) internally calculated rotation matrix to go from standard coordinate orientation to the pto coordinate orientation, Default = ``[]``.
         pretension              = 0                                             % (`float`) Linear PTO pretension, N or N-m. Default = `0`.
+        stiffness               = 0                                             % (`float`) Linear PTO stiffness coefficient. Default = `0`.        
     end 
     
     properties (SetAccess = 'public', GetAccess = 'public')%internal
-        ptoNum                  = []                                            % PTO number.
+        number                  = []                                            % PTO number.
     end
     
     methods                                                            
@@ -84,18 +84,18 @@ classdef ptoClass<handle
             % Checks if location is set and outputs a warning or error. Used in mask Initialization.
             switch action
               case 'W'
-                if obj.loc == 999 % Because "Allow library block to modify its content" is selected in block's mask initialization, this command runs twice, but warnings cannot be displayed during the first initialization. 
-                    obj.loc = [888 888 888];
-                elseif obj.loc == 888
-                    obj.loc = [0 0 0];
-                    s1= ['For ' obj.name ': pto.loc was changed from [999 999 999] to [0 0 0].'];
+                if obj.location == 999 % Because "Allow library block to modify its content" is selected in block's mask initialization, this command runs twice, but warnings cannot be displayed during the first initialization. 
+                    obj.location = [888 888 888];
+                elseif obj.location == 888
+                    obj.location = [0 0 0];
+                    s1= ['For ' obj.name ': pto.location was changed from [999 999 999] to [0 0 0].'];
                     warning(s1)
                 end
               case 'E'
                   try
-                      if obj.loc == 999
-                        s1 = ['For ' obj.name ': pto(#).loc needs to be specified in the WEC-Sim input file.'...
-                          ' pto.loc is the [x y z] location, in meters, for the rotational PTO.'];
+                      if obj.location == 999
+                        s1 = ['For ' obj.name ': pto(#).location needs to be specified in the WEC-Sim input file.'...
+                          ' pto.location is the [x y z] location, in meters, for the rotational PTO.'];
                         error(s1)
                       end
                   catch exception
@@ -123,7 +123,7 @@ classdef ptoClass<handle
             % This method calculates the equilibrium position in the joint to provide pretension, which is activated when the pretension value is not equal to zero and equilibrium position is not over written.
             if obj.equilibriumPosition == 0
                 if obj.pretension ~= 0
-                    obj.equilibriumPosition = -obj.pretension./obj.k;
+                    obj.equilibriumPosition = -obj.pretension./obj.stiffness;
                 end
             end
         end
@@ -133,7 +133,7 @@ classdef ptoClass<handle
             % 
             % This function assumes that all rotations are about the same relative coordinate. 
             % If not, the user should input a relative coordinate of 0,0,0 and 
-            % use the additional linear displacement parameter to set the cg or loc
+            % use the additional linear displacement parameter to set the cg or location
             % correctly.
             %
             % Parameters
@@ -173,8 +173,8 @@ classdef ptoClass<handle
         function listInfo(obj)                                         
             % This method prints pto information to the MATLAB Command Window.
             fprintf('\n\t***** PTO Name: %s *****\n',obj.name)
-            fprintf('\tPTO Stiffness           (N/m;Nm/rad) = %G\n',obj.k)
-            fprintf('\tPTO Damping           (Ns/m;Nsm/rad) = %G\n',obj.c)
+            fprintf('\tPTO Stiffness           (N/m;Nm/rad) = %G\n',obj.stiffness)
+            fprintf('\tPTO Damping           (Ns/m;Nsm/rad) = %G\n',obj.damping)
         end
     end    
 end

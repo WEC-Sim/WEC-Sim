@@ -43,7 +43,7 @@ classdef constraintClass<handle
         initDisp                = struct(...                                    % 
                                          'initLinDisp',          [0 0 0])       % Structure defining the initial displacement of the constraint. ``initLinDisp`` (`3x1 float vector`) is defined as the initial displacement of the constraint [m] in the following format [x y z], Default = [``0 0 0``].
         name                    = 'NOT DEFINED'                                 % (`string`) Specifies the constraint name. For constraints this is defined by the user, Default = ``NOT DEFINED``.
-        loc                     = [999 999 999]                                 % (`3x1 float vector`) Constraint location [m]. Defined in the following format [x y z]. Default = ``[999 999 999]``.        
+        location                = [999 999 999]                                 % (`3x1 float vector`) Constraint location [m]. Defined in the following format [x y z]. Default = ``[999 999 999]``.        
         orientation             = struct(...                                    % 
                                          'z', [0, 0, 1], ...                    % 
                                          'y', [0, 1, 0], ...                    % 
@@ -52,7 +52,7 @@ classdef constraintClass<handle
     end                             
     
     properties (SetAccess = 'public', GetAccess = 'public')%internal
-        constraintNum           = []                                            % Constraint number
+        number                  = []                                            % Constraint number
     end
     
     methods (Access = 'public')                                        
@@ -79,18 +79,18 @@ classdef constraintClass<handle
             % Checks if location is set and outputs a warning or error. Used in mask Initialization.
             switch action
               case 'W'
-                if obj.loc == 999 % Because "Allow library block to modify its content" is selected in block's mask initialization, this command runs twice, but warnings cannot be displayed during the first initialization. 
-                    obj.loc = [888 888 888];
-                elseif obj.loc == 888
-                    obj.loc = [0 0 0];
-                    s1= ['For ' obj.name ': constraint.loc was changed from [9999 9999 9999] to [0 0 0]'];
+                if obj.location == 999 % Because "Allow library block to modify its content" is selected in block's mask initialization, this command runs twice, but warnings cannot be displayed during the first initialization. 
+                    obj.location = [888 888 888];
+                elseif obj.location == 888
+                    obj.location = [0 0 0];
+                    s1= ['For ' obj.name ': constraint.location was changed from [9999 9999 9999] to [0 0 0]'];
                     warning(s1)
                 end
               case 'E'
                 try
-                    if obj.loc == 999
-                      s1 = ['For ' obj.name ': constraint.loc needs to be specified in the WEC-Sim input file.' ...
-                        ' constraint.loc is the [x y z] location, in meters, for the pitch constraint.'];
+                    if obj.location == 999
+                      s1 = ['For ' obj.name ': constraint.location needs to be specified in the WEC-Sim input file.' ...
+                        ' constraint.location is the [x y z] location, in meters, for the pitch constraint.'];
                       error(s1)
                     end
                 catch exception
@@ -119,7 +119,7 @@ classdef constraintClass<handle
             % 
             % This function assumes that all rotations are about the same relative coordinate. 
             % If not, the user should input a relative coordinate of 0,0,0 and 
-            % use the additional linear displacement parameter to set the cg or loc
+            % use the additional linear displacement parameter to set the cg or location
             % correctly.
             %
             % Parameters

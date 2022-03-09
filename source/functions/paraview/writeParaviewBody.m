@@ -28,11 +28,11 @@ function writeParaviewBody(body, t, pos_all, bodyname, model, simdate, hspressur
 %   vtkbodiesii : int
 %       Index of the body (1 - number of Paraview bodies)
 % 
-numVertex = body.bodyGeometry.numVertex;
-numFace = body.bodyGeometry.numFace;
-vertex = body.bodyGeometry.vertex;
-face = body.bodyGeometry.face;
-cellareas = body.bodyGeometry.area;
+numVertex = body.geometry.numVertex;
+numFace = body.geometry.numFace;
+vertex = body.geometry.vertex;
+face = body.geometry.face;
+cellareas = body.geometry.area;
 for it = 1:length(t)
     % calculate new position
     pos = pos_all(it,:);

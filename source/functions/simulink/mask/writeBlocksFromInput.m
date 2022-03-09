@@ -81,8 +81,8 @@ switch type
         % PTO data
         tmp = string(maskVars.pto);
         num = str2num(extractBetween(tmp,strfind(tmp,'('),strfind(tmp,')'),'Boundaries','Exclusive'));
-        maskVars.loc = pto(num).loc;                                   % PTO Location [m]
-        maskVars.k = pto(num).k;                                       % PTO Stiffness [N/m]
+        maskVars.loc = pto(num).location;                                   % PTO Location [m]
+        maskVars.k = pto(num).stiffness;                                       % PTO Stiffness [N/m]
         maskVars.c = pto(num).c;                                       % PTO Damping [N/(m/s)]
         maskVars.x = pto(num).orientation.x;
         maskVars.y = pto(num).orientation.y;
@@ -103,7 +103,7 @@ switch type
         % Constraint data
         tmp = string(maskVars.constraint);
         num = str2num(extractBetween(tmp,strfind(tmp,'('),strfind(tmp,')'),'Boundaries','Exclusive'));
-        maskVars.loc = constraint(num).loc;                            % Constraint Location [m]
+        maskVars.loc = constraint(num).location;                            % Constraint Location [m]
         maskVars.x = constraint(num).orientation.x;
         maskVars.y = constraint(num).orientation.y;
         maskVars.z = constraint(num).orientation.z;
@@ -124,7 +124,7 @@ switch type
         tmp = string(maskVars.mooring);
         num = str2num(extractBetween(tmp,strfind(tmp,'('),strfind(tmp,')'),'Boundaries','Exclusive'));
         maskVars.ref = mooring(num).ref;
-        maskVars.k = mooring(num).k;
+        maskVars.k = mooring(num).stiffness;
         maskVars.c = mooring(num).c;
     
     case 5
@@ -142,7 +142,7 @@ switch type
        
         maskVars.baseConnectionName = cable(num).baseConnectionName;
         maskVars.followerConnectionName = cable(num).followerConnectionName;
-        maskVars.k = cable(num).k;
+        maskVars.k = cable(num).stiffness;
         maskVars.c = cable(num).c;
         maskVars.L0 = cable(num).L0;
         maskVars.preTension = cable(num).preTension;
