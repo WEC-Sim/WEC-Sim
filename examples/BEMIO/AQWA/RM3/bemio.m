@@ -1,8 +1,8 @@
 hydro = struct();
 
 hydro = readAQWA(hydro, 'RM3.AH1', 'RM3.LIS');
-hydro = radiationIRF(hydro,150,[],[],[],[]);
+hydro = radiationIRF(hydro,150,[],[],[],1.8);
 hydro = radiationIRFSS(hydro,[],[]);
-hydro = excitationIRF(hydro,150,[],[],[],[]);
+hydro = excitationIRF(hydro,150,[],[],[],1.8);
 writeBEMIOH5(hydro)
 plotBEMIO(hydro)
