@@ -90,8 +90,8 @@ if exist('mcr','var') == 1
         end
     end; clear n combine;
     try 
-        waves.spectrumFile = ['..' filesep parallelComputing_dir filesep '..' filesep waves.spectrumFile];
-        waves.elevationFile = ['..' filesep parallelComputing_dir filesep '..' filesep waves.elevationFile];
+        waves.spectrumFile = ['..' filesep pctDir filesep '..' filesep waves.spectrumFile];
+        waves.elevationFile = ['..' filesep pctDir filesep '..' filesep waves.elevationFile];
     end
 end
 
@@ -198,9 +198,7 @@ toc
 %% Pre-processing start
 tic
 fprintf('\nWEC-Sim Pre-processing ...   \n');
-try
-    cd(parallelComputing_dir);
-end
+try cd(pctDir); end
 
 %% HydroForce Pre-Processing: Wave Setup & HydroForcePre.
 % simulation setup
