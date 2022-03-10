@@ -74,6 +74,7 @@ BEMIO Functions
 BEMIO *hydro* Data Structure
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 .. Kelley update this
+
 Note that typically the number of DOFs (``nDOF=sum(hydro.dof)``) is 6*number of bodies, 
 but there may be additional DOF from generalized body modes.
 

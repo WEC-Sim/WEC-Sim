@@ -1,0 +1,19 @@
+name: _wssphinx
+channels:
+  - conda-forge
+  - nodefaults
+dependencies:
+  - python >=3.9,<3.10
+  - pip
+  - click
+  - colorama
+  - colorclass
+  - future
+  - git
+  - sphinx
+  - sphinx_rtd_theme <1
+  - sphinxcontrib-bibtex
+  - pip:
+    - https://github.com/Holzhaus/sphinx-multiversion/archive/refs/heads/master.zip
+    - sphinxcontrib-matlabdomain
+    - sphinxext-remoteliteralinclude
