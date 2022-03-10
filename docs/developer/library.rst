@@ -135,7 +135,7 @@ Having a flag change the visibility of options that cannot be used may help new 
 .. Note::
 	To decrease the burden of maintaining these masks, only the most common input file parameters can be defined in Simulink. 
 	For example, the Global Reference Frame contains simulationClass parameters such as ``mode``, ``explorer``, ``solver``, time information, and state space flags. 
-	However less common parameters such as ``mcrCaseFile``, ``saveStructure``, ``b2b`` and others are not included. 
+	However less common parameters such as ``mcrMatFile``, ``saveStructure``, ``b2b`` and others are not included. 
 	
 
 .. _dev-run-sim-lib:
@@ -226,7 +226,7 @@ Block / class           Mask parameter                         Callback
 PTO, constraint, cable  upperLimitSpecify, lowerLimitSpecify   ``hardStopCallback``
 Body                    STLButton                              ``stlButtonCallback``
 Body                    H5Button                               ``h5ButtonCallback``
-Body                    nhBody, (morisonElement.) on           ``bodyClassCallback``
+Body                    nonHydroBody, (morisonElement.) on           ``bodyClassCallback``
 ====================== ====================================== ==========
 
 A specific variable's callbacks are defined in: 
@@ -263,7 +263,7 @@ The visibility callbacks function by checking the value of a flag:
 
     >> mask = Simulink.Mask.get(bodyBlockHandle)
     >> meParam = mask.getParameter('on')
-    >> nhBodyParam = mask.getParameter('nhBody')
+    >> nhBodyParam = mask.getParameter('nonHydroBody')
 
 
 Depending on the value of a flag, the visibility of individual variables or an 
@@ -309,7 +309,7 @@ file is selected.
     >> % Don't set value if no file is chosen, or prompt canceled.
     >> if ~isequal(filename,0) && ~isequal(filepath,0)
     >>     mask = Simulink.Mask.get(bodyBlockHandle)
-    >>     fileParam = mask.getParameter('spectrumDataFile')
+    >>     fileParam = mask.getParameter('waveSpectrumFile')
     >>     fileParam.value = [filepath,filename];
     >> end
 

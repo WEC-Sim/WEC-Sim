@@ -16,8 +16,8 @@ function hydro = readNEMOH(hydro,filedir)
 %             - ``Mesh/KH.dat (or ``KH_0.dat``, ``KH_1.dat``, etc. for multiple bodies)
 %             - ``Results/RadiationCoefficients.tec``
 %             - ``Results/ExcitationForce.tec``
-%             - ``Results/DiffractionForce.tec`` - If simu.nlHydro = 3 will be used
-%             - ``Results/FKForce.tec`` - If simu.nlHydro = 3 will be used
+%             - ``Results/DiffractionForce.tec`` - If simu.nonlinearHydro = 3 will be used
+%             - ``Results/FKForce.tec`` - If simu.nonlinearHydro = 3 will be used
 % 
 % Returns
 % -------
@@ -98,7 +98,7 @@ for n = 1:N
     if isempty(strfind(raw{n},'Number of wave directions'))==0
         tmp = textscan(raw{n},'%f %f %f');
         hydro(F).Nh = tmp{1};  % Number of wave headings
-        hydro(F).beta = linspace(tmp{2},tmp{3},tmp{1});  % Wave headings
+        hydro(F).theta = linspace(tmp{2},tmp{3},tmp{1});  % Wave headings
     end
 end
 waitbar(1/8);
@@ -136,7 +136,7 @@ for m = 1:hydro(F).Nb
     fclose(fileID);
     for i=1:6
         tmp = textscan(raw{i},'%f');
-        hydro(F).C(i,:,m) = tmp{1,1}(1:6);  % Linear restoring stiffness
+        hydro(F).Khs(i,:,m) = tmp{1,1}(1:6);  % Linear restoring stiffness
     end
 end
 waitbar(3/8);
@@ -299,7 +299,7 @@ if exist(fullfile(resultsdir,'Kochin.    1.dat'),'file')==2
             M((6*(m-1))+k+3,((6*(m-1))+4):((6*(m-1))+6))=ligne;
     end
  end       
-    KHyd = squeeze(hydro(F).C);
+    KHyd = squeeze(hydro(F).Khs);
     for k=1:length(w)
         for j=1:nb_DOF
             RAO1(k,j)=(Fe(j,k))/(-(M(j,j)+A(j,j,k))*(w(k))^2-1i*w(k)*(B(j,j,k))+KHyd(j,j)); % No coupling between the DoF
@@ -338,16 +338,16 @@ if exist(fullfile(resultsdir,'Kochin.    1.dat'),'file')==2
     % initialize mean drift field;
     hydro(F).md_mc=hydro(F).ex_ma.*0;
     
-    for k=1:hydro(F).Nh; % wave heading loop (in case length(beta)>1)
-        rad = pi/180*hydro(F).beta(k); % conversion degrees to radians for nemoh wave direction
-        ind_beta=find(abs(theta-rad)==min(abs(theta-rad))); % ind_beta used for determining the appropriate angle of H(dir)
-        ind_beta=min(ind_beta); % in case of 2 min found
+    for k=1:hydro(F).Nh; % wave heading loop (in case length(theta)>1)
+        rad = pi/180*hydro(F).theta(k); % conversion degrees to radians for nemoh wave direction
+        ind_theta=find(abs(theta-rad)==min(abs(theta-rad))); % ind_theta used for determining the appropriate angle of H(dir)
+        ind_theta=min(ind_theta); % in case of 2 min found
         for j=1:nw
             % FORMULA (2.170) in Delhommeau Thesis
             first_constant(j)=-2*pi*ampl_wave*hydro(F).rho*w(j);
             second_constant(j)=-(8*pi*hydro(F).rho*m0(j)*(k0(j)*depth)^2)/(depth*(m0(j)^2*depth^2-k0(j)^2*depth^2+k0(j)*depth));
-            Fdrift_x(j)=first_constant(j)*cos(rad)*imag(H(ind_beta,j)) + second_constant(j)*imag(trapz(theta,H_real(:,j).*imag(conj(H(:,j))).*cos(theta')));
-            Fdrift_y(j)=first_constant(j)*sin(rad)*imag(H(ind_beta,j)) + second_constant(j)*imag(trapz(theta,H_real(:,j).*imag(conj(H(:,j))).*sin(theta')));
+            Fdrift_x(j)=first_constant(j)*cos(rad)*imag(H(ind_theta,j)) + second_constant(j)*imag(trapz(theta,H_real(:,j).*imag(conj(H(:,j))).*cos(theta')));
+            Fdrift_y(j)=first_constant(j)*sin(rad)*imag(H(ind_theta,j)) + second_constant(j)*imag(trapz(theta,H_real(:,j).*imag(conj(H(:,j))).*sin(theta')));
         end
         hydro(F).md_mc(1,k,:) = Fdrift_x;
         hydro(F).md_mc(2,k,:) = Fdrift_y;

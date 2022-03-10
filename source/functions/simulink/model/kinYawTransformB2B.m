@@ -1,11 +1,11 @@
-function [dispLoc, velLoc, accLoc] = kinYawTransformB2B(yawNonLin, dispGlobal, velGlobal, accGlobal, numBody)
+function [dispLoc, velLoc, accLoc] = kinYawTransformB2B(yaw, dispGlobal, velGlobal, accGlobal, numBody)
 
 % pre-allocate outputs
     dispLoc=zeros(6,1);
     velLoc=zeros(numBody*6,1);
     accLoc=zeros(numBody*6,1);
     
-if yawNonLin == 1
+if yaw == 1
     % rotate kinematics to 'zero' the yaw displacement (in order to
     % calculate F_RadiationDamping, F_AddedMass and F_Restoring in the
     % local frame).

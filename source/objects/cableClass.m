@@ -30,45 +30,45 @@ classdef cableClass<handle
     %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%    
     
     properties (SetAccess = 'public', GetAccess = 'public') %input file
-        name                    = 'NOT DEFINED'
-        k                       = 0                                         % (`float`) Cable stiffness (N/m). Default = `0`.
-        c                       = 0                                         % (`float`) Cable damping coefficient (N/(m/s)). Default = `0`.
         L0                      = 0                                         % (`float`) Cable equilibrium length (m), calculated from rotloc and preTension. Default =`0`.
-        preTension              = 0                                         % (`float`) Cable pretension (N).    
-        bodyMass                = 1;                                        % (`float`) mass in kg, default 1
         bodyInertia             = [1 1 1];                                  % (`1 x 3 float vector`) body inertia kg-m^2, default [1 1 1]
+        bodyMass                = 1;                                        % (`float`) mass in kg, default 1
+        damping                 = 0                                         % (`float`) Cable damping coefficient (N/(m/s)). Default = `0`.
+        initDisp                = struct(...                                % 
+            'initLinDisp',          [0 0 0],...                             % 
+            'initAngularDispAxis',  [0 1 0], ...                            %
+            'initAngularDispAngle', 0)                                      % Structure defining the initial displacement of the body. ``initLinDisp`` (`3x1 float vector`) is defined as the initial displacement of the body center of gravity (COG) [m] in the following format [x y z], Default = [``0 0 0``]. ``initAngularDispAxis`` (`3x1 float vector`) is defined as the axis of rotation in the following format [x y z], Default = [``0 1 0``]. ``initAngularDispAngle`` (`float`) is defined as the initial angular displacement of the body COG [rad], Default = ``0``.
+        linearDamping           = [0 0 0 0 0 0];                            % (`1 x 6 float vector`)linear damping aplied to body motions
+        name                    = 'NOT DEFINED'                             % (`string`) Defines the Cable name. Default = ``NOT DEFINED``.
         orientation             = struct(...                                %
             'z', [0, 0, 1], ...                                             %
             'y', [0, 1, 0], ...                                             %
             'x', [], ...                                                    %
             'rotationMatrix',[])                                            % Structure defining the orientation axis of the pto. ``z`` (`3x1 float vector`) defines the direciton of the Z-coordinate of the pto, Default = [``0 0 1``]. ``y`` (`3x1 float vector`) defines the direciton of the Y-coordinate of the pto, Default = [``0 1 0``]. ``x`` (`3x1 float vector`) internally calculated vector defining the direction of the X-coordinate for the pto, Default = ``[]``. ``rotationMatrix`` (`3x3 float matrix`) internally calculated rotation matrix to go from standard coordinate orientation to the pto coordinate orientation, Default = ``[]``.
-        initDisp                = struct(...                                % 
-            'initLinDisp',          [0 0 0],...                             % 
-            'initAngularDispAxis',  [0 1 0], ...                            %
-            'initAngularDispAngle', 0)                                      % Structure defining the initial displacement of the body. ``initLinDisp`` (`3x1 float vector`) is defined as the initial displacement of the body center of gravity (COG) [m] in the following format [x y z], Default = [``0 0 0``]. ``initAngularDispAxis`` (`3x1 float vector`) is defined as the axis of rotation in the following format [x y z], Default = [``0 1 0``]. ``initAngularDispAngle`` (`float`) is defined as the initial angular displacement of the body COG [rad], Default = ``0``.
-        viz               = struct(...                                      %
-            'color', [1 0 0.5], ...                                         %
-            'opacity', 1)                                                   % Structure defining visualization properties in either SimScape or Paraview. ``color`` (`3x1 float vector`) is defined as the body visualization color, Default = [``1 1 0``]. ``opacity`` (`integer`) is defined as the body opacity, Default = ``1``.
-        bodyparaview      = 1;                                              % (`integer`) Flag for visualisation in Paraview either 0 (no) or 1 (yes). Default = ``1`` since only called in paraview.
-        linearDamping           = [0 0 0 0 0 0];                            % (`1 x 6 float vector`)linear damping aplied to body motions
-        viscDrag                = struct(...                                % 
+        paraview      = 1;                                                  % (`integer`) Flag for visualisation in Paraview either 0 (no) or 1 (yes). Default = ``1`` since only called in paraview.
+        preTension              = 0                                         % (`float`) Cable pretension (N).    
+        quadDrag                = struct(...                                % 
             'characteristicArea', [0 0 0 0 0 0], ...                        % 
             'Drag', zeros(6), ...                                           % 
             'cd', [0 0 0 0 0 0]);                                           % Structure defining the viscous quadratic drag forces. First option define ``Drag``, (`6x6 float matrix`), Default = ``zeros(6)``. Second option define ``cd``, (`6x1 float vector`), Default = ``zeros(6,1)``, and ``characteristicArea``, (`6x1 float vector`), Default = ``zeros(6,1)``.
+        stiffness               = 0                                         % (`float`) Cable stiffness (N/m). Default = `0`.
+        viz               = struct(...                                      %
+            'color', [1 0 0.5], ...                                         %
+            'opacity', 1)                                                   % Structure defining visualization properties in either SimScape or Paraview. ``color`` (`3x1 float vector`) is defined as the body visualization color, Default = [``1 1 0``]. ``opacity`` (`integer`) is defined as the body opacity, Default = ``1``.        
     end
  
     properties (SetAccess = 'public', GetAccess = 'public')%internal
-        cableNum                = []                                       	% Cable number
         baseConnectionName      = '';                                       % (`string`) name of the base constraint or PTO
-        followerConnectionName  = '';                                       % (`string`) name of the follower constraint or PTO
-        loc                     = [999 999 999]                             % (`3x1 float vector`) pto location [m]. Defined in the following format [x y z]. Default = ``[999 999 999]``.    
-        rotloc1                 = [999 999 999]                             % (`3x1 float vector`) base location [m]. Defined in the following format [x y z]. Default = ``[999 999 999]``.
-        rotloc2                 = [999 999 999]                             % (`3x1 float vector`) follower location [m]. Defined in the following format [x y z]. Default = ``[999 999 999]``.
-        cg1                     = [0 0 0];                                  % (`1 x 3 float vector`) cg location of the base drag body
         cb1                     = [0 0 0];                                  % (`1 x 3 float vector`) cb location of the base drag body
-        cg2                     = [0 0 0];                                  % (`1 x 3 float vector`) cg location of the follower drag body
         cb2                     = [0 0 0];                                  % (`1 x 3 float vector`) cb location of the follower drag body
+        cg1                     = [0 0 0];                                  % (`1 x 3 float vector`) cg location of the base drag body
+        cg2                     = [0 0 0];                                  % (`1 x 3 float vector`) cg location of the follower drag body
         dispVol                 = [];                                       % (`float`) displacement volume, defaults to neutral buoyancy 
+        followerConnectionName  = '';                                       % (`string`) name of the follower constraint or PTO
+        location                = [999 999 999]                             % (`3x1 float vector`) pto location [m]. Defined in the following format [x y z]. Default = ``[999 999 999]``.    
+        number                  = []                                       	% Cable number
+        rotloc1                 = [999 999 999]                             % (`3x1 float vector`) base location [m]. Defined in the following format [x y z]. Default = ``[999 999 999]``.
+        rotloc2                 = [999 999 999]                             % (`3x1 float vector`) follower location [m]. Defined in the following format [x y z]. Default = ``[999 999 999]``.        
     end
     
     %%
@@ -97,18 +97,18 @@ classdef cableClass<handle
             obj.name = name;
             obj.baseConnectionName = baseConnectionName;
             obj.followerConnectionName = followerConnectionName;
-            obj.rotloc1 = evalin('caller',[baseConnectionName '.loc']);
-            obj.rotloc2 = evalin('caller',[followerConnectionName '.loc']);
+            obj.rotloc1 = evalin('caller',[baseConnectionName '.location']);
+            obj.rotloc2 = evalin('caller',[followerConnectionName '.location']);
         end
         
         function setTransPTOLoc(obj)
             % This method specifies the translational PTO location as half-
             % way between the fixed ends of the cable if not previously
             % set.
-            if any(obj.loc == [999 999 999])
+            if any(obj.location == [999 999 999])
                 rotDiff = obj.rotloc1 - obj.rotloc2;
-                obj.loc = obj.rotloc2 + rotDiff/2;
-                fprintf('\n\t loc undefined, set halfway between rotloc2 and rotloc1 \n')
+                obj.location = obj.rotloc2 + rotDiff/2;
+                fprintf('\n\t location undefined, set halfway between rotloc2 and rotloc1 \n')
             end
         end
         
@@ -118,16 +118,16 @@ classdef cableClass<handle
             % Checks if location is set and outputs a warning or error. Used in mask Initialization.
             switch action
                 case 'W'
-                    if obj.loc == 999 % Because "Allow library block to modify its content" is selected in block's mask initialization, this command runs twice, but warnings cannot be displayed during the first initialization.
-                        obj.loc = [888 888 888];
-                    elseif obj.loc == 888
-                        obj.loc = [0 0 0];
+                    if obj.location == 999 % Because "Allow library block to modify its content" is selected in block's mask initialization, this command runs twice, but warnings cannot be displayed during the first initialization.
+                        obj.location = [888 888 888];
+                    elseif obj.location == 888
+                        obj.location = [0 0 0];
                     end
                 case 'E'
                     try
-                        if obj.loc == 999
-                            s1 = ['For ' obj.name ': pto(#).loc needs to be specified in the WEC-Sim input file.'...
-                                ' pto.loc is the [x y z] location, in meters, for the rotational PTO.'];
+                        if obj.location == 999
+                            s1 = ['For ' obj.name ': pto(#).location needs to be specified in the WEC-Sim input file.'...
+                                ' pto.location is the [x y z] location, in meters, for the rotational PTO.'];
                             error(s1)
                         end
                     catch exception
@@ -159,7 +159,7 @@ classdef cableClass<handle
             % 
             % This function assumes that all rotations are about the same relative coordinate. 
             % If not, the user should input a relative coordinate of 0,0,0 and 
-            % use the additional linear displacement parameter to set the cg or loc
+            % use the additional linear displacement parameter to set the cg or location
             % correctly.
             %
             % Parameters
@@ -214,8 +214,8 @@ classdef cableClass<handle
             % values to calculate linear damping and viscous drag. Note
             % that body DOF is inherited from the length of the drag
             % coefficients.
-            if  any(any(obj.viscDrag.Drag)) ~= 1  %check if obj.viscDrag.Drag is not defined
-                obj.viscDrag.Drag = diag(0.5*rho.*obj.viscDrag.cd.*obj.viscDrag.characteristicArea);
+            if  any(any(obj.quadDrag.Drag)) ~= 1  %check if obj.quadDrag.Drag is not defined
+                obj.quadDrag.Drag = diag(0.5*rho.*obj.quadDrag.cd.*obj.quadDrag.characteristicArea);
             end
             
         end
@@ -255,10 +255,10 @@ classdef cableClass<handle
             elseif ~any(obj.L0) && any(obj.preTension)
                 obj.L0 = sqrt((obj.rotloc1(1)-obj.rotloc2(1)).^2 ...
                 + (obj.rotloc1(2)-obj.rotloc2(2)).^2 ...
-                + (obj.rotloc1(3)-obj.rotloc2(3)).^2) + obj.preTension/obj.k;
+                + (obj.rotloc1(3)-obj.rotloc2(3)).^2) + obj.preTension/obj.stiffness;
             
             elseif ~any(obj.preTension) && any(obj.L0)
-                obj.preTension = obj.k * (sqrt((obj.rotloc1(1)-obj.rotloc2(1)).^2 ...
+                obj.preTension = obj.stiffness * (sqrt((obj.rotloc1(1)-obj.rotloc2(1)).^2 ...
                 + (obj.rotloc1(2)-obj.rotloc2(2)).^2 ...
                 + (obj.rotloc1(3)-obj.rotloc2(3)).^2) - obj.L0); 
             
@@ -270,8 +270,8 @@ classdef cableClass<handle
         function listInfo(obj)
             % This method prints cable information to the MATLAB Command Window.
             fprintf('\n\t***** Cable Name: %s *****\n',obj.name)
-            fprintf('\tCable Stiffness           (N/m;Nm/rad) = %G\n',obj.k)
-            fprintf('\tCable Damping           (Ns/m;Nsm/rad) = %G\n',obj.c)            
+            fprintf('\tCable Stiffness           (N/m;Nm/rad) = %G\n',obj.stiffness)
+            fprintf('\tCable Damping           (Ns/m;Nsm/rad) = %G\n',obj.damping)            
         end
     end
     

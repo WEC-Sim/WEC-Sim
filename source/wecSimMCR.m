@@ -24,13 +24,13 @@ clear body waves simu output pto constraint ptoSim
 
 evalc('wecSimInputFile');
 
-if isempty(simu.mcrCaseFile) == 0
-    load(simu.mcrCaseFile);
+if isempty(simu.mcrMatFile) == 0
+    load(simu.mcrMatFile);
 else
     kkk=0;
     mcr.header = {'waves.H','waves.T'};
-    if isempty(waves.statisticsDataLoad) == 0
-        mcr.waveSS = xlsread(waves.statisticsDataLoad);
+    if isempty(simu.mcrExcelFile) == 0
+        mcr.waveSS = xlsread(simu.mcrExcelFile);
         mcr.waveSS(isnan(mcr.waveSS))=0;
         for i=2:length(mcr.waveSS(:,1))
             for j=2:length(mcr.waveSS(1,:))
@@ -64,20 +64,20 @@ else
     
     if exist('pto','var')
         for n=1:size(pto,2)
-            if (length(pto(n).c)>1 || length(pto(n).k)>1)
+            if (length(pto(n).c)>1 || length(pto(n).stiffness)>1)
                 numConditions=numConditions+2;
                 name = sprintf('pto(%i).c', n);
                 mcr.header{numConditions-1} = name;
-                name = sprintf('pto(%i).k', n);
+                name = sprintf('pto(%i).stiffness', n);
                 mcr.header{numConditions  } = name;
                 
                 len = length(mcr.cases(:,1)); kkk = 0;
-                for l2=1:length(pto(n).k)
+                for l2=1:length(pto(n).stiffness)
                     for l1=1:length(pto(n).c)
                         kkk=kkk+1;
                         mcr.cases(len*(kkk-1)+1:len*(kkk-1)+len,1:numConditions-2) = mcr.cases(1:len,1:numConditions-2);
                         mcr.cases(len*(kkk-1)+1:len*(kkk-1)+len,  numConditions-1) = pto(n).c(l1);
-                        mcr.cases(len*(kkk-1)+1:len*(kkk-1)+len,    numConditions) = pto(n).k(l2);
+                        mcr.cases(len*(kkk-1)+1:len*(kkk-1)+len,    numConditions) = pto(n).stiffness(l2);
                     end
                 end
             end
@@ -96,7 +96,7 @@ for imcr=1:length(mcr.cases(:,1))
     
     %% Store hydrodata in memory for reuse in future runs.
     if simu.reloadH5Data == 0 && imcr == 1        % Off->'0', On->'1', (default = 0)  
-        for ii = 1:simu.numWecBodies 
+        for ii = 1:simu.numHydroBodies 
             hydroData(ii) = body(ii).hydroData;
         end
     end
