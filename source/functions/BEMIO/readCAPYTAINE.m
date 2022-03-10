@@ -187,7 +187,7 @@ hydro(F).Nh = info.Dimensions(getInd(info.Dimensions,'wave_direction')).Length;
 % Read frequency array, wave direction and calculate period from frequency
 hydro(F).w = ncread(filename,'omega')';
 hydro(F).T = 2*pi./hydro(F).w;
-hydro(F).beta = ncread(filename,'wave_direction')';
+hydro(F).theta = ncread(filename,'wave_direction')';
 
 waitbar(2/8);
 
@@ -209,11 +209,11 @@ for m = 1:hydro(F).Nb
         fclose(fileID);
         for i=1:6
             tmp = textscan(raw{i},'%f');
-            hydro(F).C(i,:,m) = tmp{1,1}(1:6);  % Linear restoring stiffness
+            hydro(F).Khs(i,:,m) = tmp{1,1}(1:6);  % Linear restoring stiffness
         end
     catch
         warning('No KH.dat files found. Hydrostatics can''t be computed.');
-        hydro(F).C = zeros(6,6,hydro(F).Nb);
+        hydro(F).Khs = zeros(6,6,hydro(F).Nb);
     end
 end
 waitbar(3/8);

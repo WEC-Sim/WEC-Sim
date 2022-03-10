@@ -1,4 +1,4 @@
-function hydroData = readBEMIOH5(filename,bodyNumber,meanDriftForceFlag)
+function hydroData = readBEMIOH5(filename,bodyNumber,meanDrift)
 % Function to read BEMIO data from an h5 file into a hydrodata structure
 % for the bodyClass
 % 
@@ -43,13 +43,13 @@ hydroData.properties.disp_vol = h5read(filename,[h5BodyName '/properties/disp_vo
 % writes dof data
 % Initial guess for DOFs
 hydroData.properties.dof       = 6;
-hydroData.properties.dof_start = (bodyNumber-1)*6+1;
-hydroData.properties.dof_end   = (bodyNumber-1)*6+6;
+hydroData.properties.dofStart = (bodyNumber-1)*6+1;
+hydroData.properties.dofEnd   = (bodyNumber-1)*6+6;
 
 % Update if DOFs included in hydroData
 try hydroData.properties.dof       = h5read(filename,[h5BodyName '/properties/dof']);       end
-try hydroData.properties.dof_start = h5read(filename,[h5BodyName '/properties/dof_start']); end
-try hydroData.properties.dof_end   = h5read(filename,[h5BodyName '/properties/dof_end']);   end
+try hydroData.properties.dofStart = h5read(filename,[h5BodyName '/properties/dof_start']); end
+try hydroData.properties.dofEnd   = h5read(filename,[h5BodyName '/properties/dof_end']);   end
 
 % Read hydrostatic stiffness
 hydroData.hydro_coeffs.linear_restoring_stiffness = reverseDimensionOrder(h5read(filename, [h5BodyName '/hydro_coeffs/linear_restoring_stiffness']));
@@ -77,26 +77,26 @@ try hydroData.hydro_coeffs.radiation_damping.state_space.C.all = reverseDimensio
 try hydroData.hydro_coeffs.radiation_damping.state_space.D.all = reverseDimensionOrder(h5read(filename, [h5BodyName '/hydro_coeffs/radiation_damping/state_space/D/all'])); end
 
 % Read GBM parameters if available
-dof_start = hydroData.properties.dof_start;
-dof_end = hydroData.properties.dof_end;
+dofStart = hydroData.properties.dofStart;
+dofEnd = hydroData.properties.dofEnd;
 try 
     tmp_mass = reverseDimensionOrder(h5read(filename, [h5BodyName '/properties/mass']));
-    hydroData.gbm.mass = tmp_mass(dof_start+6:dof_end,dof_start+6:dof_end);
+    hydroData.gbm.mass = tmp_mass(dofStart+6:dofEnd,dofStart+6:dofEnd);
 
     tmp_stiffness = reverseDimensionOrder(h5read(filename, [h5BodyName '/properties/stiffness']));
-    hydroData.gbm.stiffness = tmp_stiffness(dof_start+6:dof_end,dof_start+6:dof_end);
+    hydroData.gbm.stiffness = tmp_stiffness(dofStart+6:dofEnd,dofStart+6:dofEnd);
 
     tmp_damping = reverseDimensionOrder(h5read(filename, [h5BodyName '/properties/damping']));
-    hydroData.gbm.damping = tmp_damping(dof_start+6:dof_end,dof_start+6:dof_end);
+    hydroData.gbm.damping = tmp_damping(dofStart+6:dofEnd,dofStart+6:dofEnd);
     clear tmp_mass tmp_stiffness tmp_damping;
 end
 
 % Read mean drift coefficients if available
-if meanDriftForceFlag == 0
+if meanDrift == 0
     hydroData.hydro_coeffs.mean_drift = 0.*hydroData.hydro_coeffs.excitation.re;
-elseif meanDriftForceFlag == 1
+elseif meanDrift == 1
     hydroData.hydro_coeffs.mean_drift =  reverseDimensionOrder(h5read(filename, [h5BodyName '/hydro_coeffs/mean_drift/control_surface/val']));
-elseif meanDriftForceFlag == 2
+elseif meanDrift == 2
     hydroData.hydro_coeffs.mean_drift =  reverseDimensionOrder(h5read(filename, [h5BodyName '/hydro_coeffs/mean_drift/momentum_conservation/val']));
 else
     error(['Wrong flag for mean drift force in body(' num2str(bodyNumber) ').'])

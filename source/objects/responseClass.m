@@ -59,7 +59,7 @@ classdef responseClass<handle
     %
     %.. autoattribute:: objects.responseClass.constraints
     %    
-	%   * ``name`` (`string`) = 'constraintName'
+    %   * ``name`` (`string`) = 'constraintName'
     %   * ``time`` (`array`) = [# of time-steps x 1]
     %   * ``position`` (`array`) = [# of time-steps x 6] The constraint position relative to the initial condition
     %   * ``velocity`` (`array`) = [# of time-steps x 6] The constraint velocity relative to the initial condition
@@ -81,7 +81,7 @@ classdef responseClass<handle
     %
     %.. autoattribute:: objects.responseClass.cables
     %    
-	%   * ``name`` (`string`) = 'cableName'
+    %   * ``name`` (`string`) = 'cableName'
     %   * ``time`` (`array`) = [# of time-steps x 1]
     %   * ``position`` (`array`) = [# of time-steps x 6]
     %   * ``velocity`` (`array`) = [# of time-steps x 6]
@@ -121,18 +121,18 @@ classdef responseClass<handle
     
     
     properties (SetAccess = 'public', GetAccess = 'public')
-        wave                = struct()     % This property contains a structure for each instance of the ``waveClass`` 
         bodies              = struct()     % This property contains a structure for each instance of the ``bodyClass`` (i.e. for each Body block)
-        ptos                = struct()     % This property contains a structure for each instance of the ``ptoClass`` (i.e. for each PTO block). PTO motion is relative from frame F to frame B. PTO forces act on frame F.
-        constraints         = struct()     % This property contains a structure for each instance of the ``constraintClass`` (i.e. for each Constraint block). Constraint motion is relative from frame F to frame B. Constraint forces act on frame F.
-        mooring             = struct()     % This property contains a structure for each instance of the ``mooringClass`` using the mooring matrix (i.e. for each MooringMatrix block)
         cables              = struct()     % This property contains a structure for each instance of the ``cableClass`` (i.e. for each Cable block)
+        constraints         = struct()     % This property contains a structure for each instance of the ``constraintClass`` (i.e. for each Constraint block). Constraint motion is relative from frame F to frame B. Constraint forces act on frame F.
         moorDyn             = struct()     % This property contains a structure for each instance of the ``mooringClass`` using MoorDyn (i.e. for each MoorDyn block)
+        mooring             = struct()     % This property contains a structure for each instance of the ``mooringClass`` using the mooring matrix (i.e. for each MooringMatrix block)
+        ptos                = struct()     % This property contains a structure for each instance of the ``ptoClass`` (i.e. for each PTO block). PTO motion is relative from frame F to frame B. PTO forces act on frame F.
         ptosim              = struct()     % This property contains a structure for each instance of the ``ptoSimClass`` (i.e. for each PTO-Sim block).
+        wave                = struct()     % This property contains a structure for each instance of the ``waveClass``         
     end
     
     methods (Access = 'public')
-        function obj = responseClass(bodiesOutput,ptosOutput,constraintsOutput,ptosimOutput,cablesOutput,mooringOutput,waveOutput, yawNonLin) 
+        function obj = responseClass(bodiesOutput,ptosOutput,constraintsOutput,ptosimOutput,cablesOutput,mooringOutput,waveOutput) 
             % This method initializes the ``responseClass``, reads 
             % output from each instance of a WEC-Sim class (e.g.
             % ``waveClass``, ``bodyClass``, ``ptoClass``, ``mooringClass``, etc)
@@ -158,11 +158,9 @@ classdef responseClass<handle
                 for jj = 1:length(signals)
                     obj.bodies(ii).(signals{jj}) = bodiesOutput(ii).signals.values(:, (jj-1)*6+1:(jj-1)*6+6);
                 end
-                if(yawNonLin==1)
+                if(bodiesOutput(ii).yaw==1)
                     for t = 1:length(obj.wave.time)
-                        % convert kinematic data from global frame to local
-                        % frame (for use with yawNonLin when yaw
-                        % displacements may be large). 
+                        % convert kinematic data from global frame to local frame (for use with yaw when yaw displacements may be large). 
                         rotMatYaw = eulXYZ2RotMat(0, 0, obj.bodies(ii).position(t,6));
                         rotMatGlobal = eulXYZ2RotMat(obj.bodies(ii).position(t,4), obj.bodies(ii).position(t,5), obj.bodies(ii).position(t,6));
                         rotMatLocal = rotMatYaw.' * rotMatGlobal;
@@ -346,7 +344,6 @@ classdef responseClass<handle
             xlabel('Time (s)')
             ylabel('Force (N) or Torque (N*m)')
             title(['body' num2str(bodyNum) ' (' obj.bodies(bodyNum).name ') ' DOF{comp} ' Forces'])
-
             clear t FT FE FRD FR FV FM i
         end
         
@@ -392,43 +389,35 @@ classdef responseClass<handle
                 options.timesPerFrame (1,1) double {mustBeReal, mustBeNonnegative, mustBeNonNan, mustBeFinite} = 1;
                 options.startEndTime (1,2) double {mustBeReal, mustBeNonnegative, mustBeNonNan} = [0 0];
                 options.saveSetting (1,1) double {mustBeNumericOrLogical} = 0;
-            end
-            
+            end            
             % Set time vector
             t = obj.wave.time(1:options.timesPerFrame*round(simu.dtOut/simu.dt,0):end,1);
             if isequal(options.startEndTime, [0 0])
                 options.startEndTime = [min(t) max(t)];
-            end
-            
+            end            
             % Create grid using provided x and y coordinates
             x = linspace(options.axisLimits(1),options.axisLimits(2),200);
             y = linspace(options.axisLimits(3),options.axisLimits(4),200);
-            [X,Y] = meshgrid(x,y);
-            
+            [X,Y] = meshgrid(x,y);            
             % Initialize maximum body height
             maxHeight = 0;
-
             % Read in data for each body
             for ibod=1:length(obj.bodies)
                 % Read and assign geometry data
-                bodyMesh(ibod).Points = body(ibod).bodyGeometry.vertex;
-                bodyMesh(ibod).Conns = body(ibod).bodyGeometry.faces;
-                
+                bodyMesh(ibod).Points = body(ibod).geometry.vertex;
+                bodyMesh(ibod).Conns = body(ibod).geometry.faces;                
                 % Read changes and assign angles and position changes over time
                 bodyMesh(ibod).deltaPos = [obj.bodies(ibod).position(1:options.timesPerFrame:end,1)-obj.bodies(ibod).position(1,1),... 
                 obj.bodies(ibod).position(1:options.timesPerFrame:end,2)-obj.bodies(ibod).position(1,2),...
-                obj.bodies(ibod).position(1:options.timesPerFrame:end,3)-obj.bodies(ibod).position(1,3)];
-            
+                obj.bodies(ibod).position(1:options.timesPerFrame:end,3)-obj.bodies(ibod).position(1,3)];            
                 % Save maximum body height
                 if max(bodyMesh(ibod).Points(:,3))+max(bodyMesh(ibod).deltaPos(:,3)) > maxHeight
                     maxHeight = max(bodyMesh(ibod).Points(:,3))+max(bodyMesh(ibod).deltaPos(:,3));
                 end
-            end
-            
+            end            
             if options.axisLimits(6) == -999
                 options.axisLimits(6) = maxHeight;
-            end
-            
+            end            
             if options.saveSetting == 0
                 % Create video file and open it for writing
                 video = VideoWriter('waveViz.avi'); 
@@ -437,12 +426,10 @@ classdef responseClass<handle
             elseif options.saveSetting == 1
                 % Create the gif file
                 gifFilename = 'waveViz.gif';
-            end
-            
+            end            
             % Initialize figure and image counter
             figure();
-            imageCount = 0;
-            
+            imageCount = 0;            
             for i=1:length(t)
                 if t(i) >= options.startEndTime(1) && t(i) <= options.startEndTime(2)
                     imageCount = imageCount + 1;
@@ -464,22 +451,18 @@ classdef responseClass<handle
                         trisurf(bodFinal,'FaceColor',[1 1 0],'EdgeColor','k','EdgeAlpha',.2)
                         hold on
                     end
-
                     % Create and wave elevation grid
-                    Z = waveElevationGrid(waves, t(i), X, Y, t(i), simu.dtOut, simu.g);
+                    Z = waveElevationGrid(waves, t(i), X, Y, simu.dtOut, simu.g);
                     surf(X,Y,Z,'FaceAlpha',.85,'EdgeColor','none')
                     hold on
-
                     % Display seafloor
                     seaFloor = -waves.waterDepth*ones(size(X, 1));
                     surf(X,Y,seaFloor,'FaceColor',[.4 .4 0],'EdgeColor','none');
                     hold on
-
                     % Time visual
                     nDecimals = max(0,ceil(-log10(simu.dtOut*options.timesPerFrame)));
                     nLeading = ceil(log10(max(t)));
                     tAnnot = sprintf(['time = %' num2str(nDecimals+nLeading+1) '.' num2str(nDecimals) 'f s'],t(i));
-
                     % Settings and labels
                     caxis([min(-waves.A) max(waves.A)])
                     colormap winter
@@ -491,13 +474,10 @@ classdef responseClass<handle
                     zlabel('z(m)')
                     daspect([1 1 1])
                     axis(options.axisLimits)
-
                     % Create figure while iterating through time loop
                     drawnow;
-
                     % Capture figure for saving
                     frame = getframe(gcf);
-
                     if options.saveSetting == 0
                         % Save to video
                         writeVideo(video,frame); 
@@ -511,19 +491,16 @@ classdef responseClass<handle
                             imwrite(imind,cm,gifFilename,'gif','WriteMode','append','DelayTime',simu.dtOut); 
                         end 
                     end
-
                     hold off
                 end
-            end
-            
+            end            
             % Close video file
             if options.saveSetting == 0
                 close(video); 
-            end
-            
+            end            
         end
         
-        function writetxt(obj)
+        function writeText(obj)
             % This method writes WEC-Sim outputs to a (ASCII) text file.
             % This method is executed by specifying ``simu.outputtxt=1``
             % in the ``wecSimInputFile.m``.
