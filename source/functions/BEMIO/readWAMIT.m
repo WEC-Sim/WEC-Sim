@@ -2,11 +2,11 @@ function hydro = readWAMIT(hydro,filename,exCoeff)
 % Reads data from a WAMIT output file.
 % 
 % If generalized body modes are used, the
-% output directory must also include the *.cfg, *.mmx, and *.hst files.
-% And, if simu.nlHydro = 3 will be used, the output directory must also
+% output directory must also include the \*.cfg, \*.mmx, and \*.hst files.
+% And, if simu.nonlinearHydro = 3 will be used, the output directory must also
 % include the .3fk and .3sc files.
 % 
-% See ``WEC-Sim\examples\BEMIO\WAMIT`` for examples of usage.
+% See ``WEC-Sim/examples/BEMIO/WAMIT`` for examples of usage.
 % 
 % Parameters
 % ----------
@@ -83,16 +83,16 @@ for n = 1:N
         hydro(F).cb(:,hydro(F).Nb) = hydro(F).cg(:,hydro(F).Nb) + tmp{1};  % Center of buoyancy
     end
     if isempty(strfind(raw{n},'Hydrostatic and gravitational'))==0
-        hydro(F).C(:,:,hydro(F).Nb) = zeros(6,6);  % Linear restoring stiffness
+        hydro(F).Khs(:,:,hydro(F).Nb) = zeros(6,6);  % Linear restoring stiffness
         tmp = textscan(raw{n+1}(find(raw{n+1}==':')+1:end),'%f');
-        hydro(F).C(3,3:5,hydro(F).Nb) = tmp{1};
-        hydro(F).C(3:5,3,hydro(F).Nb) = tmp{1};
+        hydro(F).Khs(3,3:5,hydro(F).Nb) = tmp{1};
+        hydro(F).Khs(3:5,3,hydro(F).Nb) = tmp{1};
         tmp = textscan(raw{n+2}(find(raw{n+2}==':')+1:end),'%f');
-        hydro(F).C(4,4:6,hydro(F).Nb) = tmp{1};
-        hydro(F).C(4:6,4,hydro(F).Nb) = tmp{1};
+        hydro(F).Khs(4,4:6,hydro(F).Nb) = tmp{1};
+        hydro(F).Khs(4:6,4,hydro(F).Nb) = tmp{1};
         tmp = textscan(raw{n+3}(find(raw{n+3}==':')+1:end),'%f');
-        hydro(F).C(5,5:6,hydro(F).Nb) = tmp{1};
-        hydro(F).C(5:6,5,hydro(F).Nb) = tmp{1};
+        hydro(F).Khs(5,5:6,hydro(F).Nb) = tmp{1};
+        hydro(F).Khs(5:6,5,hydro(F).Nb) = tmp{1};
     end
     if isempty(strfind(raw{n},'Wave period'))==0
         if isempty(strfind(raw{n},'Wave period = infinite'))==0  T = 0;  end
@@ -133,7 +133,7 @@ for n = 1:N
         while isempty(strfind(raw{i},'Wave Heading'))==0
             hydro(F).Nh = hydro(F).Nh+1;
             tmp = textscan(raw{i}(find(raw{i}==':')+1:end),'%f');
-            hydro(F).beta(hydro(F).Nh) = tmp{1};  % Wave headings
+            hydro(F).theta(hydro(F).Nh) = tmp{1};  % Wave headings
             i = i+2;
             while (isempty(strfind(raw{i},'*******************************'))~=0 & ...
                     isempty(strfind(raw{i},'EXCITING FORCES AND MOMENTS'))~=0 & ...
@@ -164,7 +164,7 @@ for n = 1:N
         while isempty(strfind(raw{i},'Wave Heading'))==0
             hydro(F).Nh = hydro(F).Nh+1;
             tmp = textscan(raw{i}(find(raw{i}==':')+1:end),'%f');
-            hydro(F).beta(hydro(F).Nh) = tmp{1}(1);  % Wave headings
+            hydro(F).theta(hydro(F).Nh) = tmp{1}(1);  % Wave headings
             i = i+2;
             while (isempty(strfind(raw{i},'*******************************'))~=0 & ...
                     isempty(strfind(raw{i},'EXCITING FORCES AND MOMENTS'))~=0 & ...
@@ -194,7 +194,7 @@ for n = 1:N
         while isempty(strfind(raw{i},'Wave Heading'))==0
             hydro(F).Nh = hydro(F).Nh+1;
             tmp = textscan(raw{i}(find(raw{i}==':')+1:end),'%f');
-            hydro(F).beta(hydro(F).Nh) = tmp{1}(1);  % Wave headings
+            hydro(F).theta(hydro(F).Nh) = tmp{1}(1);  % Wave headings
             i = i+2;
             while (isempty(strfind(raw{i},'*******************************'))~=0 & ...
                     isempty(strfind(raw{i},'EXCITING FORCES AND MOMENTS'))~=0 & ...
@@ -224,7 +224,7 @@ for n = 1:N
         while isempty(strfind(raw{i},'Wave Heading'))==0
             hydro(F).Nh = hydro(F).Nh+1;
             tmp = textscan(raw{i}(find(raw{i}==':')+1:end),'%f');
-            hydro(F).beta(hydro(F).Nh) = tmp{1}(1);  % Wave headings
+            hydro(F).theta(hydro(F).Nh) = tmp{1}(1);  % Wave headings
             i = i+2;
             while (isempty(strfind(raw{i},'*******************************'))~=0 & ...
                     isempty(strfind(raw{i},'EXCITING FORCES AND MOMENTS'))~=0 & ...
@@ -351,7 +351,7 @@ if exist([tmp{1} '.cfg'],'file')==2
         for n = 2:N
             tmp = textscan(raw{n},'%f');
             hydro(F).gbm(tmp{1,1}(1),tmp{1,1}(2),4) = tmp{1,1}(3);  % gbm[:,:,4] - Hydrostatic Stiffness
-        end     % hydro.gbm([1:6],[1:6],4) will be redundant of rigid body hydro.C values
+        end     % hydro.gbm([1:6],[1:6],4) will be redundant of rigid body hydro.Khs values
     end
 end
 

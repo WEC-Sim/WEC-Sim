@@ -1,10 +1,10 @@
-function f  = waveElevation(x,center,cg,AH,w,dw,k,typeNum,t,rampT,phaseRand,waveDir)
+function f  = waveElevation(x,center,cg,AH,w,dw,k,typeNum,t,rampT,phaseRand,direction)
 % Function to calculate the wave elevation at the ceontroids of triangulated surface
 % NOTE: This function assumes that the STL file is imported with its CG at 0,0,0
-f = calc_elev(x,center,cg,AH,w,dw,k,typeNum,t,rampT,phaseRand, waveDir);
+f = calc_elev(x,center,cg,AH,w,dw,k,typeNum,t,rampT,phaseRand, direction);
 end
 
-function f = calc_elev(x,center,cg,AH,w,dw,k,typeNum,t,rampT,phaseRand,waveDir)
+function f = calc_elev(x,center,cg,AH,w,dw,k,typeNum,t,rampT,phaseRand,direction)
 % Function to rotate and translate body and call wave elevation function at new locations
 
 % Compute new tri center coords after cog rotation and translation
@@ -14,15 +14,15 @@ center = rotateXYZ(center,[0 0 1],x(6));
 center = offsetXYZ(center,x);
 center = offsetXYZ(center,cg);
 % Calculate the free surface
-f=waveElev(center,AH,w,dw,t,k,rampT,phaseRand,typeNum,waveDir);
+f=waveElev(center,AH,w,dw,t,k,rampT,phaseRand,typeNum,direction);
 end
 
-function f=waveElev(center,AH,w,dw,t,k,rampT,phaseRand,typeNum,waveDir)
+function f=waveElev(center,AH,w,dw,t,k,rampT,phaseRand,typeNum,direction)
 % Function to calculate the wave elevation at an array of points
 f = zeros(length(center(:,3)),1);
 cx = center(:,1);
 cy = center(:,2);
-X = cx*cos(waveDir*pi/180) + cy*sin(waveDir*pi/180);
+X = cx*cos(direction*pi/180) + cy*sin(direction*pi/180);
 if typeNum <10
 elseif typeNum <20
     f = AH(1).*cos(k(1).*X-w(1)*t);

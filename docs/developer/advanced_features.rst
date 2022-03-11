@@ -7,13 +7,13 @@ Advanced Features
 Added Mass
 -----------
 
-.. include:: added_mass.rst
+.. include:: /_include/added_mass.rst
 
 
 Morison Element
 ---------------
 
-.. include:: morison_element.rst
+.. include:: /_include/morison_element.rst
 
 .. TO DO: add passive yaw
 .. TO DO: add morison element

@@ -1,6 +1,6 @@
-function writeParaviewWave(waves, t, numPointsX, numPointsY, domainSize, model, simdate, mooring, pathParaviewVideo,TimeBodyParav,g)
+function writeParaviewWave(waves, t, numPointsX, numPointsY, domainSize, model, simdate, mooring, paraview.path,TimeBodyParav,g)
 % Method to write ``vtp`` Paraview visualization files for the waveClass.
-% Executed by paraviewVisualization.m when simu.paraview=1 in the 
+% Executed by paraviewVisualization.m when simu.paraview.option=1 in the 
 % wecSimInputFile.m
 % 
 % Parameters
@@ -21,7 +21,7 @@ function writeParaviewWave(waves, t, numPointsX, numPointsY, domainSize, model, 
 %       Date and time of the simulation
 %   mooring : int
 %       MoorDyn flag
-%   pathParaviewVideo : directory
+%   paraview.path : directory
 %       Directory the Paraview files were saved
 %   TimeBodyParav : float vector
 %       Paraview time vector
@@ -30,7 +30,7 @@ function writeParaviewWave(waves, t, numPointsX, numPointsY, domainSize, model, 
 % 
 
 % ground plane
-filename = [pathParaviewVideo, filesep 'ground.txt'];
+filename = [paraview.path, filesep 'ground.txt'];
 fid = fopen(filename, 'w');
 fprintf(fid,[num2str(domainSize) '\n']);
 fprintf(fid,[num2str(waves.waterDepth) '\n']);
@@ -46,10 +46,10 @@ numVertex = lx * ly;
 numFace = (lx-1) * (ly-1);
 for it = 1:length(t)
     % open file
-    filename = [pathParaviewVideo, filesep 'waves' filesep 'waves_' num2str(it) '.vtp'];
+    filename = [paraview.path, filesep 'waves' filesep 'waves_' num2str(it) '.vtp'];
     fid = fopen(filename, 'w');
     % calculate wave elevation
-    Z = waveElevationGrid (waves, t(it), X, Y, TimeBodyParav, it, g);                % write header
+    Z = waveElevationGrid (waves, t(it), X, Y, it, g);                % write header
     fprintf(fid, '<?xml version="1.0"?>\n');
     fprintf(fid, ['<!-- WEC-Sim Visualization using ParaView -->\n']);
     fprintf(fid, ['<!--   model: ' model ' - ran on ' simdate ' -->\n']);

@@ -28,24 +28,24 @@ classdef mooringClass<handle
     %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%    
     % This class contains mooring parameters and settings
     properties (SetAccess = 'public', GetAccess = 'public')%input file 
-        name                    = 'NOT DEFINED'                                 % (`string`) Name of the mooring. Default = ``'NOT DEFINED'``
-        ref                     = [0 0 0]                                       % (`float 1 x 3`) Mooring Reference location. Default = ``[0 0 0]``        
-        matrix                  = struct(...                                    % (`obj`) Structure defining damping, stiffness, and pre-tension. Defaults = ``zeros(6,6), zeros(6,6), zeros(1,6)`` respectively
-                                         'c',          zeros(6,6), ...              
-                                         'k',          zeros(6,6), ...             
-                                         'preTension', [0 0 0 0 0 0])               
         initDisp                = struct(...                                    % (`obj`) Structure defining initial linear displacement, angular displacement axis, and angular displacement angle (radian). Defaults = ``zeros(1,3), zeros(1,3), 0`` respectively
                                    'initLinDisp', [0 0 0], ...                      
-                                   'initAngularDispAxis',  [0 1 0], ...           
+                                   'initAngularDispAxis', [0 1 0], ...           
                                    'initAngularDispAngle', 0)               
+        location                = [0 0 0]                                       % (`float 1 x 3`) Mooring Reference location. Default = ``[0 0 0]``        
+        matrix                  = struct(...                                    % (`obj`) Structure defining damping, stiffness, and pre-tension. Defaults = ``zeros(6,6), zeros(6,6), zeros(1,6)`` respectively
+                                         'damping', zeros(6,6), ...              
+                                         'stiffness',zeros(6,6), ...             
+                                         'preTension', [0 0 0 0 0 0])               
         moorDynLines            = 0                                             % (`integer`) Number of lines in MoorDyn. Default = ``0``
         moorDynNodes            = []                                            % (`integer`) number of nodes for each line. Default = ``'NOT DEFINED'``
+        name                    = 'NOT DEFINED'                                 % (`string`) Name of the mooring. Default = ``'NOT DEFINED'``
     end
 
     properties (SetAccess = 'public', GetAccess = 'public') %internal
-        loc                     = []                                            % (`float 1 x 6`) Initial 6DOF location. Default = ``[0 0 0 0 0 0]``
-        mooringNum              = []                                            % (`integer`) Mooring number. Default = ``'NOT DEFINED'``
         moorDyn                 = 0                                             % (`integer`) Flag to indicate a MoorDyn block, 0 or 1. Default = ``0``
+        number                  = []                                            % (`integer`) Mooring number. Default = ``'NOT DEFINED'``        
+        orientation             = []                                            % (`float 1 x 6`) Initial 6DOF location. Default = ``[0 0 0 0 0 0]``        
     end
 
     methods (Access = 'public')                                        
@@ -56,7 +56,7 @@ classdef mooringClass<handle
 
         function obj = setLoc(obj)
             % This method sets mooring location
-            obj.loc = [obj.ref + obj.initDisp.initLinDisp 0 0 0];
+            obj.orientation = [obj.location + obj.initDisp.initLinDisp 0 0 0];
         end
 
         function setInitDisp(obj, relCoord, axisAngleList, addLinDisp)
@@ -64,7 +64,7 @@ classdef mooringClass<handle
             % 
             % This function assumes that all rotations are about the same relative coordinate. 
             % If not, the user should input a relative coordinate of 0,0,0 and 
-            % use the additional linear displacement parameter to set the cg or loc
+            % use the additional linear displacement parameter to set the cg or orientation
             % correctly.
             %
             % Parameters
@@ -87,25 +87,20 @@ classdef mooringClass<handle
             axisList = axisAngleList(:,1:3);
             angleList = axisAngleList(:,4);
             nAngle = size(axisList,1);
-            rotMat = eye(3);
-            
+            rotMat = eye(3);            
             % Loop through all axes and angles.
             for i=1:nAngle
                 rotMat = axisAngle2RotMat(axisList(i,:),angleList(i))*rotMat;
             end
-
             % calculate net axis-angle rotation
             [netAxis, netAngle] = rotMat2AxisAngle(rotMat);
-
             % calculate net displacement due to rotation
             rotatedRelCoord = relCoord*(rotMat');
             linDisp = rotatedRelCoord - relCoord;
-
             % apply rotation and displacement to object
             obj.initDisp.initLinDisp = linDisp + addLinDisp;
             obj.initDisp.initAngularDispAxis = netAxis;
-            obj.initDisp.initAngularDispAngle = netAngle;
-            
+            obj.initDisp.initAngularDispAngle = netAngle;            
         end
         
         function listInfo(obj)

@@ -26,8 +26,8 @@ if n>1
     for i = 2:n
         if max(abs(hydro(i).h-hydro(i-1).h)) > tol
             error('Error: Inconsistent water depth');
-        elseif (size(hydro(i).beta) ~= size(hydro(i-1).beta)) | ...
-                (max(abs(sort(hydro(i).beta)-sort(hydro(i-1).beta))) > tol)
+        elseif (size(hydro(i).theta) ~= size(hydro(i-1).theta)) | ...
+                (max(abs(sort(hydro(i).theta)-sort(hydro(i-1).theta))) > tol)
             error('Error: Inconsistent wave headings');
         elseif (size(hydro(i).T) ~= size(hydro(i-1).T)) | ...
                 (max(abs(sort(hydro(i).T)-sort(hydro(i-1).T))) > tol)
@@ -36,9 +36,9 @@ if n>1
     end
     
     n = n+1;
-    hydro(n).beta = hydro(1).beta;
+    hydro(n).theta = hydro(1).theta;
     hydro(n).body = [];
-    hydro(n).C = [];
+    hydro(n).Khs = [];
     hydro(n).cb = [];
     hydro(n).cg = [];
     hydro(n).code = [];
@@ -67,7 +67,7 @@ if n>1
     hydro(n).w = hydro(1).w;
     for i = 1:(n-1)
         hydro(n).body = [hydro(n).body, hydro(i).body];
-        hydro(n).C = cat(3, hydro(n).C, hydro(i).C);
+        hydro(n).Khs = cat(3, hydro(n).Khs, hydro(i).Khs);
         hydro(n).cb = [hydro(n).cb, hydro(i).cb];
         hydro(n).cg = [hydro(n).cg, hydro(i).cg];
         hydro(n).code = [hydro(n).code, hydro(i).code];
