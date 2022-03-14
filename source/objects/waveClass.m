@@ -26,33 +26,33 @@ classdef waveClass<handle
     %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
     
     properties (SetAccess = 'public', GetAccess = 'public')%input file     
-        T = 'NOT DEFINED';          % (`float`) Wave period [s] . Defined as wave period for ``regular``, peak period for ``irregular``, or period of BEM data used for hydrodynamic coefficients for ``noWave``. Default = ``'NOT DEFINED'``
-        H = 'NOT DEFINED';          % (`float`) Wave height [m]. Defined as wave height for ``regular``, or significant wave height for ``irregular``. Default =  ``'NOT DEFINED'``
-        bem = struct(...            % (`structure`) Defines the BEM data implemtation. 
+        T = 'NOT DEFINED';                % (`float`) Wave period [s] . Defined as wave period for ``regular``, peak period for ``irregular``, or period of BEM data used for hydrodynamic coefficients for ``noWave``. Default = ``'NOT DEFINED'``
+        H = 'NOT DEFINED';                % (`float`) Wave height [m]. Defined as wave height for ``regular``, or significant wave height for ``irregular``. Default =  ``'NOT DEFINED'``
+        bem = struct(...                  % (`structure`) Defines the BEM data implemtation. 
             'option',	'EqualEnergy',...   % 
             'count',	[], ...             %             
-            'frequency',[], ...             %             
+            'frequency',[], ...           %             
             'range',	[])                 % (`structure`) Defines the BEM data implemtation. ``option`` (`string`) Method of frequency discretization for irregular waves, options include: ``'EqualEnergy'`` or ``'Traditional'``. Default = ``'EqualEnergy'``. ``count`` (`integer`) Number of interpolated wave frequencies, only used for ``irregular`` and ``spectrumImport``. Number of frequencies used varies depending on ``bem.option``, 1000 for ``'Traditional'``, and 500 for ``'EqualEnergy'`` and ``Imported``. Default = ``[]``. ``frequency`` (`vector`) Wave frequencies [rad/s] from BEM. Default = ``[]``. ``range`` (`2x1 vector`) Min and max wave frequency [rad/s], only used for ``irregular`` and ``spectrumImport``. If not specified, the BEM data frequency range is used. Default = ``[]``     
-        current = struct(...        % (`structure`) Defines the current implementation. 
-            'option',	3,...           %
-            'depth',	0, ...          %
-            'direction',0, ...          %
-            'speed',	0)              % (`structure`) Defines the current implementation. ``option`` (`integer`) Define the sub-surface current model to be used in WEC-Sim, options include: ``0`` for depth-independent model, ``1`` for 1/7 power law variation with depth, ``2`` for linear variation with depth, or ``3`` for no current. Default = ``3``, ``depth`` (`float`) Current depth [m]. Define the depth over which the sub-surface current is modeled. Must be defined for options ``1`` and ``2``. The current is not calculated for any depths greater than the specified current depth. Default = ``0``, ``direction`` (`float`) Current direction [deg]. Surface current direction defined using WEC-Sim global coordinate system. Default = ``0``, ``speed``  (`float`) Current seed [m/s]. Surface current speed that is uniform along the water column. Default = ``0``         
-        direction = 0;              % (`float`) Incident wave direction(s) [deg]. Incident wave direction defined using WEC-Sim global coordinate system. Should be defined as a column vector for more than one wave direction. Default = ``0``
-        elevationFile = 'NOT DEFINED';  % (`string`) Data file that contains the times-series data file. Default = ``'NOT DEFINED'``
-        gamma = [];                 % (`float`) Defines gamma, only used for ``JS`` wave spectrum type. Default = ``[]``        
-        marker = struct(...         % (`structure`) Defines the wave marker. 
-            'location',      [],...          % 
-            'size',     10, ...         %             
-            'style',	1)              % (`structure`) Defines the wave marker. `loc` (`nx2 vector`) Marker [X,Y] locations [m]. Default = ``[]``. ``size`` (`float`) Marker size in Pixels. Default = ``10``. ``style`` Marker style, options include: ``1``: Sphere, ``2``: Cube, ``3``: Frame. Default = ``1``: Sphere        
-        phaseSeed = 0;              % (`integer`) Defines the random phase seed, only used for ``irregular`` and ``spectrumImport`` waves. Default = ``0``
-        spectrumFile = 'NOT DEFINED';   % (`string`) Data file that contains the spectrum data file.  Default = ``'NOT DEFINED'``                
-        spectrumType = 'NOT DEFINED';   % (`string`) Specifies the wave spectrum type, options inlcude:``PM`` or ``JS``. Default = ``'NOT DEFINED'``
-        type = 'NOT DEFINED';       % (`string`) Specifies the wave type, options include:``noWave``, ``noWaveCIC``, ``regular``, ``regularCIC``, ``irregular``, ``spectrumImport``, or ``elevationImport``. Default = ``'NOT DEFINED'``
-        viz = struct( 'numPointsX', 50, ...
+        current = struct(...              % (`structure`) Defines the current implementation. 
+            'option' {mustBeMember(currentOption,0:3)},	3,...               %
+            'depth' {mustBeNonnegative},	0, ...              %
+            'direction',0, ...            %
+            'speed',	0)                  % (`structure`) Defines the current implementation. ``option`` (`integer`) Define the sub-surface current model to be used in WEC-Sim, options include: ``0`` for depth-independent model, ``1`` for 1/7 power law variation with depth, ``2`` for linear variation with depth, or ``3`` for no current. Default = ``3``, ``depth`` (`float`) Current depth [m]. Define the depth over which the sub-surface current is modeled. Must be defined for options ``1`` and ``2``. The current is not calculated for any depths greater than the specified current depth. Default = ``0``, ``direction`` (`float`) Current direction [deg]. Surface current direction defined using WEC-Sim global coordinate system. Default = ``0``, ``speed``  (`float`) Current seed [m/s]. Surface current speed that is uniform along the water column. Default = ``0``         
+        direction = 0;                    % (`float`) Incident wave direction(s) [deg]. Incident wave direction defined using WEC-Sim global coordinate system. Should be defined as a column vector for more than one wave direction. Default = ``0``
+        elevationFile = 'NOT DEFINED';    % (`string`) Data file that contains the times-series data file. Default = ``'NOT DEFINED'``
+        gamma = [];                       % (`float`) Defines gamma, only used for ``JS`` wave spectrum type. Default = ``[]``        
+        marker = struct(...               % (`structure`) Defines the wave marker. 
+            'location',      [],...       % 
+            'size' {mustBePositive},     10, ...           %             
+            'style' {mustBeMember(markerStyle,1:3)},	1) % (`structure`) Defines the wave marker. `loc` (`nx2 vector`) Marker [X,Y] locations [m]. Default = ``[]``. ``size`` (`float`) Marker size in Pixels. Default = ``10``. ``style`` Marker style, options include: ``1``: Sphere, ``2``: Cube, ``3``: Frame. Default = ``1``: Sphere        
+        phaseSeed {mustBeInteger} = 0;    % (`integer`) Defines the random phase seed, only used for ``irregular`` and ``spectrumImport`` waves. Default = ``0``
+        spectrumFile = 'NOT DEFINED';     % (`string`) Data file that contains the spectrum data file.  Default = ``'NOT DEFINED'``                
+        spectrumType = 'NOT DEFINED';     % (`string`) Specifies the wave spectrum type, options inlcude:``PM`` or ``JS``. Default = ``'NOT DEFINED'``
+        type = 'NOT DEFINED';             % (`string`) Specifies the wave type, options include:``noWave``, ``noWaveCIC``, ``regular``, ``regularCIC``, ``irregular``, ``spectrumImport``, or ``elevationImport``. Default = ``'NOT DEFINED'``
+        viz = struct( 'numPointsX', 50, ... %
                       'numPointsY', 50 ); % (`structure`) Defines visualization options, structure contains the fields ``numPointsX`` for the number of visualization points in x direction, and ``numPointsY`` for the number of visualization points in y direction. 
-        waterDepth = [];            % (`float`) Water depth [m]. Default to BEM water depth if not set. 
-        spread = 1;                 % (`float`) Wave Spread probability associated with wave direction(s). Should be defined as a column vector for more than one wave direction. Default = ``1``
+        waterDepth {mustBePositive} = []; % (`float`) Water depth [m]. Default to BEM water depth if not set. 
+        spread = 1;                       % (`float`) Wave Spread probability associated with wave direction(s). Should be defined as a column vector for more than one wave direction. Default = ``1``
     end    
   
     properties (SetAccess = 'private', GetAccess = 'public')%internal       
@@ -123,51 +123,6 @@ classdef waveClass<handle
                 case 'elevationImport'        % Waves with imported wave elevation time-history
                     obj.typeNum = 30;
             end
-        end
-        
-        function checkinputs(obj)
-            % This method checks WEC-Sim user inputs and generates error messages if parameters are not properly defined.             
-           
-            % check waves types
-            types = {'noWave', 'noWaveCIC', 'regular', 'regularCIC', 'irregular', 'spectrumImport', 'elevationImport'};
-            if sum(strcmp(types,obj.type)) ~= 1
-                error(['Unexpected wave environment type setting, choose from: ' ...
-                    '"noWave", "noWaveCIC", "regular", "regularCIC", "irregular", "spectrumImport", and "elevationImport".'])
-            end
-            % 'noWave' period undefined for hydro data
-            if strcmp(obj.type,'noWave')
-                if strcmp(obj.T,'NOT DEFINED')
-                    error('"waves.T" must be defined for the hydrodynamic data period when using the "noWave" wave type');
-                end
-            end
-            % check 'waves.bem' fields
-            if length(fieldnames(obj.bem)) ~=4
-                error(['Unrecognized method, property, or field for class "waveClass", ' ... 
-                    '"waveClass.bem" structure must only include fields: "option", "count", "frequency", "range"']);
-            end
-            % check 'waves.current' fields
-            if length(fieldnames(obj.current)) ~=4
-                error(['Unrecognized method, property, or field for class "waveClass", ' ... 
-                    '"waveClass.current" structure must only include fields: "option", "depth", "direction", "speed"']);
-            end            
-            % 'elevationFile' defined for 'elevationImport' case
-            if strcmp(obj.type,'elevationImport')
-                if strcmp(obj.elevationFile,'NOT DEFINED')
-                    error('"elevationFile" must be defined when using the "elevationImport" wave type');
-                end
-            end            
-            % 'spectrumFile' defined for 'spectrumImport' case
-            if strcmp(obj.type,'spectrumImport')
-                if strcmp(obj.spectrumFile,'NOT DEFINED')
-                    error('"spectrumFile" must be defined when using the "spectrumImport" wave type');
-                end
-            end
-            % check 'marker.location'
-            if ~isempty(obj.marker.location)
-                if ~ndims(obj.marker.location)==2
-                    error('The coordinates of the visualization markers should have an ordinate (y-coordinate) and an abscissa (x-coordinate)')
-                end
-            end                        
         end
                 
         function setup(obj,bemFreq,bemWaterDepth,rampTime,dt,maxIt,time,g,rho)
@@ -313,7 +268,7 @@ classdef waveClass<handle
                     fprintf(['\tWave Elevation Time-Series File    	= ' obj.elevationFile '  \n'])
             end
         end
-        
+
         function calculateElevation(obj,rampTime,timeseries)
             % Calculates the wave elevation based on the wave type.
             % Used by postProcess.m
@@ -345,6 +300,96 @@ classdef waveClass<handle
                     % Used by waveClass.setup()
             end
         end                
+
+        function waveNumber(obj,g)
+            % This method calculates the wave number, 
+            % used by: :meth:`waveClass.waveSetup`.
+            % 
+            obj.k = obj.w.^2./g;
+            if obj.deepWaterWave == 0
+                for i=1:100
+                    obj.k = obj.w.^2./g./tanh(obj.k.*obj.waterDepth);
+                end
+            end
+        end
+        
+        function checkInputs(obj)
+            % This method checks WEC-Sim user inputs and generates error
+            % messages if parameters are not properly defined. 
+            
+            % Check 'marker.location'
+            if ~isempty(obj.marker.location) && ~ndims(obj.marker.location)==2
+                error('The coordinates of the visualization markers should have an ordinate (y-coordinate) and an abscissa (x-coordinate)')
+            end
+            
+            % Check wave spread
+            if sum(obj.spread)~=1
+                error('The wave spread should always sum to 1 to preserve spectrum/energy accuracy.')
+            end
+            
+            % Check inputs based on type
+            if strcmp(obj.type,'noWave') && strcmp(obj.T,'NOT DEFINED')
+                error('"waves.T" must be defined for the hydrodynamic data period when using the "noWave" wave type');
+            end    
+            if strcmp(obj.type,'noWaveCIC') && ~strcmp(obj.T,'NOT DEFINED')
+                warning('"waves.T" is not used for the hydrodynamic data period when using the "noWaveCIC" wave type')
+            end
+            if strcmp(obj.type,'regular') || strcmp(obj.type,'regularCIC')
+                if strcmp(obj.T,'NOT DEFINED') || strcmp(obj.H,'NOT DEFINED')
+                    error('"waves.T" and "waves.H" need to be defined for "regular" and "regularCIC" wave types')
+                end
+                if ~strcmp(obj.spectrumType,'NOT DEFINED')
+                    warning('"waves.spectrumType" is not used for the "regular" and "regularCIC" wave types')
+                end
+            end
+            if strcmp(obj.type,'irregular')
+                if strcmp(obj.spectrumType,'NOT DEFINED')
+                    error('"waves.spectrumType" needs to be defined for "irregular" wave types')
+                end
+                if strcmp(obj.T,'NOT DEFINED') || strcmp(obj.H,'NOT DEFINED')
+                    error('"waves.T" and "waves.H" need to be defined for "irregular" wave types')
+                end
+            end
+            
+            % Spectrum import checks
+            if strcmp(obj.type,'spectrumImport')
+                if strcmp(obj.spectrumFile,'NOT DEFINED')
+                    error('The "waves.spectrumFile" variable must be defined when using the "spectrumImport" wave type');
+                end
+                if ~strcmp(obj.T,'NOT DEFINED') || ~strcmp(obj.H,'NOT DEFINED')
+                    warning('"waves.T" and "waves.H" are not used for "spectrumImport" wave types')
+                end
+            end
+            
+            % Elevation import checks
+            if strcmp(obj.type,'elevationImport')
+                if strcmp(obj.elevationFile,'NOT DEFINED')
+                    error('The "waves.elevationFile" variable must be defined when using the "elevationImport" wave type');
+                end
+                if ~strcmp(obj.T,'NOT DEFINED') || ~strcmp(obj.H,'NOT DEFINED')
+                    warning('"waves.T" and "waves.H" are not used for "etaImport" wave types')
+                end
+            end
+            
+            % Check 'waves.bem' fields
+            if length(fieldnames(obj.bem)) ~=4
+                error(['Unrecognized method, property, or field for class "waveClass", ' ... 
+                    '"waveClass.bem" structure must only include fields: "option", "count", "frequency", "range"']);
+            end
+            
+            % Check 'waves.current' fields
+            if length(fieldnames(obj.current)) ~=4
+                error(['Unrecognized method, property, or field for class "waveClass", ' ... 
+                    '"waveClass.current" structure must only include fields: "option", "depth", "direction", "speed"']);
+            end      
+            
+            % Check wave type
+            types = {'noWave', 'noWaveCIC', 'regular', 'regularCIC', 'irregular', 'spectrumImport', 'elevationImport'};
+            if sum(strcmp(types,obj.type)) ~= 1
+                error(['Unexpected wave environment type setting, choose from: ' ...
+                    '"noWave", "noWaveCIC", "regular", "regularCIC", "irregular", "spectrumImport", and "elevationImport".'])
+            end
+        end
         
         function Z = waveElevationGrid(obj, t, X, Y, it, g)
             % This method calculates wave elevation on a grid at a given
@@ -508,6 +553,10 @@ classdef waveClass<handle
                 else
                     obj.deepWater = 0;
                     obj.waterDepth = double(bemWaterDepth);
+                end
+            else
+                if ~isempty(bemWaterDepth)
+                    warning('Because water depth is specified in the wecSimInputFile, the water depth from the BEM data is ignored')
                 end
             end
         end

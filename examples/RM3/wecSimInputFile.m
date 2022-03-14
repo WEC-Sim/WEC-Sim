@@ -59,10 +59,10 @@ body(1) = bodyClass('hydroData/rm3.h5');
     % Create the body(1) Variable, Set Location of Hydrodynamic Data File 
     % and Body Number Within this File.   
 body(1).geometryFile = 'geometry/float.stl';    % Location of Geomtry File
-body(1).mass = 'equilibrium';                   
+body(1).mass = 'equilibrium'; 
     % Body Mass. The 'equilibrium' Option Sets it to the Displaced Water 
     % Weight.
-body(1).momOfInertia = [20907301 21306090.66 37085481.11];  %Moment of Inertia [kg*m^2]     
+body(1).momOfInertia = [20907301 21306090.66 37085481.11];  %Moment of Inertia [kg*m^2]  
 
 % Spar/Plate
 body(2) = bodyClass('hydroData/rm3.h5'); 
@@ -76,6 +76,7 @@ constraint(1) = constraintClass('Constraint1'); % Initialize Constraint Class fo
 constraint(1).location = [0 0 0];                    % Constraint Location [m]
 
 % Translational PTO
+pto(1).k = 0;
 pto(1) = ptoClass('PTO1');                      % Initialize PTO Class for PTO1
 pto(1).stiffness = 0;                                   % PTO Stiffness [N/m]
 pto(1).damping = 1200000;                             % PTO Damping [N/(m/s)]

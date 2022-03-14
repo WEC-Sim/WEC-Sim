@@ -111,7 +111,11 @@ classdef bodyClass<handle
             %     body : obj
             %         bodyClass object
             %
-            obj.h5File = filename;
+            if exist('filename','var')
+                obj.h5File = filename;
+            else
+                error('The body class number(s) in the wecSimInputFile must be specified in ascending order starting from 1. The bodyClass() function should be called first to initialize each body with an h5 file.')
+            end
         end
         
         function checkinputs(obj)
@@ -440,8 +444,75 @@ classdef bodyClass<handle
             trimesh(tri,p(:,1),p(:,2),p(:,3))
             quiver3(c(:,1),c(:,2),c(:,3),n(:,1),n(:,2),n(:,3))
         end
+
+        function checkInputs(obj,domainSize,explorer)
+            % This method checks WEC-Sim user inputs for each body and generates error messages if parameters are not properly defined for the bodyClass.
+            % Check h5 file
+            if exist(obj.h5File,'file')==0 && obj.nhBody==0
+                error('The hdf5 file %s does not exist',obj.h5File)
+            end
+            % Check definitions
+            if (~isnumeric(obj.mass) && ~strcmp(obj.mass, 'equilibrium') && ~strcmp(obj.mass, 'fixed')) || isempty(obj.mass)
+                error('Body mass needs to be defined numerically or set to ''equilibrium''.')
+            end
+            if isempty(obj.momOfInertia) && ~strcmp(obj.mass, 'fixed')
+                error('Body moment of inertia needs to be defined for all non-fixed bodies.')
+            end
+            if strcmp(explorer, 'on') %if mechanics explorer is set to on
+                % Check geometry file
+                if exist(obj.geometryFile,'file') == 0
+                    error('Could not locate and open geometry file %s',obj.geometryFile)
+                end
+                % Check mesh size
+                tr = stlread(obj.geometryFile);
+                obj.bodyGeometry.vertex = tr.Points;
+                if max(obj.bodyGeometry.vertex) > domainSize/2
+                    error('STL mesh is larger than the domain. Reminder: WEC-Sim requires that the STL be saved with units of meters for accurate visualization.')
+                elseif max(obj.bodyGeometry.vertex) > domainSize/4
+                    warning('STL mesh is very large compared to the domain. Reminder: WEC-Sim requires that the STL be saved with units of meters for accurate visualization.')
+                end
+            end
+        end
         
+        function checkHydroInputs(obj,morisonElement)
+            % This method checks WEC-Sim user inputs for each hydro body and generates error messages if parameters are not properly defined for the bodyClass.
+            % Check Morison Element Inputs for option 1
+            if morisonElement == 1
+                [rgME,~] = size(obj.morisonElement.rgME);
+                [rz,~] = size(obj.morisonElement.z);
+                if rgME > rz
+                    obj.morisonElement.z = NaN(rgME,3);
+                end
+                clear rgME rz
+            end
+            % Check Morison Element Inputs for option 2
+            if morisonElement == 2
+                [r,~] = size(obj.morisonElement.z);
+                for ii = 1:r
+                    if norm(obj.morisonElement.z(ii,:)) ~= 1
+                        error(['Ensure the Morison Element .z variable is a unit vector for the ',num2str(ii),' index'])
+                    end
+                end
+            end
+            % Warning for cg and cb being overwritten
+            if ~isempty(obj.cg) || ~isempty(obj.cb)
+                warning('Center of gravity and center of buoyancy are overwritten by h5 data for hydro bodies.')
+            end
+        end
         
+        function checkDragNonHydroInputs(obj,ii)
+            % This method checks WEC-Sim user inputs for each non-hydro
+            % body and generates error messages if parameters are not properly defined for the bodyClass.
+            if isempty(obj.cg)
+                error('Non-hydro or drag body(%i) center of gravity (cg) must be defined in the wecSimInputFile.m',ii);
+            end
+            if isempty(obj.dispVol)
+                error('Non-hydro or drag body(%i) displaced volume (dispVol) must be defined in the wecSimInputFile.m',ii);
+            end
+            if isempty(obj.cb)
+                warning('Non-hydro or drag body(%i) center of buoyancy (cb) set equal to center of gravity (cg), [%g %g %g]',ii,obj.cg(1),obj.cg(2),obj.cg(3))
+            end
+        end
     end
     
     methods (Access = 'protected') %modify object = T; output = F
