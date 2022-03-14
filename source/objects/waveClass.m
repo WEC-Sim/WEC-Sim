@@ -128,17 +128,11 @@ classdef waveClass<handle
         function checkinputs(obj)
             % This method checks WEC-Sim user inputs and generates error messages if parameters are not properly defined.             
            
-            % check waves types
+            % check wave type
             types = {'noWave', 'noWaveCIC', 'regular', 'regularCIC', 'irregular', 'spectrumImport', 'elevationImport'};
             if sum(strcmp(types,obj.type)) ~= 1
                 error(['Unexpected wave environment type setting, choose from: ' ...
                     '"noWave", "noWaveCIC", "regular", "regularCIC", "irregular", "spectrumImport", and "elevationImport".'])
-            end
-            % 'noWave' period undefined for hydro data
-            if strcmp(obj.type,'noWave')
-                if strcmp(obj.T,'NOT DEFINED')
-                    error('"waves.T" must be defined for the hydrodynamic data period when using the "noWave" wave type');
-                end
             end
             % check 'waves.bem' fields
             if length(fieldnames(obj.bem)) ~=4
@@ -153,21 +147,54 @@ classdef waveClass<handle
             % 'elevationFile' defined for 'elevationImport' case
             if strcmp(obj.type,'elevationImport')
                 if strcmp(obj.elevationFile,'NOT DEFINED')
-                    error('"elevationFile" must be defined when using the "elevationImport" wave type');
+                    error('The "waves.elevationFile" must be defined when using the "elevationImport" wave type');
+                end
+                if ~strcmp(obj.T,'NOT DEFINED') || ~strcmp(obj.H,'NOT DEFINED')
+                    warning('"waves.T" and "waves.H" are not used for "etaImport" wave types')
                 end
             end            
             % 'spectrumFile' defined for 'spectrumImport' case
             if strcmp(obj.type,'spectrumImport')
                 if strcmp(obj.spectrumFile,'NOT DEFINED')
-                    error('"spectrumFile" must be defined when using the "spectrumImport" wave type');
+                    error('The "wave.spectrumFile" must be defined when using the "spectrumImport" wave type');
+                end
+                if ~strcmp(obj.T,'NOT DEFINED') || ~strcmp(obj.H,'NOT DEFINED')
+                    warning('"waves.T" and "waves.H" are not used for "spectrumImport" wave types')
                 end
             end
-            % check 'marker.location'
-            if ~isempty(obj.marker.location)
-                if ~ndims(obj.marker.location)==2
-                    error('The coordinates of the visualization markers should have an ordinate (y-coordinate) and an abscissa (x-coordinate)')
+
+            % Check 'marker.location'
+            if ~isempty(obj.marker.location) && ~ndims(obj.marker.location)==2
+                error('The coordinates of the visualization markers should have an ordinate (y-coordinate) and an abscissa (x-coordinate)')
+            end
+            % Check wave spread
+            if sum(obj.spread)~=1
+                error('The wave spread should always sum to 1 to preserve spectrum/energy accuracy.')
+            end
+            
+            % Check inputs based on type
+            if strcmp(obj.type,'noWave') && strcmp(obj.T,'NOT DEFINED')
+                error('"waves.T" must be defined for the hydrodynamic data period when using the "noWave" wave type');
+            end    
+            if strcmp(obj.type,'noWaveCIC') && ~strcmp(obj.T,'NOT DEFINED')
+                warning('"waves.T" is not used for the hydrodynamic data period when using the "noWaveCIC" wave type')
+            end
+            if strcmp(obj.type,'regular') || strcmp(obj.type,'regularCIC')
+                if strcmp(obj.T,'NOT DEFINED') || strcmp(obj.H,'NOT DEFINED')
+                    error('"waves.T" and "waves.H" need to be defined for "regular" and "regularCIC" wave types')
                 end
-            end                        
+                if ~strcmp(obj.spectrumType,'NOT DEFINED')
+                    warning('"waves.spectrumType" is not used for the "regular" and "regularCIC" wave types')
+                end
+            end
+            if strcmp(obj.type,'irregular')
+                if strcmp(obj.spectrumType,'NOT DEFINED')
+                    error('"waves.spectrumType" needs to be defined for "irregular" wave types')
+                end
+                if strcmp(obj.T,'NOT DEFINED') || strcmp(obj.H,'NOT DEFINED')
+                    error('"waves.T" and "waves.H" need to be defined for "irregular" wave types')
+                end
+            end
         end
                 
         function setup(obj,bemFreq,bemWaterDepth,rampTime,dt,maxIt,time,g,rho)
@@ -427,6 +454,12 @@ classdef waveClass<handle
             %     figure : fig
             %         Plot of wave elevation versus time  
             %            
+            
+            arguments
+                obj
+                rampTime double {mustBeReal, mustBeNonNan, mustBeFinite} = 0
+            end
+            
             figure
             plot(obj.waveAmpTime(:,1),obj.waveAmpTime(:,2))
             title('Wave Surfave Elevation')
@@ -508,6 +541,10 @@ classdef waveClass<handle
                 else
                     obj.deepWater = 0;
                     obj.waterDepth = double(bemWaterDepth);
+                end
+            else
+                if ~isempty(bemWaterDepth)
+                    warning('Because water depth is specified in the wecSimInputFile, the water depth from the BEM data is ignored')
                 end
             end
         end
