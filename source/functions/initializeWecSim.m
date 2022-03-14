@@ -96,8 +96,8 @@ if exist('mcr','var') == 1
 end
 
 % Waves and Simu: check inputs
-waves.checkinputs;
-simu.checkinputs;
+waves.checkInputs;
+simu.checkInputs;
 
 % Constraints: count & set orientation
 if exist('constraint','var') == 1
@@ -144,7 +144,7 @@ for ii = 1:length(body(1,:))
         end
         numHydroBodies = numHydroBodies + 1;
         hydroBodLogic(ii) = 1;     
-        body(ii).checkHydroInputs(body(ii).morisonElement.option);
+        body(ii).checkHydroInputs();
     elseif body(ii).nonHydro==1
         numNonHydroBodies = numNonHydroBodies + 1;
         nonHydroBodLogic(ii) = 1; 

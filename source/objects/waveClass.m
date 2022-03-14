@@ -125,7 +125,7 @@ classdef waveClass<handle
             end
         end
         
-        function checkinputs(obj)
+        function checkInputs(obj)
             % This method checks WEC-Sim user inputs and generates error messages if parameters are not properly defined.             
            
             % check wave type

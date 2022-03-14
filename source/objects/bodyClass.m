@@ -139,10 +139,10 @@ classdef bodyClass<handle
                 end
                 % Check mesh size
                 tr = stlread(obj.geometryFile);
-                obj.bodyGeometry.vertex = tr.Points;
-                if max(obj.bodyGeometry.vertex) > domainSize/2
+                obj.geometry.vertex = tr.Points;
+                if max(obj.geometry.vertex) > domainSize/2
                     error('STL mesh is larger than the domain. Reminder: WEC-Sim requires that the STL be saved with units of meters for accurate visualization.')
-                elseif max(obj.bodyGeometry.vertex) > domainSize/4
+                elseif max(obj.geometry.vertex) > domainSize/4
                     warning('STL mesh is very large compared to the domain. Reminder: WEC-Sim requires that the STL be saved with units of meters for accurate visualization.')
                 end
             end
