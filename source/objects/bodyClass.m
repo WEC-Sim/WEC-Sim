@@ -75,8 +75,8 @@ classdef bodyClass<handle
             'threshold',	1)                              % (`structure`) Defines the passive yaw mplementation. ``option`` (`integer`) Flag for passive yaw calculation, Options: 0 (off), 1 (on). Default = ``0``. ``threshold`` (`float`) Yaw position threshold (in degrees) above which excitation coefficients will be interpolated in passive yaw. Default = ``1`` [deg].        
     end
     
-    properties (SetAccess = 'public', GetAccess = 'public')  %body geometry stl file
-        geometry      = struct(...                       % (`string`) Defines each body's mesh
+    properties (SetAccess = 'private', GetAccess = 'public')  %body geometry stl file
+        geometry      = struct(...                           % (`string`) Defines each body's mesh
             'numFace', [], ...                               % Number of faces
             'numVertex', [], ...                             % Number of vertices
             'vertex', [], ...                                % List of vertices
@@ -86,7 +86,7 @@ classdef bodyClass<handle
             'center', [])                                    % List of cell centers
     end
     
-    properties (SetAccess = 'public', GetAccess = 'public') %internal
+    properties (SetAccess = 'private', GetAccess = 'public') %internal
         dofCoupled      = []                                % (`matrix`) Matrices length, Options: ``6`` without body-to-body interactions. ``6*hydroTotal`` with body-to-body interactions.
         h5File          = ''                                % (`string`) hdf5 file containing the hydrodynamic data
         hydroForce      = struct()                          % (`structure`) Defines hydrodynamic forces and coefficients used during simulation.
@@ -623,7 +623,6 @@ classdef bodyClass<handle
             obj.hydroForce.fDamping=zeros(nDOF,LDOF);
             irfk = obj.hydroData.hydro_coeffs.radiation_damping.impulse_response_fun.K  .*rho;
             irft = obj.hydroData.hydro_coeffs.radiation_damping.impulse_response_fun.t;
-            %obj.hydroForce.irkb=zeros(cicLength,6,obj.dofCoupled);
             if B2B == 1
                 for ii=1:nDOF
                     for jj=1:LDOF

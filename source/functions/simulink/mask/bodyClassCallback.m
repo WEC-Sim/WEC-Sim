@@ -54,14 +54,14 @@ function bodyClassCallback(blockHandle)
     % Change visibilities based on nonHydro selection
     switch nonHydro.Value
     case {'1','2'}
-            cg.Visible = 'on';
-            cb.Visible = 'on';
-            dof.Visible = 'on';
-            dispVol.Visible = 'on';
+        cg.Visible = 'on';
+        cb.Visible = 'on';
+        dof.Visible = 'on';
+        dispVol.Visible = 'on';
     case {'0'}
-            cg.Visible = 'off';
-            cb.Visible = 'off';
-            dof.Visible = 'off';
-            dispVol.Visible = 'off';        
+        cg.Visible = 'off';
+        cb.Visible = 'off';
+        dof.Visible = 'off';
+        dispVol.Visible = 'off';        
     end
 end

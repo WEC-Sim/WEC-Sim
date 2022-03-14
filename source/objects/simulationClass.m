@@ -64,7 +64,7 @@ classdef simulationClass<handle
         zeroCross       = 'DisableAll'                                     % (`string`) Disable zero cross control. Default = ``'DisableAll'``
     end
 
-    properties (SetAccess = 'public', GetAccess = 'public')%internal        
+    properties (SetAccess = 'private', GetAccess = 'public')%internal        
         cicTime             = []                                           % (`float vector`) Convolution integral time series. Default = dependent
         cicLength           = []                                           % (`integer`) Number of timesteps in the convolution integral length. Default = dependent
         caseDir             = []                                           % (`string`) WEC-Sim case directory. Default = dependent
