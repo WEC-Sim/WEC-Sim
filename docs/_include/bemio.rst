@@ -82,7 +82,7 @@ but there may be additional DOF from generalized body modes.
 A             [nDOF,nDOF,Nf]            radiation added mass
 Ainf          [nDOF,nDOF]               infinite frequency added mass
 B             [nDOF,nDOF,Nf]            radiation wave damping
-beta          [1,Nh]                    wave headings (deg)
+theta         [1,Nh]                    wave headings (deg)
 body          {1,Nb}                    body names
 cb            [3,Nb]                    center of buoyancy
 cg            [3,Nb]                    center of gravity
