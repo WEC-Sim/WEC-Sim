@@ -27,13 +27,13 @@ classdef bodyClass<handle
     %     
     %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
     
-    properties (SetAccess = 'private', GetAccess = 'public') %hdf5 file
+    properties (SetAccess = 'private', GetAccess = 'public') % h5 file
         dofStart            = []                            % (`integer`) Index the DOF starts for (``body.number``). For WEC bodies this is given in the h5 file, but if not defined in the h5 file, Default = ``(body.number-1)*6+1``.
         dofEnd              = []                            % (`integer`) Index the DOF ends for (``body.number``). For WEC bodies this is given in the h5 file, but if not defined in the h5 file, Default = ``(body.number-1)*6+6``.
         hydroData           = struct()                      % (`structure`) Defines the hydrodynamic data from BEM or user defined.
     end
     
-    properties (SetAccess = 'public', GetAccess = 'public') %input file        
+    properties (SetAccess = 'public', GetAccess = 'public') % WEC-Sim input
         cg                  = []                            % (`3x1 float vector`) Body center of gravity [m]. Defined in the following format [x y z]. For hydrodynamic bodies this is defined in the h5 file while for nonhydrodynamic bodies this is defined by the user. Default = ``[]``.
         cb                  = []                            % (`3x1 float vector`) Body center of buoyancy [m]. Defined in the following format [x y z]. For hydrodynamic bodies this is defined in the h5 file while for nonhydrodynamic bodies this is defined by the user. Default = ``[]``.
         dispVol             = []                            % (`float`) Displaced volume at equilibrium position [m^{3}]. For hydrodynamic bodies this is defined in the h5 file while for nonhydrodynamic bodies this is defined by the user. Default = ``[]``.
@@ -75,7 +75,7 @@ classdef bodyClass<handle
             'threshold',	1)                              % (`structure`) Defines the passive yaw mplementation. ``option`` (`integer`) Flag for passive yaw calculation, Options: 0 (off), 1 (on). Default = ``0``. ``threshold`` (`float`) Yaw position threshold (in degrees) above which excitation coefficients will be interpolated in passive yaw. Default = ``1`` [deg].        
     end
     
-    properties (SetAccess = 'private', GetAccess = 'public')  %body geometry stl file
+    properties (SetAccess = 'public', GetAccess = 'public')  % STL geometry file
         geometry      = struct(...                           % (`string`) Defines each body's mesh
             'numFace', [], ...                               % Number of faces
             'numVertex', [], ...                             % Number of vertices
@@ -86,7 +86,7 @@ classdef bodyClass<handle
             'center', [])                                    % List of cell centers
     end
     
-    properties (SetAccess = 'private', GetAccess = 'public') %internal
+    properties (SetAccess = 'public', GetAccess = 'public') % WEC-Sim internal
         dofCoupled      = []                                % (`matrix`) Matrices length, Options: ``6`` without body-to-body interactions. ``6*hydroTotal`` with body-to-body interactions.
         h5File          = ''                                % (`string`) hdf5 file containing the hydrodynamic data
         hydroForce      = struct()                          % (`structure`) Defines hydrodynamic forces and coefficients used during simulation.
