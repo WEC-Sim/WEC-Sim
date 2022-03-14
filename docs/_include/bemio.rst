@@ -74,6 +74,7 @@ BEMIO Functions
 BEMIO *hydro* Data Structure
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 .. Kelley update this
+
 Note that typically the number of DOFs (``nDOF=sum(hydro.dof)``) is 6*number of bodies, 
 but there may be additional DOF from generalized body modes.
 
@@ -86,8 +87,8 @@ beta          [1,Nh]                    wave headings (deg)
 body          {1,Nb}                    body names
 cb            [3,Nb]                    center of buoyancy
 cg            [3,Nb]                    center of gravity
-code          string                    BEM code (WAMIT, NEMOH, Aqwa, or Capytaine)
-C             [6,6,Nb]                  hydrostatic restoring stiffness
+code          string                    BEM code (WAMIT, NEMOH, AQWA, or CAPYTAINE)
+K_hs 	      [6,6,Nb]                  hydrostatic restoring stiffness
 dof 	      [1, Nb]                   Degrees of freedom (DOF) for each body. Default DOF for each body is 6 plus number of possible generalized body modes (GBM).
 ex_im         [nDOF,Nh,Nf]              imaginary component of excitation force or torque
 ex_K          [nDOF,Nh,length(ex_t)]    excitation IRF

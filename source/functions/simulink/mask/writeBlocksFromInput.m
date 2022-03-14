@@ -36,20 +36,20 @@ switch type
         maskVars.endTime = simu.endTime;                             % Simulation End Time [s]
         maskVars.solver = simu.solver;                               % simu.solver = 'ode4' for fixed step & simu.solver = 'ode45' for variable step 
         maskVars.dt = simu.dt;                                       % Simulation time-step [s]
-        maskVars.CITime = simu.CITime;                               % Specify CI Time [s]
-        maskVars.ssCalc = simu.ssCalc;                               % State-space calculation
+        maskVars.cicEndTime = simu.cicEndTime;                       % Specify CI Time [s]
+        maskVars.stateSpace = simu.stateSpace;                       % State-space calculation
 
         % Wave data
         maskVars.WaveClass = waves.type;                             % Initialize Wave Class and Specify Type                                           
         maskVars.H = waves.H;                                        % Wave Height [m]
         maskVars.T = waves.T;                                        % Wave Period [s]
-        maskVars.waveDir = waves.waveDir;                            % Wave Directionality [deg]
-        maskVars.waveSpread = waves.waveSpread;                      % Wave Directional Spreading [%]
+        maskVars.direction = waves.direction;                        % Wave Directionality [deg]
+        maskVars.spread = waves.spread;                              % Wave Directional Spreading [%]
         maskVars.spectrumType = waves.spectrumType;                  % Specify Wave Spectrum Type
-        maskVars.freqDisc = waves.freqDisc;                          % Uses 'EqualEnergy' bins (default) 
+        maskVars.option = waves.bem.option;                          % Uses 'EqualEnergy' bins (default) 
         maskVars.phaseSeed = waves.phaseSeed;                        % Phase is seeded so eta is the same
-        maskVars.spectrumDataFile = waves.spectrumDataFile;          % Name of User-Defined Spectrum File [:,2] = [f, Sf]
-        maskVars.etaDataFile = waves.etaDataFile;                    % Name of User-Defined Time-Series File [:,2] = [time, eta]
+        maskVars.spectrumFile = waves.spectrumFile;                  % Name of User-Defined Spectrum File [:,2] = [f, Sf]
+        maskVars.elevationFile = waves.elevationFile;                % Name of User-Defined Time-Series File [:,2] = [time, eta]
     
     case 1
         % Body Data
@@ -59,9 +59,9 @@ switch type
         maskVars.geometryFile = body(num).geometryFile;              % Location of Geomtry File
         maskVars.mass = body(num).mass;                              % Body Mass
         maskVars.momOfInertia = body(num).momOfInertia;              % Moment of Inertia [kg*m^2]  
-        maskVars.nhBody = body(num).nhBody;
-        maskVars.nlHydro = body(num).nlHydro;
-        maskVars.flexHydroBody = body(num).flexHydroBody;
+        maskVars.nonHydro = body(num).nonHydro;
+        maskVars.nonlinearHydro = body(num).nonlinearHydro;
+        maskVars.flex = body(num).flex;
         maskVars.cg = body(num).cg;
         maskVars.cb = body(num).cb;
         maskVars.dof = body(num).dof;
@@ -81,9 +81,9 @@ switch type
         % PTO data
         tmp = string(maskVars.pto);
         num = str2num(extractBetween(tmp,strfind(tmp,'('),strfind(tmp,')'),'Boundaries','Exclusive'));
-        maskVars.loc = pto(num).loc;                                   % PTO Location [m]
-        maskVars.k = pto(num).k;                                       % PTO Stiffness [N/m]
-        maskVars.c = pto(num).c;                                       % PTO Damping [N/(m/s)]
+        maskVars.loc = pto(num).location;                                   % PTO Location [m]
+        maskVars.stiffness = pto(num).stiffness;                                       % PTO Stiffness [N/m]
+        maskVars.damping = pto(num).damping;                                       % PTO Damping [N/(m/s)]
         maskVars.x = pto(num).orientation.x;
         maskVars.y = pto(num).orientation.y;
         maskVars.z = pto(num).orientation.z;
@@ -103,7 +103,7 @@ switch type
         % Constraint data
         tmp = string(maskVars.constraint);
         num = str2num(extractBetween(tmp,strfind(tmp,'('),strfind(tmp,')'),'Boundaries','Exclusive'));
-        maskVars.loc = constraint(num).loc;                            % Constraint Location [m]
+        maskVars.loc = constraint(num).location;                            % Constraint Location [m]
         maskVars.x = constraint(num).orientation.x;
         maskVars.y = constraint(num).orientation.y;
         maskVars.z = constraint(num).orientation.z;
@@ -123,27 +123,26 @@ switch type
         % Mooring data
         tmp = string(maskVars.mooring);
         num = str2num(extractBetween(tmp,strfind(tmp,'('),strfind(tmp,')'),'Boundaries','Exclusive'));
-        maskVars.ref = mooring(num).ref;
-        maskVars.k = mooring(num).k;
-        maskVars.c = mooring(num).c;
+        maskVars.loc = mooring(num).location;
+        maskVars.stiffness = mooring(num).stiffness;
+        maskVars.damping = mooring(num).damping;
     
     case 5
         % MoorDyn data
         tmp = string(maskVars.mooring);
         num = str2num(extractBetween(tmp,strfind(tmp,'('),strfind(tmp,')'),'Boundaries','Exclusive'));
-        maskVars.ref = mooring(num).ref;
+        maskVars.loc = mooring(num).location;
         maskVars.moorDynLines = mooring(num).moorDynLines;
         maskVars.moorDynNodes = mooring(num).moorDynNodes;
     
     case 6
         % Cable data
         tmp = string(maskVars.cable);
-        num = str2num(extractBetween(tmp,strfind(tmp,'('),strfind(tmp,')'),'Boundaries','Exclusive'));
-       
+        num = str2num(extractBetween(tmp,strfind(tmp,'('),strfind(tmp,')'),'Boundaries','Exclusive'));       
         maskVars.baseConnectionName = cable(num).baseConnectionName;
         maskVars.followerConnectionName = cable(num).followerConnectionName;
-        maskVars.k = cable(num).k;
-        maskVars.c = cable(num).c;
+        maskVars.stiffness = cable(num).stiffness;
+        maskVars.damping = cable(num).damping;
         maskVars.L0 = cable(num).L0;
         maskVars.preTension = cable(num).preTension;
         maskVars.initLinDisp = cable(num).initDisp.initLinDisp;

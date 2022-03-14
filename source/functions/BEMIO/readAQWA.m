@@ -74,12 +74,12 @@ end
 %%
 hydro(F).Nh     = tmp(2);  % Number of wave headings
 hydro(F).Nf     = tmp(3);  % Number of wave frequencies
-hydro(F).beta   = [];
+hydro(F).theta   = [];
 for i = 1:ceil(hydro(F).Nh/6)
-    hydro(F).beta   = [hydro(F).beta str2num(raw1{n})]; % Wave headings
+    hydro(F).theta   = [hydro(F).theta str2num(raw1{n})]; % Wave headings
     n               = n+1;
 end
-hydro(F).beta(1:3) = [];
+hydro(F).theta(1:3) = [];
 hydro.A = zeros(hydro.Nb*6,hydro.Nb*6,hydro.Nf); 
 hydro.B = zeros(hydro.Nb*6,hydro.Nb*6,hydro.Nf);
 %%
@@ -125,7 +125,7 @@ for ln = n:length(raw1)
                 tmp = str2num(raw1{ln+(j-1)*6+i});
                 if length(tmp)>6 tmp(1)=[]; end
                 if f==0
-                    hydro(F).C(i,:,j) = tmp; % Linear restoring stiffness
+                    hydro(F).Khs(i,:,j) = tmp; % Linear restoring stiffness
                 elseif f==1
                     M(i,:,j) = tmp; % Mass
                 end

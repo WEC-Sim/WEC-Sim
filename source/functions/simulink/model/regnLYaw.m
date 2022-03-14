@@ -1,14 +1,14 @@
-function [Fext,relYawLast,coeffsLastMD,coeffsLastRE,coeffsLastIM] = regnLYaw(A,w,dofGRD,dirGRD,fEHRE,fEHIM, fEHMD,time,WaveDir,Disp, intThresh, prevYaw, prevCoeffMD, prevCoeffRE, prevCoeffIM)
+function [Fext,relYawLast,coeffsLastMD,coeffsLastRE,coeffsLastIM] = regnLYaw(A,w,dofGRD,dirGRD,fEHRE,fEHIM, fEHMD,time,direction,Disp, intThresh, prevYaw, prevCoeffMD, prevCoeffRE, prevCoeffIM)
 %#codegen
 % Fext is the excitation force output, relYawLast is the angle of relative
 % yaw at which that last interpolation was performed. If the current
 % relative yaw angle - last interpolated > threshold, the interpolation is
 % performed again. To interpolate every time step, let threshold=0. 
 
-for ii=1:length(WaveDir) % should be length=1 for regular waves
-    relYaw=WaveDir(ii)-(Disp(6).*180/pi); % relative yaw angle, convert to deg
+for ii=1:length(direction) % should be length=1 for regular waves
+    relYaw=direction(ii)-(Disp(6).*180/pi); % relative yaw angle, convert to deg
    
-     % compare relYaw to available WaveDir data
+     % compare relYaw to available direction data
         if relYaw>max(dirGRD(1,:)) % handle interpolation out of BEM range by wrapping other bound
             [~,idx]=min(dirGRD,[],2); % 
             dirGRD(:,idx)=dirGRD(:,idx)+360;

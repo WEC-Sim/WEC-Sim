@@ -215,7 +215,7 @@ sections.
 ``regularCIC``     ``waves.H``, ``waves.T``                        
 ``irregular``      ``waves.H``, ``waves.T``, ``waves.spectrumType``
 ``spectrumImport`` ``waves.waveSpectrumFile``                      
-``etaImport``      ``waves.etaDataFile``                           
+``waveImport``      ``waves.waveElevationFile``                           
 ================== ================================================
 
 Available wave class properties, default values, and functions can be found by 
@@ -326,7 +326,7 @@ it will be randomly defined. An example file is provided in the
 in the input file:: 
 
     waves = waveClass('spectrumImport');
-    waves.spectrumDataFile='<waveSpectrumFile>.mat';
+    waves.waveSpectrumFile='<waveSpectrumFile>.mat';
 
 .. Note::
     When using the ``spectrumImport`` option, users must specify a sufficient 
@@ -335,19 +335,19 @@ in the input file::
     define the wave forces on the WEC, for more information refer to the 
     :ref:`user-advanced-features-irregular-wave-binning` section.
 
-etaImport
-"""""""""
+waveImport
+"""""""""""
 
-The ``etaImport`` case is the wave type for wave simulations using user-defined 
+The ``waveImport`` case is the wave type for wave simulations using user-defined 
 time-series (ex: from experiments). The user-defined wave surface elevation 
 must be defined with the time (s) in the first column, and the wave surface 
 elevation (m) in the second column. An example of this is given in the 
 ``etaData.mat`` file in the tutorials directory folder of the WEC-Sim source 
-code. The ``etaImport`` case is defined by including the following in the input 
+code. The ``waveImport`` case is defined by including the following in the input 
 file:: 
 
-    waves = waveClass('etaImport');
-    waves.etaDataFile ='<etaDataFile>.mat';
+    waves = waveClass('waveImport');
+    waves.waveElevationFile ='<waveElevationFile>.mat';
 
 
 

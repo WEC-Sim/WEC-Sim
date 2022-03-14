@@ -20,7 +20,7 @@ end
 
 % Add hydrostatic and FK pressures to bodiesOutput if required.
 for iBod = 1:length(body(1,:))
-     if body(iBod).nlHydro~=0 && body(iBod).nhBody==0 && simu.pressureDis == 1 
+     if body(iBod).nonlinearHydro~=0 && body(iBod).nonHydro==0 && simu.pressure == 1 
         % hydrostatic pressure
         eval(['bodiesOutput(' num2str(iBod) ').hspressure = body' num2str(iBod) '_hspressure_out;']);
         % wave (Froude-Krylov) nonlinear pressure
@@ -28,13 +28,15 @@ for iBod = 1:length(body(1,:))
         % wave (Froude-Krylov) linear pressure
         eval(['bodiesOutput(' num2str(iBod) ').wpressurel = body' num2str(iBod) '_wavelinearpressure_out;']);
     else
-        if body(iBod).nlHydro ==0 && simu.pressureDis == 1 
-            warning('Pressure distribution on the body is only output when wecSim is run with nonlinear hydro (simu.pressureDis == 1 && simu.nlHydro~=0 && body(i).nhBody==0)')
+        if body(iBod).nonlinearHydro ==0 && simu.pressure == 1 
+            warning('Pressure distribution on the body is only output when wecSim is run with nonlinear hydro (simu.pressure == 1 && simu.nonlinearHydro~=0 && body(i).nonHydro==0)')
         end
         bodiesOutput(iBod).hspressure = [];
         bodiesOutput(iBod).wpressurenl = [];
         bodiesOutput(iBod).wpressurel = [];
-    end
+     end
+    % Add yaw to structure
+    bodiesOutput(iBod).yaw = body(iBod).yaw.option;
 end; clear iBod
 
 % PTOs
@@ -87,16 +89,16 @@ end
 
 % PTO-Sim
 if exist('PTOSimBlock','var')
-    for iPtoB = 1:simu.numPtoBlocks
+    for iPtoB = 1:simu.numPtoSim
         %iPtoB
         eval(['PTOSimBlock' num2str(iPtoB) '_out.name = PTOSimBlock(' num2str(iPtoB) ').name;'])
         eval(['PTOSimBlock' num2str(iPtoB) '_out.type = PTOSimBlock(' num2str(iPtoB) ').PTOSimBlockType;'])
-        if iPtoB == 1; ptoBlocksOutput = PTOSimBlock1_out; end
-        ptoBlocksOutput(iPtoB) = eval(['PTOSimBlock' num2str(iPtoB) '_out']);
+        if iPtoB == 1; ptosimOutput = PTOSimBlock1_out; end
+        ptosimOutput(iPtoB) = eval(['PTOSimBlock' num2str(iPtoB) '_out']);
         eval(['clear PTOSimBlock' num2str(iPtoB) '_out'])
     end; clear iPtoB
 else
-    ptoBlocksOutput = 0;
+    ptosimOutput = 0;
 end
 
 % Waves
@@ -106,16 +108,11 @@ end
 waveOutput = struct();
 waveOutput.type = waves.type;
 waveOutput.waveAmpTime = waves.waveAmpTime;
-waveOutput.wavegauge1loc = waves.wavegauge1loc;
-waveOutput.wavegauge2loc = waves.wavegauge2loc;
-waveOutput.wavegauge3loc = waves.wavegauge3loc;
-waveOutput.waveAmpTime1 = waves.waveAmpTime1;
-waveOutput.waveAmpTime2 = waves.waveAmpTime2;
-waveOutput.waveAmpTime3 = waves.waveAmpTime3;
 
 % All
-output = responseClass(bodiesOutput,ptosOutput,constraintsOutput,ptoBlocksOutput,cablesOutput,mooringOutput,waveOutput, simu.yawNonLin);
-clear bodiesOutput ptosOutput constraintsOutput ptoBlocksOutput cablesOutput mooringOutput waveOutput
+output = responseClass(bodiesOutput,ptosOutput,constraintsOutput,ptosimOutput,cablesOutput,mooringOutput,waveOutput);
+clear bodiesOutput ptosOutput constraintsOutput ptosimOutput cablesOutput mooringOutput waveOutput
+
 
 % MoorDyn
 for iMoor = 1:simu.numMoorings
@@ -125,7 +122,7 @@ for iMoor = 1:simu.numMoorings
 end; clear iMoor
 
 % Calculate correct added mass and total forces
-for iBod = 1:simu.numWecBodies
+for iBod = 1:simu.numHydroBodies
     body(iBod).restoreMassMatrix
     output.bodies(iBod).forceTotal = output.bodies(iBod).forceTotal + output.bodies(iBod).forceAddedMass;
     output.bodies(iBod).forceAddedMass = body(iBod).forceAddedMass(output.bodies(iBod).acceleration,simu.b2b);
