@@ -70,11 +70,7 @@ classdef constraintClass<handle
             %     constraint : obj
             %         contraintClass object         
             %
-            if exist('name','var')
-                obj.name = name;
-            else
-                error('The constraint class number(s) in the wecSimInputFile must be specified in ascending order starting from 1. The constraintClass() function should be called first to initialize each constraint with a name.')
-            end
+            obj.name = name;
         end
         
         function obj = checkLoc(obj,action)
