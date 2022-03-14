@@ -9,7 +9,7 @@ function bodyClassCallback(blockHandle)
     option = mask.getParameter('option');
     cd = mask.getParameter('cd');
     ca = mask.getParameter('ca');
-    characteristicArea = mask.getParameter('characteristicArea');
+    area = mask.getParameter('area');
     VME = mask.getParameter('VME');
     rgME = mask.getParameter('rgME');
     z = mask.getParameter('z');
@@ -18,21 +18,21 @@ function bodyClassCallback(blockHandle)
     if option.Value == '0'
         cd.Visible = 'off';
         ca.Visible = 'off';
-        characteristicArea.Visible = 'off';
+        area.Visible = 'off';
         VME.Visible = 'off';
         rgME.Visible = 'off';
         z.Visible = 'off';
     elseif option.Value == '1' % X-Y-Z ME option
         cd.Visible = 'on';
         ca.Visible = 'on';
-        characteristicArea.Visible = 'on';
+        area.Visible = 'on';
         VME.Visible = 'on';
         rgME.Visible = 'on';
         z.Visible = 'off';
     elseif option.Value == '2' % Normal-tangential ME option
         cd.Visible = 'on';
         ca.Visible = 'on';
-        characteristicArea.Visible = 'on';
+        area.Visible = 'on';
         VME.Visible = 'on';
         rgME.Visible = 'on';
         z.Visible = 'on';
