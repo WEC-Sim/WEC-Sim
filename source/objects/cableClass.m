@@ -94,15 +94,11 @@ classdef cableClass<handle
             %     cable : obj
             %         cableClass object
             %
-            if exist('name','var')
-                obj.name = name;
-                obj.baseConnectionName = baseConnectionName;
-                obj.followerConnectionName = followerConnectionName;
-                obj.rotloc1 = evalin('caller',[baseConnectionName '.loc']);
-                obj.rotloc2 = evalin('caller',[followerConnectionName '.loc']);
-            else
-                error('The cable class number(s) in the wecSimInputFile must be specified in ascending order starting from 1. The cableClass() function should be called first to initialize each cable with a name.')
-            end
+            obj.name = name;
+            obj.baseConnectionName = baseConnectionName;
+            obj.followerConnectionName = followerConnectionName;
+            obj.rotloc1 = evalin('caller',[baseConnectionName '.location']);
+            obj.rotloc2 = evalin('caller',[followerConnectionName '.location']);
         end
         
         function setTransPTOLoc(obj)

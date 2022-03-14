@@ -24,7 +24,7 @@
 %%
 %% simu = simulationClass();                                               - To Create the Simulation Variable
 %%
-%% waves = waveClass('<wave type>');                                       - To create the Wave Variable and Specify Type
+%% waves = waveClass('<wave type');                                       - To create the Wave Variable and Specify Type
 %%
 %% body(<body number>) = bodyClass('<hydrodynamics data file name>.h5');   - To initialize bodyClass:
 %%
