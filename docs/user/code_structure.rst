@@ -736,7 +736,7 @@ restrictions on the number of MooringMatrix blocks.
    :width: 400 pt
    :align: center
 
-.. _user-code-structure-cable-class:
+.. _user-code-structure-ptosim-class:
 
 PTO-Sim Class
 ^^^^^^^^^^^^^^^^
