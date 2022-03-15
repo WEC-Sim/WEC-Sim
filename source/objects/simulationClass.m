@@ -27,7 +27,7 @@ classdef simulationClass<handle
     %
     %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
     
-    properties (SetAccess = 'public', GetAccess = 'public')%input file
+    properties (SetAccess = 'public', GetAccess = 'public') % WEC-Sim input 
         adjMassFactor       = 2                                            % (`integer`) Weighting function for adjusting added mass term in the translational direction. Default = ``2``
         b2b                 = 0                                            % (`integer`) Flag for body2body interactions, Options: 0 (off), 1 (on). Default = ``0``
         cicDt               = []                                           % (`float`) Time step to calculate Convolution Integral. Default = ``dt``
@@ -64,7 +64,7 @@ classdef simulationClass<handle
         zeroCross       = 'DisableAll'                                     % (`string`) Disable zero cross control. Default = ``'DisableAll'``
     end
 
-    properties (SetAccess = 'public', GetAccess = 'public')%internal        
+    properties (SetAccess = 'public', GetAccess = 'public') % internal WEC-Sim
         cicTime             = []                                           % (`float vector`) Convolution integral time series. Default = dependent
         cicLength           = []                                           % (`integer`) Number of timesteps in the convolution integral length. Default = dependent
         caseDir             = []                                           % (`string`) WEC-Sim case directory. Default = dependent
@@ -79,7 +79,7 @@ classdef simulationClass<handle
         numDragBodies       = []                                           % (`integer`) Number of drag bodies that comprise the WEC device (excluding hydrodynamic bodies). Default = ``'NOT DEFINED'``
         numMoorings         = []                                           % (`integer`) Number of moorings in the wec model. Default = ``'NOT DEFINED'``
         numPtos             = []                                           % (`integer`) Number of power take-off elements in the model. Default = ``'NOT DEFINED'``
-        numPtoSim        = []                                           % (`integer`) Number of PTO-Sim blocks elements in the model. Default = ``'NOT DEFINED'``
+        numPtoSim           = []                                           % (`integer`) Number of PTO-Sim blocks elements in the model. Default = ``'NOT DEFINED'``
         numHydroBodies      = []                                           % (`integer`) Number of hydrodynamic bodies that comprise the WEC device. Default = ``'NOT DEFINED'``
         outputDir           = 'output'                                     % (`string`) Data output directory name. Default = ``'output'``
         time                = 0                                            % (`float`) Simulation time [s]. Default = ``0`` s
