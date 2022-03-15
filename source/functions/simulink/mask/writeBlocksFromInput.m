@@ -72,7 +72,7 @@ switch type
         maskVars.option = body(num).morisonElement.option;
         maskVars.cd = body(num).morisonElement.cd;
         maskVars.ca = body(num).morisonElement.ca;
-        maskVars.characteristicArea = body(num).morisonElement.characteristicArea;
+        maskVars.area = body(num).morisonElement.area;
         maskVars.VME = body(num).morisonElement.VME;
         maskVars.rgME = body(num).morisonElement.rgME;
         maskVars.z = body(num).morisonElement.z;

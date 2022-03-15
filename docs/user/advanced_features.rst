@@ -552,6 +552,8 @@ input file (each of which have a default value of zero)::
 
     body(i).quadDrag.cd
     body(i).quadDrag.characteristicArea
+    body(i).quadDrag.cd
+    body(i).quadDrag.area
 
 Alternatively, one can define :math:`C_{D}` directly::
 
@@ -586,7 +588,7 @@ For :code:`body(ii).morisonElement.option  = 1` ::
     
     body(i).morisonElement.cd = [c_{dx} c_{dy} c_{dz}]
     body(i).morisonElement.ca = [c_{ax} c_{ay} c_{az}]
-    body(i).morisonElement.characteristicArea = [A_{x} A_{y} A_{z}]
+    body(i).morisonElement.area = [A_{x} A_{y} A_{z}]
     body(i).morisonElement.VME = [V_{me}]
     body(i).morisonElement.rgME = [r_{gx} r_{gy} r_{gz}]
     body(i).morisonElement.z = [0 0 0]
@@ -601,7 +603,7 @@ For :code:`body(ii).morisonElement.option  = 2` ::
     
     body(i).morisonElement.cd = [c_{dn} c_{dt} 0]
     body(i).morisonElement.ca = [c_{an} c_{at} 0]
-    body(i).morisonElement.characteristicArea = [A_{n} A_{t} 0]
+    body(i).morisonElement.area = [A_{n} A_{t} 0]
     body(i).morisonElement.VME = [V_{me}]
     body(i).morisonElement.rgME = [r_{gx} r_{gy} r_{gz}]
     body(i).morisonElement.z = [z_{x} z_{y} z_{z}]
@@ -610,7 +612,7 @@ For :code:`body(ii).morisonElement.option  = 2` ::
 
     For Option 2, the :code:`body(i).morisonElement.cd`, 
     :code:`body(i).morisonElement.ca`, and 
-    :code:`body(i).morisonElement.characteristicArea` variables need to be 
+    :code:`body(i).morisonElement.area` variables need to be 
     initialized as [:code:`n` x3] vector, where :code:`n` is the number of Morison Elements, with the third column index set to zero. While 
     :code:`body(i).morisonElement.z` is a unit normal vector that defines the 
     orientation of the Morison Element. 
@@ -693,14 +695,14 @@ can be applied in the same manner as a hydrodynamic body via the parameters::
 
     body(i).quadDrag.Drag
     body(i).quadDrag.cd
-    body(i).quadDrag.characteristicArea
+    body(i).quadDrag.area
     body(i).linearDamping
 
 or if using Morison Elements::  
 
     body(i).morisonElement.cd
     body(i).morisonElement.ca
-    body(i).morisonElement.characteristicArea
+    body(i).morisonElement.area
     body(i).morisonElement.VME
     body(i).morisonElement.rgME
     
@@ -870,7 +872,7 @@ can be used instead, and the parameters :code:`pto(i).damping` and :code:`pto(i)
 By default, the cable is presumed neutrally buoyant and it is not subjected to fluid drag. To include fluid drag, the user can additionally define these parameters in a style similar to the :code:`bodyClass` ::
 
 	cable(i).quadDrag.cd
-	cable(i).quadDrag.characteristicArea
+	cable(i).quadDrag.area
 	cable(i).quadDrag.Drag
 	cable(i).linearDamping
 	

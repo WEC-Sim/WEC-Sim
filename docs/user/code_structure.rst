@@ -431,7 +431,7 @@ coefficient and the characteristic area in vector format the WEC-Sim
 input file as follows:: 
 
     body(i).quadDrag.cd = [0 0 1.3 0 0 0]
-    body(i).quadDrag.characteristicArea = [0 0 100 0 0 0]
+    body(i).quadDrag.area = [0 0 100 0 0 0]
 
 Available body properties, default values, and functions can be found by typing 
 ``doc bodyClass`` in the MATLAB command window, or opening the ``bodyClass.m`` 
