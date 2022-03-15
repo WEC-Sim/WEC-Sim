@@ -48,9 +48,9 @@ classdef cableClass<handle
         paraview      = 1;                                                  % (`integer`) Flag for visualisation in Paraview either 0 (no) or 1 (yes). Default = ``1`` since only called in paraview.
         preTension              = 0                                         % (`float`) Cable pretension (N).    
         quadDrag                = struct(...                                % 
-            'characteristicArea', [0 0 0 0 0 0], ...                        % 
-            'Drag', zeros(6), ...                                           % 
-            'cd', [0 0 0 0 0 0]);                                           % Structure defining the viscous quadratic drag forces. First option define ``Drag``, (`6x6 float matrix`), Default = ``zeros(6)``. Second option define ``cd``, (`6x1 float vector`), Default = ``zeros(6,1)``, and ``characteristicArea``, (`6x1 float vector`), Default = ``zeros(6,1)``.
+            'area', [0 0 0 0 0 0], ...                        % 
+            'drag', zeros(6), ...                                           % 
+            'cd', [0 0 0 0 0 0]);                                           % Structure defining the viscous quadratic drag forces. First option define ``drag``, (`6x6 float matrix`), Default = ``zeros(6)``. Second option define ``cd``, (`6x1 float vector`), Default = ``zeros(6,1)``, and ``area``, (`6x1 float vector`), Default = ``zeros(6,1)``.
         stiffness               = 0                                         % (`float`) Cable stiffness (N/m). Default = `0`.
         viz               = struct(...                                      %
             'color', [1 0 0.5], ...                                         %
@@ -214,8 +214,8 @@ classdef cableClass<handle
             % values to calculate linear damping and viscous drag. Note
             % that body DOF is inherited from the length of the drag
             % coefficients.
-            if  any(any(obj.quadDrag.Drag)) ~= 1  %check if obj.quadDrag.Drag is not defined
-                obj.quadDrag.Drag = diag(0.5*rho.*obj.quadDrag.cd.*obj.quadDrag.characteristicArea);
+            if  any(any(obj.quadDrag.drag)) ~= 1  %check if obj.quadDrag.drag is not defined
+                obj.quadDrag.drag = diag(0.5*rho.*obj.quadDrag.cd.*obj.quadDrag.area);
             end
             
         end

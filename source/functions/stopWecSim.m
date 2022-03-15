@@ -3,7 +3,7 @@
 % has ended. These functions were pulled from the wecSim.m file, following
 % the command to simulate the Simulink model.
 
-try cd (['..' filesep parallelComputing_dir filesep '..' filesep]); end
+try cd (['..' filesep pctDir filesep '..' filesep]); end
 
 % Clear intermediate variables and variant subsystem flags
 clear nonlinearHydro sv_linearHydro sv_nonlinearHydro stateSpace radiation_option sv_convolution sv_stateSpace sv_constantCoeff typeNum B2B sv_B2B sv_noB2B;
@@ -42,15 +42,13 @@ diary off
 
 if simu.saveWorkspace==1
     try 
-       cd(parallelComputing_dir);
-       simu.caseDir = [simu.caseDir filesep parallelComputing_dir];
+       cd(pctDir);
+       simu.caseDir = [simu.caseDir filesep pctDir];
     end
     outputFile = [simu.caseDir filesep 'output' filesep simu.caseFile];
     save(outputFile,'-v7.3')
 end
-try 
-    cd (['..' filesep parallelComputing_dir filesep '..' filesep]); 
-end
+try cd (['..' filesep pctDir filesep '..' filesep]); end
 
 %% Remove 'temp' directory
 
