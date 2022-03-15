@@ -65,6 +65,7 @@
 
 #Examples
 wecSimInputFile_simulinkCustomParameters.m
+examples/BEMIO/**/**/*.png
 **.slx.*
 
 # Tests
