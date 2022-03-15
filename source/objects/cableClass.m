@@ -34,7 +34,7 @@ classdef cableClass<handle
         bodyInertia             = [1 1 1];                                  % (`1 x 3 float vector`) body inertia kg-m^2, default [1 1 1]
         bodyMass                = 1;                                        % (`float`) mass in kg, default 1
         damping                 = 0                                         % (`float`) Cable damping coefficient (N/(m/s)). Default = `0`.
-        initDisp                = struct(...                                % 
+        initial                 = struct(...                                % 
             'initLinDisp',          [0 0 0],...                             % 
             'initAngularDispAxis',  [0 1 0], ...                            %
             'initAngularDispAngle', 0)                                      % Structure defining the initial displacement of the body. ``initLinDisp`` (`3x1 float vector`) is defined as the initial displacement of the body center of gravity (COG) [m] in the following format [x y z], Default = [``0 0 0``]. ``initAngularDispAxis`` (`3x1 float vector`) is defined as the axis of rotation in the following format [x y z], Default = [``0 1 0``]. ``initAngularDispAngle`` (`float`) is defined as the initial angular displacement of the body COG [rad], Default = ``0``.
@@ -197,9 +197,9 @@ classdef cableClass<handle
             linDisp = rotatedRelCoord - relCoord;
 
             % apply rotation and displacement to object
-            obj.initDisp.initLinDisp = linDisp + addLinDisp;
-            obj.initDisp.initAngularDispAxis = netAxis;
-            obj.initDisp.initAngularDispAngle = netAngle;
+            obj.initial.initLinDisp = linDisp + addLinDisp;
+            obj.initial.initAngularDispAxis = netAxis;
+            obj.initial.initAngularDispAngle = netAngle;
             
         end        
         

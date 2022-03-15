@@ -43,7 +43,7 @@ classdef bodyClass<handle
         gbmDOF              = []                            % (`integer`) Number of degree of freedoms (DOFs) for generalized body mode (GBM). Default = ``[]``.
         geometryFile        = 'NONE'                        % (`string`) Path to the body geometry ``.stl`` file.
         hydroStiffness      = zeros(6)                      % (`6x6 float matrix`) Linear hydrostatic stiffness matrix. If the variable is nonzero, the matrix will override the h5 file values. Default = ``zeros(6)``.
-        initDisp            = struct(...                    % (`structure`) Defines the initial displacement of the body.
+        initial             = struct(...                    % (`structure`) Defines the initial displacement of the body.
             'initLinDisp',          [0 0 0], ...            %
             'initAngularDispAxis',  [0 1 0], ...            %
             'initAngularDispAngle', 0)                      % (`structure`) Defines the initial displacement of the body. ``initLinDisp`` (`3x1 float vector`) is defined as the initial displacement of the body center of gravity (COG) [m] in the following format [x y z], Default = [``0 0 0``]. ``initAngularDispAxis`` (`3x1 float vector`) is defined as the axis of rotation in the following format [x y z], Default = [``0 1 0``]. ``initAngularDispAngle`` (`float`) is defined as the initial angular displacement of the body COG [rad], Default = ``0``.
@@ -143,10 +143,10 @@ classdef bodyClass<handle
                     end
                 end
             end
-            % check 'body.initDisp' fields
-            if length(fieldnames(obj.initDisp)) ~=3
+            % check 'body.initial' fields
+            if length(fieldnames(obj.initial)) ~=3
                 error(['Unrecognized method, property, or field for class "bodyClass", ' newline
-                    '"bodyClass.initDisp" structure must only include fields: "initLinDisp", "initAngularDispAxis", "initAngularDispAngle"']);
+                    '"bodyClass.initial" structure must only include fields: "initLinDisp", "initAngularDispAxis", "initAngularDispAngle"']);
             end              
             % check 'body.morisonElement' fields
             if length(fieldnames(obj.morisonElement)) ~=7
@@ -379,9 +379,9 @@ classdef bodyClass<handle
             rotatedRelCoord = relCoord*(rotMat');
             linDisp = rotatedRelCoord - relCoord;
             % apply rotation and displacement to object
-            obj.initDisp.initLinDisp = linDisp + addLinDisp;
-            obj.initDisp.initAngularDispAxis = netAxis;
-            obj.initDisp.initAngularDispAngle = netAngle;            
+            obj.initial.initLinDisp = linDisp + addLinDisp;
+            obj.initial.initAngularDispAxis = netAxis;
+            obj.initial.initAngularDispAngle = netAngle;            
         end
                 
         function importBodyGeometry(obj)

@@ -145,9 +145,9 @@ for i=1:length(blocks)
         fprintf(fid,writeLineFromVar(body, 'cb', maskVars, maskViz, num, []));
         fprintf(fid,writeLineFromVar(body, 'dof', maskVars, maskViz, num, []));
         fprintf(fid,writeLineFromVar(body, 'volume', maskVars, maskViz, num, []));        
-        fprintf(fid,writeLineFromVar(body, 'initLinDisp', maskVars, maskViz, num, 'initDisp'));
-        fprintf(fid,writeLineFromVar(body, 'initAngularDispAxis', maskVars, maskViz, num, 'initDisp'));
-        fprintf(fid,writeLineFromVar(body, 'initAngularDispAngle', maskVars, maskViz, num, 'initDisp'));        
+        fprintf(fid,writeLineFromVar(body, 'initLinDisp', maskVars, maskViz, num, 'initial'));
+        fprintf(fid,writeLineFromVar(body, 'initAngularDispAxis', maskVars, maskViz, num, 'initial'));
+        fprintf(fid,writeLineFromVar(body, 'initAngularDispAngle', maskVars, maskViz, num, 'initial'));        
         fprintf(fid,writeLineFromVar(body, 'option', maskVars, maskViz, num, 'morisonElement'));
         fprintf(fid,writeLineFromVar(body, 'cd', maskVars, maskViz, num, 'morisonElement'));
         fprintf(fid,writeLineFromVar(body, 'ca', maskVars, maskViz, num, 'morisonElement'));
@@ -166,7 +166,7 @@ for i=1:length(blocks)
         fprintf(fid,['constraint(%d).location = ' maskVars.loc '; \r\n'],num);
         fprintf(fid,writeLineFromVar(constraint, 'y', maskVars, maskViz, num, 'orientation'));
         fprintf(fid,writeLineFromVar(constraint, 'z', maskVars, maskViz, num, 'orientation'));
-        fprintf(fid,writeLineFromVar(constraint, 'initLinDisp', maskVars, maskViz, num, 'initDisp'));
+        fprintf(fid,writeLineFromVar(constraint, 'initLinDisp', maskVars, maskViz, num, 'initial'));
         fprintf(fid,writeLineFromVar(constraint, 'upperLimitSpecify', maskVars, maskViz, num, 'hardStops'));
         fprintf(fid,writeLineFromVar(constraint, 'upperLimitBound', maskVars, maskViz, num, 'hardStops'));
         fprintf(fid,writeLineFromVar(constraint, 'upperLimitStiffness', maskVars, maskViz, num, 'hardStops'));
@@ -190,7 +190,7 @@ for i=1:length(blocks)
         fprintf(fid,['pto(%d).location = ' maskVars.loc '; \r\n'],num);        
         fprintf(fid,writeLineFromVar(pto, 'y', maskVars, maskViz, num, 'orientation'));
         fprintf(fid,writeLineFromVar(pto, 'z', maskVars, maskViz, num, 'orientation'));
-        fprintf(fid,writeLineFromVar(pto, 'initLinDisp', maskVars, maskViz, num, 'initDisp'));
+        fprintf(fid,writeLineFromVar(pto, 'initLinDisp', maskVars, maskViz, num, 'initial'));
         fprintf(fid,writeLineFromVar(pto, 'upperLimitSpecify', maskVars, maskViz, num, 'hardStops'));
         fprintf(fid,writeLineFromVar(pto, 'upperLimitBound', maskVars, maskViz, num, 'hardStops'));
         fprintf(fid,writeLineFromVar(pto, 'upperLimitStiffness', maskVars, maskViz, num, 'hardStops'));
@@ -216,9 +216,9 @@ for i=1:length(blocks)
         fprintf(fid,writeLineFromVar(cable, 'preTension', maskVars, maskViz, num, []));
         fprintf(fid,writeLineFromVar(cable, 'y', maskVars, maskViz, num, 'orientation'));
         fprintf(fid,writeLineFromVar(cable, 'z', maskVars, maskViz, num, 'orientation'));
-        fprintf(fid,writeLineFromVar(cable, 'initLinDisp', maskVars, maskViz, num, 'initDisp'));
-        fprintf(fid,writeLineFromVar(cable, 'initAngularDispAxis', maskVars, maskViz, num, 'initDisp'));
-        fprintf(fid,writeLineFromVar(cable, 'initAngularDispAngle', maskVars, maskViz, num, 'initDisp'));
+        fprintf(fid,writeLineFromVar(cable, 'initLinDisp', maskVars, maskViz, num, 'initial'));
+        fprintf(fid,writeLineFromVar(cable, 'initAngularDispAxis', maskVars, maskViz, num, 'initial'));
+        fprintf(fid,writeLineFromVar(cable, 'initAngularDispAngle', maskVars, maskViz, num, 'initial'));
         
     elseif isfield(maskVars,'mooring') && isfield(maskVars,'stiffness')
         % Block is a Mooring system

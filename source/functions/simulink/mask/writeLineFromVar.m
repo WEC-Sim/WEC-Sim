@@ -66,7 +66,7 @@ function inputString = writeLineFromVar(defaultClass, variableName, maskVars, ma
         end
 
         if hasStruct
-            % e.g. 'body(1).initDisp.initLinDisp = [1 1 1]; \r\n'
+            % e.g. 'body(1).initial.initLinDisp = [1 1 1]; \r\n'
             inputString = [classAbbrev '.' structName '.' variableName ' = ' maskVars.(variableName) '; \r\n'];
         else
             % e.g. 'simu.stateSpace = 'on'; \r\n'

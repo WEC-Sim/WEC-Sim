@@ -20,9 +20,9 @@ classdef rotationTest < matlab.unittest.TestCase
             bodytest = bodyClass('');
             bodytest.setInitDisp([1 1 1],[1 0 0 pi; 0 1 0 pi; 0 0 1 pi],[0 0 0]);
             
-            testCase.assertEqual(bodytest.initDisp.initLinDisp, [0 0 0],'AbsTol', tol);
-            testCase.assertEqual(bodytest.initDisp.initAngularDispAngle, 0,'AbsTol', tol);
-            testCase.assertEqual(bodytest.initDisp.initAngularDispAxis, [0 0 1],'AbsTol', tol);
+            testCase.assertEqual(bodytest.initial.initLinDisp, [0 0 0],'AbsTol', tol);
+            testCase.assertEqual(bodytest.initial.initAngularDispAngle, 0,'AbsTol', tol);
+            testCase.assertEqual(bodytest.initial.initAngularDispAxis, [0 0 1],'AbsTol', tol);
         end
         
         function setInitDisp_inverted(testCase)
@@ -31,9 +31,9 @@ classdef rotationTest < matlab.unittest.TestCase
             bodytest = bodyClass('');
             bodytest.setInitDisp([1 1 1],[1 0 0 pi/2; 0 1 0 pi/2; 0 0 1 -pi/2],[0 0 0]);
             
-            testCase.assertEqual(bodytest.initDisp.initLinDisp, [-2 -2 -2],'AbsTol', tol);
-            testCase.assertEqual(bodytest.initDisp.initAngularDispAngle, pi,'AbsTol', tol);
-            testCase.assertEqual(bodytest.initDisp.initAngularDispAxis, [-sqrt(2)/2 0 sqrt(2)/2],'AbsTol', tol);
+            testCase.assertEqual(bodytest.initial.initLinDisp, [-2 -2 -2],'AbsTol', tol);
+            testCase.assertEqual(bodytest.initial.initAngularDispAngle, pi,'AbsTol', tol);
+            testCase.assertEqual(bodytest.initial.initAngularDispAxis, [-sqrt(2)/2 0 sqrt(2)/2],'AbsTol', tol);
         end
         
         function setInitDisp_90deg_y(testCase)
@@ -42,8 +42,8 @@ classdef rotationTest < matlab.unittest.TestCase
             bodytest = bodyClass('');
             bodytest.setInitDisp([1 1 1],[1 0 0 pi/2; 0 0 1 pi/2; 1 0 0 -pi/2],[0 0 0]);
             
-            testCase.assertEqual(bodytest.initDisp.initAngularDispAngle, pi/2,'AbsTol', tol);
-            testCase.assertEqual(bodytest.initDisp.initAngularDispAxis, [0 1 0],'AbsTol', tol);
+            testCase.assertEqual(bodytest.initial.initAngularDispAngle, pi/2,'AbsTol', tol);
+            testCase.assertEqual(bodytest.initial.initAngularDispAxis, [0 1 0],'AbsTol', tol);
         end
         
         function rotMat2AxisAngle_0deg(testCase)

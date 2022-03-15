@@ -28,7 +28,7 @@ classdef mooringClass<handle
     %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%    
     % This class contains mooring parameters and settings
     properties (SetAccess = 'public', GetAccess = 'public')%input file 
-        initDisp                = struct(...                                    % (`obj`) Structure defining initial linear displacement, angular displacement axis, and angular displacement angle (radian). Defaults = ``zeros(1,3), zeros(1,3), 0`` respectively
+        initial                 = struct(...                                    % (`obj`) Structure defining initial linear displacement, angular displacement axis, and angular displacement angle (radian). Defaults = ``zeros(1,3), zeros(1,3), 0`` respectively
                                    'initLinDisp', [0 0 0], ...                      
                                    'initAngularDispAxis', [0 1 0], ...           
                                    'initAngularDispAngle', 0)               
@@ -56,7 +56,7 @@ classdef mooringClass<handle
 
         function obj = setLoc(obj)
             % This method sets mooring location
-            obj.orientation = [obj.location + obj.initDisp.initLinDisp 0 0 0];
+            obj.orientation = [obj.location + obj.initial.initLinDisp 0 0 0];
         end
 
         function setInitDisp(obj, relCoord, axisAngleList, addLinDisp)
@@ -98,9 +98,9 @@ classdef mooringClass<handle
             rotatedRelCoord = relCoord*(rotMat');
             linDisp = rotatedRelCoord - relCoord;
             % apply rotation and displacement to object
-            obj.initDisp.initLinDisp = linDisp + addLinDisp;
-            obj.initDisp.initAngularDispAxis = netAxis;
-            obj.initDisp.initAngularDispAngle = netAngle;            
+            obj.initial.initLinDisp = linDisp + addLinDisp;
+            obj.initial.initAngularDispAxis = netAxis;
+            obj.initial.initAngularDispAngle = netAngle;            
         end
         
         function listInfo(obj)
