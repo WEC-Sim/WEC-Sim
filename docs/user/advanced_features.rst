@@ -118,7 +118,7 @@ the MATLAB Command Window. This command executes the Multiple Condition Run
     **Option 1.** Specify a range of sea states and PTO damping coefficients in 
     the WEC-Sim input file, example: 
     ``waves.H = 1:0.5:5; waves.T = 5:1:15;``
-    ``pto(1).k=1000:1000:10000; pto(1).c=1200000:1200000:3600000;``
+    ``pto(1).stiffness=1000:1000:10000; pto(1).damping=1200000:1200000:3600000;``
 
     **Option 2.**  Specify the excel filename that contains a set of wave 
     statistic data in the WEC-Sim input file. This option is generally useful 
@@ -252,7 +252,7 @@ created and unnecessarily adding to the computational cost. The equal energy
 method is specified by defining the following wave class variable in the 
 WEC-Sim input file: 
 
-    :code:`waves.freqDisc = 'EqualEnergy';`
+    :code:`waves.bem.option = 'EqualEnergy';`
 
 By comparison, the traditional method divides the wave spectrum into a 
 sufficiently large number of equally spaced bins to define the wave spectrum. 
@@ -261,10 +261,10 @@ frequencies of equal frequency distribution. To override WEC-Sim's default
 equal energy method, and instead use the traditional binning method, the 
 following wave class variable must be defined in the WEC-Sim input file: 
 
-    :code:`waves.freqDisc = 'Traditional';`
+    :code:`waves.bem.option = 'Traditional';`
 
 Users may override the default number of wave frequencies by defining 
-``waves.freqNum``. However, it is on the user to ensure that the wave spectrum 
+``waves.bem.count``. However, it is on the user to ensure that the wave spectrum 
 is adequately defined by the number of wave frequencies, and that the wave 
 forces are not impacted by this change. 
 
@@ -346,15 +346,15 @@ Ocean Current
 ^^^^^^^^^^^^^
 The speed of an ocean current can be included through the wave class parameters::
 
-    waves.currentOption
-    waves.currentSpeed
-    waves.currentDirection
-    waves.currentDepth
+    waves.current.option
+    waves.current.speed
+    waves.current.direction
+    waves.current.depth
 
 The current option determines the method used to propagate the surface current across the 
 specified depth. Option 0 is depth independent, option 1 uses a 1/7 power law, option 2
 uses linear variation with depth and option 3 specifies no ocean current.
-The ``currentSpeed`` parameter represents the surface current speed, and ``currentDepth`` 
+The ``current.speed`` parameter represents the surface current speed, and ``current.depth`` 
 the depth at which the current speed decays to zero (given as a positive number).
 See :ref:`theory-current` for more details on each method.
 These parameters are used to calculate the fluid velocity in the Morison Element calculation.
@@ -388,7 +388,7 @@ following features are available:
 * **Import STL** - to read in the geometry (``*.stl``) into Matlab use the 
   :code:`body(i).importBodyGeometry()` method in the bodyClass. This method will import the 
   mesh details (vertices, faces, normals, areas, centroids) into the 
-  :code:`body(i).bodyGeometry` property. This method is also used for nonlinear 
+  :code:`body(i).geometry` property. This method is also used for nonlinear 
   buoyancy and Froude-Krylov excitation and ParaView visualization files. Users 
   can then visualize the geometry using the :code:`body(i).plotStl` method.
 
@@ -550,12 +550,14 @@ be applied to each body by defining the quadratic drag coefficient
 This is achieved by defining the following body class parameters in the WEC-Sim 
 input file (each of which have a default value of zero):: 
 
-    body(i).viscDrag.cd
-    body(i).viscDrag.area
+    body(i).quadDrag.cd
+    body(i).quadDrag.characteristicArea
+    body(i).quadDrag.cd
+    body(i).quadDrag.area
 
 Alternatively, one can define :math:`C_{D}` directly::
 
-    body(i).viscDrag.Drag
+    body(i).quadDrag.Drag
 
 .. _user-advanced-features-morison:
 
@@ -618,8 +620,8 @@ For :code:`body(ii).morisonElement.option  = 2` ::
 To better represent certain scenarios, an ocean current speed can be defined to 
 calculate a more accurate fluid velocity and acceleration on the Morison 
 Element. These can be defined through the wave class parameters 
-``waves.currentOption``, ``waves.currentSpeed``, ``waves.currentDirection``, 
-and ``waves.currentDepth``. See :ref:`user-advanced-features-current` for more 
+``waves.current.option``, ``waves.current.speed``, ``waves.current.direction``, 
+and ``waves.current.depth``. See :ref:`user-advanced-features-current` for more 
 detail on using these options.
 
 The Morison Element time-step may also be defined as
@@ -668,11 +670,11 @@ not read an ``*.h5`` file. Users must define these additional parameters to
 account for certain wave settings as there is no hydrodynamic body present in
 the simulation to define them::
 
-    waves.freqRange
+    waves.bem.range
     waves.waterDepth
 
 
-For more information, refer to :ref:`webinar2`, and the **OSWEC_nhBody** 
+For more information, refer to :ref:`webinar2`, and the **Nonhydro_Body** 
 example on the `WEC-Sim Applications 
 <https://github.com/WEC-Sim/WEC-Sim_Applications>`_ repository. 
 
@@ -691,9 +693,9 @@ following body class variable::
 Drag bodies have zero wave excitation or radiation forces, but viscous forces 
 can be applied in the same manner as a hydrodynamic body via the parameters:: 
 
-    body(i).viscDrag.Drag
-    body(i).viscDrag.cd
-    body(i).viscDrag.area
+    body(i).quadDrag.Drag
+    body(i).quadDrag.cd
+    body(i).quadDrag.area
     body(i).linearDamping
 
 or if using Morison Elements::  
@@ -787,9 +789,9 @@ with time, WEC-Sim allows a correction to excitation forces for large yaw
 displacements. To enable this correction, add the following to your 
 ``wecSimInputFile``:: 
 
-    simu.yaw = 1
+    body(ii).yaw.option = 1
 
-Under the default implementation (:code:`simu.yaw = 0`), WEC-Sim uses the 
+Under the default implementation (:code:`body(ii).yaw.option = 0`), WEC-Sim uses the 
 initial yaw orientation of the device relative to the incident waves to 
 calculate the wave excitation coefficients that will be used for the duration 
 of the simulation. When the correction is enabled, excitation coefficients are 
@@ -802,15 +804,15 @@ degrees of yaw (or equivalent).
 
 This can increase simulation time, especially for irregular waves, due to the 
 large number of interpolations that must occur. To prevent interpolation at 
-every time-step, ``simu.yawThresh`` (default 1 degree) can be specified in the 
+every time-step, ``body(ii).yaw.threshold`` (default 1 degree) can be specified in the 
 ``wecSimInputFile`` to specify the minimum yaw displacement (in degrees) that 
 must occur before another interpolation of excitation coefficients will be 
 calculated. The minimum threshold for good simulation accuracy will be device 
 specific: if it is too large, no interpolation will occur and the simulation 
-will behave as :code:`simu.yawNonLin = 0`, but overly small values may not 
+will behave as :code:`body(ii).yaw.option = 0`, but overly small values may not 
 significantly enhance simulation accuracy while increasing simulation time. 
 
-When :code:`simu.yaw = 1`, hydrostatic and radiation forces are 
+When :code:`body(ii).yaw.option = 1`, hydrostatic and radiation forces are 
 determined from the local body-fixed coordinate system based upon the 
 instantaneous relative yaw position of the body, as this may differ 
 substantially from the global coordinate system for large relative yaw values. 
@@ -854,10 +856,10 @@ is  a PTO or constraint block that defineds the connection on the follower side.
 
 It is necessary to define, at a minimum: ::
 
-    cable(i).k = <cableDamping>;
-    cable(i).c = <cableStiffness>;
+    cable(i).stiffness = <cableStiffness>;
+    cable(i).damping = <cableDamping>;
 
-where :code:`cable(i).k` is the cable stiffness (N/m), and :code:`cable(i).c` is the cable damping (N/(m*s)). Force from the cable stiffness or 
+where :code:`cable(i).stiffness` is the cable stiffness (N/m), and :code:`cable(i).damping` is the cable damping (N/(m*s)). Force from the cable stiffness or 
 damping is applied between the connection points if the current length of the cable exceeds the equilibrium length of the cable. 
 By default, the cable equilibrium length is defined to be the distance between the locations of the ``baseConnection`` and ``followerConnection``, so that initially there is no tension on the cable. 
 
@@ -865,13 +867,13 @@ If a distinct initial condition is desired, one can define either ``cable(i).L0`
 ``followerConnection``. 
 
 To include dynamics applied at the cable-to-body coupling (e.g., a stiffness and damping), a PTO block 
-can be used instead, and the parameters :code:`pto(i).c` and :code:`pto(i).k` can be used to describe these dynamics. 
+can be used instead, and the parameters :code:`pto(i).damping` and :code:`pto(i).stiffness` can be used to describe these dynamics. 
 
 By default, the cable is presumed neutrally buoyant and it is not subjected to fluid drag. To include fluid drag, the user can additionally define these parameters in a style similar to the :code:`bodyClass` ::
 
-	cable(i).viscDrag.cd
-	cable(i).viscDrag.area
-	cable(i).viscDrag.Drag
+	cable(i).quadDrag.cd
+	cable(i).quadDrag.area
+	cable(i).quadDrag.Drag
 	cable(i).linearDamping
 	
 The cable mass and fluid drag is modeled with a low-order lumped-capacitance method with 2 nodes. 
@@ -1056,7 +1058,7 @@ specifying the CG or location at the stability position (as with any WEC-Sim
 simulation) and then specifying an initial displacement. To specify an initial 
 displacement, the body and mooring blocks have a :code:`.initDisp` property 
 with which you can specify a translation and angular rotation about an 
-arbitrary axis. For the constraint and PTO blocks, the :code:`.loc` property 
+arbitrary axis. For the constraint and PTO blocks, the :code:`.location` property 
 must be set to the location at time = 0. 
 
 There are methods available to help setup this initial displacement for all 
@@ -1072,9 +1074,9 @@ found in the method's header comments. The following properties must be
 defined prior to using the object's :code:`setInitDisp()` method: 
 
 * :code:`body(i).cg`
-* :code:`constraint(i).loc`
-* :code:`pto(i).loc`
-* :code:`mooring.ref` 
+* :code:`constraint(i).location`
+* :code:`pto(i).location`
+* :code:`mooring.location` 
 
 For more information, refer to the **Free Decay** example on the `WEC-Sim 
 Applications <https://github.com/WEC-Sim/WEC-Sim_Applications>`_ repository. 

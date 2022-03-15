@@ -31,22 +31,22 @@ where :math:`U_{m}` is the maximum fluid velocity,  and :math:`\nu` is the kinem
 
 where :math:`\sigma = 2\pi/T`.  This can be taking further by considering the body is being is impinged upon by regular waves of the form:
 
-.. math:: \eta(x,t) & = A \cos \left( \sigma t - k \left[ x \cos \beta + y \sin \beta\right] \right) = \Re \left\lbrace -\frac{1}{g}\frac{\partial \phi_{I}}{\partial t} \bigg|_{z=0} \right\rbrace~~, \\ \phi_{I}(x,z,t) & = \Re \left\lbrace \frac{Ag}{\sigma} \frac{\cosh \left(k (z+h) \right)}{\cosh \left( kh \right)} i e^{i(\sigma t-k\left[ x \cos \beta + y \sin \beta\right])} \right\rbrace~~, \\ \sigma^{2} & = gk\tanh\left(kh\right)
+.. math:: \eta(x,t) & = A \cos \left( \sigma t - k \left[ x \cos \theta + y \sin \theta\right] \right) = \Re \left\lbrace -\frac{1}{g}\frac{\partial \phi_{I}}{\partial t} \bigg|_{z=0} \right\rbrace~~, \\ \phi_{I}(x,z,t) & = \Re \left\lbrace \frac{Ag}{\sigma} \frac{\cosh \left(k (z+h) \right)}{\cosh \left( kh \right)} i e^{i(\sigma t-k\left[ x \cos \theta + y \sin \theta\right])} \right\rbrace~~, \\ \sigma^{2} & = gk\tanh\left(kh\right)
    :label: eqna
 
-where :math:`\eta` is the wave elevation, :math:`\phi_{I}` is the incident wave potential, :math:`A` is the wave amplitude, :math:`k` is the wave number (defined as :math:`k=\frac{2\pi}{\lambda}` where :math:`\lambda` is the wave length), :math:`g` is gravitational acceleration, :math:`h` is the water depth, :math:`z` is the vertical position in the water column, :math:`\beta` is the wave heading. The fluid velocity can then be obtained by taking the graident of Eqn. :eq:`eqna` :
+where :math:`\eta` is the wave elevation, :math:`\phi_{I}` is the incident wave potential, :math:`A` is the wave amplitude, :math:`k` is the wave number (defined as :math:`k=\frac{2\pi}{\lambda}` where :math:`\lambda` is the wave length), :math:`g` is gravitational acceleration, :math:`h` is the water depth, :math:`z` is the vertical position in the water column, :math:`\theta` is the wave heading. The fluid velocity can then be obtained by taking the graident of Eqn. :eq:`eqna` :
 
 .. math::
-   u (x,z,t) & = \Re \left\lbrace \frac{\partial \phi_{I}}{\partial x} \right\rbrace = \frac{Agk}{\sigma} \frac{\cosh \left( k (z+h)\right)}{\cosh \left( kh \right)} \cos \left( \sigma t - k x \right) \cos\left(\beta\right)~~,\\
-   v (x,z,t) & = \Re \left\lbrace \frac{\partial \phi_{I}}{\partial y} \right\rbrace = \frac{Agk}{\sigma} \frac{\cosh \left( k (z+h)\right)}{\cosh \left( kh \right)} \cos \left( \sigma t - k x \right)\sin\left(\beta\right)~~,\\
+   u (x,z,t) & = \Re \left\lbrace \frac{\partial \phi_{I}}{\partial x} \right\rbrace = \frac{Agk}{\sigma} \frac{\cosh \left( k (z+h)\right)}{\cosh \left( kh \right)} \cos \left( \sigma t - k x \right) \cos\left(\theta\right)~~,\\
+   v (x,z,t) & = \Re \left\lbrace \frac{\partial \phi_{I}}{\partial y} \right\rbrace = \frac{Agk}{\sigma} \frac{\cosh \left( k (z+h)\right)}{\cosh \left( kh \right)} \cos \left( \sigma t - k x \right)\sin\left(\theta\right)~~,\\
    w (x,z,t) & = \Re \left\lbrace \frac{\partial \phi_{I}}{\partial z} \right\rbrace = -\frac{Agk}{\sigma} \frac{\sinh \left( k (z+h)\right)}{\cosh \left( kh \right)} \sin \left( \sigma t - k x \right)~~,
    :label: eqnb
       
 The acceleration of the fluid particles will then be obtained by taking the time derivative of Eqn. :eq:`eqnb` :
 
 .. math:: 
-   \dot{u} (x,z,t) & = \frac{\partial u}{\partial t} = -Agk \frac{\cosh \left( k (z+h)\right)}{\cosh \left( kh \right)} \sin \left( \sigma t - k x \right) \cos\left(\beta\right)~~,\\
-   \dot{v} (x,z,t) & = \frac{\partial v}{\partial t} = -Agk \frac{\cosh \left( k (z+h)\right)}{\cosh \left( kh \right)} \sin \left( \sigma t - k x \right) \sin\left(\beta\right)~~,\\
+   \dot{u} (x,z,t) & = \frac{\partial u}{\partial t} = -Agk \frac{\cosh \left( k (z+h)\right)}{\cosh \left( kh \right)} \sin \left( \sigma t - k x \right) \cos\left(\theta\right)~~,\\
+   \dot{v} (x,z,t) & = \frac{\partial v}{\partial t} = -Agk \frac{\cosh \left( k (z+h)\right)}{\cosh \left( kh \right)} \sin \left( \sigma t - k x \right) \sin\left(\theta\right)~~,\\
    \dot{w} (x,z,t) & = \frac{\partial w}{\partial t} = -Agk \frac{\sinh \left( k (z+h)\right)}{\cosh \left( kh \right)} \cos \left( \sigma t - k x \right)~~,
    :label: dotuw
    
