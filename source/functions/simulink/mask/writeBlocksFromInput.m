@@ -65,7 +65,7 @@ switch type
         maskVars.cg = body(num).cg;
         maskVars.cb = body(num).cb;
         maskVars.dof = body(num).dof;
-        maskVars.dispVol = body(num).dispVol;
+        maskVars.volume = body(num).volume;
         maskVars.initLinDisp = body(num).initDisp.initLinDisp;
         maskVars.initAngularDispAxis = body(num).initDisp.initAngularDispAxis;
         maskVars.initAngularDispAngle = body(num).initDisp.initAngularDispAngle;

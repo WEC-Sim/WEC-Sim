@@ -63,7 +63,7 @@ classdef cableClass<handle
         cb2                     = [0 0 0];                                  % (`1 x 3 float vector`) cb location of the follower drag body
         cg1                     = [0 0 0];                                  % (`1 x 3 float vector`) cg location of the base drag body
         cg2                     = [0 0 0];                                  % (`1 x 3 float vector`) cg location of the follower drag body
-        dispVol                 = [];                                       % (`float`) displacement volume, defaults to neutral buoyancy 
+        volume                 = [];                                       % (`float`) displacement volume, defaults to neutral buoyancy 
         followerConnectionName  = '';                                       % (`string`) name of the follower constraint or PTO
         location                = [999 999 999]                             % (`3x1 float vector`) pto location [m]. Defined in the following format [x y z]. Default = ``[999 999 999]``.    
         number                  = []                                       	% Cable number
@@ -205,7 +205,7 @@ classdef cableClass<handle
         
         function setDispVol(obj, rho)
             % This method mades the mass of the cable drag bodies neutrally bouyant
-            obj.dispVol = obj.bodyMass/rho;
+            obj.volume = obj.bodyMass/rho;
         end
         
         function dragForcePre(obj,rho)

@@ -144,7 +144,7 @@ for i=1:length(blocks)
         fprintf(fid,writeLineFromVar(body, 'cg', maskVars, maskViz, num, []));
         fprintf(fid,writeLineFromVar(body, 'cb', maskVars, maskViz, num, []));
         fprintf(fid,writeLineFromVar(body, 'dof', maskVars, maskViz, num, []));
-        fprintf(fid,writeLineFromVar(body, 'dispVol', maskVars, maskViz, num, []));        
+        fprintf(fid,writeLineFromVar(body, 'volume', maskVars, maskViz, num, []));        
         fprintf(fid,writeLineFromVar(body, 'initLinDisp', maskVars, maskViz, num, 'initDisp'));
         fprintf(fid,writeLineFromVar(body, 'initAngularDispAxis', maskVars, maskViz, num, 'initDisp'));
         fprintf(fid,writeLineFromVar(body, 'initAngularDispAngle', maskVars, maskViz, num, 'initDisp'));        

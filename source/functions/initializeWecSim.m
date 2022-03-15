@@ -250,8 +250,8 @@ if ~isempty(idx)
         if isempty(body(it).cg)
             error('Non-hydro body(%i) center of gravity (cg) must be defined in the wecSimInputFile.m',body(it).number);
         end
-        if isempty(body(it).dispVol)
-            error('Non-hydro body(%i) displaced volume (dispVol) must be defined in the wecSimInputFile.m',body(it).number);
+        if isempty(body(it).volume)
+            error('Non-hydro body(%i) displaced volume (volume) must be defined in the wecSimInputFile.m',body(it).number);
         end
         if isempty(body(it).cb)
             body(it).cb = body(it).cg;
@@ -269,8 +269,8 @@ if ~isempty(idx)
         if isempty(body(it).cg)
             error('Drag body(%i) center of gravity (cg) must be defined in the wecSimInputFile.m',body(it).number);
         end
-        if isempty(body(it).dispVol)
-            error('Drag body(%i) displaced volume (dispVol) must be defined in the wecSimInputFile.m',body(it).number);
+        if isempty(body(it).volume)
+            error('Drag body(%i) displaced volume (volume) must be defined in the wecSimInputFile.m',body(it).number);
         end
         if isempty(body(it).cb)
             body(it).cb = body(it).cg;
