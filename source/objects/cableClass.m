@@ -30,7 +30,6 @@ classdef cableClass<handle
     %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%    
     
     properties (SetAccess = 'public', GetAccess = 'public') %input file
-        L0                      = 0                                         % (`float`) Cable equilibrium length (m), calculated from rotloc and preTension. Default =`0`.
         bodyInertia             = [1 1 1];                                  % (`1 x 3 float vector`) body inertia kg-m^2, default [1 1 1]
         bodyMass                = 1;                                        % (`float`) mass in kg, default 1
         damping                 = 0                                         % (`float`) Cable damping coefficient (N/(m/s)). Default = `0`.
@@ -38,6 +37,7 @@ classdef cableClass<handle
             'displacement',          [0 0 0],...                            % 
             'axis',  [0 1 0], ...                                           %
             'angle', 0)                                                     % Structure defining the initial displacement of the body. ``displacement`` (`3x1 float vector`) is defined as the initial displacement of the body center of gravity (COG) [m] in the following format [x y z], Default = [``0 0 0``]. ``axis`` (`3x1 float vector`) is defined as the axis of rotation in the following format [x y z], Default = [``0 1 0``]. ``angle`` (`float`) is defined as the initial angular displacement of the body COG [rad], Default = ``0``.
+        length                  = 0                                         % (`float`) Cable equilibrium length (m), calculated from rotloc and preTension. Default =`0`.
         linearDamping           = [0 0 0 0 0 0];                            % (`1 x 6 float vector`)linear damping aplied to body motions
         name                    = 'NOT DEFINED'                             % (`string`) Defines the Cable name. Default = ``NOT DEFINED``.
         orientation             = struct(...                                %
@@ -52,18 +52,18 @@ classdef cableClass<handle
             'drag', zeros(6), ...                                           % 
             'cd', [0 0 0 0 0 0]);                                           % Structure defining the viscous quadratic drag forces. First option define ``drag``, (`6x6 float matrix`), Default = ``zeros(6)``. Second option define ``cd``, (`6x1 float vector`), Default = ``zeros(6,1)``, and ``area``, (`6x1 float vector`), Default = ``zeros(6,1)``.
         stiffness               = 0                                         % (`float`) Cable stiffness (N/m). Default = `0`.
-        viz               = struct(...                                      %
+        viz                     = struct(...                                %
             'color', [1 0 0.5], ...                                         %
             'opacity', 1)                                                   % Structure defining visualization properties in either SimScape or Paraview. ``color`` (`3x1 float vector`) is defined as the body visualization color, Default = [``1 1 0``]. ``opacity`` (`integer`) is defined as the body opacity, Default = ``1``.        
     end
  
     properties (SetAccess = 'public', GetAccess = 'public')%internal
+        baseCb                  = [0 0 0];                                  % (`1 x 3 float vector`) cb location of the base drag body
+        baseCg                  = [0 0 0];                                  % (`1 x 3 float vector`) cg location of the base drag body
         baseConnectionName      = '';                                       % (`string`) name of the base constraint or PTO
         baseLocation            = [999 999 999]                             % (`3x1 float vector`) base location [m]. Defined in the following format [x y z]. Default = ``[999 999 999]``.
-        cb1                     = [0 0 0];                                  % (`1 x 3 float vector`) cb location of the base drag body
-        cb2                     = [0 0 0];                                  % (`1 x 3 float vector`) cb location of the follower drag body
-        cg1                     = [0 0 0];                                  % (`1 x 3 float vector`) cg location of the base drag body
-        cg2                     = [0 0 0];                                  % (`1 x 3 float vector`) cg location of the follower drag body
+        followerCb              = [0 0 0];                                  % (`1 x 3 float vector`) cb location of the follower drag body
+        followerCg              = [0 0 0];                                  % (`1 x 3 float vector`) cg location of the follower drag body
         followerConnectionName  = '';                                       % (`string`) name of the follower constraint or PTO
         followerLocation        = [999 999 999]                             % (`3x1 float vector`) follower location [m]. Defined in the following format [x y z]. Default = ``[999 999 999]``.        
         location                = [999 999 999]                             % (`3x1 float vector`) pto location [m]. Defined in the following format [x y z]. Default = ``[999 999 999]``.    
@@ -203,7 +203,7 @@ classdef cableClass<handle
             
         end        
         
-        function setDispVol(obj, rho)
+        function setVolume(obj, rho)
             % This method mades the mass of the cable drag bodies neutrally bouyant
             obj.volume = obj.bodyMass/rho;
         end
@@ -231,39 +231,36 @@ classdef cableClass<handle
         function setCb(obj)
             % This method sets the buoyancy center to equal the center of
             % gravity, if the center of buoyancy is not defined
-            obj.cb1 = obj.cg1;
-            obj.cb2 = obj.cg2;
+            obj.baseCb = obj.baseCg;
+            obj.followerCb = obj.followerCg;
         end
         
         function setCg(obj)
             % This method specifies the Cg of the drag bodies as coincident
             % with the fixed ends of the cable, if not otherwise specied.
-            obj.cg1 = obj.baseLocation;
-            obj.cg2 = obj.followerLocation;
+            obj.baseCg = obj.baseLocation;
+            obj.followerCg = obj.followerLocation;
         end
         
-        function setL0(obj)
-            % This method specifies L0 as the distance between cable fixed
+        function setLength(obj)
+            % This method specifies length as the distance between cable fixed
             % ends (i.e. pretension = 0), if not otherwise specified.
-            if ~any(obj.L0) && ~any(obj.preTension)
-                obj.L0 = sqrt((obj.baseLocation(1)-obj.followerLocation(1)).^2 ...
+            if ~any(obj.length) && ~any(obj.preTension)
+                obj.length = sqrt((obj.baseLocation(1)-obj.followerLocation(1)).^2 ...
                 + (obj.baseLocation(2)-obj.followerLocation(2)).^2 ...
                 + (obj.baseLocation(3)-obj.followerLocation(3)).^2);
-                fprintf('\n\t cable(i).L0 undefined and cable(i).preTension undefined. \n \r',...
-                    'cable(i).L0 set equal to distance between followerLocation and baseLocation \n and cable(i).preTension set equal to zero \n');
-                
-            elseif ~any(obj.L0) && any(obj.preTension)
-                obj.L0 = sqrt((obj.baseLocation(1)-obj.followerLocation(1)).^2 ...
+                fprintf('\n\t cable(i).length undefined and cable(i).preTension undefined. \n \r',...
+                    'cable(i).length set equal to distance between followerLocation and baseLocation \n and cable(i).preTension set equal to zero \n');                
+            elseif ~any(obj.length) && any(obj.preTension)
+                obj.length = sqrt((obj.baseLocation(1)-obj.followerLocation(1)).^2 ...
                 + (obj.baseLocation(2)-obj.followerLocation(2)).^2 ...
-                + (obj.baseLocation(3)-obj.followerLocation(3)).^2) + obj.preTension/obj.stiffness;
-            
-            elseif ~any(obj.preTension) && any(obj.L0)
+                + (obj.baseLocation(3)-obj.followerLocation(3)).^2) + obj.preTension/obj.stiffness;            
+            elseif ~any(obj.preTension) && any(obj.length)
                 obj.preTension = obj.stiffness * (sqrt((obj.baseLocation(1)-obj.followerLocation(1)).^2 ...
                 + (obj.baseLocation(2)-obj.followerLocation(2)).^2 ...
-                + (obj.baseLocation(3)-obj.followerLocation(3)).^2) - obj.L0); 
-            
-            elseif any(obj.preTension) && any(obj.L0)
-                error('System overdefined. Please define cable(i).preTension OR cable(i).L0, not both.')
+                + (obj.baseLocation(3)-obj.followerLocation(3)).^2) - obj.length);             
+            elseif any(obj.preTension) && any(obj.length)
+                error('System overdefined. Please define cable(i).preTension OR cable(i).length, not both.')
             end
         end
         

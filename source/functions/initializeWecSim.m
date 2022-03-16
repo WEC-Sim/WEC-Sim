@@ -186,9 +186,9 @@ if exist('cable','var')==1
         cable(ii).setCg();
         cable(ii).setCb();
         cable(ii).setTransPTOLoc();
-        cable(ii).setL0();
+        cable(ii).setLength();
         cable(ii).dragForcePre(simu.rho);
-        cable(ii).setDispVol(simu.rho);
+        cable(ii).setVolume(simu.rho);
         cable(ii).setOrientation();
         cable(ii).linearDampingMatrix();
     end
