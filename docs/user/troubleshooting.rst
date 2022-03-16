@@ -133,7 +133,7 @@ Viscous Drag
 
 A hydrostatically stable device that has an unphysical response to a regular wave requires improved drag and damping.
 BEM codes inherently assume inviscid flow. Recreating the effects of viscous drag in WEC-Sim is essential to obtaining a physical response.
-Tune the parameters ``body(#).viscDrag`` or ``body(#).linearDamping`` to create a realistic response to a regular wave.
+Tune the parameters ``body(#).quadDrag`` or ``body(#).linearDamping`` to create a realistic response to a regular wave.
 
 Irregular Waves
 ^^^^^^^^^^^^^^^^^^^^^

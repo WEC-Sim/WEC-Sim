@@ -404,7 +404,7 @@ important distinctions.
 |                         |``body(i).cg``                               |
 |                         |``body(i).cb``                               |
 |                         |``body(i).dispVol``                          |
-|                         |``body(i).nhBody=1``                         |
+|                         |``body(i).nonHydro=1``                       |
 +-------------------------+---------------------------------------------+
 |Nonhydrodynamic Body     |``body(i)=bodyClass('')``                    |
 |                         |``body(i).geometryFile = '<geomFile>.stl'``  |
@@ -413,7 +413,7 @@ important distinctions.
 |                         |``body(i).cg``                               |
 |                         |``body(i).cb``                               |
 |                         |``body(i).dispVol``                          |
-|                         |``body(i).nhBody=2``                         |
+|                         |``body(i).nonHydro=2``                       |
 +-------------------------+---------------------------------------------+
 |Flexible Body            |``body(i)=bodyClass('<bemData>.h5')``        |
 |                         |``body(i).geometryFile = '<geomFile>.stl'``  |
@@ -430,8 +430,8 @@ For example, viscous drag can be specified by entering the viscous drag
 coefficient and the characteristic area in vector format the WEC-Sim 
 input file as follows:: 
 
-    body(i).viscDrag.cd = [0 0 1.3 0 0 0]
-    body(i).viscDrag.characteristicArea = [0 0 100 0 0 0]
+    body(i).quadDrag.cd = [0 0 1.3 0 0 0]
+    body(i).quadDrag.area = [0 0 100 0 0 0]
 
 Available body properties, default values, and functions can be found by typing 
 ``doc bodyClass`` in the MATLAB command window, or opening the ``bodyClass.m`` 
@@ -455,7 +455,7 @@ the ``Rigid Body`` block and the ``Flex Body`` block. The rigid body block is
 used to represent hydrodynamic, nonhydrodynamic, and drag bodies. Each type of 
 rigid body is a `Variant Sub-system <https://www.mathworks.com/help/simulink/slref/variant-subsystems.html>`_. 
 Before simulation, one variant is activated by a flag in the body object 
-(body.nhBody=0,1,2). The flex body block is used to represent hydrodynamic 
+(body.nonHydro=0,1,2). The flex body block is used to represent hydrodynamic 
 bodies that contain additional flexible degrees of freedom ('generalized body 
 modes'). The flex body is determined automatically by the degrees of freedom 
 contained in the BEM input data. At least one instance of a body 
@@ -504,7 +504,7 @@ For rotational constraint (ex: pitch), users may also specify the
 location and orientation of the rotational joint with respect to the global 
 reference frame::
     
-    constraint(i).loc = [<x> <y> <z>];
+    constraint(i).location = [<x> <y> <z>];
     constraint(i).orientation.z = [<x> <y> <z>];
     constraint(i).orientation.y = [<x> <y> <z>];
 
@@ -597,14 +597,14 @@ initialize each iteration the pto class (``ptoClass``) and specify the
 
 For rotational ptos, the user also needs to specify the location of the 
 rotational joint with respect to the global reference frame in the 
-``pto(i).loc`` variable. In the PTO class, users can also specify 
-linear damping (``pto(i).c``) and stiffness (``pto(i).k``) values to 
+``pto(i).location`` variable. In the PTO class, users can also specify 
+linear damping (``pto(i).damping``) and stiffness (``pto(i).stiffness``) values to 
 represent the PTO system (both have a default value of 0). Users can overwrite 
 the default values in the input file. For example, users can specify a damping 
 value by entering the following in the WEC-Sim input file:: 
 
-    pto(i).c = <ptoDamping>;
-    pto(i).k = <ptoStiffness>;
+    pto(i).damping = <ptoDamping>;
+    pto(i).stiffness = <ptoStiffness>;
 
 Available pto properties, default values, and functions can be found by typing 
 ``doc ptoClass`` in the MATLAB command window, or opening the `ptoClass.m` file 
@@ -662,8 +662,8 @@ Within the ``wecSimInputFile.m``, users must initialize the cable class and spec
 ``cableName``, in addition to the ``baseConnection`` and ``followerConnection`` (in that order), by including the following lines:: 
 
     cable(i) = cableClass('cableName','baseConnection','followerConnection');
-    cable(i).k = <cableDamping>;
-    cable(i).c = <cableStiffness>;
+    cable(i).damping = <cableDamping>;
+    cable(i).stiffness = <cableStiffness>;
 
 Available cable properties, default values, and functions 
 can be found by typing ``doc cableClass`` in the MATLAB command window, or 
