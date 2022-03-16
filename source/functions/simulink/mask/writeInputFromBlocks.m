@@ -117,8 +117,8 @@ for i=1:length(blocks)
         fprintf(fid,'\r\n%s\r\n','%% Wave Class');
         fprintf(fid,'waves = waveClass(%s); \r\n',maskVars.WaveClass);
         
-        fprintf(fid,writeLineFromVar(waves, 'H', maskVars, maskViz, [], []));
-        fprintf(fid,writeLineFromVar(waves, 'T', maskVars, maskViz, [], []));
+        fprintf(fid,writeLineFromVar(waves, 'height', maskVars, maskViz, [], []));
+        fprintf(fid,writeLineFromVar(waves, 'period', maskVars, maskViz, [], []));
         fprintf(fid,writeLineFromVar(waves, 'direction', maskVars, maskViz, [], []));
         fprintf(fid,writeLineFromVar(waves, 'spread', maskVars, maskViz, [], []));
         fprintf(fid,writeLineFromVar(waves, 'spectrumType', maskVars, maskViz, [], []));

@@ -5,8 +5,8 @@ function waveClassCallback(blockHandle)
     % Get all wave parameters
     mask = Simulink.Mask.get(blockHandle);
     type = mask.getParameter('WaveClass');
-    H = mask.getParameter('H');
-    T = mask.getParameter('T');
+    height = mask.getParameter('height');
+    period = mask.getParameter('period');
     elevationFile = mask.getParameter('elevationFile');
     spectrumFile = mask.getParameter('spectrumFile');
     spectrumType = mask.getParameter('spectrumType');
@@ -22,8 +22,8 @@ function waveClassCallback(blockHandle)
     % Change visibilities of parameters/buttons based on WaveClass selection
     switch type.Value
         case 'noWave'
-            H.Visible = 'on';
-            T.Visible = 'on';
+            height.Visible = 'on';
+            period.Visible = 'on';
             elevationFile.Visible = 'off';
             spectrumFile.Visible = 'off';
             spectrumType.Visible = 'off';
@@ -35,8 +35,8 @@ function waveClassCallback(blockHandle)
             SpecButton.Visible = 'off';
 
         case 'noWaveCIC'
-            H.Visible = 'off';
-            T.Visible = 'off';
+            height.Visible = 'off';
+            period.Visible = 'off';
             elevationFile.Visible = 'off';
             spectrumFile.Visible = 'off';
             spectrumType.Visible = 'off';
@@ -48,8 +48,8 @@ function waveClassCallback(blockHandle)
             SpecButton.Visible = 'off';
 
         case {'regular' 'regularCIC'}
-            H.Visible = 'on';
-            T.Visible = 'on';
+            height.Visible = 'on';
+            period.Visible = 'on';
             elevationFile.Visible = 'off';
             spectrumFile.Visible = 'off';
             spectrumType.Visible = 'off';
@@ -61,8 +61,8 @@ function waveClassCallback(blockHandle)
             SpecButton.Visible = 'off';
 
         case 'irregular'
-            H.Visible = 'on';
-            T.Visible = 'on';
+            height.Visible = 'on';
+            period.Visible = 'on';
             elevationFile.Visible = 'off';
             spectrumFile.Visible = 'off';
             spectrumType.Visible = 'on';
@@ -74,8 +74,8 @@ function waveClassCallback(blockHandle)
             SpecButton.Visible = 'off';
 
         case 'spectrumImport'
-            H.Visible = 'off';
-            T.Visible = 'off';
+            height.Visible = 'off';
+            period.Visible = 'off';
             elevationFile.Visible = 'off';
             spectrumFile.Visible = 'on';
             spectrumType.Visible = 'off';
@@ -87,8 +87,8 @@ function waveClassCallback(blockHandle)
             SpecButton.Visible = 'on';
 
         case 'elevationImport'
-            H.Visible = 'off';
-            T.Visible = 'off';
+            height.Visible = 'off';
+            period.Visible = 'off';
             elevationFile.Visible = 'on';
             spectrumFile.Visible = 'off';
             spectrumType.Visible = 'off';
