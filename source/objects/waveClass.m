@@ -58,7 +58,7 @@ classdef waveClass<handle
   
     properties (SetAccess = 'private', GetAccess = 'public')%internal       
         % The following properties are private, for internal use by WEC-Sim
-        A               = [];                       % Wave amplitude [m]. For regular waves or 2*(wave spectrum vector) for irregular waves
+        amplitude       = [];                       % Wave amplitude [m]. For regular waves or 2*(wave spectrum vector) for irregular waves
         S               = [];                       % Wave Spectrum [m^2-s/rad] for ``Traditional``
         Pw              = [];                       % Wave Power Per Unit Wave Crest [W/m]        
         deepWater       = [];                       % Deep water or not, depending on input from WAMIT, NEMOH and AQWA
@@ -213,7 +213,7 @@ classdef waveClass<handle
                         obj.period = 2*pi/obj.w;
                     end
                     obj.height = 0;
-                    obj.A = obj.height/2;
+                    obj.amplitude = obj.height/2;
                     obj.k = waveNumber(obj.w,obj.waterDepth,g,obj.deepWater);
                     obj.waveElevNowave(time);
                 case {'regular','regularCIC'}
@@ -225,7 +225,7 @@ classdef waveClass<handle
                     else
                         obj.period = 2*pi/obj.w;
                     end
-                    obj.A = obj.height/2;
+                    obj.amplitude = obj.height/2;
                     obj.k = waveNumber(obj.w,obj.waterDepth,g,obj.deepWater);
                     obj.waveElevReg(rampTime, time);
                     obj.wavePowerReg(g,rho);
@@ -380,13 +380,13 @@ classdef waveClass<handle
                     Z = zeros (size (X));                    
                 case {'regular', 'regularCIC'}                    
                     Xt = X*cos (obj.direction*pi/180) + Y * sin(obj.direction*pi/180);                    
-                    Z = obj.A * cos(-1 * obj.k * Xt  +  obj.w * t);                    
+                    Z = obj.amplitude * cos(-1 * obj.k * Xt  +  obj.w * t);                    
                 case {'irregular', 'spectrumImport'}
                     Z = zeros (size (X));
                     for idir=1:length(obj.direction)
                         Xt = X*cos(obj.direction(idir)*pi/180) + Y*sin(obj.direction(idir)*pi/180);
                         for iw = 1:length(obj.w)
-                            Z = Z + sqrt(obj.A(iw)*obj.spread(idir).*obj.dw(iw)) * cos(-1*obj.k(iw)*Xt + obj.w(iw)*t + obj.phase(iw,idir));
+                            Z = Z + sqrt(obj.amplitude(iw)*obj.spread(idir).*obj.dw(iw)) * cos(-1*obj.k(iw)*Xt + obj.w(iw)*t + obj.phase(iw,idir));
                         end
                     end
                 case{'elevationImport'}
@@ -537,7 +537,7 @@ classdef waveClass<handle
 
             obj.waveAmpTime = zeros(maxIt,2);
             obj.waveAmpTime(:,1) = timeseries;
-            obj.waveAmpTime(:,2) = rampFunction.*(obj.A*cos(obj.w*timeseries));
+            obj.waveAmpTime(:,2) = rampFunction.*(obj.amplitude*cos(obj.w*timeseries));
 
             % Wave Marker
             if ~isempty(obj.marker.location)==1
@@ -550,7 +550,7 @@ classdef waveClass<handle
                 obj.waveAmpTimeViz = zeros(maxIt,SZwaveAmpTimeViz(1)+1);
                 for j = 1:SZwaveAmpTimeViz(1)
                     obj.waveAmpTimeViz(:,1) = timeseries;
-                    obj.waveAmpTimeViz(:,j+1) = rampFunction.*obj.A.*cos(obj.w*timeseries - obj.k*(obj.marker.location(j,1).*cos(obj.direction*pi/180) + obj.marker.location(j,2).*sin(obj.direction*pi/180)));                   
+                    obj.waveAmpTimeViz(:,j+1) = rampFunction.*obj.amplitude.*cos(obj.w*timeseries - obj.k*(obj.marker.location(j,1).*cos(obj.direction*pi/180) + obj.marker.location(j,2).*sin(obj.direction*pi/180)));                   
                 end
             end          
         end        
@@ -559,15 +559,15 @@ classdef waveClass<handle
             % Calculate wave power per unit wave crest for regular waves
             if obj.deepWater == 1
                 % Deepwater Approximation
-                obj.Pw = 1/(8*pi)*rho*g^(2)*(obj.A).^(2).*obj.period;               
+                obj.Pw = 1/(8*pi)*rho*g^(2)*(obj.amplitude).^(2).*obj.period;               
             else
                 % Full Wave Power Equation
-                obj.Pw = rho*g*(obj.A).^(2)/4*sqrt(g./obj.k.*tanh(obj.k.*obj.waterDepth))*(1+2*obj.k.*obj.waterDepth./sinh(obj.k.*obj.waterDepth));
+                obj.Pw = rho*g*(obj.amplitude).^(2)/4*sqrt(g./obj.k.*tanh(obj.k.*obj.waterDepth))*(1+2*obj.k.*obj.waterDepth./sinh(obj.k.*obj.waterDepth));
             end
         end
         
         function irregWaveSpectrum(obj,g,rho)
-            % Calculate wave spectrum vector (obj.A)
+            % Calculate wave spectrum vector (obj.amplitude)
             % Used by wavesIrreg (wavesIrreg used by: :meth:`waveClass.setup`.)            
             frequency = obj.w/(2*pi);
             Tp = obj.period;
@@ -647,7 +647,7 @@ classdef waveClass<handle
                     obj.dw = [obj.w(1)-2*pi*frequency(wn(1)); diff(obj.w)];
                     obj.S = obj.S(wn(2:end-1));                             % Wave Spectrum [m^2-s/rad] 
             end
-            obj.A = 2 * obj.S;                                              % Wave Amplitude [m]
+            obj.amplitude = 2 * obj.S;                                              % Wave Amplitude [m]
         end
 
         function waveElevIrreg(obj,rampTime,timeseries,df)
@@ -675,7 +675,7 @@ classdef waveClass<handle
             
             % Calculate eta
             for i = 1:length(timeseries)
-                tmp  = sqrt(obj.A.*df*obj.spread);
+                tmp  = sqrt(obj.amplitude.*df*obj.spread);
                 tmp1 = tmp.*real(exp(sqrt(-1).*(obj.w.*timeseries(i) + obj.phase)));
                 obj.waveAmpTime(i,2) = rampFunction(i)*sum(tmp1,'all');
 
