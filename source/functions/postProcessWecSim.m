@@ -88,14 +88,14 @@ else
 end
 
 % PTO-Sim
-if exist('PTOSimBlock','var')
+if exist('ptoSim','var')
     for iPtoB = 1:simu.numPtoSim
         %iPtoB
-        eval(['PTOSimBlock' num2str(iPtoB) '_out.name = PTOSimBlock(' num2str(iPtoB) ').name;'])
-        eval(['PTOSimBlock' num2str(iPtoB) '_out.type = PTOSimBlock(' num2str(iPtoB) ').PTOSimBlockType;'])
-        if iPtoB == 1; ptosimOutput = PTOSimBlock1_out; end
-        ptosimOutput(iPtoB) = eval(['PTOSimBlock' num2str(iPtoB) '_out']);
-        eval(['clear PTOSimBlock' num2str(iPtoB) '_out'])
+        eval(['ptoSim' num2str(iPtoB) '_out.name = ptoSim(' num2str(iPtoB) ').name;'])
+        eval(['ptoSim' num2str(iPtoB) '_out.type = ptoSim(' num2str(iPtoB) ').ptoSimType;'])
+        if iPtoB == 1; ptosimOutput = ptoSim1_out; end
+        ptosimOutput(iPtoB) = eval(['ptoSim' num2str(iPtoB) '_out']);
+        eval(['clear ptoSim' num2str(iPtoB) '_out'])
     end; clear iPtoB
 else
     ptosimOutput = 0;

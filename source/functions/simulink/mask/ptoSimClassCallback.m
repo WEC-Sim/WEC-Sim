@@ -13,19 +13,19 @@ j = find(strcmp(names,'effModelVar'));
 % get mask parameter controls for the variables used in the efficiency
 % model
 mask = Simulink.Mask.get(blockHandle);
-PressureDataParam = mask.getParameter('EffTableDeltaP');
-EffTableShaftSpeedParam = mask.getParameter('EffTableShaftSpeed');
-EffTableMechEffParam = mask.getParameter('EffTableMechEff');
-EffTableVolEffParam = mask.getParameter('EffTableVolEff');
+PressureDataParam = mask.getParameter('effTableDeltaP');
+EffTableShaftSpeedParam = mask.getParameter('effTableShaftSpeed');
+EffTableMechEffParam = mask.getParameter('effTableMechEff');
+EffTableVolEffParam = mask.getParameter('effTableVolEff');
 wNominalParam = mask.getParameter('wNominal');
 deltaPNominalParam = mask.getParameter('deltaPNominal');
-VisNominalParam = mask.getParameter('VisNominal');
-DensityNominalParam = mask.getParameter('DensityNominal');
-EffVolNomParam = mask.getParameter('EffVolNom');
-TorqueNoLoadParam = mask.getParameter('TorqueNoLoad');
-TorqueVsPressureParam = mask.getParameter('TorqueVsPressure');
+VisNominalParam = mask.getParameter('visNominal');
+DensityNominalParam = mask.getParameter('densityNominal');
+EffVolNomParam = mask.getParameter('effVolNom');
+TorqueNoLoadParam = mask.getParameter('torqueNoLoad');
+TorqueVsPressureParam = mask.getParameter('torqueVsPressure');
 rhoParam = mask.getParameter('rho');
-ViscosityParam = mask.getParameter('Viscosity');
+ViscosityParam = mask.getParameter('viscosity');
 
 % Change visibilities based on PTOSimBlock.effModelVar.option selection
 if strcmp(values{j,1},'Analytical') % Analytical option
