@@ -107,7 +107,7 @@ if exist('constraint','var') == 1
         constraint(ii).setOrientation();
     end; clear ii
 end
-
+disp('PTO num')
 % PTOs: count & set orientation & set pretension
 if exist('pto','var') == 1
     simu.numPtos = length(pto(1,:));
@@ -193,6 +193,16 @@ if exist('cable','var')==1
         cable(ii).linearDampingMatrix();
     end
 end
+
+% PTO-Sim: read input, count
+if exist('ptoSim','var') == 1
+    simu.numPtoSim = length(ptoSim(1,:));
+    for ii = 1:simu.numPtoSim
+        ptoSim(ii).ptoNum = ii;
+    end; clear ii
+end
+
+
 toc
 
 %% Pre-processing start
@@ -406,6 +416,15 @@ for ii=1:length(body(1,:))
     eval(['sv_b' num2str(ii) '_nonHydroBody = Simulink.Variant(''nhbody_' num2str(ii) '==1'');'])
     eval(['sv_b' num2str(ii) '_dragBody = Simulink.Variant(''nhbody_' num2str(ii) '==2'');'])
 end; clear ii
+
+%Efficiency model for hydraulic motor PTO-Sim block
+try
+    for ii=1:length(ptoSim(1,:))
+        eval(['EffModel_' num2str(ii) ' = ptoSim(ii).hydraulicMotor.effModel;']);
+        eval(['sv_b' num2str(ii) '_AnalyticalEfficiency = Simulink.Variant(''EffModel_', num2str(ii), '==1'');']);
+        eval(['sv_b' num2str(ii) '_TabulatedEfficiency = Simulink.Variant(''EffModel_', num2str(ii), '==2'');']);
+    end; clear ii;
+end
 
 % Visualization Blocks
 if ~isempty(waves.marker.location) && typeNum < 30

@@ -235,8 +235,47 @@ classdef responseClass<handle
             end
             % PTO-Sim
             if isstruct(ptosimOutput)
-                obj.ptosim=ptosimOutput;
-                obj.ptosim.time = obj.bodies(1).time;
+                %names = {'HydPistonCompressible','GasHydAccumulator','RectifyingCheckValve','HydraulicMotorV2','ElectricMachineEC'};
+                hydPistonCompressibleSignals = {'pressureA','forcePTO','pressureB'};
+                gasHydAccumulatorSignals = {'pressure','flowRate'};
+                rectifyingCheckValveSignals = {'flowRateA','flowRateB','flowRateC','flowRateD'};
+                hydraulicMotorSignals = {'shaftSpeed','torque','deltaP','flowRate'};
+                electricMachineECSignals = {'torqueEM','shaftSpeed','current','voltage'};
+                linearCrankSignals = {'ptoTorque','angPosition','angVelocity'};
+                adjustableRodSignals = {'ptoTorque','angPosition','angVelocity'};
+                checkValveSignals = {'flowCheckValve','deltaPCheckValve'};
+                linearGeneratorSignals = {'absPower','force','fricForce','Ia','Ib','Ic','Va','Vb','Vc','elecPower','vel'};
+                rotaryGeneratorSignals = {'absPower','Torque','fricTorque','Ia','Ib','Ic','Va','Vb','Vc','elecPower','vel'};
+
+                for ii = 1:length(ptosimOutput)
+                    obj.ptosim(ii).name = ptosimOutput(ii).name;
+                    obj.ptosim(ii).time = ptosimOutput(ii).time;
+                    obj.ptosim(ii).type = ptosimOutput(ii).type;
+                    if ptosimOutput(ii).type == 1
+                        signals = electricMachineECSignals;
+                    elseif ptosimOutput(ii).type == 2
+                        signals = hydPistonCompressibleSignals;
+                    elseif ptosimOutput(ii).type == 3
+                        signals = gasHydAccumulatorSignals;
+                    elseif ptosimOutput(ii).type == 4
+                        signals = rectifyingCheckValveSignals;
+                    elseif ptosimOutput(ii).type == 5
+                        signals = hydraulicMotorSignals;
+                    elseif ptosimOutput(ii).type == 6
+                        signals = linearCrankSignals;
+                    elseif ptosimOutput(ii).type == 7
+                        signals = adjustableRodSignals;
+                    elseif ptosimOutput(ii).type == 8
+                        signals = checkValveSignals;
+                    elseif ptosimOutput(ii).type == 9
+                        signals = linearGeneratorSignals;
+                    elseif ptosimOutput(ii).type == 10
+                        signals = rotaryGeneratorSignals;
+                    end
+                    for jj = 1:length(signals)
+                        obj.ptosim(ii).(signals{jj}) = ptosimOutput(ii).signals.values(:,jj);
+                    end
+                end
             end
         end
         
@@ -688,7 +727,7 @@ classdef responseClass<handle
                     fclose(fid);
                 end
             end
-            % ptoSim
+            %ptoSim
             if isfield(obj.ptosim,'time')
                 f1 = fields(obj.ptosim);
                 count = 1;

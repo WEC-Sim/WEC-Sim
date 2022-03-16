@@ -30,12 +30,12 @@ function inputOrCustomCallback(grfBlockHandle)
     % Get all simulink blocks
     blocks = find_system(bdroot,'Type','Block');
 
-    for i=1:length(blocks)
+   for i=1:length(blocks)
         % Variable names and values of a block
         names = get_param(blocks{i},'MaskNames');
 
         % Check if the block is from the WEC-Sim library
-        if any(contains(names,{'body','pto','constraint','cable','mooring'}))
+        if any(contains(names,{'body','pto','ptoSim','constraint','cable','mooring'}))
             % Update the visibility of WEC-Sim blocks
             blockHandle = getSimulinkBlockHandle(blocks{i});
             customVisibilityCallback(blockHandle,useInputFile);
