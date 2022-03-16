@@ -197,6 +197,7 @@ for ln=1:length(raw2)
         hydro(F).cb = [hydro(F).cb cb]; % Center of buoyancy
         
     elseif isempty(strfind(raw2{ln},'FROUDE KRYLOV FORCES-VARIATION WITH WAVE PERIOD'))==0
+        headerCount = 0;
         k=str2num(raw2{ln-2}(end-9:end-8));                       % Body number flag
         if isempty(k) 
             k=str2num(raw2{ln-3}(end-9:end-8));                     % Version 2020 R1
@@ -206,10 +207,16 @@ for ln=1:length(raw2)
             for i=1:hydro(F).Nf
                 if isempty(V2020)
                     tmp1 = str2num(raw2{ln+6+(j-1)*(hydro(F).Nf+9)+(i-1)});
-                else
-                    tmp1 = str2num(raw2{ln+6+(j-1)*(hydro(F).Nf+10)+(i-1)});
+                else 
+                    if j>=2 && i==1
+                        tmp1 = str2num(raw2{ln+6+(j-1)*(hydro(F).Nf)+10*headerCount+(i-1)});
+                        if tmp1 == 1
+                            headerCount = headerCount+1;
+                        end
+                    end
+                    tmp1 = str2num(raw2{ln+6+(j-1)*(hydro(F).Nf)+10*headerCount+(i-1)});
                 end
-                if i==1;
+                if i==1
                     ind = tmp1(1:3); tmp1(1:3)=[];
                 else
                     ind = tmp1(1:2); tmp1(1:2)=[];
@@ -222,10 +229,10 @@ for ln=1:length(raw2)
         end        
         hydro(F).fk_re = hydro(F).fk_ma.*cos(hydro(F).fk_ph*pi/180); % real part of Froude Krylov force
         hydro(F).fk_im = hydro(F).fk_ma.*sin(hydro(F).fk_ph*pi/180); % imaginary part of Froude Krylov force
-        lnlog(ln:ln+6+(j-1)*(hydro(F).Nf+9)+(i-1))=[ln:ln+6+(j-1)*(hydro(F).Nf+9)+(i-1)]; % avoids repeating line operations for repeated matches
-        
+        lnlog(ln:ln+6+(j-1)*(hydro(F).Nf)+headerCount*10+(i-1))=[ln:ln+6+(j-1)*(hydro(F).Nf)+headerCount*10+(i-1)]; % avoids repeating line operations for repeated matches
     elseif isempty(strfind(raw2{ln},'DIFFRACTION FORCES-VARIATION WITH WAVE PERIOD/FREQUENCY'))==0 ...
             && isempty(strfind(raw2{ln},'FROUDE KRYLOV +'))==1
+        headerCount = 0;
         kdiff=str2num(raw2{ln-2}(end-9:end-8));                       % Body number flag
         if isempty(kdiff) 
             kdiff = str2num(raw2{ln-3}(end-9:end-8));                     % Version 2020 R1
@@ -236,9 +243,15 @@ for ln=1:length(raw2)
                 if isempty(V2020)
                     tmp1 = str2num(raw2{ln+6+(j-1)*(hydro(F).Nf+9)+(i-1)});
                 else
-                    tmp1 = str2num(raw2{ln+6+(j-1)*(hydro(F).Nf+10)+(i-1)});
+                    if j>=2 && i==1
+                        tmp1 = str2num(raw2{ln+6+(j-1)*(hydro(F).Nf)+10*headerCount+(i-1)});
+                        if tmp1 == 1
+                            headerCount = headerCount+1;
+                        end
+                    end
+                    tmp1 = str2num(raw2{ln+6+(j-1)*(hydro(F).Nf)+10*headerCount+(i-1)});
                 end
-                if i==1;
+                if i==1
                     ind = tmp1(1:3); tmp1(1:3)=[];
                 else
                     ind = tmp1(1:2); tmp1(1:2)=[];
@@ -251,7 +264,7 @@ for ln=1:length(raw2)
         end        
         hydro(F).sc_re = hydro(F).sc_ma.*cos(hydro(F).sc_ph*pi/180); % real part of scattering force
         hydro(F).sc_im = hydro(F).sc_ma.*sin(hydro(F).sc_ph*pi/180); % imaginary part of scattering force
-        lnlog(ln:ln+6+(j-1)*(hydro(F).Nf+9)+(i-1))=[ln:ln+6+(j-1)*(hydro(F).Nf+9)+(i-1)];        
+        lnlog(ln:ln+6+(j-1)*(hydro(F).Nf)+headerCount*10+(i-1))=[ln:ln+6+(j-1)*(hydro(F).Nf)+headerCount*10+(i-1)];      
     end
     
     d = floor(10*(ln+length(raw2))/N);  %Update waitbar every 10%, or slows computation time
