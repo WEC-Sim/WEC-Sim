@@ -42,6 +42,7 @@ classdef bodyClass<handle
         gbmDOF              = []                            % (`integer`) Number of degree of freedoms (DOFs) for generalized body mode (GBM). Default = ``[]``.
         geometryFile        = 'NONE'                        % (`string`) Path to the body geometry ``.stl`` file.
         hydroStiffness      = zeros(6)                      % (`6x6 float matrix`) Linear hydrostatic stiffness matrix. If the variable is nonzero, the matrix will override the h5 file values. Default = ``zeros(6)``.
+        inertia             = []                            % (`3x1 float vector`) Rotational inertia or mass moment of inertia [kg*m^{2}]. Defined by the user in the following format [Ixx Iyy Izz]. Default = ``[]``.
         initial             = struct(...                    % (`structure`) Defines the initial displacement of the body.
             'displacement',     [0 0 0], ...                %
             'axis',             [0 1 0], ...                %
@@ -49,7 +50,6 @@ classdef bodyClass<handle
         linearDamping       = zeros(6)                      % (`6x6 float matrix`) Defines linear damping coefficient matrix. Default = ``zeros(6)``.
         mass                = []                            % (`float`) Translational inertia or mass [kg]. Defined by the user or specify 'equilibrium' to set the mass equal to the fluid density times displaced volume. Default = ``[]``.
         meanDrift           = 0                             % (`integer`) Flag for mean drift force, Options:  0 (no), 1 (yes, from control surface) or 2 (yes, from momentum conservation). Default = ``0``.
-        momOfInertia        = []                            % (`3x1 float vector`) Rotational inertia or mass moment of inertia [kg*m^{2}]. Defined by the user in the following format [Ixx Iyy Izz]. Default = ``[]``.
         morisonElement      = struct(...                    % (`structure`) Defines the Morison Element properties connected to the body.
             'option',           0,...                       %
             'cd',               [0 0 0], ...                % 
@@ -174,7 +174,7 @@ classdef bodyClass<handle
             fprintf('\n\t***** Body Number %G, Name: %s *****\n',obj.hydroData.properties.body_number,obj.hydroData.properties.name)
             fprintf('\tBody CG                          (m) = [%G,%G,%G]\n',obj.hydroData.properties.cg)
             fprintf('\tBody Mass                       (kg) = %G \n',obj.mass);
-            fprintf('\tBody Diagonal MOI              (kgm2)= [%G,%G,%G]\n',obj.momOfInertia)
+            fprintf('\tBody Diagonal MOI              (kgm2)= [%G,%G,%G]\n',obj.inertia)
         end
         
         function loadHydroData(obj, hydroData)
@@ -295,13 +295,13 @@ classdef bodyClass<handle
             % mass - this is not the correct description
             iBod = obj.number;
             obj.hydroForce.storage.mass = obj.mass;
-            obj.hydroForce.storage.momOfInertia = obj.momOfInertia;
+            obj.hydroForce.storage.inertia = obj.inertia;
             obj.hydroForce.storage.fAddedMass = obj.hydroForce.fAddedMass;
             if B2B == 1
                 tmp.fadm=diag(obj.hydroForce.fAddedMass(:,1+(iBod-1)*6:6+(iBod-1)*6));
                 tmp.adjmass = sum(tmp.fadm(1:3))*adjMassFactor;
                 obj.mass = obj.mass + tmp.adjmass;
-                obj.momOfInertia = obj.momOfInertia+tmp.fadm(4:6)';
+                obj.inertia = obj.inertia+tmp.fadm(4:6)';
                 obj.hydroForce.fAddedMass(1,1+(iBod-1)*6) = obj.hydroForce.fAddedMass(1,1+(iBod-1)*6) - tmp.adjmass;
                 obj.hydroForce.fAddedMass(2,2+(iBod-1)*6) = obj.hydroForce.fAddedMass(2,2+(iBod-1)*6) - tmp.adjmass;
                 obj.hydroForce.fAddedMass(3,3+(iBod-1)*6) = obj.hydroForce.fAddedMass(3,3+(iBod-1)*6) - tmp.adjmass;
@@ -312,7 +312,7 @@ classdef bodyClass<handle
                 tmp.fadm=diag(obj.hydroForce.fAddedMass);
                 tmp.adjmass = sum(tmp.fadm(1:3))*adjMassFactor;
                 obj.mass = obj.mass + tmp.adjmass;
-                obj.momOfInertia = obj.momOfInertia+tmp.fadm(4:6)';
+                obj.inertia = obj.inertia+tmp.fadm(4:6)';
                 obj.hydroForce.fAddedMass(1,1) = obj.hydroForce.fAddedMass(1,1) - tmp.adjmass;
                 obj.hydroForce.fAddedMass(2,2) = obj.hydroForce.fAddedMass(2,2) - tmp.adjmass;
                 obj.hydroForce.fAddedMass(3,3) = obj.hydroForce.fAddedMass(3,3) - tmp.adjmass;
@@ -326,10 +326,10 @@ classdef bodyClass<handle
             % Restore the mass and added-mass matrix back to the original value
             tmp = struct;
             tmp.mass = obj.mass;
-            tmp.momOfInertia = obj.momOfInertia;
+            tmp.inertia = obj.inertia;
             tmp.hydroForce_fAddedMass = obj.hydroForce.fAddedMass;
             obj.mass = obj.hydroForce.storage.mass;
-            obj.momOfInertia = obj.hydroForce.storage.momOfInertia;
+            obj.inertia = obj.hydroForce.storage.inertia;
             obj.hydroForce.fAddedMass = obj.hydroForce.storage.fAddedMass;
             obj.hydroForce.storage = tmp; clear tmp
         end
@@ -699,7 +699,7 @@ classdef bodyClass<handle
             elseif strcmp(obj.mass, 'fixed')
                 obj.massCalcMethod = obj.mass;
                 obj.mass = 999;
-                obj.momOfInertia = [999 999 999];
+                obj.inertia = [999 999 999];
             else
                 obj.massCalcMethod = 'user';
             end

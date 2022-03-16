@@ -31,6 +31,7 @@ classdef cableClass<handle
     
     properties (SetAccess = 'public', GetAccess = 'public') %input file
         damping                 = 0                                         % (`float`) Cable damping coefficient (N/(m/s)). Default = `0`.
+        inertia                 = [1 1 1];                                  % (`1 x 3 float vector`) body inertia kg-m^2, default [1 1 1]
         initial                 = struct(...                                % 
             'displacement',         [0 0 0],...                             % 
             'axis',                 [0 1 0], ...                            %
@@ -38,7 +39,6 @@ classdef cableClass<handle
         length                  = 0                                         % (`float`) Cable equilibrium length (m), calculated from rotloc and preTension. Default =`0`.
         linearDamping           = [0 0 0 0 0 0];                            % (`1 x 6 float vector`)linear damping aplied to body motions
         mass                    = 1;                                        % (`float`) mass in kg, default 1
-        momOfInertia            = [1 1 1];                                  % (`1 x 3 float vector`) body inertia kg-m^2, default [1 1 1]
         name                    = 'NOT DEFINED'                             % (`string`) Defines the Cable name. Default = ``NOT DEFINED``.
         orientation             = struct(...                                %
             'z',                    [0, 0, 1], ...                          %
