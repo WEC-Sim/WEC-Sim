@@ -41,8 +41,8 @@ switch type
 
         % Wave data
         maskVars.WaveClass = waves.type;                             % Initialize Wave Class and Specify Type                                           
-        maskVars.H = waves.H;                                        % Wave Height [m]
-        maskVars.T = waves.T;                                        % Wave Period [s]
+        maskVars.height = waves.height;                                        % Wave Height [m]
+        maskVars.period = waves.period;                                        % Wave Period [s]
         maskVars.direction = waves.direction;                        % Wave Directionality [deg]
         maskVars.spread = waves.spread;                              % Wave Directional Spreading [%]
         maskVars.spectrumType = waves.spectrumType;                  % Specify Wave Spectrum Type

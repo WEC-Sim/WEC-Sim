@@ -26,8 +26,6 @@ classdef waveClass<handle
     %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
     
     properties (SetAccess = 'public', GetAccess = 'public')%input file     
-        T               = 'NOT DEFINED';            % (`float`) Wave period [s] . Defined as wave period for ``regular``, peak period for ``irregular``, or period of BEM data used for hydrodynamic coefficients for ``noWave``. Default = ``'NOT DEFINED'``
-        H               = 'NOT DEFINED';            % (`float`) Wave height [m]. Defined as wave height for ``regular``, or significant wave height for ``irregular``. Default =  ``'NOT DEFINED'``
         bem             = struct(...                % (`structure`) Defines the BEM data implemtation. 
             'option',       'EqualEnergy',...       % 
             'count',        [], ...                 %             
@@ -41,10 +39,12 @@ classdef waveClass<handle
         direction       = 0;                        % (`float`) Incident wave direction(s) [deg]. Incident wave direction defined using WEC-Sim global coordinate system. Should be defined as a column vector for more than one wave direction. Default = ``0``
         elevationFile   = 'NOT DEFINED';            % (`string`) Data file that contains the times-series data file. Default = ``'NOT DEFINED'``
         gamma           = [];                       % (`float`) Defines gamma, only used for ``JS`` wave spectrum type. Default = ``[]``        
+        height               = 'NOT DEFINED';            % (`float`) Wave height [m]. Defined as wave height for ``regular``, or significant wave height for ``irregular``. Default =  ``'NOT DEFINED'``
         marker          = struct(...                % (`structure`) Defines the wave marker. 
             'location',     [],...                  % 
             'size',         10, ...                 %             
             'style',        1)                      % (`structure`) Defines the wave marker. `loc` (`nx2 vector`) Marker [X,Y] locations [m]. Default = ``[]``. ``size`` (`float`) Marker size in Pixels. Default = ``10``. ``style`` Marker style, options include: ``1``: Sphere, ``2``: Cube, ``3``: Frame. Default = ``1``: Sphere        
+        period               = 'NOT DEFINED';            % (`float`) Wave period [s] . Defined as wave period for ``regular``, peak period for ``irregular``, or period of BEM data used for hydrodynamic coefficients for ``noWave``. Default = ``'NOT DEFINED'``
         phaseSeed       = 0;                        % (`integer`) Defines the random phase seed, only used for ``irregular`` and ``spectrumImport`` waves. Default = ``0``
         spectrumFile    = 'NOT DEFINED';            % (`string`) Data file that contains the spectrum data file.  Default = ``'NOT DEFINED'``                
         spectrumType    = 'NOT DEFINED';            % (`string`) Specifies the wave spectrum type, options inlcude:``PM`` or ``JS``. Default = ``'NOT DEFINED'``
@@ -137,8 +137,8 @@ classdef waveClass<handle
             end
             % 'noWave' period undefined for hydro data
             if strcmp(obj.type,'noWave')
-                if strcmp(obj.T,'NOT DEFINED')
-                    error('"waves.T" must be defined for the hydrodynamic data period when using the "noWave" wave type');
+                if strcmp(obj.period,'NOT DEFINED')
+                    error('"waves.period" must be defined for the hydrodynamic data period when using the "noWave" wave type');
                 end
             end
             % check 'waves.bem' fields
@@ -204,35 +204,35 @@ classdef waveClass<handle
             
             switch obj.type
                 case {'noWave','noWaveCIC'}
-                    if isempty(obj.w) && strcmp(obj.T,'NOT DEFINED')
+                    if isempty(obj.w) && strcmp(obj.period,'NOT DEFINED')
                         obj.w = min(obj.bem.range);
-                        obj.T = 2*pi/obj.w;
+                        obj.period = 2*pi/obj.w;
                     elseif isempty(obj.w)
-                        obj.w = 2*pi/obj.T;
+                        obj.w = 2*pi/obj.period;
                     else
-                        obj.T = 2*pi/obj.w;
+                        obj.period = 2*pi/obj.w;
                     end
-                    obj.H = 0;
-                    obj.A = obj.H/2;
+                    obj.height = 0;
+                    obj.A = obj.height/2;
                     obj.k = waveNumber(obj.w,obj.waterDepth,g,obj.deepWater);
                     obj.waveElevNowave(time);
                 case {'regular','regularCIC'}
-                    if isempty(obj.w) && strcmp(obj.T,'NOT DEFINED')
+                    if isempty(obj.w) && strcmp(obj.period,'NOT DEFINED')
                         obj.w = min(obj.bem.range);
-                        obj.T = 2*pi/obj.w;
+                        obj.period = 2*pi/obj.w;
                     elseif isempty(obj.w)
-                        obj.w = 2*pi/obj.T;
+                        obj.w = 2*pi/obj.period;
                     else
-                        obj.T = 2*pi/obj.w;
+                        obj.period = 2*pi/obj.w;
                     end
-                    obj.A = obj.H/2;
+                    obj.A = obj.height/2;
                     obj.k = waveNumber(obj.w,obj.waterDepth,g,obj.deepWater);
                     obj.waveElevReg(rampTime, time);
                     obj.wavePowerReg(g,rho);
                 case {'irregular','spectrumImport'}
                     if strcmp(obj.type,'spectrumImport')
-                        obj.H = 0;
-                        obj.T = 0;
+                        obj.height = 0;
+                        obj.period = 0;
                         obj.bem.option = 'Imported';
                         obj.spectrumType = 'spectrumImport';
                     end                    
@@ -280,17 +280,17 @@ classdef waveClass<handle
             switch obj.type
                 case 'noWave'
                     fprintf('\tWave Type                            = No Wave (Constant Hydrodynamic Coefficients)\n')
-                    fprintf('\tHydro Data Wave Period, T (sec)    	= %G\n',obj.T)
+                    fprintf('\tHydro Data Wave Period, period (sec)    	= %G\n',obj.period)
                 case 'regular'
                     fprintf('\tWave Type                            = Regular Waves (Constant Hydrodynamic Coefficients)\n')
-                    fprintf('\tWave Height, H (m)                   = %G\n',obj.H)
-                    fprintf('\tWave Period, T (sec)                 = %G\n',obj.T)
+                    fprintf('\tWave Height, height (m)                   = %G\n',obj.height)
+                    fprintf('\tWave Period, period (sec)                 = %G\n',obj.period)
                 case 'noWaveCIC'
                     fprintf('\tWave Type                            = No Wave (Convolution Integral Calculation)\n')
                 case 'regularCIC'
                     fprintf('\tWave Type                            = Regular Waves (Convolution Integral Calculation)\n')
-                    fprintf('\tWave Height, H (m)                   = %G\n',obj.H)
-                    fprintf('\tWave Period, T (sec)                 = %G\n',obj.T)
+                    fprintf('\tWave Height, height (m)                   = %G\n',obj.height)
+                    fprintf('\tWave Period, period (sec)                 = %G\n',obj.period)
                 case 'irregular'
                     if obj.phaseSeed == 0
                         fprintf('\tWave Type                            = Irregular Waves (Arbitrary Random Phase)\n')
@@ -298,8 +298,8 @@ classdef waveClass<handle
                         fprintf('\tWave Type                            = Irregular Waves (Predefined Random Phase)\n')
                     end
                     obj.printWaveSpectrumType;
-                    fprintf('\tSignificant Wave Height, Hs      (m) = %G\n',obj.H)
-                    fprintf('\tPeak Wave Period, Tp           (sec) = %G\n',obj.T)
+                    fprintf('\tSignificant Wave Height, Hs      (m) = %G\n',obj.height)
+                    fprintf('\tPeak Wave Period, Tp           (sec) = %G\n',obj.period)
                 case 'spectrumImport'
                     if size(importdata(obj.spectrumFile),2) == 3
                         fprintf('\tWave Type                            = Irregular waves with imported wave spectrum (Imported Phase)\n')
@@ -559,7 +559,7 @@ classdef waveClass<handle
             % Calculate wave power per unit wave crest for regular waves
             if obj.deepWater == 1
                 % Deepwater Approximation
-                obj.Pw = 1/(8*pi)*rho*g^(2)*(obj.A).^(2).*obj.T;               
+                obj.Pw = 1/(8*pi)*rho*g^(2)*(obj.A).^(2).*obj.period;               
             else
                 % Full Wave Power Equation
                 obj.Pw = rho*g*(obj.A).^(2)/4*sqrt(g./obj.k.*tanh(obj.k.*obj.waterDepth))*(1+2*obj.k.*obj.waterDepth./sinh(obj.k.*obj.waterDepth));
@@ -570,8 +570,8 @@ classdef waveClass<handle
             % Calculate wave spectrum vector (obj.A)
             % Used by wavesIrreg (wavesIrreg used by: :meth:`waveClass.setup`.)            
             frequency = obj.w/(2*pi);
-            Tp = obj.T;
-            Hs = obj.H;
+            Tp = obj.period;
+            Hs = obj.height;
             switch obj.spectrumType
                 case {'PM','JS'} 
                     % Pierson-Moskowitz Spectrum from IEC TS 62600-2 ED2 Annex C.2 (2019)

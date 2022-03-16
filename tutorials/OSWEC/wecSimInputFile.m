@@ -9,8 +9,8 @@ simu.dt = 0.1;                          % Simulation Time-Step [s]
 %% Wave Information
 % Regular Waves  
 waves = waveClass('type');              % Initialize waveClass                                
-waves.T = 999;                          % Wave Period [s]
-waves.H = 999;                          % Wave Height [m]
+waves.period = 999;                          % Wave Period [s]
+waves.height = 999;                          % Wave Height [m]
 
 %% Body Data
 % Flap

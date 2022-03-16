@@ -10,8 +10,8 @@ simu.cicEndTime = 20;
 %% Wave Information
 %Regular Waves with Convolution Integral
 waves = waveClass('regularCIC');    	% Initialize Wave Class and Specify Type
-waves.H = 2.5;                          % Wave Height [m]
-waves.T = 8;                            % Wave Period [s]
+waves.height = 2.5;                          % Wave Height [m]
+waves.period = 8;                            % Wave Period [s]
 
 %% Body Data
 % Float

@@ -11,8 +11,8 @@ simu.stateSpace = 1;
 %% Wave Information
 % Irregular Waves using BS Spectrum with State Space Calculation
 waves = waveClass('irregular');             % Initialize Wave Class and Specify Type
-waves.H = 2.5;                              % Significant Wave Height [m]
-waves.T = 8;                                % Peak Period [s]
+waves.height = 2.5;                              % Significant Wave Height [m]
+waves.period = 8;                                % Peak Period [s]
 waves.spectrumType = 'PM';                  % Specify Wave Spectrum Type
 waves.phaseSeed = 1;
 
