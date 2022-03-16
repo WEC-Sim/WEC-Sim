@@ -151,7 +151,7 @@ for i=1:length(blocks)
         fprintf(fid,writeLineFromVar(body, 'option', maskVars, maskViz, num, 'morisonElement'));
         fprintf(fid,writeLineFromVar(body, 'cd', maskVars, maskViz, num, 'morisonElement'));
         fprintf(fid,writeLineFromVar(body, 'ca', maskVars, maskViz, num, 'morisonElement'));
-        fprintf(fid,writeLineFromVar(body, 'characteristicArea', maskVars, maskViz, num, 'morisonElement'));
+        fprintf(fid,writeLineFromVar(body, 'area', maskVars, maskViz, num, 'morisonElement'));
         fprintf(fid,writeLineFromVar(body, 'VME', maskVars, maskViz, num, 'morisonElement'));
         fprintf(fid,writeLineFromVar(body, 'rgME', maskVars, maskViz, num, 'morisonElement'));
         fprintf(fid,writeLineFromVar(body, 'z', maskVars, maskViz, num, 'morisonElement'));
