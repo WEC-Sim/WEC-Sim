@@ -44,7 +44,7 @@ classdef ptoClass<handle
                                           'lowerLimitTransitionRegionWidth', 1e-4) % (`float`) Define lower limit transition region, over which spring and damping values ramp up to full values. Increase for stability. m or deg. ``Default = 1e-4``
     
         initial                 = struct(...                                    % Structure defining the initial displacement
-                                         'initLinDisp',          [0 0 0])       % Structure defining the initial displacement of the pto. ``initLinDisp`` (`3x1 float vector`) is defined as the initial displacement of the pto [m] in the following format [x y z], Default = [``0 0 0``].
+                                         'displacement',          [0 0 0])      % Structure defining the initial displacement of the pto. ``displacement`` (`3x1 float vector`) is defined as the initial displacement of the pto [m] in the following format [x y z], Default = [``0 0 0``].
         location                = [999 999 999]                                 % (`3x1 float vector`) PTO location [m]. Defined in the following format [x y z]. Default = ``[999 999 999]``.
         name                    = 'NOT DEFINED'                                 % (`string`) Specifies the pto name. For ptos this is defined by the user, Default = ``NOT DEFINED``. 
         orientation             = struct(...                                    % 
@@ -167,7 +167,7 @@ classdef ptoClass<handle
             rotatedRelCoord = relCoord*(rotMat');
             linDisp = rotatedRelCoord - relCoord;
             % apply rotation and displacement to object
-            obj.initial.initLinDisp = linDisp + addLinDisp;            
+            obj.initial.displacement = linDisp + addLinDisp;            
         end
         
         function listInfo(obj)                                         

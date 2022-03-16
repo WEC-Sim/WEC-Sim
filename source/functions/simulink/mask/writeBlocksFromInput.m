@@ -66,9 +66,9 @@ switch type
         maskVars.cb = body(num).cb;
         maskVars.dof = body(num).dof;
         maskVars.volume = body(num).volume;
-        maskVars.initLinDisp = body(num).initial.initLinDisp;
-        maskVars.initAngularDispAxis = body(num).initial.initAngularDispAxis;
-        maskVars.initAngularDispAngle = body(num).initial.initAngularDispAngle;
+        maskVars.displacement = body(num).initial.displacement;
+        maskVars.axis = body(num).initial.axis;
+        maskVars.angle = body(num).initial.angle;
         maskVars.option = body(num).morisonElement.option;
         maskVars.cd = body(num).morisonElement.cd;
         maskVars.ca = body(num).morisonElement.ca;
@@ -87,7 +87,7 @@ switch type
         maskVars.x = pto(num).orientation.x;
         maskVars.y = pto(num).orientation.y;
         maskVars.z = pto(num).orientation.z;
-        maskVars.initLinDisp = pto(num).initial.initLinDisp;
+        maskVars.displacement = pto(num).initial.displacement;
         maskVars.upperLimitSpecify = pto(num).hardStops.upperLimitSpecify;
         maskVars.upperLimitBound = pto(num).hardStops.upperLimitBound;
         maskVars.upperLimitStiffness = pto(num).hardStops.upperLimitStiffness;
@@ -107,7 +107,7 @@ switch type
         maskVars.x = constraint(num).orientation.x;
         maskVars.y = constraint(num).orientation.y;
         maskVars.z = constraint(num).orientation.z;
-        maskVars.initLinDisp = constraint(num).initial.initLinDisp;
+        maskVars.displacement = constraint(num).initial.displacement;
         maskVars.upperLimitSpecify = constraint(num).hardStops.upperLimitSpecify;
         maskVars.upperLimitBound = constraint(num).hardStops.upperLimitBound;
         maskVars.upperLimitStiffness = constraint(num).hardStops.upperLimitStiffness;
@@ -145,9 +145,9 @@ switch type
         maskVars.damping = cable(num).damping;
         maskVars.L0 = cable(num).L0;
         maskVars.preTension = cable(num).preTension;
-        maskVars.initLinDisp = cable(num).initial.initLinDisp;
-        maskVars.initAngularDispAxis = cable(num).initial.initAngularDispAxis;
-        maskVars.initAngularDispAngle = cable(num).initial.initAngularDispAngle;
+        maskVars.displacement = cable(num).initial.displacement;
+        maskVars.axis = cable(num).initial.axis;
+        maskVars.angle = cable(num).initial.angle;
         maskVars.y = cable(num).orientation.y;
         maskVars.z = cable(num).orientation.z;
     

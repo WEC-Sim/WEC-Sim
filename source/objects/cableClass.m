@@ -35,9 +35,9 @@ classdef cableClass<handle
         bodyMass                = 1;                                        % (`float`) mass in kg, default 1
         damping                 = 0                                         % (`float`) Cable damping coefficient (N/(m/s)). Default = `0`.
         initial                 = struct(...                                % 
-            'initLinDisp',          [0 0 0],...                             % 
-            'initAngularDispAxis',  [0 1 0], ...                            %
-            'initAngularDispAngle', 0)                                      % Structure defining the initial displacement of the body. ``initLinDisp`` (`3x1 float vector`) is defined as the initial displacement of the body center of gravity (COG) [m] in the following format [x y z], Default = [``0 0 0``]. ``initAngularDispAxis`` (`3x1 float vector`) is defined as the axis of rotation in the following format [x y z], Default = [``0 1 0``]. ``initAngularDispAngle`` (`float`) is defined as the initial angular displacement of the body COG [rad], Default = ``0``.
+            'displacement',          [0 0 0],...                            % 
+            'axis',  [0 1 0], ...                                           %
+            'angle', 0)                                                     % Structure defining the initial displacement of the body. ``displacement`` (`3x1 float vector`) is defined as the initial displacement of the body center of gravity (COG) [m] in the following format [x y z], Default = [``0 0 0``]. ``axis`` (`3x1 float vector`) is defined as the axis of rotation in the following format [x y z], Default = [``0 1 0``]. ``angle`` (`float`) is defined as the initial angular displacement of the body COG [rad], Default = ``0``.
         linearDamping           = [0 0 0 0 0 0];                            % (`1 x 6 float vector`)linear damping aplied to body motions
         name                    = 'NOT DEFINED'                             % (`string`) Defines the Cable name. Default = ``NOT DEFINED``.
         orientation             = struct(...                                %
@@ -48,7 +48,7 @@ classdef cableClass<handle
         paraview      = 1;                                                  % (`integer`) Flag for visualisation in Paraview either 0 (no) or 1 (yes). Default = ``1`` since only called in paraview.
         preTension              = 0                                         % (`float`) Cable pretension (N).    
         quadDrag                = struct(...                                % 
-            'area', [0 0 0 0 0 0], ...                        % 
+            'area', [0 0 0 0 0 0], ...                                      % 
             'drag', zeros(6), ...                                           % 
             'cd', [0 0 0 0 0 0]);                                           % Structure defining the viscous quadratic drag forces. First option define ``drag``, (`6x6 float matrix`), Default = ``zeros(6)``. Second option define ``cd``, (`6x1 float vector`), Default = ``zeros(6,1)``, and ``area``, (`6x1 float vector`), Default = ``zeros(6,1)``.
         stiffness               = 0                                         % (`float`) Cable stiffness (N/m). Default = `0`.
@@ -197,9 +197,9 @@ classdef cableClass<handle
             linDisp = rotatedRelCoord - relCoord;
 
             % apply rotation and displacement to object
-            obj.initial.initLinDisp = linDisp + addLinDisp;
-            obj.initial.initAngularDispAxis = netAxis;
-            obj.initial.initAngularDispAngle = netAngle;
+            obj.initial.displacement = linDisp + addLinDisp;
+            obj.initial.axis = netAxis;
+            obj.initial.angle = netAngle;
             
         end        
         

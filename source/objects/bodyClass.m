@@ -36,7 +36,7 @@ classdef bodyClass<handle
     properties (SetAccess = 'public', GetAccess = 'public') % WEC-Sim input
         cg                  = []                            % (`3x1 float vector`) Body center of gravity [m]. Defined in the following format [x y z]. For hydrodynamic bodies this is defined in the h5 file while for nonhydrodynamic bodies this is defined by the user. Default = ``[]``.
         cb                  = []                            % (`3x1 float vector`) Body center of buoyancy [m]. Defined in the following format [x y z]. For hydrodynamic bodies this is defined in the h5 file while for nonhydrodynamic bodies this is defined by the user. Default = ``[]``.
-        volume             = []                            % (`float`) Displaced volume at equilibrium position [m^{3}]. For hydrodynamic bodies this is defined in the h5 file while for nonhydrodynamic bodies this is defined by the user. Default = ``[]``.
+        volume             = []                             % (`float`) Displaced volume at equilibrium position [m^{3}]. For hydrodynamic bodies this is defined in the h5 file while for nonhydrodynamic bodies this is defined by the user. Default = ``[]``.
         dof                 = 6                             % (`integer`) Number of degree of freedoms (DOFs). For hydrodynamic bodies this is given in the h5 file. If not defined in the h5 file, Default = ``6``.
         excitationIRF       = []                            % (`vector`) Defines excitation Impulse Response Function, only used with the `waveClass` ``elevationImport`` type. Default = ``[]``.
         flex                = 0                             % (`integer`) Flag for flexible body, Options: 0 (off) or 1 (on). Default = ``0``.
@@ -44,9 +44,9 @@ classdef bodyClass<handle
         geometryFile        = 'NONE'                        % (`string`) Path to the body geometry ``.stl`` file.
         hydroStiffness      = zeros(6)                      % (`6x6 float matrix`) Linear hydrostatic stiffness matrix. If the variable is nonzero, the matrix will override the h5 file values. Default = ``zeros(6)``.
         initial             = struct(...                    % (`structure`) Defines the initial displacement of the body.
-            'initLinDisp',          [0 0 0], ...            %
-            'initAngularDispAxis',  [0 1 0], ...            %
-            'initAngularDispAngle', 0)                      % (`structure`) Defines the initial displacement of the body. ``initLinDisp`` (`3x1 float vector`) is defined as the initial displacement of the body center of gravity (COG) [m] in the following format [x y z], Default = [``0 0 0``]. ``initAngularDispAxis`` (`3x1 float vector`) is defined as the axis of rotation in the following format [x y z], Default = [``0 1 0``]. ``initAngularDispAngle`` (`float`) is defined as the initial angular displacement of the body COG [rad], Default = ``0``.
+            'displacement',          [0 0 0], ...           %
+            'axis',  [0 1 0], ...                           %
+            'angle', 0)                                     % (`structure`) Defines the initial displacement of the body. ``displacement`` (`3x1 float vector`) is defined as the initial displacement of the body center of gravity (COG) [m] in the following format [x y z], Default = [``0 0 0``]. ``axis`` (`3x1 float vector`) is defined as the axis of rotation in the following format [x y z], Default = [``0 1 0``]. ``angle`` (`float`) is defined as the initial angular displacement of the body COG [rad], Default = ``0``.
         linearDamping       = zeros(6)                      % (`6x6 float matrix`) Defines linear damping coefficient matrix. Default = ``zeros(6)``.
         mass                = []                            % (`float`) Translational inertia or mass [kg]. Defined by the user or specify 'equilibrium' to set the mass equal to the fluid density times displaced volume. Default = ``[]``.
         meanDrift           = 0                             % (`integer`) Flag for mean drift force, Options:  0 (no), 1 (yes, from control surface) or 2 (yes, from momentum conservation). Default = ``0``.
@@ -55,7 +55,7 @@ classdef bodyClass<handle
             'option',              0,...                    %
             'cd',                 [0 0 0], ...              % 
             'ca',                 [0 0 0], ...              % 
-            'area', [0 0 0], ...              % 
+            'area', [0 0 0], ...                            % 
             'VME',                 0     , ...              % 
             'rgME',               [0 0 0], ...              %
             'z',                  [0 0 1])                  % (`structure`) Defines the Morison Element properties connected to the body. ``option`` (`integer`) for Morison Element calculation, Options: 0 (off), 1 (on) or 2 (on), Default = ``0``, Option 1 uses an approach that allows the user to define drag and inertial coefficients along the x-, y-, and z-axes and Option 2 uses an approach that defines the Morison Element with normal and tangential tangential drag and interial coefficients. ``cd`` (`1x3 float vector`) is defined as the viscous normal and tangential drag coefficients in the following format, Option 1 ``[cd_x cd_y cd_z]``, Option 2 ``[cd_N cd_T NaN]``, Default = ``[0 0 0]``. ``ca`` is defined as the added mass coefficent for the Morison Element in the following format, Option 1 ``[ca_x ca_y ca_z]``, Option 2 ``[ca_N ca_T NaN]``, Default = ``[0 0 0]``, ``area`` is defined as the characteristic area for the Morison Element [m^2] in the following format, Option 1 ``[Area_x Area_y Area_z]``, Option 2 ``[Area_N Area_T NaN]``, Default = ``[0 0 0]``. ``VME`` is the characteristic volume of the Morison Element [m^3], Default = ``0``. ``rgME`` is defined as the vector from the body COG to point of application for the Morison Element [m] in the following format ``[x y z]``, Default = ``[0 0 0]``. ``z`` is defined as the unit normal vector center axis of the Morison Element in the following format, Option 1 not used, Option 2 ``[n_{x} n_{y} n_{z}]``, Default = ``[0 0 1]``. 
@@ -65,7 +65,7 @@ classdef bodyClass<handle
         quadDrag            = struct(...                    % (`structure`)  Defines the viscous quadratic drag forces.
             'drag',                 zeros(6), ...           %
             'cd',                   [0 0 0 0 0 0], ...      %
-            'area',   [0 0 0 0 0 0])          % (`structure`)  Defines the viscous quadratic drag forces. First option define ``drag``, (`6x6 float matrix`), Default = ``zeros(6)``. Second option define ``cd``, (`6x1 float vector`), Default = ``zeros(6,1)``, and ``area``, (`6x1 float vector`), Default = ``zeros(6,1)``.        
+            'area',   [0 0 0 0 0 0])                        % (`structure`)  Defines the viscous quadratic drag forces. First option define ``drag``, (`6x6 float matrix`), Default = ``zeros(6)``. Second option define ``cd``, (`6x1 float vector`), Default = ``zeros(6,1)``, and ``area``, (`6x1 float vector`), Default = ``zeros(6,1)``.        
         paraview            = 1;                            % (`integer`) Flag for visualisation in Paraview either, Options: 0 (no) or 1 (yes). Default = ``1``, only called in paraview.
         viz                 = struct(...                    % (`structure`)  Defines visualization properties in either SimScape or Paraview.
             'color', [1 1 0], ...                           %
@@ -146,7 +146,7 @@ classdef bodyClass<handle
             % check 'body.initial' fields
             if length(fieldnames(obj.initial)) ~=3
                 error(['Unrecognized method, property, or field for class "bodyClass", ' newline
-                    '"bodyClass.initial" structure must only include fields: "initLinDisp", "initAngularDispAxis", "initAngularDispAngle"']);
+                    '"bodyClass.initial" structure must only include fields: "displacement", "axis", "angle"']);
             end              
             % check 'body.morisonElement' fields
             if length(fieldnames(obj.morisonElement)) ~=7
@@ -379,9 +379,9 @@ classdef bodyClass<handle
             rotatedRelCoord = relCoord*(rotMat');
             linDisp = rotatedRelCoord - relCoord;
             % apply rotation and displacement to object
-            obj.initial.initLinDisp = linDisp + addLinDisp;
-            obj.initial.initAngularDispAxis = netAxis;
-            obj.initial.initAngularDispAngle = netAngle;            
+            obj.initial.displacement = linDisp + addLinDisp;
+            obj.initial.axis = netAxis;
+            obj.initial.angle = netAngle;            
         end
                 
         function importBodyGeometry(obj)

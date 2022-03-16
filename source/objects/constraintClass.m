@@ -41,7 +41,7 @@ classdef constraintClass<handle
                                           'lowerLimitDamping', 1e3, ...         % (`float`) Define lower limit damping, N/m/s or N-m/deg/s.  `` Default = ``1e3``.
                                           'lowerLimitTransitionRegionWidth', 1e-4) % (`float`) Define lower limit transition region, over which spring and damping values ramp up to full values. Increase for stability. m or deg. ``Default = 1e-4``                                                                                    
         initial                 = struct(...                                    % 
-                                         'initLinDisp',          [0 0 0])       % Structure defining the initial displacement of the constraint. ``initLinDisp`` (`3x1 float vector`) is defined as the initial displacement of the constraint [m] in the following format [x y z], Default = [``0 0 0``].
+                                         'displacement',          [0 0 0])      % Structure defining the initial displacement of the constraint. ``displacement`` (`3x1 float vector`) is defined as the initial displacement of the constraint [m] in the following format [x y z], Default = [``0 0 0``].
         name                    = 'NOT DEFINED'                                 % (`string`) Specifies the constraint name. For constraints this is defined by the user, Default = ``NOT DEFINED``.
         location                = [999 999 999]                                 % (`3x1 float vector`) Constraint location [m]. Defined in the following format [x y z]. Default = ``[999 999 999]``.        
         orientation             = struct(...                                    % 
@@ -157,7 +157,7 @@ classdef constraintClass<handle
             linDisp = rotatedRelCoord - relCoord;
 
             % apply rotation and displacement to object
-            obj.initial.initLinDisp = linDisp + addLinDisp;
+            obj.initial.displacement = linDisp + addLinDisp;
             
         end
 

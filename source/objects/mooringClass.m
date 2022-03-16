@@ -29,9 +29,9 @@ classdef mooringClass<handle
     % This class contains mooring parameters and settings
     properties (SetAccess = 'public', GetAccess = 'public')%input file 
         initial                 = struct(...                                    % (`obj`) Structure defining initial linear displacement, angular displacement axis, and angular displacement angle (radian). Defaults = ``zeros(1,3), zeros(1,3), 0`` respectively
-                                   'initLinDisp', [0 0 0], ...                      
-                                   'initAngularDispAxis', [0 1 0], ...           
-                                   'initAngularDispAngle', 0)               
+                                   'displacement', [0 0 0], ...                      
+                                   'axis', [0 1 0], ...           
+                                   'angle', 0)               
         location                = [0 0 0]                                       % (`float 1 x 3`) Mooring Reference location. Default = ``[0 0 0]``        
         matrix                  = struct(...                                    % (`obj`) Structure defining damping, stiffness, and pre-tension. Defaults = ``zeros(6,6), zeros(6,6), zeros(1,6)`` respectively
                                          'damping', zeros(6,6), ...              
@@ -56,7 +56,7 @@ classdef mooringClass<handle
 
         function obj = setLoc(obj)
             % This method sets mooring location
-            obj.orientation = [obj.location + obj.initial.initLinDisp 0 0 0];
+            obj.orientation = [obj.location + obj.initial.displacement 0 0 0];
         end
 
         function setInitDisp(obj, relCoord, axisAngleList, addLinDisp)
@@ -98,9 +98,9 @@ classdef mooringClass<handle
             rotatedRelCoord = relCoord*(rotMat');
             linDisp = rotatedRelCoord - relCoord;
             % apply rotation and displacement to object
-            obj.initial.initLinDisp = linDisp + addLinDisp;
-            obj.initial.initAngularDispAxis = netAxis;
-            obj.initial.initAngularDispAngle = netAngle;            
+            obj.initial.displacement = linDisp + addLinDisp;
+            obj.initial.axis = netAxis;
+            obj.initial.angle = netAngle;            
         end
         
         function listInfo(obj)
