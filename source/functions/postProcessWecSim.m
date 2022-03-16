@@ -88,12 +88,18 @@ else
 end
 
 % PTO-Sim
-if exist('ptosim','var')
-    ptosimOutput = ptosim.response();
+if exist('ptoSim','var')
+    for iPtoB = 1:simu.numPtoSim
+        %iPtoB
+        eval(['ptoSim' num2str(iPtoB) '_out.name = ptoSim(' num2str(iPtoB) ').name;'])
+        eval(['ptoSim' num2str(iPtoB) '_out.type = ptoSim(' num2str(iPtoB) ').ptoSimType;'])
+        if iPtoB == 1; ptosimOutput = ptoSim1_out; end
+        ptosimOutput(iPtoB) = eval(['ptoSim' num2str(iPtoB) '_out']);
+        eval(['clear ptoSim' num2str(iPtoB) '_out'])
+    end; clear iPtoB
 else
     ptosimOutput = 0;
 end
-clear pistonCF*_out pistonNCF*_out checkValve*_out valve*_out accumulator*_out hydraulicMotor*_out rotaryGenerator*_out pmLinearGenerator*_out pmRotaryGenerator*_out motionMechanism*_out
 
 % Waves
 if strcmp(simu.solver,'ode4')~=1    % Re-calculate wave elevation for variable time-step solver
@@ -106,6 +112,7 @@ waveOutput.waveAmpTime = waves.waveAmpTime;
 % All
 output = responseClass(bodiesOutput,ptosOutput,constraintsOutput,ptosimOutput,cablesOutput,mooringOutput,waveOutput);
 clear bodiesOutput ptosOutput constraintsOutput ptosimOutput cablesOutput mooringOutput waveOutput
+
 
 % MoorDyn
 for iMoor = 1:simu.numMoorings
@@ -127,4 +134,3 @@ for iBod = 1:simu.numHydroBodies
     output.bodies(iBod).forceAddedMass = body(iBod).forceAddedMass(output.bodies(iBod).acceleration,simu.b2b);
     output.bodies(iBod).forceTotal = output.bodies(iBod).forceTotal - output.bodies(iBod).forceAddedMass;
 end; clear iBod
-

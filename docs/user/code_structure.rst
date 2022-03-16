@@ -736,6 +736,83 @@ restrictions on the number of MooringMatrix blocks.
    :width: 400 pt
    :align: center
 
+.. _user-code-structure-ptosim-class:
+
+PTO-Sim Class
+^^^^^^^^^^^^^^^^
+
+The PTO-Sim class contains all the information for the PTO-Sim blocks, which can be used to simulate PTO systems. 
+The difference beetween the PTO-Sim class and the PTO class is that the PTO-Sim class have detailed models of different components
+that are used in PTO systems such as hydraulic cylinders, hydraulic accumulators, hydraulic motors, electric generators, etc., 
+while the PTO class have a linear parametric model that summarizes the PTO dynamics with a stiffness and a damping term.
+At a high level, the PTO-Sim class interacts with the rest of 
+WEC-Sim as shown in the diagram below:
+
+.. figure:: /_static/images/code_structure/PTOSimClass_diagram.png
+   :width: 750pt
+
+The PTO-Sim blocks receive the linear or angular response from the PTO blocks and give either the torque or the force depending on the PTO dynamics.
+
+PTO-Sim Class Initialization
+""""""""""""""""""""""""""""""""
+The properties of the PTO-Sim class (``PTOSimClass``) are defined in the ``PTOSimBlock`` object. The PTO-Sim class must be
+initialized in the ``wecSimInputFile.m`` script. There are three properties that must be initialized for all the PTO-Sim blocks,
+those are the name, the block number, and the type:: 
+
+    PTOSimBlock(i) = PTOSimClass('PTOsimName');
+    PTOSimBlock(i).PTOSimBlockNum = i;
+    PTOSimBlock(i).PTOSimBlockType = <TypeNumber>;
+
+The type value must be defined depending on the type of block used in the simulation as follows:
+
++---------------------+-----+
+|    PTO-Sim Library        |
++=====================+=====+
+|Block                |Type |
++---------------------+-----+
+|Electric Generator   |1    |
++---------------------+-----+
+|Hydraulic cylinder   |2    |
++---------------------+-----+
+|Hydraulic accumulator|3    |
++---------------------+-----+
+|Rectifying check     |4    |
+|valve  	      |     |
++---------------------+-----+
+|Hydraulic motor      |5    |
++---------------------+-----+
+|Linear crank         |6    |
++---------------------+-----+
+|Adjustable rod       |7    |
++---------------------+-----+
+|Check valve          |8    |
++---------------------+-----+
+
+
+Available PTO-Sim blocks properties, default values, and functions 
+can be found by typing ``doc PTOSimClass`` in the MATLAB command window, or 
+opening the `PTOSimClass.m` file in ``$WECSIM/source/objects`` directory by 
+typing ``open PTOSimClass`` in MATLAB Command Window. 
+For more information about application of WEC-Sim's mooring class, refer to 
+:ref:`user-advanced-features-PTOSim`.
+
+PTO-Sim Blocks
+""""""""""""""""""""
+
+There are eight different types of blocks in the PTO-Sim class divided
+in three sub-categories: Hydraulic, Electric, and Motion Conversion. In the hydraulic sub-category
+there are five blocks: Check Valve, Compressible Fluid Piston, 
+Gas-Charged Hydraulic Accumulator, Hydraulic Motor, and Rectifying Check Valve.
+In the Electric sub-category there is a block call Electric Generator Equivalent Circuit which models an electric generator
+with an equivalent circuit. The motion conversion blocks (Rotary to Linear Adjustable Rod, and
+Rotary to Linear Crank) can be used to to convert rotational motion into linear motion to add a hydraulic cylinder
+to the PTO model. There are no restrictions on the number of PTO-Sim blocks.
+
+
+.. figure:: /_static/images/WEC-Sim_Lib_PTOSim.png
+   :width: 400 pt
+   :align: center
+
 
 .. _user-code-structure-response-class:
 
