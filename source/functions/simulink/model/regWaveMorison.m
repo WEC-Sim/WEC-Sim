@@ -1,4 +1,4 @@
-function f = regWaveMorison(z,r,Vel,Accel,Disp,Area,Cd,Vol,Ca,Time,rho,direction,waterDepth,k,w,A,rampTime,g,current.speed,current.direction,current.depth,current.option,simuMorison)
+function f = regWaveMorison(z,r,Vel,Accel,Disp,Area,Cd,Vol,Ca,Time,rho,direction,waterDepth,k,w,A,rampTime,g,currentSpeed,currentDirection,currentDepth,currentOption,bodyMorison)
 % This function calculates the Morison element force for the regular wave
 % case.
 [rr,~]=size(r);
@@ -18,18 +18,18 @@ for ii = 1:rr
     Velt        = [Vel(4),Vel(5),Vel(6)];
     wxr         = cross(Velt,r(ii,:));
     %
-    switch current.option
+    switch currentOption
         case 0
-            currentSpeedDepth = current.speed;
+            currentSpeedDepth = currentSpeed;
         case 1
-            if ShiftCg(3) > -current.depth
-                currentSpeedDepth = current.speed*(1 + ShiftCg(3)/current.depth)^(1/7);
+            if ShiftCg(3) > -currentDepth
+                currentSpeedDepth = currentSpeed*(1 + ShiftCg(3)/currentDepth)^(1/7);
             else
                 currentSpeedDepth = 0;
             end
         case 2
-            if ShiftCg(3) > -current.depth
-                currentSpeedDepth = current.speed*(1 + ShiftCg(3)/current.depth);
+            if ShiftCg(3) > -currentDepth
+                currentSpeedDepth = currentSpeed*(1 + ShiftCg(3)/currentDepth);
             else
                 currentSpeedDepth = 0;
             end
@@ -43,7 +43,7 @@ for ii = 1:rr
         curramp     = currentSpeedDepth;
     end
     %Vel should be a column vector
-    Vel2            = [Vel(1),Vel(2),Vel(3)] + wxr + [curramp*cosd(current.direction),curramp*sind(current.direction),0];
+    Vel2            = [Vel(1),Vel(2),Vel(3)] + wxr + [curramp*cosd(currentDirection),curramp*sind(currentDirection),0];
     % Update translational and rotational acceleration
     % dotw refers to \dot{\omega} = rotational acceleration
     Accelt          = [Accel(4),Accel(5),Accel(6)];
@@ -79,7 +79,7 @@ for ii = 1:rr
     vA              = -ramp*coeffHorz*sin(phaseArg)*g*k*sin(waveDirRad);
     wA              = -ramp*coeffVert*cos(phaseArg)*g*k;
     fluidA          = [uA, vA, wA];
-    if simuMorison == 2
+    if bodyMorison == 2
         %% Decompose Fluid Velocity
         % Tangential Velocity
         vT          = ((dot(zRot,fluidV))/(norm(zRot)^2))*zRot;

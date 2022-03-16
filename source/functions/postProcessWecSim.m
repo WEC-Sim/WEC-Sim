@@ -28,8 +28,8 @@ for iBod = 1:length(body(1,:))
         % wave (Froude-Krylov) linear pressure
         eval(['bodiesOutput(' num2str(iBod) ').wpressurel = body' num2str(iBod) '_wavelinearpressure_out;']);
     else
-        if body(iBod).nonlinearHydro ==0 && simu.pressure == 1 
-            warning('Pressure distribution on the body is only output when wecSim is run with nonlinear hydro (simu.pressure == 1 && simu.nonlinearHydro~=0 && body(i).nonHydro==0)')
+        if body(iBod).nonlinearHydro == 0 && simu.pressure == 1 
+            warning('Pressure distribution only written for nonlinear hydro bodies (``body.nonlinearHydro=1 or 2``)')
         end
         bodiesOutput(iBod).hspressure = [];
         bodiesOutput(iBod).wpressurenl = [];
@@ -110,6 +110,12 @@ clear bodiesOutput ptosOutput constraintsOutput ptosimOutput cablesOutput moorin
 % MoorDyn
 for iMoor = 1:simu.numMoorings
     if mooring(iMoor).moorDyn==1
+        % Ensure that Lines library is closed before reading MoorDyn output
+        if libisloaded('Lines')
+            calllib('Lines','LinesClose');
+            unloadlibrary Lines;
+        end
+        
         output.loadMoorDyn(mooring(iMoor).moorDynLines);
     end
 end; clear iMoor
