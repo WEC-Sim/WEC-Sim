@@ -236,41 +236,41 @@ classdef responseClass<handle
             % PTO-Sim
             if isstruct(ptosimOutput)
                 %names = {'HydPistonCompressible','GasHydAccumulator','RectifyingCheckValve','HydraulicMotorV2','ElectricMachineEC'};
-                HydPistonCompressibleSignals = {'PressureA','ForcePTO','PressureB'};
-                GasHydAccumulatorSignals = {'Pressure','FlowRate'};
-                RectifyingCheckValveSignals = {'QA','QB','QC','QD'};
-                HydraulicMotorSignals = {'ShaftSpeed','Torque','DeltaP','FlowRate'};
-                ElectricMachineECSignals = {'Tem','ShaftSpeed','Current','Voltage'};
-                LinearCrankSignals = {'ptoTorque','angPosition','angVelocity'};
-                AdjustableRodSignals = {'ptoTorque','angPosition','angVelocity'};
-                CheckValveSignals = {'FlowCheckValve','DeltaPCheckValve'};
-                LinearGeneratorSignals = {'absPower','force','fricForce','Ia','Ib','Ic','Va','Vb','Vc','elecPower','vel'};
-                RotaryGeneratorSignals = {'absPower','Torque','fricTorque','Ia','Ib','Ic','Va','Vb','Vc','elecPower','vel'};
+                hydPistonCompressibleSignals = {'pressureA','forcePTO','pressureB'};
+                gasHydAccumulatorSignals = {'pressure','flowRate'};
+                rectifyingCheckValveSignals = {'flowRateA','flowRateB','flowRateC','flowRateD'};
+                hydraulicMotorSignals = {'shaftSpeed','torque','deltaP','flowRate'};
+                electricMachineECSignals = {'torqueEM','shaftSpeed','current','voltage'};
+                linearCrankSignals = {'ptoTorque','angPosition','angVelocity'};
+                adjustableRodSignals = {'ptoTorque','angPosition','angVelocity'};
+                checkValveSignals = {'flowCheckValve','deltaPCheckValve'};
+                linearGeneratorSignals = {'absPower','force','fricForce','Ia','Ib','Ic','Va','Vb','Vc','elecPower','vel'};
+                rotaryGeneratorSignals = {'absPower','Torque','fricTorque','Ia','Ib','Ic','Va','Vb','Vc','elecPower','vel'};
 
                 for ii = 1:length(ptosimOutput)
                     obj.ptosim(ii).name = ptosimOutput(ii).name;
                     obj.ptosim(ii).time = ptosimOutput(ii).time;
                     obj.ptosim(ii).type = ptosimOutput(ii).type;
                     if ptosimOutput(ii).type == 1
-                        signals = ElectricMachineECSignals;
+                        signals = electricMachineECSignals;
                     elseif ptosimOutput(ii).type == 2
-                        signals = HydPistonCompressibleSignals;
+                        signals = hydPistonCompressibleSignals;
                     elseif ptosimOutput(ii).type == 3
-                        signals = GasHydAccumulatorSignals;
+                        signals = gasHydAccumulatorSignals;
                     elseif ptosimOutput(ii).type == 4
-                        signals = RectifyingCheckValveSignals;
+                        signals = rectifyingCheckValveSignals;
                     elseif ptosimOutput(ii).type == 5
-                        signals = HydraulicMotorSignals;
+                        signals = hydraulicMotorSignals;
                     elseif ptosimOutput(ii).type == 6
-                        signals = LinearCrankSignals;
+                        signals = linearCrankSignals;
                     elseif ptosimOutput(ii).type == 7
-                        signals = AdjustableRodSignals;
+                        signals = adjustableRodSignals;
                     elseif ptosimOutput(ii).type == 8
-                        signals = CheckValveSignals;
+                        signals = checkValveSignals;
                     elseif ptosimOutput(ii).type == 9
-                        signals = LinearGeneratorSignals;
+                        signals = linearGeneratorSignals;
                     elseif ptosimOutput(ii).type == 10
-                        signals = RotaryGeneratorSignals;
+                        signals = rotaryGeneratorSignals;
                     end
                     for jj = 1:length(signals)
                         obj.ptosim(ii).(signals{jj}) = ptosimOutput(ii).signals.values(:,jj);
