@@ -14,7 +14,7 @@ function T = calcCableTens(k, c, L0, initialLength, position, velocity)
 %        Equilibrium length of the cable
 %
 %    initialLength : float
-%        Initial length of the cable (norm(rotloc1 - rotloc2))
+%        Initial length of the cable (norm(baseLocation - followerLocation))
 %
 %    position : [1 6] float vector
 %        Distance vector between the follower and base drag bodies relative

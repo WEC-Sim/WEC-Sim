@@ -59,16 +59,16 @@ classdef cableClass<handle
  
     properties (SetAccess = 'public', GetAccess = 'public')%internal
         baseConnectionName      = '';                                       % (`string`) name of the base constraint or PTO
+        baseLocation            = [999 999 999]                             % (`3x1 float vector`) base location [m]. Defined in the following format [x y z]. Default = ``[999 999 999]``.
         cb1                     = [0 0 0];                                  % (`1 x 3 float vector`) cb location of the base drag body
         cb2                     = [0 0 0];                                  % (`1 x 3 float vector`) cb location of the follower drag body
         cg1                     = [0 0 0];                                  % (`1 x 3 float vector`) cg location of the base drag body
         cg2                     = [0 0 0];                                  % (`1 x 3 float vector`) cg location of the follower drag body
-        volume                 = [];                                       % (`float`) displacement volume, defaults to neutral buoyancy 
         followerConnectionName  = '';                                       % (`string`) name of the follower constraint or PTO
+        followerLocation        = [999 999 999]                             % (`3x1 float vector`) follower location [m]. Defined in the following format [x y z]. Default = ``[999 999 999]``.        
         location                = [999 999 999]                             % (`3x1 float vector`) pto location [m]. Defined in the following format [x y z]. Default = ``[999 999 999]``.    
-        number                  = []                                       	% Cable number
-        rotloc1                 = [999 999 999]                             % (`3x1 float vector`) base location [m]. Defined in the following format [x y z]. Default = ``[999 999 999]``.
-        rotloc2                 = [999 999 999]                             % (`3x1 float vector`) follower location [m]. Defined in the following format [x y z]. Default = ``[999 999 999]``.        
+        number                  = []                                       	% Cable number        
+        volume                  = [];                                       % (`float`) displacement volume, defaults to neutral buoyancy         
     end
     
     %%
@@ -97,8 +97,8 @@ classdef cableClass<handle
             obj.name = name;
             obj.baseConnectionName = baseConnectionName;
             obj.followerConnectionName = followerConnectionName;
-            obj.rotloc1 = evalin('caller',[baseConnectionName '.location']);
-            obj.rotloc2 = evalin('caller',[followerConnectionName '.location']);
+            obj.baseLocation = evalin('caller',[baseConnectionName '.location']);
+            obj.followerLocation = evalin('caller',[followerConnectionName '.location']);
         end
         
         function setTransPTOLoc(obj)
@@ -106,9 +106,9 @@ classdef cableClass<handle
             % way between the fixed ends of the cable if not previously
             % set.
             if any(obj.location == [999 999 999])
-                rotDiff = obj.rotloc1 - obj.rotloc2;
-                obj.location = obj.rotloc2 + rotDiff/2;
-                fprintf('\n\t location undefined, set halfway between rotloc2 and rotloc1 \n')
+                rotDiff = obj.baseLocation - obj.followerLocation;
+                obj.location = obj.followerLocation + rotDiff/2;
+                fprintf('\n\t location undefined, set halfway between followerLocation and baseLocation \n')
             end
         end
         
@@ -238,29 +238,29 @@ classdef cableClass<handle
         function setCg(obj)
             % This method specifies the Cg of the drag bodies as coincident
             % with the fixed ends of the cable, if not otherwise specied.
-            obj.cg1 = obj.rotloc1;
-            obj.cg2 = obj.rotloc2;
+            obj.cg1 = obj.baseLocation;
+            obj.cg2 = obj.followerLocation;
         end
         
         function setL0(obj)
             % This method specifies L0 as the distance between cable fixed
             % ends (i.e. pretension = 0), if not otherwise specified.
             if ~any(obj.L0) && ~any(obj.preTension)
-                obj.L0 = sqrt((obj.rotloc1(1)-obj.rotloc2(1)).^2 ...
-                + (obj.rotloc1(2)-obj.rotloc2(2)).^2 ...
-                + (obj.rotloc1(3)-obj.rotloc2(3)).^2);
+                obj.L0 = sqrt((obj.baseLocation(1)-obj.followerLocation(1)).^2 ...
+                + (obj.baseLocation(2)-obj.followerLocation(2)).^2 ...
+                + (obj.baseLocation(3)-obj.followerLocation(3)).^2);
                 fprintf('\n\t cable(i).L0 undefined and cable(i).preTension undefined. \n \r',...
-                    'cable(i).L0 set equal to distance between rotloc2 and rotloc1 \n and cable(i).preTension set equal to zero \n');
+                    'cable(i).L0 set equal to distance between followerLocation and baseLocation \n and cable(i).preTension set equal to zero \n');
                 
             elseif ~any(obj.L0) && any(obj.preTension)
-                obj.L0 = sqrt((obj.rotloc1(1)-obj.rotloc2(1)).^2 ...
-                + (obj.rotloc1(2)-obj.rotloc2(2)).^2 ...
-                + (obj.rotloc1(3)-obj.rotloc2(3)).^2) + obj.preTension/obj.stiffness;
+                obj.L0 = sqrt((obj.baseLocation(1)-obj.followerLocation(1)).^2 ...
+                + (obj.baseLocation(2)-obj.followerLocation(2)).^2 ...
+                + (obj.baseLocation(3)-obj.followerLocation(3)).^2) + obj.preTension/obj.stiffness;
             
             elseif ~any(obj.preTension) && any(obj.L0)
-                obj.preTension = obj.stiffness * (sqrt((obj.rotloc1(1)-obj.rotloc2(1)).^2 ...
-                + (obj.rotloc1(2)-obj.rotloc2(2)).^2 ...
-                + (obj.rotloc1(3)-obj.rotloc2(3)).^2) - obj.L0); 
+                obj.preTension = obj.stiffness * (sqrt((obj.baseLocation(1)-obj.followerLocation(1)).^2 ...
+                + (obj.baseLocation(2)-obj.followerLocation(2)).^2 ...
+                + (obj.baseLocation(3)-obj.followerLocation(3)).^2) - obj.L0); 
             
             elseif any(obj.preTension) && any(obj.L0)
                 error('System overdefined. Please define cable(i).preTension OR cable(i).L0, not both.')
