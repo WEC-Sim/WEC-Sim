@@ -34,7 +34,7 @@ classdef bodyClass<handle
     end
     
     properties (SetAccess = 'public', GetAccess = 'public') % WEC-Sim input
-        cg                  = []                            % (`3x1 float vector`) Body center of gravity [m]. Defined in the following format [x y z]. For hydrodynamic bodies this is defined in the h5 file while for nonhydrodynamic bodies this is defined by the user. Default = ``[]``.
+        centerGravity       = []                            % (`3x1 float vector`) Body center of gravity [m]. Defined in the following format [x y z]. For hydrodynamic bodies this is defined in the h5 file while for nonhydrodynamic bodies this is defined by the user. Default = ``[]``.
         cb                  = []                            % (`3x1 float vector`) Body center of buoyancy [m]. Defined in the following format [x y z]. For hydrodynamic bodies this is defined in the h5 file while for nonhydrodynamic bodies this is defined by the user. Default = ``[]``.
         dof                 = 6                             % (`integer`) Number of degree of freedoms (DOFs). For hydrodynamic bodies this is given in the h5 file. If not defined in the h5 file, Default = ``6``.
         excitationIRF       = []                            % (`vector`) Defines excitation Impulse Response Function, only used with the `waveClass` ``elevationImport`` type. Default = ``[]``.
@@ -181,15 +181,15 @@ classdef bodyClass<handle
             % WECSim function that loads the hydroData structure from a
             % MATLAB variable as alternative to reading the h5 file. This
             % process reduces computational time when using wecSimMCR.
-            obj.hydroData = hydroData;
-            obj.cg        = hydroData.properties.cg';
-            obj.cb        = hydroData.properties.cb';
-            obj.volume   = hydroData.properties.disp_vol;
-            obj.name      = hydroData.properties.name;
-            obj.dof       = obj.hydroData.properties.dof;
-            obj.dofStart  = obj.hydroData.properties.dofStart;
-            obj.dofEnd    = obj.hydroData.properties.dofEnd;
-            obj.gbmDOF    = obj.dof-6;
+            obj.hydroData       = hydroData;
+            obj.centerGravity	= hydroData.properties.cg';
+            obj.cb              = hydroData.properties.cb';
+            obj.volume          = hydroData.properties.disp_vol;
+            obj.name            = hydroData.properties.name;
+            obj.dof             = obj.hydroData.properties.dof;
+            obj.dofStart        = obj.hydroData.properties.dofStart;
+            obj.dofEnd          = obj.hydroData.properties.dofEnd;
+            obj.gbmDOF          = obj.dof-6;
         end
         
         function nonHydroForcePre(obj,rho)
@@ -345,14 +345,14 @@ classdef bodyClass<handle
             % 
             % This function assumes that all rotations are about the same relative coordinate. 
             % If not, the user should input a relative coordinate of 0,0,0 and 
-            % use the additional linear displacement parameter to set the cg or loc
-            % correctly.
+            % use the additional linear displacement parameter to set the
+            % centerGravity or location correctly.
             %
             % Parameters
             % ------------
             %    relCoord : [1 3] float vector
             %        Distance from x_rot to the body center of gravity or the constraint
-            %        or pto location as defined by: relCoord = cg - x_rot. [m]
+            %        or pto location as defined by: relCoord = centerGravity - x_rot. [m]
             %
             %    axisAngleList : [nAngle 4] float vector
             %        List of axes and angles of the rotations with the 
@@ -686,7 +686,7 @@ classdef bodyClass<handle
                 if obj.nonHydro == 0 && obj.nonlinearHydro == 0
                     obj.mass = obj.hydroData.properties.disp_vol * rho;
                 elseif obj.nonHydro == 0 && obj.nonlinearHydro ~= 0
-                    cg_tmp = obj.hydroData.properties.cg;
+                    cg_tmp = obj.hydroData.properties.centerGravity;
                     z = obj.geometry.center(:,3) + cg_tmp(3);
                     z(z>0) = 0;
                     area = obj.geometry.area;

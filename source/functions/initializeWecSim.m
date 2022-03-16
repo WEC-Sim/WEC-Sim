@@ -247,15 +247,15 @@ if ~isempty(idx)
     for kk = 1:length(idx)
         it = idx(kk);
         body(it).nonHydroForcePre(simu.rho);
-        if isempty(body(it).cg)
-            error('Non-hydro body(%i) center of gravity (cg) must be defined in the wecSimInputFile.m',body(it).number);
+        if isempty(body(it).centerGravity)
+            error('Non-hydro body(%i) center of gravity (centerGravity) must be defined in the wecSimInputFile.m',body(it).number);
         end
         if isempty(body(it).volume)
             error('Non-hydro body(%i) displaced volume (volume) must be defined in the wecSimInputFile.m',body(it).number);
         end
         if isempty(body(it).cb)
-            body(it).cb = body(it).cg;
-            warning('Non-hydro body(%i) center of buoyancy (cb) set equal to center of gravity (cg), [%g %g %g]',body(it).number,body(it).cb(1),body(it).cb(2),body(it).cb(3))
+            body(it).cb = body(it).centerGravity;
+            warning('Non-hydro body(%i) center of buoyancy (cb) set equal to center of gravity (centerGravity), [%g %g %g]',body(it).number,body(it).cb(1),body(it).cb(2),body(it).cb(3))
         end
     end; clear kk idx
 end
@@ -266,15 +266,15 @@ if ~isempty(idx)
     for kk = 1:length(idx)
         it = idx(kk);
         body(it).dragForcePre(simu.rho);
-        if isempty(body(it).cg)
-            error('Drag body(%i) center of gravity (cg) must be defined in the wecSimInputFile.m',body(it).number);
+        if isempty(body(it).centerGravity)
+            error('Drag body(%i) center of gravity (centerGravity) must be defined in the wecSimInputFile.m',body(it).number);
         end
         if isempty(body(it).volume)
             error('Drag body(%i) displaced volume (volume) must be defined in the wecSimInputFile.m',body(it).number);
         end
         if isempty(body(it).cb)
-            body(it).cb = body(it).cg;
-            warning('Drag body(%i) center of buoyancy (cb) set equal to center of gravity (cg), [%g %g %g]',body(it).number,body(it).cb(1),body(it).cb(2),body(it).cb(3))
+            body(it).cb = body(it).centerGravity;
+            warning('Drag body(%i) center of buoyancy (cb) set equal to center of gravity (centerGravity), [%g %g %g]',body(it).number,body(it).cb(1),body(it).cb(2),body(it).cb(3))
         end
     end; clear kk idx
 end
