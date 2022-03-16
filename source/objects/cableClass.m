@@ -30,8 +30,6 @@ classdef cableClass<handle
     %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%    
     
     properties (SetAccess = 'public', GetAccess = 'public') %input file
-        bodyInertia             = [1 1 1];                                  % (`1 x 3 float vector`) body inertia kg-m^2, default [1 1 1]
-        bodyMass                = 1;                                        % (`float`) mass in kg, default 1
         damping                 = 0                                         % (`float`) Cable damping coefficient (N/(m/s)). Default = `0`.
         initial                 = struct(...                                % 
             'displacement',          [0 0 0],...                            % 
@@ -39,6 +37,8 @@ classdef cableClass<handle
             'angle', 0)                                                     % Structure defining the initial displacement of the body. ``displacement`` (`3x1 float vector`) is defined as the initial displacement of the body center of gravity (COG) [m] in the following format [x y z], Default = [``0 0 0``]. ``axis`` (`3x1 float vector`) is defined as the axis of rotation in the following format [x y z], Default = [``0 1 0``]. ``angle`` (`float`) is defined as the initial angular displacement of the body COG [rad], Default = ``0``.
         length                  = 0                                         % (`float`) Cable equilibrium length (m), calculated from rotloc and preTension. Default =`0`.
         linearDamping           = [0 0 0 0 0 0];                            % (`1 x 6 float vector`)linear damping aplied to body motions
+        mass                = 1;                                            % (`float`) mass in kg, default 1
+        momOfInertia             = [1 1 1];                                 % (`1 x 3 float vector`) body inertia kg-m^2, default [1 1 1]
         name                    = 'NOT DEFINED'                             % (`string`) Defines the Cable name. Default = ``NOT DEFINED``.
         orientation             = struct(...                                %
             'z', [0, 0, 1], ...                                             %
@@ -205,7 +205,7 @@ classdef cableClass<handle
         
         function setVolume(obj, rho)
             % This method mades the mass of the cable drag bodies neutrally bouyant
-            obj.volume = obj.bodyMass/rho;
+            obj.volume = obj.mass/rho;
         end
         
         function dragForcePre(obj,rho)
