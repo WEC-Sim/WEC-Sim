@@ -63,7 +63,7 @@ switch type
         maskVars.nonlinearHydro = body(num).nonlinearHydro;
         maskVars.flex = body(num).flex;
         maskVars.centerGravity = body(num).centerGravity;
-        maskVars.cb = body(num).cb;
+        maskVars.centerBuoyancy = body(num).centerBuoyancy;
         maskVars.dof = body(num).dof;
         maskVars.volume = body(num).volume;
         maskVars.displacement = body(num).initial.displacement;

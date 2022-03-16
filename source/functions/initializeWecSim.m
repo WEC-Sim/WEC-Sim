@@ -253,9 +253,9 @@ if ~isempty(idx)
         if isempty(body(it).volume)
             error('Non-hydro body(%i) displaced volume (volume) must be defined in the wecSimInputFile.m',body(it).number);
         end
-        if isempty(body(it).cb)
-            body(it).cb = body(it).centerGravity;
-            warning('Non-hydro body(%i) center of buoyancy (cb) set equal to center of gravity (centerGravity), [%g %g %g]',body(it).number,body(it).cb(1),body(it).cb(2),body(it).cb(3))
+        if isempty(body(it).centerBuoyancy)
+            body(it).centerBuoyancy = body(it).centerGravity;
+            warning('Non-hydro body(%i) center of buoyancy (centerBuoyancy) set equal to center of gravity (centerGravity), [%g %g %g]',body(it).number,body(it).centerBuoyancy(1),body(it).centerBuoyancy(2),body(it).centerBuoyancy(3))
         end
     end; clear kk idx
 end
@@ -272,9 +272,9 @@ if ~isempty(idx)
         if isempty(body(it).volume)
             error('Drag body(%i) displaced volume (volume) must be defined in the wecSimInputFile.m',body(it).number);
         end
-        if isempty(body(it).cb)
-            body(it).cb = body(it).centerGravity;
-            warning('Drag body(%i) center of buoyancy (cb) set equal to center of gravity (centerGravity), [%g %g %g]',body(it).number,body(it).cb(1),body(it).cb(2),body(it).cb(3))
+        if isempty(body(it).centerBuoyancy)
+            body(it).centerBuoyancy = body(it).centerGravity;
+            warning('Drag body(%i) center of buoyancy (centerBuoyancy) set equal to center of gravity (centerGravity), [%g %g %g]',body(it).number,body(it).centerBuoyancy(1),body(it).centerBuoyancy(2),body(it).centerBuoyancy(3))
         end
     end; clear kk idx
 end

@@ -35,7 +35,7 @@ classdef bodyClass<handle
     
     properties (SetAccess = 'public', GetAccess = 'public') % WEC-Sim input
         centerGravity       = []                            % (`3x1 float vector`) Body center of gravity [m]. Defined in the following format [x y z]. For hydrodynamic bodies this is defined in the h5 file while for nonhydrodynamic bodies this is defined by the user. Default = ``[]``.
-        cb                  = []                            % (`3x1 float vector`) Body center of buoyancy [m]. Defined in the following format [x y z]. For hydrodynamic bodies this is defined in the h5 file while for nonhydrodynamic bodies this is defined by the user. Default = ``[]``.
+        centerBuoyancy                  = []                            % (`3x1 float vector`) Body center of buoyancy [m]. Defined in the following format [x y z]. For hydrodynamic bodies this is defined in the h5 file while for nonhydrodynamic bodies this is defined by the user. Default = ``[]``.
         dof                 = 6                             % (`integer`) Number of degree of freedoms (DOFs). For hydrodynamic bodies this is given in the h5 file. If not defined in the h5 file, Default = ``6``.
         excitationIRF       = []                            % (`vector`) Defines excitation Impulse Response Function, only used with the `waveClass` ``elevationImport`` type. Default = ``[]``.
         flex                = 0                             % (`integer`) Flag for flexible body, Options: 0 (off) or 1 (on). Default = ``0``.
@@ -183,7 +183,7 @@ classdef bodyClass<handle
             % process reduces computational time when using wecSimMCR.
             obj.hydroData       = hydroData;
             obj.centerGravity	= hydroData.properties.cg';
-            obj.cb              = hydroData.properties.cb';
+            obj.centerBuoyancy  = hydroData.properties.cb';
             obj.volume          = hydroData.properties.disp_vol;
             obj.name            = hydroData.properties.name;
             obj.dof             = obj.hydroData.properties.dof;
