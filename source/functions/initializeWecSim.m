@@ -96,8 +96,8 @@ if exist('mcr','var') == 1
 end
 
 % Waves and Simu: check inputs
-waves.checkInputs;
-simu.checkInputs;
+waves.checkInputs();
+simu.checkInputs();
 
 % Constraints: count & set orientation
 if exist('constraint','var') == 1
@@ -127,8 +127,7 @@ if exist('mooring','var') == 1
     end; clear ii
 end
 
-% Bodies: count, check inputs, read hdf5 file, and check inputs for each
-% body type
+% Bodies: count, check inputs, read hdf5 file, and check inputs
 numHydroBodies = 0; 
 numNonHydroBodies = 0;
 numDragBodies = 0; 
@@ -144,15 +143,12 @@ for ii = 1:length(body(1,:))
         end
         numHydroBodies = numHydroBodies + 1;
         hydroBodLogic(ii) = 1;     
-        body(ii).checkHydroInputs();
     elseif body(ii).nonHydro==1
         numNonHydroBodies = numNonHydroBodies + 1;
         nonHydroBodLogic(ii) = 1; 
-        body(ii).checkDragNonHydroInputs(ii);
     elseif body(ii).nonHydro==2
         numDragBodies = numDragBodies + 1;
         dragBodLogic(ii) = 1; 
-        body(ii).checkDragNonHydroInputs(ii);
     else
         body(ii).massCalcMethod = 'user';
     end

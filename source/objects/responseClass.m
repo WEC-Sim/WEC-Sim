@@ -240,19 +240,19 @@ classdef responseClass<handle
             end
         end
         
-        function obj = loadMoorDyn(obj,numLines)            
+        function obj = loadMoorDyn(obj,linesNum)            
             % This method reads MoorDyn outputs for each instance of the
             % ``mooringClass``
             %            
             % Parameters
             % ------------
-            %     numLines : integer
+            %     linesNum : integer
             %         the number of MoorDyn lines
             %
             
             arguments
                 obj
-                numLines (1,1) double {mustBeInteger}
+                linesNum (1,1) double {mustBeInteger}
             end
             
             % load Lines.out
@@ -267,7 +267,7 @@ classdef responseClass<handle
             end
             fclose(fid);
             % load Line#.out
-            for iline=1:numLines
+            for iline=1:linesNum
                 eval(['obj.moorDyn.Line' num2str(iline) '=struct();']);
                 filename = ['./Mooring/Line' num2str(iline) '.out'];
                 try

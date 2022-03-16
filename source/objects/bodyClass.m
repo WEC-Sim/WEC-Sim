@@ -127,7 +127,7 @@ classdef bodyClass<handle
             end
             % Check definitions
             if (~isnumeric(obj.mass) && ~strcmp(obj.mass, 'equilibrium') && ~strcmp(obj.mass, 'fixed')) || isempty(obj.mass)
-                error('Body mass needs to be defined numerically or set to ''equilibrium''.')
+                error('Body mass needs to be defined numerically, set to ''equilibrium'', or set to ''fixed''.')
             end
             if isempty(obj.momOfInertia) && ~strcmp(obj.mass, 'fixed')
                 error('Body moment of inertia needs to be defined for all non-fixed bodies.')
@@ -170,46 +170,48 @@ classdef bodyClass<handle
             if obj.yaw.option==1 && obj.yaw.threshold==1
                 warning(['yaw using (default) 1 deg interpolation threshold.' newline 'Ensure this is appropriate for your geometry'])
             end
-        end
-
-        function checkHydroInputs(obj)
-            % This method checks WEC-Sim user inputs for each hydro body and generates error messages if parameters are not properly defined for the bodyClass.
-            
-            % Check Morison Element Inputs for option 1
-            if obj.morisonElement.option == 1
-                [rgME,~] = size(obj.morisonElement.rgME);
-                [rz,~] = size(obj.morisonElement.z);
-                if rgME > rz
-                    obj.morisonElement.z = NaN(rgME,3);
+            if obj.nonHydro==0
+                % This method checks WEC-Sim user inputs for each hydro body and generates error messages if parameters are not properly defined for the bodyClass.
+                % Check Morison Element Inputs for option 1
+                if obj.morisonElement.option == 1
+                    [rgME,~] = size(obj.morisonElement.rgME);
+                    [rz,~] = size(obj.morisonElement.z);
+                    if rgME > rz
+                        obj.morisonElement.z = NaN(rgME,3);
+                    end
+                    clear rgME rz
                 end
-                clear rgME rz
-            end
-            % Check Morison Element Inputs for option 2
-            if obj.morisonElement.option == 2
-                [r,~] = size(obj.morisonElement.z);
-                for ii = 1:r
-                    if norm(obj.morisonElement.z(ii,:)) ~= 1
-                        error(['Ensure the Morison Element .z variable is a unit vector for the ',num2str(ii),' index'])
+                % Check Morison Element Inputs for option 2
+                if obj.morisonElement.option == 2
+                    [r,~] = size(obj.morisonElement.z);
+                    for ii = 1:r
+                        if norm(obj.morisonElement.z(ii,:)) ~= 1
+                            error(['Ensure the Morison Element .z variable is a unit vector for the ',num2str(ii),' index'])
+                        end
                     end
                 end
-            end
-            % Warning for cg and cb being overwritten
-            if ~isempty(obj.cg) || ~isempty(obj.cb)
-                warning('Center of gravity and center of buoyancy are overwritten by h5 data for hydro bodies.')
-            end
-        end
-        
-        function checkDragNonHydroInputs(obj,ii)
-            % This method checks WEC-Sim user inputs for each non-hydro
-            % body and generates error messages if parameters are not properly defined for the bodyClass.
-            if isempty(obj.cg)
-                error('Non-hydro or drag body(%i) center of gravity (cg) must be defined in the wecSimInputFile.m',ii);
-            end
-            if isempty(obj.dispVol)
-                error('Non-hydro or drag body(%i) displaced volume (dispVol) must be defined in the wecSimInputFile.m',ii);
-            end
-            if isempty(obj.cb)
-                warning('Non-hydro or drag body(%i) center of buoyancy (cb) set equopal to center of gravity (cg), [%g %g %g]',ii,obj.cg(1),obj.cg(2),obj.cg(3))
+                % Warning for cg and cb being overwritten
+                if ~isempty(obj.cg) || ~isempty(obj.cb)
+                    warning('Center of gravity and center of buoyancy are overwritten by h5 data for hydro bodies.')
+                end
+            elseif obj.nonHydro>0
+                % This method checks WEC-Sim user inputs for each drag or non-hydro
+                % body and generates error messages if parameters are not properly defined for the bodyClass.
+                if ~isnumeric(obj.mass)
+                    error('Body mass needs to be defined numerically for non-hydro or drag bodies')
+                end
+                if ~isnumeric(obj.momOfInertia)
+                    error('Body moment of inertia needs to be defined numerically for non-hydro or drag bodies')
+                end
+                if isempty(obj.cg)
+                    error('Non-hydro or drag body(%i) center of gravity (cg) must be defined in the wecSimInputFile.m',obj.number);
+                end
+                if isempty(obj.dispVol)
+                    error('Non-hydro or drag body(%i) displaced volume (dispVol) must be defined in the wecSimInputFile.m',obj.number);
+                end
+                if isempty(obj.cb)
+                    warning('Non-hydro or drag body(%i) center of buoyancy (cb) set equopal to center of gravity (cg), [%g %g %g]',obj.number,obj.cg(1),obj.cg(2),obj.cg(3))
+                end
             end
         end
         
