@@ -154,7 +154,7 @@ classdef responseClass<handle
             for ii = 1:length(bodiesOutput)
                 obj.bodies(ii).name = bodiesOutput(ii).name;
                 obj.bodies(ii).time = bodiesOutput(ii).time;
-                obj.bodies(ii).cg   = bodiesOutput(ii).cg;
+                obj.bodies(ii).centerGravity   = bodiesOutput(ii).centerGravity;
                 for jj = 1:length(signals)
                     obj.bodies(ii).(signals{jj}) = bodiesOutput(ii).signals.values(:, (jj-1)*6+1:(jj-1)*6+6);
                 end
@@ -334,7 +334,7 @@ classdef responseClass<handle
             DOF = {'Surge','Sway','Heave','Roll','Pitch','Yaw'};
             t=obj.bodies(bodyNum).time;
             if comp < 4
-                pos=obj.bodies(bodyNum).position(:,comp)-obj.bodies(bodyNum).cg(comp);
+                pos=obj.bodies(bodyNum).position(:,comp)-obj.bodies(bodyNum).centerGravity(comp);
             else
                 pos=obj.bodies(bodyNum).position(:,comp);
             end
@@ -483,7 +483,7 @@ classdef responseClass<handle
 
                         % Calculate full position changes due to rotation,
                         % translation, and center of gravity
-                        bodyMesh(ibod).pointsNew = bodyMesh(ibod).rotation + bodyMesh(ibod).deltaPos(i,:) + body(ibod).cg.';
+                        bodyMesh(ibod).pointsNew = bodyMesh(ibod).rotation + bodyMesh(ibod).deltaPos(i,:) + body(ibod).centerGravity.';
 
                         % Create and plot final triangulation of geometry with applied changes
                         bodFinal = triangulation(bodyMesh(ibod).Conns,bodyMesh(ibod).pointsNew);

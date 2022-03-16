@@ -117,8 +117,8 @@ for i=1:length(blocks)
         fprintf(fid,'\r\n%s\r\n','%% Wave Class');
         fprintf(fid,'waves = waveClass(%s); \r\n',maskVars.WaveClass);
         
-        fprintf(fid,writeLineFromVar(waves, 'H', maskVars, maskViz, [], []));
-        fprintf(fid,writeLineFromVar(waves, 'T', maskVars, maskViz, [], []));
+        fprintf(fid,writeLineFromVar(waves, 'height', maskVars, maskViz, [], []));
+        fprintf(fid,writeLineFromVar(waves, 'period', maskVars, maskViz, [], []));
         fprintf(fid,writeLineFromVar(waves, 'direction', maskVars, maskViz, [], []));
         fprintf(fid,writeLineFromVar(waves, 'spread', maskVars, maskViz, [], []));
         fprintf(fid,writeLineFromVar(waves, 'spectrumType', maskVars, maskViz, [], []));
@@ -137,17 +137,17 @@ for i=1:length(blocks)
         
         fprintf(fid,writeLineFromVar(body, 'geometryFile', maskVars, maskViz, num, []));
         fprintf(fid,writeLineFromVar(body, 'mass', maskVars, maskViz, num, []));
-        fprintf(fid,writeLineFromVar(body, 'momOfInertia', maskVars, maskViz, num, []));
+        fprintf(fid,writeLineFromVar(body, 'inertia', maskVars, maskViz, num, []));
         fprintf(fid,writeLineFromVar(body, 'nonHydro', maskVars, maskViz, num, []));
         fprintf(fid,writeLineFromVar(body, 'nonlinearHydro', maskVars, maskViz, num, []));
         fprintf(fid,writeLineFromVar(body, 'flex', maskVars, maskViz, num, []));
-        fprintf(fid,writeLineFromVar(body, 'cg', maskVars, maskViz, num, []));
-        fprintf(fid,writeLineFromVar(body, 'cb', maskVars, maskViz, num, []));
+        fprintf(fid,writeLineFromVar(body, 'centerGravity', maskVars, maskViz, num, []));
+        fprintf(fid,writeLineFromVar(body, 'centerBuoyancy', maskVars, maskViz, num, []));
         fprintf(fid,writeLineFromVar(body, 'dof', maskVars, maskViz, num, []));
-        fprintf(fid,writeLineFromVar(body, 'dispVol', maskVars, maskViz, num, []));        
-        fprintf(fid,writeLineFromVar(body, 'initLinDisp', maskVars, maskViz, num, 'initDisp'));
-        fprintf(fid,writeLineFromVar(body, 'initAngularDispAxis', maskVars, maskViz, num, 'initDisp'));
-        fprintf(fid,writeLineFromVar(body, 'initAngularDispAngle', maskVars, maskViz, num, 'initDisp'));        
+        fprintf(fid,writeLineFromVar(body, 'volume', maskVars, maskViz, num, []));        
+        fprintf(fid,writeLineFromVar(body, 'displacement', maskVars, maskViz, num, 'initial'));
+        fprintf(fid,writeLineFromVar(body, 'axis', maskVars, maskViz, num, 'initial'));
+        fprintf(fid,writeLineFromVar(body, 'angle', maskVars, maskViz, num, 'initial'));        
         fprintf(fid,writeLineFromVar(body, 'option', maskVars, maskViz, num, 'morisonElement'));
         fprintf(fid,writeLineFromVar(body, 'cd', maskVars, maskViz, num, 'morisonElement'));
         fprintf(fid,writeLineFromVar(body, 'ca', maskVars, maskViz, num, 'morisonElement'));
@@ -166,7 +166,7 @@ for i=1:length(blocks)
         fprintf(fid,['constraint(%d).location = ' maskVars.loc '; \r\n'],num);
         fprintf(fid,writeLineFromVar(constraint, 'y', maskVars, maskViz, num, 'orientation'));
         fprintf(fid,writeLineFromVar(constraint, 'z', maskVars, maskViz, num, 'orientation'));
-        fprintf(fid,writeLineFromVar(constraint, 'initLinDisp', maskVars, maskViz, num, 'initDisp'));
+        fprintf(fid,writeLineFromVar(constraint, 'displacement', maskVars, maskViz, num, 'initial'));
         fprintf(fid,writeLineFromVar(constraint, 'upperLimitSpecify', maskVars, maskViz, num, 'hardStops'));
         fprintf(fid,writeLineFromVar(constraint, 'upperLimitBound', maskVars, maskViz, num, 'hardStops'));
         fprintf(fid,writeLineFromVar(constraint, 'upperLimitStiffness', maskVars, maskViz, num, 'hardStops'));
@@ -190,7 +190,7 @@ for i=1:length(blocks)
         fprintf(fid,['pto(%d).location = ' maskVars.loc '; \r\n'],num);        
         fprintf(fid,writeLineFromVar(pto, 'y', maskVars, maskViz, num, 'orientation'));
         fprintf(fid,writeLineFromVar(pto, 'z', maskVars, maskViz, num, 'orientation'));
-        fprintf(fid,writeLineFromVar(pto, 'initLinDisp', maskVars, maskViz, num, 'initDisp'));
+        fprintf(fid,writeLineFromVar(pto, 'displacement', maskVars, maskViz, num, 'initial'));
         fprintf(fid,writeLineFromVar(pto, 'upperLimitSpecify', maskVars, maskViz, num, 'hardStops'));
         fprintf(fid,writeLineFromVar(pto, 'upperLimitBound', maskVars, maskViz, num, 'hardStops'));
         fprintf(fid,writeLineFromVar(pto, 'upperLimitStiffness', maskVars, maskViz, num, 'hardStops'));
@@ -208,17 +208,16 @@ for i=1:length(blocks)
         tmp = string(maskVars.cable);
         num = str2num(extractBetween(tmp,strfind(tmp,'('),strfind(tmp,')'),'Boundaries','Exclusive'));
         fprintf(fid,'cable(%d) = cableClass(''cable%d'',%s,%s); \r\n',num,num,...
-            maskVars.baseConnectionName,maskVars.followerConnectionName);
-        
+            maskVars.baseName,maskVars.followerName);        
         fprintf(fid,writeLineFromVar(cable, 'stiffness', maskVars, maskViz, num, []));
         fprintf(fid,writeLineFromVar(cable, 'damping', maskVars, maskViz, num, []));
         fprintf(fid,writeLineFromVar(cable, 'L0', maskVars, maskViz, num, []));
         fprintf(fid,writeLineFromVar(cable, 'preTension', maskVars, maskViz, num, []));
         fprintf(fid,writeLineFromVar(cable, 'y', maskVars, maskViz, num, 'orientation'));
         fprintf(fid,writeLineFromVar(cable, 'z', maskVars, maskViz, num, 'orientation'));
-        fprintf(fid,writeLineFromVar(cable, 'initLinDisp', maskVars, maskViz, num, 'initDisp'));
-        fprintf(fid,writeLineFromVar(cable, 'initAngularDispAxis', maskVars, maskViz, num, 'initDisp'));
-        fprintf(fid,writeLineFromVar(cable, 'initAngularDispAngle', maskVars, maskViz, num, 'initDisp'));
+        fprintf(fid,writeLineFromVar(cable, 'displacement', maskVars, maskViz, num, 'initial'));
+        fprintf(fid,writeLineFromVar(cable, 'axis', maskVars, maskViz, num, 'initial'));
+        fprintf(fid,writeLineFromVar(cable, 'angle', maskVars, maskViz, num, 'initial'));
         
     elseif isfield(maskVars,'mooring') && isfield(maskVars,'stiffness')
         % Block is a Mooring system
