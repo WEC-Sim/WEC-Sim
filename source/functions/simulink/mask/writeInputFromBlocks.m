@@ -208,8 +208,7 @@ for i=1:length(blocks)
         tmp = string(maskVars.cable);
         num = str2num(extractBetween(tmp,strfind(tmp,'('),strfind(tmp,')'),'Boundaries','Exclusive'));
         fprintf(fid,'cable(%d) = cableClass(''cable%d'',%s,%s); \r\n',num,num,...
-            maskVars.baseConnectionName,maskVars.followerConnectionName);
-        
+            maskVars.baseName,maskVars.followerName);        
         fprintf(fid,writeLineFromVar(cable, 'stiffness', maskVars, maskViz, num, []));
         fprintf(fid,writeLineFromVar(cable, 'damping', maskVars, maskViz, num, []));
         fprintf(fid,writeLineFromVar(cable, 'L0', maskVars, maskViz, num, []));

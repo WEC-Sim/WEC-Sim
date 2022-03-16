@@ -139,11 +139,11 @@ switch type
         % Cable data
         tmp = string(maskVars.cable);
         num = str2num(extractBetween(tmp,strfind(tmp,'('),strfind(tmp,')'),'Boundaries','Exclusive'));       
-        maskVars.baseConnectionName = cable(num).baseConnectionName;
-        maskVars.followerConnectionName = cable(num).followerConnectionName;
+        maskVars.baseName = cable(num).base.name;
+        maskVars.followerName = cable(num).follower.name;
         maskVars.stiffness = cable(num).stiffness;
         maskVars.damping = cable(num).damping;
-        maskVars.L0 = cable(num).L0;
+        maskVars.length = cable(num).length;
         maskVars.preTension = cable(num).preTension;
         maskVars.displacement = cable(num).initial.displacement;
         maskVars.axis = cable(num).initial.axis;

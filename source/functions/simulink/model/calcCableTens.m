@@ -1,20 +1,20 @@
-function T = calcCableTens(k, c, L0, initialLength, position, velocity)
-% Function to calculate tension by comparing the equilibrium length and
-% current length of the cable.
+function T = calcCableTens(stiffness, damping, length, initialLength, position, velocity)
+% Function to calculate tension by comparing the equilibrium baseName and
+% current baseName of the cable.
 %
 % Parameters
 % ----------
-%    k : float
+%    stiffness : float
 %        The spring coefficient of the cable, applied when in tension.
 %
-%    c : float
+%    damping : float
 %        The damping coefficient of the cable, applied when in tension.
 %    
-%    L0 : float
-%        Equilibrium length of the cable
+%    length : float
+%        Equilibrium baseName of the cable
 %
 %    initialLength : float
-%        Initial length of the cable (norm(baseLocation - followerLocation))
+%        Initial baseName of the cable (norm(base.location - follower.location))
 %
 %    position : [1 6] float vector
 %        Distance vector between the follower and base drag bodies relative
@@ -26,8 +26,8 @@ function T = calcCableTens(k, c, L0, initialLength, position, velocity)
 % Returns
 % -------
 %    T : float
-%        Tension force applied when the cable length is longer than the
-%        equilibrium length.
+%        Tension force applied when the cable baseName is longer than the
+%        equilibrium baseName.
 % 
 
 % Calculate distance between the bodies
@@ -38,10 +38,10 @@ velocityMagnitude = velocity(3);
 T = 0;
 
 % If cable in tension, apply 
-if positionMagnitude <= L0
+if positionMagnitude <= length
     T = 0;
 else 
-    T = (-k) * (positionMagnitude - L0) + (-c) * velocityMagnitude;
+    T = (-stiffness) * (positionMagnitude - length) + (-damping) * velocityMagnitude;
 end
 
 end

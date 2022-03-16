@@ -15,42 +15,42 @@ simu.dt = 0.1; 							% Simulation time-step [s]
 
 % Regular Waves  
 waves = waveClass('regular');           % Initialize Wave Class and Specify Type                                 
-waves.height = 2.5;                          % Wave Height [m]
-waves.period = 8;                            % Wave Period [s]
+waves.height = 2.5;                     % Wave Height [m]
+waves.period = 8;                       % Wave Period [s]
 
 % % Regular Waves with CIC
 % waves = waveClass('regularCIC');        % Initialize Wave Class and Specify Type                                 
-% waves.height = 2.5;                          % Wave Height [m]
-% waves.period = 8;                            % Wave Period [s]Simu
+% waves.height = 2.5;                     % Wave Height [m]
+% waves.period = 8;                       % Wave Period [s]Simu
 
 % % Irregular Waves using PM Spectrum 
 % waves = waveClass('irregular');         % Initialize Wave Class and Specify Type
-% waves.height = 2.5;                          % Significant Wave Height [m]
-% waves.period = 8;                            % Peak Period [s]
+% waves.height = 2.5;                     % Significant Wave Height [m]
+% waves.period = 8;                       % Peak Period [s]
 % waves.spectrumType = 'PM';              % Specify Wave Spectrum Type
 
 % % Irregular Waves using JS Spectrum with Equal Energy and Seeded Phase
 % waves = waveClass('irregular');         % Initialize Wave Class and Specify Type
-% waves.height = 2.5;                          % Significant Wave Height [m]
-% waves.period = 8;                            % Peak Period [s]
+% waves.height = 2.5;                     % Significant Wave Height [m]
+% waves.period = 8;                       % Peak Period [s]
 % waves.spectrumType = 'JS';              % Specify Wave Spectrum Type
 % waves.bem.option = 'EqualEnergy';       % Uses 'EqualEnergy' bins (default) 
 % waves.phaseSeed = 1;                    % Phase is seeded so eta is the same
 
 % % Irregular Waves using PM Spectrum with Traditional and State Space 
 % waves = waveClass('irregular');         % Initialize Wave Class and Specify Type
-% waves.height = 2.5;                          % Significant Wave Height [m]
-% waves.period = 8;                            % Peak Period [s]
+% waves.height = 2.5;                     % Significant Wave Height [m]
+% waves.period = 8;                       % Peak Period [s]
 % waves.spectrumType = 'PM';              % Specify Wave Spectrum Type
 % simu.stateSpace = 1;                    % Turn on State Space
 % waves.bem.option = 'Traditional';       % Uses 1000 frequnecies
 
 % % Irregular Waves with imported spectrum
-% waves = waveClass('spectrumImport');      % Create the Wave Variable and Specify Type
-% waves.spectrumFile = 'spectrumData.mat';  % Name of User-Defined Spectrum File [:,2] = [f, Sf]
+% waves = waveClass('spectrumImport');     % Create the Wave Variable and Specify Type
+% waves.spectrumFile = 'spectrumData.mat'; % Name of User-Defined Spectrum File [:,2] = [f, Sf]
 
 % % Waves with imported wave elevation time-history  
-% waves = waveClass('elevationImport');      % Create the Wave Variable and Specify Type
+% waves = waveClass('elevationImport');     % Create the Wave Variable and Specify Type
 % waves.elevationFile = 'elevationData.mat'; % Name of User-Defined Time-Series File [:,2] = [time, eta]
 
 %% Body Data
