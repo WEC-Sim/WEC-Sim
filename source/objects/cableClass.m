@@ -32,29 +32,29 @@ classdef cableClass<handle
     properties (SetAccess = 'public', GetAccess = 'public') %input file
         damping                 = 0                                         % (`float`) Cable damping coefficient (N/(m/s)). Default = `0`.
         initial                 = struct(...                                % 
-            'displacement',          [0 0 0],...                            % 
-            'axis',  [0 1 0], ...                                           %
-            'angle', 0)                                                     % Structure defining the initial displacement of the body. ``displacement`` (`3x1 float vector`) is defined as the initial displacement of the body center of gravity (COG) [m] in the following format [x y z], Default = [``0 0 0``]. ``axis`` (`3x1 float vector`) is defined as the axis of rotation in the following format [x y z], Default = [``0 1 0``]. ``angle`` (`float`) is defined as the initial angular displacement of the body COG [rad], Default = ``0``.
+            'displacement',         [0 0 0],...                             % 
+            'axis',                 [0 1 0], ...                            %
+            'angle',                0)                                      % Structure defining the initial displacement of the body. ``displacement`` (`3x1 float vector`) is defined as the initial displacement of the body center of gravity (COG) [m] in the following format [x y z], Default = [``0 0 0``]. ``axis`` (`3x1 float vector`) is defined as the axis of rotation in the following format [x y z], Default = [``0 1 0``]. ``angle`` (`float`) is defined as the initial angular displacement of the body COG [rad], Default = ``0``.
         length                  = 0                                         % (`float`) Cable equilibrium length (m), calculated from rotloc and preTension. Default =`0`.
         linearDamping           = [0 0 0 0 0 0];                            % (`1 x 6 float vector`)linear damping aplied to body motions
-        mass                = 1;                                            % (`float`) mass in kg, default 1
-        momOfInertia             = [1 1 1];                                 % (`1 x 3 float vector`) body inertia kg-m^2, default [1 1 1]
+        mass                    = 1;                                        % (`float`) mass in kg, default 1
+        momOfInertia            = [1 1 1];                                  % (`1 x 3 float vector`) body inertia kg-m^2, default [1 1 1]
         name                    = 'NOT DEFINED'                             % (`string`) Defines the Cable name. Default = ``NOT DEFINED``.
         orientation             = struct(...                                %
-            'z', [0, 0, 1], ...                                             %
-            'y', [0, 1, 0], ...                                             %
-            'x', [], ...                                                    %
-            'rotationMatrix',[])                                            % Structure defining the orientation axis of the pto. ``z`` (`3x1 float vector`) defines the direciton of the Z-coordinate of the pto, Default = [``0 0 1``]. ``y`` (`3x1 float vector`) defines the direciton of the Y-coordinate of the pto, Default = [``0 1 0``]. ``x`` (`3x1 float vector`) internally calculated vector defining the direction of the X-coordinate for the pto, Default = ``[]``. ``rotationMatrix`` (`3x3 float matrix`) internally calculated rotation matrix to go from standard coordinate orientation to the pto coordinate orientation, Default = ``[]``.
-        paraview      = 1;                                                  % (`integer`) Flag for visualisation in Paraview either 0 (no) or 1 (yes). Default = ``1`` since only called in paraview.
+            'z',                    [0, 0, 1], ...                          %
+            'y',                    [0, 1, 0], ...                          %
+            'x',                    [], ...                                 %
+            'rotationMatrix',       [])                                     % Structure defining the orientation axis of the pto. ``z`` (`3x1 float vector`) defines the direciton of the Z-coordinate of the pto, Default = [``0 0 1``]. ``y`` (`3x1 float vector`) defines the direciton of the Y-coordinate of the pto, Default = [``0 1 0``]. ``x`` (`3x1 float vector`) internally calculated vector defining the direction of the X-coordinate for the pto, Default = ``[]``. ``rotationMatrix`` (`3x3 float matrix`) internally calculated rotation matrix to go from standard coordinate orientation to the pto coordinate orientation, Default = ``[]``.
+        paraview                = 1;                                        % (`integer`) Flag for visualisation in Paraview either 0 (no) or 1 (yes). Default = ``1`` since only called in paraview.
         preTension              = 0                                         % (`float`) Cable pretension (N).    
         quadDrag                = struct(...                                % 
-            'area', [0 0 0 0 0 0], ...                                      % 
-            'drag', zeros(6), ...                                           % 
-            'cd', [0 0 0 0 0 0]);                                           % Structure defining the viscous quadratic drag forces. First option define ``drag``, (`6x6 float matrix`), Default = ``zeros(6)``. Second option define ``cd``, (`6x1 float vector`), Default = ``zeros(6,1)``, and ``area``, (`6x1 float vector`), Default = ``zeros(6,1)``.
+            'area',                 [0 0 0 0 0 0], ...                      % 
+            'drag',                 zeros(6), ...                           % 
+            'cd',               [0 0 0 0 0 0]);                             % Structure defining the viscous quadratic drag forces. First option define ``drag``, (`6x6 float matrix`), Default = ``zeros(6)``. Second option define ``cd``, (`6x1 float vector`), Default = ``zeros(6,1)``, and ``area``, (`6x1 float vector`), Default = ``zeros(6,1)``.
         stiffness               = 0                                         % (`float`) Cable stiffness (N/m). Default = `0`.
         viz                     = struct(...                                %
-            'color', [1 0 0.5], ...                                         %
-            'opacity', 1)                                                   % Structure defining visualization properties in either SimScape or Paraview. ``color`` (`3x1 float vector`) is defined as the body visualization color, Default = [``1 1 0``]. ``opacity`` (`integer`) is defined as the body opacity, Default = ``1``.        
+            'color',                [1 0 0.5], ...                          %
+            'opacity',              1)                                      % Structure defining visualization properties in either SimScape or Paraview. ``color`` (`3x1 float vector`) is defined as the body visualization color, Default = [``1 1 0``]. ``opacity`` (`integer`) is defined as the body opacity, Default = ``1``.        
     end
  
     properties (SetAccess = 'public', GetAccess = 'public')%internal

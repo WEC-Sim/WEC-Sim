@@ -26,48 +26,49 @@ classdef waveClass<handle
     %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
     
     properties (SetAccess = 'public', GetAccess = 'public')%input file     
-        T = 'NOT DEFINED';          % (`float`) Wave period [s] . Defined as wave period for ``regular``, peak period for ``irregular``, or period of BEM data used for hydrodynamic coefficients for ``noWave``. Default = ``'NOT DEFINED'``
-        H = 'NOT DEFINED';          % (`float`) Wave height [m]. Defined as wave height for ``regular``, or significant wave height for ``irregular``. Default =  ``'NOT DEFINED'``
-        bem = struct(...            % (`structure`) Defines the BEM data implemtation. 
-            'option',	'EqualEnergy',...   % 
-            'count',	[], ...             %             
-            'frequency',[], ...             %             
-            'range',	[])                 % (`structure`) Defines the BEM data implemtation. ``option`` (`string`) Method of frequency discretization for irregular waves, options include: ``'EqualEnergy'`` or ``'Traditional'``. Default = ``'EqualEnergy'``. ``count`` (`integer`) Number of interpolated wave frequencies, only used for ``irregular`` and ``spectrumImport``. Number of frequencies used varies depending on ``bem.option``, 1000 for ``'Traditional'``, and 500 for ``'EqualEnergy'`` and ``Imported``. Default = ``[]``. ``frequency`` (`vector`) Wave frequencies [rad/s] from BEM. Default = ``[]``. ``range`` (`2x1 vector`) Min and max wave frequency [rad/s], only used for ``irregular`` and ``spectrumImport``. If not specified, the BEM data frequency range is used. Default = ``[]``     
-        current = struct(...        % (`structure`) Defines the current implementation. 
-            'option',	3,...           %
-            'depth',	0, ...          %
-            'direction',0, ...          %
-            'speed',	0)              % (`structure`) Defines the current implementation. ``option`` (`integer`) Define the sub-surface current model to be used in WEC-Sim, options include: ``0`` for depth-independent model, ``1`` for 1/7 power law variation with depth, ``2`` for linear variation with depth, or ``3`` for no current. Default = ``3``, ``depth`` (`float`) Current depth [m]. Define the depth over which the sub-surface current is modeled. Must be defined for options ``1`` and ``2``. The current is not calculated for any depths greater than the specified current depth. Default = ``0``, ``direction`` (`float`) Current direction [deg]. Surface current direction defined using WEC-Sim global coordinate system. Default = ``0``, ``speed``  (`float`) Current seed [m/s]. Surface current speed that is uniform along the water column. Default = ``0``         
-        direction = 0;              % (`float`) Incident wave direction(s) [deg]. Incident wave direction defined using WEC-Sim global coordinate system. Should be defined as a column vector for more than one wave direction. Default = ``0``
-        elevationFile = 'NOT DEFINED';  % (`string`) Data file that contains the times-series data file. Default = ``'NOT DEFINED'``
-        gamma = [];                 % (`float`) Defines gamma, only used for ``JS`` wave spectrum type. Default = ``[]``        
-        marker = struct(...         % (`structure`) Defines the wave marker. 
-            'location',      [],...          % 
-            'size',     10, ...         %             
-            'style',	1)              % (`structure`) Defines the wave marker. `loc` (`nx2 vector`) Marker [X,Y] locations [m]. Default = ``[]``. ``size`` (`float`) Marker size in Pixels. Default = ``10``. ``style`` Marker style, options include: ``1``: Sphere, ``2``: Cube, ``3``: Frame. Default = ``1``: Sphere        
-        phaseSeed = 0;              % (`integer`) Defines the random phase seed, only used for ``irregular`` and ``spectrumImport`` waves. Default = ``0``
-        spectrumFile = 'NOT DEFINED';   % (`string`) Data file that contains the spectrum data file.  Default = ``'NOT DEFINED'``                
-        spectrumType = 'NOT DEFINED';   % (`string`) Specifies the wave spectrum type, options inlcude:``PM`` or ``JS``. Default = ``'NOT DEFINED'``
-        type = 'NOT DEFINED';       % (`string`) Specifies the wave type, options include:``noWave``, ``noWaveCIC``, ``regular``, ``regularCIC``, ``irregular``, ``spectrumImport``, or ``elevationImport``. Default = ``'NOT DEFINED'``
-        viz = struct( 'numPointsX', 50, ...
-                      'numPointsY', 50 ); % (`structure`) Defines visualization options, structure contains the fields ``numPointsX`` for the number of visualization points in x direction, and ``numPointsY`` for the number of visualization points in y direction. 
-        waterDepth = [];            % (`float`) Water depth [m]. Default to BEM water depth if not set. 
-        spread = 1;                 % (`float`) Wave Spread probability associated with wave direction(s). Should be defined as a column vector for more than one wave direction. Default = ``1``
+        T               = 'NOT DEFINED';            % (`float`) Wave period [s] . Defined as wave period for ``regular``, peak period for ``irregular``, or period of BEM data used for hydrodynamic coefficients for ``noWave``. Default = ``'NOT DEFINED'``
+        H               = 'NOT DEFINED';            % (`float`) Wave height [m]. Defined as wave height for ``regular``, or significant wave height for ``irregular``. Default =  ``'NOT DEFINED'``
+        bem             = struct(...                % (`structure`) Defines the BEM data implemtation. 
+            'option',       'EqualEnergy',...       % 
+            'count',        [], ...                 %             
+            'frequency',    [], ...                 %             
+            'range',        [])                     % (`structure`) Defines the BEM data implemtation. ``option`` (`string`) Method of frequency discretization for irregular waves, options include: ``'EqualEnergy'`` or ``'Traditional'``. Default = ``'EqualEnergy'``. ``count`` (`integer`) Number of interpolated wave frequencies, only used for ``irregular`` and ``spectrumImport``. Number of frequencies used varies depending on ``bem.option``, 1000 for ``'Traditional'``, and 500 for ``'EqualEnergy'`` and ``Imported``. Default = ``[]``. ``frequency`` (`vector`) Wave frequencies [rad/s] from BEM. Default = ``[]``. ``range`` (`2x1 vector`) Min and max wave frequency [rad/s], only used for ``irregular`` and ``spectrumImport``. If not specified, the BEM data frequency range is used. Default = ``[]``     
+        current         = struct(...                % (`structure`) Defines the current implementation. 
+            'option',       3,...                   %
+            'depth',        0, ...                  %
+            'direction',    0, ...                  %
+            'speed',        0)                      % (`structure`) Defines the current implementation. ``option`` (`integer`) Define the sub-surface current model to be used in WEC-Sim, options include: ``0`` for depth-independent model, ``1`` for 1/7 power law variation with depth, ``2`` for linear variation with depth, or ``3`` for no current. Default = ``3``, ``depth`` (`float`) Current depth [m]. Define the depth over which the sub-surface current is modeled. Must be defined for options ``1`` and ``2``. The current is not calculated for any depths greater than the specified current depth. Default = ``0``, ``direction`` (`float`) Current direction [deg]. Surface current direction defined using WEC-Sim global coordinate system. Default = ``0``, ``speed``  (`float`) Current seed [m/s]. Surface current speed that is uniform along the water column. Default = ``0``         
+        direction       = 0;                        % (`float`) Incident wave direction(s) [deg]. Incident wave direction defined using WEC-Sim global coordinate system. Should be defined as a column vector for more than one wave direction. Default = ``0``
+        elevationFile   = 'NOT DEFINED';            % (`string`) Data file that contains the times-series data file. Default = ``'NOT DEFINED'``
+        gamma           = [];                       % (`float`) Defines gamma, only used for ``JS`` wave spectrum type. Default = ``[]``        
+        marker          = struct(...                % (`structure`) Defines the wave marker. 
+            'location',     [],...                  % 
+            'size',         10, ...                 %             
+            'style',        1)                      % (`structure`) Defines the wave marker. `loc` (`nx2 vector`) Marker [X,Y] locations [m]. Default = ``[]``. ``size`` (`float`) Marker size in Pixels. Default = ``10``. ``style`` Marker style, options include: ``1``: Sphere, ``2``: Cube, ``3``: Frame. Default = ``1``: Sphere        
+        phaseSeed       = 0;                        % (`integer`) Defines the random phase seed, only used for ``irregular`` and ``spectrumImport`` waves. Default = ``0``
+        spectrumFile    = 'NOT DEFINED';            % (`string`) Data file that contains the spectrum data file.  Default = ``'NOT DEFINED'``                
+        spectrumType    = 'NOT DEFINED';            % (`string`) Specifies the wave spectrum type, options inlcude:``PM`` or ``JS``. Default = ``'NOT DEFINED'``
+        type            = 'NOT DEFINED';            % (`string`) Specifies the wave type, options include:``noWave``, ``noWaveCIC``, ``regular``, ``regularCIC``, ``irregular``, ``spectrumImport``, or ``elevationImport``. Default = ``'NOT DEFINED'``
+        viz             = struct(...                % 
+            'numPointsX',   50, ...                 %
+            'numPointsY',   50 );                   % (`structure`) Defines visualization options, structure contains the fields ``numPointsX`` for the number of visualization points in x direction, and ``numPointsY`` for the number of visualization points in y direction. 
+        waterDepth      = [];                       % (`float`) Water depth [m]. Default to BEM water depth if not set. 
+        spread          = 1;                        % (`float`) Wave Spread probability associated with wave direction(s). Should be defined as a column vector for more than one wave direction. Default = ``1``
     end    
   
     properties (SetAccess = 'private', GetAccess = 'public')%internal       
         % The following properties are private, for internal use by WEC-Sim
-        A = [];                 % Wave amplitude [m]. For regular waves or 2*(wave spectrum vector) for irregular waves
-        S = [];                 % Wave Spectrum [m^2-s/rad] for ``Traditional``
-        Pw = [];                % Wave Power Per Unit Wave Crest [W/m]        
-        deepWater = [];         % Deep water or not, depending on input from WAMIT, NEMOH and AQWA
-        dw = 0;                 % Frequency spacing [rad] for ``irregular`` waves.
-        k = [];                 % Wave Number
-        phase = 0;              % (`float`) Wave phase [rad] . Only used for ``irregular`` waves.
-        typeNum = [];           % Number to represent different type of waves        
-        w = [];                 % Wave frequency (regular waves) or wave frequency vector (irregular waves) [rad/s] 
-        waveAmpTime = [];       % Wave elevation time history [m] at the (0, 0, 0) origin  
-        waveAmpTimeViz = [];    % Wave elevation time history at marker locations specified by user [m]         
+        A               = [];                       % Wave amplitude [m]. For regular waves or 2*(wave spectrum vector) for irregular waves
+        S               = [];                       % Wave Spectrum [m^2-s/rad] for ``Traditional``
+        Pw              = [];                       % Wave Power Per Unit Wave Crest [W/m]        
+        deepWater       = [];                       % Deep water or not, depending on input from WAMIT, NEMOH and AQWA
+        dw              = 0;                        % Frequency spacing [rad] for ``irregular`` waves.
+        k               = [];                       % Wave Number
+        phase           = 0;                        % (`float`) Wave phase [rad] . Only used for ``irregular`` waves.
+        typeNum         = [];                       % Number to represent different type of waves        
+        w               = [];                       % Wave frequency (regular waves) or wave frequency vector (irregular waves) [rad/s] 
+        waveAmpTime     = [];                       % Wave elevation time history [m] at the (0, 0, 0) origin  
+        waveAmpTimeViz  = [];                       % Wave elevation time history at marker locations specified by user [m]         
     end
     
     methods (Access = 'public')

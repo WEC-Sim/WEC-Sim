@@ -43,15 +43,15 @@ classdef simulationClass<handle
         mode                = 'normal'                                     % (`string`) Simulation execution mode, 'normal', 'accelerator', 'rapid-accelerator'. Default = ``'normal'``
         morisonDt           = []                                           % (`float`) Sample time to calculate Morison Element forces. Default = ``dt``
         nonlinearDt         = []                                           % (`float`) Sample time to calculate nonlinear forces. Default = ``dt``
-        paraview         = struct(...                                      % (`structure`) Defines the BEM data implemtation. 
-            'option',       0,...                                          % 
-            'startTime',	0, ...                                         % 
-            'endTime',      100, ...                                       % 
-            'dt',           0.1, ...                                       %             
-            'path',         'vtk')                                         % (`structure`) Defines the BEM data implemtation. ``option`` (`integer`) Flag for paraview visualization, and writing vtp files, Options: 0 (off) , 1 (on). Default = ``0``. ``startTime`` (`float`) Start time for the vtk file of Paraview. Default = ``0``. ``endTime`` (`float`) End time for the vtk file of Paraview. Default = ``100``.  ``dt`` (`float`) Timestep for Paraview. Default = ``0.1``. ``path`` (`string`) Path of the folder for Paraview vtk files. Default = ``'vtk'``.        
+        paraview            = struct(...                                   % (`structure`) Defines the BEM data implemtation. 
+            'option',           0,...                                      % 
+            'startTime',        0, ...                                     % 
+            'endTime',          100, ...                                   % 
+            'dt',               0.1, ...                                   %             
+            'path',             'vtk')                                     % (`structure`) Defines the BEM data implemtation. ``option`` (`integer`) Flag for paraview visualization, and writing vtp files, Options: 0 (off) , 1 (on). Default = ``0``. ``startTime`` (`float`) Start time for the vtk file of Paraview. Default = ``0``. ``endTime`` (`float`) End time for the vtk file of Paraview. Default = ``100``.  ``dt`` (`float`) Timestep for Paraview. Default = ``0.1``. ``path`` (`string`) Path of the folder for Paraview vtk files. Default = ``'vtk'``.        
         pressure            = 0                                            % (`integer`) Flag to save pressure distribution, Options: 0 (off), 1 (on). Default = ``0``
         rampTime            = 100                                          % (`float`) Ramp time for wave forcing. Default = ``100`` s        
-        rateTransition     = 'on'                                          % (`string`) Flag for automatically handling rate transition for data transfer, Opyions: 'on', 'off'. Default = ``'on'``
+        rateTransition      = 'on'                                         % (`string`) Flag for automatically handling rate transition for data transfer, Opyions: 'on', 'off'. Default = ``'on'``
         reloadH5Data        = 0                                            % (`integer`) Flag to re-load hydro data from h5 file between runs, Options: 0 (off), 1 (on). Default = ``0``
         rho                 = 1000                                         % (`float`) Density of water. Default = ``1000`` kg/m^3
         saveStructure       = 0                                            % (`integer`) Flag to save results as a MATLAB structure, Options: 0 (off), 1 (on). Default = ``1``
@@ -61,7 +61,7 @@ classdef simulationClass<handle
         solver              = 'ode4'                                       % (`string`) PDE solver used by the Simulink/SimMechanics simulation. Any continuous solver in Simulink possible. Recommended to use 'ode4, 'ode45' for WEC-Sim. Default = ``'ode4'``
         stateSpace          = 0                                            % (`integer`) Flag for convolution integral or state-space calculation, Options: 0 (convolution integral), 1 (state-space). Default = ``0``
         startTime           = 0                                            % (`float`) Simulation start time. Default = ``0`` s        
-        zeroCross       = 'DisableAll'                                     % (`string`) Disable zero cross control. Default = ``'DisableAll'``
+        zeroCross           = 'DisableAll'                                 % (`string`) Disable zero cross control. Default = ``'DisableAll'``
     end
 
     properties (SetAccess = 'public', GetAccess = 'public') % internal WEC-Sim

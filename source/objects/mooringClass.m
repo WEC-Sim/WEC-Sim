@@ -28,23 +28,23 @@ classdef mooringClass<handle
     %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%    
     % This class contains mooring parameters and settings
     properties (SetAccess = 'public', GetAccess = 'public')%input file 
-        initial                 = struct(...                                    % (`obj`) Structure defining initial linear displacement, angular displacement axis, and angular displacement angle (radian). Defaults = ``zeros(1,3), zeros(1,3), 0`` respectively
-                                   'displacement', [0 0 0], ...                      
-                                   'axis', [0 1 0], ...           
-                                   'angle', 0)               
-        location                = [0 0 0]                                       % (`float 1 x 3`) Mooring Reference location. Default = ``[0 0 0]``        
-        matrix                  = struct(...                                    % (`obj`) Structure defining damping, stiffness, and pre-tension. Defaults = ``zeros(6,6), zeros(6,6), zeros(1,6)`` respectively
-                                         'damping', zeros(6,6), ...              
-                                         'stiffness',zeros(6,6), ...             
-                                         'preTension', [0 0 0 0 0 0])               
-        moorDynLines            = 0                                             % (`integer`) Number of lines in MoorDyn. Default = ``0``
-        moorDynNodes            = []                                            % (`integer`) number of nodes for each line. Default = ``'NOT DEFINED'``
-        name                    = 'NOT DEFINED'                                 % (`string`) Name of the mooring. Default = ``'NOT DEFINED'``
+        initial                 = struct(...                               % (`obj`) Structure defining initial linear displacement, angular displacement axis, and angular displacement angle (radian). Defaults = ``zeros(1,3), zeros(1,3), 0`` respectively
+            'displacement',         [0 0 0], ...                      
+            'axis',                 [0 1 0], ...           
+            'angle',                0)               
+        location                = [0 0 0]                                  % (`float 1 x 3`) Mooring Reference location. Default = ``[0 0 0]``        
+        matrix                  = struct(...                               % (`obj`) Structure defining damping, stiffness, and pre-tension. Defaults = ``zeros(6,6), zeros(6,6), zeros(1,6)`` respectively
+            'damping',              zeros(6,6), ...              
+            'stiffness',            zeros(6,6), ...             
+            'preTension',           [0 0 0 0 0 0])               
+        moorDynLines            = 0                                        % (`integer`) Number of lines in MoorDyn. Default = ``0``
+        moorDynNodes            = []                                       % (`integer`) number of nodes for each line. Default = ``'NOT DEFINED'``
+        name                    = 'NOT DEFINED'                            % (`string`) Name of the mooring. Default = ``'NOT DEFINED'``
     end
 
     properties (SetAccess = 'public', GetAccess = 'public') %internal
-        moorDyn                 = 0                                             % (`integer`) Flag to indicate a MoorDyn block, 0 or 1. Default = ``0``
-        number                  = []                                            % (`integer`) Mooring number. Default = ``'NOT DEFINED'``        
+        moorDyn                 = 0                                        % (`integer`) Flag to indicate a MoorDyn block, 0 or 1. Default = ``0``
+        number                  = []                                       % (`integer`) Mooring number. Default = ``'NOT DEFINED'``        
         orientation             = []                                            % (`float 1 x 6`) Initial 6DOF location. Default = ``[0 0 0 0 0 0]``        
     end
 
