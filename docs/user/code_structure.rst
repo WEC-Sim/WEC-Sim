@@ -777,7 +777,7 @@ The type value must be defined depending on the type of block used in the simula
 |Hydraulic accumulator|3    |
 +---------------------+-----+
 |Rectifying check     |4    |
-|valve  	      |     |
+|valve                |     |
 +---------------------+-----+
 |Hydraulic motor      |5    |
 +---------------------+-----+
@@ -794,7 +794,7 @@ can be found by typing ``doc PTOSimClass`` in the MATLAB command window, or
 opening the `PTOSimClass.m` file in ``$WECSIM/source/objects`` directory by 
 typing ``open PTOSimClass`` in MATLAB Command Window. 
 For more information about application of WEC-Sim's mooring class, refer to 
-:ref:`user-advanced-features-PTOSim`.
+:ref:`user-advanced-features-pto`.
 
 PTO-Sim Blocks
 """"""""""""""""""""

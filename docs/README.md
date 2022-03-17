@@ -62,6 +62,7 @@ https://github.com/WEC-Sim/WEC-Sim) repository.
 
 
 ## Best Practices
+  - Always pad with whitespace and not tabs, especially when formatting tables
   - If using the `include` directive, place the included file in the `docs/_include` directory and link from there. For example:
       ```rst
       .. include:: /_include/added_mass.rst

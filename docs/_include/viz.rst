@@ -34,8 +34,8 @@ ParaView Visualization Parameters
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 The following table lists the WEC-Sim simulation parameters that can be specified in the ``wecSimInputFile`` to control the ParaView visualization. Note, the ``body.viz`` properties are also used for the SimMechanics explorer visualization.
 
-+---------------------------------------------------------------------------------------+
-| WEC-Sim Visualization using ParaView                                                  |
++----------------------------------------------------------------------------------------+
+| WEC-Sim Visualization using ParaView                                                   |
 +============================+===========================================================+
 | Variable                   | Description                                               |
 +----------------------------+-----------------------------------------------------------+
@@ -44,7 +44,7 @@ The following table lists the WEC-Sim simulation parameters that can be specifie
 +----------------------------+-----------------------------------------------------------+
 | ``simu.paraview.startTime``| time (s) to start ParaView visualization                  |
 +----------------------------+-----------------------------------------------------------+
-| ``simu.paraview.endTime``  | time (s) to end ParaView visualization	                |
+| ``simu.paraview.endTime``  | time (s) to end ParaView visualization                    |
 +----------------------------+-----------------------------------------------------------+
 | ``simu.paraview.dt``       | time step between adjacent ParaView frames [default 1]    |
 +----------------------------+-----------------------------------------------------------+
@@ -59,16 +59,16 @@ The following table lists the WEC-Sim simulation parameters that can be specifie
 | ``simu.dtOut``             | simulation output sampling time step [default dt]         |
 +----------------------------+-----------------------------------------------------------+
 | ``body(i).viz.color``      | [RGB] body color [default [1 1 0]]                        |
-+----------------------------+-----------------------------------------------------------+   
++----------------------------+-----------------------------------------------------------+
 | ``body(i).viz.opacity``    | body opacity [default 1]                                  |
 +----------------------------+-----------------------------------------------------------+
 | | ``body(i).paraview``     | | 0 to exclude body from ParaView visualization           |
 |                            | | 1 to include body in ParaView visualization [default]   |
-+----------------------------+-----------------------------------------------------------+   
++----------------------------+-----------------------------------------------------------+
 | ``waves.viz.numPointsX``   | wave plane discretization: number of X points [default 50]|
-+----------------------------+-----------------------------------------------------------+   
++----------------------------+-----------------------------------------------------------+
 | ``waves.viz.numPointsY``   | wave plane discretization: number of Y points [default 50]|
-+---------------------------+-----------------------------------------------------------+   
++---------------------------+------------------------------------------------------------+
 
 
 WEC-Sim Visualization in ParaView
