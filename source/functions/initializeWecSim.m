@@ -208,7 +208,7 @@ toc
 %% Pre-processing start
 tic
 fprintf('\nWEC-Sim Pre-processing ...   \n');
-if pctDir
+if exist('pctDir')
     cd(pctDir); 
 end
 

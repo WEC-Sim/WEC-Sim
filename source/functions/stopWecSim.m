@@ -3,7 +3,7 @@
 % has ended. These functions were pulled from the wecSim.m file, following
 % the command to simulate the Simulink model.
 
-if pctDir 
+if exist('pctDir') 
     cd (['..' filesep pctDir filesep '..' filesep]); 
 end
 
@@ -43,18 +43,18 @@ toc
 diary off
 
 if simu.saveWorkspace==1
-    if pctDir 
+    if exist('pctDir') 
        cd(pctDir);
        simu.caseDir = [simu.caseDir filesep pctDir];
     end
     outputFile = [simu.caseDir filesep 'output' filesep simu.caseFile];
     save(outputFile,'-v7.3')
-    if pctDir 
+    if exist('pctDir') 
         filename = sprintf('savedData%03d.mat', imcr);
         copyfile(outputFile,['../' filename])
     end
 end
-if pctDir
+if exist('pctDir')
     cd (['..' filesep pctDir filesep '..' filesep]); 
 end
 
