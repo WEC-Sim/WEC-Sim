@@ -44,7 +44,7 @@ The following table lists the WEC-Sim simulation parameters that can be specifie
 +---------------------------+-----------------------------------------------------------+
 | ``simu.StartTimeParaview``| time (s) to start ParaView visualization                  |
 +---------------------------+-----------------------------------------------------------+
-| ``simu.EndTimeParaview``  | time (s) to end ParaView visualization	                |
+| ``simu.EndTimeParaview``  | time (s) to end ParaView visualization                    |
 +---------------------------+-----------------------------------------------------------+
 | ``simu.dtParaview``       | time step between adjacent ParaView frames [default 1]    |
 +---------------------------+-----------------------------------------------------------+
