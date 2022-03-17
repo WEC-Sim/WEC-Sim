@@ -106,7 +106,7 @@ parfor imcr=1:length(mcr.cases(:,1))
     pctDir = sprintf('pctDir_%g', t.ID);
     mkdir(pctDir) 
     fileID = fopen(filename,'a');
-    fprintf(fileID,'wecSimMCR Case %g/%g on Worker Number %g/%g \n',imcr,length(mcr.cases(:,1)),t.ID,totalNumOfWorkers);
+    fprintf(fileID,'wecSimPCT Case %g/%g on Worker Number %g/%g \n',imcr,length(mcr.cases(:,1)),t.ID,totalNumOfWorkers);
     % Run WEC-Sim
     wecSimFcn(imcr,mcr,pctDir,totalNumOfWorkers);   
     fclose(fileID);

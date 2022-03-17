@@ -21,7 +21,7 @@
 % Clear old input, plots, log file and start new log file.
 clc; diary off; close all;
 clear body waves simu output pto constraint ptoSim mooring values names InParam
-delete('*.log');
+try delete('*.log'); end
 diary('simulation.log')
 
 
@@ -208,7 +208,9 @@ toc
 %% Pre-processing start
 tic
 fprintf('\nWEC-Sim Pre-processing ...   \n');
-try cd(pctDir); end
+if pctDir
+    cd(pctDir); 
+end
 
 %% HydroForce Pre-Processing: Wave Setup & HydroForcePre.
 % simulation setup

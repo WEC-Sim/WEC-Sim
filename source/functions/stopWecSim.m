@@ -3,7 +3,9 @@
 % has ended. These functions were pulled from the wecSim.m file, following
 % the command to simulate the Simulink model.
 
-try cd (['..' filesep pctDir filesep '..' filesep]); end
+if pctDir 
+    cd (['..' filesep pctDir filesep '..' filesep]); 
+end
 
 % Clear intermediate variables and variant subsystem flags
 clear nonlinearHydro sv_linearHydro sv_nonlinearHydro stateSpace radiation_option sv_convolution sv_stateSpace sv_constantCoeff typeNum B2B sv_B2B sv_noB2B;
@@ -41,14 +43,20 @@ toc
 diary off
 
 if simu.saveWorkspace==1
-    try 
+    if pctDir 
        cd(pctDir);
        simu.caseDir = [simu.caseDir filesep pctDir];
     end
     outputFile = [simu.caseDir filesep 'output' filesep simu.caseFile];
     save(outputFile,'-v7.3')
+    if pctDir 
+        filename = sprintf('savedData%03d.mat', imcr);
+        copyfile(outputFile,['../' filename])
+    end
 end
-try cd (['..' filesep pctDir filesep '..' filesep]); end
+if pctDir
+    cd (['..' filesep pctDir filesep '..' filesep]); 
+end
 
 %% Remove 'temp' directory
 
@@ -60,5 +68,4 @@ end
 
 % Reset the loction of Simulink-generated files
 Simulink.fileGenControl('reset');
-
 clear projectRootDir
