@@ -43,7 +43,7 @@ jobs:
           cp docs/_assets/gh-pages-redirect.html ${{ env.BUILD_DIR }}/index.html
           cp docs/_assets/gh-pages-readme.md ${{ env.BUILD_DIR }}/README.md
       - name: Deploy
-        if: ${{ github.event_name == 'push' && (env.BRANCH == 'dev' || env.BRANCH == 'master' }}
+        if: ${{ github.event_name == 'push' && (env.BRANCH == 'dev' || env.BRANCH == 'master') }}
         uses: peaceiris/actions-gh-pages@v3
         with:
           github_token: ${{ secrets.GITHUB_TOKEN }}
