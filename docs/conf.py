@@ -13,7 +13,11 @@
 # serve to show the default.
 
 import os
-import re
+import sys
+from pathlib import Path
+
+docs_source_dir = Path(os.getenv("SPHINX_MULTIVERSION_SOURCEDIR", default="."))
+package_dir = docs_source_dir / ".." / "source"
 
 # If extensions (or modules to document with autodoc) are in another directory,
 # add these directories to sys.path here. If the directory is relative to the
@@ -60,12 +64,12 @@ bibtex_bibfiles = ['refs/WEC-Sim_Theory.bib',
 
 # sphinxcontrib.matlab settings
 primary_domain = 'mat'
-matlab_src_dir = os.path.abspath("../source")
+matlab_src_dir = package_dir.resolve()
 matlab_keep_package_prefix = False
 
 # sphinx_multiversion settings
 smv_branch_whitelist = r'(master|dev)$'
-smv_tag_whitelist = None
+smv_tag_whitelist = 'a^'
 smv_remote_whitelist = r'^(origin)$'
 
 # Add any paths that contain templates here, relative to this directory.

@@ -1,0 +1,51 @@
+name: Documentation
+on:
+  push:
+    branches:
+      - master
+      - dev
+  pull_request:
+    branches:
+      - master
+      - dev
+  workflow_dispatch:
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    defaults:
+      run:
+        shell: bash -l {0}
+    steps:
+      - uses: actions/checkout@v2
+        with:
+          lfs: 'true'
+          fetch-depth: 0
+      - name: Get branch name
+        run: |
+         raw=$(git branch -r --contains ${{ github.ref }})
+         branch=${raw##*/}
+         echo "BRANCH=$branch" >> $GITHUB_ENV
+      - uses: conda-incubator/setup-miniconda@v2
+        with:
+          activate-environment: _wssphinx
+          environment-file: docs/environment.yml
+          python-version: '3.9'
+          auto-activate-base: false
+      - run: |
+          conda info
+      - name: Create build directory
+        run: echo "BUILD_DIR=$(mktemp -d -t pages-XXXXXXXXXX)" >> $GITHUB_ENV
+      - name: Build docs
+        run: |
+          sphinx-multiversion -W --keep-going docs ${{ env.BUILD_DIR }}
+          touch ${{ env.BUILD_DIR }}/.nojekyll
+          cp docs/_assets/gh-pages.gitignore ${{ env.BUILD_DIR }}/.gitignore
+          cp docs/_assets/gh-pages-redirect.html ${{ env.BUILD_DIR }}/index.html
+          cp docs/_assets/gh-pages-readme.md ${{ env.BUILD_DIR }}/README.md
+      - name: Deploy
+        if: ${{ github.event_name == 'push' && (env.BRANCH == 'dev' || env.BRANCH == 'master' }}
+        uses: peaceiris/actions-gh-pages@v3
+        with:
+          github_token: ${{ secrets.GITHUB_TOKEN }}
+          publish_dir: ${{ env.BUILD_DIR }}
+          force_orphan: true
