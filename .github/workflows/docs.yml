@@ -22,8 +22,7 @@ jobs:
           fetch-depth: 0
       - name: Get branch name
         run: |
-         raw=$(git branch -r --contains ${{ github.ref }})
-         branch=${raw##*/}
+         branch=$(echo ${{ github.ref }} | sed 's:.*/::')
          echo "BRANCH=$branch" >> $GITHUB_ENV
       - uses: conda-incubator/setup-miniconda@v2
         with:
@@ -33,6 +32,10 @@ jobs:
           auto-activate-base: false
       - run: |
           conda info
+      - name: Build docs (branch)
+        run: |
+          sphinx-build -W --keep-going -b html docs ${{ runner.temp }}
+        if: ${{ github.event_name == 'pull_request' }}
       - name: Create build directory
         run: echo "BUILD_DIR=$(mktemp -d -t pages-XXXXXXXXXX)" >> $GITHUB_ENV
       - name: Build docs
