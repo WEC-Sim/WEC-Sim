@@ -39,7 +39,7 @@ The following table lists the WEC-Sim simulation parameters that can be specifie
 +===========================+===========================================================+
 | Variable                  | Description                                               |
 +---------------------------+-----------------------------------------------------------+
-| | ``simu.paraview``       | | 0 to not output ParaView files [default]                |
+| | ``simu.paraview``       | | 0 to not output ParaView files [default]             |
 |                           | | 1 to output ParaView files                              |
 +---------------------------+-----------------------------------------------------------+
 | ``simu.StartTimeParaview``| time (s) to start ParaView visualization                  |
