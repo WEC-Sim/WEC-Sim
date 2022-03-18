@@ -16,8 +16,14 @@ import os
 import sys
 from pathlib import Path
 
+# Get the source code directory. SPHINX_MULTIVERSION_SOURCEDIR is a special
+# environment variable to locate the current temporary directory being used.
 docs_source_dir = Path(os.getenv("SPHINX_MULTIVERSION_SOURCEDIR", default="."))
 package_dir = docs_source_dir / ".." / "source"
+
+# Get the current branch name. The BRANCH environment variable is injected 
+# during the GitHub Actions build process.
+build_branch = os.getenv("BRANCH", default=None)
 
 # If extensions (or modules to document with autodoc) are in another directory,
 # add these directories to sys.path here. If the directory is relative to the
@@ -68,7 +74,14 @@ matlab_src_dir = package_dir.resolve()
 matlab_keep_package_prefix = False
 
 # sphinx_multiversion settings
-smv_branch_whitelist = r'(master|dev)$'
+branch_whitelist = ['master', 'dev']
+
+if build_branch is not None and build_branch not in branch_whitelist:
+    branch_whitelist.append(build_branch)
+
+branch_whitelist_str = "|".join(branch_whitelist)
+
+smv_branch_whitelist = fr'({branch_whitelist_str})$'
 smv_tag_whitelist = 'a^'
 smv_remote_whitelist = r'^(origin)$'
 
