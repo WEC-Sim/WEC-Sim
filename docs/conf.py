@@ -24,6 +24,7 @@ package_dir = docs_source_dir / ".." / "source"
 # Get the current branch name. The BRANCH environment variable is injected 
 # during the GitHub Actions build process.
 build_branch = os.getenv("BRANCH", default=None)
+print(build_branch)
 
 # If extensions (or modules to document with autodoc) are in another directory,
 # add these directories to sys.path here. If the directory is relative to the
