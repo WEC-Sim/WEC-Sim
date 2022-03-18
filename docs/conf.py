@@ -16,6 +16,8 @@ import os
 import sys
 from pathlib import Path
 
+# Get the source code directory. SPHINX_MULTIVERSION_SOURCEDIR is a special
+# environment variable to locate the current temporary directory being used.
 docs_source_dir = Path(os.getenv("SPHINX_MULTIVERSION_SOURCEDIR", default="."))
 package_dir = docs_source_dir / ".." / "source"
 
