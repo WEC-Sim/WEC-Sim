@@ -38,10 +38,17 @@ The front page of the docs can be accessed at
 ### Building Final Version Locally
 
 The final documentation can be built locally for inspection prior to 
-publishing. They are built in the `docs/_build` directory. Note, docs are built 
-from the remote, so only pushed changes will be shown. 
+publishing. They are built in the `docs/_build` directory. Note, docs are 
+built from the remote so only pushed changes on the `master` and `dev` 
+branches will be shown by default. To include the current branch in the build, 
+set the `BRANCH` environment variable. In PowerShell, the command would be as 
+follows:
 
-To build the docs as they would be published, use the following:
+```
+> $env:BRANCH = git rev-parse --abbrev-ref HEAD
+```
+
+To build the docs use the following command:
 
 ```
 > conda activate _wssphinx

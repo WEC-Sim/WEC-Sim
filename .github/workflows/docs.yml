@@ -22,7 +22,7 @@ jobs:
           fetch-depth: 0
       - name: Get branch name
         run: |
-         branch=$("${{ github.ref }}" | sed 's:.*/::')
+         branch=$(git rev-parse --abbrev-ref HEAD)
          echo "BRANCH=$branch" >> $GITHUB_ENV
       - uses: conda-incubator/setup-miniconda@v2
         with:
