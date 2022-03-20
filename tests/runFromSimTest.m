@@ -91,7 +91,7 @@ classdef runFromSimTest < matlab.unittest.TestCase
         function removeInputFiles(testCase)
             bdclose('all');
             cd(testCase.wsDir)
-            rmdir(testCase.runFromSimDir,'s');
+            try rmdir(testCase.runFromSimDir,'s'); end
         end
     end
     

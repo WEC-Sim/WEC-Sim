@@ -16,6 +16,8 @@ import os
 import sys
 from pathlib import Path
 
+# Get the source code directory. SPHINX_MULTIVERSION_SOURCEDIR is a special
+# environment variable to locate the current temporary directory being used.
 docs_source_dir = Path(os.getenv("SPHINX_MULTIVERSION_SOURCEDIR", default="."))
 package_dir = docs_source_dir / ".." / "source"
 
@@ -64,7 +66,7 @@ bibtex_bibfiles = ['refs/WEC-Sim_Theory.bib',
 
 # sphinxcontrib.matlab settings
 primary_domain = 'mat'
-matlab_src_dir = package_dir
+matlab_src_dir = package_dir.resolve()
 matlab_keep_package_prefix = False
 
 # sphinx_multiversion settings

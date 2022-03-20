@@ -30,51 +30,61 @@ classdef cableClass<handle
     %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%    
     
     properties (SetAccess = 'public', GetAccess = 'public') %input file
-        L0                      = 0                                         % (`float`) Cable equilibrium length (m), calculated from rotloc and preTension. Default =`0`.
-        bodyInertia             = [1 1 1];                                  % (`1 x 3 float vector`) body inertia kg-m^2, default [1 1 1]
-        bodyMass                = 1;                                        % (`float`) mass in kg, default 1
         damping                 = 0                                         % (`float`) Cable damping coefficient (N/(m/s)). Default = `0`.
-        initDisp                = struct(...                                % 
-            'initLinDisp',          [0 0 0],...                             % 
-            'initAngularDispAxis',  [0 1 0], ...                            %
-            'initAngularDispAngle', 0)                                      % Structure defining the initial displacement of the body. ``initLinDisp`` (`3x1 float vector`) is defined as the initial displacement of the body center of gravity (COG) [m] in the following format [x y z], Default = [``0 0 0``]. ``initAngularDispAxis`` (`3x1 float vector`) is defined as the axis of rotation in the following format [x y z], Default = [``0 1 0``]. ``initAngularDispAngle`` (`float`) is defined as the initial angular displacement of the body COG [rad], Default = ``0``.
+        inertia                 = [1 1 1];                                  % (`1 x 3 float vector`) body inertia kg-m^2, default [1 1 1]
+        initial                 = struct(...                                % 
+            'displacement',         [0 0 0],...                             % 
+            'axis',                 [0 1 0], ...                            %
+            'angle',                0)                                      % Structure defining the initial displacement of the body. ``displacement`` (`3x1 float vector`) is defined as the initial displacement of the body center of gravity (COG) [m] in the following format [x y z], Default = [``0 0 0``]. ``axis`` (`3x1 float vector`) is defined as the axis of rotation in the following format [x y z], Default = [``0 1 0``]. ``angle`` (`float`) is defined as the initial angular displacement of the body COG [rad], Default = ``0``.
+        length                  = 0                                         % (`float`) Cable equilibrium length (m), calculated from rotloc and preTension. Default =`0`.
         linearDamping           = [0 0 0 0 0 0];                            % (`1 x 6 float vector`)linear damping aplied to body motions
+        mass                    = 1;                                        % (`float`) mass in kg, default 1
         name                    = 'NOT DEFINED'                             % (`string`) Defines the Cable name. Default = ``NOT DEFINED``.
         orientation             = struct(...                                %
-            'z', [0, 0, 1], ...                                             %
-            'y', [0, 1, 0], ...                                             %
-            'x', [], ...                                                    %
-            'rotationMatrix',[])                                            % Structure defining the orientation axis of the pto. ``z`` (`3x1 float vector`) defines the direciton of the Z-coordinate of the pto, Default = [``0 0 1``]. ``y`` (`3x1 float vector`) defines the direciton of the Y-coordinate of the pto, Default = [``0 1 0``]. ``x`` (`3x1 float vector`) internally calculated vector defining the direction of the X-coordinate for the pto, Default = ``[]``. ``rotationMatrix`` (`3x3 float matrix`) internally calculated rotation matrix to go from standard coordinate orientation to the pto coordinate orientation, Default = ``[]``.
-        paraview      = 1;                                                  % (`integer`) Flag for visualisation in Paraview either 0 (no) or 1 (yes). Default = ``1`` since only called in paraview.
+            'z',                    [0, 0, 1], ...                          %
+            'y',                    [0, 1, 0], ...                          %
+            'x',                    [], ...                                 %
+            'rotationMatrix',       [])                                     % Structure defining the orientation axis of the pto. ``z`` (`3x1 float vector`) defines the direciton of the Z-coordinate of the pto, Default = [``0 0 1``]. ``y`` (`3x1 float vector`) defines the direciton of the Y-coordinate of the pto, Default = [``0 1 0``]. ``x`` (`3x1 float vector`) internally calculated vector defining the direction of the X-coordinate for the pto, Default = ``[]``. ``rotationMatrix`` (`3x3 float matrix`) internally calculated rotation matrix to go from standard coordinate orientation to the pto coordinate orientation, Default = ``[]``.
+        paraview                = 1;                                        % (`integer`) Flag for visualisation in Paraview either 0 (no) or 1 (yes). Default = ``1`` since only called in paraview.
         preTension              = 0                                         % (`float`) Cable pretension (N).    
         quadDrag                = struct(...                                % 
-            'area', [0 0 0 0 0 0], ...                        % 
-            'drag', zeros(6), ...                                           % 
-            'cd', [0 0 0 0 0 0]);                                           % Structure defining the viscous quadratic drag forces. First option define ``drag``, (`6x6 float matrix`), Default = ``zeros(6)``. Second option define ``cd``, (`6x1 float vector`), Default = ``zeros(6,1)``, and ``area``, (`6x1 float vector`), Default = ``zeros(6,1)``.
+            'area',                 [0 0 0 0 0 0], ...                      % 
+            'drag',                 zeros(6), ...                           % 
+            'cd',               [0 0 0 0 0 0]);                             % Structure defining the viscous quadratic drag forces. First option define ``drag``, (`6x6 float matrix`), Default = ``zeros(6)``. Second option define ``cd``, (`6x1 float vector`), Default = ``zeros(6,1)``, and ``area``, (`6x1 float vector`), Default = ``zeros(6,1)``.
         stiffness               = 0                                         % (`float`) Cable stiffness (N/m). Default = `0`.
-        viz               = struct(...                                      %
-            'color', [1 0 0.5], ...                                         %
-            'opacity', 1)                                                   % Structure defining visualization properties in either SimScape or Paraview. ``color`` (`3x1 float vector`) is defined as the body visualization color, Default = [``1 1 0``]. ``opacity`` (`integer`) is defined as the body opacity, Default = ``1``.        
+        viz                     = struct(...                                %
+            'color',                [1 0 0.5], ...                          %
+            'opacity',              1)                                      % Structure defining visualization properties in either SimScape or Paraview. ``color`` (`3x1 float vector`) is defined as the body visualization color, Default = [``1 1 0``]. ``opacity`` (`integer`) is defined as the body opacity, Default = ``1``.        
     end
  
     properties (SetAccess = 'public', GetAccess = 'public')%internal
-        baseConnectionName      = '';                                       % (`string`) name of the base constraint or PTO
-        cb1                     = [0 0 0];                                  % (`1 x 3 float vector`) cb location of the base drag body
-        cb2                     = [0 0 0];                                  % (`1 x 3 float vector`) cb location of the follower drag body
-        cg1                     = [0 0 0];                                  % (`1 x 3 float vector`) cg location of the base drag body
-        cg2                     = [0 0 0];                                  % (`1 x 3 float vector`) cg location of the follower drag body
-        dispVol                 = [];                                       % (`float`) displacement volume, defaults to neutral buoyancy 
-        followerConnectionName  = '';                                       % (`string`) name of the follower constraint or PTO
+        base                    = struct(...                                %
+            'centerBuoyancy',   	[0 0 0], ...                            %
+            'centerGravity',        [0 0 0], ...                            %
+            'location',             [], ...                                 %
+            'name',                 [999 999 999])                          % Structure defining the base
+%         baseCb                  = ;                                       % (`1 x 3 float vector`) cb location of the base drag body
+%         baseCg                  = ;                                       % (`1 x 3 float vector`) cg location of the base drag body
+%         baseName      = ;                                       % (`string`) name of the base constraint or PTO
+%         base.location            =                                         % (`3x1 float vector`) base location [m]. Defined in the following format [x y z]. Default = ``[999 999 999]``.
+        follower                  = struct(...                                %
+            'centerBuoyancy',   	[0 0 0], ...                            %
+            'centerGravity',        [0 0 0], ...                            %
+            'location',             [], ...                                 %
+            'name',                 [999 999 999])                          % Structure defining the follower        
+%         followerCb              = [0 0 0];                                  % (`1 x 3 float vector`) cb location of the follower drag body
+%         followerCg              = [0 0 0];                                  % (`1 x 3 float vector`) cg location of the follower drag body
+%         followerName  = '';                                       % (`string`) name of the follower constraint or PTO
+%         follower.location        = [999 999 999]                             % (`3x1 float vector`) follower location [m]. Defined in the following format [x y z]. Default = ``[999 999 999]``.                
         location                = [999 999 999]                             % (`3x1 float vector`) pto location [m]. Defined in the following format [x y z]. Default = ``[999 999 999]``.    
-        number                  = []                                       	% Cable number
-        rotloc1                 = [999 999 999]                             % (`3x1 float vector`) base location [m]. Defined in the following format [x y z]. Default = ``[999 999 999]``.
-        rotloc2                 = [999 999 999]                             % (`3x1 float vector`) follower location [m]. Defined in the following format [x y z]. Default = ``[999 999 999]``.        
+        number                  = []                                       	% Cable number        
+        volume                  = [];                                       % (`float`) displacement volume, defaults to neutral buoyancy         
     end
     
     %%
     methods
         
-        function obj = cableClass(name,baseConnectionName,followerConnectionName)
+        function obj = cableClass(name,baseName,followerName)
             % This method initilizes the ``cableClass`` and creates a
             % ``cable`` object.
             %
@@ -110,9 +120,9 @@ classdef cableClass<handle
             % way between the fixed ends of the cable if not previously
             % set.
             if any(obj.location == [999 999 999])
-                rotDiff = obj.rotloc1 - obj.rotloc2;
-                obj.location = obj.rotloc2 + rotDiff/2;
-                fprintf('\n\t location undefined, set halfway between rotloc2 and rotloc1 \n')
+                rotDiff = obj.base.location - obj.follower.location;
+                obj.location = obj.follower.location + rotDiff/2;
+                fprintf('\n\t location undefined, set halfway between follower.location and base.location \n')
             end
         end
         
@@ -192,24 +202,20 @@ classdef cableClass<handle
             for i=1:nAngle
                 rotMat = axisAngle2RotMat(axisList(i,:),angleList(i))*rotMat;
             end
-
             % calculate net axis-angle rotation
             [netAxis, netAngle] = rotMat2AxisAngle(rotMat);
-
             % calculate net displacement due to rotation
             rotatedRelCoord = relCoord*(rotMat');
             linDisp = rotatedRelCoord - relCoord;
-
             % apply rotation and displacement to object
-            obj.initDisp.initLinDisp = linDisp + addLinDisp;
-            obj.initDisp.initAngularDispAxis = netAxis;
-            obj.initDisp.initAngularDispAngle = netAngle;
-            
+            obj.initial.displacement = linDisp + addLinDisp;
+            obj.initial.axis = netAxis;
+            obj.initial.angle = netAngle;            
         end        
         
-        function setDispVol(obj, rho)
+        function setVolume(obj, rho)
             % This method mades the mass of the cable drag bodies neutrally bouyant
-            obj.dispVol = obj.bodyMass/rho;
+            obj.volume = obj.mass/rho;
         end
         
         function dragForcePre(obj,rho)
@@ -235,39 +241,36 @@ classdef cableClass<handle
         function setCb(obj)
             % This method sets the buoyancy center to equal the center of
             % gravity, if the center of buoyancy is not defined
-            obj.cb1 = obj.cg1;
-            obj.cb2 = obj.cg2;
+            obj.base.centerBuoyancy = obj.base.centerGravity;
+            obj.follower.centerBuoyancy = obj.follower.centerGravity;
         end
         
         function setCg(obj)
             % This method specifies the Cg of the drag bodies as coincident
             % with the fixed ends of the cable, if not otherwise specied.
-            obj.cg1 = obj.rotloc1;
-            obj.cg2 = obj.rotloc2;
+            obj.base.centerGravity = obj.base.location;
+            obj.follower.centerGravity = obj.follower.location;
         end
         
-        function setL0(obj)
-            % This method specifies L0 as the distance between cable fixed
+        function setLength(obj)
+            % This method specifies length as the distance between cable fixed
             % ends (i.e. pretension = 0), if not otherwise specified.
-            if ~any(obj.L0) && ~any(obj.preTension)
-                obj.L0 = sqrt((obj.rotloc1(1)-obj.rotloc2(1)).^2 ...
-                + (obj.rotloc1(2)-obj.rotloc2(2)).^2 ...
-                + (obj.rotloc1(3)-obj.rotloc2(3)).^2);
-                fprintf('\n\t cable(i).L0 undefined and cable(i).preTension undefined. \n \r',...
-                    'cable(i).L0 set equal to distance between rotloc2 and rotloc1 \n and cable(i).preTension set equal to zero \n');
-                
-            elseif ~any(obj.L0) && any(obj.preTension)
-                obj.L0 = sqrt((obj.rotloc1(1)-obj.rotloc2(1)).^2 ...
-                + (obj.rotloc1(2)-obj.rotloc2(2)).^2 ...
-                + (obj.rotloc1(3)-obj.rotloc2(3)).^2) + obj.preTension/obj.stiffness;
-            
-            elseif ~any(obj.preTension) && any(obj.L0)
-                obj.preTension = obj.stiffness * (sqrt((obj.rotloc1(1)-obj.rotloc2(1)).^2 ...
-                + (obj.rotloc1(2)-obj.rotloc2(2)).^2 ...
-                + (obj.rotloc1(3)-obj.rotloc2(3)).^2) - obj.L0); 
-            
-            elseif any(obj.preTension) && any(obj.L0)
-                error('System overdefined. Please define cable(i).preTension OR cable(i).L0, not both.')
+            if ~any(obj.length) && ~any(obj.preTension)
+                obj.length = sqrt((obj.base.location(1)-obj.follower.location(1)).^2 ...
+                + (obj.base.location(2)-obj.follower.location(2)).^2 ...
+                + (obj.base.location(3)-obj.follower.location(3)).^2);
+                fprintf('\n\t cable(i).length undefined and cable(i).preTension undefined. \n \r',...
+                    'cable(i).length set equal to distance between follower.location and base.location \n and cable(i).preTension set equal to zero \n');                
+            elseif ~any(obj.length) && any(obj.preTension)
+                obj.length = sqrt((obj.base.location(1)-obj.follower.location(1)).^2 ...
+                + (obj.base.location(2)-obj.follower.location(2)).^2 ...
+                + (obj.base.location(3)-obj.follower.location(3)).^2) + obj.preTension/obj.stiffness;            
+            elseif ~any(obj.preTension) && any(obj.length)
+                obj.preTension = obj.stiffness * (sqrt((obj.base.location(1)-obj.follower.location(1)).^2 ...
+                + (obj.base.location(2)-obj.follower.location(2)).^2 ...
+                + (obj.base.location(3)-obj.follower.location(3)).^2) - obj.length);             
+            elseif any(obj.preTension) && any(obj.length)
+                error('System overdefined. Please define cable(i).preTension OR cable(i).length, not both.')
             end
         end
         

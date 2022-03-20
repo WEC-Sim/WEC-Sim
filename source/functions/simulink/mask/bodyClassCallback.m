@@ -39,29 +39,29 @@ function bodyClassCallback(blockHandle)
     end
 
     %% Update nonhydro body parameters
-    % If a body is hydro or flex then the cg, cb, dof, dispVol are set with the 
+    % If a body is hydro or flex then the centerGravity, centerBuoyancy, dof, volume are set with the 
     % h5 file and cannot be customized. 
     % If a body is nonhydro or drag, than these parameters must be defined by
     % the user.
 
-    % Get mask parameter controls for cg, cb, dof, volume
+    % Get mask parameter controls for centerGravity, centerBuoyancy, dof, volume
     mask = Simulink.Mask.get(blockHandle);
     nonHydro = mask.getParameter('nonHydro');
-    cg = mask.getParameter('cg');
-    cb = mask.getParameter('cb');
+    centerGravity = mask.getParameter('centerGravity');
+    centerBuoyancy = mask.getParameter('centerBuoyancy');
     dof = mask.getParameter('dof');
-    dispVol = mask.getParameter('dispVol');
+    volume = mask.getParameter('volume');
     % Change visibilities based on nonHydro selection
     switch nonHydro.Value
     case {'1','2'}
-        cg.Visible = 'on';
-        cb.Visible = 'on';
+        centerGravity.Visible = 'on';
+        centerBuoyancy.Visible = 'on';
         dof.Visible = 'on';
-        dispVol.Visible = 'on';
+        volume.Visible = 'on';
     case {'0'}
-        cg.Visible = 'off';
-        cb.Visible = 'off';
+        centerGravity.Visible = 'off';
+        centerBuoyancy.Visible = 'off';
         dof.Visible = 'off';
-        dispVol.Visible = 'off';        
+        volume.Visible = 'off';        
     end
 end

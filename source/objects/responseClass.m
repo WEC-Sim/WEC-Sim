@@ -154,7 +154,7 @@ classdef responseClass<handle
             for ii = 1:length(bodiesOutput)
                 obj.bodies(ii).name = bodiesOutput(ii).name;
                 obj.bodies(ii).time = bodiesOutput(ii).time;
-                obj.bodies(ii).cg   = bodiesOutput(ii).cg;
+                obj.bodies(ii).centerGravity   = bodiesOutput(ii).centerGravity;
                 for jj = 1:length(signals)
                     obj.bodies(ii).(signals{jj}) = bodiesOutput(ii).signals.values(:, (jj-1)*6+1:(jj-1)*6+6);
                 end
@@ -235,8 +235,47 @@ classdef responseClass<handle
             end
             % PTO-Sim
             if isstruct(ptosimOutput)
-                obj.ptosim=ptosimOutput;
-                obj.ptosim.time = obj.bodies(1).time;
+                %names = {'HydPistonCompressible','GasHydAccumulator','RectifyingCheckValve','HydraulicMotorV2','ElectricMachineEC'};
+                hydPistonCompressibleSignals = {'pressureA','forcePTO','pressureB'};
+                gasHydAccumulatorSignals = {'pressure','flowRate'};
+                rectifyingCheckValveSignals = {'flowRateA','flowRateB','flowRateC','flowRateD'};
+                hydraulicMotorSignals = {'shaftSpeed','torque','deltaP','flowRate'};
+                electricMachineECSignals = {'torqueEM','shaftSpeed','current','voltage'};
+                linearCrankSignals = {'ptoTorque','angPosition','angVelocity'};
+                adjustableRodSignals = {'ptoTorque','angPosition','angVelocity'};
+                checkValveSignals = {'flowCheckValve','deltaPCheckValve'};
+                linearGeneratorSignals = {'absPower','force','fricForce','Ia','Ib','Ic','Va','Vb','Vc','elecPower','vel'};
+                rotaryGeneratorSignals = {'absPower','Torque','fricTorque','Ia','Ib','Ic','Va','Vb','Vc','elecPower','vel'};
+
+                for ii = 1:length(ptosimOutput)
+                    obj.ptosim(ii).name = ptosimOutput(ii).name;
+                    obj.ptosim(ii).time = ptosimOutput(ii).time;
+                    obj.ptosim(ii).type = ptosimOutput(ii).type;
+                    if ptosimOutput(ii).type == 1
+                        signals = electricMachineECSignals;
+                    elseif ptosimOutput(ii).type == 2
+                        signals = hydPistonCompressibleSignals;
+                    elseif ptosimOutput(ii).type == 3
+                        signals = gasHydAccumulatorSignals;
+                    elseif ptosimOutput(ii).type == 4
+                        signals = rectifyingCheckValveSignals;
+                    elseif ptosimOutput(ii).type == 5
+                        signals = hydraulicMotorSignals;
+                    elseif ptosimOutput(ii).type == 6
+                        signals = linearCrankSignals;
+                    elseif ptosimOutput(ii).type == 7
+                        signals = adjustableRodSignals;
+                    elseif ptosimOutput(ii).type == 8
+                        signals = checkValveSignals;
+                    elseif ptosimOutput(ii).type == 9
+                        signals = linearGeneratorSignals;
+                    elseif ptosimOutput(ii).type == 10
+                        signals = rotaryGeneratorSignals;
+                    end
+                    for jj = 1:length(signals)
+                        obj.ptosim(ii).(signals{jj}) = ptosimOutput(ii).signals.values(:,jj);
+                    end
+                end
             end
         end
         
@@ -307,7 +346,7 @@ classdef responseClass<handle
             DOF = {'Surge','Sway','Heave','Roll','Pitch','Yaw'};
             t=obj.bodies(bodyNum).time;
             if comp < 4
-                pos=obj.bodies(bodyNum).position(:,comp)-obj.bodies(bodyNum).cg(comp);
+                pos=obj.bodies(bodyNum).position(:,comp)-obj.bodies(bodyNum).centerGravity(comp);
             else
                 pos=obj.bodies(bodyNum).position(:,comp);
             end
@@ -463,7 +502,7 @@ classdef responseClass<handle
 
                         % Calculate full position changes due to rotation,
                         % translation, and center of gravity
-                        bodyMesh(ibod).pointsNew = bodyMesh(ibod).rotation + bodyMesh(ibod).deltaPos(i,:) + body(ibod).cg.';
+                        bodyMesh(ibod).pointsNew = bodyMesh(ibod).rotation + bodyMesh(ibod).deltaPos(i,:) + body(ibod).centerGravity.';
 
                         % Create and plot final triangulation of geometry with applied changes
                         bodFinal = triangulation(bodyMesh(ibod).Conns,bodyMesh(ibod).pointsNew);
@@ -707,7 +746,7 @@ classdef responseClass<handle
                     fclose(fid);
                 end
             end
-            % ptoSim
+            %ptoSim
             if isfield(obj.ptosim,'time')
                 f1 = fields(obj.ptosim);
                 count = 1;

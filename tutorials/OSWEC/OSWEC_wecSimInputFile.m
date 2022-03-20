@@ -9,15 +9,15 @@ simu.dt = 0.1;                                  % Simulation Time-Step [s]
 %% Wave Information
 % Regular Waves 
 waves = waveClass('regular');                   % Initialize waveClass                                 
-waves.H = 2.5;                                  % Wave Height [m]
-waves.T = 8;                                    % Wave Period [s]
+waves.height = 2.5;                                  % Wave Height [m]
+waves.period = 8;                                    % Wave Period [s]
 
 %% Body Data
 % Flap
 body(1) = bodyClass('hydroData/oswec.h5');      % Initialize bodyClass for Flap 
 body(1).geometryFile = 'geometry/flap.stl';     % Geometry File
 body(1).mass = 127000;                          % Mass [kg]
-body(1).momOfInertia = [1.85e6 1.85e6 1.85e6];  % Moment of Inertia [kg-m^2]
+body(1).inertia = [1.85e6 1.85e6 1.85e6];  % Moment of Inertia [kg-m^2]
 
 % Base
 body(2) = bodyClass('hydroData/oswec.h5');      % Initialize bodyClass for Base
