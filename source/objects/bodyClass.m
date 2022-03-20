@@ -129,7 +129,7 @@ classdef bodyClass<handle
             if (~isnumeric(obj.mass) && ~strcmp(obj.mass, 'equilibrium') && ~strcmp(obj.mass, 'fixed')) || isempty(obj.mass)
                 error('Body mass needs to be defined numerically, set to ''equilibrium'', or set to ''fixed''.')
             end
-            if isempty(obj.momOfInertia) && ~strcmp(obj.mass, 'fixed')
+            if isempty(obj.inertia) && ~strcmp(obj.mass, 'fixed')
                 error('Body moment of inertia needs to be defined for all non-fixed bodies.')
             end
             if strcmp(explorer, 'on') %if mechanics explorer is set to on
@@ -191,7 +191,7 @@ classdef bodyClass<handle
                     end
                 end
                 % Warning for cg and cb being overwritten
-                if ~isempty(obj.cg) || ~isempty(obj.cb)
+                if ~isempty(obj.centerGravity) || ~isempty(obj.centerBuoyancy)
                     warning('Center of gravity and center of buoyancy are overwritten by h5 data for hydro bodies.')
                 end
             elseif obj.nonHydro>0
@@ -200,17 +200,17 @@ classdef bodyClass<handle
                 if ~isnumeric(obj.mass)
                     error('Body mass needs to be defined numerically for non-hydro or drag bodies')
                 end
-                if ~isnumeric(obj.momOfInertia)
+                if ~isnumeric(obj.inertia)
                     error('Body moment of inertia needs to be defined numerically for non-hydro or drag bodies')
                 end
-                if isempty(obj.cg)
-                    error('Non-hydro or drag body(%i) center of gravity (cg) must be defined in the wecSimInputFile.m',obj.number);
+                if isempty(obj.centerGravity)
+                    error('Non-hydro or drag body(%i) center of gravity (centerGravity) must be defined in the wecSimInputFile.m',obj.number);
                 end
-                if isempty(obj.dispVol)
-                    error('Non-hydro or drag body(%i) displaced volume (dispVol) must be defined in the wecSimInputFile.m',obj.number);
+                if isempty(obj.volume)
+                    error('Non-hydro or drag body(%i) displaced volume (volume) must be defined in the wecSimInputFile.m',obj.number);
                 end
-                if isempty(obj.cb)
-                    warning('Non-hydro or drag body(%i) center of buoyancy (cb) set equopal to center of gravity (cg), [%g %g %g]',obj.number,obj.cg(1),obj.cg(2),obj.cg(3))
+                if isempty(obj.centerBuoyancy)
+                    warning('Non-hydro or drag body(%i) center of buoyancy (centerBuoyancy) set equopal to center of gravity (cg), [%g %g %g]',obj.number,obj.centerGravity(1),obj.centerGravity(2),obj.centerGravity(3))
                 end
             end
         end
