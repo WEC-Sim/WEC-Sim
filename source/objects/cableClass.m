@@ -77,8 +77,11 @@ classdef cableClass<handle
 %         followerName  = '';                                       % (`string`) name of the follower constraint or PTO
 %         follower.location        = [999 999 999]                             % (`3x1 float vector`) follower location [m]. Defined in the following format [x y z]. Default = ``[999 999 999]``.                
         location                = [999 999 999]                             % (`3x1 float vector`) pto location [m]. Defined in the following format [x y z]. Default = ``[999 999 999]``.    
-        number                  = []                                       	% Cable number        
         volume                  = [];                                       % (`float`) displacement volume, defaults to neutral buoyancy         
+    end
+    
+    properties (SetAccess = 'private', GetAccess = 'public') %internal
+        number                  = []                                        % Cable number.
     end
     
     %%
@@ -275,6 +278,11 @@ classdef cableClass<handle
             fprintf('\n\t***** Cable Name: %s *****\n',obj.name)
             fprintf('\tCable Stiffness           (N/m;Nm/rad) = %G\n',obj.stiffness)
             fprintf('\tCable Damping           (Ns/m;Nsm/rad) = %G\n',obj.damping)            
+        end
+
+        function setNumber(obj,number)
+            % Method to set the private number property
+            obj.number = number;
         end
     end
     

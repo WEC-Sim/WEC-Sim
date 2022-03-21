@@ -42,10 +42,9 @@ classdef mooringClass<handle
         name                    = 'NOT DEFINED'                            % (`string`) Name of the mooring. Default = ``'NOT DEFINED'``
     end
 
-    properties (SetAccess = 'public', GetAccess = 'public') %internal
+    properties (SetAccess = 'private', GetAccess = 'public') %internal
         moorDyn                 = 0                                        % (`integer`) Flag to indicate a MoorDyn block, 0 or 1. Default = ``0``
         number                  = []                                       % (`integer`) Mooring number. Default = ``'NOT DEFINED'``        
-        orientation             = []                                            % (`float 1 x 6`) Initial 6DOF location. Default = ``[0 0 0 0 0 0]``        
     end
 
     methods (Access = 'public')                                        
@@ -106,6 +105,11 @@ classdef mooringClass<handle
         function listInfo(obj)
             % Method to list mooring info
             fprintf('\n\t***** Mooring Name: %s *****\n',obj.name)
+        end
+
+        function setNumber(obj,number)
+            % Method to set the private number property
+            obj.number = number;
         end
     end
 end

@@ -103,7 +103,7 @@ simu.checkinputs;
 if exist('constraint','var') == 1
     simu.numConstraints = length(constraint(1,:));
     for ii = 1:simu.numConstraints
-        constraint(ii).number = ii;
+        constraint(ii).setNumber(ii);
         constraint(ii).setOrientation();
     end; clear ii
 end
@@ -112,7 +112,7 @@ disp('PTO num')
 if exist('pto','var') == 1
     simu.numPtos = length(pto(1,:));
     for ii = 1:simu.numPtos
-        pto(ii).number = ii;
+        pto(ii).setNumber(ii);
         pto(ii).setOrientation();
         pto(ii).setPretension();
     end; clear ii
@@ -122,7 +122,7 @@ end
 if exist('mooring','var') == 1
     simu.numMoorings = length(mooring(1,:));
     for ii = 1:simu.numMoorings
-        mooring(ii).number = ii;
+        mooring(ii).setNumber(ii);
         mooring(ii).setLoc;
     end; clear ii
 end
@@ -135,7 +135,7 @@ hydroBodLogic = zeros(length(body(1,:)),1);
 nonHydroBodLogic = zeros(length(body(1,:)),1);
 dragBodLogic = zeros(length(body(1,:)),1);
 for ii = 1:length(body(1,:))
-    body(ii).number = ii;
+    body(ii).setNumber(ii);
     if body(ii).nonHydro==0
         numHydroBodies = numHydroBodies + 1;
         hydroBodLogic(ii) = 1;         
@@ -182,7 +182,7 @@ end; clear ii
 if exist('cable','var')==1
     simu.numCables = length(cable(1,:));
     for ii = 1:simu.numCables
-        cable(ii).number = ii;
+        cable(ii).setNumber(ii);
         cable(ii).setCg();
         cable(ii).setCb();
         cable(ii).setTransPTOLoc();

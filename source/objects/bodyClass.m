@@ -92,8 +92,11 @@ classdef bodyClass<handle
         hydroForce      = struct()                          % (`structure`) Defines hydrodynamic forces and coefficients used during simulation.
         hydroTotal      = []                                % (`integer`) Total number of hydro bodies, defined in the h5 file, can differ from ``body.total``
         massCalcMethod  = []                                % (`string`) Method used to obtain mass, options: ``'user'``, ``'fixed'``, ``'equilibrium'``
-        number          = []                                % (`integer`) Body number, defined in WEC-Sim input file, can be different from the BEM body number.
         total           = []                                % (`integer`) Total number of bodies, i.e. instances of the body block         
+    end
+    
+    properties (SetAccess = 'private', GetAccess = 'public') %internal
+        number          = []                                % (`integer`) Body number, defined in WEC-Sim input file, can be different from the BEM body number.
     end
     
     methods (Access = 'public') %modify object = T; output = F
@@ -440,8 +443,11 @@ classdef bodyClass<handle
             trimesh(tri,p(:,1),p(:,2),p(:,3))
             quiver3(c(:,1),c(:,2),c(:,3),n(:,1),n(:,2),n(:,3))
         end
-        
-        
+
+        function setNumber(obj,number)
+            % Method to set the private number property
+            obj.number = number;
+        end
     end
     
     methods (Access = 'protected') %modify object = T; output = F
