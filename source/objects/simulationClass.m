@@ -36,10 +36,10 @@ classdef simulationClass<handle
         explorer            = 'on'                                         % (`string`) SimMechanics Explorer 'on' or 'off'. Default = ``'on'``
         dt                  = 0.1                                          % (`float`) Simulation time step. Default = ``0.1`` s
         dtOut               = []                                           % (`float`) Output sampling time. Default = ``dt``
-        endTime             = []                                           % (`float`) Simulation end time. Default = ``'NOT DEFINED'``
+        endTime             = []                                           % (`float`) Simulation end time. Default = ``[]``
         g                   = 9.81                                         % (`float`) Acceleration due to gravity. Default = ``9.81`` m/s
-        mcrMatFile          = []                                           % (`string`) mat file that contain a list of the multiple conditions runs with given conditions. Default = ``'NOT DEFINED'``  
-        mcrExcelFile        = [];                                          % (`string`) File name from which to load wave statistics data. Default = ``[]``        
+        mcrMatFile          = []                                           % (`string`) mat file that contain a list of the multiple conditions runs with given conditions. Default = ``[]``  
+        mcrExcelFile        = []                                           % (`string`) File name from which to load wave statistics data. Default = ``[]``        
         mode                = 'normal'                                     % (`string`) Simulation execution mode, 'normal', 'accelerator', 'rapid-accelerator'. Default = ``'normal'``
         morisonDt           = []                                           % (`float`) Sample time to calculate Morison Element forces. Default = ``dt``
         nonlinearDt         = []                                           % (`float`) Sample time to calculate nonlinear forces. Default = ``dt``
@@ -54,7 +54,7 @@ classdef simulationClass<handle
         rateTransition      = 'on'                                         % (`string`) Flag for automatically handling rate transition for data transfer, Opyions: 'on', 'off'. Default = ``'on'``
         reloadH5Data        = 0                                            % (`integer`) Flag to re-load hydro data from h5 file between runs, Options: 0 (off), 1 (on). Default = ``0``
         rho                 = 1000                                         % (`float`) Density of water. Default = ``1000`` kg/m^3
-        saveStructure       = 0                                            % (`integer`) Flag to save results as a MATLAB structure, Options: 0 (off), 1 (on). Default = ``1``
+        saveStructure       = 0                                            % (`integer`) Flag to save results as a MATLAB structure, Options: 0 (off), 1 (on). Default = ``0``
         saveText            = 0                                            % (`integer`) Flag to save results as ASCII files, Options: 0 (off), 1 (on). Default = ``0``
         saveWorkspace       = 1                                            % (`integer`) FLag to save .mat file for each run, Options: 0 (off), 1 (on). Default = ``1``
         simMechanicsFile    = 'NOT DEFINED'                                % (`string`) Simulink/SimMechanics model file. Default = ``'NOT DEFINED'``
