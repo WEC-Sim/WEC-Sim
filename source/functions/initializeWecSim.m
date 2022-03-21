@@ -137,22 +137,21 @@ for ii = 1:length(body(1,:))
     body(ii).setNumber(ii);
     if body(ii).nonHydro==0
         numHydroBodies = numHydroBodies + 1;
-        hydroBodLogic(ii) = 1;         
+        hydroBodLogic(ii) = 1;
     elseif body(ii).nonHydro==1
         numNonHydroBodies = numNonHydroBodies + 1;
-        nonHydroBodLogic(ii) = 1; 
+        nonHydroBodLogic(ii) = 1;
     elseif body(ii).nonHydro==2
         numDragBodies = numDragBodies + 1;
-        dragBodLogic(ii) = 1; 
-    else
-        body(ii).massCalcMethod = 'user';
+        dragBodLogic(ii) = 1;
     end
 end
 simu.numHydroBodies = numHydroBodies; clear numHydroBodies
 simu.numDragBodies = numDragBodies; clear numDragBodies
 for ii = 1:simu.numHydroBodies
-    body(ii).checkinputs();
-    %Determine if hydro data needs to be reloaded from h5 file, or if hydroData
+    body(ii).setup(simu.numHydroBodies,simu.b2b);
+
+    % Determine if hydro data needs to be reloaded from h5 file, or if hydroData
     % was stored in memory from a previous run.
     if exist('totalNumOfWorkers','var') ==0 && exist('mcr','var') == 1 && simu.reloadH5Data == 0 && imcr > 1
         body(ii).loadHydroData(hydroData(ii));
@@ -168,12 +167,6 @@ for ii = 1:simu.numHydroBodies
         tmp_hydroData = readBEMIOH5(body(ii).h5File, body(ii).number, body(ii).meanDrift);
         body(ii).loadHydroData(tmp_hydroData);
         clear tmp_hydroData
-    end
-    body(ii).total = simu.numHydroBodies;
-    if simu.b2b==1
-        body(ii).dofCoupled = zeros(6*body(ii).total,1);
-    else
-        body(ii).dofCoupled = zeros(6,1);
     end
 end; clear ii
 

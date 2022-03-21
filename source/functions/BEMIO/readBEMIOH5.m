@@ -34,10 +34,10 @@ hydroData.simulation_parameters.T = h5read(filename,'/simulation_parameters/T');
 % Read body properties
 hydroData.properties.name = h5read(filename,[h5BodyName '/properties/name']);
 try hydroData.properties.name = hydroData.properties.name{1}; end
-hydroData.properties.body_number = h5read(filename,[h5BodyName '/properties/body_number']);
-hydroData.properties.cg = h5read(filename,[h5BodyName '/properties/cg']);
-hydroData.properties.cb = h5read(filename,[h5BodyName '/properties/cb']);
-hydroData.properties.disp_vol = h5read(filename,[h5BodyName '/properties/disp_vol']);
+hydroData.properties.number = h5read(filename,[h5BodyName '/properties/body_number']);
+hydroData.properties.centerGravity = h5read(filename,[h5BodyName '/properties/cg']);
+hydroData.properties.centerBuoyancy = h5read(filename,[h5BodyName '/properties/cb']);
+hydroData.properties.volume = h5read(filename,[h5BodyName '/properties/disp_vol']);
 
 % TODO: should be able to remove this initial guess as writeBEMIOH5 always
 % writes dof data
