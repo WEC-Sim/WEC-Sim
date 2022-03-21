@@ -53,11 +53,6 @@ classdef mooringClass<handle
             obj.name = name;
         end
 
-        function obj = setLoc(obj)
-            % This method sets mooring location
-            obj.orientation = [obj.location + obj.initial.displacement 0 0 0];
-        end
-
         function setInitDisp(obj, relCoord, axisAngleList, addLinDisp)
             % Function to set a mooring's initial displacement
             % 

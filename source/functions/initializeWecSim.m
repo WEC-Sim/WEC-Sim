@@ -123,7 +123,6 @@ if exist('mooring','var') == 1
     simu.numMoorings = length(mooring(1,:));
     for ii = 1:simu.numMoorings
         mooring(ii).setNumber(ii);
-        mooring(ii).setLoc;
     end; clear ii
 end
 
