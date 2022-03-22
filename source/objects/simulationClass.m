@@ -79,6 +79,7 @@ classdef simulationClass<handle
         numDragBodies       = []                                           % (`integer`) Number of drag bodies that comprise the WEC device (excluding hydrodynamic bodies). Default = ``'NOT DEFINED'``
         numMoorings         = []                                           % (`integer`) Number of moorings in the wec model. Default = ``'NOT DEFINED'``
         numPtos             = []                                           % (`integer`) Number of power take-off elements in the model. Default = ``'NOT DEFINED'``
+        numPtoSim           = []                                           % (`integer`) Number of pto-sim elements in the model. Default = ``'NOT DEFINED'``
         numHydroBodies      = []                                           % (`integer`) Number of hydrodynamic bodies that comprise the WEC device. Default = ``'NOT DEFINED'``
         outputDir           = 'output'                                     % (`string`) Data output directory name. Default = ``'output'``
         time                = 0                                            % (`float`) Simulation time [s]. Default = ``0`` s

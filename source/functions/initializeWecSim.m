@@ -70,12 +70,6 @@ else
 end
 clear values names i j;
 
-% PTO-Sim: read input, count
-if exist('./ptoSimInputFile.m','file') == 2
-    ptoSimInputFile
-    ptosim.countblocks;
-end
-
 % Read Inputs for Multiple Conditions Run
 try fprintf('wecSimMCR Case %g\n',imcr); end
 
@@ -198,7 +192,7 @@ end
 if exist('ptoSim','var') == 1
     simu.numPtoSim = length(ptoSim(1,:));
     for ii = 1:simu.numPtoSim
-        ptoSim(ii).ptoNum = ii;
+        ptoSim(ii).number = ii;
     end; clear ii
 end
 

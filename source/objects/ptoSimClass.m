@@ -106,11 +106,9 @@ classdef ptoSimClass<handle
     end
     
     properties (SetAccess = 'public', GetAccess = 'public')%internal
-        ptoSimNum           = []                                       % PTOBlock number
-%         ptoSimType: This property must be defined to specify the
+%         type: This property must be defined to specify the
 %         type of block that will be used. The type value of each block is
 %         presented below:
-%
 %         Type = 1 ---- Electric generator equivalent circuit
 %         Type = 2 ---- Hydraulic cylinder
 %         Type = 3 ---- Hydraulic accumulator
@@ -121,8 +119,8 @@ classdef ptoSimClass<handle
 %         Type = 8 ---- Check valve 
 %         Type = 9 ---- Direct drive linear generator 
 %         Type = 10 ---- Direct drive Rotary generator
-        ptoSimType           = []                                      % PTO Block type
-        ptoNum = []
+        type    = []                                                        % PTOSim Block type
+        number  = []                                                        % PTOSim number
     end
     
     methods
