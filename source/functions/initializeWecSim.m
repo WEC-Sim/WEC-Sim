@@ -90,8 +90,8 @@ if exist('mcr','var') == 1
 end
 
 % Waves and Simu: check inputs
-waves.checkinputs;
-simu.checkinputs;
+waves.checkInputs();
+simu.checkInputs();
 
 % Constraints: count & set orientation
 if exist('constraint','var') == 1
@@ -121,7 +121,7 @@ if exist('mooring','var') == 1
     end; clear ii
 end
 
-% Bodies: count, check inputs, read hdf5 file
+% Bodies: count, check inputs, read hdf5 file, and check inputs
 numHydroBodies = 0; 
 numNonHydroBodies = 0;
 numDragBodies = 0; 
@@ -130,9 +130,13 @@ nonHydroBodLogic = zeros(length(body(1,:)),1);
 dragBodLogic = zeros(length(body(1,:)),1);
 for ii = 1:length(body(1,:))
     body(ii).number = ii;
+    body(ii).checkInputs(simu.domainSize,simu.explorer);
     if body(ii).nonHydro==0
+        if numNonHydroBodies > 0 || numDragBodies > 0
+            error('All hydro bodies must be specified before any drag or non-hydro bodies.')
+        end
         numHydroBodies = numHydroBodies + 1;
-        hydroBodLogic(ii) = 1;         
+        hydroBodLogic(ii) = 1;     
     elseif body(ii).nonHydro==1
         numNonHydroBodies = numNonHydroBodies + 1;
         nonHydroBodLogic(ii) = 1; 
@@ -146,7 +150,6 @@ end
 simu.numHydroBodies = numHydroBodies; clear numHydroBodies
 simu.numDragBodies = numDragBodies; clear numDragBodies
 for ii = 1:simu.numHydroBodies
-    body(ii).checkinputs();
     %Determine if hydro data needs to be reloaded from h5 file, or if hydroData
     % was stored in memory from a previous run.
     if exist('totalNumOfWorkers','var') ==0 && exist('mcr','var') == 1 && simu.reloadH5Data == 0 && imcr > 1
@@ -251,16 +254,6 @@ if ~isempty(idx)
     for kk = 1:length(idx)
         it = idx(kk);
         body(it).nonHydroForcePre(simu.rho);
-        if isempty(body(it).centerGravity)
-            error('Non-hydro body(%i) center of gravity (centerGravity) must be defined in the wecSimInputFile.m',body(it).number);
-        end
-        if isempty(body(it).volume)
-            error('Non-hydro body(%i) displaced volume (volume) must be defined in the wecSimInputFile.m',body(it).number);
-        end
-        if isempty(body(it).centerBuoyancy)
-            body(it).centerBuoyancy = body(it).centerGravity;
-            warning('Non-hydro body(%i) center of buoyancy (centerBuoyancy) set equal to center of gravity (centerGravity), [%g %g %g]',body(it).number,body(it).centerBuoyancy(1),body(it).centerBuoyancy(2),body(it).centerBuoyancy(3))
-        end
     end; clear kk idx
 end
 
@@ -270,16 +263,6 @@ if ~isempty(idx)
     for kk = 1:length(idx)
         it = idx(kk);
         body(it).dragForcePre(simu.rho);
-        if isempty(body(it).centerGravity)
-            error('Drag body(%i) center of gravity (centerGravity) must be defined in the wecSimInputFile.m',body(it).number);
-        end
-        if isempty(body(it).volume)
-            error('Drag body(%i) displaced volume (volume) must be defined in the wecSimInputFile.m',body(it).number);
-        end
-        if isempty(body(it).centerBuoyancy)
-            body(it).centerBuoyancy = body(it).centerGravity;
-            warning('Drag body(%i) center of buoyancy (centerBuoyancy) set equal to center of gravity (centerGravity), [%g %g %g]',body(it).number,body(it).centerBuoyancy(1),body(it).centerBuoyancy(2),body(it).centerBuoyancy(3))
-        end
     end; clear kk idx
 end
     

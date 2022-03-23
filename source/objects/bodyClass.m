@@ -111,36 +111,39 @@ classdef bodyClass<handle
             %     body : obj
             %         bodyClass object
             %
-            obj.h5File = filename;
+            if exist('filename','var')
+                obj.h5File = filename;
+            else
+                error('The body class number(s) in the wecSimInputFile must be specified in ascending order starting from 1. The bodyClass() function should be called first to initialize each body with an h5 file.')
+            end
         end
         
-        function checkinputs(obj)
-            % This method checks WEC-Sim user inputs and generates error messages if parameters are not properly defined for the bodyClass.
+        function checkInputs(obj,domainSize,explorer)
+            % This method checks WEC-Sim user inputs for each body and generates error messages if parameters are not properly defined for the bodyClass.
             
             % Check h5 file
             if exist(obj.h5File,'file')==0 && obj.nonHydro==0
                 error('The hdf5 file %s does not exist',obj.h5File)
             end
-            % Check geometry file
-            if exist(obj.geometryFile,'file') == 0
-                error('Could not locate and open geometry file %s',obj.geometryFile)
+            % Check definitions
+            if (~isnumeric(obj.mass) && ~strcmp(obj.mass, 'equilibrium') && ~strcmp(obj.mass, 'fixed')) || isempty(obj.mass)
+                error('Body mass needs to be defined numerically, set to ''equilibrium'', or set to ''fixed''.')
             end
-            % Check Morison Element Inputs for option 1
-            if obj.morisonElement.option == 1
-                [rgME,~] = size(obj.morisonElement.rgME);
-                [rz,~] = size(obj.morisonElement.z);
-                if rgME > rz
-                    obj.morisonElement.z = NaN(rgME,3);
+            if isempty(obj.inertia) && ~strcmp(obj.mass, 'fixed')
+                error('Body moment of inertia needs to be defined for all non-fixed bodies.')
+            end
+            if strcmp(explorer, 'on') %if mechanics explorer is set to on
+                % Check geometry file
+                if exist(obj.geometryFile,'file') == 0
+                    error('Could not locate and open geometry file %s',obj.geometryFile)
                 end
-                clear rgME rz
-            end
-            % Check Morison Element Inputs for option 2
-            if obj.morisonElement.option == 2
-                [r,~] = size(obj.morisonElement.z);
-                for ii = 1:r
-                    if norm(obj.morisonElement.z(ii,:)) ~= 1
-                        error(['Ensure the Morison Element .z variable is a unit vector for the ',num2str(ii),' index'])
-                    end
+                % Check mesh size
+                tr = stlread(obj.geometryFile);
+                obj.geometry.vertex = tr.Points;
+                if max(obj.geometry.vertex) > domainSize/2
+                    error('STL mesh is larger than the domain. Reminder: WEC-Sim requires that the STL be saved with units of meters for accurate visualization.')
+                elseif max(obj.geometry.vertex) > domainSize/4
+                    warning('STL mesh is very large compared to the domain. Reminder: WEC-Sim requires that the STL be saved with units of meters for accurate visualization.')
                 end
             end
             % check 'body.initial' fields
@@ -166,6 +169,49 @@ classdef bodyClass<handle
             % Check passive yaw configuration
             if obj.yaw.option==1 && obj.yaw.threshold==1
                 warning(['yaw using (default) 1 deg interpolation threshold.' newline 'Ensure this is appropriate for your geometry'])
+            end
+            if obj.nonHydro==0
+                % This method checks WEC-Sim user inputs for each hydro body and generates error messages if parameters are not properly defined for the bodyClass.
+                % Check Morison Element Inputs for option 1
+                if obj.morisonElement.option == 1
+                    [rgME,~] = size(obj.morisonElement.rgME);
+                    [rz,~] = size(obj.morisonElement.z);
+                    if rgME > rz
+                        obj.morisonElement.z = NaN(rgME,3);
+                    end
+                    clear rgME rz
+                end
+                % Check Morison Element Inputs for option 2
+                if obj.morisonElement.option == 2
+                    [r,~] = size(obj.morisonElement.z);
+                    for ii = 1:r
+                        if norm(obj.morisonElement.z(ii,:)) ~= 1
+                            error(['Ensure the Morison Element .z variable is a unit vector for the ',num2str(ii),' index'])
+                        end
+                    end
+                end
+                % Warning for cg and cb being overwritten
+                if ~isempty(obj.centerGravity) || ~isempty(obj.centerBuoyancy)
+                    warning('Center of gravity and center of buoyancy are overwritten by h5 data for hydro bodies.')
+                end
+            elseif obj.nonHydro>0
+                % This method checks WEC-Sim user inputs for each drag or non-hydro
+                % body and generates error messages if parameters are not properly defined for the bodyClass.
+                if ~isnumeric(obj.mass)
+                    error('Body mass needs to be defined numerically for non-hydro or drag bodies')
+                end
+                if ~isnumeric(obj.inertia)
+                    error('Body moment of inertia needs to be defined numerically for non-hydro or drag bodies')
+                end
+                if isempty(obj.centerGravity)
+                    error('Non-hydro or drag body(%i) center of gravity (centerGravity) must be defined in the wecSimInputFile.m',obj.number);
+                end
+                if isempty(obj.volume)
+                    error('Non-hydro or drag body(%i) displaced volume (volume) must be defined in the wecSimInputFile.m',obj.number);
+                end
+                if isempty(obj.centerBuoyancy)
+                    warning('Non-hydro or drag body(%i) center of buoyancy (centerBuoyancy) set equopal to center of gravity (cg), [%g %g %g]',obj.number,obj.centerGravity(1),obj.centerGravity(2),obj.centerGravity(3))
+                end
             end
         end
         
@@ -409,7 +455,7 @@ classdef bodyClass<handle
         end
         
         function checkStl(obj)
-            % The method will check the ``.stl`` file and return an error if the normal vectors are not equal to one.
+            % This method will check the ``.stl`` file and return an error if the normal vectors are not equal to one and if it is too large for the domain.
             tnorm = obj.geometry.norm;
             norm_mag = sqrt(tnorm(:,1).^2 + tnorm(:,2).^2 + tnorm(:,3).^2);
             check = sum(norm_mag)/length(norm_mag);

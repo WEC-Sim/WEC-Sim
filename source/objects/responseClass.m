@@ -279,15 +279,20 @@ classdef responseClass<handle
             end
         end
         
-        function obj = loadMoorDyn(obj,numLines)            
+        function obj = loadMoorDyn(obj,linesNum)            
             % This method reads MoorDyn outputs for each instance of the
             % ``mooringClass``
             %            
             % Parameters
             % ------------
-            %     numLines : integer
+            %     linesNum : integer
             %         the number of MoorDyn lines
             %
+            
+            arguments
+                obj
+                linesNum (1,1) double {mustBeInteger}
+            end
             
             % load Lines.out
             filename = './Mooring/Lines.out';
@@ -301,7 +306,7 @@ classdef responseClass<handle
             end
             fclose(fid);
             % load Line#.out
-            for iline=1:numLines
+            for iline=1:linesNum
                 eval(['obj.moorDyn.Line' num2str(iline) '=struct();']);
                 filename = ['./Mooring/Line' num2str(iline) '.out'];
                 try
@@ -331,6 +336,13 @@ classdef responseClass<handle
             %     comp : integer
             %         the response component (i.e. dof) to be plotted (e.g. 1-6)   
             %     
+            
+            arguments
+                obj
+                bodyNum (1,1) double {mustBeInteger}
+                comp (1,1) double {mustBeMember(comp,1:6)}
+            end
+            
             DOF = {'Surge','Sway','Heave','Roll','Pitch','Yaw'};
             t=obj.bodies(bodyNum).time;
             if comp < 4
@@ -362,6 +374,13 @@ classdef responseClass<handle
             %     comp : integer
             %         the force component (i.e. dof) to be plotted (e.g. 1-6)
             %     
+            
+            arguments
+                obj
+                bodyNum (1,1) double {mustBeInteger}
+                comp (1,1) double {mustBeMember(comp,1:6)}
+            end
+            
             DOF = {'Surge','Sway','Heave','Roll','Pitch','Yaw'};
             t=obj.bodies(bodyNum).time;
             FT=obj.bodies(bodyNum).forceTotal(:,comp);
@@ -425,9 +444,9 @@ classdef responseClass<handle
                 body
                 waves
                 options.axisLimits (1,6) double {mustBeReal, mustBeNonNan, mustBeFinite} = [-simu.domainSize/2 simu.domainSize/2 -simu.domainSize/2 simu.domainSize/2 -waves.waterDepth -999];
-                options.timesPerFrame (1,1) double {mustBeReal, mustBeNonnegative, mustBeNonNan, mustBeFinite} = 1;
+                options.timesPerFrame (1,1) double {mustBeInteger, mustBePositive} = 1;
                 options.startEndTime (1,2) double {mustBeReal, mustBeNonnegative, mustBeNonNan} = [0 0];
-                options.saveSetting (1,1) double {mustBeNumericOrLogical} = 0;
+                options.saveSetting (1,1) {mustBeMember(options.saveSetting,0:1)} = 0;
             end            
             % Set time vector
             t = obj.wave.time(1:options.timesPerFrame*round(simu.dtOut/simu.dt,0):end,1);

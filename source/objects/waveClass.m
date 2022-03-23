@@ -39,12 +39,12 @@ classdef waveClass<handle
         direction       = 0;                        % (`float`) Incident wave direction(s) [deg]. Incident wave direction defined using WEC-Sim global coordinate system. Should be defined as a column vector for more than one wave direction. Default = ``0``
         elevationFile   = 'NOT DEFINED';            % (`string`) Data file that contains the times-series data file. Default = ``'NOT DEFINED'``
         gamma           = [];                       % (`float`) Defines gamma, only used for ``JS`` wave spectrum type. Default = ``[]``        
-        height               = 'NOT DEFINED';            % (`float`) Wave height [m]. Defined as wave height for ``regular``, or significant wave height for ``irregular``. Default =  ``'NOT DEFINED'``
+        height          = 'NOT DEFINED';            % (`float`) Wave height [m]. Defined as wave height for ``regular``, or significant wave height for ``irregular``. Default =  ``'NOT DEFINED'``
         marker          = struct(...                % (`structure`) Defines the wave marker. 
             'location',     [],...                  % 
             'size',         10, ...                 %             
             'style',        1)                      % (`structure`) Defines the wave marker. `loc` (`nx2 vector`) Marker [X,Y] locations [m]. Default = ``[]``. ``size`` (`float`) Marker size in Pixels. Default = ``10``. ``style`` Marker style, options include: ``1``: Sphere, ``2``: Cube, ``3``: Frame. Default = ``1``: Sphere        
-        period               = 'NOT DEFINED';            % (`float`) Wave period [s] . Defined as wave period for ``regular``, peak period for ``irregular``, or period of BEM data used for hydrodynamic coefficients for ``noWave``. Default = ``'NOT DEFINED'``
+        period          = 'NOT DEFINED';            % (`float`) Wave period [s] . Defined as wave period for ``regular``, peak period for ``irregular``, or period of BEM data used for hydrodynamic coefficients for ``noWave``. Default = ``'NOT DEFINED'``
         phaseSeed       = 0;                        % (`integer`) Defines the random phase seed, only used for ``irregular`` and ``spectrumImport`` waves. Default = ``0``
         spectrumFile    = 'NOT DEFINED';            % (`string`) Data file that contains the spectrum data file.  Default = ``'NOT DEFINED'``                
         spectrumType    = 'NOT DEFINED';            % (`string`) Specifies the wave spectrum type, options inlcude:``PM`` or ``JS``. Default = ``'NOT DEFINED'``
@@ -126,20 +126,14 @@ classdef waveClass<handle
             end
         end
         
-        function checkinputs(obj)
+        function checkInputs(obj)
             % This method checks WEC-Sim user inputs and generates error messages if parameters are not properly defined.             
            
-            % check waves types
+            % check wave type
             types = {'noWave', 'noWaveCIC', 'regular', 'regularCIC', 'irregular', 'spectrumImport', 'elevationImport'};
             if sum(strcmp(types,obj.type)) ~= 1
                 error(['Unexpected wave environment type setting, choose from: ' ...
                     '"noWave", "noWaveCIC", "regular", "regularCIC", "irregular", "spectrumImport", and "elevationImport".'])
-            end
-            % 'noWave' period undefined for hydro data
-            if strcmp(obj.type,'noWave')
-                if strcmp(obj.period,'NOT DEFINED')
-                    error('"waves.period" must be defined for the hydrodynamic data period when using the "noWave" wave type');
-                end
             end
             % check 'waves.bem' fields
             if length(fieldnames(obj.bem)) ~=4
@@ -154,21 +148,54 @@ classdef waveClass<handle
             % 'elevationFile' defined for 'elevationImport' case
             if strcmp(obj.type,'elevationImport')
                 if strcmp(obj.elevationFile,'NOT DEFINED')
-                    error('"elevationFile" must be defined when using the "elevationImport" wave type');
+                    error('The "waves.elevationFile" must be defined when using the "elevationImport" wave type');
+                end
+                if ~strcmp(obj.period,'NOT DEFINED') || ~strcmp(obj.height,'NOT DEFINED')
+                    warning('"waves.period" and "waves.height" are not used for "etaImport" wave types')
                 end
             end            
             % 'spectrumFile' defined for 'spectrumImport' case
             if strcmp(obj.type,'spectrumImport')
                 if strcmp(obj.spectrumFile,'NOT DEFINED')
-                    error('"spectrumFile" must be defined when using the "spectrumImport" wave type');
+                    error('The "wave.spectrumFile" must be defined when using the "spectrumImport" wave type');
+                end
+                if ~strcmp(obj.period,'NOT DEFINED') || ~strcmp(obj.height,'NOT DEFINED')
+                    warning('"waves.period" and "waves.height" are not used for "spectrumImport" wave types')
                 end
             end
-            % check 'marker.location'
-            if ~isempty(obj.marker.location)
-                if ~ndims(obj.marker.location)==2
-                    error('The coordinates of the visualization markers should have an ordinate (y-coordinate) and an abscissa (x-coordinate)')
+
+            % Check 'marker.location'
+            if ~isempty(obj.marker.location) && ~ndims(obj.marker.location)==2
+                error('The coordinates of the visualization markers should have an ordinate (y-coordinate) and an abscissa (x-coordinate)')
+            end
+            % Check wave spread
+            if sum(obj.spread)~=1
+                error('The wave spread should always sum to 1 to preserve spectrum/energy accuracy.')
+            end
+            
+            % Check inputs based on type
+            if strcmp(obj.type,'noWave') && strcmp(obj.period,'NOT DEFINED')
+                error('"waves.period" must be defined for the hydrodynamic data period when using the "noWave" wave type');
+            end    
+            if strcmp(obj.type,'noWaveCIC') && ~strcmp(obj.period,'NOT DEFINED')
+                warning('"waves.period" is not used for the hydrodynamic data period when using the "noWaveCIC" wave type')
+            end
+            if strcmp(obj.type,'regular') || strcmp(obj.type,'regularCIC')
+                if strcmp(obj.period,'NOT DEFINED') || strcmp(obj.height,'NOT DEFINED')
+                    error('"waves.period" and "waves.height" need to be defined for "regular" and "regularCIC" wave types')
                 end
-            end                        
+                if ~strcmp(obj.spectrumType,'NOT DEFINED')
+                    warning('"waves.spectrumType" is not used for the "regular" and "regularCIC" wave types')
+                end
+            end
+            if strcmp(obj.type,'irregular')
+                if strcmp(obj.spectrumType,'NOT DEFINED')
+                    error('"waves.spectrumType" needs to be defined for "irregular" wave types')
+                end
+                if strcmp(obj.period,'NOT DEFINED') || strcmp(obj.height,'NOT DEFINED')
+                    error('"waves.period" and "waves.height" need to be defined for "irregular" wave types')
+                end
+            end
         end
                 
         function setup(obj,bemFreq,bemWaterDepth,rampTime,dt,maxIt,time,g,rho)
@@ -428,6 +455,12 @@ classdef waveClass<handle
             %     figure : fig
             %         Plot of wave elevation versus time  
             %            
+            
+            arguments
+                obj
+                rampTime double {mustBeReal, mustBeNonNan, mustBeFinite} = 0
+            end
+            
             figure
             plot(obj.waveAmpTime(:,1),obj.waveAmpTime(:,2))
             title('Wave Surfave Elevation')
@@ -509,6 +542,10 @@ classdef waveClass<handle
                 else
                     obj.deepWater = 0;
                     obj.waterDepth = double(bemWaterDepth);
+                end
+            else
+                if ~isempty(bemWaterDepth)
+                    warning('Because water depth is specified in the wecSimInputFile, the water depth from the BEM data is ignored')
                 end
             end
         end
