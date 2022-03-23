@@ -190,7 +190,7 @@ classdef bodyClass<handle
                         end
                     end
                 end
-                % Warning for cg and cb being overwritten
+                % Warning for centerGravity and cb being overwritten
                 if ~isempty(obj.centerGravity) || ~isempty(obj.centerBuoyancy)
                     warning('Center of gravity and center of buoyancy are overwritten by h5 data for hydro bodies.')
                 end
@@ -210,15 +210,15 @@ classdef bodyClass<handle
                     error('Non-hydro or drag body(%i) displaced volume (volume) must be defined in the wecSimInputFile.m',obj.number);
                 end
                 if isempty(obj.centerBuoyancy)
-                    warning('Non-hydro or drag body(%i) center of buoyancy (centerBuoyancy) set equopal to center of gravity (cg), [%g %g %g]',obj.number,obj.centerGravity(1),obj.centerGravity(2),obj.centerGravity(3))
+                    warning('Non-hydro or drag body(%i) center of buoyancy (centerBuoyancy) set equopal to center of gravity (centerGravity), [%g %g %g]',obj.number,obj.centerGravity(1),obj.centerGravity(2),obj.centerGravity(3))
                 end
             end
         end
         
         function listInfo(obj)
             % This method prints body information to the MATLAB Command Window.
-            fprintf('\n\t***** Body Number %G, Name: %s *****\n',obj.hydroData.properties.body_number,obj.hydroData.properties.name)
-            fprintf('\tBody CG                          (m) = [%G,%G,%G]\n',obj.hydroData.properties.cg)
+            fprintf('\n\t***** Body Number %G, Name: %s *****\n',obj.hydroData.properties.number,obj.hydroData.properties.name)
+            fprintf('\tBody CG                          (m) = [%G,%G,%G]\n',obj.hydroData.properties.centerGravity)
             fprintf('\tBody Mass                       (kg) = %G \n',obj.mass);
             fprintf('\tBody Diagonal MOI              (kgm2)= [%G,%G,%G]\n',obj.inertia)
         end
@@ -228,9 +228,9 @@ classdef bodyClass<handle
             % MATLAB variable as alternative to reading the h5 file. This
             % process reduces computational time when using wecSimMCR.
             obj.hydroData       = hydroData;
-            obj.centerGravity	= hydroData.properties.cg';
-            obj.centerBuoyancy  = hydroData.properties.cb';
-            obj.volume          = hydroData.properties.disp_vol;
+            obj.centerGravity	= hydroData.properties.centerGravity';
+            obj.centerBuoyancy  = hydroData.properties.centerBuoyancy';
+            obj.volume          = hydroData.properties.volume;
             obj.name            = hydroData.properties.name;
             obj.dof             = obj.hydroData.properties.dof;
             obj.dofStart        = obj.hydroData.properties.dofStart;
@@ -509,12 +509,12 @@ classdef bodyClass<handle
             obj.hydroForce.fExt.im=zeros(1,nDOF);
             obj.hydroForce.fExt.md=zeros(1,nDOF);
             for ii=1:nDOF
-                if length(obj.hydroData.simulation_parameters.wave_dir) > 1
-                    [X,Y] = meshgrid(obj.hydroData.simulation_parameters.w, obj.hydroData.simulation_parameters.wave_dir);
+                if length(obj.hydroData.simulation_parameters.direction) > 1
+                    [X,Y] = meshgrid(obj.hydroData.simulation_parameters.w, obj.hydroData.simulation_parameters.direction);
                     obj.hydroForce.fExt.re(ii) = interp2(X, Y, squeeze(re(ii,:,:)), w, direction);
                     obj.hydroForce.fExt.im(ii) = interp2(X, Y, squeeze(im(ii,:,:)), w, direction);
                     obj.hydroForce.fExt.md(ii) = interp2(X, Y, squeeze(md(ii,:,:)), w, direction);
-                elseif obj.hydroData.simulation_parameters.wave_dir == direction
+                elseif obj.hydroData.simulation_parameters.direction == direction
                     obj.hydroForce.fExt.re(ii) = interp1(obj.hydroData.simulation_parameters.w,squeeze(re(ii,1,:)),w,'spline');
                     obj.hydroForce.fExt.im(ii) = interp1(obj.hydroData.simulation_parameters.w,squeeze(im(ii,1,:)),w,'spline');
                     obj.hydroForce.fExt.md(ii) = interp1(obj.hydroData.simulation_parameters.w,squeeze(md(ii,1,:)),w,'spline');
@@ -522,17 +522,17 @@ classdef bodyClass<handle
             end
             if obj.yaw.option==1
                 % show warning for passive yaw run with incomplete BEM data
-                BEMdir=sort(obj.hydroData.simulation_parameters.wave_dir);
+                BEMdir=sort(obj.hydroData.simulation_parameters.direction);
                 boundDiff(1)=abs(-180 - BEMdir(1)); boundDiff(2)=abs(180 - BEMdir(end));
                 if length(BEMdir)<3 || std(diff(BEMdir))>5 || max(boundDiff)>15
                     warning(['Passive yaw is not recommended without BEM data spanning a full yaw rotation -180 to 180 dg.' newline ...
                         'Please inspect BEM data for gaps'])
                     clear BEMdir
                 end % wrap BEM directions -180 to 180 dg, if they are not already there
-                [sortedDir,idx]=sort(wrapTo180(obj.hydroData.simulation_parameters.wave_dir));
+                [sortedDir,idx]=sort(wrapTo180(obj.hydroData.simulation_parameters.direction));
                 [hdofGRD,hdirGRD,hwGRD]=ndgrid([1:6],sortedDir,obj.hydroData.simulation_parameters.w);
                 [obj.hydroForce.fExt.dofGrd,obj.hydroForce.fExt.dirGrd,obj.hydroForce.fExt.wGrd]=ndgrid([1:6],...
-                    sort(wrapTo180(obj.hydroData.simulation_parameters.wave_dir)),w);
+                    sort(wrapTo180(obj.hydroData.simulation_parameters.direction)),w);
                 obj.hydroForce.fExt.fEHRE=interpn(hdofGRD,hdirGRD,hwGRD,obj.hydroData.hydro_coeffs.excitation.re(:,idx,:)...
                     ,obj.hydroForce.fExt.dofGrd,obj.hydroForce.fExt.dirGrd,obj.hydroForce.fExt.wGrd)*rho*g;
                 obj.hydroForce.fExt.fEHIM=interpn(hdofGRD,hdirGRD,hwGRD,obj.hydroData.hydro_coeffs.excitation.im(:,idx,:)...
@@ -553,12 +553,12 @@ classdef bodyClass<handle
             obj.hydroForce.fExt.im=zeros(length(direction),bemCount,nDOF);
             obj.hydroForce.fExt.md=zeros(length(direction),bemCount,nDOF);
             for ii=1:nDOF
-                if length(obj.hydroData.simulation_parameters.wave_dir) > 1
-                    [X,Y] = meshgrid(obj.hydroData.simulation_parameters.w, obj.hydroData.simulation_parameters.wave_dir);
+                if length(obj.hydroData.simulation_parameters.direction) > 1
+                    [X,Y] = meshgrid(obj.hydroData.simulation_parameters.w, obj.hydroData.simulation_parameters.direction);
                     obj.hydroForce.fExt.re(:,:,ii) = interp2(X, Y, squeeze(re(ii,:,:)), wv, direction);
                     obj.hydroForce.fExt.im(:,:,ii) = interp2(X, Y, squeeze(im(ii,:,:)), wv, direction);
                     obj.hydroForce.fExt.md(:,:,ii) = interp2(X, Y, squeeze(md(ii,:,:)), wv, direction);
-                elseif obj.hydroData.simulation_parameters.wave_dir == direction
+                elseif obj.hydroData.simulation_parameters.direction == direction
                     obj.hydroForce.fExt.re(:,:,ii) = interp1(obj.hydroData.simulation_parameters.w,squeeze(re(ii,1,:)),wv,'spline');
                     obj.hydroForce.fExt.im(:,:,ii) = interp1(obj.hydroData.simulation_parameters.w,squeeze(im(ii,1,:)),wv,'spline');
                     obj.hydroForce.fExt.md(:,:,ii) = interp1(obj.hydroData.simulation_parameters.w,squeeze(md(ii,1,:)),wv,'spline');
@@ -566,14 +566,14 @@ classdef bodyClass<handle
             end
             if obj.yaw.option==1
                 % show warning for passive yaw run with incomplete BEM data
-                BEMdir=sort(obj.hydroData.simulation_parameters.wave_dir);
+                BEMdir=sort(obj.hydroData.simulation_parameters.direction);
                 boundDiff(1)=abs(-180 - BEMdir(1)); boundDiff(2)=abs(180 - BEMdir(end));
                 if length(BEMdir)<3 || std(diff(BEMdir))>5 || max(boundDiff)>15
                     warning(['Passive yaw is not recommended without BEM data spanning a full yaw rotation -180 to 180 dg.' newline ...
                         'Please inspect BEM data for gaps'])
                     clear BEMdir boundDiff
                 end
-                [sortedDir,idx]=sort(wrapTo180(obj.hydroData.simulation_parameters.wave_dir));
+                [sortedDir,idx]=sort(wrapTo180(obj.hydroData.simulation_parameters.direction));
                 [hdofGRD,hdirGRD,hwGRD]=ndgrid([1:6],sortedDir, obj.hydroData.simulation_parameters.w);
                 [obj.hydroForce.fExt.dofGrd,obj.hydroForce.fExt.dirGrd,obj.hydroForce.fExt.wGrd]=ndgrid([1:6],...
                     sortedDir,wv);
@@ -594,11 +594,11 @@ classdef bodyClass<handle
             kt = obj.hydroData.hydro_coeffs.excitation.impulse_response_fun.t;
             t =  min(kt):dt:max(kt);
             for ii = 1:nDOF
-                if length(obj.hydroData.simulation_parameters.wave_dir) > 1
-                    [X,Y] = meshgrid(kt, obj.hydroData.simulation_parameters.wave_dir);
+                if length(obj.hydroData.simulation_parameters.direction) > 1
+                    [X,Y] = meshgrid(kt, obj.hydroData.simulation_parameters.direction);
                     kernel = squeeze(kf(ii,:,:));
                     obj.excitationIRF = interp2(X, Y, kernel, t, direction);
-                elseif obj.hydroData.simulation_parameters.wave_dir == direction
+                elseif obj.hydroData.simulation_parameters.direction == direction
                     kernel = squeeze(kf(ii,1,:));
                     obj.excitationIRF = interp1(kt,kernel,min(kt):dt:max(kt));
                 else
@@ -730,7 +730,7 @@ classdef bodyClass<handle
             if strcmp(obj.mass, 'equilibrium')
                 obj.massCalcMethod = obj.mass;
                 if obj.nonHydro == 0 && obj.nonlinearHydro == 0
-                    obj.mass = obj.hydroData.properties.disp_vol * rho;
+                    obj.mass = obj.hydroData.properties.volume * rho;
                 elseif obj.nonHydro == 0 && obj.nonlinearHydro ~= 0
                     cg_tmp = obj.hydroData.properties.centerGravity;
                     z = obj.geometry.center(:,3) + cg_tmp(3);
