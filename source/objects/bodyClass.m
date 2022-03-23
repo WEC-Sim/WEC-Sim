@@ -197,7 +197,7 @@ classdef bodyClass<handle
             elseif obj.nonHydro>0
                 % This method checks WEC-Sim user inputs for each drag or non-hydro
                 % body and generates error messages if parameters are not properly defined for the bodyClass.
-                if ~isnumeric(obj.mass)
+                if ~isnumeric(obj.mass) && ~isequal(obj.mass,'equilibrium') && ~isequal(obj.mass, 'fixed')
                     error('Body mass needs to be defined numerically for non-hydro or drag bodies')
                 end
                 if ~isnumeric(obj.inertia)
