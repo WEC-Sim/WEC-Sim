@@ -97,28 +97,34 @@ classdef simulationClass<handle
             obj.outputDir = ['.' filesep obj.outputDir];
         end
 
-        function checkinputs(obj)
+        function checkInputs(obj)
             % This method checks WEC-Sim user inputs and generates error messages if parameters are not properly defined.             
-           
-            % Checks user input to ensure that ``simu.endTime`` is specified 
-            if isempty(obj.endTime)
-                error('simu.endTime, the simulation end time must be specified in the wecSimInputFile')
-            end            
+            
             % Check that simMechanics file exists
             obj.simMechanicsFile = [obj.caseDir filesep obj.simMechanicsFile];     
             if exist(obj.simMechanicsFile,'file') ~= 4
                 error('The simMechanics file, %s, does not exist in the case directory',obj.simMechanicsFile)
             end            
-            % check 'simu.paraview' fields
+            % Check 'simu.paraview' fields
             if length(fieldnames(obj.paraview)) ~=5
                 error(['Unrecognized method, property, or field for class "simulationClass", ' ... 
                     '"simulationClass.paraview" structure must only include fields: "option", "startTime", "endTime", "dt", "outputDir"']);
             end            
-            % check that visualization is off when using accelerator modes
+            % Check that visualization is off when using accelerator modes
             if (strcmp(obj.mode,'accelerator') || strcmp(obj.mode,'rapid-accelerator')) ...
                     && strcmp(obj.explorer,'on')
                 warning('Mechanics explorer not allowed in accelerator or rapid-accelerator modes. Turning mechanics explorer off.');
                 obj.explorer = 'off';
+            end
+            
+             % Checks user input to ensure that ``simu.endTime`` is specified
+            if isempty(obj.endTime) || obj.endTime < obj.startTime
+                error('simu.endTime, the simulation end time must be specified in the wecSimInputFile and must be greater than simu.startTime.')
+            end
+            % Checks user input to ensure that output timestep is larger
+            % than or equal to simulation timestep
+            if obj.dtOut < obj.dt
+                warning('Simu.dtOut, the output timestep, should be greater than or equal to simu.dt, the simulation timestep. The smaller output timestep will be overwritten with the value of the simulation timestep to avoid errors.')
             end
         end
         

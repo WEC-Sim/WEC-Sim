@@ -26,8 +26,8 @@ h5BodyName = ['/body' num2str(number)];
 
 % Read body-independent wave parameters
 hydroData.simulation_parameters.scaled = h5read(filename,'/simulation_parameters/scaled');
-hydroData.simulation_parameters.wave_dir = h5read(filename,'/simulation_parameters/wave_dir');
-hydroData.simulation_parameters.water_depth = h5read(filename,'/simulation_parameters/water_depth');
+hydroData.simulation_parameters.direction = h5read(filename,'/simulation_parameters/wave_dir');
+hydroData.simulation_parameters.waterDepth = h5read(filename,'/simulation_parameters/water_depth');
 hydroData.simulation_parameters.w = h5read(filename,'/simulation_parameters/w');
 hydroData.simulation_parameters.T = h5read(filename,'/simulation_parameters/T');
 

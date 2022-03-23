@@ -75,7 +75,11 @@ classdef ptoClass<handle
             %     pto : obj
             %         ptoClass object         
             %
-             obj.name = name;
+            if exist('name','var')
+                obj.name = name;
+            else
+                error('The pto class number(s) in the wecSimInputFile must be specified in ascending order starting from 1. The ptoClass() function should be called first to initialize each pto with a name.')
+            end
         end
         
         function obj = checkLoc(obj,action)               

@@ -51,7 +51,11 @@ classdef mooringClass<handle
     methods (Access = 'public')                                        
         function obj = mooringClass(name)
             % This method initializes the mooringClass object
-            obj.name = name;
+            if exist('name','var')
+                obj.name = name;
+            else
+                error('The mooring class number(s) in the wecSimInputFile must be specified in ascending order starting from 1. The mooringClass() function should be called first to initialize each mooring line with a name.')
+            end
         end
 
         function setInitDisp(obj, relCoord, axisAngleList, addLinDisp)

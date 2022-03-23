@@ -110,36 +110,31 @@ classdef bodyClass<handle
             %     body : obj
             %         bodyClass object
             %
-            obj.h5File = h5File;
+            if exist('h5File','var')
+                obj.h5File = h5File;
+            else
+                error('The body class number(s) in the wecSimInputFile must be specified in ascending order starting from 1. The bodyClass() function should be called first to initialize each body with an h5 file.')
+            end
         end
         
-        function checkinputs(obj)
-            % This method checks WEC-Sim user inputs and generates error messages if parameters are not properly defined for the bodyClass.
+        function checkInputs(obj,domainSize,explorer)
+            % This method checks WEC-Sim user inputs for each body and generates error messages if parameters are not properly defined for the bodyClass.
             
             % Check h5 file
             if exist(obj.h5File,'file')==0 && obj.nonHydro==0
                 error('The hdf5 file %s does not exist',obj.h5File)
             end
-            % Check geometry file
-            if exist(obj.geometryFile,'file') == 0
-                error('Could not locate and open geometry file %s',obj.geometryFile)
+            % Check definitions
+            if (~isnumeric(obj.mass) && ~strcmp(obj.mass, 'equilibrium') && ~strcmp(obj.mass, 'fixed')) || isempty(obj.mass)
+                error('Body mass needs to be defined numerically, set to ''equilibrium'', or set to ''fixed''.')
             end
-            % Check Morison Element Inputs for option 1
-            if obj.morisonElement.option == 1
-                [rgME,~] = size(obj.morisonElement.rgME);
-                [rz,~] = size(obj.morisonElement.z);
-                if rgME > rz
-                    obj.morisonElement.z = NaN(rgME,3);
-                end
-                clear rgME rz
+            if isempty(obj.inertia) && ~strcmp(obj.mass, 'fixed')
+                error('Body moment of inertia needs to be defined for all non-fixed bodies.')
             end
-            % Check Morison Element Inputs for option 2
-            if obj.morisonElement.option == 2
-                [r,~] = size(obj.morisonElement.z);
-                for ii = 1:r
-                    if norm(obj.morisonElement.z(ii,:)) ~= 1
-                        error(['Ensure the Morison Element .z variable is a unit vector for the ',num2str(ii),' index'])
-                    end
+            if strcmp(explorer, 'on') %if mechanics explorer is set to on
+                % Check geometry file
+                if exist(obj.geometryFile,'file') == 0
+                    error('Could not locate and open geometry file %s',obj.geometryFile)
                 end
             end
             % check 'body.initial' fields
@@ -165,6 +160,49 @@ classdef bodyClass<handle
             % Check passive yaw configuration
             if obj.yaw.option==1 && obj.yaw.threshold==1
                 warning(['yaw using (default) 1 deg interpolation threshold.' newline 'Ensure this is appropriate for your geometry'])
+            end
+            if obj.nonHydro==0
+                % This method checks WEC-Sim user inputs for each hydro body and generates error messages if parameters are not properly defined for the bodyClass.
+                % Check Morison Element Inputs for option 1
+                if obj.morisonElement.option == 1
+                    [rgME,~] = size(obj.morisonElement.rgME);
+                    [rz,~] = size(obj.morisonElement.z);
+                    if rgME > rz
+                        obj.morisonElement.z = NaN(rgME,3);
+                    end
+                    clear rgME rz
+                end
+                % Check Morison Element Inputs for option 2
+                if obj.morisonElement.option == 2
+                    [r,~] = size(obj.morisonElement.z);
+                    for ii = 1:r
+                        if norm(obj.morisonElement.z(ii,:)) ~= 1
+                            error(['Ensure the Morison Element .z variable is a unit vector for the ',num2str(ii),' index'])
+                        end
+                    end
+                end
+                % Warning for centerGravity and cb being overwritten
+                if ~isempty(obj.centerGravity) || ~isempty(obj.centerBuoyancy)
+                    warning('Center of gravity and center of buoyancy are overwritten by h5 data for hydro bodies.')
+                end
+            elseif obj.nonHydro>0
+                % This method checks WEC-Sim user inputs for each drag or non-hydro
+                % body and generates error messages if parameters are not properly defined for the bodyClass.
+                if ~isnumeric(obj.mass) && ~isequal(obj.mass,'equilibrium') && ~isequal(obj.mass, 'fixed')
+                    error('Body mass needs to be defined numerically for non-hydro or drag bodies')
+                end
+                if ~isnumeric(obj.inertia)
+                    error('Body moment of inertia needs to be defined numerically for non-hydro or drag bodies')
+                end
+                if isempty(obj.centerGravity)
+                    error('Non-hydro or drag body(%i) center of gravity (centerGravity) must be defined in the wecSimInputFile.m',obj.number);
+                end
+                if isempty(obj.volume)
+                    error('Non-hydro or drag body(%i) displaced volume (volume) must be defined in the wecSimInputFile.m',obj.number);
+                end
+                if isempty(obj.centerBuoyancy)
+                    warning('Non-hydro or drag body(%i) center of buoyancy (centerBuoyancy) set equopal to center of gravity (centerGravity), [%g %g %g]',obj.number,obj.centerGravity(1),obj.centerGravity(2),obj.centerGravity(3))
+                end
             end
         end
         
@@ -387,6 +425,12 @@ classdef bodyClass<handle
             % Reads mesh file and calculates areas and centroids
             tr = stlread(obj.geometryFile);
             obj.geometry.vertex = tr.Points;
+            % Check mesh size
+            if max(obj.geometry.vertex) > domainSize/2
+                error('STL mesh is larger than the domain. Reminder: WEC-Sim requires that the STL be saved with units of meters for accurate visualization.')
+            elseif max(obj.geometry.vertex) > domainSize/4
+                warning('STL mesh is very large compared to the domain. Reminder: WEC-Sim requires that the STL be saved with units of meters for accurate visualization.')
+            end                 
             obj.geometry.face = tr.ConnectivityList;
             obj.geometry.norm = faceNormal(tr);
             obj.geometry.numFace = length(obj.geometry.face);
@@ -394,6 +438,7 @@ classdef bodyClass<handle
             obj.checkStl();
             obj.triArea();
             obj.triCenter();
+       
         end
         
         function triArea(obj)
@@ -408,7 +453,7 @@ classdef bodyClass<handle
         end
         
         function checkStl(obj)
-            % The method will check the ``.stl`` file and return an error if the normal vectors are not equal to one.
+            % This method will check the ``.stl`` file and return an error if the normal vectors are not equal to one and if it is too large for the domain.
             tnorm = obj.geometry.norm;
             norm_mag = sqrt(tnorm(:,1).^2 + tnorm(:,2).^2 + tnorm(:,3).^2);
             check = sum(norm_mag)/length(norm_mag);
@@ -475,12 +520,12 @@ classdef bodyClass<handle
             obj.hydroForce.fExt.im=zeros(1,nDOF);
             obj.hydroForce.fExt.md=zeros(1,nDOF);
             for ii=1:nDOF
-                if length(obj.hydroData.simulation_parameters.wave_dir) > 1
-                    [X,Y] = meshgrid(obj.hydroData.simulation_parameters.w, obj.hydroData.simulation_parameters.wave_dir);
+                if length(obj.hydroData.simulation_parameters.direction) > 1
+                    [X,Y] = meshgrid(obj.hydroData.simulation_parameters.w, obj.hydroData.simulation_parameters.direction);
                     obj.hydroForce.fExt.re(ii) = interp2(X, Y, squeeze(re(ii,:,:)), w, direction);
                     obj.hydroForce.fExt.im(ii) = interp2(X, Y, squeeze(im(ii,:,:)), w, direction);
                     obj.hydroForce.fExt.md(ii) = interp2(X, Y, squeeze(md(ii,:,:)), w, direction);
-                elseif obj.hydroData.simulation_parameters.wave_dir == direction
+                elseif obj.hydroData.simulation_parameters.direction == direction
                     obj.hydroForce.fExt.re(ii) = interp1(obj.hydroData.simulation_parameters.w,squeeze(re(ii,1,:)),w,'spline');
                     obj.hydroForce.fExt.im(ii) = interp1(obj.hydroData.simulation_parameters.w,squeeze(im(ii,1,:)),w,'spline');
                     obj.hydroForce.fExt.md(ii) = interp1(obj.hydroData.simulation_parameters.w,squeeze(md(ii,1,:)),w,'spline');
@@ -488,17 +533,17 @@ classdef bodyClass<handle
             end
             if obj.yaw.option==1
                 % show warning for passive yaw run with incomplete BEM data
-                BEMdir=sort(obj.hydroData.simulation_parameters.wave_dir);
+                BEMdir=sort(obj.hydroData.simulation_parameters.direction);
                 boundDiff(1)=abs(-180 - BEMdir(1)); boundDiff(2)=abs(180 - BEMdir(end));
                 if length(BEMdir)<3 || std(diff(BEMdir))>5 || max(boundDiff)>15
                     warning(['Passive yaw is not recommended without BEM data spanning a full yaw rotation -180 to 180 dg.' newline ...
                         'Please inspect BEM data for gaps'])
                     clear BEMdir
                 end % wrap BEM directions -180 to 180 dg, if they are not already there
-                [sortedDir,idx]=sort(wrapTo180(obj.hydroData.simulation_parameters.wave_dir));
+                [sortedDir,idx]=sort(wrapTo180(obj.hydroData.simulation_parameters.direction));
                 [hdofGRD,hdirGRD,hwGRD]=ndgrid([1:6],sortedDir,obj.hydroData.simulation_parameters.w);
                 [obj.hydroForce.fExt.dofGrd,obj.hydroForce.fExt.dirGrd,obj.hydroForce.fExt.wGrd]=ndgrid([1:6],...
-                    sort(wrapTo180(obj.hydroData.simulation_parameters.wave_dir)),w);
+                    sort(wrapTo180(obj.hydroData.simulation_parameters.direction)),w);
                 obj.hydroForce.fExt.fEHRE=interpn(hdofGRD,hdirGRD,hwGRD,obj.hydroData.hydro_coeffs.excitation.re(:,idx,:)...
                     ,obj.hydroForce.fExt.dofGrd,obj.hydroForce.fExt.dirGrd,obj.hydroForce.fExt.wGrd)*rho*g;
                 obj.hydroForce.fExt.fEHIM=interpn(hdofGRD,hdirGRD,hwGRD,obj.hydroData.hydro_coeffs.excitation.im(:,idx,:)...
@@ -519,12 +564,12 @@ classdef bodyClass<handle
             obj.hydroForce.fExt.im=zeros(length(direction),bemCount,nDOF);
             obj.hydroForce.fExt.md=zeros(length(direction),bemCount,nDOF);
             for ii=1:nDOF
-                if length(obj.hydroData.simulation_parameters.wave_dir) > 1
-                    [X,Y] = meshgrid(obj.hydroData.simulation_parameters.w, obj.hydroData.simulation_parameters.wave_dir);
+                if length(obj.hydroData.simulation_parameters.direction) > 1
+                    [X,Y] = meshgrid(obj.hydroData.simulation_parameters.w, obj.hydroData.simulation_parameters.direction);
                     obj.hydroForce.fExt.re(:,:,ii) = interp2(X, Y, squeeze(re(ii,:,:)), wv, direction);
                     obj.hydroForce.fExt.im(:,:,ii) = interp2(X, Y, squeeze(im(ii,:,:)), wv, direction);
                     obj.hydroForce.fExt.md(:,:,ii) = interp2(X, Y, squeeze(md(ii,:,:)), wv, direction);
-                elseif obj.hydroData.simulation_parameters.wave_dir == direction
+                elseif obj.hydroData.simulation_parameters.direction == direction
                     obj.hydroForce.fExt.re(:,:,ii) = interp1(obj.hydroData.simulation_parameters.w,squeeze(re(ii,1,:)),wv,'spline');
                     obj.hydroForce.fExt.im(:,:,ii) = interp1(obj.hydroData.simulation_parameters.w,squeeze(im(ii,1,:)),wv,'spline');
                     obj.hydroForce.fExt.md(:,:,ii) = interp1(obj.hydroData.simulation_parameters.w,squeeze(md(ii,1,:)),wv,'spline');
@@ -532,14 +577,14 @@ classdef bodyClass<handle
             end
             if obj.yaw.option==1
                 % show warning for passive yaw run with incomplete BEM data
-                BEMdir=sort(obj.hydroData.simulation_parameters.wave_dir);
+                BEMdir=sort(obj.hydroData.simulation_parameters.direction);
                 boundDiff(1)=abs(-180 - BEMdir(1)); boundDiff(2)=abs(180 - BEMdir(end));
                 if length(BEMdir)<3 || std(diff(BEMdir))>5 || max(boundDiff)>15
                     warning(['Passive yaw is not recommended without BEM data spanning a full yaw rotation -180 to 180 dg.' newline ...
                         'Please inspect BEM data for gaps'])
                     clear BEMdir boundDiff
                 end
-                [sortedDir,idx]=sort(wrapTo180(obj.hydroData.simulation_parameters.wave_dir));
+                [sortedDir,idx]=sort(wrapTo180(obj.hydroData.simulation_parameters.direction));
                 [hdofGRD,hdirGRD,hwGRD]=ndgrid([1:6],sortedDir, obj.hydroData.simulation_parameters.w);
                 [obj.hydroForce.fExt.dofGrd,obj.hydroForce.fExt.dirGrd,obj.hydroForce.fExt.wGrd]=ndgrid([1:6],...
                     sortedDir,wv);
@@ -560,11 +605,11 @@ classdef bodyClass<handle
             kt = obj.hydroData.hydro_coeffs.excitation.impulse_response_fun.t;
             t =  min(kt):dt:max(kt);
             for ii = 1:nDOF
-                if length(obj.hydroData.simulation_parameters.wave_dir) > 1
-                    [X,Y] = meshgrid(kt, obj.hydroData.simulation_parameters.wave_dir);
+                if length(obj.hydroData.simulation_parameters.direction) > 1
+                    [X,Y] = meshgrid(kt, obj.hydroData.simulation_parameters.direction);
                     kernel = squeeze(kf(ii,:,:));
                     obj.excitationIRF = interp2(X, Y, kernel, t, direction);
-                elseif obj.hydroData.simulation_parameters.wave_dir == direction
+                elseif obj.hydroData.simulation_parameters.direction == direction
                     kernel = squeeze(kf(ii,1,:));
                     obj.excitationIRF = interp1(kt,kernel,min(kt):dt:max(kt));
                 else

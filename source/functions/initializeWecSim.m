@@ -70,12 +70,6 @@ else
 end
 clear values names i j;
 
-% PTO-Sim: read input, count
-if exist('./ptoSimInputFile.m','file') == 2
-    ptoSimInputFile
-    ptosim.countblocks;
-end
-
 % Read Inputs for Multiple Conditions Run
 try fprintf('wecSimMCR Case %g\n',imcr); end
 
@@ -107,7 +101,7 @@ if exist('constraint','var') == 1
         constraint(ii).setOrientation();
     end; clear ii
 end
-disp('PTO num')
+
 % PTOs: count & set orientation & set pretension
 if exist('pto','var') == 1
     simu.numPtos = length(pto(1,:));
@@ -127,7 +121,7 @@ if exist('mooring','var') == 1
     end; clear ii
 end
 
-% Bodies: count, check inputs, read hdf5 file
+% Bodies: count, check inputs, read hdf5 file, and check inputs
 numHydroBodies = 0; 
 numNonHydroBodies = 0;
 numDragBodies = 0; 
@@ -136,7 +130,11 @@ nonHydroBodLogic = zeros(length(body(1,:)),1);
 dragBodLogic = zeros(length(body(1,:)),1);
 for ii = 1:length(body(1,:))
     body(ii).setNumber(ii);
+    body(ii).checkInputs(simu.domainSize,simu.explorer);
     if body(ii).nonHydro==0
+        if numNonHydroBodies > 0 || numDragBodies > 0
+            error('All hydro bodies must be specified before any drag or non-hydro bodies.')
+        end
         numHydroBodies = numHydroBodies + 1;
         hydroBodLogic(ii) = 1;
     elseif body(ii).nonHydro==1
@@ -150,7 +148,6 @@ end
 simu.numHydroBodies = numHydroBodies; clear numHydroBodies
 simu.numDragBodies = numDragBodies; clear numDragBodies
 for ii = 1:simu.numHydroBodies
-    body(ii).checkinputs();
     body(ii).setDOF(simu.numHydroBodies,simu.b2b);
 
     % Determine if hydro data needs to be reloaded from h5 file, or if hydroData
@@ -192,7 +189,7 @@ end
 if exist('ptoSim','var') == 1
     simu.numPtoSim = length(ptoSim(1,:));
     for ii = 1:simu.numPtoSim
-        ptoSim(ii).ptoNum = ii;
+        ptoSim(ii).number = ii;
     end; clear ii
 end
 
@@ -212,9 +209,9 @@ simu.setup();
 if any(hydroBodLogic == 1)
     % When hydro bodies (and an .h5) are present, define the wave using those
     % parameters.
-    waves.setup(body(1).hydroData.simulation_parameters.w, body(1).hydroData.simulation_parameters.water_depth, simu.rampTime, simu.dt, simu.maxIt, simu.time, simu.g, simu.rho);
+    waves.setup(body(1).hydroData.simulation_parameters.w, body(1).hydroData.simulation_parameters.waterDepth, simu.rampTime, simu.dt, simu.maxIt, simu.time, simu.g, simu.rho);
     % Check that direction and freq are within range of hydro data
-    if  min(waves.direction) <  min(body(1).hydroData.simulation_parameters.wave_dir) || max(waves.direction) >  max(body(1).hydroData.simulation_parameters.wave_dir)
+    if  min(waves.direction) <  min(body(1).hydroData.simulation_parameters.direction) || max(waves.direction) >  max(body(1).hydroData.simulation_parameters.direction)
         error('waves.direction outside of range of available hydro data')
     end
     if strcmp(waves.type,'elevationImport')~=1 && strcmp(waves.type,'noWave')~=1 && strcmp(waves.type,'noWaveCIC')~=1
@@ -251,16 +248,6 @@ if ~isempty(idx)
     for kk = 1:length(idx)
         it = idx(kk);
         body(it).nonHydroForcePre(simu.rho);
-        if isempty(body(it).centerGravity)
-            error('Non-hydro body(%i) center of gravity (centerGravity) must be defined in the wecSimInputFile.m',body(it).number);
-        end
-        if isempty(body(it).volume)
-            error('Non-hydro body(%i) displaced volume (volume) must be defined in the wecSimInputFile.m',body(it).number);
-        end
-        if isempty(body(it).centerBuoyancy)
-            body(it).centerBuoyancy = body(it).centerGravity;
-            warning('Non-hydro body(%i) center of buoyancy (centerBuoyancy) set equal to center of gravity (centerGravity), [%g %g %g]',body(it).number,body(it).centerBuoyancy(1),body(it).centerBuoyancy(2),body(it).centerBuoyancy(3))
-        end
     end; clear kk idx
 end
 
@@ -270,16 +257,6 @@ if ~isempty(idx)
     for kk = 1:length(idx)
         it = idx(kk);
         body(it).dragForcePre(simu.rho);
-        if isempty(body(it).centerGravity)
-            error('Drag body(%i) center of gravity (centerGravity) must be defined in the wecSimInputFile.m',body(it).number);
-        end
-        if isempty(body(it).volume)
-            error('Drag body(%i) displaced volume (volume) must be defined in the wecSimInputFile.m',body(it).number);
-        end
-        if isempty(body(it).centerBuoyancy)
-            body(it).centerBuoyancy = body(it).centerGravity;
-            warning('Drag body(%i) center of buoyancy (centerBuoyancy) set equal to center of gravity (centerGravity), [%g %g %g]',body(it).number,body(it).centerBuoyancy(1),body(it).centerBuoyancy(2),body(it).centerBuoyancy(3))
-        end
     end; clear kk idx
 end
     
