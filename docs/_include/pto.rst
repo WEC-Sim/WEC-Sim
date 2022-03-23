@@ -152,7 +152,6 @@ PTO-Sim case are the following:
 * Geometry file for each body: ``float.stl`` and ``plate.stl``
 * Hydrodynamic data file(s): ``rm3.h5``
 * Optional user defined post-processing file: ``userDefinedFunction.m``
-* PTO-Sim input file: ``ptoSimInputFile.m``
 
 **Simulink Model**
 
@@ -183,7 +182,7 @@ The Simulink model can be built as follows:
 
 * Step 6: Since multiple PTO-Sim blocks will be used, it is necessary to name each block to identify them
   when its variables are defined in the ``wecSimInputFile.m``. To change the name of each block, 
-  double click the block and add the name ``PTOSimBlock(i)`` where ``i`` 
+  double click the block and add the name ``ptoSim(i)`` where ``i`` 
   must be different for each block used in the simulation. The name of each block
   will be used in the ``wecSimInputFile.m`` to define its variables.
 
@@ -199,7 +198,9 @@ The Simulink model can be built as follows:
 * Step 8: Define the input for ``Rload`` in the Electric Generator block. The input could be a constant
   value or it could be used to control the load of the generator to achieve a desired physical behaviour.
   In this example, the value of ``Rload`` is used to control the shaft speed of the generator by using a
-  simple PI controller. The desired shaft speed in this case is 1000 rpm.
+  simple PI controller. The desired shaft speed in this case is 1000 rpm. The Electric Generator 
+  Equivalent Circuit block has two outputs: the electromagnetic torque and the shaft speed. It is
+  necessary to use a bus selector to choose the desired output, which in this example is the shaft speed.
 
 .. figure:: /_static/images/GeneratorSpeedControl.png
    :width: 500pt
@@ -221,13 +222,13 @@ Simulation and post-processing are similar process as described in :ref:`user-tu
 There are some specific variable definitions that must be considered when using the output
 signals of the PTO-Sim blocks. For example, the hydraulic accumulator has two output signals: flow rate
 and pressure, and the time vector. In the RM3 example with hydraulic PTO, the high pressure hydraulic
-accumulator was defined as ``PTOSimBlock(3)`` in the WEC-Sim input file; then, to use the output
+accumulator was defined as ``ptoSim(3)`` in the WEC-Sim input file; then, to use the output
 flow rate and pressure of this block, the next line of code must be used:
 
-``FlowRateAccumulator = output.PTOBlocks(3).FlowRate``
-``PressureAccumulator = output.PTOBlocks(3).Pressure``
+``FlowRateAccumulator = output.ptoSim(3).FlowRate``
+``PressureAccumulator = output.ptoSim(3).Pressure``
 
-In general, the output signal of any PTO-Sim block can be used with this line of code:  ``output.PTOBlocks(i).VariableName``
+In general, the output signal of any PTO-Sim block can be used with this line of code:  ``output.ptoSim(i).VariableName``
 
 RM3 with Direct Drive PTO
 +++++++++++++++++++++++++
@@ -330,10 +331,10 @@ The Simulink model can be built as following:
 
 * Step 6: Since multiple PTO-Sim blocks will be used, it is necessary to name each block to identify them
   when its variables are defined in the ``wecSimInputFile.m``. To change the name of each block, 
-  double click the block and add the name ``PTOSimBlock(i)`` where ``i`` 
+  double click the block and add the name ``ptoSim(i)`` where ``i`` 
   must be different for each block used in the simulation. The name of each block
   will be used in the ``wecSimInputFile.m`` to define its variables. For this example,
-  the motion conversion block will be called ``PTOSimBlock(1)``
+  the motion conversion block will be called ``ptoSim(1)``
 
 .. figure:: /_static/images/PTOSimBlock1OSWEC.png
    :width: 500pt
@@ -347,7 +348,9 @@ The Simulink model can be built as following:
 * Step 8: Define the input for ``Rload`` in the Electric Generator block. The input could be a constant
   value or it could be used to control the load of the generator to achieve a desired physical behaviour.
   In this example, the value of ``Rload`` is used to control the shaft speed of the generator by using a
-  simple PI controller. The desired shaft speed in this case is 3000 rpm.
+  simple PI controller. The desired shaft speed in this case is 3000 rpm. The Electric Generator 
+  Equivalent Circuit block has two outputs: the electromagnetic torque and the shaft speed. It is
+  necessary to use a bus selector to choose the desired output, which in this example is the shaft speed.
 
 **Input File, Simulation, and Post-processing**
 
