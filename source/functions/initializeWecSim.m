@@ -96,8 +96,8 @@ if exist('mcr','var') == 1
 end
 
 % Waves and Simu: check inputs
-waves.checkinputs;
-simu.checkinputs;
+waves.checkinputs();
+simu.checkinputs();
 
 % Constraints: count & set orientation
 if exist('constraint','var') == 1
@@ -122,6 +122,7 @@ end
 if exist('mooring','var') == 1
     simu.numMoorings = length(mooring(1,:));
     for ii = 1:simu.numMoorings
+        mooring(ii).setLoc();
         mooring(ii).setNumber(ii);
     end; clear ii
 end
@@ -149,7 +150,8 @@ end
 simu.numHydroBodies = numHydroBodies; clear numHydroBodies
 simu.numDragBodies = numDragBodies; clear numDragBodies
 for ii = 1:simu.numHydroBodies
-    body(ii).setup(simu.numHydroBodies,simu.b2b);
+    body(ii).checkinputs();
+    body(ii).setDOF(simu.numHydroBodies,simu.b2b);
 
     % Determine if hydro data needs to be reloaded from h5 file, or if hydroData
     % was stored in memory from a previous run.

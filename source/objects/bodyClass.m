@@ -70,12 +70,21 @@ classdef bodyClass<handle
             'threshold',        1)                          % (`structure`) Defines the passive yaw mplementation. ``option`` (`integer`) Flag for passive yaw calculation, Options: 0 (off), 1 (on). Default = ``0``. ``threshold`` (`float`) Yaw position threshold (in degrees) above which excitation coefficients will be interpolated in passive yaw. Default = ``1`` [deg].        
     end
     
-    properties (SetAccess = 'private', GetAccess = 'public')% internal
-        dofCoupled          = []                            % (`matrix`) Matrices length, Options: ``6`` without body-to-body interactions. ``6*number of hydro bodies`` with body-to-body interactions.
+    properties (SetAccess = 'private', GetAccess = 'public')% h5 file
         dofEnd              = []                            % (`integer`) Index the DOF ends for (``body.number``). For WEC bodies this is given in the h5 file, but if not defined in the h5 file, Default = ``(body.number-1)*6+6``.
         dofStart            = []                            % (`integer`) Index the DOF starts for (``body.number``). For WEC bodies this is given in the h5 file, but if not defined in the h5 file, Default = ``(body.number-1)*6+1``.
         hydroData           = struct()                      % (`structure`) Defines the hydrodynamic data from BEM or user defined.
+    end
+
+    properties (SetAccess = 'private', GetAccess = 'public')% internal
+        dofCoupled          = []                            % (`matrix`) Matrices length, Options: ``6`` without body-to-body interactions. ``6*number of hydro bodies`` with body-to-body interactions.
         hydroForce          = struct()                      % (`structure`) Defines hydrodynamic forces and coefficients used during simulation.
+        massCalcMethod      = []                            % (`string`) Method used to obtain mass, options: ``'user'``, ``'fixed'``, ``'equilibrium'``
+        number              = []                            % (`integer`) Body number, must be the same as the BEM body number.
+        total               = []                            % (`integer`) Total number of hydro bodies         
+    end
+
+    properties (SetAccess = 'private', GetAccess = 'public')% stl file
         geometry            = struct(...                    % (`structure`) Defines each body's mesh. `numFace` (`integer`) Number of faces, `numVertex` (`integer`) Number of vertices, `vertex` (`numVertex x 3 float matrix`) List of vertices, `face` (`numFace x 3 float matrix`) List of faces, `norm` (`numFace x 3 float matrix`) List of normal vectors, `area` (`numFace x 1 float matrix`) List of cell areas, `center` (`numFace x 3 float matrix`) List of cell centers. Default = [].
             'numFace',          [], ...                     % 
             'numVertex',        [], ...                     % 
@@ -84,9 +93,6 @@ classdef bodyClass<handle
             'norm',             [], ...                     % 
             'area',             [], ...                     % 
             'center',           [])                         % (`structure`) Defines each body's mesh. `numFace` (`integer`) Number of faces, `numVertex` (`integer`) Number of vertices, `vertex` (`numVertex x 3 float matrix`) List of vertices, `face` (`numFace x 3 float matrix`) List of faces, `norm` (`numFace x 3 float matrix`) List of normal vectors, `area` (`numFace x 1 float matrix`) List of cell areas, `center` (`numFace x 3 float matrix`) List of cell centers. Default = [].
-        massCalcMethod      = []                            % (`string`) Method used to obtain mass, options: ``'user'``, ``'fixed'``, ``'equilibrium'``
-        number              = []                            % (`integer`) Body number, must be the same as the BEM body number.
-        total               = []                            % (`integer`) Total number of hydro bodies         
     end
     
     methods (Access = 'public') % modify object = T; output = F
@@ -439,8 +445,8 @@ classdef bodyClass<handle
             obj.number = number;
         end
 
-        function setup(obj, numHydroBodies, b2b)
-            % Method to define the bodies dofCoupled parameters
+        function setDOF(obj, numHydroBodies, b2b)
+            % Method to define the body's dofCoupled parameter
             obj.total = numHydroBodies;
             if b2b==1
                 obj.dofCoupled = zeros(6*numHydroBodies,1);
