@@ -137,14 +137,6 @@ classdef bodyClass<handle
                 if exist(obj.geometryFile,'file') == 0
                     error('Could not locate and open geometry file %s',obj.geometryFile)
                 end
-                % Check mesh size
-                tr = stlread(obj.geometryFile);
-                obj.geometry.vertex = tr.Points;
-                if max(obj.geometry.vertex) > domainSize/2
-                    error('STL mesh is larger than the domain. Reminder: WEC-Sim requires that the STL be saved with units of meters for accurate visualization.')
-                elseif max(obj.geometry.vertex) > domainSize/4
-                    warning('STL mesh is very large compared to the domain. Reminder: WEC-Sim requires that the STL be saved with units of meters for accurate visualization.')
-                end
             end
             % check 'body.initial' fields
             if length(fieldnames(obj.initial)) ~=3
@@ -434,6 +426,12 @@ classdef bodyClass<handle
             % Reads mesh file and calculates areas and centroids
             tr = stlread(obj.geometryFile);
             obj.geometry.vertex = tr.Points;
+            % Check mesh size
+            if max(obj.geometry.vertex) > domainSize/2
+                error('STL mesh is larger than the domain. Reminder: WEC-Sim requires that the STL be saved with units of meters for accurate visualization.')
+            elseif max(obj.geometry.vertex) > domainSize/4
+                warning('STL mesh is very large compared to the domain. Reminder: WEC-Sim requires that the STL be saved with units of meters for accurate visualization.')
+            end                 
             obj.geometry.face = tr.ConnectivityList;
             obj.geometry.norm = faceNormal(tr);
             obj.geometry.numFace = length(obj.geometry.face);
@@ -441,6 +439,7 @@ classdef bodyClass<handle
             obj.checkStl();
             obj.triArea();
             obj.triCenter();
+       
         end
         
         function triArea(obj)
