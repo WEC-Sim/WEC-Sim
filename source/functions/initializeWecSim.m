@@ -130,7 +130,7 @@ nonHydroBodLogic = zeros(length(body(1,:)),1);
 dragBodLogic = zeros(length(body(1,:)),1);
 for ii = 1:length(body(1,:))
     body(ii).setNumber(ii);
-    body(ii).checkInputs(simu.domainSize,simu.explorer);
+    body(ii).checkInputs(simu.explorer);
     if body(ii).nonHydro==0
         if numNonHydroBodies > 0 || numDragBodies > 0
             error('All hydro bodies must be specified before any drag or non-hydro bodies.')
@@ -228,7 +228,7 @@ end
 % Nonlinear hydro
 for kk = 1:length(body(1,:))
     if (body(kk).nonlinearHydro > 0) || (simu.paraview.option == 1)
-        body(kk).importBodyGeometry()
+        body(kk).importBodyGeometry(simu.domainSize)
     end
 end; clear kk
 

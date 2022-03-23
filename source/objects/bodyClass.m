@@ -117,7 +117,7 @@ classdef bodyClass<handle
             end
         end
         
-        function checkInputs(obj,domainSize,explorer)
+        function checkInputs(obj,explorer)
             % This method checks WEC-Sim user inputs for each body and generates error messages if parameters are not properly defined for the bodyClass.
             
             % Check h5 file
@@ -421,7 +421,7 @@ classdef bodyClass<handle
             obj.initial.angle = netAngle;            
         end
                 
-        function importBodyGeometry(obj)
+        function importBodyGeometry(obj,domainSize)
             % Reads mesh file and calculates areas and centroids
             tr = stlread(obj.geometryFile);
             obj.geometry.vertex = tr.Points;
