@@ -45,14 +45,14 @@ classdef waveClass<handle
             'size',         10, ...                 %             
             'style',        1)                      % (`structure`) Defines the wave marker. `loc` (`nx2 vector`) Marker [X,Y] locations [m]. Default = ``[]``. ``size`` (`float`) Marker size in Pixels. Default = ``10``. ``style`` Marker style, options include: ``1``: Sphere, ``2``: Cube, ``3``: Frame. Default = ``1``: Sphere        
         period               = 'NOT DEFINED';       % (`float`) Wave period [s] . Defined as wave period for ``regular``, peak period for ``irregular``, or period of BEM data used for hydrodynamic coefficients for ``noWave``. Default = ``'NOT DEFINED'``
-        phaseSeed {mustBeInteger}   = 0;            % (`integer`) Defines the random phase seed, only used for ``irregular`` and ``spectrumImport`` waves. Default = ``0``
+        phaseSeed       = 0;                        % (`integer`) Defines the random phase seed, only used for ``irregular`` and ``spectrumImport`` waves. Default = ``0``
         spectrumFile    = 'NOT DEFINED';            % (`string`) Data file that contains the spectrum data file.  Default = ``'NOT DEFINED'``                
         spectrumType    = 'NOT DEFINED';            % (`string`) Specifies the wave spectrum type, options inlcude:``PM`` or ``JS``. Default = ``'NOT DEFINED'``
         type            = 'NOT DEFINED';            % (`string`) Specifies the wave type, options include:``noWave``, ``noWaveCIC``, ``regular``, ``regularCIC``, ``irregular``, ``spectrumImport``, or ``elevationImport``. Default = ``'NOT DEFINED'``
         viz             = struct(...                % 
             'numPointsX',   50, ...                 %
             'numPointsY',   50 );                   % (`structure`) Defines visualization options, structure contains the fields ``numPointsX`` for the number of visualization points in x direction, and ``numPointsY`` for the number of visualization points in y direction. 
-        waterDepth {mustBePositive}  = [];          % (`float`) Water depth [m]. Default to BEM water depth if not set. 
+        waterDepth      = [];                       % (`float`) Water depth [m]. Default to BEM water depth if not set. 
         spread          = 1;                        % (`float`) Wave Spread probability associated with wave direction(s). Should be defined as a column vector for more than one wave direction. Default = ``1``
     end    
   
