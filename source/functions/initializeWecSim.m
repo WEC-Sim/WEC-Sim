@@ -90,8 +90,8 @@ if exist('mcr','var') == 1
 end
 
 % Waves and Simu: check inputs
-waves.checkinputs();
-simu.checkinputs();
+waves.checkInputs();
+simu.checkInputs();
 
 % Constraints: count & set orientation
 if exist('constraint','var') == 1
