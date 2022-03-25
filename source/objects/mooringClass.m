@@ -37,15 +37,15 @@ classdef mooringClass<handle
             'damping',              zeros(6,6), ...              
             'stiffness',            zeros(6,6), ...             
             'preTension',           [0 0 0 0 0 0])               
+        moorDyn                 = 0                                        % (`integer`) Flag to indicate a MoorDyn block, 0 or 1. Default = ``0``
         moorDynLines            = 0                                        % (`integer`) Number of lines in MoorDyn. Default = ``0``
         moorDynNodes            = []                                       % (`integer`) number of nodes for each line. Default = ``'NOT DEFINED'``
         name                    = 'NOT DEFINED'                            % (`string`) Name of the mooring. Default = ``'NOT DEFINED'``
     end
 
-    properties (SetAccess = 'public', GetAccess = 'public') %internal
-        moorDyn                 = 0                                        % (`integer`) Flag to indicate a MoorDyn block, 0 or 1. Default = ``0``
+    properties (SetAccess = 'private', GetAccess = 'public') %internal
+        orientation             = []                                       % (`float 1 x 6`) Initial 6DOF location. Default = ``[0 0 0 0 0 0]``        
         number                  = []                                       % (`integer`) Mooring number. Default = ``'NOT DEFINED'``        
-        orientation             = []                                            % (`float 1 x 6`) Initial 6DOF location. Default = ``[0 0 0 0 0 0]``        
     end
 
     methods (Access = 'public')                                        
@@ -56,11 +56,6 @@ classdef mooringClass<handle
             else
                 error('The mooring class number(s) in the wecSimInputFile must be specified in ascending order starting from 1. The mooringClass() function should be called first to initialize each mooring line with a name.')
             end
-        end
-
-        function obj = setLoc(obj)
-            % This method sets mooring location
-            obj.orientation = [obj.location + obj.initial.displacement 0 0 0];
         end
 
         function setInitDisp(obj, relCoord, axisAngleList, addLinDisp)
@@ -110,6 +105,16 @@ classdef mooringClass<handle
         function listInfo(obj)
             % Method to list mooring info
             fprintf('\n\t***** Mooring Name: %s *****\n',obj.name)
+        end
+
+        function obj = setLoc(obj)
+            % This method sets mooring location
+            obj.orientation = [obj.location + obj.initial.displacement 0 0 0];
+        end
+
+        function setNumber(obj,number)
+            % Method to set the private number property
+            obj.number = number;
         end
     end
 end

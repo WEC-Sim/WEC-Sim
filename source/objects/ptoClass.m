@@ -54,9 +54,9 @@ classdef ptoClass<handle
             'rotationMatrix',       [])                             % Structure defining the orientation axis of the pto. ``z`` (`3x1 float vector`) defines the direciton of the Z-coordinate of the pto, Default = [``0 0 1``]. ``y`` (`3x1 float vector`) defines the direciton of the Y-coordinate of the pto, Default = [``0 1 0``]. ``x`` (`3x1 float vector`) internally calculated vector defining the direction of the X-coordinate for the pto, Default = ``[]``. ``rotationMatrix`` (`3x3 float matrix`) internally calculated rotation matrix to go from standard coordinate orientation to the pto coordinate orientation, Default = ``[]``.
         pretension              = 0                                 % (`float`) Linear PTO pretension, N or N-m. Default = `0`.
         stiffness               = 0                                 % (`float`) Linear PTO stiffness coefficient. Default = `0`.        
-    end 
+    end
     
-    properties (SetAccess = 'public', GetAccess = 'public') %internal
+    properties (SetAccess = 'private', GetAccess = 'public') %internal
         number                  = []                                % PTO number.
     end
     
@@ -179,6 +179,11 @@ classdef ptoClass<handle
             fprintf('\n\t***** PTO Name: %s *****\n',obj.name)
             fprintf('\tPTO Stiffness           (N/m;Nm/rad) = %G\n',obj.stiffness)
             fprintf('\tPTO Damping           (Ns/m;Nsm/rad) = %G\n',obj.damping)
+        end
+
+        function setNumber(obj,number)
+            % Method to set the private number property
+            obj.number = number;
         end
     end    
 end

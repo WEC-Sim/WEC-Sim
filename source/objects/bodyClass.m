@@ -27,20 +27,15 @@ classdef bodyClass<handle
     %     
     %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
     
-    properties (SetAccess = 'private', GetAccess = 'public')% h5 file
-        dofStart            = []                            % (`integer`) Index the DOF starts for (``body.number``). For WEC bodies this is given in the h5 file, but if not defined in the h5 file, Default = ``(body.number-1)*6+1``.
-        dofEnd              = []                            % (`integer`) Index the DOF ends for (``body.number``). For WEC bodies this is given in the h5 file, but if not defined in the h5 file, Default = ``(body.number-1)*6+6``.
-        hydroData           = struct()                      % (`structure`) Defines the hydrodynamic data from BEM or user defined.
-    end
-    
     properties (SetAccess = 'public', GetAccess = 'public') % WEC-Sim input
         centerGravity       = []                            % (`3x1 float vector`) Body center of gravity [m]. Defined in the following format [x y z]. For hydrodynamic bodies this is defined in the h5 file while for nonhydrodynamic bodies this is defined by the user. Default = ``[]``.
-        centerBuoyancy                  = []                            % (`3x1 float vector`) Body center of buoyancy [m]. Defined in the following format [x y z]. For hydrodynamic bodies this is defined in the h5 file while for nonhydrodynamic bodies this is defined by the user. Default = ``[]``.
+        centerBuoyancy      = []                            % (`3x1 float vector`) Body center of buoyancy [m]. Defined in the following format [x y z]. For hydrodynamic bodies this is defined in the h5 file while for nonhydrodynamic bodies this is defined by the user. Default = ``[]``.
         dof                 = 6                             % (`integer`) Number of degree of freedoms (DOFs). For hydrodynamic bodies this is given in the h5 file. If not defined in the h5 file, Default = ``6``.
         excitationIRF       = []                            % (`vector`) Defines excitation Impulse Response Function, only used with the `waveClass` ``elevationImport`` type. Default = ``[]``.
         flex                = 0                             % (`integer`) Flag for flexible body, Options: 0 (off) or 1 (on). Default = ``0``.
         gbmDOF              = []                            % (`integer`) Number of degree of freedoms (DOFs) for generalized body mode (GBM). Default = ``[]``.
         geometryFile        = 'NONE'                        % (`string`) Path to the body geometry ``.stl`` file.
+        h5File              = ''                            % (`string`) hdf5 file containing the hydrodynamic data
         hydroStiffness      = zeros(6)                      % (`6x6 float matrix`) Linear hydrostatic stiffness matrix. If the variable is nonzero, the matrix will override the h5 file values. Default = ``zeros(6)``.
         inertia             = []                            % (`3x1 float vector`) Rotational inertia or mass moment of inertia [kg*m^{2}]. Defined by the user in the following format [Ixx Iyy Izz]. Default = ``[]``.
         initial             = struct(...                    % (`structure`) Defines the initial displacement of the body.
@@ -70,40 +65,44 @@ classdef bodyClass<handle
             'color',            [1 1 0], ...                %
             'opacity',          1)                          % (`structure`)  Defines visualization properties in either SimScape or Paraview. ``color`` (`3x1 float vector`) is defined as the body visualization color, Default = [``1 1 0``]. ``opacity`` (`integer`) is defined as the body opacity, Default = ``1``.        
         volume              = []                            % (`float`) Displaced volume at equilibrium position [m^{3}]. For hydrodynamic bodies this is defined in the h5 file while for nonhydrodynamic bodies this is defined by the user. Default = ``[]``.
-        yaw = struct(...                                    % (`structure`) Defines the passive yaw implementation. 
+        yaw                 = struct(...                    % (`structure`) Defines the passive yaw implementation. 
             'option',           0,...                       %
             'threshold',        1)                          % (`structure`) Defines the passive yaw mplementation. ``option`` (`integer`) Flag for passive yaw calculation, Options: 0 (off), 1 (on). Default = ``0``. ``threshold`` (`float`) Yaw position threshold (in degrees) above which excitation coefficients will be interpolated in passive yaw. Default = ``1`` [deg].        
     end
     
-    properties (SetAccess = 'public', GetAccess = 'public') % STL geometry file
-        geometry            = struct(...                    % (`string`) Defines each body's mesh
-            'numFace',          [], ...                     % Number of faces
-            'numVertex',        [], ...                     % Number of vertices
-            'vertex',           [], ...                     % List of vertices
-            'face',             [], ...                     % List of faces
-            'norm',             [], ...                     % List of normal vectors
-            'area',             [], ...                     % List of cell areas
-            'center',           [])                         % List of cell centers
+    properties (SetAccess = 'private', GetAccess = 'public')% h5 file
+        dofEnd              = []                            % (`integer`) Index the DOF ends for (``body.number``). For WEC bodies this is given in the h5 file, but if not defined in the h5 file, Default = ``(body.number-1)*6+6``.
+        dofStart            = []                            % (`integer`) Index the DOF starts for (``body.number``). For WEC bodies this is given in the h5 file, but if not defined in the h5 file, Default = ``(body.number-1)*6+1``.
+        hydroData           = struct()                      % (`structure`) Defines the hydrodynamic data from BEM or user defined.
+    end
+
+    properties (SetAccess = 'private', GetAccess = 'public')% internal
+        dofCoupled          = []                            % (`matrix`) Matrices length, Options: ``6`` without body-to-body interactions. ``6*number of hydro bodies`` with body-to-body interactions.
+        hydroForce          = struct()                      % (`structure`) Defines hydrodynamic forces and coefficients used during simulation.
+        massCalcMethod      = []                            % (`string`) Method used to obtain mass, options: ``'user'``, ``'fixed'``, ``'equilibrium'``
+        number              = []                            % (`integer`) Body number, must be the same as the BEM body number.
+        total               = []                            % (`integer`) Total number of hydro bodies         
+    end
+
+    properties (SetAccess = 'private', GetAccess = 'public')% stl file
+        geometry            = struct(...                    % (`structure`) Defines each body's mesh. `numFace` (`integer`) Number of faces, `numVertex` (`integer`) Number of vertices, `vertex` (`numVertex x 3 float matrix`) List of vertices, `face` (`numFace x 3 float matrix`) List of faces, `norm` (`numFace x 3 float matrix`) List of normal vectors, `area` (`numFace x 1 float matrix`) List of cell areas, `center` (`numFace x 3 float matrix`) List of cell centers. Default = [].
+            'numFace',          [], ...                     % 
+            'numVertex',        [], ...                     % 
+            'vertex',           [], ...                     % 
+            'face',             [], ...                     % 
+            'norm',             [], ...                     % 
+            'area',             [], ...                     % 
+            'center',           [])                         % (`structure`) Defines each body's mesh. `numFace` (`integer`) Number of faces, `numVertex` (`integer`) Number of vertices, `vertex` (`numVertex x 3 float matrix`) List of vertices, `face` (`numFace x 3 float matrix`) List of faces, `norm` (`numFace x 3 float matrix`) List of normal vectors, `area` (`numFace x 1 float matrix`) List of cell areas, `center` (`numFace x 3 float matrix`) List of cell centers. Default = [].
     end
     
-    properties (SetAccess = 'public', GetAccess = 'public') % WEC-Sim internal
-        dofCoupled      = []                                % (`matrix`) Matrices length, Options: ``6`` without body-to-body interactions. ``6*hydroTotal`` with body-to-body interactions.
-        h5File          = ''                                % (`string`) hdf5 file containing the hydrodynamic data
-        hydroForce      = struct()                          % (`structure`) Defines hydrodynamic forces and coefficients used during simulation.
-        hydroTotal      = []                                % (`integer`) Total number of hydro bodies, defined in the h5 file, can differ from ``body.total``
-        massCalcMethod  = []                                % (`string`) Method used to obtain mass, options: ``'user'``, ``'fixed'``, ``'equilibrium'``
-        number          = []                                % (`integer`) Body number, defined in WEC-Sim input file, can be different from the BEM body number.
-        total           = []                                % (`integer`) Total number of bodies, i.e. instances of the body block         
-    end
-    
-    methods (Access = 'public') %modify object = T; output = F
-        function obj = bodyClass(filename)
+    methods (Access = 'public') % modify object = T; output = F
+        function obj = bodyClass(h5File)
             % This method initilizes the ``bodyClass`` and creates a
             % ``body`` object.
             %
             % Parameters
             % ------------
-            %     filename : string
+            %     h5File : string
             %         String specifying the location of the body h5 file
             %
             % Returns
@@ -111,8 +110,8 @@ classdef bodyClass<handle
             %     body : obj
             %         bodyClass object
             %
-            if exist('filename','var')
-                obj.h5File = filename;
+            if exist('h5File','var')
+                obj.h5File = h5File;
             else
                 error('The body class number(s) in the wecSimInputFile must be specified in ascending order starting from 1. The bodyClass() function should be called first to initialize each body with an h5 file.')
             end
@@ -485,8 +484,21 @@ classdef bodyClass<handle
             trimesh(tri,p(:,1),p(:,2),p(:,3))
             quiver3(c(:,1),c(:,2),c(:,3),n(:,1),n(:,2),n(:,3))
         end
-        
-        
+
+        function setNumber(obj,number)
+            % Method to set the private number property
+            obj.number = number;
+        end
+
+        function setDOF(obj, numHydroBodies, b2b)
+            % Method to define the body's dofCoupled parameter
+            obj.total = numHydroBodies;
+            if b2b==1
+                obj.dofCoupled = zeros(6*numHydroBodies,1);
+            else
+                obj.dofCoupled = zeros(6,1);
+            end
+        end
     end
     
     methods (Access = 'protected') %modify object = T; output = F

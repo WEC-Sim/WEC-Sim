@@ -58,27 +58,22 @@ classdef cableClass<handle
     end
  
     properties (SetAccess = 'public', GetAccess = 'public')%internal
-        base                    = struct(...                                %
+        base                    = struct(...                                % Structure defining the base connection. `centerBuoyancy` (`1 x 3 float vector`) center of buoyancy location of the base drag body, Default = `[0 0 0]`. `centerGravity` (`1 x 3 float vector`) center of gravity location of the base drag body, Default = `[0 0 0]`. `location` (`3x1 float vector`) base location [m], Defined in the following format [x y z], Default = ``[]``. `name` (`string`) name of the base constraint or PTO, Default = `'NOT DEFINED'`;
             'centerBuoyancy',   	[0 0 0], ...                            %
             'centerGravity',        [0 0 0], ...                            %
             'location',             [], ...                                 %
-            'name',                 [999 999 999])                          % Structure defining the base
-%         baseCb                  = ;                                       % (`1 x 3 float vector`) cb location of the base drag body
-%         baseCg                  = ;                                       % (`1 x 3 float vector`) cg location of the base drag body
-%         baseName      = ;                                       % (`string`) name of the base constraint or PTO
-%         base.location            =                                         % (`3x1 float vector`) base location [m]. Defined in the following format [x y z]. Default = ``[999 999 999]``.
-        follower                  = struct(...                                %
+            'name',                 'NOT DEFINED')                          % Structure defining the base connection. `centerBuoyancy` (`1 x 3 float vector`) center of buoyancy location of the base drag body, Default = `[0 0 0]`. `centerGravity` (`1 x 3 float vector`) center of gravity location of the base drag body, Default = `[0 0 0]`. `location` (`3x1 float vector`) base location [m], Defined in the following format [x y z], Default = ``[]``. `name` (`string`) name of the base constraint or PTO, Default = `'NOT DEFINED'`;
+        follower                  = struct(...                              % Structure defining the follower connection. `centerBuoyancy` (`1 x 3 float vector`) center of buoyancy location of the base drag body, Default = `[0 0 0]`. `centerGravity` (`1 x 3 float vector`) center of gravity location of the base drag body, Default = `[0 0 0]`. `location` (`3x1 float vector`) base location [m], Defined in the following format [x y z], Default = ``[]``. `name` (`string`) name of the base constraint or PTO, Default = `'NOT DEFINED'`;
             'centerBuoyancy',   	[0 0 0], ...                            %
             'centerGravity',        [0 0 0], ...                            %
             'location',             [], ...                                 %
-            'name',                 [999 999 999])                          % Structure defining the follower        
-%         followerCb              = [0 0 0];                                  % (`1 x 3 float vector`) cb location of the follower drag body
-%         followerCg              = [0 0 0];                                  % (`1 x 3 float vector`) cg location of the follower drag body
-%         followerName  = '';                                       % (`string`) name of the follower constraint or PTO
-%         follower.location        = [999 999 999]                             % (`3x1 float vector`) follower location [m]. Defined in the following format [x y z]. Default = ``[999 999 999]``.                
+            'name',                 'NOT DEFINED')                          % Structure defining the follower connection. `centerBuoyancy` (`1 x 3 float vector`) center of buoyancy location of the base drag body, Default = `[0 0 0]`. `centerGravity` (`1 x 3 float vector`) center of gravity location of the base drag body, Default = `[0 0 0]`. `location` (`3x1 float vector`) base location [m], Defined in the following format [x y z], Default = ``[]``. `name` (`string`) name of the base constraint or PTO, Default = `'NOT DEFINED'`;
         location                = [999 999 999]                             % (`3x1 float vector`) pto location [m]. Defined in the following format [x y z]. Default = ``[999 999 999]``.    
-        number                  = []                                       	% Cable number        
         volume                  = [];                                       % (`float`) displacement volume, defaults to neutral buoyancy         
+    end
+    
+    properties (SetAccess = 'private', GetAccess = 'public') %internal
+        number                  = []                                        % Cable number.
     end
     
     %%
@@ -279,6 +274,11 @@ classdef cableClass<handle
             fprintf('\n\t***** Cable Name: %s *****\n',obj.name)
             fprintf('\tCable Stiffness           (N/m;Nm/rad) = %G\n',obj.stiffness)
             fprintf('\tCable Damping           (Ns/m;Nsm/rad) = %G\n',obj.damping)            
+        end
+
+        function setNumber(obj,number)
+            % Method to set the private number property
+            obj.number = number;
         end
     end
     

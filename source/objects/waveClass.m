@@ -48,7 +48,6 @@ classdef waveClass<handle
         phaseSeed       = 0;                        % (`integer`) Defines the random phase seed, only used for ``irregular`` and ``spectrumImport`` waves. Default = ``0``
         spectrumFile    = 'NOT DEFINED';            % (`string`) Data file that contains the spectrum data file.  Default = ``'NOT DEFINED'``                
         spectrumType    = 'NOT DEFINED';            % (`string`) Specifies the wave spectrum type, options inlcude:``PM`` or ``JS``. Default = ``'NOT DEFINED'``
-        type            = 'NOT DEFINED';            % (`string`) Specifies the wave type, options include:``noWave``, ``noWaveCIC``, ``regular``, ``regularCIC``, ``irregular``, ``spectrumImport``, or ``elevationImport``. Default = ``'NOT DEFINED'``
         viz             = struct(...                % 
             'numPointsX',   50, ...                 %
             'numPointsY',   50 );                   % (`structure`) Defines visualization options, structure contains the fields ``numPointsX`` for the number of visualization points in x direction, and ``numPointsY`` for the number of visualization points in y direction. 
@@ -65,6 +64,7 @@ classdef waveClass<handle
         dw              = 0;                        % Frequency spacing [rad] for ``irregular`` waves.
         k               = [];                       % Wave Number
         phase           = 0;                        % (`float`) Wave phase [rad] . Only used for ``irregular`` waves.
+        type            = 'NOT DEFINED';            % (`string`) Specifies the wave type, options include:``noWave``, ``noWaveCIC``, ``regular``, ``regularCIC``, ``irregular``, ``spectrumImport``, or ``elevationImport``. Default = ``'NOT DEFINED'``
         typeNum         = [];                       % Number to represent different type of waves        
         w               = [];                       % Wave frequency (regular waves) or wave frequency vector (irregular waves) [rad/s] 
         waveAmpTime     = [];                       % Wave elevation time history [m] at the (0, 0, 0) origin  

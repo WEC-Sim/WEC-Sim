@@ -97,7 +97,7 @@ simu.checkInputs();
 if exist('constraint','var') == 1
     simu.numConstraints = length(constraint(1,:));
     for ii = 1:simu.numConstraints
-        constraint(ii).number = ii;
+        constraint(ii).setNumber(ii);
         constraint(ii).setOrientation();
     end; clear ii
 end
@@ -106,7 +106,7 @@ end
 if exist('pto','var') == 1
     simu.numPtos = length(pto(1,:));
     for ii = 1:simu.numPtos
-        pto(ii).number = ii;
+        pto(ii).setNumber(ii);
         pto(ii).setOrientation();
         pto(ii).setPretension();
     end; clear ii
@@ -116,8 +116,8 @@ end
 if exist('mooring','var') == 1
     simu.numMoorings = length(mooring(1,:));
     for ii = 1:simu.numMoorings
-        mooring(ii).number = ii;
-        mooring(ii).setLoc;
+        mooring(ii).setLoc();
+        mooring(ii).setNumber(ii);
     end; clear ii
 end
 
@@ -129,28 +129,28 @@ hydroBodLogic = zeros(length(body(1,:)),1);
 nonHydroBodLogic = zeros(length(body(1,:)),1);
 dragBodLogic = zeros(length(body(1,:)),1);
 for ii = 1:length(body(1,:))
-    body(ii).number = ii;
+    body(ii).setNumber(ii);
     body(ii).checkInputs(simu.explorer);
     if body(ii).nonHydro==0
         if numNonHydroBodies > 0 || numDragBodies > 0
             error('All hydro bodies must be specified before any drag or non-hydro bodies.')
         end
         numHydroBodies = numHydroBodies + 1;
-        hydroBodLogic(ii) = 1;     
+        hydroBodLogic(ii) = 1;
     elseif body(ii).nonHydro==1
         numNonHydroBodies = numNonHydroBodies + 1;
-        nonHydroBodLogic(ii) = 1; 
+        nonHydroBodLogic(ii) = 1;
     elseif body(ii).nonHydro==2
         numDragBodies = numDragBodies + 1;
-        dragBodLogic(ii) = 1; 
-    else
-        body(ii).massCalcMethod = 'user';
+        dragBodLogic(ii) = 1;
     end
 end
 simu.numHydroBodies = numHydroBodies; clear numHydroBodies
 simu.numDragBodies = numDragBodies; clear numDragBodies
 for ii = 1:simu.numHydroBodies
-    %Determine if hydro data needs to be reloaded from h5 file, or if hydroData
+    body(ii).setDOF(simu.numHydroBodies,simu.b2b);
+
+    % Determine if hydro data needs to be reloaded from h5 file, or if hydroData
     % was stored in memory from a previous run.
     if exist('totalNumOfWorkers','var') ==0 && exist('mcr','var') == 1 && simu.reloadH5Data == 0 && imcr > 1
         body(ii).loadHydroData(hydroData(ii));
@@ -167,19 +167,13 @@ for ii = 1:simu.numHydroBodies
         body(ii).loadHydroData(tmp_hydroData);
         clear tmp_hydroData
     end
-    body(ii).total = simu.numHydroBodies;
-    if simu.b2b==1
-        body(ii).dofCoupled = zeros(6*body(ii).total,1);
-    else
-        body(ii).dofCoupled = zeros(6,1);
-    end
 end; clear ii
 
 % Cable Configuration: count, set Cg/Cb, PTO loc, L0 and initialize bodies
 if exist('cable','var')==1
     simu.numCables = length(cable(1,:));
     for ii = 1:simu.numCables
-        cable(ii).number = ii;
+        cable(ii).setNumber(ii);
         cable(ii).setCg();
         cable(ii).setCb();
         cable(ii).setTransPTOLoc();

@@ -27,63 +27,63 @@ classdef simulationClass<handle
     %
     %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
     
-    properties (SetAccess = 'public', GetAccess = 'public')%input file
-        adjMassFactor                  = 2               % (`integer`) Weighting function for adjusting added mass term in the translational direction. Default = ``2``
-        b2b                            = 0               % (`integer`) Flag for body2body interactions, Options: 0 (off), 1 (on). Default = ``0``
-        cicDt                          = []              % (`float`) Time step to calculate Convolution Integral. Default = ``dt``
-        cicEndTime                     = 60              % (`float`) Convolution integral time. Default = ``60`` s
-        domainSize                     = 200             % (`float`) Size of free surface and seabed. This variable is only used for visualization. Default = ``200`` m
-        explorer                       = 'on'            % (`string`) SimMechanics Explorer 'on' or 'off'. Default = ``'on'``
-        dt                             = 0.1             % (`float`) Simulation time step. Default = ``0.1`` s
-        dtOut                          = []              % (`float`) Output sampling time. Default = ``dt``
-        endTime                        = []              % (`float`) Simulation end time. Default = ``'NOT DEFINED'``
-        g                              = 9.81            % (`float`) Acceleration due to gravity. Default = ``9.81`` m/s
-        mcrMatFile                     = []              % (`string`) mat file that contain a list of the multiple conditions runs with given conditions. Default = ``'NOT DEFINED'``  
-        mcrExcelFile                   = []              % (`string`) File name from which to load wave statistics data. Default = ``[]``        
-        mode                           = 'normal'        % (`string`) Simulation execution mode, 'normal', 'accelerator', 'rapid-accelerator'. Default = ``'normal'``
-        morisonDt                      = []              % (`float`) Sample time to calculate Morison Element forces. Default = ``dt``
-        nonlinearDt                    = []              % (`float`) Sample time to calculate nonlinear forces. Default = ``dt``
-        paraview         = struct(...                    % (`structure`) Defines the BEM data implemtation. 
-            'option',       0,...                        % 
-            'startTime',    0, ...                       % 
-            'endTime',      100, ...                     % 
-            'dt',           0.1, ...                     %             
-            'path',         'vtk')                       % (`structure`) Defines the BEM data implemtation. ``option`` (`integer`) Flag for paraview visualization, and writing vtp files, Options: 0 (off) , 1 (on). Default = ``0``. ``startTime`` (`float`) Start time for the vtk file of Paraview. Default = ``0``. ``endTime`` (`float`) End time for the vtk file of Paraview. Default = ``100``.  ``dt`` (`float`) Timestep for Paraview. Default = ``0.1``. ``path`` (`string`) Path of the folder for Paraview vtk files. Default = ``'vtk'``.        
-        pressure                       = 0               % (`integer`) Flag to save pressure distribution, Options: 0 (off), 1 (on). Default = ``0``
-        rampTime                       = 100             % (`float`) Ramp time for wave forcing. Default = ``100`` s        
-        rateTransition                 = 'on'            % (`string`) Flag for automatically handling rate transition for data transfer, Opyions: 'on', 'off'. Default = ``'on'``
-        reloadH5Data                   = 0               % (`integer`) Flag to re-load hydro data from h5 file between runs, Options: 0 (off), 1 (on). Default = ``0``
-        rho                            = 1000            % (`float`) Density of water. Default = ``1000`` kg/m^3
-        saveStructure                  = 0               % (`integer`) Flag to save results as a MATLAB structure, Options: 0 (off), 1 (on). Default = ``1``
-        saveText                       = 0               % (`integer`) Flag to save results as ASCII files, Options: 0 (off), 1 (on). Default = ``0``
-        saveWorkspace                  = 1               % (`integer`) FLag to save .mat file for each run, Options: 0 (off), 1 (on). Default = ``1``
-        simMechanicsFile               = 'NOT DEFINED'   % (`string`) Simulink/SimMechanics model file. Default = ``'NOT DEFINED'``
-        solver                         = 'ode4'          % (`string`) PDE solver used by the Simulink/SimMechanics simulation. Any continuous solver in Simulink possible. Recommended to use 'ode4, 'ode45' for WEC-Sim. Default = ``'ode4'``
-        stateSpace                     = 0               % (`integer`) Flag for convolution integral or state-space calculation, Options: 0 (convolution integral), 1 (state-space). Default = ``0``
-        startTime                      = 0               % (`float`) Simulation start time. Default = ``0`` s        
-        zeroCross                      = 'DisableAll'    % (`string`) Disable zero cross control. Default = ``'DisableAll'``
+    properties (SetAccess = 'public', GetAccess = 'public') % WEC-Sim input 
+        adjMassFactor       = 2                                            % (`integer`) Weighting function for adjusting added mass term in the translational direction. Default = ``2``
+        b2b                 = 0                                            % (`integer`) Flag for body2body interactions, Options: 0 (off), 1 (on). Default = ``0``
+        cicDt               = []                                           % (`float`) Time step to calculate Convolution Integral. Default = ``dt``
+        cicEndTime          = 60                                           % (`float`) Convolution integral time. Default = ``60`` s
+        domainSize          = 200                                          % (`float`) Size of free surface and seabed. This variable is only used for visualization. Default = ``200`` m
+        explorer            = 'on'                                         % (`string`) SimMechanics Explorer 'on' or 'off'. Default = ``'on'``
+        dt                  = 0.1                                          % (`float`) Simulation time step. Default = ``0.1`` s
+        dtOut               = []                                           % (`float`) Output sampling time. Default = ``dt``
+        endTime             = []                                           % (`float`) Simulation end time. Default = ``[]``
+        g                   = 9.81                                         % (`float`) Acceleration due to gravity. Default = ``9.81`` m/s
+        mcrMatFile          = []                                           % (`string`) mat file that contain a list of the multiple conditions runs with given conditions. Default = ``[]``  
+        mcrExcelFile        = []                                           % (`string`) File name from which to load wave statistics data. Default = ``[]``        
+        mode                = 'normal'                                     % (`string`) Simulation execution mode, 'normal', 'accelerator', 'rapid-accelerator'. Default = ``'normal'``
+        morisonDt           = []                                           % (`float`) Sample time to calculate Morison Element forces. Default = ``dt``
+        nonlinearDt         = []                                           % (`float`) Sample time to calculate nonlinear forces. Default = ``dt``
+        paraview            = struct(...                                   % (`structure`) Defines the BEM data implemtation. 
+            'option',           0,...                                      % 
+            'startTime',        0, ...                                     % 
+            'endTime',          100, ...                                   % 
+            'dt',               0.1, ...                                   %             
+            'path',             'vtk')                                     % (`structure`) Defines the BEM data implemtation. ``option`` (`integer`) Flag for paraview visualization, and writing vtp files, Options: 0 (off) , 1 (on). Default = ``0``. ``startTime`` (`float`) Start time for the vtk file of Paraview. Default = ``0``. ``endTime`` (`float`) End time for the vtk file of Paraview. Default = ``100``.  ``dt`` (`float`) Timestep for Paraview. Default = ``0.1``. ``path`` (`string`) Path of the folder for Paraview vtk files. Default = ``'vtk'``.        
+        pressure            = 0                                            % (`integer`) Flag to save pressure distribution, Options: 0 (off), 1 (on). Default = ``0``
+        rampTime            = 100                                          % (`float`) Ramp time for wave forcing. Default = ``100`` s        
+        rateTransition      = 'on'                                         % (`string`) Flag for automatically handling rate transition for data transfer, Opyions: 'on', 'off'. Default = ``'on'``
+        reloadH5Data        = 0                                            % (`integer`) Flag to re-load hydro data from h5 file between runs, Options: 0 (off), 1 (on). Default = ``0``
+        rho                 = 1000                                         % (`float`) Density of water. Default = ``1000`` kg/m^3
+        saveStructure       = 0                                            % (`integer`) Flag to save results as a MATLAB structure, Options: 0 (off), 1 (on). Default = ``0``
+        saveText            = 0                                            % (`integer`) Flag to save results as ASCII files, Options: 0 (off), 1 (on). Default = ``0``
+        saveWorkspace       = 1                                            % (`integer`) FLag to save .mat file for each run, Options: 0 (off), 1 (on). Default = ``1``
+        simMechanicsFile    = 'NOT DEFINED'                                % (`string`) Simulink/SimMechanics model file. Default = ``'NOT DEFINED'``
+        solver              = 'ode4'                                       % (`string`) PDE solver used by the Simulink/SimMechanics simulation. Any continuous solver in Simulink possible. Recommended to use 'ode4, 'ode45' for WEC-Sim. Default = ``'ode4'``
+        stateSpace          = 0                                            % (`integer`) Flag for convolution integral or state-space calculation, Options: 0 (convolution integral), 1 (state-space). Default = ``0``
+        startTime           = 0                                            % (`float`) Simulation start time. Default = ``0`` s        
+        zeroCross           = 'DisableAll'                                 % (`string`) Disable zero cross control. Default = ``'DisableAll'``
     end
 
     properties (SetAccess = 'public', GetAccess = 'public') % internal WEC-Sim
+        caseDir             = []                                           % (`string`) WEC-Sim case directory. Default = dependent
+        numCables           = 0                                            % (`integer`) Number of cables in the wec model. Default = ``0``
+        numConstraints      = 0                                            % (`integer`) Number of contraints in the wec model. Default = ``0``
+        numDragBodies       = 0                                            % (`integer`) Number of drag bodies that comprise the WEC device (excluding hydrodynamic bodies). Default = ``0``
+        numMoorings         = 0                                            % (`integer`) Number of moorings in the wec model. Default = ``0``
+        numPtos             = 0                                            % (`integer`) Number of power take-off elements in the model. Default = ``0``
+        numHydroBodies      = 0                                            % (`integer`) Number of hydrodynamic bodies that comprise the WEC device. Default = ``0``
+        time                = 0                                            % (`float`) Simulation time [s]. Default = ``0`` s
+    end
+
+    properties (SetAccess = 'private', GetAccess = 'public') % internal WEC-Sim
         cicTime             = []                                           % (`float vector`) Convolution integral time series. Default = dependent
         cicLength           = []                                           % (`integer`) Number of timesteps in the convolution integral length. Default = dependent
-        caseDir             = []                                           % (`string`) WEC-Sim case directory. Default = dependent
         caseFile            = []                                           % (`string`) .mat file with all simulation information. Default = dependent
         date                = datetime                                     % (`string`) Simulation date and time
         gitCommit           = []                                           % (`string`) GitHub commit
-        inputFile           = 'wecSimInputFile'                            % (`string`) Name of WEC-Sim input file. Default = ``'wecSimInputFile'``
-        logFile             = []                                           % (`string`) File with run information summary. Default = ``'log'``        
         maxIt               = []                                           % (`integer`) Total number of simulation time steps. Approximate for variable step solvers. Default = dependent
-        numCables           = []                                           % (`integer`) Number of cables in the wec model. Default = ``'NOT DEFINED'``
-        numConstraints      = []                                           % (`integer`) Number of contraints in the wec model. Default = ``'NOT DEFINED'``
-        numDragBodies       = []                                           % (`integer`) Number of drag bodies that comprise the WEC device (excluding hydrodynamic bodies). Default = ``'NOT DEFINED'``
-        numMoorings         = []                                           % (`integer`) Number of moorings in the wec model. Default = ``'NOT DEFINED'``
-        numPtos             = []                                           % (`integer`) Number of power take-off elements in the model. Default = ``'NOT DEFINED'``
-        numPtoSim           = []                                           % (`integer`) Number of PTO-Sim blocks elements in the model. Default = ``'NOT DEFINED'``
-        numHydroBodies      = []                                           % (`integer`) Number of hydrodynamic bodies that comprise the WEC device. Default = ``'NOT DEFINED'``
         outputDir           = 'output'                                     % (`string`) Data output directory name. Default = ``'output'``
-        time                = 0                                            % (`float`) Simulation time [s]. Default = ``0`` s
-        wsVersion           = '4.4'                                        % (`string`) WEC-Sim version        
+        wsVersion           = '4.4'                                        % (`string`) WEC-Sim version
     end
 
     methods
