@@ -38,10 +38,9 @@ The front page of the docs can be accessed at
 ### Building Final Version Locally
 
 The final documentation can be built locally for inspection prior to 
-publishing. They are built in the `docs/_build` directory. Note, docs are built 
-from the remote, so only pushed changes will be shown. 
-
-To build the docs as they would be published, use the following:
+publishing. They are built in the `docs/_build` directory. Note, docs are 
+built from the remote so only pushed changes on the `master` and `dev` 
+branches will be shown. To build the docs use the following command:
 
 ```
 > conda activate _wssphinx
@@ -62,6 +61,7 @@ https://github.com/WEC-Sim/WEC-Sim) repository.
 
 
 ## Best Practices
+  - Always pad with whitespace and not tabs, especially when formatting tables
   - If using the `include` directive, place the included file in the `docs/_include` directory and link from there. For example:
       ```rst
       .. include:: /_include/added_mass.rst

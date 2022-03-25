@@ -755,13 +755,13 @@ The PTO-Sim blocks receive the linear or angular response from the PTO blocks an
 
 PTO-Sim Class Initialization
 """"""""""""""""""""""""""""""""
-The properties of the PTO-Sim class (``PTOSimClass``) are defined in the ``PTOSimBlock`` object. The PTO-Sim class must be
+The properties of the PTO-Sim class (``ptoSimClass``) are defined in the ``ptoSim`` object. The PTO-Sim class must be
 initialized in the ``wecSimInputFile.m`` script. There are three properties that must be initialized for all the PTO-Sim blocks,
 those are the name, the block number, and the type:: 
 
-    PTOSimBlock(i) = PTOSimClass('PTOsimName');
-    PTOSimBlock(i).PTOSimBlockNum = i;
-    PTOSimBlock(i).PTOSimBlockType = <TypeNumber>;
+    ptoSim(i) = ptoSimClass('ptoSimName');
+    ptoSim(i).ptoSimNum = i;
+    ptoSim(i).ptoSimType = <TypeNumber>;
 
 The type value must be defined depending on the type of block used in the simulation as follows:
 
@@ -777,7 +777,7 @@ The type value must be defined depending on the type of block used in the simula
 |Hydraulic accumulator|3    |
 +---------------------+-----+
 |Rectifying check     |4    |
-|valve  	      |     |
+|valve                |     |
 +---------------------+-----+
 |Hydraulic motor      |5    |
 +---------------------+-----+
@@ -787,14 +787,20 @@ The type value must be defined depending on the type of block used in the simula
 +---------------------+-----+
 |Check valve          |8    |
 +---------------------+-----+
+|Direct drive         |9    |
+|linear generator     |     |
++---------------------+-----+
+|Direct drive         |10   |
+|rotary generator     |     |
++---------------------+-----+
 
 
 Available PTO-Sim blocks properties, default values, and functions 
-can be found by typing ``doc PTOSimClass`` in the MATLAB command window, or 
-opening the `PTOSimClass.m` file in ``$WECSIM/source/objects`` directory by 
-typing ``open PTOSimClass`` in MATLAB Command Window. 
+can be found by typing ``doc ptoSimClass`` in the MATLAB command window, or 
+opening the `ptoSimClass.m` file in ``$WECSIM/source/objects`` directory by 
+typing ``open ptoSimClass`` in MATLAB Command Window. 
 For more information about application of WEC-Sim's mooring class, refer to 
-:ref:`user-advanced-features-PTOSim`.
+:ref:`user-advanced-features-pto`.
 
 PTO-Sim Blocks
 """"""""""""""""""""
