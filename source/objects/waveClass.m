@@ -59,7 +59,7 @@ classdef waveClass<handle
         % The following properties are private, for internal use by WEC-Sim
         amplitude       = [];                       % Wave amplitude [m]. For regular waves or 2*(wave spectrum vector) for irregular waves
         spectrum        = [];                       % Wave Spectrum [m^2-s/rad] for ``Traditional``
-        Pw              = [];                       % Wave Power Per Unit Wave Crest [W/m]        
+        power           = [];                       % Wave Power Per Unit Wave Crest [W/m]        
         deepWater       = [];                       % Deep water or not, depending on input from WAMIT, NEMOH and AQWA
         dw              = 0;                        % Frequency spacing [rad] for ``irregular`` waves.
         k               = [];                       % Wave Number
@@ -596,10 +596,10 @@ classdef waveClass<handle
             % Calculate wave power per unit wave crest for regular waves
             if obj.deepWater == 1
                 % Deepwater Approximation
-                obj.Pw = 1/(8*pi)*rho*g^(2)*(obj.amplitude).^(2).*obj.period;               
+                obj.power = 1/(8*pi)*rho*g^(2)*(obj.amplitude).^(2).*obj.period;               
             else
                 % Full Wave Power Equation
-                obj.Pw = rho*g*(obj.amplitude).^(2)/4*sqrt(g./obj.k.*tanh(obj.k.*obj.waterDepth))*(1+2*obj.k.*obj.waterDepth./sinh(obj.k.*obj.waterDepth));
+                obj.power = rho*g*(obj.amplitude).^(2)/4*sqrt(g./obj.k.*tanh(obj.k.*obj.waterDepth))*(1+2*obj.k.*obj.waterDepth./sinh(obj.k.*obj.waterDepth));
             end
         end
         
@@ -653,10 +653,10 @@ classdef waveClass<handle
             obj.k = waveNumber(obj.w,obj.waterDepth,g,obj.deepWater); %Calculate Wave Number for Larger Number of Frequencies Before Down Sampling in Equal Energy Method
             if obj.deepWater == 1
                 % Deepwater Approximation
-                obj.Pw = sum(1/2*rho*g^(2)*fSpectrum/(2*pi).*obj.dw./obj.w);
+                obj.power = sum(1/2*rho*g^(2)*fSpectrum/(2*pi).*obj.dw./obj.w);
             else
                 % Full Wave Power Equation
-                obj.Pw = sum((1/2)*rho*g.*fSpectrum/(2*pi).*obj.dw.*sqrt(9.81./obj.k.*tanh(obj.k.*obj.waterDepth)).*(1 + 2.*obj.k.*obj.waterDepth./sinh(2.*obj.k.*obj.waterDepth)));
+                obj.power = sum((1/2)*rho*g.*fSpectrum/(2*pi).*obj.dw.*sqrt(9.81./obj.k.*tanh(obj.k.*obj.waterDepth)).*(1 + 2.*obj.k.*obj.waterDepth./sinh(2.*obj.k.*obj.waterDepth)));
             end
             %
             switch obj.bem.option
