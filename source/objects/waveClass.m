@@ -66,7 +66,7 @@ classdef waveClass<handle
         phase           = 0;                        % (`float`) Wave phase [rad] . Only used for ``irregular`` waves.
         type            = 'NOT DEFINED';            % (`string`) Specifies the wave type, options include:``noWave``, ``noWaveCIC``, ``regular``, ``regularCIC``, ``irregular``, ``spectrumImport``, or ``elevationImport``. Default = ``'NOT DEFINED'``
         typeNum         = [];                       % Number to represent different type of waves        
-        w               = [];                       % Wave frequency (regular waves) or wave frequency vector (irregular waves) [rad/s] 
+        omega           = [];                       % Wave frequency (regular waves) or wave frequency vector (irregular waves) [rad/s] 
         waveAmpTime     = [];                       % Wave elevation time history [m] at the (0, 0, 0) origin  
         waveAmpTimeViz  = [];                       % Wave elevation time history at marker locations specified by user [m]         
     end
@@ -231,29 +231,29 @@ classdef waveClass<handle
             
             switch obj.type
                 case {'noWave','noWaveCIC'}
-                    if isempty(obj.w) && strcmp(obj.period,'NOT DEFINED')
-                        obj.w = min(obj.bem.range);
-                        obj.period = 2*pi/obj.w;
-                    elseif isempty(obj.w)
-                        obj.w = 2*pi/obj.period;
+                    if isempty(obj.omega) && strcmp(obj.period,'NOT DEFINED')
+                        obj.omega = min(obj.bem.range);
+                        obj.period = 2*pi/obj.omega;
+                    elseif isempty(obj.omega)
+                        obj.omega = 2*pi/obj.period;
                     else
-                        obj.period = 2*pi/obj.w;
+                        obj.period = 2*pi/obj.omega;
                     end
                     obj.height = 0;
                     obj.amplitude = obj.height/2;
-                    obj.k = waveNumber(obj.w,obj.waterDepth,g,obj.deepWater);
+                    obj.k = waveNumber(obj.omega,obj.waterDepth,g,obj.deepWater);
                     obj.waveElevNowave(time);
                 case {'regular','regularCIC'}
-                    if isempty(obj.w) && strcmp(obj.period,'NOT DEFINED')
-                        obj.w = min(obj.bem.range);
-                        obj.period = 2*pi/obj.w;
-                    elseif isempty(obj.w)
-                        obj.w = 2*pi/obj.period;
+                    if isempty(obj.omega) && strcmp(obj.period,'NOT DEFINED')
+                        obj.omega = min(obj.bem.range);
+                        obj.period = 2*pi/obj.omega;
+                    elseif isempty(obj.omega)
+                        obj.omega = 2*pi/obj.period;
                     else
-                        obj.period = 2*pi/obj.w;
+                        obj.period = 2*pi/obj.omega;
                     end
                     obj.amplitude = obj.height/2;
-                    obj.k = waveNumber(obj.w,obj.waterDepth,g,obj.deepWater);
+                    obj.k = waveNumber(obj.omega,obj.waterDepth,g,obj.deepWater);
                     obj.waveElevReg(rampTime, time);
                     obj.wavePowerReg(g,rho);
                 case {'irregular','spectrumImport'}
@@ -270,12 +270,12 @@ classdef waveClass<handle
                             if isempty(obj.bem.count)
                                 obj.bem.count = 1000;
                             end
-                            obj.w = (minFrequency:(maxFrequency-minFrequency)/(obj.bem.count-1):maxFrequency)';
+                            obj.omega = (minFrequency:(maxFrequency-minFrequency)/(obj.bem.count-1):maxFrequency)';
                             obj.dw = ones(obj.bem.count,1).*(maxFrequency-minFrequency)./(obj.bem.count-1);
                         case {'EqualEnergy'}
                             bemCount_interp = 500000;
-                            obj.w = (minFrequency:(maxFrequency-minFrequency)/bemCount_interp:maxFrequency)';
-                            obj.dw = mean(diff(obj.w));
+                            obj.omega = (minFrequency:(maxFrequency-minFrequency)/bemCount_interp:maxFrequency)';
+                            obj.dw = mean(diff(obj.omega));
                             if isempty(obj.bem.count)
                                 obj.bem.count = 500;
                             end
@@ -283,15 +283,15 @@ classdef waveClass<handle
                             data = importdata(obj.spectrumFile);
                             freqData = data(:,1);
                             freqLoc = freqData >= min(obj.bem.range)/2/pi & freqData <= max(obj.bem.range)/2/pi;
-                            obj.w    = freqData(freqLoc).*2.*pi;
-                            obj.bem.count = length(obj.w);
-                            obj.dw(1,1)= obj.w(2)-obj.w(1);
-                            obj.dw(2:obj.bem.count-1,1)=(obj.w(3:end)-obj.w(1:end-2))/2;
-                            obj.dw(obj.bem.count,1)= obj.w(end)-obj.w(end-1);
+                            obj.omega    = freqData(freqLoc).*2.*pi;
+                            obj.bem.count = length(obj.omega);
+                            obj.dw(1,1)= obj.omega(2)-obj.omega(1);
+                            obj.dw(2:obj.bem.count-1,1)=(obj.omega(3:end)-obj.omega(1:end-2))/2;
+                            obj.dw(obj.bem.count,1)= obj.omega(end)-obj.omega(end-1);
                     end
                     obj.setWavePhase;
                     obj.irregWaveSpectrum(g,rho)
-                    obj.k = waveNumber(obj.w,obj.waterDepth,g,obj.deepWater);
+                    obj.k = waveNumber(obj.omega,obj.waterDepth,g,obj.deepWater);
                     obj.waveElevIrreg(rampTime, time, obj.dw);
                 case {'elevationImport'}    %  This does not account for wave direction
                     % Import 'elevationImport' time-series here and interpolate
@@ -407,13 +407,13 @@ classdef waveClass<handle
                     Z = zeros (size (X));                    
                 case {'regular', 'regularCIC'}                    
                     Xt = X*cos (obj.direction*pi/180) + Y * sin(obj.direction*pi/180);                    
-                    Z = obj.amplitude * cos(-1 * obj.k * Xt  +  obj.w * t);                    
+                    Z = obj.amplitude * cos(-1 * obj.k * Xt  +  obj.omega * t);                    
                 case {'irregular', 'spectrumImport'}
                     Z = zeros (size (X));
                     for idir=1:length(obj.direction)
                         Xt = X*cos(obj.direction(idir)*pi/180) + Y*sin(obj.direction(idir)*pi/180);
-                        for iw = 1:length(obj.w)
-                            Z = Z + sqrt(obj.amplitude(iw)*obj.spread(idir).*obj.dw(iw)) * cos(-1*obj.k(iw)*Xt + obj.w(iw)*t + obj.phase(iw,idir));
+                        for iw = 1:length(obj.omega)
+                            Z = Z + sqrt(obj.amplitude(iw)*obj.spread(idir).*obj.dw(iw)) * cos(-1*obj.k(iw)*Xt + obj.omega(iw)*t + obj.phase(iw,idir));
                         end
                     end
                 case{'elevationImport'}
@@ -481,17 +481,17 @@ classdef waveClass<handle
             %     figure : fig
             %         Plot of wave spectrum versus wave frequency
             %                 
-            m0 = trapz(obj.w,obj.spectrum);
+            m0 = trapz(obj.omega,obj.spectrum);
             HsTest = 4*sqrt(m0);
             [~,I] = max(abs(obj.spectrum));
-            wp = obj.w(I);
+            wp = obj.omega(I);
             TpTest = 2*pi/wp;
             
             figure
-            plot(obj.w,obj.spectrum,'s-')
+            plot(obj.omega,obj.spectrum,'s-')
             hold on
             line([wp,wp],[0,max(obj.spectrum)],'Color','k')
-            xlim([0 max(obj.w)])
+            xlim([0 max(obj.omega)])
             title([obj.spectrumType, ' Spectrum, T_p= ' num2str(TpTest) ' [s], '  'H_m_0= ' num2str(HsTest), ' [m]'])
             if strcmp(obj.spectrumType,'JS') == 1
                 title([obj.spectrumType, ' Spectrum, T_p= ' num2str(TpTest) ' [s], H_m_0= ' num2str(HsTest), ' [m], gamma = ' num2str(obj.gamma)])
@@ -574,7 +574,7 @@ classdef waveClass<handle
 
             obj.waveAmpTime = zeros(maxIt,2);
             obj.waveAmpTime(:,1) = timeseries;
-            obj.waveAmpTime(:,2) = rampFunction.*(obj.amplitude*cos(obj.w*timeseries));
+            obj.waveAmpTime(:,2) = rampFunction.*(obj.amplitude*cos(obj.omega*timeseries));
 
             % Wave Marker
             if ~isempty(obj.marker.location)==1
@@ -587,7 +587,7 @@ classdef waveClass<handle
                 obj.waveAmpTimeViz = zeros(maxIt,SZwaveAmpTimeViz(1)+1);
                 for j = 1:SZwaveAmpTimeViz(1)
                     obj.waveAmpTimeViz(:,1) = timeseries;
-                    obj.waveAmpTimeViz(:,j+1) = rampFunction.*obj.amplitude.*cos(obj.w*timeseries - obj.k*(obj.marker.location(j,1).*cos(obj.direction*pi/180) + obj.marker.location(j,2).*sin(obj.direction*pi/180)));                   
+                    obj.waveAmpTimeViz(:,j+1) = rampFunction.*obj.amplitude.*cos(obj.omega*timeseries - obj.k*(obj.marker.location(j,1).*cos(obj.direction*pi/180) + obj.marker.location(j,2).*sin(obj.direction*pi/180)));                   
                 end
             end          
         end        
@@ -606,7 +606,7 @@ classdef waveClass<handle
         function irregWaveSpectrum(obj,g,rho)
             % Calculate wave spectrum vector (obj.amplitude)
             % Used by wavesIrreg (wavesIrreg used by: :meth:`waveClass.setup`.)            
-            frequency = obj.w/(2*pi);
+            frequency = obj.omega/(2*pi);
             Tp = obj.period;
             Hs = obj.height;
             switch obj.spectrumType
@@ -650,10 +650,10 @@ classdef waveClass<handle
                     error('Following IEC Standard, our Bretschneider Sprectrum (BS) option is exactly how the Pierson-Moskowitz (PM) Spectrum is defined. Please use PM instead');
             end
             % Power per Unit Wave Crest
-            obj.k = waveNumber(obj.w,obj.waterDepth,g,obj.deepWater); %Calculate Wave Number for Larger Number of Frequencies Before Down Sampling in Equal Energy Method
+            obj.k = waveNumber(obj.omega,obj.waterDepth,g,obj.deepWater); %Calculate Wave Number for Larger Number of Frequencies Before Down Sampling in Equal Energy Method
             if obj.deepWater == 1
                 % Deepwater Approximation
-                obj.power = sum(1/2*rho*g^(2)*fSpectrum/(2*pi).*obj.dw./obj.w);
+                obj.power = sum(1/2*rho*g^(2)*fSpectrum/(2*pi).*obj.dw./obj.omega);
             else
                 % Full Wave Power Equation
                 obj.power = sum((1/2)*rho*g.*fSpectrum/(2*pi).*obj.dw.*sqrt(9.81./obj.k.*tanh(obj.k.*obj.waterDepth)).*(1 + 2.*obj.k.*obj.waterDepth./sinh(2.*obj.k.*obj.waterDepth)));
@@ -680,8 +680,8 @@ classdef waveClass<handle
                         wn(kk+1) = wna(kk)+wn(kk);
                         a_bins(kk) = trapz(frequency(wn(kk):wn(kk+1)),abs(fSpectrum(wn(kk):wn(kk+1))));
                     end
-                    obj.w = 2*pi*frequency(wn(2:end-1));
-                    obj.dw = [obj.w(1)-2*pi*frequency(wn(1)); diff(obj.w)];
+                    obj.omega = 2*pi*frequency(wn(2:end-1));
+                    obj.dw = [obj.omega(1)-2*pi*frequency(wn(1)); diff(obj.omega)];
                     obj.spectrum = obj.spectrum(wn(2:end-1));                             % Wave Spectrum [m^2-s/rad] 
             end
             obj.amplitude = 2 * obj.spectrum;                                              % Wave Amplitude [m]
@@ -713,14 +713,14 @@ classdef waveClass<handle
             % Calculate eta
             for i = 1:length(timeseries)
                 tmp  = sqrt(obj.amplitude.*df*obj.spread);
-                tmp1 = tmp.*real(exp(sqrt(-1).*(obj.w.*timeseries(i) + obj.phase)));
+                tmp1 = tmp.*real(exp(sqrt(-1).*(obj.omega.*timeseries(i) + obj.phase)));
                 obj.waveAmpTime(i,2) = rampFunction(i)*sum(tmp1,'all');
 
                 
                 % Wave Markers
                 if ~isempty(obj.marker.location)
                     for j = 1:SZwaveAmpTimeViz(1)
-                        tmp14 = tmp.*real(exp(sqrt(-1).*(obj.w.*timeseries(i) ...
+                        tmp14 = tmp.*real(exp(sqrt(-1).*(obj.omega.*timeseries(i) ...
                             - obj.k*(obj.marker.location(j,1).*cos(obj.direction*pi/180) ...
                             + obj.marker.location(j,2).*sin(obj.direction*pi/180)) + obj.phase)));
                         obj.waveAmpTimeViz(i,j+1) = rampFunction(i).*sum(tmp14,'all');

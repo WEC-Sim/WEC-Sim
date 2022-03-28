@@ -217,8 +217,8 @@ if any(hydroBodLogic == 1)
         error('waves.direction outside of range of available hydro data')
     end
     if strcmp(waves.type,'elevationImport')~=1 && strcmp(waves.type,'noWave')~=1 && strcmp(waves.type,'noWaveCIC')~=1
-        if  min(waves.w) <  min(body(1).hydroData.simulation_parameters.w) || max(waves.w) >  max(body(1).hydroData.simulation_parameters.w)
-            error('waves.w outside of range of available hydro data')
+        if  min(waves.omega) <  min(body(1).hydroData.simulation_parameters.w) || max(waves.omega) >  max(body(1).hydroData.simulation_parameters.w)
+            error('waves.omega outside of range of available hydro data')
         end
     end
 else
@@ -239,7 +239,7 @@ idx = find(hydroBodLogic==1);
 if ~isempty(idx)
     for kk = 1:length(idx)
         it = idx(kk);
-        body(it).hydroForcePre(waves.w,waves.direction,simu.cicTime,waves.bem.count,simu.dt,...
+        body(it).hydroForcePre(waves.omega,waves.direction,simu.cicTime,waves.bem.count,simu.dt,...
             simu.rho,simu.g,waves.type,waves.waveAmpTime,simu.stateSpace,simu.b2b);
     end; clear kk idx
 end
