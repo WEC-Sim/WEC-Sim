@@ -320,8 +320,8 @@ if exist(fullfile(resultsdir,'Kochin.    1.dat'),'file')==2
     w=hydro(F).w;
     depth=hydro(F).h;
     for j=1:nw
-        m0(j)=waveNumber(w(j),depth);
-        k0(j)=(w(j)^2)/9.81; % wave number at an infinite water depth
+        m0(j) = calcWaveNumber(w(j),depth);
+        k0(j) = (w(j)^2)/9.81; % wave number at an infinite water depth
     
         local1=zeros(ntheta,nb_DOF*nBodies+1);
         local1(:,1)=ampl_wave*Kochin_BVP_complex(:,(nb_DOF*nBodies+1)*(j-1)+1)*exp(1i*pi/2);%

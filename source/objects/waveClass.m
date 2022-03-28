@@ -241,7 +241,7 @@ classdef waveClass<handle
                     end
                     obj.height = 0;
                     obj.amplitude = obj.height/2;
-                    obj.k = waveNumber(obj.omega,obj.waterDepth,g,obj.deepWater);
+                    obj.k = calcWaveNumber(obj.omega,obj.waterDepth,g,obj.deepWater);
                     obj.waveElevNowave(time);
                 case {'regular','regularCIC'}
                     if isempty(obj.omega) && strcmp(obj.period,'NOT DEFINED')
@@ -253,7 +253,7 @@ classdef waveClass<handle
                         obj.period = 2*pi/obj.omega;
                     end
                     obj.amplitude = obj.height/2;
-                    obj.k = waveNumber(obj.omega,obj.waterDepth,g,obj.deepWater);
+                    obj.k = calcWaveNumber(obj.omega,obj.waterDepth,g,obj.deepWater);
                     obj.waveElevReg(rampTime, time);
                     obj.wavePowerReg(g,rho);
                 case {'irregular','spectrumImport'}
@@ -291,7 +291,7 @@ classdef waveClass<handle
                     end
                     obj.setWavePhase;
                     obj.irregWaveSpectrum(g,rho)
-                    obj.k = waveNumber(obj.omega,obj.waterDepth,g,obj.deepWater);
+                    obj.k = calcWaveNumber(obj.omega,obj.waterDepth,g,obj.deepWater);
                     obj.waveElevIrreg(rampTime, time, obj.dw);
                 case {'elevationImport'}    %  This does not account for wave direction
                     % Import 'elevationImport' time-series here and interpolate
@@ -650,7 +650,7 @@ classdef waveClass<handle
                     error('Following IEC Standard, our Bretschneider Sprectrum (BS) option is exactly how the Pierson-Moskowitz (PM) Spectrum is defined. Please use PM instead');
             end
             % Power per Unit Wave Crest
-            obj.k = waveNumber(obj.omega,obj.waterDepth,g,obj.deepWater); %Calculate Wave Number for Larger Number of Frequencies Before Down Sampling in Equal Energy Method
+            obj.k = calcWaveNumber(obj.omega,obj.waterDepth,g,obj.deepWater); %Calculate Wave Number for Larger Number of Frequencies Before Down Sampling in Equal Energy Method
             if obj.deepWater == 1
                 % Deepwater Approximation
                 obj.power = sum(1/2*rho*g^(2)*fSpectrum/(2*pi).*obj.dw./obj.omega);
