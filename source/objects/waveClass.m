@@ -60,8 +60,8 @@ classdef waveClass<handle
         amplitude       = [];                       % Wave amplitude [m]. For regular waves or 2*(wave spectrum vector) for irregular waves
         deepWater       = [];                       % Deep water or not, depending on input from WAMIT, NEMOH and AQWA
         dOmega          = 0;                        % Frequency spacing [rad] for ``irregular`` waves.
-        k               = [];                       % Wave Number
-        omega           = [];                       % Wave frequency (regular waves) or wave frequency vector (irregular waves) [rad/s] 
+        k               = [];                       % Wave Number, where wavenumber = 2*pi/wavelength [rad/m] 
+        omega           = [];                       % Wave frequency (regular waves) or wave frequency vector (irregular waves), where omega = 2*pi/period [rad/s]
         phase           = 0;                        % (`float`) Wave phase [rad] . Only used for ``irregular`` waves.
         power           = [];                       % Wave Power Per Unit Wave Crest [W/m]        
         spectrum        = [];                       % Wave Spectrum [m^2-s/rad] for ``Traditional``
