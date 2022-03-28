@@ -58,7 +58,7 @@ classdef waveClass<handle
     properties (SetAccess = 'private', GetAccess = 'public')%internal       
         % The following properties are private, for internal use by WEC-Sim
         amplitude       = [];                       % Wave amplitude [m]. For regular waves or 2*(wave spectrum vector) for irregular waves
-        S               = [];                       % Wave Spectrum [m^2-s/rad] for ``Traditional``
+        spectrum        = [];                       % Wave Spectrum [m^2-s/rad] for ``Traditional``
         Pw              = [];                       % Wave Power Per Unit Wave Crest [W/m]        
         deepWater       = [];                       % Deep water or not, depending on input from WAMIT, NEMOH and AQWA
         dw              = 0;                        % Frequency spacing [rad] for ``irregular`` waves.
@@ -481,16 +481,16 @@ classdef waveClass<handle
             %     figure : fig
             %         Plot of wave spectrum versus wave frequency
             %                 
-            m0 = trapz(obj.w,obj.S);
+            m0 = trapz(obj.w,obj.spectrum);
             HsTest = 4*sqrt(m0);
-            [~,I] = max(abs(obj.S));
+            [~,I] = max(abs(obj.spectrum));
             wp = obj.w(I);
             TpTest = 2*pi/wp;
             
             figure
-            plot(obj.w,obj.S,'s-')
+            plot(obj.w,obj.spectrum,'s-')
             hold on
-            line([wp,wp],[0,max(obj.S)],'Color','k')
+            line([wp,wp],[0,max(obj.spectrum)],'Color','k')
             xlim([0 max(obj.w)])
             title([obj.spectrumType, ' Spectrum, T_p= ' num2str(TpTest) ' [s], '  'H_m_0= ' num2str(HsTest), ' [m]'])
             if strcmp(obj.spectrumType,'JS') == 1
@@ -614,7 +614,7 @@ classdef waveClass<handle
                     % Pierson-Moskowitz Spectrum from IEC TS 62600-2 ED2 Annex C.2 (2019)
                     bPM = (5/4)*(1/Tp)^(4);
                     aPM =  bPM*(Hs/2)^2;
-                    Sf  = (aPM*frequency.^(-5).*exp(-bPM*frequency.^(-4)));            % Wave Spectrum [m^2-s] for 'EqualEnergy'
+                    fSpectrum  = (aPM*frequency.^(-5).*exp(-bPM*frequency.^(-4)));            % Wave Spectrum [m^2-s] for 'EqualEnergy'
                     if strcmp(obj.spectrumType,'JS')
                         % JONSWAP Spectrum from IEC TS 62600-2 ED2 Annex C.2 (2019)
                         fp = 1/Tp;
@@ -635,16 +635,16 @@ classdef waveClass<handle
                         gammaAlpha(lind) = obj.gamma.^exp(-(frequency(lind)-fp).^2/(2*siga^2*fp^2));
                         gammaAlpha(hind) = obj.gamma.^exp(-(frequency(hind)-fp).^2/(2*sigb^2*fp^2));
                         C = 1 - 0.287*log(obj.gamma);
-                        Sf = C*Sf.*gammaAlpha;                                % Wave Spectrum [m^2-s]
+                        fSpectrum = C*fSpectrum.*gammaAlpha;                                % Wave Spectrum [m^2-s]
                     end
-                    obj.S = Sf./(2*pi);                                       % Wave Spectrum [m^2-s/rad]
+                    obj.spectrum = fSpectrum./(2*pi);                                       % Wave Spectrum [m^2-s/rad]
                 case 'spectrumImport' % Imported Wave Spectrum
                     data = importdata(obj.spectrumFile);
                     freqData = data(:,1);
                     S_data = data(:,2);
                     freqLoc = freqData >= min(obj.bem.range)/2/pi & freqData <= max(obj.bem.range)/2/pi;
-                    Sf = S_data(freqLoc);                                    % Wave Spectrum [m^2-s] for 'EqualEnergy'
-                    obj.S = Sf./(2*pi);                                       % Wave Spectrum [m^2-s/rad] for 'Traditional'
+                    fSpectrum = S_data(freqLoc);                                    % Wave Spectrum [m^2-s] for 'EqualEnergy'
+                    obj.spectrum = fSpectrum./(2*pi);                                       % Wave Spectrum [m^2-s/rad] for 'Traditional'
                     fprintf('\t"spectrumImport" uses the number of imported wave frequencies (not "Traditional" or "EqualEnergy")\n')
                 case {'BS'} 
                     error('Following IEC Standard, our Bretschneider Sprectrum (BS) option is exactly how the Pierson-Moskowitz (PM) Spectrum is defined. Please use PM instead');
@@ -653,18 +653,18 @@ classdef waveClass<handle
             obj.k = waveNumber(obj.w,obj.waterDepth,g,obj.deepWater); %Calculate Wave Number for Larger Number of Frequencies Before Down Sampling in Equal Energy Method
             if obj.deepWater == 1
                 % Deepwater Approximation
-                obj.Pw = sum(1/2*rho*g^(2)*Sf/(2*pi).*obj.dw./obj.w);
+                obj.Pw = sum(1/2*rho*g^(2)*fSpectrum/(2*pi).*obj.dw./obj.w);
             else
                 % Full Wave Power Equation
-                obj.Pw = sum((1/2)*rho*g.*Sf/(2*pi).*obj.dw.*sqrt(9.81./obj.k.*tanh(obj.k.*obj.waterDepth)).*(1 + 2.*obj.k.*obj.waterDepth./sinh(2.*obj.k.*obj.waterDepth)));
+                obj.Pw = sum((1/2)*rho*g.*fSpectrum/(2*pi).*obj.dw.*sqrt(9.81./obj.k.*tanh(obj.k.*obj.waterDepth)).*(1 + 2.*obj.k.*obj.waterDepth./sinh(2.*obj.k.*obj.waterDepth)));
             end
             %
             switch obj.bem.option
                 case {'EqualEnergy'}
-                    m0 = trapz(frequency,abs(Sf));
+                    m0 = trapz(frequency,abs(fSpectrum));
                     numBins = obj.bem.count+1;
                     a_targ = m0/(numBins);
-                    SfInt = cumtrapz(frequency,Sf);
+                    SfInt = cumtrapz(frequency,fSpectrum);
                     wn(1) = 1;
                     for kk = 1:numBins
                         jj = 1;
@@ -672,19 +672,19 @@ classdef waveClass<handle
                         while tmpa{kk}(jj)-kk*a_targ < 0
                             tmpa{kk}(jj+1) = SfInt(wn(kk)+jj);
                             jj = jj+1;
-                            if wn(kk)+jj >=length(Sf)
+                            if wn(kk)+jj >=length(fSpectrum)
                                 break
                             end
                         end
                         [a_targ_real(kk),wna(kk)] = min(abs(tmpa{kk}-kk*a_targ));
                         wn(kk+1) = wna(kk)+wn(kk);
-                        a_bins(kk) = trapz(frequency(wn(kk):wn(kk+1)),abs(Sf(wn(kk):wn(kk+1))));
+                        a_bins(kk) = trapz(frequency(wn(kk):wn(kk+1)),abs(fSpectrum(wn(kk):wn(kk+1))));
                     end
                     obj.w = 2*pi*frequency(wn(2:end-1));
                     obj.dw = [obj.w(1)-2*pi*frequency(wn(1)); diff(obj.w)];
-                    obj.S = obj.S(wn(2:end-1));                             % Wave Spectrum [m^2-s/rad] 
+                    obj.spectrum = obj.spectrum(wn(2:end-1));                             % Wave Spectrum [m^2-s/rad] 
             end
-            obj.amplitude = 2 * obj.S;                                              % Wave Amplitude [m]
+            obj.amplitude = 2 * obj.spectrum;                                              % Wave Amplitude [m]
         end
 
         function waveElevIrreg(obj,rampTime,timeseries,df)
