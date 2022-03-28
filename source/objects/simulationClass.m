@@ -71,6 +71,7 @@ classdef simulationClass<handle
         numDragBodies       = 0                                            % (`integer`) Number of drag bodies that comprise the WEC device (excluding hydrodynamic bodies). Default = ``0``
         numMoorings         = 0                                            % (`integer`) Number of moorings in the wec model. Default = ``0``
         numPtos             = 0                                            % (`integer`) Number of power take-off elements in the model. Default = ``0``
+        numPtoSim           = 0                                            % (`integer`) Number of PTO-Sim elements in the model. Default = ``0``        
         numHydroBodies      = 0                                            % (`integer`) Number of hydrodynamic bodies that comprise the WEC device. Default = ``0``
         time                = 0                                            % (`float`) Simulation time [s]. Default = ``0`` s
     end
