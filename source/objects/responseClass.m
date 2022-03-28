@@ -510,7 +510,7 @@ classdef responseClass<handle
                         hold on
                     end
                     % Create and wave elevation grid
-                    Z = waveElevationGrid(waves, t(i), X, Y, simu.dtOut, simu.g);
+                    Z = waveElevationGrid(waves, t(i), X, Y, simu.dtOut, simu.gravity);
                     surf(X,Y,Z,'FaceAlpha',.85,'EdgeColor','none')
                     hold on
                     % Display seafloor

@@ -37,7 +37,7 @@ classdef simulationClass<handle
         dt                  = 0.1                                          % (`float`) Simulation time step. Default = ``0.1`` s
         dtOut               = []                                           % (`float`) Output sampling time. Default = ``dt``
         endTime             = []                                           % (`float`) Simulation end time. Default = ``[]``
-        g                   = 9.81                                         % (`float`) Acceleration due to gravity. Default = ``9.81`` m/s
+        gravity                   = 9.81                                         % (`float`) Acceleration due to gravity. Default = ``9.81`` m/s
         mcrMatFile          = []                                           % (`string`) mat file that contain a list of the multiple conditions runs with given conditions. Default = ``[]``  
         mcrExcelFile        = []                                           % (`string`) File name from which to load wave statistics data. Default = ``[]``        
         mode                = 'normal'                                     % (`string`) Simulation execution mode, 'normal', 'accelerator', 'rapid-accelerator'. Default = ``'normal'``
@@ -205,18 +205,18 @@ classdef simulationClass<handle
                 'SimMechanicsOpenEditorOnUpdate',obj.explorer);
         end
 
-        function rhoDensitySetup(obj,rho,g)
+        function rhoDensitySetup(obj,rho,gravity)
             % Assigns density and gravity values
             %
             % Parameters
             % ------------
             %   rho : float
             %       density of the fluid medium (kg/m^3)
-            %   g : float
+            %   gravity : float
             %       gravitational acceleration constant (m/s^2)
             %
             obj.rho = rho;
-            obj.g   = g;
+            obj.gravity   = gravity;
         end
 
         function getGitCommit(obj)
