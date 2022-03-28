@@ -19,6 +19,6 @@
 
 function wecSimFcn(imcr,mcr,pctDir,totalNumOfWorkers)
 %% wecSimFcn
-% WEC-Sim from function executable
+% WEC-Sim from function executable+
     wecSim
 end

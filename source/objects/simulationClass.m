@@ -37,7 +37,7 @@ classdef simulationClass<handle
         dt                  = 0.1                                          % (`float`) Simulation time step. Default = ``0.1`` s
         dtOut               = []                                           % (`float`) Output sampling time. Default = ``dt``
         endTime             = []                                           % (`float`) Simulation end time. Default = ``[]``
-        g                   = 9.81                                         % (`float`) Acceleration due to gravity. Default = ``9.81`` m/s
+        gravity                   = 9.81                                         % (`float`) Acceleration due to gravity. Default = ``9.81`` m/s
         mcrMatFile          = []                                           % (`string`) mat file that contain a list of the multiple conditions runs with given conditions. Default = ``[]``  
         mcrExcelFile        = []                                           % (`string`) File name from which to load wave statistics data. Default = ``[]``        
         mode                = 'normal'                                     % (`string`) Simulation execution mode, 'normal', 'accelerator', 'rapid-accelerator'. Default = ``'normal'``
@@ -71,6 +71,7 @@ classdef simulationClass<handle
         numDragBodies       = 0                                            % (`integer`) Number of drag bodies that comprise the WEC device (excluding hydrodynamic bodies). Default = ``0``
         numMoorings         = 0                                            % (`integer`) Number of moorings in the wec model. Default = ``0``
         numPtos             = 0                                            % (`integer`) Number of power take-off elements in the model. Default = ``0``
+        numPtoSim           = 0                                            % (`integer`) Number of PTO-Sim elements in the model. Default = ``0``        
         numHydroBodies      = 0                                            % (`integer`) Number of hydrodynamic bodies that comprise the WEC device. Default = ``0``
         time                = 0                                            % (`float`) Simulation time [s]. Default = ``0`` s
     end
@@ -83,7 +84,7 @@ classdef simulationClass<handle
         gitCommit           = []                                           % (`string`) GitHub commit
         maxIt               = []                                           % (`integer`) Total number of simulation time steps. Approximate for variable step solvers. Default = dependent
         outputDir           = 'output'                                     % (`string`) Data output directory name. Default = ``'output'``
-        wsVersion           = '4.4'                                        % (`string`) WEC-Sim version
+        wsVersion           = '5.0'                                        % (`string`) WEC-Sim version
     end
 
     methods
@@ -205,18 +206,18 @@ classdef simulationClass<handle
                 'SimMechanicsOpenEditorOnUpdate',obj.explorer);
         end
 
-        function rhoDensitySetup(obj,rho,g)
+        function rhoDensitySetup(obj,rho,gravity)
             % Assigns density and gravity values
             %
             % Parameters
             % ------------
             %   rho : float
             %       density of the fluid medium (kg/m^3)
-            %   g : float
+            %   gravity : float
             %       gravitational acceleration constant (m/s^2)
             %
             obj.rho = rho;
-            obj.g   = g;
+            obj.gravity   = gravity;
         end
 
         function getGitCommit(obj)

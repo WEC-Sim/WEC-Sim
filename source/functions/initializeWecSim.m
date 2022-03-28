@@ -21,7 +21,7 @@
 % Clear old input, plots, log file and start new log file.
 clc; diary off; close all;
 clear body waves simu output pto constraint ptoSim mooring values names InParam
-delete('*.log');
+try delete('*.log'); end
 diary('simulation.log')
 
 
@@ -199,7 +199,9 @@ toc
 %% Pre-processing start
 tic
 fprintf('\nWEC-Sim Pre-processing ...   \n');
-try cd(pctDir); end
+if exist('pctDir')
+    cd(pctDir); 
+end
 
 %% HydroForce Pre-Processing: Wave Setup & HydroForcePre.
 % simulation setup
@@ -209,20 +211,20 @@ simu.setup();
 if any(hydroBodLogic == 1)
     % When hydro bodies (and an .h5) are present, define the wave using those
     % parameters.
-    waves.setup(body(1).hydroData.simulation_parameters.w, body(1).hydroData.simulation_parameters.waterDepth, simu.rampTime, simu.dt, simu.maxIt, simu.time, simu.g, simu.rho);
+    waves.setup(body(1).hydroData.simulation_parameters.w, body(1).hydroData.simulation_parameters.waterDepth, simu.rampTime, simu.dt, simu.maxIt, simu.time, simu.gravity, simu.rho);
     % Check that direction and freq are within range of hydro data
     if  min(waves.direction) <  min(body(1).hydroData.simulation_parameters.direction) || max(waves.direction) >  max(body(1).hydroData.simulation_parameters.direction)
         error('waves.direction outside of range of available hydro data')
     end
     if strcmp(waves.type,'elevationImport')~=1 && strcmp(waves.type,'noWave')~=1 && strcmp(waves.type,'noWaveCIC')~=1
-        if  min(waves.w) <  min(body(1).hydroData.simulation_parameters.w) || max(waves.w) >  max(body(1).hydroData.simulation_parameters.w)
-            error('waves.w outside of range of available hydro data')
+        if  min(waves.omega) <  min(body(1).hydroData.simulation_parameters.w) || max(waves.omega) >  max(body(1).hydroData.simulation_parameters.w)
+            error('waves.omega outside of range of available hydro data')
         end
     end
 else
     % When no hydro bodies (and no .h5) are present, define the wave using
     % input file parameters
-    waves.setup([], [], simu.rampTime, simu.dt, simu.maxIt, simu.time, simu.g, simu.rho);
+    waves.setup([], [], simu.rampTime, simu.dt, simu.maxIt, simu.time, simu.gravity, simu.rho);
 end
 
 % Nonlinear hydro
@@ -237,8 +239,8 @@ idx = find(hydroBodLogic==1);
 if ~isempty(idx)
     for kk = 1:length(idx)
         it = idx(kk);
-        body(it).hydroForcePre(waves.w,waves.direction,simu.cicTime,waves.bem.count,simu.dt,...
-            simu.rho,simu.g,waves.type,waves.waveAmpTime,simu.stateSpace,simu.b2b);
+        body(it).hydroForcePre(waves.omega,waves.direction,simu.cicTime,waves.bem.count,simu.dt,...
+            simu.rho,simu.gravity,waves.type,waves.waveAmpTime,simu.stateSpace,simu.b2b);
     end; clear kk idx
 end
 

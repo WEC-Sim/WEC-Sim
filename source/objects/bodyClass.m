@@ -28,8 +28,8 @@ classdef bodyClass<handle
     %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
     
     properties (SetAccess = 'public', GetAccess = 'public') % WEC-Sim input
-        centerGravity       = []                            % (`3x1 float vector`) Body center of gravity [m]. Defined in the following format [x y z]. For hydrodynamic bodies this is defined in the h5 file while for nonhydrodynamic bodies this is defined by the user. Default = ``[]``.
         centerBuoyancy      = []                            % (`3x1 float vector`) Body center of buoyancy [m]. Defined in the following format [x y z]. For hydrodynamic bodies this is defined in the h5 file while for nonhydrodynamic bodies this is defined by the user. Default = ``[]``.
+        centerGravity       = []                            % (`3x1 float vector`) Body center of gravity [m]. Defined in the following format [x y z]. For hydrodynamic bodies this is defined in the h5 file while for nonhydrodynamic bodies this is defined by the user. Default = ``[]``.
         dof                 = 6                             % (`integer`) Number of degree of freedoms (DOFs). For hydrodynamic bodies this is given in the h5 file. If not defined in the h5 file, Default = ``6``.
         excitationIRF       = []                            % (`vector`) Defines excitation Impulse Response Function, only used with the `waveClass` ``elevationImport`` type. Default = ``[]``.
         flex                = 0                             % (`integer`) Flag for flexible body, Options: 0 (off) or 1 (on). Default = ``0``.
@@ -77,7 +77,7 @@ classdef bodyClass<handle
     end
 
     properties (SetAccess = 'private', GetAccess = 'public')% internal
-        dofCoupled          = []                            % (`matrix`) Matrices length, Options: ``6`` without body-to-body interactions. ``6*number of hydro bodies`` with body-to-body interactions.
+        b2bDOF              = []                            % (`matrix`) Matrices length, Options: ``6`` without body-to-body interactions. ``6*number of hydro bodies`` with body-to-body interactions.
         hydroForce          = struct()                      % (`structure`) Defines hydrodynamic forces and coefficients used during simulation.
         massCalcMethod      = []                            % (`string`) Method used to obtain mass, options: ``'user'``, ``'fixed'``, ``'equilibrium'``
         number              = []                            % (`integer`) Body number, must be the same as the BEM body number.
@@ -491,12 +491,12 @@ classdef bodyClass<handle
         end
 
         function setDOF(obj, numHydroBodies, b2b)
-            % Method to define the body's dofCoupled parameter
+            % Method to define the body's b2bDOF parameter
             obj.total = numHydroBodies;
             if b2b==1
-                obj.dofCoupled = zeros(6*numHydroBodies,1);
+                obj.b2bDOF = zeros(6*numHydroBodies,1);
             else
-                obj.dofCoupled = zeros(6,1);
+                obj.b2bDOF = zeros(6,1);
             end
         end
     end
@@ -633,12 +633,12 @@ classdef bodyClass<handle
             % Change matrix size: B2B [6x6n], noB2B [6x6]
             switch B2B
                 case {1}
-                    obj.dofCoupled = 6*obj.total;
-                    obj.hydroForce.fAddedMass = zeros(6,obj.dofCoupled);
-                    obj.hydroForce.fDamping = zeros(6,obj.dofCoupled);
-                    obj.hydroForce.totDOF  =zeros(6,obj.dofCoupled);
+                    obj.b2bDOF = 6*obj.total;
+                    obj.hydroForce.fAddedMass = zeros(6,obj.b2bDOF);
+                    obj.hydroForce.fDamping = zeros(6,obj.b2bDOF);
+                    obj.hydroForce.totDOF  =zeros(6,obj.b2bDOF);
                     for ii=1:6
-                        for jj=1:obj.dofCoupled
+                        for jj=1:obj.b2bDOF
                             obj.hydroForce.fAddedMass(ii,jj) = interp1(obj.hydroData.simulation_parameters.w,squeeze(am(ii,jj,:)),w,'spline');
                             obj.hydroForce.fDamping  (ii,jj) = interp1(obj.hydroData.simulation_parameters.w,squeeze(rd(ii,jj,:)),w,'spline');
                         end
