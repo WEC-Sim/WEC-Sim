@@ -207,16 +207,16 @@ depending on which wave type is selected, as shown in the table below. A more
 detailed description of the available wave types is given in the following 
 sections. 
 
-================== ================================================
-**Wave Type**      **Required Properties**                         
-``noWave``         ``waves.T``                                     
+=================== ================================================
+**Wave Type**       **Required Properties**                         
+``noWave``          ``waves.T``                                     
 ``noWaveCIC``                                                      
-``regular``        ``waves.H``, ``waves.T``                        
-``regularCIC``     ``waves.H``, ``waves.T``                        
-``irregular``      ``waves.H``, ``waves.T``, ``waves.spectrumType``
-``spectrumImport`` ``waves.waveSpectrumFile``                      
-``waveImport``      ``waves.waveElevationFile``                           
-================== ================================================
+``regular``         ``waves.H``, ``waves.T``                        
+``regularCIC``      ``waves.H``, ``waves.T``                        
+``irregular``       ``waves.H``, ``waves.T``, ``waves.spectrumType``
+``spectrumImport``  ``waves.spectrumFile``                      
+``elevationImport`` ``waves.elevationFile``                           
+=================== ================================================
 
 Available wave class properties, default values, and functions can be found by 
 typing ``doc waveClass`` in the MATLAB command window, or by opening the 
@@ -335,18 +335,18 @@ in the input file::
     define the wave forces on the WEC, for more information refer to the 
     :ref:`user-advanced-features-irregular-wave-binning` section.
 
-waveImport
-"""""""""""
+elevationImport
+"""""""""""""""
 
-The ``waveImport`` case is the wave type for wave simulations using user-defined 
+The ``elevationImport`` case is the wave type for wave simulations using user-defined 
 time-series (ex: from experiments). The user-defined wave surface elevation 
 must be defined with the time (s) in the first column, and the wave surface 
 elevation (m) in the second column. An example of this is given in the 
 ``etaData.mat`` file in the tutorials directory folder of the WEC-Sim source 
-code. The ``waveImport`` case is defined by including the following in the input 
+code. The ``elevationImport`` case is defined by including the following in the input 
 file:: 
 
-    waves = waveClass('waveImport');
+    waves = waveClass('elevationImport');
     waves.waveElevationFile ='<waveElevationFile>.mat';
 
 

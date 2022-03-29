@@ -632,7 +632,7 @@ Applications <https://github.com/WEC-Sim/WEC-Sim_Applications>`_ repository
 
 .. Note::
 
-    Morison Elements cannot be used with :code:`waveImport`.
+    Morison Elements cannot be used with :code:`elevationImport`.
 
 .. _user-advanced-features-non-hydro-body:
 
@@ -997,7 +997,7 @@ For more information about using ParaView for visualization, refer to the **Wave
 
 .. Note:: 
 
-    This feature is not compatible with user-defined waves ``waves = waveClass('waveImport')``
+    This feature is not compatible with user-defined waves ``waves = waveClass('elevationImport')``
     
 .. figure:: /_static/images/RM3_vizMarker.jpg
    :width: 250pt

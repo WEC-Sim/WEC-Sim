@@ -390,7 +390,7 @@ provided includes examples of how to run different wave cases:
 * ``irregular`` - irregular waves using a Pierson-Moskowitz spectrum with convolution integral calculation
 * ``irregular`` - irregular waves using a Bretschneider Spectrum with state space calculation
 * ``spectrumImport`` - irregular waves using a user-defined spectrum
-* ``waveImport`` - user-defined time-series
+* ``elevationImport`` - user-defined time-series
 
 
 * Run from MATLAB Command Window (for RM3 and OSWEC examples)
