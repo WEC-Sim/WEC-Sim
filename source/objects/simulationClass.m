@@ -69,17 +69,17 @@ classdef simulationClass<handle
         numCables           = 0                                            % (`integer`) Number of cables in the wec model. Default = ``0``
         numConstraints      = 0                                            % (`integer`) Number of contraints in the wec model. Default = ``0``
         numDragBodies       = 0                                            % (`integer`) Number of drag bodies that comprise the WEC device (excluding hydrodynamic bodies). Default = ``0``
+        numHydroBodies      = 0                                            % (`integer`) Number of hydrodynamic bodies that comprise the WEC device. Default = ``0``
         numMoorings         = 0                                            % (`integer`) Number of moorings in the wec model. Default = ``0``
         numPtos             = 0                                            % (`integer`) Number of power take-off elements in the model. Default = ``0``
         numPtoSim           = 0                                            % (`integer`) Number of PTO-Sim elements in the model. Default = ``0``        
-        numHydroBodies      = 0                                            % (`integer`) Number of hydrodynamic bodies that comprise the WEC device. Default = ``0``
         time                = 0                                            % (`float`) Simulation time [s]. Default = ``0`` s
     end
 
     properties (SetAccess = 'private', GetAccess = 'public') % internal WEC-Sim
-        cicTime             = []                                           % (`float vector`) Convolution integral time series. Default = dependent
-        cicLength           = []                                           % (`integer`) Number of timesteps in the convolution integral length. Default = dependent
         caseFile            = []                                           % (`string`) .mat file with all simulation information. Default = dependent
+        cicLength           = []                                           % (`integer`) Number of timesteps in the convolution integral length. Default = dependent
+        cicTime             = []                                           % (`float vector`) Convolution integral time series. Default = dependent
         date                = datetime                                     % (`string`) Simulation date and time
         gitCommit           = []                                           % (`string`) GitHub commit
         maxIt               = []                                           % (`integer`) Total number of simulation time steps. Approximate for variable step solvers. Default = dependent

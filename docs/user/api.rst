@@ -10,7 +10,7 @@ Simulation Class
 
 .. autoclass:: objects.simulationClass
 	:members:
-	:exclude-members: wsVersion, gitCommit, date, outputDir, time, inputFile, logFile, caseFile, caseDir, cicLength, maxIt, cicEndTime, numHydroBodies, numDragBodies, numPtos, numConstraints, numCables, numMoorings, listInfo, getWecSimVer, loadSimMechModel, simulationClass, setup, checkinputs, rhoDensitySetup, getGitCommit, simulationClass
+	:exclude-members: caseDir, numCables, numConstraints, numDragBodies, numHydroBodies, numMoorings, numPtos, numPtoSim, time, caseFile, cicLength, cicTime, date, gitCommit, maxIt, outputDir, wsVersion, simulationClass, checkInputs, setup, listInfo, loadSimMechModel, rhoDensitySetup, getGitCommit
 	:no-undoc-members: 
     
 
@@ -21,7 +21,7 @@ Wave Class
 
 .. autoclass:: objects.waveClass
     :members: 
-    :exclude-members: typeNum, bemFreq, deepWater, waveAmpTime, waveAmpTime1, waveAmpTime2, waveAmpTime3, waveAmpTimeViz, A, w, phase, dw, k, S, Pw, waveClass, waveSetup, listInfo, waveNumber, checkinputs, waveElevationGrid
+    :exclude-members: amplitude, deepWater, dOmega, omega, phase, power, spectrum, type, typeNum, waveAmpTime, waveAmpTimeViz, wavenumber, waveClass, checkInputs, setup, listInfo, calculateElevation, waveElevationGrid
     :no-undoc-members:    
 
 
