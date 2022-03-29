@@ -866,7 +866,7 @@ where :code:`cable(i).stiffness` is the cable stiffness (N/m), and :code:`cable(
 damping is applied between the connection points if the current length of the cable exceeds the equilibrium length of the cable. 
 By default, the cable equilibrium length is defined to be the distance between the locations of the ``baseConnection`` and ``followerConnection``, so that initially there is no tension on the cable. 
 
-If a distinct initial condition is desired, one can define either ``cable(i).L0`` or ``cable(i).preTension``, where :code:`cable(i).L0` is the equilibrium (i.e., unstretched) length of the cable (m), and :code:`cable(i).preTension` is the pre-tension applied to the cable at simulation start (N). The unspecified parameter is then calculated from the location of the ``baseConnection`` and 
+If a distinct initial condition is desired, one can define either ``cable(i).length`` or ``cable(i).preTension``, where :code:`cable(i).length` is the equilibrium (i.e., unstretched) length of the cable (m), and :code:`cable(i).preTension` is the pre-tension applied to the cable at simulation start (N). The unspecified parameter is then calculated from the location of the ``baseConnection`` and 
 ``followerConnection``. 
 
 To include dynamics applied at the cable-to-body coupling (e.g., a stiffness and damping), a PTO block 
