@@ -101,11 +101,11 @@ Number  Purpose                            Input parameters utilized
 ======  =================================  =========================
 1A      Hydrostatic stability              noWave
 1B      Hydrostatic stability              noWaveCIC
-2A      Free Decay, hydrostatic stiffness  noWave, initDisp
-2B      Free Decay, hydrostatic stiffness  noWaveCIC, initDisp
+2A      Free Decay, hydrostatic stiffness  noWave, initial
+2B      Free Decay, hydrostatic stiffness  noWaveCIC, initial
 3A      Viscous drag                       regular
 3B      Viscous drag                       regularCIC
-4A      Full functionality                 irregular, initDisp
+4A      Full functionality                 irregular, initial
 ======  =================================  =========================
 
 Various problems may occur while progressing through these test cases.

@@ -32,7 +32,7 @@ Body Class
 
 .. autoclass:: objects.bodyClass
     :members:
-    :exclude-members: hydroData, geometry, hydroForce, h5File, hydroTotal, massCalcMethod, number, total, dofCoupled, hydroForcePre, adjustMassMatrix, restoreMassMatrix, storeForceAddedMass, setInitDisp, bodyGeo, triArea, bodyGeo, triArea, triCenter, rotateXYZ, verts_out, offsetXYZ, readH5File, loadHydroData, dragForcePre, listInfo, checkStl, checkinputs, forceAddedMass, bodyClass
+    :exclude-members: hydroData, geometry, hydroForce, h5File, hydroTotal, massCalcMethod, number, total, b2bDOF, hydroForcePre, adjustMassMatrix, restoreMassMatrix, storeForceAddedMass, setInitDisp, bodyGeo, triArea, bodyGeo, triArea, triCenter, rotateXYZ, verts_out, offsetXYZ, readH5File, loadHydroData, dragForcePre, listInfo, checkStl, checkinputs, forceAddedMass, bodyClass
     :no-undoc-members:
     
 .. _constraint:
@@ -72,7 +72,7 @@ Cable Class
 
 .. autoclass:: objects.cableClass
 	:members:
-	:exclude-members: number, loc, rotloc1, rotloc2, cg1, cb1, cg2, cb2, dispVol, setTransPTOLoc, checkLoc, setOrientation, setDispVol, dragForcePre, linDampMatrix, setCb, setCg, setLoc, setL0 listInfo, cableClass
+	:exclude-members: number, location, volume, setTransPTOLoc, checkLoc, setOrientation, setDispVol, dragForcePre, linDampMatrix, setCb, setCg, setLoc, setL0 listInfo, cableClass
 
 .. _response:
 

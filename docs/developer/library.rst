@@ -172,7 +172,7 @@ Within the custom parameters folder are various tabs. The first tab contains
 parameters not within a class structure. Additional tabs are organized based 
 on what class structures are used. For example all parameters within the 
 ``body(i).morisonElement`` structure are under the morisonElement tab, 
-``body(i).initDisp`` under the initDisp tab, etc. This method of placing class
+``body(i).initial`` under the tab, etc. This method of placing class
 structures into tabs helps organize the mask and write parameters to the input 
 file.
 
@@ -226,7 +226,7 @@ Block / class           Mask parameter                         Callback
 PTO, constraint, cable  upperLimitSpecify, lowerLimitSpecify   ``hardStopCallback``
 Body                    STLButton                              ``stlButtonCallback``
 Body                    H5Button                               ``h5ButtonCallback``
-Body                    nonHydroBody, (morisonElement.) on           ``bodyClassCallback``
+Body                    nonHydro, (morisonElement.) on         ``bodyClassCallback``
 ====================== ====================================== ==========
 
 A specific variable's callbacks are defined in: 
@@ -263,7 +263,7 @@ The visibility callbacks function by checking the value of a flag:
 
     >> mask = Simulink.Mask.get(bodyBlockHandle)
     >> meParam = mask.getParameter('on')
-    >> nhBodyParam = mask.getParameter('nonHydroBody')
+    >> nhBodyParam = mask.getParameter('nonHydro')
 
 
 Depending on the value of a flag, the visibility of individual variables or an 

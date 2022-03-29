@@ -395,30 +395,30 @@ important distinctions.
 |Hydrodynamic Body        |``body(i)=bodyClass('<bemData>.h5')``        |
 |                         |``body(i).geometryFile = '<geomFile>.stl'``  |
 |                         |``body(i).mass``                             |
-|                         |``body(i).momOfInertia``                     |
+|                         |``body(i).intertia``                         |
 +-------------------------+---------------------------------------------+
 |Drag Body                |``body(i)=bodyClass('')``                    |
 |                         |``body(i).geometryFile = '<geomFile>.stl'``  |
 |                         |``body(i).mass``                             |
-|                         |``body(i).momOfInertia``                     |
-|                         |``body(i).cg``                               |
-|                         |``body(i).cb``                               |
-|                         |``body(i).dispVol``                          |
+|                         |``body(i).intertia``                         |
+|                         |``body(i).centerGravity``                    |
+|                         |``body(i).centerBuoyancy``                   |
+|                         |``body(i).volume``                           |
 |                         |``body(i).nonHydro=1``                       |
 +-------------------------+---------------------------------------------+
 |Nonhydrodynamic Body     |``body(i)=bodyClass('')``                    |
 |                         |``body(i).geometryFile = '<geomFile>.stl'``  |
 |                         |``body(i).mass``                             |
-|                         |``body(i).momOfInertia``                     |
-|                         |``body(i).cg``                               |
-|                         |``body(i).cb``                               |
-|                         |``body(i).dispVol``                          |
+|                         |``body(i).intertia``                         |
+|                         |``body(i).centerGravity``                    |
+|                         |``body(i).centerBuoyancy``                   |
+|                         |``body(i).volume``                           |
 |                         |``body(i).nonHydro=2``                       |
 +-------------------------+---------------------------------------------+
 |Flexible Body            |``body(i)=bodyClass('<bemData>.h5')``        |
 |                         |``body(i).geometryFile = '<geomFile>.stl'``  |
 |                         |``body(i).mass``                             |
-|                         |``body(i).momOfInertia``                     |
+|                         |``body(i).intertia``                         |
 +-------------------------+---------------------------------------------+
 
 Users may specify other body class properties using the ``body`` object for 
