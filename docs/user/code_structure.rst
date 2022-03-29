@@ -326,7 +326,7 @@ it will be randomly defined. An example file is provided in the
 in the input file:: 
 
     waves = waveClass('spectrumImport');
-    waves.waveSpectrumFile='<waveSpectrumFile>.mat';
+    waves.spectrumFile ='<spectrumFile >.mat';
 
 .. Note::
     When using the ``spectrumImport`` option, users must specify a sufficient 
@@ -347,7 +347,7 @@ code. The ``elevationImport`` case is defined by including the following in the 
 file:: 
 
     waves = waveClass('elevationImport');
-    waves.waveElevationFile ='<waveElevationFile>.mat';
+    waves.elevationFile ='<elevationFile>.mat';
 
 
 
