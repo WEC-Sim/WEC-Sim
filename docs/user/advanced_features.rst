@@ -117,7 +117,7 @@ the MATLAB Command Window. This command executes the Multiple Condition Run
 
     **Option 1.** Specify a range of sea states and PTO damping coefficients in 
     the WEC-Sim input file, example: 
-    ``waves.H = 1:0.5:5; waves.T = 5:1:15;``
+    ``waves.height = 1:0.5:5; waves.period = 5:1:15;``
     ``pto(1).stiffness=1000:1000:10000; pto(1).damping=1200000:1200000:3600000;``
 
     **Option 2.**  Specify the excel filename that contains a set of wave 
@@ -321,6 +321,11 @@ simulation.
 
 Wave Gauge Placement
 ^^^^^^^^^^^^^^^^^^^^
+Wave gauges can be included through the wave class parameters::
+
+    waves.marker.location
+    waves.marker.size
+    waves.marker.style
 
 By default, the wave surface elevation at the origin is calculated by WEC-Sim. 
 In past releases, there was the option to define up to three numerical wave gauge 

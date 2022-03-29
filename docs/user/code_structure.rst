@@ -207,16 +207,16 @@ depending on which wave type is selected, as shown in the table below. A more
 detailed description of the available wave types is given in the following 
 sections. 
 
-=================== ================================================
+=================== ==================================================================
 **Wave Type**       **Required Properties**                         
-``noWave``          ``waves.T``                                     
+``noWave``          ``waves.period``                                     
 ``noWaveCIC``                                                      
-``regular``         ``waves.H``, ``waves.T``                        
-``regularCIC``      ``waves.H``, ``waves.T``                        
-``irregular``       ``waves.H``, ``waves.T``, ``waves.spectrumType``
+``regular``         ``waves.height``, ``waves.period``                        
+``regularCIC``      ``waves.height``, ``waves.period``                        
+``irregular``       ``waves.height``, ``waves.period``, ``waves.spectrumType``
 ``spectrumImport``  ``waves.spectrumFile``                      
 ``elevationImport`` ``waves.elevationFile``                           
-=================== ================================================
+=================== ==================================================================
 
 Available wave class properties, default values, and functions can be found by 
 typing ``doc waveClass`` in the MATLAB command window, or by opening the 
@@ -238,7 +238,7 @@ coefficients from a BEM solver before executing WEC-Sim and specify the period
 The ``noWave`` case is defined by including the following in the input file::
 
     waves = waveClass('noWave');
-    waves.T = <wavePeriod>; %[s]
+    waves.period = <wavePeriod>; %[s]
 
 noWaveCIC
 """""""""
@@ -265,8 +265,8 @@ the convolution integral) to calculate wave radiation forces. Wave period
 The ``regular`` case is defined by including the following in the input file::
 
     waves = waveClass('regular');
-    waves.T = <wavePeriod>; %[s]
-    waves.H = <waveHeight>; %[m]
+    waves.period = <wavePeriod>; %[s]
+    waves.height = <waveHeight>; %[m]
 
 regularCIC
 """"""""""
@@ -280,8 +280,8 @@ infinite frequency added mass. Wave period (``wave.T``) and wave height
 The ``regularCIC`` case is defined by including the following in the input file::
 
     waves = waveClass('regularCIC');
-    waves.T = <wavePeriod>; %[s]
-    waves.H = <waveHeight>; %[m]
+    waves.period = <wavePeriod>; %[s]
+    waves.height = <waveHeight>; %[m]
 
 .. _user-code-structure-irregular:
 
@@ -304,8 +304,8 @@ JONSWAP                 ``JS``
 The ``irregular`` case is defined by including the following in the input file::
 
     waves = waveClass('irregular');
-    waves.T = <wavePeriod>; %[s]
-    waves.H = <waveHeight>; %[m]
+    waves.period = <wavePeriod>; %[s]
+    waves.height = <waveHeight>; %[m]
     waves.spectrumType = '<waveSpectrum>';
 
 When using the JONSWAP spectrum, users have the option of defining gamma by 
