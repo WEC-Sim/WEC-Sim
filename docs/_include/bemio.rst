@@ -46,9 +46,9 @@ BEMIO Functions
 
 .. autofunction:: functions.BEMIO.reverseDimensionOrder
 
-.. autofunction:: functions.BEMIO.spectralMoment
+.. autofunction:: functions.BEMIO.calcSpectralMoment
 
-.. autofunction:: functions.BEMIO.waveNumber
+.. autofunction:: functions.BEMIO.calcWaveNumber
 
 .. autofunction:: functions.BEMIO.writeBEMIOH5
 

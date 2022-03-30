@@ -45,7 +45,6 @@ classdef regressionTest < matlab.unittest.TestCase
                         'regular'))            
             runLoadRegular;
             testCase.regular = load('regular.mat').("regular");
-%             regular = load('regular.mat').("regular");            
             savefig(fullfile('..', 'figReg'));            
             cd(testCase.testDir);            
         end
@@ -100,11 +99,6 @@ classdef regressionTest < matlab.unittest.TestCase
     methods(TestClassTeardown)
         
         function plotRegTests(testCase)            
-            regular = testCase.regular;
-            regularCIC = testCase.regularCIC;
-            regularSS = testCase.regularSS;
-            irregularCIC = testCase.irregularCIC;
-            irregularSS = testCase.irregularSS;
             % Plot Solver Comparisons
             if testCase.plotSolvers == 1                
                 cd(fullfile(testCase.testDir,   ...

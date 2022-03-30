@@ -41,8 +41,8 @@ switch type
 
         % Wave data
         maskVars.WaveClass = waves.type;                             % Initialize Wave Class and Specify Type                                           
-        maskVars.H = waves.H;                                        % Wave Height [m]
-        maskVars.T = waves.T;                                        % Wave Period [s]
+        maskVars.height = waves.height;                                        % Wave Height [m]
+        maskVars.period = waves.period;                                        % Wave Period [s]
         maskVars.direction = waves.direction;                        % Wave Directionality [deg]
         maskVars.spread = waves.spread;                              % Wave Directional Spreading [%]
         maskVars.spectrumType = waves.spectrumType;                  % Specify Wave Spectrum Type
@@ -58,17 +58,17 @@ switch type
         maskVars.h5File = body(num).h5File;                          % Create the body(1) Variable, Set Location of Hydrodynamic Data File and Body Number Within this File.   
         maskVars.geometryFile = body(num).geometryFile;              % Location of Geomtry File
         maskVars.mass = body(num).mass;                              % Body Mass
-        maskVars.momOfInertia = body(num).momOfInertia;              % Moment of Inertia [kg*m^2]  
+        maskVars.inertia = body(num).inertia;                        % Moment of Inertia [kg*m^2]  
         maskVars.nonHydro = body(num).nonHydro;
         maskVars.nonlinearHydro = body(num).nonlinearHydro;
         maskVars.flex = body(num).flex;
-        maskVars.cg = body(num).cg;
-        maskVars.cb = body(num).cb;
+        maskVars.centerGravity = body(num).centerGravity;
+        maskVars.centerBuoyancy = body(num).centerBuoyancy;
         maskVars.dof = body(num).dof;
-        maskVars.dispVol = body(num).dispVol;
-        maskVars.initLinDisp = body(num).initDisp.initLinDisp;
-        maskVars.initAngularDispAxis = body(num).initDisp.initAngularDispAxis;
-        maskVars.initAngularDispAngle = body(num).initDisp.initAngularDispAngle;
+        maskVars.volume = body(num).volume;
+        maskVars.displacement = body(num).initial.displacement;
+        maskVars.axis = body(num).initial.axis;
+        maskVars.angle = body(num).initial.angle;
         maskVars.option = body(num).morisonElement.option;
         maskVars.cd = body(num).morisonElement.cd;
         maskVars.ca = body(num).morisonElement.ca;
@@ -87,7 +87,7 @@ switch type
         maskVars.x = pto(num).orientation.x;
         maskVars.y = pto(num).orientation.y;
         maskVars.z = pto(num).orientation.z;
-        maskVars.initLinDisp = pto(num).initDisp.initLinDisp;
+        maskVars.displacement = pto(num).initial.displacement;
         maskVars.upperLimitSpecify = pto(num).hardStops.upperLimitSpecify;
         maskVars.upperLimitBound = pto(num).hardStops.upperLimitBound;
         maskVars.upperLimitStiffness = pto(num).hardStops.upperLimitStiffness;
@@ -107,7 +107,7 @@ switch type
         maskVars.x = constraint(num).orientation.x;
         maskVars.y = constraint(num).orientation.y;
         maskVars.z = constraint(num).orientation.z;
-        maskVars.initLinDisp = constraint(num).initDisp.initLinDisp;
+        maskVars.displacement = constraint(num).initial.displacement;
         maskVars.upperLimitSpecify = constraint(num).hardStops.upperLimitSpecify;
         maskVars.upperLimitBound = constraint(num).hardStops.upperLimitBound;
         maskVars.upperLimitStiffness = constraint(num).hardStops.upperLimitStiffness;
@@ -139,15 +139,15 @@ switch type
         % Cable data
         tmp = string(maskVars.cable);
         num = str2num(extractBetween(tmp,strfind(tmp,'('),strfind(tmp,')'),'Boundaries','Exclusive'));       
-        maskVars.baseConnectionName = cable(num).baseConnectionName;
-        maskVars.followerConnectionName = cable(num).followerConnectionName;
+        maskVars.baseName = cable(num).base.name;
+        maskVars.followerName = cable(num).follower.name;
         maskVars.stiffness = cable(num).stiffness;
         maskVars.damping = cable(num).damping;
-        maskVars.L0 = cable(num).L0;
+        maskVars.length = cable(num).length;
         maskVars.preTension = cable(num).preTension;
-        maskVars.initLinDisp = cable(num).initDisp.initLinDisp;
-        maskVars.initAngularDispAxis = cable(num).initDisp.initAngularDispAxis;
-        maskVars.initAngularDispAngle = cable(num).initDisp.initAngularDispAngle;
+        maskVars.displacement = cable(num).initial.displacement;
+        maskVars.axis = cable(num).initial.axis;
+        maskVars.angle = cable(num).initial.angle;
         maskVars.y = cable(num).orientation.y;
         maskVars.z = cable(num).orientation.z;
     

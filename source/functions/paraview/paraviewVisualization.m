@@ -44,7 +44,7 @@ if simu.paraview.option == 1
     fclose(fid);
     % waves
         mkdir([simu.paraview.path filesep 'waves'])
-        writeParaviewWave(waves, NewTimeParaview, waves.viz.numPointsX, waves.viz.numPointsY, simu.domainSize, modelName, datestr(simu.date),moordynFlag,simu.paraview.path,TimeBodyParav, simu.g);    % mooring
+        writeParaviewWave(waves, NewTimeParaview, waves.viz.numPointsX, waves.viz.numPointsY, simu.domainSize, modelName, datestr(simu.date),moordynFlag,simu.paraview.path,TimeBodyParav, simu.gravity);    % mooring
     % mooring
     if moordynFlag == 1
         mkdir([simu.paraview.path filesep 'mooring'])

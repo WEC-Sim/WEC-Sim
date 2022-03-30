@@ -39,7 +39,7 @@ if isempty(simu.mcrMatFile) == 0
     load(simu.mcrMatFile);
 else
     kkk=0;
-    mcr.header = {'waves.H','waves.T'};
+    mcr.header = {'waves.height','waves.period'};
     if isempty(simu.mcrExcelFile) == 0
         mcr.waveSS = xlsread(simu.mcrExcelFile);
         mcr.waveSS(isnan(mcr.waveSS))=0;
@@ -53,17 +53,17 @@ else
             end
         end
     else
-        for i=1:length(waves.H)
-            for j=1:length(waves.T)
+        for i=1:length(waves.height)
+            for j=1:length(waves.period)
                 kkk = kkk+1;
-                mcr.cases(kkk,1) = waves.H(i);
-                mcr.cases(kkk,2) = waves.T(j);
+                mcr.cases(kkk,1) = waves.height(i);
+                mcr.cases(kkk,2) = waves.period(j);
             end
         end
     end
     
     numConditions=2;
-    if length(waves.phaseSeed)>1;
+    if length(waves.phaseSeed)>1
         numConditions=numConditions+1;
         mcr.header{numConditions} = 'waves.phaseSeed';
         len = length(mcr.cases(:,1));
@@ -106,7 +106,7 @@ parfor imcr=1:length(mcr.cases(:,1))
     pctDir = sprintf('pctDir_%g', t.ID);
     mkdir(pctDir) 
     fileID = fopen(filename,'a');
-    fprintf(fileID,'wecSimMCR Case %g/%g on Worker Number %g/%g \n',imcr,length(mcr.cases(:,1)),t.ID,totalNumOfWorkers);
+    fprintf(fileID,'wecSimPCT Case %g/%g on Worker Number %g/%g \n',imcr,length(mcr.cases(:,1)),t.ID,totalNumOfWorkers);
     % Run WEC-Sim
     wecSimFcn(imcr,mcr,pctDir,totalNumOfWorkers);   
     fclose(fileID);
