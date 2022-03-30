@@ -37,7 +37,7 @@ Body Class
     
 .. _constraint:
 
-Contstraint Class
+Constraint Class
 ------------------
 
 .. autoclass:: objects.constraintClass
@@ -52,7 +52,7 @@ PTO Class
 
 .. autoclass:: objects.ptoClass
     :members:
-    :exclude-members: ptoClass, number, checkLoc, setOrientation, listInfo, setPretension
+    :exclude-members: ptoClass, number, checkLoc, setOrientation, listInfo, setPretension, setNumber
     :no-undoc-members:
 
 .. _mooringAPI:

@@ -28,15 +28,15 @@ classdef mooringClass<handle
     %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%    
     % This class contains mooring parameters and settings
     properties (SetAccess = 'public', GetAccess = 'public')%input file 
-        initial                 = struct(...                               % (`obj`) Structure defining initial linear displacement, angular displacement axis, and angular displacement angle (radian). Defaults = ``zeros(1,3), zeros(1,3), 0`` respectively
-            'displacement',         [0 0 0], ...                           % (`structure`) Defines the initial displacement of the mooring. 
-            'axis',                 [0 1 0], ...           
+        initial                 = struct(...                               % (`structure`) Defines the initial displacement of the mooring. 
+            'displacement',         [0 0 0], ...                           % 
+            'axis',                 [0 1 0], ...                           % 
             'angle',                0)                                     % (`structure`) Defines the initial displacement of the mooring. ``displacement`` (`3x1 float vector`) is defined as the initial displacement of the pto [m] in the following format [x y z], Default = [``0 0 0``].
         location                = [0 0 0]                                  % (`float 1 x 3`) Mooring Reference location. Default = ``[0 0 0]``        
-        matrix                  = struct(...                               % (`obj`) Structure defining damping, stiffness, and pre-tension. Defaults = ``zeros(6,6), zeros(6,6), zeros(1,6)`` respectively
-            'damping',              zeros(6,6), ...                        % (`structure`) Defines  the mooring stiffness.
-            'stiffness',            zeros(6,6), ...             
-            'preTension',           [0 0 0 0 0 0])                         % (`structure`) Defines the mooring stiffness. ``damping`` ``stiffness`` and ``preTension``
+        matrix                  = struct(...                               % (`structure`) Defines the mooring parameters.
+            'damping',              zeros(6,6), ...                        % 
+            'stiffness',            zeros(6,6), ...                        % 
+            'preTension',           [0 0 0 0 0 0])                         % (`structure`) Defines the mooring parameters. ``damping`` (`6x6 float matrix`) Matrix of damping coefficients, Default = ``zeros(6)``. ``stiffness`` (`6x6 float matrix`) Matrix of stiffness coefficients, Default = ``zeros(6)``. ``preTension`` (`6x6 float matrix`) Array of pretension force in each dof, Default = ``[0 0 0 0 0 0]``.
         moorDyn                 = 0                                        % (`integer`) Flag to indicate a MoorDyn block, 0 or 1. Default = ``0``
         moorDynLines            = 0                                        % (`integer`) Number of lines in MoorDyn. Default = ``0``
         moorDynNodes            = []                                       % (`integer`) number of nodes for each line. Default = ``'NOT DEFINED'``
