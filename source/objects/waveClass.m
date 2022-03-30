@@ -591,7 +591,7 @@ classdef waveClass<handle
                 obj.Pw = 1/(8*pi)*rho*g^(2)*(obj.A).^(2).*obj.T;               
             else
                 % Full Wave Power Equation
-                obj.Pw = rho*g*(obj.A).^(2)/4*sqrt(g./obj.k.*tanh(obj.k.*obj.waterDepth))*(1+2*obj.k.*obj.waterDepth./sinh(obj.k.*obj.waterDepth));
+                obj.Pw = rho*g*(obj.A).^(2)/4*sqrt(g./obj.k.*tanh(obj.k.*obj.waterDepth))*(1+2*obj.k.*obj.waterDepth./sinh(2*obj.k.*obj.waterDepth));
             end
         end
         
@@ -648,7 +648,7 @@ classdef waveClass<handle
                 obj.Pw = sum(1/2*rho*g^(2)*S_f/(2*pi).*obj.dw./obj.w);
             else
                 % Full Wave Power Equation
-                obj.Pw = sum((1/2)*rho*g.*S_f/(2*pi).*obj.dw.*sqrt(9.81./obj.k.*tanh(obj.k.*obj.waterDepth)).*(1 + 2.*obj.k.*obj.waterDepth./sinh(2.*obj.k.*obj.waterDepth)));
+                obj.Pw = sum((1/2)*rho*g.*S_f/(2*pi).*obj.dw.*sqrt(g./obj.k.*tanh(obj.k.*obj.waterDepth)).*(1 + 2.*obj.k.*obj.waterDepth./sinh(2.*obj.k.*obj.waterDepth)));
             end
             %
             switch obj.freqDisc
