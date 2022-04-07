@@ -156,6 +156,15 @@ The difficult and complex part of this feature comes from three aspects:
 Each of these items will be addressed in this section, but first an overview of the mask set-up is given. 
 It is recommended that developers review Mathworks `Simulink.MaskParameter <https://www.mathworks.com/help/simulink/slref/simulink.maskparameter-class.html>`_ documentation before preceding with edits to this advanced feature. 
 
+When masks are modified, Simulink executes the mask initialization code. If Simulink does not have access to the WEC-Sim objects in the Simulink workspace, Simulink will throw an error message and would not allow any changes.
+To modify blocks masks,
+
+     * Before modifying a block mask, the variable being modified should be accesible to Simulink's workspace. This can be acheived by making sure that the ``source`` folder in the WEC-Sim directory is added to MATLAB path, 
+       and running any available ``wecSimInputFile.m`` script without making a WEC-Sim run. Running the ``wecSimInputFile.m`` script populates the MATLAB worskpace with the pertinent data objects using WEC-Sim's class definitions. 
+       This enables the block masks to have access to the properties and methods for the pertinent class (e.g., ``bodyClass``, ``waveClass`` etc.).
+     * Simulink executes a block mask's initialization code before accepting any changes. Some of the WEC-Sim library blocks auto-generate additional blocks based on the ``wecSimInputFile.m`` script. To ensure that the library block auto-generates such blocks only when 
+       the actual WEC-Sim runs are being made, make sure to delete the auto-generated blocks before saving the modified block to the WEC-Sim library. 
+
 Mask Structure
 """"""""""""""
 Each block mask first contains the ``number`` as in historical WEC-Sim set-up; 
