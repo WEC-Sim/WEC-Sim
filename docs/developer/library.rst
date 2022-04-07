@@ -263,7 +263,7 @@ The visibility callbacks function by checking the value of a flag:
 
     >> mask = Simulink.Mask.get(bodyBlockHandle)
     >> meParam = mask.getParameter('on')
-    >> nhBodyParam = mask.getParameter('nonHydro')
+    >> nonHydroParam = mask.getParameter('nonHydro')
 
 
 Depending on the value of a flag, the visibility of individual variables or an 
@@ -272,12 +272,12 @@ entire tab can be changed:
 .. code-block:: matlabsession
 
     >> meTab = mask.getDialogControl('morisonElement');
-    >> if nhBodyParam.value >= 1
-    >>     cgParam.Visible = 'on';
-    >>     cbParam.Visible = 'on';
+    >> if nonHydroParam.value >= 1
+    >>     centerGravityParam.Visible = 'on';
+    >>     centerBuoyancyParam.Visible = 'on';
     >> else
-    >>     cgParam.Visible = 'off';
-    >>     cbParam.Visible = 'off';
+    >>     centerGravityParam.Visible = 'off';
+    >>     centerBuoyancyParam.Visible = 'off';
     >> end
     >> 
     >> if meParam.value >= 1
