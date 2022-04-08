@@ -599,7 +599,7 @@ classdef waveClass<handle
                 obj.power = 1/(8*pi)*rho*g^(2)*(obj.amplitude).^(2).*obj.period;               
             else
                 % Full Wave Power Equation
-                obj.power = rho*g*(obj.amplitude).^(2)/4*sqrt(g./obj.wavenumber.*tanh(obj.wavenumber.*obj.waterDepth))*(1+2*obj.wavenumber.*obj.waterDepth./sinh(obj.wavenumber.*obj.waterDepth));
+                obj.power = rho*g*(obj.amplitude).^(2)/4*sqrt(g./obj.wavenumber.*tanh(obj.wavenumber.*obj.waterDepth))*(1+2*obj.wavenumber.*obj.waterDepth./sinh(2*obj.wavenumber.*obj.waterDepth));
             end
         end
         
@@ -656,7 +656,7 @@ classdef waveClass<handle
                 obj.power = sum(1/2*rho*g^(2)*fSpectrum/(2*pi).*obj.dOmega./obj.omega);
             else
                 % Full Wave Power Equation
-                obj.power = sum((1/2)*rho*g.*fSpectrum/(2*pi).*obj.dOmega.*sqrt(9.81./obj.wavenumber.*tanh(obj.wavenumber.*obj.waterDepth)).*(1 + 2.*obj.wavenumber.*obj.waterDepth./sinh(2.*obj.wavenumber.*obj.waterDepth)));
+                obj.power = sum((1/2)*rho*g.*fSpectrum/(2*pi).*obj.dOmega.*sqrt(g./obj.wavenumber.*tanh(obj.wavenumber.*obj.waterDepth)).*(1 + 2.*obj.wavenumber.*obj.waterDepth./sinh(2.*obj.wavenumber.*obj.waterDepth)));
             end
             %
             switch obj.bem.option
