@@ -53,6 +53,7 @@ classdef waveClass<handle
             'numPointsY',   50 );                   % (`structure`) Defines visualization options, structure contains the fields ``numPointsX`` for the number of visualization points in x direction, and ``numPointsY`` for the number of visualization points in y direction. 
         waterDepth      = [];                       % (`float`) Water depth [m]. Default to BEM water depth if not set. 
         spread          = 1;                        % (`float`) Wave Spread probability associated with wave direction(s). Should be defined as a column vector for more than one wave direction. Default = ``1``
+        aqwaConvention  = [];
     end    
   
     properties (SetAccess = 'private', GetAccess = 'public')%internal       
@@ -713,10 +714,13 @@ classdef waveClass<handle
             % Calculate eta
             for i = 1:length(timeseries)
                 tmp  = sqrt(obj.amplitude.*df*obj.spread);
+                if isempty(obj.aqwaConvention) 
                 tmp1 = tmp.*real(exp(sqrt(-1).*(obj.omega.*timeseries(i) + obj.phase)));
+                elseif obj.aqwaConvention == 1
+                tmp1 = tmp.*cos(-obj.omega.*timeseries(i) + obj.phase);
+                end
                 obj.waveAmpTime(i,2) = rampFunction(i)*sum(tmp1,'all');
 
-                
                 % Wave Markers
                 if ~isempty(obj.marker.location)
                     for j = 1:SZwaveAmpTimeViz(1)
