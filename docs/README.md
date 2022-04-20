@@ -28,7 +28,7 @@ To test the current branch, use the following:
 ```
 > conda activate _wssphinx
 (_wssphinx) > cd path/to/WEC-Sim
-(_wssphinx) > sphinx-build -W --keep-going -b html docs docs/_build/html
+(_wssphinx) > sphinx-build -a -W --keep-going -b html docs docs/_build/html
 (_wssphinx) > conda deactivate
 >
 ```
@@ -45,7 +45,7 @@ branches will be shown. To build the docs use the following command:
 ```
 > conda activate _wssphinx
 (_wssphinx) > cd path/to/WEC-Sim
-(_wssphinx) > sphinx-multiversion -W --keep-going docs docs/_build/html
+(_wssphinx) > sphinx-multiversion -a -W --keep-going docs docs/_build/html
 (_wssphinx) > conda deactivate
 >
 ```
