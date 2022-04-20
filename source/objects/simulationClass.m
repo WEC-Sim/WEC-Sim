@@ -37,18 +37,18 @@ classdef simulationClass<handle
         dt                  = 0.1                                          % (`float`) Simulation time step. Default = ``0.1`` s
         dtOut               = []                                           % (`float`) Output sampling time. Default = ``dt``
         endTime             = []                                           % (`float`) Simulation end time. Default = ``[]``
-        gravity                   = 9.81                                         % (`float`) Acceleration due to gravity. Default = ``9.81`` m/s
+        gravity             = 9.81                                         % (`float`) Acceleration due to gravity. Default = ``9.81`` m/s
         mcrMatFile          = []                                           % (`string`) mat file that contain a list of the multiple conditions runs with given conditions. Default = ``[]``  
         mcrExcelFile        = []                                           % (`string`) File name from which to load wave statistics data. Default = ``[]``        
         mode                = 'normal'                                     % (`string`) Simulation execution mode, 'normal', 'accelerator', 'rapid-accelerator'. Default = ``'normal'``
         morisonDt           = []                                           % (`float`) Sample time to calculate Morison Element forces. Default = ``dt``
         nonlinearDt         = []                                           % (`float`) Sample time to calculate nonlinear forces. Default = ``dt``
-        paraview            = struct(...                                   % (`structure`) Defines the BEM data implemtation. 
+        paraview            = struct(...                                   % (`structure`) Defines the Paraview visualization.
             'option',           0,...                                      % 
             'startTime',        0, ...                                     % 
             'endTime',          100, ...                                   % 
-            'dt',               0.1, ...                                   %             
-            'path',             'vtk')                                     % (`structure`) Defines the BEM data implemtation. ``option`` (`integer`) Flag for paraview visualization, and writing vtp files, Options: 0 (off) , 1 (on). Default = ``0``. ``startTime`` (`float`) Start time for the vtk file of Paraview. Default = ``0``. ``endTime`` (`float`) End time for the vtk file of Paraview. Default = ``100``.  ``dt`` (`float`) Timestep for Paraview. Default = ``0.1``. ``path`` (`string`) Path of the folder for Paraview vtk files. Default = ``'vtk'``.        
+            'dt',               0.1, ...                                   % 
+            'path',             'vtk')                                     % (`structure`) Defines the Paraview visualization. ``option`` (`integer`) Flag for paraview visualization, and writing vtp files, Options: 0 (off) , 1 (on). Default = ``0``. ``startTime`` (`float`) Start time for the vtk file of Paraview. Default = ``0``. ``endTime`` (`float`) End time for the vtk file of Paraview. Default = ``100``.  ``dt`` (`float`) Timestep for Paraview. Default = ``0.1``. ``path`` (`string`) Path of the folder for Paraview vtk files. Default = ``'vtk'``.      
         pressure            = 0                                            % (`integer`) Flag to save pressure distribution, Options: 0 (off), 1 (on). Default = ``0``
         rampTime            = 100                                          % (`float`) Ramp time for wave forcing. Default = ``100`` s        
         rateTransition      = 'on'                                         % (`string`) Flag for automatically handling rate transition for data transfer, Opyions: 'on', 'off'. Default = ``'on'``
@@ -69,17 +69,17 @@ classdef simulationClass<handle
         numCables           = 0                                            % (`integer`) Number of cables in the wec model. Default = ``0``
         numConstraints      = 0                                            % (`integer`) Number of contraints in the wec model. Default = ``0``
         numDragBodies       = 0                                            % (`integer`) Number of drag bodies that comprise the WEC device (excluding hydrodynamic bodies). Default = ``0``
+        numHydroBodies      = 0                                            % (`integer`) Number of hydrodynamic bodies that comprise the WEC device. Default = ``0``
         numMoorings         = 0                                            % (`integer`) Number of moorings in the wec model. Default = ``0``
         numPtos             = 0                                            % (`integer`) Number of power take-off elements in the model. Default = ``0``
         numPtoSim           = 0                                            % (`integer`) Number of PTO-Sim elements in the model. Default = ``0``        
-        numHydroBodies      = 0                                            % (`integer`) Number of hydrodynamic bodies that comprise the WEC device. Default = ``0``
         time                = 0                                            % (`float`) Simulation time [s]. Default = ``0`` s
     end
 
     properties (SetAccess = 'private', GetAccess = 'public') % internal WEC-Sim
-        cicTime             = []                                           % (`float vector`) Convolution integral time series. Default = dependent
-        cicLength           = []                                           % (`integer`) Number of timesteps in the convolution integral length. Default = dependent
         caseFile            = []                                           % (`string`) .mat file with all simulation information. Default = dependent
+        cicLength           = []                                           % (`integer`) Number of timesteps in the convolution integral length. Default = dependent
+        cicTime             = []                                           % (`float vector`) Convolution integral time series. Default = dependent
         date                = datetime                                     % (`string`) Simulation date and time
         gitCommit           = []                                           % (`string`) GitHub commit
         maxIt               = []                                           % (`integer`) Total number of simulation time steps. Approximate for variable step solvers. Default = dependent

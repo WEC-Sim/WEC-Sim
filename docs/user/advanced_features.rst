@@ -117,7 +117,7 @@ the MATLAB Command Window. This command executes the Multiple Condition Run
 
     **Option 1.** Specify a range of sea states and PTO damping coefficients in 
     the WEC-Sim input file, example: 
-    ``waves.H = 1:0.5:5; waves.T = 5:1:15;``
+    ``waves.height = 1:0.5:5; waves.period = 5:1:15;``
     ``pto(1).stiffness=1000:1000:10000; pto(1).damping=1200000:1200000:3600000;``
 
     **Option 2.**  Specify the excel filename that contains a set of wave 
@@ -133,7 +133,7 @@ For Multiple Condition Runs, the ``*.h5`` hydrodynamic data is only loaded
 once. To reload the ``*.h5`` data between runs, set ``simu.reloadH5Data =1`` in 
 the WEC-Sim input file. 
 
-If the Simulink model relies upon ``From Workspace`` input blocks other than those utilized by the WEC-Sim library blocks (e.g. ``waves.waveElevationFile``), these can be iterated through using Option 3. The MCR file header MUST be a cell containing the exact string ``'LoadFile'``. The pathways of the files to be loaded to the workspace must be given in the ``cases`` field of the MCR *.mat* file. WEC-Sim MCR will then run WEC-Sim in sequence, once for each file to be loaded. The variable name of each loaded file should be consistent, and specified by the ``From Workspace`` block.  
+If the Simulink model relies upon ``From Workspace`` input blocks other than those utilized by the WEC-Sim library blocks (e.g. ``waves.elevationFile``), these can be iterated through using Option 3. The MCR file header MUST be a cell containing the exact string ``'LoadFile'``. The pathways of the files to be loaded to the workspace must be given in the ``cases`` field of the MCR *.mat* file. WEC-Sim MCR will then run WEC-Sim in sequence, once for each file to be loaded. The variable name of each loaded file should be consistent, and specified by the ``From Workspace`` block.  
 
 For more information, refer to :ref:`webinar1`, and the **RM3_MCR** example on the `WEC-Sim Applications <https://github.com/WEC-Sim/WEC-Sim_Applications>`_ repository. 
 
@@ -321,6 +321,11 @@ simulation.
 
 Wave Gauge Placement
 ^^^^^^^^^^^^^^^^^^^^
+Wave gauges can be included through the wave class parameters::
+
+    waves.marker.location
+    waves.marker.size
+    waves.marker.style
 
 By default, the wave surface elevation at the origin is calculated by WEC-Sim. 
 In past releases, there was the option to define up to three numerical wave gauge 
@@ -531,7 +536,7 @@ option is used in combination with a hydrodynamic or flexible body, it serves as
 tuning method. The equation of motion for hydrodynamic and flexible bodies with a 
 Morison Element is more complex than the traditional Morison Element formulation.
 A traditional Morison Element may be created by using a drag body 
-(``body(#).nonHydroBody=2``) with ``body(#).morisonElement.option = 1 or 2``.
+(``body(#).nonHydro=2``) with ``body(#).morisonElement.option = 1 or 2``.
 For more information about the numerical formulation of viscous damping and 
 Morison Elements, refer to the theory section :ref:`theory-viscous-damping-morison`. 
 
@@ -551,13 +556,11 @@ This is achieved by defining the following body class parameters in the WEC-Sim
 input file (each of which have a default value of zero):: 
 
     body(i).quadDrag.cd
-    body(i).quadDrag.characteristicArea
-    body(i).quadDrag.cd
     body(i).quadDrag.area
 
 Alternatively, one can define :math:`C_{D}` directly::
 
-    body(i).quadDrag.Drag
+    body(i).quadDrag.drag
 
 .. _user-advanced-features-morison:
 
@@ -632,7 +635,7 @@ Applications <https://github.com/WEC-Sim/WEC-Sim_Applications>`_ repository
 
 .. Note::
 
-    Morison Elements cannot be used with :code:`waveImport`.
+    Morison Elements cannot be used with :code:`elevationImport`.
 
 .. _user-advanced-features-non-hydro-body:
 
@@ -648,7 +651,7 @@ acting on them and for which no BEM data is provided.
 
 To do this, use a Body Block from the WEC-Sim Library and initialize it in the 
 WEC-Sim input file as any other body but leave the name of the ``h5`` file as 
-an empty string. Specify :code:`body(i).nonHydroBody = 1;` and specify body name, 
+an empty string. Specify :code:`body(i).nonHydro = 1;` and specify body name, 
 mass, moments of inertia, center of gravity, center of buoyancy, geometry file, 
 location, and displaced volume. You can also specify visualization options and 
 initial displacement. 
@@ -656,14 +659,14 @@ initial displacement.
 To use non-hydrodynamic bodies, the following body class variable must be 
 defined in the WEC-Sim input file, for example:: 
 
-    body(i).nonHydroBody = 1
+    body(i).nonHydro = 1
 
 Non-hydrodynamic bodies require the following properties to be defined::
 
     body(i).mass
-    body(i).momOfInertia
-    body(i).cg
-    body(i).dispVol
+    body(i).intertia
+    body(i).centerGravity
+    body(i).volume
     
 In the case where only non-hydrodynamic and drag bodies are used, WEC-Sim does
 not read an ``*.h5`` file. Users must define these additional parameters to 
@@ -687,13 +690,13 @@ deeply-submerged heave plate of large surface area tethered to a float. In
 these instances, the drag body implementation can be utilized by defining the 
 following body class variable:: 
 
-    body(i).nonHydroBody = 2
+    body(i).nonHydro = 2
 
 
 Drag bodies have zero wave excitation or radiation forces, but viscous forces 
 can be applied in the same manner as a hydrodynamic body via the parameters:: 
 
-    body(i).quadDrag.Drag
+    body(i).quadDrag.drag
     body(i).quadDrag.cd
     body(i).quadDrag.area
     body(i).linearDamping
@@ -710,9 +713,9 @@ which are described in more detail in the forthcoming section. At a minimum, it
 is necessary to define:: 
 
     body(i).mass
-    body(i).momOfInertia
-    body(i).cg
-    body(i).dispVol
+    body(i).intertia
+    body(i).centerGravity
+    body(i).volume
     
 to resolve drag body dynamics. One can additionally describe initial body 
 displacement in the manner of a hydrodynamic body. 
@@ -863,7 +866,7 @@ where :code:`cable(i).stiffness` is the cable stiffness (N/m), and :code:`cable(
 damping is applied between the connection points if the current length of the cable exceeds the equilibrium length of the cable. 
 By default, the cable equilibrium length is defined to be the distance between the locations of the ``baseConnection`` and ``followerConnection``, so that initially there is no tension on the cable. 
 
-If a distinct initial condition is desired, one can define either ``cable(i).L0`` or ``cable(i).preTension``, where :code:`cable(i).L0` is the equilibrium (i.e., unstretched) length of the cable (m), and :code:`cable(i).preTension` is the pre-tension applied to the cable at simulation start (N). The unspecified parameter is then calculated from the location of the ``baseConnection`` and 
+If a distinct initial condition is desired, one can define either ``cable(i).length`` or ``cable(i).preTension``, where :code:`cable(i).length` is the equilibrium (i.e., unstretched) length of the cable (m), and :code:`cable(i).preTension` is the pre-tension applied to the cable at simulation start (N). The unspecified parameter is then calculated from the location of the ``baseConnection`` and 
 ``followerConnection``. 
 
 To include dynamics applied at the cable-to-body coupling (e.g., a stiffness and damping), a PTO block 
@@ -873,7 +876,7 @@ By default, the cable is presumed neutrally buoyant and it is not subjected to f
 
 	cable(i).quadDrag.cd
 	cable(i).quadDrag.area
-	cable(i).quadDrag.Drag
+	cable(i).quadDrag.drag
 	cable(i).linearDamping
 	
 The cable mass and fluid drag is modeled with a low-order lumped-capacitance method with 2 nodes. 
@@ -997,7 +1000,7 @@ For more information about using ParaView for visualization, refer to the **Wave
 
 .. Note:: 
 
-    This feature is not compatible with user-defined waves ``waves = waveClass('waveImport')``
+    This feature is not compatible with user-defined waves ``waves = waveClass('elevationImport')``
     
 .. figure:: /_static/images/RM3_vizMarker.jpg
    :width: 250pt
@@ -1054,9 +1057,9 @@ Decay Tests
 When performing simulations of decay tests, you must use one of the no-wave 
 cases and setup the initial (time = 0) location of each body, constraint, PTO, 
 and mooring block. The initial location of a body or mooring block is set by 
-specifying the CG or location at the stability position (as with any WEC-Sim 
+specifying the centerGravity or location at the stability position (as with any WEC-Sim 
 simulation) and then specifying an initial displacement. To specify an initial 
-displacement, the body and mooring blocks have a :code:`.initDisp` property 
+displacement, the body and mooring blocks have a :code:`.initial` property 
 with which you can specify a translation and angular rotation about an 
 arbitrary axis. For the constraint and PTO blocks, the :code:`.location` property 
 must be set to the location at time = 0. 
@@ -1073,7 +1076,7 @@ methods in the WEC-Sim input file. A description of the required input can be
 found in the method's header comments. The following properties must be 
 defined prior to using the object's :code:`setInitDisp()` method: 
 
-* :code:`body(i).cg`
+* :code:`body(i).centerGravity`
 * :code:`constraint(i).location`
 * :code:`pto(i).location`
 * :code:`mooring.location` 

@@ -26,11 +26,11 @@ classdef waveClass<handle
     %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
     
     properties (SetAccess = 'public', GetAccess = 'public')%input file     
-        bem             = struct(...                % (`structure`) Defines the BEM data implemtation. 
+        bem             = struct(...                % (`structure`) Defines the BEM data implementation. 
             'option',       'EqualEnergy',...       % 
             'count',        [], ...                 %             
             'frequency',    [], ...                 %             
-            'range',        [])                     % (`structure`) Defines the BEM data implemtation. ``option`` (`string`) Method of frequency discretization for irregular waves, options include: ``'EqualEnergy'`` or ``'Traditional'``. Default = ``'EqualEnergy'``. ``count`` (`integer`) Number of interpolated wave frequencies, only used for ``irregular`` and ``spectrumImport``. Number of frequencies used varies depending on ``bem.option``, 1000 for ``'Traditional'``, and 500 for ``'EqualEnergy'`` and ``Imported``. Default = ``[]``. ``frequency`` (`vector`) Wave frequencies [rad/s] from BEM. Default = ``[]``. ``range`` (`2x1 vector`) Min and max wave frequency [rad/s], only used for ``irregular`` and ``spectrumImport``. If not specified, the BEM data frequency range is used. Default = ``[]``     
+            'range',        [])                     % (`structure`) Defines the BEM data implementation. ``option`` (`string`) Method of frequency discretization for irregular waves, options include: ``'EqualEnergy'`` or ``'Traditional'``. Default = ``'EqualEnergy'``. ``count`` (`integer`) Number of interpolated wave frequencies, only used for ``irregular`` and ``spectrumImport``. Number of frequencies used varies depending on ``bem.option``, 1000 for ``'Traditional'``, and 500 for ``'EqualEnergy'`` and ``Imported``. Default = ``[]``. ``frequency`` (`vector`) Wave frequencies [rad/s] from BEM. Default = ``[]``. ``range`` (`2x1 vector`) Min and max wave frequency [rad/s], only used for ``irregular`` and ``spectrumImport``. If not specified, the BEM data frequency range is used. Default = ``[]``     
         current         = struct(...                % (`structure`) Defines the current implementation. 
             'option',       3,...                   %
             'depth',        0, ...                  %
@@ -73,7 +73,7 @@ classdef waveClass<handle
     
     methods (Access = 'public')
         function obj = waveClass(type)
-            % This method initilizes the ``waveClass`` and creates a ``waves`` object.          
+            % This method initializes the ``waveClass`` and creates a ``waves`` object.          
             %
             % Parameters
             % ------------

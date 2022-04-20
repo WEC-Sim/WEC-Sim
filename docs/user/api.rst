@@ -10,7 +10,7 @@ Simulation Class
 
 .. autoclass:: objects.simulationClass
 	:members:
-	:exclude-members: wsVersion, gitCommit, date, outputDir, time, inputFile, logFile, caseFile, caseDir, cicLength, maxIt, cicEndTime, numHydroBodies, numDragBodies, numPtos, numConstraints, numCables, numMoorings, listInfo, getWecSimVer, loadSimMechModel, simulationClass, setup, checkinputs, rhoDensitySetup, getGitCommit, simulationClass
+	:exclude-members: simulationClass, caseDir, numCables, numConstraints, numDragBodies, numHydroBodies, numMoorings, numPtos, numPtoSim, time, caseFile, cicLength, cicTime, date, gitCommit, maxIt, outputDir, wsVersion, checkInputs, setup, listInfo, loadSimMechModel, rhoDensitySetup, getGitCommit
 	:no-undoc-members: 
     
 
@@ -21,7 +21,7 @@ Wave Class
 
 .. autoclass:: objects.waveClass
     :members: 
-    :exclude-members: typeNum, bemFreq, deepWater, waveAmpTime, waveAmpTime1, waveAmpTime2, waveAmpTime3, waveAmpTimeViz, A, w, phase, dw, k, S, Pw, waveClass, waveSetup, listInfo, waveNumber, checkinputs, waveElevationGrid
+    :exclude-members: waveClass, amplitude, deepWater, dOmega, omega, phase, power, spectrum, type, typeNum, waveAmpTime, waveAmpTimeViz, wavenumber, checkInputs, setup, listInfo, calculateElevation, waveElevationGrid
     :no-undoc-members:    
 
 
@@ -32,17 +32,17 @@ Body Class
 
 .. autoclass:: objects.bodyClass
     :members:
-    :exclude-members: hydroData, geometry, hydroForce, h5File, hydroTotal, massCalcMethod, number, total, dofCoupled, hydroForcePre, adjustMassMatrix, restoreMassMatrix, storeForceAddedMass, setInitDisp, bodyGeo, triArea, bodyGeo, triArea, triCenter, rotateXYZ, verts_out, offsetXYZ, readH5File, loadHydroData, dragForcePre, listInfo, checkStl, checkinputs, forceAddedMass, bodyClass
+    :exclude-members: bodyClass, dofEnd, dofStart, hydroData, b2bDOF, hydroForce, massCalcMethod, number, total, geometry, checkInputs, listInfo, loadHydroData, nonHydroForcePre, dragForcePre, hydroForcePre, adjustMassMatrix, restoreMassMatrix, storeForceAddedMass, forceAddedMass, importBodyGeometry, triArea, checkStl, triCenter, setNumber, setDOF
     :no-undoc-members:
     
 .. _constraint:
 
-Contstraint Class
+Constraint Class
 ------------------
 
 .. autoclass:: objects.constraintClass
     :members:
-    :exclude-members: number, checkLoc, setOrientation, setInitDisp, listInfo, constraintClass
+    :exclude-members: constraintClass,number, checkLoc, setOrientation, listInfo, setNumber
     :no-undoc-members:
 
 .. _ptoAPI:
@@ -52,7 +52,7 @@ PTO Class
 
 .. autoclass:: objects.ptoClass
     :members:
-    :exclude-members: number, checkLoc, setOrientation, setInitDisp, listInfo, setPretension, ptoClass
+    :exclude-members: ptoClass, number, checkLoc, setOrientation, listInfo, setPretension, setNumber
     :no-undoc-members:
 
 .. _mooringAPI:
@@ -61,8 +61,8 @@ Mooring Class
 -------------
 
 .. autoclass:: objects.mooringClass
-	:members:
-	:exclude-members: orientation, number, moorDyn, moorDynInputRaw, listInfo, setLoc, setInitDisp, moorDynInput, mooringClass
+	:members: 
+	:exclude-members: mooringClass, orientation, number, listInfo, setLoc, setNumber
 	:no-undoc-members:
 
 .. _cableAPI:
@@ -72,7 +72,7 @@ Cable Class
 
 .. autoclass:: objects.cableClass
 	:members:
-	:exclude-members: number, loc, rotloc1, rotloc2, cg1, cb1, cg2, cb2, dispVol, setTransPTOLoc, checkLoc, setOrientation, setDispVol, dragForcePre, linDampMatrix, setCb, setCg, setLoc, setL0 listInfo, cableClass
+	:exclude-members: cableClass, number, location, volume, setTransPTOLoc, checkLoc, setOrientation, setVolume, dragForcePre, linearDampingMatrix, setCb, setLength, listInfo, setNumber
 
 .. _response:
 
@@ -81,6 +81,6 @@ Response Class
 
 .. autoclass:: objects.responseClass
     :members:
-    :exclude-members: bodies, cables, constraints, moorDyn, mooring,  ptos, ptosim, wave, loadMoorDyn, responseClass
+    :exclude-members: responseClass, bodies, cables, constraints, moorDyn, mooring,  ptos, ptosim, wave, loadMoorDyn, saveText
     :no-undoc-members:
     

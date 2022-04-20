@@ -207,16 +207,16 @@ depending on which wave type is selected, as shown in the table below. A more
 detailed description of the available wave types is given in the following 
 sections. 
 
-================== ================================================
-**Wave Type**      **Required Properties**                         
-``noWave``         ``waves.T``                                     
+=================== ==================================================================
+**Wave Type**       **Required Properties**                         
+``noWave``          ``waves.period``                                     
 ``noWaveCIC``                                                      
-``regular``        ``waves.H``, ``waves.T``                        
-``regularCIC``     ``waves.H``, ``waves.T``                        
-``irregular``      ``waves.H``, ``waves.T``, ``waves.spectrumType``
-``spectrumImport`` ``waves.waveSpectrumFile``                      
-``waveImport``      ``waves.waveElevationFile``                           
-================== ================================================
+``regular``         ``waves.height``, ``waves.period``                        
+``regularCIC``      ``waves.height``, ``waves.period``                        
+``irregular``       ``waves.height``, ``waves.period``, ``waves.spectrumType``
+``spectrumImport``  ``waves.spectrumFile``                      
+``elevationImport`` ``waves.elevationFile``                           
+=================== ==================================================================
 
 Available wave class properties, default values, and functions can be found by 
 typing ``doc waveClass`` in the MATLAB command window, or by opening the 
@@ -238,7 +238,7 @@ coefficients from a BEM solver before executing WEC-Sim and specify the period
 The ``noWave`` case is defined by including the following in the input file::
 
     waves = waveClass('noWave');
-    waves.T = <wavePeriod>; %[s]
+    waves.period = <wavePeriod>; %[s]
 
 noWaveCIC
 """""""""
@@ -265,8 +265,8 @@ the convolution integral) to calculate wave radiation forces. Wave period
 The ``regular`` case is defined by including the following in the input file::
 
     waves = waveClass('regular');
-    waves.T = <wavePeriod>; %[s]
-    waves.H = <waveHeight>; %[m]
+    waves.period = <wavePeriod>; %[s]
+    waves.height = <waveHeight>; %[m]
 
 regularCIC
 """"""""""
@@ -280,8 +280,8 @@ infinite frequency added mass. Wave period (``wave.T``) and wave height
 The ``regularCIC`` case is defined by including the following in the input file::
 
     waves = waveClass('regularCIC');
-    waves.T = <wavePeriod>; %[s]
-    waves.H = <waveHeight>; %[m]
+    waves.period = <wavePeriod>; %[s]
+    waves.height = <waveHeight>; %[m]
 
 .. _user-code-structure-irregular:
 
@@ -304,8 +304,8 @@ JONSWAP                 ``JS``
 The ``irregular`` case is defined by including the following in the input file::
 
     waves = waveClass('irregular');
-    waves.T = <wavePeriod>; %[s]
-    waves.H = <waveHeight>; %[m]
+    waves.period = <wavePeriod>; %[s]
+    waves.height = <waveHeight>; %[m]
     waves.spectrumType = '<waveSpectrum>';
 
 When using the JONSWAP spectrum, users have the option of defining gamma by 
@@ -326,7 +326,7 @@ it will be randomly defined. An example file is provided in the
 in the input file:: 
 
     waves = waveClass('spectrumImport');
-    waves.waveSpectrumFile='<waveSpectrumFile>.mat';
+    waves.spectrumFile ='<spectrumFile >.mat';
 
 .. Note::
     When using the ``spectrumImport`` option, users must specify a sufficient 
@@ -335,19 +335,19 @@ in the input file::
     define the wave forces on the WEC, for more information refer to the 
     :ref:`user-advanced-features-irregular-wave-binning` section.
 
-waveImport
-"""""""""""
+elevationImport
+"""""""""""""""
 
-The ``waveImport`` case is the wave type for wave simulations using user-defined 
+The ``elevationImport`` case is the wave type for wave simulations using user-defined 
 time-series (ex: from experiments). The user-defined wave surface elevation 
 must be defined with the time (s) in the first column, and the wave surface 
 elevation (m) in the second column. An example of this is given in the 
 ``etaData.mat`` file in the tutorials directory folder of the WEC-Sim source 
-code. The ``waveImport`` case is defined by including the following in the input 
+code. The ``elevationImport`` case is defined by including the following in the input 
 file:: 
 
-    waves = waveClass('waveImport');
-    waves.waveElevationFile ='<waveElevationFile>.mat';
+    waves = waveClass('elevationImport');
+    waves.elevationFile ='<elevationFile>.mat';
 
 
 
@@ -395,30 +395,30 @@ important distinctions.
 |Hydrodynamic Body        |``body(i)=bodyClass('<bemData>.h5')``        |
 |                         |``body(i).geometryFile = '<geomFile>.stl'``  |
 |                         |``body(i).mass``                             |
-|                         |``body(i).momOfInertia``                     |
+|                         |``body(i).intertia``                         |
 +-------------------------+---------------------------------------------+
 |Drag Body                |``body(i)=bodyClass('')``                    |
 |                         |``body(i).geometryFile = '<geomFile>.stl'``  |
 |                         |``body(i).mass``                             |
-|                         |``body(i).momOfInertia``                     |
-|                         |``body(i).cg``                               |
-|                         |``body(i).cb``                               |
-|                         |``body(i).dispVol``                          |
+|                         |``body(i).intertia``                         |
+|                         |``body(i).centerGravity``                    |
+|                         |``body(i).centerBuoyancy``                   |
+|                         |``body(i).volume``                           |
 |                         |``body(i).nonHydro=1``                       |
 +-------------------------+---------------------------------------------+
 |Nonhydrodynamic Body     |``body(i)=bodyClass('')``                    |
 |                         |``body(i).geometryFile = '<geomFile>.stl'``  |
 |                         |``body(i).mass``                             |
-|                         |``body(i).momOfInertia``                     |
-|                         |``body(i).cg``                               |
-|                         |``body(i).cb``                               |
-|                         |``body(i).dispVol``                          |
+|                         |``body(i).intertia``                         |
+|                         |``body(i).centerGravity``                    |
+|                         |``body(i).centerBuoyancy``                   |
+|                         |``body(i).volume``                           |
 |                         |``body(i).nonHydro=2``                       |
 +-------------------------+---------------------------------------------+
 |Flexible Body            |``body(i)=bodyClass('<bemData>.h5')``        |
 |                         |``body(i).geometryFile = '<geomFile>.stl'``  |
 |                         |``body(i).mass``                             |
-|                         |``body(i).momOfInertia``                     |
+|                         |``body(i).intertia``                         |
 +-------------------------+---------------------------------------------+
 
 Users may specify other body class properties using the ``body`` object for 
