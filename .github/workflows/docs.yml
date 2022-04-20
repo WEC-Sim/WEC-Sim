@@ -34,7 +34,7 @@ jobs:
           conda info
       - name: Build docs (branch)
         run: |
-          sphinx-build -W --keep-going -b html docs ${{ runner.temp }}
+          sphinx-build -b html docs ${{ runner.temp }}
         if: ${{ github.event_name == 'pull_request' }}
       - name: Create build directory
         run: echo "BUILD_DIR=$(mktemp -d -t pages-XXXXXXXXXX)" >> $GITHUB_ENV

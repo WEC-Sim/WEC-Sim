@@ -375,8 +375,7 @@ reader is referred to :cite:`Taghipour2008,Kristiansen2005`.
 Regular Waves
 -------------
 
-Regular waves are defined as planar sinusoidal waves, where the incident wave 
-is defined as :math:`\eta(x,y,t)` : 
+Regular waves are defined as planar sinusoidal waves, where the incident wave is defined as :math:`\eta(x,y,t)` :
 
 .. math::
 
@@ -416,7 +415,7 @@ the wave to appear stationary (unchanging). The phase velocity of a two-dimensio
    \end{cases}
    
 Regular Wave Power
-""""""""""""""""""
+^^^^^^^^^^^^^^^^^^^
 
 The time-averaged power, per unit wave crest with, for a propagating water wave  
 
@@ -531,7 +530,7 @@ significant wave height :math:`H_{m0}` (in m), as:
     H_{m0} = 4 \sqrt{m_{0}}~~
     
 Irregular Wave Power
-""""""""""""""""""""
+^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
 The time-averaged wave power available for a given irregular sea state can be calcuated from:
 
@@ -541,8 +540,10 @@ The time-averaged wave power available for a given irregular sea state can be ca
 where the expression for group velocity for regular waves can be inserted for each frequency used
 to describe the sea spectrum.
 
-Pierson--Moskowitz (PM)
-"""""""""""""""""""""""
+
+
+Pierson--Moskowitz (PM) Spectrum
+""""""""""""""""""""""""""""""""""""""""""""""
 
 The PM spectrum is applicable to a fully developed sea, when the growth of the 
 waves is not limited by the fetch :cite:`PM`. The two-parameter PM spectrum is 
@@ -571,8 +572,8 @@ where :math:`H_{m0}` is the significant wave height, :math:`f_{p}` is the peak
 wave frequency :math:`\left(=1/T_{p}\right)`, and :math:`f` is the wave 
 frequency. 
 
-JONSWAP (JS)
-""""""""""""
+JONSWAP (JS) Spectrum
+"""""""""""""""""""""""""""""""""""
 
 The JONSWAP (Joint North Sea Wave Project) spectrum is formulated as a 
 modification of the PM spectrum for developing sea sate in a fetch-limited 
