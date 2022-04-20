@@ -6,7 +6,7 @@ function hydro = readWAMIT(hydro,filename,exCoeff)
 % If simu.nonlinearHydro = 3 will be used, the output directory must also
 % include the `*.3fk` and `*.3sc` files.
 % 
-% See ``WEC-Sim\examples\BEMIO\WAMIT`` for examples of usage.
+% See ``WEC-Sim/examples/BEMIO/WAMIT`` for examples of usage.
 % 
 % Parameters
 % ----------

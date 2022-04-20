@@ -46,9 +46,9 @@ BEMIO Functions
 
 .. autofunction:: functions.BEMIO.reverseDimensionOrder
 
-.. autofunction:: functions.BEMIO.spectralMoment
+.. autofunction:: functions.BEMIO.calcSpectralMoment
 
-.. autofunction:: functions.BEMIO.waveNumber
+.. autofunction:: functions.BEMIO.calcWaveNumber
 
 .. autofunction:: functions.BEMIO.writeBEMIOH5
 
@@ -81,7 +81,7 @@ BEMIO *hydro* Data Structure
 A             [nDOF,nDOF,Nf]            radiation added mass
 Ainf          [nDOF,nDOF]               infinite frequency added mass
 B             [nDOF,nDOF,Nf]            radiation wave damping
-beta          [1,Nh]                    wave headings (deg)
+theta         [1,Nh]                    wave headings (deg)
 body          {1,Nb}                    body names
 cb            [3,Nb]                    center of buoyancy
 cg            [3,Nb]                    center of gravity

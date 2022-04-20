@@ -101,11 +101,11 @@ Number  Purpose                            Input parameters utilized
 ======  =================================  =========================
 1A      Hydrostatic stability              noWave
 1B      Hydrostatic stability              noWaveCIC
-2A      Free Decay, hydrostatic stiffness  noWave, initDisp
-2B      Free Decay, hydrostatic stiffness  noWaveCIC, initDisp
+2A      Free Decay, hydrostatic stiffness  noWave, initial
+2B      Free Decay, hydrostatic stiffness  noWaveCIC, initial
 3A      Viscous drag                       regular
 3B      Viscous drag                       regularCIC
-4A      Full functionality                 irregular, initDisp
+4A      Full functionality                 irregular, initial
 ======  =================================  =========================
 
 Various problems may occur while progressing through these test cases.
@@ -133,7 +133,7 @@ Viscous Drag
 
 A hydrostatically stable device that has an unphysical response to a regular wave requires improved drag and damping.
 BEM codes inherently assume inviscid flow. Recreating the effects of viscous drag in WEC-Sim is essential to obtaining a physical response.
-Tune the parameters ``body(#).viscDrag`` or ``body(#).linearDamping`` to create a realistic response to a regular wave.
+Tune the parameters ``body(#).quadDrag`` or ``body(#).linearDamping`` to create a realistic response to a regular wave.
 
 Irregular Waves
 ^^^^^^^^^^^^^^^^^^^^^

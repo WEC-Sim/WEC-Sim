@@ -45,36 +45,37 @@ function inputString = writeLineFromVar(defaultClass, variableName, maskVars, ma
 %     Link mask tool tips with input line comments
 %
 
-% Track if variable should be written
-hasStruct = ~isempty(structName); % check if variable is in a class' struct (correspond to a mask tab)
-isVisible = strcmp(maskViz.(variableName),'on'); % check if mask variable is visible
+    % Track if variable should be written
+    hasStruct = ~isempty(structName); % check if variable is in a class' struct (correspond to a mask tab)
+    isVisible = strcmp(maskViz.(variableName),'on'); % check if mask variable is visible
 
-% Get the default value of the variable within its WEC-Sim class
-if hasStruct
-    isDefault = isequal(defaultClass.(structName).(variableName), eval(maskVars.(variableName)));
-else
-    isDefault = isequal(defaultClass.(variableName), eval(maskVars.(variableName)));
-end
-
-% Only write parameters if they are visible (turned on and relevant) and
-% are different from the class default
-if isVisible && ~isDefault
-    % Append the class index if necessary. E.g. 'body' --> 'body(1)'
-    classAbbrev = inputname(1);
-    if ~isempty(classNum)
-        classAbbrev = [classAbbrev '(' num2str(classNum) ')'];
-    end
-    
+    % Get the default value of the variable within its WEC-Sim class
     if hasStruct
-        % e.g. 'body(1).initDisp.initLinDisp = [1 1 1]; \r\n'
-        inputString = [classAbbrev '.' structName '.' variableName ' = ' maskVars.(variableName) '; \r\n'];
+        isDefault = isequal(defaultClass.(structName).(variableName), eval(maskVars.(variableName)));
     else
-        % e.g. 'simu.stateSpace = 'on'; \r\n'
-        inputString = [classAbbrev '.' variableName ' = ' maskVars.(variableName) '; \r\n'];
+        isDefault = isequal(defaultClass.(variableName), eval(maskVars.(variableName)));
     end
-else
-    % Write nothing to input file
-    inputString = ''; 
-end
+
+    % Only write parameters if they are visible (turned on and relevant) and
+    % are different from the class default
+    if isVisible && ~isDefault
+        % Append the class index if necessary. E.g. 'body' --> 'body(1)'
+        classAbbrev = inputname(1);
+        if ~isempty(classNum)
+            classAbbrev = [classAbbrev '(' num2str(classNum) ')'];
+        end
+
+        if hasStruct
+            % e.g. 'body(1).initial.displacement = [1 1 1]; \r\n'
+            inputString = [classAbbrev '.' structName '.' variableName ' = ' maskVars.(variableName) '; \r\n'];
+        else
+            % e.g. 'simu.stateSpace = 'on'; \r\n'
+            inputString = [classAbbrev '.' variableName ' = ' maskVars.(variableName) '; \r\n'];
+        end
+    else
+        % Write nothing to input file
+        inputString = ''; 
+    end
 
 end
+    

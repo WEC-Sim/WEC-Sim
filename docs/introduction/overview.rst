@@ -28,7 +28,7 @@ WEC-Sim outputs the motions, forces, and power for individual bodies, joints and
 Several interfaces with Simulink are included that allow users to couple WEC-Sim with a wide variety of other models and scripts relevant to their devices. 
 Complex power take-off systems and advanced control algorithms are just two examples of the advanced tools that can be coupled with WEC-Sim. 
 
-.. figure:: /_static/images/overview/OSWEC_with_ptosim.JPG
+.. figure:: /_static/images/overview/OSWEC_with_ptosim.png
    :width: 750pt
    
    Block diagram of an OSWEC device with hydraulic PTO created with PTO-Sim.

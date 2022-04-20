@@ -154,7 +154,7 @@ classdef responseClass<handle
             for ii = 1:length(bodiesOutput)
                 obj.bodies(ii).name = bodiesOutput(ii).name;
                 obj.bodies(ii).time = bodiesOutput(ii).time;
-                obj.bodies(ii).cg   = bodiesOutput(ii).cg;
+                obj.bodies(ii).centerGravity   = bodiesOutput(ii).centerGravity;
                 for jj = 1:length(signals)
                     obj.bodies(ii).(signals{jj}) = bodiesOutput(ii).signals.values(:, (jj-1)*6+1:(jj-1)*6+6);
                 end
@@ -235,20 +235,64 @@ classdef responseClass<handle
             end
             % PTO-Sim
             if isstruct(ptosimOutput)
-                obj.ptosim=ptosimOutput;
-                obj.ptosim.time = obj.bodies(1).time;
+                %names = {'HydPistonCompressible','GasHydAccumulator','RectifyingCheckValve','HydraulicMotorV2','ElectricMachineEC'};
+                hydPistonCompressibleSignals = {'pressureA','forcePTO','pressureB'};
+                gasHydAccumulatorSignals = {'pressure','flowRate'};
+                rectifyingCheckValveSignals = {'flowRateA','flowRateB','flowRateC','flowRateD'};
+                hydraulicMotorSignals = {'shaftSpeed','torque','deltaP','flowRate'};
+                electricMachineECSignals = {'torqueEM','shaftSpeed','current','voltage'};
+                linearCrankSignals = {'ptoTorque','angPosition','angVelocity'};
+                adjustableRodSignals = {'ptoTorque','angPosition','angVelocity'};
+                checkValveSignals = {'flowCheckValve','deltaPCheckValve'};
+                linearGeneratorSignals = {'absPower','force','fricForce','Ia','Ib','Ic','Va','Vb','Vc','elecPower','vel'};
+                rotaryGeneratorSignals = {'absPower','Torque','fricTorque','Ia','Ib','Ic','Va','Vb','Vc','elecPower','vel'};
+
+                for ii = 1:length(ptosimOutput)
+                    obj.ptosim(ii).name = ptosimOutput(ii).name;
+                    obj.ptosim(ii).time = ptosimOutput(ii).time;
+                    obj.ptosim(ii).type = ptosimOutput(ii).type;
+                    if ptosimOutput(ii).type == 1
+                        signals = electricMachineECSignals;
+                    elseif ptosimOutput(ii).type == 2
+                        signals = hydPistonCompressibleSignals;
+                    elseif ptosimOutput(ii).type == 3
+                        signals = gasHydAccumulatorSignals;
+                    elseif ptosimOutput(ii).type == 4
+                        signals = rectifyingCheckValveSignals;
+                    elseif ptosimOutput(ii).type == 5
+                        signals = hydraulicMotorSignals;
+                    elseif ptosimOutput(ii).type == 6
+                        signals = linearCrankSignals;
+                    elseif ptosimOutput(ii).type == 7
+                        signals = adjustableRodSignals;
+                    elseif ptosimOutput(ii).type == 8
+                        signals = checkValveSignals;
+                    elseif ptosimOutput(ii).type == 9
+                        signals = linearGeneratorSignals;
+                    elseif ptosimOutput(ii).type == 10
+                        signals = rotaryGeneratorSignals;
+                    end
+                    for jj = 1:length(signals)
+                        obj.ptosim(ii).(signals{jj}) = ptosimOutput(ii).signals.values(:,jj);
+                    end
+                end
             end
         end
         
-        function obj = loadMoorDyn(obj,numLines)            
+        function obj = loadMoorDyn(obj,linesNum)            
             % This method reads MoorDyn outputs for each instance of the
             % ``mooringClass``
             %            
             % Parameters
             % ------------
-            %     numLines : integer
+            %     linesNum : integer
             %         the number of MoorDyn lines
             %
+            
+            arguments
+                obj
+                linesNum (1,1) double {mustBeInteger}
+            end
             
             % load Lines.out
             filename = './Mooring/Lines.out';
@@ -262,7 +306,7 @@ classdef responseClass<handle
             end
             fclose(fid);
             % load Line#.out
-            for iline=1:numLines
+            for iline=1:linesNum
                 eval(['obj.moorDyn.Line' num2str(iline) '=struct();']);
                 filename = ['./Mooring/Line' num2str(iline) '.out'];
                 try
@@ -292,10 +336,17 @@ classdef responseClass<handle
             %     comp : integer
             %         the response component (i.e. dof) to be plotted (e.g. 1-6)   
             %     
+            
+            arguments
+                obj
+                bodyNum (1,1) double {mustBeInteger}
+                comp (1,1) double {mustBeMember(comp,1:6)}
+            end
+            
             DOF = {'Surge','Sway','Heave','Roll','Pitch','Yaw'};
             t=obj.bodies(bodyNum).time;
             if comp < 4
-                pos=obj.bodies(bodyNum).position(:,comp)-obj.bodies(bodyNum).cg(comp);
+                pos=obj.bodies(bodyNum).position(:,comp)-obj.bodies(bodyNum).centerGravity(comp);
             else
                 pos=obj.bodies(bodyNum).position(:,comp);
             end
@@ -323,6 +374,13 @@ classdef responseClass<handle
             %     comp : integer
             %         the force component (i.e. dof) to be plotted (e.g. 1-6)
             %     
+            
+            arguments
+                obj
+                bodyNum (1,1) double {mustBeInteger}
+                comp (1,1) double {mustBeMember(comp,1:6)}
+            end
+            
             DOF = {'Surge','Sway','Heave','Roll','Pitch','Yaw'};
             t=obj.bodies(bodyNum).time;
             FT=obj.bodies(bodyNum).forceTotal(:,comp);
@@ -386,9 +444,9 @@ classdef responseClass<handle
                 body
                 waves
                 options.axisLimits (1,6) double {mustBeReal, mustBeNonNan, mustBeFinite} = [-simu.domainSize/2 simu.domainSize/2 -simu.domainSize/2 simu.domainSize/2 -waves.waterDepth -999];
-                options.timesPerFrame (1,1) double {mustBeReal, mustBeNonnegative, mustBeNonNan, mustBeFinite} = 1;
+                options.timesPerFrame (1,1) double {mustBeInteger, mustBePositive} = 1;
                 options.startEndTime (1,2) double {mustBeReal, mustBeNonnegative, mustBeNonNan} = [0 0];
-                options.saveSetting (1,1) double {mustBeNumericOrLogical} = 0;
+                options.saveSetting (1,1) {mustBeMember(options.saveSetting,0:1)} = 0;
             end            
             % Set time vector
             t = obj.wave.time(1:options.timesPerFrame*round(simu.dtOut/simu.dt,0):end,1);
@@ -404,8 +462,8 @@ classdef responseClass<handle
             % Read in data for each body
             for ibod=1:length(obj.bodies)
                 % Read and assign geometry data
-                bodyMesh(ibod).Points = body(ibod).bodyGeometry.vertex;
-                bodyMesh(ibod).Conns = body(ibod).bodyGeometry.faces;                
+                bodyMesh(ibod).Points = body(ibod).geometry.vertex;
+                bodyMesh(ibod).Conns = body(ibod).geometry.faces;                
                 % Read changes and assign angles and position changes over time
                 bodyMesh(ibod).deltaPos = [obj.bodies(ibod).position(1:options.timesPerFrame:end,1)-obj.bodies(ibod).position(1,1),... 
                 obj.bodies(ibod).position(1:options.timesPerFrame:end,2)-obj.bodies(ibod).position(1,2),...
@@ -444,7 +502,7 @@ classdef responseClass<handle
 
                         % Calculate full position changes due to rotation,
                         % translation, and center of gravity
-                        bodyMesh(ibod).pointsNew = bodyMesh(ibod).rotation + bodyMesh(ibod).deltaPos(i,:) + body(ibod).cg.';
+                        bodyMesh(ibod).pointsNew = bodyMesh(ibod).rotation + bodyMesh(ibod).deltaPos(i,:) + body(ibod).centerGravity.';
 
                         % Create and plot final triangulation of geometry with applied changes
                         bodFinal = triangulation(bodyMesh(ibod).Conns,bodyMesh(ibod).pointsNew);
@@ -452,7 +510,7 @@ classdef responseClass<handle
                         hold on
                     end
                     % Create and wave elevation grid
-                    Z = waveElevationGrid(waves, t(i), X, Y, simu.dtOut, simu.g);
+                    Z = waveElevationGrid(waves, t(i), X, Y, simu.dtOut, simu.gravity);
                     surf(X,Y,Z,'FaceAlpha',.85,'EdgeColor','none')
                     hold on
                     % Display seafloor
@@ -464,7 +522,7 @@ classdef responseClass<handle
                     nLeading = ceil(log10(max(t)));
                     tAnnot = sprintf(['time = %' num2str(nDecimals+nLeading+1) '.' num2str(nDecimals) 'f s'],t(i));
                     % Settings and labels
-                    caxis([min(-waves.A) max(waves.A)])
+                    caxis([min(-waves.amplitude) max(waves.amplitude)])
                     colormap winter
                     c = colorbar;
                     ylabel(c, 'Wave Elevation (m)')
@@ -688,7 +746,7 @@ classdef responseClass<handle
                     fclose(fid);
                 end
             end
-            % ptoSim
+            %ptoSim
             if isfield(obj.ptosim,'time')
                 f1 = fields(obj.ptosim);
                 count = 1;

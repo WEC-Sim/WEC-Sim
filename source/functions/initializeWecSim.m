@@ -21,7 +21,7 @@
 % Clear old input, plots, log file and start new log file.
 clc; diary off; close all;
 clear body waves simu output pto constraint ptoSim mooring values names InParam
-delete('*.log');
+try delete('*.log'); end
 diary('simulation.log')
 
 
@@ -54,8 +54,7 @@ else
     % Get global reference frame parameters
     values = get_param([bdroot,'/Global Reference Frame'],'MaskValues');    % Cell array containing all Masked Parameter values
     names = get_param([bdroot,'/Global Reference Frame'],'MaskNames');      % Cell array containing all Masked Parameter names
-    j = find(strcmp(names,'InputMethod'));
-    
+    j = find(strcmp(names,'InputMethod'));    
     if strcmp(values{j},'Input File')
         % wecSim input from input file selected in Simulink block
         fprintf('\nWEC-Sim Input From File Selected In Simulink... \n');
@@ -71,12 +70,6 @@ else
 end
 clear values names i j;
 
-% PTO-Sim: read input, count
-if exist('./ptoSimInputFile.m','file') == 2
-    ptoSimInputFile
-    ptosim.countblocks;
-end
-
 % Read Inputs for Multiple Conditions Run
 try fprintf('wecSimMCR Case %g\n',imcr); end
 
@@ -91,20 +84,20 @@ if exist('mcr','var') == 1
         end
     end; clear n combine;
     try 
-        waves.spectrumFile = ['..' filesep parallelComputing_dir filesep '..' filesep waves.spectrumFile];
-        waves.elevationFile      = ['..' filesep parallelComputing_dir filesep '..' filesep waves.elevationFile];
+        waves.spectrumFile = ['..' filesep pctDir filesep '..' filesep waves.spectrumFile];
+        waves.elevationFile = ['..' filesep pctDir filesep '..' filesep waves.elevationFile];
     end
 end
 
 % Waves and Simu: check inputs
-waves.checkinputs;
-simu.checkinputs;
+waves.checkInputs();
+simu.checkInputs();
 
 % Constraints: count & set orientation
 if exist('constraint','var') == 1
     simu.numConstraints = length(constraint(1,:));
     for ii = 1:simu.numConstraints
-        constraint(ii).constraintNum = ii;
+        constraint(ii).setNumber(ii);
         constraint(ii).setOrientation();
     end; clear ii
 end
@@ -113,7 +106,7 @@ end
 if exist('pto','var') == 1
     simu.numPtos = length(pto(1,:));
     for ii = 1:simu.numPtos
-        pto(ii).ptoNum = ii;
+        pto(ii).setNumber(ii);
         pto(ii).setOrientation();
         pto(ii).setPretension();
     end; clear ii
@@ -123,12 +116,12 @@ end
 if exist('mooring','var') == 1
     simu.numMoorings = length(mooring(1,:));
     for ii = 1:simu.numMoorings
-        mooring(ii).mooringNum = ii;
-        mooring(ii).setLoc;
+        mooring(ii).setLoc();
+        mooring(ii).setNumber(ii);
     end; clear ii
 end
 
-% Bodies: count, check inputs, read hdf5 file
+% Bodies: count, check inputs, read hdf5 file, and check inputs
 numHydroBodies = 0; 
 numNonHydroBodies = 0;
 numDragBodies = 0; 
@@ -136,25 +129,28 @@ hydroBodLogic = zeros(length(body(1,:)),1);
 nonHydroBodLogic = zeros(length(body(1,:)),1);
 dragBodLogic = zeros(length(body(1,:)),1);
 for ii = 1:length(body(1,:))
-    body(ii).bodyNumber = ii;
+    body(ii).setNumber(ii);
+    body(ii).checkInputs(simu.explorer);
     if body(ii).nonHydro==0
+        if numNonHydroBodies > 0 || numDragBodies > 0
+            error('All hydro bodies must be specified before any drag or non-hydro bodies.')
+        end
         numHydroBodies = numHydroBodies + 1;
-        hydroBodLogic(ii) = 1;         
+        hydroBodLogic(ii) = 1;
     elseif body(ii).nonHydro==1
         numNonHydroBodies = numNonHydroBodies + 1;
-        nonHydroBodLogic(ii) = 1; 
+        nonHydroBodLogic(ii) = 1;
     elseif body(ii).nonHydro==2
         numDragBodies = numDragBodies + 1;
-        dragBodLogic(ii) = 1; 
-    else
-        body(ii).massCalcMethod = 'user';
+        dragBodLogic(ii) = 1;
     end
 end
 simu.numHydroBodies = numHydroBodies; clear numHydroBodies
 simu.numDragBodies = numDragBodies; clear numDragBodies
 for ii = 1:simu.numHydroBodies
-    body(ii).checkinputs();
-    %Determine if hydro data needs to be reloaded from h5 file, or if hydroData
+    body(ii).setDOF(simu.numHydroBodies,simu.b2b);
+
+    % Determine if hydro data needs to be reloaded from h5 file, or if hydroData
     % was stored in memory from a previous run.
     if exist('totalNumOfWorkers','var') ==0 && exist('mcr','var') == 1 && simu.reloadH5Data == 0 && imcr > 1
         body(ii).loadHydroData(hydroData(ii));
@@ -167,15 +163,9 @@ for ii = 1:simu.numHydroBodies
         end
         clearvars h5Info        
         % Read hydro data from BEMIO and load into the bodyClass
-        tmp_hydroData = readBEMIOH5(body(ii).h5File, body(ii).bodyNumber, body(ii).meanDrift);
+        tmp_hydroData = readBEMIOH5(body(ii).h5File, body(ii).number, body(ii).meanDrift);
         body(ii).loadHydroData(tmp_hydroData);
         clear tmp_hydroData
-    end
-    body(ii).bodyTotal = simu.numHydroBodies;
-    if simu.b2b==1
-        body(ii).dofCoupled = zeros(6*body(ii).bodyTotal,1);
-    else
-        body(ii).dofCoupled = zeros(6,1);
     end
 end; clear ii
 
@@ -183,54 +173,64 @@ end; clear ii
 if exist('cable','var')==1
     simu.numCables = length(cable(1,:));
     for ii = 1:simu.numCables
-        cable(ii).cableNum = ii;
+        cable(ii).setNumber(ii);
         cable(ii).setCg();
         cable(ii).setCb();
         cable(ii).setTransPTOLoc();
-        cable(ii).setL0();
+        cable(ii).setLength();
         cable(ii).dragForcePre(simu.rho);
-        cable(ii).setDispVol(simu.rho);
+        cable(ii).setVolume(simu.rho);
         cable(ii).setOrientation();
         cable(ii).linearDampingMatrix();
     end
 end
+
+% PTO-Sim: read input, count
+if exist('ptoSim','var') == 1
+    simu.numPtoSim = length(ptoSim(1,:));
+    for ii = 1:simu.numPtoSim
+        ptoSim(ii).number = ii;
+    end; clear ii
+end
+
+
 toc
 
 %% Pre-processing start
 tic
 fprintf('\nWEC-Sim Pre-processing ...   \n');
-try
-    cd(parallelComputing_dir);
+if exist('pctDir')
+    cd(pctDir); 
 end
 
 %% HydroForce Pre-Processing: Wave Setup & HydroForcePre.
 % simulation setup
-simu.setup;
+simu.setup();
 
 % wave setup
 if any(hydroBodLogic == 1)
     % When hydro bodies (and an .h5) are present, define the wave using those
     % parameters.
-    waves.setup(body(1).hydroData.simulation_parameters.w, body(1).hydroData.simulation_parameters.water_depth, simu.rampTime, simu.dt, simu.maxIt, simu.time, simu.g, simu.rho);
+    waves.setup(body(1).hydroData.simulation_parameters.w, body(1).hydroData.simulation_parameters.waterDepth, simu.rampTime, simu.dt, simu.maxIt, simu.time, simu.gravity, simu.rho);
     % Check that direction and freq are within range of hydro data
-    if  min(waves.direction) <  min(body(1).hydroData.simulation_parameters.wave_dir) || max(waves.direction) >  max(body(1).hydroData.simulation_parameters.wave_dir)
+    if  min(waves.direction) <  min(body(1).hydroData.simulation_parameters.direction) || max(waves.direction) >  max(body(1).hydroData.simulation_parameters.direction)
         error('waves.direction outside of range of available hydro data')
     end
     if strcmp(waves.type,'elevationImport')~=1 && strcmp(waves.type,'noWave')~=1 && strcmp(waves.type,'noWaveCIC')~=1
-        if  min(waves.w) <  min(body(1).hydroData.simulation_parameters.w) || max(waves.w) >  max(body(1).hydroData.simulation_parameters.w)
-            error('waves.w outside of range of available hydro data')
+        if  min(waves.omega) <  min(body(1).hydroData.simulation_parameters.w) || max(waves.omega) >  max(body(1).hydroData.simulation_parameters.w)
+            error('waves.omega outside of range of available hydro data')
         end
     end
 else
     % When no hydro bodies (and no .h5) are present, define the wave using
     % input file parameters
-    waves.setup([], [], simu.rampTime, simu.dt, simu.maxIt, simu.time, simu.g, simu.rho);
+    waves.setup([], [], simu.rampTime, simu.dt, simu.maxIt, simu.time, simu.gravity, simu.rho);
 end
 
 % Nonlinear hydro
 for kk = 1:length(body(1,:))
     if (body(kk).nonlinearHydro > 0) || (simu.paraview.option == 1)
-        body(kk).importBodyGeometry()
+        body(kk).importBodyGeometry(simu.domainSize)
     end
 end; clear kk
 
@@ -239,8 +239,8 @@ idx = find(hydroBodLogic==1);
 if ~isempty(idx)
     for kk = 1:length(idx)
         it = idx(kk);
-        body(it).hydroForcePre(waves.w,waves.direction,simu.cicTime,waves.bem.count,simu.dt,...
-            simu.rho,simu.g,waves.type,waves.waveAmpTime,simu.stateSpace,simu.b2b);
+        body(it).hydroForcePre(waves.omega,waves.direction,simu.cicTime,waves.bem.count,simu.dt,...
+            simu.rho,simu.gravity,waves.type,waves.waveAmpTime,simu.stateSpace,simu.b2b);
     end; clear kk idx
 end
 
@@ -250,16 +250,6 @@ if ~isempty(idx)
     for kk = 1:length(idx)
         it = idx(kk);
         body(it).nonHydroForcePre(simu.rho);
-        if isempty(body(it).cg)
-            error('Non-hydro body(%i) center of gravity (cg) must be defined in the wecSimInputFile.m',body(it).bodyNumber);
-        end
-        if isempty(body(it).dispVol)
-            error('Non-hydro body(%i) displaced volume (dispVol) must be defined in the wecSimInputFile.m',body(it).bodyNumber);
-        end
-        if isempty(body(it).cb)
-            body(it).cb = body(it).cg;
-            warning('Non-hydro body(%i) center of buoyancy (cb) set equal to center of gravity (cg), [%g %g %g]',body(it).bodyNumber,body(it).cb(1),body(it).cb(2),body(it).cb(3))
-        end
     end; clear kk idx
 end
 
@@ -269,16 +259,6 @@ if ~isempty(idx)
     for kk = 1:length(idx)
         it = idx(kk);
         body(it).dragForcePre(simu.rho);
-        if isempty(body(it).cg)
-            error('Drag body(%i) center of gravity (cg) must be defined in the wecSimInputFile.m',body(it).bodyNumber);
-        end
-        if isempty(body(it).dispVol)
-            error('Drag body(%i) displaced volume (dispVol) must be defined in the wecSimInputFile.m',body(it).bodyNumber);
-        end
-        if isempty(body(it).cb)
-            body(it).cb = body(it).cg;
-            warning('Drag body(%i) center of buoyancy (cb) set equal to center of gravity (cg), [%g %g %g]',body(it).bodyNumber,body(it).cb(1),body(it).cb(2),body(it).cb(3))
-        end
     end; clear kk idx
 end
     
@@ -325,10 +305,10 @@ for ii = 1:length(body(1,:))
             [rgME,~] = size(body(ii).morisonElement.rgME);
             for jj = 1:rgME
                 if true(isfinite(body(ii).morisonElement.z(jj,:))) == true
-                    warning(['"body.morisonElement.z" is not used for "simu.morisonElement = 1. Check body ',num2str(ii),' element ',num2str(jj)])
+                    warning(['"body.morisonElement.z" is not used for "body.morisonElement.option = 1". Check body ',num2str(ii),' element ',num2str(jj)])
                 end
-                if length(body(ii).morisonElement.cd(jj,:)) ~= 3 || length(body(ii).morisonElement.ca(jj,:)) ~= 3 || length(body(ii).morisonElement.characteristicArea(jj,:)) ~= 3
-                    error(['cd, ca, and characteristicArea coefficients for each elelement for "body.morisonElement.option = 1" must be of size [1x3] and all columns of data must be real and finite. Check body ',num2str(ii),' element ',num2str(jj),' coefficients'])
+                if length(body(ii).morisonElement.cd(jj,:)) ~= 3 || length(body(ii).morisonElement.ca(jj,:)) ~= 3 || length(body(ii).morisonElement.area(jj,:)) ~= 3
+                    error(['cd, ca, and area coefficients for each elelement for "body.morisonElement.option = 1" must be of size [1x3] and all columns of data must be real and finite. Check body ',num2str(ii),' element ',num2str(jj),' coefficients'])
                 end
             end; clear jj
         else
@@ -340,8 +320,8 @@ for ii = 1:length(body(1,:))
         if body(ii).nonHydro ~=1
             [rgME,~] = size(body(ii).morisonElement.rgME);
             for jj = 1:rgME
-                if body(ii).morisonElement.cd(jj,3) ~= 0 || body(ii).morisonElement.ca(jj,3) ~= 0 || body(ii).morisonElement.characteristicArea(jj,3) ~= 0
-                    warning(['cd, ca, and characteristicArea coefficients for "simu.morisonElement == 2" must be of size [1x2], third column of data is not used. Check body ',num2str(ii),' element ',num2str(jj),' coefficients'])
+                if body(ii).morisonElement.cd(jj,3) ~= 0 || body(ii).morisonElement.ca(jj,3) ~= 0 || body(ii).morisonElement.area(jj,3) ~= 0
+                    warning(['cd, ca, and area coefficients for "body.morisonElement.option == 2" must be of size [1x2], third column of data is not used. Check body ',num2str(ii),' element ',num2str(jj),' coefficients'])
                 end
             end; clear jj
         else
@@ -410,6 +390,15 @@ for ii=1:length(body(1,:))
     eval(['sv_b' num2str(ii) '_dragBody = Simulink.Variant(''nhbody_' num2str(ii) '==2'');'])
 end; clear ii
 
+%Efficiency model for hydraulic motor PTO-Sim block
+try
+    for ii=1:length(ptoSim(1,:))
+        eval(['EffModel_' num2str(ii) ' = ptoSim(ii).hydraulicMotor.effModel;']);
+        eval(['sv_b' num2str(ii) '_AnalyticalEfficiency = Simulink.Variant(''EffModel_', num2str(ii), '==1'');']);
+        eval(['sv_b' num2str(ii) '_TabulatedEfficiency = Simulink.Variant(''EffModel_', num2str(ii), '==2'');']);
+    end; clear ii;
+end
+
 % Visualization Blocks
 if ~isempty(waves.marker.location) && typeNum < 30
     visON = 1;
@@ -453,7 +442,7 @@ tic
 fprintf('\nSimulating the WEC device defined in the SimMechanics model %s...   \n',simu.simMechanicsFile)
 % Modify some stuff for simulation
 for iBod = 1:simu.numHydroBodies
-    body(iBod).adjustMassMatrix(simu.adjMassWeightFun,simu.b2b);
+    body(iBod).adjustMassMatrix(simu.adjMassFactor,simu.b2b);
 end; clear iBod
 warning('off','Simulink:blocks:TDelayTimeTooSmall');
 warning('off','Simulink:blocks:BusSelDupBusCreatorSigNames');

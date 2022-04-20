@@ -10,7 +10,7 @@ clear clock_out
 % Bodies
 for iBod = 1:length(body(1,:))
     eval(['body' num2str(iBod) '_out.name = body(' num2str(iBod) ').name;']);    
-    eval(['body' num2str(iBod) '_out.cg = body(' num2str(iBod) ').cg;']);    
+    eval(['body' num2str(iBod) '_out.centerGravity = body(' num2str(iBod) ').centerGravity;']);    
     if iBod == 1
         bodiesOutput = body1_out; 
     end
@@ -28,8 +28,8 @@ for iBod = 1:length(body(1,:))
         % wave (Froude-Krylov) linear pressure
         eval(['bodiesOutput(' num2str(iBod) ').wpressurel = body' num2str(iBod) '_wavelinearpressure_out;']);
     else
-        if body(iBod).nonlinearHydro ==0 && simu.pressure == 1 
-            warning('Pressure distribution on the body is only output when wecSim is run with nonlinear hydro (simu.pressure == 1 && simu.nonlinearHydro~=0 && body(i).nonHydro==0)')
+        if body(iBod).nonlinearHydro == 0 && simu.pressure == 1 
+            warning('Pressure distribution only written for nonlinear hydro bodies (``body.nonlinearHydro=1 or 2``)')
         end
         bodiesOutput(iBod).hspressure = [];
         bodiesOutput(iBod).wpressurenl = [];
@@ -88,12 +88,18 @@ else
 end
 
 % PTO-Sim
-if exist('ptosim','var')
-    ptosimOutput = ptosim.response();
+if exist('ptoSim','var')
+    for iPtoB = 1:simu.numPtoSim
+        %iPtoB
+        eval(['ptoSim' num2str(iPtoB) '_out.name = ptoSim(' num2str(iPtoB) ').name;'])
+        eval(['ptoSim' num2str(iPtoB) '_out.type = ptoSim(' num2str(iPtoB) ').type;'])
+        if iPtoB == 1; ptosimOutput = ptoSim1_out; end
+        ptosimOutput(iPtoB) = eval(['ptoSim' num2str(iPtoB) '_out']);
+        eval(['clear ptoSim' num2str(iPtoB) '_out'])
+    end; clear iPtoB
 else
     ptosimOutput = 0;
 end
-clear pistonCF*_out pistonNCF*_out checkValve*_out valve*_out accumulator*_out hydraulicMotor*_out rotaryGenerator*_out pmLinearGenerator*_out pmRotaryGenerator*_out motionMechanism*_out
 
 % Waves
 if strcmp(simu.solver,'ode4')~=1    % Re-calculate wave elevation for variable time-step solver
@@ -107,9 +113,16 @@ waveOutput.waveAmpTime = waves.waveAmpTime;
 output = responseClass(bodiesOutput,ptosOutput,constraintsOutput,ptosimOutput,cablesOutput,mooringOutput,waveOutput);
 clear bodiesOutput ptosOutput constraintsOutput ptosimOutput cablesOutput mooringOutput waveOutput
 
+
 % MoorDyn
 for iMoor = 1:simu.numMoorings
     if mooring(iMoor).moorDyn==1
+        % Ensure that Lines library is closed before reading MoorDyn output
+        if libisloaded('Lines')
+            calllib('Lines','LinesClose');
+            unloadlibrary Lines;
+        end
+        
         output.loadMoorDyn(mooring(iMoor).moorDynLines);
     end
 end; clear iMoor
@@ -121,4 +134,3 @@ for iBod = 1:simu.numHydroBodies
     output.bodies(iBod).forceAddedMass = body(iBod).forceAddedMass(output.bodies(iBod).acceleration,simu.b2b);
     output.bodies(iBod).forceTotal = output.bodies(iBod).forceTotal - output.bodies(iBod).forceAddedMass;
 end; clear iBod
-

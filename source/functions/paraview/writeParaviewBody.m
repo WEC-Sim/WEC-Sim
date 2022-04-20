@@ -1,4 +1,4 @@
-function writeParaviewBody(body, t, pos_all, bodyname, model, simdate, hspressure,wavenonlinearpressure,wavelinearpressure,paraview.path,vtkbodiesii)
+function writeParaviewBody(body, t, pos_all, bodyName, model, simuDate, hspressure,wavenonlinearpressure,wavelinearpressure,paraviewPath,vtkbodiesii)
 % Method to write ``vtp`` Paraview visualization files for the bodyClass.
 % Executed by paraviewVisualization.m when simu.paraview.option=1 in the 
 % wecSimInputFile.m
@@ -11,11 +11,11 @@ function writeParaviewBody(body, t, pos_all, bodyname, model, simdate, hspressur
 %       Body time vector 
 %   pos_all : float vector
 %       6D position of the body interpolated to the Paraview output time, t
-%   bodyname : string
+%   bodyName : string
 %       Name of the body
 %   model : string
 %       The simMechanics ``.slx`` filename
-%   simdate : string
+%   simuDate : string
 %       Date and time of the simulation
 %   hspressure : float vector
 %       Hydrostatic pressure on the body cells
@@ -23,16 +23,16 @@ function writeParaviewBody(body, t, pos_all, bodyname, model, simdate, hspressur
 %       Nonlinear Froude-Krylov pressure on the body cells
 %   wavelinearpressure : float vector
 %       Linear Froude-Krylov pressure on the body cells
-%   paraview.path : directory
+%   paraviewPath : directory
 %       Directory the Paraview files were saved
 %   vtkbodiesii : int
 %       Index of the body (1 - number of Paraview bodies)
 % 
-numVertex = body.bodyGeometry.numVertex;
-numFace = body.bodyGeometry.numFace;
-vertex = body.bodyGeometry.vertex;
-face = body.bodyGeometry.face;
-cellareas = body.bodyGeometry.area;
+numVertex = body.geometry.numVertex;
+numFace = body.geometry.numFace;
+vertex = body.geometry.vertex;
+face = body.geometry.face;
+cellareas = body.geometry.area;
 for it = 1:length(t)
     % calculate new position
     pos = pos_all(it,:);
@@ -41,13 +41,13 @@ for it = 1:length(t)
     vertex_mod = rotateXYZ(vertex_mod,[0 0 1],pos(6));
     vertex_mod = offsetXYZ(vertex_mod,pos(1:3));
     % open file
-    filename = [paraview.path, filesep 'body' num2str(vtkbodiesii) '_' bodyname filesep bodyname '_' num2str(it) '.vtp'];
+    filename = [paraviewPath, filesep 'body' num2str(vtkbodiesii) '_' bodyName filesep bodyName '_' num2str(it) '.vtp'];
     fid = fopen(filename, 'w');
     % write header
     fprintf(fid, '<?xml version="1.0"?>\n');
     fprintf(fid, ['<!-- WEC-Sim Visualization using ParaView -->\n']);
-    fprintf(fid, ['<!--   model: ' model ' - ran on ' simdate ' -->\n']);
-    fprintf(fid, ['<!--   body:  ' bodyname ' -->\n']);
+    fprintf(fid, ['<!--   model: ' model ' - ran on ' simuDate ' -->\n']);
+    fprintf(fid, ['<!--   body:  ' bodyName ' -->\n']);
     fprintf(fid, ['<!--   time:  ' num2str(t(it)) ' -->\n']);
     fprintf(fid, '<VTKFile type="PolyData" version="0.1">\n');
     fprintf(fid, '  <PolyData>\n');

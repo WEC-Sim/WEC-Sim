@@ -1,4 +1,4 @@
-function [mn] = spectralMoment(angFreq,S_f,order)
+function [mn] = calcSpectralMoment(angFreq,S_f,order)
 % Parameters
 % ------------
 %     angFreq : [1 n] float vector

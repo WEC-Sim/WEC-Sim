@@ -125,9 +125,8 @@ classdef bemioTest < matlab.unittest.TestCase
             depth = 100;
             g = 9.81;
             w = 3;
-
-            kDeep = waveNumber(w,depth,g,1);
-            kDeepNoFlag = waveNumber(w,depth,g,0);
+            kDeep = calcWaveNumber(w,depth,g,1);
+            kDeepNoFlag = calcWaveNumber(w,depth,g,0);
             kDeep_exp = w^2/g;
             testCase.verifyEqual(kDeep,kDeep_exp,'AbsTol',tol);
             testCase.verifyEqual(kDeepNoFlag,kDeep_exp,'AbsTol',tol); % verify that shallow water flag gives same result in deep water
@@ -137,8 +136,7 @@ classdef bemioTest < matlab.unittest.TestCase
             depth = 5;
             g = 9.81;
             w = 3;
-
-            kShallow = waveNumber(w,depth,g,0);
+            kShallow = calcWaveNumber(w,depth,g,0);
             kDeep = w^2/g;
             w2gShallow = kShallow*tanh(kShallow*depth);
             w2gShallow_exp = w^2/g;
@@ -150,12 +148,10 @@ classdef bemioTest < matlab.unittest.TestCase
             w = 0:0.01:10;
             wend = w(end);
             sf = sin(w).^2;
-            m1 = spectralMoment(w,sf,1); % 1st order spectral moment
-            m2 = spectralMoment(w,sf,2); % 2nd order spectral moment
-
+            m1 = calcSpectralMoment(w,sf,1); % 1st order spectral moment
+            m2 = calcSpectralMoment(w,sf,2); % 2nd order spectral moment
             m1_exp = wend^2/4 - wend/4*sin(2*wend) - 1/8*cos(2*wend) + 1/8; % analytical integral of x*sin(x)^2
             m2_exp = wend^3/6 - (wend^2/4-1/8)*sin(2*wend) - wend/4*cos(2*wend); % analytical integral of x^2*sin(x)^2
-
             testCase.verifyEqual(m1,m1_exp,'AbsTol',tol);
             testCase.verifyEqual(m2,m2_exp,'AbsTol',tol);
         end

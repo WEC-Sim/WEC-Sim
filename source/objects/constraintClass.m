@@ -28,31 +28,31 @@ classdef constraintClass<handle
     %     
     %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
     
-    properties (SetAccess = 'public', GetAccess = 'public')%input file 
-        hardStops               = struct(...
-                                          'upperLimitSpecify', 'off',...        % (`string`) Initialize upper stroke limit. ``  'on' or 'off' `` Default = ``off``. 
-                                          'upperLimitBound', 1, ...             % (`float`) Define upper stroke limit in m or deg. Only active if `lowerLimitSpecify` is `on` `` Default = ``1``. 
-                                          'upperLimitStiffness', 1e6, ...       % (`float`) Define upper limit spring stiffness, N/m or N-m/deg. `` Default = ``1e6``. 
-                                          'upperLimitDamping', 1e3, ...         % (`float`) Define upper limit damping, N/m/s or N-m/deg/s.  `` Default = ``1e3``.
-                                          'upperLimitTransitionRegionWidth', 1e-4, ... % (`float`) Define upper limit transition region, over which spring and damping values ramp up to full values. Increase for stability. m or deg. ``Default = 1e-4``
-                                          'lowerLimitSpecify', 'off',...        % Initialize lower stroke limit. ``  `on` or `off` `` Default = ``off``. 
-                                          'lowerLimitBound', -1, ...            % (`float`) Define lower stroke limit in m or deg. Only active if `lowerLimitSpecify` is `on` ``   `` Default = ``-1``. 
-                                          'lowerLimitStiffness', 1e6, ...       % (`float`) Define lower limit spring stiffness, N/m or N-m/deg.  `` Default = ``1e6``.
-                                          'lowerLimitDamping', 1e3, ...         % (`float`) Define lower limit damping, N/m/s or N-m/deg/s.  `` Default = ``1e3``.
-                                          'lowerLimitTransitionRegionWidth', 1e-4) % (`float`) Define lower limit transition region, over which spring and damping values ramp up to full values. Increase for stability. m or deg. ``Default = 1e-4``                                                                                    
-        initDisp                = struct(...                                    % 
-                                         'initLinDisp',          [0 0 0])       % Structure defining the initial displacement of the constraint. ``initLinDisp`` (`3x1 float vector`) is defined as the initial displacement of the constraint [m] in the following format [x y z], Default = [``0 0 0``].
-        name                    = 'NOT DEFINED'                                 % (`string`) Specifies the constraint name. For constraints this is defined by the user, Default = ``NOT DEFINED``.
-        loc                     = [999 999 999]                                 % (`3x1 float vector`) Constraint location [m]. Defined in the following format [x y z]. Default = ``[999 999 999]``.        
-        orientation             = struct(...                                    % 
-                                         'z', [0, 0, 1], ...                    % 
-                                         'y', [0, 1, 0], ...                    % 
-                                         'x', [], ...                           % 
-                                         'rotationMatrix',[])                   % Structure defining the orientation axis of the constraint. ``z`` (`3x1 float vector`) defines the direciton of the Z-coordinate of the constraint, Default = [``0 0 1``]. ``y`` (`3x1 float vector`) defines the direciton of the Y-coordinate of the constraint, Default = [``0 1 0``]. ``x`` (`3x1 float vector`) internally calculated vector defining the direction of the X-coordinate for the constraint, Default = ``[]``. ``rotationMatrix`` (`3x3 float matrix`) internally calculated rotation matrix to go from standard coordinate orientation to the constraint coordinate orientation, Default = ``[]``.
+    properties (SetAccess = 'public', GetAccess = 'public') %input file 
+        hardStops                   = struct(...                    % (`structure`) Defines the constraint hardstop
+          'upperLimitSpecify',          'off',...                   % (`string`) Initialize upper stroke limit. ``  'on' or 'off' `` Default = ``off``. 
+          'upperLimitBound',            1, ...                      % (`float`) Define upper stroke limit in m or deg. Only active if `lowerLimitSpecify` is `on` `` Default = ``1``. 
+          'upperLimitStiffness',        1e6, ...                    % (`float`) Define upper limit spring stiffness, N/m or N-m/deg. `` Default = ``1e6``. 
+          'upperLimitDamping',          1e3, ...                    % (`float`) Define upper limit damping, N/m/s or N-m/deg/s.  `` Default = ``1e3``.
+          'upperLimitTransitionRegionWidth', 1e-4, ...              % (`float`) Define upper limit transition region, over which spring and damping values ramp up to full values. Increase for stability. m or deg. ``Default = 1e-4``
+          'lowerLimitSpecify',          'off',...                   % Initialize lower stroke limit. ``  `on` or `off` `` Default = ``off``. 
+          'lowerLimitBound',            -1, ...                     % (`float`) Define lower stroke limit in m or deg. Only active if `lowerLimitSpecify` is `on` ``   `` Default = ``-1``. 
+          'lowerLimitStiffness',        1e6, ...                    % (`float`) Define lower limit spring stiffness, N/m or N-m/deg.  `` Default = ``1e6``.
+          'lowerLimitDamping',          1e3, ...                    % (`float`) Define lower limit damping, N/m/s or N-m/deg/s.  `` Default = ``1e3``.
+          'lowerLimitTransitionRegionWidth', 1e-4)                  % (`float`) Define lower limit transition region, over which spring and damping values ramp up to full values. Increase for stability. m or deg. ``Default = 1e-4``                                                                                    
+        initial                     = struct(...                    % 
+            'displacement',             [0 0 0])                    % (`structure`) Defines the initial displacement of the constraint. ``displacement`` (`3x1 float vector`) is defined as the initial displacement of the constraint [m] in the following format [x y z], Default = [``0 0 0``].
+        name                        = 'NOT DEFINED'                 % (`string`) Specifies the constraint name. For constraints this is defined by the user, Default = ``NOT DEFINED``.
+        location                    = [999 999 999]                 % (`3x1 float vector`) Constraint location [m]. Defined in the following format [x y z]. Default = ``[999 999 999]``.        
+        orientation                 = struct(...                    % (`structure`) Defines the orientation axis of the constraint.
+            'z',                        [0, 0, 1], ...              % 
+            'y',                        [0, 1, 0], ...              % 
+            'x',                        [], ...                     % 
+            'rotationMatrix',           [])                         % (`structure`) Defines the orientation axis of the constraint. ``z`` (`3x1 float vector`) defines the direciton of the Z-coordinate of the constraint, Default = [``0 0 1``]. ``y`` (`3x1 float vector`) defines the direciton of the Y-coordinate of the constraint, Default = [``0 1 0``]. ``x`` (`3x1 float vector`) internally calculated vector defining the direction of the X-coordinate for the constraint, Default = ``[]``. ``rotationMatrix`` (`3x3 float matrix`) internally calculated rotation matrix to go from standard coordinate orientation to the constraint coordinate orientation, Default = ``[]``.
     end                             
     
-    properties (SetAccess = 'public', GetAccess = 'public')%internal
-        constraintNum           = []                                            % Constraint number
+    properties (SetAccess = 'private', GetAccess = 'public') %internal
+        number                      = []                            % Constraint number
     end
     
     methods (Access = 'public')                                        
@@ -70,7 +70,11 @@ classdef constraintClass<handle
             %     constraint : obj
             %         contraintClass object         
             %
-            obj.name = name;
+            if exist('name','var')
+                obj.name = name;
+            else
+                error('The constraint class number(s) in the wecSimInputFile must be specified in ascending order starting from 1. The constraintClass() function should be called first to initialize each constraint with a name.')
+            end
         end
         
         function obj = checkLoc(obj,action)
@@ -79,18 +83,18 @@ classdef constraintClass<handle
             % Checks if location is set and outputs a warning or error. Used in mask Initialization.
             switch action
               case 'W'
-                if obj.loc == 999 % Because "Allow library block to modify its content" is selected in block's mask initialization, this command runs twice, but warnings cannot be displayed during the first initialization. 
-                    obj.loc = [888 888 888];
-                elseif obj.loc == 888
-                    obj.loc = [0 0 0];
-                    s1= ['For ' obj.name ': constraint.loc was changed from [9999 9999 9999] to [0 0 0]'];
+                if obj.location == 999 % Because "Allow library block to modify its content" is selected in block's mask initialization, this command runs twice, but warnings cannot be displayed during the first initialization. 
+                    obj.location = [888 888 888];
+                elseif obj.location == 888
+                    obj.location = [0 0 0];
+                    s1= ['For ' obj.name ': constraint.location was changed from [9999 9999 9999] to [0 0 0]'];
                     warning(s1)
                 end
               case 'E'
                 try
-                    if obj.loc == 999
-                      s1 = ['For ' obj.name ': constraint.loc needs to be specified in the WEC-Sim input file.' ...
-                        ' constraint.loc is the [x y z] location, in meters, for the pitch constraint.'];
+                    if obj.location == 999
+                      s1 = ['For ' obj.name ': constraint.location needs to be specified in the WEC-Sim input file.' ...
+                        ' constraint.location is the [x y z] location, in meters, for the pitch constraint.'];
                       error(s1)
                     end
                 catch exception
@@ -119,7 +123,7 @@ classdef constraintClass<handle
             % 
             % This function assumes that all rotations are about the same relative coordinate. 
             % If not, the user should input a relative coordinate of 0,0,0 and 
-            % use the additional linear displacement parameter to set the cg or loc
+            % use the additional linear displacement parameter to set the cg or location
             % correctly.
             %
             % Parameters
@@ -150,20 +154,25 @@ classdef constraintClass<handle
             end
 
             % calculate net axis-angle rotation
-            [netAxis, netAngle] = rotMat2AxisAngle(rotMat);
+%             [netAxis, netAngle] = rotMat2AxisAngle(rotMat);
 
             % calculate net displacement due to rotation
             rotatedRelCoord = relCoord*(rotMat');
             linDisp = rotatedRelCoord - relCoord;
 
             % apply rotation and displacement to object
-            obj.initDisp.initLinDisp = linDisp + addLinDisp;
+            obj.initial.displacement = linDisp + addLinDisp;
             
         end
 
         function listInfo(obj)
             % This method prints constraint information to the MATLAB Command Window.
             fprintf('\n\t***** Constraint Name: %s *****\n',obj.name)
+        end
+
+        function setNumber(obj,number)
+            % Method to set the private number property
+            obj.number = number;
         end
     end
 end

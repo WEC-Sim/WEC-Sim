@@ -1,4 +1,4 @@
-function hydroData = readBEMIOH5(filename,bodyNumber,meanDrift)
+function hydroData = readBEMIOH5(filename,number,meanDrift)
 % Function to read BEMIO data from an h5 file into a hydrodata structure
 % for the bodyClass
 % 
@@ -7,11 +7,11 @@ function hydroData = readBEMIOH5(filename,bodyNumber,meanDrift)
 %     filename : string
 %         Path to the BEMIO .h5 file to read
 %     
-%     bodyNumber : integer
+%     number : integer
 %         Body number to read from the .h5 file. For example, body(2) in
 %         the input file must read body2 from the .h5 file.
 %     
-%     meanDriftForceFlag : integer
+%     meanDrift : integer
 %         Flag to optionally read mean drift force coefficients
 % 
 % Returns
@@ -22,29 +22,29 @@ function hydroData = readBEMIOH5(filename,bodyNumber,meanDrift)
 % 
 
 % Get name of the body in the .h5 file
-h5BodyName = ['/body' num2str(bodyNumber)];
+h5BodyName = ['/body' num2str(number)];
 
 % Read body-independent wave parameters
 hydroData.simulation_parameters.scaled = h5read(filename,'/simulation_parameters/scaled');
-hydroData.simulation_parameters.wave_dir = h5read(filename,'/simulation_parameters/wave_dir');
-hydroData.simulation_parameters.water_depth = h5read(filename,'/simulation_parameters/water_depth');
+hydroData.simulation_parameters.direction = h5read(filename,'/simulation_parameters/wave_dir');
+hydroData.simulation_parameters.waterDepth = h5read(filename,'/simulation_parameters/water_depth');
 hydroData.simulation_parameters.w = h5read(filename,'/simulation_parameters/w');
 hydroData.simulation_parameters.T = h5read(filename,'/simulation_parameters/T');
 
 % Read body properties
 hydroData.properties.name = h5read(filename,[h5BodyName '/properties/name']);
 try hydroData.properties.name = hydroData.properties.name{1}; end
-hydroData.properties.body_number = h5read(filename,[h5BodyName '/properties/body_number']);
-hydroData.properties.cg = h5read(filename,[h5BodyName '/properties/cg']);
-hydroData.properties.cb = h5read(filename,[h5BodyName '/properties/cb']);
-hydroData.properties.disp_vol = h5read(filename,[h5BodyName '/properties/disp_vol']);
+hydroData.properties.number = h5read(filename,[h5BodyName '/properties/body_number']);
+hydroData.properties.centerGravity = h5read(filename,[h5BodyName '/properties/cg']);
+hydroData.properties.centerBuoyancy = h5read(filename,[h5BodyName '/properties/cb']);
+hydroData.properties.volume = h5read(filename,[h5BodyName '/properties/disp_vol']);
 
 % TODO: should be able to remove this initial guess as writeBEMIOH5 always
 % writes dof data
 % Initial guess for DOFs
 hydroData.properties.dof       = 6;
-hydroData.properties.dofStart = (bodyNumber-1)*6+1;
-hydroData.properties.dofEnd   = (bodyNumber-1)*6+6;
+hydroData.properties.dofStart = (number-1)*6+1;
+hydroData.properties.dofEnd   = (number-1)*6+6;
 
 % Update if DOFs included in hydroData
 try hydroData.properties.dof       = h5read(filename,[h5BodyName '/properties/dof']);       end
@@ -99,7 +99,7 @@ elseif meanDrift == 1
 elseif meanDrift == 2
     hydroData.hydro_coeffs.mean_drift =  reverseDimensionOrder(h5read(filename, [h5BodyName '/hydro_coeffs/mean_drift/momentum_conservation/val']));
 else
-    error(['Wrong flag for mean drift force in body(' num2str(bodyNumber) ').'])
+    error(['Wrong flag for mean drift force in body(' num2str(number) ').'])
 end
 
 end
