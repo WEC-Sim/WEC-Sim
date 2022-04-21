@@ -1,9 +1,12 @@
-clc; clear all; close all;
-hydro = struct();
+% clc; clear all; close all;
 
-hydro = Read_AQWA(hydro, 'rm3.AH1', 'rm3.LIS');
-hydro = Radiation_IRF(hydro,200,[],[],[],[]);
-hydro = Radiation_IRF_SS(hydro,[],[]);
-hydro = Excitation_IRF(hydro,100,[],[],[],[]);
-Write_H5(hydro)
-Plot_BEMIO(hydro)
+%% hydro data
+hydro = struct();
+hydro = readAQWA(hydro, 'RM3.AH1', 'RM3.LIS');
+hydro = radiationIRF(hydro,150,[],[],[],1.8);
+hydro = radiationIRFSS(hydro,[],[]);
+hydro = excitationIRF(hydro,150,[],[],[],1.8);
+writeBEMIOH5(hydro)
+
+%% Plot hydro data
+% plotBEMIO(hydro)

@@ -1,7 +1,7 @@
 %Example of user input MATLAB file for post processing
 
 %Plot waves
-waves.plotEta(simu.rampTime);
+waves.plotElevation(simu.rampTime);
 try 
     waves.plotSpectrum();
 catch
@@ -17,6 +17,6 @@ output.plotResponse(1,5);
 output.plotForces(2,1)
 
 % Save waves and response as video
-% output.plotWaves(simu,body,waves,...
+% output.saveViz(simu,body,waves,...
 %     'timesPerFrame',5,'axisLimits',[-50 50 -50 50 -12 20],...
 %     'startEndTime',[100 125]);

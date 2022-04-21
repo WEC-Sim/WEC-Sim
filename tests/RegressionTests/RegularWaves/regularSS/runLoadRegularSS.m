@@ -29,7 +29,7 @@ wecSim;                     % Run Simulation
 B1.WEC_Sim_new.time=output.bodies(1).time;
 Hshift1=output.bodies(1).position(1,3);
 B1.WEC_Sim_new.heave=output.bodies(1).position(:,3)-Hshift1;
-%Body 2
+% Body 2
 B2.WEC_Sim_new.time=output.bodies(2).time;
 Hshift2=output.bodies(2).position(1,3);
 B2.WEC_Sim_new.heave=output.bodies(2).position(:,3)-Hshift2;
@@ -45,7 +45,7 @@ load('regularSS_org.mat')    % Load Previous WEC-Sim Data
 B1.WEC_Sim_org.time=output.bodies(1).time;
 Hshift1=output.bodies(1).position(1,3);
 B1.WEC_Sim_org.heave=output.bodies(1).position(:,3)-Hshift1;
-%Body 2
+% Body 2
 B2.WEC_Sim_org.time=output.bodies(2).time;
 Hshift2=output.bodies(2).position(1,3);
 B2.WEC_Sim_org.heave=output.bodies(2).position(:,3)-Hshift2;

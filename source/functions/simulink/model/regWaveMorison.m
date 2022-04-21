@@ -1,4 +1,4 @@
-function f = regWaveMorison(z,r,Vel,Accel,Disp,Area,Cd,Vol,Ca,Time,rho,waveDir,waterDepth,k,w,A,rampTime,g,currentSpeed,currentDirection,currentDepth,currentOption,simuMorison)
+function f = regWaveMorison(z,r,Vel,Accel,Disp,Area,Cd,Vol,Ca,Time,rho,direction,waterDepth,k,w,A,rampTime,g,currentSpeed,currentDirection,currentDepth,currentOption,bodyMorison)
 % This function calculates the Morison element force for the regular wave
 % case.
 [rr,~]=size(r);
@@ -51,7 +51,7 @@ for ii = 1:rr
     wxwxr           = cross(Velt,wxr);
     Accel2          = [Accel(1),Accel(2),Accel(3)] + dotwxr + wxwxr;
     %% Calculate Orbital Velocity
-    waveDirRad      = waveDir*pi/180;
+    waveDirRad      = direction*pi/180;
     phaseArg        = w*Time - k*(ShiftCg(1)*cos(waveDirRad) + ShiftCg(2)*sin(waveDirRad));
     % Vertical Variation
     kh              = k*waterDepth;    
@@ -79,7 +79,7 @@ for ii = 1:rr
     vA              = -ramp*coeffHorz*sin(phaseArg)*g*k*sin(waveDirRad);
     wA              = -ramp*coeffVert*cos(phaseArg)*g*k;
     fluidA          = [uA, vA, wA];
-    if simuMorison == 2
+    if bodyMorison == 2
         %% Decompose Fluid Velocity
         % Tangential Velocity
         vT          = ((dot(zRot,fluidV))/(norm(zRot)^2))*zRot;

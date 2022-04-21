@@ -207,16 +207,16 @@ depending on which wave type is selected, as shown in the table below. A more
 detailed description of the available wave types is given in the following 
 sections. 
 
-================== ================================================
-**Wave Type**      **Required Properties**                         
-``noWave``         ``waves.T``                                     
+=================== ==================================================================
+**Wave Type**       **Required Properties**                         
+``noWave``          ``waves.period``                                     
 ``noWaveCIC``                                                      
-``regular``        ``waves.H``, ``waves.T``                        
-``regularCIC``     ``waves.H``, ``waves.T``                        
-``irregular``      ``waves.H``, ``waves.T``, ``waves.spectrumType``
-``spectrumImport`` ``waves.waveSpectrumFile``                      
-``etaImport``      ``waves.etaDataFile``                           
-================== ================================================
+``regular``         ``waves.height``, ``waves.period``                        
+``regularCIC``      ``waves.height``, ``waves.period``                        
+``irregular``       ``waves.height``, ``waves.period``, ``waves.spectrumType``
+``spectrumImport``  ``waves.spectrumFile``                      
+``elevationImport`` ``waves.elevationFile``                           
+=================== ==================================================================
 
 Available wave class properties, default values, and functions can be found by 
 typing ``doc waveClass`` in the MATLAB command window, or by opening the 
@@ -238,7 +238,7 @@ coefficients from a BEM solver before executing WEC-Sim and specify the period
 The ``noWave`` case is defined by including the following in the input file::
 
     waves = waveClass('noWave');
-    waves.T = <wavePeriod>; %[s]
+    waves.period = <wavePeriod>; %[s]
 
 noWaveCIC
 """""""""
@@ -265,8 +265,8 @@ the convolution integral) to calculate wave radiation forces. Wave period
 The ``regular`` case is defined by including the following in the input file::
 
     waves = waveClass('regular');
-    waves.T = <wavePeriod>; %[s]
-    waves.H = <waveHeight>; %[m]
+    waves.period = <wavePeriod>; %[s]
+    waves.height = <waveHeight>; %[m]
 
 regularCIC
 """"""""""
@@ -280,8 +280,8 @@ infinite frequency added mass. Wave period (``wave.T``) and wave height
 The ``regularCIC`` case is defined by including the following in the input file::
 
     waves = waveClass('regularCIC');
-    waves.T = <wavePeriod>; %[s]
-    waves.H = <waveHeight>; %[m]
+    waves.period = <wavePeriod>; %[s]
+    waves.height = <waveHeight>; %[m]
 
 .. _user-code-structure-irregular:
 
@@ -304,8 +304,8 @@ JONSWAP                 ``JS``
 The ``irregular`` case is defined by including the following in the input file::
 
     waves = waveClass('irregular');
-    waves.T = <wavePeriod>; %[s]
-    waves.H = <waveHeight>; %[m]
+    waves.period = <wavePeriod>; %[s]
+    waves.height = <waveHeight>; %[m]
     waves.spectrumType = '<waveSpectrum>';
 
 When using the JONSWAP spectrum, users have the option of defining gamma by 
@@ -326,7 +326,7 @@ it will be randomly defined. An example file is provided in the
 in the input file:: 
 
     waves = waveClass('spectrumImport');
-    waves.spectrumDataFile='<waveSpectrumFile>.mat';
+    waves.spectrumFile ='<spectrumFile >.mat';
 
 .. Note::
     When using the ``spectrumImport`` option, users must specify a sufficient 
@@ -335,19 +335,19 @@ in the input file::
     define the wave forces on the WEC, for more information refer to the 
     :ref:`user-advanced-features-irregular-wave-binning` section.
 
-etaImport
-"""""""""
+elevationImport
+"""""""""""""""
 
-The ``etaImport`` case is the wave type for wave simulations using user-defined 
+The ``elevationImport`` case is the wave type for wave simulations using user-defined 
 time-series (ex: from experiments). The user-defined wave surface elevation 
 must be defined with the time (s) in the first column, and the wave surface 
 elevation (m) in the second column. An example of this is given in the 
 ``etaData.mat`` file in the tutorials directory folder of the WEC-Sim source 
-code. The ``etaImport`` case is defined by including the following in the input 
+code. The ``elevationImport`` case is defined by including the following in the input 
 file:: 
 
-    waves = waveClass('etaImport');
-    waves.etaDataFile ='<etaDataFile>.mat';
+    waves = waveClass('elevationImport');
+    waves.elevationFile ='<elevationFile>.mat';
 
 
 
@@ -395,30 +395,30 @@ important distinctions.
 |Hydrodynamic Body        |``body(i)=bodyClass('<bemData>.h5')``        |
 |                         |``body(i).geometryFile = '<geomFile>.stl'``  |
 |                         |``body(i).mass``                             |
-|                         |``body(i).momOfInertia``                     |
+|                         |``body(i).intertia``                         |
 +-------------------------+---------------------------------------------+
 |Drag Body                |``body(i)=bodyClass('')``                    |
 |                         |``body(i).geometryFile = '<geomFile>.stl'``  |
 |                         |``body(i).mass``                             |
-|                         |``body(i).momOfInertia``                     |
-|                         |``body(i).cg``                               |
-|                         |``body(i).cb``                               |
-|                         |``body(i).dispVol``                          |
-|                         |``body(i).nhBody=1``                         |
+|                         |``body(i).intertia``                         |
+|                         |``body(i).centerGravity``                    |
+|                         |``body(i).centerBuoyancy``                   |
+|                         |``body(i).volume``                           |
+|                         |``body(i).nonHydro=1``                       |
 +-------------------------+---------------------------------------------+
 |Nonhydrodynamic Body     |``body(i)=bodyClass('')``                    |
 |                         |``body(i).geometryFile = '<geomFile>.stl'``  |
 |                         |``body(i).mass``                             |
-|                         |``body(i).momOfInertia``                     |
-|                         |``body(i).cg``                               |
-|                         |``body(i).cb``                               |
-|                         |``body(i).dispVol``                          |
-|                         |``body(i).nhBody=2``                         |
+|                         |``body(i).intertia``                         |
+|                         |``body(i).centerGravity``                    |
+|                         |``body(i).centerBuoyancy``                   |
+|                         |``body(i).volume``                           |
+|                         |``body(i).nonHydro=2``                       |
 +-------------------------+---------------------------------------------+
 |Flexible Body            |``body(i)=bodyClass('<bemData>.h5')``        |
 |                         |``body(i).geometryFile = '<geomFile>.stl'``  |
 |                         |``body(i).mass``                             |
-|                         |``body(i).momOfInertia``                     |
+|                         |``body(i).intertia``                         |
 +-------------------------+---------------------------------------------+
 
 Users may specify other body class properties using the ``body`` object for 
@@ -430,8 +430,8 @@ For example, viscous drag can be specified by entering the viscous drag
 coefficient and the characteristic area in vector format the WEC-Sim 
 input file as follows:: 
 
-    body(i).viscDrag.cd = [0 0 1.3 0 0 0]
-    body(i).viscDrag.characteristicArea = [0 0 100 0 0 0]
+    body(i).quadDrag.cd = [0 0 1.3 0 0 0]
+    body(i).quadDrag.area = [0 0 100 0 0 0]
 
 Available body properties, default values, and functions can be found by typing 
 ``doc bodyClass`` in the MATLAB command window, or opening the ``bodyClass.m`` 
@@ -455,7 +455,7 @@ the ``Rigid Body`` block and the ``Flex Body`` block. The rigid body block is
 used to represent hydrodynamic, nonhydrodynamic, and drag bodies. Each type of 
 rigid body is a `Variant Sub-system <https://www.mathworks.com/help/simulink/slref/variant-subsystems.html>`_. 
 Before simulation, one variant is activated by a flag in the body object 
-(body.nhBody=0,1,2). The flex body block is used to represent hydrodynamic 
+(body.nonHydro=0,1,2). The flex body block is used to represent hydrodynamic 
 bodies that contain additional flexible degrees of freedom ('generalized body 
 modes'). The flex body is determined automatically by the degrees of freedom 
 contained in the BEM input data. At least one instance of a body 
@@ -504,7 +504,7 @@ For rotational constraint (ex: pitch), users may also specify the
 location and orientation of the rotational joint with respect to the global 
 reference frame::
     
-    constraint(i).loc = [<x> <y> <z>];
+    constraint(i).location = [<x> <y> <z>];
     constraint(i).orientation.z = [<x> <y> <z>];
     constraint(i).orientation.y = [<x> <y> <z>];
 
@@ -597,14 +597,14 @@ initialize each iteration the pto class (``ptoClass``) and specify the
 
 For rotational ptos, the user also needs to specify the location of the 
 rotational joint with respect to the global reference frame in the 
-``pto(i).loc`` variable. In the PTO class, users can also specify 
-linear damping (``pto(i).c``) and stiffness (``pto(i).k``) values to 
+``pto(i).location`` variable. In the PTO class, users can also specify 
+linear damping (``pto(i).damping``) and stiffness (``pto(i).stiffness``) values to 
 represent the PTO system (both have a default value of 0). Users can overwrite 
 the default values in the input file. For example, users can specify a damping 
 value by entering the following in the WEC-Sim input file:: 
 
-    pto(i).c = <ptoDamping>;
-    pto(i).k = <ptoStiffness>;
+    pto(i).damping = <ptoDamping>;
+    pto(i).stiffness = <ptoStiffness>;
 
 Available pto properties, default values, and functions can be found by typing 
 ``doc ptoClass`` in the MATLAB command window, or opening the `ptoClass.m` file 
@@ -662,8 +662,8 @@ Within the ``wecSimInputFile.m``, users must initialize the cable class and spec
 ``cableName``, in addition to the ``baseConnection`` and ``followerConnection`` (in that order), by including the following lines:: 
 
     cable(i) = cableClass('cableName','baseConnection','followerConnection');
-    cable(i).k = <cableDamping>;
-    cable(i).c = <cableStiffness>;
+    cable(i).damping = <cableDamping>;
+    cable(i).stiffness = <cableStiffness>;
 
 Available cable properties, default values, and functions 
 can be found by typing ``doc cableClass`` in the MATLAB command window, or 
@@ -733,6 +733,89 @@ There can only be one MoorDyn block per Simulink model. There are no
 restrictions on the number of MooringMatrix blocks. 
 
 .. figure:: /_static/images/WEC-Sim_Lib_mooring.PNG
+   :width: 400 pt
+   :align: center
+
+.. _user-code-structure-ptosim-class:
+
+PTO-Sim Class
+^^^^^^^^^^^^^^^^
+
+The PTO-Sim class contains all the information for the PTO-Sim blocks, which can be used to simulate PTO systems. 
+The difference beetween the PTO-Sim class and the PTO class is that the PTO-Sim class have detailed models of different components
+that are used in PTO systems such as hydraulic cylinders, hydraulic accumulators, hydraulic motors, electric generators, etc., 
+while the PTO class have a linear parametric model that summarizes the PTO dynamics with a stiffness and a damping term.
+At a high level, the PTO-Sim class interacts with the rest of 
+WEC-Sim as shown in the diagram below:
+
+.. figure:: /_static/images/code_structure/PTOSimClass_diagram.png
+   :width: 750pt
+
+The PTO-Sim blocks receive the linear or angular response from the PTO blocks and give either the torque or the force depending on the PTO dynamics.
+
+PTO-Sim Class Initialization
+""""""""""""""""""""""""""""""""
+The properties of the PTO-Sim class (``ptoSimClass``) are defined in the ``ptoSim`` object. The PTO-Sim class must be
+initialized in the ``wecSimInputFile.m`` script. There are three properties that must be initialized for all the PTO-Sim blocks,
+those are the name, the block number, and the type:: 
+
+    ptoSim(i) = ptoSimClass('ptoSimName');
+    ptoSim(i).ptoSimNum = i;
+    ptoSim(i).ptoSimType = <TypeNumber>;
+
+The type value must be defined depending on the type of block used in the simulation as follows:
+
++---------------------+-----+
+|    PTO-Sim Library        |
++=====================+=====+
+|Block                |Type |
++---------------------+-----+
+|Electric Generator   |1    |
++---------------------+-----+
+|Hydraulic cylinder   |2    |
++---------------------+-----+
+|Hydraulic accumulator|3    |
++---------------------+-----+
+|Rectifying check     |4    |
+|valve                |     |
++---------------------+-----+
+|Hydraulic motor      |5    |
++---------------------+-----+
+|Linear crank         |6    |
++---------------------+-----+
+|Adjustable rod       |7    |
++---------------------+-----+
+|Check valve          |8    |
++---------------------+-----+
+|Direct drive         |9    |
+|linear generator     |     |
++---------------------+-----+
+|Direct drive         |10   |
+|rotary generator     |     |
++---------------------+-----+
+
+
+Available PTO-Sim blocks properties, default values, and functions 
+can be found by typing ``doc ptoSimClass`` in the MATLAB command window, or 
+opening the `ptoSimClass.m` file in ``$WECSIM/source/objects`` directory by 
+typing ``open ptoSimClass`` in MATLAB Command Window. 
+For more information about application of WEC-Sim's mooring class, refer to 
+:ref:`user-advanced-features-pto`.
+
+PTO-Sim Blocks
+""""""""""""""""""""
+
+There are eight different types of blocks in the PTO-Sim class divided
+in three sub-categories: Hydraulic, Electric, and Motion Conversion. In the hydraulic sub-category
+there are five blocks: Check Valve, Compressible Fluid Piston, 
+Gas-Charged Hydraulic Accumulator, Hydraulic Motor, and Rectifying Check Valve.
+In the Electric sub-category there is a block call Electric Generator Equivalent Circuit which models an electric generator
+with an equivalent circuit. The motion conversion blocks (Rotary to Linear Adjustable Rod, and
+Rotary to Linear Crank) can be used to to convert rotational motion into linear motion to add a hydraulic cylinder
+to the PTO model. There are no restrictions on the number of PTO-Sim blocks.
+
+
+.. figure:: /_static/images/WEC-Sim_Lib_PTOSim.png
    :width: 400 pt
    :align: center
 

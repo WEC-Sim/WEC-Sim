@@ -101,11 +101,11 @@ Number  Purpose                            Input parameters utilized
 ======  =================================  =========================
 1A      Hydrostatic stability              noWave
 1B      Hydrostatic stability              noWaveCIC
-2A      Free Decay, hydrostatic stiffness  noWave, initDisp
-2B      Free Decay, hydrostatic stiffness  noWaveCIC, initDisp
+2A      Free Decay, hydrostatic stiffness  noWave, initial
+2B      Free Decay, hydrostatic stiffness  noWaveCIC, initial
 3A      Viscous drag                       regular
 3B      Viscous drag                       regularCIC
-4A      Full functionality                 irregular, initDisp
+4A      Full functionality                 irregular, initial
 ======  =================================  =========================
 
 Various problems may occur while progressing through these test cases.
@@ -133,7 +133,7 @@ Viscous Drag
 
 A hydrostatically stable device that has an unphysical response to a regular wave requires improved drag and damping.
 BEM codes inherently assume inviscid flow. Recreating the effects of viscous drag in WEC-Sim is essential to obtaining a physical response.
-Tune the parameters ``body(#).viscDrag`` or ``body(#).linearDamping`` to create a realistic response to a regular wave.
+Tune the parameters ``body(#).quadDrag`` or ``body(#).linearDamping`` to create a realistic response to a regular wave.
 
 Irregular Waves
 ^^^^^^^^^^^^^^^^^^^^^
@@ -153,11 +153,11 @@ If a non-CIC wave has unphysical behavior at a specific frequency but not others
 The CIC wave decreases the impact of these spikes in radiation damping.
 
 If a CIC wave continues to oscillate without decaying to a steady state, the convolution integral time is not long enough.
-Increase ``simu.CITime`` to a greater value or use the state space option (``simu.ssCalc=1``).
+Increase ``simu.cicEndTime`` to a greater value or use the state space option (``simu.stateSpace=1``).
 In BEMIO, check that the convolution integral time is long enough for all oscillations to decay. 
 
 **Nonlinear Hydrodynamics:**
-If a user wishes to use the nonlinear hydro options, they should first follow this same workflow with ``simu.nlHydro=0`` and again with ``simu.nlHydro=1,2``
+If a user wishes to use the nonlinear hydro options, they should first follow this same workflow with ``simu.nonlinearHydro=0`` and again with ``simu.nonlinearHydro=1,2``
 The nonlinear hydro options are difficult to set-up and must be used with care. 
 A highly refined mesh is required to get an accurate displaced volume and wetted surface area at each time step.
 

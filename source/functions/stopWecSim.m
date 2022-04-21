@@ -3,15 +3,15 @@
 % has ended. These functions were pulled from the wecSim.m file, following
 % the command to simulate the Simulink model.
 
-if exist('parallelComputing_dir')
-    cd (['..' filesep parallelComputing_dir filesep '..' filesep]); 
+if exist('pctDir') 
+    cd (['..' filesep pctDir filesep '..' filesep]); 
 end
 
 % Clear intermediate variables and variant subsystem flags
-clear nlHydro sv_linearHydro sv_nonlinearHydro ssCalc radiation_option sv_convolution sv_stateSpace sv_constantCoeff typeNum B2B sv_B2B sv_noB2B;
-clear nhbod* sv_b* sv_noWave sv_regularWaves sv_irregularWaves sv_udfWaves sv_instFS sv_meanFS sv_MEOn sv_MEOff morisonElement flexHydrobody_* sv_irregularWavesNonLinYaw sv_regularWavesNonLinYaw yawNonLin numBody;
+clear nonlinearHydro sv_linearHydro sv_nonlinearHydro stateSpace radiation_option sv_convolution sv_stateSpace sv_constantCoeff typeNum B2B sv_B2B sv_noB2B;
+clear nhbod* sv_b* sv_noWave sv_regularWaves* sv_irregularWaves* sv_udfWaves sv_instFS sv_meanFS sv_MEOn sv_MEOff morisonElement flexHydrobody_* sv_irregularWavesYaw_* sv_regularWavesYaw_* yaw numBody;
 clear sv_visualizationOFF sv_visualizationON visON X Y
-clear dragBodLogic hydroBodLogic nonHydroBodLogic idx it numNonHydroBodies morisonElement* nonLinearHydro*;
+clear dragBodLogic hydroBodLogic nonHydroBodLogic idx it numNonHydroBodies morisonElement* nonLinearHydro* yaw*;
 clear runWecSimCML
 
 toc
@@ -29,7 +29,7 @@ paraviewVisualization
 
 % ASCII files
 if simu.saveText==1
-    output.writetxt();
+    output.writeText();
 end
 if simu.saveStructure==1
     warning('off','MATLAB:structOnObject')
@@ -43,19 +43,19 @@ toc
 diary off
 
 if simu.saveWorkspace==1
-    if exist('parallelComputing_dir') 
-       cd(parallelComputing_dir);
-       simu.caseDir = [simu.caseDir filesep parallelComputing_dir];
+    if exist('pctDir') 
+       cd(pctDir);
+       simu.caseDir = [simu.caseDir filesep pctDir];
     end
     outputFile = [simu.caseDir filesep 'output' filesep simu.caseFile];
     save(outputFile,'-v7.3')
-    if exist('parallelComputing_dir')
+    if exist('pctDir') 
         filename = sprintf('savedData%03d.mat', imcr);
         copyfile(outputFile,['../' filename])
     end
 end
-if exist('parallelComputing_dir') 
-    cd (['..' filesep parallelComputing_dir filesep '..' filesep]); 
+if exist('pctDir')
+    cd (['..' filesep pctDir filesep '..' filesep]); 
 end
 
 %% Remove 'temp' directory
@@ -68,5 +68,4 @@ end
 
 % Reset the loction of Simulink-generated files
 Simulink.fileGenControl('reset');
-
 clear projectRootDir

@@ -15,7 +15,7 @@ function inputString = writeLineFromVar(defaultClass, variableName, maskVars, ma
 % Parameters
 % ------------
 %     defaultClass : WEC-Sim Object
-%         Instance of a WEC-Sim class. Must contain the variableName that is
+%         Default instance of a WEC-Sim class. Must contain the variableName that is
 %         being written to the input file
 % 
 %     variableName : string
@@ -30,7 +30,7 @@ function inputString = writeLineFromVar(defaultClass, variableName, maskVars, ma
 % 
 %     classNum : int
 %          Number specifying the index of a class being written
-%          i.e. body(1), pto(4), constraint(7), ...
+%          i.e. 1 for body(1), 4 for pto(4), 7 for constraint(7), ...
 % 
 %     structName : string
 %          Structure containing all mask parameter visibilities
@@ -43,38 +43,39 @@ function inputString = writeLineFromVar(defaultClass, variableName, maskVars, ma
 % TODO
 % ---- 
 %     Link mask tool tips with input line comments
+%
 
-classAbbrev = inputname(1);
+    % Track if variable should be written
+    hasStruct = ~isempty(structName); % check if variable is in a class' struct (correspond to a mask tab)
+    isVisible = strcmp(maskViz.(variableName),'on'); % check if mask variable is visible
 
-% append the class index if necessary. E.g. 'body' --> 'body(1)'
-if ~isempty(classNum)
-    classAbbrev = [classAbbrev '(' num2str(classNum) ')'];
-end
-
-% booleans to track 
-hasStruct = ~isempty(structName); % check if variable is in a class' struct (correspond to a mask tab)
-isVisible = strcmp(maskViz.(variableName),'on'); % check if mask variable is visible
-
-% Get the default value of the variable within its WEC-Sim class
-if hasStruct
-    isDefault = isequal(defaultClass.(structName).(variableName), eval(maskVars.(variableName)));
-else
-    isDefault = isequal(defaultClass.(variableName), eval(maskVars.(variableName)));
-end
-
-% Only write parameters if they are visible (turned on and relevant) and
-% are different from the class default
-if isVisible && ~isDefault
+    % Get the default value of the variable within its WEC-Sim class
     if hasStruct
-        % e.g. 'body(1).initDisp.initLinDisp = [1 1 1]; \r\n'
-        inputString = [classAbbrev '.' structName '.' variableName ' = ' maskVars.(variableName) '; \r\n'];
+        isDefault = isequal(defaultClass.(structName).(variableName), eval(maskVars.(variableName)));
     else
-        % e.g. 'simu.ssCalc = 'on'; \r\n'
-        inputString = [classAbbrev '.' variableName ' = ' maskVars.(variableName) '; \r\n'];
+        isDefault = isequal(defaultClass.(variableName), eval(maskVars.(variableName)));
     end
-else
-    % Write nothing to input file
-    inputString = ''; 
-end
+
+    % Only write parameters if they are visible (turned on and relevant) and
+    % are different from the class default
+    if isVisible && ~isDefault
+        % Append the class index if necessary. E.g. 'body' --> 'body(1)'
+        classAbbrev = inputname(1);
+        if ~isempty(classNum)
+            classAbbrev = [classAbbrev '(' num2str(classNum) ')'];
+        end
+
+        if hasStruct
+            % e.g. 'body(1).initial.displacement = [1 1 1]; \r\n'
+            inputString = [classAbbrev '.' structName '.' variableName ' = ' maskVars.(variableName) '; \r\n'];
+        else
+            % e.g. 'simu.stateSpace = 'on'; \r\n'
+            inputString = [classAbbrev '.' variableName ' = ' maskVars.(variableName) '; \r\n'];
+        end
+    else
+        % Write nothing to input file
+        inputString = ''; 
+    end
 
 end
+    

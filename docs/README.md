@@ -28,7 +28,7 @@ To test the current branch, use the following:
 ```
 > conda activate _wssphinx
 (_wssphinx) > cd path/to/WEC-Sim
-(_wssphinx) > sphinx-build -W --keep-going -b html docs docs/_build/html
+(_wssphinx) > sphinx-build -a -W --keep-going -b html docs docs/_build/html
 (_wssphinx) > conda deactivate
 >
 ```
@@ -45,7 +45,7 @@ branches will be shown. To build the docs use the following command:
 ```
 > conda activate _wssphinx
 (_wssphinx) > cd path/to/WEC-Sim
-(_wssphinx) > sphinx-multiversion -W --keep-going docs docs/_build/html
+(_wssphinx) > sphinx-multiversion -a -W --keep-going docs docs/_build/html
 (_wssphinx) > conda deactivate
 >
 ```
@@ -61,6 +61,7 @@ https://github.com/WEC-Sim/WEC-Sim) repository.
 
 
 ## Best Practices
+  - Always pad with whitespace and not tabs, especially when formatting tables
   - If using the `include` directive, place the included file in the `docs/_include` directory and link from there. For example:
       ```rst
       .. include:: /_include/added_mass.rst
@@ -69,7 +70,7 @@ https://github.com/WEC-Sim/WEC-Sim) repository.
   - Whenever possible link to outside reference instead of write guidance available elsewhere (e.g. how to use Git, MATLAB/Simulink features)
   - Whenever possible link to other sections of the documentation instead of writing similar information in multiple places
   - Run spell check (not built into most text editors)
-  - ``sphinx-build -a -b html docs docs/_build/html` to build a clean verion of the website
+  - `sphinx-build -a -b html docs docs/_build/html` to build a clean verion of the website
 
 ### Formatting Guidelines
   - `$CASE` to refer to WEC-Sim case directory
