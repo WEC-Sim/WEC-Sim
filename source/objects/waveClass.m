@@ -656,11 +656,7 @@ classdef waveClass<handle
                 obj.power = sum(1/2*rho*g^(2)*fSpectrum/(2*pi).*obj.dOmega./obj.omega);
             else
                 % Full Wave Power Equation
-<<<<<<< HEAD
-                obj.Pw = sum((1/2)*rho*g.*S_f/(2*pi).*obj.dw.*sqrt(g./obj.k.*tanh(obj.k.*obj.waterDepth)).*(1 + 2.*obj.k.*obj.waterDepth./sinh(2.*obj.k.*obj.waterDepth)));
-=======
                 obj.power = sum((1/2)*rho*g.*fSpectrum/(2*pi).*obj.dOmega.*sqrt(g./obj.wavenumber.*tanh(obj.wavenumber.*obj.waterDepth)).*(1 + 2.*obj.wavenumber.*obj.waterDepth./sinh(2.*obj.wavenumber.*obj.waterDepth)));
->>>>>>> dev
             end
             %
             switch obj.bem.option
