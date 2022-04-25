@@ -1,4 +1,10 @@
 function [dispLoc, velLoc, accLoc] = kinYawTransformNoB2B(yaw, dispGlobal, velGlobal, accGlobal)
+
+% pre-allocate outputs
+dispLoc=zeros(size(dispGlobal));
+velLoc=zeros(size(velGlobal));
+accLoc=zeros(size(accGlobal));
+    
 if yaw == 1
     % rotate kinematics to 'zero' the yaw displacement (in order to
     % calculate F_RadiationDamping, F_AddedMass and F_Restoring in the
@@ -12,9 +18,9 @@ if yaw == 1
     rotMatLoc = rotMatYawTranspose*rotMatGlobal;
 
     [phiLoc, thetaLoc, psiLoc] = rotMatXYZ2Eul(rotMatLoc);
-    dispLoc = [rotMatYawTranspose*dispGlobal(1:3); phiLoc; thetaLoc; psiLoc];
-    velLoc = [rotMatYawTranspose*velGlobal(1:3); rotMatYawTranspose*velGlobal(4:6)];
-    accLoc = [rotMatYawTranspose*accGlobal(1:3); rotMatYawTranspose*accGlobal(4:6)];
+    dispLoc(1:6) = [rotMatYawTranspose*dispGlobal(1:3); phiLoc; thetaLoc; psiLoc];
+    velLoc(1:6) = [rotMatYawTranspose*velGlobal(1:3); rotMatYawTranspose*velGlobal(4:6)];
+    accLoc(1:6) = [rotMatYawTranspose*accGlobal(1:3); rotMatYawTranspose*accGlobal(4:6)];
 else
     dispLoc = dispGlobal;
     velLoc = velGlobal;

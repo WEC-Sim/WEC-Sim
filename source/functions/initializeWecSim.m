@@ -130,7 +130,7 @@ nonHydroBodLogic = zeros(length(body(1,:)),1);
 dragBodLogic = zeros(length(body(1,:)),1);
 for ii = 1:length(body(1,:))
     body(ii).setNumber(ii);
-    body(ii).checkInputs(simu.explorer);
+    body(ii).checkInputs(simu.explorer, simu.b2b);
     if body(ii).nonHydro==0
         if numNonHydroBodies > 0 || numDragBodies > 0
             error('All hydro bodies must be specified before any drag or non-hydro bodies.')
@@ -166,6 +166,17 @@ for ii = 1:simu.numHydroBodies
         tmp_hydroData = readBEMIOH5(body(ii).h5File, body(ii).number, body(ii).meanDrift);
         body(ii).loadHydroData(tmp_hydroData);
         clear tmp_hydroData
+
+        % Check flex body with other options
+        if body(ii).gbmDOF > 0
+            body(ii).flex = 1;
+        end
+        if body(ii).yaw.option==1 && body(ii).flex==1
+            error('Cannot use passive yaw with a flexible body.');
+        end
+        if simu.b2b==1 && body(ii).flex==1
+            error('Cannot use body-to-body interactions with a flexible body.');
+        end
     end
 end; clear ii
 
@@ -388,6 +399,13 @@ for ii=1:length(body(1,:))
     eval(['sv_b' num2str(ii) '_hydroBody = Simulink.Variant(''nhbody_' num2str(ii) '==0'');'])
     eval(['sv_b' num2str(ii) '_nonHydroBody = Simulink.Variant(''nhbody_' num2str(ii) '==1'');'])
     eval(['sv_b' num2str(ii) '_dragBody = Simulink.Variant(''nhbody_' num2str(ii) '==2'');'])
+end; clear ii
+
+% rigid or flex body
+for ii=1:length(body(1,:))
+    eval(['flex_' num2str(ii) ' = body(ii).flex;'])
+    eval(['sv_b' num2str(ii) '_rigidBody = Simulink.Variant(''flex_' num2str(ii) '==0'');'])
+    eval(['sv_b' num2str(ii) '_flexBody = Simulink.Variant(''flex_' num2str(ii) '==1'');'])
 end; clear ii
 
 %Efficiency model for hydraulic motor PTO-Sim block

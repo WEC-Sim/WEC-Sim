@@ -117,7 +117,7 @@ classdef bodyClass<handle
             end
         end
         
-        function checkInputs(obj,explorer)
+        function checkInputs(obj,explorer,b2b)
             % This method checks WEC-Sim user inputs for each body and generates error messages if parameters are not properly defined for the bodyClass.
             
             % Check h5 file
@@ -160,6 +160,13 @@ classdef bodyClass<handle
             % Check passive yaw configuration
             if obj.yaw.option==1 && obj.yaw.threshold==1
                 warning(['yaw using (default) 1 deg interpolation threshold.' newline 'Ensure this is appropriate for your geometry'])
+            end
+            % Check flex body with other options
+            if obj.yaw.option==1 && obj.flex==1
+                error('Cannot use passive yaw with a flexible body.');
+            end
+            if b2b==1 && obj.flex==1
+                error('Cannot use body-to-body interactions with a flexible body.');
             end
             if obj.nonHydro==0
                 % This method checks WEC-Sim user inputs for each hydro body and generates error messages if parameters are not properly defined for the bodyClass.
