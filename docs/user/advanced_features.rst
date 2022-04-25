@@ -386,10 +386,6 @@ following features are available:
   or :code:`simu.nonlinearHydro = 2`, then the mass is calculated using the displaced 
   volume of the provided STL geometry file.
 
-* **Fixed Body** - if the mass is unknown (or not important to the dynamics), 
-  the user may specify :code:`body(i).mass = 'fixed'` which will set the mass 
-  to 999 kg and moment of inertia to [999 999 999] kg-m^2.
-
 * **Import STL** - to read in the geometry (``*.stl``) into Matlab use the 
   :code:`body(i).importBodyGeometry()` method in the bodyClass. This method will import the 
   mesh details (vertices, faces, normals, areas, centroids) into the 
