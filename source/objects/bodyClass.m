@@ -201,7 +201,8 @@ classdef bodyClass<handle
                     error('Non-hydro or drag body(%i) displaced volume (volume) must be defined in the wecSimInputFile.m',obj.number);
                 end
                 if isempty(obj.centerBuoyancy)
-                    warning('Non-hydro or drag body(%i) center of buoyancy (centerBuoyancy) set equopal to center of gravity (centerGravity), [%g %g %g]',obj.number,obj.centerGravity(1),obj.centerGravity(2),obj.centerGravity(3))
+                    obj.centerBuoyancy = obj.centerGravity;
+                    warning('Non-hydro or drag body(%i) center of buoyancy (centerBuoyancy) set equal to center of gravity (centerGravity), [%g %g %g]',obj.number,obj.centerGravity(1),obj.centerGravity(2),obj.centerGravity(3))
                 end
             end
         end
