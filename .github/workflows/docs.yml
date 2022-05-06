@@ -10,7 +10,8 @@ on:
       - dev
   workflow_dispatch:
 jobs:
-  build:
+  test:
+    name: Test the current branch
     runs-on: ubuntu-latest
     defaults:
       run:
@@ -32,10 +33,32 @@ jobs:
           auto-activate-base: false
       - run: |
           conda info
-      - name: Build docs (branch)
+      - name: Build docs
         run: |
-          sphinx-build -b html docs ${{ runner.temp }}
-        if: ${{ github.event_name == 'pull_request' }}
+          sphinx-build -W --keep-going -b html docs ${{ runner.temp }}
+  build:
+    name: Build all branches
+    runs-on: ubuntu-latest
+    defaults:
+      run:
+        shell: bash -l {0}
+    steps:
+      - uses: actions/checkout@v2
+        with:
+          lfs: 'true'
+          fetch-depth: 0
+      - name: Get branch name
+        run: |
+         branch=$(echo ${{ github.ref }} | sed 's:.*/::')
+         echo "BRANCH=$branch" >> $GITHUB_ENV
+      - uses: conda-incubator/setup-miniconda@v2
+        with:
+          activate-environment: _wssphinx
+          environment-file: docs/environment.yml
+          python-version: '3.9'
+          auto-activate-base: false
+      - run: |
+          conda info
       - name: Create build directory
         run: echo "BUILD_DIR=$(mktemp -d -t pages-XXXXXXXXXX)" >> $GITHUB_ENV
       - name: Build docs
