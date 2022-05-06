@@ -9,6 +9,8 @@ on:
       - master
       - dev
   workflow_dispatch:
+env:
+  FORCE_COLOR: 1
 jobs:
   test:
     name: Test the current branch
