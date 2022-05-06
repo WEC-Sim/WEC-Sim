@@ -390,7 +390,7 @@ Dispersion Relation
 ^^^^^^^^^^^^^^^^^^^
 For ocean waves, the dispersion relation is a relation betwen the wave angular frequency and the wave number (i.e. wavelength). 
 The dispersion relation is derived using separation of variables to satisfy the free surface kinematic and dynamic boundary conditions. 
-For a more detailed derivation please the reader is referred `here <https://web.mit.edu/13.021/demos/lectures/lecture19.pdf>`_ The dispersion relation that WEC-sim uses is defined as: 
+For a more detailed derivation please the reader is referred `here <https://web.mit.edu/13.021/demos/lectures/lecture19.pdf>`__ The dispersion relation that WEC-sim uses is defined as: 
 
 .. math::
 
@@ -425,8 +425,8 @@ The time-averaged power, per unit wave crest with, for a propagating water wave
    
 where :math:`\rho` is the fluid density, :math:`g` is gravitational acceleration, :math:`A` is the wave amplitude, and :math:`c_{g}` is wave group velocity. 
 The group velocity is the speed of propagation of a packet of waves which is always slower than the wave phase velocity. For a more detailed derivation on the 
-group velocity the reader is referred `here <http://web.mit.edu/2.016/www/handouts/2005Reading7.pdf>`_ . The group velocity of a two-dimensional progressive wave
-is given by the following expresion:
+group velocity the reader is referred `here <http://web.mit.edu/2.016/www/handouts/2005Reading7.pdf>`__. The group velocity of a two-dimensional progressive wave
+is given by the following expression:
 
 .. math::
 
