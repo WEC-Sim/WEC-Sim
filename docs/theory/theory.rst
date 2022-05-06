@@ -459,7 +459,7 @@ Similar to the other wave property expressions, the wave power expression can be
    
 .. Note:: 
     The deep water condition is often used without proper validation of the wave environment which can have a significant effect on wave power. 
-    WEC-Sim by default will calculate the wave power using the full expression, no simplifcation, unless the hydrodynamic data is imported with 
+    WEC-Sim by default will calculate the wave power using the full expression, no simplification, unless the hydrodynamic data is imported with 
     the assumption of infinite water depth. 
 
 Irregular Waves
