@@ -388,7 +388,7 @@ is the wave phase.
 
 Dispersion Relation
 ^^^^^^^^^^^^^^^^^^^
-For ocean waves, the dispersion relation is a relation betwen the wave angular frequency and the wave number (i.e. wavelength). 
+For ocean waves, the dispersion relation is a relation between the wave angular frequency and the wave number (i.e. wavelength). 
 The dispersion relation is derived using separation of variables to satisfy the free surface kinematic and dynamic boundary conditions. 
 For a more detailed derivation please the reader is referred `here <https://web.mit.edu/13.021/demos/lectures/lecture19.pdf>`__ The dispersion relation that WEC-sim uses is defined as: 
 
