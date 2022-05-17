@@ -462,8 +462,9 @@ classdef responseClass<handle
             % Read in data for each body
             for ibod=1:length(obj.bodies)
                 % Read and assign geometry data
-                bodyMesh(ibod).Points = body(ibod).geometry.vertex;
-                bodyMesh(ibod).Conns = body(ibod).geometry.faces;                
+                readBodyMesh = stlread(body(ibod).geometryFile);
+                bodyMesh(ibod).Points = readBodyMesh.Points;
+                bodyMesh(ibod).Conns = readBodyMesh.ConnectivityList;              
                 % Read changes and assign angles and position changes over time
                 bodyMesh(ibod).deltaPos = [obj.bodies(ibod).position(1:options.timesPerFrame:end,1)-obj.bodies(ibod).position(1,1),... 
                 obj.bodies(ibod).position(1:options.timesPerFrame:end,2)-obj.bodies(ibod).position(1,2),...
