@@ -44,5 +44,7 @@ run('initializeWecSim');
 
 sim(simu.simMechanicsFile, [], simset('SrcWorkspace','parent'));
 
+run('stopWecSim');
+
 % Post-processing called from the Global Reference Frame 
 % stop function in Simulink, run('stopWecSim')
