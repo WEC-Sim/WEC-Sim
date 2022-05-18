@@ -29,7 +29,7 @@ classdef constraintClass<handle
     %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
     
     properties (SetAccess = 'public', GetAccess = 'public') %input file 
-        hardStops                   = struct(...                    % (`structure`) Defines the constraint hardstop
+        hardStops (1,1) struct                  = struct(...                    % (`structure`) Defines the constraint hardstop
           'upperLimitSpecify',          'off',...                   % (`string`) Initialize upper stroke limit. ``  'on' or 'off' `` Default = ``off``. 
           'upperLimitBound',            1, ...                      % (`float`) Define upper stroke limit in m or deg. Only active if `lowerLimitSpecify` is `on` `` Default = ``1``. 
           'upperLimitStiffness',        1e6, ...                    % (`float`) Define upper limit spring stiffness, N/m or N-m/deg. `` Default = ``1e6``. 
@@ -40,11 +40,11 @@ classdef constraintClass<handle
           'lowerLimitStiffness',        1e6, ...                    % (`float`) Define lower limit spring stiffness, N/m or N-m/deg.  `` Default = ``1e6``.
           'lowerLimitDamping',          1e3, ...                    % (`float`) Define lower limit damping, N/m/s or N-m/deg/s.  `` Default = ``1e3``.
           'lowerLimitTransitionRegionWidth', 1e-4)                  % (`float`) Define lower limit transition region, over which spring and damping values ramp up to full values. Increase for stability. m or deg. ``Default = 1e-4``                                                                                    
-        initial                     = struct(...                    % 
+        initial (1,1) struct                    = struct(...                    % 
             'displacement',             [0 0 0])                    % (`structure`) Defines the initial displacement of the constraint. ``displacement`` (`3x1 float vector`) is defined as the initial displacement of the constraint [m] in the following format [x y z], Default = [``0 0 0``].
-        name                        = 'NOT DEFINED'                 % (`string`) Specifies the constraint name. For constraints this is defined by the user, Default = ``NOT DEFINED``.
-        location                    = [999 999 999]                 % (`3x1 float vector`) Constraint location [m]. Defined in the following format [x y z]. Default = ``[999 999 999]``.        
-        orientation                 = struct(...                    % (`structure`) Defines the orientation axis of the constraint.
+        name (1,:) char                       = 'NOT DEFINED'                 % (`string`) Specifies the constraint name. For constraints this is defined by the user, Default = ``NOT DEFINED``.
+        location (1,3) double                   = [999 999 999]                 % (`1x3 float vector`) Constraint location [m]. Defined in the following format [x y z]. Default = ``[999 999 999]``.        
+        orientation (1,1) struct                = struct(...                    % (`structure`) Defines the orientation axis of the constraint.
             'z',                        [0, 0, 1], ...              % 
             'y',                        [0, 1, 0], ...              % 
             'x',                        [], ...                     % 
