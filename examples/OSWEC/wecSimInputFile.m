@@ -46,8 +46,8 @@ body(1).inertia = [1.85e6 1.85e6 1.85e6];       % Moment of Inertia [kg-m^2]
 % Base
 body(2) = bodyClass('hydroData/oswec.h5');      % Initialize bodyClass for Base
 body(2).geometryFile = 'geometry/base.stl';     % Geometry File
-body(2).mass = 999;                             % Fixed Body Mass
-body(2).inertia = [999 999 999];                % Fixed Body Inertia
+body(2).mass = 999;                             % Placeholder mass for a fixed body
+body(2).inertia = [999 999 999];                % Placeholder inertia for a fixed body
 
 %% PTO and Constraint Parameters
 % Fixed
