@@ -29,30 +29,30 @@ classdef ptoClass<handle
     
     %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
     properties (SetAccess = 'public', GetAccess = 'public')%input file 
-        damping                 = 0                                 % (`float`) Linear PTO damping coefficient. Default = `0`.
-        equilibriumPosition     = 0                                 % (`float`) Linear PTO equilibrium position, m or deg. Default = `0`.
-        hardStops               = struct(...                        % (`structure`) Defines the PTO hardstops
-            'upperLimitSpecify',    'off',...                       % (`string`) Initialize upper stroke limit. ``  'on' or 'off' `` Default = ``off``. 
-            'upperLimitBound',      1, ...                          % (`float`) Define upper stroke limit in m or deg. Only active if `lowerLimitSpecify` is `on` `` Default = ``1``. 
-            'upperLimitStiffness', 1e6, ...                         % (`float`) Define upper limit spring stiffness, N/m or N-m/deg. `` Default = ``1e6``. 
-            'upperLimitDamping',    1e3, ...                        % (`float`) Define upper limit damping, N/m/s or N-m/deg/s.  `` Default = ``1e3``.
-            'upperLimitTransitionRegionWidth', 1e-4, ...            % (`float`) Define upper limit transition region, over which spring and damping values ramp up to full values. Increase for stability. m or deg. ``Default = 1e-4``
-            'lowerLimitSpecify',    'off',...                       % Initialize lower stroke limit. ``  `on` or `off` `` Default = ``off``. 
-            'lowerLimitBound',      -1, ...                         % (`float`) Define lower stroke limit in m or deg. Only active if `lowerLimitSpecify` is `on` ``   `` Default = ``-1``. 
-            'lowerLimitStiffness',  1e6, ...                        % (`float`) Define lower limit spring stiffness, N/m or N-m/deg.  `` Default = ``1e6``.
-            'lowerLimitDamping',    1e3, ...                        % (`float`) Define lower limit damping, N/m/s or N-m/deg/s.  `` Default = ``1e3``.
-            'lowerLimitTransitionRegionWidth', 1e-4)                % (`float`) Define lower limit transition region, over which spring and damping values ramp up to full values. Increase for stability. m or deg. ``Default = 1e-4``    
-        initial                 = struct(...                        % (`structure`) Defines the PTO initial displacement
-            'displacement',          [0 0 0])                       % (`structure`) Defines the initial displacement of the pto. ``displacement`` (`3x1 float vector`) is defined as the initial displacement of the pto [m] in the following format [x y z], Default = [``0 0 0``].
-        location                = [999 999 999]                     % (`3x1 float vector`) PTO location [m]. Defined in the following format [x y z]. Default = ``[999 999 999]``.
-        name                    = 'NOT DEFINED'                     % (`string`) Specifies the pto name. For ptos this is defined by the user, Default = ``NOT DEFINED``. 
-        orientation             = struct(...                        % (`structure`) Defines the PTO orientation
-            'z',                    [0, 0, 1], ...                  % 
-            'y',                    [0, 1, 0], ...                  % 
-            'x',                    [], ...                         % 
-            'rotationMatrix',       [])                             % (`structure`) Defines the orientation axis of the pto. ``z`` (`3x1 float vector`) defines the direciton of the Z-coordinate of the pto, Default = [``0 0 1``]. ``y`` (`3x1 float vector`) defines the direciton of the Y-coordinate of the pto, Default = [``0 1 0``]. ``x`` (`3x1 float vector`) internally calculated vector defining the direction of the X-coordinate for the pto, Default = ``[]``. ``rotationMatrix`` (`3x3 float matrix`) internally calculated rotation matrix to go from standard coordinate orientation to the pto coordinate orientation, Default = ``[]``.
-        pretension              = 0                                 % (`float`) Linear PTO pretension, N or N-m. Default = `0`.
-        stiffness               = 0                                 % (`float`) Linear PTO stiffness coefficient. Default = `0`.        
+        damping (1,1) double {mustBeNonnegative}    = 0                    % (`float`) Linear PTO damping coefficient. Default = `0`.
+        equilibriumPosition (1,1) double            = 0                    % (`float`) Linear PTO equilibrium position, m or deg. Default = `0`.
+        hardStops (1,1) struct                      = struct(...           % (`structure`) Defines the PTO hardstops
+            'upperLimitSpecify',    'off',...                              % (`string`) Initialize upper stroke limit. ``  'on' or 'off' `` Default = ``off``. 
+            'upperLimitBound',      1, ...                                 % (`float`) Define upper stroke limit in m or deg. Only active if `lowerLimitSpecify` is `on` `` Default = ``1``. 
+            'upperLimitStiffness', 1e6, ...                                % (`float`) Define upper limit spring stiffness, N/m or N-m/deg. `` Default = ``1e6``. 
+            'upperLimitDamping',    1e3, ...                               % (`float`) Define upper limit damping, N/m/s or N-m/deg/s.  `` Default = ``1e3``.
+            'upperLimitTransitionRegionWidth', 1e-4, ...                   % (`float`) Define upper limit transition region, over which spring and damping values ramp up to full values. Increase for stability. m or deg. ``Default = 1e-4``
+            'lowerLimitSpecify',    'off',...                              % Initialize lower stroke limit. ``  `on` or `off` `` Default = ``off``. 
+            'lowerLimitBound',      -1, ...                                % (`float`) Define lower stroke limit in m or deg. Only active if `lowerLimitSpecify` is `on` ``   `` Default = ``-1``. 
+            'lowerLimitStiffness',  1e6, ...                               % (`float`) Define lower limit spring stiffness, N/m or N-m/deg.  `` Default = ``1e6``.
+            'lowerLimitDamping',    1e3, ...                               % (`float`) Define lower limit damping, N/m/s or N-m/deg/s.  `` Default = ``1e3``.
+            'lowerLimitTransitionRegionWidth', 1e-4)                       % (`float`) Define lower limit transition region, over which spring and damping values ramp up to full values. Increase for stability. m or deg. ``Default = 1e-4``    
+        initial (1,1) struct                        = struct(...           % (`structure`) Defines the PTO initial displacement
+            'displacement',          [0 0 0])                              % (`structure`) Defines the initial displacement of the pto. ``displacement`` (`3x1 float vector`) is defined as the initial displacement of the pto [m] in the following format [x y z], Default = [``0 0 0``].
+        location (1,3) double                       = [999 999 999]        % (`3x1 float vector`) PTO location [m]. Defined in the following format [x y z]. Default = ``[999 999 999]``.
+        name (1,:) char                             = 'NOT DEFINED'        % (`string`) Specifies the pto name. For ptos this is defined by the user, Default = ``NOT DEFINED``. 
+        orientation (1,1) struct                    = struct(...           % (`structure`) Defines the PTO orientation
+            'z',                    [0, 0, 1], ...                         % 
+            'y',                    [0, 1, 0], ...                         % 
+            'x',                    [], ...                                % 
+            'rotationMatrix',       [])                                    % (`structure`) Defines the orientation axis of the pto. ``z`` (`3x1 float vector`) defines the direciton of the Z-coordinate of the pto, Default = [``0 0 1``]. ``y`` (`3x1 float vector`) defines the direciton of the Y-coordinate of the pto, Default = [``0 1 0``]. ``x`` (`3x1 float vector`) internally calculated vector defining the direction of the X-coordinate for the pto, Default = ``[]``. ``rotationMatrix`` (`3x3 float matrix`) internally calculated rotation matrix to go from standard coordinate orientation to the pto coordinate orientation, Default = ``[]``.
+        pretension (1,1) double                     = 0                    % (`float`) Linear PTO pretension, N or N-m. Default = `0`.
+        stiffness (1,1) double {mustBeNonnegative}  = 0                    % (`float`) Linear PTO stiffness coefficient. Default = `0`.        
     end
     
     properties (SetAccess = 'private', GetAccess = 'public') %internal
