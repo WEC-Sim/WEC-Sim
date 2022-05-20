@@ -3,8 +3,87 @@
 Release Notes
 =============
 
-`WEC-Sim v4.4 <https://github.com/WEC-Sim/WEC-Sim/releases/tag/v4.4>`_
+`WEC-Sim v5.0 <https://github.com/WEC-Sim/WEC-Sim/releases/tag/v5.0>`_
 --------------------------------------------------------------------------------
+  
+**New Features**
+
+* Refactoring classes and properties @kmruehl in #803 #822 #828 #832, @akeeste in #838
+
+* Refactoring docs by @kmruehl in https://github.com/WEC-Sim/WEC-Sim/pull/840
+
+* Refactor BEMIO functions, tests, and documentation @akeeste in #790 #812, @H0R5E in #839, @dav-og in #806
+
+* Run from sim updates by @akeeste in https://github.com/WEC-Sim/WEC-Sim/pull/737
+
+* Allow binary STL files by @akeeste in https://github.com/WEC-Sim/WEC-Sim/pull/760
+
+* Update Read_AQWA and AQWA examples by @jtgrasb in #761 #779 #797 #831
+
+* Rename plotWaves by @jtgrasb in https://github.com/WEC-Sim/WEC-Sim/pull/765
+
+* Update to normalize to handle sorting mean drift forces by @nathanmtom in #808 #809
+
+* Remove passiveYawTest.m by @jtgrasb in https://github.com/WEC-Sim/WEC-Sim/pull/807
+
+* Wave class wave gauge update by @nathanmtom in https://github.com/WEC-Sim/WEC-Sim/pull/801
+
+* New pto sim lib by @jleonqu in https://github.com/WEC-Sim/WEC-Sim/pull/821
+
+* Warning/Error flags by @jtgrasb in https://github.com/WEC-Sim/WEC-Sim/pull/826
+
+* Add Google Analytics 4 by @akeeste in https://github.com/WEC-Sim/WEC-Sim/pull/854
+
+**Documentation**
+
+* Update WEC-Sim's Developer Documentation for the Morison Element Implementation by @nathanmtom in https://github.com/WEC-Sim/WEC-Sim/pull/796
+
+* Update response class API by @akeeste in https://github.com/WEC-Sim/WEC-Sim/pull/802
+
+* Doc_auto_gen_masks by @salhus in https://github.com/WEC-Sim/WEC-Sim/pull/842
+
+* Move documentation compilation to GitHub Actions by @H0R5E in https://github.com/WEC-Sim/WEC-Sim/pull/817
+
+* Add branch build in docs workflow for testing PRs by @H0R5E in https://github.com/WEC-Sim/WEC-Sim/pull/834
+
+* Update the WEC-Sim Theory Documentation to Clarify Wave Power Calculation by @nathanmtom in https://github.com/WEC-Sim/WEC-Sim/pull/847
+
+* Update documentation on mean drift and current by @akeeste in https://github.com/WEC-Sim/WEC-Sim/pull/800
+
+**Bug Fixes**
+
+
+* Fix cable library links. Resolves #770 by @akeeste in #774 #775
+
+* Fix rate transition error by @akeeste in https://github.com/WEC-Sim/WEC-Sim/pull/799
+
+* Fix cable implementation by @dforbush2 in https://github.com/WEC-Sim/WEC-Sim/pull/827
+
+* PTO-Sim bug fix by @jleonqu in https://github.com/WEC-Sim/WEC-Sim/pull/833
+
+* Bug fix for the regular wave power full expression by @nathanmtom in https://github.com/WEC-Sim/WEC-Sim/pull/841
+
+* Fix documentation on dev branch by @H0R5E in https://github.com/WEC-Sim/WEC-Sim/pull/816
+
+* Bug fix: responseClass reading the MoorDyn Lines.out file too early, resolves #811 by @akeeste in https://github.com/WEC-Sim/WEC-Sim/pull/814
+
+**Issues and Pull Requests**
+
+* \>52 issues closed since v4.4
+
+* \>44 PRs merged since v4.4
+
+**Full Changelog**: https://github.com/WEC-Sim/WEC-Sim/compare/v4.4...v5.0
+
+.. image:: https://zenodo.org/badge/DOI/10.5281/zenodo.6555137.svg
+   :target: https://doi.org/10.5281/zenodo.6555137
+
+
+Previous Releases
+------------------
+
+`WEC-Sim v4.4 <https://github.com/WEC-Sim/WEC-Sim/releases/tag/v4.4>`_
+^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
   
 * New Features
 
@@ -50,9 +129,6 @@ Release Notes
 .. image:: https://zenodo.org/badge/DOI/10.5281/zenodo.5608563.svg
    :target: https://doi.org/10.5281/zenodo.5608563
 
-
-Previous Releases
-------------------
 
 
 `WEC-Sim v4.3 <https://github.com/WEC-Sim/WEC-Sim/releases/tag/v4.3>`_
