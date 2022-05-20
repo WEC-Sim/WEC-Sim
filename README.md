@@ -1,25 +1,25 @@
 # Refer to [WEC-Sim documentation](http://wec-sim.github.io/WEC-Sim) for more information.
 [![DOI](https://zenodo.org/badge/20451353.svg)](https://zenodo.org/badge/latestdoi/20451353)
-[![Doc Build Status](https://app.travis-ci.com/WEC-Sim/WEC-Sim.svg?branch=dev)](https://app.travis-ci.com/github/WEC-Sim/WEC-Sim)
+[![Doc Build Status](https://github.com/WEC-Sim/WEC-Sim/actions/workflows/docs.yml/badge.svg)](https://github.com/WEC-Sim/WEC-Sim/actions/workflows/docs.yml)
 [![MATLAB Build Status](https://github.com/WEC-Sim/WEC-Sim/actions/workflows/run-tests-dev.yml/badge.svg)](https://github.com/WEC-Sim/WEC-Sim/actions/workflows/run-tests-dev.yml)
 
 
 ## WEC-Sim Repository
 
-* **Docs**: [WEC-Sim documentation](http://wec-sim.github.io/WEC-Sim/master/index.html), to compile the docs refer to [these instructions](https://github.com/WEC-Sim/WEC-Sim/tree/master/docs/README.md) 
+* **Docs**: [WEC-Sim documentation](http://wec-sim.github.io/WEC-Sim/master), to compile the docs refer to [these instructions](https://github.com/WEC-Sim/WEC-Sim/tree/master/docs/README.md) 
 * **Examples**: WEC-Sim  examples
 * **Source**: WEC-Sim source code
 * **Tests**: WEC-Sim tests for [MATLAB Continuous Integration](https://www.mathworks.com/solutions/continuous-integration.html)
 * **Tutorials**: [WEC-Sim tutorials](http://wec-sim.github.io/WEC-Sim/master/user/tutorials.html)
 
-Refer to the [WEC-Sim Applications](https://github.com/WEC-Sim/WEC-Sim_Applications) repository for more applications of the WEC-Sim code.
+Refer to the [WEC-Sim Applications](https://github.com/WEC-Sim/WEC-Sim_Applications) repository for more applications of WEC-Sim.
 
 ## Source Code Management
 
-A stable version of WEC-Sim is maintained on the [WEC-Sim master branch](https://github.com/WEC-Sim/WEC-Sim), and [WEC-Sim releases](https://github.com/WEC-Sim/WEC-Sim/releases) are tagged on GitHub. 
-WEC-Sim development is performed on the [WEC-Sim dev branch](https://github.com/WEC-Sim/WEC-Sim/tree/dev) using a [forking workflow](https://www.atlassian.com/git/tutorials/comparing-workflows/forking-workflow). 
+A stable version of WEC-Sim is maintained on WEC-Sim's [master branch](https://github.com/WEC-Sim/WEC-Sim), and WEC-Sim [releases](https://github.com/WEC-Sim/WEC-Sim/releases) are tagged on GitHub. 
+WEC-Sim development is performed on WEC-Sim's [dev branch](https://github.com/WEC-Sim/WEC-Sim/tree/dev) using a [forking workflow](https://www.atlassian.com/git/tutorials/comparing-workflows/forking-workflow). 
 New WEC-Sim features are developed on forks of the WEC-Sim repository, and [pull-requests](https://github.com/WEC-Sim/WEC-Sim/pulls) are submitted to merge new features from a development fork into the main WEC-Sim repository. 
-Pull-requests for new WEC-Sim features should be submitted to the WEC-Sim dev branch. 
-The only exception to this workflow is for bug fixes; pull-request for bug fixes should be should submitted to the WEC-Sim master branch.
-When a new version of WEC-Sim is released, the dev branch is pulled into master where all changes are incorporated into the code.
+Pull requests for new WEC-Sim features should be submitted to the WEC-Sim dev branch. 
+The only exception to this workflow is for bug fixes; pull requests for bug fixes should be should submitted to the WEC-Sim master branch.
+When a new version of WEC-Sim is released, the dev branch becomes the master branch, and all updates are included in the tagged release.
 
