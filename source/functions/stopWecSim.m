@@ -52,10 +52,8 @@ if simu.saveWorkspace==1
     if exist('pctDir') 
         filename = sprintf('savedData%03d.mat', imcr);
         copyfile(outputFile,['../' filename])
+        cd (['..' filesep pctDir filesep '..' filesep]);
     end
-end
-if exist('pctDir')
-    cd (['..' filesep pctDir filesep '..' filesep]); 
 end
 
 %% Remove 'temp' directory
