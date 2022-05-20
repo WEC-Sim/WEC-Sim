@@ -2,11 +2,12 @@
 [![DOI](https://zenodo.org/badge/20451353.svg)](https://zenodo.org/badge/latestdoi/20451353)
 [![Doc Build Status](https://github.com/WEC-Sim/WEC-Sim/actions/workflows/docs.yml/badge.svg)](https://github.com/WEC-Sim/WEC-Sim/actions/workflows/docs.yml)
 [![MATLAB Build Status](https://github.com/WEC-Sim/WEC-Sim/actions/workflows/run-tests-master.yml/badge.svg)](https://github.com/WEC-Sim/WEC-Sim/actions/workflows/run-tests-master.yml)
+[![MATLAB Build Status](https://github.com/WEC-Sim/WEC-Sim/actions/workflows/run-tests-dev.yml/badge.svg)](https://github.com/WEC-Sim/WEC-Sim/actions/workflows/run-tests-dev.yml)
 
 
 ## WEC-Sim Repository
 
-* **Docs**: [WEC-Sim documentation](http://wec-sim.github.io/WEC-Sim/master), to compile the docs refer to [these instructions](https://github.com/WEC-Sim/WEC-Sim/tree/master/docs/README.md) 
+* **Docs**: [WEC-Sim documentation](http://wec-sim.github.io/WEC-Sim), to refer to [doc compile instructions](https://github.com/WEC-Sim/WEC-Sim/tree/master/docs/README.md) 
 * **Examples**: WEC-Sim  examples
 * **Source**: WEC-Sim source code
 * **Tests**: WEC-Sim tests for [MATLAB Continuous Integration](https://www.mathworks.com/solutions/continuous-integration.html)
