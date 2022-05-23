@@ -1,6 +1,6 @@
-function writeParaviewMooring(moorDyn, model,t,simdate,nline,nnode,pathParaviewVideo,TimeBodyParav,NewTimeParaview)
+function writeParaviewMooring(moorDyn, model,t,simdate,nline,nnode,paraviewPath,TimeBodyParav,NewTimeParaview)
 % Method to write ``vtp`` Paraview visualization files for the
-% mooringClass. Executed by paraviewVisualization.m when simu.paraview=1 
+% mooringClass. Executed by paraviewVisualization.m when simu.paraview.option=1 
 % in the wecSimInputFile.m
 % 
 % Parameters
@@ -17,7 +17,7 @@ function writeParaviewMooring(moorDyn, model,t,simdate,nline,nnode,pathParaviewV
 %       Number of mooring lines
 %   nnode : integer
 %       Number of nodes on mooring lines
-%   pathParaviewVideo : directory
+%   paraviewPath : directory
 %       Directory the Paraview files were saved
 %   TimeBodyParav : float vector
 %       Paraview time vector
@@ -40,7 +40,7 @@ for iline = 1:nline
 end
 for it = 1:length(TimeBodyParav)
     % open file
-    filename = [pathParaviewVideo, filesep 'mooring' filesep 'mooring_' num2str(it) '.vtp'];
+    filename = [paraviewPath, filesep 'mooring' filesep 'mooring_' num2str(it) '.vtp'];
     fid = fopen(filename, 'w');
     % write header
     fprintf(fid, '<?xml version="1.0"?>\n');

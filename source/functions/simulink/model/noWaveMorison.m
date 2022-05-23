@@ -1,4 +1,4 @@
-function f = noWaveMorison(z,r,Vel,Accel,Disp,Area,Cd,Vol,Ca,Time,rho,rampTime,currentSpeed,currentDirection,currentDepth,currentOption,simuMorison)
+function f = noWaveMorison(z,r,Vel,Accel,Disp,Area,Cd,Vol,Ca,Time,rho,rampTime,currentSpeed,currentDirection,currentDepth,currentOption,bodyMorison)
 % This function calculates the Morison element force for the no wave case.
 [rr,~]=size(r);
 FMt = zeros(rr,6);
@@ -49,7 +49,7 @@ for ii = 1:rr
     dotwxr  = cross(Accelt,r(ii,:));
     wxwxr   = cross(Velt,wxr);
     Accel2  = [Accel(1),Accel(2),Accel(3)] + dotwxr + wxwxr;
-    if simuMorison == 2
+    if bodyMorison == 2
         %% Decompose Body Velocity
         % Tangential Velocity
         Vel2T           = ((dot(zRot,Vel2))/(norm(zRot))^2)*zRot;

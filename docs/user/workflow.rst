@@ -57,7 +57,7 @@ Hydrodynamic Data
 Hydrodynamic data for each body may be generated using a boundary element method (BEM) software. 
 WEC-Sim requires hydrodynamic data from a BEM solution in the form of a HDF5 file (``*.h5``). 
 This ``*.h5`` hydrodynamic data file can be generated using the BEMIO pre-processor. 
-BEMIO (Boundary Element Method Input/Output) is a pre-processing software developed by the WEC-Sim team to parse BEM output files from WAMIT, NEMOH, AQWA, and CAPYTAINE into a data structure, saved as a ``*.h5`` file, that can be read by WEC-Sim. 
+BEMIO (Boundary Element Method Input/Output) is a pre-processing software developed by the WEC-Sim team to parse BEM output files from WAMIT, NEMOH, Aqwa, and Capytaine into a data structure, saved as a ``*.h5`` file, that can be read by WEC-Sim. 
 For more information about the BEMIO pre-processor, refer to the :ref:`user-advanced-features-bemio` section.   
 
 Input File
@@ -125,7 +125,7 @@ BEM code to calculate the hydrodynamic coefficients.
   excitation). 
 
    * The coefficients for each body may be generated using a boundary element 
-     method (BEM) code (e.g., **WAMIT**, **NEMOH**, **AQWA**, or **CAPYTAINE**). 
+     method (BEM) code (e.g., **WAMIT**, **NEMOH**, **Aqwa**, or **Capytaine**). 
    * WEC-Sim requires that all hydrodynamic coefficients must be specified at 
      **the center of gravity** for each body.
 
@@ -142,7 +142,7 @@ for WEC-Sim to read:
      can be parsed into a ``*.h5`` data structure using 
      :ref:`BEMIO<user-advanced-features-bemio>`, which was developed by the 
      WEC-Sim team.
-   * BEMIO currently supports WAMIT, NEMOH, AQWA, and CAPYTAINE. 
+   * BEMIO currently supports WAMIT, NEMOH, Aqwa, and Capytaine. 
 
 .. Note:: 
    * **If WAMIT is used:**
@@ -165,7 +165,7 @@ for WEC-Sim to read:
         webpage for more mesh generation details.
       * The NEMOH Mesh.exe code creates the ``Hydrostatics.dat`` and ``KH.dat`` 
         files (among other files) for one input body at a time. For the 
-        Read_NEMOH function to work correctly in the case of a multiple body 
+        readNEMOH function to work correctly in the case of a multiple body 
         system, the user must manually rename ``Hydrostatics.dat`` and 
         ``KH.dat`` files to ``Hydrostatics_0.dat``, ``Hydrostatics_1.dat``, …, 
         and ``KH_0.dat``, ``KH_1.dat``,…, corresponding to the body order 
@@ -173,22 +173,22 @@ for WEC-Sim to read:
       * More details on NEMOH setup are given in the 
         `Nemoh Homepage <https://lheea.ec-nantes.fr/logiciels-et-brevets/nemoh-running-192930.kjsp?RH=1489593406974>`_.
       
-   * **If AQWA is used:** 
+   * **If Aqwa is used:** 
    
       * The origin of the global coordinate system is at the mean water 
         surface, and the origin of the body coordinate system for each body 
-        must be at the center of gravity (defined using the AQWA GUI or in 
+        must be at the center of gravity (defined using the Aqwa GUI or in 
         the ``*.dat`` input file).
-      * In order to run BEMIO, AQWA users must output both the default 
+      * In order to run BEMIO, Aqwa users must output both the default 
         ``*.LIS`` file and output the ``*.AH1`` hydrodynamic database file. 
         Both of these files are reacquired to run BEMIO. 
-      * More details on AQWA setup are given in the AQWA Reference Manual.
+      * More details on Aqwa setup are given in the Aqwa Reference Manual.
       
-   * **If CAPYTAINE is used:** 
+   * **If Capytaine is used:** 
    
       * The origin of the mesh for each body (``*.dat``) is located at the mean
         water surface. 
-      * More details on CAPYTAINE setup are given in the `Capytaine webpage <https://ancell.in/capytaine/latest/>`_.
+      * More details on Capytaine setup are given in the `Capytaine webpage <https://ancell.in/capytaine/latest/>`_.
 
 .. Note::
     

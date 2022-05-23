@@ -17,7 +17,8 @@
 % limitations under the License.
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
-function wecSimFcn(imcr,mcr,parallelComputing_dir,totalNumOfWorkers)
+function wecSimFcn(imcr,mcr,pctDir,totalNumOfWorkers)
 %% wecSimFcn
-% WEC-Sim from function executable
-wecSim
+% WEC-Sim from function executable+
+    wecSim
+end

@@ -34,41 +34,41 @@ ParaView Visualization Parameters
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 The following table lists the WEC-Sim simulation parameters that can be specified in the ``wecSimInputFile`` to control the ParaView visualization. Note, the ``body.viz`` properties are also used for the SimMechanics explorer visualization.
 
-+---------------------------------------------------------------------------------------+
-| WEC-Sim Visualization using ParaView                                                  |
-+===========================+===========================================================+
-| Variable                  | Description                                               |
-+---------------------------+-----------------------------------------------------------+
-| | ``simu.paraview``       | | 0 to not output ParaView files [default]                |
-|                           | | 1 to output ParaView files                              |
-+---------------------------+-----------------------------------------------------------+
-| ``simu.StartTimeParaview``| time (s) to start ParaView visualization                  |
-+---------------------------+-----------------------------------------------------------+
-| ``simu.EndTimeParaview``  | time (s) to end ParaView visualization	                |
-+---------------------------+-----------------------------------------------------------+
-| ``simu.dtParaview``       | time step between adjacent ParaView frames [default 1]    |
-+---------------------------+-----------------------------------------------------------+
-| ``simu.pathParaviewVideo``| directory to create ParaView visualization files          |
-+---------------------------+-----------------------------------------------------------+
-| | ``simu.nlHydro``        | | 0 for no nonlinear hydro [default]                      |
-|                           | | 1 for nonlinear hydro with mean free surface            |
-|                           | | 2 for nonlinear hydro with instantaneous free surface   |
-+---------------------------+-----------------------------------------------------------+
-| ``simu.domainSize``       | size of ground and water planes in meters [default 200]   |
-+---------------------------+-----------------------------------------------------------+
-| ``simu.dtOut``            | simulation output sampling time step [default dt]         |
-+---------------------------+-----------------------------------------------------------+
-| ``body(i).viz.color``     | [RGB] body color [default [1 1 0]]                        |
-+---------------------------+-----------------------------------------------------------+   
-| ``body(i).viz.opacity``   | body opacity [default 1]                                  |
-+---------------------------+-----------------------------------------------------------+
-| | ``body(i).bodyparaview``| | 0 to exclude body from ParaView visualization           |
-|                           | | 1 to include body in ParaView visualization [default]   |
-+---------------------------+-----------------------------------------------------------+   
-| ``waves.viz.numPointsX``  | wave plane discretization: number of X points [default 50]|
-+---------------------------+-----------------------------------------------------------+   
-| ``waves.viz.numPointsY``  | wave plane discretization: number of Y points [default 50]|
-+---------------------------+-----------------------------------------------------------+   
++----------------------------------------------------------------------------------------+
+| WEC-Sim Visualization using ParaView                                                   |
++============================+===========================================================+
+| Variable                   | Description                                               |
++----------------------------+-----------------------------------------------------------+
+| | ``simu.paraview.option`` | | 0 to not output ParaView files [default]                |
+|                            | | 1 to output ParaView files                              |
++----------------------------+-----------------------------------------------------------+
+| ``simu.paraview.startTime``| time (s) to start ParaView visualization                  |
++----------------------------+-----------------------------------------------------------+
+| ``simu.paraview.endTime``  | time (s) to end ParaView visualization                    |
++----------------------------+-----------------------------------------------------------+
+| ``simu.paraview.dt``       | time step between adjacent ParaView frames [default 1]    |
++----------------------------+-----------------------------------------------------------+
+| ``simu.paraview.path``     | directory to create ParaView visualization files          |
++----------------------------+-----------------------------------------------------------+
+| | ``simu.nonlinearHydro``  | | 0 for no nonlinear hydro [default]                      |
+|                            | | 1 for nonlinear hydro with mean free surface            |
+|                            | | 2 for nonlinear hydro with instantaneous free surface   |
++----------------------------+-----------------------------------------------------------+
+| ``simu.domainSize``        | size of ground and water planes in meters [default 200]   |
++----------------------------+-----------------------------------------------------------+
+| ``simu.dtOut``             | simulation output sampling time step [default dt]         |
++----------------------------+-----------------------------------------------------------+
+| ``body(i).viz.color``      | [RGB] body color [default [1 1 0]]                        |
++----------------------------+-----------------------------------------------------------+
+| ``body(i).viz.opacity``    | body opacity [default 1]                                  |
++----------------------------+-----------------------------------------------------------+
+| | ``body(i).paraview``     | | 0 to exclude body from ParaView visualization           |
+|                            | | 1 to include body in ParaView visualization [default]   |
++----------------------------+-----------------------------------------------------------+
+| ``waves.viz.numPointsX``   | wave plane discretization: number of X points [default 50]|
++----------------------------+-----------------------------------------------------------+
+| ``waves.viz.numPointsY``   | wave plane discretization: number of Y points [default 50]|
++---------------------------+------------------------------------------------------------+
 
 
 WEC-Sim Visualization in ParaView
@@ -147,7 +147,7 @@ The **OSWEC_NonLinear_Viz** example uses ParaView for WEC-Sim data visualization
 
 Loading a ParaView State File
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
-If a previous `*.pvsm`` ParaView state file was saved, the state can be applied to a ``*.pvd`` ParaView file. To load a state file:
+If a previous ``*.pvsm`` ParaView state file was saved, the state can be applied to a ``*.pvd`` ParaView file. To load a state file:
 
 * Open the ``$CASE/vtk/<filename>.pvd`` file in ParaView
 * Click on ``File => Load State``

@@ -22,10 +22,11 @@ The WEC-Sim Library is saved as a `Custom Simulink Library <https://www.mathwork
 To ensure backwards compatibility, a `Forwarding Table <https://www.mathworks.com/help/simulink/ug/make-backward-compatible-changes-to-libraries.html>`_ is used. 
 
 
+
 .. _dev-library-format:
 
-Formatting Guidelines
-----------------------
+Formatting 
+-----------
 Please format the color of library blocks according to their function:
 
 =========================   	================================== 	
@@ -43,33 +44,21 @@ Linked Block			Light Blue
     :width: 400pt
     
     WEC-Sim Library blocks with color formatting 
-   
-.. _dev-merge-tool:
+  	
 
-MATLAB Merge Tool
-------------------
-It is recommended that developers use the `MATLAB Merge Tool <https://www.mathworks.com/help/simulink/ug/customize-external-source-control-to-use-matlab-for-comparison-and-merge.html>`_ to compare library versions when there are merge conflicts. 
-The MATLAB Merge Tool allows users to compare changes directly in Simulink.
-The merge tool will open a special Simulink GUI that allows users to compare code versions both textually and within the block diagram. 
-To use the tool, merge both branches locally and resolve any conflicts using the merge tool. 
 
-For example, take the branches ``<dev>`` and ``<new_feature>`` that each contain new WEC-Sim features. 
-In the Git for Windows command line, these changes can be merged using::
-    
-    # Checkout the <dev> branch and pull the latest
-    git checkout <dev>
-    git pull <remote>/<dev>
-    
-    # Merge <new_feature> branch into <dev> branch
-    git merge <new_feature>
-    
-    # Resolve library conflicts using the MATLAB merge tool
-    git mergetool -t mlMerge source/lib/WEC-Sim/<library_file>.slx
-    
-    # Save desired revisions, then add and commit changes
-    git add source/lib/WEC-Sim/<library_file>.slx
-    git commit -m 'merge <dev> with <new_feature>'    
+.. _dev-library-development:
 
+Library Development
+----------------------
+When masks are modified, Simulink executes the mask initialization code. If Simulink does not have access to the WEC-Sim objects in the Simulink workspace, Simulink will throw an error message and would not allow any changes.
+
+In order to modify blocks masks the variable being modified must be accesible to Simulink's workspace. This can be acheived by running any ``wecSimInputFile.m`` script without executing WEC-Sim. Running the ``wecSimInputFile.m`` script populates the MATLAB worskpace with the pertinent data objects using WEC-Sim's class definitions. This enables the block masks to have access to the properties and methods for the pertinent class (e.g., ``bodyClass``, ``waveClass`` etc.).
+
+Simulink then executes each block mask's initialization code before accepting any changes. Some of the WEC-Sim library blocks auto-generate additional blocks based on the ``wecSimInputFile.m`` script. To ensure that the library block auto-generates such blocks only when WEC-Sim is run, make sure to delete the auto-generated blocks before saving the modified block to the WEC-Sim library. 
+     
+.. Note::
+	This is especially important for the Wave Markers and for B2B   
 
 .. _dev-sim-funcs:
 
@@ -135,12 +124,12 @@ Having a flag change the visibility of options that cannot be used may help new 
 .. Note::
 	To decrease the burden of maintaining these masks, only the most common input file parameters can be defined in Simulink. 
 	For example, the Global Reference Frame contains simulationClass parameters such as ``mode``, ``explorer``, ``solver``, time information, and state space flags. 
-	However less common parameters such as ``mcrCaseFile``, ``saveStructure``, ``b2b`` and others are not included. 
+	However less common parameters such as ``mcrMatFile``, ``saveStructure``, ``b2b`` and others are not included. 
 	
 
 .. _dev-run-sim-lib:
 
-Library Development
+Library Masks
 ^^^^^^^^^^^^^^^^^^^^
 In order to maintain the functionality of the :ref:`user-advanced-features-simulink` feature, the WEC-Sim Library must be updated when new features are added.
 Developers may add additional options using the below instructions.
@@ -155,6 +144,15 @@ The difficult and complex part of this feature comes from three aspects:
 
 Each of these items will be addressed in this section, but first an overview of the mask set-up is given. 
 It is recommended that developers review Mathworks `Simulink.MaskParameter <https://www.mathworks.com/help/simulink/slref/simulink.maskparameter-class.html>`_ documentation before preceding with edits to this advanced feature. 
+
+When masks are modified, Simulink executes the mask initialization code. If Simulink does not have access to the WEC-Sim objects in the Simulink workspace, Simulink will throw an error message and would not allow any changes.
+To modify blocks masks,
+
+     * Before modifying a block mask, the variable being modified should be accesible to Simulink's workspace. This can be acheived by making sure that the ``source`` folder in the WEC-Sim directory is added to MATLAB path, and running any available ``wecSimInputFile.m`` script without running WEC-Sim. Running the ``wecSimInputFile.m`` script populates the MATLAB worskpace with the pertinent data objects using WEC-Sim's class definitions. This enables the block masks to have access to the properties and methods for the pertinent class (e.g., ``bodyClass``, ``waveClass`` etc.).
+     * Simulink executes each block mask's initialization code before accepting any changes. Some of the WEC-Sim library blocks auto-generate additional blocks based on the ``wecSimInputFile.m`` script. To ensure that the library block auto-generates such blocks only when WEC-Sim is run, make sure to delete the auto-generated blocks before saving the modified block to the WEC-Sim library. 
+     
+.. Note::
+	This is especially important for the Wave Markers and for B2B   .
 
 Mask Structure
 """"""""""""""
@@ -172,7 +170,7 @@ Within the custom parameters folder are various tabs. The first tab contains
 parameters not within a class structure. Additional tabs are organized based 
 on what class structures are used. For example all parameters within the 
 ``body(i).morisonElement`` structure are under the morisonElement tab, 
-``body(i).initDisp`` under the initDisp tab, etc. This method of placing class
+``body(i).initial`` under the tab, etc. This method of placing class
 structures into tabs helps organize the mask and write parameters to the input 
 file.
 
@@ -226,7 +224,7 @@ Block / class           Mask parameter                         Callback
 PTO, constraint, cable  upperLimitSpecify, lowerLimitSpecify   ``hardStopCallback``
 Body                    STLButton                              ``stlButtonCallback``
 Body                    H5Button                               ``h5ButtonCallback``
-Body                    nhBody, (morisonElement.) on           ``bodyClassCallback``
+Body                    nonHydro, (morisonElement.) on         ``bodyClassCallback``
 ====================== ====================================== ==========
 
 A specific variable's callbacks are defined in: 
@@ -263,7 +261,7 @@ The visibility callbacks function by checking the value of a flag:
 
     >> mask = Simulink.Mask.get(bodyBlockHandle)
     >> meParam = mask.getParameter('on')
-    >> nhBodyParam = mask.getParameter('nhBody')
+    >> nonHydroParam = mask.getParameter('nonHydro')
 
 
 Depending on the value of a flag, the visibility of individual variables or an 
@@ -272,12 +270,12 @@ entire tab can be changed:
 .. code-block:: matlabsession
 
     >> meTab = mask.getDialogControl('morisonElement');
-    >> if nhBodyParam.value >= 1
-    >>     cgParam.Visible = 'on';
-    >>     cbParam.Visible = 'on';
+    >> if nonHydroParam.value >= 1
+    >>     centerGravityParam.Visible = 'on';
+    >>     centerBuoyancyParam.Visible = 'on';
     >> else
-    >>     cgParam.Visible = 'off';
-    >>     cbParam.Visible = 'off';
+    >>     centerGravityParam.Visible = 'off';
+    >>     centerBuoyancyParam.Visible = 'off';
     >> end
     >> 
     >> if meParam.value >= 1
@@ -309,7 +307,7 @@ file is selected.
     >> % Don't set value if no file is chosen, or prompt canceled.
     >> if ~isequal(filename,0) && ~isequal(filepath,0)
     >>     mask = Simulink.Mask.get(bodyBlockHandle)
-    >>     fileParam = mask.getParameter('spectrumDataFile')
+    >>     fileParam = mask.getParameter('spectrumFile ')
     >>     fileParam.value = [filepath,filename];
     >> end
 
@@ -410,4 +408,28 @@ Summary
       load from Simulink
       
       
-      
+.. _dev-merge-tool:
+
+MATLAB Merge Tool
+------------------
+It is recommended that developers use the `MATLAB Merge Tool <https://www.mathworks.com/help/simulink/ug/customize-external-source-control-to-use-matlab-for-comparison-and-merge.html>`_ to compare library versions when there are merge conflicts. 
+The MATLAB Merge Tool allows users to compare changes directly in Simulink.
+The merge tool will open a special Simulink GUI that allows users to compare code versions both textually and within the block diagram. 
+To use the tool, merge both branches locally and resolve any conflicts using the merge tool. 
+
+For example, take the branches ``<dev>`` and ``<new_feature>`` that each contain new WEC-Sim features. 
+In the Git for Windows command line, these changes can be merged using::
+    
+    # Checkout the <dev> branch and pull the latest
+    git checkout <dev>
+    git pull <remote>/<dev>
+    
+    # Merge <new_feature> branch into <dev> branch
+    git merge <new_feature>
+    
+    # Resolve library conflicts using the MATLAB merge tool
+    git mergetool -t mlMerge source/lib/WEC-Sim/<library_file>.slx
+    
+    # Save desired revisions, then add and commit changes
+    git add source/lib/WEC-Sim/<library_file>.slx
+    git commit -m 'merge <dev> with <new_feature>'          
