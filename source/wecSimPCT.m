@@ -104,12 +104,13 @@ parfor imcr=1:length(mcr.cases(:,1))
     t = getCurrentTask();
     filename = sprintf('savedLog%03d.txt', t.ID);
     pctDir = sprintf('pctDir_%g', t.ID);
-    mkdir(pctDir) 
+    getAttachedFilesFolder(pctDir);
     fileID = fopen(filename,'a');
     fprintf(fileID,'wecSimPCT Case %g/%g on Worker Number %g/%g \n',imcr,length(mcr.cases(:,1)),t.ID,totalNumOfWorkers);
     % Run WEC-Sim
     wecSimFcn(imcr,mcr,pctDir,totalNumOfWorkers);   
     fclose(fileID);
+    rmdir(pctDir, 's')    
 end
 
 clear imcr totalNumOfWorkers
