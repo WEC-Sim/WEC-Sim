@@ -14,9 +14,9 @@ simu.dt = 0.1; 							% Simulation time-step [s]
 % waves = waveClass('noWaveCIC');       % Initialize Wave Class and Specify Type  
 
 % Regular Waves  
-waves = waveClass('regular');           % Initialize Wave Class and Specify Type                                 
-waves.height = 2.5;                     % Wave Height [m]
-waves.period = 8;                       % Wave Period [s]
+% waves = waveClass('regular');           % Initialize Wave Class and Specify Type                                 
+% waves.height = 2.5;                     % Wave Height [m]
+% waves.period = 8;                       % Wave Period [s]
 
 % % Regular Waves with CIC
 % waves = waveClass('regularCIC');          % Initialize Wave Class and Specify Type                                 
@@ -24,10 +24,11 @@ waves.period = 8;                       % Wave Period [s]
 % waves.period = 8;                         % Wave Period [s]
 
 % % Irregular Waves using PM Spectrum 
-% waves = waveClass('irregular');           % Initialize Wave Class and Specify Type
-% waves.height = 2.5;                       % Significant Wave Height [m]
-% waves.period = 8;                         % Peak Period [s]
-% waves.spectrumType = 'PM';                % Specify Wave Spectrum Type
+ waves = waveClass('irregular');           % Initialize Wave Class and Specify Type
+ waves.height = 2.5;                       % Significant Wave Height [m]
+ waves.period = 8;                         % Peak Period [s]
+ waves.spectrumType = 'PM';                % Specify Wave Spectrum Type
+ waves.direction=[0];
 
 % % Irregular Waves using JS Spectrum with Equal Energy and Seeded Phase
 % waves = waveClass('irregular');           % Initialize Wave Class and Specify Type
@@ -63,12 +64,16 @@ body(1).mass = 'equilibrium';
     % Body Mass. The 'equilibrium' Option Sets it to the Displaced Water 
     % Weight.
 body(1).inertia = [20907301 21306090.66 37085481.11];  % Moment of Inertia [kg*m^2]     
+body(1).largeXYDisplacement.option = 0;
+body(1).largeXYDisplacement.threshold = 1; % in meters
 
 % Spar/Plate
 body(2) = bodyClass('hydroData/rm3.h5'); 
 body(2).geometryFile = 'geometry/plate.stl'; 
 body(2).mass = 'equilibrium';                   
 body(2).inertia = [94419614.57 94407091.24 28542224.82];
+body(2).largeXYDisplacement.option = 0;
+body(2).largeXYDisplacement.threshold = 1; % in meters
 
 %% PTO and Constraint Parameters
 % Floating (3DOF) Joint

@@ -42,6 +42,9 @@ classdef bodyClass<handle
             'displacement',     [0 0 0], ...                %
             'axis',             [0 1 0], ...                %
             'angle',            0)                          % (`structure`) Defines the initial displacement of the body. ``displacement`` (`3x1 float vector`) is defined as the initial displacement of the body center of gravity (COG) [m] in the following format [x y z], Default = [``0 0 0``]. ``axis`` (`3x1 float vector`) is defined as the axis of rotation in the following format [x y z], Default = [``0 1 0``]. ``angle`` (`float`) is defined as the initial angular displacement of the body COG [rad], Default = ``0``.
+        largeXYDisplacement = struct(...
+            'option',           0,...
+            'threshold',        1)
         linearDamping       = zeros(6)                      % (`6x6 float matrix`) Defines linear damping coefficient matrix. Default = ``zeros(6)``.
         mass                = []                            % (`float`) Translational inertia or mass [kg]. Defined by the user or specify 'equilibrium' to set the mass equal to the fluid density times displaced volume. Default = ``[]``.
         meanDrift           = 0                             % (`integer`) Flag for mean drift force, Options:  0 (no), 1 (yes, from control surface) or 2 (yes, from momentum conservation). Default = ``0``.
