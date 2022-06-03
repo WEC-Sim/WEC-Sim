@@ -35,8 +35,8 @@ e = 0;
 
 hydro(F).code   = 'AQWA';
 V182            = 0; % Set AqwaVersion flag "Version 18.2 or larger" to 0
-tmp             = strsplit(ah1Filename,{' ','\', '/', '.'});
-hydro(F).file   = tmp{length(tmp)-1};  % Base filename
+[~,tmp,~]       = fileparts(ah1Filename);
+hydro(F).file   = tmp;  % Base filename
 
 fileID          = fopen(ah1Filename);
 raw1            = textscan(fileID,'%[^\n\r]'); %Read/copy raw output, ah1
