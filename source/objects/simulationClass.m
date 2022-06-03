@@ -99,7 +99,14 @@ classdef simulationClass<handle
         end
 
         function checkInputs(obj)
-            % This method checks WEC-Sim user inputs and generates error messages if parameters are not properly defined.             
+            % This method checks WEC-Sim user inputs and generates error messages if parameters are not properly defined. 
+
+            % Check struct inputs:
+            mustBeMember(obj.paraview.option, [0 1])
+            mustBeNumeric(obj.paraview.startTime)
+            mustBeNumeric(obj.paraview.endTime)
+            mustBePositive(obj.paraview.dt)
+            mustBeText(obj.paraview.path)
             
             % Check that simMechanics file exists
             obj.simMechanicsFile = [obj.caseDir filesep obj.simMechanicsFile];     
@@ -110,7 +117,8 @@ classdef simulationClass<handle
             if length(fieldnames(obj.paraview)) ~=5
                 error(['Unrecognized method, property, or field for class "simulationClass", ' ... 
                     '"simulationClass.paraview" structure must only include fields: "option", "startTime", "endTime", "dt", "outputDir"']);
-            end            
+            end
+
             % Check that visualization is off when using accelerator modes
             if (strcmp(obj.mode,'accelerator') || strcmp(obj.mode,'rapid-accelerator')) ...
                     && strcmp(obj.explorer,'on')
