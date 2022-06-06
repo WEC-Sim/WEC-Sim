@@ -60,7 +60,7 @@ classdef simulationClass<handle
         simMechanicsFile (1,:) char                     = 'NOT DEFINED'     % (`char array`) Simulink/SimMechanics model file. Default = ``'NOT DEFINED'``
         solver (1,:) char                               = 'ode4'            % (`char array`) PDE solver used by the Simulink/SimMechanics simulation. Any continuous solver in Simulink possible. Recommended to use 'ode4, 'ode45' for WEC-Sim. Default = ``'ode4'``
         stateSpace (1,1) double {mustBeMember(stateSpace,[0 1])} = 0        % (`integer`) Flag for convolution integral or state-space calculation, Options: 0 (convolution integral), 1 (state-space). Default = ``0``
-        startTime (1,1) double                          = 0                 % (`float`) Simulation start time. Default = ``0`` s        
+        startTime (1,1) double {mustBeScalarOrEmpty}    = 0                 % (`float`) Simulation start time. Default = ``0`` s        
         zeroCross (1,:) char                            = 'DisableAll'      % (`char array`) Disable zero cross control. Default = ``'DisableAll'``
     end
 
@@ -103,8 +103,8 @@ classdef simulationClass<handle
 
             % Check struct inputs:
             mustBeMember(obj.paraview.option, [0 1])
-            mustBeNumeric(obj.paraview.startTime)
-            mustBeNumeric(obj.paraview.endTime)
+            mustBeScalarOrEmpty(obj.paraview.startTime)
+            mustBeScalarOrEmpty(obj.paraview.endTime)
             mustBePositive(obj.paraview.dt)
             mustBeText(obj.paraview.path)
             
