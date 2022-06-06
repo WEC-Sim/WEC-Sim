@@ -30,7 +30,7 @@ classdef constraintClass<handle
     
     properties (SetAccess = 'public', GetAccess = 'public') %input file 
         hardStops (1,1) struct                  = struct(...                    % (`structure`) Defines the constraint hardstop
-          'upperLimitSpecify',          'off',...                   % (`string`) Initialize upper stroke limit. ``  'on' or 'off' `` Default = ``off``. 
+          'upperLimitSpecify',          'off',...                   % (`char array`) Initialize upper stroke limit. ``  'on' or 'off' `` Default = ``off``. 
           'upperLimitBound',            1, ...                      % (`float`) Define upper stroke limit in m or deg. Only active if `lowerLimitSpecify` is `on` `` Default = ``1``. 
           'upperLimitStiffness',        1e6, ...                    % (`float`) Define upper limit spring stiffness, N/m or N-m/deg. `` Default = ``1e6``. 
           'upperLimitDamping',          1e3, ...                    % (`float`) Define upper limit damping, N/m/s or N-m/deg/s.  `` Default = ``1e3``.
@@ -43,7 +43,7 @@ classdef constraintClass<handle
         initial (1,1) struct                    = struct(...                    % 
             'displacement',             [0 0 0])                    % (`structure`) Defines the initial displacement of the constraint. ``displacement`` (`3x1 float vector`) is defined as the initial displacement of the constraint [m] in the following format [x y z], Default = [``0 0 0``].
         location (1,3) double                   = [999 999 999]                 % (`1x3 float vector`) Constraint location [m]. Defined in the following format [x y z]. Default = ``[999 999 999]``.        
-        name (1,:) char                       = 'NOT DEFINED'                 % (`string`) Specifies the constraint name. For constraints this is defined by the user, Default = ``NOT DEFINED``.
+        name (1,:) char                       = 'NOT DEFINED'                 % (`char array`) Specifies the constraint name. For constraints this is defined by the user, Default = ``NOT DEFINED``.
         orientation (1,1) struct                = struct(...                    % (`structure`) Defines the orientation axis of the constraint.
             'z',                        [0, 0, 1], ...              % 
             'y',                        [0, 1, 0], ...              % 
@@ -62,8 +62,8 @@ classdef constraintClass<handle
             %
             % Parameters
             % ------------
-            %     filename : string
-            %         String specifying the name of the constraint
+            %     filename : char array
+            %         Character array specifying the name of the constraint
             %
             % Returns
             % ------------

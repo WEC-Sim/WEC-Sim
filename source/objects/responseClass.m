@@ -28,7 +28,7 @@ classdef responseClass<handle
     %     
     %.. autoattribute:: objects.responseClass.wave 
     %    
-    %   * ``type`` (`string`) = 'waveType'
+    %   * ``type`` (`char array`) = 'waveType'
     %   * ``time`` (`array`) = [# of time-steps x 1]
     %   * ``elevation`` (`array`) = [# of time-steps x 1]
     %   * ``waveGauge1Elevation`` (`array`) = [# of time-steps x 1] Wave elevation at the location of wave gauge 1 
@@ -37,7 +37,7 @@ classdef responseClass<handle
     %         
     %.. autoattribute:: objects.responseClass.bodies
     %    
-    %   * ``name`` (`string`) = 'bodyName'
+    %   * ``name`` (`char array`) = 'bodyName'
     %   * ``time`` (`array`) = [# of time-steps x 1]
     %   * ``position`` (`array`) = [# of time-steps x 6]
     %   * ``velocity`` (`array`) = [# of time-steps x 6]
@@ -59,7 +59,7 @@ classdef responseClass<handle
     %
     %.. autoattribute:: objects.responseClass.constraints
     %    
-    %   * ``name`` (`string`) = 'constraintName'
+    %   * ``name`` (`char array`) = 'constraintName'
     %   * ``time`` (`array`) = [# of time-steps x 1]
     %   * ``position`` (`array`) = [# of time-steps x 6] The constraint position relative to the initial condition
     %   * ``velocity`` (`array`) = [# of time-steps x 6] The constraint velocity relative to the initial condition
@@ -68,7 +68,7 @@ classdef responseClass<handle
     %
     %.. autoattribute:: objects.responseClass.ptos
     %    
-    %   * ``name`` (`string`) = 'ptoName'
+    %   * ``name`` (`char array`) = 'ptoName'
     %   * ``time`` (`array`) = [# of time-steps x 1]
     %   * ``position`` (`array`) = [# of time-steps x 6] The constraint position relative to the initial condition
     %   * ``velocity`` (`array`) = [# of time-steps x 6] The constraint velocity relative to the initial condition
@@ -81,7 +81,7 @@ classdef responseClass<handle
     %
     %.. autoattribute:: objects.responseClass.cables
     %    
-    %   * ``name`` (`string`) = 'cableName'
+    %   * ``name`` (`char array`) = 'cableName'
     %   * ``time`` (`array`) = [# of time-steps x 1]
     %   * ``position`` (`array`) = [# of time-steps x 6]
     %   * ``velocity`` (`array`) = [# of time-steps x 6]

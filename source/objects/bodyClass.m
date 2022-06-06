@@ -34,8 +34,8 @@ classdef bodyClass<handle
         excitationIRF (1,:) double                  = []                   % (`vector`) Defines excitation Impulse Response Function, only used with the `waveClass` ``elevationImport`` type. Default = ``[]``.
         flex (1,1) double {mustBeMember(flex,[0 1])}= 0                    % (`integer`) Flag for flexible body, Options: 0 (off) or 1 (on). Default = ``0``.
         gbmDOF (1,:) double {mustBeScalarOrEmpty}   = []                   % (`integer`) Number of degree of freedoms (DOFs) for generalized body mode (GBM). Default = ``[]``.
-        geometryFile (1,:) char                     = 'NONE'               % (`string`) Path to the body geometry ``.stl`` file.
-        h5File (1,:) char                           = ''                   % (`string`) hdf5 file containing the hydrodynamic data
+        geometryFile (1,:) char                     = 'NONE'               % (`char array`) Path to the body geometry ``.stl`` file.
+        h5File (1,:) char                           = ''                   % (`char array`) hdf5 file containing the hydrodynamic data
         hydroStiffness (6,6) double                 = zeros(6)             % (`6x6 float matrix`) Linear hydrostatic stiffness matrix. If the variable is nonzero, the matrix will override the h5 file values. Default = ``zeros(6)``.
         inertia (1,:) double                        = []                   % (`1x3 float vector`) Rotational inertia or mass moment of inertia [kg*m^{2}]. Defined by the user in the following format [Ixx Iyy Izz]. Default = ``[]``.
         initial (1,1) struct                        = struct(...           % (`structure`) Defines the initial displacement of the body.
@@ -53,7 +53,7 @@ classdef bodyClass<handle
             'VME',              0     , ...                                % 
             'rgME',             [0 0 0], ...                               %
             'z',                [0 0 1])                                   % (`structure`) Defines the Morison Element properties connected to the body. ``option`` (`integer`) for Morison Element calculation, Options: 0 (off), 1 (on) or 2 (on), Default = ``0``, Option 1 uses an approach that allows the user to define drag and inertial coefficients along the x-, y-, and z-axes and Option 2 uses an approach that defines the Morison Element with normal and tangential tangential drag and interial coefficients. ``cd`` (`1x3 float vector`) is defined as the viscous normal and tangential drag coefficients in the following format, Option 1 ``[cd_x cd_y cd_z]``, Option 2 ``[cd_N cd_T NaN]``, Default = ``[0 0 0]``. ``ca`` is defined as the added mass coefficent for the Morison Element in the following format, Option 1 ``[ca_x ca_y ca_z]``, Option 2 ``[ca_N ca_T NaN]``, Default = ``[0 0 0]``, ``area`` is defined as the characteristic area for the Morison Element [m^2] in the following format, Option 1 ``[Area_x Area_y Area_z]``, Option 2 ``[Area_N Area_T NaN]``, Default = ``[0 0 0]``. ``VME`` is the characteristic volume of the Morison Element [m^3], Default = ``0``. ``rgME`` is defined as the vector from the body COG to point of application for the Morison Element [m] in the following format ``[x y z]``, Default = ``[0 0 0]``. ``z`` is defined as the unit normal vector center axis of the Morison Element in the following format, Option 1 not used, Option 2 ``[n_{x} n_{y} n_{z}]``, Default = ``[0 0 1]``. 
-        name (1,:) char                             = []                   % (`string`) Specifies the body name. For hydrodynamic bodies this is defined in h5 file. For nonhydrodynamic bodies this is defined by the user, Default = ``[]``.        
+        name (1,:) char                             = []                   % (`char array`) Specifies the body name. For hydrodynamic bodies this is defined in h5 file. For nonhydrodynamic bodies this is defined by the user, Default = ``[]``.        
         nonHydro (1,1) double {mustBeMember(nonHydro,[0 1])} = 0           % (`integer`) Flag for non-hydro body, Options: 0 (no) or 1 (yes). Default = ``0``.
         nonlinearHydro (1,1) double {mustBeMember(nonlinearHydro,0:2)} = 0 % (`integer`) Flag for nonlinear hydrohanamics calculation, Options: 0 (linear), 1 (nonlinear), 2 (nonlinear). Default = ``0``
         quadDrag (1,1) struct                       = struct(...           % (`structure`)  Defines the viscous quadratic drag forces.
@@ -79,7 +79,7 @@ classdef bodyClass<handle
     properties (SetAccess = 'private', GetAccess = 'public')% internal
         b2bDOF              = []                            % (`matrix`) Matrices length, Options: ``6`` without body-to-body interactions. ``6*number of hydro bodies`` with body-to-body interactions.
         hydroForce          = struct()                      % (`structure`) Defines hydrodynamic forces and coefficients used during simulation.
-        massCalcMethod      = []                            % (`string`) Method used to obtain mass, options: ``'user'``, ``'fixed'``, ``'equilibrium'``
+        massCalcMethod      = []                            % (`char array`) Method used to obtain mass, options: ``'user'``, ``'fixed'``, ``'equilibrium'``
         number              = []                            % (`integer`) Body number, must be the same as the BEM body number.
         total               = []                            % (`integer`) Total number of hydro bodies         
     end
@@ -102,8 +102,8 @@ classdef bodyClass<handle
             %
             % Parameters
             % ------------
-            %     h5File : string
-            %         String specifying the location of the body h5 file
+            %     h5File : char array
+            %         Character array specifying the location of the body h5 file
             %
             % Returns
             % ------------

@@ -28,44 +28,44 @@ classdef simulationClass<handle
     %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
     
     properties (SetAccess = 'public', GetAccess = 'public') % WEC-Sim input 
-        adjMassFactor (1,1) double {mustBeInteger}      = 2                % (`integer`) Weighting function for adjusting added mass term in the translational direction. Default = ``2``
-        b2b (1,1) double {mustBeMember(b2b,[0 1])}      = 0                % (`integer`) Flag for body2body interactions, Options: 0 (off), 1 (on). Default = ``0``
-        cicDt (1,:) double {mustBeScalarOrEmpty}        = []               % (`float`) Time step to calculate Convolution Integral. Default = ``dt``
-        cicEndTime (1,1) double {mustBePositive}        = 60               % (`float`) Convolution integral time. Default = ``60`` s
-        domainSize (1,1) double {mustBePositive}        = 200              % (`float`) Size of free surface and seabed. This variable is only used for visualization. Default = ``200`` m
-        explorer (1,:) char {mustBeMember(explorer,{'on','off'})} = 'on'   % (`string`) SimMechanics Explorer 'on' or 'off'. Default = ``'on'``
-        dt (1,1) double {mustBePositive}                = 0.1              % (`float`) Simulation time step. Default = ``0.1`` s
-        dtOut (1,:) double {mustBeScalarOrEmpty}        = []               % (`float`) Output sampling time. Default = ``dt``
-        endTime (1,:) double {mustBeScalarOrEmpty}      = []               % (`float`) Simulation end time. Default = ``[]``
-        gravity (1,1) double {mustBePositive}           = 9.81             % (`float`) Acceleration due to gravity. Default = ``9.81`` m/s
-        mcrMatFile (1,:) char                           = []               % (`string`) mat file that contain a list of the multiple conditions runs with given conditions. Default = ``[]``  
-        mcrExcelFile (1,:) char                         = []               % (`string`) File name from which to load wave statistics data. Default = ``[]``        
-        mode (1,:) char {mustBeMember(mode,{'normal','accelerator','rapid-accelerator'})} = 'normal' % (`string`) Simulation execution mode, 'normal', 'accelerator', 'rapid-accelerator'. Default = ``'normal'``
-        morisonDt (1,:) double {mustBeScalarOrEmpty}    = []               % (`float`) Sample time to calculate Morison Element forces. Default = ``dt``
-        nonlinearDt (1,:) double {mustBeScalarOrEmpty}  = []               % (`float`) Sample time to calculate nonlinear forces. Default = ``dt``
-        paraview (1,1) struct    = struct(...                              % (`structure`) Defines the Paraview visualization.
-            'option',           0,...                                      % 
-            'startTime',        0, ...                                     % 
-            'endTime',          100, ...                                   % 
-            'dt',               0.1, ...                                   % 
-            'path',             'vtk')                                     % (`structure`) Defines the Paraview visualization. ``option`` (`integer`) Flag for paraview visualization, and writing vtp files, Options: 0 (off) , 1 (on). Default = ``0``. ``startTime`` (`float`) Start time for the vtk file of Paraview. Default = ``0``. ``endTime`` (`float`) End time for the vtk file of Paraview. Default = ``100``.  ``dt`` (`float`) Timestep for Paraview. Default = ``0.1``. ``path`` (`string`) Path of the folder for Paraview vtk files. Default = ``'vtk'``.      
-        pressure (1,1) double {mustBeMember(pressure,[0 1])} = 0           % (`integer`) Flag to save pressure distribution, Options: 0 (off), 1 (on). Default = ``0``
-        rampTime (1,1) double                           = 100              % (`float`) Ramp time for wave forcing. Default = ``100`` s        
-        rateTransition (1,:) char {mustBeMember(rateTransition,{'on','off'})} = 'on' % (`string`) Flag for automatically handling rate transition for data transfer, Opyions: 'on', 'off'. Default = ``'on'``
-        reloadH5Data (1,1) double {mustBeMember(reloadH5Data,[0 1])} = 0   % (`integer`) Flag to re-load hydro data from h5 file between runs, Options: 0 (off), 1 (on). Default = ``0``
-        rho (1,1) double {mustBePositive}               = 1000             % (`float`) Density of water. Default = ``1000`` kg/m^3
-        saveStructure (1,1) double {mustBeMember(saveStructure,[0 1])} = 0 % (`integer`) Flag to save results as a MATLAB structure, Options: 0 (off), 1 (on). Default = ``0``
-        saveText (1,1) double {mustBeMember(saveText,[0 1])} = 0           % (`integer`) Flag to save results as ASCII files, Options: 0 (off), 1 (on). Default = ``0``
-        saveWorkspace (1,1) double {mustBeMember(saveWorkspace,[0 1])} = 1 % (`integer`) Flag to save .mat file for each run, Options: 0 (off), 1 (on). Default = ``1``
-        simMechanicsFile (1,:) char                     = 'NOT DEFINED'    % (`string`) Simulink/SimMechanics model file. Default = ``'NOT DEFINED'``
-        solver (1,:) char                               = 'ode4'           % (`string`) PDE solver used by the Simulink/SimMechanics simulation. Any continuous solver in Simulink possible. Recommended to use 'ode4, 'ode45' for WEC-Sim. Default = ``'ode4'``
-        stateSpace (1,1) double {mustBeMember(stateSpace,[0 1])} = 0       % (`integer`) Flag for convolution integral or state-space calculation, Options: 0 (convolution integral), 1 (state-space). Default = ``0``
-        startTime (1,1) double                          = 0                % (`float`) Simulation start time. Default = ``0`` s        
-        zeroCross (1,:) char                            = 'DisableAll'     % (`string`) Disable zero cross control. Default = ``'DisableAll'``
+        adjMassFactor (1,1) double {mustBeInteger}      = 2                 % (`integer`) Weighting function for adjusting added mass term in the translational direction. Default = ``2``
+        b2b (1,1) double {mustBeMember(b2b,[0 1])}      = 0                 % (`integer`) Flag for body2body interactions, Options: 0 (off), 1 (on). Default = ``0``
+        cicDt (1,:) double {mustBeScalarOrEmpty}        = []                % (`float`) Time step to calculate Convolution Integral. Default = ``dt``
+        cicEndTime (1,1) double {mustBePositive}        = 60                % (`float`) Convolution integral time. Default = ``60`` s
+        domainSize (1,1) double {mustBePositive}        = 200               % (`float`) Size of free surface and seabed. This variable is only used for visualization. Default = ``200`` m
+        explorer (1,:) char {mustBeMember(explorer,{'on','off'})} = 'on'    % (`char array`) SimMechanics Explorer 'on' or 'off'. Default = ``'on'``
+        dt (1,1) double {mustBePositive}                = 0.1               % (`float`) Simulation time step. Default = ``0.1`` s
+        dtOut (1,:) double {mustBeScalarOrEmpty}        = []                % (`float`) Output sampling time. Default = ``dt``
+        endTime (1,:) double {mustBeScalarOrEmpty}      = []                % (`float`) Simulation end time. Default = ``[]``
+        gravity (1,1) double {mustBePositive}           = 9.81              % (`float`) Acceleration due to gravity. Default = ``9.81`` m/s
+        mcrMatFile (1,:) char                           = []                % (`char array`) mat file that contain a list of the multiple conditions runs with given conditions. Default = ``[]``  
+        mcrExcelFile (1,:) char                         = []                % (`char array`) File name from which to load wave statistics data. Default = ``[]``        
+        mode (1,:) char {mustBeMember(mode,{'normal','accelerator','rapid-accelerator'})} = 'normal' % (`char array`) Simulation execution mode, 'normal', 'accelerator', 'rapid-accelerator'. Default = ``'normal'``
+        morisonDt (1,:) double {mustBeScalarOrEmpty}    = []                % (`float`) Sample time to calculate Morison Element forces. Default = ``dt``
+        nonlinearDt (1,:) double {mustBeScalarOrEmpty}  = []                % (`float`) Sample time to calculate nonlinear forces. Default = ``dt``
+        paraview (1,1) struct                           = struct(...        % (`structure`) Defines the Paraview visualization.
+            'option',                                   0,...               % 
+            'startTime',                                0, ...              %     
+            'endTime',                                  100, ...            % 
+            'dt',                                       0.1, ...            % 
+            'path',                                     'vtk')              % (`structure`) Defines the Paraview visualization. ``option`` (`integer`) Flag for paraview visualization, and writing vtp files, Options: 0 (off) , 1 (on). Default = ``0``. ``startTime`` (`float`) Start time for the vtk file of Paraview. Default = ``0``. ``endTime`` (`float`) End time for the vtk file of Paraview. Default = ``100``.  ``dt`` (`float`) Timestep for Paraview. Default = ``0.1``. ``path`` (`char array`) Path of the folder for Paraview vtk files. Default = ``'vtk'``.      
+        pressure (1,1) double {mustBeMember(pressure,[0 1])} = 0            % (`integer`) Flag to save pressure distribution, Options: 0 (off), 1 (on). Default = ``0``
+        rampTime (1,1) double                           = 100               % (`float`) Ramp time for wave forcing. Default = ``100`` s        
+        rateTransition (1,:) char {mustBeMember(rateTransition,{'on','off'})} = 'on' % (`char array`) Flag for automatically handling rate transition for data transfer, Opyions: 'on', 'off'. Default = ``'on'``
+        reloadH5Data (1,1) double {mustBeMember(reloadH5Data,[0 1])} = 0    % (`integer`) Flag to re-load hydro data from h5 file between runs, Options: 0 (off), 1 (on). Default = ``0``
+        rho (1,1) double {mustBePositive}               = 1000              % (`float`) Density of water. Default = ``1000`` kg/m^3
+        saveStructure (1,1) double {mustBeMember(saveStructure,[0 1])} = 0  % (`integer`) Flag to save results as a MATLAB structure, Options: 0 (off), 1 (on). Default = ``0``
+        saveText (1,1) double {mustBeMember(saveText,[0 1])} = 0            % (`integer`) Flag to save results as ASCII files, Options: 0 (off), 1 (on). Default = ``0``
+        saveWorkspace (1,1) double {mustBeMember(saveWorkspace,[0 1])} = 1  % (`integer`) Flag to save .mat file for each run, Options: 0 (off), 1 (on). Default = ``1``
+        simMechanicsFile (1,:) char                     = 'NOT DEFINED'     % (`char array`) Simulink/SimMechanics model file. Default = ``'NOT DEFINED'``
+        solver (1,:) char                               = 'ode4'            % (`char array`) PDE solver used by the Simulink/SimMechanics simulation. Any continuous solver in Simulink possible. Recommended to use 'ode4, 'ode45' for WEC-Sim. Default = ``'ode4'``
+        stateSpace (1,1) double {mustBeMember(stateSpace,[0 1])} = 0        % (`integer`) Flag for convolution integral or state-space calculation, Options: 0 (convolution integral), 1 (state-space). Default = ``0``
+        startTime (1,1) double                          = 0                 % (`float`) Simulation start time. Default = ``0`` s        
+        zeroCross (1,:) char                            = 'DisableAll'      % (`char array`) Disable zero cross control. Default = ``'DisableAll'``
     end
 
     properties (SetAccess = 'public', GetAccess = 'public') % internal WEC-Sim
-        caseDir             = []                                           % (`string`) WEC-Sim case directory. Default = dependent
+        caseDir             = []                                           % (`char array`) WEC-Sim case directory. Default = dependent
         numCables           = 0                                            % (`integer`) Number of cables in the wec model. Default = ``0``
         numConstraints      = 0                                            % (`integer`) Number of contraints in the wec model. Default = ``0``
         numDragBodies       = 0                                            % (`integer`) Number of drag bodies that comprise the WEC device (excluding hydrodynamic bodies). Default = ``0``
@@ -77,14 +77,14 @@ classdef simulationClass<handle
     end
 
     properties (SetAccess = 'private', GetAccess = 'public') % internal WEC-Sim
-        caseFile            = []                                           % (`string`) .mat file with all simulation information. Default = dependent
+        caseFile            = []                                           % (`char array`) .mat file with all simulation information. Default = dependent
         cicLength           = []                                           % (`integer`) Number of timesteps in the convolution integral length. Default = dependent
         cicTime             = []                                           % (`float vector`) Convolution integral time series. Default = dependent
-        date                = datetime                                     % (`string`) Simulation date and time
-        gitCommit           = []                                           % (`string`) GitHub commit
+        date                = datetime                                     % (`char array`) Simulation date and time
+        gitCommit           = []                                           % (`char array`) GitHub commit
         maxIt               = []                                           % (`integer`) Total number of simulation time steps. Approximate for variable step solvers. Default = dependent
-        outputDir           = 'output'                                     % (`string`) Data output directory name. Default = ``'output'``
-        wsVersion           = '5.0'                                        % (`string`) WEC-Sim version
+        outputDir           = 'output'                                     % (`char array`) Data output directory name. Default = ``'output'``
+        wsVersion           = '5.0'                                        % (`char array`) WEC-Sim version
     end
 
     methods
@@ -195,7 +195,7 @@ classdef simulationClass<handle
             % 
             % Parameters
             % ------------
-            %   fname : string
+            %   fname : char array
             %       the name of the SimMechanics ``.slx`` file
             %
             

@@ -40,7 +40,7 @@ classdef mooringClass<handle
         moorDyn (1,1) double {mustBeMember(moorDyn,[0 1])}  = 0             % (`integer`) Flag to indicate a MoorDyn block, 0 or 1. Default = ``0``
         moorDynLines (1,1) double {mustBeInteger, mustBeNonnegative} = 0    % (`integer`) Number of lines in MoorDyn. Default = ``0``
         moorDynNodes (1,:) double {mustBeScalarOrEmpty}     = []            % (`integer`) number of nodes for each line. Default = ``'NOT DEFINED'``
-        name (1,:) char                                     = 'NOT DEFINED' % (`string`) Name of the mooring. Default = ``'NOT DEFINED'``
+        name (1,:) char                                     = 'NOT DEFINED' % (`char array`) Name of the mooring. Default = ``'NOT DEFINED'``
     end
 
     properties (SetAccess = 'private', GetAccess = 'public') %internal
