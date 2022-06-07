@@ -28,46 +28,46 @@ classdef bodyClass<handle
     %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
     
     properties (SetAccess = 'public', GetAccess = 'public') % WEC-Sim input
-        centerBuoyancy (:,1) double                 = []                   % (`3x1 float vector`) Body center of buoyancy [m]. Defined in the following format [x y z]. For hydrodynamic bodies this is defined in the h5 file while for nonhydrodynamic bodies this is defined by the user. Default = ``[]``.
-        centerGravity (:,1) double                  = []                   % (`3x1 float vector`) Body center of gravity [m]. Defined in the following format [x y z]. For hydrodynamic bodies this is defined in the h5 file while for nonhydrodynamic bodies this is defined by the user. Default = ``[]``.
-        dof (1,1) double {mustBeMember(dof,1:6)}    = 6                    % (`integer`) Number of degree of freedoms (DOFs). For hydrodynamic bodies this is given in the h5 file. If not defined in the h5 file, Default = ``6``.
-        excitationIRF (1,:) double                  = []                   % (`vector`) Defines excitation Impulse Response Function, only used with the `waveClass` ``elevationImport`` type. Default = ``[]``.
-        flex (1,1) double {mustBeMember(flex,[0 1])}= 0                    % (`integer`) Flag for flexible body, Options: 0 (off) or 1 (on). Default = ``0``.
-        gbmDOF (1,:) double {mustBeScalarOrEmpty}   = []                   % (`integer`) Number of degree of freedoms (DOFs) for generalized body mode (GBM). Default = ``[]``.
-        geometryFile (1,:) char                     = 'NONE'               % (`char array`) Path to the body geometry ``.stl`` file.
-        h5File (1,:) char                           = ''                   % (`char array`) hdf5 file containing the hydrodynamic data
-        hydroStiffness (6,6) double                 = zeros(6)             % (`6x6 float matrix`) Linear hydrostatic stiffness matrix. If the variable is nonzero, the matrix will override the h5 file values. Default = ``zeros(6)``.
-        inertia (1,:) double                        = []                   % (`1x3 float vector`) Rotational inertia or mass moment of inertia [kg*m^{2}]. Defined by the user in the following format [Ixx Iyy Izz]. Default = ``[]``.
-        initial (1,1) struct                        = struct(...           % (`structure`) Defines the initial displacement of the body.
-            'displacement',                         [0 0 0], ...           %
-            'axis',                                 [0 1 0], ...           %
-            'angle',                                0)                     % (`structure`) Defines the initial displacement of the body. ``displacement`` (`1x3 float vector`) is defined as the initial displacement of the body center of gravity (COG) [m] in the following format [x y z], Default = [``0 0 0``]. ``axis`` (`1x3 float vector`) is defined as the axis of rotation in the following format [x y z], Default = [``0 1 0``]. ``angle`` (`float`) is defined as the initial angular displacement of the body COG [rad], Default = ``0``.
-        linearDamping (6,6) double                  = zeros(6)             % (`6x6 float matrix`) Defines linear damping coefficient matrix. Default = ``zeros(6)``.
-        mass (1,:)                                  = []                   % (`float`) Translational inertia or mass [kg]. Defined by the user or specify 'equilibrium' to set the mass equal to the fluid density times displaced volume. Default = ``[]``.
-        meanDrift (1,1) double {mustBeMember(meanDrift,0:2)} = 0           % (`integer`) Flag for mean drift force, Options:  0 (no), 1 (yes, from control surface) or 2 (yes, from momentum conservation). Default = ``0``.
-        morisonElement (1,1) struct                 = struct(...           % (`structure`) Defines the Morison Element properties connected to the body.
-            'option',           0,...                                      %
-            'cd',               [0 0 0], ...                               % 
-            'ca',               [0 0 0], ...                               % 
-            'area',             [0 0 0], ...                               % 
-            'VME',              0     , ...                                % 
-            'rgME',             [0 0 0], ...                               %
-            'z',                [0 0 1])                                   % (`structure`) Defines the Morison Element properties connected to the body. ``option`` (`integer`) for Morison Element calculation, Options: 0 (off), 1 (on) or 2 (on), Default = ``0``, Option 1 uses an approach that allows the user to define drag and inertial coefficients along the x-, y-, and z-axes and Option 2 uses an approach that defines the Morison Element with normal and tangential tangential drag and interial coefficients. ``cd`` (`1x3 float vector`) is defined as the viscous normal and tangential drag coefficients in the following format, Option 1 ``[cd_x cd_y cd_z]``, Option 2 ``[cd_N cd_T NaN]``, Default = ``[0 0 0]``. ``ca`` is defined as the added mass coefficent for the Morison Element in the following format, Option 1 ``[ca_x ca_y ca_z]``, Option 2 ``[ca_N ca_T NaN]``, Default = ``[0 0 0]``, ``area`` is defined as the characteristic area for the Morison Element [m^2] in the following format, Option 1 ``[Area_x Area_y Area_z]``, Option 2 ``[Area_N Area_T NaN]``, Default = ``[0 0 0]``. ``VME`` is the characteristic volume of the Morison Element [m^3], Default = ``0``. ``rgME`` is defined as the vector from the body COG to point of application for the Morison Element [m] in the following format ``[x y z]``, Default = ``[0 0 0]``. ``z`` is defined as the unit normal vector center axis of the Morison Element in the following format, Option 1 not used, Option 2 ``[n_{x} n_{y} n_{z}]``, Default = ``[0 0 1]``. 
-        name (1,:) char                           = []                   % (`char array`) Specifies the body name. For hydrodynamic bodies this is defined in h5 file. For nonhydrodynamic bodies this is defined by the user, Default = ``[]``.        
-        nonHydro (1,1) double {mustBeMember(nonHydro,[0 1])} = 0           % (`integer`) Flag for non-hydro body, Options: 0 (no) or 1 (yes). Default = ``0``.
-        nonlinearHydro (1,1) double {mustBeMember(nonlinearHydro,0:2)} = 0 % (`integer`) Flag for nonlinear hydrohanamics calculation, Options: 0 (linear), 1 (nonlinear), 2 (nonlinear). Default = ``0``
-        quadDrag (1,1) struct                       = struct(...           % (`structure`)  Defines the viscous quadratic drag forces.
-            'drag',             zeros(6), ...                              %
-            'cd',               [0 0 0 0 0 0], ...                         %
-            'area',             [0 0 0 0 0 0])                             % (`structure`)  Defines the viscous quadratic drag forces. First option define ``drag``, (`6x6 float matrix`), Default = ``zeros(6)``. Second option define ``cd``, (`1x6 float vector`), Default = ``[0 0 0 0 0 0]``, and ``area``, (`1x6 float vector`), Default = ``[0 0 0 0 0 0]``.        
-        paraview (1,1) double {mustBeMember(paraview,[0 1])} = 1;          % (`integer`) Flag for visualisation in Paraview either, Options: 0 (no) or 1 (yes). Default = ``1``, only called in paraview.
-        viz (1,1) struct                            = struct(...           % (`structure`)  Defines visualization properties in either SimScape or Paraview.
-            'color',            [1 1 0], ...                               %
-            'opacity',          1)                                         % (`structure`)  Defines visualization properties in either SimScape or Paraview. ``color`` (`1x3 float vector`) is defined as the body visualization color, Default = [``1 1 0``]. ``opacity`` (`integer`) is defined as the body opacity, Default = ``1``.        
-        volume (1,:) double {mustBeScalarOrEmpty}   = []                   % (`float`) Displaced volume at equilibrium position [m^{3}]. For hydrodynamic bodies this is defined in the h5 file while for nonhydrodynamic bodies this is defined by the user. Default = ``[]``.
-        yaw (1,1) struct                            = struct(...           % (`structure`) Defines the passive yaw implementation. 
-            'option',           0,...                                      %
-            'threshold',        1)                                         % (`structure`) Defines the passive yaw mplementation. ``option`` (`integer`) Flag for passive yaw calculation, Options: 0 (off), 1 (on). Default = ``0``. ``threshold`` (`float`) Yaw position threshold (in degrees) above which excitation coefficients will be interpolated in passive yaw. Default = ``1`` [deg].        
+        centerBuoyancy (:,1) double                 = []                    % (`3x1 float vector`) Body center of buoyancy [m]. Defined in the following format [x y z]. For hydrodynamic bodies this is defined in the h5 file while for nonhydrodynamic bodies this is defined by the user. Default = ``[]``.
+        centerGravity (:,1) double                  = []                    % (`3x1 float vector`) Body center of gravity [m]. Defined in the following format [x y z]. For hydrodynamic bodies this is defined in the h5 file while for nonhydrodynamic bodies this is defined by the user. Default = ``[]``.
+        dof (1,1) double {mustBeMember(dof,1:6)}    = 6                     % (`integer`) Number of degree of freedoms (DOFs). For hydrodynamic bodies this is given in the h5 file. If not defined in the h5 file, Default = ``6``.
+        excitationIRF (1,:) double                  = []                    % (`vector`) Defines excitation Impulse Response Function, only used with the `waveClass` ``elevationImport`` type. Default = ``[]``.
+        flex (1,1) double {mustBeMember(flex,[0 1])}= 0                     % (`integer`) Flag for flexible body, Options: 0 (off) or 1 (on). Default = ``0``.
+        gbmDOF (1,:) double {mustBeScalarOrEmpty}   = []                    % (`integer`) Number of degree of freedoms (DOFs) for generalized body mode (GBM). Default = ``[]``.
+        geometryFile (1,:) char                     = 'NONE'                % (`char array`) Path to the body geometry ``.stl`` file.
+        h5File (1,:) char                           = ''                    % (`char array`) hdf5 file containing the hydrodynamic data
+        hydroStiffness (6,6) double                 = zeros(6)              % (`6x6 float matrix`) Linear hydrostatic stiffness matrix. If the variable is nonzero, the matrix will override the h5 file values. Default = ``zeros(6)``.
+        inertia (1,:) double                        = []                    % (`1x3 float vector`) Rotational inertia or mass moment of inertia [kg*m^{2}]. Defined by the user in the following format [Ixx Iyy Izz]. Default = ``[]``.
+        initial (1,1) struct                        = struct(...            % (`structure`) Defines the initial displacement of the body.
+            'displacement',                         [0 0 0], ...            %
+            'axis',                                 [0 1 0], ...            %
+            'angle',                                0)                      % (`structure`) Defines the initial displacement of the body. ``displacement`` (`1x3 float vector`) is defined as the initial displacement of the body center of gravity (COG) [m] in the following format [x y z], Default = [``0 0 0``]. ``axis`` (`1x3 float vector`) is defined as the axis of rotation in the following format [x y z], Default = [``0 1 0``]. ``angle`` (`float`) is defined as the initial angular displacement of the body COG [rad], Default = ``0``.
+        linearDamping (6,6) double                  = zeros(6)              % (`6x6 float matrix`) Defines linear damping coefficient matrix. Default = ``zeros(6)``.
+        mass (1,:)                                  = []                    % (`float`) Translational inertia or mass [kg]. Defined by the user or specify 'equilibrium' to set the mass equal to the fluid density times displaced volume. Default = ``[]``.
+        meanDrift (1,1) double {mustBeMember(meanDrift,0:2)} = 0            % (`integer`) Flag for mean drift force, Options:  0 (no), 1 (yes, from control surface) or 2 (yes, from momentum conservation). Default = ``0``.
+        morisonElement (1,1) struct                 = struct(...            % (`structure`) Defines the Morison Element properties connected to the body.
+            'option',                               0,...                   %
+            'cd',                                   [0 0 0], ...            % 
+            'ca',                                   [0 0 0], ...            % 
+            'area',                                 [0 0 0], ...            % 
+            'VME',                                  0     , ...             % 
+            'rgME',                                 [0 0 0], ...            %
+            'z',                                    [0 0 1])                % (`structure`) Defines the Morison Element properties connected to the body. ``option`` (`integer`) for Morison Element calculation, Options: 0 (off), 1 (on) or 2 (on), Default = ``0``, Option 1 uses an approach that allows the user to define drag and inertial coefficients along the x-, y-, and z-axes and Option 2 uses an approach that defines the Morison Element with normal and tangential tangential drag and interial coefficients. ``cd`` (`1x3 float vector`) is defined as the viscous normal and tangential drag coefficients in the following format, Option 1 ``[cd_x cd_y cd_z]``, Option 2 ``[cd_N cd_T NaN]``, Default = ``[0 0 0]``. ``ca`` is defined as the added mass coefficent for the Morison Element in the following format, Option 1 ``[ca_x ca_y ca_z]``, Option 2 ``[ca_N ca_T NaN]``, Default = ``[0 0 0]``, ``area`` is defined as the characteristic area for the Morison Element [m^2] in the following format, Option 1 ``[Area_x Area_y Area_z]``, Option 2 ``[Area_N Area_T NaN]``, Default = ``[0 0 0]``. ``VME`` is the characteristic volume of the Morison Element [m^3], Default = ``0``. ``rgME`` is defined as the vector from the body COG to point of application for the Morison Element [m] in the following format ``[x y z]``, Default = ``[0 0 0]``. ``z`` is defined as the unit normal vector center axis of the Morison Element in the following format, Option 1 not used, Option 2 ``[n_{x} n_{y} n_{z}]``, Default = ``[0 0 1]``. 
+        name (1,:) char                             = []                    % (`char array`) Specifies the body name. For hydrodynamic bodies this is defined in h5 file. For nonhydrodynamic bodies this is defined by the user, Default = ``[]``.        
+        nonHydro (1,1) double {mustBeMember(nonHydro,[0 1])} = 0            % (`integer`) Flag for non-hydro body, Options: 0 (no) or 1 (yes). Default = ``0``.
+        nonlinearHydro (1,1) double {mustBeMember(nonlinearHydro,0:2)} = 0  % (`integer`) Flag for nonlinear hydrohanamics calculation, Options: 0 (linear), 1 (nonlinear), 2 (nonlinear). Default = ``0``
+        quadDrag (1,1) struct                       = struct(...            % (`structure`)  Defines the viscous quadratic drag forces.
+            'drag',                                 zeros(6), ...           %
+            'cd',                                   [0 0 0 0 0 0], ...      %
+            'area',                                 [0 0 0 0 0 0])          % (`structure`)  Defines the viscous quadratic drag forces. First option define ``drag``, (`6x6 float matrix`), Default = ``zeros(6)``. Second option define ``cd``, (`1x6 float vector`), Default = ``[0 0 0 0 0 0]``, and ``area``, (`1x6 float vector`), Default = ``[0 0 0 0 0 0]``.        
+        paraview (1,1) double {mustBeMember(paraview,[0 1])} = 1;           % (`integer`) Flag for visualisation in Paraview either, Options: 0 (no) or 1 (yes). Default = ``1``, only called in paraview.
+        viz (1,1) struct                            = struct(...            % (`structure`)  Defines visualization properties in either SimScape or Paraview.
+            'color',                                [1 1 0], ...            %
+            'opacity',                              1)                      % (`structure`)  Defines visualization properties in either SimScape or Paraview. ``color`` (`1x3 float vector`) is defined as the body visualization color, Default = [``1 1 0``]. ``opacity`` (`integer`) is defined as the body opacity, Default = ``1``.        
+        volume (1,:) double {mustBeScalarOrEmpty}   = []                    % (`float`) Displaced volume at equilibrium position [m^{3}]. For hydrodynamic bodies this is defined in the h5 file while for nonhydrodynamic bodies this is defined by the user. Default = ``[]``.
+        yaw (1,1) struct                            = struct(...            % (`structure`) Defines the passive yaw implementation. 
+            'option',                               0,...                   %
+            'threshold',                            1)                      % (`structure`) Defines the passive yaw mplementation. ``option`` (`integer`) Flag for passive yaw calculation, Options: 0 (off), 1 (on). Default = ``0``. ``threshold`` (`float`) Yaw position threshold (in degrees) above which excitation coefficients will be interpolated in passive yaw. Default = ``1`` [deg].        
     end
     
     properties (SetAccess = 'private', GetAccess = 'public')% h5 file
@@ -115,10 +115,11 @@ classdef bodyClass<handle
             else
                 error('The body class number(s) in the wecSimInputFile must be specified in ascending order starting from 1. The bodyClass() function should be called first to initialize each body with an h5 file.')
             end
+
         end
         
         function checkInputs(obj,explorer)
-            % This method checks WEC-Sim user inputs for each body and generates error messages if parameters are not properly defined for the bodyClass.
+            % This method checks WEC-Sim user inputs for each body and generates error messages if parameters are not properly defined for the bodyClass
             
             % Check struct inputs:
             % Initial
@@ -126,6 +127,7 @@ classdef bodyClass<handle
             mustBeNumeric(obj.initial.displacement)
             assert(isequal(size(obj.initial.axis)==[1,3],[1,1]),'Input body.initial.axis should be 1x3')
             mustBeNumeric(obj.initial.axis)
+            mustBeScalarOrEmpty(obj.initial.angle)
             % Morison
             mustBeMember(obj.morisonElement.option, [0:2])
             assert(isequal(size(obj.morisonElement.cd)==[1,3],[1,1]),'Input body.morisonElement.cd should be 1x3')
@@ -153,7 +155,6 @@ classdef bodyClass<handle
             % Yaw
             mustBeMember(obj.yaw.option, [0 1])
             mustBeScalarOrEmpty(obj.yaw.threshold)
-
 
             % Check h5 file
             if exist(obj.h5File,'file')==0 && obj.nonHydro==0

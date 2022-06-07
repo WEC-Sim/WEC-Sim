@@ -97,6 +97,7 @@ simu.checkInputs();
 if exist('constraint','var') == 1
     simu.numConstraints = length(constraint(1,:));
     for ii = 1:simu.numConstraints
+        constraint(ii).checkInputs();
         constraint(ii).setNumber(ii);
         constraint(ii).setOrientation();
     end; clear ii
@@ -106,6 +107,7 @@ end
 if exist('pto','var') == 1
     simu.numPtos = length(pto(1,:));
     for ii = 1:simu.numPtos
+        pto(ii).checkInputs();
         pto(ii).setNumber(ii);
         pto(ii).setOrientation();
         pto(ii).setPretension();
@@ -116,6 +118,7 @@ end
 if exist('mooring','var') == 1
     simu.numMoorings = length(mooring(1,:));
     for ii = 1:simu.numMoorings
+        mooring(ii).checkInputs();
         mooring(ii).setLoc();
         mooring(ii).setNumber(ii);
     end; clear ii
@@ -173,6 +176,7 @@ end; clear ii
 if exist('cable','var')==1
     simu.numCables = length(cable(1,:));
     for ii = 1:simu.numCables
+        cable(ii).checkInputs()
         cable(ii).setNumber(ii);
         cable(ii).setCg();
         cable(ii).setCb();
@@ -189,6 +193,7 @@ end
 if exist('ptoSim','var') == 1
     simu.numPtoSim = length(ptoSim(1,:));
     for ii = 1:simu.numPtoSim
+        ptoSim(ii).checkInputs();
         ptoSim(ii).number = ii;
     end; clear ii
 end

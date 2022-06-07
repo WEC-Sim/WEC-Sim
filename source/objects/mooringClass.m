@@ -29,14 +29,14 @@ classdef mooringClass<handle
     % This class contains mooring parameters and settings
     properties (SetAccess = 'public', GetAccess = 'public')%input file 
         initial (1,1) struct                                = struct(...    % (`structure`) Defines the initial displacement of the mooring. 
-            'displacement',         [0 0 0], ...                            % 
-            'axis',                 [0 1 0], ...                            % 
-            'angle',                0)                                      % (`structure`) Defines the initial displacement of the mooring. ``displacement`` (`3x1 float vector`) is defined as the initial displacement of the pto [m] in the following format [x y z], Default = [``0 0 0``].
+            'displacement',                                 [0 0 0], ...    % 
+            'axis',                                         [0 1 0], ...    % 
+            'angle',                                        0)              % (`structure`) Defines the initial displacement of the mooring. ``displacement`` (`3x1 float vector`) is defined as the initial displacement of the pto [m] in the following format [x y z], Default = [``0 0 0``].
         location (1,3) double                               = [0 0 0]       % (`1x3 float vector`) Mooring Reference location. Default = ``[0 0 0]``        
         matrix (1,1) struct                                 = struct(...    % (`structure`) Defines the mooring parameters.
-            'damping',              zeros(6,6), ...                         % 
-            'stiffness',            zeros(6,6), ...                         % 
-            'preTension',           [0 0 0 0 0 0])                          % (`structure`) Defines the mooring parameters. ``damping`` (`6x6 float matrix`) Matrix of damping coefficients, Default = ``zeros(6)``. ``stiffness`` (`6x6 float matrix`) Matrix of stiffness coefficients, Default = ``zeros(6)``. ``preTension`` (`6x6 float matrix`) Array of pretension force in each dof, Default = ``[0 0 0 0 0 0]``.
+            'damping',                                      zeros(6,6), ... % 
+            'stiffness',                                    zeros(6,6), ... % 
+            'preTension',                                   [0 0 0 0 0 0])  % (`structure`) Defines the mooring parameters. ``damping`` (`6x6 float matrix`) Matrix of damping coefficients, Default = ``zeros(6)``. ``stiffness`` (`6x6 float matrix`) Matrix of stiffness coefficients, Default = ``zeros(6)``. ``preTension`` (`1x6 float vector`) Array of pretension force in each dof, Default = ``[0 0 0 0 0 0]``.
         moorDyn (1,1) double {mustBeMember(moorDyn,[0 1])}  = 0             % (`integer`) Flag to indicate a MoorDyn block, 0 or 1. Default = ``0``
         moorDynLines (1,1) double {mustBeInteger, mustBeNonnegative} = 0    % (`integer`) Number of lines in MoorDyn. Default = ``0``
         moorDynNodes (1,:) double {mustBeScalarOrEmpty}     = []            % (`integer`) number of nodes for each line. Default = ``'NOT DEFINED'``
@@ -56,6 +56,25 @@ classdef mooringClass<handle
             else
                 error('The mooring class number(s) in the wecSimInputFile must be specified in ascending order starting from 1. The mooringClass() function should be called first to initialize each mooring line with a name.')
             end
+        end
+
+        function checkInputs(obj)
+            % This method checks WEC-Sim user inputs and generates error messages if parameters are not properly defined. 
+            
+            % Check struct inputs:
+            % Initial
+            assert(isequal(size(obj.initial.displacement)==[1,3],[1,1]),'Input mooring.initial.displacement should be 1x3')
+            mustBeNumeric(obj.initial.displacement)
+            assert(isequal(size(obj.initial.axis)==[1,3],[1,1]),'Input mooring.initial.axis should be 1x3')
+            mustBeNumeric(obj.initial.axis)
+            mustBeScalarOrEmpty(obj.initial.angle)
+            % Matrix
+            assert(isequal(size(obj.matrix.damping)==[6,6],[1,1]),'Input mooring.matrix.damping should be 6x6')
+            mustBeNumeric(obj.matrix.damping)
+            assert(isequal(size(obj.matrix.stiffness)==[6,6],[1,1]),'Input mooring.matrix.stiffness should be 6x6')
+            mustBeNumeric(obj.matrix.stiffness)
+            assert(isequal(size(obj.matrix.preTension)==[1,6],[1,1]),'Input mooring.matrix.preTension should be 1x6')
+            mustBeNumeric(obj.matrix.preTension)
         end
 
         function setInitDisp(obj, relCoord, axisAngleList, addLinDisp)
