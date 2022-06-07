@@ -1,4 +1,4 @@
-function [dispPhase, dispNew] = calcDispPhase(disp,direction, frequency, waveNumber, dispLast, phaseLast, enable, dispThresh);
+function [dispPhase] = calcDispPhase(disp, enable, direction, frequency, wavenumber);
 
 % INPUTS:
 % disp: body displacement vector, x(1) and y(2) will be used
@@ -16,23 +16,15 @@ function [dispPhase, dispNew] = calcDispPhase(disp,direction, frequency, waveNum
 %     enable = 0.
 
 %% Initialize 
-dispPhase = zeros(length(frequency),length(direction));
-dispNew = zeros(size(disp));
+%dispPhase = zeros(length(frequency),length(direction));
+%dispNew = zeros(2,1);
 
-if enable == 1
-    if sqrt((dispLast(1) - disp(1)).^2 + (dispLast(2)-disp(2))^2) > dispThresh;
-        % calculate transformation vector
+if enable == 1  
         [dirGrd,wGrd] = meshgrid(direction,frequency);
-        waveNumberGrd = repmat(waveNumber,[1 length(direction)]);
+        waveNumberGrd = repmat(wavenumber,[1 length(direction)]);
         dispPhase = -waveNumberGrd.*wGrd.*(disp(1)*cos(dirGrd*pi/180) + disp(2)*sin(dirGrd*pi/180));
-        dispNew = disp; % update displacement calculated
-    else % use previous transformation matrix
-        dispPhase = phaseLast; % use previous
-        dispNew = dispLast; % pass through
-    end
 else
-    dispPhase = zeros(length(frequency),length(direction));
-    dispNew = zeros(size(disp));
+    dispPhase = zeros(length(direction),length(frequency));
 end
 
 
