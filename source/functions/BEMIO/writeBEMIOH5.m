@@ -72,8 +72,13 @@ for i = 1:hydro.Nb
 
     % Write added mass coefficients
     m_add = m_add + m;
-    writeH5Parameter(filename,['/body' num2str(i) '/hydro_coeffs/added_mass/inf_freq'],permute(hydro.Ainf((n+1):(n+m),:),[2 1]),'Infinite frequency added mass','kg');
+   
     writeH5Parameter(filename,['/body' num2str(i) '/hydro_coeffs/added_mass/all'],permute(hydro.A((n+1):(n+m),:,:),[3 2 1]),'Added mass','kg-m^2 (rotation); kg (translation)');
+    try
+         writeH5Parameter(filename,['/body' num2str(i) '/hydro_coeffs/added_mass/inf_freq'],permute(hydro.Ainf((n+1):(n+m),:),[2 1]),'Infinite frequency added mass','kg');
+    catch
+        writeH5Parameter(filename,['/body' num2str(i) '/hydro_coeffs/added_mass/all'],permute(hydro.A((n+1):(n+m),:,end),[3 2 1]),'Added mass','kg-m^2 (rotation); kg (translation)');
+    end
     
     % Write excitation coefficients and IRF
     writeH5Parameter(filename,['/body' num2str(i) '/hydro_coeffs/excitation/im'],permute(hydro.ex_im((n+1):(n+m),:,:),[3 2 1]),'Imaginary component of excitation force','');

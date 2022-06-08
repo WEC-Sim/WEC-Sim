@@ -117,6 +117,9 @@ for n = 1:N
             end
             if T==2
                 hydro(F).A(tmp{1}(1),tmp{1}(2),hydro(F).Nf) = tmp{1}(3);  % Added mass
+                if exist('hydro(F).Ainf(tmp{1}(1),tmp{1}(2))') == 0
+                    hydro(F).Ainf(tmp{1}(1),tmp{1}(2)) = hydro(F).A(tmp{1}(1),tmp{1}(2),end);
+                end
                 hydro(F).B(tmp{1}(1),tmp{1}(2),hydro(F).Nf) = tmp{1}(4);  % Radiation damping
             end
             i = i+1;
