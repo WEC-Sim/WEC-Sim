@@ -47,7 +47,7 @@ if simu.saveWorkspace==1
        cd(pctDir);
        simu.caseDir = [simu.caseDir filesep pctDir];
     end
-    outputFile = [simu.caseDir filesep 'output' filesep simu.caseFile];
+    outputFile = [simu.caseDir filesep simu.outputDir filesep simu.caseFile];
     save(outputFile,'-v7.3')
     if exist('pctDir') 
         filename = sprintf('savedData%03d.mat', imcr);
