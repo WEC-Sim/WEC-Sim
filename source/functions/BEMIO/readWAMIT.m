@@ -69,18 +69,20 @@ for n = 1:N
         tmp = textscan(raw{n},'%s %s %f %s %s %f','TreatAsEmpty',{'infinite'},'EmptyValue',Inf);
         hydro(F).h = tmp{3};  % Water depth
     end
-    if isempty(strfind(raw{n},' Center of Gravity  (Xg,Yg,Zg):'))==0
+    if isempty(strfind(raw{n},'XBODY ='))==0
         hydro(F).Nb = hydro(F).Nb+1;
         tmp = textscan(raw{n},'%s %s %f %s %s %f %s %s %f %s %s %f');
-        hydro(F).cg(:,hydro(F).Nb) = [tmp{3} tmp{6} tmp{9}];  % Center of gravity
+        hydro(F).bodyFrame(:,hydro(F).Nb) = [tmp{3} tmp{6} tmp{9}];  % Center of Body Frame
     end
     if isempty(strfind(raw{n},'Volumes (VOLX,VOLY,VOLZ):'))==0
         tmp = textscan(raw{n}(find(raw{n}==':')+1:end),'%f');
         hydro(F).Vo(hydro(F).Nb) = median(tmp{:});  % Displacement volume
     end
     if isempty(strfind(raw{n},'Center of Buoyancy (Xb,Yb,Zb):'))==0
-        tmp = textscan(raw{n}(find(raw{n}==':')+1:end),'%f');
-        hydro(F).cb(:,hydro(F).Nb) = hydro(F).cg(:,hydro(F).Nb) + tmp{1};  % Center of buoyancy
+        hydro(F).cb(:,hydro(F).Nb) = cell2mat( textscan(raw{n}(find(raw{n}==':')+1:end),'%f'));  % Center of buoyancy
+    end
+    if isempty(strfind(raw{n},'(Xg,Yg,Zg):'))==0
+        hydro(F).cg(:,hydro(F).Nb) = cell2mat( textscan(raw{n}(find(raw{n}==':')+1:end),'%f'));
     end
     if isempty(strfind(raw{n},'Hydrostatic and gravitational'))==0
         hydro(F).Khs(:,:,hydro(F).Nb) = zeros(6,6);  % Linear restoring stiffness
