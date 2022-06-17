@@ -833,6 +833,29 @@ repository.
     small displacements, they are unlikely to be accurate if a large relative 
     yaw displacement occurs between the bodies. 
 
+.. _user-advanced-features-large-XY-disp:
+
+Large X-Y Displacements
+^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+By default, the excitation force applied to the modeled body is calculated at the body's CG position as defined in BEM. 
+If large lateral displacements (i.e., in the x or y direction by the default WEC-Sim coordinate system) are expected for the modeled device, it may be desirable to adjust the excitation force to account for this displacment. 
+
+When :code:`body(i).largeXYDisplacement.option = 1`, the phase of the excitation force exerted on the body is adjusted based upon its displacement as
+
+:math:`\phi_{displacement} = k \omega x(1)*cos(\frac{\theta \pi}{180}) + x(2).*sin(\frac{\theta \pi}{180})`
+
+where k is waves.wavenumber, x(1,2) is displacement in the (x,y) direction, :math:`\omega` is waves.omega, and :math:`\theta` is waves.direction (in degrees). 
+This phase is thus the same size as waves.phase, and is then summed with waves.phase to determine excitation force.
+
+Note that this adjustment only affects the incident exciting waves, not the total wave field that is the superposition of exciting and radiating waves. 
+This implies that this adjustment is only valid for cases where the lateral velocity of the body is significantly less than the celerity of its radiated waves, and is thus not appropriate for sudden, rapid displacements. 
+
+.. Note::
+
+	This feature has not been implemented for a user-defined wave elevation.
+	
+
 .. _user-advanced-features-pto:
 
 Constraint and PTO Features
