@@ -81,14 +81,16 @@ For more information on how the blocks and classes are related, see the
 
 To run WEC-Sim from Simulink, open the Simulink ``.slx`` file and choose whether to 
 use an input file or custom parameters in the Global Reference Frame. Next type 
-``initializeWecSim`` in the MATLAB Command Window. Lastly, run the model from the 
-Simulink interface:
+``initializeWecSim`` in the MATLAB Command Window. Then, run the model from the 
+Simulink interface. Lastly, after the simulation has completed, type ``stopWecSim`` 
+in the MATLAB Command Window to run post-processing.
 
 * Run from Simulink with a wecSimInputFile.m
 	* Open the WEC-Sim Simulink file (``.slx``).
 	* Set the Global Reference Frame to use an input file
 	* Type ``initializeWecSim`` in the Command Window
 	* Run the model from Simulink
+	* Wait for the simulation to complete, then type ``stopWecSim`` in the Command Window
 * Run from Simulink with custom parameters
 	* Open the Simulink file (``.slx``).
 	* Set the Global  Reference Frame to use custom parameters
@@ -96,6 +98,7 @@ Simulink interface:
 	* Edit custom parameters as desired
 	* Type ``initializeWecSim`` in the Command Window
 	* Run the model from Simulink
+	* Wait for the simulation to complete, then type ``stopWecSim`` in the Command Window
 	
 After running WEC-Sim from Simulink with custom parameters, a 
 ``wecSimInputFile_simulinkCustomParameters.m`` file is written to the ``$CASE`` 
