@@ -386,10 +386,10 @@ following features are available:
   or :code:`simu.nonlinearHydro = 2`, then the mass is calculated using the displaced 
   volume of the provided STL geometry file.
   
-* **Fixed Body** - if a body is fixed to the seabed, the mass and moment of inertia 
-  may be set to arbitrary values such as 999 kg and [999 999 999] kg-m^2. If the 
-  constraint forces on the fixed body are important, the mass and inertia must instead 
-  be set to their real values.
+* **Fixed Body** - if a body is fixed to the seabed using a fixed constraint, the mass 
+  and moment of inertia may be set to arbitrary values such as 999 kg and [999 999 999] 
+  kg-m^2. If the constraint forces on the fixed body are important, the mass and inertia 
+  should be set to their real values.
 
 * **Import STL** - to read in the geometry (``*.stl``) into Matlab use the 
   :code:`body(i).importBodyGeometry()` method in the bodyClass. This method will import the 
