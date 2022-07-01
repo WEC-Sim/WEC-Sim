@@ -388,10 +388,11 @@ following features are available:
   displaced volume contained in the ``*.h5`` file. If :code:`simu.nonlinearHydro = 1` 
   or :code:`simu.nonlinearHydro = 2`, then the mass is calculated using the displaced 
   volume of the provided STL geometry file.
-
-* **Fixed Body** - if the mass is unknown (or not important to the dynamics), 
-  the user may specify :code:`body(i).mass = 'fixed'` which will set the mass 
-  to 999 kg and moment of inertia to [999 999 999] kg-m^2.
+  
+* **Fixed Body** - if a body is fixed to the seabed using a fixed constraint, the mass 
+  and moment of inertia may be set to arbitrary values such as 999 kg and [999 999 999] 
+  kg-m^2. If the constraint forces on the fixed body are important, the mass and inertia 
+  should be set to their real values.
 
 * **Import STL** - to read in the geometry (``*.stl``) into Matlab use the 
   :code:`body(i).importBodyGeometry()` method in the bodyClass. This method will import the 
