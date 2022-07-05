@@ -36,7 +36,7 @@ classdef waveClass<handle
             'depth',                                0, ...                  %
             'direction',                            0, ...                  %
             'speed',                                0)                      % (`structure`) Defines the current implementation. ``option`` (`integer`) Define the sub-surface current model to be used in WEC-Sim, options include: ``0`` for depth-independent model, ``1`` for 1/7 power law variation with depth, ``2`` for linear variation with depth, or ``3`` for no current. Default = ``3``, ``depth`` (`float`) Current depth [m]. Define the depth over which the sub-surface current is modeled. Must be defined for options ``1`` and ``2``. The current is not calculated for any depths greater than the specified current depth. Default = ``0``, ``direction`` (`float`) Current direction [deg]. Surface current direction defined using WEC-Sim global coordinate system. Default = ``0``, ``speed``  (`float`) Current seed [m/s]. Surface current speed that is uniform along the water column. Default = ``0``         
-        direction (1,:) double {mustBeInRange(direction,-360, 360)} = 0;    % (`float`) Incident wave direction(s) [deg]. Incident wave direction defined using WEC-Sim global coordinate system. Should be defined as a row vector for more than one wave direction. Default = ``0``
+        direction (1,:) double                      = 0;                    % (`float`) Incident wave direction(s) [deg]. Incident wave direction defined using WEC-Sim global coordinate system. Should be defined as a row vector for more than one wave direction. Default = ``0``
         elevationFile (1,:) char                    = 'NOT DEFINED';        % (`char array`) Data file that contains the times-series data file. Default = ``'NOT DEFINED'``
         gamma (1,:) double {mustBeScalarOrEmpty}    = [];                   % (`float`) Defines gamma, only used for ``JS`` wave spectrum type. Default = ``[]``        
         height (1,:) double {mustBeNonnegative}     = [];                   % (`float`) Wave height [m]. Defined as wave height for ``regular``, or significant wave height for ``irregular``. Default =  ``'NOT DEFINED'``
@@ -52,7 +52,7 @@ classdef waveClass<handle
             'numPointsX',                           50, ...                 %
             'numPointsY',                           50 );                   % (`structure`) Defines visualization options, structure contains the fields ``numPointsX`` for the number of visualization points in x direction, and ``numPointsY`` for the number of visualization points in y direction. 
         waterDepth (1,:) double {mustBeScalarOrEmpty} = [];                 % (`float`) Water depth [m]. Default to BEM water depth if not set. 
-        spread (1,:) double {mustBeInRange(spread,0, 1)} = 1;               % (`float`) Wave Spread probability associated with wave direction(s). Should be defined as a row vector for more than one wave direction. Default = ``1``
+        spread (1,:) double                         = 1;                    % (`float`) Wave Spread probability associated with wave direction(s). Should be defined as a row vector for more than one wave direction. Default = ``1``
     end    
   
     properties (SetAccess = 'private', GetAccess = 'public')%internal       
@@ -147,6 +147,9 @@ classdef waveClass<handle
             % Viz
             mustBeScalarOrEmpty(obj.viz.numPointsX)
             mustBeScalarOrEmpty(obj.viz.numPointsY)
+            % Check restricted/boolean variables
+            mustBeInRange(obj.direction,-360, 360)
+            mustBeInRange(obj.spread,0, 1)
 
             % check wave type
             types = {'noWave', 'noWaveCIC', 'regular', 'regularCIC', 'irregular', 'spectrumImport', 'elevationImport'};
@@ -169,7 +172,7 @@ classdef waveClass<handle
                 if strcmp(obj.elevationFile,'NOT DEFINED')
                     error('The "waves.elevationFile" must be defined when using the "elevationImport" wave type');
                 end
-                if ~strcmp(obj.period,'NOT DEFINED') || ~strcmp(obj.height,'NOT DEFINED')
+                if ~isempty(obj.period) || ~isempty(obj.height)
                     warning('"waves.period" and "waves.height" are not used for "etaImport" wave types')
                 end
             end            
@@ -178,7 +181,7 @@ classdef waveClass<handle
                 if strcmp(obj.spectrumFile,'NOT DEFINED')
                     error('The "wave.spectrumFile" must be defined when using the "spectrumImport" wave type');
                 end
-                if ~strcmp(obj.period,'NOT DEFINED') || ~strcmp(obj.height,'NOT DEFINED')
+                if ~isempty(obj.period) || ~isempty(obj.height)
                     warning('"waves.period" and "waves.height" are not used for "spectrumImport" wave types')
                 end
             end
@@ -193,14 +196,14 @@ classdef waveClass<handle
             end
             
             % Check inputs based on type
-            if strcmp(obj.type,'noWave') && strcmp(obj.period,'NOT DEFINED')
+            if strcmp(obj.type,'noWave') && isempty(obj.period)
                 error('"waves.period" must be defined for the hydrodynamic data period when using the "noWave" wave type');
             end    
-            if strcmp(obj.type,'noWaveCIC') && ~strcmp(obj.period,'NOT DEFINED')
+            if strcmp(obj.type,'noWaveCIC') && ~isempty(obj.period)
                 warning('"waves.period" is not used for the hydrodynamic data period when using the "noWaveCIC" wave type')
             end
             if strcmp(obj.type,'regular') || strcmp(obj.type,'regularCIC')
-                if strcmp(obj.period,'NOT DEFINED') || strcmp(obj.height,'NOT DEFINED')
+                if isempty(obj.period) || isempty(obj.height)
                     error('"waves.period" and "waves.height" need to be defined for "regular" and "regularCIC" wave types')
                 end
                 if ~strcmp(obj.spectrumType,'NOT DEFINED')
@@ -211,7 +214,7 @@ classdef waveClass<handle
                 if strcmp(obj.spectrumType,'NOT DEFINED')
                     error('"waves.spectrumType" needs to be defined for "irregular" wave types')
                 end
-                if strcmp(obj.period,'NOT DEFINED') || strcmp(obj.height,'NOT DEFINED')
+                if isempty(obj.period) || isempty(obj.height)
                     error('"waves.period" and "waves.height" need to be defined for "irregular" wave types')
                 end
             end
@@ -250,7 +253,7 @@ classdef waveClass<handle
             
             switch obj.type
                 case {'noWave','noWaveCIC'}
-                    if isempty(obj.omega) && strcmp(obj.period,'NOT DEFINED')
+                    if isempty(obj.omega) && isempty(obj.period)
                         obj.omega = min(obj.bem.range);
                         obj.period = 2*pi/obj.omega;
                     elseif isempty(obj.omega)
@@ -263,7 +266,7 @@ classdef waveClass<handle
                     obj.wavenumber = calcWaveNumber(obj.omega,obj.waterDepth,g,obj.deepWater);
                     obj.waveElevNowave(time);
                 case {'regular','regularCIC'}
-                    if isempty(obj.omega) && strcmp(obj.period,'NOT DEFINED')
+                    if isempty(obj.omega) && isempty(obj.period)
                         obj.omega = min(obj.bem.range);
                         obj.period = 2*pi/obj.omega;
                     elseif isempty(obj.omega)

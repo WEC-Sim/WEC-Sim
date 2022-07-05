@@ -39,7 +39,7 @@ classdef ptoSimClass<handle
             'Bfric',                            'NOT DEFINED',...           % Friction coeeficient
             'lambda_sd_0',                      'NOT DEFINED',...           % Stator d-axis flow linkage
             'Rs',                               'NOT DEFINED',...           % Winding resistance
-            'lambda_fd;',                       'NOT DEFINED',...           % Flux linkage of the stator d winding due to flux produced by the rotor magnets [Wb-turns]
+            'lambda_fd',                       'NOT DEFINED',...           % Flux linkage of the stator d winding due to flux produced by the rotor magnets [Wb-turns]
             'Ls',                               'NOT DEFINED',...           % Winding inductance
             'lambda_sq_0',                      'NOT DEFINED',...           % Stator q-axis flow linkage
             'Rload',                            'NOT DEFINED')              % External load
@@ -146,7 +146,7 @@ classdef ptoSimClass<handle
             mustBeScalarOrEmpty(obj.electricGeneratorEC.currentIni)
             mustBeScalarOrEmpty(obj.electricGeneratorEC.wShaftIni)
             % Gas Hydraulic Accumulator
-            mustBeScalarOrEmpty(obj.gasHydAccumulator.v10)
+            mustBeScalarOrEmpty(obj.gasHydAccumulator.vI0)
             mustBeScalarOrEmpty(obj.gasHydAccumulator.pIprecharge)
         end
     end

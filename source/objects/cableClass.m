@@ -36,8 +36,8 @@ classdef cableClass<handle
             'displacement',                             [0 0 0],...         % 
             'axis',                                     [0 1 0], ...        %
             'angle',                                    0)                  % (`structure`) Defines the initial displacement of the body. ``displacement`` (`3x1 float vector`) is defined as the initial displacement of the body center of gravity (COG) [m] in the following format [x y z], Default = [``0 0 0``]. ``axis`` (`3x1 float vector`) is defined as the axis of rotation in the following format [x y z], Default = [``0 1 0``]. ``angle`` (`float`) is defined as the initial angular displacement of the body COG [rad], Default = ``0``.
-        length (1,1) double {mustBeNonnegative}         = 0                 % (`float`) Cable equilibrium length (m), calculated from rotloc and preTension. Default =`0`.
-        linearDamping (:,6) double {mustBeNumeric}      = [0 0 0 0 0 0];    % (`1x6 float vector`)linear damping aplied to body motions
+        cableLength (1,1) double {mustBeNonnegative}    = 0                 % (`float`) Cable equilibrium length (m), calculated from rotloc and preTension. Default =`0`.
+        linearDamping (:,6) double {mustBeNumeric}      = [0 0 0 0 0 0];    % (`1x6 float vector`) linear damping aplied to body motions
         mass (1,1) double {mustBeNonnegative}           = 1;                % (`float`) mass in kg, default 1
         name (1,:) char                                 = 'NOT DEFINED'     % (`char array`) Defines the Cable name. Default = ``NOT DEFINED``.
         orientation (1,1) struct                        = struct(...        % (`structure`) Defines the orientation axis of the pto.
@@ -45,7 +45,7 @@ classdef cableClass<handle
             'y',                                        [0, 1, 0], ...      %
             'x',                                        [], ...             %
             'rotationMatrix',                           [])                 % (`structure`) Defines the orientation axis of the pto. ``z`` (`1x3 float vector`) defines the direciton of the Z-coordinate of the pto, Default = [``0 0 1``]. ``y`` (`1x3 float vector`) defines the direciton of the Y-coordinate of the pto, Default = [``0 1 0``]. ``x`` (`1x3 float vector`) internally calculated vector defining the direction of the X-coordinate for the pto, Default = ``[]``. ``rotationMatrix`` (`3x3 float matrix`) internally calculated rotation matrix to go from standard coordinate orientation to the pto coordinate orientation, Default = ``[]``.
-        paraview (1,1) double {mustBeMember(paraview,[0 1])} = 1;           % (`integer`) Flag for visualisation in Paraview either 0 (no) or 1 (yes). Default = ``1`` since only called in paraview.
+        paraview (1,1) double                           = 1;           % (`integer`) Flag for visualisation in Paraview either 0 (no) or 1 (yes). Default = ``1`` since only called in paraview.
         preTension (1,1) double {mustBeNumeric}         = 0                 % (`float`) Cable pretension (N).    
         quadDrag (1,1) struct                           = struct(...        % (`structure`) Defines the viscous quadratic drag forces.
             'area',                                     [0 0 0 0 0 0], ...  % 
@@ -144,6 +144,8 @@ classdef cableClass<handle
             assert(isequal(size(obj.viz.color)==[1,3],[1,1]),'Input cable.viz.color should be 1x3')
             mustBeNumeric(obj.viz.color)
             mustBeInRange(obj.viz.opacity,0,1)
+            % Check restricted/boolean variables
+            mustBeMember(obj.paraview,[0 1])
         end
         
         function setTransPTOLoc(obj)
@@ -286,22 +288,22 @@ classdef cableClass<handle
         function setLength(obj)
             % This method specifies length as the distance between cable fixed
             % ends (i.e. pretension = 0), if not otherwise specified.
-            if ~any(obj.length) && ~any(obj.preTension)
-                obj.length = sqrt((obj.base.location(1)-obj.follower.location(1)).^2 ...
+            if ~any(obj.cableLength) && ~any(obj.preTension)
+                obj.cableLength = sqrt((obj.base.location(1)-obj.follower.location(1)).^2 ...
                 + (obj.base.location(2)-obj.follower.location(2)).^2 ...
                 + (obj.base.location(3)-obj.follower.location(3)).^2);
-                fprintf('\n\t cable(i).length undefined and cable(i).preTension undefined. \n \r',...
-                    'cable(i).length set equal to distance between follower.location and base.location \n and cable(i).preTension set equal to zero \n');                
-            elseif ~any(obj.length) && any(obj.preTension)
-                obj.length = sqrt((obj.base.location(1)-obj.follower.location(1)).^2 ...
+                fprintf('\n\t cable(i).cableLength undefined and cable(i).preTension undefined. \n \r',...
+                    'cable(i).cableLength set equal to distance between follower.location and base.location \n and cable(i).preTension set equal to zero \n');                
+            elseif ~any(obj.cableLength) && any(obj.preTension)
+                obj.cableLength = sqrt((obj.base.location(1)-obj.follower.location(1)).^2 ...
                 + (obj.base.location(2)-obj.follower.location(2)).^2 ...
                 + (obj.base.location(3)-obj.follower.location(3)).^2) + obj.preTension/obj.stiffness;            
-            elseif ~any(obj.preTension) && any(obj.length)
+            elseif ~any(obj.preTension) && any(obj.cableLength)
                 obj.preTension = obj.stiffness * (sqrt((obj.base.location(1)-obj.follower.location(1)).^2 ...
                 + (obj.base.location(2)-obj.follower.location(2)).^2 ...
-                + (obj.base.location(3)-obj.follower.location(3)).^2) - obj.length);             
-            elseif any(obj.preTension) && any(obj.length)
-                error('System overdefined. Please define cable(i).preTension OR cable(i).length, not both.')
+                + (obj.base.location(3)-obj.follower.location(3)).^2) - obj.cableLength);             
+            elseif any(obj.preTension) && any(obj.cableLength)
+                error('System overdefined. Please define cable(i).preTension OR cable(i).cableLength, not both.')
             end
         end
         
