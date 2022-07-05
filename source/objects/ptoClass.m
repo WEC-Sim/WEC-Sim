@@ -29,7 +29,7 @@ classdef ptoClass<handle
     
     %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
     properties (SetAccess = 'public', GetAccess = 'public')%input file 
-        damping (1,1) double {mustBeNonnegative}    = 0                     % (`float`) Linear PTO damping coefficient. Default = `0`.
+        damping (1,:) double {mustBeNonnegative}    = 0                     % (`float`) Linear PTO damping coefficient. Default = `0`.
         equilibriumPosition (1,1) double            = 0                     % (`float`) Linear PTO equilibrium position, m or deg. Default = `0`.
         hardStops (1,1) struct                      = struct(...            % (`structure`) Defines the PTO hardstops
             'upperLimitSpecify',                    'off',...               % (`char array`) Initialize upper stroke limit. ``  'on' or 'off' `` Default = ``off``. 
@@ -52,7 +52,7 @@ classdef ptoClass<handle
             'x',                                    [], ...                 % 
             'rotationMatrix',                       [])                     % (`structure`) Defines the orientation axis of the pto. ``z`` (`1x3 float vector`) defines the direciton of the Z-coordinate of the pto, Default = [``0 0 1``]. ``y`` (`1x3 float vector`) defines the direciton of the Y-coordinate of the pto, Default = [``0 1 0``]. ``x`` (`1x3 float vector`) internally calculated vector defining the direction of the X-coordinate for the pto, Default = ``[]``. ``rotationMatrix`` (`3x3 float matrix`) internally calculated rotation matrix to go from standard coordinate orientation to the pto coordinate orientation, Default = ``[]``.
         pretension (1,1) double                     = 0                     % (`float`) Linear PTO pretension, N or N-m. Default = `0`.
-        stiffness (1,1) double {mustBeNonnegative}  = 0                     % (`float`) Linear PTO stiffness coefficient. Default = `0`.        
+        stiffness (1,:) double {mustBeNonnegative}  = 0                     % (`float`) Linear PTO stiffness coefficient. Default = `0`.        
     end
     
     properties (SetAccess = 'private', GetAccess = 'public') %internal

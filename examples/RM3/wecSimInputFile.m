@@ -14,9 +14,9 @@ simu.dt = 0.1; 							% Simulation time-step [s]
 % waves = waveClass('noWaveCIC');       % Initialize Wave Class and Specify Type  
 
 % Regular Waves  
-%waves = waveClass('regular');           % Initialize Wave Class and Specify Type                                 
-%waves.height = 2.5;                     % Wave Height [m]
-%waves.period = 8;                       % Wave Period [s]
+waves = waveClass('regular');           % Initialize Wave Class and Specify Type                                 
+waves.height = 2.5;                     % Wave Height [m]
+waves.period = 8;                       % Wave Period [s]
 
 % % Regular Waves with CIC
 % waves = waveClass('regularCIC');          % Initialize Wave Class and Specify Type                                 
@@ -30,12 +30,12 @@ simu.dt = 0.1; 							% Simulation time-step [s]
 % waves.spectrumType = 'PM';                % Specify Wave Spectrum Type
 
 % % Irregular Waves using JS Spectrum with Equal Energy and Seeded Phase
- waves = waveClass('irregular');           % Initialize Wave Class and Specify Type
- waves.height = 2.5;                       % Significant Wave Height [m]
- waves.period = 8;                         % Peak Period [s]
- waves.spectrumType = 'JS';                % Specify Wave Spectrum Type
- waves.bem.option = 'EqualEnergy';         % Uses 'EqualEnergy' bins (default) 
- waves.phaseSeed = 1;                      % Phase is seeded so eta is the same
+% waves = waveClass('irregular');           % Initialize Wave Class and Specify Type
+% waves.height = 2.5;                       % Significant Wave Height [m]
+% waves.period = 8;                         % Peak Period [s]
+% waves.spectrumType = 'JS';                % Specify Wave Spectrum Type
+% waves.bem.option = 'EqualEnergy';         % Uses 'EqualEnergy' bins (default) 
+% waves.phaseSeed = 1;                      % Phase is seeded so eta is the same
 
 % % Irregular Waves using PM Spectrum with Traditional and State Space 
 % waves = waveClass('irregular');           % Initialize Wave Class and Specify Type
@@ -62,7 +62,7 @@ body(1).geometryFile = 'geometry/float.stl';    % Location of Geomtry File
 body(1).mass = 'equilibrium';                   
     % Body Mass. The 'equilibrium' Option Sets it to the Displaced Water 
     % Weight.
-body(1).inertia = [20907301 21306090.66 37085481.11];  % Moment of Inertia [kg*m^2] \
+body(1).inertia = [20907301 21306090.66 37085481.11];  % Moment of Inertia [kg*m^2]     
 
 % Spar/Plate
 body(2) = bodyClass('hydroData/rm3.h5'); 
