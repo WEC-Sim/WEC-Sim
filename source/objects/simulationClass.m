@@ -31,7 +31,7 @@ classdef simulationClass<handle
         adjMassFactor (1,1) double                      = 2                 % (`integer`) Weighting function for adjusting added mass term in the translational direction. Default = ``2``
         b2b (1,1) double                                = 0                 % (`integer`) Flag for body2body interactions, Options: 0 (off), 1 (on). Default = ``0``
         cicDt (1,:) double {mustBeScalarOrEmpty}        = []                % (`float`) Time step to calculate Convolution Integral. Default = ``dt``
-        cicEndTime (1,1) double {mustBePositive}        = 60                % (`float`) Convolution integral time. Default = ``60`` s
+        cicEndTime (1,:) double {mustBeScalarOrEmpty}   = 60                % (`float`) Convolution integral time. Default = ``60`` s
         domainSize (1,1) double {mustBePositive}        = 200               % (`float`) Size of free surface and seabed. This variable is only used for visualization. Default = ``200`` m
         explorer (1,:) char                             = 'on'              % (`char array`) SimMechanics Explorer 'on' or 'off'. Default = ``'on'``
         dt (1,1) double {mustBePositive}                = 0.1               % (`float`) Simulation time step. Default = ``0.1`` s
