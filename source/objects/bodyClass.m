@@ -42,7 +42,9 @@ classdef bodyClass<handle
             'displacement',                         [0 0 0], ...            %
             'axis',                                 [0 1 0], ...            %
             'angle',                                0)                      % (`structure`) Defines the initial displacement of the body. ``displacement`` (`1x3 float vector`) is defined as the initial displacement of the body center of gravity (COG) [m] in the following format [x y z], Default = [``0 0 0``]. ``axis`` (`1x3 float vector`) is defined as the axis of rotation in the following format [x y z], Default = [``0 1 0``]. ``angle`` (`float`) is defined as the initial angular displacement of the body COG [rad], Default = ``0``.
-        linearDamping double                  = zeros(6)                    % (`6x6 float matrix`) Defines linear damping coefficient matrix. Default = ``zeros(6)``.
+        largeXYDisplacement (1,1) struct            = struct(...            %                        
+            'option',                               0)                      %
+        linearDamping double                        = zeros(6)              % (`6x6 float matrix`) Defines linear damping coefficient matrix. Default = ``zeros(6)``.
         mass (1,:)                                  = []                    % (`float`) Translational inertia or mass [kg]. Defined by the user or specify 'equilibrium' to set the mass equal to the fluid density times displaced volume. Default = ``[]``.
         meanDrift (1,1) double                      = 0                     % (`integer`) Flag for mean drift force, Options:  0 (no), 1 (yes, from control surface) or 2 (yes, from momentum conservation). Default = ``0``.
         morisonElement (1,1) struct                 = struct(...            % (`structure`) Defines the Morison Element properties connected to the body.
@@ -79,7 +81,7 @@ classdef bodyClass<handle
     properties (SetAccess = 'private', GetAccess = 'public')% internal
         b2bDOF              = []                            % (`matrix`) Matrices length, Options: ``6`` without body-to-body interactions. ``6*number of hydro bodies`` with body-to-body interactions.
         hydroForce          = struct()                      % (`structure`) Defines hydrodynamic forces and coefficients used during simulation.
-        massCalcMethod      = []                            % (`char array`) Method used to obtain mass, options: ``'user'``, ``'fixed'``, ``'equilibrium'``
+        massCalcMethod      = []                            % (`char array`) Method used to obtain mass, options: ``'user'``, ``'equilibrium'``
         number              = []                            % (`integer`) Body number, must be the same as the BEM body number.
         total               = []                            % (`integer`) Total number of hydro bodies         
     end
@@ -169,11 +171,11 @@ classdef bodyClass<handle
                 error('The hdf5 file %s does not exist',obj.h5File)
             end
             % Check definitions
-            if (~isnumeric(obj.mass) && ~strcmp(obj.mass, 'equilibrium') && ~strcmp(obj.mass, 'fixed')) || isempty(obj.mass)
-                error('Body mass needs to be defined numerically, set to ''equilibrium'', or set to ''fixed''.')
+            if (~isnumeric(obj.mass) && ~strcmp(obj.mass, 'equilibrium')) || isempty(obj.mass)
+                error('Body mass needs to be defined numerically, set to ''equilibrium''.')
             end
-            if isempty(obj.inertia) && ~strcmp(obj.mass, 'fixed')
-                error('Body moment of inertia needs to be defined for all non-fixed bodies.')
+            if isempty(obj.inertia)
+                error('Body moment of inertia needs to be defined for all bodies.')
             end
             if strcmp(explorer, 'on') %if mechanics explorer is set to on
                 % Check geometry file
@@ -232,7 +234,7 @@ classdef bodyClass<handle
             elseif obj.nonHydro>0
                 % This method checks WEC-Sim user inputs for each drag or non-hydro
                 % body and generates error messages if parameters are not properly defined for the bodyClass.
-                if ~isnumeric(obj.mass) && ~isequal(obj.mass,'equilibrium') && ~isequal(obj.mass, 'fixed')
+                if ~isnumeric(obj.mass) && ~isequal(obj.mass,'equilibrium')
                     error('Body mass needs to be defined numerically for non-hydro or drag bodies')
                 end
                 if ~isnumeric(obj.inertia)
@@ -277,7 +279,7 @@ classdef bodyClass<handle
         function nonHydroForcePre(obj,rho)
             % nonHydro Pre-processing calculations
             % Similar to dragForcePre, but only adjusts the mass for cases 
-            % using 'fixed' or 'equilibrium' 
+            % using 'equilibrium' 
             obj.setMassMatrix(rho);
         end
         
@@ -798,10 +800,6 @@ classdef bodyClass<handle
                 else
                     obj.mass = obj.volume * rho;
                 end
-            elseif strcmp(obj.mass, 'fixed')
-                obj.massCalcMethod = obj.mass;
-                obj.mass = 999;
-                obj.inertia = [999 999 999];
             else
                 obj.massCalcMethod = 'user';
             end

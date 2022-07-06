@@ -9,8 +9,35 @@ on:
       - master
       - dev
   workflow_dispatch:
+concurrency: 
+  group: ${{ github.workflow }}-${{ github.ref }}
+  cancel-in-progress: true
+env:
+  FORCE_COLOR: 1
 jobs:
+  test:
+    name: Test the current branch
+    runs-on: ubuntu-latest
+    defaults:
+      run:
+        shell: bash -l {0}
+    steps:
+      - uses: actions/checkout@v2
+        with:
+          lfs: 'true'
+      - uses: conda-incubator/setup-miniconda@v2
+        with:
+          activate-environment: _wssphinx
+          environment-file: docs/environment.yml
+          python-version: '3.9'
+          auto-activate-base: false
+      - run: |
+          conda info
+      - name: Build docs
+        run: |
+          sphinx-build -W --keep-going -b html docs ${{ runner.temp }}
   build:
+    name: Build all branches
     runs-on: ubuntu-latest
     defaults:
       run:
@@ -32,10 +59,6 @@ jobs:
           auto-activate-base: false
       - run: |
           conda info
-      - name: Build docs (branch)
-        run: |
-          sphinx-build -b html docs ${{ runner.temp }}
-        if: ${{ github.event_name == 'pull_request' }}
       - name: Create build directory
         run: echo "BUILD_DIR=$(mktemp -d -t pages-XXXXXXXXXX)" >> $GITHUB_ENV
       - name: Build docs

@@ -62,6 +62,7 @@ classdef simulationClass<handle
         stateSpace (1,1) double                         = 0                 % (`integer`) Flag for convolution integral or state-space calculation, Options: 0 (convolution integral), 1 (state-space). Default = ``0``
         startTime (1,1) double {mustBeScalarOrEmpty}    = 0                 % (`float`) Simulation start time. Default = ``0`` s        
         zeroCross (1,:) char                            = 'DisableAll'      % (`char array`) Disable zero cross control. Default = ``'DisableAll'``
+        outputDir           = 'output'                                     % (`string`) Data output directory name. Default = ``'output'``
     end
 
     properties (SetAccess = 'public', GetAccess = 'public') % internal WEC-Sim
@@ -83,7 +84,6 @@ classdef simulationClass<handle
         date                = datetime                                     % (`char array`) Simulation date and time
         gitCommit           = []                                           % (`char array`) GitHub commit
         maxIt               = []                                           % (`integer`) Total number of simulation time steps. Approximate for variable step solvers. Default = dependent
-        outputDir           = 'output'                                     % (`char array`) Data output directory name. Default = ``'output'``
         wsVersion           = '5.0'                                        % (`char array`) WEC-Sim version
     end
 

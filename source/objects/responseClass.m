@@ -467,7 +467,7 @@ classdef responseClass<handle
                     body(ibod).importBodyGeometry(simu.domainSize);
                 end
                 bodyMesh(ibod).Points = body(ibod).geometry.vertex;
-                bodyMesh(ibod).Conns = body(ibod).geometry.face;                
+                bodyMesh(ibod).Conns = body(ibod).geometry.face;              
                 % Read changes and assign angles and position changes over time
                 bodyMesh(ibod).deltaPos = [obj.bodies(ibod).position(1:options.timesPerFrame:end,1)-obj.bodies(ibod).position(1,1),... 
                 obj.bodies(ibod).position(1:options.timesPerFrame:end,2)-obj.bodies(ibod).position(1,2),...
