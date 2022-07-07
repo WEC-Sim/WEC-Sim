@@ -81,14 +81,16 @@ For more information on how the blocks and classes are related, see the
 
 To run WEC-Sim from Simulink, open the Simulink ``.slx`` file and choose whether to 
 use an input file or custom parameters in the Global Reference Frame. Next type 
-``initializeWecSim`` in the MATLAB Command Window. Lastly, run the model from the 
-Simulink interface:
+``initializeWecSim`` in the MATLAB Command Window. Then, run the model from the 
+Simulink interface. Lastly, after the simulation has completed, type ``stopWecSim`` 
+in the MATLAB Command Window to run post-processing.
 
 * Run from Simulink with a wecSimInputFile.m
 	* Open the WEC-Sim Simulink file (``.slx``).
 	* Set the Global Reference Frame to use an input file
 	* Type ``initializeWecSim`` in the Command Window
 	* Run the model from Simulink
+	* Wait for the simulation to complete, then type ``stopWecSim`` in the Command Window
 * Run from Simulink with custom parameters
 	* Open the Simulink file (``.slx``).
 	* Set the Global  Reference Frame to use custom parameters
@@ -96,6 +98,7 @@ Simulink interface:
 	* Edit custom parameters as desired
 	* Type ``initializeWecSim`` in the Command Window
 	* Run the model from Simulink
+	* Wait for the simulation to complete, then type ``stopWecSim`` in the Command Window
 	
 After running WEC-Sim from Simulink with custom parameters, a 
 ``wecSimInputFile_simulinkCustomParameters.m`` file is written to the ``$CASE`` 
@@ -385,10 +388,11 @@ following features are available:
   displaced volume contained in the ``*.h5`` file. If :code:`simu.nonlinearHydro = 1` 
   or :code:`simu.nonlinearHydro = 2`, then the mass is calculated using the displaced 
   volume of the provided STL geometry file.
-
-* **Fixed Body** - if the mass is unknown (or not important to the dynamics), 
-  the user may specify :code:`body(i).mass = 'fixed'` which will set the mass 
-  to 999 kg and moment of inertia to [999 999 999] kg-m^2.
+  
+* **Fixed Body** - if a body is fixed to the seabed using a fixed constraint, the mass 
+  and moment of inertia may be set to arbitrary values such as 999 kg and [999 999 999] 
+  kg-m^2. If the constraint forces on the fixed body are important, the mass and inertia 
+  should be set to their real values.
 
 * **Import STL** - to read in the geometry (``*.stl``) into Matlab use the 
   :code:`body(i).importBodyGeometry()` method in the bodyClass. This method will import the 
@@ -664,7 +668,7 @@ defined in the WEC-Sim input file, for example::
 Non-hydrodynamic bodies require the following properties to be defined::
 
     body(i).mass
-    body(i).intertia
+    body(i).inertia
     body(i).centerGravity
     body(i).volume
     
@@ -713,7 +717,7 @@ which are described in more detail in the forthcoming section. At a minimum, it
 is necessary to define:: 
 
     body(i).mass
-    body(i).intertia
+    body(i).inertia
     body(i).centerGravity
     body(i).volume
     

@@ -19,7 +19,7 @@
 
 %% Start WEC-Sim log
 % Clear old input, plots, log file and start new log file.
-clc; diary off; close all;
+diary off
 clear body waves simu output pto constraint ptoSim mooring values names InParam
 try delete('*.log'); end
 diary('simulation.log')
@@ -28,11 +28,18 @@ diary('simulation.log')
 %% Add 'temp' directory
 % Store root directory of this *.m file
 projectRootDir = pwd;
+if exist('pctDir')
+    projectRootDir = [projectRootDir filesep pctDir];
+end
 
 % Create 'temp' directory if it doesn't exist and add to 'temp' path
 warning('off','MATLAB:MKDIR:DirectoryExists')
-if mkdir('temp') == 0
-    mkdir 'temp'
+if exist('pctDir')
+    mkdir ([pctDir filesep 'temp'])
+else
+    if mkdir('temp') == 0
+        mkdir 'temp'
+    end
 end
 addpath(fullfile(projectRootDir,'temp'),'-end');
 
