@@ -1,7 +1,7 @@
 hydro = struct();
 
-hydro = readNEMOH(hydro,'..\Cubes\');
-% hydro = readWAMIT(hydro,'..\..\WAMIT\Cubes\cubes.out',[]);
+hydro = readNEMOH(hydro,'../Cubes/');
+% hydro = readWAMIT(hydro,'../../WAMIT/Cubes/cubes.out',[]);
 % hydro = combineBEM(hydro); % Compare WAMIT
 hydro = radiationIRF(hydro,20,[],[],[],[]);
 hydro = radiationIRFSS(hydro,[],[]);
