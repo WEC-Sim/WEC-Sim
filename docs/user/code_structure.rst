@@ -342,14 +342,14 @@ The ``elevationImport`` case is the wave type for wave simulations using user-de
 time-series (ex: from experiments). The user-defined wave surface elevation 
 must be defined with the time (s) in the first column, and the wave surface 
 elevation (m) in the second column. An example of this is given in the 
-``etaData.mat`` file in the tutorials directory folder of the WEC-Sim source 
+``elevationData.mat`` file in the tutorials directory folder of the WEC-Sim source 
 code. The ``elevationImport`` case is defined by including the following in the input 
 file:: 
 
     waves = waveClass('elevationImport');
     waves.elevationFile ='<elevationFile>.mat';
 
-
+When using the ``elevationImport`` option, excitation forces are calculated via convolution with the excitation impulse response function. This solution method is not particularly robust and the quality of the results can depend heavily on the discretization and range of the BEM data. This is especially true for elevation data that contains a small number of frequencies (e.g., an approximation of regular wave). Further, a number of advanced features are not available for this solution method. Direct multiplication of the frequency components, as performed in the ``spectrumImport`` and ``irregular`` methods is a more robust and capable approach, but requires developing a '<spectrumFile>.mat' that is time-domain equivalent to '<elevationFile>.mat'. To assist with this workflow, the function ``ampSpectraForWS.m`` has been provided.
 
 .. _user-code-structure-body-class:
 
