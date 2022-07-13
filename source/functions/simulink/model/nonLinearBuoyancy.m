@@ -30,11 +30,13 @@ function [f,p] = fHydrostatic(center,elv,instcg,av,rho,g)
 f = zeros(6,1);
 
 % Zeor out regions above the mean free surface
-z=center(:,3); z((z-elv)>0)=0;
+z=center(:,3); idx = find((z-elv)>0);
 
 % Calculate the hydrostatic pressure at each triangle center
-pressureVect = rho*g.*[-z -z -z].*-av;
-p = rho*g.*-z;
+pressureVect = -rho*g.*[(z-elv) (z-elv) (z-elv)].*-av;
+p = -rho*g.*(z-elv);
+p(idx) = 0;
+pressureVect(idx,:) = 0; 
 % Compute force about cog
 f(1:3) = sum(pressureVect);
 
