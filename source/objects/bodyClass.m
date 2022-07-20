@@ -165,14 +165,12 @@ classdef bodyClass<handle
             mustBeMember(obj.nonlinearHydro,0:2)
             mustBeMember(obj.paraview,[0 1])
 
-
             % Check h5 file
             if exist(obj.h5File,'file')==0 && obj.nonHydro==0
                 error('The hdf5 file %s does not exist',obj.h5File)
             end
-            % Check definitions
-            if (~isnumeric(obj.mass) && ~strcmp(obj.mass, 'equilibrium')) || isempty(obj.mass)
-                error('Body mass needs to be defined numerically, set to ''equilibrium''.')
+            if ~strcmp(obj.mass,'equilibrium') && ~isscalar(obj.mass)
+                error('Body mass must be defined as a scalar or set to `equilibrium`')
             end
             if isempty(obj.inertia)
                 error('Body moment of inertia needs to be defined for all bodies.')

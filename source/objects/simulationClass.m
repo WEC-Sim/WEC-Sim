@@ -118,6 +118,8 @@ classdef simulationClass<handle
             mustBeMember(obj.saveText,[0 1])
             mustBeMember(obj.saveWorkspace,[0 1])
             mustBeMember(obj.stateSpace,[0 1])
+            mustBeMember(obj.solver,{'ode1', 'ode1be', 'ode2', 'ode3', 'ode4', 'ode5', 'ode8', 'ode14x','ode15s', ...
+                'ode23', 'ode23s', 'ode23t', 'ode23tb', 'ode45', 'ode113', 'odeN', 'daessc'})
             
             % Check that simMechanics file exists
             obj.simMechanicsFile = [obj.caseDir filesep obj.simMechanicsFile];     
