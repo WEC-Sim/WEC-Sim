@@ -732,8 +732,12 @@ classdef waveClass<handle
         function waveElevUser(obj,rampTime,maxIt,data,time)
             % Calculate imported wave elevation time history
             % used by: :meth:`waveClass.setup`.
-            rampFunction = (1+cos(pi+pi*time/rampTime))/2;
-            rampFunction(time>rampTime) = 1;
+            if rampTime>0
+                rampFunction = (1+cos(pi+pi*time/rampTime))/2;
+                rampFunction(time>rampTime) = 1;
+            else
+                rampFunction = ones(1,length(time));
+            end
             
             obj.waveAmpTime = zeros(maxIt+1,2);
             data_t = data(:,1)';                    % Data Time [s]
