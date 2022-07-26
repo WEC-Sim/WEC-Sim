@@ -11,6 +11,8 @@ function plotAddedMass(varargin)
 %         The hydroData structure(s) created by the other BEMIO functions.
 %         One or more may be input.
 
+
+
 if isempty(varargin)
     error(['plotAddedMass: No arguments passed. Include one or more hydro ' ...
         'structures when calling: plotAddedMass(hydro1, hydro2, ...)']);
@@ -30,20 +32,31 @@ notes = {'Notes:',...
     'that $$\bar{A}_{i,j}(\omega)$$ should also be plotted and verified before ',...
     'proceeding.']};
 
-numHydro = length(varargin);
+if isnumeric(varargin{end})
+    numHydro = length(varargin)-1;
+else 
+    numHydro = length(varargin);
+end
+
 for ii = 1:numHydro
-    numBod = varargin{ii}.Nb;
+    if isnumeric(varargin{end})
+        numBod = varargin{end}(ii);
+    else
+        numBod = 1:varargin{ii}.Nb;
+    end
     tmp1 = strcat('X',num2str(ii));
     X.(tmp1) = varargin{ii}.w;
     tmp2 = strcat('Y',num2str(ii));
-    a = 0;            
-    for i = 1:numBod    
+    a = 0;          
+    b = 1;
+    for i = numBod    
         m = varargin{ii}.dof(i);
-        Y.(tmp2)(1,i,:) = squeeze(varargin{ii}.A(a+1,a+1,:));
-        Y.(tmp2)(2,i,:) = squeeze(varargin{ii}.A(a+3,a+3,:));
-        Y.(tmp2)(3,i,:) = squeeze(varargin{ii}.A(a+5,a+5,:));
+        a = (i-1)*m;
+        Y.(tmp2)(1,b,:) = squeeze(varargin{ii}.A(a+1,a+1,:));
+        Y.(tmp2)(2,b,:) = squeeze(varargin{ii}.A(a+3,a+3,:));
+        Y.(tmp2)(3,b,:) = squeeze(varargin{ii}.A(a+5,a+5,:));
         legendStrings{i,ii} = [varargin{ii}.body{i}];
-        a = a + m;
+        b = b+1;
     end
 end
 
