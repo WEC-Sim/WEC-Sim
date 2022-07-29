@@ -60,6 +60,10 @@ req_vars = {
     'radiation_damping',...
     'diffraction_force',...
     'Froude_Krylov_force',...
+    'disp_volume',...
+    'center_of_mass',...
+    'center_of_buoyancy',...
+    'hydrostatic_stiffness'...
     };
 
 % Other vars in Capytaine .nc file not currently used:
@@ -188,11 +192,15 @@ for m = 1:hydro(F).Nb
         tmp = textscan(raw{4},'%s %s %f');
         hydro(F).Vo(m) = tmp{3};  % Displacement volume
     catch
-        warning(['Hydrostatics data not included in Capytaine output.' ...
-            ' Value of zero assigned to cg, cb, Vo.']);
-        hydro(F).cg = zeros(3,hydro(F).Nb);
-        hydro(F).cb = zeros(3,hydro(F).Nb);
-        hydro(F).Vo = zeros(1,hydro(F).Nb);
+        warning('Hydro data read from capy v1.4 *.nc fie');
+        hydro(F).cg = ncread(filename,'center_of_mass');
+        hydro(F).cb = ncread(filename,'center_of_buoyancy');
+        hydro(F).Vo = ncread(filename,'disp_volume');
+%         warning(['Hydrostatics data not included in Capytaine output.' ...
+%             ' Value of zero assigned to cg, cb, Vo.']);
+%         hydro(F).cg = zeros(3,hydro(F).Nb);
+%         hydro(F).cb = zeros(3,hydro(F).Nb);
+%         hydro(F).Vo = zeros(1,hydro(F).Nb);
     end
 end
 
@@ -233,8 +241,10 @@ for m = 1:hydro(F).Nb
             hydro(F).Khs(i,:,m) = tmp{1,1}(1:6);  % Linear restoring stiffness
         end
     catch
-        warning('No KH.dat files found. Hydrostatics can''t be computed.');
-        hydro(F).Khs = zeros(6,6,hydro(F).Nb);
+        warning('Hydro data read from capy v1.4 *.nc fie');
+        hydro(F).Khs = ncread(filename,'hydrostatic_stiffness');
+%         warning('No KH.dat files found. Hydrostatics can''t be computed.');
+%         hydro(F).Khs = zeros(6,6,hydro(F).Nb);
     end
 end
 waitbar(3/8);
