@@ -63,7 +63,7 @@ req_vars = {
     'disp_volume',...
     'center_of_mass',...
     'center_of_buoyancy',...
-    'hydrostatic_stiffness'...
+%     'hydrostatic_stiffness'...
     };
 
 % Other vars in Capytaine .nc file not currently used:
@@ -193,9 +193,12 @@ for m = 1:hydro(F).Nb
         hydro(F).Vo(m) = tmp{3};  % Displacement volume
     catch
         warning('Hydro data read from capy v1.4 *.nc fie');
-        hydro(F).cg = ncread(filename,'center_of_mass');
-        hydro(F).cb = ncread(filename,'center_of_buoyancy');
-        hydro(F).Vo = ncread(filename,'disp_volume');
+        tmp = ncread(filename,'center_of_mass');
+        hydro(F).cg = tmp;
+        tmp = ncread(filename,'center_of_buoyancy');
+        hydro(F).cb = tmp;
+        tmp = ncread(filename,'disp_volume');
+        hydro(F).Vo = tmp;
 %         warning(['Hydrostatics data not included in Capytaine output.' ...
 %             ' Value of zero assigned to cg, cb, Vo.']);
 %         hydro(F).cg = zeros(3,hydro(F).Nb);
