@@ -36,23 +36,23 @@ classdef waveClass<handle
             'depth',                                0, ...                  %
             'direction',                            0, ...                  %
             'speed',                                0)                      % (`structure`) Defines the current implementation. ``option`` (`integer`) Define the sub-surface current model to be used in WEC-Sim, options include: ``0`` for depth-independent model, ``1`` for 1/7 power law variation with depth, ``2`` for linear variation with depth, or ``3`` for no current. Default = ``3``, ``depth`` (`float`) Current depth [m]. Define the depth over which the sub-surface current is modeled. Must be defined for options ``1`` and ``2``. The current is not calculated for any depths greater than the specified current depth. Default = ``0``, ``direction`` (`float`) Current direction [deg]. Surface current direction defined using WEC-Sim global coordinate system. Default = ``0``, ``speed``  (`float`) Current seed [m/s]. Surface current speed that is uniform along the water column. Default = ``0``         
-        direction (1,:) double                      = 0;                    % (`float`) Incident wave direction(s) [deg]. Incident wave direction defined using WEC-Sim global coordinate system. Should be defined as a row vector for more than one wave direction. Default = ``0``
-        elevationFile (1,:) char                    = 'NOT DEFINED';        % (`char array`) Data file that contains the times-series data file. Default = ``'NOT DEFINED'``
-        gamma (1,:) double {mustBeScalarOrEmpty}    = [];                   % (`float`) Defines gamma, only used for ``JS`` wave spectrum type. Default = ``[]``        
-        height (1,:) double {mustBeNonnegative}     = [];                   % (`float`) Wave height [m]. Defined as wave height for ``regular``, or significant wave height for ``irregular``. Default =  ``'NOT DEFINED'``
+        direction (1,:) {mustBeInRange(direction,-360, 360)} = 0;           % (`float`) Incident wave direction(s) [deg]. Incident wave direction defined using WEC-Sim global coordinate system. Should be defined as a row vector for more than one wave direction. Default = ``0``
+        elevationFile (1,:) {mustBeText}            = 'NOT DEFINED';        % (`char array`) Data file that contains the times-series data file. Default = ``'NOT DEFINED'``
+        gamma (1,:) {mustBeScalarOrEmpty}           = [];                   % (`float`) Defines gamma, only used for ``JS`` wave spectrum type. Default = ``[]``        
+        height (1,:) {mustBeNonnegative}            = [];                   % (`float`) Wave height [m]. Defined as wave height for ``regular``, or significant wave height for ``irregular``. Default =  ``'NOT DEFINED'``
         marker (1,1) struct                         = struct(...            % (`structure`) Defines the wave marker. 
             'location',                             [],...                  % 
             'size',                                 10, ...                 %             
             'style',                                1)                      % (`structure`) Defines the wave marker. `loc` (`nx2 vector`) Marker [X,Y] locations [m]. Default = ``[]``. ``size`` (`float`) Marker size in Pixels. Default = ``10``. ``style`` Marker style, options include: ``1``: Sphere, ``2``: Cube, ``3``: Frame. Default = ``1``: Sphere        
-        period (1,:) double {mustBeNonnegative}     = [];                   % (`float`) Wave period [s] . Defined as wave period for ``regular``, peak period for ``irregular``, or period of BEM data used for hydrodynamic coefficients for ``noWave``. Default = ``'NOT DEFINED'``
-        phaseSeed (1,:) double {mustBeNonnegative}  = 0;                    % (`integer`) Defines the random phase seed, only used for ``irregular`` and ``spectrumImport`` waves. Default = ``0``
-        spectrumFile (1,:) char                     = 'NOT DEFINED';        % (`char array`) Data file that contains the spectrum data file.  Default = ``'NOT DEFINED'``                
-        spectrumType (1,:) char                     = 'NOT DEFINED';        % (`char array`) Specifies the wave spectrum type, options inlcude:``PM`` or ``JS``. Default = ``'NOT DEFINED'``
+        period (1,:) {mustBeNonnegative}            = [];                   % (`float`) Wave period [s] . Defined as wave period for ``regular``, peak period for ``irregular``, or period of BEM data used for hydrodynamic coefficients for ``noWave``. Default = ``'NOT DEFINED'``
+        phaseSeed (1,:) {mustBeNonnegative}         = 0;                    % (`integer`) Defines the random phase seed, only used for ``irregular`` and ``spectrumImport`` waves. Default = ``0``
+        spectrumFile (1,:) {mustBeText}             = 'NOT DEFINED';        % (`char array`) Data file that contains the spectrum data file.  Default = ``'NOT DEFINED'``                
+        spectrumType (1,:) {mustBeText}             = 'NOT DEFINED';        % (`char array`) Specifies the wave spectrum type, options inlcude:``PM`` or ``JS``. Default = ``'NOT DEFINED'``
         viz (1,1) struct                            = struct(...            % 
             'numPointsX',                           50, ...                 %
             'numPointsY',                           50 );                   % (`structure`) Defines visualization options, structure contains the fields ``numPointsX`` for the number of visualization points in x direction, and ``numPointsY`` for the number of visualization points in y direction. 
-        waterDepth (1,:) double {mustBeScalarOrEmpty} = [];                 % (`float`) Water depth [m]. Default to BEM water depth if not set. 
-        spread (1,:) double                         = 1;                    % (`float`) Wave Spread probability associated with wave direction(s). Should be defined as a row vector for more than one wave direction. Default = ``1``
+        waterDepth (1,:) {mustBeScalarOrEmpty}      = [];                   % (`float`) Water depth [m]. Default to BEM water depth if not set. 
+        spread (1,:) {mustBeInRange(spread,0, 1)}   = 1;                    % (`float`) Wave Spread probability associated with wave direction(s). Should be defined as a row vector for more than one wave direction. Default = ``1``
     end    
   
     properties (SetAccess = 'private', GetAccess = 'public')%internal       
@@ -147,9 +147,6 @@ classdef waveClass<handle
             % Viz
             mustBeScalarOrEmpty(obj.viz.numPointsX)
             mustBeScalarOrEmpty(obj.viz.numPointsY)
-            % Check restricted/boolean variables
-            mustBeInRange(obj.direction,-360, 360)
-            mustBeInRange(obj.spread,0, 1)
 
             % check wave type
             types = {'noWave', 'noWaveCIC', 'regular', 'regularCIC', 'irregular', 'spectrumImport', 'elevationImport'};

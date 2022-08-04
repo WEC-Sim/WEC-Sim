@@ -30,28 +30,28 @@ classdef cableClass<handle
     %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%    
     
     properties (SetAccess = 'public', GetAccess = 'public') %input file
-        damping (1,1) double {mustBeNumeric}            = 0                 % (`float`) Cable damping coefficient (N/(m/s)). Default = `0`.
-        inertia (1,3) double {mustBeNumeric}            = [1 1 1];          % (`1x3 float vector`) body inertia kg-m^2, default [1 1 1]
+        damping (1,1) {mustBeNumeric}                   = 0                 % (`float`) Cable damping coefficient (N/(m/s)). Default = `0`.
+        inertia (1,3) {mustBeNumeric}                   = [1 1 1];          % (`1x3 float vector`) body inertia kg-m^2, default [1 1 1]
         initial (1,1) struct                            = struct(...        % (`structure`) Defines the initial displacement of the body. 
             'displacement',                             [0 0 0],...         % 
             'axis',                                     [0 1 0], ...        %
             'angle',                                    0)                  % (`structure`) Defines the initial displacement of the body. ``displacement`` (`3x1 float vector`) is defined as the initial displacement of the body center of gravity (COG) [m] in the following format [x y z], Default = [``0 0 0``]. ``axis`` (`3x1 float vector`) is defined as the axis of rotation in the following format [x y z], Default = [``0 1 0``]. ``angle`` (`float`) is defined as the initial angular displacement of the body COG [rad], Default = ``0``.
-        cableLength (1,1) double {mustBeNonnegative}    = 0                 % (`float`) Cable equilibrium length (m), calculated from rotloc and preTension. Default =`0`.
-        linearDamping (:,6) double {mustBeNumeric}      = [0 0 0 0 0 0];    % (`1x6 float vector`) linear damping aplied to body motions
-        mass (1,1) double {mustBeNonnegative}           = 1;                % (`float`) mass in kg, default 1
-        name (1,:) char                                 = 'NOT DEFINED'     % (`char array`) Defines the Cable name. Default = ``NOT DEFINED``.
+        cableLength (1,1) {mustBeNonnegative}           = 0                 % (`float`) Cable equilibrium length (m), calculated from rotloc and preTension. Default =`0`.
+        linearDamping (:,6) {mustBeNumeric}             = [0 0 0 0 0 0];    % (`1x6 float vector`) linear damping aplied to body motions
+        mass (1,1) {mustBeNonnegative}                  = 1;                % (`float`) mass in kg, default 1
+        name (1,:) {mustBeText}                         = 'NOT DEFINED'     % (`char array`) Defines the Cable name. Default = ``NOT DEFINED``.
         orientation (1,1) struct                        = struct(...        % (`structure`) Defines the orientation axis of the pto.
             'z',                                        [0, 0, 1], ...      %
             'y',                                        [0, 1, 0], ...      %
             'x',                                        [], ...             %
             'rotationMatrix',                           [])                 % (`structure`) Defines the orientation axis of the pto. ``z`` (`1x3 float vector`) defines the direciton of the Z-coordinate of the pto, Default = [``0 0 1``]. ``y`` (`1x3 float vector`) defines the direciton of the Y-coordinate of the pto, Default = [``0 1 0``]. ``x`` (`1x3 float vector`) internally calculated vector defining the direction of the X-coordinate for the pto, Default = ``[]``. ``rotationMatrix`` (`3x3 float matrix`) internally calculated rotation matrix to go from standard coordinate orientation to the pto coordinate orientation, Default = ``[]``.
-        paraview (1,1) double                           = 1;           % (`integer`) Flag for visualisation in Paraview either 0 (no) or 1 (yes). Default = ``1`` since only called in paraview.
-        preTension (1,1) double {mustBeNumeric}         = 0                 % (`float`) Cable pretension (N).    
+        paraview (1,1) {mustBeMember(paraview,[0 1])}   = 1;                % (`integer`) Flag for visualisation in Paraview either 0 (no) or 1 (yes). Default = ``1`` since only called in paraview.
+        preTension (1,1) {mustBeNumeric}                = 0                 % (`float`) Cable pretension (N).    
         quadDrag (1,1) struct                           = struct(...        % (`structure`) Defines the viscous quadratic drag forces.
             'area',                                     [0 0 0 0 0 0], ...  % 
             'drag',                                     zeros(6), ...       % 
             'cd',                                       [0 0 0 0 0 0]);     % (`structure`) Defines the viscous quadratic drag forces. First option define ``drag``, (`6x6 float matrix`), Default = ``zeros(6)``. Second option define ``cd``, (`6x1 float vector`), Default = ``zeros(6,1)``, and ``area``, (`6x1 float vector`), Default = ``zeros(6,1)``.
-        stiffness (1,1) double {mustBeNumeric}          = 0                 % (`float`) Cable stiffness (N/m). Default = `0`.
+        stiffness (1,1) {mustBeNumeric}                 = 0                 % (`float`) Cable stiffness (N/m). Default = `0`.
         viz (1,1) struct                                = struct(...        % (`structure`) Defines visualization properties in either SimScape or Paraview.
             'color',                                    [1 0 0.5], ...      %
             'opacity',                                  1)                  % (`structure`) Defines visualization properties in either SimScape or Paraview. ``color`` (`3x1 float vector`) is defined as the body visualization color, Default = [``1 1 0``]. ``opacity`` (`integer`) is defined as the body opacity, Default = ``1``.        
@@ -144,8 +144,6 @@ classdef cableClass<handle
             assert(isequal(size(obj.viz.color)==[1,3],[1,1]),'Input cable.viz.color should be 1x3')
             mustBeNumeric(obj.viz.color)
             mustBeInRange(obj.viz.opacity,0,1)
-            % Check restricted/boolean variables
-            mustBeMember(obj.paraview,[0 1])
         end
         
         function setTransPTOLoc(obj)

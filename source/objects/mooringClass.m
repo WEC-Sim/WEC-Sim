@@ -27,20 +27,20 @@ classdef mooringClass<handle
     % 
     %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%    
     % This class contains mooring parameters and settings
-    properties (SetAccess = 'public', GetAccess = 'public')%input file 
+    properties (SetAccess = 'public', GetAccess = 'public') %input file 
         initial (1,1) struct                                = struct(...    % (`structure`) Defines the initial displacement of the mooring. 
             'displacement',                                 [0 0 0], ...    % 
             'axis',                                         [0 1 0], ...    % 
             'angle',                                        0)              % (`structure`) Defines the initial displacement of the mooring. ``displacement`` (`3x1 float vector`) is defined as the initial displacement of the pto [m] in the following format [x y z], Default = [``0 0 0``].
-        location (1,3) double                               = [0 0 0]       % (`1x3 float vector`) Mooring Reference location. Default = ``[0 0 0]``        
+        location (1,3) {mustBeNumeric}                      = [0 0 0]       % (`1x3 float vector`) Mooring Reference location. Default = ``[0 0 0]``        
         matrix (1,1) struct                                 = struct(...    % (`structure`) Defines the mooring parameters.
             'damping',                                      zeros(6,6), ... % 
             'stiffness',                                    zeros(6,6), ... % 
             'preTension',                                   [0 0 0 0 0 0])  % (`structure`) Defines the mooring parameters. ``damping`` (`6x6 float matrix`) Matrix of damping coefficients, Default = ``zeros(6)``. ``stiffness`` (`6x6 float matrix`) Matrix of stiffness coefficients, Default = ``zeros(6)``. ``preTension`` (`1x6 float vector`) Array of pretension force in each dof, Default = ``[0 0 0 0 0 0]``.
-        moorDyn (1,1) double                                = 0             % (`integer`) Flag to indicate a MoorDyn block, 0 or 1. Default = ``0``
-        moorDynLines (1,1) double {mustBeInteger, mustBeNonnegative} = 0    % (`integer`) Number of lines in MoorDyn. Default = ``0``
-        moorDynNodes (1,:) double {mustBeInteger, mustBeNonnegative} = []   % (`integer`) number of nodes for each line. Default = ``'NOT DEFINED'``
-        name (1,:) char                                     = 'NOT DEFINED' % (`char array`) Name of the mooring. Default = ``'NOT DEFINED'``
+        moorDyn (1,1) {mustBeMember(moorDyn,[0 1])}         = 0             % (`integer`) Flag to indicate a MoorDyn block, 0 or 1. Default = ``0``
+        moorDynLines (1,1) {mustBeInteger, mustBeNonnegative} = 0           % (`integer`) Number of lines in MoorDyn. Default = ``0``
+        moorDynNodes (1,:) {mustBeInteger, mustBeNonnegative} = []          % (`integer`) number of nodes for each line. Default = ``'NOT DEFINED'``
+        name (1,:) {mustBeText}                             = 'NOT DEFINED' % (`char array`) Name of the mooring. Default = ``'NOT DEFINED'``
     end
 
     properties (SetAccess = 'private', GetAccess = 'public') %internal
@@ -75,8 +75,6 @@ classdef mooringClass<handle
             mustBeNumeric(obj.matrix.stiffness)
             assert(isequal(size(obj.matrix.preTension)==[1,6],[1,1]),'Input mooring.matrix.preTension should be 1x6')
             mustBeNumeric(obj.matrix.preTension)
-            % Check restricted/boolean variables
-            mustBeMember(obj.moorDyn,[0 1])
         end
 
         function setInitDisp(obj, relCoord, axisAngleList, addLinDisp)

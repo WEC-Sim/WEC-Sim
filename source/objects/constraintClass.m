@@ -42,8 +42,8 @@ classdef constraintClass<handle
           'lowerLimitTransitionRegionWidth',    1e-4)                       % (`float`) Define lower limit transition region, over which spring and damping values ramp up to full values. Increase for stability. m or deg. ``Default = 1e-4``                                                                                    
         initial (1,1) struct                    = struct(...                % 
             'displacement',                     [0 0 0])                    % (`structure`) Defines the initial displacement of the constraint. ``displacement`` (`3x1 float vector`) is defined as the initial displacement of the constraint [m] in the following format [x y z], Default = [``0 0 0``].
-        location (1,3) double                   = [999 999 999]             % (`1x3 float vector`) Constraint location [m]. Defined in the following format [x y z]. Default = ``[999 999 999]``.        
-        name (1,:) char                         = 'NOT DEFINED'             % (`char array`) Specifies the constraint name. For constraints this is defined by the user, Default = ``NOT DEFINED``.
+        location (1,3) {mustBeNumeric}          = [999 999 999]             % (`1x3 float vector`) Constraint location [m]. Defined in the following format [x y z]. Default = ``[999 999 999]``.        
+        name (1,:) {mustBeText}                 = 'NOT DEFINED'             % (`char array`) Specifies the constraint name. For constraints this is defined by the user, Default = ``NOT DEFINED``.
         orientation (1,1) struct                = struct(...                % (`structure`) Defines the orientation axis of the constraint.
             'z',                                [0, 0, 1], ...              % 
             'y',                                [0, 1, 0], ...              % 

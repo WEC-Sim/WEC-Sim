@@ -93,7 +93,7 @@ classdef ptoSimClass<handle
             'crank',                            'NOT DEFINED',...           % [m] Crank length
             'offset',                           'NOT DEFINED',...           % [m] Offset length
             'rodLength',                        'NOT DEFINED')              % [m] Rod length
-        name (1,:) char                         = 'NOT DEFINED'             % Electric Block Name
+        name (1,:) {mustBeText}                 = 'NOT DEFINED'             % Electric Block Name
         rectifyingCheckValve (1,1) struct       = struct(...                % hydraulic Block properties
             'Cd',                               'NOT DEFINED',...           % Discharge accumulator
             'Amax',                             'NOT DEFINED',...           % Maximum opening area of the valve
