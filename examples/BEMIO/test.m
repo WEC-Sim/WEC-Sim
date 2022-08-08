@@ -1,6 +1,6 @@
 % Test input parser function
 
-%% RM3 (2 bodies)
+% RM3 (2 bodies)
 clear all;clc; close all
 
 % Load WAMIT hydro data 
@@ -10,16 +10,13 @@ WAMIT_hydro = readWAMIT(WAMIT_hydro,WAMIT_out,[]);
 % WAMIT_hydro = radiationIRF(WAMIT_hydro,60,[],[],[],[]);
 % WAMIT_hydro = excitationIRF(WAMIT_hydro,20,[],[],[],[]);
 
-% Load AQWA hydro data 
-AQWA_hydro = struct();
-AQWA_AH1 = '.\AQWA\RM3\RM3.AH1';
-AQWA_LIS = '.\AQWA\RM3\RM3.LIS';
-AQWA_hydro = readAQWA(AQWA_hydro, AQWA_AH1, AQWA_LIS);
-% AQWA_hydro = radiationIRF(AQWA_hydro,60,[],[],[],[]);
-% AQWA_hydro = excitationIRF(AQWA_hydro,20,[],[],[],[]);
+% Load Capytaine hydro data 
+CAP_hydro = struct();
+CAP_nc = '.\Capytaine\RM3\rm3_full.nc';
+CAP_hydro = readCAPYTAINE(CAP_hydro,CAP_nc);
+%CAP_hydro = radiationIRF(CAP_hydro,60,[],[],[],1.9);
+%CAP_hydro = excitationIRF(CAP_hydro,20,[],[],[],1.9);
 
-hydros = [WAMIT_hydro,AQWA_hydro];
+%parser(WAMIT_hydro,AQWA_hydro, 'dofs', [3], 'directions', 90)
 
-parser(WAMIT_hydro,AQWA_hydro, 'dofs', [3])
-
-%plotAddedMass(WAMIT_hydro)
+plotAddedMass(WAMIT_hydro,CAP_hydro,'bodies','all','dofs',1)

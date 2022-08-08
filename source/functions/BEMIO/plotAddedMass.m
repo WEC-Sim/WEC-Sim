@@ -18,6 +18,28 @@ if isempty(varargin)
         'structures when calling: plotAddedMass(hydro1, hydro2, ...)']);
 end
 
+options.dofs = [1 3 5];
+options.bodies = 'all';
+optionNames = fieldnames(options);
+
+for i = 1:length(varargin) % check if any options are given
+    optInds(i) = isnumeric(varargin{i}) || strcmp(varargin{i},'all') || strcmp(varargin{i},'first');
+    if optInds(i) == 1 
+        if any(strcmpi(varargin{i-1},optionNames))
+            options.(varargin{i-1}) = varargin{i};
+        else
+            error('%s is not a recognized parameter name')
+        end
+    end
+end
+
+if strcmp(options.dofs,'all')
+    options.dofs = [1:varargin{1}.dof(1)];
+end
+if strcmp(options.bodies,'all')
+    options.bodies = [1:varargin{1}.Nb];
+end
+
 figHandle = figure('Position',[50,500,975,521]);
 titleString = ['Normalized Added Mass: $$\bar{A}_{i,j}(\omega) = {\frac{A_{i,j}(\omega)}{\rho}}$$'];
 subtitleStrings = {'Surge','Heave','Pitch'};
@@ -32,31 +54,19 @@ notes = {'Notes:',...
     'that $$\bar{A}_{i,j}(\omega)$$ should also be plotted and verified before ',...
     'proceeding.']};
 
-if isnumeric(varargin{end})
-    numHydro = length(varargin)-1;
-else 
-    numHydro = length(varargin);
-end
+numHydro = length(varargin) - sum(optInds)*2;
 
 for ii = 1:numHydro
-    if isnumeric(varargin{end})
-        numBod = varargin{end}(ii);
-    else
-        numBod = 1:varargin{ii}.Nb;
-    end
     tmp1 = strcat('X',num2str(ii));
     X.(tmp1) = varargin{ii}.w;
     tmp2 = strcat('Y',num2str(ii));
     a = 0;          
-    b = 1;
-    for i = numBod    
-        m = varargin{ii}.dof(i);
-        a = (i-1)*m;
-        Y.(tmp2)(1,b,:) = squeeze(varargin{ii}.A(a+1,a+1,:));
-        Y.(tmp2)(2,b,:) = squeeze(varargin{ii}.A(a+3,a+3,:));
-        Y.(tmp2)(3,b,:) = squeeze(varargin{ii}.A(a+5,a+5,:));
+    for i = 1:length(options.bodies)
+        a = (options.bodies(i)-1)*varargin{ii}.dof(options.bodies(1));
+        for j = 1:length(options.dofs)
+            Y.(tmp2)(j,i,:) = squeeze(varargin{ii}.A(a+options.dofs(j),a+options.dofs(j),:));
+        end
         legendStrings{i,ii} = [varargin{ii}.body{i}];
-        b = b+1;
     end
 end
 
