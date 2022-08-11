@@ -17,15 +17,40 @@ if isempty(varargin)
         'structures when calling: plotExcitationIRF(hydro1, hydro2, ...)']);
 end
 
+options.dofs = [1 3 5];
+options.bodies = 'all';
+optionNames = fieldnames(options);
+
+for i = 1:length(varargin) % check if any options are given
+    optInds(i) = isnumeric(varargin{i}) || strcmp(varargin{i},'all') || strcmp(varargin{i},'first');
+    if optInds(i) == 1 
+        if any(strcmpi(varargin{i-1},optionNames))
+            options.(varargin{i-1}) = varargin{i};
+        else
+            error('%s is not a recognized parameter name')
+        end
+    end
+end
+
+if strcmp(options.dofs,'all')
+    options.dofs = [1:varargin{1}.dof(1)];
+end
+if strcmp(options.bodies,'all')
+    options.bodies = [1:varargin{1}.Nb];
+end
+
 B=1;  % Wave heading index
-figHandle = figure('Position',[950,100,975,521]);
+figHandle = figure('Position',[950,100,325*length(options.dofs),520]);
 titleString = ['Normalized Excitation Impulse Response Functions:   ',...
     '$$\bar{K}_i(t) = {\frac{1}{2\pi}}\int_{-\infty}^{\infty}{\frac{X_i(\omega,\theta)e^{i{\omega}t}}{{\rho}g}}d\omega$$'];
-subtitleStrings = {'Surge','Heave','Pitch'};
-xString = {'$$t (s)$$','$$t (s)$$','$$t (s)$$'};
+subtitleStrings = {'Surge','Sway','Heave','Roll','Pitch','Yaw'};
+xString = {'$$t (s)$$'};
 yString = {['$$\bar{K}_1(t,\theta$$',' = ',num2str(varargin{1}.theta(B)),'$$^{\circ}$$)'],...
+    ['$$\bar{K}_2(t,\theta$$',' = ',num2str(varargin{1}.theta(B)),'$$^{\circ}$$)'],...
     ['$$\bar{K}_3(t,\theta$$',' = ',num2str(varargin{1}.theta(B)),'$$^{\circ}$$)'],...
-    ['$$\bar{K}_5(t,\theta$$',' = ',num2str(varargin{1}.theta(B)),'$$^{\circ}$$)']};
+    ['$$\bar{K}_4(t,\theta$$',' = ',num2str(varargin{1}.theta(B)),'$$^{\circ}$$)'],...
+    ['$$\bar{K}_5(t,\theta$$',' = ',num2str(varargin{1}.theta(B)),'$$^{\circ}$$)'],...
+    ['$$\bar{K}_6(t,\theta$$',' = ',num2str(varargin{1}.theta(B)),'$$^{\circ}$$)']};
 
 notes = {'Notes:',...
     ['$$\bullet$$ The IRF should tend towards zero within the specified timeframe. ',...
@@ -35,24 +60,23 @@ notes = {'Notes:',...
     'pitch DOFs are plotted here. If another wave heading or DOF is significant ',...
     'to the system, that IRF should also be plotted and verified before proceeding.']};
 
-numHydro = length(varargin);
+numHydro = length(varargin) - sum(optInds)*2;
+
 for ii = 1:numHydro
-    numBod = varargin{ii}.Nb;
     tmp1 = strcat('X',num2str(ii));
     X.(tmp1) = varargin{ii}.ex_t;
     tmp2 = strcat('Y',num2str(ii));
     a = 0;
-    for i = 1:numBod
-        m = varargin{ii}.dof(i);
-        Y.(tmp2)(1,i,:) = squeeze(varargin{ii}.ex_K(a+1,B,:));
-        Y.(tmp2)(2,i,:) = squeeze(varargin{ii}.ex_K(a+3,B,:));
-        Y.(tmp2)(3,i,:) = squeeze(varargin{ii}.ex_K(a+5,B,:));
-        legendStrings{i,ii} = [varargin{ii}.body{i}];
-        a = a + m;
+    for i = 1:length(options.bodies)
+        a = (options.bodies(i)-1)*varargin{ii}.dof(options.bodies(1));
+        for j = 1:length(options.dofs)
+            Y.(tmp2)(j,i,:) = squeeze(varargin{ii}.ex_K(a+options.dofs(j),B,:));
+        end
+        legendStrings{i,ii} = [varargin{ii}.body{options.bodies(i)}];
     end
 end
 
-formatPlot(figHandle,titleString,subtitleStrings,xString,yString,X,Y,legendStrings,notes)  
+formatPlot(figHandle,titleString,subtitleStrings,xString,yString,X,Y,legendStrings,notes,options)  
 saveas(figHandle,'Excitation_IRFs.png');
 
 end

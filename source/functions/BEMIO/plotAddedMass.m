@@ -40,11 +40,11 @@ if strcmp(options.bodies,'all')
     options.bodies = [1:varargin{1}.Nb];
 end
 
-figHandle = figure('Position',[50,500,975,521]);
+figHandle = figure('Position',[50,500,325*length(options.dofs),520]);
 titleString = ['Normalized Added Mass: $$\bar{A}_{i,j}(\omega) = {\frac{A_{i,j}(\omega)}{\rho}}$$'];
-subtitleStrings = {'Surge','Heave','Pitch'};
-xString = {'$$\omega (rad/s)$$','$$\omega (rad/s)$$','$$\omega (rad/s)$$'};
-yString = {'$$\bar{A}_{1,1}(\omega)$$','$$\bar{A}_{3,3}(\omega)$$','$$\bar{A}_{5,5}(\omega)$$'};
+subtitleStrings = {'Surge','Sway','Heave','Roll','Pitch','Yaw'};
+xString = {'$$\omega (rad/s)$$'};
+yString = {'$$\bar{A}_{1,1}(\omega)$$','$$\bar{A}_{2,2}(\omega)$$','$$\bar{A}_{3,3}(\omega)$$','$$\bar{A}_{4,4}(\omega)$$','$$\bar{A}_{5,5}(\omega)$$','$$\bar{A}_{6,6}(\omega)$$'};
 
 notes = {'Notes:',...
     ['$$\bullet$$ $$\bar{A}_{i,j}(\omega)$$ should tend towards a constant, ',...
@@ -66,11 +66,11 @@ for ii = 1:numHydro
         for j = 1:length(options.dofs)
             Y.(tmp2)(j,i,:) = squeeze(varargin{ii}.A(a+options.dofs(j),a+options.dofs(j),:));
         end
-        legendStrings{i,ii} = [varargin{ii}.body{i}];
+        legendStrings{i,ii} = [varargin{ii}.body{options.bodies(i)}];
     end
 end
 
-formatPlot(figHandle,titleString,subtitleStrings,xString,yString,X,Y,legendStrings,notes);
+formatPlot(figHandle,titleString,subtitleStrings,xString,yString,X,Y,legendStrings,notes,options);
 saveas(figHandle,'Added_Mass.png');
 
 end
