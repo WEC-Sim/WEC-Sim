@@ -570,7 +570,7 @@ classdef waveClass<handle
             % Used by postProcess for variable step solvers
             maxIt = length(timeseries);
             rampFunction = (1+cos(pi+pi*timeseries/rampTime))/2;
-            rampFunction(timeseries>rampTime) = 1;
+            rampFunction(timeseries>=rampTime) = 1;
 
             obj.waveAmpTime = zeros(maxIt,2);
             obj.waveAmpTime(:,1) = timeseries;
@@ -693,7 +693,7 @@ classdef waveClass<handle
             % Used by postProcess for variable time step 
             maxIt = length(timeseries);
             rampFunction = (1+cos(pi+pi*timeseries/rampTime))/2;
-            rampFunction(timeseries>rampTime) = 1;
+            rampFunction(timeseries>=rampTime) = 1;
 
             obj.waveAmpTime = zeros(maxIt,2);
             obj.waveAmpTime(:,1) = timeseries;
@@ -732,12 +732,8 @@ classdef waveClass<handle
         function waveElevUser(obj,rampTime,maxIt,data,time)
             % Calculate imported wave elevation time history
             % used by: :meth:`waveClass.setup`.
-            if rampTime>0
-                rampFunction = (1+cos(pi+pi*time/rampTime))/2;
-                rampFunction(time>rampTime) = 1;
-            else
-                rampFunction = ones(1,length(time));
-            end
+            rampFunction = (1+cos(pi+pi*time/rampTime))/2;
+            rampFunction(time>=rampTime) = 1;
             
             obj.waveAmpTime = zeros(maxIt+1,2);
             data_t = data(:,1)';                    % Data Time [s]
