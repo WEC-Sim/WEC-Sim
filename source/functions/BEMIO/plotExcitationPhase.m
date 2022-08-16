@@ -67,12 +67,14 @@ for ii = 1:numHydro
         a = (options.bodies(i)-1)*varargin{ii}.dof(options.bodies(1));
         for j = 1:length(options.dofs)
             for k = 1:length(options.directions)
-                Y.(tmp2)(j,i,:) = squeeze(varargin{ii}.ex_ph(a+options.dofs(j),options.directions(k),:));
+                tmp3 = strcat(tmp2,num2str(k));
+                Y.(tmp3)(j,i,:) = squeeze(varargin{ii}.ex_ph(a+options.dofs(j),options.directions(k),:));
             end
         end
         legendStrings{i,ii} = [varargin{ii}.body{options.bodies(i)}];
     end
 end
+Y
 
 formatPlot(figHandle,titleString,subtitleStrings,xString,yString,X,Y,legendStrings,notes,options)  
 saveas(figHandle,'Excitation_Phase.png');

@@ -3,7 +3,7 @@
 % RM3 (2 bodies)
 clear all;clc; close all
 
-load('hydros.mat')
+load('OSWEChydros.mat')
 
 %parser(WAMIT_hydro,AQWA_hydro, 'dofs', [3], 'directions', 90)
 
