@@ -349,7 +349,17 @@ file::
     waves = waveClass('elevationImport');
     waves.elevationFile ='<elevationFile>.mat';
 
-When using the ``elevationImport`` option, excitation forces are calculated via convolution with the excitation impulse response function. This solution method is not particularly robust and the quality of the results can depend heavily on the discretization and range of the BEM data. This is especially true for elevation data that contains a small number of frequencies (e.g., an approximation of regular wave). Further, a number of advanced features are not available for this solution method. Direct multiplication of the frequency components, as performed in the ``spectrumImport`` and ``irregular`` methods is a more robust and capable approach, but requires developing a '<spectrumFile>.mat' that is time-domain equivalent to '<elevationFile>.mat'. To assist with this workflow, the function ``ampSpectraForWS.m`` has been provided.
+When using the ``elevationImport`` option, excitation forces are calculated via 
+convolution with the excitation impulse response function. This solution method 
+is not particularly robust and the quality of the results can depend heavily on 
+the discretization and range of the BEM data. This is especially true for elevation 
+data that contains a small number of frequencies (e.g., an approximation of regular 
+wave). Further, a number of advanced features are not available for this solution 
+method. Direct multiplication of the frequency components, as performed in the 
+``spectrumImport`` and ``irregular`` methods is a more robust and capable approach, 
+but requires developing a '<spectrumFile>.mat' that is time-domain equivalent to '<elevationFile>.mat'. 
+For this workflow users are recommended to use `MHKiT <https://github.com/MHKiT-Software/MHKiT-MATLAB>`_,
+specifically the ``elevation_spectrum`` function in `MHKiT-MATLAB <https://mhkit-software.github.io/MHKiT/mhkit-matlab/api.wave.html?highlight=elevation_spectrum#resource>`_.
 
 .. _user-code-structure-body-class:
 
