@@ -37,7 +37,7 @@ classdef mooringClass<handle
             'damping',                                      zeros(6,6), ... % 
             'stiffness',                                    zeros(6,6), ... % 
             'preTension',                                   [0 0 0 0 0 0])  % (`structure`) Defines the mooring parameters. ``damping`` (`6x6 float matrix`) Matrix of damping coefficients, Default = ``zeros(6)``. ``stiffness`` (`6x6 float matrix`) Matrix of stiffness coefficients, Default = ``zeros(6)``. ``preTension`` (`1x6 float vector`) Array of pretension force in each dof, Default = ``[0 0 0 0 0 0]``.
-        moorDyn (1,1) {mustBeMember(moorDyn,[0 1])}         = 0             % (`integer`) Flag to indicate a MoorDyn block, 0 or 1. Default = ``0``
+        moorDyn (1,1) {mustBeInteger}                       = 0             % (`integer`) Flag to indicate a MoorDyn block, 0 or 1. Default = ``0``
         moorDynLines (1,1) {mustBeInteger, mustBeNonnegative} = 0           % (`integer`) Number of lines in MoorDyn. Default = ``0``
         moorDynNodes (1,:) {mustBeInteger, mustBeNonnegative} = []          % (`integer`) number of nodes for each line. Default = ``'NOT DEFINED'``
         name (1,:) {mustBeText}                             = 'NOT DEFINED' % (`string`) Name of the mooring. Default = ``'NOT DEFINED'``
@@ -75,6 +75,8 @@ classdef mooringClass<handle
             mustBeNumeric(obj.matrix.stiffness)
             assert(isequal(size(obj.matrix.preTension)==[1,6],[1,1]),'Input mooring.matrix.preTension should be 1x6')
             mustBeNumeric(obj.matrix.preTension)
+            % Check restricted/boolean variables
+            mustBeMember(obj.moorDyn,[0 1])
         end
 
         function setInitDisp(obj, relCoord, axisAngleList, addLinDisp)

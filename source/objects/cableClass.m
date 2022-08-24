@@ -45,7 +45,7 @@ classdef cableClass<handle
             'y',                                        [0, 1, 0], ...      %
             'x',                                        [], ...             %
             'rotationMatrix',                           [])                 % (`structure`) Defines the orientation axis of the pto. ``z`` (`1x3 float vector`) defines the direciton of the Z-coordinate of the pto, Default = [``0 0 1``]. ``y`` (`1x3 float vector`) defines the direciton of the Y-coordinate of the pto, Default = [``0 1 0``]. ``x`` (`1x3 float vector`) internally calculated vector defining the direction of the X-coordinate for the pto, Default = ``[]``. ``rotationMatrix`` (`3x3 float matrix`) internally calculated rotation matrix to go from standard coordinate orientation to the pto coordinate orientation, Default = ``[]``.
-        paraview (1,1) {mustBeMember(paraview,[0 1])}   = 1;                % (`integer`) Flag for visualisation in Paraview either 0 (no) or 1 (yes). Default = ``1`` since only called in paraview.
+        paraview (1,1) {mustBeInteger}                  = 1;                % (`integer`) Flag for visualisation in Paraview either 0 (no) or 1 (yes). Default = ``1`` since only called in paraview.
         preTension (1,1) {mustBeNumeric}                = 0                 % (`float`) Cable pretension (N).    
         quadDrag (1,1) struct                           = struct(...        % (`structure`) Defines the viscous quadratic drag forces.
             'area',                                     [0 0 0 0 0 0], ...  % 
@@ -144,6 +144,8 @@ classdef cableClass<handle
             assert(isequal(size(obj.viz.color)==[1,3],[1,1]),'Input cable.viz.color should be 1x3')
             mustBeNumeric(obj.viz.color)
             mustBeInRange(obj.viz.opacity,0,1)
+            % Check restricted/boolean variables
+            mustBeMember(obj.paraview,[0 1])
         end
         
         function setTransPTOLoc(obj)
