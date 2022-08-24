@@ -106,3 +106,17 @@ News Articles
 
 .. TODO    This list of publications only goes through 2017
 
+* June 2020 - NREL, `Wave Energy Modeling Tool Helps Design Tomorrow's Tech <https://www.nrel.gov/news/features/2020/wave-energy-converter-simulator.html>`_
+
+* May 2021 - Offshore Energy, `WEC-Sim to support NASA’s lunar test flight <https://www.offshore-energy.biz/wec-sim-to-support-nasas-lunar-test-flight/>`_
+
+* October 2021 - R&D World, `WEC-Sim wins 2021 R&D 100 Award for Software/Service <https://www.rdworldonline.com/rd-100-2021-winner/wec-sim/>`_
+
+* November 2021 - Testing & Expertise for Marine Energy (TEAMER), `WEC-Sim established as TEAMER test facility for numerical modeling <https://teamer-us.org/product/sandia-national-laboratories-wave-energy-converter-simulator-wec-sim/>`_
+
+* January 2022 -  `Award-Winning Simulation Software Helps NASA and Close to 100 Wave Energy Developers Improve Sea-Faring Technology <https://www.nrel.gov/news/program/2022/wave-energy-converter-simulator.html>`_
+
+* March 2022 - Department of Energy Water Power Technologies Office (DOE WPTO), `Open-Source Wave Energy WEC-Sim Software Receives R&D 100 Award and Contributes to Space Exploration <https://www.energy.gov/eere/water/articles/open-source-wave-energy-wec-sim-software-receives-rd-100-award-and-contributes>`_
+
+* July 2022 - R&D World, `R&D 100 winner of the day: WEC-Sim <https://www.rdworldonline.com/rd-100-winner-of-the-day-wec-sim/>`_
+
