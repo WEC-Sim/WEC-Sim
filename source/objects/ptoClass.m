@@ -32,7 +32,7 @@ classdef ptoClass<handle
         damping (1,:) {mustBeNonnegative}           = 0                     % (`float`) Linear PTO damping coefficient. Default = `0`.
         equilibriumPosition (1,1) {mustBeNumeric}   = 0                     % (`float`) Linear PTO equilibrium position, m or deg. Default = `0`.
         hardStops (1,1) struct                      = struct(...            % (`structure`) Defines the PTO hardstops
-            'upperLimitSpecify',                    'off',...               % (`char array`) Initialize upper stroke limit. ``  'on' or 'off' `` Default = ``off``. 
+            'upperLimitSpecify',                    'off',...               % (`string`) Initialize upper stroke limit. ``  'on' or 'off' `` Default = ``off``. 
             'upperLimitBound',                      1, ...                  % (`float`) Define upper stroke limit in m or deg. Only active if `lowerLimitSpecify` is `on` `` Default = ``1``. 
             'upperLimitStiffness',                  1e6, ...                % (`float`) Define upper limit spring stiffness, N/m or N-m/deg. `` Default = ``1e6``. 
             'upperLimitDamping',                    1e3, ...                % (`float`) Define upper limit damping, N/m/s or N-m/deg/s.  `` Default = ``1e3``.
@@ -45,7 +45,7 @@ classdef ptoClass<handle
         initial (1,1) struct                        = struct(...            % (`structure`) Defines the PTO initial displacement
             'displacement',                         [0 0 0])                % (`structure`) Defines the initial displacement of the pto. ``displacement`` (`3x1 float vector`) is defined as the initial displacement of the pto [m] in the following format [x y z], Default = [``0 0 0``].
         location (1,3) {mustBeNumeric}              = [999 999 999]         % (`3x1 float vector`) PTO location [m]. Defined in the following format [x y z]. Default = ``[999 999 999]``.
-        name (1,:) {mustBeText}                     = 'NOT DEFINED'         % (`char array`) Specifies the pto name. For ptos this is defined by the user, Default = ``NOT DEFINED``. 
+        name (1,:) {mustBeText}                     = 'NOT DEFINED'         % (`string`) Specifies the pto name. For ptos this is defined by the user, Default = ``NOT DEFINED``. 
         orientation (1,1) struct                    = struct(...            % (`structure`) Defines the PTO orientation
             'z',                                    [0, 0, 1], ...          % 
             'y',                                    [0, 1, 0], ...          % 
@@ -66,8 +66,8 @@ classdef ptoClass<handle
             %
             % Parameters
             % ------------
-            %     filename : char array
-            %         Character array specifying the name of the pto
+            %     filename : string
+            %         String specifying the name of the pto
             %
             % Returns
             % ------------
