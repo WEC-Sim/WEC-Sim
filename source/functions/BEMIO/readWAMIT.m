@@ -117,32 +117,6 @@ for n = 1:N
             end
             if T==2
                 hydro(F).A(tmp{1}(1),tmp{1}(2),hydro(F).Nf) = tmp{1}(3);  % Added mass
-                if exist('hydro(F).Ainf(tmp{1}(1),tmp{1}(2))') == 0
-                    hydro(F).Ainf(tmp{1}(1),tmp{1}(2)) = hydro(F).A(tmp{1}(1),tmp{1}(2),end);
-                    
-
-                    % Calculate the infinite frequency added mass
-ra_Ainf_temp = zeros(length(hydro.w),1);                                    %Initialize the variable
-[~,F] = size(hydro);                                                        %Last data set in
-if strcmp(hydro(F).code,'WAMIT')==0
-    for i = 1:sum(hydro.dof)
-        for j = 1:sum(hydro.dof)
-            ra_A            = squeeze(hydro.A(i,j,:));
-            ra_K            = squeeze(hydro.ra_K(i,j,:));
-            for k = 1:length(hydro.w)                                       %Calculate the infinite frequency added mass at each input frequency
-                ra_Ainf_temp(k,1)  = ra_A(k) + (1./hydro.w(k))*trapz(t,ra_K.*sin(hydro.w(k).*t.'));
-            end
-            hydro.Ainf(i,j) = mean(ra_Ainf_temp);                           %Take the mean across the vector of infinite frequency added mass 
-        end
-    end
-end
-
-hydro.ra_t = t;
-hydro.ra_w = w;
-close(p)
-
-
-                end
                 hydro(F).B(tmp{1}(1),tmp{1}(2),hydro(F).Nf) = tmp{1}(4);  % Radiation damping
             end
             i = i+1;
