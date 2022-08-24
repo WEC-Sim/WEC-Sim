@@ -35,8 +35,8 @@ e = 0;
 
 hydro(F).code   = 'AQWA';
 V182            = 0; % Set AqwaVersion flag "Version 18.2 or larger" to 0
-tmp             = strsplit(ah1Filename,{' ','\','.'});
-hydro(F).file   = tmp{length(tmp)-1};  % Base filename
+[~,tmp,~]       = fileparts(ah1Filename);
+hydro(F).file   = tmp;  % Base filename
 
 fileID          = fopen(ah1Filename);
 raw1            = textscan(fileID,'%[^\n\r]'); %Read/copy raw output, ah1
@@ -165,16 +165,20 @@ for ln = n:length(raw1)
                     tmp2 = str2num(raw1{ln+(k-1)*hydro(F).Nh*hydro(F).Nf*2+(j-1)*hydro(F).Nf*2+(i-1)*2+2});
                     ind = tmp1(1:3); tmp1(1:3)=[];
                     hydro(F).ex_ma(((ind(1)-1)*6+1):(ind(1)*6),ind(2),ind(3)) = tmp1; % Magnitude of exciting force
-                    hydro(F).ex_ph(((ind(1)-1)*6+1):(ind(1)*6),ind(2),ind(3)) = -tmp2*pi/180; % Phase of exciting force
+                    hydro(F).ex_ph(((ind(1)-1)*6+1):(ind(1)*6),ind(2),ind(3)) = wrapToPi(-pi-tmp2*pi/180); % Phase of exciting force    
+                    hydro(F).ex_ph(3,ind(2),ind(3))                           = wrapToPi(-tmp2(3)*pi/180); % Phase of exciting force for heave
                 end
             end
         end
+
         hydro(F).ex_re = hydro(F).ex_ma.*cos(hydro(F).ex_ph); % Real part of exciting force
         hydro(F).ex_im = hydro(F).ex_ma.*sin(hydro(F).ex_ph); % Imaginary part of exciting force
+        
     end
     d = floor(10*ln/N);  %Update waitbar every 10%, or slows computation time
     if (d>e) waitbar(ln/N); e = d; end
 end
+
 
 %%
 V2020       = [];

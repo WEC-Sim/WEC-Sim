@@ -90,7 +90,7 @@ master_doc = 'index'
 # -- Project information -----------------------------------------------------
 # General information about the project.
 project = 'WEC-Sim'
-copyright = '2021, National Renewable Energy Laboratory and National ' \
+copyright = '2022, National Renewable Energy Laboratory and National ' \
             'Technology & Engineering Solutions of Sandia, LLC (NTESS)'
 author = 'The WEC-Sim Developers'
 
@@ -106,7 +106,7 @@ version = 'v5.0'
 #
 # This is also used if you do content translation via gettext catalogs.
 # Usually you set "language" from the command line for these cases.
-language = None
+language = 'en'
 
 # There are two options for replacing |today|: either, you set today to some
 # non-false value, then it is used:
