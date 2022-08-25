@@ -29,26 +29,26 @@ classdef constraintClass<handle
     %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
     
     properties (SetAccess = 'public', GetAccess = 'public') %input file 
-        hardStops                   = struct(...                    % (`structure`) Defines the constraint hardstop
-          'upperLimitSpecify',          'off',...                   % (`string`) Initialize upper stroke limit. ``  'on' or 'off' `` Default = ``off``. 
-          'upperLimitBound',            1, ...                      % (`float`) Define upper stroke limit in m or deg. Only active if `lowerLimitSpecify` is `on` `` Default = ``1``. 
-          'upperLimitStiffness',        1e6, ...                    % (`float`) Define upper limit spring stiffness, N/m or N-m/deg. `` Default = ``1e6``. 
-          'upperLimitDamping',          1e3, ...                    % (`float`) Define upper limit damping, N/m/s or N-m/deg/s.  `` Default = ``1e3``.
-          'upperLimitTransitionRegionWidth', 1e-4, ...              % (`float`) Define upper limit transition region, over which spring and damping values ramp up to full values. Increase for stability. m or deg. ``Default = 1e-4``
-          'lowerLimitSpecify',          'off',...                   % Initialize lower stroke limit. ``  `on` or `off` `` Default = ``off``. 
-          'lowerLimitBound',            -1, ...                     % (`float`) Define lower stroke limit in m or deg. Only active if `lowerLimitSpecify` is `on` ``   `` Default = ``-1``. 
-          'lowerLimitStiffness',        1e6, ...                    % (`float`) Define lower limit spring stiffness, N/m or N-m/deg.  `` Default = ``1e6``.
-          'lowerLimitDamping',          1e3, ...                    % (`float`) Define lower limit damping, N/m/s or N-m/deg/s.  `` Default = ``1e3``.
-          'lowerLimitTransitionRegionWidth', 1e-4)                  % (`float`) Define lower limit transition region, over which spring and damping values ramp up to full values. Increase for stability. m or deg. ``Default = 1e-4``                                                                                    
-        initial                     = struct(...                    % 
-            'displacement',             [0 0 0])                    % (`structure`) Defines the initial displacement of the constraint. ``displacement`` (`3x1 float vector`) is defined as the initial displacement of the constraint [m] in the following format [x y z], Default = [``0 0 0``].
-        name                        = 'NOT DEFINED'                 % (`string`) Specifies the constraint name. For constraints this is defined by the user, Default = ``NOT DEFINED``.
-        location                    = [999 999 999]                 % (`3x1 float vector`) Constraint location [m]. Defined in the following format [x y z]. Default = ``[999 999 999]``.        
-        orientation                 = struct(...                    % (`structure`) Defines the orientation axis of the constraint.
-            'z',                        [0, 0, 1], ...              % 
-            'y',                        [0, 1, 0], ...              % 
-            'x',                        [], ...                     % 
-            'rotationMatrix',           [])                         % (`structure`) Defines the orientation axis of the constraint. ``z`` (`3x1 float vector`) defines the direciton of the Z-coordinate of the constraint, Default = [``0 0 1``]. ``y`` (`3x1 float vector`) defines the direciton of the Y-coordinate of the constraint, Default = [``0 1 0``]. ``x`` (`3x1 float vector`) internally calculated vector defining the direction of the X-coordinate for the constraint, Default = ``[]``. ``rotationMatrix`` (`3x3 float matrix`) internally calculated rotation matrix to go from standard coordinate orientation to the constraint coordinate orientation, Default = ``[]``.
+        hardStops (1,1) struct                  = struct(...                % (`structure`) Defines the constraint hardstop
+          'upperLimitSpecify',                  'off',...                   % (`string`) Initialize upper stroke limit. ``  'on' or 'off' `` Default = ``off``. 
+          'upperLimitBound',                    1, ...                      % (`float`) Define upper stroke limit in m or deg. Only active if `lowerLimitSpecify` is `on` `` Default = ``1``. 
+          'upperLimitStiffness',                1e6, ...                    % (`float`) Define upper limit spring stiffness, N/m or N-m/deg. `` Default = ``1e6``. 
+          'upperLimitDamping',                  1e3, ...                    % (`float`) Define upper limit damping, N/m/s or N-m/deg/s.  `` Default = ``1e3``.
+          'upperLimitTransitionRegionWidth',    1e-4, ...                   % (`float`) Define upper limit transition region, over which spring and damping values ramp up to full values. Increase for stability. m or deg. ``Default = 1e-4``
+          'lowerLimitSpecify',                  'off',...                   % Initialize lower stroke limit. ``  `on` or `off` `` Default = ``off``. 
+          'lowerLimitBound',                    -1, ...                     % (`float`) Define lower stroke limit in m or deg. Only active if `lowerLimitSpecify` is `on` ``   `` Default = ``-1``. 
+          'lowerLimitStiffness',                1e6, ...                    % (`float`) Define lower limit spring stiffness, N/m or N-m/deg.  `` Default = ``1e6``.
+          'lowerLimitDamping',                  1e3, ...                    % (`float`) Define lower limit damping, N/m/s or N-m/deg/s.  `` Default = ``1e3``.
+          'lowerLimitTransitionRegionWidth',    1e-4)                       % (`float`) Define lower limit transition region, over which spring and damping values ramp up to full values. Increase for stability. m or deg. ``Default = 1e-4``                                                                                    
+        initial (1,1) struct                    = struct(...                % 
+            'displacement',                     [0 0 0])                    % (`structure`) Defines the initial displacement of the constraint. ``displacement`` (`3x1 float vector`) is defined as the initial displacement of the constraint [m] in the following format [x y z], Default = [``0 0 0``].
+        location (1,3) {mustBeNumeric}          = [999 999 999]             % (`1x3 float vector`) Constraint location [m]. Defined in the following format [x y z]. Default = ``[999 999 999]``.        
+        name (1,:) {mustBeText}                 = 'NOT DEFINED'             % (`string`) Specifies the constraint name. For constraints this is defined by the user, Default = ``NOT DEFINED``.
+        orientation (1,1) struct                = struct(...                % (`structure`) Defines the orientation axis of the constraint.
+            'z',                                [0, 0, 1], ...              % 
+            'y',                                [0, 1, 0], ...              % 
+            'x',                                [], ...                     % 
+            'rotationMatrix',                   [])                         % (`structure`) Defines the orientation axis of the constraint. ``z`` (`1x3 float vector`) defines the direciton of the Z-coordinate of the constraint, Default = [``0 0 1``]. ``y`` (`1x3 float vector`) defines the direciton of the Y-coordinate of the constraint, Default = [``0 1 0``]. ``x`` (`3x1 float vector`) internally calculated vector defining the direction of the X-coordinate for the constraint, Default = ``[]``. ``rotationMatrix`` (`3x3 float matrix`) internally calculated rotation matrix to go from standard coordinate orientation to the constraint coordinate orientation, Default = ``[]``.
     end                             
     
     properties (SetAccess = 'private', GetAccess = 'public') %internal
@@ -74,6 +74,39 @@ classdef constraintClass<handle
                 obj.name = name;
             else
                 error('The constraint class number(s) in the wecSimInputFile must be specified in ascending order starting from 1. The constraintClass() function should be called first to initialize each constraint with a name.')
+            end
+        end
+
+        function checkInputs(obj)
+            % This method checks WEC-Sim user inputs and generates error messages if parameters are not properly defined. 
+            
+            % Check struct inputs:
+            % Hard Stops
+            mustBeMember(obj.hardStops.upperLimitSpecify,{'on','off'})
+            mustBeScalarOrEmpty(obj.hardStops.upperLimitBound)
+            mustBeScalarOrEmpty(obj.hardStops.upperLimitStiffness)
+            mustBeScalarOrEmpty(obj.hardStops.upperLimitDamping)
+            mustBeScalarOrEmpty(obj.hardStops.upperLimitTransitionRegionWidth)
+            mustBeMember(obj.hardStops.lowerLimitSpecify,{'on','off'})
+            mustBeScalarOrEmpty(obj.hardStops.lowerLimitBound)
+            mustBeScalarOrEmpty(obj.hardStops.lowerLimitStiffness)
+            mustBeScalarOrEmpty(obj.hardStops.lowerLimitDamping)
+            mustBeScalarOrEmpty(obj.hardStops.lowerLimitTransitionRegionWidth)
+            % Initial
+            assert(isequal(size(obj.initial.displacement)==[1,3],[1,1]),'Input constraint.initial.displacement should be 1x3')
+            mustBeNumeric(obj.initial.displacement)
+            % Orientation
+            assert(isequal(size(obj.orientation.z)==[1,3],[1,1]),'Input constraint.orientation.z should be 1x3')
+            mustBeNumeric(obj.orientation.z)
+            assert(isequal(size(obj.orientation.y)==[1,3],[1,1]),'Input constraint.orientation.y should be 1x3')
+            mustBeNumeric(obj.orientation.y)
+            if ~isempty(obj.orientation.x)
+                assert(isequal(size(obj.orientation.x)==[1,3],[1,1]),'Input constraint.orientation.x should be 1x3')
+                mustBeNumeric(obj.orientation.x)
+            end
+            if ~isempty(obj.orientation.rotationMatrix)
+                assert(isequal(size(obj.orientation.rotationMatrix)==[3,3],[1,1]),'Input constraint.orientation.rotationMatrix should be 3x3')
+                mustBeNumeric(obj.orientation.rotationMatrix)
             end
         end
         
