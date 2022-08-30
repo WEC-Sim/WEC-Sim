@@ -88,7 +88,7 @@ tmp = ncread(filename,'body_name')';
 for i=1:s1
     hydro(F).body{i} = erase(tmp(i,:), char(0)); % assign preliminary value to body names
 end
-hydro(F).body = split(hydro(F).body,'+');
+hydro(F).body = split(hydro(F).body{1},'+');
 
 % sort radiating dof into standard list if necessary
 rdofs = lower(string(ncread(filename,'radiating_dof')'));
@@ -118,7 +118,7 @@ end
 %% Reorder dofs if needed
 % check the ordering of the 'complex' dimension
 tmp = ncread(filename,'complex')';
-if tmp(1,:) == "re" && tmp(2,:) == "im"
+if tmp{1} == "re" && tmp{2} == "im"
     i_re = 1;
     i_im = 2;
 elseif tmp(1,:) == "im" && tmp(2,:) == "re"
@@ -154,7 +154,7 @@ for m = 1:hydro(F).Nb
         if hydro(F).Nb == 1
             fileID = fopen(fullfile(meshdir,'Hydrostatics.dat'));
         else
-            fileID = fopen([fullfile(meshdir,'Hydrostatics_'),num2str(m-1),'.dat']);
+            fileID = fopen([fullfile(meshdir,'Hydrostatics_'),num2str(m),'.dat']);
         end
         raw = textscan(fileID,'%[^\n\r]');  % Read Hydrostatics.dat
         raw = raw{:};
@@ -202,7 +202,7 @@ for m = 1:hydro(F).Nb
         if hydro(F).Nb == 1
             fileID = fopen(fullfile(meshdir,'KH.dat'));
         else
-            fileID = fopen([fullfile(meshdir,'KH_'),num2str(m-1),'.dat']);
+            fileID = fopen([fullfile(meshdir,'KH_'),num2str(m),'.dat']);
         end
         raw = textscan(fileID,'%[^\n\r]');
         raw = raw{:};
