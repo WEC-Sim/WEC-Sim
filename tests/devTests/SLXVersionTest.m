@@ -25,7 +25,7 @@ classdef SLXVersionTest < matlab.unittest.TestCase
           
         function paths = getSLXPaths
             
-            search = dir(fullfile('../..', '**', '*.slx'));
+            search = dir(fullfile('..', '..', 'source', '**', '*.slx'));
             nPaths = numel(search);
             paths = cell(1, nPaths);
             

@@ -39,6 +39,8 @@
 %
 %   'rotationTest'    Run rotation tests. Default is true.
 %
+%   'devTest'         Run developer focussed tests. Default is true.
+%
 %   Users should also run the appropriate applications tests when
 %   creating a PR into the WEC-Sim repository.
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
@@ -50,6 +52,7 @@ function results = wecSimTest(options)
         options.compilationTest = true
         options.runFromSimTest = true
         options.rotationTest = true
+        options.devTest = true
     end
     
     % Import MATLAB unittest
@@ -78,8 +81,9 @@ function results = wecSimTest(options)
         suites = [suites TestSuite.fromFile('tests/rotationTest.m')];
     end
     
-    % Add developer focused tests
-    suites = [suites TestSuite.fromFolder('tests/devTests')];
+    if options.devTest
+        suites = [suites TestSuite.fromFolder('tests/devTests')];
+    end
     
     % Create TestRunner
     runner = TestRunner.withTextOutput; % Contains TestRunProgressPlugin,
