@@ -495,7 +495,7 @@ any force or resistance to body motion outside of the reactive force required
 to prevent motion in a given DOF. At a high level, the constraint class 
 interacts with the rest of WEC-Sim as shown in the diagram below. Constraint 
 objects largely interact with other blocks through Simscape connections that 
-pass resistive forces to other bodies, constraints, ptos, etc. 
+pass resistive forces to other bodies, constraints, PTOs, etc. 
 
 .. figure:: /_static/images/code_structure/constraint_diagram.PNG
    :width: 750pt
