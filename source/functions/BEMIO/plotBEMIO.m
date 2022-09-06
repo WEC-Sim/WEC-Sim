@@ -1,15 +1,19 @@
-function plotBEMIO(varargin)
+function plotBEMIO(dofList,varargin)
 % Plots the added mass, radiation damping, radiation IRF, excitation force
 % magnitude, excitation force phase, and excitation IRF for each body in
-% the heave, surge and pitch degrees of freedom.
+% the given degrees of freedom.
 % 
 % Usage: 
 % ``plotBEMIO(hydro, hydro2, hydro3, ...)``
+% ``plotBEMIO([1 3 5], hydro, hydro2, hydro3, ...)``
 % 
 % See ``WEC-Sim\examples\BEMIO`` for additional examples.
 % 
 % Parameters
 % ----------
+%     dofList : [1 n] int vector (optional)
+%         Array of DOFs that will be plotted. Default = [1 3 5]
+%     
 %     varargin : struct(s)
 %         The hydroData structure(s) created by the other BEMIO functions.
 %         One or more may be input.
@@ -26,27 +30,40 @@ function plotBEMIO(varargin)
 %     If varargin is empty, varargin{:} gives passes nothing to the
 %     plotting functions.
 
+%% Set-up and error checking parameters
+% If dofList is not input by the users, it will be read as the first hydro
+% struct. In this case, add if to varargin to lump all the hydro structs
+% together. Defaults to [1 3 5].
+if isstruct(dofList)
+    varargin = {dofList varargin{:}};
+    dofList = [1 3 5];
+end
+
+if isempty(dofList)
+    dofList = [1 3 5];
+end
+
 if isempty(varargin)
-    error(['plotBEMIO: No arguments passed. Include one or more hydro ' ...
+    error(['No hydro data passed. Include one or more hydro ' ...
         'structures when calling: plotBEMIO(hydro1, hydro2, ...)']);
 end
 
 %% Added Mass
-plotAddedMass(varargin{:})
+plotAddedMass(dofList,varargin{:})
 
 %% Radiation Damping
-plotRadiationDamping(varargin{:})
+plotRadiationDamping(dofList,varargin{:})
 % 
 %% Radiation IRFs
-plotRadiationIRF(varargin{:})
+plotRadiationIRF(dofList,varargin{:})
 
 %% Excitation Force Magnitude
-plotExcitationMagnitude(varargin{:})
+plotExcitationMagnitude(dofList,varargin{:})
 
 %% Excitation Force Phase
-plotExcitationPhase(varargin{:})
+plotExcitationPhase(dofList,varargin{:})
 
 %% Excitation IRFs
-plotExcitationIRF(varargin{:})
+plotExcitationIRF(dofList,varargin{:})
 
 end

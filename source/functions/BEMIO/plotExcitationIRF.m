@@ -1,12 +1,16 @@
-function plotExcitationIRF(varargin)
+function plotExcitationIRF(dofList, varargin)
 % Plots the excitation IRF for each hydro structure's bodies in
-% the heave, surge and pitch degrees of freedom.
+% the given degrees of freedom.
 % 
 % Usage:
-% ``plotExcitationIRF(hydro, hydro2, hydro3, ...)``
+% ``plotExcitationIRF([1], hydro, hydro2, hydro3, ...)``
+% ``plotExcitationIRF([1 3 5], hydro, hydro2, hydro3, ...)``
 % 
 % Parameters
 % ----------
+%     dofList : [1 n] int vector
+%         Array of DOFs that will be plotted. Default = [1 3 5]
+%     
 %     varargin : struct(s)
 %         The hydroData structure(s) created by the other BEMIO functions.
 %         One or more may be input.
@@ -17,15 +21,19 @@ if isempty(varargin)
         'structures when calling: plotExcitationIRF(hydro1, hydro2, ...)']);
 end
 
+dofNames = {'Surge','Sway','Heave','Roll','Pitch','Yaw',...
+    'dof7','dof8','dof9','dof10','dof11','dof12'};
+
 B=1;  % Wave heading index
 figHandle = figure('Position',[950,100,975,521]);
 titleString = ['Normalized Excitation Impulse Response Functions:   ',...
     '$$\bar{K}_i(t) = {\frac{1}{2\pi}}\int_{-\infty}^{\infty}{\frac{X_i(\omega,\theta)e^{i{\omega}t}}{{\rho}g}}d\omega$$'];
-subtitleStrings = {'Surge','Heave','Pitch'};
-xString = {'$$t (s)$$','$$t (s)$$','$$t (s)$$'};
-yString = {['$$\bar{K}_1(t,\theta$$',' = ',num2str(varargin{1}.theta(B)),'$$^{\circ}$$)'],...
-    ['$$\bar{K}_3(t,\theta$$',' = ',num2str(varargin{1}.theta(B)),'$$^{\circ}$$)'],...
-    ['$$\bar{K}_5(t,\theta$$',' = ',num2str(varargin{1}.theta(B)),'$$^{\circ}$$)']};
+subtitleStrings = dofNames(dofList);
+for dof = dofList
+    xString{dof} = '$$t (s)$$';
+    yString{dof} = ['$$\bar{K}_',num2str(dof),'(t,\theta$$',' = ',...
+        num2str(varargin{1}.theta(B)),'$$^{\circ}$$)'];
+end
 
 notes = {'Notes:',...
     ['$$\bullet$$ The IRF should tend towards zero within the specified timeframe. ',...
@@ -44,9 +52,11 @@ for ii = 1:numHydro
     a = 0;
     for i = 1:numBod
         m = varargin{ii}.dof(i);
-        Y.(tmp2)(1,i,:) = squeeze(varargin{ii}.ex_K(a+1,B,:));
-        Y.(tmp2)(2,i,:) = squeeze(varargin{ii}.ex_K(a+3,B,:));
-        Y.(tmp2)(3,i,:) = squeeze(varargin{ii}.ex_K(a+5,B,:));
+        id = 0;
+        for d = dofList
+            id = id + 1;
+            Y.(tmp2)(id,i,:) = squeeze(varargin{ii}.ex_K(a+d,B,:));
+        end
         legendStrings{i,ii} = [varargin{ii}.body{i}];
         a = a + m;
     end
