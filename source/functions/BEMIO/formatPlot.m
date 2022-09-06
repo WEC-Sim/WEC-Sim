@@ -53,7 +53,13 @@ nBodiesTotal = 0;
 for iHydro = 1:nHydro
     tmp1 = strcat('X',num2str(iHydro));
     tmp2 = strcat('Y',num2str(iHydro));
-    [~,nBodies,~] = size(Y.(tmp2));
+    if isstruct(Y.(tmp2))
+        [~,nBodies,~] = size(Y.(tmp2).d1);
+        nDirections = length(fieldnames(Y.(tmp2)));
+    else
+        [~,nBodies,~] = size(Y.(tmp2));
+        nDirections = 0;
+    end
     nBodiesTotal = nBodiesTotal + nBodies;
 
     for iDofs = 1:length(options.dofs)
@@ -63,10 +69,18 @@ for iHydro = 1:nHydro
         hold('on');
         box('on');
         for iBody = 1:nBodies
-            plot(X.(tmp1),squeeze(Y.(tmp2)(iDofs,iBody,:)),'LineWidth',1)  
+            if nDirections>0
+                for iDir = 1:nDirections
+                    tmp3 = strcat('d',num2str(iDir));
+                    plot(X.(tmp1),squeeze(Y.(tmp2).(tmp3)(iDofs,iBody,:)),'LineWidth',1)  
+                end
+            else
+                plot(X.(tmp1),squeeze(Y.(tmp2)(iDofs,iBody,:)),'LineWidth',1)
+            end
         end
         if iHydro == nHydro
-            legend(legendStrings1D,'location','best','Box','off','Interpreter','none')
+            legendStrings1D = strrep(legendStrings1D,'_','\_');
+            legend(legendStrings1D,'location','best','Box','off','Interpreter','tex');
             title(subtitleStrings(options.dofs(iDofs)));
             xlabel(xString,'Interpreter','latex');
             ylabel(yString(iDofs),'Interpreter','latex');    

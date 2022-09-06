@@ -7,4 +7,4 @@ load('OSWEChydros.mat')
 
 %parser(WAMIT_hydro,AQWA_hydro, 'dofs', [3], 'directions', 90)
 
-plotExcitationPhase(WAMIT_hydro,CAP_hydro,'bodies',[2],'directions',[1:3])
+plotExcitationPhase(WAMIT_hydro,CAP_hydro,'bodies','all','directions',[1,2])

@@ -47,12 +47,12 @@ figHandle = figure('Position',[950,300,325*length(options.dofs),520]);
 titleString = ['Excitation Force Phase: $$\phi_i(\omega,\theta)$$'];
 subtitleStrings = {'Surge','Sway','Heave','Roll','Pitch','Yaw'};
 xString = {'$$\omega (rad/s)$$'};
-yString = {['$$\phi_1(\omega,\theta$$',' = ',num2str(varargin{1}.theta(options.directions(1))),'$$^{\circ})$$'],...
-    ['$$\phi_2(\omega,\theta$$',' = ',num2str(varargin{1}.theta(options.directions(1))),'$$^{\circ})$$'],...
-    ['$$\phi_3(\omega,\theta$$',' = ',num2str(varargin{1}.theta(options.directions(1))),'$$^{\circ}$$)'],...
-    ['$$\phi_4(\omega,\theta$$',' = ',num2str(varargin{1}.theta(options.directions(1))),'$$^{\circ})$$'],...
-    ['$$\phi_5(\omega,\theta$$',' = ',num2str(varargin{1}.theta(options.directions(1))),'$$^{\circ}$$)'],...
-    ['$$\phi_6(\omega,\theta$$',' = ',num2str(varargin{1}.theta(options.directions(1))),'$$^{\circ})$$']};
+yString = {['$$\phi_1(\omega,\theta$$)'],...
+    ['$$\phi_2(\omega,\theta$$)'],...
+    ['$$\phi_3(\omega,\theta$$)'],...
+    ['$$\phi_4(\omega,\theta$$)'],...
+    ['$$\phi_5(\omega,\theta$$)'],...
+    ['$$\phi_6(\omega,\theta$$)']};
 
 notes = {''};
 
@@ -63,18 +63,19 @@ for ii = 1:numHydro
     X.(tmp1) = varargin{ii}.w;
     tmp2 = strcat('Y',num2str(ii));
     a = 0;
+    b = 0;
     for i = 1:length(options.bodies)
         a = (options.bodies(i)-1)*varargin{ii}.dof(options.bodies(1));
         for j = 1:length(options.dofs)
             for k = 1:length(options.directions)
-                tmp3 = strcat(tmp2,num2str(k));
-                Y.(tmp3)(j,i,:) = squeeze(varargin{ii}.ex_ph(a+options.dofs(j),options.directions(k),:));
+                tmp3 = strcat('d',num2str(k));
+                Y.(tmp2).(tmp3)(j,i,:) = squeeze(varargin{ii}.ex_ph(a+options.dofs(j),options.directions(k),:));
+                legendStrings{b+k,ii} = [strcat(varargin{ii}.code(1:3),varargin{ii}.body{options.bodies(i)},' \theta =',num2str(varargin{1}.theta(options.directions(k))),'^{\circ}')];
             end
         end
-        legendStrings{i,ii} = [varargin{ii}.body{options.bodies(i)}];
+        b = b+k;
     end
 end
-Y
 
 formatPlot(figHandle,titleString,subtitleStrings,xString,yString,X,Y,legendStrings,notes,options)  
 saveas(figHandle,'Excitation_Phase.png');
