@@ -117,7 +117,7 @@ end
 
 %% Reorder dofs if needed
 % check the ordering of the 'complex' dimension
-tmp = ncread(filename,'complex')';
+tmp = string(ncread(filename,'complex')');
 if tmp{1} == "re" && tmp{2} == "im"
     i_re = 1;
     i_im = 2;
