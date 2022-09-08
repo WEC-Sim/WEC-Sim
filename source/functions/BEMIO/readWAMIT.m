@@ -113,7 +113,11 @@ for n = 1:N
                 A0(tmp{1}(1),tmp{1}(2)) = tmp{1}(3);  % Added mass, inf T (zero f)
             end
             if T==1
+                try
                 hydro(F).Ainf(tmp{1}(1),tmp{1}(2)) = tmp{1}(3);  % Added mass, zero T (inf f)
+                catch
+                hydro(F).Ainf(tmp{1}(1),tmp{1}(2)) = {};
+                end
             end
             if T==2
                 hydro(F).A(tmp{1}(1),tmp{1}(2),hydro(F).Nf) = tmp{1}(3);  % Added mass

@@ -58,7 +58,8 @@ end
 if strcmp(hydro(F).code,'WAMIT')==0  % normalize
     hydro(F).Khs = hydro(F).Khs/(hydro(F).g*hydro(F).rho);
     hydro(F).A = hydro(F).A/(hydro(F).rho);
-    hydro(F).Ainf = hydro(F).A(:,:,end); %If hydro(F).Ainf is missing, it shall be calculated with more accurate method by radiationIRF.m 
+%If hydro(F).Ainf is missing, 
+% it shall be calculated with more accurate method by radiationIRF.m 
     for i=1:length(hydro(F).w)
         hydro(F).B(:,:,i) = hydro(F).B(:,:,i)/(hydro(F).rho*hydro(F).w(i));
     end
