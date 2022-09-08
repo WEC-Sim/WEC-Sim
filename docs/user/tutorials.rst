@@ -244,14 +244,15 @@ The full-scale dimensions and mass properties of the OSWEC are shown below.
 +-------+-----------+------------------------+--------------------------------------+
 | Body  | Direction | Center of Gravity* (m) | Moment of Inertia Tensor (kg m^2)    |
 +=======+===========+========================+============+============+============+
-|       |    x      |  0                     | 1,850,000  | 0          | 0          |
+|       |    x      |  0                     | 0          | 0          | 0          |
 |       +-----------+------------------------+------------+------------+------------+
-| Flap  |    y      |  0                     | 0          | 0          | 0          |
+| Flap  |    y      |  0                     | 0          | 1,850,000  | 0          |
 |       +-----------+------------------------+------------+------------+------------+
 |       |    z      | -3.9                   | 0          | 0          | 0          |
 +-------+-----------+------------------------+------------+------------+------------+
 
-**\* The origin lies at the undisturbed free surface**
+.. Note::
+    The global frame lies at the undisturbed free surface. The body-fixed frame is at the center of gravity. Since the OSWEC is modeled as a pitch device, only the Iyy Moment of Inertia has been defined. 
 
 .. _user-tutorials-oswec-model-files:
 

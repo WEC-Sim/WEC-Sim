@@ -8,13 +8,16 @@ on:
   pull_request:
     branches:
       - master
+concurrency: 
+  group: ${{ github.workflow }}-${{ github.head_ref || github.run_id }}
+  cancel-in-progress: true
 jobs:
   run_tests:
     runs-on: ubuntu-latest
     strategy:
       fail-fast: false
       matrix:
-        release: [R2020b, R2021a, latest]
+        release: [R2020b, R2021a, R2021b, latest]
     name: MATLAB ${{ matrix.release }}
     steps:
       - name: Check out repository
