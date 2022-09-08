@@ -664,7 +664,7 @@ defined in the WEC-Sim input file, for example::
 Non-hydrodynamic bodies require the following properties to be defined::
 
     body(i).mass
-    body(i).intertia
+    body(i).inertia
     body(i).centerGravity
     body(i).volume
     
@@ -713,7 +713,7 @@ which are described in more detail in the forthcoming section. At a minimum, it
 is necessary to define:: 
 
     body(i).mass
-    body(i).intertia
+    body(i).inertia
     body(i).centerGravity
     body(i).volume
     
