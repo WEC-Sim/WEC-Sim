@@ -154,7 +154,7 @@ for m = 1:hydro(F).Nb
         if hydro(F).Nb == 1
             fileID = fopen(fullfile(meshdir,'Hydrostatics.dat'));
         else
-            fileID = fopen([fullfile(meshdir,'Hydrostatics_'),num2str(m),'.dat']);
+            fileID = fopen([fullfile(meshdir,'Hydrostatics_'),num2str(m-1),'.dat']);
         end
         raw = textscan(fileID,'%[^\n\r]');  % Read Hydrostatics.dat
         raw = raw{:};
@@ -202,7 +202,7 @@ for m = 1:hydro(F).Nb
         if hydro(F).Nb == 1
             fileID = fopen(fullfile(meshdir,'KH.dat'));
         else
-            fileID = fopen([fullfile(meshdir,'KH_'),num2str(m),'.dat']);
+            fileID = fopen([fullfile(meshdir,'KH_'),num2str(m-1),'.dat']);
         end
         raw = textscan(fileID,'%[^\n\r]');
         raw = raw{:};
