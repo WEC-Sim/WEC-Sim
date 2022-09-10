@@ -16,7 +16,7 @@ simu.dt = 0.01; 							% Simulation time-step [s]
 % % Regular Waves  
 waves = waveClass('regular');           % Initialize Wave Class and Specify Type                                 
 waves.height = 4;                     % Wave Height [m]
-waves.period = 14;                       % Wave Period [s]
+waves.period = 20;                       % Wave Period [s]
 
 % % Regular Waves with CIC
 % waves = waveClass('regularCIC');          % Initialize Wave Class and Specify Type                                 
@@ -82,6 +82,4 @@ pto(1).stiffness = 0;                           % PTO Stiffness [N/m]
 pto(1).damping = 0;                       % PTO Damping [N/(m/s)]
 pto(1).location = [0 0 0];                      % PTO Location [m]
 
-controlSim.latchTime = 2;
-controlSim.Kp = 1e4;
-controlSim.Ki = -1e4;
+controlSim.latchTime = 0;
