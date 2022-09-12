@@ -30,7 +30,7 @@ titleString = ['Normalized Radiation Impulse Response Functions: ',...
 id = 0
 for rIdx = 1:length(dofList(:,1))
         id = id+1;
-        xString{id} = '$$\omega (rad/s)$$';
+        xString{id} = '$$t (s)$$';
         yString{id} = ['$$\bar{K}_{',num2str(dofList(rIdx,1)),',',num2str(dofList(rIdx,2)),'}(t)$$'];
 end
 
