@@ -21,16 +21,15 @@ if isempty(varargin)
         'structures when calling: plotExcitationPhase(hydro1, hydro2, ...)']);
 end
 
-dofNames = {'Surge','Sway','Heave','Roll','Pitch','Yaw',...
-    'dof7','dof8','dof9','dof10','dof11','dof12'};
+subtitleStrings = getDofNames(dofList);
 
 B=1;  % Wave heading index
 figHandle = figure('Position',[950,300,975,521]);
 titleString = ['Excitation Force Phase: $$\phi_i(\omega,\theta)$$'];
-subtitleStrings = dofNames(dofList);
-for dof = dofList
+
+for dof = 1:length(dofList)
     xString{dof} = '$$\omega (rad/s)$$';
-    yString{dof} = ['$$\phi_',num2str(dof),'(\omega,\theta$$',' = ',...
+    yString{dof} = ['$$\phi_',num2str(dofList(dof)),'(\omega,\theta$$',' = ',...
         num2str(varargin{1}.theta(B)),'$$^{\circ})$$'];
 end
 
@@ -46,9 +45,9 @@ for ii = 1:numHydro
     for i = 1:numBod
         m = varargin{ii}.dof(i);
         id = 0;
-        for d = dofList
+        for d = 1:length(dofList)
             id = id + 1;
-            Y.(tmp2)(id,i,:) = squeeze(varargin{ii}.ex_ph(a+d,B,:));
+            Y.(tmp2)(id,i,:) = squeeze(varargin{ii}.ex_ph(a+dofList(d),B,:));
         end
         legendStrings{i,ii} = [varargin{ii}.body{i}];
         a = a + m;

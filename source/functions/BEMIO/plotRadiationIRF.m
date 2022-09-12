@@ -21,16 +21,17 @@ if isempty(varargin)
         'structures when calling: plotRadiationIRF(hydro1, hydro2, ...)']);
 end
 
-dofNames = {'Surge','Sway','Heave','Roll','Pitch','Yaw',...
-    'dof7','dof8','dof9','dof10','dof11','dof12'};
+subtitleStrings =  getDofNames(dofList);
 
 figHandle = figure('Position',[50,100,975,521]);
 titleString = ['Normalized Radiation Impulse Response Functions: ',...
     '$$\bar{K}_{i,j}(t) = {\frac{2}{\pi}}\int_0^{\infty}{\frac{B_{i,j}(\omega)}{\rho}}\cos({\omega}t)d\omega$$'];
-subtitleStrings = dofNames(dofList);
-for dof = dofList
-    xString{dof} = '$$t (s)$$';
-    yString{dof} = ['$$\bar{K}_{',num2str(dof),',',num2str(dof),'}(t)$$'];
+
+id = 0
+for rIdx = 1:length(dofList(:,1))
+        id = id+1;
+        xString{id} = '$$\omega (rad/s)$$';
+        yString{id} = ['$$\bar{K}_{',num2str(dofList(rIdx,1)),',',num2str(dofList(rIdx,2)),'}(t)$$'];
 end
 
 notes = {'Notes:',...
@@ -40,7 +41,7 @@ notes = {'Notes:',...
     ['$$\bullet$$ Only the IRFs for the surge, heave, and pitch DOFs are plotted ',...
     'here. If another DOF is significant to the system, that IRF should also ',...
     'be plotted and verified before proceeding.']};
-    
+    %ra_K
 numHydro = length(varargin);
 for ii = 1:numHydro
     numBod = varargin{ii}.Nb;
@@ -52,18 +53,18 @@ for ii = 1:numHydro
     for iBod = 1:numBod
         m = varargin{ii}.dof(iBod);
         id = 0;
-        for d = dofList
-            id = id + 1;
-            Y.(tmp2)(id,i,:) = squeeze(varargin{ii}.ra_K(a+d,a+d,:));
+        for rIdx = 1:length(dofList(:,1))
+                id = id + 1;
+                Y.(tmp2)(id,i,:) = squeeze(varargin{ii}.ra_K(dofList(rIdx,1),dofList(rIdx,1),:));
         end
         legendStrings{i,ii} = [varargin{ii}.body{iBod}];
         i = i+1;
         if isfield(varargin{ii},'ss_A')==1
-            id = 0;
-            for d = dofList
+           id = 0;
+        for rIdx = 1:length(dofList(:,1))
                 id = id + 1;
-                Y.(tmp2)(id,i,:) = squeeze(varargin{ii}.ss_K(a+d,a+d,:));
-            end
+                Y.(tmp2)(id,i,:) = squeeze(varargin{ii}.ss_K(dofList(rIdx,1),dofList(rIdx,2),:));
+        end
             legendStrings{i,ii} = [varargin{ii}.body{iBod},' (SS)'];
             i = i+1;
         end

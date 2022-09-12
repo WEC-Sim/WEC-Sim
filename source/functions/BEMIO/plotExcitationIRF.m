@@ -21,17 +21,16 @@ if isempty(varargin)
         'structures when calling: plotExcitationIRF(hydro1, hydro2, ...)']);
 end
 
-dofNames = {'Surge','Sway','Heave','Roll','Pitch','Yaw',...
-    'dof7','dof8','dof9','dof10','dof11','dof12'};
+subtitleStrings = getDofNames(dofList);
 
 B=1;  % Wave heading index
 figHandle = figure('Position',[950,100,975,521]);
 titleString = ['Normalized Excitation Impulse Response Functions:   ',...
     '$$\bar{K}_i(t) = {\frac{1}{2\pi}}\int_{-\infty}^{\infty}{\frac{X_i(\omega,\theta)e^{i{\omega}t}}{{\rho}g}}d\omega$$'];
-subtitleStrings = dofNames(dofList);
-for dof = dofList
+
+for dof = 1:length(dofList)
     xString{dof} = '$$t (s)$$';
-    yString{dof} = ['$$\bar{K}_',num2str(dof),'(t,\theta$$',' = ',...
+    yString{dof} = ['$$\bar{K}_',num2str(dofList(dof)),'(t,\theta$$',' = ',...
         num2str(varargin{1}.theta(B)),'$$^{\circ}$$)'];
 end
 
@@ -53,9 +52,9 @@ for ii = 1:numHydro
     for i = 1:numBod
         m = varargin{ii}.dof(i);
         id = 0;
-        for d = dofList
+        for d = 1:length(dofList)
             id = id + 1;
-            Y.(tmp2)(id,i,:) = squeeze(varargin{ii}.ex_K(a+d,B,:));
+            Y.(tmp2)(id,i,:) = squeeze(varargin{ii}.ex_K(a+dofList(d),B,:));
         end
         legendStrings{i,ii} = [varargin{ii}.body{i}];
         a = a + m;

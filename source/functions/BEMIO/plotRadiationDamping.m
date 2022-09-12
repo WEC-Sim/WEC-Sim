@@ -21,15 +21,15 @@ if isempty(varargin)
         'structures when calling: plotRadiationDamping(hydro1, hydro2, ...)']);
 end
 
-dofNames = {'Surge','Sway','Heave','Roll','Pitch','Yaw',...
-    'dof7','dof8','dof9','dof10','dof11','dof12'};
+subtitleStrings = getDofNames(dofList);
 
 figHandle = figure('Position',[50,300,975,521]);
 titleString = ['Normalized Radiation Damping: $$\bar{B}_{i,j}(\omega) = {\frac{B_{i,j}(\omega)}{\rho\omega}}$$'];
-subtitleStrings = dofNames(dofList);
-for dof = dofList
-    xString{dof} = '$$\omega (rad/s)$$';
-    yString{dof} = ['$$\bar{B}_{',num2str(dof),',',num2str(dof),'}(\omega)$$'];
+id = 0
+for rIdx = 1:length(dofList(:,1))
+   id = id+1;
+   xString{id} = '$$\omega (rad/s)$$';
+   yString{id} = ['$$\bar{B}_{',num2str(dofList(rIdx,1)),',',num2str(dofList(rIdx,2)),'}(\omega)$$'];
 end
 
 notes = {'Notes:',...
@@ -47,15 +47,14 @@ for ii=1:numHydro
     X.(tmp1) = varargin{ii}.w;
     tmp2 = strcat('Y',num2str(ii));
     a = 0;            
-    for i = 1:numBod
+    for i = 1:numBod    
         m = varargin{ii}.dof(i);
         id = 0;
-        for d = dofList
-            id = id + 1;
-            Y.(tmp2)(id,i,:) = squeeze(varargin{ii}.B(a+d,a+d,:));
+        for rIdx = 1:length(dofList(:,1))
+                id = id + 1;
+                Y.(tmp2)(id,i,:) = squeeze(varargin{ii}.B(dofList(rIdx,1),dofList(rIdx,2),:));
         end
         legendStrings{i,ii} = [varargin{ii}.body{i}];
-        a = a + m;
     end
 end
 
