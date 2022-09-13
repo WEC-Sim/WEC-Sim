@@ -1,12 +1,16 @@
-function plotExcitationMagnitude(varargin)
+function plotExcitationMagnitude(dofList, varargin)
 % Plots the excitation force magnitude for each hydro structure's bodies in
-% the heave, surge and pitch degrees of freedom.
+% the given degrees of freedom.
 % 
 % Usage:
-% ``plotExcitationMagnitude(hydro, hydro2, hydro3, ...)``
+% ``plotExcitationMagnitude([1], hydro, hydro2, hydro3, ...)``
+% ``plotExcitationMagnitude([1 3 5], hydro, hydro2, hydro3, ...)``
 % 
 % Parameters
 % ----------
+%     dofList : [1 n] int vector
+%         Array of DOFs that will be plotted. Default = [1 3 5]
+%     
 %     varargin : struct(s)
 %         The hydroData structure(s) created by the other BEMIO functions.
 %         One or more may be input.
@@ -17,15 +21,18 @@ if isempty(varargin)
         'structures when calling: plotExcitationMagnitude(hydro1, hydro2, ...)']);
 end
 
+subtitleStrings = getDofNames(dofList);
+
 B=1;  % Wave heading index
 figHandle = figure('Position',[950,500,975,521]);
 titleString = ['Normalized Excitation Force Magnitude: ',...
     '$$\bar{X_i}(\omega,\theta) = {\frac{X_i(\omega,\theta)}{{\rho}g}}$$'];
-subtitleString = {'Surge','Heave','Pitch'};
-xString = {'$$\omega (rad/s)$$','$$\omega (rad/s)$$','$$\omega (rad/s)$$'};
-yString = {['$$\bar{X_1}(\omega,\theta$$',' = ',num2str(varargin{1}.theta(B)),'$$^{\circ}$$)'],...
-    ['$$\bar{X_3}(\omega,\theta$$',' = ',num2str(varargin{1}.theta(B)),'$$^{\circ}$$)'],...
-    ['$$\bar{X_5}(\omega,\theta$$',' = ',num2str(varargin{1}.theta(B)),'$$^{\circ}$$)']};
+
+for dof = 1:length(dofList)
+    xString{dof} = '$$\omega (rad/s)$$';
+    yString{dof} = ['$$\bar{X_',num2str(dofList(dof)),'}(\omega,\theta$$',' = ',...
+        num2str(varargin{1}.theta(B)),'$$^{\circ}$$)'];
+end
 
 notes = {''};
 
@@ -38,15 +45,17 @@ for ii = 1:numHydro
     a = 0;
     for i = 1:numBod
         m = varargin{ii}.dof(i);
-        Y.(tmp2)(1,i,:) = squeeze(varargin{ii}.ex_ma(a+1,B,:));
-        Y.(tmp2)(2,i,:) = squeeze(varargin{ii}.ex_ma(a+3,B,:));
-        Y.(tmp2)(3,i,:) = squeeze(varargin{ii}.ex_ma(a+5,B,:));
+        id = 0;
+        for d = 1:length(dofList)
+            id = id + 1;
+            Y.(tmp2)(id,i,:) = squeeze(varargin{ii}.ex_ma(a+dofList(d),B,:));
+        end
         legendStrings{i,ii} = [varargin{ii}.body{i}];
         a = a + m;
     end
 end
 
-formatPlot(figHandle,titleString,subtitleString,xString,yString,X,Y,legendStrings,notes);
+formatPlot(figHandle,titleString,subtitleStrings,xString,yString,X,Y,legendStrings,notes);
 saveas(figHandle,'Excitation_Magnitude.png');
 
 end

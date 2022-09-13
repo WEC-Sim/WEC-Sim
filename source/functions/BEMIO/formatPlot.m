@@ -46,6 +46,16 @@ sgtitle(titleString,'Interpreter','latex','FontWeight','bold','FontSize',12);
 legendStrings1D = legendStrings(:);
 legendStrings1D = legendStrings1D(~cellfun(@isempty, legendStrings1D));
 
+% Subplot formatting
+nPlots = length(subtitleStrings);
+if nPlots < 4
+    isp1 = 1;
+    isp2 = nPlots;
+else
+    isp1 = 2;
+    isp2 = ceil(nPlots/2);
+end
+
 % Figures
 nHydro = length(fieldnames(X));
 nBodiesTotal = 0;
@@ -56,50 +66,26 @@ for iHydro = 1:nHydro
     nBodiesTotal = nBodiesTotal + nBodies;
 
     % Surge
-    subplot('Position',[0.0731 0.3645 0.2521 0.4720])
-    hold('on');
-    box('on');
-    for iBody = 1:nBodies
-        plot(X.(tmp1),squeeze(Y.(tmp2)(1,iBody,:)),'LineWidth',1)  
-    end
-    if iHydro == nHydro
-        legend(legendStrings1D,'location','best','Box','off','Interpreter','none')
-        title(subtitleStrings(1));
-        xlabel(xString(1),'Interpreter','latex');
-        ylabel(yString(1),'Interpreter','latex');    
-    end
-    
-    % Heave
-    subplot('Position',[0.3983 0.3645 0.2521 0.4720]);
-    hold('on');
-    box('on');
-    for iBody = 1:nBodies
-        plot(X.(tmp1),squeeze(Y.(tmp2)(2,iBody,:)),'LineWidth',1);  
-    end
-    if iHydro == nHydro
-        legend(legendStrings1D,'location','best','Box','off','Interpreter','none')
-        title(subtitleStrings(2));
-        xlabel(xString(2),'Interpreter','latex');
-        ylabel(yString(2),'Interpreter','latex');
+%     subplot('Position',[0.0731 0.3645 0.2521 0.4720])
+    for isp = 1:nPlots
+        subplot(isp1,isp2,isp);
+        hold('on');
+        box('on');
+        for iBody = 1:nBodies
+            plot(X.(tmp1),squeeze(Y.(tmp2)(isp,iBody,:)),'LineWidth',1)  
+        end
+        if iHydro == nHydro
+            legend(legendStrings1D,'location','best','Box','off','Interpreter','none')
+            title(subtitleStrings(isp));
+            xlabel(xString(isp),'Interpreter','latex');
+            ylabel(yString(isp),'Interpreter','latex');    
+        end
     end
     
-    % pitch
-    subplot('Position',[0.7235 0.3645 0.2521 0.4720]);
-    hold('on');
-    box('on');
-    for iBody = 1:nBodies
-        plot(X.(tmp1),squeeze(Y.(tmp2)(3,iBody,:)),'LineWidth',1);  
-    end
-    if iHydro == nHydro
-        legend(legendStrings1D,'location','best','Box','off','Interpreter','none')
-        title(subtitleStrings(3));
-        xlabel(xString(3),'Interpreter','latex');
-        ylabel(yString(3),'Interpreter','latex');
-    end
 end
 
 % Footer
-annotation(fig,'textbox',[0.0 0.0 1.0 0.2628],...
+annotation(fig,'textbox',[0.0 0.0 1.0 0.075],...
     'String',notes,...
     'Interpreter','latex',...
     'FitBoxToText','off',...

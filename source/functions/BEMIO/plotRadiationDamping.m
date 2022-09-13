@@ -1,12 +1,16 @@
-function plotRadiationDamping(varargin)
+function plotRadiationDamping(dofList, varargin)
 % Plots the radiation damping for each hydro structure's bodies in
-% the heave, surge and pitch degrees of freedom.
+% the given degrees of freedom.
 % 
 % Usage:
-% ``plotRadiationDamping(hydro, hydro2, hydro3, ...)``
+% ``plotRadiationDamping([1], hydro, hydro2, hydro3, ...)``
+% ``plotRadiationDamping([1 3 5], hydro, hydro2, hydro3, ...)``
 % 
 % Parameters
 % ----------
+%     dofList : [1 n] int vector
+%         Array of DOFs that will be plotted. Default = [1 3 5]
+% 
 %     varargin : struct(s)
 %         The hydroData structure(s) created by the other BEMIO functions.
 %         One or more may be input.
@@ -17,11 +21,16 @@ if isempty(varargin)
         'structures when calling: plotRadiationDamping(hydro1, hydro2, ...)']);
 end
 
+subtitleStrings = getDofNames(dofList);
+
 figHandle = figure('Position',[50,300,975,521]);
 titleString = ['Normalized Radiation Damping: $$\bar{B}_{i,j}(\omega) = {\frac{B_{i,j}(\omega)}{\rho\omega}}$$'];
-subtitleStrings = {'Surge','Heave','Pitch'};
-xString = {'$$\omega (rad/s)$$','$$\omega (rad/s)$$','$$\omega (rad/s)$$'};
-yString = {'$$\bar{B}_{1,1}(\omega)$$','$$\bar{B}_{3,3}(\omega)$$','$$\bar{B}_{5,5}(\omega)$$'};
+id = 0
+for rIdx = 1:length(dofList(:,1))
+   id = id+1;
+   xString{id} = '$$\omega (rad/s)$$';
+   yString{id} = ['$$\bar{B}_{',num2str(dofList(rIdx,1)),',',num2str(dofList(rIdx,2)),'}(\omega)$$'];
+end
 
 notes = {'Notes:',...
     ['$$\bullet$$ $$\bar{B}_{i,j}(\omega)$$ should tend towards zero within ',...
@@ -38,11 +47,13 @@ for ii=1:numHydro
     X.(tmp1) = varargin{ii}.w;
     tmp2 = strcat('Y',num2str(ii));
     a = 0;            
-    for i = 1:numBod
+    for i = 1:numBod    
         m = varargin{ii}.dof(i);
-        Y.(tmp2)(1,i,:) = squeeze(varargin{ii}.B(a+1,a+1,:));
-        Y.(tmp2)(2,i,:) = squeeze(varargin{ii}.B(a+3,a+3,:));
-        Y.(tmp2)(3,i,:) = squeeze(varargin{ii}.B(a+5,a+5,:));
+        id = 0;
+        for rIdx = 1:length(dofList(:,1))
+            id = id + 1;
+            Y.(tmp2)(id,i,:) = squeeze(varargin{ii}.B(a+dofList(rIdx,1),a+dofList(rIdx,2),:));
+        end
         legendStrings{i,ii} = [varargin{ii}.body{i}];
         a = a + m;
     end
