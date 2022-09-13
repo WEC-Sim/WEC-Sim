@@ -54,17 +54,17 @@ for ii = 1:numHydro
         m = varargin{ii}.dof(iBod);
         id = 0;
         for rIdx = 1:length(dofList(:,1))
-                id = id + 1;
-                Y.(tmp2)(id,i,:) = squeeze(varargin{ii}.ra_K(dofList(rIdx,1),dofList(rIdx,1),:));
+            id = id + 1;
+            Y.(tmp2)(id,i,:) = squeeze(varargin{ii}.ra_K(a+dofList(rIdx,1),a+dofList(rIdx,1),:));
         end
         legendStrings{i,ii} = [varargin{ii}.body{iBod}];
         i = i+1;
         if isfield(varargin{ii},'ss_A')==1
-           id = 0;
-        for rIdx = 1:length(dofList(:,1))
+            id = 0;
+            for rIdx = 1:length(dofList(:,1))
                 id = id + 1;
-                Y.(tmp2)(id,i,:) = squeeze(varargin{ii}.ss_K(dofList(rIdx,1),dofList(rIdx,2),:));
-        end
+                Y.(tmp2)(id,i,:) = squeeze(varargin{ii}.ss_K(a+dofList(rIdx,1),a+dofList(rIdx,2),:));
+            end
             legendStrings{i,ii} = [varargin{ii}.body{iBod},' (SS)'];
             i = i+1;
         end

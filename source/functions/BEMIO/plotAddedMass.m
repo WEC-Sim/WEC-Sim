@@ -24,11 +24,11 @@ subtitleStrings = getDofNames(dofList);
 
 figHandle = figure('Position',[50,500,975,521]);
 titleString = ['Normalized Added Mass: $$\bar{A}_{i,j}(\omega) = {\frac{A_{i,j}(\omega)}{\rho}}$$'];
-id = 0
+id = 0;
 for rIdx = 1:length(dofList(:,1))
-        id = id+1;
-        xString{id} = '$$\omega (rad/s)$$';
-        yString{id} = ['$$\bar{A}_{',num2str(dofList(rIdx,1)),',',num2str(dofList(rIdx,2)),'}(\omega)$$'];
+    id = id+1;
+    xString{id} = '$$\omega (rad/s)$$';
+    yString{id} = ['$$\bar{A}_{',num2str(dofList(rIdx,1)),',',num2str(dofList(rIdx,2)),'}(\omega)$$'];
 end
 
 notes = {'Notes:',...
@@ -44,15 +44,17 @@ for ii = 1:numHydro
     numBod = varargin{ii}.Nb;
     tmp1 = strcat('X',num2str(ii));
     X.(tmp1) = varargin{ii}.w;
-    tmp2 = strcat('Y',num2str(ii));        
+    tmp2 = strcat('Y',num2str(ii));
+    a = 0;
     for i = 1:numBod    
         m = varargin{ii}.dof(i);
         id = 0;
         for rIdx = 1:length(dofList(:,1))
-                id = id + 1;
-                Y.(tmp2)(id,i,:) = squeeze(varargin{ii}.A(dofList(rIdx,1),dofList(rIdx,2),:));
+            id = id + 1;
+            Y.(tmp2)(id,i,:) = squeeze(varargin{ii}.A(a+dofList(rIdx,1),a+dofList(rIdx,2),:));
         end
         legendStrings{i,ii} = [varargin{ii}.body{i}];
+        a = a + m;
     end
 end
 

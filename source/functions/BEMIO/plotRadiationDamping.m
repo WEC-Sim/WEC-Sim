@@ -51,10 +51,11 @@ for ii=1:numHydro
         m = varargin{ii}.dof(i);
         id = 0;
         for rIdx = 1:length(dofList(:,1))
-                id = id + 1;
-                Y.(tmp2)(id,i,:) = squeeze(varargin{ii}.B(dofList(rIdx,1),dofList(rIdx,2),:));
+            id = id + 1;
+            Y.(tmp2)(id,i,:) = squeeze(varargin{ii}.B(a+dofList(rIdx,1),a+dofList(rIdx,2),:));
         end
         legendStrings{i,ii} = [varargin{ii}.body{i}];
+        a = a + m;
     end
 end
 
