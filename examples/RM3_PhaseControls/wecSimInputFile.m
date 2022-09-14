@@ -82,6 +82,7 @@ pto(1).stiffness = 0;                           % PTO Stiffness [N/m]
 pto(1).damping = 0;                       % PTO Damping [N/(m/s)]
 pto(1).location = [0 0 0];                      % PTO Location [m]
 
-controlSim.latchTime = 2;
-controlSim.Kp = 1e4;
-controlSim.Ki = -1e4;
+controlSim(1) = controlSimClass('Latching');
+controlSim(1).latching.latchTime = 2;
+controlSim(1).latching.Kp = 1e4;
+controlSim(1).latching.Ki = -1e4;

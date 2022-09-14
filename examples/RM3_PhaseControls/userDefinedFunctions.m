@@ -26,11 +26,10 @@ output.plotForces(1,3);
 
 figure()
 plot(output.ptos.time,output.ptos.powerInternalMechanics(:,3))
-
-figure()
 disp('PTO Power:')
 mean(output.ptos.powerInternalMechanics(:,3))
 
+figure()
 plot(controlPower)
 disp('Controller Power:')
 mean(controlPower)

@@ -1,6 +1,6 @@
 %% Simulation Data
 simu = simulationClass();               % Initialize Simulation Class
-simu.simMechanicsFile = 'RM3_PhaseCancel.slx';      % Specify Simulink Model File
+simu.simMechanicsFile = 'RM3Declutch.slx';      % Specify Simulink Model File
 simu.mode = 'normal';                   % Specify Simulation Mode ('normal','accelerator','rapid-accelerator')
 simu.explorer = 'on';                   % Turn SimMechanics Explorer (on/off)
 simu.startTime = 0;                     % Simulation Start Time [s]
@@ -15,8 +15,8 @@ simu.dt = 0.01; 							% Simulation time-step [s]
 
 % % Regular Waves  
 waves = waveClass('regular');           % Initialize Wave Class and Specify Type                                 
-waves.height = 4;                     % Wave Height [m]
-waves.period = 20;                       % Wave Period [s]
+waves.height = 2;                     % Wave Height [m]
+waves.period = 6;                       % Wave Period [s]
 
 % % Regular Waves with CIC
 % waves = waveClass('regularCIC');          % Initialize Wave Class and Specify Type                                 
@@ -82,4 +82,7 @@ pto(1).stiffness = 0;                           % PTO Stiffness [N/m]
 pto(1).damping = 0;                       % PTO Damping [N/(m/s)]
 pto(1).location = [0 0 0];                      % PTO Location [m]
 
-controlSim.latchTime = 0;
+controlSim(1) = controlSimClass('Declutching');
+controlSim(1).declutching.declutchTime = 1;
+controlSim(1).declutching.Kp = 1e6;
+controlSim(1).declutching.Ki = 1e6;
