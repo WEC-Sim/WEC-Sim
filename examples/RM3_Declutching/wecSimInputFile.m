@@ -82,7 +82,7 @@ pto(1).stiffness = 0;                           % PTO Stiffness [N/m]
 pto(1).damping = 0;                       % PTO Damping [N/(m/s)]
 pto(1).location = [0 0 0];                      % PTO Location [m]
 
-controlSim(1) = controlSimClass('Declutching');
-controlSim(1).declutching.declutchTime = 1;
-controlSim(1).declutching.Kp = 1e6;
-controlSim(1).declutching.Ki = 1e6;
+controller(1) = controllerClass('Declutching');
+controller(1).declutching.declutchTime = 0;
+controller(1).declutching.Kp = 1e6;
+controller(1).declutching.Ki = 1e6;

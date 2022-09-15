@@ -17,14 +17,14 @@
 % limitations under the License.
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
-classdef controlSimClass<handle
+classdef controllerClass<handle
     % This class contains PTO-Sim parameters and settings
     properties
-        declutching (1,1) struct                = struct(...                % Proportional-Integral Controller Properties
+        declutching (1,1) struct                = struct(...                % Declutching Controller Properties
             'declutchTime',                     0,...                       % (`float`) Amount of time device is latched for each half period of motion
             'Kp',                               0,...                       % (`float`) Proportional gain (damping)
             'Ki',                               0)                          % (`float`) Integral gain (stiffness)
-        latching (1,1) struct                   = struct(...                % Proportional-Integral Controller Properties
+        latching (1,1) struct                   = struct(...                % Latching Controller Properties
             'latchTime',                        0,...                       % (`float`) Amount of time device is latched for each half period of motion
             'Kp',                               0,...                       % (`float`) Proportional gain (damping)
             'Ki',                               0)                          % (`float`) Integral gain (stiffness)
@@ -34,30 +34,19 @@ classdef controlSimClass<handle
         proportionalIntegral (1,1) struct       = struct(...                % Proportional-Integral Controller Properties
             'Kp',                               0,...                       % (`float`) Proportional gain (damping)
             'Ki',                               0)                          % (`float`) Integral gain (stiffness)
-        
-
     end
     
-    properties (SetAccess = 'public', GetAccess = 'public')%internal
-%         type: This property must be defined to specify the
-%         type of block that will be used. The type value of each block is
-%         presented below:
-%         Type = 1 ---- Proportional Controller
-%         Type = 2 ---- Proportional-Integral Controller
-%         Type = 3 ---- Latching Controller
-%         Type = 4 ---- Declutching Controller
-%         Type = 5 ---- Model Predictive Controller
-        type    = []                                                        % Controller Block type
+    properties (SetAccess = 'public', GetAccess = 'public') %internal
         number  = []                                                        % Controller number
     end
     
     methods
-        function obj        = controlSimClass(name)
+        function obj        = controllerClass(name)
             % Initilization function
             if exist('name','var')
                 obj.name = name;
             else
-                error('The controlSim class number(s) in the wecSimInputFile must be specified in ascending order starting from 1. The controlSimClass() function should be called first to initialize each ptoSim block with a name.')
+                error('The controller class number(s) in the wecSimInputFile must be specified in ascending order starting from 1. The controllerClass() function should be called first to initialize each ptoSim block with a name.')
             end
         end
 
