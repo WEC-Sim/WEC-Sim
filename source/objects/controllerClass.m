@@ -57,5 +57,6 @@ classdef controllerClass<handle
             % Electric Generator
             mustBeScalarOrEmpty(obj.proportional.Kp)
         end
+
     end
 end

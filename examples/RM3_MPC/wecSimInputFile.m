@@ -1,6 +1,6 @@
 %% Simulation Data
 simu = simulationClass();               % Initialize Simulation Class
-simu.simMechanicsFile = 'RM3_PhaseCancel.slx';      % Specify Simulink Model File
+simu.simMechanicsFile = ['floatMPC.slx'];      % Specify Simulink Model File
 simu.mode = 'normal';                   % Specify Simulation Mode ('normal','accelerator','rapid-accelerator')
 simu.explorer = 'on';                   % Turn SimMechanics Explorer (on/off)
 simu.startTime = 0;                     % Simulation Start Time [s]
@@ -82,6 +82,8 @@ pto(1).stiffness = 0;                           % PTO Stiffness [N/m]
 pto(1).damping = 0;                       % PTO Damping [N/(m/s)]
 pto(1).location = [0 0 0];                      % PTO Location [m]
 
-controlSim.latchTime = 2;
-controlSim.Kp = 1e4;
-controlSim.Ki = -1e4;
+controller(1) = controllerClass('PI');
+controller(1).proportionalIntegral.Kp = 1e4;
+controller(1).proportionalIntegral.Ki = -1e4;
+
+initializeMPC
