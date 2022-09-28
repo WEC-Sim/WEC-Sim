@@ -405,12 +405,12 @@ important distinctions.
 |Hydrodynamic Body        |``body(i)=bodyClass('<bemData>.h5')``        |
 |                         |``body(i).geometryFile = '<geomFile>.stl'``  |
 |                         |``body(i).mass``                             |
-|                         |``body(i).intertia``                         |
+|                         |``body(i).inertia``                          |
 +-------------------------+---------------------------------------------+
 |Drag Body                |``body(i)=bodyClass('')``                    |
 |                         |``body(i).geometryFile = '<geomFile>.stl'``  |
 |                         |``body(i).mass``                             |
-|                         |``body(i).intertia``                         |
+|                         |``body(i).inertia``                          |
 |                         |``body(i).centerGravity``                    |
 |                         |``body(i).centerBuoyancy``                   |
 |                         |``body(i).volume``                           |
@@ -419,7 +419,7 @@ important distinctions.
 |Nonhydrodynamic Body     |``body(i)=bodyClass('')``                    |
 |                         |``body(i).geometryFile = '<geomFile>.stl'``  |
 |                         |``body(i).mass``                             |
-|                         |``body(i).intertia``                         |
+|                         |``body(i).inertia``                          |
 |                         |``body(i).centerGravity``                    |
 |                         |``body(i).centerBuoyancy``                   |
 |                         |``body(i).volume``                           |
@@ -428,7 +428,7 @@ important distinctions.
 |Flexible Body            |``body(i)=bodyClass('<bemData>.h5')``        |
 |                         |``body(i).geometryFile = '<geomFile>.stl'``  |
 |                         |``body(i).mass``                             |
-|                         |``body(i).intertia``                         |
+|                         |``body(i).inertia``                          |
 +-------------------------+---------------------------------------------+
 
 Users may specify other body class properties using the ``body`` object for 
