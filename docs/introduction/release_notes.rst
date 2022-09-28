@@ -3,6 +3,106 @@
 Release Notes
 =============
 
+`WEC-Sim v5.0.1 <https://github.com/WEC-Sim/WEC-Sim/releases/tag/v5.0.1>`_
+--------------------------------------------------------------------------------
+
+**New Features**
+
+This is a bug fix release. New features since the previous release are not included.
+
+**Bug Fixes**
+
+* Fix saveViz by @jtgrasb in `#866 <https://github.com/WEC-Sim/WEC-Sim/pull/866>`_
+
+* Fix typo in docs. by @mancellin in `#898 <https://github.com/WEC-Sim/WEC-Sim/pull/898>`_
+
+* Update documentation tutorials to fix OSWEC inertia by @jtgrasb in `#894 <https://github.com/WEC-Sim/WEC-Sim/pull/894>`_
+
+* CI: Split docs jobs | Add color to docs logs | Cancel runs on new push | Add 2021b to MATLAB versions by @H0R5E in `#862 <https://github.com/WEC-Sim/WEC-Sim/pull/862>`_
+
+* Mac path fixes and make outputDir public by @ahmedmetin in `#874 <https://github.com/WEC-Sim/WEC-Sim/pull/874>`_
+
+* wecSimPCT Fix (Master) by @yuyihsiang in `#870 <https://github.com/WEC-Sim/WEC-Sim/pull/870>`_
+
+* Fix image bug in PTO-Sim in Library Browser by @jleonqu in `#896 <https://github.com/WEC-Sim/WEC-Sim/pull/896>`_
+
+* update to v5.0 citation by @akeeste in `#911 <https://github.com/WEC-Sim/WEC-Sim/pull/911>`_
+
+* fix non-linear hydro by @dforbush2 in `#910 <https://github.com/WEC-Sim/WEC-Sim/pull/910>`_
+
+* Pull dev bugfixes into master by @akeeste @jtgrasb in `#950 <https://github.com/WEC-Sim/WEC-Sim/pull/950>`_ (includes `#929 <https://github.com/WEC-Sim/WEC-Sim/pull/929>`_ `#917 <https://github.com/WEC-Sim/WEC-Sim/pull/917>`_ `#884 <https://github.com/WEC-Sim/WEC-Sim/pull/884>`_ by @jtgrasb)
+
+**New Contributors**
+
+* @mancellin made their first contribution in `#898 <https://github.com/WEC-Sim/WEC-Sim/pull/898>`_
+
+* @ahmedmetin made their first contribution in `#874 <https://github.com/WEC-Sim/WEC-Sim/pull/874>`_
+
+**Issues and Pull Requests**
+
+* \>52 issues closed since v5.0
+
+* \>23 PRs merged since v5.0
+
+`**Full Changelog** <https://github.com/WEC-Sim/WEC-Sim/compare/v5.0...v5.0.1>`_
+
+.. image:: https://zenodo.org/badge/DOI/10.5281/zenodo.7121186.svg
+   :target: https://doi.org/10.5281/zenodo.7121186
+
+
+.. _intro-citation:
+
+Citing WEC-Sim
+------------------------
+
+To cite WEC-Sim, please use the citation for WEC-Sim software release and/or cite the following WEC-Sim publication.
+
+
+`WEC-Sim v5.0.1 <https://github.com/WEC-Sim/WEC-Sim/releases/tag/v5.0.1>`_
+^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+.. NOTE: this citation needs to be revised for each release
+
+[1] Kelley Ruehl, David Ogden, Yi-Hsiang Yu, Adam Keester, Nathan Tom, Dominic Forbush, Jorge Leon, Jeff Grasberger, and Sal Husain. (2022, September), WEC-Sim (Version v5.0.1), DOI 10.5281/zenodo.7121186.
+
+.. NOTE: this citation needs to be revised for each release, but the url is always for the latest release and does not need to be updated. doi needs to be updated
+
+.. code-block:: none
+
+	@software{wecsim,
+	  author       = {Kelley Ruehl, 
+                          David Ogden, 
+                          Yi-Hsiang Yu, 
+                          Adam Keester, 
+                          Nathan Tom, 
+                          Dominic Forbush, 
+                          Jorge Leon, 
+                          Jeff Grasberger, 
+                          Sal Husain},
+	  title        = {WEC-Sim v5.0.1},
+	  month        = September,
+	  year         = 2022,
+	  publisher    = {Zenodo},
+	  version      = {v5.0.1},
+	  doi          = {10.5281/zenodo.7121186},
+	  url          = {https://zenodo.org/badge/latestdoi/20451353}
+	}
+    
+
+.. NOTE: this doi badge is always for the lastest release, it does not need to be updated 
+
+.. image:: https://zenodo.org/badge/20451353.svg
+   :target: https://zenodo.org/badge/latestdoi/20451353
+
+
+Publication
+^^^^^^^^^^^^^^^^^^^^^^^^^^^
+[1] D. Ogden, K. Ruehl, Y.H. Yu, A. Keester, D. Forbush, J. Leon, N. Tom, "Review of WEC-Sim Development and Applications" in Proceedings of the 14th European Wave and Tidal Energy Conference, EWTEC 2021, Plymouth, UK, 2021. 
+
+
+
+Previous Releases
+------------------
+
 `WEC-Sim v5.0 <https://github.com/WEC-Sim/WEC-Sim/releases/tag/v5.0>`_
 --------------------------------------------------------------------------------
   
@@ -77,62 +177,6 @@ Release Notes
    :target: https://doi.org/10.5281/zenodo.6555137
    
 
-
-
-
-.. _intro-citation:
-
-Citing WEC-Sim
-------------------------
-
-To cite WEC-Sim, please use the citation for WEC-Sim software release and/or cite the following WEC-Sim publication.
-
-
-`WEC-Sim v5.0 <https://github.com/WEC-Sim/WEC-Sim/releases/tag/v5.0>`_
-^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
-.. NOTE: this citation needs to be revised for each release
-
-[1] Kelley Ruehl, David Ogden, Yi-Hsiang Yu, Adam Keester, Nathan Tom, Dominic Forbush, Jorge Leon, Jeff Grasberger, and Sal Husain. (2022, May), WEC-Sim (Version v5.0), DOI 10.5281/zenodo.6555137.
-
-.. NOTE: this citation needs to be revised for each release, but the url is always for the latest release and does not need to be updated
-
-.. code-block:: none
-
-	@software{wecsim,
-	  author       = {Kelley Ruehl, 
-                          David Ogden, 
-                          Yi-Hsiang Yu, 
-                          Adam Keester, 
-                          Nathan Tom, 
-                          Dominic Forbush, 
-                          Jorge Leon, 
-                          Jeff Grasberger, 
-                          Sal Husain},
-	  title        = {WEC-Sim v5.0},
-	  month        = May,
-	  year         = 2022,
-	  publisher    = {Zenodo},
-	  version      = {v5.0},
-	  doi          = {10.5281/zenodo.6555137},
-	  url          = {https://zenodo.org/badge/latestdoi/20451353}
-	}
-    
-
-.. NOTE: this doi badge is always for the lastest release, it does not need to be updated 
-
-.. image:: https://zenodo.org/badge/20451353.svg
-   :target: https://zenodo.org/badge/latestdoi/20451353
-
-
-Publication
-^^^^^^^^^^^^^^^^^^^^^^^^^^^
-[1] D. Ogden, K. Ruehl, Y.H. Yu, A. Keester, D. Forbush, J. Leon, N. Tom, "Review of WEC-Sim Development and Applications" in Proceedings of the 14th European Wave and Tidal Energy Conference, EWTEC 2021, Plymouth, UK, 2021. 
-
-
-
-
-Previous Releases
-------------------
 
 `WEC-Sim v4.4 <https://github.com/WEC-Sim/WEC-Sim/releases/tag/v4.4>`_
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
