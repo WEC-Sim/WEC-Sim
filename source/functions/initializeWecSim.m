@@ -205,6 +205,17 @@ if exist('ptoSim','var') == 1
     end; clear ii
 end
 
+% Controller: read input, count
+if exist('controller','var') == 1
+    simu.numControllers = length(controller(1,:));
+    for ii = 1:simu.numControllers
+        controller(ii).checkInputs();
+        if controller(ii).MPC == 1
+            controller(ii).setUpMPC(body,simu.rho,simu.gravity);
+        end
+        controller(ii).number = ii;
+    end; clear ii
+end
 
 toc
 

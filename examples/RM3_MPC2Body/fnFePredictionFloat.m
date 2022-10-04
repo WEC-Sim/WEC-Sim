@@ -1,4 +1,4 @@
-function predictFe(block)
+function fnFePredictionFloat(block)
 %% Purpose: Prediction excitation force Fe from previous data
 
 % Call the Setup Function
@@ -107,7 +107,6 @@ for i = 1:wec.numWECs
         %X(h+1,:) = fliplr(pastAndCurrentFe(end-h-prediction.order:end-h-1)'); % X Matrix: Ho-1 rows, prediction.order columns
     end
     
-
     alphas = regress(Y,X);
 
     %% FE PREDICTION using single set of alpha values

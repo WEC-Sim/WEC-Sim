@@ -6,10 +6,11 @@ global prediction;
 global plant;
 global count;
 
+
 %% WEC Variables
 wec.numWECs = 1;                  % number of WECs (i.e., RM3 has a float and spar but it is one WEC.)
 wec.dt = simu.dt;
-wec.yLen = 3;                     % yLen is the output length. For example, y = [z_dot_float, z_float, z_dot_spar, z_spar, Fpto]';
+wec.yLen = 5;                     % yLen is the output length. For example, y = [z_dot_float, z_float, z_dot_spar, z_spar, Fpto]';
 wec.Slack = 2;                    % u_slack and y_slack
 
 
@@ -42,29 +43,40 @@ prediction.SimTimeToFullBuffer = (prediction.order+prediction.Ho)*mpc.Ts/wec.dt;
 
 
 %% Curve Fitting
-body(1).setNumber(1);
-tmp_hydroData = readBEMIOH5(body(1).h5File, body(1).number, body(1).meanDrift);
-body(1).loadHydroData(tmp_hydroData);
+load wecData
 
-wec.AFloat = body.hydroData.hydro_coeffs.added_mass.all(3,3,:)*simu.rho;
-wec.AinfFloat = body.hydroData.hydro_coeffs.added_mass.inf_freq(3,3)*simu.rho;
-wec.mFloat = body.hydroData.properties.volume*simu.rho*simu.gravity;
-wec.kFloat = body.hydroData.hydro_coeffs.linear_restoring_stiffness(3,3)*simu.rho*simu.gravity; 
+wec.A12Float=wecData.A12Float;
+wec.A21Spar = wecData.A21Spar;
+wec.AFloat = wecData.AFloat;
+wec.Ainf12Float = wecData.Ainf12Float;
+wec.Ainf21Spar = wecData.Ainf21Spar;
+wec.AinfFloat = wecData.AinfFloat;
+wec.AinfSpar = wecData.AinfSpar;
+wec.ASpar = wecData.ASpar;
+wec.mFloat = wecData.mFloat;
+wec.kFloat = wecData.kFloat; 
+wec.kSpar = wecData.kSpar;
+wec.mSpar = wecData.mSpar;
+
+clear wecData
+
 
 %% Pre Plant Model
 load coeff
-%[preDelta,plant] = fnMakePlantAndPreDeltaModel(wec,coeff);
+[preDelta,plant] = fnMakePlantAndPreDeltaModel(wec,coeff);
 
 clear coeff
 
 
 %% Plant Model
-%plant.sys_c = ss(plant.A,[plant.Bu plant.Bv],plant.C,[plant.Du plant.Dv]); % still continuous
+plant.sys_c = ss(plant.A,[plant.Bu plant.Bv],plant.C,[plant.Du plant.Dv]); % still continuous
 
 
 %% MPC
-%[mpc.Sx,mpc.Su,mpc.Sv, mpc.Q, mpc.R] = fnMakePredictiveModel(plant.sys_c, mpc, wec); % Discretizes CT SS object and computes Sx, Su, & Sv. Wrapped up under shared global mpc for ease of access in L2 simulink block
-%mpc.H = mpc.Su'*mpc.Q*mpc.Su+mpc.R;
+[mpc.Sx,mpc.Su,mpc.Sv, mpc.Q, mpc.R] = fnMakePredictiveModel(plant.sys_c, mpc, wec); % Discretizes CT SS object and computes Sx, Su, & Sv. Wrapped up under shared global mpc for ease of access in L2 simulink block
+mpc.H = mpc.Su'*mpc.Q*mpc.Su+mpc.R;
+
+disp(mpc.H)
 
 
 %% Hard and Soft Contraints Option

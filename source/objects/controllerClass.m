@@ -28,12 +28,38 @@ classdef controllerClass<handle
             'latchTime',                        0,...                       % (`float`) Amount of time device is latched for each half period of motion
             'Kp',                               0,...                       % (`float`) Proportional gain (damping)
             'Ki',                               0)                          % (`float`) Integral gain (stiffness)
+        modelPredictiveControl (1,1) struct       = struct(...                % Proportional-Integral Controller Properties
+            'numWECS',                          1,...                       % (`float`) Number of WECs (not number of bodies)
+            'outputLength',                     5,...                          % (`float`) Length of output vector (should be 3 for one body, 5 for two bodies)
+            'numSlackVars',                     2,...                       % (`float`) 
+            'maxPTOForce',                      4e6,...
+            'maxPTOForceChange',                1.5e6,...
+            'maxPos',                           1,...
+            'maxVel',                           2,...
+            'predictionHorizon',                20,...
+            'dt',                               0.5,...
+            'rScale',                           1e-7,...
+            'expandSlack',                      'no',...
+            'slack',                            'no',...
+            'wuScale',                          2e-7,...
+            'wyScale',                          2e-7)
+        MPC (1,1)                               = 0                         % (`float`) Option to turn on MPC
         name (1,:) {mustBeText}                 = 'NOT DEFINED'             % Controller Name
         proportional (1,1) struct               = struct(...                % Proportional Controller Properties
             'Kp',                               0)                          % (`float`) Proportional gain (damping)
         proportionalIntegral (1,1) struct       = struct(...                % Proportional-Integral Controller Properties
             'Kp',                               0,...                       % (`float`) Proportional gain (damping)
             'Ki',                               0)                          % (`float`) Integral gain (stiffness)
+    end
+
+    properties (SetAccess = 'private', GetAccess = 'public')%internal       
+        % The following properties are private, for internal use by WEC-Sim
+        MPCSetup (1,1) struct                   = struct(...              
+            'aFloat',                           0,...
+            'aInfFloat',                        0,...
+            'mFloat',                           0,...
+            'kFloat',                           0,...   
+            'bFloat',                           0)
     end
     
     properties (SetAccess = 'public', GetAccess = 'public') %internal
@@ -58,5 +84,16 @@ classdef controllerClass<handle
             mustBeScalarOrEmpty(obj.proportional.Kp)
         end
 
+        function setUpMPC(obj, body, rho, gravity)
+            % This method checks WEC-Sim user inputs and generates error messages if parameters are not properly defined. 
+            
+            disp('setting up MPC')
+            obj.MPCSetup.aFloat = squeeze(body(1).hydroData.hydro_coeffs.added_mass.all(3,3,:)).*rho;
+            obj.MPCSetup.aInfFloat = body(1).hydroData.hydro_coeffs.added_mass.inf_freq(3,3)*rho;
+            obj.MPCSetup.mFloat = body(1).hydroData.properties.volume*rho*gravity;
+            obj.MPCSetup.kFloat = body(1).hydroData.hydro_coeffs.linear_restoring_stiffness(3,3)*rho*gravity; 
+            obj.MPCSetup.bFloat = squeeze(body(1).hydroData.hydro_coeffs.radiation_damping.all(3,3,:)).*rho.*body(1).hydroData.simulation_parameters.w';
+        end
+      
     end
 end

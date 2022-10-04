@@ -9,7 +9,7 @@ global count;
 %% WEC Variables
 wec.numWECs = 1;                  % number of WECs (i.e., RM3 has a float and spar but it is one WEC.)
 wec.dt = simu.dt;
-wec.yLen = 3;                     % yLen is the output length. For example, y = [z_dot_float, z_float, z_dot_spar, z_spar, Fpto]';
+wec.yLen = 5;                     % yLen is the output length. For example, y = [z_dot_float, z_float, z_dot_spar, z_spar, Fpto]';
 wec.Slack = 2;                    % u_slack and y_slack
 
 
@@ -17,7 +17,7 @@ wec.Slack = 2;                    % u_slack and y_slack
 mpc.FptoMax = 4e6;                % Max PTO force
 mpc.dFptoMax = 1.5e6;             % Max rate of change of PTO force
 mpc.vMax = 1.5;                   % Max buoy velocity (pos & neg)
-mpc.zMax = 1;                     % Max buoy position (pos & neg)
+mpc.zMax = 1;                   % Max buoy position (pos & neg)
 mpc.HpSeconds = 20;               % Prediction horizon in seconds
 mpc.Ts = 0.5;                     % MPC time step  
 mpc.HpInK = mpc.HpSeconds/mpc.Ts; % Number of prediction in discrete domain
@@ -42,20 +42,20 @@ prediction.SimTimeToFullBuffer = (prediction.order+prediction.Ho)*mpc.Ts/wec.dt;
 
 
 %% Curve Fitting
+
 body(1).setNumber(1);
 tmp_hydroData = readBEMIOH5(body(1).h5File, body(1).number, body(1).meanDrift);
 body(1).loadHydroData(tmp_hydroData);
 
-wec.AFloat = body.hydroData.hydro_coeffs.added_mass.all(3,3,:)*simu.rho;
+wec.AFloat = squeeze(body.hydroData.hydro_coeffs.added_mass.all(3,3,:)).*simu.rho;
 wec.AinfFloat = body.hydroData.hydro_coeffs.added_mass.inf_freq(3,3)*simu.rho;
 wec.mFloat = body.hydroData.properties.volume*simu.rho*simu.gravity;
 wec.kFloat = body.hydroData.hydro_coeffs.linear_restoring_stiffness(3,3)*simu.rho*simu.gravity; 
+wec.bFloat = squeeze(body.hydroData.hydro_coeffs.radiation_damping.all(3,3,:)).*simu.rho.*body.hydroData.simulation_parameters.w';
 
 %% Pre Plant Model
-load coeff
-%[preDelta,plant] = fnMakePlantAndPreDeltaModel(wec,coeff);
 
-clear coeff
+[preDelta] = fnMakePlantAndPreDeltaModel(wec);
 
 
 %% Plant Model
