@@ -62,7 +62,7 @@ To cite WEC-Sim, please use the citation for WEC-Sim software release and/or cit
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 .. NOTE: this citation needs to be revised for each release
 
-[1] Kelley Ruehl, David Ogden, Yi-Hsiang Yu, Adam Keester, Nathan Tom, Dominic Forbush, Jorge Leon, Jeff Grasberger, and Sal Husain. (2022, September), WEC-Sim (Version v5.0.1), DOI 10.5281/zenodo.7121186.
+[1] Kelley Ruehl, David Ogden, Yi-Hsiang Yu, Adam Keester, Nathan Tom, Dominic Forbush, Jorge Leon, Jeff Grasberger, and Salman Husain. (2022, September), WEC-Sim (Version v5.0.1), DOI 10.5281/zenodo.7121186.
 
 .. NOTE: this citation needs to be revised for each release, but the url is always for the latest release and does not need to be updated. doi needs to be updated
 
@@ -77,7 +77,7 @@ To cite WEC-Sim, please use the citation for WEC-Sim software release and/or cit
                           Dominic Forbush, 
                           Jorge Leon, 
                           Jeff Grasberger, 
-                          Sal Husain},
+                          Salman Husain},
 	  title        = {WEC-Sim v5.0.1},
 	  month        = September,
 	  year         = 2022,
