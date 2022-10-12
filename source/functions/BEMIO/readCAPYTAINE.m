@@ -88,16 +88,7 @@ tmp = ncread(filename,'body_name')';
 for i=1:s1
     hydro(F).body{i} = erase(tmp(i,:), char(0)); % assign preliminary value to body names
 end
-
-hydro(F).body = hydro(F).body{:};
-% Check for newer formatting
-if isstring(hydro(F).body)
-    ncFormat = 'new';
-else 
-    ncFormat = 'old';
-end
-
-hydro(F).body = split(hydro(F).body,'+');
+hydro(F).body = split(hydro(F).body{1},'+');
 
 % sort radiating dof into standard list if necessary
 rdofs = lower(string(ncread(filename,'radiating_dof')'));
@@ -126,27 +117,15 @@ end
 
 %% Reorder dofs if needed
 % check the ordering of the 'complex' dimension
-tmp = ncread(filename,'complex')';
-if ncFormat == 'new'
-    if tmp(:,1) == "re" && tmp(:,2) == "im"
-        i_re = 1;
-        i_im = 2;
-    elseif tmp(:,1) == "im" && tmp(:,2) == "re"
-        i_im = 1;
-        i_re = 2;
-    else
-        error('Error:BEMIO:Read_Capytaine: check complex dimension indices');
-    end
-elseif ncFormat == 'old'
-    if tmp(1,:) == "re" && tmp(2,:) == "im"
-        i_re = 1;
-        i_im = 2;
-    elseif tmp(1,:) == "im" && tmp(2,:) == "re"
-        i_im = 1;
-        i_re = 2;
-    else
-        error('Error:BEMIO:Read_Capytafe: check complex dimension indices');
-    end
+tmp = string(ncread(filename,'complex')');
+if tmp{1} == "re" && tmp{2} == "im"
+    i_re = 1;
+    i_im = 2;
+elseif tmp(1,:) == "im" && tmp(2,:) == "re"
+    i_im = 1;
+    i_re = 2;
+else
+    error('Error:BEMIO:Read_Capytaine: check complex dimension indices');
 end
 
 % Check that radiating & influenced dofs are same length and at least 6*Nb
