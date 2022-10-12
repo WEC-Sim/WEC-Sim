@@ -1,4 +1,4 @@
-function [Force, tLatch, tNormal, vel] = latching(pos, vel, tLatch, tNormal, velPrev, latchTime, dt, Kp, Ki, forceOnBody)
+function [Force, tLatch, tNormal, vel] = latchingTime(pos, vel, tLatch, tNormal, velPrev, latchTime, dt, Kp, Ki, forceOnBody)
 
 if ((diff(sign([vel,velPrev]))~=0 && tLatch==0 && tNormal>.2) || (tLatch>0 && tLatch<latchTime))
     Force = -forceOnBody;

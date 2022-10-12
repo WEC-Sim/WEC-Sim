@@ -31,6 +31,6 @@ figure()
 disp('PTO Power:')
 mean(output.ptos.powerInternalMechanics(:,3))
 
-plot(controller_out)
+plot(controller1_out)
 disp('Controller Power:')
-mean(controller_out)
+mean(controller1_out)

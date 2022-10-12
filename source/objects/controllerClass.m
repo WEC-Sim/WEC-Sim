@@ -25,6 +25,8 @@ classdef controllerClass<handle
             'Kp',                               0,...                       % (`float`) Proportional gain (damping)
             'Ki',                               0)                          % (`float`) Integral gain (stiffness)
         latching (1,1) struct                   = struct(...                % Latching Controller Properties
+            'type',                             0,...                       % (`float`) Latching type (0 for time threshold, 1 for force threshold)
+            'forceThreshold',                   0,...                       % (`float`) Threshold force for latching
             'latchTime',                        0,...                       % (`float`) Amount of time device is latched for each half period of motion
             'Kp',                               0,...                       % (`float`) Proportional gain (damping)
             'Ki',                               0)                          % (`float`) Integral gain (stiffness)
