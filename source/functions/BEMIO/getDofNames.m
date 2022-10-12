@@ -1,7 +1,7 @@
 function dofNames = getDofNames(dofList)
 
 dofNames = {}; % initialize empty cell.
-dofDefault = {'Surge','Sway','Heave','Roll','Pitch','Sway'};
+dofDefault = {'Surge','Sway','Heave','Roll','Pitch','Yaw'};
 for k=1:length(dofList);
     if dofList(k,1) == dofList(k,2) && dofList(k,1) < 7 % loop default names
         dofNames{k}= dofDefault{dofList(k,1)};
