@@ -51,6 +51,18 @@ else
     ptosOutput = 0;
 end
 
+% Controllers
+if exist('controller','var')
+    for iCont = 1:simu.numControllers
+        eval(['controller' num2str(iCont) '_out.name = controller(' num2str(iCont) ').name;'])
+        if iCont == 1; controllersOutput = controller1_out; end
+        controllersOutput(iCont) = eval(['controller' num2str(iCont) '_out']);
+        eval(['clear constroller' num2str(iCont) '_out'])
+    end; clear iCont
+else
+    controllersOutput = 0;
+end
+
 % Constraints
 if exist('constraint','var')
     for iCon = 1:simu.numConstraints
@@ -110,8 +122,8 @@ waveOutput.type = waves.type;
 waveOutput.waveAmpTime = waves.waveAmpTime;
 
 % All
-output = responseClass(bodiesOutput,ptosOutput,constraintsOutput,ptosimOutput,cablesOutput,mooringOutput,waveOutput);
-clear bodiesOutput ptosOutput constraintsOutput ptosimOutput cablesOutput mooringOutput waveOutput
+output = responseClass(bodiesOutput,ptosOutput,controllersOutput,constraintsOutput,ptosimOutput,cablesOutput,mooringOutput,waveOutput);
+clear bodiesOutput ptosOutput controllersOutput constraintsOutput ptosimOutput cablesOutput mooringOutput waveOutput
 
 
 % MoorDyn

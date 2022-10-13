@@ -22,14 +22,12 @@ classdef controllerClass<handle
     properties
         declutching (1,1) struct                = struct(...                % Declutching Controller Properties
             'declutchTime',                     0,...                       % (`float`) Amount of time device is latched for each half period of motion
-            'Kp',                               0,...                       % (`float`) Proportional gain (damping)
-            'Ki',                               0)                          % (`float`) Integral gain (stiffness)
+            'Kp',                               0)                         % (`float`) Proportional gain (damping)
         latching (1,1) struct                   = struct(...                % Latching Controller Properties
             'type',                             0,...                       % (`float`) Latching type (0 for time threshold, 1 for force threshold)
             'forceThreshold',                   0,...                       % (`float`) Threshold force for latching
             'latchTime',                        0,...                       % (`float`) Amount of time device is latched for each half period of motion
-            'Kp',                               0,...                       % (`float`) Proportional gain (damping)
-            'Ki',                               0)                          % (`float`) Integral gain (stiffness)
+            'Kp',                               0)                          % (`float`) Proportional gain (damping)
         modelPredictiveControl (1,1) struct       = struct(...                % Proportional-Integral Controller Properties
             'numWECS',                          1,...                       % (`float`) Number of WECs (not number of bodies)
             'outputLength',                     5,...                          % (`float`) Length of output vector (should be 3 for one body, 5 for two bodies)
@@ -82,8 +80,7 @@ classdef controllerClass<handle
             % This method checks WEC-Sim user inputs and generates error messages if parameters are not properly defined. 
             
             % Check struct inputs:
-            % Electric Generator
-            mustBeScalarOrEmpty(obj.proportional.Kp)
+            mustBeNumeric(obj.proportional.Kp)
         end
 
         function setUpMPC(obj, body, rho, gravity)
