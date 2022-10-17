@@ -57,7 +57,7 @@ if exist('controller','var')
         eval(['controller' num2str(iCont) '_out.name = controller(' num2str(iCont) ').name;'])
         if iCont == 1; controllersOutput = controller1_out; end
         controllersOutput(iCont) = eval(['controller' num2str(iCont) '_out']);
-        eval(['clear constroller' num2str(iCont) '_out'])
+        eval(['clear controller' num2str(iCont) '_out'])
     end; clear iCont
 else
     controllersOutput = 0;

@@ -746,13 +746,55 @@ restrictions on the number of MooringMatrix blocks.
    :width: 400 pt
    :align: center
 
+.. _user-code-structure-controller-class:
+
+Controller Class
+^^^^^^^^^^^^^^^^
+
+The controller class contains all the information for the controller blocks, which can be used to simulate WEC control methods 
+in WEC-Sim. At a high level, the controller class interacts with the rest of 
+WEC-Sim as shown in the diagram below:
+
+.. figure:: /_static/images/code_structure/PTOSimClass_diagram.png
+   :width: 750pt
+
+The controller blocks receive the linear or angular response from the PTO blocks and give either the torque or the force based 
+on the prescribed control method. Controllers can also be combined with PTO-Sim blocks to control the power take-off dynamics.
+
+Controller Class Initialization
+""""""""""""""""""""""""""""""""
+The properties of the controller class (``controllerClass``) are defined in the ``controller`` object. The controller class must be
+initialized in the ``wecSimInputFile.m`` script by including the line:: 
+
+    controller(i) = controllerClass('controllerName');
+
+Available controller blocks properties, default values, and functions 
+can be found by typing ``doc controllerClass`` in the MATLAB command window, or 
+opening the `controllerClass.m` file in ``$WECSIM/source/objects`` directory by 
+typing ``open controllerClass`` in MATLAB Command Window. 
+For more information about application of WEC-Sim's controller class, refer to 
+:ref:`user-advanced-features-control`.
+
+Controller Blocks
+"""""""""""""""""
+
+There are six different types of blocks in the controller class. Each block corresponds to a separate control method: 
+passive, reactive, latching (time threshold), latching (force threshold), declutching, and model predictive control. 
+There are no restrictions on the number of PTO-Sim blocks.
+
+
+.. figure:: /_static/images/controllerBlocks.png
+   :width: 400 pt
+   :align: center
+
+
 .. _user-code-structure-ptosim-class:
 
 PTO-Sim Class
 ^^^^^^^^^^^^^^^^
 
 The PTO-Sim class contains all the information for the PTO-Sim blocks, which can be used to simulate PTO systems. 
-The difference beetween the PTO-Sim class and the PTO class is that the PTO-Sim class have detailed models of different components
+The difference between the PTO-Sim class and the PTO class is that the PTO-Sim class have detailed models of different components
 that are used in PTO systems such as hydraulic cylinders, hydraulic accumulators, hydraulic motors, electric generators, etc., 
 while the PTO class have a linear parametric model that summarizes the PTO dynamics with a stiffness and a damping term.
 At a high level, the PTO-Sim class interacts with the rest of 

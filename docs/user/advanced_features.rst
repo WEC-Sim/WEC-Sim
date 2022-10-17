@@ -868,6 +868,149 @@ Constraint and PTO Features
 .. include:: /_include/pto.rst
 
 
+
+.. _user-advanced-features-control:
+
+Controller Features
+-------------------
+
+Controllers for wave energy conversion can be used to determine the force 
+applied by the power take off onto the device. WEC-Sim's controller 
+features support the modeling of both simple passive and reactive controllers 
+as well as more complex methods such as model predictive control. 
+
+The files for the controller tutorials described in this section can be found in 
+the **Controls** examples on the `WEC-Sim Applications repository 
+<https://github.com/WEC-Sim/WEC-Sim_Applications>`_ . The controller examples 
+are not comprehensive, but provide a reference for user to implement their 
+own controls.
+
+	+--------------------------------+-------------------------------------------+
+	|   **Controller Application**   |               **Description**             |                
+	+--------------------------------+-------------------------------------------+
+	|   Passive (P)  	         | RM3 Float with proportional control       |
+	+--------------------------------+-------------------------------------------+
+	|   Reactive (PI)                | Float with proportional-integral control  |
+	+--------------------------------+-------------------------------------------+
+	|   		                 | 					     |
+	+--------------------------------+-------------------------------------------+
+	|      				 | 				             |
+	+--------------------------------+-------------------------------------------+
+
+Examples: RM3 Float with Various Controllers
+^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+This section explains the controller examples found within the WEC-Sim 
+Applications repository.
+
+First, it is important to understand the concept of complex conjugate control.
+The concept of complex conjugate control as applied to wave energy conversion 
+can be used to understand optimal control. For a complex conjugate controller, 
+the impedance of the controller is designed to match the admittance of the 
+device which is equal to the complex conjugate of the impedance. Hence, it is 
+also known as impedance matching and is common practice within electrical 
+engineering. Complex conjugate control is not a completely realizable control 
+method due to its acausality. which means it requires exact knowledge of 
+future wave conditions. Still, complex conjugate control presents a reference 
+for the implementation of optimal control. The WEC impedance can be modeled by 
+the following equation and can be used to formulate optimal control 
+implementation:
+
+.. math::
+
+    Z_i(\omega) = j\omega (I + I_{A}(\omega)) + R(\omega) + \frac{C_{hs}}{j\omega}
+
+By characterizing the impedance of the WEC, a greater understanding of the 
+dynamics can be reached. The figure below is a bode plot of the impedance of 
+the RM3 float body. The natural frequency is defined by the point at which the 
+phase of impedance is zero. By also plotting the frequency of the incoming 
+wave, it is simple to see the difference between the natural frequency of 
+the device and the wave frequency. Complex conjugate control seeks to adjust 
+the natural frequency of the device to match the wave frequency. 
+
+.. figure:: /_static/images/impedance.PNG
+   :width: 500pt 
+
+.. _control-passive:
+
+Passive Control (Proportional)
+^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+Passive control is the simplest of WEC controllers and acts as a damping force. 
+Hence, the damping value (also referred to as a proportional gain) is 
+multiplied by the WEC velocity to determine the power take-off force:
+
+.. math::
+
+    F_{PTO} = K_p \dot{x}
+
+Although unable to reach maximum power for a regular wave due to its passive 
+nature, a passive controller can still be tuned to reach its optimal power.
+According to complex conjugate control, a passive controller can be 
+optimized for regular wave conditions using the following formula:
+
+.. math::
+
+    K_{p,opt} = \sqrt{R(\omega)^2 + (\frac{C_{hs}}{\omega} - \omega (I + I_A(\omega)))^2}
+
+The optimal proportional gain has been calculated for the float using the optimalGainCalc.m file 
+and implemented in WEC-Sim to achieve optimal power. The mcrBuildGains.m file sets 
+up a sweep of the proportional gains which can be used to show that the results 
+confirm the theoretical optimal gain in the figure below (negative power corresponding to 
+power exttracted from the system). This MCR run can be 
+recreated by running the mcrBuildGains.m file then typing wecSimMCR in the command
+window.
+
+.. figure:: /_static/images/pGainSweep.PNG
+   :width: 500pt 
+
+This example only shows the optimal proportional gain in regular wave conditions. 
+For irregular wave spectrums and nonlinear responses (such as with constraints), 
+an optimization algorithm can be used to determine optimal control gains.
+
+.. _control-reactive:
+
+Reactive Control (Proportional-Integral)
+^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+Reactive control is also a very simple form of WEC control and combines the 
+damping force of a passive controller with a spring force. This controller is 
+also known as a proportional integral controller with the proportional gain 
+corresponding to the damping value and the integral gain corresponding to a 
+spring stiffness value:
+
+.. math::
+
+    F_{PTO} = K_p \dot{x} + K_i x
+
+The addition of the reactive component means the controller can achieve optimal 
+complex conjugate control by cancelling out the imaginary portion of the device 
+impedance. Thus, the proportional and integral control gains can be defined by the 
+following formulas:
+
+.. math::
+
+    K_{p,opt} = R(\omega)
+
+.. math::
+
+    K_{i,opt} = (M + m_A(\omega)) \omega^2 - C_hs
+
+The optimal proportional and integral gains have been calculated using the optimalGainCalc.m file 
+and implemented in WEC-Sim to achieve optimal power. The mcrBuildGains.m file again sets 
+up a sweep of the gains which can be used to show that the results 
+confirm the theoretical optimal gains in the figure below. This MCR run can be 
+recreated by running the mcrBuildGains.m file then typing wecSimMCR in the command
+window.
+
+.. figure:: /_static/images/piGainSweep.PNG
+   :width: 500pt 
+
+This example only shows the optimal gains in regular wave conditions. 
+For irregular wave spectrums and nonlinear responses (such as with constraints), 
+an optimization algorithm can be used to determine optimal control gains.
+
+
 .. _user-advanced-features-cable:
 
 Cable Features
