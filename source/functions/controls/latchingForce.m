@@ -1,9 +1,9 @@
-function [Force, tLatch, tNormal, vel] = latchingForce(pos, vel, tLatch, tNormal, velPrev, latchTime, dt, Kp, Ki, fExc, thresholdForce)
+function [Force] = latchingForce(vel, Kp, fExc, thresholdForce)
 
 if abs(fExc) < thresholdForce
-    Force = -fExc;
+    Force = -189251600*vel;
 else
-    Force = 0;
+    Force = -Kp*vel;
 end
 
 end
