@@ -21,14 +21,13 @@ classdef controllerClass<handle
     % This class contains PTO-Sim parameters and settings
     properties
         declutching (1,1) struct                = struct(...                % Declutching Controller Properties
-            'declutchTime',                     0,...                       % (`float`) Amount of time device is latched for each half period of motion
-            'Kp',                               0)                         % (`float`) Proportional gain (damping)
-        latching (1,1) struct                   = struct(...                % Latching Controller Properties
-            'type',                             0,...                       % (`float`) Latching type (0 for time threshold, 1 for force threshold)
-            'forceThreshold',                   0,...                       % (`float`) Threshold force for latching
-            'latchTime',                        0,...                       % (`float`) Amount of time device is latched for each half period of motion
+            'declutchTime',                     0,...                       % (`float`) Amount of time device is delutched during each half period of motion
             'Kp',                               0)                          % (`float`) Proportional gain (damping)
-        modelPredictiveControl (1,1) struct       = struct(...                % Proportional-Integral Controller Properties
+        latching (1,1) struct                   = struct(...                % Latching Controller Properties
+            'forceCoeff',                       0,...                       % (`float`) Damping force coefficient for latching/braking
+            'latchTime',                        0,...                       % (`float`) Amount of time device is latched during each half period of motion
+            'Kp',                               0)                          % (`float`) Proportional gain (damping)
+        modelPredictiveControl (1,1) struct       = struct(...              % Proportional-Integral Controller Properties
             'numWECS',                          1,...                       % (`float`) Number of WECs (not number of bodies)
             'outputLength',                     5,...                          % (`float`) Length of output vector (should be 3 for one body, 5 for two bodies)
             'numSlackVars',                     2,...                       % (`float`) 

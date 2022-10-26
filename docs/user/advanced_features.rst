@@ -892,10 +892,14 @@ own controls.
 	+--------------------------------+-------------------------------------------+
 	|   Reactive (PI)                | Float with proportional-integral control  |
 	+--------------------------------+-------------------------------------------+
-	|   		                 | 					     |
+	|   Latching		         | Float with latching control		     |
 	+--------------------------------+-------------------------------------------+
-	|      				 | 				             |
+	|   Declutching   		 | Float with declutching control            |
 	+--------------------------------+-------------------------------------------+
+	|   Model Predictive Control   	 | Float with model predictive control       |
+	+--------------------------------+-------------------------------------------+
+
+
 
 Examples: RM3 Float with Various Controllers
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
@@ -904,11 +908,11 @@ This section explains the controller examples found within the WEC-Sim
 Applications repository.
 
 First, it is important to understand the concept of complex conjugate control.
-The concept of complex conjugate control as applied to wave energy conversion 
+Complex conjugate control, as applied to wave energy conversion, 
 can be used to understand optimal control. For a complex conjugate controller, 
 the impedance of the controller is designed to match the admittance of the 
 device which is equal to the complex conjugate of the impedance. Hence, it is 
-also known as impedance matching and is common practice within electrical 
+also known as impedance matching and is a common practice within electrical 
 engineering. Complex conjugate control is not a completely realizable control 
 method due to its acausality. which means it requires exact knowledge of 
 future wave conditions. Still, complex conjugate control presents a reference 
@@ -925,7 +929,8 @@ dynamics can be reached. The figure below is a bode plot of the impedance of
 the RM3 float body. The natural frequency is defined by the point at which the 
 phase of impedance is zero. By also plotting the frequency of the incoming 
 wave, it is simple to see the difference between the natural frequency of 
-the device and the wave frequency. Complex conjugate control seeks to adjust 
+the device and the wave frequency. Complex conjugate control (and many other
+control methods) seeks to adjust 
 the natural frequency of the device to match the wave frequency. 
 
 .. figure:: /_static/images/impedance.PNG
@@ -957,7 +962,7 @@ The optimal proportional gain has been calculated for the float using the optima
 and implemented in WEC-Sim to achieve optimal power. The mcrBuildGains.m file sets 
 up a sweep of the proportional gains which can be used to show that the results 
 confirm the theoretical optimal gain in the figure below (negative power corresponding to 
-power exttracted from the system). This MCR run can be 
+power extracted from the system). This MCR run can be 
 recreated by running the mcrBuildGains.m file then typing wecSimMCR in the command
 window.
 
@@ -974,10 +979,12 @@ Reactive Control (Proportional-Integral)
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
 Reactive control is also a very simple form of WEC control and combines the 
-damping force of a passive controller with a spring force. This controller is 
-also known as a proportional integral controller with the proportional gain 
-corresponding to the damping value and the integral gain corresponding to a 
-spring stiffness value:
+damping force of a passive controller with a spring force. The standard PTO 
+block can also be used to implement PI control using the damping and stiffness
+values but doesn't allow for negative inputs which is often necessary for 
+optimal stiffness. This controller is also known as a proportional integral 
+controller with the proportional gain corresponding to the damping value and 
+the integral gain corresponding to a spring stiffness value:
 
 .. math::
 
@@ -1009,6 +1016,110 @@ window.
 This example only shows the optimal gains in regular wave conditions. 
 For irregular wave spectrums and nonlinear responses (such as with constraints), 
 an optimization algorithm can be used to determine optimal control gains.
+
+.. _control-latching:
+
+Latching Control
+^^^^^^^^^^^^^^^^
+
+Latching control combines a traditional passive controller with a latching mechanism which applies 
+a large braking force during a portion of the oscillation. By locking the device for 
+part of the oscillation, latching control attempts to adjust the phase of the motion to 
+match the phase of incoming waves. Latching control can slow the device motion to match 
+wave motion and is therefore most often used when the wave period is longer than the natural 
+period. Latching control is still considered passive as no energy input is required (assuming velocity 
+is zero while latched).
+
+The braking/latching force is implemented as a very large damping force (:math:`G`), which can be 
+adjusted based on the device's properties:
+
+.. math::
+
+    G = 80 (M + m_A(\omega))
+
+Because latching achieves phase matching between the waves and device, the optimal 
+damping can be assumed the same as for reactive control. Lastly, the main control 
+variable, latching time, needs to be determined. For regular waves, it is 
+desired for the device to move for a time equal to its natural frequency meaning 
+the optimal latching time is likely close to half the difference between the wave 
+period and the natural period (accounting for 2 latching periods per wave period).
+
+.. math::
+
+    t_{latch} = \frac{1}{2} (T_{wave} - T_{nat})
+
+The optimal latching time has been calculated using the optimalGainCalc.m file 
+and implemented in WEC-Sim. The mcrBuildTimes.m file sets 
+up a sweep of the latching times, the results for which are shown in the figure below. 
+This MCR run can be recreated by running the mcrBuildGains.m file then typing wecSimMCR 
+in the command window. Based on the results, the optimal latching time is slightly 
+lower than expected which may be due to imperfect latching or complex dynamics which 
+aren't taken into account in the theoretical optimal. Regardless, latching results in 
+much larger power when compared to traditional passive control.
+
+.. figure:: /_static/images/latchTimeSweep.PNG
+   :width: 500pt 
+
+Further, the figure below shows the excitation force and velocity, which are effectively 
+in phase when a latching time of 1.86 seconds is implemented.
+
+.. figure:: /_static/images/latching.PNG
+   :width: 500pt 
+
+Although not shown with this example, latching can also be implemented in irregular waves 
+but often requires different methods including excitation prediction.
+
+.. _control-declutching:
+
+Declutching Control
+^^^^^^^^^^^^^^^^^^^
+
+Declutching control is essentially the opposite of latching. Instead of locking the device, 
+it is allowed to move freely (no PTO force) for a portion of the oscillation. Often, 
+declutching is used when the wave period is smaller than the natural period, allowing the 
+device motion to "catch up" to the wave motion. Declutching is also considered 
+a passive control method.
+
+The optimal declutching time and damping values are slightly harder to estimate than for 
+latching. The device's motion still depends on its impedance during the declutching period, 
+meaning the device does not really move "freely" during this time. Hence, the declutching 
+time was assumed to be near half the difference between the natural period and the wave 
+period, but is further examined through tests.
+
+.. math::
+
+    t_{declutch} = \frac{1}{2} (T_{wave} - T_{nat})
+
+This optimal latching time has been calculated using the optimalGainCalc.m file 
+and implemented in WEC-Sim. Because energy is not harvested during the declutching 
+period, it is likely that a larger damping is required. Thus, the optimal passive 
+damping value was used for the following simulations, although a more 
+optimal damping value likely exists for delclutching.
+
+Since declutching is most desired when the wave period is smaller than the natural period, 
+a wave period of 4 seconds was tested with a height of 1 m. For comparison to traditional 
+passive control, the optimal passive damping value was tested for these conditions, leading
+to a power of 9.11 kW. The mcrBuildTimes.m file sets up a sweep of the declutching times, 
+the results for which are shown in the figure below. It is clear that delcuthing control 
+can offer an improvement over traditional passive control.
+
+.. figure:: /_static/images/declutchTimeSweep.PNG
+   :width: 500pt 
+
+Further, the figure below shows the excitation force and velocity with a declutch time
+of 0.85 seconds. The excitation and response are not quite in phase, but the device 
+can be seen "catching up" to the wave motion during the declutching time. 
+
+.. figure:: /_static/images/declutching.PNG
+   :width: 500pt 
+
+Although not shown with this example, declutching can also be implemented in irregular waves 
+but often requires different methods including excitation prediction.
+
+.. _control-MPC:
+
+Model Predictive Control (MPC)
+^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
 
 .. _user-advanced-features-cable:

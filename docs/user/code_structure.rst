@@ -778,8 +778,8 @@ For more information about application of WEC-Sim's controller class, refer to
 Controller Blocks
 """""""""""""""""
 
-There are six different types of blocks in the controller class. Each block corresponds to a separate control method: 
-passive, reactive, latching (time threshold), latching (force threshold), declutching, and model predictive control. 
+There are five different types of blocks in the controller class. Each block corresponds to a separate control method: 
+passive, reactive, latching, declutching, and model predictive control. 
 There are no restrictions on the number of PTO-Sim blocks.
 
 

@@ -33,7 +33,7 @@ Controls
 
 Examples using :ref:`Controllers <user-advanced-features-control>`.
 Examples of WEC-Sim models using various control methods are included for the :ref:`RM3 <user-tutorials-rm3>` 
-float geometry. These examples include passive, reactive, latching, and model predictive control methods.
+float geometry. These examples include passive, reactive, latching, declutching, and model predictive control methods.
 
 Desalination
 ^^^^^^^^^^^^
