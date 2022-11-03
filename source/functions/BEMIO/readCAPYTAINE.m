@@ -33,7 +33,7 @@ hydro(F).code = 'CAPYTAINE';
 
 [base_dir, name, ~] = fileparts(filename);
 
-if(~isempty(hydrostatics_sub_dir))
+if exist('hydrostatics_sub_dir','var') & ~isempty(hydrostatics_sub_dir)
     hydrostatics_dir = append(base_dir, hydrostatics_sub_dir);
 else
     hydrostatics_dir = base_dir;
