@@ -211,7 +211,10 @@ if exist('controller','var') == 1
     for ii = 1:simu.numControllers
         controller(ii).checkInputs();
         if controller(ii).MPC == 1
-            controller(ii).setUpMPC(body,simu.rho,simu.gravity);
+            controller(ii).setUpMPC(body,simu);
+            %busInfo = Simulink.Bus.createObject(controller);
+            global mpcStruct;
+            mpcStruct = controller(1);
         end
         controller(ii).number = ii;
     end; clear ii
