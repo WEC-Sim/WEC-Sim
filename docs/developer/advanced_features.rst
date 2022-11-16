@@ -34,7 +34,7 @@ parameters in following steps,
 
 * Open the pertinent Simulink model,
 * Run the function with the address of the block being probed as the argument,
-* Explore the :code:`mask' data structure in the MATLAB workspace.
+* Explore the :code:`mask` data structure in the MATLAB workspace.
 
 
 .. figure:: /_static/images/extractMaskVariables.PNG
