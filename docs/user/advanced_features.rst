@@ -1121,6 +1121,14 @@ but often requires different methods including excitation prediction.
 Model Predictive Control (MPC)
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
+Model predictive control is a WEC control method which uses a plant model to predict and 
+optimize the dynamics. MPC is a complex controller which can be applied in both regular 
+and irregular waves while also taking into account time-domain constraints such as position 
+and PTO force. For the model predictive controller implemented in WEC-Sim's controller 
+class, the plant model is a state-space model detailed in CITE. Quadprog(), MATLAB's 
+quadratic programming function, is used to determine a PTO force which optimizes the 
+future dynamics for maximum harvested power. The relevant files for the MPC example in 
+WEC-Sim Applications are detailed in the table below.
 
 .. _user-advanced-features-cable:
 

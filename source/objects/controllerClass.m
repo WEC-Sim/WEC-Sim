@@ -27,22 +27,17 @@ classdef controllerClass<handle
             'forceCoeff',                       0,...                       % (`float`) Damping force coefficient for latching/braking
             'latchTime',                        0,...                       % (`float`) Amount of time device is latched during each half period of motion
             'Kp',                               0)                          % (`float`) Proportional gain (damping)
-        modelPredictiveControl (1,1) struct       = struct(...              % Proportional-Integral Controller Properties 
-            'numSlackVars',                     2,...                       % (`float`) 
-            'maxPTOForce',                      10e6,...
-            'maxPTOForceChange',                5e6,...
-            'maxPos',                           3,...
-            'maxVel',                           10,...
-            'predictionHorizon',                20,...
-            'dt',                               0.5,...
-            'rScale',                           1e-7,...
-            'expandSlack',                      0,...
-            'slack',                            2,...
-            'wuScale',                          2e-7,...
-            'wyScale',                          2e-7,...
-            'Ho',                               100,...
-            'order',                            4,...
-            'yLen',                             3)
+        modelPredictiveControl (1,1) struct       = struct(...              % Model Predictive Controller Properties
+            'maxPTOForce',                      10e6,...                    % (`float`) Maximum PTO Force (N)
+            'maxPTOForceChange',                5e6,...                     % (`float`) Maximum Change in PTO Force (N/s)
+            'maxPos',                           3,...                       % (`float`) Maximum Position (m)
+            'maxVel',                           10,...                      % (`float`) Maximum Velocity (m/s)
+            'predictionHorizon',                20,...                      % (`float`) Future time period predicted by plant model (s)
+            'dt',                               0.5,...                     % (`float`) Timestep in which MPC is applied (s)
+            'rScale',                           1e-7,...                    % (`float`) Scale for penalizing PTO force rate of change
+            'Ho',                               100,...                     % (`float`) Number of timesteps before MPC begins
+            'order',                            4,...                       % (`float`) Order of the plant model
+            'yLen',                             3)                          % (`float`) Length of the output variable
         MPC (1,1)                               = 0                         % (`float`) Option to turn on MPC
         name (1,:) {mustBeText}                 = 'NOT DEFINED'             % Controller Name
         proportional (1,1) struct               = struct(...                % Proportional Controller Properties
@@ -54,26 +49,26 @@ classdef controllerClass<handle
 
     properties (SetAccess = 'public', GetAccess = 'public')%internal       
         % The following properties are private, for internal use by WEC-Sim
-        bemData (1,1) struct                    = struct(...
-            'aFloat',                           [],...
-            'aInfFloat',                        [],...
-            'mFloat',                           [],...
-            'kFloat',                           [],...   
-            'bFloat',                           [])
-        MPCSetup (1,1) struct                   = struct(...              
-            'HpInk',                            [],...
-            'SimTimeToFullBuffer',              [],...
-            'currentIteration',                 [],...
-            'infeasibleCount',                  [],...
-            'numSamplesInEntireRun',            [],...
-            'outputSize',                       [],...
-            'Sx',                               [],...
-            'Su',                               [],...
-            'Sv',                               [],...
-            'R',                                [],...
-            'Q',                                [],...
-            'H',                                [])
-        plant (1,1) struct
+        bemData (1,1) struct                    = struct(...                % Data from BEM used to create plant model
+            'a',                                [],...                      % Added mass 
+            'aInf',                             [],...                      % Infinite frequency added mass
+            'm',                                [],...                      % Mass
+            'k',                                [],...                      % Hydrostatic stiffness
+            'b',                                [])                         % Radiation damping
+        MPCSetup (1,1) struct                   = struct(...                % Variables used to set up the MPC algorithm
+            'HpInk',                            [],...                      % Number of predictions in discrete domain
+            'SimTimeToFullBuffer',              [],...                      % Amount of simulation time before MPC initiates
+            'currentIteration',                 [],...                      % Current iteration of MPC algorithm
+            'infeasibleCount',                  [],...                      % Number of predictions which are infeasible according to quadprog()
+            'numSamplesInEntireRun',            [],...                      % Number of MPC timesteps throughout simulation
+            'outputSize',                       [],...                      % Size of output vector 
+            'Sx',                               [],...                      % Sx for quadratic programming
+            'Su',                               [],...                      % Su for quadratic programming
+            'Sv',                               [],...                      % Sv for quadratic programming
+            'R',                                [],...                      % R for quadratic programming
+            'Q',                                [],...                      % Q for quadratic programming
+            'H',                                [])                         % H for quadratic programming
+        plant (1,1) struct                                                  % plant model for MPC
     end
     
     properties (SetAccess = 'public', GetAccess = 'public') %internal
@@ -98,14 +93,14 @@ classdef controllerClass<handle
         end
 
         function setUpMPC(obj, body, simu)
-            % This method checks WEC-Sim user inputs and generates error messages if parameters are not properly defined. 
+            % This method sets up the variables to run model predictive control 
             
             disp('setting up MPC')
-            obj.bemData.aFloat = squeeze(body(1).hydroData.hydro_coeffs.added_mass.all(3,3,:)).*simu.rho;
-            obj.bemData.aInfFloat = body(1).hydroData.hydro_coeffs.added_mass.inf_freq(3,3)*simu.rho;
-            obj.bemData.mFloat = body(1).hydroData.properties.volume*1000;
-            obj.bemData.kFloat = body(1).hydroData.hydro_coeffs.linear_restoring_stiffness(3,3)*simu.rho*simu.gravity; 
-            obj.bemData.bFloat = squeeze(body(1).hydroData.hydro_coeffs.radiation_damping.all(3,3,:)).*simu.rho.*body(1).hydroData.simulation_parameters.w';
+            obj.bemData.a = squeeze(body(1).hydroData.hydro_coeffs.added_mass.all(3,3,:)).*simu.rho;
+            obj.bemData.aInf = body(1).hydroData.hydro_coeffs.added_mass.inf_freq(3,3)*simu.rho;
+            obj.bemData.m = body(1).hydroData.properties.volume*1000;
+            obj.bemData.k = body(1).hydroData.hydro_coeffs.linear_restoring_stiffness(3,3)*simu.rho*simu.gravity; 
+            obj.bemData.b = squeeze(body(1).hydroData.hydro_coeffs.radiation_damping.all(3,3,:)).*simu.rho.*body(1).hydroData.simulation_parameters.w';
             obj.MPCSetup.HpInk = obj.modelPredictiveControl.predictionHorizon/obj.modelPredictiveControl.dt;
             obj.MPCSetup.qScale = 0.5*obj.modelPredictiveControl.dt;
             obj.MPCSetup.currentIteration = 0;
@@ -120,24 +115,21 @@ classdef controllerClass<handle
 
             load('coeff.mat');
 
-            % Pre Plant Model            
+            % Make Plant Model            
             obj.makePlantModel(obj.bemData,coeff);
-            
-            
-            % Plant Model
             obj.plant.sys_c = ss(obj.plant.A,[obj.plant.Bu obj.plant.Bv],obj.plant.C,[obj.plant.Du obj.plant.Dv]); % still continuous
             
-            
-            % MPC
+            % Make predictive model for quadratic programming
             obj.makePredictiveModel(obj.plant.sys_c); % Discretizes CT SS object and computes Sx, Su, & Sv. Wrapped up under shared global mpc for ease of access in L2 simulink block
             obj.MPCSetup.H = obj.MPCSetup.Su'*obj.MPCSetup.Q*obj.MPCSetup.Su + obj.MPCSetup.R;
-           
-            % Hard and Soft Contraints Option
-            if strcmp(obj.modelPredictiveControl.expandSlack,'yes') == 1 || strcmp(obj.modelPredictiveControl.slack,'yes') == 1
-                obj.MPCSetup.outputSize = obj.modelPredictiveControl.slack*1*(obj.MPCSetup.HpInk+1)+1*obj.MPCSetup.yLen*(obj.MPCSetup.HpInk); 
-            else 
-                obj.MPCSetup.outputSize = (obj.MPCSetup.HpInk+1)*1;
+
+            if all(eig(obj.MPCSetup.H) >= 0) == 0
+                eig(obj.MPCSetup.H);
+                error('PSD Violated')
             end
+           
+            % Set output size
+            obj.MPCSetup.outputSize = (obj.MPCSetup.HpInk+1)*1;
         end
         
         function makePlantModel(obj,bemData,coeff)
@@ -168,26 +160,24 @@ classdef controllerClass<handle
             % preDelta.oneBody.C = [1 0 0 0; ... % Map y(1) = dZb
             %          0 1 0 0; ... % Map y(2) = Zb
             %         ];
-            %% A, B, C, and D for both float and spar 
+            %% A, B, C, and D for one body
             obj.plant.A = zeros(8); %% (length of KradNum, length of KradDen-1) order 4 (KradDen = aS^4+bS^3+cS^2+dS+constant)
-            obj.plant.A(1,2) = -bemData.kFloat/(bemData.mFloat+bemData.aInfFloat);
-            obj.plant.A(1,5) = 1/(bemData.mFloat+bemData.aInfFloat);
+            obj.plant.A(1,2) = -bemData.k/(bemData.m+bemData.aInf);
+            obj.plant.A(1,5) = 1/(bemData.m+bemData.aInf);
             obj.plant.A(2:4,1:3)=eye(3);
-            obj.plant.A(5,:)=[-coeff.KradNumFloat -coeff.KradDenFloat(2:end)];
+            obj.plant.A(5,:)=[-coeff.KradNum -coeff.KradDen(2:end)];
             obj.plant.A(6:end,5:end-1) = eye(3);
             
             obj.plant.Bv = zeros(8,1);
-            obj.plant.Bv(1,1) = 1/(bemData.mFloat+bemData.aInfFloat);
+            obj.plant.Bv(1,1) = 1/(bemData.m+bemData.aInf);
             obj.plant.Bu = zeros(8,1);
-            obj.plant.Bu(1,1) = 1/(bemData.mFloat+bemData.aInfFloat);% NEW!!!;
+            obj.plant.Bu(1,1) = 1/(bemData.m+bemData.aInf);% NEW!!!;
             
             obj.plant.C = [1, zeros(1,8-1); ...
                 0, 1, zeros(1,8-2)];
 
             %% Augmenting for the delta formulation which has Fpto in the states and replaces that w/ dFpto as the control input
-
             obj.plant.A = [obj.plant.A, obj.plant.Bu; zeros(1,8+1)];
-            
             obj.plant.Bu = [zeros(8,1); 1];
             obj.plant.Bv = [obj.plant.Bv; 0];  
             obj.plant.C = [obj.plant.C zeros(2,1); zeros(1,8), 1]; 
@@ -213,16 +203,16 @@ classdef controllerClass<handle
             
             nx = size(A_dis,1); % #column 
             nu = size(Bu_dis,2); % #column
-            nv = size(Bv_dis,2); %size of Bv_dis1=Bv_dis2
+            nv = size(Bv_dis,2); %
             ny = size(C_dis,1);
 
-            %% Create Sx: Coefficient matrix for buoy state, x(k), in predictive plant model
+            % Create Sx: Coefficient matrix for buoy state, x(k), in predictive plant model
             Sx = [];
             for kp = 0:obj.MPCSetup.HpInk
                 Sx = [Sx ; C_dis*A_dis^kp];
             end
             
-            %% Create Su: Coefficient matrix for PTO, u(k), in predictive plant model
+            % Create Su: Coefficient matrix for PTO, u(k), in predictive plant model
             Su = NaN(ny*(obj.MPCSetup.HpInk+1),nu*(obj.MPCSetup.HpInk+1));
             for rowGroup = 1:obj.MPCSetup.HpInk+1
                 activeRows = (1:ny)+ny*(rowGroup-1);
@@ -265,10 +255,8 @@ classdef controllerClass<handle
             R_unscaled = eye(size(Su,2));    % u'*R*u - R is a square matrix matching rows in u rows
             obj.MPCSetup.R = obj.modelPredictiveControl.rScale*R_unscaled;
             
-            
                 % Q: Matrix weighting product of dZ * dFpto!
                 minorQ = [0,0,1; 0,0,0; 1,0,0];
-            
             
             Q_unscaled = kron(blkDiagSeed,minorQ);
             obj.MPCSetup.Q = obj.MPCSetup.qScale*Q_unscaled;
