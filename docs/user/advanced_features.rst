@@ -933,7 +933,7 @@ the device and the wave frequency. Complex conjugate control (and many other
 control methods) seeks to adjust 
 the natural frequency of the device to match the wave frequency. 
 
-.. figure:: /_static/images/impedance.PNG
+.. figure:: /_static/images/impedance.png
    :width: 500pt 
 
 .. _control-passive:
@@ -966,7 +966,7 @@ power extracted from the system). This MCR run can be
 recreated by running the mcrBuildGains.m file then typing wecSimMCR in the command
 window.
 
-.. figure:: /_static/images/pGainSweep.PNG
+.. figure:: /_static/images/pGainSweep.png
    :width: 500pt 
 
 This example only shows the optimal proportional gain in regular wave conditions. 
@@ -1010,7 +1010,7 @@ confirm the theoretical optimal gains in the figure below. This MCR run can be
 recreated by running the mcrBuildGains.m file then typing wecSimMCR in the command
 window.
 
-.. figure:: /_static/images/piGainSweep.PNG
+.. figure:: /_static/images/piGainSweep.png
    :width: 500pt 
 
 This example only shows the optimal gains in regular wave conditions. 
@@ -1057,13 +1057,13 @@ lower than expected which may be due to imperfect latching or complex dynamics w
 aren't taken into account in the theoretical optimal. Regardless, latching results in 
 much larger power when compared to traditional passive control.
 
-.. figure:: /_static/images/latchTimeSweep.PNG
+.. figure:: /_static/images/latchTimeSweep.png
    :width: 500pt 
 
 Further, the figure below shows the excitation force and velocity, which are effectively 
 in phase when a latching time of 1.86 seconds is implemented.
 
-.. figure:: /_static/images/latching.PNG
+.. figure:: /_static/images/latching.png
    :width: 500pt 
 
 Although not shown with this example, latching can also be implemented in irregular waves 
@@ -1103,14 +1103,14 @@ to a power of 9.11 kW. The mcrBuildTimes.m file sets up a sweep of the declutchi
 the results for which are shown in the figure below. It is clear that delcuthing control 
 can offer an improvement over traditional passive control.
 
-.. figure:: /_static/images/declutchTimeSweep.PNG
+.. figure:: /_static/images/declutchTimeSweep.png
    :width: 500pt 
 
 Further, the figure below shows the excitation force and velocity with a declutch time
 of 0.85 seconds. The excitation and response are not quite in phase, but the device 
 can be seen "catching up" to the wave motion during the declutching time. 
 
-.. figure:: /_static/images/declutching.PNG
+.. figure:: /_static/images/declutching.png
    :width: 500pt 
 
 Although not shown with this example, declutching can also be implemented in irregular waves 
