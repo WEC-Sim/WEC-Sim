@@ -29,7 +29,7 @@ classdef controllerClass<handle
             'Kp',                               0)                          % (`float`) Proportional gain (damping)
         modelPredictiveControl (1,1) struct       = struct(...              % Model Predictive Controller Properties
             'maxPTOForce',                      10e6,...                    % (`float`) Maximum PTO Force (N)
-            'maxPTOForceChange',                5e6,...                     % (`float`) Maximum Change in PTO Force (N/s)
+            'maxPTOForceChange',                5e6,...                     % (`float`) Maximum Change in PTO Force (N/timestep)
             'maxPos',                           3,...                       % (`float`) Maximum Position (m)
             'maxVel',                           10,...                      % (`float`) Maximum Velocity (m/s)
             'predictionHorizon',                20,...                      % (`float`) Future time period predicted by plant model (s)

@@ -1122,13 +1122,61 @@ Model Predictive Control (MPC)
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
 Model predictive control is a WEC control method which uses a plant model to predict and 
-optimize the dynamics. MPC is a complex controller which can be applied in both regular 
+optimize the dynamics. MPC is a complex controller that can be applied in both regular 
 and irregular waves while also taking into account time-domain constraints such as position 
 and PTO force. For the model predictive controller implemented in WEC-Sim's controller 
-class, the plant model is a state-space model detailed in CITE. Quadprog(), MATLAB's 
-quadratic programming function, is used to determine a PTO force which optimizes the 
-future dynamics for maximum harvested power. The relevant files for the MPC example in 
-WEC-Sim Applications are detailed in the table below.
+class, the plant model is a state-space model detailed in CITE. The state space model is 
+the converted to a quadratic programming problem to be solved by Quadprog(), MATLAB's 
+quadratic programming function. Solving this system leads to a set of PTO forces 
+to optimize the future dynamics for maximum harvested power, the first of which is applied
+at the current timestep. The relevant files for the MPC example in the Controllers folder 
+of WEC-Sim Applications are detailed in the table below (excluding wecSimInputFile.m and 
+userDefinedFunctions.m which are not unique to MPC).  
+
+	+--------------------------------+------------------------------------------------------+
+	|   	     *File*	         |                    *Description*              	|                
+	+--------------------------------+------------------------------------------------------+
+	|   coeff.mat	  	         | Coefficients for frequency dependence     		|
+	+--------------------------------+------------------------------------------------------+
+	|   fexcPrediction.m             | Predicts future excitation forces         		|
+	+--------------------------------+------------------------------------------------------+
+	|   floatMPCIrreg.slx            | Simulink model including model predictive controller |
+	+--------------------------------+------------------------------------------------------+
+	|   mpcFcn.m		         | Creates and solves quadratic programming problem     |
+	+--------------------------------+------------------------------------------------------+
+	|   plotFreqDep.m   		 | Solves for and plots frequency dependence coeffs     |
+	+--------------------------------+------------------------------------------------------+
+
+The Simulink diagram is shown in the figure below. The figure shows an overview of 
+the controller, which primarily consists of the plant model and the optimizer. The plant 
+model uses the excitation force, applied PTO force, and current states to calculate the 
+states at the next timestep. Lastly, the optimizer predicts the future excitation, which 
+is input into the mpcFcn.m file along with the states to solve for the optimal change in 
+PTO force (integrated to solve for instantaneous PTO force). 
+
+.. figure:: /_static/images/mpcSimulink.png
+   :width: 500pt 
+
+The results of the model predictive controller simulation in irregular waves are shown 
+below with the dashed lines showing the applied constraints. MPC successfully 
+restricts the system to within the constraints while also optimizing the power (259 kW). 
+The constraints can be limited to account for WEC and PTO physical limitations, but
+this limits the energy harvested. There are also some other parameters which can be 
+defined by the user such as the MPC timestep, prediction horizon, r-scale, etc. to 
+customize the controller as desired.
+
+.. figure:: /_static/images/mpcPos.png
+   :width: 300pt 
+
+.. figure:: /_static/images/mpcVel.png
+   :width: 300pt 
+
+.. figure:: /_static/images/mpcForce.png
+   :width: 300pt 
+
+.. figure:: /_static/images/mpcForceChange.png
+   :width: 300pt 
+
 
 .. _user-advanced-features-cable:
 
