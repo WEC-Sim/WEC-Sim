@@ -91,9 +91,8 @@ controller(1).modelPredictiveControl.maxVel = 3;
 controller(1).modelPredictiveControl.rScale = 2e-8;
 controller(1).modelPredictiveControl.Ho = 250;
 controller(1).modelPredictiveControl.predictionHorizon = 20;
+controller(1).modelPredictiveControl.coeffFile = 'coeff.mat';
+controller(1).modelPredictiveControl.plantFile = 'makePlantModel.m';
+controller(1).modelPredictiveControl.predictFile = 'makePredictiveModel.m';
 
-% controller(1) = controllerClass('PI');
-% controller(1).proportionalIntegral.Kp = 4.934e5;
-% controller(1).proportionalIntegral.Ki = -1.77e6;
-
-%controllerInfo = Simulink.Bus.createObject(controller(1));
+setupMPC

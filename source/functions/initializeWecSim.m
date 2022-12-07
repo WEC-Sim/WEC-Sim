@@ -211,8 +211,7 @@ if exist('controller','var') == 1
     for ii = 1:simu.numControllers
         controller(ii).checkInputs();
         if controller(ii).MPC == 1
-            controller(ii).setUpMPC(body,simu);
-            %busInfo = Simulink.Bus.createObject(controller);
+            %controller(ii).setUpMPC(body,simu);
             global mpcStruct;
             mpcStruct = controller(1);
         end
