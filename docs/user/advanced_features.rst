@@ -401,6 +401,17 @@ following features are available:
   buoyancy and Froude-Krylov excitation and ParaView visualization files. Users 
   can then visualize the geometry using the :code:`body(i).plotStl` method.
 
+The moment of inertia and of a body can be specified with ``body(i).inertia``. The moment of
+inertia must be evaluated based on the body's unadjusted initial position and using the 
+global reference frame. If the principal axes of the bodies do not align with the global 
+reference frame, users should define the product of inertia using ``body(i).inertiaProducts``.
+This is likely necessary for bodies that are highly irregular or not symmetric. 
+.. confirm this statement: Note that rotating the bodies initial position using ``body(i).setInitDisp()`` or ``body(i).initial.angle`` will also rotate the inertial axes of the body in Simscape. This is not a solution
+
+Note that various CAD software may use a different convention in the product of inertia 
+definition than Simscape. Review the `Simscape product of inertia <https://www.mathworks.com/help/sm/ug/specify-custom-inertia.html>`_ 
+documentation for details on the convention used in Simscape and WEC-Sim.
+
 .. _user-advanced-features-nonlinear:
 
 Nonlinear Buoyancy and Froude-Krylov Excitation
