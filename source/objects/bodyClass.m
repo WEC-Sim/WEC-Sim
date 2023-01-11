@@ -38,6 +38,7 @@ classdef bodyClass<handle
         h5File (1,:) {mustBeText}                   = ''                    % (`string`) hdf5 file containing the hydrodynamic data
         hydroStiffness (6,6) {mustBeNumeric}        = zeros(6)              % (`6x6 float matrix`) Linear hydrostatic stiffness matrix. If the variable is nonzero, the matrix will override the h5 file values. Default = ``zeros(6)``.
         inertia (1,:) {mustBeNumeric}               = []                    % (`1x3 float vector`) Rotational inertia or mass moment of inertia [kg*m^{2}]. Defined by the user in the following format [Ixx Iyy Izz]. Default = ``[]``.
+        inertiaProducts (1,:) {mustBeNumeric}       = [0 0 0]               % (`1x3 float vector`) Rotational inertia or mass products of inertia [kg*m^{2}]. Defined by the user in the following format [Ixy Ixz Iyz]. Default = ``[]``.
         initial (1,1) struct                        = struct(...            % (`structure`) Defines the initial displacement of the body.
             'displacement',                         [0 0 0], ...            %
             'axis',                                 [0 1 0], ...            %
@@ -255,7 +256,8 @@ classdef bodyClass<handle
             fprintf('\n\t***** Body Number %G, Name: %s *****\n',obj.hydroData.properties.number,obj.hydroData.properties.name)
             fprintf('\tBody CG                          (m) = [%G,%G,%G]\n',obj.hydroData.properties.centerGravity)
             fprintf('\tBody Mass                       (kg) = %G \n',obj.mass);
-            fprintf('\tBody Diagonal MOI              (kgm2)= [%G,%G,%G]\n',obj.inertia)
+            fprintf('\tBody Moments of Inertia       (kgm2) = [%G,%G,%G]\n',obj.inertia);
+            fprintf('\tBody Products of Inertia      (kgm2) = [%G,%G,%G]\n',obj.inertiaProducts);
         end
         
         function loadHydroData(obj, hydroData)
@@ -372,34 +374,58 @@ classdef bodyClass<handle
             % Merge diagonal term of added mass matrix to the mass matrix
             % 1. Store the original mass and added-mass properties
             % 2. Add diagonal added-mass inertia to moment of inertia
-            % 3. Add the maximum diagonal traslational added-mass to body
+            % 3. Add off-diagonal added-mass inertia to product of inertia
+            % 4. Add the maximum diagonal traslational added-mass to body
             % mass - this is not the correct description
             iBod = obj.number;
             obj.hydroForce.storage.mass = obj.mass;
             obj.hydroForce.storage.inertia = obj.inertia;
+            obj.hydroForce.storage.inertiaProducts = obj.inertiaProducts;
             obj.hydroForce.storage.fAddedMass = obj.hydroForce.fAddedMass;
             if B2B == 1
                 tmp.fadm=diag(obj.hydroForce.fAddedMass(:,1+(iBod-1)*6:6+(iBod-1)*6));
                 tmp.adjmass = sum(tmp.fadm(1:3))*adjMassFactor;
+                tmp.inertiaProducts = [obj.hydroForce.fAddedMass(4,5+(iBod-1)*6) ...
+                                       obj.hydroForce.fAddedMass(4,6+(iBod-1)*6) ...
+                                       obj.hydroForce.fAddedMass(5,6+(iBod-1)*6)];
                 obj.mass = obj.mass + tmp.adjmass;
                 obj.inertia = obj.inertia+tmp.fadm(4:6)';
+                obj.inertiaProducts = obj.inertiaProducts + tmp.inertiaProducts;
                 obj.hydroForce.fAddedMass(1,1+(iBod-1)*6) = obj.hydroForce.fAddedMass(1,1+(iBod-1)*6) - tmp.adjmass;
                 obj.hydroForce.fAddedMass(2,2+(iBod-1)*6) = obj.hydroForce.fAddedMass(2,2+(iBod-1)*6) - tmp.adjmass;
                 obj.hydroForce.fAddedMass(3,3+(iBod-1)*6) = obj.hydroForce.fAddedMass(3,3+(iBod-1)*6) - tmp.adjmass;
                 obj.hydroForce.fAddedMass(4,4+(iBod-1)*6) = 0;
                 obj.hydroForce.fAddedMass(5,5+(iBod-1)*6) = 0;
                 obj.hydroForce.fAddedMass(6,6+(iBod-1)*6) = 0;
+                obj.hydroForce.fAddedMass(4,5+(iBod-1)*6) = 0;
+                obj.hydroForce.fAddedMass(4,6+(iBod-1)*6) = 0;
+                obj.hydroForce.fAddedMass(5,6+(iBod-1)*6) = 0;
+                % matrix should be symmetric, but remove symmetric components to preserve any numerical differences
+                obj.hydroForce.fAddedMass(5,4+(iBod-1)*6) = obj.hydroForce.fAddedMass(5,4+(iBod-1)*6) - tmp.inertiaProducts(1);
+                obj.hydroForce.fAddedMass(6,4+(iBod-1)*6) = obj.hydroForce.fAddedMass(6,4+(iBod-1)*6) - tmp.inertiaProducts(2);
+                obj.hydroForce.fAddedMass(6,5+(iBod-1)*6) = obj.hydroForce.fAddedMass(6,5+(iBod-1)*6) - tmp.inertiaProducts(3);
             else
                 tmp.fadm=diag(obj.hydroForce.fAddedMass);
                 tmp.adjmass = sum(tmp.fadm(1:3))*adjMassFactor;
+                tmp.inertiaProducts = [obj.hydroForce.fAddedMass(4,5) ...
+                                       obj.hydroForce.fAddedMass(4,6) ...
+                                       obj.hydroForce.fAddedMass(5,6)];
                 obj.mass = obj.mass + tmp.adjmass;
-                obj.inertia = obj.inertia+tmp.fadm(4:6)';
+                obj.inertia = obj.inertia + tmp.fadm(4:6)';
+                obj.inertiaProducts = obj.inertiaProducts + tmp.inertiaProducts;
                 obj.hydroForce.fAddedMass(1,1) = obj.hydroForce.fAddedMass(1,1) - tmp.adjmass;
                 obj.hydroForce.fAddedMass(2,2) = obj.hydroForce.fAddedMass(2,2) - tmp.adjmass;
                 obj.hydroForce.fAddedMass(3,3) = obj.hydroForce.fAddedMass(3,3) - tmp.adjmass;
                 obj.hydroForce.fAddedMass(4,4) = 0;
                 obj.hydroForce.fAddedMass(5,5) = 0;
                 obj.hydroForce.fAddedMass(6,6) = 0;
+                obj.hydroForce.fAddedMass(4,5) = 0;
+                obj.hydroForce.fAddedMass(4,6) = 0;
+                obj.hydroForce.fAddedMass(5,6) = 0;
+                % matrix should be symmetric, but remove symmetric components to preserve any numerical differences
+                obj.hydroForce.fAddedMass(5,4) = obj.hydroForce.fAddedMass(5,4) - tmp.inertiaProducts(1);
+                obj.hydroForce.fAddedMass(6,4) = obj.hydroForce.fAddedMass(6,4) - tmp.inertiaProducts(2);
+                obj.hydroForce.fAddedMass(6,5) = obj.hydroForce.fAddedMass(6,5) - tmp.inertiaProducts(3);
             end
         end
         
@@ -408,9 +434,11 @@ classdef bodyClass<handle
             tmp = struct;
             tmp.mass = obj.mass;
             tmp.inertia = obj.inertia;
+            tmp.inertiaProducts = obj.inertiaProducts;
             tmp.hydroForce_fAddedMass = obj.hydroForce.fAddedMass;
             obj.mass = obj.hydroForce.storage.mass;
             obj.inertia = obj.hydroForce.storage.inertia;
+            obj.inertiaProducts = obj.hydroForce.storage.inertiaProducts;
             obj.hydroForce.fAddedMass = obj.hydroForce.storage.fAddedMass;
             obj.hydroForce.storage = tmp; clear tmp
         end

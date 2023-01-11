@@ -58,7 +58,8 @@ switch type
         maskVars.h5File = body(num).h5File;                          % Create the body(1) Variable, Set Location of Hydrodynamic Data File and Body Number Within this File.   
         maskVars.geometryFile = body(num).geometryFile;              % Location of Geomtry File
         maskVars.mass = body(num).mass;                              % Body Mass
-        maskVars.inertia = body(num).inertia;                        % Moment of Inertia [kg*m^2]  
+        maskVars.inertia = body(num).inertia;                        % Moment of Inertia [kg*m^2] 
+        maskVars.inertiaProducts = body(num).inertiaProducts;        % Products of Inertia [kg*m^2]   
         maskVars.nonHydro = body(num).nonHydro;
         maskVars.nonlinearHydro = body(num).nonlinearHydro;
         maskVars.flex = body(num).flex;
