@@ -63,18 +63,6 @@ global mpcStruct;
   % Specify the block simStateCompliance. The allowed values are:
   %    'DefaultSimState', < Same SimState as a built-in block
   block.SimStateCompliance = 'DefaultSimState';
-  
-  % -----------------------------------------------------------------
-  % The MATLAB S-function uses an internal registry for all
-  % block methods. You should register all relevant methods
-  % (optional and required) as illustrated below. You may choose
-  % any suitable name for the methods and implement these methods
-  % as local functions within the same file.
-  %
-  % Note from Mike: There were tons of these in the example file. I deleted
-  % all but Outputs. Check the L2 example if you want all of them.
-  %
-  % -----------------------------------------------------------------
  
   % 
   % Outputs:

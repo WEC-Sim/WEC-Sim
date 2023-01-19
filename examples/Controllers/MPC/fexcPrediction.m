@@ -58,18 +58,6 @@ global mpcStruct;
   % Specify the block simStateCompliance. The allowed values are:
   %    'DefaultSimState', < Same SimState as a built-in block
   block.SimStateCompliance = 'DefaultSimState';
-  
-  % -----------------------------------------------------------------
-  % The MATLAB S-function uses an internal registry for all
-  % block metprediction.Hods. You sprediction.Hould register all relevant metprediction.Hods
-  % (optional and required) as illustrated below. You may cprediction.Hoose
-  % any suitable name for the metprediction.Hods and implement these metprediction.Hods
-  % as local functions within the same file.
-  %
-  % Note from Mike: There were tons of these in the example file. I deleted
-  % all but Outputs. Check the L2 example if you want all of them.
-  %
-  % -----------------------------------------------------------------
  
   % 
   % Outputs:
