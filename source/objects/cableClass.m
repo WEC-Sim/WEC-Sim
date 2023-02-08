@@ -31,7 +31,8 @@ classdef cableClass<handle
     
     properties (SetAccess = 'public', GetAccess = 'public') %input file
         damping (1,1) {mustBeNumeric}                   = 0                 % (`float`) Cable damping coefficient (N/(m/s)). Default = `0`.
-        inertia (1,3) {mustBeNumeric}                   = [1 1 1];          % (`1x3 float vector`) body inertia kg-m^2, default [1 1 1]
+        inertia (1,3) {mustBeNumeric}                   = [1 1 1];          % (`1x3 float vector`) body moments of inertia kg-m^2, default [1 1 1]
+        inertiaProducts (1,3) {mustBeNumeric}           = [0 0 0];          % (`1x3 float vector`) body products of inertia kg-m^2, default [0 0 0]
         initial (1,1) struct                            = struct(...        % (`structure`) Defines the initial displacement of the body. 
             'displacement',                             [0 0 0],...         % 
             'axis',                                     [0 1 0], ...        %

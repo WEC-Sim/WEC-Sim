@@ -138,6 +138,7 @@ for i=1:length(blocks)
         fprintf(fid,writeLineFromVar(body, 'geometryFile', maskVars, maskViz, num, []));
         fprintf(fid,writeLineFromVar(body, 'mass', maskVars, maskViz, num, []));
         fprintf(fid,writeLineFromVar(body, 'inertia', maskVars, maskViz, num, []));
+        fprintf(fid,writeLineFromVar(body, 'inertiaProducts', maskVars, maskViz, num, []));
         fprintf(fid,writeLineFromVar(body, 'nonHydro', maskVars, maskViz, num, []));
         fprintf(fid,writeLineFromVar(body, 'nonlinearHydro', maskVars, maskViz, num, []));
         fprintf(fid,writeLineFromVar(body, 'flex', maskVars, maskViz, num, []));
