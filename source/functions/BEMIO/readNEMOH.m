@@ -90,11 +90,17 @@ for n = 1:N
         hydro(F).body{b} = tmp{length(tmp)-1};  % Body names
     end
     if isempty(strfind(raw{n},'Number of wave frequencies'))==0
-        tmp = textscan(raw{n},'%f %f %f');
-        hydro(F).Nf = tmp{1};  % Number of wave frequencies
-        hydro(F).w = linspace(tmp{2},tmp{3},tmp{1});  % Wave frequencies
+        try
+            tmp = textscan(raw{n},'%f %f %f');
+            hydro(F).Nf = tmp{1};  % Number of wave frequencies
+            hydro(F).w = linspace(tmp{2},tmp{3},tmp{1});  % Wave frequencies
+        catch   %Nemoh v3.0
+            tmp = textscan(raw{n},'%f %f %f %f');                       %added a new %f because of NEMOH3.0 Nemol.cal format change
+            hydro(F).Nf = tmp{2};  % Number of wave frequencies         
+            hydro(F).w = linspace(tmp{3},tmp{4},tmp{2});  % Wave frequencies    
+        end
         hydro(F).T = 2*pi./hydro(F).w;  % Wave periods
-    end
+    end  
     if isempty(strfind(raw{n},'Number of wave directions'))==0
         tmp = textscan(raw{n},'%f %f %f');
         hydro(F).Nh = tmp{1};  % Number of wave headings
