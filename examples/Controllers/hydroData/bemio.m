@@ -2,10 +2,10 @@
 
 %% hydro data
 hydro = struct();
-hydro = readWAMIT(hydro,'rm3.out',[]);
-hydro = radiationIRF(hydro,60,[],[],[],[]);
+hydro = readWAMIT(hydro,'sphere.out',[]);
+hydro = radiationIRF(hydro,15,[],[],[],[]);
 hydro = radiationIRFSS(hydro,[],[]);
-hydro = excitationIRF(hydro,157,[],[],[],[]);
+hydro = excitationIRF(hydro,62.5,[],[],[],[]);
 writeBEMIOH5(hydro)
 
 %% Plot hydro data

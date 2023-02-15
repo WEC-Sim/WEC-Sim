@@ -27,6 +27,7 @@ output.plotForces(1,3);
 
 figure()
 plot(output.ptos.time,output.ptos.powerInternalMechanics(:,3))
+title('PTO Power')
 disp('PTO Power:')
 mean(output.ptos.powerInternalMechanics(:,3))
 
@@ -38,8 +39,8 @@ xlabel('Time (s)')
 
 %last 10 periods
 endInd = length(output.controllers.power(:,3));
-startTime = 200; % select last 10 periods
-[~,startInd] = min(abs(output.controllers.power(:,3) - startTime));
+startTime = 300; % select last 10 periods
+[~,startInd] = min(abs(output.controllers.time(:) - startTime));
 disp('Controller Power:')
 mean( mean(output.controllers.power(startInd:endInd,3)))
 

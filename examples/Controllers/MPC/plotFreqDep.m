@@ -2,21 +2,21 @@ close all; clear all; clc;
 
 % Inputs (from wecSimInputFile)
 simu = simulationClass();
-body(1) = bodyClass('../hydroData/rm3.h5');
+body(1) = bodyClass('../hydroData/sphere.h5');
 waves.height = 2.5;
 waves.period = 9.52;
 
 % Load hydrodynamic data for float from BEM
-floatHydro = readBEMIOH5(body.h5File, 1, body.meanDrift);
+hydro = readBEMIOH5(body.h5File, 1, body.meanDrift);
 
 % Define the intrinsic mechanical impedance for the device
-mass = simu.rho*floatHydro.properties.volume;
-addedMass = squeeze(floatHydro.hydro_coeffs.added_mass.all(3,3,:))*simu.rho;
+mass = simu.rho*hydro.properties.volume;
+addedMass = squeeze(hydro.hydro_coeffs.added_mass.all(3,3,:))*simu.rho;
 aInf = addedMass(end);
-aInf = squeeze(floatHydro.hydro_coeffs.added_mass.inf_freq(3,3))*simu.rho;
-radiationDamping = squeeze(floatHydro.hydro_coeffs.radiation_damping.all(3,3,:)).*squeeze(floatHydro.simulation_parameters.w')*simu.rho;
-hydrostaticStiffness = floatHydro.hydro_coeffs.linear_restoring_stiffness(3,3)*simu.rho*simu.gravity;
-omegas = floatHydro.simulation_parameters.w;
+aInf = squeeze(hydro.hydro_coeffs.added_mass.inf_freq(3,3))*simu.rho;
+radiationDamping = squeeze(hydro.hydro_coeffs.radiation_damping.all(3,3,:)).*squeeze(hydro.simulation_parameters.w')*simu.rho;
+hydrostaticStiffness = hydro.hydro_coeffs.linear_restoring_stiffness(3,3)*simu.rho*simu.gravity;
+omegas = hydro.simulation_parameters.w;
 
 % Construct C - frequency dependent component
 C = radiationDamping + 1j*omegas'.*(addedMass - aInf);
@@ -29,14 +29,14 @@ Phase = (angle(C))*(180/pi);
 % Create bode plot for frequency dependent component
 figure()
 subplot(2,1,1)
-semilogx((floatHydro.simulation_parameters.w),Mag)
+semilogx((hydro.simulation_parameters.w),Mag)
 xlabel('freq (rad/s)')
 ylabel('mag (dB)')
 grid on
 hold on
 
 subplot(2,1,2)
-semilogx((floatHydro.simulation_parameters.w),Phase)
+semilogx((hydro.simulation_parameters.w),Phase)
 xlabel('freq (rad/s)')
 ylabel('phase (deg)')
 grid on
@@ -68,7 +68,7 @@ cInfw = subs(cInf2, s, 1j*w);
 % Create bode plot for comparison
 figure()
 subplot(2,1,1)
-semilogx((floatHydro.simulation_parameters.w),Mag)
+semilogx((hydro.simulation_parameters.w),Mag)
 xlabel('freq (rad/s)')
 ylabel('mag (dB)')
 grid on
@@ -76,7 +76,7 @@ hold on
 fplot(20*log10(abs(cInfw)), [min(omegas) max(omegas)],'-o')
 
 subplot(2,1,2)
-semilogx((floatHydro.simulation_parameters.w),Phase)
+semilogx((hydro.simulation_parameters.w),Phase)
 xlabel('freq (rad/s)')
 ylabel('phase (deg)')
 grid on

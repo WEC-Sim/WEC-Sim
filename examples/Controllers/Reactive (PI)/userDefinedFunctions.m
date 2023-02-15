@@ -33,7 +33,7 @@ xlabel('Time (s)')
 
 %last 10 periods
 endInd = length(output.controllers.power(:,3));
-startTime = output.controllers.power(end,3) - 10*waves.period; % select last 10 periods
-[~,startInd] = min(abs(output.controllers.power(:,3) - startTime));
+startTime = output.controllers.time(end) - 10*waves.period; % select last 10 periods
+[~,startInd] = min(abs(output.controllers.time(:) - startTime));
 disp('Controller Power:')
 mean( mean(output.controllers.power(startInd:endInd,3)))

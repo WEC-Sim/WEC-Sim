@@ -16,7 +16,6 @@ if imcr == length(mcr.cases)
     title('Mean Power vs. Latching Time')
     xlabel('Latching Time (s)')
     ylabel('Mean Power (W)')
-    xline(2.2667, '--')
-    %yline(-3.9286e5, '--')
+    xline(2.6666, '--')
     legend('','Theoretical Optimal')
 end

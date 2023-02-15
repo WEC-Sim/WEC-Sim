@@ -4,7 +4,7 @@ mcr = struct();
 mcr.header = ["controller(1).proportionalIntegral.Kp","controller(1).proportionalIntegral.Ki"];
 mcr.cases = zeros(81,2);
 %%
-Kp = linspace(3.3341e5,6.5341e5,9); Ki = linspace(-2.5705e6,-0.9705e6,9);
+Kp = linspace(1.8181e4,8.0181e4,9); Ki = linspace(-6.0355e5,-5.4355e5,9);
 Kpmat = []; Kimat = [];
 for jj = 1:length(Ki)
     for ii = 1:length(Kp)

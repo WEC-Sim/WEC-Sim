@@ -7,6 +7,7 @@ simu.startTime = 0;                     % Simulation Start Time [s]
 simu.rampTime = 100;                    % Wave Ramp Time [s]
 simu.endTime = 400;                     % Simulation End Time [s]
 simu.solver = 'ode4';                   % simu.solver = 'ode4' for fixed step & simu.solver = 'ode45' for variable step 
+simu.cicEndTime = 10;
 simu.dt = 0.01; 							% Simulation time-step [s]
 
 %% Wave Information 
@@ -16,7 +17,7 @@ simu.dt = 0.01; 							% Simulation time-step [s]
 % % % Regular Waves  
 % waves = waveClass('regular');           % Initialize Wave Class and Specify Type                                 
 % waves.height = 2.5;                     % Wave Height [m]
-% waves.period = 9.52;                       % Wave Period [s]
+% waves.period = 9.6664;                       % Wave Period [s]
 
 % % Regular Waves with CIC
 % waves = waveClass('regularCIC');          % Initialize Wave Class and Specify Type                                 
@@ -56,10 +57,10 @@ waves.phaseSeed = 1;                      % Phase is seeded so eta is the same
 
 %% Body Data
 % Float
-body(1) = bodyClass('../hydroData/rm3.h5');      
+body(1) = bodyClass('../hydroData/sphere.h5');      
     % Create the body(1) Variable, Set Location of Hydrodynamic Data File 
     % and Body Number Within this File.   
-body(1).geometryFile = '../geometry/float.stl';    % Location of Geomtry File
+body(1).geometryFile = '../geometry/sphere.stl';    % Location of Geomtry File
 body(1).mass = 'equilibrium';                   
     % Body Mass. The 'equilibrium' Option Sets it to the Displaced Water 
     % Weight.
@@ -84,13 +85,13 @@ pto(1).location = [0 0 0];                      % PTO Location [m]
 
 controller(1) = controllerClass('MPC');
 controller(1).MPC = 1;
-controller(1).modelPredictiveControl.maxPTOForce = 20e6;
-controller(1).modelPredictiveControl.maxPTOForceChange = 8e6;
-controller(1).modelPredictiveControl.maxPos = 6;
-controller(1).modelPredictiveControl.maxVel = 3;
-controller(1).modelPredictiveControl.rScale = 2e-8;
-controller(1).modelPredictiveControl.Ho = 250;
-controller(1).modelPredictiveControl.predictionHorizon = 20;
+controller(1).modelPredictiveControl.maxPTOForce = 2e6;
+controller(1).modelPredictiveControl.maxPTOForceChange = 1.5e6;
+controller(1).modelPredictiveControl.maxPos = 3;
+controller(1).modelPredictiveControl.maxVel = 2;
+controller(1).modelPredictiveControl.rScale = 2e-7;
+controller(1).modelPredictiveControl.Ho = 200;
+controller(1).modelPredictiveControl.predictionHorizon = 15;
 controller(1).modelPredictiveControl.coeffFile = 'coeff.mat';
 controller(1).modelPredictiveControl.plantFile = 'makePlantModel.m';
 controller(1).modelPredictiveControl.predictFile = 'makePredictiveModel.m';

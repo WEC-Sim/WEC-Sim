@@ -17,7 +17,7 @@ simu.mcrMatFile = 'mcrCases.mat';
 % % Regular Waves  
 waves = waveClass('regular');           % Initialize Wave Class and Specify Type                                 
 waves.height = 1;                     % Wave Height [m]
-waves.period = 4;                       % Wave Period [s]
+waves.period = 3.5;                       % Wave Period [s]
 
 % % Regular Waves with CIC
 % waves = waveClass('regularCIC');          % Initialize Wave Class and Specify Type                                 
@@ -57,10 +57,10 @@ waves.period = 4;                       % Wave Period [s]
 
 %% Body Data
 % Float
-body(1) = bodyClass('../hydroData/rm3.h5');      
+body(1) = bodyClass('../hydroData/sphere.h5');      
     % Create the body(1) Variable, Set Location of Hydrodynamic Data File 
     % and Body Number Within this File.   
-body(1).geometryFile = '../geometry/float.stl';    % Location of Geomtry File
+body(1).geometryFile = '../geometry/sphere.stl';    % Location of Geomtry File
 body(1).mass = 'equilibrium';                   
     % Body Mass. The 'equilibrium' Option Sets it to the Displaced Water 
     % Weight.
@@ -84,5 +84,5 @@ pto(1).damping = 0;                       % PTO Damping [N/(m/s)]
 pto(1).location = [0 0 0];                      % PTO Location [m]
 
 controller(1) = controllerClass('Declutching');
-controller(1).declutching.declutchTime = .85;
-controller(1).declutching.Kp =  9.9347e+05;
+controller(1).declutching.declutchTime = .4166;
+controller(1).declutching.Kp = 2.3202e5;

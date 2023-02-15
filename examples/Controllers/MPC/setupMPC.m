@@ -1,14 +1,14 @@
 % This method sets up the variables to run model predictive control 
 
 % Load hydrodynamic data for float from BEM
-floatHydro = readBEMIOH5(body.h5File, 1, body.meanDrift);
+hydro = readBEMIOH5(body.h5File, 1, body.meanDrift);
 
 disp('setting up MPC')
-controller(1).bemData.a = squeeze(floatHydro.hydro_coeffs.added_mass.all(3,3,:)).*simu.rho;
-controller(1).bemData.aInf = floatHydro.hydro_coeffs.added_mass.inf_freq(3,3)*simu.rho;
-controller(1).bemData.m = floatHydro.properties.volume*1000;
-controller(1).bemData.k = floatHydro.hydro_coeffs.linear_restoring_stiffness(3,3)*simu.rho*simu.gravity; 
-controller(1).bemData.b = squeeze(floatHydro.hydro_coeffs.radiation_damping.all(3,3,:)).*simu.rho.*floatHydro.simulation_parameters.w';
+controller(1).bemData.a = squeeze(hydro.hydro_coeffs.added_mass.all(3,3,:)).*simu.rho;
+controller(1).bemData.aInf = hydro.hydro_coeffs.added_mass.inf_freq(3,3)*simu.rho;
+controller(1).bemData.m = hydro.properties.volume*1000;
+controller(1).bemData.k = hydro.hydro_coeffs.linear_restoring_stiffness(3,3)*simu.rho*simu.gravity; 
+controller(1).bemData.b = squeeze(hydro.hydro_coeffs.radiation_damping.all(3,3,:)).*simu.rho.*hydro.simulation_parameters.w';
 controller(1).MPCSetup.HpInk = controller(1).modelPredictiveControl.predictionHorizon/controller(1).modelPredictiveControl.dt;
 controller(1).MPCSetup.qScale = 0.5*controller(1).modelPredictiveControl.dt;
 controller(1).MPCSetup.currentIteration = 0;

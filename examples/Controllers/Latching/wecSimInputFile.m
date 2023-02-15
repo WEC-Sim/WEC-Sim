@@ -17,7 +17,7 @@ simu.mcrMatFile = 'mcrCases.mat';
 % % Regular Waves  
 waves = waveClass('regular');           % Initialize Wave Class and Specify Type                                 
 waves.height = 2.5;                     % Wave Height [m]
-waves.period = 9.52;                       % Wave Period [s]
+waves.period = 9.6664;                       % Wave Period [s]
 
 % % Regular Waves with CIC
 % waves = waveClass('regularCIC');          % Initialize Wave Class and Specify Type                                 
@@ -57,20 +57,14 @@ waves.period = 9.52;                       % Wave Period [s]
 
 %% Body Data
 % Float
-body(1) = bodyClass('../hydroData/rm3.h5');      
+body(1) = bodyClass('../hydroData/sphere.h5');      
     % Create the body(1) Variable, Set Location of Hydrodynamic Data File 
     % and Body Number Within this File.   
-body(1).geometryFile = '../geometry/float.stl';    % Location of Geomtry File
+body(1).geometryFile = '../geometry/sphere.stl';    % Location of Geomtry File
 body(1).mass = 'equilibrium';                   
     % Body Mass. The 'equilibrium' Option Sets it to the Displaced Water 
     % Weight.
 body(1).inertia = [20907301 21306090.66 37085481.11];  % Moment of Inertia [kg*m^2]     
-
-% % Spar/Plate
-% body(2) = bodyClass('hydroData/rm3.h5'); 
-% body(2).geometryFile = 'geometry/plate.stl'; 
-% body(2).mass = 'equilibrium';                   
-% body(2).inertia = [94419614.57 94407091.24 28542224.82];
 
 %% PTO and Constraint Parameters
 % Floating (3DOF) Joint
@@ -84,6 +78,6 @@ pto(1).damping = 0;                       % PTO Damping [N/(m/s)]
 pto(1).location = [0 0 0];                      % PTO Location [m]
 
 controller(1) = controllerClass('Latching');
-controller(1).latching.latchTime = 1.86;
-controller(1).latching.Kp = 4.9341e+05;
-controller(1).latching.forceCoeff = 189251600;
+controller(1).latching.latchTime = 2.6666;
+controller(1).latching.Kp = 4.9181e+04;
+controller(1).latching.forceCoeff = 37308296;

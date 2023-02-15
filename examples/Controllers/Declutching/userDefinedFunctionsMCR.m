@@ -16,7 +16,6 @@ if imcr == length(mcr.cases)
     title('Mean Power vs. Declutching Time')
     xlabel('Declutching Time (s)')
     ylabel('Mean Power (W)')
-    xline(.4933, '--')
-    %yline(-3.9286e5, '--')
+    xline(.4166, '--')
     legend('','Theoretical Optimal')
 end
