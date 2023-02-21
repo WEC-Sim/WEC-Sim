@@ -15,9 +15,9 @@ simu.cicEndTime = 30;                   % Specify CI Time [s]
 % waves = waveClass('noWaveCIC');       % Initialize Wave Class and Specify Type  
 
 % % Regular Waves 
-% waves = waveClass('regular');           % Initialize Wave Class and Specify Type                                 
-% waves.height = 2.5;                     % Wave Height [m]
-% waves.period = 8;                       % Wave Period [s]
+% waves = waveClass('regular');         % Initialize Wave Class and Specify Type                                 
+% waves.height = 2.5;                   % Wave Height [m]
+% waves.period = 8;                     % Wave Period [s]
 
 % Irregular Waves using PM Spectrum with Directionality 
 waves = waveClass('irregular');         % Initialize Wave Class and Specify Type
@@ -32,8 +32,8 @@ waves.spread = [0.1,0.2,0.7];           % Wave Directional Spreading [%}
 % waves.spectrumFile = 'spectrumData.mat';  % Name of User-Defined Spectrum File [:,2] = [f, Sf]
 
 % % Waves with imported wave elevation time-history  
-% waves = waveClass('elevationImport');          % Create the Wave Variable and Specify Type
-% waves.elevationFile = 'elevationData.mat';     % Name of User-Defined Time-Series File [:,2] = [time, eta]
+% waves = waveClass('elevationImport');         % Create the Wave Variable and Specify Type
+% waves.elevationFile = 'elevationData.mat';    % Name of User-Defined Time-Series File [:,2] = [time, eta]
 
 
 %% Body Data
