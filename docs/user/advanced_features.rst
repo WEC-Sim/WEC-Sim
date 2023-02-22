@@ -1040,7 +1040,7 @@ adjusted based on the device's properties:
 Because latching achieves phase matching between the waves and device, the optimal 
 damping can be assumed the same as for reactive control. Lastly, the main control 
 variable, latching time, needs to be determined. For regular waves, it is 
-desired for the device to move for a time equal to its natural frequency meaning 
+desired for the device to move for a time equal to its natural frequency, meaning 
 the optimal latching time is likely close to half the difference between the wave 
 period and the natural period (accounting for 2 latching periods per wave period).
 
@@ -1061,7 +1061,7 @@ much larger power when compared to traditional passive control.
    :width: 500pt 
 
 Further, the figure below shows the excitation force and velocity, which are effectively 
-in phase when a latching time of 1.86 seconds is implemented.
+in phase when a latching time of 2.4 seconds is implemented.
 
 .. figure:: /_static/images/latching.png
    :width: 500pt 
@@ -1090,16 +1090,16 @@ period, but is further examined through tests.
 
     t_{declutch} = \frac{1}{2} (T_{wave} - T_{nat})
 
-This optimal latching time has been calculated using the optimalGainCalc.m file 
+This optimal declutching time has been calculated using the optimalGainCalc.m file 
 and implemented in WEC-Sim. Because energy is not harvested during the declutching 
 period, it is likely that a larger damping is required. Thus, the optimal passive 
 damping value was used for the following simulations, although a more 
 optimal damping value likely exists for delclutching.
 
 Since declutching is most desired when the wave period is smaller than the natural period, 
-a wave period of 4 seconds was tested with a height of 1 m. For comparison to traditional 
+a wave period of 3.5 seconds was tested with a height of 1 m. For comparison to traditional 
 passive control, the optimal passive damping value was tested for these conditions, leading
-to a power of 9.11 kW. The mcrBuildTimes.m file sets up a sweep of the declutching times, 
+to a power of 5.75 kW. The mcrBuildTimes.m file sets up a sweep of the declutching times, 
 the results for which are shown in the figure below. It is clear that delcuthing control 
 can offer an improvement over traditional passive control.
 
@@ -1107,7 +1107,7 @@ can offer an improvement over traditional passive control.
    :width: 500pt 
 
 Further, the figure below shows the excitation force and velocity with a declutch time
-of 0.85 seconds. The excitation and response are not quite in phase, but the device 
+of 0.8 seconds. The excitation and response are not quite in phase, but the device 
 can be seen "catching up" to the wave motion during the declutching time. 
 
 .. figure:: /_static/images/declutching.png

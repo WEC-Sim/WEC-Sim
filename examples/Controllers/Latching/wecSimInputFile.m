@@ -78,6 +78,6 @@ pto(1).damping = 0;                       % PTO Damping [N/(m/s)]
 pto(1).location = [0 0 0];                      % PTO Location [m]
 
 controller(1) = controllerClass('Latching');
-controller(1).latching.latchTime = 2.6666;
+controller(1).latching.latchTime = 2.4;
 controller(1).latching.Kp = 4.9181e+04;
 controller(1).latching.forceCoeff = 37308296;

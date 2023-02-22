@@ -45,7 +45,7 @@ hold on
 xlabel('Time (s)')
 xlim([200 210])
 ylabel('Velocity (m/s)')
-ylim([-.3 .3])
+ylim([-.4 .4])
 yyaxis right
 plot(output.bodies.time,output.bodies.forceExcitation(:,3)/1000)
 ylabel('Excitation Force (kN)')

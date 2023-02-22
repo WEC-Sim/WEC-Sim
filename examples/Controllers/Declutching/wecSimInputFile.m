@@ -7,7 +7,7 @@ simu.startTime = 0;                     % Simulation Start Time [s]
 simu.rampTime = 100;                    % Wave Ramp Time [s]
 simu.endTime = 400;                     % Simulation End Time [s]
 simu.solver = 'ode4';                   % simu.solver = 'ode4' for fixed step & simu.solver = 'ode45' for variable step 
-simu.dt = 0.01; 							% Simulation time-step [s]
+simu.dt = 0.01; 					    % Simulation time-step [s]
 simu.mcrMatFile = 'mcrCases.mat';
 
 %% Wave Information 
@@ -16,8 +16,8 @@ simu.mcrMatFile = 'mcrCases.mat';
 
 % % Regular Waves  
 waves = waveClass('regular');           % Initialize Wave Class and Specify Type                                 
-waves.height = 1;                     % Wave Height [m]
-waves.period = 3.5;                       % Wave Period [s]
+waves.height = 1;                       % Wave Height [m]
+waves.period = 3.5;                     % Wave Period [s]
 
 % % Regular Waves with CIC
 % waves = waveClass('regularCIC');          % Initialize Wave Class and Specify Type                                 
@@ -84,5 +84,5 @@ pto(1).damping = 0;                       % PTO Damping [N/(m/s)]
 pto(1).location = [0 0 0];                      % PTO Location [m]
 
 controller(1) = controllerClass('Declutching');
-controller(1).declutching.declutchTime = .4166;
+controller(1).declutching.declutchTime = 0.8;
 controller(1).declutching.Kp = 2.3202e5;
