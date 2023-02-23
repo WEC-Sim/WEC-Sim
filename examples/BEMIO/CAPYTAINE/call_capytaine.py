@@ -148,7 +148,7 @@ def call_capy(meshFName, wCapy, CoG=([0,0,0],), headings=[0.0],ncFName=None,
     CoG: tuple of lists
         tuple contains a 3x1 list of each body's CoG
     headings: list
-        list of wave headings to compute
+        list of wave headings to compute [rad]
     saveNc: Bool
         save results to .nc file
     ncFName: str

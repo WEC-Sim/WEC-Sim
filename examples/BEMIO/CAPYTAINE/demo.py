@@ -42,7 +42,7 @@ body.add_all_rigid_body_dofs()
 
 # E. Define simulation parameters
 freq = np.linspace(0.02, 8.4, 3)
-directions = np.linspace(0,90,2)
+directions = np.linspace(0,np.pi/2,2)
 
 
 # 2. Define a list of problems to be solved. Can be radiation problems or 

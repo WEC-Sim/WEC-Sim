@@ -29,7 +29,7 @@ bem_name = ('rm3_float',
             'rm3_spar')                              # body names
 
 bem_w = np.linspace(0.02, 5.2, 260)                  # wave frequencies
-bem_headings = np.linspace(0,0,1)                    # wave headings
+bem_headings = np.linspace(0,np.pi/2,1)              # wave headings
 bem_depth = np.infty                                 # water depth
 
 bem_ncFile = os.getcwd() + os.path.sep + 'rm3.nc'    # path for output .nc file
