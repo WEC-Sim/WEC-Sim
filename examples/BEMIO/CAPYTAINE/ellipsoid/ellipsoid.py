@@ -1,8 +1,4 @@
-# -*- coding: utf-8 -*-
 """
-Created on Thu Nov  10 13:15:35 2020
-
-@author: akeeste
 This script recreates the ellipsoid model based on sample BEM 
 parameters from WEC-Sim (frequency range, directions, etc)
 

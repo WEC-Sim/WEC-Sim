@@ -1,15 +1,5 @@
-# -*- coding: utf-8 -*-
 """
-Created on Wed Jan  6 12:01:11 2021
-
-@author: akeeste
-
-
-I'm creating this script to serve as a parsed down version of the 
-CASE.py + call_capy.py scripts.
-
-Hopefully this better highlights the necessities for running Capytaine 
-without the wrapper, which is convenient but harder to read through.
+Simple example of running Capytaine and Meshmagick for WEC-Sim.
 
 Also see:
 Capytaine/docs/user_manual/examples directory
