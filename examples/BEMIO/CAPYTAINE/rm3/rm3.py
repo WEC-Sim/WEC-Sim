@@ -6,7 +6,7 @@ parameters from WEC-Sim (frequency range, directions, etc)
 
 # setup environment
 import os
-os.environ["OMP_NUM_THREADS"] = "1" 
+os.environ["OMP_NUM_THREADS"] = "2" 
 
 import numpy as np
 import sys
