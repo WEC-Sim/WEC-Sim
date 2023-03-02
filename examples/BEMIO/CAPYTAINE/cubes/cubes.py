@@ -1,8 +1,4 @@
-# -*- coding: utf-8 -*-
 """
-Created on Thu Nov  10 13:15:35 2020
-
-@author: akeeste
 This script recreates the cubes model on sample BEM 
 parameters from WEC-Sim (frequency range, directions, etc)
 
@@ -29,7 +25,7 @@ bem_name = ('r_cube_capytaine',
             't_cube_capytaine')                           # body names
 
 bem_w = np.linspace(0.03, 15.0, 500)                      # wave frequencies
-bem_headings = np.linspace(0,90,10)                       # wave headings
+bem_headings = np.linspace(0,np.pi/2,10)                  # wave headings
 bem_depth = 20.0                                          # water depth
 
 bem_ncFile = os.getcwd() + os.path.sep + 'cubes.nc'       # path for output .nc file

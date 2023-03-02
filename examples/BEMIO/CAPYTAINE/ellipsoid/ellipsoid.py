@@ -1,8 +1,4 @@
-# -*- coding: utf-8 -*-
 """
-Created on Thu Nov  10 13:15:35 2020
-
-@author: akeeste
 This script recreates the ellipsoid model based on sample BEM 
 parameters from WEC-Sim (frequency range, directions, etc)
 
@@ -26,7 +22,7 @@ bem_cg = ((0,0,0),)                                         # center of gravity
 bem_name = ('ellipsoid_cpt',)                               # body name
 
 bem_w = np.linspace(0.03, 9.24, 308)                        # wave frequencies
-bem_headings = np.linspace(0,0,1)                           # wave heading
+bem_headings = np.linspace(0,np.pi/2,1)                     # wave heading
 bem_depth = np.infty                                        # water depth
 
 bem_ncFile = os.getcwd() + os.path.sep + 'ellipsoid.nc'     # path for output .nc file

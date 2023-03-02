@@ -1,9 +1,4 @@
-# '-*- coding: utf-8 -*-
 """
-Created on Wed Nov 18 11:32:31 2020
-
-@author: akeeste
-
 This script runs all of the Capytaine cases needed for the WEC-Sim BEMIO examples.
 This script runs Capytaine, not BEMIO.
 

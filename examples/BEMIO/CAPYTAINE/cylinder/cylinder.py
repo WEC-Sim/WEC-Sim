@@ -1,8 +1,4 @@
-# -*- coding: utf-8 -*-
 """
-Created on Thu Nov  10 13:15:35 2020
-
-@author: akeeste
 This script recreates the cylinder model based on sample BEM 
 parameters from WEC-Sim (frequency range, directions, etc)
 
@@ -26,7 +22,7 @@ bem_cg = ((0,0,0),)                                        # center of gravity
 bem_name = ('cylinder_cpt',)                               # body name
 
 bem_w = np.linspace(0.04, 21.0, 525)                       # wave frequencies
-bem_headings = np.linspace(0,0,1)                          # wave heading
+bem_headings = np.linspace(0,np.pi/2,1)                    # wave heading
 bem_depth = 3.0                                            # water depth
 
 bem_ncFile = os.getcwd() + os.path.sep + 'cylinder.nc'     # path for output .nc file
