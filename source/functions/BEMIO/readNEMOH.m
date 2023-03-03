@@ -176,7 +176,7 @@ fclose(fileID);
 N = length(raw);
 i = 0;
 for n = 1:N
-    if isempty(strfind(raw{n},'Diffraction force'))==0
+    if isempty(strfind(raw{n},'Excitation force'))==0
         i = i+1;
         for k = 1:hydro(F).Nf
             tmp = textscan(raw{n+k},'%f');
