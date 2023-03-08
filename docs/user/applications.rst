@@ -28,6 +28,13 @@ Example using :ref:`Body-to-Body (B2B) <user-advanced-features-b2b>` to run WEC-
 geometry. The scripts run and plot the RM3 model with B2B on/off and with 
 Regular/RegularCIC. Execute the `runB2B.m` script to run this case. 
 
+Controls
+^^^^^^^^
+
+Examples using :ref:`Controllers <user-advanced-features-control>`.
+Examples of WEC-Sim models using various control methods are included for the :ref:`RM3 <user-tutorials-rm3>` 
+float geometry. These examples include passive, reactive, latching, declutching, and model predictive control methods.
+
 Desalination
 ^^^^^^^^^^^^
 
