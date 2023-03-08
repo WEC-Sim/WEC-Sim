@@ -888,21 +888,21 @@ own controls.
 	+--------------------------------+-------------------------------------------+
 	|   **Controller Application**   |               **Description**             |                
 	+--------------------------------+-------------------------------------------+
-	|   Passive (P)  	         | RM3 Float with proportional control       |
+	|   Passive (P)  	         | Sphere with proportional control    	     |
 	+--------------------------------+-------------------------------------------+
-	|   Reactive (PI)                | Float with proportional-integral control  |
+	|   Reactive (PI)                | Sphere with proportional-integral control |
 	+--------------------------------+-------------------------------------------+
-	|   Latching		         | Float with latching control		     |
+	|   Latching		         | Sphere with latching control		     |
 	+--------------------------------+-------------------------------------------+
-	|   Declutching   		 | Float with declutching control            |
+	|   Declutching   		 | Sphere with declutching control           |
 	+--------------------------------+-------------------------------------------+
-	|   Model Predictive Control   	 | Float with model predictive control       |
+	|   Model Predictive Control   	 | Sphere with model predictive control      |
 	+--------------------------------+-------------------------------------------+
 
 
 
-Examples: RM3 Float with Various Controllers
-^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+Examples: Sphere Float with Various Controllers
+^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
 This section explains the controller examples found within the WEC-Sim 
 Applications repository.
@@ -914,7 +914,7 @@ the impedance of the controller is designed to match the admittance of the
 device which is equal to the complex conjugate of the impedance. Hence, it is 
 also known as impedance matching and is a common practice within electrical 
 engineering. Complex conjugate control is not a completely realizable control 
-method due to its acausality. which means it requires exact knowledge of 
+method due to its acausality, which means it requires exact knowledge of 
 future wave conditions. Still, complex conjugate control presents a reference 
 for the implementation of optimal control. The WEC impedance can be modeled by 
 the following equation and can be used to formulate optimal control 
@@ -922,16 +922,22 @@ implementation:
 
 .. math::
 
-    Z_i(\omega) = j\omega (I + I_{A}(\omega)) + R(\omega) + \frac{C_{hs}}{j\omega}
+    Z_i(\omega) = j\omega (m + A(\omega)) + B(\omega) + \frac{K_{hs}}{j\omega}
 
 By characterizing the impedance of the WEC, a greater understanding of the 
 dynamics can be reached. The figure below is a bode plot of the impedance of 
 the RM3 float body. The natural frequency is defined by the point at which the 
 phase of impedance is zero. By also plotting the frequency of the incoming 
 wave, it is simple to see the difference between the natural frequency of 
-the device and the wave frequency. Complex conjugate control (and many other
-control methods) seeks to adjust 
-the natural frequency of the device to match the wave frequency. 
+the device and the wave frequency. Complex conjugate control (and some other
+control methods) seeks to adjust the natural frequency of the device to match 
+the wave frequency. Matching the natural frequency to the wave frequency leads 
+to resonance, which allows for theoretically optimal mechanical power. It is 
+important to note here that effects of resonance are often limited by motion 
+constraints, PTO component limitations, etc. This means that a theoretical 
+optimal control is not often realistic or achievable and the specific system 
+and constraints (although ignored for demonstration purposes here) need to be 
+taken into account when implementing controls.
 
 .. figure:: /_static/images/impedance.png
    :width: 500pt 
@@ -947,16 +953,16 @@ multiplied by the WEC velocity to determine the power take-off force:
 
 .. math::
 
-    F_{PTO} = K_p \dot{x}
+    F_{PTO} = K_p \dot{X}
 
-Although unable to reach maximum power for a regular wave due to its passive 
-nature, a passive controller can still be tuned to reach its optimal power.
+Although unable to reach optimal power for a regular wave due to its passive 
+nature, a passive controller can still be tuned to reach its maximum power.
 According to complex conjugate control, a passive controller can be 
 optimized for regular wave conditions using the following formula:
 
 .. math::
 
-    K_{p,opt} = \sqrt{R(\omega)^2 + (\frac{C_{hs}}{\omega} - \omega (I + I_A(\omega)))^2}
+    K_{p,opt} = \sqrt{B(\omega)^2 + (\frac{K_{hs}}{\omega} - \omega (m + A(\omega)))^2}
 
 The optimal proportional gain has been calculated for the float using the optimalGainCalc.m file 
 and implemented in WEC-Sim to achieve optimal power. The mcrBuildGains.m file sets 
@@ -988,7 +994,7 @@ the integral gain corresponding to a spring stiffness value:
 
 .. math::
 
-    F_{PTO} = K_p \dot{x} + K_i x
+    F_{PTO} = K_p \dot{X} + K_i X
 
 The addition of the reactive component means the controller can achieve optimal 
 complex conjugate control by cancelling out the imaginary portion of the device 
@@ -997,11 +1003,11 @@ following formulas:
 
 .. math::
 
-    K_{p,opt} = R(\omega)
+    K_{p,opt} = B(\omega)
 
 .. math::
 
-    K_{i,opt} = (M + m_A(\omega)) \omega^2 - C_hs
+    K_{i,opt} = (m + A(\omega)) \omega^2 - K_hs
 
 The optimal proportional and integral gains have been calculated using the optimalGainCalc.m file 
 and implemented in WEC-Sim to achieve optimal power. The mcrBuildGains.m file again sets 
@@ -1035,7 +1041,7 @@ adjusted based on the device's properties:
 
 .. math::
 
-    G = 80 (M + m_A(\omega))
+    G = 80 (m + A(\omega))
 
 Because latching achieves phase matching between the waves and device, the optimal 
 damping can be assumed the same as for reactive control. Lastly, the main control 
@@ -1054,13 +1060,13 @@ up a sweep of the latching times, the results for which are shown in the figure 
 This MCR run can be recreated by running the mcrBuildGains.m file then typing wecSimMCR 
 in the command window. Based on the results, the optimal latching time is slightly 
 lower than expected which may be due to imperfect latching or complex dynamics which 
-aren't taken into account in the theoretical optimal. Regardless, latching results in 
+aren't taken into account in the theoretical optimal calculation. Regardless, latching results in 
 much larger power when compared to traditional passive control.
 
 .. figure:: /_static/images/latchTimeSweep.png
    :width: 500pt 
 
-Further, the figure below shows the excitation force and velocity, which are effectively 
+Further, the figure below shows the excitation force and velocity, which are close to 
 in phase when a latching time of 2.4 seconds is implemented.
 
 .. figure:: /_static/images/latching.png
@@ -1126,10 +1132,10 @@ optimize the dynamics. MPC is a complex controller that can be applied in both r
 and irregular waves while also taking into account time-domain constraints such as position 
 and PTO force. For the model predictive controller implemented in WEC-Sim's controller 
 class, the plant model is a state-space model detailed in CITE. The state space model is 
-the converted to a quadratic programming problem to be solved by Quadprog(), MATLAB's 
+the converted to a quadratic programming problem to be solved by quadprog(), MATLAB's 
 quadratic programming function. Solving this system leads to a set of PTO forces 
 to optimize the future dynamics for maximum harvested power, the first of which is applied
-at the current timestep. The relevant files for the MPC example in the Controllers folder 
+at the current timestep. The relevant files for the MPC example in the Controls folder 
 of WEC-Sim Applications are detailed in the table below (excluding wecSimInputFile.m and 
 userDefinedFunctions.m which are not unique to MPC).  
 
