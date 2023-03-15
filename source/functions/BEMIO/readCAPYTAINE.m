@@ -198,7 +198,7 @@ hydro(F).Nh = info.Dimensions(getInd(info.Dimensions,'wave_direction')).Length;
 % Read frequency array, wave direction and calculate period from frequency
 hydro(F).w = ncread(filename,'omega')';
 hydro(F).T = 2*pi./hydro(F).w;
-hydro(F).theta = ncread(filename,'wave_direction')';
+hydro(F).theta = 180/pi*ncread(filename,'wave_direction')';
 
 waitbar(2/8);
 
