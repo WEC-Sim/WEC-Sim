@@ -904,9 +904,6 @@ own controls.
 Examples: Sphere Float with Various Controllers
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
-This section explains the controller examples found within the WEC-Sim 
-Applications repository.
-
 First, it is important to understand the concept of complex conjugate control.
 Complex conjugate control, as applied to wave energy conversion, 
 can be used to understand optimal control. For a complex conjugate controller, 
@@ -932,12 +929,18 @@ wave, it is simple to see the difference between the natural frequency of
 the device and the wave frequency. Complex conjugate control (and some other
 control methods) seeks to adjust the natural frequency of the device to match 
 the wave frequency. Matching the natural frequency to the wave frequency leads 
-to resonance, which allows for theoretically optimal mechanical power. It is 
-important to note here that effects of resonance are often limited by motion 
-constraints, PTO component limitations, etc. This means that a theoretical 
-optimal control is not often realistic or achievable and the specific system 
-and constraints (although ignored for demonstration purposes here) need to be 
-taken into account when implementing controls.
+to resonance, which allows for theoretically optimal mechanical power. 
+
+It is important to note here that although impedance matching can lead to maximum mechanical 
+power, it does not always lead to maximum electrical power. Resonance due to 
+impedance matching often creates high peaks of torque and power, which are usually 
+far from the most efficient operating points of PTO systems used to extract power. 
+Thus, the added factor of PTO dynamics and efficiency may lead to 
+complex conjugate control being suboptimal. Furthermore, any constraints or other 
+nonlinear dynamics may make complex conjugate control unachievable or suboptimal. 
+Theoretical optimal control using complex conjugates presented above should be 
+taken as a way to understand WEC controls rather than a method to achieve 
+optimal electrical power for a realistic system.
 
 .. figure:: /_static/images/impedance.png
    :width: 500pt 
