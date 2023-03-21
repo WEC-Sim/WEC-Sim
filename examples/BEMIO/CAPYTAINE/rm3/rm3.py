@@ -1,8 +1,4 @@
-# -*- coding: utf-8 -*-
 """
-Created on Thu Nov  5 13:15:35 2020
-
-@author: akeeste
 This script recreates the RM3 model based on sample BEM 
 parameters from WEC-Sim (frequency range, directions, etc)
 
@@ -10,7 +6,7 @@ parameters from WEC-Sim (frequency range, directions, etc)
 
 # setup environment
 import os
-os.environ["OMP_NUM_THREADS"] = "1" 
+os.environ["OMP_NUM_THREADS"] = "2" 
 
 import numpy as np
 import sys
@@ -29,7 +25,7 @@ bem_name = ('rm3_float',
             'rm3_spar')                              # body names
 
 bem_w = np.linspace(0.02, 5.2, 260)                  # wave frequencies
-bem_headings = np.linspace(0,0,1)                    # wave headings
+bem_headings = np.linspace(0,np.pi/2,1)              # wave headings
 bem_depth = np.infty                                 # water depth
 
 bem_ncFile = os.getcwd() + os.path.sep + 'rm3.nc'    # path for output .nc file

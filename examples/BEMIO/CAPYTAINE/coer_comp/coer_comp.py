@@ -1,8 +1,4 @@
-# -*- coding: utf-8 -*-
 """
-Created on Thu Nov  10 13:15:35 2020
-
-@author: akeeste
 This script recreates the coercomp model based on sample BEM 
 parameters from WEC-Sim (frequency range, directions, etc)
 
@@ -26,7 +22,7 @@ bem_cg = ((0,0,-0.2),)                                      # center of gravity
 bem_name = ('coercomp_cpt',)                                # body name
 
 bem_w = np.linspace(0.1, 80, 800)                           # wave frequencies
-bem_headings = np.linspace(0,90,10)                         # wave headings
+bem_headings = np.linspace(0,np.pi/2,10)                    # wave headings
 bem_depth = 2.20                                            # water depth
 
 bem_ncFile = os.getcwd() + os.path.sep + 'coer_comp.nc'     # path for output .nc file
