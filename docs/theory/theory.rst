@@ -401,7 +401,7 @@ For a more detailed derivation please the reader is referred `here <https://web.
    
 where :math:`\omega` is the wave angular frequency (:math:`\omega = \frac{2\pi}{T}`), :math:`g` is gravitational acceleration, 
 :math:`k` is the wave number (:math:`k=\frac{2\pi}{\lambda}`), and :math:`h` is the water depth. The dispersion relation can be 
-simplified if the floating body is located in deep water, :math:`h \rightarrow \infty` . The simplifcation comes from the hyperbolic 
+simplified if the floating body is located in deep water, :math:`h \rightarrow \infty` . The simplification comes from the hyperbolic 
 tangent function having an asympote of 1 as its argument tends to infinity (:math:`\tanh \left( \infty \right) \rightarrow 1`). 
 The deep water condition can still be met if the water depth is not infinite while the following expression holds :math:`kh \geq \pi` . 
 The dispersion relation can then be used to derive the phase velocity which refers to the speed that an observer would need to travel for 

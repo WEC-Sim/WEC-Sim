@@ -60,7 +60,7 @@ classdef bemioTest < matlab.unittest.TestCase
         function testReadCAPYTAINE(testCase)
             cd(fullfile(testCase.capytaineDir,'sphere'))
             hydro = struct();
-            hydro = readCAPYTAINE(hydro, 'sphere_full.nc');
+            hydro = readCAPYTAINE(hydro, 'sphere_full.nc',[]);
             testCase.capytaineHydro = hydro;
         end
         function testReadAQWA(testCase)

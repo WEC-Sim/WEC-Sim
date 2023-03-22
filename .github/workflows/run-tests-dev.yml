@@ -33,8 +33,13 @@ jobs:
       - name: Install WEC-Sim
         uses: matlab-actions/run-command@v1
         with:
-          command: addpath(genpath('source'));, savepath pathdef.m;
+          command: |
+            addpath(genpath('source')),
+            savepath pathdef.m;
       - name: Run tests and generate artifacts
         uses: matlab-actions/run-command@v1
         with:
-          command: results = wecSimTest, assertSuccess(results);
+          command: |
+            set_param(0, 'ErrorIfLoadNewModel', 'off'),
+            results = wecSimTest,
+            assertSuccess(results);

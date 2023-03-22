@@ -1,14 +1,7 @@
-# -*- coding: utf-8 -*-
-"""
-Created on Mon Nov  9 10:08:14 2020
-Modified on Thu July 1 07:25:00 2021
+'''
+Function to run Capytaine for hydrodynamics and Meshmagick for hydrostatics.
 
-@author: akeeste; Yi-Hsiang
-
-Initial working script by David Ogden from:
-https://github.com/mattEhall/FrequencyDomain/blob/b89dd4f4a732fbe4afde56efe2b52c3e32e22d53/FrequencyDomain.py#L842
-
-"""
+'''
 import os
 
 from multiprocessing import Process
@@ -148,7 +141,7 @@ def call_capy(meshFName, wCapy, CoG=([0,0,0],), headings=[0.0],ncFName=None,
     CoG: tuple of lists
         tuple contains a 3x1 list of each body's CoG
     headings: list
-        list of wave headings to compute
+        list of wave headings to compute [rad]
     saveNc: Bool
         save results to .nc file
     ncFName: str

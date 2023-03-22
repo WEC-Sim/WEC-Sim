@@ -39,42 +39,63 @@
 %
 %   'rotationTest'    Run rotation tests. Default is true.
 %
+%   'devTest'         Run developer focussed tests. Default is true.
+%
 %   Users should also run the appropriate applications tests when
 %   creating a PR into the WEC-Sim repository.
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 function results = wecSimTest(options)
+
     arguments
         options.bemioTest = true
         options.regressionTest = true
         options.compilationTest = true
         options.runFromSimTest = true
         options.rotationTest = true
+        options.devTest = true
     end
+    
     % Import MATLAB unittest
     import matlab.unittest.TestSuite
     import matlab.unittest.Test
     import matlab.unittest.TestRunner
     import matlab.unittest.plugins.DiagnosticsRecordingPlugin
     import matlab.unittest.plugins.CodeCoveragePlugin
+    
     % Define the tests
     suites = Test.empty();
+    
     if options.bemioTest
         suites = [suites TestSuite.fromFile('tests/bemioTest.m')];
     end
+    
     if options.regressionTest
         suites = [suites TestSuite.fromFile('tests/regressionTest.m')];
     end
+    
     if options.runFromSimTest
         suites = [suites TestSuite.fromFile('tests/runFromSimTest.m')];
     end
+    
     if options.rotationTest
         suites = [suites TestSuite.fromFile('tests/rotationTest.m')];
-    end    
+    end
+    
+    if options.devTest
+        suites = [suites TestSuite.fromFolder('tests/devTests')];
+    end
+    
     % Create TestRunner
-    runner = TestRunner.withTextOutput; % Contains TestRunProgressPlugin, DiagnosticsOutputPlugin
+    runner = TestRunner.withTextOutput; % Contains TestRunProgressPlugin,
+                                        %          DiagnosticsOutputPlugin
     runner.addPlugin(DiagnosticsRecordingPlugin);
-    runner.addPlugin(CodeCoveragePlugin.forFolder('./source','IncludingSubfolders',true));    
+    runner.addPlugin(CodeCoveragePlugin.forFolder(                      ...
+                                            './source',                 ...
+                                             'IncludingSubfolders',     ...
+                                             true));    
+    
     % Run the tests
     results = runner.run(suites);
-    results.table    
+    results.table
+    
 end

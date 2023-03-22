@@ -4,4 +4,7 @@
 wecSimSource = fullfile(pwd,'source');
 addpath(genpath(wecSimSource));
 
+% Allow opening of Simulink models saved in a newer version
+set_param(0, 'ErrorIfLoadNewModel', 'off')
+
 clear wecSimSource
