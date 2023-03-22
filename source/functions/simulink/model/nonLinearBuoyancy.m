@@ -33,8 +33,8 @@ f = zeros(6,1);
 z=center(:,3); idx = find((z-elv)>0);
 
 % Calculate the hydrostatic pressure at each triangle center
-pressureVect = -rho*g.*[(z-elv) (z-elv) (z-elv)].*-av;
-p = -rho*g.*(z-elv);
+pressureVect = -rho*g.*[(z) (z) (z)].*-av;
+p = -rho*g.*(z);
 p(idx) = 0;
 pressureVect(idx,:) = 0; 
 % Compute force about cog
