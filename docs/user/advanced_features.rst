@@ -875,7 +875,10 @@ Controller Features
 -------------------
 
 Controllers for wave energy conversion can be used to determine the force 
-applied by the power take off onto the device. WEC-Sim's controller 
+applied by the power take off onto the device in order to extract power 
+from the system. Although WECs may also use controllers to control specific
+PTO components, this section focuses on high-level controllers, which only 
+focus on the total applied PTO force. WEC-Sim's controller 
 features support the modeling of both simple passive and reactive controllers 
 as well as more complex methods such as model predictive control. 
 
@@ -908,7 +911,7 @@ First, it is important to understand the concept of complex conjugate control.
 Complex conjugate control, as applied to wave energy conversion, 
 can be used to understand optimal control. For a complex conjugate controller, 
 the impedance of the controller is designed to match the admittance of the 
-device which is equal to the complex conjugate of the impedance. Hence, it is 
+device (equal to the complex conjugate of the impedance). Hence, it is 
 also known as impedance matching and is a common practice within electrical 
 engineering. Complex conjugate control is not a completely realizable control 
 method due to its acausality, which means it requires exact knowledge of 
@@ -931,19 +934,21 @@ control methods) seeks to adjust the natural frequency of the device to match
 the wave frequency. Matching the natural frequency to the wave frequency leads 
 to resonance, which allows for theoretically optimal mechanical power. 
 
+.. figure:: /_static/images/impedance.png
+   :width: 300pt 
+   :align: center
+
 It is important to note here that although impedance matching can lead to maximum mechanical 
 power, it does not always lead to maximum electrical power. Resonance due to 
 impedance matching often creates high peaks of torque and power, which are usually 
-far from the most efficient operating points of PTO systems used to extract power. 
+far from the most efficient operating points of PTO systems used to extract power
+and require those systems to be more robust and espensive.
 Thus, the added factor of PTO dynamics and efficiency may lead to 
 complex conjugate control being suboptimal. Furthermore, any constraints or other 
 nonlinear dynamics may make complex conjugate control unachievable or suboptimal. 
-Theoretical optimal control using complex conjugates presented above should be 
+Theoretical optimal control using complex conjugates presented here should be 
 taken as a way to understand WEC controls rather than a method to achieve 
 optimal electrical power for a realistic system.
-
-.. figure:: /_static/images/impedance.png
-   :width: 500pt 
 
 .. _control-passive:
 
@@ -976,7 +981,8 @@ recreated by running the mcrBuildGains.m file then typing wecSimMCR in the comma
 window.
 
 .. figure:: /_static/images/pGainSweep.png
-   :width: 500pt 
+   :width: 300pt 
+   :align: center
 
 This example only shows the optimal proportional gain in regular wave conditions. 
 For irregular wave spectrums and nonlinear responses (such as with constraints), 
@@ -988,7 +994,7 @@ Reactive Control (Proportional-Integral)
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
 Reactive control is also a very simple form of WEC control and combines the 
-damping force of a passive controller with a spring force. The standard PTO 
+damping force of a passive controller with a spring stiffness force. The standard PTO 
 block can also be used to implement PI control using the damping and stiffness
 values but doesn't allow for negative inputs which is often necessary for 
 optimal stiffness. This controller is also known as a proportional integral 
@@ -1020,7 +1026,8 @@ recreated by running the mcrBuildGains.m file then typing wecSimMCR in the comma
 window.
 
 .. figure:: /_static/images/piGainSweep.png
-   :width: 500pt 
+   :width: 300pt 
+   :align: center
 
 This example only shows the optimal gains in regular wave conditions. 
 For irregular wave spectrums and nonlinear responses (such as with constraints), 
@@ -1067,13 +1074,15 @@ aren't taken into account in the theoretical optimal calculation. Regardless, la
 much larger power when compared to traditional passive control.
 
 .. figure:: /_static/images/latchTimeSweep.png
-   :width: 500pt 
+   :width: 300pt 
+   :align: center
 
 Further, the figure below shows the excitation force and velocity, which are close to 
 in phase when a latching time of 2.4 seconds is implemented.
 
 .. figure:: /_static/images/latching.png
-   :width: 500pt 
+   :width: 300pt 
+   :align: center
 
 Although not shown with this example, latching can also be implemented in irregular waves 
 but often requires different methods including excitation prediction.
@@ -1113,14 +1122,16 @@ the results for which are shown in the figure below. It is clear that delcuthing
 can offer an improvement over traditional passive control.
 
 .. figure:: /_static/images/declutchTimeSweep.png
-   :width: 500pt 
+   :width: 300pt
+   :align: center 
 
 Further, the figure below shows the excitation force and velocity with a declutch time
 of 0.8 seconds. The excitation and response are not quite in phase, but the device 
 can be seen "catching up" to the wave motion during the declutching time. 
 
 .. figure:: /_static/images/declutching.png
-   :width: 500pt 
+   :width: 300pt 
+   :align: center
 
 Although not shown with this example, declutching can also be implemented in irregular waves 
 but often requires different methods including excitation prediction.
@@ -1132,15 +1143,19 @@ Model Predictive Control (MPC)
 
 Model predictive control is a WEC control method which uses a plant model to predict and 
 optimize the dynamics. MPC is a complex controller that can be applied in both regular 
-and irregular waves while also taking into account time-domain constraints such as position 
-and PTO force. For the model predictive controller implemented in WEC-Sim's controller 
-class, the plant model is a state-space model detailed in CITE. The state space model is 
-the converted to a quadratic programming problem to be solved by quadprog(), MATLAB's 
+and irregular waves while also taking into account time-domain constraints such as position, 
+velocity, and PTO force. For the model predictive controller implemented here, 
+the plant model is a frequency dependent state-space model. The state space model is 
+then converted to a quadratic programming problem to be solved by quadprog(), MATLAB's 
 quadratic programming function. Solving this system leads to a set of PTO forces 
 to optimize the future dynamics for maximum harvested power, the first of which is applied
 at the current timestep. The relevant files for the MPC example in the Controls folder 
 of WEC-Sim Applications are detailed in the table below (excluding wecSimInputFile.m and 
-userDefinedFunctions.m which are not unique to MPC).  
+userDefinedFunctions.m which are not unique to MPC). Note: This controller is similar to 
+the NMPC example within the WECCCOMP Application, but this example includes a method for 
+calculating frequency dependence and setting up the state space matrices based on boundary 
+element method data, allows for position, velocity, and force constraints, and is applied 
+to a single body heaving system. 
 
 	+--------------------------------+------------------------------------------------------+
 	|   	     *File*	         |                    *Description*              	|                
@@ -1149,7 +1164,7 @@ userDefinedFunctions.m which are not unique to MPC).
 	+--------------------------------+------------------------------------------------------+
 	|   fexcPrediction.m             | Predicts future excitation forces         		|
 	+--------------------------------+------------------------------------------------------+
-	|   floatMPCIrreg.slx            | Simulink model including model predictive controller |
+	|   sphereMPC.slx                | Simulink model including model predictive controller |
 	+--------------------------------+------------------------------------------------------+
 	|   mpcFcn.m		         | Creates and solves quadratic programming problem     |
 	+--------------------------------+------------------------------------------------------+
@@ -1159,32 +1174,70 @@ userDefinedFunctions.m which are not unique to MPC).
 The Simulink diagram is shown in the figure below. The figure shows an overview of 
 the controller, which primarily consists of the plant model and the optimizer. The plant 
 model uses the excitation force, applied PTO force, and current states to calculate the 
-states at the next timestep. Lastly, the optimizer predicts the future excitation, which 
+states at the next timestep. Then, the optimizer predicts the future excitation, which 
 is input into the mpcFcn.m file along with the states to solve for the optimal change in 
 PTO force (integrated to solve for instantaneous PTO force). 
 
 .. figure:: /_static/images/mpcSimulink.png
    :width: 500pt 
+   :align: center
 
 The results of the model predictive controller simulation in irregular waves are shown 
-below with the dashed lines showing the applied constraints. MPC successfully 
-restricts the system to within the constraints while also optimizing the power (259 kW). 
-The constraints can be limited to account for WEC and PTO physical limitations, but
-this limits the energy harvested. There are also some other parameters which can be 
-defined by the user such as the MPC timestep, prediction horizon, r-scale, etc. to 
-customize the controller as desired.
+below with the dashed lines indicating the applied 
+constraints. MPC successfully restricts the system to within the constraints (except for 
+a few, isolated timesteps where the solver couldn't converge) while also optimizing for maximum 
+average mechanical power (300 kW). The constraints can be changed to account for 
+specific WEC and PTO physical limitations, but will limit the average power. 
+There are also other parameters which can be defined or changed by the user in the 
+wecSimInputFile.m such as the MPC timestep, prediction horizon, r-scale, etc. to 
+customize and tune the controller as desired.
 
 .. figure:: /_static/images/mpcPos.png
    :width: 300pt 
+   :align: center
 
 .. figure:: /_static/images/mpcVel.png
    :width: 300pt 
+   :align: center
 
 .. figure:: /_static/images/mpcForce.png
    :width: 300pt 
+   :align: center
 
 .. figure:: /_static/images/mpcForceChange.png
    :width: 300pt 
+   :align: center
+
+The model predictive controller is particularly beneficial because of its ability to
+predict future waves and maximize power accordingly as well as the ability to handle constraints. A 
+comparison to a reactive controller is shown in the table below. The reactive controller 
+can be tuned to stay within constraint bounds only when future wave conditions are known 
+and, in doing so, would sacrifice significant power. On the other hand, without knowledge 
+of future wave, the results from the untuned reactive controller are shown below using 
+optimal theoretical gains from the complex conjugate method at the peak wave period. 
+With no ability to recognize constraints, the reactive controller leads to much larger 
+amplitude and velocity and exhibits large peaks in PTO force and power, both of which 
+would likely lead to very expensive components and inefficient operation. 
+It is clear that the model predictive controller significantly outperforms the reactive 
+controller in terms of mechanical power harvested, constraint inclusions, and peak conditions. 
+Because of the increased complexity of model predictive control, limitations include longer 
+computation time and complex setup. 
+
+	+----------------------------+--------------+-------------+------------+
+	|         *Parameter*        | *Constraint* |    *MPC*    | *Reactive* |
+	+----------------------------+--------------+-------------+------------+
+	| Max Heave Position (m)     |      4       |    4.02     |    8.06    |
+	+----------------------------+--------------+-------------+------------+
+	| Max Heave Velocity (m/s)   |      3       |    2.95     |    5.63    |
+	+----------------------------+--------------+-------------+------------+
+	| Max PTO Force (kN)         |     2,000    |    2,180    |    4,630   |
+	+----------------------------+--------------+-------------+------------+
+	| Max PTO Force Change (kN/s)|     1,500    |    1,500    |    3,230   |
+	+----------------------------+--------------+-------------+------------+
+	| Peak Mechanical Power (kW) |      N/A     |    4,870    |   13,700   |
+	+----------------------------+--------------+-------------+------------+
+	| Avg Mechanical Power (kW)  |      N/A     |    300      |    241     |
+	+----------------------------+--------------+-------------+------------+
 
 
 .. _user-advanced-features-cable:
