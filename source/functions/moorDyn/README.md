@@ -4,9 +4,13 @@ To use MoorDyn in WEC-Sim, please
 2. Place all the files and folders under **WEC-Sim/source/functions/moorDyn** folder
 
 
---------------------- MoorDyn v1.00.04C -------------------------
+--------------------- MoorDyn vV1.01.02 -------------------------
 
 Copyright 2014-2016 Matt Hall <mtjhall@alumni.uvic.ca>
+
+MoorDyn is a lumped-mass mooring line model intended for coupling with floating structure codes.
+
+v1.01.02 corrects an error in v1.01.01C that caused instability at the seabed. Compared to v1.01.00C, it corrects issues with anchor tension outputs and with a missing weight term in fairlead tension outputs. It is released to bring MoorDyn v1 up to date while a beta version of MoorDyn v2 is prepared.
 
 MoorDyn is free software: you can redistribute it and/or modify 
 it under the terms of the GNU General Public License as published 
@@ -23,12 +27,7 @@ along with MoorDyn.  If not, see <http://www.gnu.org/licenses/>.
 
 ---------------------- More Information -------------------------
 
-More information and resources about MoorDyn are available at 
-<www.matt-hall.ca/MoorDyn> -- including the User's Guide, source
-code, and examples.  This version of MoorDyn is 
-designed for coupling with a wide variety of tools.  For 
-information about MoorDyn F, the FORTRAN-based version that is
-part of FAST v8, see <nwtc.nrel.gov/MoorDyn>
+More information about MoorDyn is now available at <moordyn.readthedocs.i> -- including the User's Guide, source code, and examples.  
 
 For information about MoorDyn's formulation and some validation 
 results, see M. Hall and A. Goupee, ìValidation of a lumped-mass 
