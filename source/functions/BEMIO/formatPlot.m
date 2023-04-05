@@ -1,4 +1,4 @@
-function formatPlot(fig,titleString,subtitleStrings,xString,yString,X,Y,legendStrings,notes,options)
+function formatPlot(fig,titleString,subtitleStrings,xString,yString,X,Y,legendStrings,notes,plotDofs)
 % Creates a set of 1x3 subplots for the given input data. Adds formatting
 % based on the given x and y axes labels, legend, title, subtitles and
 % notes.
@@ -62,10 +62,10 @@ for iHydro = 1:nHydro
     end
     nBodiesTotal = nBodiesTotal + nBodies;
 
-    for iDofs = 1:length(options.dofs)
+    for iDofs = 1:length(plotDofs)
         
         % iterates through each degree of freedom
-        subplot('Position',[.2/(length(options.dofs))+((.975/length(options.dofs))*(iDofs-1)) 0.3645 0.756/length(options.dofs) 0.4720])
+        subplot('Position',[.2/(length(plotDofs))+((.975/length(plotDofs))*(iDofs-1)) 0.3645 0.756/length(plotDofs) 0.4720])
         hold('on');
         box('on');
         for iBody = 1:nBodies
@@ -81,7 +81,7 @@ for iHydro = 1:nHydro
         if iHydro == nHydro
             legendStrings1D = strrep(legendStrings1D,'_','\_');
             legend(legendStrings1D,'location','best','Box','off','Interpreter','tex');
-            title(subtitleStrings(options.dofs(iDofs)));
+            title(subtitleStrings(plotDofs(iDofs)));
             xlabel(xString,'Interpreter','latex');
             ylabel(yString(iDofs),'Interpreter','latex');    
         end

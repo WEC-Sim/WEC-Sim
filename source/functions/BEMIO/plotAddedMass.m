@@ -64,7 +64,7 @@ for ii = 1:numHydro
     for i = 1:length(options.bodies)
         a = (options.bodies(i)-1)*varargin{ii}.dof(options.bodies(1));
         for j = 1:length(options.dofs)
-            Y.(tmp2)(j,i,:) = squeeze(varargin{ii}.A(a+options.dofs(j),a+options.dofs(j),:));
+            Y.(tmp2)(j,i,:) = squeeze(varargin{ii}.A(a+options.dofs(j,1),a+options.dofs(j,2),:));
         end
         legendStrings{i,ii} = [varargin{ii}.body{options.bodies(i)}];
     end

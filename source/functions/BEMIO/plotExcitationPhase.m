@@ -22,28 +22,28 @@ options.bodies = 'all';
 options.directions = 1;
 optionNames = fieldnames(options);
 
-for i = 1:length(varargin) % check if any options are given
-    optInds(i) = isnumeric(varargin{i}) || strcmp(varargin{i},'all') || strcmp(varargin{i},'first');
-    if optInds(i) == 1 
-        if any(strcmpi(varargin{i-1},optionNames))
-            options.(varargin{i-1}) = varargin{i};
-        else
-            error('%s is not a recognized parameter name')
-        end
-    end
-end
+% for i = 1:length(varargin) % check if any options are given
+%     optInds(i) = isnumeric(varargin{i}) || strcmp(varargin{i},'all') || strcmp(varargin{i},'first');
+%     if optInds(i) == 1 
+%         if any(strcmpi(varargin{i-1},optionNames))
+%             options.(varargin{i-1}) = varargin{i};
+%         else
+%             error('%s is not a recognized parameter name')
+%         end
+%     end
+% end
+% 
+% if strcmp(options.dofs,'all')
+%     options.dofs = [1:varargin{1}.dof(1)];
+% end
+% if strcmp(options.bodies,'all')
+%     options.bodies = [1:varargin{1}.Nb];
+% end
+% if strcmp(options.directions,'all')
+%     options.directions = varargin{1}.theta;
+% end
 
-if strcmp(options.dofs,'all')
-    options.dofs = [1:varargin{1}.dof(1)];
-end
-if strcmp(options.bodies,'all')
-    options.bodies = [1:varargin{1}.Nb];
-end
-if strcmp(options.directions,'all')
-    options.directions = varargin{1}.theta;
-end
-
-figHandle = figure('Position',[950,300,325*length(options.dofs),520]);
+figHandle = figure('Position',[950,300,325*length(varargin{1}.plotDofs),520]);
 titleString = ['Excitation Force Phase: $$\phi_i(\omega,\theta)$$'];
 subtitleStrings = {'Surge','Sway','Heave','Roll','Pitch','Yaw'};
 xString = {'$$\omega (rad/s)$$'};
@@ -56,7 +56,7 @@ yString = {['$$\phi_1(\omega,\theta$$)'],...
 
 notes = {''};
 
-numHydro = length(varargin) - sum(optInds)*2;
+numHydro = length(varargin); % - sum(optInds)*2;
 
 for ii = 1:numHydro
     tmp1 = strcat('X',num2str(ii));
@@ -64,20 +64,28 @@ for ii = 1:numHydro
     tmp2 = strcat('Y',num2str(ii));
     a = 0;
     b = 0;
-    for i = 1:length(options.bodies)
-        a = (options.bodies(i)-1)*varargin{ii}.dof(options.bodies(1));
-        for j = 1:length(options.dofs)
-            for k = 1:length(options.directions)
+    for i = 1:length(varargin{ii}.plotBodies)
+        a = (varargin{ii}.plotBodies(i)-1)*varargin{ii}.dof(varargin{ii}.plotBodies(1));
+        for j = 1:length(varargin{ii}.plotDofs)
+            for k = 1:length(varargin{ii}.plotDirections)
                 tmp3 = strcat('d',num2str(k));
-                Y.(tmp2).(tmp3)(j,i,:) = squeeze(varargin{ii}.ex_ph(a+options.dofs(j),options.directions(k),:));
-                legendStrings{b+k,ii} = [strcat(varargin{ii}.code(1:3),varargin{ii}.body{options.bodies(i)},' \theta =',num2str(varargin{1}.theta(options.directions(k))),'^{\circ}')];
+                Y.(tmp2).(tmp3)(j,i,:) = squeeze(varargin{ii}.ex_ph(a+varargin{ii}.plotDofs(j),varargin{ii}.plotDirections(k),:));
+                legendStrings{b+k,ii} = [strcat(varargin{ii}.code(1:3),varargin{ii}.body{varargin{ii}.plotBodies(i)},' \theta =',num2str(varargin{1}.theta(varargin{ii}.plotDirections(k))),'^{\circ}')];
             end
         end
         b = b+k;
     end
+    if ii > 1
+        if ~isequal(varargin{ii}.plotDofs, varargin{ii-1}.plotDofs)
+            error('Plot dofs must be the same for all hydro structures')
+        end
+        disp(ii)
+        varargin{ii}.plotDofs
+        varargin{ii-1}.plotDofs
+    end
 end
 
-formatPlot(figHandle,titleString,subtitleStrings,xString,yString,X,Y,legendStrings,notes,options)  
+formatPlot(figHandle,titleString,subtitleStrings,xString,yString,X,Y,legendStrings,notes,varargin{1}.plotDofs)
 saveas(figHandle,'Excitation_Phase.png');
 
 end

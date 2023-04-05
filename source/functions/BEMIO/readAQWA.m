@@ -277,6 +277,7 @@ for ln=1:length(raw2)
 end
 %%
 hydro = normalizeBEM(hydro);  % Normalize the data according the WAMIT convention
+hydro = addDefaultPlotVars(hydro);
+
 close(p);
-assignin('base','hydro',hydro);
 end
