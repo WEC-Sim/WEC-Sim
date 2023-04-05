@@ -130,6 +130,7 @@ end; clear iMoor
 % Calculate correct added mass and total forces
 for iBod = 1:simu.numHydroBodies
     body(iBod).restoreMassMatrix
+    body(iBod).storeForceAddedMass(output.bodies(iBod).forceAddedMass, output.bodies(iBod).forceTotal);
     output.bodies(iBod).forceTotal = output.bodies(iBod).forceTotal + output.bodies(iBod).forceAddedMass;
     output.bodies(iBod).forceAddedMass = body(iBod).forceAddedMass(output.bodies(iBod).acceleration,simu.b2b);
     output.bodies(iBod).forceTotal = output.bodies(iBod).forceTotal - output.bodies(iBod).forceAddedMass;
