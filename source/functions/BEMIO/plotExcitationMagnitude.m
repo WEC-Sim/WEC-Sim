@@ -1,12 +1,16 @@
-function plotExcitationMagnitude(varargin)
+function plotExcitationMagnitude(dofList, varargin)
 % Plots the excitation force magnitude for each hydro structure's bodies in
-% the heave, surge and pitch degrees of freedom.
+% the given degrees of freedom.
 % 
 % Usage:
-% ``plotExcitationMagnitude(hydro, hydro2, hydro3, ...)``
+% ``plotExcitationMagnitude([1], hydro, hydro2, hydro3, ...)``
+% ``plotExcitationMagnitude([1 3 5], hydro, hydro2, hydro3, ...)``
 % 
 % Parameters
 % ----------
+%     dofList : [1 n] int vector
+%         Array of DOFs that will be plotted. Default = [1 3 5]
+%     
 %     varargin : struct(s)
 %         The hydroData structure(s) created by the other BEMIO functions.
 %         One or more may be input.

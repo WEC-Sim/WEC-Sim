@@ -388,9 +388,9 @@ is the wave phase.
 
 Dispersion Relation
 ^^^^^^^^^^^^^^^^^^^
-For ocean waves, the dispersion relation is a relation betwen the wave angular frequency and the wave number (i.e. wavelength). 
+For ocean waves, the dispersion relation is a relation between the wave angular frequency and the wave number (i.e. wavelength). 
 The dispersion relation is derived using separation of variables to satisfy the free surface kinematic and dynamic boundary conditions. 
-For a more detailed derivation please the reader is referred `here <https://web.mit.edu/13.021/demos/lectures/lecture19.pdf>`_ The dispersion relation that WEC-sim uses is defined as: 
+For a more detailed derivation please the reader is referred `here <https://web.mit.edu/13.021/demos/lectures/lecture19.pdf>`__ The dispersion relation that WEC-sim uses is defined as: 
 
 .. math::
 
@@ -401,7 +401,7 @@ For a more detailed derivation please the reader is referred `here <https://web.
    
 where :math:`\omega` is the wave angular frequency (:math:`\omega = \frac{2\pi}{T}`), :math:`g` is gravitational acceleration, 
 :math:`k` is the wave number (:math:`k=\frac{2\pi}{\lambda}`), and :math:`h` is the water depth. The dispersion relation can be 
-simplified if the floating body is located in deep water, :math:`h \rightarrow \infty` . The simplifcation comes from the hyperbolic 
+simplified if the floating body is located in deep water, :math:`h \rightarrow \infty` . The simplification comes from the hyperbolic 
 tangent function having an asympote of 1 as its argument tends to infinity (:math:`\tanh \left( \infty \right) \rightarrow 1`). 
 The deep water condition can still be met if the water depth is not infinite while the following expression holds :math:`kh \geq \pi` . 
 The dispersion relation can then be used to derive the phase velocity which refers to the speed that an observer would need to travel for 
@@ -425,8 +425,8 @@ The time-averaged power, per unit wave crest with, for a propagating water wave
    
 where :math:`\rho` is the fluid density, :math:`g` is gravitational acceleration, :math:`A` is the wave amplitude, and :math:`c_{g}` is wave group velocity. 
 The group velocity is the speed of propagation of a packet of waves which is always slower than the wave phase velocity. For a more detailed derivation on the 
-group velocity the reader is referred `here <http://web.mit.edu/2.016/www/handouts/2005Reading7.pdf>`_ . The group velocity of a two-dimensional progressive wave
-is given by the following expresion:
+group velocity the reader is referred `here <http://web.mit.edu/2.016/www/handouts/2005Reading7.pdf>`__. The group velocity of a two-dimensional progressive wave
+is given by the following expression:
 
 .. math::
 
@@ -459,7 +459,7 @@ Similar to the other wave property expressions, the wave power expression can be
    
 .. Note:: 
     The deep water condition is often used without proper validation of the wave environment which can have a significant effect on wave power. 
-    WEC-Sim by default will calculate the wave power using the full expression, no simplifcation, unless the hydrodynamic data is imported with 
+    WEC-Sim by default will calculate the wave power using the full expression, no simplification, unless the hydrodynamic data is imported with 
     the assumption of infinite water depth. 
 
 Irregular Waves

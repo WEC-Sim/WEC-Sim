@@ -1,12 +1,16 @@
-function plotExcitationPhase(varargin)
+function plotExcitationPhase(dofList, varargin)
 % Plots the excitation force phase for each hydro structure's bodies in
-% the heave, surge and pitch degrees of freedom.
+% the given degrees of freedom.
 % 
 % Usage:
-% ``plotExcitationPhase(hydro, hydro2, hydro3, ...)``
+% ``plotExcitationPhase([1], hydro, hydro2, hydro3, ...)``
+% ``plotExcitationPhase([1 3 5], hydro, hydro2, hydro3, ...)``
 % 
 % Parameters
 % ----------
+%     dofList : [1 n] int vector
+%         Array of DOFs that will be plotted. Default = [1 3 5]
+%     
 %     varargin : struct(s)
 %         The hydroData structure(s) created by the other BEMIO functions.
 %         One or more may be input.

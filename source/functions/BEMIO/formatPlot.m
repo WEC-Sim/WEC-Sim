@@ -46,6 +46,15 @@ sgtitle(titleString,'Interpreter','latex','FontWeight','bold','FontSize',12);
 legendStrings1D = legendStrings(:);
 legendStrings1D = legendStrings1D(~cellfun(@isempty, legendStrings1D));
 
+% Subplot formatting
+nPlots = length(subtitleStrings);
+if nPlots < 4
+    isp1 = 1;
+    isp2 = nPlots;
+else
+    isp1 = 2;
+    isp2 = ceil(nPlots/2);
+end
 
 % Figures
 nHydro = length(fieldnames(X));
@@ -87,10 +96,11 @@ for iHydro = 1:nHydro
         end
 
     end
+
 end
 
 % Footer
-annotation(fig,'textbox',[0.0 0.0 1.0 0.2628],...
+annotation(fig,'textbox',[0.0 0.0 1.0 0.075],...
     'String',notes,...
     'Interpreter','latex',...
     'FitBoxToText','off',...

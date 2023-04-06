@@ -1,12 +1,16 @@
-function plotExcitationIRF(varargin)
+function plotExcitationIRF(dofList, varargin)
 % Plots the excitation IRF for each hydro structure's bodies in
-% the heave, surge and pitch degrees of freedom.
+% the given degrees of freedom.
 % 
 % Usage:
-% ``plotExcitationIRF(hydro, hydro2, hydro3, ...)``
+% ``plotExcitationIRF([1], hydro, hydro2, hydro3, ...)``
+% ``plotExcitationIRF([1 3 5], hydro, hydro2, hydro3, ...)``
 % 
 % Parameters
 % ----------
+%     dofList : [1 n] int vector
+%         Array of DOFs that will be plotted. Default = [1 3 5]
+%     
 %     varargin : struct(s)
 %         The hydroData structure(s) created by the other BEMIO functions.
 %         One or more may be input.
@@ -55,6 +59,21 @@ yString = {['$$\bar{K}_1(t,\theta$$)'],...
     ['$$\bar{K}_5(t,\theta$$)'],...
     ['$$\bar{K}_6(t,\theta$$)']};
 
+% DEV Stuff
+subtitleStrings = getDofNames(dofList);
+
+B=1;  % Wave heading index
+figHandle = figure('Position',[950,100,975,521]);
+titleString = ['Normalized Excitation Impulse Response Functions:   ',...
+    '$$\bar{K}_i(t) = {\frac{1}{2\pi}}\int_{-\infty}^{\infty}{\frac{X_i(\omega,\theta)e^{i{\omega}t}}{{\rho}g}}d\omega$$'];
+
+for dof = 1:length(dofList)
+    xString{dof} = '$$t (s)$$';
+    yString{dof} = ['$$\bar{K}_',num2str(dofList(dof)),'(t,\theta$$',' = ',...
+        num2str(varargin{1}.theta(B)),'$$^{\circ}$$)'];
+end
+%
+
 notes = {'Notes:',...
     ['$$\bullet$$ The IRF should tend towards zero within the specified timeframe. ',...
     'If it does not, attempt to correct this by adjusting the $$\omega$$ and ',...
@@ -70,17 +89,15 @@ for ii = 1:numHydro
     X.(tmp1) = varargin{ii}.ex_t;
     tmp2 = strcat('Y',num2str(ii));
     a = 0;
-    b = 0;
-    for i = 1:length(options.bodies)
-        a = (options.bodies(i)-1)*varargin{ii}.dof(options.bodies(1));
-        for j = 1:length(options.dofs)
-            for k = 1:length(options.directions)
-                tmp3 = strcat('d',num2str(k));
-                Y.(tmp2).(tmp3)(j,i,:) = squeeze(varargin{ii}.ex_K(a+options.dofs(j),options.directions(k),:));
-                legendStrings{b+k,ii} = [strcat(varargin{ii}.body{options.bodies(i)},' $\theta$ =  ',num2str(varargin{1}.theta(options.directions(k))),'$$^{\circ}$$')];
-            end
+    for i = 1:numBod
+        m = varargin{ii}.dof(i);
+        id = 0;
+        for d = 1:length(dofList)
+            id = id + 1;
+            Y.(tmp2)(id,i,:) = squeeze(varargin{ii}.ex_K(a+dofList(d),B,:));
         end
-        b = b+k;
+        legendStrings{i,ii} = [varargin{ii}.body{i}];
+        a = a + m;
     end
 end
 

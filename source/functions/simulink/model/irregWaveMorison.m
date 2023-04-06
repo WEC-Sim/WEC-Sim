@@ -38,7 +38,7 @@ for ii = 1:rr
             currentSpeedDepth = 0;
     end
     % Ramp Time
-    if Time <= rampTime
+    if Time < rampTime
         curramp        = currentSpeedDepth*(1 + cos(pi + pi/rampTime*Time))/2;
     else
         curramp        = currentSpeedDepth;
@@ -69,7 +69,7 @@ for ii = 1:rr
             coeffVert  = sinh(kz + kh)/cosh(kh);
         end
         % Ramp Time
-        if Time <= rampTime
+        if Time < rampTime
             ramp        = (sqrt(A(jj,1)*dw(jj,1))/2)*(1 + cos(pi + pi/rampTime*Time));
         else
             ramp        = sqrt(A(jj,1)*dw(jj,1));

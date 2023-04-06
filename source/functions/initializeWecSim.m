@@ -19,7 +19,7 @@
 
 %% Start WEC-Sim log
 % Clear old input, plots, log file and start new log file.
-clc; diary off; close all;
+diary off
 clear body waves simu output pto constraint ptoSim mooring values names InParam
 try delete('*.log'); end
 diary('simulation.log')
@@ -28,11 +28,18 @@ diary('simulation.log')
 %% Add 'temp' directory
 % Store root directory of this *.m file
 projectRootDir = pwd;
+if exist('pctDir')
+    projectRootDir = [projectRootDir filesep pctDir];
+end
 
 % Create 'temp' directory if it doesn't exist and add to 'temp' path
 warning('off','MATLAB:MKDIR:DirectoryExists')
-if mkdir('temp') == 0
-    mkdir 'temp'
+if exist('pctDir')
+    mkdir ([pctDir filesep 'temp'])
+else
+    if mkdir('temp') == 0
+        mkdir 'temp'
+    end
 end
 addpath(fullfile(projectRootDir,'temp'),'-end');
 
@@ -97,6 +104,7 @@ simu.checkInputs();
 if exist('constraint','var') == 1
     simu.numConstraints = length(constraint(1,:));
     for ii = 1:simu.numConstraints
+        constraint(ii).checkInputs();
         constraint(ii).setNumber(ii);
         constraint(ii).setOrientation();
     end; clear ii
@@ -106,6 +114,7 @@ end
 if exist('pto','var') == 1
     simu.numPtos = length(pto(1,:));
     for ii = 1:simu.numPtos
+        pto(ii).checkInputs();
         pto(ii).setNumber(ii);
         pto(ii).setOrientation();
         pto(ii).setPretension();
@@ -116,6 +125,7 @@ end
 if exist('mooring','var') == 1
     simu.numMoorings = length(mooring(1,:));
     for ii = 1:simu.numMoorings
+        mooring(ii).checkInputs();
         mooring(ii).setLoc();
         mooring(ii).setNumber(ii);
     end; clear ii
@@ -173,6 +183,7 @@ end; clear ii
 if exist('cable','var')==1
     simu.numCables = length(cable(1,:));
     for ii = 1:simu.numCables
+        cable(ii).checkInputs()
         cable(ii).setNumber(ii);
         cable(ii).setCg();
         cable(ii).setCb();
@@ -189,6 +200,7 @@ end
 if exist('ptoSim','var') == 1
     simu.numPtoSim = length(ptoSim(1,:));
     for ii = 1:simu.numPtoSim
+        ptoSim(ii).checkInputs();
         ptoSim(ii).number = ii;
     end; clear ii
 end
@@ -452,6 +464,7 @@ warning('off','MATLAB:printf:BadEscapeSequenceInFormat');
 warning('off','Simulink:blocks:DivideByZero');
 warning('off','sm:sli:setup:compile:SteadyStateStartNotSupported')
 set_param(0, 'ErrorIfLoadNewModel', 'off')
+
 % Load parameters to Simulink model
 simu.loadSimMechModel(simu.simMechanicsFile);
 

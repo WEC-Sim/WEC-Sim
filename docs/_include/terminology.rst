@@ -3,9 +3,9 @@
 ============================ ===================================================
 Term or Variable       	 	Definition
 ============================ ===================================================
-:math:`A(\omega)`		Frequency dependent radiation added mass (kg)
+:math:`A(\omega)`		Frequency dependent radiation added mass and inertia (kg and kg-m^2)
 :math:`\overline{A(\omega)}`	Normalized frequency dependent radiation added mass
-:math:`A_{\infty}`		Added mass at infinite frequency (kg)
+:math:`A_{\infty}`		Added mass and inertia at infinite frequency (kg and kg-m^2)
 :math:`A_{d}`			Characteristic drag area
 :math:`\boldsymbol{A_d}`	State space discrete time state matrix
 :math:`\boldsymbol{A_r}`	State space time-invariant state matrix

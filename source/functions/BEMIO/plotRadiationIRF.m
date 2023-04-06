@@ -1,12 +1,16 @@
-function plotRadiationIRF(varargin)
+function plotRadiationIRF(dofList, varargin)
 % Plots the radiation IRF for each hydro structure's bodies in
-% the heave, surge and pitch degrees of freedom.
+% the given degrees of freedom.
 % 
 % Usage:
-% ``plotRadiationIRF(hydro, hydro2, hydro3, ...)``
+% ``plotRadiationIRF([1], hydro, hydro2, hydro3, ...)``
+% ``plotRadiationIRF([1 3 5], hydro, hydro2, hydro3, ...)``
 % 
 % Parameters
 % ----------
+%     dofList : [1 n] int vector
+%         Array of DOFs that will be plotted. Default = [1 3 5]
+%     
 %     varargin : struct(s)
 %         The hydroData structure(s) created by the other BEMIO functions.
 %         One or more may be input.
@@ -53,8 +57,9 @@ notes = {'Notes:',...
     ['$$\bullet$$ Only the IRFs for the surge, heave, and pitch DOFs are plotted ',...
     'here. If another DOF is significant to the system, that IRF should also ',...
     'be plotted and verified before proceeding.']};
-    
-numHydro = length(varargin) - sum(optInds)*2;
+
+    %ra_K
+numHydro = length(varargin);
 
 for ii = 1:numHydro
     tmp1 = strcat('X',num2str(ii));
