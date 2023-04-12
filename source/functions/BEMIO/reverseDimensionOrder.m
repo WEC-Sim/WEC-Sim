@@ -16,8 +16,11 @@ function outputData = reverseDimensionOrder(inputData)
 %         Input data array with the order of its dimensions reversed
 % 
 
-if isnumeric(inputData) && ndims(inputData) > 1
+if isnumeric(inputData) && ndims(inputData) > 2
     outputData = permute(inputData, ndims(inputData):-1:1);
+else
+    outputData = inputData;
 end
 
 end
+
