@@ -1,7 +1,7 @@
 .. _intro-webinars:
 
 Online Training Courses and Webinars
-========
+====================================
 
 The WEC-Sim team regularly hosts WEC-Sim Online Training Courses.  
 Recordings and presentation slides of the course content topics are available below.
