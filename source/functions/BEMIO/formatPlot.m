@@ -11,13 +11,13 @@ function formatPlot(fig,titleString,subtitleStrings,xString,yString,X,Y,legendSt
 %     titleString : [1 1] string
 %         Overall title shown above all subplots
 % 
-%     subTitleStrings : [1 3] cell of strings
+%     subTitleStrings : [1 ndof] cell of strings
 %         Subplot titles shown above each subplot
 % 
-%     xString : [1 3] cell of strings
+%     xString : [1 1] cell of strings
 %         X axis label shown on each subplot
 % 
-%     yString : [1 3] cell of strings
+%     yString : [1 ndof] cell of strings
 %         Y axis label shown on each subplot
 % 
 %     X : [1 1] struct
@@ -45,16 +45,7 @@ sgtitle(titleString,'Interpreter','latex','FontWeight','bold','FontSize',12);
 
 legendStrings1D = legendStrings(:);
 legendStrings1D = legendStrings1D(~cellfun(@isempty, legendStrings1D));
-
-% Subplot formatting
-nPlots = length(subtitleStrings);
-if nPlots < 4
-    isp1 = 1;
-    isp2 = nPlots;
-else
-    isp1 = 2;
-    isp2 = ceil(nPlots/2);
-end
+legendStrings1D = strrep(legendStrings1D,'_','\_');
 
 % Figures
 nHydro = length(fieldnames(X));
@@ -71,10 +62,10 @@ for iHydro = 1:nHydro
     end
     nBodiesTotal = nBodiesTotal + nBodies;
 
-    for iDofs = 1:length(plotDofs)
+    for iDofs = 1:size(plotDofs,1)
         
         % iterates through each degree of freedom
-        subplot('Position',[.2/(length(plotDofs))+((.975/length(plotDofs))*(iDofs-1)) 0.3645 0.756/length(plotDofs) 0.4720])
+        subplot('Position',[.2/(size(plotDofs,1))+((.975/size(plotDofs,1))*(iDofs-1)) 0.3645 0.756/size(plotDofs,1) 0.4720])
         hold('on');
         box('on');
         for iBody = 1:nBodies
@@ -88,9 +79,8 @@ for iHydro = 1:nHydro
             end
         end
         if iHydro == nHydro
-            legendStrings1D = strrep(legendStrings1D,'_','\_');
             legend(legendStrings1D,'location','best','Box','off','Interpreter','tex');
-            title(subtitleStrings(plotDofs(iDofs)));
+            title(subtitleStrings(iDofs));
             xlabel(xString,'Interpreter','latex');
             ylabel(yString(iDofs),'Interpreter','latex');    
         end
@@ -100,7 +90,7 @@ for iHydro = 1:nHydro
 end
 
 % Footer
-annotation(fig,'textbox',[0.0 0.0 1.0 0.075],...
+annotation(fig,'textbox',[0.0 0.2 1.0 0.075],...
     'String',notes,...
     'Interpreter','latex',...
     'FitBoxToText','off',...

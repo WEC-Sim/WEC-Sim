@@ -9,13 +9,13 @@ function hydro = addDefaultPlotVars(hydro)
 % Parameters
 % ----------
 %     hydro : [1 x 1] struct
-%         Structure of hydro data that will be  normalized and sorted
-%         depending on the value of hydro.code
+%         Structure of hydro data to which the default plotting variables
+%         will be added.
 %
 % Returns
 % -------
 %     hydro : [1 x 1] struct
-%         Normalized hydro data
+%         Hydro data with default plotting variables.
 % 
 
 hydro.plotDofs = [1,1; 3,3; 5,5];
