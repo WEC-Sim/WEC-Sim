@@ -874,13 +874,15 @@ Constraint and PTO Features
 Controller Features
 -------------------
 
-Controllers for wave energy conversion can be used to determine the force 
-applied by the power take off onto the device in order to extract power 
-from the system. Although WECs may also use controllers to control specific
-PTO components, this section focuses on high-level controllers, which only 
-focus on the total applied PTO force. WEC-Sim's controller 
-features support the modeling of both simple passive and reactive controllers 
-as well as more complex methods such as model predictive control. 
+The power generation performance of a WEC is highly dependent on the control 
+algorithm used in the system. There are different control strategies that 
+have been studied for marine energy applications. These control algorithms 
+can be applied directly to the PTO components to achieve a desired output, or 
+they can be high-level controllers which are focused on the total PTO force 
+applied to the WEC. The examples presented in this section are based on high-
+level controller applications. WEC-Sim’s controller features support the modeling 
+of both simple passive and reactive controllers as well as more complex methods 
+such as model predictive control.
 
 The files for the controller tutorials described in this section can be found in 
 the **Controls** examples on the `WEC-Sim Applications repository 
@@ -911,14 +913,15 @@ First, it is important to understand the concept of complex conjugate control.
 Complex conjugate control, as applied to wave energy conversion, 
 can be used to understand optimal control. For a complex conjugate controller, 
 the impedance of the controller is designed to match the admittance of the 
-device (equal to the complex conjugate of the impedance). Hence, it is 
+device (equal to the complex conjugate of device impedance). Hence, it is 
 also known as impedance matching and is a common practice within electrical 
 engineering. Complex conjugate control is not a completely realizable control 
 method due to its acausality, which means it requires exact knowledge of 
-future wave conditions. Still, complex conjugate control presents a reference 
-for the implementation of optimal control. The WEC impedance can be modeled by 
-the following equation and can be used to formulate optimal control 
-implementation:
+future wave conditions. Still, a causal transfer function can be used to approximate 
+complex conjugate control across a limited frequency range :cite:`bacelli2020comments`. 
+Thus, complex conjugate control presents a reference for the implementation of 
+optimal causal controls. The WEC impedance can be modeled by the following equation
+:cite:`bacelli2019feedback` and can be used to formulate the optimal control implementation:
 
 .. math::
 
@@ -942,7 +945,7 @@ It is important to note here that although impedance matching can lead to maximu
 power, it does not always lead to maximum electrical power. Resonance due to 
 impedance matching often creates high peaks of torque and power, which are usually 
 far from the most efficient operating points of PTO systems used to extract power
-and require those systems to be more robust and espensive.
+and require those systems to be more robust and expensive.
 Thus, the added factor of PTO dynamics and efficiency may lead to 
 complex conjugate control being suboptimal. Furthermore, any constraints or other 
 nonlinear dynamics may make complex conjugate control unachievable or suboptimal. 
@@ -966,7 +969,7 @@ multiplied by the WEC velocity to determine the power take-off force:
 Although unable to reach optimal power for a regular wave due to its passive 
 nature, a passive controller can still be tuned to reach its maximum power.
 According to complex conjugate control, a passive controller can be 
-optimized for regular wave conditions using the following formula:
+optimized for regular wave conditions using the following formula :cite:`gomes2015dynamics`:
 
 .. math::
 
@@ -1008,7 +1011,7 @@ the integral gain corresponding to a spring stiffness value:
 The addition of the reactive component means the controller can achieve optimal 
 complex conjugate control by cancelling out the imaginary portion of the device 
 impedance. Thus, the proportional and integral control gains can be defined by the 
-following formulas:
+following formulas :cite:`coe2021practical`:
 
 .. math::
 
@@ -1047,7 +1050,7 @@ period. Latching control is still considered passive as no energy input is requi
 is zero while latched).
 
 The braking/latching force is implemented as a very large damping force (:math:`G`), which can be 
-adjusted based on the device's properties:
+adjusted based on the device's properties :cite:`babarit2006optimal`:
 
 .. math::
 
@@ -1058,7 +1061,7 @@ damping can be assumed the same as for reactive control. Lastly, the main contro
 variable, latching time, needs to be determined. For regular waves, it is 
 desired for the device to move for a time equal to its natural frequency, meaning 
 the optimal latching time is likely close to half the difference between the wave 
-period and the natural period (accounting for 2 latching periods per wave period).
+period and the natural period :cite:`babarit2006optimal` (accounting for 2 latching periods per wave period).
 
 .. math::
 
@@ -1100,9 +1103,9 @@ a passive control method.
 
 The optimal declutching time and damping values are slightly harder to estimate than for 
 latching. The device's motion still depends on its impedance during the declutching period, 
-meaning the device does not really move "freely" during this time. Hence, the declutching 
-time was assumed to be near half the difference between the natural period and the wave 
-period, but is further examined through tests.
+meaning the device does not really move "freely" during this time. Hence, in opposition to 
+optimal latching the declutching time was assumed to be near half the difference between 
+the natural period and the wave period, but is further examined through tests.
 
 .. math::
 
@@ -1145,17 +1148,18 @@ Model predictive control is a WEC control method which uses a plant model to pre
 optimize the dynamics. MPC is a complex controller that can be applied in both regular 
 and irregular waves while also taking into account time-domain constraints such as position, 
 velocity, and PTO force. For the model predictive controller implemented here, 
-the plant model is a frequency dependent state-space model. The state space model is 
-then converted to a quadratic programming problem to be solved by quadprog(), MATLAB's 
-quadratic programming function. Solving this system leads to a set of PTO forces 
-to optimize the future dynamics for maximum harvested power, the first of which is applied
-at the current timestep. The relevant files for the MPC example in the Controls folder 
-of WEC-Sim Applications are detailed in the table below (excluding wecSimInputFile.m and 
-userDefinedFunctions.m which are not unique to MPC). Note: This controller is similar to 
-the NMPC example within the WECCCOMP Application, but this example includes a method for 
-calculating frequency dependence and setting up the state space matrices based on boundary 
-element method data, allows for position, velocity, and force constraints, and is applied 
-to a single body heaving system. 
+the plant model is a frequency dependent state-space model :cite:`so2017development`. 
+The state space model is then converted to a quadratic programming problem to be 
+solved by quadprog(), MATLAB's quadratic programming function. Solving this system 
+leads to a set of PTO forces to optimize the future dynamics for maximum harvested 
+power, the first of which is applied at the current timestep. The relevant files for 
+the MPC example in the Controls folder of WEC-Sim Applications are detailed in the 
+table below (excluding wecSimInputFile.m and userDefinedFunctions.m which are not 
+unique to MPC). Note: This controller is similar to the NMPC example within the 
+WECCCOMP Application, but this example includes a method for calculating frequency 
+dependence and setting up the state space matrices based on boundary element method 
+data, allows for position, velocity, and force constraints, and is applied to a 
+single body heaving system. 
 
 	+--------------------------------+------------------------------------------------------+
 	|   	     *File*	         |                    *Description*              	|                
@@ -1490,3 +1494,9 @@ The WEC-Sim Applications repository also includes examples of using WEC-Sim to
 model a Desalination plant and a numerical model of the WaveStar device for 
 control implementation. The WaveStar device was used in the WECCCOMP wave 
 energy control competition. 
+
+References
+------------------------
+.. bibliography:: ../refs/WEC-Sim_Adv_Features.bib
+   :style: unsrt
+   :labelprefix: C
