@@ -25,7 +25,7 @@ varargin = checkAndFormatPlotVars(varargin);
 figHandle = figure('Position',[50,500,325*size(varargin{1}.plotDofs,1),520]);
 titleString = ['Normalized Added Mass: $$\bar{A}_{i,j}(\omega) = {\frac{A_{i,j}(\omega)}{\rho}}$$'];
 subtitleStrings = getDofNames(varargin{1}.plotDofs);
-xString = {'$$t (s)$$'};
+xString = {'$$\omega (rad/s)$$'};
 for dof = 1:size(varargin{1}.plotDofs,1)
     yString{dof} = ['$$\bar{A}_{',num2str(varargin{1}.plotDofs(dof,1)),',',num2str(varargin{1}.plotDofs(dof,2)),'}(\omega)$$'];
 end
