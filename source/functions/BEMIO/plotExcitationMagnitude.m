@@ -3,14 +3,10 @@ function plotExcitationMagnitude(varargin)
 % the given degrees of freedom.
 % 
 % Usage:
-% ``plotExcitationMagnitude([1], hydro, hydro2, hydro3, ...)``
-% ``plotExcitationMagnitude([1 3 5], hydro, hydro2, hydro3, ...)``
+% ``plotExcitationMagnitude(hydro, hydro2, hydro3, ...)``
 % 
 % Parameters
-% ----------
-%     dofList : [1 n] int vector
-%         Array of DOFs that will be plotted. Default = [1 3 5]
-%     
+% ----------  
 %     varargin : struct(s)
 %         The hydroData structure(s) created by the other BEMIO functions.
 %         One or more may be input.
@@ -23,7 +19,7 @@ end
 
 varargin = checkAndFormatPlotVars(varargin, 1);
 
-figHandle = figure('Position',[750,500,325*size(varargin{1}.diagPlotDofs,1),520]);
+figHandle = figure();
 titleString = ['Normalized Excitation Force Magnitude: ',...
     '$$\bar{X_i}(\omega,\theta) = {\frac{X_i(\omega,\theta)}{{\rho}g}}$$'];
 subtitleStrings = getDofNames(varargin{1}.diagPlotDofs);
@@ -52,7 +48,7 @@ for ii = 1:numHydro
             for k = 1:length(varargin{ii}.plotDirections)
                 tmp3 = strcat('d',num2str(k));
                 Y.(tmp2).(tmp3)(j,i,:) = squeeze(varargin{ii}.ex_ma(a+varargin{ii}.diagPlotDofs(j),varargin{ii}.plotDirections(k),:));
-                legendStrings{b+k,ii} = [strcat(varargin{ii}.code(1:3),varargin{ii}.body{varargin{ii}.plotBodies(i)},' \theta =  ',num2str(varargin{1}.theta(varargin{ii}.plotDirections(k))),'^{\circ}')];
+                legendStrings{b+k,ii} = [strcat('hydro_',num2str(ii),'.',varargin{ii}.body{varargin{ii}.plotBodies(i)},' \theta =  ',num2str(varargin{1}.theta(varargin{ii}.plotDirections(k))),'^{\circ}')];
             end
         end
         b = b+k;

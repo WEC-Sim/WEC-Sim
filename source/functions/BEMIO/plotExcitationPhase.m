@@ -3,12 +3,10 @@ function plotExcitationPhase(varargin)
 % the given degrees of freedom.
 % 
 % Usage:
-% ``plotExcitationPhase([1], hydro, hydro2, hydro3, ...)``
-% ``plotExcitationPhase([1 3 5], hydro, hydro2, hydro3, ...)``
+% ``plotExcitationPhase(hydro, hydro2, hydro3, ...)``
 % 
 % Parameters
 % ----------
-%     
 %     varargin : struct(s)
 %         The hydroData structure(s) created by the other BEMIO functions.
 %         One or more may be input.
@@ -21,7 +19,7 @@ end
 
 varargin = checkAndFormatPlotVars(varargin, 1);
 
-figHandle = figure('Position',[750,300,325*size(varargin{1}.diagPlotDofs,1),520]);
+figHandle = figure();
 titleString = ['Excitation Force Phase: $$\phi_i(\omega,\theta)$$'];
 subtitleStrings = getDofNames(varargin{1}.diagPlotDofs);
 xString = {'$$\omega (rad/s)$$'};
@@ -49,7 +47,7 @@ for ii = 1:numHydro
             for k = 1:length(varargin{ii}.plotDirections)
                 tmp3 = strcat('d',num2str(k));
                 Y.(tmp2).(tmp3)(j,i,:) = squeeze(varargin{ii}.ex_ph(a+varargin{ii}.diagPlotDofs(j),varargin{ii}.plotDirections(k),:));
-                legendStrings{b+k,ii} = [strcat(varargin{ii}.code(1:3),varargin{ii}.body{varargin{ii}.plotBodies(i)},' \theta =',num2str(varargin{1}.theta(varargin{ii}.plotDirections(k))),'^{\circ}')];
+                legendStrings{b+k,ii} = [strcat('hydro_',num2str(ii),'.',varargin{ii}.body{varargin{ii}.plotBodies(i)},' \theta =',num2str(varargin{1}.theta(varargin{ii}.plotDirections(k))),'^{\circ}')];
             end
         end
         b = b+k;

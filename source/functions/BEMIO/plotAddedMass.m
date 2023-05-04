@@ -3,14 +3,10 @@ function plotAddedMass(varargin)
 % the given degrees of freedom.
 % 
 % Usage:
-% ``plotAddedMass([1], hydro, hydro2, hydro3, ...)``
-% ``plotAddedMass([1 3 5], hydro, hydro2, hydro3, ...)``
+% ``plotAddedMass(hydro, hydro2, hydro3, ...)``
 % 
 % Parameters
 % ----------
-%     dofList : [1 n] int vector
-%         Array of DOFs that will be plotted. Default = [1 3 5]
-% 
 %     varargin : struct(s)
 %         The hydroData structure(s) created by the other BEMIO functions.
 %         One or more may be input.
@@ -22,7 +18,7 @@ end
 
 varargin = checkAndFormatPlotVars(varargin);
 
-figHandle = figure('Position',[50,500,325*size(varargin{1}.plotDofs,1),520]);
+figHandle = figure();
 titleString = ['Normalized Added Mass: $$\bar{A}_{i,j}(\omega) = {\frac{A_{i,j}(\omega)}{\rho}}$$'];
 subtitleStrings = getDofNames(varargin{1}.plotDofs);
 xString = {'$$\omega (rad/s)$$'};
@@ -55,7 +51,7 @@ for ii = 1:numHydro
         for j = 1:size(varargin{ii}.plotDofs,1)
             Y.(tmp2)(j,i,:) = squeeze(varargin{ii}.A(a+varargin{ii}.plotDofs(j,1),a+varargin{ii}.plotDofs(j,2),:));
         end
-        legendStrings{i,ii} = [strcat(varargin{ii}.code(1:3),varargin{ii}.body{varargin{ii}.plotBodies(i)})];
+        legendStrings{i,ii} = [strcat('hydro_',num2str(ii),'.',varargin{ii}.body{varargin{ii}.plotBodies(i)})];
     end
 end
 

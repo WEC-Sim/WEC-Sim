@@ -3,14 +3,10 @@ function plotRadiationDamping(varargin)
 % the given degrees of freedom.
 % 
 % Usage:
-% ``plotRadiationDamping([1], hydro, hydro2, hydro3, ...)``
-% ``plotRadiationDamping([1 3 5], hydro, hydro2, hydro3, ...)``
+% ``plotRadiationDamping(hydro, hydro2, hydro3, ...)``
 % 
 % Parameters
 % ----------
-%     dofList : [1 n] int vector
-%         Array of DOFs that will be plotted. Default = [1 3 5]
-% 
 %     varargin : struct(s)
 %         The hydroData structure(s) created by the other BEMIO functions.
 %         One or more may be input.
@@ -23,7 +19,7 @@ end
 
 varargin = checkAndFormatPlotVars(varargin);
 
-figHandle = figure('Position',[50,300,325*size(varargin{1}.plotDofs,1),521]);
+figHandle = figure();
 titleString = ['Normalized Radiation Damping: $$\bar{B}_{i,j}(\omega) = {\frac{B_{i,j}(\omega)}{\rho\omega}}$$'];
 subtitleStrings = getDofNames(varargin{1}.plotDofs);
 xString = {'$$\omega (rad/s)$$'};
@@ -58,7 +54,7 @@ for ii=1:numHydro
         for j = 1:size(varargin{ii}.plotDofs,1)
             Y.(tmp2)(j,i,:) = squeeze(varargin{ii}.B(a+varargin{ii}.plotDofs(j,1),a+varargin{ii}.plotDofs(j,2),:));
         end
-        legendStrings{i,ii} = [strcat(varargin{ii}.code(1:3),varargin{ii}.body{varargin{ii}.plotBodies(i)})];
+        legendStrings{i,ii} = [strcat('hydro_',num2str(ii),'.',varargin{ii}.body{varargin{ii}.plotBodies(i)})];
     end
 end
 

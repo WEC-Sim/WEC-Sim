@@ -5,15 +5,11 @@ function plotBEMIO(varargin)
 % 
 % Usage: 
 % ``plotBEMIO(hydro, hydro2, hydro3, ...)``
-% ``plotBEMIO([1 3 5], hydro, hydro2, hydro3, ...)``
 % 
 % See ``WEC-Sim\examples\BEMIO`` for additional examples.
 % 
 % Parameters
 % ----------
-%     dofList : [1 n] int vector (optional)
-%         Array of DOFs that will be plotted. Default = [1 3 5]
-%     
 %     varargin : struct(s)
 %         The hydroData structure(s) created by the other BEMIO functions.
 %         One or more may be input.

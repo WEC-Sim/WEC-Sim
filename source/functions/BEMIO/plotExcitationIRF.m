@@ -3,14 +3,10 @@ function plotExcitationIRF(varargin)
 % the given degrees of freedom.
 % 
 % Usage:
-% ``plotExcitationIRF([1], hydro, hydro2, hydro3, ...)``
-% ``plotExcitationIRF([1 3 5], hydro, hydro2, hydro3, ...)``
+% ``plotExcitationIRF(hydro, hydro2, hydro3, ...)``
 % 
 % Parameters
 % ----------
-%     dofList : [1 n] int vector
-%         Array of DOFs that will be plotted. Default = [1 3 5]
-%     
 %     varargin : struct(s)
 %         The hydroData structure(s) created by the other BEMIO functions.
 %         One or more may be input.
@@ -23,7 +19,7 @@ if isempty(varargin)
         'structures when calling: plotExcitationIRF(hydro1, hydro2, ...)']);
 end
 
-figHandle = figure('Position',[750,100,325*size(varargin{1}.diagPlotDofs,1),520]);
+figHandle = figure();
 titleString = ['Normalized Excitation Impulse Response Functions:   ',...
     '$$\bar{K}_i(t) = {\frac{1}{2\pi}}\int_{-\infty}^{\infty}{\frac{X_i(\omega,\theta)e^{i{\omega}t}}{{\rho}g}}d\omega$$'];
 subtitleStrings = getDofNames(varargin{1}.diagPlotDofs);
@@ -58,7 +54,7 @@ for ii = 1:numHydro
             for k = 1:length(varargin{ii}.plotDirections)
                 tmp3 = strcat('d',num2str(k));
                 Y.(tmp2).(tmp3)(j,i,:) = squeeze(varargin{ii}.ex_K(a+varargin{ii}.diagPlotDofs(j),varargin{ii}.plotDirections(k),:));
-                legendStrings{b+k,ii} = [strcat(varargin{ii}.code(1:3),varargin{ii}.body{varargin{ii}.plotBodies(i)},' \theta =  ',num2str(varargin{1}.theta(varargin{ii}.plotDirections(k))),'^{\circ}')];
+                legendStrings{b+k,ii} = [strcat('hydro_',num2str(ii),'.',varargin{ii}.body{varargin{ii}.plotBodies(i)},' \theta =  ',num2str(varargin{1}.theta(varargin{ii}.plotDirections(k))),'^{\circ}')];
             end
         end
         b = b+k;

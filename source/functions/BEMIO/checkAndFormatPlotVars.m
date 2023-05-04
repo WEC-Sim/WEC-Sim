@@ -24,7 +24,13 @@ numHydro = length(varargin{1});
 
 for ii = 1:numHydro
     % Format plotting dofs
-    if isequal(size(varargin{1}{ii}.plotDofs),[1 2]) && range(varargin{1}{ii}.plotDofs) == 0
+    % Make sure all hydro structures have the same plotting dofs
+    if ii > 1 && ~isequal(varargin{1}{ii}.plotDofs, varargin{1}{ii-1}.plotDofs)
+        varargin{1}{ii}.plotDofs = varargin{1}{1}.plotDofs;
+        warning('Plot dofs are different for different hydro stuctures. Only the plot dofs from the first structure will be used.')
+    end
+
+    if isequal(size(varargin{1}{ii}.plotDofs),[1 2]) && max(varargin{1}{ii}.plotDofs)-min(varargin{1}{ii}.plotDofs) == 0
     elseif min(size(varargin{1}{ii}.plotDofs)) == 1
         warning('%s is 1xN or Nx1. Assuming "hydro.plotDofs" refers to diagonal indices',strcat('hydro',num2str(ii),'.plotDofs'))
         [~,dim]=min(size(varargin{1}{ii}.plotDofs));
@@ -49,10 +55,6 @@ for ii = 1:numHydro
         end
     end
 
-    % Make sure all hydro structures have the same plotting dofs
-    if ii > 1 && ~isequal(varargin{1}{ii}.plotDofs, varargin{1}{ii-1}.plotDofs)
-        error('Plot dofs must be the same for all hydro structures')
-    end
     % Ensure plotting dofs are in hydro structures
     if any(varargin{1}{ii}.plotDofs > max(varargin{1}{ii}.dof))
         error('Some %s are outside of hydro data range',strcat('hydro',num2str(ii),'.plotDofs'))

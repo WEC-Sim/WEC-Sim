@@ -3,14 +3,10 @@ function plotRadiationIRF(varargin)
 % the given degrees of freedom.
 % 
 % Usage:
-% ``plotRadiationIRF([1], hydro, hydro2, hydro3, ...)``
-% ``plotRadiationIRF([1 3 5], hydro, hydro2, hydro3, ...)``
+% ``plotRadiationIRF(hydro, hydro2, hydro3, ...)``
 % 
 % Parameters
 % ----------
-%     dofList : [1 n] int vector
-%         Array of DOFs that will be plotted. Default = [1 3 5]
-%     
 %     varargin : struct(s)
 %         The hydroData structure(s) created by the other BEMIO functions.
 %         One or more may be input.
@@ -23,7 +19,7 @@ end
 
 varargin = checkAndFormatPlotVars(varargin);
 
-figHandle = figure('Position',[50,100,325*size(varargin{1}.plotDofs,1),521]);
+figHandle = figure();
 titleString = ['Normalized Radiation Impulse Response Functions: ',...
     '$$\bar{K}_{i,j}(t) = {\frac{2}{\pi}}\int_0^{\infty}{\frac{B_{i,j}(\omega)}{\rho}}\cos({\omega}t)d\omega$$'];
 subtitleStrings = getDofNames(varargin{1}.plotDofs);
@@ -61,9 +57,9 @@ for ii = 1:numHydro
                 Y.(tmp2)(j,i,:) = squeeze(varargin{ii}.ss_K(a+varargin{ii}.plotDofs(j,1),a+varargin{ii}.plotDofs(j,2),:));
             end
         end
-        legendStrings{i,ii} = [strcat(varargin{ii}.code(1:3),varargin{ii}.body{varargin{ii}.plotBodies(i)})];
+        legendStrings{i,ii} = [strcat('hydro_',num2str(ii),'.',varargin{ii}.body{varargin{ii}.plotBodies(i)})];
         if q == 1
-            legendStrings{i,ii} = [strcat(varargin{ii}.code(1:3),varargin{ii}.body{varargin{ii}.plotBodies(i)}),' (SS)'];
+            legendStrings{i,ii} = [strcat('hydro_',num2str(ii),'.',varargin{ii}.body{varargin{ii}.plotBodies(i)}),' (SS)'];
         end
         q = 0;
     end
