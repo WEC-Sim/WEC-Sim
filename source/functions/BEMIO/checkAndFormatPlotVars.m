@@ -26,7 +26,7 @@ for ii = 1:numHydro
     % Format plotting dofs
     if isequal(size(varargin{1}{ii}.plotDofs),[1 2]) && range(varargin{1}{ii}.plotDofs) == 0
     elseif min(size(varargin{1}{ii}.plotDofs)) == 1
-        warning('%s is 1xN or Nx1. Assuming matrix diagonal indices',strcat('hydro',num2str(ii),'.plotDofs'))
+        warning('%s is 1xN or Nx1. Assuming "hydro.plotDofs" refers to diagonal indices',strcat('hydro',num2str(ii),'.plotDofs'))
         [~,dim]=min(size(varargin{1}{ii}.plotDofs));
         if dim == 1
             varargin{1}{ii}.plotDofs = (repmat(varargin{1}{ii}.plotDofs,2,1)).';
