@@ -61,7 +61,8 @@ napoleon_use_param = True
 napoleon_use_rtype = True
 
 # sphinxcontrib.bibtex settings
-bibtex_bibfiles = ['refs/WEC-Sim_Theory.bib',
+bibtex_bibfiles = ['refs/WEC-Sim_Adv_Features.bib',
+                   'refs/WEC-Sim_Theory.bib',
                    'refs/WEC-Sim_Tutorials.bib']
 
 # sphinxcontrib.matlab settings
