@@ -160,7 +160,7 @@ classdef bodyClass<handle
             mustBeScalarOrEmpty(obj.yaw.threshold)
             % Check restricted/boolean variables
             mustBeMember(obj.flex,[0 1])
-            mustBeMember(obj.meanDrift,0:2)
+            mustBeMember(obj.meanDrift,0:3)
             mustBeMember(obj.nonHydro,0:2)
             mustBeMember(obj.nonlinearHydro,0:2)
             mustBeMember(obj.paraview,[0 1])

@@ -99,6 +99,9 @@ for i = 1:hydro.Nb
     if isfield(hydro,'md_cs') % Only if mean drift variables (control surface approach) have been calculated in BEM
         writeH5Parameter(filename,['/body' num2str(i) '/hydro_coeffs/mean_drift/control_surface/val'],permute(hydro.md_cs((n+1):(n+m),:,:),[3 2 1]),'Value of mean drift force (control surface)','');
     end
+    if isfield(hydro,'md_pi') % Only if mean drift variables (pressure integration approach) have been calculated in BEM
+        writeH5Parameter(filename,['/body' num2str(i) '/hydro_coeffs/mean_drift/pressure_integration/val'],permute(hydro.md_pi((n+1):(n+m),:,:),[3 2 1]),'Value of mean drift force (pressure integration)','');
+    end
 
      % Write radiation damping coefficients and IRF
     writeH5Parameter(filename,['/body' num2str(i) '/hydro_coeffs/radiation_damping/all'],permute(hydro.B((n+1):(n+m),:,:),[3 2 1]),'Radiation damping','');
