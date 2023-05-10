@@ -53,7 +53,7 @@ try hydroData.properties.dofEnd   = h5read(filename,[h5BodyName '/properties/dof
 
 % Read hydrostatic stiffness
 hydroData.hydro_coeffs.linear_restoring_stiffness = reverseDimensionOrder(h5read(filename, [h5BodyName '/hydro_coeffs/linear_restoring_stiffness']));
-
+hydroData.hydro_coeffs.linear_restoring_stiffness(6,:) = 0*hydroData.hydro_coeffs.linear_restoring_stiffness(6,:);
 % Read excitation coefficients and IRF
 hydroData.hydro_coeffs.excitation.re = reverseDimensionOrder(h5read(filename, [h5BodyName '/hydro_coeffs/excitation/re']));
 hydroData.hydro_coeffs.excitation.im = reverseDimensionOrder(h5read(filename, [h5BodyName '/hydro_coeffs/excitation/im']));
