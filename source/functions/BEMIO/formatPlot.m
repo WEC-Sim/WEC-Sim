@@ -78,6 +78,7 @@ for iHydro = 1:nHydro
                 plot(X.(tmp1),squeeze(Y.(tmp2)(iDofs,iBody,:)),'LineWidth',1)
             end
         end
+        hold off
         if iHydro == nHydro
             legend(legendStrings1D,'location','best','Box','off','Interpreter','tex');
             title(subtitleStrings(iDofs));
