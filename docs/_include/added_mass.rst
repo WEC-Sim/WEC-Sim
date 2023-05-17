@@ -65,12 +65,12 @@ and
                        A_{6,1} & A_{6,2} & A_{6,3} & A_{6,4} & A_{6,5} & 0\\
                    \end{bmatrix}
 
-The factor :math:`\alpha` represents ``simu.adjMassFactor =2``, the default value.
+The factor :math:`\alpha` represents ``body(iBod).adjMassFactor =2``, the default value.
 
 The summation of the adjusted mass, inertia and added mass is identical to the original summation above. 
 The governing equation of motion does not change, only its implementation. 
-A simulation class weight factor controls the degree to which the added mass is adjusted to create the most robust simulation possible. 
-To see its effects, set ``simu.adjMassFactor = 0`` and WEC-Sim will likely become unstable.
+A body class weight factor controls the degree to which the added mass is adjusted to create the most robust simulation possible. 
+To see its effects, set ``body(iB).adjMassFactor = 0`` and WEC-Sim will likely become unstable.
 
 However WEC-Sim again contains an unsolvable algebraic loop due to the acceleration dependence. 
 WEC-Sim removes this algebraic problem using a `Simulink Transport Delay <https://www.mathworks.com/help/simulink/slref/transportdelay.html>`_ with a very small time delay (``1e-8``). 

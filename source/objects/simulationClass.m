@@ -28,7 +28,6 @@ classdef simulationClass<handle
     %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
     
     properties (SetAccess = 'public', GetAccess = 'public') % WEC-Sim input 
-        adjMassFactor (1,1) {mustBeNumeric}             = 2                 % (`integer`) Weighting function for adjusting added mass term in the translational direction. Default = ``2``
         b2b (1,1) {mustBeInteger}                       = 0                 % (`integer`) Flag for body2body interactions, Options: 0 (off), 1 (on). Default = ``0``
         cicDt (1,:) {mustBeScalarOrEmpty}               = []                % (`float`) Time step to calculate Convolution Integral. Default = ``dt``
         cicEndTime (1,:) {mustBeScalarOrEmpty}          = 60                % (`float`) Convolution integral time. Default = ``60`` s
