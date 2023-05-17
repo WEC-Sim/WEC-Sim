@@ -127,11 +127,16 @@ for iMoor = 1:simu.numMoorings
     end
 end; clear iMoor
 
-% Calculate correct added mass and total forces
+% Added mass correction
+% 1. Update mass properties and added mass coefficients from stored valued
+% 2. Store the applied added mass force
+% 3. Remove applied added mass force from total
+% 4. Calculate the actual added mass force
+% 5. Add actual added mass force to total
 for iBod = 1:simu.numHydroBodies
-    body(iBod).restoreMassMatrix
+    body(iBod).restoreMassMatrix();
     body(iBod).storeForceAddedMass(output.bodies(iBod).forceAddedMass, output.bodies(iBod).forceTotal);
     output.bodies(iBod).forceTotal = output.bodies(iBod).forceTotal + output.bodies(iBod).forceAddedMass;
-    output.bodies(iBod).forceAddedMass = body(iBod).forceAddedMass(output.bodies(iBod).acceleration,simu.b2b);
+    output.bodies(iBod).forceAddedMass = body(iBod).calculateForceAddedMass(output.bodies(iBod).acceleration,simu.b2b,body);
     output.bodies(iBod).forceTotal = output.bodies(iBod).forceTotal - output.bodies(iBod).forceAddedMass;
 end; clear iBod
