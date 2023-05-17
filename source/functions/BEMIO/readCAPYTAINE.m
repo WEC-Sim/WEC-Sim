@@ -422,6 +422,7 @@ waitbar(7/8);
 % Kochin_BVP(ntheta,2,x)= Kochin(3*(ntheta-1)+3); % phase
 
 hydro = normalizeBEM(hydro);  % Normalize the data according the WAMIT convention
+hydro = addDefaultPlotVars(hydro);
 
 waitbar(8/8);
 
