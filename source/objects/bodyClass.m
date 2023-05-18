@@ -402,9 +402,9 @@ classdef bodyClass<handle
                 obj.hydroForce.fAddedMass(4,6+(iBod-1)*6) = 0;
                 obj.hydroForce.fAddedMass(5,6+(iBod-1)*6) = 0;
                 % matrix should be symmetric, but remove symmetric components to preserve any numerical differences
-                obj.hydroForce.fAddedMass(5,4+(iBod-1)*6) = obj.hydroForce.fAddedMass(5,4+(iBod-1)*6) - tmp.inertiaProducts(1);
-                obj.hydroForce.fAddedMass(6,4+(iBod-1)*6) = obj.hydroForce.fAddedMass(6,4+(iBod-1)*6) - tmp.inertiaProducts(2);
-                obj.hydroForce.fAddedMass(6,5+(iBod-1)*6) = obj.hydroForce.fAddedMass(6,5+(iBod-1)*6) - tmp.inertiaProducts(3);
+                obj.hydroForce.fAddedMass(5,4+(iBod-1)*6) = obj.hydroForce.fAddedMass(5,4+(iBod-1)*6) + tmp.inertiaProducts(1);
+                obj.hydroForce.fAddedMass(6,4+(iBod-1)*6) = obj.hydroForce.fAddedMass(6,4+(iBod-1)*6) + tmp.inertiaProducts(2);
+                obj.hydroForce.fAddedMass(6,5+(iBod-1)*6) = obj.hydroForce.fAddedMass(6,5+(iBod-1)*6) + tmp.inertiaProducts(3);
             else
                 tmp.fadm=diag(obj.hydroForce.fAddedMass);
                 tmp.adjmass = sum(tmp.fadm(1:3))*obj.adjMassFactor;
@@ -424,9 +424,9 @@ classdef bodyClass<handle
                 obj.hydroForce.fAddedMass(4,6) = 0;
                 obj.hydroForce.fAddedMass(5,6) = 0;
                 % matrix should be symmetric, but remove symmetric components to preserve any numerical differences
-                obj.hydroForce.fAddedMass(5,4) = obj.hydroForce.fAddedMass(5,4) - tmp.inertiaProducts(1);
-                obj.hydroForce.fAddedMass(6,4) = obj.hydroForce.fAddedMass(6,4) - tmp.inertiaProducts(2);
-                obj.hydroForce.fAddedMass(6,5) = obj.hydroForce.fAddedMass(6,5) - tmp.inertiaProducts(3);
+                obj.hydroForce.fAddedMass(5,4) = obj.hydroForce.fAddedMass(5,4) + tmp.inertiaProducts(1);
+                obj.hydroForce.fAddedMass(6,4) = obj.hydroForce.fAddedMass(6,4) + tmp.inertiaProducts(2);
+                obj.hydroForce.fAddedMass(6,5) = obj.hydroForce.fAddedMass(6,5) + tmp.inertiaProducts(3);
             end
         end
         
@@ -833,7 +833,7 @@ classdef bodyClass<handle
     end
     
     methods (Access = 'public') %modify object = F; output = T
-        function actualAddedMassForce = calculateForceAddedMass(obj,acc)
+        function actualForceAddedMass = calculateForceAddedMass(obj,acc)
             % This method calculates and outputs the real added mass force
             % time history. This encompasses both the contributions of the
             % added mass coefficients and applied during simulation, and
@@ -867,10 +867,13 @@ classdef bodyClass<handle
             dMass(4,5) = obj.hydroForce.storage.inertiaProducts(1) - obj.inertiaProducts(1);
             dMass(4,6) = obj.hydroForce.storage.inertiaProducts(2) - obj.inertiaProducts(2);
             dMass(5,6) = obj.hydroForce.storage.inertiaProducts(3) - obj.inertiaProducts(3);
+            dMass(5,4) = -dMass(4,5);
+            dMass(6,4) = -dMass(4,6);
+            dMass(6,5) = -dMass(5,6);
 
-            appliedAddedMassForce = obj.hydroForce.storage.output_forceAddedMass;
-            bodyMassAddedMassForce = acc*dMass;
-            actualAddedMassForce = appliedAddedMassForce + bodyMassAddedMassForce;
+            appliedForceAddedMass = obj.hydroForce.storage.output_forceAddedMass;
+            bodyForceMassAddedMass = acc*dMass;
+            actualForceAddedMass = appliedForceAddedMass + bodyForceMassAddedMass;
         end
     end
 end
