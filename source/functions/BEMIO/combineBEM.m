@@ -17,6 +17,7 @@ function hydro = combineBEM(hydro)
 % -------
 %     hydro : [1 x 1] struct
 %         Combined structure. 
+%
 
 p = waitbar(0,'Combining multiple BEM results...');  % Progress bar
 
@@ -110,5 +111,6 @@ if n>1
     hydro(2:n) = [];
     
 end
+hydro = addDefaultPlotVars(hydro);
 close(p);
 end

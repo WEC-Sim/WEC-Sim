@@ -1,16 +1,12 @@
-function plotExcitationMagnitude(dofList, varargin)
+function plotExcitationMagnitude(varargin)
 % Plots the excitation force magnitude for each hydro structure's bodies in
 % the given degrees of freedom.
 % 
 % Usage:
-% ``plotExcitationMagnitude([1], hydro, hydro2, hydro3, ...)``
-% ``plotExcitationMagnitude([1 3 5], hydro, hydro2, hydro3, ...)``
+% ``plotExcitationMagnitude(hydro, hydro2, hydro3, ...)``
 % 
 % Parameters
-% ----------
-%     dofList : [1 n] int vector
-%         Array of DOFs that will be plotted. Default = [1 3 5]
-%     
+% ----------  
 %     varargin : struct(s)
 %         The hydroData structure(s) created by the other BEMIO functions.
 %         One or more may be input.
@@ -21,41 +17,45 @@ if isempty(varargin)
         'structures when calling: plotExcitationMagnitude(hydro1, hydro2, ...)']);
 end
 
-subtitleStrings = getDofNames(dofList);
+varargin = checkAndFormatPlotVars(varargin, 1);
 
-B=1;  % Wave heading index
-figHandle = figure('Position',[950,500,975,521]);
+figHandle = figure();
 titleString = ['Normalized Excitation Force Magnitude: ',...
     '$$\bar{X_i}(\omega,\theta) = {\frac{X_i(\omega,\theta)}{{\rho}g}}$$'];
-
-for dof = 1:length(dofList)
-    xString{dof} = '$$\omega (rad/s)$$';
-    yString{dof} = ['$$\bar{X_',num2str(dofList(dof)),'}(\omega,\theta$$',' = ',...
-        num2str(varargin{1}.theta(B)),'$$^{\circ}$$)'];
+subtitleStrings = getDofNames(varargin{1}.diagPlotDofs);
+xString = {'$$\omega (rad/s)$$'};
+for dof = 1:size(varargin{1}.diagPlotDofs,1)
+    yString{dof} = ['$$\bar{X_',num2str(varargin{1}.diagPlotDofs(dof)),'}(\omega)$$'];
 end
 
 notes = {''};
 
 numHydro = length(varargin);
+
 for ii = 1:numHydro
-    numBod = varargin{ii}.Nb;
     tmp1 = strcat('X',num2str(ii));
     X.(tmp1) = varargin{ii}.w;
     tmp2 = strcat('Y',num2str(ii));
-    a = 0;
-    for i = 1:numBod
-        m = varargin{ii}.dof(i);
-        id = 0;
-        for d = 1:length(dofList)
-            id = id + 1;
-            Y.(tmp2)(id,i,:) = squeeze(varargin{ii}.ex_ma(a+dofList(d),B,:));
+    b = 0;
+    for i = 1:length(varargin{ii}.plotBodies)
+        a = 0;
+        if i > 1
+            for i = 2:varargin{ii}.plotBodies(i)
+                a = a + varargin{ii}.dof(varargin{ii}.plotBodies(i-1));
+            end
         end
-        legendStrings{i,ii} = [varargin{ii}.body{i}];
-        a = a + m;
+        for j = 1:size(varargin{ii}.diagPlotDofs,1)
+            for k = 1:length(varargin{ii}.plotDirections)
+                tmp3 = strcat('d',num2str(k));
+                Y.(tmp2).(tmp3)(j,i,:) = squeeze(varargin{ii}.ex_ma(a+varargin{ii}.diagPlotDofs(j),varargin{ii}.plotDirections(k),:));
+                legendStrings{b+k,ii} = [strcat('hydro_',num2str(ii),'.',varargin{ii}.body{varargin{ii}.plotBodies(i)},' \theta =  ',num2str(varargin{1}.theta(varargin{ii}.plotDirections(k))),'^{\circ}')];
+            end
+        end
+        b = b+k;
     end
 end
 
-formatPlot(figHandle,titleString,subtitleStrings,xString,yString,X,Y,legendStrings,notes);
+formatPlot(figHandle,titleString,subtitleStrings,xString,yString,X,Y,legendStrings,notes,varargin{1}.diagPlotDofs);
 saveas(figHandle,'Excitation_Magnitude.png');
 
 end

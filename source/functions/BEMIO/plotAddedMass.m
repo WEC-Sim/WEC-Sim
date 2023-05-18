@@ -1,16 +1,12 @@
-function plotAddedMass(dofList, varargin)
+function plotAddedMass(varargin)
 % Plots the added mass for each hydro structure's bodies in
 % the given degrees of freedom.
 % 
 % Usage:
-% ``plotAddedMass([1], hydro, hydro2, hydro3, ...)``
-% ``plotAddedMass([1 3 5], hydro, hydro2, hydro3, ...)``
+% ``plotAddedMass(hydro, hydro2, hydro3, ...)``
 % 
 % Parameters
 % ----------
-%     dofList : [1 n] int vector
-%         Array of DOFs that will be plotted. Default = [1 3 5]
-% 
 %     varargin : struct(s)
 %         The hydroData structure(s) created by the other BEMIO functions.
 %         One or more may be input.
@@ -20,16 +16,16 @@ if isempty(varargin)
         'structures when calling: plotAddedMass(hydro1, hydro2, ...)']);
 end
 
-subtitleStrings = getDofNames(dofList);
+varargin = checkAndFormatPlotVars(varargin);
 
-figHandle = figure('Position',[50,500,975,521]);
+figHandle = figure();
 titleString = ['Normalized Added Mass: $$\bar{A}_{i,j}(\omega) = {\frac{A_{i,j}(\omega)}{\rho}}$$'];
-id = 0;
-for rIdx = 1:length(dofList(:,1))
-    id = id+1;
-    xString{id} = '$$\omega (rad/s)$$';
-    yString{id} = ['$$\bar{A}_{',num2str(dofList(rIdx,1)),',',num2str(dofList(rIdx,2)),'}(\omega)$$'];
+subtitleStrings = getDofNames(varargin{1}.plotDofs);
+xString = {'$$\omega (rad/s)$$'};
+for dof = 1:size(varargin{1}.plotDofs,1)
+    yString{dof} = ['$$\bar{A}_{',num2str(varargin{1}.plotDofs(dof,1)),',',num2str(varargin{1}.plotDofs(dof,2)),'}(\omega)$$'];
 end
+%yString = {'$$\bar{A}_{1,1}(\omega)$$','$$\bar{A}_{2,2}(\omega)$$','$$\bar{A}_{3,3}(\omega)$$','$$\bar{A}_{4,4}(\omega)$$','$$\bar{A}_{5,5}(\omega)$$','$$\bar{A}_{6,6}(\omega)$$'};
 
 notes = {'Notes:',...
     ['$$\bullet$$ $$\bar{A}_{i,j}(\omega)$$ should tend towards a constant, ',...
@@ -40,25 +36,26 @@ notes = {'Notes:',...
     'proceeding.']};
 
 numHydro = length(varargin);
+
 for ii = 1:numHydro
-    numBod = varargin{ii}.Nb;
     tmp1 = strcat('X',num2str(ii));
     X.(tmp1) = varargin{ii}.w;
     tmp2 = strcat('Y',num2str(ii));
-    a = 0;
-    for i = 1:numBod    
-        m = varargin{ii}.dof(i);
-        id = 0;
-        for rIdx = 1:length(dofList(:,1))
-            id = id + 1;
-            Y.(tmp2)(id,i,:) = squeeze(varargin{ii}.A(a+dofList(rIdx,1),a+dofList(rIdx,2),:));
+    for i = 1:length(varargin{ii}.plotBodies)
+        a = 0;
+        if i > 1
+            for i = 2:varargin{ii}.plotBodies(i)
+                a = a + varargin{ii}.dof(varargin{ii}.plotBodies(i-1));
+            end
         end
-        legendStrings{i,ii} = [varargin{ii}.body{i}];
-        a = a + m;
+        for j = 1:size(varargin{ii}.plotDofs,1)
+            Y.(tmp2)(j,i,:) = squeeze(varargin{ii}.A(a+varargin{ii}.plotDofs(j,1),a+varargin{ii}.plotDofs(j,2),:));
+        end
+        legendStrings{i,ii} = [strcat('hydro_',num2str(ii),'.',varargin{ii}.body{varargin{ii}.plotBodies(i)})];
     end
 end
 
-formatPlot(figHandle,titleString,subtitleStrings,xString,yString,X,Y,legendStrings,notes);
+formatPlot(figHandle,titleString,subtitleStrings,xString,yString,X,Y,legendStrings,notes,varargin{1}.plotDofs);
 saveas(figHandle,'Added_Mass.png');
 
 end

@@ -363,6 +363,7 @@ end
 waitbar(8/8);
 
 hydro = normalizeBEM(hydro);  % Normalize the data according the WAMIT convention
+hydro = addDefaultPlotVars(hydro);
 
 close(p);
 end

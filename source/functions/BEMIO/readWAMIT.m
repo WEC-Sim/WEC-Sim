@@ -357,6 +357,7 @@ end
 
 %%
 hydro = normalizeBEM(hydro);  % For WAMIT this just sorts the data, if neccessary
+hydro = addDefaultPlotVars(hydro);
 
 close(p);
 end

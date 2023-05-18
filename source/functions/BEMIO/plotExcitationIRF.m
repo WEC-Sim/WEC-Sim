@@ -1,37 +1,31 @@
-function plotExcitationIRF(dofList, varargin)
+function plotExcitationIRF(varargin)
 % Plots the excitation IRF for each hydro structure's bodies in
 % the given degrees of freedom.
 % 
 % Usage:
-% ``plotExcitationIRF([1], hydro, hydro2, hydro3, ...)``
-% ``plotExcitationIRF([1 3 5], hydro, hydro2, hydro3, ...)``
+% ``plotExcitationIRF(hydro, hydro2, hydro3, ...)``
 % 
 % Parameters
 % ----------
-%     dofList : [1 n] int vector
-%         Array of DOFs that will be plotted. Default = [1 3 5]
-%     
 %     varargin : struct(s)
 %         The hydroData structure(s) created by the other BEMIO functions.
 %         One or more may be input.
 % 
+
+varargin = checkAndFormatPlotVars(varargin, 1);
 
 if isempty(varargin)
     error(['plotExcitationIRF: No arguments passed. Include one or more hydro ' ...
         'structures when calling: plotExcitationIRF(hydro1, hydro2, ...)']);
 end
 
-subtitleStrings = getDofNames(dofList);
-
-B=1;  % Wave heading index
-figHandle = figure('Position',[950,100,975,521]);
+figHandle = figure();
 titleString = ['Normalized Excitation Impulse Response Functions:   ',...
     '$$\bar{K}_i(t) = {\frac{1}{2\pi}}\int_{-\infty}^{\infty}{\frac{X_i(\omega,\theta)e^{i{\omega}t}}{{\rho}g}}d\omega$$'];
-
-for dof = 1:length(dofList)
-    xString{dof} = '$$t (s)$$';
-    yString{dof} = ['$$\bar{K}_',num2str(dofList(dof)),'(t,\theta$$',' = ',...
-        num2str(varargin{1}.theta(B)),'$$^{\circ}$$)'];
+subtitleStrings = getDofNames(varargin{1}.diagPlotDofs);
+xString = {'$$t (s)$$'};
+for dof = 1:size(varargin{1}.diagPlotDofs,1)
+    yString{dof} = ['$$\bar{K}_',num2str(varargin{1}.diagPlotDofs(dof)),'(t)$$'];
 end
 
 notes = {'Notes:',...
@@ -43,25 +37,31 @@ notes = {'Notes:',...
     'to the system, that IRF should also be plotted and verified before proceeding.']};
 
 numHydro = length(varargin);
+
 for ii = 1:numHydro
-    numBod = varargin{ii}.Nb;
     tmp1 = strcat('X',num2str(ii));
     X.(tmp1) = varargin{ii}.ex_t;
     tmp2 = strcat('Y',num2str(ii));
-    a = 0;
-    for i = 1:numBod
-        m = varargin{ii}.dof(i);
-        id = 0;
-        for d = 1:length(dofList)
-            id = id + 1;
-            Y.(tmp2)(id,i,:) = squeeze(varargin{ii}.ex_K(a+dofList(d),B,:));
+    b = 0;
+    for i = 1:length(varargin{ii}.plotBodies)
+        a = 0;
+        if i > 1
+            for i = 2:varargin{ii}.plotBodies(i)
+                a = a + varargin{ii}.dof(varargin{ii}.plotBodies(i-1));
+            end
         end
-        legendStrings{i,ii} = [varargin{ii}.body{i}];
-        a = a + m;
+        for j = 1:size(varargin{ii}.diagPlotDofs,1)
+            for k = 1:length(varargin{ii}.plotDirections)
+                tmp3 = strcat('d',num2str(k));
+                Y.(tmp2).(tmp3)(j,i,:) = squeeze(varargin{ii}.ex_K(a+varargin{ii}.diagPlotDofs(j),varargin{ii}.plotDirections(k),:));
+                legendStrings{b+k,ii} = [strcat('hydro_',num2str(ii),'.',varargin{ii}.body{varargin{ii}.plotBodies(i)},' \theta =  ',num2str(varargin{1}.theta(varargin{ii}.plotDirections(k))),'^{\circ}')];
+            end
+        end
+        b = b+k;
     end
 end
 
-formatPlot(figHandle,titleString,subtitleStrings,xString,yString,X,Y,legendStrings,notes)  
+formatPlot(figHandle,titleString,subtitleStrings,xString,yString,X,Y,legendStrings,notes,varargin{1}.diagPlotDofs)  
 saveas(figHandle,'Excitation_IRFs.png');
 
 end
