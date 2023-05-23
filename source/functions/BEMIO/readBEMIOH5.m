@@ -48,8 +48,8 @@ hydroData.properties.dofEnd   = (number-1)*6+6;
 
 % Update if DOFs included in hydroData
 try hydroData.properties.dof       = h5read(filename,[h5BodyName '/properties/dof']);       end
-try hydroData.properties.dofStart = h5read(filename,[h5BodyName '/properties/dof_start']); end
-try hydroData.properties.dofEnd   = h5read(filename,[h5BodyName '/properties/dof_end']);   end
+try hydroData.properties.dofStart  = h5read(filename,[h5BodyName '/properties/dof_start']); end
+try hydroData.properties.dofEnd    = h5read(filename,[h5BodyName '/properties/dof_end']);   end
 
 % Read hydrostatic stiffness
 hydroData.hydro_coeffs.linear_restoring_stiffness = reverseDimensionOrder(h5read(filename, [h5BodyName '/hydro_coeffs/linear_restoring_stiffness']));
