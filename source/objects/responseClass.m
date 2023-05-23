@@ -101,11 +101,11 @@ classdef responseClass<handle
     %   * ``Lines`` (`struct`) = [1 x 1] Contains the time and fairlead tensions
     %   * ``Line#`` (`struct`) = [1 x 1] One structure for each mooring line: Line1, Line2, etc. Each line structure contains node positions in x, y, z and segment tensions
     %
-    %.. autoattribute:: objects.responseClass.ptosim
+    %.. autoattribute:: objects.responseClass.ptoSim
     %    
     %   * ``time`` (`struct`) = [# of time-steps x 1] Simulation timeseries
     % 
-    %   There are additional ``output.ptosim`` structs corresponding to the Simulink blocks used:
+    %   There are additional ``output.ptoSim`` structs corresponding to the Simulink blocks used:
     % 
     %   * ``pistonCF`` (`struct`) = [1 x # of pistons] Structure containing timeseries of compressible fluid piston properties including absolute power, force, position, velocity
     %   * ``pistonNCF`` (`array`) = [1 x # of pistons] Structure containing timeseries of non-compressible fluid piston properties including absolute power, force, top pressure and bottom pressure
@@ -127,7 +127,7 @@ classdef responseClass<handle
         moorDyn             = struct()     % This property contains a structure for each instance of the ``mooringClass`` using MoorDyn (i.e. for each MoorDyn block)
         mooring             = struct()     % This property contains a structure for each instance of the ``mooringClass`` using the mooring matrix (i.e. for each MooringMatrix block)
         ptos                = struct()     % This property contains a structure for each instance of the ``ptoClass`` (i.e. for each PTO block). PTO motion is relative from frame F to frame B. PTO forces act on frame F.
-        ptosim              = struct()     % This property contains a structure for each instance of the ``ptoSimClass`` (i.e. for each PTO-Sim block).
+        ptoSim              = struct()     % This property contains a structure for each instance of the ``ptoSimClass`` (i.e. for each PTO-Sim block).
         wave                = struct()     % This property contains a structure for each instance of the ``waveClass``         
     end
     
@@ -235,7 +235,6 @@ classdef responseClass<handle
             end
             % PTO-Sim
             if isstruct(ptosimOutput)
-                %names = {'HydPistonCompressible','GasHydAccumulator','RectifyingCheckValve','HydraulicMotorV2','ElectricMachineEC'};
                 hydPistonCompressibleSignals = {'pressureA','forcePTO','pressureB'};
                 gasHydAccumulatorSignals = {'pressure','flowRate'};
                 rectifyingCheckValveSignals = {'flowRateA','flowRateB','flowRateC','flowRateD'};
@@ -248,32 +247,32 @@ classdef responseClass<handle
                 rotaryGeneratorSignals = {'absPower','Torque','fricTorque','Ia','Ib','Ic','Va','Vb','Vc','elecPower','vel'};
 
                 for ii = 1:length(ptosimOutput)
-                    obj.ptosim(ii).name = ptosimOutput(ii).name;
-                    obj.ptosim(ii).time = ptosimOutput(ii).time;
-                    obj.ptosim(ii).type = ptosimOutput(ii).type;
-                    if ptosimOutput(ii).type == 1
+                    %obj.ptoSim(ii).name = ptosimOutput(ii).name;
+                    obj.ptoSim(ii).time = ptosimOutput(ii).time;
+                    obj.ptoSim(ii).typeNum = ptosimOutput(ii).typeNum;
+                    if ptosimOutput(ii).typeNum == 1
                         signals = electricMachineECSignals;
-                    elseif ptosimOutput(ii).type == 2
+                    elseif ptosimOutput(ii).typeNum == 2
                         signals = hydPistonCompressibleSignals;
-                    elseif ptosimOutput(ii).type == 3
+                    elseif ptosimOutput(ii).typeNum == 3
                         signals = gasHydAccumulatorSignals;
-                    elseif ptosimOutput(ii).type == 4
+                    elseif ptosimOutput(ii).typeNum == 4
                         signals = rectifyingCheckValveSignals;
-                    elseif ptosimOutput(ii).type == 5
+                    elseif ptosimOutput(ii).typeNum == 5
                         signals = hydraulicMotorSignals;
-                    elseif ptosimOutput(ii).type == 6
+                    elseif ptosimOutput(ii).typeNum == 6
                         signals = linearCrankSignals;
-                    elseif ptosimOutput(ii).type == 7
+                    elseif ptosimOutput(ii).typeNum == 7
                         signals = adjustableRodSignals;
-                    elseif ptosimOutput(ii).type == 8
+                    elseif ptosimOutput(ii).typeNum == 8
                         signals = checkValveSignals;
-                    elseif ptosimOutput(ii).type == 9
+                    elseif ptosimOutput(ii).typeNum == 9
                         signals = linearGeneratorSignals;
-                    elseif ptosimOutput(ii).type == 10
+                    elseif ptosimOutput(ii).typeNum == 10
                         signals = rotaryGeneratorSignals;
                     end
                     for jj = 1:length(signals)
-                        obj.ptosim(ii).(signals{jj}) = ptosimOutput(ii).signals.values(:,jj);
+                        obj.ptoSim(ii).(signals{jj}) = ptosimOutput(ii).signals.values(:,jj);
                     end
                 end
             end
@@ -751,18 +750,18 @@ classdef responseClass<handle
                 end
             end
             %ptoSim
-            if isfield(obj.ptosim,'time')
-                f1 = fields(obj.ptosim);
+            if isfield(obj.ptoSim,'time')
+                f1 = fields(obj.ptoSim);
                 count = 1;
                 header = {'time'};
-                data = obj.ptosim.time;
+                data = obj.ptoSim.time;
                 for ifld1=1:(length(f1)-1)
-                    f2 = fields(obj.ptosim.(f1{ifld1}));
-                    for iins = 1:length(obj.ptosim.(f1{ifld1}))
+                    f2 = fields(obj.ptoSim.(f1{ifld1}));
+                    for iins = 1:length(obj.ptoSim.(f1{ifld1}))
                         for ifld2 = 1:length(f2)
                             count = count+1;
                             header{count} = [f1{ifld1} num2str(iins) '_' f2{ifld2}];
-                            data(:,count) = obj.ptosim.(f1{ifld1}).(f2{ifld2});
+                            data(:,count) = obj.ptoSim.(f1{ifld1}).(f2{ifld2});
                         end
                     end
                 end
@@ -772,7 +771,7 @@ classdef responseClass<handle
                 numChar = max(tmp)+2; clear tmp;
                 header_fmt = ['%' num2str(numChar) 's ']; 
                 data_fmt = [repmat('%10.5f ',1,length(header)) '\n'];
-                filename = ['output/ptosim.txt'];
+                filename = ['output/ptoSim.txt'];
                 fid = fopen(filename,'w+');
                 for ii=1:length(header)
                     fprintf(fid,header_fmt,header{ii});
