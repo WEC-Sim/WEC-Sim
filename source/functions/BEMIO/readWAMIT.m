@@ -93,6 +93,7 @@ for n = 1:N
         tmp = textscan(raw{n+3}(find(raw{n+3}==':')+1:end),'%f');
         hydro(F).Khs(5,5:6,hydro(F).Nb) = tmp{1};
         hydro(F).Khs(5:6,5,hydro(F).Nb) = tmp{1};
+        hydro(F).Khs(6,:)               = 0*hydro(F).Khs(6,:); % 6th row must be zeros
     end
     if isempty(strfind(raw{n},'Wave period'))==0
         if isempty(strfind(raw{n},'Wave period = infinite'))==0  T = 0;  end
