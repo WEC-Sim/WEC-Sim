@@ -31,6 +31,7 @@ function T = calcCableTens(stiffness, damping, length, initialLength, position, 
 % 
 
 % Calculate distance between the bodies
+% positionMagnitude = abs(position(3)) + initialLength; % The PTO position does not include the initial displacement, so it is added here
 positionMagnitude = position(3) + initialLength; % The PTO position does not include the initial displacement, so it is added here
 velocityMagnitude = velocity(3);
 
@@ -38,10 +39,10 @@ velocityMagnitude = velocity(3);
 T = 0;
 
 % If cable in tension, apply 
-if positionMagnitude <= length
+if abs(positionMagnitude) <= length
     T = 0;
-else 
-    T = (-stiffness) * (positionMagnitude - length) + (-damping) * velocityMagnitude;
+else
+    T = (-stiffness) * sign(positionMagnitude)*(abs(positionMagnitude) - length) + (-damping) * velocityMagnitude;
 end
 
 end
