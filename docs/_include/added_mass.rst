@@ -1,7 +1,7 @@
 .. _dev-added-mass:
 
 Theoretical Implementation
-^^^^^^^^^^^^^^^^^^^^^^^^^^
+^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
 Added mass is a special multi-directional fluid dynamic phenomenon that most
 physics software cannot account for well.
@@ -42,7 +42,7 @@ For example, a rigid body can't have one mass for surge motion and another mass 
 Simscape rigid bodies only have one translational mass, a 1x3 moment of inertia matrix, and 1x3 product of inertia matrix. 
 
 WEC-Sim's Implemenation
-^^^^^^^^^^^^^^^^^^^^^^^
+^^^^^^^^^^^^^^^^^^^^^^^^
 
 Due to this limitation, WEC-Sim cannot combine the body mass and added mass on the left-hand side of the equation of motion (as shown above).
 The algebaric loop can be solved by predicting the acceleration at the current time step, and using that to calculate the added mass force.
@@ -118,7 +118,10 @@ This will convert the algebraic loop equation of motion to a solvable one:
 
     M_{adjusted}\ddot{X_i} &= \Sigma F(t,\omega) - A_{adjusted}\ddot{X}_{i - (1 + 10^{-8}/dt)} \\
 
-This implementation should not affect a user's modeling workflow.
+Working with the Added Mass Implementation
+^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+WEC-Sim's added mass implementation should not affect a user's modeling workflow.
 WEC-Sim handles the manipulation and restoration of the mass and forces in the bodyClass functions ``adjustMassMatrix()`` called by ``initializeWecSim`` and ``restoreMassMatrix``, ``storeForceAddedMass`` called by ``postProcessWecSim``.
 However viewing ``body.mass, body.inertia, body,inertiaProducts, body.hydroForce.fAddedMass`` between calls to ``initializeWecSim`` and ``postProcessWecSim`` will not show the input file definitions.
 Users can get the manipulated mass matrix, added mass coefficients, added mass force and total force from ``body.hydroForce.storage`` after the simulation.
