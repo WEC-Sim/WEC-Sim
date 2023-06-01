@@ -89,7 +89,7 @@ for n = 1:N
         hydro(F).Khs(3:5,3,hydro(F).Nb) = tmp{1};
         tmp = textscan(raw{n+2}(find(raw{n+2}==':')+1:end),'%f');
         hydro(F).Khs(4,4:6,hydro(F).Nb) = tmp{1};
-        hydro(F).Khs(4:5,4,hydro(F).Nb) = tmp{1};
+        hydro(F).Khs(4:5,4,hydro(F).Nb) = tmp{1}(1:2);
         tmp = textscan(raw{n+3}(find(raw{n+3}==':')+1:end),'%f');
         hydro(F).Khs(5,5:6,hydro(F).Nb) = tmp{1};
         % 6th row must be zeros
