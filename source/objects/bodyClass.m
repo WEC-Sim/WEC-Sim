@@ -573,7 +573,7 @@ classdef bodyClass<handle
         end
     end
     
-    methods (Access = 'public') %modify object = T; output = F
+    methods (Access = 'protected') %modify object = T; output = F
         function noExcitation(obj)
             % Set excitation force for no excitation case
             nDOF = obj.dof;
@@ -593,16 +593,10 @@ classdef bodyClass<handle
             obj.hydroForce.fExt.md=zeros(1,nDOF);
             for ii=1:nDOF
                 if length(obj.hydroData.simulation_parameters.direction) > 1
-                    obj.hydroForce.fExt.re=zeros(nDOF,length(direction),length(w));
-                    obj.hydroForce.fExt.im=zeros(nDOF,length(direction),length(w));
-                    obj.hydroForce.fExt.md=zeros(nDOF,length(direction),length(w));
-                    [X,Y]    = meshgrid(obj.hydroData.simulation_parameters.w, obj.hydroData.simulation_parameters.direction);
-                    ww       = reshape((repmat(w,length(direction),1)),[1,length(direction),length(w)]);
-                    dir0     = ((repmat(direction,length(w),1)))';
-                    dir      =  reshape(dir0,[1,length(direction),length(w)]);
-                    obj.hydroForce.fExt.re(ii,:,:) = interp2(X, Y, squeeze(re(ii,:,:)), ww, dir);
-                    obj.hydroForce.fExt.im(ii,:,:) = interp2(X, Y, squeeze(im(ii,:,:)), ww, dir);
-                    obj.hydroForce.fExt.md(ii,:,:) = interp2(X, Y, squeeze(md(ii,:,:)), ww, dir);
+                    [X,Y] = meshgrid(obj.hydroData.simulation_parameters.w, obj.hydroData.simulation_parameters.direction);
+                    obj.hydroForce.fExt.re(ii) = interp2(X, Y, squeeze(re(ii,:,:)), w, direction);
+                    obj.hydroForce.fExt.im(ii) = interp2(X, Y, squeeze(im(ii,:,:)), w, direction);
+                    obj.hydroForce.fExt.md(ii) = interp2(X, Y, squeeze(md(ii,:,:)), w, direction);
                 elseif obj.hydroData.simulation_parameters.direction == direction
                     obj.hydroForce.fExt.re(ii) = interp1(obj.hydroData.simulation_parameters.w,squeeze(re(ii,1,:)),w,'spline');
                     obj.hydroForce.fExt.im(ii) = interp1(obj.hydroData.simulation_parameters.w,squeeze(im(ii,1,:)),w,'spline');
@@ -618,10 +612,10 @@ classdef bodyClass<handle
                         'Please inspect BEM data for gaps'])
                     clear BEMdir
                 end % wrap BEM directions -180 to 180 dg, if they are not already there
-                [sortedDir,idx]=sort(wrapTo360(obj.hydroData.simulation_parameters.direction));
+                [sortedDir,idx]=sort(wrapTo180(obj.hydroData.simulation_parameters.direction));
                 [hdofGRD,hdirGRD,hwGRD]=ndgrid([1:6],sortedDir,obj.hydroData.simulation_parameters.w);
                 [obj.hydroForce.fExt.dofGrd,obj.hydroForce.fExt.dirGrd,obj.hydroForce.fExt.wGrd]=ndgrid([1:6],...
-                    sort(wrapTo360(obj.hydroData.simulation_parameters.direction)),w);
+                    sort(wrapTo180(obj.hydroData.simulation_parameters.direction)),w);
                 obj.hydroForce.fExt.fEHRE=interpn(hdofGRD,hdirGRD,hwGRD,obj.hydroData.hydro_coeffs.excitation.re(:,idx,:)...
                     ,obj.hydroForce.fExt.dofGrd,obj.hydroForce.fExt.dirGrd,obj.hydroForce.fExt.wGrd)*rho*g;
                 obj.hydroForce.fExt.fEHIM=interpn(hdofGRD,hdirGRD,hwGRD,obj.hydroData.hydro_coeffs.excitation.im(:,idx,:)...
@@ -643,20 +637,10 @@ classdef bodyClass<handle
             obj.hydroForce.fExt.md=zeros(length(direction),bemCount,nDOF);
             for ii=1:nDOF
                 if length(obj.hydroData.simulation_parameters.direction) > 1
-                    headings = obj.hydroData.simulation_parameters.direction;
-                    obj.hydroForce.fExt.re=zeros(nDOF,length(headings),length(wv));
-                    obj.hydroForce.fExt.im=zeros(nDOF,length(headings),length(wv));
-                    obj.hydroForce.fExt.md=zeros(nDOF,length(headings),length(wv));
                     [X,Y] = meshgrid(obj.hydroData.simulation_parameters.w, obj.hydroData.simulation_parameters.direction);
-                    ww     = reshape((repmat(wv,length(headings),1)),[1,length(headings),length(wv)]);
-                    dir0     = ((repmat(headings,length(wv),1)))';
-                    dir      =  reshape(dir0,[1,length(headings),length(wv)]);
-                    
-                    obj.hydroForce.fExt.re(ii,:,:) = interp2(X, Y, squeeze(re(ii,:,:)), ww, dir);
-                    obj.hydroForce.fExt.im(ii,:,:) = interp2(X, Y, squeeze(im(ii,:,:)), ww, dir);
-                    obj.hydroForce.fExt.md(ii,:,:) = interp2(X, Y, squeeze(md(ii,:,:)), ww, dir);
-                    
-
+                    obj.hydroForce.fExt.re(:,:,ii) = interp2(X, Y, squeeze(re(ii,:,:)), wv, direction);
+                    obj.hydroForce.fExt.im(:,:,ii) = interp2(X, Y, squeeze(im(ii,:,:)), wv, direction);
+                    obj.hydroForce.fExt.md(:,:,ii) = interp2(X, Y, squeeze(md(ii,:,:)), wv, direction);
                 elseif obj.hydroData.simulation_parameters.direction == direction
                     obj.hydroForce.fExt.re(:,:,ii) = interp1(obj.hydroData.simulation_parameters.w,squeeze(re(ii,1,:)),wv,'spline');
                     obj.hydroForce.fExt.im(:,:,ii) = interp1(obj.hydroData.simulation_parameters.w,squeeze(im(ii,1,:)),wv,'spline');
@@ -672,7 +656,7 @@ classdef bodyClass<handle
                         'Please inspect BEM data for gaps'])
                     clear BEMdir boundDiff
                 end
-                [sortedDir,idx]=sort(wrapTo360(obj.hydroData.simulation_parameters.direction));
+                [sortedDir,idx]=sort(wrapTo180(obj.hydroData.simulation_parameters.direction));
                 [hdofGRD,hdirGRD,hwGRD]=ndgrid([1:6],sortedDir, obj.hydroData.simulation_parameters.w);
                 [obj.hydroForce.fExt.dofGrd,obj.hydroForce.fExt.dirGrd,obj.hydroForce.fExt.wGrd]=ndgrid([1:6],...
                     sortedDir,wv);
@@ -694,24 +678,16 @@ classdef bodyClass<handle
             t =  min(kt):dt:max(kt);
             for ii = 1:nDOF
                 if length(obj.hydroData.simulation_parameters.direction) > 1
-                    headings = obj.hydroData.simulation_parameters.direction;
                     [X,Y] = meshgrid(kt, obj.hydroData.simulation_parameters.direction);
-                    ktt     = reshape((repmat(t,length(headings),1)),[1,length(headings),length(t)]);
-                    dir0     = ((repmat(headings,length(t),1)))';
-                    dir      =  reshape(dir0,[1,length(headings),length(t)]);
-                    obj.excitationIRF(ii,:,:) = interp2(X, Y, squeeze(kf(ii,:,:)), ktt, dir);
-
+                    kernel = squeeze(kf(ii,:,:));
+                    obj.excitationIRF = interp2(X, Y, kernel, t, direction);
                 elseif obj.hydroData.simulation_parameters.direction == direction
                     kernel = squeeze(kf(ii,1,:));
                     obj.excitationIRF = interp1(kt,kernel,min(kt):dt:max(kt));
                 else
                     error('Default wave direction different from hydro database value. Wave direction (waves.direction) should be specified on input file.')
                 end
-
-                for kk = 1:length(headings)
-                obj.hydroForce.userDefinedFe(ii,kk,:) = conv(waveAmpTime(:,2),squeeze(obj.excitationIRF(ii,kk,:)),'same')*dt;
-                obj.hydroForce.sal(ii,kk,:)           = conv(waveAmpTime(:,2),squeeze(obj.excitationIRF(ii,kk,:)),'same')*dt;
-                end
+                obj.hydroForce.userDefinedFe(:,ii) = conv(waveAmpTime(:,2),obj.excitationIRF,'same')*dt;
             end
             obj.hydroForce.fExt.re=zeros(1,nDOF);
             obj.hydroForce.fExt.im=zeros(1,nDOF);
@@ -741,16 +717,14 @@ classdef bodyClass<handle
                     end
                 otherwise
                     nDOF = obj.dof;
-                    Freq= obj.hydroData.simulation_parameters.w;
-                    nFreq=length(Freq);
-                    obj.hydroForce.fAddedMass = zeros(nDOF,nDOF,nFreq);
-                    obj.hydroForce.fDamping = zeros(nDOF,nDOF,nFreq);
-                    obj.hydroForce.totDOF  =zeros(nDOF,nDOF,nFreq);
+                    obj.hydroForce.fAddedMass = zeros(nDOF,nDOF);
+                    obj.hydroForce.fDamping = zeros(nDOF,nDOF);
+                    obj.hydroForce.totDOF  =zeros(nDOF,nDOF);
                     for ii=1:nDOF
                         for jj=1:nDOF
                             jjj = obj.dofStart-1+jj;
-                            obj.hydroForce.fAddedMass(ii,jj,:) = interp1(obj.hydroData.simulation_parameters.w,squeeze(am(ii,jjj,:)),w,'spline');
-                            obj.hydroForce.fDamping(ii,jj,:) = interp1(obj.hydroData.simulation_parameters.w,squeeze(rd(ii,jjj,:)),w,'spline');
+                            obj.hydroForce.fAddedMass(ii,jj) = interp1(obj.hydroData.simulation_parameters.w,squeeze(am(ii,jjj,:)),w,'spline');
+                            obj.hydroForce.fDamping(ii,jj) = interp1(obj.hydroData.simulation_parameters.w,squeeze(rd(ii,jjj,:)),w,'spline');
                         end
                     end
             end
@@ -851,10 +825,6 @@ classdef bodyClass<handle
                 else
                     obj.mass = obj.volume * rho;
                 end
-            elseif strcmp(obj.mass, 'fixed')
-                obj.massCalcMethod = obj.mass;
-                obj.mass = 999;
-                obj.inertia = [999 999 999];
             else
                 obj.massCalcMethod = 'user';
             end
