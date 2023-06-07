@@ -8,7 +8,7 @@ simu.rampTime = 100;                    % Wave Ramp Time [s]
 simu.endTime = 400;                     % Simulation End Time [s]
 simu.solver = 'ode4';                   % simu.solver = 'ode4' for fixed step & simu.solver = 'ode45' for variable step 
 simu.dt = 0.1; 							% Simulation time-step [s]
-simu.b2b = 0;
+simu.b2b = 1;
 simu.FIR = 1;
 %% Wave Information 
 % % noWaveCIC, no waves with radiation CIC  
