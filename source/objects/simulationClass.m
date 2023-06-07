@@ -60,6 +60,7 @@ classdef simulationClass<handle
         simMechanicsFile (1,:) {mustBeText}             = 'NOT DEFINED'     % (`string`) Simulink/SimMechanics model file. Default = ``'NOT DEFINED'``
         solver (1,:) {mustBeText}                       = 'ode4'            % (`string`) PDE solver used by the Simulink/SimMechanics simulation. Any continuous solver in Simulink possible. Recommended to use 'ode4, 'ode45' for WEC-Sim. Default = ``'ode4'``
         stateSpace (1,1) {mustBeInteger}                = 0                 % (`integer`) Flag for convolution integral or state-space calculation, Options: 0 (convolution integral), 1 (state-space). Default = ``0``
+        FIR(1,1) {mustBeInteger}                        = 0                 % (`integer`) Flag for FIR calculation, Options: 0 (convolution integral), 1 (FIR). Default = ``0``
         startTime (1,1) {mustBeScalarOrEmpty}           = 0                 % (`float`) Simulation start time. Default = ``0`` s        
         zeroCross (1,:) {mustBeText}                    = 'DisableAll'      % (`string`) Disable zero cross control. Default = ``'DisableAll'``
         outputDir (1,:) {mustBeText}                    = 'output'          % (`string`) Data output directory name. Default = ``'output'``
@@ -118,6 +119,7 @@ classdef simulationClass<handle
             mustBeMember(obj.saveText,[0 1])
             mustBeMember(obj.saveWorkspace,[0 1])
             mustBeMember(obj.stateSpace,[0 1])
+            mustBeMember(obj.FIR,[0 1])
             mustBeMember(obj.solver,{'ode1', 'ode1be', 'ode2', 'ode3', 'ode4', 'ode5', 'ode8', 'ode14x','ode15s', ...
                 'ode23', 'ode23s', 'ode23t', 'ode23tb', 'ode45', 'ode113', 'odeN', 'daessc'})
             

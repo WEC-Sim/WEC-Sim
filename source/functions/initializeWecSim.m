@@ -369,6 +369,8 @@ if waves.typeNum==0 || waves.typeNum==10 %'noWave' & 'regular'
     radiation_option = 1;
 elseif simu.stateSpace == 1
     radiation_option = 3;
+elseif simu.FIR == 1
+    radiation_option = 4;
 else
     radiation_option = 2;
 end
