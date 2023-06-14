@@ -159,12 +159,12 @@ classdef waveClass<handle
                     '"noWave", "noWaveCIC", "regular", "regularCIC", "irregular", "spectrumImport", and "elevationImport".'])
             end
             % check 'waves.bem' fields
-            if length(fieldnames(obj.bem)) ~=4
+            if length(fieldnames(obj.bem)) ~= 4
                 error(['Unrecognized method, property, or field for class "waveClass", ' ... 
                     '"waveClass.bem" structure must only include fields: "option", "count", "frequency", "range"']);
             end
             % check 'waves.current' fields
-            if length(fieldnames(obj.current)) ~=4
+            if length(fieldnames(obj.current)) ~= 4
                 error(['Unrecognized method, property, or field for class "waveClass", ' ... 
                     '"waveClass.current" structure must only include fields: "option", "depth", "direction", "speed"']);
             end            
@@ -286,8 +286,8 @@ classdef waveClass<handle
                         obj.bem.option = 'Imported';
                         obj.spectrumType = 'spectrumImport';
                     end                    
-                    minFrequency=min(obj.bem.range);
-                    maxFrequency=max(obj.bem.range);                    
+                    minFrequency = min(obj.bem.range);
+                    maxFrequency = max(obj.bem.range);                    
                     switch obj.bem.option
                         case {'Traditional'}
                             if isempty(obj.bem.count)
