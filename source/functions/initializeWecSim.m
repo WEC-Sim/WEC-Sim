@@ -259,8 +259,8 @@ idx = find(hydroBodLogic==1);
 if ~isempty(idx)
     for kk = 1:length(idx)
         it = idx(kk);
-        body(it).hydroForcePre(waves.omega,waves.direction,simu.cicTime,waves(1).bem.count,simu.dt,...
-            simu.rho,simu.gravity,waves.type,waves(1).waveAmpTime,simu.stateSpace,simu.b2b); % TODO need to rethink how user defined exc is implemented for multiple waves
+        body(it).hydroForcePre(waves(1).omega,waves(1).direction,simu.cicTime,waves(1).bem.count,simu.dt,...
+            simu.rho,simu.gravity,waves(1).type,waves(1).waveAmpTime,simu.stateSpace,simu.b2b); % TODO need to rethink how user defined exc is implemented for multiple waves
     end; clear kk idx
 end
 
