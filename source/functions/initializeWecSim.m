@@ -128,6 +128,10 @@ if exist('mooring','var') == 1
     end; clear ii
 end
 
+if mooring(1).lookup==1
+    mooring.moorTableCalc
+end
+
 % Bodies: count, check inputs, read hdf5 file, and check inputs
 numHydroBodies = 0; 
 numNonHydroBodies = 0;
@@ -200,6 +204,22 @@ if exist('ptoSim','var') == 1
     end; clear ii
 end
 
+% WindClass
+if wind.ConstantWindFlag == 1
+    wind.ImportTableWind
+end
+% WindturbineClass
+if exist('windturbine','var') == 1
+    for ii = 1:length(windturbine)
+        windturbine(ii).ImportAeroloadsTable
+        windturbine(ii).loadTurbineData
+        windturbine(ii).setNumber(ii);
+        if windturbine(ii).control == 1
+            windturbine(ii).Importrosco
+        end
+    end 
+    clear ii
+end
 
 toc
 
@@ -405,6 +425,18 @@ try
         eval(['sv_b' num2str(ii) '_TabulatedEfficiency = Simulink.Variant(''EffModel_', num2str(ii), '==2'');']);
     end; clear ii;
 end
+
+% wind turbine
+for ii=1:length(windturbine)
+    eval(['ControlChoice' num2str(ii) ' = windturbine(',num2str(ii),').control;'])
+    eval(['sv_' num2str(ii) '_control1 = Simulink.Variant(''ControlChoice' num2str(ii) '==0'');'])
+    eval(['sv_' num2str(ii) '_control2 = Simulink.Variant(''ControlChoice' num2str(ii) '==1'');'])  
+end; clear ii
+
+% wind 
+eval(['WindChoice = wind.ConstantWindFlag;'])
+eval(['sv_wind1 = Simulink.Variant(''WindChoice==0'');'])
+eval(['sv_wind2 = Simulink.Variant(''WindChoice==1'');'])
 
 % Visualization Blocks
 if ~isempty(waves.marker.location) && typeNum < 30
