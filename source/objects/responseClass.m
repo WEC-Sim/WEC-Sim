@@ -129,10 +129,11 @@ classdef responseClass<handle
         ptos                = struct()     % This property contains a structure for each instance of the ``ptoClass`` (i.e. for each PTO block). PTO motion is relative from frame F to frame B. PTO forces act on frame F.
         ptosim              = struct()     % This property contains a structure for each instance of the ``ptoSimClass`` (i.e. for each PTO-Sim block).
         wave                = struct()     % This property contains a structure for each instance of the ``waveClass``         
+        windturbine         = struct()     % This property contains a structure for each instance of the ``windTurbineClass``     
     end
     
     methods (Access = 'public')
-        function obj = responseClass(bodiesOutput,ptosOutput,constraintsOutput,ptosimOutput,cablesOutput,mooringOutput,waveOutput) 
+        function obj = responseClass(bodiesOutput,ptosOutput,constraintsOutput,ptosimOutput,cablesOutput,mooringOutput,waveOutput,windturbineOutput) 
             % This method initializes the ``responseClass``, reads 
             % output from each instance of a WEC-Sim class (e.g.
             % ``waveClass``, ``bodyClass``, ``ptoClass``, ``mooringClass``, etc)
@@ -188,6 +189,7 @@ classdef responseClass<handle
                     obj.bodies(ii).cellPressures_waveNonLinear = [];
                 end
             end
+
             % PTOs
             if isstruct(ptosOutput)
                 signals = {'position','velocity','acceleration','forceTotal','forceActuation','forceConstraint','forceInternalMechanics','powerInternalMechanics'};
@@ -197,6 +199,16 @@ classdef responseClass<handle
                     for jj = 1:length(signals)
                         obj.ptos(ii).(signals{jj}) =  ptosOutput(ii).signals.values(:,(jj-1)*6+1:(jj-1)*6+6);
                     end
+                end
+            end
+            % Wind turbine
+            signals = {'WindSpeed','TurbinePower','RotorSpeed','BladePitch','NacAcceleration','TowerBaseLoad','TowerTopLoad','BladeRootLoad','GenTorque','Azimuth'};
+            outputDim = [1 1 1 1 1 6 6 6 1 1];
+            for ii = 1:length(windturbineOutput)
+                obj.windturbine(ii).name = windturbineOutput(ii).name;
+                obj.windturbine(ii).time = windturbineOutput(ii).time;
+                for jj = 1:length(signals)
+                    obj.windturbine(ii).(signals{jj}) = windturbineOutput(ii).signals.values(:, sum(outputDim(1:jj-1))+1:sum(outputDim(1:jj-1))+outputDim(jj));
                 end
             end
             % Constraints
