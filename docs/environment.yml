@@ -15,5 +15,5 @@ dependencies:
   - sphinxcontrib-bibtex
   - pip:
     - https://github.com/Holzhaus/sphinx-multiversion/archive/refs/heads/master.zip
-    - sphinxcontrib-matlabdomain
+    - git+https://github.com/sphinx-contrib/matlabdomain@master
     - sphinxext-remoteliteralinclude
