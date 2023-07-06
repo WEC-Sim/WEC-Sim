@@ -194,17 +194,14 @@ To view WEC-Sim nonlinear hydro data in ParaView:
 * Select which features to visualize in the pipeline
 * Click the green arrow (play) button
 
-The video below shows three different views of the OSWEC model described in the tutorials.
+The video below shows three different views of the OSWEC model from the **OSWEC_NonLinear_Viz** example.
 The top right shows glyphs of the nonlinear Froude-Krylov pressure acting on the float. 
-The bottom right shows the float colored by hydrostatic pressure.
+The bottom right shows the device colored by hydrostatic pressure.
 
  .. raw:: html
 
 	<iframe width="420" height="315" src="https://www.youtube.com/embed/VIPXsS8h9pg" frameborder="0" allowfullscreen></iframe>
 
-
-An example using Paraview for visualization of nonlinear hydro WEC-Sim data is provided in the ``Paraview_Visualization`` directory on the `WEC-Sim Applications <https://github.com/WEC-Sim/WEC-Sim_Applications>`_ repository.
-The **OSWEC_NonLinear_Viz** example uses ParaView for WEC-Sim data visualization of a WEC-Sim model with `nonlinear Hydro <http://wec-sim.github.io/WEC-Sim/advanced_features.html#nonlinear-buoyancy-and-froude-krylov-excitation>` to simulate nonlinear wave excitation on the flap of the `OSWEC <http://wec-sim.github.io/WEC-Sim/tutorials.html#oscillating-surge-wec-oswec.` geometry. 
 
 Loading a ParaView State File
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
