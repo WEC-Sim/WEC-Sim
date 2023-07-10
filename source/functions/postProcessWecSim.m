@@ -91,8 +91,8 @@ end
 if exist('ptoSim','var')
     for iPtoB = 1:simu.numPtoSim
         %iPtoB
-        eval(['ptoSim' num2str(iPtoB) '_out.name = ptoSim(' num2str(iPtoB) ').name;'])
-        eval(['ptoSim' num2str(iPtoB) '_out.type = ptoSim(' num2str(iPtoB) ').type;'])
+        %eval(['ptoSim' num2str(iPtoB) '_out.name = ptoSim(' num2str(iPtoB) ').name;'])
+        eval(['ptoSim' num2str(iPtoB) '_out.typeNum = ptoSim(' num2str(iPtoB) ').typeNum;'])
         if iPtoB == 1; ptosimOutput = ptoSim1_out; end
         ptosimOutput(iPtoB) = eval(['ptoSim' num2str(iPtoB) '_out']);
         eval(['clear ptoSim' num2str(iPtoB) '_out'])
