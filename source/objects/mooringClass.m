@@ -41,11 +41,14 @@ classdef mooringClass<handle
         moorDynLines (1,1) {mustBeInteger, mustBeNonnegative} = 0           % (`integer`) Number of lines in MoorDyn. Default = ``0``
         moorDynNodes (1,:) {mustBeInteger, mustBeNonnegative} = []          % (`integer`) number of nodes for each line. Default = ``'NOT DEFINED'``
         name (1,:) {mustBeText}                             = 'NOT DEFINED' % (`string`) Name of the mooring. Default = ``'NOT DEFINED'``
+        moorMatrixName          = [];                                      % Mooring look-up table file name
+        lookup                  = 0;                                       % Use of mooring look-up table -->1, otherwise -->0 
     end
 
     properties (SetAccess = 'private', GetAccess = 'public') %internal
         orientation             = []                                       % (`float 1 x 6`) Initial 6DOF location. Default = ``[0 0 0 0 0 0]``        
         number                  = []                                       % (`integer`) Mooring number. Default = ``'NOT DEFINED'``        
+        moor_matrix             = [];
     end
 
     methods (Access = 'public')                                        
@@ -121,6 +124,11 @@ classdef mooringClass<handle
             obj.initial.displacement = linDisp + addLinDisp;
             obj.initial.axis = netAxis;
             obj.initial.angle = netAngle;            
+        end
+        
+        function obj = moorTableCalc(obj)
+            load(obj.moorMatrixName);
+            obj.moor_matrix = moor_matrix;
         end
         
         function listInfo(obj)
