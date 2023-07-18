@@ -703,8 +703,8 @@ Mooring Class
 ^^^^^^^^^^^^^
 
 The mooring class (``mooringClass``) allows for different fidelity simulations 
-of mooring systems. Two possibilities are available, a lumped mooring matrix or 
-MoorDyn. These differences are determined by the Simulink block chosen, and are 
+of mooring systems. Three possibilities are available, a lumped mooring matrix, 
+a mooring lookup table, or MoorDyn. These differences are determined by the Simulink block chosen, and are 
 described below. At a high level, the Mooring class interacts with the rest of 
 WEC-Sim as shown in the diagram below. The interaction is similar to a 
 constraint or PTO, where some resistive forcing is calculated and passed to a 
@@ -733,14 +733,18 @@ Mooring Blocks
 """"""""""""""""""""
 
 The Mooring Class is tied to the Moorings library.
-Two types of blocks may be used\: a 'Mooring Matrix' or a 'MoorDyn' system.
+Three types of blocks may be used\: a 'Mooring Matrix', a 'MoorDyn' system, or a 'Mooring Lookup Table'.
 The ``MooringMatrix`` block applies linear damping and stiffness based on 
 the motion of the follower relative to the base. 
 Damping and stiffness can be specified between all DOFs in a 6x6 matrix.
+The ``MooringLookupTable`` block searches a user-supplied 6DOF force lookup table.
+The lookup table should contain six parameters: the resultant mooring force in each degree of freedom.
+Each force is indexed by position in all six degrees of freedom.
+The mooring force is interpolated between indexed positions based on the instantaneous position of the mooring system.
 The ``MoorDyn`` block uses the compiled MoorDyn 
 executables and a MoorDyn input file to simulate a realistic mooring system. 
 There can only be one MoorDyn block per Simulink model. There are no 
-restrictions on the number of MooringMatrix blocks. 
+restrictions on the number of MooringMatrix or MooringLookupTable blocks. 
 
 .. figure:: /_static/images/WEC-Sim_Lib_mooring.PNG
    :width: 400 pt

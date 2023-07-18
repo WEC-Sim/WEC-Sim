@@ -128,7 +128,7 @@ if exist('mooring','var') == 1
         mooring(ii).checkInputs();
         mooring(ii).setLoc();
         mooring(ii).setNumber(ii);
-        if mooring(ii).lookup==1
+        if mooring(ii).lookupTableFlag == 1
             mooring(ii).loadLookupTable();
         end
     end; clear ii

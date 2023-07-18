@@ -41,7 +41,7 @@ classdef mooringClass<handle
         moorDynLines (1,1) {mustBeInteger, mustBeNonnegative} = 0           % (`integer`) Number of lines in MoorDyn. Default = ``0``
         moorDynNodes (1,:) {mustBeInteger, mustBeNonnegative} = []          % (`integer`) number of nodes for each line. Default = ``'NOT DEFINED'``
         name (1,:) {mustBeText}                             = 'NOT DEFINED' % (`string`) Name of the mooring. Default = ``'NOT DEFINED'``
-        lookup                                              = 0;            % (`integer`) Flag to indicate a mooring look-up table, 0 or 1. Default = ``0``
+        lookupTableFlag                                     = 0;            % (`integer`) Flag to indicate a mooring look-up table, 0 or 1. Default = ``0``
         lookupTableFile                                     = '';           % (`string`) Mooring look-up table file name. Default =  ``''``;
     end
 
