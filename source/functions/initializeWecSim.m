@@ -128,12 +128,12 @@ if exist('mooring','var') == 1
         mooring(ii).checkInputs();
         mooring(ii).setLoc();
         mooring(ii).setNumber(ii);
+        if mooring(ii).lookupTableFlag == 1
+            mooring(ii).loadLookupTable();
+        end
     end; clear ii
 end
 
-if mooring(1).lookup==1
-    mooring.moorTableCalc
-end
 
 % Bodies: count, check inputs, read hdf5 file, and check inputs
 numHydroBodies = 0; 
