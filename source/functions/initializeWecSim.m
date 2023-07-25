@@ -210,9 +210,10 @@ if exist('ptoSim','var') == 1
 end
 
 % WindClass
-if wind.ConstantWindFlag == 1
-    wind.ImportTableWind
+if wind.constantWindFlag == 0
+    wind.importTurbSimOutput();
 end
+
 % WindturbineClass
 if exist('windturbine','var') == 1
     for ii = 1:length(windturbine)
@@ -439,9 +440,9 @@ for ii=1:length(windturbine)
 end; clear ii
 
 % wind 
-eval(['WindChoice = wind.ConstantWindFlag;'])
-eval(['sv_wind1 = Simulink.Variant(''WindChoice==0'');'])
-eval(['sv_wind2 = Simulink.Variant(''WindChoice==1'');'])
+eval(['WindChoice = wind.constantWindFlag;'])
+eval(['sv_wind_constant = Simulink.Variant(''WindChoice==1'');'])
+eval(['sv_wind_turbulent = Simulink.Variant(''WindChoice==0'');'])
 
 % Visualization Blocks
 if ~isempty(waves.marker.location) && typeNum < 30

@@ -17,32 +17,79 @@
 classdef windClass<handle
     %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
     % The  ``windClass`` creates a ``wind`` object saved to the MATLAB
-    % workspace. 
+    % workspace. The ``windClass`` includes properties and methods used to
+    % define the wind conditions that act on the wind turbine. Constant
+    % conditions are defined in the wecSimInputFile while turbulent
+    % conditions are defined by the TurbSim outputs
+    %
+    %.. autoattribute:: objects.windClass.windClass
     %
     %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
     
-    
-    properties (SetAccess = 'public', GetAccess = 'public') %input file
-        WindTable = '';                           % Wind table of turbolent wind from Turbsim.           
-        ConstantWindFlag = 0;                     % Choice of constant wind (ConstantWindFlag=1) or turbolent wind (ConstantWindFlag=0).
+    properties (SetAccess = 'public', GetAccess = 'public') % input file
+        turbSimFile = '';                         % Wind table of turbulent wind from Turbsim.           
+        meanVelocity = [];                        % Mean hub height wind speed. Defined in the input file for constant wind conditions, by TurbSim output for turbulent conditions
     end
+
     properties (SetAccess = 'private', GetAccess = 'public')
-        SpatialDiscrU = [];                       % Wind speed from look-up table.
-        Zdiscr = [];                              % Z discretisation from look-up table.
-        Ydiscr = [];                              % Y discretisation from look-up table.
-        t = [];                                   % t discretisation from look-up table.
-        
+        velocity = [];                            % Wind speed from TurbSim output
+        zDiscr = [];                              % Z discretisation from TurbSim output
+        yDiscr = [];                              % Y discretisation from TurbSim output
+        time = [];                                % time discretisation from TurbSim output
+        hubHeight = [];                           % Hub height from TurbSim output
+        type = 'NOT DEFINED'                      % (`string`) Specifies the type of wind conditions, options include: ``constant`` or ``turbulent`` 
+        constantWindFlag = 0;                     % (`int`) Type of wind condition. 1 for constant, 0 for turbulent.
     end
-     methods (Access = 'public')
-         function ImportTableWind(obj)
-            data = importdata(obj.WindTable);
-            obj.SpatialDiscrU = (data.SpatialDiscrU);
-            %obj.SpatialDiscrU = flip(data.SpatialDiscrU,2);
-            obj.Zdiscr = data.Zdiscr;
-            obj.Ydiscr = data.Ydiscr;
-            obj.t=data.t;
+
+    methods                                                     
+        function obj = windClass(type)
+            % This method initilizes the ``windClass`` and creates a
+            % ``wind`` object.          
+            %
+            % Parameters
+            % ------------
+            %     type : string
+            %         String specifying the type of wind conditions
+            %
+            % Returns
+            % ------------
+            %     wind : obj
+            %         windClass object         
+            %
+            obj.type = type;
+            switch obj.type
+                case {'constant'}         % Constant wind conditions, no TurbSim input
+                    obj.constantWindFlag = 1;
+                case {'turbulent'}         % Turbulent wind conditions, determined by TurbSim input
+                    obj.constantWindFlag = 0;
+                otherwise
+                    error('The wind class in the wecSimInputFile must be initialized with type "constant" or "turbulent"')
+            end
+        end
+
+        function obj = importTurbSimOutput(obj)
+            % Reads data from a TurbSim output file and writes a table for the
+            % windTurbineClass.
+            % 
+            % See ``WEC-Sim-Applications/MOST/TurbSim/tsio.m`` for examples of usage.
+            % 
+            % Parameters
+            % ----------
+            %     obj : windClass
+            %         windClass object
+            % 
+            
+            % See readfile_BTS for description of the returned parameters
+            [velocity, twrVelocity, y, z, zTwr, nz, ny, dz, dy, dt, zHub, z1, mffws] = readfile_BTS(obj.turbSimFile);
+            tmp = squeeze(velocity(:,1,:,:));
+            obj.velocity = flip(tmp,2);
+            obj.time = (0:size(obj.velocity,1)-1)*dt;
+            obj.yDiscr = y;
+            obj.zDiscr = z;
+            obj.hubHeight = zHub;
+            obj.meanVelocity = mffws;
          end
-                 
+
      end
     
 end
