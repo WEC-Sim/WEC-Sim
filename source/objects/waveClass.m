@@ -47,7 +47,7 @@ classdef waveClass<handle
         period (1,:) {mustBeNonnegative}            = [];                   % (`float`) Wave period [s] . Defined as wave period for ``regular``, peak period for ``irregular``, or period of BEM data used for hydrodynamic coefficients for ``noWave``. Default = ``'NOT DEFINED'``
         phaseSeed (1,:) {mustBeNonnegative}         = 0;                    % (`integer`) Defines the random phase seed, only used for ``irregular`` and ``spectrumImport`` waves. Default = ``0``
         spectrumFile (1,:) {mustBeText}             = 'NOT DEFINED';        % (`string`) Data file that contains the spectrum data file.  Default = ``'NOT DEFINED'``                
-        spectrumType (1,:) {mustBeText}             = 'NOT DEFINED';        % (`string`) Specifies the wave spectrum type, options inlcude:``PM`` or ``JS``. Default = ``'NOT DEFINED'``
+        spectrumType (1,:) {mustBeText}             = 'NOT DEFINED';        % (`string`) Specifies the wave spectrum type, options include:``PM`` or ``JS``. Default = ``'NOT DEFINED'``
         viz (1,1) struct                            = struct(...            % 
             'numPointsX',                           50, ...                 %
             'numPointsY',                           50 );                   % (`structure`) Defines visualization options, structure contains the fields ``numPointsX`` for the number of visualization points in x direction, and ``numPointsY`` for the number of visualization points in y direction. 
