@@ -96,3 +96,4 @@ docs/_build
 view_html.sh
 *vis-temp*
 *.pyc
+*.nc
