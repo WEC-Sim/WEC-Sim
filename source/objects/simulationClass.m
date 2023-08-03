@@ -44,9 +44,9 @@ classdef simulationClass<handle
         nonlinearDt (1,:) {mustBeScalarOrEmpty}         = []                % (`float`) Sample time to calculate nonlinear forces. Default = ``dt``
         paraview (1,1) struct                           = struct(...        % (`structure`) Defines the Paraview visualization.
             'option',                                   0,...               % 
-            'startTime',                                0, ...              %     
-            'endTime',                                  100, ...            % 
-            'dt',                                       0.1, ...            % 
+            'startTime',                                [], ...             %
+            'endTime',                                  [], ...             %
+            'dt',                                       [], ...            % 
             'path',                                     'vtk')              % (`structure`) Defines the Paraview visualization. ``option`` (`integer`) Flag for paraview visualization, and writing vtp files, Options: 0 (off) , 1 (on). Default = ``0``. ``startTime`` (`float`) Start time for the vtk file of Paraview. Default = ``0``. ``endTime`` (`float`) End time for the vtk file of Paraview. Default = ``100``.  ``dt`` (`float`) Timestep for Paraview. Default = ``0.1``. ``path`` (`string`) Path of the folder for Paraview vtk files. Default = ``'vtk'``.      
         pressure (1,1) {mustBeInteger}                  = 0                 % (`integer`) Flag to save pressure distribution, Options: 0 (off), 1 (on). Default = ``0``
         rampTime (1,1) {mustBeNumeric}                  = 100               % (`float`) Ramp time for wave forcing. Default = ``100`` s        
