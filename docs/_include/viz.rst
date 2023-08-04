@@ -154,7 +154,7 @@ You can color waves and bodies by any of the available properties and apply any 
 
 Two examples using Paraview for visualization of WEC-Sim data are provided in the ``Paraview_Visualization`` directory on the `WEC-Sim Applications <https://github.com/WEC-Sim/WEC-Sim_Applications>`_ repository.
 The **RM3_MoorDyn_Viz** example uses ParaView for WEC-Sim data visualization of a WEC-Sim model coupled with `MoorDyn <http://wec-sim.github.io/WEC-Sim/advanced_features.html#moordyn>`_ to simulate a mooring system for the `RM3 <http://wec-sim.github.io/WEC-Sim/tutorials.html#two-body-point-absorber-rm3>`_ geometry.
-The **OSWEC_NonLinear_Viz** example uses ParaView for WEC-Sim data visualization of a WEC-Sim model with `nonlinear Hydro <http://wec-sim.github.io/WEC-Sim/advanced_features.html#nonlinear-buoyancy-and-froude-krylov-excitation>` to simulate nonlinear wave excitation on the flap of the `OSWEC <http://wec-sim.github.io/WEC-Sim/tutorials.html#oscillating-surge-wec-oswec.` geometry.
+The **OSWEC_NonLinear_Viz** example uses ParaView for WEC-Sim data visualization of a WEC-Sim model with `nonlinear Hydro <http://wec-sim.github.io/WEC-Sim/advanced_features.html#nonlinear-buoyancy-and-froude-krylov-excitation>`_ to simulate nonlinear wave excitation on the flap of the `OSWEC <http://wec-sim.github.io/WEC-Sim/tutorials.html#oscillating-surge-wec-oswec.>`_ geometry.
 
 The video below shows three different views of the RM3 model from the **RM3_MoorDyn_Viz** example.
 The left view uses the WEC-Sim macro.
