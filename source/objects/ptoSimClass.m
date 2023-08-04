@@ -93,7 +93,7 @@ classdef ptoSimClass<handle
             'crank',                            'NOT DEFINED',...           % [m] Crank length
             'offset',                           'NOT DEFINED',...           % [m] Offset length
             'rodLength',                        'NOT DEFINED')              % [m] Rod length
-        name (1,:) {mustBeText}                 = 'NOT DEFINED'             % Electric Block Name
+        %name (1,:) {mustBeText}                 = 'NOT DEFINED'             % Electric Block Name
         rectifyingCheckValve (1,1) struct       = struct(...                % hydraulic Block properties
             'Cd',                               'NOT DEFINED',...           % Discharge accumulator
             'Amax',                             'NOT DEFINED',...           % Maximum opening area of the valve
@@ -109,27 +109,45 @@ classdef ptoSimClass<handle
 %         type: This property must be defined to specify the
 %         type of block that will be used. The type value of each block is
 %         presented below:
-%         Type = 1 ---- Electric generator equivalent circuit
-%         Type = 2 ---- Hydraulic cylinder
-%         Type = 3 ---- Hydraulic accumulator
-%         Type = 4 ---- Rectifying check valve
-%         Type = 5 ---- Hydraulic motor
-%         Type = 6 ---- Linear crank 
-%         Type = 7 ---- Adjustable rod 
-%         Type = 8 ---- Check valve 
-%         Type = 9 ---- Direct drive linear generator 
-%         Type = 10 ---- Direct drive Rotary generator
-        type    = []                                                        % PTOSim Block type
-        number  = []                                                        % PTOSim number
+%         type = 'electricGen'      ---- Electric generator equivalent circuit
+%         type = 'hydraulicCyl'     ---- Hydraulic cylinder
+%         type = 'hydraulicAcc'     ---- Hydraulic accumulator
+%         type = 'rectCheckValve'   ---- Rectifying check valve
+%         type = 'hydraulicMotor'   ---- Hydraulic motor
+%         type = 'linCrank'         ---- Linear crank 
+%         type = 'adjustableRod'    ---- Adjustable rod 
+%         type = 'checkValve'       ---- Check valve 
+%         type = 'ddLinearGen'      ---- Direct drive linear generator 
+%         type = 'ddRotaryGen'      ---- Direct drive Rotary generator
+        type    = 'NOT DEFINED';                                            % PTOSim Block type
+        number  = []                                                        % PTOSim block number
+        typeNum = [];                                                       % Number to represent different type of PTO-Sim blocks        
     end
     
     methods
-        function obj        = ptoSimClass(name)
-            % Initilization function
-            if exist('name','var')
-                obj.name = name;
-            else
-                error('The ptoSim class number(s) in the wecSimInputFile must be specified in ascending order starting from 1. The ptoSimClass() function should be called first to initialize each ptoSim block with a name.')
+        function obj        = ptoSimClass(type)
+            obj.type = type;
+            switch obj.type
+                case {'electricGen'}        % Electric generator equivalent circuit
+                    obj.typeNum = 1;
+                case {'hydraulicCyl'}       % Hydraulic cylinder
+                    obj.typeNum = 2;
+                case {'hydraulicAcc'}       % Hydraulic accumulator
+                    obj.typeNum = 3;
+                case {'rectCheckValve'}     % Rectifying check valve
+                    obj.typeNum = 4;
+                case {'hydraulicMotor'}     % Hydraulic Motor
+                    obj.typeNum = 5;
+                case {'linCrank'}           % Linear crank
+                    obj.typeNum = 6;
+                case {'adjustableRod'}      % Adjustable rod 
+                    obj.typeNum = 7;
+                case {'checkValve'}         % Check valve 
+                    obj.typeNum = 8;
+                case {'ddLinearGen'}        % Direct drive linear generator 
+                    obj.typeNum = 9;
+                case {'ddRotaryGen'}        % Direct drive rotary generator 
+                    obj.typeNum = 10;
             end
         end
 

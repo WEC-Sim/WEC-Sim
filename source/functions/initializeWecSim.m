@@ -454,7 +454,7 @@ tic
 fprintf('\nSimulating the WEC device defined in the SimMechanics model %s...   \n',simu.simMechanicsFile)
 % Modify some stuff for simulation
 for iBod = 1:simu.numHydroBodies
-    body(iBod).adjustMassMatrix(simu.adjMassFactor,simu.b2b);
+    body(iBod).adjustMassMatrix(simu.b2b);
 end; clear iBod
 warning('off','Simulink:blocks:TDelayTimeTooSmall');
 warning('off','Simulink:blocks:BusSelDupBusCreatorSigNames');
