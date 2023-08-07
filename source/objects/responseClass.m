@@ -244,8 +244,8 @@ classdef responseClass<handle
                 linearCrankSignals = {'ptoTorque','angPosition','angVelocity'};
                 adjustableRodSignals = {'ptoTorque','angPosition','angVelocity'};
                 checkValveSignals = {'flowCheckValve','deltaPCheckValve'};
-                linearGeneratorSignals = {'absPower','force','fricForce','Ia','Ib','Ic','Va','Vb','Vc','elecPower','vel'};
-                rotaryGeneratorSignals = {'absPower','Torque','fricTorque','Ia','Ib','Ic','Va','Vb','Vc','elecPower','vel'};
+                linearGeneratorSignals = {'absPower','force','fricForce','Ia','Ib','Ic','Va','Vb','Vc','vel','elecPower'};
+                rotaryGeneratorSignals = {'absPower','Torque','fricTorque','Ia','Ib','Ic','Va','Vb','Vc','vel','elecPower'};
 
                 for ii = 1:length(ptosimOutput)
                     obj.ptosim(ii).name = ptosimOutput(ii).name;
