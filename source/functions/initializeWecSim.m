@@ -215,13 +215,13 @@ if wind.constantWindFlag == 0
 end
 
 % WindturbineClass
-if exist('windturbine','var') == 1
-    for ii = 1:length(windturbine)
-        windturbine(ii).ImportAeroloadsTable
-        windturbine(ii).loadTurbineData
-        windturbine(ii).setNumber(ii);
-        if windturbine(ii).control == 1
-            windturbine(ii).Importrosco
+if exist('windTurbine','var') == 1
+    for ii = 1:length(windTurbine)
+        windTurbine(ii).ImportAeroloadsTable
+        windTurbine(ii).loadTurbineData
+        windTurbine(ii).setNumber(ii);
+        if windTurbine(ii).control == 1
+            windTurbine(ii).Importrosco
         end
     end 
     clear ii
@@ -433,8 +433,8 @@ try
 end
 
 % wind turbine
-for ii=1:length(windturbine)
-    eval(['ControlChoice' num2str(ii) ' = windturbine(',num2str(ii),').control;'])
+for ii=1:length(windTurbine)
+    eval(['ControlChoice' num2str(ii) ' = windTurbine(',num2str(ii),').control;'])
     eval(['sv_' num2str(ii) '_control1 = Simulink.Variant(''ControlChoice' num2str(ii) '==0'');'])
     eval(['sv_' num2str(ii) '_control2 = Simulink.Variant(''ControlChoice' num2str(ii) '==1'');'])  
 end; clear ii

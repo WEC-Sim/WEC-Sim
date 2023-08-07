@@ -129,11 +129,11 @@ classdef responseClass<handle
         ptos                = struct()     % This property contains a structure for each instance of the ``ptoClass`` (i.e. for each PTO block). PTO motion is relative from frame F to frame B. PTO forces act on frame F.
         ptoSim              = struct()     % This property contains a structure for each instance of the ``ptoSimClass`` (i.e. for each PTO-Sim block).
         wave                = struct()     % This property contains a structure for each instance of the ``waveClass``         
-        windturbine         = struct()     % This property contains a structure for each instance of the ``windTurbineClass``     
+        windTurbine         = struct()     % This property contains a structure for each instance of the ``windTurbineClass``     
     end
     
     methods (Access = 'public')
-        function obj = responseClass(bodiesOutput,ptosOutput,constraintsOutput,ptosimOutput,cablesOutput,mooringOutput,waveOutput,windturbineOutput) 
+        function obj = responseClass(bodiesOutput,ptosOutput,constraintsOutput,ptosimOutput,cablesOutput,mooringOutput,waveOutput,windTurbineOutput) 
             % This method initializes the ``responseClass``, reads 
             % output from each instance of a WEC-Sim class (e.g.
             % ``waveClass``, ``bodyClass``, ``ptoClass``, ``mooringClass``, etc)
@@ -203,11 +203,11 @@ classdef responseClass<handle
             % Wind turbine
             signals = {'WindSpeed','TurbinePower','RotorSpeed','BladePitch','NacAcceleration','TowerBaseLoad','TowerTopLoad','BladeRootLoad','GenTorque','Azimuth'};
             outputDim = [1 1 1 1 1 6 6 6 1 1];
-            for ii = 1:length(windturbineOutput)
-                obj.windturbine(ii).name = windturbineOutput(ii).name;
-                obj.windturbine(ii).time = windturbineOutput(ii).time;
+            for ii = 1:length(windTurbineOutput)
+                obj.windTurbine(ii).name = windTurbineOutput(ii).name;
+                obj.windTurbine(ii).time = windTurbineOutput(ii).time;
                 for jj = 1:length(signals)
-                    obj.windturbine(ii).(signals{jj}) = windturbineOutput(ii).signals.values(:, sum(outputDim(1:jj-1))+1:sum(outputDim(1:jj-1))+outputDim(jj));
+                    obj.windTurbine(ii).(signals{jj}) = windTurbineOutput(ii).signals.values(:, sum(outputDim(1:jj-1))+1:sum(outputDim(1:jj-1))+outputDim(jj));
                 end
             end
             % Constraints

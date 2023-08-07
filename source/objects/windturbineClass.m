@@ -14,16 +14,16 @@
 % limitations under the License.
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
-classdef windturbineClass<handle
+classdef windTurbineClass<handle
     %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-    % The  ``windturbineClass`` creates a ``wind turbine`` object saved to the MATLAB
+    % The  ``windTurbineClass`` creates a ``wind turbine`` object saved to the MATLAB
     % workspace. 
     %
     %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
     
     
     properties (SetAccess = 'public', GetAccess = 'public') %input file
-        name              = []                               % (`string`) Specifies the windturbine name. 
+        name              = []                               % (`string`) Specifies the windTurbine name. 
         control = 0;                                         % Type of control: 0-->baseline, 1-->ROSCO   
         aeroloads_name = '';                                 % Name of aeroloads file       
         turbine_name = '';                                  % Name of file including wind turbine properties  
@@ -50,30 +50,30 @@ classdef windturbineClass<handle
         geometryFileBlade = '';                              % Blade geometry file
         tower = struct(...                                   % Tower structure properties
             'mass',     0, ...                               % Mass of tower
-            'Inertia',             [0 0 0], ...              % Moments of inertia of tower
-            'InertiaProduct',      [0 0 0], ...              % Product of inertia of tower
+            'inertia',             [0 0 0], ...              % Moments of inertia of tower
+            'inertiaProducts',      [0 0 0], ...              % Product of inertia of tower
             'height',             0, ...                     % Height of tower        
             'offset',             0, ...                     % Lower point of tower relative to Sea Water Level
             'cog_rel',            [0 0 0]);                  % Center of Gravity relative to tower offset
         nacelle = struct(...                                 % Nacelle structure properties
             'mass',     0, ...                               % Mass of nacelle
-            'Inertia',             [0 0 0], ...              % Moments of inertia of nacelle
-            'InertiaProduct',      [0 0 0], ...              % Product of inertia of nacelle
+            'inertia',             [0 0 0], ...              % Moments of inertia of nacelle
+            'inertiaProducts',      [0 0 0], ...              % Product of inertia of nacelle
             'reference',           [0 0 0], ...              % Nacelle reference point for hub
             'tiltangle',           [0 0 0], ...              % Tilt angle of nacelle (deg)
             'cog_rel',            [0 0 0]);                  % Center of Gravity relative to tower top
         hub = struct(...                                     % Hub structure properties
             'mass',     0, ...                               % Mass of hub             
-            'Inertia',             [0 0 0], ...              % Moments of Inertia of hub
-            'InertiaProduct',      [0 0 0], ...              % Product of inertia of hub
+            'inertia',             [0 0 0], ...              % Moments of Inertia of hub
+            'inertiaProducts',      [0 0 0], ...              % Product of inertia of hub
             'reference',           [0 0 0], ...              % Hub reference point for blades
             'precone',           [0 0 0], ...                % Hub precone angle (deg)
             'hubheight',           [0 0 0], ...              % Hub height relative to Sea Water Level
             'cog_rel',            [0 0 0]);                  % Center of Gravity relative to nacelle reference
         blade = struct(...                                   % Blade structure properties
             'mass',     0, ...                               % Mass of the blade 
-            'Inertia',             [0 0 0], ...              % Moments of Inertia of the blade  
-            'InertiaProduct',      [0 0 0], ...              % Product of inertia of blade                    
+            'inertia',             [0 0 0], ...              % Moments of Inertia of the blade  
+            'inertiaProducts',      [0 0 0], ...              % Product of inertia of blade                    
             'bladediscr',           [0 0 0], ...             % Blade discretisation for wind speed average estimation 
             'cog_rel',            [0 0 0]);                  % Center of Gravity relative to blade root position
          number = [];                                        % Wind turbine number
@@ -81,9 +81,9 @@ classdef windturbineClass<handle
     end
     
     methods (Access = 'public')
-        function obj = windturbineClass(name)
-            % This method initilizes the ``windturbineClass`` and creates a
-            % ``windturbine`` object.          
+        function obj = windTurbineClass(name)
+            % This method initilizes the ``windTurbineClass`` and creates a
+            % ``windTurbine`` object.          
             %
             % Parameters
             % ------------
@@ -92,13 +92,13 @@ classdef windturbineClass<handle
             %
             % Returns
             % ------------
-            %     windturbine : obj
-            %         windturbineClass object         
+            %     windTurbine : obj
+            %         windTurbineClass object         
             %
             if exist('name','var')
                 obj.name = name;
             else
-                error('The windturbineclass() function should be called first to initialize each wind turbine with a name.')
+                error('The windTurbineclass() function should be called first to initialize each wind turbine with a name.')
             end
          end
          function ImportAeroloadsTable(obj)

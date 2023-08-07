@@ -9,11 +9,11 @@ clear clock_out
 
 % Wind Turbine
 
-if exist('windturbine','var')
-    for iTurb = 1:length(windturbine)
-        windturbineOutput(iTurb) = eval(['windturbine' num2str(iTurb) '_out']);
-        windturbineOutput(iTurb).name = windturbine(iTurb).name;
-        eval(['clear windturbine' num2str(iTurb) '_out'])
+if exist('windTurbine','var')
+    for iTurb = 1:length(windTurbine)
+        windTurbineOutput(iTurb) = eval(['windTurbine' num2str(iTurb) '_out']);
+        windTurbineOutput(iTurb).name = windTurbine(iTurb).name;
+        eval(['clear windTurbine' num2str(iTurb) '_out'])
     end; clear iTurb
 end
 
@@ -120,8 +120,8 @@ waveOutput.type = waves.type;
 waveOutput.waveAmpTime = waves.waveAmpTime;
 
 % All
-output = responseClass(bodiesOutput,ptosOutput,constraintsOutput,ptosimOutput,cablesOutput,mooringOutput,waveOutput,windturbineOutput);
-clear bodiesOutput ptosOutput constraintsOutput ptosimOutput cablesOutput mooringOutput waveOutput windturbineOutput
+output = responseClass(bodiesOutput,ptosOutput,constraintsOutput,ptosimOutput,cablesOutput,mooringOutput,waveOutput,windTurbineOutput);
+clear bodiesOutput ptosOutput constraintsOutput ptosimOutput cablesOutput mooringOutput waveOutput windTurbineOutput
 
 
 % MoorDyn
