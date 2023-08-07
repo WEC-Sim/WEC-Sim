@@ -25,9 +25,9 @@ classdef windTurbineClass<handle
     properties (SetAccess = 'public', GetAccess = 'public') %input file
         name              = []                               % (`string`) Specifies the windTurbine name. 
         control = 0;                                         % Type of control: 0-->baseline, 1-->ROSCO   
-        aeroloads_name = '';                                 % Name of aeroloads file       
-        turbine_name = '';                                  % Name of file including wind turbine properties  
-        rosco_name = '';                                     % Name of file for ROSCO properties
+        aeroloadsName = '';                                  % Name of aeroloads file       
+        turbineName = '';                                    % Name of file including wind turbine properties  
+        roscoName = '';                                      % Name of file for ROSCO properties
         omega0 = [];                                         % Initial rotor speed
     end
     
@@ -40,10 +40,10 @@ classdef windTurbineClass<handle
             'MY',             0, ...                         % Bending moments look-up table      
             'SS',             0, ...                         % Steady states
             'ctrl',             0, ...                       % Control parameters for baseline blade pitch control
-            'thetaerr',             0, ...                   % Blade pitch difference with steady-state for look-up table
-            'omegaerr',             0, ...                   % Rotor speed difference with steady-state for look-up table
+            'thetaErr',             0, ...                   % Blade pitch difference with steady-state for look-up table
+            'omegaErr',             0, ...                   % Rotor speed difference with steady-state for look-up table
             'V',            [0 0 0]);                        % Wind speed for look-up table    
-        gen_eff = [];                                        % Generator efficiency
+        generatorEfficiency = [];                            % Generator efficiency
         geometryFileTower = '';                              % Tower geometry file
         geometryFileNacelle = '';                            % Nacelle geometry file
         geometryFileHub = '';                                % Hub geometry file
@@ -51,21 +51,21 @@ classdef windTurbineClass<handle
         tower = struct(...                                   % Tower structure properties
             'mass',     0, ...                               % Mass of tower
             'inertia',             [0 0 0], ...              % Moments of inertia of tower
-            'inertiaProducts',      [0 0 0], ...              % Product of inertia of tower
+            'inertiaProducts',      [0 0 0], ...             % Product of inertia of tower
             'height',             0, ...                     % Height of tower        
             'offset',             0, ...                     % Lower point of tower relative to Sea Water Level
             'cog_rel',            [0 0 0]);                  % Center of Gravity relative to tower offset
         nacelle = struct(...                                 % Nacelle structure properties
             'mass',     0, ...                               % Mass of nacelle
             'inertia',             [0 0 0], ...              % Moments of inertia of nacelle
-            'inertiaProducts',      [0 0 0], ...              % Product of inertia of nacelle
+            'inertiaProducts',      [0 0 0], ...             % Product of inertia of nacelle
             'reference',           [0 0 0], ...              % Nacelle reference point for hub
             'tiltangle',           [0 0 0], ...              % Tilt angle of nacelle (deg)
             'cog_rel',            [0 0 0]);                  % Center of Gravity relative to tower top
         hub = struct(...                                     % Hub structure properties
             'mass',     0, ...                               % Mass of hub             
             'inertia',             [0 0 0], ...              % Moments of Inertia of hub
-            'inertiaProducts',      [0 0 0], ...              % Product of inertia of hub
+            'inertiaProducts',      [0 0 0], ...             % Product of inertia of hub
             'reference',           [0 0 0], ...              % Hub reference point for blades
             'precone',           [0 0 0], ...                % Hub precone angle (deg)
             'hubheight',           [0 0 0], ...              % Hub height relative to Sea Water Level
@@ -73,8 +73,8 @@ classdef windTurbineClass<handle
         blade = struct(...                                   % Blade structure properties
             'mass',     0, ...                               % Mass of the blade 
             'inertia',             [0 0 0], ...              % Moments of Inertia of the blade  
-            'inertiaProducts',      [0 0 0], ...              % Product of inertia of blade                    
-            'bladediscr',           [0 0 0], ...             % Blade discretisation for wind speed average estimation 
+            'inertiaProducts',      [0 0 0], ...             % Product of inertia of blade                    
+            'bladeDiscr',           [0 0 0], ...             % Blade discretisation for wind speed average estimation 
             'cog_rel',            [0 0 0]);                  % Center of Gravity relative to blade root position
          number = [];                                        % Wind turbine number
          ROSCO = struct();                                   % ROSCO parameters
@@ -100,29 +100,32 @@ classdef windTurbineClass<handle
             else
                 error('The windTurbineclass() function should be called first to initialize each wind turbine with a name.')
             end
-         end
+        end
+
          function ImportAeroloadsTable(obj)
-            data = importdata(obj.aeroloads_name);
+            data = importdata(obj.aeroloadsName);
             obj.aeroloads = data;
          end
+
          function Importrosco(obj)
-            data = importdata(obj.rosco_name);
+            data = importdata(obj.roscoName);
             obj.ROSCO = data;
          end
+
          function loadTurbineData(obj)
-            data = importdata(obj.turbine_name); 
-            obj.gen_eff=data.gen_eff; %generator efficiency
+            data = importdata(obj.turbineName); 
+            obj.generatorEfficiency=data.gen_eff; %generator efficiency
             obj.geometryFileTower = data.geometryFileTower;
             obj.geometryFileNacelle = data.geometryFileNacelle;
             obj.geometryFileHub = data.geometryFileHub;
             obj.geometryFileBlade = data.geometryFileBlade;  
             obj.tower.mass = data.tower.mass;
-            obj.tower.Inertia = data.tower.Inertia;                % Moment of Inertia [kg*m^2]  
+            obj.tower.inertia = data.tower.inertia;                % Moment of Inertia [kg*m^2]  
             obj.tower.cog_rel = data.tower.cog_rel;    
             obj.tower.height = data.tower.height;
             obj.tower.offset = data.tower.offset;
             obj.nacelle.mass = data.nacelle.mass;
-            obj.nacelle.Inertia = data.nacelle.Inertia;
+            obj.nacelle.inertia = data.nacelle.inertia;
             obj.nacelle.Twr2Shft = data.nacelle.Twr2Shft;
             obj.hub.overhang = data.hub.overhang;
             obj.nacelle.mass_yawBearing = data.nacelle.mass_yawBearing;
@@ -130,24 +133,23 @@ classdef windTurbineClass<handle
             obj.nacelle.reference = data.nacelle.reference;
             obj.nacelle.tiltangle = data.nacelle.tiltangle;
             obj.hub.mass = data.hub.mass;
-            obj.hub.Inertia = data.hub.Inertia;
-            obj.hub.InertiaProduct = data.hub.InertiaProduct;
+            obj.hub.inertia = data.hub.inertia;
+            obj.hub.inertiaProducts = data.hub.inertiaProducts;
             obj.hub.cog_rel = data.hub.cog_rel;  
             obj.hub.reference = data.hub.reference;
             obj.hub.hubheight = data.hub.height;
             obj.hub.Rhub = data.hub.Rhub;
             obj.hub.precone = data.hub.precone;
             obj.blade.mass = data.blade.mass;
-            obj.blade.Inertia = data.blade.Inertia;
-            obj.blade.InertiaProduct = data.blade.InertiaProduct;
+            obj.blade.inertia = data.blade.inertia;
+            obj.blade.inertiaProducts = data.blade.inertiaProducts;
             obj.blade.cog_rel = data.blade.cog_rel; 
-            obj.blade.bladediscr = data.blade.bladediscr;
+            obj.blade.bladeDiscr = data.blade.bladeDiscr;
          end
+
          function setNumber(obj,number)
             % Method to set the private number property
             obj.number = number;
          end
-               
     end
-     
 end

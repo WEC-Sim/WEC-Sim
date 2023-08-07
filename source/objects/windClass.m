@@ -29,6 +29,7 @@ classdef windClass<handle
     properties (SetAccess = 'public', GetAccess = 'public') % input file
         turbSimFile = '';                         % Wind table of turbulent wind from Turbsim.           
         meanVelocity = [];                        % Mean hub height wind speed. Defined in the input file for constant wind conditions, by TurbSim output for turbulent conditions
+        hubYLoc
     end
 
     properties (SetAccess = 'private', GetAccess = 'public')
