@@ -94,62 +94,67 @@ After opening the ``.pvd`` file and running the ``WEC-Sim`` macro you can do a n
 You can color waves and bodies by any of the available properties and apply any of the ParaView filters. The figures below show some of the visualization possibilities afforded by using ParaView with WEC-Sim.
 
 
-.. |rm3| image:: /_static/images/overview/rm3_iso_side.png
-   :align: middle
+.. figure:: /_static/images/overview/rm3_iso_side.png
    :width: 400pt
-   :target: https://github.com/WEC-Sim/WEC-Sim/tree/master/examples/RM3
+   :figwidth: 400pt
+   :align: center
+
+   `Reference Model 3 <https://github.com/WEC-Sim/WEC-Sim/tree/master/examples/RM3>`_
 
 
-.. |oswec| image:: /_static/images/overview/oswec_iso_side.png
-   :align: middle
+.. figure:: /_static/images/overview/oswec_iso_side.png
    :width: 400pt
-   :target: https://github.com/WEC-Sim/WEC-Sim/tree/master/examples/OSWEC
+   :figwidth: 400pt
+   :align: center
+
+   `Bottom-fixed Oscillating Surge WEC (OSWEC) <https://github.com/WEC-Sim/WEC-Sim/tree/master/examples/OSWEC>`_
 
 
-.. |sphere| image:: /_static/images/overview/sphere_freedecay_iso_side.png
-   :align: middle
+.. figure:: /_static/images/overview/sphere_freedecay_iso_side.png
    :width: 400pt
-   :target: https://github.com/WEC-Sim/WEC-Sim_Applications/tree/master/Free_Decay
+   :figwidth: 400pt
+   :align: center
+
+   `Sphere <https://github.com/WEC-Sim/WEC-Sim_Applications/tree/master/Free_Decay>`_
 
 
-.. |ellipsoid| image:: /_static/images/overview/ellipsoid_iso_side.png
-   :align: middle
+.. figure:: /_static/images/overview/ellipsoid_iso_side.png
    :width: 400pt
-   :target: https://github.com/WEC-Sim/WEC-Sim_Applications/tree/master/Nonlinear_Hydro
+   :figwidth: 400pt
+   :align: center
+
+   `Ellipsoid <https://github.com/WEC-Sim/WEC-Sim_Applications/tree/master/Nonlinear_Hydro>`_
 
 
-.. |gbm| image:: /_static/images/overview/gbm_iso_side.png
-   :align: middle
+.. figure:: /_static/images/overview/gbm_iso_side.png
    :width: 400pt
-   :target: https://github.com/WEC-Sim/WEC-Sim_Applications/tree/master/Generalized_Body_Modes
+   :figwidth: 400pt
+   :align: center
+
+   `Barge with Four Flexible Body Modes <https://github.com/WEC-Sim/WEC-Sim_Applications/tree/master/Generalized_Body_Modes>`_
 
 
-.. |wigley| image:: /_static/images/overview/wigley_iso_side.png
-   :align: middle
+.. figure:: /_static/images/overview/wigley_iso_side.png
    :width: 400pt
-   :target: https://github.com/WEC-Sim/Wigley
+   :figwidth: 400pt
+   :align: center
+
+   Wigley Ship Hull
 
 
-.. |wec3| image:: /_static/images/overview/wecccomp_iso_side.png
-   :align: middle
+.. figure:: /_static/images/overview/wecccomp_iso_side.png
    :width: 400pt
-   :target: https://github.com/WEC-Sim/WECCCOMP
+   :figwidth: 400pt
+   :align: center
 
+   `Wave Energy Converter Control Competition (WECCCOMP) Wavestar Device <https://github.com/WEC-Sim/WECCCOMP>`_
 
-.. |oc6p1| image:: /_static/images/overview/oc6_iso_side.png
-   :align: middle
+.. figure:: /_static/images/overview/oc6_iso_side.png
    :width: 400pt
+   :figwidth: 400pt
+   :align: center
 
-
-.. rm3 Reference Model 3
-   oswec Bottom-fixed Oscillating Surge WEC (OSWEC)
-   sphere
-   ellipsoid Ellipsoid
-   gbm Barge with Four Flexible Body Modes
-   wigley Wigley Ship Hull
-   wec3 Wave Energy Converter Control Competition (WECCCOMP) Wavestar Device
-   oc6p1 OC6 Phase I DeepCwind Floating Semisubmersible
-
+   OC6 Phase I DeepCwind Floating Semisubmersible
 
 
 Two examples using Paraview for visualization of WEC-Sim data are provided in the ``Paraview_Visualization`` directory on the `WEC-Sim Applications <https://github.com/WEC-Sim/WEC-Sim_Applications>`_ repository.
