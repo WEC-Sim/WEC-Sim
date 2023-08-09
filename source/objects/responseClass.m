@@ -200,14 +200,16 @@ classdef responseClass<handle
                     end
                 end
             end
-            % Wind turbine
-            signals = {'WindSpeed','TurbinePower','RotorSpeed','BladePitch','NacAcceleration','TowerBaseLoad','TowerTopLoad','BladeRootLoad','GenTorque','Azimuth'};
-            outputDim = [1 1 1 1 1 6 6 6 1 1];
-            for ii = 1:length(windTurbineOutput)
-                obj.windTurbine(ii).name = windTurbineOutput(ii).name;
-                obj.windTurbine(ii).time = windTurbineOutput(ii).time;
-                for jj = 1:length(signals)
-                    obj.windTurbine(ii).(signals{jj}) = windTurbineOutput(ii).signals.values(:, sum(outputDim(1:jj-1))+1:sum(outputDim(1:jj-1))+outputDim(jj));
+            if isstruct(windTurbineOutput)
+                % Wind turbine
+                signals = {'WindSpeed','TurbinePower','RotorSpeed','BladePitch','NacAcceleration','TowerBaseLoad','TowerTopLoad','BladeRootLoad','GenTorque','Azimuth'};
+                outputDim = [1 1 1 1 1 6 6 6 1 1];
+                for ii = 1:length(windTurbineOutput)
+                    obj.windTurbine(ii).name = windTurbineOutput(ii).name;
+                    obj.windTurbine(ii).time = windTurbineOutput(ii).time;
+                    for jj = 1:length(signals)
+                        obj.windTurbine(ii).(signals{jj}) = windTurbineOutput(ii).signals.values(:, sum(outputDim(1:jj-1))+1:sum(outputDim(1:jj-1))+outputDim(jj));
+                    end
                 end
             end
             % Constraints

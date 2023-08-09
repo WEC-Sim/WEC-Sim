@@ -210,8 +210,10 @@ if exist('ptoSim','var') == 1
 end
 
 % WindClass
-if wind.constantWindFlag == 0
-    wind.importTurbSimOutput();
+if exist('windTurbine','var') == 1
+    if wind.constantWindFlag == 0
+        wind.importTurbSimOutput();
+    end
 end
 
 % WindturbineClass
@@ -432,17 +434,19 @@ try
     end; clear ii;
 end
 
-% wind turbine
-for ii=1:length(windTurbine)
-    eval(['ControlChoice' num2str(ii) ' = windTurbine(',num2str(ii),').control;'])
-    eval(['sv_' num2str(ii) '_control1 = Simulink.Variant(''ControlChoice' num2str(ii) '==0'');'])
-    eval(['sv_' num2str(ii) '_control2 = Simulink.Variant(''ControlChoice' num2str(ii) '==1'');'])  
-end; clear ii
+try
+    % wind turbine
+    for ii=1:length(windTurbine)
+        eval(['ControlChoice' num2str(ii) ' = windTurbine(',num2str(ii),').control;'])
+        eval(['sv_' num2str(ii) '_control1 = Simulink.Variant(''ControlChoice' num2str(ii) '==0'');'])
+        eval(['sv_' num2str(ii) '_control2 = Simulink.Variant(''ControlChoice' num2str(ii) '==1'');'])  
+    end; clear ii
 
-% wind 
-eval(['WindChoice = wind.constantWindFlag;'])
-eval(['sv_wind_constant = Simulink.Variant(''WindChoice==1'');'])
-eval(['sv_wind_turbulent = Simulink.Variant(''WindChoice==0'');'])
+    % wind 
+    eval(['WindChoice = wind.constantWindFlag;'])
+    eval(['sv_wind_constant = Simulink.Variant(''WindChoice==1'');'])
+    eval(['sv_wind_turbulent = Simulink.Variant(''WindChoice==0'');'])
+end
 
 % Visualization Blocks
 if ~isempty(waves.marker.location) && typeNum < 30
