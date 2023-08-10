@@ -29,6 +29,10 @@ classdef windTurbineClass<handle
         turbineName = '';                                    % Name of file including wind turbine properties  
         roscoName = '';                                      % Name of file for ROSCO properties
         omega0 = [];                                         % Initial rotor speed
+        geometryFileTower = '';                              % Tower geometry file
+        geometryFileNacelle = '';                            % Nacelle geometry file
+        geometryFileHub = '';                                % Hub geometry file
+        geometryFileBlade = '';                              % Blade geometry file
     end
     
     
@@ -44,10 +48,6 @@ classdef windTurbineClass<handle
             'omegaErr',             0, ...                   % Rotor speed difference with steady-state for look-up table
             'V',            [0 0 0]);                        % Wind speed for look-up table    
         generatorEfficiency = [];                            % Generator efficiency
-        geometryFileTower = '';                              % Tower geometry file
-        geometryFileNacelle = '';                            % Nacelle geometry file
-        geometryFileHub = '';                                % Hub geometry file
-        geometryFileBlade = '';                              % Blade geometry file
         tower = struct(...                                   % Tower structure properties
             'mass',     0, ...                               % Mass of tower
             'inertia',             [0 0 0], ...              % Moments of inertia of tower
@@ -120,12 +120,12 @@ classdef windTurbineClass<handle
             obj.geometryFileHub = data.geometryFileHub;
             obj.geometryFileBlade = data.geometryFileBlade;  
             obj.tower.mass = data.tower.mass;
-            obj.tower.inertia = data.tower.inertia;                % Moment of Inertia [kg*m^2]  
+            obj.tower.inertia = data.tower.Inertia;                % Moment of Inertia [kg*m^2]  
             obj.tower.cog_rel = data.tower.cog_rel;    
             obj.tower.height = data.tower.height;
             obj.tower.offset = data.tower.offset;
             obj.nacelle.mass = data.nacelle.mass;
-            obj.nacelle.inertia = data.nacelle.inertia;
+            obj.nacelle.inertia = data.nacelle.Inertia;
             obj.nacelle.Twr2Shft = data.nacelle.Twr2Shft;
             obj.hub.overhang = data.hub.overhang;
             obj.nacelle.mass_yawBearing = data.nacelle.mass_yawBearing;
@@ -133,18 +133,18 @@ classdef windTurbineClass<handle
             obj.nacelle.reference = data.nacelle.reference;
             obj.nacelle.tiltangle = data.nacelle.tiltangle;
             obj.hub.mass = data.hub.mass;
-            obj.hub.inertia = data.hub.inertia;
-            obj.hub.inertiaProducts = data.hub.inertiaProducts;
+            obj.hub.inertia = data.hub.Inertia;
+            obj.hub.inertiaProducts = data.hub.InertiaProduct;
             obj.hub.cog_rel = data.hub.cog_rel;  
             obj.hub.reference = data.hub.reference;
-            obj.hub.hubheight = data.hub.height;
+            obj.hub.height = data.hub.height;
             obj.hub.Rhub = data.hub.Rhub;
             obj.hub.precone = data.hub.precone;
             obj.blade.mass = data.blade.mass;
-            obj.blade.inertia = data.blade.inertia;
-            obj.blade.inertiaProducts = data.blade.inertiaProducts;
+            obj.blade.inertia = data.blade.Inertia;
+            obj.blade.inertiaProducts = data.blade.InertiaProduct;
             obj.blade.cog_rel = data.blade.cog_rel; 
-            obj.blade.bladeDiscr = data.blade.bladeDiscr;
+            obj.blade.bladeDiscr = data.blade.bladediscr;
          end
 
          function setNumber(obj,number)
