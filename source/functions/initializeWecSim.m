@@ -45,7 +45,7 @@ addpath(fullfile(projectRootDir,'temp'),'-end');
 
 % Save Simulink-generated helper files to 'temp' directory
 Simulink.fileGenControl('set',...
-    'CacheFolder',fullfile(projectRootDir,'temp'))
+    'CacheFolder',fullfile(projectRootDir,''))
 
 
 %% Read input file
