@@ -165,8 +165,7 @@ for ln = n:length(raw1)
                     tmp2 = str2num(raw1{ln+(k-1)*hydro(F).Nh*hydro(F).Nf*2+(j-1)*hydro(F).Nf*2+(i-1)*2+2});
                     ind = tmp1(1:3); tmp1(1:3)=[];
                     hydro(F).ex_ma(((ind(1)-1)*6+1):(ind(1)*6),ind(2),ind(3)) = tmp1; % Magnitude of exciting force
-                    hydro(F).ex_ph(((ind(1)-1)*6+1):(ind(1)*6),ind(2),ind(3)) = wrapToPi(-pi-tmp2*pi/180); % Phase of exciting force    
-                    hydro(F).ex_ph(3,ind(2),ind(3))                           = wrapToPi(-tmp2(3)*pi/180); % Phase of exciting force for heave
+                    hydro(F).ex_ph(((ind(1)-1)*6+1):(ind(1)*6),ind(2),ind(3)) = wrapToPi(-tmp2*pi/180); % Phase of exciting force    
                 end
             end
         end
@@ -277,6 +276,7 @@ for ln=1:length(raw2)
 end
 %%
 hydro = normalizeBEM(hydro);  % Normalize the data according the WAMIT convention
+hydro = addDefaultPlotVars(hydro);
+
 close(p);
-assignin('base','hydro',hydro);
 end
