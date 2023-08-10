@@ -98,6 +98,8 @@ elseif meanDrift == 1
     hydroData.hydro_coeffs.mean_drift =  reverseDimensionOrder(h5read(filename, [h5BodyName '/hydro_coeffs/mean_drift/control_surface/val']));
 elseif meanDrift == 2
     hydroData.hydro_coeffs.mean_drift =  reverseDimensionOrder(h5read(filename, [h5BodyName '/hydro_coeffs/mean_drift/momentum_conservation/val']));
+elseif meanDrift == 3
+    hydroData.hydro_coeffs.mean_drift =  reverseDimensionOrder(h5read(filename, [h5BodyName '/hydro_coeffs/mean_drift/pressure_integration/val']));
 else
     error(['Wrong flag for mean drift force in body(' num2str(number) ').'])
 end

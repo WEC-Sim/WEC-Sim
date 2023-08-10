@@ -1,6 +1,6 @@
 function plotExcitationIRF(varargin)
 % Plots the excitation IRF for each hydro structure's bodies in
-% the heave, surge and pitch degrees of freedom.
+% the given degrees of freedom.
 % 
 % Usage:
 % ``plotExcitationIRF(hydro, hydro2, hydro3, ...)``
@@ -12,20 +12,21 @@ function plotExcitationIRF(varargin)
 %         One or more may be input.
 % 
 
+varargin = checkAndFormatPlotVars(varargin, 1);
+
 if isempty(varargin)
     error(['plotExcitationIRF: No arguments passed. Include one or more hydro ' ...
         'structures when calling: plotExcitationIRF(hydro1, hydro2, ...)']);
 end
 
-B=1;  % Wave heading index
-figHandle = figure('Position',[950,100,975,521]);
+figHandle = figure();
 titleString = ['Normalized Excitation Impulse Response Functions:   ',...
     '$$\bar{K}_i(t) = {\frac{1}{2\pi}}\int_{-\infty}^{\infty}{\frac{X_i(\omega,\theta)e^{i{\omega}t}}{{\rho}g}}d\omega$$'];
-subtitleStrings = {'Surge','Heave','Pitch'};
-xString = {'$$t (s)$$','$$t (s)$$','$$t (s)$$'};
-yString = {['$$\bar{K}_1(t,\theta$$',' = ',num2str(varargin{1}.theta(B)),'$$^{\circ}$$)'],...
-    ['$$\bar{K}_3(t,\theta$$',' = ',num2str(varargin{1}.theta(B)),'$$^{\circ}$$)'],...
-    ['$$\bar{K}_5(t,\theta$$',' = ',num2str(varargin{1}.theta(B)),'$$^{\circ}$$)']};
+subtitleStrings = getDofNames(varargin{1}.diagPlotDofs);
+xString = {'$$t (s)$$'};
+for dof = 1:size(varargin{1}.diagPlotDofs,1)
+    yString{dof} = ['$$\bar{K}_',num2str(varargin{1}.diagPlotDofs(dof)),'(t)$$'];
+end
 
 notes = {'Notes:',...
     ['$$\bullet$$ The IRF should tend towards zero within the specified timeframe. ',...
@@ -36,23 +37,31 @@ notes = {'Notes:',...
     'to the system, that IRF should also be plotted and verified before proceeding.']};
 
 numHydro = length(varargin);
+
 for ii = 1:numHydro
-    numBod = varargin{ii}.Nb;
     tmp1 = strcat('X',num2str(ii));
     X.(tmp1) = varargin{ii}.ex_t;
     tmp2 = strcat('Y',num2str(ii));
-    a = 0;
-    for i = 1:numBod
-        m = varargin{ii}.dof(i);
-        Y.(tmp2)(1,i,:) = squeeze(varargin{ii}.ex_K(a+1,B,:));
-        Y.(tmp2)(2,i,:) = squeeze(varargin{ii}.ex_K(a+3,B,:));
-        Y.(tmp2)(3,i,:) = squeeze(varargin{ii}.ex_K(a+5,B,:));
-        legendStrings{i,ii} = [varargin{ii}.body{i}];
-        a = a + m;
+    b = 0;
+    for i = 1:length(varargin{ii}.plotBodies)
+        a = 0;
+        if i > 1
+            for i = 2:varargin{ii}.plotBodies(i)
+                a = a + varargin{ii}.dof(varargin{ii}.plotBodies(i-1));
+            end
+        end
+        for j = 1:size(varargin{ii}.diagPlotDofs,1)
+            for k = 1:length(varargin{ii}.plotDirections)
+                tmp3 = strcat('d',num2str(k));
+                Y.(tmp2).(tmp3)(j,i,:) = squeeze(varargin{ii}.ex_K(a+varargin{ii}.diagPlotDofs(j),varargin{ii}.plotDirections(k),:));
+                legendStrings{b+k,ii} = [strcat('hydro_',num2str(ii),'.',varargin{ii}.body{varargin{ii}.plotBodies(i)},' \theta =  ',num2str(varargin{1}.theta(varargin{ii}.plotDirections(k))),'^{\circ}')];
+            end
+        end
+        b = b+k;
     end
 end
 
-formatPlot(figHandle,titleString,subtitleStrings,xString,yString,X,Y,legendStrings,notes)  
+formatPlot(figHandle,titleString,subtitleStrings,xString,yString,X,Y,legendStrings,notes,varargin{1}.diagPlotDofs)  
 saveas(figHandle,'Excitation_IRFs.png');
 
 end

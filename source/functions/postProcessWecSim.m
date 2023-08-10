@@ -91,8 +91,8 @@ end
 if exist('ptoSim','var')
     for iPtoB = 1:simu.numPtoSim
         %iPtoB
-        eval(['ptoSim' num2str(iPtoB) '_out.name = ptoSim(' num2str(iPtoB) ').name;'])
-        eval(['ptoSim' num2str(iPtoB) '_out.type = ptoSim(' num2str(iPtoB) ').type;'])
+        %eval(['ptoSim' num2str(iPtoB) '_out.name = ptoSim(' num2str(iPtoB) ').name;'])
+        eval(['ptoSim' num2str(iPtoB) '_out.typeNum = ptoSim(' num2str(iPtoB) ').typeNum;'])
         if iPtoB == 1; ptosimOutput = ptoSim1_out; end
         ptosimOutput(iPtoB) = eval(['ptoSim' num2str(iPtoB) '_out']);
         eval(['clear ptoSim' num2str(iPtoB) '_out'])
@@ -127,10 +127,16 @@ for iMoor = 1:simu.numMoorings
     end
 end; clear iMoor
 
-% Calculate correct added mass and total forces
+% Added mass correction
+% 1. Update mass properties and added mass coefficients from stored valued
+% 2. Store the applied added mass force
+% 3. Remove applied added mass force from total
+% 4. Calculate the actual added mass force
+% 5. Add actual added mass force to total
 for iBod = 1:simu.numHydroBodies
-    body(iBod).restoreMassMatrix
+    body(iBod).restoreMassMatrix();
+    body(iBod).storeForceAddedMass(output.bodies(iBod).forceAddedMass, output.bodies(iBod).forceTotal);
     output.bodies(iBod).forceTotal = output.bodies(iBod).forceTotal + output.bodies(iBod).forceAddedMass;
-    output.bodies(iBod).forceAddedMass = body(iBod).forceAddedMass(output.bodies(iBod).acceleration,simu.b2b);
+    output.bodies(iBod).forceAddedMass = body(iBod).calculateForceAddedMass(output.bodies(iBod).acceleration);
     output.bodies(iBod).forceTotal = output.bodies(iBod).forceTotal - output.bodies(iBod).forceAddedMass;
 end; clear iBod

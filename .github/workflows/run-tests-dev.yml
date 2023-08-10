@@ -2,6 +2,7 @@ name: Run MATLAB tests on dev branch
 on:
   # Trigger the workflow on push or pull request,
   # but only for the dev branch
+  workflow_dispatch: {}
   push:
     branches:
       - dev
@@ -13,28 +14,36 @@ concurrency:
   cancel-in-progress: true
 jobs:
   run_tests:
-    runs-on: ubuntu-latest
+    runs-on: ${{ matrix.os }}
     strategy:
       fail-fast: false
       matrix:
-        release: [R2020b, R2021a, R2021b, latest]
-    name: MATLAB ${{ matrix.release }}
+        release: [R2020b, R2021a, R2021b, R2022a, R2022b, latest]
+        os: [ubuntu-latest, windows-latest]
+    name: MATLAB ${{ matrix.release }} on ${{ matrix.os }}
     steps:
       - name: Check out repository
-        uses: actions/checkout@v2
+        uses: actions/checkout@v3
         with:
           lfs: true
       - name: Check out LFS objects
         run: git lfs checkout
       - name: Install MATLAB
-        uses: matlab-actions/setup-matlab@v1
+        uses: matlab-actions/setup-matlab@v2-beta
         with:
-            release: ${{ matrix.release }}
+          release: ${{ matrix.release }}
+          products: Simulink Simscape Simscape_Multibody
       - name: Install WEC-Sim
         uses: matlab-actions/run-command@v1
         with:
-          command: addpath(genpath('source'));, savepath pathdef.m;
+          command: |
+            addpath(genpath('source')),
+            savepath pathdef.m;
       - name: Run tests and generate artifacts
         uses: matlab-actions/run-command@v1
         with:
-          command: results = wecSimTest, assertSuccess(results);
+          command: |
+            set_param(0, 'ErrorIfLoadNewModel', 'off'),
+            results = wecSimTest,
+            assertSuccess(results);
+          startup-options: -noFigureWindows

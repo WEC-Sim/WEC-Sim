@@ -81,14 +81,16 @@ For more information on how the blocks and classes are related, see the
 
 To run WEC-Sim from Simulink, open the Simulink ``.slx`` file and choose whether to 
 use an input file or custom parameters in the Global Reference Frame. Next type 
-``initializeWecSim`` in the MATLAB Command Window. Lastly, run the model from the 
-Simulink interface:
+``initializeWecSim`` in the MATLAB Command Window. Then, run the model from the 
+Simulink interface. Lastly, after the simulation has completed, type ``stopWecSim`` 
+in the MATLAB Command Window to run post-processing.
 
 * Run from Simulink with a wecSimInputFile.m
 	* Open the WEC-Sim Simulink file (``.slx``).
 	* Set the Global Reference Frame to use an input file
 	* Type ``initializeWecSim`` in the Command Window
 	* Run the model from Simulink
+	* Wait for the simulation to complete, then type ``stopWecSim`` in the Command Window
 * Run from Simulink with custom parameters
 	* Open the Simulink file (``.slx``).
 	* Set the Global  Reference Frame to use custom parameters
@@ -96,6 +98,7 @@ Simulink interface:
 	* Edit custom parameters as desired
 	* Type ``initializeWecSim`` in the Command Window
 	* Run the model from Simulink
+	* Wait for the simulation to complete, then type ``stopWecSim`` in the Command Window
 	
 After running WEC-Sim from Simulink with custom parameters, a 
 ``wecSimInputFile_simulinkCustomParameters.m`` file is written to the ``$CASE`` 
@@ -385,10 +388,11 @@ following features are available:
   displaced volume contained in the ``*.h5`` file. If :code:`simu.nonlinearHydro = 1` 
   or :code:`simu.nonlinearHydro = 2`, then the mass is calculated using the displaced 
   volume of the provided STL geometry file.
-
-* **Fixed Body** - if the mass is unknown (or not important to the dynamics), 
-  the user may specify :code:`body(i).mass = 'fixed'` which will set the mass 
-  to 999 kg and moment of inertia to [999 999 999] kg-m^2.
+  
+* **Fixed Body** - if a body is fixed to the seabed using a fixed constraint, the mass 
+  and moment of inertia may be set to arbitrary values such as 999 kg and [999 999 999] 
+  kg-m^2. If the constraint forces on the fixed body are important, the mass and inertia 
+  should be set to their real values.
 
 * **Import STL** - to read in the geometry (``*.stl``) into Matlab use the 
   :code:`body(i).importBodyGeometry()` method in the bodyClass. This method will import the 
@@ -833,12 +837,411 @@ repository.
     small displacements, they are unlikely to be accurate if a large relative 
     yaw displacement occurs between the bodies. 
 
+.. _user-advanced-features-large-XY-disp:
+
+Large X-Y Displacements
+^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+By default, the excitation force applied to the modeled body is calculated at the body's CG position as defined in BEM. 
+If large lateral displacements (i.e., in the x or y direction by the default WEC-Sim coordinate system) are expected for the modeled device, it may be desirable to adjust the excitation force to account for this displacment. 
+
+When :code:`body(i).largeXYDisplacement.option = 1`, the phase of the excitation force exerted on the body is adjusted based upon its displacement as
+
+:math:`\phi_{displacement} = k \omega x(1)*cos(\frac{\theta \pi}{180}) + x(2).*sin(\frac{\theta \pi}{180})`
+
+where k is waves.wavenumber, x(1,2) is displacement in the (x,y) direction, :math:`\omega` is waves.omega, and :math:`\theta` is waves.direction (in degrees). 
+This phase is thus the same size as waves.phase, and is then summed with waves.phase to determine excitation force.
+
+Note that this adjustment only affects the incident exciting waves, not the total wave field that is the superposition of exciting and radiating waves. 
+This implies that this adjustment is only valid for cases where the lateral velocity of the body is significantly less than the celerity of its radiated waves, and is thus not appropriate for sudden, rapid displacements. 
+
+.. Note::
+
+	This feature has not been implemented for a user-defined wave elevation.
+	
+
 .. _user-advanced-features-pto:
 
 Constraint and PTO Features
 ----------------------------
 
 .. include:: /_include/pto.rst
+
+
+
+.. _user-advanced-features-control:
+
+Controller Features
+-------------------
+
+The power generation performance of a WEC is highly dependent on the control 
+algorithm used in the system. There are different control strategies that 
+have been studied for marine energy applications. These control algorithms 
+can be applied directly to the PTO components to achieve a desired output, or 
+they can be high-level controllers which are focused on the total PTO force 
+applied to the WEC. The examples presented in this section are based on high-
+level controller applications. WEC-Sim’s controller features support the modeling 
+of both simple passive and reactive controllers as well as more complex methods 
+such as model predictive control.
+
+The files for the controller tutorials described in this section can be found in 
+the **Controls** examples on the `WEC-Sim Applications repository 
+<https://github.com/WEC-Sim/WEC-Sim_Applications>`_ . The controller examples 
+are not comprehensive, but provide a reference for user to implement their 
+own controls.
+
+	+--------------------------------+-------------------------------------------+
+	|   **Controller Application**   |               **Description**             |                
+	+--------------------------------+-------------------------------------------+
+	|   Passive (P)  	         | Sphere with proportional control    	     |
+	+--------------------------------+-------------------------------------------+
+	|   Reactive (PI)                | Sphere with proportional-integral control |
+	+--------------------------------+-------------------------------------------+
+	|   Latching		         | Sphere with latching control		     |
+	+--------------------------------+-------------------------------------------+
+	|   Declutching   		 | Sphere with declutching control           |
+	+--------------------------------+-------------------------------------------+
+	|   Model Predictive Control   	 | Sphere with model predictive control      |
+	+--------------------------------+-------------------------------------------+
+
+
+
+Examples: Sphere Float with Various Controllers
+^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+First, it is important to understand the concept of complex conjugate control.
+Complex conjugate control, as applied to wave energy conversion, 
+can be used to understand optimal control. For a complex conjugate controller, 
+the impedance of the controller is designed to match the admittance of the 
+device (equal to the complex conjugate of device impedance). Hence, it is 
+also known as impedance matching and is a common practice within electrical 
+engineering. Complex conjugate control is not a completely realizable control 
+method due to its acausality, which means it requires exact knowledge of 
+future wave conditions. Still, a causal transfer function can be used to approximate 
+complex conjugate control across a limited frequency range :cite:`bacelli2020comments`. 
+Thus, complex conjugate control presents a reference for the implementation of 
+optimal causal controls. The WEC impedance can be modeled by the following equation
+:cite:`bacelli2019feedback` and can be used to formulate the optimal control implementation:
+
+.. math::
+
+    Z_i(\omega) = j\omega (m + A(\omega)) + B(\omega) + \frac{K_{hs}}{j\omega}
+
+By characterizing the impedance of the WEC, a greater understanding of the 
+dynamics can be reached. The figure below is a bode plot of the impedance of 
+the RM3 float body. The natural frequency is defined by the point at which the 
+phase of impedance is zero. By also plotting the frequency of the incoming 
+wave, it is simple to see the difference between the natural frequency of 
+the device and the wave frequency. Complex conjugate control (and some other
+control methods) seeks to adjust the natural frequency of the device to match 
+the wave frequency. Matching the natural frequency to the wave frequency leads 
+to resonance, which allows for theoretically optimal mechanical power. 
+
+.. figure:: /_static/images/impedance.png
+   :width: 300pt 
+   :align: center
+
+It is important to note here that although impedance matching can lead to maximum mechanical 
+power, it does not always lead to maximum electrical power. Resonance due to 
+impedance matching often creates high peaks of torque and power, which are usually 
+far from the most efficient operating points of PTO systems used to extract power
+and require those systems to be more robust and expensive.
+Thus, the added factor of PTO dynamics and efficiency may lead to 
+complex conjugate control being suboptimal. Furthermore, any constraints or other 
+nonlinear dynamics may make complex conjugate control unachievable or suboptimal. 
+Theoretical optimal control using complex conjugates presented here should be 
+taken as a way to understand WEC controls rather than a method to achieve 
+optimal electrical power for a realistic system.
+
+.. _control-passive:
+
+Passive Control (Proportional)
+^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+Passive control is the simplest of WEC controllers and acts as a damping force. 
+Hence, the damping value (also referred to as a proportional gain) is 
+multiplied by the WEC velocity to determine the power take-off force:
+
+.. math::
+
+    F_{PTO} = K_p \dot{X}
+
+Although unable to reach optimal power for a regular wave due to its passive 
+nature, a passive controller can still be tuned to reach its maximum power.
+According to complex conjugate control, a passive controller can be 
+optimized for regular wave conditions using the following formula :cite:`gomes2015dynamics`:
+
+.. math::
+
+    K_{p,opt} = \sqrt{B(\omega)^2 + (\frac{K_{hs}}{\omega} - \omega (m + A(\omega)))^2}
+
+The optimal proportional gain has been calculated for the float using the optimalGainCalc.m file 
+and implemented in WEC-Sim to achieve optimal power. The mcrBuildGains.m file sets 
+up a sweep of the proportional gains which can be used to show that the results 
+confirm the theoretical optimal gain in the figure below (negative power corresponding to 
+power extracted from the system). This MCR run can be 
+recreated by running the mcrBuildGains.m file then typing wecSimMCR in the command
+window.
+
+.. figure:: /_static/images/pGainSweep.png
+   :width: 300pt 
+   :align: center
+
+This example only shows the optimal proportional gain in regular wave conditions. 
+For irregular wave spectrums and nonlinear responses (such as with constraints), 
+an optimization algorithm can be used to determine optimal control gains.
+
+.. _control-reactive:
+
+Reactive Control (Proportional-Integral)
+^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+Reactive control is also a very simple form of WEC control and combines the 
+damping force of a passive controller with a spring stiffness force. The standard PTO 
+block can also be used to implement PI control using the damping and stiffness
+values but doesn't allow for negative inputs which is often necessary for 
+optimal stiffness. This controller is also known as a proportional integral 
+controller with the proportional gain corresponding to the damping value and 
+the integral gain corresponding to a spring stiffness value:
+
+.. math::
+
+    F_{PTO} = K_p \dot{X} + K_i X
+
+The addition of the reactive component means the controller can achieve optimal 
+complex conjugate control by cancelling out the imaginary portion of the device 
+impedance. Thus, the proportional and integral control gains can be defined by the 
+following formulas :cite:`coe2021practical`:
+
+.. math::
+
+    K_{p,opt} = B(\omega)
+
+.. math::
+
+    K_{i,opt} = (m + A(\omega)) \omega^2 - K_hs
+
+The optimal proportional and integral gains have been calculated using the optimalGainCalc.m file 
+and implemented in WEC-Sim to achieve optimal power. The mcrBuildGains.m file again sets 
+up a sweep of the gains which can be used to show that the results 
+confirm the theoretical optimal gains in the figure below. This MCR run can be 
+recreated by running the mcrBuildGains.m file then typing wecSimMCR in the command
+window.
+
+.. figure:: /_static/images/piGainSweep.png
+   :width: 300pt 
+   :align: center
+
+This example only shows the optimal gains in regular wave conditions. 
+For irregular wave spectrums and nonlinear responses (such as with constraints), 
+an optimization algorithm can be used to determine optimal control gains.
+
+.. _control-latching:
+
+Latching Control
+^^^^^^^^^^^^^^^^
+
+Latching control combines a traditional passive controller with a latching mechanism which applies 
+a large braking force during a portion of the oscillation. By locking the device for 
+part of the oscillation, latching control attempts to adjust the phase of the motion to 
+match the phase of incoming waves. Latching control can slow the device motion to match 
+wave motion and is therefore most often used when the wave period is longer than the natural 
+period. Latching control is still considered passive as no energy input is required (assuming velocity 
+is zero while latched).
+
+The braking/latching force is implemented as a very large damping force (:math:`G`), which can be 
+adjusted based on the device's properties :cite:`babarit2006optimal`:
+
+.. math::
+
+    G = 80 (m + A(\omega))
+
+Because latching achieves phase matching between the waves and device, the optimal 
+damping can be assumed the same as for reactive control. Lastly, the main control 
+variable, latching time, needs to be determined. For regular waves, it is 
+desired for the device to move for a time equal to its natural frequency, meaning 
+the optimal latching time is likely close to half the difference between the wave 
+period and the natural period :cite:`babarit2006optimal` (accounting for 2 latching periods per wave period).
+
+.. math::
+
+    t_{latch} = \frac{1}{2} (T_{wave} - T_{nat})
+
+The optimal latching time has been calculated using the optimalGainCalc.m file 
+and implemented in WEC-Sim. The mcrBuildTimes.m file sets 
+up a sweep of the latching times, the results for which are shown in the figure below. 
+This MCR run can be recreated by running the mcrBuildGains.m file then typing wecSimMCR 
+in the command window. Based on the results, the optimal latching time is slightly 
+lower than expected which may be due to imperfect latching or complex dynamics which 
+aren't taken into account in the theoretical optimal calculation. Regardless, latching results in 
+much larger power when compared to traditional passive control.
+
+.. figure:: /_static/images/latchTimeSweep.png
+   :width: 300pt 
+   :align: center
+
+Further, the figure below shows the excitation force and velocity, which are close to 
+in phase when a latching time of 2.4 seconds is implemented.
+
+.. figure:: /_static/images/latching.png
+   :width: 300pt 
+   :align: center
+
+Although not shown with this example, latching can also be implemented in irregular waves 
+but often requires different methods including excitation prediction.
+
+.. _control-declutching:
+
+Declutching Control
+^^^^^^^^^^^^^^^^^^^
+
+Declutching control is essentially the opposite of latching. Instead of locking the device, 
+it is allowed to move freely (no PTO force) for a portion of the oscillation. Often, 
+declutching is used when the wave period is smaller than the natural period, allowing the 
+device motion to "catch up" to the wave motion. Declutching is also considered 
+a passive control method.
+
+The optimal declutching time and damping values are slightly harder to estimate than for 
+latching. The device's motion still depends on its impedance during the declutching period, 
+meaning the device does not really move "freely" during this time. Hence, in opposition to 
+optimal latching the declutching time was assumed to be near half the difference between 
+the natural period and the wave period, but is further examined through tests.
+
+.. math::
+
+    t_{declutch} = \frac{1}{2} (T_{wave} - T_{nat})
+
+This optimal declutching time has been calculated using the optimalGainCalc.m file 
+and implemented in WEC-Sim. Because energy is not harvested during the declutching 
+period, it is likely that a larger damping is required. Thus, the optimal passive 
+damping value was used for the following simulations, although a more 
+optimal damping value likely exists for delclutching.
+
+Since declutching is most desired when the wave period is smaller than the natural period, 
+a wave period of 3.5 seconds was tested with a height of 1 m. For comparison to traditional 
+passive control, the optimal passive damping value was tested for these conditions, leading
+to a power of 5.75 kW. The mcrBuildTimes.m file sets up a sweep of the declutching times, 
+the results for which are shown in the figure below. It is clear that delcuthing control 
+can offer an improvement over traditional passive control.
+
+.. figure:: /_static/images/declutchTimeSweep.png
+   :width: 300pt
+   :align: center 
+
+Further, the figure below shows the excitation force and velocity with a declutch time
+of 0.8 seconds. The excitation and response are not quite in phase, but the device 
+can be seen "catching up" to the wave motion during the declutching time. 
+
+.. figure:: /_static/images/declutching.png
+   :width: 300pt 
+   :align: center
+
+Although not shown with this example, declutching can also be implemented in irregular waves 
+but often requires different methods including excitation prediction.
+
+.. _control-MPC:
+
+Model Predictive Control (MPC)
+^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+Model predictive control is a WEC control method which uses a plant model to predict and 
+optimize the dynamics. MPC is a complex controller that can be applied in both regular 
+and irregular waves while also taking into account time-domain constraints such as position, 
+velocity, and PTO force. For the model predictive controller implemented here, 
+the plant model is a frequency dependent state-space model :cite:`so2017development`. 
+The state space model is then converted to a quadratic programming problem to be 
+solved by quadprog(), MATLAB's quadratic programming function. Solving this system 
+leads to a set of PTO forces to optimize the future dynamics for maximum harvested 
+power, the first of which is applied at the current timestep. The relevant files for 
+the MPC example in the Controls folder of WEC-Sim Applications are detailed in the 
+table below (excluding wecSimInputFile.m and userDefinedFunctions.m which are not 
+unique to MPC). Note: This controller is similar to the NMPC example within the 
+WECCCOMP Application, but this example includes a method for calculating frequency 
+dependence and setting up the state space matrices based on boundary element method 
+data, allows for position, velocity, and force constraints, and is applied to a 
+single body heaving system. 
+
+	+--------------------------------+------------------------------------------------------+
+	|   	     *File*	         |                    *Description*              	|                
+	+--------------------------------+------------------------------------------------------+
+	|   coeff.mat	  	         | Coefficients for frequency dependence     		|
+	+--------------------------------+------------------------------------------------------+
+	|   fexcPrediction.m             | Predicts future excitation forces         		|
+	+--------------------------------+------------------------------------------------------+
+	|   sphereMPC.slx                | Simulink model including model predictive controller |
+	+--------------------------------+------------------------------------------------------+
+	|   mpcFcn.m		         | Creates and solves quadratic programming problem     |
+	+--------------------------------+------------------------------------------------------+
+	|   plotFreqDep.m   		 | Solves for and plots frequency dependence coeffs     |
+	+--------------------------------+------------------------------------------------------+
+
+The Simulink diagram is shown in the figure below. The figure shows an overview of 
+the controller, which primarily consists of the plant model and the optimizer. The plant 
+model uses the excitation force, applied PTO force, and current states to calculate the 
+states at the next timestep. Then, the optimizer predicts the future excitation, which 
+is input into the mpcFcn.m file along with the states to solve for the optimal change in 
+PTO force (integrated to solve for instantaneous PTO force). 
+
+.. figure:: /_static/images/mpcSimulink.png
+   :width: 500pt 
+   :align: center
+
+The results of the model predictive controller simulation in irregular waves are shown 
+below with the dashed lines indicating the applied 
+constraints. MPC successfully restricts the system to within the constraints (except for 
+a few, isolated timesteps where the solver couldn't converge) while also optimizing for maximum 
+average mechanical power (300 kW). The constraints can be changed to account for 
+specific WEC and PTO physical limitations, but will limit the average power. 
+There are also other parameters which can be defined or changed by the user in the 
+wecSimInputFile.m such as the MPC timestep, prediction horizon, r-scale, etc. to 
+customize and tune the controller as desired.
+
+.. figure:: /_static/images/mpcPos.png
+   :width: 300pt 
+   :align: center
+
+.. figure:: /_static/images/mpcVel.png
+   :width: 300pt 
+   :align: center
+
+.. figure:: /_static/images/mpcForce.png
+   :width: 300pt 
+   :align: center
+
+.. figure:: /_static/images/mpcForceChange.png
+   :width: 300pt 
+   :align: center
+
+The model predictive controller is particularly beneficial because of its ability to
+predict future waves and maximize power accordingly as well as the ability to handle constraints. A 
+comparison to a reactive controller is shown in the table below. The reactive controller 
+can be tuned to stay within constraint bounds only when future wave conditions are known 
+and, in doing so, would sacrifice significant power. On the other hand, without knowledge 
+of future wave, the results from the untuned reactive controller are shown below using 
+optimal theoretical gains from the complex conjugate method at the peak wave period. 
+With no ability to recognize constraints, the reactive controller leads to much larger 
+amplitude and velocity and exhibits large peaks in PTO force and power, both of which 
+would likely lead to very expensive components and inefficient operation. 
+It is clear that the model predictive controller significantly outperforms the reactive 
+controller in terms of mechanical power harvested, constraint inclusions, and peak conditions. 
+Because of the increased complexity of model predictive control, limitations include longer 
+computation time and complex setup. 
+
+	+----------------------------+--------------+-------------+------------+
+	|         *Parameter*        | *Constraint* |    *MPC*    | *Reactive* |
+	+----------------------------+--------------+-------------+------------+
+	| Max Heave Position (m)     |      4       |    4.02     |    8.06    |
+	+----------------------------+--------------+-------------+------------+
+	| Max Heave Velocity (m/s)   |      3       |    2.95     |    5.63    |
+	+----------------------------+--------------+-------------+------------+
+	| Max PTO Force (kN)         |     2,000    |    2,180    |    4,630   |
+	+----------------------------+--------------+-------------+------------+
+	| Max PTO Force Change (kN/s)|     1,500    |    1,500    |    3,230   |
+	+----------------------------+--------------+-------------+------------+
+	| Peak Mechanical Power (kW) |      N/A     |    4,870    |   13,700   |
+	+----------------------------+--------------+-------------+------------+
+	| Avg Mechanical Power (kW)  |      N/A     |    300      |    241     |
+	+----------------------------+--------------+-------------+------------+
 
 
 .. _user-advanced-features-cable:
@@ -1091,3 +1494,9 @@ The WEC-Sim Applications repository also includes examples of using WEC-Sim to
 model a Desalination plant and a numerical model of the WaveStar device for 
 control implementation. The WaveStar device was used in the WECCCOMP wave 
 energy control competition. 
+
+References
+------------------------
+.. bibliography:: ../refs/WEC-Sim_Adv_Features.bib
+   :style: unsrt
+   :labelprefix: C

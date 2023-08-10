@@ -76,55 +76,58 @@ BEMIO *hydro* Data Structure
 .. Kelley update this
 .. Typically the number of DOFs (``nDOF=sum(hydro.dof)``) is 6*number of bodies, but there may be additional DOF from generalized body modes.
 
-============  ========================  ======================================
-**Variable**  **Format**                **Description**
-A             [nDOF,nDOF,Nf]            radiation added mass
-Ainf          [nDOF,nDOF]               infinite frequency added mass
-B             [nDOF,nDOF,Nf]            radiation wave damping
-theta         [1,Nh]                    wave headings (deg)
-body          {1,Nb}                    body names
-cb            [3,Nb]                    center of buoyancy
-cg            [3,Nb]                    center of gravity
-code          string                    BEM code (WAMIT, NEMOH, AQWA, or CAPYTAINE)
-K_hs 	      [6,6,Nb]                  hydrostatic restoring stiffness
-dof 	      [1, Nb]                   Degrees of freedom (DOF) for each body. Default DOF for each body is 6 plus number of possible generalized body modes (GBM).
-ex_im         [nDOF,Nh,Nf]              imaginary component of excitation force or torque
-ex_K          [nDOF,Nh,length(ex_t)]    excitation IRF
-ex_ma         [nDOF,Nh,Nf]              magnitude of excitation force or torque
-ex_ph         [nDOF,Nh,Nf]              phase of excitation force or torque
-ex_re         [nDOF,Nh,Nf]              real component of excitation force or torque
-ex_t          [1,length(ex_t)]          time steps in the excitation IRF
-ex_w          [1,length(ex_w)]          frequency step in the excitation IRF
-file          string                    BEM output filename
-fk_im         [nDOF,Nh,Nf]              imaginary component of Froude-Krylov contribution to the excitation force or torque
-fk_ma         [nDOF,Nh,Nf]              magnitude of Froude-Krylov excitation component
-fk_ph         [nDOF,Nh,Nf]              phase of Froude-Krylov excitation component
-fk_re         [nDOF,Nh,Nf]              real component of Froude-Krylov contribution to the excitation force or torque
-g             [1,1]                     gravity
-h             [1,1]                     water depth
-Nb            [1,1]                     number of bodies
-Nf            [1,1]                     number of wave frequencies
-Nh            [1,1]                     number of wave headings
-ra_K          [nDOF,nDOF,length(ra_t)]  radiation IRF
-ra_t          [1,length(ra_t)]          time steps in the radiation IRF
-ra_w          [1,length(ra_w)]          frequency steps in the radiation IRF  
-rho           [1,1]                     density
-sc_im         [nDOF,Nh,Nf]              imaginary component of scattering contribution to the excitation force or torque
-sc_ma         [nDOF,Nh,Nf]              magnitude of scattering excitation component
-sc_ph         [nDOF,Nh,Nf]              phase of scattering excitation component
-sc_re         [nDOF,Nh,Nf]              real component of scattering contribution to the excitation force or torque
-ss_A          [nDOF,nDOF,ss_O,ss_O]     state space A matrix
-ss_B          [nDOF,nDOF,ss_O,1]        state space B matrix
-ss_C          [nDOF,nDOF,1,ss_O]        state space C matrix
-ss_conv       [nDOF,nDOF]               state space convergence flag
-ss_D          [nDOF,nDOF,1]             state space D matrix
-ss_K          [nDOF,nDOF,length(ra_t)]  state space radiation IRF
-ss_O          [nDOF,nDOF]               state space order
-ss_R2         [nDOF,nDOF]               state space R2 fit
-T             [1,Nf]                    wave periods
-Vo            [1,Nb]                    displaced volume
-w             [1,Nf]                    wave frequencies
-============  ========================  ======================================
+==============  ==========================  ======================================
+**Variable**    **Format**                  **Description**
+A               [nDOF,nDOF,Nf]              radiation added mass
+Ainf            [nDOF,nDOF]                 infinite frequency added mass
+B               [nDOF,nDOF,Nf]              radiation wave damping
+theta           [1,Nh]                      wave headings (deg)
+body            {1,Nb}                      body names
+cb              [3,Nb]                      center of buoyancy
+cg              [3,Nb]                      center of gravity
+code            string                      BEM code (WAMIT, NEMOH, AQWA, or CAPYTAINE)
+K_hs 	        [6,6,Nb]                    hydrostatic restoring stiffness
+dof 	        [1, Nb]                     Degrees of freedom (DOF) for each body. Default DOF for each body is 6 plus number of possible generalized body modes (GBM).
+ex_im           [nDOF,Nh,Nf]                imaginary component of excitation force or torque
+ex_K            [nDOF,Nh,length(ex_t)]      excitation IRF
+ex_ma           [nDOF,Nh,Nf]                magnitude of excitation force or torque
+ex_ph           [nDOF,Nh,Nf]                phase of excitation force or torque
+ex_re           [nDOF,Nh,Nf]                real component of excitation force or torque
+ex_t            [1,length(ex_t)]            time steps in the excitation IRF
+ex_w            [1,length(ex_w)]            frequency step in the excitation IRF
+file            string                      BEM output filename
+fk_im           [nDOF,Nh,Nf]                imaginary component of Froude-Krylov contribution to the excitation force or torque
+fk_ma           [nDOF,Nh,Nf]                magnitude of Froude-Krylov excitation component
+fk_ph           [nDOF,Nh,Nf]                phase of Froude-Krylov excitation component
+fk_re           [nDOF,Nh,Nf]                real component of Froude-Krylov contribution to the excitation force or torque
+g               [1,1]                       gravity
+h               [1,1]                       water depth
+Nb              [1,1]                       number of bodies
+Nf              [1,1]                       number of wave frequencies
+Nh              [1,1]                       number of wave headings
+plotDofs        [length(plotDofs),2]        degrees of freedom to be plotted (default: [1,1;3,3;5,5])
+plotBodies      [1,length(plotBodies)]      BEM bodies to be plotted (default: [1:Nb])
+plotDirections  [1,length(plotDirections)]  indices indicating wave directions to plot from list of headings (default: [1])
+ra_K            [nDOF,nDOF,length(ra_t)]    radiation IRF
+ra_t            [1,length(ra_t)]            time steps in the radiation IRF
+ra_w            [1,length(ra_w)]            frequency steps in the radiation IRF  
+rho             [1,1]                       density
+sc_im           [nDOF,Nh,Nf]                imaginary component of scattering contribution to the excitation force or torque
+sc_ma           [nDOF,Nh,Nf]                magnitude of scattering excitation component
+sc_ph           [nDOF,Nh,Nf]                phase of scattering excitation component
+sc_re           [nDOF,Nh,Nf]                real component of scattering contribution to the excitation force or torque
+ss_A            [nDOF,nDOF,ss_O,ss_O]       state space A matrix
+ss_B            [nDOF,nDOF,ss_O,1]          state space B matrix
+ss_C            [nDOF,nDOF,1,ss_O]          state space C matrix
+ss_conv         [nDOF,nDOF]                 state space convergence flag
+ss_D            [nDOF,nDOF,1]               state space D matrix
+ss_K            [nDOF,nDOF,length(ra_t)]    state space radiation IRF
+ss_O            [nDOF,nDOF]                 state space order
+ss_R2           [nDOF,nDOF]                 state space R2 fit
+T               [1,Nf]                      wave periods
+Vo              [1,Nb]                      displaced volume
+w               [1,Nf]                      wave frequencies
+==============  ==========================  ======================================
 
 
 Writing Your Own h5 File

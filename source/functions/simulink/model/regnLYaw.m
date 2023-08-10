@@ -1,4 +1,4 @@
-function [Fext,relYawLast,coeffsLastMD,coeffsLastRE,coeffsLastIM] = regnLYaw(A,w,dofGRD,dirGRD,fEHRE,fEHIM, fEHMD,time,direction,Disp, intThresh, prevYaw, prevCoeffMD, prevCoeffRE, prevCoeffIM)
+function [Fext,relYawLast,coeffsLastMD,coeffsLastRE,coeffsLastIM] = regnLYaw(A,w,dofGRD,dirGRD,fEHRE,fEHIM, fEHMD,time,direction,Disp, intThresh, phase, prevYaw, prevCoeffMD, prevCoeffRE, prevCoeffIM)
 %#codegen
 % Fext is the excitation force output, relYawLast is the angle of relative
 % yaw at which that last interpolation was performed. If the current
@@ -61,7 +61,7 @@ for ii=1:length(direction) % should be length=1 for regular waves
     end
 
     % regular wave excitation equation (with mean drift)
-    Fext = fExtMDint*A^2 + A*fExtREint*cos(w*time)- A*fExtIMint*sin(w*time);
+    Fext = fExtMDint*A^2 + A*fExtREint*cos(w*time + phase)- A*fExtIMint*sin(w*time + phase);
     
 
 end

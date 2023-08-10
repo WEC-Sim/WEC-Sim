@@ -1,6 +1,6 @@
 function plotRadiationDamping(varargin)
 % Plots the radiation damping for each hydro structure's bodies in
-% the heave, surge and pitch degrees of freedom.
+% the given degrees of freedom.
 % 
 % Usage:
 % ``plotRadiationDamping(hydro, hydro2, hydro3, ...)``
@@ -17,11 +17,15 @@ if isempty(varargin)
         'structures when calling: plotRadiationDamping(hydro1, hydro2, ...)']);
 end
 
-figHandle = figure('Position',[50,300,975,521]);
+varargin = checkAndFormatPlotVars(varargin);
+
+figHandle = figure();
 titleString = ['Normalized Radiation Damping: $$\bar{B}_{i,j}(\omega) = {\frac{B_{i,j}(\omega)}{\rho\omega}}$$'];
-subtitleStrings = {'Surge','Heave','Pitch'};
-xString = {'$$\omega (rad/s)$$','$$\omega (rad/s)$$','$$\omega (rad/s)$$'};
-yString = {'$$\bar{B}_{1,1}(\omega)$$','$$\bar{B}_{3,3}(\omega)$$','$$\bar{B}_{5,5}(\omega)$$'};
+subtitleStrings = getDofNames(varargin{1}.plotDofs);
+xString = {'$$\omega (rad/s)$$'};
+for dof = 1:size(varargin{1}.plotDofs,1)
+    yString{dof} = ['$$\bar{B}_{',num2str(varargin{1}.plotDofs(dof,1)),',',num2str(varargin{1}.plotDofs(dof,2)),'}(\omega)$$'];
+end
 
 notes = {'Notes:',...
     ['$$\bullet$$ $$\bar{B}_{i,j}(\omega)$$ should tend towards zero within ',...
@@ -32,23 +36,29 @@ notes = {'Notes:',...
     'proceeding.']};
 
 numHydro = length(varargin);
+
 for ii=1:numHydro
-    numBod = varargin{ii}.Nb;
     tmp1 = strcat('X',num2str(ii));
     X.(tmp1) = varargin{ii}.w;
-    tmp2 = strcat('Y',num2str(ii));
-    a = 0;            
-    for i = 1:numBod
-        m = varargin{ii}.dof(i);
-        Y.(tmp2)(1,i,:) = squeeze(varargin{ii}.B(a+1,a+1,:));
-        Y.(tmp2)(2,i,:) = squeeze(varargin{ii}.B(a+3,a+3,:));
-        Y.(tmp2)(3,i,:) = squeeze(varargin{ii}.B(a+5,a+5,:));
-        legendStrings{i,ii} = [varargin{ii}.body{i}];
-        a = a + m;
+    tmp2 = strcat('Y',num2str(ii));        
+    for i = 1:length(varargin{ii}.plotBodies)
+        a = 0;
+        if i > 1
+            for i = 2:varargin{ii}.plotBodies(i)
+                a = a + varargin{ii}.dof(varargin{ii}.plotBodies(i-1));
+            end
+        end
+        if i ~= 1
+            a = (varargin{ii}.plotBodies(i)-1)*varargin{ii}.dof(varargin{ii}.plotBodies(i-1));
+        end
+        for j = 1:size(varargin{ii}.plotDofs,1)
+            Y.(tmp2)(j,i,:) = squeeze(varargin{ii}.B(a+varargin{ii}.plotDofs(j,1),a+varargin{ii}.plotDofs(j,2),:));
+        end
+        legendStrings{i,ii} = [strcat('hydro_',num2str(ii),'.',varargin{ii}.body{varargin{ii}.plotBodies(i)})];
     end
 end
 
-formatPlot(figHandle,titleString,subtitleStrings,xString,yString,X,Y,legendStrings,notes)  
+formatPlot(figHandle,titleString,subtitleStrings,xString,yString,X,Y,legendStrings,notes,varargin{1}.plotDofs)  
 saveas(figHandle,'Radiation_Damping.png');
 
 end

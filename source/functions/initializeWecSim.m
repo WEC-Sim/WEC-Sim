@@ -104,6 +104,7 @@ simu.checkInputs();
 if exist('constraint','var') == 1
     simu.numConstraints = length(constraint(1,:));
     for ii = 1:simu.numConstraints
+        constraint(ii).checkInputs();
         constraint(ii).setNumber(ii);
         constraint(ii).setOrientation();
     end; clear ii
@@ -113,6 +114,7 @@ end
 if exist('pto','var') == 1
     simu.numPtos = length(pto(1,:));
     for ii = 1:simu.numPtos
+        pto(ii).checkInputs();
         pto(ii).setNumber(ii);
         pto(ii).setOrientation();
         pto(ii).setPretension();
@@ -123,6 +125,7 @@ end
 if exist('mooring','var') == 1
     simu.numMoorings = length(mooring(1,:));
     for ii = 1:simu.numMoorings
+        mooring(ii).checkInputs();
         mooring(ii).setLoc();
         mooring(ii).setNumber(ii);
     end; clear ii
@@ -180,6 +183,7 @@ end; clear ii
 if exist('cable','var')==1
     simu.numCables = length(cable(1,:));
     for ii = 1:simu.numCables
+        cable(ii).checkInputs()
         cable(ii).setNumber(ii);
         cable(ii).setCg();
         cable(ii).setCb();
@@ -196,6 +200,7 @@ end
 if exist('ptoSim','var') == 1
     simu.numPtoSim = length(ptoSim(1,:));
     for ii = 1:simu.numPtoSim
+        ptoSim(ii).checkInputs();
         ptoSim(ii).number = ii;
     end; clear ii
 end
@@ -449,7 +454,7 @@ tic
 fprintf('\nSimulating the WEC device defined in the SimMechanics model %s...   \n',simu.simMechanicsFile)
 % Modify some stuff for simulation
 for iBod = 1:simu.numHydroBodies
-    body(iBod).adjustMassMatrix(simu.adjMassFactor,simu.b2b);
+    body(iBod).adjustMassMatrix(simu.b2b);
 end; clear iBod
 warning('off','Simulink:blocks:TDelayTimeTooSmall');
 warning('off','Simulink:blocks:BusSelDupBusCreatorSigNames');
@@ -459,6 +464,7 @@ warning('off','MATLAB:printf:BadEscapeSequenceInFormat');
 warning('off','Simulink:blocks:DivideByZero');
 warning('off','sm:sli:setup:compile:SteadyStateStartNotSupported')
 set_param(0, 'ErrorIfLoadNewModel', 'off')
+
 % Load parameters to Simulink model
 simu.loadSimMechModel(simu.simMechanicsFile);
 

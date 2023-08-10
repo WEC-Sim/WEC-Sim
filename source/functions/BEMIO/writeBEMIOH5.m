@@ -67,7 +67,7 @@ for i = 1:hydro.Nb
         writeH5Parameter(filename,['/body' num2str(i) '/hydro_coeffs/linear_restoring_stiffness'],tmp(1,m_add + 1:m_add + m,:),'Hydrostatic stiffness','N/m');
         clear tmp;
     else
-        writeH5Parameter(filename,['/body' num2str(i) '/hydro_coeffs/linear_restoring_stiffness'],hydro.Khs(:,:,i),'Hydrostatic stiffness matrix','');        
+        writeH5Parameter(filename,['/body' num2str(i) '/hydro_coeffs/linear_restoring_stiffness'],hydro.Khs(:,:,i)','Hydrostatic stiffness matrix','');        
     end
 
     % Write added mass coefficients
@@ -99,6 +99,9 @@ for i = 1:hydro.Nb
     if isfield(hydro,'md_cs') % Only if mean drift variables (control surface approach) have been calculated in BEM
         writeH5Parameter(filename,['/body' num2str(i) '/hydro_coeffs/mean_drift/control_surface/val'],permute(hydro.md_cs((n+1):(n+m),:,:),[3 2 1]),'Value of mean drift force (control surface)','');
     end
+    if isfield(hydro,'md_pi') % Only if mean drift variables (pressure integration approach) have been calculated in BEM
+        writeH5Parameter(filename,['/body' num2str(i) '/hydro_coeffs/mean_drift/pressure_integration/val'],permute(hydro.md_pi((n+1):(n+m),:,:),[3 2 1]),'Value of mean drift force (pressure integration)','');
+    end
 
      % Write radiation damping coefficients and IRF
     writeH5Parameter(filename,['/body' num2str(i) '/hydro_coeffs/radiation_damping/all'],permute(hydro.B((n+1):(n+m),:,:),[3 2 1]),'Radiation damping','');
@@ -113,8 +116,10 @@ for i = 1:hydro.Nb
         writeH5Parameter(filename,['/body' num2str(i) '/hydro_coeffs/radiation_damping/state_space/B/all'],permute(hydro.ss_B((n+1):(n+m),:,:,:),[4 3 2 1]),'State Space B Coefficient','');
         writeH5Parameter(filename,['/body' num2str(i) '/hydro_coeffs/radiation_damping/state_space/C/all'],permute(hydro.ss_C((n+1):(n+m),:,:,:),[4 3 2 1]),'State Space C Coefficient','');
         writeH5Parameter(filename,['/body' num2str(i) '/hydro_coeffs/radiation_damping/state_space/D/all'],permute(hydro.ss_D((n+1):(n+m),:),[2 1]),'State Space D Coefficient','');
+        writeH5Parameter(filename,['/body' num2str(i) '/hydro_coeffs/radiation_damping/state_space/K/all'],permute(hydro.ss_K((n+1):(n+m),:,:,:),[4 3 2 1]),'State Space K Coefficient','');
         writeH5Parameter(filename,['/body' num2str(i) '/hydro_coeffs/radiation_damping/state_space/it'],permute(hydro.ss_O((n+1):(n+m),:),[2 1]),'Order of state space realization','');
         writeH5Parameter(filename,['/body' num2str(i) '/hydro_coeffs/radiation_damping/state_space/r2t'],permute(hydro.ss_R2((n+1):(n+m),:),[2 1]),'State space curve fitting R**2 value','');
+        writeH5Parameter(filename,['/body' num2str(i) '/hydro_coeffs/radiation_damping/state_space/conv'],permute(hydro.ss_conv((n+1):(n+m),:),[2 1]),'State space conversion status','');
     end
     waitbar((1+(i+i-1+i-1))/N);
 

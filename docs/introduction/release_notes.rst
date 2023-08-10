@@ -173,6 +173,7 @@ Previous Releases
 
 * \>44 PRs merged since v4.4
 
+
 .. image:: https://zenodo.org/badge/DOI/10.5281/zenodo.6555137.svg
    :target: https://doi.org/10.5281/zenodo.6555137
    
