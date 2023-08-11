@@ -13,7 +13,7 @@ replace slashes (`/`) in paths with backslashes (`\ `).
    
    ```
    > cd path/to/WEC-Sim
-   > conda env create -y --file docs/environment.yml
+   > conda env create --file docs/environment.yml
    ```
 
 ### Testing the Current Branch
