@@ -15,13 +15,13 @@ However, the SimMechanics explorer shows the following information not included 
 Visualization with ParaView requires additional output files to be written to a ``vtk`` directory. 
 This makes the WEC-Sim simulation take more time and the case directory larger, so it should only be used when additional visualization is desired. 
 Users will also need to have some familiarity with using ParaView.
-For more information about using ParaView for visualization, refer to the :ref:`webinar4`, and the **Paraview_Visualization** examples on the `WEC-Sim Applications <https://github.com/WEC-Sim/WEC-Sim_Applications>`_ repository.
+For more information about using ParaView for visualization, refer to the :ref:`webinar4`, and the `Paraview_Visualization <https://github.com/WEC-Sim/WEC-Sim_Applications/tree/master/Paraview_Visualization>`_ examples on the `WEC-Sim Applications <https://github.com/WEC-Sim/WEC-Sim_Applications>`_ repository.
 
 
 Install ParaView and WEC-Sim Macros
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 First, install `ParaView 5.11.1 <http://www.paraview.org/>`_.  
-Then, add the WEC-Sim specific macros with the following steps:
+Then, add the WEC-Sim specific macros:
 
 * Open ParaView
 * Click on ``Macros => Add new macro``
@@ -30,50 +30,9 @@ Then, add the WEC-Sim specific macros with the following steps:
 * Repeat this for all .py files in the ``source/functions/paraview`` directory
 
 
-ParaView Visualization Parameters
-^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
-The following table lists the WEC-Sim simulation parameters that can be specified in the ``wecSimInputFile`` to control the ParaView visualization. Note, the ``body.viz`` properties are also used for the SimMechanics explorer visualization.
-
-+----------------------------------------------------------------------------------------+
-| WEC-Sim Visualization using ParaView                                                   |
-+============================+===========================================================+
-| Variable                   | Description                                               |
-+----------------------------+-----------------------------------------------------------+
-| | ``simu.paraview.option`` | | 0 to not output ParaView files [default]                |
-|                            | | 1 to output ParaView files                              |
-+----------------------------+-----------------------------------------------------------+
-| ``simu.paraview.startTime``| time (s) to start ParaView visualization                  |
-+----------------------------+-----------------------------------------------------------+
-| ``simu.paraview.endTime``  | time (s) to end ParaView visualization                    |
-+----------------------------+-----------------------------------------------------------+
-| ``simu.paraview.dt``       | time step between adjacent ParaView frames [default 1]    |
-+----------------------------+-----------------------------------------------------------+
-| ``simu.paraview.path``     | directory to create ParaView visualization files          |
-+----------------------------+-----------------------------------------------------------+
-| | ``simu.nonlinearHydro``  | | 0 for no nonlinear hydro [default]                      |
-|                            | | 1 for nonlinear hydro with mean free surface            |
-|                            | | 2 for nonlinear hydro with instantaneous free surface   |
-+----------------------------+-----------------------------------------------------------+
-| ``simu.domainSize``        | size of ground and water planes in meters [default 200]   |
-+----------------------------+-----------------------------------------------------------+
-| ``simu.dtOut``             | simulation output sampling time step [default dt]         |
-+----------------------------+-----------------------------------------------------------+
-| ``body(i).viz.color``      | [RGB] body color [default [1 1 0]]                        |
-+----------------------------+-----------------------------------------------------------+
-| ``body(i).viz.opacity``    | body opacity [default 1]                                  |
-+----------------------------+-----------------------------------------------------------+
-| | ``body(i).paraview``     | | 0 to exclude body from ParaView visualization           |
-|                            | | 1 to include body in ParaView visualization [default]   |
-+----------------------------+-----------------------------------------------------------+
-| ``waves.viz.numPointsX``   | wave plane discretization: number of X points [default 50]|
-+----------------------------+-----------------------------------------------------------+
-| ``waves.viz.numPointsY``   | wave plane discretization: number of Y points [default 50]|
-+---------------------------+------------------------------------------------------------+
-
-
 WEC-Sim Visualization in ParaView
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
-When ``simu.paraview`` is set to 1, a ``vtk`` directory is created inside the WEC-Sim $CASE directory. 
+When ``simu.paraview=1``, a ``vtk`` directory is created inside the WEC-Sim $CASE directory. 
 All files necessary for ParaView visualization are located there.
 To view in ParaView:
 
@@ -155,13 +114,20 @@ You can color waves and bodies by any of the available properties and apply any 
    :align: center
 
    OC6 Phase I DeepCwind Floating Semisubmersible
+   
 
 
-Two examples using Paraview for visualization of WEC-Sim data are provided in the ``Paraview_Visualization`` directory on the `WEC-Sim Applications <https://github.com/WEC-Sim/WEC-Sim_Applications>`_ repository.
-The **RM3_MoorDyn_Viz** example uses ParaView for WEC-Sim data visualization of a WEC-Sim model coupled with `MoorDyn <http://wec-sim.github.io/WEC-Sim/advanced_features.html#moordyn>`_ to simulate a mooring system for the `RM3 <http://wec-sim.github.io/WEC-Sim/tutorials.html#two-body-point-absorber-rm3>`_ geometry.
-The **OSWEC_NonLinear_Viz** example uses ParaView for WEC-Sim data visualization of a WEC-Sim model with `nonlinear Hydro <http://wec-sim.github.io/WEC-Sim/advanced_features.html#nonlinear-buoyancy-and-froude-krylov-excitation>`_ to simulate nonlinear wave excitation on the flap of the `OSWEC <http://wec-sim.github.io/WEC-Sim/tutorials.html#oscillating-surge-wec-oswec.>`_ geometry.
 
-The video below shows three different views of the RM3 model from the **RM3_MoorDyn_Viz** example.
+
+
+Two examples using Paraview for visualization of WEC-Sim data are provided in the `Paraview_Visualization <https://github.com/WEC-Sim/WEC-Sim_Applications/tree/master/Paraview_Visualization>`_ directory of the WEC-Sim Applications repository.
+The `RM3_MoorDyn_Viz <https://github.com/WEC-Sim/WEC-Sim_Applications/tree/master/Paraview_Visualization/RM3_MoorDyn_Viz>`_ example uses ParaView for WEC-Sim data visualization of a WEC-Sim model coupled with `MoorDyn <http://wec-sim.github.io/WEC-Sim/advanced_features.html#moordyn>`_ to simulate a mooring system for the `RM3 <http://wec-sim.github.io/WEC-Sim/tutorials.html#two-body-point-absorber-rm3>`_ geometry.
+The `OSWEC_NonLinear_Viz <https://github.com/WEC-Sim/WEC-Sim_Applications/tree/master/Paraview_Visualization/OSWEC_NonLinear_Viz>`_ example uses ParaView for WEC-Sim data visualization of a WEC-Sim model with `nonlinear Hydro <http://wec-sim.github.io/WEC-Sim/advanced_features.html#nonlinear-buoyancy-and-froude-krylov-excitation>`_ to simulate nonlinear wave excitation on the flap of the `OSWEC <http://wec-sim.github.io/WEC-Sim/tutorials.html#oscillating-surge-wec-oswec.>`_ geometry.
+
+MoorDyn Visualization in ParaView
+""""""""""""""""""""""""""""""""""""
+
+The video below shows three different views of the RM3 model with MoorDyn.
 The left view uses the WEC-Sim macro.
 The top right view uses the ``slice`` filter.
 The bottom right view shows the free surface colored by wave elevation.
@@ -172,8 +138,9 @@ The bottom right view shows the free surface colored by wave elevation.
 
 
 
+
 Nonlinear Hydro Visualization in ParaView
-^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+""""""""""""""""""""""""""""""""""""""""""""""
 When using nonlinear buoyancy and Froude-Krylov wave excitation the paraview files also contain cell data for the bodies.
 The cell data are:
 
@@ -199,7 +166,7 @@ To view WEC-Sim nonlinear hydro data in ParaView:
 * Select which features to visualize in the pipeline
 * Click the green arrow (play) button
 
-The video below shows three different views of the OSWEC model from the **OSWEC_NonLinear_Viz** example.
+The video below shows three different views of the OSWEC model with non-linear hydrodynamics.
 The top right shows glyphs of the nonlinear Froude-Krylov pressure acting on the float. 
 The bottom right shows the device colored by hydrostatic pressure.
 
@@ -217,4 +184,45 @@ If a previous ``*.pvsm`` ParaView state file was saved, the state can be applied
 * Select the desired ``$CASE/<filename>.pvsm`` Paraview state file to apply
 * Select the "Search files under specified directory" option, specify the desired WECS-Sim ``$CASE/vtk/`` directory, and click ``OK``
 
-Paraview state files are provided for both **Paraview_Visualization** examples on the `WEC-Sim Applications <https://github.com/WEC-Sim/WEC-Sim_Applications>`_ repository, one for the RM3 using MoorDyn, and another for the OSWEC with nonlinear hydro.
+Paraview state files are provided for both `Paraview_Visualization <https://github.com/WEC-Sim/WEC-Sim_Applications/tree/master/Paraview_Visualization>`_ examples provided onthe WEC-Sim Applications repository, one for the RM3 using MoorDyn, and another for the OSWEC with nonlinear hydro.
+
+
+ParaView Visualization Parameters
+^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+The following table lists the WEC-Sim simulation parameters that can be specified in the ``wecSimInputFile`` to control the ParaView visualization. Note, the ``body.viz`` properties are also used for the SimMechanics explorer visualization.
+
++----------------------------------------------------------------------------------------+
+| WEC-Sim Visualization using ParaView                                                   |
++============================+===========================================================+
+| Variable                   | Description                                               |
++----------------------------+-----------------------------------------------------------+
+| | ``simu.paraview.option`` | | 0 to not output ParaView files [default]                |
+|                            | | 1 to output ParaView files                              |
++----------------------------+-----------------------------------------------------------+
+| ``simu.paraview.startTime``| time (s) to start ParaView visualization                  |
++----------------------------+-----------------------------------------------------------+
+| ``simu.paraview.endTime``  | time (s) to end ParaView visualization                    |
++----------------------------+-----------------------------------------------------------+
+| ``simu.paraview.dt``       | time step between adjacent ParaView frames [default 1]    |
++----------------------------+-----------------------------------------------------------+
+| ``simu.paraview.path``     | directory to create ParaView visualization files          |
++----------------------------+-----------------------------------------------------------+
+| | ``simu.nonlinearHydro``  | | 0 for no nonlinear hydro [default]                      |
+|                            | | 1 for nonlinear hydro with mean free surface            |
+|                            | | 2 for nonlinear hydro with instantaneous free surface   |
++----------------------------+-----------------------------------------------------------+
+| ``simu.domainSize``        | size of ground and water planes in meters [default 200]   |
++----------------------------+-----------------------------------------------------------+
+| ``simu.dtOut``             | simulation output sampling time step [default dt]         |
++----------------------------+-----------------------------------------------------------+
+| ``body(i).viz.color``      | [RGB] body color [default [1 1 0]]                        |
++----------------------------+-----------------------------------------------------------+
+| ``body(i).viz.opacity``    | body opacity [default 1]                                  |
++----------------------------+-----------------------------------------------------------+
+| | ``body(i).paraview``     | | 0 to exclude body from ParaView visualization           |
+|                            | | 1 to include body in ParaView visualization [default]   |
++----------------------------+-----------------------------------------------------------+
+| ``waves.viz.numPointsX``   | wave plane discretization: number of X points [default 50]|
++----------------------------+-----------------------------------------------------------+
+| ``waves.viz.numPointsY``   | wave plane discretization: number of Y points [default 50]|
++---------------------------+------------------------------------------------------------+
