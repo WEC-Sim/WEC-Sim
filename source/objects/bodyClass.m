@@ -566,9 +566,9 @@ classdef bodyClass<handle
             % Method to define the body's b2bDOF parameter
             obj.total = numHydroBodies;
             if b2b==1
-                obj.b2bDOF = zeros(6*numHydroBodies,1);
+                obj.b2bDOF = 6*numHydroBodies;
             else
-                obj.b2bDOF = zeros(6,1);
+                obj.b2bDOF = 6;
             end
         end
     end
@@ -705,7 +705,6 @@ classdef bodyClass<handle
             % Change matrix size: B2B [6x6n], noB2B [6x6]
             switch B2B
                 case {1}
-                    obj.b2bDOF = 6*obj.total;
                     obj.hydroForce.fAddedMass = zeros(6,obj.b2bDOF);
                     obj.hydroForce.fDamping = zeros(6,obj.b2bDOF);
                     obj.hydroForce.totDOF  =zeros(6,obj.b2bDOF);
