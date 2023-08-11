@@ -25,7 +25,7 @@ classdef windTurbineClass<handle
     properties (SetAccess = 'public', GetAccess = 'public') %input file
         name              = []                               % (`string`) Specifies the windTurbine name. 
         control = 0;                                         % Type of control: 0-->baseline, 1-->ROSCO   
-        aeroloadsName = '';                                  % Name of aeroloads file       
+        aeroLoadsName = '';                                  % Name of aeroloads file       
         turbineName = '';                                    % Name of file including wind turbine properties  
         roscoName = '';                                      % Name of file for ROSCO properties
         omega0 = [];                                         % Initial rotor speed
@@ -35,9 +35,8 @@ classdef windTurbineClass<handle
         geometryFileBlade = '';                              % Blade geometry file
     end
     
-    
     properties (SetAccess = 'private', GetAccess = 'public')
-        aeroloads = struct(...                               % Rotor loads structure
+        aeroLoads = struct(...                               % Rotor loads structure
             'FX',     0, ...                                 % Thrust forces look-up table
             'FY',             [0 0 0], ...                   % Tangential forces look-up table
             'MX',      [0 0 0], ...                          % Torque look-up table
@@ -68,7 +67,7 @@ classdef windTurbineClass<handle
             'inertiaProducts',      [0 0 0], ...             % Product of inertia of hub
             'reference',           [0 0 0], ...              % Hub reference point for blades
             'precone',           [0 0 0], ...                % Hub precone angle (deg)
-            'hubheight',           [0 0 0], ...              % Hub height relative to Sea Water Level
+            'height',              [0 0 0], ...              % Hub height relative to Sea Water Level
             'cog_rel',            [0 0 0]);                  % Center of Gravity relative to nacelle reference
         blade = struct(...                                   % Blade structure properties
             'mass',     0, ...                               % Mass of the blade 
@@ -102,19 +101,19 @@ classdef windTurbineClass<handle
             end
         end
 
-         function ImportAeroloadsTable(obj)
-            data = importdata(obj.aeroloadsName);
-            obj.aeroloads = data;
+         function importAeroLoadsTable(obj)
+            data = importdata(obj.aeroLoadsName);
+            obj.aeroLoads = data;
          end
 
-         function Importrosco(obj)
+         function importROSCO(obj)
             data = importdata(obj.roscoName);
             obj.ROSCO = data;
          end
 
          function loadTurbineData(obj)
             data = importdata(obj.turbineName); 
-            obj.generatorEfficiency=data.gen_eff; %generator efficiency
+            obj.generatorEfficiency = data.gen_eff; %generator efficiency
             obj.geometryFileTower = data.geometryFileTower;
             obj.geometryFileNacelle = data.geometryFileNacelle;
             obj.geometryFileHub = data.geometryFileHub;

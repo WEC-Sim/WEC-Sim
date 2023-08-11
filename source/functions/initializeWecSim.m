@@ -210,7 +210,7 @@ if exist('ptoSim','var') == 1
 end
 
 % WindClass
-if exist('windTurbine','var') == 1
+if exist('wind','var') == 1
     if wind.constantWindFlag == 0
         wind.importTurbSimOutput();
     end
@@ -219,11 +219,11 @@ end
 % WindturbineClass
 if exist('windTurbine','var') == 1
     for ii = 1:length(windTurbine)
-        windTurbine(ii).ImportAeroloadsTable
-        windTurbine(ii).loadTurbineData
+        windTurbine(ii).importAeroLoadsTable()
+        windTurbine(ii).loadTurbineData()
         windTurbine(ii).setNumber(ii);
         if windTurbine(ii).control == 1
-            windTurbine(ii).Importrosco
+            windTurbine(ii).importROSCO()
         end
     end 
     clear ii
