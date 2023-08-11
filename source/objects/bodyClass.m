@@ -718,7 +718,7 @@ classdef bodyClass<handle
                     nDOF = obj.dof;
                     obj.hydroForce.fAddedMass = zeros(nDOF,nDOF);
                     obj.hydroForce.fDamping = zeros(nDOF,nDOF);
-                    obj.hydroForce.totDOF  =zeros(nDOF,nDOF);
+                    obj.hydroForce.totDOF = zeros(nDOF,nDOF);
                     for ii=1:nDOF
                         for jj=1:nDOF
                             jjj = obj.dofStart-1+jj;
