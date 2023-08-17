@@ -1,4 +1,4 @@
-name: _wssphinx
+name: _wssphinx2
 channels:
   - conda-forge
   - nodefaults

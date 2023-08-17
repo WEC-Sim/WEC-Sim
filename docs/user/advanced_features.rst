@@ -1243,6 +1243,27 @@ computation time and complex setup.
 	| Avg Mechanical Power (kW)  |      N/A     |    300      |    241     |
 	+----------------------------+--------------+-------------+------------+
 
+.. _control-reactive-with-PTO:
+
+Reactive Control with Direct Drive Power Take-Off
+^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+The previous controllers only considered the mechanical power output. Although maximization
+of mechanical power allows for the maximum energy transfer from waves to body, it often does 
+not lead to maximum electrical power. The previous controller examples demonstrate the 
+controller types and energy transfer from waves to body, but the important consideration of 
+electrical power requires a PTO model. This example applies a reactive controller to the 
+sphere body with a simplified direct drive PTO model to maximize electrical power. Within 
+the Simulink subsystem for determining the PTO force, the controller prescribes the ideal or 
+desired force which is fed into the direct drive PTO. The current is then used to control 
+the applied force as in Section ...
+
+.. figure:: /_static/images/piPTOSimulink.png
+   :width: 300pt 
+   :align: center
+
+Table ... shows the PTO parameters used for this example which correspond to the Allied Motion 
+Megaflux Frameless Brushless Torque Motors–MF0310 :cite:`babarit2006optimal`
 
 .. _user-advanced-features-cable:
 
@@ -1257,7 +1278,7 @@ class in the ``wecSimInputFile.m`` along with the base and follower connections 
 	cable(i) = cableClass('cableName','baseConnection','followerConnection');
 
 where ``baseConnection`` is a PTO or constraint block that defines the cable connection on the base side, and ``followerConnection``
-is  a PTO or constraint block that defineds the connection on the follower side.  
+is a PTO or constraint block that defineds the connection on the follower side.  
 
 
 It is necessary to define, at a minimum: ::
