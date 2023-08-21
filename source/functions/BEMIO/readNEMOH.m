@@ -90,10 +90,24 @@ for n = 1:N
         hydro(F).body{b} = tmp{length(tmp)-1};  % Body names
     end
     if isempty(strfind(raw{n},'Number of wave frequencies'))==0
-        tmp = textscan(raw{n},'%f %f %f');
-        hydro(F).Nf = tmp{1};  % Number of wave frequencies
-        hydro(F).w = linspace(tmp{2},tmp{3},tmp{1});  % Wave frequencies
-        hydro(F).T = 2*pi./hydro(F).w;  % Wave periods
+        tmp = textscan(raw{n},'%f %f %f %f');
+        if isempty(tmp{end})
+            hydro(F).Nf = tmp{1};  % Number of wave frequencies
+            hydro(F).w = linspace(tmp{2},tmp{3},tmp{1});  % Wave frequencies
+            hydro(F).T = 2*pi./hydro(F).w;  % Wave periods
+        else
+            hydro(F).Nf = tmp{2};  % Number of wave frequencies
+            if tmp{1} == 1
+                hydro(F).w = linspace(tmp{3},tmp{4},tmp{2});  % Wave frequencies
+                hydro(F).T = 2*pi./hydro(F).w;  % Wave periods
+            elseif tmp{1} == 2
+                hydro(F).w = 2*pi*linspace(tmp{3},tmp{4},tmp{2});  % Wave frequencies
+                hydro(F).T = 2*pi./hydro(F).w;  % Wave periods
+            else
+                hydro(F).T = linspace(tmp{3},tmp{4},tmp{2});  % Wave periods
+                hydro(F).w = 2*pi./hydro(F).T;  % Wave frequencies
+            end
+        end   
     end
     if isempty(strfind(raw{n},'Number of wave directions'))==0
         tmp = textscan(raw{n},'%f %f %f');
@@ -170,7 +184,7 @@ fclose(fileID);
 N = length(raw);
 i = 0;
 for n = 1:N
-    if isempty(strfind(raw{n},'Diffraction force'))==0
+    if isempty(strfind(raw{n},'Excitation force'))==0 || isempty(strfind(raw{n},'Diffraction force'))==0
         i = i+1;
         for k = 1:hydro(F).Nf
             tmp = textscan(raw{n+k},'%f');
@@ -357,6 +371,7 @@ end
 waitbar(8/8);
 
 hydro = normalizeBEM(hydro);  % Normalize the data according the WAMIT convention
+hydro = addDefaultPlotVars(hydro);
 
 close(p);
 end
