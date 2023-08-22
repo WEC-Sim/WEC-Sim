@@ -1255,15 +1255,17 @@ controller types and energy transfer from waves to body, but the important consi
 electrical power requires a PTO model. This example applies a reactive controller to the 
 sphere body with a simplified direct drive PTO model to maximize electrical power. Within 
 the Simulink subsystem for determining the PTO force, the controller prescribes the ideal or 
-desired force which is fed into the direct drive PTO. The current is then used to control 
-the applied force as in Section ...
+desired force which is fed into the direct drive PTO. The current in the generator is then 
+used to control the applied force. 
 
 .. figure:: /_static/images/piPTOSimulink.png
    :width: 300pt 
    :align: center
 
-Table ... shows the PTO parameters used for this example which correspond to the Allied Motion 
-Megaflux Frameless Brushless Torque Motors–MF0310 :cite:`babarit2006optimal`
+The PTO parameters used for this example are defined in the wecSimInputFile and correspond to 
+the Allied Motion Megaflux Frameless Brushless Torque Motors–MF0310 :cite:`allied`. The 
+results for the applied gains from Section :ref:`control-reactive` are shown below.
+
 
 .. _user-advanced-features-cable:
 
