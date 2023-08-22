@@ -903,7 +903,8 @@ own controls.
 	+--------------------------------+-------------------------------------------+
 	|   Model Predictive Control   	 | Sphere with model predictive control      |
 	+--------------------------------+-------------------------------------------+
-
+	|   Reactive with PTO   	 | Sphere with reactive control and DD PTO   |
+	+--------------------------------+-------------------------------------------+
 
 
 Examples: Sphere Float with Various Controllers
@@ -1259,12 +1260,33 @@ desired force which is fed into the direct drive PTO. The current in the generat
 used to control the applied force. 
 
 .. figure:: /_static/images/piPTOSimulink.png
-   :width: 300pt 
+   :width: 500pt 
    :align: center
 
 The PTO parameters used for this example are defined in the wecSimInputFile and correspond to 
 the Allied Motion Megaflux Frameless Brushless Torque Motors–MF0310 :cite:`allied`. The 
-results for the applied gains from Section :ref:`control-reactive` are shown below.
+results for the applied gains from Section :ref:`control-reactive` are shown in the figure 
+below. Mechanical power maximization requires significant net input electrical power 
+(signified by red bar - negative power is power harvested from the system). Thus, 
+instead of harvesting electrical power, power would need to be used to achieve mechanical 
+power maximization. 
+
+.. figure:: /_static/images/reactiveWithPTOCC.png
+   :width: 300pt 
+   :align: center
+
+On the other hand, by testing different controller gains, the gains which optimize for 
+maximum electrical power can be found as shown below. Increasing the proportional gain 
+and decreasing the integral gain magnitude leads to a maximum electrical power harvest 
+of about 84 kW. 
+
+.. figure:: /_static/images/reactiveWithPTOSweep.png
+   :width: 300pt 
+   :align: center
+
+.. figure:: /_static/images/reactiveWithPTOOpt.png
+   :width: 300pt 
+   :align: center
 
 
 .. _user-advanced-features-cable:
