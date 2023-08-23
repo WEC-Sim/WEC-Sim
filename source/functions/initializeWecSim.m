@@ -5,9 +5,9 @@
 %%
 %% simu = simulationClass();                                               - To Create the Simulation Variable
 %%
-%% waves = waveClass('<wave type');                                       - To create the Wave Variable and Specify Type
+%% waves = waveClass('<wave type>');                                       - To create the Wave Variable and Specify Type
 %%
-%% body(<body number>) = bodyClass('<hydrodynamics data file name>.h5');   - To initialize bodyClass:
+%% body(<body number>) = bodyClass('<hydrodynamics data file name>.h5');   - To initialize bodyClass
 %%
 %% constraint(<constraint number>) = constraintClass('<Constraint name>'); - To initialize constraintClass
 %%
@@ -15,6 +15,9 @@
 %%
 %% mooring(<mooring number>) = mooringClass('<Mooring name>');             - To initialize mooringClass (only needed when mooring blocks are used)
 %%
+%% wind = windClass('<wind type>');                                        - To create the wind variable and specify type, for WEC-Sim+MOST
+%%
+%% windTurbine(<turbine number>) = windTurbineClass('<Wind turbine name>');- To initialize windTurbineClass, for WEC-Sim+MOST
 %%
 
 %% Start WEC-Sim log
@@ -209,14 +212,14 @@ if exist('ptoSim','var') == 1
     end; clear ii
 end
 
-% WindClass
+% Wind: check inputs
 if exist('wind','var') == 1
     if wind.constantWindFlag == 0
         wind.importTurbSimOutput();
     end
 end
 
-% WindturbineClass
+% Wind turbines: count, check inputs, import controller
 if exist('windTurbine','var') == 1
     for ii = 1:length(windTurbine)
         windTurbine(ii).importAeroLoadsTable()
@@ -443,9 +446,9 @@ try
     end; clear ii
 
     % wind 
-    eval(['WindChoice = wind.constantWindFlag;'])
-    eval(['sv_wind_constant = Simulink.Variant(''WindChoice==1'');'])
-    eval(['sv_wind_turbulent = Simulink.Variant(''WindChoice==0'');'])
+    WindChoice = wind.constantWindFlag;
+    sv_wind_constant = Simulink.Variant('WindChoice==1');
+    sv_wind_turbulent = Simulink.Variant('WindChoice==0');
 end
 
 % Visualization Blocks
