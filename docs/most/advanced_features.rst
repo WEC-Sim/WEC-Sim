@@ -13,8 +13,7 @@ This option is based on the catenary equations similarly to the open-source code
 Mooring look-up table
 ^^^^^^^^^^^^^^^
 
-Properties of the look-up table are defined in the moor_lookup script. The mooring look-up table generation code assumes that the mooring lines are single lines 
-Mooring line parameters are required to generate the look-up table:
+Properties of the look-up table are defined in the moor_lookup script. The mooring look-up table generation code assumes that the mooring lines are single and homogeneous mooring lines suspended between two points. Mooring line parameters are required to generate the look-up table:
 
 * Mooring line diameter (m): :code:`d` 
 * Mooring line length (m): :code:`L` 
