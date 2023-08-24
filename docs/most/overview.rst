@@ -20,6 +20,7 @@ Current members of the MOST development team include:
 * Giovanni Bracco (PI)
 * Emilio Faraggiana
 * Alberto Ghigo
+* Davide Issoglio
 * Ermando Petracca
 * Massimo Sirigu
 
