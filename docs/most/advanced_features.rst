@@ -6,43 +6,35 @@ Advanced Features
 Mooring Features
 -------------------
 
-MOST includes the possibility to simulate a mooring look-up table which is able to simulate a quasi-static, nonlinear mooring system. 
+MOST includes the possibility to simulate a mooring look-up table which is able to simulate a quasi-static, nonlinear mooring system. Specifically, it is possible to simulate a mooring system consisting of a number of lines suspended between two points (anchor and fairlead) and angularly equispaced.
 This option is based on the catenary equations similarly to the open-source code `MAP++ <https://map-plus-plus.readthedocs.io/en/latest/>`_. 
 
 
 Mooring look-up table
 ^^^^^^^^^^^^^^^
 
-Properties of the look-up table are defined in "moor_lookup". The mooring look-up table generation code assumes that the mooring 
-lines are single and homogeneous mooring lines suspended between two points. Mooring line parameters are required to generate the look-up table:
+In the simulink model, forces and torques due to moorings are determined through 6 different look-up tables having the 6 degrees of freedom surge, sway, heave, roll, pitch and yaw as inputs. The breakpoints (related to the inputs) and the outpus (Fx, Fy, Fz, Mx, My and Mz, i.e., the mooring loads) are contained within a data structure called "moor_matrix" and created through the "Create_Mooring_Matrix.m" script, in which the following characteristics are specified: 
 
+* Water density (kg/m3): :code:`rho_water`
+* Gravity acceleration (m/s2): :code:`gravity`
+* Water depth (m): :code:`depth`
 * Mooring line diameter (m): :code:`d` 
-* Mooring line length (m): :code:`L` 
 * Linear mass (kg/m): :code:`linear_mass` 
+* Number of lines: :code:`number_lines`
+* Fairlead and anchor positions of the first line (m): :code:`nodes`
+* Mooring lines unstretched length (m): :code:`L` 
 * Sectional stiffness (N): :code:`EA`   
-* Fairlead radial position (m): :code:`FL_X` 
-* Fairlead vertical position (m): :code:`FL_Z` 
-* Anchor radial position (m): :code:`AN_X` 
-* Anchor vertical position (m): :code:`AN_Z` 
-* Number of lines: :code:`number_lines` 
-* Mooring line angles in xy plane (°): :code:`beta` 
+* Seabed friction coefficient: :code:`CB`
+ 
 
-Discretization parameters of the look-table include the discretization of the mooring loads for a single line and of the total mooring loads on the platform.
-Mooring line discretization parameters are:
+In addition, the user can specify the domain of the look-up tables, specifically:
 
-* Single line amplitude motion along radial direction (m): :code:`Xampl` 
-* Single line discretisation values along radial direction : :code:`Xdiscr` 
-* Single line amplitude motion along vertical direction (m): :code:`Zampl` 
-* Single line discretisation values along vertical direction: :code:`Zdiscr`   
-
-Total mooring loads discretization parameters are:
-
-* Discretisation along surge dir (m): :code:`X` 
-* Discretisation along sway dir (m): :code:`Y` 
-* Discretisation along heave dir (m): :code:`Z` 
-* Discretisation along roll dir (deg): :code:`RX` 
-* Discretisation along pitch dir (deg): :code:`RY` 
-* Discretisation along yaw dir (deg): :code:`RZ`  
+* Amplitude and discretisation along surge direction (m): :code:`X` 
+* Amplitude and discretisation along sway direction (m): :code:`Y` 
+* Amplitude and discretisation along heave direction (m): :code:`Z` 
+* Amplitude and discretisation along roll direction (rad): :code:`RX` 
+* Amplitude and discretisation along pitch direction (rad): :code:`RY` 
+* Amplitude and discretisation along yaw direction (rad): :code:`RZ`  
 
 Wind Features
 -------------------
