@@ -12,10 +12,8 @@ The grid of the wind speed is created using the opensource software Turbsim, pub
 The average wind speed is determined by interpolating specific points for each blade in the wind grid along the blade length. The points should be taken closer to the tip (i.e. starting from the middle to the tip), and the  reason for that is that the wind speed has more influence at the final section of the blade.
 the dynamics of the platform and the influence of the proper motion of the rotor is taken into account, adding the hub surge velocity to the wind speed, and hub pitch and yaw rotational velocity multiplied by a predefined distance d along the blade length (for example, two thirds of the blade length): :math:`V=v_{wind}+V{Xhub}+\omega_{pitch}*d*cos(\azimuth)+\omega_{yaw}*d*sin(\azimuth)`.
 
-image:: reference_windturbine.jpg
-   :width: 400pt
-   :height: 175pt
-   :align: middle
+.. image:: reference_windturbine.jpg
+   :width: 50%
 
 .. _most-theory-rosco:
 
@@ -35,10 +33,8 @@ The behavior of the control system can be categorized into four regions, as depi
 
 Overall, the ROSCO controller provides an efficient and adaptable approach to optimizing power generation in wind turbines, making it accessible to a wider range of users, including non-control engineers.
 
-image:: ROSCOregions.PNG
-   :width: 400pt
-   :height: 175pt
-   :align: middle
+.. image:: ROSCOregions.PNG
+   :width: 50%
 
 References
 ----------
