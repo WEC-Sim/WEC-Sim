@@ -13,7 +13,8 @@ This option is based on the catenary equations similarly to the open-source code
 Mooring look-up table
 ^^^^^^^^^^^^^^^
 
-Properties of the look-up table are defined in the moor_lookup script. The mooring look-up table generation code assumes that the mooring lines are single and homogeneous mooring lines suspended between two points. Mooring line parameters are required to generate the look-up table:
+Properties of the look-up table are defined in "moor_lookup". The mooring look-up table generation code assumes that the mooring 
+lines are single and homogeneous mooring lines suspended between two points. Mooring line parameters are required to generate the look-up table:
 
 * Mooring line diameter (m): :code:`d` 
 * Mooring line length (m): :code:`L` 
@@ -45,10 +46,20 @@ Total mooring loads discretization parameters are:
 
 Wind Features
 -------------------
+Wind speed can be defined choosing between the two options of the wind class:
+
+* Constant wind conditions
+* Turbolent wind conditions
+
+The constant wind speed is constant in time and space while the second option includes the temporal and spatial turbulence of the wind.
 
 TurbSim look-up table
 ^^^^^^^^^^^^^^^
-
+The simulation of the wind turbine for turbolent wind conditions requires the generation of a look-up table which relates the temporal 
+and spatial variation of wind speed on the wind turbine rotor plane (yz plane). Therefore the wind speed is discretized for 3 variable (2 spatial parameters (y and z) and the time).
+The look-up table is generated using "run_turbsim" which computes turbolent wind speeds based on `Turbsim <https://www.nrel.gov/wind/nwtc/turbsim.html>`_ executable. 
+Turbolent wind speed values can be defined in "run_turbsim" while other Turbsim parameters can be set-up in the "Turbsim_inputfile.txt" file. A detailed description of using Turbsim 
+is given in the `Turbsim <https://www.nrel.gov/wind/nwtc/turbsim.html>`_ page.
 
 Wind turbine Features
 -------------------
