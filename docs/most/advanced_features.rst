@@ -18,8 +18,8 @@ In the simulink model, forces and torques due to moorings are determined through
 roll, pitch and yaw as inputs. The breakpoints (related to the inputs) and the outpus (Fx, Fy, Fz, Mx, My and Mz, i.e., the mooring loads) are contained within a 
 data structure called "moor_matrix" and created through the "Create_Mooring_Matrix.m" script, in which the following characteristics are specified: 
 
-* Water density (kg/m3): :code:`rho_water`
-* Gravity acceleration (m/s2): :code:`gravity`
+* Water density (kg/m^3): :code:`rho_water`
+* Gravity acceleration (m/s^2): :code:`gravity`
 * Water depth (m): :code:`depth`
 * Mooring line diameter (m): :code:`d` 
 * Linear mass (kg/m): :code:`linear_mass` 
@@ -44,11 +44,11 @@ The code for generating the "moor_matrix" structure at first calculates the posi
 in accordance with the specified number and in an angularly equispaced manner, after which, for each combination of the inputs (surge,
 sway, heave, roll, pitch and yaw) it calculates the new positions of the fairleads. Given these positions, for each line it performs a
 numerical optimization by which the vertical force and the horizontal force (along the projection of the line in the xy plane) are 
-calculated. Secifically, by means of the typical catenary equations, it is possible to calculate (known the characteristics of a line) 
+calculated. Specifically, by means of the typical catenary equations, it is possible to calculate (known the characteristics of a line) 
 the above-mentioned vertical and horizontal forces having as input the vertical and horizontal distances between the two ends of the 
 line, so, in this case the optimization procedure searches for forces such that the distances are as close as possible to those 
 specified. Once the vertical and horizontal forces are calculated for each line, the resulting force and torque in the global reference 
-system applied to the origin of the reference system attached to the structure are determined.
+frame applied to the origin of the reference frame attached to the structure are determined.
 
 
 
