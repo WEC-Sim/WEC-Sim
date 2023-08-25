@@ -6,14 +6,17 @@ Advanced Features
 Mooring Features
 -------------------
 
-MOST includes the possibility to simulate a mooring look-up table which is able to simulate a quasi-static, nonlinear mooring system. Specifically, it is possible to simulate a mooring system consisting of a number of lines suspended between two points (anchor and fairlead) and angularly equispaced.
+MOST includes the possibility to simulate a mooring look-up table which is able to simulate a quasi-static, nonlinear mooring system. Specifically, it is possible
+to simulate a mooring system consisting of a number of lines suspended between two points (anchor and fairlead) and angularly equispaced.
 This option is based on the catenary equations similarly to the open-source code `MAP++ <https://map-plus-plus.readthedocs.io/en/latest/>`_. 
 
 
 Mooring look-up table
 ^^^^^^^^^^^^^^^
 
-In the simulink model, forces and torques due to moorings are determined through 6 different look-up tables having the 6 degrees of freedom surge, sway, heave, roll, pitch and yaw as inputs. The breakpoints (related to the inputs) and the outpus (Fx, Fy, Fz, Mx, My and Mz, i.e., the mooring loads) are contained within a data structure called "moor_matrix" and created through the "Create_Mooring_Matrix.m" script, in which the following characteristics are specified: 
+In the simulink model, forces and torques due to moorings are determined through 6 different look-up tables having the 6 degrees of freedom surge, sway, heave, 
+roll, pitch and yaw as inputs. The breakpoints (related to the inputs) and the outpus (Fx, Fy, Fz, Mx, My and Mz, i.e., the mooring loads) are contained within a 
+data structure called "moor_matrix" and created through the "Create_Mooring_Matrix.m" script, in which the following characteristics are specified: 
 
 * Water density (kg/m3): :code:`rho_water`
 * Gravity acceleration (m/s2): :code:`gravity`
@@ -32,9 +35,23 @@ In addition, the user can specify the domain of the look-up tables, specifically
 * Amplitude and discretisation along surge direction (m): :code:`X` 
 * Amplitude and discretisation along sway direction (m): :code:`Y` 
 * Amplitude and discretisation along heave direction (m): :code:`Z` 
-* Amplitude and discretisation along roll direction (rad): :code:`RX` 
-* Amplitude and discretisation along pitch direction (rad): :code:`RY` 
-* Amplitude and discretisation along yaw direction (rad): :code:`RZ`  
+* Amplitude and discretisation around roll axis (rad): :code:`RX` 
+* Amplitude and discretisation around pitch axis (rad): :code:`RY` 
+* Amplitude and discretisation around yaw axis (rad): :code:`RZ`  
+
+
+The code for generating the "moor_matrix" structure at first calculates the positions of the fairleads and anchors of the other lines, 
+in accordance with the specified number and in an angularly equispaced manner, after which, for each combination of the inputs (surge,
+sway, heave, roll, pitch and yaw) it calculates the new positions of the fairleads. Given these positions, for each line it performs a
+numerical optimization by which the vertical force and the horizontal force (along the projection of the line in the xy plane) are 
+calculated. Secifically, by means of the typical catenary equations, it is possible to calculate (known the characteristics of a line) 
+the above-mentioned vertical and horizontal forces having as input the vertical and horizontal distances between the two ends of the 
+line, so, in this case the optimization procedure searches for forces such that the distances are as close as possible to those 
+specified. Once the vertical and horizontal forces are calculated for each line, the resulting force and torque in the global reference 
+system applied to the origin of the reference system attached to the structure are determined.
+
+
+
 
 Wind Features
 -------------------
