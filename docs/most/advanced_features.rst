@@ -53,6 +53,9 @@ Wind speed can be defined choosing between the two options of the wind class:
 
 The constant wind speed is constant in time and space while the second option includes the temporal and spatial turbulence of the wind.
 
+.. figure:: WindSpeedOptions.JPG
+   :width: 50%
+
 TurbSim look-up table
 ^^^^^^^^^^^^^^^
 The simulation of the wind turbine for turbolent wind conditions requires the generation of a look-up table which relates the temporal 
@@ -60,6 +63,8 @@ and spatial variation of wind speed on the wind turbine rotor plane (yz plane). 
 The look-up table is generated using "run_turbsim" which computes turbolent wind speeds based on `Turbsim <https://www.nrel.gov/wind/nwtc/turbsim.html>`_ executable. 
 Turbolent wind speed values can be defined in "run_turbsim" while other Turbsim parameters can be set-up in the "Turbsim_inputfile.txt" file. A detailed description of using Turbsim 
 is given in the `Turbsim <https://www.nrel.gov/wind/nwtc/turbsim.html>`_ page.
+
+Aerodynamic wind loads calculation in the Simulink model requires the average wind speed for each blade. This is found computing the average wind speed for four discretized points along the blade length during the simulation. Relative wind speed for each blade is computed including the influence of the horizontal hub speed and the pitch and yaw rotation of the hub.
 
 Wind turbine Features
 -------------------
