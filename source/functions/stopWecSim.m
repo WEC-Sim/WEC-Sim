@@ -20,6 +20,7 @@ toc
 tic
 %% Post processing and Saving Results
 postProcessWecSim
+
 % User Defined Post-Processing
 if exist('userDefinedFunctions.m','file') == 2
     userDefinedFunctions;
@@ -57,9 +58,7 @@ if simu.saveWorkspace==1
     end
 end
 
-%% Remove 'temp' directory
-
-% Remove 'temp' directory from path and remove 'temp' directory
+%% Remove 'temp' directory from path and remove 'temp' directory
 rmpath(fullfile(projectRootDir,'temp'));
 try
     rmdir(fullfile(projectRootDir,'temp'),'s');

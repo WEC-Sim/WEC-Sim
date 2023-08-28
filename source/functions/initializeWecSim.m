@@ -5,9 +5,9 @@
 %%
 %% simu = simulationClass();                                               - To Create the Simulation Variable
 %%
-%% waves = waveClass('<wave type');                                       - To create the Wave Variable and Specify Type
+%% waves = waveClass('<wave type>');                                       - To create the Wave Variable and Specify Type
 %%
-%% body(<body number>) = bodyClass('<hydrodynamics data file name>.h5');   - To initialize bodyClass:
+%% body(<body number>) = bodyClass('<hydrodynamics data file name>.h5');   - To initialize bodyClass
 %%
 %% constraint(<constraint number>) = constraintClass('<Constraint name>'); - To initialize constraintClass
 %%
@@ -15,6 +15,9 @@
 %%
 %% mooring(<mooring number>) = mooringClass('<Mooring name>');             - To initialize mooringClass (only needed when mooring blocks are used)
 %%
+%% wind = windClass('<wind type>');                                        - To create the wind variable and specify type, for WEC-Sim+MOST
+%%
+%% windTurbine(<turbine number>) = windTurbineClass('<Wind turbine name>');- To initialize windTurbineClass, for WEC-Sim+MOST
 %%
 
 %% Start WEC-Sim log
@@ -209,19 +212,21 @@ if exist('ptoSim','var') == 1
     end; clear ii
 end
 
-% WindClass
-if wind.constantWindFlag == 0
-    wind.importTurbSimOutput();
+% Wind: check inputs
+if exist('wind','var') == 1
+    if wind.constantWindFlag == 0
+        wind.importTurbSimOutput();
+    end
 end
 
-% WindturbineClass
-if exist('windturbine','var') == 1
-    for ii = 1:length(windturbine)
-        windturbine(ii).ImportAeroloadsTable
-        windturbine(ii).loadTurbineData
-        windturbine(ii).setNumber(ii);
-        if windturbine(ii).control == 1
-            windturbine(ii).Importrosco
+% Wind turbines: count, check inputs, import controller
+if exist('windTurbine','var') == 1
+    for ii = 1:length(windTurbine)
+        windTurbine(ii).importAeroLoadsTable()
+        windTurbine(ii).loadTurbineData()
+        windTurbine(ii).setNumber(ii);
+        if windTurbine(ii).control == 1
+            windTurbine(ii).importROSCO()
         end
     end 
     clear ii
@@ -432,17 +437,19 @@ try
     end; clear ii;
 end
 
-% wind turbine
-for ii=1:length(windturbine)
-    eval(['ControlChoice' num2str(ii) ' = windturbine(',num2str(ii),').control;'])
-    eval(['sv_' num2str(ii) '_control1 = Simulink.Variant(''ControlChoice' num2str(ii) '==0'');'])
-    eval(['sv_' num2str(ii) '_control2 = Simulink.Variant(''ControlChoice' num2str(ii) '==1'');'])  
-end; clear ii
+try
+    % wind turbine
+    for ii=1:length(windTurbine)
+        eval(['ControlChoice' num2str(ii) ' = windTurbine(',num2str(ii),').control;'])
+        eval(['sv_' num2str(ii) '_control1 = Simulink.Variant(''ControlChoice' num2str(ii) '==0'');'])
+        eval(['sv_' num2str(ii) '_control2 = Simulink.Variant(''ControlChoice' num2str(ii) '==1'');'])  
+    end; clear ii
 
-% wind 
-eval(['WindChoice = wind.constantWindFlag;'])
-eval(['sv_wind_constant = Simulink.Variant(''WindChoice==1'');'])
-eval(['sv_wind_turbulent = Simulink.Variant(''WindChoice==0'');'])
+    % wind 
+    WindChoice = wind.constantWindFlag;
+    sv_wind_constant = Simulink.Variant('WindChoice==1');
+    sv_wind_turbulent = Simulink.Variant('WindChoice==0');
+end
 
 % Visualization Blocks
 if ~isempty(waves.marker.location) && typeNum < 30

@@ -7,16 +7,6 @@ fprintf('\nPost-processing and saving...   \n')
 simu.time = clock_out.time;
 clear clock_out
 
-% Wind Turbine
-
-if exist('windturbine','var')
-    for iTurb = 1:length(windturbine)
-        windturbineOutput(iTurb) = eval(['windturbine' num2str(iTurb) '_out']);
-        windturbineOutput(iTurb).name = windturbine(iTurb).name;
-        eval(['clear windturbine' num2str(iTurb) '_out'])
-    end; clear iTurb
-end
-
 % Bodies
 for iBod = 1:length(body(1,:))
     eval(['body' num2str(iBod) '_out.name = body(' num2str(iBod) ').name;']);    
@@ -119,10 +109,20 @@ waveOutput = struct();
 waveOutput.type = waves.type;
 waveOutput.waveAmpTime = waves.waveAmpTime;
 
-% All
-output = responseClass(bodiesOutput,ptosOutput,constraintsOutput,ptosimOutput,cablesOutput,mooringOutput,waveOutput,windturbineOutput);
-clear bodiesOutput ptosOutput constraintsOutput ptosimOutput cablesOutput mooringOutput waveOutput windturbineOutput
+% Wind Turbine
+if exist('windTurbine','var')
+    for iTurb = 1:length(windTurbine)
+        windTurbineOutput(iTurb) = eval(['windTurbine' num2str(iTurb) '_out']);
+        windTurbineOutput(iTurb).name = windTurbine(iTurb).name;
+        eval(['clear windTurbine' num2str(iTurb) '_out'])
+    end; clear iTurb
+else
+    windTurbineOutput = 0;
+end
 
+% All
+output = responseClass(bodiesOutput,ptosOutput,constraintsOutput,ptosimOutput,cablesOutput,mooringOutput,waveOutput,windTurbineOutput);
+clear bodiesOutput ptosOutput constraintsOutput ptosimOutput cablesOutput mooringOutput waveOutput windTurbineOutput
 
 % MoorDyn
 for iMoor = 1:simu.numMoorings

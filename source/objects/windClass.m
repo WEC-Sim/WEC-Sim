@@ -27,8 +27,9 @@ classdef windClass<handle
     %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
     
     properties (SetAccess = 'public', GetAccess = 'public') % input file
-        turbSimFile = '';                         % Wind table of turbulent wind from Turbsim.           
+        turbSimFile = '';                         % Table of turbulent wind data from TurbSim.
         meanVelocity = [];                        % Mean hub height wind speed. Defined in the input file for constant wind conditions, by TurbSim output for turbulent conditions
+        hubYLoc
     end
 
     properties (SetAccess = 'private', GetAccess = 'public')
@@ -58,7 +59,7 @@ classdef windClass<handle
             %
             obj.type = type;
             switch obj.type
-                case {'constant'}         % Constant wind conditions, no TurbSim input
+                case {'constant'}          % Constant wind conditions, no TurbSim input
                     obj.constantWindFlag = 1;
                 case {'turbulent'}         % Turbulent wind conditions, determined by TurbSim input
                     obj.constantWindFlag = 0;
@@ -68,26 +69,23 @@ classdef windClass<handle
         end
 
         function obj = importTurbSimOutput(obj)
-            % Reads data from a TurbSim output file and writes a table for the
-            % windTurbineClass.
+            % Loads TurbSim data from an intermediate file created by
+            % readTurbSimOutput
             % 
-            % See ``WEC-Sim-Applications/MOST/TurbSim/tsio.m`` for examples of usage.
+            % See ``WEC-Sim-Applications/MOST/mostIO.m`` for examples of usage.
             % 
             % Parameters
             % ----------
             %     obj : windClass
             %         windClass object
             % 
-            
-            % See readfile_BTS for description of the returned parameters
-            [velocity, twrVelocity, y, z, zTwr, nz, ny, dz, dy, dt, zHub, z1, mffws] = readfile_BTS(obj.turbSimFile);
-            tmp = squeeze(velocity(:,1,:,:));
-            obj.velocity = flip(tmp,2);
-            obj.time = (0:size(obj.velocity,1)-1)*dt;
-            obj.yDiscr = y;
-            obj.zDiscr = z;
-            obj.hubHeight = zHub;
-            obj.meanVelocity = mffws;
+            data = importdata(obj.turbSimFile);
+            obj.velocity = data.velocity;
+            obj.time = data.time;
+            obj.yDiscr = data.yDiscr;
+            obj.zDiscr = data.zDiscr;
+            obj.hubHeight = data.hubHeight;
+            obj.meanVelocity = data.meanVelocity;
          end
 
      end
