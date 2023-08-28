@@ -51,8 +51,6 @@ specified. Once the vertical and horizontal forces are calculated for each line,
 frame applied to the origin of the reference frame attached to the structure are determined.
 
 
-
-
 Wind Features
 -------------------
 Wind speed can be defined choosing between the two options of the wind class:
@@ -77,11 +75,33 @@ Aerodynamic wind loads calculation in the Simulink model requires the average wi
 
 Wind turbine Features
 -------------------
-
-
 Wind turbine properties
 ^^^^^^^^^^^^^^^
+The wind turbine is modelled as a multi-body system including the tower, nacelle, hub and the blades. 
+Mass, inertia and properties of each wind turbine component are defined in a structure that can be generated using the provided "WTproperties" MATLAB code. The following parameters are 
+common for all components:
 
+* Mass
+* Inertia
+* Center of Gravity (COG) position relative to the reference location.
+
+Reference locations for relative COG of each wind turbine component are described in the followind figure. 
+The following parameters are also defined to describe fully the wind turbine system:
+
+* Tower offset position relative to sea water level (m): :code:`tower.offset`
+* Tower height (m): :code:`tower.height` (See Figure)
+* Twr2Shft (deg): :code:`nacelle.Twr2Shft` (See Figure)
+* Overhang (m): :code:`hub.overhang` (See Figure)
+* Hub reference (m): :code:`hub.reference` (See Figure)
+* Hub radius (m): :code:`hub.Rhub` (Rhub) 
+* Tilt angle (deg): :code:`nacelle.tiltangle` (See Figure)
+* Precone angle (deg): :code:`hub.precone` (See Figure)
+* Blade discretisation nodes to average the wind speed: :code:`blade.bladeDiscr`
+* Generator efficiency: :code:`gen_eff`
+* CAD file path
+
+.. figure:: ReferenceScheme.png
+   :width: 50%
 
 Aerodynamic loads
 ^^^^^^^^^^^^^^^
