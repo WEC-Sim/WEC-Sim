@@ -103,6 +103,14 @@ The following parameters are also defined to describe fully the wind turbine sys
 .. figure:: ReferenceScheme.png
    :width: 50%
 
+Blade data are required to compute the aerodynamic loads. A MATLAB structure should include the following parameters:
+
+* Airfoil dataset cell structure including 4 columns (angle of attack, lift, drag and torque coefficients) for each blade node: :code:`airfoil_cells`
+* Blade twist angle for each blade node (deg): :code:`twist` 
+* Blade chord for each blade node (m): :code:`chord` 
+* Blade radius for each blade node (m): :code:`radius` 
+* Blade node reference index: :code:`airfoil_index` 
+
 Control
 ^^^^^^^^^^^^^^^
 
