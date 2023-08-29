@@ -79,7 +79,7 @@ Wind turbine properties
 ^^^^^^^^^^^^^^^
 The wind turbine is modelled as a multi-body system including the tower, nacelle, hub and the blades. 
 Mass, inertia and properties of each wind turbine component are defined in a structure that can be generated using the provided "WTproperties" MATLAB code. The following parameters are 
-common for all components:
+defined for all components:
 
 * Mass
 * Inertia
@@ -103,13 +103,21 @@ The following parameters are also defined to describe fully the wind turbine sys
 .. figure:: ReferenceScheme.png
    :width: 50%
 
-Aerodynamic loads
-^^^^^^^^^^^^^^^
-
-
 Control
 ^^^^^^^^^^^^^^^
 
+
+
+Aerodynamic loads
+^^^^^^^^^^^^^^^
+The look-up table of aerodynamic loads is generated using the "aeroloads_lookup" code. The aerodynamic axial force FX, tangential force FY, bending moment MY and 
+torque moment MX are calculated as a function of three input parameters which are defined by the user:
+
+* Rotor speed discretisation values: :code:`o_discr`
+* Blade pitch discretisation values: :code:`theta_discr` 
+* Discretization range of rotor speed values next to steady-state (rpm): :code:`o_A` 
+* Discretization range of blade pitch values next to steady-state (deg): :code:`theta_A` 
+The discretization range is used to determine the aerodynamic loads next to the steady-states including all cases reached during operating conditions. 
 
 TODO - describe the MOST example, how to change it, what the varies parameters mean, etc
 Mirror the WEC-Sim user manual/advanced features section
