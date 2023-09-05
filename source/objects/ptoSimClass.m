@@ -104,12 +104,12 @@ classdef ptoSimClass<handle
             'k1',                               'NOT DEFINED',...           % Valve coefficiente
             'k2',                               'NOT DEFINED')              % Valve coefficient, it's a function of the other valve variables
         simpleDirectDrivePTO (1,1) struct      = struct(...                 % simple direct drive linear PTO Block properties
-            'Kt',                               'NOT DEFINED',...           % Torque constant
-            'Ng',                               'NOT DEFINED',...           % Gear ratio
-            'J',                                'NOT DEFINED',...           % Drivetrain inertia
-            'B',                                'NOT DEFINED',...           % Drivetrain friction coefficient
-            'Rs',                               'NOT DEFINED',...           % Winding resistance
-            'Ls',                               'NOT DEFINED')              % Winding inductance
+            'torqueConstant',                   'NOT DEFINED',...           % [Nm/A] Generator Torque constant
+            'gearRatio',                        'NOT DEFINED',...           % [] Gear ratio
+            'drivetrainInertia',                'NOT DEFINED',...           % [kgm^2] Drivetrain inertia
+            'drivetrainFriction',               'NOT DEFINED',...           % [Nms/rad] Drivetrain friction coefficient
+            'windingResistance',                'NOT DEFINED',...           % [ohm] Winding resistance
+            'windingInductance',                'NOT DEFINED')              % [H] Winding inductance
     end
     
     properties (SetAccess = 'public', GetAccess = 'public')%internal
