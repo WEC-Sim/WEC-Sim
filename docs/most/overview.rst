@@ -4,8 +4,8 @@ Overview
 ========
 
 MOST is an open-source software that simulates the behavior of an Offshore Floating Wind Turbine (OFWT) in specific weather conditions.
-MOST builds on WEC-Sim in MATLAB/Simulink to add a ``windClass`` and ``windTurbineClass`` objects that can define a given turbine and weather conditions.
-Currently, MOST supports single-tower, three-bladed, horizontal axis wind turbines defined by mass properties, aerodynamic loading and a ROSCO controller.
+MOST builds on WEC-Sim in MATLAB/Simulink to add a ``windClass`` and a ``windTurbineClass`` objects that can define a given turbine and weather conditions.
+Currently, MOST supports single-tower, three-bladed, horizontal-axis wind turbines controlled by Baseline or ROSCO controllers and providing geometric and inertial data as input.
 
 
 .. _most-developers:
