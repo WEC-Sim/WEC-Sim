@@ -213,10 +213,8 @@ if exist('ptoSim','var') == 1
 end
 
 % Wind: check inputs
-if exist('wind','var') == 1
-    if wind.constantWindFlag == 0
-        wind.importTurbSimOutput();
-    end
+if exist('wind','var') == 1 && wind.constantWindFlag == 0
+    wind.importTurbSimOutput();
 end
 
 % Wind turbines: count, check inputs, import controller
@@ -225,9 +223,7 @@ if exist('windTurbine','var') == 1
         windTurbine(ii).importAeroLoadsTable()
         windTurbine(ii).loadTurbineData()
         windTurbine(ii).setNumber(ii);
-        if windTurbine(ii).control == 1
-            windTurbine(ii).importROSCO()
-        end
+        windTurbine(ii).importControl
     end 
     clear ii
 end

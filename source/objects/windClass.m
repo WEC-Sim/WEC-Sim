@@ -84,7 +84,6 @@ classdef windClass<handle
             obj.time = data.time;
             obj.yDiscr = data.yDiscr;
             obj.zDiscr = data.zDiscr;
-            obj.hubHeight = data.hubHeight;
             obj.meanVelocity = data.meanVelocity;
          end
 

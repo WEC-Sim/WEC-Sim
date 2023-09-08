@@ -22,61 +22,51 @@ classdef windTurbineClass<handle
     %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
     
     
-    properties (SetAccess = 'public', GetAccess = 'public') %input file
-        name              = []                               % (`string`) Specifies the windTurbine name. 
+    properties (SetAccess = 'public', GetAccess = 'public')  % Input file
+        name  = []                                           % (`string`) Specifies the windTurbine name. 
         control = 0;                                         % Type of control: 0-->baseline, 1-->ROSCO   
         aeroLoadsName = '';                                  % Name of aeroloads file       
         turbineName = '';                                    % Name of file including wind turbine properties  
-        roscoName = '';                                      % Name of file for ROSCO properties
+        controlName = '';                                    % Name of file for control properties
         omega0 = [];                                         % Initial rotor speed
+    end
+    
+    properties (SetAccess = 'private', GetAccess = 'public')
+        aeroLoads = struct();                                % Rotor loads structure   
+        generatorEfficiency = [];                            % Generator efficiency
         geometryFileTower = '';                              % Tower geometry file
         geometryFileNacelle = '';                            % Nacelle geometry file
         geometryFileHub = '';                                % Hub geometry file
         geometryFileBlade = '';                              % Blade geometry file
-    end
-    
-    properties (SetAccess = 'private', GetAccess = 'public')
-        aeroLoads = struct(...                               % Rotor loads structure
-            'FX',     0, ...                                 % Thrust forces look-up table
-            'FY',             [0 0 0], ...                   % Tangential forces look-up table
-            'MX',      [0 0 0], ...                          % Torque look-up table
-            'MY',             0, ...                         % Bending moments look-up table      
-            'SS',             0, ...                         % Steady states
-            'ctrl',             0, ...                       % Control parameters for baseline blade pitch control
-            'thetaErr',             0, ...                   % Blade pitch difference with steady-state for look-up table
-            'omegaErr',             0, ...                   % Rotor speed difference with steady-state for look-up table
-            'V',            [0 0 0]);                        % Wind speed for look-up table    
-        generatorEfficiency = [];                            % Generator efficiency
         tower = struct(...                                   % Tower structure properties
-            'mass',     0, ...                               % Mass of tower
-            'inertia',             [0 0 0], ...              % Moments of inertia of tower
+            'mass',                0, ...                    % Mass of tower
+            'inertia',              [0 0 0], ...             % Moments of inertia of tower
             'inertiaProducts',      [0 0 0], ...             % Product of inertia of tower
-            'height',             0, ...                     % Height of tower        
-            'offset',             0, ...                     % Lower point of tower relative to Sea Water Level
-            'cog_rel',            [0 0 0]);                  % Center of Gravity relative to tower offset
+            'height',              0, ...                    % Height of tower        
+            'offset',              0, ...                    % Lower point of tower relative to Sea Water Level
+            'cog_rel',              [0 0 0]);                % Center of Gravity relative to tower offset
         nacelle = struct(...                                 % Nacelle structure properties
-            'mass',     0, ...                               % Mass of nacelle
-            'inertia',             [0 0 0], ...              % Moments of inertia of nacelle
+            'mass',                0, ...                    % Mass of nacelle
+            'inertia',              [0 0 0], ...             % Moments of inertia of nacelle
             'inertiaProducts',      [0 0 0], ...             % Product of inertia of nacelle
-            'reference',           [0 0 0], ...              % Nacelle reference point for hub
-            'tiltangle',           [0 0 0], ...              % Tilt angle of nacelle (deg)
-            'cog_rel',            [0 0 0]);                  % Center of Gravity relative to tower top
+            'tiltangle',            [0 0 0], ...             % Tilt angle of nacelle (deg)
+            'cog_rel',              [0 0 0]);                % Center of Gravity relative to tower top
         hub = struct(...                                     % Hub structure properties
-            'mass',     0, ...                               % Mass of hub             
+            'mass',                0, ...                    % Mass of hub             
             'inertia',             [0 0 0], ...              % Moments of Inertia of hub
-            'inertiaProducts',      [0 0 0], ...             % Product of inertia of hub
-            'reference',           [0 0 0], ...              % Hub reference point for blades
-            'precone',           [0 0 0], ...                % Hub precone angle (deg)
-            'height',              [0 0 0], ...              % Hub height relative to Sea Water Level
-            'cog_rel',            [0 0 0]);                  % Center of Gravity relative to nacelle reference
+            'inertiaProducts',     [0 0 0], ...              % Product of inertia of hub
+            'precone',             [0 0 0], ...              % Hub precone angle (deg)
+            'height',              0, ...                    % Hub height relative to Sea Water Level
+            'cog_rel',             [0 0 0]);                 % Center of Gravity relative to nacelle reference
         blade = struct(...                                   % Blade structure properties
-            'mass',     0, ...                               % Mass of the blade 
+            'mass',                0, ...                    % Mass of the blade 
             'inertia',             [0 0 0], ...              % Moments of Inertia of the blade  
-            'inertiaProducts',      [0 0 0], ...             % Product of inertia of blade                    
-            'bladeDiscr',           [0 0 0], ...             % Blade discretisation for wind speed average estimation 
-            'cog_rel',            [0 0 0]);                  % Center of Gravity relative to blade root position
+            'inertiaProducts',     [0 0 0], ...              % Product of inertia of blade                    
+            'bladeDiscr',          [0 0 0], ...              % Blade discretisation for wind speed average estimation 
+            'cog_rel',             [0 0 0]);                 % Center of Gravity relative to blade root position
          number = [];                                        % Wind turbine number
          ROSCO = struct();                                   % ROSCO parameters
+         Baseline = struct();                                % Baseline parameters
     end
     
     methods (Access = 'public')
@@ -101,44 +91,56 @@ classdef windTurbineClass<handle
             end
         end
 
-         function importAeroLoadsTable(obj)
+        function importAeroLoadsTable(obj)
             data = importdata(obj.aeroLoadsName);
-            obj.aeroLoads = data;
-         end
+            if obj.control
+            obj.aeroLoads = data.ROSCO;
+            else
+            obj.aeroLoads = data.Baseline;
+            end
+        end
 
-         function importROSCO(obj)
-            data = importdata(obj.roscoName);
-            obj.ROSCO = data;
-         end
+        function importControl(obj)
+            load(obj.controlName);
+            if obj.control
+            obj.ROSCO = Ctrl.ROSCO;
+            else
+            obj.Baseline = Ctrl.Baseline;
+            end
+        end
 
          function loadTurbineData(obj)
             data = importdata(obj.turbineName); 
             obj.generatorEfficiency = data.gen_eff; %generator efficiency
+
             obj.geometryFileTower = data.geometryFileTower;
             obj.geometryFileNacelle = data.geometryFileNacelle;
             obj.geometryFileHub = data.geometryFileHub;
             obj.geometryFileBlade = data.geometryFileBlade;  
+
             obj.tower.mass = data.tower.mass;
-            obj.tower.inertia = data.tower.Inertia;                % Moment of Inertia [kg*m^2]  
+            obj.tower.inertia = data.tower.Inertia; 
+            obj.tower.inertiaProduct = data.tower.InertiaProduct;
             obj.tower.cog_rel = data.tower.cog_rel;    
             obj.tower.height = data.tower.height;
             obj.tower.offset = data.tower.offset;
+
             obj.nacelle.mass = data.nacelle.mass;
             obj.nacelle.inertia = data.nacelle.Inertia;
-            obj.nacelle.Twr2Shft = data.nacelle.Twr2Shft;
-            obj.hub.overhang = data.hub.overhang;
+            obj.nacelle.inertiaProduct = data.nacelle.InertiaProduct;
+            obj.nacelle.Twr2Shft = data.nacelle.Twr2Shft;            
             obj.nacelle.mass_yawBearing = data.nacelle.mass_yawBearing;
             obj.nacelle.cog_rel = data.nacelle.cog_rel;   
-            obj.nacelle.reference = data.nacelle.reference;
             obj.nacelle.tiltangle = data.nacelle.tiltangle;
+
             obj.hub.mass = data.hub.mass;
             obj.hub.inertia = data.hub.Inertia;
-            obj.hub.inertiaProducts = data.hub.InertiaProduct;
-            obj.hub.cog_rel = data.hub.cog_rel;  
-            obj.hub.reference = data.hub.reference;
-            obj.hub.height = data.hub.height;
+            obj.hub.inertiaProduct = data.hub.InertiaProduct;
             obj.hub.Rhub = data.hub.Rhub;
+            obj.hub.height=data.hub.height;
             obj.hub.precone = data.hub.precone;
+            obj.hub.overhang = data.hub.overhang;
+
             obj.blade.mass = data.blade.mass;
             obj.blade.inertia = data.blade.Inertia;
             obj.blade.inertiaProducts = data.blade.InertiaProduct;
