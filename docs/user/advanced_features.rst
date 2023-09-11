@@ -1263,13 +1263,12 @@ used to control the applied force.
    :width: 500pt 
    :align: center
 
-The PTO parameters used for this example are defined in the wecSimInputFile and correspond to 
+The PTO parameters used for this example are defined in the ``wecSimInputFile.m`` and correspond to 
 the Allied Motion Megaflux Frameless Brushless Torque Motors–MF0310 :cite:`allied`. The 
 results for the applied gains from Section :ref:`control-reactive` are shown in the figure 
 below. Mechanical power maximization requires significant net input electrical power 
-(signified by red bar - negative power is power harvested from the system). Thus, 
-instead of harvesting electrical power, power would need to be used to achieve mechanical 
-power maximization. 
+(signified by red bar - negative power, green bars, is power harvested from the system). Thus, 
+instead of harvesting electrical power, power would need to be taken from the grid or energy storage component to achieve mechanical power maximization. 
 
 .. figure:: /_static/images/reactiveWithPTOCC.png
    :width: 300pt 
