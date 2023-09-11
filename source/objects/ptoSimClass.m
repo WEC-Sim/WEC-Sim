@@ -36,10 +36,10 @@ classdef ptoSimClass<handle
         directLinearGenerator (1,1) struct      = struct(...                % Linear crank block properties
             'tau_p',                            'NOT DEFINED',...           % Magnet pole pitch
             'theta_d_0',                        'NOT DEFINED',...           % Initial theta value
-            'Bfric',                            'NOT DEFINED',...           % Friction coeeficient
+            'Bfric',                            'NOT DEFINED',...           % Friction coefficient
             'lambda_sd_0',                      'NOT DEFINED',...           % Stator d-axis flow linkage
             'Rs',                               'NOT DEFINED',...           % Winding resistance
-            'lambda_fd',                       'NOT DEFINED',...           % Flux linkage of the stator d winding due to flux produced by the rotor magnets [Wb-turns]
+            'lambda_fd',                        'NOT DEFINED',...           % Flux linkage of the stator d winding due to flux produced by the rotor magnets [Wb-turns]
             'Ls',                               'NOT DEFINED',...           % Winding inductance
             'lambda_sq_0',                      'NOT DEFINED',...           % Stator q-axis flow linkage
             'Rload',                            'NOT DEFINED')              % External load
@@ -47,7 +47,7 @@ classdef ptoSimClass<handle
             'radius',                           'NOT DEFINED',...           % Rotary generator radius
             'tau_p',                            'NOT DEFINED',...           % Magnet pole pitch
             'theta_d_0',                        'NOT DEFINED',...           % Initial theta value
-            'Bfric',                            'NOT DEFINED',...           % Friction coeeficient
+            'Bfric',                            'NOT DEFINED',...           % Friction coefficient
             'lambda_sd_0',                      'NOT DEFINED',...           % Stator d-axis flow linkage
             'Rs',                               'NOT DEFINED',...           % Winding resistance
             'lambda_fd',                        'NOT DEFINED',...           % Flux linkage of the stator d winding due to flux produced by the rotor magnets [Wb-turns]
@@ -103,6 +103,13 @@ classdef ptoSimClass<handle
             'rho',                              'NOT DEFINED',...           % Fluid density
             'k1',                               'NOT DEFINED',...           % Valve coefficiente
             'k2',                               'NOT DEFINED')              % Valve coefficient, it's a function of the other valve variables
+        simpleDirectDrivePTO (1,1) struct      = struct(...                 % simple direct drive linear PTO Block properties
+            'torqueConstant',                   'NOT DEFINED',...           % [Nm/A] Generator Torque constant
+            'gearRatio',                        'NOT DEFINED',...           % [] Gear ratio
+            'drivetrainInertia',                'NOT DEFINED',...           % [kgm^2] Drivetrain inertia
+            'drivetrainFriction',               'NOT DEFINED',...           % [Nms/rad] Drivetrain friction coefficient
+            'windingResistance',                'NOT DEFINED',...           % [ohm] Winding resistance
+            'windingInductance',                'NOT DEFINED')              % [H] Winding inductance
     end
     
     properties (SetAccess = 'public', GetAccess = 'public')%internal
@@ -119,6 +126,7 @@ classdef ptoSimClass<handle
 %         type = 'checkValve'       ---- Check valve 
 %         type = 'ddLinearGen'      ---- Direct drive linear generator 
 %         type = 'ddRotaryGen'      ---- Direct drive Rotary generator
+%         type = 'simpleDDPTO'      ---- simple direct drive PTO
         type    = 'NOT DEFINED';                                            % PTOSim Block type
         number  = []                                                        % PTOSim block number
         typeNum = [];                                                       % Number to represent different type of PTO-Sim blocks        
@@ -148,6 +156,8 @@ classdef ptoSimClass<handle
                     obj.typeNum = 9;
                 case {'ddRotaryGen'}        % Direct drive rotary generator 
                     obj.typeNum = 10;
+                case {'simpleDDPTO'}           % Simple direct drive PTO
+                    obj.typeNum = 11;
             end
         end
 

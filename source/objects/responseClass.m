@@ -114,6 +114,7 @@ classdef responseClass<handle
     %   * ``accumulator`` (`struct`) = [1 x # of accumulators] Structure containing timeseries of accumulator properties including pressure and volume
     %   * ``hydraulicMotor`` (`struct`) = [1 x # of motors] Structure containing timeseries of hydraulic motor properties including angular velocity and volume flow rate
     %   * ``rotaryGenerator`` (`struct`) = [1 x # of generators] Structure containing timeseries of rotary generator properties including electrical power and generated power
+    %   * ``simpleDD`` (`struct`) = [1 x # of generators] Structure containing timeseries of direct drive PTO properties including forces and electrical power
     %   * ``pmLinearGenerator`` (`struct`) = [1 x # of generators] Structure containing timeseries of permanent magnet linear generator properties including absolute power, force, friction force, current, voltage, velocity and electrical power
     %   * ``pmRotaryGenerator`` (`struct`) = [1 x # of generators] Structure containing timeseries of permanent magnet rotary generator properties including absolute power, force, friction force, current, voltage, velocity and electrical power 
     %   * ``motionMechanism`` (`struct`) = [1 x # of mechanisms] Structure containing timeseries of motion mechanism properties including PTO torque, angular position and angular velocity
@@ -245,6 +246,7 @@ classdef responseClass<handle
                 checkValveSignals = {'flowCheckValve','deltaPCheckValve'};
                 linearGeneratorSignals = {'absPower','force','fricForce','Ia','Ib','Ic','Va','Vb','Vc','vel','elecPower'};
                 rotaryGeneratorSignals = {'absPower','Torque','fricTorque','Ia','Ib','Ic','Va','Vb','Vc','vel','elecPower'};
+                simpleDDSignals = {'velocity','absPower','force','inertiaForce','fricForce','genForce','current','voltage','I2RLosses','elecPower'};
 
                 for ii = 1:length(ptosimOutput)
                     %obj.ptoSim(ii).name = ptosimOutput(ii).name;
@@ -270,6 +272,8 @@ classdef responseClass<handle
                         signals = linearGeneratorSignals;
                     elseif ptosimOutput(ii).typeNum == 10
                         signals = rotaryGeneratorSignals;
+                    elseif ptosimOutput(ii).typeNum == 11
+                        signals = simpleDDSignals;
                     end
                     for jj = 1:length(signals)
                         obj.ptoSim(ii).(signals{jj}) = ptosimOutput(ii).signals.values(:,jj);
