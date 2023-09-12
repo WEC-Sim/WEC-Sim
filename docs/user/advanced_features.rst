@@ -1265,19 +1265,31 @@ used to control the applied force.
 
 The PTO parameters used for this example are defined in the ``wecSimInputFile.m`` and correspond to 
 the Allied Motion Megaflux Frameless Brushless Torque Motors–MF0310 :cite:`allied`. The 
-results for the applied gains from Section :ref:`control-reactive` are shown in the figure 
-below. Mechanical power maximization requires significant net input electrical power 
-(signified by red bar - negative power, green bars, is power harvested from the system). Thus, 
-instead of harvesting electrical power, power would need to be taken from the grid or energy storage component to achieve mechanical power maximization. 
+results in terms of capture width (ratio of absorbed power (W) to wave power (W/m)) for the 
+applied gains from Section :ref:`control-reactive` are shown in the figure 
+below for a regular wave with a period of 9.6664 s and a height of 2.5 m. The "Controller (Ideal)" 
+capture width is the based on ideal power absorbed according to the applied controller gains. 
+The "Mechanical (Drivetrain)" capture width is based on the actual mechanical power absorbed by 
+the PTO system including the inertial, damping, and shaft torque power. Lastly, the 
+"Electrical (Generator)" capture width is based on the electrical power absorbed by the 
+generator including the product of induced current and voltage (based on shaft torque and velocity, 
+respectively) and the resultant generator losses (product of current squared and winding resistance).
+Mechanical power maximization requires significant net input electrical power 
+(signified by red bar) which leads to an extremely negative capture width. Thus, 
+instead of harvesting electrical power, power would need to be taken from the grid or energy 
+storage component to achieve mechanical power maximization. 
 
 .. figure:: /_static/images/reactiveWithPTOCC.png
    :width: 300pt 
    :align: center
 
-On the other hand, by testing different controller gains, the gains which optimize for 
+On the other hand, by testing different controller gains in the same wave conditions 
+(regular wave: period = 9.6664 s, height = 2.5 m), the gains which optimize for 
 maximum electrical power can be found as shown below. Increasing the proportional gain 
-and decreasing the integral gain magnitude leads to a maximum electrical power harvest 
-of about 84 kW. 
+and decreasing the integral gain magnitude leads to a maximum capture width of about 
+1.5 m. The resultant motion is almost ten times smaller than for the mechanical power 
+maximization which leads to a lower current and much lower generator power losses 
+(product of current squared and winding resistance).
 
 .. figure:: /_static/images/reactiveWithPTOSweep.png
    :width: 300pt 
