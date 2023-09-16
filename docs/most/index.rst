@@ -12,5 +12,6 @@ MOST Manual
    release_notes.rst
    publications.rst
    license.rst
+   introduction.rst
    theory.rst
    advanced_features.rst
