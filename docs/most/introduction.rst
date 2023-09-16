@@ -37,3 +37,8 @@ WEC-Sim source code has also been modified to include further option features re
 
 
 The following diagram summarises the workflow for the simulation of wave energy converters, which has now been updated to include the simulation of floating offshore wind turbines or hybrid devices. In grey are highlighted the portions of the code introduced with MOST, in green the portions executed by WEC-Sim codes, and in yellow what is carried out by external software.
+
+
+.. figure:: IMAGE_workflow.png
+   :width: 80%
+:align: center
