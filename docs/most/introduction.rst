@@ -4,6 +4,7 @@ Introduction
 
 With Most it is possible to simulate Floating Offshore Wind Turbines (FOWTs) thanks to the development of a wind turbine model which can be coupled with the WEC-Sim library. MOST requires several user inputs similar to WEC-Sim including hydrodynamic bodies requiring hydrodynamic coefficients from Boundary Element Method (BEM) software (e.g. Nemoh, Wamit or Ansys Aqwa), mooring, constraints and simulation input details. Differently to WEC-Sim, MOST also includes user inputs relative to the wind turbine, wind and mooring which will be explained in the next sections.
 
+
 Numerical code added to WEC-Sim is the followings:
 
 =========================   =========================================
@@ -16,6 +17,7 @@ MOST Simulink Library       ``MOST.slx``
 
 
 WEC-Sim source code has also been modified to include further option features relative to the new capabilities. The following code has been modified:
+
 
 =========================================      ========================================================================== 
 **File name**                                  **Description**                     
@@ -35,11 +37,11 @@ WEC-Sim source code has also been modified to include further option features re
                                                power, rotor speed, blade pitch and nacelle acceleration.   
 =========================================      ==========================================================================  
 
-.. note::
+
 
 The following diagram summarises the workflow for the simulation of wave energy converters, which has now been updated to include the simulation of floating offshore wind turbines or hybrid devices. In grey are highlighted the portions of the code introduced with MOST, in green the portions executed by WEC-Sim codes, and in yellow what is carried out by external software.
 
-.. note::
+
 
 .. figure:: IMAGE_workflow.png
    :width: 80%
