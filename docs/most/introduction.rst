@@ -44,5 +44,6 @@ The following diagram summarises the workflow for the simulation of wave energy 
 
 
 .. figure:: IMAGE_workflow.png
-   :width: 80%
-   :align: center
+    :align: center
+    :width: 80%
+..
