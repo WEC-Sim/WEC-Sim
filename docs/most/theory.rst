@@ -88,6 +88,41 @@ controller. In the following the control logics that can be used and the methods
 information on the controllers see :cite:` Hansen2005` for Baseline and :cite:` abbas2022reference`  for ROSCO.
 
 
+Baseline 
+^^^^^^^^^
+
+Baseline is a conventional variable-speed variable collective pitch controller, which is made up of two independent systems:
+
+* A generator torque controller (consisting in a generator speed-torque law) designed to maximize power extraction below nominal wind speed
+* A blades collective pitch controller designed to regulate rotor and generator speed above nominal wind speed
+
+Generator torque controller
+"""""""""""""""""""""""""""""
+
+
+The generator-torque control law is designed to have three main regions and two transition ones between them. Aerodynamic torque acts as an accelerating load, the generator torque, converting mechanical energy to electrical energy, acts as a braking load. The generator torque is computed as a tabulated function of the filtered generator speed, incorporating 4 control regions: 1, 1.5, 2 and 3.
+
+* **Region 1**: control region before cut-in wind speed, where the generator is detached from the rotor to allow the wind to accelerate the rotor for start-up. In this region, the generator torque is zero and no power is extracted from the wind
+
+
+* **Region 1.5**: it is a transition region called start-up region and permits a smooth transition between null torque and optimal one
+
+
+* **Region 2**: control region where extracted power is maximized. Here, to maintain the tip speed ratio constant at its optimal value, the generator torque is proportional to the square of the filtered generator speed. Aerodynamic torque can be expressed as:
+.. math::
+
+      T_aero=1/2 ρ π {R^5}/{λ^3} ∙ C_P(λ,θ_bl )∙Ω^2 = k_opt∙Ω^2
+
+Where k_opt is obtained with TSR (Tip Speed Ratio) and blade pitch values that lead to maximum power coefficient 
+(λ= λ_(opt )  ,θ_bl=0°);
+
+* **Region 3**: above rated condition region, where the generator torque is kept constant at its rated value. In this region pitch control is active to maintain rotor speed at its rated value.
+
+The figure below shows an example of control law of Baseline generator torque controller for the IEA 15 MW reference wind turbine :cite:` Gaertner2020`. 
+
+.. image:: IMAGE_Baseline_Torque_Law.png
+   :width: 60%
+
 
 
 
