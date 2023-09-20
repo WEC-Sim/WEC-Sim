@@ -45,8 +45,7 @@ addpath(fullfile(projectRootDir,'temp'),'-end');
 
 % Save Simulink-generated helper files to 'temp' directory
 Simulink.fileGenControl('set',...
-    'CacheFolder',fullfile(projectRootDir,'temp'))
-
+    'CacheFolder',fullfile(projectRootDir,''))
 
 %% Read input file
 tic
@@ -468,7 +467,7 @@ tic
 fprintf('\nSimulating the WEC device defined in the SimMechanics model %s...   \n',simu.simMechanicsFile)
 % Modify some stuff for simulation
 for iBod = 1:simu.numHydroBodies
-    body(iBod).adjustMassMatrix(simu.adjMassFactor,simu.b2b);
+    body(iBod).adjustMassMatrix(simu.b2b);
 end; clear iBod
 warning('off','Simulink:blocks:TDelayTimeTooSmall');
 warning('off','Simulink:blocks:BusSelDupBusCreatorSigNames');
