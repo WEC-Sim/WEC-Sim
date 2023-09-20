@@ -12,7 +12,7 @@ This option is based on the catenary equations similarly to the open-source code
 
 
 Mooring look-up table
-^^^^^^^^^^^^^^^
+^^^^^^^^^^^^^^^^^^^^^
 
 In the simulink model, forces and torques due to moorings are determined through 6 different look-up tables having the 6 degrees of freedom surge, sway, heave, 
 roll, pitch and yaw as inputs. The breakpoints (related to the inputs) and the outpus (Fx, Fy, Fz, Mx, My and Mz, i.e., the mooring loads) are contained within a 
