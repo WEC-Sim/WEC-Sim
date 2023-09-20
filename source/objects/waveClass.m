@@ -53,7 +53,7 @@ classdef waveClass<handle
             'numPointsY',                           50 );                   % (`structure`) Defines visualization options, structure contains the fields ``numPointsX`` for the number of visualization points in x direction, and ``numPointsY`` for the number of visualization points in y direction. 
         waterDepth (1,:) {mustBeScalarOrEmpty}      = [];                   % (`float`) Water depth [m]. Default to BEM water depth if not set. 
         spread (1,:) {mustBeNumeric}                = 1;                    % (`float`) Wave Spread probability associated with wave direction(s). Should be defined as a row vector for more than one wave direction. Default = ``1``
-        waveGroup                                  = [];                                  
+%         waveGroup                                  = [];                                  
     end    
   
     properties (SetAccess = 'private', GetAccess = 'public')%internal       
