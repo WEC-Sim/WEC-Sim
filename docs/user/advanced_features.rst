@@ -175,8 +175,32 @@ setting for ``simu.reloadH5Data`` in the WEC-Sim input file.
     Please use ``userDefinedFunctions.m`` instead.
 
 
+Radiation Force calculation
+^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+The radiation forces are calculated at each time-step by the convolution of the body velocity and the 
+radiation Impulse Response Function -- which is calculated using the cosine transform of the radiation-damping.
+Speed-gains to the simulation can be made by using alternatives to the convolution operation, namely, 
+
+1. The State-Space Representation,
+2. The FIR Filters.
+
+Here is a comparison of simulation run-times for the RM3 example simulated for 1000 s, when the radiation forces 
+are calculated using different routes:
+
+	+------------------------------------------------+-------------------------------------------+
+	|   *Radiation Force Calculation Approach*       | *Time (s)*  	                             |
+	+------------------------------------------------+-------------------------------------------+
+	|   No Convolution                               | 3.699 s    	                             |
+	+------------------------------------------------+-------------------------------------------+
+	|   Convolution                                  | 5.810 s    	                             |
+	+------------------------------------------------+-------------------------------------------+
+	|   State-Space	                                 | 4.215 s    	                             |   
+	+------------------------------------------------+-------------------------------------------+
+	|   FIR Filter 	                                 | 5.001 s                            	     |     
+	+------------------------------------------------+-------------------------------------------+  
+
 State-Space Representation
-^^^^^^^^^^^^^^^^^^^^^^^^^^
+"""""""""""""""""""""""""""
 
 The convolution integral term in the equation of motion can be linearized using 
 the state-space representation as described in the :ref:`theory` section. To 
@@ -186,6 +210,20 @@ must be defined in the WEC-Sim input file, for example:
     :code:`simu.stateSpace = 1` 
 
 .. _user-advanced-features-time-step:
+
+
+FIR Filters
+""""""""""""""""""""""""""""
+By default, WEC-Sim uses numerical integration to calculate the convolution integral, while 
+FIR filters implement the same using a `discretized convolution`, by using FIR filters -- digital filters 
+that are inherently stable. Convolution of Impulse Response Functions of `Finite` length, i.e., those 
+that dissipate and converge to `zero` can be accomplished using FIR filters.
+The convolution integral can also be calculated using FIR filters by setting:
+
+ :code:`simu.FIR=1`. 
+
+.. Note::
+    By default :code:`simu.FIR=0`, unless specified otherwise.
 
 Time-Step Features
 ^^^^^^^^^^^^^^^^^^
