@@ -308,6 +308,55 @@ direction. For more information about the spectral formulation, refer to
 
 .. _user-advanced-features-seeded-phase:
 
+Multiple Wave-Spectra
+^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+The Wave Directional Spreading feature only allows splitting the same wave-front. 
+However, quite often mixed-seas are composed of disparate Wave-Spectra with unique
+periods, heights, and directions. An example would be a sea-state composed of 
+swell-waves and chop-waves.  
+
+Assuming that the linear potential flow theory holds, the wave inputs to the system can be
+super-imposed. This implies, the effects of multiple Wave-Spectra can be simulated, if the 
+excitation-forces for each Wave-Spectra is calculated, and added to the pertinent 
+Degree-of-Freedom.
+
+WEC-Sim can simulate the dynamics of a body experiencing multiple Wave-Spectra each with 
+their unique directions, periods, and heights. In order to calculate the excitation-forces 
+for multiple Wave-Spectra, WEC-Sim automatically generates multiple instances of 
+excitation-force sub-systems. The user only needs to create multiple instances of 
+the ``waves`` class.
+
+
+Here is an example for setting up multiple Wave-Spectra in the WEC-Sim input file::
+
+            waves(1)           = waveClass('regularCIC');   % Initialize Wave Class and Specify Type                                 
+            waves(1).height    = 2.5;                       % Wave Height [m]
+            waves(1).period    = 8;                         % Wave Period [s]
+            waves(1).direction = 0;                         % Wave Direction (deg.)
+            waves(2)           = waveClass('regularCIC');   % Initialize Wave Class and Specify Type                                 
+            waves(2).height    = 2.5;                       % Wave Height [m]
+            waves(2).period    = 8;                         % Wave Period [s]
+            waves(2).direction = 90;                        % Wave Direction (deg.)
+
+
+
+.. Note::
+    If using a wave-spectra with different wave-heading directions, ensure that the BEM data has
+    the hydrodynamic coefficients corresponding to the desired wave-heading direction.
+    
+Addtionally, the multiple Wave-Spectra can be visualized as elaborated in: 
+`WEC-Sim Visualization Wave Markers <http://wec-sim.github.io/WEC-Sim/master/user/advanced_features.html#wave-markers>`_. 
+The user needs to define the marker parameters for each Wave-Spectra, as one would for a single Wave-Spectra.
+
+Here is an example of 2 Wave-Spectra being visualized using the wave wave-markers feature:
+
+.. figure:: /_static/images/Nwave.png 
+   :width: 600pt 
+   :align: center
+
+Here is a visualization of two Wave-Spectra, represented by red markers and blue markers respectively.
+
 Irregular Waves with Seeded Phase
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
@@ -903,8 +952,7 @@ own controls.
 	+--------------------------------+-------------------------------------------+
 	|   Model Predictive Control   	 | Sphere with model predictive control      |
 	+--------------------------------+-------------------------------------------+
-	|   Reactive with PTO   	 | Sphere with reactive control and DD PTO   |
-	+--------------------------------+-------------------------------------------+
+
 
 
 Examples: Sphere Float with Various Controllers
@@ -1244,69 +1292,6 @@ computation time and complex setup.
 	| Avg Mechanical Power (kW)  |      N/A     |    300      |    241     |
 	+----------------------------+--------------+-------------+------------+
 
-.. _control-reactive-with-PTO:
-
-Reactive Control with Direct Drive Power Take-Off
-^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
-
-The previous controllers only considered the mechanical power output. Although maximization
-of mechanical power allows for the maximum energy transfer from waves to body, it often does 
-not lead to maximum electrical power. The previous controller examples demonstrate the 
-controller types and energy transfer from waves to body, but the important consideration of 
-electrical power requires a PTO model. This example applies a reactive controller to the 
-sphere body with a simplified direct drive PTO model to maximize electrical power. Within 
-the Simulink subsystem for determining the PTO force, the controller prescribes the ideal or 
-desired force which is fed into the direct drive PTO. The current in the generator is then 
-used to control the applied force. 
-
-.. figure:: /_static/images/piPTOSimulink.png
-   :width: 500pt 
-   :align: center
-
-The PTO parameters used for this example are defined in the ``wecSimInputFile.m`` and correspond to 
-the Allied Motion Megaflux Frameless Brushless Torque Motors–MF0310 :cite:`allied`. The 
-results in terms of capture width (ratio of absorbed power (W) to wave power (W/m)) and resultant power for the 
-applied gains from Section :ref:`control-reactive` are shown in the figures 
-below for a regular wave with a period of 9.6664 s and a height of 2.5 m. The "Controller (Ideal)" 
-power is the ideal power absorbed according to the applied controller gains. 
-The "Mechanical (Drivetrain)" power is the actual mechanical power absorbed by 
-the PTO system including the inertial, damping, and shaft torque power. Lastly, the 
-"Electrical (Generator)" power is the electrical power absorbed by the 
-generator including the product of induced current and voltage (based on shaft torque and velocity, 
-respectively) and the resultant generator losses (product of current squared and winding resistance).
-Mechanical power maximization requires significant net input electrical power 
-(signified by red bar) which leads to an extremely negative capture width. Thus, 
-instead of harvesting electrical power, power would need to be taken from the grid or energy 
-storage component to achieve mechanical power maximization. 
-
-.. figure:: /_static/images/reactiveWithPTOCCPower.png
-   :width: 300pt 
-   :align: center
-
-.. figure:: /_static/images/reactiveWithPTOCC.png
-   :width: 300pt 
-   :align: center
-
-On the other hand, by testing different controller gains in the same wave conditions 
-(regular wave: period = 9.6664 s, height = 2.5 m), the gains which optimize for 
-maximum electrical power can be found as shown below. Increasing the proportional gain 
-and decreasing the integral gain magnitude leads to a maximum power of about 84 kW and capture width of about 
-1.5 m. The resultant motion is almost ten times smaller than for the mechanical power 
-maximization which leads to a lower current and much lower generator power losses 
-(product of current squared and winding resistance).
-
-.. figure:: /_static/images/reactiveWithPTOSweep.png
-   :width: 300pt 
-   :align: center
-
-.. figure:: /_static/images/reactiveWithPTOOptPower.png
-   :width: 300pt 
-   :align: center
-
-.. figure:: /_static/images/reactiveWithPTOOpt.png
-   :width: 300pt 
-   :align: center
-
 
 .. _user-advanced-features-cable:
 
@@ -1321,7 +1306,7 @@ class in the ``wecSimInputFile.m`` along with the base and follower connections 
 	cable(i) = cableClass('cableName','baseConnection','followerConnection');
 
 where ``baseConnection`` is a PTO or constraint block that defines the cable connection on the base side, and ``followerConnection``
-is a PTO or constraint block that defineds the connection on the follower side.  
+is  a PTO or constraint block that defineds the connection on the follower side.  
 
 
 It is necessary to define, at a minimum: ::
@@ -1475,7 +1460,7 @@ For more information about using ParaView for visualization, refer to the **Wave
    :align: center
 
    Demonstration of visualization markers in SimScape Mechanics Explorer.
-   
+
 
 Save Visualization
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^
