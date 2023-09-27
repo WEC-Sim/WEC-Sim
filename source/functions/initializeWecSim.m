@@ -391,12 +391,15 @@ if waves.typeNum==0 || waves.typeNum==10 %'noWave' & 'regular'
     radiation_option = 1;
 elseif simu.stateSpace == 1
     radiation_option = 3;
+elseif simu.FIR == 1
+    radiation_option = 4;
 else
     radiation_option = 2;
 end
 sv_constantCoeff=Simulink.Variant('radiation_option==1');
 sv_convolution=Simulink.Variant('radiation_option==2');
 sv_stateSpace=Simulink.Variant('radiation_option==3');
+sv_FIR = Simulink.Variant('radiation_option==4');
 % Wave type
 typeNum = waves.typeNum;
 sv_noWave=Simulink.Variant('typeNum<10');
