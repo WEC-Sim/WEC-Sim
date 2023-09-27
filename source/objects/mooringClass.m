@@ -41,11 +41,14 @@ classdef mooringClass<handle
         moorDynLines (1,1) {mustBeInteger, mustBeNonnegative} = 0           % (`integer`) Number of lines in MoorDyn. Default = ``0``
         moorDynNodes (1,:) {mustBeInteger, mustBeNonnegative} = []          % (`integer`) number of nodes for each line. Default = ``'NOT DEFINED'``
         name (1,:) {mustBeText}                             = 'NOT DEFINED' % (`string`) Name of the mooring. Default = ``'NOT DEFINED'``
+        lookupTableFlag                                     = 0;            % (`integer`) Flag to indicate a mooring look-up table, 0 or 1. Default = ``0``
+        lookupTableFile                                     = '';           % (`string`) Mooring look-up table file name. Default =  ``''``;
     end
 
     properties (SetAccess = 'private', GetAccess = 'public') %internal
-        orientation             = []                                       % (`float 1 x 6`) Initial 6DOF location. Default = ``[0 0 0 0 0 0]``        
-        number                  = []                                       % (`integer`) Mooring number. Default = ``'NOT DEFINED'``        
+        orientation             = []                                        % (`float 1 x 6`) Initial 6DOF location. Default = ``[0 0 0 0 0 0]``        
+        number                  = []                                        % (`integer`) Mooring number. Default = ``'NOT DEFINED'``        
+        lookupTable             = [];                                       % (`array`) Lookup table data. Force data in 6 DOFs indexed by displacement in 6 DOF
     end
 
     methods (Access = 'public')                                        
@@ -121,6 +124,34 @@ classdef mooringClass<handle
             obj.initial.displacement = linDisp + addLinDisp;
             obj.initial.axis = netAxis;
             obj.initial.angle = netAngle;            
+        end
+        
+        function obj = loadLookupTable(obj)
+            % Method to load the lookup table and assign to the mooringClass
+            data = load(obj.lookupTableFile);
+
+            % Logic allows the look-up table file's data to have an
+            % arbitrary variable name
+            dataFields = fields(data);
+            if length(dataFields) > 1
+                warning('Mooring look-up table file contains multiple datasets. Ensure that look-up table data contains one variable.');
+            end
+            obj.lookupTable = data.(dataFields{1});
+
+            % Check that all components are present in the look-up table
+            tableFields = fields(obj.lookupTable);
+            components = {'X','Y','Z','RX','RY','RZ','FX','FY','FZ','MX','MY','MZ'};
+            errStr = 'Error: ';
+            err = false;
+            for i = 1:length(components)
+                if ~ any(strcmp(tableFields,components{i}))
+                    errStr = [errStr 'Mooring look-up table does not contain component: ' components{i} newline];
+                    err = true;
+                end
+            end
+            if err
+                error(errStr);
+            end
         end
         
         function listInfo(obj)
