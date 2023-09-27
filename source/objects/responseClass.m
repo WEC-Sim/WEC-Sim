@@ -118,8 +118,22 @@ classdef responseClass<handle
     %   * ``pmLinearGenerator`` (`struct`) = [1 x # of generators] Structure containing timeseries of permanent magnet linear generator properties including absolute power, force, friction force, current, voltage, velocity and electrical power
     %   * ``pmRotaryGenerator`` (`struct`) = [1 x # of generators] Structure containing timeseries of permanent magnet rotary generator properties including absolute power, force, friction force, current, voltage, velocity and electrical power 
     %   * ``motionMechanism`` (`struct`) = [1 x # of mechanisms] Structure containing timeseries of motion mechanism properties including PTO torque, angular position and angular velocity
+    %
+    % .. autoattribute:: objects.responseClass.windTurbine
+    %    
+    %   * ``name`` (`string`) = 'windTurbineName'
+    %   * ``time`` (`array`) = [# of time-steps x 1]
+    %   * ``windSpeed`` (`array`) = [# of time-steps x 1]
+    %   * ``turbinePower`` (`array`) = [# of time-steps x 1]
+    %   * ``rotorSpeed`` (`array`) = [# of time-steps x 1]
+    %   * ``bladePitch`` (`array`) = [# of time-steps x 1] Pitch position of blade 1
+    %   * ``nacelleAcceleration`` (`array`) = [# of time-steps x 1]
+    %   * ``towerBaseLoad`` (`array`) = [# of time-steps x 6] 6DOF force at the constraint between the floating body and tower base
+    %   * ``towerTopLoad`` (`array`) = [# of time-steps x 6] 6DOF force at the constraint between the tower base and tower nacelle 
+    %   * ``bladeRootLoad`` (`array`) = [# of time-steps x 1] 6DOF force at the constraint between blade 1 and the hub 
+    %   * ``genTorque`` (`array`) = [# of time-steps x 1] Torque on the generator
+    %   * ``azimuth`` (`array`) = [# of time-steps x 1] azimuthal angle of the generator 
     %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-    
     
     properties (SetAccess = 'public', GetAccess = 'public')
         bodies              = struct()     % This property contains a structure for each instance of the ``bodyClass`` (i.e. for each Body block)
@@ -130,14 +144,15 @@ classdef responseClass<handle
         ptos                = struct()     % This property contains a structure for each instance of the ``ptoClass`` (i.e. for each PTO block). PTO motion is relative from frame F to frame B. PTO forces act on frame F.
         ptoSim              = struct()     % This property contains a structure for each instance of the ``ptoSimClass`` (i.e. for each PTO-Sim block).
         wave                = struct()     % This property contains a structure for each instance of the ``waveClass``         
+        windTurbine         = struct()     % This property contains a structure for each instance of the ``windTurbineClass``     
     end
     
     methods (Access = 'public')
-        function obj = responseClass(bodiesOutput,ptosOutput,constraintsOutput,ptosimOutput,cablesOutput,mooringOutput,waveOutput) 
+        function obj = responseClass(bodiesOutput,ptosOutput,constraintsOutput,ptosimOutput,cablesOutput,mooringOutput,waveOutput,windTurbineOutput) 
             % This method initializes the ``responseClass``, reads 
             % output from each instance of a WEC-Sim class (e.g.
             % ``waveClass``, ``bodyClass``, ``ptoClass``, ``mooringClass``, etc)
-            % , and saves the response to an ``output`` object. 
+            % and saves the response to an ``output`` object. 
             %
             % Returns
             % ------------
@@ -189,6 +204,7 @@ classdef responseClass<handle
                     obj.bodies(ii).cellPressures_waveNonLinear = [];
                 end
             end
+            
             % PTOs
             if isstruct(ptosOutput)
                 signals = {'position','velocity','acceleration','forceTotal','forceActuation','forceConstraint','forceInternalMechanics','powerInternalMechanics'};
@@ -200,6 +216,20 @@ classdef responseClass<handle
                     end
                 end
             end
+
+            if isstruct(windTurbineOutput)
+                % Wind turbine
+                signals = {'windSpeed','turbinePower','rotorSpeed','bladePitch','nacelleAcceleration','towerBaseLoad','towerTopLoad','bladeRootLoad','genTorque','azimuth'};
+                outputDim = [1 1 1 1 1 6 6 6 1 1];
+                for ii = 1:length(windTurbineOutput)
+                    obj.windTurbine(ii).name = windTurbineOutput(ii).name;
+                    obj.windTurbine(ii).time = windTurbineOutput(ii).time;
+                    for jj = 1:length(signals)
+                        obj.windTurbine(ii).(signals{jj}) = windTurbineOutput(ii).signals.values(:, sum(outputDim(1:jj-1))+1:sum(outputDim(1:jj-1))+outputDim(jj));
+                    end
+                end
+            end
+
             % Constraints
             if isstruct(constraintsOutput)
                 signals = {'position','velocity','acceleration','forceConstraint'}; 
@@ -211,6 +241,7 @@ classdef responseClass<handle
                     end
                 end
             end
+
             % Mooring
             if isstruct(mooringOutput)
                 signals = {'position','velocity','forceMooring'}; 
@@ -222,6 +253,7 @@ classdef responseClass<handle
                     end
                 end
             end
+
             % Cables
             if isstruct(cablesOutput)
                 signals = {'position','velocity','acceleration','forceTotal','forceActuation',...
@@ -234,6 +266,7 @@ classdef responseClass<handle
                     end
                 end
             end
+
             % PTO-Sim
             if isstruct(ptosimOutput)
                 hydPistonCompressibleSignals = {'pressureA','forcePTO','pressureB'};
@@ -357,12 +390,13 @@ classdef responseClass<handle
             acc=obj.bodies(bodyNum).acceleration(:,comp);
             figure()
             plot(t,pos,'k-',...
-                t,vel,'b-',...
-                t,acc,'r-')
-            legend({'position','velocity','acceleration'})
+                 t,vel,'b-',...
+                 t,acc,'r-')
+            legend({'Pos','Vel','Acc'},'Location','best')
             xlabel('Time (s)')
-            ylabel('Response in (m) or (radians)')
-            title(['body' num2str(bodyNum) ' (' obj.bodies(bodyNum).name ') ' DOF{comp} ' Response'])
+            ylabel('(m) or (radians)')
+            title(['Body' num2str(bodyNum) ' (' replace(obj.bodies(bodyNum).name,'_','-') ') - ' DOF{comp} ' Response'])
+            grid
             clear t pos vel acc i
         end
 
@@ -395,16 +429,17 @@ classdef responseClass<handle
             FLD=-1*obj.bodies(bodyNum).forceLinearDamping(:,comp);
             figure();
             plot(t,FT,...
-                t,FE,...
-                t,FRD,...
-                t,FAM,...
-                t,FR,...
-                t,FMV,...
-                t,FLD)
-            legend('forceTotal','forceExcitation','forceRadiationDamping','forceAddedMass','forceRestoring','forceViscous','forceLinearDamping')
+                 t,FE,...
+                 t,FRD,...
+                 t,FAM,...
+                 t,FR,...
+                 t,FMV,...
+                 t,FLD)
+            legend('forceTotal','forceExcitation','forceRadiationDamping','forceAddedMass','forceRestoring','forceViscous','forceLinearDamping','Location','best')
             xlabel('Time (s)')
-            ylabel('Force (N) or Torque (N*m)')
-            title(['body' num2str(bodyNum) ' (' obj.bodies(bodyNum).name ') ' DOF{comp} ' Forces'])
+            ylabel('(N) or (Nm)')
+            title(['Body' num2str(bodyNum) ' (' replace(obj.bodies(bodyNum).name,'_','-') ') - ' DOF{comp} ' HydroForces'])
+            grid
             clear t FT FE FRD FR FV FM i
         end
         

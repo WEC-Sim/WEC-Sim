@@ -764,6 +764,17 @@ where :math:`K_{m}` and :math:`C_{m}` are the stiffness and damping matrices
 for the mooring system, and :math:`X` and :math:`\dot{X}` are the displacement 
 and velocity of the body, respectively. 
 
+Mooring Lookup Table
+^^^^^^^^^^^^^^^^^^^^
+
+The Mooring Lookup Table searches a user-supplied 6DOF force lookup table.
+The lookup table must contain six parameters: the resultant mooring force in each degree of freedom.
+Each force must be indexed by position in all six degrees of freedom, as shown below.
+The mooringClass does not assume a value for empty indices or forces. 
+All degrees of freemdom must be initialized and supplied by the user.
+The mooring force is linearly interpolated between indexed positions based on the instantaneous position of the mooring system using a Simulink N-D Lookup Table for each force component.
+The fidelity of the mooring lookup table is entirely dependent on the user-defined input.
+
 MoorDyn
 ^^^^^^^
 

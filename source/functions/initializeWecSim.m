@@ -5,9 +5,9 @@
 %%
 %% simu = simulationClass();                                               - To Create the Simulation Variable
 %%
-%% waves = waveClass('<wave type');                                       - To create the Wave Variable and Specify Type
+%% waves = waveClass('<wave type>');                                       - To create the Wave Variable and Specify Type
 %%
-%% body(<body number>) = bodyClass('<hydrodynamics data file name>.h5');   - To initialize bodyClass:
+%% body(<body number>) = bodyClass('<hydrodynamics data file name>.h5');   - To initialize bodyClass
 %%
 %% constraint(<constraint number>) = constraintClass('<Constraint name>'); - To initialize constraintClass
 %%
@@ -15,6 +15,9 @@
 %%
 %% mooring(<mooring number>) = mooringClass('<Mooring name>');             - To initialize mooringClass (only needed when mooring blocks are used)
 %%
+%% wind = windClass('<wind type>');                                        - To create the wind variable and specify type, for WEC-Sim+MOST
+%%
+%% windTurbine(<turbine number>) = windTurbineClass('<Wind turbine name>');- To initialize windTurbineClass, for WEC-Sim+MOST
 %%
 
 %% Start WEC-Sim log
@@ -128,8 +131,12 @@ if exist('mooring','var') == 1
         mooring(ii).checkInputs();
         mooring(ii).setLoc();
         mooring(ii).setNumber(ii);
+        if mooring(ii).lookupTableFlag == 1
+            mooring(ii).loadLookupTable();
+        end
     end; clear ii
 end
+
 
 % Bodies: count, check inputs, read hdf5 file, and check inputs
 numHydroBodies = 0; 
@@ -205,6 +212,21 @@ if exist('ptoSim','var') == 1
     end; clear ii
 end
 
+% Wind: check inputs
+if exist('wind','var') == 1 && wind.constantWindFlag == 0
+    wind.importTurbSimOutput();
+end
+
+% Wind turbines: count, check inputs, import controller
+if exist('windTurbine','var') == 1
+    for ii = 1:length(windTurbine)
+        windTurbine(ii).importAeroLoadsTable()
+        windTurbine(ii).loadTurbineData()
+        windTurbine(ii).setNumber(ii);
+        windTurbine(ii).importControl
+    end 
+    clear ii
+end
 
 toc
 
@@ -409,6 +431,20 @@ try
         eval(['sv_b' num2str(ii) '_AnalyticalEfficiency = Simulink.Variant(''EffModel_', num2str(ii), '==1'');']);
         eval(['sv_b' num2str(ii) '_TabulatedEfficiency = Simulink.Variant(''EffModel_', num2str(ii), '==2'');']);
     end; clear ii;
+end
+
+try
+    % wind turbine
+    for ii=1:length(windTurbine)
+        eval(['ControlChoice' num2str(ii) ' = windTurbine(',num2str(ii),').control;'])
+        eval(['sv_' num2str(ii) '_control1 = Simulink.Variant(''ControlChoice' num2str(ii) '==0'');'])
+        eval(['sv_' num2str(ii) '_control2 = Simulink.Variant(''ControlChoice' num2str(ii) '==1'');'])  
+    end; clear ii
+
+    % wind 
+    WindChoice = wind.constantWindFlag;
+    sv_wind_constant = Simulink.Variant('WindChoice==1');
+    sv_wind_turbulent = Simulink.Variant('WindChoice==0');
 end
 
 % Visualization Blocks

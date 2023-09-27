@@ -13,12 +13,14 @@ clear nhbod* sv_b* sv_noWave sv_regularWaves* sv_irregularWaves* sv_udfWaves sv_
 clear sv_visualizationOFF sv_visualizationON visON X Y
 clear dragBodLogic hydroBodLogic nonHydroBodLogic idx it numNonHydroBodies morisonElement* nonLinearHydro* yaw*;
 clear runWecSimCML
+clear sv_1_control* sv_wind_* WindChoice ControlChoice*
 
 toc
 
 tic
 %% Post processing and Saving Results
 postProcessWecSim
+
 % User Defined Post-Processing
 if exist('userDefinedFunctions.m','file') == 2
     userDefinedFunctions;
@@ -56,9 +58,7 @@ if simu.saveWorkspace==1
     end
 end
 
-%% Remove 'temp' directory
-
-% Remove 'temp' directory from path and remove 'temp' directory
+%% Remove 'temp' directory from path and remove 'temp' directory
 rmpath(fullfile(projectRootDir,'temp'));
 try
     rmdir(fullfile(projectRootDir,'temp'),'s');
