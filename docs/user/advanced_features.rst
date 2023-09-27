@@ -189,9 +189,9 @@ run-times when the radiation forces are calculated using different routes. The r
 run-time for a simulation where the radiation forces are calculated using "Constant Coefficients" ( :math:`T_0` ):
 
 	+------------------------------------------------+-------------------------------------------+
-	|   *Radiation Force Calculation Approach*       | *Normalized Run Time*  	             |
+	|   *Radiation Force Calculation Approach*       | *Normalized Run Time*  	                 |
 	+------------------------------------------------+-------------------------------------------+
-	|   Constant Coefficients                        | :math:`T_0`    	                     |
+	|   Constant Coefficients                        | :math:`T_0`    	                         |
 	+------------------------------------------------+-------------------------------------------+
 	|   Convolution                                  | :math:`1.57 \times T_0`                   |
 	+------------------------------------------------+-------------------------------------------+
