@@ -522,9 +522,9 @@ classdef waveClass<handle
             ylabel('Spectrum (m^2-s/rad)');
         end
     
-%     end
-%     
-%     methods (Access = 'protected')
+    end
+    
+    methods (Access = 'protected')
         function setWavePhase(obj)
             % Sets the irregular wave's random phase
             % used by: :meth:`waveClass.setup`.
