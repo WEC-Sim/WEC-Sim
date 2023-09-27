@@ -4,7 +4,7 @@
 Advanced Features
 *****************
 
-In this section a more detailed look will be taken at some of the operational aspects of the new features introduced with MOST. Specifically, we will 
+In this section, a more detailed look will be taken at some of the operational aspects of the new features introduced with MOST. Specifically, we will 
 focus on the pre-processing part in which all the data necessary for simulating Floating Offshore Wind Turbines (FOWT) and hybrid platforms are obtained. 
 For the simulation and post-processing part, please refer to the theory section of MOST (:ref:`most-theory`) and the advanced features of WEC-Sim (:ref:`user-advanced-features`).
 
@@ -96,7 +96,7 @@ This option is based on the catenary equations similarly to the open-source code
 In the simulink model, forces and torques due to moorings are determined through 6 different look-up tables having the 6 degrees of freedom surge, 
 sway, heave, roll, pitch, and yaw as inputs. The breakpoints (related to the inputs) and the outpus (Fx, Fy, Fz, Mx, My and Mz, i.e., the mooring 
 loads) are contained within a data structure called "moor_matrix" and created through the ``Create_Mooring_Matrix.m`` script, in which the following 
-characteristics are specified: 
+variables are specified: 
 
 * Water density (kg/m^3): :code:`rho_water`
 * Gravity acceleration (m/s^2): :code:`gravity`
@@ -135,8 +135,8 @@ Wind Turbine Features
 ---------------------
 
 The wind turbine is modelled as a multi-body system including the tower, the nacelle, the hub, and the blades. The properties of each wind turbine component 
-are defined in two structure that can be generated using the provided ``BladeData.m`` and ``WTproperties.m`` MATLAB codes. In the first, the 
-characteristics concerning the blades are defined, specifically (see figure below for a better comprehension):
+are defined in two structures that can be generated using the provided ``BladeData.m`` and ``WTproperties.m`` MATLAB codes. In the first, the 
+variables concerning the blades are defined, specifically (see figure below for a better comprehension):
 
 * Blade radius values for which other properties are defined: ``radius`` 
 * Value, for each specified radius, of the pre-bending distance out of the rotor plane: ``BlCrvAC`` 
@@ -157,7 +157,7 @@ The following figure :cite:`BladeGeometry` shows some of the values mentioned ab
 |
 
 In the second script, the geometric and inertial properties of the turbine components are defined. For each of them the mass and inertia are defined, 
-in addition, the following other characteristics must be entered (see figure below for a better comprehension):
+in addition, the following other variables must be entered (see figure below for a better comprehension):
 
 
 * Tower offset position relative to sea water level (m): :code:`tower.offset`
@@ -194,7 +194,7 @@ In MOST there is the possibility of using two different wind turbine control log
 and as explained in the :ref:`theory` the steps to be taken in order to obtain the data needed for their simulation are the calculation 
 of the stationary values and the calculation of the controller gains. The first task is performed by the script ``Steady_States.m`` in the subfolder 
 "Control". Specifically, through this, the stationary values of power, rotor speed, thrust force, generator torque and collective blade pitch angle are computed 
-for both of the aforementioned control logics. The following characteristics must be specified in the script: 
+for both of the aforementioned control logics. The following variables must be specified in the script: 
 
 * Value of power produced under nominal conditions and under conditions where the wind speed is greater than the nominal one: :code:`Prated`
 
@@ -306,7 +306,7 @@ Aerodynamic Loads Features
 The look-up tables of aerodynamic loads are generated using the ``AeroLoads.m`` script; the aerodynamic forces and torques are calculated as a function 
 of three input parameters: the wind speed, the difference between the rotor speed and the stationary rotor speed for that wind speed, and the difference 
 between the blade pitch angle and the steady-state angle for that wind speed. In order to calculate the required look-up tables, the user will need to 
-define the following quantities: 
+define the following variables: 
 
 * Rotor speed discretization values: :code:`o_discr`
 * Blade pitch discretization values: :code:`theta_discr` 
@@ -317,8 +317,6 @@ The discretisation range is used to determine the aerodynamic loads near the ste
 operating conditions.
 
 
-
-|
 
 
 

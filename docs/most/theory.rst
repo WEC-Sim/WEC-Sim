@@ -13,12 +13,12 @@ Pre-processing
 ==============
 In the pre-processing phase, it is possible to create all the data required for the simulation (except the hydrodynamic coefficients) by 
 launching the ``mostIO.m`` script, which will call up other codes, each dedicated to specific data (e.g. wind turbine, control, or mooring) 
-and described in this section.
+and described in this section. As with other WEC-Sim examples, the ``bemio.m`` script should still be used to load the hydrodynamic coefficient data.
 
 
 Mooring look-up table
 ---------------------
-As mentioned above, MOST allows for simulation of a mooring look-up table to model a quasi-static, non-linear mooring system. 
+MOST allows for simulation of a mooring look-up table to model a quasi-static, non-linear mooring system. 
 Specifically, the mooring look-up table simulates a mooring system consisting of a certain number of lines suspended between two points 
 (anchor and fairlead) and angularly equally spaced. This option is based on the catenary equations similarly to the open-source code MAP++ :cite:`MAP`. 
 In the Simulink model, forces and torques due to moorings are determined through 6 different look-up tables having the 6 degrees of freedom surge, 
@@ -28,9 +28,8 @@ loads) are contained within a data structure called "moor_matrix" and created th
 
 Wind input
 ----------
-This section describes how the input wind field is generated; there are two possible method: to have constant wind speed (in time and space) or to 
-have a speed field in which turbulence and non-uniform spatial distribution are taken into account. It is possible to specify the choice in the 
-script where the various settings for the simulation are made, ``wecSimInputFile.m``, by initializing the windClass with "constant" or "turbulent".
+This section describes how the input wind field is generated; there are two possible methods: to have constant wind speed (in time and space) or to 
+have a wind speed field in which turbulence and non-uniform spatial distribution are taken into account. It is possible to specify wind method in ``wecSimInputFile.m`` by initializing the windClass with "constant" or "turbulent".
 In the first case there will be a constant wind speed at all times and at every point on the rotor area, while the second case considers the spatial 
 and temporal turbulence of the wind. Regarding the second case, the scatter of the wind speed is obtained using an external code, `Turbsim <https://www.nrel.gov/wind/nwtc/turbsim.html>`_, developed 
 by NREL, and integrated within the MOST code. The user can launch the ``run_turbsim.m`` script (in "turbsim" subfolder) to create the wind input data 
@@ -43,7 +42,7 @@ corresponding to the blade nodes will be obtained by interpolating between the g
 Wind turbine properties
 -----------------------
 All wind turbine components are modelled as rigid bodies; this includes the tower, the nacelle, the hub, and the blades. The inertial and geometrical
-properties of the components must be defined in a MATLAB structure, the user can use the script ``WTproperties.m`` to write the parameters of the 
+properties of the components must be defined in a MATLAB structure, the user can use the script ``WTproperties.m`` ("turbine_properties" subfolder) to write the parameters of the 
 desired wind turbine. In particular, mass, moment of inertia, centre of mass relative to the reference, and centre of mass in the global reference 
 frame (whose origin is at the sea water level) are defined for each body. In addition, other parameters such as tilt and precone angles, tower 
 height, electrical generator efficiency, and CAD file names are set. The CAD files to define the geometry can be imported from external software. 
@@ -58,17 +57,17 @@ They must be saved in the folder "geometry". The user must set the name of the C
 In addition to the general characteristics of the wind turbine, the user must set the specific properties for the blades by launching the ``BladeData.m`` 
 script, which defines the needed data structure by taking the information from some text files in the "BladeData" subfolder. In these, lift, drag, and 
 torque coefficients are specified for each type of airfoil used, as well as certain geometric characteristics of the blades such as twist angle and 
-chord length as a function of radius, and geometric characteristics related to pre-bending.
+chord length as a function of radius and geometric characteristics related to pre-bending.
 
 
 Control properties
 ------------------
 
 This section explains how the MOST controller characteristics to be used in simulations are calculated. As mentioned earlier, it is possible to choose
-between two control logics (Baseline :cite:`Hansen2005` and ROSCO :cite:`abbas2022reference`), and for the creation of the data required for the 
+between two control logics (Baseline :cite:`Hansen2005` and ROSCO :cite:`abbas2022reference`), and, for the creation of the data required for the 
 simulation, it is necessary to know the steady-states values, i.e. the stationary values of certain quantities of interest when varying, in this case, 
 the wind speed, which is considered constant for this purpose. The first step in obtaining the data required for the simulation is therefore to run 
-the script called ``Steady_States.m`` in the subfolder "Control", which performs this calculation. Specifically, through this, the stationary values 
+the script called ``Steady_States.m`` in the subfolder "control" to perform this calculation. Specifically, through this, the stationary values 
 of power, rotor speed, thrust force, generator torque, and blade pitch angle are computed for both of the aforementioned control logics. 
 The script calculates different stationary values according to the control logic because of their diversity. Specifically, only the ROSCO controller 
 imposes an upper limit for the thrust force, so when the wind speed is close to the nominal wind speed (where the force peak occurs), the blade pitch
@@ -84,7 +83,7 @@ Below is a figure representing an example of steady-state values for Baseline an
 
 |
    
-In the following, the Baseline and ROSCO control logics will be briefly explained, for more information refer to  :cite:`Hansen2005` (Baseline) 
+In the following, the Baseline and ROSCO control logics will be briefly explained; for more information refer to  :cite:`Hansen2005` (Baseline) 
 and :cite:`abbas2022reference` (ROSCO).
 
 .. _Baseline:
@@ -427,15 +426,15 @@ Aerodynamic Loads
 
 The aerodynamic loads due to the interaction between wind and blades are determined during the simulation using look-up tables previously obtained 
 during pre-processing. Specifically, the "AeroLoads" script in the "aeroloads" subfolder handles this by using a function, based on BEM (Blade Element 
-Momentum Theory), which receives as input the wind speed, rotor speed and blade pitch angle and outputs the aerodynamic forces and torques acting on 
+Momentum Theory), which receives as input the wind speed, rotor speed, and blade pitch angle and outputs the aerodynamic forces and torques acting on 
 the blade root. For more information on the resolution of BEMT see :cite:`ning2014simple` and :cite:`Ning2015`. The aerodynamic forces do not take into 
 account the flexibility of the blade (rigid body assumption), the deflection of the wake due to the rotor misalignment with respect to the wind and 
 the wake dynamics. The domain of the tables will consist of the wind speeds for which the stationary values were previously calculated and a number 
 of values of rotor speed and blade pitch angle evenly spaced around the stationary value corresponding to the wind speed. The look-up table of 
-the aerodynamic loads has only one input for the wind speed; so the average wind speed is determined by interpolating four points for each blade in 
-the wind grid along the blade length. The discretisation points are defined by “blade.bladeDiscr” in ``WTproperties.m`` script. It is preferable to define 
+the aerodynamic loads has only one input for the wind speed, so the average wind speed is determined by interpolating four points for each blade in 
+the wind grid along the blade length. The discretization points are defined by “blade.bladeDiscr” in ``WTproperties.m`` script. It is preferable to define 
 those points starting from the middle of the blade and not from the root because the wind speed has more influence at the final section of the blade. The horizontal hub speed, due to surge and pitch oscillation, is added to the wind speed. 
-Furthermore, the pitch motion and yaw motion of the hub multiplied by the distance from the hub of discretisation points (blade.bladeDiscr) are also 
+Furthermore, the pitch motion and yaw motion of the hub multiplied by the distance from the hub of discretization points (blade.bladeDiscr) are also 
 added to wind speed.
 
 
@@ -460,8 +459,8 @@ variant subsystems according to the settings made. Below is an example of a Simu
    
 |  
    
-The platform and mooring sub-models are libraries of WEC-Sim that solve the hydrodynamic and hydrostatic loads acting on the platform and the forces 
-due to moorings according to the settings and file names provided. The turbine sub-model is the MOST library, visible in the figure below.
+The platform and mooring subsystems are libraries of WEC-Sim that solve the hydrodynamic and hydrostatic loads acting on the platform and the forces 
+due to moorings according to the settings and file names provided. The turbine subsystem is the MOST library, visible in the figure below.
 
 .. image:: IMAGE_MOST_Library.png
    :width: 100%
@@ -470,7 +469,7 @@ due to moorings according to the settings and file names provided. The turbine s
 |
    
 The MOST model is mainly composed of rigid bodies (representing the various components of the turbine) connected via fixed joints or, in the case of 
-the link between the hub and nacelle, with a revolute joint. An example of a component (hub) can be seen in figure and includes the calculation of 
+the link between the hub and nacelle, with a revolute joint. An example of a component (hub) can be seen in the figure below and includes the calculation of 
 inertial forces (in the "Body Properties" block) and weight force (in the "External Force and Torque" block). In the case of blades, aerodynamic forces 
 are also applied via a similar block. 
 
@@ -480,10 +479,10 @@ are also applied via a similar block.
 
 |
    
-In the 'Aerodynamics + Control' sub-model, the aerodynamic forces and torque values of the generator and collective blade pitch are derived. In the 
-"Control" and "Blade wind speed" submodels, variant subsystems are contained in which it is decided whether to use the Baseline or ROSCO controller 
+In the 'Aerodynamics + Control' subsystem, the aerodynamic forces and torque values of the generator and collective blade pitch are derived. In the 
+"Control" and "Blade wind speed" subsystems, variant subsystems are contained in which it is decided whether to use the Baseline or ROSCO controller 
 and whether to have constant or turbulent wind. With regard to wind block, here the relative speed with respect to the interested blade nodes is 
-calculated, receiving the movements of the structure and the wind field as inputs. Finally, the "AeroLoads" sub-model contains the look-up tables of 
+calculated, receiving the movements of the structure and the wind field as inputs. Finally, the "AeroLoads" subsystem contains the look-up tables of 
 the aerodynamic loads obtained in pre-processing.
 
 .. image:: IMAGE_Aeroload_Control_Submodel.png
@@ -499,10 +498,10 @@ Post-processing
 Post-processing consists of processing the simulation output data and saving it, as well as of the possible creation of an (ASCII) text file containing 
 the simulation report. For this we rely on the WEC-Sim executables ``stopWecSim.m`` and ``postProcessWecSim.m``, which use the ``rensponseClass`` for processing 
 the results, and on the ``userDefinedFunction.m`` script to plot time-domain simulation input and output by also exploiting some functions of the ``rensponseClass``.
-The ``responseClass`` contains all the output time-series and methods to plot and interact with the results. It is not initialized by the user, instead, it 
+The ``responseClass`` contains all the output time-series and methods to plot and interact with the results. It is not initialized by the user; instead, it 
 is created automatically at the end of a WEC-Sim simulation. The ``responseClass`` does not input any parameter back to WEC-Sim, only taking output data from 
 the various objects and blocks. After WEC-Sim is done running, there will be a new variable called ``output`` saved to the MATLAB workspace.   
-The output object is an instance of the ``responseClass``, it contains all the relevant time-series results of the simulation.
+The output object is an instance of the ``responseClass``; it contains all the relevant time-series results of the simulation.
 The figure below shows an example of some input-output plots from a simulation of the IEA 15 MW reference wind turbine mounted on the VolturnUS semi-submersible 
 platform (:cite:`Gaertner2020` and :cite:`Allen2020`).
 
@@ -510,13 +509,3 @@ platform (:cite:`Gaertner2020` and :cite:`Allen2020`).
    :width: 100%
    :align: center
 
-|
-
-
-
-References
-----------
-
-.. bibliography:: ../most/MOST.bib
-   :style: unsrt
-   :labelprefix: D
