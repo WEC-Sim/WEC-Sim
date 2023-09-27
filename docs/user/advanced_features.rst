@@ -182,21 +182,22 @@ radiation Impulse Response Function -- which is calculated using the cosine tran
 Speed-gains to the simulation can be made by using alternatives to the convolution operation, namely, 
 
 1. The State-Space Representation,
-2. The FIR Filters.
+2. The Finite Impulse Response (FIR) Filters.
 
-Here is a comparison of simulation run-times for the RM3 example simulated for 1000 s, when the radiation forces 
-are calculated using different routes:
+Simulation run-times were benchmarked using the RM3 example simulated for 1000 s. Here is a summary of normalized
+run-times when the radiation forces are calculated using different routes. The run-times are normalized by the 
+run-time for a simulation where the radiation forces are calculated using "Constant Coefficients" ( :math:`T_0` ):
 
 	+------------------------------------------------+-------------------------------------------+
-	|   *Radiation Force Calculation Approach*       | *Time (s)*  	                             |
+	|   *Radiation Force Calculation Approach*       | *Normalized Run Time*  	             |
 	+------------------------------------------------+-------------------------------------------+
-	|   No Convolution                               | 3.699 s    	                             |
+	|   Constant Coefficients                        | :math:`T_0`    	                     |
 	+------------------------------------------------+-------------------------------------------+
-	|   Convolution                                  | 5.810 s    	                             |
+	|   Convolution                                  | :math:`1.57 \times T_0`                   |
 	+------------------------------------------------+-------------------------------------------+
-	|   State-Space	                                 | 4.215 s    	                             |   
+	|   State-Space	                                 | :math:`1.14 \times T_0`                   |   
 	+------------------------------------------------+-------------------------------------------+
-	|   FIR Filter 	                                 | 5.001 s                            	     |     
+	|   FIR Filter 	                                 | :math:`1.35 \times T_0`                   |     
 	+------------------------------------------------+-------------------------------------------+  
 
 State-Space Representation
@@ -212,7 +213,7 @@ must be defined in the WEC-Sim input file, for example:
 .. _user-advanced-features-time-step:
 
 
-FIR Filters
+Finite Impulse Response (FIR) Filters
 """"""""""""""""""""""""""""
 By default, WEC-Sim uses numerical integration to calculate the convolution integral, while 
 FIR filters implement the same using a `discretized convolution`, by using FIR filters -- digital filters 
