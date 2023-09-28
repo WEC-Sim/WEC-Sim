@@ -149,11 +149,11 @@ presentation is available for download here ( `Webinar 1 Slides
 <../_static/downloads/advancedFeaturesWebinars/1_WEC-Sim_AdvFeatures_MCR_Batch_Runs.pdf>`__ ), and the recording is 
 available below. 
 
-**Webinar 1 - Multiple Condition Runs (MCR) - UPDATE LINK**
+**Webinar 1 - Multiple Condition Runs (MCR)**
 
     .. raw:: html
     
-        <iframe width="560" height="315" src="https://www.youtube.com/embed/ds7nibQx63g?ecver=1" frameborder="0" allowfullscreen></iframe>
+        <iframe width="560" height="315" src="https://www.youtube.com/embed/gyZ2GFKe68Y?si=DJwVGB6BIH0KO9p5" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" allowfullscreen></iframe>
 
 .. _webinar2:
 
@@ -166,11 +166,11 @@ The presentation is available
 for download here ( `Webinar 2 Slides <../_static/downloads/advancedFeaturesWebinars/2_WEC-Sim_AdvFeatures_Nonlinear_hydro.pdf>`__ ), 
 and the recordings are available below. 
 
-**Webinar 2 - Nonlinear Buoyancy and Froude-Krylov Wave Excitation - UPDATE LINK**
+**Webinar 2 - Nonlinear Buoyancy and Froude-Krylov Wave Excitation**
 
     .. raw:: html
     
-        <iframe width="560" height="315" src="https://www.youtube.com/embed/jC2HIcy2E6M?ecver=1" frameborder="0" allowfullscreen></iframe>
+        <iframe width="560" height="315" src="https://www.youtube.com/embed/lYi3w20eYVc?si=TuiMEKNDNPjTVrU_" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" allowfullscreen></iframe>
 
 
 .. _webinar3:
@@ -231,11 +231,11 @@ The presentation is available for download here ( `Webinar 6 Slides
 <../_static/downloads/advancedFeaturesWebinars/6_WEC-Sim_AdvFeatures_Controls.pdf>`__ ), and the recordings are 
 available below. 
 
-**Webinar 6 - WEC-Sim Controls - UPDATE LINK**
+**Webinar 6 - WEC-Sim Controls**
 
     .. raw:: html
     
-        <iframe width="560" height="315" src="https://www.youtube.com/embed/JFEnFhqkGB4?si=LUaotglac4jrNgjY" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" allowfullscreen></iframe>
+        <iframe width="560" height="315" src="https://www.youtube.com/embed/6NocmT5qZYc?si=h3RUgYrm6xK-UXtO" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" allowfullscreen></iframe>
 
 .. _webinar7:
 
@@ -247,11 +247,11 @@ The presentation is available for download here ( `Webinar 7 Slides
 <../_static/downloads/advancedFeaturesWebinars/7_WEC-Sim_AdvFeatures_Cable.pdf>`__ ), and the recordings are 
 available below. 
 
-**Webinar 7 - Modeling Cables - UPDATE LINK**
+**Webinar 7 - Modeling Cables**
 
     .. raw:: html
     
-        <iframe width="560" height="315" src="https://www.youtube.com/embed/JFEnFhqkGB4?si=LUaotglac4jrNgjY" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" allowfullscreen></iframe>
+        <iframe width="560" height="315" src="https://www.youtube.com/embed/0W5Ndzx3j6Y?si=Z5N7yu9tAZsao9Vf" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" allowfullscreen></iframe>
 
 
 .. _webinar8:
@@ -281,11 +281,11 @@ The presentation is available for download here ( `Webinar 9 Slides
 <../_static/downloads/advancedFeaturesWebinars/9_WEC-Sim_AdvFeatures_OWC_Modeling.pdf>`__ ), and the recordings are 
 available below. 
 
-**Webinar 9 - Modeling OWC Devices - UPDATE LINK**
+**Webinar 9 - Modeling OWC Devices**
 
     .. raw:: html
     
-        <iframe width="560" height="315" src="https://www.youtube.com/embed/rqUVK9dCsU0?si=pEKY0jXbKIU7bngl" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" allowfullscreen></iframe>
+        <iframe width="560" height="315" src="https://www.youtube.com/embed/fd6yA7EATAo?si=8VS2uJEeWZChLF8M" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" allowfullscreen></iframe>
 
 
 .. _webinar10:
