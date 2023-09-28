@@ -15,6 +15,7 @@ clear sv_FIR
 clear dragBodLogic hydroBodLogic nonHydroBodLogic idx it numNonHydroBodies morisonElement* nonLinearHydro* yaw*;
 clear runWecSimCML
 clear sv_1_control* sv_wind_* WindChoice ControlChoice*
+clear iW
 
 toc
 

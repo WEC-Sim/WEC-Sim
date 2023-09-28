@@ -381,7 +381,7 @@ Here is an example for setting up multiple Wave-Spectra in the WEC-Sim input fil
 
 
 .. Note::
-    
+
     1. If using a wave-spectra with different wave-heading directions, ensure that the BEM data has
     the hydrodynamic coefficients corresponding to the desired wave-heading direction,
 
@@ -1546,12 +1546,15 @@ Wave Markers
 
 This section describes how to visualize the wave elevations at various locations using 
 markers in SimScape Mechanics Explorer. 
-Users must define an array of [X,Y] coordinates, the marker style (sphere, cube, frames), and the marker size in pixels.
+Users must define an array of [X,Y] coordinates, the marker style (sphere, cube, frames), the marker size in pixels, marker color in RGB format.
 The ``Global Reference Frame`` block programmatically initiates and adds/deletes the visualization blocks based on the number of markers *(0 to N)* defined by the user.
+Here are the steps to define wave markers representing a wave-spectra, ``waves(1)``. Similar steps can be followed for subsequent ``waves(#)`` objects.
 
-* Define an array of marker locations: ``waves.markLoc = [X,Y]``, where the first column defines the X coordinates, and the second column defines the corresponding Y coordinates, Default = ``[]``
-* Define marker style : ``waves.markStyle = 1``, where 1: Sphere, 2: Cube, 3: Frame, Default = ``1``: Sphere
-* Define marker size : ``waves.markSize = 10``, to specify marker size in Pixels, Default = ``10``
+
+* Define an array of marker locations: ``waves(1).marker.location = [X,Y]``, where the first column defines the X coordinates, and the second column defines the corresponding Y coordinates, Default = ``[]``
+* Define marker style : ``waves(1).marker.style = 1``, where 1: Sphere, 2: Cube, 3: Frame, Default = ``1``: Sphere
+* Define marker size : ``waves(1).marker.size = 10``, to specify marker size in Pixels, Default = ``10``
+* Define marker color: ``waves(1).marker.graphicColor = [1,0,0]``, to specifie marker color in RBG format.
 
 .. Here is an example. In this example a mesh of points is described using the meshgrid command and then  making it an array of X and Y coordinates using reshape(). 
 
