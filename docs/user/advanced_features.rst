@@ -347,6 +347,55 @@ direction. For more information about the spectral formulation, refer to
 
 .. _user-advanced-features-seeded-phase:
 
+Multiple Wave-Spectra
+^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+The Wave Directional Spreading feature only allows splitting the same wave-front. 
+However, quite often mixed-seas are composed of disparate Wave-Spectra with unique
+periods, heights, and directions. An example would be a sea-state composed of 
+swell-waves and chop-waves.  
+
+Assuming that the linear potential flow theory holds, the wave inputs to the system can be
+super-imposed. This implies, the effects of multiple Wave-Spectra can be simulated, if the 
+excitation-forces for each Wave-Spectra is calculated, and added to the pertinent 
+Degree-of-Freedom.
+
+WEC-Sim can simulate the dynamics of a body experiencing multiple Wave-Spectra each with 
+their unique directions, periods, and heights. In order to calculate the excitation-forces 
+for multiple Wave-Spectra, WEC-Sim automatically generates multiple instances of 
+excitation-force sub-systems. The user only needs to create multiple instances of 
+the ``waves`` class.
+
+
+Here is an example for setting up multiple Wave-Spectra in the WEC-Sim input file::
+
+            waves(1)           = waveClass('regularCIC');   % Initialize Wave Class and Specify Type                                 
+            waves(1).height    = 2.5;                       % Wave Height [m]
+            waves(1).period    = 8;                         % Wave Period [s]
+            waves(1).direction = 0;                         % Wave Direction (deg.)
+            waves(2)           = waveClass('regularCIC');   % Initialize Wave Class and Specify Type                                 
+            waves(2).height    = 2.5;                       % Wave Height [m]
+            waves(2).period    = 8;                         % Wave Period [s]
+            waves(2).direction = 90;                        % Wave Direction (deg.)
+
+
+
+.. Note::
+    If using a wave-spectra with different wave-heading directions, ensure that the BEM data has
+    the hydrodynamic coefficients corresponding to the desired wave-heading direction.
+    
+Addtionally, the multiple Wave-Spectra can be visualized as elaborated in: 
+`WEC-Sim Visualization Wave Markers <http://wec-sim.github.io/WEC-Sim/master/user/advanced_features.html#wave-markers>`_. 
+The user needs to define the marker parameters for each Wave-Spectra, as one would for a single Wave-Spectra.
+
+Here is an example of 2 Wave-Spectra being visualized using the wave wave-markers feature:
+
+.. figure:: /_static/images/Nwave.png 
+   :width: 600pt 
+   :align: center
+
+Here is a visualization of two Wave-Spectra, represented by red markers and blue markers respectively.
+
 Irregular Waves with Seeded Phase
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
