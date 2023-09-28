@@ -381,8 +381,13 @@ Here is an example for setting up multiple Wave-Spectra in the WEC-Sim input fil
 
 
 .. Note::
-    If using a wave-spectra with different wave-heading directions, ensure that the BEM data has
-    the hydrodynamic coefficients corresponding to the desired wave-heading direction.
+    
+    1. If using a wave-spectra with different wave-heading directions, ensure that the BEM data has
+    the hydrodynamic coefficients corresponding to the desired wave-heading direction,
+
+    2. All wave-spectra should be of the same type, i.e., if :code:`waves(1)` is initialized 
+    as :code:`waves(1) = waveClass('regularCIC')`, the following :code:`waves(#)` object should 
+    initialized the same way.
     
 Addtionally, the multiple Wave-Spectra can be visualized as elaborated in: 
 `WEC-Sim Visualization Wave Markers <http://wec-sim.github.io/WEC-Sim/master/user/advanced_features.html#wave-markers>`_. 
