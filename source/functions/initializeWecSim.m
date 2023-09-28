@@ -94,13 +94,17 @@ if exist('mcr','var') == 1
         end
     end; clear n combine;
     try 
-        waves.spectrumFile = ['..' filesep pctDir filesep '..' filesep waves.spectrumFile];
-        waves.elevationFile = ['..' filesep pctDir filesep '..' filesep waves.elevationFile];
+        for iW = 1:length(waves)
+            waves(iW).spectrumFile = ['..' filesep pctDir filesep '..' filesep waves(iW).spectrumFile];
+            waves(iW).elevationFile = ['..' filesep pctDir filesep '..' filesep waves(iW).elevationFile];
+        end
     end
 end
 
 % Waves and Simu: check inputs
-waves.checkInputs();
+for iW = 1:length(waves)
+    waves(iW).checkInputs();
+end
 simu.checkInputs();
 
 % Constraints: count & set orientation
@@ -245,20 +249,24 @@ simu.setup();
 if any(hydroBodLogic == 1)
     % When hydro bodies (and an .h5) are present, define the wave using those
     % parameters.
-    waves.setup(body(1).hydroData.simulation_parameters.w, body(1).hydroData.simulation_parameters.waterDepth, simu.rampTime, simu.dt, simu.maxIt, simu.time, simu.gravity, simu.rho);
-    % Check that direction and freq are within range of hydro data
-    if  min(waves.direction) <  min(body(1).hydroData.simulation_parameters.direction) || max(waves.direction) >  max(body(1).hydroData.simulation_parameters.direction)
-        error('waves.direction outside of range of available hydro data')
-    end
-    if strcmp(waves.type,'elevationImport')~=1 && strcmp(waves.type,'noWave')~=1 && strcmp(waves.type,'noWaveCIC')~=1
-        if  min(waves.omega) <  min(body(1).hydroData.simulation_parameters.w) || max(waves.omega) >  max(body(1).hydroData.simulation_parameters.w)
-            error('waves.omega outside of range of available hydro data')
+    for iW = 1:length(waves)
+        waves(iW).setup(body(1).hydroData.simulation_parameters.w, body(1).hydroData.simulation_parameters.waterDepth, simu.rampTime, simu.dt, simu.maxIt, simu.time, simu.gravity, simu.rho);
+        % Check that direction and freq are within range of hydro data
+        if  min(waves(iW).direction) <  min(body(1).hydroData.simulation_parameters.direction) || max(waves(iW).direction) >  max(body(1).hydroData.simulation_parameters.direction)
+            error('waves(%d).direction outside of range of available hydro data',iW)
+        end
+        if strcmp(waves(iW).type,'elevationImport')~=1 && strcmp(waves(iW).type,'noWave')~=1 && strcmp(waves(iW).type,'noWaveCIC')~=1
+            if  min(waves(iW).omega) <  min(body(1).hydroData.simulation_parameters.w) || max(waves(iW).omega) >  max(body(1).hydroData.simulation_parameters.w)
+                error('waves(%d).omega outside of range of available hydro data',iW)
+            end
         end
     end
 else
     % When no hydro bodies (and no .h5) are present, define the wave using
     % input file parameters
-    waves.setup([], [], simu.rampTime, simu.dt, simu.maxIt, simu.time, simu.gravity, simu.rho);
+    for iW = 1:length(waves)
+        waves(iW).setup([], [], simu.rampTime, simu.dt, simu.maxIt, simu.time, simu.gravity, simu.rho);
+    end
 end
 
 % Nonlinear hydro
@@ -273,8 +281,8 @@ idx = find(hydroBodLogic==1);
 if ~isempty(idx)
     for kk = 1:length(idx)
         it = idx(kk);
-        body(it).hydroForcePre(waves.omega,waves.direction,simu.cicTime,waves.bem.count,simu.dt,...
-            simu.rho,simu.gravity,waves.type,waves.waveAmpTime,simu.stateSpace,simu.b2b);
+        body(it).hydroForcePre(waves(1).omega,waves(1).direction,simu.cicTime,waves(1).bem.count,simu.dt,...
+            simu.rho,simu.gravity,waves(1).type,waves(1).waveAmpTime,simu.stateSpace,simu.b2b);
     end; clear kk idx
 end
 
@@ -297,7 +305,7 @@ if ~isempty(idx)
 end
     
 % Check cicEndTime
-if waves.typeNum~=0 && waves.typeNum~=10
+if waves(1).typeNum~=0 && waves(1).typeNum~=10
     for iBod = 1:simu.numHydroBodies
         if simu.cicEndTime > max(body(iBod).hydroData.hydro_coeffs.radiation_damping.impulse_response_fun.t)
             error('simu.cicEndTime is larger than the length of the IRF');
@@ -318,17 +326,29 @@ for ii = 1:simu.numHydroBodies
     end
 end; clear ii;
 
+% Check for all waves(#) are of the same type
+for iW = 2:length(waves)
+    if strcmp(waves(iW).type, waves(1).type) ~=1
+        error('All Wave-Spectra should be the same type as waves(1)')
+    end
+end
+
+
 % Check for elevationImport with nonlinearHydro
 for ii = 1:simu.numHydroBodies
-    if strcmp(waves.type,'elevationImport') && body(ii).nonlinearHydro == 1
-        error(['Cannot run WEC-Sim with nonlinear hydro (body(ii).nonlinearHydro) and "elevationImport" wave type'])
+    for iW = 1:length(waves)
+        if strcmp(waves(iW).type,'elevationImport') && body(ii).nonlinearHydro == 1
+            error(['Cannot run WEC-Sim with nonlinear hydro (body(ii).nonlinearHydro) and "elevationImport" wave type'])
+        end
     end
 end
 
 % Check for elevationImport with morisonElement
 for ii = 1:simu.numHydroBodies
-    if strcmp(waves.type,'elevationImport') && body(ii).morisonElement.option ~= 0
-        error(['Cannot run WEC-Sim with Morison Element (body(ii).morisonElement.option>0) and "elevationImport" wave type'])
+    for iW = 1:length(waves)
+        if strcmp(waves(iW).type,'elevationImport') && body(ii).morisonElement.option ~= 0
+            error(['Cannot run WEC-Sim with Morison Element (body(ii).morisonElement.option>0) and "elevationImport" wave type'])
+        end
     end
 end
 
@@ -387,7 +407,7 @@ for ii=1:length(body(1,:))
     end
 end; clear ii;
 % Radiation Damping
-if waves.typeNum==0 || waves.typeNum==10 %'noWave' & 'regular'
+if waves(1).typeNum==0 || waves(1).typeNum==10 %'noWave' & 'regular'
     radiation_option = 1;
 elseif simu.stateSpace == 1
     radiation_option = 3;
@@ -401,7 +421,7 @@ sv_convolution=Simulink.Variant('radiation_option==2');
 sv_stateSpace=Simulink.Variant('radiation_option==3');
 sv_FIR = Simulink.Variant('radiation_option==4');
 % Wave type
-typeNum = waves.typeNum;
+typeNum = waves(1).typeNum;
 sv_noWave=Simulink.Variant('typeNum<10');
 
 % Passive Yaw
@@ -451,7 +471,7 @@ try
 end
 
 % Visualization Blocks
-if ~isempty(waves.marker.location) && typeNum < 30
+if ~isempty(waves(1).marker.location) && typeNum < 30
     visON = 1;
 else
     visON = 0;
@@ -461,8 +481,10 @@ sv_visualizationOFF = Simulink.Variant('visON==0');
 
 %% End Pre-Processing and Output All the Simulation and Model Setting
 toc
-simu.listInfo(waves.typeNum);
-waves.listInfo
+simu.listInfo(waves(1).typeNum);
+for iW = 1:length(waves)
+    waves(iW).listInfo();
+end
 fprintf('\nList of Body: ');
 fprintf('Number of Bodies = %u \n',simu.numHydroBodies)
 for i = 1:simu.numHydroBodies

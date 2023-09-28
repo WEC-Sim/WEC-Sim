@@ -347,6 +347,60 @@ direction. For more information about the spectral formulation, refer to
 
 .. _user-advanced-features-seeded-phase:
 
+Multiple Wave-Spectra
+^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+The Wave Directional Spreading feature only allows splitting the same wave-front. 
+However, quite often mixed-seas are composed of disparate Wave-Spectra with unique
+periods, heights, and directions. An example would be a sea-state composed of 
+swell-waves and chop-waves.  
+
+Assuming that the linear potential flow theory holds, the wave inputs to the system can be
+super-imposed. This implies, the effects of multiple Wave-Spectra can be simulated, if the 
+excitation-forces for each Wave-Spectra is calculated, and added to the pertinent 
+Degree-of-Freedom.
+
+WEC-Sim can simulate the dynamics of a body experiencing multiple Wave-Spectra each with 
+their unique directions, periods, and heights. In order to calculate the excitation-forces 
+for multiple Wave-Spectra, WEC-Sim automatically generates multiple instances of 
+excitation-force sub-systems. The user only needs to create multiple instances of 
+the ``waves`` class.
+
+
+Here is an example for setting up multiple Wave-Spectra in the WEC-Sim input file::
+
+            waves(1)           = waveClass('regularCIC');   % Initialize Wave Class and Specify Type                                 
+            waves(1).height    = 2.5;                       % Wave Height [m]
+            waves(1).period    = 8;                         % Wave Period [s]
+            waves(1).direction = 0;                         % Wave Direction (deg.)
+            waves(2)           = waveClass('regularCIC');   % Initialize Wave Class and Specify Type                                 
+            waves(2).height    = 2.5;                       % Wave Height [m]
+            waves(2).period    = 8;                         % Wave Period [s]
+            waves(2).direction = 90;                        % Wave Direction (deg.)
+
+
+
+.. Note::
+
+    1. If using a wave-spectra with different wave-heading directions, ensure that the BEM data has
+    the hydrodynamic coefficients corresponding to the desired wave-heading direction,
+
+    2. All wave-spectra should be of the same type, i.e., if :code:`waves(1)` is initialized 
+    as :code:`waves(1) = waveClass('regularCIC')`, the following :code:`waves(#)` object should 
+    initialized the same way.
+    
+Addtionally, the multiple Wave-Spectra can be visualized as elaborated in: 
+`WEC-Sim Visualization Wave Markers <http://wec-sim.github.io/WEC-Sim/master/user/advanced_features.html#wave-markers>`_. 
+The user needs to define the marker parameters for each Wave-Spectra, as one would for a single Wave-Spectra.
+
+Here is an example of 2 Wave-Spectra being visualized using the wave wave-markers feature:
+
+.. figure:: /_static/images/Nwave.png 
+   :width: 600pt 
+   :align: center
+
+Here is a visualization of two Wave-Spectra, represented by red markers and blue markers respectively.
+
 Irregular Waves with Seeded Phase
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
@@ -1492,12 +1546,15 @@ Wave Markers
 
 This section describes how to visualize the wave elevations at various locations using 
 markers in SimScape Mechanics Explorer. 
-Users must define an array of [X,Y] coordinates, the marker style (sphere, cube, frames), and the marker size in pixels.
+Users must define an array of [X,Y] coordinates, the marker style (sphere, cube, frames), the marker size in pixels, marker color in RGB format.
 The ``Global Reference Frame`` block programmatically initiates and adds/deletes the visualization blocks based on the number of markers *(0 to N)* defined by the user.
+Here are the steps to define wave markers representing a wave-spectra, ``waves(1)``. Similar steps can be followed for subsequent ``waves(#)`` objects.
 
-* Define an array of marker locations: ``waves.markLoc = [X,Y]``, where the first column defines the X coordinates, and the second column defines the corresponding Y coordinates, Default = ``[]``
-* Define marker style : ``waves.markStyle = 1``, where 1: Sphere, 2: Cube, 3: Frame, Default = ``1``: Sphere
-* Define marker size : ``waves.markSize = 10``, to specify marker size in Pixels, Default = ``10``
+
+* Define an array of marker locations: ``waves(1).marker.location = [X,Y]``, where the first column defines the X coordinates, and the second column defines the corresponding Y coordinates, Default = ``[]``
+* Define marker style : ``waves(1).marker.style = 1``, where 1: Sphere, 2: Cube, 3: Frame, Default = ``1``: Sphere
+* Define marker size : ``waves(1).marker.size = 10``, to specify marker size in Pixels, Default = ``10``
+* Define marker color: ``waves(1).marker.graphicColor = [1,0,0]``, to specifie marker color in RBG format.
 
 .. Here is an example. In this example a mesh of points is described using the meshgrid command and then  making it an array of X and Y coordinates using reshape(). 
 
