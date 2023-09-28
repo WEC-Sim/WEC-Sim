@@ -326,6 +326,14 @@ for ii = 1:simu.numHydroBodies
     end
 end; clear ii;
 
+% Check for all waves(#) are of the same type
+for iW = 2:length(waves)
+    if strcmp(waves(iW).type, waves(1).type) ~=1
+        error('All Wave-Spectra should be the same type as waves(1)')
+    end
+end
+
+
 % Check for elevationImport with nonlinearHydro
 for ii = 1:simu.numHydroBodies
     for iW = 1:length(waves)
