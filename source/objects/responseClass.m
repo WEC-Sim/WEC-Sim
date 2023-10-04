@@ -344,7 +344,7 @@ classdef responseClass<handle
             % load Line#.out
             for iline=1:linesNum
                 eval(['obj.moorDyn.Line' num2str(iline) '=struct();']);
-                filename = ['./Mooring/Line' num2str(iline) '.out'];
+                filename = ['./Mooring/lines_Line' num2str(iline) '.out'];
                 try
                     fid = fopen(filename);
                     header = strsplit(strtrim(fgetl(fid)));
