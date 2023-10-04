@@ -47,7 +47,6 @@ classdef mooringClass<handle
     end
 
     properties (SetAccess = 'private', GetAccess = 'public') %internal
-        libname (1,:) {mustBeText} = 'libmoordyn'                         % (`string`) Name of the mooring. Default = ``'NOT DEFINED'``
         orientation             = []                                        % (`float 1 x 6`) Initial 6DOF location. Default = ``[0 0 0 0 0 0]``        
         number                  = []                                        % (`integer`) Mooring number. Default = ``'NOT DEFINED'``        
         lookupTable             = [];                                       % (`array`) Lookup table data. Force data in 6 DOFs indexed by displacement in 6 DOF
