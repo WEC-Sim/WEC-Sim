@@ -34,7 +34,7 @@ for iline = 1:nline
     end 
 end          
 for iline = 1:nline
-    for isegment = 0:nsegment(iline)-1
+    for isegment = 1:nsegment(iline)
         moorDyn.(['Line' num2str(iline)]).(['Seg' num2str(isegment) 'Te']) = interp1(t,moorDyn.(['Line' num2str(iline)]).(['Seg' num2str(isegment) 'Te'])(:),NewTimeParaview);
     end 
 end
@@ -84,7 +84,7 @@ for it = 1:length(TimeBodyParav)
         fprintf(fid,'      <CellData>\n');
         % Segment Tension
         fprintf(fid,'        <DataArray type="Float32" Name="Segment Tension" NumberOfComponents="1" format="ascii">\n');
-        for isegment = 0:nsegment(iline)-1
+        for isegment = 1:nsegment(iline)
             fprintf(fid, '          %i', moorDyn.(['Line' num2str(iline)]).(['Seg' num2str(isegment) 'Te'])(it));
         end; 
         fprintf(fid, '\n');
