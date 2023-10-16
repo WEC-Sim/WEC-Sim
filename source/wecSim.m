@@ -44,12 +44,14 @@ run('initializeWecSim');
 
 try
 sim(simu.simMechanicsFile, [], simset('SrcWorkspace','parent'));
-catch e %e is an MException struct
-    fprintf("------Error in the Model, Error-Causes/Messsages are :\n");
-    for i=1:size(e.cause)
-        fprintf(e.cause{i}.message);
+catch errorHandle %e is an MException struct
+    fprintf("◘------Error in the Model------◘ :( -- Error-Causes/Messsages are :\n");
+    for i=1:size(errorHandle.cause)
+        fprintf(errorHandle.cause{i}.message);
         fprintf('\n');
     end
+        fprintf(errorHandle.message);
+        fprintf('\n');
             % terminate MoorDyn Conhost.exe instances.
 if libisloaded('Lines')
     calllib('Lines','LinesClose');

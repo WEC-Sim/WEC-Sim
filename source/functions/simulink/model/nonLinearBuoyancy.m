@@ -29,12 +29,16 @@ function [f,p] = fHydrostatic(center,elv,instcg,av,rho,g)
 % Function to calculate the force and moment about the cog due to hydrostatic pressure
 f = zeros(6,1);
 
-% Zeor out regions above the mean free surface
-z=center(:,3); z((z-elv)>0)=0;
+% Zero out regions above the mean free surface
+z=center(:,3);
+idx=find((z-elv)>0); % Body Mesh Panel locations above water cut line
 
 % Calculate the hydrostatic pressure at each triangle center
-pressureVect = rho*g.*[-z -z -z].*-av;
-p = rho*g.*-z;
+pressureVect = rho*g.*[-(z-elv) -(z-elv) -(z-elv)].*-av;
+p = rho*g.*-(z-elv);
+pressureVect(idx,:)=0;  % Zero out pressure on panels above water cut line
+p(idx)=0;
+
 % Compute force about cog
 f(1:3) = sum(pressureVect);
 
