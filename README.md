@@ -1,9 +1,8 @@
 # Refer to [WEC-Sim documentation](http://wec-sim.github.io/WEC-Sim) for more information.
 [![DOI](https://zenodo.org/badge/20451353.svg)](https://zenodo.org/badge/latestdoi/20451353)
-[![Doc Build Status](https://github.com/WEC-Sim/WEC-Sim/actions/workflows/docs.yml/badge.svg)](https://github.com/WEC-Sim/WEC-Sim/actions/workflows/docs.yml)
-[![MATLAB Build Status](https://github.com/WEC-Sim/WEC-Sim/actions/workflows/run-tests-master.yml/badge.svg)](https://github.com/WEC-Sim/WEC-Sim/actions/workflows/run-tests-master.yml)
-[![MATLAB Build Status](https://github.com/WEC-Sim/WEC-Sim/actions/workflows/run-tests-dev.yml/badge.svg)](https://github.com/WEC-Sim/WEC-Sim/actions/workflows/run-tests-dev.yml)
-
+[![Documentation](https://github.com/WEC-Sim/WEC-Sim/actions/workflows/docs.yml/badge.svg)](https://github.com/WEC-Sim/WEC-Sim/actions/workflows/docs.yml)
+[![Run MATLAB tests on master branch](https://github.com/WEC-Sim/WEC-Sim/actions/workflows/run-tests-master.yml/badge.svg?branch=master)](https://github.com/WEC-Sim/WEC-Sim/actions/workflows/run-tests-master.yml)
+[![Run MATLAB tests on dev branch](https://github.com/WEC-Sim/WEC-Sim/actions/workflows/run-tests-dev.yml/badge.svg?branch=dev)](https://github.com/WEC-Sim/WEC-Sim/actions/workflows/run-tests-dev.yml)
 
 ## WEC-Sim Repository
 
