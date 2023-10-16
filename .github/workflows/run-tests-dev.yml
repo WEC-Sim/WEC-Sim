@@ -18,7 +18,7 @@ jobs:
     strategy:
       fail-fast: false
       matrix:
-        release: [R2020b, R2021a, R2021b, R2022a, R2022b, latest]
+        release: [R2020b, R2021a, R2021b, R2022a, R2022b, R2023a, latest]
         os: [ubuntu-latest, windows-latest]
     name: MATLAB ${{ matrix.release }} on ${{ matrix.os }}
     steps:
