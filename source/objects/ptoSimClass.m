@@ -36,10 +36,10 @@ classdef ptoSimClass<handle
         directLinearGenerator (1,1) struct      = struct(...                % Linear crank block properties
             'tau_p',                            'NOT DEFINED',...           % Magnet pole pitch
             'theta_d_0',                        'NOT DEFINED',...           % Initial theta value
-            'Bfric',                            'NOT DEFINED',...           % Friction coeeficient
+            'Bfric',                            'NOT DEFINED',...           % Friction coefficient
             'lambda_sd_0',                      'NOT DEFINED',...           % Stator d-axis flow linkage
             'Rs',                               'NOT DEFINED',...           % Winding resistance
-            'lambda_fd',                       'NOT DEFINED',...           % Flux linkage of the stator d winding due to flux produced by the rotor magnets [Wb-turns]
+            'lambda_fd',                        'NOT DEFINED',...           % Flux linkage of the stator d winding due to flux produced by the rotor magnets [Wb-turns]
             'Ls',                               'NOT DEFINED',...           % Winding inductance
             'lambda_sq_0',                      'NOT DEFINED',...           % Stator q-axis flow linkage
             'Rload',                            'NOT DEFINED')              % External load
@@ -47,7 +47,7 @@ classdef ptoSimClass<handle
             'radius',                           'NOT DEFINED',...           % Rotary generator radius
             'tau_p',                            'NOT DEFINED',...           % Magnet pole pitch
             'theta_d_0',                        'NOT DEFINED',...           % Initial theta value
-            'Bfric',                            'NOT DEFINED',...           % Friction coeeficient
+            'Bfric',                            'NOT DEFINED',...           % Friction coefficient
             'lambda_sd_0',                      'NOT DEFINED',...           % Stator d-axis flow linkage
             'Rs',                               'NOT DEFINED',...           % Winding resistance
             'lambda_fd',                        'NOT DEFINED',...           % Flux linkage of the stator d winding due to flux produced by the rotor magnets [Wb-turns]
@@ -93,7 +93,7 @@ classdef ptoSimClass<handle
             'crank',                            'NOT DEFINED',...           % [m] Crank length
             'offset',                           'NOT DEFINED',...           % [m] Offset length
             'rodLength',                        'NOT DEFINED')              % [m] Rod length
-        name (1,:) {mustBeText}                 = 'NOT DEFINED'             % Electric Block Name
+        %name (1,:) {mustBeText}                 = 'NOT DEFINED'             % Electric Block Name
         rectifyingCheckValve (1,1) struct       = struct(...                % hydraulic Block properties
             'Cd',                               'NOT DEFINED',...           % Discharge accumulator
             'Amax',                             'NOT DEFINED',...           % Maximum opening area of the valve
@@ -103,33 +103,61 @@ classdef ptoSimClass<handle
             'rho',                              'NOT DEFINED',...           % Fluid density
             'k1',                               'NOT DEFINED',...           % Valve coefficiente
             'k2',                               'NOT DEFINED')              % Valve coefficient, it's a function of the other valve variables
+        simpleDirectDrivePTO (1,1) struct      = struct(...                 % simple direct drive linear PTO Block properties
+            'torqueConstant',                   'NOT DEFINED',...           % [Nm/A] Generator Torque constant
+            'gearRatio',                        'NOT DEFINED',...           % [] Gear ratio
+            'drivetrainInertia',                'NOT DEFINED',...           % [kgm^2] Drivetrain inertia
+            'drivetrainFriction',               'NOT DEFINED',...           % [Nms/rad] Drivetrain friction coefficient
+            'windingResistance',                'NOT DEFINED',...           % [ohm] Winding resistance
+            'windingInductance',                'NOT DEFINED')              % [H] Winding inductance
     end
     
     properties (SetAccess = 'public', GetAccess = 'public')%internal
 %         type: This property must be defined to specify the
 %         type of block that will be used. The type value of each block is
 %         presented below:
-%         Type = 1 ---- Electric generator equivalent circuit
-%         Type = 2 ---- Hydraulic cylinder
-%         Type = 3 ---- Hydraulic accumulator
-%         Type = 4 ---- Rectifying check valve
-%         Type = 5 ---- Hydraulic motor
-%         Type = 6 ---- Linear crank 
-%         Type = 7 ---- Adjustable rod 
-%         Type = 8 ---- Check valve 
-%         Type = 9 ---- Direct drive linear generator 
-%         Type = 10 ---- Direct drive Rotary generator
-        type    = []                                                        % PTOSim Block type
-        number  = []                                                        % PTOSim number
+%         type = 'electricGen'      ---- Electric generator equivalent circuit
+%         type = 'hydraulicCyl'     ---- Hydraulic cylinder
+%         type = 'hydraulicAcc'     ---- Hydraulic accumulator
+%         type = 'rectCheckValve'   ---- Rectifying check valve
+%         type = 'hydraulicMotor'   ---- Hydraulic motor
+%         type = 'linCrank'         ---- Linear crank 
+%         type = 'adjustableRod'    ---- Adjustable rod 
+%         type = 'checkValve'       ---- Check valve 
+%         type = 'ddLinearGen'      ---- Direct drive linear generator 
+%         type = 'ddRotaryGen'      ---- Direct drive Rotary generator
+%         type = 'simpleDDPTO'      ---- simple direct drive PTO
+        type    = 'NOT DEFINED';                                            % PTOSim Block type
+        number  = []                                                        % PTOSim block number
+        typeNum = [];                                                       % Number to represent different type of PTO-Sim blocks        
     end
     
     methods
-        function obj        = ptoSimClass(name)
-            % Initilization function
-            if exist('name','var')
-                obj.name = name;
-            else
-                error('The ptoSim class number(s) in the wecSimInputFile must be specified in ascending order starting from 1. The ptoSimClass() function should be called first to initialize each ptoSim block with a name.')
+        function obj        = ptoSimClass(type)
+            obj.type = type;
+            switch obj.type
+                case {'electricGen'}        % Electric generator equivalent circuit
+                    obj.typeNum = 1;
+                case {'hydraulicCyl'}       % Hydraulic cylinder
+                    obj.typeNum = 2;
+                case {'hydraulicAcc'}       % Hydraulic accumulator
+                    obj.typeNum = 3;
+                case {'rectCheckValve'}     % Rectifying check valve
+                    obj.typeNum = 4;
+                case {'hydraulicMotor'}     % Hydraulic Motor
+                    obj.typeNum = 5;
+                case {'linCrank'}           % Linear crank
+                    obj.typeNum = 6;
+                case {'adjustableRod'}      % Adjustable rod 
+                    obj.typeNum = 7;
+                case {'checkValve'}         % Check valve 
+                    obj.typeNum = 8;
+                case {'ddLinearGen'}        % Direct drive linear generator 
+                    obj.typeNum = 9;
+                case {'ddRotaryGen'}        % Direct drive rotary generator 
+                    obj.typeNum = 10;
+                case {'simpleDDPTO'}           % Simple direct drive PTO
+                    obj.typeNum = 11;
             end
         end
 

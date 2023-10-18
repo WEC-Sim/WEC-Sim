@@ -42,7 +42,18 @@ clear simu waves body cable pto constraint ptoSim mooring
 runWecSimCML = 1;
 run('initializeWecSim');
 
-sim(simu.simMechanicsFile, [], simset('SrcWorkspace','parent'));
+try
+    sim(simu.simMechanicsFile, [], simset('SrcWorkspace','parent'));
+catch e % e is an MException struct
+    % terminate MoorDyn Conhost.exe instances before the error is thrown
+    if libisloaded('Lines')
+        calllib('Lines','LinesClose');
+        unloadlibrary Lines;
+    end
+
+    % rethrow the error to give the best debugging information
+    rethrow(e)
+end
 
 % Post-processing
 run('stopWecSim');

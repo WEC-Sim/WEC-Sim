@@ -42,7 +42,8 @@ extensions = [
     'sphinxcontrib.bibtex',
     'sphinxcontrib.matlab',
     'sphinxext.remoteliteralinclude',
-    'sphinx_multiversion'
+    'sphinx_multiversion',
+    'sphinx_rtd_theme'
 ]
 
 # autodoc settings
@@ -63,7 +64,8 @@ napoleon_use_rtype = True
 # sphinxcontrib.bibtex settings
 bibtex_bibfiles = ['refs/WEC-Sim_Adv_Features.bib',
                    'refs/WEC-Sim_Theory.bib',
-                   'refs/WEC-Sim_Tutorials.bib']
+                   'refs/WEC-Sim_Tutorials.bib',
+                   'most/MOST.bib']
 
 # sphinxcontrib.matlab settings
 primary_domain = 'mat'
@@ -185,11 +187,11 @@ html_theme_options = {
 # so a file named "default.css" will overwrite the builtin "default.css".
 html_static_path = ['_static']
 
-html_context = {
-    'css_files': [
-        '_static/theme_overrides.css',  # override wide tables in RTD theme
-        ],
-     }
+# These paths are either relative to html_static_path
+# or fully qualified paths (eg. https://...)
+html_css_files = [
+    'css/custom.css',
+]
 
 # Add any extra paths that contain custom files (such as robots.txt or
 # .htaccess) here, relative to this directory. These files are copied

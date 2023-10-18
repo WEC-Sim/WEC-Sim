@@ -81,7 +81,7 @@ for it = 1:length(t)
     % write cell data
     fprintf(fid,'      <CellData>\n');
     % Cell Areas
-    fprintf(fid,'        <DataArray type="Float32" Name="Cell Area" NumberOfComponents="1" format="ascii">\n');
+    fprintf(fid,'        <DataArray type="Float32" Name="CellArea" NumberOfComponents="1" format="ascii">\n');
     for ii = 1:numFace
         fprintf(fid, '          %i', cellareas(ii));
     end
@@ -89,7 +89,7 @@ for it = 1:length(t)
     fprintf(fid,'        </DataArray>\n');
     % Hydrostatic Pressure
     if ~isempty(hspressure)
-        fprintf(fid,'        <DataArray type="Float32" Name="Hydrostatic Pressure" NumberOfComponents="1" format="ascii">\n');
+        fprintf(fid,'        <DataArray type="Float32" Name="HydrostaticPressure" NumberOfComponents="1" format="ascii">\n');
         for ii = 1:numFace
             fprintf(fid, '          %i', hspressure(it,ii));
         end
@@ -98,7 +98,7 @@ for it = 1:length(t)
     end
     % Nonlinear Froude-Krylov Wave Pressure
     if ~isempty(wavenonlinearpressure)
-        fprintf(fid,'        <DataArray type="Float32" Name="Wave Pressure NonLinear" NumberOfComponents="1" format="ascii">\n');
+        fprintf(fid,'        <DataArray type="Float32" Name="WavePressureNonLinear" NumberOfComponents="1" format="ascii">\n');
         for ii = 1:numFace
             fprintf(fid, '          %i', wavenonlinearpressure(it,ii));
         end
@@ -107,7 +107,7 @@ for it = 1:length(t)
     end
     % Linear Froude-Krylov Wave Pressure
     if ~isempty(wavelinearpressure)
-        fprintf(fid,'        <DataArray type="Float32" Name="Wave Pressure Linear" NumberOfComponents="1" format="ascii">\n');
+        fprintf(fid,'        <DataArray type="Float32" Name="WavePressureLinear" NumberOfComponents="1" format="ascii">\n');
         for ii = 1:numFace
             fprintf(fid, '          %i', wavelinearpressure(it,ii));
         end
