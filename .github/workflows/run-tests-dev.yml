@@ -18,7 +18,7 @@ jobs:
     strategy:
       fail-fast: false
       matrix:
-        release: [R2020b, R2023a]
+        release: [R2020b, 2021a, 2021b, 2022a, 2022b, R2023a]
     name: MATLAB ${{ matrix.release }} on Windows
     steps:
       - name: Check out repository
@@ -51,8 +51,8 @@ jobs:
     strategy:
       fail-fast: false
       matrix:
-        release: [R2020b, latest]
-    name: MATLAB ${{ matrix.release }} on LINUX
+        release: [R2020b, 2021a, 2021b, 2022a, 2022b, R2023a, latest]
+    name: MATLAB ${{ matrix.release }} on Linux
     steps:
       - name: Check out repository
         uses: actions/checkout@v3
