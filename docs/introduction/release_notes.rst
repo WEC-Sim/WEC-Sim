@@ -3,6 +3,73 @@
 Release Notes
 =============
 
+.. _intro-citation:
+
+Citing WEC-Sim
+------------------------
+
+To cite WEC-Sim, please use the citation for WEC-Sim software release and/or cite the following WEC-Sim publication.
+
+
+`WEC-Sim v6.0 <https://github.com/WEC-Sim/WEC-Sim/releases/tag/v6.0>`_
+^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+.. NOTE: this citation needs to be revised for each release
+
+[1] Kelley Ruehl, David Ogden, Yi-Hsiang Yu, Adam Keester, Nathan Tom, Dominic Forbush, Jorge Leon, Jeff Grasberger, and Salman Husain. (2022, September), WEC-Sim (Version v5.0.1), DOI 10.5281/zenodo.7121186.
+
+.. NOTE: this citation needs to be revised for each release, but the url is always for the latest release and does not need to be updated. doi needs to be updated
+
+.. code-block:: none
+
+	@software{wecsim,
+	  author       = {Kelley Ruehl,
+	  		  Nathan Tom, 
+                          Adam Keester, 
+                          Dominic Forbush, 
+                          Jorge Leon, 
+                          David Ogden, 
+                          Jeff Grasberger, 
+                          Salman Husain},
+	  title        = {WEC-Sim v6.0},
+	  month        = September,
+	  year         = 2022,
+	  publisher    = {Zenodo},
+	  version      = {v6.0},
+	  doi          = {10.5281/zenodo.7121186},
+	  url          = {https://zenodo.org/badge/latestdoi/20451353}
+	}
+    
+
+.. NOTE: this doi badge is always for the lastest release, it does not need to be updated 
+
+.. image:: https://zenodo.org/badge/20451353.svg
+   :target: https://zenodo.org/badge/latestdoi/20451353
+
+
+Publication
+^^^^^^^^^^^^^^^^^^^^^^^^^^^
+[1] D. Ogden, K. Ruehl, Y.H. Yu, A. Keester, D. Forbush, J. Leon, N. Tom, "Review of WEC-Sim Development and Applications" in Proceedings of the 14th European Wave and Tidal Energy Conference, EWTEC 2021, Plymouth, UK, 2021. 
+
+
+`WEC-Sim v6.0 <https://github.com/WEC-Sim/WEC-Sim/releases/tag/v6.0>`_
+--------------------------------------------------------------------------------
+
+**New Features**
+
+**Bug Fixes**
+
+**New Contributors**
+
+**Issues and Pull Requests**
+
+`**Full Changelog** <https://github.com/WEC-Sim/WEC-Sim/compare/v5.0.1...v6.0>`_
+
+.. image:: https://zenodo.org/badge/20451353.svg
+   :target: https://zenodo.org/badge/latestdoi/20451353
+
+.. NOTE: this doi badge is always for the lastest release, it needs to be updated 
+
+
 `WEC-Sim v5.0.1 <https://github.com/WEC-Sim/WEC-Sim/releases/tag/v5.0.1>`_
 --------------------------------------------------------------------------------
 
@@ -49,59 +116,6 @@ This is a bug fix release. New features since the previous release are not inclu
 .. image:: https://zenodo.org/badge/DOI/10.5281/zenodo.7121186.svg
    :target: https://doi.org/10.5281/zenodo.7121186
 
-
-.. _intro-citation:
-
-Citing WEC-Sim
-------------------------
-
-To cite WEC-Sim, please use the citation for WEC-Sim software release and/or cite the following WEC-Sim publication.
-
-
-`WEC-Sim v5.0.1 <https://github.com/WEC-Sim/WEC-Sim/releases/tag/v5.0.1>`_
-^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
-.. NOTE: this citation needs to be revised for each release
-
-[1] Kelley Ruehl, David Ogden, Yi-Hsiang Yu, Adam Keester, Nathan Tom, Dominic Forbush, Jorge Leon, Jeff Grasberger, and Salman Husain. (2022, September), WEC-Sim (Version v5.0.1), DOI 10.5281/zenodo.7121186.
-
-.. NOTE: this citation needs to be revised for each release, but the url is always for the latest release and does not need to be updated. doi needs to be updated
-
-.. code-block:: none
-
-	@software{wecsim,
-	  author       = {Kelley Ruehl, 
-                          David Ogden, 
-                          Yi-Hsiang Yu, 
-                          Adam Keester, 
-                          Nathan Tom, 
-                          Dominic Forbush, 
-                          Jorge Leon, 
-                          Jeff Grasberger, 
-                          Salman Husain},
-	  title        = {WEC-Sim v5.0.1},
-	  month        = September,
-	  year         = 2022,
-	  publisher    = {Zenodo},
-	  version      = {v5.0.1},
-	  doi          = {10.5281/zenodo.7121186},
-	  url          = {https://zenodo.org/badge/latestdoi/20451353}
-	}
-    
-
-.. NOTE: this doi badge is always for the lastest release, it does not need to be updated 
-
-.. image:: https://zenodo.org/badge/20451353.svg
-   :target: https://zenodo.org/badge/latestdoi/20451353
-
-
-Publication
-^^^^^^^^^^^^^^^^^^^^^^^^^^^
-[1] D. Ogden, K. Ruehl, Y.H. Yu, A. Keester, D. Forbush, J. Leon, N. Tom, "Review of WEC-Sim Development and Applications" in Proceedings of the 14th European Wave and Tidal Energy Conference, EWTEC 2021, Plymouth, UK, 2021. 
-
-
-
-Previous Releases
-------------------
 
 `WEC-Sim v5.0 <https://github.com/WEC-Sim/WEC-Sim/releases/tag/v5.0>`_
 --------------------------------------------------------------------------------
@@ -180,7 +194,7 @@ Previous Releases
 
 
 `WEC-Sim v4.4 <https://github.com/WEC-Sim/WEC-Sim/releases/tag/v4.4>`_
-^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+--------------------------------------------------------------------------------
   
 * New Features
 
@@ -229,7 +243,7 @@ Previous Releases
 
 
 `WEC-Sim v4.3 <https://github.com/WEC-Sim/WEC-Sim/releases/tag/v4.3>`_
-^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+--------------------------------------------------------------------------------
 
 * New Features
 
@@ -287,7 +301,7 @@ Previous Releases
 
 
 `WEC-Sim v4.2 <https://github.com/WEC-Sim/WEC-Sim/releases/tag/v4.2>`_
-^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+--------------------------------------------------------------------------------
 
 * New Features
 
@@ -321,7 +335,7 @@ Previous Releases
 
 
 `WEC-Sim v4.1 <https://github.com/WEC-Sim/WEC-Sim/releases/tag/v4.1>`_
-^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+--------------------------------------------------------------------------------
 
 * Added passive yaw
 
@@ -344,7 +358,7 @@ Previous Releases
    
    
 `WEC-Sim v4.0 <https://github.com/WEC-Sim/WEC-Sim/releases/tag/v4.0>`_
-^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+--------------------------------------------------------------------------------
 
 * Added mean drift force calculation
 
@@ -358,7 +372,7 @@ Previous Releases
 
 
 `WEC-Sim v3.1 <https://github.com/WEC-Sim/WEC-Sim/releases/tag/v3.1>`_
-^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+--------------------------------------------------------------------------------
 
 * Added wave gauges for three locations
 
@@ -374,7 +388,7 @@ Previous Releases
 
 
 `WEC-Sim v3.0 <https://github.com/WEC-Sim/WEC-Sim/releases/tag/v3.0>`_
-^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+--------------------------------------------------------------------------------
 
 * Added option of :ref:`equal energy spacing <user-advanced-features-irregular-wave-binning>` for irregular waves (default)
 
@@ -400,7 +414,7 @@ Previous Releases
 
 
 `WEC-Sim v2.2 <https://github.com/WEC-Sim/WEC-Sim/releases/tag/v2.2>`_
-^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+--------------------------------------------------------------------------------
 
 * Added option to save pressure data for nonlinear hydro (`simu.pressureDis`)
 
@@ -419,7 +433,7 @@ Previous Releases
 
 
 `WEC-Sim v2.1 <https://github.com/WEC-Sim/WEC-Sim/releases/tag/v2.1>`_
-^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+--------------------------------------------------------------------------------
 
 * Added MATLAB version of BEMIO (to replace python version)
 
@@ -431,7 +445,7 @@ Previous Releases
 
 
 `WEC-Sim v2.0 <https://github.com/WEC-Sim/WEC-Sim/releases/tag/v2.0>`_
-^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+--------------------------------------------------------------------------------
 
 * Updated WEC-Sim Library (generalized joints/constraints/PTOs)
 
@@ -451,7 +465,7 @@ Previous Releases
 
 
 `WEC-Sim v1.3 <https://github.com/WEC-Sim/WEC-Sim/releases/tag/v1.3>`_
-^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+--------------------------------------------------------------------------------
 * Added Morison Elements
 * Body2Body Interactions
 * Multiple Case Runs (wecSimMCR)
@@ -462,7 +476,7 @@ Previous Releases
 * Visualization with Paraview
 	
 `WEC-Sim v1.2 <https://github.com/WEC-Sim/WEC-Sim/releases/tag/v1.2>`_
-^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+--------------------------------------------------------------------------------
 * Nonlinear Froude-Krylov hydrodynamics and hydrostatics
 * State space radiation
 * Wave directionality
@@ -473,7 +487,7 @@ Previous Releases
 
 
 `WEC-Sim v1.1 <https://github.com/WEC-Sim/WEC-Sim/releases/tag/v1.1>`_
-^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+--------------------------------------------------------------------------------
 * WEC-Sim v1.1, `available on GitHub <https://github.com/WEC-Sim/WEC-Sim/releases/tag/v1.1>`_ 
 * Improvements in code stability through modifications to the added mass, radiation damping calculations, and impulse response function calculations
 * Implementation of state space representation of radiation damping convolution integral calculation
@@ -481,7 +495,7 @@ Previous Releases
 * Documentation available on WEC-Sim Website
 
 `WEC-Sim v1.0 <https://github.com/WEC-Sim/WEC-Sim/releases/tag/v1.0>`_
-^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+--------------------------------------------------------------------------------
 * Initial release of WEC-Sim (originally on OpenEI, now on GitHub)
 * Available as a static download 
 * Documentation available in PDF 

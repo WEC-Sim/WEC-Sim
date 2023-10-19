@@ -125,7 +125,7 @@ topics are listed below. Recordings of each are available below, along with the
 presentations. 
 
     ===========  ====================================
-    **Series**  **Topic**
+    **Series**   **Topic**
     1            Multiple Condition Runs (MCR)
     2            Nonlinear Hydrodynamics
     3            Non-hydrodynamic Bodies
