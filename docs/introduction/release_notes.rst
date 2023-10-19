@@ -62,7 +62,7 @@ Publication
 
 **Issues and Pull Requests**
 
-`**Full Changelog** <https://github.com/WEC-Sim/WEC-Sim/compare/v5.0.1...v6.0>`_
+`**v6.0 Changelog** <https://github.com/WEC-Sim/WEC-Sim/compare/v5.0.1...v6.0>`_
 
 .. image:: https://zenodo.org/badge/20451353.svg
    :target: https://zenodo.org/badge/latestdoi/20451353
@@ -111,7 +111,7 @@ This is a bug fix release. New features since the previous release are not inclu
 
 * \>23 PRs merged since v5.0
 
-`**Full Changelog** <https://github.com/WEC-Sim/WEC-Sim/compare/v5.0...v5.0.1>`_
+`**v5.0.1 Changelog** <https://github.com/WEC-Sim/WEC-Sim/compare/v5.0...v5.0.1>`_
 
 .. image:: https://zenodo.org/badge/DOI/10.5281/zenodo.7121186.svg
    :target: https://doi.org/10.5281/zenodo.7121186
