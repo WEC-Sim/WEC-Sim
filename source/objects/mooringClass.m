@@ -169,5 +169,48 @@ classdef mooringClass<handle
             % Method to set the private number property
             obj.number = number;
         end
+
+        function callMoorDynLib(obj)
+            % Initialize MoorDyn Lib (Windows:dll or OSX:dylib)
+            disp('---------------Starting MoorDyn-----------')
+            
+            if libisloaded('libmoordyn')
+                calllib('libmoordyn', 'MoorDynClose');
+                unloadlibrary libmoordyn;
+            end
+            
+            if ismac
+                loadlibrary('libmoordyn.dylib','MoorDyn.h');
+            elseif ispc
+                loadlibrary('libmoordyn.dll','MoorDyn.h');
+            elseif isunix
+                loadlibrary('libmoordyn.so','MoorDyn.h');
+            else
+                disp('Cannot run MoorDyn in this platform');
+            end
+
+            
+            orientationTotal = [];
+            for ii=1:length(obj)
+                    orientationTotal = [orientationTotal, obj(ii).orientation];
+            end
+            
+            calllib('libmoordyn', 'MoorDynInit', orientationTotal, zeros(1,length(orientationTotal)), obj(1).moorDynInputFile);
+            disp('MoorDyn Initialized. Now time stepping...')
+        end
+
+        function setupMoorDynBlocks(obj, fileName)
+            for ii=1:length(mooring)
+                load_system(fileName)
+                b = Simulink.findBlocks(fileName,'mooring','mooring(ii)');
+                
+            end
+        end
+
+        function closeMoorDynLib(obj)
+            calllib('libmoordyn', 'MoorDynClose');
+            unloadlibrary libmoordyn;
+        end
+
     end
 end

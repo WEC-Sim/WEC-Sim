@@ -7,6 +7,14 @@ if exist('pctDir')
     cd (['..' filesep pctDir filesep '..' filesep]); 
 end
 
+% Close MoorDyn if used
+if exist('mooring','var') == 1
+    % Close MoorDyn
+    if mooring(1).moorDyn == 1
+        mooring(1).closeMoorDynLib();
+    end
+end
+
 % Clear intermediate variables and variant subsystem flags
 clear nonlinearHydro sv_linearHydro sv_nonlinearHydro stateSpace radiation_option sv_convolution sv_stateSpace sv_constantCoeff typeNum B2B sv_B2B sv_noB2B;
 clear nhbod* sv_b* sv_noWave sv_regularWaves* sv_irregularWaves* sv_udfWaves sv_instFS sv_meanFS sv_MEOn sv_MEOff morisonElement flexHydrobody_* sv_irregularWavesYaw_* sv_regularWavesYaw_* yaw numBody;

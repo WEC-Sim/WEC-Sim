@@ -139,6 +139,10 @@ if exist('mooring','var') == 1
             mooring(ii).loadLookupTable();
         end
     end; clear ii
+    % Initialize MoorDyn
+    if mooring(1).moorDyn == 1
+        mooring.callMoorDynLib();
+    end
 end
 
 
