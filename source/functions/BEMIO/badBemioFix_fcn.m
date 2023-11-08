@@ -320,6 +320,7 @@ end
 % hydro.fk_re = fk_re_smooth;
 % hydro.fk_im = fk_im_smooth;
 
+hydro.file = [hydro.file '_clean']; % rename so that original H5 is not overwritten
 hydro = radiationIRF(hydro,20,[],[],0.1,15);
 hydro = radiationIRFSS(hydro,20,[]);
 hydro = excitationIRF(hydro,20,[],[],0.1,15);
@@ -327,7 +328,7 @@ hydro.plotDofs = plotDofs;
 writeBEMIOH5(hydro);
 plotBEMIO(hydro);
 
-outHydro= hydro;
+outHydro = hydro;
 
 if deSpike.debugPlot == 1
     % real part excitation
