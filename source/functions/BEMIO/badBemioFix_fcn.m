@@ -1,39 +1,48 @@
 % Dominic D. Forbush 
-
 % Copyright Sandia National Laboratories 2023.
-
-% this is a fixer script for BEMIO coefficients
-% fcn: this is now a function call
-% INPUTS:
-% filename: A {1 x 1} cell containing the output file of interest. If the
-% code is AQWA, this needs to be {1x2} where {1} is the 'ah1' and {2} is
-% the 'lis
 % 
-% code: the name of the BEM code, used to select the readBEM function. A
-% string either 'WAMIT','CAPYTAINE','NEMOH',or 'AQWA'
+% This is a cleanup function for BEMIO coefficients. 
 % 
-% deSpike: a structure containing the despike parameters. For description
-% and field names, look in the if isempty(deSpike) for now to see what
-% parameters are available. 
-% plotDofs; A 2 x N vector that describes the dofs of interest to plot. For
-% example, [1,1;3,3;3,5] will plot surge, heave, and cross coupling heave
-% -to-pitch, respectively. 
+% Parameters
+% ------------
+%     filename : {1 x 1} cell of strings
+%         Defines the output file of interest. If the code is AQWA, this 
+%         needs to be {1x2} where {1} is the 'ah1' and {2} is the 'lis'
+% 
+%     code : [1 1] string
+%         Name of the BEM code, used to select the readBEM function. A
+%         string either 'WAMIT','CAPYTAINE','NEMOH',or 'AQWA'
+% 
+%     deSpike : [1 1] struct
+%         Contains the despike parameters. For description and field names,
+%         look at the line with "if isempty(deSpike)" to see what 
+%         parameters are available. 
+% 
+%     plotDofs: [2 x N] vector
+%         Describes the dofs of interest to plot. For example, 
+%         [1,1;3,3;3,5] will plot surge, heave, and cross coupling 
+%         heave-to-pitch, respectively. 
+%
+% Returns
+% ------------
+%     hydro : struct
+%         Output BEMIO structure
+% 
 %% This has to be run from the BEMIO output directory to work properly, otherwise
 % the bemio call won't work.
 function outHydro = badBemioFix_fcn(fileName,code,deSpike,plotDofs)
 
-%close all; clear;
 % first call BEMIO
 hydro = struct();
 switch code
-    case  'WAMIT';
+    case  'WAMIT'
         hydro = readWAMIT(hydro,fileName{1},[]);
-    case 'CAPYTAINE';
+    case 'CAPYTAINE'
         hydro= readCAPYTAINE(hydro,fileName{1});
     case 'NEMOH'
         hydro = readNEMOH(hydro,fileName{1}); 
     case 'AQWA'
-        hydro = readAQWA(hydro,fileName{1},fileName{2})
+        hydro = readAQWA(hydro,fileName{1},fileName{2});
 end
 dw=mean(diff(hydro.w));
 
@@ -43,45 +52,44 @@ dw=mean(diff(hydro.w));
 
 % maxPeakWidth is not recommended however as it has unexpected behavior
 
-if isempty(deSpike); % if the third argument is empty will use some default values
-deSpike=struct();
-deSpike.negThresh = 1e-3; % the threshold below which negative damping will be removed
-deSpike.N = 5; % will loop the despiking procedure N time before filtering
-deSpike.appFilt = 1; % boolean, 1 to apply low pass filter after despiking
-
-% thresholds: applied to 'Threshold' argument of findpeaks
-deSpike.Threshold.B = 2e-4; % damping
-deSpike.Threshold.A = 1e-3; % added mass
-deSpike.Threshold.ExRe = 1e-3; % real part excitation
-deSpike.Threshold.ExIm = 1e-3; % imag part excitation
-
-% minimum peak prominence, applied to 'MinPeakProminence' argument of findpeaks 
-deSpike.Prominence.B = 2e-4;  
-deSpike.Prominence.A = 1e-3; 
-deSpike.Prominence.ExRe = 1e-3;  
-deSpike.Prominence.ExIm = 1e-3; 
-
-% minimum peak distance, applied to 'MinPeakDistance' argument of findpeaks 
-deSpike.MinPeakDistance.A = 3;
-deSpike.MinPeakDistance.B = 3;
-deSpike.MinPeakDistance.ExRe = 3;
-deSpike.MinPeakDistance.ExIm = 3;
-deSpike.Filter.b = 0.02008336556421123561544384017452102853 .* [1 2 1];
-deSpike.Filter.a = [1 -1.561018075800718163392843962355982512236     0.641351538057563175243558362126350402832];
-
-% IRF parameters
-deSpike.IRF.wMin = 0.1;
-deSpike.IRF.wMax = 15;
-deSpike.IRF.irfDur = 30;
-
-% debug plot
-deSpike.debugPlot =0;
-
+if isempty(deSpike) % if the third argument is empty will use some default values
+    deSpike = struct();
+    deSpike.negThresh = 1e-3; % the threshold below which negative damping will be removed
+    deSpike.N = 5; % will loop the despiking procedure N time before filtering
+    deSpike.appFilt = 1; % boolean, 1 to apply low pass filter after despiking
+    
+    % thresholds: applied to 'Threshold' argument of findpeaks
+    deSpike.Threshold.B = 2e-4; % damping
+    deSpike.Threshold.A = 1e-3; % added mass
+    deSpike.Threshold.ExRe = 1e-3; % real part excitation
+    deSpike.Threshold.ExIm = 1e-3; % imag part excitation
+    
+    % minimum peak prominence, applied to 'MinPeakProminence' argument of findpeaks 
+    deSpike.Prominence.B = 2e-4;  
+    deSpike.Prominence.A = 1e-3; 
+    deSpike.Prominence.ExRe = 1e-3;  
+    deSpike.Prominence.ExIm = 1e-3; 
+    
+    % minimum peak distance, applied to 'MinPeakDistance' argument of findpeaks 
+    deSpike.MinPeakDistance.A = 3;
+    deSpike.MinPeakDistance.B = 3;
+    deSpike.MinPeakDistance.ExRe = 3;
+    deSpike.MinPeakDistance.ExIm = 3;
+    deSpike.Filter.b = 0.02008336556421123561544384017452102853 .* [1 2 1];
+    deSpike.Filter.a = [1 -1.561018075800718163392843962355982512236 0.641351538057563175243558362126350402832];
+    
+    % IRF parameters
+    deSpike.IRF.wMin = 0.1;
+    deSpike.IRF.wMax = 15;
+    deSpike.IRF.irfDur = 30;
+    
+    % debug plot
+    deSpike.debugPlot =0;
 end
 
-% debugPlot =1; % set 1 to make excitation debug plots.
+% debugPlot = 1; % set 1 to make excitation debug plots.
 %% calc original IRF and plot
-hydro = radiationIRF(hydro,deSpike.IRF.irfDur,[],[],deSpike.IRF.wMin,deSpike.IRF.wMax);;
+hydro = radiationIRF(hydro,deSpike.IRF.irfDur,[],[],deSpike.IRF.wMin,deSpike.IRF.wMax);
 hydro = radiationIRFSS(hydro,deSpike.IRF.irfDur,[]);
 hydro = excitationIRF(hydro,deSpike.IRF.irfDur,[],[],deSpike.IRF.wMin,deSpike.IRF.wMax);
 writeBEMIOH5(hydro);
@@ -89,10 +97,10 @@ hydro.plotDofs = plotDofs;%[1,1;3,3;5,5;7,7;3,7;7,3];
 plotBEMIO(hydro);
 
 %% rad and mass fixes
-[row,col,~]=size(hydro.B);
+[row,col,~] = size(hydro.B);
 % parse negative radiation damping
-for k=1:row;
-    for kk=1:col
+for k = 1:row
+    for kk = 1:col
         bPks(k,kk) = max(squeeze(hydro.B(k,kk,:)));
         p1Idx = find(abs(hydro.B(k,kk,:)) > deSpike.negThresh * bPks(k,kk));
         p2Idx = find(hydro.B(k,kk,:) < 0);
@@ -101,12 +109,12 @@ for k=1:row;
     end
 end
 
-for k =1:row
-    for kk=1:col
+for k = 1:row
+    for kk = 1:col
         for it = deSpike.N
             % positive peaks
             testB = squeeze(hydro.B(k,kk,:));
-            [BPeaks,BLocs]= findpeaks(testB,'MinPeakProminence',deSpike.Prominence.B,'Threshold',deSpike.Threshold.B,'MinPeakDistance',deSpike.MinPeakDistance.B);
+            [BPeaks,BLocs] = findpeaks(testB,'MinPeakProminence',deSpike.Prominence.B,'Threshold',deSpike.Threshold.B,'MinPeakDistance',deSpike.MinPeakDistance.B);
             BLocs(BLocs>length(testB)-2) = []; % trim end extrema
             BLocs(BLocs<2) = []; % trim start extrema
             testA = squeeze(hydro.A(k,kk,:)); %
@@ -117,7 +125,7 @@ for k =1:row
             ALocs(ALocs<2) = []; % trim start extrema
 
             % negative peaks
-            [BPeaksN,BLocsN]= findpeaks(-1.*testB,'MinPeakProminence',deSpike.Prominence.B,'Threshold',deSpike.Threshold.B,'MinPeakDistance',deSpike.MinPeakDistance.B);
+            [BPeaksN,BLocsN] = findpeaks(-1.*testB,'MinPeakProminence',deSpike.Prominence.B,'Threshold',deSpike.Threshold.B,'MinPeakDistance',deSpike.MinPeakDistance.B);
             BLocsN(BLocsN>length(testB)-2) = []; % trim end extrema
             BLocsN(BLocsN<2) = []; % trim start extrema
             [APeaksN,ALocsN] = findpeaks(-1.*testA,'MinPeakProminence',deSpike.Prominence.A,'Threshold',deSpike.Threshold.A,'MinPeakDistance',deSpike.MinPeakDistance.A);
@@ -133,7 +141,7 @@ for k =1:row
                 if ~isempty(hidx)
                    BLog = [BLog; kkk];  
                    BLogN = [BLogN; hidx];
-                   BRep = mean([BPeaks(kkk);-1.*BPeaksN(hidx)]);
+                   BRep = mean([BPeaks(kkk); -1.*BPeaksN(hidx)]);
                    hydro.B(k,kk,BLocs(kkk)) = BRep; % replace both high and low peak with mean value
                    hydro.B(k,kk,BLocsN(hidx)) = BRep;
                    % remove these corrected peaks from despiking this
@@ -188,13 +196,13 @@ for k =1:row
                 hydro.B(k,kk,BLocsN(kkk))=BRep;
             end
             for kkk=1:length(ALocsN) % A location pchip smoothing
-                ARep =interp1([hydro.w(ALocsN(kkk)-2),hydro.w(ALocsN(kkk)-1),hydro.w(ALocsN(kkk)+1),hydro.w(ALocsN(kkk)+2)],...
+                ARep = interp1([hydro.w(ALocsN(kkk)-2),hydro.w(ALocsN(kkk)-1),hydro.w(ALocsN(kkk)+1),hydro.w(ALocsN(kkk)+2)],...
                     [hydro.A(k,kk,ALocsN(kkk)-2),hydro.A(k,kk,ALocsN(kkk)-1),hydro.A(k,kk,ALocsN(kkk)+1),hydro.A(k,kk,ALocsN(kkk)+2)],hydro.w(ALocsN(kkk)),'linear');
                 hydro.A(k,kk,ALocsN(kkk))=ARep;
             end
             clear testA testB BLocs BPeaks ALocs APeaks BLocsN BPeaksN ALocsN APeaksN
         end
-        if deSpike.appFilt ==1;
+        if deSpike.appFilt == 1
             B_smooth(k,kk,:) = filtfilt(deSpike.Filter.b,deSpike.Filter.a,squeeze(hydro.B(k,kk,:)));
             A_smooth(k,kk,:) = filtfilt(deSpike.Filter.b,deSpike.Filter.a,squeeze(hydro.A(k,kk,:)));
         end
@@ -300,6 +308,8 @@ if deSpike.appFilt ==1
     %hydro.ex_ph = ex_ph_smooth;
     hydro.ex_re = ex_re_smooth;
     hydro.ex_im = ex_im_smooth;
+    hydro.ex_ma = (hydro.ex_re.^2 + hydro.ex_im.^2).^0.5;  % Magnitude of excitation force
+    hydro.ex_ph = angle(hydro.ex_re + 1i*hydro.ex_im);     % Phase of excitation force
 end
 % hydro.sc_ma = sc_ma_smooth;
 % hydro.sc_ph = sc_ph_smooth;
@@ -313,13 +323,13 @@ end
 hydro = radiationIRF(hydro,20,[],[],0.1,15);
 hydro = radiationIRFSS(hydro,20,[]);
 hydro = excitationIRF(hydro,20,[],[],0.1,15);
-hydro.plotDofs = [1,1;3,3;5,5;7,7;3,7;7,3];
+hydro.plotDofs = plotDofs;
 writeBEMIOH5(hydro);
 plotBEMIO(hydro);
 
 outHydro= hydro;
 
-if deSpike.debugPlot ==1;
+if deSpike.debugPlot == 1
     % real part excitation
     figure; clf;
     for k=1:col
