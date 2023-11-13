@@ -41,7 +41,6 @@ jobs:
         with:
           release: ${{ matrix.release }}
           products: Simulink Simscape Simscape_Multibody
-          cache: true
       - name: Install WEC-Sim
         uses: matlab-actions/run-command@v1
         with:
