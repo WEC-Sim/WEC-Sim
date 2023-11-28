@@ -86,6 +86,61 @@ recommended that hard-stops are implemented in a similar fashion using an
 Actuation Force/Torque PTO block in which the actuation force is specified in a 
 custom MATLAB Function block. 
 
+.. _pto-pto-extension:
+
+Setting PTO Extension
+^^^^^^^^^^^^^^^^^^^^^
+
+The PTO Extension value can be specified to define the initial displacement of 
+the PTO at the beginning of the simulation, allowing the user to set the 
+ideal position for maximum wave capture and energy generation. Whereas the
+initial displacement feature only defines this updated position for the PTO,
+the PTO Extension feature allows for this position shift to propogate 
+throughout the remaining WEC bodies, allowing for an accurate reflection of the 
+initial locations of each component at the beginning of the simulation without 
+having to calculate and individually define. To set the extension for a PTO, the 
+following parameter must be specified in ``wecSimInputFile.m``:
+
+	:code: `pto(i).extension.PositionTargetSpecify = '1'`
+
+to enable the target position value to be defined. The specifics of the 
+extension are described in turn by 
+
+	pto(i).extension.PositionTargetValue
+	pto(i).extension.PositionTargetPriority
+
+with the first code line specifying the extension value and the second line 
+specifying the priority of simulink in setting the initial target value in regards
+to other constraints and PTOs. The priority is automatically set to `High` when 
+the extension is initialized but can be adjusted to `Low` if the above code line is
+added to the Input File.
+
+The Figure below shows the PTO extension feature on the WECCCOMP model at 0.1 m, 
+with the left image set as :code:`pto(i).extension.PositionTargetSpecify=0`, 
+remaining at waterlevel equilibrium position, and the right image set as
+:code:`pto(i).extension.PositionTargetSpecify=1` with the WEC body moving in 
+accordance with the set PTO Extension value.
+
+.. figure:: /_static/images/WECCCOMP_PTO_Extension.png
+   :width: 500pt
+   WECCCOMP Model PTO Extension
+
+.. Note:: 
+   
+    While this method generally fits most WEC models, there are specific 
+    designs such as the RM3 that may have a larger DOF and are dependent on
+    the particular block orientation in the simulink model in terms of which 
+    body blocks will move in reponse to a PTO initial extension. These specific 
+    cases require extra setup on the users end if looking to define a 
+    different body's motion than the one automatically established. For the RM3
+    model, a set PTO Extension value results in movement in the float body.
+    However, if the user would like the movement to be within the spar instead,
+    extra steps are required. To view examples of how to set the PTO Extension
+    for both the float as well as the spar view the RM3 PTO Extension examples
+    on the `WEC-Sim Applications repository 
+    <https://github.com/WEC-Sim/WEC-Sim_Applications>`_ .
+   
+
 .. _pto-pto-sim:
 
 PTO-Sim
