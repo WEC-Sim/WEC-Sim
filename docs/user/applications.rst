@@ -130,6 +130,13 @@ Examples of WEC-Sim models using PTO-Sim are included for the :ref:`RM3 <user-tu
 geometry and :ref:`OSWEC <user-tutorials-oswec>`
 geometry.
 
+RM3 PTO Extension
+^^^^^^^^^^^^^^^^^
+
+Examples using :ref:`PTO Extension <pto-pto-extension>`.
+Examples of WEC-Sim models using PTO Extension are included for the :ref:`RM3 <user-tutorials-rm3>` geometry.
+This geometry is a special case with a large DOF in which different WEC bodies can be identified as the PTO mechanism with a cooresponding position change when setting the PTO Initial Displacement. 
+
 Visualization Markers
 ^^^^^^^^^^^^^^^^^^^^^^
 
