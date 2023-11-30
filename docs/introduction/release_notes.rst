@@ -134,7 +134,7 @@ Publication
 
 * Updating documentation to include links for the Advanced Features Web by @jleonqu in `#1126 <https://github.com/WEC-Sim/WEC-Sim/pull/1126>`_
 
-* Multiple Wave Spectra by @salhus in `#1030 <https://github.com/WEC-Sim/WEC-Sim/pull/1130>`_
+* Multiple Wave Spectra by @salhus in `#1130 <https://github.com/WEC-Sim/WEC-Sim/pull/1130>`_
 
 * Update WECSim_Lib_Body_Elements.slx for N Waves Applications by @salhus in `#1133 <https://github.com/WEC-Sim/WEC-Sim/pull/1133>`_
 
