@@ -13,34 +13,34 @@ To cite WEC-Sim, please use the citation for WEC-Sim software release and/or cit
 
 `WEC-Sim v6.0 <https://github.com/WEC-Sim/WEC-Sim/releases/tag/v6.0>`_
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
-.. NOTE: this citation needs to be revised for each release
+.. NOTE: citation needs to be revised for each release, author order should reflect the Zenodo DOI.
 
-[1] Kelley Ruehl, Nathan Tom, Adam Keester, Dominic Forbush, Jorge Leon, David Ogden, Jeff Grasberger, and Salman Husain. (2023, October), WEC-Sim (Version v6.0), DOI 10.5281/zenodo.7121186.
+[1] Kelley Ruehl, Adam Keester, Nathan Tom, Dominic Forbush, Jeff Grasberger, Salman Husain, David Ogden, and Jorge Leon, "WEC-Sim v6.0". Zenodo, October 20, 2023. https://doi.org/10.5281/zenodo.10023797.
 
-.. NOTE: this citation needs to be revised for each release, but the url is always for the latest release and does not need to be updated. doi needs to be updated
+.. NOTE: citation needs to be revised for each release, author order should reflect the Zenodo DOI.
 
 .. code-block:: none
 
 	@software{wecsim,
 	  author       = {Kelley Ruehl,
-	  		  Nathan Tom, 
                           Adam Keester, 
+	  		  Nathan Tom, 
                           Dominic Forbush, 
-                          Jorge Leon, 
-                          David Ogden, 
                           Jeff Grasberger, 
-                          Salman Husain},
+                          Salman Husain, 
+                          David Ogden, 
+                          Jorge Leon},
 	  title        = {WEC-Sim v6.0},
-	  month        = September,
-	  year         = 2022,
+	  month        = October,
+	  year         = 2023,
 	  publisher    = {Zenodo},
 	  version      = {v6.0},
-	  doi          = {10.5281/zenodo.7121186},
-	  url          = {https://zenodo.org/badge/latestdoi/20451353}
+	  doi          = {10.5281/zenodo.10023797},
+	  url          = {https://doi.org/10.5281/zenodo.10023797}
 	}
     
 
-.. NOTE: this doi badge is always for the lastest release, it does not need to be updated 
+.. NOTE: badge does NOT need to be updated, doi badge is always for the lastest release
 
 .. image:: https://zenodo.org/badge/20451353.svg
    :target: https://zenodo.org/badge/latestdoi/20451353
@@ -56,137 +56,137 @@ Publication
 
 **New Features**
 
-* initial commit largeXYDispOption by @dforbush2 in https://github.com/WEC-Sim/WEC-Sim/pull/877
+* initial commit largeXYDispOption by @dforbush2 in `#877 <https://github.com/WEC-Sim/WEC-Sim/pull/877>`_
 
-* Update coordinate system figure by @JiaMiGit in https://github.com/WEC-Sim/WEC-Sim/pull/931
+* Update coordinate system figure by @JiaMiGit in `#931 <https://github.com/WEC-Sim/WEC-Sim/pull/931>`_
 
-* Property validation for WEC-Sim objects by @jtgrasb in https://github.com/WEC-Sim/WEC-Sim/pull/904
+* Property validation for WEC-Sim objects by @jtgrasb in `#904 <https://github.com/WEC-Sim/WEC-Sim/pull/904>`_
 
-* Dev: adding ampSpectraForWS function by @dforbush2 in https://github.com/WEC-Sim/WEC-Sim/pull/907
+* Dev: adding ampSpectraForWS function by @dforbush2 in `#907 <https://github.com/WEC-Sim/WEC-Sim/pull/907>`_
 
-* Customizable DOFs for plotBEMIO by @akeeste in https://github.com/WEC-Sim/WEC-Sim/pull/944
+* Customizable DOFs for plotBEMIO by @akeeste in `#944 <https://github.com/WEC-Sim/WEC-Sim/pull/944>`_
 
-* Calculation_of_Ainf_using_radiationIRF.m by @salhus in https://github.com/WEC-Sim/WEC-Sim/pull/946
+* Calculation_of_Ainf_using_radiationIRF.m by @salhus in `#946 <https://github.com/WEC-Sim/WEC-Sim/pull/946>`_
 
-* Update citation names by @akeeste in https://github.com/WEC-Sim/WEC-Sim/pull/954
+* Update citation names by @akeeste in `#954 <https://github.com/WEC-Sim/WEC-Sim/pull/954>`_
 
-* Update getDofNames() by @akeeste in https://github.com/WEC-Sim/WEC-Sim/pull/957
+* Update getDofNames() by @akeeste in `#957 <https://github.com/WEC-Sim/WEC-Sim/pull/957>`_
 
-* included readCAPYTAINE() argument to explicitly define KH.dat & Hydro by @dav-og in https://github.com/WEC-Sim/WEC-Sim/pull/962
+* included readCAPYTAINE() argument to explicitly define KH.dat & Hydro by @dav-og in `#962 <https://github.com/WEC-Sim/WEC-Sim/pull/962>`_
 
-* Extract mask variable by @salhus in https://github.com/WEC-Sim/WEC-Sim/pull/958
+* Extract mask variable by @salhus in `#958 <https://github.com/WEC-Sim/WEC-Sim/pull/958>`_
 
-* Add tests to check that SLX file versions do not exceed R2020b by @H0R5E in https://github.com/WEC-Sim/WEC-Sim/pull/919
+* Add tests to check that SLX file versions do not exceed R2020b by @H0R5E in `#919 <https://github.com/WEC-Sim/WEC-Sim/pull/919>`_
 
-* Products of Inertia in WEC-Sim by @akeeste in https://github.com/WEC-Sim/WEC-Sim/pull/981
+* Products of Inertia in WEC-Sim by @akeeste in `#981 <https://github.com/WEC-Sim/WEC-Sim/pull/981>`_
 
-* Pull bug fixes #954, #999, #1002 from master into dev by @akeeste in https://github.com/WEC-Sim/WEC-Sim/pull/1011
+* Pull bug fixes #954, #999, #1002 from master into dev by @akeeste in `#1011 <https://github.com/WEC-Sim/WEC-Sim/pull/1011>`_
 
-* updating readNEMOH based on #983 by @kmruehl in https://github.com/WEC-Sim/WEC-Sim/pull/990
+* updating readNEMOH based on #983 by @kmruehl in `#990 <https://github.com/WEC-Sim/WEC-Sim/pull/990>`_
 
-* Remove 'fixed' mass option from OSWEC input file by @jtgrasb in https://github.com/WEC-Sim/WEC-Sim/pull/1022 and https://github.com/WEC-Sim/WEC-Sim/pull/1024
+* Remove 'fixed' mass option from OSWEC input file by @jtgrasb in `#1024 <https://github.com/WEC-Sim/WEC-Sim/pull/1022 and https://github.com/WEC-Sim/WEC-Sim/pull/1024>`_
 
-* Save the applied added mass time series by @akeeste in https://github.com/WEC-Sim/WEC-Sim/pull/1023
+* Save the applied added mass time series by @akeeste in `#1023 <https://github.com/WEC-Sim/WEC-Sim/pull/1023>`_
 
-* Update tutorials by @kmruehl in https://github.com/WEC-Sim/WEC-Sim/pull/1030
+* Update tutorials by @kmruehl in `#1030 <https://github.com/WEC-Sim/WEC-Sim/pull/1030>`_
 
-* Control applications docs by @jtgrasb in https://github.com/WEC-Sim/WEC-Sim/pull/1018
+* Control applications docs by @jtgrasb in `#1018 <https://github.com/WEC-Sim/WEC-Sim/pull/1018>`_
 
-* Update read- and writeBEMIOH5 to allow for pressure integration for mean drift  by @nathanmtom in https://github.com/WEC-Sim/WEC-Sim/pull/1046
+* Update read- and writeBEMIOH5 to allow for pressure integration for mean drift  by @nathanmtom in `#1046 <https://github.com/WEC-Sim/WEC-Sim/pull/1046>`_
 
-* Add function to read h5 file to hydro data structure by @jtgrasb in https://github.com/WEC-Sim/WEC-Sim/pull/1048
+* Add function to read h5 file to hydro data structure by @jtgrasb in `#1048 <https://github.com/WEC-Sim/WEC-Sim/pull/1048>`_
 
-* Update radiationIRF.m by @nathanmtom in https://github.com/WEC-Sim/WEC-Sim/pull/1045
+* Update radiationIRF.m by @nathanmtom in `#1045 <https://github.com/WEC-Sim/WEC-Sim/pull/1045>`_
 
-* Normalize quaternion to increase simulation robustness by @akeeste in https://github.com/WEC-Sim/WEC-Sim/pull/1049
+* Normalize quaternion to increase simulation robustness by @akeeste in `#1049 <https://github.com/WEC-Sim/WEC-Sim/pull/1049>`_
 
-* Plot bemio features by @jtgrasb in https://github.com/WEC-Sim/WEC-Sim/pull/1034
+* Plot bemio features by @jtgrasb in `#1034 <https://github.com/WEC-Sim/WEC-Sim/pull/1034>`_
 
-* Updates to Morison Element Implementation by @nathanmtom in https://github.com/WEC-Sim/WEC-Sim/pull/1052
+* Updates to Morison Element Implementation by @nathanmtom in `#1052 <https://github.com/WEC-Sim/WEC-Sim/pull/1052>`_
 
-* Moving PTO-Sim to main WEC-Sim library  by @jleonqu in https://github.com/WEC-Sim/WEC-Sim/pull/1057
+* Moving PTO-Sim to main WEC-Sim library  by @jleonqu in `#1057 <https://github.com/WEC-Sim/WEC-Sim/pull/1057>`_
 
-* Add windows runner to dev branch unit test workflow by @H0R5E in https://github.com/WEC-Sim/WEC-Sim/pull/1061
+* Add windows runner to dev branch unit test workflow by @H0R5E in `#1061 <https://github.com/WEC-Sim/WEC-Sim/pull/1061>`_
 
-* Update docs dependencies by @H0R5E in https://github.com/WEC-Sim/WEC-Sim/pull/1080
+* Update docs dependencies by @H0R5E in `#1080 <https://github.com/WEC-Sim/WEC-Sim/pull/1080>`_
 
-* Type property pto sim by @jleonqu in https://github.com/WEC-Sim/WEC-Sim/pull/1064
+* Type property pto sim by @jleonqu in `#1064 <https://github.com/WEC-Sim/WEC-Sim/pull/1064>`_
 
-* Added mass updates by @akeeste in https://github.com/WEC-Sim/WEC-Sim/pull/1058
+* Added mass updates by @akeeste in `#1058 <https://github.com/WEC-Sim/WEC-Sim/pull/1058>`_
 
-* Feature paraview by @agmoore4 in https://github.com/WEC-Sim/WEC-Sim/pull/1081
+* Feature paraview by @agmoore4 in `#1081 <https://github.com/WEC-Sim/WEC-Sim/pull/1081>`_
 
-* Paraview documentation hyperlink fix by @agmoore4 in https://github.com/WEC-Sim/WEC-Sim/pull/1093
+* Paraview documentation hyperlink fix by @agmoore4 in `#1093 <https://github.com/WEC-Sim/WEC-Sim/pull/1093>`_
 
-* use capytaine v2 to compute hydrostatics by @dav-og in https://github.com/WEC-Sim/WEC-Sim/pull/1092
+* use capytaine v2 to compute hydrostatics by @dav-og in `#1092 <https://github.com/WEC-Sim/WEC-Sim/pull/1092>`_
 
-* Update paraview doc images by @jtgrasb in https://github.com/WEC-Sim/WEC-Sim/pull/1098
+* Update paraview doc images by @jtgrasb in `#1098 <https://github.com/WEC-Sim/WEC-Sim/pull/1098>`_
 
-* readNEMOH update to be compatible with v3.0.0 release (but not QTF) by @nathanmtom in https://github.com/WEC-Sim/WEC-Sim/pull/1087
+* readNEMOH update to be compatible with v3.0.0 release (but not QTF) by @nathanmtom in `#1087 <https://github.com/WEC-Sim/WEC-Sim/pull/1087>`_
 
-* Add simple direct drive PTO model by @jtgrasb in https://github.com/WEC-Sim/WEC-Sim/pull/1106
+* Add simple direct drive PTO model by @jtgrasb in `#1106 <https://github.com/WEC-Sim/WEC-Sim/pull/1106>`_
 
-* Control+pto docs by @jtgrasb in https://github.com/WEC-Sim/WEC-Sim/pull/1108
+* Control+pto docs by @jtgrasb in `#1108 <https://github.com/WEC-Sim/WEC-Sim/pull/1108>`_
 
-* MOST Capabilities - Continuation by @jtgrasb in https://github.com/WEC-Sim/WEC-Sim/pull/1127
+* MOST Capabilities - Continuation by @jtgrasb in `#1127 <https://github.com/WEC-Sim/WEC-Sim/pull/1127>`_
 
-* Implement an FIR filter to calculate radiation forces by @salhus in https://github.com/WEC-Sim/WEC-Sim/pull/1071
+* Implement an FIR filter to calculate radiation forces by @salhus in `#1071 <https://github.com/WEC-Sim/WEC-Sim/pull/1071>`_
 
-* Updating documentation to include links for the Advanced Features Web by @jleonqu in https://github.com/WEC-Sim/WEC-Sim/pull/1126
+* Updating documentation to include links for the Advanced Features Web by @jleonqu in `#1126 <https://github.com/WEC-Sim/WEC-Sim/pull/1126>`_
 
-* Multiple Wave Spectra by @salhus in https://github.com/WEC-Sim/WEC-Sim/pull/1130
+* Multiple Wave Spectra by @salhus in `#1030 <https://github.com/WEC-Sim/WEC-Sim/pull/1130>`_
 
-* Update WECSim_Lib_Body_Elements.slx for N Waves Applications by @salhus in https://github.com/WEC-Sim/WEC-Sim/pull/1133
+* Update WECSim_Lib_Body_Elements.slx for N Waves Applications by @salhus in `#1133 <https://github.com/WEC-Sim/WEC-Sim/pull/1133>`_
 
-* Update to MoorDyn v2 by @RyanDavies19 in https://github.com/WEC-Sim/WEC-Sim/pull/1134
+* Update to MoorDyn v2 by @RyanDavies19 in `#1134 <https://github.com/WEC-Sim/WEC-Sim/pull/1134>`_
 
-* Updating WEC-Sim tests for dev branch by @kmruehl in https://github.com/WEC-Sim/WEC-Sim/pull/1142
+* Updating WEC-Sim tests for dev branch by @kmruehl in `#1142 <https://github.com/WEC-Sim/WEC-Sim/pull/1142>`_
 
 **Bug Fixes**
 
-* Remove fixed mass option by @akeeste in https://github.com/WEC-Sim/WEC-Sim/pull/856
+* Remove fixed mass option by @akeeste in `#856 <https://github.com/WEC-Sim/WEC-Sim/pull/856>`_
 
-* Move run('stopWecSim') to wecSim.m by @jtgrasb in https://github.com/WEC-Sim/WEC-Sim/pull/885
+* Move run('stopWecSim') to wecSim.m by @jtgrasb in `#885 <https://github.com/WEC-Sim/WEC-Sim/pull/885>`_
 
-* Pull bug fixes into dev by @akeeste in https://github.com/WEC-Sim/WEC-Sim/pull/900
+* Pull bug fixes into dev by @akeeste in `#900 <https://github.com/WEC-Sim/WEC-Sim/pull/900>`_
 
-* Save slx files in 2020b fixes #920 by @jtgrasb in https://github.com/WEC-Sim/WEC-Sim/pull/923
+* Save slx files in 2020b fixes #920 by @jtgrasb in `#923 <https://github.com/WEC-Sim/WEC-Sim/pull/923>`_
 
-* Fix readCAPYTAINE by @jtgrasb in https://github.com/WEC-Sim/WEC-Sim/pull/884
+* Fix readCAPYTAINE by @jtgrasb in `#884 <https://github.com/WEC-Sim/WEC-Sim/pull/884>`_
 
-* Fixes saveViz feature for elevation import by @jtgrasb in https://github.com/WEC-Sim/WEC-Sim/pull/929
+* Fixes saveViz feature for elevation import by @jtgrasb in `#929 <https://github.com/WEC-Sim/WEC-Sim/pull/929>`_
 
-* Fix wave elevation import with rampTime = 0 by @jtgrasb in https://github.com/WEC-Sim/WEC-Sim/pull/917
+* Fix wave elevation import with rampTime = 0 by @jtgrasb in `#917 <https://github.com/WEC-Sim/WEC-Sim/pull/917>`_
 
-* readCapytaine_fixes_for_reading_dataformats_correctly by @salhus in https://github.com/WEC-Sim/WEC-Sim/pull/947
+* readCapytaine_fixes_for_reading_dataformats_correctly by @salhus in `#947 <https://github.com/WEC-Sim/WEC-Sim/pull/947>`_
 
-* Pull #954 into dev by @akeeste in https://github.com/WEC-Sim/WEC-Sim/pull/955
+* Pull #954 into dev by @akeeste in `#955 <https://github.com/WEC-Sim/WEC-Sim/pull/955>`_
 
-* Bug fix for direction in readCapytaine by @akeeste in https://github.com/WEC-Sim/WEC-Sim/pull/999
+* Bug fix for direction in readCapytaine by @akeeste in `#999 <https://github.com/WEC-Sim/WEC-Sim/pull/999>`_
 
-* Fix sign bug reported on issue #993 by @jleonqu in https://github.com/WEC-Sim/WEC-Sim/pull/1002
+* Fix sign bug reported on issue #993 by @jleonqu in `#102 <https://github.com/WEC-Sim/WEC-Sim/pull/1002>`_
 
-* Dev: reverts PR 910, fixing error in nonLinearBuoyancy by @dforbush2 in https://github.com/WEC-Sim/WEC-Sim/pull/1017
+* Dev: reverts PR 910, fixing error in nonLinearBuoyancy by @dforbush2 in `#1017 <https://github.com/WEC-Sim/WEC-Sim/pull/1017>`_
 
-* Fix the transpose of linear restoring matrix to make roll mode rows to be 0 by @salhus in https://github.com/WEC-Sim/WEC-Sim/pull/1032
+* Fix the transpose of linear restoring matrix to make roll mode rows to be 0 by @salhus in `#1032 <https://github.com/WEC-Sim/WEC-Sim/pull/1032>`_
 
-* Bugfix resolving documentation build error by @kmruehl in https://github.com/WEC-Sim/WEC-Sim/pull/1059
+* Bugfix resolving documentation build error by @kmruehl in `#1059 <https://github.com/WEC-Sim/WEC-Sim/pull/1059>`_
 
-* fix_readWAMIT_and_writeBEMIOh5 by @salhus in https://github.com/WEC-Sim/WEC-Sim/pull/1065
+* fix_readWAMIT_and_writeBEMIOh5 by @salhus in `#1065 <https://github.com/WEC-Sim/WEC-Sim/pull/1065>`_
 
-* Pulling master bugfixes into dev by @kmruehl in https://github.com/WEC-Sim/WEC-Sim/pull/1101
+* Pulling master bugfixes into dev by @kmruehl in `#1101 <https://github.com/WEC-Sim/WEC-Sim/pull/1101>`_
 
-* Bug fixes for v6.0 by @akeeste in https://github.com/WEC-Sim/WEC-Sim/pull/1136
+* Bug fixes for v6.0 by @akeeste in `#1136 <https://github.com/WEC-Sim/WEC-Sim/pull/1136>`_
 
-* Path fix for BEMIO example by @akeeste in https://github.com/WEC-Sim/WEC-Sim/pull/1144
+* Path fix for BEMIO example by @akeeste in `#1144 <https://github.com/WEC-Sim/WEC-Sim/pull/1144>`_
 
 **New Contributors**
 
-* @JiaMiGit made their first contribution in https://github.com/WEC-Sim/WEC-Sim/pull/931
+* @JiaMiGit made their first contribution in `#931 <https://github.com/WEC-Sim/WEC-Sim/pull/931>`_
 
-* @agmoore4 made their first contribution in https://github.com/WEC-Sim/WEC-Sim/pull/1081
+* @agmoore4 made their first contribution in `#1081 <https://github.com/WEC-Sim/WEC-Sim/pull/1081>`_
 
-* @RyanDavies19 made their first contribution in https://github.com/WEC-Sim/WEC-Sim/pull/1134
+* @RyanDavies19 made their first contribution in `#1134 <https://github.com/WEC-Sim/WEC-Sim/pull/1134>`_
 
 
 **Issues and Pull Requests**
@@ -197,10 +197,8 @@ Publication
 
 * `v6.0 Changelog <https://github.com/WEC-Sim/WEC-Sim/compare/v5.0.1...v6.0>`_
 
-.. image:: https://zenodo.org/badge/20451353.svg
-   :target: https://zenodo.org/badge/latestdoi/20451353
-
-.. NOTE: this doi badge is always for the lastest release, it needs to be updated 
+.. image:: https://zenodo.org/badge/DOI/10.5281/zenodo.10023797.svg
+  :target: https://doi.org/10.5281/zenodo.10023797
 
 
 `WEC-Sim v5.0.1 <https://github.com/WEC-Sim/WEC-Sim/releases/tag/v5.0.1>`_
