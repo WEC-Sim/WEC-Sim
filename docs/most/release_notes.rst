@@ -6,7 +6,7 @@ Release Notes
 .. _most-citation:
 
 
-`MOST v1.0.0 (within WEC-Sim v5.1) <https://github.com/WEC-Sim/WEC-Sim/releases/tag/v5.0.1>`_
+`MOST v1.0.0 (within WEC-Sim v6.0) <https://github.com/WEC-Sim/WEC-Sim/releases/tag/v6.0>`_
 ---------------------------------------------------------------------------------------------
 
 **New Features**
