@@ -122,7 +122,11 @@ remaining at waterlevel equilibrium position, and the right image set as
 accordance with the set PTO Extension value.
 
 .. figure:: /_static/images/WECCCOMP_PTO_Extension.png
+   :align: center
    :width: 500pt
+   
+   ..
+   
    WECCCOMP Model PTO Extension
 
 .. Note:: 
