@@ -138,11 +138,14 @@ if exist('mooring','var') == 1
         if mooring(ii).lookupTableFlag == 1
             mooring(ii).loadLookupTable();
         end
+        if mooring(ii).moorDyn == 1
+            simu.numMoorDyn = simu.numMoorDyn+1;
+            % Initialize MoorDyn
+            if ii == 1
+                mooring.callMoorDynLib();
+            end
+        end
     end; clear ii
-    % Initialize MoorDyn
-    if mooring(1).moorDyn == 1
-        mooring.callMoorDynLib();
-    end
 end
 
 

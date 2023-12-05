@@ -189,22 +189,15 @@ classdef mooringClass<handle
                 disp('Cannot run MoorDyn in this platform');
             end
 
-            
             orientationTotal = [];
             for ii=1:length(obj)
+                if obj(ii).moorDyn == 1
                     orientationTotal = [orientationTotal, obj(ii).orientation];
+                end
             end
             
             calllib('libmoordyn', 'MoorDynInit', orientationTotal, zeros(1,length(orientationTotal)), obj(1).moorDynInputFile);
             disp('MoorDyn Initialized. Now time stepping...')
-        end
-
-        function setupMoorDynBlocks(obj, fileName)
-            for ii=1:length(mooring)
-                load_system(fileName)
-                b = Simulink.findBlocks(fileName,'mooring','mooring(ii)');
-                
-            end
         end
 
         function closeMoorDynLib(obj)
