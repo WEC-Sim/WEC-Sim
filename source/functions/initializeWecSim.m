@@ -145,6 +145,7 @@ if exist('mooring','var') == 1
                 mooring.callMoorDynLib();
             end
         end
+        numMoorDyn = simu.numMoorDyn;
     end; clear ii
 end
 

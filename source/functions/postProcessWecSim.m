@@ -128,7 +128,10 @@ clear bodiesOutput ptosOutput constraintsOutput ptosimOutput cablesOutput moorin
 for iMoor = 1:simu.numMoorings
     if mooring(iMoor).moorDyn==1
         % Ensure that Lines library is closed before reading MoorDyn output
-        mooring.closeMoorDynLib(obj)
+        if libisloaded('libmoordyn')
+            calllib('libmoordyn','MoorDynClose');
+            unloadlibrary libmoordyn;
+        end
         
         output.loadMoorDyn(mooring(iMoor).moorDynLines);
     end
