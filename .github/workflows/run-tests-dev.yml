@@ -25,9 +25,6 @@ jobs:
             release: R2020b
           - os: windows-latest
             release: R2021a
-        include:
-          - os: ubuntu-latest
-            release: latest
     name: ${{ matrix.release }} on ${{ matrix.os }}
     steps:
       - name: Check out repository
