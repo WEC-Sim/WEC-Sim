@@ -41,4 +41,7 @@ jobs:
             set_param(0, 'ErrorIfLoadNewModel', 'off'),
             results = wecSimTest,
             assertSuccess(results);
-          startup-options: -noFigureWindows
+          startup-options: -noFigureWindows -logfile matlab.log
+      - name: Print matlab.log
+        if: success() || failure()
+        run: cat matlab.log
