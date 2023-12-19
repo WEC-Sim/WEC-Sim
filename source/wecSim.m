@@ -36,9 +36,6 @@
 %%
 
 % Initialize WEC-Sim
-run('wecSimInputFile');
-clear simu waves body cable pto constraint ptoSim mooring 
-
 runWecSimCML = 1;
 run('initializeWecSim');
 
@@ -46,9 +43,9 @@ try
     sim(simu.simMechanicsFile, [], simset('SrcWorkspace','parent'));
 catch e % e is an MException struct
     % terminate MoorDyn Conhost.exe instances before the error is thrown
-    if libisloaded('Lines')
-        calllib('Lines','LinesClose');
-        unloadlibrary Lines;
+    if libisloaded('libmoordyn')
+        calllib('libmoordyn','MoorDynClose');
+        unloadlibrary libmoordyn;
     end
 
     % rethrow the error to give the best debugging information
