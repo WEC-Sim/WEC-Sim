@@ -77,7 +77,7 @@ cable = cableClass('','constraint','pto');
 mooring = mooringClass('');
 
 %% Write each mask to an input file section
-for i=1:length(blocks)
+for i = 1:length(blocks)
     names = get_param(blocks{i},'MaskNames');
     values = get_param(blocks{i},'MaskValues');
     visibilities = get_param(blocks{i},'MaskVisibilities');
@@ -247,10 +247,6 @@ end
 fclose(fid);
 
 end
-
-% function tmp_function(fid,str)
-%     fprintf(fid,str);
-% end
 
 function iSorted = sortBlocksByNumber(blockList, className)
     % This function takes in a list of blocks (bodies or ptos or

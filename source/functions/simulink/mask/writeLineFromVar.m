@@ -71,11 +71,9 @@ function inputString = writeLineFromVar(fid, defaultClass, variableName, maskVar
     
         if hasStruct
             % e.g. 'body(1).initial.displacement = [1 1 1]; \r\n'
-            % inputString = [classAbbrev '.' structName '.' variableName ' = ' maskVars.(variableName) '; \r\n'];
             inputString = strcat(classAbbrev, ".", structName, ".", variableName, " = ", maskVars.(variableName), ";");
         else
             % e.g. 'simu.stateSpace = 'on'; \r\n'
-            % inputString = [classAbbrev '.' variableName ' = ' maskVars.(variableName) '; \r\n'];
             inputString = strcat(classAbbrev, ".", variableName, " = ", maskVars.(variableName), ";");
         end
         
