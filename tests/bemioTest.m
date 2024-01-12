@@ -23,7 +23,7 @@ classdef bemioTest < matlab.unittest.TestCase
             obj.wsDir = fullfile(obj.testDir,'..');
             obj.bemioDir = fullfile(obj.wsDir,'examples','BEMIO');
             obj.wamitDir = fullfile(obj.bemioDir,'WAMIT');
-            obj.nemohDir = fullfile(obj.bemioDir,'NEMOH');
+            obj.nemohDir = fullfile(obj.bemioDir,'NEMOH/NEMOH_v2.3');
             obj.capytaineDir = fullfile(obj.bemioDir,'CAPYTAINE');
             obj.aqwaDir = fullfile(obj.bemioDir,'AQWA');   
 
