@@ -161,8 +161,8 @@ classdef mooringClass<handle
         end
 
         function obj = setLoc(obj)
-            % This method sets mooring location
-            obj.orientation = [obj.location + obj.initial.displacement 0 0 0];
+            % This method sets moordyn location
+            obj.orientation = [0 0 0 0 0 0];
         end
 
         function setNumber(obj,number)

@@ -8,11 +8,9 @@ if exist('pctDir')
 end
 
 % Close MoorDyn if used
-if exist('mooring','var') == 1
+if simu.numMoorDyn > 0
     % Close MoorDyn
-    if mooring(1).moorDyn == 1
-        mooring(1).closeMoorDynLib();
-    end
+    mooring.closeMoorDynLib();
 end
 
 % Clear intermediate variables and variant subsystem flags
