@@ -54,7 +54,7 @@ classdef ptoClass<handle
             'z',                                    [0, 0, 1], ...          % 
             'y',                                    [0, 1, 0], ...          % 
             'x',                                    [], ...                 % 
-            'rotationMatrix',                       [])                     % (`structure`) Defines the orientation axis of the pto. ``z`` (`1x3 float vector`) defines the direciton of the Z-coordinate of the pto, Default = [``0 0 1``]. ``y`` (`1x3 float vector`) defines the direciton of the Y-coordinate of the pto, Default = [``0 1 0``]. ``x`` (`1x3 float vector`) internally calculated vector defining the direction of the X-coordinate for the pto, Default = ``[]``. ``rotationMatrix`` (`3x3 float matrix`) internally calculated rotation matrix to go from standard coordinate orientation to the pto coordinate orientation, Default = ``[]``.
+            'rotationMatrix',                       [])                     % (`structure`) Defines the orientation axis of the pto. ``z`` (`1x3 float vector`) defines the direction of the Z-coordinate of the pto, Default = [``0 0 1``]. ``y`` (`1x3 float vector`) defines the direction of the Y-coordinate of the pto, Default = [``0 1 0``]. ``x`` (`1x3 float vector`) internally calculated vector defining the direction of the X-coordinate for the pto, Default = ``[]``. ``rotationMatrix`` (`3x3 float matrix`) internally calculated rotation matrix to go from standard coordinate orientation to the pto coordinate orientation, Default = ``[]``.
         pretension (1,1) {mustBeNumeric}            = 0                     % (`float`) Linear PTO pretension, N or N-m. Default = `0`.
         stiffness (1,:) {mustBeNonnegative}         = 0                     % (`float`) Linear PTO stiffness coefficient. Default = `0`.        
     end
@@ -117,7 +117,7 @@ classdef ptoClass<handle
                 mustBeNumeric(obj.orientation.rotationMatrix)
             end
             % Extension
-            mustBeMember(obj.extension.PositionTargetSpecify,{0,1})
+            mustBeMember(obj.extension.PositionTargetSpecify,[0,1])
             mustBeNumeric(obj.extension.PositionTargetValue)
             mustBeMember(obj.extension.PositionTargetPriority,{'High','Low'})
         end
