@@ -161,8 +161,8 @@ classdef mooringClass<handle
         end
 
         function obj = setLoc(obj)
-            % This method sets moordyn location
-            obj.orientation = [0 0 0 0 0 0];
+            % This method sets MoorDyn initial orientation
+            obj.orientation = [obj.location + obj.initial.displacement 0 0 0];
         end
 
         function setNumber(obj,number)
@@ -201,6 +201,7 @@ classdef mooringClass<handle
         end
 
         function closeMoorDynLib(obj)
+            % Close MoorDyn Lib
             calllib('libmoordyn', 'MoorDynClose');
             unloadlibrary libmoordyn;
         end
