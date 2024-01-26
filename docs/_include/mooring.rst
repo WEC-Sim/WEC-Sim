@@ -5,11 +5,13 @@ information about the mooring class code structure, refer to
 
 Floating WEC systems are often connected to mooring lines to keep the device in 
 position. WEC-Sim allows the user to model the mooring dynamics in the 
-simulation by specifying the mooring matrix or coupling with MoorDyn. To 
+simulation by specifying the mooring matrix, a mooring lookup table, or coupling with MoorDyn. To 
 include mooring connections, the user can use the mooring block (i.e., Mooring 
-Matrix block or MoorDyn block) given in the WEC-Sim library under Moorings lib 
-and connect it between the body and the Global reference frame. Refer to the 
-:ref:`rm3_moordyn`, and the :ref:`webinar4` for more information. 
+Matrix block, Mooring Lookup Table block, or MoorDyn Connection block) 
+given in the WEC-Sim library under Moorings lib 
+and connect it between the body and the Global reference frame. The Moordyn Connection
+block can also be placed between two dynamic bodies or frames. Refer to the 
+:ref:`rm3_moordyn`, and the :ref:`webinar8` for more information. 
 
 MoorDyn is hosted on a separate `MoorDyn repository <https://github.com/WEC-Sim/moorDyn>`_. 
 It must be download separately, and all files and folders should be placed in 
@@ -92,17 +94,27 @@ The lookup table dataset should contain one structure that contains fields for e
 MoorDyn
 ^^^^^^^
 
-When the MoorDyn block is used, the user needs to initiate the mooring class by 
+When a MoorDyn block is used, the user first needs to initiate the mooring class by 
 setting :code:`mooring = mooringClass('mooring name')` in the WEC-Sim input 
-file (wecSimInputFile.m), followed by the number of mooring lines that are 
-defined in MoorDyn (``mooring(1).moorDynLines = <Number of mooring lines>``) 
+file (wecSimInputFile.m), followed by setting :code:`mooring(i).moorDyn = 1` to 
+initialize a MoorDyn connection. Each MoorDyn connection can consist of multiple 
+lines and each line may have multiple nodes. The number of MoorDyn lines and nodes in 
+each line should be defined as (``mooring(i).moorDynLines = <Number of mooring lines>``) 
+and (``mooring(i).moorDynNodes(iLine) = <Number of mooring nodes in line>``), 
+respectively. 
 
-A mooring folder that includes a moorDyn input file (``lines.txt``) is required 
-in the simulation folder. 
+A mooring folder that includes a MoorDyn input file (``lines.txt``) is required 
+in the simulation folder. The body and corresponding mooring attachment points are 
+defined in the MoorDyn input file. MoorDyn handles the kinematic transform to 
+convert the forces from the attachment points to the 6 degree of freedom force 
+acting on the body's center of gravity. Thus, the mooring location should generally 
+be left as the default (``[0 0 0]``). Any initial displacement of the body should also 
+be added to the mooring connection in the `wecSimInputFile.m`.
 
 .. Note::
-    WEC-Sim/MoorDyn coupling only allows one mooring configuration in the 
-    simulation.
+    WEC-Sim/MoorDyn coupling now allows more than one mooring connnection (i.e., 
+    multiple MoorDyn Connection blocks) in the simulation, but there can only be 
+    one call to MoorDyn (i.e., one MoorDyn Caller block).
 
 .. _rm3_moordyn:
 
@@ -117,7 +129,8 @@ Applications <https://github.com/WEC-Sim/WEC-Sim_Applications>`_ repository.
 
 * **WEC-Sim Simulink Model**: Start out by following the instructions on how to 
   model the :ref:`user-tutorials-rm3`. To couple WEC-Sim with MoorDyn, the 
-  MoorDyn Block is added in parallel to the constraint block
+  MoorDyn Connection block is added in parallel to the constraint block and the 
+  MoorDyn Caller block is added to the model (no connecting lines).
 
 .. _WECSimmoorDyn:
 
@@ -126,7 +139,7 @@ Applications <https://github.com/WEC-Sim/WEC-Sim_Applications>`_ repository.
     :align: center
 
 * **WEC-Sim Input File**: In the ``wecSimInputFile.m`` file, the user needs to 
-  initiate the mooring class and define the number of mooring lines.
+  initiate the mooring class and MoorDyn and define the number of mooring lines.
 
 .. _WECSimInputMoorDyn:
 
@@ -135,8 +148,9 @@ Applications <https://github.com/WEC-Sim/WEC-Sim_Applications>`_ repository.
 
 * **MoorDyn Input File**: A mooring folder that includes a moorDyn input file 
   (``lines.txt``) is created. The moorDyn input file (``lines.txt``) is shown 
-  in the figure below. More details on how to setup the MooDyn input file are 
-  described in the MoorDyn User Guide :cite:`Hall2015MoorDynGuide`.
+  in the figure below. More details on how to set up the MooDyn input file are 
+  described in the `MoorDyn Documentation <https://moordyn.readthedocs.io/en/latest/>`_. 
+  Note: WEC-Sim now uses MoorDyn v2.
 
 .. _moorDynInput:
 
