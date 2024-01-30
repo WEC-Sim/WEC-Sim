@@ -37,21 +37,19 @@ notes = {'Notes:',...
 
 numHydro = length(varargin);
 
-for ii = 1:numHydro
-    tmp1 = strcat('X',num2str(ii));
-    X.(tmp1) = varargin{ii}.w;
-    tmp2 = strcat('Y',num2str(ii));
-    for i = 1:length(varargin{ii}.plotBodies)
-        a = 0;
-        if i > 1
-            for i = 2:varargin{ii}.plotBodies(i)
-                a = a + varargin{ii}.dof(varargin{ii}.plotBodies(i-1));
-            end
+for iH = 1:numHydro
+    tmp1 = strcat('X',num2str(iH));
+    X.(tmp1) = varargin{iH}.w;
+    tmp2 = strcat('Y',num2str(iH));
+    for ii = 1:length(varargin{iH}.plotBodies)
+        iB = varargin{iH}.plotBodies(ii);
+        a = sum(varargin{iH}.dof(1:iB)) - varargin{iH}.dof(iB);
+        for iii = 1:size(varargin{iH}.plotDofs,1)
+            iDof1 = a+varargin{iH}.plotDofs(iii,1);
+            iDof2 = a+varargin{iH}.plotDofs(iii,2);
+            Y.(tmp2)(iii,ii,:) = squeeze(varargin{iH}.A(iDof1,iDof2,:));
         end
-        for j = 1:size(varargin{ii}.plotDofs,1)
-            Y.(tmp2)(j,i,:) = squeeze(varargin{ii}.A(a+varargin{ii}.plotDofs(j,1),a+varargin{ii}.plotDofs(j,2),:));
-        end
-        legendStrings{i,ii} = [strcat('hydro_',num2str(ii),'.',varargin{ii}.body{varargin{ii}.plotBodies(i)})];
+        legendStrings{ii,iH} = strcat('hydro_',num2str(iH),'.',varargin{iH}.body{iB});
     end
 end
 
