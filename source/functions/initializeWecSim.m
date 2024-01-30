@@ -141,7 +141,6 @@ if exist('mooring','var') == 1
         if mooring(ii).moorDyn == 1
             simu.numMoorDyn = simu.numMoorDyn+1;
         end
-        numMoorDyn = simu.numMoorDyn;
     end; clear ii
     % Initialize MoorDyn
     if simu.numMoorDyn > 0
