@@ -109,7 +109,7 @@ defined in the MoorDyn input file. MoorDyn handles the kinematic transform to
 convert the forces from the attachment points to the 6 degree of freedom force 
 acting on the body's center of gravity. Thus, the mooring location should generally 
 be left as the default (``[0 0 0]``). Any initial displacement of the body should also 
-be added to the mooring connection in the `wecSimInputFile.m`.
+be specified as an initial displacement to the mooring connection in the `wecSimInputFile.m`.
 
 .. Note::
     WEC-Sim/MoorDyn coupling now allows more than one mooring connnection (i.e., 
