@@ -42,6 +42,10 @@ classdef constraintClass<handle
           'lowerLimitTransitionRegionWidth',    1e-4)                       % (`float`) Define lower limit transition region, over which spring and damping values ramp up to full values. Increase for stability. m or deg. ``Default = 1e-4``                                                                                    
         initial (1,1) struct                    = struct(...                % 
             'displacement',                     [0 0 0])                    % (`structure`) Defines the initial displacement of the constraint. ``displacement`` (`3x1 float vector`) is defined as the initial displacement of the constraint [m] in the following format [x y z], Default = [``0 0 0``].
+        extension (1,1) struct                      = struct(...            % (`structure`) Defines the constraint extension
+            'PositionTargetSpecify',                0,...                   % (`float`) Initialize constraint extension. `` '0' or '1' `` Default = '0'.
+            'PositionTargetValue',                  0,...                   % (`float`) Define extension value, in m or deg.
+            'PositionTargetPriority',               'High')                 % (`string`) Specify priority level for extension. `` 'High' or 'Low' `` Default = ``High``.
         location (1,3) {mustBeNumeric}          = [999 999 999]             % (`1x3 float vector`) Constraint location [m]. Defined in the following format [x y z]. Default = ``[999 999 999]``.        
         name (1,:) {mustBeText}                 = 'NOT DEFINED'             % (`string`) Specifies the constraint name. For constraints this is defined by the user, Default = ``NOT DEFINED``.
         orientation (1,1) struct                = struct(...                % (`structure`) Defines the orientation axis of the constraint.
@@ -108,6 +112,10 @@ classdef constraintClass<handle
                 assert(isequal(size(obj.orientation.rotationMatrix)==[3,3],[1,1]),'Input constraint.orientation.rotationMatrix should be 3x3')
                 mustBeNumeric(obj.orientation.rotationMatrix)
             end
+            % Extension
+            mustBeMember(obj.extension.PositionTargetSpecify,[0,1])
+            mustBeNumeric(obj.extension.PositionTargetValue)
+            mustBeMember(obj.extension.PositionTargetPriority,{'High','Low'})
         end
         
         function obj = checkLoc(obj,action)
