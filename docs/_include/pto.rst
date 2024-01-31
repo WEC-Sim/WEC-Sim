@@ -88,13 +88,16 @@ custom MATLAB Function block.
 
 .. _pto-pto-extension:
 
-Setting PTO Extension
-^^^^^^^^^^^^^^^^^^^^^
+Setting PTO or Constraint Extension
+^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
-The PTO Extension value can be specified to define the initial displacement of 
-the PTO at the beginning of the simulation, allowing the user to set the 
-ideal position for maximum wave capture and energy generation. Whereas the
-initial displacement feature only defines this updated position for the PTO,
+The PTO and Constraint classes have an Extension value that
+can be specified to define the initial displacement of 
+the PTO or constraint at the beginning of the simulation, allowing the user to set the 
+ideal position for maximum wave capture and energy generation. This documentation
+will use the PTO as an example, but the proces is applicable to both translational, 
+rotational, or spherical PTOs and constraints. 
+Whereas the initial displacement feature only defines this updated position for the PTO,
 the PTO Extension feature propagates the change in position to all bodies and joints
 on the Follower side of the PTO block. This allows for an accurate reflection of the 
 initial locations of each component without having to calculate and individually
