@@ -46,7 +46,7 @@ classdef ptoClass<handle
             'displacement',                         [0 0 0])                % (`structure`) Defines the initial displacement of the pto. ``displacement`` (`3x1 float vector`) is defined as the initial displacement of the pto [m] in the following format [x y z], Default = [``0 0 0``].
         extension (1,1) struct                      = struct(...            % (`structure`) Defines the PTO extension
             'PositionTargetSpecify',                0,...                   % (`float`) Initialize PTO extension. `` '0' or '1' `` Default = '0'.
-            'PositionTargetValue',                  0,...                   % (`float`) Define extension value [m].
+            'PositionTargetValue',                  0,...                   % (`float`) Define extension value, in m or deg.
             'PositionTargetPriority',               'High')                 % (`string`) Specify priority level for extension. `` 'High' or 'Low' `` Default = ``High``.
         location (1,3) {mustBeNumeric}              = [999 999 999]         % (`3x1 float vector`) PTO location [m]. Defined in the following format [x y z]. Default = ``[999 999 999]``.
         name (1,:) {mustBeText}                     = 'NOT DEFINED'         % (`string`) Specifies the pto name. For ptos this is defined by the user, Default = ``NOT DEFINED``. 
