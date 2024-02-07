@@ -1,6 +1,6 @@
 function plotExcitationPhase(varargin)
 % Plots the excitation force phase for each hydro structure's bodies in
-% the heave, surge and pitch degrees of freedom.
+% the given degrees of freedom.
 % 
 % Usage:
 % ``plotExcitationPhase(hydro, hydro2, hydro3, ...)``
@@ -17,35 +17,42 @@ if isempty(varargin)
         'structures when calling: plotExcitationPhase(hydro1, hydro2, ...)']);
 end
 
-B=1;  % Wave heading index
-figHandle = figure('Position',[950,300,975,521]);
+varargin = checkAndFormatPlotVars(varargin, 1);
+
+figHandle = figure();
 titleString = ['Excitation Force Phase: $$\phi_i(\omega,\theta)$$'];
-subtitleString = {'Surge','Heave','Pitch'};
-xString = {'$$\omega (rad/s)$$','$$\omega (rad/s)$$','$$\omega (rad/s)$$'};
-yString = {['$$\phi_1(\omega,\theta$$',' = ',num2str(varargin{1}.theta(B)),'$$^{\circ})$$'],...
-    ['$$\phi_3(\omega,\theta$$',' = ',num2str(varargin{1}.theta(B)),'$$^{\circ}$$)'],...
-    ['$$\phi_5(\omega,\theta$$',' = ',num2str(varargin{1}.theta(B)),'$$^{\circ}$$)']};
+subtitleStrings = getDofNames(varargin{1}.diagPlotDofs);
+xString = {'$$\omega (rad/s)$$'};
+for dof = 1:size(varargin{1}.diagPlotDofs,1)
+    yString{dof} = ['$$\phi_',num2str(varargin{1}.diagPlotDofs(dof)),'(\omega)$$'];
+end
 
 notes = {''};
 
 numHydro = length(varargin);
-for ii = 1:numHydro
-    numBod = varargin{ii}.Nb;
-    tmp1 = strcat('X',num2str(ii));
-    X.(tmp1) = varargin{ii}.w;
-    tmp2 = strcat('Y',num2str(ii));
-    a = 0;
-    for i = 1:numBod
-        m = varargin{ii}.dof(i);
-        Y.(tmp2)(1,i,:) = squeeze(varargin{ii}.ex_ph(a+1,B,:));
-        Y.(tmp2)(2,i,:) = squeeze(varargin{ii}.ex_ph(a+3,B,:));
-        Y.(tmp2)(3,i,:) = squeeze(varargin{ii}.ex_ph(a+5,B,:));
-        legendStrings{i,ii} = [varargin{ii}.body{i}];
-        a = a + m;
+
+for iH = 1:numHydro
+    tmp1 = strcat('X',num2str(iH));
+    X.(tmp1) = varargin{iH}.w;
+    tmp2 = strcat('Y',num2str(iH));
+    legendCount = 0;
+    for ii = 1:length(varargin{iH}.plotBodies)
+        iB = varargin{iH}.plotBodies(ii);
+        a = sum(varargin{iH}.dof(1:iB)) - varargin{iH}.dof(iB);
+        for iii = 1:size(varargin{iH}.diagPlotDofs,1)
+            iDof = a+varargin{iH}.diagPlotDofs(iii,1);
+            for iv = 1:length(varargin{iH}.plotDirections)
+                iDir = varargin{iH}.plotDirections(iv);
+                tmp3 = strcat('d',num2str(iv));
+                Y.(tmp2).(tmp3)(iii,ii,:) = squeeze(varargin{iH}.ex_ph(iDof,iDir,:));
+                legendStrings{legendCount+iv,iH} = strcat('hydro_',num2str(iH),'.',varargin{iH}.body{iB},' \theta =  ',num2str(varargin{iH}.theta(iDir)),'^{\circ}');
+            end
+        end
+        legendCount = legendCount+iv;
     end
 end
 
-formatPlot(figHandle,titleString,subtitleString,xString,yString,X,Y,legendStrings,notes)  
+formatPlot(figHandle,titleString,subtitleStrings,xString,yString,X,Y,legendStrings,notes,varargin{1}.diagPlotDofs)
 saveas(figHandle,'Excitation_Phase.png');
 
 end

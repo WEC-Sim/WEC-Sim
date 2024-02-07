@@ -1,4 +1,4 @@
-function hydro = readCAPYTAINE(hydro,filename)
+function hydro = readCAPYTAINE(hydro, filename, hydrostatics_sub_dir)
 % Reads data from a Capytaine netcdf file
 % 
 % See ``WEC-Sim\examples\BEMIO\CAPYTAINE`` for examples of usage.
@@ -10,6 +10,9 @@ function hydro = readCAPYTAINE(hydro,filename)
 %     
 %     filename : string
 %         Capytaine .nc output file
+%
+%     hydrostatics_sub_dir : string
+%         Path to directory where Hydrostatics.dat and KH.dat files are saved 
 %
 % Returns
 % -------
@@ -27,7 +30,15 @@ end
 p = waitbar(0,'Reading Capytaine netcdf output file...'); %Progress bar
 
 hydro(F).code = 'CAPYTAINE';
-[meshdir,name,~] = fileparts(filename);
+
+[base_dir, name, ~] = fileparts(filename);
+
+if exist('hydrostatics_sub_dir','var') & ~isempty(hydrostatics_sub_dir)
+    hydrostatics_dir = append(base_dir, hydrostatics_sub_dir);
+else
+    hydrostatics_dir = base_dir;
+end
+
 hydro(F).file = name;  % Base name
 
 % Load info (names, size, ...) of Capytaine variables, dimensions, ...
@@ -88,16 +99,7 @@ tmp = ncread(filename,'body_name')';
 for i=1:s1
     hydro(F).body{i} = erase(tmp(i,:), char(0)); % assign preliminary value to body names
 end
-
-hydro(F).body = hydro(F).body{:};
-% Check for newer formatting
-if isstring(hydro(F).body)
-    ncFormat = 'new';
-else 
-    ncFormat = 'old';
-end
-
-hydro(F).body = split(hydro(F).body,'+');
+hydro(F).body = split(hydro(F).body{1},'+');
 
 % sort radiating dof into standard list if necessary
 rdofs = lower(string(ncread(filename,'radiating_dof')'));
@@ -126,27 +128,15 @@ end
 
 %% Reorder dofs if needed
 % check the ordering of the 'complex' dimension
-tmp = ncread(filename,'complex')';
-if ncFormat == 'new'
-    if tmp(:,1) == "re" && tmp(:,2) == "im"
-        i_re = 1;
-        i_im = 2;
-    elseif tmp(:,1) == "im" && tmp(:,2) == "re"
-        i_im = 1;
-        i_re = 2;
-    else
-        error('Error:BEMIO:Read_Capytaine: check complex dimension indices');
-    end
-elseif ncFormat == 'old'
-    if tmp(1,:) == "re" && tmp(2,:) == "im"
-        i_re = 1;
-        i_im = 2;
-    elseif tmp(1,:) == "im" && tmp(2,:) == "re"
-        i_im = 1;
-        i_re = 2;
-    else
-        error('Error:BEMIO:Read_Capytafe: check complex dimension indices');
-    end
+tmp = string(ncread(filename,'complex')');
+if tmp{1} == "re" && tmp{2} == "im"
+    i_re = 1;
+    i_im = 2;
+elseif tmp(1,:) == "im" && tmp(2,:) == "re"
+    i_im = 1;
+    i_re = 2;
+else
+    error('Error:BEMIO:Read_Capytaine: check complex dimension indices');
 end
 
 % Check that radiating & influenced dofs are same length and at least 6*Nb
@@ -173,9 +163,9 @@ for m = 1:hydro(F).Nb
     try
 %         hydro(F).dof(m) = 6;  % Default degrees of freedom for each body is 6
         if hydro(F).Nb == 1
-            fileID = fopen(fullfile(meshdir,'Hydrostatics.dat'));
+            fileID = fopen(fullfile(hydrostatics_dir,'Hydrostatics.dat'));
         else
-            fileID = fopen([fullfile(meshdir,'Hydrostatics_'),num2str(m-1),'.dat']);
+            fileID = fopen([fullfile(hydrostatics_dir,'Hydrostatics_'),num2str(m-1),'.dat']);
         end
         raw = textscan(fileID,'%[^\n\r]');  % Read Hydrostatics.dat
         raw = raw{:};
@@ -221,9 +211,9 @@ waitbar(2/8);
 for m = 1:hydro(F).Nb
     try
         if hydro(F).Nb == 1
-            fileID = fopen(fullfile(meshdir,'KH.dat'));
+            fileID = fopen(fullfile(hydrostatics_dir,'KH.dat'));
         else
-            fileID = fopen([fullfile(meshdir,'KH_'),num2str(m-1),'.dat']);
+            fileID = fopen([fullfile(hydrostatics_dir,'KH_'),num2str(m-1),'.dat']);
         end
         raw = textscan(fileID,'%[^\n\r]');
         raw = raw{:};
@@ -432,6 +422,7 @@ waitbar(7/8);
 % Kochin_BVP(ntheta,2,x)= Kochin(3*(ntheta-1)+3); % phase
 
 hydro = normalizeBEM(hydro);  % Normalize the data according the WAMIT convention
+hydro = addDefaultPlotVars(hydro);
 
 waitbar(8/8);
 

@@ -401,7 +401,7 @@ For a more detailed derivation please the reader is referred `here <https://web.
    
 where :math:`\omega` is the wave angular frequency (:math:`\omega = \frac{2\pi}{T}`), :math:`g` is gravitational acceleration, 
 :math:`k` is the wave number (:math:`k=\frac{2\pi}{\lambda}`), and :math:`h` is the water depth. The dispersion relation can be 
-simplified if the floating body is located in deep water, :math:`h \rightarrow \infty` . The simplifcation comes from the hyperbolic 
+simplified if the floating body is located in deep water, :math:`h \rightarrow \infty` . The simplification comes from the hyperbolic 
 tangent function having an asympote of 1 as its argument tends to infinity (:math:`\tanh \left( \infty \right) \rightarrow 1`). 
 The deep water condition can still be met if the water depth is not infinite while the following expression holds :math:`kh \geq \pi` . 
 The dispersion relation can then be used to derive the phase velocity which refers to the speed that an observer would need to travel for 
@@ -763,6 +763,17 @@ calculated by
 where :math:`K_{m}` and :math:`C_{m}` are the stiffness and damping matrices 
 for the mooring system, and :math:`X` and :math:`\dot{X}` are the displacement 
 and velocity of the body, respectively. 
+
+Mooring Lookup Table
+^^^^^^^^^^^^^^^^^^^^
+
+The Mooring Lookup Table searches a user-supplied 6DOF force lookup table.
+The lookup table must contain six parameters: the resultant mooring force in each degree of freedom.
+Each force must be indexed by position in all six degrees of freedom, as shown below.
+The mooringClass does not assume a value for empty indices or forces. 
+All degrees of freemdom must be initialized and supplied by the user.
+The mooring force is linearly interpolated between indexed positions based on the instantaneous position of the mooring system using a Simulink N-D Lookup Table for each force component.
+The fidelity of the mooring lookup table is entirely dependent on the user-defined input.
 
 MoorDyn
 ^^^^^^^

@@ -15,6 +15,8 @@ MoorDyn is hosted on a separate `MoorDyn repository <https://github.com/WEC-Sim/
 It must be download separately, and all files and folders should be placed in 
 the ``$WECSIM/functions/moorDyn`` directory. 
 
+.. _mooring-matrix:
+
 Mooring Matrix
 ^^^^^^^^^^^^^^
 
@@ -35,6 +37,55 @@ mooring matrix properties in the WEC-Sim input file using:
 
     "i" indicates the mooring number. More than one mooring can be specified in 
     the WEC-Sim model when the mooring matrix block is used. 
+
+.. _mooring-lookup:
+
+Mooring Lookup Table
+^^^^^^^^^^^^^^^^^^^^
+
+When the mooring lookup table block is used, the user first needs to initiate the 
+mooring class by setting :code:`mooring(i) = mooringClass('mooring name')` in 
+the WEC-Sim input file (``wecSimInputFile.m``). Typically, the mooring 
+connection location also needs to be specified, :code:`mooring(i).location = [1x3]` 
+(the default connection location is ``[0 0 0]``). The user must also define the 
+lookup table file in the WEC-Sim input file with :code:`mooring(i).lookupTableFile = 'FILENAME';`
+
+The lookup table dataset should contain one structure that contains fields for each index and each force table:
+
+
+	+----------------+----------------------+--------------+
+	| *Index Name*   |    *Description*     | *Dimensions* |
+	+----------------+----------------------+--------------+
+	|       X        | Surge position [m]   |    1 x nX    |
+	+----------------+----------------------+--------------+
+	|       Y        | Sway position [m]    |    1 x nY    |
+	+----------------+----------------------+--------------+
+	|       Z        | Heave position [m]   |    1 x nZ    |
+	+----------------+----------------------+--------------+
+	|       RX       | Roll position [deg]  |    1 x nRX   |
+	+----------------+----------------------+--------------+
+	|       RY       | Pitch position [deg] |    1 x nRY   |
+	+----------------+----------------------+--------------+
+	|       RZ       | Yaw position [deg]   |    1 x nRZ   |
+	+----------------+----------------------+--------------+
+    
+    
+	+----------------+--------------------+--------------------------------+
+	| *Force Name*   | *Description*      |          *Dimensions*          |
+	+----------------+--------------------+--------------------------------+
+	|       FX       | Surge force [N]    | nX x nY x nZ x nRX x nRY x nRZ |
+	+----------------+--------------------+--------------------------------+
+	|       FY       | Sway force [N]     | nX x nY x nZ x nRX x nRY x nRZ |
+	+----------------+--------------------+--------------------------------+
+	|       FZ       | Heave force [N]    | nX x nY x nZ x nRX x nRY x nRZ |
+	+----------------+--------------------+--------------------------------+
+	|       MX       | Roll force [Nm]    | nX x nY x nZ x nRX x nRY x nRZ |
+	+----------------+--------------------+--------------------------------+
+	|       MY       | Pitch force [Nm]   | nX x nY x nZ x nRX x nRY x nRZ |
+	+----------------+--------------------+--------------------------------+
+	|       MZ       | Yaw force [Nm]     | nX x nY x nZ x nRX x nRY x nRZ |
+	+----------------+--------------------+--------------------------------+
+
 
 .. _mooring-moordyn:
 

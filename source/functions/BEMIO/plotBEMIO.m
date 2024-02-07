@@ -1,7 +1,7 @@
 function plotBEMIO(varargin)
 % Plots the added mass, radiation damping, radiation IRF, excitation force
 % magnitude, excitation force phase, and excitation IRF for each body in
-% the heave, surge and pitch degrees of freedom.
+% the given degrees of freedom.
 % 
 % Usage: 
 % ``plotBEMIO(hydro, hydro2, hydro3, ...)``
@@ -26,9 +26,10 @@ function plotBEMIO(varargin)
 %     If varargin is empty, varargin{:} gives passes nothing to the
 %     plotting functions.
 
+%% Set-up and error checking parameters
 if isempty(varargin)
-    error(['plotBEMIO: No arguments passed. Include one or more hydro ' ...
-        'structures when calling: plotBEMIO(hydro1, hydro2, ...)']);
+    error(['No hydro data passed. Include one or more hydro ' ...
+        'structures when calling: plotBEMIO(hydro1, hydro2, ...) \n']);
 end
 
 %% Added Mass
