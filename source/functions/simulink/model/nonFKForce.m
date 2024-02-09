@@ -41,16 +41,13 @@ f_nonLinear=FK(center      ,x(1:3)+cg,av      ,wp      );
 f = f_nonLinear-f_linear;
 end
 
-function f=pDis(center,elv,direction,AH,w,dw,wDepth,deepWater,t,k,phaseRand,typeNum,rho,g)
+function f=pDis(center,elv,AH,w,dw,wDepth,deepWater,t,k,phaseRand,typeNum,rho,g)
 % Function to calculate pressure distribution
 f = zeros(length(center(:,3)),1);
 z=zeros(length(center(:,1)),1);
-cx = center(:,1);
-cy = center(:,2);
-X = cx*cos(direction*pi/180) + cy*sin(direction*pi/180);
 if typeNum <10
 elseif typeNum <20
-    f = rho.*g.*AH(1).*cos(k(1).*X-w(1)*t);
+    f = rho.*g.*elv;
     if deepWater == 0
         z=(center(:,3)-elv).*wDepth./(wDepth+elv);
         f = f.*(cosh(k(1).*(z+wDepth))./cosh(k(1)*wDepth));
@@ -59,7 +56,9 @@ elseif typeNum <20
         f = f.*exp(k(1).*z);
     end
 elseif typeNum <30
-
+    cx = center(:,1);
+    cy = center(:,2);
+    X = cx*cos(direction*pi/180) + cy*sin(direction*pi/180);
     for i=1:length(AH)
         if deepWater == 0 && wDepth <= 0.5*pi/k(i)
             z=(center(:,3)-elv).*wDepth./(wDepth+elv);
