@@ -98,10 +98,8 @@ When a MoorDyn block is used, the user first needs to initiate the mooring class
 setting :code:`mooring = mooringClass('mooring name')` in the WEC-Sim input 
 file (wecSimInputFile.m), followed by setting :code:`mooring(i).moorDyn = 1` to 
 initialize a MoorDyn connection. Each MoorDyn connection can consist of multiple 
-lines and each line may have multiple nodes. The number of MoorDyn lines and nodes in 
-each line should be defined as (``mooring(i).moorDynLines = <Number of mooring lines>``) 
-and (``mooring(i).moorDynNodes(iLine) = <Number of mooring nodes in line>``), 
-respectively. 
+lines and each line may have multiple nodes. The number of MoorDyn lines should be defined as (``mooring(i).moorDynLines = <Number of mooring lines>``) and should match the number of 
+lines specified in the MoorDyn input file. 
 
 A mooring folder that includes a MoorDyn input file (``lines.txt``) is required 
 in the simulation folder. The body and corresponding mooring attachment points are 
