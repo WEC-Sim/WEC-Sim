@@ -32,7 +32,7 @@ Then, add the WEC-Sim specific macros:
 
 WEC-Sim Visualization in ParaView
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
-When ``simu.paraview=1``, a ``vtk`` directory is created inside the WEC-Sim $CASE directory. 
+When ``simu.paraview.option = 1``, a ``vtk`` directory is created inside the WEC-Sim $CASE directory. 
 All files necessary for ParaView visualization are located there.
 To view in ParaView:
 
