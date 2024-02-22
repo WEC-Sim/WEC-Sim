@@ -98,16 +98,20 @@ When a MoorDyn block is used, the user first needs to initiate the mooring class
 setting :code:`mooring = mooringClass('mooring name')` in the WEC-Sim input 
 file (wecSimInputFile.m), followed by setting :code:`mooring(i).moorDyn = 1` to 
 initialize a MoorDyn connection. Each MoorDyn connection can consist of multiple 
-lines and each line may have multiple nodes. The number of MoorDyn lines should be defined as (``mooring(i).moorDynLines = <Number of mooring lines>``) and should match the number of 
-lines specified in the MoorDyn input file. 
+lines and each line may have multiple nodes. The number of MoorDyn lines and nodes in 
+each line should be defined as (``mooring(i).moorDynLines = <Number of mooring lines>``) 
+and (``mooring(i).moorDynNodes(iLine) = <Number of mooring nodes in line>`` *only used 
+for ParaView visualization), respectively and should match the number of lines and nodes 
+specified in the MoorDyn input file. 
 
 A mooring folder that includes a MoorDyn input file (``lines.txt``) is required 
 in the simulation folder. The body and corresponding mooring attachment points are 
 defined in the MoorDyn input file. MoorDyn handles the kinematic transform to 
 convert the forces from the attachment points to the 6 degree of freedom force 
-acting on the body's center of gravity. Thus, the mooring location should generally 
-be left as the default (``[0 0 0]``). Any initial displacement of the body should also 
-be specified as an initial displacement to the mooring connection in the `wecSimInputFile.m`.
+acting on the body's current location. Thus, the mooring location should generally 
+be left as the default (``[0 0 0]``) so that WEC-Sim applies the forces at the correct 
+location (center of gravity). The initial location of the body in WEC-Sim 
+should match the specified location in the MoorDyn input file.
 
 .. Note::
     WEC-Sim/MoorDyn coupling now allows more than one mooring connnection (i.e., 
@@ -148,6 +152,9 @@ Applications <https://github.com/WEC-Sim/WEC-Sim_Applications>`_ repository.
   (``lines.txt``) is created. The moorDyn input file (``lines.txt``) is shown 
   in the figure below. More details on how to set up the MooDyn input file are 
   described in the `MoorDyn Documentation <https://moordyn.readthedocs.io/en/latest/>`_. 
+  One specific requirement when using WEC-Sim with MoorDyn is that the Body(s) in which 
+  the mooring lines are attached to should be labeled as "Coupled" in the MoorDyn input 
+  file, which allows for WEC-Sim to control the body dynamics.
   Note: WEC-Sim now uses MoorDyn v2.
 
 .. _moorDynInput:

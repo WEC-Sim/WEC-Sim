@@ -782,7 +782,7 @@ MoorDyn discretizes each mooring line in a mooring system into evenly-sized
 line segments connected by node points (see :ref:`MoorDyn figure 
 <MoorDynFig>`). The line mass is lumped at these node points along with 
 gravitational and buoyancy forces, hydrodynamic loads, and reactions from 
-contact with the seabed or other bodies. Hydrodynamic drag and added mass 
+contact with the seabed. Hydrodynamic drag and added mass 
 are calculated based on Morison's equation. A mooring line's axial stiffness 
 is modeled by applying a linear stiffness to each line segment in tension only. 
 A damping term is also applied in each segment to dampen non-physical resonance 
