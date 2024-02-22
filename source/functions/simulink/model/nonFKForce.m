@@ -41,7 +41,7 @@ f_nonLinear=FK(center      ,x(1:3)+cg,av      ,wp      );
 f = f_nonLinear-f_linear;
 end
 
-function f=pDis(center,elv,AH,w,dw,wDepth,deepWater,t,k,phaseRand,typeNum,rho,g)
+function f=pDis(center,elv,direction,AH,w,dw,wDepth,deepWater,t,k,phaseRand,typeNum,rho,g)
 % Function to calculate pressure distribution
 f = zeros(length(center(:,3)),1);
 z=zeros(length(center(:,1)),1);
