@@ -100,7 +100,7 @@ file (wecSimInputFile.m), followed by setting :code:`mooring(i).moorDyn = 1` to
 initialize a MoorDyn connection. Each MoorDyn connection can consist of multiple 
 lines and each line may have multiple nodes. The number of MoorDyn lines and nodes in 
 each line should be defined as (``mooring(i).moorDynLines = <Number of mooring lines>``) 
-and (``mooring(i).moorDynNodes(iLine) = <Number of mooring nodes in line>`` *only used 
+and (``mooring(i).moorDynNodes(iLine) = <Number of mooring nodes in line>`` - only used 
 for ParaView visualization), respectively and should match the number of lines and nodes 
 specified in the MoorDyn input file. 
 
