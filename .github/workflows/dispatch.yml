@@ -2,7 +2,7 @@ name: Trigger repository dispatch event
 on:
   push:
     branches:
-      - master
+      - main
       - dev
 jobs:
   dispatch:
