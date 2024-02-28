@@ -315,7 +315,7 @@ if exist([tmp{1} '.cfg'],'file')==2
     fclose(fileID);
     N = length(raw);
     for n = 1:N
-        if isempty(strfind(raw{n},'NEWMDS'))==0 || ~isempty(strfind(raw{n},'NMODESFSP'))
+        if isempty(strfind(raw{n},'NEWMDS'))==0 || ~isempty(strfind(raw{n},'IMODESFSP'))
             tmp = strsplit(raw{n},{'(',')','=',' '});
             if raw{n}(7) == '('
                 hydro(F).dof(str2num(tmp{2})) = hydro(F).dof(str2num(tmp{2}))+str2num(tmp{3});

@@ -36,6 +36,9 @@
 %%
 
 % Initialize WEC-Sim
+run('wecSimInputFile');
+clear simu waves body cable pto constraint ptoSim mooring 
+
 runWecSimCML = 1;
 run('initializeWecSim');
 

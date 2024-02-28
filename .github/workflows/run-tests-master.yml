@@ -20,12 +20,9 @@ jobs:
       matrix:
         os: [ubuntu-latest, windows-latest]
         release: [R2020b, R2021a, R2021b, R2022a, R2022b, R2023a, R2023b]
-<<<<<<< HEAD
-=======
         exclude:
           - os: windows-latest
             release: R2020b
->>>>>>> d9fd35b2b564b758f9cb3db7496aa5e55fe7c95e
     name: ${{ matrix.release }} on ${{ matrix.os }}
     steps:
       - name: Check out repository
@@ -40,18 +37,11 @@ jobs:
           release: ${{ matrix.release }}
           products: Simulink Simscape Simscape_Multibody
       - name: Install WEC-Sim, run tests and generate artifacts
-<<<<<<< HEAD
-        uses: matlab-actions/run-command@v1
-=======
         uses: matlab-actions/run-command@v2
->>>>>>> d9fd35b2b564b758f9cb3db7496aa5e55fe7c95e
         with:
           command: |
             addpath(genpath('source')),
             set_param(0, 'ErrorIfLoadNewModel', 'off'),
             results = wecSimTest,
             assertSuccess(results);
-          startup-options: -noFigureWindows -logfile matlab.log
-      - name: Print matlab.log
-        if: success() || failure()
-        run: cat matlab.log
+          startup-options: -noFigureWindows
