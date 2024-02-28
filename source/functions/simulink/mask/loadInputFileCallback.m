@@ -13,12 +13,13 @@ function loadInputFileCallback(grfBlockHandle)
     blocks = find_system(bdroot,'Type','Block');
 
     % Loop through blocks, writing each to the input file
-    for i=1:length(blocks)
-        % Variable names and values of a block
-        names = get_param(blocks{i},'MaskNames');
+    for i = 1:length(blocks)
+        % Get variable names and values of a block
+        names = get_param(blocks{i},'MaskNames'); % names should be empty if there's no mask
         blockHandle = getSimulinkBlockHandle(blocks{i});
 
         % Check if the block is from the WEC-Sim library
+        type = -1;
         if any(contains(names,{'simu','waves'})) % Global reference frame
             type = 0;
         elseif any(contains(names,{'body'})) % flexible or rigid body
@@ -35,10 +36,12 @@ function loadInputFileCallback(grfBlockHandle)
             type = 6;
         end
 
-        writeBlocksFromInput(blockHandle,type,inputFilePath);    
-        % write blocks again to account for read only params that are now open
-        if type==1 || type==0
-            writeBlocksFromInput(blockHandle,type,inputFilePath);
+        if type ~= -1
+            writeBlocksFromInput(blockHandle,type,inputFilePath);    
+            % write blocks again to account for read only params that are now open
+            if type==1 || type==0
+                writeBlocksFromInput(blockHandle,type,inputFilePath);
+            end
         end
     end
 end
