@@ -389,8 +389,7 @@ Here is an example for setting up multiple Wave-Spectra in the WEC-Sim input fil
     as :code:`waves(1) = waveClass('regularCIC')`, the following :code:`waves(#)` object should 
     initialized the same way.
     
-Addtionally, the multiple Wave-Spectra can be visualized as elaborated in: 
-`WEC-Sim Visualization Wave Markers <http://wec-sim.github.io/WEC-Sim/main/user/advanced_features.html#wave-markers>`_. 
+Addtionally, the multiple Wave-Spectra can be visualized as elaborated in :ref:`user-advanced-features-wave-markers`.
 The user needs to define the marker parameters for each Wave-Spectra, as one would for a single Wave-Spectra.
 
 Here is an example of 2 Wave-Spectra being visualized using the wave wave-markers feature:
@@ -427,8 +426,7 @@ By default, the wave surface elevation at the origin is calculated by WEC-Sim.
 In past releases, there was the option to define up to three numerical wave gauge 
 locations where WEC-Sim would also calculate the undisturbed linear incident wave 
 elevation. WEC-Sim now has the feature to define wave markers that oscillate 
-vertically with the undistrubed linear wave elevation (see 
-`WEC-Sim Visualization Wave Markers <http://wec-sim.github.io/WEC-Sim/main/user/advanced_features.html#wave-markers>`_).
+vertically with the undistrubed linear wave elevation (see :ref:`user-advanced-features-wave-markers`).
 This feature does not limit the number of point measurements of the undisturbed 
 free surface elevation and the time history calculation at the marker location 
 is identical to the previous wave gauge implementation. Users who desire to 
@@ -1540,6 +1538,9 @@ of an irregular or spectrum import wave. No input parameters are required.
 WEC-Sim Visualization
 ---------------------
 WEC-Sim provides visualization in SimScape Mechanics Explorer by default. This section describes some additional options for WEC-Sim visualization
+
+
+.. _user-advanced-features-wave-markers:
 
 Wave Markers 
 ^^^^^^^^^^^^^^^^^^^
