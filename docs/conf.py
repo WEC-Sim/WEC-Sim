@@ -73,7 +73,7 @@ matlab_src_dir = package_dir.resolve()
 matlab_keep_package_prefix = False
 
 # sphinx_multiversion settings
-smv_branch_whitelist = r'(master|dev)$'
+smv_branch_whitelist = r'(main|dev)$'
 smv_tag_whitelist = 'a^'
 smv_remote_whitelist = r'^(origin)$'
 
