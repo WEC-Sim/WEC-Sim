@@ -130,7 +130,7 @@ Applications <https://github.com/WEC-Sim/WEC-Sim_Applications>`_ repository.
 
 .. _WECSimInputMoorDyn:
 
-.. rli:: https://raw.githubusercontent.com/WEC-Sim/WEC-Sim_Applications/master/Mooring/MoorDyn/wecSimInputFile.m
+.. rli:: https://raw.githubusercontent.com/WEC-Sim/WEC-Sim_Applications/main/Mooring/MoorDyn/wecSimInputFile.m
    :language: matlab
 
 * **MoorDyn Input File**: A mooring folder that includes a moorDyn input file 
