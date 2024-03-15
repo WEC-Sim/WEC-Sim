@@ -87,8 +87,9 @@ source_suffix = '.rst'
 # The encoding of source files.
 #source_encoding = 'utf-8-sig'
 
-# The main toctree document.
-main_doc = 'index'
+# The document name of the “root” document, that is, the document that contains
+# the root toctree directive. Default is 'index'.
+root_doc = 'index'
 
 # -- Project information -----------------------------------------------------
 # General information about the project.
@@ -276,7 +277,7 @@ latex_elements = {
 # (source start file, target name, title,
 #  author, documentclass [howto, manual, or own class]).
 latex_documents = [
-  (main_doc, 'WEC-Sim.tex', 'WEC-Sim Documentation',
+  (root_doc, 'WEC-Sim.tex', 'WEC-Sim Documentation',
    'Yi-Hsiang Yu, Kelley Ruehl, Jennifer Van Rij, Nathan Tom, Dominic Forbush', 'manual'),
 ]
 
@@ -306,7 +307,7 @@ latex_documents = [
 # One entry per manual page. List of tuples
 # (source start file, name, description, authors, manual section).
 man_pages = [
-    (main_doc, 'WEC-Sim', 'WEC-Sim Documentation',
+    (root_doc, 'WEC-Sim', 'WEC-Sim Documentation',
      [author], 1)
 ]
 
@@ -320,7 +321,7 @@ man_pages = [
 # (source start file, target name, title, author,
 #  dir menu entry, description, category)
 texinfo_documents = [
-  (main_doc, 'WEC-Sim', 'WEC-Sim Documentation',
+  (root_doc, 'WEC-Sim', 'WEC-Sim Documentation',
    author, 'WEC-Sim', 'WEC-Sim Documentation',
    'Miscellaneous'),
 ]
