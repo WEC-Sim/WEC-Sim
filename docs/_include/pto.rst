@@ -213,7 +213,7 @@ accumulator, low pressure accumulator, hydraulic motor, and generator.
   
 .. _WECSimInput:
 
-.. rli:: https://raw.githubusercontent.com/WEC-Sim/WEC-Sim_Applications/master/PTO-Sim/RM3/RM3_cHydraulic_PTO/wecSimInputFile.m
+.. rli:: https://raw.githubusercontent.com/WEC-Sim/WEC-Sim_Applications/main/PTO-Sim/RM3/RM3_cHydraulic_PTO/wecSimInputFile.m
    :language: matlab   
 
 **Simulation and Post-processing**
