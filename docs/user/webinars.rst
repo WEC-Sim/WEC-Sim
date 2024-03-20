@@ -270,6 +270,11 @@ available below.
     
         <iframe width="560" height="315" src="https://www.youtube.com/embed/rqUVK9dCsU0?si=pEKY0jXbKIU7bngl" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" allowfullscreen></iframe>
 
+.. Note::
+    The above MoorDyn webinar is based on MoorDyn v1 and is in the process of being updated 
+    for MoorDyn v2. Please refer to :ref:`user-advanced-features-mooring` for instruction on 
+    using WEC-Sim with MoorDyn v2.
+
 
 .. _webinar9:
 
