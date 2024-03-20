@@ -109,31 +109,31 @@ The figures below highlight a small sample of devices that WEC-Sim has successfu
 .. |rm3| image:: /_static/images/overview/rm3_iso_side.png
    :align: middle
    :width: 400pt
-   :target: https://github.com/WEC-Sim/WEC-Sim/tree/master/examples/RM3
+   :target: https://github.com/WEC-Sim/WEC-Sim/tree/main/examples/RM3
    
 
 .. |oswec| image:: /_static/images/overview/oswec_iso_side.png
    :align: middle
    :width: 400pt
-   :target: https://github.com/WEC-Sim/WEC-Sim/tree/master/examples/OSWEC
+   :target: https://github.com/WEC-Sim/WEC-Sim/tree/main/examples/OSWEC
 
 
 .. |sphere| image:: /_static/images/overview/sphere_freedecay_iso_side.png
    :align: middle
    :width: 400pt
-   :target: https://github.com/WEC-Sim/WEC-Sim_Applications/tree/master/Free_Decay
+   :target: https://github.com/WEC-Sim/WEC-Sim_Applications/tree/main/Free_Decay
 
 
 .. |ellipsoid| image:: /_static/images/overview/ellipsoid_iso_side.png
    :align: middle
    :width: 400pt
-   :target: https://github.com/WEC-Sim/WEC-Sim_Applications/tree/master/Nonlinear_Hydro
+   :target: https://github.com/WEC-Sim/WEC-Sim_Applications/tree/main/Nonlinear_Hydro
 
 
 .. |gbm| image:: /_static/images/overview/gbm_iso_side.png
    :align: middle
    :width: 400pt
-   :target: https://github.com/WEC-Sim/WEC-Sim_Applications/tree/master/Generalized_Body_Modes
+   :target: https://github.com/WEC-Sim/WEC-Sim_Applications/tree/main/Generalized_Body_Modes
 
 
 .. |wigley| image:: /_static/images/overview/wigley_iso_side.png

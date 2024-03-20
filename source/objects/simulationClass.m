@@ -247,7 +247,7 @@ classdef simulationClass<handle
             try
                 ws_exe = which('wecSim');
                 ws_dir = fileparts(ws_exe);
-                git_ver_file = [ws_dir '/../.git/refs/heads/master'];
+                git_ver_file = [ws_dir '/../.git/refs/heads/main'];
                 obj.gitCommit = textread(git_ver_file,'%s');
             catch
                 obj.gitCommit = 'No git commit tag available';
