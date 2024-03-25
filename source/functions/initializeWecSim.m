@@ -64,7 +64,7 @@ else
     % Get global reference frame parameters
     values = get_param([bdroot,'/Global Reference Frame'],'MaskValues');    % Cell array containing all Masked Parameter values
     names = get_param([bdroot,'/Global Reference Frame'],'MaskNames');      % Cell array containing all Masked Parameter names
-    j = find(strcmp(names,'InputMethod'));    
+    j = find(strcmp(names,'InputMethod'));
     if strcmp(values{j},'Input File')
         % wecSim input from input file selected in Simulink block
         fprintf('\nWEC-Sim Input From File Selected In Simulink... \n');
@@ -93,7 +93,7 @@ if exist('mcr','var') == 1
             eval([mcr.header{n} '= mcr.cases(imcr,n);']);
         end
     end; clear n combine;
-    try 
+    try
         for iW = 1:length(waves)
             waves(iW).spectrumFile = ['..' filesep pctDir filesep '..' filesep waves(iW).spectrumFile];
             waves(iW).elevationFile = ['..' filesep pctDir filesep '..' filesep waves(iW).elevationFile];
@@ -143,9 +143,9 @@ end
 
 
 % Bodies: count, check inputs, read hdf5 file, and check inputs
-numHydroBodies = 0; 
+numHydroBodies = 0;
 numNonHydroBodies = 0;
-numDragBodies = 0; 
+numDragBodies = 0;
 hydroBodLogic = zeros(length(body(1,:)),1);
 nonHydroBodLogic = zeros(length(body(1,:)),1);
 dragBodLogic = zeros(length(body(1,:)),1);
@@ -182,7 +182,7 @@ for ii = 1:simu.numHydroBodies
         if h5Info.bytes < 1000
             error(['This is not the correct *.h5 file. Please install git-lfs to access the correct *.h5 file, or run \hydroData\bemio.m to generate a new *.h5 file'])
         end
-        clearvars h5Info        
+        clearvars h5Info
         % Read hydro data from BEMIO and load into the bodyClass
         tmp_hydroData = readBEMIOH5(body(ii).h5File, body(ii).number, body(ii).meanDrift);
         body(ii).loadHydroData(tmp_hydroData);
@@ -228,7 +228,7 @@ if exist('windTurbine','var') == 1
         windTurbine(ii).loadTurbineData()
         windTurbine(ii).setNumber(ii);
         windTurbine(ii).importControl
-    end 
+    end
     clear ii
 end
 
@@ -238,7 +238,7 @@ toc
 tic
 fprintf('\nWEC-Sim Pre-processing ...   \n');
 if exist('pctDir')
-    cd(pctDir); 
+    cd(pctDir);
 end
 
 %% HydroForce Pre-Processing: Wave Setup & HydroForcePre.
@@ -303,7 +303,7 @@ if ~isempty(idx)
         body(it).dragForcePre(simu.rho);
     end; clear kk idx
 end
-    
+
 % Check cicEndTime
 if waves(1).typeNum~=0 && waves(1).typeNum~=10
     for iBod = 1:simu.numHydroBodies
@@ -392,10 +392,14 @@ for ii=1:length(body(1,:))
         % Nonlinear FK Force Variant Subsystem
         eval(['nonLinearHydro_' num2str(ii) ' = body(ii).nonlinearHydro;']);
         eval(['sv_b' num2str(ii) '_linearHydro = Simulink.Variant(''nonLinearHydro_', num2str(ii), '==0'');']);
-        eval(['sv_b' num2str(ii) '_nonlinearHydro=Simulink.Variant(''nonLinearHydro_', num2str(ii), '>0'');']);
+        eval(['sv_b' num2str(ii) '_nonlinearHydro = Simulink.Variant(''nonLinearHydro_', num2str(ii), '>0'');']);
         % Nonlinear Wave Elevation Variant Subsystem
         eval(['sv_b' num2str(ii) '_meanFS=Simulink.Variant(''nonLinearHydro_', num2str(ii), '<2'');']);
         eval(['sv_b' num2str(ii) '_instFS=Simulink.Variant(''nonLinearHydro_', num2str(ii), '==2'');']);
+        % Second Order Excittaion Force Variant Subsystem
+        eval(['secondOrderExt_' num2str(ii) ' = body(ii).QTFs;']);
+        eval(['sv_b' num2str(ii) '_noSecondOrderExt = Simulink.Variant(''secondOrderExt_', num2str(ii), '==0'');']);
+        eval(['sv_b' num2str(ii) '_secondOrderExt = Simulink.Variant(''secondOrderExt_', num2str(ii), '>0'');']);
     end
 end; clear ii;
 % Morison Element
@@ -403,7 +407,7 @@ for ii=1:length(body(1,:))
     if body(ii).nonHydro ~=1
         eval(['morisonElement_' num2str(ii) ' = body(ii).morisonElement.option;'])
         eval(['sv_b' num2str(ii) '_MEOff = Simulink.Variant(''morisonElement_' num2str(ii) '==0'');'])
-        eval(['sv_b' num2str(ii) '_MEOn = Simulink.Variant(''morisonElement_' num2str(ii) '==1 || morisonElement_' num2str(ii) '==2'');'])        
+        eval(['sv_b' num2str(ii) '_MEOn = Simulink.Variant(''morisonElement_' num2str(ii) '==1 || morisonElement_' num2str(ii) '==2'');'])
     end
 end; clear ii;
 % Radiation Damping
@@ -427,10 +431,10 @@ sv_noWave=Simulink.Variant('typeNum<10');
 % Passive Yaw
 for ii=1:length(body(1,:))
     eval(['yaw_' num2str(ii) ' = body(ii).yaw.option;'])
-    eval(['sv_regularWaves_b' num2str(ii) '= Simulink.Variant(''typeNum>=10 && typeNum<20 && yaw_', num2str(ii), '==0'');'])    
-    eval(['sv_regularWavesYaw_b' num2str(ii) '= Simulink.Variant(''typeNum>=10 && typeNum<20 && yaw_' num2str(ii) '==1'');'])    
-    eval(['sv_irregularWaves_b' num2str(ii) '= Simulink.Variant(''typeNum>=20 && typeNum<30 && yaw_' num2str(ii) '==0'');'])    
-    eval(['sv_irregularWavesYaw_b' num2str(ii) '= Simulink.Variant(''typeNum>=20 && typeNum<30 && yaw_' num2str(ii) '==1'');'])    
+    eval(['sv_regularWaves_b' num2str(ii) '= Simulink.Variant(''typeNum>=10 && typeNum<20 && yaw_', num2str(ii), '==0'');'])
+    eval(['sv_regularWavesYaw_b' num2str(ii) '= Simulink.Variant(''typeNum>=10 && typeNum<20 && yaw_' num2str(ii) '==1'');'])
+    eval(['sv_irregularWaves_b' num2str(ii) '= Simulink.Variant(''typeNum>=20 && typeNum<30 && yaw_' num2str(ii) '==0'');'])
+    eval(['sv_irregularWavesYaw_b' num2str(ii) '= Simulink.Variant(''typeNum>=20 && typeNum<30 && yaw_' num2str(ii) '==1'');'])
 end; clear ii
 
 sv_udfWaves=Simulink.Variant('typeNum>=30');
@@ -461,10 +465,10 @@ try
     for ii=1:length(windTurbine)
         eval(['ControlChoice' num2str(ii) ' = windTurbine(',num2str(ii),').control;'])
         eval(['sv_' num2str(ii) '_control1 = Simulink.Variant(''ControlChoice' num2str(ii) '==0'');'])
-        eval(['sv_' num2str(ii) '_control2 = Simulink.Variant(''ControlChoice' num2str(ii) '==1'');'])  
+        eval(['sv_' num2str(ii) '_control2 = Simulink.Variant(''ControlChoice' num2str(ii) '==1'');'])
     end; clear ii
 
-    % wind 
+    % wind
     WindChoice = wind.constantWindFlag;
     sv_wind_constant = Simulink.Variant('WindChoice==1');
     sv_wind_turbulent = Simulink.Variant('WindChoice==0');
@@ -475,7 +479,7 @@ if ~isempty(waves(1).marker.location) && typeNum < 30
     visON = 1;
 else
     visON = 0;
-end    
+end
 sv_visualizationON  = Simulink.Variant('visON==1');
 sv_visualizationOFF = Simulink.Variant('visON==0');
 
