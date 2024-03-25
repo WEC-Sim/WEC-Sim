@@ -62,6 +62,7 @@ switch type
         maskVars.inertiaProducts = body(num).inertiaProducts;        % Products of Inertia [kg*m^2]   
         maskVars.nonHydro = body(num).nonHydro;
         maskVars.nonlinearHydro = body(num).nonlinearHydro;
+        maskVars.QTFs = body(num).QTFs;
         maskVars.flex = body(num).flex;
         maskVars.centerGravity = body(num).centerGravity;
         maskVars.centerBuoyancy = body(num).centerBuoyancy;
