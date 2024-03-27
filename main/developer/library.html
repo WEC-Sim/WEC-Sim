@@ -1,0 +1,596 @@
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" data-content_root="../">
+<head>
+  <meta charset="utf-8" /><meta name="viewport" content="width=device-width, initial-scale=1" />
+
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>WEC-Sim Library &mdash; WEC-Sim  documentation</title>
+      <link rel="stylesheet" type="text/css" href="../_static/pygments.css?v=80d5e7a1" />
+      <link rel="stylesheet" type="text/css" href="../_static/css/theme.css?v=19f00094" />
+      <link rel="stylesheet" type="text/css" href="../_static/css/custom.css?v=5ea88473" />
+
+  
+  <!--[if lt IE 9]>
+    <script src="../_static/js/html5shiv.min.js"></script>
+  <![endif]-->
+  
+        <script src="../_static/jquery.js?v=5d32c60e"></script>
+        <script src="../_static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
+        <script src="../_static/documentation_options.js?v=5929fcd5"></script>
+        <script src="../_static/doctools.js?v=888ff710"></script>
+        <script src="../_static/sphinx_highlight.js?v=dc90522c"></script>
+    <script src="../_static/js/theme.js"></script>
+    <link rel="index" title="Index" href="../genindex.html" />
+    <link rel="search" title="Search" href="../search.html" />
+    <link rel="next" title="Advanced Features" href="advanced_features.html" />
+    <link rel="prev" title="Software Tests" href="software_tests.html" />
+    <!-- Global site tag (gtag.js) - Google Analytics -->
+    <script async src="https://www.googletagmanager.com/gtag/js?id=G-BSPTGP3DXP"></script>
+    <script>
+      window.dataLayer = window.dataLayer || [];
+      function gtag(){dataLayer.push(arguments);}
+      gtag('js', new Date());
+
+      gtag('config', 'G-BSPTGP3DXP');
+    </script>
+    <jinja2.runtime.BlockReference object at 0x7fe6f97977f0>
+
+</head>
+
+<body class="wy-body-for-nav"> 
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+
+          
+          
+          <a href="../index.html" class="icon icon-home">
+            WEC-Sim
+          </a>
+              <div class="version">
+                v6.0
+              </div>
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" aria-label="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+        </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
+              <ul class="current">
+<li class="toctree-l1"><a class="reference internal" href="../index.html">Home</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../introduction/index.html">Introduction</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../theory/index.html">Theory Manual</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../user/index.html">User Manual</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../most/index.html">MOST Manual</a></li>
+<li class="toctree-l1 current"><a class="reference internal" href="index.html">Developer Manual</a><ul class="current">
+<li class="toctree-l2"><a class="reference internal" href="overview.html">Overview</a></li>
+<li class="toctree-l2"><a class="reference internal" href="getting_started.html">Getting Started</a></li>
+<li class="toctree-l2"><a class="reference internal" href="pull_requests.html">Pull Requests</a></li>
+<li class="toctree-l2"><a class="reference internal" href="software_tests.html">Software Tests</a></li>
+<li class="toctree-l2 current"><a class="current reference internal" href="#">WEC-Sim Library</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#formatting">Formatting</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#library-development">Library Development</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#simulink-functions">Simulink Functions</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#run-from-simulink">Run from Simulink</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="#custom-parameters">Custom Parameters</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#library-masks">Library Masks</a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="#matlab-merge-tool">MATLAB Merge Tool</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="advanced_features.html">Advanced Features</a></li>
+</ul>
+</li>
+</ul>
+
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="Mobile navigation menu" >
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../index.html">WEC-Sim</a>
+      </nav>
+
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          <div role="navigation" aria-label="Page navigation">
+  <ul class="wy-breadcrumbs">
+      <li><a href="../index.html" class="icon icon-home" aria-label="Home"></a></li>
+          <li class="breadcrumb-item"><a href="index.html">Developer Manual</a></li>
+      <li class="breadcrumb-item active">WEC-Sim Library</li>
+      <li class="wy-breadcrumbs-aside">
+            <a href="../_sources/developer/library.rst.txt" rel="nofollow"> View page source</a>
+      </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+             
+
+
+  <section id="wec-sim-library">
+<span id="dev-library"></span><h1>WEC-Sim Library<a class="headerlink" href="#wec-sim-library" title="Link to this heading"></a></h1>
+<p>The WEC-Sim Library is in the <code class="docutils literal notranslate"><span class="pre">$WECSIM/source/lib</span></code> directory, and includes the following files:</p>
+<table class="docutils align-default">
+<tbody>
+<tr class="row-odd"><td><p><strong>Simulink Library</strong></p></td>
+<td><p><strong>File name</strong></p></td>
+</tr>
+<tr class="row-even"><td><p>WEC-Sim Library</p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">WECSim_Lib.slx</span></code></p></td>
+</tr>
+<tr class="row-odd"><td><p>Frames Sublibrary</p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">WECSim_Lib_Frames.slx</span></code></p></td>
+</tr>
+<tr class="row-even"><td><p>Body Elements Sublibrary</p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">WECSim_Lib_Body_Elements.slx</span></code></p></td>
+</tr>
+<tr class="row-odd"><td><p>Constraints Sublibrary</p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">WECSim_Lib_Constraints.slx</span></code></p></td>
+</tr>
+<tr class="row-even"><td><p>PTOs Sublibrary</p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">WECSim_Lib_PTOs.slx</span></code></p></td>
+</tr>
+<tr class="row-odd"><td><p>Cables Sublibrary</p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">WECSim_Lib_Cables.slx</span></code></p></td>
+</tr>
+<tr class="row-even"><td><p>Moorings Sublibrary</p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">WECSim_Lib_Moorings.slx</span></code></p></td>
+</tr>
+</tbody>
+</table>
+<p>GitHub tracks when a change is made to a binary file (e.g. <code class="docutils literal notranslate"><span class="pre">*.slx</span></code>), but not the specific revisions made.
+This makes tracking revisions to the WEC-Sim Library more challenging than revisions to text files (e.g. <code class="docutils literal notranslate"><span class="pre">*.m</span></code>).
+The WEC-Sim Library is saved as a <a class="reference external" href="https://www.mathworks.com/help/simulink/ug/creating-block-libraries.html">Custom Simulink Library</a> with sublibaries.
+To ensure backwards compatibility, a <a class="reference external" href="https://www.mathworks.com/help/simulink/ug/make-backward-compatible-changes-to-libraries.html">Forwarding Table</a> is used.</p>
+<section id="formatting">
+<span id="dev-library-format"></span><h2>Formatting<a class="headerlink" href="#formatting" title="Link to this heading"></a></h2>
+<p>Please format the color of library blocks according to their function:</p>
+<table class="docutils align-default">
+<tbody>
+<tr class="row-odd"><td><p><strong>Library Function</strong></p></td>
+<td><p><strong>Color</strong></p></td>
+</tr>
+<tr class="row-even"><td><p>Input</p></td>
+<td><p>Green</p></td>
+</tr>
+<tr class="row-odd"><td><p>Output</p></td>
+<td><p>Red</p></td>
+</tr>
+<tr class="row-even"><td><p>From Workspace</p></td>
+<td><p>Yellow</p></td>
+</tr>
+<tr class="row-odd"><td><p>Simulink Function</p></td>
+<td><p>Orange</p></td>
+</tr>
+<tr class="row-even"><td><p>Subsystem</p></td>
+<td><p>Gray</p></td>
+</tr>
+<tr class="row-odd"><td><p>Linked Block</p></td>
+<td><p>Light Blue</p></td>
+</tr>
+</tbody>
+</table>
+<figure class="align-center" id="id2">
+<a class="reference internal image-reference" href="../_images/library_format.png"><img alt="../_images/library_format.png" src="../_images/library_format.png" style="width: 400pt;" /></a>
+<figcaption>
+<p><span class="caption-text">WEC-Sim Library blocks with color formatting</span><a class="headerlink" href="#id2" title="Link to this image"></a></p>
+</figcaption>
+</figure>
+</section>
+<section id="library-development">
+<span id="dev-library-development"></span><h2>Library Development<a class="headerlink" href="#library-development" title="Link to this heading"></a></h2>
+<p>When masks are modified, Simulink executes the mask initialization code. If Simulink does not have access to the WEC-Sim objects in the Simulink workspace, Simulink will throw an error message and would not allow any changes.</p>
+<p>In order to modify blocks masks the variable being modified must be accesible to Simulink’s workspace. This can be acheived by running any <code class="docutils literal notranslate"><span class="pre">wecSimInputFile.m</span></code> script without executing WEC-Sim. Running the <code class="docutils literal notranslate"><span class="pre">wecSimInputFile.m</span></code> script populates the MATLAB worskpace with the pertinent data objects using WEC-Sim’s class definitions. This enables the block masks to have access to the properties and methods for the pertinent class (e.g., <code class="docutils literal notranslate"><span class="pre">bodyClass</span></code>, <code class="docutils literal notranslate"><span class="pre">waveClass</span></code> etc.).</p>
+<p>Simulink then executes each block mask’s initialization code before accepting any changes. Some of the WEC-Sim library blocks auto-generate additional blocks based on the <code class="docutils literal notranslate"><span class="pre">wecSimInputFile.m</span></code> script. To ensure that the library block auto-generates such blocks only when WEC-Sim is run, make sure to delete the auto-generated blocks before saving the modified block to the WEC-Sim library.</p>
+<div class="admonition note">
+<p class="admonition-title">Note</p>
+<p>This is especially important for the Wave Markers and for B2B</p>
+</div>
+</section>
+<section id="simulink-functions">
+<span id="dev-sim-funcs"></span><h2>Simulink Functions<a class="headerlink" href="#simulink-functions" title="Link to this heading"></a></h2>
+<p>Whenever a Simulink Function is called from the WEC-Sim Library, save the function to the <code class="docutils literal notranslate"><span class="pre">$WECSIM/source/simulink/functions</span></code> directory.
+This allows revisions to Simulink Functions to be more easily tracked by Git.
+Simulink Model Functions should be saved to the <code class="docutils literal notranslate"><span class="pre">$WECSIM/source/functions/simulink/model</span></code> directory.
+Simulink Mask Functions should be saved to the <code class="docutils literal notranslate"><span class="pre">$WECSIM/source/functions/simulink/mask</span></code> directory.
+Refer to the <a class="reference internal" href="#dev-library-format"><span class="std std-ref">Formatting</span></a> section for details on block color formatting.</p>
+<p>The <code class="docutils literal notranslate"><span class="pre">$WECSIM/source/functions/simulink/model</span></code> directory contains functions called by the Simulink model during runtime.
+These functions implement physics equations such as calculation of the irregular excitation force or the radiation damping convolution integral. These functions greatly affect the accuracy of WEC-Sim.
+Whereas the functions in the <code class="docutils literal notranslate"><span class="pre">$WECSIM/source/functions/simulink/mask</span></code> directory are only used in preprocessing when running WEC-Sim from Simulink, refer to Run from Simulink <a class="reference internal" href="#dev-run-sim-lib"><span class="std std-ref">Library Masks</span></a>.</p>
+</section>
+<section id="run-from-simulink">
+<span id="dev-run-sim"></span><h2>Run from Simulink<a class="headerlink" href="#run-from-simulink" title="Link to this heading"></a></h2>
+<p>The <a class="reference internal" href="../user/advanced_features.html#user-advanced-features-simulink"><span class="std std-ref">Running from Simulink</span></a> feature allows users to initialize WEC-Sim from the command window and then run the simulation directly from Simulink.
+This feature allows greater compatibility with other models or hardware-in-the-loop simulations.</p>
+<p>Internally, the Run From Simulink functionality differs from executing the <code class="docutils literal notranslate"><span class="pre">wecSim</span></code> command by how the input file is run.
+The <code class="docutils literal notranslate"><span class="pre">wecSim</span></code> command begins by running the <code class="docutils literal notranslate"><span class="pre">wecSimInputFile</span></code> in the current directory and continuing with the pre-processing steps.
+Run From Simulink differs by either:</p>
+<blockquote>
+<div><ul class="simple">
+<li><p>Running the input file selected in the Global Reference Frame (when the <code class="docutils literal notranslate"><span class="pre">Input</span> <span class="pre">File</span></code> option is selected)</p></li>
+<li><p>Writing and then running a new input file <code class="docutils literal notranslate"><span class="pre">wecSimInputFile_customParameters.m</span></code> (when the Global Reference when the <code class="docutils literal notranslate"><span class="pre">Custom</span> <span class="pre">Parameters</span></code> option is selected)</p></li>
+</ul>
+</div></blockquote>
+<section id="custom-parameters">
+<span id="dev-run-sim-custom"></span><h3>Custom Parameters<a class="headerlink" href="#custom-parameters" title="Link to this heading"></a></h3>
+<p>WEC-Sim allows users to define input file parameters inside Simulink block masks.
+When using the <code class="docutils literal notranslate"><span class="pre">Custom</span> <span class="pre">Parameters</span></code> setting, users can both load an input file into the block masks and write an block masks to an input file.
+This feature was created so that users have a written record of case parameters utilized during a simulation run from Simulink.</p>
+<p>The mask of each library block allows users to define a subset of possible input parameters that would be defined in the <code class="docutils literal notranslate"><span class="pre">wecSimInputFile</span></code>.
+The values that a user inputs to a block are stored as mask parameters.
+When a block mask is accessed, a prompt similar to the figure below appears:</p>
+<figure class="align-center" id="id3">
+<a class="reference internal image-reference" href="../_images/mask_user_grf.png"><img alt="../_images/mask_user_grf.png" src="../_images/mask_user_grf.png" style="width: 400pt;" /></a>
+<figcaption>
+<p><span class="caption-text">Simulation class parameters defined in the Global Reference Frame.</span><a class="headerlink" href="#id3" title="Link to this image"></a></p>
+</figcaption>
+</figure>
+<p>Turning on certain flags may change the visibility of other parameters.
+For example, the wave type will affect which wave settings are visible to a user:</p>
+<figure class="align-center" id="id4">
+<a class="reference internal image-reference" href="../_images/mask_user_grf_waveOptions.png"><img alt="../_images/mask_user_grf_waveOptions.png" src="../_images/mask_user_grf_waveOptions.png" style="width: 400pt;" /></a>
+<figcaption>
+<p><span class="caption-text">Wave class parameters defined in the Global Reference Frame. Visibility changes based on the selected wave type,</span><a class="headerlink" href="#id4" title="Link to this image"></a></p>
+</figcaption>
+</figure>
+<p>The spectrum type, frequency discretization and phase seed are not used for regular waves, so they are no visible.
+Similarly, a visibility-flag relation is present for each body’s Morison element options, nonhydro body parameters, etc.
+Having a flag change the visibility of options that cannot be used may help new users understand the interdependence of input parameters.</p>
+<div class="admonition note">
+<p class="admonition-title">Note</p>
+<p>To decrease the burden of maintaining these masks, only the most common input file parameters can be defined in Simulink.
+For example, the Global Reference Frame contains simulationClass parameters such as <code class="docutils literal notranslate"><span class="pre">mode</span></code>, <code class="docutils literal notranslate"><span class="pre">explorer</span></code>, <code class="docutils literal notranslate"><span class="pre">solver</span></code>, time information, and state space flags.
+However less common parameters such as <code class="docutils literal notranslate"><span class="pre">mcrMatFile</span></code>, <code class="docutils literal notranslate"><span class="pre">saveStructure</span></code>, <code class="docutils literal notranslate"><span class="pre">b2b</span></code> and others are not included.</p>
+</div>
+</section>
+<section id="library-masks">
+<span id="dev-run-sim-lib"></span><h3>Library Masks<a class="headerlink" href="#library-masks" title="Link to this heading"></a></h3>
+<p>In order to maintain the functionality of the <a class="reference internal" href="../user/advanced_features.html#user-advanced-features-simulink"><span class="std std-ref">Running from Simulink</span></a> feature, the WEC-Sim Library must be updated when new features are added.
+Developers may add additional options using the below instructions.</p>
+<p>WEC-Sim is developed as a class based software.
+This results in a complex interplay between the class variables and those defined in the block masks.
+The difficult and complex part of this feature comes from three aspects:</p>
+<blockquote>
+<div><ul class="simple">
+<li><p>Changing parameter visibility based on a flags value (<code class="docutils literal notranslate"><span class="pre">callbacks</span></code>)</p></li>
+<li><p>Writing an input file from mask parameters (<code class="docutils literal notranslate"><span class="pre">writeInputFromBlocks</span></code>, <code class="docutils literal notranslate"><span class="pre">writeLineFromVar</span></code>)</p></li>
+<li><p>Writing block parameters when loading an input file (<code class="docutils literal notranslate"><span class="pre">writeBlocksFromInput</span></code>)</p></li>
+</ul>
+</div></blockquote>
+<p>Each of these items will be addressed in this section, but first an overview of the mask set-up is given.
+It is recommended that developers review Mathworks <a class="reference external" href="https://www.mathworks.com/help/simulink/slref/simulink.maskparameter-class.html">Simulink.MaskParameter</a> documentation before preceding with edits to this advanced feature.</p>
+<p>When masks are modified, Simulink executes the mask initialization code. If Simulink does not have access to the WEC-Sim objects in the Simulink workspace, Simulink will throw an error message and would not allow any changes.
+To modify blocks masks,</p>
+<blockquote>
+<div><ul class="simple">
+<li><p>Before modifying a block mask, the variable being modified should be accesible to Simulink’s workspace. This can be acheived by making sure that the <code class="docutils literal notranslate"><span class="pre">source</span></code> folder in the WEC-Sim directory is added to MATLAB path, and running any available <code class="docutils literal notranslate"><span class="pre">wecSimInputFile.m</span></code> script without running WEC-Sim. Running the <code class="docutils literal notranslate"><span class="pre">wecSimInputFile.m</span></code> script populates the MATLAB worskpace with the pertinent data objects using WEC-Sim’s class definitions. This enables the block masks to have access to the properties and methods for the pertinent class (e.g., <code class="docutils literal notranslate"><span class="pre">bodyClass</span></code>, <code class="docutils literal notranslate"><span class="pre">waveClass</span></code> etc.).</p></li>
+<li><p>Simulink executes each block mask’s initialization code before accepting any changes. Some of the WEC-Sim library blocks auto-generate additional blocks based on the <code class="docutils literal notranslate"><span class="pre">wecSimInputFile.m</span></code> script. To ensure that the library block auto-generates such blocks only when WEC-Sim is run, make sure to delete the auto-generated blocks before saving the modified block to the WEC-Sim library.</p></li>
+</ul>
+</div></blockquote>
+<div class="admonition note">
+<p class="admonition-title">Note</p>
+<p>This is especially important for the Wave Markers and for B2B   .</p>
+</div>
+<section id="mask-structure">
+<h4>Mask Structure<a class="headerlink" href="#mask-structure" title="Link to this heading"></a></h4>
+<p>Each block mask first contains the <code class="docutils literal notranslate"><span class="pre">number</span></code> as in historical WEC-Sim set-up;
+<code class="docutils literal notranslate"><span class="pre">body(1)</span></code>, <code class="docutils literal notranslate"><span class="pre">pto(2)</span></code>, <code class="docutils literal notranslate"><span class="pre">constraint(1)</span></code>, etc. Next there is a string
+that clarifying that no custom parameters on shown when the <code class="docutils literal notranslate"><span class="pre">Global</span> <span class="pre">Reference</span>
+<span class="pre">Frame</span></code> is set to use an input file. A folder than contains all custom
+parameters within tabs.</p>
+<figure class="align-center">
+<a class="reference internal image-reference" href="../_images/mask_dev_body.png"><img alt="../_images/mask_dev_body.png" src="../_images/mask_dev_body.png" style="width: 400pt;" /></a>
+</figure>
+<p>Within the custom parameters folder are various tabs. The first tab contains
+parameters not within a class structure. Additional tabs are organized based
+on what class structures are used. For example all parameters within the
+<code class="docutils literal notranslate"><span class="pre">body(i).morisonElement</span></code> structure are under the morisonElement tab,
+<code class="docutils literal notranslate"><span class="pre">body(i).initial</span></code> under the tab, etc. This method of placing class
+structures into tabs helps organize the mask and write parameters to the input
+file.</p>
+</section>
+<section id="parameter-specifics">
+<h4>Parameter Specifics<a class="headerlink" href="#parameter-specifics" title="Link to this heading"></a></h4>
+<p>Each mask parameter has certain properties (<code class="docutils literal notranslate"><span class="pre">name</span></code>, <code class="docutils literal notranslate"><span class="pre">value</span></code>, <code class="docutils literal notranslate"><span class="pre">prompt</span></code>, <code class="docutils literal notranslate"><span class="pre">type</span></code>),
+attributes, and dialog options (<code class="docutils literal notranslate"><span class="pre">visible</span></code>, <code class="docutils literal notranslate"><span class="pre">callback</span></code>) that must be properly
+defined:</p>
+<figure class="align-center">
+<a class="reference internal image-reference" href="../_images/mask_dev_grf.png"><img alt="../_images/mask_dev_grf.png" src="../_images/mask_dev_grf.png" style="width: 400pt;" /></a>
+</figure>
+<p><strong>Properties</strong></p>
+<p>The properties of a mask parameter define the <code class="docutils literal notranslate"><span class="pre">name</span></code>, <code class="docutils literal notranslate"><span class="pre">value</span></code>, <code class="docutils literal notranslate"><span class="pre">type</span></code> and
+user-facing <code class="docutils literal notranslate"><span class="pre">prompt</span></code>. The mask name must be <em>identical</em> to the name of the
+corresponding class property. This is essential to easily writing/reading an
+input file to/from the mask. The defaults of each parameter should be the same
+as the corresponding class property.</p>
+<p>Parameters with a distinct set of values (flags, wave types, etc) should be of
+Type <code class="docutils literal notranslate"><span class="pre">popup</span></code> to limit users and more easily use callbacks dependent on their
+values. Use <code class="docutils literal notranslate"><span class="pre">checkbox</span></code> not <code class="docutils literal notranslate"><span class="pre">popup</span></code> for flags that take values of <code class="docutils literal notranslate"><span class="pre">on,</span> <span class="pre">off</span></code>
+(such as <code class="docutils literal notranslate"><span class="pre">pto(i).lowerLimitSpecify</span></code>. Other parameters are typically of Type
+<code class="docutils literal notranslate"><span class="pre">edit</span></code> to allow flexible user input.</p>
+<p><strong>Attributes</strong></p>
+<p>In general, most parameters should not be read only or hidden, and should be
+saved. One exception to this is the Global Reference Frame parameters <code class="docutils literal notranslate"><span class="pre">waves</span></code>
+and <code class="docutils literal notranslate"><span class="pre">simu</span></code> which identify the block in the workspace when reading/writing
+input files.</p>
+<p><strong>Dialog</strong></p>
+<p>The dialog options are primarily used to change a parameter’s visibility,
+tooltip and define a callback function. A tooltip defines a string that
+appears when a user hovers on a parameter. This can be useful to provide
+additional context that is too long for the prompt.
+A parameter’s callback functions run whenever the value is updated. In WEC-Sim,
+mask callbacks are typically used to with flag parameters to update the
+visibility of other parameters:</p>
+<table class="docutils align-default">
+<thead>
+<tr class="row-odd"><th class="head"><p>Block / class</p></th>
+<th class="head"><p>Mask parameter</p></th>
+<th class="head"><p>Callback</p></th>
+</tr>
+</thead>
+<tbody>
+<tr class="row-even"><td><p>PTO, constraint, cable</p></td>
+<td><p>upperLimitSpecify, lowerLimitSpecify</p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">hardStopCallback</span></code></p></td>
+</tr>
+<tr class="row-odd"><td><p>Body</p></td>
+<td><p>STLButton</p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">stlButtonCallback</span></code></p></td>
+</tr>
+<tr class="row-even"><td><p>Body</p></td>
+<td><p>H5Button</p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">h5ButtonCallback</span></code></p></td>
+</tr>
+<tr class="row-odd"><td><p>Body</p></td>
+<td><p>nonHydro, (morisonElement.) on</p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">bodyClassCallback</span></code></p></td>
+</tr>
+</tbody>
+</table>
+<p>A specific variable’s callbacks are defined in:
+<code class="docutils literal notranslate"><span class="pre">BLOCK/Mask</span> <span class="pre">Editor/Parameters</span> <span class="pre">&amp;</span> <span class="pre">Dialog/PARAMETER/Property</span> <span class="pre">editor/Dialog/Callback/</span></code>.
+For more information about the callback functions refer to <a class="reference internal" href="#dev-sim-funcs"><span class="std std-ref">Simulink Functions</span></a> and <a class="reference internal" href="#dev-run-sim-callback"><span class="std std-ref">Callback Functions</span></a>.</p>
+</section>
+<section id="callback-functions">
+<span id="dev-run-sim-callback"></span><h4>Callback Functions<a class="headerlink" href="#callback-functions" title="Link to this heading"></a></h4>
+<p>All callbacks and other functions used in Simulink masks for the Run From
+Simulink feature are stored as <code class="docutils literal notranslate"><span class="pre">*.m</span></code> files in the
+<code class="docutils literal notranslate"><span class="pre">$WECSIM/source/functions/simulink/mask/</span></code> directory, refer to <a class="reference internal" href="#dev-sim-funcs"><span class="std std-ref">Simulink Functions</span></a>.</p>
+<p>WEC-Sim callback functions can be split into several categories by their use:</p>
+<table class="docutils align-default">
+<thead>
+<tr class="row-odd"><th class="head"><p>Category</p></th>
+<th class="head"><p>Functions</p></th>
+</tr>
+</thead>
+<tbody>
+<tr class="row-even"><td><p>Button callbacks</p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">inFileButtonCallback.m</span></code>, <code class="docutils literal notranslate"><span class="pre">etaButtonCallback.m</span></code>, <code class="docutils literal notranslate"><span class="pre">spectrumButtonCallback.m</span></code>, <code class="docutils literal notranslate"><span class="pre">h5ButtonCallback.m</span></code>, <code class="docutils literal notranslate"><span class="pre">stlButtonCallback.m</span></code>, <code class="docutils literal notranslate"><span class="pre">loadInputFileCallback.m</span></code>, etc</p></td>
+</tr>
+<tr class="row-odd"><td><p>Visibility callbacks</p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">hardStopCallback.m</span></code>, <code class="docutils literal notranslate"><span class="pre">waveClassCallback.m</span></code>, <code class="docutils literal notranslate"><span class="pre">bodyClassCallback.m</span></code>, <code class="docutils literal notranslate"><span class="pre">customVisibilityCallback.m</span></code>, <code class="docutils literal notranslate"><span class="pre">inputOrCustomCallback.m</span></code>, etc</p></td>
+</tr>
+</tbody>
+</table>
+<p><strong>Visibility callbacks</strong></p>
+<p>Visibility callbacks are used with flag parameters to update the visibility of
+available options. For example, if <code class="docutils literal notranslate"><span class="pre">body(i).morisonElement.on=0</span></code>, then a user
+is not able to define <code class="docutils literal notranslate"><span class="pre">body(i).morisonElement.cd,</span> <span class="pre">.ca,</span></code> etc.
+The visibility callbacks function by checking the value of a flag:</p>
+<div class="highlight-matlabsession notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt; </span><span class="n">mask</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="n">Simulink</span><span class="p">.</span><span class="n">Mask</span><span class="p">.</span><span class="n">get</span><span class="p">(</span><span class="n">bodyBlockHandle</span><span class="p">)</span>
+<span class="gp">&gt;&gt; </span><span class="n">meParam</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="n">mask</span><span class="p">.</span><span class="n">getParameter</span><span class="p">(</span><span class="s">&#39;on&#39;</span><span class="p">)</span>
+<span class="gp">&gt;&gt; </span><span class="n">nonHydroParam</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="n">mask</span><span class="p">.</span><span class="n">getParameter</span><span class="p">(</span><span class="s">&#39;nonHydro&#39;</span><span class="p">)</span>
+</pre></div>
+</div>
+<p>Depending on the value of a flag, the visibility of individual variables or an
+entire tab can be changed:</p>
+<div class="highlight-matlabsession notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt; </span><span class="n">meTab</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="n">mask</span><span class="p">.</span><span class="n">getDialogControl</span><span class="p">(</span><span class="s">&#39;morisonElement&#39;</span><span class="p">);</span>
+<span class="gp">&gt;&gt; </span><span class="k">if</span><span class="w"> </span><span class="n">nonHydroParam</span><span class="p">.</span><span class="n">value</span><span class="w"> </span><span class="o">&gt;=</span><span class="w"> </span><span class="mi">1</span>
+<span class="gp">&gt;&gt; </span><span class="w">    </span><span class="n">centerGravityParam</span><span class="p">.</span><span class="n">Visible</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="s">&#39;on&#39;</span><span class="p">;</span>
+<span class="gp">&gt;&gt; </span><span class="w">    </span><span class="n">centerBuoyancyParam</span><span class="p">.</span><span class="n">Visible</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="s">&#39;on&#39;</span><span class="p">;</span>
+<span class="gp">&gt;&gt; </span><span class="k">else</span>
+<span class="gp">&gt;&gt; </span><span class="w">    </span><span class="n">centerGravityParam</span><span class="p">.</span><span class="n">Visible</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="s">&#39;off&#39;</span><span class="p">;</span>
+<span class="gp">&gt;&gt; </span><span class="w">    </span><span class="n">centerBuoyancyParam</span><span class="p">.</span><span class="n">Visible</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="s">&#39;off&#39;</span><span class="p">;</span>
+<span class="gp">&gt;&gt; </span><span class="k">end</span>
+<span class="gp">&gt;&gt;</span>
+<span class="gp">&gt;&gt; </span><span class="k">if</span><span class="w"> </span><span class="n">meParam</span><span class="p">.</span><span class="n">value</span><span class="w"> </span><span class="o">&gt;=</span><span class="w"> </span><span class="mi">1</span>
+<span class="gp">&gt;&gt; </span><span class="w">    </span><span class="n">meTab</span><span class="p">.</span><span class="n">Visible</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="s">&#39;on&#39;</span><span class="p">;</span>
+<span class="gp">&gt;&gt; </span><span class="k">else</span>
+<span class="gp">&gt;&gt; </span><span class="w">    </span><span class="n">meTab</span><span class="p">.</span><span class="n">Visible</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="s">&#39;off&#39;</span><span class="p">;</span>
+<span class="gp">&gt;&gt; </span><span class="k">end</span>
+</pre></div>
+</div>
+<p>This method is also how the Global Reference Frame turns off all custom
+parameters when it is set to use an input file. In this case,
+<code class="docutils literal notranslate"><span class="pre">inputOrCustomCallback</span></code> is used. When a new class is created, developers must
+add the class variable (<code class="docutils literal notranslate"><span class="pre">body,</span> <span class="pre">simu,</span> <span class="pre">etc</span></code>) into the list checked in
+<code class="docutils literal notranslate"><span class="pre">inputOrCustomCallback</span></code>. This list is necessary to ensure that Simulink
+models can contain non-WEC-Sim blocks without error.</p>
+<p><strong>Button callbacks</strong></p>
+<p>Button callback typically open a file explorer and allow users to select
+a given file. These buttons allow wave spectrum, wave elevation, body h5 or
+body STL files, etc to be defined in the mask. These callbacks use the MATLAB
+command <code class="docutils literal notranslate"><span class="pre">uigetfile()</span></code> and then set the correct mask value based if a valid
+file is selected.</p>
+<div class="highlight-matlabsession notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt; </span><span class="p">[</span><span class="n">filename</span><span class="p">,</span><span class="n">filepath</span><span class="p">]</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="nb">uigetfile</span><span class="p">(</span><span class="s">&#39;.mat&#39;</span><span class="p">);</span>
+<span class="gp">&gt;&gt;</span>
+<span class="gp">&gt;&gt; </span><span class="c">% Don&#39;t set value if no file is chosen, or prompt canceled.</span>
+<span class="gp">&gt;&gt; </span><span class="k">if</span><span class="w"> </span><span class="o">~</span><span class="nb">isequal</span><span class="p">(</span><span class="n">filename</span><span class="p">,</span><span class="mi">0</span><span class="p">)</span><span class="w"> </span><span class="o">&amp;&amp;</span><span class="w"> </span><span class="o">~</span><span class="nb">isequal</span><span class="p">(</span><span class="n">filepath</span><span class="p">,</span><span class="mi">0</span><span class="p">)</span>
+<span class="gp">&gt;&gt; </span><span class="w">    </span><span class="n">mask</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="n">Simulink</span><span class="p">.</span><span class="n">Mask</span><span class="p">.</span><span class="n">get</span><span class="p">(</span><span class="n">bodyBlockHandle</span><span class="p">)</span>
+<span class="gp">&gt;&gt; </span><span class="w">    </span><span class="n">fileParam</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="n">mask</span><span class="p">.</span><span class="n">getParameter</span><span class="p">(</span><span class="s">&#39;spectrumFile &#39;</span><span class="p">)</span>
+<span class="gp">&gt;&gt; </span><span class="w">    </span><span class="n">fileParam</span><span class="p">.</span><span class="n">value</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="p">[</span><span class="n">filepath</span><span class="p">,</span><span class="n">filename</span><span class="p">];</span>
+<span class="gp">&gt;&gt; </span><span class="k">end</span>
+</pre></div>
+</div>
+</section>
+<section id="writing-input-file-from-mask">
+<span id="dev-run-sim-input-mask"></span><h4>Writing Input File from Mask<a class="headerlink" href="#writing-input-file-from-mask" title="Link to this heading"></a></h4>
+<p>WEC-Sim writes an input file from mask parameters using the functions <code class="docutils literal notranslate"><span class="pre">writeInputFromBlocks</span></code> and <code class="docutils literal notranslate"><span class="pre">writeLineFromVar</span></code>.
+WEC-Sim scans the open Simulink file for all blocks, and reorders them based on the typical input file
+order: <code class="docutils literal notranslate"><span class="pre">simu</span></code>, <code class="docutils literal notranslate"><span class="pre">waves</span></code>, <code class="docutils literal notranslate"><span class="pre">body</span></code>, <code class="docutils literal notranslate"><span class="pre">constraint</span></code>, <code class="docutils literal notranslate"><span class="pre">pto</span></code>, <code class="docutils literal notranslate"><span class="pre">cable</span></code>, <code class="docutils literal notranslate"><span class="pre">mooring</span></code>.
+WEC-Sim also creates default copies of each class.
+All mask variables are looped through and written to <code class="docutils literal notranslate"><span class="pre">wecSimInputFile_simulinkCustomParameters</span></code> using the function <code class="docutils literal notranslate"><span class="pre">writeLineFromVar</span></code>.
+This function takes in a default class, variable name, mask value, number and structure value.
+For example, in the body class:</p>
+<div class="highlight-matlabsession notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt; </span><span class="n">writeLineFromVar</span><span class="p">(</span><span class="n">body</span><span class="p">,</span><span class="w"> </span><span class="s">&#39;option&#39;</span><span class="p">,</span><span class="w"> </span><span class="n">maskVars</span><span class="p">,</span><span class="w"> </span><span class="n">maskViz</span><span class="p">,</span><span class="w"> </span><span class="n">num</span><span class="p">,</span><span class="w"> </span><span class="s">&#39;morisonElement&#39;</span><span class="p">);</span>
+</pre></div>
+</div>
+<p>This function allows WEC-Sim to easily compare the mask value with the default,
+assign variables to a certain class number and structure. Checking a mask value
+against the class default keeps the new input file clean and easy to read. It is
+critical that any mask parameter written with this function is named
+identically to its class counterpart. It returns a string to
+<code class="docutils literal notranslate"><span class="pre">writeInputFromBlocks</span></code> that is immediately written to the input file. As of
+now, developers must manually add a line to print a new mask parameter to
+the input file.</p>
+</section>
+<section id="writing-mask-parameters-from-input-file">
+<span id="dev-run-sim-mask-input"></span><h4>Writing Mask Parameters from Input File<a class="headerlink" href="#writing-mask-parameters-from-input-file" title="Link to this heading"></a></h4>
+<p>WEC-Sim loads mask parameters from an input file using the function
+<code class="docutils literal notranslate"><span class="pre">writeBlocksFromInput</span></code>. This function is called by <code class="docutils literal notranslate"><span class="pre">loadInputFileCallback</span></code>
+in the <code class="docutils literal notranslate"><span class="pre">Global</span> <span class="pre">Reference</span> <span class="pre">Frame</span></code>. This function loops through all blocks in
+the Simulink model. Within each block, the chosen input file is run. Values of
+each class variables are assigned directly to the mask value. The default is
+not checked in this instance, as the mask cannot be cleaned up in the same
+method as the input file.</p>
+<p>When creating a new class, developers must manually
+add a value to the <cite>‘type’</cite> flag in <code class="docutils literal notranslate"><span class="pre">loadInputFileCallback</span></code>. This ensures that
+the mask variables are set with the correct WEC-Sim class, i.e.:</p>
+<div class="highlight-matlabsession notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt; </span><span class="n">maskVar</span><span class="p">.</span><span class="w"> </span><span class="k">...</span><span class="c"> = body(1). ...;</span>
+<span class="gp">&gt;&gt; </span><span class="n">maskVar</span><span class="p">.</span><span class="w"> </span><span class="k">...</span><span class="c"> = pto(2). ...;</span>
+<span class="gp">&gt;&gt; </span><span class="n">maskVar</span><span class="p">.</span><span class="w"> </span><span class="k">...</span><span class="c"> = cable(3). ...;</span>
+</pre></div>
+</div>
+<p>Developers must also edit each case of <code class="docutils literal notranslate"><span class="pre">writeBlocksFromInput</span></code> when creating
+a new mask parameter or renaming a class property.</p>
+</section>
+<section id="summary">
+<span id="dev-run-sim-summary"></span><h4>Summary<a class="headerlink" href="#summary" title="Link to this heading"></a></h4>
+<p><strong>To create or rename a mask parameter</strong></p>
+<ol class="arabic simple">
+<li><p>Change the mask parameter name and default value in Simulink</p></li>
+<li><p>If tied to a flag, update callbacks to hide/show the parameter</p></li>
+<li><p>Update <code class="docutils literal notranslate"><span class="pre">writeInputFromBlocks</span></code> and <code class="docutils literal notranslate"><span class="pre">writeBlocksFromInput</span></code> with the new parameter
+name</p></li>
+</ol>
+<p><strong>Creating a new class or block</strong></p>
+<ol class="arabic">
+<li><p>Setup the mask parameter structure described above, or copy from another block
+in that class:</p>
+<div class="highlight-matlabsession notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt; </span><span class="n">pSource</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="n">Simulink</span><span class="p">.</span><span class="n">Mask</span><span class="p">.</span><span class="n">get</span><span class="p">(</span><span class="n">srcBlockName</span><span class="p">)</span>
+<span class="gp">&gt;&gt; </span><span class="n">pDest</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="n">Simulink</span><span class="p">.</span><span class="n">Mask</span><span class="p">.</span><span class="n">create</span><span class="p">(</span><span class="n">destBlockName</span><span class="p">)</span>
+<span class="gp">&gt;&gt; </span><span class="n">pDest</span><span class="p">.</span><span class="n">copy</span><span class="p">(</span><span class="n">pSource</span><span class="p">)</span>
+</pre></div>
+</div>
+</li>
+<li><p>Ensure that <code class="docutils literal notranslate"><span class="pre">inputOrCustomCallback</span></code> functions correctly to hide/show all custom
+parameters depending on the <code class="docutils literal notranslate"><span class="pre">Global</span> <span class="pre">Reference</span> <span class="pre">Frame</span></code> setting.</p></li>
+<li><p>If tied to a flag, update callbacks to hide/show parameters.</p></li>
+<li><p>Permanently hide any parameters not used in that class (e.g.
+6DOF Constraint does not have end stops, so that tab is not visible)</p></li>
+<li><p>Create new <code class="docutils literal notranslate"><span class="pre">writeInputFromBlocks</span></code> and <code class="docutils literal notranslate"><span class="pre">writeBlocksFromInput</span></code> sections
+to tie the block mask to an input file.</p></li>
+</ol>
+<div class="admonition note">
+<p class="admonition-title">Note</p>
+<ul class="simple">
+<li><p>Mask parameters should always have the same name as the corresponding
+class property</p></li>
+<li><p>All mask parameters should have the ability to write to an input file and
+load from Simulink</p></li>
+</ul>
+</div>
+</section>
+</section>
+</section>
+<section id="matlab-merge-tool">
+<span id="dev-merge-tool"></span><h2>MATLAB Merge Tool<a class="headerlink" href="#matlab-merge-tool" title="Link to this heading"></a></h2>
+<p>It is recommended that developers use the <a class="reference external" href="https://www.mathworks.com/help/simulink/ug/customize-external-source-control-to-use-matlab-for-comparison-and-merge.html">MATLAB Merge Tool</a> to compare library versions when there are merge conflicts.
+The MATLAB Merge Tool allows users to compare changes directly in Simulink.
+The merge tool will open a special Simulink GUI that allows users to compare code versions both textually and within the block diagram.
+To use the tool, merge both branches locally and resolve any conflicts using the merge tool.</p>
+<p>For example, take the branches <code class="docutils literal notranslate"><span class="pre">&lt;dev&gt;</span></code> and <code class="docutils literal notranslate"><span class="pre">&lt;new_feature&gt;</span></code> that each contain new WEC-Sim features.
+In the Git for Windows command line, these changes can be merged using:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="c1"># Checkout the &lt;dev&gt; branch and pull the latest</span>
+<span class="n">git</span> <span class="n">checkout</span> <span class="o">&lt;</span><span class="n">dev</span><span class="o">&gt;</span>
+<span class="n">git</span> <span class="n">pull</span> <span class="o">&lt;</span><span class="n">remote</span><span class="o">&gt;/&lt;</span><span class="n">dev</span><span class="o">&gt;</span>
+
+<span class="c1"># Merge &lt;new_feature&gt; branch into &lt;dev&gt; branch</span>
+<span class="n">git</span> <span class="n">merge</span> <span class="o">&lt;</span><span class="n">new_feature</span><span class="o">&gt;</span>
+
+<span class="c1"># Resolve library conflicts using the MATLAB merge tool</span>
+<span class="n">git</span> <span class="n">mergetool</span> <span class="o">-</span><span class="n">t</span> <span class="n">mlMerge</span> <span class="n">source</span><span class="o">/</span><span class="n">lib</span><span class="o">/</span><span class="n">WEC</span><span class="o">-</span><span class="n">Sim</span><span class="o">/&lt;</span><span class="n">library_file</span><span class="o">&gt;.</span><span class="n">slx</span>
+
+<span class="c1"># Save desired revisions, then add and commit changes</span>
+<span class="n">git</span> <span class="n">add</span> <span class="n">source</span><span class="o">/</span><span class="n">lib</span><span class="o">/</span><span class="n">WEC</span><span class="o">-</span><span class="n">Sim</span><span class="o">/&lt;</span><span class="n">library_file</span><span class="o">&gt;.</span><span class="n">slx</span>
+<span class="n">git</span> <span class="n">commit</span> <span class="o">-</span><span class="n">m</span> <span class="s1">&#39;merge &lt;dev&gt; with &lt;new_feature&gt;&#39;</span>
+</pre></div>
+</div>
+</section>
+</section>
+
+
+
+           </div>
+          </div>
+          <footer><div class="rst-footer-buttons" role="navigation" aria-label="Footer">
+        <a href="software_tests.html" class="btn btn-neutral float-left" title="Software Tests" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> Previous</a>
+        <a href="advanced_features.html" class="btn btn-neutral float-right" title="Advanced Features" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
+    </div>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>&#169; Copyright 2022, National Renewable Energy Laboratory and National Technology &amp; Engineering Solutions of Sandia, LLC (NTESS).</p>
+  </div>
+
+  Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
+    provided by <a href="https://readthedocs.org">Read the Docs</a>.
+   
+
+</footer>
+        </div>
+      </div>
+    </section>
+  </div>
+  
+<div class="rst-versions" data-toggle="rst-versions" role="note" aria-label="versions">
+  <span class="rst-current-version" data-toggle="rst-current-version">
+    <span class="fa fa-book"> Other Versions</span>
+    v: main
+    <span class="fa fa-caret-down"></span>
+  </span>
+  <div class="rst-other-versions">
+    <dl>
+      <dt>Branches</dt>
+      <dd><a href="../../dev/developer/library.html">dev</a></dd>
+      <dd><a href="library.html">main</a></dd>
+    </dl>
+  </div>
+</div><script>
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script>
+    <!-- Theme Analytics -->
+    <script async src="https://www.googletagmanager.com/gtag/js?id=UA-88158104-1"></script>
+    <script>
+      window.dataLayer = window.dataLayer || [];
+      function gtag(){dataLayer.push(arguments);}
+      gtag('js', new Date());
+
+      gtag('config', 'UA-88158104-1', {
+          'anonymize_ip': false,
+      });
+    </script> 
+
+</body>
+</html>
