@@ -376,6 +376,14 @@ classdef bodyClass<handle
                 obj.nonHydro=0;
             end
             if obj.QTFs >=1
+                if ~isfield(obj.hydroData.hydro_coeffs.excitation, 'QTFs')
+                    error('QTF coefficients are not defined for the body object "%s"', obj.name);
+                end
+
+                % if ~strcmp(waveType, 'spectrumImport') && ~strcmp(waveType, 'irregular') && ~strcmp(waveType, 'elevationImport')
+                %     error('QTF option can not be used for "%s" wave input', waveType);
+                % end
+
                 obj.QTF_excitation(waveAmpTime);
 
             end
@@ -595,25 +603,34 @@ classdef bodyClass<handle
         function QTF_excitation(obj,waveAmpTime)
             % second order excittaion force
             % Used by hydroForcePre
-            F_max = 10;                                % Maximum Frequency
-            Amp_freq = fft(waveAmpTime(:,2));
-            % load('Demo_TLP.mat')
-            % Amp_freq = fft(OrcaFlex_elev);
 
-            N = length(Amp_freq);                      % Number of Lines, aliasing present.
+            F_max = 1/(waveAmpTime(2,1) - waveAmpTime(1,1));            % Maximum samplng freq.
+            % Amp_freq = fft(waveAmpTime(:,2));
+
+            load('Demo_TLP.mat')
+            Amp_freq = fft(OrcaFlex_elev);
+
+            N = length(Amp_freq);                                       % Number of Lines, aliasing present.
             if mod(N, 2) == 1
                 % Make sure that N is even
-                N = N + 1; 
+                N = N + 1;
             end
 
             f = F_max/2 * linspace(0,1,N/2);
+    
+            % figure ()
+            % plot(f,2*abs(Amp_freq(1:N/2)))
+            % title('Single-Sided Amplitude Spectrum of y(t)')
+            % xlabel('Frequency (Hz)')
+            % ylabel('|Y(f)|')
+
             time=0:0.1:N*0.1-0.1;
 
             Omega_fine = 2 * pi * f;
-            Omega_fine(N/2+2:N) = Omega_fine(N/2-1:-1:1); % symmretic vector
+            Omega_fine(N/2+2:N) = Omega_fine(N/2-1:-1:1);                % symmretic vector
 
             Omega_coarse = 2 * pi ./ obj.hydroData.hydro_coeffs.excitation.QTFs.Sum(1).PER_i;
-            waveDirectionCoarse = obj.hydroData.hydro_coeffs.excitation.QTFs.Sum(1).BETA_i;             % Future WEC-Sim should include the multiple wave directions QTFs calculations 
+            waveDirectionCoarse = obj.hydroData.hydro_coeffs.excitation.QTFs.Sum(1).BETA_i;             % Future WEC-Sim should include the multiple wave directions QTFs calculations
 
             n = length(Omega_coarse);
             dOmega_coarse = Omega_coarse(2) - Omega_coarse(1);
@@ -622,15 +639,12 @@ classdef bodyClass<handle
 
             Omega_max = max(Omega_coarse);
 
-            [~, index_min] = min(abs(Omega_fine - dOmega_coarse*0.8));
-            [~, index_max] = min(abs(Omega_fine - 2*Omega_max*1.2));
+            [~, index_max] = min(abs(Omega_fine - 2*Omega_max*1.25));           % Uses a margin of 25% after the freq. of intrest
             [~,index_time] = min(abs(time - max(waveAmpTime(end,1))));
             % remove the frequencies and ampliudes we know does not exist
             % in the spectrum
             Omega_fine(index_max+1:end) = [];
-            Omega_fine(1:index_min-1) = [];
             Amp_freq(index_max+1:end) = [];
-            Amp_freq(1:index_min-1) = [];
 
             [Omega_x,Omega_y]=meshgrid(Omega_fine,Omega_fine);
 
@@ -656,7 +670,7 @@ classdef bodyClass<handle
             Omega_coarse = [Omega_fine(1) Omega_coarse Omega_fine(end)];
             nOmega = length(Omega_fine);
 
-            if obj.QTFs == 1          % Calculates Full QTFs
+            if obj.QTFs == 1            % Calculates Full difference QTFs
                 for n = 1 : obj.dof
                     % Slowly varing component Calculation
                     QTF.Diff_refined(:,:,n) = griddata(Omega_coarse, Omega_coarse, QTF.DiffExtended(:,:,n), Omega_x, Omega_y);
@@ -671,7 +685,6 @@ classdef bodyClass<handle
                     Hu(N/2+1:end) = conj(Hu(N/2:-1:1))';
                     fSlowDriftLoad = 2 * ifft(Hu/N,'symmetric');
                     obj.hydroForce.QTF.fSlowVaryingForces(:,n) = fSlowDriftLoad(1:index_time) + fMeanDriftLoad(1:index_time);
-
                     % Fast varing component Calculation
                     tmp = zeros(N,1);
                     QTF.Sum_refined(:,:,n) = griddata(Omega_coarse, Omega_coarse, QTF.SumExtended(:,:,n), Omega_x, Omega_y);
@@ -688,7 +701,7 @@ classdef bodyClass<handle
                             tmp(nu) = tmp(nu) + 2* Amp_freq(l) * Amp_freq(nu - l) * QTF.Sum_refined(l,nu - l,n);
                         end
                     end
-                    
+
                     for nu = nOmega+2 : 2*nOmega
                         for l = nu-nOmega : floor((nu -1)/2)
                             tmp(nu) = tmp(nu) + 2 * Amp_freq(l) * Amp_freq(nu - l) * QTF.Sum_refined(l,nu - l,n);
@@ -698,10 +711,7 @@ classdef bodyClass<handle
 
                     fOffDiaginalElements = 2 * ifft((tmp)/N,"symmetric");
                     obj.hydroForce.QTF.fFastVaryingForces(:,n) = fDiaginalElements(1:index_time) + fOffDiaginalElements(1:index_time);
-                    obj.hydroForce.QTF.time = time(1:index_time); 
-                    % x_diff(:,n) = fSlowDriftLoad + fMeanDriftLoad;
-                    % x_sum(:,n) = fDiaginalElements+ fOffDiaginalElements;
-                    % save("SumData.mat",'x_diff','x_sum','time','index_time')
+                    obj.hydroForce.QTF.time = time(1:index_time);
                 end
             end
         end

@@ -27,7 +27,6 @@ L = 1;                      %   L=ULEN is the characteristic body length
 
 dof_data(:,6) = [];         %   Deletes the MOD Column
 dof_data(:,5) = [];         %   Deletes the DOF Column
-% the wave direction
 
 data_full = struct();
 
@@ -68,9 +67,7 @@ for col = 1:size(dof_data, 2)-2
         for i = 1:length(elements)
             triangular_matrix(dof_data(i, end-1), dof_data(i, end)) = elements(i);
         end
-
-        % full_matrix = triangular_matrix + triangular_matrix';       % Populate the upper triangular part and add to the full matrix
-        % full_matrix = full_matrix - diag();  % Subtract the diagonal to make the matrix symmetric
+        
         data_full.(col_names{col}) = diag(triangular_matrix);
     end
 

@@ -367,6 +367,8 @@ fileExists_s = false; % Initialize flags to check if any file with the specified
 fileExists_d = false;
 
 try
+    warning('QTF file parser is looking for a file ending in extension ##s or ##d. Please remove or rename any extraneous files with matching extensions or this may cause issues in simulation');
+
     % Initalize qtffilename
     qtffilename = strings(2,hydro.Nb);
     n = 1;
