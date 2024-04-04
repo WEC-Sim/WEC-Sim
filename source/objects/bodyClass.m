@@ -605,10 +605,7 @@ classdef bodyClass<handle
             % Used by hydroForcePre
 
             F_max = 1/(waveAmpTime(2,1) - waveAmpTime(1,1));            % Maximum samplng freq.
-            % Amp_freq = fft(waveAmpTime(:,2));
-
-            load('Demo_TLP.mat')
-            Amp_freq = fft(OrcaFlex_elev);
+            Amp_freq = fft(waveAmpTime(:,2));
 
             N = length(Amp_freq);                                       % Number of Lines, aliasing present.
             if mod(N, 2) == 1
@@ -618,7 +615,7 @@ classdef bodyClass<handle
 
             f = F_max/2 * linspace(0,1,N/2);
     
-            % figure ()
+            % figure ()   % Use if needed to plot the wave spectrum
             % plot(f,2*abs(Amp_freq(1:N/2)))
             % title('Single-Sided Amplitude Spectrum of y(t)')
             % xlabel('Frequency (Hz)')
