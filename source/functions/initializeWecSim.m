@@ -173,19 +173,16 @@ for ii = 1:simu.numHydroBodies
 
     % Determine if hydro data needs to be reloaded from h5 file, or if hydroData
     % was stored in memory from a previous run.
-    if exist('totalNumOfWorkers','var') ==0 && exist('mcr','var') == 1 && simu.reloadH5Data == 0 && imcr > 1
-        body(ii).loadHydroData(hydroData(ii));
-    else
-        % check for correct h5 file
-        h5Info = dir(body(ii).h5File);
-        h5Info.bytes;
-        if h5Info.bytes < 1000
-            error(['This is not the correct *.h5 file. Please install git-lfs to access the correct *.h5 file, or run \hydroData\bemio.m to generate a new *.h5 file'])
+    if exist('totalNumOfWorkers','var') == 0 && exist('mcr','var') == 1 && simu.reloadH5Data == 0 && imcr > 1
+        for iH = 1:length(savedHydroData(ii))
+            body(ii).loadHydroData(savedHydroData(ii).hydroData(iH), iH);
         end
-        clearvars h5Info        
+    else
         % Read hydro data from BEMIO and load into the bodyClass
-        tmp_hydroData = readBEMIOH5(body(ii).h5File, body(ii).number, body(ii).meanDrift);
-        body(ii).loadHydroData(tmp_hydroData);
+        for iH = 1:length(body(ii).h5File)
+            tmp_hydroData = readBEMIOH5(body(ii).h5File{iH}, body(ii).number, body(ii).meanDrift);
+            body(ii).loadHydroData(tmp_hydroData, iH);
+        end
         clear tmp_hydroData
     end
 end; clear ii
@@ -250,13 +247,14 @@ if any(hydroBodLogic == 1)
     % When hydro bodies (and an .h5) are present, define the wave using those
     % parameters.
     for iW = 1:length(waves)
-        waves(iW).setup(body(1).hydroData.simulation_parameters.w, body(1).hydroData.simulation_parameters.waterDepth, simu.rampTime, simu.dt, simu.maxIt, simu.time, simu.gravity, simu.rho);
+        hdIndex = body(1).hydroForceIndex;
+        waves(iW).setup(body(1).hydroData(hdIndex).simulation_parameters.w, body(1).hydroData(hdIndex).simulation_parameters.waterDepth, simu.rampTime, simu.dt, simu.maxIt, simu.time, simu.gravity, simu.rho);
         % Check that direction and freq are within range of hydro data
-        if  min(waves(iW).direction) <  min(body(1).hydroData.simulation_parameters.direction) || max(waves(iW).direction) >  max(body(1).hydroData.simulation_parameters.direction)
+        if  min(waves(iW).direction) <  min(body(1).hydroData(hdIndex).simulation_parameters.direction) || max(waves(iW).direction) >  max(body(1).hydroData(hdIndex).simulation_parameters.direction)
             error('waves(%d).direction outside of range of available hydro data',iW)
         end
         if strcmp(waves(iW).type,'elevationImport')~=1 && strcmp(waves(iW).type,'noWave')~=1 && strcmp(waves(iW).type,'noWaveCIC')~=1
-            if  min(waves(iW).omega) <  min(body(1).hydroData.simulation_parameters.w) || max(waves(iW).omega) >  max(body(1).hydroData.simulation_parameters.w)
+            if  min(waves(iW).omega) <  min(body(1).hydroData(hdIndex).simulation_parameters.w) || max(waves(iW).omega) >  max(body(1).hydroData(hdIndex).simulation_parameters.w)
                 error('waves(%d).omega outside of range of available hydro data',iW)
             end
         end
@@ -280,19 +278,20 @@ end; clear kk
 idx = find(hydroBodLogic==1);
 if ~isempty(idx)
     for kk = 1:length(idx)
-        it = idx(kk);
-        body(it).hydroForcePre(waves(1).omega,waves(1).direction,simu.cicTime,waves(1).bem.count,simu.dt,...
-            simu.rho,simu.gravity,waves(1).type,waves(1).waveAmpTime,simu.stateSpace,simu.b2b);
-    end; clear kk idx
+        ii = idx(kk);
+        for iH = 1:length(body(ii).hydroData)
+            body(ii).hydroForcePre(waves(1), simu, iH);
+        end
+    end; clear kk idx ii
 end
 
 % nonHydroPre
 idx = find(nonHydroBodLogic==1);
 if ~isempty(idx)
     for kk = 1:length(idx)
-        it = idx(kk);
-        body(it).nonHydroForcePre(simu.rho);
-    end; clear kk idx
+        ii = idx(kk);
+        body(ii).nonHydroForcePre(simu.rho);
+    end; clear kk idx ii
 end
 
 % dragBodyPre
@@ -307,24 +306,22 @@ end
 % Check cicEndTime
 if waves(1).typeNum~=0 && waves(1).typeNum~=10
     for iBod = 1:simu.numHydroBodies
-        if simu.cicEndTime > max(body(iBod).hydroData.hydro_coeffs.radiation_damping.impulse_response_fun.t)
+        hdIndex = body(iBod).hydroForceIndex;
+        if simu.cicEndTime > max(body(iBod).hydroData(hdIndex).hydro_coeffs.radiation_damping.impulse_response_fun.t)
             error('simu.cicEndTime is larger than the length of the IRF');
         end
     end
 end
 
 % Check that the hydro data for each body is given for the same frequencies
+baseHydroData = body(1).hydroData(1);
 for ii = 1:simu.numHydroBodies
-    if length(body(1).hydroData.simulation_parameters.w) ~= length(body(ii).hydroData.simulation_parameters.w)
-        error('BEM simulations for each body must have the same number of frequencies')
-    else
-        for jj = 1:length(body(1).hydroData.simulation_parameters.w)
-            if body(1).hydroData.simulation_parameters.w(jj) ~= body(ii).hydroData.simulation_parameters.w(jj)
-                error('BEM simulations must be run with the same frequencies.')
-            end; clear jj;
+    for iH = 1:length(body(ii).hydroData)
+        if ~all(baseHydroData.simulation_parameters.w == body(ii).hydroData(iH).simulation_parameters.w)
+            error('BEM simulations for each body must have the same number of frequencies');
         end
     end
-end; clear ii;
+end; clear ii baseHydroData;
 
 % Check for all waves(#) are of the same type
 for iW = 2:length(waves)

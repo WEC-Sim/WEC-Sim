@@ -72,17 +72,18 @@ classdef bodyClass<handle
         yaw (1,1) struct                            = struct(...            % (`structure`) Defines the passive yaw implementation. 
             'option',                               0,...                   %
             'threshold',                            1)                      % (`structure`) Defines the passive yaw mplementation. ``option`` (`integer`) Flag for passive yaw calculation, Options: 0 (off), 1 (on). Default = ``0``. ``threshold`` (`float`) Yaw position threshold (in degrees) above which excitation coefficients will be interpolated in passive yaw. Default = ``1`` [deg].        
+        hydroForceIndex                             = 1                     % 
     end
     
     properties (SetAccess = 'private', GetAccess = 'public')% h5 file
         dofEnd              = []                            % (`integer`) Index the DOF ends for (``body.number``). For WEC bodies this is given in the h5 file, but if not defined in the h5 file, Default = ``(body.number-1)*6+6``.
         dofStart            = []                            % (`integer`) Index the DOF starts for (``body.number``). For WEC bodies this is given in the h5 file, but if not defined in the h5 file, Default = ``(body.number-1)*6+1``.
-        hydroData           = struct()                      % (`structure`) Defines the hydrodynamic data from BEM or user defined.
+        hydroData           = struct()                      % (`structure`) A structure array that defines the hydrodynamic data from BEM or user defined.
     end
 
     properties (SetAccess = 'private', GetAccess = 'public')% internal
         b2bDOF              = []                            % (`matrix`) Matrices length, Options: ``6`` without body-to-body interactions. ``6*number of hydro bodies`` with body-to-body interactions.
-        hydroForce          = struct()                      % (`structure`) Defines hydrodynamic forces and coefficients used during simulation.
+        hydroForce          = struct()                      % (`structure`) A structure array of structures that defines hydrodynamic forces and coefficients used during simulation.
         massCalcMethod      = []                            % (`string`) Method used to obtain mass, options: ``'user'``, ``'equilibrium'``
         number              = []                            % (`integer`) Body number, must be the same as the BEM body number.
         total               = []                            % (`integer`) Total number of hydro bodies         
@@ -115,7 +116,13 @@ classdef bodyClass<handle
             %         bodyClass object
             %
             if exist('h5File','var')
-                obj.h5File = h5File;
+                if isstring(h5File) || ischar(h5File)
+                    obj.h5File{1} = h5File;
+                elseif iscell(h5File)
+                    obj.h5File = h5File;
+                else
+                    error('body.h5File must be a string or cell array of strings');
+                end
             else
                 error('The body class number(s) in the wecSimInputFile must be specified in ascending order starting from 1. The bodyClass() function should be called first to initialize each body with an h5 file.')
             end
@@ -167,8 +174,15 @@ classdef bodyClass<handle
             mustBeMember(obj.paraview,[0 1])
 
             % Check h5 file
-            if exist(obj.h5File,'file')==0 && obj.nonHydro==0
-                error('The hdf5 file %s does not exist',obj.h5File)
+            for iH = 1:length(obj.h5File)
+                if exist(obj.h5File{iH},'file')==0 && obj.nonHydro==0
+                    error('The hdf5 file %s does not exist',obj.h5File{iH})
+                end
+                h5Info = dir(obj.h5File{iH});
+                h5Info.bytes;
+                if h5Info.bytes < 1000
+                    error('This is not the correct *.h5 file. Please install git-lfs to access the correct *.h5 file, or run \hydroData\bemio.m to generate a new *.h5 file');
+                end
             end
             if ~strcmp(obj.mass,'equilibrium') && ~isscalar(obj.mass)
                 error('Body mass must be defined as a scalar or set to `equilibrium`')
@@ -254,26 +268,33 @@ classdef bodyClass<handle
         
         function listInfo(obj)
             % This method prints body information to the MATLAB Command Window.
-            fprintf('\n\t***** Body Number %G, Name: %s *****\n',obj.hydroData.properties.number,obj.hydroData.properties.name)
-            fprintf('\tBody CG                          (m) = [%G,%G,%G]\n',obj.hydroData.properties.centerGravity)
+            iH = obj.hydroForceIndex;
+            fprintf('\n\t***** Body Number %G, Name: %s *****\n',obj.hydroData(iH).properties.number,obj.hydroData(iH).properties.name)
+            fprintf('\tBody CG                          (m) = [%G,%G,%G]\n',obj.hydroData(iH).properties.centerGravity)
             fprintf('\tBody Mass                       (kg) = %G \n',obj.mass);
             fprintf('\tBody Moments of Inertia       (kgm2) = [%G,%G,%G]\n',obj.inertia);
             fprintf('\tBody Products of Inertia      (kgm2) = [%G,%G,%G]\n',obj.inertiaProducts);
         end
         
-        function loadHydroData(obj, hydroData)
+        function loadHydroData(obj, hydroData, iH)
             % WECSim function that loads the hydroData structure from a
             % MATLAB variable as alternative to reading the h5 file. This
             % process reduces computational time when using wecSimMCR.
-            obj.hydroData       = hydroData;
-            obj.centerGravity	= hydroData.properties.centerGravity';
-            obj.centerBuoyancy  = hydroData.properties.centerBuoyancy';
-            obj.volume          = hydroData.properties.volume;
-            obj.name            = hydroData.properties.name;
-            obj.dof             = obj.hydroData.properties.dof;
-            obj.dofStart        = obj.hydroData.properties.dofStart;
-            obj.dofEnd          = obj.hydroData.properties.dofEnd;
-            obj.gbmDOF          = obj.dof-6;
+            if iH == 1
+                obj.hydroData = hydroData;
+            else
+                obj.hydroData(iH) = hydroData;
+            end
+            if iH == obj.hydroForceIndex
+                obj.centerGravity	= hydroData.properties.centerGravity';
+                obj.centerBuoyancy  = hydroData.properties.centerBuoyancy';
+                obj.volume          = hydroData.properties.volume;
+                obj.name            = hydroData.properties.name;
+                obj.dof             = hydroData.properties.dof;
+                obj.dofStart        = hydroData.properties.dofStart;
+                obj.dofEnd          = hydroData.properties.dofEnd;
+                obj.gbmDOF          = obj.dof-6;
+            end
         end
         
         function nonHydroForcePre(obj,rho)
@@ -299,10 +320,23 @@ classdef bodyClass<handle
             obj.dof = length(obj.quadDrag.drag);
         end
         
-        function hydroForcePre(obj,w,direction,cicTime,bemCount,dt,rho,g,waveType,waveAmpTime,stateSpace,B2B)
+        function hydroForcePre(obj,waves,simu, iH)
             % HydroForce Pre-processing calculations
             % 1. Set the linear hydrodynamic restoring coefficient, viscous drag, and linear damping matrices
             % 2. Set the wave excitation force
+            % 3. Loop through all included hydroData files
+            w = waves.omega; 
+            direction = waves.direction;
+            cicTime = simu.cicTime;
+            bemCount = waves.bem.count;
+            dt = simu.dt;
+            rho = simu.rho;
+            g = simu.gravity;
+            waveType = waves.type;
+            waveAmpTime = waves.waveAmpTime;
+            stateSpace = simu.stateSpace;
+            B2B = simu.b2b;
+
             obj.setMassMatrix(rho)
             if (obj.gbmDOF>0)
                 % obj.linearDamping = [obj.linearDamping zeros(1,obj.dof-length(obj.linearDamping))];
@@ -320,52 +354,52 @@ classdef bodyClass<handle
                 obj.quadDrag.area = [obj.quadDrag.area zeros(1,obj.dof-length(obj.quadDrag.area))];
             end; clear tmp0 tmp1
             if any(any(obj.hydroStiffness))   %check if obj.hydroStiffness is defined
-                obj.hydroForce.linearHydroRestCoef = obj.hydroStiffness;
+                obj.hydroForce(iH).linearHydroRestCoef = obj.hydroStiffness;
             else
-                k = obj.hydroData.hydro_coeffs.linear_restoring_stiffness;%(:,obj.dofStart:obj.dofEnd);
-                obj.hydroForce.linearHydroRestCoef = k .*rho .*g;
+                k = obj.hydroData(iH).hydro_coeffs.linear_restoring_stiffness;%(:,obj.dofStart:obj.dofEnd);
+                obj.hydroForce(iH).linearHydroRestCoef = k .*rho .*g;
             end
             if  any(any(obj.quadDrag.drag))   %check if obj.quadDrag.drag is defined
-                obj.hydroForce.quadDrag = obj.quadDrag.drag;
+                obj.hydroForce(iH).quadDrag = obj.quadDrag.drag;
             else
-                obj.hydroForce.quadDrag = diag(0.5*rho.*obj.quadDrag.cd.*obj.quadDrag.area);
+                obj.hydroForce(iH).quadDrag = diag(0.5*rho.*obj.quadDrag.cd.*obj.quadDrag.area);
             end
-            obj.hydroForce.linearDamping = obj.linearDamping;
+            obj.hydroForce(iH).linearDamping = obj.linearDamping;
             switch waveType
                 case {'noWave'}
-                    obj.noExcitation()
-                    obj.constAddedMassAndDamping(w,rho,B2B);
+                    obj.noExcitation(iH)
+                    obj.constAddedMassAndDamping(w, rho, B2B, iH);
                 case {'noWaveCIC'}
                     obj.noExcitation()
-                    obj.irfInfAddedMassAndDamping(cicTime,stateSpace,rho,B2B);
+                    obj.irfInfAddedMassAndDamping(cicTime, stateSpace, rho, B2B, iH);
                 case {'regular'}
-                    obj.regExcitation(w,direction,rho,g);
-                    obj.constAddedMassAndDamping(w,rho,B2B);
+                    obj.regExcitation(w, direction, rho, g, iH);
+                    obj.constAddedMassAndDamping(w, rho, B2B, iH);
                 case {'regularCIC'}
-                    obj.regExcitation(w,direction,rho,g);
-                    obj.irfInfAddedMassAndDamping(cicTime,stateSpace,rho,B2B);
+                    obj.regExcitation(w, direction, rho, g, iH);
+                    obj.irfInfAddedMassAndDamping(cicTime, stateSpace, rho, B2B, iH);
                 case {'irregular','spectrumImport'}
-                    obj.irrExcitation(w,bemCount,direction,rho,g);
-                    obj.irfInfAddedMassAndDamping(cicTime,stateSpace,rho,B2B);
+                    obj.irrExcitation(w, bemCount, direction, rho, g, iH);
+                    obj.irfInfAddedMassAndDamping(cicTime, stateSpace, rho, B2B, iH);
                 case {'elevationImport'}
-                    obj.hydroForce.userDefinedFe = zeros(length(waveAmpTime(:,2)),obj.dof);   %initializing userDefinedFe for non imported wave cases
-                    obj.userDefinedExcitation(waveAmpTime,dt,direction,rho,g);
-                    obj.irfInfAddedMassAndDamping(cicTime,stateSpace,rho,B2B);
+                    obj.hydroForce(iH).userDefinedFe = zeros(length(waveAmpTime(:,2)),obj.dof);   %initializing userDefinedFe for non imported wave cases
+                    obj.userDefinedExcitation(waveAmpTime, dt, direction, rho, g, iH);
+                    obj.irfInfAddedMassAndDamping(cicTime, stateSpace, rho, B2B, iH);
             end
             if (obj.gbmDOF>0)
-                obj.hydroForce.gbm.stiffness=obj.hydroData.gbm.stiffness;
-                obj.hydroForce.gbm.damping=obj.hydroData.gbm.damping;
-                obj.hydroForce.gbm.mass_ff=obj.hydroForce.fAddedMass(7:obj.dof,obj.dofStart+6:obj.dofEnd)+obj.hydroData.gbm.mass;   % need scaling for hydro part
-                obj.hydroForce.fAddedMass(7:obj.dof,obj.dofStart+6:obj.dofEnd) = 0;
-                obj.hydroForce.gbm.mass_ff_inv=inv(obj.hydroForce.gbm.mass_ff);
+                obj.hydroForce(iH).gbm.stiffness=obj.hydroData(iH).gbm.stiffness;
+                obj.hydroForce(iH).gbm.damping=obj.hydroData(iH).gbm.damping;
+                obj.hydroForce(iH).gbm.mass_ff=obj.hydroForce(iH).fAddedMass(7:obj.dof,obj.dofStart+6:obj.dofEnd)+obj.hydroData(iH).gbm.mass;   % need scaling for hydro part
+                obj.hydroForce(iH).fAddedMass(7:obj.dof,obj.dofStart+6:obj.dofEnd) = 0;
+                obj.hydroForce(iH).gbm.mass_ff_inv=inv(obj.hydroForce(iH).gbm.mass_ff);
                 
                 % state-space formulation for solving the GBM
-                obj.hydroForce.gbm.state_space.A = [zeros(obj.gbmDOF,obj.gbmDOF),...
+                obj.hydroForce(iH).gbm.state_space.A = [zeros(obj.gbmDOF,obj.gbmDOF),...
                     eye(obj.gbmDOF,obj.gbmDOF);...  % move to ... hydroForce sector with scaling .
-                    -inv(obj.hydroForce.gbm.mass_ff)*obj.hydroForce.gbm.stiffness,-inv(obj.hydroForce.gbm.mass_ff)*obj.hydroForce.gbm.damping];             % or create a new fun for all flex parameters
-                obj.hydroForce.gbm.state_space.B = eye(2*obj.gbmDOF,2*obj.gbmDOF);
-                obj.hydroForce.gbm.state_space.C = eye(2*obj.gbmDOF,2*obj.gbmDOF);
-                obj.hydroForce.gbm.state_space.D = zeros(2*obj.gbmDOF,2*obj.gbmDOF);
+                    -inv(obj.hydroForce(iH).gbm.mass_ff)*obj.hydroForce(iH).gbm.stiffness,-inv(obj.hydroForce(iH).gbm.mass_ff)*obj.hydroForce(iH).gbm.damping];             % or create a new fun for all flex parameters
+                obj.hydroForce(iH).gbm.state_space.B = eye(2*obj.gbmDOF,2*obj.gbmDOF);
+                obj.hydroForce(iH).gbm.state_space.C = eye(2*obj.gbmDOF,2*obj.gbmDOF);
+                obj.hydroForce(iH).gbm.state_space.D = zeros(2*obj.gbmDOF,2*obj.gbmDOF);
                 obj.flex = 1;
                 obj.nonHydro=0;
             end
@@ -379,75 +413,78 @@ classdef bodyClass<handle
             % 4. Add the maximum diagonal traslational added-mass to body
             % mass - this is not the correct description
             iBod = obj.number;
-            obj.hydroForce.storage.mass = obj.mass;
-            obj.hydroForce.storage.inertia = obj.inertia;
-            obj.hydroForce.storage.inertiaProducts = obj.inertiaProducts;
-            obj.hydroForce.storage.fAddedMass = obj.hydroForce.fAddedMass;
+            iH = obj.hydroForceIndex;
+            obj.hydroForce(iH).storage.mass = obj.mass;
+            obj.hydroForce(iH).storage.inertia = obj.inertia;
+            obj.hydroForce(iH).storage.inertiaProducts = obj.inertiaProducts;
+            obj.hydroForce(iH).storage.fAddedMass = obj.hydroForce(iH).fAddedMass;
             if B2B == 1
-                tmp.fadm=diag(obj.hydroForce.fAddedMass(:,1+(iBod-1)*6:6+(iBod-1)*6));
+                tmp.fadm=diag(obj.hydroForce(iH).fAddedMass(:,1+(iBod-1)*6:6+(iBod-1)*6));
                 tmp.adjmass = sum(tmp.fadm(1:3))*obj.adjMassFactor;
-                tmp.inertiaProducts = [obj.hydroForce.fAddedMass(4,5+(iBod-1)*6) ...
-                                       obj.hydroForce.fAddedMass(4,6+(iBod-1)*6) ...
-                                       obj.hydroForce.fAddedMass(5,6+(iBod-1)*6)];
+                tmp.inertiaProducts = [obj.hydroForce(iH).fAddedMass(4,5+(iBod-1)*6) ...
+                                       obj.hydroForce(iH).fAddedMass(4,6+(iBod-1)*6) ...
+                                       obj.hydroForce(iH).fAddedMass(5,6+(iBod-1)*6)];
                 obj.mass = obj.mass + tmp.adjmass;
                 obj.inertia = obj.inertia+tmp.fadm(4:6)';
                 obj.inertiaProducts = obj.inertiaProducts + tmp.inertiaProducts;
-                obj.hydroForce.fAddedMass(1,1+(iBod-1)*6) = obj.hydroForce.fAddedMass(1,1+(iBod-1)*6) - tmp.adjmass;
-                obj.hydroForce.fAddedMass(2,2+(iBod-1)*6) = obj.hydroForce.fAddedMass(2,2+(iBod-1)*6) - tmp.adjmass;
-                obj.hydroForce.fAddedMass(3,3+(iBod-1)*6) = obj.hydroForce.fAddedMass(3,3+(iBod-1)*6) - tmp.adjmass;
-                obj.hydroForce.fAddedMass(4,4+(iBod-1)*6) = 0;
-                obj.hydroForce.fAddedMass(5,5+(iBod-1)*6) = 0;
-                obj.hydroForce.fAddedMass(6,6+(iBod-1)*6) = 0;
-                obj.hydroForce.fAddedMass(4,5+(iBod-1)*6) = 0;
-                obj.hydroForce.fAddedMass(4,6+(iBod-1)*6) = 0;
-                obj.hydroForce.fAddedMass(5,6+(iBod-1)*6) = 0;
+                obj.hydroForce(iH).fAddedMass(1,1+(iBod-1)*6) = obj.hydroForce(iH).fAddedMass(1,1+(iBod-1)*6) - tmp.adjmass;
+                obj.hydroForce(iH).fAddedMass(2,2+(iBod-1)*6) = obj.hydroForce(iH).fAddedMass(2,2+(iBod-1)*6) - tmp.adjmass;
+                obj.hydroForce(iH).fAddedMass(3,3+(iBod-1)*6) = obj.hydroForce(iH).fAddedMass(3,3+(iBod-1)*6) - tmp.adjmass;
+                obj.hydroForce(iH).fAddedMass(4,4+(iBod-1)*6) = 0;
+                obj.hydroForce(iH).fAddedMass(5,5+(iBod-1)*6) = 0;
+                obj.hydroForce(iH).fAddedMass(6,6+(iBod-1)*6) = 0;
+                obj.hydroForce(iH).fAddedMass(4,5+(iBod-1)*6) = 0;
+                obj.hydroForce(iH).fAddedMass(4,6+(iBod-1)*6) = 0;
+                obj.hydroForce(iH).fAddedMass(5,6+(iBod-1)*6) = 0;
                 % matrix should be symmetric, but remove symmetric components to preserve any numerical differences
-                obj.hydroForce.fAddedMass(5,4+(iBod-1)*6) = obj.hydroForce.fAddedMass(5,4+(iBod-1)*6) + tmp.inertiaProducts(1);
-                obj.hydroForce.fAddedMass(6,4+(iBod-1)*6) = obj.hydroForce.fAddedMass(6,4+(iBod-1)*6) + tmp.inertiaProducts(2);
-                obj.hydroForce.fAddedMass(6,5+(iBod-1)*6) = obj.hydroForce.fAddedMass(6,5+(iBod-1)*6) + tmp.inertiaProducts(3);
+                obj.hydroForce(iH).fAddedMass(5,4+(iBod-1)*6) = obj.hydroForce(iH).fAddedMass(5,4+(iBod-1)*6) + tmp.inertiaProducts(1);
+                obj.hydroForce(iH).fAddedMass(6,4+(iBod-1)*6) = obj.hydroForce(iH).fAddedMass(6,4+(iBod-1)*6) + tmp.inertiaProducts(2);
+                obj.hydroForce(iH).fAddedMass(6,5+(iBod-1)*6) = obj.hydroForce(iH).fAddedMass(6,5+(iBod-1)*6) + tmp.inertiaProducts(3);
             else
-                tmp.fadm=diag(obj.hydroForce.fAddedMass);
+                tmp.fadm=diag(obj.hydroForce(iH).fAddedMass);
                 tmp.adjmass = sum(tmp.fadm(1:3))*obj.adjMassFactor;
-                tmp.inertiaProducts = [obj.hydroForce.fAddedMass(4,5) ...
-                                       obj.hydroForce.fAddedMass(4,6) ...
-                                       obj.hydroForce.fAddedMass(5,6)];
+                tmp.inertiaProducts = [obj.hydroForce(iH).fAddedMass(4,5) ...
+                                       obj.hydroForce(iH).fAddedMass(4,6) ...
+                                       obj.hydroForce(iH).fAddedMass(5,6)];
                 obj.mass = obj.mass + tmp.adjmass;
                 obj.inertia = obj.inertia + tmp.fadm(4:6)';
                 obj.inertiaProducts = obj.inertiaProducts + tmp.inertiaProducts;
-                obj.hydroForce.fAddedMass(1,1) = obj.hydroForce.fAddedMass(1,1) - tmp.adjmass;
-                obj.hydroForce.fAddedMass(2,2) = obj.hydroForce.fAddedMass(2,2) - tmp.adjmass;
-                obj.hydroForce.fAddedMass(3,3) = obj.hydroForce.fAddedMass(3,3) - tmp.adjmass;
-                obj.hydroForce.fAddedMass(4,4) = 0;
-                obj.hydroForce.fAddedMass(5,5) = 0;
-                obj.hydroForce.fAddedMass(6,6) = 0;
-                obj.hydroForce.fAddedMass(4,5) = 0;
-                obj.hydroForce.fAddedMass(4,6) = 0;
-                obj.hydroForce.fAddedMass(5,6) = 0;
+                obj.hydroForce(iH).fAddedMass(1,1) = obj.hydroForce(iH).fAddedMass(1,1) - tmp.adjmass;
+                obj.hydroForce(iH).fAddedMass(2,2) = obj.hydroForce(iH).fAddedMass(2,2) - tmp.adjmass;
+                obj.hydroForce(iH).fAddedMass(3,3) = obj.hydroForce(iH).fAddedMass(3,3) - tmp.adjmass;
+                obj.hydroForce(iH).fAddedMass(4,4) = 0;
+                obj.hydroForce(iH).fAddedMass(5,5) = 0;
+                obj.hydroForce(iH).fAddedMass(6,6) = 0;
+                obj.hydroForce(iH).fAddedMass(4,5) = 0;
+                obj.hydroForce(iH).fAddedMass(4,6) = 0;
+                obj.hydroForce(iH).fAddedMass(5,6) = 0;
                 % matrix should be symmetric, but remove symmetric components to preserve any numerical differences
-                obj.hydroForce.fAddedMass(5,4) = obj.hydroForce.fAddedMass(5,4) + tmp.inertiaProducts(1);
-                obj.hydroForce.fAddedMass(6,4) = obj.hydroForce.fAddedMass(6,4) + tmp.inertiaProducts(2);
-                obj.hydroForce.fAddedMass(6,5) = obj.hydroForce.fAddedMass(6,5) + tmp.inertiaProducts(3);
+                obj.hydroForce(iH).fAddedMass(5,4) = obj.hydroForce(iH).fAddedMass(5,4) + tmp.inertiaProducts(1);
+                obj.hydroForce(iH).fAddedMass(6,4) = obj.hydroForce(iH).fAddedMass(6,4) + tmp.inertiaProducts(2);
+                obj.hydroForce(iH).fAddedMass(6,5) = obj.hydroForce(iH).fAddedMass(6,5) + tmp.inertiaProducts(3);
             end
         end
         
         function restoreMassMatrix(obj)
             % Restore the mass and added-mass matrix back to the original value
+            iH = obj.hydroForceIndex;
             tmp = struct;
             tmp.mass = obj.mass;
             tmp.inertia = obj.inertia;
             tmp.inertiaProducts = obj.inertiaProducts;
-            tmp.hydroForce_fAddedMass = obj.hydroForce.fAddedMass;
-            obj.mass = obj.hydroForce.storage.mass;
-            obj.inertia = obj.hydroForce.storage.inertia;
-            obj.inertiaProducts = obj.hydroForce.storage.inertiaProducts;
-            obj.hydroForce.fAddedMass = obj.hydroForce.storage.fAddedMass;
-            obj.hydroForce.storage = tmp; clear tmp
+            tmp.hydroForce_fAddedMass = obj.hydroForce(iH).fAddedMass;
+            obj.mass = obj.hydroForce(iH).storage.mass;
+            obj.inertia = obj.hydroForce(iH).storage.inertia;
+            obj.inertiaProducts = obj.hydroForce(iH).storage.inertiaProducts;
+            obj.hydroForce(iH).fAddedMass = obj.hydroForce(iH).storage.fAddedMass;
+            obj.hydroForce(iH).storage = tmp; clear tmp
         end
         
         function storeForceAddedMass(obj,am_mod,ft_mod)
             % Store the modified added mass and total forces history (inputs)
-            obj.hydroForce.storage.output_forceAddedMass = am_mod;
-            obj.hydroForce.storage.output_forceTotal = ft_mod;
+            iH = obj.hydroForceIndex;
+            obj.hydroForce(iH).storage.output_forceAddedMass = am_mod;
+            obj.hydroForce(iH).storage.output_forceTotal = ft_mod;
         end
         
         function setInitDisp(obj, relCoord, axisAngleList, addLinDisp)
@@ -575,162 +612,162 @@ classdef bodyClass<handle
     end
     
     methods (Access = 'protected') %modify object = T; output = F
-        function noExcitation(obj)
+        function noExcitation(obj, iH)
             % Set excitation force for no excitation case
             nDOF = obj.dof;
-            obj.hydroForce.fExt.re=zeros(1,nDOF);
-            obj.hydroForce.fExt.im=zeros(1,nDOF);
+            obj.hydroForce(iH).fExt.re=zeros(1,nDOF);
+            obj.hydroForce(iH).fExt.im=zeros(1,nDOF);
         end
         
-        function regExcitation(obj,w,direction,rho,g)            
+        function regExcitation(obj, w, direction, rho, g, iH)            
             % Regular wave excitation force
             % Used by hydroForcePre
             nDOF = obj.dof;
-            re = obj.hydroData.hydro_coeffs.excitation.re(:,:,:) .*rho.*g;
-            im = obj.hydroData.hydro_coeffs.excitation.im(:,:,:) .*rho.*g;
-            md = obj.hydroData.hydro_coeffs.mean_drift(:,:,:)    .*rho.*g;
-            obj.hydroForce.fExt.re=zeros(1,nDOF);
-            obj.hydroForce.fExt.im=zeros(1,nDOF);
-            obj.hydroForce.fExt.md=zeros(1,nDOF);
+            re = obj.hydroData(iH).hydro_coeffs.excitation.re(:,:,:) .*rho.*g;
+            im = obj.hydroData(iH).hydro_coeffs.excitation.im(:,:,:) .*rho.*g;
+            md = obj.hydroData(iH).hydro_coeffs.mean_drift(:,:,:)    .*rho.*g;
+            obj.hydroForce(iH).fExt.re=zeros(1,nDOF);
+            obj.hydroForce(iH).fExt.im=zeros(1,nDOF);
+            obj.hydroForce(iH).fExt.md=zeros(1,nDOF);
             for ii=1:nDOF
-                if length(obj.hydroData.simulation_parameters.direction) > 1
-                    [X,Y] = meshgrid(obj.hydroData.simulation_parameters.w, obj.hydroData.simulation_parameters.direction);
-                    obj.hydroForce.fExt.re(ii) = interp2(X, Y, squeeze(re(ii,:,:)), w, direction);
-                    obj.hydroForce.fExt.im(ii) = interp2(X, Y, squeeze(im(ii,:,:)), w, direction);
-                    obj.hydroForce.fExt.md(ii) = interp2(X, Y, squeeze(md(ii,:,:)), w, direction);
-                elseif obj.hydroData.simulation_parameters.direction == direction
-                    obj.hydroForce.fExt.re(ii) = interp1(obj.hydroData.simulation_parameters.w,squeeze(re(ii,1,:)),w,'spline');
-                    obj.hydroForce.fExt.im(ii) = interp1(obj.hydroData.simulation_parameters.w,squeeze(im(ii,1,:)),w,'spline');
-                    obj.hydroForce.fExt.md(ii) = interp1(obj.hydroData.simulation_parameters.w,squeeze(md(ii,1,:)),w,'spline');
+                if length(obj.hydroData(iH).simulation_parameters.direction) > 1
+                    [X,Y] = meshgrid(obj.hydroData(iH).simulation_parameters.w, obj.hydroData(iH).simulation_parameters.direction);
+                    obj.hydroForce(iH).fExt.re(ii) = interp2(X, Y, squeeze(re(ii,:,:)), w, direction);
+                    obj.hydroForce(iH).fExt.im(ii) = interp2(X, Y, squeeze(im(ii,:,:)), w, direction);
+                    obj.hydroForce(iH).fExt.md(ii) = interp2(X, Y, squeeze(md(ii,:,:)), w, direction);
+                elseif obj.hydroData(iH).simulation_parameters.direction == direction
+                    obj.hydroForce(iH).fExt.re(ii) = interp1(obj.hydroData(iH).simulation_parameters.w,squeeze(re(ii,1,:)),w,'spline');
+                    obj.hydroForce(iH).fExt.im(ii) = interp1(obj.hydroData(iH).simulation_parameters.w,squeeze(im(ii,1,:)),w,'spline');
+                    obj.hydroForce(iH).fExt.md(ii) = interp1(obj.hydroData(iH).simulation_parameters.w,squeeze(md(ii,1,:)),w,'spline');
                 end
             end
             if obj.yaw.option==1
                 % show warning for passive yaw run with incomplete BEM data
-                BEMdir=sort(obj.hydroData.simulation_parameters.direction);
+                BEMdir=sort(obj.hydroData(iH).simulation_parameters.direction);
                 boundDiff(1)=abs(-180 - BEMdir(1)); boundDiff(2)=abs(180 - BEMdir(end));
                 if length(BEMdir)<3 || std(diff(BEMdir))>5 || max(boundDiff)>15
                     warning(['Passive yaw is not recommended without BEM data spanning a full yaw rotation -180 to 180 dg.' newline ...
                         'Please inspect BEM data for gaps'])
                     clear BEMdir
                 end % wrap BEM directions -180 to 180 dg, if they are not already there
-                [sortedDir,idx]=sort(wrapTo180(obj.hydroData.simulation_parameters.direction));
-                [hdofGRD,hdirGRD,hwGRD]=ndgrid([1:6],sortedDir,obj.hydroData.simulation_parameters.w);
-                [obj.hydroForce.fExt.dofGrd,obj.hydroForce.fExt.dirGrd,obj.hydroForce.fExt.wGrd]=ndgrid([1:6],...
-                    sort(wrapTo180(obj.hydroData.simulation_parameters.direction)),w);
-                obj.hydroForce.fExt.fEHRE=interpn(hdofGRD,hdirGRD,hwGRD,obj.hydroData.hydro_coeffs.excitation.re(:,idx,:)...
-                    ,obj.hydroForce.fExt.dofGrd,obj.hydroForce.fExt.dirGrd,obj.hydroForce.fExt.wGrd)*rho*g;
-                obj.hydroForce.fExt.fEHIM=interpn(hdofGRD,hdirGRD,hwGRD,obj.hydroData.hydro_coeffs.excitation.im(:,idx,:)...
-                    ,obj.hydroForce.fExt.dofGrd,obj.hydroForce.fExt.dirGrd,obj.hydroForce.fExt.wGrd)*rho*g;
-                obj.hydroForce.fExt.fEHMD=interpn(hdofGRD,hdirGRD,hwGRD,obj.hydroData.hydro_coeffs.mean_drift(:,idx,:)...
-                    ,obj.hydroForce.fExt.dofGrd,obj.hydroForce.fExt.dirGrd,obj.hydroForce.fExt.wGrd)*rho*g;
+                [sortedDir,idx]=sort(wrapTo180(obj.hydroData(iH).simulation_parameters.direction));
+                [hdofGRD,hdirGRD,hwGRD]=ndgrid([1:6],sortedDir,obj.hydroData(iH).simulation_parameters.w);
+                [obj.hydroForce(iH).fExt.dofGrd,obj.hydroForce(iH).fExt.dirGrd,obj.hydroForce(iH).fExt.wGrd]=ndgrid([1:6],...
+                    sort(wrapTo180(obj.hydroData(iH).simulation_parameters.direction)),w);
+                obj.hydroForce(iH).fExt.fEHRE=interpn(hdofGRD,hdirGRD,hwGRD,obj.hydroData(iH).hydro_coeffs.excitation.re(:,idx,:)...
+                    ,obj.hydroForce(iH).fExt.dofGrd,obj.hydroForce(iH).fExt.dirGrd,obj.hydroForce(iH).fExt.wGrd)*rho*g;
+                obj.hydroForce(iH).fExt.fEHIM=interpn(hdofGRD,hdirGRD,hwGRD,obj.hydroData(iH).hydro_coeffs.excitation.im(:,idx,:)...
+                    ,obj.hydroForce(iH).fExt.dofGrd,obj.hydroForce(iH).fExt.dirGrd,obj.hydroForce(iH).fExt.wGrd)*rho*g;
+                obj.hydroForce(iH).fExt.fEHMD=interpn(hdofGRD,hdirGRD,hwGRD,obj.hydroData(iH).hydro_coeffs.mean_drift(:,idx,:)...
+                    ,obj.hydroForce(iH).fExt.dofGrd,obj.hydroForce(iH).fExt.dirGrd,obj.hydroForce(iH).fExt.wGrd)*rho*g;
             end
         end
         
-        function irrExcitation(obj,wv,bemCount,direction,rho,g)
+        function irrExcitation(obj, wv, bemCount, direction, rho, g, iH)
             % Irregular wave excitation force
             % Used by hydroForcePre
             nDOF = obj.dof;
-            re = obj.hydroData.hydro_coeffs.excitation.re(:,:,:) .*rho.*g;
-            im = obj.hydroData.hydro_coeffs.excitation.im(:,:,:) .*rho.*g;
-            md = obj.hydroData.hydro_coeffs.mean_drift(:,:,:)    .*rho.*g;
-            obj.hydroForce.fExt.re=zeros(length(direction),bemCount,nDOF);
-            obj.hydroForce.fExt.im=zeros(length(direction),bemCount,nDOF);
-            obj.hydroForce.fExt.md=zeros(length(direction),bemCount,nDOF);
+            re = obj.hydroData(iH).hydro_coeffs.excitation.re(:,:,:) .*rho.*g;
+            im = obj.hydroData(iH).hydro_coeffs.excitation.im(:,:,:) .*rho.*g;
+            md = obj.hydroData(iH).hydro_coeffs.mean_drift(:,:,:)    .*rho.*g;
+            obj.hydroForce(iH).fExt.re=zeros(length(direction),bemCount,nDOF);
+            obj.hydroForce(iH).fExt.im=zeros(length(direction),bemCount,nDOF);
+            obj.hydroForce(iH).fExt.md=zeros(length(direction),bemCount,nDOF);
             for ii=1:nDOF
-                if length(obj.hydroData.simulation_parameters.direction) > 1
-                    [X,Y] = meshgrid(obj.hydroData.simulation_parameters.w, obj.hydroData.simulation_parameters.direction);
-                    obj.hydroForce.fExt.re(:,:,ii) = interp2(X, Y, squeeze(re(ii,:,:)), wv, direction);
-                    obj.hydroForce.fExt.im(:,:,ii) = interp2(X, Y, squeeze(im(ii,:,:)), wv, direction);
-                    obj.hydroForce.fExt.md(:,:,ii) = interp2(X, Y, squeeze(md(ii,:,:)), wv, direction);
-                elseif obj.hydroData.simulation_parameters.direction == direction
-                    obj.hydroForce.fExt.re(:,:,ii) = interp1(obj.hydroData.simulation_parameters.w,squeeze(re(ii,1,:)),wv,'spline');
-                    obj.hydroForce.fExt.im(:,:,ii) = interp1(obj.hydroData.simulation_parameters.w,squeeze(im(ii,1,:)),wv,'spline');
-                    obj.hydroForce.fExt.md(:,:,ii) = interp1(obj.hydroData.simulation_parameters.w,squeeze(md(ii,1,:)),wv,'spline');
+                if length(obj.hydroData(iH).simulation_parameters.direction) > 1
+                    [X,Y] = meshgrid(obj.hydroData(iH).simulation_parameters.w, obj.hydroData(iH).simulation_parameters.direction);
+                    obj.hydroForce(iH).fExt.re(:,:,ii) = interp2(X, Y, squeeze(re(ii,:,:)), wv, direction);
+                    obj.hydroForce(iH).fExt.im(:,:,ii) = interp2(X, Y, squeeze(im(ii,:,:)), wv, direction);
+                    obj.hydroForce(iH).fExt.md(:,:,ii) = interp2(X, Y, squeeze(md(ii,:,:)), wv, direction);
+                elseif obj.hydroData(iH).simulation_parameters.direction == direction
+                    obj.hydroForce(iH).fExt.re(:,:,ii) = interp1(obj.hydroData(iH).simulation_parameters.w,squeeze(re(ii,1,:)),wv,'spline');
+                    obj.hydroForce(iH).fExt.im(:,:,ii) = interp1(obj.hydroData(iH).simulation_parameters.w,squeeze(im(ii,1,:)),wv,'spline');
+                    obj.hydroForce(iH).fExt.md(:,:,ii) = interp1(obj.hydroData(iH).simulation_parameters.w,squeeze(md(ii,1,:)),wv,'spline');
                 end
             end
             if obj.yaw.option==1
                 % show warning for passive yaw run with incomplete BEM data
-                BEMdir=sort(obj.hydroData.simulation_parameters.direction);
+                BEMdir=sort(obj.hydroData(iH).simulation_parameters.direction);
                 boundDiff(1)=abs(-180 - BEMdir(1)); boundDiff(2)=abs(180 - BEMdir(end));
                 if length(BEMdir)<3 || std(diff(BEMdir))>5 || max(boundDiff)>15
                     warning(['Passive yaw is not recommended without BEM data spanning a full yaw rotation -180 to 180 dg.' newline ...
                         'Please inspect BEM data for gaps'])
                     clear BEMdir boundDiff
                 end
-                [sortedDir,idx]=sort(wrapTo180(obj.hydroData.simulation_parameters.direction));
-                [hdofGRD,hdirGRD,hwGRD]=ndgrid([1:6],sortedDir, obj.hydroData.simulation_parameters.w);
-                [obj.hydroForce.fExt.dofGrd,obj.hydroForce.fExt.dirGrd,obj.hydroForce.fExt.wGrd]=ndgrid([1:6],...
+                [sortedDir,idx]=sort(wrapTo180(obj.hydroData(iH).simulation_parameters.direction));
+                [hdofGRD,hdirGRD,hwGRD]=ndgrid([1:6],sortedDir, obj.hydroData(iH).simulation_parameters.w);
+                [obj.hydroForce(iH).fExt.dofGrd,obj.hydroForce(iH).fExt.dirGrd,obj.hydroForce(iH).fExt.wGrd]=ndgrid([1:6],...
                     sortedDir,wv);
-                obj.hydroForce.fExt.fEHRE=interpn(hdofGRD,hdirGRD,hwGRD,obj.hydroData.hydro_coeffs.excitation.re(:,idx,:),...
-                    obj.hydroForce.fExt.dofGrd,obj.hydroForce.fExt.dirGrd,obj.hydroForce.fExt.wGrd)*rho*g;
-                obj.hydroForce.fExt.fEHIM=interpn(hdofGRD,hdirGRD,hwGRD,obj.hydroData.hydro_coeffs.excitation.im(:,idx,:),...
-                    obj.hydroForce.fExt.dofGrd,obj.hydroForce.fExt.dirGrd,obj.hydroForce.fExt.wGrd)*rho*g;
-                obj.hydroForce.fExt.fEHMD=interpn(hdofGRD,hdirGRD,hwGRD,obj.hydroData.hydro_coeffs.mean_drift(:,idx,:)...
-                    ,obj.hydroForce.fExt.dofGrd,obj.hydroForce.fExt.dirGrd,obj.hydroForce.fExt.wGrd)*rho*g;
+                obj.hydroForce(iH).fExt.fEHRE=interpn(hdofGRD,hdirGRD,hwGRD,obj.hydroData(iH).hydro_coeffs.excitation.re(:,idx,:),...
+                    obj.hydroForce(iH).fExt.dofGrd,obj.hydroForce(iH).fExt.dirGrd,obj.hydroForce(iH).fExt.wGrd)*rho*g;
+                obj.hydroForce(iH).fExt.fEHIM=interpn(hdofGRD,hdirGRD,hwGRD,obj.hydroData(iH).hydro_coeffs.excitation.im(:,idx,:),...
+                    obj.hydroForce(iH).fExt.dofGrd,obj.hydroForce(iH).fExt.dirGrd,obj.hydroForce(iH).fExt.wGrd)*rho*g;
+                obj.hydroForce(iH).fExt.fEHMD=interpn(hdofGRD,hdirGRD,hwGRD,obj.hydroData(iH).hydro_coeffs.mean_drift(:,idx,:)...
+                    ,obj.hydroForce(iH).fExt.dofGrd,obj.hydroForce(iH).fExt.dirGrd,obj.hydroForce(iH).fExt.wGrd)*rho*g;
             end
         end
         
-        function userDefinedExcitation(obj,waveAmpTime,dt,direction,rho,g)
+        function userDefinedExcitation(obj, waveAmpTime, dt, direction, rho, g, iH)
             % Calculated User-Defined wave excitation force with non-causal convolution
             % Used by hydroForcePre
             nDOF = obj.dof;
-            kf = obj.hydroData.hydro_coeffs.excitation.impulse_response_fun.f .*rho .*g;
-            kt = obj.hydroData.hydro_coeffs.excitation.impulse_response_fun.t;
+            kf = obj.hydroData(iH).hydro_coeffs.excitation.impulse_response_fun.f .*rho .*g;
+            kt = obj.hydroData(iH).hydro_coeffs.excitation.impulse_response_fun.t;
             t =  min(kt):dt:max(kt);
             for ii = 1:nDOF
-                if length(obj.hydroData.simulation_parameters.direction) > 1
-                    [X,Y] = meshgrid(kt, obj.hydroData.simulation_parameters.direction);
+                if length(obj.hydroData(iH).simulation_parameters.direction) > 1
+                    [X,Y] = meshgrid(kt, obj.hydroData(iH).simulation_parameters.direction);
                     kernel = squeeze(kf(ii,:,:));
                     obj.excitationIRF = interp2(X, Y, kernel, t, direction);
-                elseif obj.hydroData.simulation_parameters.direction == direction
+                elseif obj.hydroData(iH).simulation_parameters.direction == direction
                     kernel = squeeze(kf(ii,1,:));
                     obj.excitationIRF = interp1(kt,kernel,min(kt):dt:max(kt));
                 else
                     error('Default wave direction different from hydro database value. Wave direction (waves.direction) should be specified on input file.')
                 end
-                obj.hydroForce.userDefinedFe(:,ii) = conv(waveAmpTime(:,2),obj.excitationIRF,'same')*dt;
+                obj.hydroForce(iH).userDefinedFe(:,ii) = conv(waveAmpTime(:,2),obj.excitationIRF,'same')*dt;
             end
-            obj.hydroForce.fExt.re=zeros(1,nDOF);
-            obj.hydroForce.fExt.im=zeros(1,nDOF);
-            obj.hydroForce.fExt.md=zeros(1,nDOF);
+            obj.hydroForce(iH).fExt.re=zeros(1,nDOF);
+            obj.hydroForce(iH).fExt.im=zeros(1,nDOF);
+            obj.hydroForce(iH).fExt.md=zeros(1,nDOF);
         end
         
-        function constAddedMassAndDamping(obj,w,rho,B2B)
+        function constAddedMassAndDamping(obj, w, rho, B2B, iH)
             % Set added mass and damping for a specific frequency
             % Used by hydroForcePre
-            am = obj.hydroData.hydro_coeffs.added_mass.all .*rho;
-            rd = obj.hydroData.hydro_coeffs.radiation_damping.all .*rho;
-            for i=1:length(obj.hydroData.simulation_parameters.w)
-                rd(:,:,i) = rd(:,:,i) .*obj.hydroData.simulation_parameters.w(i);
+            am = obj.hydroData(iH).hydro_coeffs.added_mass.all .*rho;
+            rd = obj.hydroData(iH).hydro_coeffs.radiation_damping.all .*rho;
+            for i=1:length(obj.hydroData(iH).simulation_parameters.w)
+                rd(:,:,i) = rd(:,:,i) .*obj.hydroData(iH).simulation_parameters.w(i);
             end
             % Change matrix size: B2B [6x6n], noB2B [6x6]
             switch B2B
                 case {1}
-                    obj.hydroForce.fAddedMass = zeros(6,obj.b2bDOF);
-                    obj.hydroForce.fDamping = zeros(6,obj.b2bDOF);
-                    obj.hydroForce.totDOF  =zeros(6,obj.b2bDOF);
+                    obj.hydroForce(iH).fAddedMass = zeros(6,obj.b2bDOF);
+                    obj.hydroForce(iH).fDamping = zeros(6,obj.b2bDOF);
+                    obj.hydroForce(iH).totDOF  =zeros(6,obj.b2bDOF);
                     for ii=1:6
                         for jj=1:obj.b2bDOF
-                            obj.hydroForce.fAddedMass(ii,jj) = interp1(obj.hydroData.simulation_parameters.w,squeeze(am(ii,jj,:)),w,'spline');
-                            obj.hydroForce.fDamping  (ii,jj) = interp1(obj.hydroData.simulation_parameters.w,squeeze(rd(ii,jj,:)),w,'spline');
+                            obj.hydroForce(iH).fAddedMass(ii,jj) = interp1(obj.hydroData(iH).simulation_parameters.w,squeeze(am(ii,jj,:)),w,'spline');
+                            obj.hydroForce(iH).fDamping  (ii,jj) = interp1(obj.hydroData(iH).simulation_parameters.w,squeeze(rd(ii,jj,:)),w,'spline');
                         end
                     end
                 otherwise
                     nDOF = obj.dof;
-                    obj.hydroForce.fAddedMass = zeros(nDOF,nDOF);
-                    obj.hydroForce.fDamping = zeros(nDOF,nDOF);
-                    obj.hydroForce.totDOF = zeros(nDOF,nDOF);
+                    obj.hydroForce(iH).fAddedMass = zeros(nDOF,nDOF);
+                    obj.hydroForce(iH).fDamping = zeros(nDOF,nDOF);
+                    obj.hydroForce(iH).totDOF = zeros(nDOF,nDOF);
                     for ii=1:nDOF
                         for jj=1:nDOF
                             jjj = obj.dofStart-1+jj;
-                            obj.hydroForce.fAddedMass(ii,jj) = interp1(obj.hydroData.simulation_parameters.w,squeeze(am(ii,jjj,:)),w,'spline');
-                            obj.hydroForce.fDamping(ii,jj) = interp1(obj.hydroData.simulation_parameters.w,squeeze(rd(ii,jjj,:)),w,'spline');
+                            obj.hydroForce(iH).fAddedMass(ii,jj) = interp1(obj.hydroData(iH).simulation_parameters.w,squeeze(am(ii,jjj,:)),w,'spline');
+                            obj.hydroForce(iH).fDamping(ii,jj) = interp1(obj.hydroData(iH).simulation_parameters.w,squeeze(rd(ii,jjj,:)),w,'spline');
                         end
                     end
             end
         end
         
-        function irfInfAddedMassAndDamping(obj,cicTime,stateSpace,rho,B2B)
+        function irfInfAddedMassAndDamping(obj, cicTime, stateSpace, rho, B2B, iH)
             % Set radiation force properties using impulse response function
             % Used by hydroForcePre
             % Added mass at infinite frequency
@@ -744,25 +781,25 @@ classdef bodyClass<handle
             end
             % Convolution integral formulation
             if B2B == 1
-                obj.hydroForce.fAddedMass=obj.hydroData.hydro_coeffs.added_mass.inf_freq .*rho;
+                obj.hydroForce(iH).fAddedMass=obj.hydroData(iH).hydro_coeffs.added_mass.inf_freq .*rho;
             else
-                obj.hydroForce.fAddedMass=obj.hydroData.hydro_coeffs.added_mass.inf_freq(:,obj.dofStart:obj.dofEnd) .*rho;
+                obj.hydroForce(iH).fAddedMass=obj.hydroData(iH).hydro_coeffs.added_mass.inf_freq(:,obj.dofStart:obj.dofEnd) .*rho;
             end
             % Radiation IRF
-            obj.hydroForce.fDamping=zeros(nDOF,LDOF);
-            irfk = obj.hydroData.hydro_coeffs.radiation_damping.impulse_response_fun.K  .*rho;
-            irft = obj.hydroData.hydro_coeffs.radiation_damping.impulse_response_fun.t;
+            obj.hydroForce(iH).fDamping=zeros(nDOF,LDOF);
+            irfk = obj.hydroData(iH).hydro_coeffs.radiation_damping.impulse_response_fun.K  .*rho;
+            irft = obj.hydroData(iH).hydro_coeffs.radiation_damping.impulse_response_fun.t;
             if B2B == 1
                 for ii=1:nDOF
                     for jj=1:LDOF
-                        obj.hydroForce.irkb(:,ii,jj) = interp1(irft,squeeze(irfk(ii,jj,:)),cicTime,'spline');
+                        obj.hydroForce(iH).irkb(:,ii,jj) = interp1(irft,squeeze(irfk(ii,jj,:)),cicTime,'spline');
                     end
                 end
             else
                 for ii=1:nDOF
                     for jj=1:LDOF
                         jjj = obj.dofStart-1+jj;
-                        obj.hydroForce.irkb(:,ii,jj) = interp1(irft,squeeze(irfk(ii,jjj,:)),cicTime,'spline');
+                        obj.hydroForce(iH).irkb(:,ii,jj) = interp1(irft,squeeze(irfk(ii,jjj,:)),cicTime,'spline');
                     end
                 end
             end
@@ -771,40 +808,40 @@ classdef bodyClass<handle
                 if B2B == 1
                     for ii = 1:nDOF
                         for jj = 1:LDOF
-                            arraySize = obj.hydroData.hydro_coeffs.radiation_damping.state_space.it(ii,jj);
+                            arraySize = obj.hydroData(iH).hydro_coeffs.radiation_damping.state_space.it(ii,jj);
                             if ii == 1 && jj == 1 % Begin construction of combined state, input, and output matrices
-                                Af(1:arraySize,1:arraySize) = obj.hydroData.hydro_coeffs.radiation_damping.state_space.A.all(ii,jj,1:arraySize,1:arraySize);
-                                Bf(1:arraySize,jj)        = obj.hydroData.hydro_coeffs.radiation_damping.state_space.B.all(ii,jj,1:arraySize,1);
-                                Cf(ii,1:arraySize)          = obj.hydroData.hydro_coeffs.radiation_damping.state_space.C.all(ii,jj,1,1:arraySize);
+                                Af(1:arraySize,1:arraySize) = obj.hydroData(iH).hydro_coeffs.radiation_damping.state_space.A.all(ii,jj,1:arraySize,1:arraySize);
+                                Bf(1:arraySize,jj)        = obj.hydroData(iH).hydro_coeffs.radiation_damping.state_space.B.all(ii,jj,1:arraySize,1);
+                                Cf(ii,1:arraySize)          = obj.hydroData(iH).hydro_coeffs.radiation_damping.state_space.C.all(ii,jj,1,1:arraySize);
                             else
-                                Af(size(Af,1)+1:size(Af,1)+arraySize,size(Af,2)+1:size(Af,2)+arraySize)     = obj.hydroData.hydro_coeffs.radiation_damping.state_space.A.all(ii,jj,1:arraySize,1:arraySize);
-                                Bf(size(Bf,1)+1:size(Bf,1)+arraySize,jj) = obj.hydroData.hydro_coeffs.radiation_damping.state_space.B.all(ii,jj,1:arraySize,1);
-                                Cf(ii,size(Cf,2)+1:size(Cf,2)+arraySize)   = obj.hydroData.hydro_coeffs.radiation_damping.state_space.C.all(ii,jj,1,1:arraySize);
+                                Af(size(Af,1)+1:size(Af,1)+arraySize,size(Af,2)+1:size(Af,2)+arraySize)     = obj.hydroData(iH).hydro_coeffs.radiation_damping.state_space.A.all(ii,jj,1:arraySize,1:arraySize);
+                                Bf(size(Bf,1)+1:size(Bf,1)+arraySize,jj) = obj.hydroData(iH).hydro_coeffs.radiation_damping.state_space.B.all(ii,jj,1:arraySize,1);
+                                Cf(ii,size(Cf,2)+1:size(Cf,2)+arraySize)   = obj.hydroData(iH).hydro_coeffs.radiation_damping.state_space.C.all(ii,jj,1,1:arraySize);
                             end
                         end
                     end
-                    obj.hydroForce.ssRadf.D = zeros(nDOF,LDOF);
+                    obj.hydroForce(iH).ssRadf.D = zeros(nDOF,LDOF);
                 else
                     for ii = 1:nDOF
                         for jj = obj.dofStart:obj.dofEnd
                             jInd = jj-obj.dofStart+1;
-                            arraySize = obj.hydroData.hydro_coeffs.radiation_damping.state_space.it(ii,jj);
+                            arraySize = obj.hydroData(iH).hydro_coeffs.radiation_damping.state_space.it(ii,jj);
                             if ii == 1 && jInd == 1 % Begin construction of combined state, input, and output matrices
-                                Af(1:arraySize,1:arraySize) = obj.hydroData.hydro_coeffs.radiation_damping.state_space.A.all(ii,jj,1:arraySize,1:arraySize);
-                                Bf(1:arraySize,jInd)        = obj.hydroData.hydro_coeffs.radiation_damping.state_space.B.all(ii,jj,1:arraySize,1);
-                                Cf(ii,1:arraySize)          = obj.hydroData.hydro_coeffs.radiation_damping.state_space.C.all(ii,jj,1,1:arraySize);
+                                Af(1:arraySize,1:arraySize) = obj.hydroData(iH).hydro_coeffs.radiation_damping.state_space.A.all(ii,jj,1:arraySize,1:arraySize);
+                                Bf(1:arraySize,jInd)        = obj.hydroData(iH).hydro_coeffs.radiation_damping.state_space.B.all(ii,jj,1:arraySize,1);
+                                Cf(ii,1:arraySize)          = obj.hydroData(iH).hydro_coeffs.radiation_damping.state_space.C.all(ii,jj,1,1:arraySize);
                             else
-                                Af(size(Af,1)+1:size(Af,1)+arraySize,size(Af,2)+1:size(Af,2)+arraySize) = obj.hydroData.hydro_coeffs.radiation_damping.state_space.A.all(ii,jj,1:arraySize,1:arraySize);
-                                Bf(size(Bf,1)+1:size(Bf,1)+arraySize,jInd) = obj.hydroData.hydro_coeffs.radiation_damping.state_space.B.all(ii,jj,1:arraySize,1);
-                                Cf(ii,size(Cf,2)+1:size(Cf,2)+arraySize)   = obj.hydroData.hydro_coeffs.radiation_damping.state_space.C.all(ii,jj,1,1:arraySize);
+                                Af(size(Af,1)+1:size(Af,1)+arraySize,size(Af,2)+1:size(Af,2)+arraySize) = obj.hydroData(iH).hydro_coeffs.radiation_damping.state_space.A.all(ii,jj,1:arraySize,1:arraySize);
+                                Bf(size(Bf,1)+1:size(Bf,1)+arraySize,jInd) = obj.hydroData(iH).hydro_coeffs.radiation_damping.state_space.B.all(ii,jj,1:arraySize,1);
+                                Cf(ii,size(Cf,2)+1:size(Cf,2)+arraySize)   = obj.hydroData(iH).hydro_coeffs.radiation_damping.state_space.C.all(ii,jj,1,1:arraySize);
                             end
                         end
                     end
-                    obj.hydroForce.ssRadf.D = zeros(nDOF,nDOF);
+                    obj.hydroForce(iH).ssRadf.D = zeros(nDOF,nDOF);
                 end
-                obj.hydroForce.ssRadf.A = Af;
-                obj.hydroForce.ssRadf.B = Bf;
-                obj.hydroForce.ssRadf.C = Cf .*rho;
+                obj.hydroForce(iH).ssRadf.A = Af;
+                obj.hydroForce(iH).ssRadf.B = Bf;
+                obj.hydroForce(iH).ssRadf.C = Cf .*rho;
             end
         end
         
@@ -813,9 +850,9 @@ classdef bodyClass<handle
             if strcmp(obj.mass, 'equilibrium')
                 obj.massCalcMethod = obj.mass;
                 if obj.nonHydro == 0 && obj.nonlinearHydro == 0
-                    obj.mass = obj.hydroData.properties.volume * rho;
+                    obj.mass = obj.hydroData(1).properties.volume * rho;
                 elseif obj.nonHydro == 0 && obj.nonlinearHydro ~= 0
-                    cg_tmp = obj.hydroData.properties.centerGravity;
+                    cg_tmp = obj.hydroData(1).properties.centerGravity;
                     z = obj.geometry.center(:,3) + cg_tmp(3);
                     z(z>0) = 0;
                     area = obj.geometry.area;
@@ -856,21 +893,22 @@ classdef bodyClass<handle
             %     actualAddedMassForce : float array
             %         Time series of the actual added mass force
             %
+            iH = obj.hydroForceIndex;
             dMass = zeros(6,6);
-            dMass(1,1) = obj.hydroForce.storage.mass - obj.mass;
-            dMass(2,2) = obj.hydroForce.storage.mass - obj.mass;
-            dMass(3,3) = obj.hydroForce.storage.mass - obj.mass;
-            dMass(4,4) = obj.hydroForce.storage.inertia(1) - obj.inertia(1);
-            dMass(5,5) = obj.hydroForce.storage.inertia(2) - obj.inertia(2);
-            dMass(6,6) = obj.hydroForce.storage.inertia(3) - obj.inertia(3);
-            dMass(4,5) = obj.hydroForce.storage.inertiaProducts(1) - obj.inertiaProducts(1);
-            dMass(4,6) = obj.hydroForce.storage.inertiaProducts(2) - obj.inertiaProducts(2);
-            dMass(5,6) = obj.hydroForce.storage.inertiaProducts(3) - obj.inertiaProducts(3);
+            dMass(1,1) = obj.hydroForce(iH).storage.mass - obj.mass;
+            dMass(2,2) = obj.hydroForce(iH).storage.mass - obj.mass;
+            dMass(3,3) = obj.hydroForce(iH).storage.mass - obj.mass;
+            dMass(4,4) = obj.hydroForce(iH).storage.inertia(1) - obj.inertia(1);
+            dMass(5,5) = obj.hydroForce(iH).storage.inertia(2) - obj.inertia(2);
+            dMass(6,6) = obj.hydroForce(iH).storage.inertia(3) - obj.inertia(3);
+            dMass(4,5) = obj.hydroForce(iH).storage.inertiaProducts(1) - obj.inertiaProducts(1);
+            dMass(4,6) = obj.hydroForce(iH).storage.inertiaProducts(2) - obj.inertiaProducts(2);
+            dMass(5,6) = obj.hydroForce(iH).storage.inertiaProducts(3) - obj.inertiaProducts(3);
             dMass(5,4) = -dMass(4,5);
             dMass(6,4) = -dMass(4,6);
             dMass(6,5) = -dMass(5,6);
 
-            appliedForceAddedMass = obj.hydroForce.storage.output_forceAddedMass;
+            appliedForceAddedMass = obj.hydroForce(iH).storage.output_forceAddedMass;
             bodyForceMassAddedMass = acc*dMass;
             actualForceAddedMass = appliedForceAddedMass + bodyForceMassAddedMass;
         end
