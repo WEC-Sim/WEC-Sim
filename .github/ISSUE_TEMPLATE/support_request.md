@@ -1,18 +1,18 @@
 ---
-name: Bug report
-about: Submit an issue to report a bug and request support. 
-title: "[BUG]"
-labels: bug
+name: Support request
+about: Request support for WEC-Sim
+title: "[Support]"
+labels: support
 assignees: ''
 
 ---
 
 **Note: Please complete all required fields. Italicized text describes each field.**
 
-**Describe the bug (REQUIRED)**
-_Provide a clear and concise description of the bug._
+**Describe the question (REQUIRED):*
+_Provide a clear and concise description of the requested support. For example, "I'm try to [...]", and/or reference the related issue/pull request._
 
-**Workstation information (REQUIRED):**
+**Workstation information:**
 _Describe the workstation:_
  - Operating System: [e.g., iOS8.1, Windows 10, Linux 5.12.1]
  - [MATLAB/Simulink Release](https://www.mathworks.com/help/matlab/release-notes.html): [e.g., 2022b, 2023a, 2023b, 2024a]

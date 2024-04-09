@@ -1,8 +1,8 @@
 ---
-name: Developer Issue
+name: Developer issue
 about: For the use of the development team to note issues associated with the development
   of WEC-Sim. Users please use an alternate template.
-title: "[Developer Issue]"
+title: "[Developer]"
 labels: ''
 assignees: ''
 
