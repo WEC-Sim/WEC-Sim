@@ -380,10 +380,6 @@ classdef bodyClass<handle
                     error('QTF coefficients are not defined for the body object "%s"', obj.name);
                 end
 
-                % if ~strcmp(waveType, 'spectrumImport') && ~strcmp(waveType, 'irregular') && ~strcmp(waveType, 'elevationImport')
-                %     error('QTF option can not be used for "%s" wave input', waveType);
-                % end
-
                 obj.QTF_excitation(waveAmpTime);
 
             end
@@ -614,12 +610,6 @@ classdef bodyClass<handle
             end
 
             f = F_max/2 * linspace(0,1,N/2);
-    
-            % figure ()   % Use if needed to plot the wave spectrum
-            % plot(f,2*abs(Amp_freq(1:N/2)))
-            % title('Single-Sided Amplitude Spectrum of y(t)')
-            % xlabel('Frequency (Hz)')
-            % ylabel('|Y(f)|')
 
             time=0:0.1:N*0.1-0.1;
 
@@ -672,7 +662,7 @@ classdef bodyClass<handle
                     % Slowly varing component Calculation
                     QTF.Diff_refined(:,:,n) = griddata(Omega_coarse, Omega_coarse, QTF.DiffExtended(:,:,n), Omega_x, Omega_y);
                     tmp =  real(sum(Amp_freq .* conj(Amp_freq) .* diag(QTF.Diff_refined(:,:,n))));
-                    fMeanDriftLoad = 2/(N)^2 * sum(tmp)*ones(N,1);
+                    fMeanDriftLoad = 2/(N)^2 * sum(tmp)*ones(N,1) *2 ;     % Multiplied by 2 for the two-sided spectrum
                     Hu = zeros(N,1);
                     for nu = 1 : nOmega - 1
                         for l = 1 : nOmega- nu
