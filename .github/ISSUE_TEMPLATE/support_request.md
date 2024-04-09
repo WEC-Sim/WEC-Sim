@@ -7,6 +7,12 @@ assignees: ''
 
 ---
 
+**The WEC-Sim team requests to please review the following prior to submitting an issue:**
+1. Read through our [WEC-Sim Documentation](http://wec-sim.github.io/WEC-Sim/man/theory.html) with additional description found in our [Advanced Features Section](http://wec-sim.github.io/WEC-Sim/man/advanced_features.html)
+2. Review MATLAB source code ([functions](https://github.com/WEC-Sim/WEC-Sim/tree/main/source/functions), [objects](https://github.com/WEC-Sim/WEC-Sim/tree/main/source/objects)) and the Simulink blocks ([libraries](https://github.com/WEC-Sim/WEC-Sim/tree/main/source/lib))
+3. Review the [WEC-Sim Examples](https://github.com/WEC-Sim/WEC-Sim/tree/main/examples) and the [WEC-Sim applications](https://github.com/WEC-Sim/WEC-Sim_Applications)
+4. Review prior [WEC-Sim issues](https://github.com/WEC-Sim/WEC-Sim/issues) which allows you to search past resolved issues or questions that might help answer your own question.
+
 **Note: Please complete all required fields. Italicized text describes each field.**
 
 **Describe the question (REQUIRED):*
