@@ -1,5 +1,5 @@
 ---
-name: Support request
+name: WEC-Sim support request
 about: Request support for WEC-Sim
 title: "[Support]"
 labels: support
@@ -7,18 +7,18 @@ assignees: ''
 
 ---
 
-**The WEC-Sim team requests to please review the following prior to submitting an issue:**
-1. Read through our [WEC-Sim Documentation](http://wec-sim.github.io/WEC-Sim/man/theory.html) with additional description found in our [Advanced Features Section](http://wec-sim.github.io/WEC-Sim/man/advanced_features.html)
-2. Review MATLAB source code ([functions](https://github.com/WEC-Sim/WEC-Sim/tree/main/source/functions), [objects](https://github.com/WEC-Sim/WEC-Sim/tree/main/source/objects)) and the Simulink blocks ([libraries](https://github.com/WEC-Sim/WEC-Sim/tree/main/source/lib))
-3. Review the [WEC-Sim Examples](https://github.com/WEC-Sim/WEC-Sim/tree/main/examples) and the [WEC-Sim applications](https://github.com/WEC-Sim/WEC-Sim_Applications)
-4. Review prior [WEC-Sim issues](https://github.com/WEC-Sim/WEC-Sim/issues) which allows you to search past resolved issues or questions that might help answer your own question.
+**Please review the following prior to submitting an issue:**
+1. Read through the [WEC-Sim Documentation](https://wec-sim.github.io/WEC-Sim), especially information in the [Advanced Features](http://wec-sim.github.io/WEC-Sim/man/advanced_features.html) section.
+2. Review WEC-Sim ([source code](https://github.com/WEC-Sim/WEC-Sim/tree/main/source)
+3. Review [WEC-Sim examples](https://github.com/WEC-Sim/WEC-Sim/tree/main/examples) and [WEC-Sim applications](https://github.com/WEC-Sim/WEC-Sim_Applications).
+4. Review prior [WEC-Sim issues](https://github.com/WEC-Sim/WEC-Sim/issues), search past issues and discussions that may help answer your question.
 
 **Note: Please complete all required fields. Italicized text describes each field.**
 
 **Describe the question (REQUIRED):*
-_Provide a clear and concise description of the requested support. For example, "I'm try to [...]", and/or reference the related issue/pull request._
+_Provide a clear and concise description of the requested support. For example, "I'm try to [...]", and (if applicable) reference the related issue or pull request._
 
-**Workstation information:**
+**Workstation information (REQUIRED):**
 _Describe the workstation:_
  - Operating System: [e.g., iOS8.1, Windows 10, Linux 5.12.1]
  - [MATLAB/Simulink Release](https://www.mathworks.com/help/matlab/release-notes.html): [e.g., 2022b, 2023a, 2023b, 2024a]

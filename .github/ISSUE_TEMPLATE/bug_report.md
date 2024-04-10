@@ -1,6 +1,6 @@
 ---
-name: Bug report
-about: Submit an issue to report a bug and request support. 
+name: WEC-Sim bug report
+about: Report a bug with WEC-Sim. 
 title: "[BUG]"
 labels: bug
 assignees: ''
@@ -19,16 +19,16 @@ _Describe the workstation:_
  - [WEC-Sim Release](http://wec-sim.github.io/WEC-Sim/man/release_notes.html): [e.g., v5.1, v6.0, v6.1]
 
 **WEC-Sim file(s):**
-_Identify the WEC-Sim file(s) with bug(s) that cause error(s), and upload relevant file(s) to help reproduce the error(s)._
+_What file(s) cause the error? Identify the WEC-Sim file(s) that cause the error, and (if applicable) upload relevant file(s)._
 
 **How to reproduce:**
-_Describe the steps to reproduce the error:_
+_How can we reproduce the error? Describe the steps to reproduce the error._
 
 **Expected behavior**
-_Describe the expected behavior._
+_What is the excepeted behavior? Describe the expected behavior._
 
 **Screenshots:**
-_Provide relevant screenshots to help explain the problem. For example, a screen shot of the exact error message from the MATLAB command line._
+_Provide relevant screenshots to help explain the problem. For example, a screenshot of the error message from the MATLAB command window._
 
 **Additional information:**
 _Provide any other additional information._
