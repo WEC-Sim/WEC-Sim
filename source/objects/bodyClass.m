@@ -71,8 +71,8 @@ classdef bodyClass<handle
         volume (1,:) {mustBeScalarOrEmpty}          = []                    % (`float`) Displaced volume at equilibrium position [m^{3}]. For hydrodynamic bodies this is defined in the h5 file while for nonhydrodynamic bodies this is defined by the user. Default = ``[]``.
         yaw (1,1) struct                            = struct(...            % (`structure`) Defines the passive yaw implementation. 
             'option',                               0,...                   %
-            'threshold',                            1)                      % (`structure`) Defines the passive yaw mplementation. ``option`` (`integer`) Flag for passive yaw calculation, Options: 0 (off), 1 (on). Default = ``0``. ``threshold`` (`float`) Yaw position threshold (in degrees) above which excitation coefficients will be interpolated in passive yaw. Default = ``1`` [deg].        
-        hydroForceIndex                             = 1                     % 
+            'threshold',                            1)                      % (`structure`) Defines the passive yaw implementation. ``option`` (`integer`) Flag for passive yaw calculation, Options: 0 (off), 1 (on). Default = ``0``. ``threshold`` (`float`) Yaw position threshold (in degrees) above which excitation coefficients will be interpolated in passive yaw. Default = ``1`` [deg].        
+        hydroForceIndex                             = 1                     % (`float`)
     end
     
     properties (SetAccess = 'private', GetAccess = 'public')% h5 file
