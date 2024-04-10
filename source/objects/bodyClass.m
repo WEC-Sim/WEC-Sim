@@ -72,6 +72,7 @@ classdef bodyClass<handle
         yaw (1,1) struct                            = struct(...            % (`structure`) Defines the passive yaw implementation. 
             'option',                               0,...                   %
             'threshold',                            1)                      % (`structure`) Defines the passive yaw implementation. ``option`` (`integer`) Flag for passive yaw calculation, Options: 0 (off), 1 (on). Default = ``0``. ``threshold`` (`float`) Yaw position threshold (in degrees) above which excitation coefficients will be interpolated in passive yaw. Default = ``1`` [deg].        
+        hydroForceIndex0                            = 1                     % (`float`)
         hydroForceIndex                             = 1                     % (`float`)
     end
     
@@ -264,11 +265,12 @@ classdef bodyClass<handle
                     warning('Non-hydro or drag body(%i) center of buoyancy (centerBuoyancy) set equal to center of gravity (centerGravity), [%g %g %g]',obj.number,obj.centerGravity(1),obj.centerGravity(2),obj.centerGravity(3))
                 end
             end
+            obj.hydroForceIndex = obj.hydroForceIndex0;
         end
         
         function listInfo(obj)
             % This method prints body information to the MATLAB Command Window.
-            iH = obj.hydroForceIndex;
+            iH = obj.hydroForceIndex0;
             fprintf('\n\t***** Body Number %G, Name: %s *****\n',obj.hydroData(iH).properties.number,obj.hydroData(iH).properties.name)
             fprintf('\tBody CG                          (m) = [%G,%G,%G]\n',obj.hydroData(iH).properties.centerGravity)
             fprintf('\tBody Mass                       (kg) = %G \n',obj.mass);
@@ -285,7 +287,7 @@ classdef bodyClass<handle
             else
                 obj.hydroData(iH) = hydroData;
             end
-            if iH == obj.hydroForceIndex
+            if iH == obj.hydroForceIndex0
                 obj.centerGravity	= hydroData.properties.centerGravity';
                 obj.centerBuoyancy  = hydroData.properties.centerBuoyancy';
                 obj.volume          = hydroData.properties.volume;
@@ -413,7 +415,7 @@ classdef bodyClass<handle
             % 4. Add the maximum diagonal traslational added-mass to body
             % mass - this is not the correct description
             iBod = obj.number;
-            iH = obj.hydroForceIndex;
+            iH = obj.hydroForceIndex0;
             obj.hydroForce(iH).storage.mass = obj.mass;
             obj.hydroForce(iH).storage.inertia = obj.inertia;
             obj.hydroForce(iH).storage.inertiaProducts = obj.inertiaProducts;
@@ -467,7 +469,7 @@ classdef bodyClass<handle
         
         function restoreMassMatrix(obj)
             % Restore the mass and added-mass matrix back to the original value
-            iH = obj.hydroForceIndex;
+            iH = obj.hydroForceIndex0;
             tmp = struct;
             tmp.mass = obj.mass;
             tmp.inertia = obj.inertia;
@@ -482,7 +484,7 @@ classdef bodyClass<handle
         
         function storeForceAddedMass(obj,am_mod,ft_mod)
             % Store the modified added mass and total forces history (inputs)
-            iH = obj.hydroForceIndex;
+            iH = obj.hydroForceIndex0;
             obj.hydroForce(iH).storage.output_forceAddedMass = am_mod;
             obj.hydroForce(iH).storage.output_forceTotal = ft_mod;
         end
@@ -893,7 +895,7 @@ classdef bodyClass<handle
             %     actualAddedMassForce : float array
             %         Time series of the actual added mass force
             %
-            iH = obj.hydroForceIndex;
+            iH = obj.hydroForceIndex0;
             dMass = zeros(6,6);
             dMass(1,1) = obj.hydroForce(iH).storage.mass - obj.mass;
             dMass(2,2) = obj.hydroForce(iH).storage.mass - obj.mass;
