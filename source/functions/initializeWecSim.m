@@ -185,7 +185,7 @@ for ii = 1:simu.numHydroBodies
         end
         clear tmp_hydroData
     end
-end; clear ii
+end; clear ii iH
 
 % Cable Configuration: count, set Cg/Cb, PTO loc, L0 and initialize bodies
 if exist('cable','var')==1
@@ -258,13 +258,13 @@ if any(hydroBodLogic == 1)
                 error('waves(%d).omega outside of range of available hydro data',iW)
             end
         end
-    end
+    end; clear iW
 else
     % When no hydro bodies (and no .h5) are present, define the wave using
     % input file parameters
     for iW = 1:length(waves)
         waves(iW).setup([], [], simu.rampTime, simu.dt, simu.maxIt, simu.time, simu.gravity, simu.rho);
-    end
+    end; clear iW
 end
 
 % Nonlinear hydro
@@ -302,7 +302,7 @@ if ~isempty(idx)
         body(it).dragForcePre(simu.rho);
     end; clear kk idx
 end
-    
+
 % Check cicEndTime
 if waves(1).typeNum~=0 && waves(1).typeNum~=10
     for iBod = 1:simu.numHydroBodies
@@ -321,14 +321,14 @@ for ii = 1:simu.numHydroBodies
             error('BEM simulations for each body must have the same number of frequencies');
         end
     end
-end; clear ii baseHydroData;
+end; clear ii iH baseHydroData;
 
 % Check for all waves(#) are of the same type
 for iW = 2:length(waves)
     if strcmp(waves(iW).type, waves(1).type) ~=1
         error('All Wave-Spectra should be the same type as waves(1)')
     end
-end
+end; clear iW
 
 
 % Check for elevationImport with nonlinearHydro
@@ -337,7 +337,7 @@ for ii = 1:simu.numHydroBodies
         if strcmp(waves(iW).type,'elevationImport') && body(ii).nonlinearHydro == 1
             error(['Cannot run WEC-Sim with nonlinear hydro (body(ii).nonlinearHydro) and "elevationImport" wave type'])
         end
-    end
+    end; clear iW
 end
 
 % Check for elevationImport with morisonElement
@@ -346,7 +346,7 @@ for ii = 1:simu.numHydroBodies
         if strcmp(waves(iW).type,'elevationImport') && body(ii).morisonElement.option ~= 0
             error(['Cannot run WEC-Sim with Morison Element (body(ii).morisonElement.option>0) and "elevationImport" wave type'])
         end
-    end
+    end; clear iW
 end
 
 % Check for morisonElement inputs for body(ii).morisonElement.option == 1 || body(ii).morisonElement.option == 2
@@ -481,7 +481,7 @@ toc
 simu.listInfo(waves(1).typeNum);
 for iW = 1:length(waves)
     waves(iW).listInfo();
-end
+end; clear iW
 fprintf('\nList of Body: ');
 fprintf('Number of Bodies = %u \n',simu.numHydroBodies)
 for i = 1:simu.numHydroBodies

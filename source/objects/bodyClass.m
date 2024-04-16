@@ -103,7 +103,7 @@ classdef bodyClass<handle
     
     methods (Access = 'public') % modify object = T; output = F
         function obj = bodyClass(h5File)
-            % This method initilizes the ``bodyClass`` and creates a
+            % This method initializes the ``bodyClass`` and creates a
             % ``body`` object.
             %
             % Parameters
@@ -128,6 +128,10 @@ classdef bodyClass<handle
                 error('The body class number(s) in the wecSimInputFile must be specified in ascending order starting from 1. The bodyClass() function should be called first to initialize each body with an h5 file.')
             end
 
+        end
+
+        function setHydroForceIndex(obj, value)
+            obj.hydroForceIndex = value;
         end
         
         function checkInputs(obj,explorer)
