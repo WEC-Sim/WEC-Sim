@@ -24,14 +24,14 @@ function data_full = triToFullMatrix(dof_data, type, dof, rho, g)
 n = round(sqrt(2 * size(dof_data, 1) + 0.25) - 0.5); % Calculate the dimension of the square matrix by rounding
 
 L = 1;                      %   L=ULEN is the characteristic body length
-
+g_rho = rho * g;
 dof_data(:,6) = [];         %   Deletes the MOD Column
 dof_data(:,5) = [];         %   Deletes the DOF Column
 
 data_full = struct();
 
 % Define column names
-col_names = {'PER_i', 'PER_j', 'BETA_i', 'BETA_j', 'PHS_F_ij', 'Re_F_ij', 'Im_F_ij', 'i', 'j'}; 
+col_names = {'PER_i', 'PER_j', 'BETA_i', 'BETA_j', 'PHS_F_ij', 'Re_F_ij', 'Im_F_ij', 'i', 'j'};
 
 for col = 1:size(dof_data, 2)-2
     if col == 6    % 'Re_F_ij'
@@ -51,11 +51,11 @@ for col = 1:size(dof_data, 2)-2
 
         % Reshape and add dimentions
         if ismember(dof, [1, 2, 3])
-            data_full.(col_names{col}) = real(F_ij(:)) * rho * g * L;
-            data_full.(col_names{col+1}) = imag(F_ij(:)) * rho * g * L;
+            data_full.(col_names{col}) = real(F_ij(:)) * g_rho * L;
+            data_full.(col_names{col+1}) = imag(F_ij(:)) * g_rho * L;
         else
-            data_full.(col_names{col}) = real(F_ij(:)) * rho * g * L^2;
-            data_full.(col_names{col+1}) = imag(F_ij(:)) * rho * g * L^2;
+            data_full.(col_names{col}) = real(F_ij(:)) *g_rho * L^2;
+            data_full.(col_names{col+1}) = imag(F_ij(:)) * g_rho * L^2;
         end
 
     elseif col == 7 % 'Im_F_ij'
@@ -67,7 +67,7 @@ for col = 1:size(dof_data, 2)-2
         for i = 1:length(elements)
             triangular_matrix(dof_data(i, end-1), dof_data(i, end)) = elements(i);
         end
-        
+
         data_full.(col_names{col}) = diag(triangular_matrix);
     end
 

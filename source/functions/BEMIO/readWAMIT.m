@@ -19,7 +19,6 @@ function hydro = readWAMIT(hydro,filename,exCoeff)
 %     exCoeff : integer
 %         Flag indicating the type of excitation force coefficients to
 %         read, ‘diffraction’ (default), ‘haskind’, or ‘rao’
-%
 % Returns
 % -------
 %     hydro : struct
@@ -367,8 +366,8 @@ fileExists_s = false; % Initialize flags to check if any file with the specified
 fileExists_d = false;
 
 try
-    warning('QTF file parser is looking for a file ending in extension ##s or ##d. Please remove or rename any extraneous files with matching extensions or this may cause issues in simulation');
-
+    % warning('QTF file parser is looking for a file ending in extension ##s or ##d. Please remove or rename any extraneous files with matching extensions or this may cause issues in simulation');
+    %
     % Initalize qtffilename
     qtffilename = strings(2,hydro.Nb);
     n = 1;
@@ -377,32 +376,21 @@ try
         % "d"
 
         filename = files(i).name;    % Get the file name
+        % Check if the file name ends with 'd' and extract the number before 'd'
+        if contains(filename,'11s') || contains(filename,'10s') || contains(filename,'12s') || contains(filename,'qcs')
+            [~, qtfFileName, ~] = fileparts(filename);
+            fileExists_s = true;
+            bodyNumber(n) = str2double(qtfFileName(end));
+            qtffilename{1,bodyNumber(n)} = filename;
+            n = n + 1;
 
-        % Check if the file name ends with 's' and extract the number before 's'
-        if endsWith(filename, 's')
-            sIndex = length(filename);
-            try number = str2double(filename(sIndex-1));
-                if ~isnan(number)
-                    fileExists_s = true;
-                    bodyNumber(n) = str2double(filename(end-4));
-                    qtffilename{1,bodyNumber(n)} = filename; % Add filename to qtffilename
-                    n = n + 1;
-                end
-            end
-            % Check if the file name ends with 'd' and extract the number before 'd'
-        elseif endsWith(filename, 'd')
-            % Extract the character before 's'
-            dIndex = length(filename);
-            % Extract the number before 's' and check if it's valid
-            try number = str2double(filename(dIndex-1));
-                if ~isnan(number)
-                    fileExists_d = true;
-                    bodyNumber(n) = str2double(filename(end-4));
-                    qtffilename{2,bodyNumber(n)} = filename; % Add filename to qtffilename
-                    n = n + 1;
-                end
-            end
-
+        elseif contains(filename,'11d') || contains(filename,'10d') || contains(filename,'12d') || contains(filename,'qcd')
+            % Extract the character before 'd'
+            [~, qtfFileName, ~] = fileparts(filename);
+            fileExists_d = true;
+            bodyNumber(n) = str2double(qtfFileName(end));
+            qtffilename{2,bodyNumber(n)} = filename;
+            n = n + 1;
         end
     end
     bodyNumber = unique(bodyNumber);
