@@ -96,7 +96,7 @@ MoorDyn
 
 When a MoorDyn block is used, the user first needs to initiate the mooring class by 
 setting :code:`mooring = mooringClass('mooring name')` in the WEC-Sim input 
-file (wecSimInputFile.m), followed by setting :code:`mooring(i).moorDyn = 1` to 
+file (``wecSimInputFile.m``), followed by setting :code:`mooring(i).moorDyn = 1` to 
 initialize a MoorDyn connection. Each MoorDyn connection can consist of multiple 
 lines and each line may have multiple nodes. The number of MoorDyn lines and nodes in 
 each line should be defined as (``mooring(i).moorDynLines = <Number of mooring lines>``) 
@@ -106,12 +106,17 @@ specified in the MoorDyn input file.
 
 A mooring folder that includes a MoorDyn input file (``lines.txt``) is required 
 in the simulation folder. The body and corresponding mooring attachment points are 
-defined in the MoorDyn input file. MoorDyn handles the kinematic transform to 
-convert the forces from the attachment points to the 6 degree of freedom force 
-acting on the body's current location. Thus, the mooring location should generally 
-be left as the default (``[0 0 0]``) so that WEC-Sim applies the forces at the correct 
-location (center of gravity). The initial location of the body in WEC-Sim 
-should match the specified location in the MoorDyn input file.
+defined in the MoorDyn input file. The body location in the MoorDyn input file 
+should match that of the initial location of the body's center of gravity (usually 
+derived from BEM results). MoorDyn handles the kinematic transform to 
+convert the mooring forces from the attachment points to the 6 degree of freedom 
+force acting on the current location of the body's center of gravity. The initial 
+displacement of the mooring line in WEC-Sim (``mooring(i).initial.displacement``) 
+should match the location of the connected body in the MoorDyn input file or the 
+difference in location between two connected bodies. In the MoorDyn input file, 
+the location of points/nodes are specified relative to the body location if of 
+attachment type 'body#' and relative to the global frame for any other 
+attachement type.
 
 .. Note::
     WEC-Sim/MoorDyn coupling now allows more than one mooring connnection (i.e., 
