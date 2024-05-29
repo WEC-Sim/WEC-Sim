@@ -5,7 +5,7 @@ Software Tests
 
 WEC-Sim includes `MATLAB Continuous Integration <https://www.mathworks.com/solutions/continuous-integration.html>`_ tests that check the source code's stability and generate a build report. 
 The continuous integration tests are run each time a commit is made to the WEC-Sim GitHub repository, and the stability of each commit is available via `WEC-Sim's GitHub Actions <https://github.com/WEC-Sim/WEC-Sim/actions>`_. 
-Tests are run on both the `WEC-Sim master <https://github.com/WEC-Sim/WEC-Sim/tree/master>`_ and `WEC-Sim dev <https://github.com/WEC-Sim/WEC-Sim/tree/dev>`_ branches.
+Tests are run on both the `WEC-Sim main <https://github.com/WEC-Sim/WEC-Sim/tree/main>`_ and `WEC-Sim dev <https://github.com/WEC-Sim/WEC-Sim/tree/dev>`_ branches.
 To ensure stability across MATLAB distributions, WEC-Sim tests are also run on current and prior MATLAB releases. 
 Refer to MATLAB's `unit test framework <https://www.mathworks.com/help/matlab/matlab-unit-test-framework.html?s_tid=CRUX_lftnav>`_ and `continuous integration <https://www.mathworks.com/help/matlab/matlab_prog/continuous-integration-with-matlab-on-ci-platforms.html>`_ documentation for more information. 
 

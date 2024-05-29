@@ -117,15 +117,15 @@ is available below.
 
 
 
-Advanced Features Webinars
+Advanced Features Series
 --------------------------
 
-The WEC-Sim team hosted a series of Advanced Features Webinars. The 
+The WEC-Sim team hosted a series of Advanced Features Series. The 
 topics are listed below. Recordings of each are available below, along with the 
 presentations. 
 
     ===========  ====================================
-    **Webinar**  **Topic**
+    **Series**   **Topic**
     1            Multiple Condition Runs (MCR)
     2            Nonlinear Hydrodynamics
     3            Non-hydrodynamic Bodies
@@ -141,15 +141,15 @@ presentations.
 
 .. _webinar1:
 
-Webinar 1 - Multiple Condition Runs (MCR)
+Series 1 - Multiple Condition Runs (MCR)
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
-The webinar presents an overview of how to run multiple cases in WEC-Sim. The 
-presentation is available for download here ( `Webinar 1 Slides 
+The series presents an overview of how to run multiple cases in WEC-Sim. The 
+presentation is available for download here ( `Series 1 Slides 
 <../_static/downloads/advancedFeaturesWebinars/1_WEC-Sim_AdvFeatures_MCR_Batch_Runs.pdf>`__ ), and the recording is 
 available below. 
 
-**Webinar 1 - Multiple Condition Runs (MCR)**
+**Series 1 - Multiple Condition Runs (MCR)**
 
     .. raw:: html
     
@@ -158,15 +158,15 @@ available below.
 .. _webinar2:
 
 
-Webinar 2 - Nonlinear Buoyancy and Froude-Krylov Wave Excitation
+Series 2 - Nonlinear Buoyancy and Froude-Krylov Wave Excitation
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
 This section is focused on how to implement Nonlinear Buoyancy and Froude-Krylov Wave Excitation forces in WEC-Sim. 
 The presentation is available 
-for download here ( `Webinar 2 Slides <../_static/downloads/advancedFeaturesWebinars/2_WEC-Sim_AdvFeatures_Nonlinear_hydro.pdf>`__ ), 
+for download here ( `Series 2 Slides <../_static/downloads/advancedFeaturesWebinars/2_WEC-Sim_AdvFeatures_Nonlinear_hydro.pdf>`__ ), 
 and the recordings are available below. 
 
-**Webinar 2 - Nonlinear Buoyancy and Froude-Krylov Wave Excitation**
+**Series 2 - Nonlinear Buoyancy and Froude-Krylov Wave Excitation**
 
     .. raw:: html
     
@@ -175,15 +175,15 @@ and the recordings are available below.
 
 .. _webinar3:
 
-Webinar 3 - Non-hydrodynamic Bodies
+Series 3 - Non-hydrodynamic Bodies
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
 This webinar presents an overview of the non-hydrodynamic body implementation in WEC-Sim. The 
-presentation is available for download here ( `Webinar 3 Slides 
+presentation is available for download here ( `Series 3 Slides 
 <../_static/downloads/advancedFeaturesWebinars/3_WEC-Sim_AdvFeatures_Non_hydro.pdf>`__ ), and the recordings are 
 available below. 
 
-**Webinar 3 - Non-hydrodynamic Bodies**
+**Series 3 - Non-hydrodynamic Bodies**
 
     .. raw:: html
     
@@ -191,15 +191,15 @@ available below.
 
 .. _webinar4:
 
-Webinar 4 - Body-to-Body Interactions
+Series 4 - Body-to-Body Interactions
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
-This is section of the Advanced Features Webinar presents some examples of how body-to-body interactions are modeled in WEC-Sim. 
-The presentation is available for download here ( `Webinar 4 Slides 
+This is section of the Advanced Features Series presents some examples of how body-to-body interactions are modeled in WEC-Sim. 
+The presentation is available for download here ( `Series 4 Slides 
 <../_static/downloads/advancedFeaturesWebinars/4_WEC-Sim_AdvFeatures_B2B.pdf>`__ ), and the recordings are 
 available below. 
 
-**Webinar 4 - Body-to-Body Interactions**
+**Series 4 - Body-to-Body Interactions**
 
     .. raw:: html
     
@@ -207,15 +207,15 @@ available below.
 
 .. _webinar5:
 
-Webinar 5 - PTO-Sim
+Series 5 - PTO-Sim
 ^^^^^^^^^^^^^^^^^^^
 
 This section is focused on PTO-Sim. 
-The presentation is available for download here ( `Webinar 5 Slides 
+The presentation is available for download here ( `Series 5 Slides 
 <../_static/downloads/advancedFeaturesWebinars/5_WEC-Sim_AdvFeatures_PTOSim.pdf>`__ ), and the recordings are 
 available below. 
 
-**Webinar 5 - PTO-Sim**
+**Series 5 - PTO-Sim**
 
     .. raw:: html
     
@@ -223,15 +223,15 @@ available below.
 
 .. _webinar6:
 
-Webinar 6 - WEC-Sim Controls
+Series 6 - WEC-Sim Controls
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
 This section presents some examples of how to implement control algorithms for WECs using WEC-Sim. 
-The presentation is available for download here ( `Webinar 6 Slides 
+The presentation is available for download here ( `Series 6 Slides 
 <../_static/downloads/advancedFeaturesWebinars/6_WEC-Sim_AdvFeatures_Controls.pdf>`__ ), and the recordings are 
 available below. 
 
-**Webinar 6 - WEC-Sim Controls**
+**Series 6 - WEC-Sim Controls**
 
     .. raw:: html
     
@@ -239,15 +239,15 @@ available below.
 
 .. _webinar7:
 
-Webinar 7 - Modeling Cables
+Series 7 - Modeling Cables
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
 This section is focused on the Cable Block from WEC-Sim. 
-The presentation is available for download here ( `Webinar 7 Slides 
+The presentation is available for download here ( `Series 7 Slides 
 <../_static/downloads/advancedFeaturesWebinars/7_WEC-Sim_AdvFeatures_Cable.pdf>`__ ), and the recordings are 
 available below. 
 
-**Webinar 7 - Modeling Cables**
+**Series 7 - Modeling Cables**
 
     .. raw:: html
     
@@ -256,32 +256,37 @@ available below.
 
 .. _webinar8:
 
-Webinar 8 - Using MoorDyn with WEC-Sim
+Series 8 - Using MoorDyn with WEC-Sim
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
 This section presents an overview of how to use MoorDyn with WEC-Sim. 
-The presentation is available for download here ( `Webinar 8 Slides 
+The presentation is available for download here ( `Series 8 Slides 
 <../_static/downloads/advancedFeaturesWebinars/8_WEC-Sim_AdvFeatures_MoorDyn.pdf>`__ ), and the recordings are 
 available below. 
 
-**Webinar 8 - Using MoorDyn with WEC-Sim**
+**Series 8 - Using MoorDyn with WEC-Sim**
 
     .. raw:: html
     
         <iframe width="560" height="315" src="https://www.youtube.com/embed/rqUVK9dCsU0?si=pEKY0jXbKIU7bngl" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" allowfullscreen></iframe>
 
+.. Note::
+    The above MoorDyn webinar is based on MoorDyn v1 and is in the process of being updated 
+    for MoorDyn v2. Please refer to :ref:`user-advanced-features-mooring` for instruction on 
+    using WEC-Sim with MoorDyn v2.
+
 
 .. _webinar9:
 
-Webinar 9 - Modeling OWC Devices
+Series 9 - Modeling OWC Devices
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
 This section presents an overview of how to use model OWC devices using WEC-Sim. 
-The presentation is available for download here ( `Webinar 9 Slides 
+The presentation is available for download here ( `Series 9 Slides 
 <../_static/downloads/advancedFeaturesWebinars/9_WEC-Sim_AdvFeatures_OWC_Modeling.pdf>`__ ), and the recordings are 
 available below. 
 
-**Webinar 9 - Modeling OWC Devices**
+**Series 9 - Modeling OWC Devices**
 
     .. raw:: html
     
@@ -290,15 +295,15 @@ available below.
 
 .. _webinar10:
 
-Webinar 10 - Desalination
+Series 10 - Desalination
 ^^^^^^^^^^^^^^^^^^^^^^^^^
 
 This section presents an overview of how to use WEC-Sim to model a desalination application. 
-The presentation is available for download here ( `Webinar 10 Slides 
+The presentation is available for download here ( `Series 10 Slides 
 <../_static/downloads/advancedFeaturesWebinars/10_WEC-Sim_AdvFeatures_Desal.pdf>`__ ), and the recordings are 
 available below. 
 
-**Webinar 10 - Desalination**
+**Series 10 - Desalination**
 
     .. raw:: html
     
@@ -307,15 +312,15 @@ available below.
 
 .. _webinar11:
 
-Webinar 11 - WEC-Sim Visualization
+Series 11 - WEC-Sim Visualization
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
 This section presents an overview of how to post-process results in WEC-Sim. 
-The presentation is available for download here ( `Webinar 11 Slides 
+The presentation is available for download here ( `Series 11 Slides 
 <../_static/downloads/advancedFeaturesWebinars/11_WEC-Sim_AdvFeatures_Visualization.pdf>`__ ), and the recordings are 
 available below. 
 
-**Webinar 11 - WEC-Sim Visualization**
+**Series 11 - WEC-Sim Visualization**
 
     .. raw:: html
     

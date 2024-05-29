@@ -2,11 +2,11 @@ name: Documentation
 on:
   push:
     branches:
-      - master
+      - main
       - dev
   pull_request:
     branches:
-      - master
+      - main
       - dev
   workflow_dispatch:
 concurrency: 
@@ -22,10 +22,10 @@ jobs:
       run:
         shell: bash -l {0}
     steps:
-      - uses: actions/checkout@v2
+      - uses: actions/checkout@v4
         with:
           lfs: 'true'
-      - uses: conda-incubator/setup-miniconda@v2
+      - uses: conda-incubator/setup-miniconda@v3
         with:
           activate-environment: _wssphinx
           environment-file: docs/environment.yml
@@ -43,7 +43,7 @@ jobs:
       run:
         shell: bash -l {0}
     steps:
-      - uses: actions/checkout@v2
+      - uses: actions/checkout@v4
         with:
           lfs: 'true'
           fetch-depth: 0
@@ -51,7 +51,7 @@ jobs:
         run: |
          branch=$(echo ${{ github.ref }} | sed 's:.*/::')
          echo "BRANCH=$branch" >> $GITHUB_ENV
-      - uses: conda-incubator/setup-miniconda@v2
+      - uses: conda-incubator/setup-miniconda@v3
         with:
           activate-environment: _wssphinx
           environment-file: docs/environment.yml
@@ -68,8 +68,10 @@ jobs:
           cp docs/_assets/gh-pages.gitignore ${{ env.BUILD_DIR }}/.gitignore
           cp docs/_assets/gh-pages-redirect.html ${{ env.BUILD_DIR }}/index.html
           cp docs/_assets/gh-pages-readme.md ${{ env.BUILD_DIR }}/README.md
+          mkdir ${{ env.BUILD_DIR }}/master
+          cp docs/_assets/gh-pages-redirect.html ${{ env.BUILD_DIR }}/master/index.html
       - name: Deploy
-        if: ${{ github.event_name == 'push' && (env.BRANCH == 'dev' || env.BRANCH == 'master') }}
+        if: ${{ github.event_name == 'push' && (env.BRANCH == 'dev' || env.BRANCH == 'main') }}
         uses: peaceiris/actions-gh-pages@v3
         with:
           github_token: ${{ secrets.GITHUB_TOKEN }}
