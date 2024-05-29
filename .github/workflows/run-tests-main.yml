@@ -1,14 +1,14 @@
-name: Run MATLAB tests on master branch
+name: Run MATLAB tests on main branch
 on:
   # Trigger the workflow on push or pull request,
-  # but only for the master branch
+  # but only for the main branch
   workflow_dispatch: {}
   push:
     branches:
-      - master
+      - main
   pull_request:
     branches:
-      - master
+      - main
 concurrency: 
   group: ${{ github.workflow }}-${{ github.head_ref || github.run_id }}
   cancel-in-progress: true

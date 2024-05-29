@@ -50,9 +50,9 @@ To install WEC-Sim using `git <https://git-scm.com/>`_::
     >> git lfs install
     >> git clone https://github.com/WEC-Sim/WEC-Sim
 
-The local copy of WEC-Sim can easily be updated to include updates from the master version of the WEC-Sim source code hosted on the GitHub by using the git pull command:: 
+The local copy of WEC-Sim can easily be updated to include updates from the main version of the WEC-Sim source code hosted on the GitHub by using the git pull command:: 
 
-    >> git pull origin master
+    >> git pull origin main
 
 For users who are new to git, it is recommended to go through examples on `GitHub <https://docs.github.com/en/free-pro-team@latest/github/getting-started-with-github>`_ or other sources while getting started. 
 If you have problems downloading or installing please see the :ref:`user-troubleshooting` page.
