@@ -748,7 +748,7 @@ Mooring
 
 The mooring load is represented using a linear quasi-static mooring stiffness 
 or by using the mooring forces calculated from `MoorDyn 
-<http://www.matt-hall.ca/moordyn>`_ :cite:`Hall2015MoorDynGuide`, which is an 
+<http://www.matt-hall.ca/moordyn>`_, which is an 
 open-source lumped-mass mooring dynamics model. 
 
 Mooring Matrix
@@ -782,14 +782,14 @@ MoorDyn discretizes each mooring line in a mooring system into evenly-sized
 line segments connected by node points (see :ref:`MoorDyn figure 
 <MoorDynFig>`). The line mass is lumped at these node points along with 
 gravitational and buoyancy forces, hydrodynamic loads, and reactions from 
-contact with the seabed. Hydrodynamic drag and added mass are calculated based 
-on Morison's equation. A mooring line's axial stiffness is modeled by applying 
-a linear stiffness to each line segment in tension only. A damping term is also 
-applied in each segment to dampen non-physical resonance caused by the 
-lumped-mass discretization. Bending and torsional stiffnesses are neglected. 
-Bottom contact is represented by vertical stiffness and damping forces applied 
-at the nodes when a node is located below the seabed. 
-:cite:`Hall2015ValidationData`. 
+contact with the seabed. Hydrodynamic drag and added mass 
+are calculated based on Morison's equation. A mooring line's axial stiffness 
+is modeled by applying a linear stiffness to each line segment in tension only. 
+A damping term is also applied in each segment to dampen non-physical resonance 
+caused by the lumped-mass discretization. Bending and torsional stiffnesses are 
+neglected. Bottom contact is represented by vertical stiffness and damping 
+forces applied at the nodes when a node is located below the seabed. 
+:cite:`Hall2015ValidationData,hall2020moordyn`. 
 
 .. _MoorDynFig:
 
