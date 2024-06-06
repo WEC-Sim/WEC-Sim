@@ -247,7 +247,7 @@ if any(hydroBodLogic == 1)
     % When hydro bodies (and an .h5) are present, define the wave using those
     % parameters.
     for iW = 1:length(waves)
-        hdIndex = body(1).hydroForceIndex;
+        hdIndex = body(1).hydroForceIndexInitial;
         waves(iW).setup(body(1).hydroData(hdIndex).simulation_parameters.w, body(1).hydroData(hdIndex).simulation_parameters.waterDepth, simu.rampTime, simu.dt, simu.maxIt, simu.time, simu.gravity, simu.rho);
         % Check that direction and freq are within range of hydro data
         if  min(waves(iW).direction) <  min(body(1).hydroData(hdIndex).simulation_parameters.direction) || max(waves(iW).direction) >  max(body(1).hydroData(hdIndex).simulation_parameters.direction)
@@ -282,8 +282,8 @@ if ~isempty(idx)
         for iH = 1:length(body(ii).hydroData)
             body(ii).hydroForcePre(waves(1), simu, iH);
         end
-    end; clear kk idx ii
-end
+    end
+end; clear kk idx ii
 
 % nonHydroPre
 idx = find(nonHydroBodLogic==1);
@@ -291,8 +291,8 @@ if ~isempty(idx)
     for kk = 1:length(idx)
         ii = idx(kk);
         body(ii).nonHydroForcePre(simu.rho);
-    end; clear kk idx ii
-end
+    end
+end; clear kk idx ii
 
 % dragBodyPre
 idx = find(dragBodLogic == 1);
@@ -300,13 +300,13 @@ if ~isempty(idx)
     for kk = 1:length(idx)
         it = idx(kk);
         body(it).dragForcePre(simu.rho);
-    end; clear kk idx
-end
+    end
+end; clear kk idx
 
 % Check cicEndTime
 if waves(1).typeNum~=0 && waves(1).typeNum~=10
     for iBod = 1:simu.numHydroBodies
-        hdIndex = body(iBod).hydroForceIndex;
+        hdIndex = body(iBod).hydroForceIndexInitial;
         if simu.cicEndTime > max(body(iBod).hydroData(hdIndex).hydro_coeffs.radiation_damping.impulse_response_fun.t)
             error('simu.cicEndTime is larger than the length of the IRF');
         end
@@ -359,7 +359,7 @@ for ii = 1:length(body(1,:))
                     warning(['"body.morisonElement.z" is not used for "body.morisonElement.option = 1". Check body ',num2str(ii),' element ',num2str(jj)])
                 end
                 if length(body(ii).morisonElement.cd(jj,:)) ~= 3 || length(body(ii).morisonElement.ca(jj,:)) ~= 3 || length(body(ii).morisonElement.area(jj,:)) ~= 3
-                    error(['cd, ca, and area coefficients for each elelement for "body.morisonElement.option = 1" must be of size [1x3] and all columns of data must be real and finite. Check body ',num2str(ii),' element ',num2str(jj),' coefficients'])
+                    error(['cd, ca, and area coefficients for each element for "body.morisonElement.option = 1" must be of size [1x3] and all columns of data must be real and finite. Check body ',num2str(ii),' element ',num2str(jj),' coefficients'])
                 end
             end; clear jj
         else
@@ -395,6 +395,7 @@ for ii=1:length(body(1,:))
         eval(['sv_b' num2str(ii) '_instFS=Simulink.Variant(''nonLinearHydro_', num2str(ii), '==2'');']);
     end
 end; clear ii;
+
 % Morison Element
 for ii=1:length(body(1,:))
     if body(ii).nonHydro ~=1
@@ -403,6 +404,7 @@ for ii=1:length(body(1,:))
         eval(['sv_b' num2str(ii) '_MEOn = Simulink.Variant(''morisonElement_' num2str(ii) '==1 || morisonElement_' num2str(ii) '==2'');'])        
     end
 end; clear ii;
+
 % Radiation Damping
 if waves(1).typeNum==0 || waves(1).typeNum==10 %'noWave' & 'regular'
     radiation_option = 1;
@@ -417,6 +419,7 @@ sv_constantCoeff=Simulink.Variant('radiation_option==1');
 sv_convolution=Simulink.Variant('radiation_option==2');
 sv_stateSpace=Simulink.Variant('radiation_option==3');
 sv_FIR = Simulink.Variant('radiation_option==4');
+
 % Wave type
 typeNum = waves(1).typeNum;
 sv_noWave=Simulink.Variant('typeNum<10');
@@ -431,20 +434,28 @@ for ii=1:length(body(1,:))
 end; clear ii
 
 sv_udfWaves=Simulink.Variant('typeNum>=30');
+
 % Body2Body
 B2B = simu.b2b;
 sv_noB2B=Simulink.Variant('B2B==0');
 sv_B2B=Simulink.Variant('B2B==1');
 numBody=simu.numHydroBodies;
+
 % nonHydro
 for ii=1:length(body(1,:))
-    eval(['nhbody_' num2str(ii) ' = body(ii).nonHydro;'])
-    eval(['sv_b' num2str(ii) '_hydroBody = Simulink.Variant(''nhbody_' num2str(ii) '==0'');'])
-    eval(['sv_b' num2str(ii) '_nonHydroBody = Simulink.Variant(''nhbody_' num2str(ii) '==1'');'])
-    eval(['sv_b' num2str(ii) '_dragBody = Simulink.Variant(''nhbody_' num2str(ii) '==2'');'])
+    eval(['nhbody_' num2str(ii) ' = body(ii).nonHydro;']);
+    eval(['sv_b' num2str(ii) '_hydroBody = Simulink.Variant(''nhbody_' num2str(ii) '==0'');']);
+    eval(['sv_b' num2str(ii) '_nonHydroBody = Simulink.Variant(''nhbody_' num2str(ii) '==1'');']);
+    eval(['sv_b' num2str(ii) '_dragBody = Simulink.Variant(''nhbody_' num2str(ii) '==2'');']);
 end; clear ii
 
-%Efficiency model for hydraulic motor PTO-Sim block
+% variable hydrodynamics
+for ii=1:length(body(1,:))
+    eval(['variableHydro' num2str(ii) ' = length(fields(body(ii).hydroForce));']);
+    eval(['sv_b' num2str(ii) '_variableHydro = Simulink.Variant(''nvariableHydro' num2str(ii) '==1'');']);
+end; clear ii
+
+% Efficiency model for hydraulic motor PTO-Sim block
 try
     for ii=1:length(ptoSim(1,:))
         eval(['EffModel_' num2str(ii) ' = ptoSim(ii).hydraulicMotor.effModel;']);
@@ -512,8 +523,10 @@ tic
 fprintf('\nSimulating the WEC device defined in the SimMechanics model %s...   \n',simu.simMechanicsFile)
 % Modify some stuff for simulation
 for iBod = 1:simu.numHydroBodies
-    body(iBod).adjustMassMatrix(simu.b2b);
-end; clear iBod
+    for iH = 1:length(body(iBod).hydroData)
+        body(iBod).adjustMassMatrix(simu.b2b,iH);
+    end
+end; clear iBod iH
 warning('off','Simulink:blocks:TDelayTimeTooSmall');
 warning('off','Simulink:blocks:BusSelDupBusCreatorSigNames');
 warning('off','MATLAB:loadlibrary:FunctionNotFound');
