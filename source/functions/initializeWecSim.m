@@ -450,9 +450,10 @@ for ii=1:length(body(1,:))
 end; clear ii
 
 % variable hydrodynamics
-for ii=1:length(body(1,:))
+for ii = 1:length(body(1,:))
     eval(['variableHydro' num2str(ii) ' = length(fields(body(ii).hydroForce));']);
-    eval(['sv_b' num2str(ii) '_variableHydro = Simulink.Variant(''nvariableHydro' num2str(ii) '==1'');']);
+    eval(['sv_b' num2str(ii) '_noVariableHydro = Simulink.Variant(''variableHydro' num2str(ii) '==1'');']);
+    eval(['sv_b' num2str(ii) '_variableHydro = Simulink.Variant(''variableHydro' num2str(ii) '>1'');']);
 end; clear ii
 
 % Efficiency model for hydraulic motor PTO-Sim block
@@ -523,10 +524,14 @@ tic
 fprintf('\nSimulating the WEC device defined in the SimMechanics model %s...   \n',simu.simMechanicsFile)
 % Modify some stuff for simulation
 for iBod = 1:simu.numHydroBodies
-    for iH = 1:length(body(iBod).hydroData)
-        body(iBod).adjustMassMatrix(simu.b2b,iH);
-    end
-end; clear iBod iH
+    body(iBod).adjustMassMatrix(simu.b2b);
+end; clear iBod
+
+% Create the buses for hydroForce
+for ii = 1:length(body(1,:))
+    struct2bus(body(ii).hydroForce, 'bus_body_hydroForce');
+end; clear ii
+
 warning('off','Simulink:blocks:TDelayTimeTooSmall');
 warning('off','Simulink:blocks:BusSelDupBusCreatorSigNames');
 warning('off','MATLAB:loadlibrary:FunctionNotFound');
