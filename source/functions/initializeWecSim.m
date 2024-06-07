@@ -528,9 +528,9 @@ for iBod = 1:simu.numHydroBodies
 end; clear iBod
 
 % Create the buses for hydroForce
-for ii = 1:length(body(1,:))
-    struct2bus(body(ii).hydroForce, 'bus_body_hydroForce');
-end; clear ii
+for iBod = 1:simu.numHydroBodies
+    struct2bus(body(iBod).hydroForce, ['bus_body' num2str(iBod) '_hydroForce']);
+end; clear iBod
 
 warning('off','Simulink:blocks:TDelayTimeTooSmall');
 warning('off','Simulink:blocks:BusSelDupBusCreatorSigNames');
@@ -540,6 +540,7 @@ warning('off','MATLAB:printf:BadEscapeSequenceInFormat');
 warning('off','Simulink:blocks:DivideByZero');
 warning('off','sm:sli:setup:compile:SteadyStateStartNotSupported')
 set_param(0, 'ErrorIfLoadNewModel', 'off')
+set_param(getActiveConfigSet(gcs),'UnderspecifiedInitializationDetection','Simplified')
 
 % Load parameters to Simulink model
 simu.loadSimMechModel(simu.simMechanicsFile);
