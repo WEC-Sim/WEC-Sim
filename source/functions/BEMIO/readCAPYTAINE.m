@@ -227,6 +227,19 @@ for m = 1:hydro(F).Nb
         hydro(F).Khs = zeros(6,6,hydro(F).Nb);
     end
 end
+
+for m = 1:hydro(F).Nb
+   try
+        Khs_all = ncread(filename,'hydrostatic_stiffness');
+        for i=1:6
+        hydro(F).Khs(i,:,m) = Khs_all((m-1)*6+i,(m-1)*6+1:(m-1)*6+6);
+        
+        end
+   catch
+            warning('Hydrostatics data not found in either .nc nor as a .dat file!')
+   end
+
+end
 waitbar(3/8);
 
 %% Radiation added mass [6*Nb, 6*Nb, Nf]
