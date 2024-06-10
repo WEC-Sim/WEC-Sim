@@ -480,26 +480,31 @@ classdef bodyClass<handle
         
         function restoreMassMatrix(obj)
             % Restore the mass and added-mass matrix back to the original value
-            iH = obj.hydroForceIndexInitial;
-            tmp = struct;
-            tmp.mass = obj.mass;
-            tmp.inertia = obj.inertia;
-            tmp.inertiaProducts = obj.inertiaProducts;
-            tmp.hydroForce_fAddedMass = obj.hydroForce.(hfName).fAddedMass;
-            obj.mass = obj.hydroForce.(hfName).storage.mass;
-            obj.inertia = obj.hydroForce.(hfName).storage.inertia;
-            obj.inertiaProducts = obj.hydroForce.(hfName).storage.inertiaProducts;
-            obj.hydroForce.(hfName).fAddedMass = obj.hydroForce.(hfName).storage.fAddedMass;
-            obj.hydroForce.(hfName).storage = tmp; clear tmp
+            for iH = 1:length(obj.hydroData)
+                hfName = ['hf' num2str(iH)];
+                hfName0 = ['hf' num2str(obj.hydroForceIndexInitial)];
+
+                tmp = struct;
+                tmp.mass = obj.mass;
+                tmp.inertia = obj.inertia;
+                tmp.inertiaProducts = obj.inertiaProducts;
+                tmp.hydroForce_fAddedMass = obj.hydroForce.(hfName).fAddedMass;
+                
+                obj.mass = obj.hydroForce.(hfName0).storage.mass;
+                obj.inertia = obj.hydroForce.(hfName0).storage.inertia;
+                obj.inertiaProducts = obj.hydroForce.(hfName0).storage.inertiaProducts;
+                obj.hydroForce.(hfName).fAddedMass = obj.hydroForce.(hfName).storage.fAddedMass;
+                obj.hydroForce.(hfName).storage = tmp;
+            end
         end
         
         function storeForceAddedMass(obj,am_mod,ft_mod)
             % Store the modified added mass and total forces history (inputs)
             iH = obj.hydroForceIndexInitial;
-            hfName = ['hf' num2str(iH)];
+            hfName0 = ['hf' num2str(iH)];
 
-            obj.hydroForce.(hfName).storage.output_forceAddedMass = am_mod;
-            obj.hydroForce.(hfName).storage.output_forceTotal = ft_mod;
+            obj.hydroForce.(hfName0).storage.output_forceAddedMass = am_mod;
+            obj.hydroForce.(hfName0).storage.output_forceTotal = ft_mod;
         end
         
         function setInitDisp(obj, relCoord, axisAngleList, addLinDisp)
@@ -915,21 +920,27 @@ classdef bodyClass<handle
             %         Time series of the actual added mass force
             %
             iH = obj.hydroForceIndexInitial;
+            hfName0 = ['hf' num2str(iH)];
+
+            if iH ~= 1
+                % TODO
+                warning('Warning: bodyClass.calculateForceAddedMass currently not set-up for multiple h5Files.');
+            end
             dMass = zeros(6,6);
-            dMass(1,1) = obj.hydroForce.(hfName).storage.mass - obj.mass;
-            dMass(2,2) = obj.hydroForce.(hfName).storage.mass - obj.mass;
-            dMass(3,3) = obj.hydroForce.(hfName).storage.mass - obj.mass;
-            dMass(4,4) = obj.hydroForce.(hfName).storage.inertia(1) - obj.inertia(1);
-            dMass(5,5) = obj.hydroForce.(hfName).storage.inertia(2) - obj.inertia(2);
-            dMass(6,6) = obj.hydroForce.(hfName).storage.inertia(3) - obj.inertia(3);
-            dMass(4,5) = obj.hydroForce.(hfName).storage.inertiaProducts(1) - obj.inertiaProducts(1);
-            dMass(4,6) = obj.hydroForce.(hfName).storage.inertiaProducts(2) - obj.inertiaProducts(2);
-            dMass(5,6) = obj.hydroForce.(hfName).storage.inertiaProducts(3) - obj.inertiaProducts(3);
+            dMass(1,1) = obj.hydroForce.(hfName0).storage.mass - obj.mass;
+            dMass(2,2) = obj.hydroForce.(hfName0).storage.mass - obj.mass;
+            dMass(3,3) = obj.hydroForce.(hfName0).storage.mass - obj.mass;
+            dMass(4,4) = obj.hydroForce.(hfName0).storage.inertia(1) - obj.inertia(1);
+            dMass(5,5) = obj.hydroForce.(hfName0).storage.inertia(2) - obj.inertia(2);
+            dMass(6,6) = obj.hydroForce.(hfName0).storage.inertia(3) - obj.inertia(3);
+            dMass(4,5) = obj.hydroForce.(hfName0).storage.inertiaProducts(1) - obj.inertiaProducts(1);
+            dMass(4,6) = obj.hydroForce.(hfName0).storage.inertiaProducts(2) - obj.inertiaProducts(2);
+            dMass(5,6) = obj.hydroForce.(hfName0).storage.inertiaProducts(3) - obj.inertiaProducts(3);
             dMass(5,4) = -dMass(4,5);
             dMass(6,4) = -dMass(4,6);
             dMass(6,5) = -dMass(5,6);
 
-            appliedForceAddedMass = obj.hydroForce.(hfName).storage.output_forceAddedMass;
+            appliedForceAddedMass = obj.hydroForce.(hfName0).storage.output_forceAddedMass;
             bodyForceMassAddedMass = acc*dMass;
             actualForceAddedMass = appliedForceAddedMass + bodyForceMassAddedMass;
         end
