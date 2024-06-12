@@ -7,7 +7,7 @@ function writeBEMIOH5(hydro)
 % ----------
 %     hydro : [1 x 1] struct
 %         Structure of hydro data that is written to ``hydro.file``
-% 
+%
 
 p = waitbar(0,'Writing data in h5 format...');  % Progress bar
 N = 1+(1+1+1)*hydro.Nb;  % Rough division of tasks
@@ -44,7 +44,7 @@ n = 0;
 m_add = 0;
 for i = 1:hydro.Nb
     m = hydro.dof(i);
-    
+
     % Write body properties
     writeH5Parameter(filename,['/body' num2str(i) '/properties/body_number'],i,'Number of rigid body from the BEM simulationCenter of gravity','m');
     writeH5Parameter(filename,['/body' num2str(i) '/properties/cb'],hydro.cb(:,i)','hydro.cg','m')
@@ -67,14 +67,14 @@ for i = 1:hydro.Nb
         writeH5Parameter(filename,['/body' num2str(i) '/hydro_coeffs/linear_restoring_stiffness'],tmp(1,m_add + 1:m_add + m,:),'Hydrostatic stiffness','N/m');
         clear tmp;
     else
-        writeH5Parameter(filename,['/body' num2str(i) '/hydro_coeffs/linear_restoring_stiffness'],hydro.Khs(:,:,i)','Hydrostatic stiffness matrix','');        
+        writeH5Parameter(filename,['/body' num2str(i) '/hydro_coeffs/linear_restoring_stiffness'],hydro.Khs(:,:,i)','Hydrostatic stiffness matrix','');
     end
 
     % Write added mass coefficients
     m_add = m_add + m;
     writeH5Parameter(filename,['/body' num2str(i) '/hydro_coeffs/added_mass/inf_freq'],permute(hydro.Ainf((n+1):(n+m),:),[2 1]),'Infinite frequency added mass','kg');
     writeH5Parameter(filename,['/body' num2str(i) '/hydro_coeffs/added_mass/all'],permute(hydro.A((n+1):(n+m),:,:),[3 2 1]),'Added mass','kg-m^2 (rotation); kg (translation)');
-    
+
     % Write excitation coefficients and IRF
     writeH5Parameter(filename,['/body' num2str(i) '/hydro_coeffs/excitation/im'],permute(hydro.ex_im((n+1):(n+m),:,:),[3 2 1]),'Imaginary component of excitation force','');
     writeH5Parameter(filename,['/body' num2str(i) '/hydro_coeffs/excitation/mag'],permute(hydro.ex_ma((n+1):(n+m),:,:),[3 2 1]),'Magnitude of excitation force','');
@@ -91,7 +91,25 @@ for i = 1:hydro.Nb
     writeH5Parameter(filename,['/body' num2str(i) '/hydro_coeffs/excitation/impulse_response_fun/f'],permute(hydro.ex_K((n+1):(n+m),:,:),[3 2 1]),'Impulse response function','');
     writeH5Parameter(filename,['/body' num2str(i) '/hydro_coeffs/excitation/impulse_response_fun/t'],hydro.ex_t,'Time vector for the impulse resonse function','s');
     writeH5Parameter(filename,['/body' num2str(i) '/hydro_coeffs/excitation/impulse_response_fun/w'],hydro.ex_w,'Interpolated frequencies used to compute the impulse response function','s');
-    
+
+    % Write QTFs data if available
+    if isfield(hydro, 'QTFs') && ~isempty(hydro.QTFs(i).Diff)
+        for dof = 1 : hydro.dof(i)
+            writeH5Parameter(filename,['/body' num2str(i) '/hydro_coeffs/excitation/QTF' num2str(i) '/Sum'  num2str(dof) '/PER_i'],    hydro.QTFs(i).Sum(dof).PER_i,'Periodic Time of QTF','s');
+            writeH5Parameter(filename,['/body' num2str(i) '/hydro_coeffs/excitation/QTF' num2str(i) '/Sum' num2str(dof) '/BETA_i'],    hydro.QTFs(i).Sum(dof).BETA_i,'ith Wave direction','');
+            writeH5Parameter(filename,['/body' num2str(i) '/hydro_coeffs/excitation/QTF' num2str(i) '/Sum' num2str(dof) '/BETA_j'],    hydro.QTFs(i).Sum(dof).BETA_j,'jth Wave direction','');
+            writeH5Parameter(filename,['/body' num2str(i) '/hydro_coeffs/excitation/QTF' num2str(i) '/Sum'  num2str(dof) '/PHS_F_ij'], hydro.QTFs(i).Sum(dof).PHS_F_ij,'Phase of QTF','s');
+            writeH5Parameter(filename,['/body' num2str(i) '/hydro_coeffs/excitation/QTF' num2str(i) '/Sum'  num2str(dof) '/Re_F_ij'],  hydro.QTFs(i).Sum(dof).Re_F_ij,'Real component of QTF Coeffcients','');
+            writeH5Parameter(filename,['/body' num2str(i) '/hydro_coeffs/excitation/QTF' num2str(i) '/Sum'  num2str(dof) '/Im_F_ij'],  hydro.QTFs(i).Sum(dof).Im_F_ij,'Imaginary component of QTF Coeffcients','');
+            writeH5Parameter(filename,['/body' num2str(i) '/hydro_coeffs/excitation/QTF' num2str(i) '/Diff' num2str(dof) '/PER_i'],    hydro.QTFs(i).Diff(dof).PER_i,'Periodic Time of QTF','s');
+            writeH5Parameter(filename,['/body' num2str(i) '/hydro_coeffs/excitation/QTF' num2str(i) '/Diff' num2str(dof) '/BETA_i'],   hydro.QTFs(i).Diff(dof).BETA_i,'ith Wave direction','');
+            writeH5Parameter(filename,['/body' num2str(i) '/hydro_coeffs/excitation/QTF' num2str(i) '/Diff' num2str(dof) '/BETA_j'],   hydro.QTFs(i).Diff(dof).BETA_j,'jth Wave direction','');
+            writeH5Parameter(filename,['/body' num2str(i) '/hydro_coeffs/excitation/QTF' num2str(i) '/Diff' num2str(dof) '/PHS_F_ij'], hydro.QTFs(i).Diff(dof).PHS_F_ij,'Phase of QTF','');
+            writeH5Parameter(filename,['/body' num2str(i) '/hydro_coeffs/excitation/QTF' num2str(i) '/Diff' num2str(dof) '/Re_F_ij'],  hydro.QTFs(i).Diff(dof).Re_F_ij,'Real component of QTF Coeffcients','');
+            writeH5Parameter(filename,['/body' num2str(i) '/hydro_coeffs/excitation/QTF' num2str(i) '/Diff' num2str(dof) '/Im_F_ij'],  hydro.QTFs(i).Diff(dof).Im_F_ij,'Imaginary component of QTF Coeffcients','');
+        end
+    end
+
     % Write mean drift coefficients if available
     if isfield(hydro,'md_mc') % Only if mean drift variables (momentum conservation) have been calculated in BEM
         writeH5Parameter(filename,['/body' num2str(i) '/hydro_coeffs/mean_drift/momentum_conservation/val'],permute(hydro.md_mc((n+1):(n+m),:,:),[3 2 1]),'Value of mean drift force (momentum conservation)','');
@@ -103,13 +121,13 @@ for i = 1:hydro.Nb
         writeH5Parameter(filename,['/body' num2str(i) '/hydro_coeffs/mean_drift/pressure_integration/val'],permute(hydro.md_pi((n+1):(n+m),:,:),[3 2 1]),'Value of mean drift force (pressure integration)','');
     end
 
-     % Write radiation damping coefficients and IRF
+    % Write radiation damping coefficients and IRF
     writeH5Parameter(filename,['/body' num2str(i) '/hydro_coeffs/radiation_damping/all'],permute(hydro.B((n+1):(n+m),:,:),[3 2 1]),'Radiation damping','');
     writeH5Parameter(filename,['/body' num2str(i) '/hydro_coeffs/radiation_damping/impulse_response_fun/K'],permute(hydro.ra_K((n+1):(n+m),:,:),[3 2 1]),'Impulse response function','');
     % H5_Create_Write_Att(filename,['/body' num2str(i) '/hydro_coeffs/radiation_damping/impulse_response_fun/L'],permute(hydro.ra_L((n+1):(n+m),:,:),[3 2 1]),'Time derivative of the impulse resonse function','');  % Not used
     writeH5Parameter(filename,['/body' num2str(i) '/hydro_coeffs/radiation_damping/impulse_response_fun/t'],hydro.ra_t,'Time vector for the impulse resonse function','s');
     writeH5Parameter(filename,['/body' num2str(i) '/hydro_coeffs/radiation_damping/impulse_response_fun/w'],hydro.ra_w,'Interpolated frequencies used to compute the impulse response function','s');
-    
+
     % Write radiation damping state space coefficients (optional)
     if isfield(hydro,'ss_A')
         writeH5Parameter(filename,['/body' num2str(i) '/hydro_coeffs/radiation_damping/state_space/A/all'],permute(hydro.ss_A((n+1):(n+m),:,:,:),[4 3 2 1]),'State Space A Coefficient','');
