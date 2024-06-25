@@ -246,13 +246,13 @@ tmp = ncread(filename,'added_mass');
 
 % permute variable to correct dimensions if incorrect
 if hydro(F).Nb == 1 || i_bod == 0
-    tmp = permute(tmp,[i_infdof, i_raddof, i_w, 4]); %added '4' for placement of wave_direction in matrix
+    tmp = permute(tmp,[i_infdof, i_raddof, i_w, 4]); % '4' for placement of wave_direction in matrix
 else
-    tmp = permute(tmp,[i_infdof, i_raddof, i_w, i_bod, 4]); %added '4' for placement of wave_direction in matrix
+    tmp = permute(tmp,[i_infdof, i_raddof, i_w, i_bod, 4]); % '4' for placement of wave_direction in matrix
     tmp = sum(tmp,4); % combine body dimensions
 end
 
-tmp = tmp(:,:,:,1); %added line to capture 1st wave direction only
+tmp = tmp(:,:,:,1); % capture 1st wave direction only
 
 % permute the influenced/radiating dofs if not output by Capytaine correctly
 % Initialize added mass as 6x6xNf (or larger if gbm) to allow reading 
@@ -288,12 +288,12 @@ tmp = ncread(filename,'radiation_damping');
 
 % permute variable to correct dimensions if incorrect
 if hydro(F).Nb == 1 || i_bod == 0
-    tmp = permute(tmp,[i_infdof, i_raddof, i_w,4]); %added '4' for placement of wave_direction in matrix
+    tmp = permute(tmp,[i_infdof, i_raddof, i_w,4]); % '4' for placement of wave_direction in matrix
 else
-    tmp = permute(tmp,[i_infdof, i_raddof, i_w, i_bod,4]); %added '4' for placement of wave_direction in matrix
+    tmp = permute(tmp,[i_infdof, i_raddof, i_w, i_bod,4]); % '4' for placement of wave_direction in matrix
     tmp = sum(tmp,4); % combine body dimensions
 end
-tmp = tmp(:,:,:,1);  %added line to capture 1st wave direction only
+tmp = tmp(:,:,:,1);  % capture 1st wave direction only
 % permute the influenced/radiating dofs if not output by Capytaine correctly
 % Initialize radiation damping as 6x6xNf (or larger if gbm) to allow reading 
 % Capytaine simulations in <6 DOFs
