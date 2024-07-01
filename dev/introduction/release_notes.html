@@ -1,0 +1,644 @@
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" data-content_root="../">
+<head>
+  <meta charset="utf-8" /><meta name="viewport" content="width=device-width, initial-scale=1" />
+
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Release Notes &mdash; WEC-Sim  documentation</title>
+      <link rel="stylesheet" type="text/css" href="../_static/pygments.css?v=80d5e7a1" />
+      <link rel="stylesheet" type="text/css" href="../_static/css/theme.css?v=19f00094" />
+      <link rel="stylesheet" type="text/css" href="../_static/css/custom.css?v=5ea88473" />
+
+  
+  <!--[if lt IE 9]>
+    <script src="../_static/js/html5shiv.min.js"></script>
+  <![endif]-->
+  
+        <script src="../_static/jquery.js?v=5d32c60e"></script>
+        <script src="../_static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
+        <script src="../_static/documentation_options.js?v=5929fcd5"></script>
+        <script src="../_static/doctools.js?v=9a2dae69"></script>
+        <script src="../_static/sphinx_highlight.js?v=dc90522c"></script>
+    <script src="../_static/js/theme.js"></script>
+    <link rel="index" title="Index" href="../genindex.html" />
+    <link rel="search" title="Search" href="../search.html" />
+    <link rel="next" title="Publications" href="publications.html" />
+    <link rel="prev" title="Acknowledgements" href="acknowledgements.html" />
+    <!-- Global site tag (gtag.js) - Google Analytics -->
+    <script async src="https://www.googletagmanager.com/gtag/js?id=G-BSPTGP3DXP"></script>
+    <script>
+      window.dataLayer = window.dataLayer || [];
+      function gtag(){dataLayer.push(arguments);}
+      gtag('js', new Date());
+
+      gtag('config', 'G-BSPTGP3DXP');
+    </script>
+    <jinja2.runtime.BlockReference object at 0x7f44a6c08160>
+
+</head>
+
+<body class="wy-body-for-nav"> 
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+
+          
+          
+          <a href="../index.html" class="icon icon-home">
+            WEC-Sim
+          </a>
+              <div class="version">
+                v6.0
+              </div>
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" aria-label="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+        </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
+              <ul class="current">
+<li class="toctree-l1"><a class="reference internal" href="../index.html">Home</a></li>
+<li class="toctree-l1 current"><a class="reference internal" href="index.html">Introduction</a><ul class="current">
+<li class="toctree-l2"><a class="reference internal" href="overview.html">Overview</a></li>
+<li class="toctree-l2"><a class="reference internal" href="acknowledgements.html">Acknowledgements</a></li>
+<li class="toctree-l2 current"><a class="current reference internal" href="#">Release Notes</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#citing-wec-sim">Citing WEC-Sim</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="#id1">WEC-Sim v6.0</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#publication">Publication</a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="#id3">WEC-Sim v6.0</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#id68">WEC-Sim v5.0.1</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#id84">WEC-Sim v5.0</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#id121">WEC-Sim v4.4</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#id145">WEC-Sim v4.3</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#id173">WEC-Sim v4.2</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#id186">WEC-Sim v4.1</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#id189">WEC-Sim v4.0</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#id190">WEC-Sim v3.1</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#id191">WEC-Sim v3.0</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#id192">WEC-Sim v2.2</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#id193">WEC-Sim v2.1</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#id194">WEC-Sim v2.0</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#id195">WEC-Sim v1.3</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#id196">WEC-Sim v1.2</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#id197">WEC-Sim v1.1</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#id198">WEC-Sim v1.0</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="publications.html">Publications</a></li>
+<li class="toctree-l2"><a class="reference internal" href="license.html">License</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="../theory/index.html">Theory Manual</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../user/index.html">User Manual</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../most/index.html">MOST Manual</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../developer/index.html">Developer Manual</a></li>
+</ul>
+
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="Mobile navigation menu" >
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../index.html">WEC-Sim</a>
+      </nav>
+
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          <div role="navigation" aria-label="Page navigation">
+  <ul class="wy-breadcrumbs">
+      <li><a href="../index.html" class="icon icon-home" aria-label="Home"></a></li>
+          <li class="breadcrumb-item"><a href="index.html">Introduction</a></li>
+      <li class="breadcrumb-item active">Release Notes</li>
+      <li class="wy-breadcrumbs-aside">
+            <a href="../_sources/introduction/release_notes.rst.txt" rel="nofollow"> View page source</a>
+      </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+             
+
+
+  <section id="release-notes">
+<span id="intro-release-notes"></span><h1>Release Notes<a class="headerlink" href="#release-notes" title="Link to this heading"></a></h1>
+<section id="citing-wec-sim">
+<span id="intro-citation"></span><h2>Citing WEC-Sim<a class="headerlink" href="#citing-wec-sim" title="Link to this heading"></a></h2>
+<p>To cite WEC-Sim, please use the citation for WEC-Sim software release and/or cite the following WEC-Sim publication.</p>
+<section id="id1">
+<h3><a class="reference external" href="https://github.com/WEC-Sim/WEC-Sim/releases/tag/v6.0">WEC-Sim v6.0</a><a class="headerlink" href="#id1" title="Link to this heading"></a></h3>
+<p>[1] Kelley Ruehl, Adam Keester, Nathan Tom, Dominic Forbush, Jeff Grasberger, Salman Husain, David Ogden, and Jorge Leon, “WEC-Sim v6.0”. Zenodo, October 20, 2023. <a class="reference external" href="https://doi.org/10.5281/zenodo.10023797">https://doi.org/10.5281/zenodo.10023797</a>.</p>
+<div class="highlight-none notranslate"><div class="highlight"><pre><span></span>@software{wecsim,
+  author       = {Kelley Ruehl,
+                  Adam Keester,
+                  Nathan Tom,
+                  Dominic Forbush,
+                  Jeff Grasberger,
+                  Salman Husain,
+                  David Ogden,
+                  Jorge Leon},
+  title        = {WEC-Sim v6.0},
+  month        = October,
+  year         = 2023,
+  publisher    = {Zenodo},
+  version      = {v6.0},
+  doi          = {10.5281/zenodo.10023797},
+  url          = {https://doi.org/10.5281/zenodo.10023797}
+}
+</pre></div>
+</div>
+<a class="reference external image-reference" href="https://zenodo.org/badge/latestdoi/20451353"><img alt="https://zenodo.org/badge/20451353.svg" src="https://zenodo.org/badge/20451353.svg" /></a>
+</section>
+<section id="publication">
+<h3>Publication<a class="headerlink" href="#publication" title="Link to this heading"></a></h3>
+<p>[1] D. Ogden, K. Ruehl, Y.H. Yu, A. Keester, D. Forbush, J. Leon, N. Tom, “Review of WEC-Sim Development and Applications” in Proceedings of the 14th European Wave and Tidal Energy Conference, EWTEC 2021, Plymouth, UK, 2021.</p>
+</section>
+</section>
+<section id="id3">
+<h2><a class="reference external" href="https://github.com/WEC-Sim/WEC-Sim/releases/tag/v6.0">WEC-Sim v6.0</a><a class="headerlink" href="#id3" title="Link to this heading"></a></h2>
+<p><strong>New Features</strong></p>
+<ul class="simple">
+<li><p>initial commit largeXYDispOption by &#64;dforbush2 in <a class="reference external" href="https://github.com/WEC-Sim/WEC-Sim/pull/877">#877</a></p></li>
+<li><p>Update coordinate system figure by &#64;JiaMiGit in <a class="reference external" href="https://github.com/WEC-Sim/WEC-Sim/pull/931">#931</a></p></li>
+<li><p>Property validation for WEC-Sim objects by &#64;jtgrasb in <a class="reference external" href="https://github.com/WEC-Sim/WEC-Sim/pull/904">#904</a></p></li>
+<li><p>Dev: adding ampSpectraForWS function by &#64;dforbush2 in <a class="reference external" href="https://github.com/WEC-Sim/WEC-Sim/pull/907">#907</a></p></li>
+<li><p>Customizable DOFs for plotBEMIO by &#64;akeeste in <a class="reference external" href="https://github.com/WEC-Sim/WEC-Sim/pull/944">#944</a></p></li>
+<li><p>Calculation_of_Ainf_using_radiationIRF.m by &#64;salhus in <a class="reference external" href="https://github.com/WEC-Sim/WEC-Sim/pull/946">#946</a></p></li>
+<li><p>Update citation names by &#64;akeeste in <a class="reference external" href="https://github.com/WEC-Sim/WEC-Sim/pull/954">#954</a></p></li>
+<li><p>Update getDofNames() by &#64;akeeste in <a class="reference external" href="https://github.com/WEC-Sim/WEC-Sim/pull/957">#957</a></p></li>
+<li><p>included readCAPYTAINE() argument to explicitly define KH.dat &amp; Hydro by &#64;dav-og in <a class="reference external" href="https://github.com/WEC-Sim/WEC-Sim/pull/962">#962</a></p></li>
+<li><p>Extract mask variable by &#64;salhus in <a class="reference external" href="https://github.com/WEC-Sim/WEC-Sim/pull/958">#958</a></p></li>
+<li><p>Add tests to check that SLX file versions do not exceed R2020b by &#64;H0R5E in <a class="reference external" href="https://github.com/WEC-Sim/WEC-Sim/pull/919">#919</a></p></li>
+<li><p>Products of Inertia in WEC-Sim by &#64;akeeste in <a class="reference external" href="https://github.com/WEC-Sim/WEC-Sim/pull/981">#981</a></p></li>
+<li><p>Pull bug fixes #954, #999, #1002 from master into dev by &#64;akeeste in <a class="reference external" href="https://github.com/WEC-Sim/WEC-Sim/pull/1011">#1011</a></p></li>
+<li><p>updating readNEMOH based on #983 by &#64;kmruehl in <a class="reference external" href="https://github.com/WEC-Sim/WEC-Sim/pull/990">#990</a></p></li>
+<li><p>Remove ‘fixed’ mass option from OSWEC input file by &#64;jtgrasb in <a class="reference external" href="https://github.com/WEC-Sim/WEC-Sim/pull/1022andhttps://github.com/WEC-Sim/WEC-Sim/pull/1024">#1024</a></p></li>
+<li><p>Save the applied added mass time series by &#64;akeeste in <a class="reference external" href="https://github.com/WEC-Sim/WEC-Sim/pull/1023">#1023</a></p></li>
+<li><p>Update tutorials by &#64;kmruehl in <a class="reference external" href="https://github.com/WEC-Sim/WEC-Sim/pull/1030">#1030</a></p></li>
+<li><p>Control applications docs by &#64;jtgrasb in <a class="reference external" href="https://github.com/WEC-Sim/WEC-Sim/pull/1018">#1018</a></p></li>
+<li><p>Update read- and writeBEMIOH5 to allow for pressure integration for mean drift  by &#64;nathanmtom in <a class="reference external" href="https://github.com/WEC-Sim/WEC-Sim/pull/1046">#1046</a></p></li>
+<li><p>Add function to read h5 file to hydro data structure by &#64;jtgrasb in <a class="reference external" href="https://github.com/WEC-Sim/WEC-Sim/pull/1048">#1048</a></p></li>
+<li><p>Update radiationIRF.m by &#64;nathanmtom in <a class="reference external" href="https://github.com/WEC-Sim/WEC-Sim/pull/1045">#1045</a></p></li>
+<li><p>Normalize quaternion to increase simulation robustness by &#64;akeeste in <a class="reference external" href="https://github.com/WEC-Sim/WEC-Sim/pull/1049">#1049</a></p></li>
+<li><p>Plot bemio features by &#64;jtgrasb in <a class="reference external" href="https://github.com/WEC-Sim/WEC-Sim/pull/1034">#1034</a></p></li>
+<li><p>Updates to Morison Element Implementation by &#64;nathanmtom in <a class="reference external" href="https://github.com/WEC-Sim/WEC-Sim/pull/1052">#1052</a></p></li>
+<li><p>Moving PTO-Sim to main WEC-Sim library  by &#64;jleonqu in <a class="reference external" href="https://github.com/WEC-Sim/WEC-Sim/pull/1057">#1057</a></p></li>
+<li><p>Add windows runner to dev branch unit test workflow by &#64;H0R5E in <a class="reference external" href="https://github.com/WEC-Sim/WEC-Sim/pull/1061">#1061</a></p></li>
+<li><p>Update docs dependencies by &#64;H0R5E in <a class="reference external" href="https://github.com/WEC-Sim/WEC-Sim/pull/1080">#1080</a></p></li>
+<li><p>Type property pto sim by &#64;jleonqu in <a class="reference external" href="https://github.com/WEC-Sim/WEC-Sim/pull/1064">#1064</a></p></li>
+<li><p>Added mass updates by &#64;akeeste in <a class="reference external" href="https://github.com/WEC-Sim/WEC-Sim/pull/1058">#1058</a></p></li>
+<li><p>Feature paraview by &#64;agmoore4 in <a class="reference external" href="https://github.com/WEC-Sim/WEC-Sim/pull/1081">#1081</a></p></li>
+<li><p>Paraview documentation hyperlink fix by &#64;agmoore4 in <a class="reference external" href="https://github.com/WEC-Sim/WEC-Sim/pull/1093">#1093</a></p></li>
+<li><p>use capytaine v2 to compute hydrostatics by &#64;dav-og in <a class="reference external" href="https://github.com/WEC-Sim/WEC-Sim/pull/1092">#1092</a></p></li>
+<li><p>Update paraview doc images by &#64;jtgrasb in <a class="reference external" href="https://github.com/WEC-Sim/WEC-Sim/pull/1098">#1098</a></p></li>
+<li><p>readNEMOH update to be compatible with v3.0.0 release (but not QTF) by &#64;nathanmtom in <a class="reference external" href="https://github.com/WEC-Sim/WEC-Sim/pull/1087">#1087</a></p></li>
+<li><p>Add simple direct drive PTO model by &#64;jtgrasb in <a class="reference external" href="https://github.com/WEC-Sim/WEC-Sim/pull/1106">#1106</a></p></li>
+<li><p>Control+pto docs by &#64;jtgrasb in <a class="reference external" href="https://github.com/WEC-Sim/WEC-Sim/pull/1108">#1108</a></p></li>
+<li><p>MOST Capabilities - Continuation by &#64;jtgrasb in <a class="reference external" href="https://github.com/WEC-Sim/WEC-Sim/pull/1127">#1127</a></p></li>
+<li><p>Implement an FIR filter to calculate radiation forces by &#64;salhus in <a class="reference external" href="https://github.com/WEC-Sim/WEC-Sim/pull/1071">#1071</a></p></li>
+<li><p>Updating documentation to include links for the Advanced Features Web by &#64;jleonqu in <a class="reference external" href="https://github.com/WEC-Sim/WEC-Sim/pull/1126">#1126</a></p></li>
+<li><p>Multiple Wave Spectra by &#64;salhus in <a class="reference external" href="https://github.com/WEC-Sim/WEC-Sim/pull/1130">#1130</a></p></li>
+<li><p>Update WECSim_Lib_Body_Elements.slx for N Waves Applications by &#64;salhus in <a class="reference external" href="https://github.com/WEC-Sim/WEC-Sim/pull/1133">#1133</a></p></li>
+<li><p>Update to MoorDyn v2 by &#64;RyanDavies19 in <a class="reference external" href="https://github.com/WEC-Sim/WEC-Sim/pull/1134">#1134</a></p></li>
+<li><p>Updating WEC-Sim tests for dev branch by &#64;kmruehl in <a class="reference external" href="https://github.com/WEC-Sim/WEC-Sim/pull/1142">#1142</a></p></li>
+</ul>
+<p><strong>Bug Fixes</strong></p>
+<ul class="simple">
+<li><p>Remove fixed mass option by &#64;akeeste in <a class="reference external" href="https://github.com/WEC-Sim/WEC-Sim/pull/856">#856</a></p></li>
+<li><p>Move run(‘stopWecSim’) to wecSim.m by &#64;jtgrasb in <a class="reference external" href="https://github.com/WEC-Sim/WEC-Sim/pull/885">#885</a></p></li>
+<li><p>Pull bug fixes into dev by &#64;akeeste in <a class="reference external" href="https://github.com/WEC-Sim/WEC-Sim/pull/900">#900</a></p></li>
+<li><p>Save slx files in 2020b fixes #920 by &#64;jtgrasb in <a class="reference external" href="https://github.com/WEC-Sim/WEC-Sim/pull/923">#923</a></p></li>
+<li><p>Fix readCAPYTAINE by &#64;jtgrasb in <a class="reference external" href="https://github.com/WEC-Sim/WEC-Sim/pull/884">#884</a></p></li>
+<li><p>Fixes saveViz feature for elevation import by &#64;jtgrasb in <a class="reference external" href="https://github.com/WEC-Sim/WEC-Sim/pull/929">#929</a></p></li>
+<li><p>Fix wave elevation import with rampTime = 0 by &#64;jtgrasb in <a class="reference external" href="https://github.com/WEC-Sim/WEC-Sim/pull/917">#917</a></p></li>
+<li><p>readCapytaine_fixes_for_reading_dataformats_correctly by &#64;salhus in <a class="reference external" href="https://github.com/WEC-Sim/WEC-Sim/pull/947">#947</a></p></li>
+<li><p>Pull #954 into dev by &#64;akeeste in <a class="reference external" href="https://github.com/WEC-Sim/WEC-Sim/pull/955">#955</a></p></li>
+<li><p>Bug fix for direction in readCapytaine by &#64;akeeste in <a class="reference external" href="https://github.com/WEC-Sim/WEC-Sim/pull/999">#999</a></p></li>
+<li><p>Fix sign bug reported on issue #993 by &#64;jleonqu in <a class="reference external" href="https://github.com/WEC-Sim/WEC-Sim/pull/1002">#102</a></p></li>
+<li><p>Dev: reverts PR 910, fixing error in nonLinearBuoyancy by &#64;dforbush2 in <a class="reference external" href="https://github.com/WEC-Sim/WEC-Sim/pull/1017">#1017</a></p></li>
+<li><p>Fix the transpose of linear restoring matrix to make roll mode rows to be 0 by &#64;salhus in <a class="reference external" href="https://github.com/WEC-Sim/WEC-Sim/pull/1032">#1032</a></p></li>
+<li><p>Bugfix resolving documentation build error by &#64;kmruehl in <a class="reference external" href="https://github.com/WEC-Sim/WEC-Sim/pull/1059">#1059</a></p></li>
+<li><p>fix_readWAMIT_and_writeBEMIOh5 by &#64;salhus in <a class="reference external" href="https://github.com/WEC-Sim/WEC-Sim/pull/1065">#1065</a></p></li>
+<li><p>Pulling master bugfixes into dev by &#64;kmruehl in <a class="reference external" href="https://github.com/WEC-Sim/WEC-Sim/pull/1101">#1101</a></p></li>
+<li><p>Bug fixes for v6.0 by &#64;akeeste in <a class="reference external" href="https://github.com/WEC-Sim/WEC-Sim/pull/1136">#1136</a></p></li>
+<li><p>Path fix for BEMIO example by &#64;akeeste in <a class="reference external" href="https://github.com/WEC-Sim/WEC-Sim/pull/1144">#1144</a></p></li>
+</ul>
+<p><strong>New Contributors</strong></p>
+<ul class="simple">
+<li><p>&#64;JiaMiGit made their first contribution in <a class="reference external" href="https://github.com/WEC-Sim/WEC-Sim/pull/931">#931</a></p></li>
+<li><p>&#64;agmoore4 made their first contribution in <a class="reference external" href="https://github.com/WEC-Sim/WEC-Sim/pull/1081">#1081</a></p></li>
+<li><p>&#64;RyanDavies19 made their first contribution in <a class="reference external" href="https://github.com/WEC-Sim/WEC-Sim/pull/1134">#1134</a></p></li>
+</ul>
+<p><strong>Issues and Pull Requests</strong></p>
+<ul class="simple">
+<li><p>&gt;130 issues closed since v5.0.1</p></li>
+<li><p>&gt;74 PRs merged since v5.0.1</p></li>
+<li><p><a class="reference external" href="https://github.com/WEC-Sim/WEC-Sim/compare/v5.0.1...v6.0">v6.0 Changelog</a></p></li>
+</ul>
+<a class="reference external image-reference" href="https://doi.org/10.5281/zenodo.10023797"><img alt="https://zenodo.org/badge/DOI/10.5281/zenodo.10023797.svg" src="https://zenodo.org/badge/DOI/10.5281/zenodo.10023797.svg" /></a>
+</section>
+<section id="id68">
+<h2><a class="reference external" href="https://github.com/WEC-Sim/WEC-Sim/releases/tag/v5.0.1">WEC-Sim v5.0.1</a><a class="headerlink" href="#id68" title="Link to this heading"></a></h2>
+<p><strong>New Features</strong></p>
+<p>This is a bug fix release. New features since the previous release are not included.</p>
+<p><strong>Bug Fixes</strong></p>
+<ul class="simple">
+<li><p>Fix saveViz by &#64;jtgrasb in <a class="reference external" href="https://github.com/WEC-Sim/WEC-Sim/pull/866">#866</a></p></li>
+<li><p>Fix typo in docs. by &#64;mancellin in <a class="reference external" href="https://github.com/WEC-Sim/WEC-Sim/pull/898">#898</a></p></li>
+<li><p>Update documentation tutorials to fix OSWEC inertia by &#64;jtgrasb in <a class="reference external" href="https://github.com/WEC-Sim/WEC-Sim/pull/894">#894</a></p></li>
+<li><p>CI: Split docs jobs | Add color to docs logs | Cancel runs on new push | Add 2021b to MATLAB versions by &#64;H0R5E in <a class="reference external" href="https://github.com/WEC-Sim/WEC-Sim/pull/862">#862</a></p></li>
+<li><p>Mac path fixes and make outputDir public by &#64;ahmedmetin in <a class="reference external" href="https://github.com/WEC-Sim/WEC-Sim/pull/874">#874</a></p></li>
+<li><p>wecSimPCT Fix (Master) by &#64;yuyihsiang in <a class="reference external" href="https://github.com/WEC-Sim/WEC-Sim/pull/870">#870</a></p></li>
+<li><p>Fix image bug in PTO-Sim in Library Browser by &#64;jleonqu in <a class="reference external" href="https://github.com/WEC-Sim/WEC-Sim/pull/896">#896</a></p></li>
+<li><p>update to v5.0 citation by &#64;akeeste in <a class="reference external" href="https://github.com/WEC-Sim/WEC-Sim/pull/911">#911</a></p></li>
+<li><p>fix non-linear hydro by &#64;dforbush2 in <a class="reference external" href="https://github.com/WEC-Sim/WEC-Sim/pull/910">#910</a></p></li>
+<li><p>Pull dev bugfixes into master by &#64;akeeste &#64;jtgrasb in <a class="reference external" href="https://github.com/WEC-Sim/WEC-Sim/pull/950">#950</a> (includes <a class="reference external" href="https://github.com/WEC-Sim/WEC-Sim/pull/929">#929</a> <a class="reference external" href="https://github.com/WEC-Sim/WEC-Sim/pull/917">#917</a> <a class="reference external" href="https://github.com/WEC-Sim/WEC-Sim/pull/884">#884</a> by &#64;jtgrasb)</p></li>
+</ul>
+<p><strong>New Contributors</strong></p>
+<ul class="simple">
+<li><p>&#64;mancellin made their first contribution in <a class="reference external" href="https://github.com/WEC-Sim/WEC-Sim/pull/898">#898</a></p></li>
+<li><p>&#64;ahmedmetin made their first contribution in <a class="reference external" href="https://github.com/WEC-Sim/WEC-Sim/pull/874">#874</a></p></li>
+</ul>
+<p><strong>Issues and Pull Requests</strong></p>
+<ul class="simple">
+<li><p>&gt;52 issues closed since v5.0</p></li>
+<li><p>&gt;23 PRs merged since v5.0</p></li>
+<li><p><a class="reference external" href="https://github.com/WEC-Sim/WEC-Sim/compare/v5.0...v5.0.1">v5.0.1 Changelog</a></p></li>
+</ul>
+<a class="reference external image-reference" href="https://doi.org/10.5281/zenodo.7121186"><img alt="https://zenodo.org/badge/DOI/10.5281/zenodo.7121186.svg" src="https://zenodo.org/badge/DOI/10.5281/zenodo.7121186.svg" /></a>
+</section>
+<section id="id84">
+<h2><a class="reference external" href="https://github.com/WEC-Sim/WEC-Sim/releases/tag/v5.0">WEC-Sim v5.0</a><a class="headerlink" href="#id84" title="Link to this heading"></a></h2>
+<p><strong>New Features</strong></p>
+<ul class="simple">
+<li><p>Refactoring classes and properties &#64;kmruehl in <a class="reference external" href="https://github.com/WEC-Sim/WEC-Sim/pull/803">#803</a>, <a class="reference external" href="https://github.com/WEC-Sim/WEC-Sim/pull/822">#822</a>, <a class="reference external" href="https://github.com/WEC-Sim/WEC-Sim/pull/828">#828</a>, <a class="reference external" href="https://github.com/WEC-Sim/WEC-Sim/pull/832">#832</a>, &#64;akeeste in <a class="reference external" href="https://github.com/WEC-Sim/WEC-Sim/pull/838">#838</a></p></li>
+<li><p>Refactoring docs by &#64;kmruehl in <a class="reference external" href="https://github.com/WEC-Sim/WEC-Sim/pull/840">#840</a></p></li>
+<li><p>Refactor BEMIO functions, tests, and documentation &#64;akeeste in <a class="reference external" href="https://github.com/WEC-Sim/WEC-Sim/pull/790">#790</a>, <a class="reference external" href="https://github.com/WEC-Sim/WEC-Sim/pull/812">#812</a>, &#64;H0R5E in <a class="reference external" href="https://github.com/WEC-Sim/WEC-Sim/pull/839">#839</a>, &#64;dav-og in <a class="reference external" href="https://github.com/WEC-Sim/WEC-Sim/pull/806">#806</a></p></li>
+<li><p>Run from sim updates by &#64;akeeste in <a class="reference external" href="https://github.com/WEC-Sim/WEC-Sim/pull/737">#737</a></p></li>
+<li><p>Allow binary STL files by &#64;akeeste in <a class="reference external" href="https://github.com/WEC-Sim/WEC-Sim/pull/760">#760</a></p></li>
+<li><p>Update Read_AQWA and AQWA examples by &#64;jtgrasb in <a class="reference external" href="https://github.com/WEC-Sim/WEC-Sim/pull/761">#761</a>, <a class="reference external" href="https://github.com/WEC-Sim/WEC-Sim/pull/779">#779</a>, <a class="reference external" href="https://github.com/WEC-Sim/WEC-Sim/pull/797">#797</a>, <a class="reference external" href="https://github.com/WEC-Sim/WEC-Sim/pull/831">#831</a></p></li>
+<li><p>Rename plotWaves by &#64;jtgrasb in <a class="reference external" href="https://github.com/WEC-Sim/WEC-Sim/pull/765">#765</a></p></li>
+<li><p>Update to normalize to handle sorting mean drift forces by &#64;nathanmtom in #808 #809</p></li>
+<li><p>Remove passiveYawTest.m by &#64;jtgrasb in <a class="reference external" href="https://github.com/WEC-Sim/WEC-Sim/pull/807">#807</a></p></li>
+<li><p>Wave class wave gauge update by &#64;nathanmtom in <a class="reference external" href="https://github.com/WEC-Sim/WEC-Sim/pull/801">#801</a></p></li>
+<li><p>New pto sim lib by &#64;jleonqu in <a class="reference external" href="https://github.com/WEC-Sim/WEC-Sim/pull/821">#821</a></p></li>
+<li><p>Warning/Error flags by &#64;jtgrasb in <a class="reference external" href="https://github.com/WEC-Sim/WEC-Sim/pull/826">#826</a></p></li>
+<li><p>Add Google Analytics 4 by &#64;akeeste in <a class="reference external" href="https://github.com/WEC-Sim/WEC-Sim/pull/854">#864</a></p></li>
+</ul>
+<p><strong>Documentation</strong></p>
+<ul class="simple">
+<li><p>Update WEC-Sim’s Developer Documentation for the Morison Element Implementation by &#64;nathanmtom in <a class="reference external" href="https://github.com/WEC-Sim/WEC-Sim/pull/796">#796</a></p></li>
+<li><p>Update response class API by &#64;akeeste in <a class="reference external" href="hhttps://github.com/WEC-Sim/WEC-Sim/pull/802">#802</a></p></li>
+<li><p>Doc_auto_gen_masks by &#64;salhus in <a class="reference external" href="hhttps://github.com/WEC-Sim/WEC-Sim/pull/842">#842</a></p></li>
+<li><p>Move documentation compilation to GitHub Actions by &#64;H0R5E in <a class="reference external" href="hhttps://github.com/WEC-Sim/WEC-Sim/pull/817">#817</a></p></li>
+<li><p>Add branch build in docs workflow for testing PRs by &#64;H0R5E in <a class="reference external" href="hhttps://github.com/WEC-Sim/WEC-Sim/pull/834">#834</a></p></li>
+<li><p>Update the WEC-Sim Theory Documentation to Clarify Wave Power Calculation by &#64;nathanmtom in <a class="reference external" href="hhttps://github.com/WEC-Sim/WEC-Sim/pull/847">#847</a></p></li>
+<li><p>Update documentation on mean drift and current by &#64;akeeste in <a class="reference external" href="hhttps://github.com/WEC-Sim/WEC-Sim/pull/800">#800</a></p></li>
+</ul>
+<p><strong>Bug Fixes</strong></p>
+<ul class="simple">
+<li><p>Fix cable library links. Resolves #770 by &#64;akeeste in #774 #775</p></li>
+<li><p>Fix rate transition error by &#64;akeeste in <a class="reference external" href="https://github.com/WEC-Sim/WEC-Sim/pull/799">#799</a></p></li>
+<li><p>Fix cable implementation by &#64;dforbush2 in <a class="reference external" href="https://github.com/WEC-Sim/WEC-Sim/pull/827">#827</a></p></li>
+<li><p>PTO-Sim bug fix by &#64;jleonqu in <a class="reference external" href="https://github.com/WEC-Sim/WEC-Sim/pull/833">#833</a></p></li>
+<li><p>Bug fix for the regular wave power full expression by &#64;nathanmtom in <a class="reference external" href="https://github.com/WEC-Sim/WEC-Sim/pull/841">#841</a></p></li>
+<li><p>Fix documentation on dev branch by &#64;H0R5E in <a class="reference external" href="https://github.com/WEC-Sim/WEC-Sim/pull/816">#816</a></p></li>
+<li><p>Bug fix: responseClass reading the MoorDyn Lines.out file too early, resolves <a class="reference external" href="https://github.com/WEC-Sim/WEC-Sim/pull/811">#811</a> by &#64;akeeste in <a class="reference external" href="https://github.com/WEC-Sim/WEC-Sim/pull/814">#814</a></p></li>
+</ul>
+<p><strong>Issues and Pull Requests</strong></p>
+<blockquote>
+<div><ul class="simple">
+<li><p>&gt;52 issues closed since v4.4</p></li>
+<li><p>&gt;44 PRs merged since v4.4</p></li>
+</ul>
+</div></blockquote>
+<a class="reference external image-reference" href="https://doi.org/10.5281/zenodo.6555137"><img alt="https://zenodo.org/badge/DOI/10.5281/zenodo.6555137.svg" src="https://zenodo.org/badge/DOI/10.5281/zenodo.6555137.svg" /></a>
+</section>
+<section id="id121">
+<h2><a class="reference external" href="https://github.com/WEC-Sim/WEC-Sim/releases/tag/v4.4">WEC-Sim v4.4</a><a class="headerlink" href="#id121" title="Link to this heading"></a></h2>
+<p><strong>New Features</strong></p>
+<blockquote>
+<div><ul class="simple">
+<li><p>Added WEC-Sim Library blocks for cable, spherical constraint, and spherical pto <a class="reference external" href="https://github.com/WEC-Sim/WEC-Sim/pull/712">#712</a> <a class="reference external" href="https://github.com/WEC-Sim/WEC-Sim/pull/675">#675</a></p></li>
+<li><p>Added feature to add/remove WEC-Sim path and create temp directory for each run <a class="reference external" href="https://github.com/WEC-Sim/WEC-Sim/pull/685">#685</a> <a class="reference external" href="https://github.com/WEC-Sim/WEC-Sim/pull/686">#686</a></p></li>
+<li><p>Updated WEC-Sim Library to 2020b and saved Simulink Library Functions to (<cite>*.m</cite>) files <a class="reference external" href="https://github.com/WEC-Sim/WEC-Sim/pull/686">#686</a>    <a class="reference external" href="https://github.com/WEC-Sim/WEC-Sim/pull/654">#654</a></p></li>
+<li><p>Split WEC-Sim Library into sublibraries for each class <a class="reference external" href="https://github.com/WEC-Sim/WEC-Sim/pull/720">#720</a></p></li>
+<li><p>Restructured WEC-Sim Continuous Integration tests into class-based tests <a class="reference external" href="https://github.com/WEC-Sim/WEC-Sim/pull/620">#620</a></p></li>
+<li><p>Added wave visualization with wave markers and post-processing <a class="reference external" href="https://github.com/WEC-Sim/WEC-Sim/pull/736">#736</a>  <a class="reference external" href="https://github.com/WEC-Sim/WEC-Sim/pull/678">#678</a></p></li>
+<li><p>Moved nonlinear hydrodynamics and morison elements to properties of the Body Class <a class="reference external" href="https://github.com/WEC-Sim/WEC-Sim/pull/692">#692</a></p></li>
+</ul>
+</div></blockquote>
+<p><strong>Documentation</strong></p>
+<blockquote>
+<div><ul class="simple">
+<li><p>Added developer manual content for WEC-Sim Library, Run from Simulink, Simulink Functions, Added Mass, Software Tests <a class="reference external" href="https://github.com/WEC-Sim/WEC-Sim/pull/728">#728</a></p></li>
+<li><p>Added user manual content for troubleshooting WEC-Sim <a class="reference external" href="https://github.com/WEC-Sim/WEC-Sim/pull/641">#641</a></p></li>
+<li><p>Updated content for PTO-Sim, ParaView, WEC-Sim Applications and Tutorials <a class="reference external" href="https://github.com/WEC-Sim/WEC-Sim/pull/668">#668</a> <a class="reference external" href="https://github.com/WEC-Sim/WEC-Sim/pull/642">#642</a> <a class="reference external" href="https://github.com/WEC-Sim/WEC-Sim/pull/649">#649</a> <a class="reference external" href="https://github.com/WEC-Sim/WEC-Sim/pull/643">#643</a></p></li>
+<li><p>Added multi-version documentation for <code class="docutils literal notranslate"><span class="pre">master</span></code> and <code class="docutils literal notranslate"><span class="pre">dev</span></code> branches <a class="reference external" href="https://github.com/WEC-Sim/WEC-Sim/pull/630">#630</a></p></li>
+</ul>
+</div></blockquote>
+<p><strong>Bug Fixes</strong></p>
+<blockquote>
+<div><ul class="simple">
+<li><p>Resolved bug with macro for ParaView 5.9 <a class="reference external" href="https://github.com/WEC-Sim/WEC-Sim/pull/459">#459</a></p></li>
+<li><p>Resolved bugs in BEMIO with Read_Capytaine, READ_AQWA, and Write_H5 functions <a class="reference external" href="https://github.com/WEC-Sim/WEC-Sim/pull/727">#727</a>  <a class="reference external" href="https://github.com/WEC-Sim/WEC-Sim/pull/694">#694</a>  <a class="reference external" href="https://github.com/WEC-Sim/WEC-Sim/pull/636">#636</a></p></li>
+<li><p>Resolved bug with variable time-step solver <a class="reference external" href="https://github.com/WEC-Sim/WEC-Sim/pull/656">#656</a></p></li>
+</ul>
+</div></blockquote>
+<p>Issues and Pull Requests**</p>
+<blockquote>
+<div><ul class="simple">
+<li><p>&gt; 57 issues closed since v4.3</p></li>
+<li><p>&gt; 54 PRs merged since v4.3</p></li>
+</ul>
+</div></blockquote>
+<a class="reference external image-reference" href="https://doi.org/10.5281/zenodo.5608563"><img alt="https://zenodo.org/badge/DOI/10.5281/zenodo.5608563.svg" src="https://zenodo.org/badge/DOI/10.5281/zenodo.5608563.svg" /></a>
+</section>
+<section id="id145">
+<h2><a class="reference external" href="https://github.com/WEC-Sim/WEC-Sim/releases/tag/v4.3">WEC-Sim v4.3</a><a class="headerlink" href="#id145" title="Link to this heading"></a></h2>
+<p><strong>New Features</strong></p>
+<blockquote>
+<div><ul class="simple">
+<li><p>Added the ability for WEC-Sim to be run directly from Simulink <a class="reference external" href="https://github.com/WEC-Sim/WEC-Sim/pull/503">#503</a> <a class="reference external" href="https://github.com/WEC-Sim/WEC-Sim/pull/512">#512</a> <a class="reference external" href="https://github.com/WEC-Sim/WEC-Sim/pull/548">#548</a></p></li>
+<li><p>Added capability to read Capytaine (.nc) output. Includes examples of running Capytaine with hydrostatics <a class="reference external" href="https://github.com/WEC-Sim/WEC-Sim/pull/464">#464</a></p></li>
+<li><p>Created a more accurate infinite frequency added mass calculation <a class="reference external" href="https://github.com/WEC-Sim/WEC-Sim/pull/517">#517</a></p></li>
+<li><p>Added ability for setInitDisp to intake multiple initial rotations <a class="reference external" href="https://github.com/WEC-Sim/WEC-Sim/pull/516">#516</a> <a class="reference external" href="https://github.com/WEC-Sim/WEC-Sim/pull/586">#586</a></p></li>
+</ul>
+</div></blockquote>
+<p><strong>Documentation</strong></p>
+<blockquote>
+<div><ul class="simple">
+<li><p>Restructured into four manuals: introduction, theory, user and development <a class="reference external" href="https://github.com/WEC-Sim/WEC-Sim/pull/455">#455</a> <a class="reference external" href="https://github.com/WEC-Sim/WEC-Sim/pull/557">#557</a></p></li>
+<li><p>Update of code structure section <a class="reference external" href="https://github.com/WEC-Sim/WEC-Sim/pull/455">#455</a>, links <a class="reference external" href="https://github.com/WEC-Sim/WEC-Sim/pull/649">#649</a> , diagrams <a class="reference external" href="https://github.com/WEC-Sim/WEC-Sim/pull/643">#643</a>, paraview <a class="reference external" href="https://github.com/WEC-Sim/WEC-Sim/pull/642">#642</a>,</p></li>
+<li><p>Added section on suggested troubleshooting <a class="reference external" href="https://github.com/WEC-Sim/WEC-Sim/pull/641">#641</a></p></li>
+</ul>
+</div></blockquote>
+<p><strong>Continuous integration tests</strong></p>
+<blockquote>
+<div><ul class="simple">
+<li><p>Overhaul and speed up of tests <a class="reference external" href="https://github.com/WEC-Sim/WEC-Sim/pull/508">#508</a> <a class="reference external" href="https://github.com/WEC-Sim/WEC-Sim/pull/620">#620</a></p></li>
+<li><p>Extension of tests to the applications cases <a class="reference external" href="https://github.com/WEC-Sim/WEC-Sim_Applications/pull/7">#7</a></p></li>
+</ul>
+</div></blockquote>
+<p><strong>Clean up</strong></p>
+<blockquote>
+<div><blockquote>
+<div><ul class="simple">
+<li><p>Created issue templates on GitHub <a class="reference external" href="https://github.com/WEC-Sim/WEC-Sim/pull/575">#575</a> <a class="reference external" href="https://github.com/WEC-Sim/WEC-Sim/pull/634">#634</a></p></li>
+<li><p>Updated Morison Element warning flags <a class="reference external" href="https://github.com/WEC-Sim/WEC-Sim/pull/408">#408</a></p></li>
+<li><p>Clean up response class methods <a class="reference external" href="https://github.com/WEC-Sim/WEC-Sim/pull/491">#491</a> <a class="reference external" href="https://github.com/WEC-Sim/WEC-Sim/pull/514">#514</a></p></li>
+</ul>
+</div></blockquote>
+<ul class="simple">
+<li><p>Clean up paraview output functions <a class="reference external" href="https://github.com/WEC-Sim/WEC-Sim/pull/490">#490</a></p></li>
+</ul>
+</div></blockquote>
+<p><strong>Bug Fixes</strong></p>
+<blockquote>
+<div><ul class="simple">
+<li><p>Paraview macros and .pvsm files <a class="reference external" href="https://github.com/WEC-Sim/WEC-Sim/pull/459">#459</a></p></li>
+<li><p>BEMIO read mean drift force in R2021a <a class="reference external" href="https://github.com/WEC-Sim/WEC-Sim/pull/636">#636</a></p></li>
+<li><p>PTO-Sim calling workspace <a class="reference external" href="https://github.com/WEC-Sim/WEC-Sim/pull/632">#632</a></p></li>
+<li><p>Combine_BEM Ainf initialization <a class="reference external" href="https://github.com/WEC-Sim/WEC-Sim/pull/611">#611</a></p></li>
+</ul>
+</div></blockquote>
+<p><strong>Issues and Pull Requests</strong></p>
+<blockquote>
+<div><ul class="simple">
+<li><p>&gt; 100 issues closed since v4.2</p></li>
+<li><p>&gt; 45 PRs merged since v4.2</p></li>
+</ul>
+</div></blockquote>
+<a class="reference external image-reference" href="https://doi.org/10.5281/zenodo.5122959"><img alt="https://zenodo.org/badge/DOI/10.5281/zenodo.5122959.svg" src="https://zenodo.org/badge/DOI/10.5281/zenodo.5122959.svg" /></a>
+</section>
+<section id="id173">
+<h2><a class="reference external" href="https://github.com/WEC-Sim/WEC-Sim/releases/tag/v4.2">WEC-Sim v4.2</a><a class="headerlink" href="#id173" title="Link to this heading"></a></h2>
+<p><strong>New Features</strong></p>
+<blockquote>
+<div><ul class="simple">
+<li><p>Added normal/tangential option for Morison Force (<code class="docutils literal notranslate"><span class="pre">simu.morisonElement</span> <span class="pre">=</span> <span class="pre">2</span></code>) <a class="reference external" href="https://github.com/WEC-Sim/WEC-Sim/pull/408">#408</a></p></li>
+<li><p>Added Drag Body (<code class="docutils literal notranslate"><span class="pre">body(i).nhBody=2</span></code>) <a class="reference external" href="https://github.com/WEC-Sim/WEC-Sim/pull/423">#423</a> <a class="reference external" href="https://github.com/WEC-Sim/WEC-Sim/issues/384">#384</a></p></li>
+<li><p>WEC-Sim output saved to structure <a class="reference external" href="https://github.com/WEC-Sim/WEC-Sim/pull/426">#426</a></p></li>
+<li><p>Added WEC-Sim parallel execution for batch runs (<code class="docutils literal notranslate"><span class="pre">wecSimPCT</span></code>) using MATLAB parallel computing toolbox <a class="reference external" href="https://github.com/WEC-Sim/WEC-Sim/pull/438">#438</a></p></li>
+<li><p>Added end stops to PTOs <a class="reference external" href="https://github.com/WEC-Sim/WEC-Sim/pull/445">#445</a></p></li>
+</ul>
+</div></blockquote>
+<p><strong>Documentation</strong></p>
+<blockquote>
+<div><ul class="simple">
+<li><p>Automatically compile docs with TravisCI <a class="reference external" href="https://github.com/WEC-Sim/WEC-Sim/pull/439">#439</a></p></li>
+<li><p>Generate docs for master and dev branches of WEC-Sim</p></li>
+</ul>
+</div></blockquote>
+<p><strong>Bug Fixes</strong></p>
+<blockquote>
+<div><ul class="simple">
+<li><p>Resolved convolution integral bug for body-to-body interactions  <a class="reference external" href="https://github.com/WEC-Sim/WEC-Sim/pull/444">#444</a></p></li>
+<li><p>Resolved PTO-Sim bug for linear to rotary conversion blocks  <a class="reference external" href="https://github.com/WEC-Sim/WEC-Sim/issues/247)">#247</a> <a class="reference external" href="https://github.com/WEC-Sim/WEC-Sim/pull/485">#485</a></p></li>
+<li><p>Resolved variant subsystem labeling bug  <a class="reference external" href="https://github.com/WEC-Sim/WEC-Sim/pull/486)">#486</a> <a class="reference external" href="https://github.com/WEC-Sim/WEC-Sim/issues/479">#479</a></p></li>
+</ul>
+</div></blockquote>
+<a class="reference external image-reference" href="https://doi.org/10.5281/zenodo.4391330"><img alt="https://zenodo.org/badge/DOI/10.5281/zenodo.4391330.svg" src="https://zenodo.org/badge/DOI/10.5281/zenodo.4391330.svg" /></a>
+</section>
+<section id="id186">
+<h2><a class="reference external" href="https://github.com/WEC-Sim/WEC-Sim/releases/tag/v4.1">WEC-Sim v4.1</a><a class="headerlink" href="#id186" title="Link to this heading"></a></h2>
+<ul class="simple">
+<li><p>Added passive yaw</p></li>
+<li><p>Revised spectral formulations per IEC TC114 TS 62600-2 Annex C</p></li>
+<li><p>Updated examples on the <a class="reference external" href="https://github.com/WEC-Sim/WEC-Sim_Applications">WEC-Sim_Applications</a> repository</p></li>
+<li><p>Added unit tests with Jenkins</p></li>
+<li><p>Added API documentation for WEC-Sim classes</p></li>
+<li><p>Merged Pull Requests</p>
+<ul>
+<li><p>Updated BEMIO for AQWA version comparability <a class="reference external" href="https://github.com/WEC-Sim/WEC-Sim/pull/373)">#373</a></p></li>
+<li><p>Extended capabilities for ParaView visualization <a class="reference external" href="https://github.com/WEC-Sim/WEC-Sim/pull/355">#355</a></p></li>
+</ul>
+</li>
+</ul>
+<a class="reference external image-reference" href="https://doi.org/10.5281/zenodo.3924765"><img alt="https://zenodo.org/badge/DOI/10.5281/zenodo.3924765.svg" src="https://zenodo.org/badge/DOI/10.5281/zenodo.3924765.svg" /></a>
+</section>
+<section id="id189">
+<h2><a class="reference external" href="https://github.com/WEC-Sim/WEC-Sim/releases/tag/v4.0">WEC-Sim v4.0</a><a class="headerlink" href="#id189" title="Link to this heading"></a></h2>
+<ul class="simple">
+<li><p>Added mean drift force calculation</p></li>
+<li><p>Added generalized body modes for simulating flexible WEC devices and for structure loading analysis</p></li>
+<li><p>Updated BEMIO for mean drift force and generalized body modes</p></li>
+</ul>
+<a class="reference external image-reference" href="https://doi.org/10.5281/zenodo.3827897"><img alt="https://zenodo.org/badge/DOI/10.5281/zenodo.3827897.svg" src="https://zenodo.org/badge/DOI/10.5281/zenodo.3827897.svg" /></a>
+</section>
+<section id="id190">
+<h2><a class="reference external" href="https://github.com/WEC-Sim/WEC-Sim/releases/tag/v3.1">WEC-Sim v3.1</a><a class="headerlink" href="#id190" title="Link to this heading"></a></h2>
+<ul class="simple">
+<li><p>Added wave gauges for three locations</p></li>
+<li><p>Added command line documentation for objects</p></li>
+<li><p>Added error and warning flags</p></li>
+<li><p>Converted Morison Elements to script instead of block</p></li>
+<li><p>Converted WEC-Sim and PTO-Sim library files back to slx format</p></li>
+<li><p>Fixed plot error in MATLAB 2018b</p></li>
+</ul>
+</section>
+<section id="id191">
+<h2><a class="reference external" href="https://github.com/WEC-Sim/WEC-Sim/releases/tag/v3.0">WEC-Sim v3.0</a><a class="headerlink" href="#id191" title="Link to this heading"></a></h2>
+<ul class="simple">
+<li><p>Added option of <a class="reference internal" href="../user/advanced_features.html#user-advanced-features-irregular-wave-binning"><span class="std std-ref">equal energy spacing</span></a> for irregular waves (default)</p></li>
+<li><p>Added option to calculate the wave elevation at a location different from the origin</p></li>
+<li><p>Added option to define <a class="reference internal" href="../user/code_structure.html#user-code-structure-irregular"><span class="std std-ref">gamma for JONSWAP spectrum</span></a></p></li>
+<li><p>Improved the WEC-Sim simulation speed when using rapid-acceleration mode</p></li>
+<li><p>Fixed path bug in BEMIO for LINUX/OSX users</p></li>
+<li><p>Changed/Added following WEC-Sim parameters</p>
+<ul>
+<li><p>waves.randPreDefined -&gt; <a class="reference internal" href="../user/advanced_features.html#user-advanced-features-seeded-phase"><span class="std std-ref">waves.phaseSeed</span></a></p></li>
+<li><p>waves.phaseRand -&gt; waves.phase</p></li>
+<li><p>simu.dtFeNonlin -&gt; <a class="reference internal" href="../user/advanced_features.html#user-advanced-features-nonlinear"><span class="std std-ref">simu.dtNL</span></a></p></li>
+<li><p>simu.rampT -&gt; <a class="reference internal" href="../user/code_structure.html#user-code-structure-simulation-class"><span class="std std-ref">simu.rampTime</span></a></p></li>
+<li><p>Added simu.dtME  to allow specification of <a class="reference internal" href="../user/advanced_features.html#user-advanced-features-time-step"><span class="std std-ref">Morison force time-step</span></a></p></li>
+</ul>
+</li>
+</ul>
+</section>
+<section id="id192">
+<h2><a class="reference external" href="https://github.com/WEC-Sim/WEC-Sim/releases/tag/v2.2">WEC-Sim v2.2</a><a class="headerlink" href="#id192" title="Link to this heading"></a></h2>
+<ul class="simple">
+<li><p>Added option to save pressure data for nonlinear hydro (<cite>simu.pressureDis</cite>)</p></li>
+<li><p>Update to moorDyn parser (doesn’t require line#.out)</p></li>
+<li><p>Repository cleanup</p>
+<ul>
+<li><p>Implemented <a class="reference external" href="https://git-lfs.github.com/">Git LFS</a> for tracking <code class="docutils literal notranslate"><span class="pre">*.h5</span></code> files</p></li>
+<li><p>Added <a class="reference external" href="https://github.com/WEC-Sim/WEC-Sim_Applications">WEC-Sim Application  repository</a> as a <a class="reference external" href="https://git-scm.com/book/en/v2/Git-Tools-Submodules">submodule</a></p></li>
+<li><p>Moved <a class="reference external" href="https://github.com/WEC-Sim/moorDyn">moorDyn</a> to its own repository</p></li>
+<li><p>Removed publications from repository, <a class="reference internal" href="publications.html#intro-publications"><span class="std std-ref">available on website</span></a></p></li>
+</ul>
+</li>
+</ul>
+</section>
+<section id="id193">
+<h2><a class="reference external" href="https://github.com/WEC-Sim/WEC-Sim/releases/tag/v2.1">WEC-Sim v2.1</a><a class="headerlink" href="#id193" title="Link to this heading"></a></h2>
+<ul class="simple">
+<li><p>Added MATLAB version of BEMIO (to replace python version)</p></li>
+<li><p>Added variable time-step option with ‘ode45’ by &#64;ratanakso</p></li>
+<li><p>Update to MCR, option to not re-load <code class="docutils literal notranslate"><span class="pre">*.h5</span></code> file by &#64;bradling</p></li>
+<li><p>Update to waveClass to allow for definition of min/max wave frequency by &#64;bradling</p></li>
+</ul>
+</section>
+<section id="id194">
+<h2><a class="reference external" href="https://github.com/WEC-Sim/WEC-Sim/releases/tag/v2.0">WEC-Sim v2.0</a><a class="headerlink" href="#id194" title="Link to this heading"></a></h2>
+<ul class="simple">
+<li><p>Updated WEC-Sim Library (generalized joints/constraints/PTOs)</p></li>
+<li><p>Body-to-body interactions for radiation forces</p></li>
+<li><p>Morison forces</p></li>
+<li><p>Batch run mode (MCR)</p></li>
+<li><p>Mooring sub-library implemented in mooringClass (no longer in body or joint)</p></li>
+<li><p>More realistic PTO and mooring modeling through PTO-Sim and integration with MoorDyn</p></li>
+<li><p>Non-hydrodynamic body option</p></li>
+<li><p>Visualization using ParaView</p></li>
+</ul>
+</section>
+<section id="id195">
+<h2><a class="reference external" href="https://github.com/WEC-Sim/WEC-Sim/releases/tag/v1.3">WEC-Sim v1.3</a><a class="headerlink" href="#id195" title="Link to this heading"></a></h2>
+<ul class="simple">
+<li><p>Added Morison Elements</p></li>
+<li><p>Body2Body Interactions</p></li>
+<li><p>Multiple Case Runs (wecSimMCR)</p></li>
+<li><p>Moordyn</p></li>
+<li><p>Added Non-hydro Bodies</p></li>
+<li><p>Morison Forces</p></li>
+<li><p>Joint Updates</p></li>
+<li><p>Visualization with Paraview</p></li>
+</ul>
+</section>
+<section id="id196">
+<h2><a class="reference external" href="https://github.com/WEC-Sim/WEC-Sim/releases/tag/v1.2">WEC-Sim v1.2</a><a class="headerlink" href="#id196" title="Link to this heading"></a></h2>
+<ul class="simple">
+<li><p>Nonlinear Froude-Krylov hydrodynamics and hydrostatics</p></li>
+<li><p>State space radiation</p></li>
+<li><p>Wave directionality</p></li>
+<li><p>User-defined wave elevation time-series</p></li>
+<li><p>Imports nondimensionalized BEMIO hydrodynamic data (instead of fully dimensional coefficients)</p></li>
+<li><p>Variant Subsystems implemented to improve code stability (instead of if statements)</p></li>
+<li><p>Bug fixes</p></li>
+</ul>
+</section>
+<section id="id197">
+<h2><a class="reference external" href="https://github.com/WEC-Sim/WEC-Sim/releases/tag/v1.1">WEC-Sim v1.1</a><a class="headerlink" href="#id197" title="Link to this heading"></a></h2>
+<ul class="simple">
+<li><p>WEC-Sim v1.1, <a class="reference external" href="https://github.com/WEC-Sim/WEC-Sim/releases/tag/v1.1">available on GitHub</a></p></li>
+<li><p>Improvements in code stability through modifications to the added mass, radiation damping calculations, and impulse response function calculations</p></li>
+<li><p>Implementation of state space representation of radiation damping convolution integral calculation</p></li>
+<li><p>New hydrodynamic data format based on <a class="reference internal" href="../user/advanced_features.html#user-advanced-features-bemio"><span class="std std-ref">BEMIO</span></a> output, a python code that reads data from WAMIT, NEMOH, and AQWA and writes to the <a class="reference external" href="http://www.hdfgroup.org/">Hierarchical Data Format 5</a> (HDF5) format used by WEC-Sim.</p></li>
+<li><p>Documentation available on WEC-Sim Website</p></li>
+</ul>
+</section>
+<section id="id198">
+<h2><a class="reference external" href="https://github.com/WEC-Sim/WEC-Sim/releases/tag/v1.0">WEC-Sim v1.0</a><a class="headerlink" href="#id198" title="Link to this heading"></a></h2>
+<ul class="simple">
+<li><p>Initial release of WEC-Sim (originally on OpenEI, now on GitHub)</p></li>
+<li><p>Available as a static download</p></li>
+<li><p>Documentation available in PDF</p></li>
+</ul>
+</section>
+</section>
+
+
+
+           </div>
+          </div>
+          <footer><div class="rst-footer-buttons" role="navigation" aria-label="Footer">
+        <a href="acknowledgements.html" class="btn btn-neutral float-left" title="Acknowledgements" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> Previous</a>
+        <a href="publications.html" class="btn btn-neutral float-right" title="Publications" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
+    </div>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>&#169; Copyright 2022, National Renewable Energy Laboratory and National Technology &amp; Engineering Solutions of Sandia, LLC (NTESS).</p>
+  </div>
+
+  Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
+    provided by <a href="https://readthedocs.org">Read the Docs</a>.
+   
+
+</footer>
+        </div>
+      </div>
+    </section>
+  </div>
+  
+<div class="rst-versions" data-toggle="rst-versions" role="note" aria-label="versions">
+  <span class="rst-current-version" data-toggle="rst-current-version">
+    <span class="fa fa-book"> Other Versions</span>
+    v: dev
+    <span class="fa fa-caret-down"></span>
+  </span>
+  <div class="rst-other-versions">
+    <dl>
+      <dt>Branches</dt>
+      <dd><a href="release_notes.html">dev</a></dd>
+      <dd><a href="../../main/introduction/release_notes.html">main</a></dd>
+    </dl>
+  </div>
+</div><script>
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script>
+    <!-- Theme Analytics -->
+    <script async src="https://www.googletagmanager.com/gtag/js?id=UA-88158104-1"></script>
+    <script>
+      window.dataLayer = window.dataLayer || [];
+      function gtag(){dataLayer.push(arguments);}
+      gtag('js', new Date());
+
+      gtag('config', 'UA-88158104-1', {
+          'anonymize_ip': false,
+      });
+    </script> 
+
+</body>
+</html>
