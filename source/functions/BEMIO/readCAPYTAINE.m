@@ -19,6 +19,7 @@ function hydro = readCAPYTAINE(hydro, filename, hydrostatics_sub_dir)
 %     hydro : struct
 %         Structure of hydro data with Capytaine data appended
 
+
 %% Check file for required variables
 [a,b] = size(hydro);  % Check on what is already there
 if b == 1 && ~isfield(hydro(b),'Nb')
@@ -245,11 +246,13 @@ tmp = ncread(filename,'added_mass');
 
 % permute variable to correct dimensions if incorrect
 if hydro(F).Nb == 1 || i_bod == 0
-    tmp = permute(tmp,[i_infdof, i_raddof, i_w]);
+    tmp = permute(tmp,[i_infdof, i_raddof, i_w, 4]); % '4' for placement of wave_direction in matrix
 else
-    tmp = permute(tmp,[i_infdof, i_raddof, i_w, i_bod]);
+    tmp = permute(tmp,[i_infdof, i_raddof, i_w, i_bod, 4]); % '4' for placement of wave_direction in matrix
     tmp = sum(tmp,4); % combine body dimensions
 end
+
+tmp = tmp(:,:,:,1); % capture 1st wave direction only
 
 % permute the influenced/radiating dofs if not output by Capytaine correctly
 % Initialize added mass as 6x6xNf (or larger if gbm) to allow reading 
@@ -285,12 +288,12 @@ tmp = ncread(filename,'radiation_damping');
 
 % permute variable to correct dimensions if incorrect
 if hydro(F).Nb == 1 || i_bod == 0
-    tmp = permute(tmp,[i_infdof, i_raddof, i_w]);
+    tmp = permute(tmp,[i_infdof, i_raddof, i_w,4]); % '4' for placement of wave_direction in matrix
 else
-    tmp = permute(tmp,[i_infdof, i_raddof, i_w, i_bod]);
+    tmp = permute(tmp,[i_infdof, i_raddof, i_w, i_bod,4]); % '4' for placement of wave_direction in matrix
     tmp = sum(tmp,4); % combine body dimensions
 end
-
+tmp = tmp(:,:,:,1);  % capture 1st wave direction only
 % permute the influenced/radiating dofs if not output by Capytaine correctly
 % Initialize radiation damping as 6x6xNf (or larger if gbm) to allow reading 
 % Capytaine simulations in <6 DOFs
@@ -468,10 +471,10 @@ for k=1:length(split_body_names)
     body_dofs = old_dofs(contains(old_dofs,split_body_names{k})); % all dofs for body k
     std_body_dofs = strcat(split_body_names{k},tmp,std_dofs); % standard 6 dofs for body k
     gbm_dofs = body_dofs(~contains(body_dofs,std_body_dofs))'; % any gbm dofs for body k (i.e. not in std list)
-    
+
     if isempty(gbm_dofs); gbm_dofs=[]; end % prevent formatting error when concatenating on next line
     sorted_dofs = [sorted_dofs std_body_dofs gbm_dofs]; % concatenate [std(k) gbm(k) std(k+1) gbm(k+1)...]
-    
+
     nDofs_per_body(k) = length(body_dofs); % set number of dofs for each body
 end
 
