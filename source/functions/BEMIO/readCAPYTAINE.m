@@ -20,7 +20,7 @@ function hydro = readCAPYTAINE(hydro, filename, hydrostatics_sub_dir)
 %         Structure of hydro data with Capytaine data appended
 
 %% Check file for required variables
-[a,b] = size(hydro);  % Check on what is already there
+[~,b] = size(hydro);  % Check on what is already there
 if b == 1 && ~isfield(hydro(b),'Nb')
     F = 1;
 elseif b >= 1
@@ -95,7 +95,7 @@ error(tmp); % only throws error if required variables are not present (tmp ~= ''
 %% begin parsing netcdf file to hydro struct
 % Read body names
 tmp = ncread(filename,'body_name')';
-[s1,s2] = size(tmp);
+[s1,~] = size(tmp);
 for i=1:s1
     hydro(F).body{i} = erase(tmp(i,:), char(0)); % assign preliminary value to body names
 end
