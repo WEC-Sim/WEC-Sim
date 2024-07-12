@@ -175,7 +175,7 @@ for m = 1:hydro(F).Nb
     if hydro(F).Nb == 1
         fileID = fopen(fullfile(hydrostatics_dir,'Hydrostatics.dat'));
     else
-        fileID = fopen([fullfile(hydrostatics_dir,'Hydrostatics'),num2str(m-1),'.dat']);
+        fileID = fopen([fullfile(hydrostatics_dir,'Hydrostatics_'),num2str(m-1),'.dat']);
     end
     
     if fileID ~= -1
