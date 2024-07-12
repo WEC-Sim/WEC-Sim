@@ -38,6 +38,16 @@ classdef regressionTest < matlab.unittest.TestCase
     
     methods(TestClassSetup)
         
+        function runBEMIO(testCase)
+            cd(fullfile(testCase.testDir,...
+                        '..',...
+                        'examples',...
+                        'RM3',...
+                        'hydroData'));
+            bemio
+            cd(testCase.testDir);
+        end
+
         function runRegTest(testCase)            
             cd(fullfile(testCase.testDir,       ...
                         'RegressionTests',      ...
@@ -45,8 +55,8 @@ classdef regressionTest < matlab.unittest.TestCase
                         'regular'))            
             runLoadRegular;
             testCase.regular = load('regular.mat').("regular");
-            savefig(fullfile('..', 'figReg'));            
-            cd(testCase.testDir);            
+            savefig(fullfile('..', 'figReg'));
+            cd(testCase.testDir);
         end
         
         function runRegCICTest(testCase)            
