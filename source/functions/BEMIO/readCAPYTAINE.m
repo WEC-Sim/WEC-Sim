@@ -153,39 +153,7 @@ end
 
 waitbar(1/8);
 
-%% Read hydrostatics - center of gravity, center of buoyancy, displaced volume
-% Note: Capytaine does not calculate these by default. Must currently
-% include additional function to calculate this before reading Capytaine
-% output.
-%
-% Format is the same Hydrostatics.dat files that Nemoh uses.
-for m = 1:hydro(F).Nb
-    try
-%         hydro(F).dof(m) = 6;  % Default degrees of freedom for each body is 6
-        if hydro(F).Nb == 1
-            fileID = fopen(fullfile(hydrostatics_dir,'Hydrostatics.dat'));
-        else
-            fileID = fopen([fullfile(hydrostatics_dir,'Hydrostatics_'),num2str(m-1),'.dat']);
-        end
-        raw = textscan(fileID,'%[^\n\r]');  % Read Hydrostatics.dat
-        raw = raw{:};
-        fclose(fileID);
-        for i=1:3
-            tmp = textscan(raw{i},'%s %s %f %s %s %s %f');
-            hydro(F).cg(i,m) = tmp{7};  % Center of gravity
-            hydro(F).cb(i,m) = tmp{3};  % Center of buoyancy
-        end
-        tmp = textscan(raw{4},'%s %s %f');
-        hydro(F).Vo(m) = tmp{3};  % Displacement volume
-    catch
-        warning(['Hydrostatics data not included in Capytaine output.' ...
-            ' Value of zero assigned to cg, cb, Vo.']);
-        hydro(F).cg = zeros(3,hydro(F).Nb);
-        hydro(F).cb = zeros(3,hydro(F).Nb);
-        hydro(F).Vo = zeros(1,hydro(F).Nb);
-    end
-end
-
+%% Read simulation parameters
 % Read density, gravity and water depth
 hydro(F).rho = ncread(filename,'rho');
 hydro(F).g = ncread(filename,'g');
@@ -200,21 +168,63 @@ hydro(F).w = ncread(filename,'omega')';
 hydro(F).T = 2*pi./hydro(F).w;
 hydro(F).theta = 180/pi*ncread(filename,'wave_direction')';
 
+%% Read hydrostatics - center of gravity, center of buoyancy, displaced volume
+% Note: Capytaine may not output this by default.
+for m = 1:hydro(F).Nb
+    % Look for Hydrostatics.dat files. Same format as Nemoh.
+    if hydro(F).Nb == 1
+        fileID = fopen(fullfile(hydrostatics_dir,'Hydrostatics.dat'));
+    else
+        fileID = fopen([fullfile(hydrostatics_dir,'Hydrostatics'),num2str(m-1),'.dat']);
+    end
+    
+    if fileID ~= -1
+        % Hydrostatics.dat files present, read them
+        raw = textscan(fileID,'%[^\n\r]');
+        raw = raw{:};
+        fclose(fileID);
+        for i=1:3
+            tmp = textscan(raw{i},'%s %s %f %s %s %s %f');
+            hydro(F).cb(i,m) = tmp{3};  % Center of buoyancy
+            hydro(F).cg(i,m) = tmp{7};  % Center of gravity
+        end
+        tmp = textscan(raw{4},'%s %s %f');
+        hydro(F).Vo(m) = tmp{3};  % Displaced volume
+    else
+        % No Hydrostatics.dat files present. Check the .nc file
+        try
+            hydro(F).cg = ncread(filename,'center_of_mass');
+            hydro(F).cb = ncread(filename,'center_of_buoyancy');
+            hydro(F).Vo = ncread(filename,'volume')';
+        catch ME
+            switch ME.identifier
+                case 'MATLAB:imagesci:netcdf:unknownLocation'
+                    warning(['Hydrostatics data not included in .nc nor .dat files! ',...
+                             'Value of zero assigned to cg, cb, Vo.']);
+                    hydro(F).cg = zeros(3,hydro(F).Nb);
+                    hydro(F).cb = zeros(3,hydro(F).Nb);
+                    hydro(F).Vo = zeros(1,hydro(F).Nb);
+                otherwise
+                    rethrow(ME)
+            end
+        end
+    end
+end
+
 waitbar(2/8);
 
 %% Linear restoring stiffness [6, 6, Nb]
-% Note: Capytaine does not calculate this by default. Must currently
-% include additional function to calculate this before reading Capytaine
-% output.
-%
-% Format is the same KH.dat files that Nemoh uses.
+% Note: Capytaine may not output this by default.
 for m = 1:hydro(F).Nb
-    try
-        if hydro(F).Nb == 1
-            fileID = fopen(fullfile(hydrostatics_dir,'KH.dat'));
-        else
-            fileID = fopen([fullfile(hydrostatics_dir,'KH_'),num2str(m-1),'.dat']);
-        end
+    % Look for KH.dat files. Same format as Nemoh.
+    if hydro(F).Nb == 1
+        fileID = fopen(fullfile(hydrostatics_dir,'KH.dat'));
+    else
+        fileID = fopen([fullfile(hydrostatics_dir,'KH_'),num2str(m-1),'.dat']);
+    end
+    
+    if fileID ~= -1
+        % KH.dat files present, read them
         raw = textscan(fileID,'%[^\n\r]');
         raw = raw{:};
         fclose(fileID);
@@ -222,23 +232,27 @@ for m = 1:hydro(F).Nb
             tmp = textscan(raw{i},'%f');
             hydro(F).Khs(i,:,m) = tmp{1,1}(1:6);  % Linear restoring stiffness
         end
-    catch
-        warning('No KH.dat files found. Hydrostatics can''t be computed.');
-        hydro(F).Khs = zeros(6,6,hydro(F).Nb);
+    else
+        % No KH.dat files present. Check the .nc file
+        try
+            Khs_all = ncread(filename,'hydrostatic_stiffness');
+            for i = 1:6
+                % TODO - this breaks for less than 6 DOFs
+                hydro(F).Khs(i,:,m) = Khs_all((m-1)*6+i,(m-1)*6+1:(m-1)*6+6);
+            end
+        catch ME
+            switch ME.identifier
+                case 'MATLAB:imagesci:netcdf:unknownLocation'
+                    warning(['Hydrostatic stiffness not included in .nc nor .dat files! ',...
+                             'Value of zero assigned to Khs.']);
+                    hydro(F).Khs = zeros(6,6,hydro(F).Nb);
+                otherwise
+                    rethrow(ME)
+            end
+        end
     end
 end
 
-for m = 1:hydro(F).Nb
-   try
-        Khs_all = ncread(filename,'hydrostatic_stiffness');
-        for i = 1:6
-            hydro(F).Khs(i,:,m) = Khs_all((m-1)*6+i,(m-1)*6+1:(m-1)*6+6);
-        end
-   catch
-        warning('Hydrostatics data not found in either .nc nor as a .dat file!');
-   end
-
-end
 waitbar(3/8);
 
 %% Radiation added mass [6*Nb, 6*Nb, Nf]
