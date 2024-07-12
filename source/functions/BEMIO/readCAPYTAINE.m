@@ -219,11 +219,17 @@ waitbar(2/8);
 if hydro(F).Nb == 1
     fileID = fopen(fullfile(hydrostatics_dir,'KH.dat'));
 else
-    fileID = fopen([fullfile(hydrostatics_dir,'KH_'),num2str(m-1),'.dat']);
+    fileID = fopen(fullfile(hydrostatics_dir,'KH_0.dat'));
 end
 
 if fileID ~= -1
     for m = 1:hydro(F).Nb
+        if hydro(F).Nb == 1
+            fileID = fopen(fullfile(hydrostatics_dir,'KH.dat'));
+        else
+            fileID = fopen([fullfile(hydrostatics_dir,'KH_'),num2str(m-1),'.dat']);
+        end
+        
         % KH.dat files present, read them
         raw = textscan(fileID,'%[^\n\r]');
         raw = raw{:};
@@ -269,7 +275,7 @@ else
 
         % Expand the Khs matrix from 6*Nbx6*Nb to the desired 6x6xNb
         for m = 1:hydro(F).Nb
-            hydro(F).Khs(:,:,m) = tmp((m-1)*6+1:(m-1)*6+6,(m-1)*6+1:(m-1)*6+6);
+            hydro(F).Khs(:,:,m) = KHS((m-1)*6+1:(m-1)*6+6,(m-1)*6+1:(m-1)*6+6);
         end
 
     catch ME
