@@ -124,7 +124,7 @@ Command Window::
 
     >> slLibraryBrowser
 
-Once the Simulink Library Browser opens, `refresh the Simulink Library <http://www.mathworks.com/help/simulink/gui/use-the-library-browser.html>`_. 
+Once the Simulink Library Browser opens, `refresh the Simulink Library <https://www.mathworks.com/help/simulink/slref/librarybrowser.librarybrowser2.refresh.html>`_. 
 The WEC-Sim Library should now be visible, as shown in the figure below. 
 The WEC-Sim Library will now be accessible every time Simulink is opened. 
 For more information on using and modifying library blocks refer to the `Simulink Documentation <http://www.mathworks.com/help/simulink/>`_. 
