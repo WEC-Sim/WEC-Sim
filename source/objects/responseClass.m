@@ -203,6 +203,9 @@ classdef responseClass<handle
                     obj.bodies(ii).cellPressures_waveLinear    = [];
                     obj.bodies(ii).cellPressures_waveNonLinear = [];
                 end
+                if bodiesOutput(ii).variableHydroOption == 1
+                    obj.bodies(ii).hydroForceIndex = bodiesOutput(ii).hydroForceIndex;
+                end
             end
             
             % PTOs

@@ -36,7 +36,7 @@ classdef bodyClass<handle
         flex (1,1) {mustBeInteger}                  = 0                     % (`integer`) Flag for flexible body, Options: 0 (off) or 1 (on). Default = ``0``.
         gbmDOF (1,:) {mustBeScalarOrEmpty}          = []                    % (`integer`) Number of degree of freedoms (DOFs) for generalized body mode (GBM). Default = ``[]``.
         geometryFile (1,:) {mustBeText}             = 'NONE'                % (`string`) Path to the body geometry ``.stl`` file.
-        h5File (1,:) {mustBeText}                   = ''                    % (`string`) hdf5 file containing the hydrodynamic data
+        h5File (1,:) {mustBeText}                   = ''                    % (`string or cell array of strings`) hdf5 file containing the hydrodynamic data
         hydroStiffness (6,6) {mustBeNumeric}        = zeros(6)              % (`6x6 float matrix`) Linear hydrostatic stiffness matrix. If the variable is nonzero, the matrix will override the h5 file values. Default = ``zeros(6)``.
         inertia (1,:) {mustBeNumeric}               = []                    % (`1x3 float vector`) Rotational inertia or mass moment of inertia [kg*m^{2}]. Defined by the user in the following format [Ixx Iyy Izz]. Default = ``[]``.
         inertiaProducts (1,:) {mustBeNumeric}       = [0 0 0]               % (`1x3 float vector`) Rotational inertia or mass products of inertia [kg*m^{2}]. Defined by the user in the following format [Ixy Ixz Iyz]. Default = ``[]``.
@@ -72,7 +72,9 @@ classdef bodyClass<handle
         yaw (1,1) struct                            = struct(...            % (`structure`) Defines the passive yaw implementation. 
             'option',                               0,...                   %
             'threshold',                            1)                      % (`structure`) Defines the passive yaw implementation. ``option`` (`integer`) Flag for passive yaw calculation, Options: 0 (off), 1 (on). Default = ``0``. ``threshold`` (`float`) Yaw position threshold (in degrees) above which excitation coefficients will be interpolated in passive yaw. Default = ``1`` [deg].        
-        hydroForceIndexInitial                      = 1                     % (`float`) Defines the initial value of the hydroForceIndex, which should correspond to the hydroForce data (cg, cb, volume, water depth, valid cicEndTime, added mass integrated with the body during runtime) and h5File of the body at equilibrium.
+        variableHydro (1,1) struct                  = struct(...            % (`structure`) Defines the variable hydro implementation.
+            'option',                               0,...                   % 
+            'hydroForceIndexInitial',               1)                      % (`structure`) Defines the variable hydro implementation. ``option`` (`float`) Flag to turn variable hydrodynamics on or off. ``hydroForceIndexInitial`` (`float`) Defines the initial value of the hydroForceIndex, which should correspond to the hydroForce data (cg, cb, volume, water depth, valid cicEndTime, added mass integrated with the body during runtime) and h5File of the body at equilibrium.
     end
     
     properties (SetAccess = 'private', GetAccess = 'public')% h5 file
@@ -172,6 +174,9 @@ classdef bodyClass<handle
             mustBeMember(obj.nonHydro,0:2)
             mustBeMember(obj.nonlinearHydro,0:2)
             mustBeMember(obj.paraview,[0 1])
+            % Variable hydro
+            mustBeMember(obj.variableHydro.option, [0 1])
+            mustBeInteger(obj.variableHydro.hydroForceIndexInitial)
 
             % Check h5 file
             for iH = 1:length(obj.h5File)
@@ -244,6 +249,11 @@ classdef bodyClass<handle
                 if ~isempty(obj.centerGravity) || ~isempty(obj.centerBuoyancy)
                     warning('Center of gravity and center of buoyancy are overwritten by h5 data for hydro bodies.')
                 end
+                % Variable Hydro
+                if obj.variableHydro.option == 0 && length(obj.h5File) > 1
+                    obj.h5File = obj.h5File(1);
+                    warning('Variable hydro flag is off. Extra h5 files ignored.');
+                end
             elseif obj.nonHydro>0
                 % This method checks WEC-Sim user inputs for each drag or non-hydro
                 % body and generates error messages if parameters are not properly defined for the bodyClass.
@@ -268,7 +278,7 @@ classdef bodyClass<handle
         
         function listInfo(obj)
             % This method prints body information to the MATLAB Command Window.
-            iH = obj.hydroForceIndexInitial;
+            iH = obj.variableHydro.hydroForceIndexInitial;
             fprintf('\n\t***** Body Number %G, Name: %s *****\n',obj.hydroData(iH).properties.number,obj.hydroData(iH).properties.name)
             fprintf('\tBody CG                          (m) = [%G,%G,%G]\n',obj.hydroData(iH).properties.centerGravity)
             fprintf('\tBody Mass                       (kg) = %G \n',obj.mass);
@@ -285,7 +295,7 @@ classdef bodyClass<handle
             else
                 obj.hydroData(iH) = hydroData;
             end
-            if iH == obj.hydroForceIndexInitial
+            if iH == obj.variableHydro.hydroForceIndexInitial
                 obj.centerGravity	= hydroData.properties.centerGravity';
                 obj.centerBuoyancy  = hydroData.properties.centerBuoyancy';
                 obj.volume          = hydroData.properties.volume;
@@ -415,7 +425,7 @@ classdef bodyClass<handle
             % 4. Add the maximum diagonal traslational added-mass to body
             % mass - this is not the correct description
             iBod = obj.number;
-            hfName0 = ['hf' num2str(obj.hydroForceIndexInitial)];
+            hfName0 = ['hf' num2str(obj.variableHydro.hydroForceIndexInitial)];
 
             for iH = 1:length(obj.hydroData)
                 hfName = ['hf' num2str(iH)];
@@ -482,7 +492,7 @@ classdef bodyClass<handle
             % Restore the mass and added-mass matrix back to the original value
             for iH = 1:length(obj.hydroData)
                 hfName = ['hf' num2str(iH)];
-                hfName0 = ['hf' num2str(obj.hydroForceIndexInitial)];
+                hfName0 = ['hf' num2str(obj.variableHydro.hydroForceIndexInitial)];
 
                 tmp = struct;
                 tmp.mass = obj.mass;
@@ -500,7 +510,7 @@ classdef bodyClass<handle
         
         function storeForceAddedMass(obj,am_mod,ft_mod)
             % Store the modified added mass and total forces history (inputs)
-            iH = obj.hydroForceIndexInitial;
+            iH = obj.variableHydro.hydroForceIndexInitial;
             hfName0 = ['hf' num2str(iH)];
 
             obj.hydroForce.(hfName0).storage.output_forceAddedMass = am_mod;
@@ -919,7 +929,7 @@ classdef bodyClass<handle
             %     actualAddedMassForce : float array
             %         Time series of the actual added mass force
             %
-            iH = obj.hydroForceIndexInitial;
+            iH = obj.variableHydro.hydroForceIndexInitial;
             hfName0 = ['hf' num2str(iH)];
 
             if iH ~= 1

@@ -247,7 +247,7 @@ if any(hydroBodLogic == 1)
     % When hydro bodies (and an .h5) are present, define the wave using those
     % parameters.
     for iW = 1:length(waves)
-        hdIndex = body(1).hydroForceIndexInitial;
+        hdIndex = body(1).variableHydro.hydroForceIndexInitial;
         waves(iW).setup(body(1).hydroData(hdIndex).simulation_parameters.w, body(1).hydroData(hdIndex).simulation_parameters.waterDepth, simu.rampTime, simu.dt, simu.maxIt, simu.time, simu.gravity, simu.rho);
         % Check that direction and freq are within range of hydro data
         if  min(waves(iW).direction) <  min(body(1).hydroData(hdIndex).simulation_parameters.direction) || max(waves(iW).direction) >  max(body(1).hydroData(hdIndex).simulation_parameters.direction)
@@ -306,7 +306,7 @@ end; clear kk idx
 % Check cicEndTime
 if waves(1).typeNum~=0 && waves(1).typeNum~=10
     for iBod = 1:simu.numHydroBodies
-        hdIndex = body(iBod).hydroForceIndexInitial;
+        hdIndex = body(iBod).variableHydro.hydroForceIndexInitial;
         if simu.cicEndTime > max(body(iBod).hydroData(hdIndex).hydro_coeffs.radiation_damping.impulse_response_fun.t)
             error('simu.cicEndTime is larger than the length of the IRF');
         end
