@@ -417,7 +417,7 @@ classdef bodyClass<handle
             end
         end
         
-        function adjustMassMatrix(obj,B2B,iH)
+        function adjustMassMatrix(obj,B2B)
             % Merge diagonal term of added mass matrix to the mass matrix
             % 1. Store the original mass and added-mass properties
             % 2. Add diagonal added-mass inertia to moment of inertia
@@ -427,6 +427,8 @@ classdef bodyClass<handle
             iBod = obj.number;
             hfName0 = ['hf' num2str(obj.variableHydro.hydroForceIndexInitial)];
 
+            % Store the nominal body mass matrix and added mass force for
+            % every hydroForce structure.
             for iH = 1:length(obj.hydroData)
                 hfName = ['hf' num2str(iH)];
                 obj.hydroForce.(hfName).storage.mass = obj.mass;
@@ -434,7 +436,13 @@ classdef bodyClass<handle
                 obj.hydroForce.(hfName).storage.inertiaProducts = obj.inertiaProducts;
                 obj.hydroForce.(hfName).storage.fAddedMass = obj.hydroForce.(hfName).fAddedMass;
             end
+
             if B2B == 1
+                % The body mass matrix can only be changed once. The
+                % manipulation done here cannot be time dependent on
+                % variable hydro. So, here we use hydroForceIndexInitial to
+                % select which hydroForce dataset is used to adjust the
+                % body mass during the simulation.
                 tmp.fadm = diag(obj.hydroForce.(hfName0).fAddedMass(:,1+(iBod-1)*6:6+(iBod-1)*6));
                 tmp.adjmass = sum(tmp.fadm(1:3))*obj.adjMassFactor;
                 tmp.inertiaProducts = [obj.hydroForce.(hfName0).fAddedMass(4,5+(iBod-1)*6) ...
@@ -443,6 +451,10 @@ classdef bodyClass<handle
                 obj.mass = obj.mass + tmp.adjmass;
                 obj.inertia = obj.inertia+tmp.fadm(4:6)';
                 obj.inertiaProducts = obj.inertiaProducts + tmp.inertiaProducts;
+
+                % Adjust each hydroForce datasets added mass force using
+                % the same data that is used to manipulate the body mass
+                % matrix (based on hydroForceIndexInitial).
                 for iH = 1:length(obj.hydroData)
                     hfName = ['hf' num2str(iH)];
                     obj.hydroForce.(hfName).fAddedMass(1,1+(iBod-1)*6) = obj.hydroForce.(hfName).fAddedMass(1,1+(iBod-1)*6) - tmp.adjmass;
@@ -461,6 +473,8 @@ classdef bodyClass<handle
                     obj.hydroForce.(hfName).fAddedMass(6,5+(iBod-1)*6) = obj.hydroForce.(hfName).fAddedMass(6,5+(iBod-1)*6) - tmp.inertiaProducts(3);
                 end
             else
+                % Same process as for the B2B case, but the indexing is
+                % simplified.
                 tmp.fadm = diag(obj.hydroForce.(hfName0).fAddedMass);
                 tmp.adjmass = sum(tmp.fadm(1:3))*obj.adjMassFactor;
                 tmp.inertiaProducts = [obj.hydroForce.(hfName0).fAddedMass(4,5) ...
@@ -490,9 +504,11 @@ classdef bodyClass<handle
         
         function restoreMassMatrix(obj)
             % Restore the mass and added-mass matrix back to the original value
+            % Every hydroForce dataset is storing the correct body mass
+            % matrix so we don't need to assign based on
+            % hydroForceIndexInitial.
             for iH = 1:length(obj.hydroData)
                 hfName = ['hf' num2str(iH)];
-                hfName0 = ['hf' num2str(obj.variableHydro.hydroForceIndexInitial)];
 
                 tmp = struct;
                 tmp.mass = obj.mass;
@@ -500,16 +516,17 @@ classdef bodyClass<handle
                 tmp.inertiaProducts = obj.inertiaProducts;
                 tmp.hydroForce_fAddedMass = obj.hydroForce.(hfName).fAddedMass;
                 
-                obj.mass = obj.hydroForce.(hfName0).storage.mass;
-                obj.inertia = obj.hydroForce.(hfName0).storage.inertia;
-                obj.inertiaProducts = obj.hydroForce.(hfName0).storage.inertiaProducts;
+                obj.mass = obj.hydroForce.(hfName).storage.mass;
+                obj.inertia = obj.hydroForce.(hfName).storage.inertia;
+                obj.inertiaProducts = obj.hydroForce.(hfName).storage.inertiaProducts;
                 obj.hydroForce.(hfName).fAddedMass = obj.hydroForce.(hfName).storage.fAddedMass;
                 obj.hydroForce.(hfName).storage = tmp;
             end
         end
         
         function storeForceAddedMass(obj,am_mod,ft_mod)
-            % Store the modified added mass and total forces history (inputs)
+            % Store the time history of the modified added mass force and
+            % total force that are applied during the simulation.
             iH = obj.variableHydro.hydroForceIndexInitial;
             hfName0 = ['hf' num2str(iH)];
 
@@ -932,10 +949,8 @@ classdef bodyClass<handle
             iH = obj.variableHydro.hydroForceIndexInitial;
             hfName0 = ['hf' num2str(iH)];
 
-            if iH ~= 1
-                % TODO
-                warning('Warning: bodyClass.calculateForceAddedMass currently not set-up for multiple h5Files.');
-            end
+            % dMass is not dependent on the time varying hydroForceIndex,
+            % only on hydroForceIndexInitial.
             dMass = zeros(6,6);
             dMass(1,1) = obj.hydroForce.(hfName0).storage.mass - obj.mass;
             dMass(2,2) = obj.hydroForce.(hfName0).storage.mass - obj.mass;
