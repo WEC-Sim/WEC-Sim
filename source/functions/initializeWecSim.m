@@ -458,9 +458,9 @@ end; clear ii
 
 % variable hydrodynamics
 for ii = 1:length(body(1,:))
-    eval(['variableHydro' num2str(ii) ' = length(fields(body(ii).hydroForce));']);
-    eval(['sv_b' num2str(ii) '_noVariableHydro = Simulink.Variant(''variableHydro' num2str(ii) '==1'');']);
-    eval(['sv_b' num2str(ii) '_variableHydro = Simulink.Variant(''variableHydro' num2str(ii) '>1'');']);
+    eval(['variableHydro' num2str(ii) ' = body(ii).variableHydro.option;']);
+    eval(['sv_b' num2str(ii) '_noVariableHydro = Simulink.Variant(''variableHydro' num2str(ii) '~=1'');']);
+    eval(['sv_b' num2str(ii) '_variableHydro = Simulink.Variant(''variableHydro' num2str(ii) '==1'');']);
 end; clear ii
 
 % Efficiency model for hydraulic motor PTO-Sim block

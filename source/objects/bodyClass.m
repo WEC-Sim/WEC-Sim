@@ -254,6 +254,10 @@ classdef bodyClass<handle
                     obj.h5File = obj.h5File(1);
                     warning('Variable hydro flag is off. Extra h5 files ignored.');
                 end
+                if obj.variableHydro.option == 1 && length(obj.h5File) == 1
+                    obj.variableHydro.option = 0;
+                    warning('Only one h5File supplied. Turning variable hydro off.');
+                end
             elseif obj.nonHydro>0
                 % This method checks WEC-Sim user inputs for each drag or non-hydro
                 % body and generates error messages if parameters are not properly defined for the bodyClass.
@@ -320,6 +324,7 @@ classdef bodyClass<handle
             % values to calculate linear damping and viscous drag. Note
             % that body DOF is inherited from the length of the drag
             % coefficients.
+            % TODO
             obj.setMassMatrix(rho);
             if  any(any(obj.quadDrag.drag))   %check if obj.quadDrag.drag is defined
                 obj.hydroForce.quadDrag = obj.quadDrag.drag;
