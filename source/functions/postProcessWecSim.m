@@ -50,6 +50,7 @@ for iBod = 1:length(body(1,:))
         eval(['bodiesOutput(' num2str(iBod) ').hydroForceIndex = ones(size(bodiesOutput(iBod).time,1),1);']);
     end
 end
+clear body*_hydroForceIndex
 
 % PTOs
 if exist('pto','var')

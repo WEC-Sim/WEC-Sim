@@ -319,6 +319,7 @@ if waves(1).typeNum~=0 && waves(1).typeNum~=10
         end
     end
 end
+clear hdIndex
 
 % Check that the hydro data for each body is given for the same frequencies
 baseHydroData = body(1).hydroData(1);
