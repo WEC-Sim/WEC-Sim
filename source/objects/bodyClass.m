@@ -382,6 +382,8 @@ classdef bodyClass<handle
                 obj.hydroForce.(hfName).quadDrag = diag(0.5*rho.*obj.quadDrag.cd.*obj.quadDrag.area);
             end
             obj.hydroForce.(hfName).linearDamping = obj.linearDamping;
+            obj.hydroForce.(hfName).volume = obj.hydroData(iH).properties.volume;
+            obj.hydroForce.(hfName).centerBuoyancy = obj.hydroData(iH).properties.centerBuoyancy;
             switch waveType
                 case {'noWave'}
                     obj.noExcitation(iH)
