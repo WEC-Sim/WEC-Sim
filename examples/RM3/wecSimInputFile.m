@@ -2,7 +2,7 @@
 simu = simulationClass();               % Initialize Simulation Class
 simu.simMechanicsFile = 'RM3.slx';      % Specify Simulink Model File
 simu.mode = 'normal';                   % Specify Simulation Mode ('normal','accelerator','rapid-accelerator')
-simu.explorer = 'on';                   % Turn SimMechanics Explorer (on/off)
+simu.explorer = 'off';                   % Turn SimMechanics Explorer (on/off)
 simu.startTime = 0;                     % Simulation Start Time [s]
 simu.rampTime = 100;                    % Wave Ramp Time [s]
 simu.endTime = 400;                     % Simulation End Time [s]
@@ -13,7 +13,7 @@ simu.dt = 0.1; 							% Simulation time-step [s]
 % % noWaveCIC, no waves with radiation CIC  
 % waves = waveClass('noWaveCIC');       % Initialize Wave Class and Specify Type  
 
-% % Regular Waves  
+% Regular Waves  
 waves = waveClass('regular');           % Initialize Wave Class and Specify Type                                 
 waves.height = 2.5;                     % Wave Height [m]
 waves.period = 8;                       % Wave Period [s]
@@ -56,20 +56,24 @@ waves.period = 8;                       % Wave Period [s]
 
 %% Body Data
 % Float
-body(1) = bodyClass('hydroData/rm3.h5');      
+body(1) = bodyClass({'hydroData/rm3.h5','hydroData/rm3.h5','hydroData/rm3.h5'});
     % Create the body(1) Variable, Set Location of Hydrodynamic Data File 
-    % and Body Number Within this File.   
-body(1).geometryFile = 'geometry/float.stl';    % Location of Geomtry File
-body(1).mass = 'equilibrium';                   
+    % and Body Number Within this File.
+body(1).geometryFile = 'geometry/float.stl'; % Location of Geomtry File
+body(1).mass = 'equilibrium';
     % Body Mass. The 'equilibrium' Option Sets it to the Displaced Water 
     % Weight.
-body(1).inertia = [20907301 21306090.66 37085481.11];  % Moment of Inertia [kg*m^2]     
+body(1).inertia = [20907301 21306090.66 37085481.11]; % Moment of Inertia [kg*m^2]
+% body(1).variableHydro.option = 1;
+body(1).variableHydro.hydroForceIndexInitial = 1;
 
 % Spar/Plate
-body(2) = bodyClass('hydroData/rm3.h5'); 
+body(2) = bodyClass({'hydroData/rm3.h5','hydroData/rm3.h5','hydroData/rm3.h5'}); 
 body(2).geometryFile = 'geometry/plate.stl'; 
 body(2).mass = 'equilibrium';                   
 body(2).inertia = [94419614.57 94407091.24 28542224.82];
+% body(2).variableHydro.option = 1;
+body(2).variableHydro.hydroForceIndexInitial = 1;
 
 %% PTO and Constraint Parameters
 % Floating (3DOF) Joint

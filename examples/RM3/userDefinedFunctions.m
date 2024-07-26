@@ -23,3 +23,17 @@ output.plotForces(2,3);
 % output.saveViz(simu,body,waves,...
 %     'timesPerFrame',5,'axisLimits',[-150 150 -150 150 -50 20],...
 %     'startEndTime',[100 125]);
+
+%%
+if body(1).variableHydro.option == 1 || body(2).variableHydro.option == 1
+    figure()
+    hold on
+    for iBod = 1:2
+        plot(output.bodies(iBod).time, output.bodies(iBod).hydroForceIndex);
+    end
+    hold off
+    xlabel('Time (s)');
+    ylabel('HydroForceIndex');
+    legend('Body 1 (float)','Body 2 (spar)');
+    title('Hydro force index changing over time');
+end
