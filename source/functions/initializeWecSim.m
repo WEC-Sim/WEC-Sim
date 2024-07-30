@@ -536,8 +536,10 @@ for iBod = 1:simu.numHydroBodies
 end; clear iBod
 
 % Create the buses for hydroForce
-for iBod = 1:simu.numHydroBodies
-    struct2bus(body(iBod).hydroForce, ['bus_body' num2str(iBod) '_hydroForce']);
+for iBod = 1:length(body)
+    if body(iBod).nonHydro == 0 || body(iBod).nonHydro == 2
+        struct2bus(body(iBod).hydroForce, ['bus_body' num2str(iBod) '_hydroForce']);
+    end
 end; clear iBod
 
 warning('off','Simulink:blocks:TDelayTimeTooSmall');
