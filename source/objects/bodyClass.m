@@ -361,11 +361,11 @@ classdef bodyClass<handle
             % TODO
             obj.setMassMatrix(rho);
             if  any(any(obj.quadDrag.drag))   %check if obj.quadDrag.drag is defined
-                obj.hydroForce.quadDrag = obj.quadDrag.drag;
+                obj.hydroForce.hf1.quadDrag = obj.quadDrag.drag;
             else
-                obj.hydroForce.quadDrag = diag(0.5*rho.*obj.quadDrag.cd.*obj.quadDrag.area);
+                obj.hydroForce.hf1.quadDrag = diag(0.5*rho.*obj.quadDrag.cd.*obj.quadDrag.area);
             end
-            obj.hydroForce.linearDamping = obj.linearDamping;
+            obj.hydroForce.hf1.linearDamping = obj.linearDamping;
             obj.dof = length(obj.quadDrag.drag);
         end
         
