@@ -36,8 +36,8 @@ classdef bodyClass<handle
         flex (1,1) {mustBeInteger}                  = 0                     % (`integer`) Flag for flexible body, Options: 0 (off) or 1 (on). Default = ``0``.
         gbmDOF (1,:) {mustBeScalarOrEmpty}          = []                    % (`integer`) Number of degree of freedoms (DOFs) for generalized body mode (GBM). Default = ``[]``.
         geometryFile (1,:) {mustBeText}             = 'NONE'                % (`string`) Path to the body geometry ``.stl`` file.
-        h5File (1,:) {mustBeText}                   = ''                    % (`string or cell array of strings`) hdf5 file containing the hydrodynamic data
-        hydroStiffness (6,6) {mustBeNumeric}        = zeros(6)              % (`6x6 float matrix`) Linear hydrostatic stiffness matrix. If the variable is nonzero, the matrix will override the h5 file values. Default = ``zeros(6)``.
+        h5File (1,:) {mustBeA(h5File,{'char','string','cell'})} = ''        % (`char array, string, cell array of char arrays, or cell array or strings) hdf5 file containing the hydrodynamic data
+        hydroStiffness (6,6,:) {mustBeNumeric}      = zeros(6)              % (`6x6 float matrix`) Linear hydrostatic stiffness matrix. If the variable is nonzero, the matrix will override the h5 file values. Create a 3D matrix (6x6xn) for variable hydrodynamics. Default = ``zeros(6)``.
         inertia (1,:) {mustBeNumeric}               = []                    % (`1x3 float vector`) Rotational inertia or mass moment of inertia [kg*m^{2}]. Defined by the user in the following format [Ixx Iyy Izz]. Default = ``[]``.
         inertiaProducts (1,:) {mustBeNumeric}       = [0 0 0]               % (`1x3 float vector`) Rotational inertia or mass products of inertia [kg*m^{2}]. Defined by the user in the following format [Ixy Ixz Iyz]. Default = ``[]``.
         initial (1,1) struct                        = struct(...            % (`structure`) Defines the initial displacement of the body.
@@ -46,7 +46,7 @@ classdef bodyClass<handle
             'angle',                                0)                      % (`structure`) Defines the initial displacement of the body. ``displacement`` (`1x3 float vector`) is defined as the initial displacement of the body center of gravity (COG) [m] in the following format [x y z], Default = [``0 0 0``]. ``axis`` (`1x3 float vector`) is defined as the axis of rotation in the following format [x y z], Default = [``0 1 0``]. ``angle`` (`float`) is defined as the initial angular displacement of the body COG [rad], Default = ``0``.
         largeXYDisplacement (1,1) struct            = struct(...            %                        
             'option',                               0)                      %
-        linearDamping {mustBeNumeric}               = zeros(6)              % (`6x6 float matrix`) Defines linear damping coefficient matrix. Default = ``zeros(6)``.
+        linearDamping (6,6,:) {mustBeNumeric}       = zeros(6)              % (`6x6 float matrix`) Defines linear damping coefficient matrix. Create a 3D matrix (6x6xn) for variable hydrodynamics. Default = ``zeros(6)``.
         mass (1,:)                                  = []                    % (`float`) Translational inertia or mass [kg]. Defined by the user or specify 'equilibrium' to set the mass equal to the fluid density times displaced volume. Default = ``[]``.
         meanDrift (1,1) {mustBeInteger}             = 0                     % (`integer`) Flag for mean drift force, Options:  0 (no), 1 (yes, from control surface) or 2 (yes, from momentum conservation). Default = ``0``.
         morisonElement (1,1) struct                 = struct(...            % (`structure`) Defines the Morison Element properties connected to the body.
@@ -60,10 +60,10 @@ classdef bodyClass<handle
         name (1,:) {mustBeText}                     = ''                    % (`string`) Specifies the body name. For hydrodynamic bodies this is defined in h5 file. For nonhydrodynamic bodies this is defined by the user, Default = ``[]``.        
         nonHydro (1,1) {mustBeInteger}              = 0                     % (`integer`) Flag for non-hydro body, Options: 0 (no) or 1 (yes). Default = ``0``.
         nonlinearHydro (1,1) {mustBeInteger}        = 0                     % (`integer`) Flag for nonlinear hydrohanamics calculation, Options: 0 (linear), 1 (nonlinear), 2 (nonlinear). Default = ``0``
-        quadDrag (1,1) struct                       = struct(...            % (`structure`)  Defines the viscous quadratic drag forces.
+        quadDrag (1,:) struct                       = struct(...            % (`structure`)  Defines the viscous quadratic drag forces.
             'drag',                                 zeros(6), ...           %
             'cd',                                   [0 0 0 0 0 0], ...      %
-            'area',                                 [0 0 0 0 0 0])          % (`structure`)  Defines the viscous quadratic drag forces. First option define ``drag``, (`6x6 float matrix`), Default = ``zeros(6)``. Second option define ``cd``, (`1x6 float vector`), Default = ``[0 0 0 0 0 0]``, and ``area``, (`1x6 float vector`), Default = ``[0 0 0 0 0 0]``.        
+            'area',                                 [0 0 0 0 0 0])          % (`structure`)  Defines the viscous quadratic drag forces. Create an array of structures for variable hydrodynamics. First option define ``drag``, (`6x6 float matrix`), Default = ``zeros(6)``. Second option define ``cd``, (`1x6 float vector`), Default = ``[0 0 0 0 0 0]``, and ``area``, (`1x6 float vector`), Default = ``[0 0 0 0 0 0]``.        
         paraview (1,1) {mustBeInteger}              = 1;                    % (`integer`) Flag for visualisation in Paraview either, Options: 0 (no) or 1 (yes). Default = ``1``, only called in paraview.
         viz (1,1) struct                            = struct(...            % (`structure`)  Defines visualization properties in either SimScape or Paraview.
             'color',                                [1 1 0], ...            %
@@ -155,12 +155,14 @@ classdef bodyClass<handle
             assert(isequal(size(obj.morisonElement.z,2)==3,1),'Input body.morisonElement.rgME should be nx3')
             mustBeNumeric(obj.morisonElement.z)
             % Drag
-            assert(isequal(size(obj.quadDrag.drag)==[6,6],[1,1]),'Input body.quadDrag.drag should be 6x6')
-            mustBeNumeric(obj.quadDrag.drag)
-            assert(isequal(size(obj.quadDrag.cd)==[1,6],[1,1]),'Input body.quadDrag.cd should be 1x6')
-            mustBeNumeric(obj.quadDrag.cd)
-            assert(isequal(size(obj.quadDrag.area)==[1,6],[1,1]),'Input body.quadDrag.area should be 1x6')
-            mustBeNumeric(obj.quadDrag.area)
+            for i=1:length(obj.quadDrag)
+                assert(isequal(size(obj.quadDrag(i).drag)==[6,6],[1,1]),'Input body.quadDrag.drag should be 6x6')
+                mustBeNumeric(obj.quadDrag(i).drag)
+                assert(isequal(size(obj.quadDrag(i).cd)==[1,6],[1,1]),'Input body.quadDrag.cd should be 1x6')
+                mustBeNumeric(obj.quadDrag(i).cd)
+                assert(isequal(size(obj.quadDrag(i).area)==[1,6],[1,1]),'Input body.quadDrag.area should be 1x6')
+                mustBeNumeric(obj.quadDrag(i).area)
+            end
             % Viz
             assert(isequal(size(obj.viz.color)==[1,3],[1,1]),'Input body.viz.color should be 1x3')
             mustBeNumeric(obj.viz.color)
@@ -212,10 +214,12 @@ classdef bodyClass<handle
                     '"bodyClass.morisonElement" structure must only include fields: "option", "cd", "ca", "area", "VME", "rgME", "z" . ']);
             end               
             % check 'body.quadDrag' fields
-            if length(fieldnames(obj.quadDrag)) ~=3
-                error(['Unrecognized method, property, or field for class "bodyClass", ' newline
-                    '"bodyClass.quadDrag" structure must only include fields: "drag", "cd", "area"']);
-            end                
+            for i = 1:length(obj.quadDrag)
+                if length(fieldnames(obj.quadDrag(i))) ~=3
+                    error(['Unrecognized method, property, or field for class "bodyClass", ' newline
+                        '"bodyClass.quadDrag(' num2str(i) ')" structure must only include fields: "drag", "cd", "area"']);
+                end
+            end
             % check 'body.viz' fields
             if length(fieldnames(obj.viz)) ~=2
                 error(['Unrecognized method, property, or field for class "bodyClass", ' newline
@@ -250,13 +254,41 @@ classdef bodyClass<handle
                     warning('Center of gravity and center of buoyancy are overwritten by h5 data for hydro bodies.')
                 end
                 % Variable Hydro
-                if obj.variableHydro.option == 0 && length(obj.h5File) > 1
-                    obj.h5File = obj.h5File(1);
-                    warning('Variable hydro flag is off. Extra h5 files ignored.');
-                end
                 if obj.variableHydro.option == 1 && length(obj.h5File) == 1
                     obj.variableHydro.option = 0;
                     warning('Only one h5File supplied. Turning variable hydro off.');
+                end
+                if obj.variableHydro.option == 0
+                    if length(obj.h5File) > 1
+                        obj.h5File = obj.h5File(1);
+                        warning('Variable hydro flag is off. Extra h5 files ignored.');
+                    end
+                    if length(obj.quadDrag) > 1
+                        obj.quadDrag = obj.quadDrag(1);
+                        warning('Variable hydro flag is off. Extra quadDrag structs ignored.');
+                    end
+                    if size(obj.linearDamping,3) > 1
+                        obj.linearDamping = obj.linearDamping(:,:,1);
+                        warning('Variable hydro flag is off. Extra linearDamping dimension ignored.');
+                    end
+                    if size(obj.hydroStiffness,3) > 1
+                        obj.hydroStiffness = obj.hydroStiffness(:,:,1);
+                        warning('Variable hydro flag is off. Extra hydroStiffness dimension ignored.');
+                    end
+                else
+                    % Expand the variable hydro dimension of quadDrag,
+                    % linearDamping, hydroStiffness if not done by the
+                    % user. This makes processing in hydroForcePre easier.
+                    nH5 = length(obj.h5File);
+                    if length(obj.quadDrag) == 1
+                        obj.quadDrag = repmat(obj.quadDrag,1,nH5);
+                    end
+                    if size(obj.linearDamping,3) == 1
+                        obj.linearDamping = repmat(obj.linearDamping,1,1,nH5);
+                    end
+                    if size(obj.hydroStiffness,3) == 1
+                        obj.hydroStiffness = repmat(obj.hydroStiffness,1,1,nH5);
+                    end
                 end
             elseif obj.nonHydro>0
                 % This method checks WEC-Sim user inputs for each drag or non-hydro
@@ -358,30 +390,32 @@ classdef bodyClass<handle
                 % obj.linearDamping = [obj.linearDamping zeros(1,obj.dof-length(obj.linearDamping))];
                 tmp0 = obj.linearDamping;
                 tmp1 = size(obj.linearDamping);
-                obj.linearDamping = zeros (obj.dof);
-                obj.linearDamping(1:tmp1(1),1:tmp1(2)) = tmp0;
+                obj.linearDamping = zeros(obj.dof, obj.dof, tmp1(3));
+                obj.linearDamping(1:tmp1(1),1:tmp1(2),:) = tmp0;
                 
-                tmp0 = obj.quadDrag.drag;
-                tmp1 = size(obj.quadDrag.drag);
-                obj.quadDrag.drag = zeros (obj.dof);
-                obj.quadDrag.drag(1:tmp1(1),1:tmp1(2)) = tmp0;
+                for i = 1:length(obj.quadDrag)
+                    tmp0 = obj.quadDrag(i).drag;
+                    tmp1 = size(obj.quadDrag(i).drag);
+                    obj.quadDrag(i).drag = zeros (obj.dof);
+                    obj.quadDrag(i).drag(1:tmp1(1),1:tmp1(2)) = tmp0;
                 
-                obj.quadDrag.cd   = [obj.quadDrag.cd   zeros(1,obj.dof-length(obj.quadDrag.cd  ))];
-                obj.quadDrag.area = [obj.quadDrag.area zeros(1,obj.dof-length(obj.quadDrag.area))];
+                    obj.quadDrag(i).cd   = [obj.quadDrag(i).cd   zeros(1,obj.dof-length(obj.quadDrag(i).cd))];
+                    obj.quadDrag(i).area = [obj.quadDrag(i).area zeros(1,obj.dof-length(obj.quadDrag(i).area))];
+                end
             end; clear tmp0 tmp1
-            if any(any(obj.hydroStiffness)) % check if obj.hydroStiffness is defined
-                obj.hydroForce.(hfName).linearHydroRestCoef = obj.hydroStiffness;
+            if any(any(obj.hydroStiffness(:,:,iH))) % check if obj.hydroStiffness is defined
+                obj.hydroForce.(hfName).linearHydroRestCoef = obj.hydroStiffness(:,:,iH);
             else
                 k = obj.hydroData(iH).hydro_coeffs.linear_restoring_stiffness; % (:,obj.dofStart:obj.dofEnd);
                 obj.hydroForce.(hfName).linearHydroRestCoef = k .*rho .*g;
                 obj.hydroForce.(hfName).userDefinedFe = 0;
             end
-            if  any(any(obj.quadDrag.drag))   %check if obj.quadDrag.drag is defined
-                obj.hydroForce.(hfName).quadDrag = obj.quadDrag.drag;
+            if  any(any(obj.quadDrag(iH).drag))   %check if obj.quadDrag.drag is defined
+                obj.hydroForce.(hfName).quadDrag = obj.quadDrag(iH).drag;
             else
-                obj.hydroForce.(hfName).quadDrag = diag(0.5*rho.*obj.quadDrag.cd.*obj.quadDrag.area);
+                obj.hydroForce.(hfName).quadDrag = diag(0.5*rho.*obj.quadDrag(iH).cd.*obj.quadDrag(iH).area);
             end
-            obj.hydroForce.(hfName).linearDamping = obj.linearDamping;
+            obj.hydroForce.(hfName).linearDamping = obj.linearDamping(:,:,iH);
             obj.hydroForce.(hfName).volume = obj.hydroData(iH).properties.volume;
             obj.hydroForce.(hfName).centerBuoyancy = obj.hydroData(iH).properties.centerBuoyancy;
             switch waveType
@@ -389,7 +423,7 @@ classdef bodyClass<handle
                     obj.noExcitation(iH)
                     obj.constAddedMassAndDamping(w, rho, B2B, iH);
                 case {'noWaveCIC'}
-                    obj.noExcitation()
+                    obj.noExcitation(iH)
                     obj.irfInfAddedMassAndDamping(cicTime, stateSpace, rho, B2B, iH);
                 case {'regular'}
                     obj.regExcitation(w, direction, rho, g, iH);
