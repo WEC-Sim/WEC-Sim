@@ -58,7 +58,7 @@ classdef bodyClass<handle
             'rgME',                                 [0 0 0], ...            %
             'z',                                    [0 0 1])                % (`structure`) Defines the Morison Element properties connected to the body. ``option`` (`integer`) for Morison Element calculation, Options: 0 (off), 1 (on) or 2 (on), Default = ``0``, Option 1 uses an approach that allows the user to define drag and inertial coefficients along the x-, y-, and z-axes and Option 2 uses an approach that defines the Morison Element with normal and tangential tangential drag and interial coefficients. ``cd`` (`1x3 float vector`) is defined as the viscous normal and tangential drag coefficients in the following format, Option 1 ``[cd_x cd_y cd_z]``, Option 2 ``[cd_N cd_T NaN]``, Default = ``[0 0 0]``. ``ca`` is defined as the added mass coefficent for the Morison Element in the following format, Option 1 ``[ca_x ca_y ca_z]``, Option 2 ``[ca_N ca_T NaN]``, Default = ``[0 0 0]``, ``area`` is defined as the characteristic area for the Morison Element [m^2] in the following format, Option 1 ``[Area_x Area_y Area_z]``, Option 2 ``[Area_N Area_T NaN]``, Default = ``[0 0 0]``. ``VME`` is the characteristic volume of the Morison Element [m^3], Default = ``0``. ``rgME`` is defined as the vector from the body COG to point of application for the Morison Element [m] in the following format ``[x y z]``, Default = ``[0 0 0]``. ``z`` is defined as the unit normal vector center axis of the Morison Element in the following format, Option 1 not used, Option 2 ``[n_{x} n_{y} n_{z}]``, Default = ``[0 0 1]``. 
         name (1,:) {mustBeText}                     = ''                    % (`string`) Specifies the body name. For hydrodynamic bodies this is defined in h5 file. For nonhydrodynamic bodies this is defined by the user, Default = ``[]``.        
-        nonHydro (1,1) {mustBeInteger}              = 0                     % (`integer`) Flag for non-hydro body, Options: 0 (no) or 1 (yes). Default = ``0``.
+        nonHydro (1,1) {mustBeInteger}              = 0                     % (`integer`) Flag for non-hydro body, Options: 0 (hydro body), 1 (non-hydro body), 2 (drag body). Default = ``0``.
         nonlinearHydro (1,1) {mustBeInteger}        = 0                     % (`integer`) Flag for nonlinear hydrohanamics calculation, Options: 0 (linear), 1 (nonlinear), 2 (nonlinear). Default = ``0``
         quadDrag (1,:) struct                       = struct(...            % (`structure`)  Defines the viscous quadratic drag forces.
             'drag',                                 zeros(6), ...           %
@@ -182,13 +182,15 @@ classdef bodyClass<handle
 
             % Check h5 file
             for iH = 1:length(obj.h5File)
-                if exist(obj.h5File{iH},'file')==0 && obj.nonHydro==0
-                    error('The hdf5 file %s does not exist',obj.h5File{iH})
-                end
-                h5Info = dir(obj.h5File{iH});
-                h5Info.bytes;
-                if h5Info.bytes < 1000
-                    error('This is not the correct *.h5 file. Please install git-lfs to access the correct *.h5 file, or run \hydroData\bemio.m to generate a new *.h5 file');
+                if obj.nonHydro == 0
+                    if ~exist(obj.h5File{iH},'file')
+                        error('The hdf5 file %s does not exist',obj.h5File{iH})
+                    end
+                    h5Info = dir(obj.h5File{iH});
+                    h5Info.bytes;
+                    if h5Info.bytes < 1000
+                        error('This is not the correct *.h5 file. Please install git-lfs to access the correct *.h5 file, or run \hydroData\bemio.m to generate a new *.h5 file');
+                    end
                 end
             end
             if ~strcmp(obj.mass,'equilibrium') && ~isscalar(obj.mass)
