@@ -142,6 +142,7 @@ for i=1:length(blocks)
         fprintf(fid,writeLineFromVar(body, 'nonHydro', maskVars, maskViz, num, []));
         fprintf(fid,writeLineFromVar(body, 'nonlinearHydro', maskVars, maskViz, num, []));
         fprintf(fid,writeLineFromVar(body, 'flex', maskVars, maskViz, num, []));
+        fprintf(fid,writeLineFromVar(body, 'QTFs', maskVars, maskViz, num, []));
         fprintf(fid,writeLineFromVar(body, 'centerGravity', maskVars, maskViz, num, []));
         fprintf(fid,writeLineFromVar(body, 'centerBuoyancy', maskVars, maskViz, num, []));
         fprintf(fid,writeLineFromVar(body, 'dof', maskVars, maskViz, num, []));
