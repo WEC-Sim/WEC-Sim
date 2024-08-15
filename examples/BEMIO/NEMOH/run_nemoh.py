@@ -26,8 +26,9 @@ def run_nemoh(project_dir, bin_dir, version):
 
     original_dir = os.getcwd()
     for binary in binaries:
-        binary_path = os.path.join('..', 'bin', binary)
-        if os.path.exists(os.path.join(bin_dir, binary)):
+        binary_path = os.path.join(bin_dir, binary)
+        binary_path = os.path.abspath(binary_path)
+        if os.path.exists(binary_path):
             try:
                 os.chdir(project_dir)
                 result = subprocess.run([binary_path], capture_output=True, text=True, check=True)
@@ -64,4 +65,4 @@ def main(num_freqs='default', version='v3.0.2'):
         run_nemoh(project_dir, bin_dir, version)
 
 if __name__ == "__main__":
-    main(num_freqs=6, version='v2.3')  # Change version and number of frequencies (e.g. from 'default' to 6, to run faster)
+    main(num_freqs=6, version='v3.0.2')  # Choose version ('v2.3' or 'v3.0.2') and number of frequencies (e.g. from 'default' to 6, to run faster)

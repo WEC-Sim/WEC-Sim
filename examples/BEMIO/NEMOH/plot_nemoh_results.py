@@ -3,42 +3,6 @@ import numpy as np
 import matplotlib.pyplot as plt
 from model_configs import MODEL_DIRS
 
-def read_hydro_coeffs(file_path):
-    """
-    Reads radiation damping or added mass data from a specified file.
-
-    Parameters:
-        file_path (str): The path to the file to be read.
-
-    Returns:
-        tuple: A tuple containing:
-            - freqs (np.array): Array of frequency values.
-            - data (np.array): Array of corresponding hydrodynamic coefficients data.
-    """
-    with open(file_path, 'r') as file:
-        lines = file.readlines()
-
-    freqs = []
-    data = []
-    reading_data = False
-
-    for line in lines:
-        parts = line.split()
-        if not parts:
-            continue
-        # Check if the line starts with a number (frequency value)
-        if parts[0].replace('.', '', 1).isdigit():
-            freqs.append(float(parts[0]))
-            reading_data = True
-        elif reading_data:
-            # Convert the remaining parts of the line to floats and append to data
-            data.append([float(value) for value in parts])
-
-    # Convert lists to numpy arrays and reshape data array
-    freqs = np.array(freqs)
-    data = np.array(data).reshape(len(freqs), -1)
-    return freqs, data
-
 def read_ex_force_data(file_path, version=2, num_bodies=1):
     """
     Reads excitation force data from a specified file.
@@ -59,7 +23,7 @@ def read_ex_force_data(file_path, version=2, num_bodies=1):
         lines = file.readlines()
 
     freqs = []
-    fx, fy, fz = [], [], []
+    f_surge, f_heave, m_pitch = [], [], []
     read_data = False
 
     word = "Diffraction" if version == 2 else "Excitation"
@@ -73,38 +37,17 @@ def read_ex_force_data(file_path, version=2, num_bodies=1):
             break
         if read_data:
             parts = line.split()
-            expected_columns = 14 if num_bodies == 2 else 12
-            if len(parts) < expected_columns:
+            if len(parts) < 12 * num_bodies + 1:
                 continue
             try:
                 freqs.append(float(parts[0]))
-                fx.append(float(parts[1]))
-                fy.append(float(parts[7]))
-                fz.append(float(parts[expected_columns - 1]))
+                f_surge.append(float(parts[1]))
+                f_heave.append(float(parts[5]))
+                m_pitch.append(float(parts[9]))
             except ValueError:
                 continue
 
-    return np.array(freqs), np.array(fx), np.array(fy), np.array(fz)
-
-def plot_comparison_data(freqs_v2, data_v2, freqs_v3, data_v3, model_name, data_type):
-    fig, axs = plt.subplots(3, 1, figsize=(8, 8))
-    fig.suptitle(f'{data_type} Comparison for {model_name}', fontsize=16)
-    
-    for ax, col, label in zip(axs, [0, 2, 4], ['Surge (0,0)', 'Heave (2,2)', 'Pitch (4,4)']):
-        ax.plot(freqs_v2, data_v2[:, col], 'o--', color='darkblue', label=f'{label} (v2.3)', markersize=8)
-        ax.plot(freqs_v3, data_v3[:, col], 'x:', color='red', label=f'{label} (v3.0.2)', markersize=8)
-        ax.set_xlabel('Frequency (rad/s)', fontsize=10)
-        ax.set_ylabel(f'{data_type}', fontsize=10)
-        ax.set_title(label, fontsize=12)
-        ax.grid(True)
-        ax.legend(fontsize=10)
-
-    plt.tight_layout(rect=[0, 0, 1, 0.96])
-    
-    img_dir = 'img'
-    os.makedirs(img_dir, exist_ok=True)
-    plt.savefig(os.path.join(img_dir, f'{model_name}_{data_type}_Comparison.png'))
-    plt.show()
+    return np.array(freqs), np.array(f_surge), np.array(f_heave), np.array(m_pitch)
 
 def plot_comparison_ex_force(freqs_v2, fx_v2, fy_v2, fz_v2, freqs_v3, fx_v3, fy_v3, fz_v3, model_name):
     fig, axs = plt.subplots(3, 1, figsize=(8, 8))
@@ -148,14 +91,6 @@ def main():
     for model_dir, (_, _, _, num_bodies) in MODEL_DIRS.items():
         project_dir_v2 = os.path.join(base_path_v2, model_dir, 'Results')
         project_dir_v3 = os.path.join(base_path_v3, model_dir, 'Results')
-
-        for data_file, data_type in [('CA.dat', 'Radiation Damping'), ('CM.dat', 'Added Mass')]:
-            file_path_v2 = os.path.join(project_dir_v2, data_file)
-            file_path_v3 = os.path.join(project_dir_v3, data_file)
-            if os.path.exists(file_path_v2) and os.path.exists(file_path_v3):
-                freqs_v2, data_v2 = read_hydro_coeffs(file_path_v2)
-                freqs_v3, data_v3 = read_hydro_coeffs(file_path_v3)
-                plot_comparison_data(freqs_v2, data_v2, freqs_v3, data_v3, model_dir, data_type)
 
         ex_force_file_path_v2 = os.path.join(project_dir_v2, 'ExcitationForce.tec')
         ex_force_file_path_v3 = os.path.join(project_dir_v3, 'ExcitationForce.tec')
