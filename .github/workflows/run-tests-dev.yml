@@ -19,14 +19,7 @@ jobs:
       fail-fast: false
       matrix:
         os: [ubuntu-latest, windows-latest]
-<<<<<<< HEAD
         release: [R2022a, R2022b, R2023a, R2023b]
-=======
-        release: [R2020b, R2021a, R2021b, R2022a, R2022b, R2023a, R2023b]
-        exclude:
-          - os: windows-latest
-            release: R2020b
->>>>>>> main_to_dev
     name: ${{ matrix.release }} on ${{ matrix.os }}
     steps:
       - name: Check out repository
