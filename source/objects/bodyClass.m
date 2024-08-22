@@ -537,6 +537,7 @@ classdef bodyClass<handle
                     obj.hydroForce.(hfName).fAddedMass(4,5) = obj.hydroForce.(hfName).fAddedMass(4,5) - tmp.inertiaProducts(1);
                     obj.hydroForce.(hfName).fAddedMass(4,6) = obj.hydroForce.(hfName).fAddedMass(4,6) - tmp.inertiaProducts(2);
                     obj.hydroForce.(hfName).fAddedMass(5,6) = obj.hydroForce.(hfName).fAddedMass(5,6) - tmp.inertiaProducts(3);
+                    
                     % the inertia matrix should be symmetric, but we still remove the symmetric components to preserve any numerical differences
                     obj.hydroForce.(hfName).fAddedMass(5,4) = obj.hydroForce.(hfName).fAddedMass(5,4) - tmp.inertiaProducts(1);
                     obj.hydroForce.(hfName).fAddedMass(6,4) = obj.hydroForce.(hfName).fAddedMass(6,4) - tmp.inertiaProducts(2);
@@ -550,18 +551,20 @@ classdef bodyClass<handle
             % Every hydroForce dataset is storing the correct body mass
             % matrix so we don't need to assign based on
             % hydroForceIndexInitial.
+            tmp = struct;
+            tmp.mass = obj.mass;
+            tmp.inertia = obj.inertia;
+            tmp.inertiaProducts = obj.inertiaProducts;
+
+            hfName0 = ['hf' num2str(obj.variableHydro.hydroForceIndexInitial)];
+            obj.mass = obj.hydroForce.(hfName0).storage.mass;
+            obj.inertia = obj.hydroForce.(hfName0).storage.inertia;
+            obj.inertiaProducts = obj.hydroForce.(hfName0).storage.inertiaProducts;
+
             for iH = 1:length(obj.hydroData)
                 hfName = ['hf' num2str(iH)];
 
-                tmp = struct;
-                tmp.mass = obj.mass;
-                tmp.inertia = obj.inertia;
-                tmp.inertiaProducts = obj.inertiaProducts;
                 tmp.hydroForce_fAddedMass = obj.hydroForce.(hfName).fAddedMass;
-                
-                obj.mass = obj.hydroForce.(hfName).storage.mass;
-                obj.inertia = obj.hydroForce.(hfName).storage.inertia;
-                obj.inertiaProducts = obj.hydroForce.(hfName).storage.inertiaProducts;
                 obj.hydroForce.(hfName).fAddedMass = obj.hydroForce.(hfName).storage.fAddedMass;
                 obj.hydroForce.(hfName).storage = tmp;
             end
@@ -728,30 +731,30 @@ classdef bodyClass<handle
                     obj.hydroForce.(hfName).fExt.im(ii) = interp2(X, Y, squeeze(im(ii,:,:)), w, direction);
                     obj.hydroForce.(hfName).fExt.md(ii) = interp2(X, Y, squeeze(md(ii,:,:)), w, direction);
                 elseif obj.hydroData(iH).simulation_parameters.direction == direction
-                    obj.hydroForce.(hfName).fExt.re(ii) = interp1(obj.hydroData(iH).simulation_parameters.w,squeeze(re(ii,1,:)),w,'spline');
-                    obj.hydroForce.(hfName).fExt.im(ii) = interp1(obj.hydroData(iH).simulation_parameters.w,squeeze(im(ii,1,:)),w,'spline');
-                    obj.hydroForce.(hfName).fExt.md(ii) = interp1(obj.hydroData(iH).simulation_parameters.w,squeeze(md(ii,1,:)),w,'spline');
+                    obj.hydroForce.(hfName).fExt.re(ii) = interp1(obj.hydroData(iH).simulation_parameters.w, squeeze(re(ii,1,:)), w, 'spline');
+                    obj.hydroForce.(hfName).fExt.im(ii) = interp1(obj.hydroData(iH).simulation_parameters.w, squeeze(im(ii,1,:)), w, 'spline');
+                    obj.hydroForce.(hfName).fExt.md(ii) = interp1(obj.hydroData(iH).simulation_parameters.w, squeeze(md(ii,1,:)), w, 'spline');
                 end
             end
             if obj.yaw.option==1
                 % show warning for passive yaw run with incomplete BEM data
-                BEMdir=sort(obj.hydroData(iH).simulation_parameters.direction);
-                boundDiff(1)=abs(-180 - BEMdir(1)); boundDiff(2)=abs(180 - BEMdir(end));
+                BEMdir = sort(obj.hydroData(iH).simulation_parameters.direction);
+                boundDiff = abs([-180 180] - BEMdir([1 end]));
                 if length(BEMdir)<3 || std(diff(BEMdir))>5 || max(boundDiff)>15
                     warning(['Passive yaw is not recommended without BEM data spanning a full yaw rotation -180 to 180 dg.' newline ...
                         'Please inspect BEM data for gaps'])
                     clear BEMdir
                 end % wrap BEM directions -180 to 180 dg, if they are not already there
-                [sortedDir,idx]=sort(wrapTo180(obj.hydroData(iH).simulation_parameters.direction));
-                [hdofGRD,hdirGRD,hwGRD]=ndgrid([1:6],sortedDir,obj.hydroData(iH).simulation_parameters.w);
-                [obj.hydroForce.(hfName).fExt.dofGrd,obj.hydroForce.(hfName).fExt.dirGrd,obj.hydroForce.(hfName).fExt.wGrd]=ndgrid([1:6],...
-                    sort(wrapTo180(obj.hydroData(iH).simulation_parameters.direction)),w);
-                obj.hydroForce.(hfName).fExt.fEHRE=interpn(hdofGRD,hdirGRD,hwGRD,obj.hydroData(iH).hydro_coeffs.excitation.re(:,idx,:)...
-                    ,obj.hydroForce.(hfName).fExt.dofGrd,obj.hydroForce.(hfName).fExt.dirGrd,obj.hydroForce.(hfName).fExt.wGrd)*rho*g;
-                obj.hydroForce.(hfName).fExt.fEHIM=interpn(hdofGRD,hdirGRD,hwGRD,obj.hydroData(iH).hydro_coeffs.excitation.im(:,idx,:)...
-                    ,obj.hydroForce.(hfName).fExt.dofGrd,obj.hydroForce.(hfName).fExt.dirGrd,obj.hydroForce.(hfName).fExt.wGrd)*rho*g;
-                obj.hydroForce.(hfName).fExt.fEHMD=interpn(hdofGRD,hdirGRD,hwGRD,obj.hydroData(iH).hydro_coeffs.mean_drift(:,idx,:)...
-                    ,obj.hydroForce.(hfName).fExt.dofGrd,obj.hydroForce.(hfName).fExt.dirGrd,obj.hydroForce.(hfName).fExt.wGrd)*rho*g;
+                [sortedDir, idx] = sort(wrapTo180(obj.hydroData(iH).simulation_parameters.direction));
+                [hdofGRD, hdirGRD, hwGRD] = ndgrid([1:6], sortedDir, obj.hydroData(iH).simulation_parameters.w);
+                [obj.hydroForce.(hfName).fExt.dofGrd, obj.hydroForce.(hfName).fExt.dirGrd, obj.hydroForce.(hfName).fExt.wGrd] = ...
+                    ndgrid([1:6], sortedDir, w);
+                obj.hydroForce.(hfName).fExt.fEHRE = interpn(hdofGRD, hdirGRD, hwGRD, obj.hydroData(iH).hydro_coeffs.excitation.re(:,idx,:), ...
+                    obj.hydroForce.(hfName).fExt.dofGrd, obj.hydroForce.(hfName).fExt.dirGrd, obj.hydroForce.(hfName).fExt.wGrd)*rho*g;
+                obj.hydroForce.(hfName).fExt.fEHIM = interpn(hdofGRD, hdirGRD, hwGRD, obj.hydroData(iH).hydro_coeffs.excitation.im(:,idx,:), ...
+                    obj.hydroForce.(hfName).fExt.dofGrd, obj.hydroForce.(hfName).fExt.dirGrd, obj.hydroForce.(hfName).fExt.wGrd)*rho*g;
+                obj.hydroForce.(hfName).fExt.fEHMD = interpn(hdofGRD, hdirGRD, hwGRD, obj.hydroData(iH).hydro_coeffs.mean_drift(:,idx,:), ...
+                    obj.hydroForce.(hfName).fExt.dofGrd, obj.hydroForce.(hfName).fExt.dirGrd, obj.hydroForce.(hfName).fExt.wGrd)*rho*g;
             end
         end
         
@@ -993,7 +996,9 @@ classdef bodyClass<handle
             hfName0 = ['hf' num2str(iH)];
 
             % dMass is not dependent on the time varying hydroForceIndex,
-            % only on hydroForceIndexInitial.
+            % only on hydroForceIndexInitial. All hydroForce substructures
+            % contain the same storage.mass, storage.inertia,
+            % storage.inertiaProducts
             dMass = zeros(6,6);
             dMass(1,1) = obj.hydroForce.(hfName0).storage.mass - obj.mass;
             dMass(2,2) = obj.hydroForce.(hfName0).storage.mass - obj.mass;
