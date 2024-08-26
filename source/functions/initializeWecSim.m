@@ -550,9 +550,9 @@ warning('off','MATLAB:printf:BadEscapeSequenceInFormat');
 warning('off','Simulink:blocks:DivideByZero');
 warning('off','sm:sli:setup:compile:SteadyStateStartNotSupported')
 set_param(0, 'ErrorIfLoadNewModel', 'off')
-set_param(getActiveConfigSet(gcs),'UnderspecifiedInitializationDetection','Simplified')
 
 % Load parameters to Simulink model
 simu.loadSimMechModel(simu.simMechanicsFile);
+set_param(getActiveConfigSet(gcs),'UnderspecifiedInitializationDetection','Simplified')
 
 toc
