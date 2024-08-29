@@ -1,4 +1,4 @@
-function writeBEMIOH5(hydro)
+function hydro = writeBEMIOH5(hydro)
 % Writes the hydro data structure to a .h5 file.
 %
 % See ``WEC-Sim\tutorials\BEMIO`` for examples of usage.
@@ -8,6 +8,7 @@ function writeBEMIOH5(hydro)
 %     hydro : [1 x 1] struct
 %         Structure of hydro data that is written to ``hydro.file``
 % 
+time = cputime;
 
 p = waitbar(0,'Writing data in h5 format...');  % Progress bar
 N = 1+(1+1+1)*hydro.Nb;  % Rough division of tasks
@@ -39,6 +40,8 @@ if hydro.h~=inf     % A residual of the python based code
 end
 writeH5Parameter(filename,'/simulation_parameters/wave_dir',hydro.theta,'Wave direction','deg');
 waitbar(1/N);
+fprintf('writeBEMIOH5 - Simulation parameters \n');
+time(end+1) = cputime;
 
 n = 0;
 m_add = 0;
@@ -122,6 +125,8 @@ for i = 1:hydro.Nb
         writeH5Parameter(filename,['/body' num2str(i) '/hydro_coeffs/radiation_damping/state_space/conv'],permute(hydro.ss_conv((n+1):(n+m),:),[2 1]),'State space conversion status','');
     end
     waitbar((1+(i+i-1+i-1))/N);
+    fprintf(['writeBEMIOH5 - Body ' num2str(i) ' properties, Khs, AM, Ex, B, SS \n']);
+    time(end+1) = cputime;
 
     for j = (n+1):(n+m)
         for k = 1:sum(hydro.dof)
@@ -138,6 +143,8 @@ for i = 1:hydro.Nb
         end
     end
     waitbar((1+(i+i+i-1))/N);
+    fprintf(['writeBEMIOH5 - Body ' num2str(i) ' AM comp, B comp, B irf, SS comp \n']);
+    time(end+1) = cputime;
 
     for j = (n+1):(n+m)
         for k = 1:hydro.Nh
@@ -163,8 +170,12 @@ for i = 1:hydro.Nb
         end
     end
     waitbar((1+(i+i+i))/N);
+    fprintf(['writeBEMIOH5 - Body ' num2str(i) ' Fex comp \n']);
+    time(end+1) = cputime;
     n = n + m;
 end
+hydro.time = diff(time);
+
 waitbar(1);
 close(p);
 
