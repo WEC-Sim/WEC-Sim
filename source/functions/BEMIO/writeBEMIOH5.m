@@ -1,4 +1,4 @@
-function hydro = writeBEMIOH5(hydro)
+function writeBEMIOH5(hydro)
 % Writes the hydro data structure to a .h5 file.
 %
 % See ``WEC-Sim\tutorials\BEMIO`` for examples of usage.
@@ -8,10 +8,8 @@ function hydro = writeBEMIOH5(hydro)
 %     hydro : [1 x 1] struct
 %         Structure of hydro data that is written to ``hydro.file``
 % 
-time = cputime;
-
 p = waitbar(0,'Writing data in h5 format...');  % Progress bar
-N = 1+(1+1+1)*hydro.Nb;  % Rough division of tasks
+N = 1 + hydro.Nb;  % Rough division of tasks
 
 filename = [hydro.file '.h5'];
 
@@ -40,8 +38,6 @@ if hydro.h~=inf     % A residual of the python based code
 end
 writeH5Parameter(filename,'/simulation_parameters/wave_dir',hydro.theta,'Wave direction','deg');
 waitbar(1/N);
-fprintf('writeBEMIOH5 - Simulation parameters \n');
-time(end+1) = cputime;
 
 n = 0;
 m_add = 0;
@@ -124,57 +120,9 @@ for i = 1:hydro.Nb
         writeH5Parameter(filename,['/body' num2str(i) '/hydro_coeffs/radiation_damping/state_space/r2t'],permute(hydro.ss_R2((n+1):(n+m),:),[2 1]),'State space curve fitting R**2 value','');
         writeH5Parameter(filename,['/body' num2str(i) '/hydro_coeffs/radiation_damping/state_space/conv'],permute(hydro.ss_conv((n+1):(n+m),:),[2 1]),'State space conversion status','');
     end
-    waitbar((1+(i+i-1+i-1))/N);
-    fprintf(['writeBEMIOH5 - Body ' num2str(i) ' properties, Khs, AM, Ex, B, SS \n']);
-    time(end+1) = cputime;
-
-    for j = (n+1):(n+m)
-        for k = 1:sum(hydro.dof)
-            writeH5Parameter(filename,['/body' num2str(i) '/hydro_coeffs/added_mass/components/' num2str(j-m*i+m) '_' num2str(k)],[hydro.T',permute(hydro.A(j,k,:),[3 2 1])]','Added mass components as a function of frequency','');
-            writeH5Parameter(filename,['/body' num2str(i) '/hydro_coeffs/radiation_damping/components/' num2str(j-m*i+m) '_' num2str(k)],[hydro.T',permute(hydro.B(j,k,:),[3 2 1])]','Radiation damping components as a function of frequency','');
-            writeH5Parameter(filename,['/body' num2str(i) '/hydro_coeffs/radiation_damping/impulse_response_fun/components/K/' num2str(j-m*i+m) '_' num2str(k)],[hydro.ra_t',permute(hydro.ra_K(j,k,:),[3 2 1])]','Components of the IRF','');
-            % H5_Create_Write_Att(filename,['/body' num2str(i) '/hydro_coeffs/radiation_damping/impulse_response_fun/components/L/' num2str(j-m*i+m) '_' num2str(k)],[hydro.ra_t',permute(hydro.ra_L(j,k,:),[3 2 1])]','Components of the ddt(IRF):K','');  % Not used
-            if isfield(hydro,'ss_A') % Only if state space variables have been calculated
-                writeH5Parameter(filename,['/body' num2str(i) '/hydro_coeffs/radiation_damping/state_space/A/components/' num2str(j-m*i+m) '_' num2str(k)],permute(hydro.ss_A(j,k,:,:),[4 3 2 1]),'Components of the State Space A Coefficient','');
-                writeH5Parameter(filename,['/body' num2str(i) '/hydro_coeffs/radiation_damping/state_space/B/components/' num2str(j-m*i+m) '_' num2str(k)],permute(hydro.ss_B(j,k,:,:),[4 3 2 1]),'Components of the State Space B Coefficient','');
-                writeH5Parameter(filename,['/body' num2str(i) '/hydro_coeffs/radiation_damping/state_space/C/components/' num2str(j-m*i+m) '_' num2str(k)],permute(hydro.ss_C(j,k,:,:),[4 3 2 1]),'Components of the State Space C Coefficient','');
-                writeH5Parameter(filename,['/body' num2str(i) '/hydro_coeffs/radiation_damping/state_space/D/components/' num2str(j-m*i+m) '_' num2str(k)],permute(hydro.ss_D(j,k),[2 1]),'Components of the State Space D Coefficient','');
-            end
-        end
-    end
-    waitbar((1+(i+i+i-1))/N);
-    fprintf(['writeBEMIOH5 - Body ' num2str(i) ' AM comp, B comp, B irf, SS comp \n']);
-    time(end+1) = cputime;
-
-    for j = (n+1):(n+m)
-        for k = 1:hydro.Nh
-            writeH5Parameter(filename,['/body' num2str(i) '/hydro_coeffs/excitation/components/im/' num2str(j-m*i+m) '_' num2str(k)],[hydro.T',permute(hydro.ex_im(j,k,:),[3 2 1])]','Imaginary component of excitation force as a function of frequency','');
-            writeH5Parameter(filename,['/body' num2str(i) '/hydro_coeffs/excitation/components/re/' num2str(j-m*i+m) '_' num2str(k)],[hydro.T',permute(hydro.ex_re(j,k,:),[3 2 1])]','Real component of excitation force as a function of frequency','');
-            writeH5Parameter(filename,['/body' num2str(i) '/hydro_coeffs/excitation/components/mag/' num2str(j-m*i+m) '_' num2str(k)],[hydro.T',permute(hydro.ex_ma(j,k,:),[3 2 1])]','Magnitude of excitation force as a function of frequency','');
-            writeH5Parameter(filename,['/body' num2str(i) '/hydro_coeffs/excitation/components/phase/' num2str(j-m*i+m) '_' num2str(k)],[hydro.T',permute(hydro.ex_ph(j,k,:),[3 2 1])]','Phase of excitation force as a function of frequency','');
-            if isfield(hydro,'md_mc') % Only if mean drift variables (momentum conservation) have been calculated in BEM
-                writeH5Parameter(filename,['/body' num2str(i) '/hydro_coeffs/mean_drift/momentum_conservation/components/val/' num2str(j-m*i+m) '_' num2str(k)],[hydro.T',permute(hydro.md_mc(j,k,:),[3 2 1])]','Magnitude of mean drift force (momentum conservation) as a function of frequency','');
-            end
-            if isfield(hydro,'md_cs') % Only if mean drift variables (control surface approach) have been calculated in BEM
-                writeH5Parameter(filename,['/body' num2str(i) '/hydro_coeffs/mean_drift/control_surface/components/val/' num2str(j-m*i+m) '_' num2str(k)],[hydro.T',permute(hydro.md_cs(j,k,:),[3 2 1])]','Magnitude of mean drift force (control surface) as a function of frequency','');
-            end
-            writeH5Parameter(filename,['/body' num2str(i) '/hydro_coeffs/excitation/impulse_response_fun/components/f/' num2str(j-m*i+m) '_' num2str(k)],[hydro.ex_t',permute(hydro.ex_K(j,k,:),[3 2 1])]','Components of the IRF:f','');
-            writeH5Parameter(filename,['/body' num2str(i) '/hydro_coeffs/excitation/scattering/components/im/' num2str(j-m*i+m) '_' num2str(k)],[hydro.T',permute(hydro.sc_im(j,k,:),[3 2 1])]','Imaginary component of scattering force as a function of frequency','');
-            writeH5Parameter(filename,['/body' num2str(i) '/hydro_coeffs/excitation/scattering/components/mag/' num2str(j-m*i+m) '_' num2str(k)],[hydro.T',permute(hydro.sc_ma(j,k,:),[3 2 1])]','Magnitude of scattering force as a function of frequency','');
-            writeH5Parameter(filename,['/body' num2str(i) '/hydro_coeffs/excitation/scattering/components/phase/' num2str(j-m*i+m) '_' num2str(k)],[hydro.T',permute(hydro.sc_ph(j,k,:),[3 2 1])]','Phase of scattering force as a function of frequency','');
-            writeH5Parameter(filename,['/body' num2str(i) '/hydro_coeffs/excitation/scattering/components/re/' num2str(j-m*i+m) '_' num2str(k)],[hydro.T',permute(hydro.sc_re(j,k,:),[3 2 1])]','Real component of scattering force as a function of frequency','');
-            writeH5Parameter(filename,['/body' num2str(i) '/hydro_coeffs/excitation/froude-krylov/components/im/' num2str(j-m*i+m) '_' num2str(k)],[hydro.T',permute(hydro.fk_im(j,k,:),[3 2 1])]','Imaginary component of Froude-Krylov force as a function of frequency','');
-            writeH5Parameter(filename,['/body' num2str(i) '/hydro_coeffs/excitation/froude-krylov/components/mag/' num2str(j-m*i+m) '_' num2str(k)],[hydro.T',permute(hydro.fk_ma(j,k,:),[3 2 1])]','Magnitude of Froude-Krylov force as a function of frequency','');
-            writeH5Parameter(filename,['/body' num2str(i) '/hydro_coeffs/excitation/froude-krylov/components/phase/' num2str(j-m*i+m) '_' num2str(k)],[hydro.T',permute(hydro.fk_ph(j,k,:),[3 2 1])]','Phase of Froude-Krylov force as a function of frequency','');
-            writeH5Parameter(filename,['/body' num2str(i) '/hydro_coeffs/excitation/froude-krylov/components/re/' num2str(j-m*i+m) '_' num2str(k)],[hydro.T',permute(hydro.fk_re(j,k,:),[3 2 1])]','Real component of Froude-Krylov force as a function of frequency','');
-        end
-    end
-    waitbar((1+(i+i+i))/N);
-    fprintf(['writeBEMIOH5 - Body ' num2str(i) ' Fex comp \n']);
-    time(end+1) = cputime;
+    waitbar((1+i)/N);
     n = n + m;
 end
-hydro.time = diff(time);
 
 waitbar(1);
 close(p);
