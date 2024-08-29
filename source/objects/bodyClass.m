@@ -261,6 +261,7 @@ classdef bodyClass<handle
                     warning('Only one h5File supplied. Turning variable hydro off.');
                 end
                 if obj.variableHydro.option == 0
+                    obj.variableHydro.hydroForceIndexInitial = 1;
                     if length(obj.h5File) > 1
                         obj.h5File = obj.h5File(1);
                         warning('Variable hydro flag is off. Extra h5 files ignored.');
