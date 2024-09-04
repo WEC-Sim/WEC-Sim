@@ -56,36 +56,36 @@ for i = 1:hydro.Nb
 
     % Write GBM coefficients if available
     if isfield(hydro,'gbm')
-        writeH5Parameter(filename,['/body' num2str(i) '/properties/mass'],permute(hydro.gbm((n+1):(n+m),:,1),[3 2 1]),'Generalized body modes mass','kg');
-        writeH5Parameter(filename,['/body' num2str(i) '/properties/damping'],permute(hydro.gbm((n+1):(n+m),:,2),[3 2 1]),'Generalized body modes damping','N/m');
-        writeH5Parameter(filename,['/body' num2str(i) '/properties/stiffness'],permute(hydro.gbm((n+1):(n+m),:,3),[3 2 1]),'Generalized body modes stiffness','N-s/m');
+        writeH5Parameter(filename,['/body' num2str(i) '/properties/mass'],permute(hydro.gbm((n+1):(n+m),:,1),[3 2 1]),'Generalized body modes mass','kg (translation); kg-m^2 (rotation)');
+        writeH5Parameter(filename,['/body' num2str(i) '/properties/damping'],permute(hydro.gbm((n+1):(n+m),:,2),[3 2 1]),'Generalized body modes damping','N-s/m (translation); N-m-s/rad (rotation)');
+        writeH5Parameter(filename,['/body' num2str(i) '/properties/stiffness'],permute(hydro.gbm((n+1):(n+m),:,3),[3 2 1]),'N/m (translation); N-m/rad (rotation)');
     end
 
     % Write hydrostatic stiffness
     if isfield(hydro,'gbm')
         tmp = permute(hydro.gbm((n+1):(n+m),:,4),[3 2 1]);
-        writeH5Parameter(filename,['/body' num2str(i) '/hydro_coeffs/linear_restoring_stiffness'],tmp(1,m_add + 1:m_add + m,:),'Hydrostatic stiffness','N/m');
+        writeH5Parameter(filename,['/body' num2str(i) '/hydro_coeffs/linear_restoring_stiffness'],tmp(1,m_add + 1:m_add + m,:),'Hydrostatic stiffness (normalized by p*g)','N/m (translation); N-m/rad (rotation)');
         clear tmp;
     else
-        writeH5Parameter(filename,['/body' num2str(i) '/hydro_coeffs/linear_restoring_stiffness'],hydro.Khs(:,:,i)','Hydrostatic stiffness matrix','');        
+        writeH5Parameter(filename,['/body' num2str(i) '/hydro_coeffs/linear_restoring_stiffness'],hydro.Khs(:,:,i)','Hydrostatic stiffness matrix (normalized by p*g)','N/m (translation); N-m/rad (rotation)');        
     end
 
     % Write added mass coefficients
     m_add = m_add + m;
-    writeH5Parameter(filename,['/body' num2str(i) '/hydro_coeffs/added_mass/inf_freq'],permute(hydro.Ainf((n+1):(n+m),:),[2 1]),'Infinite frequency added mass','kg');
-    writeH5Parameter(filename,['/body' num2str(i) '/hydro_coeffs/added_mass/all'],permute(hydro.A((n+1):(n+m),:,:),[3 2 1]),'Added mass','kg-m^2 (rotation); kg (translation)');
+    writeH5Parameter(filename,['/body' num2str(i) '/hydro_coeffs/added_mass/inf_freq'],permute(hydro.Ainf((n+1):(n+m),:),[2 1]),'Infinite frequency added mass (normalized by water density)','kg (translation); kg-m^2 (rotation)');
+    writeH5Parameter(filename,['/body' num2str(i) '/hydro_coeffs/added_mass/all'],permute(hydro.A((n+1):(n+m),:,:),[3 2 1]),'Added mass (normalized by water density)','kg (translation); kg-m^2 (rotation)');
     
     % Write excitation coefficients and IRF
-    writeH5Parameter(filename,['/body' num2str(i) '/hydro_coeffs/excitation/im'],permute(hydro.ex_im((n+1):(n+m),:,:),[3 2 1]),'Imaginary component of excitation force','');
-    writeH5Parameter(filename,['/body' num2str(i) '/hydro_coeffs/excitation/mag'],permute(hydro.ex_ma((n+1):(n+m),:,:),[3 2 1]),'Magnitude of excitation force','');
+    writeH5Parameter(filename,['/body' num2str(i) '/hydro_coeffs/excitation/im'],permute(hydro.ex_im((n+1):(n+m),:,:),[3 2 1]),'Imaginary component of excitation force (normalized by p*g)','N (translation); N-m (rotation)');
+    writeH5Parameter(filename,['/body' num2str(i) '/hydro_coeffs/excitation/mag'],permute(hydro.ex_ma((n+1):(n+m),:,:),[3 2 1]),'Magnitude of excitation force (normalized by p*g)','N (translation); N-m (rotation)');
     writeH5Parameter(filename,['/body' num2str(i) '/hydro_coeffs/excitation/phase'],permute(hydro.ex_ph((n+1):(n+m),:,:),[3 2 1]),'Phase angle of excitation force','rad');
-    writeH5Parameter(filename,['/body' num2str(i) '/hydro_coeffs/excitation/re'],permute(hydro.ex_re((n+1):(n+m),:,:),[3 2 1]),'Real component of excitation force','');
-    writeH5Parameter(filename,['/body' num2str(i) '/hydro_coeffs/excitation/scattering/im'],permute(hydro.sc_im((n+1):(n+m),:,:),[3 2 1]),'Imaginary component of scattering force','');
-    writeH5Parameter(filename,['/body' num2str(i) '/hydro_coeffs/excitation/scattering/mag'],permute(hydro.sc_ma((n+1):(n+m),:,:),[3 2 1]),'Magnitude of scattering force','');
+    writeH5Parameter(filename,['/body' num2str(i) '/hydro_coeffs/excitation/re'],permute(hydro.ex_re((n+1):(n+m),:,:),[3 2 1]),'Real component of excitation force (normalized by p*g)','N (translation); N-m (rotation)');
+    writeH5Parameter(filename,['/body' num2str(i) '/hydro_coeffs/excitation/scattering/im'],permute(hydro.sc_im((n+1):(n+m),:,:),[3 2 1]),'Imaginary component of scattering force (normalized by p*g)','N (translation); N-m (rotation)');
+    writeH5Parameter(filename,['/body' num2str(i) '/hydro_coeffs/excitation/scattering/mag'],permute(hydro.sc_ma((n+1):(n+m),:,:),[3 2 1]),'Magnitude of scattering force (normalized by p*g)','N (translation); N-m (rotation)');
     writeH5Parameter(filename,['/body' num2str(i) '/hydro_coeffs/excitation/scattering/phase'],permute(hydro.sc_ph((n+1):(n+m),:,:),[3 2 1]),'Phase angle of scattering force','rad');
-    writeH5Parameter(filename,['/body' num2str(i) '/hydro_coeffs/excitation/scattering/re'],permute(hydro.sc_re((n+1):(n+m),:,:),[3 2 1]),'Real component of scattering force','');
-    writeH5Parameter(filename,['/body' num2str(i) '/hydro_coeffs/excitation/froude-krylov/im'],permute(hydro.fk_im((n+1):(n+m),:,:),[3 2 1]),'Imaginary component of Froude-Krylov force','');
-    writeH5Parameter(filename,['/body' num2str(i) '/hydro_coeffs/excitation/froude-krylov/mag'],permute(hydro.fk_ma((n+1):(n+m),:,:),[3 2 1]),'Magnitude of Froude-Krylov force','');
+    writeH5Parameter(filename,['/body' num2str(i) '/hydro_coeffs/excitation/scattering/re'],permute(hydro.sc_re((n+1):(n+m),:,:),[3 2 1]),'Real component of scattering force (normalized by p*g)','N (translation); N-m (rotation)');
+    writeH5Parameter(filename,['/body' num2str(i) '/hydro_coeffs/excitation/froude-krylov/im'],permute(hydro.fk_im((n+1):(n+m),:,:),[3 2 1]),'Imaginary component of Froude-Krylov force (normalized by p*g)','N (translation); N-m (rotation)');
+    writeH5Parameter(filename,['/body' num2str(i) '/hydro_coeffs/excitation/froude-krylov/mag'],permute(hydro.fk_ma((n+1):(n+m),:,:),[3 2 1]),'Magnitude of Froude-Krylov force (normalized by p*g)','N (translation); N-m (rotation)');
     writeH5Parameter(filename,['/body' num2str(i) '/hydro_coeffs/excitation/froude-krylov/phase'],permute(hydro.fk_ph((n+1):(n+m),:,:),[3 2 1]),'Phase angle of Froude-Krylov force','rad');
     writeH5Parameter(filename,['/body' num2str(i) '/hydro_coeffs/excitation/froude-krylov/re'],permute(hydro.fk_re((n+1):(n+m),:,:),[3 2 1]),'Real component of Froude-Krylov force','');
     writeH5Parameter(filename,['/body' num2str(i) '/hydro_coeffs/excitation/impulse_response_fun/f'],permute(hydro.ex_K((n+1):(n+m),:,:),[3 2 1]),'Impulse response function','');
