@@ -8,9 +8,8 @@ function writeBEMIOH5(hydro)
 %     hydro : [1 x 1] struct
 %         Structure of hydro data that is written to ``hydro.file``
 % 
-
 p = waitbar(0,'Writing data in h5 format...');  % Progress bar
-N = 1+(1+1+1)*hydro.Nb;  % Rough division of tasks
+N = 1 + hydro.Nb;  % Rough division of tasks
 
 filename = [hydro.file '.h5'];
 
@@ -120,49 +119,10 @@ for i = 1:hydro.Nb
         writeH5Parameter(filename,['/body' num2str(i) '/hydro_coeffs/radiation_damping/state_space/r2t'],permute(hydro.ss_R2((n+1):(n+m),:),[2 1]),'State space curve fitting R**2 value','');
         writeH5Parameter(filename,['/body' num2str(i) '/hydro_coeffs/radiation_damping/state_space/conv'],permute(hydro.ss_conv((n+1):(n+m),:),[2 1]),'State space conversion status','');
     end
-    waitbar((1+(i+i-1+i-1))/N);
-
-    for j = (n+1):(n+m)
-        for k = 1:sum(hydro.dof)
-            writeH5Parameter(filename,['/body' num2str(i) '/hydro_coeffs/added_mass/components/' num2str(j-m*i+m) '_' num2str(k)],[hydro.T',permute(hydro.A(j,k,:),[3 2 1])]','Added mass components (normalized by rho) as a function of frequency (normalized to seconds)','kg');
-            writeH5Parameter(filename,['/body' num2str(i) '/hydro_coeffs/radiation_damping/components/' num2str(j-m*i+m) '_' num2str(k)],[hydro.T',permute(hydro.B(j,k,:),[3 2 1])]','Radiation damping components (normalized by rho*w) as a function of frequency (normalized to seconds)','N-s/m');
-            writeH5Parameter(filename,['/body' num2str(i) '/hydro_coeffs/radiation_damping/impulse_response_fun/components/K/' num2str(j-m*i+m) '_' num2str(k)],[hydro.ra_t',permute(hydro.ra_K(j,k,:),[3 2 1])]','Components of the IRF (normalized by rho)','');
-            if isfield(hydro,'ss_A') % Only if state space variables have been calculated
-                writeH5Parameter(filename,['/body' num2str(i) '/hydro_coeffs/radiation_damping/state_space/A/components/' num2str(j-m*i+m) '_' num2str(k)],permute(hydro.ss_A(j,k,:,:),[4 3 2 1]),'Components of the State Space A Coefficient','');
-                writeH5Parameter(filename,['/body' num2str(i) '/hydro_coeffs/radiation_damping/state_space/B/components/' num2str(j-m*i+m) '_' num2str(k)],permute(hydro.ss_B(j,k,:,:),[4 3 2 1]),'Components of the State Space B Coefficient','');
-                writeH5Parameter(filename,['/body' num2str(i) '/hydro_coeffs/radiation_damping/state_space/C/components/' num2str(j-m*i+m) '_' num2str(k)],permute(hydro.ss_C(j,k,:,:),[4 3 2 1]),'Components of the State Space C Coefficient','');
-                writeH5Parameter(filename,['/body' num2str(i) '/hydro_coeffs/radiation_damping/state_space/D/components/' num2str(j-m*i+m) '_' num2str(k)],permute(hydro.ss_D(j,k),[2 1]),'Components of the State Space D Coefficient','');
-            end
-        end
-    end
-    waitbar((1+(i+i+i-1))/N);
-
-    for j = (n+1):(n+m)
-        for k = 1:hydro.Nh
-            writeH5Parameter(filename,['/body' num2str(i) '/hydro_coeffs/excitation/components/im/' num2str(j-m*i+m) '_' num2str(k)],[hydro.T',permute(hydro.ex_im(j,k,:),[3 2 1])]','Imaginary component of excitation force (normalized by rho*g) as a function of frequency (normalized to seconds)','N');
-            writeH5Parameter(filename,['/body' num2str(i) '/hydro_coeffs/excitation/components/re/' num2str(j-m*i+m) '_' num2str(k)],[hydro.T',permute(hydro.ex_re(j,k,:),[3 2 1])]','Real component of excitation force (normalized by rho*g) as a function of frequency (normalized to seconds)','N');
-            writeH5Parameter(filename,['/body' num2str(i) '/hydro_coeffs/excitation/components/mag/' num2str(j-m*i+m) '_' num2str(k)],[hydro.T',permute(hydro.ex_ma(j,k,:),[3 2 1])]','Magnitude of excitation force (normalized by rho*g) as a function of frequency (normalized to seconds)','N');
-            writeH5Parameter(filename,['/body' num2str(i) '/hydro_coeffs/excitation/components/phase/' num2str(j-m*i+m) '_' num2str(k)],[hydro.T',permute(hydro.ex_ph(j,k,:),[3 2 1])]','Phase of excitation force as a function of frequency (normalized to seconds)','rad');
-            if isfield(hydro,'md_mc') % Only if mean drift variables (momentum conservation) have been calculated in BEM
-                writeH5Parameter(filename,['/body' num2str(i) '/hydro_coeffs/mean_drift/momentum_conservation/components/val/' num2str(j-m*i+m) '_' num2str(k)],[hydro.T',permute(hydro.md_mc(j,k,:),[3 2 1])]','Magnitude of mean drift force (momentum conservation) (normalized by rho*g) as a function of frequency','N');
-            end
-            if isfield(hydro,'md_cs') % Only if mean drift variables (control surface approach) have been calculated in BEM
-                writeH5Parameter(filename,['/body' num2str(i) '/hydro_coeffs/mean_drift/control_surface/components/val/' num2str(j-m*i+m) '_' num2str(k)],[hydro.T',permute(hydro.md_cs(j,k,:),[3 2 1])]','Magnitude of mean drift force (control surface) (normalized by rho*g) as a function of frequency','N');
-            end
-            writeH5Parameter(filename,['/body' num2str(i) '/hydro_coeffs/excitation/impulse_response_fun/components/f/' num2str(j-m*i+m) '_' num2str(k)],[hydro.ex_t',permute(hydro.ex_K(j,k,:),[3 2 1])]','Components of the IRF:f (normalized by rho*g)','N');
-            writeH5Parameter(filename,['/body' num2str(i) '/hydro_coeffs/excitation/scattering/components/im/' num2str(j-m*i+m) '_' num2str(k)],[hydro.T',permute(hydro.sc_im(j,k,:),[3 2 1])]','Imaginary component of scattering force (normalized by rho*g) as a function of frequency (normalized to seconds)','N');
-            writeH5Parameter(filename,['/body' num2str(i) '/hydro_coeffs/excitation/scattering/components/mag/' num2str(j-m*i+m) '_' num2str(k)],[hydro.T',permute(hydro.sc_ma(j,k,:),[3 2 1])]','Magnitude of scattering force (normalized by rho*g) as a function of frequency (normalized to seconds)','N');
-            writeH5Parameter(filename,['/body' num2str(i) '/hydro_coeffs/excitation/scattering/components/phase/' num2str(j-m*i+m) '_' num2str(k)],[hydro.T',permute(hydro.sc_ph(j,k,:),[3 2 1])]','Phase of scattering force as a function of frequency (normalized to seconds)','rad');
-            writeH5Parameter(filename,['/body' num2str(i) '/hydro_coeffs/excitation/scattering/components/re/' num2str(j-m*i+m) '_' num2str(k)],[hydro.T',permute(hydro.sc_re(j,k,:),[3 2 1])]','Real component of scattering force (normalized by rho*g) as a function of frequency (normalized to seconds)','N');
-            writeH5Parameter(filename,['/body' num2str(i) '/hydro_coeffs/excitation/froude-krylov/components/im/' num2str(j-m*i+m) '_' num2str(k)],[hydro.T',permute(hydro.fk_im(j,k,:),[3 2 1])]','Imaginary component of Froude-Krylov force (normalized by rho*g) as a function of frequency (normalized to seconds)','N');
-            writeH5Parameter(filename,['/body' num2str(i) '/hydro_coeffs/excitation/froude-krylov/components/mag/' num2str(j-m*i+m) '_' num2str(k)],[hydro.T',permute(hydro.fk_ma(j,k,:),[3 2 1])]','Magnitude of Froude-Krylov force (normalized by rho*g) as a function of frequency (normalized to seconds)','N');
-            writeH5Parameter(filename,['/body' num2str(i) '/hydro_coeffs/excitation/froude-krylov/components/phase/' num2str(j-m*i+m) '_' num2str(k)],[hydro.T',permute(hydro.fk_ph(j,k,:),[3 2 1])]','Phase of Froude-Krylov force as a function of frequency (normalized to seconds)','rad');
-            writeH5Parameter(filename,['/body' num2str(i) '/hydro_coeffs/excitation/froude-krylov/components/re/' num2str(j-m*i+m) '_' num2str(k)],[hydro.T',permute(hydro.fk_re(j,k,:),[3 2 1])]','Real component of Froude-Krylov force (normalized by rho*g) as a function of frequency (normalized to seconds)','N');
-        end
-    end
-    waitbar((1+(i+i+i))/N);
+    waitbar((1+i)/N);
     n = n + m;
 end
+
 waitbar(1);
 close(p);
 
