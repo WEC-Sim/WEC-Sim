@@ -541,7 +541,7 @@ end; clear iBod
 % Create the buses for hydroForce
 for iBod = 1:length(body)
     if body(iBod).nonHydro == 0 || body(iBod).nonHydro == 2
-        struct2bus(body(iBod).hydroForce, ['bus_body' num2str(iBod) '_hydroForce']);
+        [~, ~] = struct2bus(body(iBod).hydroForce, ['bus_body' num2str(iBod) '_hydroForce'], 1, {}, {});
     end
 end; clear iBod
 

@@ -1,7 +1,5 @@
-% struct2bus(s, BusName)
-%
 % Converts the structure s to a Simulink Bus Object with name BusName
-function struct2bus(s, BusName)
+function [busList, nameList] = struct2bus(s, BusName, firstCall, busList, nameList)
 sfields = fieldnames(s);
 
 % Loop through the structure
@@ -18,7 +16,7 @@ for i = 1:length(sfields)
         else
             subBusName = [BusName '_' sfields{i}];
         end
-        struct2bus(s.(sfields{i}), subBusName);
+        [busList, nameList] = struct2bus(s.(sfields{i}), subBusName, 0, busList, nameList);
         elems(i).DataType = ['Bus: ' subBusName];
     else
         elems(i).DataType = class(s.(sfields{i}));
@@ -36,4 +34,12 @@ BusObject = Simulink.Bus;
 BusObject.HeaderFile = '';
 BusObject.Description = sprintf('');
 BusObject.Elements = elems;
-assignin('base', BusName, BusObject);
+
+busList{end+1} = BusObject;
+nameList{end+1} = BusName;
+
+if firstCall == 1
+    for iB = 1:length(busList)
+        assignin('caller', nameList{iB}, busList{iB});
+    end
+end
