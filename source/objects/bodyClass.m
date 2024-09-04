@@ -36,7 +36,7 @@ classdef bodyClass<handle
         flex (1,1) {mustBeInteger}                  = 0                     % (`integer`) Flag for flexible body, Options: 0 (off) or 1 (on). Default = ``0``.
         gbmDOF (1,:) {mustBeScalarOrEmpty}          = []                    % (`integer`) Number of degree of freedoms (DOFs) for generalized body mode (GBM). Default = ``[]``.
         geometryFile (1,:) {mustBeText}             = 'NONE'                % (`string`) Path to the body geometry ``.stl`` file.
-        h5File (1,:) {mustBeA(h5File,{'char','string','cell'})} = ''        % (`char array, string, cell array of char arrays, or cell array or strings) hdf5 file containing the hydrodynamic data
+        h5File (1,:) {mustBeA(h5File,{'char','string','cell'})} = ''        % (`char array, string, cell array of char arrays, or cell array or strings`) hdf5 file containing the hydrodynamic data
         hydroStiffness (6,6,:) {mustBeNumeric}      = zeros(6)              % (`6x6 float matrix`) Linear hydrostatic stiffness matrix. If the variable is nonzero, the matrix will override the h5 file values. Create a 3D matrix (6x6xn) for variable hydrodynamics. Default = ``zeros(6)``.
         inertia (1,:) {mustBeNumeric}               = []                    % (`1x3 float vector`) Rotational inertia or mass moment of inertia [kg*m^{2}]. Defined by the user in the following format [Ixx Iyy Izz]. Default = ``[]``.
         inertiaProducts (1,:) {mustBeNumeric}       = [0 0 0]               % (`1x3 float vector`) Rotational inertia or mass products of inertia [kg*m^{2}]. Defined by the user in the following format [Ixy Ixz Iyz]. Default = ``[]``.
