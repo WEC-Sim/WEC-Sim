@@ -131,7 +131,7 @@ classdef bodyClass<handle
 
         end
         
-        function checkInputs(obj,explorer)
+        function checkInputs(obj, explorer, stateSpace, FIR)
             % This method checks WEC-Sim user inputs for each body and generates error messages if parameters are not properly defined for the bodyClass
             
             % Check struct inputs:
@@ -291,6 +291,12 @@ classdef bodyClass<handle
                     end
                     if size(obj.hydroStiffness,3) == 1
                         obj.hydroStiffness = repmat(obj.hydroStiffness,1,1,nH5);
+                    end
+                    if stateSpace == 1
+                        error('The state space radiation force method is not compatible with variable hydrodynamics.');
+                    end
+                    if FIR == 1
+                        error('The FIR filter radiation force method is not compatible with variable hydrodynamics.');
                     end
                 end
             elseif obj.nonHydro>0
