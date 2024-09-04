@@ -46,7 +46,7 @@ for i = 1:hydro.Nb
     m = hydro.dof(i);
     
     % Write body properties
-    writeH5Parameter(filename,['/body' num2str(i) '/properties/body_number'],i,'Number of rigid body from the BEM simulation','m');
+    writeH5Parameter(filename,['/body' num2str(i) '/properties/body_number'],i,'Number of rigid body from the BEM simulation','');
     writeH5Parameter(filename,['/body' num2str(i) '/properties/cb'],hydro.cb(:,i)','Center of buoyancy','m')
     writeH5Parameter(filename,['/body' num2str(i) '/properties/cg'],hydro.cg(:,i)','Center of gravity','m');
     writeH5Parameter(filename,['/body' num2str(i) '/properties/disp_vol'],hydro.Vo(i),'Displaced volume','m^3');
@@ -90,7 +90,7 @@ for i = 1:hydro.Nb
     writeH5Parameter(filename,['/body' num2str(i) '/hydro_coeffs/excitation/froude-krylov/re'],permute(hydro.fk_re((n+1):(n+m),:,:),[3 2 1]),'Real component of Froude-Krylov force (normalized by rho*g)','N');
     writeH5Parameter(filename,['/body' num2str(i) '/hydro_coeffs/excitation/impulse_response_fun/f'],permute(hydro.ex_K((n+1):(n+m),:,:),[3 2 1]),'Impulse response function','');
     writeH5Parameter(filename,['/body' num2str(i) '/hydro_coeffs/excitation/impulse_response_fun/t'],hydro.ex_t,'Time vector for the impulse resonse function','s');
-    writeH5Parameter(filename,['/body' num2str(i) '/hydro_coeffs/excitation/impulse_response_fun/w'],hydro.ex_w,'Interpolated frequencies used to compute the impulse response function','s');
+    writeH5Parameter(filename,['/body' num2str(i) '/hydro_coeffs/excitation/impulse_response_fun/w'],hydro.ex_w,'Interpolated frequencies used to compute the impulse response function','rad/s');
     
     % Write mean drift coefficients if available
     if isfield(hydro,'md_mc') % Only if mean drift variables (momentum conservation) have been calculated in BEM
@@ -104,10 +104,10 @@ for i = 1:hydro.Nb
     end
 
      % Write radiation damping coefficients and IRF
-    writeH5Parameter(filename,['/body' num2str(i) '/hydro_coeffs/radiation_damping/all'],permute(hydro.B((n+1):(n+m),:,:),[3 2 1]),'Radiation damping (normalized by p*w)','N-s/m');
-    writeH5Parameter(filename,['/body' num2str(i) '/hydro_coeffs/radiation_damping/impulse_response_fun/K'],permute(hydro.ra_K((n+1):(n+m),:,:),[3 2 1]),'Impulse response function (normalized by rho)','N-s/m');
+    writeH5Parameter(filename,['/body' num2str(i) '/hydro_coeffs/radiation_damping/all'],permute(hydro.B((n+1):(n+m),:,:),[3 2 1]),'Radiation damping (normalized by rho*w)','N-s/m');
+    writeH5Parameter(filename,['/body' num2str(i) '/hydro_coeffs/radiation_damping/impulse_response_fun/K'],permute(hydro.ra_K((n+1):(n+m),:,:),[3 2 1]),'Impulse response function','');
     writeH5Parameter(filename,['/body' num2str(i) '/hydro_coeffs/radiation_damping/impulse_response_fun/t'],hydro.ra_t,'Time vector for the impulse resonse function','s');
-    writeH5Parameter(filename,['/body' num2str(i) '/hydro_coeffs/radiation_damping/impulse_response_fun/w'],hydro.ra_w,'Interpolated frequencies used to compute the impulse response function','s');
+    writeH5Parameter(filename,['/body' num2str(i) '/hydro_coeffs/radiation_damping/impulse_response_fun/w'],hydro.ra_w,'Interpolated frequencies used to compute the impulse response function','rad/s');
     
     % Write radiation damping state space coefficients (optional)
     if isfield(hydro,'ss_A')
@@ -125,8 +125,8 @@ for i = 1:hydro.Nb
     for j = (n+1):(n+m)
         for k = 1:sum(hydro.dof)
             writeH5Parameter(filename,['/body' num2str(i) '/hydro_coeffs/added_mass/components/' num2str(j-m*i+m) '_' num2str(k)],[hydro.T',permute(hydro.A(j,k,:),[3 2 1])]','Added mass components (normalized by rho) as a function of frequency (normalized to seconds)','kg');
-            writeH5Parameter(filename,['/body' num2str(i) '/hydro_coeffs/radiation_damping/components/' num2str(j-m*i+m) '_' num2str(k)],[hydro.T',permute(hydro.B(j,k,:),[3 2 1])]','Radiation damping components (normalized by p*w) as a function of frequency (normalized to seconds)','N-s/m');
-            writeH5Parameter(filename,['/body' num2str(i) '/hydro_coeffs/radiation_damping/impulse_response_fun/components/K/' num2str(j-m*i+m) '_' num2str(k)],[hydro.ra_t',permute(hydro.ra_K(j,k,:),[3 2 1])]','Components of the IRF (normalized by rho)','N-s/m');
+            writeH5Parameter(filename,['/body' num2str(i) '/hydro_coeffs/radiation_damping/components/' num2str(j-m*i+m) '_' num2str(k)],[hydro.T',permute(hydro.B(j,k,:),[3 2 1])]','Radiation damping components (normalized by rho*w) as a function of frequency (normalized to seconds)','N-s/m');
+            writeH5Parameter(filename,['/body' num2str(i) '/hydro_coeffs/radiation_damping/impulse_response_fun/components/K/' num2str(j-m*i+m) '_' num2str(k)],[hydro.ra_t',permute(hydro.ra_K(j,k,:),[3 2 1])]','Components of the IRF (normalized by rho)','');
             if isfield(hydro,'ss_A') % Only if state space variables have been calculated
                 writeH5Parameter(filename,['/body' num2str(i) '/hydro_coeffs/radiation_damping/state_space/A/components/' num2str(j-m*i+m) '_' num2str(k)],permute(hydro.ss_A(j,k,:,:),[4 3 2 1]),'Components of the State Space A Coefficient','');
                 writeH5Parameter(filename,['/body' num2str(i) '/hydro_coeffs/radiation_damping/state_space/B/components/' num2str(j-m*i+m) '_' num2str(k)],permute(hydro.ss_B(j,k,:,:),[4 3 2 1]),'Components of the State Space B Coefficient','');
@@ -181,7 +181,7 @@ end
 
 function writeH5Text(fileID, group, dataset, data)
 
-if length(group)==1
+if isscalar(group)
     group_id = H5G.create(fileID,group{1},'H5P_DEFAULT','H5P_DEFAULT','H5P_DEFAULT');
     space_id = H5S.create('H5S_SCALAR');
     stype = H5T.copy('H5T_C_S1');
