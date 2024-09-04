@@ -1,4 +1,4 @@
-function inputString = writeLineFromVar(defaultClass, variableName, maskVars, maskViz, classNum, structName)
+function inputString = writeLineFromVar(fid, defaultClass, variableName, maskVars, maskViz, classNum, structName)
 % This function creates a string that is written to a wecSimInputFile.m 
 % line based on a class abbreviation, variable name and its mask value
 % 
@@ -14,6 +14,10 @@ function inputString = writeLineFromVar(defaultClass, variableName, maskVars, ma
 %
 % Parameters
 % ------------
+%     fid : int
+%         File ID corresponding to the valid and opened input file defined
+%         by writeInputFromBlocks
+% 
 %     defaultClass : WEC-Sim Object
 %         Default instance of a WEC-Sim class. Must contain the variableName that is
 %         being written to the input file
@@ -60,22 +64,21 @@ function inputString = writeLineFromVar(defaultClass, variableName, maskVars, ma
     % are different from the class default
     if isVisible && ~isDefault
         % Append the class index if necessary. E.g. 'body' --> 'body(1)'
-        classAbbrev = inputname(1);
+        classAbbrev = inputname(2);
         if ~isempty(classNum)
             classAbbrev = [classAbbrev '(' num2str(classNum) ')'];
         end
-
+    
         if hasStruct
             % e.g. 'body(1).initial.displacement = [1 1 1]; \r\n'
-            inputString = [classAbbrev '.' structName '.' variableName ' = ' maskVars.(variableName) '; \r\n'];
+            inputString = strcat(classAbbrev, ".", structName, ".", variableName, " = ", maskVars.(variableName), ";");
         else
             % e.g. 'simu.stateSpace = 'on'; \r\n'
-            inputString = [classAbbrev '.' variableName ' = ' maskVars.(variableName) '; \r\n'];
+            inputString = strcat(classAbbrev, ".", variableName, " = ", maskVars.(variableName), ";");
         end
-    else
-        % Write nothing to input file
-        inputString = ''; 
+        
+        % Write the string to the file.
+        fprintf(fid,'%s\r\n',inputString);
     end
-
 end
     
