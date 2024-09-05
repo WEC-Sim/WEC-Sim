@@ -42,6 +42,7 @@ for i=1:length(blocks)
     end
 end
 
+
 % Order classes by number
 iSorted = sortBlocksByNumber(blocks(iBody),'body');
 iBody = iBody(iSorted);

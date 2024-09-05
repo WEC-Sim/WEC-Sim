@@ -8,7 +8,6 @@ function writeBEMIOH5(hydro)
 %     hydro : [1 x 1] struct
 %         Structure of hydro data that is written to ``hydro.file``
 % 
-
 p = waitbar(0,'Writing data in h5 format...');  % Progress bar
 N = 1 + hydro.Nb;  % Rough division of tasks
 
