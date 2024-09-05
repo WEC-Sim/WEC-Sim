@@ -528,9 +528,10 @@ nDofs_per_body = zeros(1,length(split_body_names));
 
 sorted_dofs = [];
 for k=1:length(split_body_names)
-    body_dofs = old_dofs(contains(old_dofs,split_body_names{k})); % all dofs for body k
-    std_body_dofs = strcat(split_body_names{k},tmp,std_dofs); % standard 6 dofs for body k
-    gbm_dofs = body_dofs(~contains(body_dofs,std_body_dofs))'; % any gbm dofs for body k (i.e. not in std list)
+    body_dofs = old_dofs(contains(old_dofs, [split_body_names{k} tmp])); % all dofs for body k. Add tmp to the body name to discriminate between body names that contain each other (e.g. if named "body" and "body2", then "body2" contains "body")
+    std_body_dofs = strcat(split_body_names{k}, tmp, std_dofs); % standard 6 dofs for body k
+    gbm_dofs = body_dofs(~contains(body_dofs, std_body_dofs))'; % gbm dofs are not in the standard 6 DOF list
+    % gbm dofs for body k are not associated with another body name
     
     if isempty(gbm_dofs); gbm_dofs=[]; end % prevent formatting error when concatenating on next line
     sorted_dofs = [sorted_dofs std_body_dofs gbm_dofs]; % concatenate [std(k) gbm(k) std(k+1) gbm(k+1)...]
@@ -550,7 +551,6 @@ for j=1:length(old_dofs)
 end
 
 % check that inds is setup correctly. test should match sorted_dofs
-% test = old_dofs(inds); 
 reset_tf = any(inds~=1:length(sorted_dofs));
 end
 
