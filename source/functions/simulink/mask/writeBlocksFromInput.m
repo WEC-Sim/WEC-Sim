@@ -156,8 +156,15 @@ end
 
 % Assign values if enabled (not read only) as strings
 for i = 1:length(values)
+    if isequal(names{i,1}, 'h5File')
+        if length(maskVars.(names{i,1})) > 1
+            error('writeBlocksFromInput: Variable hydro not compatible with WEC-Sim GUI - Custom Parameters');
+        else
+            maskVars.(names{i,1}) = maskVars.(names{i,1}){1};
+        end
+    end
     if strcmp(enabled{i},'on')
-        values{i,1} = num2str(maskVars.(names{i,1}));
+        values{i,1} = num2str(maskVars.(names{i,1})); % strings pass through num2str without changing
     end
 end; clear i;
 

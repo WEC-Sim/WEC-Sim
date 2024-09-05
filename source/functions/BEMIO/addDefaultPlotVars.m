@@ -18,8 +18,7 @@ function hydro = addDefaultPlotVars(hydro)
 %         Hydro data with default plotting variables.
 % 
 
-[a,b] = size(hydro);  % Last data set in
-F = b;
+[~,F] = size(hydro);  % Last data set in
 
 hydro(F).plotDofs = [1,1; 3,3; 5,5];
 hydro(F).plotBodies = 1:hydro(F).Nb;
