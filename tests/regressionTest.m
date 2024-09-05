@@ -14,18 +14,18 @@ classdef regressionTest < matlab.unittest.TestCase
     
     methods(Access = 'public')
         
-        function obj = regressionTest(plotSolvers, openCompare)            
+        function obj = regressionTest(plotSolvers, openCompare)
             arguments
                 plotSolvers (1,1) double = 1
                 openCompare (1,1) double = 1
-            end            
+            end
             % Assign arguments to test Class
             obj.plotSolvers = plotSolvers;
-            obj.openCompare = openCompare;            
+            obj.openCompare = openCompare;
             % Set test directory
-            obj.testDir = fileparts(mfilename('fullpath'));            
+            obj.testDir = fileparts(mfilename('fullpath'));
             % Save the visibility state at construction
-            obj.OriginalDefault = get(0,'DefaultFigureVisible');            
+            obj.OriginalDefault = get(0,'DefaultFigureVisible');
         end
         
     end
@@ -38,95 +38,105 @@ classdef regressionTest < matlab.unittest.TestCase
     
     methods(TestClassSetup)
         
-        function runRegTest(testCase)            
+        function runBEMIO(testCase)
+            cd(fullfile(testCase.testDir,...
+                        '..',...
+                        'examples',...
+                        'RM3',...
+                        'hydroData'));
+            bemio
+            cd(testCase.testDir);
+        end
+
+        function runRegTest(testCase)
             cd(fullfile(testCase.testDir,       ...
                         'RegressionTests',      ...
                         'RegularWaves',         ...
-                        'regular'))            
+                        'regular'))
             runLoadRegular;
             testCase.regular = load('regular.mat').("regular");
-            savefig(fullfile('..', 'figReg'));            
-            cd(testCase.testDir);            
+            savefig(fullfile('..', 'figReg'));
+            cd(testCase.testDir);
         end
         
-        function runRegCICTest(testCase)            
+        function runRegCICTest(testCase)
             cd(fullfile(testCase.testDir,       ...
                         'RegressionTests',      ...
                         'RegularWaves',         ...
-                        'regularCIC'))            
+                        'regularCIC'))
             runLoadRegularCIC;
             testCase.regularCIC = load('regularCIC.mat').("regularCIC");
-            savefig(fullfile('..', 'figRegCIC'));            
-            cd(testCase.testDir);            
+            savefig(fullfile('..', 'figRegCIC'));
+            cd(testCase.testDir);
         end
         
-        function runRegSSTest(testCase)            
+        function runRegSSTest(testCase)
             cd(fullfile(testCase.testDir,       ...
                         'RegressionTests',      ...
                         'RegularWaves',         ...
-                        'regularSS'))            
+                        'regularSS'))
             runLoadRegularSS;
             testCase.regularSS = load('regularSS.mat').("regularSS");
-            savefig(fullfile('..', 'figRegSS'));            
-            cd(testCase.testDir);        
+            savefig(fullfile('..', 'figRegSS'));
+            cd(testCase.testDir);
         end
         
-        function runIrregCICTest(testCase)            
+        function runIrregCICTest(testCase)
             cd(fullfile(testCase.testDir,   ...
                         'RegressionTests',  ...
                         'IrregularWaves',   ...
-                        'irregularCIC'))                    
+                        'irregularCIC'))
             runLoadIrregularCIC;
             testCase.irregularCIC = ...
                                 load('irregularCIC.mat').("irregularCIC");
-            savefig(fullfile('..', 'figIrregCIC'));            
-            cd(testCase.testDir);            
+            savefig(fullfile('..', 'figIrregCIC'));
+            cd(testCase.testDir);
         end
         
-        function runIrregSSTest(testCase)            
+        function runIrregSSTest(testCase)
             cd(fullfile(testCase.testDir,   ...
                         'RegressionTests',  ...
                         'IrregularWaves',   ...
-                        'irregularSS'))                    
+                        'irregularSS'))
             runLoadIrregularSS;
             testCase.irregularSS = load('irregularSS.mat').("irregularSS");
-            savefig(fullfile('..', 'figIrregSS'));            
-            cd(testCase.testDir);            
+            savefig(fullfile('..', 'figIrregSS'));
+            cd(testCase.testDir);
         end
         
     end
     
     methods(TestClassTeardown)
         
-        function plotRegTests(testCase)            
+        function plotRegTests(testCase)
             % Plot Solver Comparisons
-            if testCase.plotSolvers == 1                
+            if testCase.plotSolvers == 1
                 cd(fullfile(testCase.testDir,   ...
                             'RegressionTests',  ...
                             'RegularWaves'));
-                printPlotRegular;                
+                printPlotRegular;
                 cd(fullfile(testCase.testDir,   ...
                             'RegressionTests',  ...
                             'IrregularWaves'));
-                printPlotIrregular;                
+                printPlotIrregular;
             end
             % Open new vs. org Comparisons
-            if testCase.openCompare == 1                
+            if testCase.openCompare == 1
                 cd(fullfile(testCase.testDir,   ...
                             'RegressionTests',  ...
                             'RegularWaves'));
                 openfig('figReg.fig');
                 openfig('figRegCIC.fig');
-                openfig('figRegSS.fig');                
+                openfig('figRegSS.fig');
                 cd(fullfile(testCase.testDir,   ...
                             'RegressionTests',  ...
                             'IrregularWaves'));
                 openfig('figIrregCIC.fig');
-                openfig('figIrregSS.fig');                
-            end            
+                openfig('figIrregSS.fig');
+            end
             set(0,'DefaultFigureVisible',testCase.OriginalDefault);
             testCase.assertEqual(get(0,'DefaultFigureVisible'),     ...
-                                 testCase.OriginalDefault);            
+                                 testCase.OriginalDefault);
         end
     end
     
