@@ -206,7 +206,7 @@ classdef ptoClass<handle
                 rotMat = axisAngle2RotMat(axisList(i,:),angleList(i))*rotMat;
             end
             % calculate net axis-angle rotation
-%             [netAxis, netAngle] = rotMat2AxisAngle(rotMat);
+            % [netAxis, netAngle] = rotMat2AxisAngle(rotMat);
             % calculate net displacement due to rotation
             rotatedRelCoord = relCoord*(rotMat');
             linDisp = rotatedRelCoord - relCoord;

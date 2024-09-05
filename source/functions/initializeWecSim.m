@@ -62,8 +62,11 @@ if exist('runWecSimCML','var') && runWecSimCML==1
     run('wecSimInputFile');
 else
     % Get global reference frame parameters
-    values = get_param([bdroot,'/Global Reference Frame'],'MaskValues');    % Cell array containing all Masked Parameter values
-    names = get_param([bdroot,'/Global Reference Frame'],'MaskNames');      % Cell array containing all Masked Parameter names
+    blocks = find_system(bdroot,'Type','Block');
+    mask = contains(blocks,'Global Reference Frame');
+    referenceFramePath = blocks{mask};
+    values = get_param(referenceFramePath,'MaskValues');    % Cell array containing all Masked Parameter values
+    names = get_param(referenceFramePath,'MaskNames');      % Cell array containing all Masked Parameter names
     j = find(strcmp(names,'InputMethod'));    
     if strcmp(values{j},'Input File')
         % wecSim input from input file selected in Simulink block

@@ -539,7 +539,7 @@ for k=1:length(split_body_names)
 end
 
 % set the indices that sort the old dofs/variables into the correct order
-inds = zeros(1,max([6,sum(nDofs_per_body)]));
+inds = zeros(1,length(sorted_dofs));
 for j=1:length(old_dofs)
     for i=1:length(sorted_dofs)
         if lower(old_dofs(j)) == sorted_dofs(i)

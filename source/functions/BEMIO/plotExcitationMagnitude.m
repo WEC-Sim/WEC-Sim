@@ -32,26 +32,24 @@ notes = {''};
 
 numHydro = length(varargin);
 
-for ii = 1:numHydro
-    tmp1 = strcat('X',num2str(ii));
-    X.(tmp1) = varargin{ii}.w;
-    tmp2 = strcat('Y',num2str(ii));
-    b = 0;
-    for i = 1:length(varargin{ii}.plotBodies)
-        a = 0;
-        if i > 1
-            for i = 2:varargin{ii}.plotBodies(i)
-                a = a + varargin{ii}.dof(varargin{ii}.plotBodies(i-1));
+for iH = 1:numHydro
+    tmp1 = strcat('X',num2str(iH));
+    X.(tmp1) = varargin{iH}.w;
+    tmp2 = strcat('Y',num2str(iH));
+    legendCount = 0;
+    for ii = 1:length(varargin{iH}.plotBodies)
+        iB = varargin{iH}.plotBodies(ii);
+        a = sum(varargin{iH}.dof(1:iB)) - varargin{iH}.dof(iB);
+        for iii = 1:size(varargin{iH}.diagPlotDofs,1)
+            iDof = a+varargin{iH}.diagPlotDofs(iii,1);
+            for iv = 1:length(varargin{iH}.plotDirections)
+                iDir = varargin{iH}.plotDirections(iv);
+                tmp3 = strcat('d',num2str(iv));
+                Y.(tmp2).(tmp3)(iii,ii,:) = squeeze(varargin{iH}.ex_ma(iDof,iDir,:));
+                legendStrings{legendCount+iv,iH} = strcat('hydro_',num2str(iH),'.',varargin{iH}.body{iB},' \theta =  ',num2str(varargin{iH}.theta(iDir)),'^{\circ}');
             end
         end
-        for j = 1:size(varargin{ii}.diagPlotDofs,1)
-            for k = 1:length(varargin{ii}.plotDirections)
-                tmp3 = strcat('d',num2str(k));
-                Y.(tmp2).(tmp3)(j,i,:) = squeeze(varargin{ii}.ex_ma(a+varargin{ii}.diagPlotDofs(j),varargin{ii}.plotDirections(k),:));
-                legendStrings{b+k,ii} = [strcat('hydro_',num2str(ii),'.',varargin{ii}.body{varargin{ii}.plotBodies(i)},' \theta =  ',num2str(varargin{1}.theta(varargin{ii}.plotDirections(k))),'^{\circ}')];
-            end
-        end
-        b = b+k;
+        legendCount = legendCount+iv;
     end
 end
 

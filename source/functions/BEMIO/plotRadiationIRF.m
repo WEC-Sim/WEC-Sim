@@ -38,30 +38,28 @@ notes = {'Notes:',...
 
 numHydro = length(varargin);
 
-for ii = 1:numHydro
-    tmp1 = strcat('X',num2str(ii));
-    X.(tmp1) = varargin{ii}.ra_t;
-    tmp2 = strcat('Y',num2str(ii));
-    q = 0;
-    for i = 1:length(varargin{ii}.plotBodies)
-        a = 0;
-        if i > 1
-            for i = 2:varargin{ii}.plotBodies(i)
-                a = a + varargin{ii}.dof(varargin{ii}.plotBodies(i-1));
+for iH = 1:numHydro
+    tmp1 = strcat('X',num2str(iH));
+    X.(tmp1) = varargin{iH}.ra_t;
+    tmp2 = strcat('Y',num2str(iH));
+    ssFlag = isfield(varargin{iH},'ss_A');
+    for ii = 1:length(varargin{iH}.plotBodies)
+        iB = varargin{iH}.plotBodies(ii);
+        a = sum(varargin{iH}.dof(1:iB)) - varargin{iH}.dof(iB);
+        for iii = 1:size(varargin{iH}.plotDofs,1)
+            iDof1 = a+varargin{iH}.plotDofs(iii,1);
+            iDof2 = a+varargin{iH}.plotDofs(iii,2);
+            if ssFlag
+                Y.(tmp2)(iii,ii,:) = squeeze(varargin{iH}.ss_K(iDof1,iDof2,:));
+            else
+                Y.(tmp2)(iii,ii,:) = squeeze(varargin{iH}.ra_K(iDof1,iDof2,:));
             end
         end
-        for j = 1:size(varargin{ii}.plotDofs,1)
-            Y.(tmp2)(j,i,:) = squeeze(varargin{ii}.ra_K(a+varargin{ii}.plotDofs(j,1),a+varargin{ii}.plotDofs(j,2),:));
-            if isfield(varargin{ii},'ss_A')==1
-                q = 1;
-                Y.(tmp2)(j,i,:) = squeeze(varargin{ii}.ss_K(a+varargin{ii}.plotDofs(j,1),a+varargin{ii}.plotDofs(j,2),:));
-            end
+        if ssFlag
+            legendStrings{ii,iH} = strcat('hydro_',num2str(iH),'.',varargin{iH}.body{iB},' (SS)');
+        else
+            legendStrings{ii,iH} = strcat('hydro_',num2str(iH),'.',varargin{iH}.body{iB});
         end
-        legendStrings{i,ii} = [strcat('hydro_',num2str(ii),'.',varargin{ii}.body{varargin{ii}.plotBodies(i)})];
-        if q == 1
-            legendStrings{i,ii} = [strcat('hydro_',num2str(ii),'.',varargin{ii}.body{varargin{ii}.plotBodies(i)}),' (SS)'];
-        end
-        q = 0;
     end
 end
 
