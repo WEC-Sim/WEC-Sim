@@ -20,7 +20,7 @@ function hydro = readCAPYTAINE(hydro, filename, hydrostatics_sub_dir)
 %         Structure of hydro data with Capytaine data appended
 
 %% Check file for required variables
-[a,b] = size(hydro);  % Check on what is already there
+[~,b] = size(hydro);  % Check on what is already there
 if b == 1 && ~isfield(hydro(b),'Nb')
     F = 1;
 elseif b >= 1
@@ -95,7 +95,7 @@ error(tmp); % only throws error if required variables are not present (tmp ~= ''
 %% begin parsing netcdf file to hydro struct
 % Read body names
 tmp = ncread(filename,'body_name')';
-[s1,s2] = size(tmp);
+[s1,~] = size(tmp);
 for i=1:s1
     hydro(F).body{i} = erase(tmp(i,:), char(0)); % assign preliminary value to body names
 end
@@ -106,7 +106,7 @@ rdofs = lower(string(ncread(filename,'radiating_dof')'));
 rdofs = erase(rdofs, char(0));
 [r_sorted_dofs,rinds,reset_rdofs,r_nDofs,r_bodies] = sorted_dof_list(rdofs, hydro(F).body);
 
-% sort radiating dof into standard list if necessary
+% sort influenced dof into standard list if necessary
 idofs = lower(string(ncread(filename,'influenced_dof')'));
 idofs = erase(idofs, char(0));
 [i_sorted_dofs,iinds,reset_idofs,i_nDofs,i_bodies] = sorted_dof_list(idofs, hydro(F).body);
@@ -215,15 +215,21 @@ waitbar(2/8);
 
 %% Linear restoring stiffness [6, 6, Nb]
 % Note: Capytaine may not output this by default.
-for m = 1:hydro(F).Nb
-    % Look for KH.dat files. Same format as Nemoh.
-    if hydro(F).Nb == 1
-        fileID = fopen(fullfile(hydrostatics_dir,'KH.dat'));
-    else
-        fileID = fopen([fullfile(hydrostatics_dir,'KH_'),num2str(m-1),'.dat']);
-    end
-    
-    if fileID ~= -1
+% Look for KH.dat files. Same format as Nemoh.
+if hydro(F).Nb == 1
+    fileID = fopen(fullfile(hydrostatics_dir,'KH.dat'));
+else
+    fileID = fopen(fullfile(hydrostatics_dir,'KH_0.dat'));
+end
+
+if fileID ~= -1
+    for m = 1:hydro(F).Nb
+        if hydro(F).Nb == 1
+            fileID = fopen(fullfile(hydrostatics_dir,'KH.dat'));
+        else
+            fileID = fopen([fullfile(hydrostatics_dir,'KH_'),num2str(m-1),'.dat']);
+        end
+        
         % KH.dat files present, read them
         raw = textscan(fileID,'%[^\n\r]');
         raw = raw{:};
@@ -232,23 +238,54 @@ for m = 1:hydro(F).Nb
             tmp = textscan(raw{i},'%f');
             hydro(F).Khs(i,:,m) = tmp{1,1}(1:6);  % Linear restoring stiffness
         end
-    else
-        % No KH.dat files present. Check the .nc file
-        try
-            Khs_all = ncread(filename,'hydrostatic_stiffness');
-            for i = 1:6
-                % TODO - this breaks for less than 6 DOFs
-                hydro(F).Khs(i,:,m) = Khs_all((m-1)*6+i,(m-1)*6+1:(m-1)*6+6);
+    end
+else
+    % No KH.dat files present. Check the .nc file
+    try
+        % Get index of variable
+        i_var = getInd(info.Variables,'hydrostatic_stiffness');
+        
+        % get dimensions of the variable
+        dim = info.Variables(i_var).Dimensions;
+        i_infdof = getInd(dim,'influenced_dof');
+        i_raddof = getInd(dim,'radiating_dof');
+
+        % read variable
+        tmp = ncread(filename,'hydrostatic_stiffness');
+
+        % permute variable to correct dimensions if incorrect
+        tmp = permute(tmp,[i_infdof, i_raddof]);
+
+        % permute the influenced/radiating dofs if not output by Capytaine correctly
+        % Initialize stiffness as 6*Nbx6*Nb to allow reading 
+        % Capytaine data with <6 DOFs.
+        % Then convert to 6x6xNb
+        KHS = zeros(sum(hydro(F).dof),sum(hydro(F).dof));
+        if reset_idofs || reset_rdofs
+            for j=1:sum(hydro(F).dof)
+                for k=1:sum(hydro(F).dof)
+                    if iinds(j) ~= 0 && rinds(k) ~= 0
+                        KHS(j,k) = tmp(iinds(j),rinds(k));
+                    end
+                end
             end
-        catch ME
-            switch ME.identifier
-                case 'MATLAB:imagesci:netcdf:unknownLocation'
-                    warning(['Hydrostatic stiffness not included in .nc nor .dat files! ',...
-                             'Value of zero assigned to Khs.']);
-                    hydro(F).Khs = zeros(6,6,hydro(F).Nb);
-                otherwise
-                    rethrow(ME)
-            end
+        else
+            KHS = tmp;
+        end
+
+        % Expand the Khs matrix from 6*Nbx6*Nb to the desired 6x6xNb
+        for m = 1:hydro(F).Nb
+            hydro(F).Khs(:,:,m) = KHS((m-1)*6+1:(m-1)*6+6,(m-1)*6+1:(m-1)*6+6);
+        end
+
+    catch ME
+        switch ME.identifier
+            case 'MATLAB:imagesci:netcdf:unknownLocation'
+                warning(['Hydrostatic stiffness not included in .nc nor .dat files! ',...
+                         'Value of zero assigned to Khs.']);
+                hydro(F).Khs = zeros(6,6,hydro(F).Nb);
+            otherwise
+                rethrow(ME)
         end
     end
 end
@@ -279,7 +316,7 @@ end
 
 % permute the influenced/radiating dofs if not output by Capytaine correctly
 % Initialize added mass as 6x6xNf (or larger if gbm) to allow reading 
-% Capytaine simulations in <6 DOFs
+% Capytaine data with <6 DOFs.
 AM = zeros(sum(hydro(F).dof), sum(hydro(F).dof), hydro(F).Nf);
 if reset_idofs || reset_rdofs
     for j=1:sum(hydro(F).dof)
@@ -319,7 +356,7 @@ end
 
 % permute the influenced/radiating dofs if not output by Capytaine correctly
 % Initialize radiation damping as 6x6xNf (or larger if gbm) to allow reading 
-% Capytaine simulations in <6 DOFs
+% Capytaine data with <6 DOFs.
 RD = zeros(sum(hydro(F).dof), sum(hydro(F).dof), hydro(F).Nf);
 if reset_idofs || reset_rdofs
     for j=1:sum(hydro(F).dof)
@@ -362,7 +399,7 @@ end
 
 % permute the influenced dofs if not output by Capytaine correctly
 % Initialize FK force as 6xNhxNf (or larger if gbm) to allow reading 
-% Capytaine simulations in <6 DOFs
+% Capytaine data with <6 DOFs.
 FK = zeros(sum(hydro(F).dof), hydro(F).Nh, hydro(F).Nf, 2);
 if reset_idofs
     for j=1:sum(hydro(F).dof)
@@ -409,7 +446,7 @@ end
 
 % permute the influenced dofs if not output by Capytaine correctly
 % Initialize Diffraction force as 6xNhxNf (or larger if gbm) to allow reading 
-% Capytaine simulations in <6 DOFs
+% Capytaine data with <6 DOFs.
 DF = zeros(sum(hydro(F).dof), hydro(F).Nh, hydro(F).Nf, 2);
 if reset_idofs
     for j=1:sum(hydro(F).dof)
@@ -491,9 +528,10 @@ nDofs_per_body = zeros(1,length(split_body_names));
 
 sorted_dofs = [];
 for k=1:length(split_body_names)
-    body_dofs = old_dofs(contains(old_dofs,split_body_names{k})); % all dofs for body k
-    std_body_dofs = strcat(split_body_names{k},tmp,std_dofs); % standard 6 dofs for body k
-    gbm_dofs = body_dofs(~contains(body_dofs,std_body_dofs))'; % any gbm dofs for body k (i.e. not in std list)
+    body_dofs = old_dofs(contains(old_dofs, [split_body_names{k} tmp])); % all dofs for body k. Add tmp to the body name to discriminate between body names that contain each other (e.g. if named "body" and "body2", then "body2" contains "body")
+    std_body_dofs = strcat(split_body_names{k}, tmp, std_dofs); % standard 6 dofs for body k
+    gbm_dofs = body_dofs(~contains(body_dofs, std_body_dofs))'; % gbm dofs are not in the standard 6 DOF list
+    % gbm dofs for body k are not associated with another body name
     
     if isempty(gbm_dofs); gbm_dofs=[]; end % prevent formatting error when concatenating on next line
     sorted_dofs = [sorted_dofs std_body_dofs gbm_dofs]; % concatenate [std(k) gbm(k) std(k+1) gbm(k+1)...]
@@ -513,7 +551,6 @@ for j=1:length(old_dofs)
 end
 
 % check that inds is setup correctly. test should match sorted_dofs
-% test = old_dofs(inds); 
 reset_tf = any(inds~=1:length(sorted_dofs));
 end
 
