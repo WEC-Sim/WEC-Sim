@@ -260,7 +260,7 @@ classdef bodyClass<handle
                     warning('Center of gravity and center of buoyancy are overwritten by h5 data for hydro bodies.')
                 end
                 % Variable Hydro
-                if obj.variableHydro.option == 1 && isscalar(obj.h5File)
+                if obj.variableHydro.option == 1 && length(obj.h5File) == 1
                     obj.variableHydro.option = 0;
                     warning('Only one h5File supplied. Turning variable hydro off.');
                 end
@@ -287,7 +287,7 @@ classdef bodyClass<handle
                     % linearDamping, hydroStiffness if not done by the
                     % user. This makes processing in hydroForcePre easier.
                     nH5 = length(obj.h5File);
-                    if isscalar(obj.quadDrag)
+                    if length(obj.quadDrag) == 1
                         obj.quadDrag = repmat(obj.quadDrag,1,nH5);
                     end
                     if size(obj.linearDamping,3) == 1
