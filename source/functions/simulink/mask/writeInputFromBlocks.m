@@ -42,6 +42,7 @@ for i=1:length(blocks)
     end
 end
 
+
 % Order classes by number
 iSorted = sortBlocksByNumber(blocks(iBody),'body');
 iBody = iBody(iSorted);
@@ -139,6 +140,7 @@ for i = 1:length(blocks)
         writeLineFromVar(fid, body, 'nonHydro', maskVars, maskViz, num, []);
         writeLineFromVar(fid, body, 'nonlinearHydro', maskVars, maskViz, num, []);
         writeLineFromVar(fid, body, 'flex', maskVars, maskViz, num, []);
+        writeLineFromVar(body, 'QTFs', maskVars, maskViz, num, []);
         writeLineFromVar(fid, body, 'centerGravity', maskVars, maskViz, num, []);
         writeLineFromVar(fid, body, 'centerBuoyancy', maskVars, maskViz, num, []);
         writeLineFromVar(fid, body, 'dof', maskVars, maskViz, num, []);
