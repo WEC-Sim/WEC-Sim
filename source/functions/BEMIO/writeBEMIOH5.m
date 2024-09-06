@@ -43,7 +43,7 @@ n = 0;
 m_add = 0;
 for i = 1:hydro.Nb
     m = hydro.dof(i);
-    
+
     % Write body properties
     writeH5Parameter(filename,['/body' num2str(i) '/properties/body_number'],i,'Number of rigid body from the BEM simulation','');
     writeH5Parameter(filename,['/body' num2str(i) '/properties/cb'],hydro.cb(:,i)','Center of buoyancy','m')
@@ -90,7 +90,25 @@ for i = 1:hydro.Nb
     writeH5Parameter(filename,['/body' num2str(i) '/hydro_coeffs/excitation/impulse_response_fun/f'],permute(hydro.ex_K((n+1):(n+m),:,:),[3 2 1]),'Impulse response function','');
     writeH5Parameter(filename,['/body' num2str(i) '/hydro_coeffs/excitation/impulse_response_fun/t'],hydro.ex_t,'Time vector for the impulse resonse function','s');
     writeH5Parameter(filename,['/body' num2str(i) '/hydro_coeffs/excitation/impulse_response_fun/w'],hydro.ex_w,'Interpolated frequencies used to compute the impulse response function','rad/s');
-    
+
+    % Write QTFs data if available
+    if isfield(hydro, 'QTFs') && ~isempty(hydro.QTFs(i).Diff)
+        for dof = 1 : hydro.dof(i)
+            writeH5Parameter(filename,['/body' num2str(i) '/hydro_coeffs/excitation/QTF' num2str(i) '/Sum'  num2str(dof) '/PER_i'],    hydro.QTFs(i).Sum(dof).PER_i,'Periodic Time of QTF','s');
+            writeH5Parameter(filename,['/body' num2str(i) '/hydro_coeffs/excitation/QTF' num2str(i) '/Sum' num2str(dof) '/BETA_i'],    hydro.QTFs(i).Sum(dof).BETA_i,'ith Wave direction','');
+            writeH5Parameter(filename,['/body' num2str(i) '/hydro_coeffs/excitation/QTF' num2str(i) '/Sum' num2str(dof) '/BETA_j'],    hydro.QTFs(i).Sum(dof).BETA_j,'jth Wave direction','');
+            writeH5Parameter(filename,['/body' num2str(i) '/hydro_coeffs/excitation/QTF' num2str(i) '/Sum'  num2str(dof) '/PHS_F_ij'], hydro.QTFs(i).Sum(dof).PHS_F_ij,'Phase of QTF','s');
+            writeH5Parameter(filename,['/body' num2str(i) '/hydro_coeffs/excitation/QTF' num2str(i) '/Sum'  num2str(dof) '/Re_F_ij'],  hydro.QTFs(i).Sum(dof).Re_F_ij,'Real component of QTF Coeffcients','');
+            writeH5Parameter(filename,['/body' num2str(i) '/hydro_coeffs/excitation/QTF' num2str(i) '/Sum'  num2str(dof) '/Im_F_ij'],  hydro.QTFs(i).Sum(dof).Im_F_ij,'Imaginary component of QTF Coeffcients','');
+            writeH5Parameter(filename,['/body' num2str(i) '/hydro_coeffs/excitation/QTF' num2str(i) '/Diff' num2str(dof) '/PER_i'],    hydro.QTFs(i).Diff(dof).PER_i,'Periodic Time of QTF','s');
+            writeH5Parameter(filename,['/body' num2str(i) '/hydro_coeffs/excitation/QTF' num2str(i) '/Diff' num2str(dof) '/BETA_i'],   hydro.QTFs(i).Diff(dof).BETA_i,'ith Wave direction','');
+            writeH5Parameter(filename,['/body' num2str(i) '/hydro_coeffs/excitation/QTF' num2str(i) '/Diff' num2str(dof) '/BETA_j'],   hydro.QTFs(i).Diff(dof).BETA_j,'jth Wave direction','');
+            writeH5Parameter(filename,['/body' num2str(i) '/hydro_coeffs/excitation/QTF' num2str(i) '/Diff' num2str(dof) '/PHS_F_ij'], hydro.QTFs(i).Diff(dof).PHS_F_ij,'Phase of QTF','');
+            writeH5Parameter(filename,['/body' num2str(i) '/hydro_coeffs/excitation/QTF' num2str(i) '/Diff' num2str(dof) '/Re_F_ij'],  hydro.QTFs(i).Diff(dof).Re_F_ij,'Real component of QTF Coeffcients','');
+            writeH5Parameter(filename,['/body' num2str(i) '/hydro_coeffs/excitation/QTF' num2str(i) '/Diff' num2str(dof) '/Im_F_ij'],  hydro.QTFs(i).Diff(dof).Im_F_ij,'Imaginary component of QTF Coeffcients','');
+        end
+    end
+
     % Write mean drift coefficients if available
     if isfield(hydro,'md_mc') % Only if mean drift variables (momentum conservation) have been calculated in BEM
         writeH5Parameter(filename,['/body' num2str(i) '/hydro_coeffs/mean_drift/momentum_conservation/val'],permute(hydro.md_mc((n+1):(n+m),:,:),[3 2 1]),'Value of mean drift force (momentum conservation)','');

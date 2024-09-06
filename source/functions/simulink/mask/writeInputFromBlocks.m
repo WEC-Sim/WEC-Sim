@@ -42,6 +42,7 @@ for i=1:length(blocks)
     end
 end
 
+
 % Order classes by number
 iSorted = sortBlocksByNumber(blocks(iBody),'body');
 iBody = iBody(iSorted);
@@ -132,27 +133,28 @@ for i = 1:length(blocks)
         num = str2num(extractBetween(tmp,strfind(tmp,'('),strfind(tmp,')'),'Boundaries','Exclusive'));
 
         fprintf(fid,'body(%d) = bodyClass(%s); \r\n',num,maskVars.h5File);
-        writeLineFromVar(fid, body, 'geometryFile', maskVars, maskViz, num, []);
-        writeLineFromVar(fid, body, 'mass', maskVars, maskViz, num, []);
-        writeLineFromVar(fid, body, 'inertia', maskVars, maskViz, num, []);
-        writeLineFromVar(fid, body, 'inertiaProducts', maskVars, maskViz, num, []);
-        writeLineFromVar(fid, body, 'nonHydro', maskVars, maskViz, num, []);
-        writeLineFromVar(fid, body, 'nonlinearHydro', maskVars, maskViz, num, []);
-        writeLineFromVar(fid, body, 'flex', maskVars, maskViz, num, []);
-        writeLineFromVar(fid, body, 'centerGravity', maskVars, maskViz, num, []);
-        writeLineFromVar(fid, body, 'centerBuoyancy', maskVars, maskViz, num, []);
-        writeLineFromVar(fid, body, 'dof', maskVars, maskViz, num, []);
-        writeLineFromVar(fid, body, 'volume', maskVars, maskViz, num, []);        
-        writeLineFromVar(fid, body, 'displacement', maskVars, maskViz, num, 'initial');
-        writeLineFromVar(fid, body, 'axis', maskVars, maskViz, num, 'initial');
-        writeLineFromVar(fid, body, 'angle', maskVars, maskViz, num, 'initial');        
-        writeLineFromVar(fid, body, 'option', maskVars, maskViz, num, 'morisonElement');
-        writeLineFromVar(fid, body, 'cd', maskVars, maskViz, num, 'morisonElement');
-        writeLineFromVar(fid, body, 'ca', maskVars, maskViz, num, 'morisonElement');
-        writeLineFromVar(fid, body, 'area', maskVars, maskViz, num, 'morisonElement');
-        writeLineFromVar(fid, body, 'VME', maskVars, maskViz, num, 'morisonElement');
-        writeLineFromVar(fid, body, 'rgME', maskVars, maskViz, num, 'morisonElement');
-        writeLineFromVar(fid, body, 'z', maskVars, maskViz, num, 'morisonElement');
+        fprintf(fid,writeLineFromVar(body, 'geometryFile', maskVars, maskViz, num, []));
+        fprintf(fid,writeLineFromVar(body, 'mass', maskVars, maskViz, num, []));
+        fprintf(fid,writeLineFromVar(body, 'inertia', maskVars, maskViz, num, []));
+        fprintf(fid,writeLineFromVar(body, 'inertiaProducts', maskVars, maskViz, num, []));
+        fprintf(fid,writeLineFromVar(body, 'nonHydro', maskVars, maskViz, num, []));
+        fprintf(fid,writeLineFromVar(body, 'nonlinearHydro', maskVars, maskViz, num, []));
+        fprintf(fid,writeLineFromVar(body, 'flex', maskVars, maskViz, num, []));
+        fprintf(fid,writeLineFromVar(body, 'QTFs', maskVars, maskViz, num, []));
+        fprintf(fid,writeLineFromVar(body, 'centerGravity', maskVars, maskViz, num, []));
+        fprintf(fid,writeLineFromVar(body, 'centerBuoyancy', maskVars, maskViz, num, []));
+        fprintf(fid,writeLineFromVar(body, 'dof', maskVars, maskViz, num, []));
+        fprintf(fid,writeLineFromVar(body, 'volume', maskVars, maskViz, num, []));        
+        fprintf(fid,writeLineFromVar(body, 'displacement', maskVars, maskViz, num, 'initial'));
+        fprintf(fid,writeLineFromVar(body, 'axis', maskVars, maskViz, num, 'initial'));
+        fprintf(fid,writeLineFromVar(body, 'angle', maskVars, maskViz, num, 'initial'));        
+        fprintf(fid,writeLineFromVar(body, 'option', maskVars, maskViz, num, 'morisonElement'));
+        fprintf(fid,writeLineFromVar(body, 'cd', maskVars, maskViz, num, 'morisonElement'));
+        fprintf(fid,writeLineFromVar(body, 'ca', maskVars, maskViz, num, 'morisonElement'));
+        fprintf(fid,writeLineFromVar(body, 'area', maskVars, maskViz, num, 'morisonElement'));
+        fprintf(fid,writeLineFromVar(body, 'VME', maskVars, maskViz, num, 'morisonElement'));
+        fprintf(fid,writeLineFromVar(body, 'rgME', maskVars, maskViz, num, 'morisonElement'));
+        fprintf(fid,writeLineFromVar(body, 'z', maskVars, maskViz, num, 'morisonElement'));
         
     elseif isfield(maskVars,'constraint')
         % Block is a constraint
