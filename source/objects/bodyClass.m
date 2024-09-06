@@ -403,8 +403,13 @@ classdef bodyClass<handle
                 % obj.linearDamping = [obj.linearDamping zeros(1,obj.dof-length(obj.linearDamping))];
                 tmp0 = obj.linearDamping;
                 tmp1 = size(obj.linearDamping);
-                obj.linearDamping = zeros(obj.dof, obj.dof, tmp1(3));
-                obj.linearDamping(1:tmp1(1),1:tmp1(2),:) = tmp0;
+                if ndims(tmp0) > 2
+                    obj.linearDamping = zeros(obj.dof, obj.dof, tmp1(3));
+                    obj.linearDamping(1:tmp1(1),1:tmp1(2),:) = tmp0;
+                else
+                    obj.linearDamping = zeros (obj.dof);
+                    obj.linearDamping(1:tmp1(1),1:tmp1(2)) = tmp0;
+                end
                 
                 for i = 1:length(obj.quadDrag)
                     tmp0 = obj.quadDrag(i).drag;
