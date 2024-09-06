@@ -46,7 +46,7 @@ classdef bodyClass<handle
             'angle',                                0)                      % (`structure`) Defines the initial displacement of the body. ``displacement`` (`1x3 float vector`) is defined as the initial displacement of the body center of gravity (COG) [m] in the following format [x y z], Default = [``0 0 0``]. ``axis`` (`1x3 float vector`) is defined as the axis of rotation in the following format [x y z], Default = [``0 1 0``]. ``angle`` (`float`) is defined as the initial angular displacement of the body COG [rad], Default = ``0``.
         largeXYDisplacement (1,1) struct            = struct(...            %
             'option',                               0)                      %
-        linearDamping (6,6,:) {mustBeNumeric}       = zeros(6)              % (`6x6 float matrix`) Defines linear damping coefficient matrix. Create a 3D matrix (6x6xn) for variable hydrodynamics. Default = ``zeros(6)``.
+        linearDamping {mustBeNumeric}               = zeros(6)              % (`6x6 float matrix`) Defines linear damping coefficient matrix. Create a 3D matrix (6x6xn) for variable hydrodynamics. Default = ``zeros(6)``.
         mass (1,:)                                  = []                    % (`float`) Translational inertia or mass [kg]. Defined by the user or specify 'equilibrium' to set the mass equal to the fluid density times displaced volume. Default = ``[]``.
         meanDrift (1,1) {mustBeInteger}             = 0                     % (`integer`) Flag for mean drift force, Options:  0 (no), 1 (yes, from control surface) or 2 (yes, from momentum conservation). Default = ``0``.
         morisonElement (1,1) struct                 = struct(...            % (`structure`) Defines the Morison Element properties connected to the body.
@@ -407,14 +407,14 @@ classdef bodyClass<handle
                     obj.linearDamping = zeros(obj.dof, obj.dof, tmp1(3));
                     obj.linearDamping(1:tmp1(1),1:tmp1(2),:) = tmp0;
                 else
-                    obj.linearDamping = zeros (obj.dof);
+                    obj.linearDamping = zeros(obj.dof);
                     obj.linearDamping(1:tmp1(1),1:tmp1(2)) = tmp0;
                 end
                 
                 for i = 1:length(obj.quadDrag)
                     tmp0 = obj.quadDrag(i).drag;
                     tmp1 = size(obj.quadDrag(i).drag);
-                    obj.quadDrag(i).drag = zeros (obj.dof);
+                    obj.quadDrag(i).drag = zeros(obj.dof);
                     obj.quadDrag(i).drag(1:tmp1(1),1:tmp1(2)) = tmp0;
                 
                     obj.quadDrag(i).cd   = [obj.quadDrag(i).cd   zeros(1,obj.dof-length(obj.quadDrag(i).cd))];
