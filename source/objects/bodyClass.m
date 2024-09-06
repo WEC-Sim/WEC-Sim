@@ -260,7 +260,7 @@ classdef bodyClass<handle
                     warning('Center of gravity and center of buoyancy are overwritten by h5 data for hydro bodies.')
                 end
                 % Variable Hydro
-                if obj.variableHydro.option == 1 && isscalar(obj.h5File)
+                if obj.variableHydro.option == 1 && length(obj.h5File) == 1
                     obj.variableHydro.option = 0;
                     warning('Only one h5File supplied. Turning variable hydro off.');
                 end
@@ -287,7 +287,7 @@ classdef bodyClass<handle
                     % linearDamping, hydroStiffness if not done by the
                     % user. This makes processing in hydroForcePre easier.
                     nH5 = length(obj.h5File);
-                    if isscalar(obj.quadDrag)
+                    if length(obj.quadDrag) == 1
                         obj.quadDrag = repmat(obj.quadDrag,1,nH5);
                     end
                     if size(obj.linearDamping,3) == 1
@@ -467,15 +467,14 @@ classdef bodyClass<handle
                 obj.hydroForce.(hfName).gbm.state_space.C = eye(2*obj.gbmDOF,2*obj.gbmDOF);
                 obj.hydroForce.(hfName).gbm.state_space.D = zeros(2*obj.gbmDOF,2*obj.gbmDOF);
                 obj.flex = 1;
-                obj.nonHydro=0;
+                obj.nonHydro = 0;
             end
-            if obj.QTFs >=1
-                if ~isfield(obj.hydroData.hydro_coeffs.excitation, 'QTFs')
+            if obj.QTFs >= 1
+                if ~isfield(obj.hydroData(iH).hydro_coeffs.excitation, 'QTFs')
                     error('QTF coefficients are not defined for the body object "%s"', obj.name);
+                else
+                    obj.qtfExcitation(waveAmpTime, iH);
                 end
-
-                obj.QTF_excitation(waveAmpTime);
-
             end
         end
 
@@ -732,14 +731,15 @@ classdef bodyClass<handle
             obj.hydroForce.(hfName).fExt.im=zeros(1,nDOF);
         end
 
-        function QTF_excitation(obj,waveAmpTime)
-            % second order excittaion force
+        function qtfExcitation(obj, waveAmpTime, iH)
+            % second order excitation force
             % Used by hydroForcePre
+            hfName = ['hf' num2str(iH)];
 
-            F_max = 1/(waveAmpTime(2,1) - waveAmpTime(1,1));            % Maximum samplng freq.
+            F_max = 1 / (waveAmpTime(2,1) - waveAmpTime(1,1)); % Maximum samplng freq.
             Amp_freq = fft(waveAmpTime(:,2));
 
-            N = length(Amp_freq);                                       % Number of Lines, aliasing present.
+            N = length(Amp_freq); % Number of Lines, aliasing present.
             if mod(N, 2) == 1
                 % Make sure that N is even
                 N = N + 1;
@@ -747,13 +747,13 @@ classdef bodyClass<handle
 
             f = F_max/2 * linspace(0,1,N/2);
 
-            time=0:0.1:N*0.1-0.1;
+            time = 0:0.1:N*0.1-0.1;
 
             Omega_fine = 2 * pi * f;
-            Omega_fine(N/2+2:N) = Omega_fine(N/2-1:-1:1);                % symmretic vector
+            Omega_fine(N/2+2:N) = Omega_fine(N/2-1:-1:1); % symmetric vector
 
-            Omega_coarse = 2 * pi ./ obj.hydroData.hydro_coeffs.excitation.QTFs.Sum(1).PER_i;
-            waveDirectionCoarse = obj.hydroData.hydro_coeffs.excitation.QTFs.Sum(1).BETA_i;             % Future WEC-Sim should include the multiple wave directions QTFs calculations
+            Omega_coarse = 2 * pi ./ obj.hydroData(iH).hydro_coeffs.excitation.QTFs.Sum(1).PER_i;
+            waveDirectionCoarse = obj.hydroData(iH).hydro_coeffs.excitation.QTFs.Sum(1).BETA_i; % Future WEC-Sim should include the multiple wave directions QTFs calculations
 
             n = length(Omega_coarse);
             dOmega_coarse = Omega_coarse(2) - Omega_coarse(1);
@@ -762,24 +762,24 @@ classdef bodyClass<handle
 
             Omega_max = max(Omega_coarse);
 
-            [~, index_max] = min(abs(Omega_fine - 2*Omega_max*1.25));           % Uses a margin of 25% after the freq. of intrest
+            [~, index_max] = min(abs(Omega_fine - 2*Omega_max*1.25)); % Uses a margin of 25% after the freq. of intrest
             [~,index_time] = min(abs(time - max(waveAmpTime(end,1))));
-            % remove the frequencies and ampliudes we know does not exist
+            % remove the frequencies and amplitudes we know do not exist
             % in the spectrum
             Omega_fine(index_max+1:end) = [];
             Amp_freq(index_max+1:end) = [];
 
-            [Omega_x,Omega_y]=meshgrid(Omega_fine,Omega_fine);
+            [Omega_x,Omega_y] = meshgrid(Omega_fine,Omega_fine);
 
             for i = 1 : obj.dof
-                tmps = obj.hydroData.hydro_coeffs.excitation.QTFs.Sum(i).Re_F_ij + 1i .* obj.hydroData.hydro_coeffs.excitation.QTFs.Sum(i).Im_F_ij;
-                tmpd = obj.hydroData.hydro_coeffs.excitation.QTFs.Diff(i).Re_F_ij + 1i .* obj.hydroData.hydro_coeffs.excitation.QTFs.Diff(i).Im_F_ij;
+                tmps = obj.hydroData(iH).hydro_coeffs.excitation.QTFs.Sum(i).Re_F_ij + 1i .* obj.hydroData(iH).hydro_coeffs.excitation.QTFs.Sum(i).Im_F_ij;
+                tmpd = obj.hydroData(iH).hydro_coeffs.excitation.QTFs.Diff(i).Re_F_ij + 1i .* obj.hydroData(iH).hydro_coeffs.excitation.QTFs.Diff(i).Im_F_ij;
                 QTF.Sum(:,:,i) = reshape(tmps,n,n);
                 QTF.Diff(:,:,i) = reshape(tmpd,n,n);
             end
-
             n = size(QTF.Sum,1);
-            % Extend the coeffcients to include the extreme points
+
+            % Extend the coefficients to include the extreme points
             QTF.DiffExtended = zeros(n+2,n+2,6);
             QTF.DiffExtended(2:end-1,2:end-1,:) = QTF.Diff;
             QTF.DiffExtended(:,end,:) = QTF.DiffExtended(:,end-1,:);
@@ -793,12 +793,12 @@ classdef bodyClass<handle
             Omega_coarse = [Omega_fine(1) Omega_coarse Omega_fine(end)];
             nOmega = length(Omega_fine);
 
-            if obj.QTFs == 1            % Calculates Full difference QTFs
+            if obj.QTFs == 1 % Calculates full difference QTFs
                 for n = 1 : obj.dof
-                    % Slowly varing component Calculation
+                    % Slowly varing component calculation
                     QTF.Diff_refined(:,:,n) = griddata(Omega_coarse, Omega_coarse, QTF.DiffExtended(:,:,n), Omega_x, Omega_y);
                     tmp =  real(sum(Amp_freq .* conj(Amp_freq) .* diag(QTF.Diff_refined(:,:,n))));
-                    fMeanDriftLoad = 2/(N)^2 * sum(tmp)*ones(N,1) *2 ;     % Multiplied by 2 for the two-sided spectrum
+                    fMeanDriftLoad = 2/(N)^2 * sum(tmp)*ones(N,1) * 2; % Multiplied by 2 for the two-sided spectrum
                     Hu = zeros(N,1);
                     for nu = 1 : nOmega - 1
                         for l = 1 : nOmega- nu
@@ -808,7 +808,8 @@ classdef bodyClass<handle
                     Hu(N/2+1:end) = conj(Hu(N/2:-1:1))';
                     fSlowDriftLoad = 2 * ifft(Hu/N,'symmetric');
                     obj.hydroForce.QTF.fSlowVaryingForces(:,n) = fSlowDriftLoad(1:index_time) + fMeanDriftLoad(1:index_time);
-                    % Fast varing component Calculation
+
+                    % Fast varing component calculation
                     tmp = zeros(N,1);
                     QTF.Sum_refined(:,:,n) = griddata(Omega_coarse, Omega_coarse, QTF.SumExtended(:,:,n), Omega_x, Omega_y);
 
@@ -833,12 +834,11 @@ classdef bodyClass<handle
                     tmp(N/2+1:end) = conj(tmp(N/2:-1:1))';
 
                     fOffDiaginalElements = 2 * ifft((tmp)/N,"symmetric");
-                    obj.hydroForce.QTF.fFastVaryingForces(:,n) = fDiaginalElements(1:index_time) + fOffDiaginalElements(1:index_time);
-                    obj.hydroForce.QTF.time = time(1:index_time);
+                    obj.hydroForce.(hfName).QTF.fFastVaryingForces(:,n) = fDiaginalElements(1:index_time) + fOffDiaginalElements(1:index_time);
+                    obj.hydroForce.(hfName).QTF.time = time(1:index_time);
                 end
             end
         end
-
         
         function regExcitation(obj, w, direction, rho, g, iH)            
             % Regular wave excitation force
