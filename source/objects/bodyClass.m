@@ -354,6 +354,9 @@ classdef bodyClass<handle
                 obj.dofEnd          = hydroData.properties.dofEnd;
                 obj.gbmDOF          = obj.dof-6;
             end
+            if obj.dof > 6 && obj.variableHydro.option == 1
+                error('Variable hydro is not compatible with Generalized body modes.');
+            end
         end
 
         function nonHydroForcePre(obj,rho)
