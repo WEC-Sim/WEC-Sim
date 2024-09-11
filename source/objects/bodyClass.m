@@ -56,22 +56,27 @@ classdef bodyClass<handle
             'area',                                 [0 0 0], ...            %
             'VME',                                  0     , ...             %
             'rgME',                                 [0 0 0], ...            %
-            'z',                                    [0 0 1])                % (`structure`) Defines the Morison Element properties connected to the body. ``option`` (`integer`) for Morison Element calculation, Options: 0 (off), 1 (on) or 2 (on), Default = ``0``, Option 1 uses an approach that allows the user to define drag and inertial coefficients along the x-, y-, and z-axes and Option 2 uses an approach that defines the Morison Element with normal and tangential tangential drag and interial coefficients. ``cd`` (`1x3 float vector`) is defined as the viscous normal and tangential drag coefficients in the following format, Option 1 ``[cd_x cd_y cd_z]``, Option 2 ``[cd_N cd_T NaN]``, Default = ``[0 0 0]``. ``ca`` is defined as the added mass coefficent for the Morison Element in the following format, Option 1 ``[ca_x ca_y ca_z]``, Option 2 ``[ca_N ca_T NaN]``, Default = ``[0 0 0]``, ``area`` is defined as the characteristic area for the Morison Element [m^2] in the following format, Option 1 ``[Area_x Area_y Area_z]``, Option 2 ``[Area_N Area_T NaN]``, Default = ``[0 0 0]``. ``VME`` is the characteristic volume of the Morison Element [m^3], Default = ``0``. ``rgME`` is defined as the vector from the body COG to point of application for the Morison Element [m] in the following format ``[x y z]``, Default = ``[0 0 0]``. ``z`` is defined as the unit normal vector center axis of the Morison Element in the following format, Option 1 not used, Option 2 ``[n_{x} n_{y} n_{z}]``, Default = ``[0 0 1]``.
-        name (1,:) {mustBeText}                     = ''                    % (`string`) Specifies the body name. For hydrodynamic bodies this is defined in h5 file. For nonhydrodynamic bodies this is defined by the user, Default = ``[]``.
-        nonHydro (1,1) {mustBeInteger}              = 0                     % (`integer`) Flag for non-hydro body, Options: 0 (no) or 1 (yes). Default = ``0``.
+            'z',                                    [0 0 1])                % (`structure`) Defines the Morison Element properties connected to the body. ``option`` (`integer`) for Morison Element calculation, Options: 0 (off), 1 (on) or 2 (on), Default = ``0``, Option 1 uses an approach that allows the user to define drag and inertial coefficients along the x-, y-, and z-axes and Option 2 uses an approach that defines the Morison Element with normal and tangential tangential drag and interial coefficients. ``cd`` (`1x3 float vector`) is defined as the viscous normal and tangential drag coefficients in the following format, Option 1 ``[cd_x cd_y cd_z]``, Option 2 ``[cd_N cd_T NaN]``, Default = ``[0 0 0]``. ``ca`` is defined as the added mass coefficent for the Morison Element in the following format, Option 1 ``[ca_x ca_y ca_z]``, Option 2 ``[ca_N ca_T NaN]``, Default = ``[0 0 0]``, ``area`` is defined as the characteristic area for the Morison Element [m^2] in the following format, Option 1 ``[Area_x Area_y Area_z]``, Option 2 ``[Area_N Area_T NaN]``, Default = ``[0 0 0]``. ``VME`` is the characteristic volume of the Morison Element [m^3], Default = ``0``. ``rgME`` is defined as the vector from the body COG to point of application for the Morison Element [m] in the following format ``[x y z]``, Default = ``[0 0 0]``. ``z`` is defined as the unit normal vector center axis of the Morison Element in the following format, Option 1 not used, Option 2 ``[n_{x} n_{y} n_{z}]``, Default = ``[0 0 1]``. 
+        name (1,:) {mustBeText}                     = ''                    % (`string`) Specifies the body name. For hydrodynamic bodies this is defined in h5 file. For nonhydrodynamic bodies this is defined by the user, Default = ``[]``.        
+        nonHydro (1,1) {mustBeInteger}              = 0                     % (`integer`) Flag for non-hydro body, Options: 0 (hydro body), 1 (non-hydro body), 2 (drag body). Default = ``0``.
         nonlinearHydro (1,1) {mustBeInteger}        = 0                     % (`integer`) Flag for nonlinear hydrohanamics calculation, Options: 0 (linear), 1 (nonlinear), 2 (nonlinear). Default = ``0``
         quadDrag (1,1) struct                       = struct(...            % (`structure`)  Defines the viscous quadratic drag forces.
             'drag',                                 zeros(6), ...           %
             'cd',                                   [0 0 0 0 0 0], ...      %
-            'area',                                 [0 0 0 0 0 0])          % (`structure`)  Defines the viscous quadratic drag forces. First option define ``drag``, (`6x6 float matrix`), Default = ``zeros(6)``. Second option define ``cd``, (`1x6 float vector`), Default = ``[0 0 0 0 0 0]``, and ``area``, (`1x6 float vector`), Default = ``[0 0 0 0 0 0]``.
+            'area',                                 [0 0 0 0 0 0])          % (`structure`)  Defines the viscous quadratic drag forces. Create an array of structures for variable hydrodynamics. First option define ``drag``, (`6x6 float matrix`), Default = ``zeros(6)``. Second option define ``cd``, (`1x6 float vector`), Default = ``[0 0 0 0 0 0]``, and ``area``, (`1x6 float vector`), Default = ``[0 0 0 0 0 0]``.        
+        QTFs (1,1) {mustBeInteger}                  = 0                     % (`integer`) Flag for QTFs calculation, Options: 0 (off), 1 (on). Default = ``0``
         paraview (1,1) {mustBeInteger}              = 1;                    % (`integer`) Flag for visualisation in Paraview either, Options: 0 (no) or 1 (yes). Default = ``1``, only called in paraview.
+        variableHydro (1,1) struct                  = struct(...            % (`structure`) Defines the variable hydro implementation.
+            'option',                               0,...                   % 
+            'hydroForceIndexInitial',               1)                      % (`structure`) Defines the variable hydro implementation. ``option`` (`float`) Flag to turn variable hydrodynamics on or off. ``hydroForceIndexInitial`` (`float`) Defines the initial value of the hydroForceIndex, which should correspond to the hydroForce data (cg, cb, volume, water depth, valid cicEndTime, added mass integrated with the body during runtime) and h5File of the body at equilibrium.
         viz (1,1) struct                            = struct(...            % (`structure`)  Defines visualization properties in either SimScape or Paraview.
             'color',                                [1 1 0], ...            %
             'opacity',                              1)                      % (`structure`)  Defines visualization properties in either SimScape or Paraview. ``color`` (`1x3 float vector`) is defined as the body visualization color, Default = [``1 1 0``]. ``opacity`` (`integer`) is defined as the body opacity, Default = ``1``.
         volume (1,:) {mustBeScalarOrEmpty}          = []                    % (`float`) Displaced volume at equilibrium position [m^{3}]. For hydrodynamic bodies this is defined in the h5 file while for nonhydrodynamic bodies this is defined by the user. Default = ``[]``.
         yaw (1,1) struct                            = struct(...            % (`structure`) Defines the passive yaw implementation.
             'option',                               0,...                   %
-            'threshold',                            1)                      % (`structure`) Defines the passive yaw mplementation. ``option`` (`integer`) Flag for passive yaw calculation, Options: 0 (off), 1 (on). Default = ``0``. ``threshold`` (`float`) Yaw position threshold (in degrees) above which excitation coefficients will be interpolated in passive yaw. Default = ``1`` [deg].
+            'threshold',                            1)                      % (`structure`) Defines the passive yaw implementation. ``option`` (`integer`) Flag for passive yaw calculation, Options: 0 (off), 1 (on). Default = ``0``. ``threshold`` (`float`) Yaw position threshold (in degrees) above which excitation coefficients will be interpolated in passive yaw. Default = ``1`` [deg].        
+    
     end
 
     properties (SetAccess = 'private', GetAccess = 'public')% h5 file
@@ -101,7 +106,7 @@ classdef bodyClass<handle
 
     methods (Access = 'public') % modify object = T; output = F
         function obj = bodyClass(h5File)
-            % This method initilizes the ``bodyClass`` and creates a
+            % This method initializes the ``bodyClass`` and creates a
             % ``body`` object.
             %
             % Parameters
@@ -115,14 +120,20 @@ classdef bodyClass<handle
             %         bodyClass object
             %
             if exist('h5File','var')
-                obj.h5File = h5File;
+                if isstring(h5File) || ischar(h5File)
+                    obj.h5File{1} = h5File;
+                elseif iscell(h5File)
+                    obj.h5File = h5File;
+                else
+                    error('body.h5File must be a string or cell array of strings');
+                end
             else
                 error('The body class number(s) in the wecSimInputFile must be specified in ascending order starting from 1. The bodyClass() function should be called first to initialize each body with an h5 file.')
             end
 
         end
 
-        function checkInputs(obj,explorer)
+        function checkInputs(obj, explorer, stateSpace, FIR)
             % This method checks WEC-Sim user inputs for each body and generates error messages if parameters are not properly defined for the bodyClass
 
             % Check struct inputs:
@@ -146,12 +157,14 @@ classdef bodyClass<handle
             assert(isequal(size(obj.morisonElement.z,2)==3,1),'Input body.morisonElement.rgME should be nx3')
             mustBeNumeric(obj.morisonElement.z)
             % Drag
-            assert(isequal(size(obj.quadDrag.drag)==[6,6],[1,1]),'Input body.quadDrag.drag should be 6x6')
-            mustBeNumeric(obj.quadDrag.drag)
-            assert(isequal(size(obj.quadDrag.cd)==[1,6],[1,1]),'Input body.quadDrag.cd should be 1x6')
-            mustBeNumeric(obj.quadDrag.cd)
-            assert(isequal(size(obj.quadDrag.area)==[1,6],[1,1]),'Input body.quadDrag.area should be 1x6')
-            mustBeNumeric(obj.quadDrag.area)
+            for i=1:length(obj.quadDrag)
+                assert(isequal(size(obj.quadDrag(i).drag)==[6,6],[1,1]),'Input body.quadDrag.drag should be 6x6')
+                mustBeNumeric(obj.quadDrag(i).drag)
+                assert(isequal(size(obj.quadDrag(i).cd)==[1,6],[1,1]),'Input body.quadDrag.cd should be 1x6')
+                mustBeNumeric(obj.quadDrag(i).cd)
+                assert(isequal(size(obj.quadDrag(i).area)==[1,6],[1,1]),'Input body.quadDrag.area should be 1x6')
+                mustBeNumeric(obj.quadDrag(i).area)
+            end
             % Viz
             assert(isequal(size(obj.viz.color)==[1,3],[1,1]),'Input body.viz.color should be 1x3')
             mustBeNumeric(obj.viz.color)
@@ -164,11 +177,26 @@ classdef bodyClass<handle
             mustBeMember(obj.meanDrift,0:3)
             mustBeMember(obj.nonHydro,0:2)
             mustBeMember(obj.nonlinearHydro,0:2)
+            mustBeMember(obj.QTFs,0:1)
             mustBeMember(obj.paraview,[0 1])
+            % QTF
+            mustBeMember(obj.QTFs,[0 1])
+            % Variable hydro
+            mustBeMember(obj.variableHydro.option, [0 1])
+            mustBeInteger(obj.variableHydro.hydroForceIndexInitial)
 
             % Check h5 file
-            if exist(obj.h5File,'file')==0 && obj.nonHydro==0
-                error('The hdf5 file %s does not exist',obj.h5File)
+            for iH = 1:length(obj.h5File)
+                if obj.nonHydro == 0
+                    if ~exist(obj.h5File{iH},'file')
+                        error('The hdf5 file %s does not exist',obj.h5File{iH})
+                    end
+                    h5Info = dir(obj.h5File{iH});
+                    h5Info.bytes;
+                    if h5Info.bytes < 1000
+                        error('This is not the correct *.h5 file. Please install git-lfs to access the correct *.h5 file, or run \hydroData\bemio.m to generate a new *.h5 file');
+                    end
+                end
             end
             if ~strcmp(obj.mass,'equilibrium') && ~isscalar(obj.mass)
                 error('Body mass must be defined as a scalar or set to `equilibrium`')
@@ -193,9 +221,11 @@ classdef bodyClass<handle
                     '"bodyClass.morisonElement" structure must only include fields: "option", "cd", "ca", "area", "VME", "rgME", "z" . ']);
             end
             % check 'body.quadDrag' fields
-            if length(fieldnames(obj.quadDrag)) ~=3
-                error(['Unrecognized method, property, or field for class "bodyClass", ' newline
-                    '"bodyClass.quadDrag" structure must only include fields: "drag", "cd", "area"']);
+            for i = 1:length(obj.quadDrag)
+                if length(fieldnames(obj.quadDrag(i))) ~=3
+                    error(['Unrecognized method, property, or field for class "bodyClass", ' newline
+                        '"bodyClass.quadDrag(' num2str(i) ')" structure must only include fields: "drag", "cd", "area"']);
+                end
             end
             % check 'body.viz' fields
             if length(fieldnames(obj.viz)) ~=2
@@ -261,19 +291,28 @@ classdef bodyClass<handle
             fprintf('\tBody Products of Inertia      (kgm2) = [%G,%G,%G]\n',obj.inertiaProducts);
         end
 
-        function loadHydroData(obj, hydroData)
+        function loadHydroData(obj, hydroData, iH)
             % WECSim function that loads the hydroData structure from a
             % MATLAB variable as alternative to reading the h5 file. This
             % process reduces computational time when using wecSimMCR.
-            obj.hydroData       = hydroData;
-            obj.centerGravity	= hydroData.properties.centerGravity';
-            obj.centerBuoyancy  = hydroData.properties.centerBuoyancy';
-            obj.volume          = hydroData.properties.volume;
-            obj.name            = hydroData.properties.name;
-            obj.dof             = obj.hydroData.properties.dof;
-            obj.dofStart        = obj.hydroData.properties.dofStart;
-            obj.dofEnd          = obj.hydroData.properties.dofEnd;
-            obj.gbmDOF          = obj.dof-6;
+            if iH == 1
+                obj.hydroData = hydroData;
+            else
+                obj.hydroData(iH) = hydroData;
+            end
+            if iH == obj.variableHydro.hydroForceIndexInitial
+                obj.centerGravity	= hydroData.properties.centerGravity';
+                obj.centerBuoyancy  = hydroData.properties.centerBuoyancy';
+                obj.volume          = hydroData.properties.volume;
+                obj.name            = hydroData.properties.name;
+                obj.dof             = hydroData.properties.dof;
+                obj.dofStart        = hydroData.properties.dofStart;
+                obj.dofEnd          = hydroData.properties.dofEnd;
+                obj.gbmDOF          = obj.dof-6;
+            end
+            if obj.dof > 6 && obj.variableHydro.option == 1
+                error('Variable hydro is not compatible with Generalized body modes.');
+            end
         end
 
         function nonHydroForcePre(obj,rho)
