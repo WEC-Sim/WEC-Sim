@@ -2,12 +2,10 @@ function [dispPhase] = calcDispPhase(disp, enable, direction, frequency, wavenum
 
 % INPUTS:
 % disp: body displacement vector, x(1) and y(2) will be used
-% waveObj: the waveClass object.
-% dispLast: the previous displacement for which a phase correction was
-%   calculated.
-% phaseLast: the previous phase correction.
 % enable: boolean, simu.largeXYDisp. To calculate transformation vector.
-% direction: 
+% direction: the direction or directional bins of the wave
+% frequency: the frequencies for which the waves have been calculated
+% wavenumber: the wavenumber for which the waves have been calculated
 
 % OUTPUTS:
 % dispPhase: a transformation matrix for real(F_exc) and
