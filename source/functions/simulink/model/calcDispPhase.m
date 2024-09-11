@@ -7,8 +7,7 @@ function [dispPhase] = calcDispPhase(disp, enable, direction, frequency, wavenum
 %   calculated.
 % phaseLast: the previous phase correction.
 % enable: boolean, simu.largeXYDisp. To calculate transformation vector.
-% dispThresh: simu.displacementThresh. If enabled, recalculation will occur
-%   if displacement exceeds this amount from the previous threshold. 
+% direction: 
 
 % OUTPUTS:
 % dispPhase: a transformation matrix for real(F_exc) and
@@ -16,7 +15,7 @@ function [dispPhase] = calcDispPhase(disp, enable, direction, frequency, wavenum
 %     enable = 0.
 
 %% Initialize 
-%dispPhase = zeros(length(frequency),length(direction));
+dispPhase = zeros(length(frequency),length(direction));
 %dispNew = zeros(2,1);
 
 if enable == 1  

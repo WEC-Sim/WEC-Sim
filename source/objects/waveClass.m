@@ -54,10 +54,15 @@ classdef waveClass<handle
             'numPointsY',                           50 );                   % (`structure`) Defines visualization options, structure contains the fields ``numPointsX`` for the number of visualization points in x direction, and ``numPointsY`` for the number of visualization points in y direction.
         waterDepth (1,:) {mustBeScalarOrEmpty}      = [];                   % (`float`) Water depth [m]. Default to BEM water depth if not set.
         spread (1,:) {mustBeNumeric}                = 1;                    % (`float`) Wave Spread probability associated with wave direction(s). Should be defined as a row vector for more than one wave direction. Default = ``1``
-        dirRes (1,:) {mustBeNonnegative}            =[];                    % (`float`) used only in importSpectraFullDir, defines direction resolution (in deg) to prepoluate phase bins.
-        nBins  (1,:) {mustBeScalarOrEmpty}          =[];                    % (`float`) used only in importSpectraFullDir, number of bins in which to discretize directional spreading function.
-        dirBins (1,:) {mustBeNonnegative}           =[];                    % (`float`) used only in importSpectraFullDir, defines bin centers (about mean direction) at which spread function has been evaluated.
-        spreadWeights (1,:) {mustBeNonnegative}     =[];                    % (`float`) used only in importSpectraFullDir, defines spread weights for each dirBin, (num frequencies x nBins)
+        freqDepDirection (1,1) struct               = struct(...            % (`structure`) Contains all parameters relevant to the importSpectraFullDir wave type.
+            'directions',                           [], ...                 % (`float`) used only in importSpectraFullDir, wave direction at each frequency (nFreq x 1). Default = ``'NOT DEFINED'``
+            'spreads',                              [], ...                 % (`float`) used only in importSpectraFullDir, wave spread (in deg) at each frequency (nFreq x 1). Default = ``'NOT DEFINED'``
+            'dirRes',                               [], ...                 % (`float`) Unused. Default = ``'NOT DEFINED'``
+            'nBins',                                [], ...                 % (`float`) used only in importSpectraFullDir, number of bins in which to discretize directional spreading function. Default = ``'NOT DEFINED'``
+            'dirBins',                              [], ...                 % (`float`) used only in importSpectraFullDir, defines bin centers (about mean direction) at which spread function has been evaluated. Default = ``'NOT DEFINED'``
+            'spreadWeights',                        [], ...                 % (`float`) used only in importSpectraFullDir, defines spread weights for each dirBin, (num frequencies x nBins). Default = ``'NOT DEFINED'``
+            'spreadRange',                          2);                     % (`float`) used only in importSpectraFullDir, defines the multiple of spread values (+/-) over which bin energy will be evaluated. Default = ``2``
+            
     end
 
     properties (SetAccess = 'private', GetAccess = 'public')%internal
@@ -127,7 +132,7 @@ classdef waveClass<handle
                 case 'spectrumImport'   % Irregular waves with imported wave spectrum
                     obj.typeNum = 21;
                 case 'spectrumImportFullDir' % Same as above but with 2 additional columns direction (in deg) and spread (in deg).
-                    obj.typeNum = 22;
+                    obj.typeNum = 35;
                 case 'elevationImport'        % Waves with imported wave elevation time-history
                     obj.typeNum = 30;
             end
@@ -193,7 +198,7 @@ classdef waveClass<handle
                 end
             end
             % 'spectrumFileFullDir' defined for 'spectrumImport' case
-            if strcmp(obj.type,'spectrumImport')
+            if strcmp(obj.type,'spectrumImportFullDir')
                 if strcmp(obj.spectrumFile,'NOT DEFINED')
                     error('The "wave.spectrumFile" must be defined when using the "spectrumImport" wave type');
                 end
@@ -207,7 +212,7 @@ classdef waveClass<handle
             end
             % Check wave spread
             if sum(obj.spread)~=1
-                error('The wave spread should always sum to 1 to preserve spectrum/energy accuracy.')
+                warning('The wave spread should always sum to 1 to preserve spectrum/energy accuracy UNLESS you are using fullDirection')
             end
 
             % Check inputs based on type
@@ -304,6 +309,8 @@ classdef waveClass<handle
                         obj.period = 0;
                         obj.bem.option = 'ImportedFullDir';
                         obj.spectrumType = 'spectrumImportFullDir';
+                        %obj.freqDepDirection.spreadWeights = zeros(1,obj.freqDepDirection.nBins); % iniitialize
+                        %obj.freqDepDirection.dirBins = zeros(1,obj.freqDepDirection.nBins); % initialize
                     end
                     minFrequency=min(obj.bem.range);
                     maxFrequency=max(obj.bem.range);
@@ -334,13 +341,15 @@ classdef waveClass<handle
                             data = importdata(obj.spectrumFile);
                             freqData = data(:,1);
                             freqLoc = freqData >= min(obj.bem.range)/2/pi & freqData <= max(obj.bem.range)/2/pi;
-                            obj.omega    = freqData(freqLoc).*2.*pi;
+                            obj.omega(:,1)    = freqData(freqLoc).*2.*pi;
+                            obj.freqDepDirection.directions(:,1) = data(:,3);
+                            obj.freqDepDirection.spreads(:,1) = data(:,4);
                             obj.bem.count = length(obj.omega);
                             obj.dOmega(1,1)= obj.omega(2)-obj.omega(1);
                             obj.dOmega(2:obj.bem.count-1,1)=(obj.omega(3:end)-obj.omega(1:end-2))/2;
                             obj.dOmega(obj.bem.count,1)= obj.omega(end)-obj.omega(end-1);
                             % call spreading function
-                            obj.spreadFunction(obj);
+                            obj.spreadFunction;
 
                     end
                     obj.setWavePhase;
@@ -484,7 +493,7 @@ classdef waveClass<handle
                                 + repmat(obj.omega,[1,obj.nBins]) + obj.phase);
                             Z(im,in) = sum(temp,'all');
                         end
-                    end                    
+                    end
                 case{'elevationImport'}
                     if it ==1
                         warning('Paraview wave surface discretization for qualitative purposes only.')
@@ -595,11 +604,9 @@ classdef waveClass<handle
                     end
                 case {'ImportedFullDir'}
                     data = importdata(obj.spectrumFile);
-                    obj.phase = 2 * pi * rand([360/obj.nBins,obj.bem.count]);
+                    obj.phase = 2 * pi * rand([obj.bem.count,obj.freqDepDirection.nBins]);
             end
-            obj.phase = obj.phase';
         end
-
         function setWaterDepth(obj,bemWaterDepth)
             % Set the water depth. If defined in input file, BEM depth is
             % not used. used by: :meth:`waveClass.setup`.
@@ -727,8 +734,6 @@ classdef waveClass<handle
                     freqLoc = freqData >= min(obj.bem.range)/2/pi & freqData <= max(obj.bem.range)/2/pi;
                     fSpectrum = S_data(freqLoc);                                    % Wave Spectrum [m^2-s] for 'EqualEnergy'
                     obj.spectrum = fSpectrum./(2*pi);                                       % Wave Spectrum [m^2-s/rad] for 'Traditional'
-                    obj.spread = E_data(freqLoc);
-                    obj.direction = D_data(freqLoc);
                     fprintf('\t"spectrumImportFullDir" uses the number of imported wave frequencies (not "Traditional" or "EqualEnergy")\n')
                 case {'BS'}
                     error('Following IEC Standard, our Bretschneider Sprectrum (BS) option is exactly how the Pierson-Moskowitz (PM) Spectrum is defined. Please use PM instead');
@@ -835,15 +840,15 @@ classdef waveClass<handle
             end
             % Calculate eta at origin (0,0,0)
             for i = 1:length(timeseries)
-                tmp  = sqrt(repmat(obj.amplitude,[1,obj.nBins]).*df.*obj.spreadBins);
-                tmp1 = tmp.*real(exp(sqrt(-1).*(repmat(obj.omega,[1,obj.nBins]).*timeseries(i) + obj.phase)));
+                tmp  = sqrt(repmat(obj.amplitude,[1,obj.freqDepDirection.nBins]).*df.*obj.freqDepDirection.spreadBins);
+                tmp1 = tmp.*real(exp(sqrt(-1).*(repmat(obj.omega,[1,obj.freqDepDirection.nBins]).*timeseries(i) + obj.phase)));
                 obj.waveAmpTime(i,2) = rampFunction(i)*sum(tmp1,'all');
 
                 if ~isempty(obj.marker.location);
                     for j = 1:SZwaveAmpTimeViz(1)
-                        tmp14 = tmp.*real(exp(sqrt(-1).*(repmat(obj.omega,[1,obj.nBins]).*timeseries(i) ...
-                            - repmat(obj.wavenumber,[1,obj.nBins]).*(obj.marker.location(j,1).*cos(obj.dirBins*pi/180) ...
-                            + obj.marker.location(j,2).*sin(obj.dirBins.*pi/180)) + obj.phase)));
+                        tmp14 = tmp.*real(exp(sqrt(-1).*(repmat(obj.omega,[1,obj.freqDepDirection.nBins]).*timeseries(i) ...
+                            - repmat(obj.wavenumber,[1,obj.freqDepDirection.nBins]).*(obj.marker.location(j,1).*cos(obj.freqDepDirection.dirBins*pi/180) ...
+                            + obj.marker.location(j,2).*sin(obj.freqDepDirection.dirBins.*pi/180)) + obj.phase)));
                         obj.waveAmpTimeViz(i,j+1) = rampFunction(i).*sum(tmp14,'all');
                     end
                 end
@@ -882,18 +887,21 @@ classdef waveClass<handle
 
         function spreadFunction(obj)
             % calculates bin weight per direction bins +/- nBins*dirRes around mean direction.
-            spreadBins = linspace(-obj.nBins .*obj.dirRes - obj.dirRes/2,obj.nBins .*obj.dirRes + obj.dirRes/2,obj.nBins+1); % these are bin endpoints: offset is so centers align w/ BEM data if dirRes and direction do as well.
-            temp2 = movmean(spreadBins,2);
-            for k=1:length(obj.spread) % loops over all frequencies
-                energyDist(1,:) = (1./(obj.spread(k).*sqrt(2*pi))) .* exp (-(spreadBins.^2) ./ (2.*obj.spread(k).^2));
+            for k=1:length(obj.freqDepDirection.spreads) % loops over all frequencies
+                spreadBins = linspace(-obj.freqDepDirection.spreads(k,1) .* obj.freqDepDirection.spreadRange ,obj.freqDepDirection.spreads(k,1) .* obj.freqDepDirection.spreadRange,obj.freqDepDirection.nBins+1); % these are bin endpoints: offset is so centers align w/ BEM data if dirRes and direction do as well.
+                temp2 = movmean(spreadBins,2);
+                energyDist(1,:) = (1./(obj.freqDepDirection.spreads(k).*sqrt(2*pi))) .* exp (-(spreadBins.^2) ./ (2.*obj.freqDepDirection.spreads(k).^2));
                 checkSum = trapz(spreadBins,energyDist);
                 if checkSum < 0.95 % if this is true, then less than 95% of the initial energy at this frequency is contained over the considered directions.
                     warning('Number of spread bins inadequate at frequency number %i. Directional approximation weak. \n \r', k);
                 end
                 energyDist =  energyDist ./checkSum;    % scales to 1 so no energy loss in included directions (bad approx if warning is flagged)
-                temp = diff(cumtrapz(energyDist,spreadBins));
-                obj.spreadWeights(k,:) = temp;
-                obj.dirBins(k,:) = wrapto360(temp2(2:end) + obj.direction);     % takes bin centers from previous bin endpoints, add mean direction
+                temp = diff(cumtrapz(spreadBins,energyDist));
+                obj.freqDepDirection.spreadWeights(k,:) = temp;
+                [temp2,I] = sort(wrapTo180(temp2(2:end) + obj.freqDepDirection.directions(k,:)));     % takes bin centers from previous bin endpoints, add mean direction
+                % sorted tables necessary for compiled interpn
+                obj.freqDepDirection.dirBins(k,:) = temp2;
+                obj.freqDepDirection.spreadWeights(k,:) = temp(I);
             end
         end
     end
