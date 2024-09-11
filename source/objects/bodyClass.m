@@ -132,7 +132,7 @@ classdef bodyClass<handle
 
         end
         
-        function checkInputs(obj, explorer, stateSpace, FIR)
+        function checkInputs(obj, explorer, stateSpace, FIR, typeNum)
             % This method checks WEC-Sim user inputs for each body and generates error messages if parameters are not properly defined for the bodyClass
 
             % Check struct inputs:
@@ -301,6 +301,9 @@ classdef bodyClass<handle
                     end
                     if FIR == 1
                         error('The FIR filter radiation force method is not compatible with variable hydrodynamics.');
+                    end
+                    if typeNum >= 30
+                        error('The user defined wave excitation force is not compatible with variable hydrodynamics.');
                     end
                 end
             elseif obj.nonHydro>0
