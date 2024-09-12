@@ -802,7 +802,7 @@ classdef waveClass<handle
             % Calculate eta
             for i = 1:length(timeseries)
                 tmp  = sqrt(obj.amplitude.*df*obj.spread);
-                tmp1 = tmp.*real(exp(sqrt(-1).*(obj.omega.*timeseries(i) + obj.phase)));
+                tmp1 = tmp.*real(exp(sqrt(-1).*(obj.omega.*timeseries(i) + obj.phase.')));
                 obj.waveAmpTime(i,2) = rampFunction(i)*sum(tmp1,'all');
 
 
@@ -811,7 +811,7 @@ classdef waveClass<handle
                     for j = 1:SZwaveAmpTimeViz(1)
                         tmp14 = tmp.*real(exp(sqrt(-1).*(obj.omega.*timeseries(i) ...
                             - obj.wavenumber*(obj.marker.location(j,1).*cos(obj.direction*pi/180) ...
-                            + obj.marker.location(j,2).*sin(obj.direction*pi/180)) + obj.phase)));
+                            + obj.marker.location(j,2).*sin(obj.direction*pi/180)) + obj.phase.')));
                         obj.waveAmpTimeViz(i,j+1) = rampFunction(i).*sum(tmp14,'all');
                     end
                 end
