@@ -37,7 +37,7 @@ classdef bodyClass<handle
         gbmDOF (1,:) {mustBeScalarOrEmpty}          = []                    % (`integer`) Number of degree of freedoms (DOFs) for generalized body mode (GBM). Default = ``[]``.
         geometryFile (1,:) {mustBeText}             = 'NONE'                % (`string`) Path to the body geometry ``.stl`` file.
         h5File (1,:) {mustBeText}                   = ''                    % (`string`) hdf5 file containing the hydrodynamic data
-        hydroStiffness (6,6) {mustBeNumeric}        = zeros(6)              % (`6x6 float matrix`) Linear hydrostatic stiffness matrix. If the variable is nonzero, the matrix will override the h5 file values. Default = ``zeros(6)``.
+        hydroStiffness (6,6,:) {mustBeNumeric}        = zeros(6)              % (`6x6 float matrix`) Linear hydrostatic stiffness matrix. If the variable is nonzero, the matrix will override the h5 file values. Default = ``zeros(6)``.
         inertia (1,:) {mustBeNumeric}               = []                    % (`1x3 float vector`) Rotational inertia or mass moment of inertia [kg*m^{2}]. Defined by the user in the following format [Ixx Iyy Izz]. Default = ``[]``.
         inertiaProducts (1,:) {mustBeNumeric}       = [0 0 0]               % (`1x3 float vector`) Rotational inertia or mass products of inertia [kg*m^{2}]. Defined by the user in the following format [Ixy Ixz Iyz]. Default = ``[]``.
         initial (1,1) struct                        = struct(...            % (`structure`) Defines the initial displacement of the body.
@@ -328,13 +328,14 @@ classdef bodyClass<handle
             % values to calculate linear damping and viscous drag. Note
             % that body DOF is inherited from the length of the drag
             % coefficients.
+            % TODO
             obj.setMassMatrix(rho);
             if  any(any(obj.quadDrag.drag))   %check if obj.quadDrag.drag is defined
-                obj.hydroForce.quadDrag = obj.quadDrag.drag;
+                obj.hydroForce.hf1.quadDrag = obj.quadDrag.drag;
             else
-                obj.hydroForce.quadDrag = diag(0.5*rho.*obj.quadDrag.cd.*obj.quadDrag.area);
+                obj.hydroForce.hf1.quadDrag = diag(0.5*rho.*obj.quadDrag.cd.*obj.quadDrag.area);
             end
-            obj.hydroForce.linearDamping = obj.linearDamping;
+            obj.hydroForce.hf1.linearDamping = obj.linearDamping;
             obj.dof = length(obj.quadDrag.drag);
         end
 
@@ -352,6 +353,7 @@ classdef bodyClass<handle
             g = simu.gravity;
             waveType = waves.type;
             waveAmpTime = waves.waveAmpTime;
+            dirBins = waves.freqDepDirection.dirBins;
             stateSpace = simu.stateSpace;
             B2B = simu.b2b;
             hfName = ['hf' num2str(iH)];
@@ -377,24 +379,26 @@ classdef bodyClass<handle
                     obj.quadDrag(i).area = [obj.quadDrag(i).area zeros(1,obj.dof-length(obj.quadDrag(i).area))];
                 end
             end; clear tmp0 tmp1
-            if any(any(obj.hydroStiffness))   %check if obj.hydroStiffness is defined
-                obj.hydroForce.linearHydroRestCoef = obj.hydroStiffness;
+            if any(any(obj.hydroStiffness(:,:,iH)))   %check if obj.hydroStiffness is defined
+                obj.hydroForce.(hfName).linearHydroRestCoef = obj.hydroStiffness(:,:,iH);
             else
-                k = obj.hydroData.hydro_coeffs.linear_restoring_stiffness;%(:,obj.dofStart:obj.dofEnd);
-                obj.hydroForce.linearHydroRestCoef = k .*rho .*g;
+                k = obj.hydroData(iH).hydro_coeffs.linear_restoring_stiffness;%(:,obj.dofStart:obj.dofEnd);
+                obj.hydroForce.(hfName).linearHydroRestCoef = k .*rho .*g;
             end
-            if  any(any(obj.quadDrag.drag))   %check if obj.quadDrag.drag is defined
-                obj.hydroForce.quadDrag = obj.quadDrag.drag;
+            if  any(any(obj.quadDrag(iH).drag))   %check if obj.quadDrag.drag is defined
+                obj.hydroForce.(hfName).quadDrag = obj.quadDrag(iH).drag;
             else
-                obj.hydroForce.quadDrag = diag(0.5*rho.*obj.quadDrag.cd.*obj.quadDrag.area);
+                obj.hydroForce.(hfName).quadDrag = diag(0.5*rho.*obj.quadDrag(iH).cd.*obj.quadDrag(iH).area);
             end
-            obj.hydroForce.linearDamping = obj.linearDamping;
+            obj.hydroForce.(hfName).linearDamping = obj.linearDamping(:,:,iH);
+            obj.hydroForce.(hfName).volume = obj.hydroData(iH).properties.volume;
+            obj.hydroForce.(hfName).centerBuoyancy = obj.hydroData(iH).properties.centerBuoyancy;
             switch waveType
                 case {'noWave'}
-                    obj.noExcitation()
-                    obj.constAddedMassAndDamping(w,rho,B2B);
+                    obj.noExcitation(iH)
+                    obj.constAddedMassAndDamping(w,rho,B2B,iH);
                 case {'noWaveCIC'}
-                    obj.noExcitation()
+                    obj.noExcitation(iH)
                     obj.irfInfAddedMassAndDamping(cicTime,stateSpace,rho,B2B,iH);
                 case {'regular'}
                     obj.regExcitation(w,direction,rho,g,iH);
@@ -406,7 +410,7 @@ classdef bodyClass<handle
                     obj.irrExcitation(w,bemCount,direction,rho,g,dirBins,iH);
                     obj.irfInfAddedMassAndDamping(cicTime,stateSpace,rho,B2B,iH);
                 case {'elevationImport'}
-                    obj.hydroForce.userDefinedFe = zeros(length(waveAmpTime(:,2)),obj.dof);   %initializing userDefinedFe for non imported wave cases
+                    obj.hydroForce.(hfName).userDefinedFe = zeros(length(waveAmpTime(:,2)),obj.dof);   %initializing userDefinedFe for non imported wave cases
                     obj.userDefinedExcitation(waveAmpTime,dt,direction,rho,g,iH);
                     obj.irfInfAddedMassAndDamping(cicTime,stateSpace,rho,B2B,iH);
             end
