@@ -46,7 +46,7 @@ classdef bodyClass<handle
             'angle',                                0)                      % (`structure`) Defines the initial displacement of the body. ``displacement`` (`1x3 float vector`) is defined as the initial displacement of the body center of gravity (COG) [m] in the following format [x y z], Default = [``0 0 0``]. ``axis`` (`1x3 float vector`) is defined as the axis of rotation in the following format [x y z], Default = [``0 1 0``]. ``angle`` (`float`) is defined as the initial angular displacement of the body COG [rad], Default = ``0``.
         largeXYDisplacement (1,1) struct            = struct(...            %
             'option',                               0)                      %
-        linearDamping {mustBeNumeric}               = zeros(6)              % (`6x6 float matrix`) Defines linear damping coefficient matrix. Default = ``zeros(6)``.
+        linearDamping {mustBeNumeric}               = zeros(6)              % (`6x6xn float matrix`) Defines linear damping coefficient matrix. Default = ``zeros(6)``.
         mass (1,:)                                  = []                    % (`float`) Translational inertia or mass [kg]. Defined by the user or specify 'equilibrium' to set the mass equal to the fluid density times displaced volume. Default = ``[]``.
         meanDrift (1,1) {mustBeInteger}             = 0                     % (`integer`) Flag for mean drift force, Options:  0 (no), 1 (yes, from control surface) or 2 (yes, from momentum conservation). Default = ``0``.
         morisonElement (1,1) struct                 = struct(...            % (`structure`) Defines the Morison Element properties connected to the body.
@@ -76,7 +76,6 @@ classdef bodyClass<handle
         yaw (1,1) struct                            = struct(...            % (`structure`) Defines the passive yaw implementation.
             'option',                               0,...                   %
             'threshold',                            1)                      % (`structure`) Defines the passive yaw implementation. ``option`` (`integer`) Flag for passive yaw calculation, Options: 0 (off), 1 (on). Default = ``0``. ``threshold`` (`float`) Yaw position threshold (in degrees) above which excitation coefficients will be interpolated in passive yaw. Default = ``1`` [deg].        
-    
     end
 
     properties (SetAccess = 'private', GetAccess = 'public')% h5 file
@@ -133,7 +132,7 @@ classdef bodyClass<handle
 
         end
 
-        function checkInputs(obj, explorer, stateSpace, FIR)
+        function checkInputs(obj, explorer, stateSpace, FIR, typeNum)
             % This method checks WEC-Sim user inputs for each body and generates error messages if parameters are not properly defined for the bodyClass
 
             % Check struct inputs:
@@ -259,6 +258,53 @@ classdef bodyClass<handle
                 % Warning for centerGravity and cb being overwritten
                 if ~isempty(obj.centerGravity) || ~isempty(obj.centerBuoyancy)
                     warning('Center of gravity and center of buoyancy are overwritten by h5 data for hydro bodies.')
+                end
+                % Variable Hydro
+                if obj.variableHydro.option == 1 && length(obj.h5File) == 1
+                    obj.variableHydro.option = 0;
+                    warning('Only one h5File supplied. Turning variable hydro off.');
+                end
+                if obj.variableHydro.option == 0
+                    obj.variableHydro.hydroForceIndexInitial = 1;
+                    if length(obj.h5File) > 1
+                        obj.h5File = obj.h5File(1);
+                        warning('Variable hydro flag is off. Extra h5 files ignored.');
+                    end
+                    if length(obj.quadDrag) > 1
+                        obj.quadDrag = obj.quadDrag(1);
+                        warning('Variable hydro flag is off. Extra quadDrag structs ignored.');
+                    end
+                    if size(obj.linearDamping,3) > 1
+                        obj.linearDamping = obj.linearDamping(:,:,1);
+                        warning('Variable hydro flag is off. Extra linearDamping dimension ignored.');
+                    end
+                    if size(obj.hydroStiffness,3) > 1
+                        obj.hydroStiffness = obj.hydroStiffness(:,:,1);
+                        warning('Variable hydro flag is off. Extra hydroStiffness dimension ignored.');
+                    end
+                else
+                    % Expand the variable hydro dimension of quadDrag,
+                    % linearDamping, hydroStiffness if not done by the
+                    % user. This makes processing in hydroForcePre easier.
+                    nH5 = length(obj.h5File);
+                    if length(obj.quadDrag) == 1
+                        obj.quadDrag = repmat(obj.quadDrag,1,nH5);
+                    end
+                    if size(obj.linearDamping,3) == 1
+                        obj.linearDamping = repmat(obj.linearDamping,1,1,nH5);
+                    end
+                    if size(obj.hydroStiffness,3) == 1
+                        obj.hydroStiffness = repmat(obj.hydroStiffness,1,1,nH5);
+                    end
+                    if stateSpace == 1
+                        error('The state space radiation force method is not compatible with variable hydrodynamics.');
+                    end
+                    if FIR == 1
+                        error('The FIR filter radiation force method is not compatible with variable hydrodynamics.');
+                    end
+                    if typeNum >= 30
+                        error('The user defined wave excitation force is not compatible with variable hydrodynamics.');
+                    end
                 end
             elseif obj.nonHydro>0
                 % This method checks WEC-Sim user inputs for each drag or non-hydro
