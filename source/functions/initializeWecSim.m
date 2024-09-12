@@ -61,7 +61,7 @@ if exist('runWecSimCML','var') && runWecSimCML==1
     bdclose('all');
     run('wecSimInputFile');
 else
-    % Get global reference frame parameters
+ % Get global reference frame parameters
     blocks = find_system(bdroot,'Type','Block');
     mask = contains(blocks,'Global Reference Frame');
     referenceFramePath = blocks{mask};
@@ -310,8 +310,9 @@ if ~isempty(idx)
     for kk = 1:length(idx)
         it = idx(kk);
         body(it).dragForcePre(simu.rho);
-    end
+    end 
 end; clear kk idx
+
 
 % Check cicEndTime
 if waves(1).typeNum~=0 && waves(1).typeNum~=10
