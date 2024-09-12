@@ -61,7 +61,7 @@ if exist('runWecSimCML','var') && runWecSimCML==1
     bdclose('all');
     run('wecSimInputFile');
 else
-    % Get global reference frame parameters
+ % Get global reference frame parameters
     blocks = find_system(bdroot,'Type','Block');
     mask = contains(blocks,'Global Reference Frame');
     referenceFramePath = blocks{mask};
@@ -310,8 +310,9 @@ if ~isempty(idx)
     for kk = 1:length(idx)
         it = idx(kk);
         body(it).dragForcePre(simu.rho);
-    end
+    end 
 end; clear kk idx
+
 
 % Check cicEndTime
 if waves(1).typeNum~=0 && waves(1).typeNum~=10
@@ -446,9 +447,10 @@ for ii=1:length(body(1,:))
     eval(['sv_regularWavesYaw_b' num2str(ii) '= Simulink.Variant(''typeNum>=10 && typeNum<20 && yaw_' num2str(ii) '==1'');'])
     eval(['sv_irregularWaves_b' num2str(ii) '= Simulink.Variant(''typeNum>=20 && typeNum<30 && yaw_' num2str(ii) '==0'');'])
     eval(['sv_irregularWavesYaw_b' num2str(ii) '= Simulink.Variant(''typeNum>=20 && typeNum<30 && yaw_' num2str(ii) '==1'');'])
+    eval(['sv_fullDirIrregularWaves_b' num2str(ii) '= Simulink.Variant(''typeNum>=35 && typeNum<40'');'])
 end; clear ii
 
-sv_udfWaves=Simulink.Variant('typeNum>=30');
+sv_udfWaves=Simulink.Variant('typeNum>=40');
 
 % Body2Body
 B2B = simu.b2b;
