@@ -15,7 +15,7 @@ To cite WEC-Sim, please use the citation for WEC-Sim software release and/or cit
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 .. NOTE: citation needs to be revised for each release, author order should reflect the Zenodo DOI.
 
-[1] Kelley Ruehl, Adam Keester, Nathan Tom, Dominic Forbush, Jeff Grasberger, Salman Husain, David Ogden, and Jorge Leon, "WEC-Sim v6.1". Zenodo, September 16, 2024. https://doi.org/10.5281/zenodo.10023797.
+[1] Kelley Ruehl, Adam Keester, Dominic Forbush, Jeff Grasberger, Salman Husain, Jorge Leon, David Ogden, and Mohamed Shabara, "WEC-Sim v6.1". Zenodo, September 16, 2024. https://doi.org/10.5281/zenodo.13770349.
 
 .. NOTE: citation needs to be revised for each release, author order should reflect the Zenodo DOI.
 
@@ -24,19 +24,19 @@ To cite WEC-Sim, please use the citation for WEC-Sim software release and/or cit
 	@software{wecsim,
 	  author       = {Kelley Ruehl,
                           Adam Keester, 
-	  		  Nathan Tom, 
                           Dominic Forbush, 
                           Jeff Grasberger, 
-                          Salman Husain, 
-                          David Ogden, 
-                          Jorge Leon},
+                          Salman Husain,
+                          Jorge Leon,
+                          David Ogden,
+                          Mohamed Shabara},
 	  title        = {WEC-Sim v6.1},
 	  month        = September,
 	  year         = 2024,
 	  publisher    = {Zenodo},
 	  version      = {v6.1},
 	  doi          = {10.5281/zenodo.10023797},
-	  url          = {https://doi.org/10.5281/zenodo.10023797}
+	  url          = {https://doi.org/10.5281/zenodo.13770349}
 	}
     
 
@@ -174,9 +174,8 @@ Publication
 
 * \> 48 PRs merged since v6.0
 
-.. image:: https://zenodo.org/badge/20451353.svg
-   :target: https://zenodo.org/badge/latestdoi/20451353
-
+.. image:: https://zenodo.org/badge/DOI/10.5281/zenodo.13770349.svg
+  :target: https://doi.org/10.5281/zenodo.13770349
 
 
 
