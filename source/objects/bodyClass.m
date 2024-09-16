@@ -256,10 +256,6 @@ classdef bodyClass<handle
                         end
                     end
                 end
-                % Warning for centerGravity and cb being overwritten
-                if ~isempty(obj.centerGravity) || ~isempty(obj.centerBuoyancy)
-                    warning('Center of gravity and center of buoyancy are overwritten by h5 data for hydro bodies.')
-                end
             elseif obj.nonHydro>0
                 % This method checks WEC-Sim user inputs for each drag or non-hydro
                 % body and generates error messages if parameters are not properly defined for the bodyClass.
@@ -291,7 +287,7 @@ classdef bodyClass<handle
             fprintf('\tBody Products of Inertia      (kgm2) = [%G,%G,%G]\n',obj.inertiaProducts);
         end
 
-        function loadHydroData(obj, hydroData, iH)
+        function loadHydroData(obj, hydroData, iH, nb)
             % WECSim function that loads the hydroData structure from a
             % MATLAB variable as alternative to reading the h5 file. This
             % process reduces computational time when using wecSimMCR.
@@ -301,8 +297,16 @@ classdef bodyClass<handle
                 obj.hydroData(iH) = hydroData;
             end
             if iH == obj.variableHydro.hydroForceIndexInitial
-                obj.centerGravity	= hydroData.properties.centerGravity';
-                obj.centerBuoyancy  = hydroData.properties.centerBuoyancy';
+                if isempty(obj.centerGravity)
+                    obj.centerGravity	= hydroData.properties.centerGravity';
+                else
+                    warning('Center of gravity defined in the h5 data for hydro body %i is being overwritten by a user defined value.',nb)
+                end
+                if isempty(obj.centerBuoyancy)
+                    obj.centerBuoyancy  = hydroData.properties.centerBuoyancy';
+                else
+                    warning('Center of bouyancy defined in the h5 data for hydro body %i is being overwritten by a user defined value.',nb)
+                end        
                 obj.volume          = hydroData.properties.volume;
                 obj.name            = hydroData.properties.name;
                 obj.dof             = hydroData.properties.dof;

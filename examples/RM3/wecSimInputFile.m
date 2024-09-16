@@ -2,7 +2,7 @@
 simu = simulationClass();               % Initialize Simulation Class
 simu.simMechanicsFile = 'RM3.slx';      % Specify Simulink Model File
 simu.mode = 'normal';                   % Specify Simulation Mode ('normal','accelerator','rapid-accelerator')
-simu.explorer = 'on';                   % Turn SimMechanics Explorer (on/off)
+simu.explorer = 'off';                   % Turn SimMechanics Explorer (on/off)
 simu.startTime = 0;                     % Simulation Start Time [s]
 simu.rampTime = 100;                    % Wave Ramp Time [s]
 simu.endTime = 400;                     % Simulation End Time [s]
@@ -64,13 +64,11 @@ body(1).mass = 'equilibrium';
     % Body Mass. The 'equilibrium' Option Sets it to the Displaced Water 
     % Weight.
 body(1).inertia = [20907301 21306090.66 37085481.11];  % Moment of Inertia [kg*m^2]     
-
 % Spar/Plate
 body(2) = bodyClass('hydroData/rm3.h5'); 
 body(2).geometryFile = 'geometry/plate.stl'; 
 body(2).mass = 'equilibrium';                   
 body(2).inertia = [94419614.57 94407091.24 28542224.82];
-
 %% PTO and Constraint Parameters
 % Floating (3DOF) Joint
 constraint(1) = constraintClass('Constraint1'); % Initialize Constraint Class for Constraint1
