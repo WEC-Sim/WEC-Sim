@@ -11,11 +11,11 @@ Citing WEC-Sim
 To cite WEC-Sim, please use the citation for WEC-Sim software release and/or cite the following WEC-Sim publication.
 
 
-`WEC-Sim v6.0 <https://github.com/WEC-Sim/WEC-Sim/releases/tag/v6.0>`_
+`WEC-Sim v6.1 <https://github.com/WEC-Sim/WEC-Sim/releases/tag/v6.1>`_
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 .. NOTE: citation needs to be revised for each release, author order should reflect the Zenodo DOI.
 
-[1] Kelley Ruehl, Adam Keester, Nathan Tom, Dominic Forbush, Jeff Grasberger, Salman Husain, David Ogden, and Jorge Leon, "WEC-Sim v6.0". Zenodo, October 20, 2023. https://doi.org/10.5281/zenodo.10023797.
+[1] Kelley Ruehl, Adam Keester, Nathan Tom, Dominic Forbush, Jeff Grasberger, Salman Husain, David Ogden, and Jorge Leon, "WEC-Sim v6.1". Zenodo, September 16, 2024. https://doi.org/10.5281/zenodo.10023797.
 
 .. NOTE: citation needs to be revised for each release, author order should reflect the Zenodo DOI.
 
@@ -30,11 +30,11 @@ To cite WEC-Sim, please use the citation for WEC-Sim software release and/or cit
                           Salman Husain, 
                           David Ogden, 
                           Jorge Leon},
-	  title        = {WEC-Sim v6.0},
-	  month        = October,
-	  year         = 2023,
+	  title        = {WEC-Sim v6.1},
+	  month        = September,
+	  year         = 2024,
 	  publisher    = {Zenodo},
-	  version      = {v6.0},
+	  version      = {v6.1},
 	  doi          = {10.5281/zenodo.10023797},
 	  url          = {https://doi.org/10.5281/zenodo.10023797}
 	}
@@ -49,6 +49,135 @@ To cite WEC-Sim, please use the citation for WEC-Sim software release and/or cit
 Publication
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^
 [1] D. Ogden, K. Ruehl, Y.H. Yu, A. Keester, D. Forbush, J. Leon, N. Tom, "Review of WEC-Sim Development and Applications" in Proceedings of the 14th European Wave and Tidal Energy Conference, EWTEC 2021, Plymouth, UK, 2021. 
+
+
+`WEC-Sim v6.1 <https://github.com/WEC-Sim/WEC-Sim/releases/tag/v6.1>`_
+--------------------------------------------------------------------------------
+
+**New Features**
+
+* Update docs on main by @salhus in `#1031 <https://github.com/WEC-Sim/WEC-Sim/pull/1031>`_
+
+* Save mooring library to R2020b by @akeeste in `#1040 <https://github.com/WEC-Sim/WEC-Sim/pull/1040>`_
+
+* Update readAQWA.m by @salhus in `#1096 <https://github.com/WEC-Sim/WEC-Sim/pull/1096>`_
+
+* Update plotRadiationIRF.m by @AlufaSam in `#1102 <https://github.com/WEC-Sim/WEC-Sim/pull/1102>`_
+
+* Update readNEMOH.m for compatibility with NEMOH v3.0 by @nathanmtom in `#1105 <https://github.com/WEC-Sim/WEC-Sim/pull/1105>`_
+
+* Remove direct github installations from docs environment by @H0R5E in `#1149 <https://github.com/WEC-Sim/WEC-Sim/pull/1149>`_
+
+* Exclude R2020b and R2021a from Windows test runners by @H0R5E in `#1166 <https://github.com/WEC-Sim/WEC-Sim/pull/1166>`_
+
+* Add BEMIO cleanup function by @dforbush2 in `#1076 <https://github.com/WEC-Sim/WEC-Sim/pull/1076>`_
+
+* Remove dead code from wecSim.m by @akeeste in `#1170 <https://github.com/WEC-Sim/WEC-Sim/pull/1170>`_
+
+* Update wecSim.m to new MoorDyn dll by @jtgrasb in `#1177 <https://github.com/WEC-Sim/WEC-Sim/pull/1177>`_
+
+* Merge main commits to dev by @jtgrasb in `#1183 <https://github.com/WEC-Sim/WEC-Sim/pull/1183>`_
+
+* Port testing PR #1186 to main by @H0R5E in `#1187 <https://github.com/WEC-Sim/WEC-Sim/pull/1187>`_
+
+* Add R2023b to Windows tests by @H0R5E in `#1186 <https://github.com/WEC-Sim/WEC-Sim/pull/1186>`_
+
+* Nemoh v3.0.2 Examples by @MShabara in `#1204 <https://github.com/WEC-Sim/WEC-Sim/pull/1204>`_
+
+* Update paraview docs by @jtgrasb in `#1227 <https://github.com/WEC-Sim/WEC-Sim/pull/1227>`_
+
+* Update default branch to main by @akeeste in `#1235 <https://github.com/WEC-Sim/WEC-Sim/pull/1235>`_
+
+* Apply #1235 and #1241 to dev branch by @H0R5E in `#1240 <https://github.com/WEC-Sim/WEC-Sim/pull/1240>`_
+
+* PTO Extension Feature by @Allison-File in `#1198 <https://github.com/WEC-Sim/WEC-Sim/pull/1198>`_
+
+* Updating tests on main and dev by @kmruehl in `#1250 <https://github.com/WEC-Sim/WEC-Sim/pull/1250>`_
+
+* Updating WEC-Sim Issue Templates by @kmruehl in `#1247 <https://github.com/WEC-Sim/WEC-Sim/pull/1247>`_
+
+* Enable WEC-Sim to use MoorDyn v2 capabilities by @jtgrasb in `#1212 <https://github.com/WEC-Sim/WEC-Sim/pull/1212>`_
+
+* Add missing mask initialization line in spherical constraint by @akeeste in `#1264 <https://github.com/WEC-Sim/WEC-Sim/pull/1264>`_
+
+* Update readCAPYTAINE.m to read Khs from .nc by @salhus in `#1263 <https://github.com/WEC-Sim/WEC-Sim/pull/1263>`_
+
+* Update readCapytaine - fix reading multiple bodies with <6 dofs by @akeeste in `#1274 <https://github.com/WEC-Sim/WEC-Sim/pull/1274>`_
+
+* Reposition % for readability by @Gusmano-2-OSU in `#1272 <https://github.com/WEC-Sim/WEC-Sim/pull/1272>`_
+
+* Update waveSpread calculation in irregular waves by @dforbush2 in `#1290 <https://github.com/WEC-Sim/WEC-Sim/pull/1290>`_
+
+* Add new examples for updated version of NEMOH (NEMOHv3.0.2) by @ashleynchong in `#1226 <https://github.com/WEC-Sim/WEC-Sim/pull/1226>`_
+
+* Pull main into dev by @kmruehl in `#1297 <https://github.com/WEC-Sim/WEC-Sim/pull/1297>`_
+
+* Expand regression tests by @akeeste in `#1273 <https://github.com/WEC-Sim/WEC-Sim/pull/1273>`_
+
+* BEMIO Unit Updates by @jniffene in `#1296 <https://github.com/WEC-Sim/WEC-Sim/pull/1296>`_
+
+* Speed up writeBEMIOH5 by @akeeste in `#1301 <https://github.com/WEC-Sim/WEC-Sim/pull/1301>`_
+
+* Update readAQWA.m by @jtgrasb in `#1253 <https://github.com/WEC-Sim/WEC-Sim/pull/1253>`_
+
+* Variable hydrodynamics by @akeeste in `#1248 <https://github.com/WEC-Sim/WEC-Sim/pull/1248>`_
+
+* Update readCapytaine - get Khs from .nc files when bodies have less than 6 DOFs by @akeeste in `#1275 <https://github.com/WEC-Sim/WEC-Sim/pull/1275>`_
+
+* Adds the QTFs to WEC-Sim by @MShabara in `#1242 <https://github.com/WEC-Sim/WEC-Sim/pull/1242>`_
+
+* QTF - Variable Hydro compatibility by @akeeste in `#1312 <https://github.com/WEC-Sim/WEC-Sim/pull/1312>`_
+
+* Resolve conflicts between variable hydro and GBM by @akeeste in <https://github.com/WEC-Sim/WEC-Sim/pull/1317>`_
+
+**Bug Fixes**
+
+* Update to MoorDyn to fix MoorDyn crashing MATLAB session. by @AlixHaider in `#1012 <https://github.com/WEC-Sim/WEC-Sim/pull/1012>`_
+
+* Fix Direct Drive PTO Output order by @jtgrasb in `#1095 <https://github.com/WEC-Sim/WEC-Sim/pull/1095>`_
+
+* Fix accelerator modes issue by @jtgrasb in `#1100 <https://github.com/WEC-Sim/WEC-Sim/pull/1100>`_
+
+* Bugfix for plotBEMIO bodies by @akeeste in `#1207 <https://github.com/WEC-Sim/WEC-Sim/pull/1207>`_
+
+* Fix to #1217, nonlinFK and body block changed by @dforbush2 in `#1220 <https://github.com/WEC-Sim/WEC-Sim/pull/1220>`_
+
+* Fix on pDis function call by @dforbush2 in `#1229 <https://github.com/WEC-Sim/WEC-Sim/pull/1229>`_
+
+* Bug fixes for WEC-Sim GUI and Run From Simulink features by @akeeste in `#1195 <https://github.com/WEC-Sim/WEC-Sim/pull/1195>`_
+
+* Fix sign bug in the Generator Equivalent Circuit Block in PTO-Sim - Rebase PR to main by @jleonqu in `#1236 <https://github.com/WEC-Sim/WEC-Sim/pull/1236>`_
+
+* Fix direct drive bugs by @jtgrasb in `#1256 <https://github.com/WEC-Sim/WEC-Sim/pull/1256>`_
+
+* Minor fix for formatting in Developer manual by @akeeste in `#1280 <https://github.com/WEC-Sim/WEC-Sim/pull/1280>`_
+
+* Bad BEMIO fcn fix by @dforbush2 in `#1289 <https://github.com/WEC-Sim/WEC-Sim/pull/1289>`_
+
+**New Contributors**
+
+* @AlixHaider made their first contribution in `#1012 <https://github.com/WEC-Sim/WEC-Sim/pull/1012>`_
+
+* @AlufaSam made their first contribution in `#1102 <https://github.com/WEC-Sim/WEC-Sim/pull/1102>`_
+
+* @Allison-File made their first contribution in `#1198 <https://github.com/WEC-Sim/WEC-Sim/pull/1198>`_
+
+* @Gusmano-2-OSU made their first contribution in `#1272 <https://github.com/WEC-Sim/WEC-Sim/pull/1272>`_
+
+* @ashleynchong made their first contribution in `#1226 <https://github.com/WEC-Sim/WEC-Sim/pull/1226>`_
+
+**Issues and Pull Requests**
+
+* `v6.1 Changelog <https://github.com/WEC-Sim/WEC-Sim/compare/v6.0...v6.1>`_
+
+* \> 104 issues closed since v6.0
+
+* \> 48 PRs merged since v6.0
+
+.. image:: https://zenodo.org/badge/20451353.svg
+   :target: https://zenodo.org/badge/latestdoi/20451353
+
+
 
 
 `WEC-Sim v6.0 <https://github.com/WEC-Sim/WEC-Sim/releases/tag/v6.0>`_
