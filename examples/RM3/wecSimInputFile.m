@@ -53,7 +53,6 @@ waves.period = 8;                       % Wave Period [s]
 % % Waves with imported wave elevation time-history  
 % waves = waveClass('elevationImport');          % Create the Wave Variable and Specify Type
 % waves.elevationFile = 'elevationData.mat';     % Name of User-Defined Time-Series File [:,2] = [time, eta]
-
 %% Body Data
 % Float
 body(1) = bodyClass('hydroData/rm3.h5');      
@@ -63,14 +62,12 @@ body(1).geometryFile = 'geometry/float.stl';    % Location of Geomtry File
 body(1).mass = 'equilibrium';                   
     % Body Mass. The 'equilibrium' Option Sets it to the Displaced Water 
     % Weight.
-body(1).inertia = [20907301 21306090.66 37085481.11];  % Moment of Inertia [kg*m^2]     
-
+body(1).inertia = [20907301 21306090.66 37085481.11];  % Moment of Inertia [kg*m^2]
 % Spar/Plate
 body(2) = bodyClass('hydroData/rm3.h5'); 
 body(2).geometryFile = 'geometry/plate.stl'; 
 body(2).mass = 'equilibrium';                   
 body(2).inertia = [94419614.57 94407091.24 28542224.82];
-
 %% PTO and Constraint Parameters
 % Floating (3DOF) Joint
 constraint(1) = constraintClass('Constraint1'); % Initialize Constraint Class for Constraint1
