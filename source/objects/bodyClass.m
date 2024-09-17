@@ -408,6 +408,8 @@ classdef bodyClass<handle
             obj.setMassMatrix(rho)
             if (obj.gbmDOF>0)
                 % obj.linearDamping = [obj.linearDamping zeros(1,obj.dof-length(obj.linearDamping))];
+                tmp0 = obj.linearDamping;
+                tmp1 = size(obj.linearDamping);
                 if ndims(tmp0) > 2
                     obj.linearDamping = zeros(obj.dof, obj.dof, tmp1(3));
                     obj.linearDamping(1:tmp1(1),1:tmp1(2),:) = tmp0;
