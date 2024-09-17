@@ -134,7 +134,7 @@ classdef waveClass<handle
                 case 'spectrumImportFullDir' % Same as above but with 2 additional columns direction (in deg) and spread (in deg).
                     obj.typeNum = 35;
                 case 'elevationImport'        % Waves with imported wave elevation time-history
-                    obj.typeNum = 30;
+                    obj.typeNum = 40;
             end
         end
 
