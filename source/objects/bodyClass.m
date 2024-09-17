@@ -278,10 +278,10 @@ classdef bodyClass<handle
             end
         end
 
-        function listInfo(obj)
+        function listInfo(obj,nb)
             % This method prints body information to the MATLAB Command Window.
-            fprintf('\n\t***** Body Number %G, Name: %s *****\n',obj.hydroData.properties.number,obj.name)
-            fprintf('\tBody CG                          (m) = [%G,%G,%G]\n',obj.hydroData.properties.centerGravity)
+            fprintf('\n\t***** Body Number %G, Name: %s *****\n',nb,obj.name)
+            fprintf('\tBody CG                          (m) = [%G,%G,%G]\n',obj.centerGravity)
             fprintf('\tBody Mass                       (kg) = %G \n',obj.mass);
             fprintf('\tBody Moments of Inertia       (kgm2) = [%G,%G,%G]\n',obj.inertia);
             fprintf('\tBody Products of Inertia      (kgm2) = [%G,%G,%G]\n',obj.inertiaProducts);
