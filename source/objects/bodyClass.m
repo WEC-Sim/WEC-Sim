@@ -280,7 +280,7 @@ classdef bodyClass<handle
 
         function listInfo(obj)
             % This method prints body information to the MATLAB Command Window.
-            fprintf('\n\t***** Body Number %G, Name: %s *****\n',obj.hydroData.properties.number,obj.hydroData.properties.name)
+            fprintf('\n\t***** Body Number %G, Name: %s *****\n',obj.hydroData.properties.number,obj.name)
             fprintf('\tBody CG                          (m) = [%G,%G,%G]\n',obj.hydroData.properties.centerGravity)
             fprintf('\tBody Mass                       (kg) = %G \n',obj.mass);
             fprintf('\tBody Moments of Inertia       (kgm2) = [%G,%G,%G]\n',obj.inertia);
@@ -308,7 +308,9 @@ classdef bodyClass<handle
                     warning('Center of bouyancy defined in the h5 data for hydro body %i is being overwritten by a user defined value.',nb)
                 end        
                 obj.volume          = hydroData.properties.volume;
-                obj.name            = hydroData.properties.name;
+                if isempty(obj.name)
+                    obj.name            = hydroData.properties.name;
+                end
                 obj.dof             = hydroData.properties.dof;
                 obj.dofStart        = hydroData.properties.dofStart;
                 obj.dofEnd          = hydroData.properties.dofEnd;
