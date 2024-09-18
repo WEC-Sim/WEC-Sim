@@ -39,6 +39,19 @@ for iBod = 1:length(body(1,:))
     bodiesOutput(iBod).yaw = body(iBod).yaw.option;
 end; clear iBod
 
+% Record hydroForceIndex from variable hydro. If nonvariable hydro, add
+% a placeholder so the bodiesOutput structures are similar and concatenable
+for iBod = 1:length(body(1,:))
+        eval(['bodiesOutput(' num2str(iBod) ').variableHydroOption = body(' num2str(iBod) ').variableHydro.option;']);
+    if body(iBod).variableHydro.option == 1
+        eval(['bodiesOutput(' num2str(iBod) ').hydroForceIndex = body' num2str(iBod) '_hydroForceIndex.signals.values;']); 
+    else
+        eval(['bodiesOutput(' num2str(iBod) ').hydroForceIndex = ones(size(bodiesOutput(iBod).time,1),1);']);
+    end
+end
+clear body*_hydroForceIndex bus_*
+
+
 % PTOs
 if exist('pto','var')
     for iPto = 1:simu.numPtos
