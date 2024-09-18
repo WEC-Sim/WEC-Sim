@@ -161,7 +161,9 @@ nonHydroBodLogic = zeros(length(body(1,:)),1);
 dragBodLogic = zeros(length(body(1,:)),1);
 for ii = 1:length(body(1,:))
     body(ii).setNumber(ii);
-    body(ii).checkInputs(simu.explorer, simu.stateSpace, simu.FIR, waves.typeNum);
+    for kk=1:length(waves)
+        body(ii).checkInputs(simu.explorer, simu.stateSpace, simu.FIR, waves(kk).typeNum);
+    end
     if body(ii).nonHydro==0
         if numNonHydroBodies > 0 || numDragBodies > 0
             error('All hydro bodies must be specified before any drag or non-hydro bodies.')
