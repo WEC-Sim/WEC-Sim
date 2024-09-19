@@ -606,6 +606,7 @@ classdef waveClass<handle
                     data = importdata(obj.spectrumFile);
                     obj.phase = 2 * pi * rand([obj.bem.count,obj.freqDepDirection.nBins]);
             end
+            obj.phase = obj.phase';
         end
         function setWaterDepth(obj,bemWaterDepth)
             % Set the water depth. If defined in input file, BEM depth is
