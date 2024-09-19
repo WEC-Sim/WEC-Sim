@@ -61,7 +61,7 @@ for ii = 1:rr
         %% Calculate Orbital Velocity
         for jj = 1:ff
             waveDirRad      = direction(aa)*pi/180;
-            phaseArg        = w(jj,1)*Time - k(jj,1)*(ShiftCg(1)*cos(waveDirRad) + ShiftCg(2)*sin(waveDirRad)) + randPhase(1,jj);
+            phaseArg        = w(jj,1)*Time - k(jj,1)*(ShiftCg(1)*cos(waveDirRad) + ShiftCg(2)*sin(waveDirRad)) + randPhase(jj,1);
             % Vertical Variation
             kh              = k(jj,1)*waterDepth;
             kz              = k(jj,1)*ShiftCg(3);
