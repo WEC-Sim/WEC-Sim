@@ -55,17 +55,17 @@ classdef ptoSimClass<handle
             'lambda_sq_0',                      'NOT DEFINED',...           % Stator q-axis flow linkage
             'Rload',                            'NOT DEFINED')              % External load
         electricGeneratorEC (1,1) struct        = struct(...                % Electric Machine - Equivalent Circuit
-            'Ra',                               0.1,...                     % [ohm]       Initial displacement of the piston measured from port A
-            'La',                               0.1,...                     % [H]         Piston Area, side A
+            'Ra',                               0.1,...                     % [ohm]       Armature resistance
+            'La',                               0.1,...                     % [H]         Armature inductance
             'Ke',                               0.1,...                     % [V/(rad/s)] Back emf constant
-            'Jem',                              0.1,...                     % [kg*m^2]    Bulk modulus of the hydraulic fluid
-            'bShaft',                           0.1,...                     % [N*m*s]     Bulk modulus of the hydraulic fluid
+            'Jem',                              0.1,...                     % [kg*m^2]    Motor inertia
+            'bShaft',                           0.1,...                     % [N*m*s]     Shaft damping coefficient
             'currentIni',                       0.0,...                     % [A]         Electric motor current initial value
             'wShaftIni',                        0.0)                        % [rpm]       Shaft speed initial value
-        gasHydAccumulator (1,1) struct          = struct(...                % hydraulic Block properties
+        gasHydAccumulator (1,1) struct          = struct(...                % Hydraulic Accumulator Block properties
             'vI0',                              0.1,...                     % [m^3]   Initial gas volume
             'pIprecharge',                      0.1)                        % [pa]    Accumulator Precharge
-        hydPistonCompressible (1,1) struct      = struct(...                % hydraulic Block properties
+        hydPistonCompressible (1,1) struct      = struct(...                % Hydraulic Piston Block properties
             'xi_piston',                        'NOT DEFINED',...           % [m]     Initial displacement of the piston measured from port A
             'Ap_A',                             'NOT DEFINED',...           % [m^2]   Piston Area, side A
             'Ap_B',                             'NOT DEFINED',...           % [m^2]   Piston Area, side B
@@ -73,7 +73,7 @@ classdef ptoSimClass<handle
             'pistonStroke',                     'NOT DEFINED',...           % [m]     Piston Stroke
             'pAi',                              'NOT DEFINED',...           % [pa]    Side A initial pressure
             'pBi',                              'NOT DEFINED')              % [pa]    Side B initial pressure
-        hydraulicMotor (1,1) struct             = struct(...                % hydraulic Block properties
+        hydraulicMotor (1,1) struct             = struct(...                % Hydraulic Motor Block properties
             'displacement',                     'NOT DEFINED',...           % [cc/rev] Volumetric displacement
             'effModel',                         'NOT DEFINED',...           % 1 for Analytical or 2 for tabulated
             'effTableShaftSpeed',               'NOT DEFINED',...           % Vector with shaft speed data for efficiency
@@ -94,16 +94,16 @@ classdef ptoSimClass<handle
             'offset',                           'NOT DEFINED',...           % [m] Offset length
             'rodLength',                        'NOT DEFINED')              % [m] Rod length
         %name (1,:) {mustBeText}                 = 'NOT DEFINED'             % Electric Block Name
-        rectifyingCheckValve (1,1) struct       = struct(...                % hydraulic Block properties
-            'Cd',                               'NOT DEFINED',...           % Discharge accumulator
-            'Amax',                             'NOT DEFINED',...           % Maximum opening area of the valve
-            'Amin',                             'NOT DEFINED',...           % Minimum opening area of the valve
-            'pMax',                             'NOT DEFINED',...           % Pressure at maximum opening
-            'pMin',                             'NOT DEFINED',...           % Cracking pressure
-            'rho',                              'NOT DEFINED',...           % Fluid density
-            'k1',                               'NOT DEFINED',...           % Valve coefficiente
-            'k2',                               'NOT DEFINED')              % Valve coefficient, it's a function of the other valve variables
-        simpleDirectDrivePTO (1,1) struct      = struct(...                 % simple direct drive linear PTO Block properties
+        rectifyingCheckValve (1,1) struct       = struct(...                % Rectifying Check Valve Block properties
+            'Cd',                               'NOT DEFINED',...           % [1] Discharge coefficient
+            'Amax',                             'NOT DEFINED',...           % [m^2] Maximum opening area of the valve
+            'Amin',                             'NOT DEFINED',...           % [m^2] Minimum opening area of the valve
+            'pMax',                             'NOT DEFINED',...           % [Pa] Pressure at maximum opening
+            'pMin',                             'NOT DEFINED',...           % [Pa] Cracking pressure
+            'rho',                              'NOT DEFINED',...           % [kg/m^3] Fluid density
+            'k1',                               'NOT DEFINED',...           % [1] Valve coefficiente
+            'k2',                               'NOT DEFINED')              % [1] Valve coefficient --- it's a function of the other valve variables
+        simpleDirectDrivePTO (1,1) struct      = struct(...                 % Simple direct drive linear PTO Block properties
             'torqueConstant',                   'NOT DEFINED',...           % [Nm/A] Generator Torque constant
             'gearRatio',                        'NOT DEFINED',...           % [] Gear ratio
             'drivetrainInertia',                'NOT DEFINED',...           % [kgm^2] Drivetrain inertia
