@@ -10,7 +10,8 @@ clear clock_out
 % Bodies
 for iBod = 1:length(body(1,:))
     eval(['body' num2str(iBod) '_out.name = body(' num2str(iBod) ').name;']);    
-    eval(['body' num2str(iBod) '_out.centerGravity = body(' num2str(iBod) ').centerGravity;']);    
+    eval(['body' num2str(iBod) '_out.centerGravity = body(' num2str(iBod) ').centerGravity;']); 
+
     if iBod == 1
         bodiesOutput = body1_out; 
     end
@@ -50,7 +51,6 @@ for iBod = 1:length(body(1,:))
     end
 end
 clear body*_hydroForceIndex bus_*
-
 
 % PTOs
 if exist('pto','var')

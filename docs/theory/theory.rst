@@ -115,6 +115,8 @@ vector, :math:`F_{B}(t)` is the net buoyancy restoring force and torque vector,
 and :math:`F_{m}(t)` is the force and torque vector resulting from the mooring 
 connection. 
 
+.. ACTION: Add QTF documentation here
+
 :math:`F_{exc}(t)` , :math:`F_{rad}(t)` , and :math:`F_{B}(t)` are calculated 
 using hydrodynamic coefficients provided by the frequency-domain BEM solver. 
 The radiation term includes an added-mass term, matrix :math:`A(\omega)`, and 
@@ -201,8 +203,10 @@ The mean drift force is obtained from:
     
 The mean drift force is combined with the excitation force in the response class output.
 
+.. ACTION: Add QTF documentation here
+
 .. Note::
-    Currently, WEC-Sim only supports mean drift coefficients from WAMIT.
+    Currently, WEC-Sim only supports mean drift coefficients and QTF from WAMIT.
 
 Convolution Integral Formulation
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^

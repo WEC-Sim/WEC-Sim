@@ -98,15 +98,13 @@ plotBEMIO(hydro);
 
 %% rad and mass fixes
 [row,col,~] = size(hydro.B);
-% parse negative radiation damping
+% parse negative radiation damping along diagonal
 for k = 1:row
-    for kk = 1:col
-        bPks(k,kk) = max(squeeze(hydro.B(k,kk,:)));
-        p1Idx = find(abs(hydro.B(k,kk,:)) > deSpike.negThresh * bPks(k,kk));
-        p2Idx = find(hydro.B(k,kk,:) < 0);
-        pIdx = intersect(p1Idx,p2Idx);
-        hydro.B(k,kk,pIdx) = 0;
-    end
+    bPks(k,k) = max(squeeze(hydro.B(k,k,:)));
+    p1Idx = find(abs(hydro.B(k,k,:)) > deSpike.negThresh * bPks(k,k));
+    p2Idx = find(hydro.B(k,k,:) < 0);
+    pIdx = intersect(p1Idx,p2Idx);
+    hydro.B(k,k,pIdx) = 0;
 end
 
 for k = 1:row

@@ -36,8 +36,8 @@ classdef bodyClass<handle
         flex (1,1) {mustBeInteger}                  = 0                     % (`integer`) Flag for flexible body, Options: 0 (off) or 1 (on). Default = ``0``.
         gbmDOF (1,:) {mustBeScalarOrEmpty}          = []                    % (`integer`) Number of degree of freedoms (DOFs) for generalized body mode (GBM). Default = ``[]``.
         geometryFile (1,:) {mustBeText}             = 'NONE'                % (`string`) Path to the body geometry ``.stl`` file.
-        h5File (1,:) {mustBeText}                   = ''                    % (`string`) hdf5 file containing the hydrodynamic data
-        hydroStiffness (6,6,:) {mustBeNumeric}        = zeros(6)              % (`6x6 float matrix`) Linear hydrostatic stiffness matrix. If the variable is nonzero, the matrix will override the h5 file values. Default = ``zeros(6)``.
+        h5File (1,:) {mustBeA(h5File,{'char','string','cell'})} = ''        % (`char array, string, cell array of char arrays, or cell array or strings`) hdf5 file containing the hydrodynamic data
+        hydroStiffness (6,6,:) {mustBeNumeric}      = zeros(6)              % (`6x6 float matrix`) Linear hydrostatic stiffness matrix. If the variable is nonzero, the matrix will override the h5 file values. Create a 3D matrix (6x6xn) for variable hydrodynamics. Default = ``zeros(6)``.
         inertia (1,:) {mustBeNumeric}               = []                    % (`1x3 float vector`) Rotational inertia or mass moment of inertia [kg*m^{2}]. Defined by the user in the following format [Ixx Iyy Izz]. Default = ``[]``.
         inertiaProducts (1,:) {mustBeNumeric}       = [0 0 0]               % (`1x3 float vector`) Rotational inertia or mass products of inertia [kg*m^{2}]. Defined by the user in the following format [Ixy Ixz Iyz]. Default = ``[]``.
         initial (1,1) struct                        = struct(...            % (`structure`) Defines the initial displacement of the body.
@@ -46,7 +46,7 @@ classdef bodyClass<handle
             'angle',                                0)                      % (`structure`) Defines the initial displacement of the body. ``displacement`` (`1x3 float vector`) is defined as the initial displacement of the body center of gravity (COG) [m] in the following format [x y z], Default = [``0 0 0``]. ``axis`` (`1x3 float vector`) is defined as the axis of rotation in the following format [x y z], Default = [``0 1 0``]. ``angle`` (`float`) is defined as the initial angular displacement of the body COG [rad], Default = ``0``.
         largeXYDisplacement (1,1) struct            = struct(...            %
             'option',                               0)                      %
-        linearDamping {mustBeNumeric}               = zeros(6)              % (`6x6xn float matrix`) Defines linear damping coefficient matrix. Default = ``zeros(6)``.
+        linearDamping {mustBeNumeric}               = zeros(6)              % (`6x6 float matrix`) Defines linear damping coefficient matrix. Create a 3D matrix (6x6xn) for variable hydrodynamics. Default = ``zeros(6)``.
         mass (1,:)                                  = []                    % (`float`) Translational inertia or mass [kg]. Defined by the user or specify 'equilibrium' to set the mass equal to the fluid density times displaced volume. Default = ``[]``.
         meanDrift (1,1) {mustBeInteger}             = 0                     % (`integer`) Flag for mean drift force, Options:  0 (no), 1 (yes, from control surface) or 2 (yes, from momentum conservation). Default = ``0``.
         morisonElement (1,1) struct                 = struct(...            % (`structure`) Defines the Morison Element properties connected to the body.
@@ -81,12 +81,12 @@ classdef bodyClass<handle
     properties (SetAccess = 'private', GetAccess = 'public')% h5 file
         dofEnd              = []                            % (`integer`) Index the DOF ends for (``body.number``). For WEC bodies this is given in the h5 file, but if not defined in the h5 file, Default = ``(body.number-1)*6+6``.
         dofStart            = []                            % (`integer`) Index the DOF starts for (``body.number``). For WEC bodies this is given in the h5 file, but if not defined in the h5 file, Default = ``(body.number-1)*6+1``.
-        hydroData           = struct()                      % (`structure`) Defines the hydrodynamic data from BEM or user defined.
+        hydroData           = struct()                      % (`structure`) A structure array that defines the hydrodynamic data from BEM or user defined.
     end
 
     properties (SetAccess = 'private', GetAccess = 'public')% internal
         b2bDOF              = []                            % (`matrix`) Matrices length, Options: ``6`` without body-to-body interactions. ``6*number of hydro bodies`` with body-to-body interactions.
-        hydroForce          = struct()                      % (`structure`) Defines hydrodynamic forces and coefficients used during simulation.
+        hydroForce          = struct()                      % (`structure`) A nested structure that defines hydrodynamic forces and coefficients used during simulation. Each first level substructure (hf1, hf2, etc) represents data corresponding to BEM data called out in h5File.
         massCalcMethod      = []                            % (`string`) Method used to obtain mass, options: ``'user'``, ``'equilibrium'``
         number              = []                            % (`integer`) Body number, must be the same as the BEM body number.
         total               = []                            % (`integer`) Total number of hydro bodies
@@ -143,7 +143,7 @@ classdef bodyClass<handle
             mustBeNumeric(obj.initial.axis)
             mustBeScalarOrEmpty(obj.initial.angle)
             % Morison
-            mustBeMember(obj.morisonElement.option, [0:2])
+            mustBeMember(obj.morisonElement.option, 0:2)
             assert(isequal(size(obj.morisonElement.cd,2)==3,1),'Input body.morisonElement.cd should be nx3')
             mustBeNumeric(obj.morisonElement.cd)
             assert(isequal(size(obj.morisonElement.ca,2)==3,1),'Input body.morisonElement.ca should be nx3')
@@ -428,11 +428,12 @@ classdef bodyClass<handle
                     obj.quadDrag(i).area = [obj.quadDrag(i).area zeros(1,obj.dof-length(obj.quadDrag(i).area))];
                 end
             end; clear tmp0 tmp1
-            if any(any(obj.hydroStiffness(:,:,iH)))   %check if obj.hydroStiffness is defined
+            if any(any(obj.hydroStiffness(:,:,iH))) % check if obj.hydroStiffness is defined
                 obj.hydroForce.(hfName).linearHydroRestCoef = obj.hydroStiffness(:,:,iH);
             else
-                k = obj.hydroData(iH).hydro_coeffs.linear_restoring_stiffness;%(:,obj.dofStart:obj.dofEnd);
+                k = obj.hydroData(iH).hydro_coeffs.linear_restoring_stiffness; % (:,obj.dofStart:obj.dofEnd);
                 obj.hydroForce.(hfName).linearHydroRestCoef = k .*rho .*g;
+                obj.hydroForce.(hfName).userDefinedFe = 0;
             end
             if  any(any(obj.quadDrag(iH).drag))   %check if obj.quadDrag.drag is defined
                 obj.hydroForce.(hfName).quadDrag = obj.quadDrag(iH).drag;
@@ -445,23 +446,23 @@ classdef bodyClass<handle
             switch waveType
                 case {'noWave'}
                     obj.noExcitation(iH)
-                    obj.constAddedMassAndDamping(w,rho,B2B,iH);
+                    obj.constAddedMassAndDamping(w, rho, B2B, iH);
                 case {'noWaveCIC'}
                     obj.noExcitation(iH)
-                    obj.irfInfAddedMassAndDamping(cicTime,stateSpace,rho,B2B,iH);
+                    obj.irfInfAddedMassAndDamping(cicTime, stateSpace, rho, B2B, iH);
                 case {'regular'}
-                    obj.regExcitation(w,direction,rho,g,iH);
-                    obj.constAddedMassAndDamping(w,rho,B2B,iH);
+                    obj.regExcitation(w, direction, rho, g, iH);
+                    obj.constAddedMassAndDamping(w, rho, B2B, iH);
                 case {'regularCIC'}
-                    obj.regExcitation(w,direction,rho,g,iH);
-                    obj.irfInfAddedMassAndDamping(cicTime,stateSpace,rho,B2B,iH);
-                case {'irregular','spectrumImport','spectrumImportFullDir'}
-                    obj.irrExcitation(w,bemCount,direction,rho,g,dirBins,iH);
-                    obj.irfInfAddedMassAndDamping(cicTime,stateSpace,rho,B2B,iH);
+                    obj.regExcitation(w, direction, rho, g, iH);
+                    obj.irfInfAddedMassAndDamping(cicTime, stateSpace, rho, B2B, iH);
+                case {'irregular','spectrumImport'}
+                    obj.irrExcitation(w, bemCount, direction, rho, g, iH);
+                    obj.irfInfAddedMassAndDamping(cicTime, stateSpace, rho, B2B, iH);
                 case {'elevationImport'}
                     obj.hydroForce.(hfName).userDefinedFe = zeros(length(waveAmpTime(:,2)),obj.dof);   %initializing userDefinedFe for non imported wave cases
-                    obj.userDefinedExcitation(waveAmpTime,dt,direction,rho,g,iH);
-                    obj.irfInfAddedMassAndDamping(cicTime,stateSpace,rho,B2B,iH);
+                    obj.userDefinedExcitation(waveAmpTime, dt, direction, rho, g, iH);
+                    obj.irfInfAddedMassAndDamping(cicTime, stateSpace, rho, B2B, iH);
             end
             if (obj.gbmDOF>0)
                 obj.hydroForce.(hfName).gbm.stiffness=obj.hydroData(iH).gbm.stiffness;
@@ -555,7 +556,7 @@ classdef bodyClass<handle
                 obj.mass = obj.mass + tmp.adjmass;
                 obj.inertia = obj.inertia + tmp.fadm(4:6)';
                 obj.inertiaProducts = obj.inertiaProducts + tmp.inertiaProducts;
-               for iH = 1:length(obj.hydroData)
+                for iH = 1:length(obj.hydroData)
                     hfName = ['hf' num2str(iH)];
                     obj.hydroForce.(hfName).fAddedMass(1,1) = obj.hydroForce.(hfName).fAddedMass(1,1) - tmp.adjmass;
                     obj.hydroForce.(hfName).fAddedMass(2,2) = obj.hydroForce.(hfName).fAddedMass(2,2) - tmp.adjmass;
@@ -733,8 +734,8 @@ classdef bodyClass<handle
         end
     end
 
- methods (Access = 'protected') %modify object = T; output = F
-    function noExcitation(obj, iH)
+    methods (Access = 'protected') %modify object = T; output = F
+        function noExcitation(obj, iH)
             % Set excitation force for no excitation case
             hfName = ['hf' num2str(iH)];
             nDOF = obj.dof;
@@ -895,8 +896,8 @@ classdef bodyClass<handle
                     obj.hydroForce.(hfName).fExt.dofGrd, obj.hydroForce.(hfName).fExt.dirGrd, obj.hydroForce.(hfName).fExt.wGrd)*rho*g;
             end
         end
-
-        function irrExcitation(obj,wv,bemCount,direction,rho,g,dirBins,iH)
+        
+        function irrExcitation(obj, wv, bemCount, direction, rho, g, iH)
             % Irregular wave excitation force
             % Used by hydroForcePre
             hfName = ['hf' num2str(iH)];
@@ -904,9 +905,11 @@ classdef bodyClass<handle
             re = obj.hydroData(iH).hydro_coeffs.excitation.re(:,:,:) .*rho.*g;
             im = obj.hydroData(iH).hydro_coeffs.excitation.im(:,:,:) .*rho.*g;
             md = obj.hydroData(iH).hydro_coeffs.mean_drift(:,:,:)    .*rho.*g;
-
+            obj.hydroForce.(hfName).fExt.re=zeros(length(direction),bemCount,nDOF);
+            obj.hydroForce.(hfName).fExt.im=zeros(length(direction),bemCount,nDOF);
+            obj.hydroForce.(hfName).fExt.md=zeros(length(direction),bemCount,nDOF);
             for ii=1:nDOF
-                if length(obj.hydroData.simulation_parameters.direction) > 1 && isempty(dirBins)
+                if length(obj.hydroData(iH).simulation_parameters.direction) > 1
                     [X,Y] = meshgrid(obj.hydroData(iH).simulation_parameters.w, obj.hydroData(iH).simulation_parameters.direction);
                     obj.hydroForce.(hfName).fExt.re(:,:,ii) = interp2(X, Y, squeeze(re(ii,:,:)), wv, direction);
                     obj.hydroForce.(hfName).fExt.im(:,:,ii) = interp2(X, Y, squeeze(im(ii,:,:)), wv, direction);
@@ -976,7 +979,7 @@ classdef bodyClass<handle
             end
            
         function userDefinedExcitation(obj,waveAmpTime,dt,direction,rho,g,iH)
-             % Calculated User-Defined wave excitation force with non-causal convolution
+            % Calculated User-Defined wave excitation force with non-causal convolution
             % Used by hydroForcePre
             nDOF = obj.dof;
             hfName = ['hf' num2str(iH)];
@@ -1000,9 +1003,9 @@ classdef bodyClass<handle
             obj.hydroForce.(hfName).fExt.im=zeros(1,nDOF);
             obj.hydroForce.(hfName).fExt.md=zeros(1,nDOF);
         end
-
-        function constAddedMassAndDamping(obj,w,rho,B2B,iH)
-             % Set added mass and damping for a specific frequency
+        
+        function constAddedMassAndDamping(obj, w, rho, B2B, iH)
+            % Set added mass and damping for a specific frequency
             % Used by hydroForcePre
             hfName = ['hf' num2str(iH)];
             am = obj.hydroData(iH).hydro_coeffs.added_mass.all .*rho;
@@ -1036,9 +1039,9 @@ classdef bodyClass<handle
                     end
             end
         end
-
-        function irfInfAddedMassAndDamping(obj,cicTime,stateSpace,rho,B2B,iH)
-                        % Set radiation force properties using impulse response function
+        
+        function irfInfAddedMassAndDamping(obj, cicTime, stateSpace, rho, B2B, iH)
+            % Set radiation force properties using impulse response function
             % Used by hydroForcePre
             % Added mass at infinite frequency
             % Convolution integral raditation dampingiBod
@@ -1121,9 +1124,9 @@ classdef bodyClass<handle
             if strcmp(obj.mass, 'equilibrium')
                 obj.massCalcMethod = obj.mass;
                 if obj.nonHydro == 0 && obj.nonlinearHydro == 0
-                    obj.mass = obj.hydroData.properties.volume * rho;
+                    obj.mass = obj.hydroData(1).properties.volume * rho;
                 elseif obj.nonHydro == 0 && obj.nonlinearHydro ~= 0
-                    cg_tmp = obj.hydroData.properties.centerGravity;
+                    cg_tmp = obj.hydroData(1).properties.centerGravity;
                     z = obj.geometry.center(:,3) + cg_tmp(3);
                     z(z>0) = 0;
                     area = obj.geometry.area;
@@ -1137,6 +1140,7 @@ classdef bodyClass<handle
                 obj.massCalcMethod = 'user';
             end
         end
+
     end
 
     methods (Access = 'public') %modify object = F; output = T

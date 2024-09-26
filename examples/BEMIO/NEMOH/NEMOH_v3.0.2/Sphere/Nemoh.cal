@@ -24,14 +24,15 @@ mesh\sphere.dat      		! Name of mesh file
 2 0. 0. 1. 0. 0. -2.000000	! Moment force in z direction about a point
 0				! Number of lines of additional information 
 --- Load cases to be solved -------------------------------------------------------------------------------------------------------
-1  420	0.02	8.4		! Freq type 1,2,3=[rad/s,Hz,s], Number of wave frequencies/periods, Min, and Max
+1   420	0.02	8.4		! Freq type 1,2,3=[rad/s,Hz,s],Number of wave frequencies, Min, and Max (rad/s)
 1	0.	0.		! Number of wave directions, Min and Max (degrees)
 --- Post processing ---------------------------------------------------------------------------------------------------------------
 0	0.1	10.		! IRF 				! IRF calculation (0 for no calculation), time step and duration
 0				! Show pressure
 0	0.	180.		! Kochin function 		! Number of directions of calculation (0 for no calculations), Min and Max (degrees)
 0	50	400.	400.	! Free surface elevation 	! Number of points in x direction (0 for no calcutions) and y direction and dimensions of domain in x and y direction
-0						! Response Amplitude Operator (RAO), 0 no calculation, 1 calculated
-1						! output freq type, 1,2,3=[rad/s,Hz,s]
+0                  ! Response Amplitude Operator (RAO), 0 no calculation, 1 calculated
+1					! output freq type, 1,2,3=[rad/s,Hz,s]
 ---QTF---
-0         				! QTF flag, 1 is calculated 
+0         ! QTF flag, 1 is calculated 
+------

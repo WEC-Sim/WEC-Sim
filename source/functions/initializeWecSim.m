@@ -452,6 +452,7 @@ for ii=1:length(body(1,:))
 end; clear ii
 
 sv_udfWaves=Simulink.Variant('typeNum>=40');
+
 % Body2Body
 B2B = simu.b2b;
 sv_noB2B=Simulink.Variant('B2B==0');
