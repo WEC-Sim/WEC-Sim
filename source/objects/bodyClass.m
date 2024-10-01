@@ -457,7 +457,7 @@ classdef bodyClass<handle
                     obj.regExcitation(w, direction, rho, g, iH);
                     obj.irfInfAddedMassAndDamping(cicTime, stateSpace, rho, B2B, iH);
                 case {'irregular','spectrumImport'}
-                    obj.irrExcitation(w, bemCount, direction, rho, g, iH);
+                    obj.irrExcitation(w, bemCount, direction, rho, g, dirBins, iH);
                     obj.irfInfAddedMassAndDamping(cicTime, stateSpace, rho, B2B, iH);
                 case {'elevationImport'}
                     obj.hydroForce.(hfName).userDefinedFe = zeros(length(waveAmpTime(:,2)),obj.dof);   %initializing userDefinedFe for non imported wave cases
@@ -897,7 +897,7 @@ classdef bodyClass<handle
             end
         end
         
-        function irrExcitation(obj, wv, bemCount, direction, rho, g, iH)
+        function irrExcitation(obj, wv, bemCount, direction, rho, g, dirBins, iH)
             % Irregular wave excitation force
             % Used by hydroForcePre
             hfName = ['hf' num2str(iH)];
