@@ -12,7 +12,7 @@ coeffsLastMD=zeros(N,M,6); %  dirBins, freq, dof
 coeffsLastRE=zeros(N,M,6);
 coeffsLastIM=zeros(N,M,6);
 
- relYaw = dirBins-(Disp(6)*180/pi); % relative yaw angle, size = dirBins = [length(w) nBins]
+relYaw = dirBins-(Disp(6)*180/pi); % relative yaw angle, size = dirBins = [length(w) nBins]
 
 
 % compare relYaw to available direction data Direction data must

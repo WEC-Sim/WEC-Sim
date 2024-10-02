@@ -456,7 +456,7 @@ classdef bodyClass<handle
                 case {'regularCIC'}
                     obj.regExcitation(w, direction, rho, g, iH);
                     obj.irfInfAddedMassAndDamping(cicTime, stateSpace, rho, B2B, iH);
-                case {'irregular','spectrumImport'}
+                case {'irregular','spectrumImport','spectrumImportFullDir'}
                     obj.irrExcitation(w, bemCount, direction, rho, g, dirBins, iH);
                     obj.irfInfAddedMassAndDamping(cicTime, stateSpace, rho, B2B, iH);
                 case {'elevationImport'}
