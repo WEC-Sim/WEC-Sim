@@ -32,7 +32,7 @@ classdef ptoSimClass<handle
             'k2',                               'NOT DEFINED',...           % [m^2/N] Valve coefficient
             'Amin',                             'NOT DEFINED',...           % [m^2] Minimum valve area
             'Amax',                             'NOT DEFINED',...           % [m^2] Maximum valve area
-            'Cd',                               'NOT DEFINED')              % [1] Discharge coefficient
+            'Cd',                               'NOT DEFINED')              % [1] - % nondimensional % - Discharge coefficient
         directLinearGenerator (1,1) struct      = struct(...                % Linear crank block properties
             'tau_p',                            'NOT DEFINED',...           % Magnet pole pitch
             'theta_d_0',                        'NOT DEFINED',...           % Initial theta value
@@ -84,7 +84,7 @@ classdef ptoSimClass<handle
             'deltaPNominal',                    'NOT DEFINED',...           % [Pa] Matrix with vol. efficiency data
             'visNominal',                       'NOT DEFINED',...           % [m^2/s] Nominal kinematic viscosity at which the nominal efficiency is measured
             'densityNominal',                   'NOT DEFINED',...           % [kg/m^3] Nominal fluid density at which the nominal efficiency is measured
-            'effVolNom',                        'NOT DEFINED',...           % [1] Volumetric efficiency at nominal conditions
+            'effVolNom',                        'NOT DEFINED',...           % [1] - % nondimensional % - Volumetric efficiency at nominal conditions
             'torqueNoLoad',                     'NOT DEFINED',...           % [Nm] No load torque
             'torqueVsPressure',                 'NOT DEFINED',...           % [Nm/Pa] Friction torque vs pressure drop coefficient
             'rho',                              'NOT DEFINED',...           % [kg/m^3] Actual fluid density. It could be different than the nominal fluid density
@@ -95,17 +95,17 @@ classdef ptoSimClass<handle
             'rodLength',                        'NOT DEFINED')              % [m] Rod length
         %name (1,:) {mustBeText}                 = 'NOT DEFINED'             % Electric Block Name
         rectifyingCheckValve (1,1) struct       = struct(...                % Rectifying Check Valve Block properties
-            'Cd',                               'NOT DEFINED',...           % [1] Discharge coefficient
+            'Cd',                               'NOT DEFINED',...           % [1] - % nondimensional % - Discharge coefficient
             'Amax',                             'NOT DEFINED',...           % [m^2] Maximum opening area of the valve
             'Amin',                             'NOT DEFINED',...           % [m^2] Minimum opening area of the valve
             'pMax',                             'NOT DEFINED',...           % [Pa] Pressure at maximum opening
             'pMin',                             'NOT DEFINED',...           % [Pa] Cracking pressure
             'rho',                              'NOT DEFINED',...           % [kg/m^3] Fluid density
-            'k1',                               'NOT DEFINED',...           % [1] Valve coefficiente
-            'k2',                               'NOT DEFINED')              % [1] Valve coefficient --- it's a function of the other valve variables
+            'k1',                               'NOT DEFINED',...           % [1] - % nondimensional % - Valve coefficiente
+            'k2',                               'NOT DEFINED')              % [1] - % nondimensional % - Valve coefficient --- it's a function of the other valve variables
         simpleDirectDrivePTO (1,1) struct      = struct(...                 % Simple direct drive linear PTO Block properties
             'torqueConstant',                   'NOT DEFINED',...           % [Nm/A] Generator Torque constant
-            'gearRatio',                        'NOT DEFINED',...           % [] Gear ratio
+            'gearRatio',                        'NOT DEFINED',...           % [1] - % nondimensional % - Gear ratio
             'drivetrainInertia',                'NOT DEFINED',...           % [kgm^2] Drivetrain inertia
             'drivetrainFriction',               'NOT DEFINED',...           % [Nms/rad] Drivetrain friction coefficient
             'windingResistance',                'NOT DEFINED',...           % [ohm] Winding resistance
