@@ -187,13 +187,13 @@ for ii = 1:simu.numHydroBodies
     % was stored in memory from a previous run.
     if exist('totalNumOfWorkers','var') == 0 && exist('mcr','var') == 1 && simu.reloadH5Data == 0 && imcr > 1
         for iH = 1:length(savedHydroData(ii))
-            body(ii).loadHydroData(savedHydroData(ii).hydroData(iH), iH);
+            body(ii).loadHydroData(savedHydroData(ii).hydroData(iH), iH, ii);
         end
     else
         % Read hydro data from BEMIO and load into the bodyClass
         for iH = 1:length(body(ii).h5File)
             tmp_hydroData = readBEMIOH5(body(ii).h5File{iH}, body(ii).number, body(ii).meanDrift);
-            body(ii).loadHydroData(tmp_hydroData, iH);
+            body(ii).loadHydroData(tmp_hydroData, iH, ii);
         end
         clear tmp_hydroData
     end
@@ -511,11 +511,25 @@ simu.listInfo(waves(1).typeNum);
 for iW = 1:length(waves)
     waves(iW).listInfo();
 end; clear iW
-fprintf('\nList of Body: ');
-fprintf('Number of Bodies = %u \n',simu.numHydroBodies)
-for i = 1:simu.numHydroBodies
-    body(i).listInfo
+fprintf('\nList of Body:\n ');
+fprintf('Number of Hydro Bodies = %u \n',simu.numHydroBodies)
+i = 1; 
+while i <= simu.numHydroBodies
+    if body(i).nonHydro == 0
+        body(i).listInfo(i)
+    end
+    i = i+1;
 end;  clear i
+if numNonHydroBodies ~= 0
+    fprintf('\nNumber of Non-Hydro Bodies = %u \n',numNonHydroBodies)
+    i = 1;
+    while i <= numNonHydroBodies
+        if body(i).nonHydro == 1
+            body(i).listInfo(i)
+        end
+        i = i+1;
+    end
+end; clear i
 fprintf('\nList of PTO(s): ');
 if (exist('pto','var') == 0)
     fprintf('No PTO in the system\n')
