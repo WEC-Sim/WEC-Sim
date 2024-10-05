@@ -64,7 +64,6 @@ body(1).mass = 'equilibrium';
     % Body Mass. The 'equilibrium' Option Sets it to the Displaced Water 
     % Weight.
 body(1).inertia = [20907301 21306090.66 37085481.11];  % Moment of Inertia [kg*m^2]     
-body(1).centerBuoyancy = [0,0,0];
 % Spar/Plate
 body(2) = bodyClass('hydroData/rm3.h5'); 
 body(2).geometryFile = 'geometry/plate.stl'; 
