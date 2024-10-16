@@ -43,7 +43,8 @@ extensions = [
     'sphinxcontrib.matlab',
     'sphinxext.remoteliteralinclude',
     'sphinx_multiversion',
-    'sphinx_rtd_theme'
+    'sphinx_rtd_theme',
+    'sphinxcontrib.googleanalytics',
 ]
 
 # autodoc settings
@@ -161,9 +162,8 @@ html_theme = 'sphinx_rtd_theme'
 # Theme options are theme-specific and customize the look and feel of a theme
 # further.  For a list of options available for each theme, see the
 # documentation.
-html_theme_options = {
-    'analytics_id': 'UA-88158104-1'
-}
+googleanalytics_id = 'UA-88158104-1'
+googleanalytics_enabled = True
 
 # Add any paths that contain custom themes here, relative to this directory.
 #html_theme_path = []
