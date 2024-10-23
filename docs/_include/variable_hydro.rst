@@ -5,20 +5,19 @@ Overview
 
 Variable Hydrodynamics is an advanced feature that enables users to change the 
 *state* of their device during simulation. In this context, a device *state* 
-could be determined by any number of scenarios, such as a variable geometry 
+can be related to any number of scenarios, such as a variable geometry 
 changing shape, a flooding body, a change in operational depth, load shedding 
-capabilties, time-dependent changes to a device, etc. These states are 
-controlled by a signal, typically kinematics, dynamics, or time, which is used 
-to change the state of the device during simulation. This feature expands 
-WEC-Sim's simulation capabilities and enables
-modeling a new breadth of scenarios.
+capabilities, time-dependent changes to a device, etc. A signal, such as 
+kinematics, dynamics, or time,  is used to alter the state of the device
+during simulation. This feature expands WEC-Sim's simulation capabilities and enables
+modeling a new breadth of scenarios in the time domain.
 
 Different states of a device are represented by different sets of boundary 
 element method data. User defined logic and user selected signals determine
 when the state changes. The Variable Hydrodynamics feature does not determine
-a specific scenario, state, signal, or discretization required. This is the 
+a specific scenario, state, signal, or discretization required. It is the 
 user's responsibility to implement a specific variable hydrodynamics case
-using best practices and validate with higher fidelity data.
+using best practices and validate the results with higher fidelity data.
 
 Example
 """"""""
@@ -32,11 +31,11 @@ total force is large enough.
 Without variable hydrodynamics, as the device depth gets farther from it's 
 initial position, the hydrodynamic loading becomes increasingly inaccurate.
 Using variable hydrodynamics, the hydrodynamic loading can remain accurate 
-updating it to be being based on the device's instantaneous depth.
+by updating force coefficients based on the device's instantaneous depth.
 
 In this example, the state of the device is its operational depth 
 (heave position). The total force and heave position are both signals that 
-dictate the varying hydrodynamics. The total force trigger a custom PTO
+dictate the varying hydrodynamics. The total force triggers a custom PTO
 force, and the heave position determines what BEM dataset is used as the body
 submerges.
 
@@ -51,25 +50,28 @@ calculate the hydrodynamic forcing on the device until updated again.
 Implementation
 """"""""""""""
 Variable hydrodynamics is implemented by allowing users to initialize a body
-with as many h5 files as required. Each i-th h5 file is then pre-processed into
+with a cell array of h5 files, as many as required. Each i-th h5 file is then pre-processed into
 ``body.hydroData(i)`` and ``body.hydroForce.hf{i}`` in the normal manner.
-The entirety of body.hydroForce is loaded into Simulink using custom buses. 
+The entirety of body.hydroForce is loaded into Simulink using a custom bus. 
 Users write the index ``body1_hydroForceIndex`` in Simulink, which indexes 
 ``body.hydroForce.hf{i}`` and selects the hydrodynamic force coefficients used
 in the hydrodynamic force calculations at a given time.
 
+Application
+""""""""""""
+See the Variable Hydro WEC-Sim_Application for a demonstration of setting up and using this feature.
 
 Tips
 """"
-- investigate other features that can accomplish your modeling goals (passive yaw, large XY displacements, etc) more effectively
-- keep state range small
-- input BEM data to cover the entire range of the state 
-- a very fine state discretization may be required. study and iterate to fine the best state discretization
-- if a very high state discretization is required, use BEMIO to interpolate between points instead of running 1000 different BEM simulations
-- validate using high fidelity data
-- the hydroData directory may become very large
-- all BEM data is saved to the ``body`` variable. Pre-processing remains very fast, so it's not recommended to save ``body`` to an output file or the size increases drastically.
-- variable masses are not yet implemented.
+- Investigate other features that can accomplish your modeling goals (passive yaw, large XY displacements, etc) more effectively
+- Keep the state's range small
+- Input BEM data to cover the entire range of the state
+- A very fine state discretization may be required. Study and iterate to fine the best state discretization
+- If a very fine state discretization is required, use BEMIO to create new datasets by interpolating between BEM simulations instead of simulating thousands of distinct BEM solutions
+- Validate using high fidelity data
+- The hydroData directory may become very large
+- All BEM data is contained within the ``body`` variable. Pre-processing remains very fast, so it's not recommended to save ``body`` to an output file or the file size will increase drastically.
+- Variable masses are not yet implemented.
 
 
 
