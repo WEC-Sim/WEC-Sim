@@ -136,6 +136,12 @@ RM3 PTO Extension
 Examples on using the :ref:`PTO Extension <pto-pto-extension>` advanced feature to set-up an initial displacement of the :ref:`RM3 <user-tutorials-rm3>` easily.
 This geometry is a special case with a large DOF in which different WEC bodies can be identified as the PTO mechanism with a cooresponding position change when setting the PTO Initial Displacement. 
 
+Variable Hydrodynamics
+^^^^^^^^^^^^^^^^^^^^^^
+
+Example demonstrating WEC-Sim's variable hydrodynamics feature by comparing it to the passive yaw implementation.
+
+
 Visualization Markers
 ^^^^^^^^^^^^^^^^^^^^^^
 
