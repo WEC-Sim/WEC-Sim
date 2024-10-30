@@ -53,6 +53,7 @@ function results = wecSimTest(options)
         options.runFromSimTest = true
         options.rotationTest = true
         options.devTest = true
+        options.cableTensionTest = true
     end
     
     % Import MATLAB unittest
@@ -83,6 +84,10 @@ function results = wecSimTest(options)
     
     if options.devTest
         suites = [suites TestSuite.fromFolder('tests/devTests')];
+    end
+    
+    if options.cableTensionTest
+        suites = [suites TestSuite.fromFolder('tests/cableTensionTest.m')];
     end
     
     % Create TestRunner
