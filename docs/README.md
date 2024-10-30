@@ -13,7 +13,7 @@ replace slashes (`/`) in paths with backslashes (`\ `).
    
    ```
    > cd path/to/WEC-Sim
-   > conda env create -y --file docs/environment.yml
+   > conda env create --file docs/environment.yml
    ```
 
 ### Testing the Current Branch
@@ -39,7 +39,7 @@ The front page of the docs can be accessed at
 
 The final documentation can be built locally for inspection prior to 
 publishing. They are built in the `docs/_build` directory. Note, docs are 
-built from the remote so only pushed changes on the `master` and `dev` 
+built from the remote so only pushed changes on the `main` and `dev` 
 branches will be shown. To build the docs use the following command:
 
 ```
@@ -51,12 +51,12 @@ branches will be shown. To build the docs use the following command:
 ```
 
 The front page of the docs can be accessed at 
-`docs/_build/html/master/index.html`. 
+`docs/_build/html/main/index.html`. 
 
 ### Publishing Final Version Remotely
 
 The WEC-Sim docs are rebuilt automatically following every merge commit made 
-to the master or dev branch of the [WEC-Sim/WEC-Sim](
+to the main or dev branch of the [WEC-Sim/WEC-Sim](
 https://github.com/WEC-Sim/WEC-Sim) repository.
 
 

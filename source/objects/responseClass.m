@@ -101,11 +101,11 @@ classdef responseClass<handle
     %   * ``Lines`` (`struct`) = [1 x 1] Contains the time and fairlead tensions
     %   * ``Line#`` (`struct`) = [1 x 1] One structure for each mooring line: Line1, Line2, etc. Each line structure contains node positions in x, y, z and segment tensions
     %
-    %.. autoattribute:: objects.responseClass.ptosim
+    %.. autoattribute:: objects.responseClass.ptoSim
     %    
     %   * ``time`` (`struct`) = [# of time-steps x 1] Simulation timeseries
     % 
-    %   There are additional ``output.ptosim`` structs corresponding to the Simulink blocks used:
+    %   There are additional ``output.ptoSim`` structs corresponding to the Simulink blocks used:
     % 
     %   * ``pistonCF`` (`struct`) = [1 x # of pistons] Structure containing timeseries of compressible fluid piston properties including absolute power, force, position, velocity
     %   * ``pistonNCF`` (`array`) = [1 x # of pistons] Structure containing timeseries of non-compressible fluid piston properties including absolute power, force, top pressure and bottom pressure
@@ -114,11 +114,26 @@ classdef responseClass<handle
     %   * ``accumulator`` (`struct`) = [1 x # of accumulators] Structure containing timeseries of accumulator properties including pressure and volume
     %   * ``hydraulicMotor`` (`struct`) = [1 x # of motors] Structure containing timeseries of hydraulic motor properties including angular velocity and volume flow rate
     %   * ``rotaryGenerator`` (`struct`) = [1 x # of generators] Structure containing timeseries of rotary generator properties including electrical power and generated power
+    %   * ``simpleDD`` (`struct`) = [1 x # of generators] Structure containing timeseries of direct drive PTO properties including forces and electrical power
     %   * ``pmLinearGenerator`` (`struct`) = [1 x # of generators] Structure containing timeseries of permanent magnet linear generator properties including absolute power, force, friction force, current, voltage, velocity and electrical power
     %   * ``pmRotaryGenerator`` (`struct`) = [1 x # of generators] Structure containing timeseries of permanent magnet rotary generator properties including absolute power, force, friction force, current, voltage, velocity and electrical power 
     %   * ``motionMechanism`` (`struct`) = [1 x # of mechanisms] Structure containing timeseries of motion mechanism properties including PTO torque, angular position and angular velocity
+    %
+    % .. autoattribute:: objects.responseClass.windTurbine
+    %    
+    %   * ``name`` (`string`) = 'windTurbineName'
+    %   * ``time`` (`array`) = [# of time-steps x 1]
+    %   * ``windSpeed`` (`array`) = [# of time-steps x 1]
+    %   * ``turbinePower`` (`array`) = [# of time-steps x 1]
+    %   * ``rotorSpeed`` (`array`) = [# of time-steps x 1]
+    %   * ``bladePitch`` (`array`) = [# of time-steps x 1] Pitch position of blade 1
+    %   * ``nacelleAcceleration`` (`array`) = [# of time-steps x 1]
+    %   * ``towerBaseLoad`` (`array`) = [# of time-steps x 6] 6DOF force at the constraint between the floating body and tower base
+    %   * ``towerTopLoad`` (`array`) = [# of time-steps x 6] 6DOF force at the constraint between the tower base and tower nacelle 
+    %   * ``bladeRootLoad`` (`array`) = [# of time-steps x 1] 6DOF force at the constraint between blade 1 and the hub 
+    %   * ``genTorque`` (`array`) = [# of time-steps x 1] Torque on the generator
+    %   * ``azimuth`` (`array`) = [# of time-steps x 1] azimuthal angle of the generator 
     %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-    
     
     properties (SetAccess = 'public', GetAccess = 'public')
         bodies              = struct()     % This property contains a structure for each instance of the ``bodyClass`` (i.e. for each Body block)
@@ -127,16 +142,17 @@ classdef responseClass<handle
         moorDyn             = struct()     % This property contains a structure for each instance of the ``mooringClass`` using MoorDyn (i.e. for each MoorDyn block)
         mooring             = struct()     % This property contains a structure for each instance of the ``mooringClass`` using the mooring matrix (i.e. for each MooringMatrix block)
         ptos                = struct()     % This property contains a structure for each instance of the ``ptoClass`` (i.e. for each PTO block). PTO motion is relative from frame F to frame B. PTO forces act on frame F.
-        ptosim              = struct()     % This property contains a structure for each instance of the ``ptoSimClass`` (i.e. for each PTO-Sim block).
+        ptoSim              = struct()     % This property contains a structure for each instance of the ``ptoSimClass`` (i.e. for each PTO-Sim block).
         wave                = struct()     % This property contains a structure for each instance of the ``waveClass``         
+        windTurbine         = struct()     % This property contains a structure for each instance of the ``windTurbineClass``     
     end
     
     methods (Access = 'public')
-        function obj = responseClass(bodiesOutput,ptosOutput,constraintsOutput,ptosimOutput,cablesOutput,mooringOutput,waveOutput) 
+        function obj = responseClass(bodiesOutput,ptosOutput,constraintsOutput,ptosimOutput,cablesOutput,mooringOutput,waveOutput,windTurbineOutput) 
             % This method initializes the ``responseClass``, reads 
             % output from each instance of a WEC-Sim class (e.g.
             % ``waveClass``, ``bodyClass``, ``ptoClass``, ``mooringClass``, etc)
-            % , and saves the response to an ``output`` object. 
+            % and saves the response to an ``output`` object. 
             %
             % Returns
             % ------------
@@ -187,7 +203,11 @@ classdef responseClass<handle
                     obj.bodies(ii).cellPressures_waveLinear    = [];
                     obj.bodies(ii).cellPressures_waveNonLinear = [];
                 end
+                if bodiesOutput(ii).variableHydroOption == 1
+                    obj.bodies(ii).hydroForceIndex = bodiesOutput(ii).hydroForceIndex;
+                end
             end
+            
             % PTOs
             if isstruct(ptosOutput)
                 signals = {'position','velocity','acceleration','forceTotal','forceActuation','forceConstraint','forceInternalMechanics','powerInternalMechanics'};
@@ -199,6 +219,20 @@ classdef responseClass<handle
                     end
                 end
             end
+
+            if isstruct(windTurbineOutput)
+                % Wind turbine
+                signals = {'windSpeed','turbinePower','rotorSpeed','bladePitch','nacelleAcceleration','towerBaseLoad','towerTopLoad','bladeRootLoad','genTorque','azimuth'};
+                outputDim = [1 1 1 1 1 6 6 6 1 1];
+                for ii = 1:length(windTurbineOutput)
+                    obj.windTurbine(ii).name = windTurbineOutput(ii).name;
+                    obj.windTurbine(ii).time = windTurbineOutput(ii).time;
+                    for jj = 1:length(signals)
+                        obj.windTurbine(ii).(signals{jj}) = windTurbineOutput(ii).signals.values(:, sum(outputDim(1:jj-1))+1:sum(outputDim(1:jj-1))+outputDim(jj));
+                    end
+                end
+            end
+
             % Constraints
             if isstruct(constraintsOutput)
                 signals = {'position','velocity','acceleration','forceConstraint'}; 
@@ -210,10 +244,14 @@ classdef responseClass<handle
                     end
                 end
             end
+
             % Mooring
             if isstruct(mooringOutput)
                 signals = {'position','velocity','forceMooring'}; 
                 for ii = 1:length(mooringOutput)
+                    if length(size(mooringOutput(ii).signals.values)) == 3 % reformat mooring output if necessary
+                        mooringOutput(ii).signals.values = squeeze(mooringOutput(ii).signals.values)';
+                    end
                     obj.mooring(ii).name = mooringOutput(ii).name;
                     obj.mooring(ii).time = mooringOutput(ii).time;
                     for jj = 1:length(signals)
@@ -221,6 +259,7 @@ classdef responseClass<handle
                     end
                 end
             end
+
             % Cables
             if isstruct(cablesOutput)
                 signals = {'position','velocity','acceleration','forceTotal','forceActuation',...
@@ -233,9 +272,9 @@ classdef responseClass<handle
                     end
                 end
             end
+
             % PTO-Sim
             if isstruct(ptosimOutput)
-                %names = {'HydPistonCompressible','GasHydAccumulator','RectifyingCheckValve','HydraulicMotorV2','ElectricMachineEC'};
                 hydPistonCompressibleSignals = {'pressureA','forcePTO','pressureB'};
                 gasHydAccumulatorSignals = {'pressure','flowRate'};
                 rectifyingCheckValveSignals = {'flowRateA','flowRateB','flowRateC','flowRateD'};
@@ -244,36 +283,39 @@ classdef responseClass<handle
                 linearCrankSignals = {'ptoTorque','angPosition','angVelocity'};
                 adjustableRodSignals = {'ptoTorque','angPosition','angVelocity'};
                 checkValveSignals = {'flowCheckValve','deltaPCheckValve'};
-                linearGeneratorSignals = {'absPower','force','fricForce','Ia','Ib','Ic','Va','Vb','Vc','elecPower','vel'};
-                rotaryGeneratorSignals = {'absPower','Torque','fricTorque','Ia','Ib','Ic','Va','Vb','Vc','elecPower','vel'};
+                linearGeneratorSignals = {'absPower','force','fricForce','Ia','Ib','Ic','Va','Vb','Vc','vel','elecPower'};
+                rotaryGeneratorSignals = {'absPower','Torque','fricTorque','Ia','Ib','Ic','Va','Vb','Vc','vel','elecPower'};
+                simpleDDSignals = {'velocity','absPower','force','inertiaForce','fricForce','genForce','current','voltage','I2RLosses','elecPower'};
 
                 for ii = 1:length(ptosimOutput)
-                    obj.ptosim(ii).name = ptosimOutput(ii).name;
-                    obj.ptosim(ii).time = ptosimOutput(ii).time;
-                    obj.ptosim(ii).type = ptosimOutput(ii).type;
-                    if ptosimOutput(ii).type == 1
+                    %obj.ptoSim(ii).name = ptosimOutput(ii).name;
+                    obj.ptoSim(ii).time = ptosimOutput(ii).time;
+                    obj.ptoSim(ii).typeNum = ptosimOutput(ii).typeNum;
+                    if ptosimOutput(ii).typeNum == 1
                         signals = electricMachineECSignals;
-                    elseif ptosimOutput(ii).type == 2
+                    elseif ptosimOutput(ii).typeNum == 2
                         signals = hydPistonCompressibleSignals;
-                    elseif ptosimOutput(ii).type == 3
+                    elseif ptosimOutput(ii).typeNum == 3
                         signals = gasHydAccumulatorSignals;
-                    elseif ptosimOutput(ii).type == 4
+                    elseif ptosimOutput(ii).typeNum == 4
                         signals = rectifyingCheckValveSignals;
-                    elseif ptosimOutput(ii).type == 5
+                    elseif ptosimOutput(ii).typeNum == 5
                         signals = hydraulicMotorSignals;
-                    elseif ptosimOutput(ii).type == 6
+                    elseif ptosimOutput(ii).typeNum == 6
                         signals = linearCrankSignals;
-                    elseif ptosimOutput(ii).type == 7
+                    elseif ptosimOutput(ii).typeNum == 7
                         signals = adjustableRodSignals;
-                    elseif ptosimOutput(ii).type == 8
+                    elseif ptosimOutput(ii).typeNum == 8
                         signals = checkValveSignals;
-                    elseif ptosimOutput(ii).type == 9
+                    elseif ptosimOutput(ii).typeNum == 9
                         signals = linearGeneratorSignals;
-                    elseif ptosimOutput(ii).type == 10
+                    elseif ptosimOutput(ii).typeNum == 10
                         signals = rotaryGeneratorSignals;
+                    elseif ptosimOutput(ii).typeNum == 11
+                        signals = simpleDDSignals;
                     end
                     for jj = 1:length(signals)
-                        obj.ptosim(ii).(signals{jj}) = ptosimOutput(ii).signals.values(:,jj);
+                        obj.ptoSim(ii).(signals{jj}) = ptosimOutput(ii).signals.values(:,jj);
                     end
                 end
             end
@@ -308,7 +350,7 @@ classdef responseClass<handle
             % load Line#.out
             for iline=1:linesNum
                 eval(['obj.moorDyn.Line' num2str(iline) '=struct();']);
-                filename = ['./Mooring/Line' num2str(iline) '.out'];
+                filename = ['./Mooring/lines_Line' num2str(iline) '.out'];
                 try
                     fid = fopen(filename);
                     header = strsplit(strtrim(fgetl(fid)));
@@ -354,12 +396,13 @@ classdef responseClass<handle
             acc=obj.bodies(bodyNum).acceleration(:,comp);
             figure()
             plot(t,pos,'k-',...
-                t,vel,'b-',...
-                t,acc,'r-')
-            legend({'position','velocity','acceleration'})
+                 t,vel,'b-',...
+                 t,acc,'r-')
+            legend({'Pos','Vel','Acc'},'Location','best')
             xlabel('Time (s)')
-            ylabel('Response in (m) or (radians)')
-            title(['body' num2str(bodyNum) ' (' obj.bodies(bodyNum).name ') ' DOF{comp} ' Response'])
+            ylabel('(m) or (radians)')
+            title(['Body' num2str(bodyNum) ' (' replace(obj.bodies(bodyNum).name,'_','-') ') - ' DOF{comp} ' Response'])
+            grid
             clear t pos vel acc i
         end
 
@@ -392,16 +435,17 @@ classdef responseClass<handle
             FLD=-1*obj.bodies(bodyNum).forceLinearDamping(:,comp);
             figure();
             plot(t,FT,...
-                t,FE,...
-                t,FRD,...
-                t,FAM,...
-                t,FR,...
-                t,FMV,...
-                t,FLD)
-            legend('forceTotal','forceExcitation','forceRadiationDamping','forceAddedMass','forceRestoring','forceViscous','forceLinearDamping')
+                 t,FE,...
+                 t,FRD,...
+                 t,FAM,...
+                 t,FR,...
+                 t,FMV,...
+                 t,FLD)
+            legend('forceTotal','forceExcitation','forceRadiationDamping','forceAddedMass','forceRestoring','forceViscous','forceLinearDamping','Location','best')
             xlabel('Time (s)')
-            ylabel('Force (N) or Torque (N*m)')
-            title(['body' num2str(bodyNum) ' (' obj.bodies(bodyNum).name ') ' DOF{comp} ' Forces'])
+            ylabel('(N) or (Nm)')
+            title(['Body' num2str(bodyNum) ' (' replace(obj.bodies(bodyNum).name,'_','-') ') - ' DOF{comp} ' HydroForces'])
+            grid
             clear t FT FE FRD FR FV FM i
         end
         
@@ -751,18 +795,18 @@ classdef responseClass<handle
                 end
             end
             %ptoSim
-            if isfield(obj.ptosim,'time')
-                f1 = fields(obj.ptosim);
+            if isfield(obj.ptoSim,'time')
+                f1 = fields(obj.ptoSim);
                 count = 1;
                 header = {'time'};
-                data = obj.ptosim.time;
+                data = obj.ptoSim.time;
                 for ifld1=1:(length(f1)-1)
-                    f2 = fields(obj.ptosim.(f1{ifld1}));
-                    for iins = 1:length(obj.ptosim.(f1{ifld1}))
+                    f2 = fields(obj.ptoSim.(f1{ifld1}));
+                    for iins = 1:length(obj.ptoSim.(f1{ifld1}))
                         for ifld2 = 1:length(f2)
                             count = count+1;
                             header{count} = [f1{ifld1} num2str(iins) '_' f2{ifld2}];
-                            data(:,count) = obj.ptosim.(f1{ifld1}).(f2{ifld2});
+                            data(:,count) = obj.ptoSim.(f1{ifld1}).(f2{ifld2});
                         end
                     end
                 end
@@ -772,7 +816,7 @@ classdef responseClass<handle
                 numChar = max(tmp)+2; clear tmp;
                 header_fmt = ['%' num2str(numChar) 's ']; 
                 data_fmt = [repmat('%10.5f ',1,length(header)) '\n'];
-                filename = ['output/ptosim.txt'];
+                filename = ['output/ptoSim.txt'];
                 fid = fopen(filename,'w+');
                 for ii=1:length(header)
                     fprintf(fid,header_fmt,header{ii});

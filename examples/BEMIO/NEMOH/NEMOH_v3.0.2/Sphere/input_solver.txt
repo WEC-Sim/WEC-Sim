@@ -1,0 +1,5 @@
+1				! Gauss quadrature (GQ) surface integration, N^2 GQ Nodes, specify N(1,4)
+0.001			! eps_zmin for determine minimum z of flow and source points of panel, zmin=eps_zmin*body_diameter
+1 				! 0 GAUSS ELIM.; 1 LU DECOMP.: 2 GMRES	!Linear system solver
+20 1e-5 100  	! Restart parameter, Relative Tolerance, max iter -> additional input for GMRES
+

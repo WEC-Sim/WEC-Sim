@@ -37,15 +37,19 @@ classdef mooringClass<handle
             'damping',                                      zeros(6,6), ... % 
             'stiffness',                                    zeros(6,6), ... % 
             'preTension',                                   [0 0 0 0 0 0])  % (`structure`) Defines the mooring parameters. ``damping`` (`6x6 float matrix`) Matrix of damping coefficients, Default = ``zeros(6)``. ``stiffness`` (`6x6 float matrix`) Matrix of stiffness coefficients, Default = ``zeros(6)``. ``preTension`` (`1x6 float vector`) Array of pretension force in each dof, Default = ``[0 0 0 0 0 0]``.
-        moorDyn (1,1) {mustBeInteger}                       = 0             % (`integer`) Flag to indicate a MoorDyn block, 0 or 1. Default = ``0``
+        moorDyn (1,1) {mustBeInteger}                       = 0             % (`integer`) Flag to indicate and initialize a MoorDyn connection, 0 or 1. Default = ``0``
         moorDynLines (1,1) {mustBeInteger, mustBeNonnegative} = 0           % (`integer`) Number of lines in MoorDyn. Default = ``0``
         moorDynNodes (1,:) {mustBeInteger, mustBeNonnegative} = []          % (`integer`) number of nodes for each line. Default = ``'NOT DEFINED'``
         name (1,:) {mustBeText}                             = 'NOT DEFINED' % (`string`) Name of the mooring. Default = ``'NOT DEFINED'``
+        moorDynInputFile (1,:) {mustBeText}                 = 'Mooring/lines.txt'   % (`string`) Name of the MoorDyn input file path. Outputs will be written to this path. Default = ``Mooring/lines.txt``
+        lookupTableFlag                                     = 0;            % (`integer`) Flag to indicate a mooring look-up table, 0 or 1. Default = ``0``
+        lookupTableFile                                     = '';           % (`string`) Mooring look-up table file name. Default =  ``''``;
     end
 
     properties (SetAccess = 'private', GetAccess = 'public') %internal
-        orientation             = []                                       % (`float 1 x 6`) Initial 6DOF location. Default = ``[0 0 0 0 0 0]``        
-        number                  = []                                       % (`integer`) Mooring number. Default = ``'NOT DEFINED'``        
+        orientation             = []                                        % (`float 1 x 6`) Initial 6DOF location. Default = ``[0 0 0 0 0 0]``        
+        number                  = []                                        % (`integer`) Mooring number. Default = ``'NOT DEFINED'``        
+        lookupTable             = [];                                       % (`array`) Lookup table data. Force data in 6 DOFs indexed by displacement in 6 DOF
     end
 
     methods (Access = 'public')                                        
@@ -54,7 +58,7 @@ classdef mooringClass<handle
             if exist('name','var')
                 obj.name = name;
             else
-                error('The mooring class number(s) in the wecSimInputFile must be specified in ascending order starting from 1. The mooringClass() function should be called first to initialize each mooring line with a name.')
+                error('The mooring class number(s) in the wecSimInputFile must be specified in ascending order starting from 1. The mooringClass() function should be called first to initialize each mooring connection with a name.')
             end
         end
 
@@ -123,13 +127,41 @@ classdef mooringClass<handle
             obj.initial.angle = netAngle;            
         end
         
+        function obj = loadLookupTable(obj)
+            % Method to load the lookup table and assign to the mooringClass
+            data = load(obj.lookupTableFile);
+
+            % Logic allows the look-up table file's data to have an
+            % arbitrary variable name
+            dataFields = fields(data);
+            if length(dataFields) > 1
+                warning('Mooring look-up table file contains multiple datasets. Ensure that look-up table data contains one variable.');
+            end
+            obj.lookupTable = data.(dataFields{1});
+
+            % Check that all components are present in the look-up table
+            tableFields = fields(obj.lookupTable);
+            components = {'X','Y','Z','RX','RY','RZ','FX','FY','FZ','MX','MY','MZ'};
+            errStr = 'Error: ';
+            err = false;
+            for i = 1:length(components)
+                if ~ any(strcmp(tableFields,components{i}))
+                    errStr = [errStr 'Mooring look-up table does not contain component: ' components{i} newline];
+                    err = true;
+                end
+            end
+            if err
+                error(errStr);
+            end
+        end
+        
         function listInfo(obj)
             % Method to list mooring info
             fprintf('\n\t***** Mooring Name: %s *****\n',obj.name)
         end
 
         function obj = setLoc(obj)
-            % This method sets mooring location
+            % This method sets MoorDyn initial orientation
             obj.orientation = [obj.location + obj.initial.displacement 0 0 0];
         end
 
@@ -137,5 +169,42 @@ classdef mooringClass<handle
             % Method to set the private number property
             obj.number = number;
         end
+
+        function callMoorDynLib(obj)
+            % Initialize MoorDyn Lib (Windows:dll or OSX:dylib)
+            disp('---------------Starting MoorDyn-----------')
+            
+            if libisloaded('libmoordyn')
+                calllib('libmoordyn', 'MoorDynClose');
+                unloadlibrary libmoordyn;
+            end
+            
+            if ismac
+                loadlibrary('libmoordyn.dylib','MoorDyn.h');
+            elseif ispc
+                loadlibrary('libmoordyn.dll','MoorDyn.h');
+            elseif isunix
+                loadlibrary('libmoordyn.so','MoorDyn.h');
+            else
+                disp('Cannot run MoorDyn in this platform');
+            end
+
+            orientationTotal = [];
+            for ii=1:length(obj)
+                if obj(ii).moorDyn == 1
+                    orientationTotal = [orientationTotal, obj(ii).orientation];
+                end
+            end
+            
+            calllib('libmoordyn', 'MoorDynInit', orientationTotal, zeros(1,length(orientationTotal)), obj(1).moorDynInputFile);
+            disp('MoorDyn Initialized. Now time stepping...')
+        end
+
+        function closeMoorDynLib(obj)
+            % Close MoorDyn Lib
+            calllib('libmoordyn', 'MoorDynClose');
+            unloadlibrary libmoordyn;
+        end
+
     end
 end

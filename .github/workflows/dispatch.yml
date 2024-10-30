@@ -2,7 +2,7 @@ name: Trigger repository dispatch event
 on:
   push:
     branches:
-      - master
+      - main
       - dev
 jobs:
   dispatch:
@@ -10,9 +10,9 @@ jobs:
     runs-on: ubuntu-latest
     if: github.repository_owner == 'WEC-Sim'
     steps:
-    - uses: peter-evans/repository-dispatch@v1
+    - uses: peter-evans/repository-dispatch@v2
       with:
         token: ${{ secrets.REPO_ACCESS_TOKEN }}
         repository: WEC-Sim/WEC-Sim_Applications
         event-type: wecsim-${{ github.ref_name }}
-        client-payload: '{"sha": "${{ github.sha }}"}'
+        client-payload: '{"sha": "${{ github.sha }}", "branch": "${{ github.ref_name }}"}'

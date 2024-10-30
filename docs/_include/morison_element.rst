@@ -3,7 +3,7 @@
 As a reminder from the WEC-Sim Theory Manual, the Morison force equation assumes that the fluid forces in an oscillating flow on a structure of slender cylinders or other similar geometries arise partly from pressure effects from potential flow and partly from viscous effects. A slender cylinder implies that the diameter, :math:`D`, is small relative to the wave length, :math:`\lambda`, which is generally satisfied when :math:`D/\lambda<0.1-0.2`. If this condition is not met, wave diffraction effects must be taken into account. Assuming that the geometries are slender, the resulting force can be approximated by a modified Morison formulation for each element on the body.
 
 Fixed Body
-##########
+^^^^^^^^^^
 
 For a fixed body in an oscillating flow the force imposed by the fluid is given by:
 
@@ -63,7 +63,7 @@ The acceleration of the fluid particles will then be obtained by taking the time
    Orbital velocity magnitude vectors for a wave period of 10 s and water depth of 50 m with a wave heading of 0 rads.
 
 Moving Body
-###########
+^^^^^^^^^^^
 
 If the body is allowed to move in an oscillating flow then Eqn. :eq:`fixed` must be adjusted as follows:
 
@@ -75,7 +75,7 @@ where :math:`U` is the body velocity.  In the calculations performed by WEC-Sim,
 
 
 Review of Rigid Body Dynamics
-*****************************
+"""""""""""""""""""""""""""""
 
 A rigid body is an idealization of a solid body in which deformation is neglected. In other words, the distance between any two given points of a rigid body remains constant in time regardless of external forces exerted on it.  The position of the whole body is represented by its linear position together with its angular position with a global fixed reference frame.  WEC-Sim calculates the position, velocity, and acceleration of the rigid body about its center of gravity; however, the placement of each morrison element will have a different local velocity that affects the fluid force.  The relative velocity between point A and point B on a rigid body is given by:
 
@@ -90,12 +90,12 @@ where :math:`\omega` is the angular velocity of the body and :math:`\times` deno
    :label: relA
    
 WEC-Sim Implementations
-#######################
+^^^^^^^^^^^^^^^^^^^^^^^
 
 As discussed in the WEC-Sim user manual, there are two options to model a Morison element(s) and will be described here in greater detail so potential developers can modify the code to suit their modeling needs.
 
 Option 1
-********
+""""""""
 
 In the first Morison element implementation option, the acceleration and velocity of the fluid flow are estimated at the Morison point of application, which can include both wave and current contributions, and then subtracts the body acceleration and velocity for the individual translational degrees of freedom (x-, y-, and z-components). The fluid flow properties are then used to calculate the Morison element force, indepenently for each degree of freedom, as shown by the following expressions:  
 
@@ -109,7 +109,7 @@ In the first Morison element implementation option, the acceleration and velocit
 where :math:`r_{g}` is the lever arm from the center of gravity of the body to the Morison element point of application. Option 1 provides the most flexibility in setting independent Morison element properties for the x-, y-, and z-directions; however, a limitation arises that the fluid flow magnitude does not consider the other fluid flow components. Depending on the simulation enviroment this approach can provide the same theoretical results as taking the magnitude of the x-, y-, and z-components of the fluid flow, but is case dependent. A comparison between the outputs of Option 1 and Option 2 can be found later in the Developer Manual Morison Element documentation. 
 
 Option 2
-********
+""""""""
 
 The WEC-Sim Option 1 implementation solves for the of the Morison element force from the individual x-, y-, and z-components of the relative flow velocity and acceleration; however, this results in incorrect outputs at certain orientations of the flow and Morison Element. As opposed to solving for the x-, y-, and z-components of the Morison element force, the force can be calculated relative to the magnitude of the flow and distributed among its unit vector direction. Therefore the approach used in Option 2 is to decompose the fluid and body velocity and acceleration into tangential and normal components of the Morison element, as depicted in Figure :ref:`fig-option-2`
 
@@ -150,7 +150,7 @@ The Morison element force equation for a moving body relative to the fluid flow 
    :label: mefOption2
 
 Comparison of Performance Between Option 1 and Option 2
-********************************************************
+"""""""""""""""""""""""""""""""""""""""""""""""""""""""
 
 A simple test case, which defines a Morison element as vertical and stationary relative to horizontal fluid flow, was built to compare the Morison element force calculation between Option 1 and Option 2 within WEC-Sim. Theoretically, the magnitude of the Morison element force should remain constant as the orientation of the flow direction is rotated in the X-Y plane. The MF was calculated as the orientation of the flow was rotated about the z-axis from 1 to 360 degrees where the central axis of the ME is parallel wtih the z-axis. The remaining WEC-Sim input values for the simulation can be found in the following table. 
 
@@ -172,4 +172,4 @@ Displaced Volume		:math:`\forall`		0.10 :math:`m^{3}`
       
    Graphical representation of the comparison between ME Option 1 and Option 2 within WEC-Sim.
    
-:math:`F_{ME,1}` and :math:`F_{ME,2}` is the Morison element force output from Option 1 and Option 2 within WEC-Sim, respectively. Shown in the above figure, in Option 1 there is an oscillation in Morison element magnitude with flow direction while Option 2 demonstrates a constant force magnitude at any flow direction. The reason behind this performance is that Option 1 solves for the MF individually using the individual the x-, y-, and z- components of the flow while Option 2 calculates the force relative to the flow magnitude and distributed among the normal and tangential unit vectors of the flow.  
+:math:`F_{ME,1}` and :math:`F_{ME,2}` is the Morison element force output from Option 1 and Option 2 within WEC-Sim, respectively. Shown in the above figure, in Option 1 there is an oscillation in Morison element magnitude with flow direction while Option 2 demonstrates a constant force magnitude at any flow direction. The reason behind this performance is that Option 1 solves for the MF individually using the individual the x-, y-, and z- components of the flow while Option 2 calculates the force relative to the flow magnitude and distributed among the normal and tangential unit vectors of the flow.

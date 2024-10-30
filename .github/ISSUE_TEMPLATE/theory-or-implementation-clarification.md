@@ -10,8 +10,8 @@ assignees: ''
 
 **The development team requests that before submitting a question on the theory and implementation behind WEC-Sim to first please:**
 1. Read through our [WEC-Sim Documentation](http://wec-sim.github.io/WEC-Sim/man/theory.html) with additional description found in our [Advanced Features Section](http://wec-sim.github.io/WEC-Sim/man/advanced_features.html)
-1. Review MATLAB source code ([functions](https://github.com/WEC-Sim/WEC-Sim/tree/master/source/functions), [objects](https://github.com/WEC-Sim/WEC-Sim/tree/master/source/objects)) and the Simulink blocks ([libraries](https://github.com/WEC-Sim/WEC-Sim/tree/master/source/lib))
-1. Review the curated [WEC-Sim Examples](https://github.com/WEC-Sim/WEC-Sim/tree/master/examples) and the [WEC-Sim applications](https://github.com/WEC-Sim/WEC-Sim_Applications)
+1. Review MATLAB source code ([functions](https://github.com/WEC-Sim/WEC-Sim/tree/main/source/functions), [objects](https://github.com/WEC-Sim/WEC-Sim/tree/main/source/objects)) and the Simulink blocks ([libraries](https://github.com/WEC-Sim/WEC-Sim/tree/main/source/lib))
+1. Review the curated [WEC-Sim Examples](https://github.com/WEC-Sim/WEC-Sim/tree/main/examples) and the [WEC-Sim applications](https://github.com/WEC-Sim/WEC-Sim_Applications)
 1. Review the [WEC-Sim issues page](https://github.com/WEC-Sim/WEC-Sim/issues) which allows you to search past resolved issues or questions that might help answer your own question.
 
 **Note: italicized text below is include as an example and should be updated before submission. If you feel any section is not applicable to your request, please replace with 'N/A' rather than delete a section.**

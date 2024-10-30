@@ -9,7 +9,7 @@ Hide(model, renderView1)
 
 # waves
 extractBlock1 = ExtractBlock(Input=model)
-extractBlock1.BlockIndices = [1, 2]
+extractBlock1.Selectors = ['//*[@cid=%d]'%1, '//*[@cid=%d]'%2]
 extractBlock1Display = Show(extractBlock1, renderView1)
 extractBlock1Display.ColorArrayName = [None, '']
 extractBlock1Display.DiffuseColor = [0.0, 0.0, 1.0]
@@ -43,13 +43,13 @@ RenameSource('ground', plane1)
 # bodies
 filename = dir + os.sep + 'bodies.txt'
 f = open(filename,'r')
-bodies = model.GetDataInformation().GetCompositeDataInformation().GetNumberOfChildren() - 1
+bodies = model.GetDataInformation().GetNumberOfDataSets() - 1
 if MoorDyn:
 	bodies = bodies-1
 for i in range(bodies):
 	SetActiveSource(model)
 	extractBlock1_2 = ExtractBlock(Input=model)
-	extractBlock1_2.BlockIndices = [2+(i*2)+1, 2+(i*2)+2]
+	extractBlock1_2.Selectors = ['//*[@cid=%d]'%(2+(i*2)+1), '//*[@cid=%d]'%(2+(i*2)+2)]
 	extractBlock1_2Display = Show(extractBlock1_2, renderView1)
 	extractBlock1_2Display.ColorArrayName = [None, '']
 	name = f.readline()[:-1]
@@ -65,7 +65,7 @@ f.close()
 if MoorDyn:
 	SetActiveSource(model)
 	extractBlock1_3 = ExtractBlock(Input=model)
-	extractBlock1_3.BlockIndices = [2+((bodies-1)*2)+1+2, 2+((bodies-1)*2)+2+2]
+	extractBlock1_3.Selectors = ['//*[@cid=%d]'%(2+((bodies-1)*2)+1+2), '//*[@cid=%d]'%(2+((bodies-1)*2)+2+2)]
 	extractBlock1_3Display = Show(extractBlock1_3, renderView1)
 	extractBlock1_3Display.ColorArrayName = [None, '']
 	RenameSource('MoorDyn', extractBlock1_3)

@@ -96,3 +96,12 @@ docs/_build
 view_html.sh
 *vis-temp*
 *.pyc
+*.nc
+
+# Nemoh
+/examples/BEMIO/NEMOH/NEMOH_v2.3/bin
+/examples/BEMIO/NEMOH/NEMOH_v3.0.2/bin
+/examples/BEMIO/NEMOH/NEMOH_v2.3/**/Mesh
+/examples/BEMIO/NEMOH/NEMOH_v2.3/**/Results
+
+

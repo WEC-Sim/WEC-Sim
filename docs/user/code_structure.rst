@@ -703,8 +703,8 @@ Mooring Class
 ^^^^^^^^^^^^^
 
 The mooring class (``mooringClass``) allows for different fidelity simulations 
-of mooring systems. Two possibilities are available, a lumped mooring matrix or 
-MoorDyn. These differences are determined by the Simulink block chosen, and are 
+of mooring systems. Three possibilities are available, a lumped mooring matrix, 
+a mooring lookup table, or MoorDyn. These differences are determined by the Simulink block(s) chosen, and are 
 described below. At a high level, the Mooring class interacts with the rest of 
 WEC-Sim as shown in the diagram below. The interaction is similar to a 
 constraint or PTO, where some resistive forcing is calculated and passed to a 
@@ -733,14 +733,32 @@ Mooring Blocks
 """"""""""""""""""""
 
 The Mooring Class is tied to the Moorings library.
-Two types of blocks may be used\: a 'Mooring Matrix' or a 'MoorDyn' system.
+Four types of blocks may be used\: a 'Mooring Matrix', a 'Mooring Lookup Table', 
+a 'MoorDyn Connection' block, or a 'MoorDyn Caller' block.
 The ``MooringMatrix`` block applies linear damping and stiffness based on 
 the motion of the follower relative to the base. 
 Damping and stiffness can be specified between all DOFs in a 6x6 matrix.
-The ``MoorDyn`` block uses the compiled MoorDyn 
-executables and a MoorDyn input file to simulate a realistic mooring system. 
-There can only be one MoorDyn block per Simulink model. There are no 
-restrictions on the number of MooringMatrix blocks. 
+The ``MooringLookupTable`` block searches a user-supplied 6DOF force lookup table.
+The lookup table should contain six parameters: the resultant mooring force in each degree of freedom.
+Each force is indexed by position in all six degrees of freedom.
+The mooring force is interpolated between indexed positions based on the instantaneous position of the mooring system.
+There are no restrictions on the number of MooringMatrix or MooringLookupTable blocks. 
+
+The ``MoorDynConnection`` block is used to detect the relative motion between 
+two connection points (i.e., a body and the global reference frame or between 
+two bodies). The block uses Simulink's 'Goto' and 'From' blocks to feed the 
+relative response to the ``MoorDynCaller`` block, which then calls MoorDyn to 
+calculate the 6 degree of freedom mooring forces based on the instantaneous displacement, 
+velocity, a MoorDyn input file, and the compiled MoorDyn libraries to simulate a realistic 
+mooring system. The mooring forces are then sent back to the MoorDyn Connection 
+block to be applied at the body's center of gravity. Multiple MoorDyn Connection
+blocks can be used to specify mooring lines between different bodies/frames, 
+but there can only be one MoorDyn Caller block per Simulink model. Each 
+MoorDyn Connection block should be initialized as a ``mooring`` object in 
+the ``wecSimInputFile.m`` with ``mooring(i).moorDyn`` set equal to 1. The 
+``MoorDynCaller`` block should not have an accompanying ``mooring`` object. 
+If set up correctly in the ``wecSimInputFile.m``, the signals will be 
+automatically sent between the MoorDyn Connection and MoorDyn Caller blocks.
 
 .. figure:: /_static/images/WEC-Sim_Lib_mooring.PNG
    :width: 400 pt
@@ -858,7 +876,7 @@ While the bulk of the WEC-Sim code consists of the WEC-Sim classes and the
 WEC-Sim library, the source code also includes supporting functions and 
 external codes. These include third party Matlab functions to read ``*.h5`` and 
 ``*.stl`` files, WEC-Sim Matlab functions to write ``*.h5`` files and run 
-WEC-Sim in batch mode, MoorDyn compiled executables, python macros for ParaView 
+WEC-Sim in batch mode, MoorDyn compiled libraries, python macros for ParaView 
 visualization, and the PTO-Sim class and library. Additionally, BEMIO can be 
 used to create the hydrodynamic ``*.h5`` file required by WEC-Sim. MoorDyn is 
 an open source code that must be downloaded separately. Users may also obtain, 

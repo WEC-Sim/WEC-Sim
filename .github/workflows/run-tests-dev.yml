@@ -18,31 +18,26 @@ jobs:
     strategy:
       fail-fast: false
       matrix:
-        release: [R2020b, R2021a, R2021b, R2022a, R2022b, latest]
         os: [ubuntu-latest, windows-latest]
-    name: MATLAB ${{ matrix.release }} on ${{ matrix.os }}
+        release: [R2022a, R2022b, R2023a, R2023b]
+    name: ${{ matrix.release }} on ${{ matrix.os }}
     steps:
       - name: Check out repository
-        uses: actions/checkout@v3
+        uses: actions/checkout@v4
         with:
           lfs: true
       - name: Check out LFS objects
         run: git lfs checkout
       - name: Install MATLAB
-        uses: matlab-actions/setup-matlab@v2-beta
+        uses: matlab-actions/setup-matlab@v2
         with:
           release: ${{ matrix.release }}
           products: Simulink Simscape Simscape_Multibody
-      - name: Install WEC-Sim
-        uses: matlab-actions/run-command@v1
+      - name: Install WEC-Sim, run tests and generate artifacts
+        uses: matlab-actions/run-command@v2
         with:
           command: |
             addpath(genpath('source')),
-            savepath pathdef.m;
-      - name: Run tests and generate artifacts
-        uses: matlab-actions/run-command@v1
-        with:
-          command: |
             set_param(0, 'ErrorIfLoadNewModel', 'off'),
             results = wecSimTest,
             assertSuccess(results);

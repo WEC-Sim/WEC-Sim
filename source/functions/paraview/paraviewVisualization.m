@@ -29,9 +29,20 @@ if simu.paraview.option == 1
             mkdir([simu.paraview.path filesep 'body' num2str(vtkbodiesii) '_' bodyname]);
             TimeBodyParav = output.bodies(ii).time;
             PositionBodyParav = output.bodies(ii).position;
-            NewTimeParaview(:,1) = simu.paraview.startTime:simu.paraview.dt:simu.paraview.endTime;
-            PositionBodyParav = interp1(TimeBodyParav,PositionBodyParav,NewTimeParaview);
-            TimeBodyParav = NewTimeParaview-simu.paraview.startTime;
+            if isempty(simu.paraview.startTime) || isempty(simu.paraview.dt) || isempty(simu.paraview.endTime)
+                if isempty(simu.paraview.startTime)
+                    simu.paraview.startTime = simu.startTime;
+                end
+                if isempty(simu.paraview.dt)
+                    simu.paraview.dt= simu.dt;
+                end
+                if isempty(simu.paraview.endTime)
+                    simu.paraview.endTime = simu.endTime;
+                end
+                NewTimeParaview(:,1) = simu.paraview.startTime:simu.paraview.dt:simu.paraview.endTime;
+                PositionBodyParav = interp1(TimeBodyParav,PositionBodyParav,NewTimeParaview);
+                TimeBodyParav = NewTimeParaview;
+            end
             writeParaviewBody(body(ii), TimeBodyParav, PositionBodyParav, bodyname, modelName, datestr(simu.date), output.bodies(ii).cellPressures_hydrostatic, output.bodies(ii).cellPressures_waveNonLinear, output.bodies(ii).cellPressures_waveLinear, simu.paraview.path,vtkbodiesii);
             bodies{vtkbodiesii} = bodyname;
             fprintf(fid,[bodyname '\n']);

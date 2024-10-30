@@ -12,6 +12,7 @@
    introduction/index.rst
    theory/index.rst
    user/index.rst
+   most/index.rst
    developer/index.rst
 
 
@@ -48,21 +49,22 @@ For more information refer to :ref:`intro-acknowledgements`.
 
 Current members of the development team include:
 
-* Kelley Ruehl (Sandia - PI)
-* David Ogden (NREL - PI)
-* Nathan Tom (NREL)
 * Dominic Forbush (Sandia)
+* Jeff Grasberger (Sandia)
+* Salman Husain (NREL - PI)
 * Adam Keester (Sandia)
 * Jorge Leon (Sandia)
-* Jeff Grasberger (Sandia)
-* Sal Husain (NREL)
+* David Ogden (NREL)
+* Kelley Ruehl (Sandia - PI)
+* Mohamed Shabara (NREL)
 
 Former members of the development team include:
 
-* Yi-Hsiang Yu (NREL)
-* Jennifer Van Rij (NREL)
 * Michael Lawson (NREL)
 * Carlos Michelen (Sandia)
+* Nathan Tom (NREL)
+* Jennifer Van Rij (NREL)
+* Yi-Hsiang Yu (NREL)
 
 
 .. Indices and tables

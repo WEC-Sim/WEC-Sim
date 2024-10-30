@@ -53,12 +53,30 @@ try hydroData.properties.dofEnd   = h5read(filename,[h5BodyName '/properties/dof
 
 % Read hydrostatic stiffness
 hydroData.hydro_coeffs.linear_restoring_stiffness = reverseDimensionOrder(h5read(filename, [h5BodyName '/hydro_coeffs/linear_restoring_stiffness']));
-hydroData.hydro_coeffs.linear_restoring_stiffness(6,:) = 0*hydroData.hydro_coeffs.linear_restoring_stiffness(6,:);
+
 % Read excitation coefficients and IRF
 hydroData.hydro_coeffs.excitation.re = reverseDimensionOrder(h5read(filename, [h5BodyName '/hydro_coeffs/excitation/re']));
 hydroData.hydro_coeffs.excitation.im = reverseDimensionOrder(h5read(filename, [h5BodyName '/hydro_coeffs/excitation/im']));
 try hydroData.hydro_coeffs.excitation.impulse_response_fun.f = reverseDimensionOrder(h5read(filename, [h5BodyName '/hydro_coeffs/excitation/impulse_response_fun/f'])); end
 try hydroData.hydro_coeffs.excitation.impulse_response_fun.t = reverseDimensionOrder(h5read(filename, [h5BodyName '/hydro_coeffs/excitation/impulse_response_fun/t'])); end
+
+% Read second order excitation forces data (QTFs)
+try
+    for dof = 1 : hydroData.properties.dof
+        hydroData.hydro_coeffs.excitation.QTFs.Sum(dof).PER_i    = reverseDimensionOrder(h5read(filename, [h5BodyName '/hydro_coeffs/excitation/QTF' num2str(number) '/Sum' num2str(dof) '/PER_i']));
+        hydroData.hydro_coeffs.excitation.QTFs.Sum(dof).BETA_i   = reverseDimensionOrder(h5read(filename, [h5BodyName '/hydro_coeffs/excitation/QTF' num2str(number) '/Sum' num2str(dof) '/BETA_i']));
+        hydroData.hydro_coeffs.excitation.QTFs.Sum(dof).BETA_j   = reverseDimensionOrder(h5read(filename, [h5BodyName '/hydro_coeffs/excitation/QTF' num2str(number) '/Sum' num2str(dof) '/BETA_j']));
+        hydroData.hydro_coeffs.excitation.QTFs.Sum(dof).PHS_F_ij = reverseDimensionOrder(h5read(filename, [h5BodyName '/hydro_coeffs/excitation/QTF' num2str(number) '/Sum' num2str(dof) '/PHS_F_ij']));
+        hydroData.hydro_coeffs.excitation.QTFs.Sum(dof).Re_F_ij  = reverseDimensionOrder(h5read(filename, [h5BodyName '/hydro_coeffs/excitation/QTF' num2str(number) '/Sum' num2str(dof) '/Re_F_ij']));
+        hydroData.hydro_coeffs.excitation.QTFs.Sum(dof).Im_F_ij  = reverseDimensionOrder(h5read(filename, [h5BodyName '/hydro_coeffs/excitation/QTF' num2str(number) '/Sum' num2str(dof) '/Im_F_ij']));
+        hydroData.hydro_coeffs.excitation.QTFs.Diff(dof).PER_i   = reverseDimensionOrder(h5read(filename, [h5BodyName '/hydro_coeffs/excitation/QTF' num2str(number) '/Diff' num2str(dof) '/PER_i']));
+        hydroData.hydro_coeffs.excitation.QTFs.Diff(dof).BETA_i  = reverseDimensionOrder(h5read(filename, [h5BodyName '/hydro_coeffs/excitation/QTF' num2str(number) '/Diff' num2str(dof) '/BETA_i']));
+        hydroData.hydro_coeffs.excitation.QTFs.Diff(dof).BETA_j  = reverseDimensionOrder(h5read(filename, [h5BodyName '/hydro_coeffs/excitation/QTF' num2str(number) '/Diff' num2str(dof) '/BETA_j']));
+        hydroData.hydro_coeffs.excitation.QTFs.Diff(dof).PHS_F_ij= reverseDimensionOrder(h5read(filename, [h5BodyName '/hydro_coeffs/excitation/QTF' num2str(number) '/Diff' num2str(dof) '/PHS_F_ij']));
+        hydroData.hydro_coeffs.excitation.QTFs.Diff(dof).Re_F_ij = reverseDimensionOrder(h5read(filename, [h5BodyName '/hydro_coeffs/excitation/QTF' num2str(number) '/Diff' num2str(dof) '/Re_F_ij']));
+        hydroData.hydro_coeffs.excitation.QTFs.Diff(dof).Im_F_ij = reverseDimensionOrder(h5read(filename, [h5BodyName '/hydro_coeffs/excitation/QTF' num2str(number) '/Diff' num2str(dof) '/Im_F_ij']));
+    end
+end
 
 % Read added mass coefficients
 hydroData.hydro_coeffs.added_mass.all = reverseDimensionOrder(h5read(filename, [h5BodyName '/hydro_coeffs/added_mass/all']));

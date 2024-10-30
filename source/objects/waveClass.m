@@ -41,13 +41,14 @@ classdef waveClass<handle
         gamma (1,:) {mustBeScalarOrEmpty}           = [];                   % (`float`) Defines gamma, only used for ``JS`` wave spectrum type. Default = ``[]``        
         height (1,:) {mustBeNonnegative}            = [];                   % (`float`) Wave height [m]. Defined as wave height for ``regular``, or significant wave height for ``irregular``. Default =  ``'NOT DEFINED'``
         marker (1,1) struct                         = struct(...            % (`structure`) Defines the wave marker. 
-            'location',                             [],...                  % 
+            'location',                             [], ...                 % 
             'size',                                 10, ...                 %             
-            'style',                                1)                      % (`structure`) Defines the wave marker. `loc` (`nx2 vector`) Marker [X,Y] locations [m]. Default = ``[]``. ``size`` (`float`) Marker size in Pixels. Default = ``10``. ``style`` Marker style, options include: ``1``: Sphere, ``2``: Cube, ``3``: Frame. Default = ``1``: Sphere        
+            'style',                                1, ...                  %
+            'graphicColor',                         [0.26 0.96 0.89])       % (`structure`) Defines the wave marker. `loc` (`nx2 vector`) Marker [X,Y] locations [m]. Default = ``[]``. ``size`` (`float`) Marker size in Pixels. Default = ``10``. ``style`` Marker style, options include: ``1``: Sphere, ``2``: Cube, ``3``: Frame. Default = ``1``: Sphere        
         period (1,:) {mustBeNonnegative}            = [];                   % (`float`) Wave period [s] . Defined as wave period for ``regular``, peak period for ``irregular``, or period of BEM data used for hydrodynamic coefficients for ``noWave``. Default = ``'NOT DEFINED'``
         phaseSeed (1,:) {mustBeNonnegative}         = 0;                    % (`integer`) Defines the random phase seed, only used for ``irregular`` and ``spectrumImport`` waves. Default = ``0``
         spectrumFile (1,:) {mustBeText}             = 'NOT DEFINED';        % (`string`) Data file that contains the spectrum data file.  Default = ``'NOT DEFINED'``                
-        spectrumType (1,:) {mustBeText}             = 'NOT DEFINED';        % (`string`) Specifies the wave spectrum type, options inlcude:``PM`` or ``JS``. Default = ``'NOT DEFINED'``
+        spectrumType (1,:) {mustBeText}             = 'NOT DEFINED';        % (`string`) Specifies the wave spectrum type, options include:``PM`` or ``JS``. Default = ``'NOT DEFINED'``
         viz (1,1) struct                            = struct(...            % 
             'numPointsX',                           50, ...                 %
             'numPointsY',                           50 );                   % (`structure`) Defines visualization options, structure contains the fields ``numPointsX`` for the number of visualization points in x direction, and ``numPointsY`` for the number of visualization points in y direction. 

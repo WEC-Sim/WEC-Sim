@@ -153,7 +153,7 @@ clear all;clc; close all
 
 % % Load Capytaine hydro data 
 CAP_hydro = struct();
-CAP_nc = '.\CAPYTAINE\oswec\oswec_full.nc';
+CAP_nc = fullfile('CAPYTAINE','oswec','oswec_full.nc');
 CAP_hydro = readCAPYTAINE(CAP_hydro,CAP_nc);
 CAP_hydro = radiationIRF(CAP_hydro,75,[],[],[],[]);
 CAP_hydro = excitationIRF(CAP_hydro,75,[],[],[],[]);
@@ -165,7 +165,7 @@ CAP_hydro.plotDofs = [5, 5; 1, 5]; % Plot pitch (5,5) and surge-pitch (1,5) data
 
 % % Load Capytaine hydro data 
 WAMIT_hydro = struct();
-WAMIT_out = '.\WAMIT\OSWEC\oswec.out';
+WAMIT_out = fullfile('WAMIT','OSWEC','oswec.out');
 WAMIT_hydro = readWAMIT(WAMIT_hydro,WAMIT_out,[]);
 WAMIT_hydro = radiationIRF(WAMIT_hydro,75,[],[],[],[]);
 WAMIT_hydro = excitationIRF(WAMIT_hydro,75,[],[],[],[]);

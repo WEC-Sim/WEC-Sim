@@ -175,8 +175,33 @@ setting for ``simu.reloadH5Data`` in the WEC-Sim input file.
     Please use ``userDefinedFunctions.m`` instead.
 
 
+Radiation Force calculation
+^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+The radiation forces are calculated at each time-step by the convolution of the body velocity and the 
+radiation Impulse Response Function -- which is calculated using the cosine transform of the radiation-damping.
+Speed-gains to the simulation can be made by using alternatives to the convolution operation, namely, 
+
+1. The State-Space Representation,
+2. The Finite Impulse Response (FIR) Filters.
+
+Simulation run-times were benchmarked using the RM3 example simulated for 1000 s. Here is a summary of normalized
+run-times when the radiation forces are calculated using different routes. The run-times are normalized by the 
+run-time for a simulation where the radiation forces are calculated using "Constant Coefficients" ( :math:`T_0` ):
+
+	+------------------------------------------------+-------------------------------------------+
+	|   *Radiation Force Calculation Approach*       | *Normalized Run Time*  	             |
+	+------------------------------------------------+-------------------------------------------+
+	|   Constant Coefficients                        | :math:`T_0`    	                     |
+	+------------------------------------------------+-------------------------------------------+
+	|   Convolution                                  | :math:`1.57 \times T_0`                   |
+	+------------------------------------------------+-------------------------------------------+
+	|   State-Space	                                 | :math:`1.14 \times T_0`                   |   
+	+------------------------------------------------+-------------------------------------------+
+	|   FIR Filter 	                                 | :math:`1.35 \times T_0`                   |     
+	+------------------------------------------------+-------------------------------------------+  
+
 State-Space Representation
-^^^^^^^^^^^^^^^^^^^^^^^^^^
+""""""""""""""""""""""""""
 
 The convolution integral term in the equation of motion can be linearized using 
 the state-space representation as described in the :ref:`theory` section. To 
@@ -186,6 +211,20 @@ must be defined in the WEC-Sim input file, for example:
     :code:`simu.stateSpace = 1` 
 
 .. _user-advanced-features-time-step:
+
+
+Finite Impulse Response (FIR) Filters
+"""""""""""""""""""""""""""""""""""""
+By default, WEC-Sim uses numerical integration to calculate the convolution integral, while 
+FIR filters implement the same using a `discretized convolution`, by using FIR filters -- digital filters 
+that are inherently stable. Convolution of Impulse Response Functions of `Finite` length, i.e., those 
+that dissipate and converge to `zero` can be accomplished using FIR filters.
+The convolution integral can also be calculated using FIR filters by setting:
+
+ :code:`simu.FIR=1`. 
+
+.. Note::
+    By default :code:`simu.FIR=0`, unless specified otherwise.
 
 Time-Step Features
 ^^^^^^^^^^^^^^^^^^
@@ -308,6 +347,59 @@ direction. For more information about the spectral formulation, refer to
 
 .. _user-advanced-features-seeded-phase:
 
+Multiple Wave-Spectra
+^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+The Wave Directional Spreading feature only allows splitting the same wave-front. 
+However, quite often mixed-seas are composed of disparate Wave-Spectra with unique
+periods, heights, and directions. An example would be a sea-state composed of 
+swell-waves and chop-waves.  
+
+Assuming that the linear potential flow theory holds, the wave inputs to the system can be
+super-imposed. This implies, the effects of multiple Wave-Spectra can be simulated, if the 
+excitation-forces for each Wave-Spectra is calculated, and added to the pertinent 
+Degree-of-Freedom.
+
+WEC-Sim can simulate the dynamics of a body experiencing multiple Wave-Spectra each with 
+their unique directions, periods, and heights. In order to calculate the excitation-forces 
+for multiple Wave-Spectra, WEC-Sim automatically generates multiple instances of 
+excitation-force sub-systems. The user only needs to create multiple instances of 
+the ``waves`` class.
+
+
+Here is an example for setting up multiple Wave-Spectra in the WEC-Sim input file::
+
+            waves(1)           = waveClass('regularCIC');   % Initialize Wave Class and Specify Type                                 
+            waves(1).height    = 2.5;                       % Wave Height [m]
+            waves(1).period    = 8;                         % Wave Period [s]
+            waves(1).direction = 0;                         % Wave Direction (deg.)
+            waves(2)           = waveClass('regularCIC');   % Initialize Wave Class and Specify Type                                 
+            waves(2).height    = 2.5;                       % Wave Height [m]
+            waves(2).period    = 8;                         % Wave Period [s]
+            waves(2).direction = 90;                        % Wave Direction (deg.)
+
+
+
+.. Note::
+
+    1. If using a wave-spectra with different wave-heading directions, ensure that the BEM data has
+    the hydrodynamic coefficients corresponding to the desired wave-heading direction,
+
+    2. All wave-spectra should be of the same type, i.e., if :code:`waves(1)` is initialized 
+    as :code:`waves(1) = waveClass('regularCIC')`, the following :code:`waves(#)` object should 
+    initialized the same way.
+    
+Addtionally, the multiple Wave-Spectra can be visualized as elaborated in :ref:`user-advanced-features-wave-markers`.
+The user needs to define the marker parameters for each Wave-Spectra, as one would for a single Wave-Spectra.
+
+Here is an example of 2 Wave-Spectra being visualized using the wave wave-markers feature:
+
+.. figure:: /_static/images/Nwave.png 
+   :width: 600pt 
+   :align: center
+
+Here is a visualization of two Wave-Spectra, represented by red markers and blue markers respectively.
+
 Irregular Waves with Seeded Phase
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
@@ -334,8 +426,7 @@ By default, the wave surface elevation at the origin is calculated by WEC-Sim.
 In past releases, there was the option to define up to three numerical wave gauge 
 locations where WEC-Sim would also calculate the undisturbed linear incident wave 
 elevation. WEC-Sim now has the feature to define wave markers that oscillate 
-vertically with the undistrubed linear wave elevation (see 
-`WEC-Sim Visualization Wave Markers <http://wec-sim.github.io/WEC-Sim/master/user/advanced_features.html#wave-markers>`_).
+vertically with the undistrubed linear wave elevation (see :ref:`user-advanced-features-wave-markers`).
 This feature does not limit the number of point measurements of the undisturbed 
 free surface elevation and the time history calculation at the marker location 
 is identical to the previous wave gauge implementation. Users who desire to 
@@ -521,7 +612,7 @@ The WEC-Sim input file used to run the nonlinear hydro WEC-Sim simulation:
 
 .. _user-advanced-features-nonLinearwecSimInputFile:
 
-.. rli:: https://raw.githubusercontent.com/WEC-Sim/WEC-Sim_Applications/master/Nonlinear_Hydro/ode4/Regular/wecSimInputFile.m
+.. rli:: https://raw.githubusercontent.com/WEC-Sim/WEC-Sim_Applications/main/Nonlinear_Hydro/ode4/Regular/wecSimInputFile.m
    :language: matlab
 
 Simulation and post-processing is the same process as described in the 
@@ -903,7 +994,8 @@ own controls.
 	+--------------------------------+-------------------------------------------+
 	|   Model Predictive Control   	 | Sphere with model predictive control      |
 	+--------------------------------+-------------------------------------------+
-
+	|   Reactive with PTO   	 | Sphere with reactive control and DD PTO   |
+	+--------------------------------+-------------------------------------------+
 
 
 Examples: Sphere Float with Various Controllers
@@ -1243,6 +1335,69 @@ computation time and complex setup.
 	| Avg Mechanical Power (kW)  |      N/A     |    300      |    241     |
 	+----------------------------+--------------+-------------+------------+
 
+.. _control-reactive-with-PTO:
+
+Reactive Control with Direct Drive Power Take-Off
+^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+The previous controllers only considered the mechanical power output. Although maximization
+of mechanical power allows for the maximum energy transfer from waves to body, it often does 
+not lead to maximum electrical power. The previous controller examples demonstrate the 
+controller types and energy transfer from waves to body, but the important consideration of 
+electrical power requires a PTO model. This example applies a reactive controller to the 
+sphere body with a simplified direct drive PTO model to maximize electrical power. Within 
+the Simulink subsystem for determining the PTO force, the controller prescribes the ideal or 
+desired force which is fed into the direct drive PTO. The current in the generator is then 
+used to control the applied force. 
+
+.. figure:: /_static/images/piPTOSimulink.png
+   :width: 500pt 
+   :align: center
+
+The PTO parameters used for this example are defined in the ``wecSimInputFile.m`` and correspond to 
+the Allied Motion Megaflux Frameless Brushless Torque Motors–MF0310 :cite:`allied`. The 
+results in terms of capture width (ratio of absorbed power (W) to wave power (W/m)) and resultant power for the 
+applied gains from Section :ref:`control-reactive` are shown in the figures 
+below for a regular wave with a period of 9.6664 s and a height of 2.5 m. The "Controller (Ideal)" 
+power is the ideal power absorbed according to the applied controller gains. 
+The "Mechanical (Drivetrain)" power is the actual mechanical power absorbed by 
+the PTO system including the inertial, damping, and shaft torque power. Lastly, the 
+"Electrical (Generator)" power is the electrical power absorbed by the 
+generator including the product of induced current and voltage (based on shaft torque and velocity, 
+respectively) and the resultant generator losses (product of current squared and winding resistance).
+Mechanical power maximization requires significant net input electrical power 
+(signified by red bar) which leads to an extremely negative capture width. Thus, 
+instead of harvesting electrical power, power would need to be taken from the grid or energy 
+storage component to achieve mechanical power maximization. 
+
+.. figure:: /_static/images/reactiveWithPTOCCPower.png
+   :width: 300pt 
+   :align: center
+
+.. figure:: /_static/images/reactiveWithPTOCC.png
+   :width: 300pt 
+   :align: center
+
+On the other hand, by testing different controller gains in the same wave conditions 
+(regular wave: period = 9.6664 s, height = 2.5 m), the gains which optimize for 
+maximum electrical power can be found as shown below. Increasing the proportional gain 
+and decreasing the integral gain magnitude leads to a maximum power of about 84 kW and capture width of about 
+1.5 m. The resultant motion is almost ten times smaller than for the mechanical power 
+maximization which leads to a lower current and much lower generator power losses 
+(product of current squared and winding resistance).
+
+.. figure:: /_static/images/reactiveWithPTOSweep.png
+   :width: 300pt 
+   :align: center
+
+.. figure:: /_static/images/reactiveWithPTOOptPower.png
+   :width: 300pt 
+   :align: center
+
+.. figure:: /_static/images/reactiveWithPTOOpt.png
+   :width: 300pt 
+   :align: center
+
 
 .. _user-advanced-features-cable:
 
@@ -1257,7 +1412,7 @@ class in the ``wecSimInputFile.m`` along with the base and follower connections 
 	cable(i) = cableClass('cableName','baseConnection','followerConnection');
 
 where ``baseConnection`` is a PTO or constraint block that defines the cable connection on the base side, and ``followerConnection``
-is  a PTO or constraint block that defineds the connection on the follower side.  
+is a PTO or constraint block that defineds the connection on the follower side.  
 
 
 It is necessary to define, at a minimum: ::
@@ -1384,17 +1539,23 @@ WEC-Sim Visualization
 ---------------------
 WEC-Sim provides visualization in SimScape Mechanics Explorer by default. This section describes some additional options for WEC-Sim visualization
 
+
+.. _user-advanced-features-wave-markers:
+
 Wave Markers 
 ^^^^^^^^^^^^^^^^^^^
 
 This section describes how to visualize the wave elevations at various locations using 
 markers in SimScape Mechanics Explorer. 
-Users must define an array of [X,Y] coordinates, the marker style (sphere, cube, frames), and the marker size in pixels.
+Users must define an array of [X,Y] coordinates, the marker style (sphere, cube, frames), the marker size in pixels, marker color in RGB format.
 The ``Global Reference Frame`` block programmatically initiates and adds/deletes the visualization blocks based on the number of markers *(0 to N)* defined by the user.
+Here are the steps to define wave markers representing a wave-spectra, ``waves(1)``. Similar steps can be followed for subsequent ``waves(#)`` objects.
 
-* Define an array of marker locations: ``waves.markLoc = [X,Y]``, where the first column defines the X coordinates, and the second column defines the corresponding Y coordinates, Default = ``[]``
-* Define marker style : ``waves.markStyle = 1``, where 1: Sphere, 2: Cube, 3: Frame, Default = ``1``: Sphere
-* Define marker size : ``waves.markSize = 10``, to specify marker size in Pixels, Default = ``10``
+
+* Define an array of marker locations: ``waves(1).marker.location = [X,Y]``, where the first column defines the X coordinates, and the second column defines the corresponding Y coordinates, Default = ``[]``
+* Define marker style : ``waves(1).marker.style = 1``, where 1: Sphere, 2: Cube, 3: Frame, Default = ``1``: Sphere
+* Define marker size : ``waves(1).marker.size = 10``, to specify marker size in Pixels, Default = ``10``
+* Define marker color: ``waves(1).marker.graphicColor = [1,0,0]``, to specifie marker color in RBG format.
 
 .. Here is an example. In this example a mesh of points is described using the meshgrid command and then  making it an array of X and Y coordinates using reshape(). 
 

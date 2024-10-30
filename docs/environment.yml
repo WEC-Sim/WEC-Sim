@@ -3,17 +3,18 @@ channels:
   - conda-forge
   - nodefaults
 dependencies:
-  - python >=3.9,<3.10
+  - python >=3.9,<3.11
   - pip
   - click
   - colorama
   - colorclass
   - future
   - git
-  - sphinx
-  - sphinx_rtd_theme <1
+  - sphinx >=4
+  - sphinx_rtd_theme
   - sphinxcontrib-bibtex
   - pip:
-    - https://github.com/Holzhaus/sphinx-multiversion/archive/refs/heads/master.zip
-    - sphinxcontrib-matlabdomain < 0.18.0
+    - sphinx-multiversion-scylla
+    - sphinxcontrib-matlabdomain
     - sphinxext-remoteliteralinclude
+    - sphinxcontrib-googleanalytics

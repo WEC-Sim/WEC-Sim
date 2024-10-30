@@ -96,8 +96,9 @@ for imcr=1:length(mcr.cases(:,1))
     
     %% Store hydrodata in memory for reuse in future runs.
     if simu.reloadH5Data == 0 && imcr == 1        % Off->'0', On->'1', (default = 0)  
+        savedHydroData = struct();
         for ii = 1:simu.numHydroBodies 
-            hydroData(ii) = body(ii).hydroData;
+            savedHydroData(ii).hydroData = body(ii).hydroData;
         end
     end
 end; clear imcr ans hydroData

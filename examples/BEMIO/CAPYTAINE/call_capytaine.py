@@ -3,23 +3,29 @@ Function to run Capytaine for hydrodynamics and Meshmagick for hydrostatics.
 
 '''
 import os
-
-from multiprocessing import Process
 import numpy as np
+from multiprocessing import Process
+
+capy_v2 = False
 import capytaine as cpt
-import meshmagick.mesh as mmm
-try:
-    # latest version on github removed the previous 
-    # meshmagick.hydrostatics.Hydrostatics() method. Use old module w/ new version
-    import meshmagick.hydrostatics_old as mmhs
-except ModuleNotFoundError:
-    # older versions of meshmagick should have meshmagick.hydrostatics.Hydrostatics() method
-    import meshmagick.hydrostatics as mmhs
+# Get the version of capytaine
+capytaine_version = cpt.__version__
+# If the version is less than 2.0, import meshmagick:
+if int(capytaine_version.split('.')[0]) >= 2:
+    capy_v2 = True
+if not capy_v2:
+    import meshmagick.mesh as mmm
+    try:
+        # Latest version on github removed the previous
+        # meshmagick.hydrostatics.Hydrostatics() method. Use old module w/ new version
+        import meshmagick.hydrostatics_old as mmhs
+    except ModuleNotFoundError:
+        # Older versions of meshmagick should have meshmagick.hydrostatics.Hydrostatics() method
+        import meshmagick.hydrostatics as mmhs
 
 import xarray as xr
 import logging as LOG
 from glob import glob
-import xarray as xr
 import shutil
 import platform
 import sys
@@ -33,14 +39,13 @@ if platform == "linux" or platform == "linux2":
 
 def __init__(self):
     LOG.info("Capytaine imported.")
-    
 
 def hydrostatics(myBodies, savepath=''):
     '''
-    use meshmagick functions to calculate and output the hydrostatic stiffness,
-    interia, center of gravity, center of buoyancy and displaced volume of a 
-    capytaine bodies. Output is saved to Hydrostatics.dat and KH.dat files in 
-    the same manner as Nemoh
+    use Capytaine/Meshmagick functions to calculate and output the hydrostatic
+    stiffness, inertia, center of gravity, center of buoyancy and displaced
+    volume of a capytaine bodies. Output is saved to Hydrostatics.dat and KH.dat
+    files in the same manner as Nemoh
     
     Example of output format:
     Hydrostatics.dat:
@@ -70,36 +75,41 @@ def hydrostatics(myBodies, savepath=''):
     '''
     nbod = len(myBodies)
     
-    for i,body in enumerate(myBodies):
+    for i, body in enumerate(myBodies):
         cg = body.center_of_mass
+        # Set file index
+        fileind = '' if nbod == 1 else '_' + str(i)
         
         # use meshmagick to compute hydrostatic stiffness matrix
         # NOTE: meshmagick currently has issue if a body is copmletely submerged (OSWEC base)
         # use try-except statement to catch this error use alternate function for cb/vo
-        # if completely submerged, stiffness is 0?
-        body_mesh = mmm.Mesh(body.mesh.vertices, body.mesh.faces, name= body.mesh.name)
         try:
-            body_hs = mmhs.Hydrostatics(working_mesh=body_mesh,
-                                        cog=body.center_of_mass,
-                                        rho_water=1023.0,
-                                        grav=9.81)
-            vo = body_hs.displacement_volume
-            cb = body_hs.buoyancy_center
-            khs = body_hs.hydrostatic_stiffness_matrix
+            if capy_v2:
+                # Capytaine version is >= 2.0
+                body_hs = body.compute_hydrostatics(rho=1023.0)
+                vo = body_hs['disp_volume']
+                cb = body_hs['center_of_buoyancy']
+                khs = body_hs['hydrostatic_stiffness']
+            else:
+                # Capytaine version is < 2.0; use meshmagick
+                body_mesh = mmm.Mesh(body.mesh.vertices, body.mesh.faces, name= body.mesh.name)
+                body_hs = mmhs.Hydrostatics(working_mesh=body_mesh, cog=body.center_of_mass, rho_water=1023.0, grav=9.81)
+                vo = body_hs.displacement_volume
+                cb = body_hs.buoyancy_center
+                khs = body_hs.hydrostatic_stiffness_matrix
         except:
             # Exception if body is fully submerged
-            vo = body_mesh.volume
-            cb = cg
+            vo = body.volume if capy_v2 else body_mesh.volume
+            cb = body.center_of_buoyancy if capy_v2 else cg
             khs = np.zeros((3,3))
         
-        # set file index
-        fileind = ''
-        if nbod != 1:
-            fileind = '_' + str(i)
-        
-        # Write hydrostatic stiffness to KH.dat file as 
+        # Write hydrostatic stiffness to KH.dat file
         khs_full = np.zeros((6,6))
-        khs_full[2:5, 2:5] += khs
+        if capy_v2:
+            khs_full[2:5, 2:5] += khs[2:5, 2:5]
+        else:
+            khs_full[2:5, 2:5] += khs
+
         tmp = savepath + 'KH' + fileind +'.dat'
         np.savetxt(tmp, khs_full)
         

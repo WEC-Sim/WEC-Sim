@@ -28,7 +28,6 @@ classdef simulationClass<handle
     %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
     
     properties (SetAccess = 'public', GetAccess = 'public') % WEC-Sim input 
-        adjMassFactor (1,1) {mustBeNumeric}             = 2                 % (`integer`) Weighting function for adjusting added mass term in the translational direction. Default = ``2``
         b2b (1,1) {mustBeInteger}                       = 0                 % (`integer`) Flag for body2body interactions, Options: 0 (off), 1 (on). Default = ``0``
         cicDt (1,:) {mustBeScalarOrEmpty}               = []                % (`float`) Time step to calculate Convolution Integral. Default = ``dt``
         cicEndTime (1,:) {mustBeScalarOrEmpty}          = 60                % (`float`) Convolution integral time. Default = ``60`` s
@@ -45,9 +44,9 @@ classdef simulationClass<handle
         nonlinearDt (1,:) {mustBeScalarOrEmpty}         = []                % (`float`) Sample time to calculate nonlinear forces. Default = ``dt``
         paraview (1,1) struct                           = struct(...        % (`structure`) Defines the Paraview visualization.
             'option',                                   0,...               % 
-            'startTime',                                0, ...              %     
-            'endTime',                                  100, ...            % 
-            'dt',                                       0.1, ...            % 
+            'startTime',                                [], ...             %
+            'endTime',                                  [], ...             %
+            'dt',                                       [], ...            % 
             'path',                                     'vtk')              % (`structure`) Defines the Paraview visualization. ``option`` (`integer`) Flag for paraview visualization, and writing vtp files, Options: 0 (off) , 1 (on). Default = ``0``. ``startTime`` (`float`) Start time for the vtk file of Paraview. Default = ``0``. ``endTime`` (`float`) End time for the vtk file of Paraview. Default = ``100``.  ``dt`` (`float`) Timestep for Paraview. Default = ``0.1``. ``path`` (`string`) Path of the folder for Paraview vtk files. Default = ``'vtk'``.      
         pressure (1,1) {mustBeInteger}                  = 0                 % (`integer`) Flag to save pressure distribution, Options: 0 (off), 1 (on). Default = ``0``
         rampTime (1,1) {mustBeNumeric}                  = 100               % (`float`) Ramp time for wave forcing. Default = ``100`` s        
@@ -60,6 +59,7 @@ classdef simulationClass<handle
         simMechanicsFile (1,:) {mustBeText}             = 'NOT DEFINED'     % (`string`) Simulink/SimMechanics model file. Default = ``'NOT DEFINED'``
         solver (1,:) {mustBeText}                       = 'ode4'            % (`string`) PDE solver used by the Simulink/SimMechanics simulation. Any continuous solver in Simulink possible. Recommended to use 'ode4, 'ode45' for WEC-Sim. Default = ``'ode4'``
         stateSpace (1,1) {mustBeInteger}                = 0                 % (`integer`) Flag for convolution integral or state-space calculation, Options: 0 (convolution integral), 1 (state-space). Default = ``0``
+        FIR(1,1) {mustBeInteger}                        = 0                 % (`integer`) Flag for FIR calculation, Options: 0 (convolution integral), 1 (FIR). Default = ``0``
         startTime (1,1) {mustBeScalarOrEmpty}           = 0                 % (`float`) Simulation start time. Default = ``0`` s        
         zeroCross (1,:) {mustBeText}                    = 'DisableAll'      % (`string`) Disable zero cross control. Default = ``'DisableAll'``
         outputDir (1,:) {mustBeText}                    = 'output'          % (`string`) Data output directory name. Default = ``'output'``
@@ -71,6 +71,7 @@ classdef simulationClass<handle
         numConstraints      = 0                                            % (`integer`) Number of contraints in the wec model. Default = ``0``
         numDragBodies       = 0                                            % (`integer`) Number of drag bodies that comprise the WEC device (excluding hydrodynamic bodies). Default = ``0``
         numHydroBodies      = 0                                            % (`integer`) Number of hydrodynamic bodies that comprise the WEC device. Default = ``0``
+        numMoorDyn          = 0                                            % (`integer`) Number of moordyn blocks systems in the wec model. Default = ``0``
         numMoorings         = 0                                            % (`integer`) Number of moorings in the wec model. Default = ``0``
         numPtos             = 0                                            % (`integer`) Number of power take-off elements in the model. Default = ``0``
         numPtoSim           = 0                                            % (`integer`) Number of PTO-Sim elements in the model. Default = ``0``        
@@ -84,7 +85,7 @@ classdef simulationClass<handle
         date                = datetime                                     % (`string`) Simulation date and time
         gitCommit           = []                                           % (`string`) GitHub commit
         maxIt               = []                                           % (`integer`) Total number of simulation time steps. Approximate for variable step solvers. Default = dependent
-        wsVersion           = '5.0.1'                                      % (`string`) WEC-Sim version
+        wsVersion           = '6.1'                                      % (`string`) WEC-Sim version
     end
 
     methods
@@ -118,6 +119,7 @@ classdef simulationClass<handle
             mustBeMember(obj.saveText,[0 1])
             mustBeMember(obj.saveWorkspace,[0 1])
             mustBeMember(obj.stateSpace,[0 1])
+            mustBeMember(obj.FIR,[0 1])
             mustBeMember(obj.solver,{'ode1', 'ode1be', 'ode2', 'ode3', 'ode4', 'ode5', 'ode8', 'ode14x','ode15s', ...
                 'ode23', 'ode23s', 'ode23t', 'ode23tb', 'ode45', 'ode113', 'odeN', 'daessc'})
             
@@ -246,7 +248,7 @@ classdef simulationClass<handle
             try
                 ws_exe = which('wecSim');
                 ws_dir = fileparts(ws_exe);
-                git_ver_file = [ws_dir '/../.git/refs/heads/master'];
+                git_ver_file = [ws_dir '/../.git/refs/heads/main'];
                 obj.gitCommit = textread(git_ver_file,'%s');
             catch
                 obj.gitCommit = 'No git commit tag available';

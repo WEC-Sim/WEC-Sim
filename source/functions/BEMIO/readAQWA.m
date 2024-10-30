@@ -104,6 +104,14 @@ for ln = n:length(raw1)
             hydro(F).g      = tmp(3);   % Gravity
         end
         clear V182
+        % Set water depth conditions for calculating wavenumber later
+        if hydro(F).h == inf || hydro(F).h >= 200
+            deepWater = 1;
+            waterDepth = 200;
+        else
+            deepWater = 0;
+            waterDepth = hydro(F).h;
+        end
     end
     if isempty(strfind(raw1{ln},'COG'))==0
         for i=1:hydro(F).Nb
@@ -144,9 +152,9 @@ for ln = n:length(raw1)
                         if isempty(tmp) flag = 1; break; end % if temp variable is empty, exit loops
                         if length(tmp)>6 ind = tmp(1:3); tmp(1:3)=[]; end
                         if f==0 % Added Mass
-                            hydro(F).A((ind(2)-1)*6+i,((ind(1)-1)*6+1):(ind(1)*6),ind(3)) = tmp;
+                            hydro(F).A((ind(1)-1)*6+i,((ind(2)-1)*6+1):(ind(2)*6),ind(3)) = tmp;
                         elseif f==1 % Radiation Damping
-                            hydro(F).B((ind(2)-1)*6+i,((ind(1)-1)*6+1):(ind(1)*6),ind(3)) = tmp;
+                            hydro(F).B((ind(1)-1)*6+i,((ind(2)-1)*6+1):(ind(2)*6),ind(3)) = tmp;
                         end
                         if flag == 1 break; end
                     end
@@ -165,8 +173,13 @@ for ln = n:length(raw1)
                     tmp2 = str2num(raw1{ln+(k-1)*hydro(F).Nh*hydro(F).Nf*2+(j-1)*hydro(F).Nf*2+(i-1)*2+2});
                     ind = tmp1(1:3); tmp1(1:3)=[];
                     hydro(F).ex_ma(((ind(1)-1)*6+1):(ind(1)*6),ind(2),ind(3)) = tmp1; % Magnitude of exciting force
-                    hydro(F).ex_ph(((ind(1)-1)*6+1):(ind(1)*6),ind(2),ind(3)) = wrapToPi(-pi-tmp2*pi/180); % Phase of exciting force    
-                    hydro(F).ex_ph(3,ind(2),ind(3))                           = wrapToPi(-tmp2(3)*pi/180); % Phase of exciting force for heave
+                    % AQWA measures phase with respect to the cog of each
+                    % body. For WEC-Sim, we need to convert the phase to be
+                    % relative to the global origin.
+                    wavenumber = calcWaveNumber(hydro(F).w(i),waterDepth,hydro(F).g,deepWater);
+                    hydro(F).ex_ph(((ind(1)-1)*6+1):(ind(1)*6),ind(2),ind(3)) = wrapToPi(-tmp2*pi/180 ...
+                        - wavenumber*(hydro(F).cg(1,k).*cos(hydro(F).theta(j)*pi/180) + ...
+                        hydro(F).cg(2,k).*sin(hydro(F).theta(j)*pi/180))); % Phase of exciting force    
                 end
             end
         end
@@ -228,7 +241,10 @@ for ln=1:length(raw2)
                 tmp2 = tmp1(2:2:end);
                 tmp1(2:2:end)=[];
                 hydro(F).fk_ma((k-1)*6+1:k*6,j,i) = tmp1;  % mag of froude Krylov force
-                hydro(F).fk_ph((k-1)*6+1:k*6,j,i) = tmp2;  % phase of froude Krylov force
+                wavenumber = calcWaveNumber(hydro(F).w(i),waterDepth,hydro(F).g,deepWater);
+                hydro(F).fk_ph((k-1)*6+1:k*6,j,i) = wrapToPi(-tmp2*pi/180 ...
+                        - wavenumber*(hydro(F).cg(1,k).*cos(hydro(F).theta(j)*pi/180) + ...
+                        hydro(F).cg(2,k).*sin(hydro(F).theta(j)*pi/180))); % Phase of Froude Krylov force
             end
         end        
         hydro(F).fk_re = hydro(F).fk_ma.*cos(hydro(F).fk_ph*pi/180); % real part of Froude Krylov force
@@ -263,7 +279,10 @@ for ln=1:length(raw2)
                 tmp2 = tmp1(2:2:end);
                 tmp1(2:2:end)=[];
                 hydro(F).sc_ma((kdiff-1)*6+1:kdiff*6,j,i) = tmp1;  % mag of scattering force
-                hydro(F).sc_ph((kdiff-1)*6+1:kdiff*6,j,i) = tmp2;  % phase of scattering force
+                wavenumber = calcWaveNumber(hydro(F).w(i),waterDepth,hydro(F).g,deepWater);
+                hydro(F).sc_ph((kdiff-1)*6+1:kdiff*6,j,i) = wrapToPi(-tmp2*pi/180 ...
+                        - wavenumber*(hydro(F).cg(1,k).*cos(hydro(F).theta(j)*pi/180) + ...
+                        hydro(F).cg(2,k).*sin(hydro(F).theta(j)*pi/180))); % Phase of scattering force
             end
         end        
         hydro(F).sc_re = hydro(F).sc_ma.*cos(hydro(F).sc_ph*pi/180); % real part of scattering force
