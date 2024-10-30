@@ -53,9 +53,39 @@ Variable hydrodynamics is implemented by allowing users to initialize a body
 with a cell array of h5 files, as many as required. Each i-th h5 file is then pre-processed into
 ``body.hydroData(i)`` and ``body.hydroForce.hf{i}`` in the normal manner.
 The entirety of body.hydroForce is loaded into Simulink using a custom bus. 
-Users write the index ``body1_hydroForceIndex`` in Simulink, which indexes 
+The index ``body1_hydroForceIndex`` in Simulink, which indexes 
 ``body.hydroForce.hf{i}`` and selects the hydrodynamic force coefficients used
 in the hydrodynamic force calculations at a given time.
+Users *must* create their own logic and index signal in Simulink. A ``GoTo`` 
+block named ``body1_hydroForceIndex``, ``body2_hydroForceIndex`` must take 
+the signal so that the body block can read the value and select the correct 
+hydrodynamic coefficients.
+
+Variable hydrodynamics is body dependent and does not need to be applied to 
+every body in a simulation.
+To turn on variable hydrodynamics, use the ``body.variableHydro.option`` flag in the 
+wecSimInputFile and input multiple H5 files during the body initialization::
+
+    body(1) = bodyClass({'H5FILE_1.h5','H5FILE_2.h5','H5FILE_3.h5','H5FILE_4.h5','H5FILE_5.h5');
+    body(1).variableHydro.option = 1;
+
+
+If ``body.variableHydro.option=0`` any extra H5 files in the body initialization 
+are ignored. If only one H5 file is submitted to a file, variable hydrodynamics 
+are turned off.
+
+The flag ``body.variableHydro.hydroForceIndexInitial`` allows the user to set the
+default index used to define the hydrodynamic coefficients. This initial dataset
+should represent the body at the start of a simulation and likely its equilibrium 
+position. The initial dataset will be used to define the mass, center of gravity, 
+and center of buoyancy for a simulation.
+
+This parameter is flexible because an initial index of zero is not always convenient
+and can complicate indexing logic. For example, consider a flap-based device with
+multiple hydrodynamic datasets at various pitch angles (-50:10:50). The equilibrium 
+and initial position is at a pitch angle of 0, so ``body.variableHydro.hydroForceIndexInitial=6;``
+so that the 0 degree angle defines the start of the simulation.
+
 
 Application
 """"""""""""
@@ -63,15 +93,13 @@ See the Variable Hydro WEC-Sim_Application for a demonstration of setting up and
 
 Tips
 """"
-- Investigate other features that can accomplish your modeling goals (passive yaw, large XY displacements, etc) more effectively
+- Investigate which advanced feature (variable hydrodynamics, passive yaw, large XY displacements, etc) will accomplish your modeling goals most effectively
 - Keep the state's range small
 - Input BEM data to cover the entire range of the state
-- A very fine state discretization may be required. Study and iterate to fine the best state discretization
-- If a very fine state discretization is required, use BEMIO to create new datasets by interpolating between BEM simulations instead of simulating thousands of distinct BEM solutions
+- A very fine state discretization may be required. Conduct a state discretization study to find the resolution required for accurate results.
+- If a very fine state discretization is required, use may be able to use BEMIO to create new datasets by interpolating between BEM simulations instead of simulating thousands of distinct BEM solutions. See the Variable Hydro passive yaw application for an example.
 - Validate using high fidelity data
 - The hydroData directory may become very large
-- All BEM data is contained within the ``body`` variable. Pre-processing remains very fast, so it's not recommended to save ``body`` to an output file or the file size will increase drastically.
+- All BEM data is contained within the ``body`` variable. Pre-processing remains very fast, so it's not recommended to save ``body`` to an output file or the file size may increase drastically.
 - Variable masses are not yet implemented.
-
-
 
