@@ -50,21 +50,21 @@ structure:
 
 * ``h5File``
    * Instead of initializing the body class with one string 
-   (one H5 file name), a cell array of strings can be passed.
+     (one H5 file name), a cell array of strings can be passed
 * ``hydroData``
    * Each H5 file is processed into a hydroData structure. All structs are 
-   concatenated into ``hydroData`` which is now an array of structures instead
-   of one struct.
+     concatenated into ``hydroData`` which is now an array of structures instead
+     of one struct.
 * ``hydroForce``
    * Ideally, hydroForce would also be a structure array becuase the format is 
-   clean, easy to understand, and easy to index into. However, all 
-   information in ``hydroForce`` needs to be loaded into Simulink at run time.
-   Structure arrays cannot be loaded into Simulink in this way. So, 
-   ``hydroForce`` is a nested structure containing (``hf1``, ``hf2``, etc). 
-   Each instance of hf1, hf2, etc is an identical structure that contains
-   hydrodynamic force coefficients that are applied at runtime.
-   In this way, a custom bus is created (``struct2bus.m``) to map all 
-   hydroForce data into Simulink.
+     clean, easy to understand, and easy to index into. However, all 
+     information in ``hydroForce`` needs to be loaded into Simulink at run time.
+     Structure arrays cannot be loaded into Simulink in this way. So, 
+     ``hydroForce`` is a nested structure containing (``hf1``, ``hf2``, etc). 
+     Each instance of hf1, hf2, etc is an identical structure that contains
+     hydrodynamic force coefficients that are applied at runtime.
+     In this way, a custom bus is created (``struct2bus.m``) to map all 
+     hydroForce data into Simulink.
 
 The scenario being modeled, state changed, signals used to vary hydrodynamics,
 and the user logic is completely undefined so as to not artifically restrict the
