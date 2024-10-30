@@ -82,24 +82,32 @@ and center of buoyancy for a simulation.
 
 This parameter is flexible because an initial index of zero is not always convenient
 and can complicate indexing logic. For example, consider a flap-based device with
-multiple hydrodynamic datasets at various pitch angles (-50:10:50). The equilibrium 
-and initial position is at a pitch angle of 0, so ``body.variableHydro.hydroForceIndexInitial=6;``
-so that the 0 degree angle defines the start of the simulation.
+multiple hydrodynamic datasets at various pitch angles (-50:10:50). It is most convenient
+to treat these angles in numerical order in BEM simulations, indexing logic, and other 
+data processing. In this case the initial position is at a pitch angle of 0 so ``body.variableHydro.hydroForceIndexInitial=6;``.
+
+Compatibility
+"""""""""""""
+Variable hydrodynamics is not compatible with certain WEC-Sim features. It cannot be used concurrently with:
+
+* State-space radiation calculations
+* FIR Filter radiation calculations
+* Generalized body modes within the same body. Seperate bodies could each have generalized body modes and variable hydrodynamics however.
+* Non-hydrodynamic and drag bodies
 
 
 Application
 """"""""""""
-See the Variable Hydro WEC-Sim_Application for a demonstration of setting up and using this feature.
+See the :ref:`user-applications-variable-hydro` WEC-Sim_Application for a demonstration of setting up and using variable hydrodynamics.
 
 Tips
 """"
-- Investigate which advanced feature (variable hydrodynamics, passive yaw, large XY displacements, etc) will accomplish your modeling goals most effectively
-- Keep the state's range small
-- Input BEM data to cover the entire range of the state
-- A very fine state discretization may be required. Conduct a state discretization study to find the resolution required for accurate results.
-- If a very fine state discretization is required, use may be able to use BEMIO to create new datasets by interpolating between BEM simulations instead of simulating thousands of distinct BEM solutions. See the Variable Hydro passive yaw application for an example.
-- Validate using high fidelity data
-- The hydroData directory may become very large
-- All BEM data is contained within the ``body`` variable. Pre-processing remains very fast, so it's not recommended to save ``body`` to an output file or the file size may increase drastically.
-- Variable masses are not yet implemented.
-
+* Investigate which advanced feature (variable hydrodynamics, passive yaw, large XY displacements, etc) will accomplish your modeling goals most effectively
+* Keep the state's range small
+* Input BEM data to cover the entire range of the state
+* A very fine state discretization may be required. Conduct a state discretization study to find the resolution required for accurate results.
+* If a very fine state discretization is required, use may be able to use BEMIO to create new datasets by interpolating between BEM simulations instead of simulating thousands of distinct BEM solutions. See the :ref:`user-applications-variable-hydro` Application for an example.
+* Validate using high fidelity data
+* The hydroData directory may become very large
+* All BEM data is contained within the ``body`` variable. Pre-processing remains very fast, so it's not recommended to save ``body`` to an output file or the file size may increase drastically.
+* Conditions that require a varying mass, center of gravity, or center of buoyancy are not yet implemented.
