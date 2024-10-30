@@ -325,6 +325,10 @@ classdef bodyClass<handle
                     obj.centerBuoyancy = obj.centerGravity;
                     warning('Non-hydro or drag body(%i) center of buoyancy (centerBuoyancy) set equal to center of gravity (centerGravity), [%g %g %g]',obj.number,obj.centerGravity(1),obj.centerGravity(2),obj.centerGravity(3))
                 end
+                if obj.variableHydro.option == 1 || length(obj.h5File) > 1
+                    obj.variableHydro.option = 0;
+                    warning('Drag bodies and nonhydro bodies not compatible with variable hydro. Turning variable hydro off.');
+                end
             end
         end
 
