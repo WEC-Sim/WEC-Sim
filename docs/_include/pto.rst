@@ -86,6 +86,72 @@ recommended that hard-stops are implemented in a similar fashion using an
 Actuation Force/Torque PTO block in which the actuation force is specified in a 
 custom MATLAB Function block. 
 
+.. _pto-pto-extension:
+
+Setting PTO or Constraint Extension
+^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+The PTO and Constraint classes have an Extension value that
+can be specified to define the initial displacement of 
+the PTO or constraint at the beginning of the simulation, allowing the user to set the 
+ideal position for maximum wave capture and energy generation. This documentation
+will use the PTO as an example, but the proces is applicable to both translational, 
+rotational, or spherical PTOs and constraints. 
+Whereas the initial displacement feature only defines this updated position for the PTO,
+the PTO Extension feature propagates the change in position to all bodies and joints
+on the Follower side of the PTO block. This allows for an accurate reflection of the 
+initial locations of each component without having to calculate and individually
+define each initial displacement or rotation. To set the extension of a PTO, the 
+following parameter must be specified in ``wecSimInputFile.m``::
+
+	pto(i).extension.PositionTargetSpecify = '1'
+
+to enable the joint's target position value to be defined. The specifics of the 
+extension are described in turn by::
+
+	pto(i).extension.PositionTargetValue
+	pto(i).extension.PositionTargetPriority
+
+``PositionTargetValue`` defines the extension magnitude and ``PositionTargetPriority``
+specifies Simulink's priority in setting the initial target value in regards
+to other constraints and PTOs. The priority is automatically set to "High" when 
+the extension is initialized but can be adjusted to "Low" if required by Simulink.
+
+The figure below shows the PTO extension feature on the WECCCOMP model at 0.1 m.
+The left image is at equilibrium (:code:`pto(i).extension.PositionTargetSpecify=0`),
+and the right image set as
+:code:`pto(i).extension.PositionTargetSpecify=1` with the WEC body moving in 
+accordance with the set PTO Extension value.
+
+.. figure:: /_static/images/WECCCOMP_PTO_Extension.png
+   :align: center
+   :width: 500pt
+   
+   ..
+   
+   WECCCOMP Model PTO Extension
+
+While this method generally fits most WEC models, there are specific 
+designs such as the RM3 that may have a larger DOF and are dependent on
+the particular block orientation in the simulink model in terms of which 
+body blocks will move in response to a PTO initial extension. These specific 
+cases require extra setup on the users end if looking to define a 
+different body's motion than the one automatically established. For the RM3
+model, a set PTO Extension value results in movement in the float body.
+However, if the user would like the movement to be within the spar instead,
+extra steps are required. To view examples of how to set the PTO Extension
+for both the float as well as the spar view the RM3 PTO Extension examples
+on the `WEC-Sim Applications repository 
+<https://github.com/WEC-Sim/WEC-Sim_Applications>`_ .
+
+For the spherical PTO which can rotate about three axes, 
+``pto(i).extension.PositionTargetValue`` must be a 1x3 array that specifying
+three consecutive rotations about the Base frame's axes in the X-Y-Z convention.
+
+.. Note:: 
+   The PTO extension is not valid for PTO already actuated by user-defined motion
+   (Translational PTO Actuation Motion, Rotational PTO Actuation Motion).
+
 .. _pto-pto-sim:
 
 PTO-Sim

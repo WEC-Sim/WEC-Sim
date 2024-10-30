@@ -203,6 +203,9 @@ classdef responseClass<handle
                     obj.bodies(ii).cellPressures_waveLinear    = [];
                     obj.bodies(ii).cellPressures_waveNonLinear = [];
                 end
+                if bodiesOutput(ii).variableHydroOption == 1
+                    obj.bodies(ii).hydroForceIndex = bodiesOutput(ii).hydroForceIndex;
+                end
             end
             
             % PTOs
@@ -246,6 +249,9 @@ classdef responseClass<handle
             if isstruct(mooringOutput)
                 signals = {'position','velocity','forceMooring'}; 
                 for ii = 1:length(mooringOutput)
+                    if length(size(mooringOutput(ii).signals.values)) == 3 % reformat mooring output if necessary
+                        mooringOutput(ii).signals.values = squeeze(mooringOutput(ii).signals.values)';
+                    end
                     obj.mooring(ii).name = mooringOutput(ii).name;
                     obj.mooring(ii).time = mooringOutput(ii).time;
                     for jj = 1:length(signals)

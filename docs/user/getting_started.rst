@@ -18,8 +18,8 @@ Simscape                    Version 5.0  (R2020b)
 Simscape Multibody          Version 7.2  (R2020b)
 ==========================  =============================
 
-WEC-Sim's Simulink Library is saved in MATLAB R2020b, and WEC-Sim tests are run on MATLAB R2020b and newer. 
-Any version of MATLAB newer than R2020b should be compatible with WEC-Sim. 
+WEC-Sim's Simulink Library is saved in MATLAB R2020b, and WEC-Sim tests are run on the last four releases of MATLAB. 
+Any version of MATLAB newer than R2020b should be compatible with WEC-Sim, however we do not test all MATLAB releases. 
 The stability of each MATLAB release is available via `WEC-Sim's GitHub Actions <https://github.com/WEC-Sim/WEC-Sim/actions>`_. 
 Certain advanced features rely on external functions (such as :ref:`mooring-moordyn`), and additional MATLAB Toolboxes (such as :ref:`user-advanced-features-pct`). 
 

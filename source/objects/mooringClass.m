@@ -37,7 +37,7 @@ classdef mooringClass<handle
             'damping',                                      zeros(6,6), ... % 
             'stiffness',                                    zeros(6,6), ... % 
             'preTension',                                   [0 0 0 0 0 0])  % (`structure`) Defines the mooring parameters. ``damping`` (`6x6 float matrix`) Matrix of damping coefficients, Default = ``zeros(6)``. ``stiffness`` (`6x6 float matrix`) Matrix of stiffness coefficients, Default = ``zeros(6)``. ``preTension`` (`1x6 float vector`) Array of pretension force in each dof, Default = ``[0 0 0 0 0 0]``.
-        moorDyn (1,1) {mustBeInteger}                       = 0             % (`integer`) Flag to indicate a MoorDyn block, 0 or 1. Default = ``0``
+        moorDyn (1,1) {mustBeInteger}                       = 0             % (`integer`) Flag to indicate and initialize a MoorDyn connection, 0 or 1. Default = ``0``
         moorDynLines (1,1) {mustBeInteger, mustBeNonnegative} = 0           % (`integer`) Number of lines in MoorDyn. Default = ``0``
         moorDynNodes (1,:) {mustBeInteger, mustBeNonnegative} = []          % (`integer`) number of nodes for each line. Default = ``'NOT DEFINED'``
         name (1,:) {mustBeText}                             = 'NOT DEFINED' % (`string`) Name of the mooring. Default = ``'NOT DEFINED'``
@@ -58,7 +58,7 @@ classdef mooringClass<handle
             if exist('name','var')
                 obj.name = name;
             else
-                error('The mooring class number(s) in the wecSimInputFile must be specified in ascending order starting from 1. The mooringClass() function should be called first to initialize each mooring line with a name.')
+                error('The mooring class number(s) in the wecSimInputFile must be specified in ascending order starting from 1. The mooringClass() function should be called first to initialize each mooring connection with a name.')
             end
         end
 
@@ -161,7 +161,7 @@ classdef mooringClass<handle
         end
 
         function obj = setLoc(obj)
-            % This method sets mooring location
+            % This method sets MoorDyn initial orientation
             obj.orientation = [obj.location + obj.initial.displacement 0 0 0];
         end
 
@@ -169,5 +169,42 @@ classdef mooringClass<handle
             % Method to set the private number property
             obj.number = number;
         end
+
+        function callMoorDynLib(obj)
+            % Initialize MoorDyn Lib (Windows:dll or OSX:dylib)
+            disp('---------------Starting MoorDyn-----------')
+            
+            if libisloaded('libmoordyn')
+                calllib('libmoordyn', 'MoorDynClose');
+                unloadlibrary libmoordyn;
+            end
+            
+            if ismac
+                loadlibrary('libmoordyn.dylib','MoorDyn.h');
+            elseif ispc
+                loadlibrary('libmoordyn.dll','MoorDyn.h');
+            elseif isunix
+                loadlibrary('libmoordyn.so','MoorDyn.h');
+            else
+                disp('Cannot run MoorDyn in this platform');
+            end
+
+            orientationTotal = [];
+            for ii=1:length(obj)
+                if obj(ii).moorDyn == 1
+                    orientationTotal = [orientationTotal, obj(ii).orientation];
+                end
+            end
+            
+            calllib('libmoordyn', 'MoorDynInit', orientationTotal, zeros(1,length(orientationTotal)), obj(1).moorDynInputFile);
+            disp('MoorDyn Initialized. Now time stepping...')
+        end
+
+        function closeMoorDynLib(obj)
+            % Close MoorDyn Lib
+            calllib('libmoordyn', 'MoorDynClose');
+            unloadlibrary libmoordyn;
+        end
+
     end
 end

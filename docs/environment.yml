@@ -17,3 +17,4 @@ dependencies:
     - sphinx-multiversion-scylla
     - sphinxcontrib-matlabdomain
     - sphinxext-remoteliteralinclude
+    - sphinxcontrib-googleanalytics

@@ -3,7 +3,7 @@
 Publications
 ============
 
-Refer to the `WEC-Sim Signature Project page <https://tethys-engineering.pnnl.gov/signature-projects/wec-sim>`_ for a complete list of WEC-Sim publications, including publications written by users of the WEC-Sim code outside of the WEC-Sim development team.
+Refer to the `WEC-Sim Signature Project page <https://openei.org/wiki/PRIMRE/Signature_Projects/WEC-Sim>`_ for a complete list of WEC-Sim publications, including publications written by users of the WEC-Sim code outside of the WEC-Sim development team.
 Here is a list of publications written by the WEC-Sim multi-lab team about the development and application of WEC-Sim:
 
 [1] Y.-H. Yu, M. Lawson, K. Ruehl, and C. Michelen, “`Development and Demonstration of the WEC-Sim Wave Energy Converter Simulation Tool <http://vtechworks.lib.vt.edu/bitstream/handle/10919/49236/137-Lawson.pdf?sequence=1&isAllowed=y>`_,” in Proceedings of the 2nd Marine Energy Technology Symposium, METS 2014, Seattle, WA, 2014.   

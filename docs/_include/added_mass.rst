@@ -41,8 +41,8 @@ The core issue with this combined mass formulation is that Simscape Multibody, a
 For example, a rigid body can't have one mass for surge motion and another mass for heave motion. 
 Simscape rigid bodies only have one translational mass, a 1x3 moment of inertia matrix, and 1x3 product of inertia matrix. 
 
-WEC-Sim's Implemenation
-^^^^^^^^^^^^^^^^^^^^^^^^
+WEC-Sim's Implementation
+^^^^^^^^^^^^^^^^^^^^^^^^^
 
 Due to this limitation, WEC-Sim cannot combine the body mass and added mass on the left-hand side of the equation of motion (as shown above).
 The algebaric loop can be solved by predicting the acceleration at the current time step, and using that to calculate the added mass force.
@@ -69,9 +69,9 @@ where :math:`dMass` is the change in added mass and defined as:
                  \alpha Y & 0 & 0 & 0 & 0 & 0 \\
                  0 & \alpha Y & 0 & 0 & 0 & 0 \\
                  0 & 0 & \alpha Y & 0 & 0 & 0 \\
-                 0 & 0 & 0 & A{4,4} & -A{5,4} & -A{6,4} \\
-                 0 & 0 & 0 & A{5,4} & A{5,5} & -A{6,5} \\
-                 0 & 0 & 0 & A{6,4} & A{6,5} & A{6,6} \\
+                 0 & 0 & 0 & A_{4,4} & -A_{5,4} & -A_{6,4} \\
+                 0 & 0 & 0 & A_{5,4} & A_{5,5} & -A_{6,5} \\
+                 0 & 0 & 0 & A_{6,4} & A_{6,5} & A_{6,6} \\
               \end{bmatrix} \\
     Y &= (A_{1,1} + A_{2,2} + A_{3,3}) \\
     \alpha &= body(iBod).adjMassFactor

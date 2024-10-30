@@ -51,17 +51,18 @@ Current members of the development team include:
 
 * Dominic Forbush (Sandia)
 * Jeff Grasberger (Sandia)
-* Salman Husain (NREL)
+* Salman Husain (NREL - PI)
 * Adam Keester (Sandia)
 * Jorge Leon (Sandia)
 * David Ogden (NREL)
 * Kelley Ruehl (Sandia - PI)
-* Nathan Tom (NREL - PI)
+* Mohamed Shabara (NREL)
 
 Former members of the development team include:
 
 * Michael Lawson (NREL)
 * Carlos Michelen (Sandia)
+* Nathan Tom (NREL)
 * Jennifer Van Rij (NREL)
 * Yi-Hsiang Yu (NREL)
 
