@@ -818,7 +818,7 @@ classdef bodyClass<handle
                     end
                     Hu(N/2+1:end) = conj(Hu(N/2:-1:1))';
                     fSlowDriftLoad = 2 * ifft(Hu/N,'symmetric');
-                    obj.hydroForce.QTF.fSlowVaryingForces(:,n) = fSlowDriftLoad(1:index_time) + fMeanDriftLoad(1:index_time);
+                    obj.hydroForce.(hfName).QTF.fSlowVaryingForces(:,n) = fSlowDriftLoad(1:index_time) + fMeanDriftLoad(1:index_time);
 
                     % Fast varing component calculation
                     tmp = zeros(N,1);

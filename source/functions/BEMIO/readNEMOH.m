@@ -368,10 +368,104 @@ if exist(fullfile(resultsdir,'Kochin.    1.dat'),'file')==2
     end
 end
 
-waitbar(8/8);
 
 hydro = normalizeBEM(hydro);  % Normalize the data according the WAMIT convention
 hydro = addDefaultPlotVars(hydro);
+
+%% reading QTF files
+qtfDir = 'Results/QTF';
+if isfolder(qtfDir)
+    % Initalize qtffilename
+    files = dir(qtfDir); % List all files in the directory
+
+    fileExists_p = false; % Initialize flags to check if any file with the specified extensions exists
+    fileExists_m = false;
+
+    qtffilename = strings(2,hydro.Nb);
+    n = 1;
+    for i = 1:length(files)
+        % This loop checks the names of the QTFs input files "HASBO" or "DOUK"
+
+        filename = files(i).name;    % Get the file name
+        % Check if the file name ends with 'd' and extract the number before 'd'
+        if contains(filename,'OUT_QTFP_N_')
+
+            [~, qtfFileName, ~] = fileparts(filename);
+            fileExists_p = true;
+            bodyNumber(n) = str2double(qtfFileName(end));
+            qtffilename{1,bodyNumber(n)} = filename;
+            n = n + 1;
+        elseif contains(filename,'OUT_QTFM_N_')
+
+            % Extract the character before 'd'
+            [~, qtfFileName, ~] = fileparts(filename);
+            fileExists_m = true;
+            bodyNumber(n) = str2double(qtfFileName(end));
+            qtffilename{2,bodyNumber(n)} = filename;
+            n = n + 1;
+        end
+    end
+    bodyNumber = unique(bodyNumber);
+
+    if (fileExists_p || fileExists_m)
+        if ~(fileExists_p)
+            disp('Warning: The fast varying QTF file is missing.');
+        end
+        if ~(fileExists_m)
+            disp('Warning: The slowly varying QTF file is missing.');
+        end
+
+        % Open the files for reading, reformating, then wrting to
+        hydro.QTFs(1:hydro.Nb) = struct();
+        for nB = bodyNumber
+            for i = 1:2     % 1: Sum, 2: Diff
+                filePath = fullfile(qtfDir, qtffilename{i, nB});
+                fileID = fopen(filePath, 'r');
+                
+                % Read the first line to get the header
+                header_line = fgetl(fileID);
+                raw_data = textscan(fileID, '%f %f %f %f %d %f %f %f %f', 'HeaderLines', 0);
+
+                fclose(fileID);
+
+                if (i == 1)
+                    qtfSum = zeros(length(raw_data{1}), length(raw_data));
+                    qtfDiff = zeros(size(qtfSum));
+                    for j = 1 : length(raw_data)
+                        if contains(header_line, 'rad/s') &&  j == 1 || j == 2
+                            qtfSum(:,j) = 2*pi ./ raw_data{j};    % converts rad/sec to sec to match the WAMIT outputs
+                        elseif contains(header_line, 'Hz') &&  j == 1 || j == 2
+                            qtfSum(:,j) = 1 ./ raw_data{j}; 
+                        else
+                            qtfSum(:,j) = raw_data{j};
+                        end
+                    end
+                else
+                    for j = 1 : length(raw_data)
+                        if contains(header_line, 'rad/s') && j == 1 || j == 2
+                            qtfDiff(:,j) = 2*pi ./ raw_data{j};
+                        elseif contains(header_line, 'Hz') &&  j == 1 || j == 2
+                            qtfDiff(:,j) = 1 ./ raw_data{j};
+                        else
+                            qtfDiff(:,j) = raw_data{j};
+                        end
+                    end
+                end
+            end
+            qtfSum = assignIDs(qtfSum);
+            qtfDiff = assignIDs(qtfDiff);
+
+            for dof = 1 :max(qtfSum(:,5))
+                tmp_sum = qtfSum(qtfSum(:, 5) == dof, :);
+                tmp_diff = qtfDiff(qtfDiff(:, 5) == dof, :);
+                hydro.QTFs(nB).Sum(dof) = triToFullMatrix(tmp_sum,"sum",dof, hydro.rho, hydro.g);
+                hydro.QTFs(nB).Diff(dof) = triToFullMatrix(tmp_diff,"diff",dof, hydro.rho, hydro.g);
+            end
+        end
+    end
+end
+
+waitbar(8/8);
 
 close(p);
 end
