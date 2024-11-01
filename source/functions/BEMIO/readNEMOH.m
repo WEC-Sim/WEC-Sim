@@ -392,7 +392,7 @@ if isfolder(qtfDir)
 
             [~, qtfFileName, ~] = fileparts(filename);
             fileExists_p = true;
-            bodyNumber(n) = str2double(qtfFileName(end));
+            bodyNumber(n) = str2double(qtfFileName(end))+1;
             qtffilename{1,bodyNumber(n)} = filename;
             n = n + 1;
         elseif contains(filename,'OUT_QTFM_N_')
@@ -400,7 +400,7 @@ if isfolder(qtfDir)
             % Extract the character before 'd'
             [~, qtfFileName, ~] = fileparts(filename);
             fileExists_m = true;
-            bodyNumber(n) = str2double(qtfFileName(end));
+            bodyNumber(n) = str2double(qtfFileName(end))+1;
             qtffilename{2,bodyNumber(n)} = filename;
             n = n + 1;
         end
