@@ -328,10 +328,10 @@ classdef bodyClass<handle
             end
         end
 
-        function listInfo(obj)
+        function listInfo(obj,nb)
             % This method prints body information to the MATLAB Command Window.
             iH = obj.variableHydro.hydroForceIndexInitial;
-            fprintf('\n\t***** Body Number %G, Name: %s *****\n',obj.hydroData(iH).properties.number,obj.hydroData(iH).properties.name)
+            fprintf('\n\t***** Body Number %G, Name: %s *****\n',nb,obj.name)
             fprintf('\tBody CG                          (m) = [%G,%G,%G]\n',obj.hydroData(iH).properties.centerGravity)
             fprintf('\tBody Mass                       (kg) = %G \n',obj.mass);
             fprintf('\tBody Moments of Inertia       (kgm2) = [%G,%G,%G]\n',obj.inertia);
@@ -351,7 +351,9 @@ classdef bodyClass<handle
                 obj.centerGravity	= hydroData.properties.centerGravity';
                 obj.centerBuoyancy  = hydroData.properties.centerBuoyancy';
                 obj.volume          = hydroData.properties.volume;
-                obj.name            = hydroData.properties.name;
+                if isempty(obj.name)
+                    obj.name            = hydroData.properties.name;
+                end
                 obj.dof             = hydroData.properties.dof;
                 obj.dofStart        = hydroData.properties.dofStart;
                 obj.dofEnd          = hydroData.properties.dofEnd;
