@@ -51,8 +51,6 @@ plotExcitationPhase(varargin{:})
 plotExcitationIRF(varargin{:})
 
 %% Quadtartic transfer functions QTFs
-if isfield(varargin{:}, 'QTFs')
-    plotQTFs(varargin)
-end
+plotQTFs(varargin)
 
 end

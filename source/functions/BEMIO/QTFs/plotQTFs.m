@@ -12,6 +12,27 @@ function plotQTFs(varargin)
 %         One or more may be input.
 %
 
+%% Check if QTFs are part of the inputs
+% Initialize hasQTFs to false
+hasQTFs = false;
+
+% Loop through each element in varargin to check for 'QTFs'
+for k = 1:length(varargin)
+    tmp = varargin{k};
+    tmp = tmp{1};
+    if isfield(tmp, 'QTFs')
+        hasQTFs = true;
+        break; % Exit the loop if 'QTFs' is found
+    end
+end
+
+% If hasQTFs is still false, exit the function
+if ~hasQTFs
+    return; % Exit the function immediately
+end
+
+
+%% Plot QTFs
 numHydro = length(varargin);
 dofLabels = {'Surge', 'Sway', 'Heave', 'Pitch', 'Yaw', 'roll'};
 
