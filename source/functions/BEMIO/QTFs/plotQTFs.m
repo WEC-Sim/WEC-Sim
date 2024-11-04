@@ -61,6 +61,7 @@ for iH = 1:numHydro
                 y = 2 * pi ./ hydro.QTFs(nb).Sum(dof).PER_j;
                 
                 [X, Y] = meshgrid(x, y);
+                
                 zSum = reshape(hydro.QTFs(nb).Sum(dof).MOD_F_ij, n, n) / rho_g;
                 zDiff = reshape(hydro.QTFs(nb).Diff(dof).MOD_F_ij, n, n) / rho_g;
                 
