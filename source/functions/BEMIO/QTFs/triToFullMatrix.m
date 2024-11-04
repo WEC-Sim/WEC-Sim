@@ -60,7 +60,7 @@ for col = 1:size(dof_data, 2)-2
     elseif col == find(matches(col_names,'Im_F_ij'))
         % do nothing
 
-    elseif col == 5 || col == 6  % 'MOD_ij', 'PHS_F_ij'
+    elseif col == find(matches(col_names,'MOD_F_ij')) || col == find(matches(col_names,'PHS_F_ij'))
         F_ij = zeros(n, n);    % Initialize the full matrix for this column
         for i = 1:length(elements)
             elements = dof_data(:, col) * g_rho * L;
