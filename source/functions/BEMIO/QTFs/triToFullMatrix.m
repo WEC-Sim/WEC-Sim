@@ -33,7 +33,7 @@ data_full = struct();
 col_names = {'PER_i', 'PER_j', 'BETA_i', 'BETA_j', 'MOD_ij', 'PHS_F_ij', 'Re_F_ij', 'Im_F_ij', 'i', 'j'};
 
 for col = 1:size(dof_data, 2)-2
-    if col == 7    % 'Re_F_ij'
+    if col == find(matches(col_names,'Re_F_ij'))
         F_ij = zeros(n, n);    % Initialize the full matrix for this column
 
         for i = 1:length(elements)
