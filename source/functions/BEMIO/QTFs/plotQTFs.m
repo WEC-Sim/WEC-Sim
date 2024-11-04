@@ -36,7 +36,7 @@ numHydro = length(varargin);
 dofLabels = {'Surge', 'Sway', 'Heave', 'Pitch', 'Yaw', 'roll'};
 
 for iH = 1:numHydro
-    hydro = varargin{1}{iH};
+    hydro = varargin{iH};
     rho_g = hydro.g * hydro.rho;
     dofIndices = hydro.plotDofs(:, 1);  % Get the indices to loop over
 
