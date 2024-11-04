@@ -30,7 +30,7 @@ dof_data(:,5) = [];         %   Deletes the DOF Column
 data_full = struct();
 
 % Define column names
-col_names = {'PER_i', 'PER_j', 'BETA_i', 'BETA_j', 'MOD_ij', 'PHS_F_ij', 'Re_F_ij', 'Im_F_ij', 'i', 'j'};
+col_names = {'PER_i', 'PER_j', 'BETA_i', 'BETA_j', 'MOD_F_ij', 'PHS_F_ij', 'Re_F_ij', 'Im_F_ij', 'i', 'j'};
 
 for col = 1:size(dof_data, 2)-2
     if col == find(matches(col_names,'Re_F_ij'))
