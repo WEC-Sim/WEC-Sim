@@ -48,11 +48,11 @@ function results = wecSimTest(options)
 
     arguments
         options.bemioTest = true
-        options.regressionTest = false
-        options.compilationTest = false
-        options.runFromSimTest = false
-        options.rotationTest = false
-        options.devTest = false
+        options.regressionTest = true
+        options.compilationTest = true
+        options.runFromSimTest = true
+        options.rotationTest = true
+        options.devTest = true
     end
     
     % Import MATLAB unittest
