@@ -19,7 +19,6 @@ hasQTFs = false;
 % Loop through each element in varargin to check for 'QTFs'
 for k = 1:length(varargin)
     tmp = varargin{k};
-    tmp = tmp{1};
     if isfield(tmp, 'QTFs')
         hasQTFs = true;
         break; % Exit the loop if 'QTFs' is found
