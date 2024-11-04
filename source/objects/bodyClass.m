@@ -325,6 +325,10 @@ classdef bodyClass<handle
                     obj.centerBuoyancy = obj.centerGravity;
                     warning('Non-hydro or drag body(%i) center of buoyancy (centerBuoyancy) set equal to center of gravity (centerGravity), [%g %g %g]',obj.number,obj.centerGravity(1),obj.centerGravity(2),obj.centerGravity(3))
                 end
+                if obj.variableHydro.option == 1 || length(obj.h5File) > 1
+                    obj.variableHydro.option = 0;
+                    warning('Drag bodies and nonhydro bodies not compatible with variable hydro. Turning variable hydro off.');
+                end
             end
         end
 
@@ -818,7 +822,7 @@ classdef bodyClass<handle
                     end
                     Hu(N/2+1:end) = conj(Hu(N/2:-1:1))';
                     fSlowDriftLoad = 2 * ifft(Hu/N,'symmetric');
-                    obj.hydroForce.QTF.fSlowVaryingForces(:,n) = fSlowDriftLoad(1:index_time) + fMeanDriftLoad(1:index_time);
+                    obj.hydroForce.(hfName).QTF.fSlowVaryingForces(:,n) = fSlowDriftLoad(1:index_time) + fMeanDriftLoad(1:index_time);
 
                     % Fast varing component calculation
                     tmp = zeros(N,1);
