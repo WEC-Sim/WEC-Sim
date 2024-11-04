@@ -57,7 +57,7 @@ for col = 1:size(dof_data, 2)-2
             data_full.(col_names{col+1}) = imag(F_ij(:)) * g_rho * L^2;
         end
 
-    elseif col == 8 % 'Im_F_ij'
+    elseif col == find(matches(col_names,'Im_F_ij'))
         % do nothing
 
     elseif col == 5 || col == 6  % 'MOD_ij', 'PHS_F_ij'
