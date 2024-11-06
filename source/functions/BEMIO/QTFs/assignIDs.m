@@ -26,8 +26,8 @@ function dof_data = assignIDs(dof_data)
     %     input table for further processing.
     %
 
-    vector_j = dof_data(:,1);
-    vector_i = dof_data(:,2);
+    vector_i = dof_data(:,1);
+    vector_j = dof_data(:,2);
 
     % Get unique elements and their corresponding IDs for vector_j
     [~, ~, id_j] = unique(vector_j, 'stable');

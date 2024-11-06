@@ -50,4 +50,7 @@ plotExcitationPhase(varargin{:})
 %% Excitation IRFs
 plotExcitationIRF(varargin{:})
 
+%% Quadtartic transfer functions QTFs
+plotQTFs(varargin{:})
+
 end
