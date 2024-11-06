@@ -273,6 +273,22 @@ else
             KHS = tmp;
         end
 
+  %% Add GBM field
+  %
+        if hydro(F).dof > 6;
+            hydro(F).gbm = zeros(hydro(F).dof,hydro(F).dof,4); % mech inertia, mech damping, mech stiffness, hydrostatic stiffness
+            % capytaine at this time does not allow non-zero mech inertia, damping,
+            % stiffness but DOES include hydrostatic stiffness for gbm modes.
+            hydro(F).gbm(:,:,4) = KHS;
+             % hydro.gbm([1:6],[1:6],4) will be redundant of rigid body hydro.Khs
+            % values
+            warning(['Additional modes detected. \n \r ' ...
+                'Capytaine does not allow non-zero mechanical inertia, damping, or stiffness \n \r ' ...
+                'for generalized body modes, these have been presumed zero.' ...
+                'Modify hydro.gbm(:,:,[1:3]) to consider non-zero values.' ...
+                'The hydrostatic stiffness \n \r ' ...
+                'of these modes (hydro.gbm(:,:,4)) are calculated from BEM.'])
+         end
         % Expand the Khs matrix from 6*Nbx6*Nb to the desired 6x6xNb
         for m = 1:hydro(F).Nb
             hydro(F).Khs(:,:,m) = KHS((m-1)*6+1:(m-1)*6+6,(m-1)*6+1:(m-1)*6+6);
