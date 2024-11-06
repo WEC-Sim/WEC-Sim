@@ -49,7 +49,8 @@ calculate the hydrodynamic forcing on the device until updated again.
 
 Implementation
 """"""""""""""
-To implement variable hydrodynamics:
+Variable hydrodynamics is body dependent and does not need to be applied to 
+every body in a simulation. To implement variable hydrodynamics for a given body:
 
 1. Initialize the Body
     Create a body instance in the ``wecSimInputFile.m`` with a cell array of H5 files 
@@ -101,11 +102,6 @@ To implement variable hydrodynamics:
         :figwidth: 500pt
         :align: center
 
-
-Variable hydrodynamics is body dependent and does not need to be applied to 
-every body in a simulation.
-
-
 .. Note::
     Variable hydrodynamics is not compatible with the following features:
 
@@ -113,6 +109,8 @@ every body in a simulation.
     * FIR Filter radiation calculations
     * Generalized body modes
     * Non-hydrodynamic and drag bodies
+    * Conditions that require a variable mass, center of gravity, or center of buoyancy
+
 
 
 Application
@@ -121,12 +119,19 @@ See the :ref:`user-applications-variable-hydro` WEC-Sim_Application for a demons
 
 Additional Considerations
 """"""""""""""""""""""""""
-* Investigate which advanced feature (variable hydrodynamics, passive yaw, large XY displacements, etc) will accomplish your modeling goals most effectively
-* Keep the state's range small
-* Input BEM data to cover the entire range of the state
-* A very fine state discretization may be required. Conduct a state discretization study to find the resolution required for accurate results.
-* If a very fine state discretization is required, use may be able to use BEMIO to create new datasets by interpolating between BEM simulations instead of simulating thousands of distinct BEM solutions. See the :ref:`user-applications-variable-hydro` Application for an example.
-* Validate using high fidelity data
-* The hydroData directory may become very large
-* All BEM data is contained within the ``body`` variable. Pre-processing remains very fast, so it's not recommended to save ``body`` to an output file or the file size may increase drastically.
-* Conditions that require a varying mass, center of gravity, or center of buoyancy are not yet implemented.
+Variable hydrodynamics is a complex feature that should be used with caution. 
+Before using variable hydrodynamics, consider the advantages and disadvantages 
+of other advanced features that can accomplish modeling goals effectively
+(passive yaw, large XY displacements, etc).
+
+Thoroughly define the range of the state that is varying. 
+Input BEM data to cover the entire range of the state. Sufficiently discretize
+the state to prevent numerical instabilities when switching occurs while reaching
+an acceptable computational expense. The Variable Hydro Passive Yaw application 
+demonstrates how to process BEM datasets with BEMIO and interpolate between them to increase
+state resolution without requiring many BEM simulations. Due to the number of H5 files
+required, the hydroData directory may become very large.
+
+All H5 files are loaded into the respective ``body`` variable, making the size 
+of these variables very large. Pre-processing remains very fast, so it is not 
+recommended to save ``body`` to an output file or the file size may increase drastically.
