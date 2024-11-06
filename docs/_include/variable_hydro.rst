@@ -86,14 +86,13 @@ multiple hydrodynamic datasets at various pitch angles (-50:10:50). It is most c
 to treat these angles in numerical order in BEM simulations, indexing logic, and other 
 data processing. In this case the initial position is at a pitch angle of 0 so ``body.variableHydro.hydroForceIndexInitial=6;``.
 
-Compatibility
-"""""""""""""
-Variable hydrodynamics is not compatible with certain WEC-Sim features. It cannot be used concurrently with:
+.. Note::
+    Variable hydrodynamics is not compatible with the following features:
 
-* State-space radiation calculations
-* FIR Filter radiation calculations
-* Generalized body modes within the same body. Seperate bodies could each have generalized body modes and variable hydrodynamics however.
-* Non-hydrodynamic and drag bodies
+    * State-space radiation calculations
+    * FIR Filter radiation calculations
+    * Generalized body modes
+    * Non-hydrodynamic and drag bodies
 
 
 Application
