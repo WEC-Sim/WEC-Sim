@@ -49,42 +49,62 @@ calculate the hydrodynamic forcing on the device until updated again.
 
 Implementation
 """"""""""""""
-Variable hydrodynamics is implemented by allowing users to initialize a body
-with a cell array of h5 files, as many as required. Each i-th h5 file is then pre-processed into
-``body.hydroData(i)`` and ``body.hydroForce.hf{i}`` in the normal manner.
-The entirety of body.hydroForce is loaded into Simulink using a custom bus. 
-The index ``body1_hydroForceIndex`` in Simulink, which indexes 
-``body.hydroForce.hf{i}`` and selects the hydrodynamic force coefficients used
-in the hydrodynamic force calculations at a given time.
-Users *must* create their own logic and index signal in Simulink. A ``GoTo`` 
-block named ``body1_hydroForceIndex``, ``body2_hydroForceIndex`` must take 
-the signal so that the body block can read the value and select the correct 
-hydrodynamic coefficients.
+To implement variable hydrodynamics:
+
+1. Initialize the Body
+    Create a body instance in the ``wecSimInputFile.m`` with a cell array of H5 files 
+    containing the hydrodyamic datasets:
+        
+        ``body(1) = bodyClass({'H5FILE_1.h5','H5FILE_2.h5','H5FILE_3.h5','H5FILE_4.h5','H5FILE_5.h5');``
+
+    If only one H5 file is used to initialize a body object, variable hydrodynamics
+    will not be used, regardless of the ``option`` flag below.
+
+2. Enable Variable Hydrodynamics
+    Set the ``body.variableHydro.option`` flag to enable variable hydrodynamics:
+
+        ``body(1).variableHydro.option = 1;``
+
+    If the ``option`` flag is not turned on (``option==0``), then extra H5 files are ignored.
+
+3. Set the Initial Hydrodynamic Index
+    The flag ``body.variableHydro.hydroForceIndexInitial`` allows the user to set the
+    default hydrodynamic dataset. The initial set of hydrodynamic coefficients
+    represents the body at the start of a simulation and likely its equilibrium 
+    position. It is used to define the body's mass, center of gravity, 
+    and center of buoyancy. 
+
+        ``body(1).variableHydro.hydroForceIndexInitial = 1;``
+    
+    This parameter is flexible because an initial index of one is not always convenient
+    and may complicate indexing logic. For example, consider a flap-based device with
+    multiple hydrodynamic datasets at various pitch angles (-50:10:50). It is most convenient
+    and straightforward to treat these angles in numerical order in BEM simulations, 
+    indexing logic, and other data processing. In this case the initial position is at a pitch angle of 0 so 
+    ``body.variableHydro.hydroForceIndexInitial = 6;``.
+
+4. Control the varying hydrodynamics in Simulink
+    The index ``body1_hydroForceIndex`` in Simulink
+    (or ``body1_hydroForceIndex`` for body 2, etc) controls the hydrodynamic coefficients used
+    in the hydrodynamic force calculations at a given time.
+    Users *must* create their own logic and indexing signal in Simulink. A ``GoTo`` 
+    block named ``body1_hydroForceIndex``, ``body2_hydroForceIndex``, etc must take 
+    a signal for each variable hydro body so that the corresponding body block can select the correct 
+    hydrodynamic coefficients during the simulation
+
+    This example, from the Varible Hydro Passive Yaw application, takes in position, wave direction, and 
+    BEM directions, calculates the index at a given time, and sends it to a ``GoTo`` block named 
+    ``body1_hydroForceIndex``.
+
+    .. figure:: /_static/images/variable_hydro_logic_example.PNG
+        :width: 500pt
+        :figwidth: 500pt
+        :align: center
+
 
 Variable hydrodynamics is body dependent and does not need to be applied to 
 every body in a simulation.
-To turn on variable hydrodynamics, use the ``body.variableHydro.option`` flag in the 
-wecSimInputFile and input multiple H5 files during the body initialization::
 
-    body(1) = bodyClass({'H5FILE_1.h5','H5FILE_2.h5','H5FILE_3.h5','H5FILE_4.h5','H5FILE_5.h5');
-    body(1).variableHydro.option = 1;
-
-
-If ``body.variableHydro.option=0`` any extra H5 files in the body initialization 
-are ignored. If only one H5 file is submitted to a file, variable hydrodynamics 
-are turned off.
-
-The flag ``body.variableHydro.hydroForceIndexInitial`` allows the user to set the
-default index used to define the hydrodynamic coefficients. This initial dataset
-should represent the body at the start of a simulation and likely its equilibrium 
-position. The initial dataset will be used to define the mass, center of gravity, 
-and center of buoyancy for a simulation.
-
-This parameter is flexible because an initial index of zero is not always convenient
-and can complicate indexing logic. For example, consider a flap-based device with
-multiple hydrodynamic datasets at various pitch angles (-50:10:50). It is most convenient
-to treat these angles in numerical order in BEM simulations, indexing logic, and other 
-data processing. In this case the initial position is at a pitch angle of 0 so ``body.variableHydro.hydroForceIndexInitial=6;``.
 
 .. Note::
     Variable hydrodynamics is not compatible with the following features:
@@ -99,8 +119,8 @@ Application
 """"""""""""
 See the :ref:`user-applications-variable-hydro` WEC-Sim_Application for a demonstration of setting up and using variable hydrodynamics.
 
-Tips
-""""
+Additional Considerations
+""""""""""""""""""""""""""
 * Investigate which advanced feature (variable hydrodynamics, passive yaw, large XY displacements, etc) will accomplish your modeling goals most effectively
 * Keep the state's range small
 * Input BEM data to cover the entire range of the state
