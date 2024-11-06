@@ -3,21 +3,20 @@
 Overview
 """"""""""
 
-Variable Hydrodynamics is an advanced feature that enables users to change the 
-*state* of their device during simulation. In this context, a device *state* 
-can be related to any number of scenarios, such as a variable geometry 
+Variable Hydrodynamics enables users to change the 
+*state* of a hydrodyamic body during simulation. A body's *state* could reflect
+any number of scenarios, such as a variable geometry 
 changing shape, a flooding body, a change in operational depth, load shedding 
 capabilities, time-dependent changes to a device, etc. A signal, such as 
-kinematics, dynamics, or time,  is used to alter the state of the device
+kinematics, dynamics, or time, is used to alter the state of the device
 during simulation. This feature expands WEC-Sim's simulation capabilities and enables
 modeling a new breadth of scenarios in the time domain.
 
-Different states of a device are represented by different sets of boundary 
-element method data. User defined logic and user selected signals determine
+The varying state of a body is represented by changing the hydrodynamic
+coefficients used to calculate hydrodyamic forcing during the simulation.
+User defined logic and user selected signals determine
 when the state changes. The Variable Hydrodynamics feature does not determine
-a specific scenario, state, signal, or discretization required. It is the 
-user's responsibility to implement a specific variable hydrodynamics case
-using best practices and validate the results with higher fidelity data.
+a specific scenario, state, signal, or discretization required.
 
 Example
 """"""""
@@ -110,8 +109,6 @@ every body in a simulation. To implement variable hydrodynamics for a given body
     * Generalized body modes
     * Non-hydrodynamic and drag bodies
     * Conditions that require a variable mass, center of gravity, or center of buoyancy
-
-
 
 Application
 """"""""""""
