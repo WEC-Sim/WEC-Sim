@@ -12,7 +12,7 @@ Overview
 
 WEC-Sim (Wave Energy Converter SIMulator) is an open-source software for simulating wave energy converters. 
 It is developed in MATLAB/SIMULINK using the multi-body dynamics solver Simscape Multibody. 
-WEC-Sim has the ability to model devices that are comprised of hydrodynamic bodies, joints and constraints, power take-of systems, and mooring systems. 
+WEC-Sim has the ability to model devices that are comprised of hydrodynamic bodies, joints and constraints, power take-off systems, and mooring systems. 
 Simulations are performed in the time-domain by solving the governing wave energy converter equations of motion in the 6 rigid Cartesian degrees-of-freedom. 
 A body may also contain any number of generalized body modes to represent hydrodynamic effects in shear, torsion, bending, and others.
 
