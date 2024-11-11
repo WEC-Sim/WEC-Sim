@@ -28,7 +28,7 @@ waves.period = 8;                       % Wave Period [s]
 %  waves.height = 2.5;                       % Significant Wave Height [m]
 %  waves.period = 8;                         % Peak Period [s]
 %  waves.spectrumType = 'PM';                % Specify Wave Spectrum Type
-%  waves.direction = [0];
+%  waves.direction=[0];
 
 % % Irregular Waves using JS Spectrum with Equal Energy and Seeded Phase
 % waves = waveClass('irregular');           % Initialize Wave Class and Specify Type
