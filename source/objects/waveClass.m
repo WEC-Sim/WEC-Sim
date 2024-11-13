@@ -58,7 +58,7 @@ classdef waveClass<handle
   
     properties (SetAccess = 'private', GetAccess = 'public')%internal       
         % The following properties are private, for internal use by WEC-Sim
-        amplitude       = [];                       % Wave amplitude [m]. For regular waves or 2*(wave spectrum vector) for irregular waves
+        amplitude       = [];                       % Wave amplitude [m] for regular waves or 2*(wave spectrum vector) for irregular waves
         deepWater       = [];                       % Deep water or not, depending on input from WAMIT, NEMOH and AQWA
         dOmega          = 0;                        % Frequency spacing [rad] for ``irregular`` waves.
         omega           = [];                       % Wave frequency (regular waves) or wave frequency vector (irregular waves), where omega = 2*pi/period [rad/s]
@@ -707,7 +707,7 @@ classdef waveClass<handle
                     obj.dOmega = [obj.omega(1)-2*pi*frequency(wn(1)); diff(obj.omega)];
                     obj.spectrum = obj.spectrum(wn(2:end-1));                             % Wave Spectrum [m^2-s/rad] 
             end
-            obj.amplitude = 2 * obj.spectrum;                                              % Wave Amplitude [m]
+            obj.amplitude = 2 * obj.spectrum;                                              % 2*(wave spectrum vector)
         end
 
         function waveElevIrreg(obj,rampTime,timeseries,df)
