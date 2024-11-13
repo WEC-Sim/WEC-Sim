@@ -40,7 +40,7 @@ switch code
     case 'CAPYTAINE'
         hydro= readCAPYTAINE(hydro,fileName{1});
     case 'NEMOH'
-        hydro = readNEMOH(hydro,fileName{1}); 
+        hydro = readNEMOH(hydro,fileName); 
     case 'AQWA'
         hydro = readAQWA(hydro,fileName{1},fileName{2});
 end
@@ -55,33 +55,33 @@ dw=mean(diff(hydro.w));
 if isempty(deSpike) % if the third argument is empty will use some default values
     deSpike = struct();
     deSpike.negThresh = 1e-3; % the threshold below which negative damping will be removed
-    deSpike.N = 5; % will loop the despiking procedure N time before filtering
+    deSpike.N = 6; % will loop the despiking procedure N time before filtering
     deSpike.appFilt = 1; % boolean, 1 to apply low pass filter after despiking
     
     % thresholds: applied to 'Threshold' argument of findpeaks
-    deSpike.Threshold.B = 2e-4; % damping
-    deSpike.Threshold.A = 1e-3; % added mass
-    deSpike.Threshold.ExRe = 1e-3; % real part excitation
-    deSpike.Threshold.ExIm = 1e-3; % imag part excitation
+    deSpike.Threshold.B = 2e-3; % damping
+    deSpike.Threshold.A = 1e-2; % added mass
+    deSpike.Threshold.ExRe = 1e-2; % real part excitation
+    deSpike.Threshold.ExIm = 1e-2; % imag part excitation
     
     % minimum peak prominence, applied to 'MinPeakProminence' argument of findpeaks 
-    deSpike.Prominence.B = 2e-4;  
-    deSpike.Prominence.A = 1e-3; 
-    deSpike.Prominence.ExRe = 1e-3;  
-    deSpike.Prominence.ExIm = 1e-3; 
+    deSpike.Prominence.B = 2e-3;  
+    deSpike.Prominence.A = 1e-2; 
+    deSpike.Prominence.ExRe = 1e-2;  
+    deSpike.Prominence.ExIm = 1e-2; 
     
     % minimum peak distance, applied to 'MinPeakDistance' argument of findpeaks 
-    deSpike.MinPeakDistance.A = 3;
-    deSpike.MinPeakDistance.B = 3;
-    deSpike.MinPeakDistance.ExRe = 3;
-    deSpike.MinPeakDistance.ExIm = 3;
+    deSpike.MinPeakDistance.A = 0.52;
+    deSpike.MinPeakDistance.B = 0.52;
+    deSpike.MinPeakDistance.ExRe = 0.52;
+    deSpike.MinPeakDistance.ExIm = 0.52;
     deSpike.Filter.b = 0.02008336556421123561544384017452102853 .* [1 2 1];
     deSpike.Filter.a = [1 -1.561018075800718163392843962355982512236 0.641351538057563175243558362126350402832];
     
     % IRF parameters
     deSpike.IRF.wMin = 0.1;
     deSpike.IRF.wMax = 15;
-    deSpike.IRF.irfDur = 30;
+    deSpike.IRF.irfDur = 5;
     
     % debug plot
     deSpike.debugPlot =0;
@@ -89,22 +89,29 @@ end
 
 % debugPlot = 1; % set 1 to make excitation debug plots.
 %% calc original IRF and plot
-hydro = radiationIRF(hydro,deSpike.IRF.irfDur,[],[],deSpike.IRF.wMin,deSpike.IRF.wMax);
-hydro = radiationIRFSS(hydro,deSpike.IRF.irfDur,[]);
-hydro = excitationIRF(hydro,deSpike.IRF.irfDur,[],[],deSpike.IRF.wMin,deSpike.IRF.wMax);
+hydro = radiationIRF(hydro,201,501,501,[],[]);
+hydro = radiationIRFSS(hydro,5,0.85);
+hydro = excitationIRF(hydro,201,[],[],[],[]);
+% hydro = radiationIRF(hydro,deSpike.IRF.irfDur,[],[],deSpike.IRF.wMin,deSpike.IRF.wMax);
+% hydro = radiationIRFSS(hydro,deSpike.IRF.irfDur,0.85);
+% hydro = excitationIRF(hydro,deSpike.IRF.irfDur,[],[],deSpike.IRF.wMin,deSpike.IRF.wMax);
 writeBEMIOH5(hydro);
 hydro.plotDofs = plotDofs;%[1,1;3,3;5,5;7,7;3,7;7,3];
 plotBEMIO(hydro);
+figureNumber = length(get(findall(0, 'Type', 'figure'), 'Number'));
+spreadfigures(figureNumber:-1:figureNumber-6+1)
 
 %% rad and mass fixes
 [row,col,~] = size(hydro.B);
-% parse negative radiation damping along diagonal
+% parse negative radiation damping
 for k = 1:row
-    bPks(k,k) = max(squeeze(hydro.B(k,k,:)));
-    p1Idx = find(abs(hydro.B(k,k,:)) > deSpike.negThresh * bPks(k,k));
-    p2Idx = find(hydro.B(k,k,:) < 0);
-    pIdx = intersect(p1Idx,p2Idx);
-    hydro.B(k,k,pIdx) = 0;
+    for kk = 1:col
+        bPks(k,kk) = max(squeeze(hydro.B(k,kk,:)));
+        p1Idx = find(abs(hydro.B(k,kk,:)) > deSpike.negThresh * bPks(k,kk));
+        p2Idx = find(hydro.B(k,kk,:) < 0);
+        pIdx = intersect(p1Idx,p2Idx);
+        hydro.B(k,kk,pIdx) = 0;
+    end
 end
 
 for k = 1:row
@@ -157,9 +164,14 @@ for k = 1:row
             % smooth positive peaks via interpolation amongst surrounding
             % points
             for kkk=1:length(BLocs)
+                try
                 BRep = interp1([hydro.w(BLocs(kkk)-2);hydro.w(BLocs(kkk)-1);hydro.w(BLocs(kkk)+1);hydro.w(BLocs(kkk)+2)],...
                     [hydro.B(k,kk,BLocs(kkk)-2);hydro.B(k,kk,BLocs(kkk)-1);hydro.B(k,kk,BLocs(kkk)+1);hydro.B(k,kk,BLocs(kkk)+2)],hydro.w(BLocs(kkk)),'linear');
                 hydro.B(k,kk,BLocs(kkk))=BRep;
+                catch
+                    disp(0)
+                    hydro.B(k,kk,BLocs(kkk))=hydro.B(k,kk,BLocs(kkk));
+                end
             end
 
             ALog = [];
@@ -181,17 +193,27 @@ for k = 1:row
             % smooth positive peaks via interpolation amongst surrounding
             % points
             for kkk=1:length(ALocs) % A location pchip smoothing
+                try
                 ARep =interp1([hydro.w(ALocs(kkk)-2),hydro.w(ALocs(kkk)-1),hydro.w(ALocs(kkk)+1),hydro.w(ALocs(kkk)+2)],...
                     [hydro.A(k,kk,ALocs(kkk)-2),hydro.A(k,kk,ALocs(kkk)-1),hydro.A(k,kk,ALocs(kkk)+1),hydro.A(k,kk,ALocs(kkk)+2)],hydro.w(ALocs(kkk)),'linear');
                 hydro.A(k,kk,ALocs(kkk))=ARep;
+                catch
+                    disp(1)
+                    hydro.A(k,kk,ALocs(kkk))=hydro.A(k,kk,ALocs(kkk));
+                end
             end
 
             % smooth negative peaks via interpolation amongst surrounding
             % points
             for kkk=1:length(BLocsN) % B location pchip smoothing
+                try
                 BRep = interp1([hydro.w(BLocsN(kkk)-2);hydro.w(BLocsN(kkk)-1);hydro.w(BLocsN(kkk)+1);hydro.w(BLocsN(kkk)+2)],...
                     [hydro.B(k,kk,BLocsN(kkk)-2);hydro.B(k,kk,BLocsN(kkk)-1);hydro.B(k,kk,BLocsN(kkk)+1);hydro.B(k,kk,BLocsN(kkk)+2)],hydro.w(BLocsN(kkk)),'linear');
                 hydro.B(k,kk,BLocsN(kkk))=BRep;
+                catch
+                    disp(2)
+                    hydro.B(k,kk,BLocsN(kkk))=hydro.B(k,kk,BLocsN(kkk));
+                end
             end
             for kkk=1:length(ALocsN) % A location pchip smoothing
                 ARep = interp1([hydro.w(ALocsN(kkk)-2),hydro.w(ALocsN(kkk)-1),hydro.w(ALocsN(kkk)+1),hydro.w(ALocsN(kkk)+2)],...
@@ -233,15 +255,25 @@ for k=1:row
         ExPeaks(ExLog) = []; ExLocs(ExLog)=[]; ExPeaksN(ExLogN) = []; ExLocsN(ExLogN)=[];
 
         for kk =1:length(ExLocs) % real part positive peaks
+            try
             ExRep = interp1([hydro.w(ExLocs(kk)-2),hydro.w(ExLocs(kk)-1),hydro.w(ExLocs(kk)+1),hydro.w(ExLocs(kk)+2)],...
                 [hydro.ex_re(k,1,ExLocs(kk)-2),hydro.ex_re(k,1,ExLocs(kk)-1),hydro.ex_re(k,1,ExLocs(kk)+1),hydro.ex_re(k,1,ExLocs(kk)+2)],hydro.w(ExLocs(kk)),'linear');
             hydro.ex_re(k,1,ExLocs(kk)) = ExRep;
+            catch
+                disp(3)
+                hydro.ex_re(k,1,ExLocs(kk)) = hydro.ex_re(k,1,ExLocs(kk));
+            end
         end
 
         for kk =1:length(ExLocsN) % real part negative peaks
+            try
             ExRep = interp1([hydro.w(ExLocsN(kk)-2),hydro.w(ExLocsN(kk)-1),hydro.w(ExLocsN(kk)+1),hydro.w(ExLocsN(kk)+2)],...
                 [hydro.ex_re(k,1,ExLocsN(kk)-2),hydro.ex_re(k,1,ExLocsN(kk)-1),hydro.ex_re(k,1,ExLocsN(kk)+1),hydro.ex_re(k,1,ExLocsN(kk)+2)],hydro.w(ExLocsN(kk)),'linear');
             hydro.ex_re(k,1,ExLocsN(kk)) = ExRep;
+            catch
+                disp(4)
+                hydro.ex_re(k,1,ExLocsN(kk)) = hydro.ex_re(k,1,ExLocsN(kk));
+            end
         end
 
         % imaginary part despiking
@@ -268,15 +300,25 @@ for k=1:row
         ExPeaks(ExLog) = []; ExLocs(ExLog)=[]; ExPeaksN(ExLogN) = []; ExLocsN(ExLogN)=[];
        
         for kk =1:length(ExLocs) % real part positive peaks
+            try
             ExRep = interp1([hydro.w(ExLocs(kk)-2),hydro.w(ExLocs(kk)-1),hydro.w(ExLocs(kk)+1),hydro.w(ExLocs(kk)+2)],...
                 [hydro.ex_im(k,1,ExLocs(kk)-2),hydro.ex_im(k,1,ExLocs(kk)-1),hydro.ex_im(k,1,ExLocs(kk)+1),hydro.ex_im(k,1,ExLocs(kk)+2)],hydro.w(ExLocs(kk)),'linear');
             hydro.ex_im(k,1,ExLocs(kk)) = ExRep;
+            catch
+                disp(5)
+                hydro.ex_im(k,1,ExLocs(kk)) = hydro.ex_im(k,1,ExLocs(kk));
+            end
         end
 
         for kk =1:length(ExLocsN) % imaginary part negative peaks
+            try
             ExRep = interp1([hydro.w(ExLocsN(kk)-2),hydro.w(ExLocsN(kk)-1),hydro.w(ExLocsN(kk)+1),hydro.w(ExLocsN(kk)+2)],...
                 [hydro.ex_im(k,1,ExLocsN(kk)-2),hydro.ex_im(k,1,ExLocsN(kk)-1),hydro.ex_im(k,1,ExLocsN(kk)+1),hydro.ex_im(k,1,ExLocsN(kk)+2)],hydro.w(ExLocsN(kk)),'linear');
             hydro.ex_im(k,1,ExLocsN(kk)) = ExRep;
+            catch
+                disp(6)
+                hydro.ex_im(k,1,ExLocsN(kk)) = hydro.ex_im(k,1,ExLocsN(kk));
+            end
         end
         %     sc_ma_smooth(row,1,:) = filtfilt(b,a,squeeze(hydro.sc_ma(k,1,:)));
         %     sc_ph_smooth(row,1,:) = filtfilt(b,a,squeeze(hydro.sc_ph(k,1,:)));
@@ -319,12 +361,14 @@ end
 % hydro.fk_im = fk_im_smooth;
 
 hydro.file = [hydro.file '_clean']; % rename so that original H5 is not overwritten
-hydro = radiationIRF(hydro,20,[],[],0.1,15);
-hydro = radiationIRFSS(hydro,20,[]);
-hydro = excitationIRF(hydro,20,[],[],0.1,15);
+hydro = radiationIRF(hydro,201,501,501,[],[]);
+hydro = radiationIRFSS(hydro,5,0.85);
+hydro = excitationIRF(hydro,201,[],[],[],[]);
 hydro.plotDofs = plotDofs;
 writeBEMIOH5(hydro);
 plotBEMIO(hydro);
+figureNumber = length(get(findall(0, 'Type', 'figure'), 'Number'));
+spreadfigures(figureNumber:-1:figureNumber-6+1)
 
 outHydro = hydro;
 

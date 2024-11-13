@@ -1,4 +1,4 @@
-function [f, wp, wpMeanFS]  = nonFKForce(x,elv,direction,center,tnorm,area,rho,g,cg,AH,w,dw,wDepth,deepWater,k,typeNum,t,phaseRand)
+function [f, wp, wpMeanFS]  = nonFKForce(x,elv,center,tnorm,area,rho,g,cg,AH,w,dw,wDepth,deepWater,k,typeNum,t,phaseRand)
 % Function to calculate the wave excitation force and moment on a
 % triangulated surface. The nonlinear excitation forces are calculated by
 % intergrating the pressure over the triangulated surface and subtracting
@@ -7,10 +7,10 @@ function [f, wp, wpMeanFS]  = nonFKForce(x,elv,direction,center,tnorm,area,rho,g
 % NOTE: This function assumes that the STL file is imported with its CG at 0,0,0
 
 % Logic to calculate nonFKForce at reduced sample time
-[f, wp, wpMeanFS] = calc_force(x,elv,direction,center,tnorm,area,rho,g,cg,AH,w,dw,wDepth,deepWater,k,typeNum,t,phaseRand);
+[f, wp, wpMeanFS] = calc_force(x,elv,center,tnorm,area,rho,g,cg,AH,w,dw,wDepth,deepWater,k,typeNum,t,phaseRand);
 end
 
-function [f, wp, wpMeanFS]  = calc_force(x,elv,direction,center,tnorm,area,rho,g,cg,AH,w,dw,wDepth,deepWater,k,typeNum,t,phaseRand)
+function [f, wp, wpMeanFS]  = calc_force(x,elv,center,tnorm,area,rho,g,cg,AH,w,dw,wDepth,deepWater,k,typeNum,t,phaseRand)
 % Function to apply translation and rotation, and calculate forces.
 
 % Compute new tri coords after cog rotation and translation
@@ -32,8 +32,8 @@ tnorm = rotateXYZ(tnorm,[0 0 1],x(6));
 av = tnorm .* [area area area];
 
 % Calculate the free surface
-wpMeanFS = pDis(centerMeanFS,0,direction,AH,w,dw,wDepth,deepWater,t,k,phaseRand,typeNum,rho,g);
-wp = pDis(center,elv,direction,AH,w,dw,wDepth,deepWater,t,k,phaseRand,typeNum,rho,g);
+wpMeanFS = pDis(centerMeanFS,0,AH,w,dw,wDepth,deepWater,t,k,phaseRand,typeNum,rho,g);
+wp = pDis(center,elv,AH,w,dw,wDepth,deepWater,t,k,phaseRand,typeNum,rho,g);
 
 % Calculate forces
 f_linear   =FK(centerMeanFS,       cg,avMeanFS,wpMeanFS);
@@ -41,13 +41,13 @@ f_nonLinear=FK(center      ,x(1:3)+cg,av      ,wp      );
 f = f_nonLinear-f_linear;
 end
 
-function f=pDis(center,elv,direction,AH,w,dw,wDepth,deepWater,t,k,phaseRand,typeNum,rho,g)
+function f=pDis(center,elv,AH,w,dw,wDepth,deepWater,t,k,phaseRand,typeNum,rho,g)
 % Function to calculate pressure distribution
 f = zeros(length(center(:,3)),1);
 z=zeros(length(center(:,1)),1);
 if typeNum <10
 elseif typeNum <20
-    f = rho.*g.*elv;
+    f = rho.*g.*AH(1).*cos(k(1).*center(:,1)-w(1)*t);
     if deepWater == 0
         z=(center(:,3)-elv).*wDepth./(wDepth+elv);
         f = f.*(cosh(k(1).*(z+wDepth))./cosh(k(1)*wDepth));
@@ -56,17 +56,14 @@ elseif typeNum <20
         f = f.*exp(k(1).*z);
     end
 elseif typeNum <30
-    cx = center(:,1);
-    cy = center(:,2);
-    X = cx*cos(direction*pi/180) + cy*sin(direction*pi/180);
     for i=1:length(AH)
         if deepWater == 0 && wDepth <= 0.5*pi/k(i)
             z=(center(:,3)-elv).*wDepth./(wDepth+elv);
-            f_tmp = rho.*g.*sqrt(AH(i)*dw(i)).*cos(k(i).*X-w(i)*t-phaseRand(i));
+            f_tmp = rho.*g.*sqrt(AH(i)*dw(i)).*cos(k(i).*center(:,1)-w(i)*t-phaseRand(i));
             f = f + f_tmp.*(cosh(k(i).*(z+wDepth))./cosh(k(i).*wDepth));
         else
             z=(center(:,3)-elv);
-            f_tmp = rho.*g.*sqrt(AH(i)*dw(i)).*cos(k(i).*X-w(i)*t-phaseRand(i));
+            f_tmp = rho.*g.*sqrt(AH(i)*dw(i)).*cos(k(i).*center(:,1)-w(i)*t-phaseRand(i));
             f = f + f_tmp.*exp(k(i).*z);
         end
     end

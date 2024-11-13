@@ -44,17 +44,13 @@ classdef ptoClass<handle
             'lowerLimitTransitionRegionWidth',      1e-4)                   % (`float`) Define lower limit transition region, over which spring and damping values ramp up to full values. Increase for stability. m or deg. ``Default = 1e-4``    
         initial (1,1) struct                        = struct(...            % (`structure`) Defines the PTO initial displacement
             'displacement',                         [0 0 0])                % (`structure`) Defines the initial displacement of the pto. ``displacement`` (`3x1 float vector`) is defined as the initial displacement of the pto [m] in the following format [x y z], Default = [``0 0 0``].
-        extension (1,1) struct                      = struct(...            % (`structure`) Defines the PTO extension
-            'PositionTargetSpecify',                0,...                   % (`float`) Initialize PTO extension. `` '0' or '1' `` Default = '0'.
-            'PositionTargetValue',                  0,...                   % (`float`) Define extension value, in m or deg.
-            'PositionTargetPriority',               'High')                 % (`string`) Specify priority level for extension. `` 'High' or 'Low' `` Default = ``High``.
         location (1,3) {mustBeNumeric}              = [999 999 999]         % (`3x1 float vector`) PTO location [m]. Defined in the following format [x y z]. Default = ``[999 999 999]``.
         name (1,:) {mustBeText}                     = 'NOT DEFINED'         % (`string`) Specifies the pto name. For ptos this is defined by the user, Default = ``NOT DEFINED``. 
         orientation (1,1) struct                    = struct(...            % (`structure`) Defines the PTO orientation
             'z',                                    [0, 0, 1], ...          % 
             'y',                                    [0, 1, 0], ...          % 
             'x',                                    [], ...                 % 
-            'rotationMatrix',                       [])                     % (`structure`) Defines the orientation axis of the pto. ``z`` (`1x3 float vector`) defines the direction of the Z-coordinate of the pto, Default = [``0 0 1``]. ``y`` (`1x3 float vector`) defines the direction of the Y-coordinate of the pto, Default = [``0 1 0``]. ``x`` (`1x3 float vector`) internally calculated vector defining the direction of the X-coordinate for the pto, Default = ``[]``. ``rotationMatrix`` (`3x3 float matrix`) internally calculated rotation matrix to go from standard coordinate orientation to the pto coordinate orientation, Default = ``[]``.
+            'rotationMatrix',                       [])                     % (`structure`) Defines the orientation axis of the pto. ``z`` (`1x3 float vector`) defines the direciton of the Z-coordinate of the pto, Default = [``0 0 1``]. ``y`` (`1x3 float vector`) defines the direciton of the Y-coordinate of the pto, Default = [``0 1 0``]. ``x`` (`1x3 float vector`) internally calculated vector defining the direction of the X-coordinate for the pto, Default = ``[]``. ``rotationMatrix`` (`3x3 float matrix`) internally calculated rotation matrix to go from standard coordinate orientation to the pto coordinate orientation, Default = ``[]``.
         pretension (1,1) {mustBeNumeric}            = 0                     % (`float`) Linear PTO pretension, N or N-m. Default = `0`.
         stiffness (1,:) {mustBeNonnegative}         = 0                     % (`float`) Linear PTO stiffness coefficient. Default = `0`.        
     end
@@ -116,10 +112,6 @@ classdef ptoClass<handle
                 assert(isequal(size(obj.orientation.rotationMatrix)==[3,3],[1,1]),'Input pto.orientation.rotationMatrix should be 3x3')
                 mustBeNumeric(obj.orientation.rotationMatrix)
             end
-            % Extension
-            mustBeMember(obj.extension.PositionTargetSpecify,[0,1])
-            mustBeNumeric(obj.extension.PositionTargetValue)
-            mustBeMember(obj.extension.PositionTargetPriority,{'High','Low'})
         end
         
         function obj = checkLoc(obj,action)               
@@ -206,7 +198,7 @@ classdef ptoClass<handle
                 rotMat = axisAngle2RotMat(axisList(i,:),angleList(i))*rotMat;
             end
             % calculate net axis-angle rotation
-            % [netAxis, netAngle] = rotMat2AxisAngle(rotMat);
+%             [netAxis, netAngle] = rotMat2AxisAngle(rotMat);
             % calculate net displacement due to rotation
             rotatedRelCoord = relCoord*(rotMat');
             linDisp = rotatedRelCoord - relCoord;

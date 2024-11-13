@@ -62,7 +62,6 @@ switch type
         maskVars.inertiaProducts = body(num).inertiaProducts;        % Products of Inertia [kg*m^2]   
         maskVars.nonHydro = body(num).nonHydro;
         maskVars.nonlinearHydro = body(num).nonlinearHydro;
-        maskVars.QTFs = body(num).QTFs;
         maskVars.flex = body(num).flex;
         maskVars.centerGravity = body(num).centerGravity;
         maskVars.centerBuoyancy = body(num).centerBuoyancy;
@@ -157,15 +156,8 @@ end
 
 % Assign values if enabled (not read only) as strings
 for i = 1:length(values)
-    if isequal(names{i,1}, 'h5File')
-        if length(maskVars.(names{i,1})) > 1
-            error('writeBlocksFromInput: Variable hydro not compatible with WEC-Sim GUI - Custom Parameters');
-        else
-            maskVars.(names{i,1}) = maskVars.(names{i,1}){1};
-        end
-    end
     if strcmp(enabled{i},'on')
-        values{i,1} = num2str(maskVars.(names{i,1})); % strings pass through num2str without changing
+        values{i,1} = num2str(maskVars.(names{i,1}));
     end
 end; clear i;
 
