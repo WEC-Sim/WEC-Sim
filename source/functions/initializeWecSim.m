@@ -513,21 +513,17 @@ for iW = 1:length(waves)
 end; clear iW
 fprintf('\nList of Body:\n ');
 fprintf('Number of Hydro Bodies = %u \n',simu.numHydroBodies)
-i = 1; 
-while i <= simu.numHydroBodies
+for i = 1:simu.numHydroBodies
     if body(i).nonHydro == 0
-        body(i).listInfo(i)
+        body(i).listInfo(i,'0')
     end
-    i = i+1;
 end;  clear i
 if numNonHydroBodies ~= 0
     fprintf('\nNumber of Non-Hydro Bodies = %u \n',numNonHydroBodies)
-    i = 1;
-    while i <= numNonHydroBodies
+    for i = 1:(numNonHydroBodies+simu.numHydroBodies)
         if body(i).nonHydro == 1
-            body(i).listInfo(i)
+            body(i).listInfo(i,'1')
         end
-        i = i+1;
     end
 end; clear i
 fprintf('\nList of PTO(s): ');
