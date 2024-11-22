@@ -11,10 +11,10 @@ function T = calcCableTens(stiffness, damping, length, initialLength, position, 
 %        The damping coefficient of the cable, applied when in tension.
 %    
 %    length : float
-%        Equilibrium baseName of the cable
+%        Unstretched cable length
 %
 %    initialLength : float
-%        Initial baseName of the cable (norm(base.location - follower.location))
+%        Initial displacement between the follower and base
 %
 %    position : [1 6] float vector
 %        Distance vector between the follower and base drag bodies relative
@@ -31,7 +31,8 @@ function T = calcCableTens(stiffness, damping, length, initialLength, position, 
 % 
 
 % Calculate distance between the bodies
-positionMagnitude = position(3) + initialLength; % The PTO position does not include the initial displacement, so it is added here
+positionMagnitude = abs(position(3) + initialLength); % The PTO position does not include the initial displacement, so it is added here
+% positionMagnitude = position(3) + initialLength; % The PTO position does not include the initial displacement, so it is added here
 velocityMagnitude = velocity(3);
 
 % Initialize output
@@ -40,8 +41,8 @@ T = 0;
 % If cable in tension, apply 
 if positionMagnitude <= length
     T = 0;
-else 
+else
     T = (-stiffness) * (positionMagnitude - length) + (-damping) * velocityMagnitude;
-end
+end 
 
 end

@@ -300,9 +300,16 @@ classdef cableClass<handle
                 + (obj.base.location(2)-obj.follower.location(2)).^2 ...
                 + (obj.base.location(3)-obj.follower.location(3)).^2) + obj.preTension/obj.stiffness;            
             elseif ~any(obj.preTension) && any(obj.cableLength)
-                obj.preTension = obj.stiffness * (sqrt((obj.base.location(1)-obj.follower.location(1)).^2 ...
-                + (obj.base.location(2)-obj.follower.location(2)).^2 ...
-                + (obj.base.location(3)-obj.follower.location(3)).^2) - obj.cableLength);             
+                % NOTE: pretension is only defined here for easy reference.
+                % Tension calculations in Simulink are only based on the cable length and initial positions 
+                dLength = norm(obj.base.location - obj.follower.location) - obj.cableLength;
+                if dLength > 0
+                    % Initial length is greater than cable length, define
+                    % pretension
+                    obj.preTension = obj.stiffness * dLength;
+                else
+                    obj.preTension = 0;
+                end
             elseif any(obj.preTension) && any(obj.cableLength)
                 error('System overdefined. Please define cable(i).preTension OR cable(i).cableLength, not both.')
             end
