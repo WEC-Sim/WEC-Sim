@@ -61,6 +61,7 @@ classdef waveClass<handle
             'nBins',                                [], ...                 % (`float`) used only in importSpectraFullDir, number of bins in which to discretize directional spreading function. Default = ``'NOT DEFINED'``
             'dirBins',                              [], ...                 % (`float`) used only in importSpectraFullDir, defines bin centers (about mean direction) at which spread function has been evaluated. Default = ``'NOT DEFINED'``
             'spreadWeights',                        [], ...                 % (`float`) used only in importSpectraFullDir, defines spread weights for each dirBin, (num frequencies x nBins). Default = ``'NOT DEFINED'``
+            'spreadBins',                           [], ...                 % (`float`) used only in importSpectraFullDir, defines spread bins...
             'spreadRange',                          2);                     % (`float`) used only in importSpectraFullDir, defines the multiple of spread values (+/-) over which bin energy will be evaluated. Default = ``2``
             
     end
@@ -889,15 +890,15 @@ classdef waveClass<handle
         function spreadFunction(obj)
             % calculates bin weight per direction bins +/- nBins*dirRes around mean direction.
             for k=1:length(obj.freqDepDirection.spreads) % loops over all frequencies
-                spreadBins = linspace(-obj.freqDepDirection.spreads(k,1) .* obj.freqDepDirection.spreadRange ,obj.freqDepDirection.spreads(k,1) .* obj.freqDepDirection.spreadRange,obj.freqDepDirection.nBins+1); % these are bin endpoints: offset is so centers align w/ BEM data if dirRes and direction do as well.
-                temp2 = movmean(spreadBins,2);
-                energyDist(1,:) = (1./(obj.freqDepDirection.spreads(k).*sqrt(2*pi))) .* exp (-(spreadBins.^2) ./ (2.*obj.freqDepDirection.spreads(k).^2));
-                checkSum = trapz(spreadBins,energyDist);
+                obj.freqDepDirection.spreadBins = linspace(-obj.freqDepDirection.spreads(k,1) .* obj.freqDepDirection.spreadRange ,obj.freqDepDirection.spreads(k,1) .* obj.freqDepDirection.spreadRange,obj.freqDepDirection.nBins+1); % these are bin endpoints: offset is so centers align w/ BEM data if dirRes and direction do as well.
+                temp2 = movmean(obj.freqDepDirection.spreadBins,2);
+                energyDist(1,:) = (1./(obj.freqDepDirection.spreads(k).*sqrt(2*pi))) .* exp (-(obj.freqDepDirection.spreadBins.^2) ./ (2.*obj.freqDepDirection.spreads(k).^2));
+                checkSum = trapz(obj.freqDepDirection.spreadBins,energyDist);
                 if checkSum < 0.95 % if this is true, then less than 95% of the initial energy at this frequency is contained over the considered directions.
                     warning('Number of spread bins inadequate at frequency number %i. Directional approximation weak. \n \r', k);
                 end
                 energyDist =  energyDist ./checkSum;    % scales to 1 so no energy loss in included directions (bad approx if warning is flagged)
-                temp = diff(cumtrapz(spreadBins,energyDist));
+                temp = diff(cumtrapz(obj.freqDepDirection.spreadBins,energyDist));
                 obj.freqDepDirection.spreadWeights(k,:) = temp;
                 [temp2,I] = sort(wrapTo180(temp2(2:end) + obj.freqDepDirection.directions(k,:)));     % takes bin centers from previous bin endpoints, add mean direction
                 % sorted tables necessary for compiled interpn
