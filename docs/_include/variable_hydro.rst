@@ -96,7 +96,7 @@ every body in a simulation. To implement variable hydrodynamics for a given body
     BEM directions, calculates the index at a given time, and sends it to a ``GoTo`` block named 
     ``body1_hydroForceIndex``.
 
-    .. figure:: _static/images/variable_hydro_logic_example.png
+    .. figure:: /_static/images/variable_hydro_logic_example.png
         :width: 500pt
         :figwidth: 500pt
         :align: center
