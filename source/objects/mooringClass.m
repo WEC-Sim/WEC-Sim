@@ -83,6 +83,13 @@ classdef mooringClass<handle
             mustBeMember(obj.moorDyn,[0 1])
         end
 
+        function checkPath(obj)
+            % this method checks the moordyn path is correct for reading in outputs
+            assert(isequal(length(strsplit(obj.moorDynInputFile, '.')),2),'MoorDyn input file must only contain a single "." character')
+            assert(isfile(obj.moorDynInputFile), append('The file "', obj.moorDynInputFile, '" does not exist'))
+
+        end
+
         function setInitDisp(obj, relCoord, axisAngleList, addLinDisp)
             % Function to set a mooring's initial displacement
             % 
