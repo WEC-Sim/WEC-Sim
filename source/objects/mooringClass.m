@@ -179,13 +179,14 @@ classdef mooringClass<handle
 
         function callMoorDynLib(obj)
             % Initialize MoorDyn Lib (Windows:dll or OSX:dylib)
-            disp('---------------Starting MoorDyn-----------')
             
             if libisloaded('libmoordyn')
                 calllib('libmoordyn', 'MoorDynClose');
                 unloadlibrary libmoordyn;
             end
             
+            disp('---------------Starting MoorDyn-----------')
+
             if ismac
                 loadlibrary('libmoordyn.dylib','MoorDyn.h');
             elseif ispc
