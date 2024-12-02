@@ -292,7 +292,7 @@ if ~isempty(idx)
     for kk = 1:length(idx)
         ii = idx(kk);
         for iH = 1:length(body(ii).hydroData)
-            body(ii).hydroForcePre(waves(1), simu, iH);
+            body(ii).hydroForcePre(waves, simu, iH);
         end
     end
 end; clear kk idx ii
