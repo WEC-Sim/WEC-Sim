@@ -140,7 +140,7 @@ clear bodiesOutput ptosOutput constraintsOutput ptosimOutput cablesOutput moorin
 % MoorDyn
 for iMoor = 1:simu.numMoorings
     if mooring(iMoor).moorDyn==1
-        output.loadMoorDyn(mooring(iMoor).moorDynLines);
+        output.loadMoorDyn(mooring(iMoor).moorDynLines, mooring(iMoor).moorDynInputFile);
     end
 end; clear iMoor
 
