@@ -322,6 +322,10 @@ classdef waveClass<handle
                             end
                             obj.omega = (minFrequency:(maxFrequency-minFrequency)/(obj.bem.count-1):maxFrequency)';
                             obj.dOmega = ones(obj.bem.count,1).*(maxFrequency-minFrequency)./(obj.bem.count-1);
+                            obj.setWavePhase;
+                            obj.irregWaveSpectrum(g,rho)
+                            obj.wavenumber = calcWaveNumber(obj.omega,obj.waterDepth,g,obj.deepWater);
+                            obj.waveElevIrreg(rampTime, time, obj.dOmega);
                         case {'EqualEnergy'}
                             bemCount_interp = 500000;
                             obj.omega = (minFrequency:(maxFrequency-minFrequency)/bemCount_interp:maxFrequency)';
@@ -329,6 +333,10 @@ classdef waveClass<handle
                             if isempty(obj.bem.count)
                                 obj.bem.count = 500;
                             end
+                            obj.setWavePhase;
+                            obj.irregWaveSpectrum(g,rho)
+                            obj.wavenumber = calcWaveNumber(obj.omega,obj.waterDepth,g,obj.deepWater);
+                            obj.waveElevIrreg(rampTime, time, obj.dOmega);
                         case {'Imported'}
                             data = importdata(obj.spectrumFile);
                             freqData = data(:,1);
@@ -338,6 +346,10 @@ classdef waveClass<handle
                             obj.dOmega(1,1)= obj.omega(2)-obj.omega(1);
                             obj.dOmega(2:obj.bem.count-1,1)=(obj.omega(3:end)-obj.omega(1:end-2))/2;
                             obj.dOmega(obj.bem.count,1)= obj.omega(end)-obj.omega(end-1);
+                            obj.setWavePhase;
+                            obj.irregWaveSpectrum(g,rho)
+                            obj.wavenumber = calcWaveNumber(obj.omega,obj.waterDepth,g,obj.deepWater);
+                            obj.waveElevIrreg(rampTime, time, obj.dOmega);
                         case {'ImportedFullDir'}
                             data = importdata(obj.spectrumFile);
                             freqData = data(:,1);
@@ -351,12 +363,12 @@ classdef waveClass<handle
                             obj.dOmega(obj.bem.count,1)= obj.omega(end)-obj.omega(end-1);
                             % call spreading function
                             obj.spreadFunction;
+                            obj.setWavePhase;
+                            obj.irregWaveSpectrum(g,rho)
+                            obj.wavenumber = calcWaveNumber(obj.omega,obj.waterDepth,g,obj.deepWater);
+                            obj.waveElevFullDir(rampTime, time, obj.dOmega);
 
                     end
-                    obj.setWavePhase;
-                    obj.irregWaveSpectrum(g,rho)
-                    obj.wavenumber = calcWaveNumber(obj.omega,obj.waterDepth,g,obj.deepWater);
-                    obj.waveElevIrreg(rampTime, time, obj.dOmega);
 
                 case {'elevationImport'}    %  This does not account for wave direction
                     % Import 'elevationImport' time-series here and interpolate
@@ -850,7 +862,7 @@ classdef waveClass<handle
                     for j = 1:SZwaveAmpTimeViz(1)
                         tmp14 = tmp.*real(exp(sqrt(-1).*(repmat(obj.omega,[1,obj.freqDepDirection.nBins]).*timeseries(i) ...
                             - repmat(obj.wavenumber,[1,obj.freqDepDirection.nBins]).*(obj.marker.location(j,1).*cos(obj.freqDepDirection.dirBins*pi/180) ...
-                            + obj.marker.location(j,2).*sin(obj.freqDepDirection.dirBins.*pi/180)) + obj.phase)));
+                            + obj.marker.location(j,2).*sin(obj.freqDepDirection.dirBins.*pi/180)) + obj.phase.')));
                         obj.waveAmpTimeViz(i,j+1) = rampFunction(i).*sum(tmp14,'all');
                     end
                 end
