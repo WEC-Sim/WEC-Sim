@@ -842,8 +842,8 @@ classdef waveClass<handle
             end
             % Calculate eta at origin (0,0,0)
             for i = 1:length(timeseries)
-                tmp  = sqrt(repmat(obj.amplitude,[1,obj.freqDepDirection.nBins]).*df.*obj.freqDepDirection.spreadBins);
-                tmp1 = tmp.*real(exp(sqrt(-1).*(repmat(obj.omega,[1,obj.freqDepDirection.nBins]).*timeseries(i) + obj.phase)));
+                tmp  = sqrt(repmat(obj.amplitude,[1,obj.freqDepDirection.nBins]).*repmat(df,[1,obj.freqDepDirection.nBins]).*obj.freqDepDirection.spreadWeights);
+                tmp1 = tmp.*real(exp(sqrt(-1).*(repmat(obj.omega,[1,obj.freqDepDirection.nBins]).*timeseries(i) + obj.phase.')));
                 obj.waveAmpTime(i,2) = rampFunction(i)*sum(tmp1,'all');
 
                 if ~isempty(obj.marker.location);
