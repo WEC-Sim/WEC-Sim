@@ -207,16 +207,17 @@ depending on which wave type is selected, as shown in the table below. A more
 detailed description of the available wave types is given in the following 
 sections. 
 
-=================== ==================================================================
-**Wave Type**       **Required Properties**                         
-``noWave``          ``waves.period``                                     
+========================== ==================================================================
+**Wave Type**              **Required Properties**                         
+``noWave``                 ``waves.period``                                     
 ``noWaveCIC``                                                      
-``regular``         ``waves.height``, ``waves.period``                        
-``regularCIC``      ``waves.height``, ``waves.period``                        
-``irregular``       ``waves.height``, ``waves.period``, ``waves.spectrumType``
-``spectrumImport``  ``waves.spectrumFile``                      
-``elevationImport`` ``waves.elevationFile``                           
-=================== ==================================================================
+``regular``                ``waves.height``, ``waves.period``                        
+``regularCIC``             ``waves.height``, ``waves.period``                        
+``irregular``              ``waves.height``, ``waves.period``, ``waves.spectrumType``
+``spectrumImport``         ``waves.spectrumFile`` 
+``spectrumImportFullDir``  ``waves.spectrumFile``, ``waves.freqDepDirection.nBins``                 
+``elevationImport``        ``waves.elevationFile``                           
+========================== ==================================================================
 
 Available wave class properties, default values, and functions can be found by 
 typing ``doc waveClass`` in the MATLAB command window, or by opening the 
@@ -329,11 +330,28 @@ in the input file::
     waves.spectrumFile ='<spectrumFile >.mat';
 
 .. Note::
-    When using the ``spectrumImport`` option, users must specify a sufficient 
+    When using the ``spectrumImport`` or ``spectrumImportFullDir`` option, users must specify a sufficient 
     number of wave frequencies (typically ~1000) to adequately describe the 
     wave spectra. These wave frequencies are the same that will be used to 
     define the wave forces on the WEC, for more information refer to the 
     :ref:`user-advanced-features-irregular-wave-binning` section.
+	
+spectrumImportFullDir
+"""""""""""""""""""""
+
+The ``spectrumImportFullDir`` case is for irregular wave simulations where the imported wave spectrum
+has frequency-dependent directions and/or spread values (ex: from buoy data). The user-defined spectrum
+must be defined with the wave frequency (Hz) in the first column, the spectral energy density (m^2/Hz) in the second column,
+the mean direction (degrees) in the third column, and the spread (degress) in the fourth column. 
+
+If specified, wave phase must be a rectangular matrix of size [i,j], where :math:`i` is the number of wave frequencies and :math:`j`
+is the number of directional bins. To generate a random spectra, specifying a single phase seed value (e.g., waves.phaseSeed = 128) is sufficient
+to ensure that the generated wave spectra is repeatable. 
+
+.. Note::
+    The default spread function is a Gaussian discretized into ``waves.freqDepDirection.nBins`` defined at each frequency for a mean direction (third column) and standard deviation (fourth column) over a range defined by ``waves.freqDepDirection.spreadRange`` (default = 2, so that the Gaussian will be defined for +/-2 standard deviations). It is recommended that this range is at least 2, though it will be normalized in any case so that energy is not lost due to discretization. 
+	
+	At this time, this wave spectra does **NOT** work with nonlinear hydrodynamics.
 
 elevationImport
 """""""""""""""

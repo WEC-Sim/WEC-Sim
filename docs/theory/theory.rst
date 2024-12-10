@@ -512,7 +512,7 @@ formulation of :math:`D\left( \theta \right)` requires that
                                     \int_{0}^{\infty} S\left( f \right) df
 
 so that the total energy in the directional spectrum must be the same as the 
-total energy in the one-dimensional spectrum. 
+total energy in the one-dimensional spectrum. An example one-dimensional spectrum is.
 
 .. math::
 
@@ -532,7 +532,33 @@ significant wave height :math:`H_{m0}` (in m), as:
 
 .. math::
     H_{m0} = 4 \sqrt{m_{0}}~~
+	
+Frequency-varying direction and spread
+""""""""""""""""""""""""""""""""""""""""""""""
+
+A more general description of a wave field can be expressed
+
+.. math::
+	S(\omega,\theta)=S(\omega)D(\omega,\theta)
     
+where :math:`D(\omega,\theta)` indicates that the directional components of a wave can also
+vary with frequency. The total energy in the directional spectrum must be the same at each frequency
+as the total energy in the one-dimensional spectrum. At each frequency,:math:`D(\theta)` is often parameterized by an
+analytical distribution about a mean value, called a spreading function. The default spreading function
+used by WEC-Sim is a Gaussian defined by a mean :math:`\theta` and a standard deviation `\psi`.
+
+.. math::
+	D(\overline{\theta},\psi) = \frac{1}{\psi \sqrt(2 \pi)}\exp(-\overline{\theta}^2/(2\psi^2)) 
+
+When treated computationally, :math:`D(\overline{\theta},\psi)` must be discretized into a finite number
+of bins spanning a non-infinite range: in order to ensure that the total energy is preserved, the resulting
+discretization of :math:`D(\overline{\theta},\psi)` must be normalized by the fraction of energy contained in the included bins. The wave elevation for frequency-varying direction and spread can then be expressed as
+
+.. math::
+	\eta(x,y,t)\ = \sum_i \sum_j\ \sqrt{2S(\omega_i)(P(\omega_i,\theta_j))(\Delta f)}(\cos(\omega_i\ t\ -\ k_i(x \cos(\theta_j) + y \sin(\theta_j))+ \phi_{ij})
+
+where :math:`(P(\omega_n,\theta_m))` is the appropriate normalization of :math:`D(\omega,\theta)` into :math:`j` directional bins. Note that the phase :math:`\phi_{ij}` must be specified in both frequency and direction. 
+
 Irregular Wave Power
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
