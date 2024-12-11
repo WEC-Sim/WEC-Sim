@@ -449,9 +449,10 @@ for ii=1:length(body(1,:))
     eval(['sv_regularWavesYaw_b' num2str(ii) '= Simulink.Variant(''typeNum>=10 && typeNum<20 && yaw_' num2str(ii) '==1'');'])
     eval(['sv_irregularWaves_b' num2str(ii) '= Simulink.Variant(''typeNum>=20 && typeNum<30 && yaw_' num2str(ii) '==0'');'])
     eval(['sv_irregularWavesYaw_b' num2str(ii) '= Simulink.Variant(''typeNum>=20 && typeNum<30 && yaw_' num2str(ii) '==1'');'])
+    eval(['sv_fullDirIrregularWaves_b' num2str(ii) '= Simulink.Variant(''typeNum>=35 && typeNum<40'');'])
 end; clear ii
 
-sv_udfWaves=Simulink.Variant('typeNum>=30');
+sv_udfWaves=Simulink.Variant('typeNum>=40');
 
 % Body2Body
 B2B = simu.b2b;
@@ -498,7 +499,7 @@ try
 end
 
 % Visualization Blocks
-if ~isempty(waves(1).marker.location) && typeNum < 30
+if ~isempty(waves(1).marker.location) && typeNum < 40
     visON = 1;
 else
     visON = 0;
