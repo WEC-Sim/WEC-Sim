@@ -512,11 +512,21 @@ simu.listInfo(waves(1).typeNum);
 for iW = 1:length(waves)
     waves(iW).listInfo();
 end; clear iW
-fprintf('\nList of Body: ');
-fprintf('Number of Bodies = %u \n',simu.numHydroBodies)
+fprintf('\nList of Body:\n ');
+fprintf('Number of Hydro Bodies = %u \n',simu.numHydroBodies)
 for i = 1:simu.numHydroBodies
-    body(i).listInfo
+    if body(i).nonHydro == 0
+        body(i).listInfo(i,'0')
+    end
 end;  clear i
+if numNonHydroBodies ~= 0
+    fprintf('\nNumber of Non-Hydro Bodies = %u \n',numNonHydroBodies)
+    for i = 1:(numNonHydroBodies+simu.numHydroBodies)
+        if body(i).nonHydro == 1
+            body(i).listInfo(i,'1')
+        end
+    end
+end; clear i
 fprintf('\nList of PTO(s): ');
 if (exist('pto','var') == 0)
     fprintf('No PTO in the system\n')
