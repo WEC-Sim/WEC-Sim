@@ -137,7 +137,7 @@ classdef windTurbineClass<handle
                 if isempty(obj.omega0)
                     obj.omega0=obj.ROSCO.SS.omega_rated;
                 end
-                if isempty(obj.omega0)
+                if isempty(obj.bladepitch0)
                     obj.bladepitch0=obj.ROSCO.SS.theta_rated;
                 end
                 if isempty(obj.GenTorque0)
@@ -148,7 +148,7 @@ classdef windTurbineClass<handle
                  if isempty(obj.omega0)
                     obj.omega0=obj.Baseline.SS.omega_rated;
                 end
-                if isempty(obj.omega0)
+                if isempty(obj.bladepitch0)
                     obj.bladepitch0=obj.Baseline.SS.theta_rated;
                 end
                 if isempty(obj.GenTorque0)
