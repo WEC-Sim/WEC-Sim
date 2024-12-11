@@ -498,7 +498,7 @@ try
 end
 
 % Visualization Blocks
-if ~isempty(waves(1).marker.location) && typeNum < 30
+if ~isempty(waves(1).marker.location) && typeNum < 40
     visON = 1;
 else
     visON = 0;
