@@ -39,7 +39,9 @@
 %
 %   'rotationTest'    Run rotation tests. Default is true.
 %
-%   'devTest'         Run developer focussed tests. Default is true.
+%   'devTest'         Run developer focused tests. Default is true.
+%
+%   'devTest'         Run cable tension tests. Default is true.
 %
 %   Users should also run the appropriate applications tests when
 %   creating a PR into the WEC-Sim repository.
@@ -53,6 +55,7 @@ function results = wecSimTest(options)
         options.runFromSimTest = true
         options.rotationTest = true
         options.devTest = true
+        options.cableTensionTest = true
     end
     
     % Import MATLAB unittest
@@ -83,6 +86,10 @@ function results = wecSimTest(options)
     
     if options.devTest
         suites = [suites TestSuite.fromFolder('tests/devTests')];
+    end
+    
+    if options.cableTensionTest
+        suites = [suites TestSuite.fromFile('tests/cableTensionTest.m')];
     end
     
     % Create TestRunner
