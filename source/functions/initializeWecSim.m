@@ -139,10 +139,10 @@ if exist('mooring','var') == 1
         mooring(ii).setLoc();
         mooring(ii).setNumber(ii);
         if mooring(ii).lookupTableFlag == 1
-            mooring(ii).checkPath();
             mooring(ii).loadLookupTable();
         end
         if mooring(ii).moorDyn == 1
+            mooring(ii).checkPath();
             simu.numMoorDyn = simu.numMoorDyn+1;
         end
     end; clear ii
