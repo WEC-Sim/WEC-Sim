@@ -396,12 +396,13 @@ classdef bodyClass<handle
             obj.hydroForce.hf1.linearDamping = obj.linearDamping;
             obj.dof = length(obj.quadDrag.drag);
         end
-
-        function hydroForcePre(obj, waves, simu, iH)
+        
+        function hydroForcePre(obj, waveObj, simu, iH)
             % HydroForce Pre-processing calculations
             % 1. Set the linear hydrodynamic restoring coefficient, viscous drag, and linear damping matrices
             % 2. Set the wave excitation force
             % 3. Loop through all included hydroData files
+            waves = waveObj(1);
             w = waves.omega; 
             direction = waves.direction;
             cicTime = simu.cicTime;
@@ -496,7 +497,7 @@ classdef bodyClass<handle
                 if ~isfield(obj.hydroData(iH).hydro_coeffs.excitation, 'QTFs')
                     error('QTF coefficients are not defined for the body object "%s"', obj.name);
                 else
-                    obj.qtfExcitation(waveAmpTime, iH);
+                    obj.qtfExcitation(waveObj, iH);
                 end
             end
         end
@@ -754,10 +755,17 @@ classdef bodyClass<handle
             obj.hydroForce.(hfName).fExt.im=zeros(1,nDOF);
         end
 
-        function qtfExcitation(obj, waveAmpTime, iH)
+        function qtfExcitation(obj, wavesObj, iH)
             % second order excitation force
             % Used by hydroForcePre
             hfName = ['hf' num2str(iH)];
+            
+            waveAmpTime(:,1) = wavesObj(1).waveAmpTime(:,1);
+            waveAmpTime(:,2) = wavesObj(1).waveAmpTime(:,2);
+
+            for iWaves = 2 : length(wavesObj)
+                waveAmpTime(:,2) = waveAmpTime(:,2) + wavesObj(iWaves).waveAmpTime(:,2);
+            end
 
             F_max = 1 / (waveAmpTime(2,1) - waveAmpTime(1,1)); % Maximum samplng freq.
             Amp_freq = fft(waveAmpTime(:,2));
