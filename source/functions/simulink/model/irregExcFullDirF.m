@@ -6,11 +6,11 @@ A1=bsxfun(@plus,w*time,pi/2);
 A1=repmat(A1,1,nBins);
 A = repmat(A,1,nBins);
 %initialize outputs
-Fext = zeros(1,6);
+Fext = zeros(1,size(dofGRD,1));
 relYawLast=zeros(M,N);
-coeffsLastMD=zeros(N,M,6); %  dirBins, freq, dof
-coeffsLastRE=zeros(N,M,6);
-coeffsLastIM=zeros(N,M,6);
+coeffsLastMD=zeros(N,M,size(dofGRD,1)); %  dirBins, freq, dof
+coeffsLastRE=zeros(N,M,size(dofGRD,1));
+coeffsLastIM=zeros(N,M,size(dofGRD,1));
 
 relYaw = dirBins-(Disp(6)*180/pi); % relative yaw angle, size = dirBins = [length(w) nBins]
 
@@ -28,7 +28,7 @@ else
     I=1:length(relYaw(1,:));
 end
 
- relYawGRD = zeros([6 size(relYaw.')]);
+ relYawGRD = zeros([size(dofGRD,1) size(relYaw.')]);
  for k=1:6
      relYawGRD(k,:,:) = relYaw.';
  end
@@ -96,7 +96,7 @@ B1= sin(bsxfun(@plus,A1,phaseRand(:,:,1)));
 B11 = sin(bsxfun(@plus,w*time,phaseRand(:,:,1)));
 C0 = bsxfun(@times,A.*spreadBins,dw);
 C1 = sqrt(bsxfun(@times,A.*spreadBins.^2,dw));
-for k=1:6
+for k=1:size(dofGRD,1)
     D0 =bsxfun(@times,fExtMDint(:,:,k).',C0);
     D1 =bsxfun(@times,fExtREint(:,:,k).',C1);
     D11 = bsxfun(@times,fExtIMint(:,:,k).',C1);
