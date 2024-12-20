@@ -949,7 +949,12 @@ This implies that this adjustment is only valid for cases where the lateral velo
 .. Note::
 
 	This feature has not been implemented for a user-defined wave elevation.
-	
+
+Variable Hydrodynamics
+^^^^^^^^^^^^^^^^^^^^^^
+
+.. include:: /_include/variable_hydro.rst
+
 
 .. _user-advanced-features-pto:
 

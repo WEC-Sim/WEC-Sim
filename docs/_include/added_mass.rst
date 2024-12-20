@@ -123,8 +123,8 @@ Working with the Added Mass Implementation
 
 WEC-Sim's added mass implementation should not affect a user's modeling workflow.
 WEC-Sim handles the manipulation and restoration of the mass and forces in the bodyClass functions ``adjustMassMatrix()`` called by ``initializeWecSim`` and ``restoreMassMatrix``, ``storeForceAddedMass`` called by ``postProcessWecSim``.
-However viewing ``body.mass, body.inertia, body,inertiaProducts, body.hydroForce.fAddedMass`` between calls to ``initializeWecSim`` and ``postProcessWecSim`` will not show the input file definitions.
-Users can get the manipulated mass matrix, added mass coefficients, added mass force and total force from ``body.hydroForce.storage`` after the simulation.
+However viewing ``body.mass, body.inertia, body,inertiaProducts, body.hydroForce.hf*.fAddedMass`` between calls to ``initializeWecSim`` and ``postProcessWecSim`` will not show the input file definitions.
+Users can get the manipulated mass matrix, added mass coefficients, added mass force and total force from ``body.hydroForce.hf*.storage`` after the simulation.
 However, in the rare case that a user wants to manipulate the added mass force *during* a simulation, the change in mass, :math:`dMass` above, must be taken into account. Refer to how ``body.calculateForceAddedMass()`` calculates the entire added mass force in WEC-Sim post-processing.
 
 .. Note:: If applying the method in ``body.calculateForceAddedMass()`` *during* the simulation, the negative of ``dMass`` must be taken: :math:`dMass = -dMass`. This must be accounted for because the definitions of mass, inertia, etc and their stored values are flipped between simulation and post-processing.
