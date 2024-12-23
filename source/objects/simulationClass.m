@@ -85,7 +85,7 @@ classdef simulationClass<handle
         date                = datetime                                     % (`string`) Simulation date and time
         gitCommit           = []                                           % (`string`) GitHub commit
         maxIt               = []                                           % (`integer`) Total number of simulation time steps. Approximate for variable step solvers. Default = dependent
-        wsVersion           = '6.1'                                      % (`string`) WEC-Sim version
+        wsVersion           = '6.1.2'                                      % (`string`) WEC-Sim version
     end
 
     methods
