@@ -29,14 +29,14 @@ To cite WEC-Sim, please use the citation for WEC-Sim software release and/or cit
                           Salman Husain,
                           Jorge Leon,
                           David Ogden,
-                          Mohamed Shabara},
-	  title        = {WEC-Sim v6.1},
-	  month        = September,
+                          Mohamed A. Shabara},
+	  title        = {WEC-Sim v6.1.2},
+	  month        = December,
 	  year         = 2024,
 	  publisher    = {Zenodo},
-	  version      = {v6.1},
-	  doi          = {10.5281/zenodo.10023797},
-	  url          = {https://doi.org/10.5281/zenodo.13770349}
+	  version      = {v6.1.2},
+	  doi          = {10.5281/zenodo.14549050},
+	  url          = {https://doi.org/10.5281/zenodo.14549050}
 	}
     
 
