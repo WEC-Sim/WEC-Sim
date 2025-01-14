@@ -16,7 +16,7 @@ function f  = secondOrderExt(time_vector,fastVaryingForce,slowVaryingForce,t)
 % - Current WEC-Sim version solves the Full QTFs. 
 % - Single wave direction is assumed.
 
-[~,Index] = min(time_vector - t);
+[~,Index] = min(abs(time_vector - t));
 
 f = fastVaryingForce(Index,:)' + slowVaryingForce(Index,:)';
 
