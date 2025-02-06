@@ -17,9 +17,9 @@ classdef cicTest < matlab.unittest.TestCase
         function obj = cicTest()
             % Calculate the test parameters
             cicEndTime = 20;
-            dt = 0.01;
+            dt = 0.1;
             cicTime = 0:dt:cicEndTime;
-            time = [0:0.01:3*cicEndTime]';
+            time = [0:dt:3*cicEndTime]';
             nt = length(time);
             nDOF = 6;
             lDOF = 12;
