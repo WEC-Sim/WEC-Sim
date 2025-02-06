@@ -57,18 +57,18 @@ classdef cicTest < matlab.unittest.TestCase
 
         function calcForceRadSurface(testCase)
             % Test CI surface calculation without switching variable hydro states
-            clear ConvolutionIntegral_surface
+            clear convolutionIntegralSurface
             tmp = cputime;
             for it = 1:size(testCase.velocity,1)
-                testCase.FradS1(it,:) = ConvolutionIntegral_surface(testCase.velocity(it,:), 1, 1, testCase.irkbInput, testCase.cicTime);
+                testCase.FradS1(it,:) = convolutionIntegralSurface(testCase.velocity(it,:), 1, 1, testCase.irkbInput, testCase.cicTime);
             end
             testCase.ts1 = cputime - tmp;
             
             % Test CI surface calculation while switching variable hydro states
-            clear ConvolutionIntegral_surface
+            clear convolutionIntegralSurface
             tmp = cputime;
             for it = 1:size(testCase.velocity,1)
-                testCase.FradS2(it,:) = ConvolutionIntegral_surface(testCase.velocity(it,:), testCase.hydroForceIndex(it), 1, testCase.irkbInput, testCase.cicTime);
+                testCase.FradS2(it,:) = convolutionIntegralSurface(testCase.velocity(it,:), testCase.hydroForceIndex(it), 1, testCase.irkbInput, testCase.cicTime);
             end
             testCase.ts2 = cputime - tmp;
         end

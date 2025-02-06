@@ -1,4 +1,4 @@
-function Frad = ConvolutionIntegral_surface(velocity, hydroForceIndex, hydroForceIndexInitial, irkbSurfaceInput, cicTime)
+function Frad = convolutionIntegralSurface(velocity, hydroForceIndex, hydroForceIndexInitial, irkbSurfaceInput, cicTime)
 %#codegen
 % Function to calculate convolution integral from a surface varying in
 % time, DOF, and variable hydro state. 
