@@ -37,6 +37,7 @@ classdef simulationClass<handle
         endTime (1,:) {mustBeScalarOrEmpty}             = []                % (`float`) Simulation end time. Default = ``[]``
         explorer (1,:) {mustBeText}                     = 'on'              % (`string`) SimMechanics Explorer 'on' or 'off'. Default = ``'on'``
         gravity (1,1) {mustBePositive}                  = 9.81              % (`float`) Acceleration due to gravity. Default = ``9.81`` m/s
+        keepPool (1,1) logical                          = 1                 % (`logical`) Flag to keep parallel pool open after use of wecSimPCT. Default = ``1``
         mcrMatFile (1,:) {mustBeText}                   = ''                % (`string`) mat file that contain a list of the multiple conditions runs with given conditions. Default = ``[]``  
         mcrExcelFile (1,:) {mustBeText}                 = ''                % (`string`) File name from which to load wave statistics data. Default = ``[]``        
         mode (1,:) {mustBeText}                         = 'normal'          % (`string`) Simulation execution mode, 'normal', 'accelerator', 'rapid-accelerator'. Default = ``'normal'``
@@ -46,7 +47,7 @@ classdef simulationClass<handle
             'option',                                   0,...               % 
             'startTime',                                [], ...             %
             'endTime',                                  [], ...             %
-            'dt',                                       [], ...            % 
+            'dt',                                       [], ...             % 
             'path',                                     'vtk')              % (`structure`) Defines the Paraview visualization. ``option`` (`integer`) Flag for paraview visualization, and writing vtp files, Options: 0 (off) , 1 (on). Default = ``0``. ``startTime`` (`float`) Start time for the vtk file of Paraview. Default = ``0``. ``endTime`` (`float`) End time for the vtk file of Paraview. Default = ``100``.  ``dt`` (`float`) Timestep for Paraview. Default = ``0.1``. ``path`` (`string`) Path of the folder for Paraview vtk files. Default = ``'vtk'``.      
         pressure (1,1) {mustBeInteger}                  = 0                 % (`integer`) Flag to save pressure distribution, Options: 0 (off), 1 (on). Default = ``0``
         rampTime (1,1) {mustBeNumeric}                  = 100               % (`float`) Ramp time for wave forcing. Default = ``100`` s        

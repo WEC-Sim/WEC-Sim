@@ -27,11 +27,14 @@ global mcr
 p = parcluster('local');
 totalNumOfWorkers=p.NumWorkers;
 
-% open the parallel pool, recording the time it takes
-tic;
-parpool(p); % open the pool
+% If it isn't already open, open the parallel pool, recording the time it takes
 
-fprintf('Opening the parallel pool took %g seconds.\n', toc)
+if isempty(gcp('nocreate'))
+    tic
+    parpool(p); % open the pool
+
+    fprintf('Opening the parallel pool took %g seconds.\n', toc)
+end
 
 evalc('wecSimInputFile');
 
@@ -114,6 +117,7 @@ parfor imcr=1:length(mcr.cases(:,1))
 end
 
 clear imcr totalNumOfWorkers
-delete(gcp); % close the parallel pool
-
+if simu.keepPool == 0
+    delete(gcp); % close the parallel pool
+end
 
