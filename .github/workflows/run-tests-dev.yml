@@ -46,7 +46,7 @@ jobs:
           products: Simulink Simscape Simscape_Multibody
 
       - name: Install WEC-Sim, run tests and generate artifacts
-        uses: matlab-actions/run-command@v2
+        uses: matlab-actions/run-command@v2.1.1
         with:
           command: |
             addpath(genpath('source')),
