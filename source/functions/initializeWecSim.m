@@ -142,6 +142,7 @@ if exist('mooring','var') == 1
             mooring(ii).loadLookupTable();
         end
         if mooring(ii).moorDyn == 1
+            mooring(ii).checkPath();
             simu.numMoorDyn = simu.numMoorDyn+1;
         end
     end; clear ii
@@ -292,7 +293,7 @@ if ~isempty(idx)
     for kk = 1:length(idx)
         ii = idx(kk);
         for iH = 1:length(body(ii).hydroData)
-            body(ii).hydroForcePre(waves(1), simu, iH);
+            body(ii).hydroForcePre(waves, simu, iH);
         end
     end
 end; clear kk idx ii
@@ -448,9 +449,10 @@ for ii=1:length(body(1,:))
     eval(['sv_regularWavesYaw_b' num2str(ii) '= Simulink.Variant(''typeNum>=10 && typeNum<20 && yaw_' num2str(ii) '==1'');'])
     eval(['sv_irregularWaves_b' num2str(ii) '= Simulink.Variant(''typeNum>=20 && typeNum<30 && yaw_' num2str(ii) '==0'');'])
     eval(['sv_irregularWavesYaw_b' num2str(ii) '= Simulink.Variant(''typeNum>=20 && typeNum<30 && yaw_' num2str(ii) '==1'');'])
+    eval(['sv_fullDirIrregularWaves_b' num2str(ii) '= Simulink.Variant(''typeNum>=35 && typeNum<40'');'])
 end; clear ii
 
-sv_udfWaves=Simulink.Variant('typeNum>=30');
+sv_udfWaves=Simulink.Variant('typeNum>=40');
 
 % Body2Body
 B2B = simu.b2b;
@@ -497,7 +499,7 @@ try
 end
 
 % Visualization Blocks
-if ~isempty(waves(1).marker.location) && typeNum < 30
+if ~isempty(waves(1).marker.location) && typeNum < 40
     visON = 1;
 else
     visON = 0;
@@ -511,11 +513,21 @@ simu.listInfo(waves(1).typeNum);
 for iW = 1:length(waves)
     waves(iW).listInfo();
 end; clear iW
-fprintf('\nList of Body: ');
-fprintf('Number of Bodies = %u \n',simu.numHydroBodies)
+fprintf('\nList of Body:\n ');
+fprintf('Number of Hydro Bodies = %u \n',simu.numHydroBodies)
 for i = 1:simu.numHydroBodies
-    body(i).listInfo
+    if body(i).nonHydro == 0
+        body(i).listInfo(i,'0')
+    end
 end;  clear i
+if numNonHydroBodies ~= 0
+    fprintf('\nNumber of Non-Hydro Bodies = %u \n',numNonHydroBodies)
+    for i = 1:(numNonHydroBodies+simu.numHydroBodies)
+        if body(i).nonHydro == 1
+            body(i).listInfo(i,'1')
+        end
+    end
+end; clear i
 fprintf('\nList of PTO(s): ');
 if (exist('pto','var') == 0)
     fprintf('No PTO in the system\n')

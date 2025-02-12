@@ -321,7 +321,7 @@ classdef responseClass<handle
             end
         end
         
-        function obj = loadMoorDyn(obj,linesNum)            
+        function obj = loadMoorDyn(obj,linesNum, inputFile)            
             % This method reads MoorDyn outputs for each instance of the
             % ``mooringClass``
             %            
@@ -329,15 +329,25 @@ classdef responseClass<handle
             % ------------
             %     linesNum : integer
             %         the number of MoorDyn lines
+            %     inputFile : text
+            %         the infile text name 
             %
             
             arguments
                 obj
                 linesNum (1,1) double {mustBeInteger}
+                inputFile (1,:) {mustBeText}
             end
             
-            % load Lines.out
-            filename = './Mooring/Lines.out';
+            % load out files. First find the path and rootname. 
+            inputStrings = strsplit(inputFile, '.');
+
+            if length(inputStrings)> 2
+                error('MoorDyn input file path and root cannot contain "." characters') % this is already checked when mooring class is set up but double checking again
+            end
+            
+            fileRootPath = char(inputStrings(1));
+            filename = append(fileRootPath,'.out');
             fid = fopen(filename, 'r');
             header = strsplit(fgetl(fid));
             data = dlmread(filename,'',1,0);
@@ -350,7 +360,7 @@ classdef responseClass<handle
             % load Line#.out
             for iline=1:linesNum
                 eval(['obj.moorDyn.Line' num2str(iline) '=struct();']);
-                filename = ['./Mooring/lines_Line' num2str(iline) '.out'];
+                filename = [append(fileRootPath,'_Line') num2str(iline) '.out'];
                 try
                     fid = fopen(filename);
                     header = strsplit(strtrim(fgetl(fid)));
