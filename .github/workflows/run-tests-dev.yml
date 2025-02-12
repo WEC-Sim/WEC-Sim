@@ -30,6 +30,17 @@ jobs:
       - name: Check out LFS objects
         run: git lfs checkout
 
+      - name: Update libstdc++  and LD_LIBRARY_PATH  (Linux only)
+        if: matrix.os == 'ubuntu-latest'
+        run: |
+          sudo add-apt-repository -y ppa:ubuntu-toolchain-r/test
+          sudo apt install -y g++-11
+          strings /usr/lib/x86_64-linux-gnu/libstdc++.so.6 | grep GLIBCXX
+
+      - name: Check libstdc++ version
+        run: |
+            dpkg-query -l | grep libstdc++
+
       - name: Install MATLAB
         uses: matlab-actions/setup-matlab@v2.3.0
         with:
