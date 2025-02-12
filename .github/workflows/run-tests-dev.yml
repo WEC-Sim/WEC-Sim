@@ -30,15 +30,22 @@ jobs:
       - name: Check out LFS objects
         run: git lfs checkout
 
-      - name: Update libstdc++ (Linux only)
+      - name: Update libstdc++  and LD_LIBRARY_PATH  (Linux only)
         if: matrix.os == 'ubuntu-latest'
         run: |
           sudo apt-get update
-          sudo apt-get install gcc-4.9
-          sudo add-apt-repository ppa:ubuntu-toolchain-r/test -y
+          sudo apt-get install -y build-essential gcc-11 g++-11
+          # Check and replace libstdc++ if necessary for all installed MATLAB versions
+          for version in /opt/hostedtoolcache/MATLAB/*/x64/sys/os/glnxa64; do
+            if [ -f "$version/libstdc++.so.6" ]; then
+              echo "Replacing libstdc++.so.6 for MATLAB version $version"
+              sudo mv $version/libstdc++.so.6 $version/libstdc++.so.6.bak
+              sudo ln -s /usr/lib/x86_64-linux-gnu/libstdc++.so.6 $version/libstdc++.so.6
+            fi
+          done
 
-          sudo apt-get upgrade libstdc++6
-          sudo apt-get dist-upgrade
+          # Update LD_LIBRARY_PATH
+          echo "LD_LIBRARY_PATH=/usr/lib/x86_64-linux-gnu:\$LD_LIBRARY_PATH" >> $GITHUB_ENV
           strings /usr/lib/x86_64-linux-gnu/libstdc++.so.6 | grep GLIBCXX
 
       - name: Install MATLAB
