@@ -26,13 +26,23 @@ jobs:
         uses: actions/checkout@v4
         with:
           lfs: true
+          
       - name: Check out LFS objects
         run: git lfs checkout
+
+      - name: Update libstdc++ (Linux only)
+        if: matrix.os == 'ubuntu-latest'
+        run: |
+          sudo apt-get update
+          sudo apt-get install -y libstdc++6
+          strings /usr/lib/x86_64-linux-gnu/libstdc++.so.6 | grep GLIBCXX
+
       - name: Install MATLAB
         uses: matlab-actions/setup-matlab@v2
         with:
           release: ${{ matrix.release }}
           products: Simulink Simscape Simscape_Multibody
+
       - name: Install WEC-Sim, run tests and generate artifacts
         uses: matlab-actions/run-command@v2
         with:
