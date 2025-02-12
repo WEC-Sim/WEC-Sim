@@ -41,14 +41,17 @@ jobs:
           sudo apt-get dist-upgrade
           strings /usr/lib/x86_64-linux-gnu/libstdc++.so.6 | grep GLIBCXX
 
+      - name: Check MATLAB library path
+        run: ldd /opt/hostedtoolcache/MATLAB/2023.2.999/x64/bin/glnxa64/matlab | grep libstdc++
+
       - name: Install MATLAB
-        uses: matlab-actions/setup-matlab@v2
+        uses: matlab-actions/setup-matlab@v2.3.0
         with:
           release: ${{ matrix.release }}
           products: Simulink Simscape Simscape_Multibody
 
       - name: Install WEC-Sim, run tests and generate artifacts
-        uses: matlab-actions/run-command@v2
+        uses: matlab-actions/run-command@v2.1.1
         with:
           command: |
             addpath(genpath('source')),
