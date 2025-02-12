@@ -30,21 +30,9 @@ jobs:
       - name: Check out LFS objects
         run: git lfs checkout
 
-      - name: Update libstdc++  and LD_LIBRARY_PATH  (Linux only)
-        if: matrix.os == 'ubuntu-latest'
+      - name: Check libstdc++ version
         run: |
-          sudo add-apt-repository ppa:ubuntu-toolchain-r/test 
-          sudo apt-get update
-          sudo apt-get install gcc-4.9
-          sudo apt-get upgrade libstdc++6
-
-          sudo apt-get dist-upgrade
-          strings /usr/lib/x86_64-linux-gnu/libstdc++.so.6 | grep GLIBCXX
-          echo $LD_LIBRARY_PATH
-          export LD_LIBRARY_PATH=/lib/x86_64-linux-gnu:$LD_LIBRARY_PATH
-
-
-
+            dpkg-query -l | grep libstdc++
 
       - name: Install MATLAB
         uses: matlab-actions/setup-matlab@v2.3.0
