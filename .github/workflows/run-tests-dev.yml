@@ -26,13 +26,14 @@ jobs:
         uses: actions/checkout@v4
         with:
           lfs: true
-          
+
       - name: Check out LFS objects
         run: git lfs checkout
 
       - name: Update libstdc++ (Linux only)
         if: matrix.os == 'ubuntu-latest'
         run: |
+          sudo add-apt-repository ppa:ubuntu-toolchain-r/test -y
           sudo apt-get update
           sudo apt-get install -y libstdc++6
           strings /usr/lib/x86_64-linux-gnu/libstdc++.so.6 | grep GLIBCXX
