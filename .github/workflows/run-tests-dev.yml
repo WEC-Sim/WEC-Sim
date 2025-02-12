@@ -42,7 +42,6 @@ jobs:
       
           # Check available GLIBCXX versions in the system's libstdc++
           strings /usr/lib/x86_64-linux-gnu/libstdc++.so.6 | grep GLIBCXX
-      
       - name: Install MATLAB
         uses: matlab-actions/setup-matlab@v2.3.0
         with:
