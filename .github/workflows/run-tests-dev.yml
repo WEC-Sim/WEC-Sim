@@ -46,6 +46,14 @@ jobs:
       - name: Locate libstdc++
         run: find / -name "libstdc++.so.6" 2>/dev/null
 
+      - name: Set LD_LIBRARY_PATH
+        run: echo "LD_LIBRARY_PATH=/usr/lib/x86_64-linux-gnu:\$LD_LIBRARY_PATH" >> $GITHUB_ENV
+
+      - name: Verify GLIBCXX version
+        run: |
+          ldd --version
+          strings /usr/lib/x86_64-linux-gnu/libstdc++.so.6 | grep GLIBCXX
+
       - name: Install MATLAB
         uses: matlab-actions/setup-matlab@v2
         with:
