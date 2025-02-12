@@ -30,14 +30,19 @@ jobs:
       - name: Check out LFS objects
         run: git lfs checkout
 
-      - name: Update libstdc++  and LD_LIBRARY_PATH  (Linux only)
+      - name: Update libstdc++ and LD_LIBRARY_PATH (Linux only)
         if: matrix.os == 'ubuntu-latest'
         run: |
+          # Add the repository with updated toolchain
           sudo add-apt-repository -y ppa:ubuntu-toolchain-r/test
-          sudo apt-get update 
-          sudo apt install -y g++-11
+          sudo apt-get update
+      
+          # Install g++-11 (which provides the newer libstdc++)
+          sudo apt-get install -y g++-11
+      
+          # Check available GLIBCXX versions in the system's libstdc++
           strings /usr/lib/x86_64-linux-gnu/libstdc++.so.6 | grep GLIBCXX
-
+      
       - name: Check libstdc++ version
         run: |
             dpkg-query -l | grep libstdc++
