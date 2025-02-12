@@ -40,15 +40,10 @@ jobs:
 
           sudo apt-get dist-upgrade
           strings /usr/lib/x86_64-linux-gnu/libstdc++.so.6 | grep GLIBCXX
+          echo $LD_LIBRARY_PATH
+          export LD_LIBRARY_PATH=/lib/x86_64-linux-gnu:$LD_LIBRARY_PATH
 
-          ldd /lib/x86_64-linux-gnu/libgallium-24.2.8-1ubuntu1~24.04.1.so
 
-          locate libstdc++.so.6 
-
-          find /usr -name libstdc++.so.6 2>/dev/null
-          gcc --version
-
-          export LD_LIBRARY_PATH=/opt/new-libstdc++-path:$LD_LIBRARY_PATH
 
 
       - name: Install MATLAB
