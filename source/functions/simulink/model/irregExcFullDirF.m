@@ -95,7 +95,7 @@ end
 B1= sin(bsxfun(@plus,A1,phaseRand(:,:,1)));
 B11 = sin(bsxfun(@plus,w*time,phaseRand(:,:,1)));
 C0 = bsxfun(@times,A.*spreadBins,dw);
-C1 = sqrt(bsxfun(@times,A.*spreadBins.^2,dw));
+C1 = sqrt(bsxfun(@times,A.*spreadBins,dw));
 for k=1:size(dofGRD,1)
     D0 =bsxfun(@times,fExtMDint(:,:,k).',C0);
     D1 =bsxfun(@times,fExtREint(:,:,k).',C1);
