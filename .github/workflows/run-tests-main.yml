@@ -19,7 +19,7 @@ jobs:
       fail-fast: false
       matrix:
         os: [ubuntu-22.04, windows-latest]
-        release: [R2022b, R2023a, R2023b, 2024a, 2024b]
+        release: [R2022b, R2023a, R2023b, R2024a, R2024b]
     name: ${{ matrix.release }} on ${{ matrix.os }}
     steps:
       - name: Check out repository
