@@ -166,9 +166,11 @@ which allows parallel capability for :ref:`user-advanced-features-mcr` but adds
 an additional MATLAB dependency to use this feature. Similar to MCR, this 
 feature can be executed in three ways (Options 1~3). 
 
-For PCT runs, the ``*.h5`` hydrodynamic data must be reload, regardless the 
+For PCT runs, the ``*.h5`` hydrodynamic data must be reloaded, regardless the 
 setting for ``simu.reloadH5Data`` in the WEC-Sim input file. 
 
+The option ``simu.keepPool=1`` will retain the parallel pool after simulations have finished to facilitate
+parallel post-processing. If the pool is no longer needed or needs reinitialization, ``simu.keepPool=0`` will close the parallel pool after simulations have completed.     
 
 .. Note::
     The ``userDefinedFunctionsMCR.m`` is not compatible with ``wecSimPCT``. 
