@@ -18,8 +18,8 @@ jobs:
     strategy:
       fail-fast: false
       matrix:
-        os: [ubuntu-latest, windows-latest]
-        release: [R2022a, R2022b, R2023a, R2023b]
+        os: [ubuntu-22.04, windows-latest]
+        release: [R2022b, R2023a, R2023b, R2024a, R2024b]
     name: ${{ matrix.release }} on ${{ matrix.os }}
     steps:
       - name: Check out repository
