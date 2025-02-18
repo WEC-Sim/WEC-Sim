@@ -37,6 +37,8 @@ classdef bodyClass<handle
         gbmDOF (1,:) {mustBeScalarOrEmpty}          = []                    % (`integer`) Number of degree of freedoms (DOFs) for generalized body mode (GBM). Default = ``[]``.
         geometryFile (1,:) {mustBeText}             = 'NONE'                % (`string`) Path to the body geometry ``.stl`` file.
         h5File (1,:) {mustBeA(h5File,{'char','string','cell'})} = ''        % (`char array, string, cell array of char arrays, or cell array or strings`) hdf5 file containing the hydrodynamic data
+        hydroStruct                                 = struct()              % (`structure`) A structure array that defines the hydrodynamic data from BEM or user defined.
+        useH5(1,1)                                  = true                  % (`boolean`) Flag to use h5 file for hydrodynamic data. Default = ``1``.
         hydroStiffness (6,6,:) {mustBeNumeric}      = zeros(6)              % (`6x6 float matrix`) Linear hydrostatic stiffness matrix. If the variable is nonzero, the matrix will override the h5 file values. Create a 3D matrix (6x6xn) for variable hydrodynamics. Default = ``zeros(6)``.
         inertia (1,:) {mustBeNumeric}               = []                    % (`1x3 float vector`) Rotational inertia or mass moment of inertia [kg*m^{2}]. Defined by the user in the following format [Ixx Iyy Izz]. Default = ``[]``.
         inertiaProducts (1,:) {mustBeNumeric}       = [0 0 0]               % (`1x3 float vector`) Rotational inertia or mass products of inertia [kg*m^{2}]. Defined by the user in the following format [Ixy Ixz Iyz]. Default = ``[]``.
@@ -104,27 +106,33 @@ classdef bodyClass<handle
     end
 
     methods (Access = 'public') % modify object = T; output = F
-        function obj = bodyClass(h5File)
+        function obj = bodyClass(hydroData)
             % This method initializes the ``bodyClass`` and creates a
             % ``body`` object.
             %
             % Parameters
             % ------------
-            %     h5File : string
+            %     hydroData : string or struct
             %         String specifying the location of the body h5 file
+            %         or a struct containing the hydrodynamic data.
             %
             % Returns
             % ------------
             %     body : obj
             %         bodyClass object
             %
-            if exist('h5File','var')
-                if isstring(h5File) || ischar(h5File)
-                    obj.h5File{1} = h5File;
-                elseif iscell(h5File)
-                    obj.h5File = h5File;
+            if exist('hydroData','var')
+                if isstring(hydroData) || ischar(hydroData)
+                    obj.h5File{1} = hydroData;
+                    obj.useH5 = true;
+                elseif iscell(hydroData)
+                    obj.h5File = hydroData;
+                    obj.useH5 = true;
+                elseif isstruct(hydroData)
+                    obj.hydroStruct = hydroData;
+                    obj.useH5 = false;
                 else
-                    error('body.h5File must be a string or cell array of strings');
+                    error('body.h5File must be a string, cell array of strings, or struct');
                 end
             else
                 error('The body class number(s) in the wecSimInputFile must be specified in ascending order starting from 1. The bodyClass() function should be called first to initialize each body with an h5 file.')
@@ -356,6 +364,7 @@ classdef bodyClass<handle
             else
                 obj.hydroData(iH) = hydroData;
             end
+            disp(["the iH is: " iH])
             if iH == obj.variableHydro.hydroForceIndexInitial
                 obj.centerGravity	= hydroData.properties.centerGravity';
                 obj.centerBuoyancy  = hydroData.properties.centerBuoyancy';
