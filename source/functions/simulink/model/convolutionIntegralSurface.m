@@ -3,7 +3,7 @@ function Frad = convolutionIntegralSurface(velocity, hydroForceIndex, hydroForce
 % Function to calculate convolution integral from a surface varying in
 % time, DOF, and variable hydro state. 
 % Velocity and hydroForceIndex are the only dynamic inputs. 
-% irkb, nDOF and cicTime do not change with time.
+% irkbSurfaceInput and cicTime do not change with time.
 %
 % Dimensions:
 % nDOF = the body's number of degrees of freedom = body.dof
@@ -11,7 +11,7 @@ function Frad = convolutionIntegralSurface(velocity, hydroForceIndex, hydroForce
 % nt = length of cicTime (simu.cicEndTime / simu.cicDt)
 % nState = number of variable hydrodynamic states
 %
-% Paramters:
+% Parameters:
 %     velocity : float [1 LDOF]
 %         The current velocities of all bodies 
 % 
@@ -22,7 +22,7 @@ function Frad = convolutionIntegralSurface(velocity, hydroForceIndex, hydroForce
 %         The initial and default hydroforce index
 % 
 %     irkbSurfaceInput : float [nt nDOF LDOF nState]
-%         The body's interpolated IRF surface, as calculated in irfSurface
+%         The body's interpolated IRF surface, as combined in body.irfInfAddedMassAndDamping
 % 
 %     cicTime : float [1 nt]
 %         All CI times
@@ -43,11 +43,11 @@ if isempty(velocityHistory)
     velocityHistory = zeros(length(cicTime), length(velocity)); % [nt LDOF]
     irkbSurface = permute(irkbSurfaceInput, [1 3 2 4]); % from [nt nDOF LDOF nState] to [nt LDOF nDOF nState]
 
-    hydroForceIndexSurface = false(size(irkbSurface, 1), 1, 1, size(irkbSurface, 4)); % [nt nState]
+    hydroForceIndexSurface = false(size(irkbSurface, 1), 1, 1, size(irkbSurface, 4)); % [nt 1 1 nState]
     for i = 1:size(hydroForceIndexSurface, 1)
         hydroForceIndexSurface(i, 1, 1, hydroForceIndexInitial) = true;
     end
-end 
+end
 
 % shift velocity_history and set the first column as the current velocity
 velocityHistory = circshift(velocityHistory, 1, 1);
