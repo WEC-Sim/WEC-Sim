@@ -29,7 +29,7 @@ classdef simulationClass<handle
     
     properties (SetAccess = 'public', GetAccess = 'public') % WEC-Sim input 
         b2b (1,1) {mustBeInteger}                       = 0                 % (`integer`) Flag for body2body interactions, Options: 0 (off), 1 (on). Default = ``0``
-        cicDt (1,:) {mustBeScalarOrEmpty}               = []                % (`float`) Time step to calculate Convolution Integral. Default = ``dt``
+        cicDt (1,:) {mustBeScalarOrEmpty}               = []                % (`float`) Time step to calculate the radiation convolution integral. Default = ``dt``
         cicEndTime (1,:) {mustBeScalarOrEmpty}          = 60                % (`float`) Convolution integral time. Default = ``60`` s
         domainSize (1,1) {mustBePositive}               = 200               % (`float`) Size of free surface and seabed. This variable is only used for visualization. Default = ``200`` m
         dt (1,1) {mustBePositive}                       = 0.1               % (`float`) Simulation time step. Default = ``0.1`` s
