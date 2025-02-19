@@ -129,6 +129,17 @@ classdef bodyClass<handle
                     obj.h5File = hydroData;
                     obj.useH5 = true;
                 elseif isstruct(hydroData)
+                    % Quick check on hydro Data structure, currently not very robust,
+                    % but confirms the user isn't trying to use the BEMIO hydro struct
+                    % instead of the one needed for the bodyClass.
+                    requiredFields = {'properties', 'simulation_parameters', 'hydro_coeffs'};
+                    for i = 1:length(requiredFields)
+                        if ~isfield(hydroData, requiredFields{i})
+                            error('The hydroData structure must contain the field "%s".', requiredFields{i});
+                        end
+                    end
+
+                    % set hydro structure, and indicate that we will not be using an h5 file
                     obj.hydroStruct = hydroData;
                     obj.useH5 = false;
                 else
