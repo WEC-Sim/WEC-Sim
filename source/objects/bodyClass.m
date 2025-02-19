@@ -997,24 +997,24 @@ classdef bodyClass<handle
                 obj.hydroForce.(hfName).fExt.fEHMD=interpn(hdofGRD,hdirGRD,hwGRD,obj.hydroData(iH).hydro_coeffs.mean_drift(:,idx,:)...
                     ,obj.hydroForce.(hfName).fExt.dofGrd,obj.hydroForce.(hfName).fExt.dirGrd,obj.hydroForce.(hfName).fExt.wGrd,'spline')*rho*g;
             end
-            end
+        end
            
-        function userDefinedExcitation(obj,waveAmpTime,dt,direction,rho,g,iH)
+        function userDefinedExcitation(obj, waveAmpTime, dt, direction, rho, g, iH)
             % Calculated User-Defined wave excitation force with non-causal convolution
             % Used by hydroForcePre
             nDOF = obj.dof;
             hfName = ['hf' num2str(iH)];
-            kf = obj.hydroData(iH).hydro_coeffs.excitation.impulse_response_fun.f .*rho .*g;
+            kf = obj.hydroData(iH).hydro_coeffs.excitation.impulse_response_fun.f .* rho .* g;
             kt = obj.hydroData(iH).hydro_coeffs.excitation.impulse_response_fun.t;
             t =  min(kt):dt:max(kt);
             for ii = 1:nDOF
                 if length(obj.hydroData(iH).simulation_parameters.direction) > 1
-                    [X,Y] = meshgrid(kt, obj.hydroData(iH).simulation_parameters.direction);
-                    kernel = squeeze(kf(ii,:,:));
+                    [X, Y] = meshgrid(kt, obj.hydroData(iH).simulation_parameters.direction);
+                    kernel = squeeze(kf(ii, :, :));
                     obj.hydroForce.(hfName).excitationIRF = interp2(X, Y, kernel, t, direction);
                 elseif obj.hydroData(iH).simulation_parameters.direction == direction
-                    kernel = squeeze(kf(ii,1,:));
-                    obj.hydroForce.(hfName).excitationIRF = interp1(kt,kernel,min(kt):dt:max(kt));
+                    kernel = squeeze(kf(ii, 1, :));
+                    obj.hydroForce.(hfName).excitationIRF = interp1(kt, kernel, t);
                 else
                     error('Default wave direction different from hydro database value. Wave direction (waves.direction) should be specified on input file.')
                 end
@@ -1027,6 +1027,7 @@ classdef bodyClass<handle
             % For variable hydro, create a 3D [nt nDOF nState] surface of IRF
             if obj.variableHydro.option == 1
                 obj.variableHydro.excitationIrfSurface(:, :, iH) = obj.hydroForce.(hfName).excitationIRF;
+                obj.variableHydro.excitationIrfTime = t;
             end
         end
         
