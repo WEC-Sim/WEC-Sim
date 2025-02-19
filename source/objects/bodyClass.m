@@ -903,7 +903,9 @@ classdef bodyClass<handle
                         'Please inspect BEM data for gaps'])
                     clear BEMdir
                 end % wrap BEM directions -180 to 180 dg, if they are not already there
-                [sortedDir, idx] = sort(wrapTo180(obj.hydroData(iH).simulation_parameters.direction));
+                obj.hydroForce.(hfName).wrappedDirection = wrapTo180(obj.hydroData(iH).simulation_parameters.direction);
+                obj.makeSpanNeg180To180(iH,hfName);
+                [sortedDir,idx]=sort(obj.hydroForce.(hfName).wrappedDirection);
                 [hdofGRD, hdirGRD, hwGRD] = ndgrid(1:6, sortedDir, obj.hydroData(iH).simulation_parameters.w);
                 [obj.hydroForce.(hfName).fExt.dofGrd, obj.hydroForce.(hfName).fExt.dirGrd, obj.hydroForce.(hfName).fExt.wGrd] = ...
                     ndgrid(1:6, sortedDir, w);
@@ -966,7 +968,9 @@ classdef bodyClass<handle
                         clear boundDiff BEMdir
                     end
                 end
-                [sortedDir,idx]=sort(wrapTo180(obj.hydroData(iH).simulation_parameters.direction));
+                obj.hydroForce.(hfName).wrappedDirection = wrapTo180(obj.hydroData(iH).simulation_parameters.direction);
+                obj.makeSpanNeg180To180(iH,hfName);
+                [sortedDir,idx]=sort(obj.hydroForce.(hfName).wrappedDirection);
                 [hdofGRD,hdirGRD,hwGRD]=ndgrid([1:nDOF],sortedDir, obj.hydroData(iH).simulation_parameters.w);
                  if (max(sortedDir) - min(sortedDir)) < 360
                     warning('Full directional wave spectra requires full 360 dg BEM. You do not have that. Attempting to fix via spline extrapolation. Ideally preprocess BEM')
@@ -1157,6 +1161,29 @@ classdef bodyClass<handle
                 end
             else
                 obj.massCalcMethod = 'user';
+            end
+        end
+
+        function makeSpanNeg180To180(obj, iH, hfName)
+            if min(obj.hydroForce.(hfName).wrappedDirection) > -180 
+                if max(obj.hydroForce.(hfName).wrappedDirection) < 180
+                    error('BEM directions need to include 180 or 180 degrees. This needs to be true for using passive yaw or full directional spectra to avoid extrapolation.')
+                end
+                idx = find(obj.hydroForce.(hfName).wrappedDirection == 180);
+                obj.hydroForce.(hfName).wrappedDirection = [-180, obj.hydroForce.(hfName).wrappedDirection];
+                obj.hydroData(iH).hydro_coeffs.excitation.re = [obj.hydroData(iH).hydro_coeffs.excitation.re(:,idx,:), obj.hydroData(iH).hydro_coeffs.excitation.re];
+                obj.hydroData(iH).hydro_coeffs.excitation.im = [obj.hydroData(iH).hydro_coeffs.excitation.im(:,idx,:), obj.hydroData(iH).hydro_coeffs.excitation.im];
+                obj.hydroData(iH).hydro_coeffs.mean_drift = [obj.hydroData(iH).hydro_coeffs.mean_drift(:,idx,:), obj.hydroData(iH).hydro_coeffs.mean_drift];
+            end
+            if max(obj.hydroForce.(hfName).wrappedDirection) < 180
+                if min(obj.hydroForce.(hfName).wrappedDirection) > -180 
+                    error('BEM directions need to include 180 or 180 degrees. This needs to be true for using passive yaw or full directional spectra to avoid extrapolation.')
+                end
+                idx = find(obj.hydroForce.(hfName).wrappedDirection == -180);
+                obj.hydroForce.(hfName).wrappedDirection = [obj.hydroForce.(hfName).wrappedDirection, 180];
+                obj.hydroData(iH).hydro_coeffs.excitation.re = [obj.hydroData(iH).hydro_coeffs.excitation.re, obj.hydroData(iH).hydro_coeffs.excitation.re(:,idx,:)];
+                obj.hydroData(iH).hydro_coeffs.excitation.im = [obj.hydroData(iH).hydro_coeffs.excitation.im, obj.hydroData(iH).hydro_coeffs.excitation.im(:,idx,:)];
+                obj.hydroData(iH).hydro_coeffs.mean_drift = [obj.hydroData(iH).hydro_coeffs.mean_drift, obj.hydroData(iH).hydro_coeffs.mean_drift(:,idx,:)];
             end
         end
 
