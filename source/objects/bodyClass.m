@@ -364,7 +364,7 @@ classdef bodyClass<handle
             else
                 obj.hydroData(iH) = hydroData;
             end
-            disp(["the iH is: " iH])
+
             if iH == obj.variableHydro.hydroForceIndexInitial
                 obj.centerGravity	= hydroData.properties.centerGravity';
                 obj.centerBuoyancy  = hydroData.properties.centerBuoyancy';
