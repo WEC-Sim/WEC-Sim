@@ -570,7 +570,7 @@ warning('off','MATLAB:loadlibrary:parsewarnings');
 warning('off','MATLAB:printf:BadEscapeSequenceInFormat');
 warning('off','Simulink:blocks:DivideByZero');
 warning('off','sm:sli:setup:compile:SteadyStateStartNotSupported')
-warning('off','Simulink:blocks:MatchingFromNotFound')
+warning('off','Simulink:blocks:MatchingFromNotFound') % prevent unnecessary warning for the library-supplied GoTo tags for body excitation and total forces
 set_param(0, 'ErrorIfLoadNewModel', 'off')
 
 % Load parameters to Simulink model
