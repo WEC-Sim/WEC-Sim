@@ -570,6 +570,7 @@ warning('off','MATLAB:loadlibrary:parsewarnings');
 warning('off','MATLAB:printf:BadEscapeSequenceInFormat');
 warning('off','Simulink:blocks:DivideByZero');
 warning('off','sm:sli:setup:compile:SteadyStateStartNotSupported')
+warning('off','Simulink:blocks:MatchingFromNotFound')
 set_param(0, 'ErrorIfLoadNewModel', 'off')
 
 % Load parameters to Simulink model
