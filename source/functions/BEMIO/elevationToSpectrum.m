@@ -34,8 +34,8 @@ function [frequency,amplitudeSpectrum,phaseSpectrum,complexSpectrum] = elevation
 %         Complex-valued single-sided amplitude spectrum.
 % 
 arguments
-    data (:,1) double
-    time (:,1) double
+    data (1,:) double
+    time (1,:) double
     options.removeSpectralLeakage logical = false
 end
 
