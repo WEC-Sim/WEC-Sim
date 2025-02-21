@@ -50,13 +50,13 @@ if var(diff(time)) > 1e-5
     warning('Non-uniform sample time. Must resample data and try again')
 end
 Fs = 1/dt;
-frequency = Fs*[0:(Ln/2)]/Ln;
+frequency = Fs*(0:(Ln/2))/Ln;
 df = mean(diff(frequency));
 % freq = freq(2:end-1);
 
 % Calculate amplitude spectra
 P2 = (Y/Ln);
-P1 = P2(1:(Ln/2)+1);
+P1 = P2(1:floor(Ln/2)+1);
 P1(2:end-1) = 2*P1(2:end-1);
 complexSpectrum = P1;
 amplitudeSpectrum = (abs(P1).^2)./(2*df);
