@@ -1,4 +1,4 @@
-function [frequency,amplitudeSpectrum,phaseSpectrum,complexSpectrum] = elevationToSpectrum(data,time)
+function [frequency,amplitudeSpectrum,phaseSpectrum,complexSpectrum] = elevationToSpectrum(data,time,options)
 % Function to calculate the spectral energy density from a given wave
 % elevation timeseries. Used to improve performance by calculating an input
 % spectrum with phase information instead of running elevation import with
@@ -15,6 +15,10 @@ function [frequency,amplitudeSpectrum,phaseSpectrum,complexSpectrum] = elevation
 %     time : [1 n] float vector 
 %         Time series (s) related to the data, as a column
 % 
+%     options.removeSpectralLeakage : logical
+%         If true, will remove spectral leakage by setting low amplitude
+%         values to zero. Default is false.
+% 
 % Returns
 % ------------
 %     frequency : [1 n] float vector 
@@ -29,6 +33,11 @@ function [frequency,amplitudeSpectrum,phaseSpectrum,complexSpectrum] = elevation
 %     compSpec : [1 n] float vector 
 %         Complex-valued single-sided amplitude spectrum.
 % 
+arguments
+    data (:,1) double
+    time (:,1) double
+    options.removeSpectralLeakage logical = false
+end
 
 % detrend, and fft
 L = length(data);
@@ -53,8 +62,9 @@ complexSpectrum = P1;
 amplitudeSpectrum = (abs(P1).^2)./(2*df);
 phaseSpectrum = atan2(imag(P1),real(P1));
 
-% Option to remove spectral leakage
-% lowAmplitude = find(amplitudeSpectrum./max(amplitudeSpectrum) < 0.01);
-% amplitudeSpectrum(lowAmplitude) = 0;
+if options.removeSpectralLeakage
+    lowAmplitude = amplitudeSpectrum./max(amplitudeSpectrum) < 0.01;
+    amplitudeSpectrum(lowAmplitude) = 0;
+end
 
 end
