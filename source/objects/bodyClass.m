@@ -515,7 +515,7 @@ classdef bodyClass<handle
             for iH = 1:length(obj.hydroData)
                 hfName = ['hf' num2str(iH)];
                 obj.hydroForce.(hfName).storage.fAddedMass = obj.hydroForce.(hfName).fAddedMass;
-            end
+            end; clear iH
 
             if B2B == 1
                 % The body mass matrix can only be changed once. The
@@ -554,7 +554,7 @@ classdef bodyClass<handle
                     obj.hydroForce.(hfName).fAddedMass(5,4+(iBod-1)*6) = obj.hydroForce.(hfName).fAddedMass(5,4+(iBod-1)*6) - adjInteriaProducts(1);
                     obj.hydroForce.(hfName).fAddedMass(6,4+(iBod-1)*6) = obj.hydroForce.(hfName).fAddedMass(6,4+(iBod-1)*6) - adjInteriaProducts(2);
                     obj.hydroForce.(hfName).fAddedMass(6,5+(iBod-1)*6) = obj.hydroForce.(hfName).fAddedMass(6,5+(iBod-1)*6) - adjInteriaProducts(3);
-                end
+                end; clear iH
             else
                 % Same process as for the B2B case, but the indexing is
                 % simplified.
@@ -564,12 +564,13 @@ classdef bodyClass<handle
                                       obj.hydroForce.(hfName0).fAddedMass(4,6) ...
                                       obj.hydroForce.(hfName0).fAddedMass(5,6)];
 
-                obj.hydroForce.(hfName).mass = obj.mass + adjMass;
-                obj.hydroForce.(hfName).inertia = obj.inertia + adjFAddedMass(4:6)';
-                obj.hydroForce.(hfName).inertiaProducts = obj.inertiaProducts + adjInteriaProducts;
                 
                 for iH = 1:length(obj.hydroData)
                     hfName = ['hf' num2str(iH)];
+                    obj.hydroForce.(hfName).mass = obj.mass + adjMass;
+                    obj.hydroForce.(hfName).inertia = obj.inertia + adjFAddedMass(4:6)';
+                    obj.hydroForce.(hfName).inertiaProducts = obj.inertiaProducts + adjInteriaProducts;
+
                     obj.hydroForce.(hfName).fAddedMass(1,1) = obj.hydroForce.(hfName).fAddedMass(1,1) - adjMass;
                     obj.hydroForce.(hfName).fAddedMass(2,2) = obj.hydroForce.(hfName).fAddedMass(2,2) - adjMass;
                     obj.hydroForce.(hfName).fAddedMass(3,3) = obj.hydroForce.(hfName).fAddedMass(3,3) - adjMass;
@@ -584,7 +585,7 @@ classdef bodyClass<handle
                     obj.hydroForce.(hfName).fAddedMass(5,4) = obj.hydroForce.(hfName).fAddedMass(5,4) - adjInteriaProducts(1);
                     obj.hydroForce.(hfName).fAddedMass(6,4) = obj.hydroForce.(hfName).fAddedMass(6,4) - adjInteriaProducts(2);
                     obj.hydroForce.(hfName).fAddedMass(6,5) = obj.hydroForce.(hfName).fAddedMass(6,5) - adjInteriaProducts(3);
-                end
+                end; clear iH
             end
         end
 
