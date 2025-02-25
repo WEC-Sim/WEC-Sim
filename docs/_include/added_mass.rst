@@ -80,7 +80,7 @@ The resultant definition of the body mass matrix and added mass matrix are then:
 
 .. math::
 
-    M &=  \begin{bmatrix}
+    M_{adjusted} &=  \begin{bmatrix}
                m + \alpha Y & 0 & 0 & 0 & 0 & 0 \\
                0 & m + \alpha Y & 0 & 0 & 0 & 0 \\
                0 & 0 & m + \alpha Y & 0 & 0 & 0 \\
@@ -110,13 +110,13 @@ To see its effects, set ``body(iB).adjMassFactor = 0`` and see if simulations be
 This manipulation does not move all added mass components. 
 WEC-Sim still contains an algebraic loop due to the acceleration dependence of the remaining added mass force from :math:`A_{adjusted}`, and components of the Morison Element force.
 WEC-Sim solves the algebraic loop using a `Simulink Transport Delay <https://www.mathworks.com/help/simulink/slref/transportdelay.html>`_ with a very small time delay (``1e-8``).
-This blocks extrapolates the previous acceleration by ``1e-8`` seconds, which results in a known acceleration for the added mass force.
-The small extraplation solves the algebraic loop but prevents large errors that arise when extrapolating the acceleration over an entire time step.
+This blocks extrapolates the previous acceleration by ``1e-7`` seconds, which results in a known acceleration for the added mass force.
+The small extrapolation solves the algebraic loop but prevents large errors that arise when extrapolating the acceleration over an entire time step.
 This will convert the algebraic loop equation of motion to a solvable one:
 
 .. math::
 
-    M_{adjusted}\ddot{X_i} &= \Sigma F(t,\omega) - A_{adjusted}\ddot{X}_{i - (1 + 10^{-8}/dt)} \\
+    M_{adjusted}\ddot{X_i} &= \Sigma F(t,\omega) - A_{adjusted}\ddot{X}_{i - (1 - 10^{-7}/dt)} \\
 
 Working with the Added Mass Implementation
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
