@@ -205,6 +205,8 @@ classdef responseClass<handle
                 end
                 if bodiesOutput(ii).variableHydroOption == 1
                     obj.bodies(ii).hydroForceIndex = bodiesOutput(ii).hydroForceIndex;
+                else
+                    obj.bodies(ii).hydroForceIndex = [];
                 end
             end
             
