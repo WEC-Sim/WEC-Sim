@@ -1014,7 +1014,7 @@ classdef bodyClass<handle
 
             % For variable hydro, create a 3D [nt nDOF nState] surface of IRF
             if obj.variableHydro.option == 1
-                obj.variableHydro.excitationIrfSurface(:, :, iH) = obj.hydroForce.(hfName).excitationIRF;
+                obj.variableHydro.excitationIrfSurface(:, :, iH) = obj.hydroForce.(hfName).excitationIRF';
                 obj.variableHydro.excitationIrfTime = t;
             end
         end

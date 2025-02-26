@@ -20,7 +20,7 @@ function Fex = excitationConvolutionIntegralSurface(amplitude, hydroForceIndex, 
 %     hydroForceIndexInitial: int [1 1]
 %         The initial and default hydroforce index
 % 
-%     irkbSurfaceInput : float [nt nDOF LDOF nState]
+%     irkbSurfaceInput : float [nt nDOF nState]
 %         The body's interpolated IRF surface, as combined in body.userDefinedExcitation
 % 
 %     cicTime : float [1 nt]
@@ -41,7 +41,7 @@ persistent amplitudeHistory hydroForceIndexSurface;
 if isempty(hydroForceIndexSurface) 
     amplitudeHistory = zeros(length(cicTime), 1); % [nt 1]
 
-    hydroForceIndexSurface = false(size(irkbSurfaceInput, 1), 1, size(irkbSurfaceInput, 4)); % [nt 1 1 nState]
+    hydroForceIndexSurface = false(size(irkbSurfaceInput, 1), 1, size(irkbSurfaceInput, 3)); % [nt 1 1 nState]
     for i = 1:size(hydroForceIndexSurface, 1)
         hydroForceIndexSurface(i, 1, hydroForceIndexInitial) = true;
     end

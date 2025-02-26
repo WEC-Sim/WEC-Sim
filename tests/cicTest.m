@@ -49,8 +49,7 @@ classdef cicTest < matlab.unittest.TestCase
             obj.velocity = velocity;
             obj.irkbSurfaceInput = irkbSurfaceInput;
             obj.hydroForceIndex = hydroForceIndex;
-            % obj.waveAmpTime = [obj.time obj.velocity(:,1)];
-            obj.waveAmpTime = [obj.time sum(obj.velocity,2)];
+            obj.waveAmpTime = [obj.time sum(obj.velocity, 2)];
         end
     end
     
@@ -85,7 +84,7 @@ classdef cicTest < matlab.unittest.TestCase
         function calcForceExcSurface(testCase)
             % Test excitation CI surface calculation without switching variable hydro states
             % excIrf = squeeze(testCase.irkbSurfaceInput(:,:,1,:));
-            excIrf = squeeze(sum(testCase.irkbSurfaceInput(:,:,:,:),3));
+            excIrf = squeeze(sum(testCase.irkbSurfaceInput(:,:,:,:), 3));
             clear excitationConvolutionIntegralSurface
             tmp = cputime;
             for it = 1:length(testCase.time)
