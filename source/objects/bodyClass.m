@@ -1143,7 +1143,7 @@ classdef bodyClass<handle
             wrappedDirection = wrapTo180(obj.hydroData(iH).simulation_parameters.direction);
             if min(wrappedDirection) > -180 
                 if max(wrappedDirection) < 180
-                    error('BEM directions need to include 180 or 180 degrees. This needs to be true for using passive yaw or full directional spectra to avoid extrapolation.')
+                    error('BEM directions need to include -180 or 180 degrees when using passive yaw or full directional spectra to avoid extrapolation.')
                 end
                 idx = find(wrappedDirection == 180);
                 obj.hydroData(iH).simulation_parameters.direction = [-180, obj.hydroData(iH).simulation_parameters.direction];
@@ -1153,7 +1153,7 @@ classdef bodyClass<handle
             end
             if max(wrappedDirection) < 180
                 if min(wrappedDirection) > -180 
-                    error('BEM directions need to include 180 or 180 degrees. This needs to be true for using passive yaw or full directional spectra to avoid extrapolation.')
+                    error('BEM directions need to include -180 or 180 degrees when using passive yaw or full directional spectra to avoid extrapolation.')
                 end
                 idx = find(wrappedDirection == -180);
                 obj.hydroData(iH).simulation_parameters.direction = [obj.hydroData(iH).simulation_parameters.direction, 180];
