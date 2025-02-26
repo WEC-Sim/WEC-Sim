@@ -897,7 +897,7 @@ classdef bodyClass<handle
            if obj.yaw.option==1
                 % wrap BEM directions -180 to 180 dg, if they are not already there
                 obj.makeSpanNeg180To180(iH);
-                obj.hydroForce.(hfName).wrappedDirection = sort(wrapTo180(obj.hydroData(iH).simulation_parameters.direction));
+                [obj.hydroForce.(hfName).wrappedDirection,idx] = sort(wrapTo180(obj.hydroData(iH).simulation_parameters.direction));
                 [hdofGRD, hdirGRD, hwGRD] = ndgrid(1:obj.dof, obj.hydroForce.(hfName).wrappedDirection, obj.hydroData(iH).simulation_parameters.w);
                 [obj.hydroForce.(hfName).fExt.dofGrd, obj.hydroForce.(hfName).fExt.dirGrd, obj.hydroForce.(hfName).fExt.wGrd] = ...
                     ndgrid(1:obj.dof, obj.hydroForce.(hfName).wrappedDirection, w);
@@ -963,7 +963,7 @@ classdef bodyClass<handle
                     end
                 end
                 obj.makeSpanNeg180To180(iH);
-                obj.hydroForce.(hfName).wrappedDirection = sort(wrapTo180(obj.hydroData(iH).simulation_parameters.direction));
+                [obj.hydroForce.(hfName).wrappedDirection,idx] = sort(wrapTo180(obj.hydroData(iH).simulation_parameters.direction));
                 [hdofGRD, hdirGRD, hwGRD] = ndgrid([1:nDOF], obj.hydroForce.(hfName).wrappedDirection, obj.hydroData(iH).simulation_parameters.w);
                 [obj.hydroForce.(hfName).fExt.dofGrd, obj.hydroForce.(hfName).fExt.dirGrd, obj.hydroForce.(hfName).fExt.wGrd] = ndgrid([1:nDOF],...
                     obj.hydroForce.(hfName).wrappedDirection, wv);
