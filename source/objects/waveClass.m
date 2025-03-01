@@ -355,8 +355,8 @@ classdef waveClass<handle
                             freqData = data(:,1);
                             freqLoc = freqData >= min(obj.bem.range)/2/pi & freqData <= max(obj.bem.range)/2/pi;
                             obj.omega(:,1)    = freqData(freqLoc).*2.*pi;
-                            obj.freqDepDirection.directions(:,1) = data(:,3);
-                            obj.freqDepDirection.spreads(:,1) = data(:,4);
+                            obj.freqDepDirection.directions(:,1) = data(freqLoc,3);
+                            obj.freqDepDirection.spreads(:,1) = data(freqLoc,4);
                             obj.bem.count = length(obj.omega);
                             obj.dOmega(1,1)= obj.omega(2)-obj.omega(1);
                             obj.dOmega(2:obj.bem.count-1,1)=(obj.omega(3:end)-obj.omega(1:end-2))/2;
@@ -743,8 +743,6 @@ classdef waveClass<handle
                     data = importdata(obj.spectrumFile);
                     freqData = data(:,1);
                     S_data = data(:,2);
-                    D_data = data(:,3); % direction data (deg, one at each frequency)
-                    E_data = data(:,4); % spread data (deg, one at each frequency)
                     freqLoc = freqData >= min(obj.bem.range)/2/pi & freqData <= max(obj.bem.range)/2/pi;
                     fSpectrum = S_data(freqLoc);                                    % Wave Spectrum [m^2-s] for 'EqualEnergy'
                     obj.spectrum = fSpectrum./(2*pi);                                       % Wave Spectrum [m^2-s/rad] for 'Traditional'
@@ -816,7 +814,7 @@ classdef waveClass<handle
             % Calculate eta
             for i = 1:length(timeseries)
                 tmp  = sqrt(obj.amplitude.*df*obj.spread);
-                tmp1 = tmp.*real(exp(sqrt(-1).*(obj.omega.*timeseries(i) + obj.phase.')));
+                tmp1 = tmp.*real(exp(sqrt(-1).*(obj.omega.*timeseries(i) + obj.phase)));
                 obj.waveAmpTime(i,2) = rampFunction(i)*sum(tmp1,'all');
 
 
