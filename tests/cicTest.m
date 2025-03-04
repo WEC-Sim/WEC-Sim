@@ -8,13 +8,9 @@ classdef cicTest < matlab.unittest.TestCase
         Frad0 = []
         FradS1 = []
         FradS2 = []
-        FexcS1 = []
-        FexcS2 = []
         t0 = []
         ts1 = []
         ts2 = []
-        ts3 = []
-        ts4 = []
         waveAmpTime = []
         time = []
     end
@@ -80,26 +76,6 @@ classdef cicTest < matlab.unittest.TestCase
             end
             testCase.ts2 = cputime - tmp;
         end
-
-        function calcForceExcSurface(testCase)
-            % Test excitation CI surface calculation without switching variable hydro states
-            % excIrf = squeeze(testCase.irkbSurfaceInput(:,:,1,:));
-            excIrf = squeeze(sum(testCase.irkbSurfaceInput(:,:,:,:), 3));
-            clear excitationConvolutionIntegralSurface
-            tmp = cputime;
-            for it = 1:length(testCase.time)
-                testCase.FexcS1(it,:) = excitationConvolutionIntegralSurface(testCase.waveAmpTime(it,2), 1, 1, excIrf, testCase.cicTime);
-            end
-            testCase.ts3 = cputime - tmp;
-
-            % Test excitation CI surface calculation while switching variable hydro states
-            clear excitationConvolutionIntegralSurface
-            tmp = cputime;
-            for it = 1:length(testCase.time)
-                testCase.FexcS2(it,:) = excitationConvolutionIntegralSurface(testCase.waveAmpTime(it,2), testCase.hydroForceIndex(it), 1, excIrf, testCase.cicTime);
-            end
-            testCase.ts4 = cputime - tmp;
-        end
     end
 
     methods(Test)
@@ -108,8 +84,6 @@ classdef cicTest < matlab.unittest.TestCase
             fprintf('Original radiation function: %.4f \n', testCase.t0);
             fprintf('Radiation surface function without switching: %.4f \n', testCase.ts1);
             fprintf('Radiation surface function with switching: %.4f \n', testCase.ts2);
-            fprintf('Excitation surface function without switching: %.4f \n', testCase.ts3);
-            fprintf('Excitation surface function with switching: %.4f \n', testCase.ts4);
         end
 
         function compareRadMethods(testCase)

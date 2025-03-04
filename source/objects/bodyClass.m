@@ -69,8 +69,7 @@ classdef bodyClass<handle
         variableHydro (1,1) struct                  = struct(...            % (`structure`) Defines the variable hydro implementation.
             'option',                               0,...                   % 
             'hydroForceIndexInitial',               1,...
-            'radiationIrfSurface',                  [],...
-            'excitationIrfSurface',                 [])                     % (`structure`) Defines the variable hydro implementation. ``option`` (`float`) Flag to turn variable hydrodynamics on or off. ``hydroForceIndexInitial`` (`float`) Defines the initial value of the hydroForceIndex, which should correspond to the hydroForce data (cg, cb, volume, water depth, valid cicEndTime, added mass integrated with the body during runtime) and h5File of the body at equilibrium. ``radiationIrfSurface`` (`vector`) 4D surface of the radiation IRF across all varying states. Defined by the bodyClass. Only used when variable hydro and a wave requiring the convolution integral calculation are used together. ``exictationIrfSurface`` (`vector`) 4D surface of the excitation IRF across all varying states. Defined by the bodyClass. Only used when variable hydro and a wave requiring the convolution integral calculation are used together.
+            'radiationIrfSurface',                  [])
         viz (1,1) struct                            = struct(...            % (`structure`)  Defines visualization properties in either SimScape or Paraview.
             'color',                                [1 1 0], ...            %
             'opacity',                              1)                      % (`structure`)  Defines visualization properties in either SimScape or Paraview. ``color`` (`1x3 float vector`) is defined as the body visualization color, Default = [``1 1 0``]. ``opacity`` (`integer`) is defined as the body opacity, Default = ``1``.
@@ -1011,12 +1010,6 @@ classdef bodyClass<handle
             obj.hydroForce.(hfName).fExt.re = zeros(1,nDOF);
             obj.hydroForce.(hfName).fExt.im = zeros(1,nDOF);
             obj.hydroForce.(hfName).fExt.md = zeros(1,nDOF);
-
-            % For variable hydro, create a 3D [nt nDOF nState] surface of IRF
-            if obj.variableHydro.option == 1
-                obj.variableHydro.excitationIrfSurface(:, :, iH) = obj.hydroForce.(hfName).excitationIRF';
-                obj.variableHydro.excitationIrfTime = t;
-            end
         end
         
         function constAddedMassAndDamping(obj, w, rho, B2B, iH)
