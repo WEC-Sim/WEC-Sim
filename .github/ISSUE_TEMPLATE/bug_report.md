@@ -25,7 +25,7 @@ _What file(s) cause the error? Identify the WEC-Sim file(s) that cause the error
 _How can we reproduce the error? Describe the steps to reproduce the error._
 
 **Expected behavior**
-_What is the excepeted behavior? Describe the expected behavior._
+_What is the expected behavior? Describe the expected behavior._
 
 **Screenshots:**
 _Provide relevant screenshots to help explain the problem. For example, a screenshot of the error message from the MATLAB command window._
