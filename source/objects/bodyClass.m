@@ -1188,6 +1188,7 @@ classdef bodyClass<handle
             if isempty(hydroForceIndex)
                 iH = 1;
                 hfName = ['hf' num2str(iH)];
+                hfName0 = ['hf' num2str(obj.variableHydro.hydroForceIndexInitial)];
     
                 % dMass is dependent on the time varying hydroForceIndex. All
                 % hydroForce substructures contain the same storage.mass,
@@ -1206,13 +1207,14 @@ classdef bodyClass<handle
                 dMass(6,4) = obj.hydroForce.(hfName).inertiaProducts(2) - obj.inertiaProducts(2);
                 dMass(6,5) = obj.hydroForce.(hfName).inertiaProducts(3) - obj.inertiaProducts(3);
     
-                appliedForceAddedMass = obj.hydroForce.(hfName).storage.output_forceAddedMass;
+                appliedForceAddedMass = obj.hydroForce.(hfName0).storage.output_forceAddedMass;
                 bodyComponentForceAddedMass = acc*dMass;
                 actualForceAddedMass = appliedForceAddedMass + bodyComponentForceAddedMass;
             else
                 for it = 1:length(acc)
                     iH = hydroForceIndex(it);
                     hfName = ['hf' num2str(iH)];
+                    hfName0 = ['hf' num2str(obj.variableHydro.hydroForceIndexInitial)];
         
                     % dMass is dependent on the time varying hydroForceIndex. All
                     % hydroForce substructures contain the same storage.mass,
@@ -1231,7 +1233,7 @@ classdef bodyClass<handle
                     dMass(6,4) = obj.hydroForce.(hfName).inertiaProducts(2) - obj.inertiaProducts(2);
                     dMass(6,5) = obj.hydroForce.(hfName).inertiaProducts(3) - obj.inertiaProducts(3);
         
-                    appliedForceAddedMass = obj.hydroForce.(hfName).storage.output_forceAddedMass(it,:);
+                    appliedForceAddedMass = obj.hydroForce.(hfName0).storage.output_forceAddedMass(it,:);
                     bodyComponentForceAddedMass = acc(it,:)*dMass;
                     actualForceAddedMass(it,:) = appliedForceAddedMass + bodyComponentForceAddedMass;
                 end
