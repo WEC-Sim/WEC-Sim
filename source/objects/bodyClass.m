@@ -1231,9 +1231,9 @@ classdef bodyClass<handle
                     dMass(6,4) = obj.hydroForce.(hfName).inertiaProducts(2) - obj.inertiaProducts(2);
                     dMass(6,5) = obj.hydroForce.(hfName).inertiaProducts(3) - obj.inertiaProducts(3);
         
-                    appliedForceAddedMass = obj.hydroForce.(hfName).storage.output_forceAddedMass(it);
-                    bodyComponentForceAddedMass = acc(it)*dMass;
-                    actualForceAddedMass(it) = appliedForceAddedMass + bodyComponentForceAddedMass;
+                    appliedForceAddedMass = obj.hydroForce.(hfName).storage.output_forceAddedMass(it,:);
+                    bodyComponentForceAddedMass = acc(it,:)*dMass;
+                    actualForceAddedMass(it,:) = appliedForceAddedMass + bodyComponentForceAddedMass;
                 end
             end
         end
