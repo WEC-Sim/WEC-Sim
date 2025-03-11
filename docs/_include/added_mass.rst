@@ -29,8 +29,8 @@ In this case, the adjusted body mass matrix is defined as the sum of the transla
                        m + A_{1,1} & A_{1,2} & A_{1,3} & A_{1,4} & A_{1,5} & A_{1,6} \\
                        A_{2,1} & m + A_{2,2} & A_{2,3} & A_{2,4} & A_{2,5} & A_{2,6} \\
                        A_{3,1} & A_{3,2} & m + A_{3,3} & A_{3,4} & A_{3,5} & A_{3,6} \\
-                       A_{4,1} & A_{4,2} & A_{4,3} & I_{1,1} + A_{4,4} & -I_{2,1} + A_{4,5} & -I_{3,1} + A_{4,6} \\
-                       A_{5,1} & A_{5,2} & A_{5,3} & I_{2,1} + A_{5,4} & I_{2,2} + A_{5,5} & -I_{3,2} + A_{5,6} \\
+                       A_{4,1} & A_{4,2} & A_{4,3} & I_{1,1} + A_{4,4} & I_{1,2} + A_{4,5} & I_{1,3} + A_{4,6} \\
+                       A_{5,1} & A_{5,2} & A_{5,3} & I_{2,1} + A_{5,4} & I_{2,2} + A_{5,5} & I_{2,3} + A_{5,6} \\
                        A_{6,1} & A_{6,2} & A_{6,3} & I_{3,1} + A_{6,4} & I_{3,2} + A_{6,5} & I_{3,3} + A_{6,6} \\
                    \end{bmatrix}
 
@@ -71,8 +71,8 @@ where :math:`dM` is the change in added mass and defined as:
                  \alpha Y & 0 & 0 & 0 & 0 & 0 \\
                  0 & \alpha Y & 0 & 0 & 0 & 0 \\
                  0 & 0 & \alpha Y & 0 & 0 & 0 \\
-                 0 & 0 & 0 & A_{4,4} & -A_{5,4} & -A_{6,4} \\
-                 0 & 0 & 0 & A_{5,4} & A_{5,5} & -A_{6,5} \\
+                 0 & 0 & 0 & A_{4,4} & A_{5,4} & A_{6,4} \\
+                 0 & 0 & 0 & A_{5,4} & A_{5,5} & A_{6,5} \\
                  0 & 0 & 0 & A_{6,4} & A_{6,5} & A_{6,6} \\
               \end{bmatrix} \\
     Y &= (A_{1,1} + A_{2,2} + A_{3,3}) \\
@@ -86,21 +86,21 @@ The resultant definition of the body mass matrix and added mass matrix are then:
                m + \alpha Y & 0 & 0 & 0 & 0 & 0 \\
                0 & m + \alpha Y & 0 & 0 & 0 & 0 \\
                0 & 0 & m + \alpha Y & 0 & 0 & 0 \\
-               0 & 0 & 0 & I_{4,4} + A_{4,4} & -(I_{5,4} + A_{5,4}) & -(I_{6,4} + A_{6,4}) \\
-               0 & 0 & 0 & I_{5,4} + A_{5,4} & I_{5,5} + A_{5,5} & -(I_{6,5} + A_{6,5}) \\
+               0 & 0 & 0 & I_{4,4} + A_{4,4} & I_{5,4} + A_{5,4} & I_{6,4} + A_{6,4} \\
+               0 & 0 & 0 & I_{5,4} + A_{5,4} & I_{5,5} + A_{5,5} & I_{6,5} + A_{6,5} \\
                0 & 0 & 0 & I_{6,4} + A_{6,4} & I_{6,5} + A_{6,5} & I_{6,6} + A_{6,6} \\
            \end{bmatrix} \\
     A_{adjusted} &= \begin{bmatrix}
                        A_{1,1} - \alpha Y & A_{1,2} & A_{1,3} & A_{1,4} & A_{1,5} & A_{1,6} \\
                        A_{2,1} & A_{2,2} - \alpha Y & A_{2,3} & A_{2,4} & A_{2,5} & A_{2,6} \\
                        A_{3,1} & A_{3,2} & A_{3,3} - \alpha Y & A_{3,4} & A_{3,5} & A_{3,6} \\
-                       A_{4,1} & A_{4,2} & A_{4,3} & 0 & A_{4,5} + A_{5,4} & A_{4,6} + A_{6,4} \\
-                       A_{5,1} & A_{5,2} & A_{5,3} & 0 & 0 & A_{5,6} + A_{6,5} \\
+                       A_{4,1} & A_{4,2} & A_{4,3} & 0 & A_{4,5} - A_{5,4} & A_{4,6} - A_{6,4} \\
+                       A_{5,1} & A_{5,2} & A_{5,3} & 0 & 0 & A_{5,6} - A_{6,5} \\
                        A_{6,1} & A_{6,2} & A_{6,3} & 0 & 0 & 0 \\
                     \end{bmatrix}
 
 .. Note::
-    We should see that :math:`A_{4,5} + A_{5,4} = A_{4,6} + A_{6,4} = A_{5,6} + A_{6,5} = 0`, but there may be numerical differences in the added mass coefficients which are preserved.
+    The inertia tensor is symmetric, so we should see that :math:`A_{4,5} - A_{5,4} = A_{4,6} - A_{6,4} = A_{5,6} - A_{6,5} = 0`. There may be numerical differences in the added mass coefficients which are preserved.
 
 Though the components of added mass and body mass are manipulated in WEC-Sim, the total system is unchanged.
 This manipulation does not affect the governing equations of motion, only the implementation.
