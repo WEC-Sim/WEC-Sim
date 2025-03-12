@@ -105,7 +105,7 @@ The resultant definition of the body mass matrix and added mass matrix are then:
 Though the components of added mass and body mass are manipulated in WEC-Sim, the total system is unchanged.
 This manipulation does not affect the governing equations of motion, only the implementation.
 
-The fraction of translational added mass that is moved into the body mass is determined by ``body(iBod).adjMassFactor``, whose default value is :math:`2.0`.
+The scale of translational added mass that is moved into the body mass is determined by ``body(iBod).adjMassFactor``, whose default value is :math:`2.0`.
 Advanced users may change this weighting factor in the ``wecSimInuptFile`` to create the most robust simulation possible. 
 To see its effects, set ``body(iB).adjMassFactor = 0`` and see if simulations become unstable.
 
@@ -152,17 +152,19 @@ Working with the Added Mass Implementation
 """""""""""""""""""""""""""""""""""""""""""
 
 WEC-Sim's added mass implementation should not affect a user's modeling workflow.
-WEC-Sim handles the manipulation and restoration of the mass and forces in the bodyClass functions ``adjustMassMatrix()`` called by ``initializeWecSim`` and ``restoreMassMatrix``, ``storeForceAddedMass`` called by ``postProcessWecSim``.
-However viewing ``body.mass, body.inertia, body,inertiaProducts, body.hydroForce.hf*.fAddedMass`` between calls to ``initializeWecSim`` and ``postProcessWecSim`` will not show the input file definitions.
-Users can get the manipulated mass matrix, added mass coefficients, added mass force and total force from ``body.hydroForce.hf*.storage`` after the simulation.
-However, in the rare case that a user wants to manipulate the added mass force *during* a simulation, the change in mass, :math:`dM` above, must be taken into account. Refer to how ``body.calculateForceAddedMass()`` calculates the entire added mass force in WEC-Sim post-processing.
+WEC-Sim handles the manipulation and restoration of the mass and forces in the bodyClass functions ``bodyClass.adjustMassMatrix()`` called by ``initializeWecSim`` and ``bodyClass.restoreMassMatrix()``, ``bodyClass.storeForceAddedMass()`` called by ``postProcessWecSim``.
+However viewing ``body.hydroForce.hf*.fAddedMass`` between calls to ``initializeWecSim`` and ``postProcessWecSim`` will not show the values from the BEM dataset.
+Users can get the adjusted mass, moments of inertia, products of inertia, added mass coefficients, added mass force, and total force from 
+``body.hydroForce.hf*.mass``, ``body.hydroForce.hf*.inertia``, ``body.hydroForce.hf*.inertiaProducts``, ``body.hydroForce.hf*.storage.hydroForce_fAddedMass``, 
+``body.hydroForce.hf*.storage.output_forceAddedMass``, and ``body.hydroForce.hf*.storage.output_forceTotal`` respectively after the simulation.
+However, in the case that a user wants to view the added mass force *during* a simulation (typically during debugging), 
+the change in mass, :math:`dM` above, must be taken into account. 
+Refer to how ``body.calculateForceAddedMass()`` calculates the entire added mass force in WEC-Sim post-processing.
 
 When using variable hydrodynamics, the added mass matrix can change with the varying state.
 However, the body mass matrix cannot vary. 
 So, :math:`dM` is taken to be constant based on the hydrodynamic dataset specified by `body.variableHydro.hydroForceIndexInitial`.
-All added mass datasets within `body.hydroForce` are changed using this consistent defintion of :math:`dM`.
-
-.. Note:: If applying the method in ``body.calculateForceAddedMass()`` *during* the simulation, the negative of ``dM`` must be taken: :math:`dM = -dM`. This must be accounted for because the definitions of mass, inertia, etc and their stored values are flipped between simulation and post-processing.
+All added mass datasets within `body.hydroForce` are changed using this consistent definition of :math:`dM`.
 
 .. Note::
 	Depending on the wave formulation used, :math:`A` can either be a function of wave frequency :math:`A(\omega)`, or equal to the added mass at infinite wave frequency :math:`A_{\infty}`
