@@ -157,6 +157,11 @@ However viewing ``body.mass, body.inertia, body,inertiaProducts, body.hydroForce
 Users can get the manipulated mass matrix, added mass coefficients, added mass force and total force from ``body.hydroForce.hf*.storage`` after the simulation.
 However, in the rare case that a user wants to manipulate the added mass force *during* a simulation, the change in mass, :math:`dM` above, must be taken into account. Refer to how ``body.calculateForceAddedMass()`` calculates the entire added mass force in WEC-Sim post-processing.
 
+When using variable hydrodynamics, the added mass matrix can change with the varying state.
+However, the body mass matrix cannot vary. 
+So, :math:`dM` is taken to be constant based on the hydrodynamic dataset specified by `body.variableHydro.hydroForceIndexInitial`.
+All added mass datasets within `body.hydroForce` are changed using this consistent defintion of :math:`dM`.
+
 .. Note:: If applying the method in ``body.calculateForceAddedMass()`` *during* the simulation, the negative of ``dM`` must be taken: :math:`dM = -dM`. This must be accounted for because the definitions of mass, inertia, etc and their stored values are flipped between simulation and post-processing.
 
 .. Note::
