@@ -118,7 +118,7 @@ The convolution integral formulation of the radiation force is typically defined
 
     F_{rad}(t)=-A_{\infty}\ddot{X}-\intop_{0}^{t}K_{r}(t-\tau)\dot{X}(\tau)d\tau
 
-The :ref:`_cic_theory` section gives additional details on this representation of the radiation force.
+The :ref:`cic_theory` section gives additional details on this representation of the radiation force.
 Note that :math:`K_r` is a function of time and can change as the state varies when using variable hydrodynamics.
 For example, if the state switches from "A" to "B" between times :math:`t_1, t_2`, then :math:`K_r(t-t_1)=K_{r,A}(t-t_1)` is from a different hydrodynamic dataset
 than :math:`K_{r,B}(t-t_2)`. To account for this change in the impulse response function history, a surface of IRF coefficients is created and 
