@@ -110,6 +110,38 @@ every body in a simulation. To implement variable hydrodynamics for a given body
     * Non-hydrodynamic and drag bodies
     * Conditions that require a variable mass, center of gravity, or center of buoyancy
 
+Impulse Response Function with Variable Hydrodynamics
+"""""""""""""""""""""""""""""""""""""""""""""""""""""
+The convolution integral formulation of the radiation force is typically defined by
+
+.. math::
+
+    F_{rad}(t)=-A_{\infty}\ddot{X}-\intop_{0}^{t}K_{r}(t-\tau)\dot{X}(\tau)d\tau
+
+The :ref:`cic_theory` section gives additional details on this representation of the radiation force.
+Note that :math:`K_r` is a function of time and can change as the state varies when using variable hydrodynamics.
+For example, if the state switches from "A" to "B" between times :math:`t_1, t_2`, then :math:`K_r(t-t_1)=K_{r,A}(t-t_1)` is from a different hydrodynamic dataset
+than :math:`K_{r,B}(t-t_2)`. To account for this change in the impulse response function history, a surface of IRF coefficients is created and 
+stored in ``body.variableHydro.radiationIrfSurface``.
+This 4D surface has dimensionsions of time, influenced degree of freedom, radiating degree of freedom, and varying state.
+At each time step, ``convolutionIntegralSurface`` is called to evaluate the radiation force. 
+The time history of the varying state's index is used to select the appropriate :math:`K_r` coefficients given the time and state at that time.
+The resulting 3D surface is then convolved with the velocity history and summed across the radiating degrees of freedom to give the radiation force at that time.
+
+The two figures below show an example of how the radiation IRF varies across a state for the case of a single heaving cube whose base opens and closes.
+The flaps of the base split in half and are fully closed at 0 degrees and fully open at 90 degrees. 
+The contour of IRF surface in heave illustrates how significantly the IRF coefficients can change with a varying state.
+
+.. figure:: /_static/images/variable_hydro_irf.png
+    :width: 500pt
+    :figwidth: 500pt
+    :align: center
+
+.. figure:: /_static/images/variable_hydro_irf_surface.png
+    :width: 500pt
+    :figwidth: 500pt
+    :align: center
+
 Application
 """"""""""""
 See the :ref:`user-applications-variable-hydro` WEC-Sim_Application for a demonstration of setting up and using variable hydrodynamics.

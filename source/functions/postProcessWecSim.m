@@ -154,6 +154,6 @@ for iBod = 1:simu.numHydroBodies
     body(iBod).restoreMassMatrix();
     body(iBod).storeForceAddedMass(output.bodies(iBod).forceAddedMass, output.bodies(iBod).forceTotal);
     output.bodies(iBod).forceTotal = output.bodies(iBod).forceTotal + output.bodies(iBod).forceAddedMass;
-    output.bodies(iBod).forceAddedMass = body(iBod).calculateForceAddedMass(output.bodies(iBod).acceleration);
+    output.bodies(iBod).forceAddedMass = body(iBod).calculateForceAddedMass(output.bodies(iBod).acceleration, output.bodies(iBod).hydroForceIndex);
     output.bodies(iBod).forceTotal = output.bodies(iBod).forceTotal - output.bodies(iBod).forceAddedMass;
 end; clear iBod
