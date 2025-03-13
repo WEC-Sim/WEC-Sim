@@ -18,31 +18,34 @@ if simu.paraview.option == 1
             end
         end
     end
-   % bodies
+    if isempty(simu.paraview.startTime) || isempty(simu.paraview.dt) || isempty(simu.paraview.endTime)
+        if isempty(simu.paraview.startTime)
+            simu.paraview.startTime = simu.startTime;
+        end
+        if isempty(simu.paraview.dt)
+            simu.paraview.dt= simu.dt;
+        end
+        if isempty(simu.paraview.endTime)
+            simu.paraview.endTime = simu.endTime;
+        end
+        NewTimeParaview(:,1) = simu.paraview.startTime:simu.paraview.dt:simu.paraview.endTime;
+    end
+    % bodies
     filename = [simu.paraview.path filesep 'bodies.txt'];
     mkdir([simu.paraview.path])
     [fid ,errmsg] = fopen(filename, 'w');
     vtkbodiesii = 1;
+   
     for ii = 1:length(body(1,:))
         if body(ii).paraview == 1
             bodyname = output.bodies(ii).name;
             mkdir([simu.paraview.path filesep 'body' num2str(vtkbodiesii) '_' bodyname]);
             TimeBodyParav = output.bodies(ii).time;
             PositionBodyParav = output.bodies(ii).position;
-            if isempty(simu.paraview.startTime) || isempty(simu.paraview.dt) || isempty(simu.paraview.endTime)
-                if isempty(simu.paraview.startTime)
-                    simu.paraview.startTime = simu.startTime;
-                end
-                if isempty(simu.paraview.dt)
-                    simu.paraview.dt= simu.dt;
-                end
-                if isempty(simu.paraview.endTime)
-                    simu.paraview.endTime = simu.endTime;
-                end
-                NewTimeParaview(:,1) = simu.paraview.startTime:simu.paraview.dt:simu.paraview.endTime;
-                PositionBodyParav = interp1(TimeBodyParav,PositionBodyParav,NewTimeParaview);
-                TimeBodyParav = NewTimeParaview;
-            end
+            
+            PositionBodyParav = interp1(TimeBodyParav,PositionBodyParav,NewTimeParaview);
+            TimeBodyParav = NewTimeParaview;
+
             writeParaviewBody(body(ii), TimeBodyParav, PositionBodyParav, bodyname, modelName, datestr(simu.date), output.bodies(ii).cellPressures_hydrostatic, output.bodies(ii).cellPressures_waveNonLinear, output.bodies(ii).cellPressures_waveLinear, simu.paraview.path,vtkbodiesii);
             bodies{vtkbodiesii} = bodyname;
             fprintf(fid,[bodyname '\n']);
