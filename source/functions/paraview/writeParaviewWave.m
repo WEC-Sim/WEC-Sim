@@ -1,4 +1,4 @@
-function writeParaviewWave(waves, t, numPointsX, numPointsY, domainSize, model, simdate, mooring, paraviewPath,TimeBodyParav,g)
+function writeParaviewWave(waves, t, numPointsX, numPointsY, domainSize, model, simdate, numMoorDyn, paraviewPath,TimeBodyParav,g)
 % Method to write ``vtp`` Paraview visualization files for the waveClass.
 % Executed by paraviewVisualization.m when simu.paraview.option=1 in the 
 % wecSimInputFile.m
@@ -19,8 +19,8 @@ function writeParaviewWave(waves, t, numPointsX, numPointsY, domainSize, model, 
 %       The simMechanics ``.slx`` filename
 %   simdate : string
 %       Date and time of the simulation
-%   mooring : int
-%       MoorDyn flag
+%   numMoorDyn : int
+%       Number of MoorDyn connections
 %   paraviewPath : directory
 %       Directory the Paraview files were saved
 %   TimeBodyParav : float vector
@@ -34,7 +34,11 @@ filename = [paraviewPath, filesep 'ground.txt'];
 fid = fopen(filename, 'w');
 fprintf(fid,[num2str(domainSize) '\n']);
 fprintf(fid,[num2str(waves.waterDepth) '\n']);
-fprintf(fid,[num2str(mooring) '\n']);
+if numMoorDyn >= 1
+    fprintf(fid,[num2str(1) '\n']);
+else
+    fprintf(fid,[num2str(0) '\n']);
+end
 fclose(fid);
 % wave
 x = linspace(-domainSize, domainSize, numPointsX);
