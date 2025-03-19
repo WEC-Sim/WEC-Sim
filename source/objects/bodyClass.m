@@ -129,16 +129,6 @@ classdef bodyClass<handle
                     obj.h5File = hydroInput;
                     obj.useH5 = true;
                 elseif isstruct(hydroInput)
-                    % Quick check on hydro Data structure, currently not very robust,
-                    % but confirms the user isn't trying to use the BEMIO hydro struct
-                    % instead of the one needed for the bodyClass.
-                    requiredFields = {'properties', 'simulation_parameters', 'hydro_coeffs'};
-                    for i = 1:length(requiredFields)
-                        if ~isfield(hydroInput, requiredFields{i})
-                            error('The hydroInput structure must contain the field "%s".', requiredFields{i});
-                        end
-                    end
-
                     % set hydro structure, and indicate that we will not be using an h5 file
                     obj.hydroStruct = hydroInput;
                     obj.useH5 = false;
@@ -203,19 +193,31 @@ classdef bodyClass<handle
             mustBeMember(obj.variableHydro.option, [0 1])
             mustBeInteger(obj.variableHydro.hydroForceIndexInitial)
 
-            % Check h5 file
-            for iH = 1:length(obj.h5File)
-                if obj.nonHydro == 0
-                    if ~exist(obj.h5File{iH},'file')
-                        error('The hdf5 file %s does not exist',obj.h5File{iH})
+            % Check hydrodynamic data input
+            if obj.useH5
+                for iH = 1:length(obj.h5File)
+                    if obj.nonHydro == 0
+                        if ~exist(obj.h5File{iH},'file')
+                            error('The hdf5 file %s does not exist',obj.h5File{iH})
+                        end
+                        h5Info = dir(obj.h5File{iH});
+                        h5Info.bytes;
+                        if h5Info.bytes < 1000
+                            error('This is not the correct *.h5 file. Please install git-lfs to access the correct *.h5 file, or run \hydroData\bemio.m to generate a new *.h5 file');
+                        end
                     end
-                    h5Info = dir(obj.h5File{iH});
-                    h5Info.bytes;
-                    if h5Info.bytes < 1000
-                        error('This is not the correct *.h5 file. Please install git-lfs to access the correct *.h5 file, or run \hydroData\bemio.m to generate a new *.h5 file');
+                end
+            else
+                % Quick check on obj.hydroStruct when hydroData is used to 
+                % initialize the body instead of an h5File.
+                requiredFields = {'properties', 'simulation_parameters', 'hydro_coeffs'};
+                for i = 1:length(requiredFields)
+                    if ~isfield(obj.hydroStruct, requiredFields{i})
+                        error('When initializing the bodyClass with the hydroData structure, it must contain the field "%s". Do not initialize a body with the BEMIO `hydro` structure.', requiredFields{i});
                     end
                 end
             end
+            
             if ~strcmp(obj.mass,'equilibrium') && ~isscalar(obj.mass)
                 error('Body mass must be defined as a scalar or set to `equilibrium`')
             end
