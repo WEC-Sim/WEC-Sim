@@ -37,8 +37,8 @@ classdef bodyClass<handle
         gbmDOF (1,:) {mustBeScalarOrEmpty}          = []                    % (`integer`) Number of degree of freedoms (DOFs) for generalized body mode (GBM). Default = ``[]``.
         geometryFile (1,:) {mustBeText}             = 'NONE'                % (`string`) Path to the body geometry ``.stl`` file.
         h5File (1,:) {mustBeA(h5File,{'char','string','cell'})} = ''        % (`char array, string, cell array of char arrays, or cell array or strings`) hdf5 file containing the hydrodynamic data
-        useH5(1,1)                                  = true                  % (`boolean`) Flag to use h5 file for hydrodynamic data.
         hydroStiffness (6,6,:) {mustBeNumeric}      = zeros(6)              % (`6x6 float matrix`) Linear hydrostatic stiffness matrix. If the variable is nonzero, the matrix will override the h5 file values. Create a 3D matrix (6x6xn) for variable hydrodynamics. Default = ``zeros(6)``.
+        hydroStruct                                 = struct()              % (`structure`) A temporary structure array that contains hydroData when it is directly used in the bodyClass constructor.
         inertia (1,:) {mustBeNumeric}               = []                    % (`1x3 float vector`) Rotational inertia or mass moment of inertia [kg*m^{2}]. Defined by the user in the following format [Ixx Iyy Izz]. Default = ``[]``.
         inertiaProducts (1,:) {mustBeNumeric}       = [0 0 0]               % (`1x3 float vector`) Rotational inertia or mass products of inertia [kg*m^{2}]. Defined by the user in the following format [Ixy Ixz Iyz]. Default = ``[]``.
         initial (1,1) struct                        = struct(...            % (`structure`) Defines the initial displacement of the body.
@@ -67,6 +67,7 @@ classdef bodyClass<handle
             'area',                                 [0 0 0 0 0 0])          % (`structure`)  Defines the viscous quadratic drag forces. Create an array of structures for variable hydrodynamics. First option define ``drag``, (`6x6 float matrix`), Default = ``zeros(6)``. Second option define ``cd``, (`1x6 float vector`), Default = ``[0 0 0 0 0 0]``, and ``area``, (`1x6 float vector`), Default = ``[0 0 0 0 0 0]``.        
         QTFs (1,1) {mustBeInteger}                  = 0                     % (`integer`) Flag for QTFs calculation, Options: 0 (off), 1 (on). Default = ``0``
         paraview (1,1) {mustBeInteger}              = 1;                    % (`integer`) Flag for visualisation in Paraview either, Options: 0 (no) or 1 (yes). Default = ``1``, only called in paraview.
+        useH5(1,1)                                  = true                  % (`boolean`) Flag to use h5 file for hydrodynamic data.
         variableHydro (1,1) struct                  = struct(...            % (`structure`) Defines the variable hydro implementation.
             'option',                               0,...                   % 
             'hydroForceIndexInitial',               1)                      % (`structure`) Defines the variable hydro implementation. ``option`` (`float`) Flag to turn variable hydrodynamics on or off. ``hydroForceIndexInitial`` (`float`) Defines the initial value of the hydroForceIndex, which should correspond to the hydroForce data (cg, cb, volume, water depth, valid cicEndTime, added mass integrated with the body during runtime) and h5File of the body at equilibrium.
@@ -83,7 +84,6 @@ classdef bodyClass<handle
         dofEnd              = []                               % (`integer`) Index the DOF ends for (``body.number``). For WEC bodies this is given in the h5 file, but if not defined in the h5 file, Default = ``(body.number-1)*6+6``.
         dofStart            = []                               % (`integer`) Index the DOF starts for (``body.number``). For WEC bodies this is given in the h5 file, but if not defined in the h5 file, Default = ``(body.number-1)*6+1``.
         hydroData           = struct()                         % (`structure`) A structure array that defines the hydrodynamic data from BEM or user defined.
-        hydroStruct         = struct()                         % (`structure`) A temporary structure array that contains hydroData when it is directly used in the bodyClass constructor.
     end
 
     properties (SetAccess = 'private', GetAccess = 'public')% internal
