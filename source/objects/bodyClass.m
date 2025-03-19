@@ -106,13 +106,13 @@ classdef bodyClass<handle
     end
 
     methods (Access = 'public') % modify object = T; output = F
-        function obj = bodyClass(hydroData)
+        function obj = bodyClass(hydroInput)
             % This method initializes the ``bodyClass`` and creates a
             % ``body`` object.
             %
             % Parameters
             % ------------
-            %     hydroData : string or struct
+            %     hydroInput : string or struct
             %         String specifying the location of the body h5 file
             %         or a struct containing the hydrodynamic data.
             %
@@ -121,26 +121,26 @@ classdef bodyClass<handle
             %     body : obj
             %         bodyClass object
             %
-            if exist('hydroData','var')
-                if isstring(hydroData) || ischar(hydroData)
-                    obj.h5File{1} = hydroData;
+            if exist('hydroInput','var')
+                if isstring(hydroInput) || ischar(hydroInput)
+                    obj.h5File{1} = hydroInput;
                     obj.useH5 = true;
-                elseif iscell(hydroData)
-                    obj.h5File = hydroData;
+                elseif iscell(hydroInput)
+                    obj.h5File = hydroInput;
                     obj.useH5 = true;
-                elseif isstruct(hydroData)
+                elseif isstruct(hydroInput)
                     % Quick check on hydro Data structure, currently not very robust,
                     % but confirms the user isn't trying to use the BEMIO hydro struct
                     % instead of the one needed for the bodyClass.
                     requiredFields = {'properties', 'simulation_parameters', 'hydro_coeffs'};
                     for i = 1:length(requiredFields)
-                        if ~isfield(hydroData, requiredFields{i})
-                            error('The hydroData structure must contain the field "%s".', requiredFields{i});
+                        if ~isfield(hydroInput, requiredFields{i})
+                            error('The hydroInput structure must contain the field "%s".', requiredFields{i});
                         end
                     end
 
                     % set hydro structure, and indicate that we will not be using an h5 file
-                    obj.hydroStruct = hydroData;
+                    obj.hydroStruct = hydroInput;
                     obj.useH5 = false;
                 else
                     error('body.h5File must be a string, cell array of strings, or struct');
