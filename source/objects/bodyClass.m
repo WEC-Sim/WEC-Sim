@@ -37,7 +37,6 @@ classdef bodyClass<handle
         gbmDOF (1,:) {mustBeScalarOrEmpty}          = []                    % (`integer`) Number of degree of freedoms (DOFs) for generalized body mode (GBM). Default = ``[]``.
         geometryFile (1,:) {mustBeText}             = 'NONE'                % (`string`) Path to the body geometry ``.stl`` file.
         h5File (1,:) {mustBeA(h5File,{'char','string','cell'})} = ''        % (`char array, string, cell array of char arrays, or cell array or strings`) hdf5 file containing the hydrodynamic data
-        hydroStruct                                 = struct()              % (`structure`) A structure array that defines the hydrodynamic data from BEM or user defined.
         useH5(1,1)                                  = true                  % (`boolean`) Flag to use h5 file for hydrodynamic data.
         hydroStiffness (6,6,:) {mustBeNumeric}      = zeros(6)              % (`6x6 float matrix`) Linear hydrostatic stiffness matrix. If the variable is nonzero, the matrix will override the h5 file values. Create a 3D matrix (6x6xn) for variable hydrodynamics. Default = ``zeros(6)``.
         inertia (1,:) {mustBeNumeric}               = []                    % (`1x3 float vector`) Rotational inertia or mass moment of inertia [kg*m^{2}]. Defined by the user in the following format [Ixx Iyy Izz]. Default = ``[]``.
@@ -81,9 +80,10 @@ classdef bodyClass<handle
     end
 
     properties (SetAccess = 'private', GetAccess = 'public')% h5 file
-        dofEnd              = []                            % (`integer`) Index the DOF ends for (``body.number``). For WEC bodies this is given in the h5 file, but if not defined in the h5 file, Default = ``(body.number-1)*6+6``.
-        dofStart            = []                            % (`integer`) Index the DOF starts for (``body.number``). For WEC bodies this is given in the h5 file, but if not defined in the h5 file, Default = ``(body.number-1)*6+1``.
-        hydroData           = struct()                      % (`structure`) A structure array that defines the hydrodynamic data from BEM or user defined.
+        dofEnd              = []                               % (`integer`) Index the DOF ends for (``body.number``). For WEC bodies this is given in the h5 file, but if not defined in the h5 file, Default = ``(body.number-1)*6+6``.
+        dofStart            = []                               % (`integer`) Index the DOF starts for (``body.number``). For WEC bodies this is given in the h5 file, but if not defined in the h5 file, Default = ``(body.number-1)*6+1``.
+        hydroData           = struct()                         % (`structure`) A structure array that defines the hydrodynamic data from BEM or user defined.
+        hydroStruct         = struct()                         % (`structure`) A temporary structure array that contains hydroData when it is directly used in the bodyClass constructor.
     end
 
     properties (SetAccess = 'private', GetAccess = 'public')% internal
@@ -217,7 +217,7 @@ classdef bodyClass<handle
                     end
                 end
             end
-            
+
             if ~strcmp(obj.mass,'equilibrium') && ~isscalar(obj.mass)
                 error('Body mass must be defined as a scalar or set to `equilibrium`')
             end

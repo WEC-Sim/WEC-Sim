@@ -199,7 +199,7 @@ for ii = 1:simu.numHydroBodies
             end
             clear tmp_hydroData
         else
-        % Load hydro data directly from structure
+            % Load hydro data directly from structure
             for iH = 1:length(body(ii).hydroStruct)
                 body(ii).loadHydroData(body(ii).hydroStruct(iH), iH);
             end
