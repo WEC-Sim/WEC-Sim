@@ -203,6 +203,7 @@ for ii = 1:simu.numHydroBodies
             for iH = 1:length(body(ii).hydroStruct)
                 body(ii).loadHydroData(body(ii).hydroStruct(iH), iH);
             end
+            body(ii).hydroStruct = {}; % clear the temporary hydroStruct variable to avoid duplicating the info in body.hydroData
         end
     end
 end; clear ii iH
