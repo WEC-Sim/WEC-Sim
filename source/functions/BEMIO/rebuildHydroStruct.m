@@ -58,7 +58,7 @@ hydroData.properties.dofEnd = dofEnd;
 
 % Read hydrostatic stiffness
 if isfield(hydro,'gbm')
-    hydroData.hydro_coeffs.linear_restoring_stiffness = hydro.gbm(dofStart:dofEnd, dofStart:dofEnd, 4);
+    hydroData.hydro_coeffs.linear_restoring_stiffness = hydro.gbm(dofStart:dofEnd, :, 4);
 else
     hydroData.hydro_coeffs.linear_restoring_stiffness = hydro.Khs(:, :, iBod);
 end
@@ -96,7 +96,7 @@ hydroData.hydro_coeffs.added_mass.inf_freq = hydro.Ainf(dofStart:dofEnd, :);
 hydroData.hydro_coeffs.radiation_damping = struct();
 hydroData.hydro_coeffs.radiation_damping.all = hydro.B(dofStart:dofEnd, :, :);
 try hydroData.hydro_coeffs.radiation_damping.impulse_response_fun.K = hydro.ra_K(dofStart:dofEnd, :, :); end
-try hydroData.hydro_coeffs.radiation_damping.impulse_response_fun.t = hydro.ra_t; end
+try hydroData.hydro_coeffs.radiation_damping.impulse_response_fun.t = hydro.ra_t'; end
 
 % Read radiation damping state space coefficients
 try hydroData.hydro_coeffs.radiation_damping.state_space.it = hydro.ss_O(dofStart:dofEnd, :); end
@@ -108,8 +108,8 @@ try hydroData.hydro_coeffs.radiation_damping.state_space.D.all = hydro.ss_D(dofS
 % Read GBM parameters if available
 try 
     hydroData.gbm.mass = hydro.gbm(dofStart+6:dofEnd, dofStart+6:dofEnd, 1);
-    hydroData.gbm.stiffness = hydro.gbm(dofStart+6:dofEnd, dofStart+6:dofEnd, 2);
-    hydroData.gbm.damping = hydro.gbm(dofStart+6:dofEnd, dofStart+6:dofEnd, 3);
+    hydroData.gbm.damping = hydro.gbm(dofStart+6:dofEnd, dofStart+6:dofEnd, 2);
+    hydroData.gbm.stiffness = hydro.gbm(dofStart+6:dofEnd, dofStart+6:dofEnd, 3);
 end
 
 % Read mean drift coefficients if available
