@@ -962,10 +962,14 @@ Alternatively, users may input a ``hydroData`` structure directly to the body co
 pre-processing steps that require writing the H5 file with BEMIO and then reloading it in the bodyClass.
 This workflow may save users time in computationally expensive scenarios.
 
-This altnerate workflow is used by defining a body as: :code:`body(i) = bodyClass(hydroData)`. 
+This alternate workflow is used by defining a body as: :code:`body(i) = bodyClass(hydroData)`. 
 Users should take care to ensure that the ``hydroData`` structure passed is identical in form to that 
-which ``initializeWecSim`` obtains by calling
+which ``initializeWecSim`` obtains by calling:
+
 :code:`hydroData = readBEMIOH5('pathToH5File', body.number, body.meanDrift);`
+
+The function :code:`rebuildHydroStruct()` may be used to convert the BEMIO :code:`hydro` structure
+into the bodyClass :code:`hydroData` format.
 
 
 .. _user-advanced-features-pto:
