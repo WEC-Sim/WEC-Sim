@@ -24,7 +24,11 @@ hydroData.hydro_coeffs = struct();
 % Read body-independent wave parameters
 hydroData.simulation_parameters.scaled = 0;
 hydroData.simulation_parameters.direction = hydro.theta;
-hydroData.simulation_parameters.waterDepth = hydro.h;
+if isequal(hydro.h,Inf)
+    hydroData.simulation_parameters.waterDepth = 'infinite';
+else
+    hydroData.simulation_parameters.waterDepth = hydro.h;
+end
 hydroData.simulation_parameters.w = hydro.w;
 hydroData.simulation_parameters.T = hydro.T;
 
@@ -41,14 +45,14 @@ hydroData.properties.centerBuoyancy = hydro.cb(:,iBod)';
 hydroData.properties.volume = hydro.Vo(iBod);
 
 % Read DOFs
+hydroData.properties.dof = hydro.dof(iBod);
 if iBod > 1
     dofStart = sum(hydro.dof(1:iBod-1)) + 1;
-    dofEnd = hydroData.properties.dofStart - 1 + hydroData.properties.dof;
+    dofEnd = dofStart - 1 + hydroData.properties.dof;
 else
     dofStart = 1;
     dofEnd = hydroData.properties.dof;
 end
-hydroData.properties.dof = hydro.dof(iBod);
 hydroData.properties.dofStart = dofStart;
 hydroData.properties.dofEnd = dofEnd;
 
@@ -64,7 +68,7 @@ hydroData.hydro_coeffs.excitation = struct();
 hydroData.hydro_coeffs.excitation.re = hydro.ex_re(dofStart:dofEnd, :, :);
 hydroData.hydro_coeffs.excitation.im = hydro.ex_im(dofStart:dofEnd, :, :);
 try hydroData.hydro_coeffs.excitation.impulse_response_fun.f = hydro.ex_K(dofStart:dofEnd, :, :); end
-try hydroData.hydro_coeffs.excitation.impulse_response_fun.t = hydro.ex_t; end
+try hydroData.hydro_coeffs.excitation.impulse_response_fun.t = hydro.ex_t'; end
 
 % Read second order excitation forces data (QTFs)
 try
