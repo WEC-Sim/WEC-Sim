@@ -8,6 +8,15 @@ function [hydroData] = rebuildHydroStruct(hydro, iBod, meanDrift)
 %         BEMIO-type structure of hydrodynamic data that would be written
 %         to an H5 file.
 % 
+%     iBod : float
+%         Body number that hydroData will correspond to. For multiple
+%         bodies in the same hydro structure, use multiple calls to the
+%         function while iterating through all relevant body numbers.
+% 
+%     meanDrift : float
+%         Flag to determine which mean drift coefficients are used. Should
+%         be identical to body.meanDrift
+% 
 % Returns
 % -------
 %     hydroData : struct
