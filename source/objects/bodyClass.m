@@ -38,6 +38,7 @@ classdef bodyClass<handle
         geometryFile (1,:) {mustBeText}             = 'NONE'                % (`string`) Path to the body geometry ``.stl`` file.
         h5File (1,:) {mustBeA(h5File,{'char','string','cell'})} = ''        % (`char array, string, cell array of char arrays, or cell array or strings`) hdf5 file containing the hydrodynamic data
         hydroStiffness (6,6,:) {mustBeNumeric}      = zeros(6)              % (`6x6 float matrix`) Linear hydrostatic stiffness matrix. If the variable is nonzero, the matrix will override the h5 file values. Create a 3D matrix (6x6xn) for variable hydrodynamics. Default = ``zeros(6)``.
+        hydroStruct                                 = struct()              % (`structure`) A temporary structure array that contains hydroData when it is directly used in the bodyClass constructor.
         inertia (1,:) {mustBeNumeric}               = []                    % (`1x3 float vector`) Rotational inertia or mass moment of inertia [kg*m^{2}]. Defined by the user in the following format [Ixx Iyy Izz]. Default = ``[]``.
         inertiaProducts (1,:) {mustBeNumeric}       = [0 0 0]               % (`1x3 float vector`) Rotational inertia or mass products of inertia [kg*m^{2}]. Defined by the user in the following format [Ixy Ixz Iyz]. Default = ``[]``.
         initial (1,1) struct                        = struct(...            % (`structure`) Defines the initial displacement of the body.
@@ -66,6 +67,7 @@ classdef bodyClass<handle
             'area',                                 [0 0 0 0 0 0])          % (`structure`)  Defines the viscous quadratic drag forces. Create an array of structures for variable hydrodynamics. First option define ``drag``, (`6x6 float matrix`), Default = ``zeros(6)``. Second option define ``cd``, (`1x6 float vector`), Default = ``[0 0 0 0 0 0]``, and ``area``, (`1x6 float vector`), Default = ``[0 0 0 0 0 0]``.        
         QTFs (1,1) {mustBeInteger}                  = 0                     % (`integer`) Flag for QTFs calculation, Options: 0 (off), 1 (on). Default = ``0``
         paraview (1,1) {mustBeInteger}              = 1;                    % (`integer`) Flag for visualisation in Paraview either, Options: 0 (no) or 1 (yes). Default = ``1``, only called in paraview.
+        useH5(1,1)                                  = true                  % (`boolean`) Flag to use h5 file for hydrodynamic data.
         variableHydro (1,1) struct                  = struct(...            % (`structure`) Defines the variable hydro implementation.
             'option',                               0,...                   % 
             'hydroForceIndexInitial',               1)                      % (`structure`) Defines the variable hydro implementation. ``option`` (`float`) Flag to turn variable hydrodynamics on or off. ``hydroForceIndexInitial`` (`float`) Defines the initial value of the hydroForceIndex, which should correspond to the hydroForce data (cg, cb, volume, water depth, valid cicEndTime, added mass integrated with the body during runtime) and h5File of the body at equilibrium.
@@ -79,9 +81,9 @@ classdef bodyClass<handle
     end
 
     properties (SetAccess = 'private', GetAccess = 'public')% h5 file
-        dofEnd              = []                            % (`integer`) Index the DOF ends for (``body.number``). For WEC bodies this is given in the h5 file, but if not defined in the h5 file, Default = ``(body.number-1)*6+6``.
-        dofStart            = []                            % (`integer`) Index the DOF starts for (``body.number``). For WEC bodies this is given in the h5 file, but if not defined in the h5 file, Default = ``(body.number-1)*6+1``.
-        hydroData           = struct()                      % (`structure`) A structure array that defines the hydrodynamic data from BEM or user defined.
+        dofEnd              = []                               % (`integer`) Index the DOF ends for (``body.number``). For WEC bodies this is given in the h5 file, but if not defined in the h5 file, Default = ``(body.number-1)*6+6``.
+        dofStart            = []                               % (`integer`) Index the DOF starts for (``body.number``). For WEC bodies this is given in the h5 file, but if not defined in the h5 file, Default = ``(body.number-1)*6+1``.
+        hydroData           = struct()                         % (`structure`) A structure array that defines the hydrodynamic data from BEM or user defined.
     end
 
     properties (SetAccess = 'private', GetAccess = 'public')% internal
@@ -104,27 +106,34 @@ classdef bodyClass<handle
     end
 
     methods (Access = 'public') % modify object = T; output = F
-        function obj = bodyClass(h5File)
+        function obj = bodyClass(hydroInput)
             % This method initializes the ``bodyClass`` and creates a
             % ``body`` object.
             %
             % Parameters
             % ------------
-            %     h5File : string
+            %     hydroInput : string or struct
             %         String specifying the location of the body h5 file
+            %         or a struct containing the hydrodynamic data.
             %
             % Returns
             % ------------
             %     body : obj
             %         bodyClass object
             %
-            if exist('h5File','var')
-                if isstring(h5File) || ischar(h5File)
-                    obj.h5File{1} = h5File;
-                elseif iscell(h5File)
-                    obj.h5File = h5File;
+            if exist('hydroInput','var')
+                if isstring(hydroInput) || ischar(hydroInput)
+                    obj.h5File{1} = hydroInput;
+                    obj.useH5 = true;
+                elseif iscell(hydroInput)
+                    obj.h5File = hydroInput;
+                    obj.useH5 = true;
+                elseif isstruct(hydroInput)
+                    % set hydro structure, and indicate that we will not be using an h5 file
+                    obj.hydroStruct = hydroInput;
+                    obj.useH5 = false;
                 else
-                    error('body.h5File must be a string or cell array of strings');
+                    error('body.h5File must be a string, cell array of strings, or struct');
                 end
             else
                 error('The body class number(s) in the wecSimInputFile must be specified in ascending order starting from 1. The bodyClass() function should be called first to initialize each body with an h5 file.')
@@ -184,19 +193,31 @@ classdef bodyClass<handle
             mustBeMember(obj.variableHydro.option, [0 1])
             mustBeInteger(obj.variableHydro.hydroForceIndexInitial)
 
-            % Check h5 file
-            for iH = 1:length(obj.h5File)
-                if obj.nonHydro == 0
-                    if ~exist(obj.h5File{iH},'file')
-                        error('The hdf5 file %s does not exist',obj.h5File{iH})
+            % Check hydrodynamic data input
+            if obj.useH5
+                for iH = 1:length(obj.h5File)
+                    if obj.nonHydro == 0
+                        if ~exist(obj.h5File{iH},'file')
+                            error('The hdf5 file %s does not exist',obj.h5File{iH})
+                        end
+                        h5Info = dir(obj.h5File{iH});
+                        h5Info.bytes;
+                        if h5Info.bytes < 1000
+                            error('This is not the correct *.h5 file. Please install git-lfs to access the correct *.h5 file, or run \hydroData\bemio.m to generate a new *.h5 file');
+                        end
                     end
-                    h5Info = dir(obj.h5File{iH});
-                    h5Info.bytes;
-                    if h5Info.bytes < 1000
-                        error('This is not the correct *.h5 file. Please install git-lfs to access the correct *.h5 file, or run \hydroData\bemio.m to generate a new *.h5 file');
+                end
+            else
+                % Quick check on obj.hydroStruct when hydroData is used to 
+                % initialize the body instead of an h5File.
+                requiredFields = {'properties', 'simulation_parameters', 'hydro_coeffs'};
+                for i = 1:length(requiredFields)
+                    if ~isfield(obj.hydroStruct, requiredFields{i})
+                        error('When initializing the bodyClass with the hydroData structure, it must contain the field "%s". Do not initialize a body with the BEMIO `hydro` structure.', requiredFields{i});
                     end
                 end
             end
+
             if ~strcmp(obj.mass,'equilibrium') && ~isscalar(obj.mass)
                 error('Body mass must be defined as a scalar or set to `equilibrium`')
             end
@@ -356,6 +377,7 @@ classdef bodyClass<handle
             else
                 obj.hydroData(iH) = hydroData;
             end
+
             if iH == obj.variableHydro.hydroForceIndexInitial
                 obj.centerGravity	= hydroData.properties.centerGravity';
                 obj.centerBuoyancy  = hydroData.properties.centerBuoyancy';
