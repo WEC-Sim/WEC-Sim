@@ -84,10 +84,12 @@ for i = 1:hydro.Nb
     try hydro.ss_conv(dofStart:dofEnd,:) = reverseDimensionOrder(h5read(filename, [h5BodyName '/hydro_coeffs/radiation_damping/state_space/conv'])); end
 
     % Read GBM coefficients if available
-    try hydro.gbm(dofStart:dofEnd,:,1) = h5read(filename,[h5BodyName '/properties/mass']); end
-    try hydro.gbm(dofStart:dofEnd,:,2) = h5read(filename,[h5BodyName '/properties/damping']); end
-    try hydro.gbm(dofStart:dofEnd,:,3) = h5read(filename,[h5BodyName '/properties/stiffness']); end
-    try hydro.gbm(dofStart:dofEnd,:,4) = reverseDimensionOrder(h5read(filename, [h5BodyName '/hydro_coeffs/linear_restoring_stiffness'])); end
+    try 
+        hydro.gbm(dofStart:dofEnd,:,1) = h5read(filename,[h5BodyName '/properties/mass']);
+        hydro.gbm(dofStart:dofEnd,:,2) = h5read(filename,[h5BodyName '/properties/damping']);
+        hydro.gbm(dofStart:dofEnd,:,3) = h5read(filename,[h5BodyName '/properties/stiffness']);
+        hydro.gbm(dofStart:dofEnd,:,4) = reverseDimensionOrder(h5read(filename, [h5BodyName '/hydro_coeffs/linear_restoring_stiffness']));
+    end
 
     % Read mean drift variables if available
     try hydro.md_mc(dofStart:dofEnd,:,:) = reverseDimensionOrder(h5read(filename, [h5BodyName '/hydro_coeffs/mean_drift/momentum_conservation/val'])); end
