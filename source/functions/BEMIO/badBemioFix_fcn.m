@@ -157,7 +157,7 @@ for k = 1:row
             % smooth positive peaks via interpolation amongst surrounding
             % points
             for kkk=1:length(BLocs)
-                if BLocs(kkk) <= 2 || BLocs(kkk) >= length(hydro.w)-2
+                if BLocs(kkk) <= 2 || BLocs(kkk) > length(hydro.w)-2
                     warning('Rad damping peak detected at edge of data set, despiked using data away from end, but check output')
                     if BLocs(kkk) <=2
                         if BLocs(kkk) ==2
@@ -202,7 +202,7 @@ for k = 1:row
             % smooth positive peaks via interpolation amongst surrounding
             % points
             for kkk=1:length(ALocs) % A location pchip smoothing
-                if ALocs(kkk) <= 2 || ALocs(kkk) >= length(hydro.w)-2
+                if ALocs(kkk) <= 2 || ALocs(kkk) > length(hydro.w)-2
                     warning('Added Mass peak detected at edge of data set, ignored, but check output')
                     if ALocs(kkk) <=2
                         if ALocs(kkk) ==2
@@ -231,7 +231,7 @@ for k = 1:row
             % smooth negative peaks via interpolation amongst surrounding
             % points
             for kkk=1:length(BLocsN) % B location pchip smoothing
-                if BLocsN(kkk) <= 2 || BLocsN(kkk) >= length(hydro.w)-2
+                if BLocsN(kkk) <= 2 || BLocsN(kkk) > length(hydro.w)-2
                     warning('Rad damping peak detected at edge of data set, ignored, but check output')
                     if BLocsN(kkk) <=2
                         if BLocsN(kkk) ==2
@@ -257,9 +257,9 @@ for k = 1:row
                 end
             end
             for kkk=1:length(ALocsN) % A location pchip smoothing
-                if ALocsN(kkk) <= 2 || ALocsN(kkk) >= length(hydro.w)-2
+                if ALocsN(kkk) <= 2 || ALocsN(kkk) > length(hydro.w)-2
                     warning('Added Mass peak detected at edge of data set, ignored, but check output')
-                 if ALocsN(kkk) <=2
+                    if ALocsN(kkk) <=2
                         if ALocsN(kkk) ==2
                             ARep = interp1([hydro.w(ALocsN(kkk)-1);hydro.w(ALocsN(kkk)+1);hydro.w(ALocsN(kkk)+2);hydro.w(ALocsN(kkk)+3)],...
                                 [hydro.A(k,kk,ALocsN(kkk)-1);hydro.A(k,kk,ALocsN(kkk)+1);hydro.A(k,kk,ALocsN(kkk)+2);hydro.A(k,kk,ALocsN(kkk)+3)],hydro.w(ALocsN(kkk)),'linear');
@@ -317,8 +317,25 @@ for k=1:row
         ExPeaks(ExLog) = []; ExLocs(ExLog)=[]; ExPeaksN(ExLogN) = []; ExLocsN(ExLogN)=[];
 
         for kk =1:length(ExLocs) % real part positive peaks
-            if ExLocs(kk) <= 2 || ExLocs(kk) >= length(hydro.w)-2
+            if ExLocs(kk) <= 2 || ExLocs(kk) > length(hydro.w)-2
                 warning('Excitation peak detected at edge of data set, ignored, but check output')
+                if ExLocs(kk) <=2
+                    if ExLocs(kk) ==2
+                        ExRep = interp1([hydro.w(ExLocs(kk)-1);hydro.w(ExLocs(kk)+1);hydro.w(ExLocs(kk)+2);hydro.w(ExLocs(kk)+3)],...
+                            [hydro.ex_re(k,1,ExLocs(kk)-1);hydro.ex_re(k,1,ExLocs(kk)+1);hydro.ex_re(k,1,ExLocs(kk)+2);hydro.ex_re(k,1,ExLocs(kk)+3)],hydro.w(ExLocs(kk)),'linear');
+                    else
+                        ExRep = interp1([hydro.w(ExLocs(kk)+1);hydro.w(ExLocs(kk)+2);hydro.w(ExLocs(kk)+3);hydro.w(ExLocs(kk)+4)],...
+                            [hydro.ex_re(k,1,ExLocs(kk)+1);hydro.ex_re(k,1,ExLocs(kk)+2);hydro.ex_locs(k,1,ExLocs(kk)+3);hydro.ex_locs(k,1,ExLocs(kk)+4)],hydro.w(ExLocs(kk)),'linear');
+                    end
+                elseif ExLocs(kk) > length(hydro.w)-2
+                    if ExLocs(kk) == length(hydro.w)
+                        ExRep = interp1([hydro.w(ExLocs(kk)-4);hydro.w(ExLocs(kk)-3);hydro.w(ExLocs(kk)-2);hydro.w(ExLocs(kk)-1)],...
+                            [hydro.ex_re(k,1,ExLocs(kk)-4);hydro.ex_re(k,1,ExLocs(kk)-3);hydro.ex_re(k,1,ExLocs(kk)-2);hydro.ex_re(k,1,ExLocs(kk)-1)],hydro.w(ExLocs(kk)),'linear');
+                    else
+                        ExRep = interp1([hydro.w(ExLocs(kk)-3);hydro.w(ExLocs(kk)-2);hydro.w(ExLocs(kk)-1);hydro.w(ExLocs(kk)+1)],...
+                            [hydro.ex_re(k,1,ExLocs(kk)-3);hydro.ex_re(k,1,ExLocs(kk)-2);hydro.ex_re(k,1,ExLocs(kk)-1);hydro.ex_re(k,1,ExLocs(kk)+1)],hydro.w(ExLocs(kk)),'linear');
+                    end
+                end
             else
                 ExRep = interp1([hydro.w(ExLocs(kk)-2),hydro.w(ExLocs(kk)-1),hydro.w(ExLocs(kk)+1),hydro.w(ExLocs(kk)+2)],...
                     [hydro.ex_re(k,1,ExLocs(kk)-2),hydro.ex_re(k,1,ExLocs(kk)-1),hydro.ex_re(k,1,ExLocs(kk)+1),hydro.ex_re(k,1,ExLocs(kk)+2)],hydro.w(ExLocs(kk)),'linear');
@@ -327,8 +344,25 @@ for k=1:row
         end
 
         for kk =1:length(ExLocsN) % real part negative peaks
-            if ExLocsN(kk) <= 2 || ExLocsN(kk) >= length(hydro.w)-2
+            if ExLocsN(kk) <= 2 || ExLocsN(kk) > length(hydro.w)-2
                 warning('Excitation peak detected at edge of data set, ignored, but check output')
+                if ExLocs(kk) <=2
+                    if ExLocsN(kk) ==2
+                        ExRep = interp1([hydro.w(ExLocsN(kk)-1);hydro.w(ExLocsN(kk)+1);hydro.w(ExLocsN(kk)+2);hydro.w(ExLocsN(kk)+3)],...
+                            [hydro.ex_re(k,1,ExLocsN(kk)-1);hydro.ex_re(k,1,ExLocsN(kk)+1);hydro.ex_re(k,1,ExLocsN(kk)+2);hydro.ex_re(k,1,ExLocsN(kk)+3)],hydro.w(ExLocsN(kk)),'linear');
+                    else
+                        ExRep = interp1([hydro.w(ExLocsN(kk)+1);hydro.w(ExLocsN(kk)+2);hydro.w(ExLocsN(kk)+3);hydro.w(ExLocsN(kk)+4)],...
+                            [hydro.ex_re(k,1,ExLocsN(kk)+1);hydro.ex_re(k,1,ExLocsN(kk)+2);hydro.ex_re(k,1,ExLocsN(kk)+3);hydro.ex_re(k,1,ExLocsN(kk)+4)],hydro.w(ExLocsN(kk)),'linear');
+                    end
+                elseif ExLocsN(kk) > length(hydro.w)-2
+                    if ExLocsN(kk) == length(hydro.w)
+                        ExRep = interp1([hydro.w(ExLocsN(kk)-4);hydro.w(ExLocsN(kk)-3);hydro.w(ExLocsN(kk)-2);hydro.w(ExLocsN(kk)-1)],...
+                            [hydro.ex_re(k,1,ExLocsN(kk)-4);hydro.ex_re(k,1,ExLocsN(kk)-3);hydro.ex_re(k,1,ExLocsN(kk)-2);hydro.ex_re(k,1,ExLocsN(kk)-1)],hydro.w(ExLocsN(kk)),'linear');
+                    else
+                        ExRep = interp1([hydro.w(ExLocsN(kk)-3);hydro.w(ExLocsN(kk)-2);hydro.w(ExLocsN(kk)-1);hydro.w(ExLocsN(kk)+1)],...
+                            [hydro.ex_re(k,1,ExLocsN(kk)-3);hydro.ex_re(k,1,ExLocsN(kk)-2);hydro.ex_re(k,1,ExLocsN(kk)-1);hydro.ex_re(k,1,ExLocsN(kk)+1)],hydro.w(ExLocsN(kk)),'linear');
+                    end
+                end
             else
                 ExRep = interp1([hydro.w(ExLocsN(kk)-2),hydro.w(ExLocsN(kk)-1),hydro.w(ExLocsN(kk)+1),hydro.w(ExLocsN(kk)+2)],...
                     [hydro.ex_re(k,1,ExLocsN(kk)-2),hydro.ex_re(k,1,ExLocsN(kk)-1),hydro.ex_re(k,1,ExLocsN(kk)+1),hydro.ex_re(k,1,ExLocsN(kk)+2)],hydro.w(ExLocsN(kk)),'linear');
@@ -360,8 +394,25 @@ for k=1:row
         ExPeaks(ExLog) = []; ExLocs(ExLog)=[]; ExPeaksN(ExLogN) = []; ExLocsN(ExLogN)=[];
 
         for kk =1:length(ExLocs) % imaginary part positive peaks
-            if ExLocs(kk) <= 2 || ExLocs(kk) >= length(hydro.w)-2
+            if ExLocs(kk) <= 2 || ExLocs(kk) > length(hydro.w)-2
                 warning('Excitation peak detected at edge of data set, ignored, but check output')
+                if ExLocs(kk) <=2
+                    if ExLocs(kk) ==2
+                        ExRep = interp1([hydro.w(ExLocs(kk)-1);hydro.w(ExLocs(kk)+1);hydro.w(ExLocs(kk)+2);hydro.w(ExLocs(kk)+3)],...
+                            [hydro.ex_im(k,1,ExLocs(kk)-1);hydro.ex_im(k,1,ExLocs(kk)+1);hydro.ex_im(k,1,ExLocs(kk)+2);hydro.ex_im(k,1,ExLocs(kk)+3)],hydro.w(ExLocs(kk)),'linear');
+                    else
+                        ExRep = interp1([hydro.w(ExLocs(kk)+1);hydro.w(ExLocs(kk)+2);hydro.w(ExLocs(kk)+3);hydro.w(ExLocs(kk)+4)],...
+                            [hydro.ex_im(k,1,ExLocs(kk)+1);hydro.ex_im(k,1,ExLocs(kk)+2);hydro.ex_im(k,1,ExLocs(kk)+3);hydro.ex_im(k,1,ExLocs(kk)+4)],hydro.w(ExLocs(kk)),'linear');
+                    end
+                elseif ExLocs(kk) > length(hydro.w)-2
+                    if ExLocs(kk) == length(hydro.w)
+                        ExRep = interp1([hydro.w(ExLocs(kk)-4);hydro.w(ExLocs(kk)-3);hydro.w(ExLocs(kk)-2);hydro.w(ExLocs(kk)-1)],...
+                            [hydro.ex_im(k,1,ExLocs(kk)-4);hydro.ex_im(k,1,ExLocs(kk)-3);hydro.ex_im(k,1,ExLocs(kk)-2);hydro.ex_im(k,1,ExLocs(kk)-1)],hydro.w(ExLocs(kk)),'linear');
+                    else
+                        ExRep = interp1([hydro.w(ExLocs(kk)-3);hydro.w(ExLocs(kk)-2);hydro.w(ExLocs(kk)-1);hydro.w(ExLocs(kk)+1)],...
+                            [hydro.ex_im(k,1,ExLocs(kk)-3);hydro.ex_im(k,1,ExLocs(kk)-2);hydro.ex_im(k,1,ExLocs(kk)-1);hydro.ex_im(k,1,ExLocs(kk)+1)],hydro.w(ExLocs(kk)),'linear');
+                    end
+                end
             else
                 ExRep = interp1([hydro.w(ExLocs(kk)-2),hydro.w(ExLocs(kk)-1),hydro.w(ExLocs(kk)+1),hydro.w(ExLocs(kk)+2)],...
                     [hydro.ex_im(k,1,ExLocs(kk)-2),hydro.ex_im(k,1,ExLocs(kk)-1),hydro.ex_im(k,1,ExLocs(kk)+1),hydro.ex_im(k,1,ExLocs(kk)+2)],hydro.w(ExLocs(kk)),'linear');
@@ -370,8 +421,25 @@ for k=1:row
         end
 
         for kk =1:length(ExLocsN) % imaginary part negative peaks
-            if ExLocsN(kk) <= 2 || ExLocsN(kk) >= length(hydro.w)-2
+            if ExLocsN(kk) <= 2 || ExLocsN(kk) > length(hydro.w)-2
                 warning('Excitation peak detected at edge of data set, ignored, but check output')
+                if ExLocsN(kk) <=2
+                    if ExLocsN(kk) ==2
+                        ExRep = interp1([hydro.w(ExLocsN(kk)-1);hydro.w(ExLocsN(kk)+1);hydro.w(ExLocsN(kk)+2);hydro.w(ExLocsN(kk)+3)],...
+                            [hydro.ex_im(k,1,ExLocsN(kk)-1);hydro.ex_im(k,1,ExLocsN(kk)+1);hydro.ex_im(k,1,ExLocsN(kk)+2);hydro.ex_im(k,1,ExLocsN(kk)+3)],hydro.w(ExLocsN(kk)),'linear');
+                    else
+                        ExRep = interp1([hydro.w(ExLocsN(kk)+1);hydro.w(ExLocsN(kk)+2);hydro.w(ExLocsN(kk)+3);hydro.w(ExLocsN(kk)+4)],...
+                            [hydro.ex_im(k,1,ExLocsN(kk)+1);hydro.ex_im(k,1,ExLocsN(kk)+2);hydro.ex_im(k,1,ExLocsN(kk)+3);hydro.ex_im(k,1,ExLocsN(kk)+4)],hydro.w(ExLocsN(kk)),'linear');
+                    end
+                elseif ExLocsN(kk) > length(hydro.w)-2
+                    if ExLocsN(kk) == length(hydro.w)
+                        ExRep = interp1([hydro.w(ExLocsN(kk)-4);hydro.w(ExLocsN(kk)-3);hydro.w(ExLocsN(kk)-2);hydro.w(ExLocsN(kk)-1)],...
+                            [hydro.ex_im(k,1,ExLocsN(kk)-4);hydro.ex_im(k,1,ExLocsN(kk)-3);hydro.ex_im(k,1,ExLocsN(kk)-2);hydro.ex_im(k,1,ExLocsN(kk)-1)],hydro.w(ExLocsN(kk)),'linear');
+                    else
+                        ExRep = interp1([hydro.w(ExLocsN(kk)-3);hydro.w(ExLocsN(kk)-2);hydro.w(ExLocsN(kk)-1);hydro.w(ExLocsN(kk)+1)],...
+                            [hydro.ex_im(k,1,ExLocsN(kk)-3);hydro.ex_im(k,1,ExLocsN(kk)-2);hydro.ex_im(k,1,ExLocsN(kk)-1);hydro.ex_im(k,1,ExLocsN(kk)+1)],hydro.w(ExLocsN(kk)),'linear');
+                    end
+                end
             else
                 ExRep = interp1([hydro.w(ExLocsN(kk)-2),hydro.w(ExLocsN(kk)-1),hydro.w(ExLocsN(kk)+1),hydro.w(ExLocsN(kk)+2)],...
                     [hydro.ex_im(k,1,ExLocsN(kk)-2),hydro.ex_im(k,1,ExLocsN(kk)-1),hydro.ex_im(k,1,ExLocsN(kk)+1),hydro.ex_im(k,1,ExLocsN(kk)+2)],hydro.w(ExLocsN(kk)),'linear');
