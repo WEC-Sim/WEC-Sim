@@ -1,9 +1,9 @@
 %% Paraview Visualization
 if simu.paraview.option == 1
     fprintf('    ...writing ParaView files...   \n')
-    if exist([simu.paraview.path filesep 'vtk'],'dir') ~= 0
+    if exist([simu.paraview.path],'dir') ~= 0
         try
-            rmdir([simu.paraview.path filesep 'vtk'],'s')
+            rmdir([simu.paraview.path],'s')
         catch
             error('The vtk directory could not be removed. Please close any files in the vtk directory and try running WEC-Sim again')
         end
