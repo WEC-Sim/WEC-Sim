@@ -1,9 +1,9 @@
 %% Paraview Visualization
 if simu.paraview.option == 1
     fprintf('    ...writing ParaView files...   \n')
-    if exist([simu.paraview.path filesep 'vtk'],'dir') ~= 0
+    if exist([simu.paraview.path],'dir') ~= 0
         try
-            rmdir([simu.paraview.path filesep 'vtk'],'s')
+            rmdir([simu.paraview.path],'s')
         catch
             error('The vtk directory could not be removed. Please close any files in the vtk directory and try running WEC-Sim again')
         end
@@ -18,31 +18,34 @@ if simu.paraview.option == 1
             end
         end
     end
-   % bodies
+    if isempty(simu.paraview.startTime) || isempty(simu.paraview.dt) || isempty(simu.paraview.endTime)
+        if isempty(simu.paraview.startTime)
+            simu.paraview.startTime = simu.startTime;
+        end
+        if isempty(simu.paraview.dt)
+            simu.paraview.dt= simu.dt;
+        end
+        if isempty(simu.paraview.endTime)
+            simu.paraview.endTime = simu.endTime;
+        end
+        NewTimeParaview(:,1) = simu.paraview.startTime:simu.paraview.dt:simu.paraview.endTime;
+    end
+    % bodies
     filename = [simu.paraview.path filesep 'bodies.txt'];
     mkdir([simu.paraview.path])
     [fid ,errmsg] = fopen(filename, 'w');
     vtkbodiesii = 1;
+   
     for ii = 1:length(body(1,:))
         if body(ii).paraview == 1
             bodyname = output.bodies(ii).name;
             mkdir([simu.paraview.path filesep 'body' num2str(vtkbodiesii) '_' bodyname]);
             TimeBodyParav = output.bodies(ii).time;
             PositionBodyParav = output.bodies(ii).position;
-            if isempty(simu.paraview.startTime) || isempty(simu.paraview.dt) || isempty(simu.paraview.endTime)
-                if isempty(simu.paraview.startTime)
-                    simu.paraview.startTime = simu.startTime;
-                end
-                if isempty(simu.paraview.dt)
-                    simu.paraview.dt= simu.dt;
-                end
-                if isempty(simu.paraview.endTime)
-                    simu.paraview.endTime = simu.endTime;
-                end
-                NewTimeParaview(:,1) = simu.paraview.startTime:simu.paraview.dt:simu.paraview.endTime;
-                PositionBodyParav = interp1(TimeBodyParav,PositionBodyParav,NewTimeParaview);
-                TimeBodyParav = NewTimeParaview;
-            end
+            
+            PositionBodyParav = interp1(TimeBodyParav,PositionBodyParav,NewTimeParaview);
+            TimeBodyParav = NewTimeParaview;
+
             writeParaviewBody(body(ii), TimeBodyParav, PositionBodyParav, bodyname, modelName, datestr(simu.date), output.bodies(ii).cellPressures_hydrostatic, output.bodies(ii).cellPressures_waveNonLinear, output.bodies(ii).cellPressures_waveLinear, simu.paraview.path,vtkbodiesii);
             bodies{vtkbodiesii} = bodyname;
             fprintf(fid,[bodyname '\n']);
@@ -65,4 +68,4 @@ if simu.paraview.option == 1
        writeParaviewResponse(bodies, TimeBodyParav, modelName, datestr(simu.date), waves.type, moordynFlag, simu.paraview.path);
     clear bodies fid filename
 end
-clear body*_hspressure_out body*_wavenonlinearpressure_out body*_wavelinearpressure_out  hspressure wpressurenl wpressurel cellareas bodyname 
+clear body*_hspressure_out body*_wavenonlinearpressure_out body*_wavelinearpressure_out  hspressure wpressurenl wpressurel cellareas bodyname NewTimeParaview PositionBodyParav TimeBodyParav vtkbodiesii
