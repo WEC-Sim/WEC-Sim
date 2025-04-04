@@ -68,4 +68,4 @@ if simu.paraview.option == 1
        writeParaviewResponse(bodies, TimeBodyParav, modelName, datestr(simu.date), waves.type, moordynFlag, simu.paraview.path);
     clear bodies fid filename
 end
-clear body*_hspressure_out body*_wavenonlinearpressure_out body*_wavelinearpressure_out  hspressure wpressurenl wpressurel cellareas bodyname 
+clear body*_hspressure_out body*_wavenonlinearpressure_out body*_wavelinearpressure_out  hspressure wpressurenl wpressurel cellareas bodyname NewTimeParaview PositionBodyParav TimeBodyParav vtkbodiesii
