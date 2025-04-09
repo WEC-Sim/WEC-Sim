@@ -321,7 +321,7 @@ classdef responseClass<handle
             end
         end
         
-        function obj = loadMoorDyn(obj,linesNum, inputFile, iMoor)            
+        function obj = loadMoorDyn(obj,linesNum, inputFile, iMoor, previousLineCount)            
             % This method reads MoorDyn outputs for each instance of the
             % ``mooringClass``
             %            
@@ -333,6 +333,9 @@ classdef responseClass<handle
             %         the infile text name 
             %     iMoor : integer
             %         the index defining the MoorDyn connection
+            %     previousLineCount : integer
+            %         the number of mooring lines from previous MoorDun
+            %         connections
             %
             
             arguments
@@ -340,6 +343,7 @@ classdef responseClass<handle
                 linesNum (1,1) double {mustBeInteger}
                 inputFile (1,:) {mustBeText}
                 iMoor (1,1) double {mustBeInteger}
+                previousLineCount (1,1) double {mustBeInteger}
             end
             
             % load out files. First find the path and rootname. 
@@ -363,7 +367,7 @@ classdef responseClass<handle
             % load Line#.out
             for iline=1:linesNum
                 eval(['obj.moorDyn(' num2str(iMoor) ').Line' num2str(iline) '=struct();']);
-                filename = [append(fileRootPath,'_Line') num2str(iline) '.out'];
+                filename = [append(fileRootPath,'_Line') num2str(iline+previousLineCount) '.out'];
                 try
                     fid = fopen(filename);
                     header = strsplit(strtrim(fgetl(fid)));

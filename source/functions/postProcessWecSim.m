@@ -138,9 +138,11 @@ output = responseClass(bodiesOutput,ptosOutput,constraintsOutput,ptosimOutput,ca
 clear bodiesOutput ptosOutput constraintsOutput ptosimOutput cablesOutput mooringOutput waveOutput windTurbineOutput
 
 % MoorDyn
+mooringLineCount = 0;
 for iMoor = 1:simu.numMoorings
     if mooring(iMoor).moorDyn==1
-        output.loadMoorDyn(mooring(iMoor).moorDynLines, mooring(iMoor).moorDynInputFile, iMoor);
+        output.loadMoorDyn(mooring(iMoor).moorDynLines, mooring(iMoor).moorDynInputFile, iMoor, mooringLineCount);
+        mooringLineCount = mooringLineCount + mooring(iMoor).moorDynLines;
     end
 end; clear iMoor
 

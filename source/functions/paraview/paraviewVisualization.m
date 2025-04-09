@@ -51,10 +51,12 @@ if simu.paraview.option == 1
         mkdir([simu.paraview.path filesep 'waves'])
         writeParaviewWave(waves, NewTimeParaview, waves.viz.numPointsX, waves.viz.numPointsY, simu.domainSize, modelName, datestr(simu.date), simu.numMoorDyn,simu.paraview.path,TimeBodyParav, simu.gravity);    % mooring
     % mooring
-    for ii = 1:length(mooring(1,:))
-        if mooring(ii).moorDyn == 1
-            mkdir([simu.paraview.path filesep 'mooring' num2str(ii)]);
-            writeParaviewMooring(output.moorDyn(ii), modelName, output.moorDyn(ii).Lines.Time, datestr(simu.date), mooring(ii).moorDynLines, mooring(ii).moorDynNodes,simu.paraview.path,TimeBodyParav,NewTimeParaview,ii)
+    if exist('mooring','var')
+        for ii = 1:length(mooring(1,:))
+            if mooring(ii).moorDyn == 1
+                mkdir([simu.paraview.path filesep 'mooring' num2str(ii)]);
+                writeParaviewMooring(output.moorDyn(ii), modelName, output.moorDyn(ii).Lines.Time, datestr(simu.date), mooring(ii).moorDynLines, mooring(ii).moorDynNodes,simu.paraview.path,TimeBodyParav,NewTimeParaview,ii)
+            end
         end
     end
     % all

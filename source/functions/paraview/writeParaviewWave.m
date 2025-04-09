@@ -34,11 +34,7 @@ filename = [paraviewPath, filesep 'ground.txt'];
 fid = fopen(filename, 'w');
 fprintf(fid,[num2str(domainSize) '\n']);
 fprintf(fid,[num2str(waves.waterDepth) '\n']);
-if numMoorDyn >= 1
-    fprintf(fid,[num2str(1) '\n']);
-else
-    fprintf(fid,[num2str(0) '\n']);
-end
+fprintf(fid,[num2str(numMoorDyn) '\n']);
 fclose(fid);
 % wave
 x = linspace(-domainSize, domainSize, numPointsX);
