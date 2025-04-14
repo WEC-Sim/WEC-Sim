@@ -765,8 +765,6 @@ classdef bodyClass<handle
             for iWaves = 2 : length(wavesObj)
                 waveAmpTime(:,2) = waveAmpTime(:,2) + wavesObj(iWaves).waveAmpTime(:,2);
             end
-            waveAmpTime(:,1) = OrcaFlex_time;
-            waveAmpTime(:,2) = OrcaFlex_elev;
 
             fMax = 1 / (waveAmpTime(2,1) - waveAmpTime(1,1)); % Maximum samplng freq.
             ampFreq = fft(waveAmpTime(:,2));
