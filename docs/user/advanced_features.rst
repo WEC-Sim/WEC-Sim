@@ -732,6 +732,68 @@ Applications <https://github.com/WEC-Sim/WEC-Sim_Applications>`_ repository
 
     Morison Elements cannot be used with :code:`elevationImport`.
 
+.. _user-advanced-features-second-order-excitation-forces:
+
+Second-Order Excitation Forces and Quadratic Transfer Functions (QTFs)
+^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+For large offshore structures, second-order wave excitation forces can significantly influence system behavior—particularly in surge, pitch, and other low-frequency motions. These forces arise from interactions between pairs of wave frequencies, :math:`\omega_i` and :math:`\omega_j`, within the wave spectrum.
+
+There are two types of second-order forces:
+
+- **Sum-frequency forces** (:math:`\omega_i + \omega_j`): High-frequency components that can excite fast body motions.
+- **Difference-frequency forces** (:math:`\omega_i - \omega_j`): Low-frequency components that can induce slow-drift responses such as surge or pitch.
+
+WEC-Sim supports **Quadratic Transfer Functions (QTFs)** to model second-order excitation forces. These can be imported from hydrodynamic solvers such as **WAMIT** and **NEMOH**, provided via `bemio` in an `.h5` file.
+
+----
+
+**File Naming and Conventions**
+
+The QTF file naming depends on the hydrodynamics solver:
+
+**WAMIT**
+
+- QTF files should be located in the same folder as the `.out` file.
+- File naming format:
+  
+  ::
+  
+      qtfResults_<body#>.11s
+      qtfResults_<body#>.11d
+
+  Example: ``qtfWAMIT_1.11s``
+
+- Note: WAMIT uses **1-based indexing** for body numbers.
+
+**NEMOH**
+
+- QTF files should follow this naming format:
+
+  ::
+  
+      OUT_QTFP_N_<body#>.dat   (for sum-frequency QTFs)
+      OUT_QTFM_N_<body#>.dat   (for difference-frequency QTFs)
+
+- NEMOH uses **0-based indexing** for body numbers.
+
+----
+
+**Activating QTFs in WEC-Sim**
+
+To enable second-order excitation forces in WEC-Sim, use the following flag in your `body(i)` definition:
+
+- ``body(i).QTFs = 1`` — Enables **full QTF-based** second-order excitation.
+- ``body(i).QTFs = 2`` — Enables **Newman approximation** for **difference-frequency** forces.
+  - In this case, sum-frequency components are still computed using full QTFs.
+
+.. note::
+
+   Do **not** use ``body(i).QTFs`` and ``body(i).meanDrift`` together.  
+   This will result in **double-counting** of mean drift forces—once from the QTFs and once from linear mean drift.
+
+----
+
 .. _user-advanced-features-non-hydro-body:
 
 Non-Hydrodynamic Bodies
