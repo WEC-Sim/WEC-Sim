@@ -166,9 +166,11 @@ which allows parallel capability for :ref:`user-advanced-features-mcr` but adds
 an additional MATLAB dependency to use this feature. Similar to MCR, this 
 feature can be executed in three ways (Options 1~3). 
 
-For PCT runs, the ``*.h5`` hydrodynamic data must be reload, regardless the 
+For PCT runs, the ``*.h5`` hydrodynamic data must be reloaded, regardless the 
 setting for ``simu.reloadH5Data`` in the WEC-Sim input file. 
 
+The option ``simu.keepPool=1`` will retain the parallel pool after simulations have finished to facilitate
+parallel post-processing. If the pool is no longer needed or needs reinitialization, ``simu.keepPool=0`` will close the parallel pool after simulations have completed.     
 
 .. Note::
     The ``userDefinedFunctionsMCR.m`` is not compatible with ``wecSimPCT``. 
@@ -1016,6 +1018,22 @@ Variable Hydrodynamics
 ^^^^^^^^^^^^^^^^^^^^^^
 
 .. include:: /_include/variable_hydro.rst
+
+Body Initialization
+^^^^^^^^^^^^^^^^^^^
+The bodyClass is typically defined by inputting one or more paths to H5 files in the body constructor. 
+Alternatively, users may input a ``hydroData`` structure directly to the body constructor to bypass the 
+pre-processing steps that require writing the H5 file with BEMIO and then reloading it in the bodyClass.
+This workflow may save users time in computationally expensive scenarios.
+
+This alternate workflow is used by defining a body as: :code:`body(i) = bodyClass(hydroData)`. 
+Users should take care to ensure that the ``hydroData`` structure passed is identical in form to that 
+which ``initializeWecSim`` obtains by calling:
+
+:code:`hydroData = readBEMIOH5('pathToH5File', body.number, body.meanDrift);`
+
+The function :code:`rebuildHydroStruct()` may be used to convert the BEMIO :code:`hydro` structure
+into the bodyClass :code:`hydroData` format.
 
 
 .. _user-advanced-features-pto:
